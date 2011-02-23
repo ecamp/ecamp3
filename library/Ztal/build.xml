@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<project name="ZTal" default="build" basedir=".">
+
+	<!-- Setup the set of files that we want processed and what we want ignored
+		 by the various tasks -->
+	<fileset dir="${project.basedir}/source" id="sources">
+		<include name="**/*.php" />
+	</fileset>
+
+    <!-- unitTesting task is currently not performed because there are no unit
+		 tests available for ZTal -->
+	<target name="build" depends="initialise, codeSniffer, codeQuality, document" />
+
+	<target name="initialise" depends="clean, prepare" />
+
+	<target name="clean">
+        <delete dir="${project.basedir}/build" />
+
+    </target>
+
+    <target name="prepare">
+        <mkdir dir="${project.basedir}/build" />
+        <mkdir dir="${project.basedir}/build/logs" />
+        <mkdir dir="${project.basedir}/build/logs/coverage" />
+        <mkdir dir="${project.basedir}/build/docs" />
+    </target>
+
+	<target name="unitTesting" depends="phpunit" />
+
+	<target name="phpunit">
+        <exec command="phpunit --log-junit ${project.basedir}/build/logs/phpunit.xml
+							   --coverage-clover ${project.basedir}/build/logs/coverage/clover.xml
+							   --coverage-html ${project.basedir}/build/logs/coverage/
+							   AllTests"
+			  dir="${project.basedir}/source/tests" checkreturn="true" />
+    </target>
+
+	<target name="codeSniffer" depends="php-codesniffer" />
+
+	<target name="php-codesniffer">
+		<phpcodesniffer standard="Namesco">
+			<fileset refid="sources" />
+			<formatter type="checkstyle" outfile="${project.basedir}/build/logs/checkstyle.xml"/>
+		</phpcodesniffer>
+	</target>
+
+	<target name="codeQuality" depends="pdepend, phpmd, phpcpd" />
+
+	<target name="pdepend">
+		<phpdepend>
+			<fileset refid="sources" />
+			<logger type="jdepend-xml"
+					outfile="${project.basedir}/build/logs/jdepend.xml" />
+		</phpdepend>
+	</target>
+
+	<target name="phpmd">
+		<phpmd>
+			<fileset refid="sources" />
+			<formatter type="xml" outfile="${project.basedir}/build/logs/pmd-codesize.xml"/>
+		</phpmd>
+	</target>
+
+	<target name="phpcpd">
+		<phpcpd>
+			<fileset refid="sources" />
+			<formatter type="pmd" outfile="${project.basedir}/build/logs/pmd-cpd.xml"/>
+		</phpcpd>
+	</target>
+
+	<target name="document" depends="php-documentor" />
+
+	<!-- Specifically excluding the web and templates directories because there
+	     is a lot of files in there and they don't describe the API. -->
+	<target name="php-documentor">
+		<exec command="phpdoc --title '${phing.project.name}'
+							  --target ${project.basedir}/build/docs
+							  --sourcecode on
+							  --undocumentedelements on
+							  --defaultpackagename ZTal
+							  --output HTML:Smarty:PHP
+							  --directory ."
+			  dir="${project.basedir}/source" checkreturn="true" />
+	</target>
+
+</project>

@@ -1,0 +1,23 @@
+<tal:block
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:tal="http://xml.zope.org/namespaces/tal"
+	xmlns:metal="http://xml.zope.org/namespaces/metal"
+	xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+	xmlns:phptal="http://phptal.org/ns/phptal"
+>
+	<h1 i18n:translate="string:helloWorld" />
+
+	<tal:block
+		tal:condition="exists:exampleForm"
+		tal:define="form exampleForm"
+		metal:use-macro="ztal/form.xhtml/talForm"
+	 >
+	 
+		<tal:block metal:fill-slot="coolCheckboxGroup-preSlot">
+			<h2>Some cool checkboxes</h2>
+			<div>Please tick these if you want to!</div>
+		</tal:block>
+	 
+	 </tal:block>
+
+</tal:block>

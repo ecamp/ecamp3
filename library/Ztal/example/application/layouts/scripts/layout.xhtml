@@ -1,0 +1,18 @@
+<tal:block
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:tal="http://xml.zope.org/namespaces/tal"
+><tal:block tal:content="structure doctype" />
+	<html xmlns="http://www.w3.org/1999/xhtml">
+		<head>
+			<meta http-equiv="X-UA-Compatible" content="IE=IE8" />
+			<tal:block tal:content="structure headTitle" />
+			<tal:block tal:content="structure headMeta" />
+			<tal:block tal:content="structure headScript" />
+			<tal:block tal:content="structure headLink" />
+			<tal:block tal:content="structure headStyle" />
+		</head>
+		<body>
+			<tal:block tal:replace="structure viewContent" />
+		</body>
+	</html>
+</tal:block>

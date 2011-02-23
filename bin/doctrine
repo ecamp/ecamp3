@@ -1,0 +1,4 @@
+#!/usr/bin/env /Applications/MAMP/bin/php5.3/bin/php
+<?php
+
+include('doctrine.php');

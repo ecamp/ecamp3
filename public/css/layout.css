@@ -1,0 +1,40 @@
+#layout
+{
+	position: absolute;
+
+	left: 0;
+	width: 100%;
+	top: 0;
+	height: 100%;
+
+}
+
+#logo
+{
+	width:150px;
+	height: 100px;
+
+	text-align: center;
+
+	border: 1px solid black;
+}
+
+#headline
+{
+	text-align: center;
+	border: 1px solid black;
+}
+
+#menu
+{
+	vertical-align: top;
+	border:1px solid black;
+}
+
+#content
+{
+	vertical-align:top;
+	text-align:left;
+}
+
+

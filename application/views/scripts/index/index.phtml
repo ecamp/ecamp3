@@ -1,0 +1,52 @@
+	<h1>Welcome to eCamp V3</h1>
+
+	<p>
+		Erste Version; noch ohne Doctrine.
+	</p>
+
+	<p>
+		Der HTML-Root sollte auf den Ordner public zeigen.
+	</p>
+
+	<pre>
+Im Ordner application finden sich alle page individuellen Dateien.
+
++ config
+|-+ application.ini  :: Konfigurationsfile um Zend zu konfigurieren
+|
++ controllers  ::  Alle Controllers befinden sich in diesem Ordner
+|
++ layouts  ::  Ordner um Layouts und notwendige zusätzliche Dateien abzulegen
+|
++ models  ::  DOM Klassen (Doctrine wird diese jedoch evtl an einem anderen Ort ablegen)
+|
++ views  ::  HTML Files für die konkreten Sichten.
+
+
+
+Ansonsten findest du unter library verwendete Libraries  ;)
+
++ Zend  ::  Das Framewrok
+|
++ ZTal  ::  Zend_View mit PHPTAL als TemplateEngine (PHPTAL einbindung)
+|
++ PHPTAL  ::  Die gute, alt bekannte PHPTAL TemplateEngine.
+
+
+
+
+Im Ordner public befinden sich alle Dateien, welche durch den
+Benützer zugänglich sein sollen.
+Dieser Ordner sollte also auch der HTML-Root sein!
+		
+Also zum Beispiel folgende:
+
++ index.php
+|
++ css Files
+|
++ JS Files
+|
++ Images
+
+	</pre>

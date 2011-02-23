@@ -1,0 +1,55 @@
+<html>
+	<head>
+		<tal:block content="structure headTitle" />
+		<tal:block content="structure headMeta"  />
+		<tal:block content="structure headLink"  />
+	</head>
+
+	<body>
+
+		<table id="layout">
+			<tr>
+				<td id="logo">Logo</td>
+				<td id="headline">HeadLine</td>
+			</tr>
+
+			<tr>
+				<td id="menu" style="padding: 5px">
+					<br />
+					
+					<a href="/">This Index</a>
+					<br />
+					<br />
+
+					<a href="/login">Login</a>
+					<br />
+					<br />
+
+					<a href="/login/logout">Logout</a>
+					<br />
+					<br />
+
+					<a href="/camp">Camps</a>
+					<br />
+					<br />
+					
+					<a href="/doctrine">Doctrine</a>
+					<br />
+					<br />
+
+					<a href="/zend">Initial Zend Index</a>
+					<br />
+					<br />
+
+					<a href="/error">An error example</a>
+					<br />
+					<br />
+				</td>
+				<td id="content" style="padding:10px">
+					<tal:block content="structure viewContent" />
+				</td>
+			</tr>
+		</table>
+
+	</body>
+</html>

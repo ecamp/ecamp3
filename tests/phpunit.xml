@@ -1,0 +1,26 @@
+<phpunit bootstrap="./Bootstrap.php" colors="true">
+
+    <php>
+        <ini name="memory_limit" value="100M" />
+    </php>
+
+    <testsuite name="eCamp UnitTests">
+        <directory>./application</directory>
+        <directory>./library</directory>
+    </testsuite>
+
+    <filter>
+        <blacklist>
+            <directory suffix=".php">../library/Doctrine</directory>
+            <directory suffix=".php">../library/PHPTAL</directory>
+            <directory suffix=".php">../library/Zend</directory>
+            <directory suffix=".php">../library/Ztal</directory>
+        </blacklist>
+    </filter>
+
+    <logging>
+        <log type="coverage-html" target="./../public/UnitTests/Result" charset="UTF-8" yui="true" highlight="true"/>
+        <log type="junit" target="results.xml" />
+    </logging>
+	
+</phpunit>

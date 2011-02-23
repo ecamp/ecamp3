@@ -1,0 +1,37 @@
+<tal:block
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:tal="http://xml.zope.org/namespaces/tal"
+	xmlns:metal="http://xml.zope.org/namespaces/metal"
+	xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+	xmlns:phptal="http://phptal.org/ns/phptal"
+>
+
+	<!--
+	/**
+	 * Generic Zend Application error handler.
+	 */
+	-->
+
+	<tal:block tal:content="structure doctype" />
+	<html xmlns="http://www.w3.org/1999/xhtml">
+		<head>
+			<tal:block tal:content="structure headTitle" />
+			<tal:block tal:content="structure headMeta" />
+			<tal:block tal:content="structure headScript" />
+			<tal:block tal:content="structure headLink" />
+		</head>
+		<body>
+			<h1>An error occurred</h1>
+			<h2 tal:content="message"></h2>
+			<div tal:condition="not: productionMode"> 
+				<h3>Exception information:</h3>
+				<p><b>Message:</b><span tal:content="exceptionMessage" /></p>
+				<h3>Stack trace:</h3>
+				<pre tal:content="structure stackTrace" />
+				<h3>Request Parameters:</h3>
+				<pre tal:content="structure requestParameters" />
+			</div>
+		</body>
+	</html>
+	
+<tal:block>

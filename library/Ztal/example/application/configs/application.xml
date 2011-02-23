@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<config xmlns:zf="http://framework.zend.com/xml/zend-config-xml/1.0/">
+
+<!-- Production -->
+	<production>
+	
+		<phpSettings>
+			<display_startup_errors value="0" />
+			<display_errors value="0" />
+		</phpSettings>
+
+		<ztal cachePurgeMode="0" highlightFailedTranslations="0" compressWhitespace="1">
+				<cacheDirectory><zf:const zf:name="APPLICATION_PATH" />/../tal/cache</cacheDirectory>
+				<globalTemplatesDirectory><zf:const zf:name="APPLICATION_PATH" />/../tal/templateFragments</globalTemplatesDirectory>
+				<customModifiersDirectory><zf:const zf:name="APPLICATION_PATH" />/../tal/customModifiers</customModifiersDirectory>
+		</ztal>
+		
+	</production>
+
+<!-- Development -->
+	<development zf:extends="production">
+
+		<phpSettings>
+			<display_startup_errors>1</display_startup_errors>
+			<display_errors>1</display_errors>
+		</phpSettings>
+
+		<ztal highlightFailedTranslations="1" compressWhitespace="0" cachePurgeMode="0" />
+		
+	</development>
+
+
+<!-- Testing -->
+	<testing zf:extends="development">
+	
+		<ztal cachePurgeMode="1" />
+		
+	</testing>
+
+</config>

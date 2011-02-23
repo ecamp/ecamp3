@@ -1,0 +1,30 @@
+<h2>My Camps:</h2>
+
+<table>
+	<tr tal:repeat="userCamp myUserCamps">
+		<td><tal:block content="userCamp/Camp/getId" /></td>
+		<td><tal:block content="userCamp/Camp/getName" /></td>
+
+		<td><a tal:attributes="href userCamp/CancelFromCampLink">Cancel From Camp</a></td>
+	</tr>
+</table>
+
+
+
+<h2>All Camps</h2>
+
+<p>
+<a href="/camp/editcamp">NewCamp</a>
+</p>
+	
+<table>
+	<tr tal:repeat="camp allCamps">
+		<td><tal:block content="camp/Camp/getId" /></td>
+		<td><tal:block content="camp/Camp/getName" /></td>
+		<td><tal:block content="camp/Camp/getSlogan" /></td>
+
+		<td><a tal:attributes="href camp/CommitToCampLink">Commit To Camp</a></td>
+		<td><a tal:attributes="href camp/EditCampLink">Edit Camp</a></td>
+	</tr>
+</table>
+
