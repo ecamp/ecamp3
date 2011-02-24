@@ -1,2 +1,9 @@
 .*
 
+tmp/*
+tmp/**/*
+
+application/Entity/Proxy/*
+
+data/*
+data/**/*

@@ -18,7 +18,7 @@
  * along with eCamp.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace eCamp\Provider;
+namespace Logic\Provider;
 
 class Repository
 	implements \Inject\Syntax\IProvider

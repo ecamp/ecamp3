@@ -62,7 +62,7 @@ class Application_Form_UserForm extends Ztal_Form
     }
 
 
-	public function setData(eCamp\Entity\User $user)
+	public function setData(Entity\User $user)
 	{
 		$this->getElement('id')
 				->setValue($user->getId());
@@ -78,7 +78,7 @@ class Application_Form_UserForm extends Ztal_Form
 	}
 
 
-	public function grabData(eCamp\Entity\User $user)
+	public function grabData(Entity\User $user)
 	{
 		$user->setScoutname($this->getValue('scoutName'));
 

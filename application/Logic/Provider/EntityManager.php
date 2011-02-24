@@ -18,62 +18,14 @@
  * along with eCamp.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+namespace Logic\Provider;
 
-namespace eCamp\Entity;
-
-/**
- * @Entity
- * @Table(name="UserToCamp")
- */
-class UserToCamp
+class EntityManager
+	implements \Inject\Syntax\IProvider
 {
 
-	/**
-	 * @Id @Column(type="integer")
-	 * @GeneratedValue(strategy="AUTO")
-	 * @var int
-	 */
-	private $id;
-
-
-	/**
-	 * @var User
-	 *
-	 * @ManyToOne(targetEntity="eCamp\Entity\User")
-	 */
-	private $user;
-
-
-	/**
-	 * @var Camp
-	 *
-	 * @ManyToOne(targetEntity="eCamp\Entity\Camp")
-	 */
-	private $camp;
-
-
-	public function setCamp(Camp $camp)
+	public function Create()
 	{
-		$this->camp = $camp;
-	}
-
-	public function getCamp()
-	{
-		return $this->camp;
-	}
-
-	public function setUser(User $user)
-	{
-		$this->user = $user;
-	}
-
-	public function getUser()
-	{
-		return $this->user;
-	}
-
-	public function getId()
-	{
-		return $this->id;
+		return \Zend_Registry::get('doctrine')->getEntityManager();
 	}
 }

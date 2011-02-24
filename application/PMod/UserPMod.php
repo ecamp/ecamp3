@@ -18,40 +18,9 @@
  * along with eCamp.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace eCamp\PMod;
+namespace PMod;
 
-
-class CampPMod
+class UserPMod
 {
-	/**
-	 * @var \eCamp\Entity\Camp
-	 */
-	private $camp;
-
-	
-	public function __construct(\eCamp\Entity\Camp $camp)
-	{
-		$this->camp = $camp;
-	}
-
-
-	/**
-	 * @return \eCamp\Entity\Camp
-	 */
-	public function Camp()
-	{
-		return $this->camp;
-	}
-
-
-	public function CommitToCampLink()
-	{
-		return "/camp/commitToCamp/" . $this->Camp()->getId();
-	}
-
-	public function EditCampLink()
-	{
-		return "/camp/editcamp/" . $this->Camp()->getId();
-	}
 
 }

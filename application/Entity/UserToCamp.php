@@ -18,16 +18,14 @@
  * along with eCamp.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace eCamp\Entity;
-
+namespace Entity;
 
 /**
  * @Entity
- * @Table(name="Login")
+ * @Table(name="UserToCamp")
  */
-class Login
+class UserToCamp
 {
-
 
 	/**
 	 * @Id @Column(type="integer")
@@ -38,59 +36,43 @@ class Login
 
 
 	/**
-	 * @Column(type="string")
-	 * @var string
-	 */
-	private $login;
-
-	/**
-	 * @var \Models\User
-	 * @OneToOne(targetEntity="eCamp\Entity\User", mappedBy="login")
-	 * @JoinColumn(name="user_id", referencedColumnName="id")
+	 * @var User
+	 *
+	 * @ManyToOne(targetEntity="Entity\User")
 	 */
 	private $user;
 
 
 	/**
-	 * @return int
+	 * @var Camp
+	 *
+	 * @ManyToOne(targetEntity="Entity\Camp")
 	 */
-	public function GetId()
+	private $camp;
+
+
+	public function setCamp(Camp $camp)
 	{
-		return $this->id;
+		$this->camp = $camp;
 	}
 
-
-	/**
-	 * @param string $login
-	 * @return void
-	 */
-	public function SetLogin($login)
+	public function getCamp()
 	{
-		$this->login = $login;
+		return $this->camp;
 	}
 
-	/**
-	 * @return string
-	 */
-	public function GetLogin()
-	{
-		return $this->login;
-	}
-
-	/**
-	 * @param User $user
-	 * @return void
-	 */
-	public function SetUser(User $user)
+	public function setUser(User $user)
 	{
 		$this->user = $user;
 	}
 
-	/**
-	 * @return User
-	 */
-	public function GetUser()
+	public function getUser()
 	{
 		return $this->user;
+	}
+
+	public function getId()
+	{
+		return $this->id;
 	}
 }

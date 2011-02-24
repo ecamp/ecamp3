@@ -18,26 +18,26 @@
  * along with eCamp.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace eCamp\PMod;
+namespace PMod;
 
 
 class UserToCampPMod
 {
 
 	/**
-	 * @var \eCamp\Entity\UserToCamp
+	 * @var \Entity\UserToCamp
 	 */
 	private $userToCamp;
 
 
-	public function __construct(\eCamp\Entity\UserToCamp $userToCamp)
+	public function __construct(\Entity\UserToCamp $userToCamp)
 	{
 		$this->userToCamp = $userToCamp;
 	}
 
 
 	/**
-	 * @return \eCamp\Entity\User
+	 * @return \Entity\User
 	 */
 	public function User()
 	{
@@ -55,7 +55,7 @@ class UserToCampPMod
 
 
 	/**
-	 * @return \eCamp\Entity\Camp
+	 * @return \Entity\Camp
 	 */
 	public function Camp()
 	{

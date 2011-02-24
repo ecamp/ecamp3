@@ -28,7 +28,7 @@ class DoctrineController extends Zend_Controller_Action
 	 * @var \Doctrine\ORM\EntityManager
 	 */
 	private $em;
-	
+
 
 	public function init()
 	{
@@ -44,7 +44,7 @@ class DoctrineController extends Zend_Controller_Action
 	public function indexAction()
 	{
 		$this->view->users =
-			$this->em->getRepository('eCamp\Entity\User')->findAll();
+			$this->em->getRepository('Entity\User')->findAll();
 
 		$userForm = new Application_Form_UserForm();
 		$userForm->setAction('/doctrine/save');
@@ -52,13 +52,13 @@ class DoctrineController extends Zend_Controller_Action
 		$this->view->userForm = $userForm;
 
 
-		$userId = $this->getRequest()->getParam('UserId');
+		$userId = $this->getRequest()->getParam('EntityId');
 
 		if(isset($userId))
 		{
-			$user = $this->em->find('eCamp\Entity\User', $userId);
+			$user = $this->em->find('Entity\User', $userId);
 
-			if($user instanceof eCamp\Entity\User)
+			if($user instanceof Entity\User)
 			{
 				$userForm->setData($user);
 			}
@@ -77,16 +77,16 @@ class DoctrineController extends Zend_Controller_Action
 
 			if(isset($userId))
 			{
-				$user = $this->em->find('eCamp\Entity\User', $userId);
-				
-				if($user instanceof eCamp\Entity\User)
+				$user = $this->em->find('Entity\User', $userId);
+
+				if($user instanceof Entity\User)
 				{
 					$userForm->grabData($user);
 
 					$this->em->flush();
 				}
 			}
-			
+
 			$this->_redirect('/doctrine/index');
 		}
 		else
@@ -96,10 +96,10 @@ class DoctrineController extends Zend_Controller_Action
 
 	}
 
-	
+
 	public function adduserAction()
 	{
-		$user = new eCamp\Entity\User();
+		$user = new Entity\User();
 
 		$this->em->persist($user);
 

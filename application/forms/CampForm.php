@@ -59,7 +59,7 @@ class Application_Form_CampForm extends Ztal_Form
     }
 
 
-	public function setData(eCamp\Entity\Camp $camp)
+	public function setData(Entity\Camp $camp)
 	{
 		$this->getElement('id')
 				->setValue($camp->getId());
@@ -73,7 +73,7 @@ class Application_Form_CampForm extends Ztal_Form
 	}
 
 
-	public function grabData(eCamp\Entity\Camp $camp)
+	public function grabData(Entity\Camp $camp)
 	{
 		$camp->setName($this->getValue('campName'));
 

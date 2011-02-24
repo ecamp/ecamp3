@@ -19,7 +19,6 @@
  */
 
 
-
 class LoginController
 	extends Zend_Controller_Action
 {
@@ -35,7 +34,7 @@ class LoginController
 	 */
 	private $authSession;
 
-	
+
 	public function init()
 	{
 
@@ -53,22 +52,24 @@ class LoginController
 
 	public function indexAction()
 	{
-		$logins = $this->em->getRepository("eCamp\Entity\Login")->findAll();
+		$logins = $this->em->getRepository("Entity\Login")->findAll();
 
 
 		$loginPMods = array();
 
 		foreach($logins as $login)
 		{
-			$loginPMods[] = new \eCamp\PMod\LoginPMod($login);
+			$loginPMods[] = new PMod\LoginPMod($login);
 		}
 
 		$this->view->logins = $loginPMods;
 
 
+
 		if(!is_null($this->authSession->Login))
 		{
-			$this->view->loginPMod = new eCamp\PMod\LoginPMod($this->authSession->Login);
+			$login = $this->em->find("\Entity\Login", $this->authSession->Login);
+			$this->view->loginPMod = new PMod\LoginPMod($login);
 		}
 		else
 		{
@@ -79,19 +80,17 @@ class LoginController
 
 	public function loginAction()
 	{
-
 		$this->authSession->Login = null;
 
 
-		$id = $this->getRequest()->getParam("Id");
+		$id = $this->getRequest()->getParam("EntityId");
 
-		$login = $this->em->find("eCamp\Entity\Login", $id);
+		$login = $this->em->find("Entity\Login", $id);
+
+		$this->authSession->Login = $login->GetId();
 
 
-		$this->authSession->Login = $login;
-
-
-		$this->view->LoginPMod = new eCamp\PMod\LoginPMod($login);
+		$this->view->LoginPMod = new PMod\LoginPMod($login);
 	}
 
 
@@ -111,7 +110,7 @@ class LoginController
 			die("Not Authenticated");
 		}
 
-		die($this->authSession->Login->GetLogin());
+		die($this->authSession->Login);
 
 	}
 

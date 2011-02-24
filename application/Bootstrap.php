@@ -33,16 +33,19 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         $bisnaAutoloader = new \Doctrine\Common\ClassLoader('Bisna');
         $autoloader->pushAutoloader(array($bisnaAutoloader, 'loadClass'), 'Bisna');
 
-        $appAutoloader = new \Doctrine\Common\ClassLoader('eCamp');
-        $autoloader->pushAutoloader(array($appAutoloader, 'loadClass'), 'eCamp');
-
-
-		
         $appAutoloader = new \Doctrine\Common\ClassLoader('Inject');
         $autoloader->pushAutoloader(array($appAutoloader, 'loadClass'), 'Inject');
+
+
+		$entityAutoloader = new \Doctrine\Common\ClassLoader('Entity', APPLICATION_PATH);
+		$autoloader->pushAutoloader(array($entityAutoloader, 'loadClass'), 'Entity');
+
+		$providerAutoloader = new \Doctrine\Common\ClassLoader('Logic', APPLICATION_PATH);
+		$autoloader->pushAutoloader(array($providerAutoloader, 'loadClass'), 'Logic');
+
+		$pModAutoloader = new \Doctrine\Common\ClassLoader('PMod', APPLICATION_PATH);
+		$autoloader->pushAutoloader(array($pModAutoloader, 'loadClass'), 'PMod');
     }
-
-
 
 	public function _initInjectionKernel()
 	{
@@ -50,11 +53,11 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 
 		$kernel
 			->Bind("EntityManager")
-			->ToProvider(new eCamp\Provider\EntityManager());
+			->ToProvider(new Logic\Provider\EntityManager());
 
 		$kernel
 			->Bind("CampRepository")
-			->ToProvider(new eCamp\Provider\Repository("eCamp\Entity\Camp"));
+			->ToProvider(new Logic\Provider\Repository("eCamp\Entity\Camp"));
 
 		$kernel->Bind("SomeService")->ToSelf()->AsSingleton();
 
@@ -76,25 +79,27 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 
 	protected function _initRoutes()
 	{
-		Zend_Controller_Front::getInstance()->getRouter()->addRoute(
-			'UserId', new Zend_Controller_Router_Route('/doctrine/index/:UserId',
-				array('controller' => 'doctrine', 'action' => 'index')));
+
 
 		Zend_Controller_Front::getInstance()->getRouter()->addRoute(
-			'LoginLoginId', new Zend_Controller_Router_Route('/login/login/:Id',
-				array('controller' => 'login', 'action' => 'login')));
+			'ControllerAction', new Zend_Controller_Router_Route(':controller/:action/*',
+			array('controller' => 'index', 'action' => 'index')));
 
 		Zend_Controller_Front::getInstance()->getRouter()->addRoute(
-					'EditCamp', new Zend_Controller_Router_Route('/camp/editcamp/:Id',
-						array('controller' => 'camp', 'action' => 'editcamp')));
+			'EntityId', new Zend_Controller_Router_Route(':controller/:action/:EntityId/*',
+			array('controller' => 'index', 'action' => 'index'),
+			array('EntityId' => '\d+')));
 
 		Zend_Controller_Front::getInstance()->getRouter()->addRoute(
-			'CommitToCamp', new Zend_Controller_Router_Route('/camp/commitToCamp/:Id',
-				array('controller' => 'camp', 'action' => 'commitToCamp')));
+			'CampId', new Zend_Controller_Router_Route(':CampId/:controller/:action/*',
+			array('controller' => 'index', 'action' => 'index'),
+			array('CampId' => '\d+')));
 
 		Zend_Controller_Front::getInstance()->getRouter()->addRoute(
-			'CancelFromCamp', new Zend_Controller_Router_Route('/camp/cancelFromCamp/:Id',
-				array('controller' => 'camp', 'action' => 'cancelFromCamp')));
+			'CampEntityId', new Zend_Controller_Router_Route(':CampId/:controller/:action/:EntityId/*',
+			array('controller' => 'index', 'action' => 'index'),
+			array('CampId' => '\d+', 'EntityId' => '\d+')));
+
 
 	}
 }

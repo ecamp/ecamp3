@@ -18,7 +18,7 @@
  * along with eCamp.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace eCamp\Entity;
+namespace Entity;
 
 /**
  * @Entity
@@ -100,7 +100,7 @@ class User
 	/**
 	 * @var ArrayObject
 	 * 
-	 * @OneToMany(targetEntity="eCamp\Entity\UserToCamp", mappedBy="user")
+	 * @OneToMany(targetEntity="Entity\UserToCamp", mappedBy="user")
 	 */
 	private $userCamp;
 	

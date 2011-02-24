@@ -18,9 +18,35 @@
  * along with eCamp.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace eCamp\PMod;
+namespace PMod;
 
-class UserPMod
+
+class LoginPMod
 {
+	/**
+	 * @var \Entity\Login
+	 */
+	private $login;
+
+	
+	public function __construct(\Entity\Login $login)
+	{
+		$this->login = $login;
+	}
+
+
+	/**
+	 * @return \Entity\Login
+	 */
+	public function Login()
+	{
+		return $this->login;
+	}
+
+
+	public function GetLoginLink()
+	{
+		return "/login/login/" . $this->Login()->GetId();
+	}
 
 }

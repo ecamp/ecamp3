@@ -18,7 +18,7 @@
  * along with eCamp.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace eCamp\Entity;
+namespace Entity;
 
 /**
  * @Entity
@@ -51,7 +51,7 @@ class Camp
 
 	/**
 	 * @var User
-	 * @OneToOne(targetEntity="eCamp\Entity\User")
+	 * @OneToOne(targetEntity="Entity\User")
 	 * @JoinColumn(name="creator_id", referencedColumnName="id")
 	 */
 	private $creator;
@@ -63,7 +63,7 @@ class Camp
 	 * Page Object
 	 * @var ArrayObject
 	 *
-	 * @OneToMany(targetEntity="eCamp\Entity\UserToCamp", mappedBy="camp")
+	 * @OneToMany(targetEntity="Entity\UserToCamp", mappedBy="camp")
 	 */
 	private $userCamp;
 

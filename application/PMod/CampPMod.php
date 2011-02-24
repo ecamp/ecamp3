@@ -18,14 +18,40 @@
  * along with eCamp.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace eCamp\Provider;
+namespace PMod;
 
-class EntityManager
-	implements \Inject\Syntax\IProvider
+
+class CampPMod
 {
+	/**
+	 * @var \Entity\Camp
+	 */
+	private $camp;
 
-	public function Create()
+	
+	public function __construct(\Entity\Camp $camp)
 	{
-		return \Zend_Registry::get('doctrine')->getEntityManager();
+		$this->camp = $camp;
 	}
+
+
+	/**
+	 * @return \Entity\Camp
+	 */
+	public function Camp()
+	{
+		return $this->camp;
+	}
+
+
+	public function CommitToCampLink()
+	{
+		return "/camp/commitToCamp/" . $this->Camp()->getId();
+	}
+
+	public function EditCampLink()
+	{
+		return "/camp/editcamp/" . $this->Camp()->getId();
+	}
+
 }
