@@ -107,10 +107,6 @@ class JoinedSubclassPersister extends AbstractEntityInheritancePersister
             return;
         }
 
-        if ($this->_class->isVersioned) {
-            $versionedClass = $this->_getVersionedClassMetadata();
-        }
-
         $postInsertIds = array();
         $idGen = $this->_class->idGenerator;
         $isPostInsertId = $idGen->isPostInsertGenerator();
@@ -176,8 +172,8 @@ class JoinedSubclassPersister extends AbstractEntityInheritancePersister
             $stmt->closeCursor();
         }
 
-        if (isset($versionedClass)) {
-            $this->_assignDefaultVersionValue($versionedClass, $entity, $id);
+        if ($this->_class->isVersioned) {
+            $this->assignDefaultVersionValue($entity, $id);
         }
 
         $this->_queuedInserts = array();
@@ -207,7 +203,7 @@ class JoinedSubclassPersister extends AbstractEntityInheritancePersister
                 $this->_updateTable($entity, $versionedClass->getQuotedTableName($this->_platform), array(), true);
 
                 $id = $this->_em->getUnitOfWork()->getEntityIdentifier($entity);
-                $this->_assignDefaultVersionValue($this->_class, $entity, $id);
+                $this->assignDefaultVersionValue($entity, $id);
             }
         }
     }
@@ -263,12 +259,10 @@ class JoinedSubclassPersister extends AbstractEntityInheritancePersister
                             $this->_getSQLTableAlias($assoc2['inherited'])
                             : $baseTableAlias;
                     foreach ($assoc2['targetToSourceKeyColumns'] as $srcColumn) {
-                        $columnAlias = $srcColumn . $this->_sqlAliasCounter++;
-                        $columnList .= ", $tableAlias.$srcColumn AS $columnAlias";
-                        $resultColumnName = $this->_platform->getSQLResultCasing($columnAlias);
-                        if ( ! isset($this->_resultColumnNames[$resultColumnName])) {
-                            $this->_resultColumnNames[$resultColumnName] = $srcColumn;
-                        }
+                        if ($columnList != '') $columnList .= ', ';
+                        $columnList .= $this->getSelectJoinColumnSQL($tableAlias, $srcColumn,
+                            isset($assoc2['inherited']) ? $assoc2['inherited'] : $this->_class->name
+                        );
                     }
                 }
             }
@@ -318,12 +312,10 @@ class JoinedSubclassPersister extends AbstractEntityInheritancePersister
                     if ($assoc2['isOwningSide'] && $assoc2['type'] & ClassMetadata::TO_ONE
                             && ! isset($assoc2['inherited'])) {
                         foreach ($assoc2['targetToSourceKeyColumns'] as $srcColumn) {
-                            $columnAlias = $srcColumn . $this->_sqlAliasCounter++;
-                            $columnList .= ', ' . $tableAlias . ".$srcColumn AS $columnAlias";
-                            $resultColumnName = $this->_platform->getSQLResultCasing($columnAlias);
-                            if ( ! isset($this->_resultColumnNames[$resultColumnName])) {
-                                $this->_resultColumnNames[$resultColumnName] = $srcColumn;
-                            }
+                            if ($columnList != '') $columnList .= ', ';
+                            $columnList .= $this->getSelectJoinColumnSQL($tableAlias, $srcColumn,
+                                isset($assoc2['inherited']) ? $assoc2['inherited'] : $subClass->name
+                            );
                         }
                     }
                 }
@@ -422,5 +414,14 @@ class JoinedSubclassPersister extends AbstractEntityInheritancePersister
         }
 
         return $columns;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function assignDefaultVersionValue($entity, $id)
+    {
+        $value = $this->fetchVersionValue($this->_getVersionedClassMetadata(), $id);
+        $this->_class->setFieldValue($entity, $this->_class->versionField, $value);
     }
 }

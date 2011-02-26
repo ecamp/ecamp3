@@ -48,9 +48,9 @@ class MappingException extends \Doctrine\ORM\ORMException
         return new self("Id generators can't be used with a composite id.");
     }
 
-    public static function missingFieldName()
+    public static function missingFieldName($entity)
     {
-        return new self("The association mapping misses the 'fieldName' attribute.");
+        return new self("The field or association mapping misses the 'fieldName' attribute in entity '$entity'.");
     }
 
     public static function missingTargetEntity($fieldName)
@@ -68,9 +68,9 @@ class MappingException extends \Doctrine\ORM\ORMException
         return new self("No mapping file found named '$fileName' for class '$entityName'.");
     }
 
-    public static function mappingNotFound($fieldName)
+    public static function mappingNotFound($className, $fieldName)
     {
-        return new self("No mapping found for field '$fieldName'.");
+        return new self("No mapping found for field '$fieldName' on class '$className'.");
     }
 
     public static function oneToManyRequiresMappedBy($fieldName)
@@ -227,4 +227,8 @@ class MappingException extends \Doctrine\ORM\ORMException
         return new self("Duplicate definition of column '".$columnName."' on entity '".$className."' in a field or discriminator column mapping.");
     }
 
+    public static function illegalToManyAssocationOnMappedSuperclass($className, $field)
+    {
+        return new self("It is illegal to put an inverse side one-to-many or many-to-many association on mapped superclass '".$className."#".$field."'.");
+    }
 }
