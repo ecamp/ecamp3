@@ -53,27 +53,18 @@ class LoginController
 	public function indexAction()
 	{
 		$logins = $this->em->getRepository("Entity\Login")->findAll();
-
-
-		$loginPMods = array();
-
-		foreach($logins as $login)
-		{
-			$loginPMods[] = new PMod\LoginPMod($login);
-		}
-
-		$this->view->logins = $loginPMods;
+		$this->view->logins = $logins;
 
 
 
 		if(!is_null($this->authSession->Login))
 		{
 			$login = $this->em->find("\Entity\Login", $this->authSession->Login);
-			$this->view->loginPMod = new PMod\LoginPMod($login);
+			$this->view->login = $login;
 		}
 		else
 		{
-			$this->view->loginPMod = null;
+			$this->view->login = null;
 		}
 	}
 
@@ -90,7 +81,7 @@ class LoginController
 		$this->authSession->Login = $login->GetId();
 
 
-		$this->view->LoginPMod = new PMod\LoginPMod($login);
+		$this->view->login = $login;
 	}
 
 

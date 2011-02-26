@@ -20,12 +20,25 @@
 
 class CampController extends Zend_Controller_Action
 {
-
-	/**
+    /**
 	 * @var \Doctrine\ORM\EntityManager
 	 */
 	private $em;
 
+    /**
+     * @var Bisna\Application\Container\DoctrineContainer
+     */
+    protected $doctrine;
+
+    /**
+     * @var Entity\Repository\CampRepository
+     */
+    protected $campRepo;
+
+    /**
+     * @var Entity\Repository\CampRepository
+     */
+    protected $loginRepo;
 
 	/**
 	 * @var Zend_Session_Namespace
@@ -37,95 +50,80 @@ class CampController extends Zend_Controller_Action
     {
 		$this->view->headLink()->appendStylesheet('/css/layout.css');
 
-		/** @var \Bisna\Application\Container\DoctrineController $doctrineContainer  */
-		$doctrineContainer = Zend_Registry::getInstance()->get("doctrine");
-
-		$this->em = $doctrineContainer->getEntityManager();
-
+        $this->doctrine = Zend_Registry::get('doctrine');
+        $this->em = $this->doctrine->getEntityManager();
+        
+        $this->campRepo  = $this->em->getRepository('\Entity\Camp');
+        $this->loginRepo = $this->em->getRepository('\Entity\Login');
 
 		$this->authSession = new Zend_Session_Namespace('Zend_Auth');
+
+        if(is_null($this->authSession->Login))
+		{
+			$this->_forward("index", "login");
+			return;
+		}
 	}
 
 
     public function indexAction()
     {
-		if(is_null($this->authSession->Login))
-		{
-			$this->_forward("index", "login");
-			return;
-		}
+		$login = $this->loginRepo->find($this->authSession->Login);
 
-		$loginId = $this->authSession->Login;
-
-		/** @var $login Entity\Login */
-		$login = $this->em->find("Entity\Login", $loginId);
-
-		$myUserCamps = new ArrayObject();
-
-		foreach($login->GetUser()->GetCamps() as $userToCamp)
-		{	$myUserCamps->append(new PMod\UserToCampPMod($userToCamp));	}
-
-		$this->view->myUserCamps = $myUserCamps;
-
-
-
-		$allCamps = new ArrayObject();
-		foreach($this->em->getRepository("Entity\Camp")->findAll() as $camp)
-		{	$allCamps->append(new PMod\CampPMod($camp));	}
-
-		$this->view->allCamps = $allCamps;
-
+		$this->view->myUserCamps = $login->GetUser()->GetCamps();
+		$this->view->allCamps = $this->campRepo->findAll();
     }
 
 
-	public function editcampAction()
+	public function editAction()
 	{
+		$form = new Application_Form_Camp();
+        $id = $this->getRequest()->getParam("id");
 
-		$campForm = new Application_Form_CampForm();
+        if ($id == null) {
+            throw new Exception('Id must be provided for the delete action');
+        }
+        
+		$camp = $this->campRepo->find($id);
 
-		if($this->getRequest()->getParam("EntityId") != "")
-		{
-			$campId = $this->getRequest()->getParam("EntityId");
-			$camp = $this->em->find("Entity\Camp", $campId);
-
-			$campForm->setData($camp);
-		}
-		else
-		{
-			$campForm->setDefaults($this->getRequest()->getParams());
-		}
-
-		$campForm->setAction("/camp/savecamp");
-
-		$this->view->campForm = $campForm;
+		$form->setData($camp);
+		$form->setAction("/camp/save");
+		$this->view->form = $form;
 	}
 
+    public function newAction()
+    {
+        $form = new Application_Form_Camp();
+     	$form->setDefaults($this->getRequest()->getParams());
 
-	public function savecampAction()
+		$form->setAction("/camp/create");
+		$this->view->form = $form;
+    }
+
+
+	public function saveAction()
 	{
+		$form = new Application_Form_Camp();
 
-		$campForm = new Application_Form_CampForm();
-
-		if(!$campForm->isValid($this->getRequest()->getParams()))
+		if(!$form->isValid($this->getRequest()->getParams()))
 		{
-			$this->_forward("editcamp");
+			$this->_forward("edit");
 			return;
 		}
 
+		$id = $form->getId();
 
-		$campId = $campForm->getId();
-
-		if($campId == "")
+		if($id == "")
 		{
 			$camp = new Entity\Camp();
-			$campForm->grabData($camp);
+			$form->grabData($camp);
 
 			$this->em->persist($camp);
 		}
 		else
 		{
 			$camp = $this->em->find("Entity\Camp", $campId);
-			$campForm->grabData($camp);
+			$form->grabData($camp);
 		}
 
 		$this->em->flush();
@@ -133,28 +131,36 @@ class CampController extends Zend_Controller_Action
 		$this->_redirect("/camp/index");
 	}
 
+    public function createAction()
+    {
+        $form = new Application_Form_Camp();
+
+		if(!$form->isValid($this->getRequest()->getParams()))
+		{
+			$this->_forward("new");
+			return;
+		}
+
+		$camp = new Entity\Camp();
+		$form->grabData($camp);
+
+		$this->em->persist($camp);
+		$this->em->flush();
+
+		$this->_redirect("/camp/index");
+    }
+
 
 	public function committocampAction()
 	{
-		$loginId = $this->authSession->Login;
+		$login = $this->loginRepo->find($this->authSession->Login);
+		$user = $login->getUser();
 
-		/** @var $login Entity\Login */
-		$login = $this->em->find("Entity\Login", $loginId);
-
-		/** @var $user Entity\User */
-		$user = $login->GetUser();
-
-
-		$campId = $this->getRequest()->getParam('EntityId');
-
-		/** @var $camp Entity\Camp */
-		$camp = $this->em->find("Entity\Camp", $campId);
-
+		$camp = $this->campRepo->find($this->getRequest()->getParam('id'));
 
 		$userCamp = new Entity\UserToCamp();
 		$userCamp->setUser($user);
 		$userCamp->setCamp($camp);
-
 
 		$this->em->persist($userCamp);
 		$this->em->flush();
@@ -166,7 +172,7 @@ class CampController extends Zend_Controller_Action
 	public function cancelfromcampAction()
 	{
 
-		$userCampId = $this->getRequest()->getParam('EntityId');
+		$userCampId = $this->getRequest()->getParam('id');
 
 		$userToCamp = $this->em->find("Entity\UserToCamp", $userCampId);
 
@@ -175,7 +181,6 @@ class CampController extends Zend_Controller_Action
 			$this->em->remove($userToCamp);
 			$this->em->flush();
 		}
-
 
 		$this->_redirect("/camp");
 	}

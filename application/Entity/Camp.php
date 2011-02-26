@@ -57,8 +57,6 @@ class Camp
 	private $creator;
 
 
-
-
 	/**
 	 * Page Object
 	 * @var ArrayObject
@@ -68,8 +66,6 @@ class Camp
 	private $userCamp;
 
 
-
-	
 
 	public function getId()
 	{

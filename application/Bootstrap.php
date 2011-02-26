@@ -43,8 +43,6 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 		$providerAutoloader = new \Doctrine\Common\ClassLoader('Logic', APPLICATION_PATH);
 		$autoloader->pushAutoloader(array($providerAutoloader, 'loadClass'), 'Logic');
 
-		$pModAutoloader = new \Doctrine\Common\ClassLoader('PMod', APPLICATION_PATH);
-		$autoloader->pushAutoloader(array($pModAutoloader, 'loadClass'), 'PMod');
     }
 
 	public function _initInjectionKernel()
@@ -79,9 +77,9 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 
 	protected function _initRoutes()
 	{
-
-
-		Zend_Controller_Front::getInstance()->getRouter()->addRoute(
+		/*
+		 *
+		 Zend_Controller_Front::getInstance()->getRouter()->addRoute(
 			'ControllerAction', new Zend_Controller_Router_Route(':controller/:action/*',
 			array('controller' => 'index', 'action' => 'index')));
 
@@ -99,7 +97,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 			'CampEntityId', new Zend_Controller_Router_Route(':CampId/:controller/:action/:EntityId/*',
 			array('controller' => 'index', 'action' => 'index'),
 			array('CampId' => '\d+', 'EntityId' => '\d+')));
-
+        */
 
 	}
 }

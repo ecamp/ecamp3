@@ -2,10 +2,10 @@
 
 <table>
 	<tr tal:repeat="userCamp myUserCamps">
-		<td><tal:block content="userCamp/Camp/getId" /></td>
-		<td><tal:block content="userCamp/Camp/getName" /></td>
+		<td><tal:block content="userCamp/getCamp/getId" /></td>
+		<td><tal:block content="userCamp/getCamp/getName" /></td>
 
-		<td><a tal:attributes="href userCamp/CancelFromCampLink">Cancel From Camp</a></td>
+		<td><a tal:attributes="href '/camp/cancelFromCamp/${userCamp/GetId}'">Cancel From Camp</a></td>
 	</tr>
 </table>
 
@@ -19,12 +19,12 @@
 	
 <table>
 	<tr tal:repeat="camp allCamps">
-		<td><tal:block content="camp/Camp/getId" /></td>
-		<td><tal:block content="camp/Camp/getName" /></td>
-		<td><tal:block content="camp/Camp/getSlogan" /></td>
+		<td><tal:block content="camp/getId" /></td>
+		<td><tal:block content="camp/getName" /></td>
+		<td><tal:block content="camp/getSlogan" /></td>
 
-		<td><a tal:attributes="href camp/CommitToCampLink">Commit To Camp</a></td>
-		<td><a tal:attributes="href camp/EditCampLink">Edit Camp</a></td>
+		<td><a tal:attributes="href '/camp/commitToCamp/${camp/getId}'">Commit To Camp</a></td>
+		<td><a tal:attributes="href '/camp/editcamp/${camp/getId}'">Edit Camp</a></td>
 	</tr>
 </table>
 
