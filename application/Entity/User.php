@@ -107,41 +107,52 @@ class User
 	
 
 
-	public function getId()
-	{	return $this->id;	}
+	public function getId(){	return $this->id;	}
 	
-	public function getScoutname()
-	{
-		return $this->scoutname;
-	}
+	public function getScoutname()            { return $this->scoutname; }
+	public function setScoutname( $scoutname ){ $this->scoutname = $scoutname; return $this; }
+
+	public function getFirstname()            {	return $this->firstname; }
+	public function setFirstname( $firstname ){ $this->firstname = $firstname; return $this; }
+
+	public function getSurname()          { return $this->surname; }
+	public function setSurname( $surname ){ $this->surname = $surname; return $this; }
 	
-	public function setScoutname( $scoutname )
-	{
-		$this->scoutname = $scoutname;
-		return $this;
-	}
+	public function getStreet()         { return $this->street; }
+	public function setStreet( $street ){ $this->street = $street; return $this; }
+
+	public function getZipcode()          { return $this->zipcode; }
+	public function setZipcode( $zipcode ){ $this->zipcode = $zipcode; return $this; }
+
+	public function getCity()       { return $this->city; }
+	public function setCity( $city ){ $this->city = $city; return $this; }
+
+	public function getHomeNr()         { return $this->homeNr; }
+	public function setHomeNr( $homeNr ){ $this->homeNr = $homeNr; return $this; }
+
+	public function getMobilNr()          { return $this->mobilNr; }
+	public function setMobilNr( $mobilNr ){ $this->mobilNr = $mobilNr; return $this; }
+
+	public function getBirthday()           { return $this->birthday; }
+	public function setBirthday( $birthday ){ $this->birthday = $birthday; return $this; }
+
+	public function getAHV()      { return $this->ahv; }
+	public function setAHV( $ahv ){ $this->ahv = $ahv; return $this; }
+
+	public function getGender()         { return $this->gender; }
+	public function setGender( $gender ){ $this->gender = (BOOLEAN) $gender; return $this; }
+
+	public function getJsPersNr()           { return $this->jsPersNr;	}
+	public function setJsPersNr( $jsPersNr ){ $this->jsPersNr = $jsPersNr; return $this; }
+
+	public function getJsEdu()        { return $this->jsEdu;	}
+	public function setJsEdu( $jsEdu ){ $this->jsEdu = $jsEdu; return $this; }
+
+	public function getPbsEdu()         { return $this->pbsEdu;	}
+	public function setPbsEdu( $pbsEdu ){ $this->pbsEdu = $pbsEdu; return $this; }
+
 	
-	
-	public function getFirstname()
-	{	return $this->firstname;	}
-	
-	public function setFirstname( $firstname )
-	{
-		$this->firstname = $firstname;
-		return $this;
-	}
-	
-	
-	public function getSurname()
-	{	return $this->surname;		}
-	
-	public function setSurname( $surname )
-	{
-		$this->surname = $surname;
-		return $this;
-	}
-	
-	
+
 	public function getDisplayName()
 	{
 		if( ! is_null( $this->scoutname ) )
@@ -149,122 +160,13 @@ class User
 		
 		return $this->firstname . " " . $this->surname;
 	}
-	
-	
-	public function getStreet()
-	{	return $this->street;	}
-	
-	public function setStreet( $street )
-	{
-		$this->street = $street;
-		return $this;
-	}
-	
-	
-	public function getZipcode()
-	{	return $this->zipcode;	}
-	
-	public function setZipcode( $zipcode )
-	{
-		$this->zipcode = $zipcode;
-		return $this;
-	}
-	
-	
-	public function getCity()
-	{	return $this->city;		}
-	
-	public function setCity( $city )
-	{
-		$this->city = $city;
-		return $this;
-	}
-	
-	
-	public function getHomeNr()
-	{	return $this->homeNr;	}
-	
-	public function setHomeNr( $homeNr )
-	{
-		$this->homeNr = $homeNr;
-		return $this;
-	}
-	
-	
-	public function getMobilNr()
-	{	return $this->mobilNr;	}
-	
-	public function setMobilNr( $mobilNr )
-	{
-		$this->mobilNr = $mobilNr;
-		return $this;
-	}
-	
-	
-	public function getBirthday()
-	{	return $this->birthday;	}
-	
-	public function setBirthday( $birthday )
-	{
-		$this->birthday = $birthday;
-		return $this;
-	}
-	
-	
-	public function getAHV()
-	{	return $this->ahv;		}
-	
-	public function setAHV( $ahv )
-	{
-		$this->ahv = $ahv;
-		return $this;
-	}
-	
-	
-	public function getGender()
-	{	return $this->gender;	}
-	
-	public function setGender( $gender )
-	{
-		$this->gender = (BOOLEAN) $gender;
-		return $this;
-	}
-	
+
 	public function isMale()
 	{	return ( $this->gender == self::GENDER_MALE );		}
 	
 	public function isFemale()
 	{	return ( $this->gender == self::GENDER_FEMALE );	}
-	
-	
-	public function getJsPersNr()
-	{	return $this->jsPersNr;	}
-	
-	public function setJsPersNr( $jsPersNr )
-	{
-		$this->jsPersNr = $jsPersNr;
-		return $this;
-	}
-	
-	
-	public function getJsEdu()
-	{	return $this->jsEdu;	}
-	
-	public function setJsEdu( $jsEdu )
-	{
-		$this->jsEdu = $jsEdu;
-		return $this;
-	}
-	
-	
-	public function getPbsEdu()
-	{	return $this->pbsEdu;	}
-	
-	public function setPbsEdu( $pbsEdu )
-	{
-		$this->pbsEdu = $pbsEdu;
-		return $this;
-	}
+
 	
 	public function setImage( $image )
 	{

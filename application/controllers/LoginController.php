@@ -28,6 +28,10 @@ class LoginController
 	 */
 	private $em;
 
+	/**
+     * @var Entity\Repository\CampRepository
+     */
+    protected $loginRepo;
 
 	/**
 	 * @var Zend_Session_Namespace
@@ -44,6 +48,7 @@ class LoginController
 		$doctrineContainer = Zend_Registry::getInstance()->get("doctrine");
 
 		$this->em = $doctrineContainer->getEntityManager();
+		$this->loginRepo = $this->em->getRepository('\Entity\Login');
 
 
 		$this->authSession = new Zend_Session_Namespace('Zend_Auth');
@@ -52,15 +57,11 @@ class LoginController
 
 	public function indexAction()
 	{
-		$logins = $this->em->getRepository("Entity\Login")->findAll();
-		$this->view->logins = $logins;
-
-
+		$this->view->logins = $this->loginRepo->findAll();
 
 		if(!is_null($this->authSession->Login))
 		{
-			$login = $this->em->find("\Entity\Login", $this->authSession->Login);
-			$this->view->login = $login;
+			$this->view->login = $this->loginRepo->find($this->authSession->Login);
 		}
 		else
 		{
@@ -73,13 +74,9 @@ class LoginController
 	{
 		$this->authSession->Login = null;
 
-
-		$id = $this->getRequest()->getParam("EntityId");
-
-		$login = $this->em->find("Entity\Login", $id);
-
-		$this->authSession->Login = $login->GetId();
-
+		$id = $this->getRequest()->getParam("id");
+		$login = $this->loginRepo->find($id);
+		$this->authSession->Login = $login->getId();
 
 		$this->view->login = $login;
 	}
@@ -88,7 +85,6 @@ class LoginController
 	public function logoutAction()
 	{
 		$this->authSession->Login = null;
-
 
 		$this->_forward("index");
 	}
@@ -102,7 +98,6 @@ class LoginController
 		}
 
 		die($this->authSession->Login);
-
 	}
 
 }

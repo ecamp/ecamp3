@@ -63,52 +63,20 @@ class Camp
 	 *
 	 * @OneToMany(targetEntity="Entity\UserToCamp", mappedBy="camp")
 	 */
-	private $userCamp;
+	private $userCamp;  
 
 
 
-	public function getId()
-	{
-		return $this->id;
-	}
+	public function getId(){ return $this->id; }
 
-	public function setName($name)
-	{
-		$this->name = $name;
-	}
+	public function setName($name){ $this->name = $name; }
+	public function getName()     { return $this->name; }
 
-	public function getName()
-	{
-		return $this->name;
-	}
+	public function setSlogan($slogan){ $this->slogan = $slogan; }
+	public function getSlogan()       { return $this->slogan; }
 
-	public function setSlogan($slogan)
-	{
-		$this->slogan = $slogan;
-	}
+	public function setCreator(User $creator){ $this->creator = $creator; }
+	public function getCreator()             { return $this->creator; }
 
-	public function getSlogan()
-	{
-		return $this->slogan;
-	}
 
-	public function setUserCamp(\ArrayObject $userCamp)
-	{
-		$this->userCamp = $userCamp;
-	}
-
-	public function getUserCamp()
-	{
-		return $this->userCamp;
-	}
-
-	public function setCreator(User $creator)
-	{
-		$this->creator = $creator;
-	}
-
-	public function getCreator()
-	{
-		return $this->creator;
-	}
 }

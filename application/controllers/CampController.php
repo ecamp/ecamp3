@@ -18,6 +18,7 @@
  * along with eCamp.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+
 class CampController extends Zend_Controller_Action
 {
     /**
@@ -80,7 +81,8 @@ class CampController extends Zend_Controller_Action
 		$form = new Application_Form_Camp();
         $id = $this->getRequest()->getParam("id");
 
-        if ($id == null) {
+        if ($id == null)
+        {
             throw new Exception('Id must be provided for the delete action');
         }
         
@@ -122,7 +124,7 @@ class CampController extends Zend_Controller_Action
 		}
 		else
 		{
-			$camp = $this->em->find("Entity\Camp", $campId);
+			$camp = $this->em->find("Entity\Camp", $id);
 			$form->grabData($camp);
 		}
 
@@ -155,15 +157,10 @@ class CampController extends Zend_Controller_Action
 	{
 		$login = $this->loginRepo->find($this->authSession->Login);
 		$user = $login->getUser();
-
 		$camp = $this->campRepo->find($this->getRequest()->getParam('id'));
 
-		$userCamp = new Entity\UserToCamp();
-		$userCamp->setUser($user);
-		$userCamp->setCamp($camp);
-
-		$this->em->persist($userCamp);
-		$this->em->flush();
+		$service = new Service\UserService();
+		$service->addUserToCamp($user, $camp);
 
 		$this->_redirect("/camp");
 	}

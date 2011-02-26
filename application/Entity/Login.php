@@ -51,46 +51,12 @@ class Login
 	private $user;
 
 
-	/**
-	 * @return int
-	 */
-	public function GetId()
-	{
-		return $this->id;
-	}
 
+	public function getId(){ return $this->id; }
 
-	/**
-	 * @param string $login
-	 * @return void
-	 */
-	public function SetLogin($login)
-	{
-		$this->login = $login;
-	}
+	public function setLogin($login){ $this->login = $login; }
+	public function getLogin()      { return $this->login; }
 
-	/**
-	 * @return string
-	 */
-	public function GetLogin()
-	{
-		return $this->login;
-	}
-
-	/**
-	 * @param User $user
-	 * @return void
-	 */
-	public function SetUser(User $user)
-	{
-		$this->user = $user;
-	}
-
-	/**
-	 * @return User
-	 */
-	public function GetUser()
-	{
-		return $this->user;
-	}
+	public function setUser(User $user){ $this->user = $user; }
+	public function getUser()          { return $this->user; }
 }

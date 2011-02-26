@@ -43,6 +43,9 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 		$providerAutoloader = new \Doctrine\Common\ClassLoader('Logic', APPLICATION_PATH);
 		$autoloader->pushAutoloader(array($providerAutoloader, 'loadClass'), 'Logic');
 
+		$entityAutoloader = new \Doctrine\Common\ClassLoader('Service', APPLICATION_PATH);
+		$autoloader->pushAutoloader(array($entityAutoloader, 'loadClass'), 'Service');
+
     }
 
 	public function _initInjectionKernel()
@@ -77,27 +80,11 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 
 	protected function _initRoutes()
 	{
-		/*
-		 *
-		 Zend_Controller_Front::getInstance()->getRouter()->addRoute(
-			'ControllerAction', new Zend_Controller_Router_Route(':controller/:action/*',
-			array('controller' => 'index', 'action' => 'index')));
 
 		Zend_Controller_Front::getInstance()->getRouter()->addRoute(
-			'EntityId', new Zend_Controller_Router_Route(':controller/:action/:EntityId/*',
+			'id', new Zend_Controller_Router_Route(':controller/:action/:id/*',
 			array('controller' => 'index', 'action' => 'index'),
-			array('EntityId' => '\d+')));
-
-		Zend_Controller_Front::getInstance()->getRouter()->addRoute(
-			'CampId', new Zend_Controller_Router_Route(':CampId/:controller/:action/*',
-			array('controller' => 'index', 'action' => 'index'),
-			array('CampId' => '\d+')));
-
-		Zend_Controller_Front::getInstance()->getRouter()->addRoute(
-			'CampEntityId', new Zend_Controller_Router_Route(':CampId/:controller/:action/:EntityId/*',
-			array('controller' => 'index', 'action' => 'index'),
-			array('CampId' => '\d+', 'EntityId' => '\d+')));
-        */
+			array('id' => '\d+')));
 
 	}
 }

@@ -14,7 +14,7 @@
 <h2>All Camps</h2>
 
 <p>
-<a href="/camp/editcamp">NewCamp</a>
+<a href="/camp/new">NewCamp</a>
 </p>
 	
 <table>
@@ -24,7 +24,8 @@
 		<td><tal:block content="camp/getSlogan" /></td>
 
 		<td><a tal:attributes="href '/camp/commitToCamp/${camp/getId}'">Commit To Camp</a></td>
-		<td><a tal:attributes="href '/camp/editcamp/${camp/getId}'">Edit Camp</a></td>
+		<td><a tal:attributes="href '/camp/edit/${camp/getId}'">Edit Camp</a></td>
+		
 	</tr>
 </table>
 
