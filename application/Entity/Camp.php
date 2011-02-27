@@ -19,7 +19,7 @@
  */
 
 namespace Entity;
-
+	
 /**
  * @Entity
  * @Table(name="Camp")
@@ -75,7 +75,12 @@ class Camp
     public function validate()
     {
         if (($this->name == "")) {
-            throw new \Exception("Name not allowed to be empty");
+	        $translate = \Zend_Registry::get('Zend_Translate');
+	        
+			$str = $translate->_('${field} not allowed to be empty');
+	        $str = str_replace("\${field}", $translate->_("Camp Name"), $str);
+
+            throw new \Exception($str);
         }
     }
 	

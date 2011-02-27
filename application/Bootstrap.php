@@ -156,22 +156,11 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 
 		$backendOptions['cache_dir'] = APPLICATION_PATH . '/../tmp/';
 		$backendOptions['hashed_directory_level'] = 1;
-
+		
 		$cache = Zend_Cache::factory('File', 'File', $frontendOptions, $backendOptions);
 
 		Zend_Translate::setCache($cache);
 		Zend_Locale::setCache($cache);
-
-		// Create the translators
-		$translator_en = new Zend_Translate(array(
-			'adapter' => 'gettext',
-			'content' => $languagesPath . '/en/default.mo',
-			'locale'  => 'en'));
-
-		$translator_de = new Zend_Translate(array(
-			'adapter' => 'gettext',
-			'content' => $languagesPath . '/de/default.mo',
-			'locale'  => 'de'));
 
 		// Register the translator for system-wide use based on browser settings
 		// TODO: change to user settings later
@@ -179,15 +168,42 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 		switch($locale->getLanguage())
 		{
 			case 'de':
-				Zend_Registry::set('Zend_Translate', $translator_de);
+				$locale = 'de';
 				break;
 			default:
-				Zend_Registry::set('Zend_Translate', $translator_en);
+				$locale = 'en';
 				break;
 		}
-		
+
+		// Create the translators
+		$translator = new Zend_Translate(array(
+			'adapter' => 'gettext',
+			'content' => $languagesPath . '/'.$locale.'/default.mo',
+			'locale'  => $locale));
+		Zend_Registry::set('Zend_Translate', $translator);
+
 		// Register the locale for system-wide use
-		Zend_Registry::set('Zend_Locale', new Zend_Locale($locale->getRegion()));
+		Zend_Registry::set('Zend_Locale', new Zend_Locale($locale));
+
+		// translate validation messages
+		$validation_translator = new Zend_Translate(array(
+			'adapter' => 'array',
+			'content' =>  APPLICATION_PATH . '/../resources/languages/'.$locale.'/Zend_Validate.php',
+			'locale'  => 'de'));
+		Zend_Validate_Abstract::setDefaultTranslator($validation_translator);
+	}
+
+	protected function _initView()
+	{
+		$view = new Zend_View();
+		
+		$view->setEncoding('UTF-8');
+		$view->doctype('XHTML1_STRICT');
+		$view->headMeta()->appendHttpEquiv('Content-Type', 'text/html;charset=utf-8');
+		$viewRenderer = Zend_Controller_Action_HelperBroker::getStaticHelper('ViewRenderer');
+		$viewRenderer->setView($view);
+
+		return $view;
 	}
 }
 

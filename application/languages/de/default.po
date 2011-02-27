@@ -19,3 +19,12 @@ msgstr "Hallo Welt"
 msgid "You are ${name}"
 msgstr "Du bischt im Fall ${name}"
 
+msgid "Camp Name"
+msgstr "Lagername"
+
+msgid "Camp Slogan"
+msgstr "Lagerthema"
+
+msgid "${field} not allowed to be empty"
+msgstr "Das Feld ${field} darf nicht leer sein"
+
