@@ -18,25 +18,12 @@
  * along with eCamp.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-class IndexController extends Zend_Controller_Action
+class IndexController extends \Controller\BaseController
 {
-
-	/**
-	 * @var \Doctrine\ORM\EntityManager
-	 * @Inject EntityManager
-	 */
-	private $em;
-
-	
 
     public function init()
     {
-        /* Initialize action controller here */
-
-		Zend_Registry::get('kernel')->InjectDependencies($this);
-
 		$this->view->headLink()->appendStylesheet('/css/layout.css');
-
     }
 
     public function indexAction()

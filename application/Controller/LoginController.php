@@ -20,18 +20,13 @@
 
 
 class LoginController
-	extends Zend_Controller_Action
+	extends \Controller\BaseController
 {
-
 	/**
-	 * @var \Doctrine\ORM\EntityManager
-	 */
-	private $em;
-
-	/**
-     * @var Entity\Repository\CampRepository
+     * @var Entity\Repository\LoginRepository
+	 * @Inject LoginRepository
      */
-    protected $loginRepo;
+    private $loginRepo;
 
 	/**
 	 * @var Zend_Session_Namespace
@@ -41,15 +36,9 @@ class LoginController
 
 	public function init()
 	{
-
+		parent::init();
+		
 		$this->view->headLink()->appendStylesheet('/css/layout.css');
-
-		/** @var \Bisna\Application\Container\DoctrineController $doctrineContainer  */
-		$doctrineContainer = Zend_Registry::getInstance()->get("doctrine");
-
-		$this->em = $doctrineContainer->getEntityManager();
-		$this->loginRepo = $this->em->getRepository('\Entity\Login');
-
 
 		$this->authSession = new Zend_Session_Namespace('Zend_Auth');
 	}

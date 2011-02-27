@@ -1,6 +1,8 @@
 <?php
 
-class Zend_View_Helper_Campurl extends Zend_View_Helper_Abstract
+namespace Application\View\Helper;
+
+class Campurl extends Zend_View_Helper_Abstract
 {
 	public $view;
 

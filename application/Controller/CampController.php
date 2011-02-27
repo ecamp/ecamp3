@@ -19,27 +19,19 @@
  */
 
 
-class CampController extends Zend_Controller_Action
+class CampController extends \Controller\BaseController
 {
-    /**
-	 * @var \Doctrine\ORM\EntityManager
+	/**
+	 * @var \Entity\Repository\CampRepository
+	 * @Inject CampRepository
 	 */
-	private $em;
+	private $campRepo;
 
     /**
-     * @var Bisna\Application\Container\DoctrineContainer
+     * @var Entity\Repository\LoginRepository
+     * @Inject LoginRepository
      */
-    protected $doctrine;
-
-    /**
-     * @var Entity\Repository\CampRepository
-     */
-    protected $campRepo;
-
-    /**
-     * @var Entity\Repository\CampRepository
-     */
-    protected $loginRepo;
+    private $loginRepo;
 
 	/**
 	 * @var Zend_Session_Namespace
@@ -49,13 +41,9 @@ class CampController extends Zend_Controller_Action
 
     public function init()
     {
+	    parent::init();
+	    
 		$this->view->headLink()->appendStylesheet('/css/layout.css');
-
-        $this->doctrine = Zend_Registry::get('doctrine');
-        $this->em = $this->doctrine->getEntityManager();
-        
-        $this->campRepo  = $this->em->getRepository('\Entity\Camp');
-        $this->loginRepo = $this->em->getRepository('\Entity\Login');
 
 		$this->authSession = new Zend_Session_Namespace('Zend_Auth');
 
@@ -79,7 +67,7 @@ class CampController extends Zend_Controller_Action
 	public function editAction()
 	{
 		$form = new Application_Form_Camp();
-        $id = $this->getRequest()->getParam("id");
+        $id = $this->getRequest()->getParam("camp");
 
         if ($id == null)
         {
@@ -153,11 +141,11 @@ class CampController extends Zend_Controller_Action
     }
 
 
-	public function committocampAction()
+	public function commitAction()
 	{
 		$login = $this->loginRepo->find($this->authSession->Login);
 		$user = $login->getUser();
-		$camp = $this->campRepo->find($this->getRequest()->getParam('id'));
+		$camp = $this->campRepo->find($this->getRequest()->getParam('camp'));
 
 		$service = new Service\UserService();
 		$service->addUserToCamp($user, $camp);
