@@ -2,7 +2,12 @@
 <tal:block condition="loginPMod">
 	<h2>Currently Authenticated as:</h2>
 
-	<p><tal:block content="loginPMod/Login/GetLogin"/></p>
+	<p>
+
+	<tal:block i18n:translate="">Hello World</tal:block><br />
+	<tal:block i18n:translate="">You are <span i18n:name="name" tal:replace="loginPMod/Login/GetLogin"/></tal:block>
+	</p>
+	
 </tal:block>
 
 
