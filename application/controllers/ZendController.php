@@ -23,10 +23,6 @@ class ZendController extends Zend_Controller_Action
 
     public function init()
     {
-        /* Initialize action controller here */
-		$this->view->headLink()->appendStylesheet('/css/layout.css');
-		
-
 		/**
 		 *  Change Layout to simple.phtml
 		 */

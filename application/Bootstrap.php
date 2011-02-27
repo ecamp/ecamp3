@@ -102,5 +102,28 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 
 
 	}
+
+	protected function _initView()
+	{
+		$view = new Zend_View();
+
+		$view->setEncoding('UTF-8');
+		$view->doctype('XHTML1_STRICT');
+		$view->headMeta()->appendHttpEquiv('Content-Type', 'text/html;charset=utf-8');
+
+		$view->headLink()->appendStylesheet('/css/blueprint/screen.css', 'screen, projection');
+		$view->headLink()->appendStylesheet('/css/blueprint/ie.css', 'screen, projection', 'lt IE 8');
+		$view->headLink()->appendStylesheet('/css/blueprint/print.css', 'print');
+
+		$view->headLink()->appendStylesheet('/css/blueprint/plugins/fancy-type/screen.css', 'screen, projection');
+
+		$view->headLink()->appendStylesheet('/css/main.css');
+
+
+		$viewRenderer = Zend_Controller_Action_HelperBroker::getStaticHelper('ViewRenderer');
+		$viewRenderer->setView($view);
+
+		return $view;
+	}
 }
 

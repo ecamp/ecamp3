@@ -32,8 +32,6 @@ class DoctrineController extends Zend_Controller_Action
 
 	public function init()
 	{
-		$this->view->headLink()->appendStylesheet('/css/layout.css');
-
 		/** @var \Bisna\Application\Container\DoctrineController $doctrineContainer  */
 		$doctrineContainer = Zend_Registry::getInstance()->get("doctrine");
 

@@ -35,8 +35,6 @@ class IndexController extends Zend_Controller_Action
 
 		Zend_Registry::get('kernel')->InjectDependencies($this);
 
-		$this->view->headLink()->appendStylesheet('/css/layout.css');
-
     }
 
     public function indexAction()
