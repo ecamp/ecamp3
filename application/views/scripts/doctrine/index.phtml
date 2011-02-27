@@ -1,27 +1,31 @@
 	<h1>DoctrineController</h1>
 
-	<p>
-		<a href="/doctrine/adduser">NewUser</a>
-	</p>
 
-	<table width="100%" border="1">
 
-		<tal:block repeat="user users">
-			<tr>
-				<td tal:content="user/getId" />
-				<td tal:content="user/getScoutname" />
-				<td tal:content="user/getFirstname" />
-				<td tal:content="user/getSurname" />
+	<div class="span-18 colborder">
+		<p>
+			<a href="/doctrine/adduser">NewUser</a>
+		</p>
 
-				<td>
-					<a tal:attributes="href php: userForm.getEditLink(user.getId())">edit</a>
-				</td>
+		<table>
 
-			</tr>
-		</tal:block>
+			<tal:block repeat="user users">
+				<tr>
+					<td tal:content="user/getId" />
+					<td tal:content="user/getScoutname" />
+					<td tal:content="user/getFirstname" />
+					<td tal:content="user/getSurname" />
 
-	</table>
+					<td>
+						<a tal:attributes="href php: userForm.getEditLink(user.getId())">edit</a>
+					</td>
 
-	<p>
+				</tr>
+			</tal:block>
+
+		</table>
+	</div>
+
+	<div class="span-5 last">
 		<tal:block content="structure userForm" />
-	</p>
+	</div>
