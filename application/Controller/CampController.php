@@ -32,6 +32,12 @@ class CampController extends \Controller\BaseController
      * @Inject LoginRepository
      */
     private $loginRepo;
+	
+	/**
+     * @var Service\UserService
+     * @Inject \Service\UserService
+     */
+	private $userService;
 
 	/**
 	 * @var Zend_Session_Namespace
@@ -147,8 +153,7 @@ class CampController extends \Controller\BaseController
 		$user = $login->getUser();
 		$camp = $this->campRepo->find($this->getRequest()->getParam('camp'));
 
-		$service = new Service\UserService();
-		$service->addUserToCamp($user, $camp);
+		$this->userService->addUserToCamp($user, $camp);
 
 		$this->_redirect("/camp");
 	}

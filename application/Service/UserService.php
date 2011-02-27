@@ -8,30 +8,39 @@ class UserService
 
 	/**
 	 * @var \Doctrine\ORM\EntityManager
+	 * @Inject EntityManager
 	 */
-	private $em;
+	protected $em;
 
-    /**
-     * @var Bisna\Application\Container\DoctrineContainer
+	/**
+	 * @var \Entity\Repository\CampRepository
+	 * @Inject CampRepository
+	 */
+	private $campRepo;
+	
+	/**
+     * @var Entity\Repository\UserRepository
+     * @Inject UserRepository
      */
-    protected $doctrine;
+    private $userRepo;
 
-    /**
-     * @var Entity\Repository\*
+	/**
+     * @var Entity\Repository\UserToCampRepository
+     * @Inject UserToCampRepository
      */
-    protected $campRepo;
-    protected $loginRepo;
-	protected $userRepo;
+    private $userToCampRepo;
+
+
+	public function init()
+	{
+		$this->view->addHelperPath(APPLICATION_PATH . '/../application/views/helpers', 'Application\View\Helper\\');
+		
+		\Zend_Registry::get('kernel')->InjectDependencies($this);
+	}
 
 
     public function __construct()
     {
-	    $this->doctrine = Zend_Registry::get('doctrine');
-        $this->em = $this->doctrine->getEntityManager();
-
-        $this->campRepo  = $this->em->getRepository('\Entity\Camp');
-        $this->loginRepo = $this->em->getRepository('\Entity\Login');
-	    $this->userRepo = $this->em->getRepository('\Entity\User');
     }
 
 	public function getAllUsers()
@@ -42,8 +51,7 @@ class UserService
 	public function addUserToCamp($user,$camp)
 	{
 		/* besser: via Model lösen, z.B. user->doIBelongToCamp */
-		
-		$res = $this->em->getRepository('\Entity\UserToCamp')->findBy(array('user' => $user->getId(), 'camp' => $camp->getId() ));
+		$res = $this->userToCampRepo->findBy(array('user' => $user->getId(), 'camp' => $camp->getId() ));
 
 		if( $res == null )
 		{
