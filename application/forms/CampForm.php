@@ -35,16 +35,15 @@ class Application_Form_CampForm extends Ztal_Form
 
 
 		$campName = new Zend_Form_Element_Text('campName');
-		$campName->setLabel('CampName:')
-			->addFilter('StringTrim')
-			->setRequired(true);
+		$campName->setLabel('Camp Name')
+			->addFilter('StringTrim');
 
 
 		$campSlogan = new Zend_Form_Element_Text('campSlogan');
-		$campSlogan->setLabel('LagerThema:')
+		$campSlogan->setLabel('Camp Slogan')
 			->addFilter('StringTrim')
-			->setRequired(false);
-
+			->setRequired(true);
+	    
 		$submit = new Zend_Form_Element_Submit('submit');
 		$submit->setLabel('Save');
 
@@ -55,6 +54,27 @@ class Application_Form_CampForm extends Ztal_Form
 
 		$this->addElement($submit);
 
+        /* form based errors */
+	    $this->clearDecorators();
+
+		$this->addDecorator('FormErrors')
+	    ->addDecorator('FormElements')
+         ->addDecorator('HtmlTag')
+         ->addDecorator('Form');
+
+	    $this->setElementDecorators(array(
+            array('ViewHelper'),
+            array('Description'),
+            array('Label', array('separator'=>' ')),
+            array('HtmlTag', array('class'=>'element-group')),
+        ));
+
+	    // buttons do not need labels
+        $submit->setDecorators(array(
+            array('ViewHelper'),
+            array('Description'),
+            array('HtmlTag', array('class'=>'submit-group')),
+        ));
 
     }
 

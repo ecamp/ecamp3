@@ -82,6 +82,7 @@ class CampController extends Zend_Controller_Action
 	{
 
 		$campForm = new Application_Form_CampForm();
+		$campForm->setAction("/camp/savecamp");
 
 		if($this->getRequest()->getParam("EntityId") != "")
 		{
@@ -95,8 +96,6 @@ class CampController extends Zend_Controller_Action
 			$campForm->setDefaults($this->getRequest()->getParams());
 		}
 
-		$campForm->setAction("/camp/savecamp");
-
 		$this->view->campForm = $campForm;
 	}
 
@@ -105,13 +104,14 @@ class CampController extends Zend_Controller_Action
 	{
 
 		$campForm = new Application_Form_CampForm();
+		$this->view->campForm = $campForm;
 
+		/* form based validation */
 		if(!$campForm->isValid($this->getRequest()->getParams()))
 		{
-			$this->_forward("editcamp");
+			$this->render("editcamp");
 			return;
 		}
-
 
 		$campId = $campForm->getId();
 
@@ -128,9 +128,20 @@ class CampController extends Zend_Controller_Action
 			$campForm->grabData($camp);
 		}
 
-		$this->em->flush();
-
-		$this->_redirect("/camp/index");
+		/* model based validation */
+		try
+		{
+			$this->em->flush();
+			$this->_redirect("/camp/index");
+			return;
+		}
+		catch(Exception $e)
+		{
+			$campForm->addError( $e->getMessage() );
+			
+			$this->render("editcamp");
+			return;
+		}
 	}
 
 

@@ -23,6 +23,7 @@ namespace Entity;
 /**
  * @Entity
  * @Table(name="Camp")
+ * @HasLifecycleCallbacks
  */
 class Camp
 {
@@ -68,7 +69,15 @@ class Camp
 	private $userCamp;
 
 
-
+	/**
+     * @PrePersist @PreUpdate
+     */
+    public function validate()
+    {
+        if (($this->name == "")) {
+            throw new \Exception("Name not allowed to be empty");
+        }
+    }
 	
 
 	public function getId()
