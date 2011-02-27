@@ -24,7 +24,7 @@ namespace Entity;
  * @Entity
  * @Table(name="User")
  */
-class User
+class User extends BaseEntity
 {
 	
 	const GENDER_FEMALE	= true;

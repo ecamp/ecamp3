@@ -24,7 +24,7 @@ namespace Entity;
  * @Entity
  * @Table(name="Camp")
  */
-class Camp
+class Camp extends BaseEntity
 {
 
 	/**
