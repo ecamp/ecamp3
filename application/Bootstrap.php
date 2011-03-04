@@ -117,10 +117,6 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 		// Set the timezone default
 		date_default_timezone_set('Europe/Zurich');
 
-		//configure the front controller to use modules and throw exceptions
-		Zend_Controller_Front::getInstance()
-			->throwExceptions(true);
-
 		// Configure the app namespace
 		$this->setAppNamespace('Application');
 
