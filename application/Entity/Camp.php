@@ -25,7 +25,7 @@ namespace Entity;
  * @Table(name="Camp")
  * @HasLifecycleCallbacks
  */
-class Camp
+class Camp extends BaseEntity
 {
 	/**
 	 * @Id @Column(type="integer")
