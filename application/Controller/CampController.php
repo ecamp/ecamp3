@@ -35,7 +35,7 @@ class CampController extends \Controller\BaseController
 	
 	/**
      * @var Service\UserService
-     * @Inject \Service\UserService
+     * @Inject Service\UserService
      */
 	private $userService;
 
