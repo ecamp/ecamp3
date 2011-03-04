@@ -2,10 +2,10 @@
 
 <table>
 	<tr tal:repeat="userCamp myUserCamps">
-		<td><tal:block content="userCamp/Camp/getId" /></td>
-		<td><tal:block content="userCamp/Camp/getName" /></td>
+		<td><tal:block content="userCamp/getCamp/getId" /></td>
+		<td><tal:block content="userCamp/getCamp/getName" /></td>
 
-		<td><a tal:attributes="href userCamp/CancelFromCampLink">Cancel From Camp</a></td>
+		<td><a tal:attributes="href php:this->thisurl(array('action' => 'cancelfromcamp', 'id' => userCamp.getId() ), 'shortid')">Cancel From Camp</a></td>
 	</tr>
 </table>
 
@@ -14,17 +14,18 @@
 <h2>All Camps</h2>
 
 <p>
-<a href="/camp/editcamp">NewCamp</a>
+<a tal:attributes="href helper:thisurl(array('action' => 'new'))">NewCamp</a>
 </p>
 	
 <table>
 	<tr tal:repeat="camp allCamps">
-		<td><tal:block content="camp/Camp/getId" /></td>
-		<td><tal:block content="camp/Camp/getName" /></td>
-		<td><tal:block content="camp/Camp/getSlogan" /></td>
+		<td><tal:block content="camp/getId" /></td>
+		<td><tal:block content="camp/getName" /></td>
+		<td><tal:block content="camp/getSlogan" /></td>
 
-		<td><a tal:attributes="href camp/CommitToCampLink">Commit To Camp</a></td>
-		<td><a tal:attributes="href camp/EditCampLink">Edit Camp</a></td>
+		<td><a tal:attributes="href php:this->thisurl(array('action' => 'commit', 'camp' => camp.getId() ), 'camp')">Commit To Camp</a></td>
+		<td><a tal:attributes="href php:this->thisurl(array('action' => 'edit', 'camp' => camp.getId() ), 'camp')'">Edit Camp</a></td>
+		
 	</tr>
 </table>
 

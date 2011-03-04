@@ -85,11 +85,6 @@ class Application_Form_Camp extends Ztal_Form
 			$this->getElement($attribute)->setValue($entity->{'get'.ucfirst($attribute)}());
 		}
 	}
-
-	public function getEditLink($campId)
-	{
-		return "/camp/index/" . $campId;
-	}
-
+	
 }
 
