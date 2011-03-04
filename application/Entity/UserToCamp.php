@@ -49,30 +49,14 @@ class UserToCamp extends BaseEntity
 	 * @ManyToOne(targetEntity="Entity\Camp")
 	 */
 	private $camp;
+	
 
+	public function getId(){ return $this->id; }
 
-	public function setCamp(Camp $camp)
-	{
-		$this->camp = $camp;
-	}
+	public function setCamp(Camp $camp){ $this->camp = $camp; }
+	public function getCamp()          { return $this->camp; }
 
-	public function getCamp()
-	{
-		return $this->camp;
-	}
+	public function setUser(User $user){ $this->user = $user; }
+	public function getUser()          { return $this->user; }
 
-	public function setUser(User $user)
-	{
-		$this->user = $user;
-	}
-
-	public function getUser()
-	{
-		return $this->user;
-	}
-
-	public function getId()
-	{
-		return $this->id;
-	}
 }

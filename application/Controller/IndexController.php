@@ -18,62 +18,22 @@
  * along with eCamp.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace PMod;
-
-
-class UserToCampPMod
+class IndexController extends \Controller\BaseController
 {
 
-	/**
-	 * @var \Entity\UserToCamp
-	 */
-	private $userToCamp;
+    public function init()
+    {
+		$this->view->headLink()->appendStylesheet('/css/layout.css');
+    }
+
+    public function indexAction()
+    {
+		$this->view->headTitle('Home');
 
 
-	public function __construct(\Entity\UserToCamp $userToCamp)
-	{
-		$this->userToCamp = $userToCamp;
-	}
+		print_r($this->em);
 
+    }
 
-	/**
-	 * @return \Entity\User
-	 */
-	public function User()
-	{
-		return $this->userToCamp->getUser();
-	}
-
-
-	/**
-	 * @return UserPMod
-	 */
-	public function UserPMod()
-	{
-		return new UserPMod($this->User());
-	}
-
-
-	/**
-	 * @return \Entity\Camp
-	 */
-	public function Camp()
-	{
-		return $this->userToCamp->getCamp();
-	}
-
-	
-	/**
-	 * @return CampPMod
-	 */
-	public function CampPMod()
-	{
-		return new CampPMod($this->Camp());
-	}
-
-
-	public function CancelFromCampLink()
-	{
-		return "/camp/cancelFromCamp/" . $this->userToCamp->getId();
-	}
 }
+

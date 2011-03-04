@@ -36,15 +36,18 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         $appAutoloader = new \Doctrine\Common\ClassLoader('Inject');
         $autoloader->pushAutoloader(array($appAutoloader, 'loadClass'), 'Inject');
 
-
 		$entityAutoloader = new \Doctrine\Common\ClassLoader('Entity', APPLICATION_PATH);
 		$autoloader->pushAutoloader(array($entityAutoloader, 'loadClass'), 'Entity');
+
+	    $controllerAutoloader = new \Doctrine\Common\ClassLoader('Controller', APPLICATION_PATH);
+		$autoloader->pushAutoloader(array($controllerAutoloader, 'loadClass'), 'Controller');
 
 		$providerAutoloader = new \Doctrine\Common\ClassLoader('Logic', APPLICATION_PATH);
 		$autoloader->pushAutoloader(array($providerAutoloader, 'loadClass'), 'Logic');
 
-		$pModAutoloader = new \Doctrine\Common\ClassLoader('PMod', APPLICATION_PATH);
-		$autoloader->pushAutoloader(array($pModAutoloader, 'loadClass'), 'PMod');
+		$entityAutoloader = new \Doctrine\Common\ClassLoader('Service', APPLICATION_PATH);
+		$autoloader->pushAutoloader(array($entityAutoloader, 'loadClass'), 'Service');
+
     }
 
 	public function _initInjectionKernel()
@@ -57,9 +60,21 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 
 		$kernel
 			->Bind("CampRepository")
-			->ToProvider(new Logic\Provider\Repository("eCamp\Entity\Camp"));
+			->ToProvider(new Logic\Provider\Repository("\Entity\Camp"));
 
-		$kernel->Bind("SomeService")->ToSelf()->AsSingleton();
+		$kernel
+			->Bind("LoginRepository")
+			->ToProvider(new Logic\Provider\Repository("\Entity\Login"));
+
+		$kernel
+			->Bind("UserRepository")
+			->ToProvider(new Logic\Provider\Repository("\Entity\User"));
+
+		$kernel
+			->Bind("UserToCampRepository")
+			->ToProvider(new Logic\Provider\Repository("\Entity\UserToCamp"));
+
+		$kernel->Bind("Service\UserService")->ToSelf()->AsSingleton();
 
 		Zend_Registry::set("kernel", $kernel);
 	}
@@ -83,30 +98,29 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 	protected function _initRoutes()
 	{
 
-
 		Zend_Controller_Front::getInstance()->getRouter()->addRoute(
-			'ControllerAction', new Zend_Controller_Router_Route(':controller/:action/*',
+			'general', new Zend_Controller_Router_Route(':controller/:action/*',
 			array('controller' => 'index', 'action' => 'index')));
 
 		Zend_Controller_Front::getInstance()->getRouter()->addRoute(
-			'EntityId', new Zend_Controller_Router_Route(':controller/:action/:EntityId/*',
+			'shortid', new Zend_Controller_Router_Route(':controller/:action/:id/*',
 			array('controller' => 'index', 'action' => 'index'),
-			array('EntityId' => '\d+')));
+			array('id' => '\d+')));
 
 		Zend_Controller_Front::getInstance()->getRouter()->addRoute(
-			'CampId', new Zend_Controller_Router_Route(':CampId/:controller/:action/*',
+			'camp', new Zend_Controller_Router_Route(':camp/:controller/:action/*',
 			array('controller' => 'index', 'action' => 'index'),
-			array('CampId' => '\d+')));
+			array('camp' => '\d+')));
 
 		Zend_Controller_Front::getInstance()->getRouter()->addRoute(
-			'CampEntityId', new Zend_Controller_Router_Route(':CampId/:controller/:action/:EntityId/*',
+			'camp_shortid', new Zend_Controller_Router_Route(':camp/:controller/:action/:id/*',
 			array('controller' => 'index', 'action' => 'index'),
-			array('CampId' => '\d+', 'EntityId' => '\d+')));
-
+			array('camp' => '\d+', 'id' => '\d+')));
 
 	}
 
 
+	
 	/**
 	 * Basic setup of module support and layout support.
 	 *
@@ -184,6 +198,21 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 		
 		// Register the locale for system-wide use
 		Zend_Registry::set('Zend_Locale', new Zend_Locale($locale->getRegion()));
+	}
+
+
+	protected function _initView()
+	{
+		$view = new Zend_View();
+
+		$view->setEncoding('UTF-8');
+		$view->doctype('XHTML1_STRICT');
+		$view->headMeta()->appendHttpEquiv('Content-Type', 'text/html;charset=utf-8');
+
+		$viewRenderer = Zend_Controller_Action_HelperBroker::getStaticHelper('ViewRenderer');
+		$viewRenderer->setView($view);
+
+		return $view;
 	}
 }
 
