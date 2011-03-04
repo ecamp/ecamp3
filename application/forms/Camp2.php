@@ -18,7 +18,7 @@
  * along with eCamp.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-class Application_Form_Camp extends Application_Form_BaseForm
+class Application_Form_Camp2 extends Application_Form_BaseForm
 {
 	/* initialize elements */
     public function init()
@@ -35,13 +35,19 @@ class Application_Form_Camp extends Application_Form_BaseForm
 		$campSlogan->setLabel('Camp Slogan')
 			->addFilter('StringTrim')
 			->setRequired(true);
-	    
+
+	    $group = new Zend_Form_Element_Text('groupname');
+		$group->setLabel('Group')
+			->addFilter('StringTrim')
+			->setRequired(true);
+
 		$submit = new Zend_Form_Element_Submit('submit');
 		$submit->setLabel('Save');
 
 		$this->addElement($id);
 		$this->addElement($campName);
 		$this->addElement($campSlogan);
+	    $this->addElement($group);
 		$this->addElement($submit);
 		
 		$this->standardDecorators();

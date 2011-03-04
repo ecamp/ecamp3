@@ -47,6 +47,12 @@ class Camp extends BaseEntity
 	protected $slogan;
 
 	/**
+	 * @var string
+	 * @Column(type="string", length=32 )
+	 */
+	protected $groupname;
+
+	/**
 	 * @var User
 	 * @OneToOne(targetEntity="Entity\User")
 	 * @JoinColumn(name="creator_id", referencedColumnName="id")

@@ -32,11 +32,16 @@ abstract class BaseEntity
 	{
 		$this->updatedAt = new \DateTime("now");
 	}
-	
+
+	/**
+	 * Returns a form of the model
+	 * @param string $type
+	 * @return Zend_Form
+	 */
 	public function getForm($type = null)
     {
 		$type = isset($type) ? $type : $this->defaultForm;
-		
+
         $type  = ucfirst($type);
         if (!isset($this->_forms[$type])) {
             $class = 'Application_Form_' . $type;
@@ -45,51 +50,63 @@ abstract class BaseEntity
 		
         return $this->_forms[$type];
     }
-	
-	public function save(array $data)
+
+	/**
+	 * Save data to the entity trough the validation/filter chain
+	 * @param array $data
+	 * @param null|string $form
+	 * @param bool $partial
+	 * @return bool
+	 */
+	public function save(array $data, $form = null, $partial = false)
     {
-        $form = $this->getForm();
-		
-		/* ensure that only data is written that is allowed to */
-		//foreach( $form->attributes as $attribute )
-		//	$data_access[$attribute] = isset($data[$attribute]) ? $data[$attribute] : $this->{$attribute};
-		
-        if (!$form->isValid($data)) {
-            return false;
+        $form = $this->getForm($form);
+
+	    /* save user entries in the form */
+		$form->setAttribs($data);
+
+	    if( $partial )
+	    {
+		    if (!$form->isValidPartial($data)) {
+	            return false;
+            }
+	    }
+	    else {
+            if (!$form->isValid($data)) {
+	            return false;
+            }
         }
 		
 		$this->updateAttributes($form->getValues());
 		
 		/* we could persist and flush ourselves here. needs to be discussed */
+
         return true;
     }
-	
-	public function savePartial(array $data)
+
+	/**
+	 * Save data to the entity through the validation/filter chain (partialValidation)
+	 */
+	public function savePartial(array $data, $form = null)
     {
-        $form = $this->getForm();
-		
-		/* ensure that only data is written that is allowed to */
-		//foreach( $form->attributes as $attribute )
-		//	$data_access[$attribute] = isset($data[$attribute]) ? $data[$attribute] : $this->{$attribute};
-		
-        if (!$form->isValidPartial($data)) {
-            return false;
-        }
-		
-		$this->updateAttributes($form->getValues());
-		
-		/* we could persist and flush ourselves here. needs to be discussed */
-        return true;
+        return $this->save($data, $form, true);
     }
-	
+
+	/**
+	 * update attributes of an entity by array
+	 */
 	protected function updateAttributes($data)
 	{
 		foreach( $data as $key=>$value )
 			$this->{"set".ucfirst($key)}($value);
 	}
-	
-	/* magic getter */
-	/* attention, set*() bypasses the validator. Use save() in general cases. */
+
+	/**
+	 * Magic getter/setter -attention, set*() bypasses the validator. Use save() in general cases. 
+	 * @throws \Exception
+	 * @param  $function
+	 * @param  $args
+	 */
 	public function __call($function , $args) 
 	{
 		if(strpos($function,'get')===0){

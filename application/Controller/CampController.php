@@ -86,16 +86,6 @@ class CampController extends \Controller\BaseController
 		$this->view->form = $form;
 	}
 
-    public function newAction()
-    {
-		$camp = new \Entity\Camp();
-		$form = $camp->getForm();
-		$form->setData($camp);
-		
-		$this->view->form = $form;
-    }
-
-
 	public function saveAction()
 	{
 		$id = $this->getRequest()->getParam("id");
@@ -110,7 +100,6 @@ class CampController extends \Controller\BaseController
 		if (!$camp->save($this->getRequest()->getParams())) 
 		{
 			$this->view->form = $camp->getForm();
-			$this->view->form->setAttribs($this->getRequest()->getParams());
 			$this->render("edit");
 			return;
 		}
@@ -120,15 +109,24 @@ class CampController extends \Controller\BaseController
 		$this->_redirect("/camp/index");
 	}
 
+	/* the new/create action use another form. just for demonstration purpose */
+	public function newAction()
+    {
+		$camp = new \Entity\Camp();
+		$form = $camp->getForm('camp2');
+		$form->setData($camp);
+
+		$this->view->form = $form;
+    }
+
     public function createAction()
     {
         $camp = new \Entity\Camp();
-		$form = $camp->getForm();
 
-		if (!$camp->save($this->getRequest()->getParams())) 
+		if (!$camp->save($this->getRequest()->getParams(), 'camp2'))
 		{
-			$this->view->form = $form;
-			$this->_forward("new");
+			$this->view->form = $camp->getForm('camp2');
+			$this->render("new");
 			return;
 		}
 

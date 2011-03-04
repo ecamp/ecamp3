@@ -36,24 +36,16 @@ class Application_Form_BaseForm extends Ztal_Form
             array('HtmlTag', array('class'=>'element-group')),
         ));
 	}
-	
+
+	/**
+	 * Load data from entity
+	 * @param  $entity
+	 */
 	public function setData($entity)
 	{
-		$this->getElement('id')->setValue($entity->getId());
-		
-		foreach( $this->attributes as $attribute )
+		foreach($this->getValues() as $key => $value)
 		{
-			$this->getElement($attribute)->setValue($entity->{'get'.ucfirst($attribute)}());
-		}
-	}
-	
-	public function setDataFromArray($entity)
-	{
-		$this->getElement('id')->setValue($entity->getId());
-		
-		foreach( $this->attributes as $attribute )
-		{
-			$this->getElement($attribute)->setValue($entity->{'get'.ucfirst($attribute)}());
+			$this->getElement($key)->setValue($entity->{'get'.ucfirst($key)}());
 		}
 	}
 
