@@ -18,18 +18,12 @@
  * along with eCamp.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-class Application_Form_Camp extends Ztal_Form
+class Application_Form_Camp extends Application_Form_BaseForm
 {
-
-	/**
-	 * @var
-	 * @Inject CampRepository
-	 */
-	private $campRepo;
-
 	/* define the attributes that are writable through this form */
 	public $attributes = array('name', 'slogan');
 
+	/* initialize elements */
     public function init()
     {
 		$id = new Zend_Form_Element_Hidden('id');
@@ -37,6 +31,7 @@ class Application_Form_Camp extends Ztal_Form
 		$campName = new Zend_Form_Element_Text('name');
 		$campName->setLabel('Camp Name')
 			->addFilter('StringTrim')
+			->addFilter('StringtoLower')
 			->setRequired(true);
 
 		$campSlogan = new Zend_Form_Element_Text('slogan');
@@ -51,40 +46,16 @@ class Application_Form_Camp extends Ztal_Form
 		$this->addElement($campName);
 		$this->addElement($campSlogan);
 		$this->addElement($submit);
-
-        /* form based errors */
-	    $this->clearDecorators();
-
-		$this->addDecorator('FormErrors')
-	    ->addDecorator('FormElements')
-         ->addDecorator('HtmlTag')
-         ->addDecorator('Form');
-
-	    $this->setElementDecorators(array(
-            array('ViewHelper'),
-            array('Description'),
-            array('Label', array('separator'=>' ')),
-            array('HtmlTag', array('class'=>'element-group')),
-        ));
-
-	    // buttons do not need labels
+		
+		$this->standardDecorators();
+		
+		// buttons do not need labels
         $submit->setDecorators(array(
             array('ViewHelper'),
             array('Description'),
             array('HtmlTag', array('class'=>'submit-group')),
         ));
-
     }
 
-	public function setData($entity)
-	{
-		$this->getElement('id')->setValue($entity->getId());
-		
-		foreach( $this->attributes as $attribute )
-		{
-			$this->getElement($attribute)->setValue($entity->{'get'.ucfirst($attribute)}());
-		}
-	}
-	
 }
 

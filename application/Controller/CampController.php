@@ -73,16 +73,16 @@ class CampController extends \Controller\BaseController
 	public function editAction()
 	{
         $id = $this->getRequest()->getParam("camp");
-
-        if ($id == null)
-        {
-            throw new Exception('Id must be provided for the delete action');
-        }
-        
 		$camp = $this->campRepo->find($id);
-		$form = $camp->getForm();
+        if(!$camp)
+		{
+			$this->_redirect("/camp/index");
+			return;
+		}
 		
-		$form->setAction("/camp/save");
+		$form = $camp->getForm();
+		$form->setData($camp);
+
 		$this->view->form = $form;
 	}
 
@@ -90,8 +90,8 @@ class CampController extends \Controller\BaseController
     {
 		$camp = new \Entity\Camp();
 		$form = $camp->getForm();
-
-		$form->setAction("/camp/create");
+		$form->setData($camp);
+		
 		$this->view->form = $form;
     }
 
@@ -99,12 +99,18 @@ class CampController extends \Controller\BaseController
 	public function saveAction()
 	{
 		$id = $this->getRequest()->getParam("id");
-		$camp = $this->em->find("Entity\Camp", $id);
-		$form = $camp->getForm();
-
+		$camp = $this->campRepo->find($id);
+		
+		if(!$camp)
+		{
+			$this->_redirect("/camp/index");
+			return;
+		}
+	
 		if (!$camp->save($this->getRequest()->getParams())) 
 		{
 			$this->view->form = $camp->getForm();
+			$this->view->form->setAttribs($this->getRequest()->getParams());
 			$this->render("edit");
 			return;
 		}
@@ -121,8 +127,8 @@ class CampController extends \Controller\BaseController
 
 		if (!$camp->save($this->getRequest()->getParams())) 
 		{
-			$this->view->form = $camp->getForm();
-			$this->render("new");
+			$this->view->form = $form;
+			$this->_forward("new");
 			return;
 		}
 

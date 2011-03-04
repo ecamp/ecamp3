@@ -32,26 +32,26 @@ class Camp extends BaseEntity
 	 * @GeneratedValue(strategy="AUTO")
 	 * @var int
 	 */
-	private $id;
+	protected $id;
 
 	/**
 	 * @var string
 	 * @Column(type="string", length=32, nullable=false )
 	 */
-	private $name;
+	protected $name;
 
 	/**
 	 * @var string
 	 * @Column(type="string", length=32, nullable=false )
 	 */
-	private $slogan;
+	protected $slogan;
 
 	/**
 	 * @var User
 	 * @OneToOne(targetEntity="Entity\User")
 	 * @JoinColumn(name="creator_id", referencedColumnName="id")
 	 */
-	private $creator;
+	protected $creator;
 
 	/**
 	 * Page Object
@@ -59,63 +59,9 @@ class Camp extends BaseEntity
 	 *
 	 * @OneToMany(targetEntity="Entity\UserToCamp", mappedBy="camp")
 	 */
-	private $userCamp;
+	protected $userCamp;
 
-	
-	protected $_forms = array();
-	
-	public function getForm($type = 'camp')
-    {
-        $type  = ucfirst($type);
-        if (!isset($this->_forms[$type])) {
-            $class = 'Application_Form_' . $type;
-            $this->_forms[$type] = new $class;
-        }
-		
-		$this->_forms[$type]->setData($this);
-		
-        return $this->_forms[$type];
-    }
-	
-	public function save(array $data)
-    {
-        $form = $this->getForm();
-		
-		/* ensure that only data is written that is allowed to */
-		foreach( $form->attributes as $attribute )
-			$data_access[$attribute] = isset($data[$attribute]) ? $data[$attribute] : $this->{$attribute};
-		
-        if (!$form->isValid($data_access)) {
-            return false;
-        }
-		
-		$this->updateAttributes($data_access);
-		
-		/* we could persist and flush ourselves here. needs to be discussed */
-        return true;
-    }
-	
-	private function updateAttributes($data)
-	{
-		foreach( $data as $key=>$value )
-			$this->{"set".ucfirst($key)}($value);
-	}
-	
-	/* magic getter */
-	/* attention, set*() bypasses the validator. Use save() in general cases. */
-	public function __call($function , $args) 
-	{
-		if(strpos($function,'get')===0){
-            return $this->{lcfirst(substr($function,3))};
-        }
-		
-		/* magic setter = bad idea, will be removed very soon */
-		if(strpos($function,'set')===0){
-            return $this->{lcfirst(substr($function,3))}=$args[0];
-        }
-		
-        throw new \Exception('Undefined method \'' .$function . '\' called on ' . get_class($this), 6000);
-	}
-	
+	/* default form when call getForm() */
+	protected $defaultForm = 'camp';
 	
 }
