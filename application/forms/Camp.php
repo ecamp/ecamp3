@@ -18,7 +18,7 @@
  * along with eCamp.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-class Application_Form_CampForm extends Ztal_Form
+class Application_Form_Camp extends Ztal_Form
 {
 
 	/**
@@ -27,19 +27,19 @@ class Application_Form_CampForm extends Ztal_Form
 	 */
 	private $campRepo;
 
+	/* define the attributes that are writable through this form */
+	public $attributes = array('name', 'slogan');
 
     public function init()
     {
-
 		$id = new Zend_Form_Element_Hidden('id');
 
-
-		$campName = new Zend_Form_Element_Text('campName');
+		$campName = new Zend_Form_Element_Text('name');
 		$campName->setLabel('Camp Name')
-			->addFilter('StringTrim');
+			->addFilter('StringTrim')
+			->setRequired(true);
 
-
-		$campSlogan = new Zend_Form_Element_Text('campSlogan');
+		$campSlogan = new Zend_Form_Element_Text('slogan');
 		$campSlogan->setLabel('Camp Slogan')
 			->addFilter('StringTrim')
 			->setRequired(true);
@@ -47,11 +47,9 @@ class Application_Form_CampForm extends Ztal_Form
 		$submit = new Zend_Form_Element_Submit('submit');
 		$submit->setLabel('Save');
 
-
 		$this->addElement($id);
 		$this->addElement($campName);
 		$this->addElement($campSlogan);
-
 		$this->addElement($submit);
 
         /* form based errors */
@@ -78,34 +76,15 @@ class Application_Form_CampForm extends Ztal_Form
 
     }
 
-
-	public function setData(Entity\Camp $camp)
+	public function setData($entity)
 	{
-		$this->getElement('id')
-				->setValue($camp->getId());
+		$this->getElement('id')->setValue($entity->getId());
 		
-		$this->getElement('campName')
-				->setValue($camp->getName());
-
-		$this->getElement('campSlogan')
-				->setValue($camp->getSlogan());
-
+		foreach( $this->attributes as $attribute )
+		{
+			$this->getElement($attribute)->setValue($entity->{'get'.ucfirst($attribute)}());
+		}
 	}
-
-
-	public function grabData(Entity\Camp $camp)
-	{
-		$camp->setName($this->getValue('campName'));
-
-		$camp->setSlogan($this->getValue('campSlogan'));
-	}
-
-	
-	public function getId()
-	{
-		return $this->getValue('id');
-	}
-
 
 	public function getEditLink($campId)
 	{

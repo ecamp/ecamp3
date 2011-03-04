@@ -27,7 +27,6 @@ namespace Entity;
  */
 class Camp
 {
-
 	/**
 	 * @Id @Column(type="integer")
 	 * @GeneratedValue(strategy="AUTO")
@@ -35,13 +34,11 @@ class Camp
 	 */
 	private $id;
 
-
 	/**
 	 * @var string
 	 * @Column(type="string", length=32, nullable=false )
 	 */
 	private $name;
-
 
 	/**
 	 * @var string
@@ -49,16 +46,12 @@ class Camp
 	 */
 	private $slogan;
 
-
 	/**
 	 * @var User
 	 * @OneToOne(targetEntity="Entity\User")
 	 * @JoinColumn(name="creator_id", referencedColumnName="id")
 	 */
 	private $creator;
-
-
-
 
 	/**
 	 * Page Object
@@ -68,65 +61,61 @@ class Camp
 	 */
 	private $userCamp;
 
-
-	/**
-     * @PrePersist @PreUpdate
-     */
-    public function validate()
+	
+	protected $_forms = array();
+	
+	public function getForm($type = 'camp')
     {
-        if (($this->name == "")) {
-	        $translate = \Zend_Registry::get('Zend_Translate');
-	        
-			$str = $translate->_('${field} not allowed to be empty');
-	        $str = str_replace("\${field}", $translate->_("Camp Name"), $str);
-
-            throw new \Exception($str);
+        $type  = ucfirst($type);
+        if (!isset($this->_forms[$type])) {
+            $class = 'Application_Form_' . $type;
+            $this->_forms[$type] = new $class;
         }
+		
+		$this->_forms[$type]->setData($this);
+		
+        return $this->_forms[$type];
     }
 	
-
-	public function getId()
+	public function save(array $data)
+    {
+        $form = $this->getForm();
+		
+		/* ensure that only data is written that is allowed to */
+		foreach( $form->attributes as $attribute )
+			$data_access[$attribute] = isset($data[$attribute]) ? $data[$attribute] : $this->{$attribute};
+		
+        if (!$form->isValid($data_access)) {
+            return false;
+        }
+		
+		$this->updateAttributes($data_access);
+		
+		/* we could persist and flush ourselves here. needs to be discussed */
+        return true;
+    }
+	
+	private function updateAttributes($data)
 	{
-		return $this->id;
+		foreach( $data as $key=>$value )
+			$this->{"set".ucfirst($key)}($value);
 	}
-
-	public function setName($name)
+	
+	/* magic getter */
+	/* attention, set*() bypasses the validator. Use save() in general cases. */
+	public function __call($function , $args) 
 	{
-		$this->name = $name;
+		if(strpos($function,'get')===0){
+            return $this->{lcfirst(substr($function,3))};
+        }
+		
+		/* magic setter = bad idea, will be removed very soon */
+		if(strpos($function,'set')===0){
+            return $this->{lcfirst(substr($function,3))}=$args[0];
+        }
+		
+        throw new \Exception('Undefined method \'' .$function . '\' called on ' . get_class($this), 6000);
 	}
-
-	public function getName()
-	{
-		return $this->name;
-	}
-
-	public function setSlogan($slogan)
-	{
-		$this->slogan = $slogan;
-	}
-
-	public function getSlogan()
-	{
-		return $this->slogan;
-	}
-
-	public function setUserCamp(\ArrayObject $userCamp)
-	{
-		$this->userCamp = $userCamp;
-	}
-
-	public function getUserCamp()
-	{
-		return $this->userCamp;
-	}
-
-	public function setCreator(User $creator)
-	{
-		$this->creator = $creator;
-	}
-
-	public function getCreator()
-	{
-		return $this->creator;
-	}
+	
+	
 }
