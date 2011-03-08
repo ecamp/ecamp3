@@ -18,7 +18,7 @@
  * along with eCamp.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-class ZendController extends Zend_Controller_Action
+class ZendController extends \Controller\BaseController
 {
 
     public function init()

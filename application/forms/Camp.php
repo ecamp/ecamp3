@@ -18,7 +18,7 @@
  * along with eCamp.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-class Application_Form_CampForm extends Ztal_Form
+class Application_Form_Camp extends Ztal_Form
 {
 
 	/**
@@ -84,12 +84,6 @@ class Application_Form_CampForm extends Ztal_Form
 	public function getId()
 	{
 		return $this->getValue('id');
-	}
-
-
-	public function getEditLink($campId)
-	{
-		return "/camp/index/" . $campId;
 	}
 
 }

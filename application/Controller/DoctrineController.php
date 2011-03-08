@@ -18,24 +18,11 @@
  * along with eCamp.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-use \Doctrine\ORM\EntityManager;
-use \Bisna\Application\Container\DoctrineContainer;
-
-class DoctrineController extends Zend_Controller_Action
+class DoctrineController extends \Controller\BaseController
 {
-
-	/**
-	 * @var \Doctrine\ORM\EntityManager
-	 */
-	private $em;
-
-
 	public function init()
 	{
-		/** @var \Bisna\Application\Container\DoctrineController $doctrineContainer  */
-		$doctrineContainer = Zend_Registry::getInstance()->get("doctrine");
-
-		$this->em = $doctrineContainer->getEntityManager();
+		parent::init();
 	}
 
 
@@ -44,13 +31,13 @@ class DoctrineController extends Zend_Controller_Action
 		$this->view->users =
 			$this->em->getRepository('Entity\User')->findAll();
 
-		$userForm = new Application_Form_UserForm();
+		$userForm = new Application_Form_User();
 		$userForm->setAction('/doctrine/save');
 
 		$this->view->userForm = $userForm;
 
 
-		$userId = $this->getRequest()->getParam('EntityId');
+		$userId = $this->getRequest()->getParam('id');
 
 		if(isset($userId))
 		{
@@ -67,7 +54,7 @@ class DoctrineController extends Zend_Controller_Action
 	public function saveAction()
 	{
 
-		$userForm = new Application_Form_UserForm();
+		$userForm = new Application_Form_User();
 
 		if($userForm->isValid($this->getRequest()->getParams()))
 		{

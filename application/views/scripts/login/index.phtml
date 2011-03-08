@@ -1,19 +1,24 @@
 
-<tal:block condition="loginPMod">
+<tal:block condition="login">
 	<h2>Currently Authenticated as:</h2>
 
-	<p><tal:block content="loginPMod/Login/GetLogin"/></p>
+	<p>
+
+	<tal:block i18n:translate="">Hello World</tal:block><br />
+	<tal:block i18n:translate="">You are <span i18n:name="name" tal:replace="login/GetLogin"/></tal:block>
+	</p>
+	
+	<p><tal:block content="login/getLogin"/></p>
 </tal:block>
 
 
 <h2>Login as:</h2>
-<div class="span-8 last">
+<div class="span-8">
 	<table>
 		<tr tal:repeat="login logins">
-			<td><a tal:attributes="href login/GetLoginLink">Login</a></td>
+			<td><a tal:attributes="href '/login/login/${login/getId}'">Login</a></td>
 			<td>::</td>
-			<td tal:content="login/Login/GetLogin" />
+			<td tal:content="login/getLogin" />
 		</tr>
 	</table>
 </div>
-

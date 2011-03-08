@@ -18,7 +18,7 @@
  * along with eCamp.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-class Application_Form_UserForm extends Ztal_Form
+class Application_Form_User extends Ztal_Form
 {
 
     public function init()

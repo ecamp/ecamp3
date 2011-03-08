@@ -20,14 +20,13 @@
 
 
 class LoginController
-	extends Zend_Controller_Action
+	extends \Controller\BaseController
 {
-
 	/**
-	 * @var \Doctrine\ORM\EntityManager
-	 */
-	private $em;
-
+     * @var Entity\Repository\LoginRepository
+	 * @Inject LoginRepository
+     */
+    private $loginRepo;
 
 	/**
 	 * @var Zend_Session_Namespace
@@ -37,11 +36,7 @@ class LoginController
 
 	public function init()
 	{
-		/** @var \Bisna\Application\Container\DoctrineController $doctrineContainer  */
-		$doctrineContainer = Zend_Registry::getInstance()->get("doctrine");
-
-		$this->em = $doctrineContainer->getEntityManager();
-
+		parent::init();
 
 		$this->authSession = new Zend_Session_Namespace('Zend_Auth');
 	}
@@ -49,28 +44,15 @@ class LoginController
 
 	public function indexAction()
 	{
-		$logins = $this->em->getRepository("Entity\Login")->findAll();
-
-
-		$loginPMods = array();
-
-		foreach($logins as $login)
-		{
-			$loginPMods[] = new PMod\LoginPMod($login);
-		}
-
-		$this->view->logins = $loginPMods;
-
-
+		$this->view->logins = $this->loginRepo->findAll();
 
 		if(!is_null($this->authSession->Login))
 		{
-			$login = $this->em->find("\Entity\Login", $this->authSession->Login);
-			$this->view->loginPMod = new PMod\LoginPMod($login);
+			$this->view->login = $this->loginRepo->find($this->authSession->Login);
 		}
 		else
 		{
-			$this->view->loginPMod = null;
+			$this->view->login = null;
 		}
 	}
 
@@ -79,22 +61,17 @@ class LoginController
 	{
 		$this->authSession->Login = null;
 
+		$id = $this->getRequest()->getParam("id");
+		$login = $this->loginRepo->find($id);
+		$this->authSession->Login = $login->getId();
 
-		$id = $this->getRequest()->getParam("EntityId");
-
-		$login = $this->em->find("Entity\Login", $id);
-
-		$this->authSession->Login = $login->GetId();
-
-
-		$this->view->LoginPMod = new PMod\LoginPMod($login);
+		$this->view->login = $login;
 	}
 
 
 	public function logoutAction()
 	{
 		$this->authSession->Login = null;
-
 
 		$this->_forward("index");
 	}
@@ -108,7 +85,6 @@ class LoginController
 		}
 
 		die($this->authSession->Login);
-
 	}
 
 }
