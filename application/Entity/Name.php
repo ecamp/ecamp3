@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (C) 2011 Pirmin Mattmann
+ * Copyright (C) 2011 Urban Suppiger
  *
  * This file is part of eCamp.
  *
@@ -21,42 +21,25 @@
 namespace Entity;
 
 /**
+ * This entity defines the shared namespace of usernames and group names
  * @Entity
- * @Table(name="UserToCamp")
+ * @Table(name="names", uniqueConstraints={@UniqueConstraint(name="name_idx", columns={"name"})})
  */
-class UserToCamp extends BaseEntity
+class Name extends BaseEntity
 {
-
 	/**
 	 * @Id @Column(type="integer")
 	 * @GeneratedValue(strategy="AUTO")
 	 * @var int
 	 */
 	private $id;
-
-
-	/**
-	 * @var User
-	 *
-	 * @ManyToOne(targetEntity="Entity\User")
-	 */
-	private $user;
-
-
-	/**
-	 * @var Camp
-	 *
-	 * @ManyToOne(targetEntity="Entity\Camp")
-	 */
-	private $camp;
 	
-
+	/** @Column(type="string", length=32, nullable=false ) */
+	private $name;
+	
 	public function getId(){ return $this->id; }
-
-	public function setCamp(Camp $camp){ $this->camp = $camp; }
-	public function getCamp()          { return $this->camp; }
-
-	public function setUser(User $user){ $this->user = $user; }
-	public function getUser()          { return $this->user; }
+	
+	public function getName()   { return $this->name; }
+	public function setName( $name ){ $this->name = $name; return $this; }
 
 }

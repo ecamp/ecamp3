@@ -25,10 +25,10 @@ class UserService
     private $userRepo;
 
 	/**
-     * @var Entity\Repository\UserToCampRepository
-     * @Inject UserToCampRepository
+     * @var Entity\Repository\UserCampRepository
+     * @Inject UserCampRepository
      */
-    private $userToCampRepo;
+    private $userCampRepo;
 
 
 	public function init()
@@ -51,11 +51,11 @@ class UserService
 	public function addUserToCamp($user,$camp)
 	{
 		/* besser: via Model lösen, z.B. user->doIBelongToCamp */
-		$res = $this->userToCampRepo->findBy(array('user' => $user->getId(), 'camp' => $camp->getId() ));
+		$res = $this->userCampRepo->findBy(array('user' => $user->getId(), 'camp' => $camp->getId() ));
 
 		if( $res == null )
 		{
-			$userCamp = new \Entity\UserToCamp();
+			$userCamp = new \Entity\UserCamp();
 			$userCamp->setUser($user);
 			$userCamp->setCamp($camp);
 

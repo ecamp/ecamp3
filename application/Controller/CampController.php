@@ -164,7 +164,7 @@ class CampController extends \Controller\BaseController
 
 		$userCampId = $this->getRequest()->getParam('id');
 
-		$userToCamp = $this->em->find("Entity\UserToCamp", $userCampId);
+		$userToCamp = $this->em->find("Entity\UserCamp", $userCampId);
 
 		if($userToCamp != null)
 		{

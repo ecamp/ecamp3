@@ -22,7 +22,7 @@ namespace Entity;
 
 /**
  * @Entity
- * @Table(name="Camp")
+ * @Table(name="camps")
  */
 class Camp extends BaseEntity
 {
@@ -61,7 +61,7 @@ class Camp extends BaseEntity
 	 * Page Object
 	 * @var ArrayObject
 	 *
-	 * @OneToMany(targetEntity="Entity\UserToCamp", mappedBy="camp")
+	 * @OneToMany(targetEntity="Entity\UserCamp", mappedBy="camp")
 	 */
 	private $userCamp;  
 

@@ -22,7 +22,7 @@ namespace Entity;
 
 /**
  * @Entity
- * @Table(name="User")
+ * @Table(name="users")
  */
 class User extends BaseEntity
 {
@@ -42,6 +42,11 @@ class User extends BaseEntity
 	const PBSEDU_TOPKURS		= "Topkurs";
 	const PBSEDU_GILLWELL		= "Gillwell";
 	
+	public function __construct()
+    {
+		$this->userCamp  = new \Doctrine\Common\Collections\ArrayCollection();
+		$this->userGroup = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 	
 	/**
 	 * @Id @Column(type="integer")
@@ -50,6 +55,10 @@ class User extends BaseEntity
 	 */
 	private $id;
 	
+	/**
+	 * @OneToOne(targetEntity="Name", cascade={"all"}, fetch="EAGER")
+	 */
+	private $name;
 	
 	/** @Column(type="string", length=32, nullable=true ) */
 	private $scoutname;
@@ -99,15 +108,47 @@ class User extends BaseEntity
 	
 	/**
 	 * @var ArrayObject
-	 * 
-	 * @OneToMany(targetEntity="Entity\UserToCamp", mappedBy="user")
+	 * @OneToMany(targetEntity="UserCamp", mappedBy="user")
 	 */
 	private $userCamp;
 	
+	/**
+	 * @var ArrayObject
+	 * @OneToMany(targetEntity="UserGroup", mappedBy="user")
+	 */
+	private $userGroup;
+	
+	/**
+	 * @OneToMany(targetEntity="UserRelationship", mappedBy="from")
+	 */
+	private $relationshipFrom;
+	
+	/**
+	 * @OneToMany(targetEntity="UserRelationship", mappedBy="to")
+	 */
+	private $relationshipTo;
 	
 
-
 	public function getId(){	return $this->id;	}
+	
+	public function getName()
+	{
+		if( isset($this->name) )
+			return $this->name->getName();
+		else
+			return null;
+	}
+	
+	public function setName($name)
+	{
+		if( !isset($this->name) )
+		{
+			$this->name = new Name();
+		}
+		
+		$this->name->setName($name);
+		return $this;
+	}
 	
 	public function getScoutname()            { return $this->scoutname; }
 	public function setScoutname( $scoutname ){ $this->scoutname = $scoutname; return $this; }
@@ -174,11 +215,61 @@ class User extends BaseEntity
 		return $this;
 	}
 
-	public function GetCamps()
+	public function getCamps()
 	{
 		return $this->userCamp;
 	}
-
-
-
+	
+	public function getRelationshipFrom()
+	{
+		return $this->relationshipFrom;
+	}
+	
+	public function getRelationshipTo()
+	{
+		return $this->relationshipTo;
+	}
+	
+	private function isFriendTo($user)
+	{
+		$closure =  function($key, $element) use ($user){ 
+			return $element->getType() == UserRelationship::TYPE_FRIEND && $element->getTo() == $user; 
+		};
+		
+		return $this->getRelationshipFrom()->exists( $closure ); 
+	}
+	
+	private function isFriendFrom($user)
+	{
+		$closure =  function($key, $element) use ($user){ 
+			return $element->getType() == UserRelationship::TYPE_FRIEND  && $element->getFrom() == $user; 
+		};
+		
+		return $this->getRelationshipTo()->exists( $closure ); 
+	}
+	
+	/**
+	 * True if friendship request has been sent but not yet accepted
+	 */
+	public function sentFriendshipRequestTo($user)
+	{
+		return $this->isFriendTo( $user ) && ! $this->isFriendFrom( $user ); 
+	}
+	
+	/**
+	 * True if friendship request has been received but not yet accepted
+	 */
+	public function receivedFriendshipRequestFrom($user)
+	{
+		return ! $this->isFriendTo( $user ) && $this->isFriendFrom( $user ); 
+	}
+	
+	/**
+	 * True for established friendships (both directions)
+	 */
+	public function isFriendOf($user)
+	{
+		return $this->isFriendTo( $user ) && $this->isFriendFrom( $user ); 
+	}
+	
 }
