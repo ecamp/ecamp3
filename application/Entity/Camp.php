@@ -56,6 +56,11 @@ class Camp extends BaseEntity
 	 */
 	private $creator;
 
+	/**
+	 * @var Group
+	 * @ManyToOne(targetEntity="Group", inversedBy="camps")
+	 */
+	private $group;
 
 	/**
 	 * Page Object

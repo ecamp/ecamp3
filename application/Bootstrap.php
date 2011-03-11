@@ -94,33 +94,6 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 		Zend_Controller_Front::getInstance()->registerPlugin($plugin);
 	}
 
-
-	protected function _initRoutes()
-	{
-
-		Zend_Controller_Front::getInstance()->getRouter()->addRoute(
-			'general', new Zend_Controller_Router_Route(':controller/:action/*',
-			array('controller' => 'index', 'action' => 'index')));
-
-		Zend_Controller_Front::getInstance()->getRouter()->addRoute(
-			'shortid', new Zend_Controller_Router_Route(':controller/:action/:id/*',
-			array('controller' => 'index', 'action' => 'index'),
-			array('id' => '\d+')));
-
-		Zend_Controller_Front::getInstance()->getRouter()->addRoute(
-			'camp', new Zend_Controller_Router_Route(':camp/:controller/:action/*',
-			array('controller' => 'index', 'action' => 'index'),
-			array('camp' => '\d+')));
-
-		Zend_Controller_Front::getInstance()->getRouter()->addRoute(
-			'camp_shortid', new Zend_Controller_Router_Route(':camp/:controller/:action/:id/*',
-			array('controller' => 'index', 'action' => 'index'),
-			array('camp' => '\d+', 'id' => '\d+')));
-
-	}
-
-
-	
 	/**
 	 * Basic setup of module support and layout support.
 	 *
@@ -144,6 +117,61 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 		Zend_Layout::startMvc(array('layoutPath' => APPLICATION_PATH . '/layouts/scripts'));
 	}
 
+	protected function _initRoutes()
+	{
+		
+		/* general */
+		Zend_Controller_Front::getInstance()->getRouter()->addRoute(
+			'general', new Zend_Controller_Router_Route(':controller/:action/*',
+			array('controller' => 'index', 'action' => 'index')));
+
+		Zend_Controller_Front::getInstance()->getRouter()->addRoute(
+			'general+id', new Zend_Controller_Router_Route(':controller/:action/:id/*',
+			array('controller' => 'index', 'action' => 'index'),
+			array('id' => '\d+')));
+				
+		/* user */
+		Zend_Controller_Front::getInstance()->getRouter()->addRoute(
+			'user', new Logic\Route\Vanity(':user/:action/*',
+				array('controller' => 'users','action' => 'show')));
+				
+		Zend_Controller_Front::getInstance()->getRouter()->addRoute(
+			'user+id', new Logic\Route\Vanity(':user/:action/:id/*',
+				array('controller' => 'users','action' => 'show'),
+				array('id' => '\d+')));
+		
+		/* user camp */
+		Zend_Controller_Front::getInstance()->getRouter()->addRoute(
+			'user+camp', new Logic\Route\Vanity(':user/:camp/:controller/:action/*',
+				array('controller' => 'camps','action' => 'show')));
+				
+		Zend_Controller_Front::getInstance()->getRouter()->addRoute(
+			'user+camp+id', new Logic\Route\Vanity(':user/:camp/:controller/:action/:id/*',
+				array('controller' => 'camps','action' => 'show'),
+				array('id' => '\d+')));
+				
+		/* group */
+		Zend_Controller_Front::getInstance()->getRouter()->addRoute(
+			'group', new Logic\Route\Vanity(':group/:action/*',
+				array('controller' => 'groups','action' => 'show')));
+				
+		Zend_Controller_Front::getInstance()->getRouter()->addRoute(
+			'group+id', new Logic\Route\Vanity(':group/:action/:id/*',
+				array('controller' => 'groups','action' => 'show'),
+				array('id' => '\d+')));
+				
+		/* group camp */
+		Zend_Controller_Front::getInstance()->getRouter()->addRoute(
+			'group+camp', new Logic\Route\Vanity(':group/:camp/:controller/:action/*',
+				array('controller' => 'camps','action' => 'show')));
+				
+		Zend_Controller_Front::getInstance()->getRouter()->addRoute(
+			'group+camp+id', new Logic\Route\Vanity(':group/:camp/:controller/:action/:id/*',
+				array('controller' => 'camps','action' => 'show'),
+				array('id' => '\d+')));
+				
+		/* TODO: quick camp url */
+	}
 
 	/**
 	 * Init translation services and locale.

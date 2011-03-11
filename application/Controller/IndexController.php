@@ -28,10 +28,7 @@ class IndexController extends \Controller\BaseController
     public function indexAction()
     {
 		$this->view->headTitle('Home');
-
-
 		print_r($this->em);
-
     }
 
 }

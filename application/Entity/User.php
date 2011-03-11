@@ -55,11 +55,6 @@ class User extends BaseEntity
 	 */
 	private $id;
 	
-	/**
-	 * @OneToOne(targetEntity="Name", cascade={"all"}, fetch="EAGER")
-	 */
-	private $name;
-	
 	/** @Column(type="string", length=32, nullable=true ) */
 	private $scoutname;
 	
@@ -130,25 +125,6 @@ class User extends BaseEntity
 	
 
 	public function getId(){	return $this->id;	}
-	
-	public function getName()
-	{
-		if( isset($this->name) )
-			return $this->name->getName();
-		else
-			return null;
-	}
-	
-	public function setName($name)
-	{
-		if( !isset($this->name) )
-		{
-			$this->name = new Name();
-		}
-		
-		$this->name->setName($name);
-		return $this;
-	}
 	
 	public function getScoutname()            { return $this->scoutname; }
 	public function setScoutname( $scoutname ){ $this->scoutname = $scoutname; return $this; }

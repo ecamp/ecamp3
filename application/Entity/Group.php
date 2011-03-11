@@ -49,9 +49,7 @@ class Group extends BaseEntity
      */
 	private $children;
 	
-	/**
-	 * @OneToOne(targetEntity="Name", cascade={"all"}, fetch="EAGER")
-	 */
+	/** @Column(type="string", length=64, nullable=false ) */
 	private $name;
 	
 	/** @Column(type="string", length=64, nullable=false ) */
@@ -62,8 +60,17 @@ class Group extends BaseEntity
 	 */
 	private $userGroup;
 	
+	/**
+	 * @var Camp
+	 * @OneToMany(targetEntity="Camp", mappedBy="group")
+	 */
+	private $camps;
+	
 	
 	public function getId(){	return $this->id;	}
+	
+	public function getName()   { return $this->name; }
+	public function setName( $name ){ $this->name = $name; return $this; }
 	
 	public function getDescription()   { return $this->description; }
 	public function setDescription( $description ){ $this->description = $description; return $this; }
@@ -73,6 +80,7 @@ class Group extends BaseEntity
 	
 	public function getChildren()   { return $this->children; }
 	
+	/*
 	public function getName()
 	{
 		return $this->name->getName();
@@ -87,5 +95,5 @@ class Group extends BaseEntity
 		
 		$this->name->setName($name);
 		return $this;
-	}
+	}*/
 }
