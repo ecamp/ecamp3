@@ -5,10 +5,10 @@
 	<p>
 
 	<tal:block i18n:translate="">Hello World</tal:block><br />
-	<tal:block i18n:translate="">You are <span i18n:name="name" tal:replace="login/GetLogin"/></tal:block>
+	<tal:block i18n:translate="">You are <span i18n:name="name" tal:replace="login/getUser/getUsername"/></tal:block>
 	</p>
 	
-	<p><tal:block content="login/getLogin"/></p>
+	<p><tal:block content="login/getUser/getUsername"/></p>
 </tal:block>
 
 
@@ -18,7 +18,7 @@
 		<tr tal:repeat="login logins">
 			<td><a tal:attributes="href '/login/login/${login/getId}'">Login</a></td>
 			<td>::</td>
-			<td tal:content="login/getLogin" />
+			<td tal:content="login/getUser/getUsername" />
 		</tr>
 	</table>
 </div>

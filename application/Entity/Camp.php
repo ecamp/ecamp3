@@ -28,14 +28,15 @@ class Camp extends BaseEntity
 {
 
 	/**
+	 * @var int
 	 * @Id @Column(type="integer")
 	 * @GeneratedValue(strategy="AUTO")
-	 * @var int
 	 */
 	private $id;
 
 
 	/**
+	 * Short identifier, unique inside group or user
 	 * @var string
 	 * @Column(type="string", length=32, nullable=false )
 	 */
@@ -44,15 +45,15 @@ class Camp extends BaseEntity
 
 	/**
 	 * @var string
-	 * @Column(type="string", length=32, nullable=false )
+	 * @Column(type="string", length=64, nullable=false )
 	 */
-	private $slogan;
+	private $title;
 
 
 	/**
 	 * @var User
 	 * @OneToOne(targetEntity="Entity\User")
-	 * @JoinColumn(name="creator_id", referencedColumnName="id")
+	 * @JoinColumn(name="creator_id", referencedColumnName="id", nullable=false)
 	 */
 	private $creator;
 
@@ -63,9 +64,7 @@ class Camp extends BaseEntity
 	private $group;
 
 	/**
-	 * Page Object
 	 * @var ArrayObject
-	 *
 	 * @OneToMany(targetEntity="Entity\UserCamp", mappedBy="camp")
 	 */
 	private $userCamp;  
@@ -77,11 +76,22 @@ class Camp extends BaseEntity
 	public function setName($name){ $this->name = $name; }
 	public function getName()     { return $this->name; }
 
-	public function setSlogan($slogan){ $this->slogan = $slogan; }
-	public function getSlogan()       { return $this->slogan; }
+	public function setTitle($title){ $this->title = $title; }
+	public function getTitle()       { return $this->title; }
 
 	public function setCreator(User $creator){ $this->creator = $creator; }
 	public function getCreator()             { return $this->creator; }
+
+	public function setGroup(Group $group){ $this->group = $group; }
+	public function getGroup()             { return $this->group; }
+
+	public function getMembers()
+    {
+	    /* TODO: check role of usercamp */
+	    $query = $this->em->getRepository("Entity\User")->createQueryBuilder("u")->innerJoin("u.userCamp","uc")->where("uc.camp = ".$this->id)->getQuery();
+
+	    return $query->getResult();
+	}
 
 
 }

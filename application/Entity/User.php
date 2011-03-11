@@ -54,7 +54,19 @@ class User extends BaseEntity
 	 * @var int
 	 */
 	private $id;
-	
+
+	/**
+	 * Unique username, lower alphanumeric symbols and underscores only
+	 * @Column(type="string", length=32, nullable=true, unique=true )
+	 */
+	private $username;
+
+	/**
+	 * e-mail address, unique
+	 * @Column(type="string", length=64, nullable=true, unique=true )
+	 */
+	private $email;
+
 	/** @Column(type="string", length=32, nullable=true ) */
 	private $scoutname;
 	
@@ -125,7 +137,10 @@ class User extends BaseEntity
 	
 
 	public function getId(){	return $this->id;	}
-	
+
+	public function getUsername()            { return $this->username; }
+	public function setUsername( $username ) { $this->username = $username; return $this; }
+
 	public function getScoutname()            { return $this->scoutname; }
 	public function setScoutname( $scoutname ){ $this->scoutname = $scoutname; return $this; }
 
@@ -246,6 +261,37 @@ class User extends BaseEntity
 	public function isFriendOf($user)
 	{
 		return $this->isFriendTo( $user ) && $this->isFriendFrom( $user ); 
+	}
+
+	/** returns all ur (true) friends */
+	public function getFriends()
+	{
+		$query = $this->em->getRepository("Entity\User")->createQueryBuilder("u")
+				->innerJoin("u.relationshipFrom","rel_to")
+				->innerJoin("rel_to.to", "friend")
+				->innerJoin("friend.relationshipFrom", "rel_back")
+				->where("rel_to.type = ".UserRelationship::TYPE_FRIEND)
+				->andwhere("rel_back.type = ".UserRelationship::TYPE_FRIEND)
+				->andwhere("rel_back.to = u.id")
+				->andwhere("friend.id = ".$this->id)
+				->getQuery();
+
+	    return $query->getResult();
+	}
+
+	/** returns all users that wants u as friend, but which have not accepted yet */
+	public function getFriendshipInvitations()
+	{
+		$query = $this->em->getRepository("Entity\User")->createQueryBuilder("u")
+				->innerJoin("u.relationshipFrom","rel_to")
+				->innerJoin("rel_to.to", "friend")
+				->leftJoin("friend.relationshipFrom", "rel_back")
+				->where("rel_to.type = ".UserRelationship::TYPE_FRIEND)
+				->andwhere("rel_back.to IS NULL")
+				->andwhere("friend.id = ".$this->id)
+				->getQuery();
+
+	    return $query->getResult();
 	}
 	
 }

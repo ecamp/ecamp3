@@ -40,8 +40,8 @@ class Application_Form_Camp extends Ztal_Form
 			->setRequired(true);
 
 
-		$campSlogan = new Zend_Form_Element_Text('campSlogan');
-		$campSlogan->setLabel('LagerThema:')
+		$campTitle = new Zend_Form_Element_Text('campTitle');
+		$campTitle->setLabel('LagerThema:')
 			->addFilter('StringTrim')
 			->setRequired(false);
 
@@ -51,7 +51,7 @@ class Application_Form_Camp extends Ztal_Form
 
 		$this->addElement($id);
 		$this->addElement($campName);
-		$this->addElement($campSlogan);
+		$this->addElement($campTitle);
 
 		$this->addElement($submit);
 
@@ -67,8 +67,8 @@ class Application_Form_Camp extends Ztal_Form
 		$this->getElement('campName')
 				->setValue($camp->getName());
 
-		$this->getElement('campSlogan')
-				->setValue($camp->getSlogan());
+		$this->getElement('campTitle')
+				->setValue($camp->getTitle());
 
 	}
 
@@ -77,7 +77,7 @@ class Application_Form_Camp extends Ztal_Form
 	{
 		$camp->setName($this->getValue('campName'));
 
-		$camp->setSlogan($this->getValue('campSlogan'));
+		$camp->setTitle($this->getValue('campTitle'));
 	}
 
 	

@@ -41,7 +41,7 @@ class Login extends BaseEntity
 	 * @Column(type="string")
 	 * @var string
 	 */
-	private $login;
+	private $pwd;
 
 	/**
 	 * @var \Models\User
@@ -54,8 +54,8 @@ class Login extends BaseEntity
 
 	public function getId(){ return $this->id; }
 
-	public function setLogin($login){ $this->login = $login; }
-	public function getLogin()      { return $this->login; }
+	public function setPwd($pwd)  { $this->pwd = $pwd; }
+	public function getPwd()      { return $this->pwd; }
 
 	public function setUser(User $user){ $this->user = $user; }
 	public function getUser()          { return $this->user; }

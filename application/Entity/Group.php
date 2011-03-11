@@ -38,6 +38,13 @@ class Group extends BaseEntity
 	 * @var int
 	 */
 	private $id;
+
+	/**
+	 * Short identifier, unique inside parent group
+	 * @var string
+	 * @Column(type="string", length=32, nullable=false )
+	 */
+	private $name;
 	
 	/**
 	 * @ManyToOne(targetEntity="Group", inversedBy="children")
@@ -48,9 +55,6 @@ class Group extends BaseEntity
      * @OneToMany(targetEntity="Group", mappedBy="parent")
      */
 	private $children;
-	
-	/** @Column(type="string", length=64, nullable=false ) */
-	private $name;
 	
 	/** @Column(type="string", length=64, nullable=false ) */
 	private $description;
@@ -79,21 +83,12 @@ class Group extends BaseEntity
 	public function setParent( $parent ){ $this->parent = $parent; return $this; }
 	
 	public function getChildren()   { return $this->children; }
-	
-	/*
-	public function getName()
-	{
-		return $this->name->getName();
+
+	public function getMembers()
+    {
+	    /* TODO: check role of usergroup */
+	    $query = $this->em->getRepository("Entity\User")->createQueryBuilder("u")->innerJoin("u.userGroup","ug")->where("ug.group = ".$this->id)->getQuery();
+
+	    return $query->getResult();
 	}
-	
-	public function setName($name)
-	{
-		if( !isset($this->name) )
-		{
-			$this->name = new Name();
-		}
-		
-		$this->name->setName($name);
-		return $this;
-	}*/
 }

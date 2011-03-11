@@ -8,6 +8,22 @@ namespace Entity;
  */
 abstract class BaseEntity
 {
+	/**
+	 * @var \Doctrine\ORM\EntityManager
+	 */
+	protected $em;
+
+	public function __construct()
+	{
+		$this->em = \Zend_Registry::get('doctrine')->getEntityManager();
+	}
+
+	public function __clone()
+	{
+		$this->em = \Zend_Registry::get('doctrine')->getEntityManager();
+	}
+
+	
 	/** @Column(name="created_at", type="datetime") */
 	private $createdAt;
 
