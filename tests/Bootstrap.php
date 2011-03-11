@@ -46,7 +46,6 @@ $application->bootstrap();
 $GLOBALS['app'] = $application;
 $GLOBALS['bootstrap'] = $application->getBootstrap();
 
-
 clearstatcache();
 
 

@@ -46,6 +46,10 @@ class User extends BaseEntity
     {
 		$this->userCamp  = new \Doctrine\Common\Collections\ArrayCollection();
 		$this->userGroup = new \Doctrine\Common\Collections\ArrayCollection();
+	    $this->relationshipFrom = new \Doctrine\Common\Collections\ArrayCollection();
+	    $this->relationshipTo   = new \Doctrine\Common\Collections\ArrayCollection();
+
+	    parent::__construct();
     }
 	
 	/**
