@@ -1,3 +1,32 @@
+/*
+from main.css use:
+
+.mainnav
+  first horizontal navigation menu
+  
+.subnav
+  second horizontal navigation menu
+
+li.selected
+  selected entries inside mainnav and subnav
+
+.bigbox
+  bordered boxes with title bar
+
+*/
+
+/*
+from BlueprintCSS use:
+
+.box
+  boxes without title bar
+
+.error, .notice, .success, .info
+  message boxes
+
+*/
+
+
 /* Navigation */
 nav {
     margin-bottom:10px;
