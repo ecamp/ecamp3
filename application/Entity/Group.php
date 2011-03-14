@@ -29,7 +29,8 @@ class Group extends BaseEntity
 	public function __construct()
     {
 		$this->children = new \Doctrine\Common\Collections\ArrayCollection();
-		$this->userGroup = new \Doctrine\Common\Collections\ArrayCollection();
+		$this->userGroups = new \Doctrine\Common\Collections\ArrayCollection();
+	    $this->camps = new \Doctrine\Common\Collections\ArrayCollection();
     }
 	
 	/**
@@ -62,7 +63,7 @@ class Group extends BaseEntity
 	/**
 	 * @OneToMany(targetEntity="UserGroup", mappedBy="group")
 	 */
-	private $userGroup;
+	private $userGroups;
 	
 	/**
 	 * @var Camp
@@ -86,9 +87,14 @@ class Group extends BaseEntity
 
 	public function getMembers()
     {
-	    /* TODO: check role of usergroup */
-	    $query = $this->em->getRepository("Entity\User")->createQueryBuilder("u")->innerJoin("u.userGroup","ug")->where("ug.group = ".$this->id)->getQuery();
+	    $members = new \Doctrine\Common\Collections\ArrayCollection();
 
-	    return $query->getResult();
+	    foreach($this->userGroups as $userGroup) {
+			if($userGroup->isMember()) {
+				$members->add($userGroup->getUser());
+			}
+		}
+
+		return $members;
 	}
 }

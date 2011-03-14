@@ -26,6 +26,10 @@ namespace Entity;
  */
 class Camp extends BaseEntity
 {
+	public function __construct()
+    {
+		$this->userCamps = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
 	/**
 	 * @var int
@@ -67,7 +71,7 @@ class Camp extends BaseEntity
 	 * @var ArrayObject
 	 * @OneToMany(targetEntity="Entity\UserCamp", mappedBy="camp")
 	 */
-	private $userCamp;  
+	private $userCamps;
 
 
 
@@ -87,10 +91,15 @@ class Camp extends BaseEntity
 
 	public function getMembers()
     {
-	    /* TODO: check role of usercamp */
-	    $query = $this->em->getRepository("Entity\User")->createQueryBuilder("u")->innerJoin("u.userCamp","uc")->where("uc.camp = ".$this->id)->getQuery();
+	    $members = new \Doctrine\Common\Collections\ArrayCollection();
 
-	    return $query->getResult();
+		foreach($this->userCamps as $userCamp) {
+			if($userCamp->isMember()) {
+				$members->add($userCamp->getUser());
+			}
+		}
+
+		return $members;
 	}
 
 

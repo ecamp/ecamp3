@@ -44,12 +44,10 @@ class User extends BaseEntity
 	
 	public function __construct()
     {
-		$this->userCamp  = new \Doctrine\Common\Collections\ArrayCollection();
-		$this->userGroup = new \Doctrine\Common\Collections\ArrayCollection();
+		$this->userCamps  = new \Doctrine\Common\Collections\ArrayCollection();
+		$this->userGroups = new \Doctrine\Common\Collections\ArrayCollection();
 	    $this->relationshipFrom = new \Doctrine\Common\Collections\ArrayCollection();
 	    $this->relationshipTo   = new \Doctrine\Common\Collections\ArrayCollection();
-
-	    parent::__construct();
     }
 	
 	/**
@@ -121,13 +119,13 @@ class User extends BaseEntity
 	 * @var ArrayObject
 	 * @OneToMany(targetEntity="UserCamp", mappedBy="user")
 	 */
-	private $userCamp;
+	private $userCamps;
 	
 	/**
 	 * @var ArrayObject
 	 * @OneToMany(targetEntity="UserGroup", mappedBy="user")
 	 */
-	private $userGroup;
+	private $userGroups;
 	
 	/**
 	 * @OneToMany(targetEntity="UserRelationship", mappedBy="from")
@@ -212,7 +210,7 @@ class User extends BaseEntity
 
 	public function getCamps()
 	{
-		return $this->userCamp;
+		return $this->userCamps;
 	}
 	
 	public function getRelationshipFrom()
@@ -265,37 +263,6 @@ class User extends BaseEntity
 	public function isFriendOf($user)
 	{
 		return $this->isFriendTo( $user ) && $this->isFriendFrom( $user ); 
-	}
-
-	/** returns all ur (true) friends */
-	public function getFriends()
-	{
-		$query = $this->em->getRepository("Entity\User")->createQueryBuilder("u")
-				->innerJoin("u.relationshipFrom","rel_to")
-				->innerJoin("rel_to.to", "friend")
-				->innerJoin("friend.relationshipFrom", "rel_back")
-				->where("rel_to.type = ".UserRelationship::TYPE_FRIEND)
-				->andwhere("rel_back.type = ".UserRelationship::TYPE_FRIEND)
-				->andwhere("rel_back.to = u.id")
-				->andwhere("friend.id = ".$this->id)
-				->getQuery();
-
-	    return $query->getResult();
-	}
-
-	/** returns all users that wants u as friend, but which have not accepted yet */
-	public function getFriendshipInvitations()
-	{
-		$query = $this->em->getRepository("Entity\User")->createQueryBuilder("u")
-				->innerJoin("u.relationshipFrom","rel_to")
-				->innerJoin("rel_to.to", "friend")
-				->leftJoin("friend.relationshipFrom", "rel_back")
-				->where("rel_to.type = ".UserRelationship::TYPE_FRIEND)
-				->andwhere("rel_back.to IS NULL")
-				->andwhere("friend.id = ".$this->id)
-				->getQuery();
-
-	    return $query->getResult();
 	}
 	
 }

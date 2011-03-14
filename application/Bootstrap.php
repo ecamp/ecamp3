@@ -132,21 +132,21 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 				
 		/* user */
 		Zend_Controller_Front::getInstance()->getRouter()->addRoute(
-			'user', new Logic\Route\Vanity(':user/:action/*',
+			'user', new Logic\Route\Vanity('user/:user/:action/*',
 				array('controller' => 'users','action' => 'show')));
 				
 		Zend_Controller_Front::getInstance()->getRouter()->addRoute(
-			'user+id', new Logic\Route\Vanity(':user/:action/:id/*',
+			'user+id', new Logic\Route\Vanity('user/:user/:action/:id/*',
 				array('controller' => 'users','action' => 'show'),
 				array('id' => '\d+')));
 		
 		/* user camp */
 		Zend_Controller_Front::getInstance()->getRouter()->addRoute(
-			'user+camp', new Logic\Route\Vanity(':user/:camp/:controller/:action/*',
+			'user+camp', new Logic\Route\Vanity('user/:user/:camp/:controller/:action/*',
 				array('controller' => 'camps','action' => 'show')));
 				
 		Zend_Controller_Front::getInstance()->getRouter()->addRoute(
-			'user+camp+id', new Logic\Route\Vanity(':user/:camp/:controller/:action/:id/*',
+			'user+camp+id', new Logic\Route\Vanity('user/:user/:camp/:controller/:action/:id/*',
 				array('controller' => 'camps','action' => 'show'),
 				array('id' => '\d+')));
 				

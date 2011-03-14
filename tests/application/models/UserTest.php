@@ -56,17 +56,9 @@ class UserTest
 		$user1 =  new Entity\User();
 		$user2 =  new Entity\User();
 
-		/* need to flush because of the ID's, but does not work */
-		$this->em->persist($user1);
-		$this->em->persist($user2);
-		$this->em->flush();
-
 		/* no friends */
 		$this->assertFalse( $user1->isFriendOf($user2) );
 		$this->assertFalse( $user2->isFriendOf($user1) );
-
-		$invitations = $user2->getFriendshipInvitations();
-		$this->assertEquals(count($invitations),0);
 
 		/* send invitation from user1 to user2 */
 		$rel1 = new Entity\UserRelationship($user1, $user2);
@@ -82,15 +74,6 @@ class UserTest
 		$this->assertFalse( $user2->sentFriendshipRequestTo($user1) );
 		$this->assertFalse( $user1->receivedFriendshipRequestFrom($user2) );
 
-		$invitations = $user2->getFriendshipInvitations();
-		$this->assertEquals(count($invitations),1);
-
-		$friends = $user1->getFriends();
-		$this->assertEquals(count($friends),0);
-
-		$friends = $user2->getFriends();
-		$this->assertEquals(count($friends),0);
-
 		/* user 2 accepts invitation */
 		$rel2 = new Entity\UserRelationship($user2, $user1);
 		$user2->getRelationshipFrom()->add($rel2);
@@ -102,14 +85,6 @@ class UserTest
 		$this->assertFalse( $user1->sentFriendshipRequestTo($user2) );
 		$this->assertFalse( $user2->receivedFriendshipRequestFrom($user1) );
 
-		$invitations = $user2->getFriendshipInvitations();
-		$this->assertEquals(count($invitations),0);
-
-		$friends = $user1->getFriends();
-		$this->assertEquals(count($friends),1);
-
-		$friends = $user2->getFriends();
-		$this->assertEquals(count($friends),1);
 	}
 
 }
