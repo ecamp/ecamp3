@@ -17,37 +17,31 @@
 
 		<div class="container">
 			<header>
-				<h1>eCamp v3</h1>
-				<hr />
-				<h2 class="alt">This sentence is here for nothing.</h2>
-				<hr />
-
+				<div id="logo">
+					<h1>eCamp v3</h1>
+				</div>
 				<nav>
 					<ul>
-						<li><a href="/">This Index</a></li>
-						<li><a href="/login">Login</a></li>
-						<li><a href="/login/logout">Logout</a></li>
-						<li><a href="/camp">Camps</a></li>
-						<li><a href="/doctrine">Doctrine</a></li>
-						<li><a href="/zend">Initial Zend Index</a></li>
-						<li><a href="/error">An error example</a></li>
+						<li><a href="#"><img id="avatar" /></a></li>
+						<li><a href="#">smiley</a></li>
+						<li><a href="#">Dashboard</a></li>
+						<li><a href="#">Einstellungen</a></li>
+						<li><a href="#">Logout</a></li>
 					</ul>
-
 				</nav>
+				<div style="clear:both;" />
+				<div id="campswitch">
+					<select><option>Camp Quickswitch</option></select>
+				</div>
 
-				<hr />
+
 			</header>
-		
+
+			<div style="clear:both;" />
+
 			<section class="span-24 last">
 				<tal:block content="structure viewContent" />
 			</section>
-
-			<div class="span-24 last">
-				<tal:block condition="php: APPLICATION_ENV == 'development'">
-				  <h3>Request Parameters:</h3>
-				  <pre tal:content="php: var_export( request.getParams(), true )" />
-				</tal:block>
-			</div>
 
 		</div>
 	
@@ -60,5 +54,12 @@
 				</ul>
 			</nav>
 		</footer>
+
+			<div class="span-24 last">
+				<tal:block condition="php: APPLICATION_ENV == 'development'">
+				  <h3>Request Parameters:</h3>
+				  <pre tal:content="php: var_export( request.getParams(), true )" />
+				</tal:block>
+			</div>
 	</body>
 </html>
