@@ -21,52 +21,32 @@
 namespace Entity;
 
 /**
- * Relationship between users (friends, etc.)
- * A Friendship needs one row in each direction. A single row only consitutes a invitation.
  * @Entity
- * @Table(name="user_relationships", uniqueConstraints={@UniqueConstraint(name="from_to_unique",columns={"from_id","to_id"})})
+ * @InheritanceType("SINGLE_TABLE")
+ * @DiscriminatorColumn(name="plugin", type="string")
+ * @DiscriminatorMap({"plugin" = "Plugin", "header" = "PluginHeader", "doc" = "PluginDocument"})
  */
-class UserRelationship extends BaseEntity
-{	
-	const TYPE_FRIEND  = 1;
-	// const TYPE_BLOCK   = 2;
-	
-	public function __construct($from = null, $to = null, $type = self::TYPE_FRIEND)
-    {
-		$this->type  = $type;
-		$this->from  = $from;
-		$this->to  = $to;
-    }
-	
+class Plugin extends BaseEntity
+{
+
 	/**
+	 * @var int
 	 * @Id @Column(type="integer")
 	 * @GeneratedValue(strategy="AUTO")
-	 * @var int
 	 */
 	private $id;
-
-	/**
-	 * @ManyToOne(targetEntity="User")
-	 * @JoinColumn(nullable=false)
-	 */
-	private $from;
-
-	/**
-	 * @ManyToOne(targetEntity="User")
-	 * @JoinColumn(nullable=false)
-	 */
-	private $to;
 	
-	/** 
-	 * Type of the relationship
-	 * @Column(type="integer") 
+	/**
+	 * @ManyToOne(targetEntity="Event")
+	 * @JoinColumn(nullable=false)
 	 */
-	private $type;
+	public $event;
+
+
 	
 	public function getId(){ return $this->id; }
 
-	public function getFrom() { return $this->from; }
-	public function getTo()   { return $this->to;   }
-	public function getType() { return $this->type; }
+	public function setEvent(Event $event){ $this->event = $event; }
+	public function getEvent()            { return $this->event;   }
 	
 }

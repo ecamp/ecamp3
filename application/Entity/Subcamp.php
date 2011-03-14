@@ -21,52 +21,52 @@
 namespace Entity;
 
 /**
- * Relationship between users (friends, etc.)
- * A Friendship needs one row in each direction. A single row only consitutes a invitation.
+ * A subcamp is a container for program. Multiple subcamps can happen at the same time,
+ * if they are assigned to the same peridos.
  * @Entity
- * @Table(name="user_relationships", uniqueConstraints={@UniqueConstraint(name="from_to_unique",columns={"from_id","to_id"})})
+ * @Table(name="subcamps")
  */
-class UserRelationship extends BaseEntity
-{	
-	const TYPE_FRIEND  = 1;
-	// const TYPE_BLOCK   = 2;
-	
-	public function __construct($from = null, $to = null, $type = self::TYPE_FRIEND)
-    {
-		$this->type  = $type;
-		$this->from  = $from;
-		$this->to  = $to;
-    }
-	
+class Subcamp extends BaseEntity
+{
+
 	/**
+	 * @var int
 	 * @Id @Column(type="integer")
 	 * @GeneratedValue(strategy="AUTO")
-	 * @var int
 	 */
 	private $id;
 
 	/**
-	 * @ManyToOne(targetEntity="User")
-	 * @JoinColumn(nullable=false)
+	 * @Column(type="text" )
 	 */
-	private $from;
+	private $description;
 
 	/**
-	 * @ManyToOne(targetEntity="User")
+	 * @var Period
+	 * @ManyToOne(targetEntity="Period")
 	 * @JoinColumn(nullable=false)
 	 */
-	private $to;
+	private $period;
 	
-	/** 
-	 * Type of the relationship
-	 * @Column(type="integer") 
+	/**
+	 * @OneToMany(targetEntity="Day", mappedBy="subcamp")
+	 * @OrderBy({"offset" = "ASC"})
 	 */
-	private $type;
+	private $days;
+
+	/**
+	 * @OneToMany(targetEntity="EventInstance", mappedBy="subcamp")
+	 */
+	private $eventInstances;
+
 	
 	public function getId(){ return $this->id; }
 
-	public function getFrom() { return $this->from; }
-	public function getTo()   { return $this->to;   }
-	public function getType() { return $this->type; }
+	public function setDescription($description){ $this->description = $description; }
+	public function getDescription()            { return $this->description;   }
 	
+	public function setPeriod(Period $period){ $this->period = $period; }
+	public function getPeriod()               { return $this->period; }
+
+	public function getEventInstances() { return $this->eventInstances; }
 }
