@@ -57,6 +57,10 @@ class Event extends BaseEntity
 	 */
 	private $eventInstances;
 
+	/**
+	 * @OneToMany(targetEntity="Plugin", mappedBy="event")
+	 */
+	private $plugins;
 	
 	public function getId(){ return $this->id; }
 
@@ -70,4 +74,6 @@ class Event extends BaseEntity
 	public function getUser()          { return $this->user; }
 	
 	public function getEventInstances() { return $this->eventInstances; }
+	
+	public function getPlugins() { return $this->plugins; }
 }
