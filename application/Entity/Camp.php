@@ -69,6 +69,10 @@ class Camp extends BaseEntity
 	 */
 	private $userCamp;  
 
+	/**
+	 * @OneToMany(targetEntity="Period", mappedBy="camp")
+	 */
+	private $periods;
 
 
 	public function getId(){ return $this->id; }
@@ -85,6 +89,8 @@ class Camp extends BaseEntity
 	public function setGroup(Group $group){ $this->group = $group; }
 	public function getGroup()             { return $this->group; }
 
+	public function getPeriods() { return $this->periods; }
+	
 	public function getMembers()
     {
 	    /* TODO: check role of usercamp */
