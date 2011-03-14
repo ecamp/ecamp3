@@ -128,12 +128,12 @@ class User extends BaseEntity
 	private $userGroups;
 	
 	/**
-	 * @OneToMany(targetEntity="UserRelationship", mappedBy="from")
+	 * @OneToMany(targetEntity="UserRelationship", mappedBy="from", cascade={"all"} )
 	 */
 	private $relationshipFrom;
 	
 	/**
-	 * @OneToMany(targetEntity="UserRelationship", mappedBy="to")
+	 * @OneToMany(targetEntity="UserRelationship", mappedBy="to", cascade={"all"})
 	 */
 	private $relationshipTo;
 	
@@ -263,6 +263,28 @@ class User extends BaseEntity
 	public function isFriendOf($user)
 	{
 		return $this->isFriendTo( $user ) && $this->isFriendFrom( $user ); 
+	}
+
+	/**
+	 * send friendship request to a not-yet-friend
+	 */
+	public function sendFriendshipRequestTo($user) {
+		if( !$this->isFriendTo($user) &&  ! $this->isFriendFrom($user)) {
+			$rel = new UserRelationship($this, $user);
+			$this->relationshipFrom->add($rel);
+			$user->relationshipTo->add($rel);
+		}
+	}
+
+	/**
+	 * accept friendship request from a would-like-to-be-friend
+	 */
+	public function acceptFriendshipRequestFrom($user){
+		if( $this->receivedFriendshipRequestFrom($user) ){
+			$rel = new UserRelationship($this, $user);
+			$this->relationshipFrom->add($rel);
+			$user->relationshipTo->add($rel);
+		}
 	}
 	
 }
