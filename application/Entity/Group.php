@@ -22,7 +22,7 @@ namespace Entity;
 
 /**
  * @Entity
- * @Table(name="groups")
+ * @Table(name="groups", indexes={@index(name="group_name_idx", columns={"name"})}, uniqueConstraints={@UniqueConstraint(name="group_parent_name_unique",columns={"parent_id","name"})})
  */
 class Group extends BaseEntity
 {
