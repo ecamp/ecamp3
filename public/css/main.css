@@ -193,17 +193,6 @@ header nav #avatar{
     background-color:white;
 }
 
-/** Group site **/
-.group_header{
-    font-weight:bold;
-    font-size:13pt;
-}
-
-.group_breadcrumb{
-   font-style:italic;
-    margin-bottom:10px;
-}
-
 /** BigBox with title row */
 .bigbox{
     margin-bottom:20px;
@@ -225,5 +214,29 @@ header nav #avatar{
     position:relative;
     top:-6px;
     padding:10px;
+}
+
+
+/** Group site **/
+
+.group_logo{
+	float:left;
+	margin-right:5px;
+	position:relative;
+	top:7px;
+}
+
+.group_header{
+    font-weight:bold;
+    font-size:13pt;
+}
+
+.group_breadcrumb{
+   font-style:italic;
+    margin-bottom:10px;
+}
+
+.avatarlist{
+	height:120px;
 }
 

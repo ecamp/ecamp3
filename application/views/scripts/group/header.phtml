@@ -1,11 +1,16 @@
 <span metal:define-macro="header">
-	<div class="group_header">gruppe_xy</div>
+	<div class="group_logo">
+		<img width="32" height="32" tal:attributes="src helper:url(array('group' => group.getId(), 'action' => 'avatar', 'size' => 32), 'group')" /><br />
+	</div>
+	
+	<div class="group_header" tal:content="group/getName">GroupName</div>
 	<div class="group_breadcrumb">
-		<a href="#">PBS</a>
-		>>
-		<a href="#">Luzern</a>
-		>>
-		Gruppe XY
+		
+		<span tal:repeat="item group/getPathAsArray">
+			<a tal:content="item/getDescription" tal:attributes="href helper:thisurl(array('group' => item.getId() ), 'group')">GroupDescription</a> >>
+		</span>
+		
+		<tal:block content="group/getDescription" />
 	</div>
 	<nav id="mainnav">
 		<ul>

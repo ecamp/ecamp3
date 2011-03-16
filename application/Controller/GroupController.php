@@ -27,15 +27,37 @@ class GroupController extends \Controller\BaseController
 	 */
 	private $authSession;
 
-
     public function init()
     {
 	    parent::init();
     }
 
-
     public function showAction()
     {
-
+		$id = $this->getRequest()->getParam("group");
+		$group = $this->em->getRepository("Entity\Group")->find($id);
+		
+		$this->view->group = $group;		
     }
+	
+	public function avatarAction()
+	{
+		$id = $this->getRequest()->getParam("group");
+		
+		$this->_helper->layout()->disableLayout();
+		$this->_helper->viewRenderer->setNoRender(true);
+
+		$group = $this->em->getRepository("Entity\Group")->find($id);
+		
+		if( $group->getImageData() == null ) {
+			$this->_redirect("img/default_group.png");
+			
+		} else {
+			$this->getResponse()->setHeader("Content-type", $group->getImageMime());
+			$this->getResponse()->setBody($group->getImageData());
+		}
+	}
+	
+	
+
 }

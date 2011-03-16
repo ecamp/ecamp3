@@ -47,7 +47,6 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 
 		$entityAutoloader = new \Doctrine\Common\ClassLoader('Service', APPLICATION_PATH);
 		$autoloader->pushAutoloader(array($entityAutoloader, 'loadClass'), 'Service');
-
     }
 
 	public function _initInjectionKernel()
@@ -153,11 +152,11 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 		/* group */
 		Zend_Controller_Front::getInstance()->getRouter()->addRoute(
 			'group', new Logic\Route\Vanity(':group/:action/*',
-				array('controller' => 'groups','action' => 'show')));
+				array('controller' => 'group','action' => 'show')));
 				
 		Zend_Controller_Front::getInstance()->getRouter()->addRoute(
 			'group+id', new Logic\Route\Vanity(':group/:action/:id/*',
-				array('controller' => 'groups','action' => 'show'),
+				array('controller' => 'group','action' => 'show'),
 				array('id' => '\d+')));
 				
 		/* group camp */

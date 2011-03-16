@@ -30,4 +30,14 @@ abstract class BaseEntity
 	{
 		$this->updatedAt = new \DateTime("now");
 	}
+	
+	public function getUpdatedAt()
+	{
+		return $this->updatedAt;
+	}
+	
+	public function getCreatedAt()
+	{
+		return $this->createdAt;
+	}
 }

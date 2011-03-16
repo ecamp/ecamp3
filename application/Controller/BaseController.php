@@ -10,7 +10,6 @@ class BaseController extends \Zend_Controller_Action
 	 */
 	protected $em;
 
-	
 	public function init()
 	{
 		$this->view->addHelperPath(APPLICATION_PATH . '/../application/views/helpers', 'Application\View\Helper\\');

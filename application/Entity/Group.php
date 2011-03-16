@@ -54,10 +54,13 @@ class Group extends BaseEntity
 	
 	/**
      * @OneToMany(targetEntity="Group", mappedBy="parent")
+	 * @OrderBy({"name" = "ASC"})
      */
 	private $children;
 	
-	/** @Column(type="string", length=64, nullable=false ) */
+	/** 
+	 * @Column(type="string", length=64, nullable=false ) 
+	 */
 	private $description;
 	
 	/**
@@ -71,6 +74,12 @@ class Group extends BaseEntity
 	 */
 	private $camps;
 	
+	/** @Column(type="string", length=32, nullable=true ) */
+	private $imageMime;
+	
+	/** @Column(type="object", nullable=true ) */
+	private $imageData;
+	
 	
 	public function getId(){	return $this->id;	}
 	
@@ -83,7 +92,8 @@ class Group extends BaseEntity
 	public function getParent()   { return $this->parent; }
 	public function setParent( $parent ){ $this->parent = $parent; return $this; }
 	
-	public function getChildren()   { return $this->children; }
+	public function getChildren() { return $this->children; }
+	public function hasChildren() { return ! $this->children->isEmpty(); }
 
 	public function getMembers()
     {
@@ -96,5 +106,31 @@ class Group extends BaseEntity
 		}
 
 		return $members;
+	}
+	
+	public function getPathAsArray()
+	{
+		$path = array();
+		$group = $this;
+		
+		while( $group->getParent() != null )
+		{
+			$group = $group->getParent();
+			$path[] = $group;
+		}
+		
+		return array_reverse($path);
+	}
+	
+	public function getImageData(){ return base64_decode($this->imageData); }
+	public function setImageData($data){ $this->imageData = base64_encode($data); return $this; }
+	
+	public function getImageMime(){ return $this->imageMime; }
+	public function setImageMime($mime){ $this->imageMime = $mime; return $this; }
+	
+	public function delImage(){
+		$this->imageMime = null;
+		$this->imageData = null;
+		return $this;
 	}
 }
