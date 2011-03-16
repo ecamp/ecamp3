@@ -109,7 +109,7 @@ class Vanity extends \Zend_Controller_Router_Route
 				// If it's a user, search username
 				if ($name == "user" ) 
 				{
-					$user = $this->em->getRepository('Entity\User')->findOneBy(array("scoutname" => $pathPart));
+					$user = $this->em->getRepository('Entity\User')->findOneBy(array("username" => $pathPart));
 
 					if (! $user) {
 						return false;
@@ -247,7 +247,7 @@ class Vanity extends \Zend_Controller_Router_Route
 						throw new Zend_Controller_Router_Exception('user with id '.$data[$name].' does not exist');
 					}
 
-					$value = $user->getScoutname();
+					$value = $user->getUsername();
 					unset($data[$name]);
 					
 				} elseif($name == "group") {
