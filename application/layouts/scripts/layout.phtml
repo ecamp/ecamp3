@@ -58,7 +58,7 @@
 			<div class="span-24 last">
 				<tal:block condition="php: APPLICATION_ENV == 'development'">
 				  <h3>Request Parameters:</h3>
-				  <pre tal:content="php: var_export( request.getParams(), true )" />
+				  <pre tal:content="php: var_dump( params, true )" />
 				</tal:block>
 			</div>
 	</body>

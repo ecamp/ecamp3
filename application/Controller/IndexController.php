@@ -23,12 +23,14 @@ class IndexController extends \Controller\BaseController
 
     public function init()
     {
+	    Zend_Layout::getMvcInstance()->setLayout('layout');
+
+	    parent::init();
     }
 
     public function indexAction()
     {
 		$this->view->headTitle('Home');
-		print_r($this->em);
     }
 
 }

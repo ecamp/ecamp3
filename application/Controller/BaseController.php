@@ -16,6 +16,9 @@ class BaseController extends \Zend_Controller_Action
 		$this->view->addHelperPath(APPLICATION_PATH . '/../application/views/helpers', 'Application\View\Helper\\');
 
 		\Zend_Registry::get('kernel')->InjectDependencies($this);
+
+		/* clone request params for debugging */
+		$this->view->params = $this->getRequest()->getParams();
 	}
 
 }
