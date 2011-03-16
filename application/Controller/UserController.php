@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (C) 2011 Pirmin Mattmann
+ * Copyright (C) 2011 Urban Suppiger
  *
  * This file is part of eCamp.
  *
@@ -18,19 +18,25 @@
  * along with eCamp.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-class IndexController extends \Controller\BaseController
+class UserController extends \Controller\BaseController
 {
 
-    public function init()
-    {
-	    Zend_Layout::getMvcInstance()->setLayout('layout');
+	public function avatarAction()
+	{
+		$id = $this->getRequest()->getParam("user");
+		
+		$this->_helper->layout()->disableLayout();
+		$this->_helper->viewRenderer->setNoRender(true);
 
-	    parent::init();
-    }
-
-    public function indexAction()
-    {
-		$this->view->headTitle('Home');
-    }
+		$user = $this->em->getRepository("Entity\User")->find($id);
+		
+		if( $user->getImageData() == null ) {
+			$this->_redirect('img/default_avatar.png');
+		} else {
+			$this->getResponse()->setHeader("Content-type", $user->getImageMime());
+			$this->getResponse()->setBody($user->getImageData());
+		}
+		
+		return;
+	}
 }
-

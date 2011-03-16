@@ -111,8 +111,11 @@ class User extends BaseEntity
 	/** @Column(type="string", length=16, nullable=true ) */
 	private $pbsEdu;
 	
+	/** @Column(type="string", length=32, nullable=true ) */
+	private $imageMime;
+	
 	/** @Column(type="object", nullable=true ) */
-	private $image;
+	private $imageData;
 	
 	
 	/**
@@ -185,7 +188,17 @@ class User extends BaseEntity
 	public function getPbsEdu()         { return $this->pbsEdu;	}
 	public function setPbsEdu( $pbsEdu ){ $this->pbsEdu = $pbsEdu; return $this; }
 
+	public function getImageData(){ return base64_decode($this->imageData); }
+	public function setImageData($data){ $this->imageData = base64_encode($data); return $this; }
 	
+	public function getImageMime(){ return $this->imageMime; }
+	public function setImageMime($mime){ $this->imageMime = $mime; return $this; }
+	
+	public function delImage(){
+		$this->imageMime = null;
+		$this->imageData = null;
+		return $this;
+	}
 
 	public function getDisplayName()
 	{

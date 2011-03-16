@@ -133,11 +133,11 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 		/* user */
 		Zend_Controller_Front::getInstance()->getRouter()->addRoute(
 			'user', new Logic\Route\Vanity('user/:user/:action/*',
-				array('controller' => 'users','action' => 'show')));
+				array('controller' => 'user','action' => 'show')));
 				
 		Zend_Controller_Front::getInstance()->getRouter()->addRoute(
 			'user+id', new Logic\Route\Vanity('user/:user/:action/:id/*',
-				array('controller' => 'users','action' => 'show'),
+				array('controller' => 'user','action' => 'show'),
 				array('id' => '\d+')));
 		
 		/* user camp */
