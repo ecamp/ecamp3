@@ -31,9 +31,7 @@ class UserController extends \Controller\BaseController
 		$user = $this->em->getRepository("Entity\User")->find($id);
 		
 		if( $user->getImageData() == null ) {
-			$this->getResponse()->setHeader("Content-type", "image/png");
-			$this->getResponse()->setBody(file_get_contents('../data/default_avatar.png'));
-			
+			$this->_redirect('img/default_avatar.png');
 		} else {
 			$this->getResponse()->setHeader("Content-type", $user->getImageMime());
 			$this->getResponse()->setBody($user->getImageData());
