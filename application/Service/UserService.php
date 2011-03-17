@@ -86,7 +86,7 @@ class UserService
 		$query = $this->em->getRepository("Entity\User")->createQueryBuilder("u")
 				->innerJoin("u.relationshipFrom","rel_to")
 				->innerJoin("rel_to.to", "friend")
-				->leftJoin("friend.relationshipFrom", "rel_back")
+				->leftJoin("friend.relationshipFrom", "rel_back", \Doctrine\ORM\Query\Expr\Join::WITH, 'rel_back.to = rel_to.from' )
 				->where("rel_to.type = ".(\Entity\UserRelationship::TYPE_FRIEND))
 				->andwhere("rel_back.to IS NULL")
 				->andwhere("friend.id = ".$user->getId())

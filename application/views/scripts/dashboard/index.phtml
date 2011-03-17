@@ -27,6 +27,8 @@
 				<hr tal:condition="not: repeat/user/end" />
 			</tal:block>
 			
+			<span tal:condition="php: empty(requests)">You have no open requests!</span>
+			
 			<div class="clear" />
 		</div>
 	</div>

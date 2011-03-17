@@ -89,6 +89,10 @@ class DashboardController extends \Controller\BaseController
 	public function campsAction() {}
 	
 	public function friendsAction() {
+		/** load friends */
+		$this->view->friends = $this->userService->getFriendsOf($this->me);
+		
+		/** load all users */
 		$query = $this->em->getRepository("Entity\User")->createQueryBuilder("u");
 		
 		$adapter = new \Logic\Paginator\Doctrine($query);
