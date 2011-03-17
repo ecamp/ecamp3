@@ -28,19 +28,10 @@ class LoginController
      */
     private $loginRepo;
 
-	/**
-	 * @var Zend_Session_Namespace
-	 */
-	private $authSession;
-
-
 	public function init()
 	{
 		parent::init();
-
-		$this->authSession = new Zend_Session_Namespace('Zend_Auth');
 	}
-
 
 	public function indexAction()
 	{

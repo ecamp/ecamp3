@@ -1,3 +1,15 @@
 <span metal:use-macro="header.phtml/header" />
 
-<div class="span-24">blabla</div>
+<div class="span-24">
+
+	<h2>My friends</h2>
+
+	<h2>All Users</h2>
+
+	<span tal:content="structure paginator"/><br />
+	
+	<tal:block repeat="user paginator">
+		<span metal:use-macro="user.phtml/withavatar" tal:define="user user" tal:omit-tag="" />
+	</tal:block>
+
+</div>

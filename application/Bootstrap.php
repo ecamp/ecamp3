@@ -123,11 +123,11 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 		/* general */
 		Zend_Controller_Front::getInstance()->getRouter()->addRoute(
 			'general', new Zend_Controller_Router_Route(':controller/:action/*',
-			array('controller' => 'dashboard', 'action' => 'overview')));
+			array('controller' => 'dashboard', 'action' => 'index')));
 
 		Zend_Controller_Front::getInstance()->getRouter()->addRoute(
 			'general+id', new Zend_Controller_Router_Route(':controller/:action/:id/*',
-			array('controller' => 'dashboard', 'action' => 'overview'),
+			array('controller' => 'dashboard', 'action' => 'index'),
 			array('id' => '\d+')));
 				
 		/* user */
@@ -241,7 +241,8 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 		$view->headLink()->appendStylesheet('/css/blueprint/print.css', 'print');
 
 		$view->headLink()->appendStylesheet('/css/blueprint/plugins/fancy-type/screen.css', 'screen, projection');
-
+		$view->headLink()->appendStylesheet('/css/blueprint/plugins/buttons/screen.css', 'screen, projection');
+		
 		$view->headLink()->appendStylesheet('/css/main.css');
 
 

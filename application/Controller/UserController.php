@@ -20,9 +20,15 @@
 
 class UserController extends \Controller\BaseController
 {
+	public function init()
+	{
+		parent::init();
+	}
 
 	public function avatarAction()
 	{
+		/** todo: enable cache for dynamic avatars */
+		
 		$id = $this->getRequest()->getParam("user");
 		
 		$this->_helper->layout()->disableLayout();
@@ -39,4 +45,55 @@ class UserController extends \Controller\BaseController
 		
 		return;
 	}
+	
+	
+	
+	/** Friendship actions */
+	
+	public function addAction()
+	{
+		$id = $this->getRequest()->getParam("user");
+		$user = $this->em->getRepository("Entity\User")->find($id);
+		
+		$this->me->sendFriendshipRequestTo($user);
+		
+		$this->em->flush();
+		$this->_redirect('/dashboard/friends');
+	}
+	
+	public function acceptAction()
+	{
+		$id = $this->getRequest()->getParam("user");
+		$user = $this->em->getRepository("Entity\User")->find($id);
+		
+		$this->me->acceptFriendshipRequestFrom($user);
+		
+		$this->em->flush();
+		$this->_redirect('/dashboard/friends');
+	}
+	
+	public function ignoreAction()
+	{
+		$id = $this->getRequest()->getParam("user");
+		$user = $this->em->getRepository("Entity\User")->find($id);
+		
+		$this->me->ignoreFriendshipRequestFrom($user);
+		
+		$this->em->flush();
+		
+		$this->_redirect('/dashboard/friends');
+	}
+	
+	public function divorceAction()
+	{
+		$id = $this->getRequest()->getParam("user");
+		$user = $this->em->getRepository("Entity\User")->find($id);
+		
+		$this->me->divorceFrom($user);
+		
+		$this->em->flush();
+		
+		$this->_redirect('/dashboard/friends');
+	}
+	
 }

@@ -131,12 +131,12 @@ class User extends BaseEntity
 	private $userGroups;
 	
 	/**
-	 * @OneToMany(targetEntity="UserRelationship", mappedBy="from", cascade={"all"} )
+	 * @OneToMany(targetEntity="UserRelationship", mappedBy="from", cascade={"all"}, orphanRemoval=true )
 	 */
 	private $relationshipFrom;
 	
 	/**
-	 * @OneToMany(targetEntity="UserRelationship", mappedBy="to", cascade={"all"})
+	 * @OneToMany(targetEntity="UserRelationship", mappedBy="to", cascade={"all"}, orphanRemoval= true)
 	 */
 	private $relationshipTo;
 	
@@ -297,6 +297,55 @@ class User extends BaseEntity
 			$rel = new UserRelationship($this, $user);
 			$this->relationshipFrom->add($rel);
 			$user->relationshipTo->add($rel);
+		}
+	}
+
+	/** get the relation object to $user */
+	private function getRelFrom($user)
+	{
+		$closure =  function($element) use ($user){ 
+			return $element->getType() == UserRelationship::TYPE_FRIEND  && $element->getFrom() == $user; 
+		};
+		
+		return $this->getRelationshipTo()->filter( $closure ); 
+	}
+	
+	/** get the relation object from $user */
+	private function getRelTo($user)
+	{
+		$closure =  function($element) use ($user){ 
+			return $element->getType() == UserRelationship::TYPE_FRIEND  && $element->getTo() == $user; 
+		};
+		
+		return $this->getRelationshipFrom()->filter( $closure ); 
+	}
+		
+	/** ignore a friendship request */
+	public function ignoreFriendshipRequestFrom($user){
+		if( $this->receivedFriendshipRequestFrom($user) ){
+			$rel = $this->getRelFrom($user);
+			$this->relationshipTo->removeElement($rel[0]);
+			$user->relationshipFrom->removeElement($rel[0]);
+		}
+	}
+	
+	/** check  whether a friendship request can be sent to to the user */
+	public function canIAdd($user)
+	{
+		return $user != $this && !$this->isFriendOf($user) && !$this->sentFriendshipRequestTo($user) && !$this->receivedFriendshipRequestFrom($user);
+	}
+	
+	/** delete friendship with $user */
+	public function divorceFrom($user)
+	{
+		if( $this->isFriendOf($user) ){
+			$rel = $this->getRelFrom($user);
+			$this->relationshipTo->removeElement($rel[0]);
+			$user->relationshipFrom->removeElement($rel[0]);
+			
+			$rel = $this->getRelTo($user);
+			$this->relationshipFrom->removeElement($rel[0]);
+			$user->relationshipTo->removeElement($rel[0]);
 		}
 	}
 	

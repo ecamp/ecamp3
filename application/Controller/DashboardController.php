@@ -33,7 +33,7 @@ class DashboardController extends \Controller\BaseController
 			'label'      => 'Dashboard',
 			'title'      => 'Dashboard',
 			'controller' => 'dashboard',
-			'action'     => 'overview',
+			'action'     => 'index',
 			'pages' => array(
 				
 				array(
@@ -74,13 +74,25 @@ class DashboardController extends \Controller\BaseController
     }
 
 
-    public function overviewAction()
+    public function indexAction()
     {
     }
 	
 	public function campsAction() {}
 	
-	public function friendsAction() {}
+	public function friendsAction() {
+		$query = $this->em->getRepository("Entity\User")->createQueryBuilder("u");
+		
+		$adapter = new \Logic\Paginator\Doctrine($query);
+		$paginator = new Zend_Paginator($adapter);
+		$paginator->setItemCountPerPage( 21 );
+		$paginator->setCurrentPageNumber( $this->getRequest()->getParam("page") );
+		
+		Zend_View_Helper_PaginationControl::setDefaultViewPartial('global/pagination_control.phtml');
+		$paginator->setDefaultScrollingStyle('All');
+		
+		$this->view->paginator = $paginator;
+	}
 	
 	public function groupsAction() {}
 	

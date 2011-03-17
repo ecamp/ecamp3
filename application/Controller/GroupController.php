@@ -21,13 +21,6 @@
 
 class GroupController extends \Controller\BaseController
 {
-
-	/**
-	 * @var Zend_Session_Namespace
-	 */
-	private $authSession;
-
-
     public function init()
     {
 	    parent::init();
