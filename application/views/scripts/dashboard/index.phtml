@@ -10,7 +10,25 @@
 
 	<div class="bigbox">
 		<div class="title">Offene Anfragen</div>
-		<div class="content">blablabla</div>
+		<div class="content">
+			<tal:block repeat="user requests">
+				
+				 <a tal:attributes="href helper:url(array('user' => user.getId()), 'user')" class="span-2">
+					<img width="46" height="46" tal:attributes="src helper:url(array('action' => 'avatar', 'user' => user.getId(), 'size' =>32), 'user')" /><br />
+				 </a>
+				 
+				 <div class="span-7 last">
+					 <a tal:attributes="href helper:url(array('user' => user.getId()), 'user')" tal:content="user/getUsername" /> wants to be your friend!<br/>
+					 
+					 <a class="button" tal:attributes="href helper:url(array('action' => 'accept', 'user' => user.getId()), 'user')">+accept</a> 
+					 <a class="button" tal:attributes="href helper:url(array('action' => 'ignore', 'user' => user.getId()), 'user')">-ignore</a> 
+				</div>
+				
+				<hr tal:condition="not: repeat/user/end" />
+			</tal:block>
+			
+			<div class="clear" />
+		</div>
 	</div>
 
 </div>

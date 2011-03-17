@@ -21,6 +21,13 @@
 
 class DashboardController extends \Controller\BaseController
 {
+	/**
+     * @var Service\UserService
+     * @Inject Service\UserService
+     */
+	private $userService;
+	
+	
     public function init()
     {
 	    parent::init();
@@ -76,6 +83,7 @@ class DashboardController extends \Controller\BaseController
 
     public function indexAction()
     {
+		$this->view->requests = $this->userService->getFriendshipInvitationsOf($this->me);
     }
 	
 	public function campsAction() {}

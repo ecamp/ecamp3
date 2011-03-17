@@ -71,10 +71,10 @@ class UserService
 				->innerJoin("u.relationshipFrom","rel_to")
 				->innerJoin("rel_to.to", "friend")
 				->innerJoin("friend.relationshipFrom", "rel_back")
-				->where("rel_to.type = ".UserRelationship::TYPE_FRIEND)
-				->andwhere("rel_back.type = ".UserRelationship::TYPE_FRIEND)
+				->where("rel_to.type = ".\Entity\UserRelationship::TYPE_FRIEND)
+				->andwhere("rel_back.type = ".\Entity\UserRelationship::TYPE_FRIEND)
 				->andwhere("rel_back.to = u.id")
-				->andwhere("friend.id = ".$user->id)
+				->andwhere("friend.id = ".$user->getId())
 				->getQuery();
 
 	    return $query->getResult();
@@ -87,11 +87,11 @@ class UserService
 				->innerJoin("u.relationshipFrom","rel_to")
 				->innerJoin("rel_to.to", "friend")
 				->leftJoin("friend.relationshipFrom", "rel_back")
-				->where("rel_to.type = ".UserRelationship::TYPE_FRIEND)
+				->where("rel_to.type = ".(\Entity\UserRelationship::TYPE_FRIEND))
 				->andwhere("rel_back.to IS NULL")
-				->andwhere("friend.id = ".$user->id)
+				->andwhere("friend.id = ".$user->getId())
 				->getQuery();
-
+				
 	    return $query->getResult();
 	}
 
