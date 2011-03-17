@@ -123,11 +123,11 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 		/* general */
 		Zend_Controller_Front::getInstance()->getRouter()->addRoute(
 			'general', new Zend_Controller_Router_Route(':controller/:action/*',
-			array('controller' => 'index', 'action' => 'index')));
+			array('controller' => 'dashboard', 'action' => 'overview')));
 
 		Zend_Controller_Front::getInstance()->getRouter()->addRoute(
 			'general+id', new Zend_Controller_Router_Route(':controller/:action/:id/*',
-			array('controller' => 'index', 'action' => 'index'),
+			array('controller' => 'dashboard', 'action' => 'overview'),
 			array('id' => '\d+')));
 				
 		/* user */
