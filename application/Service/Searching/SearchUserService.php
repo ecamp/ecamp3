@@ -20,7 +20,7 @@
  *
  */
 
-namespace Service;
+namespace Service\Searching;
 
 
 class SearchUserService
@@ -30,6 +30,61 @@ class SearchUserService
 	 * @Inject EntityManager
 	 */
 	protected $em;
+
+
+		/*
+		x: query
+		y: user
+
+		p(y|x) = p(x|y) * p(y)
+
+
+		p(y e friend)
+		p(y e sameGroup)
+		p(y e unknown)
+
+
+		p(x|y)
+		*/
+
+
+
+	public function search($query)
+	{
+		$query = trim($query);
+		$queries = explode(" ", $query);
+
+
+		$users = $this->em->getRepository('Entity\User')->findAll();
+
+		/** @var \Entity\User $user */
+		foreach($users as $user)
+		{
+			$this->getRating($queries, $user);
+		}
+
+	}
+
+
+	/*
+	 * Calculate p(x|y)
+	 */
+
+	private function getRating($queries, \Entity\User $user)
+	{
+		$username = $user->getUsername();
+
+		foreach($queries as $q)
+		{
+			
+
+
+		}
+
+
+
+
+	}
 
 
 
@@ -50,6 +105,9 @@ class SearchUserService
 
 			$this->searchForUserByCamelCase($results, $query);
 		}
+
+
+
 
 
 
@@ -98,8 +156,8 @@ class SearchUserService
 
 		$this->addUserToResult($results, $user);
 
-
-		$results[$user->getId()]['queries']['ByMailAddress'] = $query;
+		
+		$results[$user->getId()]->found('MailAddress', 1);
 	}
 
 
@@ -117,14 +175,27 @@ class SearchUserService
 		$qWords = explode(" ", $query);
 
 
+		$qb = $this->em->createQueryBuilder();
+		$qb->select('u')->from('Entity\User', 'u');
+
 		foreach($qWords as $qWord)
 		{
+			$qb->orWhere($qb->expr()->like('u.username', $qb->expr()->literal($qWord."%")));
+			$qb->orWhere($qb->expr()->like('u.scoutname', $qb->expr()->literal($qWord."%")));
+			$qb->orWhere($qb->expr()->like('u.firstname', $qb->expr()->literal($qWord."%")));
+			$qb->orWhere($qb->expr()->like('u.surname', $qb->expr()->literal($qWord."%")));
+		}
+
+		$users = $qb->getQuery()->execute();
 
 
-
+		foreach($users as $user)
+		{
+			
 
 
 		}
+
 	}
 
 
@@ -134,8 +205,7 @@ class SearchUserService
 	{
 		if(!$results->containsKey($user->getId()))
 		{
-			$results[$user->getId()] =
-					array('value' => $user, 'queries' => array());
+			$results[$user->getId()] = new UserSearchResult($user);
 		}
 	}
 

@@ -19,7 +19,46 @@
  * along with eCamp.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
- 
-class UserSearchResult {
+
+namespace Service\Searching;
+
+
+class UserSearchResult
+{
+	/**
+	 * @var \Entity\User
+	 */
+	private $user;
+
+
+	/**
+	 * @var array
+	 */
+	private $matches;
+
+
+
+
+
+	public function __construct(\Entity\User $user)
+	{
+		$this->user = $user;
+
+		$this->matches = array();
+	}
+
+
+
+	public function found($by, $matchLength)
+	{
+		if(array_key_exists($by, $this->matches))
+		{
+			if($matchLength <= $this->matches[$by])
+			{	return;	}
+		}
+
+		$this->matches[$by] = $matchLength;
+	}
+
 
 }

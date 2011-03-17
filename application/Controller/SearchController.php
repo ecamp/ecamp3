@@ -19,7 +19,26 @@
  * along with eCamp.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
- 
-class SearchController {
+
+
+
+class SearchController
+	extends \Controller\BaseController
+{
+
+	/**
+	 * @var Service\Searching\SearchUserService
+	 * @Inject Service\Searching\SearchUserService
+	 */
+	private $searchUserService;
+
+
+	public function searchuserAction()
+	{
+		$query = $this->getRequest()->getParam('query');
+
+		$this->searchUserService->searchForUser($query);
+
+	}
 
 }
