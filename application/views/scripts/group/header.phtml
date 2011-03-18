@@ -16,7 +16,7 @@
 	<nav id="mainnav">
 		<tal:block content="structure php: this.navigation().menu().renderMenu(NULL, array('maxDepth' => 0, 'ulClass' => 'left'))" />
 
-		<a class="button right positive" tal:condition="php: me.canRequestMembership(group)" tal:attributes="href helper:thisurl(array('action' => 'request', 'group' => group.getId() ), 'group')">
+		<a id="request_membership" class="button right positive" tal:condition="php: me.canRequestMembership(group)" tal:attributes="href helper:thisurl(array('action' => 'request', 'group' => group.getId() ), 'group')">
 			request membership
 		</a>
 
@@ -30,5 +30,8 @@
 
 		<div class="clear" />
 	</nav>
+
+
+	<tal:block content="structure helper:confirmDialog('request_membership_dialog', 'request_membership', 'Request Membership', 'Do you want to request membership for this group? Your email address will be sent to the group managers.')" />
 
 </span>
