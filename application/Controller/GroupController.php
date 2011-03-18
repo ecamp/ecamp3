@@ -63,5 +63,42 @@ class GroupController extends \Controller\BaseController
 		$this->em->flush();
 		$this->_helper->getHelper('Redirector')->gotoRoute(array('action'=>'show', 'group' => $id), 'group');
 	}
+	
+	public function leaveAction(){
+		$id = $this->getRequest()->getParam("group");
+		$group = $this->em->getRepository("Entity\Group")->find($id);
+		
+		$this->me->deleteMembershipWith($group);
+		
+		$this->em->flush();
+		$this->_helper->getHelper('Redirector')->gotoRoute(array('action'=>'show', 'group' => $id), 'group');
+	}
+	
+	public function acceptAction(){
+
+		$id = $this->getRequest()->getParam("id");
+		$request = $this->em->getRepository("Entity\UserGroup")->find($id);
+		
+		$groupid = $this->getRequest()->getParam("group");
+		$group = $this->em->getRepository("Entity\Group")->find($groupid);
+		
+		$group->acceptRequest($request, $this->me);
+		
+		$this->em->flush();
+		$this->_helper->getHelper('Redirector')->gotoRoute(array('action'=>'show', 'group' => $groupid), 'group');
+	}
+	
+	public function refuseAction(){
+		$id = $this->getRequest()->getParam("id");
+		$request = $this->em->getRepository("Entity\UserGroup")->find($id);
+		
+		$groupid = $this->getRequest()->getParam("group");
+		$group = $this->em->getRepository("Entity\Group")->find($groupid);
+		
+		$group->refuseRequest($request, $this->me);
+		
+		$this->em->flush();
+		$this->_helper->getHelper('Redirector')->gotoRoute(array('action'=>'show', 'group' => $groupid, 'user' => null), 'group');
+	}
 
 }

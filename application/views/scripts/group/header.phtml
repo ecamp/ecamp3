@@ -19,8 +19,16 @@
 			<li><a href="#">Mitglieder</a></li>
 		</ul>
 		
-		<a class="button right" tal:attributes="href helper:thisurl(array('action' => 'request', 'group' => group.getId() ), 'group')">
+		<a class="button right positive" tal:condition="php: me.canRequestMembership(group)" tal:attributes="href helper:thisurl(array('action' => 'request', 'group' => group.getId() ), 'group')">
 			request membership
+		</a>
+		
+		<a class="button right negative" tal:condition="php: me.isMemberOf(group)" tal:attributes="href helper:thisurl(array('action' => 'leave', 'group' => group.getId() ), 'group')">
+			leave this group
+		</a>
+		
+		<a class="button right negative" tal:condition="php: me.hasOpenRequest(group)" tal:attributes="href helper:thisurl(array('action' => 'leave', 'group' => group.getId() ), 'group')">
+			withdraw request
 		</a>
 		
 		<div class="clear" />

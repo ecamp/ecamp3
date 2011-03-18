@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (C) 2011 Pirmin Mattmann
+ * Copyright (C) 2011 Pirmin Mattmann, Urban Suppiger
  *
  * This file is part of eCamp.
  *
@@ -367,11 +367,10 @@ class User extends BaseEntity
 	 * Membership methods
 	 ****************************************************************/
 	
-	/**
-	 * send membership request to a group
-	 */
 	public function sendMembershipRequestTo($group) {
-		if( !$this->isMemberOrHasOpenRequest($group) ) {
+		$membership = $this->getMembershipWith($group);
+		
+		if( !isset($membership) ) {
 			$rel = new UserGroup($this, $group);
 			$rel->setRequestedRole(UserGroup::ROLE_MEMBER);
 			$rel->acceptInvitation(); /* I invite myself */
@@ -381,17 +380,74 @@ class User extends BaseEntity
 		}
 	}
 	
+	/** 
+	 * returns the relationship entity UserGroup, if it exists 
+	 * DB ensures, that there's one element at maximum
+	 */
+	
+	private function getMembershipWith($group)
+	{
+		$closure =  function($element) use ($group){ 
+			return $element->getGroup() == $group; 
+		};
+		
+		$memberships = $this->getUserGroups()->filter( $closure ); 
+		
+		if( count($memberships) == 0 )
+			return null;
+			
+		return $memberships[0];
+	}
+	
+	public function deleteMembershipWith($group) {
+		$membership = $this->getMembershipWith($group);
+		
+		if( isset($membership) ) {
+			$membership->getGroup()->getUserGroups()->removeElement($membership);
+			$this->userGroups->removeElement($membership);
+		}
+	}
+	
 	public function getUserGroups()
 	{
 		return $this->userGroups;
 	}
 	
-	private function isMemberOrHasOpenRequest($group){
-		$closure =  function($key, $element) use ($group){ 
-			return  $element->getGroup() == $group; // $element->getType() == UserRelationship::TYPE_FRIEND &&
-		};
+	public function canRequestMembership($group){
+		$membership = $this->getMembershipWith($group);
 		
-		return $this->getUserGroups()->exists( $closure ); 
+		if( isset($membership) && ( $membership->isMember() ||  $membership->isOpenRequest() ))
+			return false;
+			
+		return true;
+	}
+	
+	public function isManagerOf($group)
+	{
+		$membership = $this->getMembershipWith($group);
+		
+		if( isset($membership) && $membership->isManager())
+			return true;
+			
+		return false;
+	}
+	
+	public function isMemberOf($group){
+		$membership = $this->getMembershipWith($group);
+		
+		if( isset($membership) && $membership->isMember())
+			return true;
+			
+		return false;
+	}
+	
+	public function hasOpenRequest($group){
+		$membership = $this->getMembershipWith($group);
+		
+		if( isset($membership) && $membership->isOpenRequest())
+			return true;
+			
+		return false;
 	}
 	
 }

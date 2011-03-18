@@ -135,4 +135,28 @@ class Group extends BaseEntity
 		$this->imageData = null;
 		return $this;
 	}
+	
+	public function isManager($user) {
+		$closure =  function($key, $element) use ($user){ 
+			return  $element->getRole() == UserGroup::ROLE_MANAGER && $element->getUser() == $user;
+		};
+		
+		return $this->getUserGroups()->exists( $closure ); 
+	}
+	
+	public function acceptRequest($request, $manager) {
+		if( $this->isManager($manager) )
+			$request->acceptRequest($manager);
+		
+		return $this;
+	}
+	
+	public function refuseRequest($request, $manager) {
+		if( $this->isManager($manager) ) {
+			$request->getUser()->getUserGroups()->removeElement($request);
+			$this->userGroups->removeElement($request);
+		}
+		
+		return $this;
+	}
 }

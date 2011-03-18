@@ -41,8 +41,8 @@
 							 !
 							 <br/>
 							 
-							 <a class="button positive" tal:attributes="href helper:url(array('action' => 'accept', 'group' => usergroup.getGroup().getId(), 'user' => usergroup.getUser().getId()), 'group')">+accept</a> 
-							 <a class="button negative" tal:attributes="href helper:url(array('action' => 'refuse', 'group' => usergroup.getGroup().getId(), 'user' => usergroup.getUser().getId()), 'group')">-refuse</a>
+							 <a class="button positive" tal:attributes="href helper:url(array('action' => 'accept', 'group' => usergroup.getGroup().getId(), 'id' => usergroup.getId()), 'group+id')">+accept</a> 
+							 <a class="button negative" tal:attributes="href helper:url(array('action' => 'refuse', 'group' => usergroup.getGroup().getId(), 'id' => usergroup.getId()), 'group+id')">-refuse</a>
 							 
 						</div>
 					</tal:block>
