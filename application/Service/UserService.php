@@ -94,5 +94,17 @@ class UserService
 				
 	    return $query->getResult();
 	}
+	
+	public function getMembershipRequests($user){
+		$query = $this->em->getRepository("Entity\UserGroup")->createQueryBuilder("ug")
+					->innerJoin("ug.group", "g")
+					->innerJoin("g.userGroups", "manager")
+					->where("manager.user = ".$user->getId())
+					->andwhere("manager.role = ".(\Entity\UserGroup::ROLE_MANAGER))
+					->andwhere("ug.requestedRole = 10")
+					->getQuery();
+					
+		return $query->getResult();
+	}
 
 }

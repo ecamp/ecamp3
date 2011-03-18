@@ -64,7 +64,7 @@ class Group extends BaseEntity
 	private $description;
 	
 	/**
-	 * @OneToMany(targetEntity="UserGroup", mappedBy="group")
+	 * @OneToMany(targetEntity="UserGroup", mappedBy="group", cascade={"all"}, orphanRemoval=true )
 	 */
 	private $userGroups;
 	
@@ -94,6 +94,8 @@ class Group extends BaseEntity
 	
 	public function getChildren() { return $this->children; }
 	public function hasChildren() { return ! $this->children->isEmpty(); }
+	
+	public function getUserGroups() { return $this->userGroups; }
 
 	public function getMembers()
     {

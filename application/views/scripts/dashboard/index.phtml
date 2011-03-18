@@ -11,23 +11,47 @@
 	<div class="bigbox">
 		<div class="title">Offene Anfragen</div>
 		<div class="content">
-			<tal:block repeat="user requests">
+			<tal:block repeat="item requests">
 				
-				 <a tal:attributes="href helper:url(array('user' => user.getId()), 'user')" class="span-2">
-					<img width="46" height="46" tal:attributes="src helper:url(array('action' => 'avatar', 'user' => user.getId(), 'size' =>32), 'user')" /><br />
-				 </a>
-				 
-				 <div class="span-7 last">
-					 <a tal:attributes="href helper:url(array('user' => user.getId()), 'user')" tal:content="user/getUsername" /> wants to be your friend!<br/>
-					 
-					 <a class="button" tal:attributes="href helper:url(array('action' => 'accept', 'user' => user.getId()), 'user')">+accept</a> 
-					 <a class="button" tal:attributes="href helper:url(array('action' => 'ignore', 'user' => user.getId()), 'user')">-ignore</a> 
-				</div>
+				 <tal:block condition="exists: item/isFriendshipRequest">
+					<tal:block define="user item/user">
+						 <a tal:attributes="href helper:url(array('user' => user.getId()), 'user')" class="span-2">
+							<img width="46" height="46" tal:attributes="src helper:url(array('action' => 'avatar', 'user' => user.getId(), 'size' =>32), 'user')" /><br />
+						 </a>
+						 
+						 <div class="span-7 last">
+							 <a tal:attributes="href helper:url(array('user' => user.getId()), 'user')" tal:content="user/getUsername" /> wants to be your friend!<br/>
+							 
+							 <a class="button positive" tal:attributes="href helper:url(array('action' => 'accept', 'user' => user.getId()), 'user')">+accept</a> 
+							 <a class="button negative" tal:attributes="href helper:url(array('action' => 'ignore', 'user' => user.getId()), 'user')">-ignore</a> 
+						</div>
+					</tal:block>
+				</tal:block>
 				
-				<hr tal:condition="not: repeat/user/end" />
+				<tal:block condition="exists: item/isMembershipRequest">
+					<tal:block define="usergroup item/usergroup">				
+						<a tal:attributes="href helper:url(array('user' => usergroup.getUser().getId()), 'user')" class="span-2">
+							<img width="46" height="46" tal:attributes="src helper:url(array('action' => 'avatar', 'user' => usergroup.getUser().getId(), 'size' =>32), 'user')" /><br />
+						 </a>
+						 
+						 <div class="span-7 last">
+							 <a tal:attributes="href helper:url(array('user' => usergroup.getUser().getId()), 'user')" tal:content="usergroup/getUser/getUsername" /> 
+							 wants to be a member of 
+							 <a tal:attributes="href helper:url(array('group' => usergroup.getGroup().getId()), 'group')" tal:content="usergroup/getGroup/getName" /> 
+							 !
+							 <br/>
+							 
+							 <a class="button positive" tal:attributes="href helper:url(array('action' => 'accept', 'group' => usergroup.getGroup().getId(), 'user' => usergroup.getUser().getId()), 'group')">+accept</a> 
+							 <a class="button negative" tal:attributes="href helper:url(array('action' => 'refuse', 'group' => usergroup.getGroup().getId(), 'user' => usergroup.getUser().getId()), 'group')">-refuse</a>
+							 
+						</div>
+					</tal:block>
+				</tal:block>
+				
+				<hr tal:condition="not: repeat/item/end" />
 			</tal:block>
 			
-			<span tal:condition="php: empty(requests)">You have no open requests!</span>
+			<span tal:condition="requests/isEmpty">You have no open requests!</span>
 			
 			<div class="clear" />
 		</div>

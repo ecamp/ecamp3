@@ -52,6 +52,16 @@ class GroupController extends \Controller\BaseController
 		}
 	}
 	
+	/** membership actions */
 	
+	public function requestAction(){
+		$id = $this->getRequest()->getParam("group");
+		$group = $this->em->getRepository("Entity\Group")->find($id);
+		
+		$this->me->sendMembershipRequestTo($group);
+		
+		$this->em->flush();
+		$this->_helper->getHelper('Redirector')->gotoRoute(array('action'=>'show', 'group' => $id), 'group');
+	}
 
 }

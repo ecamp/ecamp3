@@ -150,8 +150,14 @@ header nav #avatar{
     border-radius:5px;
 }
 
-#mainnav ul li.selected{
+#mainnav ul li.active{
     background-color:white;
+}
+
+#mainnav button, #mainnav .button {
+	margin:0px;
+	margin-left:5px;
+	font-size:80%;
 }
 
 #subnav{
@@ -179,10 +185,6 @@ header nav #avatar{
     -moz-border-radius:5px;
     -webkit-border-radius: 5px;
     border-radius:5px;
-}
-
-#mainnav ul li.active{
-    background-color:white;
 }
 
 #subnav ul li.active{

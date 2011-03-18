@@ -126,7 +126,7 @@ class User extends BaseEntity
 	
 	/**
 	 * @var ArrayObject
-	 * @OneToMany(targetEntity="UserGroup", mappedBy="user")
+	 * @OneToMany(targetEntity="UserGroup", mappedBy="user", cascade={"all"}, orphanRemoval=true)
 	 */
 	private $userGroups;
 	
@@ -234,6 +234,10 @@ class User extends BaseEntity
 	{
 		return $this->userCamps;
 	}
+	
+	/**************************************************************** 
+	 * Friendship methods
+	 ****************************************************************/
 	
 	public function getRelationshipFrom()
 	{
@@ -356,6 +360,38 @@ class User extends BaseEntity
 			$this->relationshipFrom->removeElement($rel[0]);
 			$user->relationshipTo->removeElement($rel[0]);
 		}
+	}
+	
+	
+	/**************************************************************** 
+	 * Membership methods
+	 ****************************************************************/
+	
+	/**
+	 * send membership request to a group
+	 */
+	public function sendMembershipRequestTo($group) {
+		if( !$this->isMemberOrHasOpenRequest($group) ) {
+			$rel = new UserGroup($this, $group);
+			$rel->setRequestedRole(UserGroup::ROLE_MEMBER);
+			$rel->acceptInvitation(); /* I invite myself */
+			
+			$this->userGroups->add($rel);
+			$group->getUserGroups()->add($rel);
+		}
+	}
+	
+	public function getUserGroups()
+	{
+		return $this->userGroups;
+	}
+	
+	private function isMemberOrHasOpenRequest($group){
+		$closure =  function($key, $element) use ($group){ 
+			return  $element->getGroup() == $group; // $element->getType() == UserRelationship::TYPE_FRIEND &&
+		};
+		
+		return $this->getUserGroups()->exists( $closure ); 
 	}
 	
 }

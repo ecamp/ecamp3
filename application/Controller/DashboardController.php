@@ -89,7 +89,30 @@ class DashboardController extends \Controller\BaseController
 
     public function indexAction()
     {
-		$this->view->requests = $this->userService->getFriendshipInvitationsOf($this->me);
+		$friendshipRequests = $this->userService->getFriendshipInvitationsOf($this->me);
+		$membershipRequests = $this->userService->getMembershipRequests($this->me);
+		
+		$requests = new Doctrine\Common\Collections\ArrayCollection;
+		
+		foreach( $friendshipRequests as $user )
+		{
+			$item = array();
+			$item['isFriendshipRequest'] = 1;
+			$item['user'] = $user;
+			
+			$requests->add($item);
+		}
+			
+		foreach( $membershipRequests as $usergroup )
+		{
+			$item = array();
+			$item['isMembershipRequest'] = 1;
+			$item['usergroup'] = $usergroup;
+			
+			$requests->add($item);
+		}
+		
+		$this->view->requests = $requests;	
     }
 	
 	public function campsAction() {}

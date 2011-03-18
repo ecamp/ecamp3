@@ -13,10 +13,16 @@
 		<tal:block content="group/getDescription" />
 	</div>
 	<nav id="mainnav">
-		<ul>
+		<ul class="left">
 			<li class="selected"><a href="#">Übersicht</a></li>
 			<li><a href="#">Lager/Kurse</a></li>
 			<li><a href="#">Mitglieder</a></li>
 		</ul>
+		
+		<a class="button right" tal:attributes="href helper:thisurl(array('action' => 'request', 'group' => group.getId() ), 'group')">
+			request membership
+		</a>
+		
+		<div class="clear" />
 	</nav>
 </span>
