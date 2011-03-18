@@ -14,7 +14,8 @@ class BaseController extends \Zend_Controller_Action
 	 * @var Zend_Session_Namespace
 	 */
 	protected $authSession;
-	
+
+	/** loggedin user */
 	protected $me = null;
 	
 	public function init()

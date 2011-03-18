@@ -12,27 +12,23 @@
 		
 		<tal:block content="group/getDescription" />
 	</div>
-	
+
 	<nav id="mainnav">
-		<ul class="left">
-			<li class="selected"><a tal:attributes="href helper:thisurl(array('action' => 'show', 'group' => group.getId() ), 'group')">Übersicht</a></li>
-			<li><a href="#">Lager/Kurse</a></li>
-			<li><a tal:attributes="href helper:thisurl(array('action' => 'members', 'group' => group.getId() ), 'group')">Mitglieder</a></li>
-		</ul>
-		
+		<tal:block content="structure php: this.navigation().menu().renderMenu(NULL, array('maxDepth' => 0, 'ulClass' => 'left'))" />
+
 		<a class="button right positive" tal:condition="php: me.canRequestMembership(group)" tal:attributes="href helper:thisurl(array('action' => 'request', 'group' => group.getId() ), 'group')">
 			request membership
 		</a>
-		
+
 		<a class="button right negative" tal:condition="php: me.isMemberOf(group)" tal:attributes="href helper:thisurl(array('action' => 'leave', 'group' => group.getId() ), 'group')">
 			leave this group
 		</a>
-		
+
 		<a class="button right negative" tal:condition="php: me.hasOpenRequest(group)" tal:attributes="href helper:thisurl(array('action' => 'leave', 'group' => group.getId() ), 'group')">
 			withdraw request
 		</a>
-		
+
 		<div class="clear" />
 	</nav>
-	
+
 </span>

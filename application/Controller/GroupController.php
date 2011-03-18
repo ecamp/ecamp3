@@ -24,62 +24,96 @@ class GroupController extends \Controller\BaseController
     public function init()
     {
 	    parent::init();
+
+	     /* load group */
+	    $groupid = $this->getRequest()->getParam("group");
+	    $this->group = $this->em->getRepository("Entity\Group")->find($groupid);
+	    $this->view->group = $this->group;
+
+	    
+	    $pages = array(
+			array(
+			'label'      => 'Overview',
+			'title'      => 'Overview',
+			'controller' => 'group',
+			'action'     => 'show'),
+
+		    array(
+			'label'      => 'Camps',
+			'title'      => 'Camps',
+			'controller' => 'group',
+			'action'     => 'camps'),
+
+		    array(
+			'label'      => 'Members',
+			'title'      => 'Members',
+			'controller' => 'group',
+			'action'     => 'members')
+	    );
+
+	    $container = new Zend_Navigation($pages);
+		$this->view->getHelper('navigation')->setContainer($container);
+
+	    /* inject group id into navigation */
+	    foreach($container->getPages() as $page){
+			$page->setParams(array(
+				'group' => $this->group->getId()
+			));
+		}
     }
 
     public function showAction()
     {
-		$id = $this->getRequest()->getParam("group");
-		$group = $this->em->getRepository("Entity\Group")->find($id);
-		
-		$this->view->group = $group;		
     }
 	
 	public function membersAction()
 	{
-		$id = $this->getRequest()->getParam("group");
-		$group = $this->em->getRepository("Entity\Group")->find($id);
-		
-		$this->view->group = $group;
+	}
+
+	public function campsAction(){
 	}
 	
 	public function avatarAction()
 	{
-		$id = $this->getRequest()->getParam("group");
-		
 		$this->_helper->layout()->disableLayout();
 		$this->_helper->viewRenderer->setNoRender(true);
-
-		$group = $this->em->getRepository("Entity\Group")->find($id);
 		
-		if( $group->getImageData() == null ) {
+		if( $this->group->getImageData() == null ) {
 			$this->_redirect("img/default_group.png");
 			
 		} else {
-			$this->getResponse()->setHeader("Content-type", $group->getImageMime());
-			$this->getResponse()->setBody($group->getImageData());
+			$this->getResponse()->setHeader("Content-type", $this->group->getImageMime());
+			$this->getResponse()->setBody($this->group->getImageData());
 		}
 	}
 	
 	/** membership actions */
 	
 	public function requestAction(){
-		$id = $this->getRequest()->getParam("group");
-		$group = $this->em->getRepository("Entity\Group")->find($id);
-		
-		$this->me->sendMembershipRequestTo($group);
+
+		$this->me->sendMembershipRequestTo($this->group);
 		
 		$this->em->flush();
-		$this->_helper->getHelper('Redirector')->gotoRoute(array('action'=>'show', 'group' => $id), 'group');
+		$this->_helper->getHelper('Redirector')->gotoRoute(array('action'=>'show', 'group' => $this->group->getId()), 'group');
 	}
 	
 	public function leaveAction(){
-		$id = $this->getRequest()->getParam("group");
-		$group = $this->em->getRepository("Entity\Group")->find($id);
 		
-		$this->me->deleteMembershipWith($group);
+		$this->me->deleteMembershipWith($this->group);
 		
 		$this->em->flush();
-		$this->_helper->getHelper('Redirector')->gotoRoute(array('action'=>'show', 'group' => $id), 'group');
+		$this->_helper->getHelper('Redirector')->gotoRoute(array('action'=>'show', 'group' => $this->group->getId()), 'group');
+	}
+
+	public function kickoutAction(){
+		$userid = $this->getRequest()->getParam("user");
+		$user   = $this->em->getRepository("Entity\User")->find($userid);
+
+		if( $this->me->isManagerOf($this->group) )
+			$user->deleteMembershipWith($this->group);
+
+		$this->em->flush();
+		$this->_helper->getHelper('Redirector')->gotoRoute(array('action'=>'members', 'group' => $this->group->getId()), 'group');
 	}
 	
 	public function acceptAction(){
@@ -87,26 +121,20 @@ class GroupController extends \Controller\BaseController
 		$id = $this->getRequest()->getParam("id");
 		$request = $this->em->getRepository("Entity\UserGroup")->find($id);
 		
-		$groupid = $this->getRequest()->getParam("group");
-		$group = $this->em->getRepository("Entity\Group")->find($groupid);
-		
-		$group->acceptRequest($request, $this->me);
+		$this->group->acceptRequest($request, $this->me);
 		
 		$this->em->flush();
-		$this->_helper->getHelper('Redirector')->gotoRoute(array('action'=>'show', 'group' => $groupid), 'group');
+		$this->_helper->getHelper('Redirector')->gotoRoute(array('action'=>'show', 'group' => $this->group->getId()), 'group');
 	}
 	
 	public function refuseAction(){
 		$id = $this->getRequest()->getParam("id");
 		$request = $this->em->getRepository("Entity\UserGroup")->find($id);
 		
-		$groupid = $this->getRequest()->getParam("group");
-		$group = $this->em->getRepository("Entity\Group")->find($groupid);
-		
-		$group->refuseRequest($request, $this->me);
+		$this->group->refuseRequest($request, $this->me);
 		
 		$this->em->flush();
-		$this->_helper->getHelper('Redirector')->gotoRoute(array('action'=>'show', 'group' => $groupid, 'user' => null), 'group');
+		$this->_helper->getHelper('Redirector')->gotoRoute(array('action'=>'show', 'group' => $this->group->getId(), 'user' => null), 'group');
 	}
 
 }
