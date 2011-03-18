@@ -7,7 +7,7 @@ from main.css use:
 .subnav
   second horizontal navigation menu
 
-li.selected
+li.active
   selected entries inside mainnav and subnav
 
 .bigbox
@@ -28,14 +28,6 @@ from BlueprintCSS use:
 
 
 /* Navigation */
-nav {
-    margin-bottom:10px;
-}
-
-nav {
-    padding: 0 0.7em;
-    white-space: nowrap;
-}
 
 nav ul {
     margin: 0;
@@ -129,7 +121,7 @@ header nav ul li{
 }
 
 header nav #avatar{
-    width:18px; position:relative; height:20px; background-color:black;
+    width:16px; position:relative; height:16px; background-color:black;
     top:4px;
 }
 
@@ -141,8 +133,9 @@ header nav #avatar{
     -webkit-border-radius: 8px;
     border-radius:8px;
     font-size:10pt;
-    z-index:-100;
+    z-index:20;
     margin-bottom:20px;
+	position:relative;
 }
 
 #mainnav ul li {
@@ -169,10 +162,9 @@ header nav #avatar{
     border-radius:8px;
     font-size:9pt;
 
-
     position:relative;
-    top:-20px;
-    z-index:-1;
+    top:-30px;
+    z-index:10;
     padding-top:15px;
 }
 
@@ -189,7 +181,11 @@ header nav #avatar{
     border-radius:5px;
 }
 
-#mainnav ul li.selected{
+#mainnav ul li.active{
+    background-color:white;
+}
+
+#subnav ul li.active{
     background-color:white;
 }
 

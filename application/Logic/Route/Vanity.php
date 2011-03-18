@@ -1,5 +1,23 @@
 <?php
-
+/*
+ * Copyright (C) 2011 Urban Suppiger
+ *
+ * This file is part of eCamp.
+ *
+ * eCamp is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * eCamp is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with eCamp.  If not, see <http://www.gnu.org/licenses/>.
+ */
+ 
 namespace Logic\Route;
 
 /**
@@ -109,7 +127,7 @@ class Vanity extends \Zend_Controller_Router_Route
 				// If it's a user, search username
 				if ($name == "user" ) 
 				{
-					$user = $this->em->getRepository('Entity\User')->findOneBy(array("scoutname" => $pathPart));
+					$user = $this->em->getRepository('Entity\User')->findOneBy(array("username" => $pathPart));
 
 					if (! $user) {
 						return false;
@@ -237,17 +255,17 @@ class Vanity extends \Zend_Controller_Router_Route
 					if(!isset($data[$name]))
 					{
 						require_once 'Zend/Controller/Router/Exception.php';
-						throw new Zend_Controller_Router_Exception($name . ' is not specified');
+						throw new \Zend_Controller_Router_Exception($name . ' is not specified');
 					}
 					
 					$user = $this->em->getRepository('Entity\User')->find($data[$name]);
 					
 					if (!$user) {
 						require_once 'Zend/Controller/Router/Exception.php';
-						throw new Zend_Controller_Router_Exception('user with id '.$data[$name].' does not exist');
+						throw new \Zend_Controller_Router_Exception('user with id '.$data[$name].' does not exist');
 					}
 
-					$value = $user->getScoutname();
+					$value = $user->getUsername();
 					unset($data[$name]);
 					
 				} elseif($name == "group") {
@@ -255,14 +273,14 @@ class Vanity extends \Zend_Controller_Router_Route
 					if(!isset($data[$name]))
 					{
 						require_once 'Zend/Controller/Router/Exception.php';
-						throw new Zend_Controller_Router_Exception($name . ' is not specified');
+						throw new \Zend_Controller_Router_Exception($name . ' is not specified');
 					}
 					
 					$group = $this->em->getRepository('Entity\Group')->find($data[$name]);
 					
 					if(!$group) {
 						require_once 'Zend/Controller/Router/Exception.php';
-						throw new Zend_Controller_Router_Exception('group with id '.$data[$name].' does not exist');
+						throw new \Zend_Controller_Router_Exception('group with id '.$data[$name].' does not exist');
 					}
 					
 					if ($encode) 
@@ -288,14 +306,14 @@ class Vanity extends \Zend_Controller_Router_Route
 					if(!isset($data[$name]))
 					{
 						require_once 'Zend/Controller/Router/Exception.php';
-						throw new Zend_Controller_Router_Exception($name . ' is not specified');
+						throw new \Zend_Controller_Router_Exception($name . ' is not specified');
 					}
 					
 					$camp = $this->em->getRepository('Entity\Camp')->find($data[$name]);
 					
 					if (!$camp) {
 						require_once 'Zend/Controller/Router/Exception.php';
-						throw new Zend_Controller_Router_Exception('camp with id '.$data[$name].' does not exist');
+						throw new \Zend_Controller_Router_Exception('camp with id '.$data[$name].' does not exist');
 					}
 
 					$value= $camp->getName();
@@ -312,7 +330,7 @@ class Vanity extends \Zend_Controller_Router_Route
                     $value = $this->_defaults[$name];
                 } else {
                     require_once 'Zend/Controller/Router/Exception.php';
-                    throw new Zend_Controller_Router_Exception($name . ' is not specified');
+                    throw new \Zend_Controller_Router_Exception($name . ' is not specified');
                 }
 
                 

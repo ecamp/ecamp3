@@ -1,0 +1,36 @@
+<span metal:use-macro="header.phtml/header" />
+
+<div class="span-14">blabla</div>
+<div class="span-10 last">
+
+	<div class="bigbox">
+		<div class="title">Lager / Kurse</div>
+		<div class="content">blablabla</div>
+	</div>
+
+	<div class="bigbox">
+		<div class="title">Offene Anfragen</div>
+		<div class="content">
+			<tal:block repeat="user requests">
+				
+				 <a tal:attributes="href helper:url(array('user' => user.getId()), 'user')" class="span-2">
+					<img width="46" height="46" tal:attributes="src helper:url(array('action' => 'avatar', 'user' => user.getId(), 'size' =>32), 'user')" /><br />
+				 </a>
+				 
+				 <div class="span-7 last">
+					 <a tal:attributes="href helper:url(array('user' => user.getId()), 'user')" tal:content="user/getUsername" /> wants to be your friend!<br/>
+					 
+					 <a class="button" tal:attributes="href helper:url(array('action' => 'accept', 'user' => user.getId()), 'user')">+accept</a> 
+					 <a class="button" tal:attributes="href helper:url(array('action' => 'ignore', 'user' => user.getId()), 'user')">-ignore</a> 
+				</div>
+				
+				<hr tal:condition="not: repeat/user/end" />
+			</tal:block>
+			
+			<span tal:condition="php: empty(requests)">You have no open requests!</span>
+			
+			<div class="clear" />
+		</div>
+	</div>
+
+</div>

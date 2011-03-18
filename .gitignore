@@ -5,8 +5,11 @@ tmp/**/*
 
 application/Entity/Proxy/*
 
-data/*
-data/**/*
+data/log/*
+data/log/**/*
+
+data/session/*
+data/session/**/*
 
 
 docs/*

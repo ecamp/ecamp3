@@ -122,21 +122,21 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 		/* general */
 		Zend_Controller_Front::getInstance()->getRouter()->addRoute(
 			'general', new Zend_Controller_Router_Route(':controller/:action/*',
-			array('controller' => 'index', 'action' => 'index')));
+			array('controller' => 'dashboard', 'action' => 'index')));
 
 		Zend_Controller_Front::getInstance()->getRouter()->addRoute(
 			'general+id', new Zend_Controller_Router_Route(':controller/:action/:id/*',
-			array('controller' => 'index', 'action' => 'index'),
+			array('controller' => 'dashboard', 'action' => 'index'),
 			array('id' => '\d+')));
 				
 		/* user */
 		Zend_Controller_Front::getInstance()->getRouter()->addRoute(
 			'user', new Logic\Route\Vanity('user/:user/:action/*',
-				array('controller' => 'users','action' => 'show')));
+				array('controller' => 'user','action' => 'show')));
 				
 		Zend_Controller_Front::getInstance()->getRouter()->addRoute(
 			'user+id', new Logic\Route\Vanity('user/:user/:action/:id/*',
-				array('controller' => 'users','action' => 'show'),
+				array('controller' => 'user','action' => 'show'),
 				array('id' => '\d+')));
 		
 		/* user camp */
@@ -240,7 +240,8 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 		$view->headLink()->appendStylesheet('/css/blueprint/print.css', 'print');
 
 		$view->headLink()->appendStylesheet('/css/blueprint/plugins/fancy-type/screen.css', 'screen, projection');
-
+		$view->headLink()->appendStylesheet('/css/blueprint/plugins/buttons/screen.css', 'screen, projection');
+		
 		$view->headLink()->appendStylesheet('/css/main.css');
 
 

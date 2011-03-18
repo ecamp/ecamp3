@@ -39,21 +39,12 @@ class CampController extends \Controller\BaseController
      */
 	private $userService;
 
-	/**
-	 * @var Zend_Session_Namespace
-	 */
-	private $authSession;
-
 
     public function init()
     {
 	    parent::init();
-	    
-		$this->view->headLink()->appendStylesheet('/css/layout.css');
 
-		$this->authSession = new Zend_Session_Namespace('Zend_Auth');
-
-        if(is_null($this->authSession->Login))
+        if(!isset($this->me))
 		{
 			$this->_forward("index", "login");
 			return;
