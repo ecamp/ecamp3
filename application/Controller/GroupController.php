@@ -34,6 +34,14 @@ class GroupController extends \Controller\BaseController
 		$this->view->group = $group;		
     }
 	
+	public function membersAction()
+	{
+		$id = $this->getRequest()->getParam("group");
+		$group = $this->em->getRepository("Entity\Group")->find($id);
+		
+		$this->view->group = $group;
+	}
+	
 	public function avatarAction()
 	{
 		$id = $this->getRequest()->getParam("group");
