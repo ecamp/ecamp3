@@ -25,10 +25,10 @@ class ConfirmDialog extends \Zend_View_Helper_Abstract
 								'autoOpen' => false,
 								'closeOnEscape' => true,
 								'buttons'   => array(
-									'Yes' =>  new \Zend_Json_Expr('function() {
+									'Ok' =>  new \Zend_Json_Expr('function() {
 										document.location = $("#'.$link_id.'").attr("href");
 									}'),
-									'No' => new \Zend_Json_Expr('function() {
+									'Cancel' => new \Zend_Json_Expr('function() {
 										$(this).dialog(\'close\');
 									}')
 								),
