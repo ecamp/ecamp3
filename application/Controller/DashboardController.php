@@ -32,6 +32,12 @@ class DashboardController extends \Controller\BaseController
     {
 	    parent::init();
 		
+		if(!isset($this->me))
+		{
+			$this->_redirect("login");
+			return;
+		}
+		
 		/* later, the navigation should probably go out of the controller
 		   to a more global position (XML file -> Bootstrap) */
 		   

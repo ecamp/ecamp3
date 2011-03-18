@@ -15,6 +15,8 @@ class BaseController extends \Zend_Controller_Action
 	 */
 	protected $authSession;
 	
+	protected $me = null;
+	
 	public function init()
 	{
 		$this->view->addHelperPath(APPLICATION_PATH . '/../application/views/helpers', 'Application\View\Helper\\');

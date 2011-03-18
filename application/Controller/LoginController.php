@@ -57,14 +57,15 @@ class LoginController
 		$this->authSession->Login = $login->getId();
 
 		$this->view->login = $login;
+		
+		$this->view->me = $login->getUser();
 	}
 
 
 	public function logoutAction()
 	{
 		$this->authSession->Login = null;
-
-		$this->_forward("index");
+		$this->_redirect("login");
 	}
 
 

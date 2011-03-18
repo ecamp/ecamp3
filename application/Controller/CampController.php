@@ -44,7 +44,7 @@ class CampController extends \Controller\BaseController
     {
 	    parent::init();
 
-        if(is_null($this->authSession->Login))
+        if(!isset($this->me))
 		{
 			$this->_forward("index", "login");
 			return;
