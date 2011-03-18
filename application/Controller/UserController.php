@@ -20,9 +20,22 @@
 
 class UserController extends \Controller\BaseController
 {
+	/**
+     * @var Service\UserService
+     * @Inject Service\UserService
+     */
+	private $userService;
+	
 	public function init()
 	{
 		parent::init();
+	}
+	
+	public function showAction()
+	{
+		$id = $this->getRequest()->getParam("user");
+		$this->view->user    = $this->em->getRepository("Entity\User")->find($id);
+		$this->view->friends = $this->userService->getFriendsOf($this->view->user);
 	}
 
 	public function avatarAction()
@@ -58,7 +71,7 @@ class UserController extends \Controller\BaseController
 		$this->me->sendFriendshipRequestTo($user);
 		
 		$this->em->flush();
-		$this->_redirect('/dashboard/friends');
+		$this->_helper->getHelper('Redirector')->gotoRoute(array('action'=>'show', 'user' => $id), 'user');
 	}
 	
 	public function acceptAction()
@@ -69,7 +82,7 @@ class UserController extends \Controller\BaseController
 		$this->me->acceptFriendshipRequestFrom($user);
 		
 		$this->em->flush();
-		$this->_redirect('/dashboard/friends');
+		$this->_helper->getHelper('Redirector')->gotoRoute(array('action'=>'show', 'user' => $id), 'user');
 	}
 	
 	public function ignoreAction()
@@ -81,7 +94,7 @@ class UserController extends \Controller\BaseController
 		
 		$this->em->flush();
 		
-		$this->_redirect('/dashboard/friends');
+		$this->_helper->getHelper('Redirector')->gotoRoute(array('action'=>'show', 'user' => $id), 'user');
 	}
 	
 	public function divorceAction()
@@ -93,7 +106,7 @@ class UserController extends \Controller\BaseController
 		
 		$this->em->flush();
 		
-		$this->_redirect('/dashboard/friends');
+		$this->_helper->getHelper('Redirector')->gotoRoute(array('action'=>'show', 'user' => $id), 'user');
 	}
 	
 }

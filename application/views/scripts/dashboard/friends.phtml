@@ -6,7 +6,7 @@
 		<h2>My friends</h2>
 		
 		<tal:block repeat="user friends">
-			<span metal:use-macro="user.phtml/withavatar" tal:define="user user" tal:omit-tag="" />
+			<span metal:use-macro="singleuser.phtml/withavatar" tal:define="user user" tal:omit-tag="" />
 		</tal:block>
 	</div>
 	
@@ -16,7 +16,7 @@
 		<span tal:content="structure paginator"/><br />
 		
 		<tal:block repeat="user paginator">
-			<span metal:use-macro="user.phtml/withavatar" tal:define="user user" tal:omit-tag="" />
+			<span metal:use-macro="singleuser.phtml/withavatar" tal:define="user user" tal:omit-tag="" />
 		</tal:block>
 	</div>
 

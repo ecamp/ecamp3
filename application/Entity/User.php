@@ -202,10 +202,19 @@ class User extends BaseEntity
 
 	public function getDisplayName()
 	{
-		if( ! is_null( $this->scoutname ) )
+		if( !empty( $this->scoutname ) )
 		{	return $this->scoutname;	}
 		
 		return $this->firstname . " " . $this->surname;
+	}
+	
+	public function getFullName()
+	{
+		$name = "";
+		if( !empty( $this->scoutname ) )
+		{	$name .= $this->scoutname.", ";	}
+		
+		return $name.$this->firstname . " " . $this->surname;
 	}
 
 	public function isMale()
