@@ -6,7 +6,7 @@
 		<h2>My groups</h2>
 		
 		<tal:block repeat="usergroup memberships">
-			<span metal:use-macro="global/singleusergroup.phtml/withavatar" tal:define="usergroup usergroup" />
+			<span metal:use-macro="global/singleusergroup.phtml/group_withrole" tal:define="usergroup usergroup" />
 		</tal:block>
 	</div>
 	

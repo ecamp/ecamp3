@@ -145,6 +145,6 @@ class DashboardController extends \Controller\BaseController
 				
 	}
 	
-	public function subitemAction() { $this->render('groups'); }
-	public function subitem2Action() { $this->render('groups'); }
+	public function subitemAction() { $this->render('camps'); }
+	public function subitem2Action() { $this->render('camps'); }
 }

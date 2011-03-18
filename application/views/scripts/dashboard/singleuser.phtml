@@ -10,14 +10,14 @@
 		<br/>
 		
 		<!-- replace with ajax call one day -->
-		<a tal:condition="php: me.canIAdd(user)" class="button" tal:attributes="href helper:url(array('action' => 'add', 'user' => user.getId()), 'user')">+add as friend</a> 
+		<a tal:condition="php: me.canIAdd(user)" class="button positive" tal:attributes="href helper:url(array('action' => 'add', 'user' => user.getId()), 'user')">+add as friend</a>
 		<span tal:condition="php: me==user">Hey, this is you!</span>
 		<span tal:condition="php: me.sentFriendshipRequestTo(user)">Request already sent.</span>
 		<tal:block condition="php: me.receivedFriendshipRequestFrom(user)">
-			<a class="button" tal:attributes="href helper:url(array('action' => 'accept', 'user' => user.getId()), 'user')">+accept</a> 
-			<a class="button" tal:attributes="href helper:url(array('action' => 'ignore', 'user' => user.getId()), 'user')">-ignore</a> 
+			<a class="button positive" tal:attributes="href helper:url(array('action' => 'accept', 'user' => user.getId()), 'user')">+accept</a>
+			<a class="button negative" tal:attributes="href helper:url(array('action' => 'ignore', 'user' => user.getId()), 'user')">-ignore</a>
 		</tal:block>
-		<a tal:condition="php: me.isFriendOf(user)" class="button" tal:attributes="href helper:url(array('action' => 'divorce', 'user' => user.getId()), 'user')">-divorce</a> 
+		<a tal:condition="php: me.isFriendOf(user)" class="button negative" tal:attributes="href helper:url(array('action' => 'divorce', 'user' => user.getId()), 'user')">-divorce</a>
 		
 	</span>
 	
