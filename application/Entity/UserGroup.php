@@ -102,6 +102,19 @@ class UserGroup extends BaseEntity
 	public function getUser()          { return $this->user; }
 	
 	public function getRole()          { return $this->role; }
+	public function getRoleName(){
+		switch( $this->role )
+		{
+			case self::ROLE_NONE:
+				return "No Member";
+				
+			case self::ROLE_MEMBER:
+				return "Member";
+				
+			case self::ROLE_MANAGER:
+				return "Manager";
+		}
+	}
 	
 	public function getRequestedRole() { return $this->requestedRole; }
 	public function setRequestedRole($role) { $this->requestedRole = $role; return $this; }

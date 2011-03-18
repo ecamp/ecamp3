@@ -61,7 +61,7 @@
 		<div class="title">Friends</div>
 		<div class="content">
 			<tal:block repeat="user friends">
-				<span metal:use-macro="singleuser.phtml/withavatar" tal:define="user user" tal:omit-tag="" />
+				<span metal:use-macro="global/singleuser.phtml/withavatar" tal:define="user user" tal:omit-tag="" />
 			</tal:block>
 			
 			<span tal:condition="php: count(friends)==0">Saidly, <span tal:content="user/getUsername" /> has no friends. But who cares, they are only virtual friends anyway.</span>

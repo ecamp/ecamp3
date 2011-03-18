@@ -135,7 +135,15 @@ class DashboardController extends \Controller\BaseController
 		$this->view->paginator = $paginator;
 	}
 	
-	public function groupsAction() {}
+	public function groupsAction() {
+		$this->view->memberships = $this->me->getMemberships();
+		
+		$this->view->rootgroups  = $this->em->getRepository("Entity\Group")->createQueryBuilder("g")
+				->where("g.parent IS NULL ")
+				->getQuery()
+				->getResult();
+				
+	}
 	
 	public function subitemAction() { $this->render('groups'); }
 	public function subitem2Action() { $this->render('groups'); }

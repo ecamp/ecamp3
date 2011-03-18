@@ -18,12 +18,18 @@
 <div class="span-11 last">
 
 	<div class="bigbox">
-		<div class="title">Mitglieder</div>
-		<div class="content">blablabla</div>
+		<div class="title">Members</div>
+		<div class="content">
+			<tal:block repeat="usergroup group/getUserGroups">
+				<span metal:use-macro="global/singleuser.phtml/withavatar" tal:define="user usergroup/getUser" tal:condition="php: usergroup.getUser().isMemberOf(group)" />
+			</tal:block>
+			
+			<div class="clear" />
+		</div>
 	</div>
 
 	<div class="bigbox">
-		<div class="title">Lager / Kurse</div>
+		<div class="title">Camps / Courses</div>
 		<div class="content">blablabla</div>
 	</div>
 

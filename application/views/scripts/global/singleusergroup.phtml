@@ -1,0 +1,15 @@
+<span metal:define-macro="withavatar" tal:omit-tag="" >
+     
+	<span  style="height:100px;" class="span-2">
+		<a tal:attributes="href helper:url(array('group' => usergroup.getGroup().getId()), 'group')">
+			<img width="48" height="48" tal:attributes="src helper:url(array('action' => 'avatar', 'group' => usergroup.getGroup().getId(), 'size' => 48), 'group')" /><br />
+		</a>
+		<a tal:attributes="href helper:url(array('group' => usergroup.getGroup().getId()), 'group')">
+			<tal:block content="usergroup/getGroup/getName" />
+		</a>
+		<tal:block content="usergroup/getRoleName" />
+		<br/>
+		
+	</span>
+	
+</span>

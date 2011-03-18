@@ -367,6 +367,15 @@ class User extends BaseEntity
 	 * Membership methods
 	 ****************************************************************/
 	
+	public function getMemberships() {
+	
+		$closure =  function($element){ 
+			return $element->isMember(); 
+		};
+		
+		return $this->getUserGroups()->filter( $closure ); 
+	}
+	
 	public function sendMembershipRequestTo($group) {
 		$membership = $this->getMembershipWith($group);
 		

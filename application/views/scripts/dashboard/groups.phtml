@@ -1,3 +1,21 @@
 <span metal:use-macro="header.phtml/header" />
 
-<div class="span-24">blabla</div>
+<div class="span-24 last">
+
+	<div class="span-24 last">
+		<h2>My groups</h2>
+		
+		<tal:block repeat="usergroup memberships">
+			<span metal:use-macro="global/singleusergroup.phtml/withavatar" tal:define="usergroup usergroup" />
+		</tal:block>
+	</div>
+	
+	<div class="span-24 last">
+		<h2>Root groups</h2>
+		
+		<tal:block repeat="group rootgroups">
+			<span metal:use-macro="global/singlegroup.phtml/withavatar" tal:define="group group" />
+		</tal:block>
+	</div>
+
+</div>
