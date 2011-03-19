@@ -1,6 +1,9 @@
 <span metal:use-macro="header.phtml/header" />
 
 <div class="span-13">
+
+	<tal:block content="structure helper:flashMessenger()" />
+	
 	<div tal:condition="group/hasChildren">
 		<h2>Subgroups</h2>
 		<div tal:repeat="subgroup group/getChildren" class="span-3 avatarlist">

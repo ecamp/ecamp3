@@ -94,9 +94,10 @@ class GroupController extends \Controller\BaseController
 		$this->me->sendMembershipRequestTo($this->group);
 		
 		$this->em->flush();
+		$this->_helper->flashMessenger->addMessage(array('info' => 'Your request has been sent to the group managers.'));
 		$this->_helper->getHelper('Redirector')->gotoRoute(array('action'=>'show', 'group' => $this->group->getId()), 'group');
 	}
-	
+
 	public function leaveAction(){
 		
 		$this->me->deleteMembershipWith($this->group);

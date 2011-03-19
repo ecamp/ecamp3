@@ -16,9 +16,17 @@
 	<nav id="mainnav">
 		<tal:block content="structure php: this.navigation().menu().renderMenu(NULL, array('maxDepth' => 0, 'ulClass' => 'left'))" />
 
-		<a id="request_membership" class="button right positive" tal:condition="php: me.canRequestMembership(group)" tal:attributes="href helper:thisurl(array('action' => 'request', 'group' => group.getId() ), 'group')">
-			request membership
-		</a>
+		<tal:block condition="php: me.canRequestMembership(group)" >
+			<a id="request_membership" class="button right positive" tal:attributes="href helper:thisurl(array('action' => 'request', 'group' => group.getId() ), 'group')">
+				request membership
+			</a>
+
+			<?php echo $ctx->this->confirmDialog('request_membership_dialog', 'request_membership', 'Request Membership', '', false); ?>
+
+			<div id="request_membership_dialog">
+				Do you want to request membership for this group? Your email address will be sent to the group managers.
+			</div>
+		</tal:block>
 
 		<a class="button right negative" tal:condition="php: me.isMemberOf(group)" tal:attributes="href helper:thisurl(array('action' => 'leave', 'group' => group.getId() ), 'group')">
 			leave this group
@@ -32,6 +40,7 @@
 	</nav>
 
 
-	<tal:block content="structure helper:confirmDialog('request_membership_dialog', 'request_membership', 'Request Membership', 'Do you want to request membership for this group? Your email address will be sent to the group managers.')" />
+
+
 
 </span>
