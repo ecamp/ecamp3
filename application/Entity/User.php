@@ -323,7 +323,12 @@ class User extends BaseEntity
 			return $element->getType() == UserRelationship::TYPE_FRIEND  && $element->getFrom() == $user; 
 		};
 		
-		return $this->getRelationshipTo()->filter( $closure ); 
+		$relations =  $this->getRelationshipTo()->filter( $closure );
+
+		if( $relations->isEmpty() )
+			return null;
+
+		return $relations->first();
 	}
 	
 	/** get the relation object from $user */
@@ -332,16 +337,21 @@ class User extends BaseEntity
 		$closure =  function($element) use ($user){ 
 			return $element->getType() == UserRelationship::TYPE_FRIEND  && $element->getTo() == $user; 
 		};
-		
-		return $this->getRelationshipFrom()->filter( $closure ); 
+		 
+		$relations =  $this->getRelationshipFrom()->filter( $closure );
+
+		if( $relations->isEmpty() )
+			return null;
+
+		return $relations->first();
 	}
 		
 	/** ignore a friendship request */
 	public function ignoreFriendshipRequestFrom($user){
 		if( $this->receivedFriendshipRequestFrom($user) ){
 			$rel = $this->getRelFrom($user);
-			$this->relationshipTo->removeElement($rel[0]);
-			$user->relationshipFrom->removeElement($rel[0]);
+			$this->relationshipTo->removeElement($rel);
+			$user->relationshipFrom->removeElement($rel);
 		}
 	}
 	
@@ -356,12 +366,12 @@ class User extends BaseEntity
 	{
 		if( $this->isFriendOf($user) ){
 			$rel = $this->getRelFrom($user);
-			$this->relationshipTo->removeElement($rel[0]);
-			$user->relationshipFrom->removeElement($rel[0]);
+			$this->relationshipTo->removeElement($rel);
+			$user->relationshipFrom->removeElement($rel);
 			
 			$rel = $this->getRelTo($user);
-			$this->relationshipFrom->removeElement($rel[0]);
-			$user->relationshipTo->removeElement($rel[0]);
+			$this->relationshipFrom->removeElement($rel);
+			$user->relationshipTo->removeElement($rel);
 		}
 	}
 	
@@ -399,16 +409,16 @@ class User extends BaseEntity
 	
 	private function getMembershipWith($group)
 	{
-		$closure =  function($element) use ($group){ 
-			return $element->getGroup() == $group; 
+		$closure =  function($element) use ($group){
+			return $element->getGroup() == $group;
 		};
 		
 		$memberships = $this->getUserGroups()->filter( $closure ); 
 		
-		if( count($memberships) == 0 )
+		if( $memberships->isEmpty() )
 			return null;
 			
-		return $memberships[0];
+		return $memberships->first();
 	}
 	
 	public function deleteMembershipWith($group) {
@@ -455,7 +465,7 @@ class User extends BaseEntity
 	
 	public function hasOpenRequest($group){
 		$membership = $this->getMembershipWith($group);
-		
+
 		if( isset($membership) && $membership->isOpenRequest())
 			return true;
 			
