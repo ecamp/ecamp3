@@ -21,20 +21,53 @@
 				request membership
 			</a>
 
-			<?php echo $ctx->this->confirmDialog('request_membership_dialog', 'request_membership', 'Request Membership', '', false); ?>
+			<tal:block content="structure helper:confirmDialog('request_membership_dialog', 'request_membership', array('title'=> 'Request Membership', 'print_div' => false, 'width' => 500, 'ok' => 'Send Request'))" />
 
-			<div id="request_membership_dialog">
-				Do you want to request membership for this group? Your email address will be sent to the group managers.
+			<div id="request_membership_dialog" class="dialog">
+				<span metal:use-macro="global/singlegroup.phtml/big" />
+
+				<div class="clear" />
+				<div class="question">
+					Do you want to request membership for this group? Your email address will be sent to the group managers.
+				</div>
 			</div>
 		</tal:block>
 
-		<a class="button right negative" tal:condition="php: me.isMemberOf(group)" tal:attributes="href helper:thisurl(array('action' => 'leave', 'group' => group.getId() ), 'group')">
-			leave this group
-		</a>
+		<tal:block condition="php: me.isMemberOf(group)" >
+			<a id="leave_membership" class="button right negative" tal:attributes="href helper:thisurl(array('action' => 'leave', 'group' => group.getId() ), 'group')">
+				leave this group
+			</a>
 
-		<a class="button right negative" tal:condition="php: me.hasOpenRequest(group)" tal:attributes="href helper:thisurl(array('action' => 'leave', 'group' => group.getId() ), 'group')">
-			withdraw request
-		</a>
+			<tal:block content="structure helper:confirmDialog('leave_membership_dialog', 'leave_membership', array('title'=> 'Leave Group', 'print_div' => false, 'width' => 500, 'ok' => 'Leave Group'))" />
+
+			<div id="leave_membership_dialog" class="dialog">
+				<span metal:use-macro="global/singlegroup.phtml/big" />
+
+				<div class="clear" />
+				<div class="question">
+					Do you really want to leave this group? Your membership will be deleted.
+				</div>
+			</div>
+
+		</tal:block>
+
+		<tal:block condition="php: me.hasOpenRequest(group)">
+			<a id="withdraw_membership" class="button right negative" tal:attributes="href helper:thisurl(array('action' => 'withdraw', 'group' => group.getId() ), 'group')">
+				withdraw request
+			</a>
+
+			<tal:block content="structure helper:confirmDialog('withdraw_membership_dialog', 'withdraw_membership', array('title'=> 'Withdraw Membership Request', 'print_div' => false, 'width' => 500, 'ok' => 'Withdraw'))" />
+
+			<div id="withdraw_membership_dialog" class="dialog">
+				<span metal:use-macro="global/singlegroup.phtml/big" />
+
+				<div class="clear" />
+				<div class="question">
+					Your membership request has not been accepted yet. Do you want to withdraw your membership for this group?
+				</div>
+			</div>
+
+		</tal:block>
 
 		<div class="clear" />
 	</nav>

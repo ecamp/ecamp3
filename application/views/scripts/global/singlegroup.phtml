@@ -12,3 +12,12 @@
 	</span>
 	
 </span>
+
+
+<span metal:define-macro="big" tal:omit-tag="" >
+	<div class="span-4">
+		<img class="left" width="128" height="128" tal:attributes="src helper:url(array('group' => group.getId(), 'action' => 'avatar', 'size' => 72), 'group')" />
+	</div>
+	<h2 tal:content="group/getName">GroupName</h2>
+	<h3 tal:content="group/getDescription" />
+</span>

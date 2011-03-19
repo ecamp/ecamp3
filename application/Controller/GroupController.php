@@ -103,6 +103,15 @@ class GroupController extends \Controller\BaseController
 		$this->me->deleteMembershipWith($this->group);
 		
 		$this->em->flush();
+		$this->_helper->flashMessenger->addMessage(array('info' => 'Your not a member of this group anymore.'));
+		$this->_helper->getHelper('Redirector')->gotoRoute(array('action'=>'show', 'group' => $this->group->getId()), 'group');
+	}
+
+	public function withdrawAction(){
+		$this->me->deleteMembershipWith($this->group);
+
+		$this->em->flush();
+		$this->_helper->flashMessenger->addMessage(array('info' => 'Your request has been withdrawn.'));
 		$this->_helper->getHelper('Redirector')->gotoRoute(array('action'=>'show', 'group' => $this->group->getId()), 'group');
 	}
 
@@ -114,7 +123,8 @@ class GroupController extends \Controller\BaseController
 			$user->deleteMembershipWith($this->group);
 
 		$this->em->flush();
-		$this->_helper->getHelper('Redirector')->gotoRoute(array('action'=>'members', 'group' => $this->group->getId()), 'group');
+		$this->_helper->flashMessenger->addMessage(array('success' => $request->getUser()->getUsername() . ' is not a member of ' . $request->getGroup()->getName() . ' anymore.'));
+		$this->_helper->getHelper('Redirector')->gotoRoute(array('action'=>'members', 'group' => $this->group->getId(), 'user'=>null ), 'group');
 	}
 	
 	public function acceptAction(){
@@ -125,7 +135,8 @@ class GroupController extends \Controller\BaseController
 		$this->group->acceptRequest($request, $this->me);
 		
 		$this->em->flush();
-		$this->_helper->getHelper('Redirector')->gotoRoute(array('action'=>'show', 'group' => $this->group->getId()), 'group');
+		$this->_helper->flashMessenger->addMessage(array('success' => $request->getUser()->getUsername() . ' is now a member of ' . $request->getGroup()->getName() . '.'));
+		$this->_helper->getHelper('Redirector')->gotoRoute(array(), 'general');
 	}
 	
 	public function refuseAction(){
@@ -135,7 +146,8 @@ class GroupController extends \Controller\BaseController
 		$this->group->refuseRequest($request, $this->me);
 		
 		$this->em->flush();
-		$this->_helper->getHelper('Redirector')->gotoRoute(array('action'=>'show', 'group' => $this->group->getId(), 'user' => null), 'group');
+		$this->_helper->flashMessenger->addMessage(array('info' => 'The membership request has been refused.'));
+		$this->_helper->getHelper('Redirector')->gotoRoute(array(), 'general');
 	}
 
 }

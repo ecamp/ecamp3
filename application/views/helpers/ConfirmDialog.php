@@ -21,20 +21,28 @@ class ConfirmDialog extends \Zend_View_Helper_Abstract
 	 * @param  $print_dialog_div  set false, if you provide your own dialog div
 	 * @return string
 	 */
-    public function execute( $dialog_id, $link_id, $title, $text, $print_dialog_div)
+    public function execute( $dialog_id, $link_id, $options)
     {
+	    /* options */
+		$options['ok']        = isset($options['ok'])        ? $options['ok']        : 'OK';
+		$options['title']     = isset($options['title'])     ? $options['title']     : 'Confirm';
+		$options['width']     = isset($options['width'])     ? $options['width']     : 400;
+		$options['print_div'] = isset($options['print_div']) ? $options['print_div'] : true;
+		$options['text']      = isset($options['text'])      ? $options['text']      : "";
+
 	    /* print dialog box (ZendX_JQuery) */
 		$str = "";
 	    $dialog_div = $this->view->dialogContainer($dialog_id,
-							$text,
+							$options['text'],
 							array('draggable' => false,
 								'modal' => true,
 								'resizable'=>false,
-								'title' => $title,
+								'title' => $options['title'],
 								'autoOpen' => false,
 								'closeOnEscape' => true,
+								'width' =>  $options['width'],
 								'buttons'   => array(
-									'Ok' =>  new \Zend_Json_Expr('function() {
+									$options['ok'] =>  new \Zend_Json_Expr('function() {
 										document.location = $("#'.$link_id.'").attr("href");
 									}'),
 									'Cancel' => new \Zend_Json_Expr('function() {
@@ -42,7 +50,7 @@ class ConfirmDialog extends \Zend_View_Helper_Abstract
 									}')
 								),
 								));
-		if( $print_dialog_div )
+		if( $options['print_div'] )
 			$str .= $dialog_div;
 
 	    /* interrupt onlick event */

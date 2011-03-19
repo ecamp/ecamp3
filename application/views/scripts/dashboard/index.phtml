@@ -1,6 +1,11 @@
 <span metal:use-macro="header.phtml/header" />
 
-<div class="span-14">blabla</div>
+<div class="span-14">
+	<tal:block content="structure helper:flashMessenger()" />
+
+	blabla
+</div>
+
 <div class="span-10 last">
 
 	<div class="bigbox">
@@ -29,23 +34,7 @@
 				</tal:block>
 				
 				<tal:block condition="exists: item/isMembershipRequest">
-					<tal:block define="usergroup item/usergroup">				
-						<a tal:attributes="href helper:url(array('user' => usergroup.getUser().getId()), 'user')" class="span-2">
-							<img width="46" height="46" tal:attributes="src helper:url(array('action' => 'avatar', 'user' => usergroup.getUser().getId(), 'size' =>32), 'user')" /><br />
-						 </a>
-						 
-						 <div class="span-7 last">
-							 <a tal:attributes="href helper:url(array('user' => usergroup.getUser().getId()), 'user')" tal:content="usergroup/getUser/getUsername" /> 
-							 wants to be a member of 
-							 <a tal:attributes="href helper:url(array('group' => usergroup.getGroup().getId()), 'group')" tal:content="usergroup/getGroup/getName" /> 
-							 !
-							 <br/>
-							 
-							 <a class="button positive" tal:attributes="href helper:url(array('action' => 'accept', 'group' => usergroup.getGroup().getId(), 'id' => usergroup.getId()), 'group+id')">+accept</a> 
-							 <a class="button negative" tal:attributes="href helper:url(array('action' => 'refuse', 'group' => usergroup.getGroup().getId(), 'id' => usergroup.getId()), 'group+id')">-refuse</a>
-							 
-						</div>
-					</tal:block>
+					<span metal:use-macro="global/singleusergroup.phtml/invitation" tal:define="usergroup item/usergroup" />
 				</tal:block>
 				
 				<hr tal:condition="not: repeat/item/end" />

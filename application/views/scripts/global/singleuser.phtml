@@ -12,3 +12,14 @@
 	</span>
 	
 </span>
+
+<span metal:define-macro="big_withemail" tal:omit-tag="" >
+	<div class="span-4">
+		<img class="left" width="128" height="128" tal:attributes="src helper:url(array('user' => user.getId(), 'action' => 'avatar', 'size' => 72), 'user')" />
+	</div>
+	
+	<h2 tal:content="user/getUsername">GroupName</h2>
+	<h3 tal:content="user/getFullName" />
+	<p tal:content="user/getEmail" />
+	
+</span>
