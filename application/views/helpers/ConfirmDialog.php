@@ -45,7 +45,7 @@ class ConfirmDialog extends \Zend_View_Helper_Abstract
 									$options['ok'] =>  new \Zend_Json_Expr('function() {
 										document.location = $("#'.$link_id.'").attr("href");
 									}'),
-									'Cancel' => new \Zend_Json_Expr('function() {
+									$this->view->translate('Cancel') => new \Zend_Json_Expr('function() {
 										$(this).dialog(\'close\');
 									}')
 								),

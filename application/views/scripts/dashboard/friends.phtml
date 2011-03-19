@@ -3,7 +3,7 @@
 <div class="span-24 last">
 
 	<div class="span-24 last">
-		<h2>My friends</h2>
+		<h2 i18n:translate="">My friends</h2>
 		
 		<tal:block repeat="user friends">
 			<span metal:use-macro="singleuser.phtml/withavatar" tal:define="user user" tal:omit-tag="" />
@@ -11,7 +11,7 @@
 	</div>
 	
 	<div class="span-24 last">
-		<h2>All Users</h2>
+		<h2 i18n:translate="">All Users</h2>
 
 		<span tal:content="structure paginator"/><br />
 		

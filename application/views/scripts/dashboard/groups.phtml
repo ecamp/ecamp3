@@ -3,7 +3,7 @@
 <div class="span-24 last">
 
 	<div class="span-24 last">
-		<h2>My groups</h2>
+		<h2 i18n:translate="">My groups</h2>
 		
 		<tal:block repeat="usergroup memberships">
 			<span metal:use-macro="global/singleusergroup.phtml/group_withrole" tal:define="usergroup usergroup" />
@@ -11,7 +11,7 @@
 	</div>
 	
 	<div class="span-24 last">
-		<h2>Root groups</h2>
+		<h2 i18n:translate="">Root groups</h2>
 		
 		<tal:block repeat="group rootgroups">
 			<span metal:use-macro="global/singlegroup.phtml/withavatar" tal:define="group group" />

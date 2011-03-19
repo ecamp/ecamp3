@@ -17,6 +17,13 @@ class BaseController extends \Zend_Controller_Action
 
 	/** loggedin user */
 	protected $me = null;
+
+	/**
+	 * default translator
+	 * @var Zend_Translate 
+	 */
+	protected $t;
+	
 	
 	public function init()
 	{
@@ -41,6 +48,9 @@ class BaseController extends \Zend_Controller_Action
 			$this->me = $login->getUser();
 			$this->view->me = $this->me;
 		}
+
+		/* load translator */
+		$this->t = new \Zend_View_Helper_Translate();
 	}
 
 }

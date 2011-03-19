@@ -9,12 +9,12 @@
 <div class="span-10 last">
 
 	<div class="bigbox">
-		<div class="title">Lager / Kurse</div>
+		<div class="title" i18n:translate="">Camps / Courses</div>
 		<div class="content">blablabla</div>
 	</div>
 
 	<div class="bigbox">
-		<div class="title">Offene Anfragen</div>
+		<div class="title" i18n:translate="">Open Requests</div>
 		<div class="content">
 			<tal:block repeat="item requests">
 				
@@ -25,10 +25,10 @@
 						 </a>
 						 
 						 <div class="span-7 last">
-							 <a tal:attributes="href helper:url(array('user' => user.getId()), 'user')" tal:content="user/getUsername" /> wants to be your friend!<br/>
+							 <a tal:attributes="href helper:url(array('user' => user.getId()), 'user')" tal:content="user/getUsername" /> <span i18n:translate="">wants to be your friend</span>!<br/>
 							 
-							 <a class="button positive" tal:attributes="href helper:url(array('action' => 'accept', 'user' => user.getId()), 'user')">+accept</a> 
-							 <a class="button negative" tal:attributes="href helper:url(array('action' => 'ignore', 'user' => user.getId()), 'user')">-ignore</a> 
+							 <a class="button positive" tal:attributes="href helper:url(array('action' => 'accept', 'user' => user.getId()), 'user')">+<span i18n:translate="">accept</span></a>
+							 <a class="button negative" tal:attributes="href helper:url(array('action' => 'ignore', 'user' => user.getId()), 'user')">-<span i18n:translate="">ignore</span></a>
 						</div>
 					</tal:block>
 				</tal:block>
@@ -40,7 +40,7 @@
 				<hr tal:condition="not: repeat/item/end" />
 			</tal:block>
 			
-			<span tal:condition="requests/isEmpty">You have no open requests!</span>
+			<span tal:condition="requests/isEmpty" i18n:translate="">You have no open requests!</span>
 			
 			<div class="clear" />
 		</div>

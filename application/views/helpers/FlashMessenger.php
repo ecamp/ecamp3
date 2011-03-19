@@ -75,7 +75,7 @@ class FlashMessenger extends \Zend_View_Helper_Abstract
                                    $template='<div class="%s">%s</div>')
     {
         $flashMessenger = $this->_getFlashMessenger();
-
+	    
         //get messages from previous requests
         $messages = $flashMessenger->getMessages();
 
@@ -98,6 +98,7 @@ class FlashMessenger extends \Zend_View_Helper_Abstract
             if (is_array($message)) {
                 list($key,$message) = each($message);
             }
+
             $output .= sprintf($template,$key,$message);
         }
 

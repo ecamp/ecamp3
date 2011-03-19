@@ -39,8 +39,8 @@ class GroupController extends \Controller\BaseController
 			'action'     => 'show'),
 
 		    array(
-			'label'      => 'Camps',
-			'title'      => 'Camps',
+			'label'      => 'Camps / Courses',
+			'title'      => 'Camps / Courses',
 			'controller' => 'group',
 			'action'     => 'camps'),
 
@@ -94,7 +94,7 @@ class GroupController extends \Controller\BaseController
 		$this->me->sendMembershipRequestTo($this->group);
 		
 		$this->em->flush();
-		$this->_helper->flashMessenger->addMessage(array('info' => 'Your request has been sent to the group managers.'));
+		$this->_helper->flashMessenger->addMessage(array('info' => $this->t->translate("Your request has been sent to the group managers.")));
 		$this->_helper->getHelper('Redirector')->gotoRoute(array('action'=>'show', 'group' => $this->group->getId()), 'group');
 	}
 
@@ -103,7 +103,7 @@ class GroupController extends \Controller\BaseController
 		$this->me->deleteMembershipWith($this->group);
 		
 		$this->em->flush();
-		$this->_helper->flashMessenger->addMessage(array('info' => 'Your not a member of this group anymore.'));
+		$this->_helper->flashMessenger->addMessage(array('info' => $this->t->translate('Your not a member of this group anymore.')));
 		$this->_helper->getHelper('Redirector')->gotoRoute(array('action'=>'show', 'group' => $this->group->getId()), 'group');
 	}
 
@@ -111,7 +111,7 @@ class GroupController extends \Controller\BaseController
 		$this->me->deleteMembershipWith($this->group);
 
 		$this->em->flush();
-		$this->_helper->flashMessenger->addMessage(array('info' => 'Your request has been withdrawn.'));
+		$this->_helper->flashMessenger->addMessage(array('info' => $this->t->translate('Your request has been withdrawn.')));
 		$this->_helper->getHelper('Redirector')->gotoRoute(array('action'=>'show', 'group' => $this->group->getId()), 'group');
 	}
 
@@ -123,7 +123,7 @@ class GroupController extends \Controller\BaseController
 			$user->deleteMembershipWith($this->group);
 
 		$this->em->flush();
-		$this->_helper->flashMessenger->addMessage(array('success' => $request->getUser()->getUsername() . ' is not a member of ' . $request->getGroup()->getName() . ' anymore.'));
+		$this->_helper->flashMessenger->addMessage(array('success' => $this->t->translate('%1$s is not a member of %2$s anymore.', $request->getUser()->getUsername(), $request->getGroup()->getName())));
 		$this->_helper->getHelper('Redirector')->gotoRoute(array('action'=>'members', 'group' => $this->group->getId(), 'user'=>null ), 'group');
 	}
 	
@@ -135,7 +135,7 @@ class GroupController extends \Controller\BaseController
 		$this->group->acceptRequest($request, $this->me);
 		
 		$this->em->flush();
-		$this->_helper->flashMessenger->addMessage(array('success' => $request->getUser()->getUsername() . ' is now a member of ' . $request->getGroup()->getName() . '.'));
+		$this->_helper->flashMessenger->addMessage(array('success' => $this->t->translate('%1$s is now a member of %2$s.', $request->getUser()->getUsername(), $request->getGroup()->getName())));
 		$this->_helper->getHelper('Redirector')->gotoRoute(array(), 'general');
 	}
 	
@@ -146,7 +146,7 @@ class GroupController extends \Controller\BaseController
 		$this->group->refuseRequest($request, $this->me);
 		
 		$this->em->flush();
-		$this->_helper->flashMessenger->addMessage(array('info' => 'The membership request has been refused.'));
+		$this->_helper->flashMessenger->addMessage(array('info' => $this->t->translate('The membership request has been refused.')));
 		$this->_helper->getHelper('Redirector')->gotoRoute(array(), 'general');
 	}
 
