@@ -37,29 +37,6 @@ class UserController extends \Controller\BaseController
 		$this->view->user    = $this->em->getRepository("Entity\User")->find($id);
 		$this->view->friends = $this->userService->getFriendsOf($this->view->user);
 	}
-
-	public function avatarAction()
-	{
-		/** todo: enable cache for dynamic avatars */
-		
-		$id = $this->getRequest()->getParam("user");
-		
-		$this->_helper->layout()->disableLayout();
-		$this->_helper->viewRenderer->setNoRender(true);
-
-		$user = $this->em->getRepository("Entity\User")->find($id);
-		
-		if( $user->getImageData() == null ) {
-			$this->_redirect('img/default_avatar.png');
-		} else {
-			$this->getResponse()->setHeader("Content-type", $user->getImageMime());
-			$this->getResponse()->setBody($user->getImageData());
-		}
-		
-		return;
-	}
-	
-	
 	
 	/** Friendship actions */
 	

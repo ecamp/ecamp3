@@ -21,7 +21,7 @@
 				 <tal:block condition="exists: item/isFriendshipRequest">
 					<tal:block define="user item/user">
 						 <a tal:attributes="href helper:url(array('user' => user.getId()), 'user')" class="span-2">
-							<img width="46" height="46" tal:attributes="src helper:url(array('action' => 'avatar', 'user' => user.getId(), 'size' =>32), 'user')" /><br />
+							<img width="46" height="46" tal:attributes="src helper:url(array('controller' => 'avatar', 'action' => 'user', 'user' => user.getId(), 'size' =>32), 'general')" /><br />
 						 </a>
 						 
 						 <div class="span-7 last">

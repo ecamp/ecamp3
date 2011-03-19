@@ -73,20 +73,6 @@ class GroupController extends \Controller\BaseController
 	public function campsAction(){
 	}
 	
-	public function avatarAction()
-	{
-		$this->_helper->layout()->disableLayout();
-		$this->_helper->viewRenderer->setNoRender(true);
-		
-		if( $this->group->getImageData() == null ) {
-			$this->_redirect("img/default_group.png");
-			
-		} else {
-			$this->getResponse()->setHeader("Content-type", $this->group->getImageMime());
-			$this->getResponse()->setBody($this->group->getImageData());
-		}
-	}
-	
 	/** membership actions */
 	
 	public function requestAction(){
@@ -123,7 +109,7 @@ class GroupController extends \Controller\BaseController
 			$user->deleteMembershipWith($this->group);
 
 		$this->em->flush();
-		$this->_helper->flashMessenger->addMessage(array('success' => $this->t->translate('%1$s is not a member of %2$s anymore.', $request->getUser()->getUsername(), $request->getGroup()->getName())));
+		$this->_helper->flashMessenger->addMessage(array('success' => $this->t->translate('%1$s is not a member of %2$s anymore.', $user->getUsername(), $this->group->getName())));
 		$this->_helper->getHelper('Redirector')->gotoRoute(array('action'=>'members', 'group' => $this->group->getId(), 'user'=>null ), 'group');
 	}
 	

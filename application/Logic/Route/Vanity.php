@@ -69,8 +69,6 @@ class Vanity extends \Zend_Controller_Router_Route
      */
 	public function match($path, $partial = false)
     {
-		$this->em = \Zend_Registry::get('doctrine')->getEntityManager();
-		
         $pathStaticCount = 0;
         $values          = array();
         $matchedPath     = '';
@@ -127,6 +125,7 @@ class Vanity extends \Zend_Controller_Router_Route
 				// If it's a user, search username
 				if ($name == "user" ) 
 				{
+					$this->em = \Zend_Registry::get('doctrine')->getEntityManager();
 					$user = $this->em->getRepository('Entity\User')->findOneBy(array("username" => $pathPart));
 
 					if (! $user) {
@@ -136,6 +135,7 @@ class Vanity extends \Zend_Controller_Router_Route
 				// If it's a group, search hierarhical for the groupname
 				} elseif ($name == "group") {
 					
+					$this->em = \Zend_Registry::get('doctrine')->getEntityManager();
 					$group = $this->em->getRepository('Entity\Group')->findOneBy(array("name" => $pathPart));
 					
 					$groupid = null;
@@ -164,6 +164,7 @@ class Vanity extends \Zend_Controller_Router_Route
 					
 				// If it's a camp, search for a camp owned by this user
 				} elseif ($name == "camp") {
+					
 					if( isset($values["user"]) )
 					{
 						$camp = $this->em->getRepository("Entity\Camp")->findOneBy(array("group" => null, "creator" => $values["user"], "name" => $pathPart));
@@ -237,7 +238,7 @@ class Vanity extends \Zend_Controller_Router_Route
     public function assemble($data = array(), $reset = false, $encode = false, $partial = false)
     {
 		$this->em = \Zend_Registry::get('doctrine')->getEntityManager();
-		
+	    
         $url  = array();
         $flag = false;
 
