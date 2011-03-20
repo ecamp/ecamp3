@@ -41,6 +41,13 @@
 				</nav>
 				
 				<div style="clear:both;" />
+
+				<div id="search">
+					<form action="/search/searchuser">
+						<input type="text" name="query" />
+						<input type="submit" value="Finden" />
+					</form>
+				</div>
 				
 				<div tal:condition="exists: me" id="campswitch">
 					<select><option>Camp Quickswitch</option></select>

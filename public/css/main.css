@@ -104,6 +104,14 @@ header #campswitch{
     top:-20px;
 }
 
+header #search
+{
+	float:right;
+	position:relative;
+	top:-20px;
+	margin-left:50px;
+}
+
 header nav{
     float:right;
     background-color:#DDDDDD;
