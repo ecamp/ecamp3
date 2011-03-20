@@ -32,7 +32,7 @@ class SearchUserService
 	protected $em;
 
 
-		/*
+	/*
 		x: query
 		y: user
 
@@ -45,168 +45,120 @@ class SearchUserService
 
 
 		p(x|y)
-		*/
 
 
 
-	public function search($query)
+		Select user.*, Max(user.prob) as maxProb
+
+		From
+		(
+			(
+			SELECT users . * , LENGTH(  'Fort' ) / LENGTH( users.username ) AS prob
+			FROM users
+			WHERE users.username LIKE  'Fort%'
+			)
+
+		 	UNION
+
+		 	(
+			SELECT users . * , LENGTH(  'Pi' ) / LENGTH( users.firstname ) AS prob
+			FROM users
+			WHERE users.firstName LIKE  'Pi%'
+			)
+
+			UNION
+
+		 	(
+			SELECT users . * , LENGTH(  'Pi' ) / LENGTH( users.surname ) AS prob
+			FROM users
+			WHERE users.surName LIKE  'Pi%'
+			)
+		
+		) as user
+
+		Group by user.id
+
+	*/
+
+
+
+
+	public function SearchForUser($query)
 	{
-		$query = trim($query);
-		$queries = explode(" ", $query);
+		$q = $this->GetDqlSearchQuery($query);
+		$users = $q->getResult();
 
-
-		$users = $this->em->getRepository('Entity\User')->findAll();
-
-		/** @var \Entity\User $user */
-		foreach($users as $user)
-		{
-			$this->getRating($queries, $user);
-		}
-
+		return $users;
 	}
 
 
-	/*
-	 * Calculate p(x|y)
+	/**
+	 * @param  $query
+	 * @return \Doctrine\ORM\Query
 	 */
-
-	private function getRating($queries, \Entity\User $user)
+	private function GetDqlSearchQuery($query)
 	{
-		$username = $user->getUsername();
-
-		foreach($queries as $q)
-		{
-			
-
-
-		}
-
-
-
-
-	}
-
-
-
-
-	public function searchForUser($query)
-	{
-		$results = new \Doctrine\Common\Collections\ArrayCollection();
-
-
 		$query = trim($query);
 		$queries = explode(" ", $query);
+
+		$queryTableEntries = array();
 
 		foreach($queries as $query)
 		{
-			$query = trim($query);
-
-			$this->searchForUserByMailAddress($results, $query);
-
-			$this->searchForUserByCamelCase($results, $query);
+			$queryTableEntries[] = "SELECT '" . trim($query) . "' as query";
 		}
 
+		$queryTable = implode(" UNION ", $queryTableEntries);
 
 
 
+		$sql  = "SELECT users.id, ";
+		$sql .= "(";
+		$sql .= "MAX(IF(users.username Like Concat(queryTable.query, '%'), length(queryTable.query)/length(users.username), 0)) +";
+		$sql .= "MAX(IF(users.scoutname Like Concat(queryTable.query, '%'), length(queryTable.query)/length(users.scoutname), 0)) +";
+		$sql .= "MAX(IF(users.firstname Like Concat(queryTable.query, '%'), length(queryTable.query)/length(users.firstname), 0)) +";
+		$sql .= "MAX(IF(users.surname Like Concat(queryTable.query, '%'), length(queryTable.query)/length(users.surname), 0))";
+		$sql .= ") as prob ";
+
+		$sql .= "FROM ";
+		$sql .= "(";
+		$sql .= $queryTable;
+		$sql .= ") as queryTable, ";
+		$sql .= "users ";
+
+		$sql .= "WHERE ";
+		$sql .= "users.username Like Concat(queryTable.query, '%') OR ";
+		$sql .= "users.scoutname Like Concat(queryTable.query, '%') OR ";
+		$sql .= "users.firstname Like Concat(queryTable.query, '%') OR ";
+		$sql .= "users.surname Like Concat(queryTable.query, '%') ";
+
+		$sql .= "GROUP BY users.id ";
+		$sql .= "ORDER BY prob DESC;";
 
 
 
-		/*
-				$qb = $this->em->createQueryBuilder();
+		$rms = new \Doctrine\ORM\Query\ResultSetMapping();
+		$rms->addScalarResult('id', 'id');
+		$rms->addScalarResult('prob', 'prob');
 
-				$qb
-					->select('u')
-					->from('Entity\User', 'u');
-
-				foreach($query as $q)
-				{
-					$qb->orWhere($qb->expr()->like('u.username', $qb->expr()->literal($q."%")));
-					$qb->orWhere($qb->expr()->like('u.email', $qb->expr()->literal($q."%")));
-
-				}
+		/** @var \Doctrine\ORM\NativeQuery $q */
+		$sqlQuery = $this->em->createNativeQuery($sql, $rms);
 
 
+		$sqlResults = $sqlQuery->getResult();
+		$userIds = array();
 
-				$searchResults = $qb->getQuery()->execute();
-
-				foreach($searchResults as $result)
-				{
-					var_dump($result->getUsername());
-				}
-
-				//var_dump($searchResult);
-
-		 */
-		die();
-	}
+		foreach($sqlResults as $sqlResult)
+		{	$userIds[] = $sqlResult['id'];	}
 
 
+		$dql  = "SELECT user FROM Entity\User user ";
+		$dql .= "WHERE user.id in (" . implode(", ", $userIds) . ")";
 
-	private function searchForUserByMailAddress(
-		\Doctrine\Common\Collections\ArrayCollection $results, $query)
-	{
-		$mailValidator = new \Zend_Validate_EmailAddress();
+		/** @var \Doctrine\ORM\Query $dqlQuery */
+		$dqlQuery = $this->em->createQuery($dql);
 
-		if(!$mailValidator->isValid($query))
-		{	return;	}
-
-		/** @var $user \Entity\User */
-		$user = $this->em->getRepository('Entity\User')->findOneBy(array('email' => $query));
-
-		$this->addUserToResult($results, $user);
-
-		
-		$results[$user->getId()]->found('MailAddress', 1);
-	}
-
-
-	private function searchForUserByCamelCase(
-		\Doctrine\Common\Collections\ArrayCollection $results, $query)
-	{
-		$alphaValidator = new \Zend_Validate_Alpha();
-
-		if(!$alphaValidator->isValid($query))
-		{	return;	}
-
-
-		$query = preg_replace("([A-Z])", ' $0', $query);
-		$query = trim($query);
-		$qWords = explode(" ", $query);
-
-
-		$qb = $this->em->createQueryBuilder();
-		$qb->select('u')->from('Entity\User', 'u');
-
-		foreach($qWords as $qWord)
-		{
-			$qb->orWhere($qb->expr()->like('u.username', $qb->expr()->literal($qWord."%")));
-			$qb->orWhere($qb->expr()->like('u.scoutname', $qb->expr()->literal($qWord."%")));
-			$qb->orWhere($qb->expr()->like('u.firstname', $qb->expr()->literal($qWord."%")));
-			$qb->orWhere($qb->expr()->like('u.surname', $qb->expr()->literal($qWord."%")));
-		}
-
-		$users = $qb->getQuery()->execute();
-
-
-		foreach($users as $user)
-		{
-			
-
-
-		}
-
-	}
-
-
-	private function addUserToResult(
-		\Doctrine\Common\Collections\ArrayCollection $results,
-		\Entity\User $user)
-	{
-		if(!$results->containsKey($user->getId()))
-		{
-			$results[$user->getId()] = new UserSearchResult($user);
-		}
+		return $dqlQuery;
 	}
 
 

@@ -37,7 +37,18 @@ class SearchController
 	{
 		$query = $this->getRequest()->getParam('query');
 
-		$this->searchUserService->searchForUser($query);
+		$users = $this->searchUserService->SearchForUser($query);
+
+
+
+		foreach($users as $user)
+		{
+			var_dump( $user->getId() );
+
+			var_dump( $user->getScoutname() );
+		}
+
+		die();
 
 	}
 
