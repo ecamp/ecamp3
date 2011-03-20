@@ -97,6 +97,8 @@ class Group extends BaseEntity
 	
 	public function getUserGroups() { return $this->userGroups; }
 
+	public function getCamps(){ return $this->camps; }
+
 	public function getMembers()
     {
 	    $members = new \Doctrine\Common\Collections\ArrayCollection();

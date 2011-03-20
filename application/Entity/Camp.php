@@ -22,7 +22,10 @@ namespace Entity;
 
 /**
  * @Entity
- * @Table(name="camps")
+ * @Table(name="camps",
+ *   uniqueConstraints={@UniqueConstraint(name="group_name_unique",columns={"group_id","name"}),
+ *                      @UniqueConstraint(name="owner_name_unique",columns={"owner_id", "name"})}
+ *   )
  */
 class Camp extends BaseEntity
 {
@@ -56,10 +59,16 @@ class Camp extends BaseEntity
 
 	/**
 	 * @var User
-	 * @OneToOne(targetEntity="Entity\User")
+	 * @ManyToOne(targetEntity="Entity\User")
 	 * @JoinColumn(name="creator_id", referencedColumnName="id", nullable=false)
 	 */
 	private $creator;
+
+	/**
+	 * @var User
+	 * @ManyToOne(targetEntity="Entity\User", inversedBy="mycamps")
+	 */
+	private $owner;
 
 	/**
 	 * @var Group
@@ -94,6 +103,11 @@ class Camp extends BaseEntity
 	public function getGroup()             { return $this->group; }
 
 	public function getPeriods() { return $this->periods; }
+
+	public function getRange(){
+
+		return $this->getPeriods()->first()->getStart()->format("d.m.Y") . ' - ' . $this->getPeriods()->last()->getEnd()->format("d.m.Y");
+	}
 	
 	public function getMembers()
     {

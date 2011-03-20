@@ -44,6 +44,7 @@ class User extends BaseEntity
 	
 	public function __construct()
     {
+	    $this->mycamps  = new \Doctrine\Common\Collections\ArrayCollection();
 		$this->userCamps  = new \Doctrine\Common\Collections\ArrayCollection();
 		$this->userGroups = new \Doctrine\Common\Collections\ArrayCollection();
 	    $this->relationshipFrom = new \Doctrine\Common\Collections\ArrayCollection();
@@ -117,6 +118,14 @@ class User extends BaseEntity
 	/** @Column(type="object", nullable=true ) */
 	private $imageData;
 	
+	
+	/**
+	 * Camps, which I own myself
+	 * @var ArrayObject
+	 * @OneToMany(targetEntity="Camp", mappedBy="owner")
+	 */
+	private $mycamps;
+
 
 	/**
 	 * @var Entity\Login
@@ -422,7 +431,8 @@ class User extends BaseEntity
 	private function getMembershipWith($group)
 	{
 		$closure =  function($element) use ($group){
-			return $element->getGroup() == $group;
+			/* comparing id's is not good, but experienced recursing problems when comparing objects */
+			return $element->getGroup()->getId() == $group->getId();
 		};
 		
 		$memberships = $this->getUserGroups()->filter( $closure );
@@ -456,6 +466,7 @@ class User extends BaseEntity
 	}
 	
 	public function canRequestMembership($group){
+		
 		$membership = $this->getMembershipWith($group);
 		
 		if( isset($membership) && ( $membership->isMember() ||  $membership->isOpenRequest() ))

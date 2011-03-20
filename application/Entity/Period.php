@@ -30,6 +30,11 @@ namespace Entity;
 class Period extends BaseEntity
 {
 
+	public function __construct($camp = null)
+	{
+		$this->camp = $camp;
+	}
+
 	/**
 	 * @var int
 	 * @Id @Column(type="integer")
@@ -50,7 +55,7 @@ class Period extends BaseEntity
 	/**
 	 * @var Camp
 	 * @ManyToOne(targetEntity="Camp")
-	 * @JoinColumn(nullable=false)
+	 * @JoinColumn(nullable=false, onDelete="cascade")
 	 */
 	private $camp;
 
@@ -67,6 +72,8 @@ class Period extends BaseEntity
 
 	public function setDuration($duration){ $this->duration = $duration; }
 	public function getDutation()         { return $this->duration;      }
+
+	public function getEnd(){ return $this->start->add( new \DateInterval( 'P'.($this->duration - 1).'D') ); }
 
 	public function setCamp(Camp $camp){ $this->camp = $camp; }
 	public function getCamp()          { return $this->camp; }

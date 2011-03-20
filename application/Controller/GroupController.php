@@ -23,7 +23,13 @@ class GroupController extends \Controller\BaseController
 {
     public function init()
     {
-	    parent::init();
+		parent::init();
+
+		if(!isset($this->me))
+		{
+			$this->_redirect("login");
+			return;
+		}
 
 	     /* load group */
 	    $groupid = $this->getRequest()->getParam("group");
@@ -72,6 +78,63 @@ class GroupController extends \Controller\BaseController
 
 	public function campsAction(){
 	}
+
+	public function deletecampAction(){
+		$id = $this->getRequest()->getParam("id");
+	    $camp = $this->em->getRepository("Entity\Camp")->find($id);
+		
+	    $this->em->remove($camp);
+		$this->em->flush();
+
+		$this->_helper->getHelper('Redirector')->gotoRoute(array('action'=>'camps', 'group' => $this->group->getId()), 'group');
+	}
+
+	public function newcampAction(){
+		$form = new \Form\Camp();
+		
+		$form->setDefaults($this->getRequest()->getParams());
+
+		$this->view->form = $form;
+	}
+
+	public function createcampAction(){
+		$form = new \Form\Camp();
+		
+		if(!$form->isValid($this->getRequest()->getParams()))
+		{
+			$this->view->form = $form;
+			$this->render("newcamp");
+			return;
+		}
+
+		$this->em->getConnection()->beginTransaction();
+		try {
+			$camp = new Entity\Camp();
+			$period = new Entity\Period($camp);
+
+			$camp->setGroup($this->group);
+			$camp->setCreator($this->me);
+
+			$form->grabData($camp, $period);
+
+			$this->em->persist($camp);
+			$this->em->persist($period);
+
+			$this->em->flush();
+			$this->em->getConnection()->commit();
+		} catch (Exception $e) {
+			$this->em->getConnection()->rollback();
+			$this->em->close();
+
+			$form->getElement("name")->addError("Name has already been taken.");
+			$this->view->form = $form;
+			$this->render("newcamp");
+			return;
+		}
+
+		$this->_helper->getHelper('Redirector')->gotoRoute(array('action'=>'camps', 'group' => $this->group->getId()), 'group');
+	}
+
 	
 	/** membership actions */
 	
