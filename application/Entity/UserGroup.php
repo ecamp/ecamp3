@@ -102,6 +102,19 @@ class UserGroup extends BaseEntity
 	public function getUser()          { return $this->user; }
 	
 	public function getRole()          { return $this->role; }
+	public function getRoleName(){
+		switch( $this->role )
+		{
+			case self::ROLE_NONE:
+				return "No Member";
+				
+			case self::ROLE_MEMBER:
+				return "Member";
+				
+			case self::ROLE_MANAGER:
+				return "Manager";
+		}
+	}
 	
 	public function getRequestedRole() { return $this->requestedRole; }
 	public function setRequestedRole($role) { $this->requestedRole = $role; return $this; }
@@ -112,10 +125,16 @@ class UserGroup extends BaseEntity
 		return $this->role != self::ROLE_NONE;
 	}
 	
+	/** True if the role is manager */
+	public function isManager()
+	{
+		return $this->role == self::ROLE_MANAGER;
+	}
+	
 	/** True if the request/invitation is still open */
 	public function isOpen()
 	{
-		return !isset($this->requestedRole);
+		return isset($this->requestedRole);
 	}
 	
 	/** True if the user sent this request to a manager and the request is still open */
@@ -146,11 +165,14 @@ class UserGroup extends BaseEntity
 	/** manager accepts the request */
 	public function acceptRequest($user)
 	{
-		$this->requestAcceptedBy = $user;
-		
-		if( $this->invitationAccepted )
+		if( $user->isManagerOf($this->group) )  /* smiley: very unsure, whether this belongs to here */
 		{
-			$this->accept();
+			$this->requestAcceptedBy = $user;
+			
+			if( $this->invitationAccepted )
+			{
+				$this->accept();
+			}
 		}
 		
 		return $this;

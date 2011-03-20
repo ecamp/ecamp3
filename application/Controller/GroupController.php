@@ -21,21 +21,119 @@
 
 class GroupController extends \Controller\BaseController
 {
-
-	/**
-	 * @var Zend_Session_Namespace
-	 */
-	private $authSession;
-
-
     public function init()
     {
 	    parent::init();
-    }
 
+	     /* load group */
+	    $groupid = $this->getRequest()->getParam("group");
+	    $this->group = $this->em->getRepository("Entity\Group")->find($groupid);
+	    $this->view->group = $this->group;
+
+	    
+	    $pages = array(
+			array(
+			'label'      => 'Overview',
+			'title'      => 'Overview',
+			'controller' => 'group',
+			'action'     => 'show'),
+
+		    array(
+			'label'      => 'Camps / Courses',
+			'title'      => 'Camps / Courses',
+			'controller' => 'group',
+			'action'     => 'camps'),
+
+		    array(
+			'label'      => 'Members',
+			'title'      => 'Members',
+			'controller' => 'group',
+			'action'     => 'members')
+	    );
+
+	    $container = new Zend_Navigation($pages);
+		$this->view->getHelper('navigation')->setContainer($container);
+
+	    /* inject group id into navigation */
+	    foreach($container->getPages() as $page){
+			$page->setParams(array(
+				'group' => $this->group->getId()
+			));
+		}
+    }
 
     public function showAction()
     {
-
     }
+	
+	public function membersAction()
+	{
+	}
+
+	public function campsAction(){
+	}
+	
+	/** membership actions */
+	
+	public function requestAction(){
+
+		$this->me->sendMembershipRequestTo($this->group);
+		
+		$this->em->flush();
+		$this->_helper->flashMessenger->addMessage(array('info' => $this->t->translate("Your request has been sent to the group managers.")));
+		$this->_helper->getHelper('Redirector')->gotoRoute(array('action'=>'show', 'group' => $this->group->getId()), 'group');
+	}
+
+	public function leaveAction(){
+		
+		$this->me->deleteMembershipWith($this->group);
+		
+		$this->em->flush();
+		$this->_helper->flashMessenger->addMessage(array('info' => $this->t->translate('Your not a member of this group anymore.')));
+		$this->_helper->getHelper('Redirector')->gotoRoute(array('action'=>'show', 'group' => $this->group->getId()), 'group');
+	}
+
+	public function withdrawAction(){
+		$this->me->deleteMembershipWith($this->group);
+
+		$this->em->flush();
+		$this->_helper->flashMessenger->addMessage(array('info' => $this->t->translate('Your request has been withdrawn.')));
+		$this->_helper->getHelper('Redirector')->gotoRoute(array('action'=>'show', 'group' => $this->group->getId()), 'group');
+	}
+
+	public function kickoutAction(){
+		$userid = $this->getRequest()->getParam("user");
+		$user   = $this->em->getRepository("Entity\User")->find($userid);
+
+		if( $this->me->isManagerOf($this->group) )
+			$user->deleteMembershipWith($this->group);
+
+		$this->em->flush();
+		$this->_helper->flashMessenger->addMessage(array('success' => $this->t->translate('%1$s is not a member of %2$s anymore.', $user->getUsername(), $this->group->getName())));
+		$this->_helper->getHelper('Redirector')->gotoRoute(array('action'=>'members', 'group' => $this->group->getId(), 'user'=>null ), 'group');
+	}
+	
+	public function acceptAction(){
+
+		$id = $this->getRequest()->getParam("id");
+		$request = $this->em->getRepository("Entity\UserGroup")->find($id);
+		
+		$this->group->acceptRequest($request, $this->me);
+		
+		$this->em->flush();
+		$this->_helper->flashMessenger->addMessage(array('success' => $this->t->translate('%1$s is now a member of %2$s.', $request->getUser()->getUsername(), $request->getGroup()->getName())));
+		$this->_helper->getHelper('Redirector')->gotoRoute(array(), 'general');
+	}
+	
+	public function refuseAction(){
+		$id = $this->getRequest()->getParam("id");
+		$request = $this->em->getRepository("Entity\UserGroup")->find($id);
+		
+		$this->group->refuseRequest($request, $this->me);
+		
+		$this->em->flush();
+		$this->_helper->flashMessenger->addMessage(array('info' => $this->t->translate('The membership request has been refused.')));
+		$this->_helper->getHelper('Redirector')->gotoRoute(array(), 'general');
+	}
+
 }

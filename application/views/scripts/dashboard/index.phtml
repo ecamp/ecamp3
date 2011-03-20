@@ -1,0 +1,49 @@
+<span metal:use-macro="header.phtml/header" />
+
+<div class="span-14">
+	<tal:block content="structure helper:flashMessenger()" />
+
+	blabla
+</div>
+
+<div class="span-10 last">
+
+	<div class="bigbox">
+		<div class="title" i18n:translate="">Camps / Courses</div>
+		<div class="content">blablabla</div>
+	</div>
+
+	<div class="bigbox">
+		<div class="title" i18n:translate="">Open Requests</div>
+		<div class="content">
+			<tal:block repeat="item requests">
+				
+				 <tal:block condition="exists: item/isFriendshipRequest">
+					<tal:block define="user item/user">
+						 <a tal:attributes="href helper:url(array('user' => user.getId()), 'user')" class="span-2">
+							<img width="46" height="46" tal:attributes="src helper:url(array('controller' => 'avatar', 'action' => 'user', 'user' => user.getId(), 'size' =>32), 'general')" /><br />
+						 </a>
+						 
+						 <div class="span-7 last">
+							 <a tal:attributes="href helper:url(array('user' => user.getId()), 'user')" tal:content="user/getUsername" /> <span i18n:translate="">wants to be your friend</span>!<br/>
+							 
+							 <a class="button positive" tal:attributes="href helper:url(array('action' => 'accept', 'user' => user.getId()), 'user')">+<span i18n:translate="">accept</span></a>
+							 <a class="button negative" tal:attributes="href helper:url(array('action' => 'ignore', 'user' => user.getId()), 'user')">-<span i18n:translate="">ignore</span></a>
+						</div>
+					</tal:block>
+				</tal:block>
+				
+				<tal:block condition="exists: item/isMembershipRequest">
+					<span metal:use-macro="global/singleusergroup.phtml/invitation" tal:define="usergroup item/usergroup" />
+				</tal:block>
+				
+				<hr tal:condition="not: repeat/item/end" />
+			</tal:block>
+			
+			<span tal:condition="requests/isEmpty" i18n:translate="">You have no open requests!</span>
+			
+			<div class="clear" />
+		</div>
+	</div>
+
+</div>

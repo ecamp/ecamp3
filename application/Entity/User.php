@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (C) 2011 Pirmin Mattmann
+ * Copyright (C) 2011 Pirmin Mattmann, Urban Suppiger
  *
  * This file is part of eCamp.
  *
@@ -111,8 +111,11 @@ class User extends BaseEntity
 	/** @Column(type="string", length=16, nullable=true ) */
 	private $pbsEdu;
 	
+	/** @Column(type="string", length=32, nullable=true ) */
+	private $imageMime;
+	
 	/** @Column(type="object", nullable=true ) */
-	private $image;
+	private $imageData;
 	
 	
 	/**
@@ -123,17 +126,17 @@ class User extends BaseEntity
 	
 	/**
 	 * @var ArrayObject
-	 * @OneToMany(targetEntity="UserGroup", mappedBy="user")
+	 * @OneToMany(targetEntity="UserGroup", mappedBy="user", cascade={"all"}, orphanRemoval=true)
 	 */
 	private $userGroups;
 	
 	/**
-	 * @OneToMany(targetEntity="UserRelationship", mappedBy="from", cascade={"all"} )
+	 * @OneToMany(targetEntity="UserRelationship", mappedBy="from", cascade={"all"}, orphanRemoval=true )
 	 */
 	private $relationshipFrom;
 	
 	/**
-	 * @OneToMany(targetEntity="UserRelationship", mappedBy="to", cascade={"all"})
+	 * @OneToMany(targetEntity="UserRelationship", mappedBy="to", cascade={"all"}, orphanRemoval= true)
 	 */
 	private $relationshipTo;
 	
@@ -142,6 +145,9 @@ class User extends BaseEntity
 
 	public function getUsername()            { return $this->username; }
 	public function setUsername( $username ) { $this->username = $username; return $this; }
+
+	public function getEmail()            { return $this->email; }
+	public function setEmail( $email )    { $this->email = $email; return $this; }
 
 	public function getScoutname()            { return $this->scoutname; }
 	public function setScoutname( $scoutname ){ $this->scoutname = $scoutname; return $this; }
@@ -185,14 +191,33 @@ class User extends BaseEntity
 	public function getPbsEdu()         { return $this->pbsEdu;	}
 	public function setPbsEdu( $pbsEdu ){ $this->pbsEdu = $pbsEdu; return $this; }
 
+	public function getImageData(){ return base64_decode($this->imageData); }
+	public function setImageData($data){ $this->imageData = base64_encode($data); return $this; }
 	
+	public function getImageMime(){ return $this->imageMime; }
+	public function setImageMime($mime){ $this->imageMime = $mime; return $this; }
+	
+	public function delImage(){
+		$this->imageMime = null;
+		$this->imageData = null;
+		return $this;
+	}
 
 	public function getDisplayName()
 	{
-		if( ! is_null( $this->scoutname ) )
+		if( !empty( $this->scoutname ) )
 		{	return $this->scoutname;	}
 		
 		return $this->firstname . " " . $this->surname;
+	}
+	
+	public function getFullName()
+	{
+		$name = "";
+		if( !empty( $this->scoutname ) )
+		{	$name .= $this->scoutname.", ";	}
+		
+		return $name.$this->firstname . " " . $this->surname;
 	}
 
 	public function isMale()
@@ -212,6 +237,10 @@ class User extends BaseEntity
 	{
 		return $this->userCamps;
 	}
+	
+	/**************************************************************** 
+	 * Friendship methods
+	 ****************************************************************/
 	
 	public function getRelationshipFrom()
 	{
@@ -285,6 +314,162 @@ class User extends BaseEntity
 			$this->relationshipFrom->add($rel);
 			$user->relationshipTo->add($rel);
 		}
+	}
+
+	/** get the relation object to $user */
+	private function getRelFrom($user)
+	{
+		$closure =  function($element) use ($user){ 
+			return $element->getType() == UserRelationship::TYPE_FRIEND  && $element->getFrom() == $user; 
+		};
+		
+		$relations =  $this->getRelationshipTo()->filter( $closure );
+
+		if( $relations->isEmpty() )
+			return null;
+
+		return $relations->first();
+	}
+	
+	/** get the relation object from $user */
+	private function getRelTo($user)
+	{
+		$closure =  function($element) use ($user){ 
+			return $element->getType() == UserRelationship::TYPE_FRIEND  && $element->getTo() == $user; 
+		};
+		 
+		$relations =  $this->getRelationshipFrom()->filter( $closure );
+
+		if( $relations->isEmpty() )
+			return null;
+
+		return $relations->first();
+	}
+		
+	/** ignore a friendship request */
+	public function ignoreFriendshipRequestFrom($user){
+		if( $this->receivedFriendshipRequestFrom($user) ){
+			$rel = $this->getRelFrom($user);
+			$this->relationshipTo->removeElement($rel);
+			$user->relationshipFrom->removeElement($rel);
+		}
+	}
+	
+	/** check  whether a friendship request can be sent to to the user */
+	public function canIAdd($user)
+	{
+		return $user != $this && !$this->isFriendOf($user) && !$this->sentFriendshipRequestTo($user) && !$this->receivedFriendshipRequestFrom($user);
+	}
+	
+	/** delete friendship with $user */
+	public function divorceFrom($user)
+	{
+		if( $this->isFriendOf($user) ){
+			$rel = $this->getRelFrom($user);
+			$this->relationshipTo->removeElement($rel);
+			$user->relationshipFrom->removeElement($rel);
+			
+			$rel = $this->getRelTo($user);
+			$this->relationshipFrom->removeElement($rel);
+			$user->relationshipTo->removeElement($rel);
+		}
+	}
+	
+	
+	/**************************************************************** 
+	 * Membership methods
+	 ****************************************************************/
+	
+	public function getMemberships() {
+	
+		$closure =  function($element){ 
+			return $element->isMember(); 
+		};
+		
+		return $this->getUserGroups()->filter( $closure ); 
+	}
+	
+	public function sendMembershipRequestTo($group) {
+		$membership = $this->getMembershipWith($group);
+		
+		if( !isset($membership) ) {
+			$rel = new UserGroup($this, $group);
+			$rel->setRequestedRole(UserGroup::ROLE_MEMBER);
+			$rel->acceptInvitation(); /* I invite myself */
+			
+			$this->userGroups->add($rel);
+			$group->getUserGroups()->add($rel);
+		}
+	}
+	
+	/** 
+	 * returns the relationship entity UserGroup, if it exists 
+	 * DB ensures, that there's one element at maximum
+	 */
+	
+	private function getMembershipWith($group)
+	{
+		$closure =  function($element) use ($group){
+			return $element->getGroup() == $group;
+		};
+		
+		$memberships = $this->getUserGroups()->filter( $closure ); 
+		
+		if( $memberships->isEmpty() )
+			return null;
+			
+		return $memberships->first();
+	}
+	
+	public function deleteMembershipWith($group) {
+		$membership = $this->getMembershipWith($group);
+		
+		if( isset($membership) ) {
+			$membership->getGroup()->getUserGroups()->removeElement($membership);
+			$this->userGroups->removeElement($membership);
+		}
+	}
+	
+	public function getUserGroups()
+	{
+		return $this->userGroups;
+	}
+	
+	public function canRequestMembership($group){
+		$membership = $this->getMembershipWith($group);
+		
+		if( isset($membership) && ( $membership->isMember() ||  $membership->isOpenRequest() ))
+			return false;
+			
+		return true;
+	}
+	
+	public function isManagerOf($group)
+	{
+		$membership = $this->getMembershipWith($group);
+		
+		if( isset($membership) && $membership->isManager())
+			return true;
+			
+		return false;
+	}
+	
+	public function isMemberOf($group){
+		$membership = $this->getMembershipWith($group);
+		
+		if( isset($membership) && $membership->isMember())
+			return true;
+			
+		return false;
+	}
+	
+	public function hasOpenRequest($group){
+		$membership = $this->getMembershipWith($group);
+
+		if( isset($membership) && $membership->isOpenRequest())
+			return true;
+			
+		return false;
 	}
 	
 }

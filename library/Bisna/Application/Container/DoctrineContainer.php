@@ -359,11 +359,13 @@ class DoctrineContainer
      */
     private function startDBALConnection(array $config = array())
     {
-        return \Doctrine\DBAL\DriverManager::getConnection(
+        $conn =  \Doctrine\DBAL\DriverManager::getConnection(
             $config['parameters'],
             $this->startDBALConfiguration($config),
             $this->startDBALEventManager($config)
         );
+		$conn->setCharset("UTF8");
+		return $conn;
     }
 
     /**

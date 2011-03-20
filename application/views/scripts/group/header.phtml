@@ -1,17 +1,79 @@
 <span metal:define-macro="header">
-	<div class="group_header">gruppe_xy</div>
-	<div class="group_breadcrumb">
-		<a href="#">PBS</a>
-		>>
-		<a href="#">Luzern</a>
-		>>
-		Gruppe XY
+	<div class="group_logo">
+		<img width="32" height="32" tal:attributes="src helper:url(array('group' => group.getId(), 'controller' => 'avatar', 'action' => 'group', 'size' => 32), 'general')" /><br />
 	</div>
+	
+	<div class="group_header" tal:content="group/getName">GroupName</div>
+	<div class="group_breadcrumb">
+		
+		<span tal:repeat="item group/getPathAsArray">
+			<a tal:content="item/getDescription" tal:attributes="href helper:thisurl(array('group' => item.getId() ), 'group')">GroupDescription</a> >>
+		</span>
+		
+		<tal:block content="group/getDescription" />
+	</div>
+
 	<nav id="mainnav">
-		<ul>
-			<li class="selected"><a href="#">Übersicht</a></li>
-			<li><a href="#">Lager/Kurse</a></li>
-			<li><a href="#">Mitglieder</a></li>
-		</ul>
+		<tal:block content="structure php: this.navigation().menu().renderMenu(NULL, array('maxDepth' => 0, 'ulClass' => 'left'))" />
+
+		<tal:block condition="php: me.canRequestMembership(group)" >
+			<a id="request_membership" class="button right positive" tal:attributes="href helper:thisurl(array('action' => 'request', 'group' => group.getId() ), 'group')" i18n:translate="">
+				request membership
+			</a>
+
+			<tal:block content="structure helper:confirmDialog('request_membership_dialog', 'request_membership', array('title'=> this.translate('request membership'), 'print_div' => false, 'width' => 500, 'ok' => this.translate('Send request')))" />
+
+			<div id="request_membership_dialog" class="dialog">
+				<span metal:use-macro="global/singlegroup.phtml/big" />
+
+				<div class="clear" />
+				<div class="question" i18n:translate="">
+					Do you want to request membership for this group? Your email address will be sent to the group managers.
+				</div>
+			</div>
+		</tal:block>
+
+		<tal:block condition="php: me.isMemberOf(group)" >
+			<a id="leave_membership" class="button right negative" tal:attributes="href helper:thisurl(array('action' => 'leave', 'group' => group.getId() ), 'group')" i18n:translate="">
+				leave this group
+			</a>
+
+			<tal:block content="structure helper:confirmDialog('leave_membership_dialog', 'leave_membership', array('title'=> this.translate('leave this group'), 'print_div' => false, 'width' => 500, 'ok' => this.translate('Leave')))" />
+
+			<div id="leave_membership_dialog" class="dialog">
+				<span metal:use-macro="global/singlegroup.phtml/big" />
+
+				<div class="clear" />
+				<div class="question" i18n:translate="">
+					Do you really want to leave this group? Your membership will be deleted.
+				</div>
+			</div>
+
+		</tal:block>
+
+		<tal:block condition="php: me.hasOpenRequest(group)">
+			<a id="withdraw_membership" class="button right negative" tal:attributes="href helper:thisurl(array('action' => 'withdraw', 'group' => group.getId() ), 'group')" i18n:translate="">
+				withdraw request
+			</a>
+
+			<tal:block content="structure helper:confirmDialog('withdraw_membership_dialog', 'withdraw_membership', array('title'=> this.translate('withdraw request'), 'print_div' => false, 'width' => 500, 'ok' => this.translate('Withdraw')))" />
+
+			<div id="withdraw_membership_dialog" class="dialog">
+				<span metal:use-macro="global/singlegroup.phtml/big" />
+
+				<div class="clear" />
+				<div class="question" i18n:translate="">
+					Your membership request has not been accepted yet. Do you want to withdraw your membership for this group?
+				</div>
+			</div>
+
+		</tal:block>
+
+		<div class="clear" />
 	</nav>
+
+
+
+
+
 </span>
