@@ -39,7 +39,7 @@
 
 		<div class="content">
 			<tal:block repeat="usergroup userGroups">
-				<span metal:use-macro="global/singleusergroup.phtml/group" tal:define="usergroup usergroup" tal:omit-tag="" />
+				<span metal:use-macro="global/singlegroup.phtml/withavatar" tal:define="group usergroup/getGroup" tal:omit-tag="" />
 			</tal:block>
 			
 			<div class="clear" />

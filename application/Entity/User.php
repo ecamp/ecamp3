@@ -233,22 +233,12 @@ class User extends BaseEntity
 		return $this;
 	}
 
-	public function getUserCamps()
+	public function getAcceptedUserCamps()
 	{
-		return $this->userCamps;
-	}
+		$closure = function(UserCamp $element)
+		{	return $element->isMember();	};
 
-	public function getCamps()
-	{
-		$camps = array();
-
-		/** @var $userCamp UserCamp */
-		foreach($this->userCamps as $userCamp)
-		{
-			$camps = $userCamp->getCamp();
-		}
-
-		return $camps;
+		return $this->userCamps->filter($closure);
 	}
 	
 	/**************************************************************** 
@@ -426,7 +416,7 @@ class User extends BaseEntity
 			return $element->getGroup() == $group;
 		};
 		
-		$memberships = $this->getUserGroups()->filter( $closure ); 
+		$memberships = $this->getUserGroups()->filter( $closure );
 		
 		if( $memberships->isEmpty() )
 			return null;
@@ -442,23 +432,18 @@ class User extends BaseEntity
 			$this->userGroups->removeElement($membership);
 		}
 	}
-	
+
 	public function getUserGroups()
 	{
 		return $this->userGroups;
 	}
 
-	public function getGroupsIAmAMemberOf()
+	public function getAcceptedUserGroups()
 	{
-		$groups = array();
+		$closure = function(UserGroup $element)
+		{	return $element->isMember();	};
 
-		/** @var $membership UserGroup */
-		foreach($this->getMemberships() as $membership)
-		{
-			$groups[] = $membership->getGroup();
-		}
-
-		return $groups;
+		return $this->userGroups->filter($closure);
 	}
 	
 	public function canRequestMembership($group){
