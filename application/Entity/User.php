@@ -117,7 +117,14 @@ class User extends BaseEntity
 	/** @Column(type="object", nullable=true ) */
 	private $imageData;
 	
-	
+
+	/**
+	 * @var Entity\Login
+	 * @OneToOne(targetEntity="Entity\Login", mappedBy="user")
+	 */
+	private $login;
+
+
 	/**
 	 * @var ArrayObject
 	 * @OneToMany(targetEntity="UserCamp", mappedBy="user")
@@ -145,6 +152,8 @@ class User extends BaseEntity
 
 	public function getUsername()            { return $this->username; }
 	public function setUsername( $username ) { $this->username = $username; return $this; }
+
+	public function getLogin()	{	return $this->login;	}
 
 	public function getEmail()            { return $this->email; }
 	public function setEmail( $email )    { $this->email = $email; return $this; }
