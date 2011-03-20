@@ -214,6 +214,19 @@ header nav #avatar{
     padding:10px;
 }
 
+/** forms */
+
+form ul.errors{
+    background:#fbe3e4;
+    color:#8a1f11;
+    border-color:#fbc2c4;
+    padding:0.5em;
+    margin-bottom:1.5em;
+}
+form ul.errors li{
+    list-style-type:none;
+}
+
 /** dialog */
 .question{
     text-align:center;

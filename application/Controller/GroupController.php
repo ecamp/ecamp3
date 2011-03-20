@@ -23,7 +23,13 @@ class GroupController extends \Controller\BaseController
 {
     public function init()
     {
-	    parent::init();
+		parent::init();
+
+		if(!isset($this->me))
+		{
+			$this->_redirect("login");
+			return;
+		}
 
 	     /* load group */
 	    $groupid = $this->getRequest()->getParam("group");

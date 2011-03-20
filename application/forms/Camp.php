@@ -33,11 +33,8 @@ class Application_Form_Camp extends Ztal_Form
 
 		$id = new Zend_Form_Element_Hidden('id');
 
-		$start_validator = new Zend_Validate_Regex('/^[a-z0-9]/');
-        $start_validator->setMessage('Value needs to start with a lower letter or a number.');
-
-	    $name_validator = new Zend_Validate_Regex('/^[a-z0-9_-]+$/');
-        $name_validator->setMessage('Value can only contain lower letters, numbers, underscores (_) and dashes (-).');
+	    $name_validator = new Zend_Validate_Regex('/^[a-z0-9][a-z0-9_-]+$/');
+        $name_validator->setMessage('Value can only contain lower letters, numbers, underscores (_) and dashes (-) and needs to start with a letter or number.');
 
 		$name = new Zend_Form_Element_Text('name');
 		$name->setLabel('Name (unique)')
@@ -45,7 +42,6 @@ class Application_Form_Camp extends Ztal_Form
 			->addFilter('StringToLower')
 			->setRequired(true)
 	        ->addValidator($name_validator)
-			->addValidator($start_validator)
 			->addValidator(new Zend_Validate_StringLength(array('min' => 5, 'max' => 20)));
 
 

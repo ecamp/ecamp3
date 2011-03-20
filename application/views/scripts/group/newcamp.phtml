@@ -2,13 +2,15 @@
 
 <span metal:use-macro="header.phtml/header" />
 
-<h1>New Camp</h1>
+<div class="span-10">
+	<h1>New Camp</h1>
 
-You are about to create a new camp which belongs to the group
-<a tal:content="group/getName" tal:attributes="href helper:thisurl(array('group' => group.getId() ), 'group')">GroupName</a>
-.
-If you like to create a personal camp, please switch to
-<a tal:content="helper:url(array('user' => me.getId(), 'action' => 'camps' ), 'user')" tal:attributes="href helper:url(array('user' => me.getId(), 'action' => 'camps' ), 'user')">GroupName</a>
-.
+	You are about to create a new camp which belongs to the group
+	<a tal:content="group/getName" tal:attributes="href helper:thisurl(array('group' => group.getId() ), 'group')">GroupName</a>
+	.
+	If you like to create a personal camp, please switch to
+	<a tal:content="helper:url(array('user' => me.getId(), 'action' => 'camps' ), 'user')" tal:attributes="href helper:url(array('user' => me.getId(), 'action' => 'camps' ), 'user')">GroupName</a>
+	.
 
-<tal:block content="structure form" />
+	<tal:block content="structure form" />
+</div>
