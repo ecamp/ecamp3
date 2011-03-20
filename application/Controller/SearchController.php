@@ -27,8 +27,8 @@ class SearchController
 {
 
 	/**
-	 * @var Service\Searching\SearchUserService
-	 * @Inject Service\Searching\SearchUserService
+	 * @var Service\SearchUserService
+	 * @Inject Service\SearchUserService
 	 */
 	private $searchUserService;
 
@@ -40,15 +40,8 @@ class SearchController
 		$users = $this->searchUserService->SearchForUser($query);
 
 
-
-		foreach($users as $user)
-		{
-			var_dump( $user->getId() );
-
-			var_dump( $user->getScoutname() );
-		}
-
-		die();
+		
+		$this->view->users = $users;
 
 	}
 

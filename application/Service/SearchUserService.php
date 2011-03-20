@@ -20,7 +20,7 @@
  *
  */
 
-namespace Service\Searching;
+namespace Service;
 
 
 class SearchUserService
@@ -147,13 +147,18 @@ class SearchUserService
 
 		$sqlResults = $sqlQuery->getResult();
 		$userIds = array();
-
+		
 		foreach($sqlResults as $sqlResult)
 		{	$userIds[] = $sqlResult['id'];	}
 
 
 		$dql  = "SELECT user FROM Entity\User user ";
-		$dql .= "WHERE user.id in (" . implode(", ", $userIds) . ")";
+
+		if(empty($userIds))
+		{	$dql .= "WHERE 0=1";	}
+		else
+		{	$dql .= "WHERE user.id in (" . implode(", ", $userIds) . ")";	}
+
 
 		/** @var \Doctrine\ORM\Query $dqlQuery */
 		$dqlQuery = $this->em->createQuery($dql);
