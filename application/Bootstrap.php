@@ -33,6 +33,9 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 		$entityAutoloader = new \Doctrine\Common\ClassLoader('Entity', APPLICATION_PATH);
 		$autoloader->pushAutoloader(array($entityAutoloader, 'loadClass'), 'Entity');
 
+		$entityAutoloader = new \Doctrine\Common\ClassLoader('Form', APPLICATION_PATH);
+		$autoloader->pushAutoloader(array($entityAutoloader, 'loadClass'), 'Form');
+
 	    $controllerAutoloader = new \Doctrine\Common\ClassLoader('Controller', APPLICATION_PATH);
 		$autoloader->pushAutoloader(array($controllerAutoloader, 'loadClass'), 'Controller');
 

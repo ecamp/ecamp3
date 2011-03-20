@@ -18,7 +18,9 @@
  * along with eCamp.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-class Application_Form_Camp extends Ztal_Form
+namespace Form;
+
+class Camp extends \Ztal_Form
 {
 
 	/**
@@ -31,42 +33,42 @@ class Application_Form_Camp extends Ztal_Form
     public function init()
     {
 
-		$id = new Zend_Form_Element_Hidden('id');
+		$id = new \Zend_Form_Element_Hidden('id');
 
-	    $name_validator = new Zend_Validate_Regex('/^[a-z0-9][a-z0-9_-]+$/');
+	    $name_validator = new \Zend_Validate_Regex('/^[a-z0-9][a-z0-9_-]+$/');
         $name_validator->setMessage('Value can only contain lower letters, numbers, underscores (_) and dashes (-) and needs to start with a letter or number.');
 
-		$name = new Zend_Form_Element_Text('name');
+		$name = new \Zend_Form_Element_Text('name');
 		$name->setLabel('Name (unique)')
 			->addFilter('StringTrim')
 			->addFilter('StringToLower')
 			->setRequired(true)
 	        ->addValidator($name_validator)
-			->addValidator(new Zend_Validate_StringLength(array('min' => 5, 'max' => 20)));
+			->addValidator(new \Zend_Validate_StringLength(array('min' => 5, 'max' => 20)));
 
 
-		$title = new Zend_Form_Element_Text('title');
+		$title = new \Zend_Form_Element_Text('title');
 		$title->setLabel('Title')
 			->addFilter('StringTrim')
 			->setRequired(true);
 
-	    $date_validator = new Zend_Validate_Date(array('format' => 'dd.mm.yyyy'));
+	    $date_validator = new \Zend_Validate_Date(array('format' => 'dd.mm.yyyy'));
 
-	    $from = new ZendX_JQuery_Form_Element_DatePicker(
+	    $from = new \ZendX_JQuery_Form_Element_DatePicker(
                     'from',
                     array(
 	                    "label" => "From",
 	                    'jQueryParams' => array('dateFormat' => 'dd.mm.yy')));
 	    $from->setRequired(true)->addValidator($date_validator);
 
-	    $to   = new ZendX_JQuery_Form_Element_DatePicker(
+	    $to   = new \ZendX_JQuery_Form_Element_DatePicker(
                     'to',
                     array(
 	                    "label" => "To",
 	                    'jQueryParams' => array('dateFormat' => 'dd.mm.yy')));
 	    $to->setRequired(true)->addValidator($date_validator);
 
-		$submit = new Zend_Form_Element_Submit('submit');
+		$submit = new \Zend_Form_Element_Submit('submit');
 		$submit->setLabel('Create');
 
 		$this->addElement($id);
@@ -93,13 +95,13 @@ class Application_Form_Camp extends Ztal_Form
 	}*/
 
 
-	public function grabData(Entity\Camp $camp, Entity\Period $period)
+	public function grabData(\Entity\Camp $camp, \Entity\Period $period)
 	{
 		$camp->setName($this->getValue('name'));
 
 		$camp->setTitle($this->getValue('title'));
 
-		$period->setStart(new DateTime($this->getValue('from')));
+		$period->setStart(new \DateTime($this->getValue('from')));
 
 		$period->setDuration($this->getValue('to') - $this->getValue('from') + 1);
 	}

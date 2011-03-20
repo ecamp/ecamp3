@@ -90,7 +90,7 @@ class GroupController extends \Controller\BaseController
 	}
 
 	public function newcampAction(){
-		$form = new Application_Form_Camp();
+		$form = new \Form\Camp();
 		
 		$form->setDefaults($this->getRequest()->getParams());
 
@@ -98,7 +98,7 @@ class GroupController extends \Controller\BaseController
 	}
 
 	public function createcampAction(){
-		$form = new Application_Form_Camp();
+		$form = new \Form\Camp();
 		
 		if(!$form->isValid($this->getRequest()->getParams()))
 		{
