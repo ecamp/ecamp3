@@ -33,57 +33,99 @@ class Application_Form_Camp extends Ztal_Form
 
 		$id = new Zend_Form_Element_Hidden('id');
 
+		$start_validator = new Zend_Validate_Regex('/^[a-z0-9]/');
+        $start_validator->setMessage('Value needs to start with a lower letter or a number.');
 
-		$campName = new Zend_Form_Element_Text('campName');
-		$campName->setLabel('CampName:')
+	    $name_validator = new Zend_Validate_Regex('/^[a-z0-9_-]+$/');
+        $name_validator->setMessage('Value can only contain lower letters, numbers, underscores (_) and dashes (-).');
+
+		$name = new Zend_Form_Element_Text('name');
+		$name->setLabel('Name (unique)')
+			->addFilter('StringTrim')
+			->addFilter('StringToLower')
+			->setRequired(true)
+	        ->addValidator($name_validator)
+			->addValidator($start_validator)
+			->addValidator(new Zend_Validate_StringLength(array('min' => 5, 'max' => 20)));
+
+
+		$title = new Zend_Form_Element_Text('title');
+		$title->setLabel('Title')
 			->addFilter('StringTrim')
 			->setRequired(true);
 
+	    $date_validator = new Zend_Validate_Date(array('format' => 'dd.mm.yyyy'));
 
-		$campTitle = new Zend_Form_Element_Text('campTitle');
-		$campTitle->setLabel('LagerThema:')
-			->addFilter('StringTrim')
-			->setRequired(false);
+	    $from = new ZendX_JQuery_Form_Element_DatePicker(
+                    'from',
+                    array(
+	                    "label" => "From",
+	                    'jQueryParams' => array('dateFormat' => 'dd.mm.yy')));
+	    $from->setRequired(true)->addValidator($date_validator);
+
+	    $to   = new ZendX_JQuery_Form_Element_DatePicker(
+                    'to',
+                    array(
+	                    "label" => "To",
+	                    'jQueryParams' => array('dateFormat' => 'dd.mm.yy')));
+	    $to->setRequired(true)->addValidator($date_validator);
 
 		$submit = new Zend_Form_Element_Submit('submit');
-		$submit->setLabel('Save');
-
+		$submit->setLabel('Create');
 
 		$this->addElement($id);
-		$this->addElement($campName);
-		$this->addElement($campTitle);
-
+		$this->addElement($name);
+		$this->addElement($title);
+		$this->addElement($from);
+	    $this->addElement($to);
 		$this->addElement($submit);
-
 
     }
 
-
+	/*
 	public function setData(Entity\Camp $camp)
 	{
 		$this->getElement('id')
 				->setValue($camp->getId());
 		
-		$this->getElement('campName')
+		$this->getElement('name')
 				->setValue($camp->getName());
 
-		$this->getElement('campTitle')
+		$this->getElement('title')
 				->setValue($camp->getTitle());
 
-	}
+	}*/
 
 
-	public function grabData(Entity\Camp $camp)
+	public function grabData(Entity\Camp $camp, Entity\Period $period)
 	{
-		$camp->setName($this->getValue('campName'));
+		$camp->setName($this->getValue('name'));
 
-		$camp->setTitle($this->getValue('campTitle'));
+		$camp->setTitle($this->getValue('title'));
+
+		$period->setStart(new DateTime($this->getValue('from')));
+
+		$period->setDuration($this->getValue('to') - $this->getValue('from') + 1);
 	}
 
 	
 	public function getId()
 	{
 		return $this->getValue('id');
+	}
+
+	public function isValid($data)
+	{
+		$s = parent::isValid($data);
+		if( !$s )
+			return false;
+
+		if( $this->getValue("from") >  $this->getValue("to") ){
+			$this->getElement("from")->addError("'From' date can not be larger than 'To' date.");
+			return false;
+		}
+
+		return true;
 	}
 
 }
