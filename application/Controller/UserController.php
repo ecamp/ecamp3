@@ -34,8 +34,15 @@ class UserController extends \Controller\BaseController
 	public function showAction()
 	{
 		$id = $this->getRequest()->getParam("user");
-		$this->view->user    = $this->em->getRepository("Entity\User")->find($id);
+
+		/** @var $user \Entity\User */
+		$user = $this->em->getRepository("Entity\User")->find($id);
+
+		$this->view->user    = $user;
 		$this->view->friends = $this->userService->getFriendsOf($this->view->user);
+
+		$this->view->userGroups  = $user->getAcceptedUserGroups();
+		$this->view->userCamps   = $user->getAcceptedUserCamps();
 	}
 	
 	/** Friendship actions */

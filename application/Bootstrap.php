@@ -30,12 +30,6 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 
         $autoloader = \Zend_Loader_Autoloader::getInstance();
 
-        $bisnaAutoloader = new \Doctrine\Common\ClassLoader('Bisna');
-        $autoloader->pushAutoloader(array($bisnaAutoloader, 'loadClass'), 'Bisna');
-
-        $appAutoloader = new \Doctrine\Common\ClassLoader('Inject');
-        $autoloader->pushAutoloader(array($appAutoloader, 'loadClass'), 'Inject');
-
 		$entityAutoloader = new \Doctrine\Common\ClassLoader('Entity', APPLICATION_PATH);
 		$autoloader->pushAutoloader(array($entityAutoloader, 'loadClass'), 'Entity');
 
@@ -154,21 +148,21 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 				
 		/* group */
 		Zend_Controller_Front::getInstance()->getRouter()->addRoute(
-			'group', new Logic\Route\Vanity(':group/:action/*',
+			'group', new Logic\Route\Vanity('group/:group/:action/*',
 				array('controller' => 'group','action' => 'show')));
 				
 		Zend_Controller_Front::getInstance()->getRouter()->addRoute(
-			'group+id', new Logic\Route\Vanity(':group/:action/:id/*',
+			'group+id', new Logic\Route\Vanity('group/:group/:action/:id/*',
 				array('controller' => 'group','action' => 'show'),
 				array('id' => '\d+')));
 				
 		/* group camp */
 		Zend_Controller_Front::getInstance()->getRouter()->addRoute(
-			'group+camp', new Logic\Route\Vanity(':group/:camp/:controller/:action/*',
+			'group+camp', new Logic\Route\Vanity('group/:group/:camp/:controller/:action/*',
 				array('controller' => 'camps','action' => 'show')));
 				
 		Zend_Controller_Front::getInstance()->getRouter()->addRoute(
-			'group+camp+id', new Logic\Route\Vanity(':group/:camp/:controller/:action/:id/*',
+			'group+camp+id', new Logic\Route\Vanity('group/:group/:camp/:controller/:action/:id/*',
 				array('controller' => 'camps','action' => 'show'),
 				array('id' => '\d+')));
 				
