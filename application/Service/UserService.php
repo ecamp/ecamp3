@@ -13,19 +13,19 @@ class UserService
 	protected $em;
 
 	/**
-	 * @var \Entity\Repository\CampRepository
+     * @var \Doctrine\ORM\EntityRepository
 	 * @Inject CampRepository
 	 */
 	private $campRepo;
 	
 	/**
-     * @var Entity\Repository\UserRepository
+     * @var \Doctrine\ORM\EntityRepository
      * @Inject UserRepository
      */
     private $userRepo;
 
 	/**
-     * @var Entity\Repository\UserCampRepository
+     * @var \Doctrine\ORM\EntityRepository
      * @Inject UserCampRepository
      */
     private $userCampRepo;
@@ -34,8 +34,6 @@ class UserService
 	public function init()
 	{
 		$this->view->addHelperPath(APPLICATION_PATH . '/../application/views/helpers', 'Application\View\Helper\\');
-		
-		\Zend_Registry::get('kernel')->InjectDependencies($this);
 	}
 
 

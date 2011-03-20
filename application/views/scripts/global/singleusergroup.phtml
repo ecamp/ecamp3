@@ -1,5 +1,18 @@
-<span metal:define-macro="group_withrole" tal:omit-tag="" >
+<span metal:define-macro="group" tal:omit-tag="" >
      
+	<span  style="height:100px;" class="span-2">
+		<a tal:attributes="href helper:url(array('group' => usergroup.getGroup().getId()), 'group')">
+			<img width="48" height="48" tal:attributes="src helper:url(array('controller' => 'avatar', 'action' => 'group', 'group' => usergroup.getGroup().getId(), 'size' => 48), 'general')" /><br />
+		</a>
+		<a tal:attributes="href helper:url(array('group' => usergroup.getGroup().getId()), 'group')">
+			<tal:block content="usergroup/getGroup/getDescription" />
+		</a>
+	</span>
+	
+</span>
+
+<span metal:define-macro="group_withrole" tal:omit-tag="" >
+
 	<span  style="height:100px;" class="span-2">
 		<a tal:attributes="href helper:url(array('group' => usergroup.getGroup().getId()), 'group')">
 			<img width="48" height="48" tal:attributes="src helper:url(array('controller' => 'avatar', 'action' => 'group', 'group' => usergroup.getGroup().getId(), 'size' => 48), 'general')" /><br />
@@ -10,7 +23,7 @@
 		<br/>
 		<tal:block content="usergroup/getRoleName" />
 	</span>
-	
+
 </span>
 
 

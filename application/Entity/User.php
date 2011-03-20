@@ -233,9 +233,22 @@ class User extends BaseEntity
 		return $this;
 	}
 
-	public function getCamps()
+	public function getUserCamps()
 	{
 		return $this->userCamps;
+	}
+
+	public function getCamps()
+	{
+		$camps = array();
+
+		/** @var $userCamp UserCamp */
+		foreach($this->userCamps as $userCamp)
+		{
+			$camps = $userCamp->getCamp();
+		}
+
+		return $camps;
 	}
 	
 	/**************************************************************** 
@@ -433,6 +446,19 @@ class User extends BaseEntity
 	public function getUserGroups()
 	{
 		return $this->userGroups;
+	}
+
+	public function getGroupsIAmAMemberOf()
+	{
+		$groups = array();
+
+		/** @var $membership UserGroup */
+		foreach($this->getMemberships() as $membership)
+		{
+			$groups[] = $membership->getGroup();
+		}
+
+		return $groups;
 	}
 	
 	public function canRequestMembership($group){
