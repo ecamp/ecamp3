@@ -101,9 +101,17 @@ class Camp extends \Ztal_Form
 
 		$camp->setTitle($this->getValue('title'));
 
-		$period->setStart(new \DateTime($this->getValue('from')));
+		/* GMT disables daylight saving */
+		$from = new \DateTime($this->getValue('from'), new \DateTimeZone("GMT")); 
+		$to   = new \DateTime($this->getValue('to'), new \DateTimeZone("GMT"));
+		
+		$period->setStart($from);
 
-		$period->setDuration($this->getValue('to') - $this->getValue('from') + 1);
+		/* we could use:
+			$period->setDuration( $from->diff($to)->days + 1 );
+		   but this is broken on windows :( */
+		   
+		$period->setDuration( ($to->getTimestamp() - $from->getTimestamp())/(24 * 60 * 60) + 1 );
 	}
 
 	
@@ -118,7 +126,9 @@ class Camp extends \Ztal_Form
 		if( !$s )
 			return false;
 
-		if( $this->getValue("from") >  $this->getValue("to") ){
+		$from = new \DateTime($this->getValue('from'));
+		$to   = new \DateTime($this->getValue('to'));
+		if( $from > $to ){
 			$this->getElement("from")->addError("'From' date can not be larger than 'To' date.");
 			return false;
 		}
