@@ -33,12 +33,17 @@ interface IPluginStrategy {
     /**
 	 * construct
 	 */
-	public function __construct( \Doctrine\ORM\EntityManager $em, \Entity\Plugin $plugin );
+	public function __construct( \Doctrine\ORM\EntityManager $em, \Zend_View_Interface $view, \Entity\Plugin $plugin );
 
 	/**
 	 * Persist all child objects
 	 */
 	public function persist();
+	
+	/**
+	 * Remove all child objects
+	 */
+	public function remove();
 	
 	/**
 	 * Load entities that belong to this strategy

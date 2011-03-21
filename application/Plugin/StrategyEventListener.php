@@ -32,7 +32,7 @@ class StrategyEventListener implements \Doctrine\Common\EventSubscriber {
 	protected $view;
 	protected $em;
 
-	public function __construct(\Zend_View_Interface $view, $em) {
+	public function __construct(\Zend_View_Interface $view, \Doctrine\ORM\EntityManager $em) {
 		$this->view = $view;
 		$this->em = $em;
 	}
@@ -47,7 +47,7 @@ class StrategyEventListener implements \Doctrine\Common\EventSubscriber {
 		/* post load PluginStrategy into Plugin */
 		if ($plugin instanceof \Entity\Plugin) {
 			$strategy  = $plugin->getStrategyClassName();
-			$strategyInstance = new $strategy($this->em, $plugin);
+			$strategyInstance = new $strategy($this->em, $this->view, $plugin);
 			
 			/* load plugin */
 			$strategyInstance->loadObjects( );

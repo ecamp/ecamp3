@@ -32,6 +32,7 @@ class Camp extends BaseEntity
 	public function __construct()
     {
 		$this->userCamps = new \Doctrine\Common\Collections\ArrayCollection();
+		$this->events    = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
 	/**
@@ -86,6 +87,11 @@ class Camp extends BaseEntity
 	 * @OneToMany(targetEntity="Period", mappedBy="camp")
 	 */
 	private $periods;
+	
+	/**
+	 * @OneToMany(targetEntity="Event", mappedBy="camp")
+	 */
+	private $events;
 
 
 	public function getId(){ return $this->id; }
@@ -102,7 +108,17 @@ class Camp extends BaseEntity
 	public function setGroup(Group $group){ $this->group = $group; }
 	public function getGroup()             { return $this->group; }
 
+	public function setOwner(Owner $owner){ $this->owner = $owner; }
+	public function getOwner()            { return $this->owner; }
+	
+	public function belongsToUser()
+	{
+		return isset($this->owner);
+	}
+	
 	public function getPeriods() { return $this->periods; }
+	
+	public function getEvents() { return $this->events; }
 
 	public function getRange(){
 

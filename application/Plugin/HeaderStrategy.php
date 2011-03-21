@@ -33,9 +33,12 @@ class HeaderStrategy extends AbstractStrategy implements IPluginStrategy {
 	 */
 	private $header;
 	
+	public $controller = "pluginheader";
+	
 	/** construct */
-	public function __construct( \Doctrine\ORM\EntityManager $em, \Entity\Plugin $plugin) {
+	public function __construct( \Doctrine\ORM\EntityManager $em, \Zend_View_Interface $view, \Entity\Plugin $plugin) {
 		$this->em = $em;
+		$this->view = $view;
 		$this->plugin = $plugin;
 		
 		$this->header = new \Entity\PluginHeader($plugin);
@@ -47,6 +50,14 @@ class HeaderStrategy extends AbstractStrategy implements IPluginStrategy {
 	public function persist()
 	{
 		return $this->em->persist($this->header);
+	}
+	
+	/**
+	 * remove all child objects
+	 */
+	public function remove()
+	{
+		return $this->em->remove($this->header);
 	}
 
 	/**
@@ -87,7 +98,9 @@ class HeaderStrategy extends AbstractStrategy implements IPluginStrategy {
 	 * @return string
 	 */
 	public function renderBackend(){
-		return $this->header->getText();
+		$this->view->header = $this->header;
+		$this->view->plugin = $this->plugin;
+		return $this->view->render("pluginheader/edit.phtml");
 	}
 	
 }
