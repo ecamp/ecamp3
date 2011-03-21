@@ -18,7 +18,7 @@
  * along with eCamp.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-class Header_PluginController extends \Controller\BasePluginController
+class Content_PluginController extends \Controller\BasePluginController
 {
 
     public function init()
@@ -36,12 +36,12 @@ class Header_PluginController extends \Controller\BasePluginController
 
     public function saveAction()
     {
-		$header = $this->em->getRepository("Plugin\Header\Entity\Header")->findOneBy(array('plugin' => $this->plugin->getId()));
+		$content = $this->em->getRepository("Plugin\Content\Entity\Content")->findOneBy(array('plugin' => $this->plugin->getId()));
 		
 		$response = array();
-		$response['message'] = "I am a header plugin.\n\nOld value: ".$header->getText()."!\nNew value: ".$this->getRequest()->getParam("text")."!";
+		$response['message'] = "I am a content plugin.\n\nOld value: ".$content->getText()."!\nNew value: ".$this->getRequest()->getParam("text")."!";
 		
-		$header->setText($this->getRequest()->getParam("text"));
+		$content->setText($this->getRequest()->getParam("text"));
 		$this->em->flush();
 		
 		$this->getResponse()->setBody( Zend_Json::encode($response) );

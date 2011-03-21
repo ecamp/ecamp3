@@ -1,11 +1,11 @@
 <?php /* All id's should contain the plugin id in order to prevent conflicts */ ?>
 
-<h2>Header</h2>
+<h2>Content</h2>
 
 <form id="plugin" method="post" tal:attributes="id php:'plugin'.(plugin.getId()); action php:this.pluginurl( plugin )" >
 	<input type="hidden" name="pluginaction" value="save" />
 	
-	<input type="text" name="text" tal:attributes="value header/getText" />
+	<input type="text" name="text" tal:attributes="value content/getText" />
 	<input type="submit" value="Save" />
 </form>
 

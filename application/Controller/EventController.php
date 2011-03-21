@@ -93,12 +93,28 @@ class EventController extends \Controller\BaseController
 		$event->setCamp($this->camp);
 		$event->setTitle(md5(time()));
 		
-		/* create plugins */
+		/* create header */
 		$plugin = new \Entity\Plugin();		
 		$plugin->setEvent($event);
-		$headerstrategy = new \Plugin\Header\Strategy($this->em, $this->view, $plugin);
-		$plugin->setStrategy($headerstrategy);
-		$headerstrategy->persist();
+		$strategy = new \Plugin\Header\Strategy($this->em, $this->view, $plugin);
+		$plugin->setStrategy($strategy);
+		$strategy->persist();
+		$this->em->persist($plugin);
+
+		/* create content */
+		$plugin = new \Entity\Plugin();
+		$plugin->setEvent($event);
+		$strategy = new \Plugin\Content\Strategy($this->em, $this->view, $plugin);
+		$plugin->setStrategy($strategy);
+		$strategy->persist();
+		$this->em->persist($plugin);
+
+	    /* create content */
+		$plugin = new \Entity\Plugin();
+		$plugin->setEvent($event);
+		$strategy = new \Plugin\Content\Strategy($this->em, $this->view, $plugin);
+		$plugin->setStrategy($strategy);
+		$strategy->persist();
 		$this->em->persist($plugin);
 		
 		$this->em->persist($event);
@@ -151,10 +167,10 @@ class EventController extends \Controller\BaseController
 		$id = $this->getRequest()->getParam("id");
 		$plugin = $this->em->getRepository("Entity\Plugin")->find($id);
 
-		Zend_Controller_Front::getInstance()->setControllerDirectory('../application/Plugin/'.$plugin->getStrategyInstance()->pluginName.'/Controller');
+		Zend_Controller_Front::getInstance()->addControllerDirectory('../application/Plugin/'.$plugin->getStrategyInstance()->pluginName.'/Controller', $plugin->getStrategyInstance()->pluginName);
 
 		/* convention: the plugins carries a param "pluginaction", which specifies the action of the plugin controller */
-		$this->_forward( $this->getRequest()->getParam("pluginaction"), 'plugin' );
+		$this->_forward( $this->getRequest()->getParam("pluginaction"), 'plugin', $plugin->getStrategyInstance()->pluginName);
 		
 	}
 	
