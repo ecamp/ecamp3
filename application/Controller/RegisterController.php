@@ -24,6 +24,13 @@ class RegisterController
 	extends \Controller\BaseController
 {
 
+	/**
+	 * @var \Doctrine\ORM\EntityRepository
+	 * @Inject UserRepository
+	 */
+	private $userRepository;
+
+
 	public function indexAction()
 	{
 
@@ -40,26 +47,31 @@ class RegisterController
 	{
 		$registerForm = new \Form\Register();
 
-
 		if(!$registerForm->isValid($this->getRequest()->getParams()))
 		{
-			$this->_forward('index');
+			$this->view->registerForm = $registerForm;
+			$this->render("index");
+			return;
 		}
 
 		
 		$mail = $registerForm->getValue('mail');
 		
 
+		/** @var $user \Entity\User */
+		$user = $this->userRepository->findBy(array('mail' => $mail));
 
-
-		$user = new Entity\User();
+		if($user == null)
+		{
+			$user = new Entity\User();
+			$user->setEmail($mail);
+		}
 
 		$user->setUsername($registerForm->getValue('username'));
 		$user->setScoutname($registerForm->getValue('scoutname'));
 		$user->setFirstname($registerForm->getValue('firstname'));
 		$user->setSurname($registerForm->getValue('surname'));
 
-		$user->setEmail($registerForm->getValue('mail'));
 
 		$login = new Entity\Login();
 		$login->setUser($user);
@@ -68,10 +80,9 @@ class RegisterController
 		$this->em->persist($login);
 		$this->em->persist($user);
 		$this->em->flush();
-		
-		var_dump($login);
 
-		die();
+
+		$this->_redirect('/login');
 
 	}
 

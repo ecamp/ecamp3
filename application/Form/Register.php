@@ -29,6 +29,7 @@ class Register extends \Ztal_Form
 
 		$userName = new \Zend_Form_Element_Text('username');
 		$userName->setLabel('Username:')
+			->addValidator(new \Zend_Validate_StringLength(array('min' => 5, 'max' => 20)))
 			->setRequired(true);
 
 
@@ -56,6 +57,17 @@ class Register extends \Ztal_Form
 			->addFilter('StringTrim')
 			->setRequired(false);
 
+
+		$reCaptcha = new \Zend_Captcha_ReCaptcha();
+		$reCaptcha->setPrivkey("6LeyrMISAAAAAH7U7ANQ8R8V3RZQ-GMWPVicM2LS");
+		$reCaptcha->setPubkey("6LeyrMISAAAAAJ3f5vPuzTi8abD_fkXA0GeXqbgg");
+
+		$captcha = new \Zend_Form_Element_Captcha('captcha', array("captcha" => $reCaptcha));
+		$captcha->setLabel('Captcha')
+			->setRequired(true);
+
+		
+
 		$submit = new \Zend_Form_Element_Submit('submit');
 		$submit->setLabel('Save');
 
@@ -66,6 +78,8 @@ class Register extends \Ztal_Form
 		$this->addElement($scoutName);
 		$this->addElement($firstName);
 		$this->addElement($surName);
+
+		$this->addElement($captcha);
 
 		$this->addElement($submit);
 

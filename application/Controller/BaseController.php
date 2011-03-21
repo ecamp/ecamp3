@@ -11,16 +11,20 @@ class BaseController extends \Zend_Controller_Action
 	protected $em;
 	
 	/**
-	 * @var Zend_Session_Namespace
+	 * @var \Zend_Session_Namespace
 	 */
 	protected $authSession;
 
-	/** loggedin user */
-	protected $me = null;
+
+	/**
+	 * logged in user
+	 * @var \Entity\User
+	 */
+	protected $me;
 
 	/**
 	 * default translator
-	 * @var Zend_Translate 
+	 * @var \Zend_Translate
 	 */
 	protected $t;
 	
@@ -41,7 +45,8 @@ class BaseController extends \Zend_Controller_Action
 		$this->view->params = $this->getRequest()->getParams();
 		
 		$this->authSession = new \Zend_Session_Namespace('Zend_Auth');
-		
+
+		/** @var $login \Entity\Login */
 		$login = $this->em->getRepository("Entity\Login")->find($this->authSession->Login);
 		if( isset($login) )
 		{
