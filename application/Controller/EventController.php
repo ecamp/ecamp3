@@ -96,7 +96,7 @@ class EventController extends \Controller\BaseController
 		/* create plugins */
 		$plugin = new \Entity\Plugin();		
 		$plugin->setEvent($event);
-		$headerstrategy = new \Plugin\HeaderStrategy($this->em, $this->view, $plugin);
+		$headerstrategy = new \Plugin\Header\Strategy($this->em, $this->view, $plugin);
 		$plugin->setStrategy($headerstrategy);
 		$headerstrategy->persist();
 		$this->em->persist($plugin);
@@ -150,9 +150,11 @@ class EventController extends \Controller\BaseController
 
 		$id = $this->getRequest()->getParam("id");
 		$plugin = $this->em->getRepository("Entity\Plugin")->find($id);
-		
+
+		Zend_Controller_Front::getInstance()->setControllerDirectory('../application/Plugin/'.$plugin->getStrategyInstance()->pluginName.'/Controller');
+
 		/* convention: the plugins carries a param "pluginaction", which specifies the action of the plugin controller */
-		$this->_forward( $this->getRequest()->getParam("pluginaction"), $plugin->getStrategyInstance()->controller );
+		$this->_forward( $this->getRequest()->getParam("pluginaction"), 'plugin' );
 		
 	}
 	

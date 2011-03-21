@@ -18,13 +18,13 @@
  * along with eCamp.  If not, see <http://www.gnu.org/licenses/>.
  */
  
-namespace Entity;
+namespace Plugin\Header\Entity;
 
 /**
  * @Entity
  * @Table(name="plugin_headers")
  */
-class PluginHeader extends BaseEntity {
+class Header extends \Entity\BaseEntity {
 	
 	public function __construct($plugin)
 	{
@@ -47,7 +47,7 @@ class PluginHeader extends BaseEntity {
 	private $text;
 	
 	/**
-	 * @ManyToOne(targetEntity="Plugin")
+	 * @ManyToOne(targetEntity="Entity\Plugin")
 	 */
 	private $plugin;
 	

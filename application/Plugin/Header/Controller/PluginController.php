@@ -18,7 +18,7 @@
  * along with eCamp.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-class PluginheaderController extends \Controller\BasePluginController
+class PluginController extends \Controller\BasePluginController
 {
 
     public function init()
@@ -36,7 +36,7 @@ class PluginheaderController extends \Controller\BasePluginController
 
     public function saveAction()
     {
-		$header = $this->em->getRepository("Entity\PluginHeader")->findOneBy(array('plugin' => $this->plugin->getId()));
+		$header = $this->em->getRepository("Plugin\Header\Entity\Header")->findOneBy(array('plugin' => $this->plugin->getId()));
 		
 		$response = array();
 		$response['message'] = "I am a header plugin.\n\nOld value: ".$header->getText()."!\nNew value: ".$this->getRequest()->getParam("text")."!";

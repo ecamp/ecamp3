@@ -24,16 +24,16 @@
  * and models.
  */
  
-namespace Plugin;
+namespace Plugin\Header;
 
-class HeaderStrategy extends AbstractStrategy implements IPluginStrategy {
+class Strategy extends \Plugin\AbstractStrategy implements \Plugin\IPluginStrategy {
 	
 	/**
-	 * Entity\PluginHeader $plugin
+	 * Plugin\Header\Entity\Header $plugin
 	 */
 	private $header;
 	
-	public $controller = "pluginheader";
+	public $pluginName = "Header";
 	
 	/** construct */
 	public function __construct( \Doctrine\ORM\EntityManager $em, \Zend_View_Interface $view, \Entity\Plugin $plugin) {
@@ -41,7 +41,7 @@ class HeaderStrategy extends AbstractStrategy implements IPluginStrategy {
 		$this->view = $view;
 		$this->plugin = $plugin;
 		
-		$this->header = new \Entity\PluginHeader($plugin);
+		$this->header = new \Plugin\Header\Entity\Header($plugin);
 	}
 	
 	/**
@@ -65,7 +65,7 @@ class HeaderStrategy extends AbstractStrategy implements IPluginStrategy {
 	 */
 	public function loadObjects()
 	{
-		$this->header = $this->em->getRepository("Entity\PluginHeader")->findOneBy( array('plugin' => $this->plugin->getId()) );
+		$this->header = $this->em->getRepository('Plugin\\'.$this->pluginName.'\Entity\Header')->findOneBy( array('plugin' => $this->plugin->getId()) );
 	}
 	
 	/**
@@ -100,7 +100,7 @@ class HeaderStrategy extends AbstractStrategy implements IPluginStrategy {
 	public function renderBackend(){
 		$this->view->header = $this->header;
 		$this->view->plugin = $this->plugin;
-		return $this->view->render("pluginheader/edit.phtml");
+		return $this->view->render("../Plugin/".$this->pluginName."/views/edit.phtml");
 	}
 	
 }
