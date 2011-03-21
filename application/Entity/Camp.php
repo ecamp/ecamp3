@@ -108,7 +108,7 @@ class Camp extends BaseEntity
 	public function setGroup(Group $group){ $this->group = $group; }
 	public function getGroup()             { return $this->group; }
 
-	public function setOwner(Owner $owner){ $this->owner = $owner; }
+	public function setOwner(User $owner){ $this->owner = $owner; }
 	public function getOwner()            { return $this->owner; }
 	
 	public function belongsToUser()

@@ -18,7 +18,7 @@
  * along with eCamp.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-class PluginHeaderController extends Controller\BasePluginController
+class PluginheaderController extends \Controller\BasePluginController
 {
 
     public function init()
