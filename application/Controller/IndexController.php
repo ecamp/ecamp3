@@ -32,5 +32,31 @@ class IndexController extends \Controller\BaseController
     {
 		$this->view->headTitle('Home');
     }
+	
+	public function createpluginAction()
+	{
+		$plugin = new \Entity\Plugin();		
+		$headerstrategy = new \Plugin\HeaderStrategy($this->em, $plugin);
+		
+		$plugin->setStrategy($headerstrategy);
+		
+		$this->em->persist($plugin);
+		$headerstrategy->persist();
+		
+		$this->em->flush();
+		exit();
+	}
+	
+	public function loadpluginAction()
+	{
+		/* move this to bootsrap */
+		$event = new \Plugin\StrategyEventListener($this->view, $this->em);
+		$this->em->getEventManager()->addEventSubscriber($event);
+
+		$id = $this->getRequest()->getParam("id");
+		$plugin = $this->em->getRepository("Entity\Plugin")->find($id);
+		
+		echo $plugin->getStrategyInstance()->renderFrontend(); exit();
+	}
 }
 

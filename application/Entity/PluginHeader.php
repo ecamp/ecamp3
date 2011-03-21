@@ -17,20 +17,47 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with eCamp.  If not, see <http://www.gnu.org/licenses/>.
  */
-
+ 
 namespace Entity;
 
 /**
  * @Entity
+ * @Table(name="plugin_headers")
  */
-class PluginHeader extends Plugin implements IPlugin
-{
-	/**
-	 * @OneToOne(targetEntity="PluginHeaderRecord", mappedBy="plugin")
-	 */
-	private $record;	
+class PluginHeader extends BaseEntity {
 	
-	public function whoAmI(){
-		return "I am a header plugin. Who are u?";
+	public function __construct($plugin)
+	{
+		$this->text = "hello world";
+		$this->plugin = $plugin;
 	}
+	
+	/**
+	 * The id of the plugin item instance
+	 * This is a doctrine field, so you need to setup generation for it
+	 * @var integer
+	 * @Id @Column(type="integer")
+	 * @GeneratedValue(strategy="AUTO")
+	 */
+	private $id;
+	
+	/**
+	 * @Column(type="string", length=64, nullable=true)
+	 */
+	private $text;
+	
+	/**
+	 * @ManyToOne(targetEntity="Plugin")
+	 */
+	private $plugin;
+	
+
+	public function getId(){ return $this->id; }
+
+	public function setText($text){ $this->text = $text; }
+	public function getText()     { return $this->text; }
+	
+	public function setPlugin($plugin){ $this->plugin = $plugin; }
+	public function getPlugin()     { return $this->plugin; }
+	
 }
