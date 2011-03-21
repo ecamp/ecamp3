@@ -67,6 +67,11 @@ class RegisterController
 			$user->setEmail($mail);
 		}
 
+		if($user->getState() != \Entity\User::STATE_NONREGISTERED)
+		{
+			throw new Exception("User with given MailAdress is already registered!");
+		}
+
 		$user->setUsername($registerForm->getValue('username'));
 		$user->setScoutname($registerForm->getValue('scoutname'));
 		$user->setFirstname($registerForm->getValue('firstname'));

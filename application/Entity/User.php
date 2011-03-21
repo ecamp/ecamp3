@@ -26,9 +26,16 @@ namespace Entity;
  */
 class User extends BaseEntity
 {
+	const STATE_NONREGISTERED 	= "NonRegistered";
+	const STATE_REGISTERED 		= "Registered";
+	const STATE_ACTIVATED  		= "Activated";
+	const STATE_DELETED			= "Deleted";
+
+	const ROLE_USER				= "User";
+	const ROLE_ADMIN			= "Admin";
 	
-	const GENDER_FEMALE	= true;
-	const GENDER_MALE 	= false;
+	const GENDER_FEMALE			= true;
+	const GENDER_MALE 			= false;
 	
 	const JSEDU_GRUPPENLEITER 	= "Gruppenleiter";
 	const JSEDU_LAGERLEITER		= "Lagerleiter";
@@ -49,6 +56,9 @@ class User extends BaseEntity
 		$this->userGroups = new \Doctrine\Common\Collections\ArrayCollection();
 	    $this->relationshipFrom = new \Doctrine\Common\Collections\ArrayCollection();
 	    $this->relationshipTo   = new \Doctrine\Common\Collections\ArrayCollection();
+
+		$this->state = self::STATE_NONREGISTERED;
+		$this->role  = self::ROLE_USER;
     }
 	
 	/**
@@ -117,6 +127,12 @@ class User extends BaseEntity
 	
 	/** @Column(type="object", nullable=true ) */
 	private $imageData;
+
+	/** @Column(type="string", nullable=false ) */
+	private $state;
+
+	/** @Column(type="string", nullable=false ) */
+	private $role;
 	
 	
 	/**
@@ -208,6 +224,12 @@ class User extends BaseEntity
 
 	public function getPbsEdu()         { return $this->pbsEdu;	}
 	public function setPbsEdu( $pbsEdu ){ $this->pbsEdu = $pbsEdu; return $this; }
+
+	public function getRole()		{ return $this->role; }
+	public function setRole($role)	{ $this->role = $role; return $this; }
+
+	public function getState()		{ return $this->state; }
+	public function setState($state){ $this->state = $state; }
 
 	public function getImageData(){ return base64_decode($this->imageData); }
 	public function setImageData($data){ $this->imageData = base64_encode($data); return $this; }
@@ -502,5 +524,7 @@ class User extends BaseEntity
 			
 		return false;
 	}
-	
+
+
+
 }
