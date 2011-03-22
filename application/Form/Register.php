@@ -30,13 +30,16 @@ class Register extends \Ztal_Form
 		$userName = new \Zend_Form_Element_Text('username');
 		$userName->setLabel('Username:')
 			->addValidator(new \Zend_Validate_StringLength(array('min' => 5, 'max' => 20)))
+			->addValidator(new \Ecamp\Validate\NoRecordExist('Entity\User', 'username'))
 			->setRequired(true);
 
 
-
-		$mail = new \Zend_Form_Element_Text('mail');
+		$mail = new \Zend_Form_Element_Text('email');
 		$mail->setLabel('Mail:')
-			->addValidator('EmailAddress')
+			->addValidator(new \Zend_Validate_EmailAddress())
+			->addValidator(new \Ecamp\Validate\NonRegisteredUser('email'))
+//			->addValidator(new \Ecamp\Validate\NoRecordExist(
+//				'Entity\User', 'email', "state != '" . \Entity\User::STATE_NONREGISTERED . "'"))
 			->setRequired(true);
 
 
@@ -56,6 +59,16 @@ class Register extends \Ztal_Form
 		$surName->setLabel('Surname:')
 			->addFilter('StringTrim')
 			->setRequired(false);
+
+
+		$password1 = new \Zend_Form_Element_Password('password1');
+		$password1->setLabel('Password:')
+			->setRequired(true);
+
+		$password2 = new \Zend_Form_Element_Password('password2');
+		$password2->setLabel('Repeat Password:')
+			->addValidator(new \Zend_Validate_Identical('password1'))
+			->setRequired(true);
 
 
 		$reCaptcha = new \Zend_Captcha_ReCaptcha();
@@ -78,6 +91,9 @@ class Register extends \Ztal_Form
 		$this->addElement($scoutName);
 		$this->addElement($firstName);
 		$this->addElement($surName);
+
+		$this->addElement($password1);
+		$this->addElement($password2);
 
 		$this->addElement($captcha);
 

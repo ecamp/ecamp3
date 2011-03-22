@@ -36,6 +36,20 @@ class RegisterController
 
 		$registerForm = new \Form\Register();
 
+		if($id = $this->getRequest()->getParam('id'))
+		{
+			/** @var $user \Entity\User */
+			$user = $this->userRepository->find($id);
+
+			if(!is_null($user) && $user->getState() == \Entity\User::STATE_NONREGISTERED)
+			{
+				$registerForm->setDefault('email', 		$user->getEmail());
+				$registerForm->setDefault('scoutname', 	$user->getScoutname());
+				$registerForm->setDefault('firstname', 	$user->getFirstname());
+				$registerForm->setDefault('surname', 	$user->getSurname());
+			}
+		}
+
 		$registerForm->setDefaults($this->getRequest()->getParams());
 
 		$this->view->registerForm = $registerForm;
@@ -55,63 +69,71 @@ class RegisterController
 		}
 
 		
-		$mail = $registerForm->getValue('mail');
+		$email = $registerForm->getValue('email');
 		
 
 		/** @var $user \Entity\User */
-		$user = $this->userRepository->findBy(array('mail' => $mail));
+		$user = $this->userRepository->findOneBy(array('email' => $email));
 
 		if($user == null)
 		{
 			$user = new Entity\User();
-			$user->setEmail($mail);
-		}
+			$user->setEmail($email);
 
-		if($user->getState() != \Entity\User::STATE_NONREGISTERED)
-		{
-			throw new Exception("User with given MailAdress is already registered!");
+			$this->em->persist($user);
 		}
 
 		$user->setUsername($registerForm->getValue('username'));
 		$user->setScoutname($registerForm->getValue('scoutname'));
 		$user->setFirstname($registerForm->getValue('firstname'));
 		$user->setSurname($registerForm->getValue('surname'));
-
+		$user->setState(\Entity\User::STATE_REGISTERED);
 
 		$login = new Entity\Login();
 		$login->setUser($user);
-		$login->setPwd('testpw');
+		$login->setPwd($registerForm->getValue('password1'));
 
 		$this->em->persist($login);
-		$this->em->persist($user);
 		$this->em->flush();
 
+		// TODO: Send Mail with activation link;
 
 		$this->_redirect('/login');
-
 	}
 
-	public function isusernamefreeAction()
+
+	public function activateAction()
 	{
-		$this->_helper->layout()->disableLayout();
-		$this->_helper->viewRenderer->setNoRender(true);
 
-		$username = $this->getRequest()->getParam('username');
+		$id = $this->getRequest()->getParam('id');
 
-		/** @var $user Entity\User */
-		$user = $this->em->find('Entity\User', array('username' => $username));
+		/** @var $user \Entity\User */
+		$user = $this->userRepository->find($id);
 
-		if(!is_null($user))
+		if(is_null($user))
+		{	$this->_redirect('/login');	return;	}
+
+		if($user->getState() != \Entity\User::STATE_REGISTERED)
+		{	$this->_redirect('/login');	return;	}
+
+
+		$key = $this->getRequest()->getParam('key');
+
+		if($key == md5($id))
 		{
-			if(!is_null($user->getLogin()))
-			{	return false;	}
+			$user->setState(\Entity\User::STATE_ACTIVATED);
 
-			//if(!is_null($user->getOAuth()))
-			//{	return false;}
-			
+			$this->em->flush();
+
+			echo 'Successful activated';
+			var_dump($user);
+
+			die();
 		}
-
-		return true;
+		else
+		{
+			die('md5(' . $id . ') = ' . md5($id));
+		}
 
 	}
 
