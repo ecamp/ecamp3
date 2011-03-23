@@ -48,7 +48,7 @@ class UserService
 	public function createLogin(\Entity\User $user, $password)
 	{
 		$login = new \Entity\Login();
-		$login->setPwd($password);
+		$login->setNewPassword($password);
 
 		$login->setUser($user);
 

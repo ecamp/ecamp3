@@ -186,6 +186,7 @@ class User extends BaseEntity
 	public function getUsername()            { return $this->username; }
 	public function setUsername( $username ) { $this->username = $username; return $this; }
 
+	/** @return \Entity\Login */
 	public function getLogin()	{	return $this->login;	}
 
 	public function getEmail()            { return $this->email; }

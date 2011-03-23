@@ -22,43 +22,60 @@
 class LoginController
 	extends \Controller\BaseController
 {
-	/**
-     * @var Entity\Repository\LoginRepository
-	 * @Inject LoginRepository
-     */
-    private $loginRepo;
 
-	public function init()
-	{
-		parent::init();
-	}
+	/**
+	 * @var \Doctrine\ORM\EntityRepository
+	 * @Inject UserRepository
+	 */
+	private $userRepository;
+
 
 	public function indexAction()
 	{
-		$this->view->logins = $this->loginRepo->findAll();
+		if(!is_null($this->me))
+		{
+			$this->_forward('index', 'dashboard');
+		}
 
-		if(!is_null($this->authSession->Login))
-		{
-			$this->view->login = $this->loginRepo->find($this->authSession->Login);
-		}
-		else
-		{
-			$this->view->login = null;
-		}
+		$loginForm = new \Form\Login();
+		$loginForm->setAction("/login/login");
+		$loginForm->setDefaults($this->getRequest()->getParams());
+
+		$this->view->loginForm = $loginForm;
 	}
 
 
 	public function loginAction()
 	{
-		$this->authSession->Login = null;
+		$loginForm = new \Form\Login();
 
-		$id = $this->getRequest()->getParam("id");
-		$login = $this->loginRepo->find($id);
-		$this->authSession->Login = $login->getId();
+		if(!$loginForm->isValid($this->getRequest()->getParams()))
+		{	$this->_forward('index');	}
 
-		$this->view->login = $login;
+
+		$mailValidator = new \Zend_Validate_EmailAddress();
 		
-		$this->view->me = $login->getUser();
+		$login 		= $loginForm->getValue('login');
+		$password 	= $loginForm->getValue('password');
+
+		
+		/** @var $user \Entity\User */
+		if($mailValidator->isValid($login))
+		{	$user = $this->userRepository->findOneBy(array('email' => $login));	}
+		else
+		{	$user = $this->userRepository->findOneBy(array('username' => $login));	}
+
+
+		if(
+			!is_null($user) && !is_null($user->getLogin()) &&
+			$user->getLogin()->checkPassword($password))
+		{
+			$this->authSession->Login = $user->getLogin()->getId();
+			$this->_forward('index', 'dashboard');
+			return;
+		}
+
+		$this->_forward('index');
 	}
 
 
@@ -66,17 +83,6 @@ class LoginController
 	{
 		$this->authSession->Login = null;
 		$this->_redirect("login");
-	}
-
-
-	public function identifyAction()
-	{
-		if($this->authSession->Login == null)
-		{
-			die("Not Authenticated");
-		}
-
-		die($this->authSession->Login);
 	}
 
 }

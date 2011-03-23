@@ -33,7 +33,7 @@ class RegisterController
 
 	/**
 	 * @var \Service\UserService
-	 * @Inject UserService
+	 * @Inject Service\UserService
 	 */
 	private $userService;
 
@@ -121,6 +121,8 @@ class RegisterController
 		if($this->userService->activateUser($id, $key))
 		{
 			$this->em->flush();
+
+			$this->_forward('index', 'login');
 		}
 		else
 		{
