@@ -80,6 +80,14 @@ class User extends BaseEntity
 	 */
 	private $email;
 
+	/**
+	 * ActivationCode to verify eMail address
+	 * @Column(type="string", length=64, nullable=true)
+	 */
+	private $activationCode;
+
+
+
 	/** @Column(type="string", length=32, nullable=true ) */
 	private $scoutname;
 	
@@ -242,6 +250,7 @@ class User extends BaseEntity
 		$this->imageData = null;
 		return $this;
 	}
+	
 
 	public function getDisplayName()
 	{
@@ -260,18 +269,50 @@ class User extends BaseEntity
 		return $name.$this->firstname . " " . $this->surname;
 	}
 
+	
+	/****************************************************************
+	 * User Activation:
+	 ****************************************************************/
+	public function createNewActivationCode()
+	{
+		$guid = hash('sha256', uniqid(md5(mt_rand()), true));
+		$this->activationCode = md5($guid);
+
+		return $guid;
+	}
+
+	public function checkActivationCode($activationCode)
+	{
+		$code = md5($activationCode);
+
+		return $code == $this->activationCode;
+	}
+
+	public function activateUser($activationCode)
+	{
+		if($this->checkActivationCode($activationCode))
+		{
+			$this->state = self::STATE_ACTIVATED;
+			$this->activationCode = null;
+			return true;
+		}
+
+		return false;
+	}
+
+	public function resetActivationCode()
+	{
+		$this->activationCode = null;
+	}
+	/****************************************************************/
+	
+
 	public function isMale()
 	{	return ( $this->gender == self::GENDER_MALE );		}
 	
 	public function isFemale()
 	{	return ( $this->gender == self::GENDER_FEMALE );	}
 
-	
-	public function setImage( $image )
-	{
-		$this->image = $image;
-		return $this;
-	}
 
 	public function getAcceptedUserCamps()
 	{

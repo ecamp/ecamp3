@@ -31,6 +31,13 @@ class RegisterController
 	private $userRepository;
 
 
+	/**
+	 * @var \Service\UserService
+	 * @Inject UserService
+	 */
+	private $userService;
+
+
 	public function indexAction()
 	{
 
@@ -70,6 +77,7 @@ class RegisterController
 
 		
 		$email = $registerForm->getValue('email');
+		$password = $registerForm->getValue('password1');
 		
 
 		/** @var $user \Entity\User */
@@ -89,16 +97,16 @@ class RegisterController
 		$user->setSurname($registerForm->getValue('surname'));
 		$user->setState(\Entity\User::STATE_REGISTERED);
 
-		$login = new Entity\Login();
-		$login->setUser($user);
-		$login->setPwd($registerForm->getValue('password1'));
+		$login = $this->userService->createLogin($user, $password);
+		$activationCode = $user->createNewActivationCode();
 
 		$this->em->persist($login);
 		$this->em->flush();
 
-		// TODO: Send Mail with activation link;
 
-		$this->_redirect('/login');
+		$link = "/register/activate/" . $user->getId() . "/key/" . $activationCode;
+		echo "<a href='" . $link . "'>" . $link . "</a>";
+		die();
 	}
 
 
@@ -107,32 +115,19 @@ class RegisterController
 
 		$id = $this->getRequest()->getParam('id');
 
-		/** @var $user \Entity\User */
-		$user = $this->userRepository->find($id);
-
-		if(is_null($user))
-		{	$this->_redirect('/login');	return;	}
-
-		if($user->getState() != \Entity\User::STATE_REGISTERED)
-		{	$this->_redirect('/login');	return;	}
-
-
 		$key = $this->getRequest()->getParam('key');
 
-		if($key == md5($id))
+
+		if($this->userService->activateUser($id, $key))
 		{
-			$user->setState(\Entity\User::STATE_ACTIVATED);
-
 			$this->em->flush();
-
-			echo 'Successful activated';
-			var_dump($user);
-
-			die();
 		}
 		else
 		{
-			die('md5(' . $id . ') = ' . md5($id));
+			/** @var $user \Entity\User */
+			$user = $this->userRepository->find($id);
+
+			die($user->createNewActivationCode());
 		}
 
 	}
