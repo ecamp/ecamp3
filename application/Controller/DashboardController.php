@@ -124,7 +124,7 @@ class DashboardController extends \Controller\BaseController
 		/** load all users */
 		$query = $this->em->getRepository("Entity\User")->createQueryBuilder("u");
 		
-		$adapter = new \Logic\Paginator\Doctrine($query);
+		$adapter = new \Ecamp\Paginator\Doctrine($query);
 		$paginator = new Zend_Paginator($adapter);
 		$paginator->setItemCountPerPage( 21 );
 		$paginator->setCurrentPageNumber( $this->getRequest()->getParam("page") );

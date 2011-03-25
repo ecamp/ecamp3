@@ -128,41 +128,41 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 				
 		/* user */
 		Zend_Controller_Front::getInstance()->getRouter()->addRoute(
-			'user', new Logic\Route\Vanity('user/:user/:action/*',
+			'user', new Ecamp\Route\Vanity('user/:user/:action/*',
 				array('controller' => 'user','action' => 'show')));
 				
 		Zend_Controller_Front::getInstance()->getRouter()->addRoute(
-			'user+id', new Logic\Route\Vanity('user/:user/:action/:id/*',
+			'user+id', new Ecamp\Route\Vanity('user/:user/:action/:id/*',
 				array('controller' => 'user','action' => 'show'),
 				array('id' => '\d+')));
 		
 		/* user camp */
 		Zend_Controller_Front::getInstance()->getRouter()->addRoute(
-			'user+camp', new Logic\Route\Vanity('user/:user/:camp/:controller/:action/*',
+			'user+camp', new Ecamp\Route\Vanity('user/:user/:camp/:controller/:action/*',
 				array('controller' => 'camps','action' => 'show')));
 				
 		Zend_Controller_Front::getInstance()->getRouter()->addRoute(
-			'user+camp+id', new Logic\Route\Vanity('user/:user/:camp/:controller/:action/:id/*',
+			'user+camp+id', new Ecamp\Route\Vanity('user/:user/:camp/:controller/:action/:id/*',
 				array('controller' => 'camps','action' => 'show'),
 				array('id' => '\d+')));
 				
 		/* group */
 		Zend_Controller_Front::getInstance()->getRouter()->addRoute(
-			'group', new Logic\Route\Vanity('group/:group/:action/*',
+			'group', new Ecamp\Route\Vanity('group/:group/:action/*',
 				array('controller' => 'group','action' => 'show')));
 				
 		Zend_Controller_Front::getInstance()->getRouter()->addRoute(
-			'group+id', new Logic\Route\Vanity('group/:group/:action/:id/*',
+			'group+id', new Ecamp\Route\Vanity('group/:group/:action/:id/*',
 				array('controller' => 'group','action' => 'show'),
 				array('id' => '\d+')));
 				
 		/* group camp */
 		Zend_Controller_Front::getInstance()->getRouter()->addRoute(
-			'group+camp', new Logic\Route\Vanity('group/:group/:camp/:controller/:action/*',
+			'group+camp', new Ecamp\Route\Vanity('group/:group/:camp/:controller/:action/*',
 				array('controller' => 'camps','action' => 'show')));
 				
 		Zend_Controller_Front::getInstance()->getRouter()->addRoute(
-			'group+camp+id', new Logic\Route\Vanity('group/:group/:camp/:controller/:action/:id/*',
+			'group+camp+id', new Ecamp\Route\Vanity('group/:group/:camp/:controller/:action/:id/*',
 				array('controller' => 'camps','action' => 'show'),
 				array('id' => '\d+')));
 				
