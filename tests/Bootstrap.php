@@ -24,7 +24,7 @@ defined('APPLICATION_PATH')
 
 // Define application environment
 defined('APPLICATION_ENV')
-    || define('APPLICATION_ENV', (getenv('APPLICATION_ENV') ? getenv('APPLICATION_ENV') : 'development'));
+    || define('APPLICATION_ENV', (getenv('APPLICATION_ENV') ? getenv('APPLICATION_ENV') : 'testing'));
 
 // Ensure library/ is on include_path
 set_include_path(implode(PATH_SEPARATOR, array(
@@ -34,19 +34,17 @@ set_include_path(implode(PATH_SEPARATOR, array(
 
 /** Zend_Application */
 require_once 'Zend/Application.php';
+require_once 'application/EcampTestCase.php';
+require_once 'application/EcampTestCaseWithDb.php';
 
-// Create application, bootstrap, and run
+//require_once('./application/EcampTestCase.php');
 $application = new Zend_Application(
-    APPLICATION_ENV,
-    APPLICATION_PATH . '/configs/application.ini'
+	APPLICATION_ENV,
+	APPLICATION_PATH . '/configs/application.ini'
 );
 
-$application->bootstrap();
-
-$GLOBALS['app'] = $application;
-$GLOBALS['bootstrap'] = $application->getBootstrap();
-
 clearstatcache();
+
 
 
 

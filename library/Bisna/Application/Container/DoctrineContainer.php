@@ -364,7 +364,10 @@ class DoctrineContainer
             $this->startDBALConfiguration($config),
             $this->startDBALEventManager($config)
         );
-		$conn->setCharset("UTF8");
+	    
+	    if( $config['parameters']['driver'] == 'pdo_mysql' )
+			$conn->setCharset("UTF8");
+
 		return $conn;
     }
 

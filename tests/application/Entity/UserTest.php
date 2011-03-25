@@ -18,29 +18,39 @@
  * along with eCamp.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-class UserTest
-	extends PHPUnit_Framework_TestCase
-{
+namespace Entity;
 
-	private $em;
+class UserTest
+	extends \EcampTestCaseWithDb
+{
 
 	function setUp()
 	{
-		$this->em = $GLOBALS['bootstrap']->em;
+		parent::setup();
+	}
+
+	function testCanCreateUser()
+	{
+		$this->assertInstanceOf('Entity\User', new User());
+	}
+
+	function testCanPersistUser(){
+		$u = new User();
+		$u->setScoutname('Scout');
+
+		$this->em->persist($u);
+		$this->em->flush();
+
+		$users = $this->em->getRepository("Entity\User")->findAll();
+
+		$this->assertEquals('Scout', $users[0]->getScoutname());
 	}
 
 
-	function testCreateUser()
+
+	function testCanSetProperties()
 	{
-		$user = new Entity\User();
-
-		$this->assertTrue(true);
-
-	}
-
-	function testProperties()
-	{
-		$user = new Entity\User();
+		$user = new User();
 
 
 		$user->setScoutname('ScoutName');
@@ -51,17 +61,17 @@ class UserTest
 		$this->assertEquals('FirstName', $user->getFirstname());
 	}
 
-	function testFriendship()
+	function testCanCreateFriendship()
 	{
-		$user1 =  new Entity\User();
-		$user2 =  new Entity\User();
+		$user1 =  new User();
+		$user2 =  new User();
 
 		/* no friends */
 		$this->assertFalse( $user1->isFriendOf($user2) );
 		$this->assertFalse( $user2->isFriendOf($user1) );
 
 		/* send invitation from user1 to user2 */
-		$rel1 = new Entity\UserRelationship($user1, $user2);
+		$rel1 = new UserRelationship($user1, $user2);
 		$user1->getRelationshipFrom()->add($rel1);
 		$user2->getRelationshipTo()->add($rel1);
 
@@ -75,10 +85,10 @@ class UserTest
 		$this->assertFalse( $user1->receivedFriendshipRequestFrom($user2) );
 
 		/* user 2 accepts invitation */
-		$rel2 = new Entity\UserRelationship($user2, $user1);
+		$rel2 = new UserRelationship($user2, $user1);
 		$user2->getRelationshipFrom()->add($rel2);
 		$user1->getRelationshipTo()->add($rel2);
-		
+
 		$this->assertTrue( $user1->isFriendOf($user2) );
 		$this->assertTrue( $user2->isFriendOf($user1) );
 

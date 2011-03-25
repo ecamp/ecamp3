@@ -23,7 +23,7 @@ namespace Entity;
 /**
  * @Entity
  */
-class PluginDocument extends Plugin implements IPlugin
+class PluginDocument extends Plugin implements \Ecamp\IPlugin
 {
 	/**
 	 * @OneToMany(targetEntity="PluginDocumentRecord", mappedBy="plugin")

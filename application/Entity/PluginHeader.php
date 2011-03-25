@@ -23,7 +23,7 @@ namespace Entity;
 /**
  * @Entity
  */
-class PluginHeader extends Plugin implements IPlugin
+class PluginHeader extends Plugin implements \Ecamp\IPlugin
 {
 	/**
 	 * @OneToOne(targetEntity="PluginHeaderRecord", mappedBy="plugin")

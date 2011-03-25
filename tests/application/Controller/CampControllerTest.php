@@ -33,6 +33,9 @@ class CampControllerTest extends PHPUnit_Framework_TestCase
         /* Tear Down Routine */
     }
 
+	public function testTrue(){
+		$this->assertTrue(true);
+	}
 
 }
 
