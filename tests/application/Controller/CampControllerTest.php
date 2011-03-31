@@ -18,23 +18,42 @@
  * along with eCamp.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-require_once 'PHPUnit/Framework/TestCase.php';
-
-class CampControllerTest extends PHPUnit_Framework_TestCase
+class CampControllerTest extends EcampControllerTestCase
 {
 
-    public function setUp()
-    {
-        /* Setup Routine */
-    }
+	public function setUp()
+	{
+		parent::setup();
+	}
 
-    public function tearDown()
-    {
-        /* Tear Down Routine */
-    }
+	public function tearDown()
+	{
+		parent::tearDown();
+	}
 
 	public function testTrue(){
 		$this->assertTrue(true);
+	}
+
+	public function testController(){
+		$u = new Entity\User();
+
+		$l = new Entity\Login();
+		$l->setUser($u);
+		$l->setPwd("dummy");
+
+		$this->em->persist($u);
+		$this->em->persist($l);
+		$this->em->flush();
+
+		$this->authSession = new \Zend_Session_Namespace('Zend_Auth');
+		$this->authSession->Login = 1;
+
+		$this->dispatch('/dashboard');
+
+		$this->assertController('dashboard');
+		$this->assertAction('index');
+		$this->assertResponseCode(200);
 	}
 
 }

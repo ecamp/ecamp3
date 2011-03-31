@@ -36,6 +36,7 @@ set_include_path(implode(PATH_SEPARATOR, array(
 require_once 'Zend/Application.php';
 require_once 'application/EcampTestCase.php';
 require_once 'application/EcampTestCaseWithDb.php';
+require_once 'application/EcampControllerTestCase.php';
 
 //require_once('./application/EcampTestCase.php');
 $application = new Zend_Application(
