@@ -9,12 +9,6 @@ class BaseController extends \Zend_Controller_Action
 	 * @Inject EntityManager
 	 */
 	protected $em;
-	
-	/**
-	 * @var \Zend_Session_Namespace
-	 */
-	protected $authSession;
-
 
 	/**
 	 * logged in user
@@ -43,16 +37,23 @@ class BaseController extends \Zend_Controller_Action
 
 		/* clone request params for debugging */
 		$this->view->params = $this->getRequest()->getParams();
-		
-		$this->authSession = new \Zend_Session_Namespace('Zend_Auth');
 
-		/** @var $login \Entity\Login */
-		$login = $this->em->getRepository("Entity\Login")->find($this->authSession->Login);
-		if( isset($login) )
-		{
-			$this->me = $login->getUser();
-			$this->view->me = $this->me;
-		}
+        
+        if(\Zend_Auth::getInstance()->hasIdentity())
+        {
+            $loginId = \Zend_Auth::getInstance()->getIdentity();
+
+            /** @var $login \Entity\Login */
+            $login = $this->em->getRepository("Entity\Login")->find($loginId);
+            if( isset($login) )
+            {
+                $this->me = $login->getUser();
+                $this->view->me = $this->me;
+            }
+        }
+
+
+
 
 		/* load translator */
 		$this->t = new \Zend_View_Helper_Translate();

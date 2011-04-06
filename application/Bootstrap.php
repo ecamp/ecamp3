@@ -59,19 +59,19 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 
 		$kernel
 			->Bind("CampRepository")
-			->ToProvider(new Logic\Provider\Repository("\Entity\Camp"));
+			->ToProvider(new Logic\Provider\Repository("Entity\Camp"));
 
 		$kernel
 			->Bind("LoginRepository")
-			->ToProvider(new Logic\Provider\Repository("\Entity\Login"));
+			->ToProvider(new Logic\Provider\Repository("Entity\Login"));
 
 		$kernel
 			->Bind("UserRepository")
-			->ToProvider(new Logic\Provider\Repository("\Entity\User"));
+			->ToProvider(new Logic\Provider\Repository("Entity\User"));
 
 		$kernel
 			->Bind("UserCampRepository")
-			->ToProvider(new Logic\Provider\Repository("\Entity\UserCamp"));
+			->ToProvider(new Logic\Provider\Repository("Entity\UserCamp"));
 
 		$kernel->Bind("Service\UserService")->ToSelf()->AsSingleton();
 

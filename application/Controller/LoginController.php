@@ -53,36 +53,39 @@ class LoginController
 		{	$this->_forward('index');	}
 
 
-		$mailValidator = new \Zend_Validate_EmailAddress();
-		
-		$login 		= $loginForm->getValue('login');
-		$password 	= $loginForm->getValue('password');
+        if($this->checkLogin($loginForm->getValues()))
+        {
+            $this->_forward('index', 'dashboard');
+        }
+        else
+        {
+            $this->_forward('index');
+        }
 
-		
-		/** @var $user \Entity\User */
-		if($mailValidator->isValid($login))
-		{	$user = $this->userRepository->findOneBy(array('email' => $login));	}
-		else
-		{	$user = $this->userRepository->findOneBy(array('username' => $login));	}
-
-
-		if(
-			!is_null($user) && !is_null($user->getLogin()) &&
-			$user->getLogin()->checkPassword($password))
-		{
-			$this->authSession->Login = $user->getLogin()->getId();
-			$this->_forward('index', 'dashboard');
-			return;
-		}
-
-		$this->_forward('index');
 	}
 
 
 	public function logoutAction()
 	{
-		$this->authSession->Login = null;
+        \Zend_Auth::getInstance()->clearIdentity();
+
 		$this->_redirect("login");
 	}
+
+
+    protected function checkLogin($values)
+    {
+        $authAdapter = new \Service\Auth\Adapter($values['login'], $values['password']);
+        $result = Zend_Auth::getInstance()->authenticate($authAdapter);
+
+        $this->view->message = $result->getMessages();
+
+        if(Zend_Auth::getInstance()->hasIdentity())
+        {   return true;    }
+
+        return false;
+    }
+
+    
 
 }
