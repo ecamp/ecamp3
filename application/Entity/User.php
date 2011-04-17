@@ -48,7 +48,7 @@ class User extends BaseEntity
 	const PBSEDU_SPEKTRUM		= "Spektrum";
 	const PBSEDU_TOPKURS		= "Topkurs";
 	const PBSEDU_GILLWELL		= "Gillwell";
-	
+
 	public function __construct()
     {
 	    $this->mycamps  = new \Doctrine\Common\Collections\ArrayCollection();
@@ -566,6 +566,20 @@ class User extends BaseEntity
 			
 		return false;
 	}
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getManagedGroups()
+    {
+        $filter = function(UserGroup $element)
+        {   return $element->isManager();   };
+
+        $map = function(UserGroup $element)
+        {   return $element->getGroup();    };
+
+        return $this->getUserGroups()->filter($filter)->map($map);
+    }
 
 
 

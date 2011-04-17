@@ -35,7 +35,33 @@
 	</p>
 	
 	<div class="box">
+
+        <div class="right">
+            <a id="request_membership" class="button positive" href="#">Add User to one of my Group</a>
+
+            <tal:block content="structure helper:confirmDialog('request_membership_dialog', 'request_membership', array('title'=> this.translate('request membership'), 'print_div' => false, 'width' => 500, 'ok' => this.translate('Send request')))" />
+
+            <div id="request_membership_dialog" class="dialog">
+				
+
+				<div class="clear" />
+				<div class="question" i18n:translate="">
+                    Du you want to request this user for membership in one of your groups?
+
+				</div>
+
+                <div class="content">
+                    <tal:block repeat="group me/getManagedGroups">
+                        <span metal:use-macro="global/singlegroup.phtml/withavatar" tal:define="group group" tal:omit-tag="" />
+                    </tal:block>
+                </div>
+                <div class="clear" />
+                    
+			</div>
+        </div>
+
 		<h2>Groups</h2>
+
 
 		<div class="content">
 			<tal:block repeat="usergroup userGroups">
