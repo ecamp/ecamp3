@@ -271,7 +271,7 @@ INSERT INTO `groups` (`id`, `name`, `parent_id`, `created_at`, `updated_at`, `de
 (246, 'stmichael', 240, '2011-03-15 20:11:00', '2011-03-15 20:11:00', 'St.Michael Luzern'),
 (247, 'stpaul', 240, '2011-03-15 20:11:00', '2011-03-15 20:11:00', 'St.Paul Luzern'),
 (248, 'stjohannes', 240, '2011-03-15 20:11:00', '2011-03-15 20:11:00', 'St.Johannes Luzern'),
-(249, 'muesegg', 239, '2011-03-15 20:11:00', '2011-03-15 20:11:00', 'Musegg'),
+(249, 'musegg', 239, '2011-03-15 20:11:00', '2011-03-15 20:11:00', 'Musegg'),
 (250, 'luegisland', 249, '2011-03-15 20:11:00', '2011-03-15 20:11:00', 'Luegisland Luzern'),
 (251, 'noelliturm', 249, '2011-03-15 20:11:00', '2011-03-15 20:11:00', 'Pfadi Musegg Abteilung Nölliturm Luzern'),
 (252, 'zytturm', 249, '2011-03-15 20:11:00', '2011-03-15 20:11:00', 'Pfadi Musegg Abteilung Zyturm'),

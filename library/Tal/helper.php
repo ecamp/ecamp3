@@ -7,9 +7,10 @@
  * @return string
  */
 
+require_once '../library/PHPTAL/PHPTAL/Php/Transformer.php';
+
 function phptal_tales_helper( $src, $nothrow )
 {
    $src = 'this->' . trim($src);
-   require_once '../library/PHPTAL/PHPTAL/Php/Transformer.php';
    return PHPTAL_Php_Transformer::transform($src, '$ctx->');
 }

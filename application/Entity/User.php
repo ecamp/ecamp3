@@ -26,9 +26,16 @@ namespace Entity;
  */
 class User extends BaseEntity
 {
+	const STATE_NONREGISTERED 	= "NonRegistered";
+	const STATE_REGISTERED 		= "Registered";
+	const STATE_ACTIVATED  		= "Activated";
+	const STATE_DELETED			= "Deleted";
+
+	const ROLE_USER				= "User";
+	const ROLE_ADMIN			= "Admin";
 	
-	const GENDER_FEMALE	= true;
-	const GENDER_MALE 	= false;
+	const GENDER_FEMALE			= true;
+	const GENDER_MALE 			= false;
 	
 	const JSEDU_GRUPPENLEITER 	= "Gruppenleiter";
 	const JSEDU_LAGERLEITER		= "Lagerleiter";
@@ -49,6 +56,9 @@ class User extends BaseEntity
 		$this->userGroups = new \Doctrine\Common\Collections\ArrayCollection();
 	    $this->relationshipFrom = new \Doctrine\Common\Collections\ArrayCollection();
 	    $this->relationshipTo   = new \Doctrine\Common\Collections\ArrayCollection();
+
+		$this->state = self::STATE_NONREGISTERED;
+		$this->role  = self::ROLE_USER;
     }
 	
 	/**
@@ -69,6 +79,14 @@ class User extends BaseEntity
 	 * @Column(type="string", length=64, nullable=true, unique=true )
 	 */
 	private $email;
+
+	/**
+	 * ActivationCode to verify eMail address
+	 * @Column(type="string", length=64, nullable=true)
+	 */
+	private $activationCode;
+
+
 
 	/** @Column(type="string", length=32, nullable=true ) */
 	private $scoutname;
@@ -118,13 +136,28 @@ class User extends BaseEntity
 	/** @Column(type="object", nullable=true ) */
 	private $imageData;
 
+	/** @Column(type="string", nullable=false ) */
+	private $state;
+
+	/** @Column(type="string", nullable=false ) */
+	private $role;
+	
+	
 	/**
 	 * Camps, which I own myself
 	 * @var ArrayObject
 	 * @OneToMany(targetEntity="Camp", mappedBy="owner")
 	 */
 	private $mycamps;
-	
+
+
+	/**
+	 * @var Entity\Login
+	 * @OneToOne(targetEntity="Entity\Login", mappedBy="user")
+	 */
+	private $login;
+
+
 	/**
 	 * @var ArrayObject
 	 * @OneToMany(targetEntity="UserCamp", mappedBy="user")
@@ -152,6 +185,9 @@ class User extends BaseEntity
 
 	public function getUsername()            { return $this->username; }
 	public function setUsername( $username ) { $this->username = $username; return $this; }
+
+	/** @return \Entity\Login */
+	public function getLogin()	{	return $this->login;	}
 
 	public function getEmail()            { return $this->email; }
 	public function setEmail( $email )    { $this->email = $email; return $this; }
@@ -198,6 +234,12 @@ class User extends BaseEntity
 	public function getPbsEdu()         { return $this->pbsEdu;	}
 	public function setPbsEdu( $pbsEdu ){ $this->pbsEdu = $pbsEdu; return $this; }
 
+	public function getRole()		{ return $this->role; }
+	public function setRole($role)	{ $this->role = $role; return $this; }
+
+	public function getState()		{ return $this->state; }
+	public function setState($state){ $this->state = $state; }
+
 	public function getImageData(){ return base64_decode($this->imageData); }
 	public function setImageData($data){ $this->imageData = base64_encode($data); return $this; }
 	
@@ -209,6 +251,7 @@ class User extends BaseEntity
 		$this->imageData = null;
 		return $this;
 	}
+	
 
 	public function getDisplayName()
 	{
@@ -227,18 +270,50 @@ class User extends BaseEntity
 		return $name.$this->firstname . " " . $this->surname;
 	}
 
+	
+	/****************************************************************
+	 * User Activation:
+	 ****************************************************************/
+	public function createNewActivationCode()
+	{
+		$guid = hash('sha256', uniqid(md5(mt_rand()), true));
+		$this->activationCode = md5($guid);
+
+		return $guid;
+	}
+
+	public function checkActivationCode($activationCode)
+	{
+		$code = md5($activationCode);
+
+		return $code == $this->activationCode;
+	}
+
+	public function activateUser($activationCode)
+	{
+		if($this->checkActivationCode($activationCode))
+		{
+			$this->state = self::STATE_ACTIVATED;
+			$this->activationCode = null;
+			return true;
+		}
+
+		return false;
+	}
+
+	public function resetActivationCode()
+	{
+		$this->activationCode = null;
+	}
+	/****************************************************************/
+	
+
 	public function isMale()
 	{	return ( $this->gender == self::GENDER_MALE );		}
 	
 	public function isFemale()
 	{	return ( $this->gender == self::GENDER_FEMALE );	}
 
-	
-	public function setImage( $image )
-	{
-		$this->image = $image;
-		return $this;
-	}
 
 	public function getAcceptedUserCamps()
 	{
@@ -491,5 +566,7 @@ class User extends BaseEntity
 			
 		return false;
 	}
-	
+
+
+
 }

@@ -8,7 +8,11 @@
 		<tal:block content="structure headTitle" />
 		<tal:block content="structure headMeta"  />
 		<tal:block content="structure headLink"  />
+		
 		<tal:block content="structure php:this.jQuery()" />
+		
+		<tal:block content="structure headScript"  />
+		
 
 	</head>
 
@@ -35,6 +39,7 @@
 				<nav tal:condition="not: exists: me">
 					<ul>
 						<li><a href="/login">Login</a></li>
+						<li><a href="/register">Register</a></li>
 						<li><a href="#">Contact</a></li>
 						<li><a href="#">Help</a></li>
 					</ul>

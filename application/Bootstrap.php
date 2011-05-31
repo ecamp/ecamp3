@@ -32,18 +32,24 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 
 		$entityAutoloader = new \Doctrine\Common\ClassLoader('Entity', APPLICATION_PATH);
 		$autoloader->pushAutoloader(array($entityAutoloader, 'loadClass'), 'Entity');
+		
+		$pluginAutoloader = new \Doctrine\Common\ClassLoader('Plugin', APPLICATION_PATH);
+		$autoloader->pushAutoloader(array($pluginAutoloader, 'loadClass'), 'Plugin');
 
-		$entityAutoloader = new \Doctrine\Common\ClassLoader('Form', APPLICATION_PATH);
-		$autoloader->pushAutoloader(array($entityAutoloader, 'loadClass'), 'Form');
+		$formAutoloader = new \Doctrine\Common\ClassLoader('Form', APPLICATION_PATH);
+		$autoloader->pushAutoloader(array($formAutoloader, 'loadClass'), 'Form');
 
 	    $controllerAutoloader = new \Doctrine\Common\ClassLoader('Controller', APPLICATION_PATH);
 		$autoloader->pushAutoloader(array($controllerAutoloader, 'loadClass'), 'Controller');
 
+	    $controllerAutoloader = new \Doctrine\Common\ClassLoader('Form', APPLICATION_PATH);
+		$autoloader->pushAutoloader(array($controllerAutoloader, 'loadClass'), 'Form');
+
 		$providerAutoloader = new \Doctrine\Common\ClassLoader('Logic', APPLICATION_PATH);
 		$autoloader->pushAutoloader(array($providerAutoloader, 'loadClass'), 'Logic');
 
-		$entityAutoloader = new \Doctrine\Common\ClassLoader('Service', APPLICATION_PATH);
-		$autoloader->pushAutoloader(array($entityAutoloader, 'loadClass'), 'Service');
+		$serviceAutoloader = new \Doctrine\Common\ClassLoader('Service', APPLICATION_PATH);
+		$autoloader->pushAutoloader(array($serviceAutoloader, 'loadClass'), 'Service');
     }
 
 	public function _initInjectionKernel()
@@ -56,19 +62,19 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 
 		$kernel
 			->Bind("CampRepository")
-			->ToProvider(new Logic\Provider\Repository("\Entity\Camp"));
+			->ToProvider(new Logic\Provider\Repository("Entity\Camp"));
 
 		$kernel
 			->Bind("LoginRepository")
-			->ToProvider(new Logic\Provider\Repository("\Entity\Login"));
+			->ToProvider(new Logic\Provider\Repository("Entity\Login"));
 
 		$kernel
 			->Bind("UserRepository")
-			->ToProvider(new Logic\Provider\Repository("\Entity\User"));
+			->ToProvider(new Logic\Provider\Repository("Entity\User"));
 
 		$kernel
 			->Bind("UserCampRepository")
-			->ToProvider(new Logic\Provider\Repository("\Entity\UserCamp"));
+			->ToProvider(new Logic\Provider\Repository("Entity\UserCamp"));
 
 		$kernel->Bind("Service\UserService")->ToSelf()->AsSingleton();
 

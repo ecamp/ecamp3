@@ -1,6 +1,7 @@
 <?php
-/*
- * Copyright (C) 2011 Urban Suppiger
+/**
+ *
+ * Copyright (C) 2011 pirminmattmann
  *
  * This file is part of eCamp.
  *
@@ -16,21 +17,28 @@
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with eCamp.  If not, see <http://www.gnu.org/licenses/>.
+ *
  */
 
-namespace Entity;
+namespace Form;
 
-/**
- * @Entity
- */
-class PluginHeader extends Plugin implements \Ecamp\IPlugin
+class Login extends \Ztal_Form
 {
-	/**
-	 * @OneToOne(targetEntity="PluginHeaderRecord", mappedBy="plugin")
-	 */
-	private $record;	
-	
-	public function whoAmI(){
-		return "I am a header plugin. Who are u?";
+
+	public function init()
+    {
+		$login = new \Zend_Form_Element_Text('login');
+		$login->setLabel('Login:');
+
+		$password = new \Zend_Form_Element_Password('password');
+		$password->setLabel('Password:');
+
+		$submit = new \Zend_Form_Element_Submit('submit');
+		$submit->setLabel('Login');
+
+
+		$this->addElement($login);
+		$this->addElement($password);
+		$this->addElement($submit);
 	}
 }
