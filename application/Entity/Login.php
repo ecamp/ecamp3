@@ -41,8 +41,15 @@ class Login extends BaseEntity
 	 * @Column(type="string")
 	 * @var string
 	 */
-	private $pwd;
+	private $password;
 
+
+	/**
+	 * @Column(type="string", length=64)
+	 */
+	private $salt;
+
+	
 	/**
 	 * @var \Models\User
 	 * @OneToOne(targetEntity="Entity\User", mappedBy="login")
@@ -54,9 +61,24 @@ class Login extends BaseEntity
 
 	public function getId(){ return $this->id; }
 
-	public function setPwd($pwd)  { $this->pwd = $pwd; }
-	public function getPwd()      { return $this->pwd; }
-
+	
 	public function setUser(User $user){ $this->user = $user; }
 	public function getUser()          { return $this->user; }
+
+
+	public function setNewPassword($password)
+	{
+		$this->salt = hash('sha256', uniqid(microtime(true), true));
+
+		$password .= $this->salt;
+		$this->password = hash('sha256', $password);
+	}
+
+	
+	public function checkPassword($password)
+	{
+		$password = hash('sha256', $password . $this->salt);
+
+		return ($password == $this->password);
+	}
 }

@@ -22,61 +22,70 @@
 class LoginController
 	extends \Controller\BaseController
 {
-	/**
-     * @var Entity\Repository\LoginRepository
-	 * @Inject LoginRepository
-     */
-    private $loginRepo;
 
-	public function init()
-	{
-		parent::init();
-	}
+	/**
+	 * @var \Doctrine\ORM\EntityRepository
+	 * @Inject UserRepository
+	 */
+	private $userRepository;
+
 
 	public function indexAction()
 	{
-		$this->view->logins = $this->loginRepo->findAll();
+		if(!is_null($this->me))
+		{
+			$this->_forward('index', 'dashboard');
+		}
 
-		if(!is_null($this->authSession->Login))
-		{
-			$this->view->login = $this->loginRepo->find($this->authSession->Login);
-		}
-		else
-		{
-			$this->view->login = null;
-		}
+		$loginForm = new \Form\Login();
+		$loginForm->setAction("/login/login");
+		$loginForm->setDefaults($this->getRequest()->getParams());
+
+		$this->view->loginForm = $loginForm;
 	}
 
 
 	public function loginAction()
 	{
-		$this->authSession->Login = null;
+		$loginForm = new \Form\Login();
 
-		$id = $this->getRequest()->getParam("id");
-		$login = $this->loginRepo->find($id);
-		$this->authSession->Login = $login->getId();
+		if(!$loginForm->isValid($this->getRequest()->getParams()))
+		{	$this->_forward('index');	}
 
-		$this->view->login = $login;
-		
-		$this->view->me = $login->getUser();
+
+        if($this->checkLogin($loginForm->getValues()))
+        {
+            $this->_forward('index', 'dashboard');
+        }
+        else
+        {
+            $this->_forward('index');
+        }
+
 	}
 
 
 	public function logoutAction()
 	{
-		$this->authSession->Login = null;
+        \Zend_Auth::getInstance()->clearIdentity();
+
 		$this->_redirect("login");
 	}
 
 
-	public function identifyAction()
-	{
-		if($this->authSession->Login == null)
-		{
-			die("Not Authenticated");
-		}
+    protected function checkLogin($values)
+    {
+        $authAdapter = new \Service\Auth\Adapter($values['login'], $values['password']);
+        $result = Zend_Auth::getInstance()->authenticate($authAdapter);
 
-		die($this->authSession->Login);
-	}
+        $this->view->message = $result->getMessages();
+
+        if(Zend_Auth::getInstance()->hasIdentity())
+        {   return true;    }
+
+        return false;
+    }
+
+    
 
 }
