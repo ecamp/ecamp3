@@ -18,7 +18,7 @@
  * along with eCamp.  If not, see <http://www.gnu.org/licenses/>.
  */
  
-namespace Logic\Route;
+namespace Ecamp\Route;
 
 /**
  * Default router which treats :user, :group and :camp specially
