@@ -10,7 +10,9 @@
 	<div class="span-12">
 		<table>
 			<tr tal:repeat="camp group/getCamps">
-				<td><tal:block content="camp/getName" /></td>
+				<td>
+				  <a tal:content="camp/getName" tal:attributes="href helper:url(array('controller'=>'event', 'action' => 'index', 'group' => group.getId(), 'camp' => camp.getId() ), 'group+camp')" />
+				</td>
 				<td><tal:block content="camp/getTitle" /></td>
 				<td><tal:block content="camp/getRange" /></td>
 				<td>

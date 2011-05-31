@@ -32,9 +32,12 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 
 		$entityAutoloader = new \Doctrine\Common\ClassLoader('Entity', APPLICATION_PATH);
 		$autoloader->pushAutoloader(array($entityAutoloader, 'loadClass'), 'Entity');
+		
+		$pluginAutoloader = new \Doctrine\Common\ClassLoader('Plugin', APPLICATION_PATH);
+		$autoloader->pushAutoloader(array($pluginAutoloader, 'loadClass'), 'Plugin');
 
-		$entityAutoloader = new \Doctrine\Common\ClassLoader('Form', APPLICATION_PATH);
-		$autoloader->pushAutoloader(array($entityAutoloader, 'loadClass'), 'Form');
+		$formAutoloader = new \Doctrine\Common\ClassLoader('Form', APPLICATION_PATH);
+		$autoloader->pushAutoloader(array($formAutoloader, 'loadClass'), 'Form');
 
 	    $controllerAutoloader = new \Doctrine\Common\ClassLoader('Controller', APPLICATION_PATH);
 		$autoloader->pushAutoloader(array($controllerAutoloader, 'loadClass'), 'Controller');
@@ -45,8 +48,8 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 		$providerAutoloader = new \Doctrine\Common\ClassLoader('Logic', APPLICATION_PATH);
 		$autoloader->pushAutoloader(array($providerAutoloader, 'loadClass'), 'Logic');
 
-		$entityAutoloader = new \Doctrine\Common\ClassLoader('Service', APPLICATION_PATH);
-		$autoloader->pushAutoloader(array($entityAutoloader, 'loadClass'), 'Service');
+		$serviceAutoloader = new \Doctrine\Common\ClassLoader('Service', APPLICATION_PATH);
+		$autoloader->pushAutoloader(array($serviceAutoloader, 'loadClass'), 'Service');
     }
 
 	public function _initInjectionKernel()
@@ -131,41 +134,41 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 				
 		/* user */
 		Zend_Controller_Front::getInstance()->getRouter()->addRoute(
-			'user', new Logic\Route\Vanity('user/:user/:action/*',
+			'user', new Ecamp\Route\Vanity('user/:user/:action/*',
 				array('controller' => 'user','action' => 'show')));
 				
 		Zend_Controller_Front::getInstance()->getRouter()->addRoute(
-			'user+id', new Logic\Route\Vanity('user/:user/:action/:id/*',
+			'user+id', new Ecamp\Route\Vanity('user/:user/:action/:id/*',
 				array('controller' => 'user','action' => 'show'),
 				array('id' => '\d+')));
 		
 		/* user camp */
 		Zend_Controller_Front::getInstance()->getRouter()->addRoute(
-			'user+camp', new Logic\Route\Vanity('user/:user/:camp/:controller/:action/*',
+			'user+camp', new Ecamp\Route\Vanity('user/:user/:camp/:controller/:action/*',
 				array('controller' => 'camps','action' => 'show')));
 				
 		Zend_Controller_Front::getInstance()->getRouter()->addRoute(
-			'user+camp+id', new Logic\Route\Vanity('user/:user/:camp/:controller/:action/:id/*',
+			'user+camp+id', new Ecamp\Route\Vanity('user/:user/:camp/:controller/:action/:id/*',
 				array('controller' => 'camps','action' => 'show'),
 				array('id' => '\d+')));
 				
 		/* group */
 		Zend_Controller_Front::getInstance()->getRouter()->addRoute(
-			'group', new Logic\Route\Vanity('group/:group/:action/*',
+			'group', new Ecamp\Route\Vanity('group/:group/:action/*',
 				array('controller' => 'group','action' => 'show')));
 				
 		Zend_Controller_Front::getInstance()->getRouter()->addRoute(
-			'group+id', new Logic\Route\Vanity('group/:group/:action/:id/*',
+			'group+id', new Ecamp\Route\Vanity('group/:group/:action/:id/*',
 				array('controller' => 'group','action' => 'show'),
 				array('id' => '\d+')));
 				
 		/* group camp */
 		Zend_Controller_Front::getInstance()->getRouter()->addRoute(
-			'group+camp', new Logic\Route\Vanity('group/:group/:camp/:controller/:action/*',
+			'group+camp', new Ecamp\Route\Vanity('group/:group/:camp/:controller/:action/*',
 				array('controller' => 'camps','action' => 'show')));
 				
 		Zend_Controller_Front::getInstance()->getRouter()->addRoute(
-			'group+camp+id', new Logic\Route\Vanity('group/:group/:camp/:controller/:action/:id/*',
+			'group+camp+id', new Ecamp\Route\Vanity('group/:group/:camp/:controller/:action/:id/*',
 				array('controller' => 'camps','action' => 'show'),
 				array('id' => '\d+')));
 				
