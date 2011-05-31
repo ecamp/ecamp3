@@ -32,9 +32,12 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 
 		$entityAutoloader = new \Doctrine\Common\ClassLoader('Entity', APPLICATION_PATH);
 		$autoloader->pushAutoloader(array($entityAutoloader, 'loadClass'), 'Entity');
+		
+		$pluginAutoloader = new \Doctrine\Common\ClassLoader('Plugin', APPLICATION_PATH);
+		$autoloader->pushAutoloader(array($pluginAutoloader, 'loadClass'), 'Plugin');
 
-		$entityAutoloader = new \Doctrine\Common\ClassLoader('Form', APPLICATION_PATH);
-		$autoloader->pushAutoloader(array($entityAutoloader, 'loadClass'), 'Form');
+		$formAutoloader = new \Doctrine\Common\ClassLoader('Form', APPLICATION_PATH);
+		$autoloader->pushAutoloader(array($formAutoloader, 'loadClass'), 'Form');
 
 	    $controllerAutoloader = new \Doctrine\Common\ClassLoader('Controller', APPLICATION_PATH);
 		$autoloader->pushAutoloader(array($controllerAutoloader, 'loadClass'), 'Controller');
@@ -42,8 +45,8 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 		$providerAutoloader = new \Doctrine\Common\ClassLoader('Logic', APPLICATION_PATH);
 		$autoloader->pushAutoloader(array($providerAutoloader, 'loadClass'), 'Logic');
 
-		$entityAutoloader = new \Doctrine\Common\ClassLoader('Service', APPLICATION_PATH);
-		$autoloader->pushAutoloader(array($entityAutoloader, 'loadClass'), 'Service');
+		$serviceAutoloader = new \Doctrine\Common\ClassLoader('Service', APPLICATION_PATH);
+		$autoloader->pushAutoloader(array($serviceAutoloader, 'loadClass'), 'Service');
     }
 
 	public function _initInjectionKernel()

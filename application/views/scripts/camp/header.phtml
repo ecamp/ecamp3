@@ -1,0 +1,9 @@
+<span metal:define-macro="header">
+	
+	<div class="group_header" tal:content="camp/getTitle">GroupName</div>
+
+	<nav id="mainnav">
+		<tal:block content="structure php: this.navigation().menu().renderMenu(NULL, array('maxDepth' => 0, 'ulClass' => 'left'))" />
+		<div class="clear" />
+	</nav>
+</span>
