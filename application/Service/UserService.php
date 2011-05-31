@@ -38,12 +38,35 @@ class UserService
 
 
     public function __construct()
-    {
-    }
+    {}
 
 	public function getAllUsers()
 	{
 		return $this->userRepo->findAll();
+	}
+
+	public function createLogin(\Entity\User $user, $password)
+	{
+		$login = new \Entity\Login();
+		$login->setPwd($password);
+
+		$login->setUser($user);
+
+		return $login;
+	}
+
+	public function activateUser($userId, $key)
+	{
+		/** @var $user \Entity\User */
+		$user = $this->userRepo->find($userId);
+
+		if(is_null($user))
+		{	return false;	}
+
+		if($user->getState() != \Entity\User::STATE_REGISTERED)
+		{	return false;	}
+
+		return $user->activateUser($key);
 	}
 
 	public function addUserToCamp($user,$camp)
