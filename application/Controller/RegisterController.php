@@ -90,6 +90,12 @@ class RegisterController
 
 			$this->em->persist($user);
 		}
+		
+		if($user->getState() != Entity\User::STATE_NONREGISTERED)
+		{
+			$this->_redirect('login', 'login');
+			reutrn;
+		}
 
 		$user->setUsername($registerForm->getValue('username'));
 		$user->setScoutname($registerForm->getValue('scoutname'));
