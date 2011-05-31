@@ -17,11 +17,11 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with eCamp.  If not, see <http://www.gnu.org/licenses/>.
  */
+
+namespace Plugin;
  
 use \Doctrine\ORM,
 	\Doctrine\Common;
-
-namespace Plugin;
 	
 /**
  * The PluginStrategyEventListener will initialize a strategy after the
