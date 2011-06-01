@@ -69,9 +69,9 @@
 
 		</tal:block>
 
-        <tal:block condition="php: me.isManagerOf(group)">
+        <tal:block condition="php: me.isManagerOf(group) && params['action']=='members'">
             <a id="leave_membership" class="button right positive" tal:attributes="href helper:thisurl(array('action' => 'leave', 'group' => group.getId() ), 'group')" i18n:translate="">
-				leave this group
+				add a user
 			</a>
         </tal:block>
 
