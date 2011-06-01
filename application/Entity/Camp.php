@@ -120,8 +120,11 @@ class Camp extends BaseEntity
 	
 	public function getEvents() { return $this->events; }
 
-	public function getRange(){
-
+	public function getRange()
+	{
+		if($this->getPeriods()->count() == 0)
+		{	return "-";	}
+		
 		return $this->getPeriods()->first()->getStart()->format("d.m.Y") . ' - ' . $this->getPeriods()->last()->getEnd()->format("d.m.Y");
 	}
 	

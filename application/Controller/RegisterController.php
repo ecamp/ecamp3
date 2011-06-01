@@ -118,9 +118,7 @@ class RegisterController
 
 	public function activateAction()
 	{
-
 		$id = $this->getRequest()->getParam('id');
-
 		$key = $this->getRequest()->getParam('key');
 
 

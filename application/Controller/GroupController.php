@@ -21,6 +21,13 @@
 
 class GroupController extends \Controller\BaseController
 {
+	
+	/**
+	 * @var Service\CampService
+     * @Inject Service\CampService
+	 */
+	private $campService;
+	
     public function init()
     {
 		parent::init();
@@ -97,42 +104,34 @@ class GroupController extends \Controller\BaseController
 		$this->view->form = $form;
 	}
 
-	public function createcampAction(){
+	public function createcampAction()
+	{
+		$params = $this->getRequest()->getParams();
+		
 		$form = new \Form\Camp();
 		
-		if(!$form->isValid($this->getRequest()->getParams()))
+		if(!$form->isValid($params))
 		{
 			$this->view->form = $form;
 			$this->render("newcamp");
 			return;
 		}
-
-		$this->em->getConnection()->beginTransaction();
-		try {
-			$camp = new Entity\Camp();
-			$period = new Entity\Period($camp);
-
-			$camp->setGroup($this->group);
-			$camp->setCreator($this->me);
-
-			$form->grabData($camp, $period);
-
-			$this->em->persist($camp);
-			$this->em->persist($period);
-
-			$this->em->flush();
-			$this->em->getConnection()->commit();
-		} catch (Exception $e) {
-			$this->em->getConnection()->rollback();
-			$this->em->close();
-
+		
+		
+		try 
+		{
+			$this->campService->CreateCampForGroup($this->group, $this->me, $params);
+			
+			$this->_helper->getHelper('Redirector')->gotoRoute(array('action'=>'camps', 'group' => $this->group->getId()), 'group');
+		}
+		catch(Exception $e)
+		{
 			$form->getElement("name")->addError("Name has already been taken.");
+			
 			$this->view->form = $form;
 			$this->render("newcamp");
-			return;
 		}
-
-		$this->_helper->getHelper('Redirector')->gotoRoute(array('action'=>'camps', 'group' => $this->group->getId()), 'group');
+		
 	}
 
 	
