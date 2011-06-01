@@ -18,7 +18,7 @@
  * along with eCamp.  If not, see <http://www.gnu.org/licenses/>.
  */
  
-namespace Logic\Paginator;
+namespace Ecamp\Paginator;
  
 class Doctrine implements \Zend_Paginator_Adapter_Interface
 {

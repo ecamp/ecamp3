@@ -1,0 +1,15 @@
+<span metal:use-macro="camp/header.phtml/header" />
+
+<div class="span-24 last">
+    <h2 tal:content="event/getTitle">All Events</h2>
+	<a class="button" tal:attributes="href helper:thisurl(array('action' => 'show', 'group' => group.getId(), 'camp' => camp.getId(), 'id' => event.getId() ), 'group+camp+id')">
+		Switch to guest view
+	</a>
+	
+	<div class="clear" />
+	
+	<div class="span-14">
+		<div class="box" tal:repeat="plugin event/getPlugins" tal:content="structure plugin/getStrategyInstance/renderBackend" />
+	</div>
+	
+</div>

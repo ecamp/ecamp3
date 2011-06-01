@@ -26,11 +26,15 @@ class Register extends \Ztal_Form
 {
 	public function init()
     {
-
+    	$name_validator = new \Zend_Validate_Regex('/^[a-z0-9][a-z0-9_-]+$/');
+        $name_validator->setMessage('Value can only contain lower letters, numbers, underscores (_) and dashes (-) and needs to start with a letter or number.');
+    	
+        
 		$userName = new \Zend_Form_Element_Text('username');
 		$userName->setLabel('Username:')
 			->addValidator(new \Zend_Validate_StringLength(array('min' => 5, 'max' => 20)))
 			->addValidator(new \Ecamp\Validate\NoRecordExist('Entity\User', 'username'))
+			->addValidator($name_validator)
 			->setRequired(true);
 
 
@@ -52,17 +56,18 @@ class Register extends \Ztal_Form
 		$firstName = new \Zend_Form_Element_Text('firstname');
 		$firstName->setLabel('Firstname:')
 			->addFilter('StringTrim')
-			->setRequired(false);
+			->setRequired(true);
 
 
 		$surName = new \Zend_Form_Element_Text('surname');
 		$surName->setLabel('Surname:')
 			->addFilter('StringTrim')
-			->setRequired(false);
+			->setRequired(true);
 
 
 		$password1 = new \Zend_Form_Element_Password('password1');
 		$password1->setLabel('Password:')
+			->addValidator(new \Zend_Validate_StringLength(array('min' => 6)))
 			->setRequired(true);
 
 		$password2 = new \Zend_Form_Element_Password('password2');

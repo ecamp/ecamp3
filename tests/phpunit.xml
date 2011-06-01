@@ -10,12 +10,14 @@
     </testsuite>
 
     <filter>
-        <blacklist>
-            <directory suffix=".php">../library/Doctrine</directory>
-            <directory suffix=".php">../library/PHPTAL</directory>
-            <directory suffix=".php">../library/Zend</directory>
-            <directory suffix=".php">../library/Ztal</directory>
-        </blacklist>
+        <whitelist>
+			<directory suffix=".php">../application</directory>
+			<directory suffix=".php">../library/Ecamp</directory>
+			<exclude>
+				<directory suffix=".phtml">../application</directory>
+				
+			</exclude>
+        </whitelist>
     </filter>
 
     <logging>
