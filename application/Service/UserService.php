@@ -2,6 +2,7 @@
 
 namespace Service;
 use Zend_Registry;
+use Exception;
 	
 class UserService
 {
@@ -55,6 +56,53 @@ class UserService
 		return $login;
 	}
 
+	
+	public function registerUser($params)
+	{
+		$email = $params['email'];
+		
+		$this->em->getConnection()->beginTransaction();
+		
+		try 
+		{
+			$user = $this->userRepo->findOneBy(array('email' => $email));
+			
+			if(is_null($user))
+			{
+				$user = new \Entity\User();
+				$user->setEmail($email);
+				
+				$this->em->persist($user);
+			}
+			
+			if($user->getState() != \Entity\User::STATE_NONREGISTERED)
+			{
+				throw new Exception("This eMail-Adress is already registered!");
+			}
+			
+			$user->setUsername($params['username']);
+			$user->setScoutname($params['scoutname']);
+			$user->setFirstname($params['firstname']);
+			$user->setSurname($params['surname']);
+			$user->setState(\Entity\User::STATE_REGISTERED);
+			
+			$login = $this->createLogin($user, $params['password1']);
+			
+			$this->em->persist($login);
+			$this->em->flush();
+			$this->em->getConnection()->commit();
+			
+			return $user;
+		}
+		catch (Exception $e)
+		{
+			$this->em->getConnection()->rollback();
+			
+			throw $e;
+		}
+	}
+	
+	
 	public function activateUser($userId, $key)
 	{
 		/** @var $user \Entity\User */
@@ -125,6 +173,16 @@ class UserService
 					->andwhere("ug.requestedRole = 10")
 					->getQuery();
 					
+		return $query->getResult();
+	}
+	
+	public function getMembershipInvitations(\Entity\User $user)
+	{
+		$query = $this->em->getRepository("Entity\UserGroup")->createQueryBuilder("ug")
+					->where("ug.user = " . $user->getId())
+					->andWhere("ug.invitationAccepted = FALSE")
+					->getQuery();
+		
 		return $query->getResult();
 	}
 

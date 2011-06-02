@@ -28,6 +28,14 @@ class GroupController extends \Controller\BaseController
 	 */
 	private $campService;
 	
+	/**
+	 * @var Service\GroupService
+     * @Inject Service\GroupService
+	 */
+	private $groupService;
+	
+	
+	
     public function init()
     {
 		parent::init();
@@ -77,6 +85,9 @@ class GroupController extends \Controller\BaseController
 
     public function showAction()
     {
+		$this->view->membershipRequests = $this->me->isManagerOf($this->group) ? 
+			$this->groupService->getMembershipRequests($this->group) : null;
+		
     }
 	
 	public function membersAction()
@@ -163,7 +174,8 @@ class GroupController extends \Controller\BaseController
 		$this->_helper->getHelper('Redirector')->gotoRoute(array('action'=>'show', 'group' => $this->group->getId()), 'group');
 	}
 
-	public function kickoutAction(){
+	public function kickoutAction()
+	{
 		$userid = $this->getRequest()->getParam("user");
 		$user   = $this->em->getRepository("Entity\User")->find($userid);
 
@@ -175,23 +187,34 @@ class GroupController extends \Controller\BaseController
 		$this->_helper->getHelper('Redirector')->gotoRoute(array('action'=>'members', 'group' => $this->group->getId(), 'user'=>null ), 'group');
 	}
 	
-	public function acceptAction(){
+	public function acceptAction()
+	{
 
 		$id = $this->getRequest()->getParam("id");
-		$request = $this->em->getRepository("Entity\UserGroup")->find($id);
+		$usergroup = $this->em->getRepository("Entity\UserGroup")->find($id);
 		
-		$this->group->acceptRequest($request, $this->me);
+		if($request->isOpenRequest())
+		{	$this->groupService->acceptMembershipRequest($this->me, $usergroup);	}
+		
+		if($request->isOpenInvitation())
+		{	$this->groupService->acceptMembershipInvitation($this->me, $usergroup);	}
 		
 		$this->em->flush();
-		$this->_helper->flashMessenger->addMessage(array('success' => $this->t->translate('%1$s is now a member of %2$s.', $request->getUser()->getUsername(), $request->getGroup()->getName())));
-		$this->_helper->getHelper('Redirector')->gotoRoute(array(), 'general');
+		$this->_helper->flashMessenger->addMessage(array('success' => $this->t->translate('%1$s is now a member of %2$s.', $usergroup->getUser()->getUsername(), $usergroup->getGroup()->getName())));
+		$this->_helper->getHelper('Redirector')->gotoRoute(array('action'=>'members', 'group' => $this->group->getId(), 'user'=>null ), 'group');
 	}
 	
-	public function refuseAction(){
+	public function refuseAction()
+	{
 		$id = $this->getRequest()->getParam("id");
-		$request = $this->em->getRepository("Entity\UserGroup")->find($id);
+		$usergroup = $this->em->getRepository("Entity\UserGroup")->find($id);
 		
-		$this->group->refuseRequest($request, $this->me);
+		if($usergroup->isOpenRequest())
+		{	$this->groupService->refuseMembershipRequest($this->me, $usergroup);	}
+		
+		if($usergroup->isOpenInvitation())
+		{	$this->groupService->refuseMembershipInvitation($this->me, $usergroup);	}
+		
 		
 		$this->em->flush();
 		$this->_helper->flashMessenger->addMessage(array('info' => $this->t->translate('The membership request has been refused.')));

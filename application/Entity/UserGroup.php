@@ -162,17 +162,17 @@ class UserGroup extends BaseEntity
 		return $this;
 	}
 	
-	/** manager accepts the request */
-	public function acceptRequest($user)
+	/**
+	 * Request is accepted by the given manager
+	 * @param $manager
+	 */
+	public function acceptRequest(\Entity\User $manager)
 	{
-		if( $user->isManagerOf($this->group) )  /* smiley: very unsure, whether this belongs to here */
+		$this->requestAcceptedBy = $manager;
+		
+		if( $this->invitationAccepted )
 		{
-			$this->requestAcceptedBy = $user;
-			
-			if( $this->invitationAccepted )
-			{
-				$this->accept();
-			}
+			$this->accept();
 		}
 		
 		return $this;

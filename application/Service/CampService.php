@@ -54,6 +54,8 @@ class CampService
 			
 			$this->em->flush();
 			$this->em->getConnection()->commit();
+			
+			return $camp;
 		}
 		catch (Exception $e)
 		{
@@ -89,6 +91,8 @@ class CampService
 
 			$this->em->flush();
 			$this->em->getConnection()->commit();
+			
+			return $camp;
 		}
 		catch (Exception $e)
 		{

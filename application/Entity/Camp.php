@@ -23,7 +23,7 @@ namespace Entity;
 /**
  * @Entity
  * @Table(name="camps",
- *   uniqueConstraints={@UniqueConstraint(name="group_name_unique",columns={"group_id","name"}),
+ *   uniqueConstraints={@UniqueConstraint(name="group_name_unique",columns={"group_id", "name"}),
  *                      @UniqueConstraint(name="owner_name_unique",columns={"owner_id", "name"})}
  *   )
  */

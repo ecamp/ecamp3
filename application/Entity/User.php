@@ -465,6 +465,7 @@ class User extends BaseEntity
 	 * Membership methods
 	 ****************************************************************/
 	
+	
 	public function getMemberships() {
 	
 		$closure =  function($element){ 
@@ -566,7 +567,7 @@ class User extends BaseEntity
 			
 		return false;
 	}
-
+	
     /**
      * @return ArrayCollection
      */
