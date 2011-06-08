@@ -70,8 +70,8 @@
 		</tal:block>
 
         <tal:block condition="php: me.isManagerOf(group) && params['action']=='members'">
-            <a id="leave_membership" class="button right positive" tal:attributes="href helper:thisurl(array('action' => 'leave', 'group' => group.getId() ), 'group')" i18n:translate="">
-				add a user
+            <a id="search_user" class="button right positive" tal:attributes="href helper:thisurl(array('action' => 'searchuser', 'group' => group.getId() ), 'group')" i18n:translate="">
+				search for user
 			</a>
         </tal:block>
 

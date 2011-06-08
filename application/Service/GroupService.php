@@ -34,6 +34,31 @@ class GroupService
 	
 	
 	/**
+	 * A $manager of the $group invites $user to be a memeber of the $group
+	 * @param \Entity\User $user
+	 * @param \Entity\Group $group
+	 * @param \Entity\User $manager
+	 */
+	public function inviteUserToGroup(\Entity\User $user, \Entity\Group $group, \Entity\User $manager)
+	{
+		if(!$group->isManager($manager))
+		{
+			throw new Exception("User [".$manager->getUsername()."] is not allowed to invite other users to be members of the group [".$group->getName()."]");
+		}
+		
+		$usergroup = new \Entity\UserGroup($user, $group);
+		$usergroup->setRequestedRole(\Entity\UserGroup::ROLE_MEMBER);
+		
+		$usergroup->acceptRequest($manager);
+		
+		$user->getUsergroups()->add($usergroup);
+		$group->getUserGroups()->add($usergroup);
+		
+		return $usergroup;
+	}
+	
+	
+	/**
 	 * A invited user accepts its membership of the group
 	 * @param \Entity\User $user
 	 * @param \Entity\UserGroup $usergroup

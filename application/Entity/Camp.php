@@ -78,10 +78,10 @@ class Camp extends BaseEntity
 	private $group;
 
 	/**
-	 * @var ArrayObject
+	 * @var \Doctrine\Common\Collections\ArrayCollection
 	 * @OneToMany(targetEntity="Entity\UserCamp", mappedBy="camp")
 	 */
-	private $userCamps;
+	private $usercamps;
 
 	/**
 	 * @OneToMany(targetEntity="Period", mappedBy="camp")
@@ -105,10 +105,10 @@ class Camp extends BaseEntity
 	public function setCreator(User $creator){ $this->creator = $creator; }
 	public function getCreator()             { return $this->creator; }
 
-	public function setGroup(Group $group){ $this->group = $group; }
+	public function setGroup(Group $group){ $this->owner = null; $this->group = $group; }
 	public function getGroup()             { return $this->group; }
 
-	public function setOwner(User $owner){ $this->owner = $owner; }
+	public function setOwner(User $owner){ $this->group = null; $this->owner = $owner; }
 	public function getOwner()            { return $this->owner; }
 	
 	public function belongsToUser()
@@ -120,6 +120,9 @@ class Camp extends BaseEntity
 	
 	public function getEvents() { return $this->events; }
 
+	/** @return \Doctrine\Common\Collections\ArrayCollection */
+	public function getUsercamps() { return $this->usercamps; }
+	
 	public function getRange()
 	{
 		if($this->getPeriods()->count() == 0)
@@ -132,7 +135,7 @@ class Camp extends BaseEntity
     {
 	    $members = new \Doctrine\Common\Collections\ArrayCollection();
 
-		foreach($this->userCamps as $userCamp) {
+		foreach($this->usercamps as $userCamp) {
 			if($userCamp->isMember()) {
 				$members->add($userCamp->getUser());
 			}

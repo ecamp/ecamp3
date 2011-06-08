@@ -31,6 +31,17 @@ class EventController extends \Controller\BaseController
 			return;
 		}
 		
+		/**
+		 * @var \Entity\Camp
+		 */
+		$this->camp = null;
+		
+		/**
+		 * @var \Entity\Group
+		 */
+		$this->group = null;
+		
+		
 		 /* load camp */
 	    $campid = $this->getRequest()->getParam("camp");
 	    $this->camp = $this->em->getRepository("Entity\Camp")->find($campid);
@@ -41,39 +52,9 @@ class EventController extends \Controller\BaseController
 	    $this->group = $this->em->getRepository("Entity\Group")->find($groupid);
 	    $this->view->group = $this->group;
 		
-	    $pages = array(
-			array(
-			'label'      => 'General',
-			'title'      => 'General',
-			'controller' => 'camp',
-			'action'     => 'show',
-			'route'		 => 'group+camp'),
 
-		    array(
-			'label'      => 'Events',
-			'title'      => 'Events',
-			'controller' => 'event',
-			'action'     => 'index',
-			'route'		 => 'group+camp'),
+	    $this->setNavigation(new \Navigation\Camp($this->camp));
 
-		    array(
-			'label'      => 'Print',
-			'title'      => 'Print',
-			'controller' => 'camp',
-			'action'     => 'print',
-			'route'		 => 'group+camp')
-	    );
-
-	    $container = new Zend_Navigation($pages);
-		$this->view->getHelper('navigation')->setContainer($container);
-
-	    /* inject group id into navigation */
-	    foreach($container->getPages() as $page){
-			$page->setParams(array(
-				'camp' => $this->camp->getId(),
-				'group' => $this->group->getId()
-			));
-		}
 		
 		/* move this to bootsrap */
 		$event = new \Plugin\StrategyEventListener($this->view, $this->em);

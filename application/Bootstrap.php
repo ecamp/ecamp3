@@ -20,7 +20,7 @@
 
 class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 {
-
+	
 	/**
 	 * @return void
 	 */
@@ -29,29 +29,12 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         require_once APPLICATION_PATH . '/../library/Doctrine/Common/ClassLoader.php';
 
         $autoloader = \Zend_Loader_Autoloader::getInstance();
-
-		$entityAutoloader = new \Doctrine\Common\ClassLoader('Entity', APPLICATION_PATH);
-		$autoloader->pushAutoloader(array($entityAutoloader, 'loadClass'), 'Entity');
 		
-		$pluginAutoloader = new \Doctrine\Common\ClassLoader('Plugin', APPLICATION_PATH);
-		$autoloader->pushAutoloader(array($pluginAutoloader, 'loadClass'), 'Plugin');
-
-		$formAutoloader = new \Doctrine\Common\ClassLoader('Form', APPLICATION_PATH);
-		$autoloader->pushAutoloader(array($formAutoloader, 'loadClass'), 'Form');
-
-	    $controllerAutoloader = new \Doctrine\Common\ClassLoader('Controller', APPLICATION_PATH);
-		$autoloader->pushAutoloader(array($controllerAutoloader, 'loadClass'), 'Controller');
-
-	    $controllerAutoloader = new \Doctrine\Common\ClassLoader('Form', APPLICATION_PATH);
-		$autoloader->pushAutoloader(array($controllerAutoloader, 'loadClass'), 'Form');
-
-		$providerAutoloader = new \Doctrine\Common\ClassLoader('Logic', APPLICATION_PATH);
-		$autoloader->pushAutoloader(array($providerAutoloader, 'loadClass'), 'Logic');
-
-		$serviceAutoloader = new \Doctrine\Common\ClassLoader('Service', APPLICATION_PATH);
-		$autoloader->pushAutoloader(array($serviceAutoloader, 'loadClass'), 'Service');
+		$navigationAutoloader = new \Doctrine\Common\ClassLoader(null, APPLICATION_PATH);
+		$autoloader->pushAutoloader(array($navigationAutoloader, 'loadClass'));
     }
-
+	
+    
 	public function _initInjectionKernel()
 	{
 		$kernel = new \Inject\Kernel();
@@ -73,7 +56,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 			->ToProvider(new Logic\Provider\Repository("Entity\Login"));
 
 		$kernel
-			->Bind("UserRepository")
+			->Bind("\Repository\UserRepository")
 			->ToProvider(new Logic\Provider\Repository("Entity\User"));
 
 		$kernel
@@ -149,11 +132,11 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 		/* user camp */
 		Zend_Controller_Front::getInstance()->getRouter()->addRoute(
 			'user+camp', new Ecamp\Route\Vanity('user/:user/:camp/:controller/:action/*',
-				array('controller' => 'camps','action' => 'show')));
+				array('controller' => 'camp','action' => 'show')));
 				
 		Zend_Controller_Front::getInstance()->getRouter()->addRoute(
 			'user+camp+id', new Ecamp\Route\Vanity('user/:user/:camp/:controller/:action/:id/*',
-				array('controller' => 'camps','action' => 'show'),
+				array('controller' => 'camp','action' => 'show'),
 				array('id' => '\d+')));
 				
 		/* group */
@@ -169,11 +152,11 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 		/* group camp */
 		Zend_Controller_Front::getInstance()->getRouter()->addRoute(
 			'group+camp', new Ecamp\Route\Vanity('group/:group/:camp/:controller/:action/*',
-				array('controller' => 'camps','action' => 'show')));
+				array('controller' => 'camp','action' => 'show')));
 				
 		Zend_Controller_Front::getInstance()->getRouter()->addRoute(
 			'group+camp+id', new Ecamp\Route\Vanity('group/:group/:camp/:controller/:action/:id/*',
-				array('controller' => 'camps','action' => 'show'),
+				array('controller' => 'camp','action' => 'show'),
 				array('id' => '\d+')));
 				
 		/* TODO: quick camp url */

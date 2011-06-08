@@ -20,11 +20,14 @@
 
 class UserController extends \Controller\BaseController
 {
+	
 	/**
-     * @var Service\UserService
-     * @Inject Service\UserService
-     */
-	private $userService;
+	 * @var \Repository\UserRepository
+	 * @Inject \Repository\UserRepository
+	 */
+	private $userRepository;
+
+	
 	
 	public function init()
 	{
@@ -39,10 +42,10 @@ class UserController extends \Controller\BaseController
 		$user = $this->em->getRepository("Entity\User")->find($id);
 
 		$friendshipRequests = ($user == $this->me) ? 
-			$friendshipRequests = $this->userService->getFriendshipInvitationsOf($this->me) : null;
+			$friendshipRequests = $this->userRepository->findFriendshipInvitationsOf($this->me) : null;
 		
 		$this->view->user    = $user;
-		$this->view->friends = $this->userService->getFriendsOf($this->view->user);
+		$this->view->friends = $this->userRepository->findFriendsOf($this->view->user);
 		$this->view->friendshipRequests = $friendshipRequests;
 
 		$this->view->userGroups  = $user->getAcceptedUserGroups();

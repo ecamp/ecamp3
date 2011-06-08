@@ -24,8 +24,8 @@ class LoginController
 {
 
 	/**
-	 * @var \Doctrine\ORM\EntityRepository
-	 * @Inject UserRepository
+	 * @var Repository\UserRepository
+	 * @Inject \Repository\UserRepository
 	 */
 	private $userRepository;
 
