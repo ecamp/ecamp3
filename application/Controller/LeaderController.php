@@ -19,7 +19,9 @@
  */
 
 
-class CampController extends \Controller\BaseController
+use \Entity\UserCamp;
+
+class LeaderController extends \Controller\BaseController
 {
 	/**
 	 * @var \Entity\Repository\CampRepository
@@ -41,7 +43,6 @@ class CampController extends \Controller\BaseController
 
 	
 	
-	
 	/**
 	 * @var \Entity\Camp
 	 */
@@ -55,9 +56,10 @@ class CampController extends \Controller\BaseController
 	/**
 	 * @var \Entity\User
 	 */
-	private $user;
-
+	private $owner;
 	
+	
+
 	public function init()
     {
 	    parent::init();
@@ -67,13 +69,13 @@ class CampController extends \Controller\BaseController
 			$this->_forward("index", "login");
 			return;
 		}
-
+		
 		
 		/* load camp */
 	    $campid = $this->getRequest()->getParam("camp");
 	    $this->camp = $this->em->getRepository("Entity\Camp")->find($campid);
 	    $this->view->camp = $this->camp;
-
+	    
 	    /* load group */
 	    $groupid = $this->getRequest()->getParam("group");
 	    $this->group = $groupid ? $this->em->getRepository("Entity\Group")->find($groupid) : null;
@@ -81,12 +83,12 @@ class CampController extends \Controller\BaseController
 		
 	    /* load user */
 	    $userid = $this->getRequest()->getParam("user");
-	    $this->user = $userid ? $this->em->getRepository("Entity\User")->find($userid) : null;
-	    $this->view->user = $this->user;
+	    $this->owner = $userid ? $this->em->getRepository("Entity\User")->find($userid) : null;
+	    $this->view->owner = $this->owner;
 	    
-
+	    
 	    $this->setNavigation(new \Navigation\Camp($this->camp));
-
+	    
 		
 		/* move this to bootsrap */
 		$event = new \Plugin\StrategyEventListener($this->view, $this->em);
@@ -94,8 +96,13 @@ class CampController extends \Controller\BaseController
 	}
 
 	
-	public function showAction()
-	{}
+	
+	public function indexAction()
+	{
+		$this->view->managers = $this->camp->getUsercamps()->filter(UserCamp::RoleFilter(UserCamp::ROLE_MANAGER));		
+		$this->view->leaders  = $this->camp->getUsercamps()->filter(UserCamp::RoleFilter(UserCamp::ROLE_NORMAL));
+		$this->view->guests   = $this->camp->getUsercamps()->filter(UserCamp::RoleFilter(UserCamp::ROLE_GUEST));
+	}
 	
 }
 

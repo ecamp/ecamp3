@@ -66,6 +66,8 @@ class RegisterController
 
 	public function registerAction()
 	{
+		$params = $this->getRequest()->getParams();
+		
 		$registerForm = new \Form\Register();
 
 		if(!$registerForm->isValid($this->getRequest()->getParams()))
@@ -74,42 +76,25 @@ class RegisterController
 			$this->render("index");
 			return;
 		}
-
 		
-		$email = $registerForm->getValue('email');
-		$password = $registerForm->getValue('password1');
-		
-
-		/** @var $user \Entity\User */
-		$user = $this->userRepository->findOneBy(array('email' => $email));
-
-		if($user == null)
+		try
 		{
-			$user = new Entity\User();
-			$user->setEmail($email);
-
-			$this->em->persist($user);
+			$user = $this->userService->registerUser($params);
 		}
-		
-		if($user->getState() != Entity\User::STATE_NONREGISTERED)
+		catch (Exception $e)
 		{
-			$this->_redirect('login', 'login');
-			reutrn;
+			$registerForm->getElement('email')->addError($e->getMessage());
+			
+			$this->view->registerForm = $registerForm;
+			$this->render("index");
+			return;
 		}
 
-		$user->setUsername($registerForm->getValue('username'));
-		$user->setScoutname($registerForm->getValue('scoutname'));
-		$user->setFirstname($registerForm->getValue('firstname'));
-		$user->setSurname($registerForm->getValue('surname'));
-		$user->setState(\Entity\User::STATE_REGISTERED);
-
-		$login = $this->userService->createLogin($user, $password);
+		
 		$activationCode = $user->createNewActivationCode();
-
-		$this->em->persist($login);
 		$this->em->flush();
-
-
+		
+		
 		$link = "/register/activate/" . $user->getId() . "/key/" . $activationCode;
 		echo "<a href='" . $link . "'>" . $link . "</a>";
 		die();
@@ -118,9 +103,7 @@ class RegisterController
 
 	public function activateAction()
 	{
-
 		$id = $this->getRequest()->getParam('id');
-
 		$key = $this->getRequest()->getParam('key');
 
 

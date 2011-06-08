@@ -35,7 +35,33 @@
 	</p>
 	
 	<div class="box">
+
+        <div class="right">
+            <a id="request_membership" class="button positive" href="#">Add User to one of my Group</a>
+
+            <tal:block content="structure helper:confirmDialog('request_membership_dialog', 'request_membership', array('title'=> this.translate('request membership'), 'print_div' => false, 'width' => 500, 'ok' => this.translate('Send request')))" />
+
+            <div id="request_membership_dialog" class="dialog">
+				
+
+				<div class="clear" />
+				<div class="question" i18n:translate="">
+                    Du you want to request this user for membership in one of your groups?
+
+				</div>
+
+                <div class="content">
+                    <tal:block repeat="group me/getManagedGroups">
+                        <span metal:use-macro="global/singlegroup.phtml/withavatar" tal:define="group group" tal:omit-tag="" />
+                    </tal:block>
+                </div>
+                <div class="clear" />
+                    
+			</div>
+        </div>
+
 		<h2>Groups</h2>
+
 
 		<div class="content">
 			<tal:block repeat="usergroup userGroups">
@@ -73,6 +99,29 @@
 			</tal:block>
 			
 			<span tal:condition="php: count(friends)==0">Saidly, <span tal:content="user/getUsername" /> has no friends. But who cares, they are only virtual friends anyway.</span>
+			
+			<div class="clear" />
+		</div>
+	</div>
+	
+	<div class="bigbox" tal:condition="friendshipRequests">
+		<div class="title" i18n:translate="">Open Requests</div>
+		<div class="content">
+			<tal:block repeat="user friendshipRequests">
+				
+				 <a tal:attributes="href helper:url(array('user' => user.getId()), 'user')" class="span-2">
+					<img width="46" height="46" tal:attributes="src helper:url(array('controller' => 'avatar', 'action' => 'user', 'user' => user.getId(), 'size' =>32), 'general')" /><br />
+				 </a>
+				 
+				 <div class="span-7 last">
+					 <a tal:attributes="href helper:url(array('user' => user.getId()), 'user')" tal:content="user/getUsername" /> <span i18n:translate="">wants to be your friend</span>!<br/>
+					 
+					 <a class="button positive" tal:attributes="href helper:url(array('action' => 'accept', 'user' => user.getId()), 'user')">+<span i18n:translate="">accept</span></a>
+					 <a class="button negative" tal:attributes="href helper:url(array('action' => 'ignore', 'user' => user.getId()), 'user')">-<span i18n:translate="">ignore</span></a>
+				</div>
+				
+				<hr tal:condition="not: repeat/user/end" />
+			</tal:block>
 			
 			<div class="clear" />
 		</div>

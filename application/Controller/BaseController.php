@@ -41,6 +41,7 @@ class BaseController extends \Zend_Controller_Action
 	protected $t;
 	
 	
+	
 	public function init()
 	{
 		$this->view->addHelperPath(APPLICATION_PATH . '/../application/views/helpers', 'Application\View\Helper\\');
@@ -78,5 +79,19 @@ class BaseController extends \Zend_Controller_Action
 		/* load translator */
 		$this->t = new \Zend_View_Helper_Translate();
 	}
+	
+	
+	
+	public function postDispatch()
+	{
+		$this->em->flush();
+		
+		//die("flushed...");
+	}
 
+	
+	protected function setNavigation(\Zend_Navigation $navigation)
+	{
+		$this->view->getHelper('navigation')->setContainer($navigation);
+	}
 }

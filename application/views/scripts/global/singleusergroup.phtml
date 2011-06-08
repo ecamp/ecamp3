@@ -58,7 +58,7 @@
 	</div>
 </span>
 
-<span metal:define-macro="invitation" tal:omit-tag="" >
+<span metal:define-macro="request" tal:omit-tag="" >
 
 	<a tal:attributes="href helper:url(array('user' => usergroup.getUser().getId()), 'user')" class="span-2">
 		<img width="46" height="46" tal:attributes="src helper:url(array('controller' => 'avatar', 'action' => 'user', 'user' => usergroup.getUser().getId(), 'size' =>32), 'general')" /><br />
@@ -67,6 +67,57 @@
 	 <div class="span-7 last">
 		 <a tal:attributes="href helper:url(array('user' => usergroup.getUser().getId()), 'user')" tal:content="usergroup/getUser/getUsername" />
 		 wants to be a member of
+		 <a tal:attributes="href helper:url(array('group' => usergroup.getGroup().getId()), 'group')" tal:content="usergroup/getGroup/getName" />
+		 !
+		 <br/>
+
+		 <a class="button positive" tal:attributes="id php: 'usergroup_accept_'.usergroup.getId(); href helper:url(array('action' => 'accept', 'group' => usergroup.getGroup().getId(), 'id' => usergroup.getId()), 'group+id')">+accept</a>
+		 <a class="button negative" tal:attributes="id php: 'usergroup_refuse_'.usergroup.getId(); href helper:url(array('action' => 'refuse', 'group' => usergroup.getGroup().getId(), 'id' => usergroup.getId()), 'group+id')">-refuse</a>
+	</div>
+
+	<?php echo $ctx->this->confirmDialog('usergroup_accept_dialog_'.$ctx->usergroup->getId(), 'usergroup_accept_'.$ctx->usergroup->getId(), array('title'=> 'Accept Membership Request', 'print_div' => false, 'width' => 500, 'ok' => 'Accept Request')); ?>
+
+	<div tal:attributes="id php: 'usergroup_accept_dialog_'.usergroup.getId()" class="dialog">
+
+		<span metal:use-macro="global/singleuser.phtml/big_withemail" tal:define="user usergroup/getUser" />
+
+		<div class="clear" />
+		<div class="question">
+			<a tal:attributes="href helper:url(array('user' => usergroup.getUser().getId()), 'user')" tal:content="usergroup/getUser/getUsername" />
+			requests membership for the group
+			 <a tal:attributes="href helper:url(array('group' => usergroup.getGroup().getId()), 'group')" tal:content="usergroup/getGroup/getName" />
+			(<span tal:content="usergroup/getGroup/getDescription" />).
+			This request is sent to you, because you are a group manager of <span tal:content="usergroup/getGroup/getName" />.
+		</div>
+	</div>
+
+	<?php echo $ctx->this->confirmDialog('usergroup_refuse_dialog_'.$ctx->usergroup->getId(), 'usergroup_refuse_'.$ctx->usergroup->getId(), array('title'=> 'Refuse Membership Request', 'print_div' => false, 'width' => 500, 'ok' => 'Refuse Request')); ?>
+
+	<div tal:attributes="id php: 'usergroup_refuse_dialog_'.usergroup.getId()" class="dialog">
+
+		<span metal:use-macro="global/singleuser.phtml/big_withemail" tal:define="user usergroup/getUser" />
+
+		<div class="clear" />
+		<div class="question">
+			<a tal:attributes="href helper:url(array('user' => usergroup.getUser().getId()), 'user')" tal:content="usergroup/getUser/getUsername" />
+			requests membership for the group
+			 <a tal:attributes="href helper:url(array('group' => usergroup.getGroup().getId()), 'group')" tal:content="usergroup/getGroup/getName" />
+			(<span tal:content="usergroup/getGroup/getDescription" />).
+			This request is sent to you, because you are a group manager of <span tal:content="usergroup/getGroup/getName" />.
+		</div>
+	</div>
+
+</span>
+
+
+<span metal:define-macro="invitation" tal:omit-tag="" >
+
+	<a tal:attributes="href helper:url(array('user' => usergroup.getUser().getId()), 'user')" class="span-2">
+		<img width="46" height="46" tal:attributes="src helper:url(array('group' => usergroup.getGroup().getId(), 'controller' => 'avatar', 'action' => 'group', 'size' => 32), 'general')" /><br />
+	 </a>
+
+	 <div class="span-7 last">
+		 You have been invited to the Group 
 		 <a tal:attributes="href helper:url(array('group' => usergroup.getGroup().getId()), 'group')" tal:content="usergroup/getGroup/getName" />
 		 !
 		 <br/>
