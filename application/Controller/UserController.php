@@ -20,11 +20,14 @@
 
 class UserController extends \Controller\BaseController
 {
+	
 	/**
-     * @var Service\UserService
-     * @Inject Service\UserService
-     */
-	private $userService;
+	 * @var \Repository\UserRepository
+	 * @Inject \Repository\UserRepository
+	 */
+	private $userRepository;
+
+	
 	
 	public function init()
 	{
@@ -38,8 +41,12 @@ class UserController extends \Controller\BaseController
 		/** @var $user \Entity\User */
 		$user = $this->em->getRepository("Entity\User")->find($id);
 
+		$friendshipRequests = ($user == $this->me) ? 
+			$friendshipRequests = $this->userRepository->findFriendshipInvitationsOf($this->me) : null;
+		
 		$this->view->user    = $user;
-		$this->view->friends = $this->userService->getFriendsOf($this->view->user);
+		$this->view->friends = $this->userRepository->findFriendsOf($this->view->user);
+		$this->view->friendshipRequests = $friendshipRequests;
 
 		$this->view->userGroups  = $user->getAcceptedUserGroups();
 		$this->view->userCamps   = $user->getAcceptedUserCamps();
@@ -66,7 +73,7 @@ class UserController extends \Controller\BaseController
 		$this->me->acceptFriendshipRequestFrom($user);
 		
 		$this->em->flush();
-		$this->_helper->getHelper('Redirector')->gotoRoute(array('action'=>'show', 'user' => $id), 'user');
+		$this->_helper->getHelper('Redirector')->gotoRoute(array('action'=>'show', 'user' => $this->me->getId()), 'user');
 	}
 	
 	public function ignoreAction()

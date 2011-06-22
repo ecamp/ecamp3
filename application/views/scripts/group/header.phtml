@@ -69,6 +69,12 @@
 
 		</tal:block>
 
+        <tal:block condition="php: me.isManagerOf(group) && params['action']=='members'">
+            <a id="search_user" class="button right positive" tal:attributes="href helper:thisurl(array('action' => 'searchuser', 'group' => group.getId() ), 'group')" i18n:translate="">
+				search for user
+			</a>
+        </tal:block>
+
 		<div class="clear" />
 	</nav>
 

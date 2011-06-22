@@ -164,4 +164,13 @@ class UserCamp extends BaseEntity
 		return $this;
 	}
 	
+	
+	public static function RoleFilter($role)
+	{
+		return 
+		function (UserCamp $usercamp) use ($role)
+		{
+			return $usercamp->getRole() == $role;
+		};
+	}
 }

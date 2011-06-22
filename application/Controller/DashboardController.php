@@ -28,6 +28,13 @@ class DashboardController extends \Controller\BaseController
 	private $userService;
 	
 	
+	/**
+	 * @var Repository\UserRepository
+	 * @Inject \Repository\UserRepository
+	 */
+	private $userRepository;
+	
+	
     public function init()
     {
 	    parent::init();
@@ -37,89 +44,29 @@ class DashboardController extends \Controller\BaseController
 			$this->_redirect("login");
 			return;
 		}
-		
-		/* later, the navigation should probably go out of the controller
-		   to a more global position (XML file -> Bootstrap) */
-		   
-		$pages = array(
-			array(
-			'label'      => 'Dashboard',
-			'title'      => 'Dashboard',
-			'controller' => 'dashboard',
-			'action'     => 'index',
-			'pages' => array(
-				
-				array(
-				'label'      => 'subitem',
-				'title'      => 'subitem for nothing else than for testing whether the menu shows it or not',
-				'controller' => 'dashboard',
-				'action'     => 'subitem'),
-				
-				array(
-				'label'      => 'subitem2',
-				'title'      => 'subitem for nothing else than for testing whether the menu shows it or not',
-				'controller' => 'dashboard',
-				'action'     => 'subitem2')
-				
-				)),
-			
-			array(
-			'label'      => 'Camps',
-			'title'      => 'Camps',
-			'controller' => 'dashboard',
-			'action'     => 'camps'),
-			
-			array(
-			'label'      => 'Friends',
-			'title'      => 'Friends',
-			'controller' => 'dashboard',
-			'action'     => 'friends'),
-			
-			array(
-			'label'      => 'Groups',
-			'title'      => 'Groups',
-			'controller' => 'dashboard',
-			'action'     => 'groups'));
-		
-		$container = new Zend_Navigation($pages);
-		$this->view->getHelper('navigation')->setContainer($container);
+
+		$this->setNavigation(new Navigation\Dashboard());
 		$this->view->subnavi = $this->view->navigation()->menu()->renderMenu(NULL, array('onlyActiveBranch' => 1, 'renderParents' => 0,'minDepth'=> 1, 'maxDepth' => 2));
     }
 
 
     public function indexAction()
     {
-		$friendshipRequests = $this->userService->getFriendshipInvitationsOf($this->me);
-		$membershipRequests = $this->userService->getMembershipRequests($this->me);
+		$friendshipRequests = $this->userRepository->findFriendshipInvitationsOf($this->me); // $this->userService->getFriendshipInvitationsOf($this->me);
+		$membershipRequests = $this->userRepository->findMembershipRequestsOf($this->me); // $this->userService->getMembershipRequests($this->me);
+		$membershipInvitations = $this->userRepository->findMembershipInvitations($this->me); // $this->userService->getMembershipInvitations($this->me);
 		
-		$requests = new Doctrine\Common\Collections\ArrayCollection;
-		
-		foreach( $friendshipRequests as $user )
-		{
-			$item = array();
-			$item['isFriendshipRequest'] = 1;
-			$item['user'] = $user;
-			
-			$requests->add($item);
-		}
-			
-		foreach( $membershipRequests as $usergroup )
-		{
-			$item = array();
-			$item['isMembershipRequest'] = 1;
-			$item['usergroup'] = $usergroup;
-			
-			$requests->add($item);
-		}
-		
-		$this->view->requests = $requests;	
+				
+		$this->view->friendshipRequests = new Doctrine\Common\Collections\ArrayCollection($friendshipRequests);
+		$this->view->membershipRequests = new Doctrine\Common\Collections\ArrayCollection($membershipRequests);
+		$this->view->membershipInvitations = new Doctrine\Common\Collections\ArrayCollection($membershipInvitations);
     }
 	
 	public function campsAction() {}
 	
 	public function friendsAction() {
 		/** load friends */
-		$this->view->friends = $this->userService->getFriendsOf($this->me);
+		$this->view->friends = $this->userRepository->findFriendsOf($this->me); // $this->userService->getFriendsOf($this->me);
 		
 		/** load all users */
 		$query = $this->em->getRepository("Entity\User")->createQueryBuilder("u");

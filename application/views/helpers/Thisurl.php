@@ -15,8 +15,11 @@ class Thisurl extends \Zend_View_Helper_Abstract
     public function execute( $urlOptions, $name = null, $reset = false, $encode = true)
     {
 	    if( ! isset($urlOptions['controller']))
-	       $urlOptions['controller'] = \Zend_Controller_Front::getInstance()->getRequest()->getControllerName();
-			       
+	    	$urlOptions['controller'] = \Zend_Controller_Front::getInstance()->getRequest()->getControllerName();
+		
+	    if( ! isset($urlOptions['action']))
+	    	$urlOptions['action'] = '';
+	       
         return $this->view->url( $urlOptions, $name, $reset, $encode);
     }
 

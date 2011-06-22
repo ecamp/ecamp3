@@ -1,0 +1,17 @@
+<span metal:use-macro="camp/header.phtml/header" />
+
+<h2 tal:content="camp/getTitle" />
+
+<p>
+<tal:block condition="user">
+	This camp is organized by <tal:block content="user/getDisplayName" />
+</tal:block>
+
+<tal:block condition="group">
+	This camp is organized by <tal:block content="group/getName" />
+</tal:block>
+</p>
+
+
+
+<h3>Camp stories:</h3>

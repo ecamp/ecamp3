@@ -21,8 +21,9 @@
 namespace Entity;
 
 /**
- * @Entity
+ * @Entity(repositoryClass="Repository\UserRepository")
  * @Table(name="users")
+ * 
  */
 class User extends BaseEntity
 {
@@ -48,7 +49,7 @@ class User extends BaseEntity
 	const PBSEDU_SPEKTRUM		= "Spektrum";
 	const PBSEDU_TOPKURS		= "Topkurs";
 	const PBSEDU_GILLWELL		= "Gillwell";
-	
+
 	public function __construct()
     {
 	    $this->mycamps  = new \Doctrine\Common\Collections\ArrayCollection();
@@ -145,7 +146,7 @@ class User extends BaseEntity
 	
 	/**
 	 * Camps, which I own myself
-	 * @var ArrayObject
+	 * @var \Doctrine\Common\Collections\ArrayCollection
 	 * @OneToMany(targetEntity="Camp", mappedBy="owner")
 	 */
 	private $mycamps;
@@ -159,23 +160,25 @@ class User extends BaseEntity
 
 
 	/**
-	 * @var ArrayObject
+	 * @var \Doctrine\Common\Collections\ArrayCollection
 	 * @OneToMany(targetEntity="UserCamp", mappedBy="user")
 	 */
 	private $userCamps;
 	
 	/**
-	 * @var ArrayObject
+	 * @var \Doctrine\Common\Collections\ArrayCollection
 	 * @OneToMany(targetEntity="UserGroup", mappedBy="user", cascade={"all"}, orphanRemoval=true)
 	 */
 	private $userGroups;
 	
 	/**
+	 * @var \Doctrine\Common\Collections\ArrayCollection
 	 * @OneToMany(targetEntity="UserRelationship", mappedBy="from", cascade={"all"}, orphanRemoval=true )
 	 */
 	private $relationshipFrom;
 	
 	/**
+	 * @var \Doctrine\Common\Collections\ArrayCollection
 	 * @OneToMany(targetEntity="UserRelationship", mappedBy="to", cascade={"all"}, orphanRemoval= true)
 	 */
 	private $relationshipTo;
@@ -252,6 +255,8 @@ class User extends BaseEntity
 		return $this;
 	}
 	
+	public function getUsergroups(){ return $this->userGroups; }
+	
 
 	public function getDisplayName()
 	{
@@ -323,9 +328,9 @@ class User extends BaseEntity
 		return $this->userCamps->filter($closure);
 	}
 	
-	/**************************************************************** 
-	 * Friendship methods
-	 ****************************************************************/
+	/* * * * * * * * * * * * * * * * * * *\
+	 * Friendship methods				 *
+	\* * * * * * * * * * * * * * * * * * */
 	
 	public function getRelationshipFrom()
 	{
@@ -465,6 +470,7 @@ class User extends BaseEntity
 	 * Membership methods
 	 ****************************************************************/
 	
+	
 	public function getMemberships() {
 	
 		$closure =  function($element){ 
@@ -516,11 +522,6 @@ class User extends BaseEntity
 		}
 	}
 
-	public function getUserGroups()
-	{
-		return $this->userGroups;
-	}
-
 	public function getAcceptedUserGroups()
 	{
 		$closure = function(UserGroup $element)
@@ -566,6 +567,20 @@ class User extends BaseEntity
 			
 		return false;
 	}
+	
+    /**
+     * @return ArrayCollection
+     */
+    public function getManagedGroups()
+    {
+        $filter = function(UserGroup $element)
+        {   return $element->isManager();   };
+
+        $map = function(UserGroup $element)
+        {   return $element->getGroup();    };
+
+        return $this->getUserGroups()->filter($filter)->map($map);
+    }
 
 
 
