@@ -24,8 +24,8 @@ class LoginController
 {
 
 	/**
-	 * @var \Doctrine\ORM\EntityRepository
-	 * @Inject UserRepository
+	 * @var Repository\UserRepository
+	 * @Inject \Repository\UserRepository
 	 */
 	private $userRepository;
 
@@ -42,6 +42,8 @@ class LoginController
 		$loginForm->setDefaults($this->getRequest()->getParams());
 
 		$this->view->loginForm = $loginForm;
+
+		$this->view->userlist = $this->userRepository->findAll();
 	}
 
 
@@ -85,6 +87,15 @@ class LoginController
 
         return false;
     }
+	
+	public function bypassAction()
+	{
+		$user = $this->userRepository->find($this->getRequest()->getParam('user'));
+		$authAdapter = new \Service\Auth\Bypass($user);
+        	$result = Zend_Auth::getInstance()->authenticate($authAdapter);
+	
+		$this->_forward('index', 'dashboard');
+	}
 
     
 

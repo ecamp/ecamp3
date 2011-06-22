@@ -1,0 +1,17 @@
+<span metal:use-macro="header.phtml/header" />
+
+<div class="span-24 last">
+	<tal:block content="structure search" />
+</div>
+
+<div class="span-24 last">
+	<h2 i18n:translate="">SearchResult:</h2>
+	
+	<tal:block repeat="user users">
+		<span metal:use-macro="global/singleuser.phtml/withavatar" tal:omit-tag="">
+			<span metal:fill-slot="controls">
+				<a class="button positive" tal:attributes="href helper:url(array('action' => 'invite', 'user' => user.getId(), 'group' => group.getId()), 'group')">Invite to group</a>
+			</span>
+		</span>
+	</tal:block>
+</div>
