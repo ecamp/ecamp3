@@ -195,10 +195,10 @@ class GroupController extends \Controller\BaseController
 		$id = $this->getRequest()->getParam("id");
 		$usergroup = $this->em->getRepository("Entity\UserGroup")->find($id);
 		
-		if($request->isOpenRequest())
+		if($usergroup->isOpenRequest())
 		{	$this->groupService->acceptMembershipRequest($this->me, $usergroup);	}
 		
-		if($request->isOpenInvitation())
+		if($usergroup->isOpenInvitation())
 		{	$this->groupService->acceptMembershipInvitation($this->me, $usergroup);	}
 		
 		$this->em->flush();
