@@ -17,22 +17,19 @@ class Camp extends \Zend_Navigation
 			'label'      => 'Leader',
 			'title'      => 'Leader',
 			'controller' => 'leader',
-			'action'     => 'index',
-			'route'		 => 'group+camp'),
+			'action'     => 'index'),
 
 		    array(
 			'label'      => 'Events',
 			'title'      => 'Events',
 			'controller' => 'event',
-			'action'     => 'index',
-			'route'		 => 'group+camp'),
+			'action'     => 'index'),
 
 		    array(
 			'label'      => 'Print',
 			'title'      => 'Print',
 			'controller' => 'camp',
-			'action'     => 'print',
-			'route'		 => 'group+camp')
+			'action'     => 'print')
 	    );
 	
 	
@@ -43,14 +40,22 @@ class Camp extends \Zend_Navigation
 		$params = array('camp' => $camp->getId());
 		
 		if(!is_null($camp->getOwner()))
-		{	$params['user'] = $camp->getOwner()->getId();	}
+		{	
+			$params['user'] = $camp->getOwner()->getId();
+			$options['route'] = 'user+camp';
+		}
 			
 		if(!is_null($camp->getGroup()))
-		{	$params['group'] = $camp->getGroup()->getId();	}
-		
+		{	
+			$params['group'] = $camp->getGroup()->getId();	
+			$options['route'] = 'group+camp';
+		}
 		
 		foreach($this->getPages() as $page)
-		{	$page->setParams($params);	}
+		{	
+			$page->setParams($params);	
+			$page->setOptions($options);
+		}
 		
 	}
 }

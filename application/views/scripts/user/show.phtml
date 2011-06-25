@@ -74,6 +74,18 @@
 	
 	<div class="box">
 		<h2>Camps</h2>
+
+		<div>
+			<table>
+				<tr tal:repeat="camp user/getMyCamps">
+					<td>
+					  <a tal:content="camp/getName" tal:attributes="href helper:url(array('controller'=>'camp', 'user' => me.getId(), 'camp' => camp.getId() ), 'user+camp')" />
+					</td>
+					<td><tal:block content="camp/getTitle" /></td>
+					<td><tal:block content="camp/getRange" /></td>
+				</tr>
+			</table>
+		</div>
 	</div>
 	
 	<div class="box">

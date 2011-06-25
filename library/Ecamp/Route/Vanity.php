@@ -167,7 +167,7 @@ class Vanity extends \Zend_Controller_Router_Route
 					
 					if( isset($values["user"]) )
 					{
-						$camp = $this->em->getRepository("Entity\Camp")->findOneBy(array("group" => null, "creator" => $values["user"], "name" => $pathPart));
+						$camp = $this->em->getRepository("Entity\Camp")->findOneBy(array("owner" => $values["user"], "name" => $pathPart));
 						
 						if (!$camp) {
 							return false;
