@@ -15,10 +15,21 @@ class Campurl extends \Zend_View_Helper_Abstract
 	/**
 	 * this helper automatically adds the camp parameter to the url
 	 */
-    public function execute( $urlOptions, $name = null, $reset = false, $encode = true)
+    public function execute( $camp, $urlOptions, $name = null, $reset = false, $encode = true)
     {
-        $urlOptions['camp'] = \Zend_Controller_Front::getInstance()->getRequest()->getParam('camp');
-	    
+	    $urlOptions['camp'] = $camp->getId();
+
+		if( $camp->belongsToUser() )
+		{
+			$urlOptions['user']       = $camp->getOwner()->getId();
+			$name = $name=='' ? 'user+camp' : 'user+'.$name;
+		}
+		else
+		{
+			$name = $name=='' ? 'group+camp' : 'group+'.$name;
+			$urlOptions['group']       = $camp->getGroup()->getId();
+		}
+
 	    if( ! isset($urlOptions['controller']))
 	       $urlOptions['controller'] = \Zend_Controller_Front::getInstance()->getRequest()->getControllerName();
 			       

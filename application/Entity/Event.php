@@ -53,12 +53,12 @@ class Event extends BaseEntity
 	private $user;
 	
 	/**
-	 * @OneToMany(targetEntity="EventInstance", mappedBy="event")
+	 * @OneToMany(targetEntity="EventInstance", mappedBy="event", cascade={"all"}, orphanRemoval=true)
 	 */
 	private $eventInstances;
 
 	/**
-	 * @OneToMany(targetEntity="Plugin", mappedBy="event")
+	 * @OneToMany(targetEntity="Plugin", mappedBy="event", cascade={"all"}, orphanRemoval=true)
 	 */
 	private $plugins;
 	

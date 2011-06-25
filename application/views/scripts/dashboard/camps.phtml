@@ -1,3 +1,29 @@
 <span metal:use-macro="header.phtml/header" />
 
-<div class="span-24">blabla</div>
+<div class="span-24 last">
+	<h2>Contributing Camps</h2>
+	<p>...</p>
+
+    <h2>Personal Camps</h2>
+
+	<p>
+	<a tal:attributes="href helper:thisurl(array('action' => 'newcamp'))">NewCamp</a>
+	</p>
+
+	<div class="span-12">
+		<table>
+			<tr tal:repeat="camp me/getMyCamps">
+				<td>
+				  <a tal:content="camp/getName" tal:attributes="href helper:url(array('controller'=>'camp', 'user' => me.getId(), 'camp' => camp.getId() ), 'user+camp')" />
+				</td>
+				<td><tal:block content="camp/getTitle" /></td>
+				<td><tal:block content="camp/getRange" /></td>
+				<td>
+					<a id="request_membership" class="button negative" tal:attributes="href helper:thisurl(array('action' => 'deletecamp', 'id' => camp.getId() ))" i18n:translate="">
+						delete
+					</a>
+				</td>
+			</tr>
+		</table>
+	</div>
+</div>
