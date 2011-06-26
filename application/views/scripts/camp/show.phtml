@@ -3,8 +3,8 @@
 <h2 tal:content="camp/getTitle" />
 
 <p>
-<tal:block condition="user">
-	This camp is organized by <tal:block content="user/getDisplayName" />
+<tal:block condition="owner">
+	This camp is organized by <tal:block content="owner/getDisplayName" />
 </tal:block>
 
 <tal:block condition="group">

@@ -82,7 +82,7 @@ class CampController extends \Controller\BaseController
 	    /* load user */
 	    $userid = $this->getRequest()->getParam("user");
 	    $this->user = $userid ? $this->em->getRepository("Entity\User")->find($userid) : null;
-	    $this->view->user = $this->user;
+	    $this->view->owner = $this->user;
 	    
 
 	    $this->setNavigation(new \Navigation\Camp($this->camp));

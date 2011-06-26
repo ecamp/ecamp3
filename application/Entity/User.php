@@ -257,6 +257,7 @@ class User extends BaseEntity
 	
 	public function getUsergroups(){ return $this->userGroups; }
 	
+	public function getMyCamps(){ return $this->mycamps; }
 
 	public function getDisplayName()
 	{

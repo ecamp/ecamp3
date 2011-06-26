@@ -265,3 +265,21 @@ form ul.errors li{
 	height:120px;
 }
 
+/** User site */
+.user_logo{
+	float:left;
+	margin-right:5px;
+	position:relative;
+	top:7px;
+}
+
+.user_header{
+    font-weight:bold;
+    font-size:13pt;
+}
+
+.user_breadcrumb{
+   font-style:italic;
+    margin-bottom:10px;
+}
+

@@ -2,7 +2,7 @@
 
 <div class="span-24 last">
     <h2 tal:content="event/getTitle">All Events</h2>
-	<a class="button" tal:attributes="href helper:thisurl(array('action' => 'show', 'group' => group.getId(), 'camp' => camp.getId(), 'id' => event.getId() ), 'group+camp+id')">
+	<a class="button" tal:attributes="href helper:campurl(camp, array('action' => 'show', 'id' => event.getId() ), 'camp+id')">
 		Switch to guest view
 	</a>
 	

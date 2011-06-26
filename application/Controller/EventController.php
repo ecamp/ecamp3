@@ -52,6 +52,10 @@ class EventController extends \Controller\BaseController
 	    $this->group = $this->em->getRepository("Entity\Group")->find($groupid);
 	    $this->view->group = $this->group;
 		
+		 /* load user */
+	    $userid = $this->getRequest()->getParam("user");
+	    $this->user = $userid ? $this->em->getRepository("Entity\User")->find($userid) : null;
+	    $this->view->owner = $this->user;
 
 	    $this->setNavigation(new \Navigation\Camp($this->camp));
 

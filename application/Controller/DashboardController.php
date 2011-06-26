@@ -26,7 +26,12 @@ class DashboardController extends \Controller\BaseController
      * @Inject Service\UserService
      */
 	private $userService;
-	
+		
+	/**
+	 * @var Service\CampService
+	 * @Inject Service\CampService
+	 */
+	private $campService;
 	
 	/**
 	 * @var Repository\UserRepository
@@ -62,7 +67,52 @@ class DashboardController extends \Controller\BaseController
 		$this->view->membershipInvitations = new Doctrine\Common\Collections\ArrayCollection($membershipInvitations);
     }
 	
-	public function campsAction() {}
+	public function campsAction(){
+	}
+
+	public function deletecampAction(){
+		$id = $this->getRequest()->getParam("id");
+	    $camp = $this->em->getRepository("Entity\Camp")->find($id);
+		
+	    $this->em->remove($camp);
+		$this->em->flush();
+
+		$this->_helper->getHelper('Redirector')->gotoRoute(array('action'=>'camps'));
+	}
+
+	public function newcampAction(){
+		$form = new \Form\Camp();
+		
+		$form->setDefaults($this->getRequest()->getParams());
+
+		$this->view->form = $form;
+	}
+
+	public function createcampAction()
+	{
+		$form = new \Form\Camp();
+		$params = $this->getRequest()->getParams();
+		
+		if(!$form->isValid($params))
+		{
+			$this->view->form = $form;
+			$this->render("newcamp");
+			return;
+		}
+		
+		try 
+		{
+			$this->campService->CreateCampForUser($this->me, $params);
+			$this->_helper->getHelper('Redirector')->gotoRoute(array('action'=>'camps'));
+		}
+		catch(Exception $e)
+		{
+			$form->getElement("name")->addError("Name has already been taken.");
+			
+			$this->view->form = $form;
+			$this->render("newcamp");
+		}
+	}
 	
 	public function friendsAction() {
 		/** load friends */
