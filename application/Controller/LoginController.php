@@ -57,13 +57,26 @@ class LoginController
 
         if($this->checkLogin($loginForm->getValues()))
         {
-            $this->_forward('index', 'dashboard');
+        	$redirectUrl = $this->getRequest()->getParam('redirect', "");
+
+        	// @todo: is the url valid/routable??
+        	
+        	$this->_redirect($redirectUrl);
+        	exit;
         }
         else
-        {
-            $this->_forward('index');
-        }
+        {	$this->_forward('index');	}
 
+	}
+	
+	public function bypassAction()
+	{
+		$user = $this->userRepository->find($this->getRequest()->getParam('user'));
+		$authAdapter = new \Logic\Auth\Bypass($user);
+        	$result = Zend_Auth::getInstance()->authenticate($authAdapter);
+	
+        $this->_redirect("");
+		exit;
 	}
 
 
@@ -72,12 +85,13 @@ class LoginController
         \Zend_Auth::getInstance()->clearIdentity();
 
 		$this->_redirect("login");
+		exit;
 	}
 
 
     protected function checkLogin($values)
     {
-        $authAdapter = new \Service\Auth\Adapter($values['login'], $values['password']);
+        $authAdapter = new \Logic\Auth\Adapter($values['login'], $values['password']);
         $result = Zend_Auth::getInstance()->authenticate($authAdapter);
 
         $this->view->message = $result->getMessages();
@@ -87,15 +101,6 @@ class LoginController
 
         return false;
     }
-	
-	public function bypassAction()
-	{
-		$user = $this->userRepository->find($this->getRequest()->getParam('user'));
-		$authAdapter = new \Service\Auth\Bypass($user);
-        	$result = Zend_Auth::getInstance()->authenticate($authAdapter);
-	
-		$this->_forward('index', 'dashboard');
-	}
 
     
 

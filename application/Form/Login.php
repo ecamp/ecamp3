@@ -36,9 +36,11 @@ class Login extends \Ztal_Form
 		$submit = new \Zend_Form_Element_Submit('submit');
 		$submit->setLabel('Login');
 
+		$redirect = new \Zend_Form_Element_Hidden('redirect');
 
 		$this->addElement($login);
 		$this->addElement($password);
 		$this->addElement($submit);
+		$this->addElement($redirect);
 	}
 }

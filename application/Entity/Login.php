@@ -51,7 +51,7 @@ class Login extends BaseEntity
 
 	
 	/**
-	 * @var \Models\User
+	 * @var \Entity\User
 	 * @OneToOne(targetEntity="Entity\User", mappedBy="login")
 	 * @JoinColumn(name="user_id", referencedColumnName="id")
 	 */

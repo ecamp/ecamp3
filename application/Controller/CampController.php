@@ -92,10 +92,12 @@ class CampController extends \Controller\BaseController
 		$event = new \Plugin\StrategyEventListener($this->view, $this->em);
 		$this->em->getEventManager()->addEventSubscriber($event);
 	}
+	
 
-	
 	public function showAction()
-	{}
-	
+	{
+		
+	}
+
 }
 

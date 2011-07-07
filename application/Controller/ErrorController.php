@@ -18,6 +18,9 @@
  * along with eCamp.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/**
+ * @Allow User Admin
+ */
 class ErrorController extends \Controller\BaseController
 {
 

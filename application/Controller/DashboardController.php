@@ -21,12 +21,13 @@
 
 class DashboardController extends \Controller\BaseController
 {
+	
 	/**
      * @var Service\UserService
      * @Inject Service\UserService
      */
 	private $userService;
-		
+	
 	/**
 	 * @var Service\CampService
 	 * @Inject Service\CampService
@@ -67,8 +68,8 @@ class DashboardController extends \Controller\BaseController
 		$this->view->membershipInvitations = new Doctrine\Common\Collections\ArrayCollection($membershipInvitations);
     }
 	
-	public function campsAction(){
-	}
+	public function campsAction()
+	{}
 
 	public function deletecampAction(){
 		$id = $this->getRequest()->getParam("id");

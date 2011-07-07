@@ -99,9 +99,9 @@ class LeaderController extends \Controller\BaseController
 	
 	public function indexAction()
 	{
-		$this->view->managers = $this->camp->getUsercamps()->filter(UserCamp::RoleFilter(UserCamp::ROLE_MANAGER));		
-		$this->view->leaders  = $this->camp->getUsercamps()->filter(UserCamp::RoleFilter(UserCamp::ROLE_NORMAL));
-		$this->view->guests   = $this->camp->getUsercamps()->filter(UserCamp::RoleFilter(UserCamp::ROLE_GUEST));
+		$this->view->managers = array();	//$this->camp->getUsercamps()->filter(UserCamp::RoleFilter(UserCamp::ROLE_MANAGER));		
+		$this->view->leaders  = array();	//$this->camp->getUsercamps()->filter(UserCamp::RoleFilter(UserCamp::ROLE_NORMAL));
+		$this->view->guests   = array();	//$this->camp->getUsercamps()->filter(UserCamp::RoleFilter(UserCamp::ROLE_GUEST));
 	}
 	
 }

@@ -32,6 +32,7 @@ class User extends BaseEntity
 	const STATE_ACTIVATED  		= "Activated";
 	const STATE_DELETED			= "Deleted";
 
+	const ROLE_ANONYMOUS		= "Anonymous";
 	const ROLE_USER				= "User";
 	const ROLE_ADMIN			= "Admin";
 	
