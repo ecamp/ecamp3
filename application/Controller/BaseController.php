@@ -59,19 +59,27 @@ class BaseController extends \Zend_Controller_Action
 		/* clone request params for debugging */
 		$this->view->params = $this->getRequest()->getParams();
 
+		
         
-        if(\Zend_Auth::getInstance()->hasIdentity())
-        {
-            $loginId = \Zend_Auth::getInstance()->getIdentity();
-
-            /** @var $login \Entity\Login */
-            $login = $this->em->getRepository("Entity\Login")->find($loginId);
-            if( isset($login) )
-            {
-                $this->me = $login->getUser();
-                $this->view->me = $this->me;
-            }
-        }
+		if($user = \Logic\Auth\Plugin::getAuthenticatedUser())
+		{
+			$this->me = $user;
+			$this->view->me = $user;
+		}
+		
+		
+//        if(\Zend_Auth::getInstance()->hasIdentity())
+//        {
+//            $loginId = \Zend_Auth::getInstance()->getIdentity();
+//
+//            /** @var $login \Entity\Login */
+//            $login = $this->em->getRepository("Entity\Login")->find($loginId);
+//            if( isset($login) )
+//            {
+//                $this->me = $login->getUser();
+//                $this->view->me = $this->me;
+//            }
+//        }
 
 
 
@@ -80,6 +88,21 @@ class BaseController extends \Zend_Controller_Action
 		$this->t = new \Zend_View_Helper_Translate();
 	}
 	
+	
+	
+	public function __preDispatch()
+	{
+		$userAcl = \Zend_Registry::get('userAcl');
+		
+		$action = $this->getRequest()->getActionName();
+		
+		$userAcl->registerController($this);
+		$userAcl->registerAction($this, $action);
+		
+		
+		if(! $userAcl->getAcl()->isAllowed($this->me->getRole(), $action))
+		{	die("not allowed");	}
+	}
 	
 	
 	public function postDispatch()
@@ -94,4 +117,7 @@ class BaseController extends \Zend_Controller_Action
 	{
 		$this->view->getHelper('navigation')->setContainer($navigation);
 	}
+	
+	
+	
 }

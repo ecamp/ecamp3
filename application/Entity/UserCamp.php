@@ -29,15 +29,10 @@ namespace Entity;
  */
 class UserCamp extends BaseEntity
 {	
-	const ROLE_NONE    = 0;
-	const ROLE_GUEST   = 10;
-	const ROLE_NORMAL  = 50;
-	const ROLE_MANAGER = 90;
-	const ROLE_OWNER   = 100;
 	
 	public function __construct($user = null, $camp = null)
     {
-		$this->role  = self::ROLE_NONE;
+		$this->aclRole  = null;
 		$this->user  = $user;
 		$this->camp = $camp;
 		
@@ -65,16 +60,17 @@ class UserCamp extends BaseEntity
 	 */
 	private $camp;
 	
-	/** 
-	 * The role, a user currently have in this camp
-	 * @Column(type="integer") 
+	/**
+	 * @ManyToOne(targetEntity="AclRole")
+	 * @JoinColumn(nullable=true)
 	 */
-	private $role;
+	private $aclRole;
 	
 	/** 
 	 * The role, a user requested or was invited to have in this camp
 	 * null = no open request
-	 * @Column(type="integer", nullable=true) 
+ 	 * @ManyToOne(targetEntity="AclRole")
+	 * @JoinColumn(nullable=true)
 	 */
 	private $requestedRole;
 	
@@ -96,13 +92,13 @@ class UserCamp extends BaseEntity
 
 	public function getId(){ return $this->id; }
 
-	public function setCamp(Camp $camp){ $this->camp = $camp; }
-	public function getCamp()          { return $this->camp; }
+	public function setCamp(Camp $camp)	{ $this->camp = $camp; }
+	public function getCamp()			{ return $this->camp; }
 
-	public function setUser(User $user){ $this->user = $user; }
-	public function getUser()          { return $this->user; }
+	public function setUser(User $user)	{ $this->user = $user; }
+	public function getUser()			{ return $this->user; }
 	
-	public function getRole()          { return $this->role; }
+	public function getAclRole()		{ return $this->aclRole; }
 	
 	public function getRequestedRole() { return $this->requestedRole; }
 	public function setRequestedRole($role) { $this->requestedRole = $role; return $this; }
@@ -110,7 +106,7 @@ class UserCamp extends BaseEntity
 	/** True if the role is member or manager */
 	public function isMember()
 	{
-		return $this->role != self::ROLE_NONE;
+		return !is_null($this->aclRole);
 	}
 	
 	/** True if the request/invitation is still open */
@@ -159,18 +155,18 @@ class UserCamp extends BaseEntity
 	
 	private function accept()
 	{
-		$this->role = $this->requestedRole;
+		$this->aclRole = $this->requestedRole;
 		$this->requestedRole = null;
 		return $this;
 	}
 	
 	
-	public static function RoleFilter($role)
+	public static function RoleFilter(AclRole $role)
 	{
 		return 
 		function (UserCamp $usercamp) use ($role)
 		{
-			return $usercamp->getRole() == $role;
+			return $usercamp->getAclRole() == $role;
 		};
 	}
 }

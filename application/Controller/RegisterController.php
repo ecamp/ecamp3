@@ -26,14 +26,14 @@ class RegisterController
 
 	/**
 	 * @var \Doctrine\ORM\EntityRepository
-	 * @Inject UserRepository
+	 * @Inject \Repository\UserRepository
 	 */
 	private $userRepository;
 
 
 	/**
 	 * @var \Service\UserService
-	 * @Inject Service\UserService
+	 * @Inject \Service\UserService
 	 */
 	private $userService;
 

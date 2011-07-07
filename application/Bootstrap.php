@@ -106,6 +106,18 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 		Zend_Layout::startMvc(array('layoutPath' => APPLICATION_PATH . '/layouts/scripts'));
 	}
 
+	protected function _initAccessControlLists()
+	{
+		$authPlugin = \Logic\Auth\Plugin::getInstance();
+		Zend_Controller_Front::getInstance()->registerPlugin($authPlugin);
+		
+		$userAcl = new \Logic\Acl\UserPlugin();
+		Zend_Controller_Front::getInstance()->registerPlugin($userAcl);
+		
+		$campAcl = new \Logic\Acl\CampPlugin();
+		Zend_Controller_Front::getInstance()->registerPlugin($campAcl);
+	}
+	
 	protected function _initRoutes()
 	{
 		

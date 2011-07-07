@@ -33,6 +33,7 @@ class Camp extends BaseEntity
     {
 		$this->userCamps = new \Doctrine\Common\Collections\ArrayCollection();
 		$this->events    = new \Doctrine\Common\Collections\ArrayCollection();
+		$this->aclRoles	 = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
 	/**
@@ -79,6 +80,12 @@ class Camp extends BaseEntity
 
 	/**
 	 * @var \Doctrine\Common\Collections\ArrayCollection
+	 * @OneToMany(targetEntity="Entity\AclRole", mappedBy="camp", cascade={"all"}, orphanRemoval=true)
+	 */
+	private $aclRoles;
+	
+	/**
+	 * @var \Doctrine\Common\Collections\ArrayCollection
 	 * @OneToMany(targetEntity="Entity\UserCamp", mappedBy="camp")
 	 */
 	private $usercamps;
@@ -110,6 +117,8 @@ class Camp extends BaseEntity
 
 	public function setOwner(User $owner){ $this->group = null; $this->owner = $owner; }
 	public function getOwner()            { return $this->owner; }
+	
+	public function getAclRoles()	{	return $this->aclRoles;	}
 	
 	public function belongsToUser()
 	{

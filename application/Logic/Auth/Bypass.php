@@ -7,29 +7,27 @@
  * To change this template use File | Settings | File Templates.
  */
 
-namespace Service\Auth;
+namespace Logic\Auth;
 
-class Adapter
+class Bypass
     implements \Zend_Auth_Adapter_Interface
 {
 
     const NOT_FOUND_MESSAGE 	= 'Unknown login!';
     const CREDINTIALS_MESSAGE 	= 'Wrong Password!';
     const NOT_ACTIVATED_MESSAGE = 'Account is not yet activated!';
-    const UNKNOWN_FAILURE 		= 'Unknown error!';
+    const UNKNOWN_FAILURE 	= 'Unknown error!';
 
     private $em;
 
-    private $login;
-    private $password;
+    private $user;
 
 
-    public function __construct($login, $password)
+    public function __construct($user)
     {
         $this->em = \Zend_Registry::get('doctrine')->getEntityManager();
 
-        $this->login = $login;
-        $this->password = $password;
+        $this->user = $user;
     }
 
     /**
@@ -40,15 +38,8 @@ class Adapter
      */
     public function authenticate()
     {
-        $mailValidator = new \Zend_Validate_EmailAddress();
-
-        /** @var $user \Entity\User */
-        if($mailValidator->isValid($this->login))
-        {	$user = $this->em->getRepository('Entity\User')->findOneBy(array('email' => $this->login));	}
-        else
-        {	$user = $this->em->getRepository('Entity\User')->findOneBy(array('username' => $this->login));	}
-
-
+		$user = $this->user;
+  
         // User Not Found:
         if(is_null($user))
         {
@@ -60,7 +51,7 @@ class Adapter
 
 
         // User Not Activated:
-        if($user->getState() != \Entity\User::STATE_ACTIVATED || is_null($user->getLogin()))
+        if($user->getState() != \Entity\User::STATE_ACTIVATED)
         {
             return $this->authResult(
                 \Zend_Auth_Result::FAILURE_IDENTITY_AMBIGUOUS,
@@ -68,20 +59,8 @@ class Adapter
             );
         }
 
-
-        // User with wrong Password:
-        if(!$user->getLogin()->checkPassword($this->password))
-        {
-            return $this->authResult(
-                \Zend_Auth_Result::FAILURE_CREDENTIAL_INVALID,
-                self::CREDINTIALS_MESSAGE
-            );
-        }
-
-
         // Successful logged in:
-        $this->login = $user->getLogin()->getId();
-
+        $this->user = $this->user->getId();
         return $this->authResult(\Zend_Auth_Result::SUCCESS);
     }
 
@@ -98,6 +77,6 @@ class Adapter
         if( !is_array( $messages ) )
         {	$messages = array($messages);	}
 
-		return new \Zend_Auth_Result($code, $this->login, $messages);
+		return new \Zend_Auth_Result($code, $this->user, $messages);
     }
 }

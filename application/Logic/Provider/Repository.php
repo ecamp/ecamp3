@@ -41,4 +41,10 @@ class Repository
 
 		return $em->getRepository($this->entityName);
 	}
+	
+	public static function Get($entityName)
+	{
+		$provider = new self($entityName);
+		return $provider->Create();
+	}
 }

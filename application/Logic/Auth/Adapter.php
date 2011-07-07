@@ -7,27 +7,30 @@
  * To change this template use File | Settings | File Templates.
  */
 
-namespace Service\Auth;
+namespace Logic\Auth;
 
-class Bypass
+class Adapter
     implements \Zend_Auth_Adapter_Interface
 {
 
     const NOT_FOUND_MESSAGE 	= 'Unknown login!';
     const CREDINTIALS_MESSAGE 	= 'Wrong Password!';
     const NOT_ACTIVATED_MESSAGE = 'Account is not yet activated!';
-    const UNKNOWN_FAILURE 	= 'Unknown error!';
+    const UNKNOWN_FAILURE 		= 'Unknown error!';
 
     private $em;
 
+    private $login;
+    private $password;
+	
     private $user;
 
-
-    public function __construct($user)
+    public function __construct($login, $password)
     {
         $this->em = \Zend_Registry::get('doctrine')->getEntityManager();
 
-        $this->user = $user;
+        $this->login = $login;
+        $this->password = $password;
     }
 
     /**
@@ -38,10 +41,17 @@ class Bypass
      */
     public function authenticate()
     {
-	$user = $this->user;
-  
+        $mailValidator = new \Zend_Validate_EmailAddress();
+
+        /** @var $user \Entity\User */
+        if($mailValidator->isValid($this->login))
+        {	$this->user = $this->em->getRepository('Entity\User')->findOneBy(array('email' => $this->login));	}
+        else
+        {	$this->user = $this->em->getRepository('Entity\User')->findOneBy(array('username' => $this->login));	}
+
+
         // User Not Found:
-        if(is_null($user))
+        if(is_null($this->user))
         {
             return $this->authResult(
                 \Zend_Auth_Result::FAILURE_IDENTITY_NOT_FOUND,
@@ -51,7 +61,7 @@ class Bypass
 
 
         // User Not Activated:
-        if($user->getState() != \Entity\User::STATE_ACTIVATED || is_null($user->getLogin()))
+        if($this->user->getState() != \Entity\User::STATE_ACTIVATED || is_null($this->user->getLogin()))
         {
             return $this->authResult(
                 \Zend_Auth_Result::FAILURE_IDENTITY_AMBIGUOUS,
@@ -59,8 +69,19 @@ class Bypass
             );
         }
 
+
+        // User with wrong Password:
+        if(!$this->user->getLogin()->checkPassword($this->password))
+        {
+            return $this->authResult(
+                \Zend_Auth_Result::FAILURE_CREDENTIAL_INVALID,
+                self::CREDINTIALS_MESSAGE
+            );
+        }
+
+
         // Successful logged in:
-        $this->login = $user->getLogin()->getId();
+        $this->user = $this->user->getId();
 
         return $this->authResult(\Zend_Auth_Result::SUCCESS);
     }
@@ -78,6 +99,6 @@ class Bypass
         if( !is_array( $messages ) )
         {	$messages = array($messages);	}
 
-		return new \Zend_Auth_Result($code, $this->login, $messages);
+		return new \Zend_Auth_Result($code, $this->user, $messages);
     }
 }
