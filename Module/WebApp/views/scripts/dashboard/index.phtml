@@ -19,7 +19,7 @@
 			<tal:block repeat="user friendshipRequests">
 		
 				 <a tal:attributes="href helper:url(array('user' => user.getId()), 'user')" class="span-2">
-					<img width="46" height="46" tal:attributes="src helper:url(array('controller' => 'avatar', 'action' => 'user', 'user' => user.getId(), 'size' =>32), 'general')" /><br />
+					<img width="46" height="46" tal:attributes="src helper:url(array('controller' => 'avatar', 'action' => 'user', 'id' => user.getId(), 'size' =>32), 'general')" /><br />
 				 </a>
 				 
 				 <div class="span-7 last">
