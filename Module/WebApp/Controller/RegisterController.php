@@ -20,8 +20,8 @@
  *
  */
  
-class RegisterController
-	extends \Controller\BaseController
+class WebApp_RegisterController
+	extends \WebApp\Controller\BaseController
 {
 
 	/**

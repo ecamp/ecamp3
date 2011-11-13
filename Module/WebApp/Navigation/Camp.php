@@ -1,6 +1,6 @@
 <?php
 
-namespace Navigation;
+namespace WebApp\Navigation;
 
 
 class Camp extends \Zend_Navigation

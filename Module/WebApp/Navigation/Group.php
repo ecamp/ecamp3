@@ -1,6 +1,6 @@
 <?php
 
-namespace Navigation;
+namespace WebApp\Navigation;
 
 
 class Group extends \Zend_Navigation

@@ -20,6 +20,14 @@
 
 class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 {
+	public function _initModuleDirectory()
+	{
+	
+		$front = \Zend_Controller_Front::getInstance();
+		$front->addModuleDirectory(APPLICATION_PATH . "/../Module/");
+	
+		//$this->bootstrap('modules');
+	}
 	
 	/**
 	 * @return void
@@ -32,6 +40,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 		
 		$navigationAutoloader = new \Doctrine\Common\ClassLoader(null, APPLICATION_PATH);
 		$autoloader->pushAutoloader(array($navigationAutoloader, 'loadClass'));
+		
     }
 	
     
@@ -68,20 +77,6 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 		Zend_Registry::set("kernel", $kernel);
 	}
 
-	/**
-	 * Override the default Zend_View with Ztal support and configure defaults.
-	 *
-	 * @return void
-	 */
-	protected function _initZtal()
-	{
-		//configure an autoload prefix for Ztal
-		Zend_Loader_Autoloader::getInstance()->registerNamespace('Ztal');
-		
-		//register the Ztal plugin
-		$plugin = new Ztal_Controller_Plugin_Ztal($this->getOption('ztal'));
-		Zend_Controller_Front::getInstance()->registerPlugin($plugin);
-	}
 
 	/**
 	 * Basic setup of module support and layout support.
@@ -92,153 +87,6 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 	{
 		// Set the timezone default
 		date_default_timezone_set('Europe/Zurich');
-
-		// Configure the app namespace
-		$this->setAppNamespace('Application');
-
-		// create the app space autoloader
-		new Zend_Application_Module_Autoloader(array(
-			'basePath' => APPLICATION_PATH,
-			'namespace' => 'Application',));
-
-
-		//configure zend_layout
-		Zend_Layout::startMvc(array('layoutPath' => APPLICATION_PATH . '/layouts/scripts'));
-	}
-
-	protected function _initRoutes()
-	{
-		
-		/* general */
-		Zend_Controller_Front::getInstance()->getRouter()->addRoute(
-			'general', new Zend_Controller_Router_Route(':controller/:action/*',
-			array('controller' => 'dashboard', 'action' => 'index')));
-
-		Zend_Controller_Front::getInstance()->getRouter()->addRoute(
-			'general+id', new Zend_Controller_Router_Route(':controller/:action/:id/*',
-			array('controller' => 'dashboard', 'action' => 'index'),
-			array('id' => '\d+')));
-				
-		/* user */
-		Zend_Controller_Front::getInstance()->getRouter()->addRoute(
-			'user', new Ecamp\Route\Vanity('user/:user/:action/*',
-				array('controller' => 'user','action' => 'show')));
-				
-		Zend_Controller_Front::getInstance()->getRouter()->addRoute(
-			'user+id', new Ecamp\Route\Vanity('user/:user/:action/:id/*',
-				array('controller' => 'user','action' => 'show'),
-				array('id' => '\d+')));
-		
-		/* user camp */
-		Zend_Controller_Front::getInstance()->getRouter()->addRoute(
-			'user+camp', new Ecamp\Route\Vanity('user/:user/:camp/:controller/:action/*',
-				array('controller' => 'camp','action' => 'show')));
-				
-		Zend_Controller_Front::getInstance()->getRouter()->addRoute(
-			'user+camp+id', new Ecamp\Route\Vanity('user/:user/:camp/:controller/:action/:id/*',
-				array('controller' => 'camp','action' => 'show'),
-				array('id' => '\d+')));
-				
-		/* group */
-		Zend_Controller_Front::getInstance()->getRouter()->addRoute(
-			'group', new Ecamp\Route\Vanity('group/:group/:action/*',
-				array('controller' => 'group','action' => 'show')));
-				
-		Zend_Controller_Front::getInstance()->getRouter()->addRoute(
-			'group+id', new Ecamp\Route\Vanity('group/:group/:action/:id/*',
-				array('controller' => 'group','action' => 'show'),
-				array('id' => '\d+')));
-				
-		/* group camp */
-		Zend_Controller_Front::getInstance()->getRouter()->addRoute(
-			'group+camp', new Ecamp\Route\Vanity('group/:group/:camp/:controller/:action/*',
-				array('controller' => 'camp','action' => 'show')));
-				
-		Zend_Controller_Front::getInstance()->getRouter()->addRoute(
-			'group+camp+id', new Ecamp\Route\Vanity('group/:group/:camp/:controller/:action/:id/*',
-				array('controller' => 'camp','action' => 'show'),
-				array('id' => '\d+')));
-				
-		/* TODO: quick camp url */
-	}
-
-	/**
-	 * Init translation services and locale.
-	 *
-	 * @return void
-	 */
-	protected function _initTranslationService()
-	{
-		// Build the path for the languages folder in the current module
-		$languagesPath = APPLICATION_PATH . '/languages';
-
-		// Setup a cache
-		$frontendOptions = array();
-		$backendOptions = array();
-
-		$frontendOptions['automatic_serialization'] = true;
-		$frontendOptions['lifetime'] = '604800';
-		$frontendOptions['write_control'] = false;
-		$frontendOptions['master_files'] = array($languagesPath . '/en/default.mo');
-
-		$backendOptions['cache_dir'] = APPLICATION_PATH . '/../tmp/';
-		$backendOptions['hashed_directory_level'] = 1;
-
-		$cache = Zend_Cache::factory('File', 'File', $frontendOptions, $backendOptions);
-
-		Zend_Translate::setCache($cache);
-		Zend_Locale::setCache($cache);
-
-		// Create the translators
-		$translator_en = new Zend_Translate(array(
-			'adapter' => 'gettext',
-			'content' => $languagesPath . '/en/default.mo',
-			'locale'  => 'en'));
-
-		$translator_de = new Zend_Translate(array(
-			'adapter' => 'gettext',
-			'content' => $languagesPath . '/de/default.mo',
-			'locale'  => 'de'));
-
-		// Register the translator for system-wide use based on browser settings
-		// TODO: change to user settings later
-		$locale = new Zend_Locale();
-		switch($locale->getLanguage())
-		{
-			case 'de':
-				Zend_Registry::set('Zend_Translate', $translator_de);
-				break;
-			default:
-				Zend_Registry::set('Zend_Translate', $translator_en);
-				break;
-		}
-		
-		// Register the locale for system-wide use
-		Zend_Registry::set('Zend_Locale', new Zend_Locale($locale->getRegion()));
-	}
-
-	protected function _initView()
-	{
-		$view = new Zend_View();
-
-		$view->setEncoding('UTF-8');
-		$view->doctype('XHTML1_STRICT');
-		$view->headMeta()->appendHttpEquiv('Content-Type', 'text/html;charset=utf-8');
-
-		$view->headLink()->appendStylesheet('/css/blueprint/screen.css', 'screen, projection');
-		$view->headLink()->appendStylesheet('/css/blueprint/ie.css', 'screen, projection', 'lt IE 8');
-		$view->headLink()->appendStylesheet('/css/blueprint/print.css', 'print');
-
-		$view->headLink()->appendStylesheet('/css/blueprint/plugins/fancy-type/screen.css', 'screen, projection');
-		$view->headLink()->appendStylesheet('/css/blueprint/plugins/buttons/screen.css', 'screen, projection');
-		
-		$view->headLink()->appendStylesheet('/css/main.css');
-
-
-		$viewRenderer = Zend_Controller_Action_HelperBroker::getStaticHelper('ViewRenderer');
-		$viewRenderer->setView($view);
-
-		return $view;
 	}
 }
 
