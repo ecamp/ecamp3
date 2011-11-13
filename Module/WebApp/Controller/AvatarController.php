@@ -18,7 +18,7 @@
  * along with eCamp.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-class AvatarController extends \Zend_Controller_Action
+class WebApp_AvatarController extends \Zend_Controller_Action
 {
 	/**
 	 * @var \Doctrine\ORM\EntityManager
@@ -37,7 +37,7 @@ class AvatarController extends \Zend_Controller_Action
 		$this->_helper->layout()->disableLayout();
 		$this->_helper->viewRenderer->setNoRender(true);
 
-		$id = $this->getRequest()->getParam("user");
+		$id = $this->getRequest()->getParam("id");
 		$user = $this->em->getRepository("Entity\User")->find($id);
 
 		if( $user->getImageData() == null ) {

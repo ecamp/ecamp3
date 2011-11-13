@@ -21,7 +21,7 @@
 
 use \Entity\UserCamp;
 
-class LeaderController extends \Controller\BaseController
+class WebApp_LeaderController extends \WebApp\Controller\BaseController
 {
 	/**
 	 * @var \Entity\Repository\CampRepository
@@ -87,7 +87,7 @@ class LeaderController extends \Controller\BaseController
 	    $this->view->owner = $this->owner;
 	    
 	    
-	    $this->setNavigation(new \Navigation\Camp($this->camp));
+	    $this->setNavigation(new \WebApp\Navigation\Camp($this->camp));
 	    
 		
 		/* move this to bootsrap */

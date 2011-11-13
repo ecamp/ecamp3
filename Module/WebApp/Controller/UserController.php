@@ -18,7 +18,7 @@
  * along with eCamp.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-class UserController extends \Controller\BaseController
+class WebApp_UserController extends \WebApp\Controller\BaseController
 {
 	
 	/**

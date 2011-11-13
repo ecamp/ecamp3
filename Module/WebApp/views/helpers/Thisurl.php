@@ -1,6 +1,6 @@
 <?php
 
-namespace Application\View\Helper;
+namespace WebApp\View\Helper;
 
 class Thisurl extends \Zend_View_Helper_Abstract
 {

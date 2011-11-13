@@ -1,6 +1,6 @@
 <?php
 
-namespace Navigation;
+namespace WebApp\Navigation;
 
 
 class Dashboard extends \Zend_Navigation

@@ -47,7 +47,7 @@
  *
  */
 
-namespace Application\View\Helper;
+namespace WebApp\View\Helper;
 
 class FlashMessenger extends \Zend_View_Helper_Abstract
 {

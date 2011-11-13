@@ -19,7 +19,7 @@
  */
 
 
-class GroupController extends \Controller\BaseController
+class WebApp_GroupController extends \WebApp\Controller\BaseController
 {
 	
 	/**
@@ -58,7 +58,7 @@ class GroupController extends \Controller\BaseController
 	    $this->view->group = $this->group;
 
 
-	    $this->setNavigation(new \Navigation\Group($this->group));
+	    $this->setNavigation(new \WebApp\Navigation\Group($this->group));
     }
 
     public function showAction()
