@@ -44,7 +44,7 @@ class BaseController extends \Zend_Controller_Action
 	
 	public function init()
 	{
-		$this->view->addHelperPath(APPLICATION_PATH . '/../Module/Webapp/views/helpers', 'WebApp\View\Helper\\');
+		$this->view->addHelperPath(APPLICATION_PATH . '/../Module/WebApp/views/helpers', 'WebApp\View\Helper\\');
 		$this->view->addHelperPath('ZendX/JQuery/View/Helper', 'ZendX_JQuery_View_Helper');
 
 // 		$this->view->jQuery()->setLocalPath('/js/jquery-1.5.1.min.js');
