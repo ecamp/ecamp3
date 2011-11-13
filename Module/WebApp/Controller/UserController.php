@@ -23,7 +23,7 @@ class WebApp_UserController extends \WebApp\Controller\BaseController
 	
 	/**
 	 * @var \Repository\UserRepository
-	 * @Inject \Repository\UserRepository
+	 * @Inject UserRepository
 	 */
 	private $userRepository;
 
