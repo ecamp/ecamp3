@@ -28,7 +28,7 @@
 				
 				<nav tal:condition="exists: me">
 					<ul>
-						<li><a tal:attributes="href helper:url(array('user' => me.getId()), 'user')"><img id="avatar" width="16" height="16" tal:attributes="src helper:url(array('controller' => 'avatar', 'action' => 'user', 'user' => me.getId(), 'size' => 16), 'general')" /></a></li>
+						<li><a tal:attributes="href helper:url(array('user' => me.getId()), 'user')"><img id="avatar" width="16" height="16" tal:attributes="src helper:url(array('controller' => 'avatar', 'action' => 'user', 'id' => me.getId(), 'size' => 16), 'general')" /></a></li>
 						<li><a tal:attributes="href helper:url(array('user' => me.getId()), 'user')" tal:content="me/getUsername">username</a></li>
 						<li><a href="/">Dashboard</a></li>
 						<li><a href="#">Einstellungen</a></li>
