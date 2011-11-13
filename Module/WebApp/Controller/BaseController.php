@@ -54,6 +54,7 @@ class BaseController extends \Zend_Controller_Action
 		
 		$this->view->headScript()->appendFile('/js/jquery.form.js');
 
+		//die(print_r(\Zend_Registry::get('kernel')));
 		\Zend_Registry::get('kernel')->InjectDependencies($this);
 
 		/* clone request params for debugging */

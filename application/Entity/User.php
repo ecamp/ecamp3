@@ -21,7 +21,7 @@
 namespace Entity;
 
 /**
- * @Entity(repositoryClass="Repository\UserRepository")
+ * @Entity(repositoryClass="\Repository\UserRepository")
  * @Table(name="users")
  * 
  */
