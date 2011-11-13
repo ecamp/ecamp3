@@ -34,8 +34,8 @@ class WebApp_DashboardController extends \WebApp\Controller\BaseController
 	private $campService;
 	
 	/**
-	 * @var Repository\UserRepository
-	 * @Inject \Repository\UserRepository
+	 * @var \Repository\UserRepository
+	 * @Inject UserRepository
 	 */
 	private $userRepository;
 	

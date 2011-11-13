@@ -25,7 +25,7 @@ class WebApp_LoginController
 
 	/**
 	 * @var Repository\UserRepository
-	 * @Inject \Repository\UserRepository
+	 * @Inject UserRepository
 	 */
 	private $userRepository;
 
