@@ -1,6 +1,7 @@
 <?php
-/*
- * Copyright (C) 2011 Pirmin Mattmann
+/**
+ *
+ * Copyright (C) 2011 pirminmattmann
  *
  * This file is part of eCamp.
  *
@@ -16,21 +17,32 @@
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with eCamp.  If not, see <http://www.gnu.org/licenses/>.
+ *
  */
 
-class IndexController extends \Controller\BaseController
+
+
+class SearchController
+	extends \WebApp\Controller\BaseController
 {
 
-    public function init()
-    {
-	    Zend_Layout::getMvcInstance()->setLayout('layout');
+	/**
+	 * @var Service\SearchUserService
+	 * @Inject Service\SearchUserService
+	 */
+	private $searchUserService;
 
-	    parent::init();
-    }
 
-    public function indexAction()
-    {
-		$this->view->headTitle('Home');
-    }
+	public function searchuserAction()
+	{
+		$query = $this->getRequest()->getParam('query');
+
+		$users = $this->searchUserService->SearchForUser($query);
+
+
+		
+		$this->view->users = $users;
+
+	}
+
 }
-

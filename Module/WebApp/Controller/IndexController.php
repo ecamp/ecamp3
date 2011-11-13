@@ -18,23 +18,19 @@
  * along with eCamp.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-class ZendController extends \Controller\BaseController
+class IndexController extends \WebApp\Controller\BaseController
 {
 
     public function init()
     {
-		/**
-		 *  Change Layout to simple.phtml
-		 */
-		Zend_Layout::getMvcInstance()->setLayout('simple');
+	    Zend_Layout::getMvcInstance()->setLayout('layout');
+
+	    parent::init();
     }
 
-	
     public function indexAction()
     {
-        // action body
+		$this->view->headTitle('Home');
     }
-
-
 }
 

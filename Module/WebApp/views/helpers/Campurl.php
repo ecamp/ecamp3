@@ -1,6 +1,6 @@
 <?php
 
-namespace Application\View\Helper;
+namespace WebApp\View\Helper;
 
 class Campurl extends \Zend_View_Helper_Abstract
 {

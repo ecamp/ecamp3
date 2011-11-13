@@ -19,7 +19,7 @@
  */
 
 
-class CampController extends \Controller\BaseController
+class WebApp_CampController extends \WebApp\Controller\BaseController
 {
 	/**
 	 * @var \Entity\Repository\CampRepository
@@ -85,7 +85,7 @@ class CampController extends \Controller\BaseController
 	    $this->view->owner = $this->user;
 	    
 
-	    $this->setNavigation(new \Navigation\Camp($this->camp));
+	    $this->setNavigation(new \WebApp\Navigation\Camp($this->camp));
 
 		
 		/* move this to bootsrap */

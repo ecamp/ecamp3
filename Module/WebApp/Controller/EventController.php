@@ -18,7 +18,7 @@
  */
 
 
-class EventController extends \Controller\BaseController
+class WebApp_EventController extends \WebApp\Controller\BaseController
 {
 
     public function init()
@@ -57,7 +57,7 @@ class EventController extends \Controller\BaseController
 	    $this->user = $userid ? $this->em->getRepository("Entity\User")->find($userid) : null;
 	    $this->view->owner = $this->user;
 
-	    $this->setNavigation(new \Navigation\Camp($this->camp));
+	    $this->setNavigation(new \WebApp\Navigation\Camp($this->camp));
 
 		
 		/* move this to bootsrap */

@@ -19,8 +19,8 @@
  */
 
 
-class LoginController
-	extends \Controller\BaseController
+class WebApp_LoginController
+	extends WebApp\Controller\BaseController
 {
 
 	/**

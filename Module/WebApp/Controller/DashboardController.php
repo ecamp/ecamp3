@@ -19,7 +19,7 @@
  */
 
 
-class DashboardController extends \Controller\BaseController
+class WebApp_DashboardController extends \WebApp\Controller\BaseController
 {
 	/**
      * @var Service\UserService
@@ -50,7 +50,7 @@ class DashboardController extends \Controller\BaseController
 			return;
 		}
 
-		$this->setNavigation(new Navigation\Dashboard());
+		$this->setNavigation(new WebApp\Navigation\Dashboard());
 		$this->view->subnavi = $this->view->navigation()->menu()->renderMenu(NULL, array('onlyActiveBranch' => 1, 'renderParents' => 0,'minDepth'=> 1, 'maxDepth' => 2));
     }
 

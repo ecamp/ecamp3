@@ -1,6 +1,6 @@
 <?php
 
-namespace Application\View\Helper;
+namespace WebApp\View\Helper;
 
 /** display a confirm dialog box before following a link */
 class ConfirmDialog extends \Zend_View_Helper_Abstract
