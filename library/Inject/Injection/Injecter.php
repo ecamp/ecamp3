@@ -37,6 +37,7 @@ class Injecter
 					$reflectionDocCommentTag = $reflectionDocComment->getTag("Inject");
 
 					$dependencyName = $reflectionDocCommentTag->getDescription();
+					$dependencyName = trim($dependencyName);
 
 					$dependency = $this->kernel->Get($dependencyName);
 

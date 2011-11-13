@@ -19,7 +19,7 @@ class CampService
 	
 	/**
      * @var \Repository\UserRepository
-     * @Inject \Repository\UserRepository
+     * @Inject UserRepository
      */
     private $userRepo;
 

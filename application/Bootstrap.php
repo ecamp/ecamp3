@@ -65,7 +65,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 			->ToProvider(new Logic\Provider\Repository("Entity\Login"));
 
 		$kernel
-			->Bind("\Repository\UserRepository")
+			->Bind("UserRepository")
 			->ToProvider(new Logic\Provider\Repository("Entity\User"));
 
 		$kernel
@@ -75,6 +75,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 		$kernel->Bind("Service\UserService")->ToSelf()->AsSingleton();
 
 		Zend_Registry::set("kernel", $kernel);
+		
 	}
 
 
