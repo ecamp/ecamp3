@@ -32,8 +32,8 @@ class WebApp_RegisterController
 
 
 	/**
-	 * @var \Service\UserService
-	 * @Inject Service\UserService
+	 * @var \Core\Service\UserService
+	 * @Inject Core\Service\UserService
 	 */
 	private $userService;
 
@@ -48,7 +48,7 @@ class WebApp_RegisterController
 			/** @var $user \Entity\User */
 			$user = $this->userRepository->find($id);
 
-			if(!is_null($user) && $user->getState() == \Entity\User::STATE_NONREGISTERED)
+			if(!is_null($user) && $user->getState() == \Core\Entity\User::STATE_NONREGISTERED)
 			{
 				$registerForm->setDefault('email', 		$user->getEmail());
 				$registerForm->setDefault('scoutname', 	$user->getScoutname());
