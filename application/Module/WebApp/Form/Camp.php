@@ -18,7 +18,7 @@
  * along with eCamp.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Core\Form;
+namespace WebApp\Form;
 
 class Camp extends \Ztal_Form
 {

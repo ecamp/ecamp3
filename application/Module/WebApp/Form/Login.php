@@ -20,22 +20,25 @@
  *
  */
 
-namespace Core\Form;
+namespace WebApp\Form;
 
-class Search extends \Ztal_Form
+class Login extends \Ztal_Form
 {
+
 	public function init()
     {
-		$query = new \Zend_Form_Element_Text('query');
-		$query->setLabel('Suche:');
-		$query->addValidator(new \Zend_Validate_StringLength(array('min' => 3)));
-		
-		$submit = new \Zend_Form_Element_Submit('submit');
-		$submit->setLabel('Finden');
+		$login = new \Zend_Form_Element_Text('login');
+		$login->setLabel('Login:');
 
-		$this->addElement($query);
+		$password = new \Zend_Form_Element_Password('password');
+		$password->setLabel('Password:');
+
+		$submit = new \Zend_Form_Element_Submit('submit');
+		$submit->setLabel('Login');
+
+
+		$this->addElement($login);
+		$this->addElement($password);
 		$this->addElement($submit);
-		
-		$this->setMethod('get');
 	}
 }

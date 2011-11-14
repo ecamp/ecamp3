@@ -81,7 +81,7 @@ class WebApp_DashboardController extends \WebApp\Controller\BaseController
 	}
 
 	public function newcampAction(){
-		$form = new \Core\Form\Camp();
+		$form = new \WebApp\Form\Camp();
 		
 		$form->setDefaults($this->getRequest()->getParams());
 
@@ -90,7 +90,7 @@ class WebApp_DashboardController extends \WebApp\Controller\BaseController
 
 	public function createcampAction()
 	{
-		$form = new \Core\Form\Camp();
+		$form = new \WebApp\Form\Camp();
 		$params = $this->getRequest()->getParams();
 		
 		if(!$form->isValid($params))
