@@ -47,7 +47,15 @@ class WebApp_Bootstrap extends Zend_Application_Module_Bootstrap
 	Zend_Controller_Front::getInstance()->registerPlugin($plugin);
 	}	
 
-
+	/**
+	 * Load and configure error handler
+	 */
+	protected function _initErrorHandler()
+	{
+		$plugin = new Zend_Controller_Plugin_ErrorHandler();
+		$plugin->setErrorHandlerModule('WebApp');
+		Zend_Controller_Front::getInstance()->registerPlugin($plugin);
+	}
 
 	protected function _initRoutes()
 	{

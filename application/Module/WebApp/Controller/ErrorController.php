@@ -18,7 +18,7 @@
  * along with eCamp.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-class ErrorController extends Zend_Controller_Action
+class WebApp_ErrorController extends Zend_Controller_Action
 {
 
     public function errorAction()

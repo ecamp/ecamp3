@@ -20,7 +20,7 @@
  *
  */
 
-namespace Core\Form;
+namespace WebApp\Form;
 
 class Register extends \Ztal_Form
 {

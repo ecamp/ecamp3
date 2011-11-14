@@ -37,7 +37,7 @@ class WebApp_LoginController
 			$this->_forward('index', 'dashboard');
 		}
 
-		$loginForm = new \Core\Form\Login();
+		$loginForm = new \WebApp\Form\Login();
 		$loginForm->setAction("/login/login");
 		$loginForm->setDefaults($this->getRequest()->getParams());
 
@@ -49,7 +49,7 @@ class WebApp_LoginController
 
 	public function loginAction()
 	{
-		$loginForm = new \Core\Form\Login();
+		$loginForm = new \WebApp\Form\Login();
 
 		if(!$loginForm->isValid($this->getRequest()->getParams()))
 		{	$this->_forward('index');	}

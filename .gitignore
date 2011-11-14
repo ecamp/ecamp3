@@ -3,7 +3,7 @@
 tmp/*
 tmp/**/*
 
-application/Entity/Proxy/*
+application/Core/Entity/Proxy/*
 
 data/log/*
 data/log/**/*
