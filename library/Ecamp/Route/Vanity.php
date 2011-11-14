@@ -126,7 +126,7 @@ class Vanity extends \Zend_Controller_Router_Route
 				if ($name == "user" ) 
 				{
 					$this->em = \Zend_Registry::get('doctrine')->getEntityManager();
-					$user = $this->em->getRepository('Entity\User')->findOneBy(array("username" => $pathPart));
+					$user = $this->em->getRepository('Core\Entity\User')->findOneBy(array("username" => $pathPart));
 
 					if (! $user) {
 						return false;
@@ -136,7 +136,7 @@ class Vanity extends \Zend_Controller_Router_Route
 				} elseif ($name == "group") {
 					
 					$this->em = \Zend_Registry::get('doctrine')->getEntityManager();
-					$group = $this->em->getRepository('Entity\Group')->findOneBy(array("name" => $pathPart));
+					$group = $this->em->getRepository('Core\Entity\Group')->findOneBy(array("name" => $pathPart));
 					
 					$groupid = null;
 					
@@ -149,7 +149,7 @@ class Vanity extends \Zend_Controller_Router_Route
 							break;
 						}
 						
-						$group = $this->em->getRepository("Entity\Group")->findOneBy(array("name" => urldecode($path[$path_pos+1]), "parent" => $group->getId()));
+						$group = $this->em->getRepository("Core\Entity\Group")->findOneBy(array("name" => urldecode($path[$path_pos+1]), "parent" => $group->getId()));
 						
 						$path_pos++;
 					}
@@ -167,7 +167,7 @@ class Vanity extends \Zend_Controller_Router_Route
 					
 					if( isset($values["user"]) )
 					{
-						$camp = $this->em->getRepository("Entity\Camp")->findOneBy(array("owner" => $values["user"], "name" => $pathPart));
+						$camp = $this->em->getRepository("Core\Entity\Camp")->findOneBy(array("owner" => $values["user"], "name" => $pathPart));
 						
 						if (!$camp) {
 							return false;
@@ -177,7 +177,7 @@ class Vanity extends \Zend_Controller_Router_Route
 					}
 					elseif( isset($values["group"]) )
 					{
-						$camp = $this->em->getRepository("Entity\Camp")->findOneBy(array("group" => $values["group"], "name" => $pathPart));
+						$camp = $this->em->getRepository("Core\Entity\Camp")->findOneBy(array("group" => $values["group"], "name" => $pathPart));
 						
 						if (! $camp) {
 							return false;
@@ -259,7 +259,7 @@ class Vanity extends \Zend_Controller_Router_Route
 						throw new \Zend_Controller_Router_Exception($name . ' is not specified');
 					}
 					
-					$user = $this->em->getRepository('Entity\User')->find($data[$name]);
+					$user = $this->em->getRepository('Core\Entity\User')->find($data[$name]);
 					
 					if (!$user) {
 						require_once 'Zend/Controller/Router/Exception.php';
@@ -277,7 +277,7 @@ class Vanity extends \Zend_Controller_Router_Route
 						throw new \Zend_Controller_Router_Exception($name . ' is not specified');
 					}
 					
-					$group = $this->em->getRepository('Entity\Group')->find($data[$name]);
+					$group = $this->em->getRepository('Core\Entity\Group')->find($data[$name]);
 					
 					if(!$group) {
 						require_once 'Zend/Controller/Router/Exception.php';
@@ -310,7 +310,7 @@ class Vanity extends \Zend_Controller_Router_Route
 						throw new \Zend_Controller_Router_Exception($name . ' is not specified');
 					}
 					
-					$camp = $this->em->getRepository('Entity\Camp')->find($data[$name]);
+					$camp = $this->em->getRepository('Core\Entity\Camp')->find($data[$name]);
 					
 					if (!$camp) {
 						require_once 'Zend/Controller/Router/Exception.php';
