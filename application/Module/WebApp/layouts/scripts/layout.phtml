@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<!--[if lt IE 9]>
+		<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+		<![endif]-->
+
+		<tal:block content="structure headTitle" />
+		<tal:block content="structure headMeta"  />
+		<tal:block content="structure headLink"  />
+		
+		<tal:block content="structure php:this.jQuery()" />
+		
+		<tal:block content="structure headScript"  />
+		
+
+	</head>
+
+	<body>
+		<div class="topheader">
+		</div>
+
+		<div class="container">
+			<header>
+				<div id="logo">
+					<h1>eCamp v3</h1>
+				</div>
+				
+				<nav tal:condition="exists: me">
+					<ul>
+						<li><a tal:attributes="href helper:url(array('user' => me.getId()), 'user')"><img id="avatar" width="16" height="16" tal:attributes="src helper:url(array('controller' => 'avatar', 'action' => 'user', 'user' => me.getId(), 'size' => 16), 'general')" /></a></li>
+						<li><a tal:attributes="href helper:url(array('user' => me.getId()), 'user')" tal:content="me/getUsername">username</a></li>
+						<li><a href="/">Dashboard</a></li>
+						<li><a href="#">Einstellungen</a></li>
+						<li><a href="/login/logout">Logout</a></li>
+					</ul>
+				</nav>
+				
+				<nav tal:condition="not: exists: me">
+					<ul>
+						<li><a href="/login">Login</a></li>
+						<li><a href="/register">Register</a></li>
+						<li><a href="#">Contact</a></li>
+						<li><a href="#">Help</a></li>
+					</ul>
+				</nav>
+				
+				<div style="clear:both;" />
+
+				<div id="search">
+					<form action="/search/searchuser">
+						<input type="text" name="query" />
+						<input type="submit" value="Finden" />
+					</form>
+				</div>
+				
+				<div tal:condition="exists: me" id="campswitch">
+					<select><option>Camp Quickswitch</option></select>
+				</div>
+
+
+			</header>
+
+			<div style="clear:both;" />
+
+			<section class="span-24 last">
+				<tal:block content="structure viewContent" />
+			</section>
+
+		</div>
+	
+		<footer>
+			<nav>
+				<ul>
+					<li><a href="#">About</a></li>
+					<li><a href="#">Contact</a></li>
+					<li><a href="#">Impressum</a></li>
+				</ul>
+			</nav>
+		</footer>
+
+			<div class="span-24 last">
+				<tal:block condition="not: exists: exception">
+					<tal:block condition="php: APPLICATION_ENV == 'development'">
+					  <h3>Request Parameters:</h3>
+					  <pre tal:content="php: var_dump( params, true )" />
+					</tal:block>
+				</tal:block>	
+			</div>
+	</body>
+</html>
