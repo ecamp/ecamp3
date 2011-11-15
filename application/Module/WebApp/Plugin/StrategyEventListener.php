@@ -18,7 +18,7 @@
  * along with eCamp.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Core\Plugin;
+namespace WebApp\Plugin;
  
 use \Doctrine\ORM,
 	\Doctrine\Common;
@@ -46,12 +46,11 @@ class StrategyEventListener implements \Doctrine\Common\EventSubscriber {
 		
 		/* post load PluginStrategy into Plugin */
 		if ($plugin instanceof \Core\Entity\Plugin) {
-			$strategy  = $plugin->getStrategyClassName();
+			$strategy  = $plugin->getStrategyClassName('WebApp');
 			$strategyInstance = new $strategy($this->em, $this->view, $plugin);
 			
 			/* load plugin */
 			$strategyInstance->loadObjects( );
-			//$strategyInstance->setView($this->view);
 			
 			$plugin->setStrategy($strategyInstance);
 		}
