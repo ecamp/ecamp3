@@ -61,7 +61,7 @@ class WebApp_EventController extends \WebApp\Controller\BaseController
 
 		
 		/* move this to bootsrap */
-		$event = new \Core\Plugin\StrategyEventListener($this->view, $this->em);
+		$event = new \WebApp\Plugin\StrategyEventListener($this->view, $this->em);
 		$this->em->getEventManager()->addEventSubscriber($event);
 	}
 
@@ -81,7 +81,7 @@ class WebApp_EventController extends \WebApp\Controller\BaseController
 		/* create header */
 		$plugin = new \Core\Entity\Plugin();		
 		$plugin->setEvent($event);
-		$strategy = new \Core\Plugin\Header\Strategy($this->em, $this->view, $plugin);
+		$strategy = new \WebApp\Plugin\Header\Strategy($this->em, $this->view, $plugin);
 		$plugin->setStrategy($strategy);
 		$strategy->persist();
 		$this->em->persist($plugin);
@@ -89,7 +89,7 @@ class WebApp_EventController extends \WebApp\Controller\BaseController
 		/* create content */
 		$plugin = new \Core\Entity\Plugin();
 		$plugin->setEvent($event);
-		$strategy = new \Core\Plugin\Content\Strategy($this->em, $this->view, $plugin);
+		$strategy = new \WebApp\Plugin\Content\Strategy($this->em, $this->view, $plugin);
 		$plugin->setStrategy($strategy);
 		$strategy->persist();
 		$this->em->persist($plugin);
@@ -97,7 +97,7 @@ class WebApp_EventController extends \WebApp\Controller\BaseController
 	    /* create content */
 		$plugin = new \Core\Entity\Plugin();
 		$plugin->setEvent($event);
-		$strategy = new \Core\Plugin\Content\Strategy($this->em, $this->view, $plugin);
+		$strategy = new \WebApp\Plugin\Content\Strategy($this->em, $this->view, $plugin);
 		$plugin->setStrategy($strategy);
 		$strategy->persist();
 		$this->em->persist($plugin);

@@ -31,7 +31,7 @@ class Strategy extends \Core\Plugin\AbstractStrategy implements \Core\Plugin\IPl
 	/**
 	 * Core\Plugin\Header\Entity\Header $plugin
 	 */
-	private $header;
+	protected $header;
 	
 	public $pluginName = "Header";
 	
@@ -76,31 +76,6 @@ class Strategy extends \Core\Plugin\AbstractStrategy implements \Core\Plugin\IPl
 	}
 	public function getHeader(){
 		return $this->header;
-	}
-
-	/**
-	 * Renders this strategy. This method will be called when the user
-	 * displays the site.
-	 *
-	 * @return string
-	 */
-	public function renderFrontend(){
-		return $this->header->getText();
-	}
-
-	/**
-	 * Renders the backend of this plugin. This method will be called when
-	 * a user tries to reconfigure this plugin instance.
-	 *
-	 * Most of the time, this method will return / output a simple form which in turn
-	 * calls some controllers.
-	 *
-	 * @return string
-	 */
-	public function renderBackend(){
-		$this->view->header = $this->header;
-		$this->view->plugin = $this->plugin;
-		return $this->view->render("../Plugin/".$this->pluginName."/views/edit.phtml");
 	}
 	
 }
