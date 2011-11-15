@@ -1,0 +1,142 @@
+<div class="span-14">
+
+	<div class="span-4">
+		<img width="128" height="128" tal:attributes="src helper:url(array('controller' => 'avatar', 'action' => 'user', 'user' => user.getId(), 'size' => 128), 'general')" />
+	</div>
+	
+	<div class="span-10 last">
+		<h2 tal:content="user/getUsername" />
+		<h3 tal:content="user/getFullName" />
+		
+		<!-- replace with ajax call one day -->
+		<a tal:condition="php: me.canIAdd(user)" class="button" tal:attributes="href helper:url(array('action' => 'add', 'user' => user.getId()), 'user')">+add as friend</a> 
+		<span tal:condition="php: me==user">Hey, this is you!</span>
+		<span tal:condition="php: me.sentFriendshipRequestTo(user)">You have already sent a friendship request.</span>
+		<tal:block condition="php: me.receivedFriendshipRequestFrom(user)">
+			<span tal:content="user/getUsername" /> wants to be your friend.<br/>
+			<a class="button" tal:attributes="href helper:url(array('action' => 'accept', 'user' => user.getId()), 'user')">+accept</a> 
+			<a class="button" tal:attributes="href helper:url(array('action' => 'ignore', 'user' => user.getId()), 'user')">-ignore</a> 
+		</tal:block>
+		<tal:block condition="php: me.isFriendOf(user)">
+			This is your friend! <br />
+			<a class="button" tal:attributes="href helper:url(array('action' => 'divorce', 'user' => user.getId()), 'user')">-divorce</a> 
+		</tal:block>
+		
+	</div>
+	
+	<div class="clear" />
+	
+	<p>
+		<ul>
+			<li>Email</li>
+			<li>Address</li>
+			<li>Personal stuff</li>
+		</ul>
+	</p>
+	
+	<div class="box">
+
+        <div class="right">
+            <a id="request_membership" class="button positive" href="#">Add User to one of my Group</a>
+
+            <tal:block content="structure helper:confirmDialog('request_membership_dialog', 'request_membership', array('title'=> this.translate('request membership'), 'print_div' => false, 'width' => 500, 'ok' => this.translate('Send request')))" />
+
+            <div id="request_membership_dialog" class="dialog">
+				
+
+				<div class="clear" />
+				<div class="question" i18n:translate="">
+                    Du you want to request this user for membership in one of your groups?
+
+				</div>
+
+                <div class="content">
+                    <tal:block repeat="group me/getManagedGroups">
+                        <span metal:use-macro="global/singlegroup.phtml/withavatar" tal:define="group group" tal:omit-tag="" />
+                    </tal:block>
+                </div>
+                <div class="clear" />
+                    
+			</div>
+        </div>
+
+		<h2>Groups</h2>
+
+
+		<div class="content">
+			<tal:block repeat="usergroup userGroups">
+				<span metal:use-macro="global/singlegroup.phtml/withavatar" tal:define="group usergroup/getGroup" tal:omit-tag="" />
+			</tal:block>
+			
+			<div class="clear" />
+		</div>
+	</div>
+	
+	<div class="box">
+		<h2>Camps</h2>
+
+		<div>
+			<table>
+				<tr tal:repeat="camp user/getMyCamps">
+					<td>
+					  <a tal:content="camp/getName" tal:attributes="href helper:url(array('controller'=>'camp', 'user' => me.getId(), 'camp' => camp.getId() ), 'user+camp')" />
+					</td>
+					<td><tal:block content="camp/getTitle" /></td>
+					<td><tal:block content="camp/getRange" /></td>
+				</tr>
+			</table>
+		</div>
+	</div>
+	
+	<div class="box">
+		<h2>Shared</h2>
+	</div>
+	
+</div>
+
+
+<div class="span-10 last">
+	<div tal:condition="php: me==user" class="right">
+		<a class="button" href="#">Privacy Preferences</a> 
+		<a class="button" href="#">Edit Profile</a> 
+	</div>
+	
+	<div class="clear" />
+	
+	<div class="bigbox">
+		<div class="title">Friends</div>
+		<div class="content">
+			<tal:block repeat="user friends">
+				<span metal:use-macro="global/singleuser.phtml/withavatar" tal:define="user user" tal:omit-tag="" />
+			</tal:block>
+			
+			<span tal:condition="php: count(friends)==0">Saidly, <span tal:content="user/getUsername" /> has no friends. But who cares, they are only virtual friends anyway.</span>
+			
+			<div class="clear" />
+		</div>
+	</div>
+	
+	<div class="bigbox" tal:condition="friendshipRequests">
+		<div class="title" i18n:translate="">Open Requests</div>
+		<div class="content">
+			<tal:block repeat="user friendshipRequests">
+				
+				 <a tal:attributes="href helper:url(array('user' => user.getId()), 'user')" class="span-2">
+					<img width="46" height="46" tal:attributes="src helper:url(array('controller' => 'avatar', 'action' => 'user', 'user' => user.getId(), 'size' =>32), 'general')" /><br />
+				 </a>
+				 
+				 <div class="span-7 last">
+					 <a tal:attributes="href helper:url(array('user' => user.getId()), 'user')" tal:content="user/getUsername" /> <span i18n:translate="">wants to be your friend</span>!<br/>
+					 
+					 <a class="button positive" tal:attributes="href helper:url(array('action' => 'accept', 'user' => user.getId()), 'user')">+<span i18n:translate="">accept</span></a>
+					 <a class="button negative" tal:attributes="href helper:url(array('action' => 'ignore', 'user' => user.getId()), 'user')">-<span i18n:translate="">ignore</span></a>
+				</div>
+				
+				<hr tal:condition="not: repeat/user/end" />
+			</tal:block>
+			
+			<div class="clear" />
+		</div>
+	</div>
+	
+</div>

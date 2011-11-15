@@ -20,17 +20,20 @@
 
 class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 {
-	public function _initModuleDirectory()
-	{
-	
-		$front = \Zend_Controller_Front::getInstance();
-		$front->addModuleDirectory(APPLICATION_PATH . "/../Module/");
-	
-		//$this->bootstrap('modules');
-	}
 	
 	/**
-	 * @return void
+	 * Tells ZendFramework, where to find the Modules;
+	 * the ModuleDirectory APPLICATION_PATH/Module/ is added to the ModuleDirectories.
+	 */
+	public function _initModuleDirectory()
+	{
+		$front = \Zend_Controller_Front::getInstance();
+		$front->addModuleDirectory(APPLICATION_PATH . "/Module/");
+	}
+	
+	
+	/**
+	 * Loads the CoreNamespace to the Autoloader
 	 */
 	public function _initAutoloader()
     {
@@ -38,8 +41,8 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 
         $autoloader = \Zend_Loader_Autoloader::getInstance();
 		
-		$navigationAutoloader = new \Doctrine\Common\ClassLoader(null, APPLICATION_PATH);
-		$autoloader->pushAutoloader(array($navigationAutoloader, 'loadClass'));
+		$navigationAutoloader = new \Doctrine\Common\ClassLoader('Core', APPLICATION_PATH);
+		$autoloader->pushAutoloader(array($navigationAutoloader, 'loadClass'), 'Core');
 		
     }
 	
@@ -50,29 +53,29 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 
 		$kernel
 			->Bind("EntityManager")
-			->ToProvider(new Logic\Provider\EntityManager());
+			->ToProvider(new Core\Logic\Provider\EntityManager());
 
 		$kernel
 			->Bind("CampRepository")
-			->ToProvider(new Logic\Provider\Repository("Entity\Camp"));
+			->ToProvider(new Core\Logic\Provider\Repository("Core\Entity\Camp"));
 
 		$kernel
 			->Bind("GroupRepository")
-			->ToProvider(new Logic\Provider\Repository("Entity\Group"));
+			->ToProvider(new Core\Logic\Provider\Repository("Core\Entity\Group"));
 
 		$kernel
 			->Bind("LoginRepository")
-			->ToProvider(new Logic\Provider\Repository("Entity\Login"));
+			->ToProvider(new Core\Logic\Provider\Repository("Core\Entity\Login"));
 
 		$kernel
 			->Bind("UserRepository")
-			->ToProvider(new Logic\Provider\Repository("Entity\User"));
+			->ToProvider(new Core\Logic\Provider\Repository("Core\Entity\User"));
 
 		$kernel
 			->Bind("UserCampRepository")
-			->ToProvider(new Logic\Provider\Repository("Entity\UserCamp"));
+			->ToProvider(new Core\Logic\Provider\Repository("Core\Entity\UserCamp"));
 
-		$kernel->Bind("Service\UserService")->ToSelf()->AsSingleton();
+		$kernel->Bind("Core\Service\UserService")->ToSelf()->AsSingleton();
 
 		Zend_Registry::set("kernel", $kernel);
 		

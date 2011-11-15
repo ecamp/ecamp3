@@ -1,0 +1,24 @@
+<span metal:define-macro="withavatar" tal:omit-tag="" >
+     
+	<span  style="height:180px;" class="span-3">
+		<a tal:attributes="href helper:url(array('user' => user.getId()), 'user')">
+			<img width="64" height="64" tal:attributes="src helper:url(array('controller' => 'avatar', 'action' => 'user',  'user' => user.getId(), 'size' => 64), 'general')" /><br />
+		</a>
+		<a tal:attributes="href helper:url(array('user' => user.getId()), 'user')">
+			<tal:block content="user/getUsername" />
+		</a>
+		<br/>
+		
+		<!-- replace with ajax call one day -->
+		<a tal:condition="php: me.canIAdd(user)" class="button positive" tal:attributes="href helper:url(array('action' => 'add', 'user' => user.getId()), 'user')">+add as friend</a>
+		<span tal:condition="php: me==user">Hey, this is you!</span>
+		<span tal:condition="php: me.sentFriendshipRequestTo(user)">Request already sent.</span>
+		<tal:block condition="php: me.receivedFriendshipRequestFrom(user)">
+			<a class="button positive" tal:attributes="href helper:url(array('action' => 'accept', 'user' => user.getId()), 'user')">+accept</a>
+			<a class="button negative" tal:attributes="href helper:url(array('action' => 'ignore', 'user' => user.getId()), 'user')">-ignore</a>
+		</tal:block>
+		<a tal:condition="php: me.isFriendOf(user)" class="button negative" tal:attributes="href helper:url(array('action' => 'divorce', 'user' => user.getId()), 'user')">-divorce</a>
+		
+	</span>
+	
+</span>

@@ -47,7 +47,7 @@ class NonRegisteredUser extends \Zend_Validate_Abstract
 		$this->field = $field;
 
 		$this->em = \Zend_Registry::get('doctrine')->getEntityManager();
-		$this->userRepository = $this->em->getRepository('Entity\User');
+		$this->userRepository = $this->em->getRepository('Core\Entity\User');
 	}
 
 
