@@ -46,17 +46,17 @@ class Plugin extends BaseEntity {
 	public $event;
 
 	/**
-	 * This var contains the classname of the strategy
-	 * that is used for this pluginitem. (This string (!) value will be persisted by Doctrine 2)
+	 * This var contains the name of the Plugin
+	 * that is used for this pluginitem.
 	 *
 	 * @var string
 	 * @Column(type="string", length=64, nullable=false )
 	 */
-	protected $strategyClassName;
+	protected $pluginName;
 
 	/**
-	 * This var contains an instance of $this->pluginStrategy. Will not be persisted by Doctrine 2.
-	 * The instance is loaded with a PostLoad event listener
+	 * This var contains an instance of $this->pluginStrategy.
+	 * The instance is loaded with a PostLoad event listener and will not be persisted by Doctrine.
 	 *
 	 * @var IPluginStrategy
 	 */
@@ -70,15 +70,26 @@ class Plugin extends BaseEntity {
 	
 	
 	/**
+	 * Returns the plugin name
+	 *
+	 * @return string
+	 */
+	public function getPluginName() {
+		return $this->pluginName;
+	}
+	
+	/**
 	 * Returns the strategy that is used for this pluginitem.
 	 *
 	 * The strategy itself defines how this plugin can be rendered etc.
 	 *
 	 * @return string
 	 */
-	public function getStrategyClassName() {
-		return $this->strategyClassName;
+	public function getStrategyClassName($module) {
+		return '\\' . $module . '\\Plugin\\' . $this->getPluginName() . '\\Strategy';
 	}
+	
+	
 
 	/**
 	 * Returns the instantiated strategy
@@ -91,13 +102,14 @@ class Plugin extends BaseEntity {
 
 	/**
 	 * Sets the strategy this plugin / panel should work as. Make sure that you've used
-	 * this method before persisting the plugin!
+	 * this method before persisting the plugin.
 	 *
 	 * @param IPluginStrategy $strategy
 	 */
 	public function setStrategy(\Core\Plugin\IPluginStrategy $strategy) {
 		$this->strategyInstance  = $strategy;
-		$this->strategyClassName = get_class($strategy);
+		
+		$this->pluginName = $strategy->getPluginName();
 		$strategy->setPlugin($this);
 	}
 }

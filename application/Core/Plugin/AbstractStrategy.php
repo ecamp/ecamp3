@@ -54,13 +54,14 @@ abstract class AbstractStrategy {
 		return $this->plugin;
 	}
 	
+	/**
+	 * Get the plugin name
+	 */
+	public function getPluginName(){
+		return $this->pluginName;
+	}
 	
 	/* ***************************************** */
-	/* don't know whether we need the view here. 
-	   It was here in the doctrine example, but I couldn't
-	   figure out why.
-	   Let's leave it here until the full plugin stack has
-	   been implemented */
 	   
 	protected $view;
 	
@@ -78,6 +79,12 @@ abstract class AbstractStrategy {
 	 */
 	public function getView(){
 		return $this->view;
+	}
+	
+	public function renderFrontend(){
+	}
+	
+	public function renderBackend(){
 	}
 
 }

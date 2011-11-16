@@ -31,9 +31,9 @@ class Strategy extends \Core\Plugin\AbstractStrategy implements \Core\Plugin\IPl
 	/**
 	 * Core\Plugin\Content\Entity\Content $plugin
 	 */
-	private $content;
+	protected $content;
 	
-	public $pluginName = "Content";
+	protected $pluginName = "Content";
 	
 	/** construct */
 	public function __construct( \Doctrine\ORM\EntityManager $em, \Zend_View_Interface $view, \Core\Entity\Plugin $plugin) {
@@ -78,29 +78,5 @@ class Strategy extends \Core\Plugin\AbstractStrategy implements \Core\Plugin\IPl
 		return $this->content;
 	}
 
-	/**
-	 * Renders this strategy. This method will be called when the user
-	 * displays the site.
-	 *
-	 * @return string
-	 */
-	public function renderFrontend(){
-		return $this->content->getText();
-	}
-
-	/**
-	 * Renders the backend of this plugin. This method will be called when
-	 * a user tries to reconfigure this plugin instance.
-	 *
-	 * Most of the time, this method will return / output a simple form which in turn
-	 * calls some controllers.
-	 *
-	 * @return string
-	 */
-	public function renderBackend(){
-		$this->view->content = $this->content;
-		$this->view->plugin = $this->plugin;
-		return $this->view->render("../Plugin/".$this->pluginName."/views/edit.phtml");
-	}
 	
 }

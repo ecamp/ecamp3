@@ -91,7 +91,7 @@ class WebApp_LeaderController extends \WebApp\Controller\BaseController
 	    
 		
 		/* move this to bootsrap */
-		$event = new \Core\Plugin\StrategyEventListener($this->view, $this->em);
+		$event = new \WebApp\Plugin\StrategyEventListener($this->view, $this->em);
 		$this->em->getEventManager()->addEventSubscriber($event);
 	}
 
