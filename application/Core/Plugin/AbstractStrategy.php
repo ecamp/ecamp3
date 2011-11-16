@@ -28,7 +28,8 @@
 
 namespace Core\Plugin;
  
-abstract class AbstractStrategy {
+abstract class AbstractStrategy 
+{
 
 	/**
 	 * @var \Doctrine\ORM\EntityManager
@@ -42,8 +43,10 @@ abstract class AbstractStrategy {
 	
 	/**
 	 * Set the plugin object.
+	 * @param \Core\Entity\Plugin $plugin
 	 */
-	public function setPlugin(\Core\Entity\Plugin $plugin){
+	public function setPlugin(\Core\Entity\Plugin $plugin)
+	{
 		$this->plugin = $plugin;
 	}
 	
@@ -77,7 +80,8 @@ abstract class AbstractStrategy {
 	/**
 	 * @return \Zend_View_Interface
 	 */
-	public function getView(){
+	public function getView()
+	{
 		return $this->view;
 	}
 	
