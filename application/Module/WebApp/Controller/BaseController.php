@@ -83,11 +83,10 @@ class BaseController extends \Zend_Controller_Action
 		$this->t = new \Zend_View_Helper_Translate();
 	}
 	
-	
-	
 	public function postDispatch()
 	{
-		$this->em->flush();
+		if( $this->em->isOpen() )
+			$this->em->flush();
 	}
 
 	
