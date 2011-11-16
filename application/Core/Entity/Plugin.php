@@ -86,7 +86,7 @@ class Plugin extends BaseEntity {
 	 * @return string
 	 */
 	public function getStrategyClassName($module) {
-		return '\\' . $module . '\\Plugin\\' . $this->getPluginName();
+		return '\\' . $module . '\\Plugin\\' . $this->getPluginName() . '\\Strategy';
 	}
 	
 	
@@ -108,13 +108,8 @@ class Plugin extends BaseEntity {
 	 */
 	public function setStrategy(\Core\Plugin\IPluginStrategy $strategy) {
 		$this->strategyInstance  = $strategy;
-		$classname = get_class($strategy);
 		
-		$classnameElements = explode('\\', $classname);
-		$strategyClassName = array_pop($classnameElements);
-		$pluginName = array_pop($classnameElements);
-		
-		$this->pluginName = $pluginName . '\\' . $strategyClassName;
+		$this->pluginName = $strategy->getPluginName();
 		$strategy->setPlugin($this);
 	}
 }

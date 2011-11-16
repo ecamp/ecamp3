@@ -54,6 +54,13 @@ abstract class AbstractStrategy {
 		return $this->plugin;
 	}
 	
+	/**
+	 * Get the plugin name
+	 */
+	public function getPluginName(){
+		return $this->pluginName;
+	}
+	
 	/* ***************************************** */
 	   
 	protected $view;

@@ -153,10 +153,10 @@ class WebApp_EventController extends \WebApp\Controller\BaseController
 		$plugin = $this->em->getRepository("Core\Entity\Plugin")->find($id);
 
 		Zend_Controller_Front::getInstance()->addControllerDirectory(
-			APPLICATION_PATH . '/Module/WebApp/Plugin/'.$plugin->getStrategyInstance()->pluginName.'/Controller', $plugin->getStrategyInstance()->pluginName);
+			APPLICATION_PATH . '/Module/WebApp/Plugin/'.$plugin->getStrategyInstance()->getPluginName().'/Controller', $plugin->getStrategyInstance()->getPluginName());
 
 		/* convention: the plugins carries a param "pluginaction", which specifies the action of the plugin controller */
-		$this->_forward( $this->getRequest()->getParam("pluginaction"), 'plugin', $plugin->getStrategyInstance()->pluginName);
+		$this->_forward( $this->getRequest()->getParam("pluginaction"), 'plugin', $plugin->getStrategyInstance()->getPluginName());
 		
 	}
 	

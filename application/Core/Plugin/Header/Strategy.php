@@ -33,7 +33,7 @@ class Strategy extends \Core\Plugin\AbstractStrategy implements \Core\Plugin\IPl
 	 */
 	protected $header;
 	
-	public $pluginName = "Header";
+	protected $pluginName = "Header";
 	
 	/** construct */
 	public function __construct( \Doctrine\ORM\EntityManager $em, \Zend_View_Interface $view, \Core\Entity\Plugin $plugin) {
