@@ -29,14 +29,15 @@ namespace Core\Plugin\Header;
 class Strategy extends \Core\Plugin\AbstractStrategy implements \Core\Plugin\IPluginStrategy {
 	
 	/**
-	 * Core\Plugin\Header\Entity\Header $plugin
+	 * @var \Core\Plugin\Header\Entity\Header $plugin
 	 */
 	protected $header;
 	
 	protected $pluginName = "Header";
 	
 	/** construct */
-	public function __construct( \Doctrine\ORM\EntityManager $em, \Zend_View_Interface $view, \Core\Entity\Plugin $plugin) {
+	public function __construct( \Doctrine\ORM\EntityManager $em, \Zend_View_Interface $view, \Core\Entity\Plugin $plugin)
+	{
 		$this->em = $em;
 		$this->view = $view;
 		$this->plugin = $plugin;
@@ -69,12 +70,20 @@ class Strategy extends \Core\Plugin\AbstractStrategy implements \Core\Plugin\IPl
 	}
 	
 	/**
-	 * Set the plugin object.
+	 * Set the HeaderPlugin object.
+	 * @param \Core\Plugin\Header\Entity\Header $header
 	 */
-	public function setHeader($header){
+	public function setHeader($header)
+	{
 		$this->header = $header;
 	}
-	public function getHeader(){
+	
+	/**
+	 * Get the HeaderPlugin Object
+	 * @return \Core\Plugin\Header\Entity\Header
+	 */
+	public function getHeader()
+	{
 		return $this->header;
 	}
 	
