@@ -28,7 +28,13 @@ class WebApp_LoginController
 	 * @Inject UserRepository
 	 */
 	private $userRepository;
-
+	
+	/**
+	 * @var \Core\Service\Login
+	 * @Inject \Core\Service\Login
+	 */
+	private $loginService;
+	
 
 	public function indexAction()
 	{
@@ -43,6 +49,7 @@ class WebApp_LoginController
 
 		$this->view->loginForm = $loginForm;
 
+		//TODO: Remove this in Release
 		$this->view->userlist = $this->userRepository->findAll();
 	}
 
@@ -69,16 +76,15 @@ class WebApp_LoginController
 
 	public function logoutAction()
 	{
-        \Zend_Auth::getInstance()->clearIdentity();
-
+        $this->loginService->logout();
+        
 		$this->_redirect("login");
 	}
 
 
     protected function checkLogin($values)
     {
-        $authAdapter = new \Service\Auth\Adapter($values['login'], $values['password']);
-        $result = Zend_Auth::getInstance()->authenticate($authAdapter);
+    	$result = $this->loginService->login($values['login'], $values['password']);
 
         $this->view->message = $result->getMessages();
 

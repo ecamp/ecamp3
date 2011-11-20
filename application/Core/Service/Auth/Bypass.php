@@ -60,8 +60,6 @@ class Bypass
         }
 
         // Successful logged in:
-        $this->login = $user->getLogin()->getId();
-
         return $this->authResult(\Zend_Auth_Result::SUCCESS);
     }
 
@@ -78,6 +76,6 @@ class Bypass
         if( !is_array( $messages ) )
         {	$messages = array($messages);	}
 
-		return new \Zend_Auth_Result($code, $this->login, $messages);
+		return new \Zend_Auth_Result($code, $this->user->getId(), $messages);
     }
 }

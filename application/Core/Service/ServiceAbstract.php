@@ -8,6 +8,14 @@ namespace Core\Service;
 abstract class ServiceAbstract
     implements \Zend_Acl_Resource_Interface
 {
+	
+	/**
+	 * @var \Doctrine\ORM\EntityManager
+	 * @Inject EntityManager
+	 */
+	protected $em;
+	
+	
     /**
      * ACL object
      *

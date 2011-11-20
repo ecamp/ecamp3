@@ -50,7 +50,7 @@ class User extends BaseEntity
 	const PBSEDU_TOPKURS		= "Topkurs";
 	const PBSEDU_GILLWELL		= "Gillwell";
 
-	public function __construct()
+	public function __construct($username)
     {
 	    $this->mycamps  = new \Doctrine\Common\Collections\ArrayCollection();
 		$this->userCamps  = new \Doctrine\Common\Collections\ArrayCollection();
@@ -60,6 +60,8 @@ class User extends BaseEntity
 
 		$this->state = self::STATE_NONREGISTERED;
 		$this->role  = self::ROLE_USER;
+		
+		$this->username = $username;
     }
 	
 	/**
@@ -187,7 +189,7 @@ class User extends BaseEntity
 	public function getId(){	return $this->id;	}
 
 	public function getUsername()            { return $this->username; }
-	public function setUsername( $username ) { $this->username = $username; return $this; }
+// 	public function setUsername( $username ) { $this->username = $username; return $this; }
 
 	/** @return \Entity\Login */
 	public function getLogin()	{	return $this->login;	}
