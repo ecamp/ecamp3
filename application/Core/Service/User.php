@@ -6,10 +6,11 @@ class User extends ServiceAbstract
 {
 	
 	/**
-	* @var \Core\Repository\UserRepository
-	* @Inject \Core\Repository\UserRepository
-	*/
+	 * @var \Core\Repository\UserRepository
+	 * @Inject \Core\Repository\UserRepository
+	 */
 	private $userRepo;
+	
 	
 	
 	/**
@@ -45,18 +46,85 @@ class User extends ServiceAbstract
 	 * 
 	 * @return \Core\Entity\User
 	 */
-	public function create($username)
+	public function create($email, $params)
 	{
-		$user = new \Core\Entity\User($username);
+		$this->em->getConnection()->beginTransaction();
 		
-		$this->em->persist($user);
-		return $user;
+		try
+		{
+			$user = $this->userRepo->findOneBy(array('email' => $email));
+				
+			if(is_null($user))
+			{
+				$user = new \Core\Entity\User();
+				$user->setEmail($email);
+		
+				$this->em->persist($user);
+			}
+				
+			if($user->getState() != \Core\Entity\User::STATE_NONREGISTERED)
+			{	throw new Exception("This eMail-Adress is already registered!");	}
+
+			if(array_key_exists('username', $params))
+			{
+				$user->setUsername($params['username']);
+				$user->setState(\Core\Entity\User::STATE_REGISTERED);
+			}
+			
+			if(array_key_exists('scoutname', $params))
+			{	$user->setScoutname($params['scoutname']);	}
+			
+			if(array_key_exists('firstname', $params))
+			{	$user->setFirstname($params['firstname']);	}
+			
+			if(array_key_exists('surname', $params))
+			{	$user->setSurname($params['surname']);	}
+			
+
+			$this->em->flush();
+			$this->em->getConnection()->commit();
+				
+			return $user;
+		}
+		catch (\Exception $e)
+		{
+			$this->em->getConnection()->rollback();
+				
+			throw $e;
+		}
 	}
 	
 	
 	public function update(){	throw new \Exception("Not implemented exception");	}
 	public function delete(){	throw new \Exception("Not implemented exception");	}
     
+	
+	/**
+	 * Activate a User
+	 * 
+	 * @param \Core\Entity\User|int|string $user
+	 * @param string $key
+	 * 
+	 * @return bool
+	 */
+	public function activate($user, $key)
+	{
+		$user = $this->get($user);
+		
+		if(is_null($user))
+		{
+			return false;
+		}
+		
+		if($user->getState() != \Core\Entity\User::STATE_REGISTERED)
+		{
+			return false;
+		}
+		
+		return $user->activateUser($key);
+	}
+	
+	
 	/**
 	 * 
 	 * Return the set of roles for the current user based on the context (Group, Camp)

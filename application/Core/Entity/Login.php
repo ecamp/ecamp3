@@ -52,7 +52,7 @@ class Login extends BaseEntity
 
 	
 	/**
-	 * @Column(type="string", length=64)
+	 * @Column(type="string", length=64, nullable=true)
 	 * @var string
 	 */
 	private $pwResetKey;
@@ -112,7 +112,7 @@ class Login extends BaseEntity
 	 */
 	public function clearPwResetKey()
 	{
-		$this->pwResetKey = '';
+		$this->pwResetKey = null;
 	}
 	
 	

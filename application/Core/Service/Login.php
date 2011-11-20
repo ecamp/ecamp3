@@ -59,12 +59,30 @@ class Login extends ServiceAbstract
 		if(!is_null($login))
 		{	throw new \Exception("User has allready a Login!");	}
 		
-		$login = new \Core\Entity\Login();
 		
-		$login->setUser($user);
-		$login->setNewPassword($password);
+		$this->em->getConnection()->beginTransaction();
 		
-		return $login;
+		try 
+		{
+			$login = new \Core\Entity\Login();
+			
+			$login->setUser($user);
+			$login->setNewPassword($password);
+			
+			$this->em->persist($login);
+			
+			$this->em->flush();
+			$this->em->getConnection()->commit();
+			
+			return $login;
+		}
+		catch (\Exception $e)
+		{
+			$this->em->getConnection()->rollback();
+			
+			throw $e;
+		}
+		
 	}
 	
 	

@@ -65,17 +65,17 @@ class Bypass
 
 
      /**
-     * Factory for Zend_Auth_Result
-     *
-     *@param integer    The Result code, see Zend_Auth_Result
-     *@param mixed      The Message, can be a string or array
-     *@return Zend_Auth_Result
-     */
+      * Factory for Zend_Auth_Result
+      *
+      * @param integer    The Result code, see Zend_Auth_Result
+      * @param mixed      The Message, can be a string or array
+      * @return Zend_Auth_Result
+      */
     private function authResult($code, $messages = array())
 	{
         if( !is_array( $messages ) )
         {	$messages = array($messages);	}
-
+        
 		return new \Zend_Auth_Result($code, $this->user->getId(), $messages);
     }
 }

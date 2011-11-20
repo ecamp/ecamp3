@@ -24,10 +24,10 @@ class WebApp_LoginController
 {
 
 	/**
-	 * @var Repository\UserRepository
-	 * @Inject UserRepository
+	 * @var \Core\Repository\UserRepository
+	 * @Inject \Core\Repository\UserRepository
 	 */
-	private $userRepository;
+	private $userRepo;
 	
 	/**
 	 * @var \Core\Service\Login
@@ -50,7 +50,7 @@ class WebApp_LoginController
 		$this->view->loginForm = $loginForm;
 
 		//TODO: Remove this in Release
-		$this->view->userlist = $this->userRepository->findAll();
+		$this->view->userlist = $this->userRepo->findAll();
 	}
 
 
@@ -96,9 +96,9 @@ class WebApp_LoginController
 	
 	public function bypassAction()
 	{
-		$user = $this->userRepository->find($this->getRequest()->getParam('user'));
+		$user = $this->userRepo->find($this->getRequest()->getParam('user'));
 		$authAdapter = new \Core\Service\Auth\Bypass($user);
-        	$result = Zend_Auth::getInstance()->authenticate($authAdapter);
+        $result = Zend_Auth::getInstance()->authenticate($authAdapter);
 	
 		$this->_forward('index', 'dashboard');
 	}
