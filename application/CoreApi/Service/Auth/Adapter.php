@@ -7,7 +7,7 @@
  * To change this template use File | Settings | File Templates.
  */
 
-namespace Core\Service\Auth;
+namespace CoreApi\Service\Auth;
 
 class Adapter
     implements \Zend_Auth_Adapter_Interface

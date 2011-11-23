@@ -1,6 +1,6 @@
 <?php
 
-namespace Core\Service;
+namespace CoreApi\Service;
 
 
 class Login extends ServiceAbstract
@@ -21,8 +21,8 @@ class Login extends ServiceAbstract
 	
 	
 	/**
-	* @var \Core\Service\User
-	* @Inject \Core\Service\User
+	* @var \CoreApi\Service\User
+	* @Inject \CoreApi\Service\User
 	*/
 	private $userService;
 	
@@ -104,7 +104,7 @@ class Login extends ServiceAbstract
 		/** @var \Core\Entity\Login */
 		$login = $user->getLogin();
 		
-		$authAdapter = new \Core\Service\Auth\Adapter($login, $password);
+		$authAdapter = new \CoreApi\Service\Auth\Adapter($login, $password);
 		$result = \Zend_Auth::getInstance()->authenticate($authAdapter);
 		
 		return $result;

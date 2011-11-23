@@ -32,15 +32,15 @@ class WebApp_RegisterController
 
 
 	/**
-	 * @var \Core\Service\User
-	 * @Inject Core\Service\User
+	 * @var \CoreApi\Service\User
+	 * @Inject CoreApi\Service\User
 	 */
 	private $userService;
 	
 	
 	/**
-	 * @var \Core\Service\Login
-	 * @Inject \Core\Service\Login
+	 * @var \CoreApi\Service\Login
+	 * @Inject \CoreApi\Service\Login
 	 */
 	private $loginService;
 	

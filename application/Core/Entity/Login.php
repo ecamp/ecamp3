@@ -30,9 +30,11 @@ class Login extends BaseEntity
 
 
 	/**
-	 * @Id @Column(type="integer")
+	 * @Id 
+	 * @Column(type="integer")
 	 * @GeneratedValue(strategy="AUTO")
 	 * @var int
+	 * @CoreApi\Wrapper("asdf")
 	 */
 	private $id;
 

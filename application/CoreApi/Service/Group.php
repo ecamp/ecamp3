@@ -1,6 +1,6 @@
 <?php
 
-namespace Core\Service;
+namespace CoreApi\Service;
 
 class Group extends ServiceAbstract
 {
@@ -12,8 +12,8 @@ class Group extends ServiceAbstract
 	protected $em;
     
     /**
-	 * @var \Core\Service\Camp
-     * @Inject \Core\Service\Camp
+	 * @var \CoreApi\Service\Camp
+     * @Inject \CoreApi\Service\Camp
 	 */
 	private $campService;
 	
@@ -58,7 +58,7 @@ class Group extends ServiceAbstract
     }
     
 	/**
-     * @see    Core\Service\ServiceAbstract::_setupAcl()
+     * @see    CoreApi\Service\ServiceAbstract::_setupAcl()
      * @return void
      */
     protected function _setupAcl()

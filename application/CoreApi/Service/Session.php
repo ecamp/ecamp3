@@ -1,6 +1,6 @@
 <?php
 
-namespace Core\Service;
+namespace CoreApi\Service;
 
 class Session extends ServiceAbstract
 {

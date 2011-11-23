@@ -1,6 +1,6 @@
 <?php
 
-namespace Core\Service;
+namespace CoreApi\Service;
 
 class Camp extends ServiceAbstract
 {

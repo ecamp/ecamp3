@@ -1,12 +1,12 @@
 <?php
 
-namespace Core\Service;
+namespace CoreApi\Service;
 
 class Friend extends ServiceAbstract
 {
 	
 	/**
-	 * @var \Core\Service\User
+	 * @var \CoreApi\Service\User
 	 * @Inject \Core\Servie\User
 	 */
 	private $userService;

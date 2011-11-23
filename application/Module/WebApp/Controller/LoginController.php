@@ -30,8 +30,8 @@ class WebApp_LoginController
 	private $userRepo;
 	
 	/**
-	 * @var \Core\Service\Login
-	 * @Inject \Core\Service\Login
+	 * @var \CoreApi\Service\Login
+	 * @Inject \CoreApi\Service\Login
 	 */
 	private $loginService;
 	
@@ -97,7 +97,7 @@ class WebApp_LoginController
 	public function bypassAction()
 	{
 		$user = $this->userRepo->find($this->getRequest()->getParam('user'));
-		$authAdapter = new \Core\Service\Auth\Bypass($user);
+		$authAdapter = new \CoreApi\Service\Auth\Bypass($user);
         $result = Zend_Auth::getInstance()->authenticate($authAdapter);
 	
 		$this->_forward('index', 'dashboard');

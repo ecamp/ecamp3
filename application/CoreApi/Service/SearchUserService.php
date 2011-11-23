@@ -20,7 +20,7 @@
  *
  */
 
-namespace Core\Service;
+namespace CoreApi\Service;
 
 
 class SearchUserService

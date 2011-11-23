@@ -41,8 +41,12 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 
         $autoloader = \Zend_Loader_Autoloader::getInstance();
 		
-		$navigationAutoloader = new \Doctrine\Common\ClassLoader('Core', APPLICATION_PATH);
-		$autoloader->pushAutoloader(array($navigationAutoloader, 'loadClass'), 'Core');
+		$coreApiAutoloader = new \Doctrine\Common\ClassLoader('CoreApi', APPLICATION_PATH);
+		$autoloader->pushAutoloader(array($coreApiAutoloader, 'loadClass'), 'CoreApi');
+		
+		$coreAutoloader = new \Doctrine\Common\ClassLoader('Core', APPLICATION_PATH);
+		$autoloader->pushAutoloader(array($coreAutoloader, 'loadClass'), 'Core');
+		
 		
     }
 	
@@ -83,7 +87,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 			->Bind("\Core\Repository\UserRepository")
 			->ToProvider(new Core\Logic\Provider\Repository("Core\Entity\User"));
 		
-		$kernel->Bind("\Core\Service\UserService")->ToSelf()->AsSingleton();
+		$kernel->Bind("\CoreApi\Service\UserService")->ToSelf()->AsSingleton();
 
 		Zend_Registry::set("kernel", $kernel);
 		
