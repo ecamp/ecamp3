@@ -23,20 +23,26 @@ class WebApp_GroupController extends \WebApp\Controller\BaseController
 {
 	
 	/**
-	 * @var Core\Service\CampService
-     * @Inject Core\Service\CampService
+	 * @var CoreApi\Service\CampService
+     * @Inject CoreApi\Service\CampService
 	 */
 	private $campService;
 	
 	/**
-	 * @var Core\Service\GroupService
-     * @Inject Core\Service\GroupService
+	 * @var CoreApi\Service\Group
+     * @Inject CoreApi\Service\Group
+	 */
+	private $groupService2;
+	
+	/**
+	 * @var CoreApi\Service\GroupService
+     * @Inject CoreApi\Service\GroupService
 	 */
 	private $groupService;
 	
 	/**
-	 * @var Core\Service\SearchUserService
-	 * @Inject Core\Service\SearchUserService
+	 * @var CoreApi\Service\SearchUserService
+	 * @Inject CoreApi\Service\SearchUserService
 	 */
 	private $searchUserService;
 	
@@ -107,11 +113,19 @@ class WebApp_GroupController extends \WebApp\Controller\BaseController
 		
 		try 
 		{
-			$this->campService->CreateCampForGroup($this->group, $this->me, $params);
+			if (!$this->groupService2->checkAcl('createCamp')) {
+				throw new \Ecamp\PermissionException("You are not allowed to create a new camp for this group. ");
+        	}
+        	
+			$this->groupService2->createCamp($this->group, $this->me, $params);
 			$this->_helper->getHelper('Redirector')->gotoRoute(array('action'=>'camps', 'group' => $this->group->getId()), 'group');
 		}
-		catch(Exception $e)
-		{
+		catch(\Ecamp\PermissionException $e){
+			print_r($e->getMessage());
+			die("You should not click on buttons you are not allowed to.");
+		}
+		catch(PDOException $e)
+		{	
 			$form->getElement("name")->addError("Name has already been taken.");
 			
 			$this->view->form = $form;

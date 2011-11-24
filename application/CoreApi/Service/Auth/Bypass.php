@@ -7,7 +7,7 @@
  * To change this template use File | Settings | File Templates.
  */
 
-namespace Core\Service\Auth;
+namespace CoreApi\Service\Auth;
 
 class Bypass
     implements \Zend_Auth_Adapter_Interface
@@ -60,24 +60,22 @@ class Bypass
         }
 
         // Successful logged in:
-        $this->login = $user->getLogin()->getId();
-
         return $this->authResult(\Zend_Auth_Result::SUCCESS);
     }
 
 
      /**
-     * Factory for Zend_Auth_Result
-     *
-     *@param integer    The Result code, see Zend_Auth_Result
-     *@param mixed      The Message, can be a string or array
-     *@return Zend_Auth_Result
-     */
+      * Factory for Zend_Auth_Result
+      *
+      * @param integer    The Result code, see Zend_Auth_Result
+      * @param mixed      The Message, can be a string or array
+      * @return Zend_Auth_Result
+      */
     private function authResult($code, $messages = array())
 	{
         if( !is_array( $messages ) )
         {	$messages = array($messages);	}
-
-		return new \Zend_Auth_Result($code, $this->login, $messages);
+        
+		return new \Zend_Auth_Result($code, $this->user->getId(), $messages);
     }
 }

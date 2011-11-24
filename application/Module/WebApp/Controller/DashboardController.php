@@ -22,14 +22,14 @@
 class WebApp_DashboardController extends \WebApp\Controller\BaseController
 {
 	/**
-     * @var Core\Service\UserService
-     * @Inject Core\Service\UserService
+     * @var CoreApi\Service\UserService
+     * @Inject CoreApi\Service\UserService
      */
 	private $userService;
 		
 	/**
-	 * @var Core\Service\CampService
-	 * @Inject Core\Service\CampService
+	 * @var CoreApi\Service\CampService
+	 * @Inject CoreApi\Service\CampService
 	 */
 	private $campService;
 	
