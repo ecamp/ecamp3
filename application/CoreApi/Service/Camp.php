@@ -20,16 +20,16 @@ class Camp extends ServiceAbstract
 	public function create(\Core\Entity\User $creator, $params)
 	{
 		$camp = new \Core\Entity\Camp();
-				    	
+		$form = $this->getForm("Create");
+		
+		if( !$form->isValid($params) ) {
+			throw new \Ecamp\ValidationException($form);
+		}
+		
 		$camp->setCreator($creator);
 		
-		if(isset($params['name']))
-		{	$camp->setName($params['name']);	}
-		
-		if(isset($params['title']))
-		{	$camp->setTitle($params['title']);	}
-		
-		$period = $this->createPeriod($camp, $params);
+		$period = new \Core\Entity\Period($camp);
+		$form->getData($camp, $period);
 		
 		$this->em->persist($camp);
 		$this->em->persist($period);

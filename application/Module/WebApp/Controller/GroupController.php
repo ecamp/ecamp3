@@ -104,30 +104,29 @@ class WebApp_GroupController extends \WebApp\Controller\BaseController
 		$form = new \WebApp\Form\Camp();
 		$params = $this->getRequest()->getParams();
 		
-		if(!$form->isValid($params))
-		{
-			$this->view->form = $form;
-			$this->render("newcamp");
-			return;
-		}
-		
 		try 
 		{
-			if (!$this->groupService2->checkAcl('createCamp')) {
-				throw new \Ecamp\PermissionException("You are not allowed to create a new camp for this group. ");
-        	}
-        	
+			/* we are not doing any validations here. the real validation is done in the service. however, this need to be here:
+			 *  - for filters
+			 *  - for possible validations on WebApp-Level
+			 */
+			if(!$form->isValid($params))
+				throw new \Ecamp\ValidationException();
+
 			$this->groupService2->createCamp($this->group, $this->me, $params);
 			$this->_helper->getHelper('Redirector')->gotoRoute(array('action'=>'camps', 'group' => $this->group->getId()), 'group');
 		}
+		
+		/* catching permission exceptions might be outsourced to an upper level */
 		catch(\Ecamp\PermissionException $e){
-			print_r($e->getMessage());
 			die("You should not click on buttons you are not allowed to.");
 		}
-		catch(PDOException $e)
-		{	
-			$form->getElement("name")->addError("Name has already been taken.");
-			
+		
+		/* oh snap, something went wrong. show the form again */
+		catch(\Ecamp\ValidationException $e){
+			if($e->form != null)
+				$form->copyErrors( $e->form );
+
 			$this->view->form = $form;
 			$this->render("newcamp");
 		}
