@@ -25,23 +25,28 @@ $application = new Zend_Application(
 $application->bootstrap();
 
 
+Zend_Loader_Autoloader::autoload("Core\Entity\Annotations\Property");
+Zend_Loader_Autoloader::autoload("Core\Entity\Annotations\PropertyEntity");
+Zend_Loader_Autoloader::autoload("Core\Entity\Annotations\PropertyEntityList");
+Zend_Loader_Autoloader::autoload("Core\Entity\Annotations\Method");
+Zend_Loader_Autoloader::autoload("Core\Entity\Annotations\MethodEntity");
+Zend_Loader_Autoloader::autoload("Core\Entity\Annotations\MethodEntityList");
 
-$e = new ReflectionClass('\Core\Entity\Login');
-$ar = new Doctrine\Common\Annotations\AnnotationReader();
-$ar->setDefaultAnnotationNamespace("CoreApi");
+\Core\Entity\Wrapper\Factory::createFiles('\Core\Entity\Camp');
+\Core\Entity\Wrapper\Factory::createFiles('\Core\Entity\Day');
+\Core\Entity\Wrapper\Factory::createFiles('\Core\Entity\Event');
+\Core\Entity\Wrapper\Factory::createFiles('\Core\Entity\EventInstance');
+\Core\Entity\Wrapper\Factory::createFiles('\Core\Entity\Group');
+\Core\Entity\Wrapper\Factory::createFiles('\Core\Entity\Login');
+\Core\Entity\Wrapper\Factory::createFiles('\Core\Entity\Period');
+\Core\Entity\Wrapper\Factory::createFiles('\Core\Entity\Plugin');
+\Core\Entity\Wrapper\Factory::createFiles('\Core\Entity\Subcamp');
+\Core\Entity\Wrapper\Factory::createFiles('\Core\Entity\User');
+\Core\Entity\Wrapper\Factory::createFiles('\Core\Entity\UserCamp');
+\Core\Entity\Wrapper\Factory::createFiles('\Core\Entity\UserGroup');
+\Core\Entity\Wrapper\Factory::createFiles('\Core\Entity\UserRelationship');
 
-Zend_Loader_Autoloader::autoload('\CoreApi\Wrapper');
-$w = new \CoreApi\Wrapper(array());
+
+echo "Done";
 
 
-
-foreach($e->getProperties() as $p)
-{
-	//var_dump($p);
-	//var_dump($p->getDocComment());
-	
-	$pa = $ar->getPropertyAnnotations($p);
-	
-	var_dump($pa);
-	
-}

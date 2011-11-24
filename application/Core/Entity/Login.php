@@ -34,7 +34,8 @@ class Login extends BaseEntity
 	 * @Column(type="integer")
 	 * @GeneratedValue(strategy="AUTO")
 	 * @var int
-	 * @CoreApi\Wrapper("asdf")
+	 * 
+	 *  @_Public:Property(varType="int")
 	 */
 	private $id;
 
@@ -64,8 +65,10 @@ class Login extends BaseEntity
 	 * @var \Core\Entity\User
 	 * @OneToOne(targetEntity="User", mappedBy="login")
 	 * @JoinColumn(name="user_id", referencedColumnName="id")
+	 * 
+	 * @Public:PropertyEntity()
 	 */
-	private $user;
+	public $user;
 
 
 
