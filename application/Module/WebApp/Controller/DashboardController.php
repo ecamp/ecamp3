@@ -26,12 +26,13 @@ class WebApp_DashboardController extends \WebApp\Controller\BaseController
      * @Inject CoreApi\Service\UserService
      */
 	private $userService;
-		
+	
 	/**
-	 * @var CoreApi\Service\CampService
-	 * @Inject CoreApi\Service\CampService
-	 */
-	private $campService;
+	* @var CoreApi\Service\User
+	* @Inject CoreApi\Service\User
+	*/
+	private $userService2;
+	
 	
 	/**
 	 * @var \Repository\UserRepository
@@ -92,22 +93,29 @@ class WebApp_DashboardController extends \WebApp\Controller\BaseController
 	{
 		$form = new \WebApp\Form\Camp();
 		$params = $this->getRequest()->getParams();
-		
-		if(!$form->isValid($params))
+	
+		try
 		{
-			$this->view->form = $form;
-			$this->render("newcamp");
-			return;
-		}
-		
-		try 
-		{
-			$this->campService->CreateCampForUser($this->me, $params);
+			/* we are not doing any validations here. the real validation is done in the service. however, this need to be here:
+			 *  - for filters
+			*  - for possible validations on WebApp-Level
+			*/
+			if(!$form->isValid($params))
+				throw new \Ecamp\ValidationException();
+	
+			$this->userService2->createCamp($this->me, $params);
 			$this->_helper->getHelper('Redirector')->gotoRoute(array('action'=>'camps'));
 		}
-		catch(Exception $e)
-		{
-			$form->getElement("name")->addError("Name has already been taken.");
+	
+		/* catching permission exceptions might be outsourced to an upper level */
+		catch(\Ecamp\PermissionException $e){
+			die("You should not click on buttons you are not allowed to.");
+		}
+	
+		/* oh snap, something went wrong. show the form again */
+		catch(\Ecamp\ValidationException $e){
+			if($e->form != null)
+				$form->copyErrors( $e->form );
 			
 			$this->view->form = $form;
 			$this->render("newcamp");

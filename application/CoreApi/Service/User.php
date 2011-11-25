@@ -11,7 +11,11 @@ class User extends ServiceAbstract
 	 */
 	private $userRepo;
 	
-	
+	/**
+	* @var \CoreApi\Service\Camp
+	* @Inject \CoreApi\Service\Camp
+	*/
+	private $campService;
 	
 	/**
 	 * Returns the User with the given Identifier
@@ -135,7 +139,7 @@ class User extends ServiceAbstract
 		$roles = array();
 		$roles[] = new \Zend_Acl_Role('member');
 		$roles[] = new \Zend_Acl_Role('group_manager');
-		$roles[] = new \Zend_Acl_Role('camp_normal');
+		$roles[] = new \Zend_Acl_Role('camp_owner');
 		
 		return $roles;
 	}
@@ -179,5 +183,44 @@ class User extends ServiceAbstract
 		}
 	
 		return $user;		
+	}
+	
+	
+	/**
+	* Creates a new Camp
+	* This method is protected, means it is only available from outside (magic!) if ACL is set properly
+	*
+	* @param \Entity\Group $group Owner of the new Camp
+	* @param \Entity\User $user Creator of the new Camp
+	* @param Array $params
+	* @return Camp object, if creation was successfull
+	* @throws \Ecamp\ValidationException
+	*/
+	public function createCamp(\Core\Entity\User $creator, $params)
+	{
+		$this->em->getConnection()->beginTransaction();
+		try
+		{
+			$camp = $this->campService->create($creator, $params);
+				
+			$camp->setOwner($creator);
+	
+			$this->em->persist($camp);
+			$this->em->flush();
+	
+			$this->em->getConnection()->commit();
+				
+			return $camp;
+		}
+		catch (\PDOException $e)
+		{
+			$this->em->getConnection()->rollback();
+			$this->em->close();
+	
+			$form = new \Core\Form\Camp\Create();
+			$form->getElement('name')->addError("Name has already been taken.");
+				
+			throw new \Ecamp\ValidationException($form);
+		}
 	}
 }

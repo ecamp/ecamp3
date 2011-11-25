@@ -20,13 +20,17 @@
 
 namespace Core\Form\Camp;
 
+/**
+ * Validation form to create/update camps
+ * 
+ */
 class Create extends \Core\Form\BaseForm
 {
 	
 	public function init()
 	{
 
-		$id = new \Zend_Form_Element_Hidden('id');
+		$id = new \Zend_Form_Element_Text('id');
 
 		$name_validator = new \Zend_Validate_Regex('/^[a-z0-9][a-z0-9_-]+$/');
 		$name_validator->setMessage('Value can only contain lower letters, numbers, underscores (_) and dashes (-) and needs to start with a letter or number.');

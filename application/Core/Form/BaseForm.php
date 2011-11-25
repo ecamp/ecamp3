@@ -20,27 +20,18 @@
 
 namespace Core\Form;
 
-class BaseForm extends \Ztal_Form
+/**
+ * Base class for Core forms. These forms are only used for validation.
+ * This means:
+ * - no filters
+ * - no decorators
+ * - only text elements (no fancy hidden-, jQuery- or whatever elements)
+ *
+ */
+abstract class BaseForm extends \Zend_Form
 {
-	public function standardDecorators()
-	{
-		$this->clearDecorators();
-
-		$this->addDecorator('FormErrors')
-			->addDecorator('FormElements')
-			->addDecorator('HtmlTag')
-			->addDecorator('Form');
-
-		$this->setElementDecorators(array(
-			array('ViewHelper'),
-			array('Description'),
-			array('Label', array('separator'=>' ')),
-			array('HtmlTag', array('class'=>'element-group')),
-		));
-	}
-
 	/**
-	 * Load data from entity
+	 * Load data from entity and set the form values
 	 * @param  $entity
 	 */
 	public function setData($entity)

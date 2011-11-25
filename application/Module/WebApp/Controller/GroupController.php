@@ -23,12 +23,6 @@ class WebApp_GroupController extends \WebApp\Controller\BaseController
 {
 	
 	/**
-	 * @var CoreApi\Service\CampService
-     * @Inject CoreApi\Service\CampService
-	 */
-	private $campService;
-	
-	/**
 	 * @var CoreApi\Service\Group
      * @Inject CoreApi\Service\Group
 	 */

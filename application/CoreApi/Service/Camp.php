@@ -17,7 +17,7 @@ class Camp extends ServiceAbstract
 	public function delete(){}
 	
 	
-	public function create(\Core\Entity\User $creator, $params)
+	protected function create(\Core\Entity\User $creator, $params)
 	{
 		$camp = new \Core\Entity\Camp();
 		$form = $this->getForm("Create");
@@ -48,6 +48,16 @@ class Camp extends ServiceAbstract
 		$period->setDuration(($to->getTimestamp() - $from->getTimestamp())/(24 * 60 * 60) + 1);
 		
 		return $period;
+	}
+	
+	/**
+	* Setup ACL. Is used for manual calls of 'checkACL' and for automatic checking
+	* @see    CoreApi\Service\ServiceAbstract::_setupAcl()
+	* @return void
+	*/
+	protected function _setupAcl()
+	{
+		$this->_acl->allow('camp_owner', $this, 'create');
 	}
 	
 }

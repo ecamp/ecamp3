@@ -19,9 +19,16 @@
  */
 
 namespace WebApp\Form;
-
-class BaseForm extends \Ztal_Form
+/**
+ * Base class for frontend forms
+ *
+ */
+abstract class BaseForm extends \Ztal_Form
 {
+	/**
+	 * Copy errors from one form to another (for matching element names only)
+	 * @param \Zend_Form $form
+	 */
 	public function copyErrors( \Zend_Form $form ){
 		$errors = $form->getMessages();
 		foreach( $errors as $key => $value ){
@@ -33,5 +40,24 @@ class BaseForm extends \Ztal_Form
 		}
 	}
 
+	/**
+	 * Configure standard decorators for form
+	 */
+	public function standardDecorators()
+	{
+		$this->clearDecorators();
+	
+		$this->addDecorator('FormErrors')
+		->addDecorator('FormElements')
+		->addDecorator('HtmlTag')
+		->addDecorator('Form');
+	
+		$this->setElementDecorators(array(
+		array('ViewHelper'),
+		array('Description'),
+		array('Label', array('separator'=>' ')),
+		array('HtmlTag', array('class'=>'element-group')),
+		));
+	}
 }
 
