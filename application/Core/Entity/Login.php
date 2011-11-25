@@ -30,9 +30,12 @@ class Login extends BaseEntity
 
 
 	/**
-	 * @Id @Column(type="integer")
+	 * @Id 
+	 * @Column(type="integer")
 	 * @GeneratedValue(strategy="AUTO")
 	 * @var int
+	 * 
+	 *  @_Public:Property(varType="int")
 	 */
 	private $id;
 
@@ -46,26 +49,93 @@ class Login extends BaseEntity
 
 	/**
 	 * @Column(type="string", length=64)
+	 * @var string
 	 */
 	private $salt;
 
 	
 	/**
-	 * @var \Models\User
+	 * @Column(type="string", length=64, nullable=true)
+	 * @var string
+	 */
+	private $pwResetKey;
+	
+	
+	/**
+	 * @var \Core\Entity\User
 	 * @OneToOne(targetEntity="User", mappedBy="login")
 	 * @JoinColumn(name="user_id", referencedColumnName="id")
+	 * 
+	 * @Public:PropertyEntity()
 	 */
-	private $user;
+	public $user;
 
 
 
-	public function getId(){ return $this->id; }
+	/**
+	 * Returns the Id of this Login Entity
+	 */
+	public function getId()
+	{
+		return $this->id;
+	}
 
 	
-	public function setUser(User $user){ $this->user = $user; }
-	public function getUser()          { return $this->user; }
+	/**
+	 * Set the User of this Login Entity
+	 * 
+	 * @param \Core\Entity\User $user
+	 */
+	public function setUser(User $user)
+	{
+		$this->user = $user;
+	}
+	
+	
+	/**
+	 * Returns the User of this Login Entity
+	 * 
+	 * @return \Core\Entity\User
+	 */
+	public function getUser()
+	{
+		return $this->user;
+	}
 
-
+	
+	/**
+	 * Create a new PW Reset Key
+	 */
+	public function createPwResetKey()
+	{
+		$this->pwResetKey = md5(unique(microtime(true)));
+	}
+	
+	
+	/**
+	 * Clears the pwResetKey Field.
+	 */
+	public function clearPwResetKey()
+	{
+		$this->pwResetKey = null;
+	}
+	
+	
+	/**
+	 * Returns the PwResetKey
+	 * @return string
+	 */
+	public function getPwResetKey()
+	{
+		return $this->pwResetKey;
+	}
+	
+	
+	/**
+	 * Sets a new Password. It creates a new salt
+	 * ans stores the salten password
+	 * @param string $password
+	 */
 	public function setNewPassword($password)
 	{
 		$this->salt = hash('sha256', uniqid(microtime(true), true));
@@ -75,6 +145,14 @@ class Login extends BaseEntity
 	}
 
 	
+	/**
+	 * Checks the given Password
+	 * Returns true, if the given password matches for this Login
+	 * 
+	 * @param string $password
+	 * 
+	 * @return bool
+	 */
 	public function checkPassword($password)
 	{
 		$password = hash('sha256', $password . $this->salt);

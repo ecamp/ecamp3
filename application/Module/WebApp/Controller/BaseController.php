@@ -65,13 +65,13 @@ class BaseController extends \Zend_Controller_Action
         
         if(\Zend_Auth::getInstance()->hasIdentity())
         {
-            $loginId = \Zend_Auth::getInstance()->getIdentity();
+            $userId = \Zend_Auth::getInstance()->getIdentity();
 
             /** @var $login \Entity\Login */
-            $login = $this->em->getRepository("Core\Entity\Login")->find($loginId);
-            if( isset($login) )
+            $user = $this->em->getRepository("Core\Entity\User")->find($userId);
+            if( isset($user) )
             {
-                $this->me = $login->getUser();
+                $this->me = $user;
                 $this->view->me = $this->me;
             }
         }
@@ -83,11 +83,10 @@ class BaseController extends \Zend_Controller_Action
 		$this->t = new \Zend_View_Helper_Translate();
 	}
 	
-	
-	
 	public function postDispatch()
 	{
-		$this->em->flush();
+		if( $this->em->isOpen() )
+			$this->em->flush();
 	}
 
 	

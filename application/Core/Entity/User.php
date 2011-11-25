@@ -186,8 +186,11 @@ class User extends BaseEntity
 
 	public function getId(){	return $this->id;	}
 
-	public function getUsername()            { return $this->username; }
-	public function setUsername( $username ) { $this->username = $username; return $this; }
+	/**
+	 * @Public:Method()
+	 */
+	public function getUsername()           { return $this->username; }
+ 	public function setUsername($username) 	{ $this->username = $username; return $this; }
 
 	/** @return \Entity\Login */
 	public function getLogin()	{	return $this->login;	}
@@ -257,6 +260,9 @@ class User extends BaseEntity
 	
 	public function getUsergroups(){ return $this->userGroups; }
 	
+	/**
+	 * @Public:MethodEntityList(type = "Core\Entity\Camp");
+	 */
 	public function getMyCamps(){ return $this->mycamps; }
 
 	public function getDisplayName()

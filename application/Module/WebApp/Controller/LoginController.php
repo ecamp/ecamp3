@@ -24,11 +24,17 @@ class WebApp_LoginController
 {
 
 	/**
-	 * @var Repository\UserRepository
-	 * @Inject UserRepository
+	 * @var \Core\Repository\UserRepository
+	 * @Inject \Core\Repository\UserRepository
 	 */
-	private $userRepository;
-
+	private $userRepo;
+	
+	/**
+	 * @var \CoreApi\Service\Login
+	 * @Inject \CoreApi\Service\Login
+	 */
+	private $loginService;
+	
 
 	public function indexAction()
 	{
@@ -43,7 +49,8 @@ class WebApp_LoginController
 
 		$this->view->loginForm = $loginForm;
 
-		$this->view->userlist = $this->userRepository->findAll();
+		//TODO: Remove this in Release
+		$this->view->userlist = $this->userRepo->findAll();
 	}
 
 
@@ -69,16 +76,15 @@ class WebApp_LoginController
 
 	public function logoutAction()
 	{
-        \Zend_Auth::getInstance()->clearIdentity();
-
+        $this->loginService->logout();
+        
 		$this->_redirect("login");
 	}
 
 
     protected function checkLogin($values)
     {
-        $authAdapter = new \Service\Auth\Adapter($values['login'], $values['password']);
-        $result = Zend_Auth::getInstance()->authenticate($authAdapter);
+    	$result = $this->loginService->login($values['login'], $values['password']);
 
         $this->view->message = $result->getMessages();
 
@@ -90,9 +96,9 @@ class WebApp_LoginController
 	
 	public function bypassAction()
 	{
-		$user = $this->userRepository->find($this->getRequest()->getParam('user'));
-		$authAdapter = new \Core\Service\Auth\Bypass($user);
-        	$result = Zend_Auth::getInstance()->authenticate($authAdapter);
+		$user = $this->userRepo->find($this->getRequest()->getParam('user'));
+		$authAdapter = new \CoreApi\Service\Auth\Bypass($user);
+        $result = Zend_Auth::getInstance()->authenticate($authAdapter);
 	
 		$this->_forward('index', 'dashboard');
 	}

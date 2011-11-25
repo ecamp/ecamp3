@@ -25,18 +25,27 @@ class WebApp_RegisterController
 {
 
 	/**
-	 * @var \Doctrine\ORM\EntityRepository
-	 * @Inject UserRepository
+	 * @var \Core\Repository\UserRepository
+	 * @Inject \Core\Repository\UserRepository
 	 */
-	private $userRepository;
+	private $userRepo;
 
 
 	/**
-	 * @var \Core\Service\UserService
-	 * @Inject Core\Service\UserService
+	 * @var \CoreApi\Service\User
+	 * @Inject CoreApi\Service\User
 	 */
 	private $userService;
-
+	
+	
+	/**
+	 * @var \CoreApi\Service\Login
+	 * @Inject \CoreApi\Service\Login
+	 */
+	private $loginService;
+	
+	
+	
 
 	public function indexAction()
 	{
@@ -45,8 +54,8 @@ class WebApp_RegisterController
 
 		if($id = $this->getRequest()->getParam('id'))
 		{
-			/** @var $user \Entity\User */
-			$user = $this->userRepository->find($id);
+			/** @var $user \Core\Entity\User */
+			$user = $this->userRepo->find($id);
 
 			if(!is_null($user) && $user->getState() == \Core\Entity\User::STATE_NONREGISTERED)
 			{
@@ -60,7 +69,6 @@ class WebApp_RegisterController
 		$registerForm->setDefaults($this->getRequest()->getParams());
 
 		$this->view->registerForm = $registerForm;
-
 	}
 
 
@@ -70,7 +78,7 @@ class WebApp_RegisterController
 		
 		$registerForm = new \WebApp\Form\Register();
 
-		if(!$registerForm->isValid($this->getRequest()->getParams()))
+		if(!$registerForm->isValid($params))
 		{
 			$this->view->registerForm = $registerForm;
 			$this->render("index");
@@ -79,7 +87,11 @@ class WebApp_RegisterController
 		
 		try
 		{
-			$user = $this->userService->registerUser($params);
+			$email 		= $params['email'];
+			$password 	= $params['password1'];
+			
+			$user 	= $this->userService->create($email, $params);
+			$login 	= $this->loginService->create($user, $password);
 		}
 		catch (Exception $e)
 		{
@@ -107,7 +119,7 @@ class WebApp_RegisterController
 		$key = $this->getRequest()->getParam('key');
 
 
-		if($this->userService->activateUser($id, $key))
+		if($this->userService->activate($id, $key))
 		{
 			$this->em->flush();
 
@@ -116,7 +128,7 @@ class WebApp_RegisterController
 		else
 		{
 			/** @var $user \Entity\User */
-			$user = $this->userRepository->find($id);
+			$user = $this->userRepo->find($id);
 
 			die($user->createNewActivationCode());
 		}

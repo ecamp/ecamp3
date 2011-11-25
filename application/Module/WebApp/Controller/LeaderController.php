@@ -36,8 +36,8 @@ class WebApp_LeaderController extends \WebApp\Controller\BaseController
     private $loginRepo;
 	
 	/**
-     * @var Core\Service\UserService
-     * @Inject Core\Service\UserService
+     * @var CoreApi\Service\UserService
+     * @Inject CoreApi\Service\UserService
      */
 	private $userService;
 

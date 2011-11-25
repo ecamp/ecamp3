@@ -77,7 +77,7 @@ class NonRegisteredUser extends \Zend_Validate_Abstract
 			$user = $this->userRepository->findOneBy(array($this->field => $value));
 		}
 
-		if(!is_null($user) && $user->getState() != \Entity\User::STATE_NONREGISTERED)
+		if(!is_null($user) && $user->getState() != \Core\Entity\User::STATE_NONREGISTERED)
 		{
 			$this->_error(self::USER_IS_REGISTERED);
 			return false;
