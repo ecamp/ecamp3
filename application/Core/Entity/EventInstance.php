@@ -29,12 +29,20 @@ class EventInstance extends BaseEntity
 {
 
 	/**
+	 * @return \CoreApi\Entity\EventInstance
+	 */
+	public function asReadonly()
+	{
+		return new \CoreApi\Entity\EventInstance($this);
+	}
+
+	/**
 	 * @var int
 	 * @Id @Column(type="integer")
 	 * @GeneratedValue(strategy="AUTO")
 	 */
 	private $id;
-	
+
 	/**
 	 * @ManyToOne(targetEntity="Event")
 	 * @JoinColumn(nullable=false)
@@ -46,13 +54,13 @@ class EventInstance extends BaseEntity
 	 * @Column(type="integer" )
 	 */
 	private $minOffset;
-	
+
 	/**
 	 * Duration of this instance in minutes
 	 * @Column(type="integer" )
 	 */
 	private $duration;
-	
+
 	/**
 	 * @ManyToOne(targetEntity="Subcamp")
 	 * @JoinColumn(nullable=false)
@@ -60,18 +68,66 @@ class EventInstance extends BaseEntity
 	private $subcamp;
 
 	
-	public function getId(){ return $this->id; }
+	/** @Public:Method() */
+	public function getId()
+	{
+		return $this->id;
+	}
 
-	public function setEvent(Event $event){ $this->event = $event; }
-	public function getEvent()            { return $this->event;   }
+	public function setEvent(Event $event)
+	{
+		$this->event = $event;
+	}
 	
-	public function setMinOffset($minOffset){ $this->minOffset = $minOffset; }
-	public function getMinOffset()          { return $this->minOffset; }
+	/**
+	 * @Public:MethodEntity()
+	 * @return \Core\Entity\Event 
+	 */
+	public function getEvent()
+	{
+		return $this->event;
+	}
+
+	public function setMinOffset($minOffset)
+	{
+		$this->minOffset = $minOffset;
+	}
 	
-	public function setDuration($duration){ $this->duration = $duration; }
-	public function getDuration()         { return $this->duration; }
+	/**
+	 * @Public:Method()
+	 * @return int
+	 */
+	public function getMinOffset()
+	{
+		return $this->minOffset;
+	}
+
+	public function setDuration($duration)
+	{
+		$this->duration = $duration;
+	}
 	
-	public function setSubcamp(Subcamp $subcamp){ $this->subcamp = $subcamp; }
-	public function getSubcamp()                { return $this->subcamp; }
+	/**
+	 * @Public:Method()
+	 * @return int
+	 */
+	public function getDuration()
+	{
+		return $this->duration;
+	}
+
+	public function setSubcamp(Subcamp $subcamp)
+	{
+		$this->subcamp = $subcamp;
+	}
 	
+	/**
+	 * @Public:MethodEntity()
+	 * @return \Core\Entity\Subcamp 
+	 */
+	public function getSubcamp()
+	{
+		return $this->subcamp;
+	}
+
 }

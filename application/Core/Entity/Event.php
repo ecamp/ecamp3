@@ -21,7 +21,7 @@
 namespace Core\Entity;
 
 /**
- * Container for an event. 
+ * Container for an event.
  * - An event has no date/time, as it only describes the program but not when it happens.
  * - An event can either belong to a camp or to a user
  * @Entity
@@ -29,6 +29,15 @@ namespace Core\Entity;
  */
 class Event extends BaseEntity
 {
+
+	/**
+	 * @return \CoreApi\Entity\Event
+	 */
+	public function asReadonly()
+	{
+		return new \CoreApi\Entity\Event($this);
+	}
+
 
 	/**
 	 * @var int
@@ -46,12 +55,12 @@ class Event extends BaseEntity
 	 * @ManyToOne(targetEntity="Camp")
 	 */
 	private $camp;
-	
+
 	/**
 	 * @ManyToOne(targetEntity="User")
 	 */
 	private $user;
-	
+
 	/**
 	 * @OneToMany(targetEntity="EventInstance", mappedBy="event", cascade={"all"}, orphanRemoval=true)
 	 */
@@ -61,19 +70,69 @@ class Event extends BaseEntity
 	 * @OneToMany(targetEntity="Plugin", mappedBy="event", cascade={"all"}, orphanRemoval=true)
 	 */
 	private $plugins;
-	
-	public function getId(){ return $this->id; }
 
-	public function setTitle($title){ $this->title = $title; }
-	public function getTitle()            { return $this->title;   }
 	
-	public function setCamp(camp $camp){ $this->camp = $camp; }
-	public function getCamp()          { return $this->camp; }
 	
-	public function setUser(user $user){ $this->user = $user; }
-	public function getUser()          { return $this->user; }
+	/** @Public:Method() */
+	public function getId()
+	{
+		return $this->id;
+	}
+
+	public function setTitle($title)
+	{
+		$this->title = $title;
+	}
 	
-	public function getEventInstances() { return $this->eventInstances; }
+	/** @Public:Method() */
+	public function getTitle()
+	{
+		return $this->title;
+	}
+
+	public function setCamp(camp $camp)
+	{
+		$this->camp = $camp;
+	}
 	
-	public function getPlugins() { return $this->plugins; }
+	/**
+	 * @Public:MethodEntity()
+	 * @return \Core\Entity\Camp
+	 */
+	public function getCamp()
+	{
+		return $this->camp;
+	}
+
+	public function setUser(user $user)
+	{
+		$this->user = $user;
+	}
+	
+	/**
+	 * @Public:MethodEntity()
+	 * @return \Core\Entity\User
+	 */
+	public function getUser()
+	{
+		return $this->user;
+	}
+	
+	/**
+	 * @Public:MethodEntityList(type = "\CoreApi\Entity\EventInstance")
+	 * @return array
+	 */
+	public function getEventInstances()
+	{
+		return $this->eventInstances;
+	}
+
+	/**
+	 * @Public:MethodEntityList(type = "\CoreApi\Entity\Plugin")
+	 * @return array
+	 */
+	public function getPlugins()
+	{
+		return $this->plugins;
+	}
 }

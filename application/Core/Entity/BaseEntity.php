@@ -14,6 +14,9 @@ abstract class BaseEntity
 	/** @Column(name="updated_at", type="datetime") */
 	private $updatedAt;
 
+	
+	public abstract function asReadonly();
+	
 	/**
 	 * @PrePersist
 	 */

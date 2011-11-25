@@ -5,7 +5,7 @@ namespace Core\Entity\Annotations;
 class PropertyEntityList extends Annotation
 {
 
-	private static $body = 'return new \CoreApi\Entity\{CLASSNAME}List($this->entity->{PROPERTY});';
+	private static $body = 'return new \CoreApi\Entity\{CLASSNAME}List($this->wrappedObject->{PROPERTY});';
 	private static $search = array("{CLASSNAME}", "{PROPERTY}");
 
 	
@@ -24,7 +24,7 @@ class PropertyEntityList extends Annotation
 		$tags = array();
 
 
-	if($this->type)
+		if($this->type)
 		{
 			$rd = new \Zend_CodeGenerator_Php_Docblock_Tag_Return();
 			$rd->setDatatype("\CoreApi\Entity\\" . $this->type . "List");

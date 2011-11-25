@@ -17,9 +17,9 @@ abstract class Annotation extends \Doctrine\Common\Annotations\Annotation
 	private function getType()
 	{
 		$this->type = 
-			$this->type ?: 
-			$this->getTag("var") ?: 
-			$this->getTag("return") ?: 
+			$this->type ?: 				// or
+			$this->getTag("var") ?: 	// or
+			$this->getTag("return") ?: 	// or
 			null;
 		
 		if(strpos($this->type, "\\") !== false)
@@ -52,5 +52,16 @@ abstract class Annotation extends \Doctrine\Common\Annotations\Annotation
 	{
 		$name[0] = strtoupper($name[0]);
 		return "get" . $name;
+	}
+	
+	
+	protected function getNamespace($classname)
+	{
+		$nameElements = explode("\\", $classname);
+		
+		$classname = array_pop($nameElements);
+		$namespace = implode("\\", array_filter($nameElements));
+		
+		return array($namespace, $classname);
 	}
 }

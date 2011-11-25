@@ -34,8 +34,6 @@ class Login extends BaseEntity
 	 * @Column(type="integer")
 	 * @GeneratedValue(strategy="AUTO")
 	 * @var int
-	 * 
-	 *  @_Public:Property(varType="int")
 	 */
 	private $id;
 
@@ -65,15 +63,23 @@ class Login extends BaseEntity
 	 * @var \Core\Entity\User
 	 * @OneToOne(targetEntity="User", mappedBy="login")
 	 * @JoinColumn(name="user_id", referencedColumnName="id")
-	 * 
-	 * @Public:PropertyEntity()
 	 */
 	public $user;
 
 
+	/**
+	 * @return \CoreApi\Entity\Login
+	 */
+	public function asReadonly()
+	{
+		return new \CoreApi\Entity\Login($this);
+	}
+	
 
 	/**
 	 * Returns the Id of this Login Entity
+	 * 
+	 * @Public:Method()
 	 */
 	public function getId()
 	{
@@ -95,6 +101,7 @@ class Login extends BaseEntity
 	/**
 	 * Returns the User of this Login Entity
 	 * 
+	 * @Public:MethodEntity()
 	 * @return \Core\Entity\User
 	 */
 	public function getUser()

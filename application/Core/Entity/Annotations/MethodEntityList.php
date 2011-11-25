@@ -5,7 +5,7 @@ namespace Core\Entity\Annotations;
 class MethodEntityList extends Annotation
 {
 
-	private static $body = 'return new \CoreApi\Entity\{CLASSNAME}List($this->entity->{METHOD}({PARAMS}));';
+	private static $body = 'return new \CoreApi\Entity\{CLASSNAME}List($this->wrappedObject->{METHOD}({PARAMS}));';
 	private static $search = array("{CLASSNAME}", "{METHOD}", "{PARAMS}");
 	
 	
@@ -24,8 +24,19 @@ class MethodEntityList extends Annotation
 		{
 			$p = \Zend_CodeGenerator_Php_Parameter::fromReflection($zrp);
 			$m->setParameter($p);
-				
-			$params[$p->getPosition()] = "$" . $p->getName();
+			
+			//If Param is from Namespace \Core\Entity use the getWrappedObject Method!!	
+			list($namespace, $classname) = $this->getNamespace($p->getType());
+			
+			if($namespace == "Core\Entity")
+			{
+				$p->setType("CoreApi\Entity\\" . $classname);
+				$params[$p->getPosition()] = '$' . $p->getName() . '->getWrappedObject()';
+			}
+			else 
+			{
+				$params[$p->getPosition()] = "$" . $p->getName();
+			}
 		}
 		
 		$replace = array($this->type, $rm->getName(), implode(", ", $params));

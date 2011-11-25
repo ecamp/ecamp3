@@ -27,12 +27,22 @@ namespace Core\Entity;
 class Group extends BaseEntity
 {
 	public function __construct()
-    {
+	{
 		$this->children = new \Doctrine\Common\Collections\ArrayCollection();
 		$this->userGroups = new \Doctrine\Common\Collections\ArrayCollection();
-	    $this->camps = new \Doctrine\Common\Collections\ArrayCollection();
-    }
-	
+		$this->camps = new \Doctrine\Common\Collections\ArrayCollection();
+	}
+
+
+	/**
+	 * @return \CoreApi\Entity\Group
+	 */
+	public function asReadonly()
+	{
+		return new \CoreApi\Entity\Group($this);
+	}
+
+
 	/**
 	 * @Id @Column(type="integer")
 	 * @GeneratedValue(strategy="AUTO")
@@ -46,119 +56,221 @@ class Group extends BaseEntity
 	 * @Column(type="string", length=32, nullable=false )
 	 */
 	private $name;
-	
+
 	/**
 	 * @ManyToOne(targetEntity="Group", inversedBy="children")
 	 */
 	private $parent;
-	
+
 	/**
-     * @OneToMany(targetEntity="Group", mappedBy="parent")
+	 * @OneToMany(targetEntity="Group", mappedBy="parent")
 	 * @OrderBy({"name" = "ASC"})
-     */
+	 */
 	private $children;
-	
-	/** 
-	 * @Column(type="string", length=64, nullable=false ) 
+
+	/**
+	 * @Column(type="string", length=64, nullable=false )
 	 */
 	private $description;
-	
+
 	/**
 	 * @OneToMany(targetEntity="UserGroup", mappedBy="group", cascade={"all"}, orphanRemoval=true )
 	 */
 	private $userGroups;
-	
+
 	/**
 	 * @var Camp
 	 * @OneToMany(targetEntity="Camp", mappedBy="group")
 	 */
 	private $camps;
-	
+
 	/** @Column(type="string", length=32, nullable=true ) */
 	private $imageMime;
-	
+
 	/** @Column(type="object", nullable=true ) */
 	private $imageData;
-	
-	
-	public function getId(){	return $this->id;	}
-	
-	public function getName()   { return $this->name; }
-	public function setName( $name ){ $this->name = $name; return $this; }
-	
-	public function getDescription()   { return $this->description; }
-	public function setDescription( $description ){ $this->description = $description; return $this; }
 
-	public function getParent()   { return $this->parent; }
-	public function setParent( $parent ){ $this->parent = $parent; return $this; }
-	
-	public function getChildren() { return $this->children; }
-	public function hasChildren() { return ! $this->children->isEmpty(); }
-	
-	public function getUserGroups() { return $this->userGroups; }
 
-	public function getCamps(){ return $this->camps; }
+	/**
+	 * @Public:Method()
+	 * @return int
+	 */
+	public function getId()
+	{
+		return $this->id;
+	}
+	
+	
+	/**
+	* @Public:Method()
+	* @return string
+	*/
+	public function getName()
+	{
+		return $this->name;
+	}
+	public function setName( $name )
+	{
+		$this->name = $name; return $this;
+	}
 
+	/**
+	 * @Public:Method()
+	 * @return string
+	 */
+	public function getDescription()
+	{
+		return $this->description;
+	}
+	public function setDescription( $description )
+	{
+		$this->description = $description; return $this;
+	}
+
+	/**
+	 * @Public:MethodEntity()
+	 * @return \Core\Entity\Group
+	 */
+	public function getParent()
+	{
+		return $this->parent;
+	}
+	public function setParent( $parent )
+	{
+		$this->parent = $parent; return $this;
+	}
+
+	/**
+	 * @Public:MethodEntityList(type = "\CoreApi\Entity\Group")
+	 * @return array
+	 */
+	public function getChildren()
+	{
+		return $this->children;
+	}
+	public function hasChildren()
+	{
+		return ! $this->children->isEmpty();
+	}
+
+	/**
+	 * @Public:MethodEntityList(type = "\CoreApi\Entity\UserGroup")
+	 * @return array
+	 */
+	public function getUserGroups()
+	{
+		return $this->userGroups;
+	}
+
+	/**
+	 * @Public:MethodEntity()
+	 * @return \Core\Entity\Camp
+	 */
+	public function getCamps()
+	{
+		return $this->camps;
+	}
+
+	/**
+	 * @Public:MethodEntityList(type = "\CoreApi\Entity\User")
+	 * @return array
+	 */
 	public function getMembers()
-    {
-	    $members = new \Doctrine\Common\Collections\ArrayCollection();
+	{
+		$members = new \Doctrine\Common\Collections\ArrayCollection();
 
-	    foreach($this->userGroups as $userGroup) {
-			if($userGroup->isMember()) {
+		foreach($this->userGroups as $userGroup)
+		{
+			if($userGroup->isMember())
+			{
 				$members->add($userGroup->getUser());
 			}
 		}
 
 		return $members;
 	}
-	
+
+	/**
+	 * @Public:Method()
+	 * @return array
+	 */
 	public function getPathAsArray()
 	{
 		$path = array();
 		$group = $this;
-		
+
 		while( $group->getParent() != null )
 		{
 			$group = $group->getParent();
 			$path[] = $group;
 		}
-		
+
 		return array_reverse($path);
 	}
-	
-	public function getImageData(){ return base64_decode($this->imageData); }
-	public function setImageData($data){ $this->imageData = base64_encode($data); return $this; }
-	
-	public function getImageMime(){ return $this->imageMime; }
-	public function setImageMime($mime){ $this->imageMime = $mime; return $this; }
-	
-	public function delImage(){
+
+	/**
+	 * @Public:Method()
+	 * @return string
+	 */
+	public function getImageData()
+	{
+		return base64_decode($this->imageData);
+	}
+	public function setImageData($data)
+	{
+		$this->imageData = base64_encode($data); return $this;
+	}
+
+	/**
+	 * @Public:Method()
+	 * @return string
+	 */
+	public function getImageMime()
+	{
+		return $this->imageMime;
+	}
+	public function setImageMime($mime)
+	{
+		$this->imageMime = $mime; return $this;
+	}
+
+	public function delImage()
+	{
 		$this->imageMime = null;
 		$this->imageData = null;
 		return $this;
 	}
+
 	
-	public function isManager($user) {
-		$closure =  function($key, $element) use ($user){ 
+	/**
+	 * @Public:Method()
+	 */
+	public function isManager(User $user)
+	{
+		$closure = function($key, $element) use ($user)
+		{
 			return  $element->getRole() == UserGroup::ROLE_MANAGER && $element->getUser() == $user;
 		};
-		
-		return $this->getUserGroups()->exists( $closure ); 
+
+		return $this->getUserGroups()->exists( $closure );
 	}
-	
-	public function acceptRequest($request, $manager) {
+
+	public function acceptRequest($request, $manager) 
+	{
 		if( $this->isManager($manager) )
-			$request->acceptRequest($manager);
-		
+		$request->acceptRequest($manager);
+
 		return $this;
 	}
-	
-	public function refuseRequest($request, $manager) {
-		if( $this->isManager($manager) ) {
+
+	public function refuseRequest($request, $manager) 
+	{
+		if( $this->isManager($manager) ) 
+		{
 			$request->getUser()->getUserGroups()->removeElement($request);
 			$this->userGroups->removeElement($request);
 		}
-		
+
 		return $this;
 	}
 }
