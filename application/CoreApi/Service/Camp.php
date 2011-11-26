@@ -12,15 +12,35 @@ class Camp extends ServiceAbstract
 	protected $em;
 	
     // public function index(){}
-	public function get(){}
-	public function update(){}
 	public function delete(){}
 	
+	public function get($id)
+	{
+		$camp = $this->em->getRepository("Core\Entity\Camp")->find($id);
+		return $camp;
+	}
+	
+	protected function update($params)
+	{
+		$id = $params["id"];
+		$camp = $this->em->getRepository("Core\Entity\Camp")->find($id);
+		
+		$form = new \Core\Form\Camp\Update();
+		
+		if( !$form->isValid($params) )
+			throw new \Ecamp\ValidationException($form);
+		
+		$form->getData($camp);
+		
+		$this->em->persist($camp);
+		
+		return $camp;
+	}
 	
 	protected function create(\Core\Entity\User $creator, $params)
 	{
 		$camp = new \Core\Entity\Camp();
-		$form = $this->getForm("Create");
+		$form = new \Core\Form\Camp\Create();
 		
 		if( !$form->isValid($params) ) {
 			throw new \Ecamp\ValidationException($form);
@@ -58,6 +78,7 @@ class Camp extends ServiceAbstract
 	protected function _setupAcl()
 	{
 		$this->_acl->allow('camp_owner', $this, 'create');
+		$this->_acl->allow('camp_owner', $this, 'update');
 	}
 	
 }

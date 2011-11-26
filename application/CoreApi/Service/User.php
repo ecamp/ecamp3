@@ -18,6 +18,17 @@ class User extends ServiceAbstract
 	private $campService;
 	
 	/**
+	* Setup ACL. Is used for manual calls of 'checkACL' and for automatic checking
+	* @see    CoreApi\Service\ServiceAbstract::_setupAcl()
+	* @return void
+	*/
+	protected function _setupAcl()
+	{
+		$this->_acl->allow('user_me', $this, 'createCamp');
+	}
+	
+	
+	/**
 	 * Returns the User with the given Identifier
 	 * (Identifier can be a MailAddress, a Username or a ID)
 	 * 
@@ -131,21 +142,21 @@ class User extends ServiceAbstract
 	
 	/**
 	 * 
-	 * Return the set of roles for the current user based on the context (Group, Camp)
+	 * Return the set of roles for the current user based on the context (Group, Camp, User)
 	 * @param unknown_type $group
 	 * @param unknown_type $camp
 	 */
-	public function getCurrentUserRole($group = null, $camp = null){
+	public function getCurrentUserRole($context = null)
+	{
+		/* this is only a dummy implemention which gives full access (top role for every context) */
 		$roles = array();
 		$roles[] = new \Zend_Acl_Role('member');
 		$roles[] = new \Zend_Acl_Role('group_manager');
 		$roles[] = new \Zend_Acl_Role('camp_owner');
+		$roles[] = new \Zend_Acl_Role('user_me');
 		
 		return $roles;
 	}
-	
-	
-	
 	
 	/**
 	* Returns the User for a MailAddress or a Username
@@ -196,7 +207,7 @@ class User extends ServiceAbstract
 	* @return Camp object, if creation was successfull
 	* @throws \Ecamp\ValidationException
 	*/
-	public function createCamp(\Core\Entity\User $creator, $params)
+	protected function createCamp(\Core\Entity\User $creator, $params)
 	{
 		$this->em->getConnection()->beginTransaction();
 		try

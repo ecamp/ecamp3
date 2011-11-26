@@ -20,7 +20,7 @@
 
 namespace WebApp\Form;
 
-class Camp extends BaseForm
+class CampUpdate extends BaseForm
 {
 	public function init()
 	{
@@ -35,32 +35,15 @@ class Camp extends BaseForm
 		$title->setLabel('Title')
 			->addFilter('StringTrim');
 
-	    $from = new \ZendX_JQuery_Form_Element_DatePicker(
-                    'from',
-                    array(
-	                    "label" => "From",
-	                    'jQueryParams' => array('dateFormat' => 'dd.mm.yy')));
-
-	    $to   = new \ZendX_JQuery_Form_Element_DatePicker(
-                    'to',
-                    array(
-	                    "label" => "To",
-	                    'jQueryParams' => array('dateFormat' => 'dd.mm.yy')));
-
 		$submit = new \Zend_Form_Element_Submit('submit');
-		$submit->setLabel('Create');
+		$submit->setLabel('Save');
 
 		$this->addElement($id);
 		$this->addElement($name);
 		$this->addElement($title);
-		$this->addElement($from);
-	    $this->addElement($to);
+
 		$this->addElement($submit);
 
 	}
 	
-	public function getId()
-	{
-		return $this->getValue('id');
-	}
 }

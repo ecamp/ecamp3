@@ -71,6 +71,49 @@ class WebApp_GroupController extends \WebApp\Controller\BaseController
 	public function membersAction()
 	{
 	}
+	
+	public function editcampAction()
+	{	
+		$camp = $this->groupService2->getCamp($this->group, $this->getRequest()->getParam("id") );
+		
+		$form = new \WebApp\Form\CampUpdate();
+		$form->setData($camp);
+		
+		$this->view->form = $form;
+	}
+	
+	public function updatecampAction()
+	{
+		$form = new \WebApp\Form\CampUpdate();
+		$params = $this->getRequest()->getParams();
+		
+		try
+		{
+			/* we are not doing any validations here. the real validation is done in the service. however, this need to be here:
+			 *  - for filters
+			*  - for possible validations on WebApp-Level
+			*/
+			if(!$form->isValid($params))
+				throw new \Ecamp\ValidationException();
+		
+			$this->groupService2->updateCamp($this->group, $params);
+			$this->_helper->getHelper('Redirector')->gotoRoute(array('action'=>'camps', 'group' => $this->group->getId()), 'group');
+		}
+		
+		/* catching permission exceptions might be outsourced to an upper level */
+		catch(\Ecamp\PermissionException $e){
+			die("You should not click on buttons you are not allowed to.");
+		}
+		
+		/* oh snap, something went wrong. show the form again */
+		catch(\Ecamp\ValidationException $e){
+			if($e->form != null)
+				$form->copyErrors( $e->form );
+		
+			$this->view->form = $form;
+			$this->render("editcamp");
+		}
+	}
 
 	public function campsAction(){
 	}
@@ -86,7 +129,7 @@ class WebApp_GroupController extends \WebApp\Controller\BaseController
 	}
 
 	public function newcampAction(){
-		$form = new \WebApp\Form\Camp();
+		$form = new \WebApp\Form\CampCreate();
 		
 		$form->setDefaults($this->getRequest()->getParams());
 
@@ -95,7 +138,7 @@ class WebApp_GroupController extends \WebApp\Controller\BaseController
 
 	public function createcampAction()
 	{
-		$form = new \WebApp\Form\Camp();
+		$form = new \WebApp\Form\CampCreate();
 		$params = $this->getRequest()->getParams();
 		
 		try 

@@ -12,7 +12,10 @@
 		<b>Message:</b>
 		<tal:block content="php: exception.getMessage()" />
 	</p>
-
+	<p>
+		<b>Error:</b>
+		<tal:block content="php: get_class(exception)" />
+	</p>
 
 	<h3>Stack trace:</h3>
 	<pre tal:content="php: exception.getTraceAsString()" />

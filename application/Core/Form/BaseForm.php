@@ -30,16 +30,4 @@ namespace Core\Form;
  */
 abstract class BaseForm extends \Zend_Form
 {
-	/**
-	 * Load data from entity and set the form values
-	 * @param  $entity
-	 */
-	public function setData($entity)
-	{
-		foreach($this->getValues() as $key => $value)
-		{
-			$this->getElement($key)->setValue($entity->{'get'.ucfirst($key)}());
-		}
-	}
-
 }

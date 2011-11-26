@@ -1,0 +1,9 @@
+<?php $ctx->form->setAction( $ctx->this->thisurl(array('action' => 'updatecamp', 'group' => $ctx->group->getId() ), 'group') ); ?>
+
+<span metal:use-macro="header.phtml/header" />
+
+<div class="span-10">
+	<h1>Edit Camp</h1>
+
+	<tal:block content="structure form" />
+</div>
