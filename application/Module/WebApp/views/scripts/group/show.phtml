@@ -10,7 +10,7 @@
 
 
 			<a tal:attributes="href helper:url(array('group' => subgroup.getId()), 'group')">
-				<img tal:attributes="src helper:url(array('group' => subgroup.getId(), 'controller' => 'avatar', 'action' => 'group'), 'general')" /><br />
+				<img tal:attributes="src helper:url(array('id' => subgroup.getId(), 'controller' => 'avatar', 'action' => 'group'), 'general')" /><br />
 			</a>
 			<a tal:attributes="href helper:url(array('group' => subgroup.getId()), 'group')">
 				<tal:block content="subgroup/getName" />

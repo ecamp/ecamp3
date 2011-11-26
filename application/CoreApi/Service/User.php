@@ -47,7 +47,7 @@ class User extends ServiceAbstract
 		if(\Zend_Auth::getInstance()->hasIdentity())
 		{
 			$userId = \Zend_Auth::getInstance()->getIdentity();
-			$user = $this->$userRepo->find($userId);
+			$user = $this->userRepo->find($userId);
 		}
 		
 		return $user;

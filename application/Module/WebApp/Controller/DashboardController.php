@@ -21,17 +21,12 @@
 
 class WebApp_DashboardController extends \WebApp\Controller\BaseController
 {
-	/**
-     * @var CoreApi\Service\UserService
-     * @Inject CoreApi\Service\UserService
-     */
-	private $userService;
 	
 	/**
 	* @var CoreApi\Service\User
 	* @Inject CoreApi\Service\User
 	*/
-	private $userService2;
+	private $userService;
 	
 	
 	/**
@@ -82,7 +77,7 @@ class WebApp_DashboardController extends \WebApp\Controller\BaseController
 	}
 
 	public function newcampAction(){
-		$form = new \WebApp\Form\Camp();
+		$form = new \WebApp\Form\CampCreate();
 		
 		$form->setDefaults($this->getRequest()->getParams());
 
@@ -91,7 +86,7 @@ class WebApp_DashboardController extends \WebApp\Controller\BaseController
 
 	public function createcampAction()
 	{
-		$form = new \WebApp\Form\Camp();
+		$form = new \WebApp\Form\CampCreate();
 		$params = $this->getRequest()->getParams();
 	
 		try
@@ -103,7 +98,7 @@ class WebApp_DashboardController extends \WebApp\Controller\BaseController
 			if(!$form->isValid($params))
 				throw new \Ecamp\ValidationException();
 	
-			$this->userService2->createCamp($this->me, $params);
+			$this->userService->createCamp($this->me, $params);
 			$this->_helper->getHelper('Redirector')->gotoRoute(array('action'=>'camps'));
 		}
 	

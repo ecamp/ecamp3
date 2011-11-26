@@ -2,7 +2,7 @@
 	
 	<tal:block condition="exists: group">
 		<div class="group_logo">
-			<img width="32" height="32" tal:attributes="src helper:url(array('group' => group.getId(), 'controller' => 'avatar', 'action' => 'group', 'size' => 32), 'general')" /><br />
+			<img width="32" height="32" tal:attributes="src helper:url(array('id' => group.getId(), 'controller' => 'avatar', 'action' => 'group', 'size' => 32), 'general')" /><br />
 		</div>
 		
 		<div class="group_header" tal:content="group/getDescription">GroupName</div>

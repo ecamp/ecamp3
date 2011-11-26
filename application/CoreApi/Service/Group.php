@@ -20,7 +20,12 @@ class Group extends ServiceAbstract
 
 	
     // public function index(){}
-	public function get(){}
+	public function get($id)
+	{
+		$group = $this->em->getRepository('\Core\Entity\Group')->find($id);
+		return $group;
+	}
+	
 	public function update(){}
 	public function delete(){}
     
@@ -130,4 +135,6 @@ class Group extends ServiceAbstract
         $this->_acl->allow('group_manager', $this, 'updateCamp');
         $this->_acl->allow('group_manager', $this, 'getCamp');
     }
+    
+    
 }
