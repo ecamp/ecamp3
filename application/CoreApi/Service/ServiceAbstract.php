@@ -82,6 +82,28 @@ abstract class ServiceAbstract
         	return $this->getAcl()->isAllowed($userRoles, $this, $permissions);
         }
     }
+    
+    /**
+    * Magic method 
+    * Makes protected/private methods available if allowed by ACL
+    * @throws \Exception
+    * @param  $function
+    * @param  $args
+    */
+	public function __call($method, $args)
+    {
+        if( !method_exists($this, $method) ) {
+            throw new \Exception("unknown method [$method]");
+        }
+        
+        if( !$this->checkAcl($method) )
+        	throw new \Ecamp\PermissionException("");
+        
+        return call_user_func_array(
+            array($this, $method),
+            $args
+        );
+    }
 
     /**
      * @see    Zend_Acl_Resource_Interface::getResourceId()
