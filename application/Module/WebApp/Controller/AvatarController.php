@@ -20,16 +20,24 @@
 
 class WebApp_AvatarController extends \Zend_Controller_Action
 {
+	
 	/**
-	 * @var \Doctrine\ORM\EntityManager
-	 * @Inject EntityManager
+	 * @var \CoreApi\Service\User
+	 * @Inject \CoreApi\Service\User
 	 */
-	protected $em;
+	protected $userService;
+	
+	/**
+	 * @var \CoreApi\Service\Group
+	 * @Inject \CoreApi\Service\Group
+	 */
+	protected $groupService;
+	
 
+	
 	public function init()
 	{
 		\Zend_Registry::get('kernel')->InjectDependencies($this);
-		//$this->em = \Zend_Registry::get('doctrine')->getEntityManager();
 	}
 
 	public function userAction()
@@ -38,8 +46,8 @@ class WebApp_AvatarController extends \Zend_Controller_Action
 		$this->_helper->viewRenderer->setNoRender(true);
 
 		$id = $this->getRequest()->getParam("id");
-		$user = $this->em->getRepository("Entity\User")->find($id);
-
+		$user = $this->userService->get($id);
+		
 		if( $user->getImageData() == null ) {
 			//$this->_redirect('img/default_avatar.png');
 
@@ -59,9 +67,9 @@ class WebApp_AvatarController extends \Zend_Controller_Action
 		$this->_helper->layout()->disableLayout();
 		$this->_helper->viewRenderer->setNoRender(true);
 
-		$id = $this->getRequest()->getParam("group");
-	    $group = $this->em->getRepository("Entity\Group")->find($id);
-
+		$id = $this->getRequest()->getParam("id");
+	    $group = $this->groupService->get($id);
+		
 		if( $group->getImageData() == null ) {
 			// $this->_redirect("img/default_group.png");
 

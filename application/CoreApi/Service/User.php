@@ -11,6 +11,21 @@ class User extends ServiceAbstract
 	 */
 	private $userRepo;
 	
+	/**
+	* @var \CoreApi\Service\Camp
+	* @Inject \CoreApi\Service\Camp
+	*/
+	private $campService;
+	
+	/**
+	* Setup ACL. Is used for manual calls of 'checkACL' and for automatic checking
+	* @see    CoreApi\Service\ServiceAbstract::_setupAcl()
+	* @return void
+	*/
+	protected function _setupAcl()
+	{
+		$this->_acl->allow('user_me', $this, 'createCamp');
+	}
 	
 	
 	/**
@@ -32,7 +47,7 @@ class User extends ServiceAbstract
 		if(\Zend_Auth::getInstance()->hasIdentity())
 		{
 			$userId = \Zend_Auth::getInstance()->getIdentity();
-			$user = $this->$userRepo->find($userId);
+			$user = $this->userRepo->find($userId);
 		}
 		
 		return $user;
@@ -127,21 +142,21 @@ class User extends ServiceAbstract
 	
 	/**
 	 * 
-	 * Return the set of roles for the current user based on the context (Group, Camp)
+	 * Return the set of roles for the current user based on the context (Group, Camp, User)
 	 * @param unknown_type $group
 	 * @param unknown_type $camp
 	 */
-	public function getCurrentUserRole($group = null, $camp = null){
+	public function getCurrentUserRole($context = null)
+	{
+		/* this is only a dummy implemention which gives full access (top role for every context) */
 		$roles = array();
 		$roles[] = new \Zend_Acl_Role('member');
 		$roles[] = new \Zend_Acl_Role('group_manager');
-		$roles[] = new \Zend_Acl_Role('camp_normal');
+		$roles[] = new \Zend_Acl_Role('camp_owner');
+		$roles[] = new \Zend_Acl_Role('user_me');
 		
 		return $roles;
 	}
-	
-	
-	
 	
 	/**
 	* Returns the User for a MailAddress or a Username
@@ -179,5 +194,44 @@ class User extends ServiceAbstract
 		}
 	
 		return $user;		
+	}
+	
+	
+	/**
+	* Creates a new Camp
+	* This method is protected, means it is only available from outside (magic!) if ACL is set properly
+	*
+	* @param \Entity\Group $group Owner of the new Camp
+	* @param \Entity\User $user Creator of the new Camp
+	* @param Array $params
+	* @return Camp object, if creation was successfull
+	* @throws \Ecamp\ValidationException
+	*/
+	protected function createCamp(\Core\Entity\User $creator, $params)
+	{
+		$this->em->getConnection()->beginTransaction();
+		try
+		{
+			$camp = $this->campService->create($creator, $params);
+				
+			$camp->setOwner($creator);
+	
+			$this->em->persist($camp);
+			$this->em->flush();
+	
+			$this->em->getConnection()->commit();
+				
+			return $camp;
+		}
+		catch (\PDOException $e)
+		{
+			$this->em->getConnection()->rollback();
+			$this->em->close();
+	
+			$form = new \Core\Form\Camp\Create();
+			$form->getElement('name')->addError("Name has already been taken.");
+				
+			throw new \Ecamp\ValidationException($form);
+		}
 	}
 }

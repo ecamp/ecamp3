@@ -2,7 +2,7 @@
 
 	<span  style="height:100px;" class="span-2">
 		<a tal:attributes="href helper:url(array('group' => usergroup.getGroup().getId()), 'group')">
-			<img width="48" height="48" tal:attributes="src helper:url(array('controller' => 'avatar', 'action' => 'group', 'group' => usergroup.getGroup().getId(), 'size' => 48), 'general')" /><br />
+			<img width="48" height="48" tal:attributes="src helper:url(array('controller' => 'avatar', 'action' => 'group', 'id' => usergroup.getGroup().getId(), 'size' => 48), 'general')" /><br />
 		</a>
 		<a tal:attributes="href helper:url(array('group' => usergroup.getGroup().getId()), 'group')">
 			<tal:block content="usergroup/getGroup/getName" />
@@ -18,7 +18,7 @@
 	<div style="height:100px;">
 		<span class="span-2">
 			<a tal:attributes="href helper:url(array('user' => usergroup.getUser().getId()), 'user')">
-				<img width="72" height="72" tal:attributes="src helper:url(array('controller' => 'avatar', 'action' => 'user', 'user' => usergroup.getUser().getId(), 'size' => 48), 'general')" /><br />
+				<img width="72" height="72" tal:attributes="src helper:url(array('controller' => 'avatar', 'action' => 'user', 'id' => usergroup.getUser().getId(), 'size' => 48), 'general')" /><br />
 			</a>
 		</span>
 		<span class="span-3">
@@ -61,7 +61,7 @@
 <span metal:define-macro="request" tal:omit-tag="" >
 
 	<a tal:attributes="href helper:url(array('user' => usergroup.getUser().getId()), 'user')" class="span-2">
-		<img width="46" height="46" tal:attributes="src helper:url(array('controller' => 'avatar', 'action' => 'user', 'user' => usergroup.getUser().getId(), 'size' =>32), 'general')" /><br />
+		<img width="46" height="46" tal:attributes="src helper:url(array('controller' => 'avatar', 'action' => 'user', 'id' => usergroup.getUser().getId(), 'size' =>32), 'general')" /><br />
 	 </a>
 
 	 <div class="span-7 last">
@@ -113,7 +113,7 @@
 <span metal:define-macro="invitation" tal:omit-tag="" >
 
 	<a tal:attributes="href helper:url(array('user' => usergroup.getUser().getId()), 'user')" class="span-2">
-		<img width="46" height="46" tal:attributes="src helper:url(array('group' => usergroup.getGroup().getId(), 'controller' => 'avatar', 'action' => 'group', 'size' => 32), 'general')" /><br />
+		<img width="46" height="46" tal:attributes="src helper:url(array('id' => usergroup.getGroup().getId(), 'controller' => 'avatar', 'action' => 'group', 'size' => 32), 'general')" /><br />
 	 </a>
 
 	 <div class="span-7 last">
