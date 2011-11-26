@@ -30,10 +30,19 @@ namespace Core\Entity;
 class Camp extends BaseEntity
 {
 	public function __construct()
-    {
+	{
 		$this->userCamps = new \Doctrine\Common\Collections\ArrayCollection();
 		$this->events    = new \Doctrine\Common\Collections\ArrayCollection();
-    }
+	}
+
+
+	/**
+	 * @return \CoreApi\Entity\Camp
+	 */
+	public function asReadonly()
+	{
+		return new \CoreApi\Entity\Camp($this);
+	}
 
 	/**
 	 * @var int
@@ -87,53 +96,134 @@ class Camp extends BaseEntity
 	 * @OneToMany(targetEntity="Period", mappedBy="camp")
 	 */
 	private $periods;
-	
+
 	/**
 	 * @OneToMany(targetEntity="Event", mappedBy="camp")
 	 */
 	private $events;
 
-
-	public function getId(){ return $this->id; }
-
-	public function setName($name){ $this->name = $name; }
-	public function getName()     { return $this->name; }
-
-	public function setTitle($title){ $this->title = $title; }
-	public function getTitle()       { return $this->title; }
-
-	public function setCreator(User $creator){ $this->creator = $creator; }
-	public function getCreator()             { return $this->creator; }
-
-	public function setGroup(Group $group){ $this->owner = null; $this->group = $group; }
-	public function getGroup()             { return $this->group; }
-
-	public function setOwner(User $owner){ $this->group = null; $this->owner = $owner; }
-	public function getOwner()            { return $this->owner; }
 	
+	/** @Public:Method() */
+	public function getId()
+	{
+		return $this->id;
+	}
+
+	public function setName($name)
+	{
+		$this->name = $name;
+	}
+	/** @Public:Method() */
+	public function getName()
+	{
+		return $this->name;
+	}
+
+	public function setTitle($title)
+	{
+		$this->title = $title;
+	}
+	/** @Public:Method() */
+	public function getTitle()
+	{
+		return $this->title;
+	}
+
+	public function setCreator(User $creator)
+	{
+		$this->creator = $creator;
+	}
+	
+	/**
+	 * @Public:MethodEntity()
+	 * @return \Core\Entity\User  
+	 */
+	public function getCreator()
+	{
+		return $this->creator;
+	}
+
+	public function setGroup(Group $group)
+	{
+		$this->owner = null; $this->group = $group;
+	}
+	
+	/**
+	 * @Public:MethodEntity()
+	 * @return \Core\Entity\Group
+	 */
+	public function getGroup()
+	{
+		return $this->group;
+	}
+
+	public function setOwner(User $owner)
+	{
+		$this->group = null; $this->owner = $owner;
+	}
+
+	/**
+	 * @Public:MethodEntity()
+	 * @return \Core\Entity\User  
+	 */
+	public function getOwner()
+	{
+		return $this->owner;
+	}
+	
+	/** @Public:Method() */
 	public function belongsToUser()
 	{
 		return isset($this->owner);
 	}
 	
-	public function getPeriods() { return $this->periods; }
+	/** 
+	 * @Public:MethodEntityList(type = "\CoreApi\Entity\Period")
+	 * @return array
+	 */
+	public function getPeriods()
+	{
+		return $this->periods;
+	}
 	
-	public function getEvents() { return $this->events; }
+	/**
+	 * @Public:MethodEntityList(type = "\CoreApi\Entity\Event")
+	 * @return array
+	 */
+	public function getEvents()
+	{
+		return $this->events;
+	}
 
-	/** @return \Doctrine\Common\Collections\ArrayCollection */
-	public function getUsercamps() { return $this->usercamps; }
-	
+	/**
+	 * @Public:MethodEntityList(type = "\CoreApi\Entity\UserCamp")
+	 * @return \Doctrine\Common\Collections\ArrayCollection 
+	 */
+	public function getUsercamps()
+	{
+		return $this->usercamps;
+	}
+
+
+	/** @Public:Method() */
 	public function getRange()
 	{
 		if($this->getPeriods()->count() == 0)
-		{	return "-";	}
-		
+		{
+			return "-";
+		}
+
 		return $this->getPeriods()->first()->getStart()->format("d.m.Y") . ' - ' . $this->getPeriods()->last()->getEnd()->format("d.m.Y");
 	}
+
 	
+	/**
+	 * @Public:MethodEntityList(type = "\CoreApi\Entity\User")
+	 * @return \Doctrine\Common\Collections\ArrayCollection
+	 */
 	public function getMembers()
-    {
-	    $members = new \Doctrine\Common\Collections\ArrayCollection();
+	{
+		$members = new \Doctrine\Common\Collections\ArrayCollection();
 
 		foreach($this->usercamps as $userCamp) {
 			if($userCamp->isMember()) {

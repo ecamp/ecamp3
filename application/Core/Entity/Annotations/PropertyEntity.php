@@ -5,7 +5,7 @@ namespace Core\Entity\Annotations;
 class PropertyEntity extends Annotation
 {
 
-	private static $body = 'return new \CoreApi\Entity\{CLASSNAME}($this->entity->{PROPERTY});';
+	private static $body = 'return new \CoreApi\Entity\{CLASSNAME}($this->wrappedObject->{PROPERTY});';
 	private static $search = array("{CLASSNAME}", "{PROPERTY}");
 
 	

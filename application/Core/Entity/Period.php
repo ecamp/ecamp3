@@ -21,8 +21,8 @@
 namespace Core\Entity;
 
 /**
- * A period is defined by its starting date and duration (in days). 
- * A camp can consist of multiple, separated periods, which are not allowed to 
+ * A period is defined by its starting date and duration (in days).
+ * A camp can consist of multiple, separated periods, which are not allowed to
  * overlap in time. However, a period can have multiple program alternatives (subcamps).
  * @Entity
  * @Table(name="periods")
@@ -33,6 +33,14 @@ class Period extends BaseEntity
 	public function __construct($camp = null)
 	{
 		$this->camp = $camp;
+	}
+
+	/**
+	 * @return \CoreApi\Entity\Period
+	 */
+	public function asReadonly()
+	{
+		return new \CoreApi\Entity\Period($this);
 	}
 
 	/**
@@ -64,20 +72,72 @@ class Period extends BaseEntity
 	 */
 	private $subcamps;
 
+
+	/**
+	 * @Public:Method()
+	 * @return int
+	 */
+	public function getId()
+	{
+		return $this->id;
+	}
+
+	public function setStart($start)
+	{
+		$this->start = $start;
+	}
+	/**
+	 * @Public:Method()
+	 * @return int
+	 */
+	public function getStart()
+	{
+		return $this->start;
+	}
+
+	public function setDuration($duration)
+	{
+		$this->duration = $duration;
+	}
+	/**
+	 * @Public:Method()
+	 * @return int
+	 */
+	public function getDutation()
+	{
+		return $this->duration;
+	}
+
+	/**
+	 * @Public:Method()
+	 * @return int
+	 */
+	public function getEnd()
+	{
+		return $this->start->add( new \DateInterval( 'P'.($this->duration - 1).'D') );
+	}
+
+	public function setCamp(Camp $camp)
+	{
+		$this->camp = $camp;
+	}
 	
-	public function getId(){ return $this->id; }
+	/**
+	 * @Public:MethodEntity()
+	 * @return Camp
+	 */
+	public function getCamp()
+	{
+		return $this->camp;
+	}
 
-	public function setStart($start){ $this->start = $start; }
-	public function getStart()      { return $this->start;   } 
-
-	public function setDuration($duration){ $this->duration = $duration; }
-	public function getDutation()         { return $this->duration;      }
-
-	public function getEnd(){ return $this->start->add( new \DateInterval( 'P'.($this->duration - 1).'D') ); }
-
-	public function setCamp(Camp $camp){ $this->camp = $camp; }
-	public function getCamp()          { return $this->camp; }
-
-	public function getSubcamps() { return $this->subcamps; }
+	/**
+	 * @Public:MethodEntityList(type = "\CoreApi\Entity\Subcamp")
+	 * @return array
+	 */
+	public function getSubcamps()
+	{
+		return $this->subcamps;
+	}
 
 }

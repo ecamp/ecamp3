@@ -3,7 +3,7 @@
  * Copyright (C) 2011 Urban Suppiger
  *
  * This file is part of eCamp.
- *
+ * 
  * eCamp is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -13,11 +13,11 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- *
+ * 
  * You should have received a copy of the GNU Affero General Public License
  * along with eCamp.  If not, see <http://www.gnu.org/licenses/>.
  */
- 
+
 /**
  * This is the base class for both Panels and Plugins.
  * It shouldn't be extended by your own plugins - simply write a strategy!
@@ -29,7 +29,18 @@ namespace Core\Entity;
  * @Entity
  * @Table(name="plugins")
  */
-class Plugin extends BaseEntity {
+class Plugin extends BaseEntity
+{
+
+	/**
+	 * @return \CoreApi\Entity\Plugin
+	 */
+	public function asReadonly()
+	{
+		return new \CoreApi\Entity\Plugin($this);
+	}
+
+
 	/**
 	 * The id of the plugin item instance
 	 * @var integer
@@ -37,7 +48,7 @@ class Plugin extends BaseEntity {
 	 * @GeneratedValue(strategy="AUTO")
 	 */
 	private $id;
-	
+
 	/**
 	 * @ManyToOne(targetEntity="Event")
 	 * @JoinColumn(nullable=true, onDelete="cascade")
@@ -62,22 +73,32 @@ class Plugin extends BaseEntity {
 	 */
 	protected $strategyInstance;
 
-	
-	public function getId(){ return $this->id; }
-	
-	public function setEvent(Event $event){ $this->event = $event; }
-	public function getEvent()            { return $this->event;   }
-	
-	
+
+	public function getId()
+	{
+		return $this->id;
+	}
+
+	public function setEvent(Event $event)
+	{
+		$this->event = $event;
+	}
+	public function getEvent()
+	{
+		return $this->event;
+	}
+
+
 	/**
 	 * Returns the plugin name
 	 *
 	 * @return string
 	 */
-	public function getPluginName() {
+	public function getPluginName() 
+	{
 		return $this->pluginName;
 	}
-	
+
 	/**
 	 * Returns the strategy that is used for this pluginitem.
 	 *
@@ -85,18 +106,20 @@ class Plugin extends BaseEntity {
 	 *
 	 * @return string
 	 */
-	public function getStrategyClassName($module) {
+	public function getStrategyClassName($module) 
+	{
 		return '\\' . $module . '\\Plugin\\' . $this->getPluginName() . '\\Strategy';
 	}
-	
-	
+
+
 
 	/**
 	 * Returns the instantiated strategy
 	 *
 	 * @return IPluginStrategy
 	 */
-	public function getStrategyInstance() {
+	public function getStrategyInstance()
+	{
 		return $this->strategyInstance;
 	}
 
@@ -106,9 +129,10 @@ class Plugin extends BaseEntity {
 	 *
 	 * @param IPluginStrategy $strategy
 	 */
-	public function setStrategy(\Core\Plugin\IPluginStrategy $strategy) {
+	public function setStrategy(\Core\Plugin\IPluginStrategy $strategy) 
+	{
 		$this->strategyInstance  = $strategy;
-		
+
 		$this->pluginName = $strategy->getPluginName();
 		$strategy->setPlugin($this);
 	}

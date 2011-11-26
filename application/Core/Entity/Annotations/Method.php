@@ -5,7 +5,7 @@ namespace Core\Entity\Annotations;
 class Method extends Annotation
 {
 	
-	private static $body = 'return $this->entity->{METHOD}({PARAMS});';
+	private static $body = 'return $this->wrappedObject->{METHOD}({PARAMS});';
 	private static $search = array("{CLASSNAME}", "{METHOD}", "{PARAMS}");
 	
 	
@@ -21,11 +21,22 @@ class Method extends Annotation
 		$params = array();
 				
 		foreach($zrm->getParameters() as $zrp)
-		{
+		{			
 			$p = \Zend_CodeGenerator_Php_Parameter::fromReflection($zrp);
 			$m->setParameter($p);
 			
-			$params[$p->getPosition()] = "$" . $p->getName();
+			//If Param is from Namespace \Core\Entity use the getWrappedObject Method!!	
+			list($namespace, $classname) = $this->getNamespace($p->getType());
+			
+			if($namespace == "Core\Entity")
+			{
+				$p->setType("CoreApi\Entity\\" . $classname);
+				$params[$p->getPosition()] = '$' . $p->getName() . '->getWrappedObject()';
+			}
+			else 
+			{
+				$params[$p->getPosition()] = "$" . $p->getName();
+			}
 		}
 		
 		$replace = array($this->type, $rm->getName(), implode(", ", $params));
@@ -38,7 +49,7 @@ class Method extends Annotation
 		if($this->type)
 		{
 			$rd = new \Zend_CodeGenerator_Php_Docblock_Tag_Return();
-			$rd->setDatatype($returnType);
+			$rd->setDatatype($this->type);
 			$tags[] = $rd;
 		}
 		
@@ -47,5 +58,4 @@ class Method extends Annotation
 		
 		return $m;
 	}
-	
 }
