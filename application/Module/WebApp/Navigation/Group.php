@@ -29,11 +29,14 @@ class Group extends \Zend_Navigation
 	public function __construct(\Core\Entity\Group $group)
 	{
 		parent::__construct(self::$pages);
-
 		
 		$params = array('group' => $group->getId());
+		$options['route'] = 'group';
 		
 		foreach($this->getPages() as $page)
-		{	$page->setParams($params);	}
+		{	
+			$page->setParams($params);
+			$page->setOptions($options);
+		}
 	}
 }
