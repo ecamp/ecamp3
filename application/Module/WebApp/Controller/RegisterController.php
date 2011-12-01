@@ -77,26 +77,16 @@ class WebApp_RegisterController
 		$params = $this->getRequest()->getParams();
 		
 		$registerForm = new \WebApp\Form\Register();
+		$registerForm->populate($params);
 
-		if(!$registerForm->isValid($params))
-		{
-			$this->view->registerForm = $registerForm;
-			$this->render("index");
-			return;
-		}
 		
 		try
 		{
-			$email 		= $params['email'];
-			$password 	= $params['password1'];
-			
-			$user 	= $this->userService->create($email, $params);
-			$login 	= $this->loginService->create($user, $password);
+			$user 	= $this->userService->create($registerForm);
+			$login	= $this->loginService->create($user, $registerForm);
 		}
 		catch (Exception $e)
 		{
-			$registerForm->getElement('email')->addError($e->getMessage());
-			
 			$this->view->registerForm = $registerForm;
 			$this->render("index");
 			return;

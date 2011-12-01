@@ -61,14 +61,15 @@ class User extends ServiceAbstract
 	 * 
 	 * @return \Core\Entity\User
 	 */
-	public function create($email, $params)
+	public function create(\Zend_Form $form)
 	{
 		$this->em->getConnection()->beginTransaction();
 		
 		try
 		{
+			$email = $form->getValue('email');
 			$user = $this->userRepo->findOneBy(array('email' => $email));
-				
+			
 			if(is_null($user))
 			{
 				$user = new \Core\Entity\User();
@@ -76,25 +77,22 @@ class User extends ServiceAbstract
 		
 				$this->em->persist($user);
 			}
+			
+			$userValidator = new \Core\Validate\UserValidator($user);
 				
 			if($user->getState() != \Core\Entity\User::STATE_NONREGISTERED)
 			{	throw new Exception("This eMail-Adress is already registered!");	}
 
-			if(array_key_exists('username', $params))
+			
+			if($userValidator->isValid($form))
 			{
-				$user->setUsername($params['username']);
+				$userValidator->apply($form);
 				$user->setState(\Core\Entity\User::STATE_REGISTERED);
 			}
-			
-			if(array_key_exists('scoutname', $params))
-			{	$user->setScoutname($params['scoutname']);	}
-			
-			if(array_key_exists('firstname', $params))
-			{	$user->setFirstname($params['firstname']);	}
-			
-			if(array_key_exists('surname', $params))
-			{	$user->setSurname($params['surname']);	}
-			
+			else 
+			{
+				throw new \Ecamp\ValidationException();
+			}
 
 			$this->em->flush();
 			$this->em->getConnection()->commit();

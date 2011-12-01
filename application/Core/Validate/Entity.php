@@ -26,12 +26,19 @@ abstract class Entity
 			if($entity instanceof \Core\Entity\BaseEntity)
 			{
 				$this->entity = $entity;
-				return;
 			}
-			
-			throw new \Exception("EntityValidator take an Entity as argument or no argument!");
+			else
+			{
+				throw new \Exception("EntityValidator take an Entity as argument or no argument!");
+			}
 		}
+		
+		$this->init();
 	}
+	
+	
+	protected abstract function init();
+	
 	
 	/**
 	 * Returns the Element for the given ElementName.
@@ -40,7 +47,7 @@ abstract class Entity
 	 * @param string $elementName
 	 * @return Element
 	 */
-	public function get($elementName)
+	protected function get($elementName)
 	{
 		if(array_key_exists($elementName, $this->elements))
 		{	return $this->elements[$elementName];	}
@@ -80,7 +87,7 @@ abstract class Entity
 			if(isset($this->entity))
 			{	$elementValue = $this->getEntityValue($entityElementName);	}
 			
-			if(isset($form->getValue($formElementName)))
+			if(!is_null($form->getValue($formElementName)))
 			{	$elementValue = $form->getValue($formElementName);	}
 			
 			if($element->isValid($elementValue))
@@ -103,7 +110,7 @@ abstract class Entity
 		
 		// TODO: Check, if array() as argument behaves as desired!!
 		// (should take the values, which have been populated before by the Controller) 
-		$isValid = $form->isValid(array()) && $isValid;
+		//$isValid = $form->isValid(array()) && $isValid;
 		
 		return $isValid;
 	}
@@ -114,7 +121,7 @@ abstract class Entity
 		if(is_null($this->entity))
 		{	throw new \Exception("Apply can only be used, if Validator was constructed with an Entity!");	}
 		
-		foreach($this->elements as $elementName => $element)
+		foreach($this->elements as $entityElementName => $element)
 		{
 			$formElementName = $entityElementName;
 				
@@ -122,7 +129,7 @@ abstract class Entity
 			{	$formElementName = $map[$entityElementName];	}
 			
 			
-			if(isset($form->getValue($formElementName)))
+			if(!is_null($form->getValue($formElementName)))
 			{
 				$elementValue = $form->getValue($formElementName);
 				$this->setEntityValue($entityElementName, $elementValue);
@@ -148,7 +155,15 @@ abstract class Entity
 		{	return null;	}
 		
 		$getterName = "get" . ucfirst($propertyName);
-		return $this->entity->{$getterName}();
+		
+		if(method_exists($this->entity, $getterName))
+		{
+			return $this->entity->{$getterName}();
+		}
+		else 
+		{
+			return null;
+		}
 	}
 	
 	private function setEntityValue($propertyName, $value)

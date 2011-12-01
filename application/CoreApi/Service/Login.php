@@ -2,7 +2,6 @@
 
 namespace CoreApi\Service;
 
-
 class Login extends ServiceAbstract
 {
 	
@@ -51,7 +50,7 @@ class Login extends ServiceAbstract
 	 * 
 	 * @return \Core\Entity\Login
 	 */
-	public function create(\Core\Entity\User $user, $password)
+	public function create(\Core\Entity\User $user, \Zend_Form $form)
 	{
 		/** @var \Core\Entity\Login $login */
 		$login = $user->getLogin();
@@ -65,9 +64,19 @@ class Login extends ServiceAbstract
 		try 
 		{
 			$login = new \Core\Entity\Login();
+			$loginValidator = new \Core\Validate\LoginValidator($login);
+			
+			if($loginValidator->isValid($form))
+			{
+				$password = $form->getValue('password');
+				$login->setNewPassword($password);
+			}
+			else
+			{
+				throw new \Ecamp\ValidationException();
+			}
 			
 			$login->setUser($user);
-			$login->setNewPassword($password);
 			
 			$this->em->persist($login);
 			
