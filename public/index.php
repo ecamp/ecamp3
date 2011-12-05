@@ -1,5 +1,8 @@
 <?php
 
+defined('PUBLIC_PATH') 
+	|| define('PUBLIC_PATH', realpath(dirname(__FILE__)));
+
 // Define path to application directory
 defined('APPLICATION_PATH')
     || define('APPLICATION_PATH', realpath(dirname(__FILE__) . '/../application'));
