@@ -169,7 +169,14 @@ abstract class Entity
 	private function setEntityValue($propertyName, $value)
 	{
 		$setterName = "set" . ucfirst($propertyName);
-		return $this->entity->{$setterName}($value);
+		if(method_exists($this->entity, $setterName))
+		{
+			return $this->entity->{$setterName}($value);
+		}
+		else
+		{
+			throw new \Exception("There is no setter for Property $propertyName.");
+		}
 	}
 	
 }
