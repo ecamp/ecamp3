@@ -51,6 +51,7 @@ class WebApp_LoginController
 
 		//TODO: Remove this in Release
 		$this->view->userlist = $this->userRepo->findAll();
+		
 	}
 
 
@@ -65,6 +66,7 @@ class WebApp_LoginController
         if($this->checkLogin($loginForm->getValues()))
         {
             $this->_forward('index', 'dashboard');
+			$this->view->getHelper('BrowserUrl')->browserUrl("/");
         }
         else
         {
@@ -101,6 +103,7 @@ class WebApp_LoginController
         $result = Zend_Auth::getInstance()->authenticate($authAdapter);
 	
 		$this->_forward('index', 'dashboard');
+		$this->view->getHelper('BrowserUrl')->browserUrl("/");
 	}
 
     
