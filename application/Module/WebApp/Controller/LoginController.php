@@ -36,6 +36,12 @@ class WebApp_LoginController
 	private $loginService;
 	
 
+	/**
+	 * IndexAction
+	 * 
+	 * It shows the LoginForm or forwards to the 
+	 * Dashboard, if User is already logged in.
+	 */
 	public function indexAction()
 	{
 		if(!is_null($this->me))
@@ -43,7 +49,7 @@ class WebApp_LoginController
 			$this->_forward('index', 'dashboard');
 		}
 
-		$loginForm = new \WebApp\Form\Login();
+		$loginForm = new \WebApp\Form\Login\Login();
 		$loginForm->setAction("/login/login");
 		$loginForm->setDefaults($this->getRequest()->getParams());
 
@@ -53,10 +59,17 @@ class WebApp_LoginController
 		$this->view->userlist = $this->userRepo->findAll();
 	}
 
-
+	
+	/**
+	 * LoginAction
+	 * 
+	 * Logs a User in.
+	 * If successful, it forward the User to Dashboard
+	 * If failed, it forwards the user to indexAciton for retry
+	 */
 	public function loginAction()
 	{
-		$loginForm = new \WebApp\Form\Login();
+		$loginForm = new \WebApp\Form\Login\Login();
 
 		if(!$loginForm->isValid($this->getRequest()->getParams()))
 		{	$this->_forward('index');	}
@@ -74,6 +87,12 @@ class WebApp_LoginController
 	}
 
 
+	/**
+	 * LogoutAciton
+	 * 
+	 * Logs a User out.
+	 * Redirects the user to the index
+	 */
 	public function logoutAction()
 	{
         $this->loginService->logout();
@@ -81,8 +100,72 @@ class WebApp_LoginController
 		$this->_redirect("login");
 	}
 
+	
+	/**
+	 * PasswordLostAction
+	 * 
+	 * Provides a form which takes an eMailadrese.
+	 * If the Form is submitted, a Mail with a Password-Reset-Link 
+	 * is sent (done by the Service).
+	 */
+	public function passwordlostAction()
+	{
+		$passwordLost = new \WebApp\Form\Login\PasswordLost();
+		
+		if($this->getRequest()->isPost())
+		{	
+			$passwordLost->populate($this->getRequest()->getParams());
+			
+			$resetKey = $this->loginService->forgotPassword($passwordLost->getValue('email'));
+			
+			/*
+			 * Todo: Remove postDispatch call together with the die() statement
+			 * 		 The postDispatch is only to call the Flash-Command on the EntityManager 
+			 */
+			$this->postDispatch();
+			die($resetKey);
+		}
+		
+		$this->view->passwordLost = $passwordLost;
+	}
+	
+	
+	/**
+	 * ResetPasswordAction
+	 * 
+	 * Provides a Form to reset a Password.
+	 * This works only, if a ResetKey is provided.
+	 */
+	public function resetpasswordAction()
+	{
+		$resetPassword = new \WebApp\Form\Login\ResetPassword();
+		$resetPassword->populate($this->getRequest()->getParams());
+		
+		if($this->getRequest()->isPost())
+		{
+			$resetKey = $resetPassword->getValue('resetKey');
+			$password = $resetPassword->getValue('password1');
+			
+			/**
+			 * Insert $resetPassword as argument, when new validation concept is accepted!
+			 */
+			$this->loginService->resetPassword($resetKey, $password);
+			
+			$this->_forward('index');
+			
+		}
+		
+		$this->view->resetPassword = $resetPassword;
+	}
+	
 
-    protected function checkLogin($values)
+	/**
+	 * Checks, whether the given data can authentificate a User
+	 * (Array must contain keys for Login and Password)
+	 * 
+	 * @param array $values
+	 */
+    private function checkLogin($values)
     {
     	$result = $this->loginService->login($values['login'], $values['password']);
 
@@ -94,6 +177,13 @@ class WebApp_LoginController
         return false;
     }
 	
+    
+    /**
+     * ByPassAction
+     * 
+     * This is a hack for developing. 
+     * It logs a User in, just by providing a UserId;
+     */
 	public function bypassAction()
 	{
 		$user = $this->userRepo->find($this->getRequest()->getParam('user'));

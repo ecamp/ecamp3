@@ -20,7 +20,7 @@
  *
  */
 
-namespace WebApp\Form;
+namespace WebApp\Form\Login;
 
 class Login extends \Ztal_Form
 {

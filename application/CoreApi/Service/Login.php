@@ -133,6 +133,8 @@ class Login extends ServiceAbstract
 		{
 			$login->setNewPassword($password);
 			$login->clearPwResetKey();
+			
+			return true;
 		}
 		
 		throw new \Ecamp\PermissionException("SecurityKey was wrong");

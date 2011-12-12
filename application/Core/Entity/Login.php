@@ -115,7 +115,7 @@ class Login extends BaseEntity
 	 */
 	public function createPwResetKey()
 	{
-		$this->pwResetKey = md5(unique(microtime(true)));
+		$this->pwResetKey = md5(microtime(true));
 	}
 	
 	
