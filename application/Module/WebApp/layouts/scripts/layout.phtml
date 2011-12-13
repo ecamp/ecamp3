@@ -5,6 +5,8 @@
 		<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
 		<![endif]-->
 
+		<tal:block condition="exists: BrowserUrlScript" content="structure BrowserUrlScript" />
+
 		<tal:block content="structure headTitle" />
 		<tal:block content="structure headMeta"  />
 		<tal:block content="structure headLink"  />
