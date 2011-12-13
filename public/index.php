@@ -14,6 +14,10 @@ set_include_path(implode(PATH_SEPARATOR, array(
     get_include_path(),
 )));
 
+defined('IS_PRODUCTION') 
+	|| define('IS_PRODUCTION', (APPLICATION_ENV == 'production'));
+	
+
 /** Zend_Application */
 require_once 'Zend/Application.php';
 
@@ -23,7 +27,4 @@ $application = new Zend_Application(
     APPLICATION_PATH . '/configs/application.ini'
 );
 $application->bootstrap();
-
-//die(print_r($application));
-
 $application->run();

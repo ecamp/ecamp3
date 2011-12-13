@@ -115,7 +115,7 @@ class Login extends BaseEntity
 	 */
 	public function createPwResetKey()
 	{
-		$this->pwResetKey = md5(microtime(true));
+		$this->pwResetKey = hash('sha256', mt_rand());
 	}
 	
 	
@@ -145,7 +145,7 @@ class Login extends BaseEntity
 	 */
 	public function setNewPassword($password)
 	{
-		$this->salt = hash('sha256', uniqid(microtime(true), true));
+		$this->salt = hash('sha256', mt_rand());
 
 		$password .= $this->salt;
 		$this->password = hash('sha256', $password);

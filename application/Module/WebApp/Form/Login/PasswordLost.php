@@ -31,11 +31,20 @@ class PasswordLost extends \Ztal_Form
 		$login->setLabel('Mail adress:');
 		$login->setRequired(true);
 
+		$reCaptcha = new \Zend_Captcha_ReCaptcha();
+		$reCaptcha->setPrivkey("6LeyrMISAAAAAH7U7ANQ8R8V3RZQ-GMWPVicM2LS");
+		$reCaptcha->setPubkey("6LeyrMISAAAAAJ3f5vPuzTi8abD_fkXA0GeXqbgg");
+		
+		$captcha = new \Zend_Form_Element_Captcha('captcha', array("captcha" => $reCaptcha));
+		$captcha->setLabel('Captcha')
+			->setRequired(true);
+
 		$submit = new \Zend_Form_Element_Submit('submit');
 		$submit->setLabel('Submit');
-
-
+		
+		
 		$this->addElement($login);
+		$this->addElement($captcha);
 		$this->addElement($submit);
 	}
 }
