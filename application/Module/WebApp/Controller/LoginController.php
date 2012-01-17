@@ -19,8 +19,7 @@
  */
 
 
-class WebApp_LoginController
-	extends WebApp\Controller\BaseController
+class WebApp_LoginController extends WebApp\Controller\BaseController
 {
 
 	/**
@@ -28,19 +27,20 @@ class WebApp_LoginController
 	 * @Inject \Core\Repository\UserRepository
 	 */
 	private $userRepo;
-	
+
 	/**
 	 * @var \CoreApi\Service\Login
 	 * @Inject \CoreApi\Service\Login
 	 */
 	private $loginService;
-	
+
 
 	public function indexAction()
 	{
-		if(!is_null($this->me))
+		if (!is_null($this->me))
 		{
 			$this->_forward('index', 'dashboard');
+			$this->view->browserUrl();
 		}
 
 		$loginForm = new \WebApp\Form\Login();
@@ -51,6 +51,7 @@ class WebApp_LoginController
 
 		//TODO: Remove this in Release
 		$this->view->userlist = $this->userRepo->findAll();
+
 	}
 
 
@@ -58,51 +59,57 @@ class WebApp_LoginController
 	{
 		$loginForm = new \WebApp\Form\Login();
 
-		if(!$loginForm->isValid($this->getRequest()->getParams()))
-		{	$this->_forward('index');	}
+		if (!$loginForm->isValid($this->getRequest()->getParams()))
+		{
+			$this->_forward('index');
+			$this->view->browserUrl();
+		}
 
 
-        if($this->checkLogin($loginForm->getValues()))
-        {
-            $this->_forward('index', 'dashboard');
-        }
-        else
-        {
-            $this->_forward('index');
-        }
+		if ($this->checkLogin($loginForm->getValues()))
+		{
+			$this->_forward('index', 'dashboard');
+			$this->view->browserUrl();
+		}
+		else
+		{
+			$this->_forward('index');
+			$this->view->browserUrl();
+		}
 
 	}
 
 
 	public function logoutAction()
 	{
-        $this->loginService->logout();
-        
+		$this->loginService->logout();
+
 		$this->_redirect("login");
 	}
 
 
-    protected function checkLogin($values)
-    {
-    	$result = $this->loginService->login($values['login'], $values['password']);
+	protected function checkLogin($values)
+	{
+		$result = $this->loginService->login($values['login'], $values['password']);
 
-        $this->view->message = $result->getMessages();
+		$this->view->message = $result->getMessages();
 
-        if(Zend_Auth::getInstance()->hasIdentity())
-        {   return true;    }
+		if (Zend_Auth::getInstance()->hasIdentity())
+		{
+			return true;
+		}
 
-        return false;
-    }
-	
+		return false;
+	}
+
 	public function bypassAction()
 	{
 		$user = $this->userRepo->find($this->getRequest()->getParam('user'));
 		$authAdapter = new \CoreApi\Service\Auth\Bypass($user);
-        $result = Zend_Auth::getInstance()->authenticate($authAdapter);
-	
-		$this->_forward('index', 'dashboard');
-	}
+		$result = Zend_Auth::getInstance()->authenticate($authAdapter);
 
-    
+		$this->_forward('index', 'dashboard');
+		$this->view->browserUrl();
+	}
 
 }

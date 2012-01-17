@@ -37,6 +37,12 @@ class Kernel
 		if(array_key_exists($className, $this->bindings))
 		{
 			$object = $this->bindings[$className]->Get();
+			
+			if(! $this->bindings[$className]->IsDependencyInjectionRequired())
+			{
+				$this->injecter->InjectDependencies($object);
+				$this->bindings[$className]->DependenciesInjected();
+			}
 		}
 		else
 		{
@@ -46,11 +52,9 @@ class Kernel
 			}
 
 			$object = new $className();
+			$this->injecter->InjectDependencies($object);
 		}
 
-
-		$this->injecter->InjectDependencies($object);
-		
 		return $object;
 	}
 
@@ -66,7 +70,7 @@ class Kernel
 	 * @param Binding\IBinding $binding
 	 * @return void
 	 */
-	public function SetBinding(IBinding $binding)
+	public function SetBinding(DependencyContainer $binding)
 	{
 		$this->bindings[$binding->ClassName()] = $binding;
 	}

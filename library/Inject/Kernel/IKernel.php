@@ -2,6 +2,8 @@
 
 namespace Inject\Kernel;
 
+use Inject\DependencyContainer;
+
 use \Inject\Binding\IBinding;
 
 interface IKernel
@@ -20,6 +22,6 @@ interface IKernel
 	 * @param \Binding\IBinding $binding
 	 * @return void
 	 */
-	public function SetBinding(IBinding $binding);
+	public function SetBinding(DependencyContainer $binding);
 
 }
