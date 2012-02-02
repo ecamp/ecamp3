@@ -1,31 +1,12 @@
 <?php
 
-namespace CoreApi\Service;
+namespace CoreApi\Service\Operation;
 
-class User extends ServiceAbstract
+use Core\Entity\User;
+
+class UserServiceOperation 
+	extends \CoreApi\Service\Validation\UserServiceValidation
 {
-	
-	/**
-	 * @var \Core\Repository\UserRepository
-	 * @Inject \Core\Repository\UserRepository
-	 */
-	private $userRepo;
-	
-	/**
-	* @var \CoreApi\Service\Camp
-	* @Inject \CoreApi\Service\Camp
-	*/
-	private $campService;
-	
-	/**
-	* Setup ACL. Is used for manual calls of 'checkACL' and for automatic checking
-	* @see    CoreApi\Service\ServiceAbstract::_setupAcl()
-	* @return void
-	*/
-	protected function _setupAcl()
-	{
-		$this->_acl->allow('user_me', $this, 'createCamp');
-	}
 	
 	
 	/**
@@ -36,8 +17,12 @@ class User extends ServiceAbstract
 	 * 
 	 * @return \Core\Entity\User
 	 */
-	public function get($id = null)
+	protected function get($id = null)
 	{
+		if(! parent::get($id))
+		{	throw new \Ecamp\ValidationException();	}
+		
+		
 		if(isset($id))
 		{	return $this->getByIdentifier($id);	}
 		
@@ -61,8 +46,12 @@ class User extends ServiceAbstract
 	 * 
 	 * @return \Core\Entity\User
 	 */
-	public function create(\Zend_Form $form)
+	protected function create(\Zend_Form $form)
 	{
+		if(! parent::create($form))
+		{	throw new \Ecamp\ValidationException();	}
+		
+		
 		$this->em->getConnection()->beginTransaction();
 		
 		try
@@ -79,21 +68,10 @@ class User extends ServiceAbstract
 			}
 			
 			$userValidator = new \Core\Validate\UserValidator($user);
-				
-			if($user->getState() != \Core\Entity\User::STATE_NONREGISTERED)
-			{	throw new Exception("This eMail-Adress is already registered!");	}
-
+			$userValidator->apply($form);
 			
-			if($userValidator->isValid($form))
-			{
-				$userValidator->apply($form);
-				$user->setState(\Core\Entity\User::STATE_REGISTERED);
-			}
-			else 
-			{
-				throw new \Ecamp\ValidationException();
-			}
-
+			$user->setState(User::STATE_REGISTERED);
+			
 			$this->em->flush();
 			$this->em->getConnection()->commit();
 				
@@ -108,8 +86,21 @@ class User extends ServiceAbstract
 	}
 	
 	
-	public function update(){	throw new \Exception("Not implemented exception");	}
-	public function delete(){	throw new \Exception("Not implemented exception");	}
+	protected function update(\Zend_Form $form)
+	{
+		if(! parent::update($form))
+		{	throw new \Ecamp\ValidationException();	}
+		
+		// update user
+	}
+	
+	protected function delete(\Zend_Form $form)
+	{
+		if(! parent::delete($form))
+		{	throw new \Ecamp\ValidationException();	}
+		
+		// delete user
+	}
     
 	
 	/**
@@ -120,7 +111,7 @@ class User extends ServiceAbstract
 	 * 
 	 * @return bool
 	 */
-	public function activate($user, $key)
+	protected function activate($user, $key)
 	{
 		$user = $this->get($user);
 		
@@ -137,24 +128,6 @@ class User extends ServiceAbstract
 		return $user->activateUser($key);
 	}
 	
-	
-	/**
-	 * 
-	 * Return the set of roles for the current user based on the context (Group, Camp, User)
-	 * @param unknown_type $group
-	 * @param unknown_type $camp
-	 */
-	public function getCurrentUserRole($context = null)
-	{
-		/* this is only a dummy implemention which gives full access (top role for every context) */
-		$roles = array();
-		$roles[] = new \Zend_Acl_Role('member');
-		$roles[] = new \Zend_Acl_Role('group_manager');
-		$roles[] = new \Zend_Acl_Role('camp_owner');
-		$roles[] = new \Zend_Acl_Role('user_me');
-		
-		return $roles;
-	}
 	
 	/**
 	* Returns the User for a MailAddress or a Username

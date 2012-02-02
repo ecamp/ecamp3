@@ -20,9 +20,9 @@ class Login extends ServiceAbstract
 	
 	
 	/**
-	* @var \CoreApi\Service\User
-	* @Inject \CoreApi\Service\User
-	*/
+	 * @var \CoreApi\Service\User
+	 * @Inject \CoreApi\Service\User
+	 */
 	private $userService;
 	
 	

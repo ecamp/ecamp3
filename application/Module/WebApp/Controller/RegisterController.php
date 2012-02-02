@@ -25,22 +25,22 @@ class WebApp_RegisterController
 {
 
 	/**
-	 * @var \Core\Repository\UserRepository
-	 * @Inject \Core\Repository\UserRepository
+	 * @var Core\Repository\UserRepository
+	 * @Inject Core\Repository\UserRepository
 	 */
 	private $userRepo;
 
 
 	/**
-	 * @var \CoreApi\Service\User
-	 * @Inject CoreApi\Service\User
+	 * @var CoreApi\Service\Operation\UserServiceOperation
+	 * @Inject CoreApi\Service\Operation\UserServiceOperation
 	 */
 	private $userService;
 	
 	
 	/**
-	 * @var \CoreApi\Service\Login
-	 * @Inject \CoreApi\Service\Login
+	 * @var CoreApi\Service\Operation\LoginServiceOperation
+	 * @Inject CoreApi\Service\Operation\LoginServiceOperation
 	 */
 	private $loginService;
 	
@@ -48,14 +48,13 @@ class WebApp_RegisterController
 	
 
 	public function indexAction()
-	{
-
+	{		
 		$registerForm = new \WebApp\Form\Register();
 
 		if($id = $this->getRequest()->getParam('id'))
 		{
 			/** @var $user \Core\Entity\User */
-			$user = $this->userRepo->find($id);
+			$user = $this->userService->get($id);
 
 			if(!is_null($user) && $user->getState() == \Core\Entity\User::STATE_NONREGISTERED)
 			{

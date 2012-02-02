@@ -80,14 +80,18 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 			->ToProvider(new Core\Logic\Provider\Repository("Core\Entity\UserCamp"));
 		
 		$kernel
-			->Bind("\Core\Repository\LoginRepository")
+			->Bind("Core\Repository\LoginRepository")
 			->ToProvider(new Core\Logic\Provider\Repository("Core\Entity\Login"));
 		
 		$kernel
-			->Bind("\Core\Repository\UserRepository")
+			->Bind("Core\Repository\UserRepository")
 			->ToProvider(new Core\Logic\Provider\Repository("Core\Entity\User"));
 		
-		$kernel->Bind("\CoreApi\Service\UserService")->ToSelf()->AsSingleton();
+		$kernel->Bind("CoreApi\Service\Operation\UserServiceOperation")->ToSelf()->AsSingleton();
+		$kernel->Bind("CoreApi\Service\Validation\UserServiceValidation")->ToSelf()->AsSingleton();
+		$kernel->Bind("CoreApi\Service\Operation\LoginServiceOperation")->ToSelf()->AsSingleton();
+		$kernel->Bind("CoreApi\Service\Validation\LoginServiceValidation")->ToSelf()->AsSingleton();
+		
 
 		Zend_Registry::set("kernel", $kernel);
 		

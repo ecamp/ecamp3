@@ -23,14 +23,14 @@ class WebApp_LoginController extends WebApp\Controller\BaseController
 {
 
 	/**
-	 * @var \Core\Repository\UserRepository
-	 * @Inject \Core\Repository\UserRepository
+	 * @var Core\Repository\UserRepository
+	 * @Inject Core\Repository\UserRepository
 	 */
 	private $userRepo;
 
 	/**
-	 * @var \CoreApi\Service\Login
-	 * @Inject \CoreApi\Service\Login
+	 * @var CoreApi\Service\Operation\LoginServiceOperation
+	 * @Inject CoreApi\Service\Operation\LoginServiceOperation
 	 */
 	private $loginService;
 
