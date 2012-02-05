@@ -53,7 +53,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
     
 	public function _initInjectionKernel()
 	{
-		$kernel = new \Inject\Kernel();
+		$kernel = new \PhpDI\Kernel();
 
 		$kernel
 			->Bind("EntityManager")
@@ -86,6 +86,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 		$kernel
 			->Bind("\Core\Repository\UserRepository")
 			->ToProvider(new Core\Logic\Provider\Repository("Core\Entity\User"));
+		
 		
 		$kernel->Bind("\CoreApi\Service\UserService")->ToSelf()->AsSingleton();
 
