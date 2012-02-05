@@ -7,6 +7,9 @@ class Factory
 	
 	public static function createFiles($entityClass)
 	{
+		if(substr($entityClass, 0, 1) != "\\")
+		{	$entityClass = "\\" . $entityClass;	}
+		
 		list($namespace, $classname) = self::loadClass($entityClass);
 		
 		$entityWrapperBody  = "namespace CoreApi\Entity;";
