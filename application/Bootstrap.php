@@ -61,35 +61,35 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 		
 		$kernel
 			->Bind("EntityManager")
-			->ToProvider(new Core\Logic\Provider\EntityManager());
+			->ToProvider(new Core\Provider\EntityManager());
 
 		$kernel
 			->Bind("CampRepository")
-			->ToProvider(new Core\Logic\Provider\Repository("Core\Entity\Camp"));
+			->ToProvider(new Core\Provider\Repository("Core\Entity\Camp"));
 
 		$kernel
 			->Bind("GroupRepository")
-			->ToProvider(new Core\Logic\Provider\Repository("Core\Entity\Group"));
+			->ToProvider(new Core\Provider\Repository("Core\Entity\Group"));
 
 		$kernel
 			->Bind("LoginRepository")
-			->ToProvider(new Core\Logic\Provider\Repository("Core\Entity\Login"));
+			->ToProvider(new Core\Provider\Repository("Core\Entity\Login"));
 
 		$kernel
 			->Bind("UserRepository")
-			->ToProvider(new Core\Logic\Provider\Repository("Core\Entity\User"));
+			->ToProvider(new Core\Provider\Repository("Core\Entity\User"));
 
 		$kernel
 			->Bind("UserCampRepository")
-			->ToProvider(new Core\Logic\Provider\Repository("Core\Entity\UserCamp"));
+			->ToProvider(new Core\Provider\Repository("Core\Entity\UserCamp"));
 		
 		$kernel
 			->Bind("Core\Repository\LoginRepository")
-			->ToProvider(new Core\Logic\Provider\Repository("Core\Entity\Login"));
+			->ToProvider(new Core\Provider\Repository("Core\Entity\Login"));
 		
 		$kernel
 			->Bind("Core\Repository\UserRepository")
-			->ToProvider(new Core\Logic\Provider\Repository("Core\Entity\User"));
+			->ToProvider(new Core\Provider\Repository("Core\Entity\User"));
 
 		
 // 		$kernel
