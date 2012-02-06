@@ -98,11 +98,11 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 // 			->AsSingleton();
 		
 		
-		$kernel->Bind("\CoreApi\Service\User\UserService")->ToSelf()->AsSingleton();
-		$kernel->Bind("\CoreApi\Service\User\UserServiceValidator")->ToSelf()->AsSingleton();
+		$kernel->Bind("CoreApi\Service\User\UserService")->ToSelf()->AsSingleton();
+		$kernel->Bind("CoreApi\Service\User\UserServiceValidator")->ToSelf()->AsSingleton();
 		
-		$kernel->Bind("\CoreApi\Service\Login\LoginService")->ToSelf()->AsSingleton();
-		$kernel->Bind("\CoreApi\Service\Login\LoginServiceValidator")->ToSelf()->AsSingleton();
+		$kernel->Bind("CoreApi\Service\Login\LoginService")->ToSelf()->AsSingleton();
+		$kernel->Bind("CoreApi\Service\Login\LoginServiceValidator")->ToSelf()->AsSingleton();
 		
 		
 		Zend_Registry::set("kernel", $kernel);
