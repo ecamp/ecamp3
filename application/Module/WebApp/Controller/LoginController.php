@@ -29,8 +29,8 @@ class WebApp_LoginController extends WebApp\Controller\BaseController
 	private $userRepo;
 
 	/**
-	 * @var CoreApi\Service\Operation\LoginServiceOperation
-	 * @Inject CoreApi\Service\Operation\LoginServiceOperation
+	 * @var CoreApi\Service\Login\LoginService
+	 * @Inject CoreApi\Service\Login\LoginService
 	 */
 	private $loginService;
 

@@ -1,13 +1,13 @@
 <?php
 
-namespace CoreApi\Service\Operation;
+namespace CoreApi\Service\User;
 
 use Core\Entity\User;
 
-class UserServiceOperation 
-	extends \CoreApi\Service\Validation\UserServiceValidation
+
+class UserService 
+	extends UserServiceValidator
 {
-	
 	
 	/**
 	 * Returns the User with the given Identifier
@@ -17,17 +17,16 @@ class UserServiceOperation
 	 * 
 	 * @return \Core\Entity\User
 	 */
-	protected function get($id = null)
+	public function Get($id = null)
 	{
-		if(! parent::get($id))
-		{	throw new \Ecamp\ValidationException();	}
+		$this->blockIfInvalid(parent::Get($id));
 		
-		
-		if(isset($id))
-		{	return $this->getByIdentifier($id);	}
 		
 		/** @var \Core\Entity\Login $user */
 		$user = null;
+		
+		if(isset($id))
+		{	return $this->getByIdentifier($id);	}
 		
 		if(\Zend_Auth::getInstance()->hasIdentity())
 		{
@@ -46,13 +45,12 @@ class UserServiceOperation
 	 * 
 	 * @return \Core\Entity\User
 	 */
-	protected function create(\Zend_Form $form)
+	public function Create(\Zend_Form $form)
 	{
-		if(! parent::create($form))
-		{	throw new \Ecamp\ValidationException();	}
+		$this->blockIfInvalid(parent::Create($form));
 		
 		
-		$this->em->getConnection()->beginTransaction();
+		$this->beginTransaction();
 		
 		try
 		{
@@ -72,32 +70,30 @@ class UserServiceOperation
 			
 			$user->setState(User::STATE_REGISTERED);
 			
-			$this->em->flush();
-			$this->em->getConnection()->commit();
+			$this->flush();
+			$this->commit();
 				
 			return $user;
 		}
 		catch (\Exception $e)
 		{
-			$this->em->getConnection()->rollback();
+			$this->rollback();
 				
 			throw $e;
 		}
 	}
 	
 	
-	protected function update(\Zend_Form $form)
+	public function Update(\Zend_Form $form)
 	{
-		if(! parent::update($form))
-		{	throw new \Ecamp\ValidationException();	}
+		$this->blockIfInvalid(parent::Update($form));
 		
 		// update user
 	}
 	
-	protected function delete(\Zend_Form $form)
+	public function Delete(\Zend_Form $form)
 	{
-		if(! parent::delete($form))
-		{	throw new \Ecamp\ValidationException();	}
+		$this->blockIfInvalid(parent::Delete($form));
 		
 		// delete user
 	}
@@ -111,21 +107,47 @@ class UserServiceOperation
 	 * 
 	 * @return bool
 	 */
-	protected function activate($user, $key)
+	public function Activate($user, $key)
 	{
-		$user = $this->get($user);
+		$this->blockIfInvalid(parent::Activate($user, $key));
 		
-		if(is_null($user))
+		return $this->get($user)->activateUser($key);
+	}
+	
+	
+	/**
+	 * Creates a new Camp
+	 * This method is protected, means it is only available from outside (magic!) if ACL is set properly
+	 *
+	 * @param \Entity\Group $group Owner of the new Camp
+	 * @param \Entity\User $user Creator of the new Camp
+	 * @param Array $params
+	 * @return Camp object, if creation was successfull
+	 * @throws \Ecamp\ValidationException
+	 */
+	protected function CreateCamp(\Core\Entity\User $creator, \Zend_Form $form)
+	{
+		$this->beginTransaction();
+		try
 		{
-			return false;
+			$camp = $this->campService->create($creator, $form);
+				
+			$camp->setOwner($creator);
+	
+			$this->persist($camp);
+			$this->flush();
+	
+			$this->commit();
+				
+			return $camp;
 		}
-		
-		if($user->getState() != \Core\Entity\User::STATE_REGISTERED)
+		catch (\PDOException $e)
 		{
-			return false;
+			$this->rollback();
+			$this->close();
+			
+			throw $e;
 		}
-		
-		return $user->activateUser($key);
 	}
 	
 	
@@ -165,44 +187,5 @@ class UserServiceOperation
 		}
 	
 		return $user;		
-	}
-	
-	
-	/**
-	* Creates a new Camp
-	* This method is protected, means it is only available from outside (magic!) if ACL is set properly
-	*
-	* @param \Entity\Group $group Owner of the new Camp
-	* @param \Entity\User $user Creator of the new Camp
-	* @param Array $params
-	* @return Camp object, if creation was successfull
-	* @throws \Ecamp\ValidationException
-	*/
-	protected function createCamp(\Core\Entity\User $creator, $params)
-	{
-		$this->em->getConnection()->beginTransaction();
-		try
-		{
-			$camp = $this->campService->create($creator, $params);
-				
-			$camp->setOwner($creator);
-	
-			$this->em->persist($camp);
-			$this->em->flush();
-	
-			$this->em->getConnection()->commit();
-				
-			return $camp;
-		}
-		catch (\PDOException $e)
-		{
-			$this->em->getConnection()->rollback();
-			$this->em->close();
-	
-			$form = new \Core\Form\Camp\Create();
-			$form->getElement('name')->addError("Name has already been taken.");
-				
-			throw new \Ecamp\ValidationException($form);
-		}
 	}
 }

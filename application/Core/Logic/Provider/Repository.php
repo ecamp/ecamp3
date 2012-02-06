@@ -21,7 +21,7 @@
 namespace Core\Logic\Provider;
 
 class Repository
-	implements \Inject\Syntax\IProvider
+	implements \PhpDI\Provider\IProvider
 {
 
 	/**
@@ -35,7 +35,7 @@ class Repository
 		$this->entityName = $entityName;
 	}
 
-	public function Create()
+	public function provide()
 	{
 		$em = \Zend_Registry::get("doctrine")->getEntityManager();
 

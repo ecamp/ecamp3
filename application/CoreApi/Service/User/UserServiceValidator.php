@@ -1,8 +1,13 @@
 <?php
 
-namespace CoreApi\Service\Validation;
+namespace CoreApi\Service\User;
 
-class UserServiceValidation extends \CoreApi\Service\ServiceBase
+use Core\Entity\User;
+use CoreApi\Service\ServiceBase;
+
+
+class UserServiceValidator
+	extends ServiceBase
 {
 	
 	/**
@@ -12,8 +17,8 @@ class UserServiceValidation extends \CoreApi\Service\ServiceBase
 	protected $userRepo;
 	
 	/**
-	 * @var CoreApi\Service\Operation\UserServiceOperation
-	 * @Inject CoreApi\Service\Operation\UserServiceOperation
+	 * @var CoreApi\Service\User\UserService
+	 * @Inject CoreApi\Service\User\UserService
 	 */
 	protected $userService;
 	
@@ -25,22 +30,12 @@ class UserServiceValidation extends \CoreApi\Service\ServiceBase
 	
 	
 	
-	/**
-	 * Setup ACL. Is used for manual calls of 'checkACL' and for automatic checking
-	 * @see    CoreApi\Service\ServiceBase::setupAcl()
-	 * @return void
-	 */
-	protected function setupAcl()
-	{
-		$this->getAcl()->allow('guest', $this, 'create');
-		$this->getAcl()->allow('guest', $this, 'activate');
-	}
 	
 	/**
 	 * Get User is allways valid
 	 * @param \Core\Entity\User|string|int $id
 	 */
-	protected function get($id = null)
+	public function Get($id = null)
 	{
 		return true;
 	}
@@ -52,7 +47,7 @@ class UserServiceValidation extends \CoreApi\Service\ServiceBase
 	 * 
 	 * @return \Core\Entity\User
 	 */
-	protected function create(\Zend_Form $form)
+	public function Create(\Zend_Form $form)
 	{		
 		$valid = true;
 		
@@ -72,42 +67,51 @@ class UserServiceValidation extends \CoreApi\Service\ServiceBase
 		}
 		
 		$userValidator = new \Core\Validate\UserValidator($user);
-
-		if(! $userValidator->isValid($form))
-		{
-			$valid = false;
-		}
+		$valid &= $userValidator->isValid($form);
 		
 		return $valid;
 	}
 	
 	
-	protected function update(\Zend_Form $form)
+	public function Update(\Zend_Form $form)
 	{
 		$valid = ($this->userService->get()->getId() == $form->getValue('id')); 
 		return $valid;
 	}
 	
 	
-	protected function delete(\Zend_Form $form)
+	public function Delete(\Zend_Form $form)
 	{
 		$valid = ($this->userService->get()->getId() == $form->getValue('id')); 
 		return $valid;	
 	}
 	
 	
+	public function Activate($user, $key)
+	{
+		$user = $this->get($user);
+		
+		if(is_null($user))
+		{	return false;	}
+		
+		if($user->getState() != \Core\Entity\User::STATE_REGISTERED)
+		{	return false;	}
+		
+		return true;
+	}
+	
 	
 	/**
-	* Creates a new Camp
-	* This method is protected, means it is only available from outside (magic!) if ACL is set properly
-	*
-	* @param \Entity\Group $group Owner of the new Camp
-	* @param \Entity\User $user Creator of the new Camp
-	* @param Array $params
-	* @return Camp object, if creation was successfull
-	* @throws \Ecamp\ValidationException
-	*/
-	protected function createCamp(\Core\Entity\User $creator, $params)
+	 * Creates a new Camp
+	 * This method is protected, means it is only available from outside (magic!) if ACL is set properly
+	 *
+	 * @param \Entity\Group $group Owner of the new Camp
+	 * @param \Entity\User $user Creator of the new Camp
+	 * @param Array $params
+	 * @return Camp object, if creation was successfull
+	 * @throws \Ecamp\ValidationException
+	 */
+	protected function CreateCamp(\Core\Entity\User $creator, \Zend_Form $form)
 	{
 // 		$this->em->getConnection()->beginTransaction();
 // 		try
