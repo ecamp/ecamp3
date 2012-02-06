@@ -68,7 +68,7 @@ class LoginService
 		/** @var \Core\Entity\Login */
 		$login = $user->getLogin();
 		
-		$authAdapter = new \CoreApi\Service\Auth\Adapter($login, $password);
+		$authAdapter = new \Core\Auth\Adapter($login, $password);
 		$result = \Zend_Auth::getInstance()->authenticate($authAdapter);
 		
 		return $result;
