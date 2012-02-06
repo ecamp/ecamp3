@@ -21,10 +21,10 @@
 namespace Core\Logic\Provider;
 
 class EntityManager
-	implements \Inject\Syntax\IProvider
+	implements \PhpDI\Provider\IProvider
 {
 
-	public function Create()
+	public function provide()
 	{
 		return \Zend_Registry::get('doctrine')->getEntityManager();
 	}
