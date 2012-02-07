@@ -92,17 +92,27 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 			->ToProvider(new Core\Provider\Repository("Core\Entity\User"));
 
 		
-// 		$kernel
-// 			->Bind("CoreApi\Service\Login\LoginService")
-// 			->ToFactory(new \Core\Acl\ACWrapperFactory("CoreApi\Service\Login\LoginService"))
-// 			->AsSingleton();
 		
+		$kernel
+			->Bind("CoreApi\Service\User\UserService")
+			->ToFactory(new \Core\Acl\ACWrapperFactory("CoreApi\Service\User\UserService"))
+			->AsSingleton();
 		
-		$kernel->Bind("CoreApi\Service\User\UserService")->ToSelf()->AsSingleton();
-		$kernel->Bind("CoreApi\Service\User\UserServiceValidator")->ToSelf()->AsSingleton();
+		$kernel
+			->Bind("CoreApi\Service\User\UserServiceValidator")
+			->ToFactory(new \Core\Acl\ACWrapperFactory("CoreApi\Service\User\UserServiceValidator"))
+			->AsSingleton();
 		
-		$kernel->Bind("CoreApi\Service\Login\LoginService")->ToSelf()->AsSingleton();
-		$kernel->Bind("CoreApi\Service\Login\LoginServiceValidator")->ToSelf()->AsSingleton();
+		$kernel
+			->Bind("CoreApi\Service\Login\LoginService")
+			->ToFactory(new \Core\Acl\ACWrapperFactory("CoreApi\Service\Login\LoginService"))
+			->AsSingleton();
+		
+		$kernel
+			->Bind("CoreApi\Service\Login\LoginServiceValidator")
+			->ToFactory(new \Core\Acl\ACWrapperFactory("CoreApi\Service\Login\LoginServiceValidator"))
+			->AsSingleton();
+		
 		
 		
 		Zend_Registry::set("kernel", $kernel);
