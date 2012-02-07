@@ -1,6 +1,6 @@
 <?php
 
-namespace Core\Validate;
+namespace Core\Validator;
 
 abstract class Entity
 {
@@ -52,7 +52,7 @@ abstract class Entity
 		if(array_key_exists($elementName, $this->elements))
 		{	return $this->elements[$elementName];	}
 		
-		$element = new \Core\Validate\Element();
+		$element = new \Core\Validator\Element();
 		$this->elements[$elementName] = $element;
 		
 		return $element;

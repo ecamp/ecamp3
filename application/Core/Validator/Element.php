@@ -1,6 +1,6 @@
 <?php
 
-namespace Core\Validate;
+namespace Core\Validator;
 
 class Element extends \Zend_Validate
 {

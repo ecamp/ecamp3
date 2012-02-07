@@ -1,8 +1,8 @@
 <?php
 
-namespace Core\Validate;
+namespace Core\Validator\Entity;
 
-class UserValidator extends Entity
+class UserValidator extends \Core\Validator\Entity
 {
 	
 	protected function init()
