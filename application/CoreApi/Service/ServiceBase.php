@@ -45,6 +45,7 @@ abstract class ServiceBase
 		$this->em->flush();
 	}
 	
+	
 	protected function persistEntity($entity)
 	{
 		$this->em->persist($entity);
@@ -53,5 +54,11 @@ abstract class ServiceBase
 	protected function removeEntity($entity)
 	{
 		$this->em->remove($entity);
+	}
+	
+	
+	protected function UnwrappEntity(\CoreApi\Entity\BaseEntity $entity)
+	{
+		return \Core\Entity\Wrapper\Unwrapper::Unwrapp($entity);
 	}
 }

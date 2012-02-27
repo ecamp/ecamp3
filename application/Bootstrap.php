@@ -113,6 +113,16 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 			->ToFactory(new \Core\Acl\ACWrapperFactory("CoreApi\Service\Login\LoginServiceValidator"))
 			->AsSingleton();
 		
+		$kernel
+			->Bind("CoreApi\Service\Login\CampService")
+			->ToFactory(new \Core\Acl\ACWrapperFactory("CoreApi\Service\Login\CampService"))
+			->AsSingleton();
+		
+		$kernel
+			->Bind("CoreApi\Service\Login\CampServiceValidator")
+			->ToFactory(new \Core\Acl\ACWrapperFactory("CoreApi\Service\Login\CampServiceValidator"))
+			->AsSingleton();
+		
 		
 		
 		Zend_Registry::set("kernel", $kernel);
