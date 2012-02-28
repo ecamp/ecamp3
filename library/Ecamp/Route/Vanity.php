@@ -131,6 +131,8 @@ class Vanity extends \Zend_Controller_Router_Route
 					if (! $user) {
 						return false;
 					}
+					
+					$matchedPath .= $pathPart . $this->_urlDelimiter;
 					$pathPart= $user->getId();
 				// If it's a group, search hierarhical for the groupname
 				} elseif ($name == "group") {
@@ -151,6 +153,7 @@ class Vanity extends \Zend_Controller_Router_Route
 						
 						$group = $this->em->getRepository("Core\Entity\Group")->findOneBy(array("name" => urldecode($path[$path_pos+1]), "parent" => $group->getId()));
 						
+						$matchedPath .= $path[$path_pos+1] . $this->_urlDelimiter;
 						$path_pos++;
 					}
 					
@@ -172,7 +175,8 @@ class Vanity extends \Zend_Controller_Router_Route
 						if (!$camp) {
 							return false;
 						}
-
+						
+						$matchedPath .= $pathPart . $this->_urlDelimiter;
 						$pathPart= $camp->getId();
 					}
 					elseif( isset($values["group"]) )
@@ -183,6 +187,7 @@ class Vanity extends \Zend_Controller_Router_Route
 							return false;
 						}
 						
+						$matchedPath .= $pathPart . $this->_urlDelimiter;
 						$pathPart= $camp->getId();
 					}
 					else

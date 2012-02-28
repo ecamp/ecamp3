@@ -22,11 +22,11 @@ class Campurl extends \Zend_View_Helper_Abstract
 		if( $camp->belongsToUser() )
 		{
 			$urlOptions['user']       = $camp->getOwner()->getId();
-			$name = $name=='' ? 'user+camp' : 'user+'.$name;
+			$name = $name=='' ? 'web+user+camp' : 'web+user+'.$name;
 		}
 		else
 		{
-			$name = $name=='' ? 'group+camp' : 'group+'.$name;
+			$name = $name=='' ? 'web+group+camp' : 'web+group+'.$name;
 			$urlOptions['group']       = $camp->getGroup()->getId();
 		}
 
