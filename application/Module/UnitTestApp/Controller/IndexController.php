@@ -21,14 +21,30 @@
 class UnitTestApp_IndexController extends \Zend_Controller_Action
 {
 
+	private $resultFile;
+	
     public function init()
     {
-
+		$this->resultFile = APPLICATION_PATH . "/../test/UnitTest/conf/results.xml";
+		
     }
 
     public function indexAction()
     {
+    	$result_xml = file_get_contents($this->resultFile);
     	
+    	$result = new SimpleXMLElement($result_xml);
+    	$testTime = filemtime($this->resultFile);
+    	
+    	$shortFeedback = (
+    		$result->testsuite->attributes()->failures == 0 && 
+			$result->testsuite->attributes()->errors == 0)
+    			? "pass" : "fail";
+    	
+    	
+    	$this->view->result = $result;
+    	$this->view->testTime = $testTime;
+    	$this->view->shortFeedback = $shortFeedback;
     }
 }
 
