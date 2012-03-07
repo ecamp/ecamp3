@@ -61,45 +61,70 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 		
 		$kernel
 			->Bind("EntityManager")
-			->ToProvider(new Core\Logic\Provider\EntityManager());
+			->ToProvider(new Core\Provider\EntityManager());
 
 		$kernel
 			->Bind("CampRepository")
-			->ToProvider(new Core\Logic\Provider\Repository("Core\Entity\Camp"));
+			->ToProvider(new Core\Provider\Repository("Core\Entity\Camp"));
 
 		$kernel
 			->Bind("GroupRepository")
-			->ToProvider(new Core\Logic\Provider\Repository("Core\Entity\Group"));
+			->ToProvider(new Core\Provider\Repository("Core\Entity\Group"));
 
 		$kernel
 			->Bind("LoginRepository")
-			->ToProvider(new Core\Logic\Provider\Repository("Core\Entity\Login"));
+			->ToProvider(new Core\Provider\Repository("Core\Entity\Login"));
 
 		$kernel
 			->Bind("UserRepository")
-			->ToProvider(new Core\Logic\Provider\Repository("Core\Entity\User"));
+			->ToProvider(new Core\Provider\Repository("Core\Entity\User"));
 
 		$kernel
 			->Bind("UserCampRepository")
-			->ToProvider(new Core\Logic\Provider\Repository("Core\Entity\UserCamp"));
+			->ToProvider(new Core\Provider\Repository("Core\Entity\UserCamp"));
 		
 		$kernel
-			->Bind("\Core\Repository\LoginRepository")
-			->ToProvider(new Core\Logic\Provider\Repository("Core\Entity\Login"));
+			->Bind("Core\Repository\LoginRepository")
+			->ToProvider(new Core\Provider\Repository("Core\Entity\Login"));
 		
 		$kernel
-			->Bind("\Core\Repository\UserRepository")
-			->ToProvider(new Core\Logic\Provider\Repository("Core\Entity\User"));
-		
-		
-// 		$kernel
-// 			->Bind("CoreApi\Service\Login\LoginService")
-// 			->ToFactory(new \Core\Acl\ACWrapperFactory("CoreApi\Service\Login\LoginService"))
-// 			->AsSingleton();
-		
-		
-		$kernel->Bind("\CoreApi\Service\UserService")->ToSelf()->AsSingleton();
+			->Bind("Core\Repository\UserRepository")
+			->ToProvider(new Core\Provider\Repository("Core\Entity\User"));
 
+		
+		
+		$kernel
+			->Bind("CoreApi\Service\User\UserService")
+			->ToFactory(new \Core\Acl\ACWrapperFactory("CoreApi\Service\User\UserService"))
+			->AsSingleton();
+		
+		$kernel
+			->Bind("CoreApi\Service\User\UserServiceValidator")
+			->ToFactory(new \Core\Acl\ACWrapperFactory("CoreApi\Service\User\UserServiceValidator"))
+			->AsSingleton();
+		
+		$kernel
+			->Bind("CoreApi\Service\Login\LoginService")
+			->ToFactory(new \Core\Acl\ACWrapperFactory("CoreApi\Service\Login\LoginService"))
+			->AsSingleton();
+		
+		$kernel
+			->Bind("CoreApi\Service\Login\LoginServiceValidator")
+			->ToFactory(new \Core\Acl\ACWrapperFactory("CoreApi\Service\Login\LoginServiceValidator"))
+			->AsSingleton();
+		
+		$kernel
+			->Bind("CoreApi\Service\Login\CampService")
+			->ToFactory(new \Core\Acl\ACWrapperFactory("CoreApi\Service\Camp\CampService"))
+			->AsSingleton();
+		
+		$kernel
+			->Bind("CoreApi\Service\Login\CampServiceValidator")
+			->ToFactory(new \Core\Acl\ACWrapperFactory("CoreApi\Service\Camp\CampServiceValidator"))
+			->AsSingleton();
+		
+		
+		
 		Zend_Registry::set("kernel", $kernel);
 	}
 

@@ -18,7 +18,7 @@
  * along with eCamp.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Core\Logic\Provider;
+namespace Core\Provider;
 
 class EntityManager
 	implements \PhpDI\Provider\IProvider
