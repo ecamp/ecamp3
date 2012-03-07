@@ -10,3 +10,6 @@ data/log/**/*
 
 data/session/*
 data/session/**/*
+
+application/CoreApi/Entity/*
+!application/CoreApi/Entity/BaseEntity.php
