@@ -25,22 +25,22 @@ class WebApp_RegisterController
 {
 
 	/**
-	 * @var \Core\Repository\UserRepository
-	 * @Inject \Core\Repository\UserRepository
+	 * @var Core\Repository\UserRepository
+	 * @Inject Core\Repository\UserRepository
 	 */
 	private $userRepo;
 
 
 	/**
-	 * @var \CoreApi\Service\User
-	 * @Inject CoreApi\Service\User
+	 * @var CoreApi\Service\Operation\UserServiceOperation
+	 * @Inject CoreApi\Service\Operation\UserServiceOperation
 	 */
 	private $userService;
 	
 	
 	/**
-	 * @var \CoreApi\Service\Login
-	 * @Inject \CoreApi\Service\Login
+	 * @var CoreApi\Service\Operation\LoginServiceOperation
+	 * @Inject CoreApi\Service\Operation\LoginServiceOperation
 	 */
 	private $loginService;
 	
@@ -48,14 +48,13 @@ class WebApp_RegisterController
 	
 
 	public function indexAction()
-	{
-
+	{		
 		$registerForm = new \WebApp\Form\Register();
 
 		if($id = $this->getRequest()->getParam('id'))
 		{
 			/** @var $user \Core\Entity\User */
-			$user = $this->userRepo->find($id);
+			$user = $this->userService->get($id);
 
 			if(!is_null($user) && $user->getState() == \Core\Entity\User::STATE_NONREGISTERED)
 			{
@@ -77,26 +76,16 @@ class WebApp_RegisterController
 		$params = $this->getRequest()->getParams();
 		
 		$registerForm = new \WebApp\Form\Register();
+		$registerForm->populate($params);
 
-		if(!$registerForm->isValid($params))
-		{
-			$this->view->registerForm = $registerForm;
-			$this->render("index");
-			return;
-		}
 		
 		try
 		{
-			$email 		= $params['email'];
-			$password 	= $params['password1'];
-			
-			$user 	= $this->userService->create($email, $params);
-			$login 	= $this->loginService->create($user, $password);
+			$user 	= $this->userService->create($registerForm);
+			$login	= $this->loginService->create($user, $registerForm);
 		}
 		catch (Exception $e)
 		{
-			$registerForm->getElement('email')->addError($e->getMessage());
-			
 			$this->view->registerForm = $registerForm;
 			$this->render("index");
 			return;

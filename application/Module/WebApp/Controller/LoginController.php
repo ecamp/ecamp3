@@ -23,14 +23,15 @@ class WebApp_LoginController extends WebApp\Controller\BaseController
 {
 
 	/**
-	 * @var \Core\Repository\UserRepository
-	 * @Inject \Core\Repository\UserRepository
+	 * @deprecated
+	 * @var Core\Repository\UserRepository
+	 * @Inject Core\Repository\UserRepository
 	 */
 	private $userRepo;
 
 	/**
-	 * @var \CoreApi\Service\Login
-	 * @Inject \CoreApi\Service\Login
+	 * @var CoreApi\Service\Login\LoginService
+	 * @Inject CoreApi\Service\Login\LoginService
 	 */
 	private $loginService;
 
@@ -76,13 +77,12 @@ class WebApp_LoginController extends WebApp\Controller\BaseController
 			$this->_forward('index');
 			$this->view->browserUrl();
 		}
-
 	}
 
 
 	public function logoutAction()
 	{
-		$this->loginService->logout();
+		$this->loginService->Logout();
 
 		$this->_redirect("login");
 	}
@@ -90,22 +90,17 @@ class WebApp_LoginController extends WebApp\Controller\BaseController
 
 	protected function checkLogin($values)
 	{
-		$result = $this->loginService->login($values['login'], $values['password']);
+		$result = $this->loginService->Login($values['login'], $values['password']);
 
 		$this->view->message = $result->getMessages();
 
-		if (Zend_Auth::getInstance()->hasIdentity())
-		{
-			return true;
-		}
-
-		return false;
+		return Zend_Auth::getInstance()->hasIdentity();
 	}
 
 	public function bypassAction()
 	{
 		$user = $this->userRepo->find($this->getRequest()->getParam('user'));
-		$authAdapter = new \CoreApi\Service\Auth\Bypass($user);
+		$authAdapter = new \Core\Auth\Bypass($user);
 		$result = Zend_Auth::getInstance()->authenticate($authAdapter);
 
 		$this->_forward('index', 'dashboard');

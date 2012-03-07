@@ -65,14 +65,14 @@ class Register extends \Ztal_Form
 			->setRequired(true);
 
 
-		$password1 = new \Zend_Form_Element_Password('password1');
+		$password1 = new \Zend_Form_Element_Password('password');
 		$password1->setLabel('Password:')
 			->addValidator(new \Zend_Validate_StringLength(array('min' => 6)))
 			->setRequired(true);
 
-		$password2 = new \Zend_Form_Element_Password('password2');
+		$password2 = new \Zend_Form_Element_Password('passwordCheck');
 		$password2->setLabel('Repeat Password:')
-			->addValidator(new \Zend_Validate_Identical('password1'))
+			->addValidator(new \Zend_Validate_Identical('password'))
 			->setRequired(true);
 
 

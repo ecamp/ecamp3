@@ -2,20 +2,20 @@
 
 namespace CoreApi\Service;
 
-class User extends ServiceAbstract
+class User extends \CoreApi\InputValidation\UserServiceInputValidation
 {
 	
-	/**
-	 * @var \Core\Repository\UserRepository
-	 * @Inject \Core\Repository\UserRepository
-	 */
-	private $userRepo;
+// 	/**
+// 	 * @var \Core\Repository\UserRepository
+// 	 * @Inject \Core\Repository\UserRepository
+// 	 */
+// 	private $userRepo;
 	
-	/**
-	* @var \CoreApi\Service\Camp
-	* @Inject \CoreApi\Service\Camp
-	*/
-	private $campService;
+// 	/**
+// 	* @var \CoreApi\Service\Camp
+// 	* @Inject \CoreApi\Service\Camp
+// 	*/
+// 	private $campService;
 	
 	/**
 	* Setup ACL. Is used for manual calls of 'checkACL' and for automatic checking
@@ -61,14 +61,19 @@ class User extends ServiceAbstract
 	 * 
 	 * @return \Core\Entity\User
 	 */
-	public function create($email, $params)
+	public function create(\Zend_Form $form)
 	{
+		if(! parent::create($form))
+		{	throw new \Ecamp\ValidationException();	}
+		
+		
 		$this->em->getConnection()->beginTransaction();
 		
 		try
 		{
+			$email = $form->getValue('email');
 			$user = $this->userRepo->findOneBy(array('email' => $email));
-				
+			
 			if(is_null($user))
 			{
 				$user = new \Core\Entity\User();
@@ -76,26 +81,10 @@ class User extends ServiceAbstract
 		
 				$this->em->persist($user);
 			}
-				
-			if($user->getState() != \Core\Entity\User::STATE_NONREGISTERED)
-			{	throw new Exception("This eMail-Adress is already registered!");	}
-
-			if(array_key_exists('username', $params))
-			{
-				$user->setUsername($params['username']);
-				$user->setState(\Core\Entity\User::STATE_REGISTERED);
-			}
 			
-			if(array_key_exists('scoutname', $params))
-			{	$user->setScoutname($params['scoutname']);	}
+			$userValidator = new \Core\Validate\UserValidator($user);
+			$userValidator->apply($form);
 			
-			if(array_key_exists('firstname', $params))
-			{	$user->setFirstname($params['firstname']);	}
-			
-			if(array_key_exists('surname', $params))
-			{	$user->setSurname($params['surname']);	}
-			
-
 			$this->em->flush();
 			$this->em->getConnection()->commit();
 				
@@ -110,8 +99,17 @@ class User extends ServiceAbstract
 	}
 	
 	
-	public function update(){	throw new \Exception("Not implemented exception");	}
-	public function delete(){	throw new \Exception("Not implemented exception");	}
+	public function update()
+	{
+		if(!parent::update())
+		{	return false;	}
+	}
+	
+	public function delete()
+	{
+		if(!parent::delete())
+		{	return false;	}
+	}
     
 	
 	/**
