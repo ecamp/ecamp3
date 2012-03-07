@@ -4,6 +4,10 @@ namespace CoreApi\Service\Camp;
 
 use Core\Entity\BaseEntity;
 use CoreApi\Service\ServiceBase;
+use CoreApi\Service\ValidationResponse;
+
+use Core\Entity\Camp as CoreCamp;
+use CoreApi\Entity\Camp as CoreApiCamp;
 
 
 class CampServiceValidator
@@ -18,47 +22,47 @@ class CampServiceValidator
 	
 	
 	/**
-	 * @return bool
+	 * @return ValidationResponse
 	 */
 	public function Get($id)
 	{
-		return true;
+		return new ValidationResponse(true);
 	}
 	
 	
 	/**
-	 * @return bool
+	 * @return ValidationResponse
 	 */
 	public function Delete($camp)
 	{
-		return true;
+		return new ValidationResponse(true);;
 	}
 	
 	
 	/**
-	 * @return bool 
+	 * @return ValidationResponse 
 	 */
 	public function Update($camp, \Zend_Form $form)
 	{
-		return true;
+		return new ValidationResponse(true);
 	}
 	
 	
 	/**
-	 * @return bool 
+	 * @return ValidationResponse 
 	 */
 	public function Create(\Zend_Form $form)
 	{
-		return true;
+		return new ValidationResponse(true);
 	}
 	
 	
 	/**
-	 * @return bool 
+	 * @return ValidationResponse 
 	 */
 	public function CreatePeriod()
 	{
-		return true;
+		return new ValidationResponse(true);
 	}
 	
 	

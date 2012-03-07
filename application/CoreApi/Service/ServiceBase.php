@@ -2,6 +2,8 @@
 
 namespace CoreApi\Service;
 
+use CoreApi\Service\ValidationResponse;
+
 
 abstract class ServiceBase
 	implements \Zend_Acl_Resource_Interface
@@ -18,10 +20,14 @@ abstract class ServiceBase
 	{	return get_class($this);	}
 	
 	
-	protected function blockIfInvalid($bool)
+	protected function blockIfInvalid(ValidationResponse $validationResp)
 	{
-		if(!$bool)
-		{	throw new \InvalidArgumentException("Invalid Arguemnts for Service call.");	}
+		if(!$validationResp->isValid())
+		{
+			$e = new ValidationException();
+			$e->validationResp = $validationResp;
+			throw $e;
+		}
 	}
 	
 	

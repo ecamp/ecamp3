@@ -4,6 +4,7 @@ namespace CoreApi\Service\User;
 
 use Core\Entity\User;
 use CoreApi\Service\ServiceBase;
+use CoreApi\Service\ValidationResponse;
 
 
 class UserServiceValidator
@@ -37,7 +38,7 @@ class UserServiceValidator
 	 */
 	public function Get($id = null)
 	{
-		return true;
+		return new ValidationResponse(true);
 	}
 	
 	/**
@@ -69,21 +70,23 @@ class UserServiceValidator
 		$userValidator = new \Core\Validate\UserValidator($user);
 		$valid &= $userValidator->isValid($form);
 		
-		return $valid;
+		return new ValidationResponse($valid);
 	}
 	
 	
 	public function Update(\Zend_Form $form)
 	{
 		$valid = ($this->userService->get()->getId() == $form->getValue('id')); 
-		return $valid;
+		
+		return new ValidationResponse($valid);
 	}
 	
 	
 	public function Delete(\Zend_Form $form)
 	{
 		$valid = ($this->userService->get()->getId() == $form->getValue('id')); 
-		return $valid;	
+		
+		return new ValidationResponse($valid);	
 	}
 	
 	
@@ -92,12 +95,18 @@ class UserServiceValidator
 		$user = $this->get($user);
 		
 		if(is_null($user))
-		{	return false;	}
+		{
+			$validationResp = new ValidationResponse(false);
+			$validationResp->addMessage("User not found!");
+		}
 		
 		if($user->getState() != \Core\Entity\User::STATE_REGISTERED)
-		{	return false;	}
+		{
+			$validationResp = new ValidationResponse(false);
+			$validationResp->addMessage("User already activated!");
+		}
 		
-		return true;
+		return new ValidationResponse(true);
 	}
 	
 	
@@ -138,6 +147,6 @@ class UserServiceValidator
 // 			throw new \Ecamp\ValidationException($form);
 // 		}
 
-		return true;
+		return new ValidationResponse(true);
 	}
 }
