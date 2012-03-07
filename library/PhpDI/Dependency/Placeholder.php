@@ -16,8 +16,7 @@ class Placeholder implements \Iterator, \ArrayAccess, \Serializable
 	
 	/** @var PhpDI\Injection\Injector\IInjector */
 	private $dependencyInjector = null;
-	
-	
+		
 	
 	public function __construct(
 		IKernel $kernel, $dependencyName,
@@ -31,7 +30,12 @@ class Placeholder implements \Iterator, \ArrayAccess, \Serializable
 	private function inject()
 	{
 		$dependency = $this->kernel->Get($this->dependencyName);
-		$this->dependencyInjector->inject($dependency);
+		
+		if(! is_null($this->dependencyInjector))
+		{
+			$this->dependencyInjector->inject($dependency);
+			$this->dependencyInjector = null;
+		}
 		
 		return $dependency;
 	}
