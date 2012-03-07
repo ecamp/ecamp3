@@ -2,7 +2,7 @@
 
 	<span  style="height:100px;" class="span-2">
 		<a tal:attributes="href helper:url(array('group' => usergroup.getGroup().getId()), 'group')">
-			<img width="48" height="48" tal:attributes="src helper:url(array('controller' => 'avatar', 'action' => 'group', 'id' => usergroup.getGroup().getId(), 'size' => 48), 'general')" /><br />
+			<img width="48" height="48" tal:attributes="src helper:GroupAvatar(usergroup.getGroup().getId())" /><br />
 		</a>
 		<a tal:attributes="href helper:url(array('group' => usergroup.getGroup().getId()), 'group')">
 			<tal:block content="usergroup/getGroup/getName" />
