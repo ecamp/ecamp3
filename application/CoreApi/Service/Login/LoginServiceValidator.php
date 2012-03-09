@@ -4,6 +4,7 @@ namespace CoreApi\Service\Login;
 
 use Core\Entity\User;
 use CoreApi\Service\ServiceBase;
+use CoreApi\Service\ValidationResponse;
 
 
 class LoginServiceValidator
@@ -25,7 +26,15 @@ class LoginServiceValidator
 	
 	public function Get()
 	{
-		return \Zend_Auth::getInstance()->hasIdentity();
+		if(\Zend_Auth::getInstance()->hasIdentity())
+		{
+			return new ValidationResponse(true);
+		}
+		else
+		{
+			$validationResp = new ValidationResponse();
+			$validationResp->addMessage("You are not logged in!");
+		}
 	}
 	
 	public function Create(User $user, \Zend_Form $form)
@@ -37,7 +46,7 @@ class LoginServiceValidator
 		$valid &= !is_null($user->getLogin());
 		$valid &= $loginValidator->isValid($form);
 		
-		return $valid;
+		return new ValidationResponse($valid);
 	}
 	
 	
@@ -55,13 +64,13 @@ class LoginServiceValidator
 		$valid &= !is_null($user);
 		$valid &= !is_null($user->getLogin());
 		
-		return $valid;
+		return new ValidationResponse($valid);
 	}
 	
 	
 	public function Logout()
 	{
-		return true;
+		return new ValidationResponse(true);
 	}
 	
 	
@@ -73,7 +82,7 @@ class LoginServiceValidator
 		$valid &= !is_null($this->getLoginByResetKey($pwResetKey));
 		$valid &= $loginValidator->isValid($form);
 		
-		return $valid;
+		return new ValidationResponse($valid);
 	}
 	
 	
@@ -85,7 +94,7 @@ class LoginServiceValidator
 		$valid &= !is_null($user);
 		$valid &= !is_null($user->getLogin());
 		
-		return $valid;
+		return new ValidationResponse($valid);
 	}
 	
 	
