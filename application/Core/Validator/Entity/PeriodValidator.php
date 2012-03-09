@@ -2,7 +2,7 @@
 
 namespace Core\Validator\Entity;
 
-class CampValidator extends \Core\Validator\Entity
+class PeriodValidator extends \Core\Validator\Entity
 {
 	
 	protected function init()
