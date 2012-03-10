@@ -2,67 +2,84 @@
 
 namespace CoreApi\Service\Login;
 
-use Core\Entity\User;
+
+use Core\Validator\Entity\LoginValidator;
+
+use CoreApi\Entity\User;
+use CoreApi\Entity\Login;
+use CoreApi\Service\ServiceBase;
+
 
 
 class LoginService 
-	extends LoginServiceValidator
+	extends ServiceBase
 {
 	
-	public function Get()
+	/**
+	 * @var \CoreApi\Service\User\UserService
+	 * @Inject \CoreApi\Service\User\UserService
+	 */
+	protected $userService;
+	
+	
+	/**
+	 * @var Core\Repository\LoginRepository
+	 * @Inject Core\Repository\LoginRepository
+	 */
+	protected $loginRepo;
+	
+	
+	public function Get($s = false)
 	{
-		$this->blockIfInvalid(parent::Get());
-		
 		$user = $this->userService->get();
-		
+	
 		if(!is_null($user))
-		{	return $user->getLogin();	}
+		{	return $user->getLogin()->asReadonly();	}
 		
 		return null;
 	}
 	
 	
-	public function Create(User $user, \Zend_Form $form)
-	{
-		$this->blockIfInvalid(parent::Create($user, $form));
-		
-		
+	public function Create(User $user, \Zend_Form $form, $s = false)
+	{		
 		$this->beginTransaction();
 		
-		try 
-		{
-			$login = new \Core\Entity\Login();
-			$login->setNewPassword($form->getValue('password'));
-			$login->setUser($user);
+		
+		$login = new \Core\Entity\Login();
+		$loginValdator = new LoginValidator($login);
+		
+		if(! $loginValdator->isValid($form))
+		{	$this->throwValidationException();	}
+
+		
+		$login->setNewPassword($form->getValue('password'));
+		$login->setUser($this->UnwrapEntity($user));
 			
-			$this->em->persist($login);
+		$this->persist($login);
 			
-			$this->flush();
-			$this->commit();
+		$this->flush();
+		$this->commit($s);
 			
-			return $login;
-		}
-		catch (\Exception $e)
-		{
-			$this->rollback();
-			
-			throw $e;
-		}
+		return $login;
 	}
 	
 	
-	public function Delete()
+	public function Delete(Login $user, $s = false)
 	{
-		assert(false);
+		$this->beginTransaction();
+
+		$login = $this->UnwrapEntity($login);
+		$this->remove($login);
+		
+		$this->flush();
+		$this->commit($s);
 	}
 	
 	
 	public function Login($identifier, $password)
 	{
-		$this->blockIfInvalid(parent::Login($identifier, $password));
 		
-		
-		/** @var \Core\Entity\User */
+		/** @var \CoreApi\Entity\User */
 		$user = $this->userService->get($identifier);
 		
 		/** @var \Core\Entity\Login */
