@@ -2,114 +2,175 @@
 
 namespace CoreApi\Service\Login;
 
-use Core\Entity\User;
+
+use Core\Validator\Entity\LoginValidator;
+
+use CoreApi\Entity\User;
+use CoreApi\Entity\Login;
+use CoreApi\Service\ServiceBase;
+
 
 
 class LoginService 
-	extends LoginServiceValidator
+	extends ServiceBase
 {
 	
-	public function Get()
+	/**
+	 * @var \CoreApi\Service\User\UserService
+	 * @Inject \CoreApi\Service\User\UserService
+	 */
+	protected $userService;
+	
+	
+	/**
+	 * @var Core\Repository\LoginRepository
+	 * @Inject Core\Repository\LoginRepository
+	 */
+	protected $loginRepo;
+	
+	
+	/**
+	 * @return CoreApi\Entity\Login | NULL
+	 */
+	public function Get($s = false)
 	{
-		$this->blockIfInvalid(parent::Get());
+		$respObj = $this->getRespObj($s);
 		
-		$user = $this->userService->get();
+		$user = $respObj($this->userService->get())->getReturn();
 		
 		if(!is_null($user))
-		{	return $user->getLogin();	}
+		{	return $respObj($user->getLogin());	}
 		
-		return null;
+		$respObj->validationFailed();
+		return $respObj;
 	}
 	
 	
-	public function Create(User $user, \Zend_Form $form)
+	/**
+	 * @return CoreApi\Entity\Login
+	 */
+	public function Create(User $user, \Zend_Form $form, $s = false)
 	{
-		$this->blockIfInvalid(parent::Create($user, $form));
+		$respObj = $this->getRespObj($s)->beginTransaction();
 		
 		
-		$this->beginTransaction();
+		$login = new \Core\Entity\Login();
+		$loginValdator = new LoginValidator($login);
 		
-		try 
-		{
-			$login = new \Core\Entity\Login();
-			$login->setNewPassword($form->getValue('password'));
-			$login->setUser($user);
-			
-			$this->em->persist($login);
-			
-			$this->flush();
-			$this->commit();
-			
-			return $login;
-		}
-		catch (\Exception $e)
-		{
-			$this->rollback();
-			
-			throw $e;
-		}
+		$respObj->validationFailed(! $loginValdator->isValid($form));
+		
+		
+		$login->setNewPassword($form->getValue('password'));
+		$login->setUser($this->UnwrapEntity($user));
+		
+		$this->persist($login);
+		
+		
+		$respObj->flushAndCommit();
+		return $respObj($login);
 	}
 	
 	
-	public function Delete()
+	public function Delete(Login $user, $s = false)
 	{
-		assert(false);
+		$respObj = $this->getRespObj($s)->beginTransaction();
+
+		$login = $this->UnwrapEntity($login);
+		$this->remove($login);
+		
+		return $respObj->flushAndCommit();
 	}
 	
 	
 	public function Login($identifier, $password)
 	{
-		$this->blockIfInvalid(parent::Login($identifier, $password));
+		$respObj = $this->getRespObj(false);
 		
-		
-		/** @var \Core\Entity\User */
-		$user = $this->userService->get($identifier);
+		/** @var \CoreApi\Entity\User */
+		$user = $respObj($this->userService->get($identifier))->getReturn();
 		
 		/** @var \Core\Entity\Login */
-		$login = $user->getLogin();
+		if(is_null($user))	{	$login = null;	}
+		else				{	$login = $this->UnwrapEntity($user)->getLogin();	}
 		
 		$authAdapter = new \Core\Auth\Adapter($login, $password);
 		$result = \Zend_Auth::getInstance()->authenticate($authAdapter);
 		
-		return $result;
+		return $respObj($result);
 	}
 	
 	
 	public function Logout()
 	{
-		$this->blockIfInvalid(parent::Logout());
-		
-		
 		\Zend_Auth::getInstance()->clearIdentity();
+
+		return $this->getRespObj(false);
 	}
 	
 	
-	public function ResetPassword($pwResetKey, \Zend_Form $form)
+	public function ResetPassword($pwResetKey, \Zend_Form $form, $s = false)
 	{
-		$this->blockIfInvalid(parent::ResetPassword($pwResetKey, $form));
+		$respObj = $this->getRespObj($s)->beginTransaction();
 		
+		$loginValidator = new \Core\Validate\LoginValidator();
 		
 		/** @var \Core\Entity\Login $login */
 		$login = $this->getLoginByResetKey($pwResetKey);
 		
+		$respObj->validationFailed(
+			is_null($login) || ! $loginValidator->isValid($form));
+		
+		
 		$login->setNewPassword($form->getValue('password'));
 		$login->clearPwResetKey();
+		
+		return $respObj->flushAndCommit();
 	}
 	
 	
-	public function ForgotPassword($identifier)
+	public function ForgotPassword($identifier, $s = false)
 	{
-		$this->blockIfInvalid(parent::ForgotPassword($identifier));
+		$respObj = $this->getRespObj($s);
 		
 		
-		/** @var \Core\Entity\Login $user */
-		$login = $this->userService->get($identifier)->getLogin();
+		/** @var \CoreApi\Entity\Login $user */
+		$user = $this->userService->get($identifier);
+		
+		if(is_null($user))
+		{	$respObj->validationFailed();	return $respObj;	}
+		
+		$user = $this->UnwrapEntity($user);
+		$login = $user->getLogin();
+		
+		if(is_null($login))
+		{	$respObj->validationFailed();	return $respObj;	}
+		
+		
+		$respObj->beginTransaction();
 		
 		$login->createPwResetKey();
 		$resetKey = $login->getPwResetKey();
 		
+		$respObj->flushAndCommit();
+		
+		
 		//TODO: Send Mail with Link to Reset Password.
 		
-		return $resetKey;
+		return $respObj($resetKey);
+	}
+	
+	
+	/**
+	 * Returns the LoginEntity with the given pwResetKey
+	 *
+	 * @param string $pwResetKey
+	 * @return \Core\Entity\Login
+	 */
+	private function getLoginByResetKey($pwResetKey)
+	{
+		/** @var \Core\Entity\Login $login */
+		$login = $this->loginRepo->findOneBy(array('pwResetKey' => $pwResetKey));
+	
+		return $login;
 	}
 }
