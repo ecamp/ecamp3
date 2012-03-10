@@ -46,19 +46,19 @@ class UnitTestApp_Bootstrap extends Zend_Application_Module_Bootstrap
 		$hostname = Zend_Registry::get('hostname');
 		
 		/* Subdomain Route */
-		$webappSubdomain = new Zend_Controller_Router_Route_Hostname(
+		$unittestappSubdomain = new Zend_Controller_Router_Route_Hostname(
 			"test." . $hostname, array('module' => 'UnitTestApp'));
 		
 		
 		
 		/* default Moduel Router */
 		Zend_Controller_Front::getInstance()->getRouter()->addRoute(
-			'test+general', $webappSubdomain->chain(
+			'test+general', $unittestappSubdomain->chain(
 				new Zend_Controller_Router_Route('/:controller/:action/*',
 				array('controller' => 'index', 'action' => 'index'))));
 
 		Zend_Controller_Front::getInstance()->getRouter()->addRoute(
-			'test+general+id', $webappSubdomain->chain(
+			'test+general+id', $unittestappSubdomain->chain(
 				new Zend_Controller_Router_Route('/:controller/:action/:id/*',
 				array('controller' => 'index', 'action' => 'index'),
 				array('id' => '\d+'))));
@@ -84,7 +84,8 @@ class UnitTestApp_Bootstrap extends Zend_Application_Module_Bootstrap
 		$front = $this->getApplication()->getResource('frontcontroller');
 		
 		//register the Ztal plugin
-		$front->registerPlugin(new Ztal_Controller_Plugin_Ztal($this->getOption('ztal')));
+		$plugin = new Ztal_Controller_Plugin_Ztal($this->getOption('ztal'));
+		$front->registerPlugin($plugin);
 	}
 
 	

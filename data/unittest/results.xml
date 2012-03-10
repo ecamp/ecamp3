@@ -1,92 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <testsuites>
-  <testsuite name="eCamp UnitTests" tests="9" assertions="0" failures="0" errors="9" time="0.030504">
-    <testsuite name="CampControllerTest" file="/Users/pirminmattmann/Sites/eCamp3/test/UnitTest/tests/Controller/CampControllerTest.php" tests="2" assertions="0" failures="0" errors="2" time="0.006927">
-      <testcase name="testTrue" class="CampControllerTest" file="/Users/pirminmattmann/Sites/eCamp3/test/UnitTest/tests/Controller/CampControllerTest.php" line="34" assertions="0" time="0.003613">
-        <error type="PDOException">CampControllerTest::testTrue
-PDOException: You cannot serialize or unserialize PDO instances
-
-/Users/pirminmattmann/Sites/eCamp3/test/UnitTest/bin/UnitTestRunner.php:60
-/Users/pirminmattmann/Sites/eCamp3/test/UnitTest/bin/UnitTestRunner.php:97
-/Users/pirminmattmann/Sites/eCamp3/test/UnitTest/bin/UnitTestRunner.php:107
-</error>
-      </testcase>
-      <testcase name="testController" class="CampControllerTest" file="/Users/pirminmattmann/Sites/eCamp3/test/UnitTest/tests/Controller/CampControllerTest.php" line="38" assertions="0" time="0.003314">
-        <error type="PDOException">CampControllerTest::testController
-PDOException: You cannot serialize or unserialize PDO instances
-
-/Users/pirminmattmann/Sites/eCamp3/test/UnitTest/bin/UnitTestRunner.php:60
-/Users/pirminmattmann/Sites/eCamp3/test/UnitTest/bin/UnitTestRunner.php:97
-/Users/pirminmattmann/Sites/eCamp3/test/UnitTest/bin/UnitTestRunner.php:107
-</error>
-      </testcase>
-    </testsuite>
-    <testsuite name="ServiceTest" file="/Users/pirminmattmann/Sites/eCamp3/test/UnitTest/tests/Controller/ServiceTest.php" tests="1" assertions="0" failures="0" errors="1" time="0.003521">
-      <testcase name="testTrue" class="ServiceTest" file="/Users/pirminmattmann/Sites/eCamp3/test/UnitTest/tests/Controller/ServiceTest.php" line="37" assertions="0" time="0.003521">
-        <error type="PDOException">ServiceTest::testTrue
-PDOException: You cannot serialize or unserialize PDO instances
-
-/Users/pirminmattmann/Sites/eCamp3/test/UnitTest/bin/UnitTestRunner.php:60
-/Users/pirminmattmann/Sites/eCamp3/test/UnitTest/bin/UnitTestRunner.php:97
-/Users/pirminmattmann/Sites/eCamp3/test/UnitTest/bin/UnitTestRunner.php:107
-</error>
-      </testcase>
-    </testsuite>
-    <testsuite name="Entity\UserTest" file="/Users/pirminmattmann/Sites/eCamp3/test/UnitTest/tests/Entity/UserTest.php" namespace="Entity" fullPackage="Entity" tests="4" assertions="0" failures="0" errors="4" time="0.013686">
-      <testcase name="testCanCreateUser" class="Entity\UserTest" file="/Users/pirminmattmann/Sites/eCamp3/test/UnitTest/tests/Entity/UserTest.php" line="32" assertions="0" time="0.003546">
-        <error type="PDOException">Entity\UserTest::testCanCreateUser
-PDOException: You cannot serialize or unserialize PDO instances
-
-/Users/pirminmattmann/Sites/eCamp3/test/UnitTest/bin/UnitTestRunner.php:60
-/Users/pirminmattmann/Sites/eCamp3/test/UnitTest/bin/UnitTestRunner.php:97
-/Users/pirminmattmann/Sites/eCamp3/test/UnitTest/bin/UnitTestRunner.php:107
-</error>
-      </testcase>
-      <testcase name="testCanPersistUser" class="Entity\UserTest" file="/Users/pirminmattmann/Sites/eCamp3/test/UnitTest/tests/Entity/UserTest.php" line="37" assertions="0" time="0.003088">
-        <error type="PDOException">Entity\UserTest::testCanPersistUser
-PDOException: You cannot serialize or unserialize PDO instances
-
-/Users/pirminmattmann/Sites/eCamp3/test/UnitTest/bin/UnitTestRunner.php:60
-/Users/pirminmattmann/Sites/eCamp3/test/UnitTest/bin/UnitTestRunner.php:97
-/Users/pirminmattmann/Sites/eCamp3/test/UnitTest/bin/UnitTestRunner.php:107
-</error>
-      </testcase>
-      <testcase name="testCanSetProperties" class="Entity\UserTest" file="/Users/pirminmattmann/Sites/eCamp3/test/UnitTest/tests/Entity/UserTest.php" line="51" assertions="0" time="0.003446">
-        <error type="PDOException">Entity\UserTest::testCanSetProperties
-PDOException: You cannot serialize or unserialize PDO instances
-
-/Users/pirminmattmann/Sites/eCamp3/test/UnitTest/bin/UnitTestRunner.php:60
-/Users/pirminmattmann/Sites/eCamp3/test/UnitTest/bin/UnitTestRunner.php:97
-/Users/pirminmattmann/Sites/eCamp3/test/UnitTest/bin/UnitTestRunner.php:107
-</error>
-      </testcase>
-      <testcase name="testCanCreateFriendship" class="Entity\UserTest" file="/Users/pirminmattmann/Sites/eCamp3/test/UnitTest/tests/Entity/UserTest.php" line="64" assertions="0" time="0.003606">
-        <error type="PDOException">Entity\UserTest::testCanCreateFriendship
-PDOException: You cannot serialize or unserialize PDO instances
-
-/Users/pirminmattmann/Sites/eCamp3/test/UnitTest/bin/UnitTestRunner.php:60
-/Users/pirminmattmann/Sites/eCamp3/test/UnitTest/bin/UnitTestRunner.php:97
-/Users/pirminmattmann/Sites/eCamp3/test/UnitTest/bin/UnitTestRunner.php:107
-</error>
-      </testcase>
-    </testsuite>
-    <testsuite name="LoginServiceTest" file="/Users/pirminmattmann/Sites/eCamp3/test/UnitTest/tests/Service/LoginServiceTest.php" tests="2" assertions="0" failures="0" errors="2" time="0.006370">
-      <testcase name="testCreateLogin" class="LoginServiceTest" file="/Users/pirminmattmann/Sites/eCamp3/test/UnitTest/tests/Service/LoginServiceTest.php" line="42" assertions="0" time="0.003166">
+  <testsuite name="eCamp UnitTests" tests="2" assertions="0" failures="0" errors="2" time="0.006800">
+    <testsuite name="LoginServiceTest" file="/Users/pirminmattmann/Sites/eCamp3/test/UnitTest/tests/Service/LoginServiceTest.php" tests="2" assertions="0" failures="0" errors="2" time="0.006800">
+      <testcase name="testCreateLogin" class="LoginServiceTest" file="/Users/pirminmattmann/Sites/eCamp3/test/UnitTest/tests/Service/LoginServiceTest.php" line="42" assertions="0" time="0.003582">
         <error type="PDOException">LoginServiceTest::testCreateLogin
 PDOException: You cannot serialize or unserialize PDO instances
 
-/Users/pirminmattmann/Sites/eCamp3/test/UnitTest/bin/UnitTestRunner.php:60
-/Users/pirminmattmann/Sites/eCamp3/test/UnitTest/bin/UnitTestRunner.php:97
-/Users/pirminmattmann/Sites/eCamp3/test/UnitTest/bin/UnitTestRunner.php:107
+/Users/pirminmattmann/Sites/eCamp3/test/UnitTest/bin/UnitTestRunner.php:65
+/Users/pirminmattmann/Sites/eCamp3/test/UnitTest/bin/UnitTestRunner.php:102
+/Users/pirminmattmann/Sites/eCamp3/test/UnitTest/bin/UnitTestRunner.php:112
 </error>
       </testcase>
-      <testcase name="test2CreateLogin" class="LoginServiceTest" file="/Users/pirminmattmann/Sites/eCamp3/test/UnitTest/tests/Service/LoginServiceTest.php" line="50" assertions="0" time="0.003204">
+      <testcase name="test2CreateLogin" class="LoginServiceTest" file="/Users/pirminmattmann/Sites/eCamp3/test/UnitTest/tests/Service/LoginServiceTest.php" line="50" assertions="0" time="0.003218">
         <error type="PDOException">LoginServiceTest::test2CreateLogin
 PDOException: You cannot serialize or unserialize PDO instances
 
-/Users/pirminmattmann/Sites/eCamp3/test/UnitTest/bin/UnitTestRunner.php:60
-/Users/pirminmattmann/Sites/eCamp3/test/UnitTest/bin/UnitTestRunner.php:97
-/Users/pirminmattmann/Sites/eCamp3/test/UnitTest/bin/UnitTestRunner.php:107
+/Users/pirminmattmann/Sites/eCamp3/test/UnitTest/bin/UnitTestRunner.php:65
+/Users/pirminmattmann/Sites/eCamp3/test/UnitTest/bin/UnitTestRunner.php:102
+/Users/pirminmattmann/Sites/eCamp3/test/UnitTest/bin/UnitTestRunner.php:112
 </error>
       </testcase>
     </testsuite>
