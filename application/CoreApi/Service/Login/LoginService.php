@@ -29,6 +29,9 @@ class LoginService
 	protected $loginRepo;
 	
 	
+	/**
+	 * @return CoreApi\Entity\Login | NULL
+	 */
 	public function Get($s = false)
 	{
 		$user = $this->userService->get();
@@ -40,6 +43,9 @@ class LoginService
 	}
 	
 	
+	/**
+	 * @return CoreApi\Entity\Login
+	 */
 	public function Create(User $user, \Zend_Form $form, $s = false)
 	{		
 		$this->beginTransaction();
@@ -54,13 +60,11 @@ class LoginService
 		
 		$login->setNewPassword($form->getValue('password'));
 		$login->setUser($this->UnwrapEntity($user));
-			
+		
 		$this->persist($login);
+		$this->flushAndCommit($s);
 			
-		$this->flush();
-		$this->commit($s);
-			
-		return $login;
+		return $login->asReadonly();
 	}
 	
 	
@@ -71,19 +75,21 @@ class LoginService
 		$login = $this->UnwrapEntity($login);
 		$this->remove($login);
 		
-		$this->flush();
-		$this->commit($s);
+		$this->flushAndCommit($s);
 	}
 	
 	
 	public function Login($identifier, $password)
 	{
-		
 		/** @var \CoreApi\Entity\User */
 		$user = $this->userService->get($identifier);
 		
+		if(!is_null($user))
+		{	$user = $this->UnwrapEntity($user);	}
+		
 		/** @var \Core\Entity\Login */
-		$login = $user->getLogin();
+		if(is_null($user))	{	$login = null;	}
+		else				{	$login = $user->getLogin();	}
 		
 		$authAdapter = new \Core\Auth\Adapter($login, $password);
 		$result = \Zend_Auth::getInstance()->authenticate($authAdapter);
@@ -94,39 +100,69 @@ class LoginService
 	
 	public function Logout()
 	{
-		$this->blockIfInvalid(parent::Logout());
-		
-		
 		\Zend_Auth::getInstance()->clearIdentity();
 	}
 	
 	
-	public function ResetPassword($pwResetKey, \Zend_Form $form)
+	public function ResetPassword($pwResetKey, \Zend_Form $form, $s = false)
 	{
-		$this->blockIfInvalid(parent::ResetPassword($pwResetKey, $form));
-		
+		$loginValidator = new \Core\Validate\LoginValidator();
 		
 		/** @var \Core\Entity\Login $login */
 		$login = $this->getLoginByResetKey($pwResetKey);
 		
+		if(is_null($login) || ! $loginValidator->isValid($form))
+		{	$this->throwValidationException();	}
+		
+		
+		$this->beginTransaction();
+		
 		$login->setNewPassword($form->getValue('password'));
 		$login->clearPwResetKey();
+		
+		$this->flushAndCommit($s);
 	}
 	
 	
-	public function ForgotPassword($identifier)
+	public function ForgotPassword($identifier, $s = false)
 	{
-		$this->blockIfInvalid(parent::ForgotPassword($identifier));
+		/** @var \CoreApi\Entity\Login $user */
+		$user = $this->userService->get($identifier);
 		
+		if(is_null($user))
+		{	$this->throwValidationException();	}
 		
-		/** @var \Core\Entity\Login $user */
-		$login = $this->userService->get($identifier)->getLogin();
+		$user = $this->UnwrapEntity($user);
+		$login = $user->getLogin();
+		
+		if(is_null($login))
+		{	$this->throwValidationException();	}
+		
+		$this->beginTransaction();
 		
 		$login->createPwResetKey();
 		$resetKey = $login->getPwResetKey();
 		
+		$this->flushAndCommit($s);
+		
+		
 		//TODO: Send Mail with Link to Reset Password.
 		
 		return $resetKey;
+	}
+	
+	
+	/**
+	 * Returns the LoginEntity with the given pwResetKey
+	 *
+	 * @param string $pwResetKey
+	 * @return \Core\Entity\Login
+	 */
+	private function getLoginByResetKey($pwResetKey)
+	{
+		/** @var \Core\Entity\Login $login */
+		$login = $this->loginRepo->findOneBy(array('pwResetKey' => $pwResetKey));
+	
+		return $login;
 	}
 }
