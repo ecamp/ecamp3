@@ -42,13 +42,13 @@ class Camp extends \Zend_Navigation
 		if(!is_null($camp->getOwner()))
 		{	
 			$params['user'] = $camp->getOwner()->getId();
-			$options['route'] = 'user+camp';
+			$options['route'] = 'web+user+camp';
 		}
 			
 		if(!is_null($camp->getGroup()))
 		{	
 			$params['group'] = $camp->getGroup()->getId();	
-			$options['route'] = 'group+camp';
+			$options['route'] = 'web+group+camp';
 		}
 		
 		foreach($this->getPages() as $page)
