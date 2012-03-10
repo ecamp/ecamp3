@@ -98,7 +98,8 @@ class WebApp_DashboardController extends \WebApp\Controller\BaseController
 			if(!$form->isValid($params))
 				throw new \Ecamp\ValidationException();
 		
-			$this->userService->createCamp($this->me, $form);
+			$this->userService->createCamp($this->me, $form,true);
+			
 			$this->_helper->getHelper('Redirector')->gotoRoute(array('action'=>'camps'));
 		}
 	
@@ -112,6 +113,7 @@ class WebApp_DashboardController extends \WebApp\Controller\BaseController
 			$this->view->form = $form;
 			$this->render("newcamp");
 		}
+	
 	}
 	
 	public function friendsAction() {

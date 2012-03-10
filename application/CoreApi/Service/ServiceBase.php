@@ -22,7 +22,7 @@ abstract class ServiceBase
 	
 	protected function throwValidationException($message = null, $code = null, $previous = null)
 	{
-		$this->rollback();
+		$this->rollbackAll();
 		
 		// empty exception:
 		if(is_null($message))
@@ -54,7 +54,7 @@ abstract class ServiceBase
 		$this->em->getConnection()->beginTransaction();
 	}
 	
-	protected function commit($s)
+	protected function flushAndCommit($s)
 	{
 		if($s)
 		{
@@ -62,7 +62,17 @@ abstract class ServiceBase
 		}
 		else
 		{
-			$this->em->getConnection()->commit();
+			try{
+				$this->em->flush();
+				$this->em->getConnection()->commit();
+			}
+			catch (\PDOException $e)
+			{	
+				$this->rollbackAll();
+				$this->close();
+					
+				throw $e;
+			}
 		}
 	}
 	
@@ -71,20 +81,12 @@ abstract class ServiceBase
 		$this->em->getConnection()->rollback();
 	}
 	
-	protected function flush()
+	protected function rollbackAll()
 	{
-		try{
-			$this->em->flush();
-		}
-		catch (\PDOException $e)
-		{	
-			$this->rollback();
-			$this->close();
-				
-			throw $e;
-		}
+		$i = $this->em->getConnection()->getTransactionNestingLevel();
+		for(; $i>0; $i--)
+			$this->em->getConnection()->rollback();
 	}
-	
 	
 	protected function persist($entity)
 	{
