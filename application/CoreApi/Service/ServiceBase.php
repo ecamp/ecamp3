@@ -20,6 +20,15 @@ abstract class ServiceBase
 	{	return get_class($this);	}
 	
 	
+	/**
+	 * @return ServiceResponse
+	 */
+	public function getRespObj($s)
+	{
+		$sr = new ServiceResponse($this->em, $s);
+	}
+	
+	
 	protected function throwValidationException($message = null, $code = null, $previous = null)
 	{
 		$this->rollbackAll();
