@@ -127,7 +127,7 @@ class UserService
 	 */
 	public function CreateCamp(\Core\Entity\User $creator, \Zend_Form $form, $s = false)
 	{
-		$this->beginTransaction();
+		$respObj = $this->getRespObj($s)->beginTransaction();
 		
 		/* check if camp with same name already exists */
 		$qb = $this->em->createQueryBuilder();
@@ -141,17 +141,16 @@ class UserService
 		
 		if( count($query->getArrayResult()) > 0 ){
 			$form->getElement('name')->addError("Camp with same name already exists.");
-			//$this->throwValidationException();
+			$respObj->validationFailed(true);
 		}
 		
 		/* create camp */
-		$camp = $this->campService->Create($creator, $form, $s);	
+		$camp = $respObj( $this->campService->Create($creator, $form, $s) )->getReturn();	
 		$camp = $this->UnwrapEntity($camp);
 		$camp->setOwner($creator);
-		
-		$this->flushAndCommit($s);
 			
-		return $camp->asReadonly();
+		$respObj->flushAndCommit();
+		return $respObj($camp);
 	}
 	
 	
