@@ -36,9 +36,12 @@ abstract class ServiceBase
 		$this->em->getConnection()->beginTransaction();
 	}
 	
-	protected function commit()
+	protected function commit($s)
 	{
-		$this->em->getConnection()->commit();
+		if($s)
+			$this->em->getConnection()->rollback();
+		else
+			$this->em->getConnection()->commit();
 	}
 	
 	protected function rollback()
@@ -48,7 +51,16 @@ abstract class ServiceBase
 	
 	protected function flush()
 	{
-		$this->em->flush();
+		try{
+			$this->em->flush();
+		}
+		catch (\PDOException $e)
+		{	
+			$this->rollback();
+			$this->close();
+				
+			throw $e;
+		}
 	}
 	
 	
