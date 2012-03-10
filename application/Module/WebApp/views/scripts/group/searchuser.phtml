@@ -10,7 +10,7 @@
 	<tal:block repeat="user users">
 		<span metal:use-macro="global/singleuser.phtml/withavatar" tal:omit-tag="">
 			<span metal:fill-slot="controls">
-				<a class="button positive" tal:attributes="href helper:url(array('action' => 'invite', 'user' => user.getId(), 'group' => group.getId()), 'group')">Invite to group</a>
+				<a class="button positive" tal:attributes="href helper:url(array('action' => 'invite', 'user' => user.getId(), 'group' => group.getId()), 'web+group')">Invite to group</a>
 			</span>
 		</span>
 	</tal:block>

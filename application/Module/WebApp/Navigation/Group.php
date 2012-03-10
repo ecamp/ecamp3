@@ -31,7 +31,7 @@ class Group extends \Zend_Navigation
 		parent::__construct(self::$pages);
 		
 		$params = array('group' => $group->getId());
-		$options['route'] = 'group';
+		$options['route'] = 'web+group';
 		
 		foreach($this->getPages() as $page)
 		{	

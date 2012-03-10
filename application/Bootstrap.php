@@ -19,18 +19,7 @@
  */
 
 class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
-{
-	
-	/**
-	 * Tells ZendFramework, where to find the Modules;
-	 * the ModuleDirectory APPLICATION_PATH/Module/ is added to the ModuleDirectories.
-	 */
-	public function _initModuleDirectory()
-	{
-		$front = \Zend_Controller_Front::getInstance();
-		$front->addModuleDirectory(APPLICATION_PATH . "/Module/");
-	}
-	
+{	
 	
 	/**
 	 * Loads the CoreNamespace to the Autoloader
@@ -50,6 +39,52 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 		
 		$coreAutoloader = new \Doctrine\Common\ClassLoader('Core', APPLICATION_PATH);
 		$autoloader->pushAutoloader(array($coreAutoloader, 'loadClass'), 'Core');
+	}
+	
+	
+	protected function _initRoutes()
+	{
+		$urlParts = explode('.', $_SERVER['HTTP_HOST']);
+		
+		$hostname = array_pop($urlParts);
+		$hostname = array_pop($urlParts) . "." . $hostname;
+		
+		Zend_Registry::set('hostname', $hostname);
+		
+		
+		// TODO: Try to remove this lines:
+		// This adds the www - subdomain as default, if there is no subdomain
+		if($_SERVER['HTTP_HOST'] == "www." . $hostname)
+		{	$_SERVER['HTTP_HOST'] = $hostname;	}
+		
+	}
+	
+	
+	protected function _initBasicErrorHandler()
+	{
+		$this->bootstrap('frontcontroller');
+		$front = $this->getResource('frontcontroller');
+		
+		$plugin = new Zend_Controller_Plugin_ErrorHandler();
+		$plugin->setErrorHandlerModule('WebApp');
+		$plugin->setErrorHandlerController('Error');
+		$plugin->setErrorHandlerAction('error');
+		
+		$front->registerPlugin($plugin);
+	}
+	
+	
+	/**
+	 * Tells ZendFramework, where to find the Modules;
+	 * the ModuleDirectory APPLICATION_PATH/Module/ is added to the ModuleDirectories.
+	 */
+	public function _initLoadRequiredModule()
+	{
+		$front = \Zend_Controller_Front::getInstance();
+		$front->setModuleControllerDirectoryName("Controller");
+		$front->addModuleDirectory(APPLICATION_PATH . "/Module/");
+		
+		$front->setParam('useDefaultControllerAlways', false);
 	}
 	
     
@@ -114,15 +149,14 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 			->AsSingleton();
 		
 		$kernel
-			->Bind("CoreApi\Service\Login\CampService")
+			->Bind("CoreApi\Service\Camp\CampService")
 			->ToFactory(new \Core\Acl\ACWrapperFactory("CoreApi\Service\Camp\CampService"))
 			->AsSingleton();
 		
 		$kernel
-			->Bind("CoreApi\Service\Login\CampServiceValidator")
+			->Bind("CoreApi\Service\Camp\CampServiceValidator")
 			->ToFactory(new \Core\Acl\ACWrapperFactory("CoreApi\Service\Camp\CampServiceValidator"))
 			->AsSingleton();
-		
 		
 		
 		Zend_Registry::set("kernel", $kernel);

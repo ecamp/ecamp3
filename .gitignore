@@ -1,5 +1,7 @@
 .*
 
+local.conf.php
+
 tmp/*
 tmp/**/*
 
@@ -10,6 +12,8 @@ data/log/**/*
 
 data/session/*
 data/session/**/*
+
+test/UnitTest/result/*
 
 application/CoreApi/Entity/*
 !application/CoreApi/Entity/BaseEntity.php

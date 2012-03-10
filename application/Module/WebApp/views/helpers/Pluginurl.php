@@ -25,12 +25,12 @@ class Pluginurl extends \Zend_View_Helper_Abstract
 		if( $camp->belongsToUser() )
 		{
 			$urlOptions['user']       = $camp->getOwner()->getId();
-			$route = 'user+camp+id';
+			$route = 'web+user+camp+id';
 		}
 		else
 		{
 			$urlOptions['group']       = $camp->getGroup()->getId();
-			$route = 'group+camp+id';
+			$route = 'web+group+camp+id';
 		}
 			       
         return $this->view->url( $urlOptions, $route);
