@@ -30,12 +30,12 @@ CREATE TABLE `camps` (
   CONSTRAINT `camps_ibfk_1` FOREIGN KEY (`creator_id`) REFERENCES `users` (`id`),
   CONSTRAINT `camps_ibfk_2` FOREIGN KEY (`owner_id`) REFERENCES `users` (`id`),
   CONSTRAINT `camps_ibfk_3` FOREIGN KEY (`group_id`) REFERENCES `groups` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 LOCK TABLES `camps` WRITE;
 /*!40000 ALTER TABLE `camps` DISABLE KEYS */;
-INSERT INTO `camps` VALUES (3,7,7,NULL,'2011-11-23 10:29:06','2011-11-23 10:29:06','asdfasdf','asdf'),(4,7,7,NULL,'2011-11-25 12:53:57','2011-11-25 12:53:57','asdfqwer','asdf'),(6,7,NULL,249,'2011-11-26 20:18:59','2011-11-26 22:01:04','sola12','SoLa 2012'),(7,7,7,NULL,'2011-11-26 21:14:26','2011-11-26 21:14:26','mycamp','My Camp'),(8,20,20,NULL,'2012-03-10 16:52:13','2012-03-10 16:52:13','mycamp','mycamp'),(9,20,20,NULL,'2012-03-10 17:08:11','2012-03-10 17:08:11','mycamp2','mycamp');
+INSERT INTO `camps` VALUES (3,7,7,NULL,'2011-11-23 10:29:06','2011-11-23 10:29:06','asdfasdf','asdf'),(4,7,7,NULL,'2011-11-25 12:53:57','2011-11-25 12:53:57','asdfqwer','asdf'),(6,7,NULL,249,'2011-11-26 20:18:59','2011-11-26 22:01:04','sola12','SoLa 2012'),(7,7,7,NULL,'2011-11-26 21:14:26','2011-11-26 21:14:26','mycamp','My Camp'),(8,20,20,NULL,'2012-03-10 16:52:13','2012-03-10 16:52:13','mycamp','mycamp'),(9,20,20,NULL,'2012-03-10 17:08:11','2012-03-10 17:08:11','mycamp2','mycamp'),(13,20,20,NULL,'2012-03-10 19:54:53','2012-03-10 19:54:53','tester','test'),(14,20,20,NULL,'2012-03-10 19:55:50','2012-03-10 19:55:50','adfsadf','sadfsadfa'),(15,20,20,NULL,'2012-03-10 19:59:18','2012-03-10 19:59:18','testerasdfasdf','asdfasdf'),(17,20,20,NULL,'2012-03-10 20:05:50','2012-03-10 20:05:50','ecamp5','kasd;fk'),(18,20,20,NULL,'2012-03-10 20:13:19','2012-03-10 20:13:19','mycamp234','mycamp'),(19,20,20,NULL,'2012-03-10 20:14:16','2012-03-10 20:14:16','mycamp2341','sadflkjasdlkfjlk'),(20,20,20,NULL,'2012-03-10 20:21:13','2012-03-10 20:21:13','asdfsadfas','asdfasdfas');
 /*!40000 ALTER TABLE `camps` ENABLE KEYS */;
 UNLOCK TABLES;
 DROP TABLE IF EXISTS `days`;
@@ -165,12 +165,12 @@ CREATE TABLE `periods` (
   PRIMARY KEY (`id`),
   KEY `periods_camp_id_idx` (`camp_id`),
   CONSTRAINT `periods_ibfk_1` FOREIGN KEY (`camp_id`) REFERENCES `camps` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 LOCK TABLES `periods` WRITE;
 /*!40000 ALTER TABLE `periods` DISABLE KEYS */;
-INSERT INTO `periods` VALUES (3,3,'2011-11-23 10:29:06','2011-11-23 10:29:06','2011-11-28',3,NULL),(4,4,'2011-11-25 12:53:57','2011-11-25 12:53:57','2011-11-01',10,NULL),(6,6,'2011-11-26 20:18:59','2011-11-26 20:18:59','2011-11-28',6,NULL),(7,7,'2011-11-26 21:14:26','2011-11-26 21:14:26','2011-11-14',6,NULL),(8,8,'2012-03-10 16:52:13','2012-03-10 16:52:13','2012-03-13',9,NULL),(9,9,'2012-03-10 17:08:11','2012-03-10 17:08:11','2012-03-06',2,NULL);
+INSERT INTO `periods` VALUES (3,3,'2011-11-23 10:29:06','2011-11-23 10:29:06','2011-11-28',3,NULL),(4,4,'2011-11-25 12:53:57','2011-11-25 12:53:57','2011-11-01',10,NULL),(6,6,'2011-11-26 20:18:59','2011-11-26 20:18:59','2011-11-28',6,NULL),(7,7,'2011-11-26 21:14:26','2011-11-26 21:14:26','2011-11-14',6,NULL),(8,8,'2012-03-10 16:52:13','2012-03-10 16:52:13','2012-03-13',9,NULL),(9,9,'2012-03-10 17:08:11','2012-03-10 17:08:11','2012-03-06',2,NULL),(12,13,'2012-03-10 19:54:53','2012-03-10 19:54:53','2012-03-01',2,NULL),(13,14,'2012-03-10 19:55:50','2012-03-10 19:55:50','2012-03-05',1,NULL),(14,15,'2012-03-10 19:59:18','2012-03-10 19:59:18','2012-03-02',14,NULL),(16,17,'2012-03-10 20:05:50','2012-03-10 20:05:50','2012-03-08',8,NULL),(17,18,'2012-03-10 20:13:19','2012-03-10 20:13:19','2012-03-06',6,NULL),(18,19,'2012-03-10 20:14:16','2012-03-10 20:14:16','2012-03-05',7,NULL),(19,20,'2012-03-10 20:21:13','2012-03-10 20:21:13','2012-03-07',2,NULL);
 /*!40000 ALTER TABLE `periods` ENABLE KEYS */;
 UNLOCK TABLES;
 DROP TABLE IF EXISTS `plugin_contents`;
@@ -229,6 +229,25 @@ CREATE TABLE `plugins` (
 LOCK TABLES `plugins` WRITE;
 /*!40000 ALTER TABLE `plugins` DISABLE KEYS */;
 /*!40000 ALTER TABLE `plugins` ENABLE KEYS */;
+UNLOCK TABLES;
+DROP TABLE IF EXISTS `subcamps`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `subcamps` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `period_id` int(11) NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  `description` longtext NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `subcamps_period_id_idx` (`period_id`),
+  CONSTRAINT `subcamps_ibfk_1` FOREIGN KEY (`period_id`) REFERENCES `periods` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+LOCK TABLES `subcamps` WRITE;
+/*!40000 ALTER TABLE `subcamps` DISABLE KEYS */;
+/*!40000 ALTER TABLE `subcamps` ENABLE KEYS */;
 UNLOCK TABLES;
 DROP TABLE IF EXISTS `user_camps`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;

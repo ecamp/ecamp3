@@ -64,12 +64,6 @@ abstract class BaseForm extends \Ztal_Form
 		->addDecorator('HtmlTag')
 		->addDecorator('Form');
 	
-		$this->setElementDecorators(array(
-		array('ViewHelper'),
-		array('Description'),
-		array('Label', array('separator'=>' ')),
-		array('HtmlTag', array('class'=>'element-group')),
-		));
 	}
 }
 

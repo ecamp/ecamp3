@@ -129,16 +129,29 @@ class UserService
 	{
 		$this->beginTransaction();
 		
-		$camp = $this->campService->Create($creator, $form);	
+		/* check if camp with same name already exists */
+		$qb = $this->em->createQueryBuilder();
+		$qb->add('select', 'c')
+		->add('from', '\Core\Entity\Camp c')
+		->add('where', 'c.owner = ?1 AND c.name = ?2')
+		->setParameter(1,$creator->getId())
+		->setParameter(2, $form->getValue('name'));
+		
+		$query = $qb->getQuery();
+		
+		if( count($query->getArrayResult()) > 0 ){
+			$form->getElement('name')->addError("Camp with same name already exists.");
+			//$this->throwValidationException();
+		}
+		
+		/* create camp */
+		$camp = $this->campService->Create($creator, $form, $s);	
 		$camp = $this->UnwrapEntity($camp);
 		$camp->setOwner($creator);
-
-		$this->persist($camp);
 		
-		$this->flush();
-		$this->commit($s);
+		$this->flushAndCommit($s);
 			
-		return $camp;
+		return $camp->asReadonly();
 	}
 	
 	
