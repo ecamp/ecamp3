@@ -115,10 +115,7 @@ class CampService
 			$form->getElement('to')->addError("Minimum length of camp is 1 day.");
 		}
 		
-		$form->addErrorMessage("test");
-		$form->markAsError();
-		
-		if(!$form->isValid(array()))
+		if( count($form->getMessages()) )
 			$this->throwValidationException();
 		
 		$this->flushAndCommit($s);

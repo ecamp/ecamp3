@@ -1,4 +1,6 @@
 .*
+!.gitattributes
+
 
 local.conf.php
 

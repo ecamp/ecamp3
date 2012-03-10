@@ -96,9 +96,9 @@ class WebApp_DashboardController extends \WebApp\Controller\BaseController
 			*  - for possible validations on WebApp-Level
 			*/
 			if(!$form->isValid($params))
-				throw new \Ecamp\ValidationException();
+				throw new \CoreApi\Service\ValidationException();
 		
-			$this->userService->createCamp($this->me, $form,true);
+			$this->userService->createCamp($this->me, $form);
 			
 			$this->_helper->getHelper('Redirector')->gotoRoute(array('action'=>'camps'));
 		}
