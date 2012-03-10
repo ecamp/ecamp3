@@ -20,6 +20,44 @@ abstract class ServiceBase
 	{	return get_class($this);	}
 	
 	
+	protected function throwValidationException($message = null, $code = null, $previous = null)
+	{
+		$this->rollback();
+		
+		// empty exception:
+		if(is_null($message))
+		{	throw new ValidationException();	}
+		
+		// exeption:
+		if($message instanceof \Exception)
+		{	throw new $message;	}
+		
+		// string:
+		if(is_string($message))
+		{	throw new ValidationException($message, $code, $previous);	}
+		
+		// array:
+		if(is_array($message))
+		{
+			$e = new ValidationException();
+			
+			foreach ($messages as $key => $message)
+			{	$e->addMessage($key, $message);	}
+			
+			throw $e;
+		}
+	}
+	
+	protected function validationException()
+	{
+		$this->em->getConnection()->rollback();
+		
+		$e = new ValidationException();
+		
+		
+	}
+	
+	
 	protected function blockIfInvalid(ValidationResponse $validationResp)
 	{
 		if(!$validationResp->isValid())
@@ -39,9 +77,13 @@ abstract class ServiceBase
 	protected function commit($s)
 	{
 		if($s)
+		{
 			$this->em->getConnection()->rollback();
+		}
 		else
+		{
 			$this->em->getConnection()->commit();
+		}
 	}
 	
 	protected function rollback()
