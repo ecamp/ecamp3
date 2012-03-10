@@ -127,6 +127,8 @@ class UserService
 	 */
 	public function CreateCamp(\Core\Entity\User $creator, \Zend_Form $form)
 	{
+		//$this->blockIfInvalid(parent::CreateCamp($creator, $form));
+		
 		$this->beginTransaction();
 		try
 		{
@@ -138,7 +140,7 @@ class UserService
 			$this->persist($camp);
 			$this->flush();
 	
-			$this->commit();
+			$this->rollback();
 				
 			return $camp;
 		}

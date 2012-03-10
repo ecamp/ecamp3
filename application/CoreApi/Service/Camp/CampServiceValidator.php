@@ -9,6 +9,8 @@ use CoreApi\Service\ValidationResponse;
 use Core\Entity\Camp as CoreCamp;
 use CoreApi\Entity\Camp as CoreApiCamp;
 
+use Core\Validator\Entity\CampValidator;
+
 
 class CampServiceValidator
 	extends ServiceBase
@@ -53,7 +55,14 @@ class CampServiceValidator
 	 */
 	public function Create(\Core\Entity\User $creator, \Zend_Form $form)
 	{
-		return new ValidationResponse(true);
+		$camp = new CoreCamp();
+		$camp->setCreator($creator);
+		
+		$campValidator = new CampValidator($camp);
+		if( !$campValidator->isValid($form) )
+			return new ValidationResponse(false);
+		
+		return self::CreatePeriod($camp, $form);
 	}
 	
 	
