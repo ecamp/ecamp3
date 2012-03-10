@@ -24,13 +24,12 @@ class UserServiceValidator
 	protected $userService;
 	
 	/**
-	* @var CoreApi\Service\Camp
-	* @Inject CoreApi\Service\Camp
-	*/
-	// protected $campService;
+	 * @var CoreApi\Service\Camp\CampService
+	 * @Inject CoreApi\Service\Camp\CampService
+	 */
+	protected $campService;
 	
-	
-	
+
 	
 	/**
 	 * Get User is allways valid

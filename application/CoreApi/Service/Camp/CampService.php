@@ -64,14 +64,20 @@ class CampService
 	/**
 	 * @return CoreApi\Entity\Camp
 	 */
-	public function Create(\Zend_Form $form)
+	public function Create(\Core\Entity\User $creator, \Zend_Form $form)
 	{
-		$this->blockIfInvalid(parent::Create($form));
+		$this->blockIfInvalid(parent::Create($creator, $form));
 		
 		$camp = new CoreCamp();
+		$camp->setCreator($creator);
 		
 		$campValidator = new CampValidator($camp);
 		$campValidator->applyIfValid($form);
+		
+		
+		$period = $this->CreatePeriod($camp, $form);
+		$period =  $this->UnwrapEntity( $period ); 
+		$this->persist($period);
 		
 		return $camp->asReadonly();
 	}
@@ -85,14 +91,15 @@ class CampService
 		$this->blockIfInvalid(parent::CreatePeriod($camp, $form));
 		
 		$camp = $this->GetCoreCamp($camp);
+		$period = new \Core\Entity\Period($camp);
 		
-		$period = new Period($camp);
-		$this->persistEntity($period);
+		$from = new \DateTime($form->getValue('from'), new \DateTimeZone("GMT"));
+		$to   = new \DateTime($form->getValue('to'), new \DateTimeZone("GMT"));
 		
-		$periodValidator = new PeriodValidator($period);
-		$periodValidator->applyIfValid($form);
+		$period->setStart($from);
+		$period->setDuration(($to->getTimestamp() - $from->getTimestamp())/(24 * 60 * 60) + 1);
 		
-		return $camp->asReadonly();
+		return $period->asReadonly();
 	}
 	
 }

@@ -36,12 +36,12 @@ abstract class ServiceBase
 		$this->em->getConnection()->beginTransaction();
 	}
 	
-	protected function commitTransaction()
+	protected function commit()
 	{
 		$this->em->getConnection()->commit();
 	}
 	
-	protected function rollbackTransaction()
+	protected function rollback()
 	{
 		$this->em->getConnection()->rollback();
 	}
@@ -52,18 +52,23 @@ abstract class ServiceBase
 	}
 	
 	
-	protected function persistEntity($entity)
+	protected function persist($entity)
 	{
 		$this->em->persist($entity);
 	}
 	
-	protected function removeEntity($entity)
+	protected function remove($entity)
 	{
 		$this->em->remove($entity);
 	}
 	
+	protected function close($entity)
+	{
+		$this->em->close($entity);
+	}
 	
-	protected function UnwrappEntity(\CoreApi\Entity\BaseEntity $entity)
+	
+	protected function UnwrapEntity(\CoreApi\Entity\BaseEntity $entity)
 	{
 		return \Core\Entity\Wrapper\Unwrapper::Unwrapp($entity);
 	}

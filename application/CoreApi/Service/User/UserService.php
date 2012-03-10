@@ -125,13 +125,14 @@ class UserService
 	 * @return Camp object, if creation was successfull
 	 * @throws \Ecamp\ValidationException
 	 */
-	protected function CreateCamp(\Core\Entity\User $creator, \Zend_Form $form)
+	public function CreateCamp(\Core\Entity\User $creator, \Zend_Form $form)
 	{
 		$this->beginTransaction();
 		try
 		{
-			$camp = $this->campService->create($creator, $form);
+			$camp = $this->campService->Create($creator, $form);
 				
+			$camp = $this->UnwrapEntity($camp);
 			$camp->setOwner($creator);
 	
 			$this->persist($camp);
@@ -143,6 +144,7 @@ class UserService
 		}
 		catch (\PDOException $e)
 		{
+			
 			$this->rollback();
 			$this->close();
 			

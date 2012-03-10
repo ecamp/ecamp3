@@ -51,7 +51,7 @@ class CampServiceValidator
 	/**
 	 * @return ValidationResponse 
 	 */
-	public function Create(\Zend_Form $form)
+	public function Create(\Core\Entity\User $creator, \Zend_Form $form)
 	{
 		return new ValidationResponse(true);
 	}
@@ -60,8 +60,18 @@ class CampServiceValidator
 	/**
 	 * @return ValidationResponse 
 	 */
-	public function CreatePeriod()
+	public function CreatePeriod($camp, \Zend_Form $form)
 	{
+		$from = new \DateTime($form->getValue('from'), new \DateTimeZone("GMT"));
+		$to   = new \DateTime($form->getValue('to'), new \DateTimeZone("GMT"));
+		
+		$duration = ($to->getTimestamp() - $from->getTimestamp())/(24 * 60 * 60) + 1;
+		
+		if( $duration < 1){
+			$form->getElement('to')->addError("Minimum length of camp is 1 day.");
+			return new ValidationResponse(false);
+		}
+		
 		return new ValidationResponse(true);
 	}
 	
@@ -78,7 +88,7 @@ class CampServiceValidator
 		{	return $id;	}
 		
 		if($id instanceof CoreApiCamp)
-		{	return $this->UnwrappEntity($id);	}
+		{	return $this->UnwrapEntity($id);	}
 		
 		return null;
 	}

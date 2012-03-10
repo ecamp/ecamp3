@@ -68,9 +68,20 @@ class Period extends BaseEntity
 	private $camp;
 
 	/**
-	 * @OneToMany(targetEntity="Subcamp", mappedBy="period")
+	 * @Column(type="text", nullable=true )
 	 */
-	private $subcamps;
+	private $description;
+	
+	/**
+	 * @OneToMany(targetEntity="Day", mappedBy="period")
+	 * @OrderBy({"offset" = "ASC"})
+	 */
+	private $days;
+	
+	/**
+	 * @OneToMany(targetEntity="EventInstance", mappedBy="period")
+	 */
+	private $eventInstances;
 
 
 	/**
@@ -80,6 +91,20 @@ class Period extends BaseEntity
 	public function getId()
 	{
 		return $this->id;
+	}
+	
+	public function setDescription($description)
+	{
+		$this->description = $description;
+	}
+	
+	/**
+	 * @Public:Method()
+	 * @return string
+	 */
+	public function getDescription()
+	{
+		return $this->description;
 	}
 
 	public function setStart($start)
@@ -103,7 +128,7 @@ class Period extends BaseEntity
 	 * @Public:Method()
 	 * @return int
 	 */
-	public function getDutation()
+	public function getDuration()
 	{
 		return $this->duration;
 	}
@@ -132,12 +157,11 @@ class Period extends BaseEntity
 	}
 
 	/**
-	 * @Public:MethodEntityList(type = "\CoreApi\Entity\Subcamp")
+	 * @Public:MethodEntityList(type = "\CoreApi\Entity\EventInstance")
 	 * @return array
 	 */
-	public function getSubcamps()
+	public function getEventInstances()
 	{
-		return $this->subcamps;
+		return $this->eventInstances;
 	}
-
 }

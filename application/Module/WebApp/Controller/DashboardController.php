@@ -23,9 +23,9 @@ class WebApp_DashboardController extends \WebApp\Controller\BaseController
 {
 	
 	/**
-	* @var CoreApi\Service\User
-	* @Inject CoreApi\Service\User
-	*/
+	 * @var CoreApi\Service\User\UserService
+	 * @Inject CoreApi\Service\User\UserService
+	 */
 	private $userService;
 	
 	
@@ -97,8 +97,8 @@ class WebApp_DashboardController extends \WebApp\Controller\BaseController
 			*/
 			if(!$form->isValid($params))
 				throw new \Ecamp\ValidationException();
-	
-			$this->userService->createCamp($this->me, $params);
+		
+			$this->userService->createCamp($this->me, $form);
 			$this->_helper->getHelper('Redirector')->gotoRoute(array('action'=>'camps'));
 		}
 	
@@ -108,10 +108,7 @@ class WebApp_DashboardController extends \WebApp\Controller\BaseController
 		}
 	
 		/* oh snap, something went wrong. show the form again */
-		catch(\Ecamp\ValidationException $e){
-			if($e->form != null)
-				$form->copyErrors( $e->form );
-			
+		catch(\CoreApi\Service\ValidationException $e){			
 			$this->view->form = $form;
 			$this->render("newcamp");
 		}
