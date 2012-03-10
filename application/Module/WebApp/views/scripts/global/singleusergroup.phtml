@@ -1,10 +1,10 @@
 <span metal:define-macro="group_withrole" tal:omit-tag="" >
 
 	<span  style="height:100px;" class="span-2">
-		<a tal:attributes="href helper:url(array('group' => usergroup.getGroup().getId()), 'group')">
-			<img width="48" height="48" tal:attributes="src helper:url(array('controller' => 'avatar', 'action' => 'group', 'id' => usergroup.getGroup().getId(), 'size' => 48), 'general')" /><br />
+		<a tal:attributes="href helper:url(array('group' => usergroup.getGroup().getId()), 'web+group')">
+			<img width="48" height="48" tal:attributes="src helper:url(array('controller' => 'avatar', 'action' => 'group', 'id' => usergroup.getGroup().getId(), 'size' => 48), 'web+general')" /><br />
 		</a>
-		<a tal:attributes="href helper:url(array('group' => usergroup.getGroup().getId()), 'group')">
+		<a tal:attributes="href helper:url(array('group' => usergroup.getGroup().getId()), 'web+group')">
 			<tal:block content="usergroup/getGroup/getName" />
 		</a>
 		<br/>
@@ -17,12 +17,12 @@
 <span metal:define-macro="member_full" tal:omit-tag="" >
 	<div style="height:100px;">
 		<span class="span-2">
-			<a tal:attributes="href helper:url(array('user' => usergroup.getUser().getId()), 'user')">
-				<img width="72" height="72" tal:attributes="src helper:url(array('controller' => 'avatar', 'action' => 'user', 'id' => usergroup.getUser().getId(), 'size' => 48), 'general')" /><br />
+			<a tal:attributes="href helper:url(array('user' => usergroup.getUser().getId()), 'web+user')">
+				<img width="72" height="72" tal:attributes="src helper:url(array('controller' => 'avatar', 'action' => 'user', 'id' => usergroup.getUser().getId(), 'size' => 48), 'web+general')" /><br />
 			</a>
 		</span>
 		<span class="span-3">
-			<a tal:attributes="href helper:url(array('user' => usergroup.getUser().getId()), 'user')">
+			<a tal:attributes="href helper:url(array('user' => usergroup.getUser().getId()), 'web+user')">
 				<tal:block content="usergroup/getUser/getUsername" />
 			</a>
 			<br/>
@@ -32,7 +32,7 @@
 		</span>
 
 		<span class="span-2 last" tal:condition="php: me.isManagerOf(group) && me != usergroup.getUser()">
-			<a class="button right negative" tal:attributes="id php: 'usergroup_kickout_'.usergroup.getId(); href helper:thisurl(array('action' => 'kickout', 'group' => group.getId(), 'user' => usergroup.getUser().getId() ), 'group')">
+			<a class="button right negative" tal:attributes="id php: 'usergroup_kickout_'.usergroup.getId(); href helper:thisurl(array('action' => 'kickout', 'group' => group.getId(), 'user' => usergroup.getUser().getId() ), 'web+group')">
 				kick out
 			</a>
 
@@ -45,9 +45,9 @@
 				<div class="clear" />
 				<div class="question">
 					Are you sure you want to kick
-					<a tal:attributes="href helper:url(array('user' => usergroup.getUser().getId()), 'user')" tal:content="usergroup/getUser/getUsername" />
+					<a tal:attributes="href helper:url(array('user' => usergroup.getUser().getId()), 'web+user')" tal:content="usergroup/getUser/getUsername" />
 					out of the group
-					 <a tal:attributes="href helper:url(array('group' => usergroup.getGroup().getId()), 'group')" tal:content="usergroup/getGroup/getName" />
+					 <a tal:attributes="href helper:url(array('group' => usergroup.getGroup().getId()), 'web+group')" tal:content="usergroup/getGroup/getName" />
 					(<span tal:content="usergroup/getGroup/getDescription" />)
 					?
 				</div>
@@ -61,18 +61,18 @@
 <span metal:define-macro="request" tal:omit-tag="" >
 
 	<a tal:attributes="href helper:url(array('user' => usergroup.getUser().getId()), 'user')" class="span-2">
-		<img width="46" height="46" tal:attributes="src helper:url(array('controller' => 'avatar', 'action' => 'user', 'id' => usergroup.getUser().getId(), 'size' =>32), 'general')" /><br />
+		<img width="46" height="46" tal:attributes="src helper:url(array('controller' => 'avatar', 'action' => 'user', 'id' => usergroup.getUser().getId(), 'size' =>32), 'web+general')" /><br />
 	 </a>
 
 	 <div class="span-7 last">
-		 <a tal:attributes="href helper:url(array('user' => usergroup.getUser().getId()), 'user')" tal:content="usergroup/getUser/getUsername" />
+		 <a tal:attributes="href helper:url(array('user' => usergroup.getUser().getId()), 'web+user')" tal:content="usergroup/getUser/getUsername" />
 		 wants to be a member of
-		 <a tal:attributes="href helper:url(array('group' => usergroup.getGroup().getId()), 'group')" tal:content="usergroup/getGroup/getName" />
+		 <a tal:attributes="href helper:url(array('group' => usergroup.getGroup().getId()), 'web+group')" tal:content="usergroup/getGroup/getName" />
 		 !
 		 <br/>
 
-		 <a class="button positive" tal:attributes="id php: 'usergroup_accept_'.usergroup.getId(); href helper:url(array('action' => 'accept', 'group' => usergroup.getGroup().getId(), 'id' => usergroup.getId()), 'group+id')">+accept</a>
-		 <a class="button negative" tal:attributes="id php: 'usergroup_refuse_'.usergroup.getId(); href helper:url(array('action' => 'refuse', 'group' => usergroup.getGroup().getId(), 'id' => usergroup.getId()), 'group+id')">-refuse</a>
+		 <a class="button positive" tal:attributes="id php: 'usergroup_accept_'.usergroup.getId(); href helper:url(array('action' => 'accept', 'group' => usergroup.getGroup().getId(), 'id' => usergroup.getId()), 'web+group+id')">+accept</a>
+		 <a class="button negative" tal:attributes="id php: 'usergroup_refuse_'.usergroup.getId(); href helper:url(array('action' => 'refuse', 'group' => usergroup.getGroup().getId(), 'id' => usergroup.getId()), 'web+group+id')">-refuse</a>
 	</div>
 
 	<?php echo $ctx->this->confirmDialog('usergroup_accept_dialog_'.$ctx->usergroup->getId(), 'usergroup_accept_'.$ctx->usergroup->getId(), array('title'=> 'Accept Membership Request', 'print_div' => false, 'width' => 500, 'ok' => 'Accept Request')); ?>
@@ -83,9 +83,9 @@
 
 		<div class="clear" />
 		<div class="question">
-			<a tal:attributes="href helper:url(array('user' => usergroup.getUser().getId()), 'user')" tal:content="usergroup/getUser/getUsername" />
+			<a tal:attributes="href helper:url(array('user' => usergroup.getUser().getId()), 'web+user')" tal:content="usergroup/getUser/getUsername" />
 			requests membership for the group
-			 <a tal:attributes="href helper:url(array('group' => usergroup.getGroup().getId()), 'group')" tal:content="usergroup/getGroup/getName" />
+			 <a tal:attributes="href helper:url(array('group' => usergroup.getGroup().getId()), 'web+group')" tal:content="usergroup/getGroup/getName" />
 			(<span tal:content="usergroup/getGroup/getDescription" />).
 			This request is sent to you, because you are a group manager of <span tal:content="usergroup/getGroup/getName" />.
 		</div>
@@ -99,9 +99,9 @@
 
 		<div class="clear" />
 		<div class="question">
-			<a tal:attributes="href helper:url(array('user' => usergroup.getUser().getId()), 'user')" tal:content="usergroup/getUser/getUsername" />
+			<a tal:attributes="href helper:url(array('user' => usergroup.getUser().getId()), 'web+user')" tal:content="usergroup/getUser/getUsername" />
 			requests membership for the group
-			 <a tal:attributes="href helper:url(array('group' => usergroup.getGroup().getId()), 'group')" tal:content="usergroup/getGroup/getName" />
+			 <a tal:attributes="href helper:url(array('group' => usergroup.getGroup().getId()), 'web+group')" tal:content="usergroup/getGroup/getName" />
 			(<span tal:content="usergroup/getGroup/getDescription" />).
 			This request is sent to you, because you are a group manager of <span tal:content="usergroup/getGroup/getName" />.
 		</div>
@@ -112,18 +112,18 @@
 
 <span metal:define-macro="invitation" tal:omit-tag="" >
 
-	<a tal:attributes="href helper:url(array('user' => usergroup.getUser().getId()), 'user')" class="span-2">
-		<img width="46" height="46" tal:attributes="src helper:url(array('id' => usergroup.getGroup().getId(), 'controller' => 'avatar', 'action' => 'group', 'size' => 32), 'general')" /><br />
+	<a tal:attributes="href helper:url(array('user' => usergroup.getUser().getId()), 'web+user')" class="span-2">
+		<img width="46" height="46" tal:attributes="src helper:url(array('id' => usergroup.getGroup().getId(), 'controller' => 'avatar', 'action' => 'group', 'size' => 32), 'web+general')" /><br />
 	 </a>
 
 	 <div class="span-7 last">
 		 You have been invited to the Group 
-		 <a tal:attributes="href helper:url(array('group' => usergroup.getGroup().getId()), 'group')" tal:content="usergroup/getGroup/getName" />
+		 <a tal:attributes="href helper:url(array('group' => usergroup.getGroup().getId()), 'web+group')" tal:content="usergroup/getGroup/getName" />
 		 !
 		 <br/>
 
-		 <a class="button positive" tal:attributes="id php: 'usergroup_accept_'.usergroup.getId(); href helper:url(array('action' => 'accept', 'group' => usergroup.getGroup().getId(), 'id' => usergroup.getId()), 'group+id')">+accept</a>
-		 <a class="button negative" tal:attributes="id php: 'usergroup_refuse_'.usergroup.getId(); href helper:url(array('action' => 'refuse', 'group' => usergroup.getGroup().getId(), 'id' => usergroup.getId()), 'group+id')">-refuse</a>
+		 <a class="button positive" tal:attributes="id php: 'usergroup_accept_'.usergroup.getId(); href helper:url(array('action' => 'accept', 'group' => usergroup.getGroup().getId(), 'id' => usergroup.getId()), 'web+group+id')">+accept</a>
+		 <a class="button negative" tal:attributes="id php: 'usergroup_refuse_'.usergroup.getId(); href helper:url(array('action' => 'refuse', 'group' => usergroup.getGroup().getId(), 'id' => usergroup.getId()), 'web+group+id')">-refuse</a>
 	</div>
 
 	<?php echo $ctx->this->confirmDialog('usergroup_accept_dialog_'.$ctx->usergroup->getId(), 'usergroup_accept_'.$ctx->usergroup->getId(), array('title'=> 'Accept Membership Request', 'print_div' => false, 'width' => 500, 'ok' => 'Accept Request')); ?>
@@ -134,9 +134,9 @@
 
 		<div class="clear" />
 		<div class="question">
-			<a tal:attributes="href helper:url(array('user' => usergroup.getUser().getId()), 'user')" tal:content="usergroup/getUser/getUsername" />
+			<a tal:attributes="href helper:url(array('user' => usergroup.getUser().getId()), 'web+user')" tal:content="usergroup/getUser/getUsername" />
 			requests membership for the group
-			 <a tal:attributes="href helper:url(array('group' => usergroup.getGroup().getId()), 'group')" tal:content="usergroup/getGroup/getName" />
+			 <a tal:attributes="href helper:url(array('group' => usergroup.getGroup().getId()), 'web+group')" tal:content="usergroup/getGroup/getName" />
 			(<span tal:content="usergroup/getGroup/getDescription" />).
 			This request is sent to you, because you are a group manager of <span tal:content="usergroup/getGroup/getName" />.
 		</div>
@@ -150,9 +150,9 @@
 
 		<div class="clear" />
 		<div class="question">
-			<a tal:attributes="href helper:url(array('user' => usergroup.getUser().getId()), 'user')" tal:content="usergroup/getUser/getUsername" />
+			<a tal:attributes="href helper:url(array('user' => usergroup.getUser().getId()), 'web+user')" tal:content="usergroup/getUser/getUsername" />
 			requests membership for the group
-			 <a tal:attributes="href helper:url(array('group' => usergroup.getGroup().getId()), 'group')" tal:content="usergroup/getGroup/getName" />
+			 <a tal:attributes="href helper:url(array('group' => usergroup.getGroup().getId()), 'web+group')" tal:content="usergroup/getGroup/getName" />
 			(<span tal:content="usergroup/getGroup/getDescription" />).
 			This request is sent to you, because you are a group manager of <span tal:content="usergroup/getGroup/getName" />.
 		</div>

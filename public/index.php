@@ -14,6 +14,12 @@ set_include_path(implode(PATH_SEPARATOR, array(
     get_include_path(),
 )));
 
+$autoloadClasses = array();
+spl_autoload_register(
+	function($classname) use (&$autoloadClasses)
+	{	array_push($autoloadClasses, $classname);	return false;	});
+
+
 /** Zend_Application */
 require_once 'Zend/Application.php';
 
@@ -27,3 +33,12 @@ $application->bootstrap();
 //die(print_r($application));
 
 $application->run();
+
+
+
+
+die();
+
+echo "<hr/><pre>";
+print_r($autoloadClasses);
+echo "</pre>";

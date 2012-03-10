@@ -12,8 +12,7 @@ class BrowserUrl extends \Zend_View_Helper_Abstract
 		$urlArray = 
 			array(
 				$r->getActionKey() 		=> $r->getActionName(), 
-				$r->getControllerKey() 	=> $r->getControllerName(), 
-				$r->getModuleKey() 		=> $r->getModuleName()
+				$r->getControllerKey() 	=> $r->getControllerName()
 			);
 		
 		$urlArray = array_merge($urlArray, $param);

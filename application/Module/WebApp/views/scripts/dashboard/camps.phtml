@@ -14,7 +14,7 @@
 		<table>
 			<tr tal:repeat="camp me/getMyCamps">
 				<td>
-				  <a tal:content="camp/getName" tal:attributes="href helper:url(array('controller'=>'camp', 'user' => me.getId(), 'camp' => camp.getId() ), 'user+camp')" />
+				  <a tal:content="camp/getName" tal:attributes="href helper:url(array('controller'=>'camp', 'user' => me.getId(), 'camp' => camp.getId() ), 'web+user+camp')" />
 				</td>
 				<td><tal:block content="camp/getTitle" /></td>
 				<td><tal:block content="camp/getRange" /></td>

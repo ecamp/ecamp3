@@ -11,15 +11,15 @@
 		<table>
 			<tr tal:repeat="camp group/getCamps">
 				<td>
-				  <a tal:content="camp/getName" tal:attributes="href helper:url(array('controller'=>'camp', 'group' => group.getId(), 'camp' => camp.getId() ), 'group+camp')" />
+				  <a tal:content="camp/getName" tal:attributes="href helper:url(array('controller'=>'camp', 'group' => group.getId(), 'camp' => camp.getId() ), 'web+group+camp')" />
 				</td>
 				<td><tal:block content="camp/getTitle" /></td>
 				<td><tal:block content="camp/getRange" /></td>
 				<td>
-					<a id="edit" class="button" tal:attributes="href helper:thisurl(array('action' => 'editcamp', 'group' => group.getId(), 'id' => camp.getId() ), 'group+id')" i18n:translate="">
+					<a id="edit" class="button" tal:attributes="href helper:thisurl(array('action' => 'editcamp', 'group' => group.getId(), 'id' => camp.getId() ), 'web+group+id')" i18n:translate="">
 						edit
 					</a>
-					<a id="delete" class="button negative" tal:attributes="href helper:thisurl(array('action' => 'deletecamp', 'group' => group.getId(), 'id' => camp.getId() ), 'group+id')" i18n:translate="">
+					<a id="delete" class="button negative" tal:attributes="href helper:thisurl(array('action' => 'deletecamp', 'group' => group.getId(), 'id' => camp.getId() ), 'web+group+id')" i18n:translate="">
 						delete
 					</a>
 				</td>
