@@ -46,14 +46,6 @@ class Content extends \Core\Entity\BaseEntity
 
 
 	/**
-	 * @return \CoreApi\Entity
-	 */
-	public function asReadonly()
-	{
-		//Todo!!
-	}
-
-	/**
 	 * The id of the plugin item instance
 	 * This is a doctrine field, so you need to setup generation for it
 	 * @var integer
