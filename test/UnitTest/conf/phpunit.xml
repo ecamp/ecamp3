@@ -1,0 +1,32 @@
+<phpunit bootstrap='../bin/Bootstrap.php' colors="true">
+
+    <php>
+        <ini name="memory_limit" value="100M" />
+    </php>
+
+    <testsuite name="eCamp UnitTests">
+        <directory>../tests</directory>
+        <directory>./library</directory>
+    </testsuite>
+
+    <filter>
+        <whitelist>
+			<directory suffix=".php">../../../application/Core</directory>
+			<directory suffix=".php">../../../application/CoreApi/Entity</directory>
+			<directory suffix=".php">../../../application/CoreApi/Service</directory>
+			<directory suffix=".php">../../../library/Ecamp</directory>
+			
+			<exclude>
+				<directory suffix=".phtml">../../../application</directory>
+				<directory suffix=".php">../../../application/CoreApi/Serivce_old</directory>
+			</exclude>
+			
+        </whitelist>
+    </filter>
+
+    <logging>
+        <log type="coverage-html" target="../result" charset="UTF-8" yui="true" highlight="true"/>
+        <log type="junit" target="results.xml" />
+    </logging>
+	
+</phpunit>

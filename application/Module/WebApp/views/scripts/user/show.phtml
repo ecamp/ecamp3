@@ -1,7 +1,7 @@
 <div class="span-14">
 
 	<div class="span-4">
-		<img width="128" height="128" tal:attributes="src helper:url(array('controller' => 'avatar', 'action' => 'user', 'id' => user.getId(), 'size' => 128), 'general')" />
+		<img width="128" height="128" tal:attributes="src helper:url(array('controller' => 'avatar', 'action' => 'user', 'id' => user.getId(), 'size' => 128), 'web+general')" />
 	</div>
 	
 	<div class="span-10 last">
@@ -9,17 +9,17 @@
 		<h3 tal:content="user/getFullName" />
 		
 		<!-- replace with ajax call one day -->
-		<a tal:condition="php: me.canIAdd(user)" class="button" tal:attributes="href helper:url(array('action' => 'add', 'user' => user.getId()), 'user')">+add as friend</a> 
+		<a tal:condition="php: me.canIAdd(user)" class="button" tal:attributes="href helper:url(array('action' => 'add', 'user' => user.getId()), 'web+user')">+add as friend</a> 
 		<span tal:condition="php: me==user">Hey, this is you!</span>
 		<span tal:condition="php: me.sentFriendshipRequestTo(user)">You have already sent a friendship request.</span>
 		<tal:block condition="php: me.receivedFriendshipRequestFrom(user)">
 			<span tal:content="user/getUsername" /> wants to be your friend.<br/>
-			<a class="button" tal:attributes="href helper:url(array('action' => 'accept', 'user' => user.getId()), 'user')">+accept</a> 
-			<a class="button" tal:attributes="href helper:url(array('action' => 'ignore', 'user' => user.getId()), 'user')">-ignore</a> 
+			<a class="button" tal:attributes="href helper:url(array('action' => 'accept', 'user' => user.getId()), 'web+user')">+accept</a> 
+			<a class="button" tal:attributes="href helper:url(array('action' => 'ignore', 'user' => user.getId()), 'web+user')">-ignore</a> 
 		</tal:block>
 		<tal:block condition="php: me.isFriendOf(user)">
 			This is your friend! <br />
-			<a class="button" tal:attributes="href helper:url(array('action' => 'divorce', 'user' => user.getId()), 'user')">-divorce</a> 
+			<a class="button" tal:attributes="href helper:url(array('action' => 'divorce', 'user' => user.getId()), 'web+user')">-divorce</a> 
 		</tal:block>
 		
 	</div>
@@ -79,7 +79,7 @@
 			<table>
 				<tr tal:repeat="camp user/getMyCamps">
 					<td>
-					  <a tal:content="camp/getName" tal:attributes="href helper:url(array('controller'=>'camp', 'user' => me.getId(), 'camp' => camp.getId() ), 'user+camp')" />
+					  <a tal:content="camp/getName" tal:attributes="href helper:url(array('controller'=>'camp', 'user' => me.getId(), 'camp' => camp.getId() ), 'web+user+camp')" />
 					</td>
 					<td><tal:block content="camp/getTitle" /></td>
 					<td><tal:block content="camp/getRange" /></td>
@@ -121,15 +121,15 @@
 		<div class="content">
 			<tal:block repeat="user friendshipRequests">
 				
-				 <a tal:attributes="href helper:url(array('user' => user.getId()), 'user')" class="span-2">
-					<img width="46" height="46" tal:attributes="src helper:url(array('controller' => 'avatar', 'action' => 'user', 'id' => user.getId(), 'size' =>32), 'general')" /><br />
+				 <a tal:attributes="href helper:url(array('user' => user.getId()), 'web+user')" class="span-2">
+					<img width="46" height="46" tal:attributes="src helper:url(array('controller' => 'avatar', 'action' => 'user', 'id' => user.getId(), 'size' =>32), 'web+general')" /><br />
 				 </a>
 				 
 				 <div class="span-7 last">
-					 <a tal:attributes="href helper:url(array('user' => user.getId()), 'user')" tal:content="user/getUsername" /> <span i18n:translate="">wants to be your friend</span>!<br/>
+					 <a tal:attributes="href helper:url(array('user' => user.getId()), 'web+user')" tal:content="user/getUsername" /> <span i18n:translate="">wants to be your friend</span>!<br/>
 					 
-					 <a class="button positive" tal:attributes="href helper:url(array('action' => 'accept', 'user' => user.getId()), 'user')">+<span i18n:translate="">accept</span></a>
-					 <a class="button negative" tal:attributes="href helper:url(array('action' => 'ignore', 'user' => user.getId()), 'user')">-<span i18n:translate="">ignore</span></a>
+					 <a class="button positive" tal:attributes="href helper:url(array('action' => 'accept', 'user' => user.getId()), 'web+user')">+<span i18n:translate="">accept</span></a>
+					 <a class="button negative" tal:attributes="href helper:url(array('action' => 'ignore', 'user' => user.getId()), 'web+user')">-<span i18n:translate="">ignore</span></a>
 				</div>
 				
 				<hr tal:condition="not: repeat/user/end" />

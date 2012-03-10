@@ -20,9 +20,18 @@
 
 class WebApp_Bootstrap extends Zend_Application_Module_Bootstrap
 {
-	public function _initAutoloader()
+
+	protected function _initBootstrapPlugin()
 	{
-		
+		$this->getApplication()->bootstrap('frontcontroller');
+		$front = $this->getApplication()->getResource('frontcontroller');
+
+		$front->registerPlugin(new \Core\Module\BootstrapPlugin($this));
+	}
+
+	
+	protected function _initAutoloader()
+	{
 		require_once APPLICATION_PATH . '/../library/Doctrine/Common/ClassLoader.php';
 	
 		$autoloader = \Zend_Loader_Autoloader::getInstance();
@@ -30,117 +39,131 @@ class WebApp_Bootstrap extends Zend_Application_Module_Bootstrap
 		$navigationAutoloader = new \Doctrine\Common\ClassLoader('WebApp', APPLICATION_PATH . '/Module/');
 		$autoloader->pushAutoloader(array($navigationAutoloader, 'loadClass'), 'WebApp');
 	}
-	
-	/**
-	* Override the default Zend_View with Ztal support and configure defaults.
-	*
-	* @return void
-	*/
-	protected function _initZtal()
-	{
-	//configure an autoload prefix for Ztal
-		Zend_Loader_Autoloader::getInstance()->registerNamespace('Ztal');
-	
-	//register the Ztal plugin
-		
-	$plugin = new Ztal_Controller_Plugin_Ztal($this->getOption('ztal'));
-	Zend_Controller_Front::getInstance()->registerPlugin($plugin);
-	}	
 
-	/**
-	 * Load and configure error handler
-	 */
-	protected function _initErrorHandler()
-	{
-		$plugin = new Zend_Controller_Plugin_ErrorHandler();
-		$plugin->setErrorHandlerModule('WebApp');
-		Zend_Controller_Front::getInstance()->registerPlugin($plugin);
-	}
-
+	
 	protected function _initRoutes()
 	{
-		/* general */
-// 		Zend_Controller_Front::getInstance()->getRouter()->addRoute(
-// 			'general', new Zend_Controller_Router_Route(':controller/:action/*',
-// 			array('controller' => 'dashboard', 'action' => 'index')));
-
-// 		Zend_Controller_Front::getInstance()->getRouter()->addRoute(
-// 			'general+id', new Zend_Controller_Router_Route(':controller/:action/:id/*',
-// 			array('controller' => 'dashboard', 'action' => 'index'),
-// 			array('id' => '\d+')));
-				
-		/* default Moduel Router */
-		Zend_Controller_Front::getInstance()->getRouter()->addRoute(
-			'general', new Zend_Controller_Router_Route('/:controller/:action/*',
-			array('module' => 'WebApp', 'controller' => 'dashboard', 'action' => 'index')));
+		$hostname = Zend_Registry::get('hostname');
 		
-		Zend_Controller_Front::getInstance()->getRouter()->addRoute(
-			'general+id', new Zend_Controller_Router_Route('/:controller/:action/:id/*',
-			array('module' => 'WebApp', 'controller' => 'dashboard', 'action' => 'index'),
-			array('id' => '\d+')));
+		/* Subdomain Route */
+		$webappSubdomain = new Zend_Controller_Router_Route_Hostname(
+			$hostname, array('module' => 'WebApp'));
+		
 		
 		
 		/* default Moduel Router */
 		Zend_Controller_Front::getInstance()->getRouter()->addRoute(
-		'webapp', new Zend_Controller_Router_Route('webapp/:controller/:action/*',
-				array('module' => 'WebApp', 'controller' => 'dashboard', 'action' => 'index')));
-				
-		Zend_Controller_Front::getInstance()->getRouter()->addRoute(
-		'webapp+id', new Zend_Controller_Router_Route('webapp/:controller/:action/:id/*',
-					array('module' => 'WebApp', 'controller' => 'dashboard', 'action' => 'index'),
-					array('id' => '\d+')));
+			'web+general', $webappSubdomain->chain(
+				new Zend_Controller_Router_Route('/:controller/:action/*',
+				array(/*'module' => 'WebApp',*/ 'controller' => 'dashboard', 'action' => 'index'))));
 		
+		Zend_Controller_Front::getInstance()->getRouter()->addRoute(
+			'web+general+id', $webappSubdomain->chain(
+				new Zend_Controller_Router_Route('/:controller/:action/:id/*',
+				array(/*'module' => 'WebApp',*/ 'controller' => 'dashboard', 'action' => 'index'),
+				array('id' => '\d+'))));
 		
 		
 		/* user */
 		Zend_Controller_Front::getInstance()->getRouter()->addRoute(
-			'user', new Ecamp\Route\Vanity('user/:user/:action/*',
-				array('module' => 'WebApp', 'controller' => 'user','action' => 'show')));
+			'web+user', $webappSubdomain->chain(
+				new Ecamp\Route\Vanity('user/:user/:action/*',
+				array('controller' => 'user','action' => 'show'))));
 				
 		Zend_Controller_Front::getInstance()->getRouter()->addRoute(
-			'user+id', new Ecamp\Route\Vanity('user/:user/:action/:id/*',
-				array('module' => 'WebApp', 'controller' => 'user','action' => 'show'),
-				array('id' => '\d+')));
+			'web+user+id', $webappSubdomain->chain(
+				new Ecamp\Route\Vanity('user/:user/:action/:id/*',
+				array('controller' => 'user','action' => 'show'),
+				array('id' => '\d+'))));
+		
 		
 		/* user camp */
 		Zend_Controller_Front::getInstance()->getRouter()->addRoute(
-			'user+camp', new Ecamp\Route\Vanity('user/:user/:camp/:controller/:action/*',
-				array('module' => 'WebApp', 'controller' => 'camp','action' => 'show')));
+			'web+user+camp', $webappSubdomain->chain(
+				new Ecamp\Route\Vanity('user/:user/:camp/:controller/:action/*',
+				array('controller' => 'camp','action' => 'show'))));
 				
 		Zend_Controller_Front::getInstance()->getRouter()->addRoute(
-			'user+camp+id', new Ecamp\Route\Vanity('user/:user/:camp/:controller/:action/:id/*',
-				array('module' => 'WebApp', 'controller' => 'camp','action' => 'show'),
-				array('id' => '\d+')));
-				
+			'web+user+camp+id', $webappSubdomain->chain(
+				new Ecamp\Route\Vanity('user/:user/:camp/:controller/:action/:id/*',
+				array('controller' => 'camp','action' => 'show'),
+				array('id' => '\d+'))));
+
+		
 		/* group */
 		Zend_Controller_Front::getInstance()->getRouter()->addRoute(
-			'group', new Ecamp\Route\Vanity('group/:group/:action/*',
-				array('module' => 'WebApp', 'controller' => 'group','action' => 'show')));
+			'web+group', $webappSubdomain->chain(
+				new Ecamp\Route\Vanity('group/:group/:action/*',
+				array('controller' => 'group','action' => 'show'))));
 				
 		Zend_Controller_Front::getInstance()->getRouter()->addRoute(
-			'group+id', new Ecamp\Route\Vanity('group/:group/:action/:id/*',
-				array('module' => 'WebApp', 'controller' => 'group','action' => 'show'),
-				array('id' => '\d+')));
-				
+			'web+group+id', $webappSubdomain->chain(
+				new Ecamp\Route\Vanity('group/:group/:action/:id/*',
+				array('controller' => 'group','action' => 'show'),
+				array('id' => '\d+'))));
+
+		
 		/* group camp */
 		Zend_Controller_Front::getInstance()->getRouter()->addRoute(
-			'group+camp', new Ecamp\Route\Vanity('group/:group/:camp/:controller/:action/*',
-				array('module' => 'WebApp', 'controller' => 'camp','action' => 'show')));
+			'web+group+camp', $webappSubdomain->chain(
+				new Ecamp\Route\Vanity('group/:group/:camp/:controller/:action/*',
+				array('controller' => 'camp','action' => 'show'))));
 				
 		Zend_Controller_Front::getInstance()->getRouter()->addRoute(
-			'group+camp+id', new Ecamp\Route\Vanity('group/:group/:camp/:controller/:action/:id/*',
-				array('module' => 'WebApp', 'controller' => 'camp','action' => 'show'),
-				array('id' => '\d+')));
-				
+			'web+group+camp+id', $webappSubdomain->chain(
+				new Ecamp\Route\Vanity('group/:group/:camp/:controller/:action/:id/*',
+				array('controller' => 'camp','action' => 'show'),
+				array('id' => '\d+'))));
+
+		
 		/* TODO: quick camp url */
 	}
-
+	
+	
+	public function _routeShutdown_SetLayoutPath()
+	{
+		$layout = \Zend_Layout::startMvc();
+		
+		$layout->enableLayout();
+		$layout->setLayoutPath(APPLICATION_PATH . "/Module/WebApp/layouts/scripts/");
+	}
+	
+	
+	/**
+	 * Override the default Zend_View with Ztal support and configure defaults.
+	 *
+	 * @return void
+	 */
+	public function _routeShutdown_Ztal()
+	{
+		$this->getApplication()->bootstrap('frontcontroller');
+		$front = $this->getApplication()->getResource('frontcontroller');
+		
+		//register the Ztal plugin
+		$plugin = new Ztal_Controller_Plugin_Ztal($this->getOption('ztal'));
+		$front->registerPlugin($plugin);
+	}	
+	
+	
+	/**
+	 * Load and configure error handler
+	 */
+	public function _routeShutdown_ErrorHandler()
+	{
+		$plugin = new Zend_Controller_Plugin_ErrorHandler();
+		$plugin->setErrorHandlerModule('WebApp');
+		$plugin->setErrorHandlerController('Error');
+		
+		Zend_Controller_Front::getInstance()->registerPlugin($plugin);
+	}
+	
+	
 	/**
 	 * Init translation services and locale.
 	 *
 	 * @return void
 	 */
-	protected function _initTranslationService()
+	public function _routeShutdown_TranslationService()
 	{
 		// Build the path for the languages folder in the current module
 		$languagesPath = APPLICATION_PATH . '/Module/WebApp/languages';
@@ -190,7 +213,8 @@ class WebApp_Bootstrap extends Zend_Application_Module_Bootstrap
 		Zend_Registry::set('Zend_Locale', new Zend_Locale($locale->getRegion()));
 	}
 
-	protected function _initView()
+	
+	public function _routeShutdown_View()
 	{
 		$view = new Zend_View();
 

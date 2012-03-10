@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>UnitTests</title>
+
+		<style type="text/css">
+			*{	font-family: Verdana;	}
+
+			table
+			{
+				border-color: black;
+				background-color: white;
+			}
+
+			th
+			{
+				text-align: left;
+				padding:2px;
+
+				background-color: black;
+				color: white;
+			}
+
+			td
+			{	padding:1px;	}
+
+			tr.test_fail
+			{	background-color:#ff8c00;	}
+
+			tr.test_pass
+			{	background-color:#32cd32;	}
+
+			table.overview tr:nth-child(2n)
+			{	background-color: #d3d3d3;	}
+
+			div.fail, table.fail
+			{	background-color: #ff4500;	}
+
+			div.pass, table.pass
+			{	background-color:#32cd32;	}
+
+		</style>
+	</head>
+
+	<body style="padding:0; margin:0">
+
+		<div style="padding:10; margin-top:20px;
+					border-bottom:5px solid black;
+					border-top:5px solid black;"
+			tal:attributes="class shortFeedback">
+			
+			<h1 tal:content="result/testsuite/attributes/name" />
+			
+			<table style="width:40%;" tal:attributes="class shortFeedback">
+				<tr style="height:50px;">
+					<td>
+						<b>From: </b>
+						<br />
+
+						<i>
+							<tal:block content="php: date('d. M Y  -  H:i', testTime)" /> Uhr
+						</i>
+					</td>
+					<td style="vertical-align:middle;">
+						<form action="run.php" style="vertical-align:middle; margin:0; padding:0">
+							<input type="submit" value="REFRESH - Run UnitTests" />
+						</form>
+					</td>
+				</tr>
+			</table>
+			
+		</div>
+
+		
+		<div style="margin: 20px; margin-top: 50px;">
+			<p><a href="/UnitTests/Result/">GoTo Code Coverage</a></p>
+			
+			<table width="50%" style="border: 2px solid black" class="overview">
+				<tal:block repeat="value result/testsuite/attributes">
+					<tr>
+						<td>
+							<b><tal:block content="php: ucfirst(repeat.value.key)" />:</b>
+						</td>
+						<td><tal:block content="value" /></td>
+					</tr>
+				</tal:block>
+			</table>
+
+			<br />
+			<br />
+			<h2>TestClasses:</h2>
+			<ol>
+				<tal:block condition="exists: result/testsuite/testsuite" repeat="testCase result/testsuite/testsuite">
+					<li>
+						<a 
+							tal:attributes="href string:#${testCase/attributes/name}" 
+							tal:content="testCase/attributes/name" />
+					</li>
+				</tal:block>
+			</ol>
+
+			<br />
+			<br />
+
+			<tal:block condition="exists: result/testsuite/testsuite" repeat="testCase result/testsuite/testsuite">
+			
+				<a tal:attributes="name testCase/attributes/name" />
+				<h2 tal:content="testCase/attributes/name" />
+
+				<p>
+					<table width="80%" style="border: 2px solid black" class="overview">
+						<tal:block repeat="attribute testCase/attributes">
+							<tr>
+								<td>
+									<b><tal:block content="php: ucfirst(repeat.attribute.key)" />:</b>
+								</td>
+								<td><tal:block content="attribute" /></td>
+							</tr>
+						</tal:block>
+					</table>
+				</p>
+
+				<p>
+					<table width="90%" cellspacing="0" class="test_results" border="1">
+						<thead>
+							<tr>
+								<th>Test Name</th>
+								<th>Result</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tal:block condition="exists: testCase/testcase" repeat="result testCase/testcase">
+								<tr tal:attributes="class php: isset(result.error) ? 'test_fail' : 'test_pass'">
+									<td tal:content="php: result['name']" />
+									<td>
+										<pre tal:content="result/failure | result/error" />
+									</td>
+								</tr>
+							</tal:block>
+						</tbody>
+					</table>
+				</p>
+				<br />
+				<br />
+
+			</tal:block>
+			
+		</div>
+		
+		
+		
+	</body>
+</html>

@@ -42,6 +42,7 @@ class Header extends \Core\Entity\BaseEntity
 		$this->plugin = $plugin;
 	}
 
+
 	/**
 	 * The id of the plugin item instance
 	 * This is a doctrine field, so you need to setup generation for it
