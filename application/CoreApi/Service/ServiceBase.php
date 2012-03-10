@@ -48,26 +48,6 @@ abstract class ServiceBase
 		}
 	}
 	
-	protected function validationException()
-	{
-		$this->em->getConnection()->rollback();
-		
-		$e = new ValidationException();
-		
-		
-	}
-	
-	
-	protected function blockIfInvalid(ValidationResponse $validationResp)
-	{
-		if(!$validationResp->isValid())
-		{
-			$e = new ValidationException();
-			$e->validationResp = $validationResp;
-			throw $e;
-		}
-	}
-	
 	
 	protected function beginTransaction()
 	{
