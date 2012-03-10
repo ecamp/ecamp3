@@ -1,6 +1,6 @@
 .*
 
-./local.conf.php
+local.conf.php
 
 tmp/*
 tmp/**/*
