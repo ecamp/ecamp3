@@ -13,7 +13,7 @@ data/log/**/*
 data/session/*
 data/session/**/*
 
-test/UnitTest/result/*
+data/unittest/*
 
 application/CoreApi/Entity/*
 !application/CoreApi/Entity/BaseEntity.php
