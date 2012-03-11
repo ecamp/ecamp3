@@ -24,13 +24,18 @@ class UserServiceValidator
 	protected $userService;
 	
 	/**
-	* @var CoreApi\Service\Camp
-	* @Inject CoreApi\Service\Camp
-	*/
-	// protected $campService;
+	 * @var CoreApi\Service\Camp\CampService
+	 * @Inject CoreApi\Service\Camp\CampService
+	 */
+	protected $campService;
 	
+	/**
+	 * @var CoreApi\Service\Camp\CampServiceValidator
+	 * @Inject CoreApi\Service\Camp\CampServiceValidator
+	 */
+	protected $campServiceValidator;
 	
-	
+
 	
 	/**
 	 * Get User is allways valid
@@ -122,31 +127,20 @@ class UserServiceValidator
 	 */
 	protected function CreateCamp(\Core\Entity\User $creator, \Zend_Form $form)
 	{
-// 		$this->em->getConnection()->beginTransaction();
-// 		try
-// 		{
-// 			$camp = $this->campService->create($creator, $params);
-				
-// 			$camp->setOwner($creator);
-	
-// 			$this->em->persist($camp);
-// 			$this->em->flush();
-	
-// 			$this->em->getConnection()->commit();
-				
-// 			return $camp;
-// 		}
-// 		catch (\PDOException $e)
-// 		{
-// 			$this->em->getConnection()->rollback();
-// 			$this->em->close();
-	
-// 			$form = new \Core\Form\Camp\Create();
-// 			$form->getElement('name')->addError("Name has already been taken.");
-				
-// 			throw new \Ecamp\ValidationException($form);
-// 		}
-
-		return new ValidationResponse(true);
+		$qb = $this->em->createQueryBuilder();
+		$qb->add('select', 'c')
+			->add('from', '\Core\Entity\Camp c')
+			->add('where', 'c.owner = ?1 AND c.name = ?2')
+			->setParameter(1,$creator->getId())
+			->setParameter(2, $form->getValue('name'));
+		
+		$query = $qb->getQuery();
+		
+		if( count($query->getArrayResult()) > 0 ){
+			$form->getElement('name')->addError("Camp with same name already exists.");
+			return new ValidationResponse(false);
+		}
+		
+		return $this->campServiceValidator->Create($creator, $form);;
 	}
 }

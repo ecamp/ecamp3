@@ -125,29 +125,32 @@ class UserService
 	 * @return Camp object, if creation was successfull
 	 * @throws \Ecamp\ValidationException
 	 */
-	protected function CreateCamp(\Core\Entity\User $creator, \Zend_Form $form)
+	public function CreateCamp(\Core\Entity\User $creator, \Zend_Form $form, $s = false)
 	{
-		$this->beginTransaction();
-		try
-		{
-			$camp = $this->campService->create($creator, $form);
-				
-			$camp->setOwner($creator);
-	
-			$this->persist($camp);
-			$this->flush();
-	
-			$this->commit();
-				
-			return $camp;
+		$respObj = $this->getRespObj($s)->beginTransaction();
+		
+		/* check if camp with same name already exists */
+		$qb = $this->em->createQueryBuilder();
+		$qb->add('select', 'c')
+		->add('from', '\Core\Entity\Camp c')
+		->add('where', 'c.owner = ?1 AND c.name = ?2')
+		->setParameter(1,$creator->getId())
+		->setParameter(2, $form->getValue('name'));
+		
+		$query = $qb->getQuery();
+		
+		if( count($query->getArrayResult()) > 0 ){
+			$form->getElement('name')->addError("Camp with same name already exists.");
+			$respObj->validationFailed(true);
 		}
-		catch (\PDOException $e)
-		{
-			$this->rollback();
-			$this->close();
+		
+		/* create camp */
+		$camp = $respObj( $this->campService->Create($creator, $form, $s) )->getReturn();	
+		$camp = $this->UnwrapEntity($camp);
+		$camp->setOwner($creator);
 			
-			throw $e;
-		}
+		$respObj->flushAndCommit();
+		return $respObj($camp);
 	}
 	
 	
