@@ -97,6 +97,10 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 		$kernel
 			->Bind("EntityManager")
 			->ToProvider(new Core\Provider\EntityManager());
+		
+		$kernel
+			->Bind("Doctrine\ORM\EntityManager")
+			->ToProvider(new Core\Provider\EntityManager());
 
 		$kernel
 			->Bind("CampRepository")
@@ -141,11 +145,6 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 		$kernel
 			->Bind("CoreApi\Service\Login\LoginService")
 			->ToFactory(new \Core\Acl\ACWrapperFactory("CoreApi\Service\Login\LoginService"))
-			->AsSingleton();
-		
-		$kernel
-			->Bind("CoreApi\Service\Login\LoginServiceValidator")
-			->ToFactory(new \Core\Acl\ACWrapperFactory("CoreApi\Service\Login\LoginServiceValidator"))
 			->AsSingleton();
 		
 		$kernel

@@ -30,12 +30,12 @@ CREATE TABLE `camps` (
   CONSTRAINT `camps_ibfk_1` FOREIGN KEY (`creator_id`) REFERENCES `users` (`id`),
   CONSTRAINT `camps_ibfk_2` FOREIGN KEY (`owner_id`) REFERENCES `users` (`id`),
   CONSTRAINT `camps_ibfk_3` FOREIGN KEY (`group_id`) REFERENCES `groups` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 LOCK TABLES `camps` WRITE;
 /*!40000 ALTER TABLE `camps` DISABLE KEYS */;
-INSERT INTO `camps` VALUES (3,7,7,NULL,'2011-11-23 10:29:06','2011-11-23 10:29:06','asdfasdf','asdf'),(4,7,7,NULL,'2011-11-25 12:53:57','2011-11-25 12:53:57','asdfqwer','asdf'),(6,7,NULL,249,'2011-11-26 20:18:59','2011-11-26 22:01:04','sola12','SoLa 2012'),(7,7,7,NULL,'2011-11-26 21:14:26','2011-11-26 21:14:26','mycamp','My Camp');
+INSERT INTO `camps` VALUES (3,7,7,NULL,'2011-11-23 10:29:06','2011-11-23 10:29:06','asdfasdf','asdf'),(4,7,7,NULL,'2011-11-25 12:53:57','2011-11-25 12:53:57','asdfqwer','asdf'),(6,7,NULL,249,'2011-11-26 20:18:59','2011-11-26 22:01:04','sola12','SoLa 2012'),(7,7,7,NULL,'2011-11-26 21:14:26','2011-11-26 21:14:26','mycamp','My Camp'),(8,20,20,NULL,'2012-03-10 16:52:13','2012-03-10 16:52:13','mycamp','mycamp'),(9,20,20,NULL,'2012-03-10 17:08:11','2012-03-10 17:08:11','mycamp2','mycamp');
 /*!40000 ALTER TABLE `camps` ENABLE KEYS */;
 UNLOCK TABLES;
 DROP TABLE IF EXISTS `days`;
@@ -43,15 +43,15 @@ DROP TABLE IF EXISTS `days`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `days` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `subcamp_id` int(11) NOT NULL,
+  `period_id` int(11) NOT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
   `dayOffset` int(11) NOT NULL,
   `notes` longtext NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `offset_subcamp_idx` (`dayOffset`,`subcamp_id`),
-  KEY `days_subcamp_id_idx` (`subcamp_id`),
-  CONSTRAINT `days_ibfk_1` FOREIGN KEY (`subcamp_id`) REFERENCES `periods` (`id`)
+  UNIQUE KEY `offset_period_idx` (`dayOffset`,`period_id`),
+  KEY `days_period_id_idx` (`period_id`),
+  CONSTRAINT `days_ibfk_1` FOREIGN KEY (`period_id`) REFERENCES `periods` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -65,16 +65,16 @@ DROP TABLE IF EXISTS `event_instances`;
 CREATE TABLE `event_instances` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `event_id` int(11) NOT NULL,
-  `subcamp_id` int(11) NOT NULL,
+  `period_id` int(11) NOT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
   `minOffset` int(11) NOT NULL,
   `duration` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `event_instances_event_id_idx` (`event_id`),
-  KEY `event_instances_subcamp_id_idx` (`subcamp_id`),
-  CONSTRAINT `event_instances_ibfk_1` FOREIGN KEY (`event_id`) REFERENCES `events` (`id`),
-  CONSTRAINT `event_instances_ibfk_2` FOREIGN KEY (`subcamp_id`) REFERENCES `subcamps` (`id`)
+  KEY `event_instances_period_id_idx` (`period_id`),
+  CONSTRAINT `event_instances_ibfk_2` FOREIGN KEY (`period_id`) REFERENCES `periods` (`id`),
+  CONSTRAINT `event_instances_ibfk_1` FOREIGN KEY (`event_id`) REFERENCES `events` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -161,15 +161,16 @@ CREATE TABLE `periods` (
   `updated_at` datetime NOT NULL,
   `start` date NOT NULL,
   `duration` int(11) NOT NULL,
+  `description` longtext,
   PRIMARY KEY (`id`),
   KEY `periods_camp_id_idx` (`camp_id`),
   CONSTRAINT `periods_ibfk_1` FOREIGN KEY (`camp_id`) REFERENCES `camps` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 LOCK TABLES `periods` WRITE;
 /*!40000 ALTER TABLE `periods` DISABLE KEYS */;
-INSERT INTO `periods` VALUES (3,3,'2011-11-23 10:29:06','2011-11-23 10:29:06','2011-11-28',3),(4,4,'2011-11-25 12:53:57','2011-11-25 12:53:57','2011-11-01',10),(6,6,'2011-11-26 20:18:59','2011-11-26 20:18:59','2011-11-28',6),(7,7,'2011-11-26 21:14:26','2011-11-26 21:14:26','2011-11-14',6);
+INSERT INTO `periods` VALUES (3,3,'2011-11-23 10:29:06','2011-11-23 10:29:06','2011-11-28',3,NULL),(4,4,'2011-11-25 12:53:57','2011-11-25 12:53:57','2011-11-01',10,NULL),(6,6,'2011-11-26 20:18:59','2011-11-26 20:18:59','2011-11-28',6,NULL),(7,7,'2011-11-26 21:14:26','2011-11-26 21:14:26','2011-11-14',6,NULL),(8,8,'2012-03-10 16:52:13','2012-03-10 16:52:13','2012-03-13',9,NULL),(9,9,'2012-03-10 17:08:11','2012-03-10 17:08:11','2012-03-06',2,NULL);
 /*!40000 ALTER TABLE `periods` ENABLE KEYS */;
 UNLOCK TABLES;
 DROP TABLE IF EXISTS `plugin_contents`;

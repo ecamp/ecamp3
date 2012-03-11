@@ -23,9 +23,9 @@ class WebApp_DashboardController extends \WebApp\Controller\BaseController
 {
 	
 	/**
-	* @var CoreApi\Service\User
-	* @Inject CoreApi\Service\User
-	*/
+	 * @var CoreApi\Service\User\UserService
+	 * @Inject CoreApi\Service\User\UserService
+	 */
 	private $userService;
 	
 	
@@ -95,25 +95,28 @@ class WebApp_DashboardController extends \WebApp\Controller\BaseController
 			 *  - for filters
 			*  - for possible validations on WebApp-Level
 			*/
-			if(!$form->isValid($params))
-				throw new \Ecamp\ValidationException();
-	
-			$this->userService->createCamp($this->me, $params);
-			$this->_helper->getHelper('Redirector')->gotoRoute(array('action'=>'camps'));
+			if( !$form->isValid($params))
+			{
+				$this->view->form = $form;
+				$this->render("newcamp");
+				return;
+			}
+		
+			$resp = $this->userService->createCamp($this->me, $form);
+			
+			if( $resp->isError())
+			{
+				$this->view->form = $form;
+				$this->render("newcamp");
+				return;
+			}
+			else
+				$this->_helper->getHelper('Redirector')->gotoRoute(array('action'=>'camps'));
 		}
 	
 		/* catching permission exceptions might be outsourced to an upper level */
 		catch(\Ecamp\PermissionException $e){
 			die("You should not click on buttons you are not allowed to.");
-		}
-	
-		/* oh snap, something went wrong. show the form again */
-		catch(\Ecamp\ValidationException $e){
-			if($e->form != null)
-				$form->copyErrors( $e->form );
-			
-			$this->view->form = $form;
-			$this->render("newcamp");
 		}
 	}
 	

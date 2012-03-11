@@ -1,34 +1,19 @@
 <?php
 
-class ServiceTestCase extends PHPUnit_Framework_TestCase
+class ServiceTestCase extends TestCase
 {
-	
-	private $schemaManager;
-	
+		
 	public function setUp()
 	{
-		$this->schemaManager = \Zend_Registry::get('SchemaManager');
+		parent::setUp();
 		
-		
+		$this->clearDatabase();
 	}
 
 	
 	public function tearDown()
 	{
+		parent::tearDown();
 	}
-	
-	
-	
-	private function clearDatabase()
-	{
-		$this->schemaManager->clearAllTables();
-	}
-	
-	
-	protected function loadDatabaseDump($file)
-	{
-		$this->schemaManager->runSqlFile($file);
-	}
-	
 	
 }

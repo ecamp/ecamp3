@@ -51,6 +51,8 @@ abstract class BaseForm extends \Ztal_Form
 			$this->getElement($key)->setValue($entity->{'get'.ucfirst($key)}());
 		}
 	}
+	
+	
 
 	/**
 	 * Configure standard decorators for form
@@ -58,18 +60,13 @@ abstract class BaseForm extends \Ztal_Form
 	public function standardDecorators()
 	{
 		$this->clearDecorators();
+		
+		$this->addDecorators(array(
+		array('FormErrors', array('onlyCustomFormErrors' => true, 'markupListStart' => '<ul class="errors">')),
+		'FormElements',
+		'HtmlTag',
+		'Form'));
 	
-		$this->addDecorator('FormErrors')
-		->addDecorator('FormElements')
-		->addDecorator('HtmlTag')
-		->addDecorator('Form');
-	
-		$this->setElementDecorators(array(
-		array('ViewHelper'),
-		array('Description'),
-		array('Label', array('separator'=>' ')),
-		array('HtmlTag', array('class'=>'element-group')),
-		));
 	}
 }
 

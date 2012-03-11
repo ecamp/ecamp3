@@ -24,6 +24,8 @@ class CampCreate extends BaseForm
 {
 	public function init()
 	{
+		parent::standardDecorators();
+		
 		$name = new \Zend_Form_Element_Text('name');
 		$name->setLabel('Name (unique)')
 			->addFilter('StringTrim')
@@ -53,7 +55,6 @@ class CampCreate extends BaseForm
 		$this->addElement($from);
 	    $this->addElement($to);
 		$this->addElement($submit);
-
 	}
 	
 }

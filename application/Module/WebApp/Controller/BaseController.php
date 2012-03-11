@@ -76,19 +76,9 @@ class BaseController extends \Zend_Controller_Action
             }
         }
 
-
-
-
 		/* load translator */
 		$this->t = new \Zend_View_Helper_Translate();
 	}
-	
-	public function postDispatch()
-	{
-		if( $this->em->isOpen() )
-			$this->em->flush();
-	}
-
 	
 	protected function setNavigation(\Zend_Navigation $navigation)
 	{
