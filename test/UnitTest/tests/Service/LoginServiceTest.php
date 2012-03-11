@@ -50,17 +50,8 @@ class LoginServiceTest extends ServiceTestCase
 	{
 		$user = new Core\Entity\User();
 		
-		$resp = $this->loginService->Create($user, new Zend_Form());
-		echo "test";
-		
-	}
-	
-	public function test2CreateLogin()
-	{
-	
-		//$this->loginService->Create($user, $form);
-		echo "test2";
-	
+		$resp = $this->loginService->Create($user->asReadonly(), new Zend_Form());
+		$this->assertTrue($resp->isError() == true);
 	}
 	
 	
