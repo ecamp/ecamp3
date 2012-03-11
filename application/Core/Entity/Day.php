@@ -25,7 +25,7 @@ namespace Core\Entity;
  * to a specific day (e.g. storyline, menu, responsible leader of the day,
  * etc.). The events however are not connected with the days in particular.
  * @Entity
- * @Table(name="days", uniqueConstraints={@UniqueConstraint(name="offset_subcamp_idx", columns={"dayOffset", "subcamp_id"})})
+ * @Table(name="days", uniqueConstraints={@UniqueConstraint(name="offset_period_idx", columns={"dayOffset", "period_id"})})
  */
 class Day extends BaseEntity
 {
@@ -53,11 +53,11 @@ class Day extends BaseEntity
 	private $dayOffset;
 
 	/**
-	 * @var Subcamp
-	 * @ManyToOne(targetEntity="Subcamp")
+	 * @var Period
+	 * @ManyToOne(targetEntity="Period")
 	 * @JoinColumn(nullable=false)
 	 */
-	private $subcamp;
+	private $period;
 
 	/**
 	 * @Column(type="text")
@@ -92,18 +92,18 @@ class Day extends BaseEntity
 		return $this->notes;
 	}
 
-	public function setSubcamp(subcamp $subcamp)
+	public function setPeriod(Period $period)
 	{
-		$this->subcamp = $subcamp;
+		$this->period = $period;
 	}
 	
 	/**
 	 * @Public:MethodEntity()
-	 * @return \Core\Entity\Subcamp
+	 * @return \Core\Entity\Period
 	 */
-	public function getSubcamp()
+	public function getPeriod()
 	{
-		return $this->subcamp;
+		return $this->period;
 	}
 
 }

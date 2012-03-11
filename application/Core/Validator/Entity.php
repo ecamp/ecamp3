@@ -146,8 +146,7 @@ abstract class Entity
 		}
 		
 		return false;
-	}
-	
+	}	
 	
 	private function getEntityValue($propertyName)
 	{

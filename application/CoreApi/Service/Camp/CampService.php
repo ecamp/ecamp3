@@ -64,14 +64,23 @@ class CampService
 	/**
 	 * @return CoreApi\Entity\Camp
 	 */
-	public function Create(\Zend_Form $form)
-	{
-		$this->blockIfInvalid(parent::Create($form));
+	public function Create(\Core\Entity\User $creator, \Zend_Form $form, $s=false)
+	{	
+		$this->beginTransaction();
 		
 		$camp = new CoreCamp();
+		$this->persist($camp);
+		
+		$camp->setCreator($creator);
 		
 		$campValidator = new CampValidator($camp);
-		$campValidator->applyIfValid($form);
+		if( !$campValidator->applyIfValid($form) );
+			//$this->throwValidationException();
+		
+		$period = $this->CreatePeriod($camp, $form, $s);
+		$period =  $this->UnwrapEntity( $period ); 
+		
+		$this->flushAndCommit($s);
 		
 		return $camp->asReadonly();
 	}
@@ -80,19 +89,41 @@ class CampService
 	/**
 	 * @return CoreApi\Entity\Camp
 	 */
-	public function CreatePeriod($camp, \Zend_Form $form)
+	public function CreatePeriod($camp, \Zend_Form $form, $s=false)
 	{
-		$this->blockIfInvalid(parent::CreatePeriod($camp, $form));
+		$this->beginTransaction();
 		
 		$camp = $this->GetCoreCamp($camp);
+		$period = new \Core\Entity\Period($camp);
+		$this->persist($period);
 		
-		$period = new Period($camp);
-		$this->persistEntity($period);
+		if( $form->getValue('from') == "" ){
+			$form->getElement('from')->addError("Date cannot be empty.");
+		} 
 		
-		$periodValidator = new PeriodValidator($period);
-		$periodValidator->applyIfValid($form);
+		if( $form->getValue('to') == "" ){
+			$form->getElement('to')->addError("Date cannot be empty.");
+		}
 		
-		return $camp->asReadonly();
+		$from = new \DateTime($form->getValue('from'), new \DateTimeZone("GMT"));
+		$to   = new \DateTime($form->getValue('to'), new \DateTimeZone("GMT"));
+		
+		$period->setStart($from);
+		$period->setDuration(($to->getTimestamp() - $from->getTimestamp())/(24 * 60 * 60) + 1);
+		
+		if( $period->getDuration() < 1){
+			$form->getElement('to')->addError("Minimum length of camp is 1 day.");
+		}
+		
+		$form->addErrorMessage("test");
+		$form->markAsError();
+		
+		if(!$form->isValid(array()))
+			$this->throwValidationException();
+		
+		$this->flushAndCommit($s);
+		
+		return $period->asReadonly();
 	}
 	
 }
