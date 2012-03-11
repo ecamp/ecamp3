@@ -85,9 +85,7 @@ class UnitTestRunner
 
 
 		$configuration = PHPUnit_Util_Configuration::getInstance($configFile);
-
 		$configuration->handlePHPConfiguration();
-
 		$phpunit = $configuration->getPHPUnitConfiguration();
 
 
@@ -106,12 +104,7 @@ class UnitTestRunner
 
 
 
-//PHP_CodeCoverage_Filter::getInstance()
-//	->addDirectoryToBlacklist(__DIR__, '.php', '', 'PHPUNIT');
-
-
-$result_xml = UnitTestRunner::main($configFile);
-//file_put_contents($resultFile, $result_xml);
+UnitTestRunner::main($configFile);
 
 
 echo "Done";

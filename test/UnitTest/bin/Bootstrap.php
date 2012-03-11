@@ -33,6 +33,7 @@ set_include_path(implode(PATH_SEPARATOR, array(
 
 /** Zend_Application */
 require_once 'Zend/Application.php';
+require_once '../tests/TestCase.php';
 require_once '../tests/ServiceTestCase.php';
 // require_once '../tests/EcampTestCase.php';
 // require_once '../tests/EcampTestCaseWithDb.php';
@@ -43,27 +44,6 @@ $application = new Zend_Application(
 	APPLICATION_ENV,
 	APPLICATION_PATH . '/configs/application.ini'
 );
-
-
-$application->bootstrap();
-
-
-
-
-$doctrineContainer = Zend_Registry::get('doctrine');
-$em = $doctrineContainer->getEntityManager();
-
-$sm = new SchemaManager($em);
-Zend_Registry::set('SchemaManager', $sm);
-
-$sm->dropAllTables();
-$sm->createSchema();
-$sm->runSqlFile(APPLICATION_PATH . '/../data/sql/eCamp3dev.sql');
-
-
-unset($doctrineContainer);
-unset($em);
-unset($sm);
 
 
 clearstatcache();
