@@ -4,8 +4,8 @@ namespace CoreApi\Service;
 
 class ServiceResponse
 {
-	const SUCCESS = 'valid';
-	const VALIDATION_FAILED = 'validation_failed'; 
+	const SUCCESS 			= 0;
+	const VALIDATION_FAILED = 1; 
 	
 	/**
 	 * @var Doctrine\ORM\EntityManager
@@ -53,7 +53,7 @@ class ServiceResponse
 			catch (\PDOException $e)
 			{
 				$this->rollbackAll();
-				$this->close();
+				$this->em->getConnection()->close();
 				
 				throw $e;
 			}
@@ -82,20 +82,25 @@ class ServiceResponse
 		return $this->isSim;
 	}
 	
+	public function isError()
+	{
+		return $this->state;
+	}
+	
 	public function validationFailed($bool = true)
 	{
 		if($bool)
-			$this->success = self::VALIDATION_FAILED;
+			$this->state = self::VALIDATION_FAILED;
 		
 		return $bool;
 	}
 	
 	public function process(ServiceResponse $resp)
 	{
-		$this->success &= $resp->success;
+		$this->state |= $resp->state;
 		$this->messages = array_merge($this->messages, $resp->messages);
 		
-		$this->returnValue = $returnValue->getReturn();
+		$this->returnValue = $resp->getReturn();
 	}
 	
 	

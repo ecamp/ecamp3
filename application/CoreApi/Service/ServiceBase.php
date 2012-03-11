@@ -25,7 +25,7 @@ abstract class ServiceBase
 	 */
 	public function getRespObj($s)
 	{
-		$sr = new ServiceResponse($this->em, $s);
+		return new ServiceResponse($this->em, $s);
 	}
 	
 	
