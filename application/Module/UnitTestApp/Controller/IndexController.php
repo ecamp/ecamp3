@@ -25,7 +25,7 @@ class UnitTestApp_IndexController extends \Zend_Controller_Action
 	
     public function init()
     {
-		$this->resultFile = APPLICATION_PATH . "/../test/UnitTest/conf/results.xml";
+		$this->resultFile = APPLICATION_PATH . "/../data/unittest/results.xml";
 		
     }
 

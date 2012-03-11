@@ -44,25 +44,26 @@ class UnitTestRunner
         $listener = new PHPUnit_Util_Log_JUnit();
 
         // Create TestResult object and pass the xml listener to it
-        $testResult = new PHPUnit_Framework_TestResult();
-        $testResult->addListener($listener);
+        //$testResult = new PHPUnit_Framework_TestResult();
+        //$testResult->addListener($listener);
 
 
 
 
 		$arguments['printer'] = new SilentTestListener();
+		$arguments['listeners'] = array($listener);
 
 
 
 
 		$runner = new PHPUnit_TextUI_TestRunner();
-		$runner->doRun($test, $arguments);
+		$result = $runner->doRun($test, $arguments);
 
 
 
 
 		// Run the TestSuite
-        $result = $test->run($testResult);
+        //$result = $test->run($testResult);
 
         // Get the results from the listener
         $xml_result = $listener->getXML();
@@ -84,9 +85,7 @@ class UnitTestRunner
 
 
 		$configuration = PHPUnit_Util_Configuration::getInstance($configFile);
-
 		$configuration->handlePHPConfiguration();
-
 		$phpunit = $configuration->getPHPUnitConfiguration();
 
 
@@ -105,12 +104,7 @@ class UnitTestRunner
 
 
 
-//PHP_CodeCoverage_Filter::getInstance()
-//	->addDirectoryToBlacklist(__DIR__, '.php', '', 'PHPUNIT');
-
-
-$result_xml = UnitTestRunner::main($configFile);
-file_put_contents($resultFile, $result_xml);
+UnitTestRunner::main($configFile);
 
 
 echo "Done";

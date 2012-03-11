@@ -66,7 +66,7 @@ class CampService
 	 */
 	public function Create(\Core\Entity\User $creator, \Zend_Form $form, $s=false)
 	{	
-		$this->beginTransaction();
+		$respObj = $this->getRespObj($s)->beginTransaction();
 		
 		$camp = new CoreCamp();
 		$this->persist($camp);
@@ -74,15 +74,13 @@ class CampService
 		$camp->setCreator($creator);
 		
 		$campValidator = new CampValidator($camp);
-		if( !$campValidator->applyIfValid($form) );
-			//$this->throwValidationException();
+		$respObj->validationFailed( !$campValidator->applyIfValid($form) );
 		
-		$period = $this->CreatePeriod($camp, $form, $s);
+		$period = $respObj( $this->CreatePeriod($camp, $form, $s) )->getReturn();
 		$period =  $this->UnwrapEntity( $period ); 
 		
-		$this->flushAndCommit($s);
-		
-		return $camp->asReadonly();
+		$respObj->flushAndCommit();
+		return $respObj($camp);
 	}
 	
 	
@@ -91,7 +89,7 @@ class CampService
 	 */
 	public function CreatePeriod($camp, \Zend_Form $form, $s=false)
 	{
-		$this->beginTransaction();
+		$respObj = $this->getRespObj($s)->beginTransaction();
 		
 		$camp = $this->GetCoreCamp($camp);
 		$period = new \Core\Entity\Period($camp);
@@ -99,10 +97,12 @@ class CampService
 		
 		if( $form->getValue('from') == "" ){
 			$form->getElement('from')->addError("Date cannot be empty.");
+			$respObj->validationFailed();
 		} 
 		
 		if( $form->getValue('to') == "" ){
 			$form->getElement('to')->addError("Date cannot be empty.");
+			$respObj->validationFailed();
 		}
 		
 		$from = new \DateTime($form->getValue('from'), new \DateTimeZone("GMT"));
@@ -113,17 +113,11 @@ class CampService
 		
 		if( $period->getDuration() < 1){
 			$form->getElement('to')->addError("Minimum length of camp is 1 day.");
+			$respObj->validationFailed();
 		}
 		
-		$form->addErrorMessage("test");
-		$form->markAsError();
-		
-		if(!$form->isValid(array()))
-			$this->throwValidationException();
-		
-		$this->flushAndCommit($s);
-		
-		return $period->asReadonly();
+		$respObj->flushAndCommit();
+		return $respObj($period);
 	}
 	
 }

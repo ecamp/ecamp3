@@ -21,6 +21,13 @@
 class LoginServiceTest extends ServiceTestCase
 {
 	
+	
+	/**
+	 * @var CoreApi\Service\User\UserService
+	 * @Inject CoreApi\Service\User\UserService
+	 */
+	private $userService;
+	
 	/**
 	 * @var CoreApi\Service\Login\LoginService
 	 * @Inject CoreApi\Service\Login\LoginService
@@ -41,18 +48,10 @@ class LoginServiceTest extends ServiceTestCase
 	
 	public function testCreateLogin()
 	{
+		$user = new Core\Entity\User();
 		
-		//$this->loginService->Create($user, $form);
-		echo "test";
-		
-	}
-	
-	public function test2CreateLogin()
-	{
-	
-		//$this->loginService->Create($user, $form);
-		echo "test2";
-	
+		$resp = $this->loginService->Create($user->asReadonly(), new Zend_Form());
+		$this->assertTrue($resp->isError() == true);
 	}
 	
 	
