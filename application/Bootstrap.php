@@ -97,6 +97,10 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 		$kernel
 			->Bind("EntityManager")
 			->ToProvider(new Core\Provider\EntityManager());
+		
+		$kernel
+			->Bind("Doctrine\ORM\EntityManager")
+			->ToProvider(new Core\Provider\EntityManager());
 
 		$kernel
 			->Bind("CampRepository")

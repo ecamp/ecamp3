@@ -9,6 +9,8 @@ use CoreApi\Service\ValidationResponse;
 use Core\Entity\Camp as CoreCamp;
 use CoreApi\Entity\Camp as CoreApiCamp;
 
+use Core\Validator\Entity\CampValidator;
+
 
 class CampServiceValidator
 	extends ServiceBase
@@ -51,17 +53,34 @@ class CampServiceValidator
 	/**
 	 * @return ValidationResponse 
 	 */
-	public function Create(\Zend_Form $form)
+	public function Create(\Core\Entity\User $creator, \Zend_Form $form)
 	{
-		return new ValidationResponse(true);
+		$camp = new CoreCamp();
+		$camp->setCreator($creator);
+		
+		$campValidator = new CampValidator($camp);
+		if( !$campValidator->isValid($form) )
+			return new ValidationResponse(false);
+		
+		return self::CreatePeriod($camp, $form);
 	}
 	
 	
 	/**
 	 * @return ValidationResponse 
 	 */
-	public function CreatePeriod()
+	public function CreatePeriod($camp, \Zend_Form $form)
 	{
+		$from = new \DateTime($form->getValue('from'), new \DateTimeZone("GMT"));
+		$to   = new \DateTime($form->getValue('to'), new \DateTimeZone("GMT"));
+		
+		$duration = ($to->getTimestamp() - $from->getTimestamp())/(24 * 60 * 60) + 1;
+		
+		if( $duration < 1){
+			$form->getElement('to')->addError("Minimum length of camp is 1 day.");
+			return new ValidationResponse(false);
+		}
+		
 		return new ValidationResponse(true);
 	}
 	
@@ -78,7 +97,7 @@ class CampServiceValidator
 		{	return $id;	}
 		
 		if($id instanceof CoreApiCamp)
-		{	return $this->UnwrappEntity($id);	}
+		{	return $this->UnwrapEntity($id);	}
 		
 		return null;
 	}

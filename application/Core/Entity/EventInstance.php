@@ -62,10 +62,10 @@ class EventInstance extends BaseEntity
 	private $duration;
 
 	/**
-	 * @ManyToOne(targetEntity="Subcamp")
+	 * @ManyToOne(targetEntity="Period")
 	 * @JoinColumn(nullable=false)
 	 */
-	private $subcamp;
+	private $period;
 
 	
 	/** @Public:Method() */
@@ -116,18 +116,18 @@ class EventInstance extends BaseEntity
 		return $this->duration;
 	}
 
-	public function setSubcamp(Subcamp $subcamp)
+	public function setPeriod(Period $period)
 	{
-		$this->subcamp = $subcamp;
+		$this->period = $period;
 	}
 	
 	/**
 	 * @Public:MethodEntity()
-	 * @return \Core\Entity\Subcamp 
+	 * @return \Core\Entity\Period 
 	 */
-	public function getSubcamp()
+	public function getPeriod()
 	{
-		return $this->subcamp;
+		return $this->period;
 	}
 
 }

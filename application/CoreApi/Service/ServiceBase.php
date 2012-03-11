@@ -20,12 +20,39 @@ abstract class ServiceBase
 	{	return get_class($this);	}
 	
 	
-	protected function blockIfInvalid(ValidationResponse $validationResp)
+	/**
+	 * @return ServiceResponse
+	 */
+	public function getRespObj($s)
 	{
-		if(!$validationResp->isValid())
+		$sr = new ServiceResponse($this->em, $s);
+	}
+	
+	
+	protected function throwValidationException($message = null, $code = null, $previous = null)
+	{
+		$this->rollbackAll();
+		
+		// empty exception:
+		if(is_null($message))
+		{	throw new ValidationException();	}
+		
+		// exeption:
+		if($message instanceof \Exception)
+		{	throw new $message;	}
+		
+		// string:
+		if(is_string($message))
+		{	throw new ValidationException($message, $code, $previous);	}
+		
+		// array:
+		if(is_array($message))
 		{
 			$e = new ValidationException();
-			$e->validationResp = $validationResp;
+			
+			foreach ($messages as $key => $message)
+			{	$e->addMessage($key, $message);	}
+			
 			throw $e;
 		}
 	}
@@ -36,34 +63,57 @@ abstract class ServiceBase
 		$this->em->getConnection()->beginTransaction();
 	}
 	
-	protected function commitTransaction()
+	protected function flushAndCommit($s)
 	{
-		$this->em->getConnection()->commit();
+		if($s)
+		{
+			$this->em->getConnection()->rollback();
+		}
+		else
+		{
+			try{
+				$this->em->flush();
+				$this->em->getConnection()->commit();
+			}
+			catch (\PDOException $e)
+			{	
+				$this->rollbackAll();
+				$this->close();
+					
+				throw $e;
+			}
+		}
 	}
 	
-	protected function rollbackTransaction()
+	protected function rollback()
 	{
 		$this->em->getConnection()->rollback();
 	}
 	
-	protected function flush()
+	protected function rollbackAll()
 	{
-		$this->em->flush();
+		$i = $this->em->getConnection()->getTransactionNestingLevel();
+		for(; $i>0; $i--)
+			$this->em->getConnection()->rollback();
 	}
 	
-	
-	protected function persistEntity($entity)
+	protected function persist($entity)
 	{
 		$this->em->persist($entity);
 	}
 	
-	protected function removeEntity($entity)
+	protected function remove($entity)
 	{
 		$this->em->remove($entity);
 	}
 	
+	protected function close($entity)
+	{
+		$this->em->close($entity);
+	}
 	
-	protected function UnwrappEntity(\CoreApi\Entity\BaseEntity $entity)
+	
+	protected function UnwrapEntity(\CoreApi\Entity\BaseEntity $entity)
 	{
 		return \Core\Entity\Wrapper\Unwrapper::Unwrapp($entity);
 	}
