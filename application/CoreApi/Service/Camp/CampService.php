@@ -15,6 +15,16 @@ class CampService
 {
 	
 	/**
+	 * Setup ACL
+	 * @return void
+	 */
+	protected function _setupAcl()
+	{
+		$this->_acl->allow('user_me', $this, 'Create');
+		$this->_acl->allow('camp_owner', $this, 'Delete');
+	}
+	
+	/**
 	 * @return CoreApi\Entity\Camp | NULL
 	 */
 	public function Get($id)
@@ -36,12 +46,17 @@ class CampService
 	
 	
 	
-	public function Delete($camp)
+	public function Delete($camp, $s = false)
 	{
-		$this->blockIfInvalid(parent::Delete($camp));
+		$this->assertAccess( $this->userService->getRoles(array('camp' => $camp)), 'Delete' );
+		
+		$respObj = $this->getRespObj($s)->beginTransaction();
 		
 		$camp = $this->GetCoreCamp($camp);
-		$this->removeEntity($camp);
+		$this->remove($camp);
+		
+		$respObj->flushAndCommit();
+		return $respObj(true);
 	}
 	
 	
@@ -66,6 +81,8 @@ class CampService
 	 */
 	public function Create(\Core\Entity\User $creator, \Zend_Form $form, $s=false)
 	{	
+		$this->assertAccess( $this->userService->getRoles(array('user' => $creator)), 'Create' );
+		
 		$respObj = $this->getRespObj($s)->beginTransaction();
 		
 		$camp = new CoreCamp();
@@ -87,7 +104,7 @@ class CampService
 	/**
 	 * @return CoreApi\Entity\Camp
 	 */
-	public function CreatePeriod($camp, \Zend_Form $form, $s=false)
+	protected function CreatePeriod($camp, \Zend_Form $form, $s=false)
 	{
 		$respObj = $this->getRespObj($s)->beginTransaction();
 		

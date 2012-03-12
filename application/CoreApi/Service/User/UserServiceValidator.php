@@ -35,6 +35,12 @@ class UserServiceValidator
 	 */
 	protected $campServiceValidator;
 	
+	/**
+	 * @var CoreApi\Service\Login\LoginService
+	 * @Inject CoreApi\Service\Login\LoginService
+	 */
+	protected $loginService;
+	
 
 	
 	/**
