@@ -7,9 +7,9 @@ class ValidationException extends \Exception
 {
 	private $messages = array();
 	
-	public function addMessage($key, $message)
+	public function addMessage($message)
 	{
-		$this->messages[$key] = $message;
+		$this->messages[] = $message;
 	}
 	
 	public function getMessages()

@@ -16,105 +16,100 @@ abstract class ServiceBase
 	protected $em;
 	
 	
+	/**
+	 * @var ValidationException
+	 */
+	private static $validationException = null;
+	
+	private static $serviceCounter = 0;
+	
+	
 	public function getResourceId()
 	{	return get_class($this);	}
 	
 	
-	/**
-	 * @return ServiceResponse
-	 */
-	public function getRespObj($s)
-	{
-		return new ServiceResponse($this->em, $s);
-	}
 	
 	
-	protected function throwValidationException($message = null, $code = null, $previous = null)
+	protected function validationFailed()
 	{
-		$this->rollbackAll();
-		
-		// empty exception:
-		if(is_null($message))
-		{	throw new ValidationException();	}
-		
-		// exeption:
-		if($message instanceof \Exception)
-		{	throw new $message;	}
-		
-		// string:
-		if(is_string($message))
-		{	throw new ValidationException($message, $code, $previous);	}
-		
-		// array:
-		if(is_array($message))
+		if(self::$validationException == null)
 		{
-			$e = new ValidationException();
-			
-			foreach ($messages as $key => $message)
-			{	$e->addMessage($key, $message);	}
-			
-			throw $e;
+			self::$validationException = new ValidationException();
 		}
 	}
 	
+	protected function addValidationMessage($message)
+	{
+		$this->validationFailed();
+		self::$validationException->addMessage($message);
+	}
 	
+	
+	
+	protected function start()
+	{
+		if(self::$serviceCounter == 0)
+		{	self::$validationException = null;	}
+		
+		self::$serviceCounter++;
+	}
+	
+	public function end()
+	{
+		self::$serviceCounter--;
+		
+		if(self::$serviceCounter == 0 && isset(self::$validationException))
+		{	throw self::$validationException;	}
+		
+		if(self::$serviceCounter < 0)
+		{	throw new \Exception("Not more ServiceCall to be endet!");	}
+	}
+	
+	
+	/**
+	 * @return Transaction
+	 */
 	protected function beginTransaction()
 	{
-		$this->em->getConnection()->beginTransaction();
+		$t = new Transaction($this->em);
+		$t->beginTransaction();
+		
+		return $t;
+		
+		$this->em->getConfiguration()->beginTransaction();
 	}
 	
-	protected function flushAndCommit($s)
-	{
-		if($s)
-		{
-			$this->em->getConnection()->rollback();
-		}
-		else
-		{
-			try{
-				$this->em->flush();
-				$this->em->getConnection()->commit();
-			}
-			catch (\PDOException $e)
-			{	
-				$this->rollbackAll();
-				$this->close();
-					
-				throw $e;
-			}
-		}
-	}
 	
-	protected function rollback()
-	{
-		$this->em->getConnection()->rollback();
-	}
-	
-	protected function rollbackAll()
-	{
-		$i = $this->em->getConnection()->getTransactionNestingLevel();
-		for(; $i>0; $i--)
-			$this->em->getConnection()->rollback();
-	}
 	
 	protected function persist($entity)
 	{
+		$entity = $this->UnwrapEntity($entity);
 		$this->em->persist($entity);
 	}
 	
 	protected function remove($entity)
 	{
+		$entity = $this->UnwrapEntity($entity);
 		$this->em->remove($entity);
 	}
 	
-	protected function close($entity)
+	protected function flush()
 	{
-		$this->em->close($entity);
+		$this->em->flush();
 	}
 	
 	
-	protected function UnwrapEntity(\CoreApi\Entity\BaseEntity $entity)
+	
+	protected function UnwrapEntity($entity)
 	{
-		return \Core\Entity\Wrapper\Unwrapper::Unwrapp($entity);
+		if($entity instanceof \CoreApi\Entity\BaseEntity)
+		{	return \Core\Entity\Wrapper\Unwrapper::Unwrapp($entity);	}
+		
+		if($entity instanceof \Core\Entity\BaseEntity)
+		{	return $entity;	}
+		
+		throw new \Exception("Only Entities can be unwrapped!");
 	}
+	
+	
 }
