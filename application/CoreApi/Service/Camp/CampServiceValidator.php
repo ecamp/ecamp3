@@ -22,6 +22,12 @@ class CampServiceValidator
 	 */
 	protected $campRepo;
 	
+	/**
+	 * @var \CoreApi\Service\User\UserService
+	 * @Inject \CoreApi\Service\User\UserService
+	 */
+	protected $userService;
+	
 	
 	/**
 	 * @return ValidationResponse
@@ -69,7 +75,7 @@ class CampServiceValidator
 	/**
 	 * @return ValidationResponse 
 	 */
-	public function CreatePeriod($camp, \Zend_Form $form)
+	protected function CreatePeriod($camp, \Zend_Form $form)
 	{
 		$from = new \DateTime($form->getValue('from'), new \DateTimeZone("GMT"));
 		$to   = new \DateTime($form->getValue('to'), new \DateTimeZone("GMT"));

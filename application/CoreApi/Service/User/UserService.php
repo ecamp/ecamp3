@@ -10,6 +10,15 @@ class UserService
 {
 	
 	/**
+	* Setup ACL
+	* @return void
+	*/
+	protected function _setupAcl()
+	{
+		$this->_acl->allow('user_me', $this, 'createCamp');
+	}
+	
+	/**
 	 * Returns the User with the given Identifier
 	 * (Identifier can be a MailAddress, a Username or a ID)
 	 * 
@@ -18,9 +27,7 @@ class UserService
 	 * @return \Core\Entity\User
 	 */
 	public function Get($id = null)
-	{
-		$this->blockIfInvalid(parent::Get($id));
-		
+	{	
 		
 		/** @var \Core\Entity\Login $user */
 		$user = null;
@@ -125,8 +132,10 @@ class UserService
 	 * @return Camp object, if creation was successfull
 	 * @throws \Ecamp\ValidationException
 	 */
-	public function CreateCamp(\Core\Entity\User $creator, \Zend_Form $form, $s = false)
+	public function createCamp(\Core\Entity\User $creator, \Zend_Form $form, $s = false)
 	{
+		$this->assertAccess( $this->getRoles(array('user' => $creator)), 'createCamp' );
+		
 		$respObj = $this->getRespObj($s)->beginTransaction();
 		
 		/* check if camp with same name already exists */
@@ -190,5 +199,28 @@ class UserService
 		}
 	
 		return $user;		
+	}
+	
+	
+	public function getRoles($context)
+	{
+		$roles = array();
+		$me = $this->Get();
+		
+		foreach( $context as $key => $value ){
+			switch($key){
+				case 'user':
+					if( $me == $value )
+						$roles[] = 'user_me';
+					break;
+					
+				case 'camp':
+					if( $value->isOwner($me) )
+						$roles[] = 'camp_owner';
+					break;
+			}
+		}
+	
+		return $roles;
 	}
 }

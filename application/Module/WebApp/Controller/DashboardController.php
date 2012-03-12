@@ -28,6 +28,12 @@ class WebApp_DashboardController extends \WebApp\Controller\BaseController
 	 */
 	private $userService;
 	
+	/**
+	 * @var CoreApi\Service\Camp\CampService
+	 * @Inject CoreApi\Service\Camp\CampService
+	 */
+	private $campService;
+	
 	
 	/**
 	 * @var \Repository\UserRepository
@@ -70,8 +76,7 @@ class WebApp_DashboardController extends \WebApp\Controller\BaseController
 		$id = $this->getRequest()->getParam("id");
 	    $camp = $this->em->getRepository("Core\Entity\Camp")->find($id);
 		
-	    $this->em->remove($camp);
-		$this->em->flush();
+		$resp = $this->campService->Delete($camp);
 
 		$this->_helper->getHelper('Redirector')->gotoRoute(array('action'=>'camps'));
 	}

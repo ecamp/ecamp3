@@ -1,6 +1,6 @@
 <?php
 
-namespace Core;
+namespace Core\Acl;
 
 /**
  * ACL model
@@ -21,7 +21,8 @@ class DefaultAcl extends \Zend_Acl
         $this->addRole('camp_guest')
              ->addRole('camp_normal', 'camp_guest')
              ->addRole('camp_manager', 'camp_normal')
-             ->addRole('camp_owner', 'camp_manager');
+             ->addRole('camp_owner', 'camp_manager')
+             ->addRole('camp_creator','camp_manager');
              
         /* roles in context to a group */
         $this->addRole('group_guest')

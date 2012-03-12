@@ -15,9 +15,80 @@ abstract class ServiceBase
 	 */
 	protected $em;
 	
+	/**
+	 * ACL object
+	 *
+	 * @var App_Model_Acl
+	 */
+	protected $_acl;
 	
+	/**
+	 * Resource ID of the service
+	 *
+	 * @var string
+	 */
+	protected $_resource;
+	
+	/**
+	 * Setup ACL
+	 *
+	 * @return void
+	 */
+	protected function _setupAcl()
+	{
+	}
+	
+	/**
+	 * Get ACL
+	 *
+	 * @return Zend_Acl
+	 */
+	public function getAcl()
+	{
+		if (null === $this->_acl) {
+			$this->_acl = new \Core\Acl\DefaultAcl();
+			$this->_acl->add($this);
+	
+			$this->_setupAcl();
+		}
+	
+		return $this->_acl;
+	}
+	
+	/**
+	 * Throws an Exception if $roles has no access to $privilege
+	 *
+	 * @return boolean
+	 */
+	public function assertAccess($roles, $privilege){
+		if( !$this->checkAcl($roles, $privilege) )
+			throw new \Ecamp\PermissionException("");
+	}
+	
+	/**
+	 * Check if a specific set of roles has access to the given resource/privilege
+	 *
+	 * @return boolean
+	 */
+	public function checkAcl($roles, $privilege)
+	{
+		foreach( $roles as $role) {
+			if( $this->getAcl()->isAllowed($role, $this, $privilege) )
+				return true;
+		}
+		 
+		return false;
+	}
+	
+	/**
+	 * @see    Zend_Acl_Resource_Interface::getResourceId()
+	 * @return string
+	 */
 	public function getResourceId()
-	{	return get_class($this);	}
+	{
+		return $this->_resource;
+	}
+
 	
 	
 	/**

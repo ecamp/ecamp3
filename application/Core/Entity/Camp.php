@@ -171,6 +171,14 @@ class Camp extends BaseEntity
 		return $this->owner;
 	}
 	
+	/**
+	 * @Public:Method()
+	 */
+	public function isOwner($user)
+	{
+		return $this->owner == $user;
+	}
+	
 	/** @Public:Method() */
 	public function belongsToUser()
 	{
