@@ -1,6 +1,6 @@
 <?php
 
-namespace CoreApi\Service;
+namespace Core\Service;
 
 
 class ValidationException extends \Exception

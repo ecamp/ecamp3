@@ -3,11 +3,11 @@
 namespace CoreApi\Service\Login;
 
 
+use Core\Service\ServiceBase;
 use Core\Validator\Entity\LoginValidator;
 
 use CoreApi\Entity\User;
 use CoreApi\Entity\Login;
-use CoreApi\Service\ServiceBase;
 
 
 
@@ -48,7 +48,6 @@ class LoginService
 	 */
 	public function Create(User $user, \Zend_Form $form, $s = false)
 	{
-		$this->start();	
 		$t = $this->beginTransaction();
 		
 		$login = new \Core\Entity\Login();
@@ -65,7 +64,6 @@ class LoginService
 		$this->flush();
 		
 		$t->commit($s);
-		$this->end();
 		
 		return $login->asReadonly();
 	}
@@ -73,7 +71,6 @@ class LoginService
 	
 	public function Delete(Login $user, $s = false)
 	{
-		$this->start();
 		$t = $this->beginTransaction();
 
 		$this->remove($login);
@@ -81,8 +78,6 @@ class LoginService
 		
 		$t->commit($s);
 		$this->flush();
-		
-		$this->end();
 	}
 	
 	
@@ -91,8 +86,6 @@ class LoginService
 	 */
 	public function Login($identifier, $password)
 	{
-		$this->start();
-		
 		/** @var \CoreApi\Entity\User */
 		$user = $this->userService->get($identifier);
 		
@@ -103,7 +96,6 @@ class LoginService
 		$authAdapter = new \Core\Auth\Adapter($login, $password);
 		$result = \Zend_Auth::getInstance()->authenticate($authAdapter);
 		
-		$this->end();
 		return $result;
 	}
 	
@@ -116,7 +108,6 @@ class LoginService
 	
 	public function ResetPassword($pwResetKey, \Zend_Form $form, $s = false)
 	{
-		$this->start();
 		$t = $this->beginTransaction();
 		
 		$login = $this->getLoginByResetKey($pwResetKey);
@@ -134,15 +125,11 @@ class LoginService
 		
 		$this->flush();
 		$t->commit($s);
-		
-		$this->end();
 	}
 	
 	
 	public function ForgotPassword($identifier, $s = false)
 	{
-		$this->start();
-		
 		/** @var \CoreApi\Entity\Login $user */
 		$user = $this->userService->get($identifier);
 		
@@ -168,7 +155,6 @@ class LoginService
 		//TODO: Send Mail with Link to Reset Password.
 		
 		
-		$this->end();
 		return $resetKey;
 	}
 	

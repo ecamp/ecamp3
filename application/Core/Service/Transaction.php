@@ -1,6 +1,6 @@
 <?php
 
-namespace CoreApi\Service;
+namespace Api\Service;
 
 class Transaction
 {

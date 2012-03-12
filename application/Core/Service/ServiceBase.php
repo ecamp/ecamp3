@@ -1,8 +1,6 @@
 <?php
 
-namespace CoreApi\Service;
-
-use CoreApi\Service\ValidationResponse;
+namespace Core\Service;
 
 
 abstract class ServiceBase
@@ -16,54 +14,24 @@ abstract class ServiceBase
 	protected $em;
 	
 	
-	/**
-	 * @var ValidationException
-	 */
-	private static $validationException = null;
-	
-	private static $serviceCounter = 0;
-	
 	
 	public function getResourceId()
 	{	return get_class($this);	}
 	
 	
 	
-	
 	protected function validationFailed()
 	{
-		if(self::$validationException == null)
-		{
-			self::$validationException = new ValidationException();
-		}
+		ValidationWrapper::validationFailed();
 	}
 	
 	protected function addValidationMessage($message)
 	{
-		$this->validationFailed();
-		self::$validationException->addMessage($message);
+		ValidationWrapper::addValidationMessage($message);
 	}
 	
 	
 	
-	protected function start()
-	{
-		if(self::$serviceCounter == 0)
-		{	self::$validationException = null;	}
-		
-		self::$serviceCounter++;
-	}
-	
-	public function end()
-	{
-		self::$serviceCounter--;
-		
-		if(self::$serviceCounter == 0 && isset(self::$validationException))
-		{	throw self::$validationException;	}
-		
-		if(self::$serviceCounter < 0)
-		{	throw new \Exception("Not more ServiceCall to be endet!");	}
-	}
 	
 	
 	/**
