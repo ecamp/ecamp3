@@ -21,8 +21,8 @@ class DefaultAcl extends \Zend_Acl
 	
 	
 	/**
-	 * @var CoreApi\Acl\Context
-	 * @Inject CoreApi\Acl\Context
+	 * @var Core\Acl\Context
+	 * @Inject Core\Acl\Context
 	 */
 	protected $context;
 	

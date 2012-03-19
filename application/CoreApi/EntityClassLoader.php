@@ -52,12 +52,12 @@ class EntityClassLoader implements \Zend_Loader_Autoloader_Interface
 	
 	private function loadAnnotations()
 	{
-		\Zend_Loader_Autoloader::autoload("Core\Entity\Annotations\Property");
-		\Zend_Loader_Autoloader::autoload("Core\Entity\Annotations\PropertyEntity");
-		\Zend_Loader_Autoloader::autoload("Core\Entity\Annotations\PropertyEntityList");
-		\Zend_Loader_Autoloader::autoload("Core\Entity\Annotations\Method");
-		\Zend_Loader_Autoloader::autoload("Core\Entity\Annotations\MethodEntity");
-		\Zend_Loader_Autoloader::autoload("Core\Entity\Annotations\MethodEntityList");
+		class_exists("Core\Entity\Annotations\Property");
+		class_exists("Core\Entity\Annotations\PropertyEntity");
+		class_exists("Core\Entity\Annotations\PropertyEntityList");
+		class_exists("Core\Entity\Annotations\Method");
+		class_exists("Core\Entity\Annotations\MethodEntity");
+		class_exists("Core\Entity\Annotations\MethodEntityList");
 	}
 	
 	
