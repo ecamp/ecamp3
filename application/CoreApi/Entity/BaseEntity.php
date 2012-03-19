@@ -10,4 +10,10 @@ abstract class BaseEntity
 	{
 		return $this->wrappedObject;
 	}
+	
+	
+	public function __toString()
+	{
+		return "[" . get_class($this) . " #" . $this->wrappedObject->getId() . "]";
+	}
 }
