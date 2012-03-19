@@ -10,7 +10,7 @@ class ValidationWrapper
 	 */
 	private static $validationException = null;
 	
-	private static $serviceCounter = 0;
+	private static $serviceNestingLevel = 0;
 	
 	
 	public static function validationFailed()
@@ -68,19 +68,19 @@ class ValidationWrapper
 	
 	private function start()
 	{
-		if(self::$serviceCounter == 0)
+		if(self::$serviceNestingLevel == 0)
 		{
 			self::$validationException = null;
 		}
 	
-		self::$serviceCounter++;
+		self::$serviceNestingLevel++;
 	}
 	
 	private function end()
 	{
-		self::$serviceCounter--;
+		self::$serviceNestingLevel--;
 	
-		if(self::$serviceCounter == 0 && isset(self::$validationException))
+		if(self::$serviceNestingLevel == 0 && isset(self::$validationException))
 		{
 			throw self::$validationException;
 		}

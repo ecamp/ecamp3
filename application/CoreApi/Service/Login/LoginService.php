@@ -77,7 +77,6 @@ class LoginService
 		$this->flush();
 		
 		$t->commit($s);
-		$this->flush();
 	}
 	
 	
