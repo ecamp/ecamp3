@@ -20,9 +20,10 @@ abstract class ServiceBase
 	
 	
 	
-	protected function validationFailed()
+	protected function validationFailed($bool = true)
 	{
-		ValidationWrapper::validationFailed();
+		if($bool)
+			ValidationWrapper::validationFailed();
 	}
 	
 	protected function addValidationMessage($message)
@@ -43,8 +44,6 @@ abstract class ServiceBase
 		$t->beginTransaction();
 		
 		return $t;
-		
-		$this->em->getConfiguration()->beginTransaction();
 	}
 	
 	

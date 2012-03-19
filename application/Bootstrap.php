@@ -94,6 +94,14 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 		
 		$kernel->Bind("PhpDI\IKernel")->ToConstant($kernel);
 		
+		$kernel->Bind("Core\Acl\DefaultAcl")->ToSelf()->AsSingleton();
+		$kernel->Bind("Core\Acl\ContextStorage")->ToSelf()->AsSingleton();
+		$kernel->Bind("CoreApi\Acl\ContextManager")->ToSelf()->AsSingleton();
+		
+		
+		$kernel->Bind("Core\Acl\Context")->ToFactory(new Core\Acl\ContextFactory(false));
+		$kernel->Bind("CoreApi\Acl\Context")->ToFactory(new Core\Acl\ContextFactory(true));
+		
 		$kernel
 			->Bind("EntityManager")
 			->ToProvider(new Core\Provider\EntityManager());
@@ -129,6 +137,14 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 		$kernel
 			->Bind("Core\Repository\UserRepository")
 			->ToProvider(new Core\Provider\Repository("Core\Entity\User"));
+		
+		$kernel
+			->Bind("Core\Repository\GroupRepository")
+			->ToProvider(new Core\Provider\Repository("Core\Entity\Group"));
+		
+		$kernel
+			->Bind("Core\Repository\CampRepository")
+			->ToProvider(new Core\Provider\Repository("Core\Entity\Camp"));
 
 		
 		

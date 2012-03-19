@@ -16,8 +16,8 @@ class LoginService
 {
 	
 	/**
-	 * @var \CoreApi\Service\User\UserService
-	 * @Inject \CoreApi\Service\User\UserService
+	 * @var CoreApi\Service\User\UserService
+	 * @Inject CoreApi\Service\User\UserService
 	 */
 	protected $userService;
 	

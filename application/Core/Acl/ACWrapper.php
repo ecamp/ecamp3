@@ -14,8 +14,8 @@ class ACWrapper
 	private $kernel;
 	
 	/**
-	 * @var Core\DefaultAcl
-	 * @Inject Core\DefaultAcl
+	 * @var Core\Acl\DefaultAcl
+	 * @Inject Core\Acl\DefaultAcl
 	 */
 	private $acl;
 	
@@ -67,7 +67,8 @@ class ACWrapper
 	private function isAllowed($privilege = NULL)
 	{
 		// TODO: Load current roles from $acl or form some AUTH mechanism.
-		$roles = array();
+		$roles = $this->acl->getRolesInContext();
+//		var_dump($roles);
 		
 		
 		// TODO: Remove default return value

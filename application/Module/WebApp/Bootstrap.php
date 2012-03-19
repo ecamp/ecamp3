@@ -120,6 +120,17 @@ class WebApp_Bootstrap extends Zend_Application_Module_Bootstrap
 	}
 	
 	
+	public function _routeShutdown_RegisterContextPlugin()
+	{
+		$kernel = Zend_Registry::get("kernel");
+		
+		$contextPlugin = new WebApp\Acl\ContextPlugin();
+		$kernel->Inject($contextPlugin);
+		
+		Zend_Controller_Front::getInstance()->registerPlugin($contextPlugin);
+	}
+	
+	
 	public function _routeShutdown_SetLayoutPath()
 	{
 		$layout = \Zend_Layout::startMvc();
