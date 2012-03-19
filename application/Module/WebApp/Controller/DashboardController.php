@@ -53,9 +53,9 @@ class WebApp_DashboardController extends \WebApp\Controller\BaseController
 
     public function indexAction()
     {
-		$friendshipRequests = $this->userRepository->findFriendshipInvitationsOf($this->me); // $this->userService->getFriendshipInvitationsOf($this->me);
-		$membershipRequests = $this->userRepository->findMembershipRequestsOf($this->me); // $this->userService->getMembershipRequests($this->me);
-		$membershipInvitations = $this->userRepository->findMembershipInvitations($this->me); // $this->userService->getMembershipInvitations($this->me);
+		$friendshipRequests = array(); //$this->userRepository->findFriendshipInvitationsOf($this->me); // $this->userService->getFriendshipInvitationsOf($this->me);
+		$membershipRequests = array(); //$this->userRepository->findMembershipRequestsOf($this->me); // $this->userService->getMembershipRequests($this->me);
+		$membershipInvitations = array(); //$this->userRepository->findMembershipInvitations($this->me); // $this->userService->getMembershipInvitations($this->me);
 		
 				
 		$this->view->friendshipRequests = new Doctrine\Common\Collections\ArrayCollection($friendshipRequests);

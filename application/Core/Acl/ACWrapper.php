@@ -19,7 +19,6 @@ class ACWrapper
 	 */
 	private $acl;
 	
-	
 	/**
 	 * The protected Resource
 	 * @var Zend_Acl_Resource_Interface
@@ -34,8 +33,8 @@ class ACWrapper
 	
 	public function postInject()
 	{
-		$this->kernel->Inject($this->resource);
 		$this->acl->addResource($this->resource);
+		$this->kernel->Inject($this->resource);
 		
 		unset($this->kernel);
 	}
@@ -73,7 +72,7 @@ class ACWrapper
 		
 		// TODO: Remove default return value
 		// FOR DEVELOPING:
-			return true;
+			//return true;
 		
 		foreach ($roles as $role)
 		{

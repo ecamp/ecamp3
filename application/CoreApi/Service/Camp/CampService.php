@@ -2,6 +2,8 @@
 
 namespace CoreApi\Service\Camp;
 
+use Core\Acl\DefaultAcl;
+
 use Core\Entity\Period;
 
 use Core\Entity\Camp as CoreCamp;
@@ -13,6 +15,15 @@ use Core\Validator\Entity\CampValidator;
 class CampService
 	extends CampServiceValidator
 {
+	/**
+	 * Setup ACL
+	 * @return void
+	 */
+	protected function _setupAcl()
+	{
+		$this->acl->allow(DefaultAcl::MEMBER, $this, 'Create');
+		$this->acl->allow(DefaultAcl::MEMBER, $this, 'Delete');
+	}
 	
 	/**
 	 * @return CoreApi\Entity\Camp | NULL

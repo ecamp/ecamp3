@@ -13,7 +13,25 @@ abstract class ServiceBase
 	 */
 	protected $em;
 	
+	/**
+	 * @var Core\Acl\DefaultAcl
+	 * @Inject Core\Acl\DefaultAcl
+	 */
+	private $acl;
 	
+	/**
+	 * Setup ACL
+	 *
+	 * @return void
+	 */
+	abstract public function _setupAcl()
+	{
+	}
+	
+	public function postInject()
+	{
+		$this->_setupACL();
+	}
 	
 	public function getResourceId()
 	{	return get_class($this);	}
