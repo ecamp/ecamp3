@@ -88,7 +88,7 @@ class WebApp_DashboardController extends \WebApp\Controller\BaseController
 	{
 		$form = new \WebApp\Form\CampCreate();
 		$params = $this->getRequest()->getParams();
-	
+		
 		try
 		{
 			/* we are not doing any validations here. the real validation is done in the service. however, this need to be here:
@@ -100,7 +100,7 @@ class WebApp_DashboardController extends \WebApp\Controller\BaseController
 				throw new \Core\Service\ValidationException();
 			}
 		
-			$camp = $this->userService->createCamp($this->me, $form);
+			$camp = $this->userService->createCamp($form);
 			
 			$this->_helper->getHelper('Redirector')->gotoRoute(array('action'=>'camps'));
 		}

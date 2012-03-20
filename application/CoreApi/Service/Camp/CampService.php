@@ -20,7 +20,7 @@ class CampService
 	 * Setup ACL
 	 * @return void
 	 */
-	public function _setupAcl()
+	protected function _setupAcl()
 	{
 		$this->acl->allow(DefaultAcl::MEMBER, $this, 'Create');
 		$this->acl->allow(DefaultAcl::MEMBER, $this, 'Delete');
@@ -76,14 +76,14 @@ class CampService
 	/**
 	 * @return CoreApi\Entity\Camp
 	 */
-	public function Create(\CoreApi\Entity\User $creator, \Zend_Form $form, $s=false)
+	public function Create(\Zend_Form $form, $s=false)
 	{	
 		$t = $this->beginTransaction();
 		
 		$camp = new CoreCamp();
 		$this->persist($camp);
 		
-		$camp->setCreator($this->UnwrapEntity($creator));
+		$camp->setCreator($this->context->getMe());
 		
 		$campValidator = new CampValidator($camp);
 		$this->validationFailed( !$campValidator->applyIfValid($form) );
@@ -91,7 +91,7 @@ class CampService
 		$period = $this->CreatePeriod($camp, $form, $s);
 		$period =  $this->UnwrapEntity( $period ); 
 		
-		$t->flushAndCommit($s | $this->hasFailed() );
+		$t->flushAndCommit($s);
 		
 		return $camp;
 	}
@@ -129,7 +129,7 @@ class CampService
 			$this->validationFailed();
 		}
 		
-		$t->flushAndCommit($s | $this->hasFailed() );
+		$t->flushAndCommit($s);
 		
 		return $period;
 	}

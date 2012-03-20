@@ -30,7 +30,7 @@ class LoginService
 	 * Setup ACL
 	 * @return void
 	 */
-	public function _setupAcl()
+	protected function _setupAcl()
 	{
 		$this->acl->allow(DefaultAcl::MEMBER, $this, 'Logout');
 	}
@@ -69,7 +69,7 @@ class LoginService
 		$this->persist($login);
 		$this->flush();
 		
-		$t->flushAndCommit($s | $this->hasFailed() );
+		$t->flushAndCommit($s);
 		
 		return $login->asReadonly();
 	}
@@ -82,7 +82,7 @@ class LoginService
 		$this->remove($login);
 		$this->flush();
 		
-		$t->flushAndCommit($s | $this->hasFailed() );
+		$t->flushAndCommit($s);
 	}
 	
 	
@@ -129,7 +129,7 @@ class LoginService
 		$login->clearPwResetKey();
 		
 		$this->flush();
-		$t->flushAndCommit($s | $this->hasFailed() );
+		$t->flushAndCommit($s);
 	}
 	
 	
@@ -154,7 +154,7 @@ class LoginService
 		$resetKey = $login->getPwResetKey();
 		
 		$this->flush();
-		$t->flushAndCommit($s | $this->hasFailed() );
+		$t->flushAndCommit($s);
 		
 		
 		//TODO: Send Mail with Link to Reset Password.

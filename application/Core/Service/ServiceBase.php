@@ -21,11 +21,17 @@ abstract class ServiceBase
 	protected $acl;
 	
 	/**
+	 * @var Core\Acl\Context
+	 * @Inject Core\Acl\Context
+	 */
+	protected $context;
+	
+	/**
 	 * Setup ACL
 	 *
 	 * @return void
 	 */
-	abstract public function _setupAcl();
+	abstract protected function _setupAcl();
 	
 	public function postInject()
 	{

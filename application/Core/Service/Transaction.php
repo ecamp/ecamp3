@@ -41,7 +41,7 @@ class Transaction
 		if(! $this->isBaseTransaction)
 		{	return;	}
 		
-		if($s)
+		if($s || \Core\Service\ValidationWrapper::hasFailed() )
 		{
 			$this->rollback();
 			return;
