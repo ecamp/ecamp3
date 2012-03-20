@@ -86,6 +86,15 @@
 					<tal:block condition="php: APPLICATION_ENV == 'development'">
 					  <h3>Request Parameters:</h3>
 					  <pre tal:content="php: var_dump( params, true )" />
+					  
+					  <h3>Context Parameters:</h3>
+					  <pre>
+   Me:     <tal:block content="context/getMe" />
+   User:   <tal:block content="context/getUser" />
+   Group:  <tal:block content="context/getGroup" />
+   Camp:   <tal:block content="context/getCamp" />
+					  </pre> 
+					  
 					</tal:block>
 				</tal:block>	
 			</div>
