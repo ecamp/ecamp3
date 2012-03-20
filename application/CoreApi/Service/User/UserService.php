@@ -3,11 +3,34 @@
 namespace CoreApi\Service\User;
 
 use Core\Entity\User;
+use Core\Service\ServiceBase;
 
+use Core\Acl\DefaultAcl;
 
 class UserService 
-	extends UserServiceValidator
+	extends ServiceBase
 {
+	
+	/**
+	 * @var CoreApi\Service\User\UserService
+	 * @Inject CoreApi\Service\User\UserService
+	 */
+	protected $userService;
+	
+	/**
+	 * @var CoreApi\Service\Camp\CampService
+	 * @Inject CoreApi\Service\Camp\CampService
+	 */
+	protected $campService;
+	
+	/**
+	 * Setup ACL
+	 * @return void
+	 */
+	protected function _setupAcl()
+	{
+		$this->acl->allow(DefaultAcl::MEMBER, $this, 'createCamp');
+	}
 	
 	/**
 	 * Returns the User with the given Identifier
@@ -46,54 +69,49 @@ class UserService
 	 * @return \Core\Entity\User
 	 */
 	public function Create(\Zend_Form $form)
-	{
-		$this->blockIfInvalid(parent::Create($form));
+	{	
+		$t = $this->beginTransaction();
 		
+		$email = $form->getValue('email');
+		$user = $this->userRepo->findOneBy(array('email' => $email));
 		
-		$this->beginTransaction();
-		
-		try
+		if(is_null($user))
 		{
-			$email = $form->getValue('email');
-			$user = $this->userRepo->findOneBy(array('email' => $email));
+			$user = new \Core\Entity\User();
+			$user->setEmail($email);
 			
-			if(is_null($user))
-			{
-				$user = new \Core\Entity\User();
-				$user->setEmail($email);
+			$this->persist($user);
+		}
+			
+		if($user->getState() != \Core\Entity\User::STATE_NONREGISTERED)
+		{		
+			$form->getElement('email')->addError("This eMail-Adress is already registered!");
+			$this->validationFailed();
+		}
 		
-				$this->em->persist($user);
-			}
+		$userValidator = new \Core\Validator\Entity\UserValidator($user);
+		$this->validationFailed( ! $userValidator->applyIfValid($form) );	
+		
+		$user->setState(User::STATE_REGISTERED);
+		
+		$t->flushAndCommit($s);
 			
-			$userValidator = new \Core\Validate\UserValidator($user);
-			$userValidator->apply($form);
-			
-			$user->setState(User::STATE_REGISTERED);
-			
-			$this->flush();
-			$this->commit();
-				
-			return $user;
-		}
-		catch (\Exception $e)
-		{
-			$this->rollback();
-				
-			throw $e;
-		}
+		return $user;
 	}
 	
 	
 	public function Update(\Zend_Form $form)
 	{
-		$this->blockIfInvalid(parent::Update($form));
+		/* probably better goes to ACL later, just copied for now from validator */
+		$this->validationFailed( $this->userService->get()->getId() != $form->getValue('id') );
 		
 		// update user
 	}
 	
 	public function Delete(\Zend_Form $form)
 	{
-		$this->blockIfInvalid(parent::Delete($form));
+		/* probably better goes to ACL later, just copied for now from validator */
+		$this->validationFailed( $this->userService->get()->getId() != $form->getValue('id') );
 		
 		// delete user
 	}
@@ -109,7 +127,19 @@ class UserService
 	 */
 	public function Activate($user, $key)
 	{
-		$this->blockIfInvalid(parent::Activate($user, $key));
+		$user = $this->get($user);
+		
+		if(is_null($user))
+		{
+			$this->validationFailed();
+			$this->addValidationMessage("User not found!");
+		}
+		
+		if($user->getState() != \Core\Entity\User::STATE_REGISTERED)
+		{
+			$this->validationFailed();
+			$this->addValidationMessage("User already activated!");
+		}
 		
 		return $this->get($user)->activateUser($key);
 	}
@@ -125,32 +155,33 @@ class UserService
 	 * @return Camp object, if creation was successfull
 	 * @throws \Ecamp\ValidationException
 	 */
-	public function CreateCamp(\Core\Entity\User $creator, \Zend_Form $form, $s = false)
+	public function CreateCamp(\Zend_Form $form, $s = false)
 	{
-		$respObj = $this->getRespObj($s)->beginTransaction();
+		$t = $this->beginTransaction();
 		
 		/* check if camp with same name already exists */
 		$qb = $this->em->createQueryBuilder();
 		$qb->add('select', 'c')
 		->add('from', '\Core\Entity\Camp c')
 		->add('where', 'c.owner = ?1 AND c.name = ?2')
-		->setParameter(1,$creator->getId())
+		->setParameter(1,$this->context->getMe()->getId())
 		->setParameter(2, $form->getValue('name'));
 		
 		$query = $qb->getQuery();
 		
 		if( count($query->getArrayResult()) > 0 ){
 			$form->getElement('name')->addError("Camp with same name already exists.");
-			$respObj->validationFailed(true);
+			$this->validationFailed();
 		}
-		
+
 		/* create camp */
-		$camp = $respObj( $this->campService->Create($creator, $form, $s) )->getReturn();	
+		$camp = $this->campService->Create($form, $s);
 		$camp = $this->UnwrapEntity($camp);
-		$camp->setOwner($creator);
+		$camp->setOwner($this->context->getMe());
 			
-		$respObj->flushAndCommit();
-		return $respObj($camp);
+		$t->flushAndCommit($s);
+		
+		return $camp;
 	}
 	
 	

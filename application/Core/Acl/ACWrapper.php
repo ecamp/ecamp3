@@ -14,11 +14,10 @@ class ACWrapper
 	private $kernel;
 	
 	/**
-	 * @var Core\DefaultAcl
-	 * @Inject Core\DefaultAcl
+	 * @var Core\Acl\DefaultAcl
+	 * @Inject Core\Acl\DefaultAcl
 	 */
 	private $acl;
-	
 	
 	/**
 	 * The protected Resource
@@ -34,8 +33,8 @@ class ACWrapper
 	
 	public function postInject()
 	{
-		$this->kernel->Inject($this->resource);
 		$this->acl->addResource($this->resource);
+		$this->kernel->Inject($this->resource);
 		
 		unset($this->kernel);
 	}
@@ -67,12 +66,13 @@ class ACWrapper
 	private function isAllowed($privilege = NULL)
 	{
 		// TODO: Load current roles from $acl or form some AUTH mechanism.
-		$roles = array();
+		$roles = $this->acl->getRolesInContext();
+//		var_dump($roles);
 		
 		
 		// TODO: Remove default return value
 		// FOR DEVELOPING:
-			return true;
+			//return true;
 		
 		foreach ($roles as $role)
 		{

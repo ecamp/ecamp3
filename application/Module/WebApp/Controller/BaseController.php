@@ -40,6 +40,12 @@ class BaseController extends \Zend_Controller_Action
 	 */
 	protected $t;
 	
+	/**
+	 * @var CoreApi\Acl\Context
+	 * @Inject CoreApi\Acl\Context
+	 */
+	protected $context;
+	
 	
 	
 	public function init()
@@ -61,20 +67,12 @@ class BaseController extends \Zend_Controller_Action
 
 		/* clone request params for debugging */
 		$this->view->params = $this->getRequest()->getParams();
-
+		
+		$this->me = $this->context->getMe();
+		$this->view->me = $this->me;
+		$this->view->context = $this->context;
         
-        if(\Zend_Auth::getInstance()->hasIdentity())
-        {
-            $userId = \Zend_Auth::getInstance()->getIdentity();
-
-            /** @var $login \Entity\Login */
-            $user = $this->em->getRepository("Core\Entity\User")->find($userId);
-            if( isset($user) )
-            {
-                $this->me = $user;
-                $this->view->me = $this->me;
-            }
-        }
+		
 
 		/* load translator */
 		$this->t = new \Zend_View_Helper_Translate();

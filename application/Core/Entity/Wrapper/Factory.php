@@ -118,11 +118,31 @@ class Factory
 		
 		$p = new \Zend_CodeGenerator_Php_Parameter();
 		$p->setName("entityList");
-		$p->setType("array");
 		
 		$c = new \Zend_CodeGenerator_Php_Method();
 		$c->setName("__construct");
-		$c->setBody('$this->wrappedObject = $entityList;');
+		$c->setBody(
+'
+if(is_array($entityList))
+{
+	$this->wrappedObject = $entityList;
+	return;
+}
+
+if($entityList instanceof \Iterator)
+{
+	$this->wrappedObject = $entityList;
+	return;
+}
+
+if($entityList instanceof \IteratorAggregate)
+{
+	$this->wrappedObject = $entityList->getIterator();
+	return;
+}
+
+throw new \Exception("List is not an Array or any other valid type.");
+');
 		$c->setParameter($p);
 		
 		
