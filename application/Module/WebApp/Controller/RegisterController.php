@@ -32,15 +32,15 @@ class WebApp_RegisterController
 
 
 	/**
-	 * @var CoreApi\Service\Operation\UserServiceOperation
-	 * @Inject CoreApi\Service\Operation\UserServiceOperation
+	 * @var CoreApi\Service\UserService
+	 * @Inject CoreApi\Service\UserService
 	 */
 	private $userService;
 	
 	
 	/**
-	 * @var CoreApi\Service\Operation\LoginServiceOperation
-	 * @Inject CoreApi\Service\Operation\LoginServiceOperation
+	 * @var CoreApi\Service\LoginService
+	 * @Inject CoreApi\Service\LoginService
 	 */
 	private $loginService;
 	
@@ -81,10 +81,10 @@ class WebApp_RegisterController
 		
 		try
 		{
-			$user 	= $this->userService->create($registerForm);
-			$login	= $this->loginService->create($user, $registerForm);
+			$user 	= $this->userService->Create($registerForm);
+			$login	= $this->loginService->Create($user, $registerForm);
 		}
-		catch (Exception $e)
+		catch (\Core\Service\ValidationException $e)
 		{
 			$this->view->registerForm = $registerForm;
 			$this->render("index");
@@ -92,13 +92,13 @@ class WebApp_RegisterController
 		}
 
 		
-		$activationCode = $user->createNewActivationCode();
-		$this->em->flush();
-		
-		
-		$link = "/register/activate/" . $user->getId() . "/key/" . $activationCode;
-		echo "<a href='" . $link . "'>" . $link . "</a>";
-		die();
+		// Todo: Remove DevelopementCode:
+			$activationCode = \Core\Entity\Wrapper\Unwrapper::Unwrapp($user)->createNewActivationCode();
+			$this->em->flush();
+			
+			$link = "/register/activate/" . $user->getId() . "/key/" . $activationCode;
+			echo "<a href='" . $link . "'>" . $link . "</a>";
+			die();
 	}
 
 
@@ -108,10 +108,8 @@ class WebApp_RegisterController
 		$key = $this->getRequest()->getParam('key');
 
 
-		if($this->userService->activate($id, $key))
+		if($this->userService->Activate($id, $key))
 		{
-			$this->em->flush();
-
 			$this->_forward('index', 'login');
 		}
 		else
@@ -119,7 +117,9 @@ class WebApp_RegisterController
 			/** @var $user \Entity\User */
 			$user = $this->userRepo->find($id);
 
-			die($user->createNewActivationCode());
+			$ac = $user->createNewActivationCode();
+			$this->em->flush();
+			die($ac);
 		}
 
 	}

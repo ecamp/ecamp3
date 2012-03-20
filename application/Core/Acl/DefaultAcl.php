@@ -66,9 +66,9 @@ class DefaultAcl extends \Zend_Acl
     public function __construct()
     {
     	/* general roles */
-        $this->addRole('guest')
-             ->addRole('member', 'guest')
-             ->addRole('admin', 'member');
+        $this->addRole(self::GUEST)
+             ->addRole(self::MEMBER, self::GUEST)
+             ->addRole(self::ADMIN,  self::MEMBER);
              
         /* roles in context to a camp */
         $this->addRole('camp_guest')

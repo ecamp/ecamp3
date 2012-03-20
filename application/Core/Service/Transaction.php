@@ -38,27 +38,32 @@ class Transaction
 	
 	public function flushAndCommit($s)
 	{
-		if(! $this->isBaseTransaction)
-		{	return;	}
+		try
+		{	$this->em->flush();	}
+		catch(\PDOException $e)
+		{	\Core\Service\ValidationWrapper::flushFailed($e);	}	
+		
+		
+		if(! $this->isBaseTransaction){	return;	}
 		
 		if($s || \Core\Service\ValidationWrapper::hasFailed() )
-		{
-			$this->rollback();
-			return;
-		}
+		{	$this->rollback();	}
+		else
+		{	$this->commit();	}
 		
-		try
-		{
-			$this->em->flush();
-			$this->conn->commit();
-		}
-		catch (\PDOException $e)
-		{
-			$this->rollback();
-			$this->close();
+		
+// 		try
+// 		{
+// 			$this->em->flush();
+// 			$this->conn->commit();
+// 		}
+// 		catch (\PDOException $e)
+// 		{
+// 			$this->rollback();
+// 			$this->close();
 			
-			throw $e;
-		}
+// 			throw $e;
+// 		}
 	}
 	
 	
@@ -66,6 +71,12 @@ class Transaction
 	{
 		if($this->isBaseTransaction)
 		{	$this->conn->rollback();	}
+	}
+	
+	public function commit()
+	{
+		if($this->isBaseTransaction)
+		{	$this->conn->commit();	}
 	}
 	
 	

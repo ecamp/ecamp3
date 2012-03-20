@@ -1,21 +1,21 @@
 <?php
 
-namespace CoreApi\Service\Login;
+namespace CoreApi\Service;
 
+use Core\Acl\DefaultAcl;
 use Core\Service\ServiceBase;
 
 use CoreApi\Entity\User;
 use CoreApi\Entity\Login;
 
-use Core\Acl\DefaultAcl;
 
 class LoginService 
 	extends ServiceBase
 {
 	
 	/**
-	 * @var CoreApi\Service\User\UserService
-	 * @Inject CoreApi\Service\User\UserService
+	 * @var CoreApi\Service\UserService
+	 * @Inject CoreApi\Service\UserService
 	 */
 	protected $userService;
 	
@@ -26,14 +26,18 @@ class LoginService
 	 */
 	protected $loginRepo;
 	
+	
 	/**
 	 * Setup ACL
 	 * @return void
 	 */
 	protected function _setupAcl()
 	{
+		$this->acl->allow(DefaultAcl::GUEST, $this, 'Create');
 		$this->acl->allow(DefaultAcl::MEMBER, $this, 'Logout');
+		
 	}
+	
 	
 	/**
 	 * @return CoreApi\Entity\Login | NULL
@@ -57,18 +61,15 @@ class LoginService
 		$t = $this->beginTransaction();
 		
 		$login = new \Core\Entity\Login();
-		$loginValdator = new LoginValidator($login);
+		$loginValdator = new \Core\Validator\Entity\LoginValidator($login);
 		
-		if(! $loginValdator->isValid($form))
-		{	$this->validationFailed();	}
-		
+		$this->validationFailed(
+			! $loginValdator->isValid($form));
 		
 		$login->setNewPassword($form->getValue('password'));
 		$login->setUser($this->UnwrapEntity($user));
 		
-		$this->persist($login);
-		$this->flush();
-		
+		$this->persist($login);		
 		$t->flushAndCommit($s);
 		
 		return $login->asReadonly();
@@ -80,7 +81,6 @@ class LoginService
 		$t = $this->beginTransaction();
 
 		$this->remove($login);
-		$this->flush();
 		
 		$t->flushAndCommit($s);
 	}
@@ -121,14 +121,12 @@ class LoginService
 		if(is_null($login))
 		{	$this->addValidationMessage("No Login found for given PasswordResetKey");	}
 		
-		if(! $loginValidator->isValid($form))
-		{	$this->validationFailed();	}
-		
+		$this->validationFailed(
+			! $loginValidator->isValid($form));
 		
 		$login->setNewPassword($form->getValue('password'));
 		$login->clearPwResetKey();
 		
-		$this->flush();
 		$t->flushAndCommit($s);
 	}
 	
@@ -136,13 +134,13 @@ class LoginService
 	public function ForgotPassword($identifier, $s = false)
 	{
 		/** @var \CoreApi\Entity\Login $user */
-		$user = $this->userService->get($identifier);
+		$user = $this->userService->Get($identifier);
 		
 		if(is_null($user))
 		{	return false;	}
 		
+		$user = $this->UnwrapEntity($user);
 		$login = $user->getLogin();
-		$login = $this->UnwrapEntity($login);
 		
 		if(is_null($login))
 		{	return false;	}
@@ -153,7 +151,6 @@ class LoginService
 		$login->createPwResetKey();
 		$resetKey = $login->getPwResetKey();
 		
-		$this->flush();
 		$t->flushAndCommit($s);
 		
 		

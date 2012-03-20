@@ -1,27 +1,28 @@
 <?php
 
-namespace CoreApi\Service\User;
+namespace CoreApi\Service;
 
+use Core\Acl\DefaultAcl;
 use Core\Entity\User;
 use Core\Service\ServiceBase;
 
-use Core\Acl\DefaultAcl;
 
 class UserService 
 	extends ServiceBase
 {
 	
 	/**
-	 * @var CoreApi\Service\User\UserService
-	 * @Inject CoreApi\Service\User\UserService
+	 * @var Core\Repository\UserRepository
+	 * @Inject Core\Repository\UserRepository
 	 */
-	protected $userService;
+	protected $userRepo;
 	
 	/**
-	 * @var CoreApi\Service\Camp\CampService
-	 * @Inject CoreApi\Service\Camp\CampService
+	 * @var CoreApi\Service\CampService
+	 * @Inject CoreApi\Service\CampService
 	 */
 	protected $campService;
+	
 	
 	/**
 	 * Setup ACL
@@ -29,8 +30,12 @@ class UserService
 	 */
 	protected function _setupAcl()
 	{
-		$this->acl->allow(DefaultAcl::MEMBER, $this, 'createCamp');
+		$this->acl->allow(DefaultAcl::MEMBER, $this, 'Get');
+		$this->acl->allow(DefaultAcl::GUEST,  $this, 'Create');
+		$this->acl->allow(DefaultAcl::GUEST,  $this, 'Activate');
+		$this->acl->allow(DefaultAcl::MEMBER, $this, 'CreateCamp');
 	}
+	
 	
 	/**
 	 * Returns the User with the given Identifier
@@ -42,22 +47,12 @@ class UserService
 	 */
 	public function Get($id = null)
 	{
-		$this->blockIfInvalid(parent::Get($id));
-		
-		
-		/** @var \Core\Entity\Login $user */
-		$user = null;
-		
 		if(isset($id))
-		{	return $this->getByIdentifier($id);	}
+		{	$user = $this->getByIdentifier($id);	}
+		else
+		{	$user = $this->context->getMe();	}
 		
-		if(\Zend_Auth::getInstance()->hasIdentity())
-		{
-			$userId = \Zend_Auth::getInstance()->getIdentity();
-			$user = $this->userRepo->find($userId);
-		}
-		
-		return $user;
+		return is_null($user) ? null : $user->asReadonly();
 	}
 	
 	
@@ -68,7 +63,7 @@ class UserService
 	 * 
 	 * @return \Core\Entity\User
 	 */
-	public function Create(\Zend_Form $form)
+	public function Create(\Zend_Form $form, $s = false)
 	{	
 		$t = $this->beginTransaction();
 		
@@ -90,28 +85,34 @@ class UserService
 		}
 		
 		$userValidator = new \Core\Validator\Entity\UserValidator($user);
-		$this->validationFailed( ! $userValidator->applyIfValid($form) );	
+		$this->validationFailed( 
+			! $userValidator->applyIfValid($form) );	
 		
 		$user->setState(User::STATE_REGISTERED);
+		$activationCode = $user->createNewActivationCode();
+		
+		//TODO: Send Mail with Link for activation.
+		// $activationCode;
+		
 		
 		$t->flushAndCommit($s);
 			
-		return $user;
+		return $user->asReadonly();
 	}
 	
 	
-	public function Update(\Zend_Form $form)
+	public function Update(\Zend_Form $form, $s = false)
 	{
 		/* probably better goes to ACL later, just copied for now from validator */
-		$this->validationFailed( $this->userService->get()->getId() != $form->getValue('id') );
+		$this->validationFailed( $this->Get()->getId() != $form->getValue('id') );
 		
 		// update user
 	}
 	
-	public function Delete(\Zend_Form $form)
+	public function Delete(\Zend_Form $form, $s = false)
 	{
 		/* probably better goes to ACL later, just copied for now from validator */
-		$this->validationFailed( $this->userService->get()->getId() != $form->getValue('id') );
+		$this->validationFailed( $this->Get()->getId() != $form->getValue('id') );
 		
 		// delete user
 	}
@@ -125,9 +126,12 @@ class UserService
 	 * 
 	 * @return bool
 	 */
-	public function Activate($user, $key)
+	public function Activate($user, $key, $s = false)
 	{
-		$user = $this->get($user);
+		$t = $this->beginTransaction();
+		
+		$user = $this->Get($user);
+		$user = $this->UnwrapEntity($user);
 		
 		if(is_null($user))
 		{
@@ -141,7 +145,10 @@ class UserService
 			$this->addValidationMessage("User already activated!");
 		}
 		
-		return $this->get($user)->activateUser($key);
+		$success = $user->activateUser($key);
+		$t->flushAndCommit($s);
+		
+		return $success;
 	}
 	
 	
@@ -153,7 +160,6 @@ class UserService
 	 * @param \Entity\User $user Creator of the new Camp
 	 * @param Array $params
 	 * @return Camp object, if creation was successfull
-	 * @throws \Ecamp\ValidationException
 	 */
 	public function CreateCamp(\Zend_Form $form, $s = false)
 	{
@@ -186,12 +192,12 @@ class UserService
 	
 	
 	/**
-	* Returns the User for a MailAddress or a Username
-	*
-	* @param string $identifier
-	*
-	* @return \Core\Entity\User
-	*/
+	 * Returns the User for a MailAddress or a Username
+	 *
+	 * @param string $identifier
+	 *
+	 * @return \Core\Entity\User
+	 */
 	private function getByIdentifier($identifier)
 	{
 		$user = null;

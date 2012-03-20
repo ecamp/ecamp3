@@ -48,7 +48,7 @@ class ACWrapper
 			return call_user_func_array(array($this->resource, $method), $args);
 		}
 		
-		throw new \Exception("No Access!");
+		throw new \Exception("No Access on " . $this->resource->getResourceId() . "::" . $method);
 	}
 	
 	
@@ -59,7 +59,7 @@ class ACWrapper
 			return $this->resource->{$property};
 		}
 		
-		throw new \Exception("No Access!");
+		throw new \Exception("No Access on " . $this->resource->getResourceId() . "::" . $method);
 	}
 	
 	
@@ -67,7 +67,6 @@ class ACWrapper
 	{
 		// TODO: Load current roles from $acl or form some AUTH mechanism.
 		$roles = $this->acl->getRolesInContext();
-//		var_dump($roles);
 		
 		
 		// TODO: Remove default return value
