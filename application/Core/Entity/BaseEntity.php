@@ -17,6 +17,8 @@ abstract class BaseEntity
 	
 	public abstract function asReadonly();
 	
+	public abstract function getId();
+	
 	/**
 	 * @PrePersist
 	 */
@@ -51,5 +53,11 @@ abstract class BaseEntity
 	{
 		foreach( $data as $key=>$value )
 			$this->{"set".ucfirst($key)}($value);
+	}
+	
+	
+	public function __toString()
+	{
+		return "[" . get_class($this) . " #" . $this->getId() . "]";
 	}
 }

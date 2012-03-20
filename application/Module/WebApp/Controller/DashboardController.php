@@ -53,9 +53,9 @@ class WebApp_DashboardController extends \WebApp\Controller\BaseController
 
     public function indexAction()
     {
-		$friendshipRequests = $this->userRepository->findFriendshipInvitationsOf($this->me); // $this->userService->getFriendshipInvitationsOf($this->me);
-		$membershipRequests = $this->userRepository->findMembershipRequestsOf($this->me); // $this->userService->getMembershipRequests($this->me);
-		$membershipInvitations = $this->userRepository->findMembershipInvitations($this->me); // $this->userService->getMembershipInvitations($this->me);
+		$friendshipRequests = array(); //$this->userRepository->findFriendshipInvitationsOf($this->me); // $this->userService->getFriendshipInvitationsOf($this->me);
+		$membershipRequests = array(); //$this->userRepository->findMembershipRequestsOf($this->me); // $this->userService->getMembershipRequests($this->me);
+		$membershipInvitations = array(); //$this->userRepository->findMembershipInvitations($this->me); // $this->userService->getMembershipInvitations($this->me);
 		
 				
 		$this->view->friendshipRequests = new Doctrine\Common\Collections\ArrayCollection($friendshipRequests);
@@ -88,7 +88,7 @@ class WebApp_DashboardController extends \WebApp\Controller\BaseController
 	{
 		$form = new \WebApp\Form\CampCreate();
 		$params = $this->getRequest()->getParams();
-	
+		
 		try
 		{
 			/* we are not doing any validations here. the real validation is done in the service. however, this need to be here:
@@ -97,23 +97,18 @@ class WebApp_DashboardController extends \WebApp\Controller\BaseController
 			*/
 			if( !$form->isValid($params))
 			{
-				$this->view->form = $form;
-				$this->render("newcamp");
-				return;
+				throw new \Core\Service\ValidationException();
 			}
 		
-			$resp = $this->userService->createCamp($this->me, $form);
+			$camp = $this->userService->createCamp($form);
 			
-			if( $resp->isError())
-			{
-				$this->view->form = $form;
-				$this->render("newcamp");
-				return;
-			}
-			else
-				$this->_helper->getHelper('Redirector')->gotoRoute(array('action'=>'camps'));
+			$this->_helper->getHelper('Redirector')->gotoRoute(array('action'=>'camps'));
 		}
-	
+		catch(\Core\Service\ValidationException $e){
+			$this->view->form = $form;
+			$this->render("newcamp");
+			return;
+		}
 		/* catching permission exceptions might be outsourced to an upper level */
 		catch(\Ecamp\PermissionException $e){
 			die("You should not click on buttons you are not allowed to.");
