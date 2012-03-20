@@ -3,11 +3,9 @@
 namespace CoreApi\Service\Camp;
 
 use Core\Entity\BaseEntity;
-use CoreApi\Service\ServiceBase;
-use CoreApi\Service\ValidationResponse;
+use Core\Service\ServiceBase;
 
-use Core\Entity\Camp as CoreCamp;
-use CoreApi\Entity\Camp as CoreApiCamp;
+
 
 use Core\Validator\Entity\CampValidator;
 
@@ -85,21 +83,6 @@ class CampServiceValidator
 	}
 	
 	
-	/**
-	 * @return Core\Entity\Camp 
-	 */
-	protected function GetCoreCamp($id)
-	{
-		if(is_numeric($id))
-		{	return $this->campRepo->find($id);	}
-			
-		if($id instanceof CoreCamp)
-		{	return $id;	}
-		
-		if($id instanceof CoreApiCamp)
-		{	return $this->UnwrapEntity($id);	}
-		
-		return null;
-	}
+
 	
 }

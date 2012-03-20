@@ -3,8 +3,7 @@
 namespace CoreApi\Service\User;
 
 use Core\Entity\User;
-use CoreApi\Service\ServiceBase;
-use CoreApi\Service\ValidationResponse;
+use Core\Service\ServiceBase;
 
 
 class UserServiceValidator

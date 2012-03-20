@@ -36,7 +36,7 @@ class Transaction
 	}
 	
 	
-	public function commit($s)
+	public function flushAndCommit($s)
 	{
 		if(! $this->isBaseTransaction)
 		{	return;	}
@@ -49,6 +49,7 @@ class Transaction
 		
 		try
 		{
+			$this->em->flush();
 			$this->conn->commit();
 		}
 		catch (\PDOException $e)

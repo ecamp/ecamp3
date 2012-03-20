@@ -97,23 +97,18 @@ class WebApp_DashboardController extends \WebApp\Controller\BaseController
 			*/
 			if( !$form->isValid($params))
 			{
-				$this->view->form = $form;
-				$this->render("newcamp");
-				return;
+				throw new \Core\Service\ValidationException();
 			}
 		
-			$resp = $this->userService->createCamp($this->me, $form);
+			$camp = $this->userService->createCamp($this->me, $form);
 			
-			if( $resp->isError())
-			{
-				$this->view->form = $form;
-				$this->render("newcamp");
-				return;
-			}
-			else
-				$this->_helper->getHelper('Redirector')->gotoRoute(array('action'=>'camps'));
+			$this->_helper->getHelper('Redirector')->gotoRoute(array('action'=>'camps'));
 		}
-	
+		catch(\Core\Service\ValidationException $e){
+			$this->view->form = $form;
+			$this->render("newcamp");
+			return;
+		}
 		/* catching permission exceptions might be outsourced to an upper level */
 		catch(\Ecamp\PermissionException $e){
 			die("You should not click on buttons you are not allowed to.");

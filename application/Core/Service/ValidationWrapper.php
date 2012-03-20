@@ -27,7 +27,10 @@ class ValidationWrapper
 		self::$validationException->addMessage($message);
 	}
 	
-	
+	public static function hasFailed()
+	{
+		return self::$validationException != null;
+	}
 	
 	/**
 	 * @var PhpDI\IKernel

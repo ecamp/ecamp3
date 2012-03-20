@@ -2,6 +2,8 @@
 
 namespace CoreApi\Service\Camp;
 
+use Core\Validator\Entity\CampValidator;
+
 use Core\Acl\DefaultAcl;
 
 use Core\Entity\Period;
@@ -9,17 +11,16 @@ use Core\Entity\Period;
 use Core\Entity\Camp as CoreCamp;
 use CoreApi\Entity\Camp as CoreApiCamp;
 
-use Core\Validator\Entity\CampValidator;
-
+use Core\Service\ServiceBase;
 
 class CampService
-	extends CampServiceValidator
+	extends ServiceBase
 {
 	/**
 	 * Setup ACL
 	 * @return void
 	 */
-	protected function _setupAcl()
+	public function _setupAcl()
 	{
 		$this->acl->allow(DefaultAcl::MEMBER, $this, 'Create');
 		$this->acl->allow(DefaultAcl::MEMBER, $this, 'Delete');
@@ -75,23 +76,24 @@ class CampService
 	/**
 	 * @return CoreApi\Entity\Camp
 	 */
-	public function Create(\Core\Entity\User $creator, \Zend_Form $form, $s=false)
+	public function Create(\CoreApi\Entity\User $creator, \Zend_Form $form, $s=false)
 	{	
-		$respObj = $this->getRespObj($s)->beginTransaction();
+		$t = $this->beginTransaction();
 		
 		$camp = new CoreCamp();
 		$this->persist($camp);
 		
-		$camp->setCreator($creator);
+		$camp->setCreator($this->UnwrapEntity($creator));
 		
 		$campValidator = new CampValidator($camp);
-		$respObj->validationFailed( !$campValidator->applyIfValid($form) );
+		$this->validationFailed( !$campValidator->applyIfValid($form) );
 		
-		$period = $respObj( $this->CreatePeriod($camp, $form, $s) )->getReturn();
+		$period = $this->CreatePeriod($camp, $form, $s);
 		$period =  $this->UnwrapEntity( $period ); 
 		
-		$respObj->flushAndCommit();
-		return $respObj($camp);
+		$t->flushAndCommit($s | $this->hasFailed() );
+		
+		return $camp;
 	}
 	
 	
@@ -100,7 +102,7 @@ class CampService
 	 */
 	public function CreatePeriod($camp, \Zend_Form $form, $s=false)
 	{
-		$respObj = $this->getRespObj($s)->beginTransaction();
+		$t = $this->beginTransaction();
 		
 		$camp = $this->GetCoreCamp($camp);
 		$period = new \Core\Entity\Period($camp);
@@ -108,12 +110,12 @@ class CampService
 		
 		if( $form->getValue('from') == "" ){
 			$form->getElement('from')->addError("Date cannot be empty.");
-			$respObj->validationFailed();
+			$this->validationFailed();
 		} 
 		
 		if( $form->getValue('to') == "" ){
 			$form->getElement('to')->addError("Date cannot be empty.");
-			$respObj->validationFailed();
+			$this->validationFailed();
 		}
 		
 		$from = new \DateTime($form->getValue('from'), new \DateTimeZone("GMT"));
@@ -124,11 +126,34 @@ class CampService
 		
 		if( $period->getDuration() < 1){
 			$form->getElement('to')->addError("Minimum length of camp is 1 day.");
-			$respObj->validationFailed();
+			$this->validationFailed();
 		}
 		
-		$respObj->flushAndCommit();
-		return $respObj($period);
+		$t->flushAndCommit($s | $this->hasFailed() );
+		
+		return $period;
 	}
 	
+	/**
+	 * @return Core\Entity\Camp
+	 */
+	protected function GetCoreCamp($id)
+	{
+		if(is_numeric($id))
+		{
+			return $this->campRepo->find($id);
+		}
+			
+		if($id instanceof CoreCamp)
+		{
+			return $id;
+		}
+	
+		if($id instanceof CoreApiCamp)
+		{
+			return $this->UnwrapEntity($id);
+		}
+	
+		return null;
+	}
 }

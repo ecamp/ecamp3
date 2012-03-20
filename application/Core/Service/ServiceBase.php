@@ -2,6 +2,7 @@
 
 namespace Core\Service;
 
+use Core\Acl\DefaultAcl;
 
 abstract class ServiceBase
 	implements \Zend_Acl_Resource_Interface
@@ -17,16 +18,14 @@ abstract class ServiceBase
 	 * @var Core\Acl\DefaultAcl
 	 * @Inject Core\Acl\DefaultAcl
 	 */
-	private $acl;
+	protected $acl;
 	
 	/**
 	 * Setup ACL
 	 *
 	 * @return void
 	 */
-	abstract public function _setupAcl()
-	{
-	}
+	abstract public function _setupAcl();
 	
 	public function postInject()
 	{
@@ -49,7 +48,10 @@ abstract class ServiceBase
 		ValidationWrapper::addValidationMessage($message);
 	}
 	
-	
+	protected function hasFailed()
+	{
+		return ValidationWrapper::hasFailed();
+	}
 	
 	
 	

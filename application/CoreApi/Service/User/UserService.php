@@ -3,11 +3,34 @@
 namespace CoreApi\Service\User;
 
 use Core\Entity\User;
+use Core\Service\ServiceBase;
 
+use Core\Acl\DefaultAcl;
 
 class UserService 
-	extends UserServiceValidator
+	extends ServiceBase
 {
+	
+	/**
+	 * @var CoreApi\Service\User\UserService
+	 * @Inject CoreApi\Service\User\UserService
+	 */
+	protected $userService;
+	
+	/**
+	 * @var CoreApi\Service\Camp\CampService
+	 * @Inject CoreApi\Service\Camp\CampService
+	 */
+	protected $campService;
+	
+	/**
+	 * Setup ACL
+	 * @return void
+	 */
+	public function _setupAcl()
+	{
+		$this->acl->allow(DefaultAcl::MEMBER, $this, 'createCamp');
+	}
 	
 	/**
 	 * Returns the User with the given Identifier
@@ -125,9 +148,9 @@ class UserService
 	 * @return Camp object, if creation was successfull
 	 * @throws \Ecamp\ValidationException
 	 */
-	public function CreateCamp(\Core\Entity\User $creator, \Zend_Form $form, $s = false)
+	public function CreateCamp(\CoreApi\Entity\User $creator, \Zend_Form $form, $s = false)
 	{
-		$respObj = $this->getRespObj($s)->beginTransaction();
+		$t = $this->beginTransaction();
 		
 		/* check if camp with same name already exists */
 		$qb = $this->em->createQueryBuilder();
@@ -141,16 +164,17 @@ class UserService
 		
 		if( count($query->getArrayResult()) > 0 ){
 			$form->getElement('name')->addError("Camp with same name already exists.");
-			$respObj->validationFailed(true);
+			$this->validationFailed();
 		}
 		
 		/* create camp */
-		$camp = $respObj( $this->campService->Create($creator, $form, $s) )->getReturn();	
+		$camp = $this->campService->Create($creator, $form, $s);
 		$camp = $this->UnwrapEntity($camp);
-		$camp->setOwner($creator);
+		$camp->setOwner($this->UnwrapEntity($creator));
 			
-		$respObj->flushAndCommit();
-		return $respObj($camp);
+		$t->flushAndCommit($s | $this->hasFailed() );
+		
+		return $camp;
 	}
 	
 	

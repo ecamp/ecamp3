@@ -2,14 +2,12 @@
 
 namespace CoreApi\Service\Login;
 
-
 use Core\Service\ServiceBase;
-use Core\Validator\Entity\LoginValidator;
 
 use CoreApi\Entity\User;
 use CoreApi\Entity\Login;
 
-
+use Core\Acl\DefaultAcl;
 
 class LoginService 
 	extends ServiceBase
@@ -28,6 +26,14 @@ class LoginService
 	 */
 	protected $loginRepo;
 	
+	/**
+	 * Setup ACL
+	 * @return void
+	 */
+	public function _setupAcl()
+	{
+		$this->acl->allow(DefaultAcl::MEMBER, $this, 'Logout');
+	}
 	
 	/**
 	 * @return CoreApi\Entity\Login | NULL
@@ -63,7 +69,7 @@ class LoginService
 		$this->persist($login);
 		$this->flush();
 		
-		$t->commit($s);
+		$t->flushAndCommit($s | $this->hasFailed() );
 		
 		return $login->asReadonly();
 	}
@@ -76,7 +82,7 @@ class LoginService
 		$this->remove($login);
 		$this->flush();
 		
-		$t->commit($s);
+		$t->flushAndCommit($s | $this->hasFailed() );
 	}
 	
 	
@@ -123,7 +129,7 @@ class LoginService
 		$login->clearPwResetKey();
 		
 		$this->flush();
-		$t->commit($s);
+		$t->flushAndCommit($s | $this->hasFailed() );
 	}
 	
 	
@@ -148,7 +154,7 @@ class LoginService
 		$resetKey = $login->getPwResetKey();
 		
 		$this->flush();
-		$t->commit($s);
+		$t->flushAndCommit($s | $this->hasFailed() );
 		
 		
 		//TODO: Send Mail with Link to Reset Password.
