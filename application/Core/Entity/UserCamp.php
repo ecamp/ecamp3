@@ -31,7 +31,7 @@ class UserCamp extends BaseEntity
 {
 	const ROLE_NONE    = 0;
 	const ROLE_GUEST   = 10;
-	const ROLE_NORMAL  = 50;
+	const ROLE_MEMBER  = 50;
 	const ROLE_MANAGER = 90;
 	const ROLE_OWNER   = 100;
 

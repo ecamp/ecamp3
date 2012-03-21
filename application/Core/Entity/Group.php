@@ -254,6 +254,19 @@ class Group extends BaseEntity
 
 		return $this->getUserGroups()->exists( $closure );
 	}
+	
+	/**
+	 * @Public:Method()
+	 */
+	public function isMember(User $user)
+	{
+		$closure = function($key, $element) use ($user)
+		{
+			return  $element->getRole() == UserGroup::ROLE_MEMBEr && $element->getUser() == $user;
+		};
+	
+		return $this->getUserGroups()->exists( $closure );
+	}
 
 	public function acceptRequest($request, $manager) 
 	{

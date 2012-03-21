@@ -73,8 +73,8 @@ CREATE TABLE `event_instances` (
   PRIMARY KEY (`id`),
   KEY `event_instances_event_id_idx` (`event_id`),
   KEY `event_instances_period_id_idx` (`period_id`),
-  CONSTRAINT `event_instances_ibfk_2` FOREIGN KEY (`period_id`) REFERENCES `periods` (`id`),
-  CONSTRAINT `event_instances_ibfk_1` FOREIGN KEY (`event_id`) REFERENCES `events` (`id`)
+  CONSTRAINT `event_instances_ibfk_1` FOREIGN KEY (`event_id`) REFERENCES `events` (`id`),
+  CONSTRAINT `event_instances_ibfk_2` FOREIGN KEY (`period_id`) REFERENCES `periods` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
