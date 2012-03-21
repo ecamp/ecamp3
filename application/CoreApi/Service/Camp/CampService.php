@@ -16,6 +16,12 @@ class CampService
 	extends ServiceBase
 {
 	/**
+	 * @var \Repository\CampRepository
+	 * @Inject CampRepository
+	 */
+	private $campRepo;
+	
+	/**
 	 * Setup ACL
 	 * @return void
 	 */
@@ -23,16 +29,14 @@ class CampService
 	{
 		$this->acl->allow(DefaultAcl::MEMBER, $this, 'Create');
 		$this->acl->allow(DefaultAcl::MEMBER, $this, 'Delete');
+		$this->acl->allow(DefaultAcl::MEMBER, $this, 'Get');
 	}
 	
 	/**
 	 * @return Core\Entity\Camp | NULL
 	 */
 	public function Get($id)
-	{
-		$this->blockIfInvalid(parent::Get($id));
-		
-		
+	{		
 		if(is_numeric($id))
 		{	return $this->Get($this->campRepo->find($id));	}
 			

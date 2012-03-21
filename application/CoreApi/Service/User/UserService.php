@@ -10,6 +10,11 @@ use Core\Acl\DefaultAcl;
 class UserService 
 	extends ServiceBase
 {
+	/**
+	 * @var \Repository\UserRepository
+	 * @Inject UserRepository
+	 */
+	private $userRepo;
 	
 	/**
 	 * @var CoreApi\Service\User\UserService
@@ -30,6 +35,7 @@ class UserService
 	protected function _setupAcl()
 	{
 		$this->acl->allow(DefaultAcl::MEMBER, $this, 'createCamp');
+		$this->acl->allow(DefaultAcl::MEMBER, $this, 'Get');
 	}
 	
 	/**
@@ -41,10 +47,7 @@ class UserService
 	 * @return \Core\Entity\User
 	 */
 	public function Get($id = null)
-	{
-		$this->blockIfInvalid(parent::Get($id));
-		
-		
+	{		
 		/** @var \Core\Entity\Login $user */
 		$user = null;
 		

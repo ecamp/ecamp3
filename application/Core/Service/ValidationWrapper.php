@@ -6,11 +6,19 @@ class ValidationWrapper
 	implements \Zend_Acl_Resource_Interface
 {
 	/**
+	 * @var Doctrine\ORM\EntityManager
+	 * @Inject Doctrine\ORM\EntityManager
+	 */
+	private $em;
+	
+	/**
 	 * @var ValidationException
 	 */
 	private static $validationException = null;
 	
 	private static $serviceNestingLevel = 0;
+	
+	private static $transaction = null;
 	
 	
 	public static function validationFailed()
@@ -74,6 +82,9 @@ class ValidationWrapper
 		if(self::$serviceNestingLevel == 0)
 		{
 			self::$validationException = null;
+			
+			$this->transaction = $this->em->getConnection()->beginTransaction();
+			$this->em->clear();
 		}
 	
 		self::$serviceNestingLevel++;
@@ -83,9 +94,37 @@ class ValidationWrapper
 	{
 		self::$serviceNestingLevel--;
 	
-		if(self::$serviceNestingLevel == 0 && isset(self::$validationException))
+		if( self::$serviceNestingLevel == 0 )
 		{
-			throw self::$validationException;
+			if(isset(self::$validationException))
+			{
+				throw self::$validationException;
+			}
+			
+			$this->flushAndCommit();
+		}
+	}
+	
+	private function flushAndCommit()
+	{
+		if(self::hasFailed() )
+		{
+			$this->rollback();
+			return;
+		}
+	
+		try
+		{
+			$this->em->flush();
+			$this->em->getConnection()->commit();
+			$this->em->clear();
+		}
+		catch (Exception $e)
+		{
+			$this->em->getConnection()->rollback();
+			$this->em->close();
+				
+			throw $e;
 		}
 	}
 	

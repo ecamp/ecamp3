@@ -254,7 +254,7 @@ class Camp extends BaseEntity
 	{
 		$closure = function($key, $element) use ($user)
 		{
-			return  $element->getRole() == UserCamp::ROLE_MEMBER && $element->getUser() == $user;
+			return  $element->getRole() == UserCamp::ROLE_MEMBER && $element->getUser()->getId() == $user->getId();
 		};
 	
 		return $this->getUserCamps()->exists( $closure );

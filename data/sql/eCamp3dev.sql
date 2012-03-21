@@ -35,7 +35,7 @@ CREATE TABLE `camps` (
 
 LOCK TABLES `camps` WRITE;
 /*!40000 ALTER TABLE `camps` DISABLE KEYS */;
-INSERT INTO `camps` VALUES (3,7,7,NULL,'2011-11-23 10:29:06','2011-11-23 10:29:06','asdfasdf','asdf'),(4,7,7,NULL,'2011-11-25 12:53:57','2011-11-25 12:53:57','asdfqwer','asdf'),(6,7,NULL,249,'2011-11-26 20:18:59','2011-11-26 22:01:04','sola12','SoLa 2012'),(7,7,7,NULL,'2011-11-26 21:14:26','2011-11-26 21:14:26','mycamp','My Camp'),(8,20,20,NULL,'2012-03-10 16:52:13','2012-03-10 16:52:13','mycamp','mycamp'),(9,20,20,NULL,'2012-03-10 17:08:11','2012-03-10 17:08:11','mycamp2','mycamp'),(13,7,7,NULL,'2012-03-20 07:52:08','2012-03-20 07:52:08','mycamp2','asdfads'),(22,7,7,NULL,'2012-03-20 15:27:13','2012-03-20 15:27:13','sahfdncvkn','ajlksdf');
+INSERT INTO `camps` VALUES (3,7,7,NULL,'2011-11-23 10:29:06','2012-03-21 23:04:54','test+','asdf'),(4,7,7,NULL,'2011-11-25 12:53:57','2011-11-25 12:53:57','asdfqwer','asdf'),(6,7,NULL,249,'2011-11-26 20:18:59','2011-11-26 22:01:04','sola12','SoLa 2012'),(7,7,7,NULL,'2011-11-26 21:14:26','2011-11-26 21:14:26','mycamp','My Camp'),(8,20,20,NULL,'2012-03-10 16:52:13','2012-03-10 16:52:13','mycamp','mycamp'),(9,20,20,NULL,'2012-03-10 17:08:11','2012-03-10 17:08:11','mycamp2','mycamp'),(13,7,7,NULL,'2012-03-20 07:52:08','2012-03-20 07:52:08','mycamp2','asdfads'),(22,7,7,NULL,'2012-03-20 15:27:13','2012-03-20 15:27:13','sahfdncvkn','ajlksdf');
 /*!40000 ALTER TABLE `camps` ENABLE KEYS */;
 UNLOCK TABLES;
 DROP TABLE IF EXISTS `days`;
@@ -270,11 +270,12 @@ CREATE TABLE `user_camps` (
   CONSTRAINT `user_camps_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
   CONSTRAINT `user_camps_ibfk_2` FOREIGN KEY (`camp_id`) REFERENCES `camps` (`id`),
   CONSTRAINT `user_camps_ibfk_3` FOREIGN KEY (`requestAcceptedBy_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 LOCK TABLES `user_camps` WRITE;
 /*!40000 ALTER TABLE `user_camps` DISABLE KEYS */;
+INSERT INTO `user_camps` VALUES (1,7,3,'0000-00-00 00:00:00','0000-00-00 00:00:00',50,NULL,1,7);
 /*!40000 ALTER TABLE `user_camps` ENABLE KEYS */;
 UNLOCK TABLES;
 DROP TABLE IF EXISTS `user_groups`;
@@ -366,7 +367,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (7,'2011-11-20 17:25:15','2011-11-20 17:25:18','qwerasdf','qwer@asdf.ch',NULL,'qwerasdf','qwer','asdf',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'N;','Activated','User'),(8,'2011-11-20 17:46:38','2011-11-20 17:46:40','wertsdfg','wert@sdfg.ch',NULL,'wertsdfg','wert','sdfg',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'N;','Activated','User'),(20,'2011-11-30 18:30:02','2011-11-30 18:30:25','asdflkjh','asdf@lkjh.ch',NULL,'asdfasdf','asdfasdf','asdfasdf',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'N;','Activated','User'),(21,'2012-01-16 18:44:23','2012-01-16 18:44:23','asdf234','asdf@lkj.com','9eac0eda49711d67efdc2edf85a4ac3d','asdf','asdfqwer','qwerasdf',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'N;','NonRegistered','User'),(22,'2012-01-17 16:29:54','2012-01-17 16:35:28','sdfgdfgh','zxcv@asdf.at',NULL,'asdf','asdfzxcv','zxcvasdf',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'N;','NonRegistered','User'),(23,'2012-01-17 16:44:09','2012-01-17 16:44:09','dfghdfgh','dfgh@fghj.at',NULL,'asdf','asdf','asdf',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'N;','NonRegistered','User'),(24,'2012-01-17 16:51:42','2012-01-17 16:51:42','poiuqwerpoiu','poiu@poiuqwer.ch','f8ff09d5ca11b00d3369c224e2ffb814','asdf','asfd','asdf',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'N;','NonRegistered','User'),(25,'2012-01-17 16:56:13','2012-01-17 16:56:15','asdfasdfasdf','asdf@asdfasdf.ch',NULL,'asdf','asdf','asdf',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'N;','Activated','User');
+INSERT INTO `users` VALUES (7,'2011-11-20 17:25:15','2012-03-21 23:15:49','qwerasdf','qwer@asdf.ch',NULL,'qwerasdf','asdfads','asdf',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'N;','Activated','User'),(8,'2011-11-20 17:46:38','2011-11-20 17:46:40','wertsdfg','wert@sdfg.ch',NULL,'wertsdfg','wert','sdfg',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'N;','Activated','User'),(20,'2011-11-30 18:30:02','2011-11-30 18:30:25','asdflkjh','asdf@lkjh.ch',NULL,'asdfasdf','asdfasdf','asdfasdf',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'N;','Activated','User'),(21,'2012-01-16 18:44:23','2012-01-16 18:44:23','asdf234','asdf@lkj.com','9eac0eda49711d67efdc2edf85a4ac3d','asdf','asdfqwer','qwerasdf',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'N;','NonRegistered','User'),(22,'2012-01-17 16:29:54','2012-01-17 16:35:28','sdfgdfgh','zxcv@asdf.at',NULL,'asdf','asdfzxcv','zxcvasdf',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'N;','NonRegistered','User'),(23,'2012-01-17 16:44:09','2012-01-17 16:44:09','dfghdfgh','dfgh@fghj.at',NULL,'asdf','asdf','asdf',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'N;','NonRegistered','User'),(24,'2012-01-17 16:51:42','2012-01-17 16:51:42','poiuqwerpoiu','poiu@poiuqwer.ch','f8ff09d5ca11b00d3369c224e2ffb814','asdf','asfd','asdf',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'N;','NonRegistered','User'),(25,'2012-01-17 16:56:13','2012-01-17 16:56:15','asdfasdfasdf','asdf@asdfasdf.ch',NULL,'asdf','asdf','asdf',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'N;','Activated','User');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
