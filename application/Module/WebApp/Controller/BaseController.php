@@ -46,7 +46,11 @@ class BaseController extends \Zend_Controller_Action
 	 */
 	protected $context;
 	
-	
+	/**
+	 * @var Core\Acl\DefaultAcl
+	 * @Inject Core\Acl\DefaultAcl
+	 */
+	protected $acl;
 	
 	public function init()
 	{
@@ -71,8 +75,8 @@ class BaseController extends \Zend_Controller_Action
 		$this->me = $this->context->getMe();
 		$this->view->me = $this->me;
 		$this->view->context = $this->context;
+		$this->view->roles   = $this->acl->getRolesInContext();
         
-		
 
 		/* load translator */
 		$this->t = new \Zend_View_Helper_Translate();
