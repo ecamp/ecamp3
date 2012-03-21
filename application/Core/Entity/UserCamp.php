@@ -104,7 +104,7 @@ class UserCamp extends BaseEntity
 	private $invitationAccepted;
 
 	/**
-	 * @Public:Method()
+	 * @Method()
 	 * @return int
 	 */
 	public function getId()
@@ -118,7 +118,7 @@ class UserCamp extends BaseEntity
 	}
 	
 	/**
-	 * @Public:MethodEntity()
+	 * @MethodEntity()
 	 * @return Camp
 	 */
 	public function getCamp()          
@@ -132,7 +132,7 @@ class UserCamp extends BaseEntity
 	}
 	
 	/**
-	 * @Public:MethodEntity()
+	 * @MethodEntity()
 	 * @return User
 	 */
 	public function getUser()          
@@ -141,7 +141,7 @@ class UserCamp extends BaseEntity
 	}
 
 	/**
-	 * @Public:Method()
+	 * @Method()
 	 * @return int
 	 */
 	public function getRole()          
@@ -150,7 +150,7 @@ class UserCamp extends BaseEntity
 	}
 
 	/**
-	 * @Public:Method()
+	 * @Method()
 	 * @return int
 	 */
 	public function getRequestedRole() 
@@ -164,7 +164,7 @@ class UserCamp extends BaseEntity
 
 	/**
 	 * True if the role is member or manager
-	 * @Public:Method()
+	 * @Method()
 	 * @return boolean 
 	 */
 	public function isMember()
@@ -174,7 +174,7 @@ class UserCamp extends BaseEntity
 
 	/** 
 	 * True if the request/invitation is still open
-	 * @Public:Method()
+	 * @Method()
 	 * @return boolean 
 	 */
 	public function isOpen()
@@ -184,7 +184,7 @@ class UserCamp extends BaseEntity
 
 	/**
 	 * True if the user sent this request to a manager and the request is still open
-	 * @Public:Method()
+	 * @Method()
 	 * @return boolean 
 	 */
 	public function isOpenRequest()
@@ -194,7 +194,7 @@ class UserCamp extends BaseEntity
 
 	/**
 	 * True if a manager has sent this invitation to a user and the invitation is still open
-	 * @Public:Method()
+	 * @Method()
 	 * @return boolean 
 	  */
 	public function isOpenInvitation()

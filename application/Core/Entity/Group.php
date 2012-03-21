@@ -92,7 +92,7 @@ class Group extends BaseEntity
 
 
 	/**
-	 * @Public:Method()
+	 * @Method()
 	 * @return int
 	 */
 	public function getId()
@@ -102,7 +102,7 @@ class Group extends BaseEntity
 	
 	
 	/**
-	* @Public:Method()
+	* @Method()
 	* @return string
 	*/
 	public function getName()
@@ -115,7 +115,7 @@ class Group extends BaseEntity
 	}
 
 	/**
-	 * @Public:Method()
+	 * @Method()
 	 * @return string
 	 */
 	public function getDescription()
@@ -128,7 +128,7 @@ class Group extends BaseEntity
 	}
 
 	/**
-	 * @Public:MethodEntity()
+	 * @MethodEntity()
 	 * @return \Core\Entity\Group
 	 */
 	public function getParent()
@@ -141,7 +141,7 @@ class Group extends BaseEntity
 	}
 
 	/**
-	 * @Public:MethodEntityList(type = "\CoreApi\Entity\Group")
+	 * @MethodEntityList(type = "\CoreApi\Entity\Group")
 	 * @return array
 	 */
 	public function getChildren()
@@ -154,7 +154,7 @@ class Group extends BaseEntity
 	}
 
 	/**
-	 * @Public:MethodEntityList(type = "\CoreApi\Entity\UserGroup")
+	 * @MethodEntityList(type = "\CoreApi\Entity\UserGroup")
 	 * @return array
 	 */
 	public function getUserGroups()
@@ -163,7 +163,7 @@ class Group extends BaseEntity
 	}
 
 	/**
-	 * @Public:MethodEntity()
+	 * @MethodEntity()
 	 * @return \Core\Entity\Camp
 	 */
 	public function getCamps()
@@ -172,7 +172,7 @@ class Group extends BaseEntity
 	}
 
 	/**
-	 * @Public:MethodEntityList(type = "\CoreApi\Entity\User")
+	 * @MethodEntityList(type = "\CoreApi\Entity\User")
 	 * @return array
 	 */
 	public function getMembers()
@@ -191,7 +191,7 @@ class Group extends BaseEntity
 	}
 
 	/**
-	 * @Public:Method()
+	 * @Method()
 	 * @return array
 	 */
 	public function getPathAsArray()
@@ -209,7 +209,7 @@ class Group extends BaseEntity
 	}
 
 	/**
-	 * @Public:Method()
+	 * @Method()
 	 * @return string
 	 */
 	public function getImageData()
@@ -222,7 +222,7 @@ class Group extends BaseEntity
 	}
 
 	/**
-	 * @Public:Method()
+	 * @Method()
 	 * @return string
 	 */
 	public function getImageMime()
@@ -243,7 +243,7 @@ class Group extends BaseEntity
 
 	
 	/**
-	 * @Public:Method()
+	 * @Method()
 	 */
 	public function isManager(User $user)
 	{
@@ -256,7 +256,7 @@ class Group extends BaseEntity
 	}
 	
 	/**
-	 * @Public:Method()
+	 * @Method()
 	 */
 	public function isMember(User $user)
 	{

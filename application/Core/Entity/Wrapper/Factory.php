@@ -52,8 +52,8 @@ class Factory
 		$class->setDocblock($classD);
 		
 		
-		$ar = new \Doctrine\Common\Annotations\AnnotationReader();
-		$ar->setAnnotationNamespaceAlias("Core\Entity\Annotations\\", "Public");
+		$ar = new \Doctrine\Common\Annotations\SimpleAnnotationReader();
+		$ar->addNamespace("Core\Entity\Annotations");
 		
 		$methods = array();
 		
@@ -89,7 +89,7 @@ class Factory
 		foreach($refClass->getMethods() as $method)
 		{
 			$mas = $ar->getMethodAnnotations($method);
-						
+			
 			foreach($mas as $ma)
 			{	$methods[] = $ma->createAccessor($method);	}
 		}

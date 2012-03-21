@@ -73,7 +73,7 @@ class Event extends BaseEntity
 
 	
 	
-	/** @Public:Method() */
+	/** @Method() */
 	public function getId()
 	{
 		return $this->id;
@@ -84,7 +84,7 @@ class Event extends BaseEntity
 		$this->title = $title;
 	}
 	
-	/** @Public:Method() */
+	/** @Method() */
 	public function getTitle()
 	{
 		return $this->title;
@@ -96,7 +96,7 @@ class Event extends BaseEntity
 	}
 	
 	/**
-	 * @Public:MethodEntity()
+	 * @MethodEntity()
 	 * @return \Core\Entity\Camp
 	 */
 	public function getCamp()
@@ -110,7 +110,7 @@ class Event extends BaseEntity
 	}
 	
 	/**
-	 * @Public:MethodEntity()
+	 * @MethodEntity()
 	 * @return \Core\Entity\User
 	 */
 	public function getUser()
@@ -119,7 +119,7 @@ class Event extends BaseEntity
 	}
 	
 	/**
-	 * @Public:MethodEntityList(type = "\CoreApi\Entity\EventInstance")
+	 * @MethodEntityList(type = "\CoreApi\Entity\EventInstance")
 	 * @return array
 	 */
 	public function getEventInstances()
@@ -128,7 +128,7 @@ class Event extends BaseEntity
 	}
 
 	/**
-	 * @Public:MethodEntityList(type = "\CoreApi\Entity\Plugin")
+	 * @MethodEntityList(type = "\CoreApi\Entity\Plugin")
 	 * @return array
 	 */
 	public function getPlugins()

@@ -103,7 +103,7 @@ class Camp extends BaseEntity
 	private $events;
 
 	
-	/** @Public:Method() */
+	/** @Method() */
 	public function getId()
 	{
 		return $this->id;
@@ -113,7 +113,7 @@ class Camp extends BaseEntity
 	{
 		$this->name = $name;
 	}
-	/** @Public:Method() */
+	/** @Method() */
 	public function getName()
 	{
 		return $this->name;
@@ -123,7 +123,7 @@ class Camp extends BaseEntity
 	{
 		$this->title = $title;
 	}
-	/** @Public:Method() */
+	/** @Method() */
 	public function getTitle()
 	{
 		return $this->title;
@@ -135,7 +135,7 @@ class Camp extends BaseEntity
 	}
 	
 	/**
-	 * @Public:MethodEntity()
+	 * @MethodEntity()
 	 * @return \Core\Entity\User  
 	 */
 	public function getCreator()
@@ -149,7 +149,7 @@ class Camp extends BaseEntity
 	}
 	
 	/**
-	 * @Public:MethodEntity()
+	 * @MethodEntity()
 	 * @return \Core\Entity\Group
 	 */
 	public function getGroup()
@@ -163,7 +163,7 @@ class Camp extends BaseEntity
 	}
 
 	/**
-	 * @Public:MethodEntity()
+	 * @MethodEntity()
 	 * @return \Core\Entity\User  
 	 */
 	public function getOwner()
@@ -171,14 +171,14 @@ class Camp extends BaseEntity
 		return $this->owner;
 	}
 		
-	/** @Public:Method() */
+	/** @Method() */
 	public function belongsToUser()
 	{
 		return isset($this->owner);
 	}
 	
 	/** 
-	 * @Public:MethodEntityList(type = "\CoreApi\Entity\Period")
+	 * @MethodEntityList(type = "\CoreApi\Entity\Period")
 	 * @return array
 	 */
 	public function getPeriods()
@@ -187,7 +187,7 @@ class Camp extends BaseEntity
 	}
 	
 	/**
-	 * @Public:MethodEntityList(type = "\CoreApi\Entity\Event")
+	 * @MethodEntityList(type = "\CoreApi\Entity\Event")
 	 * @return array
 	 */
 	public function getEvents()
@@ -196,7 +196,7 @@ class Camp extends BaseEntity
 	}
 
 	/**
-	 * @Public:MethodEntityList(type = "\CoreApi\Entity\UserCamp")
+	 * @MethodEntityList(type = "\CoreApi\Entity\UserCamp")
 	 * @return \Doctrine\Common\Collections\ArrayCollection 
 	 */
 	public function getUserCamps()
@@ -205,7 +205,7 @@ class Camp extends BaseEntity
 	}
 
 
-	/** @Public:Method() */
+	/** @Method() */
 	public function getRange()
 	{
 		if($this->getPeriods()->count() == 0)
@@ -218,7 +218,7 @@ class Camp extends BaseEntity
 
 	
 	/**
-	 * @Public:MethodEntityList(type = "\CoreApi\Entity\User")
+	 * @MethodEntityList(type = "\CoreApi\Entity\User")
 	 * @return \Doctrine\Common\Collections\ArrayCollection
 	 */
 	public function getMembers()
@@ -235,7 +235,7 @@ class Camp extends BaseEntity
 	}
 	
 	/**
-	 * @Public:Method()
+	 * @Method()
 	 */
 	public function isManager(User $user)
 	{
@@ -248,7 +248,7 @@ class Camp extends BaseEntity
 	}
 	
 	/**
-	 * @Public:Method()
+	 * @Method()
 	 */
 	public function isMember(User $user)
 	{
