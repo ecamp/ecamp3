@@ -68,11 +68,11 @@ class Login extends BaseEntity
 
 
 	/**
-	 * @return \CoreApi\Entity\Login
+	 * @return \Core\Entity\Login
 	 */
 	public function asReadonly()
 	{
-		return new \CoreApi\Entity\Login($this);
+		return new \Core\Entity\Login($this);
 	}
 	
 

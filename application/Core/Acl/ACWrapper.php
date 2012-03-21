@@ -2,7 +2,6 @@
 
 namespace Core\Acl;
 
-use Core\Entity\Annotations\Property;
 
 class ACWrapper
 {

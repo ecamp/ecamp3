@@ -33,11 +33,11 @@ class Plugin extends BaseEntity
 {
 
 	/**
-	 * @return \CoreApi\Entity\Plugin
+	 * @return \Core\Entity\Plugin
 	 */
 	public function asReadonly()
 	{
-		return new \CoreApi\Entity\Plugin($this);
+		return new \Core\Entity\Plugin($this);
 	}
 
 

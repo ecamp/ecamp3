@@ -176,7 +176,6 @@ class UserService
 
 		/* create camp */
 		$camp = $this->campService->Create($form, $s);
-		$camp = $this->UnwrapEntity($camp);
 		$camp->setOwner($this->context->getMe());
 			
 		$t->flushAndCommit($s);

@@ -37,11 +37,11 @@ class Camp extends BaseEntity
 
 
 	/**
-	 * @return \CoreApi\Entity\Camp
+	 * @return \Core\Entity\Camp
 	 */
 	public function asReadonly()
 	{
-		return new \CoreApi\Entity\Camp($this);
+		return new \Core\Entity\Camp($this);
 	}
 
 	/**
@@ -178,7 +178,7 @@ class Camp extends BaseEntity
 	}
 	
 	/** 
-	 * @MethodEntityList(type = "\CoreApi\Entity\Period")
+	 * @MethodEntityList(type = "\Core\Entity\Period")
 	 * @return array
 	 */
 	public function getPeriods()
@@ -187,7 +187,7 @@ class Camp extends BaseEntity
 	}
 	
 	/**
-	 * @MethodEntityList(type = "\CoreApi\Entity\Event")
+	 * @MethodEntityList(type = "\Core\Entity\Event")
 	 * @return array
 	 */
 	public function getEvents()
@@ -196,7 +196,7 @@ class Camp extends BaseEntity
 	}
 
 	/**
-	 * @MethodEntityList(type = "\CoreApi\Entity\UserCamp")
+	 * @MethodEntityList(type = "\Core\Entity\UserCamp")
 	 * @return \Doctrine\Common\Collections\ArrayCollection 
 	 */
 	public function getUserCamps()
@@ -218,7 +218,7 @@ class Camp extends BaseEntity
 
 	
 	/**
-	 * @MethodEntityList(type = "\CoreApi\Entity\User")
+	 * @MethodEntityList(type = "\Core\Entity\User")
 	 * @return \Doctrine\Common\Collections\ArrayCollection
 	 */
 	public function getMembers()

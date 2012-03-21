@@ -31,11 +31,11 @@ class Event extends BaseEntity
 {
 
 	/**
-	 * @return \CoreApi\Entity\Event
+	 * @return \Core\Entity\Event
 	 */
 	public function asReadonly()
 	{
-		return new \CoreApi\Entity\Event($this);
+		return new \Core\Entity\Event($this);
 	}
 
 
@@ -119,7 +119,7 @@ class Event extends BaseEntity
 	}
 	
 	/**
-	 * @MethodEntityList(type = "\CoreApi\Entity\EventInstance")
+	 * @MethodEntityList(type = "\Core\Entity\EventInstance")
 	 * @return array
 	 */
 	public function getEventInstances()
@@ -128,7 +128,7 @@ class Event extends BaseEntity
 	}
 
 	/**
-	 * @MethodEntityList(type = "\CoreApi\Entity\Plugin")
+	 * @MethodEntityList(type = "\Core\Entity\Plugin")
 	 * @return array
 	 */
 	public function getPlugins()

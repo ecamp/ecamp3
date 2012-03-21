@@ -35,11 +35,11 @@ class Group extends BaseEntity
 
 
 	/**
-	 * @return \CoreApi\Entity\Group
+	 * @return \Core\Entity\Group
 	 */
 	public function asReadonly()
 	{
-		return new \CoreApi\Entity\Group($this);
+		return new \Core\Entity\Group($this);
 	}
 
 
@@ -141,7 +141,7 @@ class Group extends BaseEntity
 	}
 
 	/**
-	 * @MethodEntityList(type = "\CoreApi\Entity\Group")
+	 * @MethodEntityList(type = "\Core\Entity\Group")
 	 * @return array
 	 */
 	public function getChildren()
@@ -154,7 +154,7 @@ class Group extends BaseEntity
 	}
 
 	/**
-	 * @MethodEntityList(type = "\CoreApi\Entity\UserGroup")
+	 * @MethodEntityList(type = "\Core\Entity\UserGroup")
 	 * @return array
 	 */
 	public function getUserGroups()
@@ -172,7 +172,7 @@ class Group extends BaseEntity
 	}
 
 	/**
-	 * @MethodEntityList(type = "\CoreApi\Entity\User")
+	 * @MethodEntityList(type = "\Core\Entity\User")
 	 * @return array
 	 */
 	public function getMembers()

@@ -29,11 +29,11 @@ class EventInstance extends BaseEntity
 {
 
 	/**
-	 * @return \CoreApi\Entity\EventInstance
+	 * @return \Core\Entity\EventInstance
 	 */
 	public function asReadonly()
 	{
-		return new \CoreApi\Entity\EventInstance($this);
+		return new \Core\Entity\EventInstance($this);
 	}
 
 	/**

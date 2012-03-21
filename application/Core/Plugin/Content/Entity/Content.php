@@ -30,7 +30,7 @@ class Content extends \Core\Entity\BaseEntity
 {
 
 	/**
-	 * @return \CoreApi\Entity\Day
+	 * @return \Core\Entity\Day
 	 */
 	public function asReadonly()
 	{

@@ -46,11 +46,11 @@ class UserGroup extends BaseEntity
 
 
 	/**
-	 * @return \CoreApi\Entity\UserGroup
+	 * @return \Core\Entity\UserGroup
 	 */
 	public function asReadonly()
 	{
-		return new \CoreApi\Entity\UserGroup($this);
+		return new \Core\Entity\UserGroup($this);
 	}
 
 

@@ -31,11 +31,11 @@ class Day extends BaseEntity
 {
 
 	/**
-	 * @return \CoreApi\Entity\Day
+	 * @return \Core\Entity\Day
 	 */
 	public function asReadonly()
 	{
-		return new \CoreApi\Entity\Day($this);
+		return new \Core\Entity\Day($this);
 	}
 
 

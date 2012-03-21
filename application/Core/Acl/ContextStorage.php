@@ -71,7 +71,7 @@ class ContextStorage
 	public function getReadonlyContext()
 	{
 		$meId = \Zend_Auth::getInstance()->getIdentity();
-	
+		
 		$userId =  $this->userId;
 		$groupId = $this->groupId;
 		$campId =  $this->campId;
@@ -81,10 +81,12 @@ class ContextStorage
 		$group = isset($groupId) ? $this->groupRepo->find($groupId) : null;
 		$camp =  isset($campId)  ? $this->campRepo->find( $campId ) : null;
 		
+		/*
 		$me = 	 isset($me) 	? $me->asReadonly() 	: null;
 		$user =  isset($user) 	? $user->asReadonly() 	: null;
 		$group = isset($group) 	? $group->asReadonly() 	: null;
 		$camp =  isset($camp) 	? $camp->asReadonly() 	: null; 
+		*/
 		
 		return new \CoreApi\Acl\Context($me, $user, $group, $camp);
 	}
