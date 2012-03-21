@@ -25,6 +25,7 @@ class BaseController extends \Zend_Controller_Action
 	/**
 	 * @var \Doctrine\ORM\EntityManager
 	 * @Inject EntityManager
+	 * @deprecated
 	 */
 	protected $em;
 
@@ -86,4 +87,37 @@ class BaseController extends \Zend_Controller_Action
 	{
 		$this->view->getHelper('navigation')->setContainer($navigation);
 	}
+	
+	
+	protected function forward($route, $action, $controller = null, $module = null, array $params = null)
+    {
+        $request = $this->getRequest();
+		$request->clearParams();
+        
+        if (null !== $params) {
+            $request->setParams($params);
+        }
+
+        if (null !== $controller) {
+            $request->setControllerName($controller);
+            $request->setParam($request->getControllerKey(), $controller);
+
+            // Module should only be reset if controller has been specified
+            if (null !== $module) {
+                $request->setModuleName($module);
+            	$request->setParam($request->getModuleKey(), $module);
+            }
+        }
+
+        $request->setActionName($action);
+        $request->setParam($request->getActionKey(), $action);
+		$request->setDispatched(false);
+
+		
+		$router = \Zend_Controller_Front::getInstance()->getRouter();
+		$url = $router->assemble($request->getParams(), $route, true);
+		
+		$this->view->BrowserUrlScript =
+			"<script type='text/javascript'> window.history.replaceState({}, '', '$url'); </script>";
+    }
 }
