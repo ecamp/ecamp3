@@ -170,7 +170,7 @@ class Camp extends BaseEntity
 	{
 		return $this->owner;
 	}
-	
+		
 	/** @Public:Method() */
 	public function belongsToUser()
 	{
@@ -199,7 +199,7 @@ class Camp extends BaseEntity
 	 * @Public:MethodEntityList(type = "\CoreApi\Entity\UserCamp")
 	 * @return \Doctrine\Common\Collections\ArrayCollection 
 	 */
-	public function getUsercamps()
+	public function getUserCamps()
 	{
 		return $this->usercamps;
 	}
@@ -232,6 +232,32 @@ class Camp extends BaseEntity
 		}
 
 		return $members;
+	}
+	
+	/**
+	 * @Public:Method()
+	 */
+	public function isManager(User $user)
+	{
+		$closure = function($key, $element) use ($user)
+		{
+			return  $element->getRole() == UserCamp::ROLE_MANAGER && $element->getUser() == $user;
+		};
+	
+		return $this->getUserCamps()->exists( $closure );
+	}
+	
+	/**
+	 * @Public:Method()
+	 */
+	public function isMember(User $user)
+	{
+		$closure = function($key, $element) use ($user)
+		{
+			return  $element->getRole() == UserCamp::ROLE_MEMBER && $element->getUser() == $user;
+		};
+	
+		return $this->getUserCamps()->exists( $closure );
 	}
 
 
