@@ -23,8 +23,8 @@ class WebApp_DashboardController extends \WebApp\Controller\BaseController
 {
 	
 	/**
-	 * @var CoreApi\Service\User\UserService
-	 * @Inject CoreApi\Service\User\UserService
+	 * @var CoreApi\Service\UserService
+	 * @Inject CoreApi\Service\UserService
 	 */
 	private $userService;
 	

@@ -101,6 +101,9 @@ abstract class ServiceBase
 		if($entity instanceof \Core\Entity\BaseEntity)
 		{	return $entity;	}
 		
+		if(is_null($entity))
+		{	return null;	}
+		
 		throw new \Exception("Only Entities can be unwrapped!");
 	}
 	

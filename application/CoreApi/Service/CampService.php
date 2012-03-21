@@ -1,17 +1,15 @@
 <?php
 
-namespace CoreApi\Service\Camp;
-
-use Core\Validator\Entity\CampValidator;
+namespace CoreApi\Service;
 
 use Core\Acl\DefaultAcl;
-
 use Core\Entity\Period;
+use Core\Service\ServiceBase;
+use Core\Validator\Entity\CampValidator;
 
 use Core\Entity\Camp as CoreCamp;
 use CoreApi\Entity\Camp as CoreApiCamp;
 
-use Core\Service\ServiceBase;
 
 class CampService
 	extends ServiceBase
@@ -31,9 +29,6 @@ class CampService
 	 */
 	public function Get($id)
 	{
-		$this->blockIfInvalid(parent::Get($id));
-		
-		
 		if(is_numeric($id))
 		{	return $this->Get($this->campRepo->find($id));	}
 			
@@ -48,26 +43,31 @@ class CampService
 	
 	
 	
-	public function Delete($camp)
+	public function Delete($camp, $s = false)
 	{
-		$this->blockIfInvalid(parent::Delete($camp));
+		$t = $this->beginTransaction();
 		
 		$camp = $this->GetCoreCamp($camp);
 		$this->removeEntity($camp);
+		
+		$t->flushAndCommit($s);
 	}
 	
 	
 	/**
 	 * @return CoreApi\Entity\Camp
 	 */
-	public function Update($camp, \Zend_Form $form)
+	public function Update($camp, \Zend_Form $form, $s = false)
 	{
-		$this->blockIfInvalid(parent::Update($camp, $form));
+		$t = $this->beginTransaction();
 		
 		$camp = $this->GetCoreCamp($camp);
-		
 		$campValidator = new CampValidator($camp);
-		$campValidator->applyIfValid($form);
+		
+		$this->validationFailed(
+			$campValidator->applyIfValid($form));
+		
+		$t->flushAndCommit($s);
 		
 		return $camp->asReadonly();
 	}
@@ -76,7 +76,7 @@ class CampService
 	/**
 	 * @return CoreApi\Entity\Camp
 	 */
-	public function Create(\Zend_Form $form, $s=false)
+	public function Create(\Zend_Form $form, $s = false)
 	{	
 		$t = $this->beginTransaction();
 		
@@ -93,20 +93,16 @@ class CampService
 		
 		$t->flushAndCommit($s);
 		
-		return $camp;
+		return $camp->asReadonly();
 	}
 	
 	
 	/**
 	 * @return CoreApi\Entity\Camp
 	 */
-	public function CreatePeriod($camp, \Zend_Form $form, $s=false)
+	public function CreatePeriod($camp, \Zend_Form $form, $s = false)
 	{
 		$t = $this->beginTransaction();
-		
-		$camp = $this->GetCoreCamp($camp);
-		$period = new \Core\Entity\Period($camp);
-		$this->persist($period);
 		
 		if( $form->getValue('from') == "" ){
 			$form->getElement('from')->addError("Date cannot be empty.");
@@ -117,6 +113,11 @@ class CampService
 			$form->getElement('to')->addError("Date cannot be empty.");
 			$this->validationFailed();
 		}
+		
+		
+		$camp = $this->GetCoreCamp($camp);
+		$period = new \Core\Entity\Period($camp);
+		$this->persist($period);
 		
 		$from = new \DateTime($form->getValue('from'), new \DateTimeZone("GMT"));
 		$to   = new \DateTime($form->getValue('to'), new \DateTimeZone("GMT"));
@@ -137,7 +138,7 @@ class CampService
 	/**
 	 * @return Core\Entity\Camp
 	 */
-	protected function GetCoreCamp($id)
+	private function GetCoreCamp($id)
 	{
 		if(is_numeric($id))
 		{

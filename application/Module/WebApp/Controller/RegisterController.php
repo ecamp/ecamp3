@@ -32,17 +32,17 @@ class WebApp_RegisterController
 
 
 	/**
-	 * @var CoreApi\Service\Operation\UserServiceOperation
-	 * @Inject CoreApi\Service\Operation\UserServiceOperation
+	 * @var CoreApi\Service\UserService
+	 * @Inject CoreApi\Service\UserService
 	 */
 	private $userService;
 	
 	
 	/**
-	 * @var CoreApi\Service\Operation\LoginServiceOperation
-	 * @Inject CoreApi\Service\Operation\LoginServiceOperation
+	 * @var CoreApi\Service\RegisterService
+	 * @Inject CoreApi\Service\RegisterService
 	 */
-	private $loginService;
+	private $registerService;
 	
 	
 	
@@ -81,24 +81,14 @@ class WebApp_RegisterController
 		
 		try
 		{
-			$user 	= $this->userService->create($registerForm);
-			$login	= $this->loginService->create($user, $registerForm);
+			$user = $this->registerService->Register($registerForm);
 		}
-		catch (Exception $e)
+		catch (\Core\Service\ValidationException $e)
 		{
 			$this->view->registerForm = $registerForm;
 			$this->render("index");
 			return;
 		}
-
-		
-		$activationCode = $user->createNewActivationCode();
-		$this->em->flush();
-		
-		
-		$link = "/register/activate/" . $user->getId() . "/key/" . $activationCode;
-		echo "<a href='" . $link . "'>" . $link . "</a>";
-		die();
 	}
 
 
@@ -108,18 +98,18 @@ class WebApp_RegisterController
 		$key = $this->getRequest()->getParam('key');
 
 
-		if($this->userService->activate($id, $key))
+		if($this->userService->Activate($id, $key))
 		{
-			$this->em->flush();
-
-			$this->_forward('index', 'login');
+			$this->forward('web+general', 'index', 'login');
 		}
 		else
 		{
 			/** @var $user \Entity\User */
 			$user = $this->userRepo->find($id);
 
-			die($user->createNewActivationCode());
+			$ac = $user->createNewActivationCode();
+			$this->em->flush();
+			die($ac);
 		}
 
 	}
