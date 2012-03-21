@@ -2,6 +2,7 @@
 
 namespace Core\Acl;
 
+use Core\Service\ValidationWrapper;
 use Core\Entity\Annotations\Property;
 
 class ACWrapper
@@ -43,7 +44,7 @@ class ACWrapper
 	
 	public function __call($method, $args)
 	{
-		if($this->isAllowed($method))
+		if(ValidationWrapper::getServiceNestingLevel() > 0 || $this->isAllowed($method))
 		{
 			return call_user_func_array(array($this->resource, $method), $args);
 		}
@@ -54,7 +55,7 @@ class ACWrapper
 	
 	public function __get($property)
 	{
-		if($this->isAllowed($property))
+		if(ValidationWrapper::getServiceNestingLevel() > 0 || $this->isAllowed($property))
 		{
 			return $this->resource->{$property};
 		}

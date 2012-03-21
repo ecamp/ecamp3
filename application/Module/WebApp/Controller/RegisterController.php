@@ -98,7 +98,7 @@ class WebApp_RegisterController
 		$key = $this->getRequest()->getParam('key');
 
 
-		if($this->userService->Activate($id, $key))
+		if($this->registerService->Activate($id, $key))
 		{
 			$this->forward('web+general', 'index', 'login');
 		}

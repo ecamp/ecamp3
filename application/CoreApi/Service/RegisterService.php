@@ -34,7 +34,7 @@ class RegisterService
 	protected function _setupAcl()
 	{
 		$this->acl->allow(DefaultAcl::GUEST, $this, 'Register');
-		
+		$this->acl->allow(DefaultAcl::GUEST, $this, 'Activate');
 	}
 	
 	
@@ -67,6 +67,40 @@ class RegisterService
 		
 		
 		return $user;
+	}
+	
+	
+	/**
+	 * Activate a User
+	 *
+	 * @param \Core\Entity\User|int|string $user
+	 * @param string $key
+	 *
+	 * @return bool
+	 */
+	public function Activate($user, $key, $s = false)
+	{
+		$t = $this->beginTransaction();
+		
+		$user = $this->userService->Get($user);
+		$user = $this->UnwrapEntity($user);
+		
+		if(is_null($user))
+		{
+			$this->validationFailed();
+			$this->addValidationMessage("User not found!");
+		}
+		
+		if($user->getState() != \Core\Entity\User::STATE_REGISTERED)
+		{
+			$this->validationFailed();
+			$this->addValidationMessage("User already activated!");
+		}
+		
+		$success = $user->activateUser($key);
+		$t->flushAndCommit($s);
+		
+		return $success;
 	}
 	
 }
