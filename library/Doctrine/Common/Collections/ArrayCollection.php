@@ -89,7 +89,7 @@ class ArrayCollection implements Collection
     {
         return key($this->_elements);
     }
-    
+
     /**
      * Moves the internal iterator position to the next element.
      *
@@ -99,7 +99,7 @@ class ArrayCollection implements Collection
     {
         return next($this->_elements);
     }
-    
+
     /**
      * Gets the element of the collection at the current internal iterator position.
      *
@@ -121,7 +121,7 @@ class ArrayCollection implements Collection
         if (isset($this->_elements[$key])) {
             $removed = $this->_elements[$key];
             unset($this->_elements[$key]);
-            
+
             return $removed;
         }
 
@@ -137,13 +137,13 @@ class ArrayCollection implements Collection
     public function removeElement($element)
     {
         $key = array_search($element, $this->_elements, true);
-        
+
         if ($key !== false) {
             unset($this->_elements[$key]);
-            
+
             return true;
         }
-        
+
         return false;
     }
 
@@ -214,7 +214,13 @@ class ArrayCollection implements Collection
      */
     public function contains($element)
     {
-        return in_array($element, $this->_elements, true);
+        foreach ($this->_elements as $collectionElement) {
+            if ($element === $collectionElement) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -225,8 +231,11 @@ class ArrayCollection implements Collection
      */
     public function exists(Closure $p)
     {
-        foreach ($this->_elements as $key => $element)
-            if ($p($key, $element)) return true;
+        foreach ($this->_elements as $key => $element) {
+            if ($p($key, $element)) {
+                return true;
+            }
+        }
         return false;
     }
 
@@ -318,7 +327,7 @@ class ArrayCollection implements Collection
 
     /**
      * Checks whether the collection is empty.
-     * 
+     *
      * Note: This is preferrable over count() == 0.
      *
      * @return boolean TRUE if the collection is empty, FALSE otherwise.
@@ -347,7 +356,7 @@ class ArrayCollection implements Collection
      */
     public function map(Closure $func)
     {
-        return new ArrayCollection(array_map($func, $this->_elements));
+        return new static(array_map($func, $this->_elements));
     }
 
     /**
@@ -359,7 +368,7 @@ class ArrayCollection implements Collection
      */
     public function filter(Closure $p)
     {
-        return new ArrayCollection(array_filter($this->_elements, $p));
+        return new static(array_filter($this->_elements, $p));
     }
 
     /**
@@ -376,7 +385,7 @@ class ArrayCollection implements Collection
                 return false;
             }
         }
-        
+
         return true;
     }
 
@@ -399,7 +408,7 @@ class ArrayCollection implements Collection
                 $coll2[$key] = $element;
             }
         }
-        return array(new ArrayCollection($coll1), new ArrayCollection($coll2));
+        return array(new static($coll1), new static($coll2));
     }
 
     /**

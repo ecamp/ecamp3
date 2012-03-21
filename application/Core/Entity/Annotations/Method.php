@@ -2,6 +2,9 @@
 
 namespace Core\Entity\Annotations;
 
+/**
+ * @Annotation
+ */
 class Method extends Annotation
 {
 	

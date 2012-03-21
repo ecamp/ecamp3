@@ -79,7 +79,7 @@ class Login extends BaseEntity
 	/**
 	 * Returns the Id of this Login Entity
 	 * 
-	 * @Public:Method()
+	 * @Method()
 	 */
 	public function getId()
 	{
@@ -101,7 +101,7 @@ class Login extends BaseEntity
 	/**
 	 * Returns the User of this Login Entity
 	 * 
-	 * @Public:MethodEntity()
+	 * @MethodEntity()
 	 * @return \Core\Entity\User
 	 */
 	public function getUser()

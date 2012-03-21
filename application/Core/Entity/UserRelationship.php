@@ -75,7 +75,7 @@ class UserRelationship extends BaseEntity
 
 	
 	/**
-	 * @Public:Method()
+	 * @Method()
 	 * @return int
 	 */
 	public function getId()
@@ -85,7 +85,7 @@ class UserRelationship extends BaseEntity
 
 	
 	/**
-	 * @Public:MethodEntity()
+	 * @MethodEntity()
 	 * @return User
 	 */
 	public function getFrom() 
@@ -95,7 +95,7 @@ class UserRelationship extends BaseEntity
 	
 	
 	/**
-	* @Public:MethodEntity()
+	* @MethodEntity()
 	* @return User
 	*/
 	public function getTo()   
@@ -105,7 +105,7 @@ class UserRelationship extends BaseEntity
 	
 	
 	/**
-	* @Public:Method()
+	* @Method()
 	* @return int
 	*/
 	public function getType() 

@@ -32,12 +32,13 @@ namespace Doctrine\ORM\Query\Expr;
  * @author  Jonathan Wage <jonwage@gmail.com>
  * @author  Roman Borschel <roman@code-factory.org>
  */
-class Andx extends Base
+class Andx extends Composite
 {
-    protected $_separator = ') AND (';
+    protected $_separator = ' AND ';
     protected $_allowedClasses = array(
         'Doctrine\ORM\Query\Expr\Comparison',
         'Doctrine\ORM\Query\Expr\Func',
         'Doctrine\ORM\Query\Expr\Orx',
+        'Doctrine\ORM\Query\Expr\Andx',
     );
 }

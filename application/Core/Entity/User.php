@@ -20,6 +20,8 @@
 
 namespace Core\Entity;
 
+use Core\Entity\Annotations as Pub;
+
 /**
  * @Entity(repositoryClass="\Core\Repository\UserRepository")
  * @Table(name="users")
@@ -195,7 +197,7 @@ class User extends BaseEntity
 
 
 	/**
-	 * @Public:Method()
+	 * @Method()
 	 * @return int
 	 */
 	public function getId()
@@ -204,7 +206,7 @@ class User extends BaseEntity
 	}
 
 	/**
-	 * @Public:Method()
+	 * @Method()
 	 * @return string
 	 */
 	public function getUsername()           
@@ -217,7 +219,7 @@ class User extends BaseEntity
 	}
 
 	/**
-	 * @Public:MethodEntity()
+	 * @MethodEntity()
 	 * @return Login
 	 */
 	public function getLogin()	
@@ -226,7 +228,7 @@ class User extends BaseEntity
 	}
 
 	/**
-	 * @Public:Method()
+	 * @Method()
 	 * @return string
 	 */
 	public function getEmail()            
@@ -239,7 +241,7 @@ class User extends BaseEntity
 	}
 
 	/**
-	 * @Public:Method()
+	 * @Method()
 	 * @return string
 	 */
 	public function getScoutname()            
@@ -252,7 +254,7 @@ class User extends BaseEntity
 	}
 
 	/**
-	 * @Public:Method()
+	 * @Method()
 	 * @return string
 	 */
 	public function getFirstname()            
@@ -265,7 +267,7 @@ class User extends BaseEntity
 	}
 
 	/**
-	 * @Public:Method()
+	 * @Method()
 	 * @return string
 	 */
 	public function getSurname()          
@@ -278,7 +280,7 @@ class User extends BaseEntity
 	}
 
 	/**
-	 * @Public:Method()
+	 * @Method()
 	 * @return string
 	 */
 	public function getStreet()         
@@ -291,7 +293,7 @@ class User extends BaseEntity
 	}
 
 	/**
-	 * @Public:Method()
+	 * @Method()
 	 * @return string
 	 */
 	public function getZipcode()          
@@ -304,7 +306,7 @@ class User extends BaseEntity
 	}
 
 	/**
-	 * @Public:Method()
+	 * @Method()
 	 * @return string
 	 */
 	public function getCity()       
@@ -317,7 +319,7 @@ class User extends BaseEntity
 	}
 
 	/**
-	 * @Public:Method()
+	 * @Method()
 	 * @return string
 	 */
 	public function getHomeNr()         
@@ -330,7 +332,7 @@ class User extends BaseEntity
 	}
 
 	/**
-	 * @Public:Method()
+	 * @Method()
 	 * @return string
 	 */
 	public function getMobilNr()          
@@ -343,7 +345,7 @@ class User extends BaseEntity
 	}
 
 	/**
-	 * @Public:Method()
+	 * @Method()
 	 * @return date
 	 */
 	public function getBirthday()           
@@ -357,7 +359,7 @@ class User extends BaseEntity
 	}
 
 	/**
-	 * @Public:Method()
+	 * @Method()
 	 * @return string
 	 */
 	public function getAHV()      
@@ -371,7 +373,7 @@ class User extends BaseEntity
 	}
 
 	/**
-	 * @Public:Method()
+	 * @Method()
 	 * @return boolean
 	 */
 	public function getGender()         
@@ -385,7 +387,7 @@ class User extends BaseEntity
 	}
 
 	/**
-	 * @Public:Method()
+	 * @Method()
 	 * @return string
 	 */
 	public function getJsPersNr()           
@@ -399,7 +401,7 @@ class User extends BaseEntity
 	}
 
 	/**
-	 * @Public:Method()
+	 * @Method()
 	 * @return string
 	 */
 	public function getJsEdu()        
@@ -412,7 +414,7 @@ class User extends BaseEntity
 	}
 
 	/**
-	 * @Public:Method()
+	 * @Method()
 	 * @return string
 	 */
 	public function getPbsEdu()         
@@ -443,7 +445,7 @@ class User extends BaseEntity
 	}
 
 	/**
-	 * @Public:Method()
+	 * @Method()
 	 * @return string
 	 */
 	public function getImageData()
@@ -456,7 +458,7 @@ class User extends BaseEntity
 	}
 
 	/**
-	 * @Public:Method()
+	 * @Method()
 	 * @return string
 	 */
 	public function getImageMime()
@@ -476,7 +478,7 @@ class User extends BaseEntity
 	}
 
 	/**
-	 * @Public:MethodEntityList(type = "\CoreApi\Entity\UserGroup")
+	 * @MethodEntityList(type = "\CoreApi\Entity\UserGroup")
 	 * @return array
 	 */
 	public function getUsergroups()
@@ -485,7 +487,7 @@ class User extends BaseEntity
 	}
 
 	/**
-	 * @Public:MethodEntityList(type = "Core\Entity\Camp");
+	 * @MethodEntityList(type = "Core\Entity\Camp");
 	 * @return array
 	 */
 	public function getMyCamps()
@@ -494,7 +496,7 @@ class User extends BaseEntity
 	}
 
 	/**
-	 * @Public:Method()
+	 * @Method()
 	 * @return string
 	 */
 	public function getDisplayName()
@@ -508,7 +510,7 @@ class User extends BaseEntity
 	}
 
 	/**
-	 * @Public:Method()
+	 * @Method()
 	 * @return string
 	 */
 	public function getFullName()
@@ -561,7 +563,7 @@ class User extends BaseEntity
 
 
 	/**
-	 * @Public:Method()
+	 * @Method()
 	 * @return boolean
 	 */
 	public function isMale()
@@ -570,7 +572,7 @@ class User extends BaseEntity
 	}
 
 	/**
-	 * @Public:Method()
+	 * @Method()
 	 * @return boolean
 	 */
 	public function isFemale()
@@ -624,6 +626,10 @@ class User extends BaseEntity
 	/**
 	 * True if friendship request has been sent but not yet accepted
 	 */
+	/**
+	 * @Method()
+	 * @return boolean
+	 */
 	public function sentFriendshipRequestTo($user)
 	{
 		return $this->isFriendTo( $user ) && ! $this->isFriendFrom( $user );
@@ -632,6 +638,10 @@ class User extends BaseEntity
 	/**
 	 * True if friendship request has been received but not yet accepted
 	 */
+	/**
+	 * @Method()
+	 * @return boolean
+	 */
 	public function receivedFriendshipRequestFrom($user)
 	{
 		return ! $this->isFriendTo( $user ) && $this->isFriendFrom( $user );
@@ -639,6 +649,10 @@ class User extends BaseEntity
 
 	/**
 	 * True for established friendships (both directions)
+	 */
+	/**
+	 * @Method()
+	 * @return boolean
 	 */
 	public function isFriendOf($user)
 	{
@@ -713,6 +727,10 @@ class User extends BaseEntity
 	}
 
 	/** check  whether a friendship request can be sent to to the user */
+	/**
+	 * @Method()
+	 * @return boolean
+	 */
 	public function canIAdd($user)
 	{
 		return $user != $this && !$this->isFriendOf($user) && !$this->sentFriendshipRequestTo($user) && !$this->receivedFriendshipRequestFrom($user);
@@ -845,6 +863,9 @@ class User extends BaseEntity
 
 	/**
 	 * @return ArrayCollection
+	 */
+	/**
+	 * @Method()
 	 */
 	public function getManagedGroups()
 	{

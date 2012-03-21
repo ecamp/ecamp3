@@ -68,7 +68,7 @@ class EventInstance extends BaseEntity
 	private $period;
 
 	
-	/** @Public:Method() */
+	/** @Method() */
 	public function getId()
 	{
 		return $this->id;
@@ -80,7 +80,7 @@ class EventInstance extends BaseEntity
 	}
 	
 	/**
-	 * @Public:MethodEntity()
+	 * @MethodEntity()
 	 * @return \Core\Entity\Event 
 	 */
 	public function getEvent()
@@ -94,7 +94,7 @@ class EventInstance extends BaseEntity
 	}
 	
 	/**
-	 * @Public:Method()
+	 * @Method()
 	 * @return int
 	 */
 	public function getMinOffset()
@@ -108,7 +108,7 @@ class EventInstance extends BaseEntity
 	}
 	
 	/**
-	 * @Public:Method()
+	 * @Method()
 	 * @return int
 	 */
 	public function getDuration()
@@ -122,7 +122,7 @@ class EventInstance extends BaseEntity
 	}
 	
 	/**
-	 * @Public:MethodEntity()
+	 * @MethodEntity()
 	 * @return \Core\Entity\Period 
 	 */
 	public function getPeriod()

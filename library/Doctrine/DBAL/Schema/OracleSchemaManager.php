@@ -89,7 +89,7 @@ class OracleSchemaManager extends AbstractSchemaManager
     protected function _getPortableTableColumnDefinition($tableColumn)
     {
         $tableColumn = \array_change_key_case($tableColumn, CASE_LOWER);
-        
+
         $dbType = strtolower($tableColumn['data_type']);
         if(strpos($dbType, "timestamp(") === 0) {
             if (strpos($dbType, "WITH TIME ZONE")) {
@@ -117,6 +117,9 @@ class OracleSchemaManager extends AbstractSchemaManager
         $scale = null;
 
         $type = $this->_platform->getDoctrineTypeMapping($dbType);
+        $type = $this->extractDoctrineTypeFromComment($tableColumn['comments'], $type);
+        $tableColumn['comments'] = $this->removeDoctrineTypeFromComment($tableColumn['comments'], $type);
+
         switch ($dbType) {
             case 'number':
                 if ($tableColumn['data_precision'] == 20 && $tableColumn['data_scale'] == 0) {
@@ -186,6 +189,7 @@ class OracleSchemaManager extends AbstractSchemaManager
             'length'     => $length,
             'precision'  => $precision,
             'scale'      => $scale,
+            'comment'       => (isset($tableColumn['comments'])) ? $tableColumn['comments'] : null,
             'platformDetails' => array(),
         );
 

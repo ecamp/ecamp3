@@ -1,7 +1,5 @@
 <?php
 /*
- *  $Id$
- *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
  * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
@@ -28,11 +26,10 @@ use Symfony\Component\Console\Input\InputArgument,
 /**
  * Task for executing arbitrary SQL that can come from a file or directly from
  * the command line.
- * 
+ *
  * @license http://www.opensource.org/licenses/lgpl-license.php LGPL
  * @link    www.doctrine-project.org
  * @since   2.0
- * @version $Revision$
  * @author  Benjamin Eberlei <kontakt@beberlei.de>
  * @author  Guilherme Blanco <guilhermeblanco@hotmail.com>
  * @author  Jonathan Wage <jonwage@gmail.com>
@@ -74,13 +71,17 @@ EOT
         if ( ! is_numeric($depth)) {
             throw new \LogicException("Option 'depth' must contains an integer value");
         }
-        
+
         if (preg_match('/^select/i', $sql)) {
            $resultSet = $conn->fetchAll($sql);
         } else {
             $resultSet = $conn->executeUpdate($sql);
         }
 
+        ob_start();
         \Doctrine\Common\Util\Debug::dump($resultSet, (int) $depth);
+        $message = ob_get_clean();
+
+        $output->write($message);
     }
 }

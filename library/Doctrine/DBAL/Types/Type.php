@@ -1,7 +1,5 @@
 <?php
 /*
- *  $Id$
- *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
  * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
@@ -30,6 +28,7 @@ use Doctrine\DBAL\Platforms\AbstractPlatform,
  * A Type object is obtained by calling the static {@link getType()} method.
  *
  * @author Roman Borschel <roman@code-factory.org>
+ * @author Benjamin Eberlei <kontakt@beberlei.de>
  * @since 2.0
  */
 abstract class Type
@@ -47,6 +46,7 @@ abstract class Type
     const SMALLINT = 'smallint';
     const STRING = 'string';
     const TEXT = 'text';
+    const BLOB = 'blob';
     const FLOAT = 'float';
 
     /** Map of already instantiated type objects. One instance per type (flyweight). */
@@ -68,6 +68,7 @@ abstract class Type
         self::TIME => 'Doctrine\DBAL\Types\TimeType',
         self::DECIMAL => 'Doctrine\DBAL\Types\DecimalType',
         self::FLOAT => 'Doctrine\DBAL\Types\FloatType',
+        self::BLOB => 'Doctrine\DBAL\Types\BlobType',
     );
 
     /* Prevent instantiation and force use of the factory method. */
@@ -188,6 +189,10 @@ abstract class Type
         if ( ! isset(self::$_typesMap[$name])) {
             throw DBALException::typeNotFound($name);
         }
+        
+        if (isset(self::$_typeObjects[$name])) {
+            unset(self::$_typeObjects[$name]);
+        }
 
         self::$_typesMap[$name] = $className;
     }
@@ -195,15 +200,15 @@ abstract class Type
     /**
      * Gets the (preferred) binding type for values of this type that
      * can be used when binding parameters to prepared statements.
-     * 
+     *
      * This method should return one of the PDO::PARAM_* constants, that is, one of:
-     * 
+     *
      * PDO::PARAM_BOOL
      * PDO::PARAM_NULL
      * PDO::PARAM_INT
      * PDO::PARAM_STR
      * PDO::PARAM_LOB
-     * 
+     *
      * @return integer
      */
     public function getBindingType()
@@ -226,5 +231,44 @@ abstract class Type
     {
         $e = explode('\\', get_class($this));
         return str_replace('Type', '', end($e));
+    }
+
+    /**
+     * Does working with this column require SQL conversion functions?
+     *
+     * This is a metadata function that is required for example in the ORM.
+     * Usage of {@link convertToDatabaseValueSQL} and
+     * {@link convertToPHPValueSQL} works for any type and mostly
+     * does nothing. This method can additionally be used for optimization purposes.
+     *
+     * @return bool
+     */
+    public function canRequireSQLConversion()
+    {
+        return false;
+    }
+
+    /**
+     * Modifies the SQL expression (identifier, parameter) to convert to a database value.
+     *
+     * @param string $sqlExpr
+     * @param AbstractPlatform $platform
+     * @return string
+     */
+    public function convertToDatabaseValueSQL($sqlExpr, AbstractPlatform $platform)
+    {
+        return $sqlExpr;
+    }
+
+    /**
+     * Modifies the SQL expression (identifier, parameter) to convert to a PHP value.
+     *
+     * @param string $sqlExpr
+     * @param AbstractPlatform $platform
+     * @return string
+     */
+    public function convertToPHPValueSQL($sqlExpr, $platform)
+    {
+        return $sqlExpr;
     }
 }

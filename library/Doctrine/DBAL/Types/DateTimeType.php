@@ -43,7 +43,7 @@ class DateTimeType extends Type
         return ($value !== null)
             ? $value->format($platform->getDateTimeFormatString()) : null;
     }
-    
+
     public function convertToPHPValue($value, AbstractPlatform $platform)
     {
         if ($value === null) {
@@ -52,7 +52,7 @@ class DateTimeType extends Type
 
         $val = \DateTime::createFromFormat($platform->getDateTimeFormatString(), $value);
         if (!$val) {
-            throw ConversionException::conversionFailed($value, $this->getName());
+            throw ConversionException::conversionFailedFormat($value, $this->getName(), $platform->getDateTimeFormatString());
         }
         return $val;
     }

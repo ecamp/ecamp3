@@ -39,23 +39,25 @@ abstract class Base
     protected $_postSeparator = ')';
     protected $_allowedClasses = array();
 
-    private $_parts = array();
+    protected $_parts = array();
 
     public function __construct($args = array())
     {
         $this->addMultiple($args);
     }
-    
+
     public function addMultiple($args = array())
     {
         foreach ((array) $args as $arg) {
             $this->add($arg);
         }
+
+        return $this;
     }
 
     public function add($arg)
     {
-        if ( ! empty($arg) || ($arg instanceof self && $arg->count() > 0)) {
+        if ( $arg !== null || ($arg instanceof self && $arg->count() > 0) ) {
             // If we decide to keep Expr\Base instances, we can use this check
             if ( ! is_string($arg)) {
                 $class = get_class($arg);
@@ -67,6 +69,8 @@ abstract class Base
 
             $this->_parts[] = $arg;
         }
+
+        return $this;
     }
 
     public function count()
@@ -79,7 +83,7 @@ abstract class Base
         if ($this->count() == 1) {
             return (string) $this->_parts[0];
         }
-        
+
         return $this->_preSeparator . implode($this->_separator, $this->_parts) . $this->_postSeparator;
     }
 }
