@@ -25,6 +25,14 @@ use Doctrine\DBAL\Schema\TableDiff;
 
 class DB2Platform extends AbstractPlatform
 {
+    /**
+     * Gets the SQL Snippet used to declare a BLOB column type.
+     */
+    public function getBlobTypeDeclarationSQL(array $field)
+    {
+        throw DBALException::notSupported(__METHOD__);
+    }
+
     public function initializeDoctrineTypeMappings()
     {
         $this->doctrineTypeMapping = array(
@@ -48,19 +56,8 @@ class DB2Platform extends AbstractPlatform
      *
      * @param array $field
      */
-    public function getVarcharTypeDeclarationSQL(array $field)
+    protected function getVarcharTypeDeclarationSQLSnippet($length, $fixed)
     {
-        if ( ! isset($field['length'])) {
-            if (array_key_exists('default', $field)) {
-                $field['length'] = $this->getVarcharDefaultLength();
-            } else {
-                $field['length'] = false;
-            }
-        }
-
-        $length = ($field['length'] <= $this->getVarcharMaxLength()) ? $field['length'] : false;
-        $fixed = (isset($field['fixed'])) ? $field['fixed'] : false;
-
         return $fixed ? ($length ? 'CHAR(' . $length . ')' : 'CHAR(255)')
                 : ($length ? 'VARCHAR(' . $length . ')' : 'VARCHAR(255)');
     }
@@ -208,7 +205,7 @@ class DB2Platform extends AbstractPlatform
      * @param  string $table
      * @return string
      */
-    public function getListTableColumnsSQL($table)
+    public function getListTableColumnsSQL($table, $database = null)
     {
         return "SELECT DISTINCT c.tabschema, c.tabname, c.colname, c.colno,
                 c.typename, c.default, c.nulls, c.length, c.scale,
@@ -245,7 +242,7 @@ class DB2Platform extends AbstractPlatform
         return "SELECT NAME, TEXT FROM SYSIBM.SYSVIEWS";
     }
 
-    public function getListTableIndexesSQL($table)
+    public function getListTableIndexesSQL($table, $currentDatabase = null)
     {
         return "SELECT NAME, COLNAMES, UNIQUERULE FROM SYSIBM.SYSINDEXES WHERE TBNAME = UPPER('" . $table . "')";
     }
@@ -358,7 +355,7 @@ class DB2Platform extends AbstractPlatform
             $indexes = $options['indexes'];
         }
         $options['indexes'] = array();
-        
+
         $sqls = parent::_getCreateTableSQL($tableName, $columns, $options);
 
         foreach ($indexes as $index => $definition) {
@@ -376,17 +373,30 @@ class DB2Platform extends AbstractPlatform
     public function getAlterTableSQL(TableDiff $diff)
     {
         $sql = array();
+        $columnSql = array();
 
         $queryParts = array();
         foreach ($diff->addedColumns AS $fieldName => $column) {
+            if ($this->onSchemaAlterTableAddColumn($column, $diff, $columnSql)) {
+                continue;
+            }
+
             $queryParts[] = 'ADD COLUMN ' . $this->getColumnDeclarationSQL($column->getQuotedName($this), $column->toArray());
         }
 
         foreach ($diff->removedColumns AS $column) {
+            if ($this->onSchemaAlterTableRemoveColumn($column, $diff, $columnSql)) {
+                continue;
+            }
+
             $queryParts[] =  'DROP COLUMN ' . $column->getQuotedName($this);
         }
 
         foreach ($diff->changedColumns AS $columnDiff) {
+            if ($this->onSchemaAlterTableChangeColumn($columnDiff, $diff, $columnSql)) {
+                continue;
+            }
+
             /* @var $columnDiff Doctrine\DBAL\Schema\ColumnDiff */
             $column = $columnDiff->column;
             $queryParts[] =  'ALTER ' . ($columnDiff->oldColumnName) . ' '
@@ -394,20 +404,28 @@ class DB2Platform extends AbstractPlatform
         }
 
         foreach ($diff->renamedColumns AS $oldColumnName => $column) {
+            if ($this->onSchemaAlterTableRenameColumn($oldColumnName, $column, $diff, $columnSql)) {
+                continue;
+            }
+
             $queryParts[] =  'RENAME ' . $oldColumnName . ' TO ' . $column->getQuotedName($this);
         }
 
-        if (count($queryParts) > 0) {
-            $sql[] = 'ALTER TABLE ' . $diff->name . ' ' . implode(" ", $queryParts);
+        $tableSql = array();
+
+        if (!$this->onSchemaAlterTable($diff, $tableSql)) {
+            if (count($queryParts) > 0) {
+                $sql[] = 'ALTER TABLE ' . $diff->name . ' ' . implode(" ", $queryParts);
+            }
+
+            $sql = array_merge($sql, $this->_getAlterTableIndexForeignKeySQL($diff));
+
+            if ($diff->newName !== false) {
+                $sql[] =  'RENAME TABLE TO ' . $diff->newName;
+            }
         }
 
-        $sql = array_merge($sql, $this->_getAlterTableIndexForeignKeySQL($diff));
-
-        if ($diff->newName !== false) {
-            $sql[] =  'RENAME TABLE TO ' . $diff->newName;
-        }
-
-        return $sql;
+        return array_merge($sql, $tableSql, $columnSql);
     }
 
     public function getDefaultValueDeclarationSQL($field)
@@ -464,7 +482,7 @@ class DB2Platform extends AbstractPlatform
         return "SESSION." . $tableName;
     }
 
-    public function modifyLimitQuery($query, $limit, $offset = null)
+    protected function doModifyLimitQuery($query, $limit, $offset = null)
     {
         if ($limit === null && $offset === null) {
             return $query;
@@ -560,5 +578,10 @@ class DB2Platform extends AbstractPlatform
     public function supportsSavepoints()
     {
         return false;
+    }
+
+    protected function getReservedKeywordsClass()
+    {
+        return 'Doctrine\DBAL\Platforms\Keywords\DB2Keywords';
     }
 }

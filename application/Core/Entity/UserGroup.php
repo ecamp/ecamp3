@@ -105,7 +105,7 @@ class UserGroup extends BaseEntity
 	
 	
 	/**
-	 * @Public:Method()
+	 * @Method()
 	 * @return int
 	 */
 	public function getId()
@@ -119,7 +119,7 @@ class UserGroup extends BaseEntity
 	}
 	
 	/**
-	 * @Public:MethodEntity()
+	 * @MethodEntity()
 	 * @return Group
 	 */
 	public function getGroup()          
@@ -133,7 +133,7 @@ class UserGroup extends BaseEntity
 	}
 	
 	/**
-	 * @Public:MethodEntity()
+	 * @MethodEntity()
 	 * @return User
 	 */
 	public function getUser()          
@@ -142,7 +142,7 @@ class UserGroup extends BaseEntity
 	}
 
 	/**
-	 * @Public:Method()
+	 * @Method()
 	 * @return int
 	 */
 	public function getRole()          
@@ -151,7 +151,7 @@ class UserGroup extends BaseEntity
 	}
 	
 	/**
-	* @Public:Method()
+	* @Method()
 	* @return strint
 	*/
 	public function getRoleName()
@@ -171,7 +171,7 @@ class UserGroup extends BaseEntity
 
 	
 	/**
-	* @Public:Method()
+	* @Method()
 	* @return int
 	*/
 	public function getRequestedRole() 
@@ -185,7 +185,7 @@ class UserGroup extends BaseEntity
 
 	/** 
 	 * True if the role is member or manager 
-	 * @Public:Method()
+	 * @Method()
 	 * @return boolean
 	 */
 	public function isMember()
@@ -195,7 +195,7 @@ class UserGroup extends BaseEntity
 
 	/**
 	 * True if the role is manager 
-	 * @Public:Method()
+	 * @Method()
 	 * @return boolean
 	 */
 	public function isManager()
@@ -205,7 +205,7 @@ class UserGroup extends BaseEntity
 
 	/**
 	 * True if the request/invitation is still open 
-	 * @Public:Method()
+	 * @Method()
 	 * @return boolean
 	 */
 	public function isOpen()
@@ -215,7 +215,7 @@ class UserGroup extends BaseEntity
 
 	/**
 	 * True if the user sent this request to a manager and the request is still open 
-	 * @Public:Method()
+	 * @Method()
 	 * @return boolean
 	 */
 	public function isOpenRequest()
@@ -225,7 +225,7 @@ class UserGroup extends BaseEntity
 
 	/** 
 	 * True if a manager has sent this invitation to a user and the invitation is still open 
-	 * @Public:Method()
+	 * @Method()
 	 * @return boolean
 	 */
 	public function isOpenInvitation()

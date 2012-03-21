@@ -21,6 +21,7 @@ namespace Doctrine\ORM;
 
 use Doctrine\ORM\Mapping\ClassMetadata,
     Doctrine\Common\Collections\Collection,
+    Doctrine\Common\Collections\ArrayCollection,
     Closure;
 
 /**
@@ -59,14 +60,14 @@ final class PersistentCollection implements Collection
      * The association mapping the collection belongs to.
      * This is currently either a OneToManyMapping or a ManyToManyMapping.
      *
-     * @var Doctrine\ORM\Mapping\AssociationMapping
+     * @var array
      */
     private $association;
 
     /**
      * The EntityManager that manages the persistence of the collection.
      *
-     * @var Doctrine\ORM\EntityManager
+     * @var \Doctrine\ORM\EntityManager
      */
     private $em;
 
@@ -93,29 +94,29 @@ final class PersistentCollection implements Collection
 
     /**
      * Whether the collection has already been initialized.
-     * 
+     *
      * @var boolean
      */
     private $initialized = true;
-    
+
     /**
      * The wrapped Collection instance.
-     * 
+     *
      * @var Collection
      */
     private $coll;
 
     /**
      * Creates a new persistent collection.
-     * 
+     *
      * @param EntityManager $em The EntityManager the collection will be associated with.
      * @param ClassMetadata $class The class descriptor of the entity type of this collection.
      * @param array The collection elements.
      */
     public function __construct(EntityManager $em, $class, $coll)
     {
-        $this->coll = $coll;
-        $this->em = $em;
+        $this->coll      = $coll;
+        $this->em        = $em;
         $this->typeClass = $class;
     }
 
@@ -129,8 +130,8 @@ final class PersistentCollection implements Collection
      */
     public function setOwner($entity, array $assoc)
     {
-        $this->owner = $entity;
-        $this->association = $assoc;
+        $this->owner            = $entity;
+        $this->association      = $assoc;
         $this->backRefFieldName = $assoc['inversedBy'] ?: $assoc['mappedBy'];
     }
 
@@ -144,7 +145,7 @@ final class PersistentCollection implements Collection
     {
         return $this->owner;
     }
-    
+
     public function getTypeClass()
     {
         return $this->typeClass;
@@ -154,25 +155,27 @@ final class PersistentCollection implements Collection
      * INTERNAL:
      * Adds an element to a collection during hydration. This will automatically
      * complete bidirectional associations in the case of a one-to-many association.
-     * 
+     *
      * @param mixed $element The element to add.
      */
     public function hydrateAdd($element)
     {
         $this->coll->add($element);
+
         // If _backRefFieldName is set and its a one-to-many association,
         // we need to set the back reference.
-        if ($this->backRefFieldName && $this->association['type'] == ClassMetadata::ONE_TO_MANY) {
+        if ($this->backRefFieldName && $this->association['type'] === ClassMetadata::ONE_TO_MANY) {
             // Set back reference to owner
-            $this->typeClass->reflFields[$this->backRefFieldName]
-                    ->setValue($element, $this->owner);
+            $this->typeClass->reflFields[$this->backRefFieldName]->setValue(
+                $element, $this->owner
+            );
+
             $this->em->getUnitOfWork()->setOriginalEntityProperty(
-                    spl_object_hash($element),
-                    $this->backRefFieldName,
-                    $this->owner);
+                spl_object_hash($element), $this->backRefFieldName, $this->owner
+            );
         }
     }
-    
+
     /**
      * INTERNAL:
      * Sets a keyed element in the collection during hydration.
@@ -183,12 +186,14 @@ final class PersistentCollection implements Collection
     public function hydrateSet($key, $element)
     {
         $this->coll->set($key, $element);
+
         // If _backRefFieldName is set, then the association is bidirectional
         // and we need to set the back reference.
-        if ($this->backRefFieldName && $this->association['type'] == ClassMetadata::ONE_TO_MANY) {
+        if ($this->backRefFieldName && $this->association['type'] === ClassMetadata::ONE_TO_MANY) {
             // Set back reference to owner
-            $this->typeClass->reflFields[$this->backRefFieldName]
-                    ->setValue($element, $this->owner);
+            $this->typeClass->reflFields[$this->backRefFieldName]->setValue(
+                $element, $this->owner
+            );
         }
     }
 
@@ -198,23 +203,31 @@ final class PersistentCollection implements Collection
      */
     public function initialize()
     {
-        if ( ! $this->initialized && $this->association) {
-            if ($this->isDirty) {
-                // Has NEW objects added through add(). Remember them.
-                $newObjects = $this->coll->toArray();
-            }
-            $this->coll->clear();
-            $this->em->getUnitOfWork()->loadCollection($this);
-            $this->takeSnapshot();
-            // Reattach NEW objects added through add(), if any.
-            if (isset($newObjects)) {
-                foreach ($newObjects as $obj) {
-                    $this->coll->add($obj);
-                }
-                $this->isDirty = true;
-            }
-            $this->initialized = true;
+        if ($this->initialized || ! $this->association) {
+            return;
         }
+
+        // Has NEW objects added through add(). Remember them.
+        $newObjects = array();
+
+        if ($this->isDirty) {
+            $newObjects = $this->coll->toArray();
+        }
+
+        $this->coll->clear();
+        $this->em->getUnitOfWork()->loadCollection($this);
+        $this->takeSnapshot();
+
+        // Reattach NEW objects added through add(), if any.
+        if ($newObjects) {
+            foreach ($newObjects as $obj) {
+                $this->coll->add($obj);
+            }
+
+            $this->isDirty = true;
+        }
+
+        $this->initialized = true;
     }
 
     /**
@@ -224,7 +237,7 @@ final class PersistentCollection implements Collection
     public function takeSnapshot()
     {
         $this->snapshot = $this->coll->toArray();
-        $this->isDirty = false;
+        $this->isDirty  = false;
     }
 
     /**
@@ -246,8 +259,11 @@ final class PersistentCollection implements Collection
      */
     public function getDeleteDiff()
     {
-        return array_udiff_assoc($this->snapshot, $this->coll->toArray(),
-                function($a, $b) {return $a === $b ? 0 : 1;});
+        return array_udiff_assoc(
+            $this->snapshot,
+            $this->coll->toArray(),
+            function($a, $b) { return $a === $b ? 0 : 1; }
+        );
     }
 
     /**
@@ -258,31 +274,40 @@ final class PersistentCollection implements Collection
      */
     public function getInsertDiff()
     {
-        return array_udiff_assoc($this->coll->toArray(), $this->snapshot,
-                function($a, $b) {return $a === $b ? 0 : 1;});
+        return array_udiff_assoc(
+            $this->coll->toArray(),
+            $this->snapshot,
+            function($a, $b) { return $a === $b ? 0 : 1; }
+        );
     }
 
     /**
      * INTERNAL: Gets the association mapping of the collection.
      *
-     * @return Doctrine\ORM\Mapping\AssociationMapping
+     * @return \Doctrine\ORM\Mapping\AssociationMapping
      */
     public function getMapping()
     {
         return $this->association;
     }
-   
+
     /**
      * Marks this collection as changed/dirty.
      */
     private function changed()
     {
-        if ( ! $this->isDirty) {
-            $this->isDirty = true;
-            if ($this->association !== null && $this->association['isOwningSide'] && $this->association['type'] == ClassMetadata::MANY_TO_MANY &&
-                    $this->em->getClassMetadata(get_class($this->owner))->isChangeTrackingNotify()) {
-                $this->em->getUnitOfWork()->scheduleForDirtyCheck($this->owner);
-            }
+        if ($this->isDirty) {
+            return;
+        }
+
+        $this->isDirty = true;
+
+        if ($this->association !== null &&
+            $this->association['isOwningSide'] &&
+            $this->association['type'] === ClassMetadata::MANY_TO_MANY &&
+            $this->owner &&
+            $this->em->getClassMetadata(get_class($this->owner))->isChangeTrackingNotify()) {
+            $this->em->getUnitOfWork()->scheduleForDirtyCheck($this->owner);
         }
     }
 
@@ -306,17 +331,17 @@ final class PersistentCollection implements Collection
     {
         $this->isDirty = $dirty;
     }
-    
+
     /**
      * Sets the initialized flag of the collection, forcing it into that state.
-     * 
+     *
      * @param boolean $bool
      */
     public function setInitialized($bool)
     {
         $this->initialized = $bool;
     }
-    
+
     /**
      * Checks whether this collection has been initialized.
      *
@@ -331,6 +356,7 @@ final class PersistentCollection implements Collection
     public function first()
     {
         $this->initialize();
+
         return $this->coll->first();
     }
 
@@ -338,6 +364,7 @@ final class PersistentCollection implements Collection
     public function last()
     {
         $this->initialize();
+
         return $this->coll->last();
     }
 
@@ -351,13 +378,19 @@ final class PersistentCollection implements Collection
         //       not used we can issue a straight SQL delete/update on the
         //       association (table). Without initializing the collection.
         $this->initialize();
+
         $removed = $this->coll->remove($key);
-        if ($removed) {
-            $this->changed();
-            if ($this->association !== null && $this->association['type'] == ClassMetadata::ONE_TO_MANY &&
-                    $this->association['orphanRemoval']) {
-                $this->em->getUnitOfWork()->scheduleOrphanRemoval($removed);
-            }
+
+        if ( ! $removed) {
+            return $removed;
+        }
+
+        $this->changed();
+
+        if ($this->association !== null &&
+            $this->association['type'] & ClassMetadata::TO_MANY &&
+            $this->association['orphanRemoval']) {
+            $this->em->getUnitOfWork()->scheduleOrphanRemoval($removed);
         }
 
         return $removed;
@@ -368,25 +401,36 @@ final class PersistentCollection implements Collection
      */
     public function removeElement($element)
     {
-        // TODO: Assuming the identity of entities in a collection is always based
-        //       on their primary key (there is no equals/hashCode in PHP),
-        //       if the collection is not initialized, we could issue a straight
-        //       SQL DELETE/UPDATE on the association (table) without initializing
-        //       the collection.
-        /*if ( ! $this->initialized) {
-            $this->em->getUnitOfWork()->getCollectionPersister($this->association)
-                ->deleteRows($this, $element);
-        }*/
-        
-        $this->initialize();
-        $removed = $this->coll->removeElement($element);
-        if ($removed) {
-            $this->changed();
-            if ($this->association !== null && $this->association['type'] == ClassMetadata::ONE_TO_MANY &&
-                    $this->association['orphanRemoval']) {
-                $this->em->getUnitOfWork()->scheduleOrphanRemoval($element);
+        if ( ! $this->initialized && $this->association['fetch'] === Mapping\ClassMetadataInfo::FETCH_EXTRA_LAZY) {
+            if ($this->coll->contains($element)) {
+                return $this->coll->removeElement($element);
             }
+
+            $persister = $this->em->getUnitOfWork()->getCollectionPersister($this->association);
+
+            if ($persister->removeElement($this, $element)) {
+                return $element;
+            }
+
+            return null;
         }
+
+        $this->initialize();
+
+        $removed = $this->coll->removeElement($element);
+
+        if ( ! $removed) {
+            return $removed;
+        }
+
+        $this->changed();
+
+        if ($this->association !== null &&
+            $this->association['type'] & ClassMetadata::TO_MANY &&
+            $this->association['orphanRemoval']) {
+            $this->em->getUnitOfWork()->scheduleOrphanRemoval($element);
+        }
+
         return $removed;
     }
 
@@ -396,6 +440,7 @@ final class PersistentCollection implements Collection
     public function containsKey($key)
     {
         $this->initialize();
+
         return $this->coll->containsKey($key);
     }
 
@@ -404,24 +449,14 @@ final class PersistentCollection implements Collection
      */
     public function contains($element)
     {
-        /* DRAFT
-        if ($this->initialized) {
-            return $this->coll->contains($element);
-        } else {
-            if ($element is MANAGED) {
-                if ($this->coll->contains($element)) {
-                    return true;
-                }
-                $exists = check db for existence;
-                if ($exists) {
-                    $this->coll->add($element);
-                }
-                return $exists;
-            }
-            return false;
-        }*/
-        
+        if ( ! $this->initialized && $this->association['fetch'] === Mapping\ClassMetadataInfo::FETCH_EXTRA_LAZY) {
+            $persister = $this->em->getUnitOfWork()->getCollectionPersister($this->association);
+
+            return $this->coll->contains($element) || $persister->contains($this, $element);
+        }
+
         $this->initialize();
+
         return $this->coll->contains($element);
     }
 
@@ -431,6 +466,7 @@ final class PersistentCollection implements Collection
     public function exists(Closure $p)
     {
         $this->initialize();
+
         return $this->coll->exists($p);
     }
 
@@ -440,6 +476,7 @@ final class PersistentCollection implements Collection
     public function indexOf($element)
     {
         $this->initialize();
+
         return $this->coll->indexOf($element);
     }
 
@@ -449,6 +486,7 @@ final class PersistentCollection implements Collection
     public function get($key)
     {
         $this->initialize();
+
         return $this->coll->get($key);
     }
 
@@ -458,6 +496,7 @@ final class PersistentCollection implements Collection
     public function getKeys()
     {
         $this->initialize();
+
         return $this->coll->getKeys();
     }
 
@@ -467,6 +506,7 @@ final class PersistentCollection implements Collection
     public function getValues()
     {
         $this->initialize();
+
         return $this->coll->getValues();
     }
 
@@ -475,7 +515,14 @@ final class PersistentCollection implements Collection
      */
     public function count()
     {
+        if ( ! $this->initialized && $this->association['fetch'] === Mapping\ClassMetadataInfo::FETCH_EXTRA_LAZY) {
+            $persister = $this->em->getUnitOfWork()->getCollectionPersister($this->association);
+
+            return $persister->count($this) + ($this->isDirty ? $this->coll->count() : 0);
+        }
+
         $this->initialize();
+
         return $this->coll->count();
     }
 
@@ -485,7 +532,9 @@ final class PersistentCollection implements Collection
     public function set($key, $value)
     {
         $this->initialize();
+
         $this->coll->set($key, $value);
+
         $this->changed();
     }
 
@@ -495,7 +544,9 @@ final class PersistentCollection implements Collection
     public function add($value)
     {
         $this->coll->add($value);
+
         $this->changed();
+
         return true;
     }
 
@@ -505,15 +556,17 @@ final class PersistentCollection implements Collection
     public function isEmpty()
     {
         $this->initialize();
+
         return $this->coll->isEmpty();
     }
-    
+
     /**
      * {@inheritdoc}
      */
     public function getIterator()
     {
         $this->initialize();
+
         return $this->coll->getIterator();
     }
 
@@ -523,6 +576,7 @@ final class PersistentCollection implements Collection
     public function map(Closure $func)
     {
         $this->initialize();
+
         return $this->coll->map($func);
     }
 
@@ -532,15 +586,17 @@ final class PersistentCollection implements Collection
     public function filter(Closure $p)
     {
         $this->initialize();
+
         return $this->coll->filter($p);
     }
-    
+
     /**
      * {@inheritdoc}
      */
     public function forAll(Closure $p)
     {
         $this->initialize();
+
         return $this->coll->forAll($p);
     }
 
@@ -550,15 +606,17 @@ final class PersistentCollection implements Collection
     public function partition(Closure $p)
     {
         $this->initialize();
+
         return $this->coll->partition($p);
     }
-    
+
     /**
      * {@inheritdoc}
      */
     public function toArray()
     {
         $this->initialize();
+
         return $this->coll->toArray();
     }
 
@@ -570,19 +628,32 @@ final class PersistentCollection implements Collection
         if ($this->initialized && $this->isEmpty()) {
             return;
         }
-        if ($this->association['type'] == ClassMetadata::ONE_TO_MANY && $this->association['orphanRemoval']) {
+
+        $uow = $this->em->getUnitOfWork();
+
+        if ($this->association['type'] & ClassMetadata::TO_MANY && $this->association['orphanRemoval']) {
+            // we need to initialize here, as orphan removal acts like implicit cascadeRemove,
+            // hence for event listeners we need the objects in memory.
+            $this->initialize();
+
             foreach ($this->coll as $element) {
-                $this->em->getUnitOfWork()->scheduleOrphanRemoval($element);
+                $uow->scheduleOrphanRemoval($element);
             }
         }
+
         $this->coll->clear();
+
+        $this->initialized = true; // direct call, {@link initialize()} is too expensive
+
         if ($this->association['isOwningSide']) {
             $this->changed();
-            $this->em->getUnitOfWork()->scheduleCollectionDeletion($this);
+
+            $uow->scheduleCollectionDeletion($this);
+
             $this->takeSnapshot();
         }
     }
-    
+
     /**
      * Called by PHP when this collection is serialized. Ensures that only the
      * elements are properly serialized.
@@ -594,7 +665,7 @@ final class PersistentCollection implements Collection
     {
         return array('coll', 'initialized');
     }
-    
+
     /* ArrayAccess implementation */
 
     /**
@@ -622,6 +693,7 @@ final class PersistentCollection implements Collection
         if ( ! isset($offset)) {
             return $this->add($value);
         }
+
         return $this->set($offset, $value);
     }
 
@@ -632,12 +704,12 @@ final class PersistentCollection implements Collection
     {
         return $this->remove($offset);
     }
-    
+
     public function key()
     {
         return $this->coll->key();
     }
-    
+
     /**
      * Gets the element of the collection at the current iterator position.
      */
@@ -645,7 +717,7 @@ final class PersistentCollection implements Collection
     {
         return $this->coll->current();
     }
-    
+
     /**
      * Moves the internal iterator position to the next element.
      */
@@ -653,9 +725,11 @@ final class PersistentCollection implements Collection
     {
         return $this->coll->next();
     }
-    
+
     /**
      * Retrieves the wrapped Collection instance.
+     *
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function unwrap()
     {
@@ -671,11 +745,42 @@ final class PersistentCollection implements Collection
      *
      * @param int $offset
      * @param int $length
+     *
      * @return array
      */
     public function slice($offset, $length = null)
     {
+        if ( ! $this->initialized && ! $this->isDirty && $this->association['fetch'] === Mapping\ClassMetadataInfo::FETCH_EXTRA_LAZY) {
+            $persister = $this->em->getUnitOfWork()->getCollectionPersister($this->association);
+
+            return $persister->slice($this, $offset, $length);
+        }
+
         $this->initialize();
+
         return $this->coll->slice($offset, $length);
+    }
+
+    /**
+     * Cleanup internal state of cloned persistent collection.
+     *
+     * The following problems have to be prevented:
+     * 1. Added entities are added to old PC
+     * 2. New collection is not dirty, if reused on other entity nothing
+     * changes.
+     * 3. Snapshot leads to invalid diffs being generated.
+     * 4. Lazy loading grabs entities from old owner object.
+     * 5. New collection is connected to old owner and leads to duplicate keys.
+     */
+    public function __clone()
+    {
+        $this->initialize();
+        $this->owner = null;
+
+        if (is_object($this->coll)) {
+            $this->coll = clone $this->coll;
+        }
+        $this->snapshot = array();
+        $this->changed();
     }
 }

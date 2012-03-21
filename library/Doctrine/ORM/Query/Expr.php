@@ -40,10 +40,12 @@ class Expr
      *
      *     [php]
      *     // (u.type = ?1) AND (u.role = ?2)
-     *     $expr->andX('u.type = ?1', 'u.role = ?2'));
+     *     $expr->andX($expr->eq('u.type', ':1'), $expr->eq('u.role', ':2'));
      *
-     * @param mixed $x Optional clause. Defaults = null, but requires
-     *                 at least one defined when converting to string.
+     * @param \Doctrine\ORM\Query\Expr\Comparison |
+     *          \Doctrine\ORM\Query\Expr\Func |
+     *          \Doctrine\ORM\Query\Expr\Orx
+    *               $x Optional clause. Defaults = null, but requires at least one defined when converting to string.
      * @return Expr\Andx
      */
     public function andX($x = null)
@@ -73,7 +75,7 @@ class Expr
      * Creates an ASCending order expression.
      *
      * @param $sort
-     * @return OrderBy
+     * @return Expr\OrderBy
      */
     public function asc($expr)
     {
@@ -84,7 +86,7 @@ class Expr
      * Creates a DESCending order expression.
      *
      * @param $sort
-     * @return OrderBy
+     * @return Expr\OrderBy
      */
     public function desc($expr)
     {
@@ -441,6 +443,28 @@ class Expr
             }
         }
         return new Expr\Func($x . ' NOT IN', (array) $y);
+    }
+
+    /**
+     * Creates an IS NULL expression with the given arguments.
+     *
+     * @param string $x Field in string format to be restricted by IS NULL
+     * @return string
+     */
+    public function isNull($x)
+    {
+        return $x . ' IS NULL';
+    }
+
+    /**
+     * Creates an IS NOT NULL expression with the given arguments.
+     *
+     * @param string $x Field in string format to be restricted by IS NOT NULL
+     * @return string
+     */
+    public function isNotNull($x)
+    {
+        return $x . ' IS NOT NULL';
     }
 
     /**

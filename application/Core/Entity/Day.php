@@ -64,7 +64,7 @@ class Day extends BaseEntity
 	 */
 	private $notes;
 
-	/** @Public:Method() */
+	/** @Method() */
 	public function getId()
 	{
 		return $this->id;
@@ -75,7 +75,7 @@ class Day extends BaseEntity
 		$this->dayOffset = $offset;
 	}
 	
-	/** @Public:Method() */
+	/** @Method() */
 	public function getDayOffset()
 	{
 		return $this->dayOffset;
@@ -86,7 +86,7 @@ class Day extends BaseEntity
 		$this->notes = $notes;
 	}
 	
-	/** @Public:Method() */
+	/** @Method() */
 	public function getNotes()
 	{
 		return $this->notes;
@@ -98,7 +98,7 @@ class Day extends BaseEntity
 	}
 	
 	/**
-	 * @Public:MethodEntity()
+	 * @MethodEntity()
 	 * @return \Core\Entity\Period
 	 */
 	public function getPeriod()

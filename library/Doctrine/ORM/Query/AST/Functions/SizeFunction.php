@@ -45,7 +45,7 @@ class SizeFunction extends FunctionNode
         $platform = $sqlWalker->getConnection()->getDatabasePlatform();
         $dqlAlias = $this->collectionPathExpression->identificationVariable;
         $assocField = $this->collectionPathExpression->field;
-        
+
         $qComp = $sqlWalker->getQueryComponent($dqlAlias);
         $class = $qComp['metadata'];
         $assoc = $class->associationMappings[$assocField];
@@ -53,15 +53,15 @@ class SizeFunction extends FunctionNode
 
         if ($assoc['type'] == \Doctrine\ORM\Mapping\ClassMetadata::ONE_TO_MANY) {
             $targetClass = $sqlWalker->getEntityManager()->getClassMetadata($assoc['targetEntity']);
-            $targetTableAlias = $sqlWalker->getSqlTableAlias($targetClass->table['name']);
-            $sourceTableAlias = $sqlWalker->getSqlTableAlias($class->table['name'], $dqlAlias);
+            $targetTableAlias = $sqlWalker->getSQLTableAlias($targetClass->getTableName());
+            $sourceTableAlias = $sqlWalker->getSQLTableAlias($class->getTableName(), $dqlAlias);
 
             $sql .= $targetClass->getQuotedTableName($platform) . ' ' . $targetTableAlias . ' WHERE ';
 
             $owningAssoc = $targetClass->associationMappings[$assoc['mappedBy']];
 
             $first = true;
-            
+
             foreach ($owningAssoc['targetToSourceKeyColumns'] as $targetColumn => $sourceColumn) {
                 if ($first) $first = false; else $sql .= ' AND ';
 
@@ -76,8 +76,8 @@ class SizeFunction extends FunctionNode
             $joinTable = $owningAssoc['joinTable'];
 
             // SQL table aliases
-            $joinTableAlias = $sqlWalker->getSqlTableAlias($joinTable['name']);
-            $sourceTableAlias = $sqlWalker->getSqlTableAlias($class->table['name'], $dqlAlias);
+            $joinTableAlias = $sqlWalker->getSQLTableAlias($joinTable['name']);
+            $sourceTableAlias = $sqlWalker->getSQLTableAlias($class->getTableName(), $dqlAlias);
 
             // join to target table
             $sql .= $targetClass->getQuotedJoinTableName($owningAssoc, $platform) . ' ' . $joinTableAlias . ' WHERE ';
@@ -100,7 +100,7 @@ class SizeFunction extends FunctionNode
                       . $sourceTableAlias . '.' . $sourceColumnName;
             }
         }
-        
+
         return '(' . $sql . ')';
     }
 
@@ -110,12 +110,12 @@ class SizeFunction extends FunctionNode
     public function parse(\Doctrine\ORM\Query\Parser $parser)
     {
         $lexer = $parser->getLexer();
-        
+
         $parser->match(Lexer::T_SIZE);
         $parser->match(Lexer::T_OPEN_PARENTHESIS);
-        
+
         $this->collectionPathExpression = $parser->CollectionValuedPathExpression();
-        
+
         $parser->match(Lexer::T_CLOSE_PARENTHESIS);
     }
 }

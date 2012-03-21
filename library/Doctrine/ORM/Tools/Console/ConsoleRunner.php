@@ -26,7 +26,7 @@ class ConsoleRunner
 {
     /**
      * Run console with the given helperset.
-     * 
+     *
      * @param \Symfony\Component\Console\Helper\HelperSet $helperSet
      * @return void
      */
@@ -64,6 +64,7 @@ class ConsoleRunner
             new \Doctrine\ORM\Tools\Console\Command\ConvertMappingCommand(),
             new \Doctrine\ORM\Tools\Console\Command\RunDqlCommand(),
             new \Doctrine\ORM\Tools\Console\Command\ValidateSchemaCommand(),
+            new \Doctrine\ORM\Tools\Console\Command\InfoCommand()
         ));
     }
 }

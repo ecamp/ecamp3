@@ -20,6 +20,7 @@
 namespace Doctrine\ORM\Id;
 
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\ORMException;
 
 /**
@@ -42,28 +43,29 @@ class AssignedGenerator extends AbstractIdGenerator
      */
     public function generate(EntityManager $em, $entity)
     {
-        $class = $em->getClassMetadata(get_class($entity));
+        $class      = $em->getClassMetadata(get_class($entity));
+        $idFields   = $class->getIdentifierFieldNames();
         $identifier = array();
-        if ($class->isIdentifierComposite) {
-            $idFields = $class->getIdentifierFieldNames();
-            foreach ($idFields as $idField) {
-                $value = $class->getReflectionProperty($idField)->getValue($entity);
-                if (isset($value)) {
-                    $identifier[$idField] = $value;
-                } else {
-                    throw ORMException::entityMissingAssignedId($entity);
-                }
-            }
-        } else {
-            $idField = $class->identifier[0];
+
+        foreach ($idFields as $idField) {
             $value = $class->reflFields[$idField]->getValue($entity);
-            if (isset($value)) {
-                $identifier[$idField] = $value;
-            } else {
-                throw ORMException::entityMissingAssignedId($entity);
+
+            if ( ! isset($value)) {
+                throw ORMException::entityMissingAssignedIdForField($entity, $idField);
             }
+
+            if (isset($class->associationMappings[$idField])) {
+                if ( ! $em->getUnitOfWork()->isInIdentityMap($value)) {
+                    throw ORMException::entityMissingForeignAssignedId($entity, $value);
+                }
+
+                // NOTE: Single Columns as associated identifiers only allowed - this constraint it is enforced.
+                $value = current($em->getUnitOfWork()->getEntityIdentifier($value));
+            }
+
+            $identifier[$idField] = $value;
         }
-        
+
         return $identifier;
     }
 }

@@ -85,7 +85,7 @@ class Period extends BaseEntity
 
 
 	/**
-	 * @Public:Method()
+	 * @Method()
 	 * @return int
 	 */
 	public function getId()
@@ -99,7 +99,7 @@ class Period extends BaseEntity
 	}
 	
 	/**
-	 * @Public:Method()
+	 * @Method()
 	 * @return string
 	 */
 	public function getDescription()
@@ -112,7 +112,7 @@ class Period extends BaseEntity
 		$this->start = $start;
 	}
 	/**
-	 * @Public:Method()
+	 * @Method()
 	 * @return int
 	 */
 	public function getStart()
@@ -125,7 +125,7 @@ class Period extends BaseEntity
 		$this->duration = $duration;
 	}
 	/**
-	 * @Public:Method()
+	 * @Method()
 	 * @return int
 	 */
 	public function getDuration()
@@ -134,7 +134,7 @@ class Period extends BaseEntity
 	}
 
 	/**
-	 * @Public:Method()
+	 * @Method()
 	 * @return int
 	 */
 	public function getEnd()
@@ -148,7 +148,7 @@ class Period extends BaseEntity
 	}
 	
 	/**
-	 * @Public:MethodEntity()
+	 * @MethodEntity()
 	 * @return Camp
 	 */
 	public function getCamp()
@@ -157,7 +157,7 @@ class Period extends BaseEntity
 	}
 
 	/**
-	 * @Public:MethodEntityList(type = "\CoreApi\Entity\EventInstance")
+	 * @MethodEntityList(type = "\CoreApi\Entity\EventInstance")
 	 * @return array
 	 */
 	public function getEventInstances()

@@ -35,14 +35,37 @@ class ORMException extends Exception
             "to Doctrine\ORM\Configuration::setMetadataDriverImpl().");
     }
 
-    public static function entityMissingAssignedId($entity)
+    public static function entityMissingForeignAssignedId($entity, $relatedEntity)
     {
-        return new self("Entity of type " . get_class($entity) . " is missing an assigned ID.");
+        return new self(
+            "Entity of type " . get_class($entity) . " has identity through a foreign entity " . get_class($relatedEntity) . ", " .
+            "however this entity has no identity itself. You have to call EntityManager#persist() on the related entity " .
+            "and make sure that an identifier was generated before trying to persist '" . get_class($entity) . "'. In case " .
+            "of Post Insert ID Generation (such as MySQL Auto-Increment or PostgreSQL SERIAL) this means you have to call " .
+            "EntityManager#flush() between both persist operations."
+        );
     }
 
+    public static function entityMissingAssignedIdForField($entity, $field)
+    {
+        return new self("Entity of type " . get_class($entity) . " is missing an assigned ID for field  '" . $field . "'. " .
+            "The identifier generation strategy for this entity requires the ID field to be populated before ".
+            "EntityManager#persist() is called. If you want automatically generated identifiers instead " .
+            "you need to adjust the metadata mapping accordingly."
+        );
+    }
     public static function unrecognizedField($field)
     {
         return new self("Unrecognized field: $field");
+    }
+
+    /**
+     * @param string $className
+     * @param string $field
+     */
+    public static function invalidOrientation($className, $field)
+    {
+        return new self("Invalid order by orientation specified for " . $className . "#" . $field);
     }
 
     public static function invalidFlushMode($mode)
@@ -114,5 +137,16 @@ class ORMException extends Exception
         return new self(
             "Unknown Entity namespace alias '$entityNamespaceAlias'."
         );
+    }
+
+    public static function invalidEntityRepository($className)
+    {
+        return new self("Invalid repository class '".$className."'. ".
+                "it must be a Doctrine\ORM\EntityRepository.");
+    }
+
+    public static function missingIdentifierField($className, $fieldName)
+    {
+        return new self("The identifier $fieldName is missing for a query of " . $className);
     }
 }
