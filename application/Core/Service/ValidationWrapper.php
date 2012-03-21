@@ -10,8 +10,16 @@ class ValidationWrapper
 	 */
 	private static $validationException = null;
 	
+	private static $pdoException = null;
+	
 	private static $serviceNestingLevel = 0;
 	
+	
+	
+	public static function flushFailed(\PDOException $e)
+	{
+		self::$pdoException = $e;
+	}
 	
 	public static function validationFailed()
 	{
@@ -29,7 +37,9 @@ class ValidationWrapper
 	
 	public static function hasFailed()
 	{
-		return self::$validationException != null;
+		return 
+			self::$validationException != null ||
+			self::$pdoException != null;
 	}
 	
 	/**
@@ -74,6 +84,7 @@ class ValidationWrapper
 		if(self::$serviceNestingLevel == 0)
 		{
 			self::$validationException = null;
+			self::$pdoException = null;
 		}
 	
 		self::$serviceNestingLevel++;
@@ -86,6 +97,11 @@ class ValidationWrapper
 		if(self::$serviceNestingLevel == 0 && isset(self::$validationException))
 		{
 			throw self::$validationException;
+		}
+		
+		if(self::$serviceNestingLevel == 0 && isset(self::$pdoException))
+		{
+			throw self::$pdoException;
 		}
 	}
 	
