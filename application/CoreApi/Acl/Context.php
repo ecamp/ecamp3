@@ -79,13 +79,4 @@ class Context
 		return $this->camp;
 	}
 	
-	/**
-	 * @return arrays
-	 */
-	public function getRolesinContext()
-	{
-	
-	}
-	
-	
 }

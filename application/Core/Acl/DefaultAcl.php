@@ -11,7 +11,8 @@ class DefaultAcl extends \Zend_Acl
 	const MEMBER		= 'member';
 	const ADMIN			= 'admin';
 	
-	const CAMP_NORMAL	= 'camp_normal';
+	const CAMP_GUEST	= 'camp_guest';
+	const CAMP_MEMBER	= 'camp_member';
 	const CAMP_MANAGER	= 'camp_manager';
 	const CAMP_OWNER	= 'camp_owner';
 	const CAMP_CREATOR	= 'camp_creator';
@@ -125,9 +126,11 @@ class DefaultAcl extends \Zend_Acl
              ->addRole(self::ADMIN,  self::MEMBER);
              
         /* roles in context to a camp */
-        $this->addRole(self::CAMP_NORMAL)
-             ->addRole(self::CAMP_MANAGER, self::CAMP_NORMAL)
-             ->addRole(self::CAMP_OWNER, self::CAMP_MANAGER);
+        $this->addRole(self::CAMP_GUEST)
+             ->addRole(self::CAMP_MEMBER, self::CAMP_GUEST)
+             ->addRole(self::CAMP_MANAGER, self::CAMP_MEMBER)
+             ->addRole(self::CAMP_OWNER, self::CAMP_MANAGER)
+        	 ->addRole(self::CAMP_CREATOR, self::CAMP_MANAGER);
              
         /* roles in context to a group */
         $this->addRole(self::GROUP_MEMBER)
