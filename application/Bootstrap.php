@@ -18,6 +18,11 @@
  * along with eCamp.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+use Core\Acl\ContextFactory;
+use Core\Provider\EntityManager;
+use Core\Provider\Repository;
+use Core\Service\ServiceFactory;
+
 class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 {	
 	
@@ -94,72 +99,41 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 		$kernel->Bind("Core\Acl\ContextStorage")->ToSelf()->AsSingleton();
 		$kernel->Bind("CoreApi\Acl\ContextManager")->ToSelf()->AsSingleton();
 		
+		$kernel->Bind("Core\Acl\Context")->ToFactory(new ContextFactory(false));
+		$kernel->Bind("CoreApi\Acl\Context")->ToFactory(new ContextFactory(true));
 		
-		$kernel->Bind("Core\Acl\Context")->ToFactory(new Core\Acl\ContextFactory(false));
-		$kernel->Bind("CoreApi\Acl\Context")->ToFactory(new Core\Acl\ContextFactory(true));
 		
-		$kernel
-			->Bind("EntityManager")
-			->ToProvider(new Core\Provider\EntityManager());
-		
-		$kernel
-			->Bind("Doctrine\ORM\EntityManager")
-			->ToProvider(new Core\Provider\EntityManager());
-
-		$kernel
-			->Bind("CampRepository")
-			->ToProvider(new Core\Provider\Repository("Core\Entity\Camp"));
-
-		$kernel
-			->Bind("GroupRepository")
-			->ToProvider(new Core\Provider\Repository("Core\Entity\Group"));
-
-		$kernel
-			->Bind("LoginRepository")
-			->ToProvider(new Core\Provider\Repository("Core\Entity\Login"));
-
-		$kernel
-			->Bind("UserRepository")
-			->ToProvider(new Core\Provider\Repository("Core\Entity\User"));
-
-		$kernel
-			->Bind("UserCampRepository")
-			->ToProvider(new Core\Provider\Repository("Core\Entity\UserCamp"));
-		
-		$kernel
-			->Bind("Core\Repository\LoginRepository")
-			->ToProvider(new Core\Provider\Repository("Core\Entity\Login"));
-		
-		$kernel
-			->Bind("Core\Repository\UserRepository")
-			->ToProvider(new Core\Provider\Repository("Core\Entity\User"));
-		
-		$kernel
-			->Bind("Core\Repository\GroupRepository")
-			->ToProvider(new Core\Provider\Repository("Core\Entity\Group"));
-		
-		$kernel
-			->Bind("Core\Repository\CampRepository")
-			->ToProvider(new Core\Provider\Repository("Core\Entity\Camp"));
+		$kernel->Bind("EntityManager")->ToProvider(new EntityManager());
+		$kernel->Bind("Doctrine\ORM\EntityManager")->ToProvider(new EntityManager());
 
 		
+		$kernel->Bind("CampRepository")->ToProvider(new Repository("Core\Entity\Camp"));
+		$kernel->Bind("GroupRepository")->ToProvider(new Repository("Core\Entity\Group"));
+		$kernel->Bind("LoginRepository")->ToProvider(new Repository("Core\Entity\Login"));
+		$kernel->Bind("UserRepository")->ToProvider(new Repository("Core\Entity\User"));
+		$kernel->Bind("UserCampRepository")->ToProvider(new Repository("Core\Entity\UserCamp"));
 		
-		$kernel
-			->Bind("CoreApi\Service\User\UserService")
-			->ToFactory(new \Core\Service\ServiceFactory("CoreApi\Service\User\UserService"))
-			->AsSingleton();
+		$kernel->Bind("Core\Repository\LoginRepository")->ToProvider(new Repository("Core\Entity\Login"));
+		$kernel->Bind("Core\Repository\UserRepository")->ToProvider(new Repository("Core\Entity\User"));
+		$kernel->Bind("Core\Repository\GroupRepository")->ToProvider(new Repository("Core\Entity\Group"));
+		$kernel->Bind("Core\Repository\CampRepository")->ToProvider(new Repository("Core\Entity\Camp"));
 		
 		
-		$kernel
-			->Bind("CoreApi\Service\Login\LoginService")
-			->ToFactory(new \Core\Service\ServiceFactory("CoreApi\Service\Login\LoginService"))
-			->AsSingleton();
+		$kernel	->Bind("CoreApi\Service\RegisterService")
+				->ToFactory(new ServiceFactory("CoreApi\Service\RegisterService"))
+				->AsSingleton();
 		
-		$kernel
-			->Bind("CoreApi\Service\Camp\CampService")
-			->ToFactory(new \Core\Service\ServiceFactory("CoreApi\Service\Camp\CampService"))
-			->AsSingleton();
+		$kernel	->Bind("CoreApi\Service\LoginService")
+				->ToFactory(new ServiceFactory("CoreApi\Service\LoginService"))
+				->AsSingleton();
 		
+		$kernel	->Bind("CoreApi\Service\UserService")
+				->ToFactory(new ServiceFactory("CoreApi\Service\UserService"))
+				->AsSingleton();
+		
+		$kernel	->Bind("CoreApi\Service\CampService")
+				->ToFactory(new ServiceFactory("CoreApi\Service\CampService"))
+				->AsSingleton();
 		
 		
 		Zend_Registry::set("kernel", $kernel);
