@@ -10,6 +10,7 @@ class ValidationException extends \Exception
 	public function addMessage($message)
 	{
 		$this->messages[] = $message;
+		$this->message = implode("; ", $this->messages);
 	}
 	
 	public function getMessages()

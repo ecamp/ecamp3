@@ -32,6 +32,11 @@ class ValidationWrapper
 		return self::$validationException != null;
 	}
 	
+	public static function getServiceNestingLevel()
+	{
+		return self::$serviceNestingLevel;
+	}
+	
 	/**
 	 * @var PhpDI\IKernel
 	 * @Inject PhpDI\IKernel
