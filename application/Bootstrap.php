@@ -101,10 +101,12 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 		
 		$kernel->Bind("Core\Acl\DefaultAcl")->ToSelf()->AsSingleton();
 		$kernel->Bind("Core\Acl\ContextStorage")->ToSelf()->AsSingleton();
+		$kernel->Bind("Core\Acl\ContextProvider")->ToSelf()->AsSingleton();
 		$kernel->Bind("CoreApi\Acl\ContextManager")->ToSelf()->AsSingleton();
+		$kernel->Bind("CoreApi\Acl\ContextProvider")->ToSelf()->AsSingleton();
 		
-		$kernel->Bind("Core\Acl\Context")->ToFactory(new ContextFactory(false));
-		$kernel->Bind("CoreApi\Acl\Context")->ToFactory(new ContextFactory(true));
+//		$kernel->Bind("Core\Acl\Context")->ToFactory(new ContextFactory(false));
+//		$kernel->Bind("CoreApi\Acl\Context")->ToFactory(new ContextFactory(true));
 		
 		
 		$kernel->Bind("EntityManager")->ToProvider(new EntityManager());

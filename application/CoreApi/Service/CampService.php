@@ -83,7 +83,7 @@ class CampService
 		$camp = new CoreCamp();
 		$this->persist($camp);
 		
-		$camp->setCreator($this->context->getMe());
+		$camp->setCreator($this->contextProvider->getContext()->getMe());
 		
 		$campValidator = new CampValidator($camp);
 		$this->validationFailed( !$campValidator->applyIfValid($form) );
