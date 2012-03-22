@@ -31,14 +31,16 @@ class ContextStorage
 	private $campId = null;
 	
 	
-	public function __construct()
-	{
-		$this->context = new Context();
-	}
+	private $context = null;
+	private $readonlyContext = null;
+	
 	
 	
 	public function set($userId, $groupId, $campId)
 	{
+		$this->context = null;
+		$this->readonlyContext = null;
+		
 		$this->userId = $userId;
 		$this->groupId = $groupId;
 		$this->campId = $campId;
@@ -50,6 +52,10 @@ class ContextStorage
 	 */
 	public function getContext()
 	{
+		if(isset($this->context))
+		{	return $this->context;	}
+		
+		
 		$meId = \Zend_Auth::getInstance()->getIdentity();
 		
 		$userId =  $this->userId;
@@ -61,7 +67,8 @@ class ContextStorage
 		$group = isset($groupId) ? $this->groupRepo->find($groupId) : null;
 		$camp =  isset($campId)  ? $this->campRepo->find( $campId ) : null;
 		
-		return new Context($me, $user, $group, $camp);
+		$this->context = new Context($me, $user, $group, $camp);
+		return $this->context;
 	}
 	
 	
@@ -70,6 +77,10 @@ class ContextStorage
 	 */
 	public function getReadonlyContext()
 	{
+		if(isset($this->readonlyContext))
+		{	return $this->readonlyContext;	}
+		
+		
 		$meId = \Zend_Auth::getInstance()->getIdentity();
 	
 		$userId =  $this->userId;
@@ -86,6 +97,7 @@ class ContextStorage
 		$group = isset($group) 	? $group->asReadonly() 	: null;
 		$camp =  isset($camp) 	? $camp->asReadonly() 	: null; 
 		
-		return new \CoreApi\Acl\Context($me, $user, $group, $camp);
+		$this->readonlyContext = new \CoreApi\Acl\Context($me, $user, $group, $camp);
+		return $this->readonlyContext;
 	}
 }

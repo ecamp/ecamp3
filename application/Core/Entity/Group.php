@@ -262,7 +262,7 @@ class Group extends BaseEntity
 	{
 		$closure = function($key, $element) use ($user)
 		{
-			return  $element->getRole() == UserGroup::ROLE_MEMBEr && $element->getUser() == $user;
+			return  $element->getRole() == UserGroup::ROLE_MEMBER && $element->getUser() == $user;
 		};
 	
 		return $this->getUserGroups()->exists( $closure );

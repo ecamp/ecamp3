@@ -78,11 +78,11 @@ class RegisterService
 	 *
 	 * @return bool
 	 */
-	public function Activate($user, $key, $s = false)
+	public function Activate($userId, $key, $s = false)
 	{
 		$t = $this->beginTransaction();
 		
-		$user = $this->userService->Get($user);
+		$user = $this->userService->Get($userId);
 		$user = $this->UnwrapEntity($user);
 		
 		if(is_null($user))

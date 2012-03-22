@@ -79,4 +79,17 @@ class Context
 		return $this->camp;
 	}
 	
+	
+	public function __toString()
+	{
+		$ids = array(
+			is_null($this->me) 		? 'null' : $this->me->getId(),
+			is_null($this->user) 	? 'null' : $this->user->getId(),
+			is_null($this->group) 	? 'null' : $this->group->getId(),
+			is_null($this->camp) 	? 'null' : $this->camp->getId()
+		);
+		
+		return implode("::", $ids);
+	}
+	
 }

@@ -4,6 +4,8 @@ namespace Core\Acl;
 
 
 use Core\Entity\User;
+use Core\Service\ValidationWrapper;
+
 
 class DefaultAcl extends \Zend_Acl
 {
@@ -23,6 +25,8 @@ class DefaultAcl extends \Zend_Acl
 	const USER_FRIEND	= 'user_friend';
 	const USER_ME		= 'user_me';
 	
+	const IN_SERVICE	= 'in_service';
+	
 	/**
 	 * @var Doctrine\ORM\EntityManager
 	 * @Inject Doctrine\ORM\EntityManager
@@ -31,21 +35,41 @@ class DefaultAcl extends \Zend_Acl
 	
 	
 	/**
-	 * @var Core\Acl\Context
-	 * @Inject Core\Acl\Context
+	 * @var Core\Acl\ContextProvider
+	 * @Inject Core\Acl\ContextProvider
 	 */
-	protected $context;
+	protected $contextProvider;
+	
+	/**
+	 * @var array
+	 */
+	private $rolesCache = array();
 	
 	
 	public function getRolesInContext()
 	{
-		if(is_null($this->context->getMe()))
+		$context = $this->contextProvider->getContext();
+		
+		$roles = array_key_exists((string) $context, $this->rolesCache) ?
+			$roles = $this->rolesCache[(string) $context] : 
+			$this->calculateRolesFromContext($context);
+		
+		if(ValidationWrapper::getServiceNestingLevel() > 0)
+		{	$roles = array_merge($roles, self::IN_SERVICE);	}
+		
+		return $roles;
+	}
+	
+	
+	private function calculateRolesFromContext($context)
+	{		
+		if(is_null($context->getMe()))
 		{	return array(self::GUEST);	}
 
 		$roles = array();
 		
 		/* roles without context */
-		$me = $this->context->getMe();
+		$me = $context->getMe();
 		if($me)
 		{
 			if($me->getRole() == User::ROLE_ADMIN)
@@ -58,8 +82,8 @@ class DefaultAcl extends \Zend_Acl
 		
 		
 		/* roles in group context */
-		$group = $this->context->getGroup();
-		if($this->context->getGroup())
+		$group = $context->getGroup();
+		if($group)
 		{
 			if( $group->isManager($me) )
 			{
@@ -74,7 +98,7 @@ class DefaultAcl extends \Zend_Acl
 		}
 		
 		/* roles in camp context */
-		$camp = $this->context->getCamp(); 
+		$camp = $context->getCamp(); 
 		if($camp)
 		{
 			if( $camp->getOwner() == $me )
@@ -99,7 +123,7 @@ class DefaultAcl extends \Zend_Acl
 		}
 		
 		/* roles in user context */
-		$user = $this->context->getUser();
+		$user = $context->getUser();
 		if($user)
 		{
 				if( $user == $me )
@@ -111,6 +135,8 @@ class DefaultAcl extends \Zend_Acl
 					$roles[] = self::USER_FRIEND;
 				}
 		}
+		
+		$this->rolesCache[(string)$context] = $roles;
 		
 		return $roles;
 	}
@@ -139,5 +165,7 @@ class DefaultAcl extends \Zend_Acl
         /* roles in context to another user */
         $this->addRole(self::USER_FRIEND)
 			->addRole(self::USER_ME, self::USER_FRIEND);
+        
+        $this->addRole(self::IN_SERVICE);
     }
 }
