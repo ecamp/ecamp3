@@ -65,15 +65,6 @@ class Login extends BaseEntity
 	 * @JoinColumn(name="user_id", referencedColumnName="id")
 	 */
 	public $user;
-
-
-	/**
-	 * @return \Core\Entity\Login
-	 */
-	public function asReadonly()
-	{
-		return new \Core\Entity\Login($this);
-	}
 	
 
 	/**

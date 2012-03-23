@@ -88,8 +88,19 @@ class ValidationWrapper
 		{
 			self::$validationException = null;
 			
+			$uow = $this->em->getUnitOfWork();
+			$uow->computeChangeSets();
+			
+			$upd = $uow->getScheduledEntityUpdates();
+			$ins = $uow->getScheduledEntityInsertions();
+			$del = $uow->getScheduledEntityDeletions();
+			$colupd = $uow->getScheduledCollectionUpdates();
+			$coldel = $uow->getScheduledCollectionDeletions();
+			
+			if( !empty($upd) || !empty($ins)|| !empty($del)|| !empty($colupd)|| !empty($coldel) )
+				throw new \Exception("You tried to edit an entity outside the service layer.");
+			
 			$this->transaction = $this->em->getConnection()->beginTransaction();
-			$this->em->clear();
 		}
 	
 		self::$serviceNestingLevel++;
@@ -122,7 +133,6 @@ class ValidationWrapper
 		{
 			$this->em->flush();
 			$this->em->getConnection()->commit();
-			$this->em->clear();
 		}
 		catch (Exception $e)
 		{

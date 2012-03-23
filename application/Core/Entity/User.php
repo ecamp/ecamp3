@@ -62,16 +62,6 @@ class User extends BaseEntity
 		$this->role  = self::ROLE_USER;
 	}
 
-
-	/**
-	 * @return \Core\Entity\User
-	 */
-	public function asReadonly()
-	{
-		return new \Core\Entity\User($this);
-	}
-
-
 	/**
 	 * @Id @Column(type="integer")
 	 * @GeneratedValue(strategy="AUTO")

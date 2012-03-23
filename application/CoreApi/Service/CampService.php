@@ -95,7 +95,7 @@ class CampService
 		
 		$t->flushAndCommit($s);
 		
-		return $camp->asReadonly();
+		return $camp;
 	}
 	
 	

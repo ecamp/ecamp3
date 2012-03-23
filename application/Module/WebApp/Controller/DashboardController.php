@@ -74,30 +74,6 @@ class WebApp_DashboardController extends \WebApp\Controller\BaseController
     }
 	
 	public function campsAction(){
-		/* ultimative test: try to update a entity*/
-		
-		/* load user and camp through repo */
-		$user = $this->userRepository->find(7);
-		$camp = $this->campRepository->find(3);
-		$owner = $camp->getOwner();
-		
-		echo "<br/>repo memb ".($camp->isMember($user));
-		echo "<br/>repo owner ".($owner == $user);
-		
-		/* load user and camp through service */
-		/* comparision by object fails        */
-		$user = $this->userService->Get(7);
-		$camp = $this->campService->Get(3);
-		$owner = $camp->getOwner();
-		
-		echo "<br/>service memb ".($camp->isMember($user));
-		echo "<br/>service owner ".($owner == $user);
-		echo "<br/>service owner ".($owner->getId() == $user->getId());
-		
-		/* set firstname; is not written to database */
-		$user->setFirstname("****************");	
-		
-		$user2 = $this->userService->Get(8);
 	}
 
 	public function deletecampAction(){

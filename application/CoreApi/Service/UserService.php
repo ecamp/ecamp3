@@ -50,7 +50,7 @@ class UserService
 		else
 		{	$user = $this->context->getMe();	}
 		
-		return is_null($user) ? null : $user->asReadonly();
+		return $user;
 	}
 	
 	
@@ -95,7 +95,7 @@ class UserService
 		
 		$t->flushAndCommit($s);
 			
-		return $user->asReadonly();
+		return $user;
 	}
 	
 	

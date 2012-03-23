@@ -34,15 +34,7 @@ class Camp extends BaseEntity
 		$this->userCamps = new \Doctrine\Common\Collections\ArrayCollection();
 		$this->events    = new \Doctrine\Common\Collections\ArrayCollection();
 	}
-
-
-	/**
-	 * @return \Core\Entity\Camp
-	 */
-	public function asReadonly()
-	{
-		return new \Core\Entity\Camp($this);
-	}
+	
 
 	/**
 	 * @var int

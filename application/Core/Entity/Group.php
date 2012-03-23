@@ -35,15 +35,6 @@ class Group extends BaseEntity
 
 
 	/**
-	 * @return \Core\Entity\Group
-	 */
-	public function asReadonly()
-	{
-		return new \Core\Entity\Group($this);
-	}
-
-
-	/**
 	 * @Id @Column(type="integer")
 	 * @GeneratedValue(strategy="AUTO")
 	 * @var int

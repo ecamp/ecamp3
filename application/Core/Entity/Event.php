@@ -31,15 +31,6 @@ class Event extends BaseEntity
 {
 
 	/**
-	 * @return \Core\Entity\Event
-	 */
-	public function asReadonly()
-	{
-		return new \Core\Entity\Event($this);
-	}
-
-
-	/**
 	 * @var int
 	 * @Id @Column(type="integer")
 	 * @GeneratedValue(strategy="AUTO")

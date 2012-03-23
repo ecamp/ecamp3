@@ -29,15 +29,6 @@ use Doctrine\DBAL\Types\StringType;
 class Content extends \Core\Entity\BaseEntity 
 {
 
-	/**
-	 * @return \Core\Entity\Day
-	 */
-	public function asReadonly()
-	{
-		// TODO return Readonly Entity for Plugin!
-		return null;
-	}
-
 	public function __construct($plugin)
 	{
 		$this->text = "hello world";
