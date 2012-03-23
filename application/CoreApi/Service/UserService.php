@@ -10,7 +10,6 @@ use Core\Service\ServiceBase;
 class UserService 
 	extends ServiceBase
 {
-	
 	/**
 	 * @var Core\Repository\UserRepository
 	 * @Inject Core\Repository\UserRepository
@@ -45,13 +44,13 @@ class UserService
 	 * @return \Core\Entity\User
 	 */
 	public function Get($id = null)
-	{
+	{		
 		if(isset($id))
 		{	$user = $this->getByIdentifier($id);	}
 		else
 		{	$user = $this->context->getMe();	}
 		
-		return is_null($user) ? null : $user->asReadonly();
+		return $user;
 	}
 	
 	
@@ -96,7 +95,7 @@ class UserService
 		
 		$t->flushAndCommit($s);
 			
-		return $user->asReadonly();
+		return $user;
 	}
 	
 	
@@ -148,7 +147,6 @@ class UserService
 
 		/* create camp */
 		$camp = $this->campService->Create($form, $s);
-		$camp = $this->UnwrapEntity($camp);
 		$camp->setOwner($this->context->getMe());
 			
 		$t->flushAndCommit($s);

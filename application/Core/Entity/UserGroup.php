@@ -44,16 +44,6 @@ class UserGroup extends BaseEntity
 		$this->requestAcceptedBy = null;
 	}
 
-
-	/**
-	 * @return \CoreApi\Entity\UserGroup
-	 */
-	public function asReadonly()
-	{
-		return new \CoreApi\Entity\UserGroup($this);
-	}
-
-
 	/**
 	 * @Id @Column(type="integer")
 	 * @GeneratedValue(strategy="AUTO")

@@ -48,14 +48,6 @@ class UserCamp extends BaseEntity
 
 
 	/**
-	 * @return \CoreApi\Entity\UserCamp
-	 */
-	public function asReadonly()
-	{
-		return new \CoreApi\Entity\UserCamp($this);
-	}
-
-	/**
 	 * @Id @Column(type="integer")
 	 * @GeneratedValue(strategy="AUTO")
 	 * @var int

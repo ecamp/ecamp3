@@ -8,12 +8,17 @@ use Core\Service\ServiceBase;
 use Core\Validator\Entity\CampValidator;
 
 use Core\Entity\Camp as CoreCamp;
-use CoreApi\Entity\Camp as CoreApiCamp;
 
 
 class CampService
 	extends ServiceBase
 {
+	/**
+	 * @var \Repository\CampRepository
+	 * @Inject CampRepository
+	 */
+	private $campRepo;
+	
 	/**
 	 * Setup ACL
 	 * @return void
@@ -22,10 +27,11 @@ class CampService
 	{
 		$this->acl->allow(DefaultAcl::MEMBER, $this, 'Create');
 		$this->acl->allow(DefaultAcl::MEMBER, $this, 'Delete');
+		$this->acl->allow(DefaultAcl::MEMBER, $this, 'Get');
 	}
 	
 	/**
-	 * @return CoreApi\Entity\Camp | NULL
+	 * @return Core\Entity\Camp | NULL
 	 */
 	public function Get($id)
 	{
@@ -33,9 +39,6 @@ class CampService
 		{	return $this->Get($this->campRepo->find($id));	}
 			
 		if($id instanceof CoreCamp)
-		{	return $id->asReadonly();	}
-		
-		if($id instanceof CoreApiCamp)
 		{	return $id;	}
 		
 		return null;
@@ -55,7 +58,7 @@ class CampService
 	
 	
 	/**
-	 * @return CoreApi\Entity\Camp
+	 * @return Core\Entity\Camp
 	 */
 	public function Update($camp, \Zend_Form $form, $s = false)
 	{
@@ -69,12 +72,12 @@ class CampService
 		
 		$t->flushAndCommit($s);
 		
-		return $camp->asReadonly();
+		return $camp;
 	}
 	
 	
 	/**
-	 * @return CoreApi\Entity\Camp
+	 * @return Core\Entity\Camp
 	 */
 	public function Create(\Zend_Form $form, $s = false)
 	{	
@@ -89,16 +92,15 @@ class CampService
 		$this->validationFailed( !$campValidator->applyIfValid($form) );
 		
 		$period = $this->CreatePeriod($camp, $form, $s);
-		$period =  $this->UnwrapEntity( $period ); 
 		
 		$t->flushAndCommit($s);
 		
-		return $camp->asReadonly();
+		return $camp;
 	}
 	
 	
 	/**
-	 * @return CoreApi\Entity\Camp
+	 * @return Core\Entity\Camp
 	 */
 	public function CreatePeriod($camp, \Zend_Form $form, $s = false)
 	{
@@ -148,11 +150,6 @@ class CampService
 		if($id instanceof CoreCamp)
 		{
 			return $id;
-		}
-	
-		if($id instanceof CoreApiCamp)
-		{
-			return $this->UnwrapEntity($id);
 		}
 	
 		return null;

@@ -5,8 +5,8 @@ namespace CoreApi\Service;
 use Core\Acl\DefaultAcl;
 use Core\Service\ServiceBase;
 
-use CoreApi\Entity\User;
-use CoreApi\Entity\Login;
+use Core\Entity\User;
+use Core\Entity\Login;
 
 
 class RegisterService 
@@ -39,7 +39,7 @@ class RegisterService
 	
 	
 	/**
-	 * @return CoreApi\Entity\User
+	 * @return Core\Entity\User
 	 */
 	public function Register(\Zend_Form $registerForm, $s = false)
 	{
@@ -48,7 +48,7 @@ class RegisterService
 		$user 	= $this->userService->Create($registerForm, $s);
 		$login	= $this->loginService->Create($user, $registerForm, $s);
 		
-		$activationCode = $this->UnwrapEntity($user)->createNewActivationCode();
+		$activationCode = $user->createNewActivationCode();
 		
 		// TODO: Send Mail with 
 		//		 $activationCode!
@@ -83,7 +83,6 @@ class RegisterService
 		$t = $this->beginTransaction();
 		
 		$user = $this->userService->Get($user);
-		$user = $this->UnwrapEntity($user);
 		
 		if(is_null($user))
 		{

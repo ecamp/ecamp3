@@ -2,28 +2,28 @@
 
 namespace CoreApi\Acl;
 
-use CoreApi\Entity\User;
-use CoreApi\Entity\Group;
-use CoreApi\Entity\Camp;
+use Core\Entity\User;
+use Core\Entity\Group;
+use Core\Entity\Camp;
 
 
 class Context
 {
 	
 	/**
-	 * @var CoreApi\Entity\User
+	 * @var Core\Entity\User
 	 */
 	private $me;
 	
 	
 	/**
-	 * @var CoreApi\Entity\User
+	 * @var Core\Entity\User
 	 */
 	private $user;
 	
 	
 	/**
-	 * @var CoreApi\Entity\Group
+	 * @var Core\Entity\Group
 	 */
 	private $group;
 	
@@ -45,7 +45,7 @@ class Context
 	
 	
 	/**
-	 * @return CoreApi\Entity\User
+	 * @return Core\Entity\User
 	 */
 	public function getMe()
 	{
@@ -54,7 +54,7 @@ class Context
 	
 	
 	/**
-	 * @return CoreApi\Entity\User
+	 * @return Core\Entity\User
 	 */
 	public function getUser()
 	{
@@ -63,7 +63,7 @@ class Context
 	
 	
 	/**
-	 * @return CoreApi\Entity\Group
+	 * @return Core\Entity\Group
 	 */
 	public function getGroup()
 	{
@@ -72,7 +72,7 @@ class Context
 	
 	
 	/**
-	 * @return CoreApi\Entity\Camp
+	 * @return Core\Entity\Camp
 	 */
 	public function getCamp()
 	{

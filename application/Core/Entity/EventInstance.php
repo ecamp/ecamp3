@@ -27,15 +27,6 @@ namespace Core\Entity;
  */
 class EventInstance extends BaseEntity
 {
-
-	/**
-	 * @return \CoreApi\Entity\EventInstance
-	 */
-	public function asReadonly()
-	{
-		return new \CoreApi\Entity\EventInstance($this);
-	}
-
 	/**
 	 * @var int
 	 * @Id @Column(type="integer")

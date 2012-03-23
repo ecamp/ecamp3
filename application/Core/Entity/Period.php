@@ -36,14 +36,6 @@ class Period extends BaseEntity
 	}
 
 	/**
-	 * @return \CoreApi\Entity\Period
-	 */
-	public function asReadonly()
-	{
-		return new \CoreApi\Entity\Period($this);
-	}
-
-	/**
 	 * @var int
 	 * @Id @Column(type="integer")
 	 * @GeneratedValue(strategy="AUTO")
@@ -157,7 +149,7 @@ class Period extends BaseEntity
 	}
 
 	/**
-	 * @MethodEntityList(type = "\CoreApi\Entity\EventInstance")
+	 * @MethodEntityList(type = "\Core\Entity\EventInstance")
 	 * @return array
 	 */
 	public function getEventInstances()

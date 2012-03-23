@@ -31,15 +31,6 @@ class Day extends BaseEntity
 {
 
 	/**
-	 * @return \CoreApi\Entity\Day
-	 */
-	public function asReadonly()
-	{
-		return new \CoreApi\Entity\Day($this);
-	}
-
-
-	/**
 	 * @var int
 	 * @Id @Column(type="integer")
 	 * @GeneratedValue(strategy="AUTO")
