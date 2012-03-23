@@ -54,7 +54,7 @@ class WebApp_GroupController extends \WebApp\Controller\BaseController
 
 	     /* load group */
 	    $groupid = $this->getRequest()->getParam("group");
-	    $this->group = $this->em->getRepository("Core\Entity\Group")->find($groupid);
+	    $this->group = $this->em->getRepository("CoreApi\Entity\Group")->find($groupid);
 	    $this->view->group = $this->group;
 
 
@@ -120,7 +120,7 @@ class WebApp_GroupController extends \WebApp\Controller\BaseController
 
 	public function deletecampAction(){
 		$id = $this->getRequest()->getParam("id");
-	    $camp = $this->em->getRepository("Core\Entity\Camp")->find($id);
+	    $camp = $this->em->getRepository("CoreApi\Entity\Camp")->find($id);
 		
 	    $this->em->remove($camp);
 		$this->em->flush();
@@ -201,7 +201,7 @@ class WebApp_GroupController extends \WebApp\Controller\BaseController
 	public function inviteAction()
 	{
 		$id = $this->getRequest()->getParam("user");
-		$user = $this->em->getRepository("Core\Entity\User")->find($id);
+		$user = $this->em->getRepository("CoreApi\Entity\User")->find($id);
 		
 		$this->groupService->inviteUserToGroup($user, $this->group, $this->me);
 		
@@ -230,7 +230,7 @@ class WebApp_GroupController extends \WebApp\Controller\BaseController
 	public function kickoutAction()
 	{
 		$userid = $this->getRequest()->getParam("user");
-		$user   = $this->em->getRepository("Core\Entity\User")->find($userid);
+		$user   = $this->em->getRepository("CoreApi\Entity\User")->find($userid);
 
 		if( $this->me->isManagerOf($this->group) )
 			$user->deleteMembershipWith($this->group);
@@ -259,7 +259,7 @@ class WebApp_GroupController extends \WebApp\Controller\BaseController
 	public function refuseAction()
 	{
 		$id = $this->getRequest()->getParam("id");
-		$usergroup = $this->em->getRepository("Core\Entity\UserGroup")->find($id);
+		$usergroup = $this->em->getRepository("CoreApi\Entity\UserGroup")->find($id);
 		
 		if($usergroup->isOpenRequest())
 		{	$this->groupService->refuseMembershipRequest($this->me, $usergroup);	}

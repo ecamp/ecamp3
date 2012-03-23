@@ -18,7 +18,7 @@
  * along with eCamp.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Core\Entity;
+namespace CoreApi\Entity;
 
 /**
  * Container for an event.
@@ -87,7 +87,7 @@ class Event extends BaseEntity
 	}
 	
 	/**
-	 * @return Core\Entity\Camp
+	 * @return Camp
 	 */
 	public function getCamp()
 	{
@@ -101,7 +101,7 @@ class Event extends BaseEntity
 	}
 	
 	/**
-	 * @return Core\Entity\User
+	 * @return User
 	 */
 	public function getUser()
 	{

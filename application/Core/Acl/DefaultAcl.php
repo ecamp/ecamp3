@@ -3,13 +3,13 @@
 namespace Core\Acl;
 
 
-use Core\Entity\User;
+use CoreApi\Entity\User;
 
 class DefaultAcl extends \Zend_Acl
 {
 	const GUEST 		= 'guest';
 	const MEMBER		= 'member';
-	const ADMIN			= 'admin';
+	const ADMIN 		= 'admin';
 	
 	const CAMP_GUEST	= 'camp_guest';
 	const CAMP_MEMBER	= 'camp_member';
@@ -23,16 +23,10 @@ class DefaultAcl extends \Zend_Acl
 	const USER_FRIEND	= 'user_friend';
 	const USER_ME		= 'user_me';
 	
-	/**
-	 * @var Doctrine\ORM\EntityManager
-	 * @Inject Doctrine\ORM\EntityManager
-	 */
-	protected $em;
-	
 	
 	/**
-	 * @var Core\Acl\Context
-	 * @Inject Core\Acl\Context
+	 * @var CoreApi\Acl\Context
+	 * @Inject CoreApi\Acl\Context
 	 */
 	protected $context;
 	
@@ -59,7 +53,7 @@ class DefaultAcl extends \Zend_Acl
 		
 		/* roles in group context */
 		$group = $this->context->getGroup();
-		if($this->context->getGroup())
+		if($group)
 		{
 			if( $group->isManager($me) )
 			{

@@ -18,7 +18,7 @@
  * along with eCamp.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Core\Entity;
+namespace CoreApi\Entity;
 
 /**
  * @Entity
@@ -125,7 +125,7 @@ class Group extends BaseEntity
 
 	
 	/**
-	 * @return \Core\Entity\Group
+	 * @return Group
 	 */
 	public function getParent()
 	{
@@ -162,7 +162,7 @@ class Group extends BaseEntity
 
 	
 	/**
-	 * @return \Core\Entity\Camp
+	 * @return Camp
 	 */
 	public function getCamps()
 	{

@@ -18,7 +18,7 @@
  * along with eCamp.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Core\Entity;
+namespace CoreApi\Entity;
 
 /**
  * @Entity
@@ -128,7 +128,7 @@ class Camp extends BaseEntity
 	}
 	
 	/**
-	 * @return Core\Entity\User  
+	 * @return User  
 	 */
 	public function getCreator()
 	{
@@ -141,7 +141,7 @@ class Camp extends BaseEntity
 	}
 	
 	/**
-	 * @return Core\Entity\Group
+	 * @return Group
 	 */
 	public function getGroup()
 	{
@@ -154,7 +154,7 @@ class Camp extends BaseEntity
 	}
 
 	/**
-	 * @return Core\Entity\User  
+	 * @return User  
 	 */
 	public function getOwner()
 	{

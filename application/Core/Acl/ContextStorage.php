@@ -3,6 +3,8 @@
 namespace Core\Acl;
 
 
+use CoreApi\Acl\Context;
+
 class ContextStorage
 {
 	
@@ -64,30 +66,4 @@ class ContextStorage
 		return new Context($me, $user, $group, $camp);
 	}
 	
-	
-	/**
-	 * @return CoreApi\Acl\Context
-	 */
-	public function getReadonlyContext()
-	{
-		$meId = \Zend_Auth::getInstance()->getIdentity();
-		
-		$userId =  $this->userId;
-		$groupId = $this->groupId;
-		$campId =  $this->campId;
-		
-		$me = 	 isset($meId) 	 ? $this->userRepo->find(  $meId  ) : null;
-		$user =  isset($userId)  ? $this->userRepo->find( $userId ) : null;
-		$group = isset($groupId) ? $this->groupRepo->find($groupId) : null;
-		$camp =  isset($campId)  ? $this->campRepo->find( $campId ) : null;
-		
-		/*
-		$me = 	 isset($me) 	? $me->asReadonly() 	: null;
-		$user =  isset($user) 	? $user->asReadonly() 	: null;
-		$group = isset($group) 	? $group->asReadonly() 	: null;
-		$camp =  isset($camp) 	? $camp->asReadonly() 	: null; 
-		*/
-		
-		return new \CoreApi\Acl\Context($me, $user, $group, $camp);
-	}
 }

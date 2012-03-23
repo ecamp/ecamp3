@@ -3,7 +3,7 @@
  * Copyright (C) 2011 Urban Suppiger
  *
  * This file is part of eCamp.
- *
+ * 
  * eCamp is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -13,21 +13,23 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- *
+ * 
  * You should have received a copy of the GNU Affero General Public License
  * along with eCamp.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Core\Entity;
+namespace CoreApi\Entity;
 
 /**
- * Specifies the exact time/duration/subcamp when an event happens
+ * The day belongs to the subcamp and can provide additional background
+ * to a specific day (e.g. storyline, menu, responsible leader of the day,
+ * etc.). The events however are not connected with the days in particular.
  * @Entity
- * @Table(name="event_instances")
+ * @Table(name="days", uniqueConstraints={@UniqueConstraint(name="offset_period_idx", columns={"dayOffset", "period_id"})})
  */
-class EventInstance extends BaseEntity
+class Day extends BaseEntity
 {
-	
+
 	/**
 	 * @var int
 	 * @Id @Column(type="integer")
@@ -36,75 +38,49 @@ class EventInstance extends BaseEntity
 	private $id;
 
 	/**
-	 * @ManyToOne(targetEntity="Event")
-	 * @JoinColumn(nullable=false)
+	 * Offset to the start date of the subcamp's period
+	 * @Column(type="integer")
 	 */
-	private $event;
+	private $dayOffset;
 
 	/**
-	 * Offset in minutes from the subcamp's starting date (00:00)
-	 * @Column(type="integer" )
-	 */
-	private $minOffset;
-
-	/**
-	 * Duration of this instance in minutes
-	 * @Column(type="integer" )
-	 */
-	private $duration;
-
-	/**
+	 * @var Period
 	 * @ManyToOne(targetEntity="Period")
 	 * @JoinColumn(nullable=false)
 	 */
 	private $period;
 
-	
+	/**
+	 * @Column(type="text")
+	 */
+	private $notes;
+
+
 	public function getId()
 	{
 		return $this->id;
 	}
 
 	
-	public function setEvent(Event $event)
+	public function setDayOffset($offset)
 	{
-		$this->event = $event;
+		$this->dayOffset = $offset;
 	}
-	
-	/**
-	 * @return Core\Entity\Event 
-	 */
-	public function getEvent()
+
+	public function getDayOffset()
 	{
-		return $this->event;
+		return $this->dayOffset;
 	}
 
 	
-	public function setMinOffset($minOffset)
+	public function setNotes($notes)
 	{
-		$this->minOffset = $minOffset;
+		$this->notes = $notes;
 	}
 	
-	/**
-	 * @return int
-	 */
-	public function getMinOffset()
+	public function getNotes()
 	{
-		return $this->minOffset;
-	}
-
-	
-	public function setDuration($duration)
-	{
-		$this->duration = $duration;
-	}
-	
-	/**
-	 * @return int
-	 */
-	public function getDuration()
-	{
-		return $this->duration;
+		return $this->notes;
 	}
 
 	
@@ -114,7 +90,7 @@ class EventInstance extends BaseEntity
 	}
 	
 	/**
-	 * @return Core\Entity\Period 
+	 * @return Period
 	 */
 	public function getPeriod()
 	{
