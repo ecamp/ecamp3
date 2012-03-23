@@ -77,7 +77,6 @@ class Period extends BaseEntity
 
 
 	/**
-	 * @Method()
 	 * @return int
 	 */
 	public function getId()
@@ -85,13 +84,13 @@ class Period extends BaseEntity
 		return $this->id;
 	}
 	
+	
 	public function setDescription($description)
 	{
 		$this->description = $description;
 	}
 	
 	/**
-	 * @Method()
 	 * @return string
 	 */
 	public function getDescription()
@@ -99,12 +98,13 @@ class Period extends BaseEntity
 		return $this->description;
 	}
 
+	
 	public function setStart($start)
 	{
 		$this->start = $start;
 	}
+	
 	/**
-	 * @Method()
 	 * @return int
 	 */
 	public function getStart()
@@ -112,12 +112,13 @@ class Period extends BaseEntity
 		return $this->start;
 	}
 
+	
 	public function setDuration($duration)
 	{
 		$this->duration = $duration;
 	}
+	
 	/**
-	 * @Method()
 	 * @return int
 	 */
 	public function getDuration()
@@ -125,8 +126,8 @@ class Period extends BaseEntity
 		return $this->duration;
 	}
 
+	
 	/**
-	 * @Method()
 	 * @return int
 	 */
 	public function getEnd()
@@ -134,13 +135,13 @@ class Period extends BaseEntity
 		return $this->start->add( new \DateInterval( 'P'.($this->duration - 1).'D') );
 	}
 
+	
 	public function setCamp(Camp $camp)
 	{
 		$this->camp = $camp;
 	}
 	
 	/**
-	 * @MethodEntity()
 	 * @return Camp
 	 */
 	public function getCamp()
@@ -148,8 +149,8 @@ class Period extends BaseEntity
 		return $this->camp;
 	}
 
+	
 	/**
-	 * @MethodEntityList(type = "\Core\Entity\EventInstance")
 	 * @return array
 	 */
 	public function getEventInstances()

@@ -27,6 +27,7 @@ namespace Core\Entity;
  */
 class EventInstance extends BaseEntity
 {
+	
 	/**
 	 * @var int
 	 * @Id @Column(type="integer")
@@ -59,33 +60,32 @@ class EventInstance extends BaseEntity
 	private $period;
 
 	
-	/** @Method() */
 	public function getId()
 	{
 		return $this->id;
 	}
 
+	
 	public function setEvent(Event $event)
 	{
 		$this->event = $event;
 	}
 	
 	/**
-	 * @MethodEntity()
-	 * @return \Core\Entity\Event 
+	 * @return Core\Entity\Event 
 	 */
 	public function getEvent()
 	{
 		return $this->event;
 	}
 
+	
 	public function setMinOffset($minOffset)
 	{
 		$this->minOffset = $minOffset;
 	}
 	
 	/**
-	 * @Method()
 	 * @return int
 	 */
 	public function getMinOffset()
@@ -93,13 +93,13 @@ class EventInstance extends BaseEntity
 		return $this->minOffset;
 	}
 
+	
 	public function setDuration($duration)
 	{
 		$this->duration = $duration;
 	}
 	
 	/**
-	 * @Method()
 	 * @return int
 	 */
 	public function getDuration()
@@ -107,14 +107,14 @@ class EventInstance extends BaseEntity
 		return $this->duration;
 	}
 
+	
 	public function setPeriod(Period $period)
 	{
 		$this->period = $period;
 	}
 	
 	/**
-	 * @MethodEntity()
-	 * @return \Core\Entity\Period 
+	 * @return Core\Entity\Period 
 	 */
 	public function getPeriod()
 	{

@@ -79,23 +79,24 @@ class Camp extends BaseEntity
 	private $group;
 
 	/**
-	 * @var \Doctrine\Common\Collections\ArrayCollection
+	 * @var Doctrine\Common\Collections\ArrayCollection
 	 * @OneToMany(targetEntity="UserCamp", mappedBy="camp")
 	 */
 	private $usercamps;
 
 	/**
+	 * @var Doctrine\Common\Collections\ArrayCollection
 	 * @OneToMany(targetEntity="Period", mappedBy="camp")
 	 */
 	private $periods;
 
 	/**
+	 * @var Doctrine\Common\Collections\ArrayCollection
 	 * @OneToMany(targetEntity="Event", mappedBy="camp")
 	 */
 	private $events;
 
 	
-	/** @Method() */
 	public function getId()
 	{
 		return $this->id;
@@ -105,7 +106,7 @@ class Camp extends BaseEntity
 	{
 		$this->name = $name;
 	}
-	/** @Method() */
+
 	public function getName()
 	{
 		return $this->name;
@@ -115,7 +116,7 @@ class Camp extends BaseEntity
 	{
 		$this->title = $title;
 	}
-	/** @Method() */
+
 	public function getTitle()
 	{
 		return $this->title;
@@ -127,8 +128,7 @@ class Camp extends BaseEntity
 	}
 	
 	/**
-	 * @MethodEntity()
-	 * @return \Core\Entity\User  
+	 * @return Core\Entity\User  
 	 */
 	public function getCreator()
 	{
@@ -141,8 +141,7 @@ class Camp extends BaseEntity
 	}
 	
 	/**
-	 * @MethodEntity()
-	 * @return \Core\Entity\Group
+	 * @return Core\Entity\Group
 	 */
 	public function getGroup()
 	{
@@ -155,22 +154,19 @@ class Camp extends BaseEntity
 	}
 
 	/**
-	 * @MethodEntity()
-	 * @return \Core\Entity\User  
+	 * @return Core\Entity\User  
 	 */
 	public function getOwner()
 	{
 		return $this->owner;
 	}
 		
-	/** @Method() */
 	public function belongsToUser()
 	{
 		return isset($this->owner);
 	}
 	
 	/** 
-	 * @MethodEntityList(type = "\Core\Entity\Period")
 	 * @return array
 	 */
 	public function getPeriods()
@@ -179,7 +175,6 @@ class Camp extends BaseEntity
 	}
 	
 	/**
-	 * @MethodEntityList(type = "\Core\Entity\Event")
 	 * @return array
 	 */
 	public function getEvents()
@@ -188,8 +183,7 @@ class Camp extends BaseEntity
 	}
 
 	/**
-	 * @MethodEntityList(type = "\Core\Entity\UserCamp")
-	 * @return \Doctrine\Common\Collections\ArrayCollection 
+	 * @return array
 	 */
 	public function getUserCamps()
 	{
@@ -197,7 +191,6 @@ class Camp extends BaseEntity
 	}
 
 
-	/** @Method() */
 	public function getRange()
 	{
 		if($this->getPeriods()->count() == 0)
@@ -210,8 +203,7 @@ class Camp extends BaseEntity
 
 	
 	/**
-	 * @MethodEntityList(type = "\Core\Entity\User")
-	 * @return \Doctrine\Common\Collections\ArrayCollection
+	 * @return array
 	 */
 	public function getMembers()
 	{
@@ -226,9 +218,7 @@ class Camp extends BaseEntity
 		return $members;
 	}
 	
-	/**
-	 * @Method()
-	 */
+	
 	public function isManager(User $user)
 	{
 		$closure = function($key, $element) use ($user)
@@ -239,9 +229,7 @@ class Camp extends BaseEntity
 		return $this->getUserCamps()->exists( $closure );
 	}
 	
-	/**
-	 * @Method()
-	 */
+	
 	public function isMember(User $user)
 	{
 		$closure = function($key, $element) use ($user)

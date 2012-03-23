@@ -185,7 +185,6 @@ class User extends BaseEntity
 
 
 	/**
-	 * @Method()
 	 * @return int
 	 */
 	public function getId()
@@ -194,7 +193,6 @@ class User extends BaseEntity
 	}
 
 	/**
-	 * @Method()
 	 * @return string
 	 */
 	public function getUsername()           
@@ -207,7 +205,6 @@ class User extends BaseEntity
 	}
 
 	/**
-	 * @MethodEntity()
 	 * @return Login
 	 */
 	public function getLogin()	
@@ -216,7 +213,6 @@ class User extends BaseEntity
 	}
 
 	/**
-	 * @Method()
 	 * @return string
 	 */
 	public function getEmail()            
@@ -229,7 +225,6 @@ class User extends BaseEntity
 	}
 
 	/**
-	 * @Method()
 	 * @return string
 	 */
 	public function getScoutname()            
@@ -242,7 +237,6 @@ class User extends BaseEntity
 	}
 
 	/**
-	 * @Method()
 	 * @return string
 	 */
 	public function getFirstname()            
@@ -255,7 +249,6 @@ class User extends BaseEntity
 	}
 
 	/**
-	 * @Method()
 	 * @return string
 	 */
 	public function getSurname()          
@@ -268,7 +261,6 @@ class User extends BaseEntity
 	}
 
 	/**
-	 * @Method()
 	 * @return string
 	 */
 	public function getStreet()         
@@ -281,7 +273,6 @@ class User extends BaseEntity
 	}
 
 	/**
-	 * @Method()
 	 * @return string
 	 */
 	public function getZipcode()          
@@ -294,7 +285,6 @@ class User extends BaseEntity
 	}
 
 	/**
-	 * @Method()
 	 * @return string
 	 */
 	public function getCity()       
@@ -307,7 +297,6 @@ class User extends BaseEntity
 	}
 
 	/**
-	 * @Method()
 	 * @return string
 	 */
 	public function getHomeNr()         
@@ -320,7 +309,6 @@ class User extends BaseEntity
 	}
 
 	/**
-	 * @Method()
 	 * @return string
 	 */
 	public function getMobilNr()          
@@ -333,7 +321,6 @@ class User extends BaseEntity
 	}
 
 	/**
-	 * @Method()
 	 * @return date
 	 */
 	public function getBirthday()           
@@ -347,7 +334,6 @@ class User extends BaseEntity
 	}
 
 	/**
-	 * @Method()
 	 * @return string
 	 */
 	public function getAHV()      
@@ -361,7 +347,6 @@ class User extends BaseEntity
 	}
 
 	/**
-	 * @Method()
 	 * @return boolean
 	 */
 	public function getGender()         
@@ -375,7 +360,6 @@ class User extends BaseEntity
 	}
 
 	/**
-	 * @Method()
 	 * @return string
 	 */
 	public function getJsPersNr()           
@@ -389,7 +373,6 @@ class User extends BaseEntity
 	}
 
 	/**
-	 * @Method()
 	 * @return string
 	 */
 	public function getJsEdu()        
@@ -402,7 +385,6 @@ class User extends BaseEntity
 	}
 
 	/**
-	 * @Method()
 	 * @return string
 	 */
 	public function getPbsEdu()         
@@ -433,7 +415,6 @@ class User extends BaseEntity
 	}
 
 	/**
-	 * @Method()
 	 * @return string
 	 */
 	public function getImageData()
@@ -446,7 +427,6 @@ class User extends BaseEntity
 	}
 
 	/**
-	 * @Method()
 	 * @return string
 	 */
 	public function getImageMime()
@@ -466,7 +446,6 @@ class User extends BaseEntity
 	}
 
 	/**
-	 * @MethodEntityList(type = "\Core\Entity\UserGroup")
 	 * @return array
 	 */
 	public function getUsergroups()
@@ -475,7 +454,6 @@ class User extends BaseEntity
 	}
 
 	/**
-	 * @MethodEntityList(type = "Core\Entity\Camp");
 	 * @return array
 	 */
 	public function getMyCamps()
@@ -484,7 +462,6 @@ class User extends BaseEntity
 	}
 
 	/**
-	 * @Method()
 	 * @return string
 	 */
 	public function getDisplayName()
@@ -498,7 +475,6 @@ class User extends BaseEntity
 	}
 
 	/**
-	 * @Method()
 	 * @return string
 	 */
 	public function getFullName()
@@ -551,7 +527,6 @@ class User extends BaseEntity
 
 
 	/**
-	 * @Method()
 	 * @return boolean
 	 */
 	public function isMale()
@@ -560,7 +535,6 @@ class User extends BaseEntity
 	}
 
 	/**
-	 * @Method()
 	 * @return boolean
 	 */
 	public function isFemale()
@@ -613,9 +587,7 @@ class User extends BaseEntity
 
 	/**
 	 * True if friendship request has been sent but not yet accepted
-	 */
-	/**
-	 * @Method()
+	 *
 	 * @return boolean
 	 */
 	public function sentFriendshipRequestTo($user)
@@ -625,9 +597,6 @@ class User extends BaseEntity
 
 	/**
 	 * True if friendship request has been received but not yet accepted
-	 */
-	/**
-	 * @Method()
 	 * @return boolean
 	 */
 	public function receivedFriendshipRequestFrom($user)
@@ -637,9 +606,7 @@ class User extends BaseEntity
 
 	/**
 	 * True for established friendships (both directions)
-	 */
-	/**
-	 * @Method()
+	 *
 	 * @return boolean
 	 */
 	public function isFriendOf($user)
@@ -716,7 +683,6 @@ class User extends BaseEntity
 
 	/** check  whether a friendship request can be sent to to the user */
 	/**
-	 * @Method()
 	 * @return boolean
 	 */
 	public function canIAdd($user)
@@ -746,7 +712,6 @@ class User extends BaseEntity
 
 	public function getMemberships() 
 	{
-
 		$closure =  function($element){
 			return $element->isMember();
 		};
@@ -851,9 +816,6 @@ class User extends BaseEntity
 
 	/**
 	 * @return ArrayCollection
-	 */
-	/**
-	 * @Method()
 	 */
 	public function getManagedGroups()
 	{

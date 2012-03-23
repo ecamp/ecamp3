@@ -95,7 +95,6 @@ class UserGroup extends BaseEntity
 	
 	
 	/**
-	 * @Method()
 	 * @return int
 	 */
 	public function getId()
@@ -109,7 +108,6 @@ class UserGroup extends BaseEntity
 	}
 	
 	/**
-	 * @MethodEntity()
 	 * @return Group
 	 */
 	public function getGroup()          
@@ -123,7 +121,6 @@ class UserGroup extends BaseEntity
 	}
 	
 	/**
-	 * @MethodEntity()
 	 * @return User
 	 */
 	public function getUser()          
@@ -132,7 +129,6 @@ class UserGroup extends BaseEntity
 	}
 
 	/**
-	 * @Method()
 	 * @return int
 	 */
 	public function getRole()          
@@ -141,9 +137,8 @@ class UserGroup extends BaseEntity
 	}
 	
 	/**
-	* @Method()
-	* @return strint
-	*/
+	 * @return strint
+	 */
 	public function getRoleName()
 	{
 		switch( $this->role )
@@ -161,9 +156,8 @@ class UserGroup extends BaseEntity
 
 	
 	/**
-	* @Method()
-	* @return int
-	*/
+	 * @return int
+	 */
 	public function getRequestedRole() 
 	{
 		return $this->requestedRole;
@@ -175,7 +169,6 @@ class UserGroup extends BaseEntity
 
 	/** 
 	 * True if the role is member or manager 
-	 * @Method()
 	 * @return boolean
 	 */
 	public function isMember()
@@ -185,7 +178,6 @@ class UserGroup extends BaseEntity
 
 	/**
 	 * True if the role is manager 
-	 * @Method()
 	 * @return boolean
 	 */
 	public function isManager()
@@ -195,7 +187,6 @@ class UserGroup extends BaseEntity
 
 	/**
 	 * True if the request/invitation is still open 
-	 * @Method()
 	 * @return boolean
 	 */
 	public function isOpen()
@@ -205,7 +196,6 @@ class UserGroup extends BaseEntity
 
 	/**
 	 * True if the user sent this request to a manager and the request is still open 
-	 * @Method()
 	 * @return boolean
 	 */
 	public function isOpenRequest()
@@ -215,7 +205,6 @@ class UserGroup extends BaseEntity
 
 	/** 
 	 * True if a manager has sent this invitation to a user and the invitation is still open 
-	 * @Method()
 	 * @return boolean
 	 */
 	public function isOpenInvitation()

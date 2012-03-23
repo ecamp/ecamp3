@@ -64,53 +64,52 @@ class Event extends BaseEntity
 
 	
 	
-	/** @Method() */
 	public function getId()
 	{
 		return $this->id;
 	}
 
+	
 	public function setTitle($title)
 	{
 		$this->title = $title;
 	}
 	
-	/** @Method() */
 	public function getTitle()
 	{
 		return $this->title;
 	}
 
+	
 	public function setCamp(camp $camp)
 	{
 		$this->camp = $camp;
 	}
 	
 	/**
-	 * @MethodEntity()
-	 * @return \Core\Entity\Camp
+	 * @return Core\Entity\Camp
 	 */
 	public function getCamp()
 	{
 		return $this->camp;
 	}
 
+	
 	public function setUser(user $user)
 	{
 		$this->user = $user;
 	}
 	
 	/**
-	 * @MethodEntity()
-	 * @return \Core\Entity\User
+	 * @return Core\Entity\User
 	 */
 	public function getUser()
 	{
 		return $this->user;
 	}
 	
+	
 	/**
-	 * @MethodEntityList(type = "\Core\Entity\EventInstance")
 	 * @return array
 	 */
 	public function getEventInstances()
@@ -118,8 +117,8 @@ class Event extends BaseEntity
 		return $this->eventInstances;
 	}
 
+	
 	/**
-	 * @MethodEntityList(type = "\Core\Entity\Plugin")
 	 * @return array
 	 */
 	public function getPlugins()

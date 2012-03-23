@@ -96,7 +96,6 @@ class UserCamp extends BaseEntity
 	private $invitationAccepted;
 
 	/**
-	 * @Method()
 	 * @return int
 	 */
 	public function getId()
@@ -110,7 +109,6 @@ class UserCamp extends BaseEntity
 	}
 	
 	/**
-	 * @MethodEntity()
 	 * @return Camp
 	 */
 	public function getCamp()          
@@ -124,7 +122,6 @@ class UserCamp extends BaseEntity
 	}
 	
 	/**
-	 * @MethodEntity()
 	 * @return User
 	 */
 	public function getUser()          
@@ -133,7 +130,6 @@ class UserCamp extends BaseEntity
 	}
 
 	/**
-	 * @Method()
 	 * @return int
 	 */
 	public function getRole()          
@@ -142,7 +138,6 @@ class UserCamp extends BaseEntity
 	}
 
 	/**
-	 * @Method()
 	 * @return int
 	 */
 	public function getRequestedRole() 
@@ -156,7 +151,6 @@ class UserCamp extends BaseEntity
 
 	/**
 	 * True if the role is member or manager
-	 * @Method()
 	 * @return boolean 
 	 */
 	public function isMember()
@@ -166,7 +160,6 @@ class UserCamp extends BaseEntity
 
 	/** 
 	 * True if the request/invitation is still open
-	 * @Method()
 	 * @return boolean 
 	 */
 	public function isOpen()
@@ -176,7 +169,6 @@ class UserCamp extends BaseEntity
 
 	/**
 	 * True if the user sent this request to a manager and the request is still open
-	 * @Method()
 	 * @return boolean 
 	 */
 	public function isOpenRequest()
@@ -186,7 +178,6 @@ class UserCamp extends BaseEntity
 
 	/**
 	 * True if a manager has sent this invitation to a user and the invitation is still open
-	 * @Method()
 	 * @return boolean 
 	  */
 	public function isOpenInvitation()
