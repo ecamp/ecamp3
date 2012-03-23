@@ -33,14 +33,14 @@ class ContextStorage
 	private $campId = null;
 	
 	
-	public function __construct()
-	{
-		$this->context = new Context();
-	}
+	private $context = null;
+	
 	
 	
 	public function set($userId, $groupId, $campId)
 	{
+		$this->context = null;
+		
 		$this->userId = $userId;
 		$this->groupId = $groupId;
 		$this->campId = $campId;
@@ -48,10 +48,14 @@ class ContextStorage
 	
 	
 	/**
-	 * @return Core\Acl\Context
+	 * @return CoreApi\Acl\Context
 	 */
 	public function getContext()
 	{
+		if(isset($this->context))
+		{	return $this->context;	}
+		
+		
 		$meId = \Zend_Auth::getInstance()->getIdentity();
 		
 		$userId =  $this->userId;
@@ -63,7 +67,8 @@ class ContextStorage
 		$group = isset($groupId) ? $this->groupRepo->find($groupId) : null;
 		$camp =  isset($campId)  ? $this->campRepo->find( $campId ) : null;
 		
-		return new Context($me, $user, $group, $camp);
+		$this->context = new Context($me, $user, $group, $camp);
+		return $this->context;
 	}
-	
+
 }

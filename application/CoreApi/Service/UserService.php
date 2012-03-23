@@ -30,8 +30,9 @@ class UserService
 	protected function _setupAcl()
 	{
 		$this->acl->allow(DefaultAcl::MEMBER, $this, 'Get');
-		$this->acl->allow(DefaultAcl::GUEST,  $this, 'Create');
 		$this->acl->allow(DefaultAcl::MEMBER, $this, 'CreateCamp');
+
+		$this->acl->allow(DefaultAcl::IN_SERVICE,  $this, 'Create');
 	}
 	
 	
@@ -48,7 +49,7 @@ class UserService
 		if(isset($id))
 		{	$user = $this->getByIdentifier($id);	}
 		else
-		{	$user = $this->context->getMe();	}
+		{	$user = $this->contextProvider->getContext()->getMe();	}
 		
 		return $user;
 	}
@@ -135,7 +136,7 @@ class UserService
 		$qb->add('select', 'c')
 		->add('from', '\Core\Entity\Camp c')
 		->add('where', 'c.owner = ?1 AND c.name = ?2')
-		->setParameter(1,$this->context->getMe()->getId())
+		->setParameter(1,$this->contextProvider->getContext()->getMe()->getId())
 		->setParameter(2, $form->getValue('name'));
 		
 		$query = $qb->getQuery();
@@ -147,7 +148,7 @@ class UserService
 
 		/* create camp */
 		$camp = $this->campService->Create($form, $s);
-		$camp->setOwner($this->context->getMe());
+		$camp->setOwner($this->contextProvider->getContext()->getMe());
 			
 		$t->flushAndCommit($s);
 		
@@ -160,7 +161,7 @@ class UserService
 	 *
 	 * @param string $identifier
 	 *
-	 * @return \Core\Entity\User
+	 * @return \CoreApi\Entity\User
 	 */
 	private function getByIdentifier($identifier)
 	{

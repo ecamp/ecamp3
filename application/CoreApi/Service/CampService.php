@@ -84,7 +84,7 @@ class CampService
 		$camp = new \Core\Entity\Camp();
 		$this->persist($camp);
 		
-		$camp->setCreator($this->context->getMe());
+		$camp->setCreator($this->contextProvider->getContext()->getMe());
 		
 		$campValidator = new CampValidator($camp);
 		$this->validationFailed( !$campValidator->applyIfValid($form) );

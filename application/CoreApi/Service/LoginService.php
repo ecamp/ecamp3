@@ -33,7 +33,10 @@ class LoginService
 	 */
 	protected function _setupAcl()
 	{
-		$this->acl->allow(DefaultAcl::GUEST, $this, 'Create');
+		$this->acl->allow(DefaultAcl::MEMBER, $this, 'Create');
+		$this->acl->allow(DefaultAcl::IN_SERVICE, $this, 'Create');
+		
+		$this->acl->allow(DefaultAcl::GUEST, $this, 'Login');
 		$this->acl->allow(DefaultAcl::MEMBER, $this, 'Logout');
 		
 	}
