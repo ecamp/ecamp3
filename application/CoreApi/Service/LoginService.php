@@ -2,11 +2,11 @@
 
 namespace CoreApi\Service;
 
+
 use Core\Acl\DefaultAcl;
 use Core\Service\ServiceBase;
-
-use Core\Entity\User;
-use Core\Entity\Login;
+use CoreApi\Entity\User;
+use CoreApi\Entity\Login;
 
 
 class LoginService 
@@ -43,7 +43,7 @@ class LoginService
 	
 	
 	/**
-	 * @return Core\Entity\Login | NULL
+	 * @return CoreApi\Entity\Login | NULL
 	 */
 	public function Get($s = false)
 	{
@@ -57,13 +57,13 @@ class LoginService
 	
 	
 	/**
-	 * @return Core\Entity\Login
+	 * @return CoreApi\Entity\Login
 	 */
 	public function Create(User $user, \Zend_Form $form, $s = false)
 	{
 		$t = $this->beginTransaction();
 		
-		$login = new \Core\Entity\Login();
+		$login = new Login();
 		$loginValdator = new \Core\Validator\Entity\LoginValidator($login);
 		
 		$this->validationFailed(
@@ -94,10 +94,10 @@ class LoginService
 	 */
 	public function Login($identifier, $password)
 	{
-		/** @var \Core\Entity\User */
+		/** @var CoreApi\Entity\User */
 		$user = $this->userService->get($identifier);
 		
-		/** @var \Core\Entity\Login */
+		/** @var CoreApi\Entity\Login */
 		if(is_null($user))	{	$login = null;	}
 		else				{	$login = $user->getLogin();	}
 		
@@ -136,7 +136,7 @@ class LoginService
 	
 	public function ForgotPassword($identifier, $s = false)
 	{
-		/** @var \Core\Entity\Login $user */
+		/** @var CoreApi\Entity\Login $user */
 		$user = $this->userService->Get($identifier);
 		
 		if(is_null($user))
@@ -167,11 +167,11 @@ class LoginService
 	 * Returns the LoginEntity with the given pwResetKey
 	 *
 	 * @param string $pwResetKey
-	 * @return \Core\Entity\Login
+	 * @return CoreApi\Entity\Login
 	 */
 	private function getLoginByResetKey($pwResetKey)
 	{
-		/** @var \Core\Entity\Login $login */
+		/** @var \CoreApi\Entity\Login $login */
 		$login = $this->loginRepo->findOneBy(array('pwResetKey' => $pwResetKey));
 	
 		return $login;

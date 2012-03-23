@@ -5,8 +5,7 @@ namespace CoreApi\Service;
 use Core\Acl\DefaultAcl;
 use Core\Service\ServiceBase;
 
-use Core\Entity\User;
-use Core\Entity\Login;
+use CoreApi\Entity\User;
 
 
 class RegisterService 
@@ -90,7 +89,7 @@ class RegisterService
 			$this->addValidationMessage("User not found!");
 		}
 		
-		if($user->getState() != \Core\Entity\User::STATE_REGISTERED)
+		if($user->getState() != User::STATE_REGISTERED)
 		{
 			$this->validationFailed();
 			$this->addValidationMessage("User already activated!");

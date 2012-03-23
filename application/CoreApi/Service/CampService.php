@@ -2,17 +2,21 @@
 
 namespace CoreApi\Service;
 
+
 use Core\Acl\DefaultAcl;
 use Core\Entity\Period;
 use Core\Service\ServiceBase;
 use Core\Validator\Entity\CampValidator;
+
+use CoreApi\Entity\Camp;
+use CoreApi\Entity\Period;
 
 
 class CampService
 	extends ServiceBase
 {
 	/**
-	 * @var \Repository\CampRepository
+	 * @var Core\Repository\CampRepository
 	 * @Inject CampRepository
 	 */
 	private $campRepo;
@@ -36,7 +40,7 @@ class CampService
 		if(is_numeric($id))
 		{	return $this->Get($this->campRepo->find($id));	}
 			
-		if($id instanceof \Core\Entity\Camp)
+		if($id instanceof Camp)
 		{	return $id;	}
 		
 		return null;
@@ -81,7 +85,7 @@ class CampService
 	{	
 		$t = $this->beginTransaction();
 		
-		$camp = new \Core\Entity\Camp();
+		$camp = new Camp();
 		$this->persist($camp);
 		
 		$camp->setCreator($this->contextProvider->getContext()->getMe());
@@ -116,7 +120,7 @@ class CampService
 		
 		
 		$camp = $this->Get($camp);
-		$period = new \Core\Entity\Period($camp);
+		$period = new Period($camp);
 		$this->persist($period);
 		
 		$from = new \DateTime($form->getValue('from'), new \DateTimeZone("GMT"));

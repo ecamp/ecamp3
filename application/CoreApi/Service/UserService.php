@@ -3,8 +3,8 @@
 namespace CoreApi\Service;
 
 use Core\Acl\DefaultAcl;
-use Core\Entity\User;
 use Core\Service\ServiceBase;
+use CoreApi\Entity\User;
 
 
 class UserService 
@@ -42,7 +42,7 @@ class UserService
 	 * 
 	 * If no Identifier is given, the Authenticated User is returned
 	 * 
-	 * @return \Core\Entity\User
+	 * @return CoreApi\Entity\User
 	 */
 	public function Get($id = null)
 	{		
@@ -60,7 +60,7 @@ class UserService
 	 * 
 	 * @param string $username
 	 * 
-	 * @return \Core\Entity\User
+	 * @return CoreApi\Entity\User
 	 */
 	public function Create(\Zend_Form $form, $s = false)
 	{	
@@ -71,13 +71,13 @@ class UserService
 		
 		if(is_null($user))
 		{
-			$user = new \Core\Entity\User();
+			$user = new User();
 			$user->setEmail($email);
 			
 			$this->persist($user);
 		}
 			
-		if($user->getState() != \Core\Entity\User::STATE_NONREGISTERED)
+		if($user->getState() != User::STATE_NONREGISTERED)
 		{		
 			$form->getElement('email')->addError("This eMail-Adress is already registered!");
 			$this->validationFailed();
@@ -169,7 +169,7 @@ class UserService
 		
 		$mailValidator = new \Zend_Validate_EmailAddress();
 		
-		if($identifier instanceOf \Core\Entity\User)
+		if($identifier instanceOf User)
 		{
 			$user = $identifier;
 		}
