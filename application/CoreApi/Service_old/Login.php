@@ -29,7 +29,7 @@ class Login extends ServiceAbstract
 	/**
 	 * This returns the authenticated Login Instance
 	 * 
-	 * @return \Core\Entity\Login
+	 * @return \CoreApi\Entity\Login
 	 */
 	public function get()
 	{
@@ -45,14 +45,14 @@ class Login extends ServiceAbstract
 	/**
 	 * Creates a Login Entity for a User
 	 * 
-	 * @param \Core\Entity\User $user
+	 * @param \CoreApi\Entity\User $user
 	 * @param string @password
 	 * 
-	 * @return \Core\Entity\Login
+	 * @return \CoreApi\Entity\Login
 	 */
-	public function create(\Core\Entity\User $user, \Zend_Form $form)
+	public function create(\CoreApi\Entity\User $user, \Zend_Form $form)
 	{
-		/** @var \Core\Entity\Login $login */
+		/** @var \CoreApi\Entity\Login $login */
 		$login = $user->getLogin();
 		
 		if(!is_null($login))
@@ -63,7 +63,7 @@ class Login extends ServiceAbstract
 		
 		try 
 		{
-			$login = new \Core\Entity\Login();
+			$login = new \CoreApi\Entity\Login();
 			$loginValidator = new \Core\Validate\LoginValidator($login);
 			
 			if($loginValidator->isValid($form))
@@ -107,10 +107,10 @@ class Login extends ServiceAbstract
 	 */
 	public function login($identifier, $password)
 	{
-		/** @var \Core\Entity\User */
+		/** @var \CoreApi\Entity\User */
 		$user = $this->userService->get($identifier);
 		
-		/** @var \Core\Entity\Login */
+		/** @var \CoreApi\Entity\Login */
 		$login = $user->getLogin();
 		
 		$authAdapter = new \CoreApi\Service\Auth\Adapter($login, $password);
@@ -135,7 +135,7 @@ class Login extends ServiceAbstract
 	 */
 	public function resetPassword($pwResetKey, $password)
 	{
-		/** @var \Core\Entity\Login $login */
+		/** @var \CoreApi\Entity\Login $login */
 		$login = $this->getLoginByResetKey($pwResetKey);
 		
 		if(!is_null($login))
@@ -156,7 +156,7 @@ class Login extends ServiceAbstract
 	 */
 	public function forgotPassword($identifier)
 	{
-		/** @var \Core\Entity\User $user */
+		/** @var \CoreApi\Entity\User $user */
 		$user = $this->userService->get($identifier);
 		
 		if(!is_null($user->getLogin()))
@@ -178,11 +178,11 @@ class Login extends ServiceAbstract
 	 *
 	 * @param string $pwResetKey
 	 * 
-	 * @return \Core\Entity\Login
+	 * @return \CoreApi\Entity\Login
 	 */
 	private function getLoginByResetKey($pwResetKey)
 	{
-		/** @var \Core\Entity\Login $login */
+		/** @var \CoreApi\Entity\Login $login */
 		$login = $this->loginRepo->findOneBy(array('pwResetKey' => $pwResetKey));
 		
 		return $login;

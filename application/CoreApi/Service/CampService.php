@@ -4,7 +4,6 @@ namespace CoreApi\Service;
 
 
 use Core\Acl\DefaultAcl;
-use Core\Entity\Period;
 use Core\Service\ServiceBase;
 use Core\Validator\Entity\CampValidator;
 
@@ -33,7 +32,7 @@ class CampService
 	}
 	
 	/**
-	 * @return Core\Entity\Camp | NULL
+	 * @return CoreApi\Entity\Camp | NULL
 	 */
 	public function Get($id)
 	{
@@ -60,7 +59,7 @@ class CampService
 	
 	
 	/**
-	 * @return Core\Entity\Camp
+	 * @return CoreApi\Entity\Camp
 	 */
 	public function Update($camp, \Zend_Form $form, $s = false)
 	{
@@ -79,7 +78,7 @@ class CampService
 	
 	
 	/**
-	 * @return Core\Entity\Camp
+	 * @return CoreApi\Entity\Camp
 	 */
 	public function Create(\Zend_Form $form, $s = false)
 	{	
@@ -102,7 +101,7 @@ class CampService
 	
 	
 	/**
-	 * @return Core\Entity\Camp
+	 * @return CoreApi\Entity\Camp
 	 */
 	public function CreatePeriod($camp, \Zend_Form $form, $s = false)
 	{

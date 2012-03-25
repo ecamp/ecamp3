@@ -38,7 +38,7 @@ class RegisterService
 	
 	
 	/**
-	 * @return Core\Entity\User
+	 * @return CoreApi\Entity\User
 	 */
 	public function Register(\Zend_Form $registerForm, $s = false)
 	{
@@ -72,7 +72,7 @@ class RegisterService
 	/**
 	 * Activate a User
 	 *
-	 * @param \Core\Entity\User|int|string $user
+	 * @param \CoreApi\Entity\User|int|string $user
 	 * @param string $key
 	 *
 	 * @return bool

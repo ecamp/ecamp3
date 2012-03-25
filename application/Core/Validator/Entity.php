@@ -6,7 +6,7 @@ abstract class Entity
 {
 	
 	/**
-	 * @var Core\Entity\BaseEntity
+	 * @var CoreApi\Entity\BaseEntity
 	 */
 	private $entity;
 	
@@ -23,7 +23,7 @@ abstract class Entity
 	{
 		if(isset($entity))
 		{
-			if($entity instanceof \Core\Entity\BaseEntity)
+			if($entity instanceof \CoreApi\Entity\BaseEntity)
 			{
 				$this->entity = $entity;
 			}

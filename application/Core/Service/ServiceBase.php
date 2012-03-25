@@ -21,8 +21,8 @@ abstract class ServiceBase
 	protected $acl;
 	
 	/**
-	 * @var Core\Acl\ContextProvider
-	 * @Inject Core\Acl\ContextProvider
+	 * @var CoreApi\Acl\ContextProvider
+	 * @Inject CoreApi\Acl\ContextProvider
 	 */
 	protected $contextProvider;
 	

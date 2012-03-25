@@ -33,7 +33,7 @@ interface IPluginStrategy {
     /**
 	 * construct
 	 */
-	public function __construct( \Doctrine\ORM\EntityManager $em, \Zend_View_Interface $view, \Core\Entity\Plugin $plugin );
+	public function __construct( \Doctrine\ORM\EntityManager $em, \Zend_View_Interface $view, \CoreApi\Entity\Plugin $plugin );
 
 	/**
 	 * Persist all child objects
@@ -77,7 +77,7 @@ interface IPluginStrategy {
 	public function renderBackend();
 
 
-	public function setPlugin(\Core\Entity\Plugin $plugin);
+	public function setPlugin(\CoreApi\Entity\Plugin $plugin);
 
 	public function getPlugin();
 }

@@ -26,7 +26,7 @@ namespace Core\Plugin\Content\Entity;
  */
 use Doctrine\DBAL\Types\StringType;
 
-class Content extends \Core\Entity\BaseEntity 
+class Content extends \CoreApi\Entity\BaseEntity 
 {
 
 	public function __construct($plugin)
@@ -52,8 +52,8 @@ class Content extends \Core\Entity\BaseEntity
 	private $text;
 
 	/**
-	 * @var \Core\Entity\Plugin
-	 * @ManyToOne(targetEntity="Core\Entity\Plugin")
+	 * @var \CoreApi\Entity\Plugin
+	 * @ManyToOne(targetEntity="CoreApi\Entity\Plugin")
 	 */
 	private $plugin;
 
@@ -88,16 +88,16 @@ class Content extends \Core\Entity\BaseEntity
 
 	/**
 	 * Set Plugin Object
-	 * @param \Core\Entity\Plugin $plugin
+	 * @param \CoreApi\Entity\Plugin $plugin
 	 */
-	public function setPlugin(\Core\Entity\Plugin $plugin)
+	public function setPlugin(\CoreApi\Entity\Plugin $plugin)
 	{
 		$this->plugin = $plugin;
 	}
 
 	/**
 	 * Get Plugin Object
-	 * @return \Core\Entity\Plugin
+	 * @return \CoreApi\Entity\Plugin
 	 */
 	public function getPlugin()
 	{

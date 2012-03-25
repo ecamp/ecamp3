@@ -29,7 +29,7 @@ class Content_PluginController extends \WebApp\Controller\BasePluginController
 		$this->_helper->viewRenderer->setNoRender(true);
 		
 		$id = $this->getRequest()->getParam("id");
-		$this->plugin = $this->em->getRepository("Core\Entity\Plugin")->find($id);
+		$this->plugin = $this->em->getRepository("CoreApi\Entity\Plugin")->find($id);
 		
 		$this->getResponse()->setHeader('Content-Type', 'text/plain');
     }

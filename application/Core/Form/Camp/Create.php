@@ -63,7 +63,7 @@ class Create extends \Core\Form\BaseForm
 	}
 
 
-	public function getData(\Core\Entity\Camp $camp, \Core\Entity\Period $period)
+	public function getData(\CoreApi\Entity\Camp $camp, \CoreApi\Entity\Period $period)
 	{
 		$camp->setName($this->getValue('name'));
 

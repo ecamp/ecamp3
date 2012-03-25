@@ -134,7 +134,7 @@ class UserService
 		/* check if camp with same name already exists */
 		$qb = $this->em->createQueryBuilder();
 		$qb->add('select', 'c')
-		->add('from', '\Core\Entity\Camp c')
+		->add('from', '\CoreApi\Entity\Camp c')
 		->add('where', 'c.owner = ?1 AND c.name = ?2')
 		->setParameter(1,$this->contextProvider->getContext()->getMe()->getId())
 		->setParameter(2, $form->getValue('name'));

@@ -23,7 +23,7 @@ class Friend extends ServiceAbstract
 	 * Returns a List containing the Freind of $user
 	 * If no User defined, the authentificated User is taken.
 	 * 
-	 * @param \Core\Entity\User|int|string $user
+	 * @param \CoreApi\Entity\User|int|string $user
 	 *
 	 * @return array
 	 */
@@ -72,11 +72,11 @@ class Friend extends ServiceAbstract
 	/**
 	 * The authentificated User requests a Freindship to $toUser
 	 * 
-	 * @param \Core\Entity\User|int|string $toUser
+	 * @param \CoreApi\Entity\User|int|string $toUser
 	 * 
 	 * @throws \Exception
 	 * 
-	 * @return \Core\Entity\UserRelationship
+	 * @return \CoreApi\Entity\UserRelationship
 	 */
 	public function request($toUser)
 	{
@@ -89,7 +89,7 @@ class Friend extends ServiceAbstract
 		
 		//TODO: Check, if Friendship or Request allready exist!
 		
-		$rel = new \Core\Entity\UserRelationship($user, $toUser);
+		$rel = new \CoreApi\Entity\UserRelationship($user, $toUser);
 		
 		$user->getRelationshipTo()->add($rel);
 		$toUser->getRelationshipFrom()->add($rel);
@@ -102,11 +102,11 @@ class Friend extends ServiceAbstract
 	 * The authentificated User accepts a 
 	 * Freindship request from $fromUser
 	 * 
-	 * @param \Core\Entity\User|int|string $fromUser
+	 * @param \CoreApi\Entity\User|int|string $fromUser
 	 * 
 	 * @throws \Exception
 	 * 
-	 * @return \Core\Entity\UserRelationshp
+	 * @return \CoreApi\Entity\UserRelationshp
 	 */
 	public function accept($fromUser)
 	{
@@ -118,7 +118,7 @@ class Friend extends ServiceAbstract
 		
 		// TODO: Check, if Friendship Request is available!
 		
-		$rel = new \Core\Entity\UserRelationship($user, $fromUser);
+		$rel = new \CoreApi\Entity\UserRelationship($user, $fromUser);
 		
 		$user->getRelationshipTo()->add($rel);
 		$fromUser->getRelationshipFrom()-add($rel);
@@ -131,7 +131,7 @@ class Friend extends ServiceAbstract
 	 * The authentificated User rejects a 
 	 * Friendship request from $fromUser.
 	 * 
-	 * @param \Core\Entity\User|int|string $fromUser
+	 * @param \CoreApi\Entity\User|int|string $fromUser
 	 * 
 	 * @throws \Exception
 	 */
@@ -161,7 +161,7 @@ class Friend extends ServiceAbstract
 	 * The authentificated User terminates 
 	 * a Freindship to $toUser
 	 * 
-	 * @param \Core\Entity\User|int|string $toUser
+	 * @param \CoreApi\Entity\User|int|string $toUser
 	 * 
 	 * @throws \Exception
 	 */

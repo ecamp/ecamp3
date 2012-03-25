@@ -16,14 +16,14 @@ class Camp extends ServiceAbstract
 	
 	public function get($id)
 	{
-		$camp = $this->em->getRepository("Core\Entity\Camp")->find($id);
+		$camp = $this->em->getRepository("CoreApi\Entity\Camp")->find($id);
 		return $camp;
 	}
 	
 	protected function update($params)
 	{
 		$id = $params["id"];
-		$camp = $this->em->getRepository("Core\Entity\Camp")->find($id);
+		$camp = $this->em->getRepository("CoreApi\Entity\Camp")->find($id);
 		
 		$form = new \Core\Form\Camp\Update();
 		
@@ -37,9 +37,9 @@ class Camp extends ServiceAbstract
 		return $camp;
 	}
 	
-	protected function create(\Core\Entity\User $creator, $params)
+	protected function create(\CoreApi\Entity\User $creator, $params)
 	{
-		$camp = new \Core\Entity\Camp();
+		$camp = new \CoreApi\Entity\Camp();
 		$form = new \Core\Form\Camp\Create();
 		
 		if( !$form->isValid($params) ) {
@@ -48,7 +48,7 @@ class Camp extends ServiceAbstract
 		
 		$camp->setCreator($creator);
 		
-		$period = new \Core\Entity\Period($camp);
+		$period = new \CoreApi\Entity\Period($camp);
 		$form->getData($camp, $period);
 		
 		$this->em->persist($camp);
@@ -57,9 +57,9 @@ class Camp extends ServiceAbstract
 		return $camp;
 	}
 	
-	private function createPeriod(\Core\Entity\Camp $camp, $params)
+	private function createPeriod(\CoreApi\Entity\Camp $camp, $params)
 	{
-		$period = new \Core\Entity\Period($camp);
+		$period = new \CoreApi\Entity\Period($camp);
 	
 		$from = new \DateTime($params['from'], new \DateTimeZone("GMT"));
 		$to   = new \DateTime($params['to'], new \DateTimeZone("GMT"));

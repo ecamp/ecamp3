@@ -243,7 +243,7 @@ class WebApp_GroupController extends \WebApp\Controller\BaseController
 	public function acceptAction()
 	{
 		$id = $this->getRequest()->getParam("id");
-		$usergroup = $this->em->getRepository("Core\Entity\UserGroup")->find($id);
+		$usergroup = $this->em->getRepository("CoreApi\Entity\UserGroup")->find($id);
 		
 		if($usergroup->isOpenRequest())
 		{	$this->groupService->acceptMembershipRequest($this->me, $usergroup);	}

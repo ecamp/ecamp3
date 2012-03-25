@@ -53,10 +53,10 @@ class WebApp_RegisterController
 
 		if($id = $this->getRequest()->getParam('id'))
 		{
-			/** @var $user \Core\Entity\User */
+			/** @var $user \CoreApi\Entity\User */
 			$user = $this->userService->get($id);
 
-			if(!is_null($user) && $user->getState() == \Core\Entity\User::STATE_NONREGISTERED)
+			if(!is_null($user) && $user->getState() == \CoreApi\Entity\User::STATE_NONREGISTERED)
 			{
 				$registerForm->setDefault('email', 		$user->getEmail());
 				$registerForm->setDefault('scoutname', 	$user->getScoutname());

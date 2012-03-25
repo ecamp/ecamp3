@@ -19,17 +19,17 @@ class Adapter
     const UNKNOWN_FAILURE 		= 'Unknown error!';
 
 
-    /** @var \Core\Entity\User $user */
+    /** @var \CoreApi\Entity\User $user */
     private $user;
     
-    /** @var \Core\Entity\Login $login */
+    /** @var \CoreApi\Entity\Login $login */
     private $login;
     
     /** @var string $password */
     private $password;
 
 
-    public function __construct(\Core\Entity\Login $login, $password)
+    public function __construct(\CoreApi\Entity\Login $login, $password)
     {
         $this->login = $login;
         $this->password = $password;
@@ -58,7 +58,7 @@ class Adapter
 
 
         // User Not Activated:
-        if($this->user->getState() != \Core\Entity\User::STATE_ACTIVATED)
+        if($this->user->getState() != \CoreApi\Entity\User::STATE_ACTIVATED)
         {
             return $this->authResult(
                 \Zend_Auth_Result::FAILURE_IDENTITY_AMBIGUOUS,
