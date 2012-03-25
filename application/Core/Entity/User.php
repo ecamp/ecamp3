@@ -20,8 +20,6 @@
 
 namespace Core\Entity;
 
-use Core\Entity\Annotations as Pub;
-
 /**
  * @Entity(repositoryClass="\Core\Repository\UserRepository")
  * @Table(name="users")
@@ -63,16 +61,6 @@ class User extends BaseEntity
 		$this->state = self::STATE_NONREGISTERED;
 		$this->role  = self::ROLE_USER;
 	}
-
-
-	/**
-	 * @return \CoreApi\Entity\User
-	 */
-	public function asReadonly()
-	{
-		return new \CoreApi\Entity\User($this);
-	}
-
 
 	/**
 	 * @Id @Column(type="integer")
@@ -478,7 +466,7 @@ class User extends BaseEntity
 	}
 
 	/**
-	 * @MethodEntityList(type = "\CoreApi\Entity\UserGroup")
+	 * @MethodEntityList(type = "\Core\Entity\UserGroup")
 	 * @return array
 	 */
 	public function getUsergroups()

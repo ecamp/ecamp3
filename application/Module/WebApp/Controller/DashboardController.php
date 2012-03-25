@@ -28,6 +28,11 @@ class WebApp_DashboardController extends \WebApp\Controller\BaseController
 	 */
 	private $userService;
 	
+	/**
+	 * @var CoreApi\Service\CampService
+	 * @Inject CoreApi\Service\CampService
+	 */
+	private $campService;
 	
 	/**
 	 * @var \Repository\UserRepository
@@ -35,6 +40,11 @@ class WebApp_DashboardController extends \WebApp\Controller\BaseController
 	 */
 	private $userRepository;
 	
+	/**
+	 * @var \Repository\CampRepository
+	 * @Inject CampRepository
+	 */
+	private $campRepository;
 	
     public function init()
     {
@@ -100,7 +110,7 @@ class WebApp_DashboardController extends \WebApp\Controller\BaseController
 				throw new \Core\Service\ValidationException();
 			}
 		
-			$camp = $this->userService->createCamp($form);
+			$camp = $this->userService->CreateCamp($form);
 			
 			$this->_helper->getHelper('Redirector')->gotoRoute(array('action'=>'camps'));
 		}

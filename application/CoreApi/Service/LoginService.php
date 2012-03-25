@@ -5,8 +5,8 @@ namespace CoreApi\Service;
 use Core\Acl\DefaultAcl;
 use Core\Service\ServiceBase;
 
-use CoreApi\Entity\User;
-use CoreApi\Entity\Login;
+use Core\Entity\User;
+use Core\Entity\Login;
 
 
 class LoginService 
@@ -40,7 +40,7 @@ class LoginService
 	
 	
 	/**
-	 * @return CoreApi\Entity\Login | NULL
+	 * @return Core\Entity\Login | NULL
 	 */
 	public function Get($s = false)
 	{
@@ -54,7 +54,7 @@ class LoginService
 	
 	
 	/**
-	 * @return CoreApi\Entity\Login
+	 * @return Core\Entity\Login
 	 */
 	public function Create(User $user, \Zend_Form $form, $s = false)
 	{
@@ -67,12 +67,12 @@ class LoginService
 			! $loginValdator->isValid($form));
 		
 		$login->setNewPassword($form->getValue('password'));
-		$login->setUser($this->UnwrapEntity($user));
+		$login->setUser($user);
 		
 		$this->persist($login);		
 		$t->flushAndCommit($s);
 		
-		return $login->asReadonly();
+		return $login;
 	}
 	
 	
@@ -91,12 +91,12 @@ class LoginService
 	 */
 	public function Login($identifier, $password)
 	{
-		/** @var \CoreApi\Entity\User */
+		/** @var \Core\Entity\User */
 		$user = $this->userService->get($identifier);
 		
 		/** @var \Core\Entity\Login */
 		if(is_null($user))	{	$login = null;	}
-		else				{	$login = $this->UnwrapEntity($user)->getLogin();	}
+		else				{	$login = $user->getLogin();	}
 		
 		$authAdapter = new \Core\Auth\Adapter($login, $password);
 		$result = \Zend_Auth::getInstance()->authenticate($authAdapter);
@@ -133,13 +133,12 @@ class LoginService
 	
 	public function ForgotPassword($identifier, $s = false)
 	{
-		/** @var \CoreApi\Entity\Login $user */
+		/** @var \Core\Entity\Login $user */
 		$user = $this->userService->Get($identifier);
 		
 		if(is_null($user))
 		{	return false;	}
 		
-		$user = $this->UnwrapEntity($user);
 		$login = $user->getLogin();
 		
 		if(is_null($login))

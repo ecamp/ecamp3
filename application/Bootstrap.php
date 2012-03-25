@@ -32,12 +32,8 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 	public function _initAutoloader()
 	{
 		require_once APPLICATION_PATH . '/../library/Doctrine/Common/ClassLoader.php';
-		require_once APPLICATION_PATH . '/CoreApi/EntityClassLoader.php';
 				
 		$autoloader = \Zend_Loader_Autoloader::getInstance();
-		
-		$coreApiEntityAutoloader = new \CoreApi\EntityClassLoader();
-		$autoloader->pushAutoloader($coreApiEntityAutoloader, 'CoreApi\Entity');
 		
 		$coreApiAutoloader = new \Doctrine\Common\ClassLoader('CoreApi', APPLICATION_PATH);
 		$autoloader->pushAutoloader(array($coreApiAutoloader, 'loadClass'), 'CoreApi');

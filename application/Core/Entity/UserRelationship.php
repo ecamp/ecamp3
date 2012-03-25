@@ -40,15 +40,6 @@ class UserRelationship extends BaseEntity
 
 
 	/**
-	 * @return \CoreApi\Entity\UserRelationship
-	 */
-	public function asReadonly()
-	{
-		return new \CoreApi\Entity\UserRelationship($this);
-	}
-
-
-	/**
 	 * @Id @Column(type="integer")
 	 * @GeneratedValue(strategy="AUTO")
 	 * @var int

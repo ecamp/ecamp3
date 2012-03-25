@@ -27,15 +27,6 @@ namespace Core\Plugin\Header\Entity;
 class Header extends \Core\Entity\BaseEntity 
 {
 
-	/**
-	 * @return \CoreApi\Entity\Day
-	 */
-	public function asReadonly()
-	{
-		// TODO return Readonly Entity for Plugin!
-		return null;
-	}
-
 	public function __construct($plugin)
 	{
 		$this->text = "hello world";

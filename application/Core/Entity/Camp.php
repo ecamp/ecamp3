@@ -34,15 +34,7 @@ class Camp extends BaseEntity
 		$this->userCamps = new \Doctrine\Common\Collections\ArrayCollection();
 		$this->events    = new \Doctrine\Common\Collections\ArrayCollection();
 	}
-
-
-	/**
-	 * @return \CoreApi\Entity\Camp
-	 */
-	public function asReadonly()
-	{
-		return new \CoreApi\Entity\Camp($this);
-	}
+	
 
 	/**
 	 * @var int
@@ -178,7 +170,7 @@ class Camp extends BaseEntity
 	}
 	
 	/** 
-	 * @MethodEntityList(type = "\CoreApi\Entity\Period")
+	 * @MethodEntityList(type = "\Core\Entity\Period")
 	 * @return array
 	 */
 	public function getPeriods()
@@ -187,7 +179,7 @@ class Camp extends BaseEntity
 	}
 	
 	/**
-	 * @MethodEntityList(type = "\CoreApi\Entity\Event")
+	 * @MethodEntityList(type = "\Core\Entity\Event")
 	 * @return array
 	 */
 	public function getEvents()
@@ -196,7 +188,7 @@ class Camp extends BaseEntity
 	}
 
 	/**
-	 * @MethodEntityList(type = "\CoreApi\Entity\UserCamp")
+	 * @MethodEntityList(type = "\Core\Entity\UserCamp")
 	 * @return \Doctrine\Common\Collections\ArrayCollection 
 	 */
 	public function getUserCamps()
@@ -218,7 +210,7 @@ class Camp extends BaseEntity
 
 	
 	/**
-	 * @MethodEntityList(type = "\CoreApi\Entity\User")
+	 * @MethodEntityList(type = "\Core\Entity\User")
 	 * @return \Doctrine\Common\Collections\ArrayCollection
 	 */
 	public function getMembers()
@@ -254,7 +246,7 @@ class Camp extends BaseEntity
 	{
 		$closure = function($key, $element) use ($user)
 		{
-			return  $element->getRole() == UserCamp::ROLE_MEMBER && $element->getUser() == $user;
+			return  $element->getRole() == UserCamp::ROLE_MEMBER && $element->getUser()->getId() == $user->getId();
 		};
 	
 		return $this->getUserCamps()->exists( $closure );

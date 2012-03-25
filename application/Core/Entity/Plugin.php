@@ -32,14 +32,6 @@ namespace Core\Entity;
 class Plugin extends BaseEntity
 {
 
-	/**
-	 * @return \CoreApi\Entity\Plugin
-	 */
-	public function asReadonly()
-	{
-		return new \CoreApi\Entity\Plugin($this);
-	}
-
 
 	/**
 	 * The id of the plugin item instance

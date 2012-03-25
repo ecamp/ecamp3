@@ -72,17 +72,13 @@ abstract class ServiceBase
 		return $t;
 	}
 	
-	
-	
 	protected function persist($entity)
 	{
-		$entity = $this->UnwrapEntity($entity);
 		$this->em->persist($entity);
 	}
 	
 	protected function remove($entity)
 	{
-		$entity = $this->UnwrapEntity($entity);
 		$this->em->remove($entity);
 	}
 	
@@ -90,22 +86,4 @@ abstract class ServiceBase
 	{
 		$this->em->flush();
 	}
-	
-	
-	
-	protected function UnwrapEntity($entity)
-	{
-		if($entity instanceof \CoreApi\Entity\BaseEntity)
-		{	return \Core\Entity\Wrapper\Unwrapper::Unwrapp($entity);	}
-		
-		if($entity instanceof \Core\Entity\BaseEntity)
-		{	return $entity;	}
-		
-		if(is_null($entity))
-		{	return null;	}
-		
-		throw new \Exception("Only Entities can be unwrapped!");
-	}
-	
-	
 }
