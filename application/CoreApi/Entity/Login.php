@@ -18,7 +18,7 @@
  * along with eCamp.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Core\Entity;
+namespace CoreApi\Entity;
 
 
 /**
@@ -60,7 +60,7 @@ class Login extends BaseEntity
 	
 	
 	/**
-	 * @var \Core\Entity\User
+	 * @var User
 	 * @OneToOne(targetEntity="User", mappedBy="login")
 	 * @JoinColumn(name="user_id", referencedColumnName="id")
 	 */
@@ -69,8 +69,6 @@ class Login extends BaseEntity
 
 	/**
 	 * Returns the Id of this Login Entity
-	 * 
-	 * @Method()
 	 */
 	public function getId()
 	{
@@ -80,8 +78,6 @@ class Login extends BaseEntity
 	
 	/**
 	 * Set the User of this Login Entity
-	 * 
-	 * @param \Core\Entity\User $user
 	 */
 	public function setUser(User $user)
 	{
@@ -92,8 +88,7 @@ class Login extends BaseEntity
 	/**
 	 * Returns the User of this Login Entity
 	 * 
-	 * @MethodEntity()
-	 * @return \Core\Entity\User
+	 * @return User
 	 */
 	public function getUser()
 	{

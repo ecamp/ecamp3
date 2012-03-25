@@ -22,7 +22,7 @@ class Group extends ServiceAbstract
     // public function index(){}
 	public function get($id)
 	{
-		$group = $this->em->getRepository('\Core\Entity\Group')->find($id);
+		$group = $this->em->getRepository('\CoreApi\Entity\Group')->find($id);
 		return $group;
 	}
 	
@@ -39,7 +39,7 @@ class Group extends ServiceAbstract
      * @return Camp object, if creation was successfull
      * @throws \Ecamp\ValidationException
      */
-    protected function createCamp(\Core\Entity\Group $group, \Core\Entity\User $creator, $params)
+    protected function createCamp(\CoreApi\Entity\Group $group, \CoreApi\Entity\User $creator, $params)
     {
     	$this->em->getConnection()->beginTransaction();
 		try
@@ -76,7 +76,7 @@ class Group extends ServiceAbstract
     * @return Camp object, if update was successful
     * @throws \Ecamp\ValidationException
     */
-    protected function getCamp(\Core\Entity\Group $group, $id)
+    protected function getCamp(\CoreApi\Entity\Group $group, $id)
     {
     	$camp = $this->campService->get($id);
     		 
@@ -95,7 +95,7 @@ class Group extends ServiceAbstract
     * @return Camp object, if update was successful
     * @throws \Ecamp\ValidationException
     */
-    protected function updateCamp(\Core\Entity\Group $group, $params)
+    protected function updateCamp(\CoreApi\Entity\Group $group, $params)
     {
     	$this->em->getConnection()->beginTransaction();
     	try

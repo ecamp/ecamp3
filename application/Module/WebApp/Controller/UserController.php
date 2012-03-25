@@ -39,7 +39,7 @@ class WebApp_UserController extends \WebApp\Controller\BaseController
 		$id = $this->getRequest()->getParam("user");
 
 		/** @var $user \Entity\User */
-		$user = $this->em->getRepository("Core\Entity\User")->find($id);
+		$user = $this->em->getRepository("CoreApi\Entity\User")->find($id);
 
 		$friendshipRequests = ($user == $this->me) ?
 		$friendshipRequests = $this->userRepository->findFriendshipInvitationsOf($this->me) : null;
@@ -57,7 +57,7 @@ class WebApp_UserController extends \WebApp\Controller\BaseController
 	public function addAction()
 	{
 		$id = $this->getRequest()->getParam("user");
-		$user = $this->em->getRepository("Core\Entity\User")->find($id);
+		$user = $this->em->getRepository("CoreApi\Entity\User")->find($id);
 
 		$this->me->sendFriendshipRequestTo($user);
 
@@ -68,7 +68,7 @@ class WebApp_UserController extends \WebApp\Controller\BaseController
 	public function acceptAction()
 	{
 		$id = $this->getRequest()->getParam("user");
-		$user = $this->em->getRepository("Core\Entity\User")->find($id);
+		$user = $this->em->getRepository("CoreApi\Entity\User")->find($id);
 
 		$this->me->acceptFriendshipRequestFrom($user);
 
@@ -79,7 +79,7 @@ class WebApp_UserController extends \WebApp\Controller\BaseController
 	public function ignoreAction()
 	{
 		$id = $this->getRequest()->getParam("user");
-		$user = $this->em->getRepository("Core\Entity\User")->find($id);
+		$user = $this->em->getRepository("CoreApi\Entity\User")->find($id);
 
 		$this->me->ignoreFriendshipRequestFrom($user);
 
@@ -91,7 +91,7 @@ class WebApp_UserController extends \WebApp\Controller\BaseController
 	public function divorceAction()
 	{
 		$id = $this->getRequest()->getParam("user");
-		$user = $this->em->getRepository("Core\Entity\User")->find($id);
+		$user = $this->em->getRepository("CoreApi\Entity\User")->find($id);
 
 		$this->me->divorceFrom($user);
 

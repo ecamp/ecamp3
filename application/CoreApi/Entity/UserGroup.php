@@ -18,34 +18,31 @@
  * along with eCamp.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Core\Entity;
+namespace CoreApi\Entity;
 
 /**
- * Connection between User and camp
+ * Connection between User and Group
  * User can send requests to Managers
  * Managers can send invitations to Users
  * @Entity
- * @Table(name="user_camps", uniqueConstraints={@UniqueConstraint(name="user_camp_unique",columns={"user_id","camp_id"})})
+ * @Table(name="user_groups", uniqueConstraints={@UniqueConstraint(name="user_group_unique",columns={"user_id","group_id"})})
  */
-class UserCamp extends BaseEntity
+class UserGroup extends BaseEntity
 {
 	const ROLE_NONE    = 0;
-	const ROLE_GUEST   = 10;
-	const ROLE_MEMBER  = 50;
-	const ROLE_MANAGER = 90;
-	const ROLE_OWNER   = 100;
+	const ROLE_MEMBER  = 10;
+	const ROLE_MANAGER = 20;
 
-	public function __construct(User $user = null, Camp $camp = null)
+	public function __construct($user = null, $group = null)
 	{
-		$this->role = self::ROLE_NONE;
-		$this->user = $user;
-		$this->camp = $camp;
+		$this->role  = self::ROLE_NONE;
+		$this->user  = $user;
+		$this->group = $group;
 
 		$this->invitationAccepted = false;
 		$this->requestedRole = null;
 		$this->requestAcceptedBy = null;
 	}
-
 
 	/**
 	 * @Id @Column(type="integer")
@@ -61,19 +58,19 @@ class UserCamp extends BaseEntity
 	private $user;
 
 	/**
-	 * @ManyToOne(targetEntity="Camp")
+	 * @ManyToOne(targetEntity="Group")
 	 * @JoinColumn(nullable=false)
 	 */
-	private $camp;
+	private $group;
 
 	/**
-	 * The role, a user currently have in this camp
+	 * The role, a user currently have in this group
 	 * @Column(type="integer")
 	 */
 	private $role;
 
 	/**
-	 * The role, a user requested or was invited to have in this camp
+	 * The role, a user requested or was invited to have in this group
 	 * null = no open request
 	 * @Column(type="integer", nullable=true)
 	 */
@@ -95,8 +92,9 @@ class UserCamp extends BaseEntity
 	 */
 	private $invitationAccepted;
 
+	
+	
 	/**
-	 * @Method()
 	 * @return int
 	 */
 	public function getId()
@@ -104,18 +102,17 @@ class UserCamp extends BaseEntity
 		return $this->id;
 	}
 
-	public function setCamp(Camp $camp)
+	public function setGroup(Group $group)
 	{
-		$this->camp = $camp;
+		$this->group = $group;
 	}
 	
 	/**
-	 * @MethodEntity()
-	 * @return Camp
+	 * @return Group
 	 */
-	public function getCamp()          
+	public function getGroup()          
 	{
-		return $this->camp;
+		return $this->group;
 	}
 
 	public function setUser(User $user)
@@ -124,7 +121,6 @@ class UserCamp extends BaseEntity
 	}
 	
 	/**
-	 * @MethodEntity()
 	 * @return User
 	 */
 	public function getUser()          
@@ -133,16 +129,33 @@ class UserCamp extends BaseEntity
 	}
 
 	/**
-	 * @Method()
 	 * @return int
 	 */
 	public function getRole()          
 	{
 		return $this->role;
 	}
-
+	
 	/**
-	 * @Method()
+	 * @return strint
+	 */
+	public function getRoleName()
+	{
+		switch( $this->role )
+		{
+			case self::ROLE_NONE:
+				return "No Member";
+
+			case self::ROLE_MEMBER:
+				return "Member";
+
+			case self::ROLE_MANAGER:
+				return "Manager";
+		}
+	}
+
+	
+	/**
 	 * @return int
 	 */
 	public function getRequestedRole() 
@@ -154,41 +167,46 @@ class UserCamp extends BaseEntity
 		$this->requestedRole = $role; return $this;
 	}
 
-	/**
-	 * True if the role is member or manager
-	 * @Method()
-	 * @return boolean 
+	/** 
+	 * True if the role is member or manager 
+	 * @return boolean
 	 */
 	public function isMember()
 	{
 		return $this->role != self::ROLE_NONE;
 	}
 
-	/** 
-	 * True if the request/invitation is still open
-	 * @Method()
-	 * @return boolean 
+	/**
+	 * True if the role is manager 
+	 * @return boolean
 	 */
-	public function isOpen()
+	public function isManager()
 	{
-		return !isset($this->requestedRole);
+		return $this->role == self::ROLE_MANAGER;
 	}
 
 	/**
-	 * True if the user sent this request to a manager and the request is still open
-	 * @Method()
-	 * @return boolean 
+	 * True if the request/invitation is still open 
+	 * @return boolean
+	 */
+	public function isOpen()
+	{
+		return isset($this->requestedRole);
+	}
+
+	/**
+	 * True if the user sent this request to a manager and the request is still open 
+	 * @return boolean
 	 */
 	public function isOpenRequest()
 	{
 		return $this->isOpen() && !isset($this->requestAcceptedBy);
 	}
 
-	/**
-	 * True if a manager has sent this invitation to a user and the invitation is still open
-	 * @Method()
-	 * @return boolean 
-	  */
+	/** 
+	 * True if a manager has sent this invitation to a user and the invitation is still open 
+	 * @return boolean
+	 */
 	public function isOpenInvitation()
 	{
 		return $this->isOpen() && !$this->invitationAccepted;
@@ -207,10 +225,13 @@ class UserCamp extends BaseEntity
 		return $this;
 	}
 
-	/** manager accepts the request */
-	public function acceptRequest($user)
+	/**
+	 * Request is accepted by the given manager
+	 * @param $manager
+	 */
+	public function acceptRequest(\Entity\User $manager)
 	{
-		$this->requestAcceptedBy = $user;
+		$this->requestAcceptedBy = $manager;
 
 		if( $this->invitationAccepted )
 		{
@@ -227,13 +248,4 @@ class UserCamp extends BaseEntity
 		return $this;
 	}
 
-
-	public static function RoleFilter($role)
-	{
-		return
-		function (UserCamp $usercamp) use ($role)
-		{
-			return $usercamp->getRole() == $role;
-		};
-	}
 }

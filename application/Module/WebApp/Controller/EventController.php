@@ -44,17 +44,17 @@ class WebApp_EventController extends \WebApp\Controller\BaseController
 		
 		 /* load camp */
 	    $campid = $this->getRequest()->getParam("camp");
-	    $this->camp = $this->em->getRepository("Core\Entity\Camp")->find($campid);
+	    $this->camp = $this->em->getRepository("CoreApi\Entity\Camp")->find($campid);
 	    $this->view->camp = $this->camp;
 
 	     /* load group */
 	    $groupid = $this->getRequest()->getParam("group");
-	    $this->group = $this->em->getRepository("Core\Entity\Group")->find($groupid);
+	    $this->group = $this->em->getRepository("CoreApi\Entity\Group")->find($groupid);
 	    $this->view->group = $this->group;
 		
 		 /* load user */
 	    $userid = $this->getRequest()->getParam("user");
-	    $this->user = $userid ? $this->em->getRepository("Core\Entity\User")->find($userid) : null;
+	    $this->user = $userid ? $this->em->getRepository("CoreApi\Entity\User")->find($userid) : null;
 	    $this->view->owner = $this->user;
 
 	    $this->setNavigation(new \WebApp\Navigation\Camp($this->camp));
@@ -74,12 +74,12 @@ class WebApp_EventController extends \WebApp\Controller\BaseController
 	/* create an event */
     public function createAction()
     {
-		$event = new Core\Entity\Event();
+		$event = new CoreApi\Entity\Event();
 		$event->setCamp($this->camp);
 		$event->setTitle(md5(time()));
 		
 		/* create header */
-		$plugin = new \Core\Entity\Plugin();		
+		$plugin = new \CoreApi\Entity\Plugin();		
 		$plugin->setEvent($event);
 		$strategy = new \WebApp\Plugin\Header\Strategy($this->em, $this->view, $plugin);
 		$plugin->setStrategy($strategy);
@@ -87,7 +87,7 @@ class WebApp_EventController extends \WebApp\Controller\BaseController
 		$this->em->persist($plugin);
 
 		/* create content */
-		$plugin = new \Core\Entity\Plugin();
+		$plugin = new \CoreApi\Entity\Plugin();
 		$plugin->setEvent($event);
 		$strategy = new \WebApp\Plugin\Content\Strategy($this->em, $this->view, $plugin);
 		$plugin->setStrategy($strategy);
@@ -95,7 +95,7 @@ class WebApp_EventController extends \WebApp\Controller\BaseController
 		$this->em->persist($plugin);
 
 	    /* create content */
-		$plugin = new \Core\Entity\Plugin();
+		$plugin = new \CoreApi\Entity\Plugin();
 		$plugin->setEvent($event);
 		$strategy = new \WebApp\Plugin\Content\Strategy($this->em, $this->view, $plugin);
 		$plugin->setStrategy($strategy);
@@ -111,7 +111,7 @@ class WebApp_EventController extends \WebApp\Controller\BaseController
 	public function deleteAction(){
 	
 		$id = $this->getRequest()->getParam("id");
-		$event = $this->em->getRepository("Core\Entity\Event")->find($id);
+		$event = $this->em->getRepository("CoreApi\Entity\Event")->find($id);
 		
 		foreach( $event->getPlugins() as $plugin )
 		{
@@ -132,7 +132,7 @@ class WebApp_EventController extends \WebApp\Controller\BaseController
 		if( !isset($id) )
 			$this->_forward('index');
 		
-		$this->view->event = $this->em->getRepository("Core\Entity\Event")->find($id);
+		$this->view->event = $this->em->getRepository("CoreApi\Entity\Event")->find($id);
 	}
 	
 	/* edit an event (backend, write access) */
@@ -143,14 +143,14 @@ class WebApp_EventController extends \WebApp\Controller\BaseController
 		if( !isset($id) )
 			$this->_forward('index');
 		
-		$this->view->event = $this->em->getRepository("Core\Entity\Event")->find($id);
+		$this->view->event = $this->em->getRepository("CoreApi\Entity\Event")->find($id);
 	}
 
 	/* call a function of the plugin */
 	public function pluginAction(){
 
 		$id = $this->getRequest()->getParam("id");
-		$plugin = $this->em->getRepository("Core\Entity\Plugin")->find($id);
+		$plugin = $this->em->getRepository("CoreApi\Entity\Plugin")->find($id);
 
 		Zend_Controller_Front::getInstance()->addControllerDirectory(
 			APPLICATION_PATH . '/Module/WebApp/Plugin/'.$plugin->getStrategyInstance()->getPluginName().'/Controller', $plugin->getStrategyInstance()->getPluginName());

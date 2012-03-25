@@ -37,15 +37,15 @@ abstract class AbstractStrategy
 	protected $em;
 	
 	/**
-	 * @var Core\Entity\Plugin
+	 * @var CoreApi\Entity\Plugin
 	 */
 	protected $plugin;
 	
 	/**
 	 * Set the plugin object.
-	 * @param \Core\Entity\Plugin $plugin
+	 * @param \CoreApi\Entity\Plugin $plugin
 	 */
-	public function setPlugin(\Core\Entity\Plugin $plugin)
+	public function setPlugin(\CoreApi\Entity\Plugin $plugin)
 	{
 		$this->plugin = $plugin;
 	}

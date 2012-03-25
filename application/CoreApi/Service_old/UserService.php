@@ -45,9 +45,9 @@ class UserService
 		return $this->userRepo->findAll();
 	}
 
-	public function createLogin(\Core\Entity\User $user, $password)
+	public function createLogin(\CoreApi\Entity\User $user, $password)
 	{
-		$login = new \Core\Entity\Login();
+		$login = new \CoreApi\Entity\Login();
 		$login->setNewPassword($password);
 
 		$login->setUser($user);
@@ -68,13 +68,13 @@ class UserService
 			
 			if(is_null($user))
 			{
-				$user = new \Core\Entity\User();
+				$user = new \CoreApi\Entity\User();
 				$user->setEmail($email);
 				
 				$this->em->persist($user);
 			}
 			
-			if($user->getState() != \Core\Entity\User::STATE_NONREGISTERED)
+			if($user->getState() != \CoreApi\Entity\User::STATE_NONREGISTERED)
 			{
 				throw new Exception("This eMail-Adress is already registered!");
 			}
@@ -83,7 +83,7 @@ class UserService
 			$user->setScoutname($params['scoutname']);
 			$user->setFirstname($params['firstname']);
 			$user->setSurname($params['surname']);
-			$user->setState(\Core\Entity\User::STATE_REGISTERED);
+			$user->setState(\CoreApi\Entity\User::STATE_REGISTERED);
 			
 			$login = $this->createLogin($user, $params['password1']);
 			
@@ -110,7 +110,7 @@ class UserService
 		if(is_null($user))
 		{	return false;	}
 
-		if($user->getState() != \Core\Entity\User::STATE_REGISTERED)
+		if($user->getState() != \CoreApi\Entity\User::STATE_REGISTERED)
 		{	return false;	}
 
 		return $user->activateUser($key);
@@ -123,7 +123,7 @@ class UserService
 
 		if( $res == null )
 		{
-			$userCamp = new \Core\Entity\UserCamp();
+			$userCamp = new \CoreApi\Entity\UserCamp();
 			$userCamp->setUser($user);
 			$userCamp->setCamp($camp);
 

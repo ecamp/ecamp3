@@ -50,7 +50,7 @@ class Update extends \Core\Form\BaseForm
 		$this->addElement($title);
 	}
 
-	public function getData(\Core\Entity\Camp $camp)
+	public function getData(\CoreApi\Entity\Camp $camp)
 	{
 		$camp->setName($this->getValue('name'));
 
