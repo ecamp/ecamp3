@@ -18,13 +18,13 @@
 * along with eCamp.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-namespace Core\Plugin\Header\Entity;
+namespace CoreApi\Plugin\Header\Entity;
 
 /**
  * @Entity
  * @Table(name="plugin_headers")
  */
-class Header extends \Core\Entity\BaseEntity 
+class Header extends \CoreApi\Entity\BaseEntity 
 {
 
 	public function __construct($plugin)
@@ -50,8 +50,8 @@ class Header extends \Core\Entity\BaseEntity
 	private $text;
 
 	/**
-	 * @var \Core\Entity\Plugin
-	 * @ManyToOne(targetEntity="Core\Entity\Plugin")
+	 * @var CoreApi\Entity\Plugin
+	 * @ManyToOne(targetEntity="CoreApi\Entity\Plugin")
 	 */
 	private $plugin;
 
@@ -86,17 +86,16 @@ class Header extends \Core\Entity\BaseEntity
 	
 	/**
 	 * Set Plugin object
-	 * @param \Core\Entity\Plugin $plugin
+	 * @param CoreApi\Entity\Plugin $plugin
 	 */
-	public function setPlugin(\Core\Entity\Plugin $plugin)
+	public function setPlugin(\CoreApi\Entity\Plugin $plugin)
 	{
 		$this->plugin = $plugin;
 	}
 	
 	/**
 	 * Get Plugin object
-	 * @return \Core\Entity\Plugin
-	 * Enter description here ...
+	 * @return Core\Entity\Plugin
 	 */
 	public function getPlugin()
 	{

@@ -4,7 +4,6 @@ namespace CoreApi\Service;
 
 
 use Core\Acl\DefaultAcl;
-use Core\Entity\Period;
 use Core\Service\ServiceBase;
 use Core\Validator\Entity\CampValidator;
 
