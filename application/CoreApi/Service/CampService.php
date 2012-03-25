@@ -2,19 +2,21 @@
 
 namespace CoreApi\Service;
 
+
 use Core\Acl\DefaultAcl;
 use Core\Entity\Period;
 use Core\Service\ServiceBase;
 use Core\Validator\Entity\CampValidator;
 
-use Core\Entity\Camp as CoreCamp;
+use CoreApi\Entity\Camp;
+use CoreApi\Entity\Period;
 
 
 class CampService
 	extends ServiceBase
 {
 	/**
-	 * @var \Repository\CampRepository
+	 * @var Core\Repository\CampRepository
 	 * @Inject CampRepository
 	 */
 	private $campRepo;
@@ -38,7 +40,7 @@ class CampService
 		if(is_numeric($id))
 		{	return $this->Get($this->campRepo->find($id));	}
 			
-		if($id instanceof CoreCamp)
+		if($id instanceof Camp)
 		{	return $id;	}
 		
 		return null;
@@ -50,7 +52,7 @@ class CampService
 	{
 		$t = $this->beginTransaction();
 		
-		$camp = $this->GetCoreCamp($camp);
+		$camp = $this->Get($camp);
 		$this->removeEntity($camp);
 		
 		$t->flushAndCommit($s);
@@ -64,7 +66,7 @@ class CampService
 	{
 		$t = $this->beginTransaction();
 		
-		$camp = $this->GetCoreCamp($camp);
+		$camp = $this->Get($camp);
 		$campValidator = new CampValidator($camp);
 		
 		$this->validationFailed(
@@ -83,10 +85,10 @@ class CampService
 	{	
 		$t = $this->beginTransaction();
 		
-		$camp = new CoreCamp();
+		$camp = new Camp();
 		$this->persist($camp);
 		
-		$camp->setCreator($this->context->getMe());
+		$camp->setCreator($this->contextProvider->getContext()->getMe());
 		
 		$campValidator = new CampValidator($camp);
 		$this->validationFailed( !$campValidator->applyIfValid($form) );
@@ -117,8 +119,8 @@ class CampService
 		}
 		
 		
-		$camp = $this->GetCoreCamp($camp);
-		$period = new \Core\Entity\Period($camp);
+		$camp = $this->Get($camp);
+		$period = new Period($camp);
 		$this->persist($period);
 		
 		$from = new \DateTime($form->getValue('from'), new \DateTimeZone("GMT"));
@@ -137,21 +139,4 @@ class CampService
 		return $period;
 	}
 	
-	/**
-	 * @return Core\Entity\Camp
-	 */
-	private function GetCoreCamp($id)
-	{
-		if(is_numeric($id))
-		{
-			return $this->campRepo->find($id);
-		}
-			
-		if($id instanceof CoreCamp)
-		{
-			return $id;
-		}
-	
-		return null;
-	}
 }

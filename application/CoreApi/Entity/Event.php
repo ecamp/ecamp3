@@ -18,7 +18,7 @@
  * along with eCamp.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Core\Entity;
+namespace CoreApi\Entity;
 
 /**
  * Container for an event.
@@ -64,53 +64,52 @@ class Event extends BaseEntity
 
 	
 	
-	/** @Method() */
 	public function getId()
 	{
 		return $this->id;
 	}
 
+	
 	public function setTitle($title)
 	{
 		$this->title = $title;
 	}
 	
-	/** @Method() */
 	public function getTitle()
 	{
 		return $this->title;
 	}
 
+	
 	public function setCamp(camp $camp)
 	{
 		$this->camp = $camp;
 	}
 	
 	/**
-	 * @MethodEntity()
-	 * @return \Core\Entity\Camp
+	 * @return Camp
 	 */
 	public function getCamp()
 	{
 		return $this->camp;
 	}
 
+	
 	public function setUser(user $user)
 	{
 		$this->user = $user;
 	}
 	
 	/**
-	 * @MethodEntity()
-	 * @return \Core\Entity\User
+	 * @return User
 	 */
 	public function getUser()
 	{
 		return $this->user;
 	}
 	
+	
 	/**
-	 * @MethodEntityList(type = "\Core\Entity\EventInstance")
 	 * @return array
 	 */
 	public function getEventInstances()
@@ -118,8 +117,8 @@ class Event extends BaseEntity
 		return $this->eventInstances;
 	}
 
+	
 	/**
-	 * @MethodEntityList(type = "\Core\Entity\Plugin")
 	 * @return array
 	 */
 	public function getPlugins()

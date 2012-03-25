@@ -19,7 +19,7 @@
  */
 
 
-use \Core\Entity\UserCamp;
+use \CoreApi\Entity\UserCamp;
 
 class WebApp_LeaderController extends \WebApp\Controller\BaseController
 {
@@ -73,17 +73,17 @@ class WebApp_LeaderController extends \WebApp\Controller\BaseController
 		
 		/* load camp */
 	    $campid = $this->getRequest()->getParam("camp");
-	    $this->camp = $this->em->getRepository("Core\Entity\Camp")->find($campid);
+	    $this->camp = $this->em->getRepository("CoreApi\Entity\Camp")->find($campid);
 	    $this->view->camp = $this->camp;
 	    
 	    /* load group */
 	    $groupid = $this->getRequest()->getParam("group");
-	    $this->group = $groupid ? $this->em->getRepository("Core\Entity\Group")->find($groupid) : null;
+	    $this->group = $groupid ? $this->em->getRepository("CoreApi\Entity\Group")->find($groupid) : null;
 	    $this->view->group = $this->group;
 		
 	    /* load user */
 	    $userid = $this->getRequest()->getParam("user");
-	    $this->owner = $userid ? $this->em->getRepository("Core\Entity\User")->find($userid) : null;
+	    $this->owner = $userid ? $this->em->getRepository("CoreApi\Entity\User")->find($userid) : null;
 	    $this->view->owner = $this->owner;
 	    
 	    
@@ -100,7 +100,7 @@ class WebApp_LeaderController extends \WebApp\Controller\BaseController
 	public function indexAction()
 	{
 		$this->view->managers = $this->camp->getUsercamps()->filter(UserCamp::RoleFilter(UserCamp::ROLE_MANAGER));		
-		$this->view->leaders  = $this->camp->getUsercamps()->filter(UserCamp::RoleFilter(UserCamp::ROLE_NORMAL));
+		$this->view->leaders  = $this->camp->getUsercamps()->filter(UserCamp::RoleFilter(UserCamp::ROLE_MEMBER));
 		$this->view->guests   = $this->camp->getUsercamps()->filter(UserCamp::RoleFilter(UserCamp::ROLE_GUEST));
 	}
 	

@@ -100,7 +100,7 @@ class ValidationWrapper
 			if( !empty($upd) || !empty($ins)|| !empty($del)|| !empty($colupd)|| !empty($coldel) )
 				throw new \Exception("You tried to edit an entity outside the service layer.");
 			
-			$this->transaction = $this->em->getConnection()->beginTransaction();
+//			$this->transaction = $this->em->getConnection()->beginTransaction();
 		}
 	
 		self::$serviceNestingLevel++;
@@ -117,10 +117,11 @@ class ValidationWrapper
 				throw self::$validationException;
 			}
 			
-			$this->flushAndCommit();
+			//$this->flushAndCommit();
 		}
 	}
 	
+	/*
 	private function flushAndCommit()
 	{
 		if(self::hasFailed() )
@@ -142,6 +143,6 @@ class ValidationWrapper
 			throw $e;
 		}
 	}
-	
+	*/
 	
 }

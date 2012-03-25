@@ -18,7 +18,7 @@
  * along with eCamp.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Core\Entity;
+namespace CoreApi\Entity;
 
 /**
  * @Entity
@@ -65,25 +65,29 @@ class Group extends BaseEntity
 	private $description;
 
 	/**
+	 * @var Doctrine\Common\Collections\ArrayCollection
 	 * @OneToMany(targetEntity="UserGroup", mappedBy="group", cascade={"all"}, orphanRemoval=true )
 	 */
 	private $userGroups;
 
 	/**
-	 * @var Camp
+	 * @var Doctrine\Common\Collections\ArrayCollection
 	 * @OneToMany(targetEntity="Camp", mappedBy="group")
 	 */
 	private $camps;
 
-	/** @Column(type="string", length=32, nullable=true ) */
+	/**
+	 * @Column(type="string", length=32, nullable=true ) 
+	 */
 	private $imageMime;
 
-	/** @Column(type="object", nullable=true ) */
+	/**
+	 * @Column(type="object", nullable=true )
+	 */
 	private $imageData;
 
 
 	/**
-	 * @Method()
 	 * @return int
 	 */
 	public function getId()
@@ -93,59 +97,62 @@ class Group extends BaseEntity
 	
 	
 	/**
-	* @Method()
-	* @return string
-	*/
+	 * @return string
+	 */
 	public function getName()
 	{
 		return $this->name;
 	}
+	
 	public function setName( $name )
 	{
 		$this->name = $name; return $this;
 	}
 
+	
 	/**
-	 * @Method()
 	 * @return string
 	 */
 	public function getDescription()
 	{
 		return $this->description;
 	}
+	
 	public function setDescription( $description )
 	{
 		$this->description = $description; return $this;
 	}
 
+	
 	/**
-	 * @MethodEntity()
-	 * @return \Core\Entity\Group
+	 * @return Group
 	 */
 	public function getParent()
 	{
 		return $this->parent;
 	}
+	
 	public function setParent( $parent )
 	{
 		$this->parent = $parent; return $this;
 	}
 
+	
 	/**
-	 * @MethodEntityList(type = "\Core\Entity\Group")
 	 * @return array
 	 */
 	public function getChildren()
 	{
 		return $this->children;
 	}
+	
 	public function hasChildren()
 	{
 		return ! $this->children->isEmpty();
 	}
 
+	
 	/**
-	 * @MethodEntityList(type = "\Core\Entity\UserGroup")
 	 * @return array
 	 */
 	public function getUserGroups()
@@ -153,17 +160,17 @@ class Group extends BaseEntity
 		return $this->userGroups;
 	}
 
+	
 	/**
-	 * @MethodEntity()
-	 * @return \Core\Entity\Camp
+	 * @return Camp
 	 */
 	public function getCamps()
 	{
 		return $this->camps;
 	}
 
+	
 	/**
-	 * @MethodEntityList(type = "\Core\Entity\User")
 	 * @return array
 	 */
 	public function getMembers()
@@ -181,8 +188,8 @@ class Group extends BaseEntity
 		return $members;
 	}
 
+	
 	/**
-	 * @Method()
 	 * @return array
 	 */
 	public function getPathAsArray()
@@ -199,27 +206,29 @@ class Group extends BaseEntity
 		return array_reverse($path);
 	}
 
+	
 	/**
-	 * @Method()
 	 * @return string
 	 */
 	public function getImageData()
 	{
 		return base64_decode($this->imageData);
 	}
+	
 	public function setImageData($data)
 	{
 		$this->imageData = base64_encode($data); return $this;
 	}
 
+	
 	/**
-	 * @Method()
 	 * @return string
 	 */
 	public function getImageMime()
 	{
 		return $this->imageMime;
 	}
+	
 	public function setImageMime($mime)
 	{
 		$this->imageMime = $mime; return $this;
@@ -233,9 +242,7 @@ class Group extends BaseEntity
 	}
 
 	
-	/**
-	 * @Method()
-	 */
+	
 	public function isManager(User $user)
 	{
 		$closure = function($key, $element) use ($user)
@@ -246,19 +253,18 @@ class Group extends BaseEntity
 		return $this->getUserGroups()->exists( $closure );
 	}
 	
-	/**
-	 * @Method()
-	 */
+	
 	public function isMember(User $user)
 	{
 		$closure = function($key, $element) use ($user)
 		{
-			return  $element->getRole() == UserGroup::ROLE_MEMBEr && $element->getUser() == $user;
+			return  $element->getRole() == UserGroup::ROLE_MEMBER && $element->getUser() == $user;
 		};
 	
 		return $this->getUserGroups()->exists( $closure );
 	}
 
+	
 	public function acceptRequest($request, $manager) 
 	{
 		if( $this->isManager($manager) )
@@ -267,6 +273,7 @@ class Group extends BaseEntity
 		return $this;
 	}
 
+	
 	public function refuseRequest($request, $manager) 
 	{
 		if( $this->isManager($manager) ) 

@@ -78,7 +78,7 @@ class WebApp_DashboardController extends \WebApp\Controller\BaseController
 
 	public function deletecampAction(){
 		$id = $this->getRequest()->getParam("id");
-	    $camp = $this->em->getRepository("Core\Entity\Camp")->find($id);
+	    $camp = $this->em->getRepository("CoreApi\Entity\Camp")->find($id);
 		
 	    $this->em->remove($camp);
 		$this->em->flush();
@@ -130,7 +130,7 @@ class WebApp_DashboardController extends \WebApp\Controller\BaseController
 		$this->view->friends = $this->userRepository->findFriendsOf($this->me); // $this->userService->getFriendsOf($this->me);
 		
 		/** load all users */
-		$query = $this->em->getRepository("Core\Entity\User")->createQueryBuilder("u");
+		$query = $this->em->getRepository("CoreApi\Entity\User")->createQueryBuilder("u");
 		
 		$adapter = new \Ecamp\Paginator\Doctrine($query);
 		$paginator = new Zend_Paginator($adapter);
@@ -146,7 +146,7 @@ class WebApp_DashboardController extends \WebApp\Controller\BaseController
 	public function groupsAction() {
 		$this->view->memberships = $this->me->getMemberships();
 		
-		$this->view->rootgroups  = $this->em->getRepository("Core\Entity\Group")->createQueryBuilder("g")
+		$this->view->rootgroups  = $this->em->getRepository("CoreApi\Entity\Group")->createQueryBuilder("g")
 				->where("g.parent IS NULL ")
 				->getQuery()
 				->getResult();

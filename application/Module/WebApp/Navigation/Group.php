@@ -26,7 +26,7 @@ class Group extends \Zend_Navigation
 	    );
 	
 	
-	public function __construct(\Core\Entity\Group $group)
+	public function __construct(\CoreApi\Entity\Group $group)
 	{
 		parent::__construct(self::$pages);
 		
