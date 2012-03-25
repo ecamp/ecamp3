@@ -14,11 +14,16 @@ class SchemaManager
 	private $sm;
 	
 	
+	private $dumpPath;
+	
+	
 	
 	public function __construct($em)
 	{
 		$this->em = $em;
 		$this->sm = $this->em->getConnection()->getSchemaManager();
+		
+		$this->dumpPath = APPLICATION_PATH . "/../data/db/";
 	}
 	
 	
@@ -59,6 +64,12 @@ class SchemaManager
 		
 		$this->dropAllTables();
 		$this->createSchema();
+	}
+	
+	
+	public function loadSqlDump($file)
+	{
+		return $this->runSqlFile($this->dumpPath . $file);
 	}
 	
 	
