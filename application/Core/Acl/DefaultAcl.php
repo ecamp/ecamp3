@@ -3,7 +3,7 @@
 namespace Core\Acl;
 
 
-use Core\Service\ValidationWrapper;
+use Core\Service\ServiceWrapper;
 use CoreApi\Entity\User;
 
 class DefaultAcl extends \Zend_Acl
@@ -53,7 +53,7 @@ class DefaultAcl extends \Zend_Acl
 			$roles = $this->rolesCache[(string) $context] : 
 			$this->calculateRolesFromContext($context);
 		
-		if(ValidationWrapper::getServiceNestingLevel() > 0)
+		if(ServiceWrapper::getServiceNestingLevel() > 0)
 		{	$roles = array_merge($roles, self::IN_SERVICE);	}
 		
 		return $roles;

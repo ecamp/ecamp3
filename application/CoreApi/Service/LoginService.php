@@ -59,10 +59,8 @@ class LoginService
 	/**
 	 * @return CoreApi\Entity\Login
 	 */
-	public function Create(User $user, \Zend_Form $form, $s = false)
+	public function Create(User $user, \Zend_Form $form)
 	{
-		$t = $this->beginTransaction();
-		
 		$login = new Login();
 		$loginValdator = new \Core\Validator\Entity\LoginValidator($login);
 		
@@ -73,19 +71,14 @@ class LoginService
 		$login->setUser($user);
 		
 		$this->persist($login);		
-		$t->flushAndCommit($s);
 		
 		return $login;
 	}
 	
 	
-	public function Delete(Login $user, $s = false)
+	public function Delete(Login $user)
 	{
-		$t = $this->beginTransaction();
-
 		$this->remove($login);
-		
-		$t->flushAndCommit($s);
 	}
 	
 	
@@ -114,10 +107,8 @@ class LoginService
 	}
 	
 	
-	public function ResetPassword($pwResetKey, \Zend_Form $form, $s = false)
+	public function ResetPassword($pwResetKey, \Zend_Form $form)
 	{
-		$t = $this->beginTransaction();
-		
 		$login = $this->getLoginByResetKey($pwResetKey);
 		$loginValidator = new \Core\Validate\LoginValidator($login);
 		
@@ -129,12 +120,10 @@ class LoginService
 		
 		$login->setNewPassword($form->getValue('password'));
 		$login->clearPwResetKey();
-		
-		$t->flushAndCommit($s);
 	}
 	
 	
-	public function ForgotPassword($identifier, $s = false)
+	public function ForgotPassword($identifier)
 	{
 		/** @var CoreApi\Entity\Login $user */
 		$user = $this->userService->Get($identifier);
@@ -147,13 +136,8 @@ class LoginService
 		if(is_null($login))
 		{	return false;	}
 		
-		
-		$t = $this->beginTransaction();
-		
 		$login->createPwResetKey();
 		$resetKey = $login->getPwResetKey();
-		
-		$t->flushAndCommit($s);
 		
 		
 		//TODO: Send Mail with Link to Reset Password.

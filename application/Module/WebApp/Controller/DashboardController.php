@@ -111,6 +111,7 @@ class WebApp_DashboardController extends \WebApp\Controller\BaseController
 			}
 		
 			$camp = $this->userService->CreateCamp($form);
+			//$camp = $this->userService->simulate('CreateCamp', $form);
 			
 			$this->_helper->getHelper('Redirector')->gotoRoute(array('action'=>'camps'));
 		}
