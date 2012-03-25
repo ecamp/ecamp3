@@ -33,7 +33,7 @@ class Camp extends \Zend_Navigation
 	    );
 	
 	
-	public function __construct(\Core\Entity\Camp $camp)
+	public function __construct(\CoreApi\Entity\Camp $camp)
 	{
 		parent::__construct(self::$pages);
 		

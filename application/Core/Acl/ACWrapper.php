@@ -3,7 +3,6 @@
 namespace Core\Acl;
 
 use Core\Service\ValidationWrapper;
-use Core\Entity\Annotations\Property;
 
 class ACWrapper
 {

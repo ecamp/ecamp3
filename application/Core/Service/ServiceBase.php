@@ -21,10 +21,10 @@ abstract class ServiceBase
 	protected $acl;
 	
 	/**
-	 * @var Core\Acl\Context
-	 * @Inject Core\Acl\Context
+	 * @var CoreApi\Acl\ContextProvider
+	 * @Inject CoreApi\Acl\ContextProvider
 	 */
-	protected $context;
+	protected $contextProvider;
 	
 	/**
 	 * Setup ACL

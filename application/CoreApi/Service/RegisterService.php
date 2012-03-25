@@ -5,8 +5,7 @@ namespace CoreApi\Service;
 use Core\Acl\DefaultAcl;
 use Core\Service\ServiceBase;
 
-use Core\Entity\User;
-use Core\Entity\Login;
+use CoreApi\Entity\User;
 
 
 class RegisterService 
@@ -39,7 +38,7 @@ class RegisterService
 	
 	
 	/**
-	 * @return Core\Entity\User
+	 * @return CoreApi\Entity\User
 	 */
 	public function Register(\Zend_Form $registerForm, $s = false)
 	{
@@ -73,16 +72,16 @@ class RegisterService
 	/**
 	 * Activate a User
 	 *
-	 * @param \Core\Entity\User|int|string $user
+	 * @param \CoreApi\Entity\User|int|string $user
 	 * @param string $key
 	 *
 	 * @return bool
 	 */
-	public function Activate($user, $key, $s = false)
+	public function Activate($userId, $key, $s = false)
 	{
 		$t = $this->beginTransaction();
 		
-		$user = $this->userService->Get($user);
+		$user = $this->userService->Get($userId);
 		
 		if(is_null($user))
 		{
@@ -90,7 +89,7 @@ class RegisterService
 			$this->addValidationMessage("User not found!");
 		}
 		
-		if($user->getState() != \Core\Entity\User::STATE_REGISTERED)
+		if($user->getState() != User::STATE_REGISTERED)
 		{
 			$this->validationFailed();
 			$this->addValidationMessage("User already activated!");

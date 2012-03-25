@@ -34,14 +34,14 @@ class User extends \CoreApi\InputValidation\UserServiceInputValidation
 	 * 
 	 * If no Identifier is given, the Authenticated User is returned
 	 * 
-	 * @return \Core\Entity\User
+	 * @return \CoreApi\Entity\User
 	 */
 	public function get($id = null)
 	{
 		if(isset($id))
 		{	return $this->getByIdentifier($id);	}
 		
-		/** @var \Core\Entity\Login $user */
+		/** @var \CoreApi\Entity\Login $user */
 		$user = null;
 		
 		if(\Zend_Auth::getInstance()->hasIdentity())
@@ -59,7 +59,7 @@ class User extends \CoreApi\InputValidation\UserServiceInputValidation
 	 * 
 	 * @param string $username
 	 * 
-	 * @return \Core\Entity\User
+	 * @return \CoreApi\Entity\User
 	 */
 	public function create(\Zend_Form $form)
 	{
@@ -76,7 +76,7 @@ class User extends \CoreApi\InputValidation\UserServiceInputValidation
 			
 			if(is_null($user))
 			{
-				$user = new \Core\Entity\User();
+				$user = new \CoreApi\Entity\User();
 				$user->setEmail($email);
 		
 				$this->em->persist($user);
@@ -115,7 +115,7 @@ class User extends \CoreApi\InputValidation\UserServiceInputValidation
 	/**
 	 * Activate a User
 	 * 
-	 * @param \Core\Entity\User|int|string $user
+	 * @param \CoreApi\Entity\User|int|string $user
 	 * @param string $key
 	 * 
 	 * @return bool
@@ -129,7 +129,7 @@ class User extends \CoreApi\InputValidation\UserServiceInputValidation
 			return false;
 		}
 		
-		if($user->getState() != \Core\Entity\User::STATE_REGISTERED)
+		if($user->getState() != \CoreApi\Entity\User::STATE_REGISTERED)
 		{
 			return false;
 		}
@@ -161,7 +161,7 @@ class User extends \CoreApi\InputValidation\UserServiceInputValidation
 	*
 	* @param string $identifier
 	*
-	* @return \Core\Entity\User
+	* @return \CoreApi\Entity\User
 	*/
 	private function getByIdentifier($identifier)
 	{
@@ -169,7 +169,7 @@ class User extends \CoreApi\InputValidation\UserServiceInputValidation
 		
 		$mailValidator = new \Zend_Validate_EmailAddress();
 		
-		if($identifier instanceOf \Core\Entity\User)
+		if($identifier instanceOf \CoreApi\Entity\User)
 		{
 			$user = $identifier;
 		}
@@ -205,7 +205,7 @@ class User extends \CoreApi\InputValidation\UserServiceInputValidation
 	* @return Camp object, if creation was successfull
 	* @throws \Ecamp\ValidationException
 	*/
-	protected function createCamp(\Core\Entity\User $creator, $params)
+	protected function createCamp(\CoreApi\Entity\User $creator, $params)
 	{
 		$this->em->getConnection()->beginTransaction();
 		try

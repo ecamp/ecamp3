@@ -7,7 +7,7 @@ local.conf.php
 tmp/*
 tmp/**/*
 
-application/Core/Entity/Proxy/*
+application/Core/EntityProxy/*
 
 data/log/*
 data/log/**/*
@@ -17,5 +17,3 @@ data/session/**/*
 
 data/unittest/*
 
-application/CoreApi/Entity/*
-!application/CoreApi/Entity/BaseEntity.php

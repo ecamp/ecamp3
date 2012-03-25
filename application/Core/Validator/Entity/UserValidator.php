@@ -12,7 +12,7 @@ class UserValidator extends \Core\Validator\Entity
 		
 		$this->get('username')
 			->addValidator(new \Zend_Validate_StringLength(array('min' => 5, 'max' => 20)))
-			->addValidator(new \Ecamp\Validate\NoRecordExist('Core\Entity\User', 'username'))
+			->addValidator(new \Ecamp\Validate\NoRecordExist('CoreApi\Entity\User', 'username'))
 			->addValidator($name_validator)
 			->setRequired(true);
 		

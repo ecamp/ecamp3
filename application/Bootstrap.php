@@ -97,26 +97,27 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 		
 		$kernel->Bind("Core\Acl\DefaultAcl")->ToSelf()->AsSingleton();
 		$kernel->Bind("Core\Acl\ContextStorage")->ToSelf()->AsSingleton();
+//		$kernel->Bind("Core\Acl\ContextProvider")->ToSelf()->AsSingleton();
 		$kernel->Bind("CoreApi\Acl\ContextManager")->ToSelf()->AsSingleton();
+		$kernel->Bind("CoreApi\Acl\ContextProvider")->ToSelf()->AsSingleton();
 		
-		$kernel->Bind("Core\Acl\Context")->ToFactory(new ContextFactory(false));
-		$kernel->Bind("CoreApi\Acl\Context")->ToFactory(new ContextFactory(true));
-		
+//		$kernel->Bind("CoreApi\Acl\Context")->ToFactory(new ContextFactory());
+
 		
 		$kernel->Bind("EntityManager")->ToProvider(new EntityManager());
 		$kernel->Bind("Doctrine\ORM\EntityManager")->ToProvider(new EntityManager());
 
 		
-		$kernel->Bind("CampRepository")->ToProvider(new Repository("Core\Entity\Camp"));
-		$kernel->Bind("GroupRepository")->ToProvider(new Repository("Core\Entity\Group"));
-		$kernel->Bind("LoginRepository")->ToProvider(new Repository("Core\Entity\Login"));
-		$kernel->Bind("UserRepository")->ToProvider(new Repository("Core\Entity\User"));
-		$kernel->Bind("UserCampRepository")->ToProvider(new Repository("Core\Entity\UserCamp"));
+		$kernel->Bind("CampRepository")->ToProvider(new Repository("CoreApi\Entity\Camp"));
+		$kernel->Bind("GroupRepository")->ToProvider(new Repository("CoreApi\Entity\Group"));
+		$kernel->Bind("LoginRepository")->ToProvider(new Repository("CoreApi\Entity\Login"));
+		$kernel->Bind("UserRepository")->ToProvider(new Repository("CoreApi\Entity\User"));
+		$kernel->Bind("UserCampRepository")->ToProvider(new Repository("CoreApi\Entity\UserCamp"));
 		
-		$kernel->Bind("Core\Repository\LoginRepository")->ToProvider(new Repository("Core\Entity\Login"));
-		$kernel->Bind("Core\Repository\UserRepository")->ToProvider(new Repository("Core\Entity\User"));
-		$kernel->Bind("Core\Repository\GroupRepository")->ToProvider(new Repository("Core\Entity\Group"));
-		$kernel->Bind("Core\Repository\CampRepository")->ToProvider(new Repository("Core\Entity\Camp"));
+		$kernel->Bind("Core\Repository\LoginRepository")->ToProvider(new Repository("CoreApi\Entity\Login"));
+		$kernel->Bind("Core\Repository\UserRepository")->ToProvider(new Repository("CoreApi\Entity\User"));
+		$kernel->Bind("Core\Repository\GroupRepository")->ToProvider(new Repository("CoreApi\Entity\Group"));
+		$kernel->Bind("Core\Repository\CampRepository")->ToProvider(new Repository("CoreApi\Entity\Camp"));
 		
 		
 		$kernel	->Bind("CoreApi\Service\RegisterService")

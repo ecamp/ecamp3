@@ -18,16 +18,13 @@ class Bypass
     const NOT_ACTIVATED_MESSAGE = 'Account is not yet activated!';
     const UNKNOWN_FAILURE 	= 'Unknown error!';
 
-    private $em;
 
     private $user;
 
 
     public function __construct($user)
     {
-        $this->em = \Zend_Registry::get('doctrine')->getEntityManager();
-
-        $this->user = $user;
+		$this->user = $user;
     }
 
     /**
@@ -51,7 +48,7 @@ class Bypass
 
 
         // User Not Activated:
-        if($user->getState() != \Core\Entity\User::STATE_ACTIVATED || is_null($user->getLogin()))
+        if($user->getState() != \CoreApi\Entity\User::STATE_ACTIVATED || is_null($user->getLogin()))
         {
             return $this->authResult(
                 \Zend_Auth_Result::FAILURE_IDENTITY_AMBIGUOUS,

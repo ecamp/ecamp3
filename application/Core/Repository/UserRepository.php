@@ -13,14 +13,14 @@ class UserRepository extends EntityRepository
 		parent::__construct($em, $class);
 	}
 	
-	public function findFriendsOf(\Core\Entity\User $user)
+	public function findFriendsOf(\CoreApi\Entity\User $user)
 	{
 		$query = $this->createQueryBuilder("u")
 				->innerJoin("u.relationshipFrom","rel_to")
 				->innerJoin("rel_to.to", "friend")
 				->innerJoin("friend.relationshipFrom", "rel_back")
-				->where("rel_to.type = " . \Core\Entity\UserRelationship::TYPE_FRIEND)
-				->andwhere("rel_back.type = " . \Core\Entity\UserRelationship::TYPE_FRIEND)
+				->where("rel_to.type = " . \CoreApi\Entity\UserRelationship::TYPE_FRIEND)
+				->andwhere("rel_back.type = " . \CoreApi\Entity\UserRelationship::TYPE_FRIEND)
 				->andwhere("rel_back.to = u.id")
 				->andwhere("friend.id = " . $user->getId())
 				->getQuery();
@@ -28,13 +28,13 @@ class UserRepository extends EntityRepository
 	    return $query->getResult();
 	}
 	
-	public function findFriendshipInvitationsOf(\Core\Entity\User $user)
+	public function findFriendshipInvitationsOf(\CoreApi\Entity\User $user)
 	{
 		$query = $this->createQueryBuilder("u")
 				->innerJoin("u.relationshipFrom","rel_to")
 				->innerJoin("rel_to.to", "friend")
 				->leftJoin("friend.relationshipFrom", "rel_back", \Doctrine\ORM\Query\Expr\Join::WITH, 'rel_back.to = rel_to.from' )
-				->where("rel_to.type = " . (\Core\Entity\UserRelationship::TYPE_FRIEND))
+				->where("rel_to.type = " . (\CoreApi\Entity\UserRelationship::TYPE_FRIEND))
 				->andwhere("rel_back.to IS NULL")
 				->andwhere("friend.id = " . $user->getId())
 				->getQuery();
@@ -44,22 +44,22 @@ class UserRepository extends EntityRepository
 	
 	
 	
-	public function findMembershipRequestsOf(\Core\Entity\User $user)
+	public function findMembershipRequestsOf(\CoreApi\Entity\User $user)
 	{
-		$query = $this->_em->getRepository("Core\Entity\UserGroup")->createQueryBuilder("ug")
+		$query = $this->_em->getRepository("CoreApi\Entity\UserGroup")->createQueryBuilder("ug")
 					->innerJoin("ug.group", "g")
 					->innerJoin("g.userGroups", "manager")
 					->where("manager.user = " . $user->getId())
-					->andwhere("manager.role = " . (\Core\Entity\UserGroup::ROLE_MANAGER))
+					->andwhere("manager.role = " . (\CoreApi\Entity\UserGroup::ROLE_MANAGER))
 					->andwhere("ug.requestedRole = 10")
 					->getQuery();
 					
 		return $query->getResult();
 	}
 	
-	public function findMembershipInvitations(\Core\Entity\User $user)
+	public function findMembershipInvitations(\CoreApi\Entity\User $user)
 	{
-		$query = $this->_em->getRepository("Core\Entity\UserGroup")->createQueryBuilder("ug")
+		$query = $this->_em->getRepository("CoreApi\Entity\UserGroup")->createQueryBuilder("ug")
 					->where("ug.user = " . $user->getId())
 					->andWhere("ug.invitationAccepted = FALSE")
 					->getQuery();

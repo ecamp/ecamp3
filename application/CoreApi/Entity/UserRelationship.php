@@ -18,7 +18,7 @@
  * along with eCamp.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Core\Entity;
+namespace CoreApi\Entity;
 
 /**
  * Relationship between users (friends, etc.)
@@ -66,7 +66,6 @@ class UserRelationship extends BaseEntity
 
 	
 	/**
-	 * @Method()
 	 * @return int
 	 */
 	public function getId()
@@ -76,7 +75,6 @@ class UserRelationship extends BaseEntity
 
 	
 	/**
-	 * @MethodEntity()
 	 * @return User
 	 */
 	public function getFrom() 
@@ -86,7 +84,6 @@ class UserRelationship extends BaseEntity
 	
 	
 	/**
-	* @MethodEntity()
 	* @return User
 	*/
 	public function getTo()   
@@ -96,7 +93,6 @@ class UserRelationship extends BaseEntity
 	
 	
 	/**
-	* @Method()
 	* @return int
 	*/
 	public function getType() 

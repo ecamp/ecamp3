@@ -3,8 +3,8 @@
 namespace CoreApi\Service;
 
 use Core\Acl\DefaultAcl;
-use Core\Entity\User;
 use Core\Service\ServiceBase;
+use CoreApi\Entity\User;
 
 
 class UserService 
@@ -30,8 +30,9 @@ class UserService
 	protected function _setupAcl()
 	{
 		$this->acl->allow(DefaultAcl::MEMBER, $this, 'Get');
-		$this->acl->allow(DefaultAcl::GUEST,  $this, 'Create');
 		$this->acl->allow(DefaultAcl::MEMBER, $this, 'CreateCamp');
+
+		$this->acl->allow(DefaultAcl::IN_SERVICE,  $this, 'Create');
 	}
 	
 	
@@ -41,14 +42,14 @@ class UserService
 	 * 
 	 * If no Identifier is given, the Authenticated User is returned
 	 * 
-	 * @return \Core\Entity\User
+	 * @return CoreApi\Entity\User
 	 */
 	public function Get($id = null)
 	{		
 		if(isset($id))
 		{	$user = $this->getByIdentifier($id);	}
 		else
-		{	$user = $this->context->getMe();	}
+		{	$user = $this->contextProvider->getContext()->getMe();	}
 		
 		return $user;
 	}
@@ -59,7 +60,7 @@ class UserService
 	 * 
 	 * @param string $username
 	 * 
-	 * @return \Core\Entity\User
+	 * @return CoreApi\Entity\User
 	 */
 	public function Create(\Zend_Form $form, $s = false)
 	{	
@@ -70,13 +71,13 @@ class UserService
 		
 		if(is_null($user))
 		{
-			$user = new \Core\Entity\User();
+			$user = new User();
 			$user->setEmail($email);
 			
 			$this->persist($user);
 		}
 			
-		if($user->getState() != \Core\Entity\User::STATE_NONREGISTERED)
+		if($user->getState() != User::STATE_NONREGISTERED)
 		{		
 			$form->getElement('email')->addError("This eMail-Adress is already registered!");
 			$this->validationFailed();
@@ -133,9 +134,9 @@ class UserService
 		/* check if camp with same name already exists */
 		$qb = $this->em->createQueryBuilder();
 		$qb->add('select', 'c')
-		->add('from', '\Core\Entity\Camp c')
+		->add('from', '\CoreApi\Entity\Camp c')
 		->add('where', 'c.owner = ?1 AND c.name = ?2')
-		->setParameter(1,$this->context->getMe()->getId())
+		->setParameter(1,$this->contextProvider->getContext()->getMe()->getId())
 		->setParameter(2, $form->getValue('name'));
 		
 		$query = $qb->getQuery();
@@ -147,7 +148,7 @@ class UserService
 
 		/* create camp */
 		$camp = $this->campService->Create($form, $s);
-		$camp->setOwner($this->context->getMe());
+		$camp->setOwner($this->contextProvider->getContext()->getMe());
 			
 		$t->flushAndCommit($s);
 		
@@ -160,7 +161,7 @@ class UserService
 	 *
 	 * @param string $identifier
 	 *
-	 * @return \Core\Entity\User
+	 * @return \CoreApi\Entity\User
 	 */
 	private function getByIdentifier($identifier)
 	{
@@ -168,7 +169,7 @@ class UserService
 		
 		$mailValidator = new \Zend_Validate_EmailAddress();
 		
-		if($identifier instanceOf \Core\Entity\User)
+		if($identifier instanceOf User)
 		{
 			$user = $identifier;
 		}

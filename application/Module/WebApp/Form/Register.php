@@ -33,7 +33,7 @@ class Register extends \Ztal_Form
 		$userName = new \Zend_Form_Element_Text('username');
 		$userName->setLabel('Username:')
 			->addValidator(new \Zend_Validate_StringLength(array('min' => 5, 'max' => 20)))
-			->addValidator(new \Ecamp\Validate\NoRecordExist('Core\Entity\User', 'username'))
+			->addValidator(new \Ecamp\Validate\NoRecordExist('CoreApi\Entity\User', 'username'))
 			->addValidator($name_validator)
 			->setRequired(true);
 
