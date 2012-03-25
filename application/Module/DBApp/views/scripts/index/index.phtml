@@ -20,7 +20,9 @@
 			<tr tal:repeat="dump dumps">
 				<td tal:content="dump" />
 				<td>
-					<a tal:attributes="href php: '/index/load/file/' . dump">Load</a>
+					<a tal:attributes="href php: '/index/load/file/' . dump">Load</a> :: 
+					<a tal:attributes="href php: '/index/save/dumpname/' . dump">Save</a> :: 
+					<a tal:attributes="href php: '/index/delete/dumpname/' . dump">Delete</a>
 				</td>
 				<td>
 					<tal:block condition="php: dump eq loadedFile">loaded</tal:block>
@@ -28,6 +30,8 @@
 				</td>
 			</tr>
 		</table>
+		<br />
+		<a href="/index/loadempty">Load an empty Database</a>
 		
 		
 		<h2>Save current DB-State:</h2>

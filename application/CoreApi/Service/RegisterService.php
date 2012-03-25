@@ -62,7 +62,6 @@ class RegisterService
 			
 			$link = "/register/activate/" . $user->getId() . "/key/" . $activationCode;
 			echo "<a href='" . $link . "'>" . $link . "</a>";
-			die();
 		
 		
 		return $user;

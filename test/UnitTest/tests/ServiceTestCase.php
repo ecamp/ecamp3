@@ -21,7 +21,7 @@ class ServiceTestCase extends TestCase
 	{
 		parent::setUp();
 		
-		$this->clearDatabase();
+		//$this->clearDatabase();
 	}
 
 	
@@ -34,9 +34,9 @@ class ServiceTestCase extends TestCase
 	public function defineContext($meId = null, $userId = null, $groupId = null, $campId = null)
 	{
 		
-		if(is_null($meId))
-		{	\Zend_Auth::getInstance()->clearIdentity();	}
-		else
+		if(! is_null($meId))
+		//{	\Zend_Auth::getInstance()->getStorage()->clear();	}
+		//else
 		{	\Zend_Auth::getInstance()->getStorage()->write($meId);	}
 		
 		$this->contextManager->set($userId, $groupId, $campId);

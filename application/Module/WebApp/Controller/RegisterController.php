@@ -82,6 +82,7 @@ class WebApp_RegisterController
 		try
 		{
 			$user = $this->registerService->Register($registerForm);
+			die();
 		}
 		catch (\Core\Service\ValidationException $e)
 		{
