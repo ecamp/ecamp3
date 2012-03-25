@@ -18,7 +18,7 @@
  * along with eCamp.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Core\Entity;
+namespace CoreApi\Entity;
 
 /**
  * The day belongs to the subcamp and can provide additional background
@@ -55,42 +55,42 @@ class Day extends BaseEntity
 	 */
 	private $notes;
 
-	/** @Method() */
+
 	public function getId()
 	{
 		return $this->id;
 	}
 
+	
 	public function setDayOffset($offset)
 	{
 		$this->dayOffset = $offset;
 	}
-	
-	/** @Method() */
+
 	public function getDayOffset()
 	{
 		return $this->dayOffset;
 	}
 
+	
 	public function setNotes($notes)
 	{
 		$this->notes = $notes;
 	}
 	
-	/** @Method() */
 	public function getNotes()
 	{
 		return $this->notes;
 	}
 
+	
 	public function setPeriod(Period $period)
 	{
 		$this->period = $period;
 	}
 	
 	/**
-	 * @MethodEntity()
-	 * @return \Core\Entity\Period
+	 * @return Period
 	 */
 	public function getPeriod()
 	{

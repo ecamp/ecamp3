@@ -42,10 +42,10 @@ class BaseController extends \Zend_Controller_Action
 	protected $t;
 	
 	/**
-	 * @var CoreApi\Acl\Context
-	 * @Inject CoreApi\Acl\Context
+	 * @var CoreApi\Acl\ContextProvider
+	 * @Inject CoreApi\Acl\ContextProvider
 	 */
-	protected $context;
+	protected $contextProvider;
 	
 	/**
 	 * @var Core\Acl\DefaultAcl
@@ -73,9 +73,9 @@ class BaseController extends \Zend_Controller_Action
 		/* clone request params for debugging */
 		$this->view->params = $this->getRequest()->getParams();
 		
-		$this->me = $this->context->getMe();
+		$this->me = $this->contextProvider->getContext()->getMe();
 		$this->view->me = $this->me;
-		$this->view->context = $this->context;
+		$this->view->context = $this->contextProvider->getContext();
 		$this->view->roles   = $this->acl->getRolesInContext();
         
 

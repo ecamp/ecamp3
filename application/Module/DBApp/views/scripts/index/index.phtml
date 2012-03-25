@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>DB-Administration</title>
+	</head>
+
+	<body>
+		
+		<h1>DB-Administration:</h1>
+		
+		<h2>List of all Dumps:</h2>
+		
+		<table border="1" width="50%">
+			<tr>
+				<th>DB-Dump</th>
+				<th>Options</th>
+				<th>Info</th>
+			</tr>
+			
+			<tr tal:repeat="dump dumps">
+				<td tal:content="dump" />
+				<td>
+					<a tal:attributes="href php: '/index/load/file/' . dump">Load</a>
+				</td>
+				<td>
+					<tal:block condition="php: dump eq loadedFile">loaded</tal:block>
+					<tal:block condition="php: dump eq dumpname">saved</tal:block>
+				</td>
+			</tr>
+		</table>
+		
+		
+		<h2>Save current DB-State:</h2>
+		
+		<form action="/index/save">
+			
+			<table>
+				<tr>
+					<td><input type="text" name="dumpname" /></td>
+					<td><input type="submit" /></td>
+				</tr>
+			</table>
+			
+		</form>
+		
+	</body>
+</html>

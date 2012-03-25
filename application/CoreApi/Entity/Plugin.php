@@ -23,7 +23,7 @@
  * It shouldn't be extended by your own plugins - simply write a strategy!
  */
 
-namespace Core\Entity;
+namespace CoreApi\Entity;
 
 /**
  * @Entity
