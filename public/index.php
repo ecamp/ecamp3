@@ -14,6 +14,16 @@ set_include_path(implode(PATH_SEPARATOR, array(
     get_include_path(),
 )));
 
+
+if(! file_exists(APPLICATION_PATH . "/../local.conf.php"))
+{
+	copy(APPLICATION_PATH . "/../default.conf.php", APPLICATION_PATH . "/../local.conf.php");
+	throw new Exception("Set correct values to the file local.conf.php!!!");
+}
+require_once APPLICATION_PATH . "/../local.conf.php";
+
+
+
 $autoloadClasses = array();
 spl_autoload_register(
 	function($classname) use (&$autoloadClasses)

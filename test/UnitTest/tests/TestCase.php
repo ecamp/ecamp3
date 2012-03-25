@@ -30,7 +30,8 @@ class TestCase extends PHPUnit_Framework_TestCase
 		$em = $doctrineContainer->getEntityManager();
 		
 		$sm = new SchemaManager($em);
-		$sm->runSqlFile($file);
+		$sm->dropAllTables();
+		$sm->loadSqlDump($file);
 	}
 	
 	public function tearDown()

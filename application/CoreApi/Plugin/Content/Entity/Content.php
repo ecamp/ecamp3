@@ -18,7 +18,7 @@
 * along with eCamp.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-namespace Core\Plugin\Content\Entity;
+namespace CoreApi\Plugin\Content\Entity;
 
 /**
  * @Entity
@@ -52,7 +52,7 @@ class Content extends \CoreApi\Entity\BaseEntity
 	private $text;
 
 	/**
-	 * @var \CoreApi\Entity\Plugin
+	 * @var CoreApi\Entity\Plugin
 	 * @ManyToOne(targetEntity="CoreApi\Entity\Plugin")
 	 */
 	private $plugin;
@@ -88,7 +88,11 @@ class Content extends \CoreApi\Entity\BaseEntity
 
 	/**
 	 * Set Plugin Object
+<<<<<<< HEAD
 	 * @param \CoreApi\Entity\Plugin $plugin
+=======
+	 * @param CoreApi\Entity\Plugin $plugin
+>>>>>>> forte/feature/dbDumpLoadForUnitTest
 	 */
 	public function setPlugin(\CoreApi\Entity\Plugin $plugin)
 	{
@@ -97,7 +101,11 @@ class Content extends \CoreApi\Entity\BaseEntity
 
 	/**
 	 * Get Plugin Object
+<<<<<<< HEAD
 	 * @return \CoreApi\Entity\Plugin
+=======
+	 * @return CoreApi\Entity\Plugin
+>>>>>>> forte/feature/dbDumpLoadForUnitTest
 	 */
 	public function getPlugin()
 	{
