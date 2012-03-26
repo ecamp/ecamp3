@@ -49,7 +49,7 @@ class LoginServiceTest extends ServiceTestCase
 	}
 	
 	
-	public function testCreateLogin()
+	public function te_stCreateLogin()
 	{
 		$user = $this->userService->Get(2);
 		
