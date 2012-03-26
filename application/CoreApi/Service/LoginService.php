@@ -18,7 +18,7 @@ class LoginService
 	
 	/**
 	 * @var CoreApi\Service\UserService
-	 * @Inject CoreApi\Service\UserService
+	 * @Inject Core\Service\UserService
 	 */
 	protected $userService;
 	
@@ -34,10 +34,9 @@ class LoginService
 	 * Setup ACL
 	 * @return void
 	 */
-	protected function _setupAcl()
+	public function _setupAcl()
 	{
 		$this->acl->allow(DefaultAcl::MEMBER, $this, 'Create');
-		$this->acl->allow(DefaultAcl::IN_SERVICE, $this, 'Create');
 		
 		$this->acl->allow(DefaultAcl::GUEST, $this, 'Login');
 		$this->acl->allow(DefaultAcl::MEMBER, $this, 'Logout');
