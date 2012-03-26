@@ -9,7 +9,9 @@ use Core\Service\ServiceBase;
 
 use CoreApi\Entity\User;
 
-
+/**
+ * @method CoreApi\Service\RegisterService Simulate
+ */
 class RegisterService 
 	extends ServiceBase
 {

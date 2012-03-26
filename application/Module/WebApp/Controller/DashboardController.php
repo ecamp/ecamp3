@@ -109,9 +109,9 @@ class WebApp_DashboardController extends \WebApp\Controller\BaseController
 			{
 				throw new \Core\Service\ValidationException();
 			}
-		
+
+			//$camp = $this->userService->Simulate()->CreateCamp($form);
 			$camp = $this->userService->CreateCamp($form);
-			//$camp = $this->userService->simulate('CreateCamp', $form);
 			
 			$this->_helper->getHelper('Redirector')->gotoRoute(array('action'=>'camps'));
 		}

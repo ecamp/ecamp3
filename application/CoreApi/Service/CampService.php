@@ -11,6 +11,9 @@ use CoreApi\Entity\Camp;
 use CoreApi\Entity\Period;
 
 
+/**
+ * @method CoreApi\Service\CampService Simulate
+ */
 class CampService
 	extends ServiceBase
 {

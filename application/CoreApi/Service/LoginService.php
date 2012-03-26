@@ -9,6 +9,9 @@ use CoreApi\Entity\User;
 use CoreApi\Entity\Login;
 
 
+/**
+ * @method CoreApi\Service\LoginService Simulate
+ */
 class LoginService 
 	extends ServiceBase
 {

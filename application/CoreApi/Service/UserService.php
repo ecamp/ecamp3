@@ -6,7 +6,9 @@ use Core\Acl\DefaultAcl;
 use Core\Service\ServiceBase;
 use CoreApi\Entity\User;
 
-
+/**
+ * @method CoreApi\Service\UserService Simulate
+ */
 class UserService 
 	extends ServiceBase
 {

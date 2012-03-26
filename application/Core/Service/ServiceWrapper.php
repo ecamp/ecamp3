@@ -38,8 +38,7 @@ class ServiceWrapper
 	
 	private static $transaction = null;
 	
-	private static $simulated = false;
-	
+	public static $simulated = false;
 	
 	
 	public function __construct(\Zend_Acl_Resource_Interface $service)
@@ -91,6 +90,11 @@ class ServiceWrapper
 	
 	public function __call($method, $args)
 	{
+		if( !method_exists($this->service, $method) )
+		{
+			throw new \Exceptipon("Method $method does not exist.");
+		}
+		
 		if( ServiceWrapper::getServiceNestingLevel() == 0 && ! $this->isAllowed($method) )
 			throw new \Exception("No Access on " . $this->service->getResourceId() . "::" . $method);
 			
@@ -102,26 +106,10 @@ class ServiceWrapper
 		
 		return $r;
 	}
-	
-	public function simulate()
+	 
+	public function Simulate()
 	{
-		$num = func_num_args();
-		if( $num == 0 )
-			throw new \Exception("Service simulations expects method name in first argument.");
-		
-		$args = func_get_args();
-		$method = $args[0];
-		
-		unset($args[0]);
-		$args = array_values($args);
-		
-		/* set simulation flag */
-		self::$simulated = true;
-		
-		$this->__call($method, $args);
-		
-		/* reset simulation flag */
-		self::$simulated = false;
+		return new ServiceSimulator($this);
 	}
 	
 	private function start()
@@ -154,12 +142,12 @@ class ServiceWrapper
 	
 		if( self::$serviceNestingLevel == 0 )
 		{
+			$this->flushAndCommit();
+			
 			if(isset(self::$validationException))
 			{
 				throw self::$validationException;
 			}
-			
-			$this->flushAndCommit();
 		}
 	}
 	
@@ -189,6 +177,12 @@ class ServiceWrapper
 		if(self::hasFailed() || self::isSimulated() )
 		{
 			$this->em->rollback();
+			
+			if( self::isSimulated() )
+			{	
+				/** TODO: this call is problematic, find a better solution */
+				$this->em->clear();
+			}
 			return;
 		}
 	
@@ -204,6 +198,5 @@ class ServiceWrapper
 				
 			throw $e;
 		}
-	}
-	
+	}	
 }
