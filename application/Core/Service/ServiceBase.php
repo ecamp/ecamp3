@@ -46,17 +46,17 @@ abstract class ServiceBase
 	protected function validationFailed($bool = true)
 	{
 		if($bool)
-			ValidationWrapper::validationFailed();
+			ServiceWrapper::validationFailed();
 	}
 	
 	protected function addValidationMessage($message)
 	{
-		ValidationWrapper::addValidationMessage($message);
+		ServiceWrapper::addValidationMessage($message);
 	}
 	
 	protected function hasFailed()
 	{
-		return ValidationWrapper::hasFailed();
+		return ServiceWrapper::hasFailed();
 	}
 	
 	

@@ -2,7 +2,7 @@
 
 namespace Core\Service;
 
-class ValidationWrapper
+class ServiceWrapper
 	implements \Zend_Acl_Resource_Interface
 {
 	/**
@@ -10,6 +10,24 @@ class ValidationWrapper
 	 * @Inject Doctrine\ORM\EntityManager
 	 */
 	private $em;
+	
+	/**
+	 * @var PhpDI\IKernel
+	 * @Inject PhpDI\IKernel
+	 */
+	private $kernel;
+	
+	/**
+	 * @var Core\Acl\DefaultAcl
+	 * @Inject Core\Acl\DefaultAcl
+	 */
+	private $acl;
+	
+	/**
+	 * The protected Resource
+	 * @var Zend_Acl_Resource_Interface
+	 */
+	private $service = null;
 	
 	/**
 	 * @var ValidationException
@@ -20,6 +38,21 @@ class ValidationWrapper
 	
 	private static $transaction = null;
 	
+	public static $simulated = false;
+	
+	
+	public function __construct(\Zend_Acl_Resource_Interface $service)
+	{
+		$this->service = $service;
+	}
+	
+	public function postInject()
+	{
+		$this->acl->addResource($this->service);
+		$this->kernel->Inject($this->service);
+	
+		unset($this->kernel);
+	}
 	
 	public static function validationFailed()
 	{
@@ -40,28 +73,14 @@ class ValidationWrapper
 		return self::$validationException != null;
 	}
 	
+	public static function isSimulated()
+	{
+		return self::$simulated;
+	}
+	
 	public static function getServiceNestingLevel()
 	{
 		return self::$serviceNestingLevel;
-	}
-	
-	/**
-	 * @var PhpDI\IKernel
-	 * @Inject PhpDI\IKernel
-	 */
-	private $kernel;
-	
-	private $service = null;
-		
-	public function __construct(\Zend_Acl_Resource_Interface $service)
-	{
-		$this->service = $service;
-	}
-	
-	public function postInject()
-	{
-		$this->kernel->Inject($this->service);
-		unset($this->kernel);
 	}
 	
 	public function getResourceId()
@@ -69,9 +88,16 @@ class ValidationWrapper
 		return $this->service->getResourceId();
 	}
 	
-	
 	public function __call($method, $args)
 	{
+		if( !method_exists($this->service, $method) )
+		{
+			throw new \Exceptipon("Method $method does not exist.");
+		}
+		
+		if( ServiceWrapper::getServiceNestingLevel() == 0 && ! $this->isAllowed($method) )
+			throw new \Exception("No Access on " . $this->service->getResourceId() . "::" . $method);
+			
 		$this->start();
 		
 		$r = call_user_func_array(array($this->service, $method), $args);
@@ -80,7 +106,11 @@ class ValidationWrapper
 		
 		return $r;
 	}
-	
+	 
+	public function Simulate()
+	{
+		return new ServiceSimulator($this);
+	}
 	
 	private function start()
 	{
@@ -100,7 +130,7 @@ class ValidationWrapper
 			if( !empty($upd) || !empty($ins)|| !empty($del)|| !empty($colupd)|| !empty($coldel) )
 				throw new \Exception("You tried to edit an entity outside the service layer.");
 			
-//			$this->transaction = $this->em->getConnection()->beginTransaction();
+			$this->transaction = $this->em->getConnection()->beginTransaction();
 		}
 	
 		self::$serviceNestingLevel++;
@@ -112,21 +142,47 @@ class ValidationWrapper
 	
 		if( self::$serviceNestingLevel == 0 )
 		{
+			$this->flushAndCommit();
+			
 			if(isset(self::$validationException))
 			{
 				throw self::$validationException;
 			}
-			
-			//$this->flushAndCommit();
 		}
 	}
 	
-	/*
+	private function isAllowed($privilege = NULL)
+	{
+		// TODO: Load current roles from $acl or form some AUTH mechanism.
+		$roles = $this->acl->getRolesInContext();
+	
+	
+		// TODO: Remove default return value
+		// FOR DEVELOPING:
+		//return true;
+	
+		foreach ($roles as $role)
+		{
+			if($this->acl->isAllowed($role, $this->service, $privilege))
+			{
+				return true;
+			}
+		}
+	
+		return false;
+	}
+	
 	private function flushAndCommit()
 	{
-		if(self::hasFailed() )
+		if(self::hasFailed() || self::isSimulated() )
 		{
-			$this->rollback();
+			$this->em->rollback();
+			
+			if( self::isSimulated() )
+			{	
+				/** TODO: this call is problematic, find a better solution */
+				$this->em->clear();
+			}
 			return;
 		}
 	
@@ -142,7 +198,5 @@ class ValidationWrapper
 				
 			throw $e;
 		}
-	}
-	*/
-	
+	}	
 }

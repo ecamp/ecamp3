@@ -20,10 +20,9 @@ class ServiceFactory
 	public function create()
 	{
 		$serviceFactory = new \PhpDI\Factory\Constructor($this->service);
-		$validationWrapper = new ValidationWrapper($serviceFactory->create());
-		$acWrapperFactory = new \Core\Acl\ACWrapperFactory($validationWrapper);
+		$serviceWrapper = new ServiceWrapper($serviceFactory->create());
 		
-		return $acWrapperFactory->create();
+		return $serviceWrapper;
 	}
 	
 }

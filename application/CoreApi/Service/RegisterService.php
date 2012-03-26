@@ -2,12 +2,16 @@
 
 namespace CoreApi\Service;
 
+use Core\Service\Transaction;
+
 use Core\Acl\DefaultAcl;
 use Core\Service\ServiceBase;
 
 use CoreApi\Entity\User;
 
-
+/**
+ * @method CoreApi\Service\RegisterService Simulate
+ */
 class RegisterService 
 	extends ServiceBase
 {
@@ -40,10 +44,8 @@ class RegisterService
 	/**
 	 * @return CoreApi\Entity\User
 	 */
-	public function Register(\Zend_Form $registerForm, $s = false)
+	public function Register(\Zend_Form $registerForm)
 	{
-		$t = $this->beginTransaction();
-		
 		$user 	= $this->userService->Create($registerForm, $s);
 		$login	= $this->loginService->Create($user, $registerForm, $s);
 		
@@ -51,19 +53,6 @@ class RegisterService
 		
 		// TODO: Send Mail with 
 		//		 $activationCode!
-		
-		
-		$t->flushAndCommit($s);
-		
-		
-		// TODO: Remove this code!!
-			if(\Core\Service\ValidationWrapper::hasFailed())
-			{	return;	}
-			
-			$link = "/register/activate/" . $user->getId() . "/key/" . $activationCode;
-			echo "<a href='" . $link . "'>" . $link . "</a>";
-			die();
-		
 		
 		return $user;
 	}
@@ -77,26 +66,24 @@ class RegisterService
 	 *
 	 * @return bool
 	 */
-	public function Activate($userId, $key, $s = false)
+	public function Activate($userId, $key)
 	{
-		$t = $this->beginTransaction();
-		
 		$user = $this->userService->Get($userId);
+		$success = null;
 		
 		if(is_null($user))
 		{
 			$this->validationFailed();
 			$this->addValidationMessage("User not found!");
 		}
-		
-		if($user->getState() != User::STATE_REGISTERED)
+		else if($user->getState() != User::STATE_REGISTERED)
 		{
 			$this->validationFailed();
 			$this->addValidationMessage("User already activated!");
 		}
-		
-		$success = $user->activateUser($key);
-		$t->flushAndCommit($s);
+		else{
+			$success = $user->activateUser($key);
+		}
 		
 		return $success;
 	}

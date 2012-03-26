@@ -36,12 +36,12 @@ class Transaction
 	}
 	
 	
-	public function flushAndCommit($s)
+	public function flushAndCommit()
 	{
 		if(! $this->isBaseTransaction)
 		{	return;	}
 		
-		if($s || \Core\Service\ValidationWrapper::hasFailed() )
+		if(\Core\Service\ServiceWrapper::isSimulated() || \Core\Service\ServiceWrapper::hasFailed() )
 		{
 			$this->rollback();
 			return;
