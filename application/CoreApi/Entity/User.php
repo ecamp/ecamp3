@@ -495,14 +495,19 @@ class User extends BaseEntity
 	public function createNewActivationCode()
 	{
 		$guid = hash('sha256', uniqid(md5(mt_rand()), true));
-		$this->activationCode = md5($guid);
+		$this->activationCode = $guid;
 
 		return $guid;
+	}
+	
+	public function getActivationCode()
+	{
+		return $this->activationCode;
 	}
 
 	public function checkActivationCode($activationCode)
 	{
-		$code = md5($activationCode);
+		$code = $activationCode;
 
 		return $code == $this->activationCode;
 	}

@@ -3,7 +3,7 @@
 namespace Core\Acl;
 
 
-use Core\Service\ValidationWrapper;
+use Core\Service\ServiceWrapper;
 use CoreApi\Entity\User;
 
 class DefaultAcl extends \Zend_Acl
@@ -23,8 +23,6 @@ class DefaultAcl extends \Zend_Acl
 	
 	const USER_FRIEND	= 'user_friend';
 	const USER_ME		= 'user_me';
-	
-	const IN_SERVICE	= 'in_service';
 	
 	/**
 	 * @var Doctrine\ORM\EntityManager
@@ -52,9 +50,6 @@ class DefaultAcl extends \Zend_Acl
 		$roles = array_key_exists((string) $context, $this->rolesCache) ?
 			$roles = $this->rolesCache[(string) $context] : 
 			$this->calculateRolesFromContext($context);
-		
-		if(ValidationWrapper::getServiceNestingLevel() > 0)
-		{	$roles = array_merge($roles, self::IN_SERVICE);	}
 		
 		return $roles;
 	}
@@ -164,7 +159,5 @@ class DefaultAcl extends \Zend_Acl
         /* roles in context to another user */
         $this->addRole(self::USER_FRIEND)
 			->addRole(self::USER_ME, self::USER_FRIEND);
-        
-        $this->addRole(self::IN_SERVICE);
     }
 }
