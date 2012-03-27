@@ -46,5 +46,10 @@ class UnitTestApp_IndexController extends \Zend_Controller_Action
     	$this->view->testTime = $testTime;
     	$this->view->shortFeedback = $shortFeedback;
     }
+    
+    public function runAction(){
+    	exec("cd ../test/UnitTest/bin/ && php UnitTestRunner.php", $ret);
+    	$this->_redirect('/');
+    }
 }
 
