@@ -82,6 +82,9 @@ class WebApp_RegisterController
 		try
 		{
 			$user = $this->registerService->Register($registerForm);
+			
+			$link = "/register/activate/" . $user->getId() . "/key/" . $user->getActivationCode();
+			echo "<a href='" . $link . "'>" . $link . "</a>";
 			die();
 		}
 		catch (\Core\Service\ValidationException $e)
@@ -101,7 +104,8 @@ class WebApp_RegisterController
 
 		if($this->registerService->Activate($id, $key))
 		{
-			$this->forward('web+general', 'index', 'login');
+			//$this->forward('web+general', 'index', 'login');
+			$this->_redirect('/');
 		}
 		else
 		{

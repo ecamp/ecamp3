@@ -6,7 +6,9 @@ use Core\Acl\DefaultAcl;
 use Core\Service\ServiceBase;
 use CoreApi\Entity\User;
 
-
+/**
+ * @method CoreApi\Service\UserService Simulate
+ */
 class UserService 
 	extends ServiceBase
 {
@@ -18,7 +20,7 @@ class UserService
 	
 	/**
 	 * @var CoreApi\Service\CampService
-	 * @Inject CoreApi\Service\CampService
+	 * @Inject Core\Service\CampService
 	 */
 	protected $campService;
 	
@@ -27,12 +29,10 @@ class UserService
 	 * Setup ACL
 	 * @return void
 	 */
-	protected function _setupAcl()
+	public function _setupAcl()
 	{
 		$this->acl->allow(DefaultAcl::MEMBER, $this, 'Get');
 		$this->acl->allow(DefaultAcl::MEMBER, $this, 'CreateCamp');
-
-		$this->acl->allow(DefaultAcl::IN_SERVICE,  $this, 'Create');
 	}
 	
 	
@@ -62,10 +62,8 @@ class UserService
 	 * 
 	 * @return CoreApi\Entity\User
 	 */
-	public function Create(\Zend_Form $form, $s = false)
+	public function Create(\Zend_Form $form)
 	{	
-		$t = $this->beginTransaction();
-		
 		$email = $form->getValue('email');
 		$user = $this->userRepo->findOneBy(array('email' => $email));
 		
@@ -93,14 +91,12 @@ class UserService
 		//TODO: Send Mail with Link for activation.
 		// $activationCode;
 		
-		
-		$t->flushAndCommit($s);
 			
 		return $user;
 	}
 	
 	
-	public function Update(\Zend_Form $form, $s = false)
+	public function Update(\Zend_Form $form)
 	{
 		/* probably better goes to ACL later, just copied for now from validator */
 		$this->validationFailed( $this->Get()->getId() != $form->getValue('id') );
@@ -108,7 +104,7 @@ class UserService
 		// update user
 	}
 	
-	public function Delete(\Zend_Form $form, $s = false)
+	public function Delete(\Zend_Form $form)
 	{
 		/* probably better goes to ACL later, just copied for now from validator */
 		$this->validationFailed( $this->Get()->getId() != $form->getValue('id') );
@@ -127,10 +123,8 @@ class UserService
 	 * @param Array $params
 	 * @return Camp object, if creation was successfull
 	 */
-	public function CreateCamp(\Zend_Form $form, $s = false)
+	public function CreateCamp(\Zend_Form $form)
 	{
-		$t = $this->beginTransaction();
-		
 		/* check if camp with same name already exists */
 		$qb = $this->em->createQueryBuilder();
 		$qb->add('select', 'c')
@@ -149,8 +143,6 @@ class UserService
 		/* create camp */
 		$camp = $this->campService->Create($form, $s);
 		$camp->setOwner($this->contextProvider->getContext()->getMe());
-			
-		$t->flushAndCommit($s);
 		
 		return $camp;
 	}

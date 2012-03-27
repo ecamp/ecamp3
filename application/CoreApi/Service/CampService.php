@@ -11,6 +11,9 @@ use CoreApi\Entity\Camp;
 use CoreApi\Entity\Period;
 
 
+/**
+ * @method CoreApi\Service\CampService Simulate
+ */
 class CampService
 	extends ServiceBase
 {
@@ -24,7 +27,7 @@ class CampService
 	 * Setup ACL
 	 * @return void
 	 */
-	protected function _setupAcl()
+	public function _setupAcl()
 	{
 		$this->acl->allow(DefaultAcl::MEMBER, $this, 'Create');
 		$this->acl->allow(DefaultAcl::MEMBER, $this, 'Delete');
@@ -47,31 +50,23 @@ class CampService
 	
 	
 	
-	public function Delete($camp, $s = false)
+	public function Delete($camp)
 	{
-		$t = $this->beginTransaction();
-		
 		$camp = $this->Get($camp);
 		$this->removeEntity($camp);
-		
-		$t->flushAndCommit($s);
 	}
 	
 	
 	/**
 	 * @return CoreApi\Entity\Camp
 	 */
-	public function Update($camp, \Zend_Form $form, $s = false)
+	public function Update($camp, \Zend_Form $form)
 	{
-		$t = $this->beginTransaction();
-		
 		$camp = $this->Get($camp);
 		$campValidator = new CampValidator($camp);
 		
 		$this->validationFailed(
 			$campValidator->applyIfValid($form));
-		
-		$t->flushAndCommit($s);
 		
 		return $camp;
 	}
@@ -80,10 +75,8 @@ class CampService
 	/**
 	 * @return CoreApi\Entity\Camp
 	 */
-	public function Create(\Zend_Form $form, $s = false)
+	public function Create(\Zend_Form $form)
 	{	
-		$t = $this->beginTransaction();
-		
 		$camp = new Camp();
 		$this->persist($camp);
 		
@@ -94,8 +87,6 @@ class CampService
 		
 		$period = $this->CreatePeriod($camp, $form, $s);
 		
-		$t->flushAndCommit($s);
-		
 		return $camp;
 	}
 	
@@ -103,10 +94,8 @@ class CampService
 	/**
 	 * @return CoreApi\Entity\Camp
 	 */
-	public function CreatePeriod($camp, \Zend_Form $form, $s = false)
-	{
-		$t = $this->beginTransaction();
-		
+	public function CreatePeriod($camp, \Zend_Form $form)
+	{	
 		if( $form->getValue('from') == "" ){
 			$form->getElement('from')->addError("Date cannot be empty.");
 			$this->validationFailed();
@@ -132,8 +121,6 @@ class CampService
 			$form->getElement('to')->addError("Minimum length of camp is 1 day.");
 			$this->validationFailed();
 		}
-		
-		$t->flushAndCommit($s);
 		
 		return $period;
 	}
