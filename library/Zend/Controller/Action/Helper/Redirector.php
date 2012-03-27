@@ -15,9 +15,9 @@
  * @category   Zend
  * @package    Zend_Controller
  * @subpackage Zend_Controller_Action_Helper
- * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Redirector.php 23248 2010-10-26 12:45:52Z matthew $
+ * @version    $Id: Redirector.php 23940 2011-05-02 20:20:40Z matthew $
  */
 
 /**
@@ -29,7 +29,7 @@ require_once 'Zend/Controller/Action/Helper/Abstract.php';
  * @category   Zend
  * @package    Zend_Controller
  * @subpackage Zend_Controller_Action_Helper
- * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Controller_Action_Helper_Redirector extends Zend_Controller_Action_Helper_Abstract
@@ -294,9 +294,9 @@ class Zend_Controller_Action_Helper_Redirector extends Zend_Controller_Action_He
             }
         }
 
-        $params['module']     = $module;
-        $params['controller'] = $controller;
-        $params['action']     = $action;
+        $params[$request->getModuleKey()]     = $module;
+        $params[$request->getControllerKey()] = $controller;
+        $params[$request->getActionKey()]     = $action;
 
         $router = $this->getFrontController()->getRouter();
         $url    = $router->assemble($params, 'default', true);

@@ -15,9 +15,9 @@
  * @category   Zend
  * @package    Zend_Barcode
  * @subpackage Object
- * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Code25interleaved.php 20096 2010-01-06 02:05:09Z bkarwin $
+ * @version    $Id: Code25interleaved.php 23775 2011-03-01 17:25:24Z ralph $
  */
 
 /** @see Zend_Barcode_Object_Code25 */
@@ -31,7 +31,7 @@ require_once 'Zend/Validate/Barcode.php';
  *
  * @category   Zend
  * @package    Zend_Barcode
- * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Barcode_Object_Code25interleaved extends Zend_Barcode_Object_Code25

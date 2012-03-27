@@ -16,9 +16,9 @@
  * @category   Zend
  * @package    Zend_Gdata
  * @subpackage Gbase
- * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: SnippetQuery.php 20096 2010-01-06 02:05:09Z bkarwin $
+ * @version    $Id: SnippetQuery.php 23805 2011-03-16 00:55:40Z tjohns $
  */
 
 /**
@@ -39,7 +39,7 @@ require_once('Zend/Gdata/Gbase/Query.php');
  * @category   Zend
  * @package    Zend_Gdata
  * @subpackage Gbase
- * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Gdata_Gbase_SnippetQuery extends Zend_Gdata_Gbase_Query
@@ -47,7 +47,7 @@ class Zend_Gdata_Gbase_SnippetQuery extends Zend_Gdata_Gbase_Query
     /**
      * Path to the snippets feeds on the Google Base server.
      */
-    const BASE_SNIPPET_FEED_URI = 'http://www.google.com/base/feeds/snippets';
+    const BASE_SNIPPET_FEED_URI = 'https://www.google.com/base/feeds/snippets';
 
     /**
      * The default URI for POST methods

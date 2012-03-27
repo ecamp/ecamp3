@@ -15,8 +15,8 @@
  * @category   Zend
  * @package    Zend_Controller
  * @subpackage Router
- * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
- * @version    $Id: Chain.php 23484 2010-12-10 03:57:59Z mjh_ca $
+ * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
+ * @version    $Id: Chain.php 24182 2011-07-03 13:43:05Z adamlundrigan $
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 
@@ -28,7 +28,7 @@ require_once 'Zend/Controller/Router/Route/Abstract.php';
  *
  * @package    Zend_Controller
  * @subpackage Router
- * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Controller_Router_Route_Chain extends Zend_Controller_Router_Route_Abstract
@@ -54,7 +54,7 @@ class Zend_Controller_Router_Route_Chain extends Zend_Controller_Router_Route_Ab
      * @param  string                                $separator
      * @return Zend_Controller_Router_Route_Chain
      */
-    public function chain(Zend_Controller_Router_Route_Abstract $route, $separator = '/')
+    public function chain(Zend_Controller_Router_Route_Abstract $route, $separator = self::URI_DELIMITER)
     {
         $this->_routes[]     = $route;
         $this->_separators[] = $separator;
@@ -72,7 +72,7 @@ class Zend_Controller_Router_Route_Chain extends Zend_Controller_Router_Route_Ab
      */
     public function match($request, $partial = null)
     {
-        $path    = trim($request->getPathInfo(), '/');
+        $path    = trim($request->getPathInfo(), self::URI_DELIMITER);
         $subPath = $path;
         $values  = array();
 

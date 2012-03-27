@@ -15,9 +15,9 @@
  * @category   Zend
  * @package    Zend_Amf
  * @subpackage Parse_Amf0
- * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Deserializer.php 21209 2010-02-27 10:37:15Z yoshida@zend.co.jp $
+ * @version    $Id: Deserializer.php 23775 2011-03-01 17:25:24Z ralph $
  */
 
 /** Zend_Amf_Constants */
@@ -33,7 +33,7 @@ require_once 'Zend/Amf/Parse/Deserializer.php';
  * @todo       Class could be implemented as Factory Class with each data type it's own class
  * @package    Zend_Amf
  * @subpackage Parse_Amf0
- * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Amf_Parse_Amf0_Deserializer extends Zend_Amf_Parse_Deserializer

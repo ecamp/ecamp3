@@ -14,9 +14,9 @@
  *
  * @category   Zend
  * @package    Zend_Amf
- * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Response.php 23484 2010-12-10 03:57:59Z mjh_ca $
+ * @version    $Id: Response.php 23775 2011-03-01 17:25:24Z ralph $
  */
 
 /** @see Zend_Amf_Constants */
@@ -32,7 +32,7 @@ require_once 'Zend/Amf/Parse/Amf0/Serializer.php';
  * Handles converting the PHP object ready for response back into AMF
  *
  * @package    Zend_Amf
- * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Amf_Response

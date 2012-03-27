@@ -15,7 +15,7 @@
  * @category   Zend
  * @package    Zend_Http_UserAgent
  * @subpackage UserAgent
- * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 
@@ -31,7 +31,7 @@
  * @category   Zend
  * @package    Zend_Http_UserAgent
  * @subpackage UserAgent
- * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Http_UserAgent implements Serializable
@@ -171,11 +171,12 @@ class Zend_Http_UserAgent implements Serializable
      */
     public function serialize()
     {
+        $device = $this->getDevice();
         $spec = array(
             'browser_type' => $this->_browserType,
             'config'       => $this->_config,
-            'device_class' => get_class($this->_device),
-            'device'       => $this->_device->serialize(),
+            'device_class' => get_class($device),
+            'device'       => $device->serialize(),
             'user_agent'   => $this->getServerValue('http_user_agent'),
             'http_accept'  => $this->getServerValue('http_accept'),
         );
@@ -528,7 +529,12 @@ class Zend_Http_UserAgent implements Serializable
     }
 
     /**
-     * @return the $device
+     * Returns the device object
+     *
+     * This is the object that will contain the various discovered device
+     * capabilities.
+     *
+     * @return Zend_Http_UserAgent_Device $device
      */
     public function getDevice()
     {
@@ -613,7 +619,7 @@ class Zend_Http_UserAgent implements Serializable
     }
 
     /**
-     * Retrieve the "$_SERVER" array
+     * Set the "$_SERVER" array
      *
      * Basically, the $_SERVER array or an equivalent container storing the
      * data that will be introspected.

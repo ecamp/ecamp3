@@ -16,9 +16,9 @@
  * @category   Zend
  * @package    Zend_Gdata
  * @subpackage App
- * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: App.php 22972 2010-09-18 20:33:53Z ramon $
+ * @version    $Id: App.php 23775 2011-03-01 17:25:24Z ralph $
  */
 
 /**
@@ -49,7 +49,7 @@ require_once 'Zend/Gdata/App/MediaSource.php';
  * @category   Zend
  * @package    Zend_Gdata
  * @subpackage App
- * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Gdata_App
@@ -1087,7 +1087,7 @@ class Zend_Gdata_App
      * significant amount of time to complete. In some cases this may cause
      * execution to timeout without proper precautions in place.
      *
-     * @param $feed The feed to iterate through.
+     * @param object $feed The feed to iterate through.
      * @return mixed A new feed of the same type as the one originally
      *          passed in, containing all relevent entries.
      */
@@ -1117,7 +1117,7 @@ class Zend_Gdata_App
      * NOTE: This will not work if you have customized the adapter
      * already to use a proxy server or other interface.
      *
-     * @param $logfile The logfile to use when logging the requests
+     * @param string $logfile The logfile to use when logging the requests
      */
     public function enableRequestDebugLogging($logfile)
     {

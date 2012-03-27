@@ -15,7 +15,7 @@
  * @category   Zend
  * @package    Zend_Form
  * @subpackage Decorator
- * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 
@@ -32,9 +32,9 @@ require_once 'Zend/Form/Decorator/Abstract.php';
  * @category   Zend
  * @package    Zend_Form
  * @subpackage Decorator
- * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: FormErrors.php 23484 2010-12-10 03:57:59Z mjh_ca $
+ * @version    $Id: FormErrors.php 23853 2011-04-10 16:06:30Z ramon $
  */
 class Zend_Form_Decorator_FormErrors extends Zend_Form_Decorator_Abstract
 {
@@ -351,7 +351,7 @@ class Zend_Form_Decorator_FormErrors extends Zend_Form_Decorator_Abstract
     public function getShowCustomFormErrors()
     {
         if (null === $this->_showCustomFormErrors) {
-            if (null === ($how =  $this->getOption('showCustomFormErrors'))) {
+            if (null === ($show =  $this->getOption('showCustomFormErrors'))) {
                 $this->setShowCustomFormErrors($this->_defaults['showCustomFormErrors']);
             } else {
                 $this->setShowCustomFormErrors($show);
@@ -451,9 +451,13 @@ class Zend_Form_Decorator_FormErrors extends Zend_Form_Decorator_Abstract
                              .  $this->getMarkupListItemEnd();
                 }
             } else if ($subitem instanceof Zend_Form && !$this->ignoreSubForms()) {
-                $content .= $this->getMarkupListStart()
-                          . $this->_recurseForm($subitem, $view)
-                          . $this->getMarkupListEnd();
+                $markup = $this->_recurseForm($subitem, $view);
+
+                if (!empty($markup)) {
+                    $content .= $this->getMarkupListStart()
+                              . $markup
+                              . $this->getMarkupListEnd();
+                }
             }
         }
         return $content;

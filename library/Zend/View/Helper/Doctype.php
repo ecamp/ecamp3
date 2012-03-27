@@ -15,8 +15,8 @@
  * @category   Zend
  * @package    Zend_View
  * @subpackage Helper
- * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
- * @version    $Id: Doctype.php 23539 2010-12-17 23:50:14Z gammamatrix $
+ * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
+ * @version    $Id: Doctype.php 24201 2011-07-05 16:22:04Z matthew $
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 
@@ -31,7 +31,7 @@ require_once 'Zend/View/Helper/Abstract.php';
  *
  * @package    Zend_View
  * @subpackage Helper
- * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_View_Helper_Doctype extends Zend_View_Helper_Abstract
@@ -188,6 +188,24 @@ class Zend_View_Helper_Doctype extends Zend_View_Helper_Abstract
     public function isXhtml()
     {
         return (stristr($this->getDoctype(), 'xhtml') ? true : false);
+    }
+
+    /**
+     * Is doctype strict?
+     *
+     * @return boolean
+     */
+    public function isStrict()
+    {
+        switch ( $this->getDoctype() )
+        {
+            case self::XHTML1_STRICT:
+            case self::XHTML11:
+            case self::HTML4_STRICT:
+                return true;
+            default: 
+                return false;
+        }
     }
     
     /**

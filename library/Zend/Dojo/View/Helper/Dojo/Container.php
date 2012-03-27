@@ -15,8 +15,8 @@
  * @category   Zend
  * @package    Zend_Dojo
  * @subpackage View
- * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
- * @version    $Id: Container.php 23484 2010-12-10 03:57:59Z mjh_ca $
+ * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
+ * @version    $Id: Container.php 23893 2011-04-29 21:29:05Z matthew $
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 
@@ -29,7 +29,7 @@ require_once 'Zend/Dojo.php';
  *
  * @package    Zend_Dojo
  * @subpackage View
- * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Dojo_View_Helper_Dojo_Container
@@ -882,7 +882,7 @@ EOJ;
      */
     public function addJavascript($js)
     {
-        $js = preg_replace('/^\s*(.*?)\s*$/s', '$1', $js);
+        $js = trim($js);
         if (!in_array(substr($js, -1), array(';', '}'))) {
             $js .= ';';
         }

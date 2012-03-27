@@ -15,30 +15,20 @@
  * @category   Zend
  * @package    Zend_CodeGenerator
  * @subpackage PHP
- * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Tag.php 23560 2010-12-19 20:47:11Z mjh_ca $
+ * @version    $Id: Tag.php 24099 2011-05-31 16:29:21Z adamlundrigan $
  */
 
 /**
- * @see Zend_CodeGenerator_Abstract
+ * @see Zend_CodeGenerator_Php_Abstract
  */
 require_once 'Zend/CodeGenerator/Php/Abstract.php';
 
 /**
- * @see Zend_CodeGenerator_Php_Docblock_Tag_Param
- */
-require_once 'Zend/CodeGenerator/Php/Docblock/Tag/Param.php';
-
-/**
- * @see Zend_CodeGenerator_Php_Docblock_Tag_Return
- */
-require_once 'Zend/CodeGenerator/Php/Docblock/Tag/Return.php';
-
-/**
  * @category   Zend
  * @package    Zend_CodeGenerator
- * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_CodeGenerator_Php_Docblock_Tag extends Zend_CodeGenerator_Php_Abstract

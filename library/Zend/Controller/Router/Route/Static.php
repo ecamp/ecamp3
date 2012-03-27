@@ -15,8 +15,8 @@
  * @category   Zend
  * @package    Zend_Controller
  * @subpackage Router
- * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
- * @version    $Id: Static.php 23210 2010-10-21 16:10:55Z matthew $
+ * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
+ * @version    $Id: Static.php 24182 2011-07-03 13:43:05Z adamlundrigan $
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 
@@ -30,7 +30,7 @@ require_once 'Zend/Controller/Router/Route/Abstract.php';
  *
  * @package    Zend_Controller
  * @subpackage Router
- * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Controller_Router_Route_Static extends Zend_Controller_Router_Route_Abstract
@@ -62,7 +62,7 @@ class Zend_Controller_Router_Route_Static extends Zend_Controller_Router_Route_A
      */
     public function __construct($route, $defaults = array())
     {
-        $this->_route = trim($route, '/');
+        $this->_route = trim($route, self::URI_DELIMITER);
         $this->_defaults = (array) $defaults;
     }
 
@@ -83,7 +83,7 @@ class Zend_Controller_Router_Route_Static extends Zend_Controller_Router_Route_A
                 return $this->_defaults;
             }
         } else {
-            if (trim($path, '/') == $this->_route) {
+            if (trim($path, self::URI_DELIMITER) == $this->_route) {
                 return $this->_defaults;
             }
         }

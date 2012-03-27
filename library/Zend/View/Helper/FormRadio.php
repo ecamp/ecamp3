@@ -15,9 +15,9 @@
  * @category   Zend
  * @package    Zend_View
  * @subpackage Helper
- * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: FormRadio.php 20096 2010-01-06 02:05:09Z bkarwin $
+ * @version    $Id: FormRadio.php 24160 2011-06-28 16:37:04Z adamlundrigan $
  */
 
 
@@ -33,7 +33,7 @@ require_once 'Zend/View/Helper/FormElement.php';
  * @category   Zend
  * @package    Zend_View
  * @subpackage Helper
- * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_View_Helper_FormRadio extends Zend_View_Helper_FormElement
@@ -129,9 +129,14 @@ class Zend_View_Helper_FormRadio extends Zend_View_Helper_FormElement
             $endTag= '>';
         }
 
+        // Set up the filter - Alnum + hyphen + underscore
+        require_once 'Zend/Filter/PregReplace.php';
+        $pattern = @preg_match('/\pL/u', 'a') 
+            ? '/[^\p{L}\p{N}\-\_]/u'    // Unicode
+            : '/[^a-zA-Z0-9\-\_]/';     // No Unicode
+        $filter = new Zend_Filter_PregReplace($pattern, "");
+        
         // add radio buttons to the list.
-        require_once 'Zend/Filter/Alnum.php';
-        $filter = new Zend_Filter_Alnum();
         foreach ($options as $opt_value => $opt_label) {
 
             // Should the label be escaped?
