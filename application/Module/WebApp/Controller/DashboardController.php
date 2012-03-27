@@ -75,14 +75,12 @@ class WebApp_DashboardController extends \WebApp\Controller\BaseController
 	
 	public function campsAction(){
 	}
-
+	
 	public function deletecampAction(){
 		$id = $this->getRequest()->getParam("id");
-	    $camp = $this->em->getRepository("CoreApi\Entity\Camp")->find($id);
-		
-	    $this->em->remove($camp);
-		$this->em->flush();
-
+		 
+		$this->userService->DeleteCamp($id);
+	
 		$this->_helper->getHelper('Redirector')->gotoRoute(array('action'=>'camps'));
 	}
 
@@ -115,14 +113,50 @@ class WebApp_DashboardController extends \WebApp\Controller\BaseController
 			
 			$this->_helper->getHelper('Redirector')->gotoRoute(array('action'=>'camps'));
 		}
+		
 		catch(\Core\Service\ValidationException $e){
 			$this->view->form = $form;
 			$this->render("newcamp");
 			return;
 		}
-		/* catching permission exceptions might be outsourced to an upper level */
-		catch(\Ecamp\PermissionException $e){
-			die("You should not click on buttons you are not allowed to.");
+	}
+	
+	public function editcampAction()
+	{
+		$camp = $this->campService->Get( $this->getRequest()->getParam("id") );
+	
+		$form = new \WebApp\Form\CampUpdate();
+		$form->setData($camp);
+	
+		$this->view->form = $form;
+	}
+	
+	public function updatecampAction()
+	{
+		$form = new \WebApp\Form\CampUpdate();
+		$params = $this->getRequest()->getParams();
+	
+		try
+		{
+			/* we are not doing any validations here. the real validation is done in the service. however, this need to be here:
+			 *  - for filters
+			*  - for possible validations on WebApp-Level
+			*/
+			if( !$form->isValid($params))
+			{
+				throw new \Core\Service\ValidationException();
+			}
+	
+			$this->userService->UpdateCamp($form);
+				
+			$this->_helper->getHelper('Redirector')->gotoRoute(array('action'=>'camps'), 'web+general');
+		}
+	
+		/* oh snap, something went wrong. show the form again */
+		catch(\Core\Service\ValidationException $e){
+			$this->view->form = $form;
+			$this->render("editcamp");
+			return;
 		}
 	}
 	

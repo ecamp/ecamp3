@@ -19,7 +19,10 @@
 				<td><tal:block content="camp/getTitle" /></td>
 				<td><tal:block content="camp/getRange" /></td>
 				<td>
-					<a id="request_membership" class="button negative" tal:attributes="href helper:thisurl(array('action' => 'deletecamp', 'id' => camp.getId() ))" i18n:translate="">
+					<a id="edit" class="button" tal:attributes="href helper:thisurl(array('action' => 'editcamp', 'id' => camp.getId() ))" i18n:translate="">
+						edit
+					</a>
+					<a id="delete" class="button negative" tal:attributes="href helper:thisurl(array('action' => 'deletecamp', 'id' => camp.getId() ))" i18n:translate="">
 						delete
 					</a>
 				</td>

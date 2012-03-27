@@ -20,19 +20,18 @@
 
 
 class WebApp_GroupController extends \WebApp\Controller\BaseController
-{
-	
-	/**
-	 * @var CoreApi\Service\Group
-     * @Inject CoreApi\Service\Group
-	 */
-	private $groupService2;
-	
+{	
 	/**
 	 * @var CoreApi\Service\GroupService
      * @Inject CoreApi\Service\GroupService
 	 */
 	private $groupService;
+	
+	/**
+	 * @var CoreApi\Service\CampService
+	 * @Inject CoreApi\Service\CampService
+	 */
+	private $campService;
 	
 	/**
 	 * @var CoreApi\Service\SearchUserService
@@ -69,12 +68,12 @@ class WebApp_GroupController extends \WebApp\Controller\BaseController
     }
 	
 	public function membersAction()
-	{
+	{	
 	}
 	
 	public function editcampAction()
 	{	
-		$camp = $this->groupService2->getCamp($this->group, $this->getRequest()->getParam("id") );
+		$camp = $this->campService->Get( $this->getRequest()->getParam("id") );
 		
 		$form = new \WebApp\Form\CampUpdate();
 		$form->setData($camp);
@@ -93,25 +92,19 @@ class WebApp_GroupController extends \WebApp\Controller\BaseController
 			 *  - for filters
 			*  - for possible validations on WebApp-Level
 			*/
-			if(!$form->isValid($params))
-				throw new \Ecamp\ValidationException();
+			if( !$form->isValid($params))
+			{ throw new \Core\Service\ValidationException(); }
 		
-			$this->groupService2->updateCamp($this->group, $params);
-			$this->_helper->getHelper('Redirector')->gotoRoute(array('action'=>'camps', 'group' => $this->group->getId()), 'group');
-		}
-		
-		/* catching permission exceptions might be outsourced to an upper level */
-		catch(\Ecamp\PermissionException $e){
-			die("You should not click on buttons you are not allowed to.");
+			$this->groupService->UpdateCamp($form);
+			
+			$this->_helper->getHelper('Redirector')->gotoRoute(array('action'=>'camps', 'group' => $this->group->getId()), 'web+group');
 		}
 		
 		/* oh snap, something went wrong. show the form again */
-		catch(\Ecamp\ValidationException $e){
-			if($e->form != null)
-				$form->copyErrors( $e->form );
-		
+		catch(\Core\Service\ValidationException $e){
 			$this->view->form = $form;
 			$this->render("editcamp");
+			return;
 		}
 	}
 
@@ -120,12 +113,10 @@ class WebApp_GroupController extends \WebApp\Controller\BaseController
 
 	public function deletecampAction(){
 		$id = $this->getRequest()->getParam("id");
-	    $camp = $this->em->getRepository("CoreApi\Entity\Camp")->find($id);
-		
-	    $this->em->remove($camp);
-		$this->em->flush();
+	    
+		$this->groupService->DeleteCamp($id);
 
-		$this->_helper->getHelper('Redirector')->gotoRoute(array('action'=>'camps', 'group' => $this->group->getId()), 'group');
+		$this->_helper->getHelper('Redirector')->gotoRoute(array('action'=>'camps', 'group' => $this->group->getId()), 'web+group');
 	}
 
 	public function newcampAction(){
@@ -147,25 +138,21 @@ class WebApp_GroupController extends \WebApp\Controller\BaseController
 			 *  - for filters
 			 *  - for possible validations on WebApp-Level
 			 */
-			if(!$form->isValid($params))
-				throw new \Ecamp\ValidationException();
+			if( !$form->isValid($params))
+			{
+				throw new \Core\Service\ValidationException();
+			}
 
-			$this->groupService2->createCamp($this->group, $this->me, $params);
-			$this->_helper->getHelper('Redirector')->gotoRoute(array('action'=>'camps', 'group' => $this->group->getId()), 'group');
-		}
-		
-		/* catching permission exceptions might be outsourced to an upper level */
-		catch(\Ecamp\PermissionException $e){
-			die("You should not click on buttons you are not allowed to.");
+			$this->groupService->CreateCamp($form);
+			
+			$this->_helper->getHelper('Redirector')->gotoRoute(array('action'=>'camps', 'group' => $this->group->getId()), 'web+group');
 		}
 		
 		/* oh snap, something went wrong. show the form again */
-		catch(\Ecamp\ValidationException $e){
-			if($e->form != null)
-				$form->copyErrors( $e->form );
-
+		catch(\Core\Service\ValidationException $e){
 			$this->view->form = $form;
 			$this->render("newcamp");
+			return;
 		}
 	}
 	

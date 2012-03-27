@@ -53,7 +53,7 @@ class CampService
 	public function Delete($camp)
 	{
 		$camp = $this->Get($camp);
-		$this->removeEntity($camp);
+		$this->remove($camp);
 	}
 	
 	
@@ -66,7 +66,7 @@ class CampService
 		$campValidator = new CampValidator($camp);
 		
 		$this->validationFailed(
-			$campValidator->applyIfValid($form));
+			!$campValidator->applyIfValid($form));
 		
 		return $camp;
 	}

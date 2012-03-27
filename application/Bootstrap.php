@@ -136,6 +136,10 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 				->ToFactory(new ServiceFactory("CoreApi\Service\CampService"))
 				->AsSingleton();
 		
+		$kernel	->Bind("CoreApi\Service\GroupService")
+				->ToFactory(new ServiceFactory("CoreApi\Service\GroupService"))
+				->AsSingleton();
+		
 		
 		Zend_Registry::set("kernel", $kernel);
 	}

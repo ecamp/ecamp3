@@ -92,7 +92,7 @@ class ServiceWrapper
 	{
 		if( !method_exists($this->service, $method) )
 		{
-			throw new \Exceptipon("Method $method does not exist.");
+			throw new \Exception("Method $method does not exist.");
 		}
 		
 		if( ServiceWrapper::getServiceNestingLevel() == 0 && ! $this->isAllowed($method) )
