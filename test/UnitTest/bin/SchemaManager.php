@@ -81,18 +81,13 @@ class SchemaManager
 		$pass = $this->em->getConnection()->getPassword();
 		$db =	$this->em->getConnection()->getDatabase();
 		
-		
 		$commands = array();
 		
-		$commands[] = 'PATH='.$mysqlBinPath.':$PATH;';
-		$commands[] = 'DBUSER="' . $user . '";';
-		$commands[] = 'DBPASS="' . $pass . '";';
-		$commands[] = 'DB="' . $db . '";';
-		$commands[] = 'FILE="' . $file . '";';
+		$commands[] = $mysqlBinPath."mysql -u $user -p$pass $db < $file";
 		
-		$commands[] = 'source ' . APPLICATION_PATH . '/../bin/db/runSql.sh;';
-
-		exec(implode(PHP_EOL, $commands), $ret);	return $ret;
+		exec(implode(PHP_EOL, $commands), $ret);	
+		
+		return $ret;
 	}
 	
 }
