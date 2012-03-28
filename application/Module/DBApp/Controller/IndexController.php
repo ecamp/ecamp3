@@ -29,12 +29,32 @@ class DBApp_IndexController extends \Zend_Controller_Action
 	
 	private $dumpPath;
 	
+	private $rawDB;
+	
 	
 	public function init()
 	{
 		\Zend_Registry::get('kernel')->Inject($this);
 		
 		$this->dumpPath = APPLICATION_PATH . "/../data/db/";
+		
+		$mysqlPath = null;
+		
+		if(file_exists(APPLICATION_PATH . '/../config.ini'))
+		{
+			$config	= new \Zend_Config_Ini(APPLICATION_PATH . '/../config.ini');
+			$mysqlPath = isset($config->mysqlBinaryPath) ? $config->mysqlBinaryPath : null;
+		}
+		
+		$user 		= $this->em->getConnection()->getUsername();
+		$password 	= $this->em->getConnection()->getPassword();
+		$database	= $this->em->getConnection()->getDatabase();
+		
+		$this->rawDB = new RawDB\RawDB();
+		$this->rawDB->setBasePath($this->dumpPath);
+		$this->rawDB->setLogin($user, $password);
+		$this->rawDB->setDatabase($database);
+		$this->rawDB->setMysqlPath($mysqlPath);
 	}
 
 	public function indexAction()
@@ -67,8 +87,8 @@ class DBApp_IndexController extends \Zend_Controller_Action
 		{	$this->_forward('index');	return;	}
 		
 		
-		$this->dropAllTables();
-		$ret = $this->loadSqlFile($this->dumpPath . $file);
+		$this->rawDB->dropAllTables();
+		$this->rawDB->runSqlFile($file);
 		
 		$this->_redirect('/?file=' . $file);
 	}
@@ -76,8 +96,14 @@ class DBApp_IndexController extends \Zend_Controller_Action
 	
 	public function loademptyAction()
 	{
-		$this->dropAllTables();
-		$this->createSchema();
+		$this->rawDB->dropAllTables();
+		
+		
+		$metadatas = $this->em->getMetadataFactory()->getAllMetadata();
+		
+		$schemaTool = new \Doctrine\ORM\Tools\SchemaTool($this->em);
+		$schemaTool->createSchema($metadatas);
+		
 		
 		$this->_redirect('/');
 	}
@@ -89,13 +115,13 @@ class DBApp_IndexController extends \Zend_Controller_Action
 		if(strlen($dumpname) == 0)
 		{	$this->_forward('index');	return;	}
 		
-		$file = $this->dumpPath . $dumpname;
+		$file = $dumpname;
 		
 		$i = pathinfo($file);
 		if(!array_key_exists('extension', $i) || $i['extension'] != 'sql')
 		{	$file .= ".sql";	}
 		
-		$this->dumpSqlFile($file);
+		$this->rawDB->dumpDatabase($file);
 	
 		$this->_redirect('/?dumpname=' . $dumpname);
 	}
@@ -120,86 +146,4 @@ class DBApp_IndexController extends \Zend_Controller_Action
 		$this->_redirect('/');
 	}
 		
-	
-	
-	
-	
-	private function dropAllTables()
-	{
-		$sm = $this->em->getConnection()->getSchemaManager();
-		
-		$tables = $sm->listTableNames();
-		
-		foreach($tables as $table)
-		{
-			$fks = $sm->listTableForeignKeys($table);
-			
-			foreach($fks as $fk)
-			{
-				$sm->dropForeignKey($fk, $table);
-			}
-		}
-	
-		foreach($tables as $table)
-		{
-			$sm->dropTable($table);
-		}
-	}
-
-	
-	public function createSchema()
-	{
-		$metadatas = $this->em->getMetadataFactory()->getAllMetadata();
-		
-		$schemaTool = new \Doctrine\ORM\Tools\SchemaTool($this->em);
-		$schemaTool->createSchema($metadatas);		
-	}
-	
-	public function loadSqlFile($file)
-	{
-		global $mysqlBinPath;
-		
-		$user = $this->em->getConnection()->getUsername();
-		$pass = $this->em->getConnection()->getPassword();
-		$db =	$this->em->getConnection()->getDatabase();
-		
-		
-		$commands = array();
-		
-		$commands[] = 'PATH='.$mysqlBinPath.':$PATH;';
-		$commands[] = 'DBUSER="' . $user . '";';
-		$commands[] = 'DBPASS="' . $pass . '";';
-		$commands[] = 'DB="' . $db . '";';
-		$commands[] = 'FILE="' . $file . '";';
-				
-		$commands[] = 'source ' . APPLICATION_PATH . '/../bin/db/runSql.sh;';
-		
-		exec(implode(PHP_EOL, $commands), $ret);	return $ret;
-	}
-	
-	
-	public function dumpSqlFile($file)
-	{
-		global $mysqlBinPath;
-	
-		$user = $this->em->getConnection()->getUsername();
-		$pass = $this->em->getConnection()->getPassword();
-		$db =	$this->em->getConnection()->getDatabase();
-		
-		
-		$commands = array();
-		
-		$commands[] = 'PATH='.$mysqlBinPath.':$PATH;';
-		$commands[] = 'DBUSER="' . $user . '";';
-		$commands[] = 'DBPASS="' . $pass . '";';
-		$commands[] = 'DB="' . $db . '";';
-		$commands[] = 'FILE="' . $file . '";';
-		$commands[] = 'DATAPATH="' . $this->dumpPath . '";';
-		
-		$commands[] = 'source ' . APPLICATION_PATH . '/../bin/db/dump.sh;';
-		
-		exec(implode(PHP_EOL, $commands), $ret);	return $ret;
-	}
-	
 }
-
