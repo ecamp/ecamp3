@@ -1,8 +1,6 @@
 .*
-!.gitattributes
 
-
-local.conf.php
+config.ini
 
 tmp/*
 tmp/**/*
