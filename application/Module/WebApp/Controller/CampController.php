@@ -68,20 +68,18 @@ class WebApp_CampController extends \WebApp\Controller\BaseController
 			return;
 		}
 
+		$context = $this->contextProvider->getContext();
 		
 		/* load camp */
-	    $campid = $this->getRequest()->getParam("camp");
-	    $this->camp = $this->em->getRepository("CoreApi\Entity\Camp")->find($campid);
+	    $this->camp = $context->getCamp();
 	    $this->view->camp = $this->camp;
 
 	    /* load group */
-	    $groupid = $this->getRequest()->getParam("group");
-	    $this->group = $groupid ? $this->em->getRepository("CoreApi\Entity\Group")->find($groupid) : null;
+	    $this->group = $context->getGroup();
 	    $this->view->group = $this->group;
 		
 	    /* load user */
-	    $userid = $this->getRequest()->getParam("user");
-	    $this->user = $userid ? $this->em->getRepository("CoreApi\Entity\User")->find($userid) : null;
+	    $this->user = $context->getUser();
 	    $this->view->owner = $this->user;
 	    
 
@@ -89,8 +87,8 @@ class WebApp_CampController extends \WebApp\Controller\BaseController
 
 		
 		/* move this to bootsrap */
-		$event = new \WebApp\Plugin\StrategyEventListener($this->view, $this->em);
-		$this->em->getEventManager()->addEventSubscriber($event);
+// 		$event = new \WebApp\Plugin\StrategyEventListener($this->view, $this->em);
+// 		$this->em->getEventManager()->addEventSubscriber($event);
 	}
 
 	

@@ -39,7 +39,7 @@ class WebApp_UserController extends \WebApp\Controller\BaseController
 		$id = $this->getRequest()->getParam("user");
 
 		/** @var $user \Entity\User */
-		$user = $this->em->getRepository("CoreApi\Entity\User")->find($id);
+		$user = $this->userRepository->find($id);
 
 		$friendshipRequests = ($user == $this->me) ?
 		$friendshipRequests = $this->userRepository->findFriendshipInvitationsOf($this->me) : null;
