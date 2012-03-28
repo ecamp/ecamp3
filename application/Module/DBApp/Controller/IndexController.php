@@ -60,11 +60,9 @@ class DBApp_IndexController extends \Zend_Controller_Action
     
 	public function loadAction()
 	{
-		
 		$file = $this->getRequest()->getParam('file');
 		
 		$i = pathinfo($this->dumpPath . $file);
-		//die(var_dump($i));
 		if($i['extension'] != 'sql')
 		{	$this->_forward('index');	return;	}
 		
@@ -73,6 +71,15 @@ class DBApp_IndexController extends \Zend_Controller_Action
 		$ret = $this->loadSqlFile($this->dumpPath . $file);
 		
 		$this->_redirect('/?file=' . $file);
+	}
+	
+	
+	public function loademptyAction()
+	{
+		$this->dropAllTables();
+		$this->createSchema();
+		
+		$this->_redirect('/');
 	}
 	
 	
@@ -93,6 +100,26 @@ class DBApp_IndexController extends \Zend_Controller_Action
 		$this->_redirect('/?dumpname=' . $dumpname);
 	}
 	
+	
+	public function deleteAction()
+	{
+		$dumpname = $this->getRequest()->getParam('dumpname');
+		if(strlen($dumpname) == 0)
+		{	$this->_forward('index');	return;	}
+		
+		$file = $this->dumpPath . $dumpname;
+		
+		$i = pathinfo($file);
+		if($i['extension'] != 'sql')
+		{	$this->_forward('index');	return;	}
+		
+		
+		if(file_exists($file))
+		{	unlink($file);	}
+		
+		$this->_redirect('/');
+	}
+		
 	
 	
 	
@@ -119,6 +146,14 @@ class DBApp_IndexController extends \Zend_Controller_Action
 		}
 	}
 
+	
+	public function createSchema()
+	{
+		$metadatas = $this->em->getMetadataFactory()->getAllMetadata();
+		
+		$schemaTool = new \Doctrine\ORM\Tools\SchemaTool($this->em);
+		$schemaTool->createSchema($metadatas);		
+	}
 	
 	public function loadSqlFile($file)
 	{

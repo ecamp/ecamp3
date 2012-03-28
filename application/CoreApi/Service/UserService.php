@@ -20,7 +20,7 @@ class UserService
 	
 	/**
 	 * @var CoreApi\Service\CampService
-	 * @Inject CoreApi\Service\CampService
+	 * @Inject Core\Service\CampService
 	 */
 	protected $campService;
 	
@@ -29,15 +29,13 @@ class UserService
 	 * Setup ACL
 	 * @return void
 	 */
-	protected function _setupAcl()
+	public function _setupAcl()
 	{
 		$this->acl->allow(DefaultAcl::MEMBER, $this, 'Get');
 		
 		$this->acl->allow(DefaultAcl::MEMBER, $this, 'CreateCamp');
 		$this->acl->allow(DefaultAcl::MEMBER, $this, 'DeleteCamp');
 		$this->acl->allow(DefaultAcl::MEMBER, $this, 'UpdateCamp');
-
-		$this->acl->allow(DefaultAcl::IN_SERVICE,  $this, 'Create');
 		
 		$this->acl->allow(DefaultAcl::MEMBER,  $this, 'getFriendsOf');
 		$this->acl->allow(DefaultAcl::MEMBER,  $this, 'GetPaginator');

@@ -34,12 +34,9 @@ class ServiceWrapper
 	 */
 	private static $validationException = null;
 	
-	private static $serviceNestingLevel = 0;
-	
-	private static $transaction = null;
+	private $transaction = null;
 	
 	public static $simulated = false;
-	
 	
 	public function __construct(\Zend_Acl_Resource_Interface $service)
 	{
@@ -78,11 +75,6 @@ class ServiceWrapper
 		return self::$simulated;
 	}
 	
-	public static function getServiceNestingLevel()
-	{
-		return self::$serviceNestingLevel;
-	}
-	
 	public function getResourceId()
 	{
 		return $this->service->getResourceId();
@@ -95,7 +87,9 @@ class ServiceWrapper
 			throw new \Exception("Method $method does not exist.");
 		}
 		
-		if( ServiceWrapper::getServiceNestingLevel() == 0 && ! $this->isAllowed($method) )
+		$this->service->_setupAcl();
+		
+		if( ! $this->isAllowed($method) )
 			throw new \Exception("No Access on " . $this->service->getResourceId() . "::" . $method);
 			
 		$this->start();
@@ -114,52 +108,36 @@ class ServiceWrapper
 	
 	private function start()
 	{
-		if(self::$serviceNestingLevel == 0)
-		{
-			self::$validationException = null;
-			
-			$uow = $this->em->getUnitOfWork();
-			$uow->computeChangeSets();
-			
-			$upd = $uow->getScheduledEntityUpdates();
-			$ins = $uow->getScheduledEntityInsertions();
-			$del = $uow->getScheduledEntityDeletions();
-			$colupd = $uow->getScheduledCollectionUpdates();
-			$coldel = $uow->getScheduledCollectionDeletions();
-			
-			if( !empty($upd) || !empty($ins)|| !empty($del)|| !empty($colupd)|| !empty($coldel) )
-				throw new \Exception("You tried to edit an entity outside the service layer.");
-			
-			$this->transaction = $this->em->getConnection()->beginTransaction();
-		}
-	
-		self::$serviceNestingLevel++;
+		self::$validationException = null;
+		
+		$uow = $this->em->getUnitOfWork();
+		$uow->computeChangeSets();
+		
+		$upd = $uow->getScheduledEntityUpdates();
+		$ins = $uow->getScheduledEntityInsertions();
+		$del = $uow->getScheduledEntityDeletions();
+		$colupd = $uow->getScheduledCollectionUpdates();
+		$coldel = $uow->getScheduledCollectionDeletions();
+		
+		if( !empty($upd) || !empty($ins)|| !empty($del)|| !empty($colupd)|| !empty($coldel) )
+			throw new \Exception("You tried to edit an entity outside the service layer.");
+		
+		$this->transaction = $this->em->getConnection()->beginTransaction();
 	}
 	
 	private function end()
 	{
-		self::$serviceNestingLevel--;
-	
-		if( self::$serviceNestingLevel == 0 )
+		$this->flushAndCommit();
+		
+		if(isset(self::$validationException))
 		{
-			$this->flushAndCommit();
-			
-			if(isset(self::$validationException))
-			{
-				throw self::$validationException;
-			}
+			throw self::$validationException;
 		}
 	}
 	
 	private function isAllowed($privilege = NULL)
 	{
-		// TODO: Load current roles from $acl or form some AUTH mechanism.
 		$roles = $this->acl->getRolesInContext();
-	
-	
-		// TODO: Remove default return value
-		// FOR DEVELOPING:
-		//return true;
 	
 		foreach ($roles as $role)
 		{

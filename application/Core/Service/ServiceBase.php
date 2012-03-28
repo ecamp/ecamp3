@@ -31,17 +31,10 @@ abstract class ServiceBase
 	 *
 	 * @return void
 	 */
-	abstract protected function _setupAcl();
-	
-	public function postInject()
-	{
-		$this->_setupACL();
-	}
+	abstract public function _setupAcl();
 	
 	public function getResourceId()
 	{	return get_class($this);	}
-	
-	
 	
 	protected function validationFailed($bool = true)
 	{
@@ -59,19 +52,6 @@ abstract class ServiceBase
 		return ServiceWrapper::hasFailed();
 	}
 	
-	
-	
-	/**
-	 * @return Transaction
-	 */
-	protected function beginTransaction()
-	{
-		$t = new Transaction($this->em);
-		$t->beginTransaction();
-		
-		return $t;
-	}
-	
 	protected function persist($entity)
 	{
 		$this->em->persist($entity);
@@ -82,8 +62,4 @@ abstract class ServiceBase
 		$this->em->remove($entity);
 	}
 	
-	protected function flush()
-	{
-		$this->em->flush();
-	}
 }

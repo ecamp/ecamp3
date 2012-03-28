@@ -2,8 +2,6 @@
 
 namespace CoreApi\Service;
 
-use Core\Service\Transaction;
-
 use Core\Acl\DefaultAcl;
 use Core\Service\ServiceBase;
 
@@ -25,7 +23,7 @@ class RegisterService
 	
 	/**
 	 * @var CoreApi\Service\LoginService
-	 * @Inject CoreApi\Service\LoginService
+	 * @Inject Core\Service\LoginService
 	 */
 	protected $loginService;
 	
@@ -34,7 +32,7 @@ class RegisterService
 	 * Setup ACL
 	 * @return void
 	 */
-	protected function _setupAcl()
+	public function _setupAcl()
 	{
 		$this->acl->allow(DefaultAcl::GUEST, $this, 'Register');
 		$this->acl->allow(DefaultAcl::GUEST, $this, 'Activate');

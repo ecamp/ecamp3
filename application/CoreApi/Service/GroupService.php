@@ -19,7 +19,7 @@ class GroupService
 	
 	/**
 	 * @var CoreApi\Service\CampService
-	 * @Inject CoreApi\Service\CampService
+	 * @Inject Core\Service\CampService
 	 */
 	protected $campService;
 	
@@ -27,7 +27,7 @@ class GroupService
 	 * Setup ACL
 	 * @return void
 	 */
-	protected function _setupAcl()
+	public function _setupAcl()
 	{
 		$this->acl->allow(DefaultAcl::MEMBER, $this, 'Get');
 		$this->acl->allow(DefaultAcl::MEMBER, $this, 'GetRoots');

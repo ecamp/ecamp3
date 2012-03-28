@@ -14,7 +14,7 @@ class FriendService
 	
 	/**
 	 * @var CoreApi\Service\UserService
-	 * @Inject CoreApi\Service\UserService
+	 * @Inject Core\Service\UserService
 	 */
 	private $userService;
 	
@@ -29,7 +29,7 @@ class FriendService
 	 * Setup ACL
 	 * @return void
 	 */
-	protected function _setupAcl()
+	public function _setupAcl()
 	{
 		$this->acl->allow(DefaultAcl::MEMBER, $this, 'Get');
 		$this->acl->allow(DefaultAcl::MEMBER, $this, 'getOpenRequest');	
