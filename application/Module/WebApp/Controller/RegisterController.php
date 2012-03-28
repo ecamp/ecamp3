@@ -113,7 +113,7 @@ class WebApp_RegisterController
 			$user = $this->userRepo->find($id);
 
 			$ac = $user->createNewActivationCode();
-			$this->em->flush();
+			\Zend_Registry::get('doctrine')->getEntityManager()->flush();
 			die($ac);
 		}
 

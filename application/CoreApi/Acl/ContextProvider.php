@@ -14,7 +14,7 @@ class ContextProvider
 	
 	
 	/**
-	 * CoreApi\Acl\Context
+	 * @return CoreApi\Acl\Context
 	 */
 	public function getContext()
 	{

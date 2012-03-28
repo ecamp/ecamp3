@@ -50,10 +50,11 @@ class WebApp_GroupController extends \WebApp\Controller\BaseController
 			$this->_redirect("login");
 			return;
 		}
-
+		
+		$context = $this->contextProvider->getContext();
+		
 	     /* load group */
-	    $groupid = $this->getRequest()->getParam("group");
-	    $this->group = $this->em->getRepository("CoreApi\Entity\Group")->find($groupid);
+	    $this->group = $context->getGroup();
 	    $this->view->group = $this->group;
 
 
