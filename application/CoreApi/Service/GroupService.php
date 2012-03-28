@@ -30,6 +30,7 @@ class GroupService
 	protected function _setupAcl()
 	{
 		$this->acl->allow(DefaultAcl::MEMBER, $this, 'Get');
+		$this->acl->allow(DefaultAcl::MEMBER, $this, 'GetRoots');
 		$this->acl->allow(DefaultAcl::GROUP_MEMBER, $this, 'CreateCamp');
 		$this->acl->allow(DefaultAcl::GROUP_MEMBER, $this, 'UpdateCamp');
 		$this->acl->allow(DefaultAcl::GROUP_MEMBER, $this, 'DeleteCamp');
@@ -50,6 +51,18 @@ class GroupService
 		{	$group = $this->contextProvider->getContext()->getGroup();	}
 		
 		return $group;
+	}
+	
+	/**
+	 * Return all root groups
+	 * @return
+	 */
+	public function GetRoots()
+	{
+		return $this->groupRepo->createQueryBuilder("g")
+					->where("g.parent IS NULL ")
+					->getQuery()
+					->getResult();
 	}
 	
 	

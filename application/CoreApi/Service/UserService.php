@@ -38,6 +38,12 @@ class UserService
 		$this->acl->allow(DefaultAcl::MEMBER, $this, 'UpdateCamp');
 
 		$this->acl->allow(DefaultAcl::IN_SERVICE,  $this, 'Create');
+		
+		$this->acl->allow(DefaultAcl::MEMBER,  $this, 'getFriendsOf');
+		$this->acl->allow(DefaultAcl::MEMBER,  $this, 'GetPaginator');
+		
+		$this->acl->allow(DefaultAcl::MEMBER,  $this, 'getMembershipRequests');
+		$this->acl->allow(DefaultAcl::MEMBER,  $this, 'getMembershipInvitations');
 	}
 	
 	
@@ -242,5 +248,32 @@ class UserService
 		}
 	
 		return true;
+	}
+	
+	/**
+	 * Get all users and wrap in paginator
+	 * @return \Zend_Paginator
+	 */
+	public function GetPaginator()
+	{
+		$query = $this->em->getRepository("CoreApi\Entity\User")->createQueryBuilder("u");
+		$adapter = new \Ecamp\Paginator\Doctrine($query);
+		return new \Zend_Paginator($adapter);
+	}
+	
+	/**
+	 * @return array
+	 */
+	public function getMembershipRequests($user){
+		
+		return $this->userRepo->findMembershipRequestsOf($user);
+	}
+
+	/**
+	 * @return array
+	 */
+	public function getMembershipInvitations($user)
+	{
+		return $this->userRepo->findMembershipInvitations($user);
 	}
 }

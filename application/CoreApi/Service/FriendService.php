@@ -2,21 +2,38 @@
 
 namespace CoreApi\Service;
 
-class Friend extends ServiceAbstract
+use Core\Acl\DefaultAcl;
+use Core\Service\ServiceBase;
+
+/**
+ * @method CoreApi\Service\FriendService Simulate
+ */
+class FriendService
+	extends ServiceBase
 {
 	
 	/**
-	 * @var \CoreApi\Service\User
-	 * @Inject \Core\Servie\User
+	 * @var CoreApi\Service\UserService
+	 * @Inject CoreApi\Service\UserService
 	 */
 	private $userService;
 	
 	
 	/**
-	 * @var \Core\Repository\UserRepository
-	 * @Inject \Core\Repository\UserRepository
+	 * @var Core\Repository\UserRepository
+	 * @Inject Core\Repository\UserRepository
 	 */
-	private $userRepo;
+	protected $userRepo;
+	
+	/**
+	 * Setup ACL
+	 * @return void
+	 */
+	protected function _setupAcl()
+	{
+		$this->acl->allow(DefaultAcl::MEMBER, $this, 'Get');
+		$this->acl->allow(DefaultAcl::MEMBER, $this, 'getOpenRequest');	
+	}
 	
 	
 	/**
@@ -27,7 +44,7 @@ class Friend extends ServiceAbstract
 	 *
 	 * @return array
 	 */
-	public function get($user = null)
+	public function Get($user = null)
 	{
 		$user = $this->userService->get($user);
 		
@@ -43,12 +60,9 @@ class Friend extends ServiceAbstract
 	 */
 	public function getOpenRequest()
 	{
-		$user = $this->userService->get();
+		$user = $this->userService->Get();
 		
-		// TODO: Implement findOpenFreindshipRequests!!
-		// return $this->userRepo->findOpenFriendshipRequests($user);
-		
-		return array();
+		return $this->userRepo->findFriendshipInvitationsOf($user);
 	}
 	
 	
