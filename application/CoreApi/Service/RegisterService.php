@@ -46,8 +46,8 @@ class RegisterService
 	 */
 	public function Register(\Zend_Form $registerForm)
 	{
-		$user 	= $this->userService->Create($registerForm, $s);
-		$login	= $this->loginService->Create($user, $registerForm, $s);
+		$user 	= $this->userService->Create($registerForm);
+		$login	= $this->loginService->Create($user, $registerForm);
 		
 		$activationCode = $user->createNewActivationCode();
 		

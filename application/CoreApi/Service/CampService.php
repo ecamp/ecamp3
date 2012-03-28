@@ -85,7 +85,7 @@ class CampService
 		$campValidator = new CampValidator($camp);
 		$this->validationFailed( !$campValidator->applyIfValid($form) );
 		
-		$period = $this->CreatePeriod($camp, $form, $s);
+		$period = $this->CreatePeriod($camp, $form);
 		
 		return $camp;
 	}

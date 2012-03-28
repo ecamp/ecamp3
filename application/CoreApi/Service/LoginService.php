@@ -48,7 +48,7 @@ class LoginService
 	/**
 	 * @return CoreApi\Entity\Login | NULL
 	 */
-	public function Get($s = false)
+	public function Get()
 	{
 		$user = $this->userService->get();
 		
