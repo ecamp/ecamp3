@@ -15,7 +15,7 @@
  * @category   Zend
  * @package    Zend_Service_Amazon
  * @subpackage Authentication
- * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 
@@ -33,7 +33,7 @@ require_once 'Zend/Crypt/Hmac.php';
  * @category   Zend
  * @package    Zend_Service_Amazon
  * @subpackage Authentication
- * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Service_Amazon_Authentication_V2 extends Zend_Service_Amazon_Authentication
@@ -77,7 +77,7 @@ class Zend_Service_Amazon_Authentication_V2 extends Zend_Service_Amazon_Authenti
 
     /**
      * Set http request type to POST or GET
-     * @param $method string
+     * @param string $method
      */
     public function setHttpMethod($method = "POST") {
         $this->_httpMethod = strtoupper($method);

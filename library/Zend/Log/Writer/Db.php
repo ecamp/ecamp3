@@ -15,9 +15,9 @@
  * @category   Zend
  * @package    Zend_Log
  * @subpackage Writer
- * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Db.php 23576 2010-12-23 23:25:44Z ramon $
+ * @version    $Id: Db.php 23775 2011-03-01 17:25:24Z ralph $
  */
 
 /** Zend_Log_Writer_Abstract */
@@ -27,9 +27,9 @@ require_once 'Zend/Log/Writer/Abstract.php';
  * @category   Zend
  * @package    Zend_Log
  * @subpackage Writer
- * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Db.php 23576 2010-12-23 23:25:44Z ramon $
+ * @version    $Id: Db.php 23775 2011-03-01 17:25:24Z ralph $
  */
 class Zend_Log_Writer_Db extends Zend_Log_Writer_Abstract
 {
@@ -74,7 +74,6 @@ class Zend_Log_Writer_Db extends Zend_Log_Writer_Abstract
      *
      * @param  array|Zend_Config $config
      * @return Zend_Log_Writer_Db
-     * @throws Zend_Log_Exception
      */
     static public function factory($config)
     {
@@ -123,6 +122,7 @@ class Zend_Log_Writer_Db extends Zend_Log_Writer_Abstract
      *
      * @param  array  $event  event data
      * @return void
+     * @throws Zend_Log_Exception
      */
     protected function _write($event)
     {

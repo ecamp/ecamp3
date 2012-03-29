@@ -15,9 +15,9 @@
  * @category   Zend
  * @package    Zend_Application
  * @subpackage Resource
- * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Mail.php 23486 2010-12-10 04:05:30Z mjh_ca $
+ * @version    $Id: Mail.php 24110 2011-06-04 01:10:23Z freak $
  */
 
 /**
@@ -32,7 +32,7 @@ require_once 'Zend/Application/Resource/ResourceAbstract.php';
  * @category   Zend
  * @package    Zend_Application
  * @subpackage Resource
- * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Application_Resource_Mail extends Zend_Application_Resource_ResourceAbstract
@@ -124,6 +124,7 @@ class Zend_Application_Resource_Mail extends Zend_Application_Resource_ResourceA
         }
 
         unset($options['type']);
+        unset($options['register']); //@see ZF-11022
 
         switch($transportName) {
             case 'Zend_Mail_Transport_Smtp':

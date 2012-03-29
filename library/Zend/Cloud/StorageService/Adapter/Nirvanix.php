@@ -13,7 +13,7 @@
  * @category   Zend
  * @package    Zend_Cloud
  * @subpackage StorageService
- * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 
@@ -27,7 +27,7 @@ require_once 'Zend/Service/Nirvanix.php';
  * @category   Zend
  * @package    Zend_Cloud
  * @subpackage StorageService
- * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Cloud_StorageService_Adapter_Nirvanix
@@ -244,9 +244,9 @@ class Zend_Cloud_StorageService_Adapter_Nirvanix
      * WARNING: This operation overwrites any metadata that is located at
      * $destinationPath.
      *
-     * @param array $metadata - An associative array specifying the key/value pairs for the metadata.
-     * @param $destinationPath
-     * @param  array $options
+     * @param string $destinationPath
+     * @param array  $metadata        associative array specifying the key/value pairs for the metadata.
+     * @param array  $options
      * @return void
      */
     public function storeMetadata($destinationPath, $metadata, $options = null)
@@ -300,9 +300,9 @@ class Zend_Cloud_StorageService_Adapter_Nirvanix
      * Recursively traverse all the folders and build an array that contains
      * the path names for each folder.
      *
-     * @param $path - The folder path to get the list of folders from.
-     * @param &$resultArray - reference to the array that contains the path names
-     *                           for each folder.
+     * @param string $path        folder path to get the list of folders from.
+     * @param array& $resultArray reference to the array that contains the path names
+     *                             for each folder.
      */
     private function getAllFolders($path, &$resultArray)
     {

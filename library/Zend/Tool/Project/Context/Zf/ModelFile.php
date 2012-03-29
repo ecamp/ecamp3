@@ -15,10 +15,15 @@
  * @category   Zend
  * @package    Zend_Tool
  * @subpackage Framework
- * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: ModelFile.php 23484 2010-12-10 03:57:59Z mjh_ca $
+ * @version    $Id: ModelFile.php 24060 2011-05-28 17:18:04Z adamlundrigan $
  */
+
+/**
+ * Zend_Tool_Project_Context_Zf_AbstractClassFile
+ */
+require_once 'Zend/Tool/Project/Context/Zf/AbstractClassFile.php';
 
 /**
  * This class is the front most class for utilizing Zend_Tool_Project
@@ -28,7 +33,7 @@
  *
  * @category   Zend
  * @package    Zend_Tool
- * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Tool_Project_Context_Zf_ModelFile extends Zend_Tool_Project_Context_Zf_AbstractClassFile

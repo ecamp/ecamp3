@@ -15,9 +15,9 @@
  * @category   Zend
  * @package    Zend_XmlRpc
  * @subpackage Value
- * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Value.php 23584 2010-12-28 19:51:49Z matthew $
+ * @version    $Id: Value.php 23775 2011-03-01 17:25:24Z ralph $
  */
 
 /**
@@ -31,7 +31,7 @@
  * from PHP variables, XML string or by specifing the exact XML-RPC natvie type
  *
  * @package    Zend_XmlRpc
- * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 abstract class Zend_XmlRpc_Value
@@ -321,49 +321,31 @@ abstract class Zend_XmlRpc_Value
                 require_once 'Zend/XmlRpc/Value/DateTime.php';
                 return new Zend_XmlRpc_Value_DateTime($value);
 
-                if ($value instanceof Zend_Crypt_Math_BigInteger) {
-                    require_once 'Zend/XmlRpc/Value/BigInteger.php';
-                    return new Zend_XmlRpc_Value_BigInteger($value);
-                }
-
-                if ($value instanceof Zend_Date or $value instanceof DateTime) {
-                    require_once 'Zend/XmlRpc/Value/DateTime.php';
-                    return new Zend_XmlRpc_Value_DateTime($value);
-                }
-
-                // Otherwise, we convert the object into a struct
-                $value = get_object_vars($value);
-                // Break intentionally omitted
-            case 'array':
-                // Default native type for a PHP array (a simple numeric array) is 'array'
+            case self::XMLRPC_TYPE_ARRAY:
                 require_once 'Zend/XmlRpc/Value/Array.php';
-                $obj = 'Zend_XmlRpc_Value_Array';
+                return new Zend_XmlRpc_Value_Array($value);
 
-                // Determine if this is an associative array
-                if (!empty($value) && is_array($value) && (array_keys($value) !== range(0, count($value) - 1))) {
-                    require_once 'Zend/XmlRpc/Value/Struct.php';
-                    $obj = 'Zend_XmlRpc_Value_Struct';
-                }
-                return new $obj($value);
+            case self::XMLRPC_TYPE_STRUCT:
+                require_once 'Zend/XmlRpc/Value/Struct.php';
+                return new Zend_XmlRpc_Value_Struct($value);
 
-            case 'integer':
+            case self::XMLRPC_TYPE_INTEGER:
                 require_once 'Zend/XmlRpc/Value/Integer.php';
                 return new Zend_XmlRpc_Value_Integer($value);
 
-            case 'double':
+            case self::XMLRPC_TYPE_DOUBLE:
                 require_once 'Zend/XmlRpc/Value/Double.php';
                 return new Zend_XmlRpc_Value_Double($value);
 
-            case 'boolean':
+            case self::XMLRPC_TYPE_BOOLEAN:
                 require_once 'Zend/XmlRpc/Value/Boolean.php';
                 return new Zend_XmlRpc_Value_Boolean($value);
 
-            case 'NULL':
-            case 'null':
+            case self::XMLRPC_TYPE_NIL:
                 require_once 'Zend/XmlRpc/Value/Nil.php';
-                return new Zend_XmlRpc_Value_Nil();
+                return new Zend_XmlRpc_Value_Nil;
 
-            case 'string':
+            case self::XMLRPC_TYPE_STRING:
                 // Fall through to the next case
             default:
                 // If type isn't identified (or identified as string), it treated as string
@@ -525,7 +507,7 @@ abstract class Zend_XmlRpc_Value
     }
 
     /**
-     * @param $xml
+     * @param string $xml
      * @return void
      */
     protected function _setXML($xml)

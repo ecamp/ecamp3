@@ -14,9 +14,9 @@
  *
  * @category   Zend
  * @package    Zend_Rest
- * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Controller.php 20096 2010-01-06 02:05:09Z bkarwin $
+ * @version    $Id: Controller.php 23953 2011-05-03 05:47:39Z ralph $
  */
 
 /** Zend_Controller_Action */
@@ -29,7 +29,7 @@ require_once 'Zend/Controller/Action.php';
  * @category   Zend
  * @package Zend_Rest
  * @see Zend_Rest_Route
- * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 abstract class Zend_Rest_Controller extends Zend_Controller_Action

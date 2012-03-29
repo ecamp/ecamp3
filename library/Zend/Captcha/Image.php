@@ -15,9 +15,9 @@
  * @category   Zend
  * @package    Zend_Captcha
  * @subpackage Adapter
- * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Image.php 22589 2010-07-16 20:51:51Z mikaelkael $
+ * @version    $Id: Image.php 24146 2011-06-15 13:15:22Z adamlundrigan $
  */
 
 /** @see Zend_Captcha_Word */
@@ -31,7 +31,7 @@ require_once 'Zend/Captcha/Word.php';
  * @category   Zend
  * @package    Zend_Captcha
  * @subpackage Adapter
- * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Captcha_Image extends Zend_Captcha_Word
@@ -599,7 +599,11 @@ class Zend_Captcha_Image extends Zend_Captcha_Word
      */
     public function render(Zend_View_Interface $view = null, $element = null)
     {
+        $endTag = ' />';
+        if (($view instanceof Zend_View_Abstract) && !$view->doctype()->isXhtml()) {
+            $endTag = '>';
+        }
         return '<img width="' . $this->getWidth() . '" height="' . $this->getHeight() . '" alt="' . $this->getImgAlt()
-             . '" src="' . $this->getImgUrl() . $this->getId() . $this->getSuffix() . '" />';
+             . '" src="' . $this->getImgUrl() . $this->getId() . $this->getSuffix() . '"' . $endTag;
     }
 }

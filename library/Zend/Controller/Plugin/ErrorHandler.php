@@ -15,7 +15,7 @@
  * @category   Zend
  * @package    Zend_Controller
  * @subpackage Plugins
- * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 
@@ -30,9 +30,9 @@ require_once 'Zend/Controller/Plugin/Abstract.php';
  * @category   Zend
  * @package    Zend_Controller
  * @subpackage Plugins
- * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: ErrorHandler.php 23484 2010-12-10 03:57:59Z mjh_ca $
+ * @version    $Id: ErrorHandler.php 24241 2011-07-14 08:09:41Z bate $
  */
 class Zend_Controller_Plugin_ErrorHandler extends Zend_Controller_Plugin_Abstract
 {
@@ -201,6 +201,17 @@ class Zend_Controller_Plugin_ErrorHandler extends Zend_Controller_Plugin_Abstrac
         $this->_handleError($request);
     }
 
+    /**
+     * Pre dispatch hook -- check for exceptions and dispatch error handler if
+     * necessary
+     *
+     * @param Zend_Controller_Request_Abstract $request
+     */
+    public function preDispatch(Zend_Controller_Request_Abstract $request)
+    {
+        $this->_handleError($request);
+    }
+	
     /**
      * Post dispatch hook -- check for exceptions and dispatch error handler if
      * necessary

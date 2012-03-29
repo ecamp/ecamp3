@@ -15,9 +15,9 @@
  * @category   Zend
  * @package    Zend_Log
  * @subpackage Writer
- * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Syslog.php 23576 2010-12-23 23:25:44Z ramon $
+ * @version    $Id: Syslog.php 23953 2011-05-03 05:47:39Z ralph $
  */
 
 /** Zend_Log */
@@ -32,7 +32,7 @@ require_once 'Zend/Log/Writer/Abstract.php';
  * @category   Zend
  * @package    Zend_Log
  * @subpackage Writer
- * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Log_Writer_Syslog extends Zend_Log_Writer_Abstract
@@ -257,6 +257,11 @@ class Zend_Log_Writer_Syslog extends Zend_Log_Writer_Abstract
             $this->_initializeSyslog();
         }
 
-        syslog($priority, $event['message']);
+        $message = $event['message'];
+        if ($this->_formatter instanceof Zend_Log_Formatter_Interface) {
+            $message = $this->_formatter->format($event);
+        }
+
+        syslog($priority, $message);
     }
 }

@@ -15,23 +15,23 @@
  * @category   Zend
  * @package    Zend_Log
  * @subpackage Formatter
- * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Simple.php 23576 2010-12-23 23:25:44Z ramon $
+ * @version    $Id: Simple.php 23775 2011-03-01 17:25:24Z ralph $
  */
 
-/** Zend_Log_Formatter_Interface */
-require_once 'Zend/Log/Formatter/Interface.php';
+/** Zend_Log_Formatter_Abstract */
+require_once 'Zend/Log/Formatter/Abstract.php';
 
 /**
  * @category   Zend
  * @package    Zend_Log
  * @subpackage Formatter
- * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Simple.php 23576 2010-12-23 23:25:44Z ramon $
+ * @version    $Id: Simple.php 23775 2011-03-01 17:25:24Z ralph $
  */
-class Zend_Log_Formatter_Simple implements Zend_Log_Formatter_Interface
+class Zend_Log_Formatter_Simple extends Zend_Log_Formatter_Abstract
 {
     /**
      * @var string
@@ -53,12 +53,34 @@ class Zend_Log_Formatter_Simple implements Zend_Log_Formatter_Interface
             $format = self::DEFAULT_FORMAT . PHP_EOL;
         }
 
-        if (! is_string($format)) {
+        if (!is_string($format)) {
             require_once 'Zend/Log/Exception.php';
             throw new Zend_Log_Exception('Format must be a string');
         }
 
         $this->_format = $format;
+    }
+
+    /**
+	 * Factory for Zend_Log_Formatter_Simple classe
+	 *
+	 * @param array|Zend_Config $options
+	 * @return Zend_Log_Formatter_Simple
+     */
+    public static function factory($options)
+    {
+        $format = null;
+        if (null !== $options) {
+            if ($options instanceof Zend_Config) {
+                $options = $options->toArray();
+            }
+
+            if (array_key_exists('format', $options)) {
+                $format = $options['format'];
+            }
+        }
+
+        return new self($format);
     }
 
     /**
@@ -70,17 +92,17 @@ class Zend_Log_Formatter_Simple implements Zend_Log_Formatter_Interface
     public function format($event)
     {
         $output = $this->_format;
+
         foreach ($event as $name => $value) {
-
             if ((is_object($value) && !method_exists($value,'__toString'))
-                || is_array($value)) {
-
+                || is_array($value)
+            ) {
                 $value = gettype($value);
             }
 
             $output = str_replace("%$name%", $value, $output);
         }
+
         return $output;
     }
-
 }

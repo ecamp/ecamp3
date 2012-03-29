@@ -14,9 +14,9 @@
  *
  * @category   Zend
  * @package    Zend_Feed_Writer
- * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Entry.php 23484 2010-12-10 03:57:59Z mjh_ca $
+ * @version    $Id: Entry.php 23965 2011-05-03 14:25:41Z adamlundrigan $
  */
 
 /**
@@ -34,7 +34,7 @@ require_once 'Zend/Feed/Writer/Source.php';
 /**
  * @category   Zend
  * @package    Zend_Feed_Writer
- * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Feed_Writer_Entry
@@ -295,7 +295,7 @@ class Zend_Feed_Writer_Entry
      */
     public function setCommentCount($count)
     {
-        if (empty($count) || !is_numeric($count) || (int) $count < 0) {
+        if ( !is_numeric($count) || (int) $count < 0) {
             require_once 'Zend/Feed/Exception.php';
             throw new Zend_Feed_Exception('Invalid parameter: "count" must be a non-empty integer number');
         }

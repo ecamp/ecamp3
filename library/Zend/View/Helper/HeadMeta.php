@@ -15,8 +15,8 @@
  * @category   Zend
  * @package    Zend_View
  * @subpackage Helper
- * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
- * @version    $Id: HeadMeta.php 23584 2010-12-28 19:51:49Z matthew $
+ * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
+ * @version    $Id: HeadMeta.php 23775 2011-03-01 17:25:24Z ralph $
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 
@@ -30,7 +30,7 @@ require_once 'Zend/View/Helper/Placeholder/Container/Standalone.php';
  * @uses       Zend_View_Helper_Placeholder_Container_Standalone
  * @package    Zend_View
  * @subpackage Helper
- * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_View_Helper_HeadMeta extends Zend_View_Helper_Placeholder_Container_Standalone
@@ -39,7 +39,7 @@ class Zend_View_Helper_HeadMeta extends Zend_View_Helper_Placeholder_Container_S
      * Types of attributes
      * @var array
      */
-    protected $_typeKeys     = array('name', 'http-equiv', 'charset');
+    protected $_typeKeys     = array('name', 'http-equiv', 'charset', 'property');
     protected $_requiredKeys = array('content');
     protected $_modifierKeys = array('lang', 'scheme');
 
@@ -98,6 +98,8 @@ class Zend_View_Helper_HeadMeta extends Zend_View_Helper_Placeholder_Container_S
                 return 'name';
             case 'HttpEquiv':
                 return 'http-equiv';
+            case 'Property':
+                return 'property';
             default:
                 require_once 'Zend/View/Exception.php';
                 $e = new Zend_View_Exception(sprintf('Invalid type "%s" passed to _normalizeType', $type));
@@ -118,6 +120,10 @@ class Zend_View_Helper_HeadMeta extends Zend_View_Helper_Placeholder_Container_S
      * - offsetGetHttpEquiv($index, $keyValue, $content, $modifers = array())
      * - prependHttpEquiv($keyValue, $content, $modifiers = array())
      * - setHttpEquiv($keyValue, $content, $modifiers = array())
+     * - appendProperty($keyValue, $content, $modifiers = array())
+     * - offsetGetProperty($index, $keyValue, $content, $modifiers = array())
+     * - prependProperty($keyValue, $content, $modifiers = array())
+     * - setProperty($keyValue, $content, $modifiers = array())
      *
      * @param  string $method
      * @param  array $args
@@ -125,7 +131,7 @@ class Zend_View_Helper_HeadMeta extends Zend_View_Helper_Placeholder_Container_S
      */
     public function __call($method, $args)
     {
-        if (preg_match('/^(?P<action>set|(pre|ap)pend|offsetSet)(?P<type>Name|HttpEquiv)$/', $method, $matches)) {
+        if (preg_match('/^(?P<action>set|(pre|ap)pend|offsetSet)(?P<type>Name|HttpEquiv|Property)$/', $method, $matches)) {
             $action = $matches['action'];
             $type   = $this->_normalizeType($matches['type']);
             $argc   = count($args);
@@ -199,6 +205,12 @@ class Zend_View_Helper_HeadMeta extends Zend_View_Helper_Placeholder_Container_S
         if (!isset($item->content)
         && (! $this->view->doctype()->isHtml5()
         || (! $this->view->doctype()->isHtml5() && $item->type !== 'charset'))) {
+            return false;
+        }
+
+        // <meta property= ... /> is only supported with doctype RDFa
+        if (!$this->view->doctype()->isRdfa()
+            && $item->type === 'property') {
             return false;
         }
 

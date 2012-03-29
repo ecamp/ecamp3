@@ -15,9 +15,9 @@
  * @category   Zend
  * @package    Zend_Tag
  * @subpackage Cloud
- * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: HtmlTag.php 20104 2010-01-06 21:26:01Z matthew $
+ * @version    $Id: HtmlTag.php 23775 2011-03-01 17:25:24Z ralph $
  */
 
 /**
@@ -31,7 +31,7 @@ require_once 'Zend/Tag/Cloud/Decorator/Tag.php';
  * @category  Zend
  * @package   Zend_Tag
  * @uses      Zend_Tag_Cloud_Decorator_Tag
- * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license   http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Tag_Cloud_Decorator_HtmlTag extends Zend_Tag_Cloud_Decorator_Tag

@@ -15,9 +15,9 @@
  * @category   Zend
  * @package    Zend_Tool
  * @subpackage Framework
- * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Profile.php 23484 2010-12-10 03:57:59Z mjh_ca $
+ * @version    $Id: Profile.php 23775 2011-03-01 17:25:24Z ralph $
  */
 
 /**
@@ -38,7 +38,7 @@ require_once 'Zend/Tool/Project/Profile/Resource/Container.php';
  *
  * @category   Zend
  * @package    Zend_Tool
- * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Tool_Project_Profile extends Zend_Tool_Project_Profile_Resource_Container

@@ -15,15 +15,15 @@
  * @category   Zend
  * @package    Zend_Tool
  * @subpackage Framework
- * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
- * @version    $Id: Model.php 23484 2010-12-10 03:57:59Z mjh_ca $
+ * @version    $Id: Model.php 24074 2011-05-28 20:54:48Z ralph $
  */
 
 /**
  * @category   Zend
  * @package    Zend_Tool
- * @copyright  Copyright (c) 2005-2010 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
 class Zend_Tool_Project_Provider_Model extends Zend_Tool_Project_Provider_Abstract
@@ -67,6 +67,11 @@ class Zend_Tool_Project_Provider_Model extends Zend_Tool_Project_Provider_Abstra
         }
 
         $modelsDirectory = self::_getModelsDirectoryResource($profile, $moduleName);
+        
+        if (!$modelsDirectory instanceof Zend_Tool_Project_Profile_Resource) {
+            return false;
+        }
+        
         return (($modelsDirectory->search(array('modelFile' => array('modelName' => $modelName)))) instanceof Zend_Tool_Project_Profile_Resource);
     }
 
