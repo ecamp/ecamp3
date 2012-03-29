@@ -22,12 +22,6 @@ namespace WebApp\Controller;
 
 class BaseController extends \Zend_Controller_Action
 {
-	/**
-	 * @var \Doctrine\ORM\EntityManager
-	 * @Inject EntityManager
-	 * @deprecated
-	 */
-	protected $em;
 
 	/**
 	 * logged in user

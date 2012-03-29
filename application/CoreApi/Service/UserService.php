@@ -32,7 +32,16 @@ class UserService
 	public function _setupAcl()
 	{
 		$this->acl->allow(DefaultAcl::MEMBER, $this, 'Get');
+		
 		$this->acl->allow(DefaultAcl::MEMBER, $this, 'CreateCamp');
+		$this->acl->allow(DefaultAcl::MEMBER, $this, 'DeleteCamp');
+		$this->acl->allow(DefaultAcl::MEMBER, $this, 'UpdateCamp');
+		
+		$this->acl->allow(DefaultAcl::MEMBER,  $this, 'getFriendsOf');
+		$this->acl->allow(DefaultAcl::MEMBER,  $this, 'GetPaginator');
+		
+		$this->acl->allow(DefaultAcl::MEMBER,  $this, 'getMembershipRequests');
+		$this->acl->allow(DefaultAcl::MEMBER,  $this, 'getMembershipInvitations');
 	}
 	
 	
@@ -116,37 +125,67 @@ class UserService
 	
 	/**
 	 * Creates a new Camp
-	 * This method is protected, means it is only available from outside (magic!) if ACL is set properly
-	 *
-	 * @param \Entity\Group $group Owner of the new Camp
-	 * @param \Entity\User $user Creator of the new Camp
-	 * @param Array $params
 	 * @return Camp object, if creation was successfull
 	 */
 	public function CreateCamp(\Zend_Form $form)
 	{
-		/* check if camp with same name already exists */
-		$qb = $this->em->createQueryBuilder();
-		$qb->add('select', 'c')
-		->add('from', '\CoreApi\Entity\Camp c')
-		->add('where', 'c.owner = ?1 AND c.name = ?2')
-		->setParameter(1,$this->contextProvider->getContext()->getMe()->getId())
-		->setParameter(2, $form->getValue('name'));
-		
-		$query = $qb->getQuery();
-		
-		if( count($query->getArrayResult()) > 0 ){
+		if( ! $this->isCampNameUnique($form->getValue("name")) )
+		{
 			$form->getElement('name')->addError("Camp with same name already exists.");
 			$this->validationFailed();
 		}
 
 		/* create camp */
-		$camp = $this->campService->Create($form, $s);
+		$camp = $this->campService->Create($form);
 		$camp->setOwner($this->contextProvider->getContext()->getMe());
 		
 		return $camp;
 	}
 	
+/**
+	 * Updates a Camp
+	 * @return \CoreApi\Entity\Camp
+	 */
+	public function UpdateCamp(\Zend_Form $form)
+	{
+		$camp = $this->campService->Get($form->getValue('id'));
+		
+		if($camp->getOwner() != $this->contextProvider->getContext()->getMe())
+			throw new \Exception("No Access");
+		
+		if( $form->getValue('name') != $camp->getName() )
+		{
+			if( ! $this->isCampNameUnique($form->getValue("name")) )
+			{
+				$form->getElement('name')->addError("Camp with same name already exists.");
+				$this->validationFailed();
+			}
+		}
+	
+		/* update camp */
+		$camp = $this->campService->Update($camp, $form);
+	
+		return $camp;
+	}
+	
+	/**
+	 * 
+	 * @return bool
+	 */
+	public function DeleteCamp($id)
+	{
+		$camp = $this->campService->Get($id);
+	
+		if( $camp == null )
+			return false;
+	
+		if($camp->getOwner() != $this->contextProvider->getContext()->getMe())
+			throw new \Exception("No Access");
+	
+		$this->campService->Delete($camp);
+	
+		return true;
+	}
 	
 	/**
 	 * Returns the User for a MailAddress or a Username
@@ -184,5 +223,55 @@ class UserService
 		}
 	
 		return $user;		
+	}
+	
+	/**
+	 * @return bool
+	 */
+	private function isCampNameUnique($name)
+	{
+		/* check if camp with same name already exists */
+		
+		$qb = $this->em->createQueryBuilder();
+		$qb->add('select', 'c')
+		->add('from', '\CoreApi\Entity\Camp c')
+		->add('where', 'c.owner = ?1 AND c.name = ?2')
+		->setParameter(1,$this->contextProvider->getContext()->getMe()->getId())
+		->setParameter(2, $name);
+	
+		$query = $qb->getQuery();
+	
+		if( count($query->getArrayResult()) > 0 ){
+			return false;
+		}
+	
+		return true;
+	}
+	
+	/**
+	 * Get all users and wrap in paginator
+	 * @return \Zend_Paginator
+	 */
+	public function GetPaginator()
+	{
+		$query = $this->em->getRepository("CoreApi\Entity\User")->createQueryBuilder("u");
+		$adapter = new \Ecamp\Paginator\Doctrine($query);
+		return new \Zend_Paginator($adapter);
+	}
+	
+	/**
+	 * @return array
+	 */
+	public function getMembershipRequests($user){
+		
+		return $this->userRepo->findMembershipRequestsOf($user);
+	}
+
+	/**
+	 * @return array
+	 */
+	public function getMembershipInvitations($user)
+	{
+		return $this->userRepo->findMembershipInvitations($user);
 	}
 }

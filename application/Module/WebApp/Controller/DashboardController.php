@@ -35,16 +35,17 @@ class WebApp_DashboardController extends \WebApp\Controller\BaseController
 	private $campService;
 	
 	/**
-	 * @var \Repository\UserRepository
-	 * @Inject UserRepository
+	 * @var CoreApi\Service\GroupService
+	 * @Inject CoreApi\Service\GroupService
 	 */
-	private $userRepository;
+	private $groupService;
 	
 	/**
-	 * @var \Repository\CampRepository
-	 * @Inject CampRepository
+	 * @var CoreApi\Service\FriendService
+	 * @Inject CoreApi\Service\FriendService
 	 */
-	private $campRepository;
+	private $friendService;
+	
 	
     public function init()
     {
@@ -63,10 +64,9 @@ class WebApp_DashboardController extends \WebApp\Controller\BaseController
 
     public function indexAction()
     {
-		$friendshipRequests = array(); //$this->userRepository->findFriendshipInvitationsOf($this->me); // $this->userService->getFriendshipInvitationsOf($this->me);
-		$membershipRequests = array(); //$this->userRepository->findMembershipRequestsOf($this->me); // $this->userService->getMembershipRequests($this->me);
-		$membershipInvitations = array(); //$this->userRepository->findMembershipInvitations($this->me); // $this->userService->getMembershipInvitations($this->me);
-		
+		$friendshipRequests = $this->friendService->getOpenRequest();
+		$membershipRequests = $this->userService->getMembershipRequests($this->me);
+		$membershipInvitations = $this->userService->getMembershipInvitations($this->me);
 				
 		$this->view->friendshipRequests = new Doctrine\Common\Collections\ArrayCollection($friendshipRequests);
 		$this->view->membershipRequests = new Doctrine\Common\Collections\ArrayCollection($membershipRequests);
@@ -75,14 +75,12 @@ class WebApp_DashboardController extends \WebApp\Controller\BaseController
 	
 	public function campsAction(){
 	}
-
+	
 	public function deletecampAction(){
 		$id = $this->getRequest()->getParam("id");
-	    $camp = $this->em->getRepository("CoreApi\Entity\Camp")->find($id);
-		
-	    $this->em->remove($camp);
-		$this->em->flush();
-
+		 
+		$this->userService->DeleteCamp($id);
+	
 		$this->_helper->getHelper('Redirector')->gotoRoute(array('action'=>'camps'));
 	}
 
@@ -115,26 +113,59 @@ class WebApp_DashboardController extends \WebApp\Controller\BaseController
 			
 			$this->_helper->getHelper('Redirector')->gotoRoute(array('action'=>'camps'));
 		}
+		
 		catch(\Core\Service\ValidationException $e){
 			$this->view->form = $form;
 			$this->render("newcamp");
 			return;
 		}
-		/* catching permission exceptions might be outsourced to an upper level */
-		catch(\Ecamp\PermissionException $e){
-			die("You should not click on buttons you are not allowed to.");
+	}
+	
+	public function editcampAction()
+	{
+		$camp = $this->campService->Get( $this->getRequest()->getParam("id") );
+	
+		$form = new \WebApp\Form\CampUpdate();
+		$form->setData($camp);
+	
+		$this->view->form = $form;
+	}
+	
+	public function updatecampAction()
+	{
+		$form = new \WebApp\Form\CampUpdate();
+		$params = $this->getRequest()->getParams();
+	
+		try
+		{
+			/* we are not doing any validations here. the real validation is done in the service. however, this need to be here:
+			 *  - for filters
+			*  - for possible validations on WebApp-Level
+			*/
+			if( !$form->isValid($params))
+			{
+				throw new \Core\Service\ValidationException();
+			}
+	
+			$this->userService->UpdateCamp($form);
+				
+			$this->_helper->getHelper('Redirector')->gotoRoute(array('action'=>'camps'), 'web+general');
+		}
+	
+		/* oh snap, something went wrong. show the form again */
+		catch(\Core\Service\ValidationException $e){
+			$this->view->form = $form;
+			$this->render("editcamp");
+			return;
 		}
 	}
 	
 	public function friendsAction() {
 		/** load friends */
-		$this->view->friends = $this->userRepository->findFriendsOf($this->me); // $this->userService->getFriendsOf($this->me);
+		$this->view->friends = $this->friendService->Get();
 		
 		/** load all users */
-		$query = $this->em->getRepository("CoreApi\Entity\User")->createQueryBuilder("u");
-		
-		$adapter = new \Ecamp\Paginator\Doctrine($query);
-		$paginator = new Zend_Paginator($adapter);
+		$paginator = $this->userService->GetPaginator();
 		$paginator->setItemCountPerPage( 21 );
 		$paginator->setCurrentPageNumber( $this->getRequest()->getParam("page") );
 		
@@ -147,13 +178,7 @@ class WebApp_DashboardController extends \WebApp\Controller\BaseController
 	public function groupsAction() {
 		$this->view->memberships = $this->me->getMemberships();
 		
-		$this->view->rootgroups  = $this->em->getRepository("CoreApi\Entity\Group")->createQueryBuilder("g")
-				->where("g.parent IS NULL ")
-				->getQuery()
-				->getResult();
+		$this->view->rootgroups  = $this->groupService->GetRoots();
 				
 	}
-	
-	public function subitemAction() { $this->render('camps'); }
-	public function subitem2Action() { $this->render('camps'); }
 }
