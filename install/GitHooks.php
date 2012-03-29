@@ -18,7 +18,7 @@ class GitHooks
 		{
 			$path = $_REQUEST['mysqlBinaryPath'];
 			$path  = rtrim($path, '\/');
-			$path .= PATH_SEPARATOR;
+			$path .= DIRECTORY_SEPARATOR;
 		}
 		else
 		{

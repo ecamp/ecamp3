@@ -13,7 +13,7 @@ class PhpBinaryPath
 	{
 		$path = $_REQUEST['phpBinaryPath'];
 		$path = rtrim($path, '\/');
-		$this->config->phpBinaryPath = $path . PATH_SEPARATOR;
+		$this->config->phpBinaryPath = $path . DIRECTORY_SEPARATOR;
 	}
 	
 	

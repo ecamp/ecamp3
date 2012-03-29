@@ -13,7 +13,7 @@ class MysqlBinaryPath
 	{
 		$path = $_REQUEST['mysqlBinaryPath'];
 		$path = rtrim($path, '\/');
-		$this->config->mysqlBinaryPath = $path . PATH_SEPARATOR;
+		$this->config->mysqlBinaryPath = $path . DIRECTORY_SEPARATOR;
 	}
 	
 	
