@@ -12,8 +12,8 @@ class MysqlBinaryPath
 	public function Install()
 	{
 		$path = $_REQUEST['mysqlBinaryPath'];
-		$path = rtrim($path, '/');
-		$this->config->mysqlBinaryPath = $path . '/';
+		$path = rtrim($path, '\/');
+		$this->config->mysqlBinaryPath = $path . PATH_SEPARATOR;
 	}
 	
 	

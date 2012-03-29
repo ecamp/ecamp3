@@ -12,8 +12,8 @@ class PhpBinaryPath
 	public function Install()
 	{
 		$path = $_REQUEST['phpBinaryPath'];
-		$path = rtrim($path, '/');
-		$this->config->phpBinaryPath = $path . '/';
+		$path = rtrim($path, '\/');
+		$this->config->phpBinaryPath = $path . PATH_SEPARATOR;
 	}
 	
 	
