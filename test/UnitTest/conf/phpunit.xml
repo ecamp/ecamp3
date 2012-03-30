@@ -25,7 +25,7 @@
     </filter>
 
     <logging>
-        <log type="coverage-html" target="../result" charset="UTF-8" yui="true" highlight="true"/>
+        <log type="coverage-html" target="../../../public/UnitTests/result" charset="UTF-8" yui="true" highlight="true"/>
         <log type="junit" target="../../../data/unittest/results.xml" />
     </logging>
 	
