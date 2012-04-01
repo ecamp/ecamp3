@@ -77,16 +77,13 @@ class Group extends BaseEntity
 	private $camps;
 
 	/**
-	 * @Column(type="string", length=32, nullable=true ) 
+	 * @var CoreApi\Entity\Image
+	 * @OneToOne(targetEntity="Image")
+	 * @JoinColumn(name="image_id", referencedColumnName="id")
 	 */
-	private $imageMime;
+	private $image;
 
-	/**
-	 * @Column(type="object", nullable=true )
-	 */
-	private $imageData;
-
-
+	
 	/**
 	 * @return int
 	 */
@@ -208,37 +205,27 @@ class Group extends BaseEntity
 
 	
 	/**
-	 * @return string
+	 * @return CoreApi\Entity\Image
 	 */
-	public function getImageData()
+	public function getImage()
 	{
-		return base64_decode($this->imageData);
+		return $this->image;
 	}
-	
-	public function setImageData($data)
-	{
-		$this->imageData = base64_encode($data); return $this;
-	}
-
 	
 	/**
-	 * @return string
+	 * @return CoreApi\Entity\Group
 	 */
-	public function getImageMime()
+	public function setImage(CoreApi\Entity\Image $image)
 	{
-		return $this->imageMime;
+		$this->image = $image;	return $this;
 	}
 	
-	public function setImageMime($mime)
-	{
-		$this->imageMime = $mime; return $this;
-	}
-
+	/**
+	 * @return CoreApi\Entity\Group
+	 */
 	public function delImage()
 	{
-		$this->imageMime = null;
-		$this->imageData = null;
-		return $this;
+		$this->image = null;	return $this;
 	}
 
 	
