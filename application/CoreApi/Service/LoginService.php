@@ -5,6 +5,7 @@ namespace CoreApi\Service;
 
 use Core\Acl\DefaultAcl;
 use Core\Service\ServiceBase;
+
 use CoreApi\Entity\User;
 use CoreApi\Entity\Login;
 
@@ -78,9 +79,15 @@ class LoginService
 	}
 	
 	
-	public function Delete(Login $user)
+	public function Delete()
 	{
-		$this->remove($login);
+		$me = $this->contextProvider->getContext()->getMe();
+		$login = $me->getLogin();
+		
+		if(is_null($login))
+		{	$this->addValidationMessage("There is no Login to be deleted!");	}
+		else
+		{	$this->remove($login);	}
 	}
 	
 	

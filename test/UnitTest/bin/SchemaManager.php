@@ -13,6 +13,7 @@ class SchemaManager
 	 */
 	private $sm;
 	
+	private $rawDB;
 	
 	private $dumpPath;
 	
@@ -21,30 +22,50 @@ class SchemaManager
 	public function __construct($em)
 	{
 		$this->em = $em;
-		$this->sm = $this->em->getConnection()->getSchemaManager();
-		
 		$this->dumpPath = APPLICATION_PATH . "/../data/db/";
+		
+		$mysqlPath = null;
+		if(file_exists(APPLICATION_PATH . '/../config.ini'))
+		{
+			$config	= new \Zend_Config_Ini(APPLICATION_PATH . '/../config.ini');
+			$mysqlPath = isset($config->mysqlBinaryPath) ? $config->mysqlBinaryPath : null;
+		}
+		
+		$user 		= $this->em->getConnection()->getUsername();
+		$password 	= $this->em->getConnection()->getPassword();
+		$database	= $this->em->getConnection()->getDatabase();
+		
+		$this->rawDB = new RawDB\RawDB();
+		$this->rawDB->setBasePath($this->dumpPath);
+		$this->rawDB->setLogin($user, $password);
+		$this->rawDB->setDatabase($database);
+		$this->rawDB->setMysqlPath($mysqlPath);
+		
+//		$this->sm = $this->em->getConnection()->getSchemaManager();
+		
 	}
 	
 	
 	public function dropAllTables()
 	{
-		$tables = $this->sm->listTableNames();
+		$this->rawDB->dropAllTables();
 		
-		foreach($tables as $table)
-		{
-			$fks = $this->sm->listTableForeignKeys($table);
+// 		$tables = $this->sm->listTableNames();
+		
+// 		foreach($tables as $table)
+// 		{
+// 			$fks = $this->sm->listTableForeignKeys($table);
 			
-			foreach($fks as $fk)
-			{
-				$this->sm->dropForeignKey($fk, $table);
-			}
-		}
+// 			foreach($fks as $fk)
+// 			{
+// 				$this->sm->dropForeignKey($fk, $table);
+// 			}
+// 		}
 		
-		foreach($tables as $table)
-		{
-			$this->sm->dropTable($table);
-		}
+// 		foreach($tables as $table)
+// 		{
+// 			$this->sm->dropTable($table);
+// 		}
 	}
 	
 	
@@ -69,30 +90,26 @@ class SchemaManager
 	
 	public function loadSqlDump($file)
 	{
-		return $this->runSqlFile($this->dumpPath . $file);
+		return $this->rawDB->runSqlFile($file);
+//		return $this->runSqlFile($this->dumpPath . $file);
 	}
 	
 	
-	public function runSqlFile($file)
-	{
-		global $mysqlBinPath;
+// 	public function runSqlFile($file)
+// 	{
+// 		global $mysqlBinPath;
 		
-		$user = $this->em->getConnection()->getUsername();
-		$pass = $this->em->getConnection()->getPassword();
-		$db =	$this->em->getConnection()->getDatabase();
+// 		$user = $this->em->getConnection()->getUsername();
+// 		$pass = $this->em->getConnection()->getPassword();
+// 		$db =	$this->em->getConnection()->getDatabase();
 		
+// 		$commands = array();
 		
-		$commands = array();
+// 		$commands[] = $mysqlBinPath."mysql -u $user -p$pass $db < $file";
 		
-		$commands[] = 'PATH='.$mysqlBinPath.':$PATH;';
-		$commands[] = 'DBUSER="' . $user . '";';
-		$commands[] = 'DBPASS="' . $pass . '";';
-		$commands[] = 'DB="' . $db . '";';
-		$commands[] = 'FILE="' . $file . '";';
+// 		exec(implode(PHP_EOL, $commands), $ret);	
 		
-		$commands[] = 'source ' . APPLICATION_PATH . '/../bin/db/runSql.sh;';
-
-		exec(implode(PHP_EOL, $commands), $ret);	return $ret;
-	}
+// 		return $ret;
+// 	}
 	
 }

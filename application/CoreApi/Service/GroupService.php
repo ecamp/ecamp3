@@ -5,6 +5,9 @@ namespace CoreApi\Service;
 use Core\Acl\DefaultAcl;
 use Core\Service\ServiceBase;
 
+use CoreApi\Entity\Group;
+
+
 /**
  * @method CoreApi\Service\GroupService Simulate
  */
@@ -44,13 +47,17 @@ class GroupService
 	 * @return CoreApi\Entity\Group
 	 */
 	public function Get($id = null)
-	{		
-		if(isset($id))
-		{	$group = $this->groupRepo->find($id);	}
-		else
-		{	$group = $this->contextProvider->getContext()->getGroup();	}
+	{
+		if(is_null($id))
+		{	return $this->contextProvider->getContext()->getGroup();	}
 		
-		return $group;
+		if(is_numeric($id))
+		{	return $this->groupRepo->find($id);	}
+		
+		if($id instanceof Group)
+		{	return $id;	}
+		
+		return null;
 	}
 	
 	/**

@@ -154,7 +154,7 @@ class ServiceWrapper
 	{
 		if(self::hasFailed() || self::isSimulated() )
 		{
-			$this->em->rollback();
+			$this->em->getConnection()->rollback();
 			
 			if( self::isSimulated() )
 			{	

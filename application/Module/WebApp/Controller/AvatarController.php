@@ -20,24 +20,17 @@
 
 class WebApp_AvatarController extends \Zend_Controller_Action
 {
-	
 	/**
-	 * @var \CoreApi\Service\User
-	 * @Inject \CoreApi\Service\User
+	 * @var CoreApi\Service\AvatarService
+	 * @Inject Core\Service\AvatarService
 	 */
-	protected $userService;
-	
-	/**
-	 * @var \CoreApi\Service\Group
-	 * @Inject \CoreApi\Service\Group
-	 */
-	protected $groupService;
+	protected $avatarService;
 	
 
 	
 	public function init()
 	{
-		\Zend_Registry::get('kernel')->InjectDependencies($this);
+		\Zend_Registry::get('kernel')->Inject($this);
 	}
 
 	public function userAction()
@@ -45,21 +38,13 @@ class WebApp_AvatarController extends \Zend_Controller_Action
 		$this->_helper->layout()->disableLayout();
 		$this->_helper->viewRenderer->setNoRender(true);
 
-		$id = $this->getRequest()->getParam("id");
-		$user = $this->userService->get($id);
+		$userId = $this->getRequest()->getParam("id");
+		$image = $this->avatarService->GetUserAvatar($userId);
 		
-		if( $user->getImageData() == null ) {
-			//$this->_redirect('img/default_avatar.png');
+		$this->getResponse()->setHeader("Content-type", $image->getMime());
+		$this->getResponse()->setBody($image->getData());
 
-			/* this is faster than redirecting the browser */
-			$this->getResponse()->setHeader("Content-type", "image/png");
-			$this->getResponse()->setBody(file_get_contents(APPLICATION_PATH . "/../public/img/default_avatar.png"));
-		} else {
-			$this->getResponse()->setHeader("Content-type", $user->getImageMime());
-			$this->getResponse()->setBody($user->getImageData());
-		}
-
-		$this->cacheme($user->getUpdatedAt()->getTimestamp());
+		$this->cacheme($image->getUpdatedAt()->getTimestamp());
 	}
 
 	public function groupAction()
@@ -67,22 +52,13 @@ class WebApp_AvatarController extends \Zend_Controller_Action
 		$this->_helper->layout()->disableLayout();
 		$this->_helper->viewRenderer->setNoRender(true);
 
-		$id = $this->getRequest()->getParam("id");
-	    $group = $this->groupService->get($id);
-		
-		if( $group->getImageData() == null ) {
-			// $this->_redirect("img/default_group.png");
+		$groupId = $this->getRequest()->getParam("id");
+		$image = $this->avatarService->GetGroupAvatar($groupId);
+				
+		$this->getResponse()->setHeader("Content-type", $image->getMime());
+		$this->getResponse()->setBody($image->getData());
 
-			/* this is faster than redirecting the browser */
-			$this->getResponse()->setHeader("Content-type", "image/png");
-			$this->getResponse()->setBody(file_get_contents(APPLICATION_PATH . "/../public/img/default_group.png"));
-
-		} else {
-			$this->getResponse()->setHeader("Content-type", $group->getImageMime());
-			$this->getResponse()->setBody($group->getImageData());
-		}
-
-		$this->cacheme($group->getUpdatedAt()->getTimestamp());
+		$this->cacheme($image->getUpdatedAt()->getTimestamp());
 	}
 
 	protected function cacheme($lastmodified)

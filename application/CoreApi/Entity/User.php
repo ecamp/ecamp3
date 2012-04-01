@@ -131,18 +131,19 @@ class User extends BaseEntity
 	/** @Column(type="string", length=16, nullable=true ) */
 	private $pbsEdu;
 
-	/** @Column(type="string", length=32, nullable=true ) */
-	private $imageMime;
-
-	/** @Column(type="object", nullable=true ) */
-	private $imageData;
-
 	/** @Column(type="string", nullable=false ) */
 	private $state;
 
 	/** @Column(type="string", nullable=false ) */
 	private $role;
 
+	
+	/**
+	 * @var CoreApi\Entity\Image
+	 * @OneToOne(targetEntity="Image")
+	 * @JoinColumn(name="image_id", referencedColumnName="id")
+	 */
+	private $image;
 
 	/**
 	 * Camps, which I own myself
@@ -414,36 +415,32 @@ class User extends BaseEntity
 		$this->state = $state;
 	}
 
+	
+	
 	/**
-	 * @return string
+	 * @return CoreApi\Entity\Image
 	 */
-	public function getImageData()
+	public function getImage()
 	{
-		return base64_decode($this->imageData);
+		return $this->image;
 	}
-	public function setImageData($data)
-	{
-		$this->imageData = base64_encode($data); return $this;
-	}
-
+	
 	/**
-	 * @return string
+	 * @return CoreApi\Entity\User
 	 */
-	public function getImageMime()
+	public function setImage(Image $image)
 	{
-		return $this->imageMime;
+		$this->image = $image;	return $this;
 	}
-	public function setImageMime($mime)
-	{
-		$this->imageMime = $mime; return $this;
-	}
-
+	
+	/**
+	 * @return CoreApi\Entity\User
+	 */
 	public function delImage()
 	{
-		$this->imageMime = null;
-		$this->imageData = null;
-		return $this;
+		$this->image = null;	return $this;
 	}
+
 
 	/**
 	 * @return array
