@@ -47,5 +47,14 @@
 			
 		</form>
 		
+		<h2>phpMyAdmin:</h2>
+		<tal:block condition="phpMyAdminUrl">
+			<a target="_blank" tal:attributes="href phpMyAdminUrl">Open phpMyAdmin</a>
+		</tal:block>
+		<tal:block condition="not: phpMyAdminUrl">
+			You did not specify the phpMyAdmin-Url on the Installer!
+		</tal:block>
+		
+		
 	</body>
 </html>

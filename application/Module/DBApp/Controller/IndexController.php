@@ -29,6 +29,8 @@ class DBApp_IndexController extends \Zend_Controller_Action
 	
 	private $dumpPath;
 	
+	private $phpMyAdminUrl;
+	
 	private $rawDB;
 	
 	
@@ -44,6 +46,7 @@ class DBApp_IndexController extends \Zend_Controller_Action
 		{
 			$config	= new \Zend_Config_Ini(APPLICATION_PATH . '/../config.ini');
 			$mysqlPath = isset($config->mysqlBinaryPath) ? $config->mysqlBinaryPath : null;
+			$this->phpMyAdminUrl = isset($config->phpMyAdminUrl) ? $config->phpMyAdminUrl : "";
 		}
 		
 		$user 		= $this->em->getConnection()->getUsername();
@@ -74,6 +77,7 @@ class DBApp_IndexController extends \Zend_Controller_Action
     	$this->view->dumps = $dumps;
     	$this->view->loadedFile = $file;
     	$this->view->dumpname = $dumpname;
+    	$this->view->phpMyAdminUrl = $this->phpMyAdminUrl;
     }
     
     
