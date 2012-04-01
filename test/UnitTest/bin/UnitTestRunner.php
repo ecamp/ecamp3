@@ -12,12 +12,6 @@ set_include_path(implode(PATH_SEPARATOR, array(
 )));
 
 
-if(! file_exists(APPLICATION_PATH . "/../local.conf.php"))
-{
-	copy(APPLICATION_PATH . "/../default.conf.php", APPLICATION_PATH . "/../local.conf.php");
-	throw new Exception("Set correct values to the file local.conf.php!!!");
-}
-require_once APPLICATION_PATH . "/../local.conf.php";
 
 require_once 'PHPUnit/Autoload.php';
 require_once __DIR__ . "/SilentTestListener.php";
