@@ -37,10 +37,13 @@ class CampService
 	/**
 	 * @return CoreApi\Entity\Camp | NULL
 	 */
-	public function Get($id)
+	public function Get($id = null)
 	{
+		if(is_null($id))
+		{	return $this->contextProvider->getContext()->getCamp();	}
+		
 		if(is_numeric($id))
-		{	return $this->Get($this->campRepo->find($id));	}
+		{	return $this->campRepo->find($id);	}
 			
 		if($id instanceof Camp)
 		{	return $id;	}
@@ -80,12 +83,13 @@ class CampService
 		$camp = new Camp();
 		$this->persist($camp);
 		
-		$camp->setCreator($this->contextProvider->getContext()->getMe());
+		$me = $this->contextProvider->getContext()->getMe();
+		$camp->setCreator($me);
 		
 		$campValidator = new CampValidator($camp);
 		$this->validationFailed( !$campValidator->applyIfValid($form) );
 		
-		$period = $this->CreatePeriod($camp, $form);
+		$this->CreatePeriod($camp, $form);
 		
 		return $camp;
 	}
