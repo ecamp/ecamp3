@@ -149,5 +149,17 @@ class DBApp_IndexController extends \Zend_Controller_Action
 		
 		$this->_redirect('/');
 	}
+	
+	public function updateschemaAction()
+	{
+		
+		$metadatas = $this->em->getMetadataFactory()->getAllMetadata();
+		
+		$schemaTool = new \Doctrine\ORM\Tools\SchemaTool($this->em);
+		$schemaTool->updateSchema($metadatas);
+		
+		$this->_redirect('/');
+		
+	}
 		
 }

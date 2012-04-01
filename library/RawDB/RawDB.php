@@ -48,8 +48,8 @@ class RawDB
 		}
 		else
 		{
-			$basePath = rtrim($basePath, '/');
-			$this->config->basePath = $basePath . '/';
+			$basePath = rtrim($basePath, '\/');
+			$this->config->basePath = $basePath . DIRECTORY_SEPARATOR;
 		}
 		
 		return $this;
@@ -63,8 +63,8 @@ class RawDB
 		}
 		else
 		{
-			$mysqlPath = rtrim($mysqlPath, '/');
-			$this->config->mysqlPath = $mysqlPath . '/';
+			$mysqlPath = rtrim($mysqlPath, '\/');
+			$this->config->mysqlPath = $mysqlPath . DIRECTORY_SEPARATOR;
 		}
 		
 		return $this;
