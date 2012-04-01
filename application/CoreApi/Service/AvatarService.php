@@ -45,14 +45,13 @@ class AvatarService
 	public function GetUserAvatar($userId)
 	{
 		$user = $this->userService->Get($userId);
-		
 		$image = $user->getImage();
 		
 		if($image == null)
 		{
 			$image = new Image();
-			$image->setImageMime("image/png");
-			$image->setImageData(file_get_contents(APPLICATION_PATH . "/../public/img/default_avatar.png"));
+			$image->setMime("image/png");
+			$image->setData(file_get_contents(APPLICATION_PATH . "/../public/img/default_avatar.png"));
 		}
 		
 		return $image;
@@ -64,14 +63,13 @@ class AvatarService
 	public function GetGroupAvatar($groupId)
 	{
 		$group = $this->groupService->Get($groupId);
-		
-		$image = $user->getImage();
+		$image = $group->getImage();
 		
 		if($image == null)
 		{
 			$image = new Image();
-			$image->setImageMime("image/png");
-			$image->setImageData(file_get_contents(APPLICATION_PATH . "/../public/img/default_group.png"));
+			$image->setMime("image/png");
+			$image->setData(file_get_contents(APPLICATION_PATH . "/../public/img/default_group.png"));
 		}
 		
 		return $image;

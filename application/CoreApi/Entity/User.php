@@ -428,7 +428,7 @@ class User extends BaseEntity
 	/**
 	 * @return CoreApi\Entity\User
 	 */
-	public function setImage(CoreApi\Entity\Image $image)
+	public function setImage(Image $image)
 	{
 		$this->image = $image;	return $this;
 	}

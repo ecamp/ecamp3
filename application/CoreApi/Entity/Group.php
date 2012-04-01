@@ -215,7 +215,7 @@ class Group extends BaseEntity
 	/**
 	 * @return CoreApi\Entity\Group
 	 */
-	public function setImage(CoreApi\Entity\Image $image)
+	public function setImage(Image $image)
 	{
 		$this->image = $image;	return $this;
 	}
