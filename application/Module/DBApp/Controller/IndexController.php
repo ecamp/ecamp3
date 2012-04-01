@@ -152,7 +152,6 @@ class DBApp_IndexController extends \Zend_Controller_Action
 	
 	public function updateschemaAction()
 	{
-		
 		$metadatas = $this->em->getMetadataFactory()->getAllMetadata();
 		
 		$schemaTool = new \Doctrine\ORM\Tools\SchemaTool($this->em);
@@ -160,6 +159,18 @@ class DBApp_IndexController extends \Zend_Controller_Action
 		
 		$this->_redirect('/');
 		
+	}
+	
+	public function createschemaAction()
+	{
+		$this->rawDB->dropAllTables();
+		
+		$metadatas = $this->em->getMetadataFactory()->getAllMetadata();
+		
+		$schemaTool = new \Doctrine\ORM\Tools\SchemaTool($this->em);
+		$schemaTool->createSchema($metadatas);
+		
+		$this->_redirect('/');
 	}
 		
 }

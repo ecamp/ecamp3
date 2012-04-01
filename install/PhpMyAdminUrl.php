@@ -12,8 +12,7 @@ class PhpMyAdminUrl
 	public function Install()
 	{
 		$path = $_REQUEST['phpMyAdminUrl'];
-		$path = rtrim($path, '\/');
-		$this->config->phpMyAdminUrl = $path . DIRECTORY_SEPARATOR;
+		$this->config->phpMyAdminUrl = $path;
 	}
 	
 	
