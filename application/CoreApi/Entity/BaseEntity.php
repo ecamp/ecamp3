@@ -14,6 +14,17 @@ abstract class BaseEntity
 	/** @Column(name="updated_at", type="datetime") */
 	private $updatedAt;
 	
+	
+	public function __construct()
+	{
+		$this->createdAt = new \DateTime();
+		$this->createdAt->setTimestamp(0);
+		
+		$this->updatedAt = new \DateTime();
+		$this->updatedAt->setTimestamp(0);
+	}
+	
+	
 	public abstract function getId();
 	
 	/**

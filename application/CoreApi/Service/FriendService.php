@@ -46,7 +46,7 @@ class FriendService
 	 */
 	public function Get($user = null)
 	{
-		$user = $this->userService->get($user);
+		$user = $this->userService->Get($user);
 		
 		return $this->userRepo->findFriendsOf($user);
 	}
