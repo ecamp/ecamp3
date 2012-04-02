@@ -32,7 +32,12 @@ class FriendService
 	public function _setupAcl()
 	{
 		$this->acl->allow(DefaultAcl::MEMBER, $this, 'Get');
-		$this->acl->allow(DefaultAcl::MEMBER, $this, 'getOpenRequest');	
+		$this->acl->allow(DefaultAcl::MEMBER, $this, 'getOpenRequest');
+		$this->acl->allow(DefaultAcl::MEMBER, $this, 'getOpenInvitations');
+		$this->acl->allow(DefaultAcl::MEMBER, $this, 'request');
+		$this->acl->allow(DefaultAcl::MEMBER, $this, 'terminate');
+		$this->acl->allow(DefaultAcl::MEMBER, $this, 'accept');
+		$this->acl->allow(DefaultAcl::MEMBER, $this, 'reject');
 	}
 	
 	
@@ -76,15 +81,15 @@ class FriendService
 	{
 		$user = $this->userService->get();
 		
-		// TODO: Implement findOpenFreindshipInvitations!!
-		// return $this->userRepo->findOpenFreindshipInvitations($user);
+		// TODO: Implement findOpenFriendshipInvitations!!
+		// return $this->userRepo->findOpenFriendshipInvitations($user);
 		
 		return array();
 	}
 	
 	
 	/**
-	 * The authentificated User requests a Freindship to $toUser
+	 * The authentificated User requests a Friendship to $toUser
 	 * 
 	 * @param \CoreApi\Entity\User|int|string $toUser
 	 * 
@@ -94,27 +99,19 @@ class FriendService
 	 */
 	public function request($toUser)
 	{
-		$user 	= $this->userService->get();
-		$toUser = $this->userService->get($toUser);
+		$user 	= $this->userService->Get();
+		$toUser = $this->userService->Get($toUser);
 		
-		
-		if($toUser->getId() == $user->getId())
+		if($toUser == $user)
 		{	throw new \Exception("You tried to request Friendship to your self!");	}
 		
-		//TODO: Check, if Friendship or Request allready exist!
-		
-		$rel = new \CoreApi\Entity\UserRelationship($user, $toUser);
-		
-		$user->getRelationshipTo()->add($rel);
-		$toUser->getRelationshipFrom()->add($rel);
-		
-		return $rel;
+		return $user->sendFriendshipRequestTo($toUser);
 	}
 	
 	
 	/**
 	 * The authentificated User accepts a 
-	 * Freindship request from $fromUser
+	 * Friendship request from $fromUser
 	 * 
 	 * @param \CoreApi\Entity\User|int|string $fromUser
 	 * 
@@ -127,17 +124,11 @@ class FriendService
 		$user 		= $this->userService->get();
 		$fromUser 	= $this->userService->get($fromUser);
 
-		if($user->getId() == $fromUser->getId())
-		{	throw new \Exception("You tried to accept Freindship Request from yourself!");	}
+		if($user == $fromUser)
+		{	throw new \Exception("You tried to accept Friendship Request from yourself!");	}
 		
-		// TODO: Check, if Friendship Request is available!
 		
-		$rel = new \CoreApi\Entity\UserRelationship($user, $fromUser);
-		
-		$user->getRelationshipTo()->add($rel);
-		$fromUser->getRelationshipFrom()-add($rel);
-		
-		return $rel;
+		return $user->acceptFriendshipRequestFrom($fromUser);
 	}
 	
 	
@@ -154,26 +145,16 @@ class FriendService
 		$user 		= $this->userService->get();
 		$fromUser 	= $this->userService->get($fromUser);
 		
-		if($user->getId() == $fromUser->getId())
-		{	throw new \Exception("You tried to reject Freindship Request from yourself!");	}
+		if($user == $fromUser)
+		{	throw new \Exception("You tried to reject Friendship Request from yourself!");	}
 		
-		// TODO: Find Friendship Request!
-		// $rel = $this->userRelationshipRepo->get($fromUser, $user);
-		$rel = null;
-		
-		$idx = $fromUser->getRelationshipTo()->indexOf($rel);
-		$fromUser->getRelationshipTo()->remove($idx);
-		
-		$idx = $user->getRelationshipFrom()->indexOf($rel);
-		$user->getRelationshipFrom()->remove(idx);
-		
-		$this->em->remove($rel);
+		return $user->ignoreFriendshipRequestFrom($fromUser);
 	}
 	
 	
 	/**
 	 * The authentificated User terminates 
-	 * a Freindship to $toUser
+	 * a Friendship to $toUser
 	 * 
 	 * @param \CoreApi\Entity\User|int|string $toUser
 	 * 
@@ -184,41 +165,10 @@ class FriendService
 		$user 	= $this->userService->get();
 		$toUser = $this->userService->get($toUser);
 		
-		if($user->getId() == $toUser->getId())
-		{	throw new \Exception("You tried to terminate Freindship to yourself!");	}
+		if($user == $toUser)
+		{	throw new \Exception("You tried to terminate Friendship to yourself!");	}
 		
-		
-		
-		//  Remove first Freindship Entity:
-		// =================================
-		
-		// TODO: Find Friendship Request!
-		// $rel = $this->friendService->get($toUser, $User);
-		$rel = null;
-		
-		$idx = $toUser->getRelationshipTo()->indexOf($rel);
-		$toUser->getRelationshipTo()->remove($idx);
-		
-		$idx = $user->getRelationshipFrom()->indexOf($rel);
-		$user->getRelationshipFrom()->remove(idx);
-		
-		$this->em->remove($rel);
-		
-		
-		//  Remove second Freindship Entity:
-		// ==================================
-		
-		// TODO: Find Friendship Request!
-		// $rel = $this->friendService->get($user, $toUser);
-		$rel = null;
-		
-		$idx = $user->getRelationshipTo()->indexOf($rel);
-		$user->getRelationshipTo()->remove($idx);
-		
-		$idx = $toUser->getRelationshipFrom()->indexOf($rel);
-		$toUser->getRelationshipFrom()->remove(idx);
-		
-		$this->em->remove($rel);
+		return $user->divorceFrom($toUser);
 	}
 	
 	
