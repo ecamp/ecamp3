@@ -50,13 +50,22 @@ class Darwin
 		$password = $this->config->password;
 		$database = $this->config->database;
 		
-		$commands = array();
-		$commands[] = "$mysql -u $user -p$password $database -e \"show tables\"";
-		$commands[] = "grep -v Tables_in";
-		$commands[] = "grep -v \"+\"";
-		$commands[] = "gawk '{print \"drop table \" $1 \";\"}'";
-		$commands[] = "$mysql -u $user -p$password $database";
 		
-		return implode(" | ", $commands);
+		$drop = array();
+		$drop[] = "$mysql -u $user -p$password $database -e \"show tables\"";
+		$drop[] = "grep -v Tables_in";
+		$drop[] = "grep -v \"+\"";
+		$drop[] = "sed 's/^/drop table /g'";
+		$drop[] = "sed 's/\$/;/'";
+		$drop[] = "sed '1s/^/SET foreign_key_checks = 0; \\" . PHP_EOL . "/g'";
+		
+		//$drop[] = "gawk '{print \"drop table \" $1 \";\"}'";
+		//$drop[] = "sed 's/^/SET foreign_key_checks = 0; /g'";
+		//$drop[] = "(echo \"SET foreign_key_checks = 0;\"; gawk '{print \"drop table \" $1 \";\"}')";
+		//$drop[] = "gawk '{print \"drop table \" $1 \";\"}'";
+		$drop[] = "$mysql -u $user -p$password $database";
+		
+		
+		return implode(" | ", $drop);
 	}
 }
