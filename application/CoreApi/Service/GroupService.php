@@ -7,6 +7,7 @@ use Core\Service\ServiceBase;
 
 use CoreApi\Entity\Group;
 
+use CoreApi\Entity\GroupRequest;
 
 /**
  * @method CoreApi\Service\GroupService Simulate
@@ -34,9 +35,11 @@ class GroupService
 	{
 		$this->acl->allow(DefaultAcl::MEMBER, $this, 'Get');
 		$this->acl->allow(DefaultAcl::MEMBER, $this, 'GetRoots');
+		$this->acl->allow(DefaultAcl::MEMBER, $this, 'RequestGroup');
 		$this->acl->allow(DefaultAcl::GROUP_MEMBER, $this, 'CreateCamp');
 		$this->acl->allow(DefaultAcl::GROUP_MEMBER, $this, 'UpdateCamp');
 		$this->acl->allow(DefaultAcl::GROUP_MEMBER, $this, 'DeleteCamp');
+		
 	}
 	
 	/**
@@ -72,6 +75,39 @@ class GroupService
 					->getResult();
 	}
 	
+	/**
+	* Request a new Group
+	* @return \CoreApi\Entity\GroupRequest
+	*/
+	public function RequestGroup(\Zend_Form $form)
+	{
+		/* grab parent_group from context */
+		$group = $this->contextProvider->getContext()->getGroup();
+		
+		$new_groupname = $form->getValue("name");
+		$me = $this->contextProvider->getContext()->getMe();
+		
+		/* check if group name is unique in parent_group */
+		foreach ( $group->getChildren() as $subgroup ) 
+		{
+			if ( $subgroup->getName() == $new_groupname ) 
+			{
+				$form->getElement('name')->addError("Group with same name already exists.");
+				$this->validationFailed();
+			}
+		}
+		
+		/* creat grouprequest */
+		$groupRequest = new GroupRequest();
+		$groupRequest	->setName($new_groupname)
+						->setDescription($form->getValue('description'))
+						->setMotivation($form->getValue('motivation'))
+						->setRequester($me)
+						->setParent($group);
+		$this->persist($groupRequest);	
+		
+		return $groupRequest;
+	}
 	
 	/**
 	 * Creates a new Camp
