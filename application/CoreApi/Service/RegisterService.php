@@ -16,7 +16,7 @@ class RegisterService
 	
 	/**
 	 * @var CoreApi\Service\UserService
-	 * @Inject CoreApi\Service\UserService
+	 * @Inject Core\Service\UserService
 	 */
 	protected $userService;
 	
@@ -81,6 +81,12 @@ class RegisterService
 		}
 		else{
 			$success = $user->activateUser($key);
+		}
+		
+		if($success == false)
+		{
+			$this->validationFailed();
+			$this->addValidationMessage("Wrong activation key!");
 		}
 		
 		return $success;
