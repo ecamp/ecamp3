@@ -22,16 +22,24 @@
 
 namespace CoreApi\Service;
 
+use Core\Acl\DefaultAcl;
+use Core\Service\ServiceBase;
 
+/**
+ * @method CoreApi\Service\SearchUserService Simulate
+ */
 class SearchUserService
+	extends ServiceBase
 {
 	/**
-	 * @var \Doctrine\ORM\EntityManager
-	 * @Inject EntityManager
+	 * Setup ACL
+	 * @return void
 	 */
-	protected $em;
-
-
+	public function _setupAcl()
+	{
+		$this->acl->allow(DefaultAcl::MEMBER, $this, 'SearchForUser');		
+	}
+	
 	/*
 		x: query
 		y: user
@@ -152,7 +160,7 @@ class SearchUserService
 		{	$userIds[] = $sqlResult['id'];	}
 
 
-		$dql  = "SELECT user FROM Entity\User user ";
+		$dql  = "SELECT user FROM CoreApi\Entity\User user ";
 
 		if(empty($userIds))
 		{	$dql .= "WHERE 0=1";	}
