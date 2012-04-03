@@ -616,34 +616,8 @@ class User extends BaseEntity
 		return $this->isFriendTo( $user ) && $this->isFriendFrom( $user );
 	}
 
-	/**
-	 * send friendship request to a not-yet-friend
-	 */
-	public function sendFriendshipRequestTo($user) 
-	{
-		if( !$this->isFriendTo($user) &&  ! $this->isFriendFrom($user)) 
-		{
-			$rel = new UserRelationship($this, $user);
-			$this->relationshipFrom->add($rel);
-			$user->relationshipTo->add($rel);
-		}
-	}
-
-	/**
-	 * accept friendship request from a would-like-to-be-friend
-	 */
-	public function acceptFriendshipRequestFrom($user)
-	{
-		if( $this->receivedFriendshipRequestFrom($user) )
-		{
-			$rel = new UserRelationship($this, $user);
-			$this->relationshipFrom->add($rel);
-			$user->relationshipTo->add($rel);
-		}
-	}
-
 	/** get the relation object to $user */
-	private function getRelFrom($user)
+	public function getRelFrom($user)
 	{
 		$closure =  function($element) use ($user){
 			return $element->getType() == UserRelationship::TYPE_FRIEND  && $element->getFrom() == $user;
@@ -658,7 +632,7 @@ class User extends BaseEntity
 	}
 
 	/** get the relation object from $user */
-	private function getRelTo($user)
+	public function getRelTo($user)
 	{
 		$closure =  function($element) use ($user){
 			return $element->getType() == UserRelationship::TYPE_FRIEND  && $element->getTo() == $user;
@@ -672,16 +646,6 @@ class User extends BaseEntity
 		return $relations->first();
 	}
 
-	/** ignore a friendship request */
-	public function ignoreFriendshipRequestFrom($user)
-	{
-		if( $this->receivedFriendshipRequestFrom($user) )
-		{
-			$rel = $this->getRelFrom($user);
-			$this->relationshipTo->removeElement($rel);
-			$user->relationshipFrom->removeElement($rel);
-		}
-	}
 
 	/** check  whether a friendship request can be sent to to the user */
 	/**
@@ -690,20 +654,6 @@ class User extends BaseEntity
 	public function canIAdd($user)
 	{
 		return $user != $this && !$this->isFriendOf($user) && !$this->sentFriendshipRequestTo($user) && !$this->receivedFriendshipRequestFrom($user);
-	}
-
-	/** delete friendship with $user */
-	public function divorceFrom($user)
-	{
-		if( $this->isFriendOf($user) ){
-			$rel = $this->getRelFrom($user);
-			$this->relationshipTo->removeElement($rel);
-			$user->relationshipFrom->removeElement($rel);
-				
-			$rel = $this->getRelTo($user);
-			$this->relationshipFrom->removeElement($rel);
-			$user->relationshipTo->removeElement($rel);
-		}
 	}
 
 

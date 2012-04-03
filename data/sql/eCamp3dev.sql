@@ -340,12 +340,12 @@ CREATE TABLE `user_relationships` (
   KEY `user_relationships_to_id_idx` (`to_id`),
   CONSTRAINT `user_relationships_ibfk_1` FOREIGN KEY (`from_id`) REFERENCES `users` (`id`),
   CONSTRAINT `user_relationships_ibfk_2` FOREIGN KEY (`to_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 LOCK TABLES `user_relationships` WRITE;
 /*!40000 ALTER TABLE `user_relationships` DISABLE KEYS */;
-INSERT INTO `user_relationships` VALUES (9,8,7,'2012-04-02 22:08:04','2012-04-02 22:08:04',1);
+INSERT INTO `user_relationships` VALUES (14,7,8,'2012-04-03 18:10:49','2012-04-03 18:10:49',1),(15,7,20,'2012-04-03 18:18:49','2012-04-03 18:18:49',1),(16,8,7,'2012-04-03 18:19:00','2012-04-03 18:19:00',1);
 /*!40000 ALTER TABLE `user_relationships` ENABLE KEYS */;
 UNLOCK TABLES;
 DROP TABLE IF EXISTS `users`;

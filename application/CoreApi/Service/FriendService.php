@@ -4,6 +4,7 @@ namespace CoreApi\Service;
 
 use Core\Acl\DefaultAcl;
 use Core\Service\ServiceBase;
+use CoreApi\Entity\UserRelationship;
 
 /**
  * @method CoreApi\Service\FriendService Simulate
@@ -32,7 +33,6 @@ class FriendService
 	public function _setupAcl()
 	{
 		$this->acl->allow(DefaultAcl::MEMBER, $this, 'Get');
-		$this->acl->allow(DefaultAcl::MEMBER, $this, 'getOpenRequest');
 		$this->acl->allow(DefaultAcl::MEMBER, $this, 'getOpenInvitations');
 		$this->acl->allow(DefaultAcl::MEMBER, $this, 'request');
 		$this->acl->allow(DefaultAcl::MEMBER, $this, 'terminate');
@@ -59,21 +59,7 @@ class FriendService
 	
 	/**
 	 * Returns a list containing the open 
-	 * requests of the authentificated User.
-	 * 
-	 * @return array
-	 */
-	public function getOpenRequest()
-	{
-		$user = $this->userService->Get();
-		
-		return $this->userRepo->findFriendshipInvitationsOf($user);
-	}
-	
-	
-	/**
-	 * Returns a list containing the open 
-	 * invitations of the authentificated User.
+	 * invitations other users have sent to me
 	 *
 	 * @return array
 	 */
@@ -81,10 +67,7 @@ class FriendService
 	{
 		$user = $this->userService->get();
 		
-		// TODO: Implement findOpenFriendshipInvitations!!
-		// return $this->userRepo->findOpenFriendshipInvitations($user);
-		
-		return array();
+		return $this->userRepo->findFriendshipInvitationsOf($user);
 	}
 	
 	
@@ -105,7 +88,16 @@ class FriendService
 		if($toUser == $user)
 		{	throw new \Exception("You tried to request Friendship to your self!");	}
 		
-		return $user->sendFriendshipRequestTo($toUser);
+		if( $user->canIAdd($toUser) )
+		{
+			$rel = new UserRelationship($user, $toUser);
+			$user->getRelationshipFrom()->add($rel);
+			$toUser->getRelationshipTo()->add($rel);
+			
+			return true;
+		}
+		
+		return false;
 	}
 	
 	
@@ -127,8 +119,16 @@ class FriendService
 		if($user == $fromUser)
 		{	throw new \Exception("You tried to accept Friendship Request from yourself!");	}
 		
+		if( $user->receivedFriendshipRequestFrom($fromUser) )
+		{
+			$rel = new UserRelationship($user, $fromUser);
+			$user->getRelationshipFrom()->add($rel);
+			$fromUser->getRelationshipTo()->add($rel);
+			
+			return true;
+		}
 		
-		return $user->acceptFriendshipRequestFrom($fromUser);
+		return false;
 	}
 	
 	
@@ -148,7 +148,16 @@ class FriendService
 		if($user == $fromUser)
 		{	throw new \Exception("You tried to reject Friendship Request from yourself!");	}
 		
-		return $user->ignoreFriendshipRequestFrom($fromUser);
+		if( $user->receivedFriendshipRequestFrom($fromUser) )
+		{
+			$rel = $user->getRelFrom($fromUser);
+			$user->getRelationshipTo()->removeElement($rel);
+			$fromUser->getRelationshipFrom()->removeElement($rel);
+			
+			return true;
+		}
+		
+		return false;
 	}
 	
 	
@@ -168,7 +177,19 @@ class FriendService
 		if($user == $toUser)
 		{	throw new \Exception("You tried to terminate Friendship to yourself!");	}
 		
-		return $user->divorceFrom($toUser);
+		if( $user->isFriendOf($toUser) ){
+			$rel = $user->getRelFrom($toUser);
+			$user->getRelationshipTo()->removeElement($rel);
+			$toUser->getRelationshipFrom()->removeElement($rel);
+		
+			$rel = $user->getRelTo($toUser);
+			$user->getRelationshipFrom()->removeElement($rel);
+			$toUser->getRelationshipTo()->removeElement($rel);
+			
+			return true;
+		}
+		
+		return false;
 	}
 	
 	
