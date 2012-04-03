@@ -75,6 +75,11 @@ class BaseController extends \Zend_Controller_Action
 
 		/* load translator */
 		$this->t = new \Zend_View_Helper_Translate();
+		
+		/* register events */
+		$em = \Zend_Registry::get('kernel')->Get("EntityManager");
+		$event = new \WebApp\Plugin\StrategyEventListener($this->view, $em);
+		$em->getEventManager()->addEventSubscriber($event);
 	}
 	
 	protected function setNavigation(\Zend_Navigation $navigation)

@@ -29,7 +29,7 @@ namespace Core\Plugin\Header;
 class Strategy extends \Core\Plugin\AbstractStrategy implements \Core\Plugin\IPluginStrategy {
 	
 	/**
-	 * @var \Core\Plugin\Header\Entity\Header $plugin
+	 * @var \CoreApi\Plugin\Header\Entity\Header $plugin
 	 */
 	protected $header;
 	
@@ -42,7 +42,7 @@ class Strategy extends \Core\Plugin\AbstractStrategy implements \Core\Plugin\IPl
 		$this->view = $view;
 		$this->plugin = $plugin;
 		
-		$this->header = new \Core\Plugin\Header\Entity\Header($plugin);
+		$this->header = new \CoreApi\Plugin\Header\Entity\Header($plugin);
 	}
 	
 	/**
@@ -66,12 +66,12 @@ class Strategy extends \Core\Plugin\AbstractStrategy implements \Core\Plugin\IPl
 	 */
 	public function loadObjects()
 	{
-		$this->header = $this->em->getRepository('Core\Plugin\\'.$this->pluginName.'\Entity\Header')->findOneBy( array('plugin' => $this->plugin->getId()) );
+		$this->header = $this->em->getRepository('CoreApi\Plugin\\'.$this->pluginName.'\Entity\Header')->findOneBy( array('plugin' => $this->plugin->getId()) );
 	}
 	
 	/**
 	 * Set the HeaderPlugin object.
-	 * @param \Core\Plugin\Header\Entity\Header $header
+	 * @param \CoreApi\Plugin\Header\Entity\Header $header
 	 */
 	public function setHeader($header)
 	{
@@ -80,7 +80,7 @@ class Strategy extends \Core\Plugin\AbstractStrategy implements \Core\Plugin\IPl
 	
 	/**
 	 * Get the HeaderPlugin Object
-	 * @return \Core\Plugin\Header\Entity\Header
+	 * @return \CoreApi\Plugin\Header\Entity\Header
 	 */
 	public function getHeader()
 	{
