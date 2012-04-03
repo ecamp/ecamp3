@@ -497,6 +497,10 @@ class User extends BaseEntity
 		return $guid;
 	}
 	
+	
+	/**
+	 * @deprecated
+	 */
 	public function getActivationCode()
 	{
 		return $this->activationCode;
