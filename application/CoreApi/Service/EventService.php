@@ -44,6 +44,9 @@ class EventService
 		return null;
 	}
 	
+	/**
+	 * @return bool
+	 */
 	public function Delete($id)
 	{
 		$event = $this->Get($id);
@@ -54,6 +57,8 @@ class EventService
 		}
 		
 		$this->em->remove($event);
+		
+		return true;
 	}
 	
 	/**
@@ -95,6 +100,9 @@ class EventService
 		$this->em->persist($event);
 	}
 	
+	/**
+	 * @return CoreApi\Entity\Plugin
+	 */
 	public function getPlugin($id)
 	{
 		if(is_numeric($id))
