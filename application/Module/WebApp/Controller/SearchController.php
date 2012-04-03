@@ -22,13 +22,13 @@
 
 
 
-class SearchController
+class WebApp_SearchController
 	extends \WebApp\Controller\BaseController
 {
 
 	/**
-	 * @var Service\SearchUserService
-	 * @Inject Service\SearchUserService
+	 * @var CoreApi\Service\SearchUserService
+	 * @Inject CoreApi\Service\SearchUserService
 	 */
 	private $searchUserService;
 
