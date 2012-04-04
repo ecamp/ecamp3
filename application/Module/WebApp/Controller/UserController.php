@@ -22,10 +22,16 @@ class WebApp_UserController extends \WebApp\Controller\BaseController
 {
 
 	/**
-	 * @var \Repository\UserRepository
-	 * @Inject UserRepository
+	 * @var CoreApi\Service\UserService
+	 * @Inject CoreApi\Service\UserService
 	 */
-	private $userRepository;
+	private $userService;
+	
+	/**
+	 * @var CoreApi\Service\FriendService
+	 * @Inject CoreApi\Service\FriendService
+	 */
+	private $friendService;
 
 
 
@@ -36,17 +42,10 @@ class WebApp_UserController extends \WebApp\Controller\BaseController
 
 	public function showAction()
 	{
-		$id = $this->getRequest()->getParam("user");
-
-		/** @var $user \Entity\User */
-		$user = $this->userRepository->find($id);
-
-		$friendshipRequests = ($user == $this->me) ?
-		$friendshipRequests = $this->userRepository->findFriendshipInvitationsOf($this->me) : null;
-
+		$user = $this->contextProvider->getContext()->getUser();
+		
 		$this->view->user    = $user;
-		$this->view->friends = $this->userRepository->findFriendsOf($this->view->user);
-		$this->view->friendshipRequests = $friendshipRequests;
+		$this->view->friends = $this->friendService->Get($user);
 
 		$this->view->userGroups  = $user->getAcceptedUserGroups();
 		$this->view->userCamps   = $user->getAcceptedUserCamps();
@@ -56,48 +55,30 @@ class WebApp_UserController extends \WebApp\Controller\BaseController
 
 	public function addAction()
 	{
-		$id = $this->getRequest()->getParam("user");
-		$user = $this->em->getRepository("CoreApi\Entity\User")->find($id);
-
-		$this->me->sendFriendshipRequestTo($user);
-
-		$this->em->flush();
-		$this->_helper->getHelper('Redirector')->gotoRoute(array('action'=>'show', 'user' => $id), 'user');
+		$user = $this->contextProvider->getContext()->getUser();
+		$this->friendService->request($user);
+		$this->_helper->getHelper('Redirector')->gotoRoute(array('action'=>'show', 'user' => $user->getId()), 'web+user');
 	}
 
 	public function acceptAction()
 	{
-		$id = $this->getRequest()->getParam("user");
-		$user = $this->em->getRepository("CoreApi\Entity\User")->find($id);
-
-		$this->me->acceptFriendshipRequestFrom($user);
-
-		$this->em->flush();
-		$this->_helper->getHelper('Redirector')->gotoRoute(array('action'=>'show', 'user' => $this->me->getId()), 'user');
+		$user = $this->contextProvider->getContext()->getUser();
+		$this->friendService->accept($user);
+		$this->_helper->getHelper('Redirector')->gotoRoute(array('action'=>'show', 'user' => $user->getId()), 'web+user');
 	}
 
 	public function ignoreAction()
 	{
-		$id = $this->getRequest()->getParam("user");
-		$user = $this->em->getRepository("CoreApi\Entity\User")->find($id);
-
-		$this->me->ignoreFriendshipRequestFrom($user);
-
-		$this->em->flush();
-
-		$this->_helper->getHelper('Redirector')->gotoRoute(array('action'=>'show', 'user' => $id), 'user');
+		$user = $this->contextProvider->getContext()->getUser();
+		$this->friendService->reject($user);
+		$this->_helper->getHelper('Redirector')->gotoRoute(array('action'=>'show', 'user' => $user->getId()), 'web+user');
 	}
 
 	public function divorceAction()
 	{
-		$id = $this->getRequest()->getParam("user");
-		$user = $this->em->getRepository("CoreApi\Entity\User")->find($id);
-
-		$this->me->divorceFrom($user);
-
-		$this->em->flush();
-
-		$this->_helper->getHelper('Redirector')->gotoRoute(array('action'=>'show', 'user' => $id), 'user');
+		$user = $this->contextProvider->getContext()->getUser();
+		$this->friendService->terminate($user);
+		$this->_helper->getHelper('Redirector')->gotoRoute(array('action'=>'show', 'user' => $user->getId()), 'web+user');
 	}
 
 }

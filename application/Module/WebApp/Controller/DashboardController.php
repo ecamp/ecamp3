@@ -64,7 +64,7 @@ class WebApp_DashboardController extends \WebApp\Controller\BaseController
 
     public function indexAction()
     {
-		$friendshipRequests = $this->friendService->getOpenRequest();
+		$friendshipRequests = $this->friendService->getOpenInvitations();
 		$membershipRequests = $this->userService->getMembershipRequests($this->me);
 		$membershipInvitations = $this->userService->getMembershipInvitations($this->me);
 				
