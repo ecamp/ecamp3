@@ -42,7 +42,7 @@ class GroupRequest extends BaseEntity
 	private $name;
 
 	/**
-	 * @ManyToOne(targetEntity="Group", inversedBy="children")
+	 * @ManyToOne(targetEntity="Group")
 	 */
 	private $parent;
 

@@ -99,11 +99,12 @@ class GroupService
 		
 		/* creat grouprequest */
 		$groupRequest = new GroupRequest();
-		$groupRequest	->setName($new_groupname)
-						->setDescription($form->getValue('description'))
-						->setMotivation($form->getValue('motivation'))
-						->setRequester($me)
-						->setParent($group);
+		$groupRequest->setName($new_groupname)
+			->setDescription($form->getValue('description'))
+			->setMotivation($form->getValue('motivation'))
+			->setRequester($me)
+			->setParent($group);
+			
 		$this->persist($groupRequest);	
 		
 		return $groupRequest;

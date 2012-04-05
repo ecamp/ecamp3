@@ -17,3 +17,4 @@ data/unittest/*
 
 public/UnitTests/result
 
+local.conf.php

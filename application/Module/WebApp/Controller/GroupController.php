@@ -261,31 +261,31 @@ class WebApp_GroupController extends \WebApp\Controller\BaseController
 		$this->_helper->getHelper('Redirector')->gotoRoute(array(), 'general');
 	}
 	
-	public function grouprequestAction() {
+	public function requestgroupAction()
+	{
+		$grouprequestForm = new \WebApp\Form\GroupRequest();
+		$grouprequestForm->setAction("/group/savegrouprequest");
+		$grouprequestForm->setDefaults($this->getRequest()->getParams());
 		
+		$this->view->grouprequestForm = $grouprequestForm;
+	}
+	
+	public function savegrouprequestAction()
+	{
 		$params = $this->getRequest()->getParams();
 		
 		$grouprequestForm = new \WebApp\Form\GroupRequest();
 		$grouprequestForm->populate($params);
-	
+		
 		try
 		{
 			$groupRequest = $this->groupService->RequestGroup($grouprequestForm);
 		}
 		catch (\Core\Service\ValidationException $e)
 		{
-			die($e->getMessages());
+			$this->view->grouprequestForm = $grouprequestForm;
+			$this->render("show");
+			return;	
 		}
-		
-		$this->view->grouprequestForm = $grouprequestForm;
-		return;	
-	}
+	}	
 }
-
-
-
-
-
-
-
-
