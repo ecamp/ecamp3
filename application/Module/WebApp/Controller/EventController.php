@@ -20,6 +20,11 @@
 
 class WebApp_EventController extends \WebApp\Controller\BaseController
 {
+	/**
+	 * @var CoreApi\Service\EventService
+	 * @Inject CoreApi\Service\EventService
+	 */
+	private $eventService;
 
     public function init()
     {
@@ -31,37 +36,14 @@ class WebApp_EventController extends \WebApp\Controller\BaseController
 			return;
 		}
 		
-		/**
-		 * @var \Entity\Camp
-		 */
-		$this->camp = null;
-		
-		/**
-		 * @var \Entity\Group
-		 */
-		$this->group = null;
-		
-		
+		/* load context */
 		$context = $this->contextProvider->getContext();
-		
-	    /* load camp */
-	    $this->camp = $context->getCamp();
-	    $this->view->camp = $this->camp;
+	    $this->view->camp = $context->getCamp();
+	    $this->view->group = $context->getGroup();
+	    $this->view->owner = $context->getUser();
 
-	    /* load group */
-	    $this->group = $context->getGroup();
-	    $this->view->group = $this->group;
-		
-	    /* load user */
-	    $this->user = $context->getUser();
-	    $this->view->owner = $this->user;
+	    $this->setNavigation(new \WebApp\Navigation\Camp($context->getCamp()));
 
-	    $this->setNavigation(new \WebApp\Navigation\Camp($this->camp));
-
-		
-		/* move this to bootsrap */
-// 		$event = new \WebApp\Plugin\StrategyEventListener($this->view, $this->em);
-// 		$this->em->getEventManager()->addEventSubscriber($event);
 	}
 
 
@@ -73,53 +55,19 @@ class WebApp_EventController extends \WebApp\Controller\BaseController
 	/* create an event */
     public function createAction()
     {
-		$event = new CoreApi\Entity\Event();
-		$event->setCamp($this->camp);
-		$event->setTitle(md5(time()));
-		
-		/* create header */
-		$plugin = new \CoreApi\Entity\Plugin();		
-		$plugin->setEvent($event);
-		$strategy = new \WebApp\Plugin\Header\Strategy($this->em, $this->view, $plugin);
-		$plugin->setStrategy($strategy);
-		$strategy->persist();
-		$this->em->persist($plugin);
-
-		/* create content */
-		$plugin = new \CoreApi\Entity\Plugin();
-		$plugin->setEvent($event);
-		$strategy = new \WebApp\Plugin\Content\Strategy($this->em, $this->view, $plugin);
-		$plugin->setStrategy($strategy);
-		$strategy->persist();
-		$this->em->persist($plugin);
-
-	    /* create content */
-		$plugin = new \CoreApi\Entity\Plugin();
-		$plugin->setEvent($event);
-		$strategy = new \WebApp\Plugin\Content\Strategy($this->em, $this->view, $plugin);
-		$plugin->setStrategy($strategy);
-		$strategy->persist();
-		$this->em->persist($plugin);
-		
-		$this->em->persist($event);
-		$this->em->flush();
+    	$camp = $this->contextProvider->getContext()->getCamp();
+    	
+		$this->eventService->Create($camp, $this->view);
 		
 		$this->_forward('index');
     }
 	
-	public function deleteAction(){
-	
+	public function deleteAction()
+	{
 		$id = $this->getRequest()->getParam("id");
-		$event = $this->em->getRepository("CoreApi\Entity\Event")->find($id);
 		
-		foreach( $event->getPlugins() as $plugin )
-		{
-			$plugin->getStrategyInstance()->remove();
-		}
-		
-		$this->em->remove($event);
-		$this->em->flush();
-		
+		$this->eventService->Delete($id);
+
 		$this->_forward('index');
 	}
 	
@@ -131,7 +79,7 @@ class WebApp_EventController extends \WebApp\Controller\BaseController
 		if( !isset($id) )
 			$this->_forward('index');
 		
-		$this->view->event = $this->em->getRepository("CoreApi\Entity\Event")->find($id);
+		$this->view->event = $this->eventService->Get($id);
 	}
 	
 	/* edit an event (backend, write access) */
@@ -142,14 +90,14 @@ class WebApp_EventController extends \WebApp\Controller\BaseController
 		if( !isset($id) )
 			$this->_forward('index');
 		
-		$this->view->event = $this->em->getRepository("CoreApi\Entity\Event")->find($id);
+		$this->view->event = $this->eventService->Get($id);
 	}
 
 	/* call a function of the plugin */
 	public function pluginAction(){
 
 		$id = $this->getRequest()->getParam("id");
-		$plugin = $this->em->getRepository("CoreApi\Entity\Plugin")->find($id);
+		$plugin = $this->eventService->getPlugin($id);
 
 		Zend_Controller_Front::getInstance()->addControllerDirectory(
 			APPLICATION_PATH . '/Module/WebApp/Plugin/'.$plugin->getStrategyInstance()->getPluginName().'/Controller', $plugin->getStrategyInstance()->getPluginName());

@@ -29,14 +29,14 @@ class Content_PluginController extends \WebApp\Controller\BasePluginController
 		$this->_helper->viewRenderer->setNoRender(true);
 		
 		$id = $this->getRequest()->getParam("id");
-		$this->plugin = $this->em->getRepository("CoreApi\Entity\Plugin")->find($id);
+		$this->plugin = $this->eventService->getPlugin($id);
 		
 		$this->getResponse()->setHeader('Content-Type', 'text/plain');
     }
 
     public function saveAction()
     {
-		$content = $this->em->getRepository("Core\Plugin\Content\Entity\Content")->findOneBy(array('plugin' => $this->plugin->getId()));
+		$content = $this->em->getRepository("CoreApi\Plugin\Content\Entity\Content")->findOneBy(array('plugin' => $this->plugin->getId()));
 		
 		$response = array();
 		$response['message'] = "I am a content plugin.\n\nOld value: ".$content->getText()."!\nNew value: ".$this->getRequest()->getParam("text")."!";
