@@ -268,7 +268,7 @@ class WebApp_GroupController extends \WebApp\Controller\BaseController
 		
 		$this->view->grouprequestForm = $grouprequestForm;
 	}
-	
+
 	public function savegrouprequestAction()
 	{
 		$params = $this->getRequest()->getParams();
@@ -279,12 +279,11 @@ class WebApp_GroupController extends \WebApp\Controller\BaseController
 		try
 		{
 			$groupRequest = $this->groupService->RequestGroup($grouprequestForm);
-
 		}
 		catch (\Core\Service\ValidationException $e)
 		{
 			$this->view->grouprequestForm = $grouprequestForm;
-			$this->render("show");
+			$this->render("requestgroup");
 			return;	
 		}
 	}	
