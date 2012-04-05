@@ -124,12 +124,12 @@ CREATE TABLE `grouprequests` (
   CONSTRAINT `FK_89CD63203DA5256D` FOREIGN KEY (`image_id`) REFERENCES `images` (`id`),
   CONSTRAINT `FK_89CD6320727ACA70` FOREIGN KEY (`parent_id`) REFERENCES `groups` (`id`),
   CONSTRAINT `FK_89CD6320ED442CF4` FOREIGN KEY (`requester_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 LOCK TABLES `grouprequests` WRITE;
 /*!40000 ALTER TABLE `grouprequests` DISABLE KEYS */;
-INSERT INTO `grouprequests` VALUES (11,249,NULL,7,'2012-04-05 18:10:39','2012-04-05 18:10:39','testgroup','it\\\'s just a test','Hello, i like to be a subgroup'),(12,249,NULL,7,'2012-04-05 18:12:18','2012-04-05 18:12:18','ljgf','jgf','jgf');
+INSERT INTO `grouprequests` VALUES (11,249,NULL,7,'2012-04-05 18:10:39','2012-04-05 18:10:39','testgroup','it\\\'s just a test','Hello, i like to be a subgroup'),(12,249,NULL,7,'2012-04-05 18:12:18','2012-04-05 18:12:18','ljgf','jgf','jgf'),(13,249,NULL,7,'2012-04-05 18:26:40','2012-04-05 18:26:40','ã¶lh','bdrgÃ¶akjr','Ã¶akrh aÃ¶wkejfh Ã¶wekjh.'),(14,249,NULL,7,'2012-04-05 18:36:07','2012-04-05 18:36:07','sad','dgbdgb','dfv w w efw !');
 /*!40000 ALTER TABLE `grouprequests` ENABLE KEYS */;
 UNLOCK TABLES;
 DROP TABLE IF EXISTS `groups`;
