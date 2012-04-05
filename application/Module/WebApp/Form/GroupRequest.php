@@ -46,6 +46,8 @@ class GroupRequest extends BaseForm
 		$this->addElement($description);
 		$this->addElement($motivation);
 		$this->addElement($submit);
+		
+		$this->setAction('savegrouprequest');
 	}
 	
 }

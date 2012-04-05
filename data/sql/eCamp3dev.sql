@@ -124,12 +124,12 @@ CREATE TABLE `grouprequests` (
   CONSTRAINT `FK_89CD63203DA5256D` FOREIGN KEY (`image_id`) REFERENCES `images` (`id`),
   CONSTRAINT `FK_89CD6320727ACA70` FOREIGN KEY (`parent_id`) REFERENCES `groups` (`id`),
   CONSTRAINT `FK_89CD6320ED442CF4` FOREIGN KEY (`requester_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 LOCK TABLES `grouprequests` WRITE;
 /*!40000 ALTER TABLE `grouprequests` DISABLE KEYS */;
-INSERT INTO `grouprequests` VALUES (1,249,NULL,7,'2012-04-05 10:45:19','2012-04-05 10:45:19','','',''),(2,249,NULL,7,'2012-04-05 10:45:25','2012-04-05 10:45:25','jgf','jgf','kjgfhgf'),(3,249,NULL,7,'2012-04-05 10:45:27','2012-04-05 10:45:27','jgf','jgf','kjgfhgf'),(4,249,NULL,7,'2012-04-05 10:51:10','2012-04-05 10:51:10','','','');
+INSERT INTO `grouprequests` VALUES (11,249,NULL,7,'2012-04-05 18:10:39','2012-04-05 18:10:39','testgroup','it\\\'s just a test','Hello, i like to be a subgroup'),(12,249,NULL,7,'2012-04-05 18:12:18','2012-04-05 18:12:18','ljgf','jgf','jgf');
 /*!40000 ALTER TABLE `grouprequests` ENABLE KEYS */;
 UNLOCK TABLES;
 DROP TABLE IF EXISTS `groups`;
@@ -275,6 +275,25 @@ CREATE TABLE `plugins` (
 LOCK TABLES `plugins` WRITE;
 /*!40000 ALTER TABLE `plugins` DISABLE KEYS */;
 /*!40000 ALTER TABLE `plugins` ENABLE KEYS */;
+UNLOCK TABLES;
+DROP TABLE IF EXISTS `subcamps`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `subcamps` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `period_id` int(11) NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  `description` longtext NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `subcamps_period_id_idx` (`period_id`),
+  CONSTRAINT `subcamps_ibfk_1` FOREIGN KEY (`period_id`) REFERENCES `periods` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+LOCK TABLES `subcamps` WRITE;
+/*!40000 ALTER TABLE `subcamps` DISABLE KEYS */;
+/*!40000 ALTER TABLE `subcamps` ENABLE KEYS */;
 UNLOCK TABLES;
 DROP TABLE IF EXISTS `user_camps`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;

@@ -126,7 +126,7 @@ class GroupRequest extends BaseEntity
 		return $this->requester;
 	}
 		
-	public function setRequester(User $requester)
+	public function setRequester(User $requester )
 	{
 		$this->requester = $requester; return $this;
 	}
@@ -140,7 +140,7 @@ class GroupRequest extends BaseEntity
 		return $this->parent;
 	}
 	
-	public function setParent( $parent )
+	public function setParent(Group $parent )
 	{
 		$this->parent = $parent; return $this;
 	}
