@@ -29,7 +29,7 @@ namespace Core\Plugin\Content;
 class Strategy extends \Core\Plugin\AbstractStrategy implements \Core\Plugin\IPluginStrategy {
 
 	/**
-	 * @var \Core\Plugin\Content\Entity\Content $plugin
+	 * @var \CoreApi\Plugin\Content\Entity\Content $plugin
 	 */
 	protected $content;
 
@@ -42,7 +42,7 @@ class Strategy extends \Core\Plugin\AbstractStrategy implements \Core\Plugin\IPl
 		$this->view = $view;
 		$this->plugin = $plugin;
 
-		$this->content = new \Core\Plugin\Content\Entity\Content($plugin);
+		$this->content = new \CoreApi\Plugin\Content\Entity\Content($plugin);
 	}
 
 	/**
@@ -66,12 +66,12 @@ class Strategy extends \Core\Plugin\AbstractStrategy implements \Core\Plugin\IPl
 	 */
 	public function loadObjects()
 	{
-		$this->content = $this->em->getRepository('Core\Plugin\\'.$this->pluginName.'\Entity\Content')->findOneBy( array('plugin' => $this->plugin->getId()) );
+		$this->content = $this->em->getRepository('CoreApi\Plugin\\'.$this->pluginName.'\Entity\Content')->findOneBy( array('plugin' => $this->plugin->getId()) );
 	}
 
 	/**
 	 * Set the ContentPlugin object.
-	 * @param \Core\Plugin\Content\Entity\Content $content
+	 * @param \CoreApi\Plugin\Content\Entity\Content $content
 	 */
 	public function setContent($content)
 	{
@@ -80,7 +80,7 @@ class Strategy extends \Core\Plugin\AbstractStrategy implements \Core\Plugin\IPl
 	
 	/**
 	 * Get the ContentPlugin object
-	 * @return \Core\Plugin\Content\Entity\Content
+	 * @return \CoreApi\Plugin\Content\Entity\Content
 	 */
 	public function getContent()
 	{

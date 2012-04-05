@@ -88,10 +88,6 @@ class WebApp_LeaderController extends \WebApp\Controller\BaseController
 	    
 	    $this->setNavigation(new \WebApp\Navigation\Camp($this->camp));
 	    
-		
-		/* move this to bootsrap */
-// 		$event = new \WebApp\Plugin\StrategyEventListener($this->view, $this->em);
-// 		$this->em->getEventManager()->addEventSubscriber($event);
 	}
 
 	
