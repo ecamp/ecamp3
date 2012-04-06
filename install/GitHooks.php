@@ -13,20 +13,24 @@ class GitHooks
 	
 	public function Install()
 	{
+		$path = null;
 		
-		if(array_key_exists('mysqlBinaryPath', $_REQUEST))
+		if(array_key_exists('mysqlBinaryPath', $_REQUEST) && $_REQUEST['mysqlBinaryPath'] != "")
 		{
 			$path = $_REQUEST['mysqlBinaryPath'];
 			$path  = rtrim($path, '\/');
 			$path .= DIRECTORY_SEPARATOR;
 		}
-		else
+		elseif(!is_null($this->config->mysqlBinaryPath))
 		{
 			$path = $this->config->mysqlBinaryPath;
 		}
 		
 		file_put_contents($this->preCommit, $this->origPreCommit($path));
 		file_put_contents($this->postCheckout, $this->origPostCheckout($path));
+		
+		chmod($this->preCommit, 0755);
+		chmod($this->postCheckout, 0755);
 	}
 	
 	private function origPreCommit($path)
