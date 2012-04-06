@@ -33,10 +33,6 @@
 			</div>
 		</tal:block>
 
-		<a class="button right" tal:attributes="href helper:url(array('group' => group.getId(), 'action' => 'requestgroup'), 'web+group')">
-			Request New Subgroup
-		</a>
-
 		<tal:block condition="php: me.isMemberOf(group)" >
 			<a id="leave_membership" class="button right negative" tal:attributes="href helper:thisurl(array('action' => 'leave', 'group' => group.getId() ), 'web+group')" i18n:translate="">
 				leave this group
@@ -52,8 +48,11 @@
 					Do you really want to leave this group? Your membership will be deleted.
 				</div>
 			</div>
-
 		</tal:block>
+		
+		<a class="button right" tal:attributes="href helper:url(array('group' => group.getId(), 'action' => 'requestgroup'), 'web+group')" i18n:translate="">
+			Request New Subgroup
+		</a>
 
 		<tal:block condition="php: me.hasOpenRequest(group)">
 			<a id="withdraw_membership" class="button right negative" tal:attributes="href helper:thisurl(array('action' => 'withdraw', 'group' => group.getId() ), 'web+group')" i18n:translate="">

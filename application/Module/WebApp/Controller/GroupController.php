@@ -279,6 +279,7 @@ class WebApp_GroupController extends \WebApp\Controller\BaseController
 		try
 		{
 			$groupRequest = $this->groupService->RequestGroup($grouprequestForm);
+			$this->_helper->getHelper('Redirector')->gotoRoute(array('action'=>'show', 'group' => $this->group->getId()));
 		}
 		catch (\Core\Service\ValidationException $e)
 		{
