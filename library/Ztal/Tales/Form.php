@@ -6,9 +6,9 @@
  * handling routines within a form.
  *
  * @category  Namesco
- * @package   Central
+ * @package   Ztal
  * @author    Alex Mace <amace@names.co.uk>
- * @copyright 2009-2010 Namesco Limited
+ * @copyright 2009-2011 Namesco Limited
  * @license   http://names.co.uk/license Namesco
  */
 
@@ -20,7 +20,7 @@
  * container for the various tales routines.
  *
  * @category Namesco
- * @package  Central
+ * @package  Ztal
  * @author   Alex Mace <amace@names.co.uk>
  */
 	
@@ -28,7 +28,7 @@ final class Ztal_Tales_Form implements PHPTAL_Tales
 {
 
 	/**
-	 * Figures out the simple element type from the one passed in, which may be a full class name of an element.
+	 * Figures out the simple element type from the one passed in.
 	 *
 	 * @param string $type The type to check.
 	 *
@@ -37,8 +37,8 @@ final class Ztal_Tales_Form implements PHPTAL_Tales
 	public static function calculateType($type)
 	{
 		//this is done in two steps using the $nameParts intermediate variable
-		//because it causes a strict error if something other than a defined variable
-		//reference is passed to array_pop
+		//because it causes a strict error if something other than a defined 
+		//variable reference is passed to array_pop
 		$nameParts = explode("_", $type);
 		$type = strtolower(array_pop($nameParts));
 
@@ -168,7 +168,7 @@ final class Ztal_Tales_Form implements PHPTAL_Tales
 	}
 
 	/**
-	 * Tal extension to determine whether or not the current element is a display group.
+	 * Tal to determine whether or not the current element is a display group.
 	 *
 	 * Example use within template:
 	 * <fieldset tal:condition="Ztal_Tales_Form.isDisplayGroup:element">
@@ -244,7 +244,7 @@ final class Ztal_Tales_Form implements PHPTAL_Tales
 
 
 	/**
-	 * Tal extension to determine whether or not the current element is a button input.
+	 * Tal to determine whether or not the current element is a button input.
 	 *
 	 * Example use within template:
 	 * <button tal:condition="Ztal_Tales_Form.isButton:element" />
@@ -268,7 +268,7 @@ final class Ztal_Tales_Form implements PHPTAL_Tales
 	}
 
 	/**
-	 * Tal extension to determine whether or not the current element is an image captcha input.
+	 * Tal to determine whether or not the current element is an image captcha.
 	 *
 	 * Example use within template:
 	 * <button tal:condition="Ztal_Tales_Form.isImageCaptcha:element" />
@@ -293,7 +293,7 @@ final class Ztal_Tales_Form implements PHPTAL_Tales
 
 
 	/**
-	 * Tal extension to determine whether or not the current element is a captcha input.
+	 * Tal to determine whether or not the current element is a captcha input.
 	 *
 	 * Example use within template:
 	 * <button tal:condition="Ztal_Tales_Form.isCaptcha:element" />
@@ -354,6 +354,27 @@ final class Ztal_Tales_Form implements PHPTAL_Tales
 	}
 
 	/**
+	 * Checks whether an element is disabled or not.
+	 *
+	 * Example used within template:
+	 * <tal:block tal:attributes="disabled Ztal_Tales_Form.isDisabled:element" />
+	 *
+	 * @param string $src     The original template string.
+	 * @param bool   $nothrow Whether to throw an exception on error.
+	 *
+	 * @return string
+	 */
+	public static function isDisabled($src, $nothrow)
+	{
+		$break = strpos($src, '|');
+		if ($break !== false) {
+			$src = substr($src, 0, $break);
+		}
+
+		return phptal_tale($src, $nothrow) . '->getAttrib("disabled") ? true : false';
+	}
+
+	/**
 	 * Tal extension to determine whether or not the current element is an input.
 	 *
 	 * Example use within template:
@@ -374,12 +395,12 @@ final class Ztal_Tales_Form implements PHPTAL_Tales
 
 		return 'in_array(Ztal_Tales_Form::calculateType('
 			   . phptal_tale($src, $nothrow) . "->getType()), "
-			   . "array('text', 'hidden', 'password', 'date', 'email'))";
+			   . "array('text', 'hidden', 'password', 'date', 'email', 'file'))";
 
 	}
 
 	/**
-	 * Tal extension to determine whether or not the current element is a multi checkbox.
+	 * Tal to determine whether or not the current element is a multi checkbox.
 	 *
 	 * Example use within template:
 	 * <input tal:condition="Ztal_Tales_Form.isMultiCheckbox:element" />
@@ -407,7 +428,7 @@ final class Ztal_Tales_Form implements PHPTAL_Tales
 	}
 
 	/**
-	 * Tal extension to determine whether or not the current element is a radio element.
+	 * Tal to determine whether or not the current element is a radio element.
 	 *
 	 * Example use within template:
 	 * <input tal:condition="Ztal_Tales_Form.isRadio:element" />
@@ -432,7 +453,7 @@ final class Ztal_Tales_Form implements PHPTAL_Tales
 
 
 	/**
-	 * Tal extension to determine whether or not the current element is a checkbox.
+	 * Tal to determine whether or not the current element is a checkbox.
 	 *
 	 * Example use within template:
 	 * <input tal:condition="Ztal_Tales_Form.isCheckbox:element" />
@@ -478,9 +499,32 @@ final class Ztal_Tales_Form implements PHPTAL_Tales
 		return 'Ztal_Tales_Form::calculateType(' . phptal_tale($src, $nothrow)
 			   . "->getType()) == 'select'";
 	}
+	
+	/**
+	 * Tal to determine whether or not the current element is a multi select.
+	 *
+	 * Example use within template:
+	 * <select tal:condition="Ztal_Tales_Form.isSelect:element" />
+	 *
+	 * @param string $src     The original template string.
+	 * @param bool   $nothrow Whether to throw an exception on error.
+	 *
+	 * @return string
+	 */
+	public static function isMultiSelect($src, $nothrow)
+	{
+		
+		$break = strpos($src, '|');
+		if ($break !== false) {
+			$src = substr($src, 0, $break);
+		}
+		
+		return 'Ztal_Tales_Form::calculateType(' . phptal_tale($src, $nothrow)
+			   . "->getType()) == 'multiselect'";
+	}
 
 	/**
-	 * Tal extension to determine whether or not the current element is a textarea input.
+	 * Tal to determine whether or not the current element is a textarea input.
 	 *
 	 * Example use within template:
 	 * <textarea tal:condition="Ztal_Tales_Form.isTextarea:element" />
@@ -504,7 +548,7 @@ final class Ztal_Tales_Form implements PHPTAL_Tales
 	}
 
 	/**
-	 * Tal extension to determine whether or not the current element should have a label displayed before it.
+	 * Tal to determine whether the element should have a label displayed before it.
 	 *
 	 * Example use within template:
 	 * <label tal:condition="Ztal_Tales_Form.showLabelBefore:element"
@@ -523,14 +567,14 @@ final class Ztal_Tales_Form implements PHPTAL_Tales
 		}
 		return 'in_array(Ztal_Tales_Form::calculateType('
 			   . phptal_tale($src, $nothrow) . '->getType()), '
-			   . "array('date', 'email', 'password', 'select', 'text', 'textarea')) && "
+			   . "array('date', 'email', 'password', 'file', 'select', 'multiselect', 'text', 'textarea')) && "
 			   . phptal_tale($src, $nothrow) . '->getLabel()';
 	}
 
 
 
 	/**
-	 * Tal extension to determine whether or not the current element should have a label displayed after it.
+	 * Tal to determine whether the element should have a label displayed after it.
 	 *
 	 * Example use within template:
 	 * <label tal:condition="Ztal_Tales_Form.showLabelAfter:element"

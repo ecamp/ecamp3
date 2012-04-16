@@ -5,26 +5,25 @@
  * @category  Namesco
  * @package   Ztal
  * @author    Robert Goldsmith <rgoldsmith@names.co.uk>
- * @copyright 2009-2010 Namesco Limited
+ * @copyright 2009-2011 Namesco Limited
  * @license   http://names.co.uk/license Namesco
  */
 
 require_once 'PHPTAL/PHPTAL.php';
 
 /**
- * Overrides the default Zend View to provide Tal templating support through PHPTal
+ * Overrides the default Zend View to provide Tal templating through PHPTal.
  *
  * Configurable options available through application.[ini|xml] on the bootstrap:
  * globalTemplatesDirectory[] - locations to look for additional templates
- *						(other than in application/layouts/scripts and [modules]/views/scripts)
- * customModifiersDirectory[] - directories to scan and load php files from in order to bring in custom
- *						modifiers and other code
+ * customModifiersDirectory[] - directories to scan and load php files from to
+ *                               bring in custom modifiers and other code
  * encoding - the default encoding for template files (defaults to UTF-8)
  * cacheDirectory - the directory to use for caching compiled Tal templates
  *						(defaults to the systme tmp folder - usually /tmp/)
- * cachePurgeMode - sets whether to purge the cache after rendering (defaults to false)
- * highlightFailedTranslations - if a translator is installed, set whether failed transaction keys
- *						show up with a prepended '**'
+ * cachePurgeMode - whether to purge the cache after rendering (default: false)
+ * highlightFailedTranslations - if a translator is installed, set whether
+ *                        failed transaction keys show up with a prepended '**'
  */
 
 /**
@@ -58,7 +57,7 @@ class Ztal_Controller_Plugin_Ztal extends Zend_Controller_Plugin_Abstract
 	/**
 	 * Pre-dispatch hook to create and install a replacement View object.
 	 *
-	 * @param Zend_Controller_Request_Abstract $request The requst object.
+	 * @param Zend_Controller_Request_Abstract $request The request object.
 	 *
 	 * @return void
 	 */
@@ -78,38 +77,32 @@ class Ztal_Controller_Plugin_Ztal extends Zend_Controller_Plugin_Abstract
 		if (Zend_Registry::isRegistered('Zend_Translate')) {
 			//setup the translation facilities in PHPTal
 			$translator = new Ztal_Tal_ZendTranslateTranslator($this->_options);
-			$translator->useDomain($request->getControllerName());
-			$view->getEngine()->setTranslator($translator);
+		} else {
+			$translator = new Ztal_Tal_MockTranslator($this->_options);
 		}
+		$translator->useDomain($request->getControllerName());
+		$view->getEngine()->setTranslator($translator);
 		
-		// Call out to an overloadable method to pickup the paths for
-		// templates for the current module
-		foreach ($this->_currentModuleTemplatePaths($request) as $currentPath) {
-			$view->addTemplateRepositoryPath($currentPath);
-		}
-
 		// We configure the view renderer in order to use our PHPTAL view
 		$viewRenderer = Zend_Controller_Action_HelperBroker::getStaticHelper('ViewRenderer');
-		$viewRenderer->setViewSuffix('phtml');
-		$view->layout()->setViewSuffix('phtml');
+				
+		// If the view template suffix has not already been changed away from
+		// the Zend 'phtml' convention then change it to 'xhtml'.
+		// This is done to separate the Ztal templates which are xml based
+		// from any legacy phtml files which have native php code in them and
+		// make porting of legacy Zend projects easier.
+
+		
+// TODO: Discuss, whether all scripts should be renamed.
+// 		 (as suggested from Ztal)
+
+// 		if ($viewRenderer->getViewSuffix() == 'phtml') {
+// 			$viewRenderer->setViewSuffix('xhtml');
+// 		}
+// 		if ($view->layout()->getViewSuffix() == 'phtml') {
+// 			$view->layout()->setViewSuffix('xhtml');
+// 		}
 		$viewRenderer->setView($view);
 		Zend_Registry::set('Ztal_View', $view);
 	}
-	
-	
-	/**
-	 * Easily overloadable method to supply the path to the module templates.
-	 *
-	 * @param Zend_Controller_Request_Abstract $request The request.
-	 *
-	 * @return array An array of paths to add to the template path set.
-	 */
-	protected function _currentModuleTemplatePaths(Zend_Controller_Request_Abstract $request)
-	{
-		$modulePath = Zend_Controller_Front::getInstance()->getModuleDirectory();
-		return array(
-			$modulePath . DIRECTORY_SEPARATOR . 'views',
-			$modulePath . DIRECTORY_SEPARATOR . 'views'. DIRECTORY_SEPARATOR . 'scripts');
-	}
-	
 }

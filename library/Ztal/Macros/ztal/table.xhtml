@@ -1,0 +1,180 @@
+<tal:block
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:tal="http://xml.zope.org/namespaces/tal"
+	xmlns:metal="http://xml.zope.org/namespaces/metal"
+	xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+	xmlns:phptal="http://phptal.org/ns/phptal">
+
+
+	<!--
+		/**
+		 * Display a table.
+		 *
+		 * Supported (optional) slot names:
+		 *  previousPage   An html snipet for the previousPage pagination link. Defaults to <<
+		 *  nextPage       An html snipet for the nextPage pagination link. Defaults to >>
+		 *  sortAscending  An html snipet for the sort ascending link next to each sortable column header.
+		 *  sortDescending An html snipet for the sort descending link next to each sortable column header.
+		 *
+		 * @param Ztal_Table_Abstract table              The table to render.
+		 * @param string              showColumnHeaders  Optional. Whether to show the table headers. Default true.
+		 * @param string              showBothSortArrows Optional. Whether to always show both sort arrows rather than only the active/default direction.
+		 * @param string              rowMacroName       Optional. The name of the macro used to render a table data row.
+		 * @param array               cellMacroNames     Optional. If the default row macro is used, this array of key value
+		 *                                                  pairs can be used to specify custom macros for each cell in a row
+		 *                                                  keyed by column name.
+		 * @param string              paginatorLocation  Where to display the paginator (none, top, bottom, both). Defaults to top.
+		 * @param string              paginatorMacroName Optional. The name of the macro used to render the pagination controls.
+		 */
+	-->
+	<tal:block metal:define-macro="table">
+		<table
+			tal:attributes="id table/getId;
+							class string:paginatedTable;
+							ref table/getBaseUri;"
+			tal:define="
+				prefix table/getId;
+				showHeaders showColumnHeaders | string:1;
+				showBothArrows showBothSortArrows | string:0; 
+				sortColumn table/getSortColumn | null;
+				sortKey sortColumn/getColumnKey | null;
+				sortDirection sortColumn/getSortDirection | string:0;
+				sortUri string:/${prefix}-sort/${sortKey}/${prefix}-direction/${sortDirection};
+				paginator table/getPaginator | null;
+				paginatorDisplayLoc paginatorLocation | string:top;"
+		>
+			<col tal:repeat="column table/getColumnDetails" tal:attributes="id string:${table/getId}_column_${column/key}" />
+			<thead>
+			
+				<!-- Show the paginator at the top of the table if requested -->
+				<tal:block tal:condition="paginator">
+					<tal:block
+						tal:condition="
+							Ztal_Tales_Generic.equal:paginatorDisplayLoc,string:top
+							| Ztal_Tales_Generic.equal:paginatorDisplayLoc,string:both"
+						tal:define="paginatorMacroName paginatorMacroName | string:paginatorControls"
+						metal:use-macro="${paginatorMacroName}" />
+				</tal:block>
+				
+				<!-- Display the column headers and sort selectors -->
+				<tr tal:condition="showHeaders">
+					<tal:block tal:repeat="columnDetails table/getColumnDetails">
+						<th
+							tal:define="
+								active Ztal_Tales_Generic.equal:columnDetails/key,sortKey;
+								sortable columnDetails/sortable;"
+							tal:attributes="
+								class string:${Ztal_Tales_Generic.isTrue:sortable,string:sortable} ${Ztal_Tales_Generic.isTrue:active,string:activeSortColumn};
+								id string:${table/getId}_header_${columnDetails/key};"
+						>
+							<!-- for non-sortable columns just show the title -->
+							<span tal:condition="not:sortable" class="columnTitle" i18n:translate="columnDetails/key"/>
+							
+							<div tal:condition="sortable">
+								<!-- for sortable columns show the title as a link and show one or more sort direction links -->
+								<a
+									i18n:translate="columnDetails/key"
+									tal:define="columnSortDirectionLink Ztal_Tales_Generic.isTrue:active,not:columnDetails/sortDirection | columnDetails/sortDirection"
+									tal:attributes="
+										href string:${table/getBaseUri}/${prefix}-sort/${columnDetails/key}/${prefix}-direction/${columnSortDirectionLink | string:0}/${prefix}-page/0;"
+									class="columnTitle"
+								/>
+								
+								<a
+									tal:define="showArrow Ztal_Tales_Generic.equal:columnDetails/sortDirection,string:1 | showBothArrows;
+										columnSortDirectionLink Ztal_Tales_Generic.isTrue:active,string:0 | string:1"
+									tal:condition="showArrow"
+									tal:attributes="href string:${table/getBaseUri}/${prefix}-sort/${columnDetails/key}/${prefix}-direction/${columnSortDirectionLink}/${prefix}-page/0;"
+									class="sortArrow sortAscending"
+								>
+									<span tal:replace="structure Ztal_Tales_Form.getSlotContent:string:sortAscending | string:" />
+								</a>
+								
+								<a
+									tal:define="showArrow Ztal_Tales_Generic.equal:columnDetails/sortDirection,string:0 | showBothArrows;
+									columnSortDirectionLink Ztal_Tales_Generic.isTrue:active,string:1 | string:0"
+									tal:condition="showArrow"
+									tal:attributes="href string:${table/getBaseUri}/${prefix}-sort/${columnDetails/key}/${prefix}-direction/${columnSortDirectionLink}/${prefix}-page/0"
+									class="sortArrow sortDescending"
+								>
+									<span tal:replace="structure Ztal_Tales_Form.getSlotContent:string:sortDescending | string:" />
+								</a>
+								
+							</div>
+						</th>
+					</tal:block>
+				</tr>
+			</thead>
+			
+			<!-- display the data -->
+			<tbody>
+				<tal:block tal:define="rowMacroName rowMacroName | string:tableRow" tal:repeat="row table" metal:use-macro="${rowMacroName}" />
+			</tbody>
+			
+			<!-- Show the paginator at the bottom of the table if requested -->
+			<tfoot>
+				<tal:block tal:condition="paginator">
+					<tal:block tal:condition="
+						Ztal_Tales_Generic.equal:paginatorDisplayLoc,string:bottom
+						| Ztal_Tales_Generic.equal:paginatorDisplayLoc,string:both"
+						tal:define="paginatorMacroName paginatorMacroName | string:paginatorControls"
+						metal:use-macro="${paginatorMacroName}" />
+				</tal:block>
+			</tfoot>
+		</table>
+	</tal:block>
+</tal:block>
+
+
+
+<!-- basic table row rendering macro -->
+<tr metal:define-macro="tableRow">
+	<tal:block tal:repeat="column row">
+		<tal:block
+			tal:define="
+				cellMacroName cellMacroNames/${repeat/column/key} | string:tableCell;
+				columnClass string:${table/getId}_cell_${repeat/column/key}"
+			metal:use-macro="${cellMacroName}"
+		/>
+	</tal:block>
+</tr>
+
+<td metal:define-macro="tableCell" tal:content="column" tal:attributes="class columnClass" />
+
+
+
+<!-- basic paginator controls macro -->
+<tr metal:define-macro="paginatorControls">
+	<td
+		tal:define="sortPart Ztal_Tales_Generic.isTrue:sortColumn,sortUri | string:;"
+		tal:condition="paginator/isMultipage"
+		tal:attributes="colspan table/columnCount"
+		class="paginator"
+	>
+		<div class="inner">
+			<a
+				tal:condition="not:Ztal_Tales_Generic.equal:paginator/previousPage,string:-1"
+				tal:attributes="href string:${table/getBaseUri}${sortPart}/${prefix}-page/${paginator/previousPage}"
+				class="paginatorPreviousPage"
+			>
+				<span tal:replace="structure Ztal_Tales_Form.getSlotContent:string:previousPage | string:" />
+			</a>
+			<a
+				tal:condition="not:Ztal_Tales_Generic.equal:paginator/nextPage,string:-1"
+				tal:attributes="href string:${table/getBaseUri}${sortPart}/${prefix}-page/${paginator/nextPage}"
+				class="paginatorNextPage"
+			>
+				<span tal:replace="structure Ztal_Tales_Form.getSlotContent:string:nextPage | string:" />
+			</a>
+			<div class="paginatorPageSelector">
+				<a
+					tal:repeat="currentPage paginator/pages"
+					tal:content="currentPage/label"
+					tal:attributes="
+						class Ztal_Tales_Generic.isTrue:currentPage/currentPage,string:paginatorCurrentPage;
+						href string:${table/getBaseUri}${sortPart}/${prefix}-page/${currentPage/index}"
+				/>
+			</div>
+		</div>
+	</td>
+</tr>

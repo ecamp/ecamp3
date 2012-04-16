@@ -5,18 +5,19 @@
  * @category  Namesco
  * @package   Ztal
  * @author    Robert Goldsmith <rgoldsmith@names.co.uk>
- * @copyright 2009-2010 Namesco Limited
+ * @copyright 2009-2011 Namesco Limited
  * @license   http://names.co.uk/license Namesco
  */
 
 /**
  * Tales namespace handler to allow definition of plurals in a translation.
  *
- * This class should never be subclassed. It is simply a container for the various tales routines.
- * Creates a namespace for the tales extensions by clustering them as static methods on the class.
+ * This class should never be subclassed. It is simply a container for the
+ * various tales routines.
+ * Creates a namespace for the tales extensions.
  *
  * @category Namesco
- * @package  PHPTal
+ * @package  Ztal
  * @author   Robert Goldsmith <rgoldsmith@names.co.uk>
  */
 final class Ztal_Tales_Translation implements PHPTAL_Tales
@@ -40,10 +41,15 @@ final class Ztal_Tales_Translation implements PHPTAL_Tales
 		$count = array_pop($parts);
 		$outputParts = array();
 		foreach ($parts as $currentPart) {
-			$outputParts[] = str_replace("'", '', phptal_tale($currentPart, $nothrow));
+			$outputPart = str_replace("'", '', phptal_tale($currentPart, $nothrow));
+			if ($outputPart[0] != '$') {
+				$outputPart = "'" . $outputPart . "'";
+			}
+			$outputParts[] = $outputPart;
 		}
-		return 'array(\'pluralKeys\'=>array(\'' . implode('\',\'', $outputParts) . '\'), \'count\'=>'
-			. phptal_tale($count, $nothrow) . ', \'ctx\'=>$ctx)';
+		return 'array(\'pluralKeys\'=>array(' . implode(',', $outputParts)
+			. '), \'count\'=>' . phptal_tale($count, $nothrow)
+			. ', \'ctx\'=>$ctx)';
 	}
 	
 	
@@ -77,7 +83,8 @@ final class Ztal_Tales_Translation implements PHPTAL_Tales
 			$src = substr($src, 0, $break);
 		}
 		
-		return 'Ztal_Tales_Translation::arrayTranslationHelper(' . phptal_tale($src, $nothrow) . ', $_translator)';
+		return 'Ztal_Tales_Translation::arrayTranslationHelper('
+			. phptal_tale($src, $nothrow) . ', $_translator)';
 	}
 	
 	/**

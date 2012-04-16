@@ -5,12 +5,12 @@
  * @category  Namesco
  * @package   Ztal
  * @author    Robert Goldsmith <rgoldsmith@names.co.uk>
- * @copyright 2009-2010 Namesco Limited
+ * @copyright 2009-2011 Namesco Limited
  * @license   http://names.co.uk/license Namesco
  */
 
 /**
- * Subclass of Zend View that replaces the standard functionality with PHPTal template rendering.
+ * Subclass of Zend View that replaces the standard functionality with PHPTal.
  *
  * @category Namesco
  * @package  Ztal
@@ -33,18 +33,12 @@ class Ztal_Tal_View extends Zend_View
 	 */
 	protected $_purgeCacheBeforeRender = false;
 
-
 	/**
 	 * Whether to turn on the whitespace compression filter.
 	 *
 	 * @var bool
 	 */
 	protected $_compressWhitespace = false;
-
-
-
-
-
 
 	/**
 	 * A Zend_Cache instance.
@@ -73,8 +67,6 @@ class Ztal_Tal_View extends Zend_View
 	 * @var string|false
 	 */
 	protected $_zendPageCacheKey = false;
-
-
 
 
 
@@ -110,38 +102,28 @@ class Ztal_Tal_View extends Zend_View
 		if (isset($options['compressWhitespace'])) {
 			$this->setCompressWhitespace($options['compressWhitespace'] == '1');
 		}
-
-		// configure the title separator
-		if (isset($options['titleSeparator'])) {
-			$this->headTitle()->setSeparator($options['titleSeparator']);
-		}
-
-		// configure the title
-		if (isset($options['title'])) {
-			$this->headTitle($options['title']);
-		}
 		
-		// set the layout template path
-		$this->addTemplateRepositoryPath(Zend_Layout::getMvcInstance()->getLayoutPath());
+		// Stack up the script paths. Zend's setScriptPath call is lifo
+		// so we start with the bottom item first.
+		
+		// First set the path for Ztal's own macros
+		$ztalBasePath = realpath(dirname(__FILE__) . DIRECTORY_SEPARATOR . '..');
+		$this->setScriptPath($ztalBasePath . DIRECTORY_SEPARATOR . 'Macros');
 
-		// Set the remaining template repository directories;
+		// Now setup the directories specified in the Ztal config
 		if (isset($options['globalTemplatesDirectory'])) {
 			$directories = $options['globalTemplatesDirectory'];
 			if (!is_array($directories)) {
 				$directories = array($directories);
 			}
 			foreach ($directories as $currentDirectory) {
-				$this->addTemplateRepositoryPath($currentDirectory);
+				$this->addScriptPath($currentDirectory);
 			}
 		}
-
-		$ztalBasePath = realpath(
-			dirname(__FILE__) . DIRECTORY_SEPARATOR . '..');
-		
-		// Add ZTal's macro repository as a final default.
-		$ztalMacroPath = $ztalBasePath . DIRECTORY_SEPARATOR . 'Macros';
-		$this->addTemplateRepositoryPath($ztalMacroPath);
-		
+	
+	
+	
+		// Next setup the custom modifiers
 		
 		//load in all php files that exist in the custom modifiers directory
 		if (isset($options['customModifiersDirectory'])) {
@@ -159,7 +141,8 @@ class Ztal_Tal_View extends Zend_View
 		$this->addCustomModifiersPath($ztalTalesPath);
 	}
 	 
-	
+	 
+	 
 	/**
 	 * Load in all php files in the specified directory.
 	 *
@@ -188,6 +171,7 @@ class Ztal_Tal_View extends Zend_View
 	}
 
 
+
 	/**
 	 * Handle cloning of the view by cloning the PHPTAL object correctly.
 	 *
@@ -197,8 +181,8 @@ class Ztal_Tal_View extends Zend_View
 	{
 		$this->_engine = clone $this->_engine;
 	}
-	  
-		  
+
+
 
 	/**
 	 * Changes the current PHPTAL instance.
@@ -213,6 +197,8 @@ class Ztal_Tal_View extends Zend_View
 		$this->_engine->this = $this;
 	}
 
+
+
 	/**
 	 * Returns the current PHPTAL instance.
 	 *
@@ -223,8 +209,8 @@ class Ztal_Tal_View extends Zend_View
 		return $this->_engine;
 	}
 
-	
-	
+
+
 	/**
 	 * Changes the cache purge mode.
 	 *
@@ -236,6 +222,8 @@ class Ztal_Tal_View extends Zend_View
 	{
 		$this->_purgeCacheBeforeRender = $newValue;
 	}
+
+
 
 	/**
 	 * Sets the encoding used in outputting renders.
@@ -251,6 +239,7 @@ class Ztal_Tal_View extends Zend_View
 	}
 
 
+
 	/**
 	 * Sets whether whitespace compression should be performed.
 	 *
@@ -264,6 +253,7 @@ class Ztal_Tal_View extends Zend_View
 	}
 
 
+
 	/**
 	 * Gets whether whitespace compression is currently turned on.
 	 *
@@ -274,22 +264,7 @@ class Ztal_Tal_View extends Zend_View
 		return $this->_compressWhitespace;
 	}
 
-
 	
-	/**
-	 * Either append or overwrite the paths used to find a template.
-	 *
-	 * Pass a string to append, pass an array of strings to overwrite.
-	 *
-	 * @param string|array $path The path / paths to use.
-	 *
-	 * @return void
-	 */
-	public function addTemplateRepositoryPath($path)
-	{
-		$this->_engine->setTemplateRepository($path);
-	}
-
 	
 	/**
 	 * Set the directory used to save generated templates.
@@ -303,6 +278,7 @@ class Ztal_Tal_View extends Zend_View
 		$this->_engine->setPhpCodeDestination($path);	
 	}
 	
+
 
 	/**
 	 * Whether untranslated strings should be highlighted by prepending '**'.
@@ -319,61 +295,27 @@ class Ztal_Tal_View extends Zend_View
 		}
 	}
 
+
+
 	/**
 	 * Returns the cache purge mode.
 	 *
 	 * @return bool
 	 */
-	
 	public function getCachePurgeMode()
 	{
 		return $this->_purgeCacheBeforeRender;
 	}
-	
-	/**
-	 * Sets a value to the view.
-	 *
-	 * @param string $key   The member variable to set.
-	 * @param mixed  $value The value to set the variable to.
-	 *
-	 * @return void
-	 */
-	public function __set($key, $value)
-	{
-		$this->_checkLoaded();
-		$this->_engine->set($key, $value);
-	}
 
 
 	/**
-	 * Retrieves a value from the view.
+	 * Setup the parameters to cache the result of a page render.
 	 *
-	 * @param string $key The member variable to access.
-	 *
-	 * @return mixed
-	 */
-	public function __get($key)
-	{
-		$context = $this->_engine->getContext();
-		return $context->$key;
-	}
-	
-	/**
-	 * Checks whether a value in the view has been set.
-	 *
-	 * @param string $key The member variable to check.
+	 * @param Zend_Cache        $cache   The cache to use.
+	 * @param Zend_Config|array $options Additional options.
 	 *
 	 * @return bool
 	 */
-	
-	public function __isset($key)
-	{
-		return isset($this->_engine->getContext()->$key);
-	}
-
-	
-	
-	
 	public function cacheRenderedPage($cache, $options)
 	{
 		// If the options are a Zend_Config object, convert to an array
@@ -412,9 +354,9 @@ class Ztal_Tal_View extends Zend_View
 		return ($this->_zendPageCacheContent != false);
 	}
 	
-
 	
-
+	
+	
 	/**
 	 * Returns PHPTAL output - either from a render or from the cache.
 	 *
@@ -426,34 +368,50 @@ class Ztal_Tal_View extends Zend_View
 	 * @return string
 	 */
 	public function render($template)
-	{		
-		$this->_checkLoaded();
-		
+	{
+		// Check we are fully configured and initialised.
+		if ($this->_engine == null) {
+			throw new Zend_View_Exception('PHPTAL is not defined', $this);
+		}
+
+
+		// If a cache has been setup and content is available, return it
 		if ($this->_zendPageCacheContent != false) {
 			return $this->_zendPageCacheContent;
 		}
 		
+		// Setup the script locations based on the view's script paths
+		$this->_engine->setTemplateRepository($this->getScriptPaths());
+
+		// Do this at this point rather than in the constructor because we don't
+		// know what the template repositories are going to be at that point.
+		$this->_engine->addSourceResolver(
+			new Ztal_Tal_PharResolver($this->getScriptPaths()));
+
+		// Assign all the variables set here through to the PHPTAL engine.
+		foreach ($this->getVars() as $key => $value) {
+			$this->_engine->set($key, $value);
+		}
+		
+		
 		if (!is_array($template)) {
-			//conversion of template names from '-' split to camel-case 
-			$templateParts = explode('-', $template);
-			$firstPart = array_shift($templateParts);
-			foreach ($templateParts as &$currentPart) {
-				$currentPart = ucfirst($currentPart);
-			}
-			$template = $firstPart . implode('', $templateParts);
-			$this->_engine->setTemplate($template);
+			$this->_engine->setTemplate($this->_convertTemplateName($template));
 		} else {
 			$this->_engine->setSource($template['src'], $template['name']);
 		}
-		$this->productionMode = ('production' == APPLICATION_ENV);
+		
+		
+		// Setup a collection of standard variable available in the view
 		$this->_engine->set('doctype', $this->doctype());
 		$this->_engine->set('headTitle', $this->headTitle());
 		$this->_engine->set('headScript', $this->headScript());
 		$this->_engine->set('headLink', $this->headLink());
 		$this->_engine->set('headMeta', $this->headMeta());
 		$this->_engine->set('headStyle', $this->headStyle());
+		$this->productionMode = ('production' == APPLICATION_ENV);
 
-		
+		// If perging of the tal template cache is enabled
+		// find all template cache files and delete them
 		if ($this->_purgeCacheBeforeRender) {
 			$cacheFolder = $this->_engine->getPhpCodeDestination();
 			if (is_dir($cacheFolder)) {
@@ -485,7 +443,7 @@ class Ztal_Tal_View extends Zend_View
 		}
 		
 		try {
-			$result = $this->_engine->execute();					
+			$result = $this->_engine->execute();
 		} catch(PHPTAL_TemplateException $e) {
 			// If the exception is a root PHPTAL_TemplateException
 			// rather than a subclass of this exception and xdebug is enabled,
@@ -503,7 +461,9 @@ class Ztal_Tal_View extends Zend_View
 			throw $e;
 		}
 		
-
+		
+		// If the page needed to be rendered but was configured to
+		// cache then cache the result of the render.
 		if (($this->_zendPageCache instanceof Zend_Cache_Core)) {
 			$this->_zendPageCache->save($result, $this->_zendPageCacheKey,
 				array(), $this->_zendPageCacheDuration);
@@ -511,6 +471,8 @@ class Ztal_Tal_View extends Zend_View
 		
 		return $result;
 	}
+
+
 
 	/**
 	 * Needed as a subclass of Zend_View but not used.
@@ -523,17 +485,19 @@ class Ztal_Tal_View extends Zend_View
 
 
 	/**
-	 * Checks that the engine has been correctly created.
+	 * Convert the template name formatting.
 	 *
-	 * @return void
-	 * @throws Zend_View_Exception If the engine is not configured.
+	 * @param string $templateName The template name to convert.
+	 *
+	 * @return string
 	 */
-	private function _checkLoaded()
+	protected function _convertTemplateName($templateName)
 	{
-		if ($this->_engine == null) {
-			include_once 'Zend/View/Exception.php';
-			throw new Zend_View_Exception('PHPTAL is not defined', $this);
+		$templateParts = explode('-', $templateName);
+		$firstPart = array_shift($templateParts);
+		foreach ($templateParts as &$currentPart) {
+			$currentPart = ucfirst($currentPart);
 		}
+		return $firstPart . implode('', $templateParts);
 	}
-
 }
