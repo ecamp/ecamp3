@@ -30,12 +30,12 @@ CREATE TABLE `camps` (
   CONSTRAINT `camps_ibfk_1` FOREIGN KEY (`creator_id`) REFERENCES `users` (`id`),
   CONSTRAINT `camps_ibfk_2` FOREIGN KEY (`owner_id`) REFERENCES `users` (`id`),
   CONSTRAINT `camps_ibfk_3` FOREIGN KEY (`group_id`) REFERENCES `groups` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 LOCK TABLES `camps` WRITE;
 /*!40000 ALTER TABLE `camps` DISABLE KEYS */;
-INSERT INTO `camps` VALUES (7,7,7,NULL,'2011-11-26 21:14:26','2011-11-26 21:14:26','mycamp','My Camp'),(8,20,20,NULL,'2012-03-10 16:52:13','2012-03-10 16:52:13','mycamp','mycamp'),(9,20,20,NULL,'2012-03-10 17:08:11','2012-03-10 17:08:11','mycamp2','mycamp'),(13,7,7,NULL,'2012-03-20 07:52:08','2012-03-27 22:04:55','asdfadf','test'),(25,7,NULL,249,'2012-03-27 21:52:25','2012-03-27 21:52:44','sola12','asdf 12');
+INSERT INTO `camps` VALUES (3,7,8,NULL,'2011-11-23 10:29:06','2012-03-23 17:25:41','test+','asdf'),(4,7,7,NULL,'2011-11-25 12:53:57','2011-11-25 12:53:57','asdfqwer','asdf'),(6,7,NULL,249,'2011-11-26 20:18:59','2011-11-26 22:01:04','sola12','SoLa 2012'),(7,7,7,NULL,'2011-11-26 21:14:26','2011-11-26 21:14:26','mycamp','My Camp'),(8,20,20,NULL,'2012-03-10 16:52:13','2012-03-10 16:52:13','mycamp','mycamp'),(9,20,20,NULL,'2012-03-10 17:08:11','2012-03-10 17:08:11','mycamp2','mycamp'),(13,7,7,NULL,'2012-03-20 07:52:08','2012-03-20 07:52:08','mycamp2','asdfads'),(22,7,7,NULL,'2012-03-20 15:27:13','2012-03-20 15:27:13','sahfdncvkn','ajlksdf');
 /*!40000 ALTER TABLE `camps` ENABLE KEYS */;
 UNLOCK TABLES;
 DROP TABLE IF EXISTS `days`;
@@ -97,12 +97,11 @@ CREATE TABLE `events` (
   KEY `events_user_id_idx` (`user_id`),
   CONSTRAINT `events_ibfk_1` FOREIGN KEY (`camp_id`) REFERENCES `camps` (`id`),
   CONSTRAINT `events_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 LOCK TABLES `events` WRITE;
 /*!40000 ALTER TABLE `events` DISABLE KEYS */;
-INSERT INTO `events` VALUES (1,13,NULL,'2012-04-03 19:18:18','2012-04-03 19:18:18','9771b966b2e1c7774b666fc4d6943cdf'),(2,13,NULL,'2012-04-03 19:24:50','2012-04-03 19:24:50','dbf84220a2c1b11d12f6f1ca66999901'),(3,13,NULL,'2012-04-03 19:25:16','2012-04-03 19:25:16','0ded9dc292bcbe65f7a3cbf8c8bbc6a9'),(4,13,NULL,'2012-04-03 19:25:22','2012-04-03 19:25:22','3a8953e47657bbc6468680258f76a119'),(5,13,NULL,'2012-04-03 19:25:44','2012-04-03 19:25:44','3ffe3cfbbc002fe142e3a6c1e1bcc9c4'),(6,13,NULL,'2012-04-03 19:25:55','2012-04-03 19:25:55','5c4794d8d63b2178715c7a262647d269'),(7,13,NULL,'2012-04-03 19:26:28','2012-04-03 19:26:28','90100a973e6d6d31b0c029f41e1e956f'),(8,13,NULL,'2012-04-03 19:26:44','2012-04-03 19:26:44','f6f327a7ddc8261b2ce285c5914a380b'),(9,13,NULL,'2012-04-03 19:30:00','2012-04-03 19:30:00','e44217a01a198ad95ec1da8f183dc58f'),(15,7,NULL,'2012-04-03 22:43:39','2012-04-03 22:43:39','33b98d1e1e57a3f8a999f1e23d000b74'),(16,7,NULL,'2012-04-03 22:43:45','2012-04-03 22:43:45','c1c03950d8dc4fb2ff0a304121e00f10'),(17,7,NULL,'2012-04-03 22:43:50','2012-04-03 22:43:50','7c8801425105c72435f8a0381b80ce6d'),(18,7,NULL,'2012-04-03 22:44:41','2012-04-03 22:44:41','69e0a7ad1b513266e6e1de4ed48ee68c'),(19,7,NULL,'2012-04-03 22:45:08','2012-04-03 22:45:08','7214e25be32fdae41f5b930234385134'),(20,7,NULL,'2012-04-03 22:46:31','2012-04-03 22:46:31','cffab46a97a86a795558bf0aee888e5d'),(21,7,NULL,'2012-04-03 22:47:01','2012-04-03 22:47:01','2f3aa5f91f627f21eccfb31e79f153d9');
 /*!40000 ALTER TABLE `events` ENABLE KEYS */;
 UNLOCK TABLES;
 DROP TABLE IF EXISTS `groups`;
@@ -138,10 +137,10 @@ CREATE TABLE `images` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
-  `imageMime` varchar(32) NOT NULL,
-  `imageData` longtext NOT NULL COMMENT '(DC2Type:object)',
+  `imageMime` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
+  `imageData` longtext COLLATE utf8_unicode_ci NOT NULL COMMENT '(DC2Type:object)',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 LOCK TABLES `images` WRITE;
@@ -162,12 +161,12 @@ CREATE TABLE `logins` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `logins_user_id_uniq` (`user_id`),
   CONSTRAINT `logins_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 LOCK TABLES `logins` WRITE;
 /*!40000 ALTER TABLE `logins` DISABLE KEYS */;
-INSERT INTO `logins` VALUES (4,7,'2011-11-20 17:25:15','2011-12-13 19:15:52','c381b4abad33cadabff41f217e4e57a30cbc558bf5d8f5e228a3992961caa93c','80a1a998294ae102df23dece1d27e1baeb8c13a342fbcc30f7025b09e07035c1',NULL),(5,8,'2011-11-20 17:46:38','2011-11-20 17:46:38','d3cee21f42b06ff6cdc26b56fabee8013da1cef208460adf8f6ecda7ca2169a0','1b03e64a9ad341910240cd7475a9ab82a104066be4da1e6c8860c5cea0a638af',NULL),(14,20,'2011-11-30 18:30:02','2011-11-30 18:30:02','9e6925506b3f59169ad32a5c79f79db8940403be7df0b2b77054b142b75d4273','f11f76b422d9af9d1a3f476c10ab1c215f45404105f05b14dfd8acde2b139e26',NULL),(15,21,'2012-01-16 18:44:23','2012-01-16 18:44:23','bc236d3af824e9391eb835de36f9453e7d4a212cd5a0f3d11d480cfb15ea8536','045043ad69bedd87fdae7928410e460d9d6f9bf1d3d4a0eec2c2903d0f8d9757',NULL),(16,24,'2012-01-17 16:51:42','2012-01-17 16:51:42','fbaa9b3531bec5c7aa383e6a1724f5edd97a4fe55637400cd444f0a109f4f900','0fa2f05b0d525153c30e6d3a253c0a394537e60cbe06a84a8ce5cbd000fc93ec',NULL),(17,25,'2012-01-17 16:56:13','2012-01-17 16:56:13','b80b6e51b6911d5add584d59e2c42ef6307d5e92ac15e8dcc84120626b43844e','113a5bccb85702db5a3d25021e0f94e71e94c19fe4846d459c00db933a821739',NULL),(18,26,'2012-03-21 21:01:46','2012-03-21 21:01:46','035c8d0fdd14b9931fd023e0a14549358aac43a5cb83862d952eab4a33ad170a','53cc43c5ea23e5b471c38ec5e6443c7a5b9c5294372cbee11e8d964d8ac3a273',NULL),(19,27,'2012-03-21 21:06:21','2012-03-21 21:06:21','8fe268d71a5201c3d65ca18885d11a26f75c9823a737e6ab73b5c41c7487d534','991e947d7c7c7834dbb4fec3185a299bfc600372c4980cb085f6aea8efd721e6',NULL),(20,28,'2012-03-21 21:13:45','2012-03-21 21:13:45','ca3ef14071d52528bee4c1e57c2a0b4bf88bdb18186bfb2446fe2ae0e5651464','cca2ed7e9809b26893c0e4bb421061b3ff86cef2149160aec6f2d07205b273a4',NULL),(21,29,'2012-03-21 21:16:43','2012-03-21 21:16:43','854386a988a2b941574967ec7bebc0290a826f9a3db721407ebe23e61ca9b5ae','78770930af93227062db1431eb6b31633e2b5aefad95295753972ae3ac7ecc2a',NULL),(22,30,'2012-03-21 21:18:03','2012-03-21 21:18:03','930d621f2f13e89ab287b63b23a5bf7a4e81a7bdcb05d6cb02cfe38784e54120','a31f57a50da23849fa8796883b04d37b62b6eccf968a4596d7da6bf1dd72cafd',NULL),(23,31,'2012-03-21 21:37:05','2012-03-21 21:37:05','3854f8f8812aa2cc9cdad271b284fb5fefdb7dc55d54e16219ba486179e2f3f4','269ed7a77cdf0441f265f4cdd1c316b1aeee12a098eb571bf0e80568f3e5e038',NULL),(24,32,'2012-03-21 21:39:37','2012-03-21 21:39:37','51a8e28e8f24763b3de61f190268257d6f5b5065cb122b447047f1446174163a','732bed2da31df2b3fd89de770bd9b6eb3aa8be804fe5ca0632cf0b084b3f51d9',NULL),(25,33,'2012-03-21 21:41:15','2012-03-21 21:41:15','716e3259d8dbc45396827e70d2e5f10c3c630f28b14c33769ef0530ae386d448','93ff14b2120f60ed953d0d8963bf1d3dae7288e632d899f5cc8c21845daa5589',NULL),(26,34,'2012-03-21 21:46:32','2012-03-21 21:46:32','001aa9277dee446ca7c070da7bec833aae440cd65158fe4bed59ca6235eb61cc','7d2f908528ef648a1df1caa5e2041f9a6993b513dbe2107d28fa08b282bd5534',NULL),(27,35,'2012-03-21 22:00:49','2012-03-21 22:00:49','84eafc6fa20d7996e74d7e21cb2af1ee74fc99372242a416ec1e768259b37592','42f25d19a336d74852bd2bd9b44917e9728db1d4dd60408df456f3470fb16bc3',NULL),(28,36,'2012-03-21 22:16:59','2012-03-21 22:16:59','dd7f2cb420a70e55a7edb63e6591484f3dab5e720a27200f91bf32bd098bd47e','b26cfcac93bcd1fbbe4b353f3134e3687f6d00410b8c79a4261971a05ba0637a',NULL),(29,37,'2012-03-21 22:19:28','2012-03-21 22:19:28','2c6b369885a43d0de1fd36ddc91b6eb3f2b2c25af6305780bd53ab0430ea4f69','f0e338cb622ed5607bbc2ca936f56676e1cb4ac5a41b758cb1e23599d24da1c7',NULL),(30,38,'2012-03-21 22:21:54','2012-03-21 22:21:54','ec2cd953314972fe16a1a1b9fa0d70df860d05dc16f387f4b9ffb8db15dca28c','358599b5017901170324036a765a3e6d68d673f232d1a4919109a8eab6a96307',NULL),(31,39,'2012-03-21 22:25:42','2012-03-21 22:25:42','2f964215c0092a66d94b7b14eb724dc31f534b3be20b1e409275d79f2af2df1d','4e39dd77143f31e8816234389c6f1ba58105605a4716758cf5702b77ccd860de',NULL),(32,40,'2012-03-21 22:26:46','2012-03-21 22:26:46','98d70774ab1ea09b04f5564406e14a9ee4cab204452f321e78ff5145f36c5a3f','437d1f7379401c08750e6d8d5a5fca4a34ff479420de41ea6c81ed0a4d9028ea',NULL),(33,41,'2012-03-21 22:31:44','2012-03-21 22:31:44','f6369af0a94e4fe08acaaaf5943c017cfd7bce60df0f95c62db9fe8f0899bd2a','8ca24c993f4b1fd832483b717c1a68bece2be4c695a1c199fd2ad51a29bb58a9',NULL),(34,42,'2012-03-21 22:33:49','2012-03-21 22:33:49','93c6bbf7c2fbf0c14b7dc6693ac8a277f5dccf6a6b61f442fdec5791873fd101','a6f0026e844d351958489f46e6e2070a299dde9ef04f1d931e1a54318a006e1e',NULL),(35,43,'2012-03-21 23:05:45','2012-03-21 23:05:45','b4d3b47ade96cde90acc2b35bfc0d1ebe9c22ffbebcec1e7d207b9bbec69a09c','68e7b49bca7d55f8b7425c703a217571fbb5057df8944def592e40610de59e17',NULL),(36,44,'2012-03-21 23:13:57','2012-03-21 23:13:57','1ea90fc1ce435f62fd9c6832580e5fc0b5237db08566d1e6b73aa6d1c6fd9e73','680462abfb8a6454687e2c13596bd98e33c8c09aae860ae6c7fb6af6045c0f70',NULL);
+INSERT INTO `logins` VALUES (4,7,'2011-11-20 17:25:15','2011-12-13 19:15:52','c381b4abad33cadabff41f217e4e57a30cbc558bf5d8f5e228a3992961caa93c','80a1a998294ae102df23dece1d27e1baeb8c13a342fbcc30f7025b09e07035c1',NULL),(5,8,'2011-11-20 17:46:38','2011-11-20 17:46:38','d3cee21f42b06ff6cdc26b56fabee8013da1cef208460adf8f6ecda7ca2169a0','1b03e64a9ad341910240cd7475a9ab82a104066be4da1e6c8860c5cea0a638af',NULL),(14,20,'2011-11-30 18:30:02','2011-11-30 18:30:02','9e6925506b3f59169ad32a5c79f79db8940403be7df0b2b77054b142b75d4273','f11f76b422d9af9d1a3f476c10ab1c215f45404105f05b14dfd8acde2b139e26',NULL),(15,21,'2012-01-16 18:44:23','2012-01-16 18:44:23','bc236d3af824e9391eb835de36f9453e7d4a212cd5a0f3d11d480cfb15ea8536','045043ad69bedd87fdae7928410e460d9d6f9bf1d3d4a0eec2c2903d0f8d9757',NULL),(16,24,'2012-01-17 16:51:42','2012-01-17 16:51:42','fbaa9b3531bec5c7aa383e6a1724f5edd97a4fe55637400cd444f0a109f4f900','0fa2f05b0d525153c30e6d3a253c0a394537e60cbe06a84a8ce5cbd000fc93ec',NULL),(17,25,'2012-01-17 16:56:13','2012-01-17 16:56:13','b80b6e51b6911d5add584d59e2c42ef6307d5e92ac15e8dcc84120626b43844e','113a5bccb85702db5a3d25021e0f94e71e94c19fe4846d459c00db933a821739',NULL);
 /*!40000 ALTER TABLE `logins` ENABLE KEYS */;
 UNLOCK TABLES;
 DROP TABLE IF EXISTS `periods`;
@@ -184,12 +183,12 @@ CREATE TABLE `periods` (
   PRIMARY KEY (`id`),
   KEY `periods_camp_id_idx` (`camp_id`),
   CONSTRAINT `periods_ibfk_1` FOREIGN KEY (`camp_id`) REFERENCES `camps` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 LOCK TABLES `periods` WRITE;
 /*!40000 ALTER TABLE `periods` DISABLE KEYS */;
-INSERT INTO `periods` VALUES (7,7,'2011-11-26 21:14:26','2011-11-26 21:14:26','2011-11-14',6,NULL),(8,8,'2012-03-10 16:52:13','2012-03-10 16:52:13','2012-03-13',9,NULL),(9,9,'2012-03-10 17:08:11','2012-03-10 17:08:11','2012-03-06',2,NULL),(12,13,'2012-03-20 07:52:08','2012-03-20 07:52:08','2012-03-02',14,NULL),(17,25,'2012-03-27 21:52:25','2012-03-27 21:52:25','2012-03-01',2,NULL);
+INSERT INTO `periods` VALUES (3,3,'2011-11-23 10:29:06','2011-11-23 10:29:06','2011-11-28',3,NULL),(4,4,'2011-11-25 12:53:57','2011-11-25 12:53:57','2011-11-01',10,NULL),(6,6,'2011-11-26 20:18:59','2011-11-26 20:18:59','2011-11-28',6,NULL),(7,7,'2011-11-26 21:14:26','2011-11-26 21:14:26','2011-11-14',6,NULL),(8,8,'2012-03-10 16:52:13','2012-03-10 16:52:13','2012-03-13',9,NULL),(9,9,'2012-03-10 17:08:11','2012-03-10 17:08:11','2012-03-06',2,NULL),(12,13,'2012-03-20 07:52:08','2012-03-20 07:52:08','2012-03-02',14,NULL),(14,22,'2012-03-20 15:27:13','2012-03-20 15:27:13','2012-03-13',1,NULL);
 /*!40000 ALTER TABLE `periods` ENABLE KEYS */;
 UNLOCK TABLES;
 DROP TABLE IF EXISTS `plugin_contents`;
@@ -204,12 +203,11 @@ CREATE TABLE `plugin_contents` (
   PRIMARY KEY (`id`),
   KEY `plugin_contents_plugin_id_idx` (`plugin_id`),
   CONSTRAINT `plugin_contents_ibfk_1` FOREIGN KEY (`plugin_id`) REFERENCES `plugins` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 LOCK TABLES `plugin_contents` WRITE;
 /*!40000 ALTER TABLE `plugin_contents` DISABLE KEYS */;
-INSERT INTO `plugin_contents` VALUES (1,2,'2012-04-03 19:18:18','2012-04-03 19:18:18','hello world'),(2,3,'2012-04-03 19:18:18','2012-04-03 19:18:18','hello world'),(3,5,'2012-04-03 19:24:50','2012-04-03 19:24:50','hello world'),(4,6,'2012-04-03 19:24:50','2012-04-03 19:24:50','hello world'),(5,8,'2012-04-03 19:25:16','2012-04-03 19:25:16','hello world'),(6,9,'2012-04-03 19:25:16','2012-04-03 19:25:16','hello world'),(7,11,'2012-04-03 19:25:22','2012-04-03 19:25:22','hello world'),(8,12,'2012-04-03 19:25:22','2012-04-03 19:25:22','hello world'),(9,14,'2012-04-03 19:25:44','2012-04-03 19:25:44','hello world'),(10,15,'2012-04-03 19:25:44','2012-04-03 19:25:44','hello world'),(11,17,'2012-04-03 19:25:55','2012-04-03 19:25:55','hello world'),(12,18,'2012-04-03 19:25:55','2012-04-03 19:25:55','hello world'),(13,20,'2012-04-03 19:26:28','2012-04-03 19:26:28','hello world'),(14,21,'2012-04-03 19:26:28','2012-04-03 19:26:28','hello world'),(15,23,'2012-04-03 19:26:44','2012-04-03 19:26:44','hello world'),(16,24,'2012-04-03 19:26:44','2012-04-03 19:26:44','hello world'),(17,26,'2012-04-03 19:30:00','2012-04-03 19:30:00','hello world'),(18,27,'2012-04-03 19:30:00','2012-04-03 19:30:00','hello world'),(29,44,'2012-04-03 22:43:39','2012-04-03 22:43:39','hello world'),(30,45,'2012-04-03 22:43:39','2012-04-03 22:43:39','hello world'),(31,47,'2012-04-03 22:43:45','2012-04-03 22:43:45','hello world'),(32,48,'2012-04-03 22:43:45','2012-04-03 22:43:45','hello world'),(33,50,'2012-04-03 22:43:50','2012-04-03 22:43:50','hello world'),(34,51,'2012-04-03 22:43:50','2012-04-03 22:43:50','hello world'),(35,53,'2012-04-03 22:44:41','2012-04-03 22:44:41','hello world'),(36,54,'2012-04-03 22:44:41','2012-04-03 22:44:41','hello world'),(37,56,'2012-04-03 22:45:08','2012-04-03 22:45:08','hello world'),(38,57,'2012-04-03 22:45:08','2012-04-03 22:45:08','hello world'),(39,59,'2012-04-03 22:46:31','2012-04-03 22:46:31','hello world'),(40,60,'2012-04-03 22:46:31','2012-04-03 22:46:31','hello world'),(41,62,'2012-04-03 22:47:01','2012-04-03 22:47:01','hello world'),(42,63,'2012-04-03 22:47:01','2012-04-03 22:47:01','hello world');
 /*!40000 ALTER TABLE `plugin_contents` ENABLE KEYS */;
 UNLOCK TABLES;
 DROP TABLE IF EXISTS `plugin_headers`;
@@ -224,12 +222,11 @@ CREATE TABLE `plugin_headers` (
   PRIMARY KEY (`id`),
   KEY `plugin_headers_plugin_id_idx` (`plugin_id`),
   CONSTRAINT `plugin_headers_ibfk_1` FOREIGN KEY (`plugin_id`) REFERENCES `plugins` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 LOCK TABLES `plugin_headers` WRITE;
 /*!40000 ALTER TABLE `plugin_headers` DISABLE KEYS */;
-INSERT INTO `plugin_headers` VALUES (1,1,'2012-04-03 19:18:18','2012-04-03 19:18:18','hello world'),(2,4,'2012-04-03 19:24:50','2012-04-03 19:24:50','hello world'),(3,7,'2012-04-03 19:25:16','2012-04-03 19:25:16','hello world'),(4,10,'2012-04-03 19:25:22','2012-04-03 19:25:22','hello world'),(5,13,'2012-04-03 19:25:44','2012-04-03 19:25:44','hello world'),(6,16,'2012-04-03 19:25:55','2012-04-03 19:25:55','hello world'),(7,19,'2012-04-03 19:26:28','2012-04-03 19:26:28','hello world'),(8,22,'2012-04-03 19:26:44','2012-04-03 19:26:44','hello world'),(9,25,'2012-04-03 19:30:00','2012-04-03 19:30:00','hello world'),(15,43,'2012-04-03 22:43:39','2012-04-03 22:47:09','hello world 2'),(16,46,'2012-04-03 22:43:45','2012-04-03 22:43:45','hello world'),(17,49,'2012-04-03 22:43:50','2012-04-03 22:43:59','hello world 2'),(18,52,'2012-04-03 22:44:41','2012-04-03 22:44:41','hello world'),(19,55,'2012-04-03 22:45:08','2012-04-03 22:45:08','hello world'),(20,58,'2012-04-03 22:46:31','2012-04-03 22:46:31','hello world'),(21,61,'2012-04-03 22:47:01','2012-04-03 22:47:01','hello world');
 /*!40000 ALTER TABLE `plugin_headers` ENABLE KEYS */;
 UNLOCK TABLES;
 DROP TABLE IF EXISTS `plugins`;
@@ -244,32 +241,12 @@ CREATE TABLE `plugins` (
   PRIMARY KEY (`id`),
   KEY `plugins_event_id_idx` (`event_id`),
   CONSTRAINT `plugins_ibfk_1` FOREIGN KEY (`event_id`) REFERENCES `events` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=64 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 LOCK TABLES `plugins` WRITE;
 /*!40000 ALTER TABLE `plugins` DISABLE KEYS */;
-INSERT INTO `plugins` VALUES (1,1,'2012-04-03 19:18:18','2012-04-03 19:18:18','Header'),(2,1,'2012-04-03 19:18:18','2012-04-03 19:18:18','Content'),(3,1,'2012-04-03 19:18:18','2012-04-03 19:18:18','Content'),(4,2,'2012-04-03 19:24:50','2012-04-03 19:24:50','Header'),(5,2,'2012-04-03 19:24:50','2012-04-03 19:24:50','Content'),(6,2,'2012-04-03 19:24:50','2012-04-03 19:24:50','Content'),(7,3,'2012-04-03 19:25:16','2012-04-03 19:25:16','Header'),(8,3,'2012-04-03 19:25:16','2012-04-03 19:25:16','Content'),(9,3,'2012-04-03 19:25:16','2012-04-03 19:25:16','Content'),(10,4,'2012-04-03 19:25:22','2012-04-03 19:25:22','Header'),(11,4,'2012-04-03 19:25:22','2012-04-03 19:25:22','Content'),(12,4,'2012-04-03 19:25:22','2012-04-03 19:25:22','Content'),(13,5,'2012-04-03 19:25:44','2012-04-03 19:25:44','Header'),(14,5,'2012-04-03 19:25:44','2012-04-03 19:25:44','Content'),(15,5,'2012-04-03 19:25:44','2012-04-03 19:25:44','Content'),(16,6,'2012-04-03 19:25:55','2012-04-03 19:25:55','Header'),(17,6,'2012-04-03 19:25:55','2012-04-03 19:25:55','Content'),(18,6,'2012-04-03 19:25:55','2012-04-03 19:25:55','Content'),(19,7,'2012-04-03 19:26:28','2012-04-03 19:26:28','Header'),(20,7,'2012-04-03 19:26:28','2012-04-03 19:26:28','Content'),(21,7,'2012-04-03 19:26:28','2012-04-03 19:26:28','Content'),(22,8,'2012-04-03 19:26:44','2012-04-03 19:26:44','Header'),(23,8,'2012-04-03 19:26:44','2012-04-03 19:26:44','Content'),(24,8,'2012-04-03 19:26:44','2012-04-03 19:26:44','Content'),(25,9,'2012-04-03 19:30:00','2012-04-03 19:30:00','Header'),(26,9,'2012-04-03 19:30:00','2012-04-03 19:30:00','Content'),(27,9,'2012-04-03 19:30:00','2012-04-03 19:30:00','Content'),(43,15,'2012-04-03 22:43:39','2012-04-03 22:43:39','Header'),(44,15,'2012-04-03 22:43:39','2012-04-03 22:43:39','Content'),(45,15,'2012-04-03 22:43:39','2012-04-03 22:43:39','Content'),(46,16,'2012-04-03 22:43:45','2012-04-03 22:43:45','Header'),(47,16,'2012-04-03 22:43:45','2012-04-03 22:43:45','Content'),(48,16,'2012-04-03 22:43:45','2012-04-03 22:43:45','Content'),(49,17,'2012-04-03 22:43:50','2012-04-03 22:43:50','Header'),(50,17,'2012-04-03 22:43:50','2012-04-03 22:43:50','Content'),(51,17,'2012-04-03 22:43:50','2012-04-03 22:43:50','Content'),(52,18,'2012-04-03 22:44:41','2012-04-03 22:44:41','Header'),(53,18,'2012-04-03 22:44:41','2012-04-03 22:44:41','Content'),(54,18,'2012-04-03 22:44:41','2012-04-03 22:44:41','Content'),(55,19,'2012-04-03 22:45:08','2012-04-03 22:45:08','Header'),(56,19,'2012-04-03 22:45:08','2012-04-03 22:45:08','Content'),(57,19,'2012-04-03 22:45:08','2012-04-03 22:45:08','Content'),(58,20,'2012-04-03 22:46:31','2012-04-03 22:46:31','Header'),(59,20,'2012-04-03 22:46:31','2012-04-03 22:46:31','Content'),(60,20,'2012-04-03 22:46:31','2012-04-03 22:46:31','Content'),(61,21,'2012-04-03 22:47:01','2012-04-03 22:47:01','Header'),(62,21,'2012-04-03 22:47:01','2012-04-03 22:47:01','Content'),(63,21,'2012-04-03 22:47:01','2012-04-03 22:47:01','Content');
 /*!40000 ALTER TABLE `plugins` ENABLE KEYS */;
-UNLOCK TABLES;
-DROP TABLE IF EXISTS `subcamps`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `subcamps` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `period_id` int(11) NOT NULL,
-  `created_at` datetime NOT NULL,
-  `updated_at` datetime NOT NULL,
-  `description` longtext NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `subcamps_period_id_idx` (`period_id`),
-  CONSTRAINT `subcamps_ibfk_1` FOREIGN KEY (`period_id`) REFERENCES `periods` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
-LOCK TABLES `subcamps` WRITE;
-/*!40000 ALTER TABLE `subcamps` DISABLE KEYS */;
-/*!40000 ALTER TABLE `subcamps` ENABLE KEYS */;
 UNLOCK TABLES;
 DROP TABLE IF EXISTS `user_camps`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -292,11 +269,12 @@ CREATE TABLE `user_camps` (
   CONSTRAINT `user_camps_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
   CONSTRAINT `user_camps_ibfk_2` FOREIGN KEY (`camp_id`) REFERENCES `camps` (`id`),
   CONSTRAINT `user_camps_ibfk_3` FOREIGN KEY (`requestAcceptedBy_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 LOCK TABLES `user_camps` WRITE;
 /*!40000 ALTER TABLE `user_camps` DISABLE KEYS */;
+INSERT INTO `user_camps` VALUES (1,7,3,'0000-00-00 00:00:00','0000-00-00 00:00:00',50,NULL,1,7);
 /*!40000 ALTER TABLE `user_camps` ENABLE KEYS */;
 UNLOCK TABLES;
 DROP TABLE IF EXISTS `user_groups`;
@@ -344,12 +322,12 @@ CREATE TABLE `user_relationships` (
   KEY `user_relationships_to_id_idx` (`to_id`),
   CONSTRAINT `user_relationships_ibfk_1` FOREIGN KEY (`from_id`) REFERENCES `users` (`id`),
   CONSTRAINT `user_relationships_ibfk_2` FOREIGN KEY (`to_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 LOCK TABLES `user_relationships` WRITE;
 /*!40000 ALTER TABLE `user_relationships` DISABLE KEYS */;
-INSERT INTO `user_relationships` VALUES (14,7,8,'2012-04-03 18:10:49','2012-04-03 18:10:49',1),(15,7,20,'2012-04-03 18:18:49','2012-04-03 18:18:49',1),(16,8,7,'2012-04-03 18:19:00','2012-04-03 18:19:00',1);
+INSERT INTO `user_relationships` VALUES (4,8,7,'2011-11-26 23:23:50','2011-11-26 23:23:50',1);
 /*!40000 ALTER TABLE `user_relationships` ENABLE KEYS */;
 UNLOCK TABLES;
 DROP TABLE IF EXISTS `users`;
@@ -384,12 +362,12 @@ CREATE TABLE `users` (
   UNIQUE KEY `users_email_uniq` (`email`),
   UNIQUE KEY `UNIQ_1483A5E93DA5256D` (`image_id`),
   CONSTRAINT `FK_1483A5E93DA5256D` FOREIGN KEY (`image_id`) REFERENCES `images` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (7,'2011-11-20 17:25:15','2011-11-20 17:25:18','qwerasdf','qwer@asdf.ch',NULL,'qwerasdf','qwer','asdf',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'Activated','User',NULL),(8,'2011-11-20 17:46:38','2011-11-20 17:46:40','wertsdfg','wert@sdfg.ch',NULL,'wertsdfg','wert','sdfg',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'Activated','User',NULL),(20,'2011-11-30 18:30:02','2011-11-30 18:30:25','asdflkjh','asdf@lkjh.ch',NULL,'asdfasdf','asdfasdf','asdfasdf',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'Activated','User',NULL),(21,'2012-01-16 18:44:23','2012-01-16 18:44:23','asdf234','asdf@lkj.com','9eac0eda49711d67efdc2edf85a4ac3d','asdf','asdfqwer','qwerasdf',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'NonRegistered','User',NULL),(22,'2012-01-17 16:29:54','2012-01-17 16:35:28','sdfgdfgh','zxcv@asdf.at',NULL,'asdf','asdfzxcv','zxcvasdf',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'NonRegistered','User',NULL),(23,'2012-01-17 16:44:09','2012-01-17 16:44:09','dfghdfgh','dfgh@fghj.at',NULL,'asdf','asdf','asdf',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'NonRegistered','User',NULL),(24,'2012-01-17 16:51:42','2012-01-17 16:51:42','poiuqwerpoiu','poiu@poiuqwer.ch','f8ff09d5ca11b00d3369c224e2ffb814','asdf','asfd','asdf',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'NonRegistered','User',NULL),(25,'2012-01-17 16:56:13','2012-01-17 16:56:15','asdfasdfasdf','asdf@asdfasdf.ch',NULL,'asdf','asdf','asdf',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'Activated','User',NULL),(26,'2012-03-21 21:01:46','2012-03-21 21:01:50','97he4otjn','s98buwse@eroun.at',NULL,'asdf','asdf','asdf',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'Activated','User',NULL),(27,'2012-03-21 21:06:21','2012-03-21 21:07:40','eiur683iu','suhnsc134@aksdjhf.net',NULL,'asdf','asdf','asdf',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'Activated','User',NULL),(28,'2012-03-21 21:13:45','2012-03-21 21:14:20','mnbg7655y','xcv4567j@asdfiou.ch',NULL,'asdfasdf','asdf','asdf',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'Activated','User',NULL),(29,'2012-03-21 21:16:43','2012-03-21 21:16:45','s6y8787f','adfh57@asdf.at',NULL,'asdf','asfd','asdf',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'Activated','User',NULL),(30,'2012-03-21 21:18:03','2012-03-21 21:18:09','dkkjbse9','lknevp-0@asdf.ch',NULL,'asdf','asdf','asdf',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'Activated','User',NULL),(31,'2012-03-21 21:37:05','2012-03-21 21:37:08','oiuyhgd4t','oiuyhgd4t@asdf.ch',NULL,'asdf','asdf','asdf',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'Activated','User',NULL),(32,'2012-03-21 21:39:37','2012-03-21 21:39:47','fw34eyhrws','f34yhe4@asd.ch',NULL,'asdf','asdf','asdf',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'Activated','User',NULL),(33,'2012-03-21 21:41:15','2012-03-21 21:41:15','aoi7yiubq','lukgk3@os8y.ch','954ea3a5d38f8b657d6f5ebbc4960d43','asdf','asdf','asdf',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'Registered','User',NULL),(34,'2012-03-21 21:46:32','2012-03-21 21:46:32','lei4up9cj','lish5ln@lsi.ch','d7d67f529cd6db0cf14408a8f8af7a87','asdf','asdf','asdf',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'Registered','User',NULL),(35,'2012-03-21 22:00:49','2012-03-21 22:00:49','loiuy54egb','loiubv2dfk@sdfiu.ch','6366381dfbb591c307b82393f4de9fb2','asdf','asdf','asdfasdf',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'Registered','User',NULL),(36,'2012-03-21 22:16:59','2012-03-21 22:16:59','kuhbs','lnoinwef@sldif.ch','ef84528ec12456032e97c95b5f9ea6af','asdf','asdf','asdf',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'Registered','User',NULL),(37,'2012-03-21 22:19:28','2012-03-21 22:19:28','ouhs3','woir@lilnlnb.ch','4d0739bbee4d32e33fab2309729bf243','asdf','asdf','asdfasdf',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'Registered','User',NULL),(38,'2012-03-21 22:21:54','2012-03-21 22:21:54','q3tyhhb','iubw4r@sdkfuhr.ch','64864e8bcc95c8c9d83d1ca40411a0f6','asdf','asdf','asdf',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'Registered','User',NULL),(39,'2012-03-21 22:25:42','2012-03-21 22:25:42','dwfse','sdfhg@sliu.ch','fe08c35408593fa9aa3abfb0afb603fa','jlwuhs','linv','liu',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'Registered','User',NULL),(40,'2012-03-21 22:26:46','2012-03-21 22:26:46','oiuhgls','linpcinb@lihzt.ch','d5ef9bd2b578e0aa776d945d08a4258d','asdf','asdf','asdf',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'Registered','User',NULL),(41,'2012-03-21 22:31:44','2012-03-21 22:31:44','luhnlse','ljpmp39@asldi.ch','3966bc0cd1a32006c1e483f10f323e56','asdf','asdf','asdfasdf',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'Registered','User',NULL),(42,'2012-03-21 22:33:49','2012-03-21 22:33:49','liserj','linnw@lisuf.ch','28abc2c3c9ff62a4985b33c2b3439b25','asdf','asdf','asdf',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'Registered','User',NULL),(43,'2012-03-21 23:05:45','2012-03-21 23:13:31','sdraser','ilhst3@kuh.co',NULL,'asdf','asdf','asdf',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'Activated','User',NULL),(44,'2012-03-21 23:13:57','2012-03-21 23:13:59','kuhseli','dlin@luhoinwe.ch',NULL,'asdf','asdf','asdf',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'Activated','User',NULL);
+INSERT INTO `users` VALUES (7,'2011-11-20 17:25:15','2012-03-21 23:15:49','qwerasdf','qwer@asdf.ch',NULL,'qwerasdf','asdfads','asdf',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'Activated','User',NULL),(8,'2011-11-20 17:46:38','2012-03-23 17:45:32','wertsdfg','wert@sdfg.ch',NULL,'wertsdfg','test','sdfg',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'Activated','User',NULL),(20,'2011-11-30 18:30:02','2011-11-30 18:30:25','asdflkjh','asdf@lkjh.ch',NULL,'asdfasdf','asdfasdf','asdfasdf',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'Activated','User',NULL),(21,'2012-01-16 18:44:23','2012-01-16 18:44:23','asdf234','asdf@lkj.com','9eac0eda49711d67efdc2edf85a4ac3d','asdf','asdfqwer','qwerasdf',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'NonRegistered','User',NULL),(22,'2012-01-17 16:29:54','2012-01-17 16:35:28','sdfgdfgh','zxcv@asdf.at',NULL,'asdf','asdfzxcv','zxcvasdf',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'NonRegistered','User',NULL),(23,'2012-01-17 16:44:09','2012-01-17 16:44:09','dfghdfgh','dfgh@fghj.at',NULL,'asdf','asdf','asdf',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'NonRegistered','User',NULL),(24,'2012-01-17 16:51:42','2012-01-17 16:51:42','poiuqwerpoiu','poiu@poiuqwer.ch','f8ff09d5ca11b00d3369c224e2ffb814','asdf','asfd','asdf',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'NonRegistered','User',NULL),(25,'2012-01-17 16:56:13','2012-01-17 16:56:15','asdfasdfasdf','asdf@asdfasdf.ch',NULL,'asdf','asdf','asdf',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'Activated','User',NULL);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
