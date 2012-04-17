@@ -75,6 +75,8 @@ class RawDB
 	{
 		$retval = array();
 		
+		exec('echo "runSqlFile(' . $file . ')"');
+		
 		$command = $this->adapter->getCommand_RunSqlFile($file);
 		exec($command, $retval);
 		
@@ -86,6 +88,8 @@ class RawDB
 	{
 		$retval = array();
 		
+		exec('echo "dumpDatabase(' . $file . ')"');
+		
 		$command = $this->adapter->getCommand_DumpDatabaseToFile($file);
 		exec($command, $retval);
 		
@@ -96,6 +100,8 @@ class RawDB
 	public function dropAllTables()
 	{
 		$retval = array();
+		
+		exec('echo "dropAllTables()"');
 		
 		$command = $this->adapter->getCommand_DropAllTables();
 		exec($command, $retval);
