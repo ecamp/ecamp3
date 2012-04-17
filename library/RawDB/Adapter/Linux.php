@@ -17,7 +17,7 @@ class Linux
 		$database = $this->config->database;
 		
 		$commands = array();
-		$commands[] = "if [[ -a $file ]]; then";
+		$commands[] = "if [ -f $file ]; then";
 		$commands[] = "$mysql -u $user $database < $file";
 		$commands[] = "fi";
 		
@@ -35,7 +35,7 @@ class Linux
 		$database = $this->config->database;
 		
 		$commands = array();
-		$commands[] = "if [[ ! -d $basePath ]]; then";
+		$commands[] = "if [ ! -d $basePath ]; then";
 		$commands[] = "mkdir -p $basePath";
 		$commands[] = "fi";
 		$commands[] = "$mysqldump -u $user --skip-dump-date --skip-comments $database > $file";
