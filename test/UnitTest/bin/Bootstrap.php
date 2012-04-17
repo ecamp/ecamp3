@@ -33,6 +33,9 @@ set_include_path(implode(PATH_SEPARATOR, array(
 
 /** Zend_Application */
 require_once 'Zend/Application.php';
+
+require_once './test/UnitTest/bin/SchemaManager.php';
+
 require_once './test/UnitTest/tests/TestCase.php';
 require_once './test/UnitTest/tests/ServiceTestCase.php';
 // require_once '../tests/EcampTestCase.php';
