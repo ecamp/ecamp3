@@ -48,6 +48,7 @@ $application = new Zend_Application(
 	APPLICATION_PATH . '/configs/application.ini'
 );
 
+\Zend_Session::start();
 
 clearstatcache();
 
