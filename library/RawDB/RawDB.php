@@ -108,6 +108,5 @@ class RawDB
 		
 		return $retval;
 	}
-	
-	
+		
 }
