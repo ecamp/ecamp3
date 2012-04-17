@@ -11,7 +11,7 @@
 	</testsuites>
 	
 	<filter>
-        <whitelist>
+		<whitelist>
 			<directory suffix=".php">./application/Core</directory>
 			<directory suffix=".php">./application/CoreApi/Entity</directory>
 			<directory suffix=".php">./application/CoreApi/Service</directory>
@@ -22,12 +22,12 @@
 				<directory suffix=".php">./application/CoreApi/Serivce_old</directory>
 			</exclude>
 			
-        </whitelist>
-    </filter> 
+		</whitelist>
+	</filter>
 	
 	<logging>
-        <log type="coverage-html" target="./public/UnitTests/result" charset="UTF-8" yui="true" highlight="true"/>
-        <log type="junit" target="./data/unittest/results.xml" />
-    </logging>
+		<log type="coverage-html" target="./public/UnitTests/result" charset="UTF-8" yui="true" highlight="true"/>
+		<log type="junit" target="./data/unittest/results.xml" />
+	</logging>
 
 </phpunit>
