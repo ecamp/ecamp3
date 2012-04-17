@@ -8,14 +8,11 @@ php:
   - 5.3
 
 # optionally specify a list of environments, for example to test different RDBMS
-# env:
+env:
   - DB=mysql
-#   - DB=pgsql
 
 # execute any number of scripts before the test run, custom env's are available as variables
-# before_script:
-#   - if [[ "$DB" == "pgsql" ]]; then psql -c "DROP DATABASE IF EXISTS hello_world_test;" -U postgres; fi
-#   - if [[ "$DB" == "pgsql" ]]; then psql -c "create database hello_world_test;" -U postgres; fi
+before_script:
   - if [[ "$DB" == "mysql" ]]; then mysql -e "create database IF NOT EXISTS eCamp3dev_UnitTest;" -uroot; fi
 
 # omitting "script:" will default to phpunit
