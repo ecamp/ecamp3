@@ -18,7 +18,7 @@ class Linux
 		
 		$commands = array();
 		$commands[] = "if [ -a $file ]; then";
-		$commands[] = "$mysql -u $user -p$password $database < $file";
+		$commands[] = "$mysql -u $user $database < $file";
 		$commands[] = "fi";
 		
 		return implode(PHP_EOL, $commands);
@@ -38,7 +38,7 @@ class Linux
 		$commands[] = "if [ ! -d $basePath ]; then";
 		$commands[] = "mkdir -p $basePath";
 		$commands[] = "fi";
-		$commands[] = "$mysqldump -u $user -p$password --skip-dump-date --skip-comments $database > $file";
+		$commands[] = "$mysqldump -u $user --skip-dump-date --skip-comments $database > $file";
 		
 		return implode(PHP_EOL, $commands);
 	}
@@ -52,7 +52,7 @@ class Linux
 		
 		
 		$drop = array();
-		$drop[] = "$mysql -u $user -p$password $database -e \"show tables\"";
+		$drop[] = "$mysql -u $user $database -e \"show tables\"";
 		$drop[] = "grep -v Tables_in";
 		$drop[] = "grep -v \"+\"";
 		$drop[] = "sed 's/^/drop table /g'";
@@ -63,7 +63,7 @@ class Linux
 		//$drop[] = "sed 's/^/SET foreign_key_checks = 0; /g'";
 		//$drop[] = "(echo \"SET foreign_key_checks = 0;\"; gawk '{print \"drop table \" $1 \";\"}')";
 		//$drop[] = "gawk '{print \"drop table \" $1 \";\"}'";
-		$drop[] = "$mysql -u $user -p$password $database";
+		$drop[] = "$mysql -u $user $database";
 		
 		
 		return implode(" | ", $drop);
