@@ -97,6 +97,9 @@ class GroupService
 			}
 		}
 		
+		$grouprequestValidator = new \Core\Validator\Entity\GroupRequestValidator($group);
+		$grouprequestValidator->applyIfValid($form);
+		
 		/* creat grouprequest */
 		$groupRequest = new GroupRequest();
 		$groupRequest->setName($new_groupname)
