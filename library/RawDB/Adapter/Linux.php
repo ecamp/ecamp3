@@ -65,7 +65,6 @@ class Linux
 		//$drop[] = "gawk '{print \"drop table \" $1 \";\"}'";
 		$drop[] = "$mysql -u $user $database";
 		
-		
 		return implode(" | ", $drop);
 	}
 }
