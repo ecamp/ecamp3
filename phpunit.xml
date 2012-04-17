@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<phpunit>
+	<php>
+		<ini name="memory_limit" value="100M" />
+	</php>
+
+	<testsuites>
+		<testsuite name="eCamp UnitTest Test Suite">
+			<directory>./test/UnitTest/tests</directory>
+		</testsuite>
+	</testsuites>
+	
+	<filter>
+        <whitelist>
+			<directory suffix=".php">./application/Core</directory>
+			<directory suffix=".php">./application/CoreApi/Entity</directory>
+			<directory suffix=".php">./application/CoreApi/Service</directory>
+			<directory suffix=".php">./library/Ecamp</directory>
+			
+			<exclude>
+				<directory suffix=".phtml">./application</directory>
+				<directory suffix=".php">./application/CoreApi/Serivce_old</directory>
+			</exclude>
+			
+        </whitelist>
+    </filter> 
+	
+	<logging>
+        <log type="coverage-html" target="./public/UnitTests/result" charset="UTF-8" yui="true" highlight="true"/>
+        <log type="junit" target="./data/unittest/results.xml" />
+    </logging>
+
+</phpunit>
