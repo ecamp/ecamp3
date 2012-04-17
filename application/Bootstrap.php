@@ -45,19 +45,25 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 	
 	protected function _initRoutes()
 	{
-		$urlParts = explode('.', $_SERVER['HTTP_HOST']);
-		
-		$hostname = array_pop($urlParts);
-		$hostname = array_pop($urlParts) . "." . $hostname;
-		
-		Zend_Registry::set('hostname', $hostname);
-		
-		
-		// TODO: Try to remove this lines:
-		// This adds the www - subdomain as default, if there is no subdomain
-		if($_SERVER['HTTP_HOST'] == "www." . $hostname)
-		{	$_SERVER['HTTP_HOST'] = $hostname;	}
-		
+		if(in_array('HTTP_HOST', $_SERVER))
+		{
+			$urlParts = explode('.', $_SERVER['HTTP_HOST']);
+			
+			$hostname = array_pop($urlParts);
+			$hostname = array_pop($urlParts) . "." . $hostname;
+			
+			Zend_Registry::set('hostname', $hostname);
+			
+			
+			// TODO: Try to remove this lines:
+			// This adds the www - subdomain as default, if there is no subdomain
+			if($_SERVER['HTTP_HOST'] == "www." . $hostname)
+			{	$_SERVER['HTTP_HOST'] = $hostname;	}
+		}
+		else
+		{
+			Zend_Registry::set('hostname', 'ecamp3.dev');
+		}
 	}
 	
 	
