@@ -13,18 +13,10 @@ class GitHooks
 	
 	public function Install()
 	{
-		$path = null;
+		$path = exec('echo $PATH');
+		$paths = explode(PATH_SEPARATOR, $path);
 		
-		if(array_key_exists('mysqlBinaryPath', $_REQUEST) && $_REQUEST['mysqlBinaryPath'] != "")
-		{
-			$path = $_REQUEST['mysqlBinaryPath'];
-			$path  = rtrim($path, '\/');
-			$path .= DIRECTORY_SEPARATOR;
-		}
-		elseif(!is_null($this->config->mysqlBinaryPath))
-		{
-			$path = $this->config->mysqlBinaryPath;
-		}
+		$path = in_array(PHP_BINDIR, $paths) ? null : PHP_BINDIR;
 		
 		file_put_contents($this->preCommit, $this->origPreCommit($path));
 		file_put_contents($this->postCheckout, $this->origPostCheckout($path));
@@ -62,14 +54,6 @@ class GitHooks
 	}
 	
 	public function RenderForm()
-	{
-		if(isset($this->config->mysqlBinaryPath))
-		{
-			return "";
-		}
-		
-		return 	"<lable>Path to MySQL Binary:</lable>&nbsp;" .
-				"<input type='text' name='mysqlBinaryPath' />";
-	}
+	{}
 	
 }
