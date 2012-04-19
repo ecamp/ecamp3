@@ -21,42 +21,6 @@
 
 class WebApp_CampController extends \WebApp\Controller\BaseController
 {
-	/**
-	 * @var \Entity\Repository\CampRepository
-	 * @Inject CampRepository
-	 */
-	private $campRepo;
-
-    /**
-     * @var Entity\Repository\LoginRepository
-     * @Inject LoginRepository
-     */
-    private $loginRepo;
-	
-	/**
-     * @var CoreApi\Service\UserService
-     * @Inject CoreApi\Service\UserService
-     */
-	private $userService;
-
-	
-	
-	
-	/**
-	 * @var \Entity\Camp
-	 */
-	private $camp;
-	
-	/**
-	 * @var \Entity\Group
-	 */
-	private $group;
-	
-	/**
-	 * @var \Entity\User
-	 */
-	private $user;
-
 	
 	public function init()
     {
@@ -67,28 +31,15 @@ class WebApp_CampController extends \WebApp\Controller\BaseController
 			$this->_forward("index", "login");
 			return;
 		}
-
+		
+		/* load context */
 		$context = $this->contextProvider->getContext();
-		
-		/* load camp */
-	    $this->camp = $context->getCamp();
-	    $this->view->camp = $this->camp;
+	    $this->view->camp = $context->getCamp();
+	    $this->view->group = $context->getGroup();
+	    $this->view->owner = $context->getUser();
 
-	    /* load group */
-	    $this->group = $context->getGroup();
-	    $this->view->group = $this->group;
+	    $this->setNavigation(new \WebApp\Navigation\Camp($context->getCamp()));
 		
-	    /* load user */
-	    $this->user = $context->getUser();
-	    $this->view->owner = $this->user;
-	    
-
-	    $this->setNavigation(new \WebApp\Navigation\Camp($this->camp));
-
-		
-		/* move this to bootsrap */
-// 		$event = new \WebApp\Plugin\StrategyEventListener($this->view, $this->em);
-// 		$this->em->getEventManager()->addEventSubscriber($event);
 	}
 
 	
