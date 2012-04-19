@@ -8,10 +8,6 @@ class SchemaManager
 	private $em;
 	
 	
-	/**
-	 * @var Doctrine\DBAL\Schema\AbstractSchemaManager
-	 */
-	private $sm;
 	
 	private $rawDB;
 	
@@ -40,34 +36,14 @@ class SchemaManager
 		$this->rawDB->setLogin($user, $password);
 		$this->rawDB->setDatabase($database);
 		$this->rawDB->setMysqlPath($mysqlPath);
-		
-//		$this->sm = $this->em->getConnection()->getSchemaManager();
-		
+				
 	}
 	
 	
 	public function dropAllTables()
 	{
 		$this->rawDB->dropAllTables();
-		
-// 		$tables = $this->sm->listTableNames();
-		
-// 		foreach($tables as $table)
-// 		{
-// 			$fks = $this->sm->listTableForeignKeys($table);
-			
-// 			foreach($fks as $fk)
-// 			{
-// 				$this->sm->dropForeignKey($fk, $table);
-// 			}
-// 		}
-		
-// 		foreach($tables as $table)
-// 		{
-// 			$this->sm->dropTable($table);
-// 		}
 	}
-	
 	
 	public function createSchema()
 	{
@@ -78,6 +54,13 @@ class SchemaManager
 		
 	}
 	
+	public function updateSchema()
+	{
+		$metadatas = $this->em->getMetadataFactory()->getAllMetadata();
+		
+		$schemaTool = new \Doctrine\ORM\Tools\SchemaTool($this->em);
+		$schemaTool->updateSchema($metadatas);
+	}
 	
 	public function clearAllTables()
 	{
@@ -87,29 +70,10 @@ class SchemaManager
 		$this->createSchema();
 	}
 	
-	
 	public function loadSqlDump($file)
 	{
 		return $this->rawDB->runSqlFile($file);
-//		return $this->runSqlFile($this->dumpPath . $file);
 	}
 	
-	
-// 	public function runSqlFile($file)
-// 	{
-// 		global $mysqlBinPath;
-		
-// 		$user = $this->em->getConnection()->getUsername();
-// 		$pass = $this->em->getConnection()->getPassword();
-// 		$db =	$this->em->getConnection()->getDatabase();
-		
-// 		$commands = array();
-		
-// 		$commands[] = $mysqlBinPath."mysql -u $user -p$pass $db < $file";
-		
-// 		exec(implode(PHP_EOL, $commands), $ret);	
-		
-// 		return $ret;
-// 	}
 	
 }
