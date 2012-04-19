@@ -2,6 +2,8 @@
 <phpunit bootstrap='./test/UnitTest/bin/Bootstrap.php' colors="true">
 	<php>
 		<ini name="memory_limit" value="100M" />
+		<const name="APPLICATION_ENV" value="travis"/>
+		
 	</php>
 
 	<testsuites>

@@ -22,8 +22,6 @@
 defined('APPLICATION_PATH')
 	|| define('APPLICATION_PATH', realpath(dirname(__FILE__) . '/../../../application'));
 
-// Define application environment
-define('APPLICATION_ENV', 'testing');
 
 // Ensure library/ is on include_path
 set_include_path(implode(PATH_SEPARATOR, array(
@@ -34,13 +32,9 @@ set_include_path(implode(PATH_SEPARATOR, array(
 /** Zend_Application */
 require_once 'Zend/Application.php';
 
-require_once './test/UnitTest/bin/SchemaManager.php';
-
-require_once './test/UnitTest/tests/TestCase.php';
-require_once './test/UnitTest/tests/ServiceTestCase.php';
-// require_once '../tests/EcampTestCase.php';
-// require_once '../tests/EcampTestCaseWithDb.php';
-// require_once '../tests/EcampControllerTestCase.php';
+require_once __DIR__ . "/SchemaManager.php";
+require_once __DIR__ . '/../tests/TestCase.php';
+require_once __DIR__ . '/../tests/ServiceTestCase.php';
 
 //require_once('./application/EcampTestCase.php');
 $application = new Zend_Application(
