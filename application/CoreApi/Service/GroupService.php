@@ -97,7 +97,7 @@ class GroupService
 			}
 		}
 		
-		$grouprequestValidator = new \Core\Validator\Entity\GroupRequestValidator($group);
+		$grouprequestValidator = new \Core\Validator\Entity\GroupRequestValidator($groupRequest);
 		$grouprequestValidator->applyIfValid($form);
 		
 		/* creat grouprequest */
