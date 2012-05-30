@@ -85,19 +85,8 @@ class WebApp_UserController extends \WebApp\Controller\BaseController
 	{
 		$editprofileForm = new \WebApp\Form\EditProfile();
 
-		if($id = $this->getRequest()->getParam('id'))
-		{
-			/** @var $user \CoreApi\Entity\User */
-			$user = $this->userService->get($id);
-
-			if(!is_null($user) && $user->getState() == \CoreApi\Entity\User::STATE_NONREGISTERED)
-			{
-				$editprofileForm->setDefault('username', 	$user->getUsername());
-				$editprofileForm->setDefault('scoutname', 	$user->getScoutname());
-				$editprofileForm->setDefault('firstname', 	$user->getFirstname());
-				$editprofileForm->setDefault('surname', 	$user->getSurname());
-			}
-		}
+		$user = $this->userService->Get( $this->getRequest()->getParam("id") );
+		$editprofileForm->setData($user);
 
 		$editprofileForm->setDefaults($this->getRequest()->getParams());
 
@@ -110,10 +99,12 @@ class WebApp_UserController extends \WebApp\Controller\BaseController
 
 		$editprofileForm = new \WebApp\Form\EditProfile();
 		$editprofileForm->populate($params);
-
+		
+		$user = $this->userService->Get($editprofileForm->getValue('id'));
+		
 		try
 		{
-			$editprofileForm = $this->userService->Update($editprofileForm);
+			$this->userService->Update($user, $editprofileForm);
 			$this->_helper->getHelper('Redirector')->gotoRoute(array('action'=>'show'));
 		}
 		catch (\Core\Service\ValidationException $e)
