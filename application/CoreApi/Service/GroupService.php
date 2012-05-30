@@ -97,8 +97,28 @@ class GroupService
 			}
 		}
 		
+		// Neue GroupRequest erstellen
+		$groupRequest = new GroupRequest();
+		// Daten, welche nicht über die $form definiert werden, müssen von Hand gesetzt werden:
+		$groupRequest->setRequester($me)->setParent($group);
+		
+		// GroupValidator erstellen:
 		$grouprequestValidator = new \Core\Validator\Entity\GroupRequestValidator($groupRequest);
-		$grouprequestValidator->applyIfValid($form);
+		
+		// Die gemachten Angaben in der $form gegen die neue $groupRequest validieren
+		if($grouprequestValidator->isValid($form))
+		{
+			// und auf die GroupRequest anwenden, wenn diese gültig sind.
+			$grouprequestValidator->apply($form);
+		
+			// die neue und gültie GroupRequest persistieren.
+			$this->persist($groupRequest);
+		}
+		else
+		{
+			// Wenn die Validierung fehl schlägt, muss dies festgehalten werden:
+		$this->validationFailed();
+		}
 		
 		/* creat grouprequest */
 		$groupRequest = new GroupRequest();
