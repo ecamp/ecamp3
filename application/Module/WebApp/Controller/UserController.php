@@ -94,6 +94,8 @@ class WebApp_UserController extends \WebApp\Controller\BaseController
 			{
 				$editprofileForm->setDefault('username', 	$user->getUsername());
 				$editprofileForm->setDefault('scoutname', 	$user->getScoutname());
+				$editprofileForm->setDefault('firstname', 	$user->getFirstname());
+				$editprofileForm->setDefault('surname', 	$user->getSurname());
 			}
 		}
 
@@ -101,6 +103,7 @@ class WebApp_UserController extends \WebApp\Controller\BaseController
 
 		$this->view->editprofileForm = $editprofileForm;
 	}
+	
 	public function updateprofileAction()
 	{
 		$params = $this->getRequest()->getParams();
@@ -110,8 +113,8 @@ class WebApp_UserController extends \WebApp\Controller\BaseController
 
 		try
 		{
-			$editprofileForm = $this->userService->UpdateUserProfile($editprofileForm);
-			$this->render("show");
+			$editprofileForm = $this->userService->Update($editprofileForm);
+			$this->_helper->getHelper('Redirector')->gotoRoute(array('action'=>'show'));
 		}
 		catch (\Core\Service\ValidationException $e)
 		{

@@ -35,6 +35,16 @@ class EditProfile extends BaseForm
 		$scoutname->setLabel('Scoutname')
 			->addFilter('StringTrim')
 			->addFilter('StringToLower');
+		
+		$firstname = new \Zend_Form_Element_Text('firstname');
+		$firstname->setLabel('Firstname')
+			->addFilter('StringTrim')
+			->addFilter('StringToLower');
+			
+		$surname = new \Zend_Form_Element_Text('surname');
+		$surname->setLabel('Surname')
+			->addFilter('StringTrim')
+			->addFilter('StringToLower');
 
 		$submit = new \Zend_Form_Element_Submit('submit');
 		$submit->setLabel('Save');
@@ -42,6 +52,8 @@ class EditProfile extends BaseForm
 		$this->addElement($id);
 		$this->addElement($username);
 		$this->addElement($scoutname);
+		$this->addElement($firstname);
+		$this->addElement($surname);
 
 		$this->addElement($submit);
 		

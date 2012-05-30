@@ -33,6 +33,9 @@ class UserService
 	{
 		$this->acl->allow(DefaultAcl::MEMBER, $this, 'Get');
 		
+		$this->acl->allow(DefaultAcl::MEMBER, $this, 'Update');
+		$this->acl->allow(DefaultAcl::MEMBER, $this, 'Delete');
+		
 		$this->acl->allow(DefaultAcl::MEMBER, $this, 'CreateCamp');
 		$this->acl->allow(DefaultAcl::MEMBER, $this, 'DeleteCamp');
 		$this->acl->allow(DefaultAcl::MEMBER, $this, 'UpdateCamp');
@@ -109,10 +112,18 @@ class UserService
 	
 	public function Update(\Zend_Form $form)
 	{
-		/* probably better goes to ACL later, just copied for now from validator */
-		$this->validationFailed( $this->Get()->getId() != $form->getValue('id') );
+		$user = $this->contextProvider->getContext()->getUser();
+		$userValidator = new \Core\Validator\Entity\UserValidator($user);
 		
-		// update user
+		if($userValidator->isValid($form))
+		{
+			$userValidator->apply($form);
+			$this->persist($user);
+		}
+		else
+		{
+			$this->validationFailed();
+		}
 	}
 	
 	public function Delete(\Zend_Form $form)
@@ -170,20 +181,6 @@ class UserService
 		return $camp;
 	}
 	
-	/**
-	 * Updates user Profile
-	 * @return \CoreApi\Entity\User
-	 */
-	public function UpdateUserProfile(\Zend_Form $form)
-	{
-		$user = $this->contextProvider->getContext()->Get('user');
-		
-		/* update user profile */
-		$camp = $this->userService->Update($user, $form);
-	
-		return $camp;
-	}
-
 	/**
 	 * 
 	 * @return bool
