@@ -119,18 +119,6 @@ class GroupService
 			// Wenn die Validierung fehl schlägt, muss dies festgehalten werden:
 		$this->validationFailed();
 		}
-		
-		/* creat grouprequest */
-		$groupRequest = new GroupRequest();
-		$groupRequest->setName($new_groupname)
-			->setDescription($form->getValue('description'))
-			->setMotivation($form->getValue('motivation'))
-			->setRequester($me)
-			->setParent($group);
-			
-		$this->persist($groupRequest);	
-		
-		return $groupRequest;
 	}
 	
 	/**
