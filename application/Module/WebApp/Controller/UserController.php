@@ -101,4 +101,5 @@ class WebApp_UserController extends \WebApp\Controller\BaseController
 
 		$this->view->editprofileForm = $editprofileForm;
 	}
+	
 }
