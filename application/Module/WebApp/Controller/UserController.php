@@ -101,5 +101,23 @@ class WebApp_UserController extends \WebApp\Controller\BaseController
 
 		$this->view->editprofileForm = $editprofileForm;
 	}
-	
+	public function updateprofileAction()
+	{
+		$params = $this->getRequest()->getParams();
+
+		$editprofileForm = new \WebApp\Form\EditProfile();
+		$editprofileForm->populate($params);
+
+		try
+		{
+			$editprofileForm = $this->userService->UpdateUserProfile($editprofileForm);
+			$this->render("show");
+		}
+		catch (\Core\Service\ValidationException $e)
+		{
+			$this->view->editprofileForm = $editprofileForm;
+			$this->render("editprofile");
+			return;	
+		}	
+	}
 }

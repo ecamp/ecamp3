@@ -37,6 +37,8 @@ class UserService
 		$this->acl->allow(DefaultAcl::MEMBER, $this, 'DeleteCamp');
 		$this->acl->allow(DefaultAcl::MEMBER, $this, 'UpdateCamp');
 		
+		$this->acl->allow(DefaultAcl::MEMBER, $this, 'UpdateUserProfile');
+		
 		$this->acl->allow(DefaultAcl::MEMBER,  $this, 'getFriendsOf');
 		$this->acl->allow(DefaultAcl::MEMBER,  $this, 'GetPaginator');
 		
@@ -142,7 +144,7 @@ class UserService
 		return $camp;
 	}
 	
-/**
+	/**
 	 * Updates a Camp
 	 * @return \CoreApi\Entity\Camp
 	 */
@@ -168,6 +170,20 @@ class UserService
 		return $camp;
 	}
 	
+	/**
+	 * Updates user Profile
+	 * @return \CoreApi\Entity\User
+	 */
+	public function UpdateUserProfile(\Zend_Form $form)
+	{
+		$user = $this->contextProvider->getContext()->Get('user');
+		
+		/* update user profile */
+		$camp = $this->userService->Update($user, $form);
+	
+		return $camp;
+	}
+
 	/**
 	 * 
 	 * @return bool

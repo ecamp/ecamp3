@@ -44,6 +44,8 @@ class EditProfile extends BaseForm
 		$this->addElement($scoutname);
 
 		$this->addElement($submit);
+		
+		$this->setAction('updateprofile');
 
 	}
 	
