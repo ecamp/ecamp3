@@ -30,12 +30,12 @@ CREATE TABLE `camps` (
   CONSTRAINT `camps_ibfk_1` FOREIGN KEY (`creator_id`) REFERENCES `users` (`id`),
   CONSTRAINT `camps_ibfk_2` FOREIGN KEY (`owner_id`) REFERENCES `users` (`id`),
   CONSTRAINT `camps_ibfk_3` FOREIGN KEY (`group_id`) REFERENCES `groups` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 LOCK TABLES `camps` WRITE;
 /*!40000 ALTER TABLE `camps` DISABLE KEYS */;
-INSERT INTO `camps` VALUES (7,7,7,NULL,'2011-11-26 21:14:26','2011-11-26 21:14:26','mycamp','My Camp'),(8,20,20,NULL,'2012-03-10 16:52:13','2012-03-10 16:52:13','mycamp','mycamp'),(9,20,20,NULL,'2012-03-10 17:08:11','2012-03-10 17:08:11','mycamp2','mycamp'),(13,7,7,NULL,'2012-03-20 07:52:08','2012-03-27 22:04:55','asdfadf','test'),(25,7,NULL,249,'2012-03-27 21:52:25','2012-03-27 21:52:44','sola12','asdf 12');
+INSERT INTO `camps` VALUES (7,7,7,NULL,'2011-11-26 21:14:26','2011-11-26 21:14:26','mycamp','My Camp'),(8,20,20,NULL,'2012-03-10 16:52:13','2012-03-10 16:52:13','mycamp','mycamp'),(9,20,20,NULL,'2012-03-10 17:08:11','2012-03-10 17:08:11','mycamp2','mycamp'),(13,7,7,NULL,'2012-03-20 07:52:08','2012-03-27 22:04:55','asdfadf','test'),(25,7,NULL,249,'2012-03-27 21:52:25','2012-03-27 21:52:44','sola12','asdf 12'),(26,8,8,NULL,'2012-05-30 11:21:53','2012-05-30 11:21:53','jhgadfga','kjhg');
 /*!40000 ALTER TABLE `camps` ENABLE KEYS */;
 UNLOCK TABLES;
 DROP TABLE IF EXISTS `days`;
@@ -104,6 +104,34 @@ LOCK TABLES `events` WRITE;
 /*!40000 ALTER TABLE `events` DISABLE KEYS */;
 INSERT INTO `events` VALUES (1,13,NULL,'2012-04-03 19:18:18','2012-04-03 19:18:18','9771b966b2e1c7774b666fc4d6943cdf'),(2,13,NULL,'2012-04-03 19:24:50','2012-04-03 19:24:50','dbf84220a2c1b11d12f6f1ca66999901'),(3,13,NULL,'2012-04-03 19:25:16','2012-04-03 19:25:16','0ded9dc292bcbe65f7a3cbf8c8bbc6a9'),(4,13,NULL,'2012-04-03 19:25:22','2012-04-03 19:25:22','3a8953e47657bbc6468680258f76a119'),(5,13,NULL,'2012-04-03 19:25:44','2012-04-03 19:25:44','3ffe3cfbbc002fe142e3a6c1e1bcc9c4'),(6,13,NULL,'2012-04-03 19:25:55','2012-04-03 19:25:55','5c4794d8d63b2178715c7a262647d269'),(7,13,NULL,'2012-04-03 19:26:28','2012-04-03 19:26:28','90100a973e6d6d31b0c029f41e1e956f'),(8,13,NULL,'2012-04-03 19:26:44','2012-04-03 19:26:44','f6f327a7ddc8261b2ce285c5914a380b'),(9,13,NULL,'2012-04-03 19:30:00','2012-04-03 19:30:00','e44217a01a198ad95ec1da8f183dc58f'),(15,7,NULL,'2012-04-03 22:43:39','2012-04-03 22:43:39','33b98d1e1e57a3f8a999f1e23d000b74'),(16,7,NULL,'2012-04-03 22:43:45','2012-04-03 22:43:45','c1c03950d8dc4fb2ff0a304121e00f10'),(17,7,NULL,'2012-04-03 22:43:50','2012-04-03 22:43:50','7c8801425105c72435f8a0381b80ce6d'),(18,7,NULL,'2012-04-03 22:44:41','2012-04-03 22:44:41','69e0a7ad1b513266e6e1de4ed48ee68c'),(19,7,NULL,'2012-04-03 22:45:08','2012-04-03 22:45:08','7214e25be32fdae41f5b930234385134'),(20,7,NULL,'2012-04-03 22:46:31','2012-04-03 22:46:31','cffab46a97a86a795558bf0aee888e5d'),(21,7,NULL,'2012-04-03 22:47:01','2012-04-03 22:47:01','2f3aa5f91f627f21eccfb31e79f153d9');
 /*!40000 ALTER TABLE `events` ENABLE KEYS */;
+UNLOCK TABLES;
+DROP TABLE IF EXISTS `grouprequests`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `grouprequests` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `parent_id` int(11) DEFAULT NULL,
+  `image_id` int(11) DEFAULT NULL,
+  `requester_id` int(11) DEFAULT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  `name` varchar(32) NOT NULL,
+  `description` varchar(64) NOT NULL,
+  `motivation` longtext NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `UNIQ_89CD63203DA5256D` (`image_id`),
+  KEY `IDX_89CD6320727ACA70` (`parent_id`),
+  KEY `IDX_89CD6320ED442CF4` (`requester_id`),
+  CONSTRAINT `FK_89CD63203DA5256D` FOREIGN KEY (`image_id`) REFERENCES `images` (`id`),
+  CONSTRAINT `FK_89CD6320727ACA70` FOREIGN KEY (`parent_id`) REFERENCES `groups` (`id`),
+  CONSTRAINT `FK_89CD6320ED442CF4` FOREIGN KEY (`requester_id`) REFERENCES `users` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+LOCK TABLES `grouprequests` WRITE;
+/*!40000 ALTER TABLE `grouprequests` DISABLE KEYS */;
+INSERT INTO `grouprequests` VALUES (11,249,NULL,7,'2012-04-05 18:10:39','2012-04-05 18:10:39','testgroup','it\\\'s just a test','Hello, i like to be a subgroup'),(12,249,NULL,7,'2012-04-05 18:12:18','2012-04-05 18:12:18','ljgf','jgf','jgf'),(13,249,NULL,7,'2012-04-05 18:26:40','2012-04-05 18:26:40','ã¶lh','bdrgÃ¶akjr','Ã¶akrh aÃ¶wkejfh Ã¶wekjh.'),(14,249,NULL,7,'2012-04-05 18:36:07','2012-04-05 18:36:07','sad','dgbdgb','dfv w w efw !'),(15,249,NULL,7,'2012-04-05 18:38:51','2012-04-05 18:38:51','lkhgljhg','lkhgzf','lkhsdfv 56 aglhflkhgf !'),(16,249,NULL,7,'2012-04-05 20:40:25','2012-04-05 20:40:25','asf','sadg','sadggf'),(17,249,NULL,7,'2012-04-05 20:41:04','2012-04-05 20:41:04','fasd','sadf','asdgdsg'),(18,249,NULL,7,'2012-04-05 20:41:37','2012-04-05 20:41:37','fasd','sadf','asdgdsg'),(19,249,NULL,7,'2012-04-05 20:42:16','2012-04-05 20:42:16','asdf','asdf','asdf'),(20,249,NULL,7,'2012-04-05 20:43:08','2012-04-05 20:43:08','asdf','asdf','asdf'),(21,413,NULL,7,'2012-05-25 23:53:54','2012-05-25 23:53:54','lkg','lkhg','kljhlkjhg'),(22,413,NULL,7,'2012-05-25 23:54:20','2012-05-25 23:54:20','khb,jh',',mnbv,mnbnm,','msvdacmasdbvljkhvb'),(23,249,NULL,7,'2012-05-25 23:54:44','2012-05-25 23:54:44','hkg','khgkjhgkjhg','kjhgjkhghjkgjhg'),(24,249,NULL,7,'2012-05-25 23:55:52','2012-05-25 23:55:52','gh','ghjkljhg','kjgftuikutfgkf'),(25,249,NULL,7,'2012-05-26 00:02:20','2012-05-26 00:02:20','xydv','khg','kjhghjkghjg'),(26,249,NULL,7,'2012-05-30 09:33:51','2012-05-30 09:33:51','luleu','kjghfghjf','hgfghfghfghfghfhgf'),(27,249,NULL,7,'2012-05-30 09:33:51','2012-05-30 09:33:51','luleu','kjghfghjf','hgfghfghfghfghfhgf');
+/*!40000 ALTER TABLE `grouprequests` ENABLE KEYS */;
 UNLOCK TABLES;
 DROP TABLE IF EXISTS `groups`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -184,12 +212,12 @@ CREATE TABLE `periods` (
   PRIMARY KEY (`id`),
   KEY `periods_camp_id_idx` (`camp_id`),
   CONSTRAINT `periods_ibfk_1` FOREIGN KEY (`camp_id`) REFERENCES `camps` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 LOCK TABLES `periods` WRITE;
 /*!40000 ALTER TABLE `periods` DISABLE KEYS */;
-INSERT INTO `periods` VALUES (7,7,'2011-11-26 21:14:26','2011-11-26 21:14:26','2011-11-14',6,NULL),(8,8,'2012-03-10 16:52:13','2012-03-10 16:52:13','2012-03-13',9,NULL),(9,9,'2012-03-10 17:08:11','2012-03-10 17:08:11','2012-03-06',2,NULL),(12,13,'2012-03-20 07:52:08','2012-03-20 07:52:08','2012-03-02',14,NULL),(17,25,'2012-03-27 21:52:25','2012-03-27 21:52:25','2012-03-01',2,NULL);
+INSERT INTO `periods` VALUES (7,7,'2011-11-26 21:14:26','2011-11-26 21:14:26','2011-11-14',6,NULL),(8,8,'2012-03-10 16:52:13','2012-03-10 16:52:13','2012-03-13',9,NULL),(9,9,'2012-03-10 17:08:11','2012-03-10 17:08:11','2012-03-06',2,NULL),(12,13,'2012-03-20 07:52:08','2012-03-20 07:52:08','2012-03-02',14,NULL),(17,25,'2012-03-27 21:52:25','2012-03-27 21:52:25','2012-03-01',2,NULL),(18,26,'2012-05-30 11:21:53','2012-05-30 11:21:53','2012-05-01',8,NULL);
 /*!40000 ALTER TABLE `periods` ENABLE KEYS */;
 UNLOCK TABLES;
 DROP TABLE IF EXISTS `plugin_contents`;

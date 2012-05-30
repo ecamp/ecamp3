@@ -80,5 +80,25 @@ class WebApp_UserController extends \WebApp\Controller\BaseController
 		$this->friendService->terminate($user);
 		$this->_helper->getHelper('Redirector')->gotoRoute(array('action'=>'show', 'user' => $user->getId()), 'web+user');
 	}
+	
+	public function editprofileAction()
+	{
+		$editprofileForm = new \WebApp\Form\EditProfile();
 
+		if($id = $this->getRequest()->getParam('id'))
+		{
+			/** @var $user \CoreApi\Entity\User */
+			$user = $this->userService->get($id);
+
+			if(!is_null($user) && $user->getState() == \CoreApi\Entity\User::STATE_NONREGISTERED)
+			{
+				$editprofileForm->setDefault('username', 	$user->getUsername());
+				$editprofileForm->setDefault('scoutname', 	$user->getScoutname());
+			}
+		}
+
+		$editprofileForm->setDefaults($this->getRequest()->getParams());
+
+		$this->view->editprofileForm = $editprofileForm;
+	}
 }
