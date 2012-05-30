@@ -6,6 +6,8 @@ tmp/*
 tmp/**/*
 
 application/Core/EntityProxy/*
+!application/Core/EntityProxy/.gitignore
+
 
 data/log/*
 data/log/**/*

@@ -29,14 +29,14 @@ class Header_PluginController extends \WebApp\Controller\BasePluginController
 		$this->_helper->viewRenderer->setNoRender(true);
 		
 		$id = $this->getRequest()->getParam("id");
-		$this->plugin = $this->em->getRepository("CoreApi\Entity\Plugin")->find($id);
+		$this->plugin = $this->eventService->getPlugin($id);
 		
 		$this->getResponse()->setHeader('Content-Type', 'text/plain');
     }
 
     public function saveAction()
     {
-		$header = $this->em->getRepository("Core\Plugin\Header\Entity\Header")->findOneBy(array('plugin' => $this->plugin->getId()));
+		$header = $this->em->getRepository("CoreApi\Plugin\Header\Entity\Header")->findOneBy(array('plugin' => $this->plugin->getId()));
 		
 		$response = array();
 		$response['message'] = "I am a header plugin.\n\nOld value: ".$header->getText()."!\nNew value: ".$this->getRequest()->getParam("text")."!";

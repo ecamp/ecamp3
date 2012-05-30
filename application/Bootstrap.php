@@ -148,6 +148,14 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 		$kernel	->Bind("CoreApi\Service\AvatarService")
 				->ToFactory(new ServiceFactory("CoreApi\Service\AvatarService"))
 				->AsSingleton();
+		
+		$kernel	->Bind("CoreApi\Service\SearchUserService")
+				->ToFactory(new ServiceFactory("CoreApi\Service\SearchUserService"))
+				->AsSingleton();
+		
+		$kernel	->Bind("CoreApi\Service\EventService")
+				->ToFactory(new ServiceFactory("CoreApi\Service\EventService"))
+				->AsSingleton();
 
 		/* direct service mappings to service classes for in service calls */
 		$kernel	->Bind("Core\Service\RegisterService")->To("CoreApi\Service\RegisterService")->AsSingleton();
@@ -157,11 +165,12 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 		$kernel	->Bind("Core\Service\GroupService")->To("CoreApi\Service\GroupService")->AsSingleton();
 		$kernel	->Bind("Core\Service\FriendService")->To("CoreApi\Service\FriendService")->AsSingleton();
 		$kernel	->Bind("Core\Service\AvatarService")->To("CoreApi\Service\AvatarService")->AsSingleton();
+		$kernel	->Bind("Core\Service\SearchUserService")->To("CoreApi\Service\SearchUserService")->AsSingleton();
+		$kernel	->Bind("Core\Service\EventService")->To("CoreApi\Service\EventService")->AsSingleton();
 		
 		Zend_Registry::set("kernel", $kernel);
 	}
-
-
+	
 	/**
 	 * Basic setup of module support and layout support.
 	 *

@@ -7,7 +7,10 @@ class GitAttributes
 	
 	public function IsInstalled()
 	{
-		$content = file_get_contents($this->attributesFile);
+		$content = "";
+		
+		if(file_exists($this->attributesFile))
+		{	$content = file_get_contents($this->attributesFile);	}
 		
 		return $content == $this->origFileContent();
 	}
@@ -21,6 +24,7 @@ class GitAttributes
 	{
 		$rows = array();
 		$rows[] = "data/sql/eCamp3dev.sql merge=keepLocal";
+		$rows[] = "";
 		
 		return implode(PHP_EOL, $rows);
 	}
