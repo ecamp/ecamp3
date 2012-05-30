@@ -8,6 +8,7 @@ use Core\Service\ServiceBase;
 use Core\Validator\Entity\CampValidator;
 
 use CoreApi\Entity\Camp;
+use CoreApi\Entity\UserCamp;
 use CoreApi\Entity\Period;
 
 
@@ -80,16 +81,28 @@ class CampService
 	 */
 	public function Create(\Zend_Form $form)
 	{	
+		$me = $this->contextProvider->getContext()->getMe();
+		
+		// New Camp
 		$camp = new Camp();
 		$this->persist($camp);
-		
-		$me = $this->contextProvider->getContext()->getMe();
+
 		$camp->setCreator($me);
+		
+		// New UserCamp
+		$userCamp = new UserCamp($me, $camp);
+		$this->persist($userCamp);
+		
+		$userCamp->setRequestedRole(UserCamp::ROLE_OWNER);
+		$userCamp->acceptInvitation();
+		$userCamp->acceptRequest($me);
+		
 		
 		$campValidator = new CampValidator($camp);
 		$this->validationFailed( !$campValidator->applyIfValid($form) );
 		
 		$this->CreatePeriod($camp, $form);
+		
 		
 		return $camp;
 	}

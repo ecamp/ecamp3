@@ -44,17 +44,17 @@ class WebApp_LeaderController extends \WebApp\Controller\BaseController
 	
 	
 	/**
-	 * @var \Entity\Camp
+	 * @var \CoreApi\Entity\Camp
 	 */
 	private $camp;
 	
 	/**
-	 * @var \Entity\Group
+	 * @var \CoreApi\Entity\Group
 	 */
 	private $group;
 	
 	/**
-	 * @var \Entity\User
+	 * @var \CoreApi\Entity\User
 	 */
 	private $owner;
 	
@@ -94,9 +94,14 @@ class WebApp_LeaderController extends \WebApp\Controller\BaseController
 	
 	public function indexAction()
 	{
-		$this->view->managers = $this->camp->getUsercamps()->filter(UserCamp::RoleFilter(UserCamp::ROLE_MANAGER));		
-		$this->view->leaders  = $this->camp->getUsercamps()->filter(UserCamp::RoleFilter(UserCamp::ROLE_MEMBER));
-		$this->view->guests   = $this->camp->getUsercamps()->filter(UserCamp::RoleFilter(UserCamp::ROLE_GUEST));
+		
+		$this->view->managers = $this->camp->getMembersByRoles(UserCamp::ROLE_MANAGER);
+			// $this->camp->getUserCamps()->filter(UserCamp::RoleFilter(UserCamp::ROLE_MANAGER));		
+		$this->view->leaders  = $this->camp->getMembersByRoles(UserCamp::ROLE_MEMBER);
+			// $this->camp->getUserCamps()->filter(UserCamp::RoleFilter(UserCamp::ROLE_MEMBER));
+		$this->view->guests   = $this->camp->getMembersByRoles(UserCamp::ROLE_GUEST);
+			// $this->camp->getUserCamps()->filter(UserCamp::RoleFilter(UserCamp::ROLE_GUEST));
+		
 	}
 	
 }

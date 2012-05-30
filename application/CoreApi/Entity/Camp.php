@@ -207,14 +207,22 @@ class Camp extends BaseEntity
 	 */
 	public function getMembers()
 	{
-		$members = new \Doctrine\Common\Collections\ArrayCollection();
-
-		foreach($this->usercamps as $userCamp) {
-			if($userCamp->isMember()) {
-				$members->add($userCamp->getUser());
-			}
-		}
-
+ 		$members = $this->usercamps
+					->filter(function($uc){	return $uc->isMember();	})
+					->map(function($uc){	return $uc->getUser();	});
+		
+		return $members;
+	}
+	
+	public function getMembersByRoles($roles = array())
+	{
+		if(!is_array($roles))
+		{	$roles = (func_num_args() > 1) ? func_get_args() : array($roles);	}
+		
+		$members = $this->usercamps
+					->filter(function($uc) use ($roles) {	return $uc->isMember() && in_array($uc->getRole(), $roles);	})
+					->map(function($uc)					{	return $uc->getUser();	});
+		
 		return $members;
 	}
 	
