@@ -14,52 +14,17 @@ use CoreApi\Entity\GroupRequest;
  */
 class GroupRequestService 
 	extends ServiceBase
-{
-	/**
-	 * @var Core\Repository\GroupRepository
-	 * @Inject Core\Repository\GroupRepository
-	 */
-	protected $groupRepo;
-	
-	/**
-	 * @var CoreApi\Service\CampService
-	 * @Inject Core\Service\CampService
-	 */
-	protected $campService;
-	
+{	
 	/**
 	 * Setup ACL
 	 * @return void
 	 */
 	public function _setupAcl()
-	{
-		$this->acl->allow(DefaultAcl::MEMBER, $this, 'Get');
-		
+	{	
 		$this->acl->allow(DefaultAcl::MEMBER, $this, 'RequestGroup');
 
 		$this->acl->allow(DefaultAcl::GROUP_MEMBER, $this, 'acceptGroupRequest');
 		$this->acl->allow(DefaultAcl::GROUP_MEMBER, $this, 'rejectGroupRequest');
-	}
-	
-	/**
-	 * Returns the Group with the given ID
-	 * 
-	 * If no Identifier is given, the Context Group is returned
-	 * 
-	 * @return CoreApi\Entity\Group
-	 */
-	public function Get($id = null)
-	{
-		if(is_null($id))
-		{	return $this->contextProvider->getContext()->getGroup();	}
-		
-		if(is_numeric($id))
-		{	return $this->groupRepo->find($id);	}
-		
-		if($id instanceof Group)
-		{	return $id;	}
-		
-		return null;
 	}
 	
 	/**

@@ -156,6 +156,10 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 		$kernel	->Bind("CoreApi\Service\EventService")
 				->ToFactory(new ServiceFactory("CoreApi\Service\EventService"))
 				->AsSingleton();
+		
+		$kernel	->Bind("CoreApi\Service\GroupRequestService")
+				->ToFactory(new ServiceFactory("CoreApi\Service\GroupRequestService"))
+				->AsSingleton();
 
 		/* direct service mappings to service classes for in service calls */
 		$kernel	->Bind("Core\Service\RegisterService")->To("CoreApi\Service\RegisterService")->AsSingleton();
