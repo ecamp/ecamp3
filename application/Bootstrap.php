@@ -171,6 +171,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 		$kernel	->Bind("Core\Service\AvatarService")->To("CoreApi\Service\AvatarService")->AsSingleton();
 		$kernel	->Bind("Core\Service\SearchUserService")->To("CoreApi\Service\SearchUserService")->AsSingleton();
 		$kernel	->Bind("Core\Service\EventService")->To("CoreApi\Service\EventService")->AsSingleton();
+		$kernel	->Bind("Core\Service\GroupRequestService")->To("CoreApi\Service\GroupRequestService")->AsSingleton();
 		
 		Zend_Registry::set("kernel", $kernel);
 	}
