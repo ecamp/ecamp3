@@ -28,6 +28,12 @@ class WebApp_GroupController extends \WebApp\Controller\BaseController
 	private $groupService;
 	
 	/**
+	 * @var CoreApi\Service\GroupRequestService
+     * @Inject CoreApi\Service\GroupRequestService
+	 */
+	private $groupRequestService;
+	
+	/**
 	 * @var CoreApi\Service\CampService
 	 * @Inject CoreApi\Service\CampService
 	 */
@@ -278,7 +284,7 @@ class WebApp_GroupController extends \WebApp\Controller\BaseController
 		
 		try
 		{
-			$groupRequest = $this->groupService->RequestGroup($grouprequestForm);
+			$groupRequest = $this->groupRequestService->RequestGroup($grouprequestForm);
 			$this->_helper->getHelper('Redirector')->gotoRoute(array('action'=>'show', 'group' => $this->group->getId()));
 		}
 		catch (\Core\Service\ValidationException $e)
