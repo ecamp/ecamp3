@@ -24,8 +24,6 @@ class EditProfile extends BaseForm
 {
 	public function init()
 	{
-		$id = new \Zend_Form_Element_Hidden('id');
-
 		$username = new \Zend_Form_Element_Text('username');
 		$username->setLabel('Username (unique)')
 			->addFilter('StringTrim')
@@ -45,16 +43,46 @@ class EditProfile extends BaseForm
 		$surname->setLabel('Surname')
 			->addFilter('StringTrim')
 			->addFilter('StringToLower');
+			
+		$street = new \Zend_Form_Element_Text('street');
+		$street->setLabel('Street')
+			->addFilter('StringTrim')
+			->addFilter('StringToLower');
+			
+		$zipcode = new \Zend_Form_Element_Text('zipcode');
+		$zipcode->setLabel('Zipcode')
+			->addFilter('StringTrim')
+			->addFilter('StringToLower');
+			
+		$city = new \Zend_Form_Element_Text('city');
+		$city->setLabel('City')
+			->addFilter('StringTrim')
+			->addFilter('StringToLower');
+			
+		$homeNr = new \Zend_Form_Element_Text('homeNr');
+		$homeNr->setLabel('Home Number')
+			->addFilter('StringTrim')
+			->addFilter('StringToLower');
+			
+		$mobilNr = new \Zend_Form_Element_Text('mobilNr');
+		$mobilNr->setLabel('Mobil Number')
+			->addFilter('StringTrim')
+			->addFilter('StringToLower');
 
 		$submit = new \Zend_Form_Element_Submit('submit');
 		$submit->setLabel('Save');
 
-		$this->addElement($id);
+		
 		$this->addElement($username);
 		$this->addElement($scoutname);
 		$this->addElement($firstname);
 		$this->addElement($surname);
-
+		$this->addElement($street);
+		$this->addElement($zipcode);
+		$this->addElement($city);
+		$this->addElement($homeNr);
+		$this->addElement($mobilNr);
+		
 		$this->addElement($submit);
 		
 		$this->setAction('updateprofile');

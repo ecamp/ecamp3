@@ -484,6 +484,20 @@ class User extends BaseEntity
 
 		return $name.$this->firstname . " " . $this->surname;
 	}
+	
+	/**
+	 * @return string
+	 */
+	public function getFullAddress()
+	{
+		$address = "";
+		if( !empty( $this->street ) )
+		{
+			$address .= $this->street.", ";
+		}
+
+		return $address.$this->zipcode . " " . $this->city;
+	}
 
 
 	/****************************************************************

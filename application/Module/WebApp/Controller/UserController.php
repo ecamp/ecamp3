@@ -85,7 +85,7 @@ class WebApp_UserController extends \WebApp\Controller\BaseController
 	{
 		$editprofileForm = new \WebApp\Form\EditProfile();
 
-		$user = $this->userService->Get( $this->getRequest()->getParam("id") );
+		$user = $this->contextProvider->getContext()->getMe();
 		$editprofileForm->setData($user);
 
 		$editprofileForm->setDefaults($this->getRequest()->getParams());
@@ -100,12 +100,12 @@ class WebApp_UserController extends \WebApp\Controller\BaseController
 		$editprofileForm = new \WebApp\Form\EditProfile();
 		$editprofileForm->populate($params);
 		
-		$user = $this->userService->Get($editprofileForm->getValue('id'));
+		$user = $this->contextProvider->getContext()->getMe();
 		
 		try
 		{
-			$this->userService->Update($user, $editprofileForm);
-			$this->_helper->getHelper('Redirector')->gotoRoute(array('action'=>'show'));
+			$this->userService->Update($editprofileForm);
+			$this->_helper->getHelper('Redirector')->gotoRoute(array('action'=>'show', 'user' => $user->getId()), 'web+user');
 		}
 		catch (\Core\Service\ValidationException $e)
 		{

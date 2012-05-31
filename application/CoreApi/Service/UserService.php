@@ -110,14 +110,15 @@ class UserService
 	}
 	
 	
-	public function Update(User $user, \Zend_Form $form)
+	public function Update(\Zend_Form $form)
 	{
+		
+		$user = $this->contextProvider->getContext()->getMe();
 		$userValidator = new \Core\Validator\Entity\UserValidator($user);
 		
 		if($userValidator->isValid($form))
 		{
 			$userValidator->apply($form);
-			$this->persist($user);
 		}
 		else
 		{
