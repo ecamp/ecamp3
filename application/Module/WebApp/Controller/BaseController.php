@@ -42,6 +42,12 @@ class BaseController extends \Zend_Controller_Action
 	protected $contextProvider;
 	
 	/**
+	 * @var WebApp\QuickSwitch\Manager
+	 * @Inject WebApp\QuickSwitch\Manager
+	 */
+	protected $quickSwitchManager;
+	
+	/**
 	 * @var Core\Acl\DefaultAcl
 	 * @Inject Core\Acl\DefaultAcl
 	 */
@@ -71,7 +77,9 @@ class BaseController extends \Zend_Controller_Action
 		$this->view->me = $this->me;
 		$this->view->context = $this->contextProvider->getContext();
 		$this->view->roles   = $this->acl->getRolesInContext();
-        
+		
+		$this->view->quickLinks = $this->quickSwitchManager->getLinks();
+		$this->view->quickSwitchForm = new \WebApp\Form\QuickSwitchDropdown($this->quickSwitchManager);
 
 		/* load translator */
 		$this->t = new \Zend_View_Helper_Translate();

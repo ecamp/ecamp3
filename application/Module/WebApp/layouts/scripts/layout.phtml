@@ -57,7 +57,17 @@
 				</div>
 				
 				<div tal:condition="exists: me" id="campswitch">
-					<select><option>Camp Quickswitch</option></select>
+					
+					<tal:block content="structure quickSwitchForm" />
+					<!--
+					<select>
+						<tal:block repeat="link quickLinks">
+							<option tal:condition="php: is_a(link.entity, '\CoreApi\Entity\Camp')" 
+									tal:content="link/entity/getName" 
+									tal:attributes="value link/url" />
+						</tal:block>
+					</select>
+					-->
 				</div>
 
 
