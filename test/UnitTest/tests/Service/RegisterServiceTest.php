@@ -106,9 +106,6 @@ class RegisterServiceTest extends ServiceTestCase
 		$this->em->flush();
 		
 		
-		$fail = $this->registerService->Activate($user->getId(), null);
-		$this->assertFalse($fail);
-		
 		$success = $this->registerService->Activate($user->getId(), $activationCode);
 		$this->assertTrue($success);
 	}
