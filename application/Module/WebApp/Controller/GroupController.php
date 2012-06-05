@@ -260,5 +260,32 @@ class WebApp_GroupController extends \WebApp\Controller\BaseController
 		$this->_helper->flashMessenger->addMessage(array('info' => $this->t->translate('The membership request has been refused.')));
 		$this->_helper->getHelper('Redirector')->gotoRoute(array(), 'general');
 	}
+	
+	public function requestgroupAction()
+	{
+		$grouprequestForm = new \WebApp\Form\GroupRequest();
+		$grouprequestForm->setDefaults($this->getRequest()->getParams());
+		
+		$this->view->grouprequestForm = $grouprequestForm;
+	}
 
+	public function savegrouprequestAction()
+	{
+		$params = $this->getRequest()->getParams();
+		
+		$grouprequestForm = new \WebApp\Form\GroupRequest();
+		$grouprequestForm->populate($params);
+		
+		try
+		{
+			$groupRequest = $this->groupService->RequestGroup($grouprequestForm);
+			$this->_helper->getHelper('Redirector')->gotoRoute(array('action'=>'show', 'group' => $this->group->getId()));
+		}
+		catch (\Core\Service\ValidationException $e)
+		{
+			$this->view->grouprequestForm = $grouprequestForm;
+			$this->render("requestgroup");
+			return;	
+		}
+	}	
 }
