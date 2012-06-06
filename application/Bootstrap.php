@@ -126,56 +126,43 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 		$kernel->Bind("Core\Repository\CampRepository")->ToProvider(new Repository("CoreApi\Entity\Camp"));
 		
 		
-		/* indirect service mappings through wrapper for service calls from controller layer */
-		$kernel	->Bind("CoreApi\Service\RegisterService")
-				->ToFactory(new ServiceFactory("CoreApi\Service\RegisterService"))
-				->AsSingleton();
 		
-		$kernel	->Bind("CoreApi\Service\LoginService")
-				->ToFactory(new ServiceFactory("CoreApi\Service\LoginService"))
-				->AsSingleton();
+		$servicePath = APPLICATION_PATH . "/CoreApi/Service/";
+		$fi = new FilesystemIterator($servicePath, FilesystemIterator::SKIP_DOTS);
 		
-		$kernel	->Bind("CoreApi\Service\UserService")
-				->ToFactory(new ServiceFactory("CoreApi\Service\UserService"))
-				->AsSingleton();
+		while($fi->valid())
+		{
+			$file = $fi->current()->getBasename();
+			if(! strrpos($file, ".")) continue;
+			
+			$filename = substr($file, 0, strrpos($file, "."));
+			$publicClassname = "CoreApi\Service\\" . $filename;
+			$privateClassname = "Core\Service\\" . $filename;
+			
+			$kernel->Bind($publicClassname)->ToFactory(new ServiceFactory($publicClassname))->AsSingleton();
+			$kernel->Bind($privateClassname)->To($publicClassname)->AsSingleton();
+			
+			$fi->next();
+		}
 		
-		$kernel	->Bind("CoreApi\Service\CampService")
-				->ToFactory(new ServiceFactory("CoreApi\Service\CampService"))
-				->AsSingleton();
-		
-		$kernel	->Bind("CoreApi\Service\GroupService")
-				->ToFactory(new ServiceFactory("CoreApi\Service\GroupService"))
-				->AsSingleton();
-		
-		$kernel	->Bind("CoreApi\Service\FriendService")
-				->ToFactory(new ServiceFactory("CoreApi\Service\FriendService"))
-				->AsSingleton();
-		
-		$kernel	->Bind("CoreApi\Service\AvatarService")
-				->ToFactory(new ServiceFactory("CoreApi\Service\AvatarService"))
-				->AsSingleton();
-		
-		$kernel	->Bind("CoreApi\Service\SearchUserService")
-				->ToFactory(new ServiceFactory("CoreApi\Service\SearchUserService"))
-				->AsSingleton();
-		
-		$kernel	->Bind("CoreApi\Service\EventService")
-				->ToFactory(new ServiceFactory("CoreApi\Service\EventService"))
-				->AsSingleton();
-
-		/* direct service mappings to service classes for in service calls */
-		$kernel	->Bind("Core\Service\RegisterService")->To("CoreApi\Service\RegisterService")->AsSingleton();
-		$kernel	->Bind("Core\Service\LoginService")->To("CoreApi\Service\LoginService")->AsSingleton();
-		$kernel	->Bind("Core\Service\UserService")->To("CoreApi\Service\UserService")->AsSingleton();
-		$kernel	->Bind("Core\Service\CampService")->To("CoreApi\Service\CampService")->AsSingleton();
-		$kernel	->Bind("Core\Service\GroupService")->To("CoreApi\Service\GroupService")->AsSingleton();
-		$kernel	->Bind("Core\Service\FriendService")->To("CoreApi\Service\FriendService")->AsSingleton();
-		$kernel	->Bind("Core\Service\AvatarService")->To("CoreApi\Service\AvatarService")->AsSingleton();
-		$kernel	->Bind("Core\Service\SearchUserService")->To("CoreApi\Service\SearchUserService")->AsSingleton();
-		$kernel	->Bind("Core\Service\EventService")->To("CoreApi\Service\EventService")->AsSingleton();
+// 		foreach($files as $file)
+// 		{
+			
+			
+// 			if(!is_file($servicePath . $file))	continue;
+			
+// 			$filename = strrpos($file, ".") ? substr($file, 0, strrpos($file, ".")) : $file;
+// 			$publicClassname = "CoreApi\Service\\" . $filename;
+// 			$privateClassname = "Core\Service\\" . $filename;
+			
+// 			$kernel->Bind($publicClassname)->ToFactory(new ServiceFactory($publicClassname))->AsSingleton();
+// 			$kernel->Bind($privateClassname)->To($publicClassname)->AsSingleton();
+// 		}
 		
 		Zend_Registry::set("kernel", $kernel);
 	}
+	
+	
 	
 	/**
 	 * Basic setup of module support and layout support.
