@@ -145,20 +145,6 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 			$fi->next();
 		}
 		
-// 		foreach($files as $file)
-// 		{
-			
-			
-// 			if(!is_file($servicePath . $file))	continue;
-			
-// 			$filename = strrpos($file, ".") ? substr($file, 0, strrpos($file, ".")) : $file;
-// 			$publicClassname = "CoreApi\Service\\" . $filename;
-// 			$privateClassname = "Core\Service\\" . $filename;
-			
-// 			$kernel->Bind($publicClassname)->ToFactory(new ServiceFactory($publicClassname))->AsSingleton();
-// 			$kernel->Bind($privateClassname)->To($publicClassname)->AsSingleton();
-// 		}
-		
 		Zend_Registry::set("kernel", $kernel);
 	}
 	
