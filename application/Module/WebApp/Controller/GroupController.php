@@ -144,7 +144,7 @@ class WebApp_GroupController extends \WebApp\Controller\BaseController
 				throw new \Core\Service\ValidationException();
 			}
 
-			$this->groupService->CreateCamp($form);
+			$this->campService->Create($form);
 			
 			$this->_helper->getHelper('Redirector')->gotoRoute(array('action'=>'camps', 'group' => $this->group->getId()), 'web+group');
 		}

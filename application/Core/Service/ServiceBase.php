@@ -35,6 +35,14 @@ abstract class ServiceBase
 	
 	public function getResourceId()
 	{	return get_class($this);	}
+
+	/**
+	 * @return CoreApi\Acl\Context
+	 */
+	protected function getContext()
+	{
+		return $this->contextProvider->getContext();
+	}
 	
 	protected function validationFailed($bool = true)
 	{
