@@ -41,7 +41,7 @@ class FormParams extends Params{
 		$this->form->getElement($name)->setValue($value);
 	}
 	
-	public function hasValue($name){
+	public function hasElement($name){
 		return $this->form->getElement($name) != null;
 	}
 	
@@ -49,6 +49,10 @@ class FormParams extends Params{
 	
 	public function addMessage($name, $message){
 		$this->form->getElement($name)->addErrorMessage($message);
+	}
+	
+	public function addMessages($name, array $messages){
+		$this->form->getElement($name)->addErrorMessages($messages);
 	}
 	
 	public function setMessages($name, array $messages){
@@ -67,6 +71,10 @@ class FormParams extends Params{
 	
 	public function addError($name, $message){
 		$this->form->getElement($name)->addError($message);
+	}
+	
+	public function addErrors($name, array $messages){
+		$this->form->getElement($name)->addErrors($messages);
 	}
 	
 	public function setErrors($name, array $messages){

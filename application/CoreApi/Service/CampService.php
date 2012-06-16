@@ -79,13 +79,13 @@ class CampService
 	 * 
 	 * @return CoreApi\Entity\Camp
 	 */
-	public function Update(\Zend_Form $form)
+	public function Update(Params $params)
 	{
 		$camp = $this->getContext()->getCamp();
 		$campValidator = new CampValidator($camp);
 		
 		$this->validationFailed(
-			!$campValidator->applyIfValid($form));
+			!$campValidator->applyIfValid($params));
 		
 		return $camp;
 	}
@@ -102,11 +102,11 @@ class CampService
 	 * 
 	 * @return CoreApi\Entity\Camp
 	 */
-	public function Create(\Zend_Form $form)
+	public function Create(Params $params)
 	{
 		$group = $this->getContext()->getGroup();
 		$user  = $this->getContext()->getMe();
-		$campName =  $form->getValue('name');
+		$campName =  $params->getValue('name');
 		
 		$camp = new Camp();
 		$this->persist($camp);
@@ -115,7 +115,7 @@ class CampService
 			
 			// Create group Camp
 			if($this->campRepo->findUserCamp($user, $campName) != null){
-				$form->getElement('name')->addError("Camp with same name already exists.");
+				$params->addError('name', "Camp with same name already exists.");
 				$this->validationFailed();
 			}
 			
@@ -125,7 +125,7 @@ class CampService
 			
 			// Create personal Camp
 			if($this->campRepo->findGroupCamp($group, $campName) != null){
-				$form->getElement('name')->addError("Camp with same name already exists.");
+				$params->addError('name', "Camp with same name already exists.");
 				$this->validationFailed();
 			}
 			
@@ -135,9 +135,9 @@ class CampService
 		$camp->setCreator($user);
 		
 		$campValidator = new CampValidator($camp);
-		$this->validationFailed( !$campValidator->applyIfValid($form) );
+		$this->validationFailed( !$campValidator->applyIfValid($params) );
 		
-		$this->periodService->Create($camp, $form);
+		$this->periodService->Create($camp, $params);
 		
 		return $camp;
 	}

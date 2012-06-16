@@ -62,15 +62,15 @@ class LoginService
 	/**
 	 * @return CoreApi\Entity\Login
 	 */
-	public function Create(User $user, \Zend_Form $form)
+	public function Create(User $user, Params $params)
 	{
 		$login = new Login();
 		$loginValdator = new \Core\Validator\Entity\LoginValidator($login);
 		
 		$this->validationFailed(
-			! $loginValdator->isValid($form));
+			! $loginValdator->isValid($params));
 		
-		$login->setNewPassword($form->getValue('password'));
+		$login->setNewPassword($params->getValue('password'));
 		$login->setUser($user);
 		
 		$this->persist($login);		
@@ -116,7 +116,7 @@ class LoginService
 	}
 	
 	
-	public function ResetPassword($pwResetKey, \Zend_Form $form)
+	public function ResetPassword($pwResetKey, Params $params)
 	{
 		$login = $this->getLoginByResetKey($pwResetKey);
 		$loginValidator = new \Core\Validate\LoginValidator($login);
@@ -125,9 +125,9 @@ class LoginService
 		{	$this->addValidationMessage("No Login found for given PasswordResetKey");	}
 		
 		$this->validationFailed(
-			! $loginValidator->isValid($form));
+			! $loginValidator->isValid($params));
 		
-		$login->setNewPassword($form->getValue('password'));
+		$login->setNewPassword($params->getValue('password'));
 		$login->clearPwResetKey();
 	}
 	

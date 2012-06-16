@@ -42,10 +42,10 @@ class RegisterService
 	/**
 	 * @return CoreApi\Entity\User
 	 */
-	public function Register(\Zend_Form $registerForm)
+	public function Register(Params $params)
 	{
-		$user 	= $this->userService->Create($registerForm);
-		$login	= $this->loginService->Create($user, $registerForm);
+		$user 	= $this->userService->Create($params);
+		$login	= $this->loginService->Create($user, $params);
 		
 		$activationCode = $user->createNewActivationCode();
 		
