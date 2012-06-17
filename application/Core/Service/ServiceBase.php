@@ -44,10 +44,22 @@ abstract class ServiceBase
 		return $this->contextProvider->getContext();
 	}
 	
-	protected function validationFailed($bool = true)
+	protected function validationFailed($bool = true, $message = null)
 	{
-		if($bool)
+		if($bool && $message == null)
 			ServiceWrapper::validationFailed();
+		
+		if($bool && $message != null)
+			ServiceWrapper::addValidationMessage($message);
+	}
+	
+	protected function validationAssert($bool = false, $message = null)
+	{
+		if(!$bool && $message == null)
+			ServiceWrapper::validationFailed();
+		
+		if(!$bool && $message != null)
+			ServiceWrapper::addValidationMessage($message);
 	}
 	
 	protected function addValidationMessage($message)
