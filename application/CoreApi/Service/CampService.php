@@ -12,7 +12,7 @@ use CoreApi\Entity\Period;
 
 
 /**
- * @method CoreApi\Service\CampService Simulate
+ * @method \CoreApi\Service\CampService Simulate
  */
 class CampService
 	extends ServiceBase
@@ -33,10 +33,11 @@ class CampService
 		$this->acl->allow(DefaultAcl::MEMBER, $this, 'Delete');
 		$this->acl->allow(DefaultAcl::MEMBER, $this, 'Get');
 	}
-	
-	/**
-	 * @return CoreApi\Entity\Camp | NULL
-	 */
+
+    /**
+     * @param CoreApi\Entity\Camp|integer $id
+     * @return CoreApi\Entity\Camp | NULL
+     */
 	public function Get($id = null)
 	{
 		if(is_null($id))

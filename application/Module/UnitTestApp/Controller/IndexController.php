@@ -31,24 +31,34 @@ class UnitTestApp_IndexController extends \Zend_Controller_Action
 
     public function indexAction()
     {
-    	$result_xml = file_get_contents($this->resultFile);
+    	$this->view->shortFeedback = "fail";
+    	$this->view->testTime = false;
+    	$this->view->result = false;
     	
-    	$result = new SimpleXMLElement($result_xml);
-    	$testTime = filemtime($this->resultFile);
-    	
-    	$shortFeedback = (
-    		$result->testsuite->attributes()->failures == 0 && 
-			$result->testsuite->attributes()->errors == 0)
-    			? "pass" : "fail";
-    	
-    	
-    	$this->view->result = $result;
-    	$this->view->testTime = $testTime;
-    	$this->view->shortFeedback = $shortFeedback;
+    	 
+    	if(file_exists($this->resultFile))
+    	{
+	    	$result_xml = file_get_contents($this->resultFile);
+	    	
+	    	$result = new SimpleXMLElement($result_xml);
+	    	$testTime = filemtime($this->resultFile);
+	    	
+	    	$shortFeedback = (
+	    		$result->testsuite->attributes()->failures == 0 && 
+				$result->testsuite->attributes()->errors == 0)
+	    			? "pass" : "fail";
+	    	
+	    	
+	    	$this->view->result = $result;
+	    	$this->view->testTime = $testTime;
+	    	$this->view->shortFeedback = $shortFeedback;
+    	}
     }
     
     public function runAction(){
-    	exec("cd ../test/UnitTest/bin/ && php UnitTestRunner.php", $ret);
+    	$php = PHP_BINDIR . DIRECTORY_SEPARATOR . 'php';
+    	
+    	exec("cd ../test/UnitTest/bin/ && $php UnitTestRunner.php", $ret);
     	$this->_redirect('/');
     }
 }
