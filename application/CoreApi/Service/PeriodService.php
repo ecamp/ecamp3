@@ -24,6 +24,7 @@ use Core\Service\ServiceBase;
 
 use CoreApi\Entity\Camp;
 use CoreApi\Entity\Period;
+use CoreApi\Service\Params\Params;
 
 
 class PeriodService extends ServiceBase
@@ -36,15 +37,15 @@ class PeriodService extends ServiceBase
 	public function _setupAcl()
 	{}
 	
-	public function Create(Camp $camp, \Zend_Form $form)
+	public function Create(Camp $camp, Params $params)
 	{
-		if( $form->getValue('from') == "" ){
-			$form->getElement('from')->addError("Date cannot be empty.");
+		if( $params->getValue('from') == "" ){
+			$params->addError('from', "Date cannot be empty.");
 			$this->validationFailed();
 		}
 		
-		if( $form->getValue('to') == "" ){
-			$form->getElement('to')->addError("Date cannot be empty.");
+		if( $params->getValue('to') == "" ){
+			$params->addError('to', "Date cannot be empty.");
 			$this->validationFailed();
 		}
 		
@@ -52,21 +53,21 @@ class PeriodService extends ServiceBase
 		$period = new Period($camp);
 		$this->persist($period);
 		
-		$from = new \DateTime($form->getValue('from'), new \DateTimeZone("GMT"));
-		$to   = new \DateTime($form->getValue('to'), new \DateTimeZone("GMT"));
+		$from = new \DateTime($params->getValue('from'), new \DateTimeZone("GMT"));
+		$to   = new \DateTime($params->getValue('to'), new \DateTimeZone("GMT"));
 		
 		$period->setStart($from);
 		$period->setDuration(($to->getTimestamp() - $from->getTimestamp())/(24 * 60 * 60) + 1);
 		
 		if( $period->getDuration() < 1){
-			$form->getElement('to')->addError("Minimum length of camp is 1 day.");
+			$params->addError('to', "Minimum length of camp is 1 day.");
 			$this->validationFailed();
 		}
 		
 		return $period;
 	}
 	
-	public function Update(Period $period, \Zend_Form $form)
+	public function Update(Period $period, Params $params)
 	{
 		
 	}

@@ -128,13 +128,24 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 		
 		
 		$servicePath = APPLICATION_PATH . "/CoreApi/Service/";
-		$fi = new FilesystemIterator($servicePath, FilesystemIterator::SKIP_DOTS);
+		$fi = new DirectoryIterator($servicePath);
 		
 		while($fi->valid())
 		{
+			if( $fi->current()->isDir() )
+			{
+				$fi->next();
+				continue;
+			}
+
 			$file = $fi->current()->getBasename();
-			if(! strrpos($file, ".")) continue;
 			
+			if(! strrpos($file, "."))
+			{
+				$fi->next();
+				continue;
+			}
+				
 			$filename = substr($file, 0, strrpos($file, "."));
 			$publicClassname = "CoreApi\Service\\" . $filename;
 			$privateClassname = "Core\Service\\" . $filename;

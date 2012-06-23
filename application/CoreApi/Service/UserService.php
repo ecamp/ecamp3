@@ -5,6 +5,7 @@ namespace CoreApi\Service;
 use Core\Acl\DefaultAcl;
 use Core\Service\ServiceBase;
 use CoreApi\Entity\User;
+use CoreApi\Service\Params\Params;
 
 /**
  * @method CoreApi\Service\UserService Simulate
@@ -66,9 +67,9 @@ class UserService
 	 * 
 	 * @return CoreApi\Entity\User
 	 */
-	public function Create(\Zend_Form $form)
+	public function Create(Params $params)
 	{	
-		$email = $form->getValue('email');
+		$email = $params->getValue('email');
 		$user = $this->userRepo->findOneBy(array('email' => $email));
 		
 		if(is_null($user))
@@ -81,13 +82,13 @@ class UserService
 			
 		if($user->getState() != User::STATE_NONREGISTERED)
 		{		
-			$form->getElement('email')->addError("This eMail-Adress is already registered!");
+			$params->addError('email', "This eMail-Adress is already registered!");
 			$this->validationFailed();
 		}
 		
 		$userValidator = new \Core\Validator\Entity\UserValidator($user);
 		$this->validationFailed( 
-			! $userValidator->applyIfValid($form) );	
+			! $userValidator->applyIfValid($params) );	
 		
 		$user->setState(User::STATE_REGISTERED);
 		$activationCode = $user->createNewActivationCode();
@@ -100,19 +101,13 @@ class UserService
 	}
 	
 	
-	public function Update(\Zend_Form $form)
+	public function Update(Params $params)
 	{
-		/* probably better goes to ACL later, just copied for now from validator */
-		$this->validationFailed( $this->Get()->getId() != $form->getValue('id') );
-		
 		// update user
 	}
 	
 	public function Delete()
 	{
-		/* probably better goes to ACL later, just copied for now from validator */
-		$this->validationFailed( $this->Get()->getId() != $form->getValue('id') );
-		
 		// delete user
 		$this->em->remove($this->Get());
 	}

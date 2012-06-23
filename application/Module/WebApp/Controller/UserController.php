@@ -42,7 +42,7 @@ class WebApp_UserController extends \WebApp\Controller\BaseController
 
 	public function showAction()
 	{
-		$user = $this->contextProvider->getContext()->getUser();
+		$user = $this->getContext()->getUser();
 		
 		$this->view->user    = $user;
 		$this->view->friends = $this->friendService->Get($user);

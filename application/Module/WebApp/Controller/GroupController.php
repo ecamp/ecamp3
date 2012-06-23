@@ -18,6 +18,7 @@
  * along with eCamp.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+use CoreApi\Service\Params\Params;
 
 class WebApp_GroupController extends \WebApp\Controller\BaseController
 {	
@@ -144,7 +145,7 @@ class WebApp_GroupController extends \WebApp\Controller\BaseController
 				throw new \Core\Service\ValidationException();
 			}
 
-			$this->campService->Create($form);
+			$this->campService->Create(Params::Create($form));
 			
 			$this->_helper->getHelper('Redirector')->gotoRoute(array('action'=>'camps', 'group' => $this->group->getId()), 'web+group');
 		}

@@ -2,6 +2,8 @@
 
 namespace Core\Validator;
 
+use CoreApi\Service\Params\Params;
+
 abstract class Entity
 {
 	
@@ -69,7 +71,7 @@ abstract class Entity
 	}
 	
 	
-	public function isValid(\Zend_Form $form, $map = null)
+	public function isValid(Params $form, $map = null)
 	{
 		$isValid = true;
 		
@@ -97,9 +99,9 @@ abstract class Entity
 				$isValid = false;
 				$messages = $element->getMessages();
 				
-				if($form->getElement($formElementName))
+				if($form->hasElement($formElementName))
 				{
-					$form->getElement($formElementName)->addErrors($messages);
+					$form->addError($formElementName, $messages);
 				}
 				else
 				{
@@ -116,7 +118,7 @@ abstract class Entity
 	}
 	
 	
-	public function apply(\Zend_Form $form, $map = null)
+	public function apply(Params $form, $map = null)
 	{
 		if(is_null($this->entity))
 		{	throw new \Exception("Apply can only be used, if Validator was constructed with an Entity!");	}
@@ -137,7 +139,7 @@ abstract class Entity
 		}
 	}
 	
-	public function applyIfValid(\Zend_Form $form, $map = null)
+	public function applyIfValid(Params $form, $map = null)
 	{
 		if($this->isValid($form, $map))
 		{
