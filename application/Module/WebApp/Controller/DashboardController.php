@@ -18,6 +18,7 @@
  * along with eCamp.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+use CoreApi\Service\Params;
 
 class WebApp_DashboardController extends \WebApp\Controller\BaseController
 {
@@ -113,8 +114,7 @@ class WebApp_DashboardController extends \WebApp\Controller\BaseController
 				throw new \Core\Service\ValidationException();
 			}
 
-			//$camp = $this->userService->Simulate()->CreateCamp($form);
-			$camp = $this->campService->Create($form);
+			$camp = $this->campService->Create(Params::Create($form));
 			
 			$this->_helper->getHelper('Redirector')->gotoRoute(array('action'=>'camps'));
 		}

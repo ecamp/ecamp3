@@ -75,12 +75,12 @@ class GroupService
 	* Request a new Group
 	* @return \CoreApi\Entity\GroupRequest
 	*/
-	public function RequestGroup(\Zend_Form $form)
+	public function RequestGroupP(Params $params)
 	{
 		/* grab parent_group from context */
 		$group = $this->contextProvider->getContext()->getGroup();
 		
-		$new_groupname = $form->getValue("name");
+		$new_groupname = $params->getValue("name");
 		$me = $this->contextProvider->getContext()->getMe();
 		
 		/* check if group name is unique in parent_group */
@@ -88,7 +88,7 @@ class GroupService
 		{
 			if ( $subgroup->getName() == $new_groupname ) 
 			{
-				$form->getElement('name')->addError("Group with same name already exists.");
+				$params->addError('name', "Group with same name already exists.");
 				$this->validationFailed();
 			}
 		}
@@ -102,10 +102,10 @@ class GroupService
 		$grouprequestValidator = new \Core\Validator\Entity\GroupRequestValidator($groupRequest);
 		
 		// Die gemachten Angaben in der $form gegen die neue $groupRequest validieren
-		if($grouprequestValidator->isValid($form))
+		if($grouprequestValidator->isValid($params))
 		{
 			// und auf die GroupRequest anwenden, wenn diese gültig sind.
-			$grouprequestValidator->apply($form);
+			$grouprequestValidator->apply($params);
 		
 			// die neue und gültie GroupRequest persistieren.
 			$this->persist($groupRequest);
@@ -113,7 +113,7 @@ class GroupService
 		else
 		{
 			// Wenn die Validierung fehl schlägt, muss dies festgehalten werden:
-		$this->validationFailed();
+			$this->validationFailed();
 		}
 	}
 	

@@ -70,7 +70,7 @@ class WebApp_LeaderController extends \WebApp\Controller\BaseController
 			return;
 		}
 
-		$context = $this->contextProvider->getContext();
+		$context = $this->getContext();
 		
 		/* load camp */
 	    $this->camp = $context->getCamp();

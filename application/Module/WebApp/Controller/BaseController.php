@@ -47,6 +47,10 @@ class BaseController extends \Zend_Controller_Action
 	 */
 	protected $acl;
 	
+	public function getContext(){
+		return $this->contextProvider->getContext();
+	}
+	
 	public function init()
 	{
 		

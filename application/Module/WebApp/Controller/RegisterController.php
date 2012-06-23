@@ -20,15 +20,11 @@
  *
  */
  
+use CoreApi\Service\Params;
+
 class WebApp_RegisterController
 	extends \WebApp\Controller\BaseController
 {
-
-	/**
-	 * @var Core\Repository\UserRepository
-	 * @Inject Core\Repository\UserRepository
-	 */
-	private $userRepo;
 
 
 	/**
@@ -81,7 +77,7 @@ class WebApp_RegisterController
 		
 		try
 		{
-			$user = $this->registerService->Register($registerForm);
+			$user = $this->registerService->Register(Params::Create($registerForm));
 			
 			$link = "/register/activate/" . $user->getId() . "/key/" . $user->getActivationCode();
 			echo "<a href='" . $link . "'>" . $link . "</a>";
@@ -110,7 +106,7 @@ class WebApp_RegisterController
 		else
 		{
 			/** @var $user \Entity\User */
-			$user = $this->userRepo->find($id);
+			$user = $this->$userService->Get($id);
 
 			$ac = $user->createNewActivationCode();
 			\Zend_Registry::get('doctrine')->getEntityManager()->flush();
