@@ -44,27 +44,4 @@ class UserRepository extends EntityRepository
 	
 	
 	
-	public function findMembershipRequestsOf(\CoreApi\Entity\User $user)
-	{
-		$query = $this->_em->getRepository("CoreApi\Entity\UserGroup")->createQueryBuilder("ug")
-					->innerJoin("ug.group", "g")
-					->innerJoin("g.userGroups", "manager")
-					->where("manager.user = " . $user->getId())
-					->andwhere("manager.role = " . (\CoreApi\Entity\UserGroup::ROLE_MANAGER))
-					->andwhere("ug.requestedRole = 10")
-					->getQuery();
-					
-		return $query->getResult();
-	}
-	
-	public function findMembershipInvitations(\CoreApi\Entity\User $user)
-	{
-		$query = $this->_em->getRepository("CoreApi\Entity\UserGroup")->createQueryBuilder("ug")
-					->where("ug.user = " . $user->getId())
-					->andWhere("ug.invitationAccepted = FALSE")
-					->getQuery();
-		
-		return $query->getResult();
-	}
-	
 }
