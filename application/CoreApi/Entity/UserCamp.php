@@ -199,7 +199,7 @@ class UserCamp extends BaseEntity
 	}
 
 	/** manager accepts the request */
-	public function acceptRequest($user)
+	public function acceptRequest(User $user)
 	{
 		$this->requestAcceptedBy = $user;
 
