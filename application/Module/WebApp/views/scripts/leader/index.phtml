@@ -2,14 +2,16 @@
 
 <tal:block condition="exists: camp/getOwner">
 	<h2>Owner:</h2>
+	<span metal:use-macro="global/singleuser.phtml/withavatar" tal:define="user camp/getOwner" tal:omit-tag="" />
 </tal:block>
+<div class="clear" />
 
 
 
 <h2>Manager:</h2>
 
-<tal:block repeat="usercamp managers">
-	<span metal:use-macro="global/singleuser.phtml/withavatar" tal:define="user usercamp/getUser" tal:omit-tag="" />
+<tal:block repeat="user managers">
+	<span metal:use-macro="global/singleuser.phtml/withavatar" tal:omit-tag="" />
 </tal:block>
 <div class="clear" />
 
@@ -17,8 +19,8 @@
 
 <h2>Leader:</h2>
 
-<tal:block repeat="usercamp leaders">
-	<span metal:use-macro="global/singleuser.phtml/withavatar" tal:define="user usercamp/getUser" tal:omit-tag="" />
+<tal:block repeat="user leaders">
+	<span metal:use-macro="global/singleuser.phtml/withavatar" tal:omit-tag="" />
 </tal:block>
 <div class="clear" />
 
@@ -26,7 +28,7 @@
 
 <h2>Guest:</h2>
 
-<tal:block repeat="usercamp guests">
-	<span metal:use-macro="global/singleuser.phtml/withavatar" tal:define="user usercamp/getUser" tal:omit-tag="" />
+<tal:block repeat="user guests">
+	<span metal:use-macro="global/singleuser.phtml/withavatar" tal:omit-tag="" />
 </tal:block>
 <div class="clear" />
