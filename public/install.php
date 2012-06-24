@@ -19,7 +19,7 @@ $configFile 	= "./../config.ini";
 
 include_once ($installerPath . 'InstallerBase.php');
 include_once ("Zend/Config/Ini.php");
-include_once ("Zend/config/Writer/Ini.php");
+include_once ("Zend/Config/Writer/Ini.php");
 
 
 
