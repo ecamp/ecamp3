@@ -4,10 +4,10 @@ class ServiceTestCase extends TestCase
 {
 	
 	/**
-	 * @var CoreApi\Acl\ContextManager
-	 * @Inject CoreApi\Acl\ContextManager
+	 * @var CoreApi\Acl\ContextProvider
+	 * @Inject CoreApi\Acl\ContextProvider
 	 */
-	protected $contextManager;
+	protected $contextProvider;
 	
 	
 	/**
@@ -39,7 +39,7 @@ class ServiceTestCase extends TestCase
 		//else
 		{	\Zend_Auth::getInstance()->getStorage()->write($meId);	}
 		
-		$this->contextManager->set($userId, $groupId, $campId);
+		$this->contextProvider->set($userId, $groupId, $campId);
 	}
 	
 }
