@@ -50,7 +50,7 @@ class ArrayParams extends Params{
 	
 	public function addMessage($name, $message){
 		$this->assertKeyExists($name);
-		$this->messages[$name][] + $message;
+		$this->messages[$name][] = $message;
 	}
 	
 	public function addMessages($name, array $messages){
