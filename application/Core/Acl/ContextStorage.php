@@ -85,7 +85,8 @@ class ContextStorage
 		$camp  = isset($campId)  ? $this->campRepo->find( $campId ) : null;
 		
 		
-		if( $me->getRole() == User::ROLE_ADMIN && 
+		if( 	isset($me) &&
+			$me->getRole() == User::ROLE_ADMIN && 
 			!$this->getSupportedUserStorage()->isEmpty()
 		){
 			$supportedUserId = $this->getSupportedUserStorage()->read();
