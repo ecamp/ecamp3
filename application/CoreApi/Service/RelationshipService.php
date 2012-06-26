@@ -47,6 +47,11 @@ class RelationshipService extends ServiceBase
 	private $userRelationshipRepo;
 	
 	
+	public function _setupAcl(){
+		
+	}
+	
+	
 	public function Get($id, $user_id = null){
 		if($user_id == null){
 			if(is_numeric($id))
