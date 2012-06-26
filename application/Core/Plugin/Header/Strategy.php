@@ -36,10 +36,9 @@ class Strategy extends \Core\Plugin\AbstractStrategy implements \Core\Plugin\IPl
 	protected $pluginName = "Header";
 	
 	/** construct */
-	public function __construct( \Doctrine\ORM\EntityManager $em, \Zend_View_Interface $view, \CoreApi\Entity\Plugin $plugin)
+	public function __construct( \Doctrine\ORM\EntityManager $em, \CoreApi\Entity\Plugin $plugin)
 	{
 		$this->em = $em;
-		$this->view = $view;
 		$this->plugin = $plugin;
 		
 		$this->header = new \CoreApi\Plugin\Header\Entity\Header($plugin);

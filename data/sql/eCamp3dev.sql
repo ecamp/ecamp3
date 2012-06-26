@@ -92,7 +92,7 @@ CREATE TABLE `event_prototype` (
   `name` varchar(64) NOT NULL,
   `active` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 LOCK TABLES `event_prototype` WRITE;
@@ -118,12 +118,12 @@ CREATE TABLE `events` (
   CONSTRAINT `FK_5387574A25998077` FOREIGN KEY (`prototype_id`) REFERENCES `event_prototype` (`id`) ON DELETE CASCADE,
   CONSTRAINT `FK_5387574A77075ABB` FOREIGN KEY (`camp_id`) REFERENCES `camps` (`id`),
   CONSTRAINT `FK_5387574AA76ED395` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 LOCK TABLES `events` WRITE;
 /*!40000 ALTER TABLE `events` DISABLE KEYS */;
-INSERT INTO `events` VALUES (6,1,NULL,'2012-06-26 07:22:55','2012-06-26 07:22:55','b4d0f11a34a95d5ce54d3055c083c21a',1);
+INSERT INTO `events` VALUES (23,1,NULL,'2012-06-26 16:47:34','2012-06-26 16:47:34','a41356984f9b8e4b0eaee36ccd95d9ad',1),(24,1,NULL,'2012-06-26 16:47:39','2012-06-26 16:47:39','42cce7be99189fb9f182ff86aa4c4ce5',1);
 /*!40000 ALTER TABLE `events` ENABLE KEYS */;
 UNLOCK TABLES;
 DROP TABLE IF EXISTS `grouprequests`;
@@ -252,12 +252,12 @@ CREATE TABLE `plugin_contents` (
   PRIMARY KEY (`id`),
   KEY `IDX_14325198EC942BCF` (`plugin_id`),
   CONSTRAINT `FK_14325198EC942BCF` FOREIGN KEY (`plugin_id`) REFERENCES `plugins` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 LOCK TABLES `plugin_contents` WRITE;
 /*!40000 ALTER TABLE `plugin_contents` DISABLE KEYS */;
-INSERT INTO `plugin_contents` VALUES (11,16,'2012-06-26 07:22:55','2012-06-26 07:50:47','hello world 2'),(12,17,'2012-06-26 07:22:55','2012-06-26 07:22:55','hello world');
+INSERT INTO `plugin_contents` VALUES (45,67,'2012-06-26 16:47:34','2012-06-26 16:47:47','hello world 2'),(46,68,'2012-06-26 16:47:34','2012-06-26 16:47:34','hello world'),(47,70,'2012-06-26 16:47:39','2012-06-26 16:47:39','hello world'),(48,71,'2012-06-26 16:47:39','2012-06-26 16:47:39','hello world');
 /*!40000 ALTER TABLE `plugin_contents` ENABLE KEYS */;
 UNLOCK TABLES;
 DROP TABLE IF EXISTS `plugin_headers`;
@@ -272,12 +272,12 @@ CREATE TABLE `plugin_headers` (
   PRIMARY KEY (`id`),
   KEY `IDX_35A1D865EC942BCF` (`plugin_id`),
   CONSTRAINT `FK_35A1D865EC942BCF` FOREIGN KEY (`plugin_id`) REFERENCES `plugins` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 LOCK TABLES `plugin_headers` WRITE;
 /*!40000 ALTER TABLE `plugin_headers` DISABLE KEYS */;
-INSERT INTO `plugin_headers` VALUES (6,18,'2012-06-26 07:22:55','2012-06-26 07:22:55','hello world');
+INSERT INTO `plugin_headers` VALUES (23,69,'2012-06-26 16:47:34','2012-06-26 17:22:10','hello world 2'),(24,72,'2012-06-26 16:47:39','2012-06-26 16:47:39','hello world');
 /*!40000 ALTER TABLE `plugin_headers` ENABLE KEYS */;
 UNLOCK TABLES;
 DROP TABLE IF EXISTS `pluginconfig`;
@@ -321,12 +321,12 @@ CREATE TABLE `plugins` (
   KEY `IDX_EC85F671282281AF` (`pluginConfig_id`),
   CONSTRAINT `FK_EC85F67171F7E88B` FOREIGN KEY (`event_id`) REFERENCES `events` (`id`) ON DELETE CASCADE,
   CONSTRAINT `plugins_ibfk_1` FOREIGN KEY (`pluginConfig_id`) REFERENCES `pluginconfig` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=73 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 LOCK TABLES `plugins` WRITE;
 /*!40000 ALTER TABLE `plugins` DISABLE KEYS */;
-INSERT INTO `plugins` VALUES (16,6,'2012-06-26 07:22:55','2012-06-26 07:22:55','Content',1),(17,6,'2012-06-26 07:22:55','2012-06-26 07:22:55','Content',1),(18,6,'2012-06-26 07:22:55','2012-06-26 07:22:55','Header',2);
+INSERT INTO `plugins` VALUES (67,23,'2012-06-26 16:47:34','2012-06-26 16:47:34','Content',1),(68,23,'2012-06-26 16:47:34','2012-06-26 16:47:34','Content',1),(69,23,'2012-06-26 16:47:34','2012-06-26 16:47:34','Header',2),(70,24,'2012-06-26 16:47:39','2012-06-26 16:47:39','Content',1),(71,24,'2012-06-26 16:47:39','2012-06-26 16:47:39','Content',1),(72,24,'2012-06-26 16:47:39','2012-06-26 16:47:39','Header',2);
 /*!40000 ALTER TABLE `plugins` ENABLE KEYS */;
 UNLOCK TABLES;
 DROP TABLE IF EXISTS `subcamps`;
@@ -362,12 +362,12 @@ CREATE TABLE `template_map` (
   UNIQUE KEY `prototype_medium_unique` (`prototype_id`,`medium`),
   KEY `IDX_3DC6239925998077` (`prototype_id`),
   CONSTRAINT `FK_3DC6239925998077` FOREIGN KEY (`prototype_id`) REFERENCES `event_prototype` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 LOCK TABLES `template_map` WRITE;
 /*!40000 ALTER TABLE `template_map` DISABLE KEYS */;
-INSERT INTO `template_map` VALUES (1,1,'0000-00-00 00:00:00','0000-00-00 00:00:00','web','web_default.xhtml');
+INSERT INTO `template_map` VALUES (1,1,'0000-00-00 00:00:00','0000-00-00 00:00:00','web','prototype_lagersport_web.phtml/default'),(2,1,'0000-00-00 00:00:00','0000-00-00 00:00:00','print','prototype_lagersport_print.phtml/default');
 /*!40000 ALTER TABLE `template_map` ENABLE KEYS */;
 UNLOCK TABLES;
 DROP TABLE IF EXISTS `template_map_item`;
@@ -385,14 +385,14 @@ CREATE TABLE `template_map_item` (
   UNIQUE KEY `plugin_template_unique` (`pluginConfig_id`,`templateMap_id`),
   KEY `IDX_D365B2F8ED876501` (`templateMap_id`),
   KEY `IDX_D365B2F8282281AF` (`pluginConfig_id`),
-  CONSTRAINT `template_map_item_ibfk_1` FOREIGN KEY (`pluginConfig_id`) REFERENCES `pluginconfig` (`id`) ON DELETE CASCADE,
-  CONSTRAINT `FK_D365B2F8ED876501` FOREIGN KEY (`templateMap_id`) REFERENCES `template_map` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+  CONSTRAINT `FK_D365B2F8ED876501` FOREIGN KEY (`templateMap_id`) REFERENCES `template_map` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `template_map_item_ibfk_1` FOREIGN KEY (`pluginConfig_id`) REFERENCES `pluginconfig` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 LOCK TABLES `template_map_item` WRITE;
 /*!40000 ALTER TABLE `template_map_item` DISABLE KEYS */;
-INSERT INTO `template_map_item` VALUES (3,'2012-06-26 00:00:00','2012-06-26 00:00:00','left',1,1,2),(4,'2012-06-26 00:00:00','2012-06-26 00:00:00','right',1,1,1);
+INSERT INTO `template_map_item` VALUES (3,'2012-06-26 00:00:00','2012-06-26 00:00:00','left',1,1,2),(4,'2012-06-26 00:00:00','2012-06-26 00:00:00','right',1,1,1),(5,'2012-06-26 00:00:00','2012-06-26 00:00:00','singleContainer',1,2,2),(6,'2012-06-26 00:00:00','2012-06-26 00:00:00','singleContainer',2,2,1);
 /*!40000 ALTER TABLE `template_map_item` ENABLE KEYS */;
 UNLOCK TABLES;
 DROP TABLE IF EXISTS `user_camps`;

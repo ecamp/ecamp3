@@ -1,0 +1,22 @@
+<div metal:define-macro="default">
+	<div tal:condition="not: backend" metal:use-macro="frontend" />
+	<div tal:condition="backend" metal:use-macro="backend" />
+</div>
+
+<div metal:define-macro="frontend">
+	<div tal:repeat="plugin container">
+		<div class="plugin_header" tal:content="plugin/getPluginName"></div>
+		<div class="plugin_body" tal:content=" structure plugin/renderFrontend" />
+	</div>
+</div>
+
+<div metal:define-macro="backend">
+	<div tal:repeat="plugin container">
+		<div class="plugin_header">
+			 <span tal:content="plugin/getPluginName" />
+			 <a style="float:right;" href="#">Delete</a>
+		</div>
+		<div class="plugin_body" tal:content=" structure plugin/renderBackend" />
+	</div>
+</div>
+

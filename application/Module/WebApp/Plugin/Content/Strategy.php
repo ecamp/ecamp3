@@ -35,9 +35,10 @@ class Strategy extends \Core\Plugin\Content\Strategy implements \Core\Plugin\IPl
 	 * @return string
 	 */
 	public function renderFrontend(){
+		$this->createView();
 		$this->view->content = $this->content;
 		$this->view->plugin = $this->plugin;
-		return $this->view->render("../Plugin/".$this->pluginName."/views/show.phtml");
+		return $this->view->render("show.phtml");
 	}
 
 	/**
@@ -50,9 +51,10 @@ class Strategy extends \Core\Plugin\Content\Strategy implements \Core\Plugin\IPl
 	 * @return string
 	 */
 	public function renderBackend(){
+		$this->createView();
 		$this->view->content = $this->content;
 		$this->view->plugin = $this->plugin;
-		return $this->view->render("../Plugin/".$this->pluginName."/views/edit.phtml");
+		return $this->view->render("edit.phtml");
 	}
 	
 }

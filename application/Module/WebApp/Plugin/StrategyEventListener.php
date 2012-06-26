@@ -28,12 +28,10 @@ use \Doctrine\ORM,
  * plugin itself was loaded.
  */
 class StrategyEventListener implements \Doctrine\Common\EventSubscriber {
-
-	protected $view;
+	
 	protected $em;
 
-	public function __construct(\Zend_View_Interface $view, \Doctrine\ORM\EntityManager $em) {
-		$this->view = $view;
+	public function __construct(\Doctrine\ORM\EntityManager $em) {
 		$this->em = $em;
 	}
 
@@ -47,7 +45,7 @@ class StrategyEventListener implements \Doctrine\Common\EventSubscriber {
 		/* post load PluginStrategy into Plugin */
 		if ($plugin instanceof \CoreApi\Entity\Plugin) {
 			$strategy  = $plugin->getStrategyClassName('WebApp');
-			$strategyInstance = new $strategy($this->em, $this->view, $plugin);
+			$strategyInstance = new $strategy($this->em, $plugin);
 			
 			/* load plugin */
 			$strategyInstance->loadObjects( );

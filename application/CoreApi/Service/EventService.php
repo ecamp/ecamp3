@@ -29,8 +29,7 @@ class EventService
 		$this->acl->allow(DefaultAcl::MEMBER, $this, 'Create');
 		$this->acl->allow(DefaultAcl::MEMBER, $this, 'Delete');
 		$this->acl->allow(DefaultAcl::MEMBER, $this, 'Get');
-		$this->acl->allow(DefaultAcl::MEMBER, $this, 'RenderFrontend');
-		$this->acl->allow(DefaultAcl::MEMBER, $this, 'RenderBackend');
+		$this->acl->allow(DefaultAcl::MEMBER, $this, 'GetContainers');
 		$this->acl->allow(DefaultAcl::MEMBER, $this, 'getPlugin');
 	}
 	
@@ -68,7 +67,7 @@ class EventService
 	/**
 	 * @return CoreApi\Entity\Event
 	 */
-	public function Create(Camp $camp,  \Zend_View_Interface $view)
+	public function Create(Camp $camp)
 	{	
 		/* TODO: ugly workaround, find better solution please */
 		$this->em->getConnection();
@@ -91,7 +90,7 @@ class EventService
 		        $plugin->setPluginConfig($config);
 		        
 		        $strategyClassName =  '\WebApp\Plugin\\' . $config->getPluginName() . '\Strategy';
-		        $strategy = new $strategyClassName($this->em, $view, $plugin);
+		        $strategy = new $strategyClassName($this->em, $plugin);
 		        $strategy->persist();
 		        
 		        $plugin->setStrategy($strategy);
@@ -102,20 +101,9 @@ class EventService
 		$this->persist($event);
 	}
 	
-	public function RenderFrontend($id)
-	{
-	    return $this->Render($this->Get($id), false);
-	}
-	
-	public function RenderBackend($id)
-	{
-	    return $this->Render($this->Get($id), true);
-	}
-	
-	private function Render($event, $backend = false)
+	public function GetContainers($id, $template)
 	{   
-	    /* define template; will come as a parameter of course */
-	    $template = $this->em->getRepository("CoreApi\Entity\TemplateMap")->find( 1);
+		$event = $this->Get($id);
 	    $mapitems =$template->getItems();
 	    
 	    $container = array();
@@ -124,12 +112,9 @@ class EventService
 	        foreach($event->getPluginsByConfig($item->getPluginConfig()) as $plugin)
 	        {
 	            if( !isset($container[$item->getContainer()] ) )
-	                $container[$item->getContainer()] = "";
+	                $container[$item->getContainer()] = array();
 	            
-	            if( $backend )
-	                $container[$item->getContainer()] .= $plugin->getStrategyInstance()->renderBackend();
-	            else   
-	                $container[$item->getContainer()] .= $plugin->getStrategyInstance()->renderFrontend();
+	            $container[$item->getContainer()][] = $plugin->getStrategyInstance(); 
 	        }
 	    }
 	    

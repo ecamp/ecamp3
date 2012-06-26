@@ -7,14 +7,12 @@
 		Give me write access
 	</a>
 	
+	<a class="button" tal:attributes="href helper:campurl(camp, array('action' => 'print', 'id' => event.getId() ), 'camp+id')">
+		Print preview
+	</a>
+	
 	<div class="clear" />
 	
-	<div class="span-10" id="left">
-		<div tal:content="structure container/left" />
-	</div>
-	
-	<div class="span-10" id="right">
-		<div tal:content="structure container/right" />
-	</div>
+	<div metal:use-macro="prototype_lagersport_web.phtml/default" />
 	
 </div>

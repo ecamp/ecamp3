@@ -27,7 +27,7 @@
 namespace WebApp\Plugin\Header;
 
 class Strategy extends \Core\Plugin\Header\Strategy implements \Core\Plugin\IPluginStrategy {
-
+	
 	/**
 	 * Renders this strategy. This method will be called when the user
 	 * displays the site.
@@ -35,9 +35,10 @@ class Strategy extends \Core\Plugin\Header\Strategy implements \Core\Plugin\IPlu
 	 * @return string
 	 */
 	public function renderFrontend(){
+		$this->createView();
 		$this->view->header = $this->header;
 		$this->view->plugin = $this->plugin;
-		return $this->view->render("../Plugin/".$this->pluginName."/views/show.phtml");
+		return $this->view->render("show.phtml");
 	}
 
 	/**
@@ -50,9 +51,10 @@ class Strategy extends \Core\Plugin\Header\Strategy implements \Core\Plugin\IPlu
 	 * @return string
 	 */
 	public function renderBackend(){
+		$this->createView();
 		$this->view->header = $this->header;
 		$this->view->plugin = $this->plugin;
-		return $this->view->render("../Plugin/".$this->pluginName."/views/edit.phtml");
+		return $this->view->render("edit.phtml");
 	}
 	
 }

@@ -82,7 +82,7 @@ class BaseController extends \Zend_Controller_Action
 		
 		/* register events */
 		$em = \Zend_Registry::get('kernel')->Get("EntityManager");
-		$event = new \WebApp\Plugin\StrategyEventListener($this->view, $em);
+		$event = new \WebApp\Plugin\StrategyEventListener($em);
 		$em->getEventManager()->addEventSubscriber($event);
 	}
 	

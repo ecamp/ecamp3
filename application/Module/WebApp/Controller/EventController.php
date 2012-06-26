@@ -25,6 +25,12 @@ class WebApp_EventController extends \WebApp\Controller\BaseController
 	 * @Inject CoreApi\Service\EventService
 	 */
 	private $eventService;
+	
+	/**
+	 * @var Doctrine\ORM\EntityManager
+	 * @Inject Doctrine\ORM\EntityManager
+	 */
+	protected $em;
 
     public function init()
     {
@@ -59,7 +65,7 @@ class WebApp_EventController extends \WebApp\Controller\BaseController
     	
 		$this->eventService->Create($camp, $this->view);
 		
-		$this->_forward('index');
+		$this->_helper->getHelper('Redirector')->gotoRoute(array('action'=>'index', 'camp'=>$this->getContext()->getCamp(), 'user'=>$this->getContext()->getMe()));
     }
 	
 	public function deleteAction()
@@ -68,7 +74,7 @@ class WebApp_EventController extends \WebApp\Controller\BaseController
 		
 		$this->eventService->Delete($id);
 
-		$this->_forward('index');
+		$this->_helper->getHelper('Redirector')->gotoRoute(array('controller'=>'event', 'action'=>'index', 'camp'=>$this->getContext()->getCamp(), 'user'=>$this->getContext()->getMe()), 'web+user+camp');
 	}
 	
 	/* show an event (frontend, read only) */
@@ -79,8 +85,14 @@ class WebApp_EventController extends \WebApp\Controller\BaseController
 		if( !isset($id) )
 			$this->_forward('index');
 		
-		$this->view->event = $this->eventService->Get($id);
-		$this->view->container = $this->eventService->RenderFrontend($id);
+		/* @TODO: only temporary here  */
+		$event = $this->eventService->Get($id);
+		$template = $this->em->getRepository("CoreApi\Entity\TemplateMap")->findOneBy(array('medium' => 'web', 'prototype' => $event->getPrototype() ));
+		
+		$this->view->event = $event;
+		$this->view->container = $this->eventService->GetContainers($event, $template);
+		$this->view->templateMap = $template;
+		$this->view->backend = false;
 	}
 	
 	/* edit an event (backend, write access) */
@@ -91,9 +103,34 @@ class WebApp_EventController extends \WebApp\Controller\BaseController
 		if( !isset($id) )
 			$this->_forward('index');
 		
-		$this->view->event = $this->eventService->Get($id);
-		$this->view->container = $this->eventService->RenderBackend($id);
+		/* @TODO: only temporary here */
+		$event = $this->eventService->Get($id);
+		$template = $this->em->getRepository("CoreApi\Entity\TemplateMap")->findOneBy(array('medium' => 'web', 'prototype' => $event->getPrototype() ));
+		
+		$this->view->event = $event;
+		$this->view->container = $this->eventService->GetContainers($event, $template);
+		$this->view->templateMap = $template;
+		$this->view->backend = true;
 	}
+	
+	/* print preview (mainly as a template-proof-of-concept */
+	public function printAction()
+	{
+		$id = $this->getRequest()->getParam("id");
+	
+		if( !isset($id) )
+			$this->_forward('index');
+	
+		/* @TODO: only temporary here */
+		$event = $this->eventService->Get($id);
+		$template = $this->em->getRepository("CoreApi\Entity\TemplateMap")->findOneBy(array('medium' => 'print', 'prototype' => $event->getPrototype() ));
+	
+		$this->view->event = $event;
+		$this->view->container = $this->eventService->GetContainers($event, $template);
+		$this->view->templateMap = $template;
+		$this->view->backend = false;
+	}
+	
 
 	/* call a function of the plugin */
 	public function pluginAction(){
