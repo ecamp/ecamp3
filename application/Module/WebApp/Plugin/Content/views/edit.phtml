@@ -1,14 +1,15 @@
 <?php /* All id's should contain the plugin id in order to prevent conflicts */ ?>
 
-<h2>Content</h2>
-
-<form id="plugin" method="post" tal:attributes="id php:'plugin'.(plugin.getId()); action php:this.pluginurl( plugin )" >
-	<input type="hidden" name="pluginaction" value="save" />
-	
-	<input type="text" name="text" tal:attributes="value content/getText" />
-	<input type="submit" value="Save" />
-</form>
-
+<div class="box">
+    <h2>Content</h2>
+    
+    <form id="plugin" method="post" tal:attributes="id php:'plugin'.(plugin.getId()); action php:this.pluginurl( plugin )" >
+    	<input type="hidden" name="pluginaction" value="save" />
+    	
+    	<input type="text" name="text" tal:attributes="value content/getText" />
+    	<input type="submit" value="Save" />
+    </form>
+</div>
 
 <script type="text/javascript"> 
 

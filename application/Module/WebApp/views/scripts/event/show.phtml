@@ -9,7 +9,12 @@
 	
 	<div class="clear" />
 	
-	<div class="span-14">
-		<div class="box" tal:repeat="plugin event/getPlugins" tal:content="structure plugin/getStrategyInstance/renderFrontend" />
+	<div class="span-10" id="left">
+		<div tal:content="structure container/left" />
 	</div>
+	
+	<div class="span-10" id="right">
+		<div tal:content="structure container/right" />
+	</div>
+	
 </div>

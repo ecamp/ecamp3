@@ -35,7 +35,9 @@ class Strategy extends \Core\Plugin\Content\Strategy implements \Core\Plugin\IPl
 	 * @return string
 	 */
 	public function renderFrontend(){
-		return $this->content->getText();
+		$this->view->content = $this->content;
+		$this->view->plugin = $this->plugin;
+		return $this->view->render("../Plugin/".$this->pluginName."/views/show.phtml");
 	}
 
 	/**

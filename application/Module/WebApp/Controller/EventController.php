@@ -80,6 +80,7 @@ class WebApp_EventController extends \WebApp\Controller\BaseController
 			$this->_forward('index');
 		
 		$this->view->event = $this->eventService->Get($id);
+		$this->view->container = $this->eventService->RenderFrontend($id);
 	}
 	
 	/* edit an event (backend, write access) */
@@ -91,6 +92,7 @@ class WebApp_EventController extends \WebApp\Controller\BaseController
 			$this->_forward('index');
 		
 		$this->view->event = $this->eventService->Get($id);
+		$this->view->container = $this->eventService->RenderBackend($id);
 	}
 
 	/* call a function of the plugin */

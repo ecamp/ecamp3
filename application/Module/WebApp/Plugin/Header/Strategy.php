@@ -35,7 +35,9 @@ class Strategy extends \Core\Plugin\Header\Strategy implements \Core\Plugin\IPlu
 	 * @return string
 	 */
 	public function renderFrontend(){
-		return $this->header->getText();
+		$this->view->header = $this->header;
+		$this->view->plugin = $this->plugin;
+		return $this->view->render("../Plugin/".$this->pluginName."/views/show.phtml");
 	}
 
 	/**

@@ -32,7 +32,6 @@ namespace CoreApi\Entity;
 class Plugin extends BaseEntity
 {
 
-
 	/**
 	 * The id of the plugin item instance
 	 * @var integer
@@ -54,8 +53,17 @@ class Plugin extends BaseEntity
 	 *
 	 * @var string
 	 * @Column(type="string", length=64, nullable=false )
+	 * @deprecated
 	 */
 	protected $pluginName;
+	
+	/**
+	 * @var PluginConfig
+	 * @ManyToOne(targetEntity="PluginConfig")
+	 * @JoinColumn(nullable=true, onDelete="cascade")
+	 * @TODO change nullable to false
+	 */
+	protected $pluginConfig;
 
 	/**
 	 * This var contains an instance of $this->pluginStrategy.
@@ -89,6 +97,21 @@ class Plugin extends BaseEntity
 	public function getPluginName() 
 	{
 		return $this->pluginName;
+	}
+	
+	/**
+	 * Returns the plugin config
+	 *
+	 * @return PluginConfig
+	 */
+	public function getPluginConfig()
+	{
+	    return $this->pluginConfig;
+	}
+	
+	public function setPluginConfig(PluginConfig $pluginConfig)
+	{
+	    $this->pluginConfig  = $pluginConfig;
 	}
 
 	/**
