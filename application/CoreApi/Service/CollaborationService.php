@@ -46,6 +46,14 @@ class CollaborationService extends ServiceBase
 	 */
 	private $userCampRepo;
 	
+	/**
+	 * Setup ACL
+	 * @return void
+	 */
+	public function _setupAcl()
+	{
+	}
+		
 	public function Get($id, $camp_id = null){
 		if($camp_id == null)
 		{

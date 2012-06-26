@@ -24,6 +24,7 @@ use Core\Service\ServiceBase;
 
 use CoreApi\Entity\Camp;
 use CoreApi\Entity\Period;
+use CoreApi\Service\Params\Params;
 
 
 class PeriodService extends ServiceBase

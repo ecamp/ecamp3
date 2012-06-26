@@ -24,7 +24,7 @@ namespace CoreApi\Entity;
  * Connection between User and Group
  * User can send requests to Managers
  * Managers can send invitations to Users
- * @Entity
+ * @Entity(repositoryClass="Core\Repository\UserGroupRepository")
  * @Table(name="user_groups", uniqueConstraints={@UniqueConstraint(name="user_group_unique",columns={"user_id","group_id"})})
  */
 class UserGroup extends BaseEntity

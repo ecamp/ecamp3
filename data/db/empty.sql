@@ -113,12 +113,13 @@ CREATE TABLE `groups` (
   `updated_at` datetime NOT NULL,
   `name` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
   `description` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
-  `imageMime` varchar(32) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `imageData` longtext COLLATE utf8_unicode_ci COMMENT '(DC2Type:object)',
+  `image_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `group_parent_name_unique` (`parent_id`,`name`),
+  UNIQUE KEY `UNIQ_F06D39703DA5256D` (`image_id`),
   KEY `IDX_F06D3970727ACA70` (`parent_id`),
   KEY `group_name_idx` (`name`),
+  CONSTRAINT `FK_F06D39703DA5256D` FOREIGN KEY (`image_id`) REFERENCES `images` (`id`),
   CONSTRAINT `FK_F06D3970727ACA70` FOREIGN KEY (`parent_id`) REFERENCES `groups` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -126,6 +127,23 @@ CREATE TABLE `groups` (
 LOCK TABLES `groups` WRITE;
 /*!40000 ALTER TABLE `groups` DISABLE KEYS */;
 /*!40000 ALTER TABLE `groups` ENABLE KEYS */;
+UNLOCK TABLES;
+DROP TABLE IF EXISTS `images`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `images` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  `imageMime` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
+  `imageData` longtext COLLATE utf8_unicode_ci NOT NULL COMMENT '(DC2Type:object)',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+LOCK TABLES `images` WRITE;
+/*!40000 ALTER TABLE `images` DISABLE KEYS */;
+/*!40000 ALTER TABLE `images` ENABLE KEYS */;
 UNLOCK TABLES;
 DROP TABLE IF EXISTS `logins`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -329,13 +347,14 @@ CREATE TABLE `users` (
   `jsPersNr` varchar(16) COLLATE utf8_unicode_ci DEFAULT NULL,
   `jsEdu` varchar(16) COLLATE utf8_unicode_ci DEFAULT NULL,
   `pbsEdu` varchar(16) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `imageMime` varchar(32) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `imageData` longtext COLLATE utf8_unicode_ci COMMENT '(DC2Type:object)',
   `state` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `role` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `image_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `UNIQ_1483A5E9F85E0677` (`username`),
-  UNIQUE KEY `UNIQ_1483A5E9E7927C74` (`email`)
+  UNIQUE KEY `UNIQ_1483A5E9E7927C74` (`email`),
+  UNIQUE KEY `UNIQ_1483A5E93DA5256D` (`image_id`),
+  CONSTRAINT `FK_1483A5E93DA5256D` FOREIGN KEY (`image_id`) REFERENCES `images` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 

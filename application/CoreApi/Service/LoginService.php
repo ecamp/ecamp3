@@ -5,6 +5,7 @@ namespace CoreApi\Service;
 
 use Core\Acl\DefaultAcl;
 use Core\Service\ServiceBase;
+use CoreApi\Service\Params\Params;
 
 use CoreApi\Entity\User;
 use CoreApi\Entity\Login;

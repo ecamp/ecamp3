@@ -20,7 +20,7 @@
  *
  */
  
-use CoreApi\Service\Params;
+use CoreApi\Service\Params\Params;
 
 class WebApp_RegisterController
 	extends \WebApp\Controller\BaseController

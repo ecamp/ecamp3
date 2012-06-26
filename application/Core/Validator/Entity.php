@@ -2,7 +2,7 @@
 
 namespace Core\Validator;
 
-use CoreApi\Service\Params;
+use CoreApi\Service\Params\Params;
 
 abstract class Entity
 {

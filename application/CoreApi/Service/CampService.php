@@ -2,6 +2,7 @@
 
 namespace CoreApi\Service;
 
+use CoreApi\Service\Params\Params;
 
 use Core\Acl\DefaultAcl;
 use Core\Service\ServiceBase;
@@ -12,7 +13,7 @@ use CoreApi\Entity\Period;
 
 
 /**
- * @method CoreApi\Service\CampService Simulate
+ * @method \CoreApi\Service\CampService Simulate
  */
 class CampService
 	extends ServiceBase

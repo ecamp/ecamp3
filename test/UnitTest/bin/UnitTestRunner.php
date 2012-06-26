@@ -5,6 +5,8 @@
 defined('APPLICATION_PATH')
 	|| define('APPLICATION_PATH', realpath(dirname(__FILE__) . '/../../../application'));
 
+// Define application environment
+define('APPLICATION_ENV', 'testing');
 
 set_include_path(implode(PATH_SEPARATOR, array(
 		realpath(APPLICATION_PATH . '/../library/PHPUnit'),
@@ -12,13 +14,12 @@ set_include_path(implode(PATH_SEPARATOR, array(
 )));
 
 
+$configFile = __DIR__ . "/../conf/phpunit.xml";
+
 
 require_once 'PHPUnit/Autoload.php';
 require_once __DIR__ . "/SilentTestListener.php";
-require_once __DIR__ . "/SchemaManager.php";
 
-$configFile = __DIR__ . "/../conf/phpunit.xml";
-$resultFile = APPLICATION_PATH . "/../data/unittest/results.xml";
 
 
 

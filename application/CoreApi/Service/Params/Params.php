@@ -20,7 +20,7 @@
  *
  */
 
-namespace CoreApi\Service;
+namespace CoreApi\Service\Params;
 
 use CoreApi\Service\Params\FormParams;
 use CoreApi\Service\Params\ArrayParams;

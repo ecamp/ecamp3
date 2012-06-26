@@ -18,7 +18,7 @@
  * along with eCamp.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-use CoreApi\Service\Params;
+use CoreApi\Service\Params\Params;
 
 class WebApp_GroupController extends \WebApp\Controller\BaseController
 {	
