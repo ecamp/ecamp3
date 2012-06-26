@@ -23,7 +23,6 @@ use CoreApi\Service\Params\Params;
 class RegisterServiceTest extends ServiceTestCase
 {
 	
-	
 	/**
 	 * @var CoreApi\Service\RegisterService
 	 * @Inject CoreApi\Service\RegisterService
