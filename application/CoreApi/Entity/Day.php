@@ -31,13 +31,6 @@ class Day extends BaseEntity
 {
 
 	/**
-	 * @var int
-	 * @Id @Column(type="integer")
-	 * @GeneratedValue(strategy="AUTO")
-	 */
-	private $id;
-
-	/**
 	 * Offset to the start date of the subcamp's period
 	 * @Column(type="integer")
 	 */
@@ -54,13 +47,8 @@ class Day extends BaseEntity
 	 * @Column(type="text")
 	 */
 	private $notes;
-
-
-	public function getId()
-	{
-		return $this->id;
-	}
-
+	
+	
 	
 	public function setDayOffset($offset)
 	{

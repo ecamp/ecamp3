@@ -23,6 +23,8 @@ use Core\Provider\EntityManager;
 use Core\Provider\Repository;
 use Core\Service\ServiceFactory;
 
+use Bisna\Doctrine\Container as DoctrineContainer;
+
 class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 {	
 	
@@ -172,5 +174,27 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 		// Set the timezone default
 		date_default_timezone_set('Europe/Zurich');
 	}
+	
+	
+	protected function _initSetupDoctrine()
+	{
+		$opt = $this->getOption('doctrine');
+		
+		
+		$kernel = \Zend_Registry::get('kernel');
+		
+		$container = new DoctrineContainer($opt);
+		
+		\Zend_Registry::set('doctrine', $container);
+		
+		$IdGenerator = $kernel->Get('Core\Entity\IdGenerator');
+		$kernel->Get('Doctrine\ORM\EntityManager')
+			->getEventManager()->addEventListener('prePersist', $IdGenerator);
+		
+		return $container;
+		
+	}
+	
+	
 }
 
