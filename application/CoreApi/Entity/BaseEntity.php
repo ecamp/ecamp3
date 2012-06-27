@@ -54,13 +54,6 @@ abstract class BaseEntity
 		$this->updatedAt = new \DateTime("now");
 	}
 	
-	/**
-	 * @PreRemove
-	 */
-	public function PreRemove(){
-		$em = \Zend_Registry::get('doctrine')->getEntityManager();
-		$em->remove($this->seqnr);
-	}
 	
 	public function getUpdatedAt()
 	{

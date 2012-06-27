@@ -189,7 +189,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 		
 		$IdGenerator = $kernel->Get('Core\Entity\IdGenerator');
 		$kernel->Get('Doctrine\ORM\EntityManager')
-			->getEventManager()->addEventListener('prePersist', $IdGenerator);
+			->getEventManager()->addEventListener(array('prePersist', 'preRemove'), $IdGenerator);
 		
 		return $container;
 		

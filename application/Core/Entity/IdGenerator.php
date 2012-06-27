@@ -58,6 +58,18 @@ class IdGenerator
 	}
 	
 	
+	public function preRemove(LifecycleEventArgs $eventArgs)
+	{
+		$entity = $eventArgs->getEntity();
+		
+		if($entity instanceof BaseEntity)
+		{
+			$seqnr = $this->em->find('CoreApi\Entity\Seqnr', $entity->getId());
+			$this->em->remove($seqnr);
+		}
+	}
+	
+	
 	public function getPropertyReflector($class)
 	{
 		if(!array_key_exists($class, $this->reflectors))
