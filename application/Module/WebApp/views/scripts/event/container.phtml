@@ -18,13 +18,17 @@
 		<div tal:condition="item/isPlugin">
 			<div class="plugin_header">
 				 <span tal:content="item/plugin/getPluginName" />
-				 <a tal:condition="item/isDeletable" style="float:right;" href="#">Delete</a>
+				 <a tal:condition="item/isDeletable" style="float:right;" tal:attributes="href helper:campurl(camp, array('action' => 'removeplugin', 'id' => event.getId(), 'plugin' => item.plugin.getId() ), 'camp+id')">
+				 	Delete
+				 </a>
 			</div>
 			<div class="plugin_body" tal:content=" structure item/plugin/getStrategyInstance/renderBackend" />
 		</div>
 		
 		<div tal:condition="item/isPlaceholder">
-			<a class="button">+ add <span tal:content="item/config/getPluginName" /></a>
+			<a class="button" tal:attributes="href helper:campurl(camp, array('action' => 'addplugin', 'id' => event.getId(), 'plugin' => item.config.getId() ), 'camp+id')">
+				+ add <span tal:content="item/config/getPluginName" />
+			</a>
 		</div>
 		
 	</div>
@@ -34,7 +38,7 @@
 	<tal:block tal:repeat="item container" >
 		
 		<div tal:condition="item/isPlugin" tal:attributes="id php:'tabs-' . item.plugin.getId()">
-			<div tal:condition="not: backend" tal:content="structure item/plugin/getStrategyIntance/renderFrontend" />
+			<div tal:condition="not: backend" tal:content="structure item/plugin/getStrategyInstance/renderFrontend" />
 			<div tal:condition="backend" tal:content="structure item/plugin/getStrategyInstance/renderBackend" />
 		</div>
 		
@@ -46,7 +50,7 @@
 		
 		<li tal:condition="item/isPlugin">
 			<a tal:attributes="href php:'#tabs-' . item.plugin.getId()" tal:content="item/plugin/getPluginName">Removable plugin</a> 	
-			<span tal:condition="php: backend && item.isDeletable()" class="ui-icon ui-icon-close" />
+			<a tal:condition="php: backend && item.isDeletable()"  tal:attributes="href helper:campurl(camp, array('action' => 'removeplugin', 'id' => event.getId(), 'plugin' => item.plugin.getId() ), 'camp+id')">X</a>
 		</li>
 		
 	</tal:block>
@@ -62,7 +66,7 @@
 			<tal:block tal:repeat="item container" >
 			
 				<li tal:condition="item/isPlaceholder">
-					<a href="#" tal:content="item/config/getPluginName"></a>
+					<a tal:content="item/config/getPluginName" tal:attributes="href helper:campurl(camp, array('action' => 'addplugin', 'id' => event.getId(), 'plugin' => item.config.getId() ), 'camp+id')" />
 				</li>
 				
 			</tal:block>
@@ -106,7 +110,7 @@
 					$("#plugin_dropdown").slideToggle('fast');
 					
 					var link = ui.item.children( "a:first" );
-					$dialog.dialog( "open" );
+					link.href();
 				}
 			}).hide();
 			

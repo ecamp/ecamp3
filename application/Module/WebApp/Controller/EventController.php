@@ -131,6 +131,26 @@ class WebApp_EventController extends \WebApp\Controller\BaseController
 		$this->view->backend = false;
 	}
 	
+	public function addpluginAction()
+	{
+		$event  = $this->getRequest()->getParam("id");
+		$plugin = $this->getRequest()->getParam("plugin");
+		
+		$this->eventService->AddPlugin($event, $plugin);
+		
+		$this->_helper->getHelper('Redirector')->gotoRoute(array('action'=>'edit', 'plugin'=>null, 'camp'=>$this->getContext()->getCamp(), 'user'=>$this->getContext()->getMe()));
+	}
+	
+	public function removepluginAction()
+	{
+		$event  = $this->getRequest()->getParam("id");
+		$plugin = $this->getRequest()->getParam("plugin");
+		
+		$this->eventService->RemovePlugin($event, $plugin);
+		
+		$this->_helper->getHelper('Redirector')->gotoRoute(array('action'=>'edit', 'plugin'=>null, 'camp'=>$this->getContext()->getCamp(), 'user'=>$this->getContext()->getMe()));
+	}
+	
 
 	/* call a function of the plugin */
 	public function pluginAction(){

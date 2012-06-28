@@ -151,6 +151,19 @@ class Event extends BaseEntity
 	}
 	
 	/**
+	 * @return integer
+	 */
+	public function countPluginsByConfig(PluginConfig $config)
+	{
+		$closure = function(Plugin $plugin) use ($config)
+		{
+			return $plugin->getPluginConfig()->getId() == $config->getId();
+		};
+		 
+		return $this->plugins->count($closure);
+	}
+	
+	/**
 	 * @return EventPrototype
 	 */
 	public function getPrototype()

@@ -1,4 +1,4 @@
-<!--  default container for read only -->
+<!--  default template -->
 <div metal:define-macro="default">
 	
 	<div metal:use-macro="container.phtml/tablogic" />
@@ -30,6 +30,37 @@
 			
 		</div>
 	</div>
+</div>
+
+<!--  template without dynamic tabs -->
+<div metal:define-macro="notab">
 	
+	<div metal:use-macro="container.phtml/tablogic" />
+	
+	<div style="position:relative;">
+			
+		<div id="tabs" class="span-24" style="position:relative; top:40px;">
+			<!-- TABS HEADER -->
+			<ul>
+				<!-- a static tab that contains 1 or multiple plugins -->
+				<li><a href="#tabs-static">Static tab</a></li>
+
+			</ul>
+			
+			<!-- TABS BODY -->
+			<!-- a static tab that contains 1 or multiple plugins -->
+			<div id="tabs-static">
+				<div class="span-10" id="left">
+					<div metal:use-macro="container.phtml/default" tal:define="container container/left" />
+				</div>
+				
+				<div class="span-10" id="right">
+					<div metal:use-macro="container.phtml/default" tal:define="container container/right" />
+				</div>
+			</div>
+
+			
+		</div>
+	</div>
 </div>
 

@@ -9,6 +9,7 @@ use Core\Service\ServiceBase;
 use CoreApi\Entity\Event;
 use CoreApi\Entity\Camp;
 use CoreApi\Entity\Plugin;
+use CoreApi\Entity\PluginConfig;
 
 use CoreApi\Entity\EventPrototype;
 
@@ -31,6 +32,8 @@ class EventService
 		$this->acl->allow(DefaultAcl::MEMBER, $this, 'Get');
 		$this->acl->allow(DefaultAcl::MEMBER, $this, 'GetContainers');
 		$this->acl->allow(DefaultAcl::MEMBER, $this, 'getPlugin');
+		$this->acl->allow(DefaultAcl::MEMBER, $this, 'AddPlugin');
+		$this->acl->allow(DefaultAcl::MEMBER, $this, 'RemovePlugin');
 	}
 	
 	/**
@@ -85,20 +88,27 @@ class EventService
 		{
 		    for($i=0; $i<$config->getDefaultInstances(); $i++)
 		    {
-		        $plugin = new Plugin();
-		        $plugin->setEvent($event);
-		        $plugin->setPluginConfig($config);
-		        
-		        $strategyClassName =  '\WebApp\Plugin\\' . $config->getPluginName() . '\Strategy';
-		        $strategy = new $strategyClassName($this->em, $plugin);
-		        $strategy->persist();
-		        
-		        $plugin->setStrategy($strategy);
-		        $this->persist($plugin);
+		        $this->CreatePlugin($event, $config);
 		    }
 		}
 		
 		$this->persist($event);
+	}
+	
+	private function CreatePlugin(Event $event, PluginConfig $config)
+	{
+		$plugin = new Plugin();
+		$plugin->setEvent($event);
+		$plugin->setPluginConfig($config);
+		
+		$strategyClassName =  '\WebApp\Plugin\\' . $config->getPluginName() . '\Strategy';
+		$strategy = new $strategyClassName($this->em, $plugin);
+		$strategy->persist();
+		
+		$plugin->setStrategy($strategy);
+		$this->persist($plugin);
+		
+		return $plugin;
 	}
 	
 	public function GetContainers($id, $template)
@@ -140,6 +150,36 @@ class EventService
 	    return $container;
 	}
 	
+	public function AddPlugin($event, $config)
+	{
+		$event = $this->Get($event);
+		$config = $this->getPluginConfig($config);
+		$count = $event->countPluginsByConfig($config);
+		
+		if( is_null($config->getMaxInstances()) || $count<$config->getMaxInstances() )
+		{
+			$this->CreatePlugin($event, $config);
+		}
+	}
+	
+	public function RemovePlugin($event, $instance)
+	{
+		$event 	  = $this->Get($event);
+		$instance = $this->getPlugin($instance);
+		$config = $instance->getPluginConfig();
+		
+		$count = $event->countPluginsByConfig($config);
+		
+		if( $count > $config->getMinInstances() )
+		{
+			/* cleanup plugin data */
+			$instance->getStrategyInstance()->remove();
+			
+			/* remove plugin record itself */
+			$this->remove($instance);
+		}
+	}
+	
 	/**
 	 * @return CoreApi\Entity\Plugin
 	 */
@@ -155,6 +195,24 @@ class EventService
 			return $id;
 		}
 		
+		return null;
+	}
+	
+	/**
+	 * @return CoreApi\Entity\Plugin
+	 */
+	public function getPluginConfig($id)
+	{
+		if(is_numeric($id))
+		{
+			return $this->em->getRepository("\CoreApi\Entity\PluginConfig")->find($id);
+		}
+			
+		if($id instanceof PluginConfig)
+		{
+			return $id;
+		}
+	
 		return null;
 	}
 }
