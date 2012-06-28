@@ -20,3 +20,76 @@
 	</div>
 </div>
 
+<tal:block metal:define-macro="tabbody">
+	<div tal:repeat="plugin container" tal:attributes="id php:'tabs-' . plugin.getPlugin().getId()">
+		<div tal:condition="not: backend" tal:content="structure plugin/renderFrontend" />
+		<div tal:condition="backend" tal:content="structure plugin/renderBackend" />
+	</div>
+</tal:block>
+
+<tal:block metal:define-macro="tabheader">
+	<li tal:repeat="plugin container">
+		<a tal:attributes="href php:'#tabs-' . plugin.getPlugin().getId()" tal:content="plugin/getPluginName">Removable plugin</a> 
+		
+		<span tal:condition="backend" class="ui-icon ui-icon-close" />
+	</li>
+</tal:block>
+
+
+<tal:block metal:define-macro="tabnew">
+	<!-- dropdown to add new plugins; comes dynamically soon -->
+	<div tal:condition="backend" style="height:50px; position:absolute; right:0px; top:0px; z-index:100;">
+		<button id="add_tab" style="float:right;">Add plugin</button>
+		
+		<ul id="plugin_dropdown" style="width:150px; clear:both; float:right;">
+				<li><a id="mzb" href="#mzb">MZB</a></li>
+				<li><a id="graphic" href="#graphic">Grafik</a></li>
+				<li><a id="other" href="#other">Other</a></li>
+		</ul>
+	</div>
+</tal:block>
+
+<tal:block metal:define-macro="tablogic">
+	<script type="text/javascript">
+	// <![CDATA[
+		$(function() {
+			var $tab_title_input = $( "#tab_title"),
+				$tab_content_input = $( "#tab_content" );
+			var tab_counter = 4;
+	
+			// tabs init with a custom tab template and an "add" callback filling in the content
+			var $tabs = $( "#tabs").tabs({
+				fx: { opacity: 'toggle', duration: 'fast' },
+				tabTemplate: "<li style='height:30px;'><a href='#{href}'>#{label}</a> <span class='ui-icon ui-icon-close'>Remove Tab</span></li>",
+				add: function( event, ui ) {
+					var tab_content = $tab_content_input.val() || "Tab " + tab_counter + " content.";
+					$( ui.panel ).append( "<p>" + tab_content + "</p>" );
+				}
+			});
+			
+			// add plugin button, just shows the menu
+			$( "#add_tab" )
+				.button({
+					icons: {
+						primary: "ui-icon-plus",
+						secondary: "ui-icon-triangle-1-s"
+					}
+				})
+				.click(function() {
+					$("#plugin_dropdown").slideToggle('fast');
+				});
+
+			// add plugin menu
+			$("#plugin_dropdown").menu({
+				select: function( event, ui ) {
+					$("#plugin_dropdown").slideToggle('fast');
+					
+					var link = ui.item.children( "a:first" );
+					$dialog.dialog( "open" );
+				}
+			}).hide();
+			
+		});
+	// ]]>
+	</script>
+</tal:block>

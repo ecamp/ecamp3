@@ -170,7 +170,10 @@ class DBApp_Bootstrap extends Zend_Application_Module_Bootstrap
 
 		$view->headLink()->appendStylesheet('/css/blueprint/plugins/fancy-type/screen.css', 'screen, projection');
 		$view->headLink()->appendStylesheet('/css/blueprint/plugins/buttons/screen.css', 'screen, projection');
-
+		
+		/* @TODO only temporary, for jQqueryUi 1.9 */
+		$view->headLink()->appendStylesheet('/css/jqueryui/themes/base/jquery.ui.all.css', 'screen, projection');
+		
 		$view->headLink()->appendStylesheet('/css/main.css');
 
 
