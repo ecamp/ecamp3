@@ -109,13 +109,32 @@ class EventService
 	    $container = array();
 	    foreach($mapitems as $item)
 	    {
+	    	if( !isset($container[$item->getContainer()] ) )
+	    		$container[$item->getContainer()] = array();
+	    	
+	    	/* add all plugin instances to the container */
+	    	$i=0;
 	        foreach($event->getPluginsByConfig($item->getPluginConfig()) as $plugin)
 	        {
-	            if( !isset($container[$item->getContainer()] ) )
-	                $container[$item->getContainer()] = array();
-	            
-	            $container[$item->getContainer()][] = $plugin->getStrategyInstance(); 
+	        	$citem = new ContainerItem();
+	        	$citem->isPlugin = true;
+	        	$citem->plugin = $plugin;
+	        	$citem->config = $item->getPluginConfig();
+	        	$citem->index  = $i;
+	        	
+	            $container[$item->getContainer()][] = $citem;
+	            $i++; 
 	        }
+	        
+	        /* add placeholder if max number of plugin instances has not been reached */
+	        if( is_null($item->getPluginConfig()->getMaxInstances()) || $i < $item->getPluginConfig()->getMaxInstances() )
+	        {
+	        	$citem = new ContainerItem();
+	        	$citem->isPlaceholder = true;
+	        	$citem->config = $item->getPluginConfig();
+	        	$container[$item->getContainer()][] = $citem;
+	        }
+	        
 	    }
 	    
 	    return $container;
@@ -138,5 +157,41 @@ class EventService
 		
 		return null;
 	}
-	
+}
+
+/**
+ * only used to support output of container
+ */
+class ContainerItem
+{
+	/**
+	 * @var boolean
+	 */
+	public $isPlugin = false;
+
+	/**
+	 * @var boolean
+	 */
+	public $isPlaceholder = false;
+
+	/**
+	 * @var \Core\Plugin\AbstractStrategy
+	 */
+	public $plugin;
+
+	/**
+	 * @var \CoreApi\Entity\PluginConfig
+	 */
+	public $config;
+
+	/**
+	 * internal number of this plugin instance
+	 * @var integer
+	 */
+	public $index;
+
+	public function isDeletable()
+	{
+		return $this->index > $this->config->getMinInstances();
+	}
 }

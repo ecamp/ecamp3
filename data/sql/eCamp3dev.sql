@@ -257,7 +257,7 @@ CREATE TABLE `plugin_contents` (
 
 LOCK TABLES `plugin_contents` WRITE;
 /*!40000 ALTER TABLE `plugin_contents` DISABLE KEYS */;
-INSERT INTO `plugin_contents` VALUES (45,67,'2012-06-26 16:47:34','2012-06-26 16:47:47','hello world 2'),(46,68,'2012-06-26 16:47:34','2012-06-28 12:10:30','hello world 4'),(47,70,'2012-06-26 16:47:39','2012-06-26 16:47:39','hello world'),(48,71,'2012-06-26 16:47:39','2012-06-26 16:47:39','hello world');
+INSERT INTO `plugin_contents` VALUES (45,67,'2012-06-26 16:47:34','2012-06-28 12:57:48','hello world 3'),(46,68,'2012-06-26 16:47:34','2012-06-28 13:14:31','hello world 3'),(47,70,'2012-06-26 16:47:39','2012-06-26 16:47:39','hello world'),(48,71,'2012-06-26 16:47:39','2012-06-26 16:47:39','hello world');
 /*!40000 ALTER TABLE `plugin_contents` ENABLE KEYS */;
 UNLOCK TABLES;
 DROP TABLE IF EXISTS `plugin_headers`;
@@ -392,7 +392,7 @@ CREATE TABLE `template_map_item` (
 
 LOCK TABLES `template_map_item` WRITE;
 /*!40000 ALTER TABLE `template_map_item` DISABLE KEYS */;
-INSERT INTO `template_map_item` VALUES (3,'2012-06-26 00:00:00','2012-06-26 00:00:00','left',1,1,2),(4,'2012-06-26 00:00:00','2012-06-26 00:00:00','tab',1,1,1),(5,'2012-06-26 00:00:00','2012-06-26 00:00:00','singleContainer',1,2,2),(6,'2012-06-26 00:00:00','2012-06-26 00:00:00','singleContainer',2,2,1);
+INSERT INTO `template_map_item` VALUES (3,'2012-06-26 00:00:00','2012-06-26 00:00:00','left',1,1,2),(4,'2012-06-26 00:00:00','2012-06-26 00:00:00','tab',2,1,1),(5,'2012-06-26 00:00:00','2012-06-26 00:00:00','singleContainer',1,2,2),(6,'2012-06-26 00:00:00','2012-06-26 00:00:00','singleContainer',2,2,1);
 /*!40000 ALTER TABLE `template_map_item` ENABLE KEYS */;
 UNLOCK TABLES;
 DROP TABLE IF EXISTS `user_camps`;

@@ -4,35 +4,52 @@
 </div>
 
 <div metal:define-macro="frontend">
-	<div tal:repeat="plugin container">
-		<div class="plugin_header" tal:content="plugin/getPluginName"></div>
-		<div class="plugin_body" tal:content=" structure plugin/renderFrontend" />
+	<div tal:repeat="item container">
+		<div tal:condition="item/isPlugin">
+			<div class="plugin_header" tal:content="item/plugin/getPluginName"></div>
+			<div class="plugin_body" tal:content=" structure item/plugin/getStrategyInstance/renderFrontend" />
+		</div>
 	</div>
 </div>
 
 <div metal:define-macro="backend">
-	<div tal:repeat="plugin container">
-		<div class="plugin_header">
-			 <span tal:content="plugin/getPluginName" />
-			 <a style="float:right;" href="#">Delete</a>
+	<div tal:repeat="item container">
+		
+		<div tal:condition="item/isPlugin">
+			<div class="plugin_header">
+				 <span tal:content="item/plugin/getPluginName" />
+				 <a tal:condition="item/isDeletable" style="float:right;" href="#">Delete</a>
+			</div>
+			<div class="plugin_body" tal:content=" structure item/plugin/getStrategyInstance/renderBackend" />
 		</div>
-		<div class="plugin_body" tal:content=" structure plugin/renderBackend" />
+		
+		<div tal:condition="item/isPlaceholder">
+			<a class="button">+ add <span tal:content="item/config/getPluginName" /></a>
+		</div>
+		
 	</div>
 </div>
 
 <tal:block metal:define-macro="tabbody">
-	<div tal:repeat="plugin container" tal:attributes="id php:'tabs-' . plugin.getPlugin().getId()">
-		<div tal:condition="not: backend" tal:content="structure plugin/renderFrontend" />
-		<div tal:condition="backend" tal:content="structure plugin/renderBackend" />
-	</div>
+	<tal:block tal:repeat="item container" >
+		
+		<div tal:condition="item/isPlugin" tal:attributes="id php:'tabs-' . item.plugin.getId()">
+			<div tal:condition="not: backend" tal:content="structure item/plugin/getStrategyIntance/renderFrontend" />
+			<div tal:condition="backend" tal:content="structure item/plugin/getStrategyInstance/renderBackend" />
+		</div>
+		
+	</tal:block>
 </tal:block>
 
 <tal:block metal:define-macro="tabheader">
-	<li tal:repeat="plugin container">
-		<a tal:attributes="href php:'#tabs-' . plugin.getPlugin().getId()" tal:content="plugin/getPluginName">Removable plugin</a> 
+	<tal:block tal:repeat="item container">
 		
-		<span tal:condition="backend" class="ui-icon ui-icon-close" />
-	</li>
+		<li tal:condition="item/isPlugin">
+			<a tal:attributes="href php:'#tabs-' . item.plugin.getId()" tal:content="item/plugin/getPluginName">Removable plugin</a> 	
+			<span tal:condition="php: backend && item.isDeletable()" class="ui-icon ui-icon-close" />
+		</li>
+		
+	</tal:block>
 </tal:block>
 
 
@@ -42,9 +59,13 @@
 		<button id="add_tab" style="float:right;">Add plugin</button>
 		
 		<ul id="plugin_dropdown" style="width:150px; clear:both; float:right;">
-				<li><a id="mzb" href="#mzb">MZB</a></li>
-				<li><a id="graphic" href="#graphic">Grafik</a></li>
-				<li><a id="other" href="#other">Other</a></li>
+			<tal:block tal:repeat="item container" >
+			
+				<li tal:condition="item/isPlaceholder">
+					<a href="#" tal:content="item/config/getPluginName"></a>
+				</li>
+				
+			</tal:block>
 		</ul>
 	</div>
 </tal:block>
