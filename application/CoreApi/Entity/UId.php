@@ -22,14 +22,13 @@ namespace CoreApi\Entity;
 
 /**
  * @Entity
- * @Table(name="seqnr")
+ * @Table(name="uid")
  */
-class Seqnr
+class UId
 {
 	/**
 	 * @var int
-	 * @Id @Column(type="integer")
- 	 * @GeneratedValue(strategy="AUTO")
+	 * @Id @Column(type="string")
 	 */
 	private $id;
 	
@@ -42,6 +41,7 @@ class Seqnr
 	
 	
 	public function __construct($class){
+		$this->id = base_convert(crc32(uniqid()), 10, 16);
 		$this->class = $class;
 	}
 	

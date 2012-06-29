@@ -55,7 +55,7 @@ class CampService
 		if(is_null($id))
 		{	return $this->getContext()->getCamp();	}
 		
-		if(is_numeric($id))
+		if(is_string($id))
 		{	return $this->campRepo->find($id);	}
 			
 		if($id instanceof Camp)

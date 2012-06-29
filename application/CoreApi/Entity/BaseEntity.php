@@ -17,7 +17,7 @@ abstract class BaseEntity
 	/**
 	 * @var int	 
 	 * @Id
-	 * @Column(name="id", type="integer")
+	 * @Column(name="id", type="string")
 	 */
 	protected $id;
 	

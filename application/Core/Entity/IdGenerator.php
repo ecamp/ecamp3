@@ -20,7 +20,7 @@
 
 namespace Core\Entity;
 
-use CoreApi\Entity\Seqnr;
+use CoreApi\Entity\UId;
 use CoreApi\Entity\BaseEntity;
 
 use Doctrine\ORM\Event\LifecycleEventArgs;
@@ -47,12 +47,12 @@ class IdGenerator
 		{
 			$class = get_class($entity);
 			
-			$seqnr = new Seqnr($class);
-			$this->em->persist($seqnr);
-			$this->em->flush($seqnr);
+			$uid = new UId($class);
+			$this->em->persist($uid);
+			$this->em->flush($uid);
 			
 			$r = $this->getPropertyReflector($class);
-			$r->setValue($entity, $seqnr->getId());
+			$r->setValue($entity, $uid->getId());
 			
 		}
 	}

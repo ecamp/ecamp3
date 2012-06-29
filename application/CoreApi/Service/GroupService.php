@@ -51,7 +51,7 @@ class GroupService
 		if(is_null($id))
 		{	return $this->contextProvider->getContext()->getGroup();	}
 		
-		if(is_numeric($id))
+		if(is_string($id))
 		{	return $this->groupRepo->find($id);	}
 		
 		if($id instanceof Group)
