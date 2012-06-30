@@ -22,6 +22,7 @@ namespace CoreApi\Service;
 
 use Core\Service\ServiceBase;
 
+use CoreApi\Entity\Day;
 use CoreApi\Entity\Camp;
 use CoreApi\Entity\Period;
 use CoreApi\Service\Params\Params;
@@ -29,6 +30,7 @@ use CoreApi\Service\Params\Params;
 
 class PeriodService extends ServiceBase
 {
+	
 	
 	/**
 	 * Setup ACL
@@ -39,13 +41,13 @@ class PeriodService extends ServiceBase
 	
 	public function Create(Camp $camp, Params $params)
 	{
-		if( $params->getValue('from') == "" ){
-			$params->addError('from', "Date cannot be empty.");
+		if( $params->getValue('start') == ""){
+			$params->addError('start', "Date cannot be empty.");
 			$this->validationFailed();
 		}
 		
-		if( $params->getValue('to') == "" ){
-			$params->addError('to', "Date cannot be empty.");
+		if( $params->getValue('end') == "" ){
+			$params->addError('end', "Date cannot be empty.");
 			$this->validationFailed();
 		}
 		
@@ -53,15 +55,23 @@ class PeriodService extends ServiceBase
 		$period = new Period($camp);
 		$this->persist($period);
 		
-		$from = new \DateTime($params->getValue('from'), new \DateTimeZone("GMT"));
-		$to   = new \DateTime($params->getValue('to'), new \DateTimeZone("GMT"));
+		$start = new \DateTime($params->getValue('start'), new \DateTimeZone("GMT"));
+		$end   = new \DateTime($params->getValue('end'), new \DateTimeZone("GMT"));
+		$desc  = $params->hasElement('description') ? $params->getValue('description') : "";
 		
-		$period->setStart($from);
-		$period->setDuration(($to->getTimestamp() - $from->getTimestamp())/(24 * 60 * 60) + 1);
 		
-		if( $period->getDuration() < 1){
-			$params->addError('to', "Minimum length of camp is 1 day.");
+		$period->setStart($start);
+		$period->setDescription($desc);
+		
+		$numOfDays = ($end->getTimestamp() - $start->getTimestamp())/(24 * 60 * 60) + 1;
+		if( $numOfDays < 1){
+			$params->addError('end', "Minimum length of camp is 1 day.");
 			$this->validationFailed();
+		}
+		
+		for($offset = 0; $offset < $numOfDays; $offset++){
+			$day = new Day($period, $offset);
+			$this->persist($day);
 		}
 		
 		return $period;
@@ -69,22 +79,47 @@ class PeriodService extends ServiceBase
 	
 	public function Update(Period $period, Params $params)
 	{
-		
+		if($params->hasElement('description')){
+			$period->setDescription($params->getValue('description'));
+		}
 	}
 	
 	public function Delete(Period $period)
 	{
-		
+		// How to handle EventsInstances of this Period??
 	}
 	
 	public function Move(Period $period, $newStart)
 	{
+		if(! $newStart instanceof \DateTime){
+			$newStart = new \DateTime($newStart, new \DateTimeZone("GMT"));
+		}
 		
+		$period->setStart($newStart);
 	}
 	
-	public function Resize(Period $period, $newDuration)
+	public function Resize(Period $period, $numOfDays)
 	{
-		$period->setDescription($newDuration);
+		$oldNumOfDays = $period->getNumberOfDays();
+		
+		if($oldNumOfDays < $numOfDays){
+			for($offset = $oldNumOfDays; $offset < $numOfDays; $offset++){
+				$day = new Day($period, $offset);
+				$this->persist($day);
+			}
+			
+			return;
+		}
+		
+		if($oldNumOfDays > $numOfDays){
+			for($offset = $numOfDays; $offset < $oldNumOfDays; $offset++){
+				$this->deleteDay($period, $offset);
+			}
+		}
+	}
+	
+	private function deleteDay(Period $period, $offset){
+		// How to handle EventInstances fo this Day?
 	}
 	
 }
