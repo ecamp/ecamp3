@@ -15,7 +15,7 @@ abstract class BaseEntity
 	private $updatedAt;
 	
 	/**
-	 * @var int	 
+	 * @var string	 
 	 * @Id
 	 * @Column(name="id", type="string")
 	 */
