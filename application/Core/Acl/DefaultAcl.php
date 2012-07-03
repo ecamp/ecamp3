@@ -8,21 +8,22 @@ use CoreApi\Entity\User;
 
 class DefaultAcl extends \Zend_Acl
 {
-	const GUEST 		= 'guest';
-	const MEMBER		= 'member';
-	const ADMIN 		= 'admin';
+	const GUEST 				= 'guest';
+	const MEMBER				= 'member';
+	const ADMIN 				= 'admin';
+	const ADMIN_IN_USER_VIEW 	= 'admin_in_user_view';
 	
-	const CAMP_GUEST	= 'camp_guest';
-	const CAMP_MEMBER	= 'camp_member';
-	const CAMP_MANAGER	= 'camp_manager';
-	const CAMP_OWNER	= 'camp_owner';
-	const CAMP_CREATOR	= 'camp_creator';
+	const CAMP_GUEST			= 'camp_guest';
+	const CAMP_MEMBER			= 'camp_member';
+	const CAMP_MANAGER			= 'camp_manager';
+	const CAMP_OWNER			= 'camp_owner';
+	const CAMP_CREATOR			= 'camp_creator';
 	
-	const GROUP_MEMBER	= 'group_member';
-	const GROUP_MANAGER	= 'group_manager';
+	const GROUP_MEMBER			= 'group_member';
+	const GROUP_MANAGER			= 'group_manager';
 	
-	const USER_FRIEND	= 'user_friend';
-	const USER_ME		= 'user_me';
+	const USER_FRIEND			= 'user_friend';
+	const USER_ME				= 'user_me';
 	
 	/**
 	 * @var Doctrine\ORM\EntityManager
@@ -32,10 +33,10 @@ class DefaultAcl extends \Zend_Acl
 	
 	
 	/**
-	 * @var CoreApi\Acl\ContextProvider
-	 * @Inject CoreApi\Acl\ContextProvider
+	 * @var Core\Acl\ContextStorage
+	 * @Inject Core\Acl\ContextStorage
 	 */
-	protected $contextProvider;
+	protected $contextStorage;
 	
 	/**
 	 * @var array
@@ -45,10 +46,11 @@ class DefaultAcl extends \Zend_Acl
 	
 	public function getRolesInContext()
 	{
-		$context = $this->contextProvider->getContext();
+		$context = $this->contextStorage->getContext();
+		$contextKey = (string) $context;
 		
-		$roles = array_key_exists((string) $context, $this->rolesCache) ?
-			$roles = $this->rolesCache[(string) $context] : 
+		$roles = array_key_exists($contextKey, $this->rolesCache) ?
+			$roles = $this->rolesCache[$contextKey] : 
 			$this->calculateRolesFromContext($context);
 		
 		return $roles;
@@ -70,6 +72,10 @@ class DefaultAcl extends \Zend_Acl
 			{	$roles[] = self::ADMIN;		}
 			else
 			{	$roles[] = self::MEMBER;	}
+			
+			if(	$me != $this->contextStorage->getAuthUser() && 
+				$this->contextStorage->getAuthUser()->getRole() == User::ROLE_ADMIN)
+			{	$roles[] = self::ADMIN_IN_USER_VIEW;	}
 		}
 		else
 		{	$roles[] = self::GUEST;		}
@@ -140,17 +146,20 @@ class DefaultAcl extends \Zend_Acl
      */
     public function __construct()
     {
+    	/* support roles */
+    	$this->addRole(self::ADMIN_IN_USER_VIEW);
+    	
     	/* general roles */
         $this->addRole(self::GUEST)
-             ->addRole(self::MEMBER, self::GUEST)
-             ->addRole(self::ADMIN,  self::MEMBER);
+             ->addRole(self::MEMBER, 		self::GUEST)
+             ->addRole(self::ADMIN,  		self::MEMBER);
              
         /* roles in context to a camp */
         $this->addRole(self::CAMP_GUEST)
-             ->addRole(self::CAMP_MEMBER, self::CAMP_GUEST)
-             ->addRole(self::CAMP_MANAGER, self::CAMP_MEMBER)
-             ->addRole(self::CAMP_OWNER, self::CAMP_MANAGER)
-        	 ->addRole(self::CAMP_CREATOR, self::CAMP_MANAGER);
+             ->addRole(self::CAMP_MEMBER, 	self::CAMP_GUEST)
+             ->addRole(self::CAMP_MANAGER, 	self::CAMP_MEMBER)
+             ->addRole(self::CAMP_OWNER, 	self::CAMP_MANAGER)
+        	 ->addRole(self::CAMP_CREATOR, 	self::CAMP_MANAGER);
              
         /* roles in context to a group */
         $this->addRole(self::GROUP_MEMBER)
@@ -158,6 +167,6 @@ class DefaultAcl extends \Zend_Acl
         
         /* roles in context to another user */
         $this->addRole(self::USER_FRIEND)
-			->addRole(self::USER_ME, self::USER_FRIEND);
+			 ->addRole(self::USER_ME, 		self::USER_FRIEND);
     }
 }
