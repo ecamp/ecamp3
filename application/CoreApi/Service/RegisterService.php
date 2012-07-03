@@ -2,6 +2,8 @@
 
 namespace CoreApi\Service;
 
+use Core\Job\RegisterJobs;
+
 use Core\Acl\DefaultAcl;
 use Core\Service\ServiceBase;
 use CoreApi\Service\Params\Params;
@@ -30,6 +32,13 @@ class RegisterService
 	
 	
 	/**
+	 * @var Coreapi\Service\JobService
+	 * @Inject Core\Service\JobService
+	 */
+	protected $jobService;
+	
+	
+	/**
 	 * Setup ACL
 	 * @return void
 	 */
@@ -50,8 +59,11 @@ class RegisterService
 		
 		$activationCode = $user->createNewActivationCode();
 		
-		// TODO: Send Mail with 
-		//		 $activationCode!
+		$jobParams = array(
+			'user_id' => $user->getId(),
+			'activationCode' => $activationCode
+		);
+		$this->jobService->AddJob(RegisterJobs::SendActivationCode($jobParams));
 		
 		return $user;
 	}

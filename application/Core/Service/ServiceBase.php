@@ -39,7 +39,7 @@ abstract class ServiceBase
 	/**
 	 * @return CoreApi\Acl\Context
 	 */
-	public function getContext()
+	protected function getContext()
 	{
 		return $this->contextProvider->getContext();
 	}
