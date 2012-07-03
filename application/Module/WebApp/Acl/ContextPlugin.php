@@ -16,9 +16,9 @@ class ContextPlugin extends \Zend_Controller_Plugin_Abstract
 	
 	public function preDispatch(\Zend_Controller_Request_Abstract $request)
 	{
-		$userId  = is_int($request->getParam('user'))  ? $request->getParam('user') 	: null;
-		$groupId = is_int($request->getParam('group')) ? $request->getParam('group') 	: null;
-		$campId  = is_int($request->getParam('camp'))  ? $request->getParam('camp') 	: null;
+		$userId  = $request->getParam('user');
+		$groupId = $request->getParam('group');
+		$campId  = $request->getParam('camp');
 		
 		$this->contextProvider->set($userId, $groupId, $campId);
 	}
