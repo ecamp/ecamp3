@@ -18,37 +18,10 @@
  * along with eCamp.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Core\Job;
 
-use CoreApi\Entity\User;
-use CoreApi\Entity\Job;
-
-
-/**
- * @method static Job name()
- */
-class RegisterJobs 
+class Application extends Zend_Application
 {
-	/**
-	 * @param User $user
-	 * @param string $activationCode
-	 * @return Job
-	 */
-	public static function SendActivationCode(User $user, $activationCode){
-		$job = new Job();
-		$job->setClass(__CLASS__);
-		$job->setJob(__FUNCTION__ . "_Job");
-		$job->setParams($user->getId(), $activationCode);
-		$job->setDescription("Sends a Mail with the ActivationCode for a new User");
 	
-		return $job;
-	}
-	
-	
-	public function SendActivationCode_Job($user_id, $activationCode)
-	{
-		// TODO
-	}
 	
 	
 }

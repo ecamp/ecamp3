@@ -28,6 +28,7 @@ use Bisna\Doctrine\Container as DoctrineContainer;
 class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 {	
 	
+	
 	/**
 	 * Loads the CoreNamespace to the Autoloader
 	 */

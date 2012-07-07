@@ -27,17 +27,11 @@ class JobService
 	public function _setupAcl() { }
 	
 	
-	public function AddJob(array $params){
+	public function Add(Job $job){
 		$context = $this->getContext();
-		list($class, $job) = $params["callback"];
+		$job->setContext($context);
 		
-		$backgroundJob = new Job($context);
-		$backgroundJob->setClass($class);
-		$backgroundJob->setJob($job);
-		$backgroundJob->setParams($params["params"]);
-		$backgroundJob->setDescription($params["desc"]);
-		
-		$this->persist($backgroundJob);
+		$this->persist($job);
 	}
 	
 }

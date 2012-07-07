@@ -3,11 +3,10 @@
 namespace CoreApi\Service;
 
 use Core\Job\RegisterJobs;
-
 use Core\Acl\DefaultAcl;
 use Core\Service\ServiceBase;
-use CoreApi\Service\Params\Params;
 
+use CoreApi\Service\Params\Params;
 use CoreApi\Entity\User;
 
 /**
@@ -59,11 +58,7 @@ class RegisterService
 		
 		$activationCode = $user->createNewActivationCode();
 		
-		$jobParams = array(
-			'user_id' => $user->getId(),
-			'activationCode' => $activationCode
-		);
-		$this->jobService->AddJob(RegisterJobs::SendActivationCode($jobParams));
+		$this->jobService->Add(RegisterJobs::SendActivationCode($user, $activationCode));
 		
 		return $user;
 	}

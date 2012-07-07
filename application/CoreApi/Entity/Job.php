@@ -33,13 +33,6 @@ class Job extends BaseEntity
 	const JOB_SUCCEEDED = 'SUCCEEDED';
 	const JOB_FAILED 	= 'FAILED';
 	
-	
-	/**
-	 * @var int
-	 * @Id @Column(type="integer")
-	 * @GeneratedValue(strategy="AUTO")
-	 */
-	private $id;
 
 	/**
 	 * Background Job Description
@@ -108,17 +101,13 @@ class Job extends BaseEntity
 	private $context_group;
 	
 	
-	public function __construct(Context $context){
+	
+	
+	public function setContext(Context $context){
 		$this->context_me 		= is_null($context->getMe()) 	? null : $context->getMe()->getId();
 		$this->context_user 	= is_null($context->getUser()) 	? null : $context->getUser()->getId();
 		$this->context_camp 	= is_null($context->getCamp()) 	? null : $context->getCamp()->getId();
 		$this->context_group 	= is_null($context->getGroup()) ? null : $context->getGroup()->getId();
-	}
-	
-	
-	public function getId()
-	{
-		return $this->id;
 	}
 	
 	
@@ -170,8 +159,8 @@ class Job extends BaseEntity
 	/**
 	 * @param array $params
 	 */
-	public function setParams(array $params){
-		$this->params = is_null($params) ? null : json_encode($params);
+	public function setParams(){
+		$this->params = func_num_args() > 0 ? json_encode(func_get_args()) : null;
 	}
 	
 	/**

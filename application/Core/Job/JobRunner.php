@@ -77,8 +77,6 @@ class JobRunner
 			$this->em->persist($this->job);
 			$this->em->flush($this->job);
 		}
-		
-		exit;
 	}
 	
 	
@@ -113,7 +111,7 @@ class JobRunner
 			$jobObject = new $jobClass();
 			$this->kernel->Inject($jobObject);
 
-			call_user_func(array($jobObject, $this->job->getJob()), $this->job->getParams());
+			call_user_func_array(array($jobObject, $this->job->getJob()), $this->job->getParams());
 			$this->job->setStatus(Job::JOB_SUCCEEDED);
 		}
 		catch (\Exception $e){
