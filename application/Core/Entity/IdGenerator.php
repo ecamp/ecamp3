@@ -28,6 +28,8 @@ use Doctrine\ORM\Event\LifecycleEventArgs;
 
 class IdGenerator
 {
+	const DELETE_UID = 'DELETE CoreApi\Entity\Uid s WHERE s.id = :id';
+	
 	
 	/**
 	 * @var Doctrine\ORM\EntityManager
@@ -49,35 +51,23 @@ class IdGenerator
 		}
 	}
 	
-	
 	public function preRemove(LifecycleEventArgs $eventArgs)
 	{
 		$entity = $eventArgs->getEntity();
-		
+	
 		if($entity instanceof BaseEntity)
 		{
-			$seqnr = $this->em->find('CoreApi\Entity\Seqnr', $entity->getId());
-			$this->em->remove($seqnr);
+			$q = $this->em->createQuery(self::DELETE_UID);
+			$q->execute(array('id' => $entity->getId()));
 		}
 	}
 	
 	public function getUid($class)
 	{
-		try{
-			$this->em->getConnection()->createSavepoint('uid');
-			
-			$uid = new UId($class);
-			$this->em->persist($uid);
-			$this->em->flush($uid);
-		}
-		catch (\PDOException $e)
-		{
-			$this->em->getConnection()->rollbackSavepoint('uid');
-			return $this->getUid($class);
-		}
-		
-		$this->em->getConnection()->releaseSavepoint('uid');
-		
+		$uid = new UId($class);
+		$this->em->persist($uid);
+		$this->em->flush($uid);
+	
 		return $uid;
 	}
 	
