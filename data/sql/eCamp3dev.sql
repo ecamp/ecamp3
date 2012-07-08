@@ -13,10 +13,10 @@ DROP TABLE IF EXISTS `camps`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `camps` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `creator_id` int(11) NOT NULL,
-  `owner_id` int(11) DEFAULT NULL,
-  `group_id` int(11) DEFAULT NULL,
+  `id` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `creator_id` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `owner_id` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `group_id` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
   `name` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
@@ -30,20 +30,19 @@ CREATE TABLE `camps` (
   CONSTRAINT `FK_3D166BE5FE54D947` FOREIGN KEY (`group_id`) REFERENCES `groups` (`id`),
   CONSTRAINT `FK_3D166BE561220EA6` FOREIGN KEY (`creator_id`) REFERENCES `users` (`id`),
   CONSTRAINT `FK_3D166BE57E3C61F9` FOREIGN KEY (`owner_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 LOCK TABLES `camps` WRITE;
 /*!40000 ALTER TABLE `camps` DISABLE KEYS */;
-INSERT INTO `camps` VALUES (1,1,1,NULL,'2012-06-23 06:53:39','2012-06-23 06:53:39','mycamp','mycamp3'),(2,1,1,NULL,'2012-06-23 14:49:03','2012-06-23 14:49:03','mycamp3','ajdsf'),(3,1,1,NULL,'2012-06-23 15:04:26','2012-06-23 15:04:26','mycamp4','jalksfd'),(4,1,1,NULL,'2012-06-23 17:47:10','2012-06-23 17:47:10','sadfasdf','asdfsadf'),(5,1,1,NULL,'2012-06-23 17:50:33','2012-06-23 17:50:33','asdfdsaf','sadfadsf');
 /*!40000 ALTER TABLE `camps` ENABLE KEYS */;
 UNLOCK TABLES;
 DROP TABLE IF EXISTS `days`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `days` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `period_id` int(11) NOT NULL,
+  `id` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `period_id` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
   `dayOffset` int(11) NOT NULL,
@@ -63,9 +62,9 @@ DROP TABLE IF EXISTS `event_instances`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `event_instances` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `event_id` int(11) NOT NULL,
-  `period_id` int(11) NOT NULL,
+  `id` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `event_id` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `period_id` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
   `minOffset` int(11) NOT NULL,
@@ -86,9 +85,9 @@ DROP TABLE IF EXISTS `events`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `events` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `camp_id` int(11) DEFAULT NULL,
-  `user_id` int(11) DEFAULT NULL,
+  `id` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `camp_id` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `user_id` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
   `title` longtext COLLATE utf8_unicode_ci NOT NULL,
@@ -108,44 +107,43 @@ DROP TABLE IF EXISTS `grouprequests`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `grouprequests` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `parent_id` int(11) DEFAULT NULL,
-  `image_id` int(11) DEFAULT NULL,
-  `requester_id` int(11) DEFAULT NULL,
+  `id` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `parent_id` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `image_id` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `requester_id` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
-  `name` varchar(32) NOT NULL,
-  `description` varchar(64) NOT NULL,
-  `motivation` longtext NOT NULL,
+  `name` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
+  `description` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
+  `motivation` longtext COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `UNIQ_89CD63203DA5256D` (`image_id`),
   KEY `IDX_89CD6320727ACA70` (`parent_id`),
   KEY `IDX_89CD6320ED442CF4` (`requester_id`),
+  CONSTRAINT `FK_89CD6320ED442CF4` FOREIGN KEY (`requester_id`) REFERENCES `users` (`id`),
   CONSTRAINT `FK_89CD63203DA5256D` FOREIGN KEY (`image_id`) REFERENCES `images` (`id`),
-  CONSTRAINT `FK_89CD6320727ACA70` FOREIGN KEY (`parent_id`) REFERENCES `groups` (`id`),
-  CONSTRAINT `FK_89CD6320ED442CF4` FOREIGN KEY (`requester_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=latin1;
+  CONSTRAINT `FK_89CD6320727ACA70` FOREIGN KEY (`parent_id`) REFERENCES `groups` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 LOCK TABLES `grouprequests` WRITE;
 /*!40000 ALTER TABLE `grouprequests` DISABLE KEYS */;
-INSERT INTO `grouprequests` VALUES (11,249,NULL,7,'2012-04-05 18:10:39','2012-04-05 18:10:39','testgroup','it\\\'s just a test','Hello, i like to be a subgroup'),(12,249,NULL,7,'2012-04-05 18:12:18','2012-04-05 18:12:18','ljgf','jgf','jgf'),(13,249,NULL,7,'2012-04-05 18:26:40','2012-04-05 18:26:40','ã¶lh','bdrgÃ¶akjr','Ã¶akrh aÃ¶wkejfh Ã¶wekjh.'),(14,249,NULL,7,'2012-04-05 18:36:07','2012-04-05 18:36:07','sad','dgbdgb','dfv w w efw !'),(15,249,NULL,7,'2012-04-05 18:38:51','2012-04-05 18:38:51','lkhgljhg','lkhgzf','lkhsdfv 56 aglhflkhgf !'),(16,249,NULL,7,'2012-04-05 20:40:25','2012-04-05 20:40:25','asf','sadg','sadggf'),(17,249,NULL,7,'2012-04-05 20:41:04','2012-04-05 20:41:04','fasd','sadf','asdgdsg'),(18,249,NULL,7,'2012-04-05 20:41:37','2012-04-05 20:41:37','fasd','sadf','asdgdsg'),(19,249,NULL,7,'2012-04-05 20:42:16','2012-04-05 20:42:16','asdf','asdf','asdf'),(20,249,NULL,7,'2012-04-05 20:43:08','2012-04-05 20:43:08','asdf','asdf','asdf'),(21,413,NULL,7,'2012-05-25 23:53:54','2012-05-25 23:53:54','lkg','lkhg','kljhlkjhg'),(22,413,NULL,7,'2012-05-25 23:54:20','2012-05-25 23:54:20','khb,jh',',mnbv,mnbnm,','msvdacmasdbvljkhvb'),(23,249,NULL,7,'2012-05-25 23:54:44','2012-05-25 23:54:44','hkg','khgkjhgkjhg','kjhgjkhghjkgjhg'),(24,249,NULL,7,'2012-05-25 23:55:52','2012-05-25 23:55:52','gh','ghjkljhg','kjgftuikutfgkf'),(25,249,NULL,7,'2012-05-26 00:02:20','2012-05-26 00:02:20','xydv','khg','kjhghjkghjg'),(26,249,NULL,7,'2012-05-30 09:33:51','2012-05-30 09:33:51','luleu','kjghfghjf','hgfghfghfghfghfhgf'),(27,249,NULL,7,'2012-05-30 09:33:51','2012-05-30 09:33:51','luleu','kjghfghjf','hgfghfghfghfghfhgf'),(28,249,NULL,7,'2012-05-30 12:01:40','2012-05-30 12:01:40','hallo','jkhgkjhgf','jkhgjhgjhgjhg');
 /*!40000 ALTER TABLE `grouprequests` ENABLE KEYS */;
 UNLOCK TABLES;
 DROP TABLE IF EXISTS `groups`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `groups` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `parent_id` int(11) DEFAULT NULL,
+  `id` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `parent_id` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `image_id` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
   `name` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
   `description` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
-  `image_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `group_parent_name_unique` (`parent_id`,`name`),
   UNIQUE KEY `UNIQ_F06D39703DA5256D` (`image_id`),
+  UNIQUE KEY `group_parent_name_unique` (`parent_id`,`name`),
   KEY `IDX_F06D3970727ACA70` (`parent_id`),
   KEY `group_name_idx` (`name`),
   CONSTRAINT `FK_F06D39703DA5256D` FOREIGN KEY (`image_id`) REFERENCES `images` (`id`),
@@ -161,7 +159,7 @@ DROP TABLE IF EXISTS `images`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `images` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
   `imageMime` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
@@ -178,8 +176,8 @@ DROP TABLE IF EXISTS `logins`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `logins` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) DEFAULT NULL,
+  `id` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `user_id` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
   `password` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
@@ -188,20 +186,20 @@ CREATE TABLE `logins` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `UNIQ_613D7A4A76ED395` (`user_id`),
   CONSTRAINT `FK_613D7A4A76ED395` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 LOCK TABLES `logins` WRITE;
 /*!40000 ALTER TABLE `logins` DISABLE KEYS */;
-INSERT INTO `logins` VALUES (1,1,'0000-00-00 00:00:00','0000-00-00 00:00:00','','',NULL);
+INSERT INTO `logins` VALUES ('\\Login-2ae2c8a5','\\User-2829b4d5','2012-07-08 14:02:32','2012-07-08 14:02:32','3fefc012f0f62310e98df1c91fc95bc3e8ca37547ba4c150d384b33d22ec1286','3f835c211ead6fb5c297d1f10bdc461287c8fa9a8bf2811d83b499c87b1e1f51',NULL),('20efae40','f753881c','2012-07-08 13:41:39','2012-07-08 13:41:39','0dde5ba39f17478ec4794699e1ab532c7a599eec4efd49fc4f084b3e187ee039','6acc532830688ba91df0959304e14232e898f247770b50f277b43d688734c5aa',NULL),('7bdf1326','176925ff','2012-07-08 14:24:44','2012-07-08 14:24:44','331d614278aa8cbba257601e18cb297337211d7db74d1ea7fdea668ad6f64733','0d7f1e07e891a2663d502d8e9ea4a8ac37fdae4237f1a03c4bb7dac3c23c77a3',NULL),('a5fdbf7c','26e9c6a','2012-07-08 13:47:35','2012-07-08 13:47:35','f0de6f61e29d07a049e7a96df74e6e6195c46cd14514fa910ef31a9f7d1d9380','e1bba7b62c0208b88f9ec9bbe5c4c3249be408327056f27aae22b824561a794a',NULL),('bece9c14','5cba7e96','2012-07-08 14:15:12','2012-07-08 14:15:12','c185ec9fe2ba8447e939b32a54e4b2dffd12b1c05e73d4147e8280fb13a3145a','29898d6a4c3d0218819f26dd108b5bc216eaf2dc2c5af2cbe6fef43aa89d5bf5',NULL),('cfd70734','7ae9a208','2012-07-08 14:22:37','2012-07-08 14:22:37','56634be0d1db8051f5538831f92fa41bcb23ef5076e0e92a754d020aa3442856','0e8370e30dcd10a3fd9f17dfaa85f5b33ba5df6b0694d2278721cff6d7f636cb',NULL),('e3dcc31a-c8608bc2','30dc91af-73e7226b','2012-07-08 14:00:42','2012-07-08 14:00:42','15f910bc82251a61cf99c9a4a5599c91bdf47762dfe411aa889116749e0822be','697e6b161747d62ae370a37b642a081e3200fef5620058ad1723bda511d994c1',NULL),('Login-c378eede','User-bc25a7c7','2012-07-08 14:03:10','2012-07-08 14:03:10','7ca1db5282d4059bd2fd4fec816e31ed8f8db4c5316b5fca2cfc4278bde234c9','12875f0edcdb2a576a1e44e7711f908d2031135e6140a33c8da9926726a9d08e',NULL);
 /*!40000 ALTER TABLE `logins` ENABLE KEYS */;
 UNLOCK TABLES;
 DROP TABLE IF EXISTS `periods`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `periods` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `camp_id` int(11) NOT NULL,
+  `id` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `camp_id` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
   `start` date NOT NULL,
@@ -210,20 +208,19 @@ CREATE TABLE `periods` (
   PRIMARY KEY (`id`),
   KEY `IDX_671798A277075ABB` (`camp_id`),
   CONSTRAINT `FK_671798A277075ABB` FOREIGN KEY (`camp_id`) REFERENCES `camps` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 LOCK TABLES `periods` WRITE;
 /*!40000 ALTER TABLE `periods` DISABLE KEYS */;
-INSERT INTO `periods` VALUES (1,1,'2012-06-23 06:53:40','2012-06-23 06:53:40','2012-06-04',4,NULL),(2,2,'2012-06-23 14:49:03','2012-06-23 14:49:03','2012-06-05',10,NULL),(3,3,'2012-06-23 15:04:26','2012-06-23 15:04:26','2012-06-05',3,NULL),(4,4,'2012-06-23 17:47:10','2012-06-23 17:47:10','2012-06-06',2,NULL),(5,5,'2012-06-23 17:50:33','2012-06-23 17:50:33','2012-06-06',2,NULL);
 /*!40000 ALTER TABLE `periods` ENABLE KEYS */;
 UNLOCK TABLES;
 DROP TABLE IF EXISTS `plugin_contents`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `plugin_contents` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `plugin_id` int(11) DEFAULT NULL,
+  `id` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `plugin_id` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
   `text` varchar(64) COLLATE utf8_unicode_ci DEFAULT NULL,
@@ -241,8 +238,8 @@ DROP TABLE IF EXISTS `plugin_headers`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `plugin_headers` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `plugin_id` int(11) DEFAULT NULL,
+  `id` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `plugin_id` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
   `text` varchar(64) COLLATE utf8_unicode_ci DEFAULT NULL,
@@ -260,8 +257,8 @@ DROP TABLE IF EXISTS `plugins`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `plugins` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `event_id` int(11) DEFAULT NULL,
+  `id` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `event_id` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
   `pluginName` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
@@ -275,38 +272,34 @@ LOCK TABLES `plugins` WRITE;
 /*!40000 ALTER TABLE `plugins` DISABLE KEYS */;
 /*!40000 ALTER TABLE `plugins` ENABLE KEYS */;
 UNLOCK TABLES;
-DROP TABLE IF EXISTS `subcamps`;
+DROP TABLE IF EXISTS `uid`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `subcamps` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `period_id` int(11) NOT NULL,
-  `created_at` datetime NOT NULL,
-  `updated_at` datetime NOT NULL,
-  `description` longtext NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `subcamps_period_id_idx` (`period_id`),
-  CONSTRAINT `subcamps_ibfk_1` FOREIGN KEY (`period_id`) REFERENCES `periods` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+CREATE TABLE `uid` (
+  `id` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `class` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
-LOCK TABLES `subcamps` WRITE;
-/*!40000 ALTER TABLE `subcamps` DISABLE KEYS */;
-/*!40000 ALTER TABLE `subcamps` ENABLE KEYS */;
+LOCK TABLES `uid` WRITE;
+/*!40000 ALTER TABLE `uid` DISABLE KEYS */;
+INSERT INTO `uid` VALUES ('\\Login-2ae2c8a5','CoreApi\\Entity\\Login'),('\\User-2829b4d5','CoreApi\\Entity\\User'),('176925ff','CoreApi\\Entity\\User'),('20efae40','CoreApi\\Entity\\Login'),('26e9c6a','CoreApi\\Entity\\User'),('30dc91af-73e7226b','CoreApi\\Entity\\User'),('5cba7e96','CoreApi\\Entity\\User'),('7ae9a208','CoreApi\\Entity\\User'),('7bdf1326','CoreApi\\Entity\\Login'),('a5fdbf7c','CoreApi\\Entity\\Login'),('bece9c14','CoreApi\\Entity\\Login'),('cfd70734','CoreApi\\Entity\\Login'),('e3dcc31a-c8608bc2','CoreApi\\Entity\\Login'),('f753881c','CoreApi\\Entity\\User'),('Login-c378eede','CoreApi\\Entity\\Login'),('User-bc25a7c7','CoreApi\\Entity\\User');
+/*!40000 ALTER TABLE `uid` ENABLE KEYS */;
 UNLOCK TABLES;
 DROP TABLE IF EXISTS `user_camps`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `user_camps` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) NOT NULL,
-  `camp_id` int(11) NOT NULL,
+  `id` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `user_id` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `camp_id` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
   `role` int(11) NOT NULL,
   `requestedRole` int(11) DEFAULT NULL,
   `invitationAccepted` tinyint(1) NOT NULL,
-  `requestAcceptedBy_id` int(11) DEFAULT NULL,
+  `requestAcceptedBy_id` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `user_camp_unique` (`user_id`,`camp_id`),
   KEY `IDX_DFD490BDA76ED395` (`user_id`),
@@ -326,15 +319,15 @@ DROP TABLE IF EXISTS `user_groups`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `user_groups` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) NOT NULL,
-  `group_id` int(11) NOT NULL,
+  `id` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `user_id` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `group_id` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
   `role` int(11) NOT NULL,
   `requestedRole` int(11) DEFAULT NULL,
   `invitationAccepted` tinyint(1) NOT NULL,
-  `requestAcceptedBy_id` int(11) DEFAULT NULL,
+  `requestAcceptedBy_id` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `user_group_unique` (`user_id`,`group_id`),
   KEY `IDX_953F224DA76ED395` (`user_id`),
@@ -354,9 +347,9 @@ DROP TABLE IF EXISTS `user_relationships`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `user_relationships` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `from_id` int(11) NOT NULL,
-  `to_id` int(11) NOT NULL,
+  `id` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `from_id` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `to_id` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
   `type` int(11) NOT NULL,
@@ -377,7 +370,8 @@ DROP TABLE IF EXISTS `users`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `users` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `image_id` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
   `username` varchar(32) COLLATE utf8_unicode_ci DEFAULT NULL,
@@ -399,18 +393,17 @@ CREATE TABLE `users` (
   `pbsEdu` varchar(16) COLLATE utf8_unicode_ci DEFAULT NULL,
   `state` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `role` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `image_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `UNIQ_1483A5E9F85E0677` (`username`),
   UNIQUE KEY `UNIQ_1483A5E9E7927C74` (`email`),
   UNIQUE KEY `UNIQ_1483A5E93DA5256D` (`image_id`),
   CONSTRAINT `FK_1483A5E93DA5256D` FOREIGN KEY (`image_id`) REFERENCES `images` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'0000-00-00 00:00:00','0000-00-00 00:00:00','test',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'Activated','',NULL);
+INSERT INTO `users` VALUES ('\\User-2829b4d5',NULL,'2012-07-08 14:02:32','2012-07-08 14:02:32','sdlpopser','liasdfshf@luha.ch','4e8149b8ff3aa47138f2cd43a6614e952cda81de5343175735155910ef7d4a84','liuhs','lihnfe','lihjs',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'Registered','User'),('176925ff',NULL,'2012-07-08 14:24:44','2012-07-08 14:24:47','asdl8h','lishr@luzebr.ch',NULL,'alisehr','lisuhr','sliuckgh',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'Activated','User'),('26e9c6a',NULL,'2012-07-08 13:47:35','2012-07-08 13:47:35','sdluhpop','lishf@luh.ch','53e109f7da2c232c5cd9394f23c4d32c54ca24b6be57d911facdf37653742789','liuhs','lihnfe','lihjs',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'Registered','User'),('30dc91af-73e7226b',NULL,'2012-07-08 14:00:42','2012-07-08 14:00:42','sdluhpopser','lishf@luha.ch','fd9276d226e329825d148fe8935204f217a6f11ecbd28630fd85067c917d90d0','liuhs','lihnfe','lihjs',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'Registered','User'),('5cba7e96',NULL,'2012-07-08 14:15:12','2012-07-08 14:15:12','asd5i','ksuerh@b.ch','4346be57447a854aa8199da9eb00c80cd672d7458e8318d14f86e6c63fe66332','asdlfih','uher','osuehr',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'Registered','User'),('7ae9a208',NULL,'2012-07-08 14:22:37','2012-07-08 14:22:37','asd5ias','aser@ushr.ch','1138edcdc67dad5c97a5232a699a8042a3f0910b1f0b79c65e2a907c32f859cb','asdlfih','uher','osuehr',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'Registered','User'),('f753881c',NULL,'2012-07-08 13:41:38','2012-07-08 13:41:39','asdtrasf','lihsl@lih.ch','827e78e0f7a4941626b7a928952af2a83ee3028768daf97ecb23e12f71139f40','lijetpo','ilsejn','pow9eutrpj',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'Registered','User'),('User-bc25a7c7',NULL,'2012-07-08 14:03:10','2012-07-08 14:03:10','sdlpopssdrer','aasliasdfshf@luha.ch','29001433848015e8730f6c70533ba66dffa60a3ba46977852987f6abdeda2e03','liuhs','lihnfe','lihjs',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'Registered','User');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;

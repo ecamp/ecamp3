@@ -29,19 +29,12 @@ class Header extends \CoreApi\Entity\BaseEntity
 
 	public function __construct($plugin)
 	{
+		parent::__construct();
+		
 		$this->text = "hello world";
 		$this->plugin = $plugin;
 	}
 
-
-	/**
-	 * The id of the plugin item instance
-	 * This is a doctrine field, so you need to setup generation for it
-	 * @var integer
-	 * @Id @Column(type="integer")
-	 * @GeneratedValue(strategy="AUTO")
-	 */
-	private $id;
 
 	/**
 	 * @var string
@@ -56,15 +49,7 @@ class Header extends \CoreApi\Entity\BaseEntity
 	private $plugin;
 
 
-	/**
-	* Get ContentPlugin Id
-	* @return integer
-	*/
-	public function getId()
-	{
-		return $this->id;
-	}
-
+	
 	/**
 	 * Set Text for HeaderPlugin
 	 * @param string $text
@@ -86,11 +71,7 @@ class Header extends \CoreApi\Entity\BaseEntity
 	
 	/**
 	 * Set Plugin object
-<<<<<<< HEAD
-	 * @param \CoreApi\Entity\Plugin $plugin
-=======
 	 * @param CoreApi\Entity\Plugin $plugin
->>>>>>> forte/feature/dbDumpLoadForUnitTest
 	 */
 	public function setPlugin(\CoreApi\Entity\Plugin $plugin)
 	{
@@ -99,12 +80,7 @@ class Header extends \CoreApi\Entity\BaseEntity
 	
 	/**
 	 * Get Plugin object
-<<<<<<< HEAD
-	 * @return \CoreApi\Entity\Plugin
-	 * Enter description here ...
-=======
 	 * @return Core\Entity\Plugin
->>>>>>> forte/feature/dbDumpLoadForUnitTest
 	 */
 	public function getPlugin()
 	{

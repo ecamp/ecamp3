@@ -16,7 +16,7 @@ class UserGroupRepository extends EntityRepository
 	public function findMembershipsOfUser(User $user)
 	{
 		$query = $this->createQueryBuilder("ug")
-					->where("ug.user = " . $user->getId())
+					->where("ug.user = '" . $user->getId() . "'")
 					->andWhere("ug.invitationAccepted = TRUE")
 					->andWhere("ug.requestAcceptedBy_id is not null")
 					->getQuery();
@@ -27,7 +27,7 @@ class UserGroupRepository extends EntityRepository
 	public function findMembershipsOfGroup(Group $group)
 	{
 		$query = $this->createQueryBuilder("ug")
-					->where("ug.group = " . $group->getId())
+					->where("ug.group = '" . $group->getId() . "'")
 					->andWhere("ug.invitationAccepted = TRUE")
 					->andWhere("ug.requestAcceptedBy_id is not null")
 					->getQuery();
@@ -39,7 +39,7 @@ class UserGroupRepository extends EntityRepository
 	public function findMembershipRequests(\CoreApi\Entity\Group $group)
 	{
 		$query = $this->createQueryBuilder("ug")
-					->where("ug.group = " . $group->getId())
+					->where("ug.group = '" . $group->getId() . "'")
 					->andWhere("ug.invitationAccepted = TRUE")
 					->andWhere("ug.requestAcceptedBy_id is null")
 					->getQuery();
@@ -49,7 +49,7 @@ class UserGroupRepository extends EntityRepository
 	public function findMembershipInvitations(\CoreApi\Entity\User $user)
 	{
 		$query = $this->createQueryBuilder("ug")
-					->where("ug.group = " . $group->getId())
+					->where("ug.group = '" . $group->getId() . "'")
 					->andWhere("ug.invitationAccepted = FALSE")
 					->andWhere("ug.requestAcceptedBy_id is not null")
 					->getQuery();

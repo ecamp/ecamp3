@@ -14,6 +14,12 @@ abstract class BaseEntity
 	/** @Column(name="updated_at", type="datetime") */
 	private $updatedAt;
 	
+	/**
+	 * @var string	 
+	 * @Id
+	 * @Column(name="id", type="string")
+	 */
+	protected $id;
 	
 	public function __construct()
 	{
@@ -24,8 +30,12 @@ abstract class BaseEntity
 		$this->updatedAt->setTimestamp(0);
 	}
 	
+
+	public function getId()
+	{
+		return $this->id;
+	}
 	
-	public abstract function getId();
 	
 	/**
 	 * @PrePersist
@@ -44,6 +54,7 @@ abstract class BaseEntity
 		$this->updatedAt = new \DateTime("now");
 	}
 	
+	
 	public function getUpdatedAt()
 	{
 		return $this->updatedAt;
@@ -55,8 +66,9 @@ abstract class BaseEntity
 	}
 	
 	/**
-	* update attributes of an entity by array
-	*/
+	 * update attributes of an entity by array
+	 * @deprecated
+	 */
 	public function updateAttributes($data)
 	{
 		foreach( $data as $key=>$value )

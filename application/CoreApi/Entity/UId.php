@@ -22,54 +22,37 @@ namespace CoreApi\Entity;
 
 /**
  * @Entity
- * @Table(name="images")
+ * @Table(name="uid")
  */
-class Image extends BaseEntity
+class UId
 {
+	/**
+	 * @var int
+	 * @Id @Column(type="string")
+	 */
+	private $id;
+	
 	
 	/**
-	 * @Column(type="string", length=32, nullable=false)
+	 * @var string
+	 * @Column(type="string")
 	 */
-	private $imageMime;
+	private $class;
 	
-	/**
-	 * @Column(type="object", nullable=false)
-	 */
-	private $imageData;
-
-
 	
-	/**
-	 * @return string
-	 */
-	public function getData()
-	{
-		return base64_decode($this->imageData);
-	}
-	
-	/**
-	 * @return CoreApi\Entity\Image
-	 */
-	public function setData($data)
-	{
-		$this->imageData = base64_encode($data); return $this;
+	public function __construct($class){
+		$this->class = $class;
+		$this->id = base_convert(crc32(uniqid()), 10, 16);
 	}
 	
 	
-	/**
-	 * @return string
-	 */
-	public function getMime()
-	{
-		return $this->imageMime;
+	public function getId(){
+		return $this->id;
 	}
 	
-	/**
-	 * @return CoreApi\Entity\Image
-	 */
-	public function setMime($mime)
-	{
-		$this->imageMime = $mime; return $this;
+	
+	public function getClass(){
+		return $this->class;
 	}
 	
 }

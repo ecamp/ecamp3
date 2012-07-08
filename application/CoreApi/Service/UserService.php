@@ -151,13 +151,9 @@ class UserService
 		{
 			$user = $this->userRepo->findOneBy(array('email' => $identifier));
 		}
-		elseif(is_numeric($identifier))
-		{
-			$user = $this->userRepo->find($identifier);
-		}
 		else
 		{
-			$user = $this->userRepo->findOneBy(array('username' => $identifier));
+			$user = $this->userRepo->find($identifier);
 		}
 		
 		if(is_null($user))
