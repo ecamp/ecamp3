@@ -41,8 +41,8 @@ class UId
 	
 	
 	public function __construct($class){
-		$this->id = base_convert(crc32(uniqid()), 10, 16);
 		$this->class = $class;
+		$this->id = base_convert(crc32(uniqid()), 10, 16);
 	}
 	
 	

@@ -36,9 +36,6 @@ class IdGenerator
 	private $em;
 	
 	
-	private $reflectors = array();
-	
-	
 	public function prePersist(LifecycleEventArgs $eventArgs)
 	{
 		$entity = $eventArgs->getEntity();
@@ -51,9 +48,7 @@ class IdGenerator
 			$this->em->persist($uid);
 			$this->em->flush($uid);
 			
-			$r = $this->getPropertyReflector($class);
-			$r->setValue($entity, $uid->getId());
-			
+			EntityIdSetter::SetId($entity, $uid->getId());
 		}
 	}
 	
@@ -69,18 +64,14 @@ class IdGenerator
 		}
 	}
 	
-	
-	public function getPropertyReflector($class)
+}
+
+
+class EntityIdSetter
+	extends BaseEntity
+{
+	public static function SetId(BaseEntity $entity, $id)
 	{
-		if(!array_key_exists($class, $this->reflectors))
-		{
-			$reflector = new \Zend_Reflection_Property($class, 'id');
-			$reflector->setAccessible(true);
-			
-			$this->reflectors[$class] = $reflector;
-		}
-		
-		return $this->reflectors[$class];
+		$entity->id = $id;
 	}
-	
 }
