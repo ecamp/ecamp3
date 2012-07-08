@@ -43,10 +43,7 @@ class IdGenerator
 		if($entity instanceof BaseEntity)
 		{
 			$class = get_class($entity);
-			
-			$uid = new UId($class);
-			$this->em->persist($uid);
-			$this->em->flush($uid);
+			$uid = $this->getUid($class);
 			
 			EntityIdSetter::SetId($entity, $uid->getId());
 		}
@@ -64,6 +61,26 @@ class IdGenerator
 		}
 	}
 	
+	public function getUid($class)
+	{
+		try{
+			$this->em->getConnection()->createSavepoint('uid');
+			
+			$uid = new UId($class);
+			$this->em->persist($uid);
+			$this->em->flush($uid);
+		}
+		catch (\PDOException $e)
+		{
+			$this->em->getConnection()->rollbackSavepoint('uid');
+			return $this->getUid($class);
+		}
+		
+		$this->em->getConnection()->releaseSavepoint('uid');
+		
+		return $uid;
+	}
+	
 }
 
 
@@ -74,4 +91,4 @@ class EntityIdSetter
 	{
 		$entity->id = $id;
 	}
-}
+}	
