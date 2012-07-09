@@ -25,6 +25,8 @@ class DefaultAcl extends \Zend_Acl
 	const USER_FRIEND			= 'user_friend';
 	const USER_ME				= 'user_me';
 	
+	const JOB					= 'job';
+	
 	/**
 	 * @var Doctrine\ORM\EntityManager
 	 * @Inject Doctrine\ORM\EntityManager
@@ -39,9 +41,22 @@ class DefaultAcl extends \Zend_Acl
 	protected $contextStorage;
 	
 	/**
+	 * Flag, um zu markieren, dass es 
+	 * sich hierbei um einen Job handelt
+	 * @var bool
+	 */
+	private $isJob = false;
+	
+	/**
 	 * @var array
 	 */
 	private $rolesCache = array();
+	
+	
+	public function setIsJob($isJob = true){
+		$this->isJob = $isJob;
+		$this->rolesCache = array();
+	}
 	
 	
 	public function getRolesInContext()
@@ -58,11 +73,13 @@ class DefaultAcl extends \Zend_Acl
 	
 	
 	private function calculateRolesFromContext($context)
-	{		
-		if(is_null($context->getMe()))
-		{	return array(self::GUEST);	}
-
+	{
 		$roles = array();
+				
+		if(is_null($context->getMe())){
+			$roles[] = self::GUEST;
+		}
+
 		
 		/* roles without context */
 		$me = $context->getMe();
@@ -136,6 +153,10 @@ class DefaultAcl extends \Zend_Acl
 				}
 		}
 		
+		if($this->isJob){
+			$roles[] = self::JOB;
+		}
+		
 		$this->rolesCache[(string)$context] = $roles;
 		
 		return $roles;
@@ -168,5 +189,8 @@ class DefaultAcl extends \Zend_Acl
         /* roles in context to another user */
         $this->addRole(self::USER_FRIEND)
 			 ->addRole(self::USER_ME, 		self::USER_FRIEND);
+        
+        /* job role */
+        $this->addRole(self::JOB);
     }
 }

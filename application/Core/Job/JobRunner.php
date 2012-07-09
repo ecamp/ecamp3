@@ -21,6 +21,8 @@
 namespace Core\Job;
 
 use CoreApi\Entity\Job;
+use CoreApi\Entity\EntityRef;
+
 
 class JobRunner
 {
@@ -38,6 +40,11 @@ class JobRunner
 	 */
 	private $contextProvider;
 	
+	/**
+	 * @var Core\Acl\DefaultAcl
+	 * @Inject Core\Acl\DefaultAcl
+	 */
+	private $acl;
 	
 	/**
 	 * @var PhpDI\IKernel
@@ -65,20 +72,22 @@ class JobRunner
 		$kernel = \Zend_Registry::get('kernel');
 		$kernel->Inject($this);
 		
-		register_shutdown_function(array($this, 'shutdown'));
+		$this->acl->setIsJob(true);
+		register_shutdown_function(array($this, 'shotdown'));
 	}
 	
-	
-	public function shutdown()
-	{
-		if($this->job != null){
+	public function shotdown(){
+		$e = error_get_last();
+		
+		if($this->job !== null && $e !== null){
+			
 			$this->job->setStatus(Job::JOB_FAILED);
 			$this->job->setErrorMessage(print_r(error_get_last(), true));
-			$this->em->persist($this->job);
+			
 			$this->em->flush($this->job);
 		}
+		
 	}
-	
 	
 	public function run()
 	{
@@ -99,28 +108,38 @@ class JobRunner
 	private function runJob()
 	{
 		$this->job->setExecTime(new \DateTime("now"));
-		$this->job->setStatus(Job::JOB_RUNNING);
+		$this->job->setStatus(Job::JOB_FAILED);
 		$this->em->flush($this->job);
 		
-		try{
-			\Zend_Auth::getInstance()->getStorage()->write($this->job->getMeId());
-			$this->contextProvider->set(
-				$this->job->getUserId(), $this->job->getGroupId(), $this->job->getCampId());
-						
-			$jobClass = $this->job->getClass();
-			$jobObject = new $jobClass();
-			$this->kernel->Inject($jobObject);
-
-			call_user_func_array(array($jobObject, $this->job->getJob()), $this->job->getParams());
-			$this->job->setStatus(Job::JOB_SUCCEEDED);
-		}
-		catch (\Exception $e){
-			$this->job->setStatus(Job::JOB_FAILED);
-			$this->job->setErrorMessage($e->getMessage());
-		}
+		\Zend_Auth::getInstance()->getStorage()->write($this->job->getMeId());
+		$this->contextProvider->set(
+			$this->job->getUserId(), $this->job->getGroupId(), $this->job->getCampId());
 		
+		$jobObject = $this->kernel->Get($this->job->getClass());
+		$params = $this->insertEntities($this->job->getParams());
+		
+		call_user_func_array(array($jobObject, $this->job->getMethod()), $params);
+		
+		$this->job->setStatus(Job::JOB_SUCCEEDED);
 		$this->em->flush($this->job);
+			
 		$this->job = null;
+	}
+	
+	
+	private function insertEntities(array $params)
+	{
+		foreach($params as &$param){
+			
+			if($param instanceof EntityRef){
+				$param = $this->em->find($param->class, $param->id);
+			}
+			elseif(is_array($param)){
+				$param = $this->insertEntities($param);
+			}
+		}
+	
+		return $params;
 	}
 	
 }

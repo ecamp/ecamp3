@@ -179,9 +179,8 @@ CREATE TABLE `jobs` (
   `id` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
-  `description` longtext COLLATE utf8_unicode_ci,
   `class` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `job` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `method` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `params` longtext COLLATE utf8_unicode_ci,
   `status` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `exec_time` datetime DEFAULT NULL,
@@ -196,7 +195,7 @@ CREATE TABLE `jobs` (
 
 LOCK TABLES `jobs` WRITE;
 /*!40000 ALTER TABLE `jobs` DISABLE KEYS */;
-INSERT INTO `jobs` VALUES ('63423cac','2012-07-04 00:06:57','2012-07-04 00:08:26','Sends a Mail with the ActivationCode for a new User','Core\\Job\\RegisterJobs','SendActivationCode_Job','[\"b625ad70\",\"58d098b001c827409467ae2d892ad5563275e1fda99852b231bb1bff818534d2\"]','SUCCEEDED','2012-07-04 00:08:26',NULL,NULL,NULL,NULL,NULL),('7b1a8034','2012-07-03 23:42:17','2012-07-03 23:45:22','Sends a Mail with the ActivationCode for a new User','Core\\Job\\RegisterJobs','SendActivationCode_Job','{\"user_id\":\"8f368eb2\",\"activationCode\":\"c9c15b04e471a5289e3ada257fe1b7562c4b53ba95a268edbaa03c394fdbae78\"}','SUCCEEDED','2012-07-03 23:45:22',NULL,NULL,NULL,NULL,NULL),('7e9ef9ab','2012-07-04 00:11:33','2012-07-04 00:12:44','Sends a Mail with the ActivationCode for a new User','Core\\Job\\RegisterJobs','SendActivationCode_Job','[\"f3c4b878\",\"85f071f235c3c90d5ae36a89aed816ac260fa0b377fc5ed64c9603669e8b95fd\"]','SUCCEEDED','2012-07-04 00:12:44',NULL,NULL,NULL,NULL,NULL),('abbe5dd0','2012-07-04 00:05:06','2012-07-04 00:07:20','Sends a Mail with the ActivationCode for a new User','Core\\Job\\RegisterJobs','SendActivationCode_Job','[{},\"05856b7005b8df53ab86b557507e9418a2f72648683b9ee9941acd370984ec2b\"]','SUCCEEDED','2012-07-04 00:07:20',NULL,NULL,NULL,NULL,NULL);
+INSERT INTO `jobs` VALUES ('c997b962','2012-07-08 20:23:22','2012-07-09 20:43:04','CoreApi\\Service\\RegisterService','SendActivationCode','a:2:{i:0;O:24:\"CoreApi\\Entity\\EntityRef\":2:{s:5:\"class\";s:19:\"CoreApi\\Entity\\User\";s:2:\"id\";s:8:\"f99090e7\";}i:1;s:64:\"f292371b795008075ad05fca8fead3e8240937f41a6f37c3e249ceed32224d38\";}','SUCCEEDED','2012-07-09 20:43:04','',NULL,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `jobs` ENABLE KEYS */;
 UNLOCK TABLES;
 DROP TABLE IF EXISTS `logins`;
@@ -218,7 +217,7 @@ CREATE TABLE `logins` (
 
 LOCK TABLES `logins` WRITE;
 /*!40000 ALTER TABLE `logins` DISABLE KEYS */;
-INSERT INTO `logins` VALUES ('2db183b','f3c4b878','2012-07-04 00:11:33','2012-07-04 00:11:33','f1b8d4dc22265b8cb967540115aecc12a1c32a4382af648d4a69642f8c79efe1','81643c180615e2b8e4da5df2606a97e87e4f9881c2a3d9ea1be97c6ce5fba558',NULL),('b640c6c4','8f368eb2','2012-07-03 23:42:17','2012-07-03 23:42:17','0ee5574d9065c8bf7be876bf84f56c21bbbce0dc6339906c229f011f686987d1','82503a89d7beba4b77c7ed8438c84560a4f65eb05cfc1f31f36f0842130d2c01',NULL),('cc35c0e8','f121e841','2012-07-04 00:05:06','2012-07-04 00:05:06','e70ae60578c3b2e69d96c6632f4ad2ff9f047c9d041abe5f62bef31c8ff8334c','3bcc6c60ac0763fa84770c5f878f40eb5fec68ad30ce56a0556ea078a87ae0e7',NULL),('d98ca5cc','b625ad70','2012-07-04 00:06:57','2012-07-04 00:06:57','605a32b55b54e03dfeca1ffb015def75f3951d0f0d7aba7bed1e065631337ec6','57bf5c73393b58efbc03af1993c85252dce7fa2c35788fcd9a13e1806a79f3cd',NULL);
+INSERT INTO `logins` VALUES ('2db183b','f3c4b878','2012-07-04 00:11:33','2012-07-04 00:11:33','f1b8d4dc22265b8cb967540115aecc12a1c32a4382af648d4a69642f8c79efe1','81643c180615e2b8e4da5df2606a97e87e4f9881c2a3d9ea1be97c6ce5fba558',NULL),('6d883c74','f99090e7','2012-07-08 20:23:22','2012-07-08 20:23:22','d5af4082f19cdc7ac1b5c70956b52f6216ffe7d1cd0e9941df23b9cfcb5c5bbb','b81e9785a4fa72354afcfe90fae32b4477363c11ca6f939f9d47dcceefe3fd76',NULL),('b640c6c4','8f368eb2','2012-07-03 23:42:17','2012-07-03 23:42:17','0ee5574d9065c8bf7be876bf84f56c21bbbce0dc6339906c229f011f686987d1','82503a89d7beba4b77c7ed8438c84560a4f65eb05cfc1f31f36f0842130d2c01',NULL),('cc35c0e8','f121e841','2012-07-04 00:05:06','2012-07-04 00:05:06','e70ae60578c3b2e69d96c6632f4ad2ff9f047c9d041abe5f62bef31c8ff8334c','3bcc6c60ac0763fa84770c5f878f40eb5fec68ad30ce56a0556ea078a87ae0e7',NULL),('d98ca5cc','b625ad70','2012-07-04 00:06:57','2012-07-04 00:06:57','605a32b55b54e03dfeca1ffb015def75f3951d0f0d7aba7bed1e065631337ec6','57bf5c73393b58efbc03af1993c85252dce7fa2c35788fcd9a13e1806a79f3cd',NULL);
 /*!40000 ALTER TABLE `logins` ENABLE KEYS */;
 UNLOCK TABLES;
 DROP TABLE IF EXISTS `periods`;
@@ -311,7 +310,7 @@ CREATE TABLE `uid` (
 
 LOCK TABLES `uid` WRITE;
 /*!40000 ALTER TABLE `uid` DISABLE KEYS */;
-INSERT INTO `uid` VALUES ('2db183b','CoreApi\\Entity\\Login'),('63423cac','CoreApi\\Entity\\Job'),('7b1a8034','CoreApi\\Entity\\Job'),('7e9ef9ab','CoreApi\\Entity\\Job'),('8f368eb2','CoreApi\\Entity\\User'),('abbe5dd0','CoreApi\\Entity\\Job'),('b625ad70','CoreApi\\Entity\\User'),('b640c6c4','CoreApi\\Entity\\Login'),('cc35c0e8','CoreApi\\Entity\\Login'),('d98ca5cc','CoreApi\\Entity\\Login'),('f121e841','CoreApi\\Entity\\User'),('f3c4b878','CoreApi\\Entity\\User');
+INSERT INTO `uid` VALUES ('2db183b','CoreApi\\Entity\\Login'),('63423cac','CoreApi\\Entity\\Job'),('6d883c74','CoreApi\\Entity\\Login'),('7b1a8034','CoreApi\\Entity\\Job'),('7e9ef9ab','CoreApi\\Entity\\Job'),('8f368eb2','CoreApi\\Entity\\User'),('abbe5dd0','CoreApi\\Entity\\Job'),('b625ad70','CoreApi\\Entity\\User'),('b640c6c4','CoreApi\\Entity\\Login'),('c997b962','CoreApi\\Entity\\Job'),('cc35c0e8','CoreApi\\Entity\\Login'),('d98ca5cc','CoreApi\\Entity\\Login'),('f121e841','CoreApi\\Entity\\User'),('f3c4b878','CoreApi\\Entity\\User'),('f99090e7','CoreApi\\Entity\\User');
 /*!40000 ALTER TABLE `uid` ENABLE KEYS */;
 UNLOCK TABLES;
 DROP TABLE IF EXISTS `user_camps`;
@@ -430,7 +429,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES ('8f368eb2',NULL,'2012-07-03 23:42:16','2012-07-03 23:44:15','liseur','linlsiej@lnf.ch',NULL,'lisher','lihcpmo','liho3e8h',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'Activated','User'),('b625ad70',NULL,'2012-07-04 00:06:57','2012-07-04 00:06:57','osihler','lsisli@lishr.ch','58d098b001c827409467ae2d892ad5563275e1fda99852b231bb1bff818534d2','asdi4h','lisdjuh','laherl',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'Registered','User'),('f121e841',NULL,'2012-07-04 00:05:06','2012-07-04 00:05:06','uli3aser','lisj@okueh.ch','05856b7005b8df53ab86b557507e9418a2f72648683b9ee9941acd370984ec2b','iebfil','pihejr','pihw',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'Registered','User'),('f3c4b878',NULL,'2012-07-04 00:11:33','2012-07-04 00:11:33','asdrlij','sidjr@lsidhf.ch','85f071f235c3c90d5ae36a89aed816ac260fa0b377fc5ed64c9603669e8b95fd','lsihdr','lsidhn','oishjpo',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'Registered','User');
+INSERT INTO `users` VALUES ('8f368eb2',NULL,'2012-07-03 23:42:16','2012-07-03 23:44:15','liseur','linlsiej@lnf.ch',NULL,'lisher','lihcpmo','liho3e8h',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'Activated','User'),('b625ad70',NULL,'2012-07-04 00:06:57','2012-07-04 00:06:57','osihler','lsisli@lishr.ch','58d098b001c827409467ae2d892ad5563275e1fda99852b231bb1bff818534d2','asdi4h','lisdjuh','laherl',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'Registered','User'),('f121e841',NULL,'2012-07-04 00:05:06','2012-07-04 00:05:06','uli3aser','lisj@okueh.ch','05856b7005b8df53ab86b557507e9418a2f72648683b9ee9941acd370984ec2b','iebfil','pihejr','pihw',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'Registered','User'),('f3c4b878',NULL,'2012-07-04 00:11:33','2012-07-04 00:11:33','asdrlij','sidjr@lsidhf.ch','85f071f235c3c90d5ae36a89aed816ac260fa0b377fc5ed64c9603669e8b95fd','lsihdr','lsidhn','oishjpo',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'Registered','User'),('f99090e7',NULL,'2012-07-08 20:23:22','2012-07-08 20:23:22','soienrl','lsuer@luhser.ch','f292371b795008075ad05fca8fead3e8240937f41a6f37c3e249ceed32224d38','as;idrj',';ojer','kluaehir',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'Registered','User');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;

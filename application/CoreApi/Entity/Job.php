@@ -29,17 +29,10 @@ use CoreApi\Acl\Context;
 class Job extends BaseEntity
 {
 	const JOB_CREATED 	= 'CREATED';
-	const JOB_RUNNING 	= 'RUNNING';
 	const JOB_SUCCEEDED = 'SUCCEEDED';
 	const JOB_FAILED 	= 'FAILED';
 	
-
-	/**
-	 * Background Job Description
-	 * @Column(type="text", nullable=true)
-	 */
-	private $description;
-
+	
 	/**
 	 * BackgroundProcess Class
 	 * @Column(type="string")
@@ -50,7 +43,7 @@ class Job extends BaseEntity
 	 * BackgroundProcess Method
 	 * @Column(type="string")
 	 */
-	private $job;
+	private $method;
 	
 	/**
 	 * BackgroundProcess Params
@@ -101,8 +94,6 @@ class Job extends BaseEntity
 	private $context_group;
 	
 	
-	
-	
 	public function setContext(Context $context){
 		$this->context_me 		= is_null($context->getMe()) 	? null : $context->getMe()->getId();
 		$this->context_user 	= is_null($context->getUser()) 	? null : $context->getUser()->getId();
@@ -112,22 +103,7 @@ class Job extends BaseEntity
 	
 	
 	/**
-	 * @param string $description
-	 */
-	public function setDescription($description){
-		$this->description = $description;
-	}
-	
-	/**
-	 * @return string
-	 */
-	public function getDescription(){
-		return $this->description;
-	}
-	
-	
-	/**
-	 * @param string $description
+	 * @param string $class
 	 */
 	public function setClass($class){
 		$this->class = $class;
@@ -144,15 +120,15 @@ class Job extends BaseEntity
 	/**
 	 * @param string $description
 	 */
-	public function setJob($job){
-		$this->job = $job;
+	public function setMethod($method){
+		$this->method = $method;
 	}
 	
 	/**
 	 * @return string
 	 */
-	public function getJob(){
-		return $this->job;
+	public function getMethod(){
+		return $this->method;
 	}
 	
 	
@@ -160,14 +136,30 @@ class Job extends BaseEntity
 	 * @param array $params
 	 */
 	public function setParams(){
-		$this->params = func_num_args() > 0 ? json_encode(func_get_args()) : null;
+		$params = $this->insertEntityRefs(func_get_args());
+		$this->params = serialize($params);
+	}
+	
+	private function insertEntityRefs(array $params)
+	{
+		foreach($params as &$param){
+			
+			if($param instanceof BaseEntity){
+				$param = new EntityRef($param); 
+			}
+			elseif(is_array($param)){
+				$param = $this->insertEntityRefs($param);
+			}
+		}
+		
+		return $params;
 	}
 	
 	/**
 	 * @return array
 	 */
 	public function getParams(){
-		return is_null($this->params) ? null : json_decode($this->params);
+		return is_null($this->params) ? array() : unserialize($this->params);
 	}
 	
 	
@@ -243,4 +235,16 @@ class Job extends BaseEntity
 	public function getGroupId(){
 		return $this->context_group;
 	}
+}
+
+
+class EntityRef
+{
+	public function __construct(BaseEntity $e){
+		$this->class = get_class($e);
+		$this->id = $e->getId();
+	}
+	
+	public $class;
+	public $id;
 }
