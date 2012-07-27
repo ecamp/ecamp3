@@ -20,6 +20,7 @@
 
 namespace CoreApi\Service;
 
+use Core\Acl\DefaultAcl;
 use Core\Service\ServiceBase;
 
 use CoreApi\Entity\Day;
@@ -31,16 +32,36 @@ use CoreApi\Service\Params\Params;
 class PeriodService extends ServiceBase
 {
 	
+	/**
+	 * @var CoreApi\Service\DayService
+	 * @Inject Core\Service\DayService
+	 */
+	private $dayService;
+	
 	
 	/**
 	 * Setup ACL
 	 * @return void
 	 */
 	public function _setupAcl()
-	{}
-	
-	public function Create(Camp $camp, Params $params)
 	{
+		$this->acl->allow(DefaultAcl::CAMP_MEMBER, $this, 'Create');
+		$this->acl->allow(DefaultAcl::CAMP_MEMBER, $this, 'Update');
+		$this->acl->allow(DefaultAcl::CAMP_MEMBER, $this, 'Delete');
+		$this->acl->allow(DefaultAcl::CAMP_MEMBER, $this, 'Move');
+		$this->acl->allow(DefaultAcl::CAMP_MEMBER, $this, 'Resize');
+	}
+	
+	
+	/**
+	 * @param Camp $camp
+	 * @param Params $params
+	 * @return CoreApi\Entity\Period
+	 */
+	public function Create(Params $params)
+	{
+		$camp = $this->getContext()->getCamp();
+		
 		if( $params->getValue('start') == ""){
 			$params->addError('start', "Date cannot be empty.");
 			$this->validationFailed();
@@ -70,27 +91,56 @@ class PeriodService extends ServiceBase
 		}
 		
 		for($offset = 0; $offset < $numOfDays; $offset++){
-			$day = new Day($period, $offset);
-			$this->persist($day);
+			$this->dayService->AppendDay($period);
 		}
 		
 		return $period;
 	}
 	
+	
+	/**
+	 * @param Period $period
+	 * @param Params $params
+	 */
 	public function Update(Period $period, Params $params)
 	{
+		$camp = $this->getContext()->getCamp();
+		
+		$this->validationAssert($camp == $period->getCamp(),
+			"Period does not belong to Camp of Context!");
+		
 		if($params->hasElement('description')){
 			$period->setDescription($params->getValue('description'));
 		}
 	}
 	
+	
+	/**
+	 * @param Period $period
+	 */
 	public function Delete(Period $period)
 	{
+		$camp = $this->getContext()->getCamp();
+		
+		$this->validationAssert($camp == $period->getCamp(), 
+			"Period does not belong to Camp of Context!");
+		
 		// How to handle EventsInstances of this Period??
 	}
 	
+	
+	/**
+	 * @param Period $period
+	 * @param unknown_type $newStart
+	 */
 	public function Move(Period $period, $newStart)
 	{
+		$camp = $this->getContext()->getCamp();
+		
+		$this->validationAssert($camp == $period->getCamp(),
+			"Period does not belong to Camp of Context!");
+		
+		
 		if(! $newStart instanceof \DateTime){
 			$newStart = new \DateTime($newStart, new \DateTimeZone("GMT"));
 		}
@@ -98,14 +148,24 @@ class PeriodService extends ServiceBase
 		$period->setStart($newStart);
 	}
 	
+	
+	/**
+	 * @param Period $period
+	 * @param int $numOfDays
+	 */
 	public function Resize(Period $period, $numOfDays)
 	{
+		$camp = $this->getContext()->getCamp();
+		
+		$this->validationAssert($camp == $period->getCamp(),
+			"Period does not belong to Camp of Context!");
+		
+		
 		$oldNumOfDays = $period->getNumberOfDays();
 		
 		if($oldNumOfDays < $numOfDays){
 			for($offset = $oldNumOfDays; $offset < $numOfDays; $offset++){
-				$day = new Day($period, $offset);
-				$this->persist($day);
+				$this->dayService->AppendDay($period);
 			}
 			
 			return;
@@ -113,13 +173,9 @@ class PeriodService extends ServiceBase
 		
 		if($oldNumOfDays > $numOfDays){
 			for($offset = $numOfDays; $offset < $oldNumOfDays; $offset++){
-				$this->deleteDay($period, $offset);
+				$this->dayService->RemoveDay($period);
 			}
 		}
-	}
-	
-	private function deleteDay(Period $period, $offset){
-		// How to handle EventInstances fo this Day?
 	}
 	
 }

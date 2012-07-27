@@ -153,7 +153,7 @@ class Period extends BaseEntity
 	}
 
 	/**
-	 * @return Day[]
+	 * @return Doctrine\Common\Collections\ArrayCollection
 	 */
 	public function getDays()
 	{
