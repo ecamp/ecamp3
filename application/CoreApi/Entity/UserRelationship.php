@@ -66,6 +66,14 @@ class UserRelationship extends BaseEntity
 
 	
 	/**
+	 * @OneToOne(targetEntity="UserRelationship")
+	 * @JoinColumn(name="counterpart", referencedColumnName="id")
+	 * @var UserRelationship
+	 */
+	private $counterpart;
+	
+	
+	/**
 	 * @return int
 	 */
 	public function getId()
@@ -84,8 +92,8 @@ class UserRelationship extends BaseEntity
 	
 	
 	/**
-	* @return User
-	*/
+	 * @return User
+	 */
 	public function getTo()   
 	{
 		return $this->to;
@@ -93,11 +101,27 @@ class UserRelationship extends BaseEntity
 	
 	
 	/**
-	* @return int
-	*/
+	 * @return int
+	 */
 	public function getType() 
 	{
 		return $this->type;
 	}
+	
+	
+	/**
+	 * @return UserRelationship
+	 */
+	public function getCounterpart()
+	{
+		return $this->counterpart;
+	}
 
+	
+	public static function Link(UserRelationship $ur1, UserRelationship $ur2)
+	{
+		$ur1->counterpart = $ur2;
+		$ur2->counterpart = $ur1;
+	}
+	
 }

@@ -275,25 +275,6 @@ LOCK TABLES `plugins` WRITE;
 /*!40000 ALTER TABLE `plugins` DISABLE KEYS */;
 /*!40000 ALTER TABLE `plugins` ENABLE KEYS */;
 UNLOCK TABLES;
-DROP TABLE IF EXISTS `subcamps`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `subcamps` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `period_id` int(11) NOT NULL,
-  `created_at` datetime NOT NULL,
-  `updated_at` datetime NOT NULL,
-  `description` longtext NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `subcamps_period_id_idx` (`period_id`),
-  CONSTRAINT `subcamps_ibfk_1` FOREIGN KEY (`period_id`) REFERENCES `periods` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
-LOCK TABLES `subcamps` WRITE;
-/*!40000 ALTER TABLE `subcamps` DISABLE KEYS */;
-/*!40000 ALTER TABLE `subcamps` ENABLE KEYS */;
-UNLOCK TABLES;
 DROP TABLE IF EXISTS `user_camps`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
@@ -360,10 +341,13 @@ CREATE TABLE `user_relationships` (
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
   `type` int(11) NOT NULL,
+  `counterpart` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `from_to_unique` (`from_id`,`to_id`),
+  UNIQUE KEY `UNIQ_2376C5F7564F5C9F` (`counterpart`),
   KEY `IDX_2376C5F778CED90B` (`from_id`),
   KEY `IDX_2376C5F730354A65` (`to_id`),
+  CONSTRAINT `FK_2376C5F7564F5C9F` FOREIGN KEY (`counterpart`) REFERENCES `user_relationships` (`id`),
   CONSTRAINT `FK_2376C5F730354A65` FOREIGN KEY (`to_id`) REFERENCES `users` (`id`),
   CONSTRAINT `FK_2376C5F778CED90B` FOREIGN KEY (`from_id`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
