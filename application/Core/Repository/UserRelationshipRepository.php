@@ -16,9 +16,9 @@ class UserRelationshipRepository extends EntityRepository
 	}
 	
 	/**
-	 * @param User $user1
-	 * @param User $user2
-	 * @return UserRelationship
+	 * @param CoreApi\Entity\User $user1
+	 * @param CoreApi\Entity\User $user2
+	 * @return CoreApi\Entity\UserRelationship
 	 */
 	public function findByUsers(User $fromUser, User $toUser)
 	{
@@ -32,7 +32,7 @@ class UserRelationshipRepository extends EntityRepository
 	
 	
 	/**
-	 * @param User $user
+	 * @param CoreApi\Entity\User $user
 	 */
 	public function findRequests(User $user)
 	{
@@ -46,7 +46,7 @@ class UserRelationshipRepository extends EntityRepository
 	
 	
 	/**
-	 * @param User $user
+	 * @param CoreApi\Entity\User $user
 	 */
 	public function findInvitation(User $user)
 	{

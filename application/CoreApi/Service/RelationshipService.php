@@ -108,7 +108,7 @@ class RelationshipService extends ServiceBase
 		
 		$this->validationAssert(
 			$ur == null, 
-			"There is already a relationship between these users.");
+			"There is already a relationship between these users");
 		
 		$ur = new UserRelationship($user, $toUser);
 		$this->persist($ur);
@@ -126,7 +126,7 @@ class RelationshipService extends ServiceBase
 		
 		$this->validationAssert(
 			$ur != null && $ur->getCounterpart() == null,
-			"There is no open request to delete.");
+			"There is no open request to delete");
 		
 		if($ur){
 			$this->remove($ur);
@@ -143,8 +143,8 @@ class RelationshipService extends ServiceBase
 		$ur = $this->userRelationshipRepo->findByUsers($fromUser, $user);
 		
 		$this->validationAssert(
-			$ur != null && $ur->getCounterpart() == null,
-			"There is no open invitation to accept.");
+			$ur && $ur->getCounterpart() == null,
+			"There is no open invitation to accept");
 		
 		$cp = new UserRelationship($user, $fromUser);
 		$this->persist($cp);
@@ -163,10 +163,25 @@ class RelationshipService extends ServiceBase
 		$ur = $this->userRelationshipRepo->findByUsers($fromUser, $user);
 		
 		$this->validationAssert(
-			$ur != null && $ur->getCounterpart() == null,
-			"There is no open invitation to delete.");
+			$ur && $ur->getCounterpart() == null,
+			"There is no open invitation to delete");
 		
 		if($ur){
+			$this->remove($ur);
+		}
+	}
+	
+	
+	public function CancelRelationship(User $withUser){
+		$user = $this->userService->Get();
+		$ur = $this->userRelationshipRepo->findByUsers($user, $withUser);
+		
+		$this->validationAssert(
+			$ur && $ur->getCounterpart(),
+			"There is no relationship to be canceled");
+		
+		if($ur && $ur->getCounterpart()){
+			$this->remove($ur->getCounterpart());
 			$this->remove($ur);
 		}
 	}
