@@ -51,21 +51,26 @@ class Day extends BaseEntity
 	private $period;
 
 	/**
-	 * @Column(type="text")
+	 * @Column(type="text", nullable=true)
 	 */
 	private $notes;
 
-
+	public function __construct(Period $period, $dayOffset)
+	{
+		parent::__construct();
+		
+		$this->period = $period;
+		$this->dayOffset = $dayOffset;
+	}
+	
+	
+	
 	public function getId()
 	{
 		return $this->id;
 	}
 
 	
-	public function setDayOffset($offset)
-	{
-		$this->dayOffset = $offset;
-	}
 
 	public function getDayOffset()
 	{
@@ -78,16 +83,12 @@ class Day extends BaseEntity
 		$this->notes = $notes;
 	}
 	
+	
 	public function getNotes()
 	{
 		return $this->notes;
 	}
-
 	
-	public function setPeriod(Period $period)
-	{
-		$this->period = $period;
-	}
 	
 	/**
 	 * @return Period
