@@ -21,17 +21,10 @@ class DayService
 {
 	
 	/**
-	 * @var CoreApi\Service\UserService
-	 * @Inject Core\Service\UserService
+	 * @var Core\Repository\EventInstanceRepository
+	 * @Inject Core\Repository\EventInstanceRepository
 	 */
-	protected $userService;
-	
-	
-	/**
-	 * @var Core\Repository\LoginRepository
-	 * @Inject Core\Repository\LoginRepository
-	 */
-	protected $loginRepo;
+	protected $eventInstanceRepo;
 	
 	
 	/**
@@ -99,7 +92,7 @@ class DayService
 	{
 		$camp = $this->getContext()->getCamp();
 		
-		$this->validationAssert($camp == $day->getPeriod()->getCamp(),
+		$this->validationAssert($camp == $day->getCamp(),
 			"Day does not belong to Camp of Context!");
 		
 		
@@ -108,4 +101,20 @@ class DayService
 		}
 	}
 	
+	
+	/**
+	 * @param Day $day
+	 * @return Doctrine\Common\Collections\ArrayCollection
+	 */
+	public function GetEventInstances(Day $day)
+	{
+		$camp = $this->getContext()->getCamp();
+		
+		if($camp != $day->getCamp()){
+			$this->validationFailed(true, "Day does not belong to Camp of Context!");
+		}
+		else{
+			return $this->eventInstanceRepo->findByDay($day);
+		}
+	}
 }
