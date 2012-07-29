@@ -40,4 +40,16 @@ class EventInstanceRepository extends EntityRepository
 		return $q->getQuery()->getResult();
 	}
 	
+	
+	public function findByCamp(Camp $camp)
+	{
+		$q = $this->createQueryBuilder('ei')
+			->join('CoreApi\Entity\Period', 'p', 'ei.period_id = p.id')
+			->where('p.camp_id = :campId')
+			->setParameter('campId', $camp->getId());
+			
+		return $q->getQuery()->getResult();
+		
+	}
+	
 }

@@ -21,13 +21,6 @@ class DayService
 {
 	
 	/**
-	 * @var Core\Repository\EventInstanceRepository
-	 * @Inject Core\Repository\EventInstanceRepository
-	 */
-	protected $eventInstanceRepo;
-	
-	
-	/**
 	 * Setup ACL
 	 * @return void
 	 */
@@ -45,11 +38,7 @@ class DayService
 	 */
 	public function AppendDay(Period $period)
 	{
-		$camp = $this->getContext()->getCamp();
-		
-		$this->validationAssert($camp == $period->getCamp(),
-			"Period does not belong to Camp of Context!");
-		
+		$this->validationContextAssert($period);
 		
 		
 		$day = new Day();
@@ -68,10 +57,7 @@ class DayService
 	 */
 	public function RemoveDay(Period $period)
 	{
-		$camp = $this->getContext()->getCamp();
-		
-		$this->validationAssert($camp == $period->getCamp(), 
-			"Period does not belong to Camp of Context!");
+		$this->validationContextAssert($period);
 		
 		
 		// Can the day be deletet?
@@ -90,10 +76,7 @@ class DayService
 	 */
 	public function Update(Day $day, Params $param)
 	{
-		$camp = $this->getContext()->getCamp();
-		
-		$this->validationAssert($camp == $day->getCamp(),
-			"Day does not belong to Camp of Context!");
+		$this->validationContextAssert($day);
 		
 		
 		if($params->hasElement('notes')){
@@ -101,20 +84,4 @@ class DayService
 		}
 	}
 	
-	
-	/**
-	 * @param Day $day
-	 * @return Doctrine\Common\Collections\ArrayCollection
-	 */
-	public function GetEventInstances(Day $day)
-	{
-		$camp = $this->getContext()->getCamp();
-		
-		if($camp != $day->getCamp()){
-			$this->validationFailed(true, "Day does not belong to Camp of Context!");
-		}
-		else{
-			return $this->eventInstanceRepo->findByDay($day);
-		}
-	}
 }

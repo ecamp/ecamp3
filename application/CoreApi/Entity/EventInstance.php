@@ -84,16 +84,35 @@ class EventInstance extends BaseEntity
 	}
 
 	
-	public function setMinOffset($minOffset)
+	/**
+	 * @param DateInterval|int $offset
+	 */
+	public function setOffset($offset)
 	{
-		$this->minOffset = $minOffset;
+		if($offset instanceof \DateInterval){
+			$duration =
+				$duration->format('%a') * 24 * 60 +
+				$duration->format('%h') * 60 +
+				$duration->format('%i');
+		}
+		
+		$this->minOffset = $offset;
+	}
+	
+	
+	/**
+	 * @return \DateInterval
+	 */
+	public function getOffset()
+	{
+		return new \DateInterval( 'PT' . $this->minOffset . 'M');
 	}
 	
 	
 	/**
 	 * @return int
 	 */
-	public function getMinOffset()
+	public function getOffsetInMinutes()
 	{
 		return $this->minOffset;
 	}
@@ -106,9 +125,9 @@ class EventInstance extends BaseEntity
 	{
 		if($duration instanceof \DateInterval){
 			$duration = 
-				$duration->format('a') * 24 * 60 +
-				$duration->format('h') * 60 + 
-				$duration->format('i'); 
+				$duration->format('%a') * 24 * 60 +
+				$duration->format('%h') * 60 + 
+				$duration->format('%i'); 
 		}
 		
 		$this->duration = $duration;
@@ -168,6 +187,15 @@ class EventInstance extends BaseEntity
 	public function getPeriod()
 	{
 		return $this->period;
+	}
+	
+	
+	/**
+	 * @return Camp
+	 */
+	public function getCamp()
+	{
+		return $this->period->getCamp();
 	}
 
 }
