@@ -71,6 +71,8 @@ class EventInstance extends BaseEntity
 	 */
 	public function __construct(Event $event)
 	{
+		parent::__construct();
+		
 		$this->event = $event;
 	}
 	
