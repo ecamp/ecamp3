@@ -79,6 +79,8 @@ class PeriodService extends ServiceBase
 	
 	public function Update(Period $period, Params $params)
 	{
+		$this->validationContextAssert($period);
+		
 		if($params->hasElement('description')){
 			$period->setDescription($params->getValue('description'));
 		}
