@@ -30,12 +30,12 @@ CREATE TABLE `camps` (
   CONSTRAINT `FK_3D166BE5FE54D947` FOREIGN KEY (`group_id`) REFERENCES `groups` (`id`),
   CONSTRAINT `FK_3D166BE561220EA6` FOREIGN KEY (`creator_id`) REFERENCES `users` (`id`),
   CONSTRAINT `FK_3D166BE57E3C61F9` FOREIGN KEY (`owner_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 LOCK TABLES `camps` WRITE;
 /*!40000 ALTER TABLE `camps` DISABLE KEYS */;
-INSERT INTO `camps` VALUES (1,1,1,NULL,'2012-06-23 06:53:39','2012-06-23 06:53:39','mycamp','mycamp3'),(2,1,1,NULL,'2012-06-23 14:49:03','2012-06-23 14:49:03','mycamp3','ajdsf'),(3,1,1,NULL,'2012-06-23 15:04:26','2012-06-23 15:04:26','mycamp4','jalksfd'),(4,1,1,NULL,'2012-06-23 17:47:10','2012-06-23 17:47:10','sadfasdf','asdfsadf'),(5,1,1,NULL,'2012-06-23 17:50:33','2012-06-23 17:50:33','asdfdsaf','sadfadsf');
+INSERT INTO `camps` VALUES (2,1,1,NULL,'2012-06-30 13:39:25','2012-06-30 13:39:25','weferg','agergw'),(3,1,1,NULL,'2012-06-30 13:43:10','2012-06-30 13:43:10','f34srg','asggwr'),(4,1,1,NULL,'2012-06-30 14:14:24','2012-06-30 14:14:24','asdfgwrg','asdewg'),(5,1,1,NULL,'2012-06-30 14:14:49','2012-06-30 14:14:49','sadfegeg','aer4rgh'),(6,1,1,NULL,'2012-06-30 14:15:48','2012-06-30 14:15:48','liuhosie','lihnpj');
 /*!40000 ALTER TABLE `camps` ENABLE KEYS */;
 UNLOCK TABLES;
 DROP TABLE IF EXISTS `days`;
@@ -47,16 +47,17 @@ CREATE TABLE `days` (
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
   `dayOffset` int(11) NOT NULL,
-  `notes` longtext COLLATE utf8_unicode_ci NOT NULL,
+  `notes` longtext COLLATE utf8_unicode_ci,
   PRIMARY KEY (`id`),
   UNIQUE KEY `offset_period_idx` (`dayOffset`,`period_id`),
   KEY `IDX_EBE4FC66EC8B7ADE` (`period_id`),
   CONSTRAINT `FK_EBE4FC66EC8B7ADE` FOREIGN KEY (`period_id`) REFERENCES `periods` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 LOCK TABLES `days` WRITE;
 /*!40000 ALTER TABLE `days` DISABLE KEYS */;
+INSERT INTO `days` VALUES (1,2,'2012-06-30 13:39:25','2012-06-30 13:39:25',0,NULL),(2,2,'2012-06-30 13:39:25','2012-06-30 13:39:25',1,NULL),(3,3,'2012-06-30 13:43:11','2012-06-30 13:43:11',0,NULL),(4,3,'2012-06-30 13:43:11','2012-06-30 13:43:11',1,NULL),(5,4,'2012-06-30 14:14:24','2012-06-30 14:14:24',0,NULL),(6,5,'2012-06-30 14:14:49','2012-06-30 14:14:49',0,NULL),(7,5,'2012-06-30 14:14:49','2012-06-30 14:14:49',1,NULL),(8,5,'2012-06-30 14:14:49','2012-06-30 14:14:49',2,NULL),(9,6,'2012-06-30 14:15:48','2012-06-30 14:15:48',0,NULL),(10,6,'2012-06-30 14:15:48','2012-06-30 14:15:48',1,NULL),(11,6,'2012-06-30 14:15:48','2012-06-30 14:15:48',2,NULL);
 /*!40000 ALTER TABLE `days` ENABLE KEYS */;
 UNLOCK TABLES;
 DROP TABLE IF EXISTS `event_instances`;
@@ -114,22 +115,21 @@ CREATE TABLE `grouprequests` (
   `requester_id` int(11) DEFAULT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
-  `name` varchar(32) NOT NULL,
-  `description` varchar(64) NOT NULL,
-  `motivation` longtext NOT NULL,
+  `name` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
+  `description` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
+  `motivation` longtext COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `UNIQ_89CD63203DA5256D` (`image_id`),
   KEY `IDX_89CD6320727ACA70` (`parent_id`),
   KEY `IDX_89CD6320ED442CF4` (`requester_id`),
+  CONSTRAINT `FK_89CD6320ED442CF4` FOREIGN KEY (`requester_id`) REFERENCES `users` (`id`),
   CONSTRAINT `FK_89CD63203DA5256D` FOREIGN KEY (`image_id`) REFERENCES `images` (`id`),
-  CONSTRAINT `FK_89CD6320727ACA70` FOREIGN KEY (`parent_id`) REFERENCES `groups` (`id`),
-  CONSTRAINT `FK_89CD6320ED442CF4` FOREIGN KEY (`requester_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=latin1;
+  CONSTRAINT `FK_89CD6320727ACA70` FOREIGN KEY (`parent_id`) REFERENCES `groups` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 LOCK TABLES `grouprequests` WRITE;
 /*!40000 ALTER TABLE `grouprequests` DISABLE KEYS */;
-INSERT INTO `grouprequests` VALUES (11,249,NULL,7,'2012-04-05 18:10:39','2012-04-05 18:10:39','testgroup','it\\\'s just a test','Hello, i like to be a subgroup'),(12,249,NULL,7,'2012-04-05 18:12:18','2012-04-05 18:12:18','ljgf','jgf','jgf'),(13,249,NULL,7,'2012-04-05 18:26:40','2012-04-05 18:26:40','ã¶lh','bdrgÃ¶akjr','Ã¶akrh aÃ¶wkejfh Ã¶wekjh.'),(14,249,NULL,7,'2012-04-05 18:36:07','2012-04-05 18:36:07','sad','dgbdgb','dfv w w efw !'),(15,249,NULL,7,'2012-04-05 18:38:51','2012-04-05 18:38:51','lkhgljhg','lkhgzf','lkhsdfv 56 aglhflkhgf !'),(16,249,NULL,7,'2012-04-05 20:40:25','2012-04-05 20:40:25','asf','sadg','sadggf'),(17,249,NULL,7,'2012-04-05 20:41:04','2012-04-05 20:41:04','fasd','sadf','asdgdsg'),(18,249,NULL,7,'2012-04-05 20:41:37','2012-04-05 20:41:37','fasd','sadf','asdgdsg'),(19,249,NULL,7,'2012-04-05 20:42:16','2012-04-05 20:42:16','asdf','asdf','asdf'),(20,249,NULL,7,'2012-04-05 20:43:08','2012-04-05 20:43:08','asdf','asdf','asdf'),(21,413,NULL,7,'2012-05-25 23:53:54','2012-05-25 23:53:54','lkg','lkhg','kljhlkjhg'),(22,413,NULL,7,'2012-05-25 23:54:20','2012-05-25 23:54:20','khb,jh',',mnbv,mnbnm,','msvdacmasdbvljkhvb'),(23,249,NULL,7,'2012-05-25 23:54:44','2012-05-25 23:54:44','hkg','khgkjhgkjhg','kjhgjkhghjkgjhg'),(24,249,NULL,7,'2012-05-25 23:55:52','2012-05-25 23:55:52','gh','ghjkljhg','kjgftuikutfgkf'),(25,249,NULL,7,'2012-05-26 00:02:20','2012-05-26 00:02:20','xydv','khg','kjhghjkghjg'),(26,249,NULL,7,'2012-05-30 09:33:51','2012-05-30 09:33:51','luleu','kjghfghjf','hgfghfghfghfghfhgf'),(27,249,NULL,7,'2012-05-30 09:33:51','2012-05-30 09:33:51','luleu','kjghfghjf','hgfghfghfghfghfhgf'),(28,249,NULL,7,'2012-05-30 12:01:40','2012-05-30 12:01:40','hallo','jkhgkjhgf','jkhgjhgjhgjhg');
 /*!40000 ALTER TABLE `grouprequests` ENABLE KEYS */;
 UNLOCK TABLES;
 DROP TABLE IF EXISTS `groups`;
@@ -138,14 +138,14 @@ DROP TABLE IF EXISTS `groups`;
 CREATE TABLE `groups` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `parent_id` int(11) DEFAULT NULL,
+  `image_id` int(11) DEFAULT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
   `name` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
   `description` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
-  `image_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `group_parent_name_unique` (`parent_id`,`name`),
   UNIQUE KEY `UNIQ_F06D39703DA5256D` (`image_id`),
+  UNIQUE KEY `group_parent_name_unique` (`parent_id`,`name`),
   KEY `IDX_F06D3970727ACA70` (`parent_id`),
   KEY `group_name_idx` (`name`),
   CONSTRAINT `FK_F06D39703DA5256D` FOREIGN KEY (`image_id`) REFERENCES `images` (`id`),
@@ -193,7 +193,7 @@ CREATE TABLE `logins` (
 
 LOCK TABLES `logins` WRITE;
 /*!40000 ALTER TABLE `logins` DISABLE KEYS */;
-INSERT INTO `logins` VALUES (1,1,'0000-00-00 00:00:00','0000-00-00 00:00:00','','',NULL);
+INSERT INTO `logins` VALUES (1,1,'2012-06-30 13:38:35','2012-06-30 13:38:35','6950779e03517c209d9081bbac55235edbfb8fe5121b2d6410d65d1ee1b08d67','d8658da98b6077ca09373c88c229e326306e8ccdfb18aa9c7d0f53094f6ff5cf',NULL);
 /*!40000 ALTER TABLE `logins` ENABLE KEYS */;
 UNLOCK TABLES;
 DROP TABLE IF EXISTS `periods`;
@@ -205,17 +205,16 @@ CREATE TABLE `periods` (
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
   `start` date NOT NULL,
-  `duration` int(11) NOT NULL,
   `description` longtext COLLATE utf8_unicode_ci,
   PRIMARY KEY (`id`),
   KEY `IDX_671798A277075ABB` (`camp_id`),
   CONSTRAINT `FK_671798A277075ABB` FOREIGN KEY (`camp_id`) REFERENCES `camps` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 LOCK TABLES `periods` WRITE;
 /*!40000 ALTER TABLE `periods` DISABLE KEYS */;
-INSERT INTO `periods` VALUES (1,1,'2012-06-23 06:53:40','2012-06-23 06:53:40','2012-06-04',4,NULL),(2,2,'2012-06-23 14:49:03','2012-06-23 14:49:03','2012-06-05',10,NULL),(3,3,'2012-06-23 15:04:26','2012-06-23 15:04:26','2012-06-05',3,NULL),(4,4,'2012-06-23 17:47:10','2012-06-23 17:47:10','2012-06-06',2,NULL),(5,5,'2012-06-23 17:50:33','2012-06-23 17:50:33','2012-06-06',2,NULL);
+INSERT INTO `periods` VALUES (2,2,'2012-06-30 13:39:25','2012-06-30 13:39:25','2012-06-05',NULL),(3,3,'2012-06-30 13:43:11','2012-06-30 13:43:11','2012-06-04',NULL),(4,4,'2012-06-30 14:14:24','2012-06-30 14:14:24','2012-06-13',''),(5,5,'2012-06-30 14:14:49','2012-06-30 14:14:49','2012-06-06',''),(6,6,'2012-06-30 14:15:48','2012-06-30 14:15:48','2012-06-06','');
 /*!40000 ALTER TABLE `periods` ENABLE KEYS */;
 UNLOCK TABLES;
 DROP TABLE IF EXISTS `plugin_contents`;
@@ -378,6 +377,7 @@ DROP TABLE IF EXISTS `users`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `image_id` int(11) DEFAULT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
   `username` varchar(32) COLLATE utf8_unicode_ci DEFAULT NULL,
@@ -399,7 +399,6 @@ CREATE TABLE `users` (
   `pbsEdu` varchar(16) COLLATE utf8_unicode_ci DEFAULT NULL,
   `state` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `role` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `image_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `UNIQ_1483A5E9F85E0677` (`username`),
   UNIQUE KEY `UNIQ_1483A5E9E7927C74` (`email`),
@@ -410,7 +409,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'0000-00-00 00:00:00','0000-00-00 00:00:00','test',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'Activated','',NULL);
+INSERT INTO `users` VALUES (1,NULL,'2012-06-30 13:38:35','2012-06-30 13:38:37','asgwe','as@luh.ch',NULL,'ioshfb','linvoim','lijspom',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'Activated','User');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
