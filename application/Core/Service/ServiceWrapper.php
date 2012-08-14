@@ -2,6 +2,8 @@
 
 namespace Core\Service;
 
+use CoreApi\Entity\Job;
+
 class ServiceWrapper
 	implements \Zend_Acl_Resource_Interface
 {
@@ -104,6 +106,16 @@ class ServiceWrapper
 	public function Simulate()
 	{
 		return new ServiceSimulator($this);
+	}
+	
+	public function AsBackgroundJob()
+	{
+		$job = new Job();
+		$job->setClass(get_class($this->service));
+		
+		$this->em->persist($job);
+		
+		return $job;
 	}
 	
 	private function start()

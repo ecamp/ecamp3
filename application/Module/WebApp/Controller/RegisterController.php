@@ -44,7 +44,7 @@ class WebApp_RegisterController
 	
 
 	public function indexAction()
-	{		
+	{
 		$registerForm = new \WebApp\Form\Register();
 
 		if($id = $this->getRequest()->getParam('id'))

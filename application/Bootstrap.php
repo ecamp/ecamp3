@@ -28,6 +28,7 @@ use Bisna\Doctrine\Container as DoctrineContainer;
 class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 {	
 	
+	
 	/**
 	 * Loads the CoreNamespace to the Autoloader
 	 */
@@ -128,7 +129,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 		$kernel->Bind("Core\Repository\CampRepository")->ToProvider(new Repository("CoreApi\Entity\Camp"));
 		$kernel->Bind("Core\Repository\UserCampRepository")->ToProvider(new Repository("CoreApi\Entity\UserCamp"));
 		$kernel->Bind("Core\Repository\EventInstanceRepository")->ToProvider(new Repository("CoreApi\Entity\EventInstance"));
-		
+		$kernel->Bind("Core\Repository\JobRepository")->ToProvider(new Repository("CoreApi\Entity\Job"));
 		
 		
 		

@@ -2,14 +2,18 @@
 
 namespace CoreApi\Service;
 
+use CoreApi\Entity\UId;
+
+use Core\Job\RegisterJobs;
 use Core\Acl\DefaultAcl;
 use Core\Service\ServiceBase;
-use CoreApi\Service\Params\Params;
 
+use CoreApi\Service\Params\Params;
 use CoreApi\Entity\User;
 
 /**
  * @method CoreApi\Service\RegisterService Simulate
+ * @method CoreApi\Service\RegisterService asJob
  */
 class RegisterService 
 	extends ServiceBase
@@ -30,6 +34,13 @@ class RegisterService
 	
 	
 	/**
+	 * @var Coreapi\Service\JobService
+	 * @Inject Core\Service\JobService
+	 */
+	protected $jobService;
+	
+	
+	/**
 	 * Setup ACL
 	 * @return void
 	 */
@@ -37,6 +48,7 @@ class RegisterService
 	{
 		$this->acl->allow(DefaultAcl::GUEST, $this, 'Register');
 		$this->acl->allow(DefaultAcl::GUEST, $this, 'Activate');
+		$this->acl->allow(DefaultAcl::JOB, $this, 'SendActivationCode');
 	}
 	
 	
@@ -50,8 +62,7 @@ class RegisterService
 		
 		$activationCode = $user->createNewActivationCode();
 		
-		// TODO: Send Mail with 
-		//		 $activationCode!
+		$this->asJob()->SendActivationCode($user, $activationCode);
 		
 		return $user;
 	}
@@ -91,6 +102,11 @@ class RegisterService
 		}
 		
 		return $success;
+	}
+	
+	public function SendActivationCode(User $user, $activationCode)
+	{
+		
 	}
 	
 }

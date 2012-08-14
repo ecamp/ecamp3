@@ -11,6 +11,12 @@ abstract class ServiceBase
 {
 	
 	/**
+	 * @var PhpDI\IKernel
+	 * @Inject PhpDI\IKernel
+	 */
+	protected $kernel;
+	
+	/**
 	 * @var Doctrine\ORM\EntityManager
 	 * @Inject Doctrine\ORM\EntityManager
 	 */
@@ -41,7 +47,7 @@ abstract class ServiceBase
 	/**
 	 * @return CoreApi\Acl\Context
 	 */
-	public function getContext()
+	protected function getContext()
 	{
 		return $this->contextProvider->getContext();
 	}
@@ -93,6 +99,14 @@ abstract class ServiceBase
 	protected function remove($entity)
 	{
 		$this->em->remove($entity);
+	}
+	
+	public function asJob()
+	{
+		$jobFactory = new JobFactory($this);
+		$this->kernel->Inject($jobFactory);
+		
+		return $jobFactory;
 	}
 	
 }
