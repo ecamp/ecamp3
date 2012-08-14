@@ -38,27 +38,6 @@ LOCK TABLES `camps` WRITE;
 INSERT INTO `camps` VALUES (1,1,1,NULL,'2012-06-23 06:53:39','2012-06-23 06:53:39','mycamp','mycamp3'),(2,1,1,NULL,'2012-06-23 14:49:03','2012-06-23 14:49:03','mycamp3','ajdsf'),(3,1,1,NULL,'2012-06-23 15:04:26','2012-06-23 15:04:26','mycamp4','jalksfd'),(4,1,1,NULL,'2012-06-23 17:47:10','2012-06-23 17:47:10','sadfasdf','asdfsadf'),(5,1,1,NULL,'2012-06-23 17:50:33','2012-06-23 17:50:33','asdfdsaf','sadfadsf');
 /*!40000 ALTER TABLE `camps` ENABLE KEYS */;
 UNLOCK TABLES;
-DROP TABLE IF EXISTS `days`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `days` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `period_id` int(11) NOT NULL,
-  `created_at` datetime NOT NULL,
-  `updated_at` datetime NOT NULL,
-  `dayOffset` int(11) NOT NULL,
-  `notes` longtext COLLATE utf8_unicode_ci NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `offset_period_idx` (`dayOffset`,`period_id`),
-  KEY `IDX_EBE4FC66EC8B7ADE` (`period_id`),
-  CONSTRAINT `FK_EBE4FC66EC8B7ADE` FOREIGN KEY (`period_id`) REFERENCES `periods` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
-LOCK TABLES `days` WRITE;
-/*!40000 ALTER TABLE `days` DISABLE KEYS */;
-/*!40000 ALTER TABLE `days` ENABLE KEYS */;
-UNLOCK TABLES;
 DROP TABLE IF EXISTS `event_instances`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
