@@ -54,13 +54,23 @@ class PeriodService extends ServiceBase
 	
 	
 	/**
+	 * @param Params $params
+	 * @return CoreApi\Entity\Period
+	 */
+	public function Create(Params $params){
+		$camp = $this->getContext()->getCamp();
+		
+		return $this->CreatePeriodForCamp($camp, $params);
+	}
+	
+	
+	/**
 	 * @param Camp $camp
 	 * @param Params $params
 	 * @return CoreApi\Entity\Period
 	 */
-	public function Create(Params $params)
+	public function CreatePeriodForCamp(Camp $camp, Params $params)
 	{
-		$camp = $this->getContext()->getCamp();
 		
 		if( $params->getValue('start') == ""){
 			$params->addError('start', "Date cannot be empty.");
@@ -104,10 +114,7 @@ class PeriodService extends ServiceBase
 	 */
 	public function Update(Period $period, Params $params)
 	{
-		$camp = $this->getContext()->getCamp();
-		
-		$this->validationAssert($camp == $period->getCamp(),
-			"Period does not belong to Camp of Context!");
+		$this->validationContextAssert($period);
 		
 		if($params->hasElement('description')){
 			$period->setDescription($params->getValue('description'));
@@ -120,12 +127,12 @@ class PeriodService extends ServiceBase
 	 */
 	public function Delete(Period $period)
 	{
-		$camp = $this->getContext()->getCamp();
+		$this->validationContextAssert($period);
+
+		$period->getDays()->clear();
+		$period->getEventInstances()->clear();
 		
-		$this->validationAssert($camp == $period->getCamp(), 
-			"Period does not belong to Camp of Context!");
-		
-		// How to handle EventsInstances of this Period??
+		$this->remove($period);
 	}
 	
 	

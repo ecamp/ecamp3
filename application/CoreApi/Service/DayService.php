@@ -12,7 +12,7 @@ use CoreApi\Entity\Day;
 
 
 /**
- * @method CoreApi\Service\LoginService Simulate
+ * @method CoreApi\Service\DayService Simulate
  */
 class DayService 
 	extends ServiceBase
@@ -77,7 +77,7 @@ class DayService
 		$this->validationContextAssert($day);
 		
 		
-		if($params->hasElement('notes')){
+		if($param->hasElement('notes')){
 			$day->setNotes($param->getValue('notes'));
 		}
 	}

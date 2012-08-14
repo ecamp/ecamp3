@@ -148,7 +148,7 @@ class Period extends BaseEntity
 	}
 	
 	/**
-	 * @return EventInstance[]
+	 * @return Doctrine\Common\Collections\ArrayCollection
 	 */
 	public function getEventInstances()
 	{
