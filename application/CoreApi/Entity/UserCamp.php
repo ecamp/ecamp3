@@ -37,6 +37,8 @@ class UserCamp extends BaseEntity
 
 	public function __construct(User $user = null, Camp $camp = null)
 	{
+		parent::__construct();
+		
 		$this->role = self::ROLE_NONE;
 		$this->user = $user;
 		$this->camp = $camp;
@@ -47,12 +49,6 @@ class UserCamp extends BaseEntity
 	}
 
 
-	/**
-	 * @Id @Column(type="integer")
-	 * @GeneratedValue(strategy="AUTO")
-	 * @var int
-	 */
-	private $id;
 
 	/**
 	 * @ManyToOne(targetEntity="User")
@@ -95,14 +91,8 @@ class UserCamp extends BaseEntity
 	 */
 	private $invitationAccepted;
 
-	/**
-	 * @return int
-	 */
-	public function getId()
-	{
-		return $this->id;
-	}
 
+	
 	public function setCamp(Camp $camp)
 	{
 		$this->camp = $camp;

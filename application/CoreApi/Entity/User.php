@@ -52,6 +52,8 @@ class User extends BaseEntity
 
 	public function __construct()
 	{
+		parent::__construct();
+		
 		$this->mycamps  = new \Doctrine\Common\Collections\ArrayCollection();
 		$this->userCamps  = new \Doctrine\Common\Collections\ArrayCollection();
 		$this->userGroups = new \Doctrine\Common\Collections\ArrayCollection();
@@ -62,12 +64,6 @@ class User extends BaseEntity
 		$this->role  = self::ROLE_USER;
 	}
 
-	/**
-	 * @Id @Column(type="integer")
-	 * @GeneratedValue(strategy="AUTO")
-	 * @var int
-	 */
-	private $id;
 
 	/**
 	 * Unique username, lower alphanumeric symbols and underscores only
@@ -185,14 +181,7 @@ class User extends BaseEntity
 	private $relationshipTo;
 
 
-	/**
-	 * @return int
-	 */
-	public function getId()
-	{
-		return $this->id;
-	}
-
+	
 	/**
 	 * @return string
 	 */

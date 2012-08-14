@@ -27,13 +27,6 @@ namespace CoreApi\Entity;
  */
 class EventInstance extends BaseEntity
 {
-	
-	/**
-	 * @var int
-	 * @Id @Column(type="integer")
-	 * @GeneratedValue(strategy="AUTO")
-	 */
-	private $id;
 
 	/**
 	 * @ManyToOne(targetEntity="Event")
@@ -60,11 +53,6 @@ class EventInstance extends BaseEntity
 	private $period;
 
 	
-	public function getId()
-	{
-		return $this->id;
-	}
-
 	
 	public function setEvent(Event $event)
 	{

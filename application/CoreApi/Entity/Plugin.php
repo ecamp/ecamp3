@@ -32,15 +32,6 @@ namespace CoreApi\Entity;
 class Plugin extends BaseEntity
 {
 
-
-	/**
-	 * The id of the plugin item instance
-	 * @var integer
-	 * @Id @Column(type="integer")
-	 * @GeneratedValue(strategy="AUTO")
-	 */
-	private $id;
-
 	/**
 	 * @ManyToOne(targetEntity="Event")
 	 * @JoinColumn(nullable=true, onDelete="cascade")
@@ -66,15 +57,12 @@ class Plugin extends BaseEntity
 	protected $strategyInstance;
 
 
-	public function getId()
-	{
-		return $this->id;
-	}
-
+	
 	public function setEvent(Event $event)
 	{
 		$this->event = $event;
 	}
+	
 	public function getEvent()
 	{
 		return $this->event;

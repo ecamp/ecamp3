@@ -5,8 +5,8 @@ config.ini
 tmp/*
 tmp/**/*
 
-application/Core/EntityProxy/*
-!application/Core/EntityProxy/.gitignore
+application/Core/Entity/Proxy/*
+!application/Core/Entity/Proxy/.gitignore
 
 
 data/log/*

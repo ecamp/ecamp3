@@ -22,7 +22,7 @@ class UserRepository extends EntityRepository
 				->where("rel_to.type = " . \CoreApi\Entity\UserRelationship::TYPE_FRIEND)
 				->andwhere("rel_back.type = " . \CoreApi\Entity\UserRelationship::TYPE_FRIEND)
 				->andwhere("rel_back.to = u.id")
-				->andwhere("friend.id = " . $user->getId())
+				->andwhere("friend.id = '" . $user->getId() . "'")
 				->getQuery();
 
 	    return $query->getResult();
@@ -36,7 +36,7 @@ class UserRepository extends EntityRepository
 				->leftJoin("friend.relationshipFrom", "rel_back", \Doctrine\ORM\Query\Expr\Join::WITH, 'rel_back.to = rel_to.from' )
 				->where("rel_to.type = " . (\CoreApi\Entity\UserRelationship::TYPE_FRIEND))
 				->andwhere("rel_back.to IS NULL")
-				->andwhere("friend.id = " . $user->getId())
+				->andwhere("friend.id = '" . $user->getId() . "'")
 				->getQuery();
 				
 	    return $query->getResult();
