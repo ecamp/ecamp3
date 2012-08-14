@@ -35,16 +35,16 @@ class EventInstance extends BaseEntity
 	private $event;
 
 	/**
-	 * Offset in minutes from the subcamp's starting date (00:00)
+	 * Start-Offset in minutes from the subcamp's starting date (00:00)
 	 * @Column(type="integer", nullable=false)
 	 */
-	private $minOffset;
+	private $minOffsetStart;
 
 	/**
-	 * Duration of this instance in minutes
+	 * End-Offset in minutes from the subcamp's starting date (00:00)
 	 * @Column(type="integer", nullable=false)
 	 */
-	private $duration;
+	private $minOffsetEnd;
 
 	/**
 	 * @ManyToOne(targetEntity="Period")
@@ -52,7 +52,6 @@ class EventInstance extends BaseEntity
 	 */
 	private $period;
 
-	
 	
 	/**
 	 * @param Event $event
@@ -62,6 +61,9 @@ class EventInstance extends BaseEntity
 		parent::__construct();
 		
 		$this->event = $event;
+		
+		$this->minOffsetStart = 0;
+		$this->minOffsetEnd = 0;
 	}
 	
 	
@@ -77,23 +79,26 @@ class EventInstance extends BaseEntity
 	/**
 	 * @param DateInterval|int $offset
 	 */
-	public function setOffset($offset)
+	public function setStartOffset($offset)
 	{
 		if($offset instanceof \DateInterval){
-			$duration =
-				$duration->format('%a') * 24 * 60 +
-				$duration->format('%h') * 60 +
-				$duration->format('%i');
+			$offset =
+				$offset->format('%a') * 24 * 60 +
+				$offset->format('%h') * 60 +
+				$offset->format('%i');
 		}
 		
-		$this->minOffset = $offset;
+		$shift = $offset - $this->minOffsetStart;
+		
+		$this->minOffsetStart = $offset;
+		$this->minOffsetEnd  += $shift;
 	}
 	
 	
 	/**
 	 * @return \DateInterval
 	 */
-	public function getOffset()
+	public function getStartOffset()
 	{
 		return new \DateInterval( 'PT' . $this->minOffset . 'M');
 	}
@@ -102,7 +107,7 @@ class EventInstance extends BaseEntity
 	/**
 	 * @return int
 	 */
-	public function getOffsetInMinutes()
+	public function getStartOffsetInMinutes()
 	{
 		return $this->minOffset;
 	}
@@ -120,7 +125,7 @@ class EventInstance extends BaseEntity
 				$duration->format('%i'); 
 		}
 		
-		$this->duration = $duration;
+		$this->minOffsetEnd = $this->minOffsetStart + $duration;
 	}
 	
 	
@@ -129,7 +134,7 @@ class EventInstance extends BaseEntity
 	 */
 	public function getDuration()
 	{
-		return new \DateInterval( 'PT' . $this->duration . 'M');
+		return new \DateInterval( 'PT' . $this->getDurationInMinutes() . 'M');
 	}
 	
 	
@@ -138,7 +143,7 @@ class EventInstance extends BaseEntity
 	 */
 	public function getDurationInMinutes()
 	{
-		return $this->duration;
+		return $this->minOffsetEnd - $this->minOffsetStart;
 	}
 
 	
@@ -157,7 +162,7 @@ class EventInstance extends BaseEntity
 	 */
 	public function getEndTime()
 	{
-		$end = $this->getStartTime() + $this->duration;
+		$end = $this->getStartTime() + $this->getDuration();
 		return $end;
 	}
 	

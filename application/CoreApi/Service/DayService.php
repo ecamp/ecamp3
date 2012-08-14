@@ -3,8 +3,6 @@
 namespace CoreApi\Service;
 
 
-use CoreApi\Entity\Period;
-
 use Core\Acl\DefaultAcl;
 use Core\Service\ServiceBase;
 use CoreApi\Service\Params\Params;
