@@ -55,7 +55,7 @@ class CampService
 		if(is_null($id))
 		{	return $this->getContext()->getCamp();	}
 		
-		if(is_numeric($id))
+		if(is_string($id))
 		{	return $this->campRepo->find($id);	}
 			
 		if($id instanceof Camp)
@@ -138,7 +138,7 @@ class CampService
 		$campValidator = new CampValidator($camp);
 		$this->validationFailed( !$campValidator->applyIfValid($params) );
 		
-		$this->periodService->Create($camp, $params);
+		$this->periodService->CreatePeriodForCamp($camp, $params);
 		
 		return $camp;
 	}

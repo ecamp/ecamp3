@@ -31,13 +31,6 @@ class Day extends BaseEntity
 {
 
 	/**
-	 * @var int
-	 * @Id @Column(type="integer")
-	 * @GeneratedValue(strategy="AUTO")
-	 */
-	private $id;
-
-	/**
 	 * Offset to the start date of the subcamp's period
 	 * @Column(type="integer")
 	 */
@@ -51,43 +44,66 @@ class Day extends BaseEntity
 	private $period;
 
 	/**
-	 * @Column(type="text")
+	 * @Column(type="text", nullable=true)
 	 */
 	private $notes;
 
-
-	public function getId()
+	public function __construct(Period $period, $dayOffset)
 	{
-		return $this->id;
+		parent::__construct();
+		
+		$this->period = $period;
+		$this->dayOffset = $dayOffset;
 	}
-
 	
-	public function setDayOffset($offset)
-	{
-		$this->dayOffset = $offset;
-	}
+	
 
+	/**
+	 * @return int
+	 */
 	public function getDayOffset()
 	{
 		return $this->dayOffset;
 	}
 
 	
+	/**
+	 * @param stirng $notes
+	 */
 	public function setNotes($notes)
 	{
 		$this->notes = $notes;
 	}
 	
+	
+	/**
+	 * @return string
+	 */
 	public function getNotes()
 	{
 		return $this->notes;
 	}
-
 	
-	public function setPeriod(Period $period)
+	
+	/**
+	 * @return DateTime
+	 */
+	public function getStart()
 	{
-		$this->period = $period;
+		$start = $this->period->getStart() + new \DateInterval( 'P' . $this->dayOffset . 'D');
+		return $start;
 	}
+	
+	
+	/**
+	 * @return DateTime
+	 */
+	public function getEnd()
+	{
+		$end = $this->getStart() + new \DateInterval( 'P' . ($this->dayOffset + 1) . 'D');
+		return $end;
+	}
+	
 	
 	/**
 	 * @return Period
@@ -97,4 +113,12 @@ class Day extends BaseEntity
 		return $this->period;
 	}
 
+	
+	/**
+	 * @return Camp
+	 */
+	public function getCamp()
+	{
+		return $this->period->getCamp();
+	}
 }

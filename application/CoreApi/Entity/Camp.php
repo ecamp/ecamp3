@@ -31,17 +31,12 @@ class Camp extends BaseEntity
 {
 	public function __construct()
 	{
+		parent::__construct();
+		
 		$this->userCamps = new \Doctrine\Common\Collections\ArrayCollection();
 		$this->events    = new \Doctrine\Common\Collections\ArrayCollection();
 	}
 	
-
-	/**
-	 * @var int
-	 * @Id @Column(type="integer")
-	 * @GeneratedValue(strategy="AUTO")
-	 */
-	private $id;
 
 
 	/**
@@ -96,11 +91,6 @@ class Camp extends BaseEntity
 	 */
 	private $events;
 
-	
-	public function getId()
-	{
-		return $this->id;
-	}
 
 	public function setName($name)
 	{
