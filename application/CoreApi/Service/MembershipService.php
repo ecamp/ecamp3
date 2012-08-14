@@ -55,7 +55,7 @@ class MembershipService extends ServiceBase
 		$this->acl->allow(DefaultAcl::GROUP_MANAGER, 	$this, 'DeleteInvitation');
 		$this->acl->allow(DefaultAcl::MEMBER, 			$this, 'AcceptInvitation');
 		$this->acl->allow(DefaultAcl::MEMBER, 			$this, 'RejectInvitation');
-		$this->acl->allow(DefaultAcl::GROUP_MANAGER, 	$this, 'KikOutUser');
+		$this->acl->allow(DefaultAcl::GROUP_MANAGER, 	$this, 'KickOutUser');
 		
 	}
 	
