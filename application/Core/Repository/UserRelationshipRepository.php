@@ -2,8 +2,10 @@
 
 namespace Core\Repository;
 
-use Doctrine\ORM\EntityRepository;
 
+use Doctrine\ORM\EntityRepository;
+use CoreApi\Entity\User;
+use CoreApi\Entity\UserRelationship;
 
 class UserRelationshipRepository extends EntityRepository
 {
@@ -13,24 +15,47 @@ class UserRelationshipRepository extends EntityRepository
 		parent::__construct($em, $class);
 	}
 	
-	public function findByUsers(\CoreApi\Entity\User $user1, \CoreApi\Entity\User $user2)
+	/**
+	 * @param CoreApi\Entity\User $user1
+	 * @param CoreApi\Entity\User $user2
+	 * @return CoreApi\Entity\UserRelationship
+	 */
+	public function findByUsers(User $fromUser, User $toUser)
 	{
-		$idList = "(" . $user1->getId() . ", " . $user2->getId() . ")";
-	
 		$query = $this->createQueryBuilder("ur")
-					->where("ur.from_id IN " . $idList)
-					->andWhere("ur.to_id IN " . $idList)
+					->where("ur.from_id = " . $fromUser)
+					->andWhere("ur.to_id = " . $toUser)
+					->andWhere("ur.type = " . UserRelationship::TYPE_FRIEND)
 					->getQuery();
 		return $query->getResult();
 	}
 	
 	
-	public function findRequests(\CoreApi\Entity\User $user)
+	/**
+	 * @param CoreApi\Entity\User $user
+	 */
+	public function findRequests(User $user)
 	{
 		$query = $this->createQueryBuilder("ur")
-					->where("ur.from_id IN " . $idList)
-					->andWhere("ur.to_id IN " . $idList)
+					->where("ur.from_id = " . $user->getId())
+					->andWhere("ur.counterpart IS NULL")
+					->andWhere("ur.type = " . UserRelationship::TYPE_FRIEND)
 					->getQuery();
 		return $query->getResult();
 	}
+	
+	
+	/**
+	 * @param CoreApi\Entity\User $user
+	 */
+	public function findInvitation(User $user)
+	{
+		$query = $this->createQueryBuilder("ur")
+					->where("ur.to_id = " . $user->getId())
+					->andWhere("ur.counterpart IS NULL")
+					->andWhere("ur.type = " . UserRelationship::TYPE_FRIEND)
+					->getQuery();
+		return $query->getResult();
+	}
+	
 }
