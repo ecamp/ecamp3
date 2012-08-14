@@ -20,6 +20,8 @@
 
 namespace CoreApi\Service;
 
+use Core\Acl\DefaultAcl;
+
 use Core\Service\ServiceBase;
 
 use CoreApi\Entity\User;
@@ -39,6 +41,21 @@ class MembershipService extends ServiceBase
 	
 	public function _setupAcl()
 	{
+		$this->acl->allow(DefaultAcl::MEMBER, 			$this, 'Get');
+		$this->acl->allow(DefaultAcl::MEMBER, 			$this, 'GetMembers');
+		$this->acl->allow(DefaultAcl::MEMBER, 			$this, 'GetGroups');
+		$this->acl->allow(DefaultAcl::GROUP_MANAGER, 	$this, 'GetRequests');
+		$this->acl->allow(DefaultAcl::MEMBER, 			$this, 'GetInvitations');
+		$this->acl->allow(DefaultAcl::MEMBER, 			$this, 'RequestMembership');
+		$this->acl->allow(DefaultAcl::MEMBER, 			$this, 'DeleteRequest');
+		$this->acl->allow(DefaultAcl::GROUP_MANAGER, 	$this, 'AcceptRequest');
+		$this->acl->allow(DefaultAcl::GROUP_MANAGER, 	$this, 'RejectRequest');
+		$this->acl->allow(DefaultAcl::GROUP_MEMBER, 	$this, 'LeaveGroup');
+		$this->acl->allow(DefaultAcl::GROUP_MANAGER, 	$this, 'InviteUser');
+		$this->acl->allow(DefaultAcl::GROUP_MANAGER, 	$this, 'DeleteInvitation');
+		$this->acl->allow(DefaultAcl::MEMBER, 			$this, 'AcceptInvitation');
+		$this->acl->allow(DefaultAcl::MEMBER, 			$this, 'RejectInvitation');
+		$this->acl->allow(DefaultAcl::GROUP_MANAGER, 	$this, 'KickOutUser');
 		
 	}
 	

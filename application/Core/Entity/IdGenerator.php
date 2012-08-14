@@ -28,15 +28,14 @@ use Doctrine\ORM\Event\LifecycleEventArgs;
 
 class IdGenerator
 {
+	const DELETE_UID = 'DELETE CoreApi\Entity\Uid s WHERE s.id = :id';
+	
 	
 	/**
 	 * @var Doctrine\ORM\EntityManager
 	 * @Inject Doctrine\ORM\EntityManager
 	 */
 	private $em;
-	
-	
-	private $reflectors = array();
 	
 	
 	public function prePersist(LifecycleEventArgs $eventArgs)
@@ -46,41 +45,40 @@ class IdGenerator
 		if($entity instanceof BaseEntity)
 		{
 			$class = get_class($entity);
+			$uid = $this->getUid($class);
 			
-			$uid = new UId($class);
-			$this->em->persist($uid);
-			$this->em->flush($uid);
-			
-			$r = $this->getPropertyReflector($class);
-			$r->setValue($entity, $uid->getId());
-			
+			EntityIdSetter::SetId($entity, $uid->getId());
 		}
 	}
-	
 	
 	public function preRemove(LifecycleEventArgs $eventArgs)
 	{
 		$entity = $eventArgs->getEntity();
-		
+	
 		if($entity instanceof BaseEntity)
 		{
-			$seqnr = $this->em->find('CoreApi\Entity\Seqnr', $entity->getId());
-			$this->em->remove($seqnr);
+			$q = $this->em->createQuery(self::DELETE_UID);
+			$q->execute(array('id' => $entity->getId()));
 		}
 	}
 	
-	
-	public function getPropertyReflector($class)
+	public function getUid($class)
 	{
-		if(!array_key_exists($class, $this->reflectors))
-		{
-			$reflector = new \Zend_Reflection_Property($class, 'id');
-			$reflector->setAccessible(true);
-			
-			$this->reflectors[$class] = $reflector;
-		}
-		
-		return $this->reflectors[$class];
+		$uid = new UId($class);
+		$this->em->persist($uid);
+		$this->em->flush($uid);
+	
+		return $uid;
 	}
 	
 }
+
+
+class EntityIdSetter
+	extends BaseEntity
+{
+	public static function SetId(BaseEntity $entity, $id)
+	{
+		$entity->id = $id;
+	}
+}	

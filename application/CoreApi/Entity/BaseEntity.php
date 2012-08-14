@@ -67,6 +67,7 @@ abstract class BaseEntity
 	
 	/**
 	 * update attributes of an entity by array
+	 * @deprecated
 	 */
 	public function updateAttributes($data)
 	{

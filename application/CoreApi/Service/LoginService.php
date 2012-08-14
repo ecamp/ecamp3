@@ -73,8 +73,7 @@ class LoginService
 		
 		$login->setNewPassword($params->getValue('password'));
 		$login->setUser($user);
-		
-		$this->persist($login);		
+		$this->persist($login);
 		
 		return $login;
 	}
