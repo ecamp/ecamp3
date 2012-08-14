@@ -79,7 +79,7 @@ class EventInstance extends BaseEntity
 	/**
 	 * @param DateInterval|int $offset
 	 */
-	public function setStartOffset($offset)
+	public function setOffset($offset)
 	{
 		if($offset instanceof \DateInterval){
 			$offset =
@@ -98,7 +98,7 @@ class EventInstance extends BaseEntity
 	/**
 	 * @return \DateInterval
 	 */
-	public function getStartOffset()
+	public function getOffset()
 	{
 		return new \DateInterval( 'PT' . $this->minOffset . 'M');
 	}
@@ -107,7 +107,7 @@ class EventInstance extends BaseEntity
 	/**
 	 * @return int
 	 */
-	public function getStartOffsetInMinutes()
+	public function getOffsetInMinutes()
 	{
 		return $this->minOffset;
 	}
