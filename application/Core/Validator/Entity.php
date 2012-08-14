@@ -71,7 +71,7 @@ abstract class Entity
 	}
 	
 	
-	public function isValid(Params $form, $map = null)
+	public function isValid(Params $params, $map = null)
 	{
 		$isValid = true;
 		
@@ -89,8 +89,8 @@ abstract class Entity
 			if(isset($this->entity))
 			{	$elementValue = $this->getEntityValue($entityElementName);	}
 			
-			if(!is_null($form->getValue($formElementName)))
-			{	$elementValue = $form->getValue($formElementName);	}
+			if($params->hasElement($formElementName))
+			{	$elementValue = $params->getValue($formElementName);	}
 			
 			if($element->isValid($elementValue))
 			{	continue;	}
@@ -99,9 +99,9 @@ abstract class Entity
 				$isValid = false;
 				$messages = $element->getMessages();
 				
-				if($form->hasElement($formElementName))
+				if($params->hasElement($formElementName))
 				{
-					$form->addError($formElementName, $messages);
+					$params->addError($formElementName, $messages);
 				}
 				else
 				{
@@ -118,7 +118,7 @@ abstract class Entity
 	}
 	
 	
-	public function apply(Params $form, $map = null)
+	public function apply(Params $params, $map = null)
 	{
 		if(is_null($this->entity))
 		{	throw new \Exception("Apply can only be used, if Validator was constructed with an Entity!");	}
@@ -131,19 +131,19 @@ abstract class Entity
 			{	$formElementName = $map[$entityElementName];	}
 			
 			
-			if(!is_null($form->getValue($formElementName)))
+			if($params->hasElement($formElementName))
 			{
-				$elementValue = $form->getValue($formElementName);
+				$elementValue = $params->getValue($formElementName);
 				$this->setEntityValue($entityElementName, $elementValue);
 			}
 		}
 	}
 	
-	public function applyIfValid(Params $form, $map = null)
+	public function applyIfValid(Params $params, $map = null)
 	{
-		if($this->isValid($form, $map))
+		if($this->isValid($params, $map))
 		{
-			$this->apply($form, $map);
+			$this->apply($params, $map);
 			return true;
 		}
 		

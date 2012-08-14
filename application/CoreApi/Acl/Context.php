@@ -80,6 +80,29 @@ class Context
 	}
 	
 	
+	protected function Check(BaseEntity $entity)
+	{
+		switch (true)
+		{
+			case $entity instanceof Period:
+				return $this->camp != null && $entity->getCamp() == $this->camp;
+				
+			case $entity instanceof Day:
+				return $this->camp != null && $entity->getCamp() == $this->camp;
+			
+			case $entity instanceof Event:
+				return $this->camp != null && $entity->getCamp() == $this->camp;
+				
+			case $entity instanceof EventInstance:
+				return $this->camp != null && $entity->getCamp() == $this->camp;
+				
+				
+			default:
+				return false;
+		}
+	}
+	
+	
 	public function __toString()
 	{
 		$ids = array(
