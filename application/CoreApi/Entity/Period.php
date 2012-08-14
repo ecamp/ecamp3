@@ -30,18 +30,13 @@ namespace CoreApi\Entity;
 
 class Period extends BaseEntity
 {
-
 	public function __construct($camp = null)
 	{
+		parent::__construct();
+		
 		$this->camp = $camp;
 	}
 
-	/**
-	 * @var int
-	 * @Id @Column(type="integer")
-	 * @GeneratedValue(strategy="AUTO")
-	 */
-	private $id;
 
 	/**
 	 * @Column(type="date", nullable=false )
@@ -72,14 +67,6 @@ class Period extends BaseEntity
 	 */
 	private $eventInstances;
 
-
-	/**
-	 * @return int
-	 */
-	public function getId()
-	{
-		return $this->id;
-	}
 	
 	
 	/**

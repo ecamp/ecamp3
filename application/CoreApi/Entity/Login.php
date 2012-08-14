@@ -28,16 +28,6 @@ namespace CoreApi\Entity;
 class Login extends BaseEntity
 {
 
-
-	/**
-	 * @Id 
-	 * @Column(type="integer")
-	 * @GeneratedValue(strategy="AUTO")
-	 * @var int
-	 */
-	private $id;
-
-
 	/**
 	 * @Column(type="string")
 	 * @var string
@@ -66,14 +56,6 @@ class Login extends BaseEntity
 	 */
 	public $user;
 	
-
-	/**
-	 * Returns the Id of this Login Entity
-	 */
-	public function getId()
-	{
-		return $this->id;
-	}
 
 	
 	/**
