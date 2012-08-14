@@ -20,11 +20,14 @@
 
 namespace CoreApi\Service;
 
+use Core\Acl\DefaultAcl;
 use Core\Service\ServiceBase;
 
 use CoreApi\Entity\User;
 use CoreApi\Entity\Camp;
 use CoreApi\Entity\UserCamp;
+use CoreApi\Entity\UserRelationship;
+
 
 class RelationshipService extends ServiceBase
 {
@@ -49,52 +52,138 @@ class RelationshipService extends ServiceBase
 	
 	public function _setupAcl(){
 		
+		$this->acl->allow(DefaultAcl::MEMBER, $this, 'Get');
+		$this->acl->allow(DefaultAcl::MEMBER, $this, 'GetRequests');
+		$this->acl->allow(DefaultAcl::MEMBER, $this, 'GetInvitations');
+		$this->acl->allow(DefaultAcl::MEMBER, $this, 'RequestRelationship');
+		$this->acl->allow(DefaultAcl::MEMBER, $this, 'DeleteRequest');
+		$this->acl->allow(DefaultAcl::MEMBER, $this, 'AcceptInvitation');
+		$this->acl->allow(DefaultAcl::MEMBER, $this, 'RejectInvitation');
+		
 	}
 	
 	
 	public function Get($id, $user_id = null){
 		if($user_id == null){
-			if(is_numeric($id))
-				$this->userRelationshipRepo->find($id);
-			
-			if($id instanceof \CoreApi\Entity\UserRelationship)
+			if($id instanceof \CoreApi\Entity\UserRelationship){
 				return $id;
+			}
+			
+			return $this->userRelationshipRepo->find($id);
 		}
 		else{
 			$user1 = $this->userService->Get($id);
-			$user2 = $this->campService->Get($user_id);
+			$user2 = $this->userService->Get($user_id);
 			
 			return $this->userRelationshipRepo->findByUsers($user1, $user2);
 		}
-		
-		return null;
 	}
 	
 	
-	
+	/**
+	 * @return Doctrine\Common\Collection\ArrayCollection
+	 */
 	public function GetRequests(){
-		
+		$user = $this->userService->Get();
+		return $this->userRelationshipRepo->findRequests($user);
 	}
 	
+	
+	/**
+	 * @return Doctrine\Common\Collection\ArrayCollection
+	 */
 	public function GetInvitations(){
-		
+		$user = $this->userService->Get();
+		return $this->userRelationshipRepo->findInvitation($user);
 	}
 	
 	
-	public function RequestRelationship(){
+	/**
+	 * @param User $toUser
+	 * @return UserRelationship
+	 */
+	public function RequestRelationship(User $toUser){
+		$user = $this->userService->Get();
+		$ur = $this->userRelationshipRepo->findByUsers($user, $toUser);
 		
+		$this->validationAssert(
+			$ur == null, 
+			"There is already a relationship between these users");
+		
+		$ur = new UserRelationship($user, $toUser);
+		$this->persist($ur);
+		
+		return $ur;
 	}
 	
-	public function DeleteRequest(){
+	
+	/**
+	 * @param User $toUser
+	 */
+	public function DeleteRequest(User $toUser){
+		$user = $this->userService->Get();
+		$ur = $this->userRelationshipRepo->findByUsers($user, $toUser);
 		
+		$this->validationAssert(
+			$ur != null && $ur->getCounterpart() == null,
+			"There is no open request to delete");
+		
+		if($ur){
+			$this->remove($ur);
+		}
 	}
 	
-	public function AcceptInvitation(){
+	
+	/**
+	 * @param User $fromUser
+	 * @return UserRelationship
+	 */
+	public function AcceptInvitation(User $fromUser){
+		$user = $this->userService->Get();
+		$ur = $this->userRelationshipRepo->findByUsers($fromUser, $user);
 		
+		$this->validationAssert(
+			$ur && $ur->getCounterpart() == null,
+			"There is no open invitation to accept");
+		
+		$cp = new UserRelationship($user, $fromUser);
+		$this->persist($cp);
+		
+		UserRelationship::Link($ur, $cp);
+		
+		return $cp;
 	}
 	
-	public function RejectInvitation(){
+	
+	/**
+	 * @param User $fromUser
+	 */
+	public function RejectInvitation(User $fromUser){
+		$user = $this->userService->Get();
+		$ur = $this->userRelationshipRepo->findByUsers($fromUser, $user);
 		
+		$this->validationAssert(
+			$ur && $ur->getCounterpart() == null,
+			"There is no open invitation to delete");
+		
+		if($ur){
+			$this->remove($ur);
+		}
+	}
+	
+	
+	public function CancelRelationship(User $withUser){
+		$user = $this->userService->Get();
+		$ur = $this->userRelationshipRepo->findByUsers($user, $withUser);
+		
+		$this->validationAssert(
+			$ur && $ur->getCounterpart(),
+			"There is no relationship to be canceled");
+		
+		if($ur && $ur->getCounterpart()){
+			$this->remove($ur->getCounterpart());
+			$this->remove($ur);
+		}
 	}
 	
 }
