@@ -26,13 +26,6 @@ namespace CoreApi\Entity;
  */
 class Image extends BaseEntity
 {
-
-	/**
-	 * @var int
-	 * @Id @Column(type="integer")
-	 * @GeneratedValue(strategy="AUTO")
-	 */
-	private $id;
 	
 	/**
 	 * @Column(type="string", length=32, nullable=false)
@@ -44,11 +37,6 @@ class Image extends BaseEntity
 	 */
 	private $imageData;
 
-
-	public function getId()
-	{
-		return $this->id;
-	}
 
 	
 	/**

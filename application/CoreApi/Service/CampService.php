@@ -2,6 +2,7 @@
 
 namespace CoreApi\Service;
 
+use CoreApi\Service\Params\Params;
 
 use Core\Acl\DefaultAcl;
 use Core\Service\ServiceBase;
@@ -12,7 +13,7 @@ use CoreApi\Entity\Period;
 
 
 /**
- * @method CoreApi\Service\CampService Simulate
+ * @method \CoreApi\Service\CampService Simulate
  */
 class CampService
 	extends ServiceBase
@@ -24,25 +25,37 @@ class CampService
 	private $campRepo;
 	
 	/**
+	 * @var CoreApi\Service\PeriodService
+	 * @Inject Core\Service\PeriodService
+	 */
+	private $periodService;
+	
+	/**
 	 * Setup ACL
 	 * @return void
 	 */
 	public function _setupAcl()
 	{
-		$this->acl->allow(DefaultAcl::MEMBER, $this, 'Create');
-		$this->acl->allow(DefaultAcl::MEMBER, $this, 'Delete');
 		$this->acl->allow(DefaultAcl::MEMBER, $this, 'Get');
+		$this->acl->allow(DefaultAcl::MEMBER, $this, 'Create');
+		$this->acl->allow(DefaultAcl::CAMP_CREATOR, $this, 'Delete');
 	}
 	
+	
 	/**
+	 * Returns the requested Camp
+	 * 
+	 * For an integer the Camp with the given id
+	 * For NULL the Camp from the Context
+	 * 
 	 * @return CoreApi\Entity\Camp | NULL
 	 */
 	public function Get($id = null)
 	{
 		if(is_null($id))
-		{	return $this->contextProvider->getContext()->getCamp();	}
+		{	return $this->getContext()->getCamp();	}
 		
-		if(is_numeric($id))
+		if(is_string($id))
 		{	return $this->campRepo->find($id);	}
 			
 		if($id instanceof Camp)
@@ -52,81 +65,82 @@ class CampService
 	}
 	
 	
-	
-	public function Delete($camp)
+	/**
+	 * Deletes the current Camp
+	 */
+	public function Delete()
 	{
-		$camp = $this->Get($camp);
+		$camp = $this->getContext()->getCamp();
 		$this->remove($camp);
 	}
 	
 	
 	/**
+	 * Updates the current Camp
+	 * 
 	 * @return CoreApi\Entity\Camp
 	 */
-	public function Update($camp, \Zend_Form $form)
+	public function Update(Params $params)
 	{
-		$camp = $this->Get($camp);
+		$camp = $this->getContext()->getCamp();
 		$campValidator = new CampValidator($camp);
 		
 		$this->validationFailed(
-			!$campValidator->applyIfValid($form));
+			!$campValidator->applyIfValid($params));
 		
 		return $camp;
 	}
 	
 	
 	/**
+	 * Creats a new Camp
+	 * Whether the camp belongs to a user or to a group 
+	 * depends on the Context.
+	 * 
+	 * If the Group is set in the Context, 
+	 * it belongs to this Group.
+	 * Otherwise, the camp belongs to the authenticated User.
+	 * 
 	 * @return CoreApi\Entity\Camp
 	 */
-	public function Create(\Zend_Form $form)
-	{	
+	public function Create(Params $params)
+	{
+		$group = $this->getContext()->getGroup();
+		$user  = $this->getContext()->getMe();
+		$campName =  $params->getValue('name');
+		
 		$camp = new Camp();
 		$this->persist($camp);
 		
-		$me = $this->contextProvider->getContext()->getMe();
-		$camp->setCreator($me);
+		if($group == null){
+			
+			// Create group Camp
+			if($this->campRepo->findUserCamp($user, $campName) != null){
+				$params->addError('name', "Camp with same name already exists.");
+				$this->validationFailed();
+			}
+			
+			$camp->setOwner($user);
+		}
+		else{
+			
+			// Create personal Camp
+			if($this->campRepo->findGroupCamp($group, $campName) != null){
+				$params->addError('name', "Camp with same name already exists.");
+				$this->validationFailed();
+			}
+			
+			$camp->setGroup($group);
+		}
+		
+		$camp->setCreator($user);
 		
 		$campValidator = new CampValidator($camp);
-		$this->validationFailed( !$campValidator->applyIfValid($form) );
+		$this->validationFailed( !$campValidator->applyIfValid($params) );
 		
-		$this->CreatePeriod($camp, $form);
+		$this->periodService->CreatePeriodForCamp($camp, $params);
 		
 		return $camp;
-	}
-	
-	
-	/**
-	 * @return CoreApi\Entity\Camp
-	 */
-	public function CreatePeriod($camp, \Zend_Form $form)
-	{	
-		if( $form->getValue('from') == "" ){
-			$form->getElement('from')->addError("Date cannot be empty.");
-			$this->validationFailed();
-		} 
-		
-		if( $form->getValue('to') == "" ){
-			$form->getElement('to')->addError("Date cannot be empty.");
-			$this->validationFailed();
-		}
-		
-		
-		$camp = $this->Get($camp);
-		$period = new Period($camp);
-		$this->persist($period);
-		
-		$from = new \DateTime($form->getValue('from'), new \DateTimeZone("GMT"));
-		$to   = new \DateTime($form->getValue('to'), new \DateTimeZone("GMT"));
-		
-		$period->setStart($from);
-		$period->setDuration(($to->getTimestamp() - $from->getTimestamp())/(24 * 60 * 60) + 1);
-		
-		if( $period->getDuration() < 1){
-			$form->getElement('to')->addError("Minimum length of camp is 1 day.");
-			$this->validationFailed();
-		}
-		
-		return $period;
 	}
 	
 }

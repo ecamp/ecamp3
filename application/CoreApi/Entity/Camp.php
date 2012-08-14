@@ -21,7 +21,7 @@
 namespace CoreApi\Entity;
 
 /**
- * @Entity
+ * @Entity(repositoryClass="Core\Repository\CampRepository")
  * @Table(name="camps",
  *   uniqueConstraints={@UniqueConstraint(name="group_name_unique",columns={"group_id", "name"}),
  *                      @UniqueConstraint(name="owner_name_unique",columns={"owner_id", "name"})}
@@ -31,17 +31,12 @@ class Camp extends BaseEntity
 {
 	public function __construct()
 	{
+		parent::__construct();
+		
 		$this->userCamps = new \Doctrine\Common\Collections\ArrayCollection();
 		$this->events    = new \Doctrine\Common\Collections\ArrayCollection();
 	}
 	
-
-	/**
-	 * @var int
-	 * @Id @Column(type="integer")
-	 * @GeneratedValue(strategy="AUTO")
-	 */
-	private $id;
 
 
 	/**
@@ -96,11 +91,6 @@ class Camp extends BaseEntity
 	 */
 	private $events;
 
-	
-	public function getId()
-	{
-		return $this->id;
-	}
 
 	public function setName($name)
 	{

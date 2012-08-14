@@ -18,6 +18,8 @@
  * along with eCamp.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+use CoreApi\Service\Params\Params;
+
 class RegisterServiceTest extends ServiceTestCase
 {
 	
@@ -82,7 +84,7 @@ class RegisterServiceTest extends ServiceTestCase
 	{
 		$registerForm = $this->getRegisterForm();
 		
-		$user = $this->registerService->Register($registerForm);
+		$user = $this->registerService->Register(Params::FromForm($registerForm));
 		
 		// Refresh UserEntity to see the LoginEntity
 		$this->em->refresh($user);
@@ -101,13 +103,10 @@ class RegisterServiceTest extends ServiceTestCase
 	{
 		$registerForm = $this->getRegisterForm();
 		
-		$user = $this->registerService->Register($registerForm);
+		$user = $this->registerService->Register(Params::FromForm($registerForm));
 		$activationCode = $user->createNewActivationCode();
 		$this->em->flush();
 		
-		
-		$fail = $this->registerService->Activate($user->getId(), null);
-		$this->assertFalse($fail);
 		
 		$success = $this->registerService->Activate($user->getId(), $activationCode);
 		$this->assertTrue($success);

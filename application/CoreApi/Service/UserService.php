@@ -5,6 +5,7 @@ namespace CoreApi\Service;
 use Core\Acl\DefaultAcl;
 use Core\Service\ServiceBase;
 use CoreApi\Entity\User;
+use CoreApi\Service\Params\Params;
 
 /**
  * @method CoreApi\Service\UserService Simulate
@@ -32,16 +33,11 @@ class UserService
 	public function _setupAcl()
 	{
 		$this->acl->allow(DefaultAcl::MEMBER, $this, 'Get');
+		$this->acl->allow(DefaultAcl::GUEST,  $this, 'Create');
 		
-		$this->acl->allow(DefaultAcl::MEMBER, $this, 'CreateCamp');
-		$this->acl->allow(DefaultAcl::MEMBER, $this, 'DeleteCamp');
-		$this->acl->allow(DefaultAcl::MEMBER, $this, 'UpdateCamp');
 		
 		$this->acl->allow(DefaultAcl::MEMBER,  $this, 'getFriendsOf');
 		$this->acl->allow(DefaultAcl::MEMBER,  $this, 'GetPaginator');
-		
-		$this->acl->allow(DefaultAcl::MEMBER,  $this, 'getMembershipRequests');
-		$this->acl->allow(DefaultAcl::MEMBER,  $this, 'getMembershipInvitations');
 	}
 	
 	
@@ -58,7 +54,7 @@ class UserService
 		if(isset($id))
 		{	$user = $this->getByIdentifier($id);	}
 		else
-		{	$user = $this->contextProvider->getContext()->getMe();	}
+		{	$user = $this->getContext()->getMe();	}
 		
 		return $user;
 	}
@@ -71,9 +67,9 @@ class UserService
 	 * 
 	 * @return CoreApi\Entity\User
 	 */
-	public function Create(\Zend_Form $form)
+	public function Create(Params $params)
 	{	
-		$email = $form->getValue('email');
+		$email = $params->getValue('email');
 		$user = $this->userRepo->findOneBy(array('email' => $email));
 		
 		if(is_null($user))
@@ -86,13 +82,13 @@ class UserService
 			
 		if($user->getState() != User::STATE_NONREGISTERED)
 		{		
-			$form->getElement('email')->addError("This eMail-Adress is already registered!");
+			$params->addError('email', "This eMail-Adress is already registered!");
 			$this->validationFailed();
 		}
 		
 		$userValidator = new \Core\Validator\Entity\UserValidator($user);
 		$this->validationFailed( 
-			! $userValidator->applyIfValid($form) );	
+			! $userValidator->applyIfValid($params) );	
 		
 		$user->setState(User::STATE_REGISTERED);
 		$activationCode = $user->createNewActivationCode();
@@ -105,87 +101,34 @@ class UserService
 	}
 	
 	
-	public function Update(\Zend_Form $form)
+	public function Update(Params $params)
 	{
-		/* probably better goes to ACL later, just copied for now from validator */
-		$this->validationFailed( $this->Get()->getId() != $form->getValue('id') );
-		
 		// update user
 	}
 	
-	public function Delete(\Zend_Form $form)
+	public function Delete()
 	{
-		/* probably better goes to ACL later, just copied for now from validator */
-		$this->validationFailed( $this->Get()->getId() != $form->getValue('id') );
-		
 		// delete user
+		$this->em->remove($this->Get());
 	}
     
 	
-	
-	/**
-	 * Creates a new Camp
-	 * @return Camp object, if creation was successfull
-	 */
-	public function CreateCamp(\Zend_Form $form)
+	public function SetImage($data, $mime)
 	{
-		if( ! $this->isCampNameUnique($form->getValue("name")) )
-		{
-			$form->getElement('name')->addError("Camp with same name already exists.");
-			$this->validationFailed();
-		}
-
-		/* create camp */
-		$camp = $this->campService->Create($form);
-		$camp->setOwner($this->contextProvider->getContext()->getMe());
+		$image = new \CoreApi\Entity\Image();
+		$image->setData($data);
+		$image->setMime($mime);
 		
-		return $camp;
+		$this->Get()->setImage($image);
 	}
 	
-/**
-	 * Updates a Camp
-	 * @return \CoreApi\Entity\Camp
-	 */
-	public function UpdateCamp(\Zend_Form $form)
+	
+	public function DeleteImage()
 	{
-		$camp = $this->campService->Get($form->getValue('id'));
-		
-		if($camp->getOwner() != $this->contextProvider->getContext()->getMe())
-			throw new \Exception("No Access");
-		
-		if( $form->getValue('name') != $camp->getName() )
-		{
-			if( ! $this->isCampNameUnique($form->getValue("name")) )
-			{
-				$form->getElement('name')->addError("Camp with same name already exists.");
-				$this->validationFailed();
-			}
-		}
-	
-		/* update camp */
-		$camp = $this->campService->Update($camp, $form);
-	
-		return $camp;
+		$this->Get()->setImage(null);
 	}
 	
-	/**
-	 * 
-	 * @return bool
-	 */
-	public function DeleteCamp($id)
-	{
-		$camp = $this->campService->Get($id);
 	
-		if( $camp == null )
-			return false;
-	
-		if($camp->getOwner() != $this->contextProvider->getContext()->getMe())
-			throw new \Exception("No Access");
-	
-		$this->campService->Delete($camp);
-	
-		return true;
-	}
 	
 	/**
 	 * Returns the User for a MailAddress or a Username
@@ -208,13 +151,9 @@ class UserService
 		{
 			$user = $this->userRepo->findOneBy(array('email' => $identifier));
 		}
-		elseif(is_numeric($identifier))
-		{
-			$user = $this->userRepo->find($identifier);
-		}
 		else
 		{
-			$user = $this->userRepo->findOneBy(array('username' => $identifier));
+			$user = $this->userRepo->find($identifier);
 		}
 		
 		if(is_null($user))
@@ -226,29 +165,6 @@ class UserService
 	}
 	
 	/**
-	 * @return bool
-	 */
-	private function isCampNameUnique($name)
-	{
-		/* check if camp with same name already exists */
-		
-		$qb = $this->em->createQueryBuilder();
-		$qb->add('select', 'c')
-		->add('from', '\CoreApi\Entity\Camp c')
-		->add('where', 'c.owner = ?1 AND c.name = ?2')
-		->setParameter(1,$this->contextProvider->getContext()->getMe()->getId())
-		->setParameter(2, $name);
-	
-		$query = $qb->getQuery();
-	
-		if( count($query->getArrayResult()) > 0 ){
-			return false;
-		}
-	
-		return true;
-	}
-	
-	/**
 	 * Get all users and wrap in paginator
 	 * @return \Zend_Paginator
 	 */
@@ -257,21 +173,5 @@ class UserService
 		$query = $this->em->getRepository("CoreApi\Entity\User")->createQueryBuilder("u");
 		$adapter = new \Ecamp\Paginator\Doctrine($query);
 		return new \Zend_Paginator($adapter);
-	}
-	
-	/**
-	 * @return array
-	 */
-	public function getMembershipRequests($user){
-		
-		return $this->userRepo->findMembershipRequestsOf($user);
-	}
-
-	/**
-	 * @return array
-	 */
-	public function getMembershipInvitations($user)
-	{
-		return $this->userRepo->findMembershipInvitations($user);
 	}
 }

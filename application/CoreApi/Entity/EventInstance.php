@@ -27,13 +27,6 @@ namespace CoreApi\Entity;
  */
 class EventInstance extends BaseEntity
 {
-	
-	/**
-	 * @var int
-	 * @Id @Column(type="integer")
-	 * @GeneratedValue(strategy="AUTO")
-	 */
-	private $id;
 
 	/**
 	 * @ManyToOne(targetEntity="Event")
@@ -42,16 +35,16 @@ class EventInstance extends BaseEntity
 	private $event;
 
 	/**
-	 * Offset in minutes from the subcamp's starting date (00:00)
-	 * @Column(type="integer" )
+	 * Start-Offset in minutes from the subcamp's starting date (00:00)
+	 * @Column(type="integer", nullable=false)
 	 */
-	private $minOffset;
+	private $minOffsetStart;
 
 	/**
-	 * Duration of this instance in minutes
-	 * @Column(type="integer" )
+	 * End-Offset in minutes from the subcamp's starting date (00:00)
+	 * @Column(type="integer", nullable=false)
 	 */
-	private $duration;
+	private $minOffsetEnd;
 
 	/**
 	 * @ManyToOne(targetEntity="Period")
@@ -60,16 +53,19 @@ class EventInstance extends BaseEntity
 	private $period;
 
 	
-	public function getId()
+	/**
+	 * @param Event $event
+	 */
+	public function __construct(Event $event)
 	{
-		return $this->id;
-	}
-
-	
-	public function setEvent(Event $event)
-	{
+		parent::__construct();
+		
 		$this->event = $event;
+		
+		$this->minOffsetStart = 0;
+		$this->minOffsetEnd = 0;
 	}
+	
 	
 	/**
 	 * @return Event 
@@ -80,38 +76,105 @@ class EventInstance extends BaseEntity
 	}
 
 	
-	public function setMinOffset($minOffset)
+	/**
+	 * @param DateInterval|int $offset
+	 */
+	public function setOffset($offset)
 	{
-		$this->minOffset = $minOffset;
+		if($offset instanceof \DateInterval){
+			$offset =
+				$offset->format('%a') * 24 * 60 +
+				$offset->format('%h') * 60 +
+				$offset->format('%i');
+		}
+		
+		$shift = $offset - $this->minOffsetStart;
+		
+		$this->minOffsetStart = $offset;
+		$this->minOffsetEnd  += $shift;
 	}
+	
+	
+	/**
+	 * @return \DateInterval
+	 */
+	public function getOffset()
+	{
+		return new \DateInterval( 'PT' . $this->minOffset . 'M');
+	}
+	
 	
 	/**
 	 * @return int
 	 */
-	public function getMinOffset()
+	public function getOffsetInMinutes()
 	{
 		return $this->minOffset;
 	}
 
 	
+	/**
+	 * @param DateInterval|int $duration
+	 */
 	public function setDuration($duration)
 	{
-		$this->duration = $duration;
+		if($duration instanceof \DateInterval){
+			$duration = 
+				$duration->format('%a') * 24 * 60 +
+				$duration->format('%h') * 60 + 
+				$duration->format('%i'); 
+		}
+		
+		$this->minOffsetEnd = $this->minOffsetStart + $duration;
 	}
+	
+	
+	/**
+	 * @return DateInterval
+	 */
+	public function getDuration()
+	{
+		return new \DateInterval( 'PT' . $this->getDurationInMinutes() . 'M');
+	}
+	
 	
 	/**
 	 * @return int
 	 */
-	public function getDuration()
+	public function getDurationInMinutes()
 	{
-		return $this->duration;
+		return $this->minOffsetEnd - $this->minOffsetStart;
 	}
 
 	
+	/**
+	 * @return DateTime
+	 */
+	public function getStartTime()
+	{
+		$start = $this->period->getStart() + new \DateInterval( 'PT' . $this->getMinOffset() . 'M');
+		return $start; 
+	}
+	
+	
+	/**
+	 * @return DateTime
+	 */
+	public function getEndTime()
+	{
+		$end = $this->getStartTime() + $this->getDuration();
+		return $end;
+	}
+	
+	
+	/**
+	 * @param Period $period
+	 */
 	public function setPeriod(Period $period)
 	{
 		$this->period = $period;
 	}
+	
 	
 	/**
 	 * @return Period 
@@ -119,6 +182,15 @@ class EventInstance extends BaseEntity
 	public function getPeriod()
 	{
 		return $this->period;
+	}
+	
+	
+	/**
+	 * @return Camp
+	 */
+	public function getCamp()
+	{
+		return $this->period->getCamp();
 	}
 
 }

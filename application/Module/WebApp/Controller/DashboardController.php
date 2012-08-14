@@ -18,6 +18,7 @@
  * along with eCamp.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+use CoreApi\Service\Params\Params;
 
 class WebApp_DashboardController extends \WebApp\Controller\BaseController
 {
@@ -46,6 +47,11 @@ class WebApp_DashboardController extends \WebApp\Controller\BaseController
 	 */
 	private $friendService;
 	
+	/**
+	 * @var CoreApi\Service\MembershipService
+	 * @Inject CoreApi\Service\MembershipService
+	 */
+	private $membershipService;
 	
     public function init()
     {
@@ -65,12 +71,12 @@ class WebApp_DashboardController extends \WebApp\Controller\BaseController
     public function indexAction()
     {
 		$friendshipRequests = $this->friendService->getOpenInvitations();
-		$membershipRequests = $this->userService->getMembershipRequests($this->me);
-		$membershipInvitations = $this->userService->getMembershipInvitations($this->me);
+		//$membershipRequests = $this->membershipService->getMembershipRequests($this->me);
+		//$membershipInvitations = $this->membershipService->getMembershipInvitations($this->me);
 				
 		$this->view->friendshipRequests = new Doctrine\Common\Collections\ArrayCollection($friendshipRequests);
-		$this->view->membershipRequests = new Doctrine\Common\Collections\ArrayCollection($membershipRequests);
-		$this->view->membershipInvitations = new Doctrine\Common\Collections\ArrayCollection($membershipInvitations);
+		$this->view->membershipRequests = new Doctrine\Common\Collections\ArrayCollection();
+		$this->view->membershipInvitations = new Doctrine\Common\Collections\ArrayCollection();
     }
 	
 	public function campsAction(){
@@ -108,8 +114,7 @@ class WebApp_DashboardController extends \WebApp\Controller\BaseController
 				throw new \Core\Service\ValidationException();
 			}
 
-			//$camp = $this->userService->Simulate()->CreateCamp($form);
-			$camp = $this->userService->CreateCamp($form);
+			$camp = $this->campService->Create(Params::Create($form));
 			
 			$this->_helper->getHelper('Redirector')->gotoRoute(array('action'=>'camps'));
 		}

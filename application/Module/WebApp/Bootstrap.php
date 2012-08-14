@@ -61,7 +61,7 @@ class WebApp_Bootstrap extends Zend_Application_Module_Bootstrap
 			'web+general+id', $webappSubdomain->chain(
 				new Zend_Controller_Router_Route('/:controller/:action/:id/*',
 				array(/*'module' => 'WebApp',*/ 'controller' => 'dashboard', 'action' => 'index'),
-				array('id' => '\d+'))));
+				array('id' => '[0-9a-f]+'))));
 		
 		
 		/* user */
@@ -74,7 +74,7 @@ class WebApp_Bootstrap extends Zend_Application_Module_Bootstrap
 			'web+user+id', $webappSubdomain->chain(
 				new Ecamp\Route\Vanity('user/:user/:action/:id/*',
 				array('controller' => 'user','action' => 'show'),
-				array('id' => '\d+'))));
+				array('id' => '[0-9a-f]+'))));
 		
 		
 		/* user camp */
@@ -87,7 +87,7 @@ class WebApp_Bootstrap extends Zend_Application_Module_Bootstrap
 			'web+user+camp+id', $webappSubdomain->chain(
 				new Ecamp\Route\Vanity('user/:user/:camp/:controller/:action/:id/*',
 				array('controller' => 'camp','action' => 'show'),
-				array('id' => '\d+'))));
+				array('id' => '[0-9a-f]+'))));
 
 		
 		/* group */
@@ -100,7 +100,7 @@ class WebApp_Bootstrap extends Zend_Application_Module_Bootstrap
 			'web+group+id', $webappSubdomain->chain(
 				new Ecamp\Route\Vanity('group/:group/:action/:id/*',
 				array('controller' => 'group','action' => 'show'),
-				array('id' => '\d+'))));
+				array('id' => '[0-9a-f]+'))));
 
 		
 		/* group camp */
@@ -113,7 +113,7 @@ class WebApp_Bootstrap extends Zend_Application_Module_Bootstrap
 			'web+group+camp+id', $webappSubdomain->chain(
 				new Ecamp\Route\Vanity('group/:group/:camp/:controller/:action/:id/*',
 				array('controller' => 'camp','action' => 'show'),
-				array('id' => '\d+'))));
+				array('id' => '[0-9a-f]+'))));
 
 		
 		/* TODO: quick camp url */

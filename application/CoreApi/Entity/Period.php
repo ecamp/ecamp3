@@ -27,30 +27,21 @@ namespace CoreApi\Entity;
  * @Entity
  * @Table(name="periods")
  */
+
 class Period extends BaseEntity
 {
-
 	public function __construct($camp = null)
 	{
+		parent::__construct();
+		
 		$this->camp = $camp;
 	}
 
-	/**
-	 * @var int
-	 * @Id @Column(type="integer")
-	 * @GeneratedValue(strategy="AUTO")
-	 */
-	private $id;
 
 	/**
 	 * @Column(type="date", nullable=false )
 	 */
 	private $start;
-
-	/**
-	 * @Column(type="integer", nullable=false )
-	 */
-	private $duration;
 
 	/**
 	 * @var Camp
@@ -66,7 +57,8 @@ class Period extends BaseEntity
 	
 	/**
 	 * @OneToMany(targetEntity="Day", mappedBy="period")
-	 * @OrderBy({"offset" = "ASC"})
+	 * @OrderBy({"dayOffset" = "ASC"})
+	 * @var Doctrine\Common\Collections\ArrayCollection
 	 */
 	private $days;
 	
@@ -75,16 +67,11 @@ class Period extends BaseEntity
 	 */
 	private $eventInstances;
 
-
+	
+	
 	/**
-	 * @return int
+	 * @param string $description
 	 */
-	public function getId()
-	{
-		return $this->id;
-	}
-	
-	
 	public function setDescription($description)
 	{
 		$this->description = $description;
@@ -99,47 +86,50 @@ class Period extends BaseEntity
 	}
 
 	
-	public function setStart($start)
+	/**
+	 * @param \DateTime $start
+	 */
+	public function setStart(\DateTime $start)
 	{
+		$start->setTime(0, 0);
 		$this->start = $start;
 	}
 	
 	/**
-	 * @return int
+	 * @return \DateTime
 	 */
 	public function getStart()
 	{
 		return $this->start;
 	}
-
 	
-	public function setDuration($duration)
-	{
-		$this->duration = $duration;
-	}
 	
 	/**
-	 * @return int
+	 * @return \DateInterval
 	 */
 	public function getDuration()
 	{
-		return $this->duration;
+		return new \DateInterval( 'P' . $this->getNumberOfDays() . 'D');
 	}
 
-	
 	/**
 	 * @return int
 	 */
+	public function getNumberOfDays()
+	{
+		return $this->days->count();
+	}
+	
+	/**
+	 * @return \DateTime
+	 */
 	public function getEnd()
 	{
-		return $this->start->add( new \DateInterval( 'P'.($this->duration - 1).'D') );
+		return $this->start
+					->add($this->getDuration())
+					->sub(new \DateInterval('PT1S'));
 	}
 
-	
-	public function setCamp(Camp $camp)
-	{
-		$this->camp = $camp;
-	}
 	
 	/**
 	 * @return Camp
@@ -149,9 +139,16 @@ class Period extends BaseEntity
 		return $this->camp;
 	}
 
+	/**
+	 * @return Doctrine\Common\Collections\ArrayCollection
+	 */
+	public function getDays()
+	{
+		return $this->days;
+	}
 	
 	/**
-	 * @return array
+	 * @return Doctrine\Common\Collections\ArrayCollection
 	 */
 	public function getEventInstances()
 	{

@@ -33,18 +33,14 @@ class UserRelationship extends BaseEntity
 
 	public function __construct($from = null, $to = null, $type = self::TYPE_FRIEND)
 	{
+		parent::__construct();
+		
 		$this->type  = $type;
 		$this->from  = $from;
 		$this->to  = $to;
 	}
 
 
-	/**
-	 * @Id @Column(type="integer")
-	 * @GeneratedValue(strategy="AUTO")
-	 * @var int
-	 */
-	private $id;
 
 	/**
 	 * @ManyToOne(targetEntity="User")
@@ -64,14 +60,12 @@ class UserRelationship extends BaseEntity
 	 */
 	private $type;
 
-	
 	/**
-	 * @return int
+	 * @OneToOne(targetEntity="UserRelationship")
+	 * @JoinColumn(name="counterpart", referencedColumnName="id")
+	 * @var UserRelationship
 	 */
-	public function getId()
-	{
-		return $this->id;
-	}
+	private $counterpart;
 
 	
 	/**
@@ -84,8 +78,8 @@ class UserRelationship extends BaseEntity
 	
 	
 	/**
-	* @return User
-	*/
+	 * @return User
+	 */
 	public function getTo()   
 	{
 		return $this->to;
@@ -93,11 +87,27 @@ class UserRelationship extends BaseEntity
 	
 	
 	/**
-	* @return int
-	*/
+	 * @return int
+	 */
 	public function getType() 
 	{
 		return $this->type;
 	}
+	
+	
+	/**
+	 * @return UserRelationship
+	 */
+	public function getCounterpart()
+	{
+		return $this->counterpart;
+	}
 
+	
+	public static function Link(UserRelationship $ur1, UserRelationship $ur2)
+	{
+		$ur1->counterpart = $ur2;
+		$ur2->counterpart = $ur1;
+	}
+	
 }

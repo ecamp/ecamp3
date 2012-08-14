@@ -57,6 +57,10 @@ class LoginServiceTest extends ServiceTestCase
 // 		$this->assertTrue($resp->isError() == true);
 	}
 	
+	public function testDummy()
+	{
+		$this->assertTrue(true);
+	}
 	
 	
 }
