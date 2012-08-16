@@ -11,6 +11,11 @@ php:
 env:
   - DB=sqlite
 
+sqlite:
+  adapter: sqlite3
+  database: ":memory:"
+  timeout: 500
+
 # execute any number of scripts before the test run, custom env's are available as variables
 # before_script:
 #  - if [[ "$DB" == "mysql" ]]; then mysql -e "create database IF NOT EXISTS eCamp3dev_UnitTest;" -uroot; fi
