@@ -41,7 +41,6 @@ class RegisterServiceTest extends ServiceTestCase
 	{
 		parent::setUp();
 		
-		$this->loadDatabaseDump("empty.sql");
 		$this->defineContext(null, null, null, null);
 	}
 	
@@ -50,49 +49,33 @@ class RegisterServiceTest extends ServiceTestCase
 		parent::tearDown();
 	}
 	
-	
-	private function getRegisterForm()
+	private function getRegisterData()
 	{
-		$registerForm = new Zend_Form();
-		
-		$registerForm->addElement(new Zend_Form_Element_Text('username'));
-		$registerForm->getElement('username')->setValue('testuser');
-		
-		$registerForm->addElement(new Zend_Form_Element_Text('email'));
-		$registerForm->getElement('email')->setValue('test@user.ch');
-		
-		$registerForm->addElement(new Zend_Form_Element_Text('scoutname'));
-		$registerForm->getElement('scoutname')->setValue('scout-name');
-		
-		$registerForm->addElement(new Zend_Form_Element_Text('firstname'));
-		$registerForm->getElement('firstname')->setValue('first-name');
-		
-		$registerForm->addElement(new Zend_Form_Element_Text('surname'));
-		$registerForm->getElement('surname')->setValue('sur-name');
-		
-		$registerForm->addElement(new Zend_Form_Element_Text('password'));
-		$registerForm->getElement('password')->setValue('password');
-		
-		$registerForm->addElement(new Zend_Form_Element_Text('passwordCheck'));
-		$registerForm->getElement('passwordCheck')->setValue('password');
-		
-		return $registerForm;
+		return array
+		(	'username' 		=> 'testuser'
+		,	'email' 		=> 'test@user.ch'
+		,	'scoutname'		=> 'scout-name'
+		,	'firstname'		=> 'first-name'
+		,	'surname'		=> 'sur-name'
+		,	'password'		=> 'password'
+		,	'passwordCheck'	=> 'password'
+		);
 	}
 	
 	public function testRegister()
 	{
-		$registerForm = $this->getRegisterForm();
+		$registerData = $this->getRegisterData();
 		
-		$user = $this->registerService->Register(Params::FromForm($registerForm));
+		$user = $this->registerService->Register(Params::FromArray($registerData));
 		
 		// Refresh UserEntity to see the LoginEntity
 		$this->em->refresh($user);
 		
-		$this->assertEquals('testuser', $user->getUsername());
-		$this->assertEquals('test@user.ch', $user->getEmail());
-		$this->assertEquals('scout-name', $user->getScoutname());
-		$this->assertEquals('sur-name', $user->getSurname());
-		$this->assertEquals('first-name', $user->getFirstname());
+		$this->assertEquals($registerData['username'], 	$user->getUsername());
+		$this->assertEquals($registerData['email'], 	$user->getEmail());
+		$this->assertEquals($registerData['scoutname'], $user->getScoutname());
+		$this->assertEquals($registerData['surname'], 	$user->getSurname());
+		$this->assertEquals($registerData['firstname'], $user->getFirstname());
 		
 		$this->assertTrue($user->getLogin()->checkPassword('password'));
 	}
@@ -100,12 +83,11 @@ class RegisterServiceTest extends ServiceTestCase
 	
 	public function testActivateUser()
 	{
-		$registerForm = $this->getRegisterForm();
+		$registerData = $this->getRegisterData();
 		
-		$user = $this->registerService->Register(Params::FromForm($registerForm));
+		$user = $this->registerService->Register(Params::FromArray($registerData));
 		$activationCode = $user->createNewActivationCode();
 		$this->em->flush();
-		
 		
 		$success = $this->registerService->Activate($user->getId(), $activationCode);
 		$this->assertTrue($success);

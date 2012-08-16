@@ -31,6 +31,10 @@ class ArrayParams extends Params{
 	private $messages = array();
 	private $errors = array();
 	
+	public function __construct(array $values){
+		$this->values = $values;
+	}
+	
 	public function getValue($name){
 		$this->assertKeyExists($name);
 		return $this->values[$name];
