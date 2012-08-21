@@ -3,6 +3,13 @@
 class TestCase extends PHPUnit_Framework_TestCase
 {
 	
+	/**
+	 * @var Doctrine\ORM\EntityManager
+	 * @Inject Doctrine\ORM\EntityManager
+	 */
+	protected $em;
+	
+	
 	public function setUp()
 	{
 		parent::setUp();
@@ -12,28 +19,9 @@ class TestCase extends PHPUnit_Framework_TestCase
 		
 		$kernel = \Zend_Registry::get('kernel');
 		$kernel->Inject($this);
+		
 	}
 	
-	public function clearDatabase()
-	{
-		$doctrineContainer = Zend_Registry::get('doctrine');
-		$em = $doctrineContainer->getEntityManager();
-		
-		$sm = new SchemaManager($em);
-		$sm->dropAllTables();
-		$sm->createSchema();
-	}
-	
-	protected function loadDatabaseDump($file)
-	{
-		$doctrineContainer = Zend_Registry::get('doctrine');
-		$em = $doctrineContainer->getEntityManager();
-		
-		$sm = new SchemaManager($em);
-		$sm->dropAllTables();
-		$sm->loadSqlDump($file);
-		$sm->updateSchema();
-	}
 	
 	public function tearDown()
 	{

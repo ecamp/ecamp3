@@ -10,18 +10,12 @@ class ServiceTestCase extends TestCase
 	protected $contextProvider;
 	
 	
-	/**
-	* @var Doctrine\ORM\EntityManager
-	* @Inject Doctrine\ORM\EntityManager
-	*/
-	protected $em;
-	
-	
 	public function setUp()
 	{
 		parent::setUp();
 		
-		//$this->clearDatabase();
+		$this->clearDatabase();
+		$this->createDatabase();
 	}
 
 	
@@ -31,13 +25,31 @@ class ServiceTestCase extends TestCase
 	}
 	
 	
+	public function clearDatabase()
+	{
+		$metadatas = $this->em->getMetadataFactory()->getAllMetadata();
+		
+		$schemaTool = new \Doctrine\ORM\Tools\SchemaTool($this->em);
+		$schemaTool->dropSchema($metadatas);
+	}
+	
+	
+	public function createDatabase(){
+		$metadatas = $this->em->getMetadataFactory()->getAllMetadata();
+		
+		$schemaTool = new \Doctrine\ORM\Tools\SchemaTool($this->em);
+		$schemaTool->createSchema($metadatas);
+	}
+	
+	
 	public function defineContext($meId = null, $userId = null, $groupId = null, $campId = null)
 	{
-		
-		if(! is_null($meId))
-		//{	\Zend_Auth::getInstance()->getStorage()->clear();	}
-		//else
-		{	\Zend_Auth::getInstance()->getStorage()->write($meId);	}
+		if($meId != null){	
+			\Zend_Auth::getInstance()->getStorage()->clear();
+		}
+		else{
+			\Zend_Auth::getInstance()->getStorage()->write($meId);
+		}
 		
 		$this->contextProvider->set($userId, $groupId, $campId);
 	}
