@@ -44,11 +44,12 @@ class ServiceTestCase extends TestCase
 	
 	public function defineContext($meId = null, $userId = null, $groupId = null, $campId = null)
 	{
-		print_r($meId);
-		if($meId != null)
-		{	\Zend_Auth::getInstance()->getStorage()->clear();	}
-		else
-		{	\Zend_Auth::getInstance()->getStorage()->write($meId);	}
+		if($meId != null){	
+			\Zend_Auth::getInstance()->getStorage()->clear();
+		}
+		else{
+			\Zend_Auth::getInstance()->getStorage()->write($meId);
+		}
 		
 		$this->contextProvider->set($userId, $groupId, $campId);
 	}

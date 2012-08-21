@@ -44,11 +44,6 @@ class RegisterServiceTest extends ServiceTestCase
 		$this->defineContext(null, null, null, null);
 	}
 	
-	public function tearDown()
-	{
-		parent::tearDown();
-	}
-	
 	private function getRegisterData()
 	{
 		return array
