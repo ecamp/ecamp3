@@ -27,7 +27,6 @@ use ServiceTestCase;
 class FriendshipServiceTest extends ServiceTestCase
 {
 	
-	
 	/**
 	 * @var CoreApi\Service\UserService
 	 * @Inject CoreApi\Service\UserService
@@ -41,13 +40,6 @@ class FriendshipServiceTest extends ServiceTestCase
 	private $relationshipService;
 	
 	
-	public function setUp()
-	{
-		parent::setUp();
-		
-// 		$this->loadDatabaseDump("loginServiceTest.sql");
-// 		$this->defineContext(2, 2, 4, 5);
-	}
 	
 	private static $userCounter = 0;
 	private function getUserData()
@@ -71,20 +63,6 @@ class FriendshipServiceTest extends ServiceTestCase
 	}
 	
 	
-	private function createFriendPair(){
-		$user1 = $this->createUser();
-		$user2 = $this->createUser();
-		
-		$ur1 = new UserRelationship($user1, $user2);
-		$ur2 = new UserRelationship($user1, $user2);
-		
-		UserRelationship::Link($ur1, $ur2);
-		
-		$this->em->persist($ur1);
-		$this->em->persist($ur2);
-		
-		return array($ur1, ur2);
-	}
 	
 	
 	public function testCanRequestFriendship()
