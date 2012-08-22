@@ -23,11 +23,13 @@ class UserRelationshipRepository extends EntityRepository
 	public function findByUsers(User $fromUser, User $toUser)
 	{
 		$query = $this->createQueryBuilder("ur")
-					->where("ur.from_id = " . $fromUser)
-					->andWhere("ur.to_id = " . $toUser)
+					->where("ur.from = '" . $fromUser->getId() . "'")
+					->andWhere("ur.to = '" . $toUser->getId() . "'")
 					->andWhere("ur.type = " . UserRelationship::TYPE_FRIEND)
 					->getQuery();
-		return $query->getResult();
+		$ur = $query->getResult();
+		$ur = $ur ? $ur[0] : null;
+		return $ur;
 	}
 	
 	
@@ -37,7 +39,7 @@ class UserRelationshipRepository extends EntityRepository
 	public function findRequests(User $user)
 	{
 		$query = $this->createQueryBuilder("ur")
-					->where("ur.from_id = " . $user->getId())
+					->where("ur.from = '" . $user->getId() . "'")
 					->andWhere("ur.counterpart IS NULL")
 					->andWhere("ur.type = " . UserRelationship::TYPE_FRIEND)
 					->getQuery();
@@ -51,7 +53,7 @@ class UserRelationshipRepository extends EntityRepository
 	public function findInvitation(User $user)
 	{
 		$query = $this->createQueryBuilder("ur")
-					->where("ur.to_id = " . $user->getId())
+					->where("ur.to = '" . $user->getId() . "'")
 					->andWhere("ur.counterpart IS NULL")
 					->andWhere("ur.type = " . UserRelationship::TYPE_FRIEND)
 					->getQuery();

@@ -44,7 +44,7 @@ class ServiceTestCase extends TestCase
 	
 	public function defineContext($meId = null, $userId = null, $groupId = null, $campId = null)
 	{
-		if($meId != null){	
+		if($meId == null){	
 			\Zend_Auth::getInstance()->getStorage()->clear();
 		}
 		else{
