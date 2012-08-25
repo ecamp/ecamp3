@@ -70,7 +70,7 @@ class FriendshipServiceTest extends ServiceTestCase
 		$user1 = $this->createUser();
 		$user2 = $this->createUser();
 		
-		$this->defineContext($user1->getId(), null, null, null);
+		$this->defineContext($user1, null, null, null);
 		
 		$this->relationshipService->RequestRelationship($user2);
 		
@@ -82,7 +82,7 @@ class FriendshipServiceTest extends ServiceTestCase
 		
 		
 		
-		$this->defineContext($user2->getId(), null, null, null);
+		$this->defineContext($user2, null, null, null);
 		
 		$urs = $this->relationshipService->GetInvitations();
 		$ids = array();
@@ -97,10 +97,10 @@ class FriendshipServiceTest extends ServiceTestCase
 		$user1 = $this->createUser();
 		$user2 = $this->createUser();
 		
-		$this->defineContext($user1->getId(), null, null, null);
+		$this->defineContext($user1, null, null, null);
 		$this->relationshipService->RequestRelationship($user2);
 		
-		$this->defineContext($user2->getId(), null, null, null);
+		$this->defineContext($user2, null, null, null);
 		$this->relationshipService->AcceptInvitation($user1);
 		
 		
@@ -120,10 +120,10 @@ class FriendshipServiceTest extends ServiceTestCase
 		$user1 = $this->createUser();
 		$user2 = $this->createUser();
 		
-		$this->defineContext($user1->getId(), null, null, null);
+		$this->defineContext($user1, null, null, null);
 		$this->relationshipService->RequestRelationship($user2);
 		
-		$this->defineContext($user2->getId(), null, null, null);
+		$this->defineContext($user2, null, null, null);
 		$this->relationshipService->RejectInvitation($user1);
 		
 		$ur1 = $this->relationshipService->Get($user1, $user2);
@@ -139,14 +139,14 @@ class FriendshipServiceTest extends ServiceTestCase
 		$user1 = $this->createUser();
 		$user2 = $this->createUser();
 		
-		$this->defineContext($user1->getId(), null, null, null);
+		$this->defineContext($user1, null, null, null);
 		$this->relationshipService->RequestRelationship($user2);
 		
 		
 		$ur = $this->relationshipService->Get($user1, $user2);
 		$this->assertNotNull($ur);
 		
-		$this->defineContext($user1->getId(), null, null, null);
+		$this->defineContext($user1, null, null, null);
 		$this->relationshipService->DeleteRequest($user2);
 		
 		$ur1 = $this->relationshipService->Get($user1, $user2);
@@ -162,13 +162,13 @@ class FriendshipServiceTest extends ServiceTestCase
 		$user1 = $this->createUser();
 		$user2 = $this->createUser();
 		
-		$this->defineContext($user1->getId(), null, null, null);
+		$this->defineContext($user1, null, null, null);
 		$this->relationshipService->RequestRelationship($user2);
 		
-		$this->defineContext($user2->getId(), null, null, null);
+		$this->defineContext($user2, null, null, null);
 		$this->relationshipService->AcceptInvitation($user1);
 		
-		$this->defineContext($user1->getId(), null, null, null);
+		$this->defineContext($user1, null, null, null);
 		$this->relationshipService->CancelRelationship($user2);
 		
 		$ur1 = $this->relationshipService->Get($user1, $user2);
@@ -184,10 +184,10 @@ class FriendshipServiceTest extends ServiceTestCase
 		$user1 = $this->createUser();
 		$user2 = $this->createUser();
 		
-		$this->defineContext($user1->getId(), null, null, null);
+		$this->defineContext($user1, null, null, null);
 		$this->relationshipService->RequestRelationship($user2);
 		
-		$this->defineContext($user2->getId(), null, null, null);
+		$this->defineContext($user2, null, null, null);
 		$this->relationshipService->AcceptInvitation($user1);
 		
 		$ur = $this->relationshipService->Get($user1, $user2);
