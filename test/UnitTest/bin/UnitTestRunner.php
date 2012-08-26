@@ -97,7 +97,7 @@ class UnitTestRunner
 		$logging = $configuration->getLoggingConfiguration();
 
 		if(isset($logging['coverage-html'])){
-		//	rrmdir($logging['coverage-html']);
+			rrmdir($logging['coverage-html']);
 		}
 		
 		if (isset($phpunit['bootstrap']))
