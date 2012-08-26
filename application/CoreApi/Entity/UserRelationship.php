@@ -23,7 +23,7 @@ namespace CoreApi\Entity;
 /**
  * Relationship between users (friends, etc.)
  * A Friendship needs one row in each direction. A single row only consitutes a invitation.
- * @Entity
+ * @Entity(repositoryClass="\Core\Repository\UserRelationshipRepository")
  * @Table(name="user_relationships", uniqueConstraints={@UniqueConstraint(name="from_to_unique",columns={"from_id","to_id"})})
  */
 class UserRelationship extends BaseEntity

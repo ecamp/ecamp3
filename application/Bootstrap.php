@@ -127,9 +127,9 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 		$kernel->Bind("Core\Repository\GroupRepository")->ToProvider(new Repository("CoreApi\Entity\Group"));
 		$kernel->Bind("Core\Repository\CampRepository")->ToProvider(new Repository("CoreApi\Entity\Camp"));
 		$kernel->Bind("Core\Repository\UserCampRepository")->ToProvider(new Repository("CoreApi\Entity\UserCamp"));
+		$kernel->Bind("Core\Repository\UserGroupRepository")->ToProvider(new Repository("CoreApi\Entity\UserGroup"));
 		$kernel->Bind("Core\Repository\EventInstanceRepository")->ToProvider(new Repository("CoreApi\Entity\EventInstance"));
-		
-		
+		$kernel->Bind("Core\Repository\UserRelationshipRepository")->ToProvider(new Repository("CoreApi\Entity\UserRelationship"));
 		
 		
 		$servicePath = APPLICATION_PATH . "/CoreApi/Service/";

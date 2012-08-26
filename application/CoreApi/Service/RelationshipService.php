@@ -59,6 +59,7 @@ class RelationshipService extends ServiceBase
 		$this->acl->allow(DefaultAcl::MEMBER, $this, 'DeleteRequest');
 		$this->acl->allow(DefaultAcl::MEMBER, $this, 'AcceptInvitation');
 		$this->acl->allow(DefaultAcl::MEMBER, $this, 'RejectInvitation');
+		$this->acl->allow(DefaultAcl::MEMBER, $this, 'CancelRelationship');
 		
 	}
 	
