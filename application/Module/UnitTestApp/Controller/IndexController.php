@@ -61,9 +61,8 @@ class UnitTestApp_IndexController extends \Zend_Controller_Action
     }
     
     public function runAction(){
-    	$php = PHP_BINDIR . DIRECTORY_SEPARATOR . 'php';
-    	
-    	exec("cd ../test/UnitTest/bin/ && $php UnitTestRunner.php", $ret);
+    	exec("php ../test/UnitTest/bin/UnitTestRunner.php");
+
     	$this->_redirect('/');
     }
 }
