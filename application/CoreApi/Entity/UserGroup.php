@@ -217,7 +217,7 @@ class UserGroup extends BaseEntity
 	 * Request is accepted by the given manager
 	 * @param $manager
 	 */
-	public function acceptRequest(\Entity\User $manager)
+	public function acceptRequest(User $manager)
 	{
 		$this->requestAcceptedBy = $manager;
 

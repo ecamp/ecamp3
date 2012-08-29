@@ -42,9 +42,35 @@ class ServiceTestCase extends TestCase
 	}
 	
 	
-	public function defineContext($meId = null, $userId = null, $groupId = null, $campId = null)
-	{
-		if($meId != null){	
+	public function defineContext(
+		CoreApi\Entity\User $me = null, 
+		CoreApi\Entity\User $user = null, 
+		CoreApi\Entity\Group $group = null, 
+		CoreApi\Entity\Camp $camp = null
+	){
+		$meId = $userId = $groupId = $campId = null;
+		
+		if($me != null){
+			$this->em->refresh($me);
+			$meId = $me->getId();
+		}
+		
+		if($user != null){
+			$this->em->refresh($user);
+			$userId = $user->getId();
+		}
+		
+		if($group != null){
+			$this->em->refresh($group);
+			$groupId = $group->getId();
+		}
+		
+		if($camp != null){
+			$this->em->refresh($camp);
+			$campId = $camp->getId();
+		}
+		
+		if($meId == null){	
 			\Zend_Auth::getInstance()->getStorage()->clear();
 		}
 		else{

@@ -6,7 +6,7 @@
 
     <testsuite name="eCamp UnitTests">
         <directory>../tests</directory>
-        <directory>./library</directory>
+        <!-- <directory>./library</directory> -->
     </testsuite>
 
     <filter>

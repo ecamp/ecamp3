@@ -21,6 +21,17 @@ require_once 'PHPUnit/Autoload.php';
 require_once __DIR__ . "/SilentTestListener.php";
 
 
+function rrmdir($dir) {
+	if(is_dir($dir)){
+		foreach(glob($dir . '/*') as $file) {
+			if(is_dir($file))
+			rrmdir($file);
+			else
+			unlink($file);
+		}
+		rmdir($dir);
+	}
+}
 
 
 
@@ -83,8 +94,12 @@ class UnitTestRunner
 		$configuration->handlePHPConfiguration();
 		$phpunit = $configuration->getPHPUnitConfiguration();
 
+		$logging = $configuration->getLoggingConfiguration();
 
-
+		if(isset($logging['coverage-html'])){
+			rrmdir($logging['coverage-html']);
+		}
+		
 		if (isset($phpunit['bootstrap']))
 		{
 			PHPUnit_Util_Fileloader::load($phpunit['bootstrap']);
