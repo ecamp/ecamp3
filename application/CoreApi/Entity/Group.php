@@ -28,18 +28,13 @@ class Group extends BaseEntity
 {
 	public function __construct()
 	{
+		parent::__construct();
+		
 		$this->children = new \Doctrine\Common\Collections\ArrayCollection();
 		$this->userGroups = new \Doctrine\Common\Collections\ArrayCollection();
 		$this->camps = new \Doctrine\Common\Collections\ArrayCollection();
 	}
 
-
-	/**
-	 * @Id @Column(type="integer")
-	 * @GeneratedValue(strategy="AUTO")
-	 * @var int
-	 */
-	private $id;
 
 	/**
 	 * Short identifier, unique inside parent group
@@ -83,14 +78,6 @@ class Group extends BaseEntity
 	 */
 	private $image;
 
-	
-	/**
-	 * @return int
-	 */
-	public function getId()
-	{
-		return $this->id;
-	}
 	
 	
 	/**

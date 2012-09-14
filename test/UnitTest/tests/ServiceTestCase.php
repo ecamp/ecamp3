@@ -4,24 +4,18 @@ class ServiceTestCase extends TestCase
 {
 	
 	/**
-	 * @var CoreApi\Acl\ContextManager
-	 * @Inject CoreApi\Acl\ContextManager
+	 * @var CoreApi\Acl\ContextProvider
+	 * @Inject CoreApi\Acl\ContextProvider
 	 */
-	protected $contextManager;
-	
-	
-	/**
-	* @var Doctrine\ORM\EntityManager
-	* @Inject Doctrine\ORM\EntityManager
-	*/
-	protected $em;
+	protected $contextProvider;
 	
 	
 	public function setUp()
 	{
 		parent::setUp();
 		
-		//$this->clearDatabase();
+		$this->clearDatabase();
+		$this->createDatabase();
 	}
 
 	
@@ -31,15 +25,59 @@ class ServiceTestCase extends TestCase
 	}
 	
 	
-	public function defineContext($meId = null, $userId = null, $groupId = null, $campId = null)
+	public function clearDatabase()
 	{
+		$metadatas = $this->em->getMetadataFactory()->getAllMetadata();
 		
-		if(! is_null($meId))
-		//{	\Zend_Auth::getInstance()->getStorage()->clear();	}
-		//else
-		{	\Zend_Auth::getInstance()->getStorage()->write($meId);	}
+		$schemaTool = new \Doctrine\ORM\Tools\SchemaTool($this->em);
+		$schemaTool->dropSchema($metadatas);
+	}
+	
+	
+	public function createDatabase(){
+		$metadatas = $this->em->getMetadataFactory()->getAllMetadata();
 		
-		$this->contextManager->set($userId, $groupId, $campId);
+		$schemaTool = new \Doctrine\ORM\Tools\SchemaTool($this->em);
+		$schemaTool->createSchema($metadatas);
+	}
+	
+	
+	public function defineContext(
+		CoreApi\Entity\User $me = null, 
+		CoreApi\Entity\User $user = null, 
+		CoreApi\Entity\Group $group = null, 
+		CoreApi\Entity\Camp $camp = null
+	){
+		$meId = $userId = $groupId = $campId = null;
+		
+		if($me != null){
+			$this->em->refresh($me);
+			$meId = $me->getId();
+		}
+		
+		if($user != null){
+			$this->em->refresh($user);
+			$userId = $user->getId();
+		}
+		
+		if($group != null){
+			$this->em->refresh($group);
+			$groupId = $group->getId();
+		}
+		
+		if($camp != null){
+			$this->em->refresh($camp);
+			$campId = $camp->getId();
+		}
+		
+		if($meId == null){	
+			\Zend_Auth::getInstance()->getStorage()->clear();
+		}
+		else{
+			\Zend_Auth::getInstance()->getStorage()->write($meId);
+		}
+		
+		$this->contextProvider->set($userId, $groupId, $campId);
 	}
 	
 }

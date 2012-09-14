@@ -23,6 +23,8 @@ use Core\Provider\EntityManager;
 use Core\Provider\Repository;
 use Core\Service\ServiceFactory;
 
+use Bisna\Doctrine\Container as DoctrineContainer;
+
 class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 {	
 	
@@ -104,7 +106,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 		$kernel->Bind("Core\Acl\DefaultAcl")->ToSelf()->AsSingleton();
 		$kernel->Bind("Core\Acl\ContextStorage")->ToSelf()->AsSingleton();
 //		$kernel->Bind("Core\Acl\ContextProvider")->ToSelf()->AsSingleton();
-		$kernel->Bind("CoreApi\Acl\ContextManager")->ToSelf()->AsSingleton();
+//		$kernel->Bind("CoreApi\Acl\ContextManager")->ToSelf()->AsSingleton();
 		$kernel->Bind("CoreApi\Acl\ContextProvider")->ToSelf()->AsSingleton();
 		
 //		$kernel->Bind("CoreApi\Acl\Context")->ToFactory(new ContextFactory());
@@ -125,7 +127,9 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 		$kernel->Bind("Core\Repository\GroupRepository")->ToProvider(new Repository("CoreApi\Entity\Group"));
 		$kernel->Bind("Core\Repository\CampRepository")->ToProvider(new Repository("CoreApi\Entity\Camp"));
 		$kernel->Bind("Core\Repository\UserCampRepository")->ToProvider(new Repository("CoreApi\Entity\UserCamp"));
-		
+		$kernel->Bind("Core\Repository\UserGroupRepository")->ToProvider(new Repository("CoreApi\Entity\UserGroup"));
+		$kernel->Bind("Core\Repository\EventInstanceRepository")->ToProvider(new Repository("CoreApi\Entity\EventInstance"));
+		$kernel->Bind("Core\Repository\UserRelationshipRepository")->ToProvider(new Repository("CoreApi\Entity\UserRelationship"));
 		
 		
 		$servicePath = APPLICATION_PATH . "/CoreApi/Service/";
@@ -172,5 +176,27 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 		// Set the timezone default
 		date_default_timezone_set('Europe/Zurich');
 	}
+	
+	
+	protected function _initSetupDoctrine()
+	{
+		$opt = $this->getOption('doctrine');
+		
+		
+		$kernel = \Zend_Registry::get('kernel');
+		
+		$container = new DoctrineContainer($opt);
+		
+		\Zend_Registry::set('doctrine', $container);
+		
+		$IdGenerator = $kernel->Get('Core\Entity\IdGenerator');
+		$kernel->Get('Doctrine\ORM\EntityManager')
+			->getEventManager()->addEventListener(array('prePersist', 'preRemove'), $IdGenerator);
+		
+		return $container;
+		
+	}
+	
+	
 }
 

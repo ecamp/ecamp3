@@ -32,9 +32,11 @@ class UserGroup extends BaseEntity
 	const ROLE_NONE    = 0;
 	const ROLE_MEMBER  = 10;
 	const ROLE_MANAGER = 20;
-
+	
 	public function __construct($user = null, $group = null)
 	{
+		parent::__construct();
+		
 		$this->role  = self::ROLE_NONE;
 		$this->user  = $user;
 		$this->group = $group;
@@ -44,12 +46,6 @@ class UserGroup extends BaseEntity
 		$this->requestAcceptedBy = null;
 	}
 
-	/**
-	 * @Id @Column(type="integer")
-	 * @GeneratedValue(strategy="AUTO")
-	 * @var int
-	 */
-	private $id;
 
 	/**
 	 * @ManyToOne(targetEntity="User")
@@ -93,14 +89,6 @@ class UserGroup extends BaseEntity
 	private $invitationAccepted;
 
 	
-	
-	/**
-	 * @return int
-	 */
-	public function getId()
-	{
-		return $this->id;
-	}
 
 	public function setGroup(Group $group)
 	{
@@ -229,7 +217,7 @@ class UserGroup extends BaseEntity
 	 * Request is accepted by the given manager
 	 * @param $manager
 	 */
-	public function acceptRequest(\Entity\User $manager)
+	public function acceptRequest(User $manager)
 	{
 		$this->requestAcceptedBy = $manager;
 

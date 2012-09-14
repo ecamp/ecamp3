@@ -4,6 +4,7 @@ namespace Core\Repository;
 
 use Doctrine\ORM\EntityRepository;
 use CoreApi\Entity\User;
+use CoreApi\Entity\Group;
 
 class UserGroupRepository extends EntityRepository
 {
@@ -16,9 +17,9 @@ class UserGroupRepository extends EntityRepository
 	public function findMembershipsOfUser(User $user)
 	{
 		$query = $this->createQueryBuilder("ug")
-					->where("ug.user = " . $user->getId())
+					->where("ug.user = '" . $user->getId() . "'")
 					->andWhere("ug.invitationAccepted = TRUE")
-					->andWhere("ug.requestAcceptedBy_id is not null")
+					->andWhere("ug.requestAcceptedBy is not null")
 					->getQuery();
 		
 		return $query->getResult();
@@ -27,31 +28,31 @@ class UserGroupRepository extends EntityRepository
 	public function findMembershipsOfGroup(Group $group)
 	{
 		$query = $this->createQueryBuilder("ug")
-					->where("ug.group = " . $group->getId())
+					->where("ug.group = '" . $group->getId() . "'")
 					->andWhere("ug.invitationAccepted = TRUE")
-					->andWhere("ug.requestAcceptedBy_id is not null")
+					->andWhere("ug.requestAcceptedBy is not null")
 					->getQuery();
 		
 		return $query->getResult();
 	}
 	
 	
-	public function findMembershipRequests(\CoreApi\Entity\Group $group)
+	public function findMembershipRequests(Group $group)
 	{
 		$query = $this->createQueryBuilder("ug")
-					->where("ug.group = " . $group->getId())
+					->where("ug.group = '" . $group->getId() . "'")
 					->andWhere("ug.invitationAccepted = TRUE")
-					->andWhere("ug.requestAcceptedBy_id is null")
+					->andWhere("ug.requestAcceptedBy is null")
 					->getQuery();
 		return $query->getResult();
 	}
 	
-	public function findMembershipInvitations(\CoreApi\Entity\User $user)
+	public function findMembershipInvitations(User $user)
 	{
 		$query = $this->createQueryBuilder("ug")
-					->where("ug.group = " . $group->getId())
+					->where("ug.user = '" . $user->getId() . "'")
 					->andWhere("ug.invitationAccepted = FALSE")
-					->andWhere("ug.requestAcceptedBy_id is not null")
+					->andWhere("ug.requestAcceptedBy is not null")
 					->getQuery();
 		return $query->getResult();
 	}

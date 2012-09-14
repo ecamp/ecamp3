@@ -20,6 +20,8 @@
 
 namespace CoreApi\Service;
 
+use Core\Acl\DefaultAcl;
+
 use Core\Service\ServiceBase;
 
 use CoreApi\Entity\User;
@@ -39,6 +41,21 @@ class MembershipService extends ServiceBase
 	
 	public function _setupAcl()
 	{
+		$this->acl->allow(DefaultAcl::MEMBER, 			$this, 'Get');
+		$this->acl->allow(DefaultAcl::MEMBER, 			$this, 'GetMembers');
+		$this->acl->allow(DefaultAcl::MEMBER, 			$this, 'GetGroups');
+		$this->acl->allow(DefaultAcl::GROUP_MANAGER, 	$this, 'GetRequests');
+		$this->acl->allow(DefaultAcl::MEMBER, 			$this, 'GetInvitations');
+		$this->acl->allow(DefaultAcl::MEMBER, 			$this, 'RequestMembership');
+		$this->acl->allow(DefaultAcl::MEMBER, 			$this, 'DeleteRequest');
+		$this->acl->allow(DefaultAcl::GROUP_MANAGER, 	$this, 'AcceptRequest');
+		$this->acl->allow(DefaultAcl::GROUP_MANAGER, 	$this, 'RejectRequest');
+		$this->acl->allow(DefaultAcl::GROUP_MEMBER, 	$this, 'LeaveGroup');
+		$this->acl->allow(DefaultAcl::GROUP_MANAGER, 	$this, 'InviteUser');
+		$this->acl->allow(DefaultAcl::GROUP_MANAGER, 	$this, 'DeleteInvitation');
+		$this->acl->allow(DefaultAcl::MEMBER, 			$this, 'AcceptInvitation');
+		$this->acl->allow(DefaultAcl::MEMBER, 			$this, 'RejectInvitation');
+		$this->acl->allow(DefaultAcl::GROUP_MANAGER, 	$this, 'KickOutUser');
 		
 	}
 	
@@ -57,7 +74,7 @@ class MembershipService extends ServiceBase
 		{
 			$user = $user ?: $this->getContext()->getMe();
 			
-			return $this->userGroupRepo->findBy(
+			return $this->userGroupRepo->findOneBy(
 				array('group' => $GroupOrId, 'user' => $user)
 			);
 		}
@@ -94,9 +111,9 @@ class MembershipService extends ServiceBase
 	 * @param Group $group
 	 * @return UserGroup[]
 	 */
-	public function GetRequests(Group $group = null)
+	public function GetRequests()
 	{
-		$group = $group ?: $this->getContext()->getGroup();
+		$group = $this->getContext()->getGroup();
 		
 		return $this->userGroupRepo->findMembershipRequests($group);
 	}
@@ -108,9 +125,9 @@ class MembershipService extends ServiceBase
 	 * @param User $user
 	 * @return UserGroup[]
 	 */
-	public function GetInvitations(User $user = null)
+	public function GetInvitations()
 	{
-		$user = $user ?: $this->getContext()->getMe();
+		$user = $this->getContext()->getMe();
 		
 		return $this->userGroupRepo->findMembershipInvitations($user);
 	}
@@ -128,14 +145,15 @@ class MembershipService extends ServiceBase
 		if($userGroup != null){
 			$this->addValidationMessage("Membership or Membership Request exists allready");
 		}
-		
-		$userGroup = new UserGroup();
-		$userGroup->setGroup($group);
-		$userGroup->setUser($this->getContext()->getMe());
-		$userGroup->setRequestedRole($role);
-		$userGroup->acceptInvitation();
-		
-		$this->em->persist($userGroup);
+		else{
+			$userGroup = new UserGroup();
+			$userGroup->setGroup($group);
+			$userGroup->setUser($this->getContext()->getMe());
+			$userGroup->setRequestedRole($role);
+			$userGroup->acceptInvitation();
+			
+			$this->em->persist($userGroup);
+		}
 	}
 	
 	/**
@@ -148,10 +166,12 @@ class MembershipService extends ServiceBase
 		$userGroup = $this->Get($group);
 		
 		if($userGroup == null || !$userGroup->isOpenRequest()){
-			$this->addValidationMessage("There is no Request to delete");
+			$this->addValidationMessage("There is no Request to delete");			
+		}
+		else{
+			$this->em->remove($userGroup);
 		}
 		
-		$this->em->remove($userGroup);
 	}
 	
 	/**
@@ -167,8 +187,9 @@ class MembershipService extends ServiceBase
 		if($userGroup == null || !$userGroup->isOpenRequest()){
 			$this->addValidationMessage("There is no Request to accept");
 		}
-		
-		$userGroup->acceptRequest($this->getContext()->getMe());
+		else{
+			$userGroup->acceptRequest($this->getContext()->getMe());
+		}
 	}
 	
 	/**
@@ -184,8 +205,9 @@ class MembershipService extends ServiceBase
 		if($userGroup == null || !$userGroup->isOpenRequest()){
 			$this->addValidationMessage("There is no Request to reject");
 		}
-		
-		$this->em->remove($userGroup);
+		else{
+			$this->em->remove($userGroup);
+		}
 	}
 	
 	/**
@@ -193,15 +215,17 @@ class MembershipService extends ServiceBase
 	 * 
 	 * @param Group $group
 	 */
-	public function LeaveGroup(Group $group)
+	public function LeaveGroup()
 	{
+		$group = $this->getContext()->getGroup();
 		$userGroup = $this->Get($group);
 		
-		if($userGroup == null || !$userGroup->isOpen()){
+		if($userGroup == null || $userGroup->isOpen()){
 			$this->addValidationMessage("You are not a Member of this group. You can not leave this Group");
 		}
-		
-		$this->em->remove($userGroup);
+		else{
+			$this->em->remove($userGroup);
+		}
 	}
 	
 	/**
@@ -218,14 +242,15 @@ class MembershipService extends ServiceBase
 		if($userGroup != null){
 			$this->addValidationMessage("Membership or Membership Invitation exists allready");
 		}
-		
-		$userGroup = new UserGroup();
-		$userGroup->setGroup($group);
-		$userGroup->setUser($user);
-		$userGroup->setRequestedRole($role);
-		$userGroup->acceptRequest($this->getContext()->getMe());
-		
-		$this->em->persist($userGroup);
+		else{
+			$userGroup = new UserGroup();
+			$userGroup->setGroup($group);
+			$userGroup->setUser($user);
+			$userGroup->setRequestedRole($role);
+			$userGroup->acceptRequest($this->getContext()->getMe());
+			
+			$this->em->persist($userGroup);
+		}
 	}
 	
 	/**
@@ -241,8 +266,9 @@ class MembershipService extends ServiceBase
 		if($userGroup == null || !$userGroup->isOpenInvitation()){
 			$this->addValidationMessage("There is no Invitation to delete");
 		}
-		
-		$this->em->remove($userGroup);
+		else{
+			$this->em->remove($userGroup);
+		}
 	}
 	
 	/**
@@ -254,11 +280,12 @@ class MembershipService extends ServiceBase
 	{
 		$userGroup = $this->Get($group);
 		
-		if($userGroup == null || !$userGroup->isOpenRequest()){
+		if($userGroup == null || !$userGroup->isOpenInvitation()){
 			$this->addValidationMessage("There is no Invitation to accept");
 		}
-		
-		$userGroup->acceptInvitation();
+		else{
+			$userGroup->acceptInvitation();
+		}
 	}
 	
 	/**
@@ -270,11 +297,12 @@ class MembershipService extends ServiceBase
 	{
 		$userGroup = $this->Get($group);
 		
-		if($userGroup == null || !$userGroup->isOpenRequest()){
+		if($userGroup == null || !$userGroup->isOpenInvitation()){
 			$this->addValidationMessage("There is no Invitation to accept");
 		}
-		
-		$this->em->remove($userGroup);
+		else{
+			$this->em->remove($userGroup);
+		}
 	}
 	
 	/**
@@ -287,11 +315,12 @@ class MembershipService extends ServiceBase
 		$group = $this->getContext()->getGroup();
 		$userGroup = $this->Get($group, $user);
 		
-		if($userGroup == null || !$userGroup->isOpen()){
+		if($userGroup == null || $userGroup->isOpen()){
 			$this->addValidationMessage("This user is not a Member of this Group. You can not kick him out!");
 		}
-		
-		$this->em->remove($userGroup);
+		else{
+			$this->em->remove($userGroup);
+		}
 	}
 	
 	

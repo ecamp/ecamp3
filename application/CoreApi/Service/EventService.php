@@ -41,7 +41,7 @@ class EventService
 	 */
 	public function Get($id)
 	{	
-		if(is_numeric($id))
+		if(is_string($id))
 		{	return $this->em->getRepository("\CoreApi\Entity\Event")->find($id);	}
 			
 		if($id instanceof Event)

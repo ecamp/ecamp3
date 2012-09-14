@@ -57,7 +57,7 @@ class CollaborationService extends ServiceBase
 	public function Get($id, $camp_id = null){
 		if($camp_id == null)
 		{
-			if(is_numeric($id)){
+			if(is_string($id)){
 				return $this->userCampRepo->find($id);
 			}
 			if($id instanceof \CoreApi\Entity\UserCamp){

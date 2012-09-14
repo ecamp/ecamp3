@@ -28,13 +28,6 @@ class GroupRequest extends BaseEntity
 {
 
 	/**
-	 * @Id @Column(type="integer")
-	 * @GeneratedValue(strategy="AUTO")
-	 * @var int
-	 */
-	private $id;
-
-	/**
 	 * Short identifier, unique inside parent group
 	 * @var string
 	 * @Column(type="string", length=32, nullable=false )
@@ -69,13 +62,6 @@ class GroupRequest extends BaseEntity
 	 */
 	private $requester;
 	
-	/**
-	 * @return int
-	 */
-	public function getId()
-	{
-		return $this->id;
-	}
 	
 	
 	/**

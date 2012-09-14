@@ -1,9 +1,9 @@
 <?php
 /*
- * Copyright (C) 2011 Urban Suppiger
+ * Copyright (C) 2011 Pirmin Mattmann
  *
  * This file is part of eCamp.
- * 
+ *
  * eCamp is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -13,63 +13,49 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Affero General Public License
  * along with eCamp.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace CoreApi\Entity;
 
-/**
- * @Entity
- * @Table(name="images")
- */
-class Image extends BaseEntity
+namespace CoreApi\Service;
+
+use Core\Service\ServiceBase;
+use Core\Acl\DefaultAcl;
+
+use CoreApi\Entity\User;
+
+class SupportService extends ServiceBase
 {
 	
 	/**
-	 * @Column(type="string", length=32, nullable=false)
+	 * @var Core\Acl\ContextStorage
+	 * @Inject Core\Acl\ContextStorage
 	 */
-	private $imageMime;
+	private $contextStorage;
+	
+	
 	
 	/**
-	 * @Column(type="object", nullable=false)
+	 * Setup ACL
+	 * @return void
 	 */
-	private $imageData;
-
-
-	
-	/**
-	 * @return string
-	 */
-	public function getData()
+	public function _setupAcl()
 	{
-		return base64_decode($this->imageData);
+		$this->acl->allow(DefaultAcl::ADMIN, 				$this, 'SupportUser'	);
+		$this->acl->allow(DefaultAcl::ADMIN_IN_USER_VIEW, 	$this, 'StopUserSupport');
+	}
+		
+	
+	public function SupportUser(User $user)
+	{
+		$this->contextStorage->getSupportedUserStorage()->write($user->getId());
 	}
 	
-	/**
-	 * @return CoreApi\Entity\Image
-	 */
-	public function setData($data)
+	public function StopUserSupport()
 	{
-		$this->imageData = base64_encode($data); return $this;
-	}
-	
-	
-	/**
-	 * @return string
-	 */
-	public function getMime()
-	{
-		return $this->imageMime;
-	}
-	
-	/**
-	 * @return CoreApi\Entity\Image
-	 */
-	public function setMime($mime)
-	{
-		$this->imageMime = $mime; return $this;
+		$this->contextStorage->getSupportedUserStorage()->clear();
 	}
 	
 }

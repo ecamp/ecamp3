@@ -8,19 +8,19 @@ class ContextPlugin extends \Zend_Controller_Plugin_Abstract
 {
 	
 	/**
-	 * @var CoreApi\Acl\ContextManager
-	 * @Inject CoreApi\Acl\ContextManager
+	 * @var CoreApi\Acl\ContextProvider
+	 * @Inject CoreApi\Acl\ContextProvider
 	 */
-	private $contextManager;
+	protected $contextProvider;
 	
 	
 	public function preDispatch(\Zend_Controller_Request_Abstract $request)
 	{
-		$userId  = is_int($request->getParam('user'))  ? $request->getParam('user') 	: null;
-		$groupId = is_int($request->getParam('group')) ? $request->getParam('group') 	: null;
-		$campId  = is_int($request->getParam('camp'))  ? $request->getParam('camp') 	: null;
+		$userId  = $request->getParam('user');
+		$groupId = $request->getParam('group');
+		$campId  = $request->getParam('camp');
 		
-		$this->contextManager->set($userId, $groupId, $campId);
+		$this->contextProvider->set($userId, $groupId, $campId);
 	}
 	
 }

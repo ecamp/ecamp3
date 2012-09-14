@@ -36,13 +36,13 @@ class CampCreate extends BaseForm
 			->addFilter('StringTrim');
 
 	    $from = new \ZendX_JQuery_Form_Element_DatePicker(
-                    'from',
+                    'start',
                     array(
 	                    "label" => "From",
 	                    'jQueryParams' => array('dateFormat' => 'dd.mm.yy')));
 
 	    $to   = new \ZendX_JQuery_Form_Element_DatePicker(
-                    'to',
+                    'end',
                     array(
 	                    "label" => "To",
 	                    'jQueryParams' => array('dateFormat' => 'dd.mm.yy')));

@@ -35,13 +35,6 @@ class Event extends BaseEntity
     }
     
 	/**
-	 * @var int
-	 * @Id @Column(type="integer")
-	 * @GeneratedValue(strategy="AUTO")
-	 */
-	private $id;
-
-	/**
 	 * @Column(type="text" )
 	 */
 	private $title;
@@ -74,12 +67,6 @@ class Event extends BaseEntity
 	 */
 	private $prototype;
 	
-	
-	public function getId()
-	{
-		return $this->id;
-	}
-
 	
 	public function setTitle($title)
 	{
