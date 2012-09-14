@@ -76,9 +76,10 @@ class EventService
 		$this->em->getConnection();
 		
 		/* define event prototype; will come as a parameter of course */
-		$prototype = $this->em->getRepository("CoreApi\Entity\EventPrototype")->find(  1);
+		$prototype = $this->em->getRepository("CoreApi\Entity\EventPrototype")->find(1);
 		
 		$event = new Event();
+		
 		$event->setCamp($camp);
 		$event->setTitle(md5(time()));
 		$event->setPrototype($prototype);
@@ -101,7 +102,7 @@ class EventService
 		$plugin->setEvent($event);
 		$plugin->setPluginConfig($config);
 		
-		$strategyClassName =  '\WebApp\Plugin\\' . $config->getPluginName() . '\Strategy';
+		$strategyClassName =  '\Plugin\\' . $config->getPluginName() . '\Strategy';
 		$strategy = new $strategyClassName($this->em, $plugin);
 		$strategy->persist();
 		

@@ -42,10 +42,10 @@ class WebApp_DashboardController extends \WebApp\Controller\BaseController
 	private $groupService;
 	
 	/**
-	 * @var CoreApi\Service\FriendService
-	 * @Inject CoreApi\Service\FriendService
+	 * @var CoreApi\Service\RelationshipService
+	 * @Inject CoreApi\Service\RelationshipService
 	 */
-	private $friendService;
+	private $relationshipService;
 	
 	/**
 	 * @var CoreApi\Service\MembershipService
@@ -70,11 +70,11 @@ class WebApp_DashboardController extends \WebApp\Controller\BaseController
 
     public function indexAction()
     {
-		$friendshipRequests = $this->friendService->getOpenInvitations();
+		//$friendshipRequests = $this->relationshipService->getOpenInvitations();
 		//$membershipRequests = $this->membershipService->getMembershipRequests($this->me);
 		//$membershipInvitations = $this->membershipService->getMembershipInvitations($this->me);
 				
-		$this->view->friendshipRequests = new Doctrine\Common\Collections\ArrayCollection($friendshipRequests);
+		$this->view->friendshipRequests = new Doctrine\Common\Collections\ArrayCollection();
 		$this->view->membershipRequests = new Doctrine\Common\Collections\ArrayCollection();
 		$this->view->membershipInvitations = new Doctrine\Common\Collections\ArrayCollection();
     }

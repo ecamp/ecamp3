@@ -33,13 +33,6 @@ class EventPrototype extends BaseEntity
 	}
 
 	/**
-	 * @var int
-	 * @Id @Column(type="integer")
-	 * @GeneratedValue(strategy="AUTO")
-	 */
-	private $id;
-
-	/**
 	 * @Column(type="string", length=64, nullable=false )
 	 */
 	private $name;
@@ -60,14 +53,6 @@ class EventPrototype extends BaseEntity
 	 * @OneToMany(targetEntity="TemplateMap", mappedBy="prototype")
 	 */
 	private $templates;
-
-	/**
-	 * @return int
-	 */
-	public function getId()
-	{
-		return $this->id;
-	}
 	
 	public function setName($name)
 	{

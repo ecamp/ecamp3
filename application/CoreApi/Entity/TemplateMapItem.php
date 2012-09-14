@@ -36,13 +36,6 @@ class TemplateMapItem extends BaseEntity
     }
 
 	/**
-	 * @var int
-	 * @Id @Column(type="integer")
-	 * @GeneratedValue(strategy="AUTO")
-	 */
-	private $id;
-	
-	/**
 	 * @var TemplateMap
 	 * @ManyToOne(targetEntity="TemplateMap")
 	 * @JoinColumn(nullable=false, onDelete="cascade")
@@ -67,14 +60,6 @@ class TemplateMapItem extends BaseEntity
 	 * @Column(type="integer", nullable=false)
 	 */
 	private $sort;
-	
-	/**
-	 * @return int
-	 */
-	public function getId()
-	{
-		return $this->id;
-	}
 	
 	/**
 	 * @return string

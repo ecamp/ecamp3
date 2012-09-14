@@ -44,7 +44,7 @@ class StrategyEventListener implements \Doctrine\Common\EventSubscriber {
 		
 		/* post load PluginStrategy into Plugin */
 		if ($plugin instanceof \CoreApi\Entity\Plugin) {
-			$strategy  = $plugin->getStrategyClassName('WebApp');
+			$strategy  = $plugin->getStrategyClassName();
 			$strategyInstance = new $strategy($this->em, $plugin);
 			
 			/* load plugin */

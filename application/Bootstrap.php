@@ -42,6 +42,9 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 		
 		$coreAutoloader = new \Doctrine\Common\ClassLoader('Core', APPLICATION_PATH);
 		$autoloader->pushAutoloader(array($coreAutoloader, 'loadClass'), 'Core');
+		
+		$pluginAutoloader = new \Doctrine\Common\ClassLoader('Plugin', APPLICATION_PATH);
+		$autoloader->pushAutoloader(array($pluginAutoloader, 'loadClass'), 'Plugin');
 	}
 	
 	

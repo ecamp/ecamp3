@@ -34,13 +34,6 @@ class PluginConfig extends BaseEntity
     }
 
 	/**
-	 * @var int
-	 * @Id @Column(type="integer")
-	 * @GeneratedValue(strategy="AUTO")
-	 */
-	private $id;
-
-	/**
 	 * This var contains the name of the Plugin
 	 * that is used for this pluginitem.
 	 *
@@ -88,14 +81,6 @@ class PluginConfig extends BaseEntity
 	 * @Column(type="text" )
 	 */
 	private $config;
-
-	/**
-	 * @return int
-	 */
-	public function getId()
-	{
-		return $this->id;
-	}
 	
 	/**
 	 * @return string

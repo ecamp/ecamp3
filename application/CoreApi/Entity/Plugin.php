@@ -110,9 +110,9 @@ class Plugin extends BaseEntity
 	 *
 	 * @return string
 	 */
-	public function getStrategyClassName($module) 
+	public function getStrategyClassName() 
 	{
-		return '\\' . $module . '\\Plugin\\' . $this->getPluginName() . '\\Strategy';
+		return '\\Plugin\\' . $this->getPluginName() . '\\Strategy';
 	}
 
 

@@ -34,13 +34,6 @@ class TemplateMap extends BaseEntity
     }
 
 	/**
-	 * @var int
-	 * @Id @Column(type="integer")
-	 * @GeneratedValue(strategy="AUTO")
-	 */
-	private $id;
-
-	/**
 	 * @var string
 	 * @Column(type="string", length=64, nullable=false )
 	 */
@@ -64,14 +57,6 @@ class TemplateMap extends BaseEntity
 	 * @OrderBy({"sort" = "ASC"})
 	 */
 	private $items;
-	
-	/**
-	 * @return int
-	 */
-	public function getId()
-	{
-		return $this->id;
-	}
 	
 	/**
 	 * @return string
