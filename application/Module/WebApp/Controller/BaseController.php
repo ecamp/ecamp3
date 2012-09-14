@@ -25,7 +25,7 @@ class BaseController extends \Zend_Controller_Action
 
 	/**
 	 * logged in user
-	 * @var \Entity\User
+	 * @var CoreApi\Entity\User
 	 */
 	protected $me;
 
@@ -90,7 +90,7 @@ class BaseController extends \Zend_Controller_Action
 		$this->t = new \Zend_View_Helper_Translate();
 		
 		/* register events */
-		$em = \Zend_Registry::get('kernel')->Get("EntityManager");
+		$em = \Zend_Registry::get('kernel')->Get("Doctrine\ORM\EntityManager");
 		$event = new \WebApp\Plugin\StrategyEventListener($em);
 		$em->getEventManager()->addEventSubscriber($event);
 	}

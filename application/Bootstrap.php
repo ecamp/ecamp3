@@ -108,65 +108,12 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 		
 		$kernel->Bind("Core\Acl\DefaultAcl")->ToSelf()->AsSingleton();
 		$kernel->Bind("Core\Acl\ContextStorage")->ToSelf()->AsSingleton();
-//		$kernel->Bind("Core\Acl\ContextProvider")->ToSelf()->AsSingleton();
-//		$kernel->Bind("CoreApi\Acl\ContextManager")->ToSelf()->AsSingleton();
 		$kernel->Bind("CoreApi\Acl\ContextProvider")->ToSelf()->AsSingleton();
 		
-//		$kernel->Bind("CoreApi\Acl\Context")->ToFactory(new ContextFactory());
+		$kernel->Bind("Doctrine\ORM\EntityManager")->ToProvider(new \Core\Provider\EntityManager());
 
-		
-		$kernel->Bind("EntityManager")->ToProvider(new EntityManager());
-		$kernel->Bind("Doctrine\ORM\EntityManager")->ToProvider(new EntityManager());
-
-		
-		$kernel->Bind("CampRepository")->ToProvider(new Repository("CoreApi\Entity\Camp"));
-		$kernel->Bind("GroupRepository")->ToProvider(new Repository("CoreApi\Entity\Group"));
-		$kernel->Bind("LoginRepository")->ToProvider(new Repository("CoreApi\Entity\Login"));
-		$kernel->Bind("UserRepository")->ToProvider(new Repository("CoreApi\Entity\User"));
-		$kernel->Bind("UserCampRepository")->ToProvider(new Repository("CoreApi\Entity\UserCamp"));
-		
-		$kernel->Bind("Core\Repository\LoginRepository")->ToProvider(new Repository("CoreApi\Entity\Login"));
-		$kernel->Bind("Core\Repository\UserRepository")->ToProvider(new Repository("CoreApi\Entity\User"));
-		$kernel->Bind("Core\Repository\GroupRepository")->ToProvider(new Repository("CoreApi\Entity\Group"));
-		$kernel->Bind("Core\Repository\CampRepository")->ToProvider(new Repository("CoreApi\Entity\Camp"));
-		$kernel->Bind("Core\Repository\UserCampRepository")->ToProvider(new Repository("CoreApi\Entity\UserCamp"));
-		$kernel->Bind("Core\Repository\UserGroupRepository")->ToProvider(new Repository("CoreApi\Entity\UserGroup"));
-		$kernel->Bind("Core\Repository\EventInstanceRepository")->ToProvider(new Repository("CoreApi\Entity\EventInstance"));
-		$kernel->Bind("Core\Repository\UserRelationshipRepository")->ToProvider(new Repository("CoreApi\Entity\UserRelationship"));
-		
-		
-		$servicePath = APPLICATION_PATH . "/CoreApi/Service/";
-		$fi = new DirectoryIterator($servicePath);
-		
-		while($fi->valid())
-		{
-			if( $fi->current()->isDir() )
-			{
-				$fi->next();
-				continue;
-			}
-
-			$file = $fi->current()->getBasename();
-			
-			if(! strrpos($file, "."))
-			{
-				$fi->next();
-				continue;
-			}
-				
-			$filename = substr($file, 0, strrpos($file, "."));
-			$publicClassname = "CoreApi\Service\\" . $filename;
-			$privateClassname = "Core\Service\\" . $filename;
-			
-			$kernel->Bind($publicClassname)->ToFactory(new ServiceFactory($publicClassname))->AsSingleton();
-			$kernel->Bind($privateClassname)->To($publicClassname)->AsSingleton();
-			
-			$fi->next();
-		}
-		
 		Zend_Registry::set("kernel", $kernel);
 	}
-	
 	
 	
 	/**
@@ -201,5 +148,80 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 	}
 	
 	
+	protected function _initRepositories()
+	{
+		$kernel = \Zend_Registry::get('kernel');
+		
+		$em = $kernel->Get('Doctrine\ORM\EntityManager');
+		$metadatas = $em->getMetadataFactory()->getAllMetadata();
+		
+		foreach($metadatas as $md){
+			if(! $md->getReflectionClass()->isAbstract())
+			
+			{
+			
+				$entityName = $md->getName();
+				$repoName = str_replace("CoreApi", "Core", $entityName);
+				$repoName = str_replace("Entity", "Repository", $repoName);
+				$repoName .= "Repository";
+				
+				$kernel->Bind($repoName)->ToProvider(new \Core\Provider\Repository($entityName));
+			}
+		}
+		
+		/*
+		$kernel->Bind("CampRepository")->ToProvider(new Repository("CoreApi\Entity\Camp"));
+		$kernel->Bind("GroupRepository")->ToProvider(new Repository("CoreApi\Entity\Group"));
+		$kernel->Bind("LoginRepository")->ToProvider(new Repository("CoreApi\Entity\Login"));
+		$kernel->Bind("UserRepository")->ToProvider(new Repository("CoreApi\Entity\User"));
+		$kernel->Bind("UserCampRepository")->ToProvider(new Repository("CoreApi\Entity\UserCamp"));
+		
+		$kernel->Bind("Core\Repository\LoginRepository")->ToProvider(new Repository("CoreApi\Entity\Login"));
+		$kernel->Bind("Core\Repository\UserRepository")->ToProvider(new Repository("CoreApi\Entity\User"));
+		$kernel->Bind("Core\Repository\GroupRepository")->ToProvider(new Repository("CoreApi\Entity\Group"));
+		$kernel->Bind("Core\Repository\CampRepository")->ToProvider(new Repository("CoreApi\Entity\Camp"));
+		$kernel->Bind("Core\Repository\UserCampRepository")->ToProvider(new Repository("CoreApi\Entity\UserCamp"));
+		$kernel->Bind("Core\Repository\UserGroupRepository")->ToProvider(new Repository("CoreApi\Entity\UserGroup"));
+		$kernel->Bind("Core\Repository\EventInstanceRepository")->ToProvider(new Repository("CoreApi\Entity\EventInstance"));
+		$kernel->Bind("Core\Repository\UserRelationshipRepository")->ToProvider(new Repository("CoreApi\Entity\UserRelationship"));
+		*/
+	}
+	
+	
+	protected function _initServices()
+	{
+		$kernel = \Zend_Registry::get('kernel');
+		
+		
+		$servicePath = APPLICATION_PATH . "/CoreApi/Service/";
+
+		$fi = new DirectoryIterator($servicePath);
+		
+		while($fi->valid())
+		{
+			if( $fi->current()->isDir() )
+			{
+				$fi->next();
+				continue;
+			}
+		
+			$file = $fi->current()->getBasename();
+				
+			if(! strrpos($file, "."))
+			{
+				$fi->next();
+				continue;
+			}
+		
+			$filename = substr($file, 0, strrpos($file, "."));
+			$publicClassname = "CoreApi\Service\\" . $filename;
+			$privateClassname = "Core\Service\\" . $filename;
+				
+			$kernel->Bind($publicClassname)->ToFactory(new ServiceFactory($publicClassname))->AsSingleton();
+			$kernel->Bind($privateClassname)->To($publicClassname)->AsSingleton();
+				
+			$fi->next();
+		}
+	}
 }
 

@@ -58,13 +58,35 @@ class RenderPluginInstance
 		return $this->renderPluginPrototype->isInstanceDeletable();
 	}
 	
-	public function render(){
+	
+	public function render($medium = null, $backend = null){
 		
-		$renderEvent = $this->renderPluginPrototype->getRenderContainer()->getRenderEvent();
-		$medium = $renderEvent->getMedium();
-		$backend = $renderEvent->isBackend();
+		if($this->renderPluginPrototype == null && $medium == null){
+			throw new Exception("Cannot render a single PluginInstance without defining the MEDIUM");
+		}
+		if($this->renderPluginPrototype == null && $backend == null){
+			throw new Exception("Cannot render a single PluginInstance without defining whether to render Front- or Backend");
+		}
+		
+		if($this->renderPluginPrototype != null){
+			$renderEvent = $this->renderPluginPrototype->getRenderContainer()->getRenderEvent();
+			$medium = $medium ?: $renderEvent->getMedium();
+			$backend = $backend ?: $renderEvent->isBackend();
+		}
 		
 		
-		// TODO: Create View; (Depending on $medium and $backend)
+		$pluginName = $this->getPluginInstance()->getPluginPrototype()->getPlugin()->getName();
+		
+		$view = new \Ztal_Tal_View();
+		$view->doctype('XHTML1_TRANSITIONAL');
+		
+		$view->addTemplateRepositoryPath(APPLICATION_PATH . "/Plugins/" . $pluginName . "/Views/" . $medium);
+		$view->addHelperPath(APPLICATION_PATH . '/Module/WebApp/views/helpers', '\\WebApp\View\Helper\\');
+		
+		if($backend){
+			return $this->getPluginInstance()->getPluginStrategy()->renderBackend($view);
+		} else{
+			return $this->getPluginInstance()->getPluginStrategy()->renderFrontend($view);
+		}
 	}
 }
