@@ -19,8 +19,6 @@
  */
 
 use Core\Acl\ContextFactory;
-use Core\Provider\EntityManager;
-use Core\Provider\Repository;
 use Core\Service\ServiceFactory;
 
 use Bisna\Doctrine\Container as DoctrineContainer;
