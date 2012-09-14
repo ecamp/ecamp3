@@ -3,6 +3,11 @@
 namespace CoreApi\Service;
 
 
+use Core\Plugin\RenderPluginInstance;
+use Core\Plugin\RenderContainer;
+use Core\Plugin\RenderPluginPrototype;
+use Core\Plugin\RenderEvent;
+
 use Core\Acl\DefaultAcl;
 use Core\Service\ServiceBase;
 
@@ -20,6 +25,12 @@ use CoreApi\Entity\EventPrototype;
 class EventService
 	extends ServiceBase
 {
+	
+	/**
+	 * @var Core\Repository\EventTemplateRepository
+	 * @Inject Core\Repository\EventTemplateRepository
+	 */
+	private $eventTemplateRepo;
 	
 	/**
 	 * Setup ACL
@@ -42,13 +53,48 @@ class EventService
 	public function Get($id)
 	{	
 		if(is_string($id))
-		{	return $this->em->getRepository("\CoreApi\Entity\Event")->find($id);	}
+		{	return $this->em->getRepository("CoreApi\Entity\Event")->find($id);	}
 			
 		if($id instanceof Event)
 		{	return $id;	}
 		
 		return null;
 	}
+	
+	
+	public function CreateRenderEvent(Event $event, Medium $medium, $backend = false)
+	{
+		$eventPrototype = $event->getPrototype();
+		$eventTemplate = $this->eventTemplateRepo->findOneBy(
+			array('prototype' => $eventPrototype->getId(), 'medium' => $medium->getId())); 
+		
+		$renderEvent = new RenderEvent($event, $medium, $backend);
+		$renderContainers = array();
+		
+		$templateMappings = $eventTemplate->getTemplateMappings();
+		foreach($templateMappings as $templateMapping){
+			
+			$containerName = $templateMapping->getContainerName();
+			if(! array_key_exists($containerName, $renderContainers)){
+				$renderContainers[$containerName] = new RenderContainer($renderEvent, $containerName);
+			}
+			$renderContainer = $renderContainers[$containerName];
+			$pluginPrototype = $templateMapping->getPluginPrototype();
+			
+			$renderPluginPrototype = new RenderPluginPrototype($renderContainer, $pluginPrototype);
+			
+			
+			$pluginInstances = $this->pluginInstanceRepo->findBy(
+				array('event' => $event->getId(), 'plugin_prototype' => $pluginPrototype->getId()));
+			
+			foreach($pluginInstances as $pluginInstance){
+				new RenderPluginInstance($renderPluginPrototype, $pluginInstance);
+			}
+		}
+		
+		return $renderEvent;
+	}
+	
 	
 	/**
 	 * @return bool

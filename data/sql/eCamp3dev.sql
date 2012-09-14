@@ -9,6 +9,34 @@
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+DROP TABLE IF EXISTS `camps`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `camps` (
+  `id` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `creator_id` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `owner_id` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `group_id` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  `name` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
+  `title` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `group_name_unique` (`group_id`,`name`),
+  UNIQUE KEY `owner_name_unique` (`owner_id`,`name`),
+  KEY `IDX_3D166BE561220EA6` (`creator_id`),
+  KEY `IDX_3D166BE57E3C61F9` (`owner_id`),
+  KEY `IDX_3D166BE5FE54D947` (`group_id`),
+  CONSTRAINT `FK_3D166BE5FE54D947` FOREIGN KEY (`group_id`) REFERENCES `groups` (`id`),
+  CONSTRAINT `FK_3D166BE561220EA6` FOREIGN KEY (`creator_id`) REFERENCES `users` (`id`),
+  CONSTRAINT `FK_3D166BE57E3C61F9` FOREIGN KEY (`owner_id`) REFERENCES `users` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+LOCK TABLES `camps` WRITE;
+/*!40000 ALTER TABLE `camps` DISABLE KEYS */;
+/*!40000 ALTER TABLE `camps` ENABLE KEYS */;
+UNLOCK TABLES;
 DROP TABLE IF EXISTS `days`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
@@ -53,6 +81,23 @@ LOCK TABLES `event_instances` WRITE;
 /*!40000 ALTER TABLE `event_instances` DISABLE KEYS */;
 /*!40000 ALTER TABLE `event_instances` ENABLE KEYS */;
 UNLOCK TABLES;
+DROP TABLE IF EXISTS `event_prototype`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `event_prototype` (
+  `id` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  `name` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
+  `active` tinyint(1) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+LOCK TABLES `event_prototype` WRITE;
+/*!40000 ALTER TABLE `event_prototype` DISABLE KEYS */;
+/*!40000 ALTER TABLE `event_prototype` ENABLE KEYS */;
+UNLOCK TABLES;
 DROP TABLE IF EXISTS `events`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
@@ -60,14 +105,17 @@ CREATE TABLE `events` (
   `id` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `camp_id` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `user_id` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `prototype_id` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
   `title` longtext COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`id`),
   KEY `IDX_5387574A77075ABB` (`camp_id`),
   KEY `IDX_5387574AA76ED395` (`user_id`),
-  CONSTRAINT `FK_5387574AA76ED395` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
-  CONSTRAINT `FK_5387574A77075ABB` FOREIGN KEY (`camp_id`) REFERENCES `camps` (`id`)
+  KEY `IDX_5387574A25998077` (`prototype_id`),
+  CONSTRAINT `FK_5387574A25998077` FOREIGN KEY (`prototype_id`) REFERENCES `event_prototype` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `FK_5387574A77075ABB` FOREIGN KEY (`camp_id`) REFERENCES `camps` (`id`),
+  CONSTRAINT `FK_5387574AA76ED395` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -165,6 +213,19 @@ LOCK TABLES `logins` WRITE;
 /*!40000 ALTER TABLE `logins` DISABLE KEYS */;
 /*!40000 ALTER TABLE `logins` ENABLE KEYS */;
 UNLOCK TABLES;
+DROP TABLE IF EXISTS `media`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `media` (
+  `name` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
+  PRIMARY KEY (`name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+LOCK TABLES `media` WRITE;
+/*!40000 ALTER TABLE `media` DISABLE KEYS */;
+/*!40000 ALTER TABLE `media` ENABLE KEYS */;
+UNLOCK TABLES;
 DROP TABLE IF EXISTS `periods`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
@@ -223,6 +284,31 @@ LOCK TABLES `plugin_headers` WRITE;
 /*!40000 ALTER TABLE `plugin_headers` DISABLE KEYS */;
 /*!40000 ALTER TABLE `plugin_headers` ENABLE KEYS */;
 UNLOCK TABLES;
+DROP TABLE IF EXISTS `pluginconfig`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `pluginconfig` (
+  `id` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `prototype_id` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  `pluginName` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
+  `active` tinyint(1) NOT NULL,
+  `maxInstances` smallint(6) DEFAULT NULL,
+  `defaultInstances` smallint(6) NOT NULL,
+  `minInstances` smallint(6) NOT NULL,
+  `config` longtext COLLATE utf8_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `prototype_plugin_unique` (`prototype_id`,`pluginName`),
+  KEY `IDX_5C56E32225998077` (`prototype_id`),
+  CONSTRAINT `FK_5C56E32225998077` FOREIGN KEY (`prototype_id`) REFERENCES `event_prototype` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+LOCK TABLES `pluginconfig` WRITE;
+/*!40000 ALTER TABLE `pluginconfig` DISABLE KEYS */;
+/*!40000 ALTER TABLE `pluginconfig` ENABLE KEYS */;
+UNLOCK TABLES;
 DROP TABLE IF EXISTS `plugins`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
@@ -232,8 +318,11 @@ CREATE TABLE `plugins` (
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
   `pluginName` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
+  `pluginConfig_id` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `IDX_EC85F67171F7E88B` (`event_id`),
+  KEY `IDX_EC85F671282281AF` (`pluginConfig_id`),
+  CONSTRAINT `FK_EC85F671282281AF` FOREIGN KEY (`pluginConfig_id`) REFERENCES `pluginconfig` (`id`) ON DELETE CASCADE,
   CONSTRAINT `FK_EC85F67171F7E88B` FOREIGN KEY (`event_id`) REFERENCES `events` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -241,6 +330,51 @@ CREATE TABLE `plugins` (
 LOCK TABLES `plugins` WRITE;
 /*!40000 ALTER TABLE `plugins` DISABLE KEYS */;
 /*!40000 ALTER TABLE `plugins` ENABLE KEYS */;
+UNLOCK TABLES;
+DROP TABLE IF EXISTS `template_map`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `template_map` (
+  `id` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `prototype_id` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  `medium` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
+  `filename` varchar(128) COLLATE utf8_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `prototype_medium_unique` (`prototype_id`,`medium`),
+  KEY `IDX_3DC6239925998077` (`prototype_id`),
+  CONSTRAINT `FK_3DC6239925998077` FOREIGN KEY (`prototype_id`) REFERENCES `event_prototype` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+LOCK TABLES `template_map` WRITE;
+/*!40000 ALTER TABLE `template_map` DISABLE KEYS */;
+/*!40000 ALTER TABLE `template_map` ENABLE KEYS */;
+UNLOCK TABLES;
+DROP TABLE IF EXISTS `template_map_item`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `template_map_item` (
+  `id` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  `container` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `sort` int(11) NOT NULL,
+  `templateMap_id` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `pluginConfig_id` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `plugin_template_unique` (`pluginConfig_id`,`templateMap_id`),
+  KEY `IDX_D365B2F8ED876501` (`templateMap_id`),
+  KEY `IDX_D365B2F8282281AF` (`pluginConfig_id`),
+  CONSTRAINT `FK_D365B2F8282281AF` FOREIGN KEY (`pluginConfig_id`) REFERENCES `pluginconfig` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `FK_D365B2F8ED876501` FOREIGN KEY (`templateMap_id`) REFERENCES `template_map` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+LOCK TABLES `template_map_item` WRITE;
+/*!40000 ALTER TABLE `template_map_item` DISABLE KEYS */;
+/*!40000 ALTER TABLE `template_map_item` ENABLE KEYS */;
 UNLOCK TABLES;
 DROP TABLE IF EXISTS `uid`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
