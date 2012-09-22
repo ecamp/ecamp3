@@ -22,8 +22,8 @@ namespace CoreApi\Entity;
 
 /**
  * EventPrototype
- * @Entity
- * @Table(name="event_prototype")
+ * @Entity(readOnly=true)
+ * @Table(name="event_prototypes")
  */
 class EventPrototype extends BaseEntity
 {
@@ -45,14 +45,15 @@ class EventPrototype extends BaseEntity
 	private $active = true;
 	
 	/**
-	 * @OneToMany(targetEntity="PluginConfig", mappedBy="prototype")
+	 * @OneToMany(targetEntity="PluginPrototype", mappedBy="prototype")
 	 */
-	private $configs;
+	private $pluginPrototypes;
 	
 	/**
-	 * @OneToMany(targetEntity="TemplateMap", mappedBy="prototype")
+	 * @OneToMany(targetEntity="EventTemplate", mappedBy="prototype")
 	 */
-	private $templates;
+	private $eventTemplates;
+	
 	
 	public function setName($name)
 	{
@@ -70,16 +71,16 @@ class EventPrototype extends BaseEntity
 	/**
 	 * @return array
 	 */
-	public function getConfigs()
+	public function getPluginPrototypes()
 	{
-		return $this->configs;
+		return $this->pluginPrototypes;
 	}
 	
 	/**
 	 * @return array
 	 */
-	public function getTemplates()
+	public function getEventTemplates()
 	{
-	    return $this->templates;
+	    return $this->eventTemplates;
 	}
 }

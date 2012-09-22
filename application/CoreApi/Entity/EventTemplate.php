@@ -21,16 +21,16 @@
 namespace CoreApi\Entity;
 
 /**
- * TemplateMap
- * @Entity
- * @Table(name="template_map",  uniqueConstraints={@UniqueConstraint(name="prototype_medium_unique",columns={"prototype_id", "medium"})})
+ * EventTemplate
+ * @Entity(readOnly=true)
+ * @Table(name="event_template",  uniqueConstraints={@UniqueConstraint(name="prototype_medium_unique",columns={"eventPrototype_id", "medium"})})
  */
-class TemplateMap extends BaseEntity
+class EventTemplate extends BaseEntity
 {
 
-    public function __construct($prototype = null)
+    public function __construct($eventPrototype = null)
     {
-        $this->prototype = $prototype;
+        $this->eventPrototype = $eventPrototype;
     }
 
 	/**
@@ -50,13 +50,13 @@ class TemplateMap extends BaseEntity
 	 * @ManyToOne(targetEntity="EventPrototype")
 	 * @JoinColumn(nullable=false, onDelete="cascade")
 	 */
-	private $prototype;
+	private $eventPrototype;
 	
 	/**
-	 * @OneToMany(targetEntity="TemplateMapItem", mappedBy="templateMap")
+	 * @OneToMany(targetEntity="PluginPosition", mappedBy="templateMap")
 	 * @OrderBy({"sort" = "ASC"})
 	 */
-	private $items;
+	private $pluginPositions;
 	
 	/**
 	 * @return string
@@ -74,8 +74,8 @@ class TemplateMap extends BaseEntity
 	    return $this->medium;
 	}
 	
-	public function getItems()
+	public function getPluginPositions()
 	{
-	    return $this->items;
+	    return $this->pluginPositions;
 	}
 }

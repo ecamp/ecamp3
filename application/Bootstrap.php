@@ -155,7 +155,6 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 		
 		foreach($metadatas as $md){
 			if(! $md->getReflectionClass()->isAbstract())
-			
 			{
 			
 				$entityName = $md->getName();

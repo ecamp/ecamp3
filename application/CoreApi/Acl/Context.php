@@ -2,6 +2,7 @@
 
 namespace CoreApi\Acl;
 
+use CoreApi\Entity\BaseEntity;
 use CoreApi\Entity\User;
 use CoreApi\Entity\Group;
 use CoreApi\Entity\Camp;
@@ -9,6 +10,13 @@ use CoreApi\Entity\Camp;
 
 class Context
 {
+	
+	/**
+	 * @var Doctrine\ORM\EntityManager
+	 * @Inject Doctrine\ORM\EntityManager
+	 */
+	private $em;
+	
 	
 	/**
 	 * @var CoreApi\Entity\User
@@ -80,8 +88,12 @@ class Context
 	}
 	
 	
-	protected function Check(BaseEntity $entity)
+	public function Check(BaseEntity $entity)
 	{
+		if($this->em->getUnitOfWork()->isScheduledForInsert($entity)){
+			return true;
+		}
+		
 		switch (true)
 		{
 			case $entity instanceof Period:

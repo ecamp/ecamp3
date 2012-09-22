@@ -22,32 +22,31 @@ namespace CoreApi\Entity;
 
 /**
  * PluginConfig
- * @Entity
- * @Table(name="pluginconfig",  uniqueConstraints={@UniqueConstraint(name="prototype_plugin_unique",columns={"prototype_id", "pluginName"})})
+ * @Entity(readOnly=true)
+ * @Table(name="plugin_prototypes")
+ *  //,  uniqueConstraints={@UniqueConstraint(name="prototype_plugin_unique",columns={"prototype_id", "pluginName"})})
  */
-class PluginConfig extends BaseEntity
+class PluginPrototype extends BaseEntity
 {
 
-    public function __construct($prototype = null)
+    public function __construct($eventPrototype = null)
     {
-        $this->prototype = $prototype;
+        $this->eventPrototype = $eventPrototype;
     }
 
 	/**
-	 * This var contains the name of the Plugin
-	 * that is used for this pluginitem.
-	 *
-	 * @var string
-	 * @Column(type="string", length=64, nullable=false )
+	 * @var Plugin
+	 * @ManyToOne(targetEntity="Plugin")
+	 * @JoinColumn(nullable=false)
 	 */
-	private $pluginName;
+	private $plugin;
 	
 	/**
 	 * @var EventPrototype
 	 * @ManyToOne(targetEntity="EventPrototype")
 	 * @JoinColumn(nullable=false, onDelete="cascade")
 	 */
-	private $prototype;
+	private $eventPrototype;
 	
 	/**
 	 * If false, no more plugin instances can be created (also default instances are not created anymore).
@@ -82,13 +81,15 @@ class PluginConfig extends BaseEntity
 	 */
 	private $config;
 	
+	
 	/**
-	 * @return string
+	 * @return Plugin
 	 */
-	public function getPluginName()
-	{
-	    return $this->pluginName;
+	public function getPlugin(){
+	    return $this->plugin;
 	}
+	
+	
 	
 	public function setConfig($config)
 	{

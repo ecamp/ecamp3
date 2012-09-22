@@ -22,32 +22,32 @@ namespace CoreApi\Entity;
 
 /**
  * TemplateMapItem
- * @Entity
- * @Table(name="template_map_item",  uniqueConstraints={@UniqueConstraint(name="plugin_template_unique",columns={"pluginConfig_id", "templateMap_id"})})
+ * @Entity(readOnly=true)
+ * @Table(name="plugin_position",  uniqueConstraints={@UniqueConstraint(name="plugin_template_unique",columns={"pluginPrototype_id", "eventTemplate_id"})})
  */
-class TemplateMapItem extends BaseEntity
+class PluginPosition extends BaseEntity
 {
 
-    public function __construct($templateMap = null, $pluginConfig=null, $container=null)
+    public function __construct($eventTemplate = null, $pluginPrototype = null, $container = null)
     {
-        $this->templateMap = $templateMap;
-        $this->pluginConfig = $pluginConfig;
+        $this->eventTemplate = $eventTemplate;
+        $this->pluginPrototype = $pluginPrototype;
         $this->container = $container;
     }
 
 	/**
-	 * @var TemplateMap
-	 * @ManyToOne(targetEntity="TemplateMap")
+	 * @var EventTemplate
+	 * @ManyToOne(targetEntity="EventTemplate")
 	 * @JoinColumn(nullable=false, onDelete="cascade")
 	 */
-	private $templateMap;
+	private $eventTemplate;
 	
 	/**
-	 * @var PluginConfig
-	 * @ManyToOne(targetEntity="PluginConfig")
+	 * @var PluginPrototype
+	 * @ManyToOne(targetEntity="PluginPrototype")
 	 * @JoinColumn(nullable=false, onDelete="cascade")
 	 */
-	private $pluginConfig;
+	private $pluginPrototype;
 	
 	/**
 	 * @var string
@@ -72,17 +72,17 @@ class TemplateMapItem extends BaseEntity
 	/**
 	 * @return PluginConfig
 	 */
-	public function getPluginConfig()
+	public function getPluginPrototype()
 	{
-	    return $this->pluginConfig;
+	    return $this->pluginPrototype;
 	}
 	
 	/**
 	 * @return TemplateMap
 	 */
-	public function getTemplateMap()
+	public function getEventTemplate()
 	{
-	    return $this->templateMap;
+	    return $this->eventTemplate;
 	}
 	
 	/**
