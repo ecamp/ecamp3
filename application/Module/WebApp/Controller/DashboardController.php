@@ -42,10 +42,10 @@ class WebApp_DashboardController extends \WebApp\Controller\BaseController
 	private $groupService;
 	
 	/**
-	 * @var CoreApi\Service\FriendService
-	 * @Inject CoreApi\Service\FriendService
+	 * @var CoreApi\Service\RelationshipService
+	 * @Inject CoreApi\Service\RelationshipService
 	 */
-	private $friendService;
+	private $relationshipService;
 	
 	/**
 	 * @var CoreApi\Service\MembershipService
@@ -70,7 +70,10 @@ class WebApp_DashboardController extends \WebApp\Controller\BaseController
 
     public function indexAction()
     {
-		$friendshipRequests = $this->friendService->getOpenInvitations();
+    	$friendshipRequests = $this->relationshipService->GetInvitations();
+    	//var_dump($friendshipRequests);
+    	//die();
+		//$friendshipRequests = $this->friendService->getOpenInvitations();
 		//$membershipRequests = $this->membershipService->getMembershipRequests($this->me);
 		//$membershipInvitations = $this->membershipService->getMembershipInvitations($this->me);
 				
@@ -167,7 +170,7 @@ class WebApp_DashboardController extends \WebApp\Controller\BaseController
 	
 	public function friendsAction() {
 		/** load friends */
-		$this->view->friends = $this->friendService->Get();
+		$this->view->friends = $this->relationshipService->GetFriends();
 		
 		/** load all users */
 		$paginator = $this->userService->GetPaginator();

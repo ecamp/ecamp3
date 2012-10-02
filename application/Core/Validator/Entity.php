@@ -99,12 +99,10 @@ abstract class Entity
 				$isValid = false;
 				$messages = $element->getMessages();
 				
-				if($params->hasElement($formElementName))
-				{
-					$params->addError($formElementName, $messages);
+				if($params->hasElement($formElementName)){
+					$params->addErrors($formElementName, $messages);
 				}
-				else
-				{
+				else{
 					// TODO: Add errors to Form
 				}
 			}

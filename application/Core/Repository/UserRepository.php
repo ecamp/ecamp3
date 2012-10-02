@@ -2,6 +2,9 @@
 
 namespace Core\Repository;
 
+use CoreApi\Entity\User;
+use CoreApi\Entity\UserRelationship;
+
 use Doctrine\ORM\EntityRepository;
 
 
@@ -13,35 +16,38 @@ class UserRepository extends EntityRepository
 		parent::__construct($em, $class);
 	}
 	
-	public function findFriendsOf(\CoreApi\Entity\User $user)
-	{
+	public function findFriends(User $user){
 		$query = $this->createQueryBuilder("u")
-				->innerJoin("u.relationshipFrom","rel_to")
-				->innerJoin("rel_to.to", "friend")
-				->innerJoin("friend.relationshipFrom", "rel_back")
-				->where("rel_to.type = " . \CoreApi\Entity\UserRelationship::TYPE_FRIEND)
-				->andwhere("rel_back.type = " . \CoreApi\Entity\UserRelationship::TYPE_FRIEND)
-				->andwhere("rel_back.to = u.id")
-				->andwhere("friend.id = '" . $user->getId() . "'")
+				->innerJoin("u.relationshipFrom", "ur")
+				->where("ur.to = '" . $user->getId() . "'")
+				->andWhere("ur.counterpart is not null")
+				->andWhere("ur.type = " . UserRelationship::TYPE_FRIEND)
 				->getQuery();
-
-	    return $query->getResult();
+		
+		return $query->getResult();
 	}
 	
-	public function findFriendshipInvitationsOf(\CoreApi\Entity\User $user)
-	{
+	public function findFriendInvitations(User $user){
 		$query = $this->createQueryBuilder("u")
-				->innerJoin("u.relationshipFrom","rel_to")
-				->innerJoin("rel_to.to", "friend")
-				->leftJoin("friend.relationshipFrom", "rel_back", \Doctrine\ORM\Query\Expr\Join::WITH, 'rel_back.to = rel_to.from' )
-				->where("rel_to.type = " . (\CoreApi\Entity\UserRelationship::TYPE_FRIEND))
-				->andwhere("rel_back.to IS NULL")
-				->andwhere("friend.id = '" . $user->getId() . "'")
+				->innerJoin("u.relationshipFrom", "ur")
+				->where("ur.to = '" . $user->getId() . "'")
+				->andWhere("ur.counterpart is null")
+				->andWhere("ur.type = " . UserRelationship::TYPE_FRIEND)
 				->getQuery();
-				
-	    return $query->getResult();
+		
+		return $query->getResult();
 	}
 	
+	public function findFriendRequests(User $user){
+		$query = $this->createQueryBuilder("u")
+				->innerJoin("u.relationshipTo", "ur")
+				->where("ur.from = '" . $user->getId() . "'")
+				->andWhere("ur.counterpart is null")
+				->andWhere("ur.type = " . UserRelationship::TYPE_FRIEND)
+				->getQuery();
+		
+		return $query->getResult();
+	}
 	
 	
 }

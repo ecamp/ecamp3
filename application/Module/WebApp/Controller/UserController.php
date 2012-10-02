@@ -28,10 +28,10 @@ class WebApp_UserController extends \WebApp\Controller\BaseController
 	private $userService;
 	
 	/**
-	 * @var CoreApi\Service\FriendService
-	 * @Inject CoreApi\Service\FriendService
+	 * @var CoreApi\Service\RelationshipService
+	 * @Inject CoreApi\Service\RelationshipService
 	 */
-	private $friendService;
+	private $relationshipService;
 
 
 
@@ -45,7 +45,7 @@ class WebApp_UserController extends \WebApp\Controller\BaseController
 		$user = $this->getContext()->getUser();
 		
 		$this->view->user    = $user;
-		$this->view->friends = $this->friendService->Get($user);
+		$this->view->friends = $this->relationshipService->GetFriends($user);
 
 		$this->view->userGroups  = $user->getAcceptedUserGroups();
 		$this->view->userCamps   = $user->getAcceptedUserCamps();
@@ -56,28 +56,28 @@ class WebApp_UserController extends \WebApp\Controller\BaseController
 	public function addAction()
 	{
 		$user = $this->contextProvider->getContext()->getUser();
-		$this->friendService->request($user);
+		$this->relationshipService->RequestRelationship($user);
 		$this->_helper->getHelper('Redirector')->gotoRoute(array('action'=>'show', 'user' => $user->getId()), 'web+user');
 	}
 
 	public function acceptAction()
 	{
 		$user = $this->contextProvider->getContext()->getUser();
-		$this->friendService->accept($user);
+		$this->relationshipService->AcceptInvitation($user);
 		$this->_helper->getHelper('Redirector')->gotoRoute(array('action'=>'show', 'user' => $user->getId()), 'web+user');
 	}
 
 	public function ignoreAction()
 	{
 		$user = $this->contextProvider->getContext()->getUser();
-		$this->friendService->reject($user);
+		$this->relationshipService->RejectInvitation($user);
 		$this->_helper->getHelper('Redirector')->gotoRoute(array('action'=>'show', 'user' => $user->getId()), 'web+user');
 	}
 
 	public function divorceAction()
 	{
 		$user = $this->contextProvider->getContext()->getUser();
-		$this->friendService->terminate($user);
+		$this->relationshipService->CancelRelationship($user);
 		$this->_helper->getHelper('Redirector')->gotoRoute(array('action'=>'show', 'user' => $user->getId()), 'web+user');
 	}
 

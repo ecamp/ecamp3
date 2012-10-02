@@ -44,6 +44,12 @@ class RelationshipService extends ServiceBase
 	private $campService;
 	
 	/**
+	 * @var Core\Repository\UserRepository
+	 * @Inject Core\Repository\UserRepository
+	 */
+	private $userRepo;
+	
+	/**
 	 * @var Core\Repository\UserRelationshipRepository
 	 * @Inject Core\Repository\UserRelationshipRepository
 	 */
@@ -53,6 +59,7 @@ class RelationshipService extends ServiceBase
 	public function _setupAcl(){
 		
 		$this->acl->allow(DefaultAcl::MEMBER, $this, 'Get');
+		$this->acl->allow(DefaultAcl::MEMBER, $this, 'GetFriends');
 		$this->acl->allow(DefaultAcl::MEMBER, $this, 'GetRequests');
 		$this->acl->allow(DefaultAcl::MEMBER, $this, 'GetInvitations');
 		$this->acl->allow(DefaultAcl::MEMBER, $this, 'RequestRelationship');
@@ -84,9 +91,18 @@ class RelationshipService extends ServiceBase
 	/**
 	 * @return Doctrine\Common\Collection\ArrayCollection
 	 */
+	public function GetFriends(){
+		$user = $this->userService->Get();
+		return $this->userRepo->findFriends($user);
+	}
+	
+	
+	/**
+	 * @return Doctrine\Common\Collection\ArrayCollection
+	 */
 	public function GetRequests(){
 		$user = $this->userService->Get();
-		return $this->userRelationshipRepo->findRequests($user);
+		return $this->userRepo->findFriendRequests($user);
 	}
 	
 	
@@ -95,7 +111,7 @@ class RelationshipService extends ServiceBase
 	 */
 	public function GetInvitations(){
 		$user = $this->userService->Get();
-		return $this->userRelationshipRepo->findInvitation($user);
+		return $this->userRepo->findFriendInvitations($user);
 	}
 	
 	
