@@ -36,6 +36,20 @@ class UserRelationshipRepository extends EntityRepository
 	/**
 	 * @param CoreApi\Entity\User $user
 	 */
+	public function findFriends(User $user)
+	{
+		$query = $this->createQueryBuilder("ur")
+					->where("ur.type = " . UserRelationship::TYPE_FRIEND)
+					->andWhere("ur.from = '" . $user->getId() . "'")
+					->andWhere("ur.counterpart is not null")
+					->getQuery();
+		return $query->getResult();
+	}
+	
+	
+	/**
+	 * @param CoreApi\Entity\User $user
+	 */
 	public function findRequests(User $user)
 	{
 		$query = $this->createQueryBuilder("ur")

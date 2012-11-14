@@ -167,7 +167,7 @@ class WebApp_DashboardController extends \WebApp\Controller\BaseController
 	
 	public function friendsAction() {
 		/** load friends */
-		$this->view->friends = $this->friendService->Get();
+		$this->view->friends = $this->relationshipService->GetFriends();
 		
 		/** load all users */
 		$paginator = $this->userService->GetPaginator();
