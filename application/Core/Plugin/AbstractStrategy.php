@@ -68,13 +68,12 @@ abstract class AbstractStrategy
 	   
 	protected $view;
 	
-	/**
-	 * Set the view object.
-	 * @param  \Zend_View_Interface $view
-	 * @return \Zend_View_Helper_Interface
-	 */
-	public function setView(\Zend_View_Interface $view){
-		$this->view = $view;
+	protected function createView()
+	{
+		$this->view = new \Ztal_Tal_View();
+		$this->view->doctype('XHTML1_TRANSITIONAL');
+		$this->view->addTemplateRepositoryPath(APPLICATION_PATH."/Module/WebApp/Plugin/".$this->getPluginName()."/views");
+		$this->view->addHelperPath(APPLICATION_PATH . '/Module/WebApp/views/helpers', '\\WebApp\View\Helper\\');
 	}
 
 	/**

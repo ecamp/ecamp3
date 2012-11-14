@@ -25,7 +25,7 @@ class BaseController extends \Zend_Controller_Action
 
 	/**
 	 * logged in user
-	 * @var \Entity\User
+	 * @var CoreApi\Entity\User
 	 */
 	protected $me;
 
@@ -58,11 +58,20 @@ class BaseController extends \Zend_Controller_Action
 		$this->view->addHelperPath(APPLICATION_PATH . '/Module/WebApp/views/helpers', '\\WebApp\View\Helper\\');
 		$this->view->addHelperPath('ZendX/JQuery/View/Helper', 'ZendX_JQuery_View_Helper');
 
-		$this->view->jQuery()->setLocalPath('/js/jquery-1.5.1.min.js');
+		$this->view->jQuery()->setLocalPath('/js/jquery-1.7.2.js');
 		$this->view->jQuery()->setUiLocalPath('/js/jquery-ui-1.8.11.custom.min.js');
 		$this->view->jQuery()->addStyleSheet('/css/jqueryui/smoothness/jquery-ui-1.8.11.custom.css');
 		$this->view->jQuery()->enable();
 		
+		/* @TODO only temporary, for jQqueryUi 1.9 */
+		$this->view->headScript()->appendFile("/js/jquery-ui-1.9/jquery.ui.position.js");
+		$this->view->headScript()->appendFile("/js/jquery-ui-1.9/jquery.ui.core.js");
+		$this->view->headScript()->appendFile("/js/jquery-ui-1.9/jquery.ui.widget.js");
+		$this->view->headScript()->appendFile("/js/jquery-ui-1.9/jquery.ui.button.js");
+		$this->view->headScript()->appendFile("/js/jquery-ui-1.9/jquery.ui.tabs.js");
+		$this->view->headScript()->appendFile("/js/jquery-ui-1.9/jquery.ui.dialog.js");
+		$this->view->headScript()->appendFile("/js/jquery-ui-1.9/jquery.ui.menu.js");
+
 		$this->view->headScript()->appendFile('/js/jquery.form.js');
 
 		//die(print_r(\Zend_Registry::get('kernel')));
@@ -81,8 +90,8 @@ class BaseController extends \Zend_Controller_Action
 		$this->t = new \Zend_View_Helper_Translate();
 		
 		/* register events */
-		$em = \Zend_Registry::get('kernel')->Get("EntityManager");
-		$event = new \WebApp\Plugin\StrategyEventListener($this->view, $em);
+		$em = \Zend_Registry::get('kernel')->Get("Doctrine\ORM\EntityManager");
+		$event = new \WebApp\Plugin\StrategyEventListener($em);
 		$em->getEventManager()->addEventSubscriber($event);
 	}
 	

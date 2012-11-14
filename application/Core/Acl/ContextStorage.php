@@ -9,6 +9,11 @@ use CoreApi\Entity\User;
 class ContextStorage
 {
 	
+	/**
+	 * @var PhpDI\IKernel
+	 * @Inject PhpDI\IKernel
+	 */
+	private $kernel;
 	
 	/**
 	 * @var Core\Repository\UserRepository
@@ -94,6 +99,7 @@ class ContextStorage
 		}
 		
 		$this->context = new Context($me, $user, $group, $camp);
+		$this->kernel->Inject($this->context);
 		return $this->context;
 	}
 	

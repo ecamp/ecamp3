@@ -20,7 +20,7 @@ class CampService
 {
 	/**
 	 * @var Core\Repository\CampRepository
-	 * @Inject CampRepository
+	 * @Inject Core\Repository\CampRepository
 	 */
 	private $campRepo;
 	

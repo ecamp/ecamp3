@@ -24,10 +24,11 @@ $application = new Zend_Application(
 
 // Bootstrapping resources
 $bootstrap = $application->bootstrap()->getBootstrap();
-$bootstrap->bootstrap('Doctrine');
+//$bootstrap->bootstrap('');
 
 // Retrieve Doctrine Container resource
-$container = $application->getBootstrap()->getResource('doctrine');
+//$container = $application->getBootstrap()->getResource('doctrine');
+$container = \Zend_Registry::get('doctrine');
 
 // Console
 $cli = new \Symfony\Component\Console\Application(

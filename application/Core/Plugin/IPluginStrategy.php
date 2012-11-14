@@ -33,7 +33,7 @@ interface IPluginStrategy {
     /**
 	 * construct
 	 */
-	public function __construct( \Doctrine\ORM\EntityManager $em, \Zend_View_Interface $view, \CoreApi\Entity\Plugin $plugin );
+	public function __construct( \Doctrine\ORM\EntityManager $em, \CoreApi\Entity\Plugin $plugin );
 
 	/**
 	 * Persist all child objects
@@ -49,13 +49,6 @@ interface IPluginStrategy {
 	 * Load entities that belong to this strategy
 	 */
 	public function loadObjects();
-	
-	/**
-	 * Set the view object.
-	 * @param  \Zend_View_Interface $view
-	 * @return \Zend_View_Helper_Interface
-	 */
-	public function setView(\Zend_View_Interface $view);
 
 	/**
 	 * @return \Zend_View_Interface

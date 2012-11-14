@@ -1,0 +1,120 @@
+<div metal:define-macro="default">
+	<div tal:condition="not: backend" metal:use-macro="frontend" />
+	<div tal:condition="backend" metal:use-macro="backend" />
+</div>
+
+<div metal:define-macro="frontend">
+	<div tal:repeat="item container">
+		<div tal:condition="item/isPlugin">
+			<div class="plugin_header" tal:content="item/plugin/getPluginName"></div>
+			<div class="plugin_body" tal:content=" structure item/plugin/getStrategyInstance/renderFrontend" />
+		</div>
+	</div>
+</div>
+
+<div metal:define-macro="backend">
+	<div tal:repeat="item container">
+		
+		<div tal:condition="item/isPlugin">
+			<div class="plugin_header">
+				 <span tal:content="item/plugin/getPluginName" />
+				 <a tal:condition="item/isDeletable" style="float:right;" tal:attributes="href helper:campurl(camp, array('action' => 'removeplugin', 'id' => event.getId(), 'plugin' => item.plugin.getId() ), 'camp+id')">
+				 	Delete
+				 </a>
+			</div>
+			<div class="plugin_body" tal:content=" structure item/plugin/getStrategyInstance/renderBackend" />
+		</div>
+		
+		<div tal:condition="item/isPlaceholder">
+			<a class="button" tal:attributes="href helper:campurl(camp, array('action' => 'addplugin', 'id' => event.getId(), 'plugin' => item.config.getId() ), 'camp+id')">
+				+ add <span tal:content="item/config/getPluginName" />
+			</a>
+		</div>
+		
+	</div>
+</div>
+
+<tal:block metal:define-macro="tabbody">
+	<tal:block tal:repeat="item container" >
+		
+		<div tal:condition="item/isPlugin" tal:attributes="id php:'tabs-' . item.plugin.getId()">
+			<div tal:condition="not: backend" tal:content="structure item/plugin/getStrategyInstance/renderFrontend" />
+			<div tal:condition="backend" tal:content="structure item/plugin/getStrategyInstance/renderBackend" />
+		</div>
+		
+	</tal:block>
+</tal:block>
+
+<tal:block metal:define-macro="tabheader">
+	<tal:block tal:repeat="item container">
+		
+		<li tal:condition="item/isPlugin">
+			<a tal:attributes="href php:'#tabs-' . item.plugin.getId()" tal:content="item/plugin/getPluginName">Removable plugin</a> 	
+			<a tal:condition="php: backend && item.isDeletable()"  tal:attributes="href helper:campurl(camp, array('action' => 'removeplugin', 'id' => event.getId(), 'plugin' => item.plugin.getId() ), 'camp+id')">X</a>
+		</li>
+		
+	</tal:block>
+</tal:block>
+
+
+<tal:block metal:define-macro="tabnew">
+	<!-- dropdown to add new plugins; comes dynamically soon -->
+	<div tal:condition="backend" style="height:50px; position:absolute; right:0px; top:0px; z-index:100;">
+		<button id="add_tab" style="float:right;">Add plugin</button>
+		
+		<ul id="plugin_dropdown" style="width:150px; clear:both; float:right;">
+			<tal:block tal:repeat="item container" >
+			
+				<li tal:condition="item/isPlaceholder">
+					<a tal:content="item/config/getPluginName" tal:attributes="href helper:campurl(camp, array('action' => 'addplugin', 'id' => event.getId(), 'plugin' => item.config.getId() ), 'camp+id')" />
+				</li>
+				
+			</tal:block>
+		</ul>
+	</div>
+</tal:block>
+
+<tal:block metal:define-macro="tablogic">
+	<script type="text/javascript">
+	// <![CDATA[
+		$(function() {
+			var $tab_title_input = $( "#tab_title"),
+				$tab_content_input = $( "#tab_content" );
+			var tab_counter = 4;
+	
+			// tabs init with a custom tab template and an "add" callback filling in the content
+			var $tabs = $( "#tabs").tabs({
+				fx: { opacity: 'toggle', duration: 'fast' },
+				tabTemplate: "<li style='height:30px;'><a href='#{href}'>#{label}</a> <span class='ui-icon ui-icon-close'>Remove Tab</span></li>",
+				add: function( event, ui ) {
+					var tab_content = $tab_content_input.val() || "Tab " + tab_counter + " content.";
+					$( ui.panel ).append( "<p>" + tab_content + "</p>" );
+				}
+			});
+			
+			// add plugin button, just shows the menu
+			$( "#add_tab" )
+				.button({
+					icons: {
+						primary: "ui-icon-plus",
+						secondary: "ui-icon-triangle-1-s"
+					}
+				})
+				.click(function() {
+					$("#plugin_dropdown").slideToggle('fast');
+				});
+
+			// add plugin menu
+			$("#plugin_dropdown").menu({
+				select: function( event, ui ) {
+					$("#plugin_dropdown").slideToggle('fast');
+					
+					var link = ui.item.children( "a:first" );
+					link.href();
+				}
+			}).hide();
+			
+		});
+	// ]]>
+	</script>
+</tal:block>
