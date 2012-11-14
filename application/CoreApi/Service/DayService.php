@@ -38,12 +38,8 @@ class DayService
 	{
 		$this->validationContextAssert($period);
 		
-		
-		$day = new Day();
-		$day->setDayOffset($period->getNumberOfDays());
-		
+		$day = new Day($period, $period->getNumberOfDays());
 		$period->getDays()->add($day);
-		$day->setPeriod($period);
 		
 		$this->persist($day);
 		return $day;

@@ -70,14 +70,11 @@ class WebApp_DashboardController extends \WebApp\Controller\BaseController
 
     public function indexAction()
     {
-    	$friendshipRequests = $this->relationshipService->GetInvitations();
-    	//var_dump($friendshipRequests);
-    	//die();
-		//$friendshipRequests = $this->friendService->getOpenInvitations();
+		//$friendshipRequests = $this->relationshipService->getOpenInvitations();
 		//$membershipRequests = $this->membershipService->getMembershipRequests($this->me);
 		//$membershipInvitations = $this->membershipService->getMembershipInvitations($this->me);
 				
-		$this->view->friendshipRequests = new Doctrine\Common\Collections\ArrayCollection($friendshipRequests);
+		$this->view->friendshipRequests = new Doctrine\Common\Collections\ArrayCollection();
 		$this->view->membershipRequests = new Doctrine\Common\Collections\ArrayCollection();
 		$this->view->membershipInvitations = new Doctrine\Common\Collections\ArrayCollection();
     }

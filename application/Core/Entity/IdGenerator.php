@@ -66,7 +66,6 @@ class IdGenerator
 	{
 		$uid = new UId($class);
 		$this->em->persist($uid);
-		$this->em->flush($uid);
 	
 		return $uid;
 	}

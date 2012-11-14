@@ -29,7 +29,11 @@ namespace CoreApi\Entity;
  */
 class Event extends BaseEntity
 {
-
+    public function __construct()
+    {
+        $this->plugins  = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+    
 	/**
 	 * @Column(type="text" )
 	 */
@@ -54,7 +58,14 @@ class Event extends BaseEntity
 	 * @OneToMany(targetEntity="Plugin", mappedBy="event", cascade={"all"}, orphanRemoval=true)
 	 */
 	private $plugins;
-
+	
+	/**
+	 * @var EventPrototype
+	 * @ManyToOne(targetEntity="EventPrototype")
+	 * @JoinColumn(nullable=true, onDelete="cascade")
+	 * @TODO set nullable false
+	 */
+	private $prototype;
 	
 	
 	public function setTitle($title)
@@ -111,5 +122,44 @@ class Event extends BaseEntity
 	public function getPlugins()
 	{
 		return $this->plugins;
+	}
+	
+	/**
+	 * @return array
+	 */
+	public function getPluginsByConfig(PluginConfig $config)
+	{
+	    $closure = function(Plugin $plugin) use ($config)
+	    {
+	        return $plugin->getPluginConfig()->getId() == $config->getId();
+	    };
+	    
+	    return $this->plugins->filter($closure);
+	}
+	
+	/**
+	 * @return integer
+	 */
+	public function countPluginsByConfig(PluginConfig $config)
+	{
+		$closure = function(Plugin $plugin) use ($config)
+		{
+			return $plugin->getPluginConfig()->getId() == $config->getId();
+		};
+		 
+		return $this->plugins->count($closure);
+	}
+	
+	/**
+	 * @return EventPrototype
+	 */
+	public function getPrototype()
+	{
+	    return $this->prototype;
+	}
+	
+	public function setPrototype(EventPrototype $prototype)
+	{
+	    $this->prototype = $prototype;
 	}
 }

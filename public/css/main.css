@@ -283,3 +283,19 @@ form ul.errors li{
     margin-bottom:10px;
 }
 
+/** Plugins */
+
+.plugin_header {
+  padding: 1.5em;
+  padding-top:0.5em;
+  padding-bottom:0.5em;
+  margin-bottom: 0em;
+  background: #cccccc;
+}
+.plugin_body {
+  padding: 1.5em;
+  margin-bottom: 1.5em;
+  background: #e5eCf9;
+}
+
+#tabs li .ui-icon-close { float: left; margin: 0.4em 0.2em 0 0; cursor: pointer; }
