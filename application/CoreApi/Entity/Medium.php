@@ -21,11 +21,15 @@
 namespace CoreApi\Entity;
 
 /**
+ * Medium
  * @Entity(readOnly=true)
  * @Table(name="media")
  */
 class Medium
 {
+	public function __construct()
+	{
+	}
 
 	/**
 	 * Short human readable name

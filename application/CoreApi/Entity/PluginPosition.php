@@ -23,7 +23,7 @@ namespace CoreApi\Entity;
 /**
  * TemplateMapItem
  * @Entity(readOnly=true)
- * @Table(name="plugin_position",  uniqueConstraints={@UniqueConstraint(name="plugin_template_unique",columns={"pluginPrototype_id", "eventTemplate_id"})})
+ * @Table(name="plugin_positions", uniqueConstraints={@UniqueConstraint(name="plugin_template_unique",columns={"pluginPrototype_id", "eventTemplate_id"})})
  */
 class PluginPosition extends BaseEntity
 {

@@ -22,7 +22,7 @@ namespace Plugin\Content\Entity;
 
 /**
  * @Entity
- * @Table(name="plugin_contents")
+ * @Table(name="plugindata_content")
  */
 use Doctrine\DBAL\Types\StringType;
 

@@ -22,7 +22,7 @@ namespace Plugin\Header\Entity;
 
 /**
  * @Entity
- * @Table(name="plugin_headers")
+ * @Table(name="plugindata_header")
  */
 class Header extends \CoreApi\Entity\BaseEntity 
 {
