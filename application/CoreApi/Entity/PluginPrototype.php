@@ -89,6 +89,10 @@ class PluginPrototype extends BaseEntity
 	    return $this->plugin;
 	}
 	
+	public function getServiceClassName()
+	{
+		return "Plugin\\".$this->getPlugin()->getName()."\\Service\\PluginService";
+	}
 	
 	
 	public function setConfig($config)

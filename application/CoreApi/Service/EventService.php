@@ -46,9 +46,12 @@ class EventService
 		$this->acl->allow(DefaultAcl::MEMBER, $this, 'Get');
 		$this->acl->allow(DefaultAcl::MEMBER, $this, 'GetContainers');
 		$this->acl->allow(DefaultAcl::MEMBER, $this, 'CreateRenderEvent');
-		$this->acl->allow(DefaultAcl::MEMBER, $this, 'getPlugin');
+		$this->acl->allow(DefaultAcl::MEMBER, $this, 'getPluginInstance');
+		$this->acl->allow(DefaultAcl::MEMBER, $this, 'getPluginPrototype');
 		$this->acl->allow(DefaultAcl::MEMBER, $this, 'AddPlugin');
 		$this->acl->allow(DefaultAcl::MEMBER, $this, 'RemovePlugin');
+		$this->acl->allow(DefaultAcl::GUEST, $this, 'getCampOfPluginInstance');
+		
 	}
 	
 	/**
@@ -232,4 +235,12 @@ class EventService
 	
 		return null;
 	}
+	
+	public function getCampOfPluginInstance($id)
+	{
+		$instance = $this->em->getRepository("\CoreApi\Entity\PluginInstance")->find($id);
+		
+		return $instance->getEvent()->getCamp();
+	}
+	
 }
