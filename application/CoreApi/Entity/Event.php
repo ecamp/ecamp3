@@ -127,27 +127,27 @@ class Event extends BaseEntity
 	/**
 	 * @return array
 	 */
-	public function getPluginsByConfig(PluginConfig $config)
+	public function getPluginsByPrototype(PluginPrototype $prototype)
 	{
-	    $closure = function(Plugin $plugin) use ($config)
+	    $closure = function(PluginInstance $instance) use ($prototype)
 	    {
-	        return $plugin->getPluginConfig()->getId() == $config->getId();
+	        return $instance->getPluginPrototype()->getId() == $prototype->getId();
 	    };
 	    
-	    return $this->plugins->filter($closure);
+	    return $this->pluginInstances->filter($closure);
 	}
 	
 	/**
 	 * @return integer
 	 */
-	public function countPluginsByConfig(PluginConfig $config)
+	public function countPluginsByPrototype(PluginPrototype $prototype)
 	{
-		$closure = function(Plugin $plugin) use ($config)
+		$closure = function(PluginInstance $instance) use ($prototype)
 		{
-			return $plugin->getPluginConfig()->getId() == $config->getId();
+			return $instance->getPluginPrototype()->getId() == $prototype->getId();
 		};
 		 
-		return $this->plugins->count($closure);
+		return $this->pluginInstances->count($closure);
 	}
 	
 	/**

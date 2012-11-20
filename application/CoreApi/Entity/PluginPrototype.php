@@ -21,7 +21,7 @@
 namespace CoreApi\Entity;
 
 /**
- * PluginConfig
+ * PluginPrototype
  * @Entity(readOnly=true)
  * @Table(name="plugin_prototypes")
  *  //,  uniqueConstraints={@UniqueConstraint(name="prototype_plugin_unique",columns={"prototype_id", "pluginName"})})

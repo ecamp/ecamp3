@@ -70,7 +70,7 @@ class PluginPosition extends BaseEntity
 	}
 	
 	/**
-	 * @return PluginConfig
+	 * @return PluginPrototype
 	 */
 	public function getPluginPrototype()
 	{

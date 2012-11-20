@@ -80,15 +80,15 @@ class EventService
 		$renderEvent = new RenderEvent($event, $medium, $eventTemplate, $backend);
 		$renderContainers = array();
 		
-		$templateMappings = $eventTemplate->getPluginPositions();
-		foreach($templateMappings as $templateMapping){
+		$pluginPositions = $eventTemplate->getPluginPositions();
+		foreach($pluginPositions as $pluginPosition){
 			
-			$containerName = $templateMapping->getContainer();
+			$containerName = $pluginPosition->getContainer();
 			if(! array_key_exists($containerName, $renderContainers)){
 				$renderContainers[$containerName] = new RenderContainer($renderEvent, $containerName);
 			}
 			$renderContainer = $renderContainers[$containerName];
-			$pluginPrototype = $templateMapping->getPluginPrototype();
+			$pluginPrototype = $pluginPosition->getPluginPrototype();
 			
 			$renderPluginPrototype = new RenderPluginPrototype($renderContainer, $pluginPrototype);
 			
@@ -155,7 +155,7 @@ class EventService
 	{
 		$plugin = new PluginInstance();
 		$plugin->setEvent($event);
-		$plugin->setPluginConfig($prototype);
+		$plugin->setPluginPrototype($prototype);
 		
 		$strategyClassName =  '\Plugin\\' . $prototype->getPlugin()->getName() . '\Strategy';
 		$strategy = new $strategyClassName($this->em, $plugin);
@@ -167,27 +167,27 @@ class EventService
 		return $plugin;
 	}
 	
-	public function AddPlugin($event, $config)
+	public function AddPlugin($event, $plugin)
 	{
 		$event = $this->Get($event);
-		$config = $this->getPluginConfig($config);
-		$count = $event->countPluginsByConfig($config);
+		$plugin = $this->getPluginPrototype($plugin);
+		$count = $event->countPluginsByPrototype($plugin);
 		
-		if( is_null($config->getMaxInstances()) || $count<$config->getMaxInstances() )
+		if( is_null($plugin->getMaxInstances()) || $count<$plugin->getMaxInstances() )
 		{
-			$this->CreatePlugin($event, $config);
+			$this->CreatePluginInstance($event, $plugin);
 		}
 	}
 	
 	public function RemovePlugin($event, $instance)
 	{
 		$event 	  = $this->Get($event);
-		$instance = $this->getPlugin($instance);
-		$config = $instance->getPluginConfig();
+		$instance = $this->getPluginInstance($instance);
+		$prototype = $instance->getPluginPrototype();
 		
-		$count = $event->countPluginsByConfig($config);
+		$count = $event->countPluginsByPrototype($prototype);
 		
-		if( $count > $config->getMinInstances() )
+		if( $count > $prototype->getMinInstances() )
 		{
 			/* cleanup plugin data */
 			$instance->getStrategyInstance()->remove();
@@ -198,16 +198,16 @@ class EventService
 	}
 	
 	/**
-	 * @return CoreApi\Entity\Plugin
+	 * @return CoreApi\Entity\PluginInstance
 	 */
-	public function getPlugin($id)
+	public function getPluginInstance($id)
 	{
-		if(is_numeric($id))
+		if(is_string($id))
 		{
-			return $this->em->getRepository("\CoreApi\Entity\Plugin")->find($id);
+			return $this->em->getRepository("\CoreApi\Entity\PluginInstance")->find($id);
 		}
 			
-		if($id instanceof Plugin)
+		if($id instanceof PluginInstance)
 		{
 			return $id;
 		}
@@ -218,14 +218,14 @@ class EventService
 	/**
 	 * @return CoreApi\Entity\Plugin
 	 */
-	public function getPluginConfig($id)
+	public function getPluginPrototype($id)
 	{
-		if(is_numeric($id))
+		if(is_string($id))
 		{
-			return $this->em->getRepository("\CoreApi\Entity\PluginConfig")->find($id);
+			return $this->em->getRepository("\CoreApi\Entity\PluginPrototype")->find($id);
 		}
 			
-		if($id instanceof PluginConfig)
+		if($id instanceof PluginPrototype)
 		{
 			return $id;
 		}
