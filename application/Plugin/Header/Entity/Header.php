@@ -22,7 +22,7 @@ namespace Plugin\Header\Entity;
 
 /**
  * @Entity
- * @Table(name="plugin_headers")
+ * @Table(name="plugindata_header")
  */
 class Header extends \CoreApi\Entity\BaseEntity 
 {
@@ -43,8 +43,8 @@ class Header extends \CoreApi\Entity\BaseEntity
 	private $text;
 
 	/**
-	 * @var CoreApi\Entity\Plugin
-	 * @ManyToOne(targetEntity="CoreApi\Entity\Plugin")
+	 * @var CoreApi\Entity\PluginInstance
+	 * @ManyToOne(targetEntity="CoreApi\Entity\PluginInstance")
 	 */
 	private $plugin;
 

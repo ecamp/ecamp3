@@ -40,17 +40,17 @@ class StrategyEventListener implements \Doctrine\Common\EventSubscriber {
 	}
 
 	public function postLoad(\Doctrine\ORM\Event\LifecycleEventArgs $args) {
-		$plugin= $args->getEntity();
+		$instance = $args->getEntity();
 		
 		/* post load PluginStrategy into Plugin */
-		if ($plugin instanceof \CoreApi\Entity\Plugin) {
-			$strategy  = $plugin->getStrategyClassName();
-			$strategyInstance = new $strategy($this->em, $plugin);
+		if ($instance instanceof \CoreApi\Entity\PluginInstance) {
+			$strategy  = $instance->getStrategyClassName();
+			$strategyInstance = new $strategy($this->em, $instance);
 			
 			/* load plugin */
 			$strategyInstance->loadObjects( );
 			
-			$plugin->setStrategy($strategyInstance);
+			$instance->setStrategy($strategyInstance);
 		}
 	}
 }

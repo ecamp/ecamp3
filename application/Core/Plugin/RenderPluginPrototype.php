@@ -65,8 +65,16 @@ class RenderPluginPrototype
 		return $this->renderPluginInstances;
 	}
 	
+	public function getPluginPrototype(){
+		return $this->pluginPrototype;
+	}
+	
+	public function getPluginName(){
+		return $this->pluginPrototype->getPlugin()->getName();
+	}
+	
 	public function isInstanceAddable(){
-		return $this->pluginPrototype->getMaxInstances() > count($this->renderPluginInstances);
+		return $this->pluginPrototype->getMaxInstances() ==null || $this->pluginPrototype->getMaxInstances() > count($this->renderPluginInstances);
 	}
 	
 	public function isInstanceDeletable(){

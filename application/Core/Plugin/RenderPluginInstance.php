@@ -58,6 +58,10 @@ class RenderPluginInstance
 		return $this->renderPluginPrototype->isInstanceDeletable();
 	}
 	
+	public function getPluginName(){
+		return $this->getPluginInstance()->getPluginPrototype()->getPlugin()->getName();
+	}
+	
 	
 	public function render($medium = null, $backend = null){
 		
@@ -74,19 +78,18 @@ class RenderPluginInstance
 			$backend = $backend ?: $renderEvent->isBackend();
 		}
 		
-		
 		$pluginName = $this->getPluginInstance()->getPluginPrototype()->getPlugin()->getName();
 		
 		$view = new \Ztal_Tal_View();
 		$view->doctype('XHTML1_TRANSITIONAL');
 		
-		$view->addTemplateRepositoryPath(APPLICATION_PATH . "/Plugins/" . $pluginName . "/Views/" . $medium);
+		$view->addTemplateRepositoryPath(APPLICATION_PATH . "/Plugin/" . $pluginName . "/views/" . $medium->getName());
 		$view->addHelperPath(APPLICATION_PATH . '/Module/WebApp/views/helpers', '\\WebApp\View\Helper\\');
 		
 		if($backend){
-			return $this->getPluginInstance()->getPluginStrategy()->renderBackend($view);
+			return $this->getPluginInstance()->getStrategyInstance()->renderBackend($view);
 		} else{
-			return $this->getPluginInstance()->getPluginStrategy()->renderFrontend($view);
+			return $this->getPluginInstance()->getStrategyInstance()->renderFrontend($view);
 		}
 	}
 }

@@ -45,7 +45,7 @@ abstract class AbstractStrategy
 	 * Set the plugin object.
 	 * @param \CoreApi\Entity\Plugin $plugin
 	 */
-	public function setPlugin(\CoreApi\Entity\Plugin $plugin)
+	public function setPlugin(\CoreApi\Entity\PluginInstance $plugin)
 	{
 		$this->plugin = $plugin;
 	}
@@ -65,29 +65,11 @@ abstract class AbstractStrategy
 	}
 	
 	/* ***************************************** */
-	   
-	protected $view;
 	
-	protected function createView()
-	{
-		$this->view = new \Ztal_Tal_View();
-		$this->view->doctype('XHTML1_TRANSITIONAL');
-		$this->view->addTemplateRepositoryPath(APPLICATION_PATH."/Module/WebApp/Plugin/".$this->getPluginName()."/views");
-		$this->view->addHelperPath(APPLICATION_PATH . '/Module/WebApp/views/helpers', '\\WebApp\View\Helper\\');
-	}
-
-	/**
-	 * @return \Zend_View_Interface
-	 */
-	public function getView()
-	{
-		return $this->view;
+	public function renderFrontend(\Ztal_Tal_View $view){
 	}
 	
-	public function renderFrontend(){
-	}
-	
-	public function renderBackend(){
+	public function renderBackend(\Ztal_Tal_View $view){
 	}
 
 }

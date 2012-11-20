@@ -81,7 +81,7 @@ class PluginInstance extends BaseEntity
 	}
 	
 	/**
-	 * Returns the plugin config
+	 * Returns the plugin prototype
 	 *
 	 * @return PluginPrototype
 	 */
@@ -90,7 +90,7 @@ class PluginInstance extends BaseEntity
 	    return $this->pluginPrototype;
 	}
 	
-	public function setPluginConfig(PluginPrototype $pluginPrototype)
+	public function setPluginPrototype(PluginPrototype $pluginPrototype)
 	{
 	    $this->pluginPrototype  = $pluginPrototype;
 	}

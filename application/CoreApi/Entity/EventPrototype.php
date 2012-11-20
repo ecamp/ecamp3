@@ -45,12 +45,12 @@ class EventPrototype extends BaseEntity
 	private $active = true;
 	
 	/**
-	 * @OneToMany(targetEntity="PluginPrototype", mappedBy="prototype")
+	 * @OneToMany(targetEntity="PluginPrototype", mappedBy="eventPrototype")
 	 */
 	private $pluginPrototypes;
 	
 	/**
-	 * @OneToMany(targetEntity="EventTemplate", mappedBy="prototype")
+	 * @OneToMany(targetEntity="EventTemplate", mappedBy="eventPrototype")
 	 */
 	private $eventTemplates;
 	

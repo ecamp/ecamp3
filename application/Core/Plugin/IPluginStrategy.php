@@ -33,7 +33,7 @@ interface IPluginStrategy {
     /**
 	 * construct
 	 */
-	public function __construct( \Doctrine\ORM\EntityManager $em, \CoreApi\Entity\Plugin $plugin );
+	public function __construct( \Doctrine\ORM\EntityManager $em, \CoreApi\Entity\PluginInstance $plugin );
 
 	/**
 	 * Persist all child objects
@@ -50,27 +50,23 @@ interface IPluginStrategy {
 	 */
 	public function loadObjects();
 
-	/**
-	 * @return \Zend_View_Interface
-	 */
-	public function getView();
 
 	/**
 	 * Renders this strategy (read only)
 	 *
 	 * @return string
 	 */
-	public function renderFrontend();
+	public function renderFrontend(\Ztal_Tal_View $view);
 
 	/**
 	 * Renders the backend of this plugin (write access)
 	 *
 	 * @return string
 	 */
-	public function renderBackend();
+	public function renderBackend(\Ztal_Tal_View $view);
 
 
-	public function setPlugin(\CoreApi\Entity\Plugin $plugin);
+	public function setPlugin(\CoreApi\Entity\PluginInstance $plugin);
 
 	public function getPlugin();
 }
