@@ -3,6 +3,8 @@
 namespace CoreApi\Service;
 
 
+use CoreApi\Entity\Medium;
+
 use Core\Plugin\RenderPluginInstance;
 use Core\Plugin\RenderContainer;
 use Core\Plugin\RenderPluginPrototype;
@@ -14,9 +16,10 @@ use Core\Service\ServiceBase;
 use CoreApi\Entity\Event;
 use CoreApi\Entity\Camp;
 use CoreApi\Entity\Plugin;
-use CoreApi\Entity\PluginConfig;
+use CoreApi\Entity\PluginInstance;
 
 use CoreApi\Entity\EventPrototype;
+use CoreApi\Entity\PluginPrototype;
 
 
 /**
@@ -42,6 +45,7 @@ class EventService
 		$this->acl->allow(DefaultAcl::MEMBER, $this, 'Delete');
 		$this->acl->allow(DefaultAcl::MEMBER, $this, 'Get');
 		$this->acl->allow(DefaultAcl::MEMBER, $this, 'GetContainers');
+		$this->acl->allow(DefaultAcl::MEMBER, $this, 'CreateRenderEvent');
 		$this->acl->allow(DefaultAcl::MEMBER, $this, 'getPlugin');
 		$this->acl->allow(DefaultAcl::MEMBER, $this, 'AddPlugin');
 		$this->acl->allow(DefaultAcl::MEMBER, $this, 'RemovePlugin');
@@ -62,19 +66,24 @@ class EventService
 	}
 	
 	
-	public function CreateRenderEvent(Event $event, Medium $medium, $backend = false)
+	public function CreateRenderEvent(Event $event, $medium, $backend = false)
 	{
+		if(! $medium instanceof Medium )
+		{
+			$medium = $this->em->getRepository('CoreApi\Entity\Medium')->findOneBy(array('name' => $medium));	
+		}
+		
 		$eventPrototype = $event->getPrototype();
 		$eventTemplate = $this->eventTemplateRepo->findOneBy(
-			array('prototype' => $eventPrototype->getId(), 'medium' => $medium->getId())); 
+			array('eventPrototype' => $eventPrototype, 'medium' => $medium)); 
 		
-		$renderEvent = new RenderEvent($event, $medium, $backend);
+		$renderEvent = new RenderEvent($event, $medium, $eventTemplate, $backend);
 		$renderContainers = array();
 		
-		$templateMappings = $eventTemplate->getTemplateMappings();
+		$templateMappings = $eventTemplate->getPluginPositions();
 		foreach($templateMappings as $templateMapping){
 			
-			$containerName = $templateMapping->getContainerName();
+			$containerName = $templateMapping->getContainer();
 			if(! array_key_exists($containerName, $renderContainers)){
 				$renderContainers[$containerName] = new RenderContainer($renderEvent, $containerName);
 			}
@@ -84,8 +93,8 @@ class EventService
 			$renderPluginPrototype = new RenderPluginPrototype($renderContainer, $pluginPrototype);
 			
 			
-			$pluginInstances = $this->pluginInstanceRepo->findBy(
-				array('event' => $event->getId(), 'plugin_prototype' => $pluginPrototype->getId()));
+			$pluginInstances = $this->em->getRepository('CoreApi\Entity\PluginInstance')->findBy(
+				array('event' => $event, 'pluginPrototype' => $pluginPrototype));
 			
 			foreach($pluginInstances as $pluginInstance){
 				new RenderPluginInstance($renderPluginPrototype, $pluginInstance);
@@ -103,7 +112,7 @@ class EventService
 	{
 		$event = $this->Get($id);
 		
-		foreach( $event->getPlugins() as $plugin )
+		foreach( $event->getPluginInstances() as $plugin )
 		{
 			$plugin->getStrategyInstance()->remove();
 		}
@@ -123,32 +132,32 @@ class EventService
 		
 		/* define event prototype; will come as a parameter of course */
 		$prototype = $this->em->getRepository("CoreApi\Entity\EventPrototype")->find(1);
-		
+	
 		$event = new Event();
 		
 		$event->setCamp($camp);
 		$event->setTitle(md5(time()));
 		$event->setPrototype($prototype);
-		
-		$pluginConfigs = $prototype->getConfigs();
-		foreach($pluginConfigs as $config)
+
+		$pluginPrototypes = $prototype->getPluginPrototypes();
+		foreach($pluginPrototypes as $plugin)
 		{
-		    for($i=0; $i<$config->getDefaultInstances(); $i++)
+			for($i=0; $i<$plugin->getDefaultInstances(); $i++)
 		    {
-		        $this->CreatePlugin($event, $config);
+		        $this->CreatePluginInstance($event, $plugin);
 		    }
 		}
-		
+
 		$this->persist($event);
 	}
 	
-	private function CreatePlugin(Event $event, PluginConfig $config)
+	private function CreatePluginInstance(Event $event, PluginPrototype $prototype)
 	{
-		$plugin = new Plugin();
+		$plugin = new PluginInstance();
 		$plugin->setEvent($event);
-		$plugin->setPluginConfig($config);
+		$plugin->setPluginConfig($prototype);
 		
-		$strategyClassName =  '\Plugin\\' . $config->getPluginName() . '\Strategy';
+		$strategyClassName =  '\Plugin\\' . $prototype->getPlugin()->getName() . '\Strategy';
 		$strategy = new $strategyClassName($this->em, $plugin);
 		$strategy->persist();
 		
@@ -156,45 +165,6 @@ class EventService
 		$this->persist($plugin);
 		
 		return $plugin;
-	}
-	
-	public function GetContainers($id, $template)
-	{   
-		$event = $this->Get($id);
-	    $mapitems =$template->getItems();
-	    
-	    $container = array();
-	    foreach($mapitems as $item)
-	    {
-	    	if( !isset($container[$item->getContainer()] ) )
-	    		$container[$item->getContainer()] = array();
-	    	
-	    	/* add all plugin instances to the container */
-	    	$i=0;
-	        foreach($event->getPluginsByConfig($item->getPluginConfig()) as $plugin)
-	        {
-	        	$citem = new ContainerItem();
-	        	$citem->isPlugin = true;
-	        	$citem->plugin = $plugin;
-	        	$citem->config = $item->getPluginConfig();
-	        	$citem->index  = $i;
-	        	
-	            $container[$item->getContainer()][] = $citem;
-	            $i++; 
-	        }
-	        
-	        /* add placeholder if max number of plugin instances has not been reached */
-	        if( is_null($item->getPluginConfig()->getMaxInstances()) || $i < $item->getPluginConfig()->getMaxInstances() )
-	        {
-	        	$citem = new ContainerItem();
-	        	$citem->isPlaceholder = true;
-	        	$citem->config = $item->getPluginConfig();
-	        	$container[$item->getContainer()][] = $citem;
-	        }
-	        
-	    }
-	    
-	    return $container;
 	}
 	
 	public function AddPlugin($event, $config)

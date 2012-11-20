@@ -54,7 +54,7 @@ class EventTemplate extends BaseEntity
 	private $eventPrototype;
 	
 	/**
-	 * @OneToMany(targetEntity="PluginPosition", mappedBy="templateMap")
+	 * @OneToMany(targetEntity="PluginPosition", mappedBy="eventTemplate")
 	 * @OrderBy({"sort" = "ASC"})
 	 */
 	private $pluginPositions;

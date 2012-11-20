@@ -63,7 +63,7 @@ class WebApp_EventController extends \WebApp\Controller\BaseController
     {
     	$camp = $this->contextProvider->getContext()->getCamp();
     	
-		$this->eventService->Create($camp, $this->view);
+		$this->eventService->Create($camp);
 		
 		$this->_helper->getHelper('Redirector')->gotoRoute(array('action'=>'index', 'camp'=>$this->getContext()->getCamp(), 'user'=>$this->getContext()->getMe()));
     }
@@ -87,12 +87,10 @@ class WebApp_EventController extends \WebApp\Controller\BaseController
 		
 		/* @TODO: only temporary here  */
 		$event = $this->eventService->Get($id);
-		$template = $this->em->getRepository("CoreApi\Entity\TemplateMap")->findOneBy(array('medium' => 'web', 'prototype' => $event->getPrototype() ));
 		
 		$this->view->event = $event;
-		$this->view->container = $this->eventService->GetContainers($event, $template);
-		$this->view->templateMap = $template;
-		$this->view->backend = false;
+		$this->view->renderEvent = $this->eventService->CreateRenderEvent($event, 'web');
+		$this->view->container = $this->view->renderEvent->getRenderContainers();
 	}
 	
 	/* edit an event (backend, write access) */
@@ -105,12 +103,10 @@ class WebApp_EventController extends \WebApp\Controller\BaseController
 		
 		/* @TODO: only temporary here */
 		$event = $this->eventService->Get($id);
-		$template = $this->em->getRepository("CoreApi\Entity\TemplateMap")->findOneBy(array('medium' => 'web', 'prototype' => $event->getPrototype() ));
 		
 		$this->view->event = $event;
-		$this->view->container = $this->eventService->GetContainers($event, $template);
-		$this->view->templateMap = $template;
-		$this->view->backend = true;
+		$this->view->renderEvent = $this->eventService->CreateRenderEvent($event, 'web', true);
+		$this->view->container = $this->view->renderEvent->getRenderContainers();
 	}
 	
 	/* print preview (mainly as a template-proof-of-concept */

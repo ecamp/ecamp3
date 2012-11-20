@@ -57,7 +57,7 @@ class RenderContainer
 	/**
 	 * @access private
 	 */
-	public function addRenderPluginPrototype(RenderPluginPrototyp $renderPluginPrototype){
+	public function addRenderPluginPrototype(RenderPluginPrototype $renderPluginPrototype){
 		$this->renderPluginPrototypes[] = $renderPluginPrototype;
 	}
 	

@@ -54,6 +54,7 @@ class BaseController extends \Zend_Controller_Action
 	public function init()
 	{
 		
+		$this->view->addTemplateRepositoryPath(APPLICATION_PATH."/CoreApi/Plugin/web");
 		
 		$this->view->addHelperPath(APPLICATION_PATH . '/Module/WebApp/views/helpers', '\\WebApp\View\Helper\\');
 		$this->view->addHelperPath('ZendX/JQuery/View/Helper', 'ZendX_JQuery_View_Helper');

@@ -55,9 +55,9 @@ class Event extends BaseEntity
 	private $eventInstances;
 
 	/**
-	 * @OneToMany(targetEntity="Plugin", mappedBy="event", cascade={"all"}, orphanRemoval=true)
+	 * @OneToMany(targetEntity="PluginInstance", mappedBy="event", cascade={"all"}, orphanRemoval=true)
 	 */
-	private $plugins;
+	private $pluginInstances;
 	
 	/**
 	 * @var EventPrototype
@@ -119,9 +119,9 @@ class Event extends BaseEntity
 	/**
 	 * @return array
 	 */
-	public function getPlugins()
+	public function getPluginInstances()
 	{
-		return $this->plugins;
+		return $this->pluginInstances;
 	}
 	
 	/**

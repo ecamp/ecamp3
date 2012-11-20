@@ -97,6 +97,7 @@ CREATE TABLE `event_prototypes` (
 
 LOCK TABLES `event_prototypes` WRITE;
 /*!40000 ALTER TABLE `event_prototypes` DISABLE KEYS */;
+INSERT INTO `event_prototypes` VALUES ('1','0000-00-00 00:00:00','0000-00-00 00:00:00','Lagersport',1);
 /*!40000 ALTER TABLE `event_prototypes` ENABLE KEYS */;
 UNLOCK TABLES;
 DROP TABLE IF EXISTS `event_templates`;
@@ -120,6 +121,7 @@ CREATE TABLE `event_templates` (
 
 LOCK TABLES `event_templates` WRITE;
 /*!40000 ALTER TABLE `event_templates` DISABLE KEYS */;
+INSERT INTO `event_templates` VALUES ('1','0000-00-00 00:00:00','0000-00-00 00:00:00','prototype_lagersport.phtml/notab','1','web');
 /*!40000 ALTER TABLE `event_templates` ENABLE KEYS */;
 UNLOCK TABLES;
 DROP TABLE IF EXISTS `events`;
@@ -145,6 +147,7 @@ CREATE TABLE `events` (
 
 LOCK TABLES `events` WRITE;
 /*!40000 ALTER TABLE `events` DISABLE KEYS */;
+INSERT INTO `events` VALUES ('453ac999','',NULL,'1','2012-11-20 19:39:38','2012-11-20 19:39:38','aeb415d118387d691e3e8272302dfa42');
 /*!40000 ALTER TABLE `events` ENABLE KEYS */;
 UNLOCK TABLES;
 DROP TABLE IF EXISTS `grouprequests`;
@@ -284,13 +287,14 @@ CREATE TABLE `plugin_instances` (
   PRIMARY KEY (`id`),
   KEY `IDX_4A3237C071F7E88B` (`event_id`),
   KEY `IDX_4A3237C0A46D7BCB` (`pluginPrototype_id`),
-  CONSTRAINT `FK_4A3237C0A46D7BCB` FOREIGN KEY (`pluginPrototype_id`) REFERENCES `plugin_prototypes` (`id`) ON DELETE CASCADE,
-  CONSTRAINT `FK_4A3237C071F7E88B` FOREIGN KEY (`event_id`) REFERENCES `events` (`id`) ON DELETE CASCADE
+  CONSTRAINT `FK_4A3237C071F7E88B` FOREIGN KEY (`event_id`) REFERENCES `events` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `FK_4A3237C0A46D7BCB` FOREIGN KEY (`pluginPrototype_id`) REFERENCES `plugin_prototypes` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 LOCK TABLES `plugin_instances` WRITE;
 /*!40000 ALTER TABLE `plugin_instances` DISABLE KEYS */;
+INSERT INTO `plugin_instances` VALUES ('341c98aa','453ac999','2012-11-20 19:39:38','2012-11-20 19:39:38','1'),('481f8ff5','453ac999','2012-11-20 19:39:38','2012-11-20 19:39:38','2'),('f5e15ef','453ac999','2012-11-20 19:39:38','2012-11-20 19:39:38','1');
 /*!40000 ALTER TABLE `plugin_instances` ENABLE KEYS */;
 UNLOCK TABLES;
 DROP TABLE IF EXISTS `plugin_positions`;
@@ -308,13 +312,14 @@ CREATE TABLE `plugin_positions` (
   UNIQUE KEY `plugin_template_unique` (`pluginPrototype_id`,`eventTemplate_id`),
   KEY `IDX_E68AD2D5B8E3A938` (`eventTemplate_id`),
   KEY `IDX_E68AD2D5A46D7BCB` (`pluginPrototype_id`),
-  CONSTRAINT `plugin_positions_ibfk_1` FOREIGN KEY (`eventTemplate_id`) REFERENCES `event_templates` (`id`) ON DELETE CASCADE,
-  CONSTRAINT `FK_E68AD2D5A46D7BCB` FOREIGN KEY (`pluginPrototype_id`) REFERENCES `plugin_prototypes` (`id`) ON DELETE CASCADE
+  CONSTRAINT `FK_E68AD2D5A46D7BCB` FOREIGN KEY (`pluginPrototype_id`) REFERENCES `plugin_prototypes` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `plugin_positions_ibfk_1` FOREIGN KEY (`eventTemplate_id`) REFERENCES `event_templates` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 LOCK TABLES `plugin_positions` WRITE;
 /*!40000 ALTER TABLE `plugin_positions` DISABLE KEYS */;
+INSERT INTO `plugin_positions` VALUES ('1','0000-00-00 00:00:00','0000-00-00 00:00:00','left',0,'1','1'),('2','0000-00-00 00:00:00','0000-00-00 00:00:00','right',0,'1','2');
 /*!40000 ALTER TABLE `plugin_positions` ENABLE KEYS */;
 UNLOCK TABLES;
 DROP TABLE IF EXISTS `plugin_prototypes`;
@@ -341,6 +346,7 @@ CREATE TABLE `plugin_prototypes` (
 
 LOCK TABLES `plugin_prototypes` WRITE;
 /*!40000 ALTER TABLE `plugin_prototypes` DISABLE KEYS */;
+INSERT INTO `plugin_prototypes` VALUES ('1','6afbd7b8','0000-00-00 00:00:00','0000-00-00 00:00:00',1,NULL,2,0,'','1'),('2','ed42308','0000-00-00 00:00:00','0000-00-00 00:00:00',1,1,1,1,'','1');
 /*!40000 ALTER TABLE `plugin_prototypes` ENABLE KEYS */;
 UNLOCK TABLES;
 DROP TABLE IF EXISTS `plugindata_content`;
@@ -354,12 +360,13 @@ CREATE TABLE `plugindata_content` (
   `text` varchar(64) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `IDX_30B461CEC942BCF` (`plugin_id`),
-  CONSTRAINT `FK_30B461CEC942BCF` FOREIGN KEY (`plugin_id`) REFERENCES `plugins` (`id`)
+  CONSTRAINT `plugindata_content_ibfk_1` FOREIGN KEY (`plugin_id`) REFERENCES `plugin_instances` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 LOCK TABLES `plugindata_content` WRITE;
 /*!40000 ALTER TABLE `plugindata_content` DISABLE KEYS */;
+INSERT INTO `plugindata_content` VALUES ('5ed1cfac','f5e15ef','2012-11-20 19:39:38','2012-11-20 19:39:38','hello world'),('e355a7f','341c98aa','2012-11-20 19:39:38','2012-11-20 19:39:38','hello world');
 /*!40000 ALTER TABLE `plugindata_content` ENABLE KEYS */;
 UNLOCK TABLES;
 DROP TABLE IF EXISTS `plugindata_header`;
@@ -373,12 +380,13 @@ CREATE TABLE `plugindata_header` (
   `text` varchar(64) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `IDX_C2FD67DBEC942BCF` (`plugin_id`),
-  CONSTRAINT `FK_C2FD67DBEC942BCF` FOREIGN KEY (`plugin_id`) REFERENCES `plugins` (`id`)
+  CONSTRAINT `plugindata_header_ibfk_1` FOREIGN KEY (`plugin_id`) REFERENCES `plugin_instances` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 LOCK TABLES `plugindata_header` WRITE;
 /*!40000 ALTER TABLE `plugindata_header` DISABLE KEYS */;
+INSERT INTO `plugindata_header` VALUES ('315dbede','481f8ff5','2012-11-20 19:39:38','2012-11-20 19:39:38','hello world i am a header');
 /*!40000 ALTER TABLE `plugindata_header` ENABLE KEYS */;
 UNLOCK TABLES;
 DROP TABLE IF EXISTS `plugins`;
@@ -410,7 +418,7 @@ CREATE TABLE `uid` (
 
 LOCK TABLES `uid` WRITE;
 /*!40000 ALTER TABLE `uid` DISABLE KEYS */;
-INSERT INTO `uid` VALUES ('14fcb010','CoreApi\\Entity\\User'),('3831a289','Plugin\\Content\\Entity\\Content'),('6afbd7b8','CoreApi\\Entity\\Plugin'),('7771aa10','CoreApi\\Entity\\Event'),('9a6af61','CoreApi\\Entity\\Login'),('c1c9cc','Plugin\\Header\\Entity\\Header'),('ed42308','CoreApi\\Entity\\Plugin');
+INSERT INTO `uid` VALUES ('14fcb010','CoreApi\\Entity\\User'),('315dbede','Plugin\\Header\\Entity\\Header'),('341c98aa','CoreApi\\Entity\\PluginInstance'),('3831a289','Plugin\\Content\\Entity\\Content'),('453ac999','CoreApi\\Entity\\Event'),('481f8ff5','CoreApi\\Entity\\PluginInstance'),('5ed1cfac','Plugin\\Content\\Entity\\Content'),('6afbd7b8','CoreApi\\Entity\\Plugin'),('7771aa10','CoreApi\\Entity\\Event'),('9a6af61','CoreApi\\Entity\\Login'),('c1c9cc','Plugin\\Header\\Entity\\Header'),('e355a7f','Plugin\\Content\\Entity\\Content'),('ed42308','CoreApi\\Entity\\Plugin'),('f5e15ef','CoreApi\\Entity\\PluginInstance');
 /*!40000 ALTER TABLE `uid` ENABLE KEYS */;
 UNLOCK TABLES;
 DROP TABLE IF EXISTS `user_camps`;

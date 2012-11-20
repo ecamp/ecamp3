@@ -22,6 +22,7 @@ namespace Core\Plugin;
 
 use CoreApi\Entity\Event;
 use CoreApi\Entity\Medium;
+use CoreApi\Entity\EventTemplate;
 
 class RenderEvent
 {
@@ -39,14 +40,20 @@ class RenderEvent
 	private $medium;
 	
 	/**
+	 * @var CoreApi\Entity\EventTemplate
+	 */
+	private $template;
+	
+	/**
 	 * @var boolean
 	 */
 	private $backend;
 	
 	
-	public function __construct(Event $event, Medium $medium, $backend = false){
+	public function __construct(Event $event, Medium $medium, EventTemplate $template, $backend = false){
 		$this->event = $event;
 		$this->medium = $medium;
+		$this->template = $template;
 		$this->backend = !!$backend;
 	}
 	
@@ -56,6 +63,10 @@ class RenderEvent
 	
 	public function getMedium(){
 		return $this->medium;
+	}
+	
+	public function getTemplate(){
+		return $this->template;
 	}
 	
 	public function isBackend(){

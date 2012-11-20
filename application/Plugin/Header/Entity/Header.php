@@ -43,8 +43,8 @@ class Header extends \CoreApi\Entity\BaseEntity
 	private $text;
 
 	/**
-	 * @var CoreApi\Entity\Plugin
-	 * @ManyToOne(targetEntity="CoreApi\Entity\Plugin")
+	 * @var CoreApi\Entity\PluginInstance
+	 * @ManyToOne(targetEntity="CoreApi\Entity\PluginInstance")
 	 */
 	private $plugin;
 
