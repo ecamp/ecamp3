@@ -12,28 +12,9 @@ class Pluginurl extends \Zend_View_Helper_Abstract
 			return call_user_func_array(array($this,"execute"), $arguments);
 	}
 
-    public function execute( $plugin )
+    public function execute( $plugin, $method )
     {
-		$camp = $plugin->getEvent()->getCamp();
-		
-		$urlOptions = array();
-	    $urlOptions['controller'] = 'event';
-		$urlOptions['action']     = 'plugin';
-		$urlOptions['camp']       = $camp->getId();
-		$urlOptions['id']         = $plugin->getId();
-		
-		if( $camp->belongsToUser() )
-		{
-			$urlOptions['user']       = $camp->getOwner()->getId();
-			$route = 'web+user+camp+id';
-		}
-		else
-		{
-			$urlOptions['group']       = $camp->getGroup()->getId();
-			$route = 'web+group+camp+id';
-		}
-			       
-        return $this->view->url( $urlOptions, $route);
+		return "http://api.ecamp3.dev/plugin/".$plugin->getId()."/".$method."/";
     }
 
     public function setView(\Zend_View_Interface $view)

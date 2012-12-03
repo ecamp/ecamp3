@@ -39,6 +39,12 @@ class ApiApp_PluginController extends \Zend_Controller_Action
 	 */
 	protected $contextProvider;
 	
+	/**
+	 * @var Doctrine\ORM\EntityManager
+	 * @Inject Doctrine\ORM\EntityManager
+	 */
+	protected $em;
+	
     public function init()
     {
 		parent::init();
@@ -46,6 +52,12 @@ class ApiApp_PluginController extends \Zend_Controller_Action
 		\Zend_Registry::get('kernel')->Inject($this);
 		
 		$this->getResponse()->setHeader('Content-Type', 'text/plain');
+		
+		$this->getResponse()->setHeader('Access-Control-Allow-Origin', 'http://www.ecamp3.dev');
+		$this->getResponse()->setHeader('Access-Control-Allow-Credentials', 'true');
+	//	$this->getResponse()->setHeader('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
+	//	$this->getResponse()->setHeader('Access-Control-Allow-Headers', 'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version');
+		
     }
     
     public function indexAction()
@@ -66,7 +78,11 @@ class ApiApp_PluginController extends \Zend_Controller_Action
    
     	$this->kernel->Inject($pluginService);
     	
-    	$response = $pluginService->$method($this->getRequest()->getParams());
+    	$response = array();
+    	$response["response"] = $pluginService->$method($this->getRequest()->getParams());
+    	$response["request"] = $this->getRequest()->getParams();
+    	
+    	$this->em->flush();
     	
     	$this->getResponse()->setBody( Zend_Json::encode($response) );
     }

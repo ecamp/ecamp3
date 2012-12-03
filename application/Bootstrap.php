@@ -137,9 +137,11 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 		
 		\Zend_Registry::set('doctrine', $container);
 		
+		$em = $kernel->Get('Doctrine\ORM\EntityManager');
 		$IdGenerator = $kernel->Get('Core\Entity\IdGenerator');
-		$kernel->Get('Doctrine\ORM\EntityManager')
-			->getEventManager()->addEventListener(array('prePersist', 'preRemove'), $IdGenerator);
+		$strategyListener = new \Core\Plugin\StrategyEventListener($em);
+		$em->getEventManager()->addEventListener(array('prePersist', 'preRemove'), $IdGenerator);
+		$em->getEventManager()->addEventSubscriber($strategyListener);
 		
 		return $container;
 		

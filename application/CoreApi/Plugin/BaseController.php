@@ -73,12 +73,6 @@ class BaseController extends \Zend_Controller_Action
 	
 		/* load translator */
 		$this->t = new \Zend_View_Helper_Translate();
-	
-		/* register events */
-		$em = \Zend_Registry::get('kernel')->Get("Doctrine\ORM\EntityManager");
-		
-		$event = new \WebApp\Plugin\StrategyEventListener($em);
-		$em->getEventManager()->addEventSubscriber($event);
 	}
 	
 	

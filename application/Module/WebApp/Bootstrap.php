@@ -47,9 +47,7 @@ class WebApp_Bootstrap extends Zend_Application_Module_Bootstrap
 		
 		/* Subdomain Route */
 		$webappSubdomain = new Zend_Controller_Router_Route_Hostname(
-			$hostname, array('module' => 'WebApp'));
-		
-		
+			"www.". $hostname, array('module' => 'WebApp'));
 		
 		/* default Moduel Router */
 		Zend_Controller_Front::getInstance()->getRouter()->addRoute(
