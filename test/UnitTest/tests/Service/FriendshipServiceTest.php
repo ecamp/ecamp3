@@ -77,7 +77,7 @@ class FriendshipServiceTest extends ServiceTestCase
 		$urs = $this->relationshipService->GetRequests();
 		$ids = array();
 		
-		foreach($urs as $ur){	$ids[] = $ur->getTo()->getId();	}
+		foreach($urs as $ur){	$ids[] = $ur->getId();	}
 		$this->assertContains($user2->getId(), $ids, "Request not created");
 		
 		
@@ -87,7 +87,7 @@ class FriendshipServiceTest extends ServiceTestCase
 		$urs = $this->relationshipService->GetInvitations();
 		$ids = array();
 		
-		foreach($urs as $ur){	$ids[] = $ur->getFrom()->getId();	}
+		foreach($urs as $ur){	$ids[] = $ur->getId();	}
 		$this->assertContains($user1->getId(), $ids, "Invitatino not received");
 	}
 	
