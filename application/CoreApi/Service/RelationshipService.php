@@ -88,14 +88,6 @@ class RelationshipService extends ServiceBase
 	}
 	
 	
-	/**
-	 * @return Doctrine\Common\Collection\ArrayCollection
-	 */
-	public function GetFriends(){
-		$user = $this->userService->Get();
-		return $this->userRepo->findFriends($user);
-	}
-	
 	
 	/**
 	 * @return Doctrine\Common\Collection\ArrayCollection

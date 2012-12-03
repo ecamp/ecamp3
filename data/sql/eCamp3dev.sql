@@ -294,7 +294,7 @@ CREATE TABLE `plugin_instances` (
 
 LOCK TABLES `plugin_instances` WRITE;
 /*!40000 ALTER TABLE `plugin_instances` DISABLE KEYS */;
-INSERT INTO `plugin_instances` VALUES ('12469753','22b6b4f4','2012-11-20 22:30:56','2012-11-20 22:30:56','2'),('2c553e59','22b6b4f4','2012-11-20 22:30:56','2012-11-20 22:30:56','1'),('5894c20a','22b6b4f4','2012-11-20 22:30:56','2012-11-20 22:30:56','1');
+INSERT INTO `plugin_instances` VALUES ('12469753','22b6b4f4','2012-11-20 22:30:56','2012-11-20 22:30:56','2'),('2c553e59','22b6b4f4','2012-11-20 22:30:56','2012-11-20 22:30:56','1'),('30956686','22b6b4f4','2012-12-03 20:12:44','2012-12-03 20:12:44','1'),('5894c20a','22b6b4f4','2012-11-20 22:30:56','2012-11-20 22:30:56','1');
 /*!40000 ALTER TABLE `plugin_instances` ENABLE KEYS */;
 UNLOCK TABLES;
 DROP TABLE IF EXISTS `plugin_positions`;
@@ -366,7 +366,7 @@ CREATE TABLE `plugindata_content` (
 
 LOCK TABLES `plugindata_content` WRITE;
 /*!40000 ALTER TABLE `plugindata_content` DISABLE KEYS */;
-INSERT INTO `plugindata_content` VALUES ('232bdf34','5894c20a','2012-11-20 22:30:56','2012-11-20 22:30:56','hello world'),('53ed3c3','2c553e59','2012-11-20 22:30:56','2012-11-20 22:30:56','hello world');
+INSERT INTO `plugindata_content` VALUES ('232bdf34','5894c20a','2012-11-20 22:30:56','2012-11-20 22:30:56','hello world'),('53ed3c3','2c553e59','2012-11-20 22:30:56','2012-11-20 22:30:56','hello world'),('9af95c88','30956686','2012-12-03 20:12:44','2012-12-03 20:12:44','hello world');
 /*!40000 ALTER TABLE `plugindata_content` ENABLE KEYS */;
 UNLOCK TABLES;
 DROP TABLE IF EXISTS `plugindata_header`;
@@ -418,7 +418,7 @@ CREATE TABLE `uid` (
 
 LOCK TABLES `uid` WRITE;
 /*!40000 ALTER TABLE `uid` DISABLE KEYS */;
-INSERT INTO `uid` VALUES ('12469753','CoreApi\\Entity\\PluginInstance'),('14fcb010','CoreApi\\Entity\\User'),('21b29fe6','Plugin\\Header\\Entity\\Header'),('22b6b4f4','CoreApi\\Entity\\Event'),('232bdf34','Plugin\\Content\\Entity\\Content'),('2c553e59','CoreApi\\Entity\\PluginInstance'),('3831a289','Plugin\\Content\\Entity\\Content'),('53ed3c3','Plugin\\Content\\Entity\\Content'),('5894c20a','CoreApi\\Entity\\PluginInstance'),('6afbd7b8','CoreApi\\Entity\\Plugin'),('7771aa10','CoreApi\\Entity\\Event'),('9a6af61','CoreApi\\Entity\\Login'),('c1c9cc','Plugin\\Header\\Entity\\Header'),('ed42308','CoreApi\\Entity\\Plugin');
+INSERT INTO `uid` VALUES ('12469753','CoreApi\\Entity\\PluginInstance'),('14fcb010','CoreApi\\Entity\\User'),('21b29fe6','Plugin\\Header\\Entity\\Header'),('22b6b4f4','CoreApi\\Entity\\Event'),('232bdf34','Plugin\\Content\\Entity\\Content'),('2c553e59','CoreApi\\Entity\\PluginInstance'),('30956686','CoreApi\\Entity\\PluginInstance'),('3831a289','Plugin\\Content\\Entity\\Content'),('53ed3c3','Plugin\\Content\\Entity\\Content'),('5894c20a','CoreApi\\Entity\\PluginInstance'),('6afbd7b8','CoreApi\\Entity\\Plugin'),('7771aa10','CoreApi\\Entity\\Event'),('9a6af61','CoreApi\\Entity\\Login'),('9af95c88','Plugin\\Content\\Entity\\Content'),('c1c9cc','Plugin\\Header\\Entity\\Header'),('ed42308','CoreApi\\Entity\\Plugin');
 /*!40000 ALTER TABLE `uid` ENABLE KEYS */;
 UNLOCK TABLES;
 DROP TABLE IF EXISTS `user_camps`;
