@@ -46,17 +46,34 @@ class ApiApp_Bootstrap extends Zend_Application_Module_Bootstrap
 		$hostname = Zend_Registry::get('hostname');
 		
 		/* Subdomain Route */
-		$webappSubdomain = new Zend_Controller_Router_Route_Hostname(
-			$hostname, array('module' => 'ApiApp'));
-	
+		$ApiSubdomain = new Zend_Controller_Router_Route_Hostname(
+				"api." . $hostname, array('module' => 'ApiApp'));
+		
 		
 		/* default Plugin Router */
 		Zend_Controller_Front::getInstance()->getRouter()->addRoute(
-			'plugin', $webappSubdomain->chain(
+			'plugin', $ApiSubdomain->chain(
 				new Zend_Controller_Router_Route('/plugin/:id/:method/*',
 				array('controller' => 'plugin', 'action' => 'index'), array('id' => '[0-9a-f]+'))));
-		
 	}
 	
+	/**
+	 * Load and configure error handler
+	 */
+	public function _routeShutdown_ErrorHandler()
+	{
+		$plugin = new Zend_Controller_Plugin_ErrorHandler();
+		$plugin->setErrorHandlerModule('ApiApp');
+		Zend_Controller_Front::getInstance()->registerPlugin($plugin);
+	}
 	
+	public function _routeShutdown_Layout()
+	{
+		$layout = \Zend_Layout::startMvc();
+	
+		$layout->disableLayout();
+		
+		Zend_Controller_Front::getInstance()->setParam('noViewRenderer', true);
+	}
+
 }

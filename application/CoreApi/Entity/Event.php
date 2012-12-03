@@ -55,9 +55,9 @@ class Event extends BaseEntity
 	private $eventInstances;
 
 	/**
-	 * @OneToMany(targetEntity="Plugin", mappedBy="event", cascade={"all"}, orphanRemoval=true)
+	 * @OneToMany(targetEntity="PluginInstance", mappedBy="event", cascade={"all"}, orphanRemoval=true)
 	 */
-	private $plugins;
+	private $pluginInstances;
 	
 	/**
 	 * @var EventPrototype
@@ -119,35 +119,35 @@ class Event extends BaseEntity
 	/**
 	 * @return array
 	 */
-	public function getPlugins()
+	public function getPluginInstances()
 	{
-		return $this->plugins;
+		return $this->pluginInstances;
 	}
 	
 	/**
 	 * @return array
 	 */
-	public function getPluginsByConfig(PluginConfig $config)
+	public function getPluginsByPrototype(PluginPrototype $prototype)
 	{
-	    $closure = function(Plugin $plugin) use ($config)
+	    $closure = function(PluginInstance $instance) use ($prototype)
 	    {
-	        return $plugin->getPluginConfig()->getId() == $config->getId();
+	        return $instance->getPluginPrototype()->getId() == $prototype->getId();
 	    };
 	    
-	    return $this->plugins->filter($closure);
+	    return $this->pluginInstances->filter($closure);
 	}
 	
 	/**
 	 * @return integer
 	 */
-	public function countPluginsByConfig(PluginConfig $config)
+	public function countPluginsByPrototype(PluginPrototype $prototype)
 	{
-		$closure = function(Plugin $plugin) use ($config)
+		$closure = function(PluginInstance $instance) use ($prototype)
 		{
-			return $plugin->getPluginConfig()->getId() == $config->getId();
+			return $instance->getPluginPrototype()->getId() == $prototype->getId();
 		};
 		 
-		return $this->plugins->count($closure);
+		return $this->pluginInstances->count($closure);
 	}
 	
 	/**

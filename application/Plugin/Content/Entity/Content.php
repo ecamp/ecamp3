@@ -22,7 +22,7 @@ namespace Plugin\Content\Entity;
 
 /**
  * @Entity
- * @Table(name="plugin_contents")
+ * @Table(name="plugindata_content")
  */
 use Doctrine\DBAL\Types\StringType;
 
@@ -46,8 +46,8 @@ class Content extends \CoreApi\Entity\BaseEntity
 	private $text;
 
 	/**
-	 * @var CoreApi\Entity\Plugin
-	 * @ManyToOne(targetEntity="CoreApi\Entity\Plugin")
+	 * @var CoreApi\Entity\PluginInstance
+	 * @ManyToOne(targetEntity="CoreApi\Entity\PluginInstance")
 	 */
 	private $plugin;
 

@@ -21,7 +21,7 @@
 namespace CoreApi\Entity;
 
 /**
- * PluginConfig
+ * PluginPrototype
  * @Entity(readOnly=true)
  * @Table(name="plugin_prototypes")
  *  //,  uniqueConstraints={@UniqueConstraint(name="prototype_plugin_unique",columns={"prototype_id", "pluginName"})})
@@ -89,6 +89,10 @@ class PluginPrototype extends BaseEntity
 	    return $this->plugin;
 	}
 	
+	public function getServiceClassName()
+	{
+		return "Plugin\\".$this->getPlugin()->getName()."\\Service\\PluginService";
+	}
 	
 	
 	public function setConfig($config)

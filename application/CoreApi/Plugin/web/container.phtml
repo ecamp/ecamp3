@@ -1,33 +1,34 @@
 <div metal:define-macro="default">
-	<div tal:condition="not: backend" metal:use-macro="frontend" />
-	<div tal:condition="backend" metal:use-macro="backend" />
+	<div tal:condition="not: renderEvent/isBackend" metal:use-macro="frontend" />
+	<div tal:condition="renderEvent/isBackend" metal:use-macro="backend" />
 </div>
 
 <div metal:define-macro="frontend">
-	<div tal:repeat="item container">
-		<div tal:condition="item/isPlugin">
-			<div class="plugin_header" tal:content="item/plugin/getPluginName"></div>
-			<div class="plugin_body" tal:content=" structure item/plugin/getStrategyInstance/renderFrontend" />
+	<div tal:repeat="prototype container/getRenderPluginPrototypes">
+		<div tal:repeat="instance prototype/getRenderPluginInstances">
+			<div class="plugin_header" tal:content="instance/getPluginName"></div>
+			<div class="plugin_body" tal:content=" structure instance/render" />
 		</div>
 	</div>
 </div>
 
 <div metal:define-macro="backend">
-	<div tal:repeat="item container">
+	<div tal:repeat="prototype container/getRenderPluginPrototypes">
 		
-		<div tal:condition="item/isPlugin">
+		<div tal:repeat="instance prototype/getRenderPluginInstances">
 			<div class="plugin_header">
-				 <span tal:content="item/plugin/getPluginName" />
-				 <a tal:condition="item/isDeletable" style="float:right;" tal:attributes="href helper:campurl(camp, array('action' => 'removeplugin', 'id' => event.getId(), 'plugin' => item.plugin.getId() ), 'camp+id')">
+				 <div class="plugin_header" tal:content="instance/getPluginName"></div>
+				 <a tal:condition="instance/isInstanceDeletable" style="float:right;" tal:attributes="href helper:campurl(camp, array('action' => 'removeplugin', 'id' => event.getId(), 'plugin' => instance.getPluginInstance().getId() ), 'camp+id')">
 				 	Delete
 				 </a>
 			</div>
-			<div class="plugin_body" tal:content=" structure item/plugin/getStrategyInstance/renderBackend" />
+			<div class="plugin_body" tal:content=" structure instance/render" />
 		</div>
 		
-		<div tal:condition="item/isPlaceholder">
-			<a class="button" tal:attributes="href helper:campurl(camp, array('action' => 'addplugin', 'id' => event.getId(), 'plugin' => item.config.getId() ), 'camp+id')">
-				+ add <span tal:content="item/config/getPluginName" />
+		<div tal:condition="prototype/isInstanceAddable">
+		
+			<a class="button" tal:attributes="href helper:campurl(camp, array('action' => 'addplugin', 'id' => event.getId(), 'plugin' => prototype.getPluginPrototype().getId() ), 'camp+id')">
+				+ add <span tal:content="prototype/getPluginName" />
 			</a>
 		</div>
 		

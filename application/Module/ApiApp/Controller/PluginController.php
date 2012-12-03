@@ -18,13 +18,8 @@
  * along with eCamp.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-class Content_PluginController extends \CoreApi\Plugin\BaseController
-{
-	/**
-	 * @var CoreApi\Acl\ContextProvider
-	 * @Inject CoreApi\Acl\ContextProvider
-	 */
-	protected $contextProvider;
+class ApiApp_PluginController extends \Zend_Controller_Action
+{	
 	
 	/**
 	 * @var PhpDI\IKernel
@@ -32,31 +27,41 @@ class Content_PluginController extends \CoreApi\Plugin\BaseController
 	 */
 	private $kernel;
 	
+	/**
+	 * @var CoreApi\Service\EventService
+	 * @Inject CoreApi\Service\EventService
+	 */
+	private $eventService;
+	
+	/**
+	 * @var CoreApi\Acl\ContextProvider
+	 * @Inject CoreApi\Acl\ContextProvider
+	 */
+	protected $contextProvider;
 	
     public function init()
     {
 		parent::init();
 		
-		$this->_helper->layout()->disableLayout();
-		$this->_helper->viewRenderer->setNoRender(true);
+		\Zend_Registry::get('kernel')->Inject($this);
 		
 		$this->getResponse()->setHeader('Content-Type', 'text/plain');
     }
-
+    
     public function indexAction()
     {
     	$id = $this->getRequest()->getParam("id");
     	$method = $this->getRequest()->getParam("method");
     	
+    	$this->contextProvider->set(null, null, $this->eventService->getCampOfPluginInstance($id)->getId());
+
     	/* load instance */
-    	$pluginInstance = $this->eventService->getPlugin($id);
-    	$plugin = $pluginInstance->getPlugin();
+    	$pluginInstance = $this->eventService->getPluginInstance($id);
+    	$prototype = $pluginInstance->getPluginPrototype();
     	$event = $pluginInstance->getEvent();
     	$camp = $event->getCamp();
     	
-    	$this->contextProvider->set(null, null, $camp);
-    	
-    	$serviceClass      = $plugin->getServiceClassName();
+    	$serviceClass      = $prototype->getServiceClassName();
     	$pluginService = new $serviceClass($pluginInstance);
    
     	$this->kernel->Inject($pluginService);

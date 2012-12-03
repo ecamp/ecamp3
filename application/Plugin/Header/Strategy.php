@@ -36,7 +36,7 @@ class Strategy extends \Core\Plugin\AbstractStrategy implements \Core\Plugin\IPl
 	protected $pluginName = "Header";
 	
 	/** construct */
-	public function __construct( \Doctrine\ORM\EntityManager $em, \CoreApi\Entity\Plugin $plugin)
+	public function __construct( \Doctrine\ORM\EntityManager $em, \CoreApi\Entity\PluginInstance $plugin)
 	{
 		$this->em = $em;
 		$this->plugin = $plugin;
@@ -92,11 +92,10 @@ class Strategy extends \Core\Plugin\AbstractStrategy implements \Core\Plugin\IPl
 	 *
 	 * @return string
 	 */
-	public function renderFrontend(){
-		$this->createView();
-		$this->view->header = $this->header;
-		$this->view->plugin = $this->plugin;
-		return $this->view->render("show.phtml");
+	public function renderFrontend(\Ztal_Tal_View $view){
+		$view->header = $this->header;
+		$view->plugin = $this->plugin;
+		return $view->render("show.phtml");
 	}
 
 	/**
@@ -108,11 +107,10 @@ class Strategy extends \Core\Plugin\AbstractStrategy implements \Core\Plugin\IPl
 	 *
 	 * @return string
 	 */
-	public function renderBackend(){
-		$this->createView();
-		$this->view->header = $this->header;
-		$this->view->plugin = $this->plugin;
-		return $this->view->render("edit.phtml");
+	public function renderBackend(\Ztal_Tal_View $view){
+		$view->header = $this->header;
+		$view->plugin = $this->plugin;
+		return $view->render("edit.phtml");
 	}
 	
 }

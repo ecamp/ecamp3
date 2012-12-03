@@ -23,7 +23,7 @@ namespace CoreApi\Entity;
 /**
  * EventTemplate
  * @Entity(readOnly=true)
- * @Table(name="event_template",  uniqueConstraints={@UniqueConstraint(name="prototype_medium_unique",columns={"eventPrototype_id", "medium"})})
+ * @Table(name="event_templates", uniqueConstraints={@UniqueConstraint(name="prototype_medium_unique",columns={"eventPrototype_id", "medium"})})
  */
 class EventTemplate extends BaseEntity
 {
@@ -33,11 +33,12 @@ class EventTemplate extends BaseEntity
         $this->eventPrototype = $eventPrototype;
     }
 
-	/**
-	 * @var string
-	 * @Column(type="string", length=64, nullable=false )
-	 */
-	private $medium;
+    /**
+     * @var Medium
+     * @ManyToOne(targetEntity="Medium")
+     * @JoinColumn(name="medium", referencedColumnName="name", nullable=false, onDelete="cascade")
+     */
+    private $medium;
 	
 	/**
 	 * @var string
@@ -53,7 +54,7 @@ class EventTemplate extends BaseEntity
 	private $eventPrototype;
 	
 	/**
-	 * @OneToMany(targetEntity="PluginPosition", mappedBy="templateMap")
+	 * @OneToMany(targetEntity="PluginPosition", mappedBy="eventTemplate")
 	 * @OrderBy({"sort" = "ASC"})
 	 */
 	private $pluginPositions;
