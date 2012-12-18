@@ -54,9 +54,9 @@ class BaseController extends \Zend_Controller_Action
 		
 		$this->me = $this->contextProvider->getContext()->getMe();
 		
-		$this->getResponse()->setHeader('Content-Type', 'text/plain');
+		$this->getResponse()->setHeader('Content-Type', 'application/json');
 		$this->getResponse()->setHeader('Access-Control-Allow-Origin', 'http://www.ecamp3.dev');
 		$this->getResponse()->setHeader('Access-Control-Allow-Credentials', 'true');
-	
+		
 	}
 }

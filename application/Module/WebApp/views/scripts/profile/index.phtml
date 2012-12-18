@@ -1,0 +1,20 @@
+<h1>Profile</h1>
+
+<div ng-app="twBootstrap">
+	<div class="container"  ng-controller="TestCtrl">
+		<div class="row">
+			<input-text class="span12" name="myName" label="Vorname:" ng-model="profile.firstname" ></input-text>
+			<input-text class="span12" name="myName" label="Nachname:" ng-model="profile.surname" ></input-text>
+			<input-text class="span12" name="myName" label="Pfadiname:" ng-model="profile.scoutname" ></input-text>
+			
+			<input-date class="span12" name="fdsa3" label="Geburtsdatum:" ng-model="profile.birthday" ></input-date>
+		</div>
+		
+		<div class="row">
+			<div class="span10" />
+			<div class="span2">
+				<input class="span2 btn" type="submit" value="Speichern" ng-click="save()" />
+			</div>
+		</div>
+	</div>
+</div>

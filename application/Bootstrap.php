@@ -56,12 +56,6 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 			$hostname = array_pop($urlParts) . "." . $hostname;
 			
 			Zend_Registry::set('hostname', $hostname);
-			
-			
-			// TODO: Try to remove this lines:
-			// This adds the www - subdomain as default, if there is no subdomain
-			if($_SERVER['HTTP_HOST'] == "www." . $hostname)
-			{	$_SERVER['HTTP_HOST'] = $hostname;	}
 		}
 		else
 		{

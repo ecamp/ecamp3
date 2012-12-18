@@ -43,11 +43,12 @@ class WebApp_Bootstrap extends Zend_Application_Module_Bootstrap
 	
 	protected function _initRoutes()
 	{
+		
 		$hostname = Zend_Registry::get('hostname');
 		
 		/* Subdomain Route */
 		$webappSubdomain = new Zend_Controller_Router_Route_Hostname(
-			"www.". $hostname, array('module' => 'WebApp'));
+			"www." . $hostname, array('module' => 'WebApp'));
 		
 		/* default Moduel Router */
 		Zend_Controller_Front::getInstance()->getRouter()->addRoute(
@@ -113,7 +114,6 @@ class WebApp_Bootstrap extends Zend_Application_Module_Bootstrap
 				array('controller' => 'camp','action' => 'show'),
 				array('id' => '[0-9a-f]+'))));
 
-		
 		/* TODO: quick camp url */
 	}
 	
@@ -231,9 +231,9 @@ class WebApp_Bootstrap extends Zend_Application_Module_Bootstrap
 		$view->doctype('XHTML1_STRICT');
 		$view->headMeta()->appendHttpEquiv('Content-Type', 'text/html;charset=utf-8');
 
-		$view->headLink()->appendStylesheet('/css/blueprint/screen.css', 'screen, projection');
-		$view->headLink()->appendStylesheet('/css/blueprint/ie.css', 'screen, projection', 'lt IE 8');
-		$view->headLink()->appendStylesheet('/css/blueprint/print.css', 'print');
+// 		$view->headLink()->appendStylesheet('/css/blueprint/screen.css', 'screen, projection');
+// 		$view->headLink()->appendStylesheet('/css/blueprint/ie.css', 'screen, projection', 'lt IE 8');
+// 		$view->headLink()->appendStylesheet('/css/blueprint/print.css', 'print');
 
 		$view->headLink()->appendStylesheet('/css/blueprint/plugins/fancy-type/screen.css', 'screen, projection');
 		$view->headLink()->appendStylesheet('/css/blueprint/plugins/buttons/screen.css', 'screen, projection');
