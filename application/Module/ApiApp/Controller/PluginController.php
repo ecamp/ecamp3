@@ -18,46 +18,19 @@
  * along with eCamp.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-class ApiApp_PluginController extends \Zend_Controller_Action
+class ApiApp_PluginController extends \ApiApp\Controller\BaseController
 {	
-	
-	/**
-	 * @var PhpDI\IKernel
-	 * @Inject PhpDI\IKernel
-	 */
-	private $kernel;
 	
 	/**
 	 * @var CoreApi\Service\EventService
 	 * @Inject CoreApi\Service\EventService
 	 */
 	private $eventService;
-	
-	/**
-	 * @var CoreApi\Acl\ContextProvider
-	 * @Inject CoreApi\Acl\ContextProvider
-	 */
-	protected $contextProvider;
-	
-	/**
-	 * @var Doctrine\ORM\EntityManager
-	 * @Inject Doctrine\ORM\EntityManager
-	 */
-	protected $em;
+
 	
     public function init()
     {
 		parent::init();
-		
-		\Zend_Registry::get('kernel')->Inject($this);
-		
-		$this->getResponse()->setHeader('Content-Type', 'text/plain');
-		
-		$this->getResponse()->setHeader('Access-Control-Allow-Origin', 'http://www.ecamp3.dev');
-		$this->getResponse()->setHeader('Access-Control-Allow-Credentials', 'true');
-	//	$this->getResponse()->setHeader('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
-	//	$this->getResponse()->setHeader('Access-Control-Allow-Headers', 'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version');
-		
     }
     
     public function indexAction()

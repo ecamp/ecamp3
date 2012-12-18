@@ -55,6 +55,18 @@ class ApiApp_Bootstrap extends Zend_Application_Module_Bootstrap
 			'plugin', $ApiSubdomain->chain(
 				new Zend_Controller_Router_Route('/plugin/:id/:method/*',
 				array('controller' => 'plugin', 'action' => 'index'), array('id' => '[0-9a-f]+'))));
+		
+		/* default Plugin Router */
+		Zend_Controller_Front::getInstance()->getRouter()->addRoute(
+			'general', $ApiSubdomain->chain(
+				new Zend_Controller_Router_Route('/:controller/:action/*',
+				array('controller' => 'error', 'action' => 'error'))));
+		
+		/* default Plugin Router */
+		Zend_Controller_Front::getInstance()->getRouter()->addRoute(
+			'general+id', $ApiSubdomain->chain(
+				new Zend_Controller_Router_Route('/:controller/:action/:id/*',
+				array('controller' => 'error', 'action' => 'error'), array('id' => '[0-9a-f]+'))));
 	}
 	
 	/**

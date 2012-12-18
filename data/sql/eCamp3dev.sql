@@ -294,7 +294,7 @@ CREATE TABLE `plugin_instances` (
 
 LOCK TABLES `plugin_instances` WRITE;
 /*!40000 ALTER TABLE `plugin_instances` DISABLE KEYS */;
-INSERT INTO `plugin_instances` VALUES ('12469753','22b6b4f4','2012-11-20 22:30:56','2012-11-20 22:30:56','2'),('2c553e59','22b6b4f4','2012-11-20 22:30:56','2012-11-20 22:30:56','1'),('40a1883b','22b6b4f4','2012-12-03 20:03:21','2012-12-03 20:03:21','1'),('98d38ac','22b6b4f4','2012-12-03 20:12:36','2012-12-03 20:12:36','1');
+INSERT INTO `plugin_instances` VALUES ('12469753','22b6b4f4','2012-11-20 22:30:56','2012-11-20 22:30:56','2'),('2c553e59','22b6b4f4','2012-11-20 22:30:56','2012-11-20 22:30:56','1'),('40a1883b','22b6b4f4','2012-12-03 20:03:21','2012-12-03 20:03:21','1'),('727a9947','22b6b4f4','2012-12-18 20:42:57','2012-12-18 20:42:57','1'),('98d38ac','22b6b4f4','2012-12-03 20:12:36','2012-12-03 20:12:36','1');
 /*!40000 ALTER TABLE `plugin_instances` ENABLE KEYS */;
 UNLOCK TABLES;
 DROP TABLE IF EXISTS `plugin_positions`;
@@ -366,7 +366,7 @@ CREATE TABLE `plugindata_content` (
 
 LOCK TABLES `plugindata_content` WRITE;
 /*!40000 ALTER TABLE `plugindata_content` DISABLE KEYS */;
-INSERT INTO `plugindata_content` VALUES ('53ed3c3','2c553e59','2012-11-20 22:30:56','2012-12-03 22:07:39','test12'),('548d48ff','40a1883b','2012-12-03 20:03:21','2012-12-03 20:03:21','hello world'),('75cda91e','98d38ac','2012-12-03 20:12:36','2012-12-03 20:12:36','hello world');
+INSERT INTO `plugindata_content` VALUES ('3493355e','727a9947','2012-12-18 20:42:57','2012-12-18 20:42:57','hello world'),('53ed3c3','2c553e59','2012-11-20 22:30:56','2012-12-18 20:56:43','test1'),('548d48ff','40a1883b','2012-12-03 20:03:21','2012-12-03 20:03:21','hello world'),('75cda91e','98d38ac','2012-12-03 20:12:36','2012-12-03 20:12:36','hello world');
 /*!40000 ALTER TABLE `plugindata_content` ENABLE KEYS */;
 UNLOCK TABLES;
 DROP TABLE IF EXISTS `plugindata_header`;
@@ -418,7 +418,7 @@ CREATE TABLE `uid` (
 
 LOCK TABLES `uid` WRITE;
 /*!40000 ALTER TABLE `uid` DISABLE KEYS */;
-INSERT INTO `uid` VALUES ('12469753','CoreApi\\Entity\\PluginInstance'),('14fcb010','CoreApi\\Entity\\User'),('21b29fe6','Plugin\\Header\\Entity\\Header'),('22b6b4f4','CoreApi\\Entity\\Event'),('2c553e59','CoreApi\\Entity\\PluginInstance'),('3831a289','Plugin\\Content\\Entity\\Content'),('40a1883b','CoreApi\\Entity\\PluginInstance'),('53ed3c3','Plugin\\Content\\Entity\\Content'),('548d48ff','Plugin\\Content\\Entity\\Content'),('6afbd7b8','CoreApi\\Entity\\Plugin'),('75cda91e','Plugin\\Content\\Entity\\Content'),('7771aa10','CoreApi\\Entity\\Event'),('98d38ac','CoreApi\\Entity\\PluginInstance'),('9a6af61','CoreApi\\Entity\\Login'),('c1c9cc','Plugin\\Header\\Entity\\Header'),('ed42308','CoreApi\\Entity\\Plugin');
+INSERT INTO `uid` VALUES ('12469753','CoreApi\\Entity\\PluginInstance'),('14fcb010','CoreApi\\Entity\\User'),('21b29fe6','Plugin\\Header\\Entity\\Header'),('22b6b4f4','CoreApi\\Entity\\Event'),('2c553e59','CoreApi\\Entity\\PluginInstance'),('3493355e','Plugin\\Content\\Entity\\Content'),('3831a289','Plugin\\Content\\Entity\\Content'),('40a1883b','CoreApi\\Entity\\PluginInstance'),('53ed3c3','Plugin\\Content\\Entity\\Content'),('548d48ff','Plugin\\Content\\Entity\\Content'),('6afbd7b8','CoreApi\\Entity\\Plugin'),('727a9947','CoreApi\\Entity\\PluginInstance'),('75cda91e','Plugin\\Content\\Entity\\Content'),('7771aa10','CoreApi\\Entity\\Event'),('98d38ac','CoreApi\\Entity\\PluginInstance'),('9a6af61','CoreApi\\Entity\\Login'),('c1c9cc','Plugin\\Header\\Entity\\Header'),('ed42308','CoreApi\\Entity\\Plugin');
 /*!40000 ALTER TABLE `uid` ENABLE KEYS */;
 UNLOCK TABLES;
 DROP TABLE IF EXISTS `user_camps`;
@@ -540,7 +540,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES ('14fcb010',NULL,'2012-09-14 21:32:17','2012-09-14 21:32:20','tester','test@test.com',NULL,'test','test','test',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'Activated','User');
+INSERT INTO `users` VALUES ('14fcb010',NULL,'2012-09-14 21:32:17','2012-12-18 22:29:01','tester','test@test.com',NULL,'test','12345','1',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'Activated','User');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
