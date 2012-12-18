@@ -34,6 +34,7 @@ class UserService
 	{
 		$this->acl->allow(DefaultAcl::MEMBER, $this, 'Get');
 		$this->acl->allow(DefaultAcl::GUEST,  $this, 'Create');
+		$this->acl->allow(DefaultAcl::USER_ME, $this, 'Update');
 		
 		
 		$this->acl->allow(DefaultAcl::MEMBER,  $this, 'getFriendsOf');
@@ -86,9 +87,13 @@ class UserService
 			$this->validationFailed();
 		}
 		
-		$userValidator = new \Core\Validator\Entity\UserValidator($user);
+		$newUserValidator = new \Core\Validator\Entity\NewUserValidator($user);
 		$this->validationFailed( 
-			! $userValidator->applyIfValid($params) );	
+			! $newUserValidator->applyIfValid($params) );
+
+		$userValidator = new \Core\Validator\Entity\UserValidator($user);
+		$this->validationFailed(
+				! $userValidator->applyIfValid($params) );
 		
 		$user->setState(User::STATE_REGISTERED);
 		$activationCode = $user->createNewActivationCode();
@@ -103,7 +108,14 @@ class UserService
 	
 	public function Update(Params $params)
 	{
-		// update user
+		$user = $this->getContext()->getUser();
+		
+		$userValidator = new \Core\Validator\Entity\UserValidator($user);
+		
+		$this->validationFailed(
+			! $userValidator->applyIfValid($params));	
+		
+		return $user;
 	}
 	
 	public function Delete()

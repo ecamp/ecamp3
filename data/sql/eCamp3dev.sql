@@ -540,7 +540,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES ('14fcb010',NULL,'2012-09-14 21:32:17','2012-09-14 21:32:20','tester','test@test.com',NULL,'test','test','test',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'Activated','User');
+INSERT INTO `users` VALUES ('14fcb010',NULL,'2012-09-14 21:32:17','2012-12-18 23:19:27','tester','test@test.com',NULL,'test','Forte asdf ;lkj;lkj;lkoiwser','test',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'Activated','User');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
