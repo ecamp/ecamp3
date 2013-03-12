@@ -24,7 +24,7 @@ namespace CoreApi\Entity;
  * A period is defined by its starting date and duration (in days).
  * A camp can consist of multiple, separated periods, which are not allowed to
  * overlap in time. However, a period can have multiple program alternatives (subcamps).
- * @Entity
+ * @Entity(repositoryClass="Core\Repository\PeriodRepository")
  * @Table(name="periods")
  */
 

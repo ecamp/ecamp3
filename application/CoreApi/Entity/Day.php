@@ -24,7 +24,7 @@ namespace CoreApi\Entity;
  * The day belongs to the subcamp and can provide additional background
  * to a specific day (e.g. storyline, menu, responsible leader of the day,
  * etc.). The events however are not connected with the days in particular.
- * @Entity
+ * @Entity(repositoryClass="Core\Repository\DayRepository")
  * @Table(name="days", uniqueConstraints={@UniqueConstraint(name="offset_period_idx", columns={"dayOffset", "period_id"})})
  */
 class Day extends BaseEntity
@@ -86,21 +86,21 @@ class Day extends BaseEntity
 	
 	
 	/**
-	 * @return DateTime
+	 * @return \DateTime
 	 */
 	public function getStart()
 	{
-		$start = $this->period->getStart() + new \DateInterval( 'P' . $this->dayOffset . 'D');
+		$start = $this->period->getStart()->add(new \DateInterval( 'P' . $this->dayOffset . 'D'));
 		return $start;
 	}
 	
 	
 	/**
-	 * @return DateTime
+	 * @return \DateTime
 	 */
 	public function getEnd()
 	{
-		$end = $this->getStart() + new \DateInterval( 'P' . ($this->dayOffset + 1) . 'D');
+		$end = $this->getStart()->add(new \DateInterval( 'P' . ($this->dayOffset + 1) . 'D'));
 		return $end;
 	}
 	

@@ -76,7 +76,7 @@ class GroupService
 	* Request a new Group
 	* @return \CoreApi\Entity\GroupRequest
 	*/
-	public function RequestGroupP(Params $params)
+	public function RequestGroup(Params $params)
 	{
 		/* grab parent_group from context */
 		$group = $this->contextProvider->getContext()->getGroup();

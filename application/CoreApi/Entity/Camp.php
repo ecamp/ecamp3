@@ -29,9 +29,14 @@ namespace CoreApi\Entity;
  */
 class Camp extends BaseEntity
 {
-	public function __construct()
-	{
+	const VISIBILITY_PUBLIC = 'public';
+	const VISIBILITY_CONTRIBUTORS = 'contributors';
+	
+	
+	public function __construct(){
 		parent::__construct();
+		
+		$this->visibility = self::VISIBILITY_PUBLIC;
 		
 		$this->userCamps = new \Doctrine\Common\Collections\ArrayCollection();
 		$this->events    = new \Doctrine\Common\Collections\ArrayCollection();
@@ -53,7 +58,14 @@ class Camp extends BaseEntity
 	 */
 	private $title;
 
+	
+	/**
+	 * @var string
+	 * @Column(type="string", length=16, nullable=false )
+	 */
+	private $visibility;
 
+	
 	/**
 	 * @var User
 	 * @ManyToOne(targetEntity="User")
@@ -90,101 +102,97 @@ class Camp extends BaseEntity
 	 * @OneToMany(targetEntity="Event", mappedBy="camp")
 	 */
 	private $events;
+	
 
-
-	public function setName($name)
-	{
+	public function setName($name){
 		$this->name = $name;
 	}
 
-	public function getName()
-	{
+	public function getName(){
 		return $this->name;
 	}
 
-	public function setTitle($title)
-	{
+	public function setTitle($title){
 		$this->title = $title;
 	}
 
-	public function getTitle()
-	{
+	public function getTitle(){
 		return $this->title;
 	}
 
-	public function setCreator(User $creator)
-	{
+	public function setCreator(User $creator){
 		$this->creator = $creator;
+	}
+	
+	public function getVisibility(){
+		return $this->visibility;
+	}
+	
+	public function setVisibility($visibility){
+		if(in_array($visibility, array(self::VISIBILITY_PUBLIC, self::VISIBILITY_CONTRIBUTORS))){
+			$this->visibility = $visibility;
+		} else {
+			throw new \Exception("Unallowed Value for Camp::Visibility ($visibility)");
+		}
 	}
 	
 	/**
 	 * @return User  
 	 */
-	public function getCreator()
-	{
+	public function getCreator(){
 		return $this->creator;
 	}
 
-	public function setGroup(Group $group)
-	{
+	public function setGroup(Group $group){
 		$this->owner = null; $this->group = $group;
 	}
 	
 	/**
 	 * @return Group
 	 */
-	public function getGroup()
-	{
+	public function getGroup(){
 		return $this->group;
 	}
 
-	public function setOwner(User $owner)
-	{
+	public function setOwner(User $owner){
 		$this->group = null; $this->owner = $owner;
 	}
 
 	/**
 	 * @return User  
 	 */
-	public function getOwner()
-	{
+	public function getOwner(){
 		return $this->owner;
 	}
 		
-	public function belongsToUser()
-	{
+	public function belongsToUser(){
 		return isset($this->owner);
 	}
 	
 	/** 
 	 * @return array
 	 */
-	public function getPeriods()
-	{
+	public function getPeriods(){
 		return $this->periods;
 	}
 	
 	/**
 	 * @return array
 	 */
-	public function getEvents()
-	{
+	public function getEvents(){
 		return $this->events;
 	}
 
 	/**
 	 * @return array
 	 */
-	public function getUserCamps()
-	{
+	public function getUserCamps(){
 		return $this->usercamps;
 	}
 
 
-	public function getRange()
-	{
-		if($this->getPeriods()->count() == 0)
-		{
+	public function getRange(){
+		if($this->getPeriods()->count() == 0){
 			return "-";
 		}
 
@@ -195,8 +203,7 @@ class Camp extends BaseEntity
 	/**
 	 * @return array
 	 */
-	public function getMembers()
-	{
+	public function getMembers(){
 		$members = new \Doctrine\Common\Collections\ArrayCollection();
 
 		foreach($this->usercamps as $userCamp) {
@@ -209,8 +216,7 @@ class Camp extends BaseEntity
 	}
 	
 	
-	public function isManager(User $user)
-	{
+	public function isManager(User $user){
 		$closure = function($key, $element) use ($user)
 		{
 			return  $element->getRole() == UserCamp::ROLE_MANAGER && $element->getUser() == $user;
@@ -220,8 +226,7 @@ class Camp extends BaseEntity
 	}
 	
 	
-	public function isMember(User $user)
-	{
+	public function isMember(User $user){
 		$closure = function($key, $element) use ($user)
 		{
 			return  $element->getRole() == UserCamp::ROLE_MEMBER && $element->getUser()->getId() == $user->getId();

@@ -35,8 +35,10 @@ class BootstrapPlugin
 		$this->bootstrap = $bootstrap;
 	}
 	
-	private function isActive()
-	{	return $this->getRequest()->getModuleName() == $this->bootstrap->getModuleName();	}
+	private function isActive(){
+		//echo $this->getRequest()->getModuleName() . "\n";
+		return $this->getRequest()->getModuleName() == $this->bootstrap->getModuleName();
+	}
 	
 	private function callMethodsStartingWith($prefix, $request)
 	{
@@ -54,35 +56,44 @@ class BootstrapPlugin
 	
 	
 	
-	
-	public function routeShutdown(\Zend_Controller_Request_Abstract $request)
-	{
-		if($this->isActive())
-		{	$this->callMethodsStartingWith("_routeShutdown", $request);	}
+	public function routeStartup(\Zend_Controller_Request_Abstract $request) {
+		//echo __METHOD__ . ": ";
+		
 	}
 	
-	public function dispatchLoopStartup(\Zend_Controller_Request_Abstract $request)
-	{
-		if($this->isActive())
-		{	$this->callMethodsStartingWith("_dispatchLoopStartup", $request);	}
+	public function routeShutdown(\Zend_Controller_Request_Abstract $request) {
+		//echo __METHOD__ . ": ";
+		if($this->isActive()){
+			$this->callMethodsStartingWith("_routeShutdown", $request);
+		}
 	}
 	
-	public function preDispatch(\Zend_Controller_Request_Abstract $request)
-	{
-		if($this->isActive())
-		{	$this->callMethodsStartingWith("_preDispatch", $request);	}
+	public function dispatchLoopStartup(\Zend_Controller_Request_Abstract $request) {
+		//echo __METHOD__ . ": ";
+		if($this->isActive()){
+			$this->callMethodsStartingWith("_dispatchLoopStartup", $request);
+		}
 	}
 	
-	public function postDispatch(\Zend_Controller_Request_Abstract $request)
-	{
-		if($this->isActive())
-		{	$this->callMethodsStartingWith("_postDispatch", $request);	}
+	public function preDispatch(\Zend_Controller_Request_Abstract $request) {
+		//echo __METHOD__ . ": ";
+		if($this->isActive()){
+			$this->callMethodsStartingWith("_preDispatch", $request);
+		}
 	}
 	
-	public function dispatchLoopShutdown()
-	{
-		if($this->isActive())
-		{	$this->callMethodsStartingWith("_dispatchLoopShutdown", null);	}
+	public function postDispatch(\Zend_Controller_Request_Abstract $request) {
+		//echo __METHOD__ . ": ";
+		if($this->isActive()){
+			$this->callMethodsStartingWith("_postDispatch", $request);
+		}
+	}
+	
+	public function dispatchLoopShutdown() {
+		//echo __METHOD__ . ": ";
+		if($this->isActive()){
+			$this->callMethodsStartingWith("_dispatchLoopShutdown", null);
+		}
 	}
 	
 }

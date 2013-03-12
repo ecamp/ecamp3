@@ -23,6 +23,28 @@ class WebApp_ErrorController extends Zend_Controller_Action
 
     public function errorAction()
     {
+    	if(get_class($this->view) == 'Zend_View'){
+    		$view = new Zend_View();
+    		
+    		$view->setEncoding('UTF-8');
+    		$view->doctype('XHTML1_STRICT');
+    		$view->headMeta()->appendHttpEquiv('Content-Type', 'text/html;charset=utf-8');
+    		
+    		// 		$view->headLink()->appendStylesheet('/css/blueprint/screen.css', 'screen, projection');
+    		// 		$view->headLink()->appendStylesheet('/css/blueprint/ie.css', 'screen, projection', 'lt IE 8');
+    		// 		$view->headLink()->appendStylesheet('/css/blueprint/print.css', 'print');
+    		
+    		$view->headLink()->appendStylesheet('/css/blueprint/plugins/fancy-type/screen.css', 'screen, projection');
+    		$view->headLink()->appendStylesheet('/css/blueprint/plugins/buttons/screen.css', 'screen, projection');
+    		
+    		$view->headLink()->appendStylesheet('/css/main.css');
+    		
+    		
+    		$viewRenderer = Zend_Controller_Action_HelperBroker::getStaticHelper('ViewRenderer');
+    		$viewRenderer->setView($view);
+    		
+    		return $view;
+    	}
     	
         $errors = $this->_getParam('error_handler');
         
@@ -58,6 +80,7 @@ class WebApp_ErrorController extends Zend_Controller_Action
         }
         
         $this->view->request   = $errors->request;
+        
     }
 
     public function getLog()

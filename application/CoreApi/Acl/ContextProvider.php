@@ -32,4 +32,32 @@ class ContextProvider
 		return $this->contextStorage->getContext();
 	}
 	
+	/**
+	 * @return CoreApi\Entity\User
+	 */
+	public function getUser(){
+		return $this->getContext()->getUser();
+	}
+	
+	/**
+	 * @return CoreApi\Entity\Camp
+	 */
+	public function getCamp(){
+		return $this->getContext()->getCamp();
+	}
+	
+	/**
+	 * @return CoreApi\Entity\Group
+	 */
+	public function getGroup(){
+		return $this->getContext()->getGroup();
+	}
+	
+	/**
+	 * @return CoreApi\Entity\User
+	 */
+	public function getMe(){
+		return $this->getContext()->getMe();
+	}
+	
 }

@@ -18,7 +18,7 @@
  * along with eCamp.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-class ApiApp_ErrorController extends \Zend_Controller_Action
+class ApiApp_ErrorController extends Zend_Controller_Action
 {
 
     public function errorAction()
@@ -56,7 +56,7 @@ class ApiApp_ErrorController extends \Zend_Controller_Action
             echo $errors->exception;
         }
         
-       // $this->view->request   = $errors->request;
+       	$this->view->request   = $errors->request;
         
     }
 

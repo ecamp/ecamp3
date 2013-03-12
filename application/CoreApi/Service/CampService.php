@@ -114,8 +114,8 @@ class CampService
 		
 		if($group == null){
 			
-			// Create group Camp
-			if($this->campRepo->findUserCamp($user, $campName) != null){
+			// Create personal Camp
+			if($this->campRepo->findPersonalCamp($user->getId(), $campName) != null){
 				$params->addError('name', "Camp with same name already exists.");
 				$this->validationFailed();
 			}
@@ -124,8 +124,8 @@ class CampService
 		}
 		else{
 			
-			// Create personal Camp
-			if($this->campRepo->findGroupCamp($group, $campName) != null){
+			// Create group Camp
+			if($this->campRepo->findGroupCamp($group->getId(), $campName) != null){
 				$params->addError('name', "Camp with same name already exists.");
 				$this->validationFailed();
 			}

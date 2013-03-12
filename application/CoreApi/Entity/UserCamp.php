@@ -24,7 +24,7 @@ namespace CoreApi\Entity;
  * Connection between User and camp
  * User can send requests to Managers
  * Managers can send invitations to Users
- * @Entity
+ * @Entity(repositoryClass="\Core\Repository\UserCampRepository")
  * @Table(name="user_camps", uniqueConstraints={@UniqueConstraint(name="user_camp_unique",columns={"user_id","camp_id"})})
  */
 class UserCamp extends BaseEntity
