@@ -31,6 +31,12 @@ class LoginService
 	 */
 	protected $loginRepo;
 	
+	/**
+	 * @var CoreApi\Acl\ContextProvider
+	 * @Inject CoreApi\Acl\ContextProvider
+	 */
+	protected $contextProvider;
+	
 	
 	/**
 	 * Setup ACL
@@ -100,11 +106,13 @@ class LoginService
 		$user = $this->userService->get($identifier);
 		
 		/** @var CoreApi\Entity\Login */
-		if(is_null($user))	{	$login = null;	}
+		if(is_null($user))	{	return $null;	}
 		else				{	$login = $user->getLogin();	}
 		
 		$authAdapter = new \Core\Auth\Adapter($login, $password);
 		$result = \Zend_Auth::getInstance()->authenticate($authAdapter);
+		
+		$this->contextProvider->reset();
 		
 		return $result;
 	}
@@ -113,6 +121,7 @@ class LoginService
 	public function Logout()
 	{
 		\Zend_Auth::getInstance()->clearIdentity();
+		$this->contextProvider->reset();
 	}
 	
 	

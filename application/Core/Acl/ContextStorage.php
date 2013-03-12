@@ -59,7 +59,10 @@ class ContextStorage
 		return $this->storage;
 	}
 	 
-	
+	public function reset()
+	{
+		$this->context = null;
+	}
 	
 	public function set($userId, $groupId, $campId)
 	{

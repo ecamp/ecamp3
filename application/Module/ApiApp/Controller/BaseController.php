@@ -47,6 +47,19 @@ abstract class BaseController extends \Zend_Rest_Controller
 	 * @var CoreApi\Entity\User
 	 */
 	protected $me;
+	
+	/**
+	 * @var CoreApi\Service\LoginService
+	 * @Inject CoreApi\Service\LoginService
+	 */
+	protected $loginService;
+	
+	/**
+	 * @deprecated
+	 * @var Core\Repository\UserRepository
+	 * @Inject Core\Repository\UserRepository
+	 */
+	protected $userRepo;
 
 	/**
 	 * List of Serializers
@@ -59,6 +72,24 @@ abstract class BaseController extends \Zend_Rest_Controller
 		parent::init();
 		
 		\Zend_Registry::get('kernel')->Inject($this);
+		
+		\Zend_Auth::getInstance()->clearIdentity();
+		
+		/* authenticate bypass */
+		/*
+		$user = $this->userRepo->findOneBy(array('state'=>'Activated'));
+		$authAdapter = new \Core\Auth\Bypass($user);
+		$result = \Zend_Auth::getInstance()->authenticate($authAdapter);
+		*/
+		
+		/* authenticate real */
+		$result = $this->loginService->Login($_SERVER['PHP_AUTH_USER'],$_SERVER['PHP_AUTH_PW']);
+		if( is_null($result) )
+		{
+			$this->getResponse()->setHeader('WWW-Authenticate', 'Basic realm="ecamp3.api.v1"');
+			$this->getResponse()->setHttpResponseCode(401)->sendResponse();
+			exit;
+		}
 		
 		$this->me = $this->contextProvider->getContext()->getMe();
 		
@@ -132,7 +163,9 @@ abstract class BaseController extends \Zend_Rest_Controller
 		
 		switch($this->getMime()){
 			case 'json':
-				$body = json_encode($array, JSON_UNESCAPED_SLASHES);
+				$json = \Zend_Json::encode($array);
+				$json = str_replace('\\/', '/', $json);
+				$body = \Zend_Json::prettyPrint($json, array("indent" => "  "));
 				break;
 
 			case 'xml':
