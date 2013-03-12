@@ -1,20 +1,20 @@
 <?php
 
-class ApiApp_CampController extends ApiApp\Controller\BaseController
+class ApiApp_PeriodController extends ApiApp\Controller\BaseController
 {
 	
 	/**
-	 * @var Core\Repository\CampRepository
-	 * @Inject Core\Repository\CampRepository
+	 * @var Core\Repository\PeriodRepository
+	 * @Inject Core\Repository\PeriodRepository
 	 */
-	private $campRepo;
+	private $periodRepo;
 	
 	
 	public function init(){
 		parent::init();
 		
-		$this->defineSerializer('CoreApi\Entity\Camp', 
-			new ApiApp\Serializer\CampSerializer($this->getMime()));
+		$this->defineSerializer('CoreApi\Entity\Period', 
+			new ApiApp\Serializer\PeriodSerializer($this->getMime()));
 	}
 	
 	
@@ -23,11 +23,11 @@ class ApiApp_CampController extends ApiApp\Controller\BaseController
      * list of the requested resources.
      */
     public function indexAction(){
-    	$filter = $this->createFilter('creator', 'owner', 'group');
-    	$camps = $this->campRepo->findBy($filter);
+    	$filter = $this->createFilter('camp');
+    	$periods = $this->periodRepo->findBy($filter);
     	
-    	$camps = $this->serialize($camps);
-    	$this->setReturn($camps);
+    	$periods = $this->serialize($periods);
+    	$this->setReturn($periods);
     }
     
 
@@ -37,12 +37,11 @@ class ApiApp_CampController extends ApiApp\Controller\BaseController
      * by the 'id' value.
      */
     public function getAction(){
-    	$camp = $this->campRepo->find($this->getId());
+    	$period = $this->periodRepo->find($this->getId());
     	
-    	$camp = $this->serialize($camp);
-    	$this->setReturn($camp);
+    	$period = $this->serialize($period);
+    	$this->setReturn($period);
     }
-    
 
     /**
      * The post action handles POST requests; it should accept and digest a
@@ -69,5 +68,5 @@ class ApiApp_CampController extends ApiApp\Controller\BaseController
     public function deleteAction(){
     	throw new Exception("Not implemented");
     }
-    
+	
 }

@@ -1,20 +1,20 @@
 <?php
 
-class ApiApp_CampController extends ApiApp\Controller\BaseController
+class ApiApp_EventInstanceController extends ApiApp\Controller\BaseController
 {
 	
 	/**
-	 * @var Core\Repository\CampRepository
-	 * @Inject Core\Repository\CampRepository
+	 * @var Core\Repository\EventInstanceRepository
+	 * @Inject Core\Repository\EventInstanceRepository
 	 */
-	private $campRepo;
+	private $eventInstanceRepo;
 	
 	
 	public function init(){
 		parent::init();
 		
-		$this->defineSerializer('CoreApi\Entity\Camp', 
-			new ApiApp\Serializer\CampSerializer($this->getMime()));
+		$this->defineSerializer('CoreApi\Entity\EventInstance', 
+			new \ApiApp\Serializer\EventInstanceSerializer($this->getMime()));
 	}
 	
 	
@@ -23,26 +23,25 @@ class ApiApp_CampController extends ApiApp\Controller\BaseController
      * list of the requested resources.
      */
     public function indexAction(){
-    	$filter = $this->createFilter('creator', 'owner', 'group');
-    	$camps = $this->campRepo->findBy($filter);
     	
-    	$camps = $this->serialize($camps);
-    	$this->setReturn($camps);
+    	$filter = $this->createFilter('event', 'period');
+    	$eventInstances = $this->eventInstanceRepo->findBy($filter);
+    	
+    	$eventInstances = $this->serialize($eventInstances);
+    	$this->setReturn($eventInstances);
     }
     
-
     /**
      * The get action handles GET requests and receives an 'id' parameter; it
      * should respond with the server resource state of the resource identified
      * by the 'id' value.
      */
     public function getAction(){
-    	$camp = $this->campRepo->find($this->getId());
+    	$eventInstance = $this->eventInstanceRepo->find($this->getId());
     	
-    	$camp = $this->serialize($camp);
-    	$this->setReturn($camp);
+    	$eventInstance = $this->serialize($eventInstance);
+    	$this->setReturn($eventInstance);
     }
-    
 
     /**
      * The post action handles POST requests; it should accept and digest a
@@ -69,5 +68,5 @@ class ApiApp_CampController extends ApiApp\Controller\BaseController
     public function deleteAction(){
     	throw new Exception("Not implemented");
     }
-    
+	
 }

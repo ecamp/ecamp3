@@ -1,20 +1,20 @@
 <?php
 
-class ApiApp_CampController extends ApiApp\Controller\BaseController
+class ApiApp_EventController extends ApiApp\Controller\BaseController
 {
 	
 	/**
-	 * @var Core\Repository\CampRepository
-	 * @Inject Core\Repository\CampRepository
+	 * @var Core\Repository\EventRepository
+	 * @Inject Core\Repository\EventRepository
 	 */
-	private $campRepo;
+	private $eventRepo;
 	
 	
 	public function init(){
 		parent::init();
 		
-		$this->defineSerializer('CoreApi\Entity\Camp', 
-			new ApiApp\Serializer\CampSerializer($this->getMime()));
+		$this->defineSerializer('CoreApi\Entity\Event', 
+			new \ApiApp\Serializer\EventSerializer($this->getMime()));
 	}
 	
 	
@@ -23,11 +23,12 @@ class ApiApp_CampController extends ApiApp\Controller\BaseController
      * list of the requested resources.
      */
     public function indexAction(){
-    	$filter = $this->createFilter('creator', 'owner', 'group');
-    	$camps = $this->campRepo->findBy($filter);
     	
-    	$camps = $this->serialize($camps);
-    	$this->setReturn($camps);
+    	$filter = $this->createFilter('camp');
+    	$events = $this->eventRepo->findBy($filter);
+    	
+    	$events = $this->serialize($events);
+    	$this->setReturn($events);
     }
     
 
@@ -37,12 +38,11 @@ class ApiApp_CampController extends ApiApp\Controller\BaseController
      * by the 'id' value.
      */
     public function getAction(){
-    	$camp = $this->campRepo->find($this->getId());
+    	$event = $this->eventRepo->find($this->getId());
     	
-    	$camp = $this->serialize($camp);
-    	$this->setReturn($camp);
+    	$event = $this->serialize($event);
+    	$this->setReturn($event);
     }
-    
 
     /**
      * The post action handles POST requests; it should accept and digest a
@@ -69,5 +69,5 @@ class ApiApp_CampController extends ApiApp\Controller\BaseController
     public function deleteAction(){
     	throw new Exception("Not implemented");
     }
-    
+	
 }
