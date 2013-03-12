@@ -47,6 +47,12 @@ class BaseController extends \Zend_Controller_Action
 	 */
 	protected $acl;
 	
+	/**
+	 * @var CoreApi\Service\LoginService
+	 * @Inject CoreApi\Service\LoginService
+	 */
+	private $loginService;
+	
 	public function getContext(){
 		return $this->contextProvider->getContext();
 	}
