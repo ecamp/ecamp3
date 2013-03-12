@@ -24,7 +24,7 @@ namespace CoreApi\Entity;
  * Container for an event.
  * - An event has no date/time, as it only describes the program but not when it happens.
  * - An event can either belong to a camp or to a user
- * @Entity
+ * @Entity(repositoryClass="Core\Repository\EventRepository")
  * @Table(name="events")
  */
 class Event extends BaseEntity

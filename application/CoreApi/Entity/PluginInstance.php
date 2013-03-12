@@ -26,7 +26,7 @@
 namespace CoreApi\Entity;
 
 /**
- * @Entity
+ * @Entity(repositoryClass="Core\Repository\EventInstanceRepository")
  * @Table(name="plugin_instances")
  */
 class PluginInstance extends BaseEntity

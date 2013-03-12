@@ -48,23 +48,14 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 	
 	protected function _initRoutes()
 	{
-		if(in_array('HTTP_HOST', $_SERVER))
-		{
+		if(in_array('HTTP_HOST', $_SERVER)) {
 			$urlParts = explode('.', $_SERVER['HTTP_HOST']);
 			
 			$hostname = array_pop($urlParts);
 			$hostname = array_pop($urlParts) . "." . $hostname;
 			
 			Zend_Registry::set('hostname', $hostname);
-			
-			
-			// TODO: Try to remove this lines:
-			// This adds the www - subdomain as default, if there is no subdomain
-			if($_SERVER['HTTP_HOST'] == "www." . $hostname)
-			{	$_SERVER['HTTP_HOST'] = $hostname;	}
-		}
-		else
-		{
+		} else {
 			Zend_Registry::set('hostname', 'ecamp3.dev');
 		}
 	}
@@ -72,15 +63,18 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 	
 	protected function _initBasicErrorHandler()
 	{
+		//\Zend_Controller_Front::getInstance()->setParam('noErrorHandler', true);
+		
 		$this->bootstrap('frontcontroller');
 		$front = $this->getResource('frontcontroller');
 		
-		$plugin = new Zend_Controller_Plugin_ErrorHandler();
-		$plugin->setErrorHandlerModule('WebApp');
-		$plugin->setErrorHandlerController('Error');
-		$plugin->setErrorHandlerAction('error');
+		$errorHandler = new Zend_Controller_Plugin_ErrorHandler();
+		$errorHandler->setErrorHandlerModule('WebApp');
+		$errorHandler->setErrorHandlerController('error');
+		$errorHandler->setErrorHandlerAction('error');
 		
-		$front->registerPlugin($plugin);
+		Zend_Registry::set('errorHandler', $errorHandler);
+		$front->registerPlugin($errorHandler);
 	}
 	
 	
@@ -130,7 +124,6 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 	{
 		$opt = $this->getOption('doctrine');
 		
-		
 		$kernel = \Zend_Registry::get('kernel');
 		
 		$container = new DoctrineContainer($opt);
@@ -143,8 +136,33 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 		$em->getEventManager()->addEventListener(array('prePersist', 'preRemove'), $IdGenerator);
 		$em->getEventManager()->addEventSubscriber($strategyListener);
 		
-		return $container;
 		
+		$configuration = $em->getConfiguration();
+		$configuration->addFilter('LoginFilter', 			'Core\DbFilter\LoginFilter');
+		
+		$configuration->addFilter('CampFilter', 			'Core\DbFilter\CampFilter');
+		$configuration->addFilter('PeriodFilter', 			'Core\DbFilter\PeriodFilter');
+		$configuration->addFilter('DayFilter', 				'Core\DbFilter\DayFilter');
+		
+		$configuration->addFilter('EventFilter',			'Core\DbFilter\EventFilter');
+		$configuration->addFilter('EventInstanceFilter', 	'Core\DbFilter\EventInstanceFilter');
+		
+		$configuration->addFilter('UserCampFilter', 		'Core\DbFilter\UserCampFilter');
+		
+		
+		$em->getFilters()->enable('LoginFilter');
+		
+		$em->getFilters()->enable('CampFilter');
+		$em->getFilters()->enable('PeriodFilter');
+		$em->getFilters()->enable('DayFilter');
+		
+		$em->getFilters()->enable('EventFilter');
+		$em->getFilters()->enable('EventInstanceFilter');
+		
+		$em->getFilters()->enable('UserCampFilter');
+		
+		
+		return $container;
 	}
 	
 	
