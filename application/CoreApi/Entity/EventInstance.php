@@ -22,7 +22,7 @@ namespace CoreApi\Entity;
 
 /**
  * Specifies the exact time/duration/subcamp when an event happens
- * @Entity
+ * @Entity(repositoryClass="Core\Repository\EventInstanceRepository")
  * @Table(name="event_instances")
  */
 class EventInstance extends BaseEntity
@@ -130,7 +130,7 @@ class EventInstance extends BaseEntity
 	
 	
 	/**
-	 * @return DateInterval
+	 * @return \DateInterval
 	 */
 	public function getDuration()
 	{
@@ -148,21 +148,21 @@ class EventInstance extends BaseEntity
 
 	
 	/**
-	 * @return DateTime
+	 * @return \DateTime
 	 */
 	public function getStartTime()
 	{
-		$start = $this->period->getStart() + new \DateInterval( 'PT' . $this->getMinOffset() . 'M');
+		$start = $this->period->getStart()->add(new \DateInterval( 'PT' . $this->minOffsetStart . 'M'));
 		return $start; 
 	}
 	
 	
 	/**
-	 * @return DateTime
+	 * @return \DateTime
 	 */
 	public function getEndTime()
 	{
-		$end = $this->getStartTime() + $this->getDuration();
+		$end = $this->getStartTime()->add($this->getDuration());
 		return $end;
 	}
 	

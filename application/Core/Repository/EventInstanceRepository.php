@@ -2,52 +2,50 @@
 
 namespace Core\Repository;
 
-
-use CoreApi\Entity\Period;
-
 use Doctrine\ORM\EntityRepository;
-
 use CoreApi\Entity\Day;
-use CoreApi\Entity\EventInstance;
-
 
 class EventInstanceRepository extends EntityRepository
 {
 	
-	public function findByDay(Day $day)
+	
+	public function findByDay($day)
 	{
-		$dayStart 	= $day->getDayOffset() * 24 * 60;
-		$dayEnd		= ($day->getDayOffset() + 1) * 24 * 60;
+		if(! $day instanceof Day){
+			$day = $this->_em->find('CoreApi\Entity\Day', $day);
+		}
 		
-		$q = $this->createQueryBuilder('ei')
-			->where('ei.period_id = :periodId')
-			->andWhere('ei.minOffset < :dayEnd')
-			->andWhere('(ei.minOffset + ei.duration) > :dayStart')
-			->setParameter('periodId', $day->getPeriod()->getId())
-			->setParameter('dayEnd', $dayEnd)
-			->setParameter('dayStart', $dayStart);
+		if($day != null){
+			$dayStart 	= $day->getDayOffset() * 24 * 60;
+			$dayEnd		= ($day->getDayOffset() + 1) * 24 * 60;
 			
-		return $q->getQuery()->getResult();
+			$q = $this->createQueryBuilder('ei')
+				->where('ei.period = :periodId')
+				->andWhere('ei.minOffsetStart < :dayEnd')
+				->andWhere('ei.minOffsetEnd > :dayStart')
+				->setParameter('periodId', $day->getPeriod()->getId())
+				->setParameter('dayEnd', $dayEnd)
+				->setParameter('dayStart', $dayStart);
+				
+			return $q->getQuery()->getResult();
+		}
+		
+		return array();
 	}
 	
 	
-	public function findByPeriod(Period $period)
-	{
-		$q = $this->createQueryBuilder('ei')
-			->where('ei.period_id = :periodId')
-			->setParameter('periodId', $day->getPeriod()->getId());
-			
-		return $q->getQuery()->getResult();
+	public function findByPeriod($periodId){
+		return $this->findBy(array('period'=> $periodId));
 	}
 	
 	
-	public function findByCamp(Camp $camp)
+	public function findByCamp($campId)
 	{
 		$q = $this->createQueryBuilder('ei')
-			->join('CoreApi\Entity\Period', 'p', 'ei.period_id = p.id')
-			->where('p.camp_id = :campId')
-			->setParameter('campId', $camp->getId());
-			
+			->join('ei.period', 'p')
+			->where('p.camp = :campId')
+			->setParameter('campId', $campId);
+		
 		return $q->getQuery()->getResult();
 		
 	}

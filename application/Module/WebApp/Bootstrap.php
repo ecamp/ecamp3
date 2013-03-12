@@ -39,6 +39,20 @@ class WebApp_Bootstrap extends Zend_Application_Module_Bootstrap
 		$navigationAutoloader = new \Doctrine\Common\ClassLoader('WebApp', APPLICATION_PATH . '/Module/');
 		$autoloader->pushAutoloader(array($navigationAutoloader, 'loadClass'), 'WebApp');
 	}
+	
+	
+	/**
+	 * Load and configure error handler
+	 */
+	public function _initErrorHandler()
+	{
+		$errorHandler = Zend_Registry::get('errorHandler');
+		
+		$plugin = new Core\Error\ConfigureErrorHandler(
+			$errorHandler, 'WebApp', 'error', 'error');
+		
+		Zend_Controller_Front::getInstance()->registerPlugin($plugin);
+	}
 
 	
 	protected function _initRoutes()
@@ -153,18 +167,6 @@ class WebApp_Bootstrap extends Zend_Application_Module_Bootstrap
 		$front->registerPlugin($plugin);
 	}	
 	
-	
-	/**
-	 * Load and configure error handler
-	 */
-	public function _routeShutdown_ErrorHandler()
-	{
-		$plugin = new Zend_Controller_Plugin_ErrorHandler();
-		$plugin->setErrorHandlerModule('WebApp');
-		$plugin->setErrorHandlerController('Error');
-		
-		Zend_Controller_Front::getInstance()->registerPlugin($plugin);
-	}
 	
 	
 	/**
