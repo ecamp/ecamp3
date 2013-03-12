@@ -19,12 +19,14 @@ class UserSerializer extends BaseSerializer{
 	}
 	
 	public function getReference(User $user = null){
-		
+		if($user == null){
+			return null;
+		} else {
 			return array(
 				'id'	=>	$user->getId(),
 				'href'	=>	$this->getUserHref($user)
 			);
-		
+		}
 	}
 	
 	private function getUserHref(User $user){

@@ -21,7 +21,7 @@ CREATE TABLE `camps` (
   `updated_at` datetime NOT NULL,
   `name` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
   `title` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
-  `visibility` varchar(16) COLLATE utf8_unicode_ci NOT NULL,
+  `visibility` varchar(16) COLLATE utf8_unicode_ci NOT NULL DEFAULT 'public',
   PRIMARY KEY (`id`),
   UNIQUE KEY `group_name_unique` (`group_id`,`name`),
   UNIQUE KEY `owner_name_unique` (`owner_id`,`name`),
@@ -82,6 +82,7 @@ CREATE TABLE `event_instances` (
 
 LOCK TABLES `event_instances` WRITE;
 /*!40000 ALTER TABLE `event_instances` DISABLE KEYS */;
+INSERT INTO `event_instances` VALUES ('cbe2397','3faa4a0','44db6b16','2013-03-12 22:36:59','2013-03-12 22:36:59',1200,1800);
 /*!40000 ALTER TABLE `event_instances` ENABLE KEYS */;
 UNLOCK TABLES;
 DROP TABLE IF EXISTS `event_prototypes`;
@@ -99,6 +100,7 @@ CREATE TABLE `event_prototypes` (
 
 LOCK TABLES `event_prototypes` WRITE;
 /*!40000 ALTER TABLE `event_prototypes` DISABLE KEYS */;
+INSERT INTO `event_prototypes` VALUES ('1','0000-00-00 00:00:00','0000-00-00 00:00:00','Lagersport',1);
 /*!40000 ALTER TABLE `event_prototypes` ENABLE KEYS */;
 UNLOCK TABLES;
 DROP TABLE IF EXISTS `event_resps`;
@@ -143,6 +145,7 @@ CREATE TABLE `event_templates` (
 
 LOCK TABLES `event_templates` WRITE;
 /*!40000 ALTER TABLE `event_templates` DISABLE KEYS */;
+INSERT INTO `event_templates` VALUES ('1','web','0000-00-00 00:00:00','0000-00-00 00:00:00','prototype_lagersport.phtml/notab','1');
 /*!40000 ALTER TABLE `event_templates` ENABLE KEYS */;
 UNLOCK TABLES;
 DROP TABLE IF EXISTS `events`;
@@ -168,6 +171,7 @@ CREATE TABLE `events` (
 
 LOCK TABLES `events` WRITE;
 /*!40000 ALTER TABLE `events` DISABLE KEYS */;
+INSERT INTO `events` VALUES ('3faa4a0','d2d66c12',NULL,'1','2013-03-12 22:04:51','2013-03-12 22:04:51','d4122df1e188f2390013526f66bc00d3');
 /*!40000 ALTER TABLE `events` ENABLE KEYS */;
 UNLOCK TABLES;
 DROP TABLE IF EXISTS `grouprequests`;
@@ -272,6 +276,7 @@ CREATE TABLE `media` (
 
 LOCK TABLES `media` WRITE;
 /*!40000 ALTER TABLE `media` DISABLE KEYS */;
+INSERT INTO `media` VALUES ('mobile'),('print'),('web');
 /*!40000 ALTER TABLE `media` ENABLE KEYS */;
 UNLOCK TABLES;
 DROP TABLE IF EXISTS `periods`;
@@ -314,6 +319,7 @@ CREATE TABLE `plugin_instances` (
 
 LOCK TABLES `plugin_instances` WRITE;
 /*!40000 ALTER TABLE `plugin_instances` DISABLE KEYS */;
+INSERT INTO `plugin_instances` VALUES ('531d1ae1','3faa4a0','2013-03-12 22:04:51','2013-03-12 22:04:51','2'),('7b15c00c','3faa4a0','2013-03-12 22:04:51','2013-03-12 22:04:51','1'),('be5ae6c1','3faa4a0','2013-03-12 22:04:51','2013-03-12 22:04:51','1');
 /*!40000 ALTER TABLE `plugin_instances` ENABLE KEYS */;
 UNLOCK TABLES;
 DROP TABLE IF EXISTS `plugin_positions`;
@@ -364,6 +370,7 @@ CREATE TABLE `plugin_prototypes` (
 
 LOCK TABLES `plugin_prototypes` WRITE;
 /*!40000 ALTER TABLE `plugin_prototypes` DISABLE KEYS */;
+INSERT INTO `plugin_prototypes` VALUES ('1','6afbd7b8','0000-00-00 00:00:00','0000-00-00 00:00:00',1,NULL,2,0,'','1'),('2','ed42308','0000-00-00 00:00:00','0000-00-00 00:00:00',1,1,1,1,'','1');
 /*!40000 ALTER TABLE `plugin_prototypes` ENABLE KEYS */;
 UNLOCK TABLES;
 DROP TABLE IF EXISTS `plugindata_content`;
@@ -383,6 +390,7 @@ CREATE TABLE `plugindata_content` (
 
 LOCK TABLES `plugindata_content` WRITE;
 /*!40000 ALTER TABLE `plugindata_content` DISABLE KEYS */;
+INSERT INTO `plugindata_content` VALUES ('19dffad2','7b15c00c','2013-03-12 22:04:51','2013-03-12 22:04:51','hello world'),('fda80ed9','be5ae6c1','2013-03-12 22:04:51','2013-03-12 22:04:51','hello world');
 /*!40000 ALTER TABLE `plugindata_content` ENABLE KEYS */;
 UNLOCK TABLES;
 DROP TABLE IF EXISTS `plugindata_header`;
@@ -402,6 +410,7 @@ CREATE TABLE `plugindata_header` (
 
 LOCK TABLES `plugindata_header` WRITE;
 /*!40000 ALTER TABLE `plugindata_header` DISABLE KEYS */;
+INSERT INTO `plugindata_header` VALUES ('66b3b3be','531d1ae1','2013-03-12 22:04:51','2013-03-12 22:04:51','hello world');
 /*!40000 ALTER TABLE `plugindata_header` ENABLE KEYS */;
 UNLOCK TABLES;
 DROP TABLE IF EXISTS `plugins`;
@@ -418,6 +427,7 @@ CREATE TABLE `plugins` (
 
 LOCK TABLES `plugins` WRITE;
 /*!40000 ALTER TABLE `plugins` DISABLE KEYS */;
+INSERT INTO `plugins` VALUES ('6afbd7b8','2012-09-14 22:24:47','2012-09-14 22:24:47','Content'),('ed42308','2012-09-14 22:24:47','2012-09-14 22:24:47','Header');
 /*!40000 ALTER TABLE `plugins` ENABLE KEYS */;
 UNLOCK TABLES;
 DROP TABLE IF EXISTS `uid`;
@@ -432,7 +442,7 @@ CREATE TABLE `uid` (
 
 LOCK TABLES `uid` WRITE;
 /*!40000 ALTER TABLE `uid` DISABLE KEYS */;
-INSERT INTO `uid` VALUES ('173b85c9','CoreApi\\Entity\\Day'),('1b732433','CoreApi\\Entity\\Login'),('1d609946','CoreApi\\Entity\\Day'),('25aaf21d','CoreApi\\Entity\\Day'),('2659d44c','CoreApi\\Entity\\Period'),('33e41d26','CoreApi\\Entity\\Day'),('43909f5c','CoreApi\\Entity\\Day'),('44db6b16','CoreApi\\Entity\\Period'),('484be56a','CoreApi\\Entity\\Day'),('4cd50722','CoreApi\\Entity\\Day'),('4df08520','CoreApi\\Entity\\Day'),('5a56f163','CoreApi\\Entity\\Day'),('5a9c891c','CoreApi\\Entity\\Day'),('6093b484','CoreApi\\Entity\\User'),('673b2d72','CoreApi\\Entity\\Day'),('676937e0','CoreApi\\Entity\\Day'),('6a281d49','CoreApi\\Entity\\Day'),('77d8192','CoreApi\\Entity\\Day'),('7b601354','CoreApi\\Entity\\Day'),('7eb17f32','CoreApi\\Entity\\Day'),('83b08749','CoreApi\\Entity\\Day'),('84d373a1','CoreApi\\Entity\\Day'),('8b5bf2a5','CoreApi\\Entity\\Day'),('8e6eae08','CoreApi\\Entity\\Day'),('8fee98a9','CoreApi\\Entity\\Day'),('962b2e68','CoreApi\\Entity\\Day'),('9dd3a4fd','CoreApi\\Entity\\Day'),('a37d60fc','CoreApi\\Entity\\Day'),('a67dc2e0','CoreApi\\Entity\\Day'),('b274ea89','CoreApi\\Entity\\Day'),('b7f6023d','CoreApi\\Entity\\Day'),('b9f11b29','CoreApi\\Entity\\Day'),('c22139a5','CoreApi\\Entity\\Day'),('c6f81793','CoreApi\\Entity\\Day'),('d1dc7960','CoreApi\\Entity\\Day'),('d21687d7','CoreApi\\Entity\\Day'),('d2d66c12','CoreApi\\Entity\\Camp'),('d6f1a751','CoreApi\\Entity\\Day'),('db19a85f','CoreApi\\Entity\\Day'),('e17ddc92','CoreApi\\Entity\\Day'),('e448855','CoreApi\\Entity\\Day'),('ebf62774','CoreApi\\Entity\\Day'),('ef3adfae','CoreApi\\Entity\\Day'),('f4809eb3','CoreApi\\Entity\\Camp'),('f48f462a','CoreApi\\Entity\\Day'),('f9c52bd1','CoreApi\\Entity\\Day');
+INSERT INTO `uid` VALUES ('173b85c9','CoreApi\\Entity\\Day'),('19dffad2','Plugin\\Content\\Entity\\Content'),('1b732433','CoreApi\\Entity\\Login'),('1d609946','CoreApi\\Entity\\Day'),('25aaf21d','CoreApi\\Entity\\Day'),('2659d44c','CoreApi\\Entity\\Period'),('33e41d26','CoreApi\\Entity\\Day'),('3faa4a0','CoreApi\\Entity\\Event'),('43909f5c','CoreApi\\Entity\\Day'),('44db6b16','CoreApi\\Entity\\Period'),('484be56a','CoreApi\\Entity\\Day'),('4cd50722','CoreApi\\Entity\\Day'),('4df08520','CoreApi\\Entity\\Day'),('531d1ae1','CoreApi\\Entity\\PluginInstance'),('5a56f163','CoreApi\\Entity\\Day'),('5a9c891c','CoreApi\\Entity\\Day'),('6093b484','CoreApi\\Entity\\User'),('66b3b3be','Plugin\\Header\\Entity\\Header'),('673b2d72','CoreApi\\Entity\\Day'),('676937e0','CoreApi\\Entity\\Day'),('6a281d49','CoreApi\\Entity\\Day'),('77d8192','CoreApi\\Entity\\Day'),('7b15c00c','CoreApi\\Entity\\PluginInstance'),('7b601354','CoreApi\\Entity\\Day'),('7eb17f32','CoreApi\\Entity\\Day'),('83b08749','CoreApi\\Entity\\Day'),('84d373a1','CoreApi\\Entity\\Day'),('8b5bf2a5','CoreApi\\Entity\\Day'),('8e6eae08','CoreApi\\Entity\\Day'),('8fee98a9','CoreApi\\Entity\\Day'),('962b2e68','CoreApi\\Entity\\Day'),('9dd3a4fd','CoreApi\\Entity\\Day'),('a37d60fc','CoreApi\\Entity\\Day'),('a67dc2e0','CoreApi\\Entity\\Day'),('b274ea89','CoreApi\\Entity\\Day'),('b7f6023d','CoreApi\\Entity\\Day'),('b9f11b29','CoreApi\\Entity\\Day'),('be5ae6c1','CoreApi\\Entity\\PluginInstance'),('c22139a5','CoreApi\\Entity\\Day'),('c6f81793','CoreApi\\Entity\\Day'),('d1dc7960','CoreApi\\Entity\\Day'),('d21687d7','CoreApi\\Entity\\Day'),('d2d66c12','CoreApi\\Entity\\Camp'),('d6f1a751','CoreApi\\Entity\\Day'),('db19a85f','CoreApi\\Entity\\Day'),('e17ddc92','CoreApi\\Entity\\Day'),('e448855','CoreApi\\Entity\\Day'),('ebf62774','CoreApi\\Entity\\Day'),('ef3adfae','CoreApi\\Entity\\Day'),('f4809eb3','CoreApi\\Entity\\Camp'),('f48f462a','CoreApi\\Entity\\Day'),('f9c52bd1','CoreApi\\Entity\\Day'),('fda80ed9','Plugin\\Content\\Entity\\Content');
 /*!40000 ALTER TABLE `uid` ENABLE KEYS */;
 UNLOCK TABLES;
 DROP TABLE IF EXISTS `user_camps`;

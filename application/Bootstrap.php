@@ -70,7 +70,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 		
 		$errorHandler = new Zend_Controller_Plugin_ErrorHandler();
 		$errorHandler->setErrorHandlerModule('WebApp');
-		$errorHandler->setErrorHandlerController('error');
+		$errorHandler->setErrorHandlerController('Error');
 		$errorHandler->setErrorHandlerAction('error');
 		
 		Zend_Registry::set('errorHandler', $errorHandler);

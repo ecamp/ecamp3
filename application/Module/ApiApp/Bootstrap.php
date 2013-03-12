@@ -62,6 +62,9 @@ class ApiApp_Bootstrap extends Zend_Application_Module_Bootstrap
 		
 		
 		
+		///
+		/// User
+		///
 		Zend_Controller_Front::getInstance()->getRouter()->addRoute(
 			'api.v1.user', $ApiSubdomain->chain(
 				new Zend_Controller_Router_Route_Regex(
@@ -87,6 +90,9 @@ class ApiApp_Bootstrap extends Zend_Application_Module_Bootstrap
 		
 		
 		
+		///
+		/// Contributor
+		///
 		Zend_Controller_Front::getInstance()->getRouter()->addRoute(
 			'api.v1.contributor', $ApiSubdomain->chain(
 				new Zend_Controller_Router_Route_Regex(
@@ -122,6 +128,9 @@ class ApiApp_Bootstrap extends Zend_Application_Module_Bootstrap
 		
 		
 		
+		///
+		/// Camp
+		///
 		Zend_Controller_Front::getInstance()->getRouter()->addRoute(
 			'api.v1.camp', $ApiSubdomain->chain(
 				new Zend_Controller_Router_Route_Regex(
@@ -143,6 +152,171 @@ class ApiApp_Bootstrap extends Zend_Application_Module_Bootstrap
 				)
 			)
 		);
+		
+		
+		
+		///
+		/// Period
+		///
+		Zend_Controller_Front::getInstance()->getRouter()->addRoute(
+			'api.v1.period', $ApiSubdomain->chain(
+				new Zend_Controller_Router_Route_Regex(
+					'v1/periods/([0-9a-f]+)\.(json|xml)',
+					array('controller' => 'period', 'action' => 'get'),
+					array(1 => 'id', 2 => 'mime'),
+					'v1/periods/%s.%s'
+				)
+			)
+		);
+				
+		Zend_Controller_Front::getInstance()->getRouter()->addRoute(
+			'api.v1.period.collection', $ApiSubdomain->chain(
+				new Zend_Controller_Router_Route_Regex(
+					'v1/periods\.(json|xml)',
+					array('controller' => 'period', 'action' => 'index'),
+					array(1 => 'mime'),
+					'v1/periods.%s'
+				)
+			)
+		);
+		
+		Zend_Controller_Front::getInstance()->getRouter()->addRoute(
+			'api.v1.camp.period.collection', $ApiSubdomain->chain(
+				new Zend_Controller_Router_Route_Regex(
+					'v1/camps/([0-9a-f]+)/periods\.(json|xml)',
+					array('controller' => 'period', 'action' => 'index'),
+					array(1 => 'camp', 2 => 'mime'),
+					'v1/camps/%s/periods.%s'
+				)
+			)
+		);
+		
+		
+		
+		///
+		/// Day
+		///
+		Zend_Controller_Front::getInstance()->getRouter()->addRoute(
+			'api.v1.day', $ApiSubdomain->chain(
+				new Zend_Controller_Router_Route_Regex(
+					'v1/days/([0-9a-f]+)\.(json|xml)',
+					array('controller' => 'day', 'action' => 'get'),
+					array(1 => 'id', 2 => 'mime'),
+					'v1/days/%s.%s'
+				)
+			)
+		);
+				
+		Zend_Controller_Front::getInstance()->getRouter()->addRoute(
+			'api.v1.day.collection', $ApiSubdomain->chain(
+				new Zend_Controller_Router_Route_Regex(
+					'v1/days\.(json|xml)',
+					array('controller' => 'day', 'action' => 'index'),
+					array(1 => 'mime'),
+					'v1/days.%s'
+				)
+			)
+		);
+		
+		Zend_Controller_Front::getInstance()->getRouter()->addRoute(
+			'api.v1.period.day.collection', $ApiSubdomain->chain(
+				new Zend_Controller_Router_Route_Regex(
+					'v1/periods/([0-9a-f]+)/days\.(json|xml)',
+					array('controller' => 'day', 'action' => 'index'),
+					array(1 => 'period', 2 => 'mime'),
+					'v1/periods/%s/days.%s'
+				)
+			)
+		);
+		
+		
+		///
+		/// Event
+		///
+		Zend_Controller_Front::getInstance()->getRouter()->addRoute(
+			'api.v1.event', $ApiSubdomain->chain(
+				new Zend_Controller_Router_Route_Regex(
+					'v1/events/([0-9a-f]+)\.(json|xml)',
+					array('controller' => 'event', 'action' => 'get'),
+					array(1 => 'id', 2 => 'mime'),
+					'v1/events/%s.%s'
+				)
+			)
+		);
+						
+		Zend_Controller_Front::getInstance()->getRouter()->addRoute(
+			'api.v1.event.collection', $ApiSubdomain->chain(
+				new Zend_Controller_Router_Route_Regex(
+					'v1/events\.(json|xml)',
+					array('controller' => 'event', 'action' => 'index'),
+					array(1 => 'mime'),
+					'v1/events.%s'
+				)
+			)
+		);
+		
+		Zend_Controller_Front::getInstance()->getRouter()->addRoute(
+			'api.v1.camp.event.collection', $ApiSubdomain->chain(
+				new Zend_Controller_Router_Route_Regex(
+					'v1/camps/([0-9a-f]+)/events\.(json|xml)',
+					array('controller' => 'event', 'action' => 'index'),
+					array(1 => 'camp', 2 => 'mime'),
+					'v1/camps/%s/events.%s'
+				)
+			)
+		);
+		
+		
+		
+		
+		///
+		/// EventInstance
+		///
+		Zend_Controller_Front::getInstance()->getRouter()->addRoute(
+			'api.v1.eventinstance', $ApiSubdomain->chain(
+				new Zend_Controller_Router_Route_Regex(
+					'v1/eventinstances/([0-9a-f]+)\.(json|xml)',
+					array('controller' => 'eventinstance', 'action' => 'get'),
+					array(1 => 'id', 2 => 'mime'),
+					'v1/eventinstances/%s.%s'
+				)
+			)
+		);
+								
+		Zend_Controller_Front::getInstance()->getRouter()->addRoute(
+			'api.v1.eventinstance.collection', $ApiSubdomain->chain(
+				new Zend_Controller_Router_Route_Regex(
+					'v1/eventinstances\.(json|xml)',
+					array('controller' => 'eventinstance', 'action' => 'index'),
+					array(1 => 'mime'),
+					'v1/eventinstances.%s'
+				)
+			)
+		);
+		
+		
+		Zend_Controller_Front::getInstance()->getRouter()->addRoute(
+			'api.v1.period.eventinstance.collection', $ApiSubdomain->chain(
+			new Zend_Controller_Router_Route_Regex(
+				'v1/periods/([0-9a-f]+)/eventinstances\.(json|xml)',
+					array('controller' => 'eventinstance', 'action' => 'index'),
+					array(1 => 'period', 2 => 'mime'),
+					'v1/periods/%s/eventinstances.%s'
+				)
+			)
+		);
+		
+		Zend_Controller_Front::getInstance()->getRouter()->addRoute(
+			'api.v1.event.eventinstance.collection', $ApiSubdomain->chain(
+			new Zend_Controller_Router_Route_Regex(
+				'v1/events/([0-9a-f]+)/eventinstances\.(json|xml)',
+					array('controller' => 'eventinstance', 'action' => 'index'),
+					array(1 => 'event', 2 => 'mime'),
+					'v1/events/%s/eventinstances.%s'
+				)
+			)
+		);
+		
 		
 		
 		
@@ -191,7 +365,7 @@ class ApiApp_Bootstrap extends Zend_Application_Module_Bootstrap
 		$errorHandler = Zend_Registry::get('errorHandler');
 		
 		$plugin = new Core\Error\ConfigureErrorHandler(
-			$errorHandler, 'ApiApp', 'error', 'error');
+			$errorHandler, 'ApiApp', 'Error', 'error');
 		
 		Zend_Controller_Front::getInstance()->registerPlugin($plugin);
 	}

@@ -49,7 +49,7 @@ class WebApp_Bootstrap extends Zend_Application_Module_Bootstrap
 		$errorHandler = Zend_Registry::get('errorHandler');
 		
 		$plugin = new Core\Error\ConfigureErrorHandler(
-			$errorHandler, 'WebApp', 'error', 'error');
+			$errorHandler, 'WebApp', 'Error', 'error');
 		
 		Zend_Controller_Front::getInstance()->registerPlugin($plugin);
 	}

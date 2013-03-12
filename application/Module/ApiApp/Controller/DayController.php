@@ -1,20 +1,20 @@
 <?php
 
-class ApiApp_CampController extends ApiApp\Controller\BaseController
+class ApiApp_DayController extends ApiApp\Controller\BaseController
 {
 	
 	/**
-	 * @var Core\Repository\CampRepository
-	 * @Inject Core\Repository\CampRepository
+	 * @var Core\Repository\DayRepository
+	 * @Inject Core\Repository\DayRepository
 	 */
-	private $campRepo;
-	
+	private $dayRepo;
 	
 	public function init(){
 		parent::init();
 		
-		$this->defineSerializer('CoreApi\Entity\Camp', 
-			new ApiApp\Serializer\CampSerializer($this->getMime()));
+		$this->defineSerializer('CoreApi\Entity\Day', 
+			new \ApiApp\Serializer\DaySerializer($this->getMime()));
+		
 	}
 	
 	
@@ -23,11 +23,11 @@ class ApiApp_CampController extends ApiApp\Controller\BaseController
      * list of the requested resources.
      */
     public function indexAction(){
-    	$filter = $this->createFilter('creator', 'owner', 'group');
-    	$camps = $this->campRepo->findBy($filter);
+    	$filter = $this->createFilter('period');
+    	$days = $this->dayRepo->findBy($filter);
     	
-    	$camps = $this->serialize($camps);
-    	$this->setReturn($camps);
+    	$days = $this->serialize($days);
+    	$this->setReturn($days);
     }
     
 
@@ -37,19 +37,18 @@ class ApiApp_CampController extends ApiApp\Controller\BaseController
      * by the 'id' value.
      */
     public function getAction(){
-    	$camp = $this->campRepo->find($this->getId());
+    	$day = $this->dayRepo->find($this->getId());
     	
-    	$camp = $this->serialize($camp);
-    	$this->setReturn($camp);
+    	$day = $this->serialize($day);
+    	$this->setReturn($day);
     }
-    
 
     /**
      * The post action handles POST requests; it should accept and digest a
      * POSTed resource representation and persist the resource state.
      */
     public function postAction(){
-    	throw new Exception("Not implemented");
+    	
     }
 
     /**
@@ -58,7 +57,7 @@ class ApiApp_CampController extends ApiApp\Controller\BaseController
      * the 'id' value.
      */
     public function putAction(){
-    	throw new Exception("Not implemented");
+    	
     }
 
     /**
@@ -67,7 +66,7 @@ class ApiApp_CampController extends ApiApp\Controller\BaseController
      * identified by the 'id' value.
      */
     public function deleteAction(){
-    	throw new Exception("Not implemented");
+    	
     }
-    
+	
 }
