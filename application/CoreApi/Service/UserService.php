@@ -168,10 +168,10 @@ class UserService
 			$user = $this->userRepo->find($identifier);
 		}
 		
-		if(is_null($user))
+		/*if(is_null($user))
 		{
 			throw new \Exception("No user found for Identifier: " . $identifier);
-		}
+		}*/
 	
 		return $user;		
 	}

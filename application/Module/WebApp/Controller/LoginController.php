@@ -92,7 +92,7 @@ class WebApp_LoginController extends WebApp\Controller\BaseController
 	{
 		$result = $this->loginService->Login($values['login'], $values['password']);
 
-		$this->view->message = $result->getMessages();
+		//$this->view->message = $result->getMessages();
 
 		return Zend_Auth::getInstance()->hasIdentity();
 	}

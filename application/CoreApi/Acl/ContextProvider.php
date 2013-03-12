@@ -23,6 +23,13 @@ class ContextProvider
 		$this->contextStorage->set($userId, $groupId, $campId);
 	}
 	
+	/**
+	 * 
+	 */
+	public function reset()
+	{
+		$this->contextStorage->reset();
+	}
 	
 	/**
 	 * @return CoreApi\Acl\Context
