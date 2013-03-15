@@ -3,9 +3,9 @@
  * Ztal Mail.
  *
  * @category  Namesco
- * @package   Ztal_Form
+ * @package   Ztal
  * @author    Robert Goldsmith <rgoldsmith@names.co.uk>
- * @copyright 2009-2010 Namesco Limited
+ * @copyright 2009-2011 Namesco Limited
  * @license   http://names.co.uk/license Namesco
  */
 
@@ -15,7 +15,7 @@
  * Provides template support for emails.
  *
  * @category Namesco
- * @package  Ztal_Mail
+ * @package  Ztal
  * @author   Robert Goldsmith <rgoldsmith@names.co.uk>
  */
 class Ztal_Mail extends Zend_Mail
@@ -61,8 +61,7 @@ class Ztal_Mail extends Zend_Mail
 	 */
 	protected function _calculateTemplatePath($template)
 	{
-		$frontController = Zend_Controller_Front::getInstance();
-		return 'emails/' . $template . '.email';
+		return '../emails/' . $template . '.email';
 	}
 	
 	

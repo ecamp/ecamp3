@@ -43,9 +43,10 @@
 	<!-- Form Fragment, expects an instance of Zend_Form, or something that
 		 extends it-->
 	<form tal:attributes="action form/getAction;
-						  class Ztal_Tales_Form.getElement:form,string:class | string:talForm;
+						  class Ztal_Tales_Form.getAttrib:form,string:class | string:talForm;
 						  id form/getId;
-						  method form/getMethod"
+						  method form/getMethod;
+						  enctype form/getEnctype;"
 		  metal:define-macro="talForm"
 	>
 		<tal:block tal:define="errorMode errorDisplayMode | string:header;">
@@ -70,6 +71,11 @@
 		<div tal:condition="form/isErrors" class="errors">
 			<h3 i18n:translate="string:error" />
 			
+			<!-- loop through all the global error messages -->
+			<ul tal:condition="globalErrors" tal:define="globalErrors form/getErrorMessages">
+				<li tal:repeat="error globalErrors" i18n:translate="error" />
+			</ul>
+
 			<!-- loop through all the elements with errors -->
 			<tal:block tal:repeat="elementErrors form/getErrors">
 				<ul tal:condition="elementErrors">
@@ -80,7 +86,11 @@
 					<li tal:define="element Ztal_Tales_Form.getElement:form,repeat/elementErrors/key">
 						<tal:inline i18n:translate="element/getLabel" />
 						<ul>
-							<li tal:repeat="error elementErrors" i18n:translate="error" />
+							<li
+								tal:repeat="error elementErrors"
+								i18n:domain="errorMessage_${repeat/element/key}"
+								i18n:translate="error"
+							/>
 						</ul>
 					</li>
 				</ul>
@@ -108,7 +118,7 @@
 						elementErrors Ztal_Tales_Form.getErrors:form,repeat/element/key;
 						errorClass Ztal_Tales_Generic.isTrue:exists:elementErrors,string:hasError;"
 					tal:attributes="
-						class string:${errorClass} ${Ztal_Tales_Form.getAttrib:element,string:contextClass} ${Ztal_Tales_Form.inputType:element}-element;
+						class string:${errorClass} ${Ztal_Tales_Generic.isTrue:element/isRequired,string:required-element | string:optional-element} ${Ztal_Tales_Form.getAttrib:element,string:contextClass} ${Ztal_Tales_Form.inputType:element}-element;
 						id string:${element/getId}-field"
 				>
 					<!-- display the element -->
@@ -120,6 +130,7 @@
 							| Ztal_Tales_Generic.equal:errorMode,string:both">
 						<tal:block
 							tal:condition="not:Ztal_Tales_Generic.equal:elementErrors,null"
+							i18n:domain="errorMessage_${repeat/element/key}"
 							metal:use-macro="${Ztal_Tales_Form.getAttrib:element,string:errorMacro | elementErrorMacro | string:perElementErrors}" />
 					</tal:block>
 
@@ -189,7 +200,9 @@
 						   class Ztal_Tales_Form.getAttrib:element,string:class;
 						   value value | nothing;
 						   maxlength Ztal_Tales_Form.getAttrib:element,string:maxlength;
-						   checked checked | nothing"
+						   checked checked | nothing;
+						   autocomplete Ztal_Tales_Form.getAttrib:element,string:autocomplete;
+						   disabled Ztal_Tales_Form.isDisabled:element"
 	/>
 
 	<!-- Will display a <textarea> element -->
@@ -198,7 +211,8 @@
 							  id element/getId;
 							  class Ztal_Tales_Form.getAttrib:element,string:class;
 							  rows Ztal_Tales_Form.getAttrib:element,string:rows;
-							  cols Ztal_Tales_Form.getAttrib:element,string:cols;"
+							  cols Ztal_Tales_Form.getAttrib:element,string:cols;
+							  disabled Ztal_Tales_Form.isDisabled:element;"
 			  tal:content="value"
 	/>
 
@@ -206,7 +220,9 @@
 	<tal:block metal:define-macro="singleElement">
 
 		<label tal:condition="Ztal_Tales_Form.showLabelBefore:element"
-				   i18n:translate="element/getLabel"
+				i18n:translate="element/getLabel"
+				tal:attributes="for element/getId"
+
 		/>
 
 		<!-- If it is an input, render it using the inputElement fragment -->
@@ -236,6 +252,7 @@
 			</label>
 		</tal:block>
 
+
 		<!-- If it is a multiple checkbox element, then iterate over the
 			 different options and render each one as an input element. -->
 		<tal:block tal:condition="Ztal_Tales_Form.isMultiCheckbox:element"
@@ -253,12 +270,32 @@
 		<!-- If it is a select, then create a <select> and then populate it with
 			 options based on the multiOptions in the element -->
 		<select tal:condition="Ztal_Tales_Form.isSelect:element"
-				tal:attributes="name element/getFullyQualifiedName; id element/getId;">
-			<tal:block tal:define="sort Ztal_Tales_Form.getAttrib:element,string:sort | string:none;">
-				<option tal:repeat="option Ztal_Tales_Generic.arraySort:sort,Ztal_Tales_Translation.translateArrayValues:element/getMultiOptions"
+				tal:attributes="name element/getFullyQualifiedName;
+								id element/getId;
+								disabled Ztal_Tales_Form.isDisabled:element">
+				<tal:block tal:define="sort Ztal_Tales_Form.getAttrib:element,string:sort | string:none;">
+				<option tal:repeat="option Ztal_Tales_Array.sort:sort,Ztal_Tales_Translation.translateArrayValues:element/getMultiOptions"
 						tal:attributes="value repeat/option/key; selected Ztal_Tales_Generic.equal:element/getValue,repeat/option/key"
 						tal:content="option"
 				/>
+			</tal:block>
+		</select>
+		
+		<!-- If it is a multiple select, then create a <select> and then populate it with
+			 options based on the multiOptions in the element -->
+		<select tal:condition="Ztal_Tales_Form.isMultiSelect:element"
+				tal:attributes="name element/getFullyQualifiedName;
+								id element/getId;
+								disabled Ztal_Tales_Form.isDisabled:element;
+								multiple string:multiple">
+				<tal:block tal:define="sort Ztal_Tales_Form.getAttrib:element,string:sort | string:none;">
+				<tal:block tal:repeat="option Ztal_Tales_Array.sort:sort,Ztal_Tales_Translation.translateArrayValues:element/getMultiOptions">
+					<option
+						tal:define="keyName repeat/option/key"
+						tal:attributes="value repeat/option/key; selected Ztal_Tales_Array.in:repeat/option/key,element/getValue"
+						tal:content="option"
+					/>
+				</tal:block>
 			</tal:block>
 		</select>
 
@@ -291,9 +328,6 @@
 				   tal:attributes="name string:${element/getName}[input]"
 			/>
 		</div>
-		<label tal:condition="Ztal_Tales_Form.showLabelAfter:element"
-				   i18n:translate="element/getLabel"
-		/>
 
 		<!-- If it is a captcha, display the rendered text along with the
 				instructions for completing it -->
@@ -316,6 +350,7 @@
 		</div>
 		<label tal:condition="Ztal_Tales_Form.showLabelAfter:element"
 				   i18n:translate="element/getLabel"
+				   tal:attributes="for element/getId"
 		/>
 
 

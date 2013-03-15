@@ -3,9 +3,9 @@
  * Ztal Form.
  *
  * @category  Namesco
- * @package   Ztal_Form
+ * @package   Ztal
  * @author    Alex Mace <amace@names.co.uk>
- * @copyright 2009-2010 Namesco Limited
+ * @copyright 2009-2011 Namesco Limited
  * @license   http://names.co.uk/license Namesco
  */
 
@@ -15,7 +15,7 @@
  * This makes a few customisations to Zend_Form for use with Ztal applications.
  *
  * @category Namesco
- * @package  Ztal_Form
+ * @package  Ztal
  * @author   Alex Mace <amace@names.co.uk>
  */
 class Ztal_Form extends Zend_Form

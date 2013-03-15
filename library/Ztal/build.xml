@@ -1,46 +1,71 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<project name="ZTal" default="build" basedir=".">
+<project name="ZTal" description="Ztal" default="main" basedir=".">
 
-	<!-- Setup the set of files that we want processed and what we want ignored
-		 by the various tasks -->
-	<fileset dir="${project.basedir}/source" id="sources">
+	<property name="database.suffix" value="_ztal_tests" />
+	<property name="buildDir" value="${project.basedir}/build" />
+	<property name="sourceDir" value="${project.basedir}/source" />
+	<property name="ZEND_PATH" value="." />
+
+	<!-- Setup the set of files that we want processed and what we want
+		 ignored by the various tasks -->
+	<fileset dir="${sourceDir}" id="sources">
 		<include name="**/*.php" />
 	</fileset>
 
-    <!-- unitTesting task is currently not performed because there are no unit
-		 tests available for ZTal -->
-	<target name="build" depends="initialise, codeSniffer, codeQuality, document" />
+	<!-- build -->
+	<target name="build" depends="initialise, unitTesting, codeSniffer, codeQuality, analysis, document" />
 
 	<target name="initialise" depends="clean, prepare" />
 
 	<target name="clean">
-        <delete dir="${project.basedir}/build" />
-
+        <delete dir="${buildDir}" />
+        <delete dir="${project.basedir}/Ztal" />
     </target>
 
-    <target name="prepare">
-        <mkdir dir="${project.basedir}/build" />
-        <mkdir dir="${project.basedir}/build/logs" />
-        <mkdir dir="${project.basedir}/build/logs/coverage" />
-        <mkdir dir="${project.basedir}/build/docs" />
-    </target>
+		<target name="prepare">
+			<mkdir dir="${buildDir}" />
+			<mkdir dir="${buildDir}/logs" />
+			<mkdir dir="${buildDir}/logs/coverage" />
+			<mkdir dir="${buildDir}/docs" />
+			<!-- this is needed because the source dir can't be renamed when copied
+				to /var/artifacts. Instead, we just copy the content via the symlink -->
+			<symlink target="${sourceDir}" link="${project.basedir}/Ztal" />
+		</target>
 
-	<target name="unitTesting" depends="phpunit" />
+	<target name="unitTesting" depends="phpunit:configure, phpunit:run" />
 
-	<target name="phpunit">
-        <exec command="phpunit --log-junit ${project.basedir}/build/logs/phpunit.xml
-							   --coverage-clover ${project.basedir}/build/logs/coverage/clover.xml
-							   --coverage-html ${project.basedir}/build/logs/coverage/
+	<target name="phpunit:configure">
+		<echo file="${sourceDir}/tests/phpunit.xml" append="false"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<phpunit>
+  <filter>
+    <blacklist>
+      <directory suffix=".php">${sourceDir}/tests</directory>
+    </blacklist>
+  </filter>
+  <php>
+    <includePath>${ZEND_PATH}</includePath>
+  </php>
+</phpunit>]]></echo>
+	</target>
+
+	<!-- Not using the Phing PHPUnit task because it doesn't work properly with
+	     test suites and doesn't have the required formatters to get all of the
+		 output that we need. -->
+	<target name="phpunit:run">
+		<exec command="phpunit --log-junit ${buildDir}/logs/phpunit.xml
+							   --coverage-clover ${buildDir}/logs/phpunit.coverage.xml
+							   --coverage-html ${buildDir}/logs/coverage/
+							   --configuration ${sourceDir}/tests/phpunit.xml
 							   AllTests"
-			  dir="${project.basedir}/source/tests" checkreturn="true" />
-    </target>
+			  dir="${sourceDir}/tests" checkreturn="true" />
+	</target>
 
 	<target name="codeSniffer" depends="php-codesniffer" />
 
 	<target name="php-codesniffer">
 		<phpcodesniffer standard="Namesco">
 			<fileset refid="sources" />
-			<formatter type="checkstyle" outfile="${project.basedir}/build/logs/checkstyle.xml"/>
+			<formatter type="checkstyle" outfile="${buildDir}/logs/codesniffer.xml"/>
 		</phpcodesniffer>
 	</target>
 
@@ -50,37 +75,75 @@
 		<phpdepend>
 			<fileset refid="sources" />
 			<logger type="jdepend-xml"
-					outfile="${project.basedir}/build/logs/jdepend.xml" />
+					outfile="${buildDir}/logs/jdepend.xml" />
+			<logger type="jdepend-chart"
+					outfile="${buildDir}/logs/jdepend-chart.svg" />
+			<logger type="overview-pyramid"
+					outfile="${buildDir}/logs/overview-pyramid.svg" />
 		</phpdepend>
 	</target>
 
 	<target name="phpmd">
 		<phpmd>
 			<fileset refid="sources" />
-			<formatter type="xml" outfile="${project.basedir}/build/logs/pmd-codesize.xml"/>
+			<formatter type="xml" outfile="${buildDir}/logs/pmd-codesize.xml"/>
 		</phpmd>
 	</target>
 
+
 	<target name="phpcpd">
-		<phpcpd>
-			<fileset refid="sources" />
-			<formatter type="pmd" outfile="${project.basedir}/build/logs/pmd-cpd.xml"/>
-		</phpcpd>
+		<!-- Disabling the built-in cpd as it is failing with weird errors -->
+		<!-- phpcpd>
+			<fileset refid="sources"/>
+			<fileset dir="${sourceDir}">
+				<exclude name="tests/" />
+			</fileset>
+			<formatter type="pmd" outfile="${buildDir}/logs/pmd-cpd.xml"/>
+		</phpcpd -->
+		<exec command="phpcpd
+							--min-tokens 70
+							--min-lines 5
+							--exclude tests/
+							--log-pmd ${buildDir}/logs/pmd-cpd.xml
+							."
+			  dir="${sourceDir}" checkreturn="true" />
+		
 	</target>
 
 	<target name="document" depends="php-documentor" />
 
-	<!-- Specifically excluding the web and templates directories because there
-	     is a lot of files in there and they don't describe the API. -->
 	<target name="php-documentor">
-		<exec command="phpdoc --title '${phing.project.name}'
+		<exec command="docblox run --title '${phing.project.name}'
 							  --target ${project.basedir}/build/docs
-							  --sourcecode on
-							  --undocumentedelements on
-							  --defaultpackagename ZTal
-							  --output HTML:Smarty:PHP
 							  --directory ."
 			  dir="${project.basedir}/source" checkreturn="true" />
+		<exec command="docblox transform --source ${project.basedir}/build/docs/structure.xml
+										 --target ${project.basedir}/build/docs"
+			  dir="${project.basedir}/source" checkreturn="true" />
+	</target>
+
+	<target name="analysis" depends="sonar:configure, sonar:run" />
+
+	<target name="sonar:configure">
+		<echo file="${buildDir}/pom.xml" append="false"><![CDATA[<?xml version="1.0"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsichemaLocation="http://maven.apache.org/POM/4.0.0">
+<modelVersion>4.0.0</modelVersion>
+<groupId>uk.co.namesco</groupId>
+<artifactId>ztal</artifactId>
+<name>ZTal</name>
+<version>1.0</version>
+<packaging>pom</packaging>
+<build>
+    <directory>${buildDir}</directory>
+    <sourceDirectory>${sourceDir}</sourceDirectory>
+    <testSourceDirectory>${sourceDir}/tests</testSourceDirectory>
+</build>
+</project>]]></echo>
+	</target>
+
+	<target name="sonar:run">
+		<exec command="mvn -f ${buildDir}/pom.xml sonar:sonar"
+			  dir="${project.basedir}" checkreturn="false" />
 	</target>
 
 </project>

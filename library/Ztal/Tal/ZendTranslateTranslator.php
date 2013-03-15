@@ -5,7 +5,7 @@
  * @category  Namesco
  * @package   Ztal
  * @author    Robert Goldsmith <rgoldsmith@names.co.uk>
- * @copyright 2009-2010 Namesco Limited
+ * @copyright 2009-2011 Namesco Limited
  * @license   http://names.co.uk/license Namesco
  */
 
@@ -101,7 +101,7 @@ class Ztal_Tal_ZendTranslateTranslator implements PHPTAL_TranslationService
 	 */
 	public function useDomain($domain)
 	{
-		$this->_domain = $domain;
+		$this->_domain = trim($domain);
 	}
 	
 	/**
@@ -146,8 +146,10 @@ class Ztal_Tal_ZendTranslateTranslator implements PHPTAL_TranslationService
 			$globalTranslateSet = $key['pluralKeys'];
 			
 			//create the domain specific translation array by prepending the domain key
+			// and trim the global key while we are at it
 			$domainTranslateSet = array();
-			foreach ($globalTranslateSet as $currentKey) {
+			foreach ($globalTranslateSet as &$currentKey) {
+				$currentKey = trim($currentKey);
 				$domainTranslateSet[] = $this->_domain . chr(4) . $currentKey;
 			}
 			
@@ -182,6 +184,7 @@ class Ztal_Tal_ZendTranslateTranslator implements PHPTAL_TranslationService
 			
 			//otherwise the translation is a simple value
 		} else {
+			$key = trim($key);
 			if ($translator->isTranslated($this->_domain . chr(4) . $key)) {
 				$value = $translator->translate($this->_domain . chr(4) . $key);
 			} elseif ($translator->isTranslated($key)) {
