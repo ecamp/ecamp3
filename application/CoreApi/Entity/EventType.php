@@ -55,11 +55,6 @@ class EventType extends BaseEntity
 	private $campType;
 	
 	/**
-	 * @ManyToMany(targetEntity="EventPrototype", inversedBy="eventTypes")
-	 * @JoinTable(name="allowed_event_prototypes")
-	 */
-	
-	/**
 	 * @ManyToMany(targetEntity="EventPrototype")
 	 * @JoinTable(name="event_type_event_prototypes",
 	 *      joinColumns={@JoinColumn(name="eventtype_id", referencedColumnName="id")},
