@@ -27,9 +27,6 @@ namespace CoreApi\Entity;
  * @Entity(repositoryClass="Core\Repository\PeriodRepository")
  * @Table(name="periods")
  */
-
-use Doctrine\Common\Collections\ArrayCollection;
-
 class Period extends BaseEntity
 {
 	public function __construct($camp = null)
@@ -37,7 +34,7 @@ class Period extends BaseEntity
 		parent::__construct();
 		
 		$this->camp = $camp;
-		$this->days = new ArrayCollection();
+		$this->days = new \Doctrine\Common\Collections\ArrayCollection();
 	}
 
 

@@ -12,7 +12,7 @@ class EventInstanceFilter extends BaseFilter
 		
 		if($targetEntity->getName() == 'CoreApi\Entity\EventInstance'){
 			
-			$me = "'" . self::getMe()->getId() . "'";
+			$me = self::getMySqlId();
 			
 			$camp = self::getTablename('CoreApi\Entity\Camp');
 			$event = self::getTablename('CoreApi\Entity\Event');

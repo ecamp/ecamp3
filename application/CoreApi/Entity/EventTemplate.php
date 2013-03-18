@@ -31,6 +31,7 @@ class EventTemplate extends BaseEntity
     public function __construct($eventPrototype = null)
     {
         $this->eventPrototype = $eventPrototype;
+        $this->pluginPositions = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
