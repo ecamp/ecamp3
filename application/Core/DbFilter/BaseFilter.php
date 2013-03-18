@@ -14,13 +14,14 @@ abstract class BaseFilter extends SQLFilter
 	 */
 	static private $contextProvider = null;
 	
-	static protected function getMe(){
+	static protected function getMySqlId(){
 		if(self::$contextProvider === null){
 			self::$contextProvider =
 				\Zend_Registry::get('kernel')->Get('CoreApi\Acl\ContextProvider');
 		}
 		
-		return self::$contextProvider->getMe();
+		$me = self::$contextProvider->getMe();
+		return ($me != null) ? "'" . $me->getId() . "'" : "null";
 	}
 	
 	

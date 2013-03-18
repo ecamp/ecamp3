@@ -106,7 +106,7 @@ class LoginService
 		$user = $this->userService->get($identifier);
 		
 		/** @var CoreApi\Entity\Login */
-		if(is_null($user))	{	return $null;	}
+		if(is_null($user))	{	return null;	}
 		else				{	$login = $user->getLogin();	}
 		
 		$authAdapter = new \Core\Auth\Adapter($login, $password);

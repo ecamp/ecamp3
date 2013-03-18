@@ -83,13 +83,16 @@ abstract class BaseController extends \Zend_Rest_Controller
 		*/
 		
 		/* authenticate real */
-		$result = $this->loginService->Login($_SERVER['PHP_AUTH_USER'],$_SERVER['PHP_AUTH_PW']);
-		if( is_null($result) )
-		{
+		$user = isset($_SERVER['PHP_AUTH_USER']) ? $_SERVER['PHP_AUTH_USER'] : null;
+		$pass = isset($_SERVER['PHP_AUTH_PW']) ? $_SERVER['PHP_AUTH_PW'] : null;
+		
+		$result = $this->loginService->Login($user, $pass);
+		if(is_null($result)){
 			$this->getResponse()->setHeader('WWW-Authenticate', 'Basic realm="ecamp3.api.v1"');
 			$this->getResponse()->setHttpResponseCode(401)->sendResponse();
 			exit;
 		}
+		
 		
 		$this->me = $this->contextProvider->getContext()->getMe();
 		

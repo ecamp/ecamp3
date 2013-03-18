@@ -153,6 +153,17 @@ class ApiApp_Bootstrap extends Zend_Application_Module_Bootstrap
 			)
 		);
 		
+		Zend_Controller_Front::getInstance()->getRouter()->addRoute(
+			'api.v1.group.camp.collection', $ApiSubdomain->chain(
+				new Zend_Controller_Router_Route_Regex(
+					'v1/groups/([0-9a-f]+)/camps\.(json|xml)',
+					array('controller' => 'camp', 'action' => 'index'),
+					array(1 => 'group', 2 => 'mime'),
+					'v1/camps.%s'
+				)
+			)
+		);
+		
 		
 		
 		///

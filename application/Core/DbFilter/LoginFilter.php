@@ -13,7 +13,7 @@ class LoginFilter extends BaseFilter
 		
 		if($targetEntity->getName() == 'CoreApi\Entity\Login'){
 			
-			$me = "'" . self::getMe()->getId() . "'";
+			$me = self::getMySqlId();
 			
 			return 
 				"	(" .

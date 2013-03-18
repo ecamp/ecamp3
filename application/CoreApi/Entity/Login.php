@@ -113,10 +113,8 @@ class Login extends BaseEntity
 	 */
 	public function setNewPassword($password)
 	{
-		$this->salt = hash('sha256', uniqid(microtime(true), true));
-
-		$password .= $this->salt;
-		$this->password = hash('sha256', $password);
+		$this->salt = md5(microtime(true));
+		$this->password = $this->getHash($password);
 	}
 
 	
@@ -130,8 +128,15 @@ class Login extends BaseEntity
 	 */
 	public function checkPassword($password)
 	{
-		$password = hash('sha256', $password . $this->salt);
-
-		return ($password == $this->password);
+		return ($this->getHash($password) == $this->password);
+	}
+	
+	
+	private function getHash($password){
+		$options = array(
+			'cost' => 10,
+			'salt' => $this->salt
+		);
+		return password_hash($password, PASSWORD_BCRYPT, $options);
 	}
 }

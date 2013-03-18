@@ -61,7 +61,7 @@ class Camp extends BaseEntity
 	
 	/**
 	 * @var string
-	 * @Column(type="string", length=16, nullable=false )
+	 * @Column(type="string", length=16, nullable=false, options={"default" = "public"})
 	 */
 	private $visibility;
 

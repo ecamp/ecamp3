@@ -21,69 +21,67 @@
 namespace CoreApi\Entity;
 
 /**
- * EventPrototype
+ * CampType
  * @Entity(readOnly=true)
- * @Table(name="event_prototypes")
+ * @Table(name="camp_types")
  */
-class EventPrototype extends BaseEntity
+class CampType extends BaseEntity
 {
 
 	public function __construct()
 	{
-		$this->pluginPrototypes = new \Doctrine\Common\Collections\ArrayCollection();
-		$this->eventTemplates = new \Doctrine\Common\Collections\ArrayCollection();
 	}
 
 	/**
-	 * @Column(type="string", length=64, nullable=false )
+	 * @Column(type="string", length=64, nullable=false)
 	 */
 	private $name;
 	
-	/**
-	 * If false, no more events of this prototype can be created.
-	 * However, existing events will still be rendered.
-	 * @Column(type="boolean", nullable=false)
-	 */
-	private $active = true;
 	
 	/**
-	 * @OneToMany(targetEntity="PluginPrototype", mappedBy="eventPrototype")
+	 * @Column(type="string", length=32, nullable=false)
 	 */
-	private $pluginPrototypes;
+	private $type;
+	
 	
 	/**
-	 * @OneToMany(targetEntity="EventTemplate", mappedBy="eventPrototype")
+	 * @OneToMany(targetEntity="EventType", mappedBy="campType")
 	 */
-	private $eventTemplates;
+	private $eventTypes;
 	
 	
-	
-	public function setName($name)
-	{
+	/**
+	 * @param string $name
+	 */
+	public function setName($name){
 		$this->name = $name;
 	}
 	
 	/**
 	 * @return string
 	 */
-	public function getName()
-	{
+	public function getName(){
 		return $this->name;
 	}
 	
 	/**
-	 * @return array
+	 * @param string $type
 	 */
-	public function getPluginPrototypes()
-	{
-		return $this->pluginPrototypes;
+	public function setType($type){
+		$this->type = $type;
+	}
+	
+	/**
+	 * @return string
+	 */
+	public function getType(){
+		return $this->type;
 	}
 	
 	/**
 	 * @return array
 	 */
-	public function getEventTemplates()
-	{
-	    return $this->eventTemplates;
+	public function getEventTypes(){
+		return $this->eventTypes;
 	}
 }

@@ -12,7 +12,7 @@ class DayFilter extends BaseFilter
 		
 		if($targetEntity->getName() == 'CoreApi\Entity\Day'){
 			
-			$me = "'" . self::getMe()->getId() . "'";
+			$me = self::getMySqlId();
 			
 			$period = self::getTablename('CoreApi\Entity\Period');
 			$camp = self::getTablename('CoreApi\Entity\Camp');

@@ -24,7 +24,11 @@ use Core\Service\ServiceFactory;
 use Bisna\Doctrine\Container as DoctrineContainer;
 
 class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
-{	
+{
+
+	public function _initFunctions(){
+		require_once 'Core/Util/password.php';
+	}
 	
 	/**
 	 * Loads the CoreNamespace to the Autoloader

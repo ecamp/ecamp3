@@ -13,7 +13,7 @@ class CampFilter extends BaseFilter
 		
 		if($targetEntity->getName() == 'CoreApi\Entity\Camp'){
 			
-			$me = "'" . self::getMe()->getId() . "'";
+			$me = self::getMySqlId();
 			$userCamp = self::getTablename('CoreApi\Entity\UserCamp');
 			
 			return 
