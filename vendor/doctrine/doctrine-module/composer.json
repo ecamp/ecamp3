@@ -1,0 +1,68 @@
+{
+    "name": "doctrine/doctrine-module",
+    "description": "Zend Framework 2 Module that provides Doctrine basic functionality required for ORM and ODM modules",
+    "type": "library",
+    "license": "MIT",
+    "keywords": [
+        "doctrine",
+        "module",
+        "zf2"
+    ],
+    "homepage": "http://www.doctrine-project.org/",
+    "authors": [
+        {
+            "name": "Kyle Spraggs",
+            "email": "theman@spiffyjr.me",
+            "homepage": "http://www.spiffyjr.me/"
+        },
+        {
+            "name": "Marco Pivetta",
+            "email": "ocramius@gmail.com",
+            "homepage": "http://marco-pivetta.com/"
+        },
+        {
+            "name": "Evan Coury",
+            "email": "me@evancoury.com",
+            "homepage": "http://blog.evan.pro/"
+        },
+        {
+            "name": "Guilherme Blanco",
+            "email": "guilhermeblanco@hotmail.com"
+        },
+        {
+            "name": "Michaël Gallego",
+            "email": "mic.gallego@gmail.com",
+            "homepage": "http://www.michaelgallego.fr"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.3",
+        "doctrine/common": ">=2.3-dev,<2.5-dev",
+        "symfony/console": ">=2.0.13",
+        "zendframework/zend-authentication": "2.*",
+        "zendframework/zend-cache": "2.*",
+        "zendframework/zend-paginator": "2.*",
+        "zendframework/zend-stdlib": "2.*",
+        "zendframework/zend-mvc": "2.*",
+        "zendframework/zend-servicemanager": "2.*",
+        "zendframework/zend-validator": "2.*"
+    },
+    "suggest": {
+        "doctrine/data-fixtures": "Data Fixtures if you want to generate test data or bootstrap data for your deployments"
+    },
+    "minimum-stability": "dev",
+    "autoload": {
+        "psr-0": {
+            "DoctrineModule\\": "src/",
+            "DoctrineModuleTest\\": "tests/"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "0.8.x-dev"
+        }
+    },
+    "bin": [
+        "bin/doctrine-module"
+    ]
+}

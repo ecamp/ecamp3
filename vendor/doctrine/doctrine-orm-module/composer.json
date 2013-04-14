@@ -1,0 +1,64 @@
+{
+    "name": "doctrine/doctrine-orm-module",
+    "description": "Zend Framework 2 Module that provides Doctrine ORM functionality",
+    "type": "library",
+    "license": "MIT",
+    "keywords": [
+        "doctrine",
+        "orm",
+        "module",
+        "zf2"
+    ],
+    "homepage": "http://www.doctrine-project.org/",
+    "authors": [
+        {
+            "name": "Kyle Spraggs",
+            "email": "theman@spiffyjr.me",
+            "homepage": "http://www.spiffyjr.me/"
+        },
+        {
+            "name": "Marco Pivetta",
+            "email": "ocramius@gmail.com",
+            "homepage": "http://marco-pivetta.com/"
+        },
+        {
+            "name": "Evan Coury",
+            "email": "me@evancoury.com",
+            "homepage": "http://blog.evan.pro/"
+        },
+        {
+            "name": "Guilherme Blanco",
+            "email": "guilhermeblanco@hotmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.3",
+        "doctrine/doctrine-module": "0.7.*",
+        "doctrine/orm": ">=2.3-dev,<2.5-dev",
+        "doctrine/dbal": ">=2.3-dev,<2.5-dev",
+        "zendframework/zend-stdlib": "2.*",
+        "zendframework/zend-form": "2.*",
+        "zendframework/zend-mvc": "2.*",
+        "zendframework/zend-servicemanager": "2.*"
+    },
+    "require-dev": {
+        "zendframework/zend-developer-tools": "dev-master",
+        "doctrine/migrations": "1.*"
+    },
+    "suggest": {
+        "zendframework/zend-developer-tools": "zend-developer-tools if you want to profile operations executed by the ORM during development",
+        "doctrine/migrations": "doctrine migrations if you want to keep your schema definitions versioned"
+    },
+    "minimum-stability": "dev",
+    "autoload": {
+        "psr-0": {
+            "DoctrineORMModule\\": "src/",
+            "DoctrineORMModuleTest\\": "tests/"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "0.8.x-dev"
+        }
+    }
+}

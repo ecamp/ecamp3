@@ -1,0 +1,21 @@
+<div>
+  <div metal:define-macro="test1">
+    t1.v1:<span metal:define-slot="val1">test1: val1 should go here</span>
+  </div>
+
+  <div metal:define-macro="test2">
+    t2.v1:<span metal:define-slot="val1">test2: val1 should go here</span>
+    t2.v2:<span metal:define-slot="val2">test2 OK: unfilled val2</span>
+  </div>
+
+  <div metal:use-macro="test1">
+    <div metal:fill-slot="val2">test1: unused invalid val2</div>
+    <div metal:fill-slot="val1"  tal:omit-tag="">
+      <div metal:use-macro="test2">
+      <span metal:fill-slot="val1">OK: filled from test2/val1</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+

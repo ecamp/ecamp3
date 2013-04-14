@@ -1,0 +1,167 @@
+<?php
+/*
+ * Copyright (C) 2011 Urban Suppiger
+ *
+ * This file is part of eCamp.
+ *
+ * eCamp is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * eCamp is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with eCamp.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+namespace EcampCore\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Container for an event.
+ * - An event has no date/time, as it only describes the program but not when it happens.
+ * - An event can either belong to a camp or to a user
+ * @ORM\Entity(repositoryClass="EcampCore\Repository\EventRepository")
+ * @ORM\Table(name="events")
+ */
+class Event extends BaseEntity
+{
+    public function __construct()
+    {
+        $this->plugins  = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+    
+	/**
+	 * @ORM\Column(type="text" )
+	 */
+	private $title;
+
+	/**
+	 * @ORM\ManyToOne(targetEntity="Camp")
+	 */
+	private $camp;
+
+	/**
+	 * @ORM\ManyToOne(targetEntity="User")
+	 */
+	private $user;
+
+	/**
+	 * @ORM\OneToMany(targetEntity="EventInstance", mappedBy="event", cascade={"all"}, orphanRemoval=true)
+	 */
+	private $eventInstances;
+
+	/**
+	 * @ORM\OneToMany(targetEntity="PluginInstance", mappedBy="event", cascade={"all"}, orphanRemoval=true)
+	 */
+	private $pluginInstances;
+	
+	/**
+	 * @var EventPrototype
+	 * @ORM\ManyToOne(targetEntity="EventPrototype")
+	 * @ORM\JoinColumn(nullable=true, onDelete="cascade")
+	 * TODO set nullable false
+	 */
+	private $prototype;
+	
+	
+	public function setTitle($title)
+	{
+		$this->title = $title;
+	}
+	
+	public function getTitle()
+	{
+		return $this->title;
+	}
+
+	
+	public function setCamp(camp $camp)
+	{
+		$this->camp = $camp;
+	}
+	
+	/**
+	 * @return Camp
+	 */
+	public function getCamp()
+	{
+		return $this->camp;
+	}
+
+	
+	public function setUser(user $user)
+	{
+		$this->user = $user;
+	}
+	
+	/**
+	 * @return User
+	 */
+	public function getUser()
+	{
+		return $this->user;
+	}
+	
+	
+	/**
+	 * @return array
+	 */
+	public function getEventInstances()
+	{
+		return $this->eventInstances;
+	}
+
+	
+	/**
+	 * @return array
+	 */
+	public function getPluginInstances()
+	{
+		return $this->pluginInstances;
+	}
+	
+	/**
+	 * @return array
+	 */
+	public function getPluginsByPrototype(PluginPrototype $prototype)
+	{
+	    $closure = function(PluginInstance $instance) use ($prototype)
+	    {
+	        return $instance->getPluginPrototype()->getId() == $prototype->getId();
+	    };
+	    
+	    return $this->pluginInstances->filter($closure);
+	}
+	
+	/**
+	 * @return integer
+	 */
+	public function countPluginsByPrototype(PluginPrototype $prototype)
+	{
+		$closure = function(PluginInstance $instance) use ($prototype)
+		{
+			return $instance->getPluginPrototype()->getId() == $prototype->getId();
+		};
+		 
+		return $this->pluginInstances->count($closure);
+	}
+	
+	/**
+	 * @return EventPrototype
+	 */
+	public function getPrototype()
+	{
+	    return $this->prototype;
+	}
+	
+	public function setPrototype(EventPrototype $prototype)
+	{
+	    $this->prototype = $prototype;
+	}
+}
