@@ -53,6 +53,17 @@ abstract class ServiceBase implements
 		return $this->serviceProvider;
 	}
 	
+	/** @var EcampCore\RepositoryUtil\RepositoryProvider */
+	private $repoProvider;
+	
+	/** @return EcampCore\RepositoryUtil\RepositoryProvider */
+	public function repo(){
+		if($this->repoProvider == null){
+			$this->repoProvider = $this->getServiceLocator()->get('ecamp.repositoryutil.provider');
+		}
+		return $this->repoProvider;
+	}
+	
 	
 	/**
 	 * @var Doctrine\ORM\EntityManager

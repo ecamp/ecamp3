@@ -3,6 +3,7 @@
 namespace EcampCore\Controller;
 
 use EcampCore\ServiceUtil\ServiceProviderWriter;
+use EcampCore\RepositoryUtil\RepositoryProviderWriter;
 
 class ServiceController extends AbstractBaseController 
 {
@@ -10,6 +11,12 @@ class ServiceController extends AbstractBaseController
 		
 		$serviceProviderWriter = new ServiceProviderWriter();
 		$serviceProviderWriter->writeServiceProvider();
+		
+	}
+	
+	public function createRepoProviderAction(){
+		$repoProviderWriter = new RepositoryProviderWriter();
+		$repoProviderWriter->writeRepositoryProvider();
 		
 	}
 	

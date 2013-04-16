@@ -12,7 +12,9 @@ class IndexController extends AbstractBaseController
 		//die(print_r($loginService = $this->getServiceLocator()->getRegisteredServices()));
 		
 		
-		die( get_class($this->service()->loginService()->service() ) );
+		$intUserService = $this->getServiceLocator()->get('ecamp.internal.service.login');
+		
+		die( get_class($intUserService->repo()->campRepository() ) );
 		
 		die( get_class($this->service()->userService() ) );
 		
