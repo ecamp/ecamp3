@@ -1,16 +1,11 @@
 .*
 
-config.ini
-
-tmp/*
-tmp/**/*
-
-application/Core/Entity/Proxy/*
-!application/Core/Entity/Proxy/.gitignore
-
 
 data/log/*
 data/log/**/*
+
+data/cache/*
+data/cache/**/*
 
 data/session/*
 data/session/**/*
