@@ -23,7 +23,7 @@ namespace EcampCore\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Medium
+ * Medium(repositoryClass="EcampCore\Repository\MediumRepository")
  * @ORM\Entity(readOnly=true)
  * @ORM\Table(name="media")
  */

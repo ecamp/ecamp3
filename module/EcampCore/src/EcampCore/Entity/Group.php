@@ -23,7 +23,7 @@ namespace EcampCore\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="EcampCore\Repository\GroupRepository")
  * @ORM\Table(name="groups", indexes={@ORM\Index(name="group_name_idx", columns={"name"})}, uniqueConstraints={@ORM\UniqueConstraint(name="group_parent_name_unique",columns={"parent_id","name"})})
  */
 class Group extends BaseEntity

@@ -20,32 +20,17 @@
 
 namespace EcampCore\Service;
 
+use EcampCore\Acl\DefaultAcl;
 use EcampCore\Entity\User;
 use EcampCore\Entity\Camp;
 use EcampCore\Entity\UserCamp;
 
-class ContributionService extends ServiceBase
+/**
+ * @method EcampCore\Service\ContributionService Simulate
+ */
+class ContributionService 
+	extends ServiceBase
 {
-	/**
-	 * @return EcampCore\Service\UserService
-	 */
-	private function getUserService(){
-		return $this->locateService('ecamp.service.user');
-	}
-	
-	/**
-	 * @return EcampCore\Service\CampService
-	 */
-	private function getCampService(){
-		return $this->locateService('ecamp.service.camp');
-	}
-	
-	/**
-	 * @return EcampCore\Repository\ContributorRepository
-	 */
-	private function getContributorRepo(){
-		return $this->locateService('ecamp.repo.contributor');
-	}
 	
 	/**
 	 * Setup ACL
@@ -53,24 +38,25 @@ class ContributionService extends ServiceBase
 	 */
 	public function _setupAcl()
 	{
+		$this->getAcl()->allow(DefaultAcl::MEMBER, $this, 'Get');
 	}
 		
 	public function Get($id, $camp_id = null){
 		if($camp_id == null)
 		{
 			if(is_string($id)){
-				return $this->getContributorRepo()->find($id);
+				return $this->repo()->contributorRepository()->find($id);
 			}
-			if($id instanceof \CoreApi\Entity\UserCamp){
+			if($id instanceof \EcampCore\Entity\UserCamp){
 				return $id;
 			}
 		}
 		else
 		{
-			$user = $this->getUserService()->Get($id);
-			$camp = $this->getCampService()->Get($camp_id);
+			$user = $this->service()->userService()->Get($id);
+			$camp = $this->service()->campService()->Get($camp_id);
 			
-			return $this->getContributorRepo()->findOneBy(array(
+			return $this->repo()->contributorRepository()->findOneBy(array(
 				'user' => $user,
 				'camp' => $camp
 			));
@@ -82,19 +68,19 @@ class ContributionService extends ServiceBase
 	
 	
 	public function GetCollaborators(Camp $camp){
-		return $this->getContributorRepo()->findCollaboratorsByCamp($camp);
+		return $this->repo()->contributorRepository()->findCollaboratorsByCamp($camp);
 	}
 	
 	public function GetCamps(User $user){
-		return $this->getContributorRepo()->findCollaboratorsByUser($user);
+		return $this->repo()->contributorRepository()->findCollaboratorsByUser($user);
 	}
 	
 	public function GetRequests(Camp $camp){
-		return $this->getContributorRepo()->findOpenRequestsByCamp($camp);
+		return $this->repo()->contributorRepository()->findOpenRequestsByCamp($camp);
 	}
 	
 	public function GetInvitations(User $user){
-		return $this->getContributorRepo()->findOpenInvitationsByUser($user);
+		return $this->repo()->contributorRepository()->findOpenInvitationsByUser($user);
 	}
 	
 	public function RequestCollaboration(Camp $camp, $role = UserCamp::ROLE_MEMBER){

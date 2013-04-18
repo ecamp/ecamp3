@@ -12,34 +12,25 @@ use EcampCore\Entity\EventInstance;
 use EcampCore\Service\Params\Params;
 
 /**
- * @method CoreApi\Service\LoginService Simulate
+ * @method EcampCore\Service\EventInstanceService Simulate
  */
 class EventInstanceService 
 	extends ServiceBase
 {
 	
 	/**
-	 * @return EcampCore\Repository\EventInstanceRepository
-	 */
-	private function getEventInstanceRepo(){
-		return $this->locateService('ecamp.repo.eventinstance');
-	}
-	
-	
-	/**
 	 * Setup ACL
 	 * @return void
 	 */
-	public function _setupAcl()
-	{
-		$this->acl->allow(DefaultAcl::CAMP_MEMBER, $this, 'Get');
-		$this->acl->allow(DefaultAcl::CAMP_MEMBER, $this, 'GetByDay');
-		$this->acl->allow(DefaultAcl::CAMP_MEMBER, $this, 'GetByPeriod');
-		$this->acl->allow(DefaultAcl::CAMP_MEMBER, $this, 'GetByCamp');
-		$this->acl->allow(DefaultAcl::CAMP_MEMBER, $this, 'Create');
-		$this->acl->allow(DefaultAcl::CAMP_MEMBER, $this, 'Move');
-		$this->acl->allow(DefaultAcl::CAMP_MEMBER, $this, 'Resize');
-		$this->acl->allow(DefaultAcl::CAMP_MEMBER, $this, 'Delete');
+	public function _setupAcl(){
+		$this->getAcl()->allow(DefaultAcl::CAMP_MEMBER, $this, 'Get');
+		$this->getAcl()->allow(DefaultAcl::CAMP_MEMBER, $this, 'GetByDay');
+		$this->getAcl()->allow(DefaultAcl::CAMP_MEMBER, $this, 'GetByPeriod');
+		$this->getAcl()->allow(DefaultAcl::CAMP_MEMBER, $this, 'GetByCamp');
+		$this->getAcl()->allow(DefaultAcl::CAMP_MEMBER, $this, 'Create');
+		$this->getAcl()->allow(DefaultAcl::CAMP_MEMBER, $this, 'Move');
+		$this->getAcl()->allow(DefaultAcl::CAMP_MEMBER, $this, 'Resize');
+		$this->getAcl()->allow(DefaultAcl::CAMP_MEMBER, $this, 'Delete');
 	}
 	
 	
@@ -47,9 +38,8 @@ class EventInstanceService
 	 * @param string $id
 	 * @return EventInstance
 	 */
-	public function Get($id)
-	{
-		$eventInstance = $this->getEventInstanceRepo()->find($id);
+	public function Get($id){
+		$eventInstance = $this->repo()->eventInstanceRepository()->find($id);
 		$this->validationContextAssert($eventInstance);
 		
 		return $eventInstance;		
@@ -60,10 +50,9 @@ class EventInstanceService
 	 * @param Day $day
 	 * @return Doctrine\Common\Collections\ArrayCollection
 	 */
-	public function GetByDay(Day $day)
-	{
+	public function GetByDay(Day $day){
 		$this->validationContextAssert($day);
-		return $this->getEventInstanceRepo()->findByDay($day);
+		return $this->repo()->eventInstanceRepository()->findByDay($day);
 	}
 	
 	
@@ -71,20 +60,18 @@ class EventInstanceService
 	 * @param Period $period
 	 * @return Doctrine\Common\Collections\ArrayCollection
 	 */
-	public function GetByPeriod(Period $period)
-	{
+	public function GetByPeriod(Period $period){
 		$this->validationContextAssert($period);
-		return $this->getEventInstanceRepo()->findByPeriod($period);
+		return $this->repo()->eventInstanceRepository()->findByPeriod($period);
 	}
 	
 	
 	/**
 	 * @return Doctrine\Common\Collections\ArrayCollection
 	 */
-	public function GetByCamp()
-	{
+	public function GetByCamp(){
 		$camp = $this->getContextProvider()->getCamp();
-		return $this->getEventInstanceRepo()->findByCamp($camp);
+		return $this->repo()->eventInstanceRepository()->findByCamp($camp);
 	}
 	
 	
@@ -95,8 +82,7 @@ class EventInstanceService
 	 * @param DateInterval|int $duration
 	 * @return EventInstance
 	 */
-	public function Create(Period $period, Event $event, $start, $duration)
-	{
+	public function Create(Period $period, Event $event, $start, $duration){
 		$this->validationContextAssert($period);
 		$this->validationContextAssert($event);
 		
@@ -125,8 +111,7 @@ class EventInstanceService
 	 * @param Period $period
 	 * @param DateTime|DateInterval|int $start
 	 */
-	public function Move(EventInstance $eventInstance, Period $period , $start)
-	{
+	public function Move(EventInstance $eventInstance, Period $period , $start){
 		$this->validationContextAssert($period);
 		$this->validationContextAssert($eventInstance);
 		
@@ -143,15 +128,13 @@ class EventInstanceService
 	 * @param EventInstance $eventInstance
 	 * @param DateInterval|int $duration
 	 */
-	public function Resize(EventInstance $eventInstance, $duration)
-	{
+	public function Resize(EventInstance $eventInstance, $duration){
 		$this->validationContextAssert($eventInstance);
 		$eventInstance->setDuration($duration);
 	}
 	
 	
-	public function Delete(EventInstance $eventInstance)
-	{
+	public function Delete(EventInstance $eventInstance){
 		$this->validationContextAssert($eventInstance);
 		
 		$event = $eventInstance->getEvent();

@@ -4,6 +4,7 @@ namespace EcampCore\Service;
 
 use Zend\Authentication\AuthenticationService;
 
+use EcampCore\Acl\DefaultAcl;
 use EcampCore\Acl\ContextProvider;
 use EcampCore\Repository\LoginRepository;
 use EcampCore\Service\Params\Params;
@@ -13,43 +14,29 @@ use EcampCore\Entity\Login;
 
 
 /**
- * @method CoreApi\Service\LoginService Simulate
+ * @method EcampCore\Service\LoginService Simulate
  */
 class LoginService 
 	extends ServiceBase
 {
 	
-	/** 
-	 * @return Zend\Authentication\AuthenticationService 
-	 */
-	private function getAuthService(){
-		return $this->getServiceLocator()->get('Zend\Authentication\AuthenticationService');
-	}	
-	
-	/** 
-	 * @return EcampCore\Service\UserService
-	 */
-	private function getUserService(){
-		return $this->getServiceLocator()->get('ecamp.service.user');
-	}
-	
 	/**
 	 * Setup ACL
 	 */
-	public function _setupAcl()
-	{
-		$this->acl->allow(DefaultAcl::MEMBER, $this, 'Create');
+	public function _setupAcl(){
+		$this->getAcl()->allow(DefaultAcl::GUEST,  $this, 'Create');
+		$this->getAcl()->allow(DefaultAcl::MEMBER, $this, 'Get');
 		
-		$this->acl->allow(DefaultAcl::GUEST,  $this, 'Login');
-		$this->acl->allow(DefaultAcl::MEMBER, $this, 'Logout');
+		$this->getAcl()->allow(DefaultAcl::GUEST,  $this, 'Login');
+		$this->getAcl()->allow(DefaultAcl::MEMBER, $this, 'Logout');
 	}
 	
 	
 	/**
-	 * @return CoreApi\Entity\Login | NULL
+	 * @return EcampCore\Entity\Login | NULL
 	 */
 	public function Get(){
-		$user = $this->getUserService()->get();
+		$user = $this->service()->userService()->get();
 		
 		if(!is_null($user))
 		{	return $user->getLogin();	}
@@ -59,10 +46,9 @@ class LoginService
 	
 	
 	/**
-	 * @return CoreApi\Entity\Login
+	 * @return EcampCore\Entity\Login
 	 */
-	public function Create(User $user, Params $params)
-	{
+	public function Create(User $user, Params $params){
 		$login = new Login();
 		$loginValdator = new \Core\Validator\Entity\LoginValidator($login);
 		
@@ -77,8 +63,7 @@ class LoginService
 	}
 	
 	
-	public function Delete()
-	{
+	public function Delete(){
 		$me = $this->getContextProvider()->getMe();
 		$login = $me->getLogin();
 		
@@ -90,19 +75,23 @@ class LoginService
 	
 	
 	/**
-	 * @return Zend_Auth_Result 
+	 * @return Zend\Authentication\Result 
 	 */
-	public function Login($identifier, $password)
-	{
-		/** @var CoreApi\Entity\User */
-		$user = $this->getUserService()->get($identifier);
+	public function Login($identifier, $password){
 		
-		/** @var CoreApi\Entity\Login */
-		if(is_null($user))	{	return null;	}
-		else				{	$login = $user->getLogin();	}
+		/** @var EcampCore\Entity\User  */
+		$user = $this->service()->userService()->get($identifier);
+		
+		if(is_null($user))	{	
+			return null;
+		} else {
+			/** @var EcampCore\Entity\Login */
+			$login = $user->getLogin();
+		}
 		
 		$authAdapter = new \EcampCore\Auth\Adapter($login, $password);
-		$result = $this->getAuthService()->authenticate($authAdapter);
+		$authService = new AuthenticationService();
+		$result = $authService->authenticate($authAdapter);
 		
 		$this->getContextProvider()->reset();
 		
@@ -111,18 +100,22 @@ class LoginService
 	
 	
 	public function Logout(){
-		$this->getAuthService()->clearIdentity();
+		
+		$authService = new AuthenticationService();
+		$authService->clearIdentity();
+		
 		$this->getContextProvider()->reset();
 	}
 	
 	
-	public function ResetPassword($pwResetKey, Params $params)
-	{
-		$login = $this->getLoginByResetKey($pwResetKey);
-		$loginValidator = new \Core\Validate\LoginValidator($login);
+	public function ResetPassword($pwResetKey, Params $params){
 		
-		if(is_null($login))
-		{	$this->addValidationMessage("No Login found for given PasswordResetKey");	}
+		$login = $this->getLoginByResetKey($pwResetKey);
+		$loginValidator = new \EcampCore\Validate\LoginValidator($login);
+		
+		if(is_null($login)){
+			$this->addValidationMessage("No Login found for given PasswordResetKey");
+		}
 		
 		$this->validationFailed(
 			! $loginValidator->isValid($params));
@@ -132,17 +125,19 @@ class LoginService
 	}
 	
 	
-	public function ForgotPassword($identifier)
-	{
-		$user = $this->getUserService()->Get($identifier);
+	public function ForgotPassword($identifier){
 		
-		if(is_null($user))
-		{	return false;	}
+		$user = $this->service()->userService()->Get($identifier);
+		
+		if(is_null($user)){
+			return false;
+		}
 		
 		$login = $user->getLogin();
 		
-		if(is_null($login))
-		{	return false;	}
+		if(is_null($login)){
+			return false;
+		}
 		
 		$login->createPwResetKey();
 		$resetKey = $login->getPwResetKey();
@@ -159,12 +154,12 @@ class LoginService
 	 * Returns the LoginEntity with the given pwResetKey
 	 *
 	 * @param string $pwResetKey
-	 * @return CoreApi\Entity\Login
+	 * @return EcampCore\Entity\Login
 	 */
-	private function getLoginByResetKey($pwResetKey)
-	{
-		/** @var \CoreApi\Entity\Login $login */
-		$login = $this->loginRepo->findOneBy(array('pwResetKey' => $pwResetKey));
+	private function getLoginByResetKey($pwResetKey){
+		
+		/** @var \EcampCore\Entity\Login $login */
+		$login = $this->repo()->loginRepository()->findOneBy(array('pwResetKey' => $pwResetKey));
 	
 		return $login;
 	}

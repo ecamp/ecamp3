@@ -2,10 +2,12 @@
 
 namespace EcampCore\Acl;
 
+use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\Permissions\Acl\Acl;
 use EcampCore\Entity\User;
 
-class DefaultAcl extends Acl
+class DefaultAcl 
+	extends Acl
 {
 	const GUEST 				= 'guest';
 	const MEMBER				= 'member';
@@ -24,18 +26,25 @@ class DefaultAcl extends Acl
 	const USER_FRIEND			= 'user_friend';
 	const USER_ME				= 'user_me';
 	
+	
 	/**
-	 * @var Doctrine\ORM\EntityManager
-	 * @Inject Doctrine\ORM\EntityManager
+	 * @var ServiceLocatorInterface
 	 */
-	protected $em;
+	private $serviceLocator;
 	
 	
 	/**
 	 * @var Core\Acl\ContextStorage
-	 * @Inject Core\Acl\ContextStorage
 	 */
-	protected $contextStorage;
+	private $contextStorage;
+	
+	protected function getContextStorage(){
+		if($this->contextStorage == null){
+			$this->contextStorage = 
+				$this->serviceLocator->get('ecamp.acl.contextstorage');
+		}
+		return $this->contextStorage;
+	} 
 	
 	/**
 	 * @var array
@@ -46,8 +55,10 @@ class DefaultAcl extends Acl
     /**
      * Setup roles
      */
-    public function __construct()
+    public function __construct(ServiceLocatorInterface $serviceLocator)
     {
+    	$this->serviceLocator = $serviceLocator;
+    	
     	/* support roles */
     	$this->addRole(self::ADMIN_IN_USER_VIEW);
     	
@@ -75,7 +86,7 @@ class DefaultAcl extends Acl
 	
 	public function getRolesInContext()
 	{
-		$context = $this->contextStorage->getContext();
+		$context = $this->getContextStorage()->getContext();
 		$contextKey = (string) $context;
 		
 		$roles = array_key_exists($contextKey, $this->rolesCache) ?
@@ -103,8 +114,8 @@ class DefaultAcl extends Acl
 				$roles[] = self::MEMBER;
 			}
 			
-			if(	$me != $this->contextStorage->getAuthUser() && 
-				$this->contextStorage->getAuthUser()->getRole() == User::ROLE_ADMIN
+			if(	$me != $this->getContextStorage()->getAuthUser() && 
+				$this->getContextStorage()->getAuthUser()->getRole() == User::ROLE_ADMIN
 			){
 				$roles[] = self::ADMIN_IN_USER_VIEW;
 			}

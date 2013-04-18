@@ -28,55 +28,46 @@ class EventService
 {
 	
 	/**
-	 * @return EcampCore\Repository\EventTemplateRepository
-	 */
-	private function getEventTemplateRepo(){
-		$this->locateService('ecamp.repo.eventtemplate');
-	}
-	
-	/**
 	 * Setup ACL
 	 * @return void
 	 */
-	public function _setupAcl()
-	{
-		$this->acl->allow(DefaultAcl::MEMBER, $this, 'Create');
-		$this->acl->allow(DefaultAcl::MEMBER, $this, 'Delete');
-		$this->acl->allow(DefaultAcl::MEMBER, $this, 'Get');
-		$this->acl->allow(DefaultAcl::MEMBER, $this, 'GetContainers');
-		$this->acl->allow(DefaultAcl::MEMBER, $this, 'CreateRenderEvent');
-		$this->acl->allow(DefaultAcl::MEMBER, $this, 'getPluginInstance');
-		$this->acl->allow(DefaultAcl::MEMBER, $this, 'getPluginPrototype');
-		$this->acl->allow(DefaultAcl::MEMBER, $this, 'AddPlugin');
-		$this->acl->allow(DefaultAcl::MEMBER, $this, 'RemovePlugin');
-		$this->acl->allow(DefaultAcl::GUEST,  $this, 'getCampOfPluginInstance');
-		
+	public function _setupAcl(){
+		$this->getAcl()->allow(DefaultAcl::MEMBER, $this, 'Create');
+		$this->getAcl()->allow(DefaultAcl::MEMBER, $this, 'Delete');
+		$this->getAcl()->allow(DefaultAcl::MEMBER, $this, 'Get');
+		$this->getAcl()->allow(DefaultAcl::MEMBER, $this, 'GetContainers');
+		$this->getAcl()->allow(DefaultAcl::MEMBER, $this, 'CreateRenderEvent');
+		$this->getAcl()->allow(DefaultAcl::MEMBER, $this, 'getPluginInstance');
+		$this->getAcl()->allow(DefaultAcl::MEMBER, $this, 'getPluginPrototype');
+		$this->getAcl()->allow(DefaultAcl::MEMBER, $this, 'AddPlugin');
+		$this->getAcl()->allow(DefaultAcl::MEMBER, $this, 'RemovePlugin');
+		$this->getAcl()->allow(DefaultAcl::GUEST,  $this, 'getCampOfPluginInstance');
 	}
 	
 	/**
 	 * @return CoreApi\Entity\Event | NULL
 	 */
-	public function Get($id)
-	{	
-		if(is_string($id))
-		{	return $this->em->getRepository("CoreApi\Entity\Event")->find($id);	}
+	public function Get($id){	
+		if(is_string($id)){
+			$this->repo()->eventRepository()->find($id);	
+		}
 			
-		if($id instanceof Event)
-		{	return $id;	}
+		if($id instanceof Event){
+			return $id;
+		}
 		
 		return null;
 	}
 	
 	
-	public function CreateRenderEvent(Event $event, $medium, $backend = false)
-	{
-		if(! $medium instanceof Medium )
-		{
-			$medium = $this->em->getRepository('CoreApi\Entity\Medium')->findOneBy(array('name' => $medium));	
+	public function CreateRenderEvent(Event $event, $medium, $backend = false){
+		
+		if(! $medium instanceof Medium ){
+			$this->repo()->mediumRepository()->findOneBy(array('name' => $medium));	
 		}
 		
 		$eventPrototype = $event->getPrototype();
-		$eventTemplate = $this->getEventTemplateRepo()->findOneBy(
+		$eventTemplate = $this->repo()->eventTemplateRepository()->findOneBy(
 			array('eventPrototype' => $eventPrototype, 'medium' => $medium)); 
 		
 		$renderEvent = new RenderEvent($event, $medium, $eventTemplate, $backend);
@@ -95,7 +86,7 @@ class EventService
 			$renderPluginPrototype = new RenderPluginPrototype($renderContainer, $pluginPrototype);
 			
 			
-			$pluginInstances = $this->em->getRepository('CoreApi\Entity\PluginInstance')->findBy(
+			$pluginInstances = $this->repo()->pluginInstanceRepository()->findBy(
 				array('event' => $event, 'pluginPrototype' => $pluginPrototype));
 			
 			foreach($pluginInstances as $pluginInstance){
@@ -110,8 +101,8 @@ class EventService
 	/**
 	 * @return bool
 	 */
-	public function Delete($id)
-	{
+	public function Delete($id){
+		
 		$event = $this->Get($id);
 		
 		foreach($event->getPluginInstances() as $plugin){
@@ -124,15 +115,12 @@ class EventService
 	}
 	
 	/**
-	 * @return CoreApi\Entity\Event
+	 * @return EcampCore\Entity\Event
 	 */
-	public function Create(Camp $camp)
-	{	
-		/* TODO: ugly workaround, find better solution please */
-		$this->em->getConnection();
+	public function Create(Camp $camp){
 		
 		/* define event prototype; will come as a parameter of course */
-		$prototype = $this->em->getRepository("CoreApi\Entity\EventPrototype")->find(1);
+		$prototype = $this->repo()->eventPrototypeRepository()->find(1);
 	
 		$event = new Event();
 		
@@ -141,10 +129,8 @@ class EventService
 		$event->setPrototype($prototype);
 
 		$pluginPrototypes = $prototype->getPluginPrototypes();
-		foreach($pluginPrototypes as $plugin)
-		{
-			for($i=0; $i<$plugin->getDefaultInstances(); $i++)
-		    {
+		foreach($pluginPrototypes as $plugin){
+			for($i=0; $i<$plugin->getDefaultInstances(); $i++){
 		        $this->CreatePluginInstance($event, $plugin);
 		    }
 		}
@@ -152,8 +138,9 @@ class EventService
 		$this->persist($event);
 	}
 	
-	private function CreatePluginInstance(Event $event, PluginPrototype $prototype)
-	{
+	
+	private function CreatePluginInstance(Event $event, PluginPrototype $prototype){
+		
 		$plugin = new PluginInstance();
 		$plugin->setEvent($event);
 		$plugin->setPluginPrototype($prototype);
@@ -168,28 +155,26 @@ class EventService
 		return $plugin;
 	}
 	
-	public function AddPlugin($event, $plugin)
-	{
+	public function AddPlugin($event, $plugin){
+		
 		$event = $this->Get($event);
 		$plugin = $this->getPluginPrototype($plugin);
 		$count = $event->countPluginsByPrototype($plugin);
 		
-		if( is_null($plugin->getMaxInstances()) || $count<$plugin->getMaxInstances() )
-		{
+		if(is_null($plugin->getMaxInstances()) || $count<$plugin->getMaxInstances()){
 			$this->CreatePluginInstance($event, $plugin);
 		}
 	}
 	
-	public function RemovePlugin($event, $instance)
-	{
+	public function RemovePlugin($event, $instance){
+		
 		$event 	  = $this->Get($event);
 		$instance = $this->getPluginInstance($instance);
 		$prototype = $instance->getPluginPrototype();
 		
 		$count = $event->countPluginsByPrototype($prototype);
 		
-		if( $count > $prototype->getMinInstances() )
-		{
+		if($count > $prototype->getMinInstances()){
 			/* cleanup plugin data */
 			$instance->getStrategyInstance()->remove();
 			
@@ -199,12 +184,12 @@ class EventService
 	}
 	
 	/**
-	 * @return CoreApi\Entity\PluginInstance
+	 * @return EcampCore\Entity\PluginInstance
 	 */
-	public function getPluginInstance($id)
-	{
+	public function getPluginInstance($id){
+		
 		if(is_string($id)){
-			return $this->em->getRepository("\CoreApi\Entity\PluginInstance")->find($id);
+			return $this->repo()->pluginInstanceRepository()->find($id);
 		}
 			
 		if($id instanceof PluginInstance){
@@ -215,27 +200,22 @@ class EventService
 	}
 	
 	/**
-	 * @return CoreApi\Entity\Plugin
+	 * @return EcampCore\Entity\Plugin
 	 */
-	public function getPluginPrototype($id)
-	{
-		if(is_string($id))
-		{
-			return $this->em->getRepository("\CoreApi\Entity\PluginPrototype")->find($id);
+	public function getPluginPrototype($id){
+		if(is_string($id)){
+			return $this->repo()->pluginPrototypeRepository()->find($id);
 		}
 			
-		if($id instanceof PluginPrototype)
-		{
+		if($id instanceof PluginPrototype){
 			return $id;
 		}
 	
 		return null;
 	}
 	
-	public function getCampOfPluginInstance($id)
-	{
-		$instance = $this->em->getRepository("\CoreApi\Entity\PluginInstance")->find($id);
-		
+	public function getCampOfPluginInstance($id){
+		$instance = $this->repo()->pluginInstanceRepository()->find($id);
 		return $instance->getEvent()->getCamp();
 	}
 	

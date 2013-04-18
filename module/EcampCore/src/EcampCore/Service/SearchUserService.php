@@ -34,8 +34,7 @@ class SearchUserService
 	 * Setup ACL
 	 * @return void
 	 */
-	public function _setupAcl()
-	{
+	public function _setupAcl(){
 		$this->acl->allow(DefaultAcl::MEMBER, $this, 'SearchForUser');		
 	}
 	

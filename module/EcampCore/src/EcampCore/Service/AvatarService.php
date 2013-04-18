@@ -3,22 +3,14 @@
 namespace EcampCore\Service;
 
 use EcampCore\Acl\DefaultAcl;
-
 use EcampCore\Entity\Image;
 
-
 /**
- * @method CoreApi\Service\CampService Simulate
+ * @method EcampCore\Service\AvatarService Simulate
  */
 class AvatarService
 	extends ServiceBase
 {
-	/**
-	 * @return EcampCore\Service\UserService
-	 */
-	private function getUserService(){
-		return $this->locateService('ecamp.service.user');
-	}
 	
 	/**
 	 * @return EcampCore\Service\GroupService
@@ -33,9 +25,9 @@ class AvatarService
 	 */
 	public function _setupAcl()
 	{
-// 		$this->acl->allow(DefaultAcl::MEMBER, $this, 'Create');
-// 		$this->acl->allow(DefaultAcl::MEMBER, $this, 'Delete');
-// 		$this->acl->allow(DefaultAcl::MEMBER, $this, 'Get');
+		$this->acl->allow(DefaultAcl::MEMBER, $this, 'Create');
+		$this->acl->allow(DefaultAcl::MEMBER, $this, 'Delete');
+		$this->acl->allow(DefaultAcl::MEMBER, $this, 'Get');
 	}
 	
 	/**
@@ -43,7 +35,7 @@ class AvatarService
 	 */
 	public function GetUserAvatar($userId)
 	{
-		$user = $this->getUserService()->Get($userId);
+		$user = $this->service()->userService()->Get($userId);
 		$image = $user->getImage();
 		
 		if($image == null)
@@ -61,7 +53,7 @@ class AvatarService
 	 */
 	public function GetGroupAvatar($groupId)
 	{
-		$group = $this->getGroupService()->Get($groupId);
+		$group = $this->service()->groupService()->Get($groupId);
 		$image = $group->getImage();
 		
 		if($image == null)

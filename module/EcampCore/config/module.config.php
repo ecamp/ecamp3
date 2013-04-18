@@ -32,9 +32,15 @@ return array(
     'controllers' => array(
         'invokables' => array(
             'EcampCore\Controller\Index' 	=> 'EcampCore\Controller\IndexController',
-            'EcampCore\Controller\Service'	=> 'EcampCore\Controller\ServiceController'
+            'EcampCore\Controller\Login'	=> 'EcampCore\Controller\LoginController'
         ),
     ),
+    
+	'view_manager' => array(
+        'template_path_stack' => array(
+			__DIR__ . '/../view',
+		),
+	),
 	
 	'doctrine' => array(
 		'driver' => array(

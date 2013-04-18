@@ -28,23 +28,17 @@ use EcampCore\Entity\Period;
 use EcampCore\Service\Params\Params;
 
 
+/**
+ * @method EcampCore\Service\PeriodService Simulate
+ */
 class PeriodService extends ServiceBase
 {
-	
-	/**
-	 * @return EcampCore\Service\DayService
-	 */
-	private function getDayService(){
-		return $this->locateService('ecamp.service.day');
-	}
-	
 	
 	/**
 	 * Setup ACL
 	 * @return void
 	 */
-	public function _setupAcl()
-	{
+	public function _setupAcl(){
 		$this->acl->allow(DefaultAcl::CAMP_MEMBER, $this, 'Create');
 		$this->acl->allow(DefaultAcl::CAMP_MEMBER, $this, 'Update');
 		$this->acl->allow(DefaultAcl::CAMP_MEMBER, $this, 'Delete');
@@ -101,7 +95,7 @@ class PeriodService extends ServiceBase
 		}
 		
 		for($offset = 0; $offset < $numOfDays; $offset++){
-			$this->getDayService()->AppendDay($period);
+			$this->service()->dayService()->AppendDay($period);
 		}
 		
 		return $period;
@@ -112,8 +106,7 @@ class PeriodService extends ServiceBase
 	 * @param Period $period
 	 * @param Params $params
 	 */
-	public function Update(Period $period, Params $params)
-	{
+	public function Update(Period $period, Params $params){
 		$this->validationContextAssert($period);
 		
 		if($params->hasElement('description')){
@@ -125,8 +118,7 @@ class PeriodService extends ServiceBase
 	/**
 	 * @param Period $period
 	 */
-	public function Delete(Period $period)
-	{
+	public function Delete(Period $period){
 		$this->validationContextAssert($period);
 
 		$period->getDays()->clear();
@@ -140,9 +132,8 @@ class PeriodService extends ServiceBase
 	 * @param Period $period
 	 * @param unknown_type $newStart
 	 */
-	public function Move(Period $period, $newStart)
-	{
-		$camp = $this->getContext()->getCamp();
+	public function Move(Period $period, $newStart){
+		$camp = $this->getContextProvider()->getCamp();
 		
 		$this->validationAssert($camp == $period->getCamp(),
 			"Period does not belong to Camp of Context!");
@@ -160,9 +151,8 @@ class PeriodService extends ServiceBase
 	 * @param Period $period
 	 * @param int $numOfDays
 	 */
-	public function Resize(Period $period, $numOfDays)
-	{
-		$camp = $this->getContext()->getCamp();
+	public function Resize(Period $period, $numOfDays){
+		$camp = $this->getContextProvider()->getCamp();
 		
 		$this->validationAssert($camp == $period->getCamp(),
 			"Period does not belong to Camp of Context!");

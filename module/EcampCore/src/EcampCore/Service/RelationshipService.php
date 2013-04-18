@@ -28,32 +28,14 @@ use EcampCore\Entity\UserCamp;
 use EcampCore\Entity\UserRelationship;
 
 
-class RelationshipService extends ServiceBase
+/**
+ * @method EcampCore\Service\RelationshipService Simulate
+ */
+class RelationshipService 
+	extends ServiceBase
 {
-	/**
-	 * @return EcampCore\Service\UserService
-	 */
-	private function getUserService(){
-		$this->locateService('ecamp.service.user');
-	}
-	
-	/**
-	 * @return EcampCore\Repository\UserRepository
-	 */
-	private function getUserRepo(){
-		return $this->locateService('ecamp.repo.user');
-	}
 
-	/**
-	 * @return EcampCore\Repository\UserRelationshipRepository
-	 */
-	private function getUserRelationshipRepo(){
-		return $this->locateService('ecamp.repo.userrelationship');
-	}
-	
-	
 	public function _setupAcl(){
-		
 		$this->acl->allow(DefaultAcl::MEMBER, $this, 'Get');
 		$this->acl->allow(DefaultAcl::MEMBER, $this, 'GetFriends');
 		$this->acl->allow(DefaultAcl::MEMBER, $this, 'GetRequests');
@@ -69,17 +51,16 @@ class RelationshipService extends ServiceBase
 	
 	public function Get($id, $user_id = null){
 		if($user_id == null){
-			if($id instanceof \CoreApi\Entity\UserRelationship){
+			if($id instanceof UserRelationship){
 				return $id;
 			}
 			
-			return $this->getUserRelationshipRepo()->find($id);
-		}
-		else{
-			$user1 = $this->getUserService()->Get($id);
-			$user2 = $this->getUserService()->Get($user_id);
+			return $this->repo()->userRelationshipRepository()->find($id);
+		}else{
+			$user1 = $this->service()->userService()->Get($id);
+			$user2 = $this->service()->userService()->Get($user_id);
 			
-			return $this->getUserRelationshipRepo()->findByUsers($user1, $user2);
+			return $this->repo()->userRelationshipRepository()->findByUsers($user1, $user2);
 		}
 	}
 	
@@ -88,8 +69,8 @@ class RelationshipService extends ServiceBase
 	 * @return Doctrine\Common\Collection\ArrayCollection
 	 */
 	public function GetFriends(){
-		$user = $this->getUserService()->Get();
-		return $this->getUserRepo()->findFriends($user);
+		$user = $this->service()->userService()->Get();
+		return $this->repo()->userRepository()->findFriends($user);
 	}
 	
 	
@@ -97,8 +78,8 @@ class RelationshipService extends ServiceBase
 	 * @return Doctrine\Common\Collection\ArrayCollection
 	 */
 	public function GetRequests(){
-		$user = $this->getUserService()->Get();
-		return $this->getUserRepo()->findFriendRequests($user);
+		$user = $this->service()->userService()->Get();
+		return $this->repo()->userRepository()->findFriendRequests($user);
 	}
 	
 	
@@ -106,8 +87,8 @@ class RelationshipService extends ServiceBase
 	 * @return Doctrine\Common\Collection\ArrayCollection
 	 */
 	public function GetInvitations(){
-		$user = $this->getUserService()->Get();
-		return $this->getUserRepo()->findFriendInvitations($user);
+		$user = $this->service()->userService()->Get();
+		return $this->repo()->userRepository()->findFriendInvitations($user);
 	}
 	
 	
@@ -116,8 +97,8 @@ class RelationshipService extends ServiceBase
 	 * @return UserRelationship
 	 */
 	public function RequestRelationship(User $toUser){
-		$user = $this->getUserService()->Get();
-		$ur = $this->getUserRelationshipRepo()->findByUsers($user, $toUser);
+		$user = $this->service()->userService()->Get();
+		$ur = $this->repo()->userRelationshipRepository()->findByUsers($user, $toUser);
 		
 		$this->validationAssert(
 			$ur == null, 
@@ -134,8 +115,8 @@ class RelationshipService extends ServiceBase
 	 * @param User $toUser
 	 */
 	public function DeleteRequest(User $toUser){
-		$user = $this->getUserService()->Get();
-		$ur = $this->getUserRelationshipRepo()->findByUsers($user, $toUser);
+		$user = $this->service()->userService()->Get();
+		$ur = $this->repo()->userRelationshipRepository()->findByUsers($user, $toUser);
 		
 		$this->validationAssert(
 			$ur != null && $ur->getCounterpart() == null,
@@ -152,8 +133,8 @@ class RelationshipService extends ServiceBase
 	 * @return UserRelationship
 	 */
 	public function AcceptInvitation(User $fromUser){
-		$user = $this->getUserService()->Get();
-		$ur = $this->getUserRelationshipRepo()->findByUsers($fromUser, $user);
+		$user = $this->service()->userService()->Get();
+		$ur = $this->repo()->userRelationshipRepository()->findByUsers($fromUser, $user);
 		
 		$this->validationAssert(
 			$ur && $ur->getCounterpart() == null,
@@ -172,8 +153,8 @@ class RelationshipService extends ServiceBase
 	 * @param User $fromUser
 	 */
 	public function RejectInvitation(User $fromUser){
-		$user = $this->getUserService()->Get();
-		$ur = $this->getUserRelationshipRepo()->findByUsers($fromUser, $user);
+		$user = $this->service()->userService()->Get();
+		$ur = $this->repo()->userRelationshipRepository()->findByUsers($fromUser, $user);
 		
 		$this->validationAssert(
 			$ur && $ur->getCounterpart() == null,
@@ -186,8 +167,8 @@ class RelationshipService extends ServiceBase
 	
 	
 	public function CancelRelationship(User $withUser){
-		$user = $this->getUserService()->Get();
-		$ur = $this->getUserRelationshipRepo()->findByUsers($user, $withUser);
+		$user = $this->service()->userService()->Get();
+		$ur = $this->repo()->userRelationshipRepository()->findByUsers($user, $withUser);
 		
 		$this->validationAssert(
 			$ur && $ur->getCounterpart(),

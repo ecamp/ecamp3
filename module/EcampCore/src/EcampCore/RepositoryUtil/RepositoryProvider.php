@@ -48,6 +48,14 @@ class RepositoryProvider
 	
 	
 	/**
+	 * @return EcampCore\Repository\EventPrototypeRepository 
+	 */
+	public function eventPrototypeRepository(){
+		return $this->serviceLocator->get('ecamp.repo.eventprototype');
+	}
+	
+	
+	/**
 	 * @return EcampCore\Repository\EventRepository 
 	 */
 	public function eventRepository(){
@@ -60,6 +68,14 @@ class RepositoryProvider
 	 */
 	public function eventRespRepository(){
 		return $this->serviceLocator->get('ecamp.repo.eventresp');
+	}
+	
+	
+	/**
+	 * @return EcampCore\Repository\EventTemplateRepository 
+	 */
+	public function eventTemplateRepository(){
+		return $this->serviceLocator->get('ecamp.repo.eventtemplate');
 	}
 	
 	
@@ -80,10 +96,34 @@ class RepositoryProvider
 	
 	
 	/**
+	 * @return EcampCore\Repository\MediumRepository 
+	 */
+	public function mediumRepository(){
+		return $this->serviceLocator->get('ecamp.repo.medium');
+	}
+	
+	
+	/**
 	 * @return EcampCore\Repository\PeriodRepository 
 	 */
 	public function periodRepository(){
 		return $this->serviceLocator->get('ecamp.repo.period');
+	}
+	
+	
+	/**
+	 * @return EcampCore\Repository\PluginInstanceRepository 
+	 */
+	public function pluginInstanceRepository(){
+		return $this->serviceLocator->get('ecamp.repo.plugininstance');
+	}
+	
+	
+	/**
+	 * @return EcampCore\Repository\PluginPrototypeRepository 
+	 */
+	public function pluginPrototypeRepository(){
+		return $this->serviceLocator->get('ecamp.repo.pluginprototype');
 	}
 	
 	

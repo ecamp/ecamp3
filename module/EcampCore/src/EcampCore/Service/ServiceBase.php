@@ -45,7 +45,9 @@ abstract class ServiceBase implements
 	/** @var EcampCore\ServiceUtil\ServiceProvider */
 	private $serviceProvider;
 	
-	/** @return EcampCore\ServiceUtil\ServiceProvider */
+	/** 
+	 * @return EcampCore\ServiceUtil\ServiceProvider 
+	 */
 	public function service(){
 		if($this->serviceProvider == null){
 			$this->serviceProvider = $this->getServiceLocator()->get('ecamp.internal.serviceutil.provider');
@@ -56,7 +58,10 @@ abstract class ServiceBase implements
 	/** @var EcampCore\RepositoryUtil\RepositoryProvider */
 	private $repoProvider;
 	
-	/** @return EcampCore\RepositoryUtil\RepositoryProvider */
+	
+	/** 
+	 * @return EcampCore\RepositoryUtil\RepositoryProvider
+	 */
 	public function repo(){
 		if($this->repoProvider == null){
 			$this->repoProvider = $this->getServiceLocator()->get('ecamp.repositoryutil.provider');
@@ -81,11 +86,18 @@ abstract class ServiceBase implements
 	}
 	
 	
+	/** @var EcampCore\Acl\DefaultAcl */
+	private $acl;
+	
 	/**
-	 * @var Core\Acl\DefaultAcl
-	 * @Inject Core\Acl\DefaultAcl
+	 * @return EcampCore\Acl\DefaultAcl 
 	 */
-//	protected $acl;
+	protected function getAcl(){
+		if($this->acl == null){
+			$this->acl = $this->serviceLocator->get('ecamp.internal.acl');
+		}
+		return $this->acl;
+	}
 	
 	
 	/**
@@ -108,7 +120,7 @@ abstract class ServiceBase implements
 	 *
 	 * @return void
 	 */
-//	abstract public function _setupAcl();
+	abstract public function _setupAcl();
 	
 	public function getResourceId(){
 		return get_class($this);

@@ -6,38 +6,26 @@ use EcampCore\Acl\DefaultAcl;
 use EcampCore\Entity\User;
 use EcampCore\Service\Params\Params;
 
+use Zend\Validator\EmailAddress;
+use Zend\Paginator\Paginator;
+
 /**
  * @method CoreApi\Service\UserService Simulate
  */
 class UserService 
 	extends ServiceBase
 {
-	/**
-	 * @var Core\Repository\UserRepository
-	 * @Inject Core\Repository\UserRepository
-	 */
-	protected $userRepo;
-	
-	/**
-	 * @var CoreApi\Service\CampService
-	 * @Inject Core\Service\CampService
-	 */
-	protected $campService;
-	
 	
 	/**
 	 * Setup ACL
 	 * @return void
 	 */
-	public function _setupAcl()
-	{
-// 		$this->acl->allow(DefaultAcl::MEMBER, $this, 'Get');
-// 		$this->acl->allow(DefaultAcl::GUEST,  $this, 'Create');
-// 		$this->acl->allow(DefaultAcl::USER_ME, $this, 'Update');
+	public function _setupAcl(){
+		$this->acl->allow(DefaultAcl::MEMBER,  $this, 'Get');
+		$this->acl->allow(DefaultAcl::GUEST,   $this, 'Create');
+		$this->acl->allow(DefaultAcl::USER_ME, $this, 'Update');
 		
-		
-// 		$this->acl->allow(DefaultAcl::MEMBER,  $this, 'getFriendsOf');
-// 		$this->acl->allow(DefaultAcl::MEMBER,  $this, 'GetPaginator');
+		$this->acl->allow(DefaultAcl::MEMBER,  $this, 'GetPaginator');
 	}
 	
 	
@@ -47,14 +35,14 @@ class UserService
 	 * 
 	 * If no Identifier is given, the Authenticated User is returned
 	 * 
-	 * @return CoreApi\Entity\User
+	 * @return EcampCore\Entity\User
 	 */
-	public function Get($id = null)
-	{		
-		if(isset($id))
-		{	$user = $this->getByIdentifier($id);	}
-		else
-		{	$user = $this->getContext()->getMe();	}
+	public function Get($id = null){		
+		if(isset($id)){
+			$user = $this->getByIdentifier($id);
+		} else {
+			$user = $this->getContext()->getMe();
+		}
 		
 		return $user;
 	}
@@ -67,32 +55,28 @@ class UserService
 	 * 
 	 * @return CoreApi\Entity\User
 	 */
-	public function Create(Params $params)
-	{	
-		$email = $params->getValue('email');
-		$user = $this->userRepo->findOneBy(array('email' => $email));
+	public function Create(Params $params){
 		
-		if(is_null($user))
-		{
+		$email = $params->getValue('email');
+		$user = $this->repo()->userRepository()->findOneBy(array('email' => $email));
+		
+		if(is_null($user)){
 			$user = new User();
 			$user->setEmail($email);
 			
 			$this->persist($user);
 		}
 			
-		if($user->getState() != User::STATE_NONREGISTERED)
-		{		
+		if($user->getState() != User::STATE_NONREGISTERED){
 			$params->addError('email', "This eMail-Adress is already registered!");
 			$this->validationFailed();
 		}
 		
 		$newUserValidator = new \Core\Validator\Entity\NewUserValidator($user);
-		$this->validationFailed( 
-			! $newUserValidator->applyIfValid($params) );
+		$this->validationFailed(!$newUserValidator->applyIfValid($params));
 
 		$userValidator = new \Core\Validator\Entity\UserValidator($user);
-		$this->validationFailed(
-				! $userValidator->applyIfValid($params) );
+		$this->validationFailed(!$userValidator->applyIfValid($params));
 		
 		$user->setState(User::STATE_REGISTERED);
 		$activationCode = $user->createNewActivationCode();
@@ -105,8 +89,7 @@ class UserService
 	}
 	
 	
-	public function Update(Params $params)
-	{
+	public function Update(Params $params){
 		$user = $this->getContext()->getUser();
 		
 		$userValidator = new \Core\Validator\Entity\UserValidator($user);
@@ -117,15 +100,13 @@ class UserService
 		return $user;
 	}
 	
-	public function Delete()
-	{
+	public function Delete(){
 		// delete user
 		$this->em->remove($this->Get());
 	}
     
 	
-	public function SetImage($data, $mime)
-	{
+	public function SetImage($data, $mime){
 		$image = new \CoreApi\Entity\Image();
 		$image->setData($data);
 		$image->setMime($mime);
@@ -134,8 +115,7 @@ class UserService
 	}
 	
 	
-	public function DeleteImage()
-	{
+	public function DeleteImage(){
 		$this->Get()->setImage(null);
 	}
 	
@@ -145,30 +125,22 @@ class UserService
 	 * Returns the User for a MailAddress or a Username
 	 *
 	 * @param string $identifier
-	 *
-	 * @return \CoreApi\Entity\User
+	 * @return EcampCore\Entity\User
 	 */
-	private function getByIdentifier($identifier)
-	{
+	private function getByIdentifier($identifier){
 		$user = null;
+		$mailValidator = new EmailAddress();
 		
-		$mailValidator = new \Zend_Validate_EmailAddress();
-		
-		if($identifier instanceOf User)
-		{
+		if($identifier instanceOf User){
 			$user = $identifier;
 		}
-		elseif($mailValidator->isValid($identifier))
-		{
-			$user = $this->userRepo->findOneBy(array('email' => $identifier));
-		}
-		else
-		{
-			$user = $this->userRepo->find($identifier);
+		elseif($mailValidator->isValid($identifier)){
+			$user = $this->repo()->userRepository()->findOneBy(array('email' => $identifier));
+		} else {
+			$user = $this->repo()->userRepository()->find($identifier);
 		}
 		
-		/*if(is_null($user))
-		{
+		/*if(is_null($user)){
 			throw new \Exception("No user found for Identifier: " . $identifier);
 		}*/
 	
@@ -177,12 +149,12 @@ class UserService
 	
 	/**
 	 * Get all users and wrap in paginator
-	 * @return \Zend_Paginator
+	 * @return Zend\Paginator\Paginator
 	 */
-	public function GetPaginator()
-	{
-		$query = $this->em->getRepository("CoreApi\Entity\User")->createQueryBuilder("u");
-		$adapter = new \Ecamp\Paginator\Doctrine($query);
-		return new \Zend_Paginator($adapter);
+	public function GetPaginator(){
+		
+		$query = $this->repo()->userRepository()->createQueryBuilder("u");
+		$adapter = new \EcampCore\Paginator\Doctrine($query);
+		return new Paginator($adapter);
 	}
 }

@@ -21,7 +21,7 @@ class ServiceFactory
 	
 	public function createService(ServiceLocatorInterface $serviceLocator){
 		$service = $serviceLocator->get($this->service);
-		$serviceWrapper = new ServiceWrapper($service);
+		$serviceWrapper = new ServiceWrapper($serviceLocator, $service);
 		
 		return $serviceWrapper;
 	}

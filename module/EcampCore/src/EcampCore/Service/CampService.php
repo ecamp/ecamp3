@@ -2,45 +2,30 @@
 
 namespace EcampCore\Service;
 
-use CoreApi\Service\Params\Params;
 
-use Core\Acl\DefaultAcl;
-use Core\Validator\Entity\CampValidator;
+use EcampCore\Acl\DefaultAcl;
+use EcampCore\Validator\Entity\CampValidator;
 
 use EcampCore\Entity\Camp;
 use EcampCore\Entity\Period;
 
+use EcampCore\Service\Params\Params;
 
 /**
- * @method \CoreApi\Service\CampService Simulate
+ * @method EcampCore\Service\CampService Simulate
  */
 class CampService
 	extends ServiceBase
 {
-	/**
-	 * @return EcampCore\Repository\CampRepository
-	 */
-	private function getCampRepo(){
-		return $this->locateService('ecamp.repo.camp');
-	}
-	
-	/**
-	 * @return EcampCore\Service\PeriodService
-	 */
-	private function getPeriodService(){
-		return $this->locateService('ecamp.service.period');
-	}
-
 	
 	/**
 	 * Setup ACL
 	 * @return void
 	 */
-	public function _setupAcl()
-	{
-		$this->acl->allow(DefaultAcl::MEMBER, $this, 'Get');
-		$this->acl->allow(DefaultAcl::MEMBER, $this, 'Create');
-		$this->acl->allow(DefaultAcl::CAMP_CREATOR, $this, 'Delete');
+	public function _setupAcl(){
+		$this->getAcl()->allow(DefaultAcl::MEMBER, $this, 'Get');
+		$this->getAcl()->allow(DefaultAcl::MEMBER, $this, 'Create');
+		$this->getAcl()->allow(DefaultAcl::CAMP_CREATOR, $this, 'Delete');
 	}
 	
 	
@@ -58,7 +43,7 @@ class CampService
 		{	return $this->getContextProvider()->getCamp();	}
 		
 		if(is_string($id))
-		{	return $this->getCampRepo()->find($id);	}
+		{	return $this->repo()->campRepository()->find($id);	}
 			
 		if($id instanceof Camp)
 		{	return $id;	}
@@ -117,7 +102,7 @@ class CampService
 		if($group == null){
 			
 			// Create personal Camp
-			if($this->getCampRepo()->findPersonalCamp($user->getId(), $campName) != null){
+			if($this->repo()->campRepository()->findPersonalCamp($user->getId(), $campName) != null){
 				$params->addError('name', "Camp with same name already exists.");
 				$this->validationFailed();
 			}
@@ -127,7 +112,7 @@ class CampService
 		else{
 			
 			// Create group Camp
-			if($this->getCampRepo()->findGroupCamp($group->getId(), $campName) != null){
+			if($this->repo()->campRepository()->findGroupCamp($group->getId(), $campName) != null){
 				$params->addError('name', "Camp with same name already exists.");
 				$this->validationFailed();
 			}
@@ -140,7 +125,7 @@ class CampService
 		$campValidator = new CampValidator($camp);
 		$this->validationFailed( !$campValidator->applyIfValid($params) );
 		
-		$this->getPeriodService()->CreatePeriodForCamp($camp, $params);
+		$this->service()->periodService()->CreatePeriodForCamp($camp, $params);
 		
 		return $camp;
 	}

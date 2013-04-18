@@ -21,39 +21,35 @@
 
 namespace EcampCore\Service;
 
-use Core\Acl\DefaultAcl;
+use EcampCore\Acl\DefaultAcl;
 use EcampCore\Entity\User;
 
-class SupportService extends ServiceBase
+
+/**
+ * @method EcampCore\Service\SupportService Simulate
+ */
+class SupportService 
+	extends ServiceBase
 {
-	
-	/**
-	 * @var Core\Acl\ContextStorage
-	 * @Inject Core\Acl\ContextStorage
-	 */
-	private $contextStorage;
-	
-	
 	
 	/**
 	 * Setup ACL
 	 * @return void
 	 */
-	public function _setupAcl()
-	{
-		$this->acl->allow(DefaultAcl::ADMIN, 				$this, 'SupportUser'	);
+	public function _setupAcl(){
+		$this->acl->allow(DefaultAcl::ADMIN, 				$this, 'SupportUser');
 		$this->acl->allow(DefaultAcl::ADMIN_IN_USER_VIEW, 	$this, 'StopUserSupport');
 	}
 		
 	
-	public function SupportUser(User $user)
-	{
-		$this->contextStorage->getSupportedUserStorage()->write($user->getId());
+	public function SupportUser(User $user){
+		$contextStorage = $this->getServiceLocator()->get('ecamp.acl.contextstorage');
+		$contextStorage->getSupportedUserStorage()->write($user->getId());
 	}
 	
-	public function StopUserSupport()
-	{
-		$this->contextStorage->getSupportedUserStorage()->clear();
+	public function StopUserSupport(){
+		$contextStorage = $this->getServiceLocator()->get('ecamp.acl.contextstorage');
+		$contextStorage->getSupportedUserStorage()->clear();
 	}
 	
 }

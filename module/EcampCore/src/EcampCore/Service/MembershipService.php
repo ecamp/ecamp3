@@ -27,34 +27,28 @@ use EcampCore\Entity\Group;
 use EcampCore\Entity\UserGroup;
 
 
+/**
+ * @method EcampCore\Service\MembershipService Simulate
+ */
 class MembershipService extends ServiceBase
 {
 	
-	/**
-	 * @return Core\Repository\UserGroupRepository
-	 */
-	private function getUserGroupRepo(){
-		return $this->locateService('ecamp.repo.usergroup');
-	}
-	
-	
-	public function _setupAcl()
-	{
-		$this->acl->allow(DefaultAcl::MEMBER, 			$this, 'Get');
-		$this->acl->allow(DefaultAcl::MEMBER, 			$this, 'GetMembers');
-		$this->acl->allow(DefaultAcl::MEMBER, 			$this, 'GetGroups');
-		$this->acl->allow(DefaultAcl::GROUP_MANAGER, 	$this, 'GetRequests');
-		$this->acl->allow(DefaultAcl::MEMBER, 			$this, 'GetInvitations');
-		$this->acl->allow(DefaultAcl::MEMBER, 			$this, 'RequestMembership');
-		$this->acl->allow(DefaultAcl::MEMBER, 			$this, 'DeleteRequest');
-		$this->acl->allow(DefaultAcl::GROUP_MANAGER, 	$this, 'AcceptRequest');
-		$this->acl->allow(DefaultAcl::GROUP_MANAGER, 	$this, 'RejectRequest');
-		$this->acl->allow(DefaultAcl::GROUP_MEMBER, 	$this, 'LeaveGroup');
-		$this->acl->allow(DefaultAcl::GROUP_MANAGER, 	$this, 'InviteUser');
-		$this->acl->allow(DefaultAcl::GROUP_MANAGER, 	$this, 'DeleteInvitation');
-		$this->acl->allow(DefaultAcl::MEMBER, 			$this, 'AcceptInvitation');
-		$this->acl->allow(DefaultAcl::MEMBER, 			$this, 'RejectInvitation');
-		$this->acl->allow(DefaultAcl::GROUP_MANAGER, 	$this, 'KickOutUser');
+	public function _setupAcl(){
+		$this->getAcl()->allow(DefaultAcl::MEMBER, 			$this, 'Get');
+		$this->getAcl()->allow(DefaultAcl::MEMBER, 			$this, 'GetMembers');
+		$this->getAcl()->allow(DefaultAcl::MEMBER, 			$this, 'GetGroups');
+		$this->getAcl()->allow(DefaultAcl::GROUP_MANAGER, 	$this, 'GetRequests');
+		$this->getAcl()->allow(DefaultAcl::MEMBER, 			$this, 'GetInvitations');
+		$this->getAcl()->allow(DefaultAcl::MEMBER, 			$this, 'RequestMembership');
+		$this->getAcl()->allow(DefaultAcl::MEMBER, 			$this, 'DeleteRequest');
+		$this->getAcl()->allow(DefaultAcl::GROUP_MANAGER, 	$this, 'AcceptRequest');
+		$this->getAcl()->allow(DefaultAcl::GROUP_MANAGER, 	$this, 'RejectRequest');
+		$this->getAcl()->allow(DefaultAcl::GROUP_MEMBER, 	$this, 'LeaveGroup');
+		$this->getAcl()->allow(DefaultAcl::GROUP_MANAGER, 	$this, 'InviteUser');
+		$this->getAcl()->allow(DefaultAcl::GROUP_MANAGER, 	$this, 'DeleteInvitation');
+		$this->getAcl()->allow(DefaultAcl::MEMBER, 			$this, 'AcceptInvitation');
+		$this->getAcl()->allow(DefaultAcl::MEMBER, 			$this, 'RejectInvitation');
+		$this->getAcl()->allow(DefaultAcl::GROUP_MANAGER, 	$this, 'KickOutUser');
 		
 	}
 	
@@ -67,18 +61,16 @@ class MembershipService extends ServiceBase
 	 * @param Group|integer $GroupOrId
 	 * @return UserGroup
 	 */
-	public function Get($GroupOrId, $user = null)
-	{
-		if($GroupOrId instanceof Group)
-		{
+	public function Get($GroupOrId, $user = null){
+		if($GroupOrId instanceof Group){
 			$user = $user ?: $this->getContextProvider()->getMe();
 			
-			return $this->getUserGroupRepo()->findOneBy(
+			return $this->repo()->userGroupRepository()->findOneBy(
 				array('group' => $GroupOrId, 'user' => $user)
 			);
 		}
 		
-		return $this->getUserGroupRepo()->find($GroupOrId);
+		return $this->repo()->userGroupRepository()->find($GroupOrId);
 	}
 	
 	/**
@@ -87,9 +79,8 @@ class MembershipService extends ServiceBase
 	 * @param Group $group
 	 * @return UserGroup[]
 	 */
-	public function GetMembers(Group $group)
-	{
-		return $this->getUserGroupRepo()->findMembershipsOfGroup($group);
+	public function GetMembers(Group $group){
+		return $this->repo()->userGroupRepository()->findMembershipsOfGroup($group);
 	}
 	
 	/**
@@ -98,9 +89,8 @@ class MembershipService extends ServiceBase
 	 * @param User $user
 	 * @return UserGroup[]
 	 */
-	public function GetGroups(User $user)
-	{
-		return $this->getUserGroupRepo()->findMembershipsOfUser($user);
+	public function GetGroups(User $user){
+		return $this->repo()->userGroupRepository()->findMembershipsOfUser($user);
 	}
 	
 	/**
@@ -110,11 +100,10 @@ class MembershipService extends ServiceBase
 	 * @param Group $group
 	 * @return UserGroup[]
 	 */
-	public function GetRequests()
-	{
+	public function GetRequests(){
 		$group = $this->getContextProvider()->getGroup();
 		
-		return $this->getUserGroupRepo()->findMembershipRequests($group);
+		return $this->repo()->userGroupRepository()->findMembershipRequests($group);
 	}
 	
 	/**
@@ -124,11 +113,10 @@ class MembershipService extends ServiceBase
 	 * @param User $user
 	 * @return UserGroup[]
 	 */
-	public function GetInvitations()
-	{
+	public function GetInvitations(){
 		$user = $this->getContextProvider()->getMe();
 		
-		return $this->getUserGroupRepo()->findMembershipInvitations($user);
+		return $this->repo()->userGroupRepository()->findMembershipInvitations($user);
 	}
 	
 	/**
@@ -137,21 +125,19 @@ class MembershipService extends ServiceBase
 	 * @param Group $group
 	 * @param $role
 	 */
-	public function RequestMembership(Group $group, $role = UserGroup::ROLE_MEMBER)
-	{
+	public function RequestMembership(Group $group, $role = UserGroup::ROLE_MEMBER){
 		$userGroup = $this->get($group);
 		
 		if($userGroup != null){
 			$this->addValidationMessage("Membership or Membership Request exists allready");
-		}
-		else{
+		} else {
 			$userGroup = new UserGroup();
 			$userGroup->setGroup($group);
 			$userGroup->setUser($this->getContextProvider()->getMe());
 			$userGroup->setRequestedRole($role);
 			$userGroup->acceptInvitation();
 			
-			$this->em->persist($userGroup);
+			$this->getEM()->persist($userGroup);
 		}
 	}
 	
@@ -160,15 +146,13 @@ class MembershipService extends ServiceBase
 	 * 
 	 * @param Group $group
 	 */
-	public function DeleteRequest(Group $group)
-	{
+	public function DeleteRequest(Group $group){
 		$userGroup = $this->Get($group);
 		
 		if($userGroup == null || !$userGroup->isOpenRequest()){
 			$this->addValidationMessage("There is no Request to delete");			
-		}
-		else{
-			$this->em->remove($userGroup);
+		} else{
+			$this->getEM()->remove($userGroup);
 		}
 		
 	}
@@ -178,15 +162,13 @@ class MembershipService extends ServiceBase
 	 * 
 	 * @param User $user
 	 */
-	public function AcceptRequest(User $user)
-	{
+	public function AcceptRequest(User $user){
 		$group = $this->getContextProvider()->getGroup();
 		$userGroup = $this->Get($group, $user);
 		
 		if($userGroup == null || !$userGroup->isOpenRequest()){
 			$this->addValidationMessage("There is no Request to accept");
-		}
-		else{
+		} else{
 			$userGroup->acceptRequest($this->getContextProvider()->getMe());
 		}
 	}
@@ -196,16 +178,14 @@ class MembershipService extends ServiceBase
 	 * 
 	 * @param User $user
 	 */
-	public function RejectRequest(User $user)
-	{
+	public function RejectRequest(User $user){
 		$group = $this->getContextProvider()->getGroup();
 		$userGroup = $this->Get($group, $user);
 		
 		if($userGroup == null || !$userGroup->isOpenRequest()){
 			$this->addValidationMessage("There is no Request to reject");
-		}
-		else{
-			$this->em->remove($userGroup);
+		} else{
+			$this->getEM()->remove($userGroup);
 		}
 	}
 	
@@ -214,16 +194,14 @@ class MembershipService extends ServiceBase
 	 * 
 	 * @param Group $group
 	 */
-	public function LeaveGroup()
-	{
+	public function LeaveGroup(){
 		$group = $this->getContextProvider()->getGroup();
 		$userGroup = $this->Get($group);
 		
 		if($userGroup == null || $userGroup->isOpen()){
 			$this->addValidationMessage("You are not a Member of this group. You can not leave this Group");
-		}
-		else{
-			$this->em->remove($userGroup);
+		} else{
+			$this->getEM()->remove($userGroup);
 		}
 	}
 	
@@ -233,22 +211,20 @@ class MembershipService extends ServiceBase
 	 * @param User $user
 	 * @param $role
 	 */
-	public function InviteUser(User $user, $role = UserGroup::ROLE_MEMBER)
-	{
+	public function InviteUser(User $user, $role = UserGroup::ROLE_MEMBER){
 		$group = $this->getContextProvider()->getGroup();
 		$userGroup = $this->get($group, $user);
 		
 		if($userGroup != null){
 			$this->addValidationMessage("Membership or Membership Invitation exists allready");
-		}
-		else{
+		} else{
 			$userGroup = new UserGroup();
 			$userGroup->setGroup($group);
 			$userGroup->setUser($user);
 			$userGroup->setRequestedRole($role);
 			$userGroup->acceptRequest($this->getContextProvider()->getMe());
 			
-			$this->em->persist($userGroup);
+			$this->getEM()->persist($userGroup);
 		}
 	}
 	
@@ -257,16 +233,14 @@ class MembershipService extends ServiceBase
 	 * 
 	 * @param User $user
 	 */
-	public function DeleteInvitation(User $user)
-	{
+	public function DeleteInvitation(User $user){
 		$group = $this->getContextProvider()->getGroup();
 		$userGroup = $this->Get($group, $user);
 		
 		if($userGroup == null || !$userGroup->isOpenInvitation()){
 			$this->addValidationMessage("There is no Invitation to delete");
-		}
-		else{
-			$this->em->remove($userGroup);
+		} else{
+			$this->getEM()->remove($userGroup);
 		}
 	}
 	
@@ -275,14 +249,12 @@ class MembershipService extends ServiceBase
 	 * 
 	 * @param User $user
 	 */
-	public function AcceptInvitation(Group $group)
-	{
+	public function AcceptInvitation(Group $group){
 		$userGroup = $this->Get($group);
 		
 		if($userGroup == null || !$userGroup->isOpenInvitation()){
 			$this->addValidationMessage("There is no Invitation to accept");
-		}
-		else{
+		} else{
 			$userGroup->acceptInvitation();
 		}
 	}
@@ -292,15 +264,13 @@ class MembershipService extends ServiceBase
 	 *
 	 * @param User $user
 	 */
-	public function RejectInvitation(Group $group)
-	{
+	public function RejectInvitation(Group $group){
 		$userGroup = $this->Get($group);
 		
 		if($userGroup == null || !$userGroup->isOpenInvitation()){
 			$this->addValidationMessage("There is no Invitation to accept");
-		}
-		else{
-			$this->em->remove($userGroup);
+		} else{
+			$this->getEM()->remove($userGroup);
 		}
 	}
 	
@@ -309,16 +279,14 @@ class MembershipService extends ServiceBase
 	 * 
 	 * @param User $user
 	 */
-	public function KickOutUser(User $user)
-	{
+	public function KickOutUser(User $user){
 		$group = $this->getContextProvider()->getGroup();
 		$userGroup = $this->Get($group, $user);
 		
 		if($userGroup == null || $userGroup->isOpen()){
 			$this->addValidationMessage("This user is not a Member of this Group. You can not kick him out!");
-		}
-		else{
-			$this->em->remove($userGroup);
+		} else{
+			$this->getEM()->remove($userGroup);
 		}
 	}
 	

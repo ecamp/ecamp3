@@ -2,31 +2,18 @@
 
 namespace EcampCore\ServiceUtil;
 
+use EcampCore\Service\ServiceBase;
+
 use Zend\Permissions\Acl\Resource\ResourceInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
-use Zend\ServiceManager\ServiceLocatorAwareInterface;
 
 class ServiceWrapper 
-	implements ServiceLocatorAwareInterface, ResourceInterface
+	implements ResourceInterface
 {
 	/**
 	 * @var ServiceLocatorInterface
 	 */
 	private $serviceLocator;
-	
-	/**
-	 * @see Zend\ServiceManager.ServiceLocatorAwareInterface::setServiceLocator()
-	 */
-	public function setServiceLocator(ServiceLocatorInterface $serviceLocator){
-		$this->serviceLocator = $serviceLocator;
-	}
-	
-	/**
-	 * @return Zend\ServiceManager\ServiceLocatorInterface
-	 */
-	public function getServiceLocator(){
-		return $this->serviceLocator;
-	}
 	
 	
 // 	/**
@@ -35,11 +22,6 @@ class ServiceWrapper
 // 	 */
 // 	private $em;
 	
-// 	/**
-// 	 * @var PhpDI\IKernel
-// 	 * @Inject PhpDI\IKernel
-// 	 */
-// 	private $kernel;
 	
 	/**
 	 * @var EcampCore\Acl\DefaultAcl
@@ -48,7 +30,7 @@ class ServiceWrapper
 	
 	/**
 	 * The protected Resource
-	 * @var Zend\Permissions\Acl\Resource\ResourceInterface
+	 * @var EcampCore\Service\ServiceBase
 	 */
 	private $service = null;
 	
@@ -61,7 +43,11 @@ class ServiceWrapper
 	
 	public static $simulated = false;
 	
-	public function __construct(ResourceInterface $service){
+	public function __construct(
+		ServiceLocatorInterface $serviceLocator,
+		ServiceBase $service
+	){
+		$this->serviceLocator = $serviceLocator;
 		$this->service = $service;
 	}
 	
@@ -104,11 +90,18 @@ class ServiceWrapper
 			throw new \Exception("Method $method does not exist.");
 		}
 		
-// 		$this->service->_setupAcl();
 		
-		if( ! $this->isAllowed($method) )
-			throw new \Exception("No Access on " /*. $this->service->getResourceId()*/ . "::" . $method);
-			
+		$acl = $this->serviceLocator->get('ecamp.internal.acl');
+		if(!$acl->hasResource($this->service)){			
+    		$acl->addResource($this->service);
+		}
+   		$this->service->_setupAcl();
+		
+		
+		if(!$this->isAllowed($method)){
+			throw new \Exception("No Access on " . $this->service->getResourceId() . "::" . $method);
+		}
+		
 // 		$this->start();
 		
 		$r = call_user_func_array(array($this->service, $method), $args);
@@ -152,10 +145,11 @@ class ServiceWrapper
 // 	}
 	
 	private function isAllowed($privilege = NULL){
-		$roles = $this->acl->getRolesInContext();
+		$acl = $this->serviceLocator->get('ecamp.internal.acl');
+		$roles = $acl->getRolesInContext();
 	
 		foreach ($roles as $role){
-			if($this->acl->isAllowed($role, $this->service, $privilege)){
+			if($acl->isAllowed($role, $this->service, $privilege)){
 				return true;
 			}
 		}

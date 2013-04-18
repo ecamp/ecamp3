@@ -4,20 +4,31 @@ namespace EcampCore\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController;
 
+use EcampCore\RepositoryUtil\RepositoryProviderWriter;
+use EcampCore\ServiceUtil\ServiceProviderWriter;
+
 class IndexController extends AbstractBaseController 
 {
 	
-	public function indexAction(){
+	public function indexAction(){}
+	
+	
+	public function createServiceConfigAction(){
+		$serviceProviderWriter = new ServiceProviderWriter();
 		
-		//die(print_r($loginService = $this->getServiceLocator()->getRegisteredServices()));
+		$serviceProviderWriter->writeServiceProvider();
+		$serviceProviderWriter->writeServiceConfig();
 		
+		$this->redirect()->toRoute('core/default', array('controller' => 'index', 'action' => 'index'));
+	}
+	
+	public function createRepoConfigAction(){
+		$repoProviderWriter = new RepositoryProviderWriter();
 		
-		$intUserService = $this->getServiceLocator()->get('ecamp.internal.service.login');
+		$repoProviderWriter->writeRepositoryProvider();
+		$repoProviderWriter->writeRepositoryConfig();
 		
-		die( get_class($intUserService->repo()->campRepository() ) );
-		
-		die( get_class($this->service()->userService() ) );
-		
+		$this->redirect()->toRoute('core/default', array('controller' => 'index', 'action' => 'index'));
 	}
 	
 }
