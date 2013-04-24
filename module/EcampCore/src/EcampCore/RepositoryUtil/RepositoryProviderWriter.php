@@ -2,106 +2,98 @@
 
 namespace EcampCore\RepositoryUtil;
 
+use Doctrine\ORM\EntityManager;
+use Zend\ServiceManager\ServiceLocatorInterface;
+
 class RepositoryProviderWriter
 {
 	
-	private $repositoryProvider =
-'<?php
+	private $tmpl = 
+"<?php
 
-namespace EcampCore\RepositoryUtil;
+namespace <<REPO-NAMESPACE>>;
 
-use Zend\ServiceManager\ServiceLocatorInterface;
-
-class RepositoryProvider 
-{
-	/** @var ServiceLocatorInterface */
+/**
+ * @method <<REPO-CLASS>> <<PROVIDER-METHOD>>() 
+ */
+interface <<INTERFACE-NAME>>{}";
+	
+	
+	/**
+	 * @var Zend\ServiceManager\ServiceLocatorInterface
+	 */
 	private $serviceLocator;
 	
-	
-	public function __construct(ServiceLocatorInterface $serviceLocator){
-		$this->serviceLocator = $serviceLocator;
-	}
-	
-	<<REPOSITORY-METHODS>>
-}
-	';
-	
-	private $repositoryMethod =
-'	
 	/**
-	 * @return <<REPOSITORY-CLASS>> 
+	 * @var Doctrine\ORM\EntityManager
 	 */
-	public function <<REPOSITORY-METHOD>>(){
-		return $this->serviceLocator->get(\'<<REPOSITORY-ALIAS>>\');
-	}
-	';
+	private $em;
 	
 	
-	private $repositoryConfig = 
-"<?php
-return array(
-	
-	'factories' => array(
-<<REPOSITORY-FACTORY>>
-	),
-	
-);";
-	
-	private $repositoryFactory = 
-"		'<<REPOSITORY-ALIAS>>' => new EcampCore\RepositoryUtil\RepositoryFactory('<<ENTITY-CLASS>>'),";
-	
-	
-	public function writeRepositoryProvider(){
-	
-		$repositoryDir = dirname(__DIR__) . '/Repository/';
-		$repositoryProviderFile = __DIR__ . '/RepositoryProvider.php';
-	
-		$repositorys = array();
-	
-		foreach(scandir($repositoryDir) as $k => $v){
-			if(is_file($repositoryDir . $v)){
-				
-				$repositoryClass = 'EcampCore\Repository\\' . substr($v, 0, -4);
-				$repositoryMethod = lcfirst(substr($v, 0, -4));
-				$repositoryAlias = 'ecamp.repo.' . strtolower(substr($v, 0, -14));
-	
-				$repositorys[] = str_replace(
-					array('<<REPOSITORY-CLASS>>', '<<REPOSITORY-METHOD>>', '<<REPOSITORY-ALIAS>>'),
-					array($repositoryClass, $repositoryMethod, $repositoryAlias),
-					$this->repositoryMethod);
-			}
-		}
-	
-		$src = str_replace('<<REPOSITORY-METHODS>>', implode(PHP_EOL, $repositorys), $this->repositoryProvider);
-		file_put_contents($repositoryProviderFile, $src);
-		
-		return $src;
+	public function __construct(
+			ServiceLocatorInterface $serviceLocator,
+			EntityManager $em
+	){
+		$this->serviceLocator = $serviceLocator;
+		$this->em = $em;
 	}
 	
 	
-	public function writeRepositoryConfig(){
-		$repositoryDir = dirname(__DIR__) . '/Repository/';
-		$repositoryConfigFile = __DIR__ . '/../../../config/service.config.repos.php';
-				
-		$repositoryFactories = array();
+	public function writeRepositoryProviderInterfaces(){
 		
-		foreach(scandir($repositoryDir) as $k => $v){
-			if(is_file($repositoryDir . $v)){
+		$classMetadataList = $this->em->getMetadataFactory()->getAllMetadata();
+		foreach($classMetadataList as $classMetadata){
+			if(! $classMetadata->isMappedSuperclass){
 				
-				$entityClass = 'EcampCore\Entity\\' . substr($v, 0, -14);
-				$repositoryAlias = 'ecamp.repo.' . strtolower(substr($v, 0, -14));
-	
-				$repositoryFactories[] = str_replace(
-					array('<<ENTITY-CLASS>>', '<<REPOSITORY-ALIAS>>'),
-					array($entityClass, $repositoryAlias),
-					$this->repositoryFactory);
+				$repoDirectory = dirname(dirname($classMetadata->reflClass->getFileName())) . '/Repository';
+				$repoNamespace = str_replace('Entity', 'Repository\Provider', $classMetadata->reflClass->getNamespaceName());
+				
+				$repoClass = $classMetadata->customRepositoryClassName ?: 'Doctrine\ORM\EntityRepository';
+				
+				if($classMetadata->customRepositoryClassName){
+					$repositoryName = $this->getClassName($classMetadata->customRepositoryClassName);
+				} else {
+					$repositoryName = $this->getClassName($classMetadata->name) . 'Repository';
+				}
+				$providerName = $repositoryName . 'Provider';
+				$providerFile = $repoDirectory . '/Provider/' . $providerName . '.php';
+				
+				$providerMethod = str_replace('\Entity\\', '_', $classMetadata->name);
+				$providerMethod = lcfirst($providerMethod) . "Repo";
+				
+				$this->writeRepositoryProviderInterface(
+					$providerFile,
+					$providerName,
+					$repoNamespace,
+					$repoClass,
+					$providerMethod
+				);
 			}
 		}
-		
-		$src = str_replace("<<REPOSITORY-FACTORY>>", implode(PHP_EOL, $repositoryFactories), $this->repositoryConfig);
-		file_put_contents($repositoryConfigFile, $src);
-		
-		return $src;
+	}
+	
+	
+	private function writeRepositoryProviderInterface(
+		$providerFile,
+		$providerName,
+		$repoNamespace,
+		$repoClass,
+		$providerMethod
+	){
+		$src = str_replace(
+			array("<<REPO-NAMESPACE>>", "<<REPO-CLASS>>", "<<PROVIDER-METHOD>>", "<<INTERFACE-NAME>>"), 
+			array($repoNamespace, $repoClass, $providerMethod, $providerName), 
+			$this->tmpl
+		);
+		file_put_contents($providerFile, $src);
+	}
+	
+	private function getClassName($fqcn){
+		if (strstr($fqcn, '\\')) {
+			return substr($fqcn, strrpos($fqcn, '\\') + 1);
+		} else {
+			return $fqn;
+		}
 	}
 	
 }

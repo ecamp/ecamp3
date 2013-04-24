@@ -2,7 +2,10 @@
 namespace EcampCore;
 
 use Zend\Stdlib\ArrayUtils;
+use Zend\Mvc\MvcEvent;
 use Zend\ModuleManager\Feature\ServiceProviderInterface;
+
+use EcampCore\EntityUtil\ServiceLocatorAwareEventListener;
 
 class Module implements 
 	ServiceProviderInterface
@@ -36,5 +39,14 @@ class Module implements
     	}
     	
     	return $config;
+    }
+    
+    
+    public function onBootstrap(MvcEvent $e){
+    	$sm = $e->getApplication()->getServiceManager(); 
+    	
+    	$em = $sm->get('doctrine.entitymanager.orm_default');
+    	$em->getEventManager()->addEventSubscriber(
+    		new ServiceLocatorAwareEventListener($sm));
     }
 }

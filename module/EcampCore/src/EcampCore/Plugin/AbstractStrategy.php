@@ -26,50 +26,64 @@
  * and models.
  */
 
-namespace Core\Plugin;
+namespace EcampCore\Plugin;
  
+use EcampCore\Entity\Medium;
+use EcampCore\Entity\PluginInstance;
+
+use Zend\ServiceManager\ServiceLocatorInterface;
+
 abstract class AbstractStrategy 
 {
 
-	/**
-	 * @var \Doctrine\ORM\EntityManager
-	 */
-	protected $em;
-	
-	/**
-	 * @var CoreApi\Entity\Plugin
-	 */
-	protected $plugin;
-	
-	/**
-	 * Set the plugin object.
-	 * @param \CoreApi\Entity\Plugin $plugin
-	 */
-	public function setPlugin(\CoreApi\Entity\PluginInstance $plugin)
-	{
-		$this->plugin = $plugin;
+	public function __construct(
+		ServiceLocatorInterface $serviceLocator, 
+		PluginInstance $pluginInstance
+	){
+		$this->serviceLocator = $serviceLocator;
+		$this->pluginInstance = $pluginInstance;
 	}
 	
 	/**
-	 * Get the plugin object.
+	 * @var Zend\ServiceManager\ServiceLocatorInterface
 	 */
-	public function getPlugin(){
-		return $this->plugin;
-	}
+	private $serviceLocator;
 	
 	/**
-	 * Get the plugin name
+	 * @return Zend\ServiceManager\ServiceLocatorInterface
 	 */
-	public function getPluginName(){
-		return $this->pluginName;
+	protected function getServiceLocator(){
+		return $this->serviceLocator;
 	}
 	
-	/* ***************************************** */
 	
-	public function renderFrontend(\Ztal_Tal_View $view){
+	/**
+	 * @var EcampCore\Entity\PluginInstance
+	 */
+	private $pluginInstance;
+	
+	/**
+	 * @return EcampCore\Entity\PluginInstance
+	 */
+	protected function getPluginInstance(){
+		return $this->pluginInstance;
 	}
 	
-	public function renderBackend(\Ztal_Tal_View $view){
-	}
-
+	
+	/**
+	 * @param Medium $medium
+	 * @return Zend\View\Model\ViewModel
+	 */
+	abstract function render(Medium $medium);
+	
+	
+	/**
+	 * @deprecated
+	 */
+	abstract function renderFrontend();
+	
+	/**
+	* @deprecated
+	*/
+	abstract function renderBackend();
 }

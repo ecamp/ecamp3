@@ -35,13 +35,38 @@ class Plugin extends BaseEntity
 {
 
 	/**
-	 * @ORM\Column(type="string", length=64, nullable=false )
+	 * @ORM\Column(type="string", length=64, nullable=false)
 	 */
 	private $name;
+	
+	
+	/**
+	 * @ORM\Column(type="boolean", nullable=false)
+	 */
+	private $active;
+	
+	
+	/**
+	 * @ORM\Column(type="string", length=128, nullable=false)
+	 */
+	private $strategyClass;
 	
 	
 	public function getName(){
 		return $this->name;
 	}
 	
+	
+	public function getActive(){
+		return $this->active;
+	}
+	
+	public function setActive($active){
+		$this->active = $active;
+	}
+	
+	
+	public function getStrategyClass(){
+		return $this->strategyClass;
+	}
 }

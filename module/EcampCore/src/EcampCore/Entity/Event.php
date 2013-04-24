@@ -31,8 +31,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Event extends BaseEntity
 {
-    public function __construct()
-    {
+    public function __construct(){
         $this->plugins  = new \Doctrine\Common\Collections\ArrayCollection();
     }
     

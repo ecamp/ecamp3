@@ -25,14 +25,26 @@
 
 namespace EcampCore\Entity;
 
+use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\ServiceManager\ServiceLocatorAwareInterface;
+
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass="EcampCore\Repository\EventInstanceRepository")
  * @ORM\Table(name="plugin_instances")
  */
-class PluginInstance extends BaseEntity
+class PluginInstance 
+	extends BaseEntity
+	implements ServiceLocatorAwareInterface
 {
+	
+	public function __construct(ServiceLocatorInterface $serviceLocator){
+		parent::__construct();
+		
+		$this->serviceLocator = $serviceLocator;
+	}
+	
 
 	/**
 	 * @ORM\ManyToOne(targetEntity="Event")
@@ -59,16 +71,33 @@ class PluginInstance extends BaseEntity
 	 */
 	protected $strategyInstance;
 
+	
+	/**
+	 * @var Zend\ServiceManager\ServiceLocatorInterface
+	 */
+	private $serviceLocator;
 
 	
-	public function setEvent(Event $event)
-	{
+	
+	public function setEvent(Event $event){
 		$this->event = $event;
 	}
 	
-	public function getEvent()
-	{
+	public function getEvent(){
 		return $this->event;
+	}
+	
+	/**
+	 * Returns the plugin prototype
+	 *
+	 * @return PluginPrototype
+	 */
+	public function getPluginPrototype(){
+	    return $this->pluginPrototype;
+	}
+	
+	public function setPluginPrototype(PluginPrototype $pluginPrototype){
+	    $this->pluginPrototype  = $pluginPrototype;
 	}
 
 
@@ -77,24 +106,8 @@ class PluginInstance extends BaseEntity
 	 *
 	 * @return string
 	 */
-	public function getPluginName() 
-	{
-		return $this->pluginPrototype->getPlugin()->getName();
-	}
-	
-	/**
-	 * Returns the plugin prototype
-	 *
-	 * @return PluginPrototype
-	 */
-	public function getPluginPrototype()
-	{
-	    return $this->pluginPrototype;
-	}
-	
-	public function setPluginPrototype(PluginPrototype $pluginPrototype)
-	{
-	    $this->pluginPrototype  = $pluginPrototype;
+	public function getPluginName() {
+		return $this->getPluginPrototype()->getPlugin()->getName();
 	}
 
 	/**
@@ -104,33 +117,29 @@ class PluginInstance extends BaseEntity
 	 *
 	 * @return string
 	 */
-	public function getStrategyClassName() 
-	{
-		return '\\Plugin\\' . $this->getPluginName() . '\\Strategy';
+	public function getPluginStrategyClass() {
+		return $this->getPluginPrototype()->getPlugin()->getStrategyClass();
 	}
 
+	
+	public function setServiceLocator(ServiceLocatorInterface $serviceLocator){
+		$this->serviceLocator = $serviceLocator;
+	}
 
+	public function getServiceLocator(){
+		return $this->serviceLocator;
+	}
 
 	/**
 	 * Returns the instantiated strategy
 	 *
-	 * @return IPluginStrategy
+	 * @return EcampCore\Plugin\AbstractStrategy
 	 */
-	public function getStrategyInstance()
-	{
+	public function getStrategyInstance(){
+		if($this->strategyInstance == null){
+			$classname = $this->getPluginStrategyClass();
+			$this->strategyInstance = new $classname($this->serviceLocator, $this);
+		}
 		return $this->strategyInstance;
-	}
-
-	/**
-	 * Sets the strategy this plugin / panel should work as. Make sure that you've used
-	 * this method before persisting the plugin.
-	 *
-	 * @param IPluginStrategy $strategy
-	 */
-	public function setStrategy(\Core\Plugin\IPluginStrategy $strategy) 
-	{
-		$this->strategyInstance  = $strategy;
-
-		$strategy->setPlugin($this);
 	}
 }

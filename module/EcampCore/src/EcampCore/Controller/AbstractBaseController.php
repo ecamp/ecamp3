@@ -7,30 +7,15 @@ use Zend\Mvc\Controller\AbstractActionController;
 abstract class AbstractBaseController extends AbstractActionController
 {
 	
-	/** @var EcampCore\ServiceUtil\ServiceProvider */
-	private $serviceProvider;
-	
-	/**
-	 * @return EcampCore\ServiceUtil\ServiceProvider 
-	 */
-	protected function service(){
-		if($this->serviceProvider == null){
-			$this->serviceProvider = $this->getServiceLocator()->get('ecamp.serviceutil.provider');
+	public function __call($method, $args){
+		if($this->serviceLocator->has('__repos__.' . $method)){
+			return $this->serviceLocator->get('__repos__.' . $method);
 		}
-		return $this->serviceProvider;
-	}
-	
-	
-	/** @var EcampCore\RepositoryUtil\RepositoryProvider */
-	private $repoProvider;
-	
-	/**
-	 * @return EcampCore\RepositoryUtil\RepositoryProvider 
-	 */
-	 public function repo(){
-		if($this->repoProvider == null){
-			$this->repoProvider = $this->getServiceLocator()->get('ecamp.repositoryutil.provider');
+		
+		if($this->serviceLocator->has('__services__.' . $method)){
+			return $this->serviceLocator->get('__services__.' . $method);
 		}
-		return $this->repoProvider;
+		
+		return parent::__call($method, $args);
 	}
 }

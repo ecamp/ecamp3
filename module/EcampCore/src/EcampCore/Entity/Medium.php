@@ -23,16 +23,14 @@ namespace EcampCore\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Medium(repositoryClass="EcampCore\Repository\MediumRepository")
- * @ORM\Entity(readOnly=true)
+ * @ORM\Entity(repositoryClass="EcampCore\Repository\MediumRepository", readOnly=true)
  * @ORM\Table(name="media")
  */
 class Medium
 {
-	public function __construct()
-	{
+	public function __construct(){
 	}
-
+	
 	/**
 	 * Short human readable name
 	 * @var string
@@ -45,4 +43,15 @@ class Medium
 		return $this->name;
 	}
 	
+	
+	
+	/**
+	 * @var boolean
+	 * @ORM\Column(type="boolean", nullable=false)
+	 */
+	private $default;
+	
+	public function isDefault(){
+		return $this->default;
+	}
 }

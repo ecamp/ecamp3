@@ -11,7 +11,7 @@ return array(
 					'port'		=> '3306',
 					'user'		=> 'root',
 					'password'	=> 'root',
-					'dbname'	=> 'eCamp32dev'
+					'dbname'	=> 'eCamp3dev'
 				)
 			)
 		)

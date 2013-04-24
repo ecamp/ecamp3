@@ -2,33 +2,61 @@
 
 namespace EcampCore\Controller;
 
-use Zend\Mvc\Controller\AbstractActionController;
 
+use EcampCore\Repository\Provider\UserRepositoryProvider;
+use EcampCore\Service\Provider\UserServiceProvider;
+
+use EcampCore\RepositoryUtil\RepositoryConfigWriter;
 use EcampCore\RepositoryUtil\RepositoryProviderWriter;
+
+use EcampCore\ServiceUtil\ServiceConfigWriter;
 use EcampCore\ServiceUtil\ServiceProviderWriter;
 
 class IndexController extends AbstractBaseController 
+	implements 	UserRepositoryProvider
+	,			UserServiceProvider
 {
-	
-	public function indexAction(){}
+	public function indexAction(){
+		
+	}
 	
 	
 	public function createServiceConfigAction(){
-		$serviceProviderWriter = new ServiceProviderWriter();
+		$serviceConfigWriter = new ServiceConfigWriter($this->getServiceLocator());
+		$serviceConfigWriter->writeServiceConfigs();
 		
-		$serviceProviderWriter->writeServiceProvider();
-		$serviceProviderWriter->writeServiceConfig();
-		
-		$this->redirect()->toRoute('core/default', array('controller' => 'index', 'action' => 'index'));
+		return $this->redirect()->toRoute('core/default', array('controller' => 'index', 'action' => 'index'));
 	}
+	
+	public function createServiceProvidersAction(){
+		$serviceProviderWriter = new ServiceProviderWriter($this->getServiceLocator());
+		$serviceProviderWriter->writeServiceProviderInterfaces();
+		
+		return $this->redirect()->toRoute('core/default', array('controller' => 'index', 'action' => 'index'));
+	}
+	
 	
 	public function createRepoConfigAction(){
-		$repoProviderWriter = new RepositoryProviderWriter();
+		$em = $this->getServiceLocator()->get('doctrine.entitymanager.orm_default');
+		$repoConfigWriter = new RepositoryConfigWriter($this->getServiceLocator(), $em);
 		
-		$repoProviderWriter->writeRepositoryProvider();
-		$repoProviderWriter->writeRepositoryConfig();
+		$repoConfigWriter->writeRepositoryConfigs();
 		
-		$this->redirect()->toRoute('core/default', array('controller' => 'index', 'action' => 'index'));
+		return $this->redirect()->toRoute('core/default', array('controller' => 'index', 'action' => 'index'));
 	}
 	
+	public function createRepoProvidersAction(){
+		$em = $this->getServiceLocator()->get('doctrine.entitymanager.orm_default');
+		$repoProviderWriter = new RepositoryProviderWriter($this->getServiceLocator(), $em);
+		
+		$repoProviderWriter->writeRepositoryProviderInterfaces();
+		
+		return $this->redirect()->toRoute('core/default', array('controller' => 'index', 'action' => 'index'));
+	}
+	
+	
+	public function phpinfoAction(){
+		phpinfo();
+		die();
+	}
 }

@@ -19,12 +19,16 @@ return array(
         'EcampCore',
         'EcampWeb',
         'EcampApi',
-        'EcampDB'
+        'EcampDB',
+        
+        'EcampStoryboard'
     ),
+    
     'module_listener_options' => array(
         'module_paths' => array(
             './module',
-            './vendor'
+            './vendor',
+            './plugins'
         ),
         'config_glob_paths' => array('config/autoload/{,*.}{global,local}.php')
     )

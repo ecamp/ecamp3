@@ -31,8 +31,7 @@ use Doctrine\ORM\Mapping as ORM;
 class PluginPrototype extends BaseEntity
 {
 
-    public function __construct($eventPrototype = null)
-    {
+    public function __construct($eventPrototype = null){
         $this->eventPrototype = $eventPrototype;
     }
 
@@ -91,46 +90,36 @@ class PluginPrototype extends BaseEntity
 	    return $this->plugin;
 	}
 	
-	public function getServiceClassName()
-	{
-		return "Plugin\\".$this->getPlugin()->getName()."\\Service\\PluginService";
-	}
 	
-	
-	public function setConfig($config)
-	{
+	public function setConfig($config){
 	    $this->config = json_encode($config);
 	}
 	
 	/**
 	 * @return string
 	 */
-	public function getConfig()
-	{
+	public function getConfig(){
 		return json_decode($this->config);
 	}
 	
 	/**
 	 * @return integer
 	 */
-	public function getMaxInstances()
-	{
-	    return $this->maxInstances;
-	}
-	
-	/**
-	 * @return integer
-	 */
-	public function getDefaultInstances()
-	{
+	public function getDefaultInstances(){
 	    return $this->defaultInstances;
 	}
 	
 	/**
 	 * @return integer
 	 */
-	public function getMinInstances()
-	{
+	public function getMaxInstances(){
+	    return $this->maxInstances;
+	}
+	
+	/**
+	 * @return integer
+	 */
+	public function getMinInstances(){
 	    return $this->minInstances;
 	}
 	

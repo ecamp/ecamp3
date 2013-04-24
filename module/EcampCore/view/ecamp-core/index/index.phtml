@@ -6,9 +6,17 @@
 	<input type="submit" value="Create Service-Config" />
 </form>
 
+<form style="display: inline" action="<?php echo $this->url('core/default', array('controller' => 'index', 'action' => 'createServiceProviders')); ?>">
+	<input type="submit" value="Create Service-Provider" />
+</form>
+
 <hr />
 <h2>Repositories</h2>
 
 <form style="display: inline" action="<?php echo $this->url('core/default', array('controller' => 'index', 'action' => 'createRepoConfig')); ?>">
 	<input type="submit" value="Create Repo-Config" />
+</form>
+
+<form style="display: inline" action="<?php echo $this->url('core/default', array('controller' => 'index', 'action' => 'createRepoProviders')); ?>">
+	<input type="submit" value="Create Repo-Provider" />
 </form>
