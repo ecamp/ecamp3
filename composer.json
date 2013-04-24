@@ -40,8 +40,6 @@
 		
         "doctrine/doctrine-orm-module": "0.7.*",
         "doctrine/migrations": "dev-master",
-		"sundrique/doctrine-tools": ">=0.2",
-		
-		"pornel/PHPTAL": "1.2.2"
+		"sundrique/doctrine-tools": ">=0.2"
     }
 }
