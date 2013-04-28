@@ -21,11 +21,11 @@ class UserService
 	 * @return void
 	 */
 	public function _setupAcl(){
-		$this->acl->allow(DefaultAcl::MEMBER,  $this, 'Get');
-		$this->acl->allow(DefaultAcl::GUEST,   $this, 'Create');
-		$this->acl->allow(DefaultAcl::USER_ME, $this, 'Update');
+		$this->getAcl()->allow(DefaultAcl::MEMBER,  $this, 'Get');
+		$this->getAcl()->allow(DefaultAcl::GUEST,   $this, 'Create');
+		$this->getAcl()->allow(DefaultAcl::USER_ME, $this, 'Update');
 		
-		$this->acl->allow(DefaultAcl::MEMBER,  $this, 'GetPaginator');
+		$this->getAcl()->allow(DefaultAcl::MEMBER,  $this, 'GetPaginator');
 	}
 	
 	

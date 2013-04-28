@@ -2,44 +2,21 @@
 
 namespace EcampCore\Render;
 
+
 use Zend\View\Model\ViewModel;
 
+use EcampCore\DI\DependencyLocator;
 use EcampCore\Entity\Medium;
 use EcampCore\Entity\PluginInstance;
+use EcampCore\Repository\Provider\MediumRepositoryProvider;
 
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 
 class PluginRenderer
-	implements ServiceLocatorAwareInterface
-{
-	
-	private $serviceLocator;
-	
-	public function setServiceLocator(ServiceLocatorInterface $serviceLocator){
-		$this->serviceLocator = $serviceLocator;
-	}
-	
-	public function getServiceLocator(){
-		return $this->serviceLocator;
-	}
-	
-	
-	/**
-	 * @var EcampCore\RepositoryUtil\RepositoryProvider
-	 */
-	private $repo;
-	
-	/**
-	 * @return EcampCore\RepositoryUtil\RepositoryProvider
-	 */
-	public function repo(){
-		if($this->repo == null){
-			$this->repo = $this->serviceLocator->get('ecamp.repositoryutil.provider');
-		}
-		return $this->repo;
-	}
-	
+	extends DependencyLocator
+	implements MediumRepositoryProvider
+{	
 	
 	/**
 	 * @param PluginInstance $pluginInstance
@@ -47,7 +24,7 @@ class PluginRenderer
 	 * @return Zend\View\Model\ViewModel
 	 */
 	public function render(PluginInstance $pluginInstance, Medium $medium = null){
-		$medium = $medium ?: $this->repo()->mediumRepository()->getDefualtMedium();
+		$medium = $medium ?: $this->ecampCore_MediumRepo()->getDefualtMedium();
 		$view = $pluginInstance->getStrategyInstance()->render($medium);
 		
 		if($view instanceof ViewModel){

@@ -3,16 +3,17 @@
 namespace EcampApi\Controller;
 
 use EcampApi\Serializer\EventInstanceSerializer;
+use EcampCore\Repository\Provider\EventInstanceRepositoryProvider;
+use EcampCore\Controller\AbstractRestfulBaseController;
 
 use Zend\View\Model\JsonModel;
-use Zend\Mvc\Controller\AbstractRestfulController;
 
-class EventInstancesController extends AbstractRestfulController
+class EventInstancesController extends AbstractRestfulBaseController
+	implements EventInstanceRepositoryProvider
 {
 	
 	public function getList(){
-		$eventInstanceRepo = $this->getServiceLocator()->get('ecamp.repo.eventinstance');
-		$eventInstances = $eventInstanceRepo->findAll();
+		$eventInstances = $this->ecampCore_EventInstanceRepo()->findAll();
 		
 		$eventInstanceSerializer = new EventInstanceSerializer(
 			$this->params('format'), $this->getEvent()->getRouter());
@@ -21,8 +22,7 @@ class EventInstancesController extends AbstractRestfulController
 	}
 	
 	public function get($id){
-		$eventInstanceRepo = $this->getServiceLocator()->get('ecamp.repo.eventinstance');
-		$eventInstance = $eventInstanceRepo->find($id);
+		$eventInstance = $this->ecampCore_EventInstanceRepo()->find($id);
 				
 		$eventInstanceSerializer = new EventInstanceSerializer(
 			$this->params('format'), $this->getEvent()->getRouter());

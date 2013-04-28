@@ -2,23 +2,44 @@
 
 namespace EcampApi\Controller;
 
+
+use EcampApi\Serializer\UserSerializer;
 use EcampApi\Serializer\CampSerializer;
+
+use EcampCore\Service\Provider\UserServiceProvider;
 use EcampCore\Repository\Provider\CampRepositoryProvider;
+use EcampCore\Repository\Provider\UserRelationshipRepositoryProvider;
 use EcampCore\Controller\AbstractRestfulBaseController;
 
 use Zend\View\Model\JsonModel;
 
-class CampsController extends AbstractRestfulBaseController
-	implements CampRepositoryProvider
+class IndexController extends AbstractRestfulBaseController
+	implements 	CampRepositoryProvider
+	,			UserServiceProvider
+	,			UserRelationshipRepositoryProvider
 {
 	
+	/**
+	 * @return EcampCore\Acl\ContextProvider
+	 */
+	private function contextProvider(){
+		return $this->getServiceLocator()->get('ecamp.acl.contextprovider');
+	}
+	
 	public function getList(){
-		$camps = $this->ecampCore_CampRepo()->findAll();
-		
-		$campSerializer = new CampSerializer(
+		$userSerializer = new UserSerializer(
 			$this->params('format'), $this->getEvent()->getRouter());
 		
-		return new JsonModel($campSerializer($camps));
+		$me = $this->contextProvider()->getMe();
+		$meRef = ($me != null) ? $userSerializer->getReference($me) : null;
+		$camps = ($me != null) ? $this->ecampCore_CampRepo()->findUserCamps($me->getId()) : null;
+		$friends = ($me != null) ? $this->ecampCore_UserRelationshipRepo()->findFriends($me) : null;
+		
+		return new JsonModel(array(
+			'me' => $meRef,
+			'camps' => $camps,
+			'friends' => $friends
+		));
 	}
 	
 	public function get($id){

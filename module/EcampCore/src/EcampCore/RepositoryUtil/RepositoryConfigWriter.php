@@ -28,7 +28,8 @@ return array(
 <<REPOSITORY-FACTORY>>
 	),
 	
-);";
+);
+";
 	
 	private $repositoryFactory = 
 "		'<<REPOSITORY-ALIAS>>' => new EcampCore\RepositoryUtil\RepositoryFactory('<<ENTITY-CLASS>>'),";
@@ -71,69 +72,11 @@ return array(
 		
 	}
 	
-	/*
-	private function writeRepositoryProvider(
-		$moduleNamespace,
-		$repositoryProviderClass,
-		$repositoryProviderParent,
-		$repositoryProviderFile,
-		$repositoryConfigFile
-	){
-		
-		$file = new FileGenerator();
-		$file->setFilename($repositoryProviderFile);
-		
-		if($repositoryProviderParent == null){
-			$class = new ClassGenerator($repositoryProviderClass);
-		} else {			
-			$class = new ClassGenerator($repositoryProviderClass, null, null, 'ProviderParent');
-			$class->addUse($repositoryProviderParent, 'ProviderParent');
-		}
-		$file->setClass($class);
-		
-		$classMetadataList = $this->em->getMetadataFactory()->getAllMetadata();
-		foreach($classMetadataList as $classMetadata){
-			
-			if( $classMetadata->name != 'EcampCore\Entity\BaseEntity' &&
-				substr($classMetadata->name, 0, strlen($moduleNamespace)) == $moduleNamespace
-			){
-				$repositoryClass = $classMetadata->customRepositoryClassName ?: 'Doctrine\ORM\EntityRepository';
-				
-				$repositoryMethod = str_replace('\Entity\\', '_', $classMetadata->name);
-				$repositoryMethod = lcfirst($repositoryMethod) . "Repo";
-				
-				$repositoryAlias  = str_replace('\Entity\\', '.repo.', $classMetadata->name);
-				$repositoryAlias = strtolower($repositoryAlias);
-				
-				$method = new MethodGenerator($repositoryMethod);
-				$method->setBody('return $this->serviceLocator->get(\'' . $repositoryAlias . '\');');
-				
-				$docBlock = new DocBlockGenerator();
-				$method->setDocBlock($docBlock);
-				
-				$returnTag = new ReturnTag();
-				$returnTag->setDatatype($repositoryClass);
-				$docBlock->setTag($returnTag);
-				
-				$class->addMethodFromGenerator($method);
-			}
-			
-		}
-		
-		$file->write();
-	}
-	*/
-	
 	
 	private function writeRepositoryConfig(
 			$moduleNamespace,
 			$repositoryConfigFile
 	){
-		
-		$file = new FileGenerator();
-		$file->setFilename($repositoryConfigFile);
-	
-		
 		$repositoryFactories = array();
 		$repositoryAliases = array();
 		
@@ -168,8 +111,7 @@ return array(
 			array(implode(PHP_EOL, $repositoryFactories), implode(PHP_EOL, $repositoryAliases)),
 			$this->repositoryConfig);
 		
-		$file->setBody($src);
-		$file->write();
+		file_put_contents($repositoryConfigFile, $src);
 		
 		return $src;
 	}

@@ -41,7 +41,7 @@ class DefaultAcl
 	protected function getContextStorage(){
 		if($this->contextStorage == null){
 			$this->contextStorage = 
-				$this->serviceLocator->get('ecamp.acl.contextstorage');
+				$this->serviceLocator->get('ecampcore.acl.contextstorage');
 		}
 		return $this->contextStorage;
 	} 

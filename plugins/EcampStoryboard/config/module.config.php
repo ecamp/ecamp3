@@ -18,33 +18,48 @@ return array(
 		
     'router' => array(
         'routes' => array(
-            'plugin-storyboard' => array(
-                'type'    => 'Literal',
-                'options' => array(
-                    'route'    => '/plugin/storyboard',
-                    'defaults' => array(
-                        '__NAMESPACE__' => 'EcampStoryboard\Controller',
-                        'controller'    => 'Index',
-                    ),
-                ),
- 
-                'may_terminate' => true,
+            'plugin' => array(
                 'child_routes' => array(
-                    'default' => array(
-                        'type'    => 'Segment',
-                        'options' => array(
-                            'route'    => '/[:controller[/:id][.:format]]',
-                            'constraints' => array(
-                                'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
-                                'format' => '(xml|json)',
-                                'id' => '[a-f0-9]*'
-							),
-                            'defaults' => array(
-                                'controller' => 'Index',
-                                'format' => 'json'
-							),
-						),
-					),
+                	
+                	'storyboard' => array(
+                		'type'    => 'Literal',
+                		'options' => array(
+                			'route'    => '/storyboard',
+                			'defaults' => array(
+                				'__NAMESPACE__' => 'EcampStoryboard\Controller',
+                			),
+                		),
+                		
+                		'may_terminate' => false,
+                		'child_routes' => array(
+                			'default' => array(
+                				'type'    => 'Segment',
+                				'options' => array(
+                					'route'    => '/[:controller/:action[/:id].:format]',
+                					'constraints' => array(
+                						'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                						'action'     => '[a-zA-Z][a-zA-Z0-9_-]*',
+                						'format' 	 => '(xml|json)',
+                						'id'		 => '[a-f0-9]+'
+                					),
+                				),
+                			),
+                			'rest' => array(
+                				'type'    => 'Segment',
+                				'options' => array(
+                					'route'    => '/[:controller[/:id].:format]',
+                					'constraints' => array(
+                						'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                						'format' 	 => '(xml|json)',
+                						'id' 		 => '[a-f0-9]+'
+                					),
+                					'defaults' => array(
+                						'controller' => 'Index',
+                					),
+                				),
+                			),
+                		),
+                	),
 				),
             ),
 		),
@@ -52,7 +67,7 @@ return array(
 	
     'controllers' => array(
         'invokables' => array(
-            'EcampStoryboard\Controller\Section' => 'EcampStoryboard\Controller\SectionController',
+            'EcampStoryboard\Controller\Sections' => 'EcampStoryboard\Controller\SectionsController',
         ),
     ),
 

@@ -33,7 +33,7 @@ class UserSerializer extends BaseSerializer{
 		return 
 			$this->router->assemble(
 				array(
-					'controller' => 'user',
+					'controller' => 'users',
 					'action' => 'get',
 					'id' => $user->getId(), 
 					'format' => $this->format

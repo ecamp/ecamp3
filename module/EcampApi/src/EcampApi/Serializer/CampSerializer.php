@@ -38,7 +38,7 @@ class CampSerializer extends BaseSerializer{
 		return
 			$this->router->assemble(
 				array(
-					'controller' => 'camp',
+					'controller' => 'camps',
 					'action' => 'get',
 					'id' => $camp->getId(),
 					'format' => $this->format

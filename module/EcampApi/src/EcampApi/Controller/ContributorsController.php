@@ -2,18 +2,20 @@
 
 namespace EcampApi\Controller;
 
-use EcampApi\Serializer\ContributorSerializer;
 
 use EcampApi\Serializer\UserSerializer;
+use EcampApi\Serializer\ContributorSerializer;
+
+use EcampCore\Controller\AbstractRestfulBaseController;
+use EcampCore\Repository\Provider\ContributorRepositoryProvider;
 
 use Zend\View\Model\JsonModel;
-use Zend\Mvc\Controller\AbstractRestfulController;
 
-class ContributorsController extends AbstractRestfulController
+class ContributorsController extends AbstractRestfulBaseController
+	implements ContributorRepositoryProvider
 {
 	public function getList(){
-		$contributorRepo = $this->getServiceLocator()->get('ecamp.repo.contributor');
-		$contributors = $contributorRepo->findAll();
+		$contributors = $this->ecampCore_UserCampRepo()->findAll();
 		
 		$contributorSerializer = new ContributorSerializer(
 			$this->params('format'), $this->getEvent()->getRouter());
@@ -22,8 +24,7 @@ class ContributorsController extends AbstractRestfulController
 	}
 	
 	public function get($id){
-		$contributorRepo = $this->getServiceLocator()->get('ecamp.repo.contributor');
-		$contributor = $contributorRepo->find($id);
+		$contributor = $this->ecampCore_UserCampRepo()->find($id);
 		
 		$contributorSerializer = new ContributorSerializer(
 			$this->params('format'), $this->getEvent()->getRouter());

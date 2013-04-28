@@ -2,11 +2,13 @@
 
 namespace EcampCore\Service;
 
+
 use Zend\Permissions\Acl\Resource\ResourceInterface;
 
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 
+use EcampCore\ServiceUtil\ServiceWrapper;
 use EcampCore\Entity\BaseEntity;
 use EcampCore\Acl\DefaultAcl;
 
@@ -78,7 +80,7 @@ abstract class ServiceBase implements
 	 */
 	protected function getAcl(){
 		if($this->acl == null){
-			$this->acl = $this->serviceLocator->get('ecamp.internal.acl');
+			$this->acl = $this->serviceLocator->get('ecampcore.internal.acl');
 		}
 		return $this->acl;
 	}
@@ -88,14 +90,14 @@ abstract class ServiceBase implements
 	 * @return EcampCore\Acl\ContextProvider
 	 */
 	protected function getContextProvider(){
-		return $this->locateService('ecamp.acl.contextprovider');
+		return $this->locateService('ecampcore.acl.contextprovider');
 	}
 	
 	/**
 	 * @return EcampCore\Acl\Context
 	 */
 	protected function getContext(){
-		return $this->locateService('ecamp.acl.context');
+		return $this->locateService('ecampcore.acl.context');
 	}
 	
 	
@@ -112,53 +114,51 @@ abstract class ServiceBase implements
 	
 	
 	
-// 	protected function validationFailed($bool = true, $message = null)
-// 	{
-// 		if($bool && $message == null)
-// 			ServiceWrapper::validationFailed();
+	protected function validationFailed($bool = true, $message = null){
 		
-// 		if($bool && $message != null)
-// 			ServiceWrapper::addValidationMessage($message);
-// 	}
-	
-// 	protected function validationAssert($bool = false, $message = null)
-// 	{
-// 		if(!$bool && $message == null)
-// 			ServiceWrapper::validationFailed();
+		if($bool && $message == null){
+			ServiceWrapper::validationFailed();
+		}
 		
-// 		if(!$bool && $message != null)
-// 			ServiceWrapper::addValidationMessage($message);
-// 	}
+		if($bool && $message != null){
+			ServiceWrapper::addValidationMessage($message);
+		}
+	}
 	
-// 	protected function validationContextAssert(BaseEntity $entity)
-// 	{
-// 		if(! $this->getContext()->Check($entity))
-// 		{
-// 			ServiceWrapper::addValidationMessage(
-// 				get_class($entity) . " with ID (" . $entity->getId() . 
-// 				") does not belong to any Entity in the Context."
-// 			);
-// 		}
-// 	}
+	protected function validationAssert($bool = false, $message = null)
+	{
+		if(!$bool && $message == null)
+			ServiceWrapper::validationFailed();
+		
+		if(!$bool && $message != null)
+			ServiceWrapper::addValidationMessage($message);
+	}
 	
-// 	protected function addValidationMessage($message)
-// 	{
-// 		ServiceWrapper::addValidationMessage($message);
-// 	}
+	protected function validationContextAssert(BaseEntity $entity)
+	{
+		if(! $this->getContext()->Check($entity))
+		{
+			ServiceWrapper::addValidationMessage(
+				get_class($entity) . " with ID (" . $entity->getId() . 
+				") does not belong to any Entity in the Context."
+			);
+		}
+	}
 	
-// 	protected function hasFailed()
-// 	{
-// 		return ServiceWrapper::hasFailed();
-// 	}
+	protected function addValidationMessage($message){
+		ServiceWrapper::addValidationMessage($message);
+	}
 	
-// 	protected function persist($entity)
-// 	{
-// 		$this->em->persist($entity);
-// 	}
+	protected function hasFailed(){
+		return ServiceWrapper::hasFailed();
+	}
 	
-// 	protected function remove($entity)
-// 	{
-// 		$this->em->remove($entity);
-// 	}
+	protected function persist($entity){
+		$this->getEM()->persist($entity);
+	}
+	
+	protected function remove($entity){
+		$this->getEM()->remove($entity);
+	}
 	
 }

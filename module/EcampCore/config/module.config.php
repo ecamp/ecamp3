@@ -18,7 +18,19 @@ return array(
 	
     'router' => array(
         'routes' => array(
-            'core' => array(
+        	
+            'plugin' => array(
+            	'type'    => 'Segment',
+            	'options' => array(
+            		'route'    => '/plugin/:pluginInstanceId',
+            		'constraints' => array(
+            			'pluginInstanceId' => '[a-f0-9]+'
+            		),
+            	),
+            	'may_terminate' => false,
+            ),
+        	
+        	'core' => array(
                 'type'    => 'Literal',
                 'options' => array(
                     'route'    => '/core',

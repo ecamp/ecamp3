@@ -2,17 +2,19 @@
 
 namespace EcampApi\Controller;
 
+
 use EcampApi\Serializer\DaySerializer;
+use EcampCore\Repository\Provider\DayRepositoryProvider;
+use EcampCore\Controller\AbstractRestfulBaseController;
 
 use Zend\View\Model\JsonModel;
-use Zend\Mvc\Controller\AbstractRestfulController;
 
-class DaysController extends AbstractRestfulController
+class DaysController extends AbstractRestfulBaseController
+	implements DayRepositoryProvider
 {
 	
 	public function getList(){
-		$dayRepo = $this->getServiceLocator()->get('ecamp.repo.day');
-		$days = $dayRepo->findAll();
+		$days = $this->ecampCore_DayRepo()->findAll();
 		
 		$daySerializer = new DaySerializer(
 			$this->params('format'), $this->getEvent()->getRouter());
@@ -21,8 +23,7 @@ class DaysController extends AbstractRestfulController
 	}
 	
 	public function get($id){
-		$dayRepo = $this->getServiceLocator()->get('ecamp.repo.day');
-		$day = $dayRepo->find($id);
+		$day = $this->ecampCore_DayRepo()->find($id);
 		
 		$daySerializer = new DaySerializer(
 			$this->params('format'), $this->getEvent()->getRouter());

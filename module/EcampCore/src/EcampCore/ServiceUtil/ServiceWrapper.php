@@ -15,14 +15,6 @@ class ServiceWrapper
 	 */
 	private $serviceLocator;
 	
-	
-// 	/**
-// 	 * @var Doctrine\ORM\EntityManager
-// 	 * @Inject Doctrine\ORM\EntityManager
-// 	 */
-// 	private $em;
-	
-	
 	/**
 	 * @var EcampCore\Acl\DefaultAcl
 	 */
@@ -34,10 +26,10 @@ class ServiceWrapper
 	 */
 	private $service = null;
 	
-// 	/**
-// 	 * @var ValidationException
-// 	 */
-// 	private static $validationException = null;
+	/**
+	 * @var ValidationException
+	 */
+	private static $validationException = null;
 	
 // 	private $transaction = null;
 	
@@ -51,30 +43,36 @@ class ServiceWrapper
 		$this->service = $service;
 	}
 	
-// 	public function postInject()
-// 	{
-// 		$this->acl->addResource($this->service);
-// 		$this->kernel->Inject($this->service);
 	
-// 		unset($this->kernel);
-// 	}
+	/**
+	 * @return Doctrine\ORM\EntityManager
+	 */
+	public function getEm(){
+		return $this->serviceLocator->get('doctrine.entitymanager.orm_default');
+	}
 	
-// 	public static function validationFailed()
-// 	{
-// 		if(self::$validationException == null)
-// 		{
-// 			self::$validationException = new ValidationException();
-// 		}
-// 	}
+	/**
+	 * @return EcampCore\Acl\ContextProvider
+	 */
+	public function getContextProvider(){
+		return $this->serviceLocator->get('ecampcore.acl.contextprovider');
+	}
 	
-// 	public static function addValidationMessage($message){
-// 		self::validationFailed();
-// 		self::$validationException->addMessage($message);
-// 	}
 	
-// 	public static function hasFailed(){
-// 		return self::$validationException != null;
-// 	}
+	public static function validationFailed(){
+		if(self::$validationException == null){
+			self::$validationException = new ValidationException("ValidationException");
+		}
+	}
+	
+	public static function addValidationMessage($message){
+		self::validationFailed();
+		self::$validationException->addMessage($message);
+	}
+	
+	public static function hasFailed(){
+		return self::$validationException != null;
+	}
 	
 	public static function isSimulated(){
 		return self::$simulated;
@@ -91,7 +89,7 @@ class ServiceWrapper
 		}
 		
 		
-		$acl = $this->serviceLocator->get('ecamp.internal.acl');
+		$acl = $this->serviceLocator->get('ecampcore.internal.acl');
 		if(!$acl->hasResource($this->service)){			
     		$acl->addResource($this->service);
 		}
@@ -102,11 +100,11 @@ class ServiceWrapper
 			throw new \Exception("No Access on " . $this->service->getResourceId() . "::" . $method);
 		}
 		
-// 		$this->start();
+		$this->start();
 		
 		$r = call_user_func_array(array($this->service, $method), $args);
 		
-// 		$this->end();
+		$this->end();
 		
 		return $r;
 	}
@@ -115,72 +113,77 @@ class ServiceWrapper
 		return new ServiceSimulator($this);
 	}
 	
-// 	private function start()
-// 	{
-// 		self::$validationException = null;
+	private function start()
+	{
+		self::$validationException = null;
 		
-// 		$uow = $this->em->getUnitOfWork();
-// 		$uow->computeChangeSets();
+		$uow = $this->getEm()->getUnitOfWork();
+		$uow->computeChangeSets();
 		
-// 		$upd = $uow->getScheduledEntityUpdates();
-// 		$ins = $uow->getScheduledEntityInsertions();
-// 		$del = $uow->getScheduledEntityDeletions();
-// 		$colupd = $uow->getScheduledCollectionUpdates();
-// 		$coldel = $uow->getScheduledCollectionDeletions();
+		$upd = $uow->getScheduledEntityUpdates();
+		$ins = $uow->getScheduledEntityInsertions();
+		$del = $uow->getScheduledEntityDeletions();
+		$colupd = $uow->getScheduledCollectionUpdates();
+		$coldel = $uow->getScheduledCollectionDeletions();
 		
-// 		if( !empty($upd) || !empty($ins)|| !empty($del)|| !empty($colupd)|| !empty($coldel) )
-// 			throw new \Exception("You tried to edit an entity outside the service layer.");
+		if( !empty($upd) || !empty($ins)|| !empty($del)|| !empty($colupd)|| !empty($coldel) )
+			throw new \Exception("You tried to edit an entity outside the service layer.");
 		
-// 		$this->transaction = $this->em->getConnection()->beginTransaction();
-// 	}
+		$this->getEm()->getConnection()->beginTransaction();
+	}
 	
-// 	private function end()
-// 	{
-// 		$this->flushAndCommit();
+	private function end()
+	{
+		$this->flushAndCommit();
 		
-// 		if(isset(self::$validationException))
-// 		{
-// 			throw self::$validationException;
-// 		}
-// 	}
+		if(isset(self::$validationException)){
+			throw self::$validationException;
+		}
+	}
 	
 	private function isAllowed($privilege = NULL){
-		$acl = $this->serviceLocator->get('ecamp.internal.acl');
+		$acl = $this->serviceLocator->get('ecampcore.internal.acl');
 		$roles = $acl->getRolesInContext();
-	
+		
 		foreach ($roles as $role){
 			if($acl->isAllowed($role, $this->service, $privilege)){
 				return true;
 			}
 		}
+		
+		if($this->getContextProvider()->getMe() == null){
+			// Ask for Auth
+			// Authentification-Header
+			// OR GoTo-Login
+			die("Not Authenticated");
+			// 401??
+		}
+		
 		return false;
+		// 403??
 	}
 	
-// 	private function flushAndCommit()
-// 	{
-// 		if(self::hasFailed() || self::isSimulated() )
-// 		{
-// 			$this->em->getConnection()->rollback();
+	private function flushAndCommit(){
+		
+		if(self::hasFailed() || self::isSimulated()){
+			$this->getEm()->getConnection()->rollback();
 			
-// 			if( self::isSimulated() )
-// 			{	
-// 				/** TODO: this call is problematic, find a better solution */
-// 				$this->em->clear();
-// 			}
-// 			return;
-// 		}
+			if( self::isSimulated() ){	
+				/** TODO: this call is problematic, find a better solution */
+				$this->getEm()->clear();
+			}
+			return;
+		}
 	
-// 		try
-// 		{
-// 			$this->em->flush();
-// 			$this->em->getConnection()->commit();
-// 		}
-// 		catch (Exception $e)
-// 		{
-// 			$this->em->getConnection()->rollback();
-// 			$this->em->close();
+		try{
+			$this->getEm()->flush();
+			$this->getEm()->getConnection()->commit();
+		}
+		catch (Exception $e){
+			$this->getEm()->getConnection()->rollback();
+			$this->getEm()->close();
 				
-// 			throw $e;
-// 		}
-// 	}	
+			throw $e;
+		}
+	}	
 }

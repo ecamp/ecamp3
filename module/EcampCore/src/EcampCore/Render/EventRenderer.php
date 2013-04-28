@@ -2,44 +2,23 @@
 
 namespace EcampCore\Render;
 
+use EcampCore\DI\DependencyLocator;
 use EcampCore\Entity\Event;
 use EcampCore\Entity\Medium;
 use EcampCore\Entity\EventPrototype;
+
+use EcampCore\Repository\Provider\MediumRepositoryProvider;
+use EcampCore\Repository\Provider\EventTemplateRepositoryProvider;
 
 use Zend\View\Model\ViewModel;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 
 class EventRenderer
-	implements ServiceLocatorAwareInterface
-{
-	
-	private $serviceLocator;
-	
-	public function setServiceLocator(ServiceLocatorInterface $serviceLocator){
-		$this->serviceLocator = $serviceLocator;
-	}
-	
-	public function getServiceLocator(){
-		return $this->serviceLocator;
-	}
-	
-	
-	/**
-	 * @var EcampCore\RepositoryUtil\RepositoryProvider
-	 */
-	private $repo;
-	
-	/**
-	 * @return EcampCore\RepositoryUtil\RepositoryProvider
-	 */
-	public function repo(){
-		if($this->repo == null){
-			$this->repo = $this->serviceLocator->get('ecamp.repositoryutil.provider');
-		}
-		return $this->repo;
-	}
-	
+	extends DependencyLocator
+	implements 	EventTemplateRepositoryProvider
+	,			MediumRepositoryProvider
+{	
 	
 	protected function getPluginRenderer(){
 		$pluginRenderer = new PluginRenderer();
@@ -56,7 +35,7 @@ class EventRenderer
 	 * @return Zend\View\Model\ViewModel
 	 */
 	public function render(Event $event, Medium $medium = null){
-		$medium = $medium ?: $this->repo()->mediumRepository()->getDefaultMedium();
+		$medium = $medium ?: $this->ecampCore_MediumRepo()->getDefaultMedium();
 		$eventTemplate = $this->getEventTemplate($event->getPrototype(), $medium);
 
 		$view = new ViewModel();
@@ -92,7 +71,7 @@ class EventRenderer
 	 */
 	private function getEventTemplate(EventPrototype $eventPrototype, Medium $medium){
 		return 
-			$this->repo()->eventTemplateRepository()->findOneBy(array(
+			$this->ecampCore_EventTemplateRepo()->findOneBy(array(
 				'medium' => $medium,
 				'eventPrototype' => $eventPrototype
 			));

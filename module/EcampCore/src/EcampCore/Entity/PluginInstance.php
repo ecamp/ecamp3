@@ -31,7 +31,7 @@ use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="EcampCore\Repository\EventInstanceRepository")
+ * @ORM\Entity(repositoryClass="EcampCore\Repository\PluginInstanceRepository")
  * @ORM\Table(name="plugin_instances")
  */
 class PluginInstance 

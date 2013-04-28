@@ -3,15 +3,16 @@
 namespace EcampApi\Controller;
 
 use EcampApi\Serializer\UserSerializer;
+use EcampCore\Repository\Provider\UserRepositoryProvider;
+use EcampCore\Controller\AbstractRestfulBaseController;
 
 use Zend\View\Model\JsonModel;
-use Zend\Mvc\Controller\AbstractRestfulController;
 
-class UsersController extends AbstractRestfulController
+class UsersController extends AbstractRestfulBaseController
+	implements UserRepositoryProvider
 {
 	public function getList(){
-		$userRepo = $this->getServiceLocator()->get('ecamp.repo.user');
-		$users = $userRepo->findAll();
+		$users = $this->ecampCore_UserRepo()->findAll();
 		
 		$userSerializer = new UserSerializer(
 			$this->params('format'), $this->getEvent()->getRouter());
@@ -20,8 +21,7 @@ class UsersController extends AbstractRestfulController
 	}
 	
 	public function get($id){
-		$userRepo = $this->getServiceLocator()->get('ecamp.repo.user');
-		$user = $userRepo->find($id);
+		$user = $this->ecampCore_UserRepo()->find($id);
 		
 		$userSerializer = new UserSerializer(
 			$this->params('format'), $this->getEvent()->getRouter());
