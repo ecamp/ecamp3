@@ -54,6 +54,78 @@ return array(
                     ),
                 ),
             ),
+        	
+        	'group' => array(
+        		'type'    => 'Literal',
+        		'options' => array(
+        			'route'    => '/group',
+        			'defaults' => array(
+        				'__NAMESPACE__' => 'EcampCore\Controller',
+        				'controller'    => 'Index',
+        				'action'        => 'index',
+        			),
+        		),
+        		'may_terminate' => true,
+        		
+        		'child_routes' => array(        		
+		        	'camp' => array(
+		        		'type' => 'EcampCore\Router\GroupCampRouter',
+		        		'options' => array(
+		        			'defaults' => array(),
+		        		),
+		        		'may_terminate' => true,
+		        		
+		        		'child_routes' => array(
+		        			'default' => array(
+	        					'type'    => 'Segment',
+	        					'options' => array(
+        							'route'    => '/[:controller[/:action]]',
+        							'constraints' => array(
+        								'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
+        								'action'     => '[a-zA-Z][a-zA-Z0-9_-]*',
+        							),
+	        					),
+		        			)	
+		        		)
+        			)
+        		)
+        	),
+        	
+        	'user' => array(
+        		'type'    => 'Literal',
+        		'options' => array(
+        			'route'    => '/user',
+        			'defaults' => array(
+        				'__NAMESPACE__' => 'EcampCore\Controller',
+        				'controller'    => 'Index',
+        				'action'        => 'index',
+        			),
+        		),
+        		'may_terminate' => true,
+        		
+        		'child_routes' => array(        		
+		        	'camp' => array(
+		        		'type' => 'EcampCore\Router\UserCampRouter',
+		        		'options' => array(
+		        			'defaults' => array(),
+		        		),
+		        		'may_terminate' => true,
+		        		
+		        		'child_routes' => array(
+		        			'default' => array(
+	        					'type'    => 'Segment',
+	        					'options' => array(
+        							'route'    => '/[:controller[/:action]]',
+        							'constraints' => array(
+        								'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
+        								'action'     => '[a-zA-Z][a-zA-Z0-9_-]*',
+        							),
+	        					),
+		        			)	
+		        		)
+        			)
+        		)
+        	)
 		),
 	),
 	

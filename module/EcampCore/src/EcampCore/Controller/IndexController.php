@@ -3,6 +3,8 @@
 namespace EcampCore\Controller;
 
 
+use EcampCore\Repository\Provider\CampRepositoryProvider;
+use EcampCore\Repository\Provider\GroupRepositoryProvider;
 use EcampCore\Repository\Provider\UserRepositoryProvider;
 use EcampCore\Service\Provider\UserServiceProvider;
 
@@ -15,9 +17,28 @@ use EcampCore\ServiceUtil\ServiceProviderWriter;
 class IndexController extends AbstractBaseController 
 	implements 	UserRepositoryProvider
 	,			UserServiceProvider
+	,			GroupRepositoryProvider
+	,			CampRepositoryProvider
 {
 	public function indexAction(){
 		
+		$groupId = $this->params('group');
+		$campId = $this->params('camp');
+		$userId = $this->params('user');
+
+		if($groupId){
+			$group = $this->ecampCore_GroupRepo()->find($groupId);
+		}		
+		
+		if($campId){
+			$camp = $this->ecampCore_CampRepo()->find($campId);
+		}
+		
+		if($userId){
+			$user = $this->ecampCore_UserRepo()->find($userId);
+		}
+		
+		return array('group' => $group, 'camp' => $camp, 'user' => $user);
 	}
 	
 	

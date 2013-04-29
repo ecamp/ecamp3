@@ -6,8 +6,9 @@ return array(
 	),
 	
 	'factories' => array(
+		'Router'        => 'EcampCore\Router\RouterFactory',
+			
 		'ecampcore.internal.acl' => function($sm){	return new EcampCore\Acl\DefaultAcl($sm);	},
-		
 		
 		'ecampcore.acl.contextprovider'	=> function($sm){
 			$contextStorage = $sm->get('ecampcore.acl.contextstorage');

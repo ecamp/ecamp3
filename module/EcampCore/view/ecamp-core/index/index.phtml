@@ -20,3 +20,42 @@
 <form style="display: inline" action="<?php echo $this->url('core/default', array('controller' => 'index', 'action' => 'createRepoProviders')); ?>">
 	<input type="submit" value="Create Repo-Provider" />
 </form>
+
+
+<hr/>
+<?php if($this->group) { ?>
+
+<?php echo $this->group->getDescription(); ?>
+
+<hr/>
+Children:
+<ul>
+	<?php 
+		foreach($this->group->getChildren() as $child){
+			echo "<li>";
+			echo "<a href='" . $this->url('group/camp/default', array('controller' => 'index', 'action' => 'index', 'group' => $child->getId())) . "'>";
+			echo $child->getDescription();
+			echo "</a>";
+			echo "</li>";
+		}
+	?>
+</ul>
+
+<hr/>
+<a href="<?php echo $this->url('group/camp/default', array('controller' => 'index', 'action' => 'index', 'group' => $this->group, 'camp' => $this->camp)); ?>">Group Camp Link</a>
+
+<?php } ?>
+
+
+<?php if($this->camp) { ?>
+<hr/>
+<?php echo $this->camp->getTitle(); ?>
+<?php } ?>
+
+
+<?php if($this->user) { ?>
+<hr/>
+<a href ="<?php echo $this->url('user/camp/default', array('controller' => 'index', 'action' => 'index', 'user' => $this->user, 'camp' => $this->camp)); ?>">User Camp Link</a>
+<br />
+<?php echo $this->user->getUsername(); ?>
+<?php } ?>

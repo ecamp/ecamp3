@@ -2,6 +2,7 @@
 
 namespace EcampCore\DI;
 
+use Zend\ServiceManager\AbstractPluginManager;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 
@@ -17,6 +18,9 @@ abstract class DependencyLocator
 	 * @see Zend\ServiceManager.ServiceLocatorAwareInterface::setServiceLocator()
 	 */
 	public function setServiceLocator(ServiceLocatorInterface $serviceLocator){
+		while($serviceLocator instanceof AbstractPluginManager){
+			$serviceLocator = $serviceLocator->getServiceLocator();
+		}
 		$this->serviceLocator = $serviceLocator;
 	}
 	
