@@ -1,5 +1,7 @@
 <?php
 /*
+ *  $Id: $
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
  * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
@@ -20,36 +22,22 @@
 namespace Doctrine\DBAL;
 
 /**
- * Class to store and retrieve the version of Doctrine
+ * Doctrine\DBAL\ConnectionException
  *
- * 
- * @link    www.doctrine-project.org
- * @since   2.0
- * @version $Revision$
- * @author  Benjamin Eberlei <kontakt@beberlei.de>
- * @author  Guilherme Blanco <guilhermeblanco@hotmail.com>
- * @author  Jonathan Wage <jonwage@gmail.com>
- * @author  Roman Borschel <roman@code-factory.org>
+ * @license     http://www.opensource.org/licenses/lgpl-license.php LGPL
+ * @link        www.doctrine-project.org
+ * @since       2.4
+ * @author      Lars Strojny <lars@strojny.net>
  */
-class Version
+class SQLParserUtilsException extends DBALException
 {
-    /**
-     * Current Doctrine Version
-     */
-    const VERSION = '2.3.4';
-
-    /**
-     * Compares a Doctrine version with the current one.
-     *
-     * @param string $version Doctrine version to compare.
-     * @return int Returns -1 if older, 0 if it is the same, 1 if version
-     *             passed as argument is newer.
-     */
-    public static function compare($version)
+    public static function missingParam($paramName)
     {
-        $currentVersion = str_replace(' ', '', strtolower(self::VERSION));
-        $version = str_replace(' ', '', $version);
+        return new self(sprintf('Value for :%1$s not found in params array. Params array key should be "%1$s"', $paramName));
+    }
 
-        return version_compare($version, $currentVersion);
+    public static function missingType($typeName)
+    {
+        return new self(sprintf('Value for :%1$s not found in types array. Types array key should be "%1$s"', $typeName));
     }
 }
