@@ -18,12 +18,11 @@
  * along with eCamp.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 namespace EcampCore\Service;
 
-use EcampCore\Acl\DefaultAcl;
 use EcampCore\Entity\User;
-
+use EcampCore\Acl\DefaultAcl;
+use EcampCore\Auth\AuthenticationService;
 
 /**
  * @method EcampCore\Service\SupportService Simulate
@@ -37,19 +36,20 @@ class SupportService
 	 * @return void
 	 */
 	public function _setupAcl(){
-		$this->acl->allow(DefaultAcl::ADMIN, 				$this, 'SupportUser');
-		$this->acl->allow(DefaultAcl::ADMIN_IN_USER_VIEW, 	$this, 'StopUserSupport');
+		$this->getAcl()->allow(User::ROLE_ADMIN, DefaultAcl::RESOURCE_USER, 'SupportService::SupportUser');
 	}
 		
 	
 	public function SupportUser(User $user){
-		$contextStorage = $this->getServiceLocator()->get('ecamp.acl.contextstorage');
-		$contextStorage->getSupportedUserStorage()->write($user->getId());
+		$this->aclRequire($this->me(), $user, 'SupportService::SupportUser');
+		
+		$auth = new AuthenticationService();
+		$auth->replaceIdentity($user->getId());
 	}
 	
 	public function StopUserSupport(){
-		$contextStorage = $this->getServiceLocator()->get('ecamp.acl.contextstorage');
-		$contextStorage->getSupportedUserStorage()->clear();
+		$auth = new AuthenticationService();
+		$auth->restoreIdentity();
 	}
 	
 }

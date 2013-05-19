@@ -30,8 +30,7 @@ use Doctrine\ORM\Mapping as ORM;
 class EventType extends BaseEntity
 {
 
-	public function __construct()
-	{
+	public function __construct(){
 		$this->eventPrototypes = new \Doctrine\Common\Collections\ArrayCollection();
 	}
 
@@ -55,11 +54,6 @@ class EventType extends BaseEntity
 	 * @ORM\JoinColumn(nullable=false)
 	 */
 	private $campType;
-	
-	/**
-	 * @ORM\ManyToMany(targetEntity="EventPrototype", inversedBy="eventTypes")
-	 * @ORM\JoinTable(name="allowed_event_prototypes")
-	 */
 	
 	/**
 	 * @ORM\ManyToMany(targetEntity="EventPrototype")

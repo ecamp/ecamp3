@@ -15,7 +15,7 @@ class EventController
 		$eventRenderer = new EventRenderer();
 		$eventRenderer->setServiceLocator($this->getServiceLocator());
 		
-		$event = $this->ecampCore_EventRepo()->find('1');
+		$event = $this->ecampCore_EventRepo()->find('ee1');
 		$view = $eventRenderer->render($event);
 		
 		return $view;

@@ -20,6 +20,8 @@
 
 namespace EcampCore\Entity;
 
+use Zend\Permissions\Acl\Resource\ResourceInterface;
+
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -35,11 +37,12 @@ class Camp extends BaseEntity
 	const VISIBILITY_CONTRIBUTORS = 'contributors';
 	
 	
-	public function __construct(){
+	public function __construct(CampType $campType){
 		parent::__construct();
 		
 		$this->visibility = self::VISIBILITY_PUBLIC;
 		
+		$this->campType = $campType;
 		$this->userCamps = new \Doctrine\Common\Collections\ArrayCollection();
 		$this->events    = new \Doctrine\Common\Collections\ArrayCollection();
 	}
@@ -49,16 +52,23 @@ class Camp extends BaseEntity
 	/**
 	 * Short identifier, unique inside group or user
 	 * @var string
-	 * @ORM\Column(type="string", length=32, nullable=false )
+	 * @ORM\Column(type="string", length=32, nullable=false)
 	 */
 	private $name;
 
 
 	/**
 	 * @var string
-	 * @ORM\Column(type="string", length=64, nullable=false )
+	 * @ORM\Column(type="string", length=64, nullable=false)
 	 */
 	private $title;
+	
+	
+	/**
+	 * @var string
+	 * @ORM\Column(type="string", length=128, nullable=false)
+	 */
+	private $motto;
 
 	
 	/**
@@ -75,18 +85,29 @@ class Camp extends BaseEntity
 	 */
 	private $creator;
 
+	
 	/**
 	 * @var User
 	 * @ORM\ManyToOne(targetEntity="User", inversedBy="mycamps")
 	 */
 	private $owner;
 
+	
 	/**
 	 * @var Group
 	 * @ORM\ManyToOne(targetEntity="Group", inversedBy="camps")
 	 */
 	private $group;
+	
+	
+	/**
+	 * @var CampType
+	 * @ORM\ManyToOne(targetEntity="CampType")
+	 * @ORM\JoinColumn(nullable=false)
+	 */
+	private $campType;
 
+	
 	/**
 	 * @var Doctrine\Common\Collections\ArrayCollection
 	 * @ORM\OneToMany(targetEntity="UserCamp", mappedBy="camp")
@@ -170,6 +191,15 @@ class Camp extends BaseEntity
 	public function belongsToUser(){
 		return isset($this->owner);
 	}
+	
+	
+	/**
+	 * @return CampType
+	 */
+	public function getCampType(){
+		return $this->campType;
+	}
+	
 	
 	/** 
 	 * @return array

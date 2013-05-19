@@ -21,6 +21,7 @@
 namespace EcampCore\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use EcampCore\Acl\BelongsToCamp;
 
 /**
  * The day belongs to the subcamp and can provide additional background
@@ -29,7 +30,9 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity(repositoryClass="EcampCore\Repository\DayRepository")
  * @ORM\Table(name="days", uniqueConstraints={@ORM\UniqueConstraint(name="offset_period_idx", columns={"dayOffset", "period_id"})})
  */
-class Day extends BaseEntity
+class Day 
+	extends BaseEntity
+	implements BelongsToCamp
 {
 
 	/**
@@ -49,6 +52,7 @@ class Day extends BaseEntity
 	 * @ORM\Column(type="text", nullable=true)
 	 */
 	private $notes;
+	
 
 	public function __construct(Period $period, $dayOffset)
 	{

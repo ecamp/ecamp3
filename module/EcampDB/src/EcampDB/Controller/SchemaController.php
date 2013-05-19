@@ -2,6 +2,8 @@
 
 namespace EcampDB\Controller;
 
+use Zend\View\Model\ViewModel;
+
 use Zend\Mvc\Controller\AbstractActionController;
 
 class SchemaController extends AbstractActionController 
@@ -18,7 +20,9 @@ class SchemaController extends AbstractActionController
 		$metadatas = $em->getMetadataFactory()->getAllMetadata();
 		$schemaTool->createSchema($metadatas);
 		
-		$this->redirect()->toRoute('db', array('controller' => 'index', 'action' => 'index'));
+		$viewModel = new ViewModel();
+		$viewModel->setTemplate('ecamp-db/index/index');
+		return $viewModel;
 	}
 	
 	public function updateAction(){
@@ -28,7 +32,9 @@ class SchemaController extends AbstractActionController
 		$metadatas = $em->getMetadataFactory()->getAllMetadata();
 		$schemaTool->updateSchema($metadatas);
 		
-		$this->redirect()->toRoute('db', array('controller' => 'index', 'action' => 'index'));
+		$viewModel = new ViewModel();
+		$viewModel->setTemplate('ecamp-db/index/index');
+		return $viewModel;
 	}
 	
 	public function dropAction(){
@@ -37,7 +43,9 @@ class SchemaController extends AbstractActionController
 		$schemaTool = new \Doctrine\ORM\Tools\SchemaTool($em);
 		$schemaTool->dropDatabase();
 		
-		$this->redirect()->toRoute('db', array('controller' => 'index', 'action' => 'index'));
+		$viewModel = new ViewModel();
+		$viewModel->setTemplate('ecamp-db/index/index');
+		return $viewModel;
 	}
 	
 }

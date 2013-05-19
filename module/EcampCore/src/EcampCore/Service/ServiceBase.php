@@ -3,13 +3,17 @@
 namespace EcampCore\Service;
 
 
+
+use Zend\Authentication\AuthenticationService;
+
 use Zend\Permissions\Acl\Resource\ResourceInterface;
 
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 
-use EcampCore\ServiceUtil\ServiceWrapper;
+use EcampCore\Entity\User;
 use EcampCore\Entity\BaseEntity;
+use EcampCore\ServiceUtil\ServiceWrapper;
 use EcampCore\Acl\DefaultAcl;
 
 
@@ -17,8 +21,7 @@ use EcampCore\Acl\DefaultAcl;
  * @method CoreApi\Service\LoginService Simulate
  */
 abstract class ServiceBase implements 
-	ServiceLocatorAwareInterface,
-	ResourceInterface
+	ServiceLocatorAwareInterface
 {
 	/**
 	 * @var ServiceLocatorInterface
@@ -39,10 +42,6 @@ abstract class ServiceBase implements
 		return $this->serviceLocator;
 	}
 	
-	protected function locateService($name){
-		return $this->serviceLocator->get($name);
-	}
-	
 	
 	
 	public function __call($method, $args){
@@ -51,7 +50,7 @@ abstract class ServiceBase implements
 		}
 	
 		if($this->serviceLocator->has('__services__.' . $method)){
-			return $this->serviceLocator->get('__internal_services__.' . $method);
+			return $this->serviceLocator->get('__services__.' . $method);
 		}
 	}
 	
@@ -85,20 +84,34 @@ abstract class ServiceBase implements
 		return $this->acl;
 	}
 	
-	
 	/**
-	 * @return EcampCore\Acl\ContextProvider
+	 * @param User $user
+	 * @param BaseEntity $entity
+	 * @param $privilege
+	 * @throws EcampCore\Acl\Exception\NoAccessException
 	 */
-	protected function getContextProvider(){
-		return $this->locateService('ecampcore.acl.contextprovider');
+	protected function aclRequire(User $user, BaseEntity $entity, $privilege){
+		$this->_setupAcl();
+		$this->getAcl()->isAllowedException($user, $entity, $privilege);
 	}
 	
+	
 	/**
-	 * @return EcampCore\Acl\Context
+	 * @return EcampCore\Entity\User
 	 */
-	protected function getContext(){
-		return $this->locateService('ecampcore.acl.context');
+	protected function me(){
+		$auth = new AuthenticationService();
+		$id = $auth->getIdentity();
+		
+		if($id){
+			$userRepo = $this->getServiceLocator()->get('ecampcore.repo.user'); 
+			return $userRepo->find($id);
+		} else {
+			return null;
+		}
 	}
+	
+	
 	
 	
 	/**
@@ -107,10 +120,6 @@ abstract class ServiceBase implements
 	 * @return void
 	 */
 	abstract public function _setupAcl();
-	
-	public function getResourceId(){
-		return get_class($this);
-	}
 	
 	
 	
@@ -134,17 +143,6 @@ abstract class ServiceBase implements
 			ServiceWrapper::addValidationMessage($message);
 	}
 	
-	protected function validationContextAssert(BaseEntity $entity)
-	{
-		if(! $this->getContext()->Check($entity))
-		{
-			ServiceWrapper::addValidationMessage(
-				get_class($entity) . " with ID (" . $entity->getId() . 
-				") does not belong to any Entity in the Context."
-			);
-		}
-	}
-	
 	protected function addValidationMessage($message){
 		ServiceWrapper::addValidationMessage($message);
 	}
@@ -152,6 +150,7 @@ abstract class ServiceBase implements
 	protected function hasFailed(){
 		return ServiceWrapper::hasFailed();
 	}
+	
 	
 	protected function persist($entity){
 		$this->getEM()->persist($entity);

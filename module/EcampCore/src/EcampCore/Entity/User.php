@@ -28,14 +28,16 @@ use Zend\Permissions\Acl\Role\RoleInterface;
  * @ORM\Table(name="users")
  *
  */
-class User extends BaseEntity
-	implements RoleInterface
+class User 
+	extends BaseEntity
+	implements CampOwnerInterface
 {
 	const STATE_NONREGISTERED 	= "NonRegistered";
 	const STATE_REGISTERED 		= "Registered";
 	const STATE_ACTIVATED  		= "Activated";
 	const STATE_DELETED			= "Deleted";
 
+	const ROLE_GUEST			= "Guest";
 	const ROLE_USER				= "User";
 	const ROLE_ADMIN			= "Admin";
 
@@ -150,7 +152,7 @@ class User extends BaseEntity
 	 * @var \Doctrine\Common\Collections\ArrayCollection
 	 * @ORM\OneToMany(targetEntity="Camp", mappedBy="owner")
 	 */
-	private $mycamps;
+	private $myCamps;
 
 
 	/**
@@ -184,14 +186,6 @@ class User extends BaseEntity
 	 */
 	private $relationshipTo;
 
-
-	/**
-     * @return string
-	 */
-	public function getRoleId(){
-		return "USER::" . $this->id;
-	}
-	
 	
 	/**
 	 * @return string
@@ -453,9 +447,8 @@ class User extends BaseEntity
 	/**
 	 * @return array
 	 */
-	public function getMyCamps()
-	{
-		return $this->mycamps;
+	public function getCamps(){
+		return $this->myCamps;
 	}
 
 	/**
@@ -463,8 +456,7 @@ class User extends BaseEntity
 	 */
 	public function getDisplayName()
 	{
-		if( !empty( $this->scoutname ) )
-		{
+		if(!empty($this->scoutname)){
 			return $this->scoutname;
 		}
 
@@ -477,8 +469,7 @@ class User extends BaseEntity
 	public function getFullName()
 	{
 		$name = "";
-		if( !empty( $this->scoutname ) )
-		{
+		if(!empty($this->scoutname)){
 			$name .= $this->scoutname.", ";
 		}
 

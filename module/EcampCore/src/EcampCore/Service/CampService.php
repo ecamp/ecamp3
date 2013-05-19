@@ -2,20 +2,32 @@
 
 namespace EcampCore\Service;
 
-
 use EcampCore\Acl\DefaultAcl;
+use EcampCore\Acl\Resource;
+
+use EcampCore\Acl\Assertion\UserSelf;
+use EcampCore\Acl\Assertion\GroupMember;
+use EcampCore\Acl\Assertion\CampMember;
+use EcampCore\Acl\Assertion\CampManager;
+
+use EcampCore\Entity\User;
+use EcampCore\Entity\Group;
+use EcampCore\Entity\Camp;
+use EcampCore\Entity\CampOwnerInterface;
 use EcampCore\Validator\Entity\CampValidator;
 
-use EcampCore\Entity\Camp;
-use EcampCore\Entity\Period;
-
 use EcampCore\Service\Params\Params;
+
+use EcampCore\Repository\Provider\CampRepositoryProvider;
+use EcampCore\Service\Provider\PeriodServiceProvider;
 
 /**
  * @method EcampCore\Service\CampService Simulate
  */
 class CampService
 	extends ServiceBase
+	implements 	CampRepositoryProvider
+	,			PeriodServiceProvider
 {
 	
 	/**
@@ -23,9 +35,14 @@ class CampService
 	 * @return void
 	 */
 	public function _setupAcl(){
-		$this->getAcl()->allow(DefaultAcl::MEMBER, $this, 'Get');
-		$this->getAcl()->allow(DefaultAcl::MEMBER, $this, 'Create');
-		$this->getAcl()->allow(DefaultAcl::CAMP_CREATOR, $this, 'Delete');
+		
+		$this->getAcl()->allow(User::ROLE_USER, Resource::CAMP, __CLASS__.'::Get');
+		
+		$this->getAcl()->allow(User::ROLE_USER, Resource::CAMP, __CLASS__.'::Delete', new CampManager());
+		$this->getAcl()->allow(User::ROLE_USER, Resource::CAMP, __CLASS__.'::Update', new CampMember());
+		
+		$this->getAcl()->allow(User::ROLE_USER, Resource::USER, __CLASS__.'::Create', new UserSelf());
+		$this->getAcl()->allow(User::ROLE_USER, Resource::GROUP, __CLASS__.'::Create', new GroupMember());
 	}
 	
 	
@@ -37,16 +54,21 @@ class CampService
 	 * 
 	 * @return CoreApi\Entity\Camp | NULL
 	 */
-	public function Get($id = null)
-	{
-		if(is_null($id))
-		{	return $this->getContextProvider()->getCamp();	}
+	public function Get($id){
+		$camp = null;
 		
-		if(is_string($id))
-		{	return $this->repo()->campRepository()->find($id);	}
+		if(is_string($id)){
+			$camp = $this->ecampCore_CampRepo()->find($id);
+		}
 			
-		if($id instanceof Camp)
-		{	return $id;	}
+		if($id instanceof Camp){
+			$camp = $id;
+		}
+		
+		if($camp != null){
+			$this->aclRequire($this->me(), $camp, __CLASS__.'::'.__METHOD__);
+			return $camp;
+		}
 		
 		return null;
 	}
@@ -55,9 +77,10 @@ class CampService
 	/**
 	 * Deletes the current Camp
 	 */
-	public function Delete()
-	{
-		$camp = $this->getContextProvider()->getCamp();
+	public function Delete(Camp $camp){
+		
+		$this->aclRequire($this->me(), $camp, __CLASS__.'::'.__METHOD__);
+		
 		$this->remove($camp);
 	}
 	
@@ -67,9 +90,10 @@ class CampService
 	 * 
 	 * @return CoreApi\Entity\Camp
 	 */
-	public function Update(Params $params)
-	{
-		$camp = $this->getContextProvider()->getCamp();
+	public function Update(Camp $camp, Params $params){
+		
+		$this->aclRequire($this->me(), $camp, __CLASS__.'::'.__METHOD__);
+		
 		$campValidator = new CampValidator($camp);
 		
 		$this->validationFailed(
@@ -81,51 +105,43 @@ class CampService
 	
 	/**
 	 * Creats a new Camp
-	 * Whether the camp belongs to a user or to a group 
-	 * depends on the Context.
-	 * 
-	 * If the Group is set in the Context, 
-	 * it belongs to this Group.
-	 * Otherwise, the camp belongs to the authenticated User.
+	 * If Group is defined, the Camp belongs to this Group.
+	 * Otherwise it belongs to the User.
 	 * 
 	 * @return CoreApi\Entity\Camp
 	 */
-	public function Create(Params $params)
-	{
-		$group = $this->getContextProvider()->getGroup();
-		$user  = $this->getContextProvider()->getMe();
-		$campName =  $params->getValue('name');
+	public function Create(CampOwnerInterface $owner, Params $params){
 		
+		$this->aclRequire($this->me(), $owner , __CLASS__.'::'.__METHOD__);
+		
+		$campName =  $params->getValue('name');
+
 		$camp = new Camp();
 		$this->persist($camp);
 		
-		if($group == null){
-			
+		if($owner instanceof User){
 			// Create personal Camp
-			if($this->repo()->campRepository()->findPersonalCamp($user->getId(), $campName) != null){
+			if($this->ecampCore_CampRepo()->findPersonalCamp($owner->getId(), $campName) != null){
 				$params->addError('name', "Camp with same name already exists.");
 				$this->validationFailed();
 			}
-			
-			$camp->setOwner($user);
-		}
-		else{
-			
+			$camp->setOwner($owner);
+		} 
+		elseif($owner instanceof Group) {
 			// Create group Camp
-			if($this->repo()->campRepository()->findGroupCamp($group->getId(), $campName) != null){
+			if($this->ecampCore_CampRepo()->findGroupCamp($owner->getId(), $campName) != null){
 				$params->addError('name', "Camp with same name already exists.");
 				$this->validationFailed();
 			}
-			
-			$camp->setGroup($group);
+			$camp->setGroup($owner);
 		}
 		
-		$camp->setCreator($user);
+		$camp->setCreator($this->me());
 		
 		$campValidator = new CampValidator($camp);
 		$this->validationFailed( !$campValidator->applyIfValid($params) );
 		
-		$this->service()->periodService()->CreatePeriodForCamp($camp, $params);
+		$this->ecampCore_PeriodService()->CreatePeriodForCamp($camp, $params);
 		
 		return $camp;
 	}

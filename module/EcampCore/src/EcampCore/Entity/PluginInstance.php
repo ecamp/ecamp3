@@ -29,6 +29,7 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 
 use Doctrine\ORM\Mapping as ORM;
+use EcampCore\Acl\BelongsToCamp;
 
 /**
  * @ORM\Entity(repositoryClass="EcampCore\Repository\PluginInstanceRepository")
@@ -36,7 +37,8 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class PluginInstance 
 	extends BaseEntity
-	implements ServiceLocatorAwareInterface
+	implements  ServiceLocatorAwareInterface
+	,			BelongsToCamp
 {
 	
 	public function __construct(ServiceLocatorInterface $serviceLocator){
@@ -85,6 +87,11 @@ class PluginInstance
 	
 	public function getEvent(){
 		return $this->event;
+	}
+	
+	
+	public function getCamp(){
+		return $this->event->getCamp();
 	}
 	
 	/**

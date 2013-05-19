@@ -30,9 +30,12 @@ use Doctrine\ORM\Mapping as ORM;
 class EventTemplate extends BaseEntity
 {
 
-    public function __construct($eventPrototype = null)
+    public function __construct($eventPrototype, Medium $medium, $filename)
     {
+        $this->medium = $medium;
         $this->eventPrototype = $eventPrototype;
+        $this->filename = $filename;
+        
         $this->pluginPositions = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
@@ -78,6 +81,10 @@ class EventTemplate extends BaseEntity
 	    return $this->medium;
 	}
 	
+	
+	/**
+	 * @return \Doctrine\Common\Collections\ArrayCollection
+	 */
 	public function getPluginPositions()
 	{
 	    return $this->pluginPositions;

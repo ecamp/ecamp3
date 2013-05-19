@@ -21,6 +21,7 @@
 namespace EcampCore\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use EcampCore\Acl\BelongsToCamp;
 
 /**
  * Container for an event.
@@ -29,14 +30,17 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity(repositoryClass="EcampCore\Repository\EventRepository")
  * @ORM\Table(name="events")
  */
-class Event extends BaseEntity
+class Event 
+	extends BaseEntity
+	implements BelongsToCamp
 {
     public function __construct(){
-        $this->plugins  = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->eventInstances = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->pluginInstances = new \Doctrine\Common\Collections\ArrayCollection();
     }
     
 	/**
-	 * @ORM\Column(type="text" )
+	 * @ORM\Column(type="text")
 	 */
 	private $title;
 
@@ -44,11 +48,6 @@ class Event extends BaseEntity
 	 * @ORM\ManyToOne(targetEntity="Camp")
 	 */
 	private $camp;
-
-	/**
-	 * @ORM\ManyToOne(targetEntity="User")
-	 */
-	private $user;
 
 	/**
 	 * @ORM\OneToMany(targetEntity="EventInstance", mappedBy="event", cascade={"all"}, orphanRemoval=true)
@@ -63,8 +62,7 @@ class Event extends BaseEntity
 	/**
 	 * @var EventPrototype
 	 * @ORM\ManyToOne(targetEntity="EventPrototype")
-	 * @ORM\JoinColumn(nullable=true, onDelete="cascade")
-	 * TODO set nullable false
+	 * @ORM\JoinColumn(nullable=false, onDelete="cascade")
 	 */
 	private $prototype;
 	
@@ -130,8 +128,7 @@ class Event extends BaseEntity
 	 */
 	public function getPluginsByPrototype(PluginPrototype $prototype)
 	{
-	    $closure = function(PluginInstance $instance) use ($prototype)
-	    {
+	    $closure = function(PluginInstance $instance) use ($prototype){
 	        return $instance->getPluginPrototype()->getId() == $prototype->getId();
 	    };
 	    
@@ -143,8 +140,7 @@ class Event extends BaseEntity
 	 */
 	public function countPluginsByPrototype(PluginPrototype $prototype)
 	{
-		$closure = function(PluginInstance $instance) use ($prototype)
-		{
+		$closure = function(PluginInstance $instance) use ($prototype){
 			return $instance->getPluginPrototype()->getId() == $prototype->getId();
 		};
 		 

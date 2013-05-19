@@ -21,13 +21,16 @@
 namespace EcampCore\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use EcampCore\Acl\BelongsToCamp;
 
 /**
  * EventCategory
  * @ORM\Entity
  * @ORM\Table(name="event_categories")
  */
-class EventCategory extends BaseEntity
+class EventCategory 
+	extends BaseEntity
+	implements BelongsToCamp
 {
 
 	public function __construct()

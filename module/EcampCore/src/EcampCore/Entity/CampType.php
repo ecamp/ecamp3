@@ -30,8 +30,8 @@ use Doctrine\ORM\Mapping as ORM;
 class CampType extends BaseEntity
 {
 
-	public function __construct()
-	{
+	public function __construct(){
+		$this->eventTypes = new \Doctrine\Common\Collections\ArrayCollection();
 	}
 
 	/**
@@ -81,7 +81,7 @@ class CampType extends BaseEntity
 	}
 	
 	/**
-	 * @return array
+	 * @return Doctrine\Common\Collections\ArrayCollection
 	 */
 	public function getEventTypes(){
 		return $this->eventTypes;

@@ -21,9 +21,9 @@ class ServiceFactory
 	
 	public function createService(ServiceLocatorInterface $serviceLocator){
 		$service = $serviceLocator->get($this->serviceAlias);
-		$serviceWrapper = new ServiceWrapper($serviceLocator, $service);
+		$em = $serviceLocator->get('doctrine.entitymanager.orm_default');
 		
-		return $serviceWrapper;
+		return new ServiceWrapper($em, $service);
 	}
 	
 }

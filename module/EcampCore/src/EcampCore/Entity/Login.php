@@ -21,13 +21,16 @@
 namespace EcampCore\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use EcampCore\Acl\BelongsToUser;
 
 
 /**
  * @ORM\Entity(repositoryClass="EcampCore\Repository\LoginRepository")
  * @ORM\Table(name="logins")
  */
-class Login extends BaseEntity
+class Login 
+	extends BaseEntity
+	implements BelongsToUser
 {
 
 	/**

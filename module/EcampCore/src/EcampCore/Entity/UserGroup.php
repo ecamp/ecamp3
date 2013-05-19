@@ -21,6 +21,7 @@
 namespace EcampCore\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use EcampCore\Acl\BelongsToGroup;
 
 /**
  * Connection between User and Group
@@ -29,7 +30,9 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity(repositoryClass="EcampCore\Repository\UserGroupRepository")
  * @ORM\Table(name="user_groups", uniqueConstraints={@ORM\UniqueConstraint(name="user_group_unique",columns={"user_id","group_id"})})
  */
-class UserGroup extends BaseEntity
+class UserGroup 
+	extends BaseEntity
+	implements BelongsToGroup
 {
 	const ROLE_NONE    = 0;
 	const ROLE_MEMBER  = 10;

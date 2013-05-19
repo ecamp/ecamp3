@@ -23,12 +23,24 @@ abstract class BaseEntity
 	 */
 	protected $id;
 	
+	
+	/**
+	 * @var Uid
+	 * @ORM\OneToOne(targetEntity="EcampCore\Entity\Uid", cascade={"persist", "remove"})
+	 * @ORM\JoinColumn(name="id", nullable=true)
+	 */
+	protected $uid;
+	
+	
 	public function __construct(){
 		$this->createdAt = new \DateTime();
 		$this->createdAt->setTimestamp(0);
 		
 		$this->updatedAt = new \DateTime();
 		$this->updatedAt->setTimestamp(0);
+		
+		$this->uid = new UId(get_class($this));
+		$this->id = $this->uid->getId();
 	}
 	
 

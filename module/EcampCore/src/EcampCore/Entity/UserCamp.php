@@ -21,6 +21,7 @@
 namespace EcampCore\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use EcampCore\Acl\BelongsToCamp;
 
 /**
  * Connection between User and camp
@@ -29,13 +30,15 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity(repositoryClass="EcampCore\Repository\ContributorRepository")
  * @ORM\Table(name="user_camps", uniqueConstraints={@ORM\UniqueConstraint(name="user_camp_unique",columns={"user_id","camp_id"})})
  */
-class UserCamp extends BaseEntity
+class UserCamp 
+	extends BaseEntity
+	implements BelongsToCamp
 {
-	const ROLE_NONE    = 0;
-	const ROLE_GUEST   = 10;
-	const ROLE_MEMBER  = 50;
-	const ROLE_MANAGER = 90;
-	const ROLE_OWNER   = 100;
+	const ROLE_NONE    = 'none';
+	const ROLE_GUEST   = 'guest';
+	const ROLE_MEMBER  = 'member';
+	const ROLE_MANAGER = 'manager';
+	const ROLE_OWNER   = 'owner';
 
 	public function __construct(User $user = null, Camp $camp = null)
 	{
@@ -66,7 +69,7 @@ class UserCamp extends BaseEntity
 
 	/**
 	 * The role, a user currently have in this camp
-	 * @ORM\Column(type="integer")
+	 * @ORM\Column(type="string")
 	 */
 	private $role;
 

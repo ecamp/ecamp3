@@ -21,6 +21,7 @@
 namespace EcampCore\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use EcampCore\Acl\BelongsToCamp;
 
 /**
  * A period is defined by its starting date and duration (in days).
@@ -29,7 +30,9 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity(repositoryClass="EcampCore\Repository\PeriodRepository")
  * @ORM\Table(name="periods")
  */
-class Period extends BaseEntity
+class Period 
+	extends BaseEntity
+	implements BelongsToCamp
 {
 	public function __construct($camp = null)
 	{

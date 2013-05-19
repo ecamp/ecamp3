@@ -21,13 +21,16 @@
 namespace EcampCore\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use EcampCore\Acl\BelongsToCamp;
 
 /**
  * Specifies the exact time/duration/subcamp when an event happens
  * @ORM\Entity(repositoryClass="EcampCore\Repository\EventInstanceRepository")
  * @ORM\Table(name="event_instances")
  */
-class EventInstance extends BaseEntity
+class EventInstance 
+	extends BaseEntity
+	implements BelongsToCamp
 {
 
 	/**
