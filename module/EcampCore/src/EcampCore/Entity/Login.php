@@ -21,7 +21,9 @@
 namespace EcampCore\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use EcampCore\Acl\BelongsToUser;
+
+use EcampLib\Entity\BaseEntity;
+use EcampCore\Acl\BelongsToParentResource;
 
 
 /**
@@ -30,7 +32,7 @@ use EcampCore\Acl\BelongsToUser;
  */
 class Login 
 	extends BaseEntity
-	implements BelongsToUser
+	implements BelongsToParentResource
 {
 
 	/**
@@ -79,6 +81,11 @@ class Login
 	 */
 	public function getUser()
 	{
+		return $this->user;
+	}
+	
+	
+	public function getParentResource(){
 		return $this->user;
 	}
 

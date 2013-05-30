@@ -2,11 +2,11 @@
 
 namespace EcampCore\Service;
 
-use EcampCore\Acl\DefaultAcl;
 use EcampCore\Service\Params\Params;
 
 use EcampCore\Entity\Period;
 use EcampCore\Entity\Day;
+use EcampLib\Service\ServiceBase;
 
 /**
  * @method EcampCore\Service\DayService Simulate
@@ -14,17 +14,6 @@ use EcampCore\Entity\Day;
 class DayService 
 	extends ServiceBase
 {
-	
-	/**
-	 * Setup ACL
-	 * @return void
-	 */
-	public function _setupAcl(){
-		$this->getAcl()->allow(DefaultAcl::CAMP_MEMBER, $this, 'AppendDay');
-		$this->getAcl()->allow(DefaultAcl::CAMP_MEMBER, $this, 'RemoveDay');
-		$this->getAcl()->allow(DefaultAcl::CAMP_MEMBER, $this, 'Update');
-	}
-	
 	
 	/**
 	 * @param Period $period

@@ -22,13 +22,18 @@ namespace EcampCore\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
+use EcampLib\Entity\BaseEntity;
+use EcampCore\Acl\BelongsToParentResource;
+
 /**
  * Relationship between users (friends, etc.)
  * A Friendship needs one row in each direction. A single row only consitutes a invitation.
  * @ORM\Entity(repositoryClass="EcampCore\Repository\UserRelationshipRepository")
  * @ORM\Table(name="user_relationships", uniqueConstraints={@ORM\UniqueConstraint(name="from_to_unique",columns={"from_id","to_id"})})
  */
-class UserRelationship extends BaseEntity
+class UserRelationship 
+	extends BaseEntity
+	implements BelongsToParentResource
 {
 	const TYPE_FRIEND  = 1;
 	// const TYPE_BLOCK   = 2;
@@ -75,6 +80,10 @@ class UserRelationship extends BaseEntity
 	 */
 	public function getFrom() 
 	{
+		return $this->from;
+	}
+	
+	public function getParentResource(){
 		return $this->from;
 	}
 	

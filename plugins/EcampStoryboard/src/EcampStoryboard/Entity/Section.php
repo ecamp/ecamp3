@@ -2,8 +2,7 @@
 
 namespace EcampStoryboard\Entity;
 
-
-use EcampCore\Entity\BaseEntity;
+use EcampLib\Entity\BaseEntity;
 use EcampCore\Entity\PluginInstance;
 
 use Doctrine\ORM\Mapping as ORM;

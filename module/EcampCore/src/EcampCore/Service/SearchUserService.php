@@ -22,8 +22,7 @@
 
 namespace EcampCore\Service;
 
-use Core\Acl\DefaultAcl;
-
+use EcampLib\Service\ServiceBase;
 /**
  * @method CoreApi\Service\SearchUserService Simulate
  */

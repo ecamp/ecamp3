@@ -24,13 +24,19 @@ class Adapter
     const UNKNOWN_FAILURE 		= 'Unknown error!';
 
 
-    /** @var EcampCore\Entity\User $user */
+    /** 
+     * @var EcampCore\Entity\User $user
+     */
     private $user;
     
-    /** @var EcampCore\Entity\Login $login */
+    /**
+     * @var EcampCore\Entity\Login $login 
+     */
     private $login;
     
-    /** @var string $password */
+    /** 
+     * @var string $password
+     */
     private $password;
 
 
@@ -86,17 +92,18 @@ class Adapter
     }
 
 
-     /**
+    /**
      * Factory for Result
      *
-     *@param integer    The Result code, see Zend_Auth_Result
-     *@param mixed      The Message, can be a string or array
-     *@return Zend\Authentication\Result
+     * @param integer    The Result code, see Zend_Auth_Result
+     * @param mixed      The Message, can be a string or array
+     * @return Zend\Authentication\Result
      */
-    private function authResult($code, $messages = array())
-	{
-        if( !is_array( $messages ) )
-        {	$messages = array($messages);	}
+    private function authResult($code, $messages = array()){
+    	
+        if(!is_array($messages)){
+        	$messages = array($messages);
+        }
 
 		return new Result($code, $this->user->getId(), $messages);
     }

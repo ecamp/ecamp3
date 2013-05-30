@@ -21,7 +21,9 @@
 namespace EcampCore\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use EcampCore\Acl\BelongsToCamp;
+
+use EcampLib\Entity\BaseEntity;
+use EcampCore\Acl\BelongsToParentResource;
 
 /**
  * Connection between User and camp
@@ -32,7 +34,7 @@ use EcampCore\Acl\BelongsToCamp;
  */
 class UserCamp 
 	extends BaseEntity
-	implements BelongsToCamp
+	implements BelongsToParentResource
 {
 	const ROLE_NONE    = 'none';
 	const ROLE_GUEST   = 'guest';
@@ -52,8 +54,7 @@ class UserCamp
 		$this->requestedRole = null;
 		$this->requestAcceptedBy = null;
 	}
-
-
+	
 
 	/**
 	 * @ORM\ManyToOne(targetEntity="User")
@@ -110,6 +111,11 @@ class UserCamp
 	{
 		return $this->camp;
 	}
+	
+	public function getParentResource(){
+		return $this->camp;
+	}
+	
 
 	public function setUser(User $user)
 	{
@@ -213,13 +219,4 @@ class UserCamp
 		return $this;
 	}
 
-
-	public static function RoleFilter($role)
-	{
-		return
-		function (UserCamp $usercamp) use ($role)
-		{
-			return $usercamp->getRole() == $role;
-		};
-	}
 }

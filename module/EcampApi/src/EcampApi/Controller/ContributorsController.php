@@ -6,7 +6,7 @@ namespace EcampApi\Controller;
 use EcampApi\Serializer\UserSerializer;
 use EcampApi\Serializer\ContributorSerializer;
 
-use EcampCore\Controller\AbstractRestfulBaseController;
+use EcampLib\Controller\AbstractRestfulBaseController;
 use EcampCore\Repository\Provider\ContributorRepositoryProvider;
 
 use Zend\View\Model\JsonModel;

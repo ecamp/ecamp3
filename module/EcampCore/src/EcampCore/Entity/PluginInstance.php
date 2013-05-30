@@ -25,11 +25,13 @@
 
 namespace EcampCore\Entity;
 
+use EcampLib\Entity\BaseEntity;
+
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 
 use Doctrine\ORM\Mapping as ORM;
-use EcampCore\Acl\BelongsToCamp;
+use EcampCore\Acl\BelongsToParentResource;
 
 /**
  * @ORM\Entity(repositoryClass="EcampCore\Repository\PluginInstanceRepository")
@@ -37,8 +39,9 @@ use EcampCore\Acl\BelongsToCamp;
  */
 class PluginInstance 
 	extends BaseEntity
-	implements  ServiceLocatorAwareInterface
-	,			BelongsToCamp
+	implements  BelongsToParentResource
+	,			ServiceLocatorAwareInterface
+	
 {
 	
 	public function __construct(ServiceLocatorInterface $serviceLocator){
@@ -86,6 +89,10 @@ class PluginInstance
 	}
 	
 	public function getEvent(){
+		return $this->event;
+	}
+	
+	public function getParentResource(){
 		return $this->event;
 	}
 	

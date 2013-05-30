@@ -23,7 +23,7 @@ class SectionService
 		$this->getAcl()->allow(DefaultAcl::CAMP_MEMBER, $this, 'moveDown');
 		
 // 		$this->getAcl()->allow(DefaultAcl::GUEST, $this, 'create');
-// 		$this->getAcl()->allow(DefaultAcl::GUEST, $this, 'delete');
+		$this->getAcl()->allow(DefaultAcl::GUEST, $this, 'delete');
 // 		$this->getAcl()->allow(DefaultAcl::GUEST, $this, 'moveUp');
 // 		$this->getAcl()->allow(DefaultAcl::GUEST, $this, 'moveDown');
 	}

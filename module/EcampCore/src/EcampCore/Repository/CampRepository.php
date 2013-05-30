@@ -5,9 +5,10 @@ namespace EcampCore\Repository;
 use Doctrine\ORM\EntityRepository;
 
 use EcampCore\Entity\UserCamp;
+use EcampCore\ServiceManager\AutoInjectDependenciesInterface;
 
-
-class CampRepository extends EntityRepository
+class CampRepository 
+	extends EntityRepository
 {
 	
 	public function findUserCamps($userId){

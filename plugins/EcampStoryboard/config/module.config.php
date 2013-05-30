@@ -4,13 +4,17 @@ return array(
 		'modules' => array(
 			'storyboard' => array(
 				'repos' => array(
-					'module_namespace' => 'EcampStoryboard',
-					'config_file' => __DIR__ . '/service.config.repos.php',
+					'module_namespace' 	=> 'EcampStoryboard',
+					'config_file' 		=> __DIR__ . '/service.config.repos.php',
+					'traits_path' 		=> __DIR__ . '../src/EcampStoryboard/RepositoryTraits/',
+					'traits_namespace'	=> 'EcampStoryboard\RepositoryTraits',
 				),
 					
 				'services' => array(
-					'services_path' => __DIR__ . '/../src/EcampStoryboard/Service/',
-					'config_file' => __DIR__ . '/service.config.services.php',
+					'services_path' 	=> __DIR__ . '/../src/EcampStoryboard/Service/',
+					'config_file' 		=> __DIR__ . '/service.config.services.php',
+					'traits_path' 		=> __DIR__ . '../src/EcampStoryboard/ServiceTraits/',
+					'traits_namespace'	=> 'EcampStoryboard\ServiceTraits'
 				)
 			)
 		)
@@ -93,13 +97,6 @@ return array(
 			)
 		),
 		
-		'configuration' => array(
-			'orm_default' => array(
-				'filters' => array(
-					'storyboard-section' => 'EcampStoryboard\DbFilter\SectionFilter'
-				)
-			)
-		)
 	),
 	
 );

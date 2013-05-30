@@ -21,7 +21,9 @@
 namespace EcampCore\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Zend\Permissions\Acl\Role\RoleInterface;
+use Doctrine\Common\Collections\Criteria;
+
+use EcampLib\Entity\BaseEntity;
 
 /**
  * @ORM\Entity(repositoryClass="EcampCore\Repository\UserRepository")
@@ -437,21 +439,6 @@ class User
 
 
 	/**
-	 * @return array
-	 */
-	public function getUsergroups()
-	{
-		return $this->userGroups;
-	}
-
-	/**
-	 * @return array
-	 */
-	public function getCamps(){
-		return $this->myCamps;
-	}
-
-	/**
 	 * @return string
 	 */
 	public function getDisplayName()
@@ -475,39 +462,55 @@ class User
 
 		return $name.$this->firstname . " " . $this->surname;
 	}
+	
+	
+	/**
+	 * @return boolean
+	 */
+	public function isMale(){
+		return ( $this->gender == self::GENDER_MALE );
+	}
+	
+	/**
+	 * @return boolean
+	 */
+	public function isFemale(){
+		return ( $this->gender == self::GENDER_FEMALE );
+	}
+	
 
 
 	/****************************************************************
 	 * User Activation:
-	****************************************************************/
-	public function createNewActivationCode()
-	{
+	 * 
+	 * - createNewActivationCode
+	 * - checkActivationCode
+	 * - activateUser
+	 * - resetActivationCode
+	 ****************************************************************/
+	
+	public function createNewActivationCode(){
 		$guid = hash('sha256', uniqid(md5(mt_rand()), true));
 		$this->activationCode = $guid;
 
 		return $guid;
 	}
 	
-	
 	/**
 	 * @deprecated
 	 */
-	public function getActivationCode()
-	{
+	public function getActivationCode(){
 		return $this->activationCode;
 	}
 
-	public function checkActivationCode($activationCode)
-	{
+	public function checkActivationCode($activationCode){
 		$code = $activationCode;
 
 		return $code == $this->activationCode;
 	}
 
-	public function activateUser($activationCode)
-	{
-		if($this->checkActivationCode($activationCode))
-		{
+	public function activateUser($activationCode){
+		if($this->checkActivationCode($activationCode)){
 			$this->state = self::STATE_ACTIVATED;
 			$this->activationCode = null;
 			return true;
@@ -516,30 +519,244 @@ class User
 		return false;
 	}
 
-	public function resetActivationCode()
-	{
+	public function resetActivationCode(){
 		$this->activationCode = null;
 	}
-	/****************************************************************/
+	
 
-
+	/****************************************************************
+	 * User Friendship:
+	 * 
+	 * - getFriends
+	 * - getSentFriendshipRequests
+	 * - getReceivedFriendshipRequests
+	 * 
+	 * - isFriend
+	 * - hasSentFriendshipRequestTo
+	 * - hasReceivedFriendshipRequestFrom
+	 * 
+	 * - canSendFriendshipRequest
+	 * 
+	 ****************************************************************/
+	
 	/**
-	 * @return boolean
+	 * @return Doctrine\Common\Collections\Collection
 	 */
-	public function isMale()
-	{
-		return ( $this->gender == self::GENDER_MALE );
+	public function getFriends(){
+		return $this->relationshipTo
+			->filter(function($ur){	return $ur->getCounterpart() != null; })
+			->map(function($ur){ return $ur->getFrom(); });
 	}
-
+	
 	/**
-	 * @return boolean
+	 * @return Doctrine\Common\Collections\Collection
 	 */
-	public function isFemale()
-	{
-		return ( $this->gender == self::GENDER_FEMALE );
+	public function getSentFriendshipRequests(){
+		$criteria = Criteria::create();
+		$expr = Criteria::expr();
+		$criteria->where($expr->eq('type', UserRelationship::TYPE_FRIEND));
+		$criteria->andWhere($expr->isNull('counterpart'));
+		
+		return $this->relationshipTo
+			->matching($criteria)
+			->map(function($ur){ return $ur->getFrom(); });
 	}
+	
+	/**
+	 * @return Doctrine\Common\Collections\Collection
+	 */
+	public function getReceivedFriendshipRequests(){
+		$criteria = Criteria::create();
+		$expr = Criteria::expr();
+		$criteria->where($expr->eq('type', UserRelationship::TYPE_FRIEND));
+		$criteria->andWhere($expr->isNull('counterpart'));
+		
+		return $this->relationshipFrom
+			->matching($criteria)
+			->map(function($ur){ return $ur->getFrom(); });
+	}
+	
+	
+	public function isFriend(User $user){
+		$criteriaFrom = Criteria::create();
+		$criteriaTo   = Criteria::create();
+		$expr = Criteria::expr();
+		
+		$criteriaFrom->where($expr->eq('type', UserRelationship::TYPE_FRIEND));
+		$criteriaFrom->andWhere($expr->eq('to', $user));
+		$criteriaFrom->setMaxResults(1);
+		
+		$criteriaTo->where($expr->eq('type', UserRelationship::TYPE_FRIEND));
+		$criteriaTo->andWhere($expr->eq('from', $user));
+		$criteriaTo->setMaxResults(1);
+		
+		return 
+			!$this->relationshipTo->matching($criteriaFrom)->isEmpty() &&
+			!$this->relationshipFrom->matching($criteriaTo)->isEmpty();
+	}
+	
+	public function hasSentFriendshipRequestTo(User $user){
+		$criteria = Criteria::create();
+		$expr = Criteria::expr();
+		$criteria->where($expr->eq('type', UserRelationship::TYPE_FRIEND));
+		$criteria->andWhere($expr->eq('to', $user));
+		$criteria->andWhere($expr->isNull('counterpart'));
+		$criteria->setMaxResults(1);
 
+		return !$this->relationshipTo->matching($criteria)->isEmpty();
+	}
+	
+	public function hasReceivedFriendshipRequestFrom(User $user){
+		$criteria = Criteria::create();
+		$expr = Criteria::expr();
+		$criteria->where($expr->eq('type', UserRelationship::TYPE_FRIEND));
+		$criteria->andWhere($expr->eq('from', $user));
+		$criteria->andWhere($expr->isNull('counterpart'));
+		$criteria->setMaxResults(1);
 
+		return !$this->relationshipFrom->matching($criteria)->isEmpty();
+	}
+	
+	
+	public function canSendFriendshipRequest(User $user){
+		$criteriaFrom = Criteria::create();
+		$criteriaTo   = Criteria::create();
+		$expr = Criteria::expr();
+		
+		$criteriaFrom->where($expr->eq('to', $user));
+		$criteriaFrom->setMaxResults(1);
+		
+		$criteriaTo->where($expr->eq('from', $user));
+		$criteriaTo->setMaxResults(1);
+		
+		return
+			$this->relationshipTo->matching($criteriaFrom)->isEmpty() &&
+			$this->relationshipFrom->matching($criteriaTo)->isEmpty();
+	}
+	
+	
+	/****************************************************************
+	 * User Group:
+	 * 
+	 * - getUserGroups
+	 * - getGroups
+	 * 
+	 * - getSentMembershipRequests
+	 * - getReceivedMembershipInvitations
+	 * 
+	 * - isMemberOf
+	 * - hasSentMembershipRequestTo
+	 * - hasReceivedMembershipInvitationFrom
+	 * 
+	 * - canSendMembershipRequest
+	 * 
+	 ****************************************************************/
+	
+	/**
+	 * @return Doctrine\Common\Collections\Collection
+	 */
+	public function getUserGroups(){
+		return $this->userGroups;
+	}
+	
+	/**
+	 * @return Doctrine\Common\Collections\Collection
+	 */
+	public function getGroups(){
+		$criteria = Criteria::create();
+		$expr = Criteria::expr();
+		$criteria->where($expr->isNull('requestedRole'));
+		$criteria->andWhere($expr->eq('invitationAccepted', true));
+		
+		return $this->userGroups
+			->matching($criteria)
+			->map(function($ug){ return $ug->getGroup(); });
+	}
+	
+	/**
+	 * @return Doctrine\Common\Collections\Collection
+	 */
+	public function getSentMembershipRequests(){
+		$criteria = Criteria::create();
+		$expr = Criteria::expr();
+		$criteria->where($expr->isNull('requestAcceptedBy'));
+		$criteria->andWhere($expr->eq('invitationAccepted', true));
+		
+		return $this->userGroups
+			->matching($criteria)
+			->map(function($ug){ return $ug->getGroup(); });
+	}
+	
+	/**
+	 * @return Doctrine\Common\Collections\Collection
+	 */
+	public function getReceivedMembershipInvitations(){
+		$criteria = Criteria::create();
+		$expr = Criteria::expr();
+		$criteria->where($expr->isNull('requestedRole'));
+		$criteria->andWhere($expr->eq('invitationAccepted', false));
+		
+		return $this->userGroups
+		->matching($criteria)
+		->map(function($ug){ return $ug->getGroup(); });
+	}
+	
+	
+	public function isMemberOf(Group $group){
+		$criteria = Criteria::create();
+		$expr = Criteria::expr();
+		$criteria->where($expr->isNull('requestedRole'));
+		$criteria->andWhere($expr->eq('invitationAccepted', true));
+		$criteria->andWhere($expr->eq('group', $group));
+		
+		return !$this->userGroups->matching($criteria)->isEmpty();
+	}
+	
+	public function hasSentMembershipRequestTo(Group $group){
+		$criteria = Criteria::create();
+		$expr = Criteria::expr();
+		$criteria->where($expr->isNull('requestAcceptedBy'));
+		$criteria->andWhere($expr->eq('invitationAccepted', true));
+		$criteria->andWhere($expr->eq('group', $group));
+		
+		return !$this->userGroups->matching($criteria)->isEmpty();
+	}
+	
+	public function hasReceivedMembershipInvitationFrom(Group $group){
+		$criteria = Criteria::create();
+		$expr = Criteria::expr();
+		$criteria->where($expr->isNull('requestedRole'));
+		$criteria->andWhere($expr->eq('invitationAccepted', false));
+		$criteria->andWhere($expr->eq('group', $group));
+		
+		return !$this->userGroups->matching($criteria)->isEmpty();
+	}
+	
+	public function canSendMembershipRequest(Group $group){
+		$criteria = Criteria::create();
+		$criteria->where(Criteria::expr()->eq('group', $group));
+		
+		return $this->userGroups->matching($criteria)->isEmpty();
+	}
+	
+	
+	/****************************************************************
+	 * User Camps:
+	 *
+	 * - getUserCamps
+	 * - getCamps
+	 *
+	 ****************************************************************/
+	
+	
+	/**
+	 * @return Doctrine\Common\Collections\Collection
+	 */
+	public function getCamps(){
+		return $this->myCamps;
+	}
+	
+	
 	public function getAcceptedUserCamps()
 	{
 		$closure = function(UserCamp $element)
@@ -554,6 +771,7 @@ class User
 	 * Friendship methods				 *
 	\* * * * * * * * * * * * * * * * * * */
 
+	
 	public function getRelationshipFrom()
 	{
 		return $this->relationshipFrom;
@@ -731,25 +949,25 @@ class User
 		return true;
 	}
 
-	public function isManagerOf($group)
-	{
-		$membership = $this->getMembershipWith($group);
+// 	public function isManagerOf($group)
+// 	{
+// 		$membership = $this->getMembershipWith($group);
 
-		if( isset($membership) && $membership->isManager())
-		return true;
+// 		if( isset($membership) && $membership->isManager())
+// 		return true;
 			
-		return false;
-	}
+// 		return false;
+// 	}
 
-	public function isMemberOf($group)
-	{
-		$membership = $this->getMembershipWith($group);
+// 	public function isMemberOf($group)
+// 	{
+// 		$membership = $this->getMembershipWith($group);
 
-		if( isset($membership) && $membership->isMember())
-		return true;
+// 		if( isset($membership) && $membership->isMember())
+// 		return true;
 			
-		return false;
-	}
+// 		return false;
+// 	}
 
 	public function hasOpenRequest($group)
 	{

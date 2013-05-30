@@ -20,9 +20,10 @@
 
 namespace EcampCore\Entity;
 
-use Zend\Permissions\Acl\Resource\ResourceInterface;
-
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\Criteria;
+
+use EcampLib\Entity\BaseEntity;
 
 /**
  * @ORM\Entity(repositoryClass="EcampCore\Repository\CampRepository")
@@ -216,7 +217,7 @@ class Camp extends BaseEntity
 	}
 
 	/**
-	 * @return array
+	 * @return ArrayCollection
 	 */
 	public function getUserCamps(){
 		return $this->usercamps;
@@ -233,38 +234,51 @@ class Camp extends BaseEntity
 
 	
 	/**
-	 * @return array
+	 * @return Doctrine\Common\Collections\Collection
+	 */
+	public function getManagers(){
+		$criteria = Criteria::create()->where(Criteria::expr()->eq('role', UserCamp::ROLE_MANAGER));
+		$memperUserCamps = $this->getUserCamps()->matching($criteria);
+		
+		return $memperUserCamps->map(function($uc){
+			return $uc->getUser();
+		});
+	} 
+	
+	/**
+	 * @return Doctrine\Common\Collections\Collection
 	 */
 	public function getMembers(){
-		$members = new \Doctrine\Common\Collections\ArrayCollection();
-
-		foreach($this->usercamps as $userCamp) {
-			if($userCamp->isMember()) {
-				$members->add($userCamp->getUser());
-			}
-		}
-
-		return $members;
+		$criteria = Criteria::create()->where(Criteria::expr()->eq('role', UserCamp::ROLE_MEMBER));
+		$memperUserCamps = $this->getUserCamps()->matching($criteria);
+	
+		return $memperUserCamps->map(function($uc){
+			return $uc->getUser();
+		});
 	}
 	
 	
 	public function isManager(User $user){
-		$closure = function($key, $element) use ($user){
-			return  $element->getRole() == UserCamp::ROLE_MANAGER 
-				&&  $element->getUser() == $user;
-		};
-	
-		return $this->getUserCamps()->exists( $closure );
+		
+		$criteria = Criteria::create();
+		$expr = Criteria::expr();
+		$criteria->setMaxResults(1);
+		$criteria->where($expr->eq('user', $user));
+		$criteria->andWhere($expr->eq('role', UserCamp::ROLE_MANAGER));
+		
+		return !$this->getUserCamps()->matching($criteria)->isEmpty();
 	}
 	
 	
 	public function isMember(User $user){
-		$closure = function($key, $element) use ($user){
-			return  $element->getRole() == UserCamp::ROLE_MEMBER 
-				&&  $element->getUser()->getId() == $user->getId();
-		};
-	
-		return $this->getUserCamps()->exists( $closure );
+		
+		$criteria = Criteria::create();
+		$expr = Criteria::expr();
+		$criteria->setMaxResults(1);
+		$criteria->where($expr->eq('user', $user));
+		$criteria->andWhere($expr->eq('role', UserCamp::ROLE_MEMBER));
+		
+		return !$this->getUserCamps()->matching($criteria)->isEmpty();
 	}
 
 

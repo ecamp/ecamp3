@@ -2,12 +2,10 @@
 
 namespace EcampCore\Service;
 
-use CoreApi\App\AppEvent;
-
-use EcampCore\Acl\DefaultAcl;
-use EcampCore\Service\Params\Params;
-
 use EcampCore\Entity\User;
+
+use EcampLib\Service\ServiceBase;
+use EcampLib\Service\Params\Params;
 
 /**
  * @method EcampCore\Service\RegisterService Simulate
@@ -15,16 +13,6 @@ use EcampCore\Entity\User;
 class RegisterService 
 	extends ServiceBase
 {
-	
-	/**
-	 * Setup ACL
-	 * @return void
-	 */
-	public function _setupAcl(){
-		$this->acl->allow(DefaultAcl::GUEST, $this, 'Register');
-		$this->acl->allow(DefaultAcl::GUEST, $this, 'Activate');
-	}
-	
 	
 	/**
 	 * @return EcampCore\Entity\User

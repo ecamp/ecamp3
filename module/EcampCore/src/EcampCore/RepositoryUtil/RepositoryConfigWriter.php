@@ -14,50 +14,8 @@ use Doctrine\ORM\EntityManager;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 class RepositoryConfigWriter
+	extends WriterBase
 {
-	
-	private $repositoryConfig = 
-"<?php
-return array(
-	
-	'aliases' => array(
-<<REPOSITORY-ALIASES>>
-	),
-
-	'factories' => array(
-<<REPOSITORY-FACTORY>>
-	),
-	
-);
-";
-	
-	private $repositoryFactory = 
-"		'<<REPOSITORY-ALIAS>>' => new EcampCore\RepositoryUtil\RepositoryFactory('<<ENTITY-CLASS>>'),";
-	
-	private $repositoryAlias = 
-"		'__repos__.<<REPOSITORY-GET-METHOD>>' => '<<REPOSITORY-ALIAS>>',";
-		
-	
-	
-	/**
-	 * @var Zend\ServiceManager\ServiceLocatorInterface
-	 */
-	private $serviceLocator;
-	
-	/**
-	 * @var Doctrine\ORM\EntityManager
-	 */
-	private $em;
-	
-	
-	public function __construct(
-		ServiceLocatorInterface $serviceLocator,
-		EntityManager $em
-	){
-		$this->serviceLocator = $serviceLocator;
-		$this->em = $em;
-	}
-	
 	
 	public function writeRepositoryConfigs(){
 
@@ -66,7 +24,8 @@ return array(
 		foreach($config->ecamp->modules as $module){
 			$this->writeRepositoryConfig(
 				$module->repos->module_namespace,
-				$module->repos->config_file
+				$module->repos->config_file,
+				$module->repos->traits_namespace
 			);
 		}
 		
@@ -74,42 +33,48 @@ return array(
 	
 	
 	private function writeRepositoryConfig(
-			$moduleNamespace,
-			$repositoryConfigFile
+		$moduleNamespace,
+		$repositoryConfigFile,
+		$traitNamespace
 	){
 		$repositoryFactories = array();
 		$repositoryAliases = array();
 		
-		$classMetadataList = $this->em->getMetadataFactory()->getAllMetadata();
-		foreach($classMetadataList as $classMetadata){
+		$repositoryies = $this->getRepositories($moduleNamespace);
+		
+		foreach($repositoryies as $repository){
+
+			$repositoryFactories[] = str_replace(
+				array(
+					'/*ENTITY-CLASS*/', 
+					'/*REPOSITORY-ALIAS*/'
+				),
+				array(
+					$repository, 
+					$this->getRepositoryAlias($repository)
+				),
+				file_get_contents(__DIR__ . '/tpl/service.config.repos.factory.tpl')
+			);
 			
-			if( $classMetadata->name != 'EcampCore\Entity\BaseEntity' &&
-				substr($classMetadata->name, 0, strlen($moduleNamespace)) == $moduleNamespace
-			){
-				$entityClass = $classMetadata->name;
-				
-				$repositoryMethod = str_replace('\Entity\\', '_', $classMetadata->name);
-				$repositoryMethod = lcfirst($repositoryMethod) . "Repo";
-				
-				$repositoryAlias  = str_replace('\\Entity\\', '.repo.', $classMetadata->name);
-				$repositoryAlias = strtolower($repositoryAlias);
-				
-				$repositoryFactories[] = str_replace(
-					array('<<ENTITY-CLASS>>', '<<REPOSITORY-ALIAS>>'),
-					array($entityClass, $repositoryAlias),
-					$this->repositoryFactory);
-				
-				$repositoryAliases[] = str_replace(
-					array('<<REPOSITORY-GET-METHOD>>', '<<REPOSITORY-ALIAS>>'),
-					array($repositoryMethod, $repositoryAlias),
-					$this->repositoryAlias);
-			}
+			$repositoryCases[] = str_replace(
+				array(
+					'/*TRAIT-CLASS*/', 
+					'/*SETTER-METHOD*/', 
+					'/*REPOSITORY-ALIAS*/'
+				),
+				array(
+					$this->getRepositoryTrait($traitNamespace, $repository),
+					$this->getSetterMethod($repository),
+					$this->getRepositoryAlias($repository)
+				),
+				file_get_contents(__DIR__ . '/tpl/service.config.repos.initializer.tpl')
+			);
 		}
 		
 		$src = str_replace(
-			array("<<REPOSITORY-FACTORY>>", "<<REPOSITORY-ALIASES>>"),
-			array(implode(PHP_EOL, $repositoryFactories), implode(PHP_EOL, $repositoryAliases)),
-			$this->repositoryConfig);
+			array("/*REPOSITORY-FACTORY*/", "/*REPOSITORY-CASE*/"),
+			array(implode(PHP_EOL, $repositoryFactories), implode(PHP_EOL, $repositoryCases)),
+			file_get_contents(__DIR__ . '/tpl/service.config.repos.tpl'));
 		
 		file_put_contents($repositoryConfigFile, $src);
 		

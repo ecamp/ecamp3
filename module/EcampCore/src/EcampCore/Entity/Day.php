@@ -21,7 +21,9 @@
 namespace EcampCore\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use EcampCore\Acl\BelongsToCamp;
+
+use EcampLib\Entity\BaseEntity;
+use EcampCore\Acl\BelongsToParentResource;
 
 /**
  * The day belongs to the subcamp and can provide additional background
@@ -32,7 +34,7 @@ use EcampCore\Acl\BelongsToCamp;
  */
 class Day 
 	extends BaseEntity
-	implements BelongsToCamp
+	implements BelongsToParentResource
 {
 
 	/**
@@ -118,6 +120,11 @@ class Day
 	{
 		return $this->period;
 	}
+	
+	
+	public function getParentResource(){
+		return $this->period;
+	}
 
 	
 	/**
@@ -127,4 +134,5 @@ class Day
 	{
 		return $this->period->getCamp();
 	}
+	
 }

@@ -20,6 +20,8 @@
 
 namespace EcampCore\Entity;
 
+use EcampLib\Entity\BaseEntity;
+
 use Doctrine\ORM\Mapping as ORM;
 
 /**

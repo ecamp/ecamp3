@@ -2,24 +2,41 @@
 
 namespace EcampCore\Controller;
 
-
-use EcampCore\Repository\Provider\CampRepositoryProvider;
-use EcampCore\Repository\Provider\GroupRepositoryProvider;
-use EcampCore\Repository\Provider\UserRepositoryProvider;
-use EcampCore\Service\Provider\UserServiceProvider;
-
 use EcampCore\RepositoryUtil\RepositoryConfigWriter;
 use EcampCore\RepositoryUtil\RepositoryProviderWriter;
 
 use EcampCore\ServiceUtil\ServiceConfigWriter;
 use EcampCore\ServiceUtil\ServiceProviderWriter;
+use EcampCore\RepositoryUtil\RepositoryTraitWriter;
+
+use EcampLib\Controller\AbstractBaseController;
+
+use EcampCore\Repository\GroupRepository;
+use EcampCore\Repository\CampRepository;
+use EcampCore\Repository\UserRepository;
 
 class IndexController extends AbstractBaseController 
-	implements 	UserRepositoryProvider
-	,			UserServiceProvider
-	,			GroupRepositoryProvider
-	,			CampRepositoryProvider
 {
+	/** @var GroupRepository */
+	private $groupRepo;
+	
+	/** @var CampRepository */
+	private $campRepo;
+	
+	/** @var UserRepository */
+	private $userRepo;
+	
+	public function __construct(
+		GroupRepository $groupRepo,
+		CampRepository $campRepo,
+		UserRepository $userRepo
+	){
+		$this->groupRepo = $groupRepo;
+		$this->campRepo = $campRepo;
+		$this->userRepo = $userRepo;
+	}
+	
+	
 	public function indexAction(){
 		
 		$groupId = $this->params('group');
@@ -27,15 +44,15 @@ class IndexController extends AbstractBaseController
 		$userId = $this->params('user');
 
 		if($groupId){
-			$group = $this->ecampCore_GroupRepo()->find($groupId);
+			$group = $this->groupRepo->find($groupId);
 		}		
 		
 		if($campId){
-			$camp = $this->ecampCore_CampRepo()->find($campId);
+			$camp = $this->campRepo->find($campId);
 		}
 		
 		if($userId){
-			$user = $this->ecampCore_UserRepo()->find($userId);
+			$user = $this->userRepo->find($userId);
 		}
 		
 		return array('group' => $group, 'camp' => $camp, 'user' => $user);
@@ -68,9 +85,9 @@ class IndexController extends AbstractBaseController
 	
 	public function createRepoProvidersAction(){
 		$em = $this->getServiceLocator()->get('doctrine.entitymanager.orm_default');
-		$repoProviderWriter = new RepositoryProviderWriter($this->getServiceLocator(), $em);
+		$repoTraitWriter = new RepositoryTraitWriter($this->getServiceLocator(), $em);
 		
-		$repoProviderWriter->writeRepositoryProviderInterfaces();
+		$repoTraitWriter->writeRepositoryTraits();
 		
 		return $this->redirect()->toRoute('core/default', array('controller' => 'index', 'action' => 'index'));
 	}

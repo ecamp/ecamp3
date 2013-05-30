@@ -5,7 +5,7 @@ namespace EcampApi\Controller;
 
 use EcampApi\Serializer\DaySerializer;
 use EcampCore\Repository\Provider\DayRepositoryProvider;
-use EcampCore\Controller\AbstractRestfulBaseController;
+use EcampLib\Controller\AbstractRestfulBaseController;
 
 use Zend\View\Model\JsonModel;
 

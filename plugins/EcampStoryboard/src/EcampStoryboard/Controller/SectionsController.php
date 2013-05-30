@@ -2,26 +2,16 @@
 
 namespace EcampStoryboard\Controller;
 
-
-
-
 use Exception;
 
-use EcampCore\Controller\AbstractRestfulBaseController;
+use EcampLib\Controller\AbstractRestfulBaseController;
 use EcampCore\Service\Params\Params;
 use EcampCore\ServiceUtil\ValidationException;
-use EcampCore\Repository\Provider\PluginInstanceRepositoryProvider;
-
-use EcampStoryboard\Service\Provider\SectionServiceProvider;
-use EcampStoryboard\Repository\Provider\SectionRepositoryProvider;
 use EcampStoryboard\Serializer\SectionSerializer;
 
 use Zend\View\Model\JsonModel;
 
 class SectionsController extends AbstractRestfulBaseController
-	implements 	PluginInstanceRepositoryProvider
-	,			SectionServiceProvider
-	,			SectionRepositoryProvider
 {
 	
 	public function getList(){

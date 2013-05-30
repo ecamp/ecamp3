@@ -3,7 +3,7 @@
 namespace EcampApi\Controller;
 
 use EcampApi\Serializer\PeriodSerializer;
-use EcampCore\Controller\AbstractRestfulBaseController;
+use EcampLib\Controller\AbstractRestfulBaseController;
 use EcampCore\Repository\Provider\PeriodRepositoryProvider;
 
 use Zend\View\Model\JsonModel;

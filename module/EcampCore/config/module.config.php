@@ -2,18 +2,44 @@
 return array(
 	'ecamp' => array(
 		'modules' => array(
-			'core' => array(
+			'ecampcore' => array(
 				'repos' => array(
-					'module_namespace' => 'EcampCore',
-					'config_file' => __DIR__ . '/service.config.repos.php',
+					'module_namespace' 	=> 'EcampCore',
+					'config_file' 		=> __DIR__ . '/service.config.repos.php',
+					'traits_path' 		=> __DIR__ . '/../src/EcampCore/RepositoryTraits/',
+					'traits_namespace'	=> 'EcampCore\RepositoryTraits'
 				),
 				
 				'services' => array(
-					'services_path' => __DIR__ . '/../src/EcampCore/Service/',
-					'config_file' => __DIR__ . '/service.config.services.php',
+					'services_path' 	=> __DIR__ . '/../src/EcampCore/Service/',
+					'config_file' 		=> __DIR__ . '/service.config.services.php',
+					'traits_path' 		=> __DIR__ . '/../src/EcampCore/ServiceTraits/',
+					'traits_namespace'	=> 'EcampCore\ServiceTraits'
 				),
 			)
+		),
+			
+		'acl' => array(
+			'resources' => array(
+				'EcampCore\Entity\Camp'		=>  null,
+				'EcampCore\Entity\Period' 	=> 'EcampCore\Entity\Camp',
+				'EcampCore\Entity\Day' 		=> 'EcampCore\Entity\Period',
+				// ...
+					
+				'EcampCore\Entity\Group'	=> null,
+				// ...
+				
+				'EcampCore\Entity\User'		=> null,
+				// ...
+			),
+			
+			'roles' => array(
+				EcampCore\Entity\User::ROLE_GUEST	=> null,
+				EcampCore\Entity\User::ROLE_USER	=> EcampCore\Entity\User::ROLE_GUEST,
+				EcampCore\Entity\User::ROLE_ADMIN	=> EcampCore\Entity\User::ROLE_USER
+			),
 		)
+			
 	),
 	
     'router' => array(
@@ -128,14 +154,7 @@ return array(
         	)
 		),
 	),
-	
-    'controllers' => array(
-        'invokables' => array(
-            'EcampCore\Controller\Index' 	=> 'EcampCore\Controller\IndexController',
-            'EcampCore\Controller\Login'	=> 'EcampCore\Controller\LoginController',
-            'EcampCore\Controller\Event'	=> 'EcampCore\Controller\EventController',
-        ),
-    ),
+    
     
 	'view_manager' => array(
         'template_path_stack' => array(
@@ -145,7 +164,7 @@ return array(
 	
 	'doctrine' => array(
 		'driver' => array(
-			'ecamp_entities' => array(
+			'ecamp_core_entities' => array(
 				'class' => 'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
 				'cache' => 'array',
 				'paths' => array(__DIR__ . '/../src/EcampCore/Entity')
@@ -153,28 +172,10 @@ return array(
 			
 			'orm_default' => array(
 				'drivers' => array(
-					'EcampCore\Entity' => 'ecamp_entities'
+					'EcampCore\Entity' => 'ecamp_core_entities'
 				)
 			)
 		),
-		
-		'configuration' => array(
-			'orm_default' => array(
-				'filters' => array(
-					'user' 			=> 'EcampCore\DbFilter\UserFilter',
-					'login' 		=> 'EcampCore\DbFilter\LoginFilter', 
-					
-					'usercamp' 		=> 'EcampCore\DbFilter\UserCampFilter',
-					
-					'camp' 			=> 'EcampCore\DbFilter\CampFilter',
-					'period' 		=> 'EcampCore\DbFilter\PeriodFilter',
-					'day' 			=> 'EcampCore\DbFilter\DayFilter',
-					
-					'event' 		=> 'EcampCore\DbFilter\EventFilter',
-					'eventinstance' => 'EcampCore\DbFilter\EventInstanceFilter',
-					
-				)
-			)
-		)
-	)
+	),
+	
 );

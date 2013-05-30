@@ -22,6 +22,8 @@ namespace EcampCore\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
+use EcampLib\Entity\BaseEntity;
+
 /**
  * EventPrototype
  * @ORM\Entity(readOnly=true)

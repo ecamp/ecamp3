@@ -10,16 +10,25 @@ return array(
         'ZFTool',
         'ZendDeveloperTools',
 
+    		
         'DoctrineTools',
         'DoctrineModule',
         'DoctrineORMModule',
 
+// 		'DiWrapper',
+//		'OcraServiceManager',
+//    	'OcraDiCompiler',
+    	
+    	'ZfcTwig',
+    	
         'Application',
         
+    	'EcampLib',
         'EcampCore',
         'EcampWeb',
         'EcampApi',
         'EcampDB',
+//     	'EcampDev',
         
         'EcampStoryboard'
     ),

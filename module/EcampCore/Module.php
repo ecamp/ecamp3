@@ -26,27 +26,25 @@ class Module implements
     }
     
     public function getServiceConfig(){
-    	$config = array();
-    	$configFiles = array(
-	    	__DIR__ . '/config/service.config.php',
-	    	__DIR__ . '/config/service.config.repos.php', 
-	    	__DIR__ . '/config/service.config.services.php',
-    	);
+    	return include __DIR__ . '/config/service.config.php';
+    	
+//     	$config = array();
+//     	$configFiles = array(
+// 	    	__DIR__ . '/config/service.config.php',
+// 	    	__DIR__ . '/config/service.config.repos.php', 
+// 	    	__DIR__ . '/config/service.config.services.php',
+//     	);
     	 
-    	// Merge all module config options
-    	foreach($configFiles as $configFile) {
-    		$config = ArrayUtils::merge($config, include $configFile);
-    	}
+//     	// Merge all module config options
+//     	foreach($configFiles as $configFile) {
+//     		$config = ArrayUtils::merge($config, include $configFile);
+//     	}
     	
-    	return $config;
+//     	return $config;
     }
     
-    
-    public function onBootstrap(MvcEvent $e){
-    	$sm = $e->getApplication()->getServiceManager(); 
-    	
-    	$em = $sm->get('doctrine.entitymanager.orm_default');
-    	$em->getEventManager()->addEventSubscriber(
-    		new ServiceLocatorAwareEventListener($sm));
+    public function getControllerConfig(){
+    	return include __DIR__ . '/config/controller.config.php';
     }
+    
 }

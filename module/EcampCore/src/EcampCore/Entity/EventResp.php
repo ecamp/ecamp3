@@ -21,7 +21,9 @@
 namespace EcampCore\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use EcampCore\Acl\BelongsToCamp;
+
+use EcampLib\Entity\BaseEntity;
+use EcampCore\Acl\BelongsToParentResource;
 
 /**
  * Container for an event.
@@ -32,7 +34,7 @@ use EcampCore\Acl\BelongsToCamp;
  */
 class EventResp 
 	extends BaseEntity
-	implements BelongsToCamp
+	implements BelongsToParentResource
 {
     public function __construct(){
     }
@@ -62,6 +64,9 @@ class EventResp
 		return $this->event;
 	}
 	
+	public function getParentResource(){
+		return $this->event;
+	}
 	
 	public function setUserCamp(UserCamp $userCamp){
 		$this->userCamp = $userCamp;

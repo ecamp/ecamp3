@@ -2,9 +2,9 @@
 
 namespace EcampCore\Service;
 
-use EcampCore\Acl\DefaultAcl;
 use EcampCore\Entity\User;
-use EcampCore\Service\Params\Params;
+use EcampLib\Service\Params\Params;
+use EcampLib\Service\ServiceBase;
 
 use Zend\Validator\EmailAddress;
 use Zend\Paginator\Paginator;
@@ -15,19 +15,6 @@ use Zend\Paginator\Paginator;
 class UserService 
 	extends ServiceBase
 {
-	
-	/**
-	 * Setup ACL
-	 * @return void
-	 */
-	public function _setupAcl(){
-		$this->getAcl()->allow(DefaultAcl::MEMBER,  $this, 'Get');
-		$this->getAcl()->allow(DefaultAcl::GUEST,   $this, 'Create');
-		$this->getAcl()->allow(DefaultAcl::USER_ME, $this, 'Update');
-		
-		$this->getAcl()->allow(DefaultAcl::MEMBER,  $this, 'GetPaginator');
-	}
-	
 	
 	/**
 	 * Returns the User with the given Identifier

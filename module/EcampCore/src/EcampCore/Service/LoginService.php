@@ -4,13 +4,12 @@ namespace EcampCore\Service;
 
 use Zend\Authentication\AuthenticationService;
 
-use EcampCore\Acl\DefaultAcl;
-use EcampCore\Acl\ContextProvider;
 use EcampCore\Repository\LoginRepository;
-use EcampCore\Service\Params\Params;
+use EcampLib\Service\Params\Params;
 
 use EcampCore\Entity\User;
 use EcampCore\Entity\Login;
+use EcampLib\Service\ServiceBase;
 
 
 /**
@@ -19,18 +18,6 @@ use EcampCore\Entity\Login;
 class LoginService 
 	extends ServiceBase
 {
-	
-	/**
-	 * Setup ACL
-	 */
-	public function _setupAcl(){
-		$this->getAcl()->allow(DefaultAcl::GUEST,  $this, 'Create');
-		$this->getAcl()->allow(DefaultAcl::MEMBER, $this, 'Get');
-		
-		$this->getAcl()->allow(DefaultAcl::GUEST,  $this, 'Login');
-		$this->getAcl()->allow(DefaultAcl::MEMBER, $this, 'Logout');
-	}
-	
 	
 	/**
 	 * @return EcampCore\Entity\Login | NULL

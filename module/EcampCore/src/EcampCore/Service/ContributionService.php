@@ -20,10 +20,10 @@
 
 namespace EcampCore\Service;
 
-use EcampCore\Acl\DefaultAcl;
 use EcampCore\Entity\User;
 use EcampCore\Entity\Camp;
 use EcampCore\Entity\UserCamp;
+use EcampLib\Service\ServiceBase;
 
 /**
  * @method EcampCore\Service\ContributionService Simulate
@@ -32,15 +32,6 @@ class ContributionService
 	extends ServiceBase
 {
 	
-	/**
-	 * Setup ACL
-	 * @return void
-	 */
-	public function _setupAcl()
-	{
-		$this->getAcl()->allow(DefaultAcl::MEMBER, $this, 'Get');
-	}
-		
 	public function Get($id, $camp_id = null){
 		if($camp_id == null)
 		{

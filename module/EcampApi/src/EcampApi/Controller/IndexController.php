@@ -6,17 +6,11 @@ namespace EcampApi\Controller;
 use EcampApi\Serializer\UserSerializer;
 use EcampApi\Serializer\CampSerializer;
 
-use EcampCore\Service\Provider\UserServiceProvider;
-use EcampCore\Repository\Provider\CampRepositoryProvider;
-use EcampCore\Repository\Provider\UserRelationshipRepositoryProvider;
-use EcampCore\Controller\AbstractRestfulBaseController;
+use EcampLib\Controller\AbstractRestfulBaseController;
 
 use Zend\View\Model\JsonModel;
 
 class IndexController extends AbstractRestfulBaseController
-	implements 	CampRepositoryProvider
-	,			UserServiceProvider
-	,			UserRelationshipRepositoryProvider
 {
 	
 	/**
@@ -30,7 +24,7 @@ class IndexController extends AbstractRestfulBaseController
 		$userSerializer = new UserSerializer(
 			$this->params('format'), $this->getEvent()->getRouter());
 		
-		$me = $this->contextProvider()->getMe();
+		$me = $this->me();
 		$meRef = ($me != null) ? $userSerializer->getReference($me) : null;
 		$camps = ($me != null) ? $this->ecampCore_CampRepo()->findUserCamps($me->getId()) : null;
 		$friends = ($me != null) ? $this->ecampCore_UserRelationshipRepo()->findFriends($me) : null;

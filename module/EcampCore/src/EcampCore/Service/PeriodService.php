@@ -20,12 +20,11 @@
 
 namespace EcampCore\Service;
 
-use EcampCore\Acl\DefaultAcl;
-
 use EcampCore\Entity\Day;
 use EcampCore\Entity\Camp;
 use EcampCore\Entity\Period;
-use EcampCore\Service\Params\Params;
+use EcampLib\Service\Params\Params;
+use EcampLib\Service\ServiceBase;
 
 
 /**
@@ -33,19 +32,6 @@ use EcampCore\Service\Params\Params;
  */
 class PeriodService extends ServiceBase
 {
-	
-	/**
-	 * Setup ACL
-	 * @return void
-	 */
-	public function _setupAcl(){
-		$this->acl->allow(DefaultAcl::CAMP_MEMBER, $this, 'Create');
-		$this->acl->allow(DefaultAcl::CAMP_MEMBER, $this, 'Update');
-		$this->acl->allow(DefaultAcl::CAMP_MEMBER, $this, 'Delete');
-		$this->acl->allow(DefaultAcl::CAMP_MEMBER, $this, 'Move');
-		$this->acl->allow(DefaultAcl::CAMP_MEMBER, $this, 'Resize');
-	}
-	
 	
 	/**
 	 * @param Params $params

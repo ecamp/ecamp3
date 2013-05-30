@@ -2,19 +2,25 @@
 
 namespace EcampCore\Controller;
 
-use EcampCore\Repository\Provider\UserRepositoryProvider;
-
 use EcampCore\Auth\Bypass;
 use Zend\Authentication\AuthenticationService;
+use EcampLib\Controller\AbstractBaseController;
+use EcampCore\Repository\UserRepository;
 
-class LoginController 
-	extends 	AbstractBaseController
-	implements	UserRepositoryProvider
+class LoginController extends AbstractBaseController
 {
+	/** @var UserRepository */
+	private $userRepo;
+	
+	
+	public function __construct(UserRepository $userRepo){
+		$this->userRepo = $userRepo;
+	}
+	
 	
 	public function bypassAction(){
 		$id = $this->params()->fromQuery('id') ?: 1;
-		$user = $this->ecampCore_UserRepo()->find($id);
+		$user = $this->userRepo->find($id);
 		
 		$adapter = new Bypass($user);
 		$auth = new AuthenticationService();

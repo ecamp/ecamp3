@@ -8,8 +8,6 @@ use Core\Plugin\RenderContainer;
 use Core\Plugin\RenderPluginPrototype;
 use Core\Plugin\RenderEvent;
 
-use EcampCore\Acl\DefaultAcl;
-
 use EcampCore\Entity\Medium;
 use EcampCore\Entity\Event;
 use EcampCore\Entity\Camp;
@@ -18,6 +16,7 @@ use EcampCore\Entity\PluginInstance;
 
 use EcampCore\Entity\EventPrototype;
 use EcampCore\Entity\PluginPrototype;
+use EcampLib\Service\ServiceBase;
 
 
 /**
@@ -26,23 +25,6 @@ use EcampCore\Entity\PluginPrototype;
 class EventService
 	extends ServiceBase
 {
-	
-	/**
-	 * Setup ACL
-	 * @return void
-	 */
-	public function _setupAcl(){
-		$this->getAcl()->allow(DefaultAcl::MEMBER, $this, 'Create');
-		$this->getAcl()->allow(DefaultAcl::MEMBER, $this, 'Delete');
-		$this->getAcl()->allow(DefaultAcl::MEMBER, $this, 'Get');
-		$this->getAcl()->allow(DefaultAcl::MEMBER, $this, 'GetContainers');
-		$this->getAcl()->allow(DefaultAcl::MEMBER, $this, 'CreateRenderEvent');
-		$this->getAcl()->allow(DefaultAcl::MEMBER, $this, 'getPluginInstance');
-		$this->getAcl()->allow(DefaultAcl::MEMBER, $this, 'getPluginPrototype');
-		$this->getAcl()->allow(DefaultAcl::MEMBER, $this, 'AddPlugin');
-		$this->getAcl()->allow(DefaultAcl::MEMBER, $this, 'RemovePlugin');
-		$this->getAcl()->allow(DefaultAcl::GUEST,  $this, 'getCampOfPluginInstance');
-	}
 	
 	/**
 	 * @return CoreApi\Entity\Event | NULL

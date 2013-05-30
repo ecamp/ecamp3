@@ -57,6 +57,7 @@ class EventRenderer
 			$pluginInstance = $pluginInstances[$pluginPrototypeId];
 			
 			$pluginView = $this->getPluginRenderer()->render($pluginInstance, $medium);
+			$view->setVariable($pluginPos->getContainer(), $pluginView);
 			$view->addChild($pluginView, $pluginPos->getContainer());
 		}
 		

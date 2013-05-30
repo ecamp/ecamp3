@@ -2,11 +2,11 @@
 
 namespace EcampCore\Service;
 
-use EcampCore\Acl\DefaultAcl;
-use EcampCore\Service\Params\Params;
-
 use EcampCore\Entity\Group;
 use EcampCore\Entity\GroupRequest;
+
+use EcampLib\Service\ServiceBase;
+use EcampLib\Service\Params\Params;
 
 /**
  * @method CoreApi\Service\GroupService Simulate

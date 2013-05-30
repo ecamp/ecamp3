@@ -2,14 +2,13 @@
 
 namespace EcampCore\Service;
 
-use EcampCore\Acl\DefaultAcl;
-
 use EcampCore\Entity\Day;
 use EcampCore\Entity\Period;
 use EcampCore\Entity\Event;
 use EcampCore\Entity\EventInstance;
 
-use EcampCore\Service\Params\Params;
+use EcampLib\Service\Params\Params;
+use EcampLib\Service\ServiceBase;
 
 /**
  * @method EcampCore\Service\EventInstanceService Simulate
@@ -17,22 +16,6 @@ use EcampCore\Service\Params\Params;
 class EventInstanceService 
 	extends ServiceBase
 {
-	
-	/**
-	 * Setup ACL
-	 * @return void
-	 */
-	public function _setupAcl(){
-		$this->getAcl()->allow(DefaultAcl::CAMP_MEMBER, $this, 'Get');
-		$this->getAcl()->allow(DefaultAcl::CAMP_MEMBER, $this, 'GetByDay');
-		$this->getAcl()->allow(DefaultAcl::CAMP_MEMBER, $this, 'GetByPeriod');
-		$this->getAcl()->allow(DefaultAcl::CAMP_MEMBER, $this, 'GetByCamp');
-		$this->getAcl()->allow(DefaultAcl::CAMP_MEMBER, $this, 'Create');
-		$this->getAcl()->allow(DefaultAcl::CAMP_MEMBER, $this, 'Move');
-		$this->getAcl()->allow(DefaultAcl::CAMP_MEMBER, $this, 'Resize');
-		$this->getAcl()->allow(DefaultAcl::CAMP_MEMBER, $this, 'Delete');
-	}
-	
 	
 	/**
 	 * @param string $id

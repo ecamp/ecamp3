@@ -21,7 +21,9 @@
 namespace EcampCore\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use EcampCore\Acl\BelongsToCamp;
+
+use EcampLib\Entity\BaseEntity;
+use EcampCore\Acl\BelongsToParentResource;
 
 /**
  * Container for an event.
@@ -32,7 +34,7 @@ use EcampCore\Acl\BelongsToCamp;
  */
 class Event 
 	extends BaseEntity
-	implements BelongsToCamp
+	implements BelongsToParentResource
 {
     public function __construct(){
         $this->eventInstances = new \Doctrine\Common\Collections\ArrayCollection();
@@ -88,6 +90,11 @@ class Event
 	 */
 	public function getCamp()
 	{
+		return $this->camp;
+	}
+	
+	
+	public function getParentResource(){
 		return $this->camp;
 	}
 

@@ -1,19 +1,10 @@
 .*
 
+composer.lock
 config/autoload/*.local.php
 
-data/log/*
-data/log/**/*
+data/*
+data/**/*
 
-data/cache/*
-data/cache/**/*
-
-data/session/*
-data/session/**/*
-
-data/DoctrineORMModule/Proxy/*
-data/DoctrineORMModule/Proxy/**/*
-
-data/unittest/*
-
-public/UnitTests/result
+vendor/*
+vendor/**/*

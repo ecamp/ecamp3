@@ -20,12 +20,11 @@
 
 namespace EcampCore\Service;
 
-use EcampCore\Acl\DefaultAcl;
-
 use EcampCore\Entity\User;
 use EcampCore\Entity\Camp;
 use EcampCore\Entity\UserCamp;
 use EcampCore\Entity\UserRelationship;
+use EcampLib\Service\ServiceBase;
 
 
 /**
@@ -34,19 +33,6 @@ use EcampCore\Entity\UserRelationship;
 class RelationshipService 
 	extends ServiceBase
 {
-
-	public function _setupAcl(){
-		$this->acl->allow(DefaultAcl::MEMBER, $this, 'Get');
-		$this->acl->allow(DefaultAcl::MEMBER, $this, 'GetFriends');
-		$this->acl->allow(DefaultAcl::MEMBER, $this, 'GetRequests');
-		$this->acl->allow(DefaultAcl::MEMBER, $this, 'GetInvitations');
-		$this->acl->allow(DefaultAcl::MEMBER, $this, 'RequestRelationship');
-		$this->acl->allow(DefaultAcl::MEMBER, $this, 'DeleteRequest');
-		$this->acl->allow(DefaultAcl::MEMBER, $this, 'AcceptInvitation');
-		$this->acl->allow(DefaultAcl::MEMBER, $this, 'RejectInvitation');
-		$this->acl->allow(DefaultAcl::MEMBER, $this, 'CancelRelationship');
-		
-	}
 	
 	
 	public function Get($id, $user_id = null){

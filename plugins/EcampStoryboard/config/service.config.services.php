@@ -8,7 +8,7 @@ return array(
 	),
 
 	'factories' => array(
-		'ecampstoryboard.service.section' => new EcampCore\ServiceUtil\ServiceFactory('ecampstoryboard.internal.service.section'),
+		'ecampstoryboard.service.section' => new EcampLib\Service\ServiceFactory('ecampstoryboard.internal.service.section'),
 	),
 
     'invokables' => array(

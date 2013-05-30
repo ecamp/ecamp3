@@ -21,8 +21,8 @@
 namespace EcampCore\Service;
 
 use EcampCore\Entity\User;
-use EcampCore\Acl\DefaultAcl;
 use EcampCore\Auth\AuthenticationService;
+use EcampLib\Service\ServiceBase;
 
 /**
  * @method EcampCore\Service\SupportService Simulate
@@ -31,14 +31,6 @@ class SupportService
 	extends ServiceBase
 {
 	
-	/**
-	 * Setup ACL
-	 * @return void
-	 */
-	public function _setupAcl(){
-		$this->getAcl()->allow(User::ROLE_ADMIN, DefaultAcl::RESOURCE_USER, 'SupportService::SupportUser');
-	}
-		
 	
 	public function SupportUser(User $user){
 		$this->aclRequire($this->me(), $user, 'SupportService::SupportUser');

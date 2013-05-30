@@ -20,11 +20,11 @@
 
 namespace EcampCore\Service;
 
-use EcampCore\Acl\DefaultAcl;
 
 use EcampCore\Entity\User;
 use EcampCore\Entity\Group;
 use EcampCore\Entity\UserGroup;
+use EcampLib\Service\ServiceBase;
 
 
 /**
@@ -32,25 +32,6 @@ use EcampCore\Entity\UserGroup;
  */
 class MembershipService extends ServiceBase
 {
-	
-	public function _setupAcl(){
-		$this->getAcl()->allow(DefaultAcl::MEMBER, 			$this, 'Get');
-		$this->getAcl()->allow(DefaultAcl::MEMBER, 			$this, 'GetMembers');
-		$this->getAcl()->allow(DefaultAcl::MEMBER, 			$this, 'GetGroups');
-		$this->getAcl()->allow(DefaultAcl::GROUP_MANAGER, 	$this, 'GetRequests');
-		$this->getAcl()->allow(DefaultAcl::MEMBER, 			$this, 'GetInvitations');
-		$this->getAcl()->allow(DefaultAcl::MEMBER, 			$this, 'RequestMembership');
-		$this->getAcl()->allow(DefaultAcl::MEMBER, 			$this, 'DeleteRequest');
-		$this->getAcl()->allow(DefaultAcl::GROUP_MANAGER, 	$this, 'AcceptRequest');
-		$this->getAcl()->allow(DefaultAcl::GROUP_MANAGER, 	$this, 'RejectRequest');
-		$this->getAcl()->allow(DefaultAcl::GROUP_MEMBER, 	$this, 'LeaveGroup');
-		$this->getAcl()->allow(DefaultAcl::GROUP_MANAGER, 	$this, 'InviteUser');
-		$this->getAcl()->allow(DefaultAcl::GROUP_MANAGER, 	$this, 'DeleteInvitation');
-		$this->getAcl()->allow(DefaultAcl::MEMBER, 			$this, 'AcceptInvitation');
-		$this->getAcl()->allow(DefaultAcl::MEMBER, 			$this, 'RejectInvitation');
-		$this->getAcl()->allow(DefaultAcl::GROUP_MANAGER, 	$this, 'KickOutUser');
-		
-	}
 	
 	/**
 	 * Returns the requested UserGroup Entity.

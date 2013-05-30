@@ -4,7 +4,7 @@ namespace EcampApi\Controller;
 
 use EcampApi\Serializer\EventSerializer;
 use EcampCore\Repository\Provider\EventRepositoryProvider;
-use EcampCore\Controller\AbstractRestfulBaseController;
+use EcampLib\Controller\AbstractRestfulBaseController;
 
 use Zend\View\Model\JsonModel;
 

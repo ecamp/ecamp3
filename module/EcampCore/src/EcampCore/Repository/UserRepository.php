@@ -2,14 +2,14 @@
 
 namespace EcampCore\Repository;
 
-use CoreApi\Entity\User;
-use CoreApi\Entity\UserRelationship;
+use EcampCore\Entity\User;
+use EcampCore\Entity\UserRelationship;
 
 use Doctrine\ORM\EntityRepository;
 
-
 class UserRepository extends EntityRepository
 {
+	
 	/**
 	 * @var CoreApi\Acl\ContextProvider
 	 * @Inject CoreApi\Acl\ContextProvider
@@ -17,8 +17,7 @@ class UserRepository extends EntityRepository
 	protected $contextProvider;
 	
 	
-	public function __construct($em, \Doctrine\ORM\Mapping\ClassMetadata $class)
-	{
+	public function __construct($em, \Doctrine\ORM\Mapping\ClassMetadata $class){
 		parent::__construct($em, $class);
 	}
 	
