@@ -22,18 +22,6 @@ class Module
     
 	
 	public function getServiceConfig(){
-		$config = array();
-		$configFiles = array(
-			__DIR__ . '/config/service.config.php',
-			__DIR__ . '/config/service.config.repos.php',
-			__DIR__ . '/config/service.config.services.php',
-		);
-	
-		// Merge all module config options
-		foreach($configFiles as $configFile) {
-			$config = ArrayUtils::merge($config, include $configFile);
-		}
-		 
-		return $config;
+		return include __DIR__ . '/config/service.config.php';
 	}
 }

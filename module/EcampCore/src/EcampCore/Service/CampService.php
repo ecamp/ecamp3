@@ -62,7 +62,7 @@ class CampService
 		}
 		
 		if($camp != null){
-			$this->aclRequire($this->me(), $camp, __CLASS__.'::'.__METHOD__);
+			//$this->aclRequire($this->me(), $camp, __CLASS__.'::'.__METHOD__);
 			return $camp;
 		}
 		
