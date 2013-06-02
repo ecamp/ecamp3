@@ -8,11 +8,13 @@ use Doctrine\ORM\EntityManager;
 
 /**
  * Provides repositories for all doctrine entities
- * Pattern: EcampCore\Repository\*
+ * Pattern: Ecamp*\Repository\*
  */
 class AbstractRepositoryFactory implements AbstractFactoryInterface
 {
 	private $orm;
+	
+	private $pattern = "/^Ecamp(\w+)\\\\Repository\\\\(\w+)$/";
 	
 	public function __construct($orm = null){
 		$this->orm = $orm ?: 'doctrine.entitymanager.orm_default';
@@ -25,15 +27,12 @@ class AbstractRepositoryFactory implements AbstractFactoryInterface
 	 */
 	private function getEntityClassName($repoName)
 	{
-		$parts       = explode('\\', $repoName);
-		$entityName  = $parts[2];
-		$entityClass = 'EcampCore\\Entity\\' . $entityName ;
-		return $entityClass;
+		return preg_replace($this->pattern,"Ecamp$1\\\\Entity\\\\$2", $repoName);
 	}
 	
 	public function canCreateServiceWithName(ServiceLocatorInterface $serviceLocator, $name, $requestedName)
 	{
-		return preg_match("/^EcampCore\\\\Repository\\\\[a-zA-Z]+$/",$requestedName) && class_exists($this->getEntityClassName($requestedName));
+		return preg_match($this->pattern,$requestedName) && class_exists($this->getEntityClassName($requestedName));
 	}
 	
 	public function createServiceWithName(ServiceLocatorInterface $serviceLocator, $name, $requestedName)

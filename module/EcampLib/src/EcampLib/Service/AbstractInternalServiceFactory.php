@@ -9,11 +9,13 @@ use EcampLib\Service\ServiceBaseFactory;
 
 /**
  * Provides internal services for all existing service classes 
- * Pattern: EcampCore\Service\*\Internal
+ * Pattern: Ecamp*\Service\*\Internal
  */
 class AbstractInternalServiceFactory implements AbstractFactoryInterface
 {
 	private $orm;
+	
+	private $pattern = "/^Ecamp(\w+)\\\\Service\\\\(\w+)\\\\Internal$/";
 	
 	public function __construct($orm = null){
 		$this->orm = $orm ?: 'doctrine.entitymanager.orm_default';
@@ -26,13 +28,13 @@ class AbstractInternalServiceFactory implements AbstractFactoryInterface
 	
 	public function canCreateServiceWithName(ServiceLocatorInterface $serviceLocator, $name, $requestedName)
 	{
-		return preg_match("/^EcampCore\\\\Service\\\\[a-zA-Z]+\\\\Internal$/",$requestedName) && class_exists($this->getServiceFactoryName($requestedName));
+		return preg_match($this->pattern,$requestedName) && class_exists($this->getServiceFactoryName($requestedName));
 	}
 	
 	public function createServiceWithName(ServiceLocatorInterface $serviceLocator, $name, $requestedName)
 	{
 		/* Create service with specific service factory which does the wiring */
-		/* e.g. EcampCore\Service\***ServiceFactory */
+		/* e.g. Ecamp*\Service\***ServiceFactory */
 		$serviceFactoryName = $this->getServiceFactoryName($requestedName);
 		$serviceFactory = new $serviceFactoryName;
 		$service = $serviceFactory->createService($serviceLocator);
