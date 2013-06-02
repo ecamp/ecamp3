@@ -10,13 +10,18 @@ class IndexController
 {
 
 	public function indexAction(){
+		
 		/* @var $campRepo \EcampCore\Repository\CampRepository */
 		$campRepo = $this->getServiceLocator()->get('EcampCore\Repository\Camp');
 		var_dump( $campRepo->findOneBy(array())->getName() );
 		
-		var_dump( $this->getServiceLocator()->get('EcampCore\Service\Camp\Internal')->Get("1")->getName());
+		var_dump( $this->getServiceLocator()->get('EcampCore\Service\Camp\Internal')->Get("2")->getName());
 		
-		var_dump( $this->getServiceLocator()->get('EcampCore\Service\Camp')->Get("1")->getName());
+		/* @var $campService \EcampCore\Service\CampService */
+		$campService = $this->getServiceLocator()->get('EcampCore\Service\Camp');
+		
+		$camp = $campService->Get("2");
+		$campService->Delete($camp);
 		
 		die();
 

@@ -74,7 +74,7 @@ class CampService
 	 * Deletes the current Camp
 	 */
 	public function Delete(Camp $camp){
-		$this->aclRequire($this->me(), $camp, 'administrate');
+		$this->aclRequire(null, $camp, 'administrate');
 		
 		$this->remove($camp);
 	}

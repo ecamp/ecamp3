@@ -4,7 +4,7 @@ namespace EcampDB\Controller;
 
 use Zend\View\Model\ViewModel;
 
-use EcampCore\Entity\UId;
+use EcampLib\Entity\UId;
 
 use Zend\Code\Reflection\ClassReflection;
 use Zend\Mvc\Controller\AbstractActionController;
@@ -20,8 +20,8 @@ class MaintenanceController extends AbstractActionController
 		$em = $this->getServiceLocator()->get('doctrine.entitymanager.orm_default');
 		$metadatas = $em->getMetadataFactory()->getAllMetadata();
 		
-		$uidRepo = $em->getRepository('EcampCore\Entity\Uid');
-		$uidRef = new ClassReflection('EcampCore\Entity\Uid');
+		$uidRepo = $em->getRepository('EcampLib\Entity\Uid');
+		$uidRef = new ClassReflection('EcampLib\Entity\Uid');
 		$idRef = $uidRef->getProperty('id');
 		$idRef->setAccessible(true);
 		
@@ -48,7 +48,7 @@ class MaintenanceController extends AbstractActionController
 		
 		foreach($metadatas as $classMetadata){
 			if(	! $classMetadata->isMappedSuperclass 
-			&&	  $classMetadata->name != 'EcampCore\Entity\Uid'
+			&&	  $classMetadata->name != 'EcampLib\Entity\Uid'
 			){
 				$repo = $em->getRepository($classMetadata->name);
 				$entities = $repo->findAll();

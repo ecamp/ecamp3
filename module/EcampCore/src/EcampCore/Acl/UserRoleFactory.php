@@ -24,7 +24,7 @@ class UserRoleFactory
 			throw new \InvalidArgumentException("EcampCore\Entity\User required!");
 		}
 		
-		$userRole = new UserRole($user);
+		$userRole = new Role\UserRole($user);
 		
 		if(! $this->acl->hasRole($userRole)){
 			$this->acl->addRole($userRole, $user->getRole());

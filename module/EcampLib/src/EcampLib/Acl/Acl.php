@@ -56,16 +56,19 @@ class Acl
     public function isAllowed($role = null, $resource = null, $privilege = null){
 		
     	$roleFactory = $this->getRoleFactory();
-    	$_role = $roleFactory->createRole($role);
+    	
+    	if(!$this->hasRole($role)){
+    		$role = $roleFactory->createRole($role);
+    	}
     	
     	$resourceFactory = $this->getResourceFactory();
-    	$_resource = $resourceFactory->createResource($resource);
+    	$resource = $resourceFactory->createResource($resource);
 		
-		return parent::isAllowed($_role, $_resource, $privilege);
+		return parent::isAllowed($role, $resource, $privilege);
 	}
 	
 	public function isAllowedException($role = null, $resource = null, $privilege = null){
-		
+
 		if($this->isAllowed($role, $resource, $privilege)){
 			return true;
 		} else {
