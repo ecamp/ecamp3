@@ -9,18 +9,10 @@ use EcampCore\Repository\UserRepository;
 
 class LoginController extends AbstractBaseController
 {
-	/** @var UserRepository */
-	private $userRepo;
-	
-	
-	public function __construct(UserRepository $userRepo){
-		$this->userRepo = $userRepo;
-	}
-	
 	
 	public function bypassAction(){
 		$id = $this->params()->fromQuery('id') ?: 1;
-		$user = $this->userRepo->find($id);
+		$user = $this->getServiceLocator()->get('EcampCore\Repository\User')->find($id);
 		
 		$adapter = new Bypass($user);
 		$auth = new AuthenticationService();

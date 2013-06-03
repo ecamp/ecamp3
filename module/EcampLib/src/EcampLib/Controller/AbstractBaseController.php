@@ -12,7 +12,7 @@ abstract class AbstractBaseController extends AbstractActionController
 		$auth = new AuthenticationService();
 	
 		if($auth->hasIdentity()){
-			$userRepo = $this->getServiceLocator()->get('ecampcore.repo.user');
+			$userRepo = $this->getServiceLocator()->get('EcampCore\Repository\User');
 			return $userRepo->find($auth->getIdentity());
 		}
 	

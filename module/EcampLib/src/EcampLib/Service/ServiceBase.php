@@ -2,11 +2,13 @@
 
 namespace EcampLib\Service;
 
+use Zend\Db\Sql\Predicate\IsNull;
+
 use Zend\Authentication\AuthenticationService;
 use Doctrine\ORM\EntityManager;
 
 use EcampCore\Entity\User;
-use EcampCore\Entity\BaseEntity;
+use EcampLib\Entity\BaseEntity;
 use EcampCore\ServiceUtil\ServiceWrapper;
 use EcampLib\Acl\Acl;
 
@@ -56,32 +58,43 @@ abstract class ServiceBase
 	}
 	
 	/**
+	 * @var EcampCore\Entity\User
+	 */
+	private $me = null;
+	
+	/**
+	 * @return EcampCore\Entity\User
+	 */
+	public function getMe(){
+		return $this->me;
+	}
+	
+	public function setMe(User $me){
+		$this->me = $me;
+	}
+	
+	/**
 	 * @param User $user
 	 * @param BaseEntity $entity
 	 * @param $privilege
 	 * @throws EcampCore\Acl\Exception\NoAccessException
 	 */
-	protected function aclRequire(User $user, BaseEntity $entity, $privilege){
-		$this->getAcl()->isAllowedException($user, $entity, $privilege);
+	protected function aclRequire($user, BaseEntity $entity, $privilege){
+		
+		if( is_null($this->getMe()) )	
+			$this->getAcl()->isAllowedException(\EcampCore\Entity\User::ROLE_GUEST, $entity, $privilege);
+		else
+			$this->getAcl()->isAllowedException($this->getMe(), $entity, $privilege);
 	}
 	
 	
 	/**
 	 * @return EcampCore\Entity\User
+	 * @deprecated
 	 */
 	protected function me(){
-		$auth = new AuthenticationService();
-		$id = $auth->getIdentity();
-		
-		if($id){
-			$userRepo = $this->getServiceLocator()->get('ecampcore.repo.user'); 
-			return $userRepo->find($id);
-		} else {
-			return null;
-		}
+		$this->getMe();
 	}
-	
-	
 	
 	protected function validationFailed($bool = true, $message = null){
 		

@@ -26,19 +26,16 @@ class IndexController extends AbstractBaseController
 	/** @var UserRepository */
 	private $userRepo;
 	
-	public function __construct(
-		GroupRepository $groupRepo,
-		CampRepository $campRepo,
-		UserRepository $userRepo
-	){
-		$this->groupRepo = $groupRepo;
-		$this->campRepo = $campRepo;
-		$this->userRepo = $userRepo;
+	public function onDispatch( \Zend\Mvc\MvcEvent $e )
+	{
+		$this->groupRepo =  $this->getServiceLocator()->get('EcampCore\Repository\Group');
+		$this->campRepo = $this->getServiceLocator()->get('EcampCore\Repository\Camp');
+		$this->userRepo = $this->getServiceLocator()->get('EcampCore\Repository\User');
+	
+		return parent::onDispatch( $e );
 	}
 	
-	
 	public function indexAction(){
-		
 		$groupId = $this->params('group');
 		$campId = $this->params('camp');
 		$userId = $this->params('user');

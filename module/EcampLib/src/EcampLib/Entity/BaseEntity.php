@@ -79,6 +79,8 @@ abstract class BaseEntity
 	
 	
 	public function __toString(){
-		return "[" . $this->uid->getClass() . "::" . $this->getId() . "]";
+		/* alternative because uid is currently broken*/
+		//return "[" . $this->uid->getClass() . "::" . $this->getId() . "]";
+		return "[" . \Doctrine\Common\Util\ClassUtils::getRealClass(get_class($this)) . "::" . $this->getId() . "]";
 	}
 }

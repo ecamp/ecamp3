@@ -16,25 +16,15 @@ class TestController extends AbstractBaseController
 	
 	/** @var CampRepository */
 	private $campRepo;
-	
-	
-	public function __construct(
-		UserRepository $userRepo,
-		CampRepository $campRepo
-	){
-		$this->userRepo = $userRepo;
-		$this->campRepo = $campRepo;
-	}
-	
-	
-	
+		
 	public function testAction(){
 		echo get_class($this->campRepo);
 		echo "<br />";
 	}
 	
-	
 	public function indexAction(){
+		$this->userRepo = $this->getServiceLocator()->get('EcampCore\Repository\User');
+		$this->campRepo = $this->getServiceLocator()->get('EcampCore\Repository\Camp');
 		
 		$user = $this->userRepo->find('2de20f49');
 		$users = array($user);

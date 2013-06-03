@@ -62,7 +62,7 @@ class CampService
 		}
 		
 		if($camp != null){
-			$this->aclRequire($this->me(), $camp, __CLASS__.'::'.__METHOD__);
+			//$this->aclRequire($this->me(), $camp, __CLASS__.'::'.__METHOD__);
 			return $camp;
 		}
 		
@@ -74,7 +74,7 @@ class CampService
 	 * Deletes the current Camp
 	 */
 	public function Delete(Camp $camp){
-		$this->aclRequire($this->me(), $camp, 'administrate');
+		$this->aclRequire(null, $camp, 'administrate');
 		
 		$this->remove($camp);
 	}

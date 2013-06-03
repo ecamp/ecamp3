@@ -10,19 +10,12 @@ class EventController
 	extends AbstractBaseController
 {
 	
-	/** @var EventRepository */
-	private $eventRepo;
-	
-	public function __construct(EventRepository $eventRepo){
-		$this->eventRepo = $eventRepo;
-	}
-	
 	public function renderEventAction(){
 		
 		$eventRenderer = new EventRenderer();
 		$eventRenderer->setServiceLocator($this->getServiceLocator());
 		
-		$event = $this->eventRepo->find('ee1');
+		$event = $this->getServiceLocator()->get('EcampCore\Repository\Event')->find('ee1');
 		$view = $eventRenderer->render($event);
 				
 		return $view;
