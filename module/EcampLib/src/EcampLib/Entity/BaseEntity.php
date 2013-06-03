@@ -3,6 +3,7 @@
 namespace EcampLib\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Util\ClassUtils;
 
 /**
  * @ORM\MappedSuperclass 
@@ -43,7 +44,7 @@ abstract class BaseEntity
 		$this->updatedAt = new \DateTime();
 		$this->updatedAt->setTimestamp(0);
 		
-		$this->uid = new UId(get_class($this));
+		$this->uid = new UId($this->getClassname());
 		$this->id = $this->uid->getId();
 	}
 	
@@ -79,8 +80,10 @@ abstract class BaseEntity
 	
 	
 	public function __toString(){
-		/* alternative because uid is currently broken*/
-		//return "[" . $this->uid->getClass() . "::" . $this->getId() . "]";
-		return "[" . \Doctrine\Common\Util\ClassUtils::getRealClass(get_class($this)) . "::" . $this->getId() . "]";
+		return "[" . $this->getClassname() . "::" . $this->getId() . "]";
+	}
+	
+	private function getClassname(){
+		return ClassUtils::getRealClass(get_class($this));
 	}
 }

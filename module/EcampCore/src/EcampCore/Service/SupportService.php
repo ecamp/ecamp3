@@ -33,13 +33,15 @@ class SupportService
 	
 	
 	public function SupportUser(User $user){
-		$this->aclRequire($this->me(), $user, 'SupportService::SupportUser');
+		$this->aclRequire($this->me(), $user, 'support.start');
 		
 		$auth = new AuthenticationService();
 		$auth->replaceIdentity($user->getId());
 	}
 	
 	public function StopUserSupport(){
+		$this->aclRequire($this->me(), null, 'support.stop');
+		
 		$auth = new AuthenticationService();
 		$auth->restoreIdentity();
 	}

@@ -34,6 +34,11 @@ class AclFactory
 		$acl->allow(User::ROLE_ADMIN, 'EcampCore\Entity\Camp');
 		$acl->allow(User::ROLE_ADMIN, 'EcampCore\Entity\Group');
 		
+		$acl->allow(User::ROLE_ADMIN, 'EcampCore\Entity\User', 'support.start');
+		$acl->allow(User::ROLE_GUEST, 'EcampCore\Entity\User', 'support.stop', new Assertion\AssertAdminInSupportModus());
+		$acl->allow(User::ROLE_USER,  'EcampCore\Entity\User', 'support.stop', new Assertion\AssertAdminInSupportModus());
+		$acl->allow(User::ROLE_ADMIN, 'EcampCore\Entity\User', 'support.stop', new Assertion\AssertAdminInSupportModus());
+		
 		
 		$acl->allow(User::ROLE_USER, 'EcampCore\Entity\User', 'list', new Assertion\AssertUserList());
 		$acl->allow(User::ROLE_USER, 'EcampCore\Entity\User', 'show', new Assertion\AssertUserShow());

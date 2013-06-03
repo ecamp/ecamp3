@@ -6,6 +6,7 @@ use Zend\ServiceManager\AbstractFactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Doctrine\ORM\EntityManager;
 use EcampLib\Service\ServiceBaseFactory;
+use Zend\Authentication\AuthenticationService;
 
 /**
  * Provides internal services for all existing service classes 
@@ -42,8 +43,9 @@ class AbstractInternalServiceFactory implements AbstractFactoryInterface
 		/* Inject common dependencies (e.g. dependencies of ServiceBase class) */
 		$service->setEntityManager($serviceLocator->get($this->orm));
 		$service->setAcl($serviceLocator->get('EcampCore\Acl'));
-		// workaround: "Me" need to come from authentication module
-		$service->setMe($serviceLocator->get('EcampCore\Repository\User')->find(1));
+		
+		$authId = (new AuthenticationService())->getIdentity();
+		$service->setMe($serviceLocator->get('EcampCore\Repository\User')->find($authId));
 		
 		return $service;
 	}
