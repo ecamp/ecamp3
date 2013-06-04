@@ -19,38 +19,41 @@
  */
 
 namespace Core\Plugin;
- 
+
 use \Doctrine\ORM,
-	\Doctrine\Common;
-	
+    \Doctrine\Common;
+
 /**
  * The PluginStrategyEventListener will initialize a strategy after the
  * plugin itself was loaded.
  */
-class StrategyEventListener implements \Doctrine\Common\EventSubscriber {
-	
-	protected $em;
+class StrategyEventListener implements \Doctrine\Common\EventSubscriber
+{
+    protected $em;
 
-	public function __construct(\Doctrine\ORM\EntityManager $em) {
-		$this->em = $em;
-	}
+    public function __construct(\Doctrine\ORM\EntityManager $em)
+    {
+        $this->em = $em;
+    }
 
-	public function getSubscribedEvents() {
-	   return array(\Doctrine\ORM\Events::postLoad);
-	}
+    public function getSubscribedEvents()
+    {
+       return array(\Doctrine\ORM\Events::postLoad);
+    }
 
-	public function postLoad(\Doctrine\ORM\Event\LifecycleEventArgs $args) {
-		$instance = $args->getEntity();
-		
-		/* post load PluginStrategy into Plugin */
-		if ($instance instanceof \CoreApi\Entity\PluginInstance) {
-			$strategy  = $instance->getStrategyClassName();
-			$strategyInstance = new $strategy($this->em, $instance);
-			
-			/* load plugin */
-			$strategyInstance->loadObjects( );
-			
-			$instance->setStrategy($strategyInstance);
-		}
-	}
+    public function postLoad(\Doctrine\ORM\Event\LifecycleEventArgs $args)
+    {
+        $instance = $args->getEntity();
+
+        /* post load PluginStrategy into Plugin */
+        if ($instance instanceof \CoreApi\Entity\PluginInstance) {
+            $strategy  = $instance->getStrategyClassName();
+            $strategyInstance = new $strategy($this->em, $instance);
+
+            /* load plugin */
+            $strategyInstance->loadObjects( );
+
+            $instance->setStrategy($strategyInstance);
+        }
+    }
 }

@@ -14,17 +14,29 @@ return array(
         'DoctrineModule',
         'DoctrineORMModule',
 
+// 		'DiWrapper',
+//		'OcraServiceManager',
+//    	'OcraDiCompiler',
+
+        'ZfcTwig',
+
         'Application',
-        
+
+        'EcampLib',
         'EcampCore',
         'EcampWeb',
         'EcampApi',
-        'EcampDB'
+        'EcampDB',
+//     	'EcampDev',
+
+        'EcampStoryboard'
     ),
+
     'module_listener_options' => array(
         'module_paths' => array(
             './module',
-            './vendor'
+            './vendor',
+            './plugins'
         ),
         'config_glob_paths' => array('config/autoload/{,*.}{global,local}.php')
     )

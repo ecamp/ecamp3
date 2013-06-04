@@ -1,15 +1,9 @@
 .*
 
+config/autoload/*.local.php
 
-data/log/*
-data/log/**/*
+data/*
+data/**/*
 
-data/cache/*
-data/cache/**/*
-
-data/session/*
-data/session/**/*
-
-data/unittest/*
-
-public/UnitTests/result
+vendor/*
+vendor/**/*

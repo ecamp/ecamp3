@@ -22,6 +22,8 @@ namespace EcampCore\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
+use EcampLib\Entity\BaseEntity;
+
 /**
  * EventTemplate
  * @ORM\Entity(readOnly=true)
@@ -30,9 +32,12 @@ use Doctrine\ORM\Mapping as ORM;
 class EventTemplate extends BaseEntity
 {
 
-    public function __construct($eventPrototype = null)
+    public function __construct($eventPrototype, Medium $medium, $filename)
     {
+        $this->medium = $medium;
         $this->eventPrototype = $eventPrototype;
+        $this->filename = $filename;
+
         $this->pluginPositions = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
@@ -42,44 +47,47 @@ class EventTemplate extends BaseEntity
      * @ORM\JoinColumn(name="medium", referencedColumnName="name", nullable=false, onDelete="cascade")
      */
     private $medium;
-	
-	/**
-	 * @var string
-	 * @ORM\Column(type="string", length=128, nullable=false )
-	 */
-	private $filename;
-	
-	/**
-	 * @var EventPrototype
-	 * @ORM\ManyToOne(targetEntity="EventPrototype")
-	 * @ORM\JoinColumn(nullable=false, onDelete="cascade")
-	 */
-	private $eventPrototype;
-	
-	/**
-	 * @ORM\OneToMany(targetEntity="PluginPosition", mappedBy="eventTemplate")
-	 * @ORM\OrderBy({"sort" = "ASC"})
-	 */
-	private $pluginPositions;
-	
-	/**
-	 * @return string
-	 */
-	public function getFilename()
-	{
-		return $this->filename;
-	}
-	
-	/**
-	 * @return string
-	 */
-	public function getMedium()
-	{
-	    return $this->medium;
-	}
-	
-	public function getPluginPositions()
-	{
-	    return $this->pluginPositions;
-	}
+
+    /**
+     * @var string
+     * @ORM\Column(type="string", length=128, nullable=false )
+     */
+    private $filename;
+
+    /**
+     * @var EventPrototype
+     * @ORM\ManyToOne(targetEntity="EventPrototype")
+     * @ORM\JoinColumn(nullable=false, onDelete="cascade")
+     */
+    private $eventPrototype;
+
+    /**
+     * @ORM\OneToMany(targetEntity="PluginPosition", mappedBy="eventTemplate")
+     * @ORM\OrderBy({"sort" = "ASC"})
+     */
+    private $pluginPositions;
+
+    /**
+     * @return string
+     */
+    public function getFilename()
+    {
+        return $this->filename;
+    }
+
+    /**
+     * @return string
+     */
+    public function getMedium()
+    {
+        return $this->medium;
+    }
+
+    /**
+     * @return \Doctrine\Common\Collections\ArrayCollection
+     */
+    public function getPluginPositions()
+    {
+        return $this->pluginPositions;
+    }
 }

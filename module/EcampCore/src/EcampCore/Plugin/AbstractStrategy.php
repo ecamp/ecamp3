@@ -17,7 +17,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with eCamp.  If not, see <http://www.gnu.org/licenses/>.
  */
- 
+
 /**
  * This is the base class for all plugin strategies
  *
@@ -26,50 +26,63 @@
  * and models.
  */
 
-namespace Core\Plugin;
- 
-abstract class AbstractStrategy 
+namespace EcampCore\Plugin;
+
+use EcampCore\Entity\Medium;
+use EcampCore\Entity\PluginInstance;
+
+use Zend\ServiceManager\ServiceLocatorInterface;
+
+abstract class AbstractStrategy
 {
 
-	/**
-	 * @var \Doctrine\ORM\EntityManager
-	 */
-	protected $em;
-	
-	/**
-	 * @var CoreApi\Entity\Plugin
-	 */
-	protected $plugin;
-	
-	/**
-	 * Set the plugin object.
-	 * @param \CoreApi\Entity\Plugin $plugin
-	 */
-	public function setPlugin(\CoreApi\Entity\PluginInstance $plugin)
-	{
-		$this->plugin = $plugin;
-	}
-	
-	/**
-	 * Get the plugin object.
-	 */
-	public function getPlugin(){
-		return $this->plugin;
-	}
-	
-	/**
-	 * Get the plugin name
-	 */
-	public function getPluginName(){
-		return $this->pluginName;
-	}
-	
-	/* ***************************************** */
-	
-	public function renderFrontend(\Ztal_Tal_View $view){
-	}
-	
-	public function renderBackend(\Ztal_Tal_View $view){
-	}
+    public function __construct(
+        ServiceLocatorInterface $serviceLocator,
+        PluginInstance $pluginInstance
+    ){
+        $this->serviceLocator = $serviceLocator;
+        $this->pluginInstance = $pluginInstance;
+    }
 
+    /**
+     * @var Zend\ServiceManager\ServiceLocatorInterface
+     */
+    private $serviceLocator;
+
+    /**
+     * @return Zend\ServiceManager\ServiceLocatorInterface
+     */
+    protected function getServiceLocator()
+    {
+        return $this->serviceLocator;
+    }
+
+    /**
+     * @var EcampCore\Entity\PluginInstance
+     */
+    private $pluginInstance;
+
+    /**
+     * @return EcampCore\Entity\PluginInstance
+     */
+    protected function getPluginInstance()
+    {
+        return $this->pluginInstance;
+    }
+
+    /**
+     * @param  Medium                    $medium
+     * @return Zend\View\Model\ViewModel
+     */
+    abstract public function render(Medium $medium);
+
+    /**
+     * @deprecated
+     */
+    abstract public function renderFrontend();
+
+    /**
+    * @deprecated
+    */
+    abstract public function renderBackend();
 }

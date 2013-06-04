@@ -7,24 +7,26 @@
  * To change this template use File | Settings | File Templates.
  */
 
-namespace Core\Auth;
+namespace EcampCore\Auth;
+
+use EcampCore\Entity\User;
+use Zend\Authentication\Result;
+use Zend\Authentication\Adapter\AdapterInterface;
 
 class Bypass
-    implements \Zend_Auth_Adapter_Interface
+    implements AdapterInterface
 {
 
     const NOT_FOUND_MESSAGE 	= 'Unknown login!';
     const CREDINTIALS_MESSAGE 	= 'Wrong Password!';
     const NOT_ACTIVATED_MESSAGE = 'Account is not yet activated!';
-    const UNKNOWN_FAILURE 	= 'Unknown error!';
-
+    const UNKNOWN_FAILURE 		= 'Unknown error!';
 
     private $user;
 
-
-    public function __construct($user)
+    public function __construct(User $user)
     {
-		$this->user = $user;
+        $this->user = $user;
     }
 
     /**
@@ -35,44 +37,39 @@ class Bypass
      */
     public function authenticate()
     {
-		$user = $this->user;
-  
+        $user = $this->user;
+
         // User Not Found:
-        if(is_null($user))
-        {
+        if (is_null($user)) {
             return $this->authResult(
-                \Zend_Auth_Result::FAILURE_IDENTITY_NOT_FOUND,
+                Result::FAILURE_IDENTITY_NOT_FOUND,
                 self::NOT_FOUND_MESSAGE
             );
         }
 
-
         // User Not Activated:
-        if($user->getState() != \CoreApi\Entity\User::STATE_ACTIVATED || is_null($user->getLogin()))
-        {
+        if ($user->getState() != User::STATE_ACTIVATED || is_null($user->getLogin())) {
             return $this->authResult(
-                \Zend_Auth_Result::FAILURE_IDENTITY_AMBIGUOUS,
+                Result::FAILURE_IDENTITY_AMBIGUOUS,
                 self::NOT_ACTIVATED_MESSAGE
             );
         }
 
         // Successful logged in:
-        return $this->authResult(\Zend_Auth_Result::SUCCESS);
+        return $this->authResult(Result::SUCCESS);
     }
 
-
      /**
-      * Factory for Zend_Auth_Result
+      * Factory for Result
       *
       * @param integer    The Result code, see Zend_Auth_Result
       * @param mixed      The Message, can be a string or array
-      * @return Zend_Auth_Result
+      * @return Zend\Authentication\Result
       */
     private function authResult($code, $messages = array())
-	{
-        if( !is_array( $messages ) )
-        {	$messages = array($messages);	}
-        
-		return new \Zend_Auth_Result($code, $this->user->getId(), $messages);
+    {
+        if ( !is_array( $messages ) ) {	$messages = array($messages);	}
+
+        return new Result($code, $this->user->getId(), $messages);
     }
 }

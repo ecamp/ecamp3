@@ -22,177 +22,176 @@ namespace EcampCore\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
+use EcampLib\Entity\BaseEntity;
+use EcampCore\Acl\BelongsToParentResource;
+
 /**
  * Specifies the exact time/duration/subcamp when an event happens
  * @ORM\Entity(repositoryClass="EcampCore\Repository\EventInstanceRepository")
  * @ORM\Table(name="event_instances")
  */
-class EventInstance extends BaseEntity
+class EventInstance
+    extends BaseEntity
+    implements BelongsToParentResource
 {
 
-	/**
-	 * @ORM\ManyToOne(targetEntity="Event")
-	 * @ORM\JoinColumn(nullable=false)
-	 */
-	private $event;
+    /**
+     * @ORM\ManyToOne(targetEntity="Event")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $event;
 
-	/**
-	 * Start-Offset in minutes from the subcamp's starting date (00:00)
-	 * @ORM\Column(type="integer", nullable=false)
-	 */
-	private $minOffsetStart;
+    /**
+     * Start-Offset in minutes from the subcamp's starting date (00:00)
+     * @ORM\Column(type="integer", nullable=false)
+     */
+    private $minOffsetStart;
 
-	/**
-	 * End-Offset in minutes from the subcamp's starting date (00:00)
-	 * @ORM\Column(type="integer", nullable=false)
-	 */
-	private $minOffsetEnd;
+    /**
+     * End-Offset in minutes from the subcamp's starting date (00:00)
+     * @ORM\Column(type="integer", nullable=false)
+     */
+    private $minOffsetEnd;
 
-	/**
-	 * @ORM\ManyToOne(targetEntity="Period")
-	 * @ORM\JoinColumn(nullable=false)
-	 */
-	private $period;
+    /**
+     * @ORM\ManyToOne(targetEntity="Period")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $period;
 
-	
-	/**
-	 * @param Event $event
-	 */
-	public function __construct(Event $event)
-	{
-		parent::__construct();
-		
-		$this->event = $event;
-		
-		$this->minOffsetStart = 0;
-		$this->minOffsetEnd = 0;
-	}
-	
-	
-	/**
-	 * @return Event 
-	 */
-	public function getEvent()
-	{
-		return $this->event;
-	}
+    /**
+     * @param Event $event
+     */
+    public function __construct(Event $event)
+    {
+        parent::__construct();
 
-	
-	/**
-	 * @param DateInterval|int $offset
-	 */
-	public function setOffset($offset)
-	{
-		if($offset instanceof \DateInterval){
-			$offset =
-				$offset->format('%a') * 24 * 60 +
-				$offset->format('%h') * 60 +
-				$offset->format('%i');
-		}
-		
-		$shift = $offset - $this->minOffsetStart;
-		
-		$this->minOffsetStart = $offset;
-		$this->minOffsetEnd  += $shift;
-	}
-	
-	
-	/**
-	 * @return \DateInterval
-	 */
-	public function getOffset()
-	{
-		return new \DateInterval( 'PT' . $this->minOffset . 'M');
-	}
-	
-	
-	/**
-	 * @return int
-	 */
-	public function getOffsetInMinutes()
-	{
-		return $this->minOffset;
-	}
+        $this->event = $event;
 
-	
-	/**
-	 * @param DateInterval|int $duration
-	 */
-	public function setDuration($duration)
-	{
-		if($duration instanceof \DateInterval){
-			$duration = 
-				$duration->format('%a') * 24 * 60 +
-				$duration->format('%h') * 60 + 
-				$duration->format('%i'); 
-		}
-		
-		$this->minOffsetEnd = $this->minOffsetStart + $duration;
-	}
-	
-	
-	/**
-	 * @return \DateInterval
-	 */
-	public function getDuration()
-	{
-		return new \DateInterval( 'PT' . $this->getDurationInMinutes() . 'M');
-	}
-	
-	
-	/**
-	 * @return int
-	 */
-	public function getDurationInMinutes()
-	{
-		return $this->minOffsetEnd - $this->minOffsetStart;
-	}
+        $this->minOffsetStart = 0;
+        $this->minOffsetEnd = 0;
+    }
 
-	
-	/**
-	 * @return \DateTime
-	 */
-	public function getStartTime()
-	{
-		$start = $this->period->getStart()->add(new \DateInterval( 'PT' . $this->minOffsetStart . 'M'));
-		return $start; 
-	}
-	
-	
-	/**
-	 * @return \DateTime
-	 */
-	public function getEndTime()
-	{
-		$end = $this->getStartTime()->add($this->getDuration());
-		return $end;
-	}
-	
-	
-	/**
-	 * @param Period $period
-	 */
-	public function setPeriod(Period $period)
-	{
-		$this->period = $period;
-	}
-	
-	
-	/**
-	 * @return Period 
-	 */
-	public function getPeriod()
-	{
-		return $this->period;
-	}
-	
-	
-	/**
-	 * @return Camp
-	 */
-	public function getCamp()
-	{
-		return $this->period->getCamp();
-	}
+    /**
+     * @return Event
+     */
+    public function getEvent()
+    {
+        return $this->event;
+    }
+
+    /**
+     * @param DateInterval|int $offset
+     */
+    public function setOffset($offset)
+    {
+        if ($offset instanceof \DateInterval) {
+            $offset =
+                $offset->format('%a') * 24 * 60 +
+                $offset->format('%h') * 60 +
+                $offset->format('%i');
+        }
+
+        $shift = $offset - $this->minOffsetStart;
+
+        $this->minOffsetStart = $offset;
+        $this->minOffsetEnd  += $shift;
+    }
+
+    /**
+     * @return \DateInterval
+     */
+    public function getOffset()
+    {
+        return new \DateInterval( 'PT' . $this->minOffset . 'M');
+    }
+
+    /**
+     * @return int
+     */
+    public function getOffsetInMinutes()
+    {
+        return $this->minOffset;
+    }
+
+    /**
+     * @param DateInterval|int $duration
+     */
+    public function setDuration($duration)
+    {
+        if ($duration instanceof \DateInterval) {
+            $duration =
+                $duration->format('%a') * 24 * 60 +
+                $duration->format('%h') * 60 +
+                $duration->format('%i');
+        }
+
+        $this->minOffsetEnd = $this->minOffsetStart + $duration;
+    }
+
+    /**
+     * @return \DateInterval
+     */
+    public function getDuration()
+    {
+        return new \DateInterval( 'PT' . $this->getDurationInMinutes() . 'M');
+    }
+
+    /**
+     * @return int
+     */
+    public function getDurationInMinutes()
+    {
+        return $this->minOffsetEnd - $this->minOffsetStart;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getStartTime()
+    {
+        $start = $this->period->getStart()->add(new \DateInterval( 'PT' . $this->minOffsetStart . 'M'));
+
+        return $start;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getEndTime()
+    {
+        $end = $this->getStartTime()->add($this->getDuration());
+
+        return $end;
+    }
+
+    /**
+     * @param Period $period
+     */
+    public function setPeriod(Period $period)
+    {
+        $this->period = $period;
+    }
+
+    /**
+     * @return Period
+     */
+    public function getPeriod()
+    {
+        return $this->period;
+    }
+
+    public function getParentResource()
+    {
+        return $this->period;
+    }
+
+    /**
+     * @return Camp
+     */
+    public function getCamp()
+    {
+        return $this->period->getCamp();
+    }
 
 }
