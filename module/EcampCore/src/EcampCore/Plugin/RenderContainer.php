@@ -20,51 +20,50 @@
 
 namespace Core\Plugin;
 
-use CoreApi\Entity\Event;
-
 class RenderContainer
 {
-	
-	/**
-	 * @var RenderEvent
-	 */
-	private $renderEvent;
-	
-	private $containerName;
-	
-	private $renderPluginPrototypes = array();
-	
-	
-	
-	public function __construct(RenderEvent $renderEvent, $containerName){
-		$this->renderEvent = $renderEvent;
-		$this->containerName = $containerName;
-		
-		$renderEvent->addRenderContainer($this);
-	}
-	
-	/**
-	 * @return \Core\Plugin\RenderEvent
-	 */
-	public function getRenderEvent(){
-		return $this->renderEvent;
-	}
-	
-	public function getContainerName(){
-		return $this->containerName;
-	}
-	
-	/**
-	 * @access private
-	 */
-	public function addRenderPluginPrototype(RenderPluginPrototype $renderPluginPrototype){
-		$this->renderPluginPrototypes[] = $renderPluginPrototype;
-	}
-	
-	public function getRenderPluginPrototypes(){
-		return $this->renderPluginPrototypes;
-	}
-	
-	
-	
+
+    /**
+     * @var RenderEvent
+     */
+    private $renderEvent;
+
+    private $containerName;
+
+    private $renderPluginPrototypes = array();
+
+    public function __construct(RenderEvent $renderEvent, $containerName)
+    {
+        $this->renderEvent = $renderEvent;
+        $this->containerName = $containerName;
+
+        $renderEvent->addRenderContainer($this);
+    }
+
+    /**
+     * @return \Core\Plugin\RenderEvent
+     */
+    public function getRenderEvent()
+    {
+        return $this->renderEvent;
+    }
+
+    public function getContainerName()
+    {
+        return $this->containerName;
+    }
+
+    /**
+     * @access private
+     */
+    public function addRenderPluginPrototype(RenderPluginPrototype $renderPluginPrototype)
+    {
+        $this->renderPluginPrototypes[] = $renderPluginPrototype;
+    }
+
+    public function getRenderPluginPrototypes()
+    {
+        return $this->renderPluginPrototypes;
+    }
+
 }

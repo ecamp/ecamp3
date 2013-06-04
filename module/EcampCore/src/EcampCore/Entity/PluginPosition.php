@@ -20,6 +20,8 @@
 
 namespace EcampCore\Entity;
 
+use EcampLib\Entity\BaseEntity;
+
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -37,62 +39,62 @@ class PluginPosition extends BaseEntity
         $this->container = $container;
     }
 
-	/**
-	 * @var EventTemplate
-	 * @ORM\ManyToOne(targetEntity="EventTemplate")
-	 * @ORM\JoinColumn(nullable=false, onDelete="cascade")
-	 */
-	private $eventTemplate;
-	
-	/**
-	 * @var PluginPrototype
-	 * @ORM\ManyToOne(targetEntity="PluginPrototype")
-	 * @ORM\JoinColumn(nullable=false, onDelete="cascade")
-	 */
-	private $pluginPrototype;
-	
-	/**
-	 * @var string
-	 * @ORM\Column(type="string", nullable=false)
-	 */
-	private $container;
-	
-	/**
-	 * @var integer
-	 * @ORM\Column(type="integer", nullable=false)
-	 */
-	private $sort;
-	
-	/**
-	 * @return string
-	 */
-	public function getContainer()
-	{
-		return $this->container;
-	}
-	
-	/**
-	 * @return PluginPrototype
-	 */
-	public function getPluginPrototype()
-	{
-	    return $this->pluginPrototype;
-	}
-	
-	/**
-	 * @return TemplateMap
-	 */
-	public function getEventTemplate()
-	{
-	    return $this->eventTemplate;
-	}
-	
-	/**
-	 * @return integer
-	 */
-	public function getSort()
-	{
-	    return $this->sort;
-	}
-	
+    /**
+     * @var EventTemplate
+     * @ORM\ManyToOne(targetEntity="EventTemplate")
+     * @ORM\JoinColumn(nullable=false, onDelete="cascade")
+     */
+    private $eventTemplate;
+
+    /**
+     * @var PluginPrototype
+     * @ORM\ManyToOne(targetEntity="PluginPrototype")
+     * @ORM\JoinColumn(nullable=false, onDelete="cascade")
+     */
+    private $pluginPrototype;
+
+    /**
+     * @var string
+     * @ORM\Column(type="string", nullable=false)
+     */
+    private $container;
+
+    /**
+     * @var integer
+     * @ORM\Column(type="integer", nullable=false)
+     */
+    private $sort;
+
+    /**
+     * @return string
+     */
+    public function getContainer()
+    {
+        return $this->container;
+    }
+
+    /**
+     * @return PluginPrototype
+     */
+    public function getPluginPrototype()
+    {
+        return $this->pluginPrototype;
+    }
+
+    /**
+     * @return TemplateMap
+     */
+    public function getEventTemplate()
+    {
+        return $this->eventTemplate;
+    }
+
+    /**
+     * @return integer
+     */
+    public function getSort()
+    {
+        return $this->sort;
+    }
+
 }

@@ -3,8 +3,8 @@ namespace EcampDB;
 
 use Zend\ModuleManager\Feature\ServiceProviderInterface;
 
-class Module implements 
-	ServiceProviderInterface
+class Module implements
+    ServiceProviderInterface
 {
     public function getConfig()
     {
@@ -21,9 +21,9 @@ class Module implements
             ),
         );
     }
-    
+
     public function getServiceConfig()
     {
-    	return include __DIR__ . '/config/services.config.php';
+        return include __DIR__ . '/config/services.config.php';
     }
 }

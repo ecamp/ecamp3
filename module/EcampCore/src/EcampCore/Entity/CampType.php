@@ -22,6 +22,8 @@ namespace EcampCore\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
+use EcampLib\Entity\BaseEntity;
+
 /**
  * CampType
  * @ORM\Entity(readOnly=true)
@@ -30,60 +32,63 @@ use Doctrine\ORM\Mapping as ORM;
 class CampType extends BaseEntity
 {
 
-	public function __construct()
-	{
-	}
+    public function __construct()
+    {
+        $this->eventTypes = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
-	/**
-	 * @ORM\Column(type="string", length=64, nullable=false)
-	 */
-	private $name;
-	
-	
-	/**
-	 * @ORM\Column(type="string", length=32, nullable=false)
-	 */
-	private $type;
-	
-	
-	/**
-	 * @ORM\OneToMany(targetEntity="EventType", mappedBy="campType")
-	 */
-	private $eventTypes;
-	
-	
-	/**
-	 * @param string $name
-	 */
-	public function setName($name){
-		$this->name = $name;
-	}
-	
-	/**
-	 * @return string
-	 */
-	public function getName(){
-		return $this->name;
-	}
-	
-	/**
-	 * @param string $type
-	 */
-	public function setType($type){
-		$this->type = $type;
-	}
-	
-	/**
-	 * @return string
-	 */
-	public function getType(){
-		return $this->type;
-	}
-	
-	/**
-	 * @return array
-	 */
-	public function getEventTypes(){
-		return $this->eventTypes;
-	}
+    /**
+     * @ORM\Column(type="string", length=64, nullable=false)
+     */
+    private $name;
+
+    /**
+     * @ORM\Column(type="string", length=32, nullable=false)
+     */
+    private $type;
+
+    /**
+     * @ORM\OneToMany(targetEntity="EventType", mappedBy="campType")
+     */
+    private $eventTypes;
+
+    /**
+     * @param string $name
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
+
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param string $type
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
+    }
+
+    /**
+     * @return string
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    /**
+     * @return Doctrine\Common\Collections\ArrayCollection
+     */
+    public function getEventTypes()
+    {
+        return $this->eventTypes;
+    }
 }

@@ -22,6 +22,8 @@ namespace EcampCore\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
+use EcampLib\Entity\BaseEntity;
+
 /**
  * EventType
  * @ORM\Entity(readOnly=true)
@@ -30,104 +32,105 @@ use Doctrine\ORM\Mapping as ORM;
 class EventType extends BaseEntity
 {
 
-	public function __construct()
-	{
-		$this->eventPrototypes = new \Doctrine\Common\Collections\ArrayCollection();
-	}
+    public function __construct()
+    {
+        $this->eventPrototypes = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
-	/**
-	 * @ORM\Column(type="string", length=64, nullable=false)
-	 */
-	private $name;
-	
-	/**
-	 * @ORM\Column(type="string", length=8, nullable=false)
-	 */
-	private $defaultColor;
-	
-	/**
-	 * @ORM\Column(type="string", length=1, nullable=false)
-	 */
-	private $defaultNumberingStyle;
-	
-	/**
-	 * @ORM\ManyToOne(targetEntity="CampType")
-	 * @ORM\JoinColumn(nullable=false)
-	 */
-	private $campType;
-	
-	/**
-	 * @ORM\ManyToMany(targetEntity="EventPrototype", inversedBy="eventTypes")
-	 * @ORM\JoinTable(name="allowed_event_prototypes")
-	 */
-	
-	/**
-	 * @ORM\ManyToMany(targetEntity="EventPrototype")
-	 * @ORM\JoinTable(name="event_type_event_prototypes",
-	 *      joinColumns={@ORM\JoinColumn(name="eventtype_id", referencedColumnName="id")},
-	 *      inverseJoinColumns={@ORM\JoinColumn(name="eventprototype_id", referencedColumnName="id")}
-	 *      )
-	 */
-	private $eventPrototypes;
-	
-	
-	public function setName($name){
-		$this->name = $name;
-	}
-	
-	/**
-	 * @return string
-	 */
-	public function getName(){
-		return $this->name;
-	}
-	
-	/**
-	 * @param string $color
-	 */
-	public function setDefaultColor($color){
-		$this->defaultColor = $color;
-	}
-	
-	/**
-	 * @return string
-	 */
-	public function getDefaultColor(){
-		return $this->defaultColor;
-	}
-	
-	/**
-	 * @param string $numberingStyle
-	 * @throws OutOfRangeException
-	 */
-	public function setDefaultNumberingStyle($numberingStyle){
-		$allowed = array('1', 'a', 'A', 'i', 'I');
-		if(in_array($numberingStyle, $allowed)){
-			$this->defaultNumberingStyle = $numberingStyle;
-		} else {
-			throw new OutOfRangeException("Unknown NumberingStyle");
-		}
-	}
-	
-	/**
-	 * @return string
-	 */
-	public function getDefaultNumberingStyle(){
-		return $this->defaultNumberingStyle;
-	}
-	
-	
-	/**
-	 * @param CampType $campType
-	 */
-	public function setCampType(CampType $campType){
-		$this->campType = $campType;
-	}
-	
-	/**
-	 * @return CampType
-	 */
-	public function getCampType(){
-		return $this->campType;
-	}
+    /**
+     * @ORM\Column(type="string", length=64, nullable=false)
+     */
+    private $name;
+
+    /**
+     * @ORM\Column(type="string", length=8, nullable=false)
+     */
+    private $defaultColor;
+
+    /**
+     * @ORM\Column(type="string", length=1, nullable=false)
+     */
+    private $defaultNumberingStyle;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="CampType")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $campType;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="EventPrototype")
+     * @ORM\JoinTable(name="event_type_event_prototypes",
+     *      joinColumns={@ORM\JoinColumn(name="eventtype_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="eventprototype_id", referencedColumnName="id")}
+     *      )
+     */
+    private $eventPrototypes;
+
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
+
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param string $color
+     */
+    public function setDefaultColor($color)
+    {
+        $this->defaultColor = $color;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDefaultColor()
+    {
+        return $this->defaultColor;
+    }
+
+    /**
+     * @param  string              $numberingStyle
+     * @throws OutOfRangeException
+     */
+    public function setDefaultNumberingStyle($numberingStyle)
+    {
+        $allowed = array('1', 'a', 'A', 'i', 'I');
+        if (in_array($numberingStyle, $allowed)) {
+            $this->defaultNumberingStyle = $numberingStyle;
+        } else {
+            throw new OutOfRangeException("Unknown NumberingStyle");
+        }
+    }
+
+    /**
+     * @return string
+     */
+    public function getDefaultNumberingStyle()
+    {
+        return $this->defaultNumberingStyle;
+    }
+
+    /**
+     * @param CampType $campType
+     */
+    public function setCampType(CampType $campType)
+    {
+        $this->campType = $campType;
+    }
+
+    /**
+     * @return CampType
+     */
+    public function getCampType()
+    {
+        return $this->campType;
+    }
 }

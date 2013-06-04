@@ -22,6 +22,9 @@ namespace EcampCore\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
+use EcampLib\Entity\BaseEntity;
+use EcampCore\Acl\BelongsToParentResource;
+
 /**
  * A period is defined by its starting date and duration (in days).
  * A camp can consist of multiple, separated periods, which are not allowed to
@@ -29,131 +32,132 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity(repositoryClass="EcampCore\Repository\PeriodRepository")
  * @ORM\Table(name="periods")
  */
-class Period extends BaseEntity
+class Period
+    extends BaseEntity
+    implements BelongsToParentResource
 {
-	public function __construct($camp = null)
-	{
-		parent::__construct();
-		
-		$this->camp = $camp;
-		$this->days = new \Doctrine\Common\Collections\ArrayCollection();
-	}
+    public function __construct($camp = null)
+    {
+        parent::__construct();
 
+        $this->camp = $camp;
+        $this->days = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
-	/**
-	 * @ORM\Column(type="date", nullable=false )
-	 */
-	private $start;
+    /**
+     * @ORM\Column(type="date", nullable=false )
+     */
+    private $start;
 
-	/**
-	 * @var Camp
-	 * @ORM\ManyToOne(targetEntity="Camp")
-	 * @ORM\JoinColumn(nullable=false, onDelete="cascade")
-	 */
-	private $camp;
+    /**
+     * @var Camp
+     * @ORM\ManyToOne(targetEntity="Camp")
+     * @ORM\JoinColumn(nullable=false, onDelete="cascade")
+     */
+    private $camp;
 
-	/**
-	 * @ORM\Column(type="text", nullable=true )
-	 */
-	private $description;
-	
-	/**
-	 * @ORM\OneToMany(targetEntity="Day", mappedBy="period")
-	 * @ORM\OrderBy({"dayOffset" = "ASC"})
-	 * @var Doctrine\Common\Collections\ArrayCollection
-	 */
-	private $days;
-	
-	/**
-	 * @ORM\OneToMany(targetEntity="EventInstance", mappedBy="period")
-	 */
-	private $eventInstances;
+    /**
+     * @ORM\Column(type="text", nullable=true )
+     */
+    private $description;
 
-	
-	
-	/**
-	 * @param string $description
-	 */
-	public function setDescription($description)
-	{
-		$this->description = $description;
-	}
-	
-	/**
-	 * @return string
-	 */
-	public function getDescription()
-	{
-		return $this->description;
-	}
+    /**
+     * @ORM\OneToMany(targetEntity="Day", mappedBy="period")
+     * @ORM\OrderBy({"dayOffset" = "ASC"})
+     * @var Doctrine\Common\Collections\ArrayCollection
+     */
+    private $days;
 
-	
-	/**
-	 * @param \DateTime $start
-	 */
-	public function setStart(\DateTime $start)
-	{
-		$start->setTime(0, 0);
-		$this->start = $start;
-	}
-	
-	/**
-	 * @return \DateTime
-	 */
-	public function getStart()
-	{
-		return $this->start;
-	}
-	
-	
-	/**
-	 * @return \DateInterval
-	 */
-	public function getDuration()
-	{
-		return new \DateInterval( 'P' . $this->getNumberOfDays() . 'D');
-	}
+    /**
+     * @ORM\OneToMany(targetEntity="EventInstance", mappedBy="period")
+     */
+    private $eventInstances;
 
-	/**
-	 * @return int
-	 */
-	public function getNumberOfDays()
-	{
-		return $this->days->count();
-	}
-	
-	/**
-	 * @return \DateTime
-	 */
-	public function getEnd()
-	{
-		return $this->start
-					->add($this->getDuration())
-					->sub(new \DateInterval('PT1S'));
-	}
+    /**
+     * @param string $description
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+    }
 
-	
-	/**
-	 * @return Camp
-	 */
-	public function getCamp()
-	{
-		return $this->camp;
-	}
+    /**
+     * @return string
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
 
-	/**
-	 * @return Doctrine\Common\Collections\ArrayCollection
-	 */
-	public function getDays()
-	{
-		return $this->days;
-	}
-	
-	/**
-	 * @return Doctrine\Common\Collections\ArrayCollection
-	 */
-	public function getEventInstances()
-	{
-		return $this->eventInstances;
-	}
+    /**
+     * @param \DateTime $start
+     */
+    public function setStart(\DateTime $start)
+    {
+        $start->setTime(0, 0);
+        $this->start = $start;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getStart()
+    {
+        return $this->start;
+    }
+
+    /**
+     * @return \DateInterval
+     */
+    public function getDuration()
+    {
+        return new \DateInterval( 'P' . $this->getNumberOfDays() . 'D');
+    }
+
+    /**
+     * @return int
+     */
+    public function getNumberOfDays()
+    {
+        return $this->days->count();
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getEnd()
+    {
+        return $this->start
+                    ->add($this->getDuration())
+                    ->sub(new \DateInterval('PT1S'));
+    }
+
+    /**
+     * @return Camp
+     */
+    public function getCamp()
+    {
+        return $this->camp;
+    }
+
+    public function getParentResource()
+    {
+        return $this->camp;
+    }
+
+    /**
+     * @return Doctrine\Common\Collections\ArrayCollection
+     */
+    public function getDays()
+    {
+        return $this->days;
+    }
+
+    /**
+     * @return Doctrine\Common\Collections\ArrayCollection
+     */
+    public function getEventInstances()
+    {
+        return $this->eventInstances;
+    }
 }
