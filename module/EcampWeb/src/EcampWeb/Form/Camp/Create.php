@@ -22,88 +22,85 @@ namespace Core\Form\Camp;
 
 /**
  * Validation form to create/update camps
- * 
+ *
  */
 class Create extends \Core\Form\BaseForm
 {
-	
-	public function init()
-	{
 
-		$id = new \Zend_Form_Element_Text('id');
+    public function init()
+    {
 
-		$name_validator = new \Zend_Validate_Regex('/^[a-z0-9][a-z0-9_-]+$/');
-		$name_validator->setMessage('Value can only contain lower letters, numbers, underscores (_) and dashes (-) and needs to start with a letter or number.');
+        $id = new \Zend_Form_Element_Text('id');
 
-		$name = new \Zend_Form_Element_Text('name');
-		$name->setRequired(true)
-			->addValidator($name_validator)
-			->addValidator(new \Zend_Validate_StringLength(array('min' => 5, 'max' => 20)));
+        $name_validator = new \Zend_Validate_Regex('/^[a-z0-9][a-z0-9_-]+$/');
+        $name_validator->setMessage('Value can only contain lower letters, numbers, underscores (_) and dashes (-) and needs to start with a letter or number.');
 
+        $name = new \Zend_Form_Element_Text('name');
+        $name->setRequired(true)
+            ->addValidator($name_validator)
+            ->addValidator(new \Zend_Validate_StringLength(array('min' => 5, 'max' => 20)));
 
-		$title = new \Zend_Form_Element_Text('title');
-		$title->setRequired(true);
+        $title = new \Zend_Form_Element_Text('title');
+        $title->setRequired(true);
 
-		$date_validator = new \Zend_Validate_Date(array('format' => 'dd.mm.yyyy'));
+        $date_validator = new \Zend_Validate_Date(array('format' => 'dd.mm.yyyy'));
 
-		$from = new \Zend_Form_Element_Text('from');
-		$from->setRequired(true)
-			->addValidator($date_validator);
+        $from = new \Zend_Form_Element_Text('from');
+        $from->setRequired(true)
+            ->addValidator($date_validator);
 
-		$to   = new \Zend_Form_Element_Text('to');
-		$to->setRequired(true)
-			->addValidator($date_validator);
+        $to   = new \Zend_Form_Element_Text('to');
+        $to->setRequired(true)
+            ->addValidator($date_validator);
 
+        $this->addElement($id);
+        $this->addElement($name);
+        $this->addElement($title);
+        $this->addElement($from);
+        $this->addElement($to);
+    }
 
-		$this->addElement($id);
-		$this->addElement($name);
-		$this->addElement($title);
-		$this->addElement($from);
-		$this->addElement($to);
-	}
+    public function getData(\CoreApi\Entity\Camp $camp, \CoreApi\Entity\Period $period)
+    {
+        $camp->setName($this->getValue('name'));
 
+        $camp->setTitle($this->getValue('title'));
 
-	public function getData(\CoreApi\Entity\Camp $camp, \CoreApi\Entity\Period $period)
-	{
-		$camp->setName($this->getValue('name'));
+        /* GMT disables daylight saving */
+        $from = new \DateTime($this->getValue('from'), new \DateTimeZone("GMT"));
+        $to   = new \DateTime($this->getValue('to'), new \DateTimeZone("GMT"));
 
-		$camp->setTitle($this->getValue('title'));
+        $period->setStart($from);
 
-		/* GMT disables daylight saving */
-		$from = new \DateTime($this->getValue('from'), new \DateTimeZone("GMT")); 
-		$to   = new \DateTime($this->getValue('to'), new \DateTimeZone("GMT"));
-		
-		$period->setStart($from);
+        /* we could use:
+            $period->setDuration( $from->diff($to)->days + 1 );
+           but this is broken on windows :( */
 
-		/* we could use:
-			$period->setDuration( $from->diff($to)->days + 1 );
-		   but this is broken on windows :( */
-		   
-		$period->setDuration( ($to->getTimestamp() - $from->getTimestamp())/(24 * 60 * 60) + 1 );
-	}
+        $period->setDuration( ($to->getTimestamp() - $from->getTimestamp())/(24 * 60 * 60) + 1 );
+    }
 
-	
-	public function getId()
-	{
-		return $this->getValue('id');
-	}
+    public function getId()
+    {
+        return $this->getValue('id');
+    }
 
-	public function isValid($data)
-	{
-		$s = parent::isValid($data);
+    public function isValid($data)
+    {
+        $s = parent::isValid($data);
 
-		$from = new \DateTime($this->getValue('from'));
-		$to   = new \DateTime($this->getValue('to'));
-		if( $from > $to ){
-			$this->getElement("from")->addError("'From' date can not be larger than 'To' date.");
-			return false;
-		}
-		
-		if( !$s )
-			return false;
+        $from = new \DateTime($this->getValue('from'));
+        $to   = new \DateTime($this->getValue('to'));
+        if ($from > $to) {
+            $this->getElement("from")->addError("'From' date can not be larger than 'To' date.");
 
-		return true;
-	}
+            return false;
+        }
+
+        if( !$s )
+
+            return false;
+
+        return true;
+    }
 
 }
-

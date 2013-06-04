@@ -17,7 +17,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with eCamp.  If not, see <http://www.gnu.org/licenses/>.
  */
- 
+
 /**
  * This is the base class for all plugin strategies
  *
@@ -27,63 +27,62 @@
  */
 
 namespace EcampCore\Plugin;
- 
+
 use EcampCore\Entity\Medium;
 use EcampCore\Entity\PluginInstance;
 
 use Zend\ServiceManager\ServiceLocatorInterface;
 
-abstract class AbstractStrategy 
+abstract class AbstractStrategy
 {
 
-	public function __construct(
-		ServiceLocatorInterface $serviceLocator, 
-		PluginInstance $pluginInstance
-	){
-		$this->serviceLocator = $serviceLocator;
-		$this->pluginInstance = $pluginInstance;
-	}
-	
-	/**
-	 * @var Zend\ServiceManager\ServiceLocatorInterface
-	 */
-	private $serviceLocator;
-	
-	/**
-	 * @return Zend\ServiceManager\ServiceLocatorInterface
-	 */
-	protected function getServiceLocator(){
-		return $this->serviceLocator;
-	}
-	
-	
-	/**
-	 * @var EcampCore\Entity\PluginInstance
-	 */
-	private $pluginInstance;
-	
-	/**
-	 * @return EcampCore\Entity\PluginInstance
-	 */
-	protected function getPluginInstance(){
-		return $this->pluginInstance;
-	}
-	
-	
-	/**
-	 * @param Medium $medium
-	 * @return Zend\View\Model\ViewModel
-	 */
-	abstract function render(Medium $medium);
-	
-	
-	/**
-	 * @deprecated
-	 */
-	abstract function renderFrontend();
-	
-	/**
-	* @deprecated
-	*/
-	abstract function renderBackend();
+    public function __construct(
+        ServiceLocatorInterface $serviceLocator,
+        PluginInstance $pluginInstance
+    ){
+        $this->serviceLocator = $serviceLocator;
+        $this->pluginInstance = $pluginInstance;
+    }
+
+    /**
+     * @var Zend\ServiceManager\ServiceLocatorInterface
+     */
+    private $serviceLocator;
+
+    /**
+     * @return Zend\ServiceManager\ServiceLocatorInterface
+     */
+    protected function getServiceLocator()
+    {
+        return $this->serviceLocator;
+    }
+
+    /**
+     * @var EcampCore\Entity\PluginInstance
+     */
+    private $pluginInstance;
+
+    /**
+     * @return EcampCore\Entity\PluginInstance
+     */
+    protected function getPluginInstance()
+    {
+        return $this->pluginInstance;
+    }
+
+    /**
+     * @param  Medium                    $medium
+     * @return Zend\View\Model\ViewModel
+     */
+    abstract public function render(Medium $medium);
+
+    /**
+     * @deprecated
+     */
+    abstract public function renderFrontend();
+
+    /**
+    * @deprecated
+    */
+    abstract public function renderBackend();
 }

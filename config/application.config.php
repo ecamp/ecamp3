@@ -10,7 +10,6 @@ return array(
         'ZFTool',
         'ZendDeveloperTools',
 
-    		
         'DoctrineTools',
         'DoctrineModule',
         'DoctrineORMModule',
@@ -18,21 +17,21 @@ return array(
 // 		'DiWrapper',
 //		'OcraServiceManager',
 //    	'OcraDiCompiler',
-    	
-    	'ZfcTwig',
-    	
+
+        'ZfcTwig',
+
         'Application',
-        
-    	'EcampLib',
+
+        'EcampLib',
         'EcampCore',
         'EcampWeb',
         'EcampApi',
         'EcampDB',
 //     	'EcampDev',
-        
+
         'EcampStoryboard'
     ),
-    
+
     'module_listener_options' => array(
         'module_paths' => array(
             './module',

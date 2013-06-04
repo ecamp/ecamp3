@@ -4,5 +4,5 @@ namespace EcampCore\Entity;
 
 interface CampOwnerInterface
 {
-	public function getCamps();
+    public function getCamps();
 }

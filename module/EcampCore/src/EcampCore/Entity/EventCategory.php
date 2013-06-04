@@ -30,117 +30,127 @@ use EcampCore\Acl\BelongsToParentResource;
  * @ORM\Entity
  * @ORM\Table(name="event_categories")
  */
-class EventCategory 
-	extends BaseEntity
-	implements BelongsToParentResource
+class EventCategory
+    extends BaseEntity
+    implements BelongsToParentResource
 {
 
-	public function __construct()
-	{
-	}
+    public function __construct()
+    {
+    }
 
-	/**
-	 * @ORM\Column(type="string", length=64, nullable=false)
-	 */
-	private $name;
-	
-	/**
-	 * @ORM\Column(type="string", length=8, nullable=false)
-	 */
-	private $color;
-	
-	/**
-	 * @ORM\Column(type="string", length=1, nullable=false)
-	 */
-	private $numberingStyle;
-	
-	/**
-	 * @ORM\ManyToOne(targetEntity="Camp")
-	 * @ORM\JoinColumn(nullable=false)
-	 */
-	private $camp;
-	
-	/**
-	 * @ORM\ManyToOne(targetEntity="EventType")
-	 * @ORM\JoinColumn(nullable=false)
-	 */
-	private $eventType;
-	
-	
-	public function setName($name){
-		$this->name = $name;
-	}
-	
-	/**
-	 * @return string
-	 */
-	public function getName(){
-		return $this->name;
-	}
-	
-	/**
-	 * @param string $color
-	 */
-	public function setColor($color){
-		$this->color = $color;
-	}
-	
-	/**
-	 * @return string
-	 */
-	public function getColor(){
-		return $this->color;
-	}
-	
-	/**
-	 * @param string $numberingStyle
-	 * @throws OutOfRangeException
-	 */
-	public function setNumberingStyle($numberingStyle){
-		$allowed = array('1', 'a', 'A', 'i', 'I');
-		if(in_array($numberingStyle, $allowed)){
-			$this->numberingStyle = $numberingStyle;
-		} else {
-			throw new OutOfRangeException("Unknown NumberingStyle");
-		}
-	}
-	
-	/**
-	 * @return string
-	 */
-	public function getNumberingStyle(){
-		return $this->numberingStyle;
-	}
-	
-	/**
-	 * @param Camp $camp
-	 */
-	public function setCamp(Camp $camp){
-		$this->camp = $camp;
-	}
-	
-	/**
-	 * @return Camp
-	 */
-	public function getCamp(){
-		return $this->camp;
-	}
+    /**
+     * @ORM\Column(type="string", length=64, nullable=false)
+     */
+    private $name;
 
-	public function getParentResource(){
-		return $this->camp;
-	}
-	
-	/**
-	 * @param EventType $eventType
-	 */
-	public function setEventType(EventType $eventType){
-		$this->eventType = $eventType;
-	}
-	
-	/**
-	 * @return EventType
-	 */
-	public function getEventType(){
-		return $this->eventType;
-	}
+    /**
+     * @ORM\Column(type="string", length=8, nullable=false)
+     */
+    private $color;
+
+    /**
+     * @ORM\Column(type="string", length=1, nullable=false)
+     */
+    private $numberingStyle;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Camp")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $camp;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="EventType")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $eventType;
+
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
+
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param string $color
+     */
+    public function setColor($color)
+    {
+        $this->color = $color;
+    }
+
+    /**
+     * @return string
+     */
+    public function getColor()
+    {
+        return $this->color;
+    }
+
+    /**
+     * @param  string              $numberingStyle
+     * @throws OutOfRangeException
+     */
+    public function setNumberingStyle($numberingStyle)
+    {
+        $allowed = array('1', 'a', 'A', 'i', 'I');
+        if (in_array($numberingStyle, $allowed)) {
+            $this->numberingStyle = $numberingStyle;
+        } else {
+            throw new OutOfRangeException("Unknown NumberingStyle");
+        }
+    }
+
+    /**
+     * @return string
+     */
+    public function getNumberingStyle()
+    {
+        return $this->numberingStyle;
+    }
+
+    /**
+     * @param Camp $camp
+     */
+    public function setCamp(Camp $camp)
+    {
+        $this->camp = $camp;
+    }
+
+    /**
+     * @return Camp
+     */
+    public function getCamp()
+    {
+        return $this->camp;
+    }
+
+    public function getParentResource()
+    {
+        return $this->camp;
+    }
+
+    /**
+     * @param EventType $eventType
+     */
+    public function setEventType(EventType $eventType)
+    {
+        $this->eventType = $eventType;
+    }
+
+    /**
+     * @return EventType
+     */
+    public function getEventType()
+    {
+        return $this->eventType;
+    }
 }

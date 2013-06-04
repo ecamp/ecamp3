@@ -4,5 +4,5 @@ namespace EcampLib\Acl;
 
 interface ResourceFactoryInterface
 {
-	public function createResource($resource);
+    public function createResource($resource);
 }

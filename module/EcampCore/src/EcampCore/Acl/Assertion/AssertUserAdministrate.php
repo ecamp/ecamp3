@@ -10,21 +10,21 @@ use EcampCore\Acl\Rolr\UserRole;
 use EcampCore\Acl\Resource\UserResource;
 
 class AssertUserAdministrate
-	implements AssertionInterface
+    implements AssertionInterface
 {
-	public function assert(
-		Acl $acl, 
-		RoleInterface $role = null, 
-		ResourceInterface $resource = null, 
-		$privilege = null
-	){
-		if($role instanceof UserRole && $resource instanceof UserResource){
-			$me = $role->getUser();
-			$user = $resource->getUser();
-			
-			if($me == $user)	return true;
-			
-			return false;
-		}
-	}
+    public function assert(
+        Acl $acl,
+        RoleInterface $role = null,
+        ResourceInterface $resource = null,
+        $privilege = null
+    ){
+        if ($role instanceof UserRole && $resource instanceof UserResource) {
+            $me = $role->getUser();
+            $user = $resource->getUser();
+
+            if($me == $user)	return true;
+
+            return false;
+        }
+    }
 }

@@ -4,5 +4,5 @@ namespace EcampLib\Acl;
 
 interface RoleFactoryInterface
 {
-	public function createRole($role);
+    public function createRole($role);
 }

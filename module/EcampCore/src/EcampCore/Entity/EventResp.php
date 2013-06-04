@@ -32,55 +32,59 @@ use EcampCore\Acl\BelongsToParentResource;
  * @ORM\Entity(repositoryClass="EcampCore\Repository\EventRespRepository")
  * @ORM\Table(name="event_resps")
  */
-class EventResp 
-	extends BaseEntity
-	implements BelongsToParentResource
+class EventResp
+    extends BaseEntity
+    implements BelongsToParentResource
 {
-    public function __construct(){
+    public function __construct()
+    {
     }
-    
 
-	/**
-	 * @ORM\ManyToOne(targetEntity="Event")
-	 * @ORM\JoinColumn(nullable=false)
-	 */
-	private $event;
+    /**
+     * @ORM\ManyToOne(targetEntity="Event")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $event;
 
-	/**
-	 * @ORM\ManyToOne(targetEntity="UserCamp")
-	 * @ORM\JoinColumn(nullable=false)
-	 */
-	private $userCamp;
-	
-	
-	public function setEvent(Event $event){
-		$this->event = $event;
-	}
-	
-	/**
-	 * @return Event
-	 */
-	public function getEvent(){
-		return $this->event;
-	}
-	
-	public function getParentResource(){
-		return $this->event;
-	}
-	
-	public function setUserCamp(UserCamp $userCamp){
-		$this->userCamp = $userCamp;
-	}
-	
-	/**
-	 * @return UserCamp
-	 */
-	public function getUserCamp(){
-		return $this->userCamp;
-	}
-	
-	
-	public function getCamp(){
-		return $this->event->getCamp();
-	}
+    /**
+     * @ORM\ManyToOne(targetEntity="UserCamp")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $userCamp;
+
+    public function setEvent(Event $event)
+    {
+        $this->event = $event;
+    }
+
+    /**
+     * @return Event
+     */
+    public function getEvent()
+    {
+        return $this->event;
+    }
+
+    public function getParentResource()
+    {
+        return $this->event;
+    }
+
+    public function setUserCamp(UserCamp $userCamp)
+    {
+        $this->userCamp = $userCamp;
+    }
+
+    /**
+     * @return UserCamp
+     */
+    public function getUserCamp()
+    {
+        return $this->userCamp;
+    }
+
+    public function getCamp()
+    {
+        return $this->event->getCamp();
+    }
 }

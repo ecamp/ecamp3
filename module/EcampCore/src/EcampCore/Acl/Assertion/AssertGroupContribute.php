@@ -10,22 +10,22 @@ use EcampCore\Acl\Role\UserRole;
 use EcampCore\Acl\Resource\GroupResource;
 
 class AssertGroupContribute
-	implements AssertionInterface
+    implements AssertionInterface
 {
-	public function assert(
-		Acl $acl, 
-		RoleInterface $role = null, 
-		ResourceInterface $resource = null, 
-		$privilege = null
-	){
-		if($role instanceof UserRole && $resource instanceof GroupResource){
-			$user = $role->getUser();
-			$group = $resource->getGroup();
-			
-			if($group->isMember($user))		return true;
-			if($group->isManager($user))	return true;
-			
-			return false;
-		}
-	}
+    public function assert(
+        Acl $acl,
+        RoleInterface $role = null,
+        ResourceInterface $resource = null,
+        $privilege = null
+    ){
+        if ($role instanceof UserRole && $resource instanceof GroupResource) {
+            $user = $role->getUser();
+            $group = $resource->getGroup();
+
+            if($group->isMember($user))		return true;
+            if($group->isManager($user))	return true;
+
+            return false;
+        }
+    }
 }

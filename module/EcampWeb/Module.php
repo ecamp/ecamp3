@@ -18,9 +18,9 @@ class Module
             ),
         );
     }
-    
+
     public function getControllerConfig()
     {
-    	return include __DIR__ . '/config/controller.config.php';
+        return include __DIR__ . '/config/controller.config.php';
     }
 }

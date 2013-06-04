@@ -8,14 +8,14 @@ use Zend\Permissions\Acl\Resource\ResourceInterface;
 use Zend\Permissions\Acl\Assertion\AssertionInterface;
 
 class AssertGroupList
-	implements AssertionInterface
+    implements AssertionInterface
 {
-	public function assert(
-		Acl $acl, 
-		RoleInterface $role = null, 
-		ResourceInterface $resource = null, 
-		$privilege = null
-	){
-		return true;
-	}
+    public function assert(
+        Acl $acl,
+        RoleInterface $role = null,
+        ResourceInterface $resource = null,
+        $privilege = null
+    ){
+        return true;
+    }
 }

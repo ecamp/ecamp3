@@ -33,96 +33,101 @@ use EcampLib\Entity\BaseEntity;
 class PluginPrototype extends BaseEntity
 {
 
-    public function __construct($eventPrototype = null){
+    public function __construct($eventPrototype = null)
+    {
         $this->eventPrototype = $eventPrototype;
     }
 
-	/**
-	 * @var Plugin
-	 * @ORM\ManyToOne(targetEntity="Plugin")
-	 * @ORM\JoinColumn(nullable=false)
-	 */
-	private $plugin;
-	
-	/**
-	 * @var EventPrototype
-	 * @ORM\ManyToOne(targetEntity="EventPrototype")
-	 * @ORM\JoinColumn(nullable=false, onDelete="cascade")
-	 */
-	private $eventPrototype;
-	
-	/**
-	 * If false, no more plugin instances can be created (also default instances are not created anymore).
-	 * However, existing plugins
-	 * @ORM\Column(type="boolean", nullable=false) 
-	 */
-	private $active = true;
-	
-	/**
-	 * Maximum number of plugin instances  per event (null=unlimited)
-	 * @ORM\Column(type="smallint", nullable=true)
-	 */
-	private $maxInstances = 1;
-	
-	/**
-	 * Number of plugin instances that are created by default for a new event
-	 * @ORM\Column(type="smallint", nullable=false)
-	 */
-	private $defaultInstances = 1;
-	
-	/**
-	 * Minimum number of plugin instances per event. Settings this value>0 makes those instances non-deletable.
-	 * @ORM\Column(type="smallint", nullable=false)
-	 */
-	private $minInstances  = 0;
-	
-	/**
-	 * Further configuration of this plugin in JSON format
-	 *
-	 * @var string
-	 * @ORM\Column(type="text" )
-	 */
-	private $config;
-	
-	
-	/**
-	 * @return Plugin
-	 */
-	public function getPlugin(){
-	    return $this->plugin;
-	}
-	
-	
-	public function setConfig($config){
-	    $this->config = json_encode($config);
-	}
-	
-	/**
-	 * @return string
-	 */
-	public function getConfig(){
-		return json_decode($this->config);
-	}
-	
-	/**
-	 * @return integer
-	 */
-	public function getDefaultInstances(){
-	    return $this->defaultInstances;
-	}
-	
-	/**
-	 * @return integer
-	 */
-	public function getMaxInstances(){
-	    return $this->maxInstances;
-	}
-	
-	/**
-	 * @return integer
-	 */
-	public function getMinInstances(){
-	    return $this->minInstances;
-	}
-	
+    /**
+     * @var Plugin
+     * @ORM\ManyToOne(targetEntity="Plugin")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $plugin;
+
+    /**
+     * @var EventPrototype
+     * @ORM\ManyToOne(targetEntity="EventPrototype")
+     * @ORM\JoinColumn(nullable=false, onDelete="cascade")
+     */
+    private $eventPrototype;
+
+    /**
+     * If false, no more plugin instances can be created (also default instances are not created anymore).
+     * However, existing plugins
+     * @ORM\Column(type="boolean", nullable=false)
+     */
+    private $active = true;
+
+    /**
+     * Maximum number of plugin instances  per event (null=unlimited)
+     * @ORM\Column(type="smallint", nullable=true)
+     */
+    private $maxInstances = 1;
+
+    /**
+     * Number of plugin instances that are created by default for a new event
+     * @ORM\Column(type="smallint", nullable=false)
+     */
+    private $defaultInstances = 1;
+
+    /**
+     * Minimum number of plugin instances per event. Settings this value>0 makes those instances non-deletable.
+     * @ORM\Column(type="smallint", nullable=false)
+     */
+    private $minInstances  = 0;
+
+    /**
+     * Further configuration of this plugin in JSON format
+     *
+     * @var string
+     * @ORM\Column(type="text" )
+     */
+    private $config;
+
+    /**
+     * @return Plugin
+     */
+    public function getPlugin()
+    {
+        return $this->plugin;
+    }
+
+    public function setConfig($config)
+    {
+        $this->config = json_encode($config);
+    }
+
+    /**
+     * @return string
+     */
+    public function getConfig()
+    {
+        return json_decode($this->config);
+    }
+
+    /**
+     * @return integer
+     */
+    public function getDefaultInstances()
+    {
+        return $this->defaultInstances;
+    }
+
+    /**
+     * @return integer
+     */
+    public function getMaxInstances()
+    {
+        return $this->maxInstances;
+    }
+
+    /**
+     * @return integer
+     */
+    public function getMinInstances()
+    {
+        return $this->minInstances;
+    }
+
 }

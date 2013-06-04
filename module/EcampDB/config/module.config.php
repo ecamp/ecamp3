@@ -26,21 +26,21 @@ return array(
                     ),
                 ),
             ),
-		),
-	),
-	
+        ),
+    ),
+
     'controllers' => array(
         'invokables' => array(
             'EcampDB\Controller\Index' 			=> 'EcampDB\Controller\IndexController',
             'EcampDB\Controller\Schema' 		=> 'EcampDB\Controller\SchemaController',
             'EcampDB\Controller\Maintenance' 	=> 'EcampDB\Controller\MaintenanceController',
-			'EcampDB\Controller\Data' 			=> 'EcampDB\Controller\DataController',
+            'EcampDB\Controller\Data' 			=> 'EcampDB\Controller\DataController',
         ),
     ),
-    
-	'view_manager' => array(
+
+    'view_manager' => array(
         'template_path_stack' => array(
-			__DIR__ . '/../view',
-		),
-	),
+            __DIR__ . '/../view',
+        ),
+    ),
 );

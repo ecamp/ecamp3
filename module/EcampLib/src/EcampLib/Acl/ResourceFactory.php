@@ -3,9 +3,10 @@
 namespace EcampLib\Acl;
 
 class ResourceFactory
-	implements ResourceFactoryInterface
+    implements ResourceFactoryInterface
 {
-	public function createResource($resource){
-		return $resource;
-	}
+    public function createResource($resource)
+    {
+        return $resource;
+    }
 }

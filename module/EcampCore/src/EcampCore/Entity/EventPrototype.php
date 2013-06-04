@@ -32,62 +32,60 @@ use EcampLib\Entity\BaseEntity;
 class EventPrototype extends BaseEntity
 {
 
-	public function __construct()
-	{
-		$this->pluginPrototypes = new \Doctrine\Common\Collections\ArrayCollection();
-		$this->eventTemplates = new \Doctrine\Common\Collections\ArrayCollection();
-	}
+    public function __construct()
+    {
+        $this->pluginPrototypes = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->eventTemplates = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
-	/**
-	 * @ORM\Column(type="string", length=64, nullable=false )
-	 */
-	private $name;
-	
-	/**
-	 * If false, no more events of this prototype can be created.
-	 * However, existing events will still be rendered.
-	 * @ORM\Column(type="boolean", nullable=false)
-	 */
-	private $active = true;
-	
-	/**
-	 * @ORM\OneToMany(targetEntity="PluginPrototype", mappedBy="eventPrototype")
-	 */
-	private $pluginPrototypes;
-	
-	/**
-	 * @ORM\OneToMany(targetEntity="EventTemplate", mappedBy="eventPrototype")
-	 */
-	private $eventTemplates;
-	
-	
-	
-	public function setName($name)
-	{
-		$this->name = $name;
-	}
-	
-	/**
-	 * @return string
-	 */
-	public function getName()
-	{
-		return $this->name;
-	}
-	
-	/**
-	 * @return array
-	 */
-	public function getPluginPrototypes()
-	{
-		return $this->pluginPrototypes;
-	}
-	
-	/**
-	 * @return array
-	 */
-	public function getEventTemplates()
-	{
-	    return $this->eventTemplates;
-	}
+    /**
+     * @ORM\Column(type="string", length=64, nullable=false )
+     */
+    private $name;
+
+    /**
+     * If false, no more events of this prototype can be created.
+     * However, existing events will still be rendered.
+     * @ORM\Column(type="boolean", nullable=false)
+     */
+    private $active = true;
+
+    /**
+     * @ORM\OneToMany(targetEntity="PluginPrototype", mappedBy="eventPrototype")
+     */
+    private $pluginPrototypes;
+
+    /**
+     * @ORM\OneToMany(targetEntity="EventTemplate", mappedBy="eventPrototype")
+     */
+    private $eventTemplates;
+
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
+
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @return array
+     */
+    public function getPluginPrototypes()
+    {
+        return $this->pluginPrototypes;
+    }
+
+    /**
+     * @return array
+     */
+    public function getEventTemplates()
+    {
+        return $this->eventTemplates;
+    }
 }

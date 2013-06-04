@@ -3,9 +3,10 @@
 namespace EcampLib\Acl;
 
 class RoleFactory
-	implements RoleFactoryInterface
+    implements RoleFactoryInterface
 {
-	public function createRole($role){
-		return $role;
-	}
+    public function createRole($role)
+    {
+        return $role;
+    }
 }
