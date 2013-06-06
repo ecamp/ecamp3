@@ -6,25 +6,22 @@ use Zend\Permissions\Acl\Acl;
 use Zend\Permissions\Acl\Role\RoleInterface;
 use Zend\Permissions\Acl\Resource\ResourceInterface;
 use Zend\Permissions\Acl\Assertion\AssertionInterface;
-use EcampCore\Acl\Rolr\UserRole;
-use EcampCore\Acl\Resource\UserResource;
+use EcampCore\Entity\User;
 
 class AssertUserAdministrate
     implements AssertionInterface
 {
     public function assert(
         Acl $acl,
-        RoleInterface $role = null,
-        ResourceInterface $resource = null,
+        RoleInterface $me = null,
+        ResourceInterface $user = null,
         $privilege = null
     ){
-        if ($role instanceof UserRole && $resource instanceof UserResource) {
-            $me = $role->getUser();
-            $user = $resource->getUser();
+        if ($me instanceof User && $user instanceof User) {
+            return ($me == $user);
 
-            if($me == $user)	return true;
-
-            return false;
         }
+
+        return false;
     }
 }

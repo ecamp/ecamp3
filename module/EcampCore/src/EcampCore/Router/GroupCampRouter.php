@@ -2,23 +2,40 @@
 
 namespace EcampCore\Router;
 
-use EcampCore\Repository\Provider\GroupRepositoryProvider;
-
 use Zend\Mvc\Router\Http\RouteMatch;
-
-use EcampCore\DI\DependencyLocator;
-use EcampCore\Repository\Provider\CampRepositoryProvider;
 
 use Zend\Mvc\Router\Exception;
 use Zend\Stdlib\RequestInterface as Request;
 use Zend\Mvc\Router\Http\RouteInterface;
+use Zend\ServiceManager\ServiceLocatorAwareInterface;
+use Zend\ServiceManager\ServiceLocatorInterface;
 
 class GroupCampRouter
-    extends DependencyLocator
     implements 	RouteInterface
-    ,			GroupRepositoryProvider
-    ,			CampRepositoryProvider
+    , ServiceLocatorAwareInterface
 {
+
+    private $serviceLocator;
+
+    public function getServiceLocator()
+    {
+        return $this->serviceLocator;
+    }
+
+    public function setServiceLocator(ServiceLocatorInterface $serviceLocator)
+    {
+        $this->serviceLocator = $serviceLocator;
+    }
+
+    public function getGroupRepository()
+    {
+        return $this->getServiceLocator()->getServiceLocator()->get('EcampCore\Repository\Group');
+    }
+
+    public function getCampRepository()
+    {
+        return $this->getServiceLocator()->getServiceLocator()->get('EcampCore\Repository\Camp');
+    }
 
     /**
      * Default values.
@@ -99,7 +116,7 @@ class GroupCampRouter
         $names = explode("/", $trim_path);
         $name = array_shift($names);
 
-        $group = $this->ecampCore_GroupRepo()->findOneBy(
+        $group = $this->getGroupRepository()->findOneBy(
             array('name' => $name, 'parent' => null));
 
         if ($group != null) {
@@ -108,7 +125,7 @@ class GroupCampRouter
             while (count($names)) {
                 $name = array_shift($names);
 
-                $childGroup = $this->ecampCore_GroupRepo()->findOneBy(
+                $childGroup = $this->getGroupRepository()->findOneBy(
                     array('name' => $name, 'parent' => $group));
 
                 if ($childGroup != null) {
@@ -119,7 +136,7 @@ class GroupCampRouter
                 }
             }
 
-            $camp = $this->ecampCore_CampRepo()->findOneBy(
+            $camp = $this->getCampRepository()->findOneBy(
                 array('name' => $name, 'group' => $group));
 
             if ($camp != null) {
@@ -143,10 +160,10 @@ class GroupCampRouter
         $groupId = $params['group'];
         $campId  = $params['camp'];
 
-        $group = $this->ecampCore_GroupRepo()->find($groupId);
+        $group = $this->getGroupRepository()->find($groupId);
         $groups = array();
 
-        $camp = ($campId != null) ? $this->ecampCore_CampRepo()->find($campId) : null;
+        $camp = ($campId != null) ? $this->getCampRepository()->find($campId) : null;
 
         while ($group != null) {
             array_unshift($groups, $group->getName());

@@ -20,10 +20,13 @@
 
 namespace EcampCore\Entity;
 
+use EcampLib\Entity\BaseEntity;
+
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Criteria;
 
-use EcampLib\Entity\BaseEntity;
+use Zend\Permissions\Acl\Role\RoleInterface;
+use Zend\Permissions\Acl\Resource\ResourceInterface;
 
 /**
  * @ORM\Entity(repositoryClass="EcampCore\Repository\UserRepository")
@@ -33,6 +36,8 @@ use EcampLib\Entity\BaseEntity;
 class User
     extends BaseEntity
     implements CampOwnerInterface
+    , RoleInterface
+    , ResourceInterface
 {
     const STATE_NONREGISTERED 	= "NonRegistered";
     const STATE_REGISTERED 		= "Registered";
@@ -471,6 +476,16 @@ class User
     public function isFemale()
     {
         return ( $this->gender == self::GENDER_FEMALE );
+    }
+
+    public function getRoleId()
+    {
+        return $this->getRole();
+    }
+
+    public function getResourceId()
+    {
+        return 'EcampCore\Entity\User';
     }
 
     /****************************************************************

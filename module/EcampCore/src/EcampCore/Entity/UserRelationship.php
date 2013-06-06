@@ -23,7 +23,6 @@ namespace EcampCore\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 use EcampLib\Entity\BaseEntity;
-use EcampCore\Acl\BelongsToParentResource;
 
 /**
  * Relationship between users (friends, etc.)
@@ -33,7 +32,6 @@ use EcampCore\Acl\BelongsToParentResource;
  */
 class UserRelationship
     extends BaseEntity
-    implements BelongsToParentResource
 {
     const TYPE_FRIEND  = 1;
     // const TYPE_BLOCK   = 2;
@@ -76,11 +74,6 @@ class UserRelationship
      * @return User
      */
     public function getFrom()
-    {
-        return $this->from;
-    }
-
-    public function getParentResource()
     {
         return $this->from;
     }

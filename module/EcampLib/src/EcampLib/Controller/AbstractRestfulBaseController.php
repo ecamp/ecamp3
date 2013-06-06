@@ -3,22 +3,70 @@
 namespace EcampLib\Controller;
 
 use Zend\Mvc\Controller\AbstractRestfulController;
-use Zend\Authentication\AuthenticationService;
 
 abstract class AbstractRestfulBaseController extends AbstractRestfulController
 {
 
-    protected function me()
+    /**
+     * @return \EcampCore\Service\UserService
+     */
+    private function getUserService()
     {
-        $auth = new AuthenticationService();
+        return $this->getServiceLocator()->get('EcampCore\Service\User');
+    }
 
-        if ($auth->hasIdentity()) {
-            $userRepo = $this->getServiceLocator()->get('ecampcore.repo.user');
+    /**
+     * @return \EcampCore\Service\CampService
+     */
+    private function getCampService()
+    {
+        return $this->getServiceLocator()->get('EcampCore\Service\Camp');
+    }
 
-            return $userRepo->find($auth->getIdentity());
-        }
+    /**
+     * @return \EcampCore\Service\GroupService
+     */
+    private function getGroupService()
+    {
+        return $this->getServiceLocator()->get('EcampCore\Service\Group');
+    }
 
-        return null;
+    /**
+     * @return \EcampCore\Entity\User
+     */
+    protected function getMe()
+    {
+        return $this->getUserService()->Get();
+    }
+
+    /**
+     * @return \EcampCore\Entity\User
+     */
+    protected function getRouteUser()
+    {
+        $userId = $this->params('user');
+
+        return $this->getUserService()->Get($userId);
+    }
+
+    /**
+     * @return \EcampCore\Entity\Group
+     */
+    protected function getRouteGroup()
+    {
+        $groupId = $this->params('group');
+
+        return $this->getGroupService()->Get($groupId);
+    }
+
+    /**
+     * @return \EcampCore\Entity\Camp
+     */
+    protected function getRouteCamp()
+    {
+        $campId = $this->params('camp');
+
+        return $this->getCampService()->Get($campId);
     }
 
 }

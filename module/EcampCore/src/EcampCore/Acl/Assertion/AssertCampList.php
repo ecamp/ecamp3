@@ -6,22 +6,19 @@ use Zend\Permissions\Acl\Acl;
 use Zend\Permissions\Acl\Role\RoleInterface;
 use Zend\Permissions\Acl\Resource\ResourceInterface;
 use Zend\Permissions\Acl\Assertion\AssertionInterface;
-use EcampCore\Acl\Role\UserRole;
-use EcampCore\Acl\Resource\CampResource;
 use EcampCore\Entity\Camp;
+use EcampCore\Entity\User;
 
 class AssertCampList
     implements AssertionInterface
 {
     public function assert(
         Acl $acl,
-        RoleInterface $role = null,
-        ResourceInterface $resource = null,
+        RoleInterface $user = null,
+        ResourceInterface $camp = null,
         $privilege = null
     ){
-        if ($role instanceof UserRole && $resource instanceof CampResource) {
-            $user = $role->getUser();
-            $camp = $resource->getCamp();
+        if ($user instanceof User && $camp instanceof Camp) {
 
             // If Camp is public
             if ($camp->getVisibility() == Camp::VISIBILITY_PUBLIC) {

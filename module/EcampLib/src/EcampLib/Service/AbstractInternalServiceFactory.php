@@ -29,7 +29,7 @@ class AbstractInternalServiceFactory implements AbstractFactoryInterface
 
     public function canCreateServiceWithName(ServiceLocatorInterface $serviceLocator, $name, $requestedName)
     {
-        return preg_match($this->pattern,$requestedName) && class_exists($this->getServiceFactoryName($requestedName));
+        return preg_match($this->pattern, $requestedName) && class_exists($this->getServiceFactoryName($requestedName));
     }
 
     public function createServiceWithName(ServiceLocatorInterface $serviceLocator, $name, $requestedName)
@@ -44,8 +44,12 @@ class AbstractInternalServiceFactory implements AbstractFactoryInterface
         $service->setEntityManager($serviceLocator->get($this->orm));
         $service->setAcl($serviceLocator->get('EcampCore\Acl'));
 
-        $authId = (new AuthenticationService())->getIdentity();
-        $service->setMe($serviceLocator->get('EcampCore\Repository\User')->find($authId));
+        $authService = new AuthenticationService();
+
+        if ($authService->hasIdentity()) {
+            $authId = $authService->getIdentity();
+            $service->setMe($serviceLocator->get('EcampCore\Repository\User')->find($authId));
+        }
 
         return $service;
     }

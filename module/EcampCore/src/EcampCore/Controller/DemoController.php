@@ -24,6 +24,14 @@ class DemoController
         return $this->getServiceLocator()->get('EcampCore\Repository\Camp');
     }
 
+    /**
+     * @return \EcampCore\Service\GroupService
+     */
+    private function getGroupService()
+    {
+        return $this->getServiceLocator()->get('EcampCore\Service\Group\Internal');
+    }
+
     public function paginatorAction()
     {
         $adapter = new Selectable($objectRepository, $criteria);
@@ -45,6 +53,19 @@ class DemoController
         return array(
             'user_camp_data' => $userCampData
         );
+    }
+
+    public function groupsAction()
+    {
+        $groups = $this->getRouteGroup()
+            ? $this->getRouteGroup()->getChildren()
+            : $this->getGroupService()->GetRoots();
+
+        foreach ($groups as $group) {
+            echo $group->getName() . PHP_EOL;
+        }
+
+        die();
     }
 
 }

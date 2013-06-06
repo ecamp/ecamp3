@@ -23,7 +23,6 @@ namespace EcampCore\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 use EcampLib\Entity\BaseEntity;
-use EcampCore\Acl\BelongsToParentResource;
 
 /**
  * Specifies the exact time/duration/subcamp when an event happens
@@ -32,7 +31,6 @@ use EcampCore\Acl\BelongsToParentResource;
  */
 class EventInstance
     extends BaseEntity
-    implements BelongsToParentResource
 {
 
     /**
@@ -177,11 +175,6 @@ class EventInstance
      * @return Period
      */
     public function getPeriod()
-    {
-        return $this->period;
-    }
-
-    public function getParentResource()
     {
         return $this->period;
     }

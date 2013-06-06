@@ -7,6 +7,7 @@ use EcampCore\Service\Params\Params;
 use EcampCore\Entity\Period;
 use EcampCore\Entity\Day;
 use EcampLib\Service\ServiceBase;
+use EcampCore\Acl\Privilege;
 
 /**
  * @method EcampCore\Service\DayService Simulate
@@ -21,7 +22,7 @@ class DayService
      */
     public function AppendDay(Period $period)
     {
-        $this->validationContextAssert($period);
+        $this->aclRequire($period->getCamp(), Privilege::CAMP_CONFIGURE);
 
         $day = new Day($period, $period->getNumberOfDays());
         $period->getDays()->add($day);
@@ -36,7 +37,7 @@ class DayService
      */
     public function RemoveDay(Period $period)
     {
-        $this->validationContextAssert($period);
+        $this->aclRequire($period->getCamp(), Privilege::CAMP_CONFIGURE);
 
         // Can the day be deletet?
         // What about the EventInstances?
@@ -53,7 +54,7 @@ class DayService
      */
     public function Update(Day $day, Params $param)
     {
-        $this->validationContextAssert($day);
+        $this->aclRequire($day->getCamp(), Privilege::CAMP_CONTRIBUTE);
 
         if ($param->hasElement('notes')) {
             $day->setNotes($param->getValue('notes'));

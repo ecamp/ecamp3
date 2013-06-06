@@ -7,23 +7,20 @@ use EcampCore\Entity\GroupRequest;
 
 use EcampLib\Service\ServiceBase;
 use EcampLib\Service\Params\Params;
+use EcampCore\Repository\GroupRepository;
+use EcampCore\Acl\Privilege;
 
-/**
- * @method CoreApi\Service\GroupService Simulate
- */
 class GroupService
     extends ServiceBase
 {
+    /** @var GroupRepository */
+    private $groupRepo;
 
-    /**
-     * Setup ACL
-     * @return void
-     */
-    public function _setupAcl()
-    {
-        $this->getAcl()->allow(DefaultAcl::MEMBER, $this, 'Get');
-        $this->getAcl()->allow(DefaultAcl::MEMBER, $this, 'GetRoots');
-        $this->getAcl()->allow(DefaultAcl::MEMBER, $this, 'RequestGroup');
+    public function __construct(
+
+        GroupRepository $groupRepo
+    ){
+        $this->groupRepo = $groupRepo;
     }
 
     /**
@@ -33,21 +30,22 @@ class GroupService
      *
      * @return EcampCore\Entity\Group
      */
-    public function Get($id = null)
+    public function Get($id)
     {
-        if (is_null($id)) {
-            return $this->getContextProvider()->getGroup();
-        }
+        $group = null;
 
         if (is_string($id)) {
-            return $this->repo()->groupRepository()->find($id);
+            $group = $this->groupRepo->find($id);
         }
 
         if ($id instanceof Group) {
-            return $id;
+            $group = $id;
         }
 
-        return null;
+        return
+            $group != null && $this->aclIsAllowed($group, Privilege::GROUP_LIST) ?
+            $group :
+            null;
     }
 
     /**
@@ -56,11 +54,14 @@ class GroupService
      */
     public function GetRoots()
     {
-        return $this->repo()->groupRepository()
-            ->createQueryBuilder("g")
-            ->where("g.parent IS NULL ")
-            ->getQuery()
-            ->getResult();
+        $rootGroups = $this->groupRepo->findRootGroups();
+
+        return array_filter($rootGroups, array($this, 'filterGroups'));
+    }
+
+    private function filterGroups(Group $group)
+    {
+        return $this->aclIsAllowed($group, Privilege::GROUP_LIST);
     }
 
     /**

@@ -12,8 +12,8 @@ class AssertGroupList
 {
     public function assert(
         Acl $acl,
-        RoleInterface $role = null,
-        ResourceInterface $resource = null,
+        RoleInterface $user = null,
+        ResourceInterface $group = null,
         $privilege = null
     ){
         return true;

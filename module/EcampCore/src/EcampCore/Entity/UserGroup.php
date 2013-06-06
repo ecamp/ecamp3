@@ -23,7 +23,6 @@ namespace EcampCore\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 use EcampLib\Entity\BaseEntity;
-use EcampCore\Acl\BelongsToParentResource;
 
 /**
  * Connection between User and Group
@@ -34,7 +33,6 @@ use EcampCore\Acl\BelongsToParentResource;
  */
 class UserGroup
     extends BaseEntity
-    implements BelongsToParentResource
 {
     const ROLE_NONE    = 0;
     const ROLE_MEMBER  = 10;
@@ -103,11 +101,6 @@ class UserGroup
      * @return Group
      */
     public function getGroup()
-    {
-        return $this->group;
-    }
-
-    public function getParentResource()
     {
         return $this->group;
     }

@@ -6,21 +6,19 @@ use Zend\Permissions\Acl\Acl;
 use Zend\Permissions\Acl\Role\RoleInterface;
 use Zend\Permissions\Acl\Resource\ResourceInterface;
 use Zend\Permissions\Acl\Assertion\AssertionInterface;
-use EcampCore\Acl\Role\UserRole;
-use EcampCore\Acl\Resource\CampResource;
+use EcampCore\Entity\User;
+use EcampCore\Entity\Camp;
 
 class AssertCampVisit
     implements AssertionInterface
 {
     public function assert(
         Acl $acl,
-        RoleInterface $role = null,
-        ResourceInterface $resource = null,
+        RoleInterface $user = null,
+        ResourceInterface $camp = null,
         $privilege = null
     ){
-        if ($role instanceof UserRole && $resource instanceof CampResource) {
-            $user = $role->getUser();
-            $camp = $resource->getCamp();
+        if ($user instanceof User && $camp instanceof Camp) {
 
             // If User is Member
             if($camp->isMember($user))		return true;
