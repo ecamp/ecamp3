@@ -35,7 +35,6 @@
         "php": ">=5.3.3",
         "zendframework/zendframework": "2.2.x",
 		
-		
 		"zendframework/zftool": "dev-master",
 		"zendframework/zend-developer-tools": "dev-master",
 		
@@ -43,7 +42,9 @@
         "doctrine/migrations": "dev-master",
 		"sundrique/doctrine-tools": ">=0.2",
 		
-		"zf-commons/zfc-twig": "dev-master"
+		"zf-commons/zfc-twig": "dev-master",
+
+        "phpunit/phpunit": "3.7.*"
 		
     }
 }

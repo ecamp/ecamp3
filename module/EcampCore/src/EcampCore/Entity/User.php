@@ -467,7 +467,7 @@ class User
      */
     public function isMale()
     {
-        return ( $this->gender == self::GENDER_MALE );
+        return ( $this->gender === self::GENDER_MALE );
     }
 
     /**
@@ -475,7 +475,7 @@ class User
      */
     public function isFemale()
     {
-        return ( $this->gender == self::GENDER_FEMALE );
+        return ( $this->gender === self::GENDER_FEMALE );
     }
 
     public function getRoleId()
@@ -500,7 +500,7 @@ class User
     public function createNewActivationCode()
     {
         $guid = hash('sha256', uniqid(md5(mt_rand()), true));
-        $this->activationCode = $guid;
+        $this->activationCode = md5($guid);
 
         return $guid;
     }
@@ -515,7 +515,7 @@ class User
 
     public function checkActivationCode($activationCode)
     {
-        $code = $activationCode;
+        $code = md5($activationCode);
 
         return $code == $this->activationCode;
     }
