@@ -9,10 +9,23 @@ use EcampLib\Controller\AbstractBaseController;
 class LoginController extends AbstractBaseController
 {
 
+    /**
+     * @return \EcampCore\Repository\UserRepository
+     */
+    private function getUserRepository()
+    {
+        return $this->getServiceLocator()->get('EcampCore\Repository\User');
+    }
+
     public function bypassAction()
     {
-        $id = $this->params()->fromQuery('id') ?: 1;
-        $user = $this->getServiceLocator()->get('EcampCore\Repository\User')->find($id);
+        $id = $this->params()->fromQuery('id');
+
+        if ($id != null) {
+            $user = $this->getUserRepository()->findOneBy(array('id' => $id));
+        } else {
+            $user = $this->getUserRepository()->findOneBy(array());
+        }
 
         $adapter = new Bypass($user);
         $auth = new AuthenticationService();

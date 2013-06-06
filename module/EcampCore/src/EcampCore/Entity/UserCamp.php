@@ -23,7 +23,6 @@ namespace EcampCore\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 use EcampLib\Entity\BaseEntity;
-use EcampCore\Acl\BelongsToParentResource;
 
 /**
  * Connection between User and camp
@@ -34,7 +33,6 @@ use EcampCore\Acl\BelongsToParentResource;
  */
 class UserCamp
     extends BaseEntity
-    implements BelongsToParentResource
 {
     const ROLE_NONE    = 'none';
     const ROLE_GUEST   = 'guest';
@@ -105,11 +103,6 @@ class UserCamp
      * @return Camp
      */
     public function getCamp()
-    {
-        return $this->camp;
-    }
-
-    public function getParentResource()
     {
         return $this->camp;
     }

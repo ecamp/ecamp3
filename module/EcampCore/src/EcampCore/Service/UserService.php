@@ -2,19 +2,32 @@
 
 namespace EcampCore\Service;
 
+use EcampCore\Acl\Privilege;
 use EcampCore\Entity\User;
-use EcampLib\Service\Params\Params;
+use EcampCore\Entity\Image;
+use EcampCore\Repository\UserRepository;
+
 use EcampLib\Service\ServiceBase;
+use EcampLib\Service\Params\Params;
 
 use Zend\Validator\EmailAddress;
 use Zend\Paginator\Paginator;
+use Zend\Authentication\AuthenticationService;
 
-/**
- * @method CoreApi\Service\UserService Simulate
- */
 class UserService
     extends ServiceBase
 {
+
+	/**
+	 * @var \EcampCore\Repository\UserRepository
+	 */
+    private $userRepo;
+
+    public function __construct(
+        UserRepository $userRepo
+    ){
+        $this->userRepo = $userRepo;
+    }
 
     /**
      * Returns the User with the given Identifier
@@ -22,17 +35,23 @@ class UserService
      *
      * If no Identifier is given, the Authenticated User is returned
      *
-     * @return EcampCore\Entity\User
+     * @return User
      */
     public function Get($id = null)
     {
         if (isset($id)) {
             $user = $this->getByIdentifier($id);
         } else {
-            $user = $this->getContext()->getMe();
+
+            $authService = new AuthenticationService();
+            if ($authService->hasIdentity()) {
+                $user = $this->userRepo->find($authService->getIdentity());
+            }
         }
 
-        return $user;
+        return $this->aclIsAllowed($user, Privilege::USER_LIST)
+            ? $user
+            : null;
     }
 
     /**
@@ -40,12 +59,12 @@ class UserService
      *
      * @param string $username
      *
-     * @return CoreApi\Entity\User
+     * @return User
      */
     public function Create(Params $params)
     {
         $email = $params->getValue('email');
-        $user = $this->repo()->userRepository()->findOneBy(array('email' => $email));
+        $user = $this->userRepo->findOneBy(array('email' => $email));
 
         if (is_null($user)) {
             $user = new User();
@@ -73,10 +92,8 @@ class UserService
         return $user;
     }
 
-    public function Update(Params $params)
+    public function Update(User $user, Params $params)
     {
-        $user = $this->getContext()->getUser();
-
         $userValidator = new \Core\Validator\Entity\UserValidator($user);
 
         $this->validationFailed(
@@ -85,31 +102,31 @@ class UserService
         return $user;
     }
 
-    public function Delete()
+    public function Delete(User $user)
     {
         // delete user
-        $this->em->remove($this->Get());
+        $this->em->remove($user);
     }
 
-    public function SetImage($data, $mime)
+    public function SetImage(User $user, $data, $mime)
     {
-        $image = new \CoreApi\Entity\Image();
+        $image = new Image();
         $image->setData($data);
         $image->setMime($mime);
 
-        $this->Get()->setImage($image);
+        $user->setImage($image);
     }
 
-    public function DeleteImage()
+    public function DeleteImage(User $user)
     {
-        $this->Get()->setImage(null);
+        $user->setImage(null);
     }
 
     /**
      * Returns the User for a MailAddress or a Username
      *
-     * @param  string                $identifier
-     * @return EcampCore\Entity\User
+     * @param  string $identifier
+     * @return User
      */
     private function getByIdentifier($identifier)
     {
@@ -119,14 +136,10 @@ class UserService
         if ($identifier instanceOf User) {
             $user = $identifier;
         } elseif ($mailValidator->isValid($identifier)) {
-            $user = $this->repo()->userRepository()->findOneBy(array('email' => $identifier));
+            $user = $this->userRepo->findOneBy(array('email' => $identifier));
         } else {
-            $user = $this->repo()->userRepository()->find($identifier);
+            $user = $this->userRepo->find($identifier);
         }
-
-        /*if (is_null($user)) {
-            throw new \Exception("No user found for Identifier: " . $identifier);
-        }*/
 
         return $user;
     }
@@ -137,7 +150,7 @@ class UserService
      */
     public function GetPaginator()
     {
-        $query = $this->repo()->userRepository()->createQueryBuilder("u");
+        $query = $this->userRepo->createQueryBuilder("u");
         $adapter = new \EcampCore\Paginator\Doctrine($query);
 
         return new Paginator($adapter);

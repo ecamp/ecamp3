@@ -2,23 +2,40 @@
 
 namespace EcampCore\Router;
 
-use EcampCore\Repository\Provider\UserRepositoryProvider;
-
 use Zend\Mvc\Router\Http\RouteMatch;
-
-use EcampCore\DI\DependencyLocator;
-use EcampCore\Repository\Provider\CampRepositoryProvider;
 
 use Zend\Mvc\Router\Exception;
 use Zend\Stdlib\RequestInterface as Request;
 use Zend\Mvc\Router\Http\RouteInterface;
+use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\ServiceManager\ServiceLocatorAwareInterface;
 
 class UserCampRouter
-    extends DependencyLocator
-    implements 	RouteInterface
-    ,			UserRepositoryProvider
-    ,			CampRepositoryProvider
+    implements RouteInterface
+    , ServiceLocatorAwareInterface
 {
+
+    private $serviceLocator;
+
+    public function getServiceLocator()
+    {
+        return $this->serviceLocator;
+    }
+
+    public function setServiceLocator(ServiceLocatorInterface $serviceLocator)
+    {
+        $this->serviceLocator = $serviceLocator;
+    }
+
+    public function getUserRepository()
+    {
+        return $this->getServiceLocator()->getServiceLocator()->get('EcampCore\Repository\User');
+    }
+
+    public function getCampRepository()
+    {
+        return $this->getServiceLocator()->getServiceLocator()->get('EcampCore\Repository\Camp');
+    }
 
     /**
      * Default values.
@@ -106,13 +123,13 @@ class UserCampRouter
             $campName = array_shift($names);
         }
 
-        $user = $this->ecampCore_UserRepo()->findOneBy(
+        $user = $this->getUserRepository()->findOneBy(
             array('username' => $userName));
 
         if ($user != null) {
             $length += strlen($userName);
 
-            $camp = $this->ecampCore_CampRepo()->findOneBy(
+            $camp = $this->getCampRepository()->findOneBy(
                 array('name' => $campName, 'owner' => $user));
 
             if ($camp != null) {
@@ -136,10 +153,10 @@ class UserCampRouter
     public function assemble(array $params = array(), array $options = array())
     {
         $userId = $params['user'];
-        $user = $this->ecampCore_UserRepo()->find($userId);
+        $user = $this->getUserRepository()->find($userId);
 
         $campId = $params['camp'];
-        $camp = ($campId != null) ? $this->ecampCore_CampRepo()->find($campId) : null;
+        $camp = ($campId != null) ? $this->getCampRepository()->find($campId) : null;
 
         $path = "/" . $user->getUsername();
 

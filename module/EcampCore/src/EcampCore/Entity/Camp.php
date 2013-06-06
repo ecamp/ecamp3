@@ -24,6 +24,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Criteria;
 
 use EcampLib\Entity\BaseEntity;
+use Zend\Permissions\Acl\Resource\ResourceInterface;
 
 /**
  * @ORM\Entity(repositoryClass="EcampCore\Repository\CampRepository")
@@ -33,6 +34,7 @@ use EcampLib\Entity\BaseEntity;
  *   )
  */
 class Camp extends BaseEntity
+    implements ResourceInterface
 {
     const VISIBILITY_PUBLIC = 'public';
     const VISIBILITY_CONTRIBUTORS = 'contributors';
@@ -282,6 +284,11 @@ class Camp extends BaseEntity
         $criteria->andWhere($expr->eq('role', UserCamp::ROLE_MEMBER));
 
         return !$this->getUserCamps()->matching($criteria)->isEmpty();
+    }
+
+    public function getResourceId()
+    {
+        return 'EcampCore\Entity\Camp';
     }
 
 }
