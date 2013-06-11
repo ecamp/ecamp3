@@ -43,7 +43,7 @@ class AuthenticationService
     public function replaceIdentity($identity)
     {
         if ($this->hasIdentity()) {
-            if ($this->getOrigStorage()->isEmpty()) {
+            if (! $this->hasOrigIdentity()) {
                 $this->getOrigStorage()->write($this->getIdentity());
             }
 
@@ -58,6 +58,11 @@ class AuthenticationService
             $this->getStorage()->write($this->getOrigStorage()->read());
             $this->getOrigStorage()->clear();
         }
+    }
+
+    public function hasOrigIdentity()
+    {
+        return !$this->getOrigStorage()->isEmpty();
     }
 
 }

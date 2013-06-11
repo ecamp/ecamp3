@@ -5,9 +5,9 @@ namespace EcampLib\Service;
 use Doctrine\ORM\EntityManager;
 
 use EcampCore\Entity\User;
-use EcampLib\Entity\BaseEntity;
 use EcampCore\ServiceUtil\ServiceWrapper;
 use EcampLib\Acl\Acl;
+use Zend\Permissions\Acl\Resource\ResourceInterface;
 
 abstract class ServiceBase
 {
@@ -46,7 +46,7 @@ abstract class ServiceBase
     private $acl;
 
     /**
-     * @return EcampLib\Acl\Acl
+     * @return \EcampLib\Acl\Acl
      */
     public function getAcl()
     {
@@ -82,21 +82,17 @@ abstract class ServiceBase
      * @param $privilege
      * @throws EcampCore\Acl\Exception\NoAccessException
      */
-    protected function aclRequire($user, BaseEntity $entity, $privilege)
+    protected function aclRequire(ResourceInterface $resource = null, $privilege = null)
     {
-        if( is_null($this->getMe()) )
-            $this->getAcl()->isAllowedException(\EcampCore\Entity\User::ROLE_GUEST, $entity, $privilege);
-        else
-            $this->getAcl()->isAllowedException($this->getMe(), $entity, $privilege);
+        $user = $this->getMe() ?: User::ROLE_GUEST;
+        $this->getAcl()->isAllowedException($user, $resource, $privilege);
     }
 
-    /**
-     * @return EcampCore\Entity\User
-     * @deprecated
-     */
-    protected function me()
+    protected function aclIsAllowed(ResourceInterface $resource = null, $privilege = null)
     {
-        $this->getMe();
+        $user = $this->getMe() ?: User::ROLE_GUEST;
+
+        return $this->getAcl()->isAllowed($user, $resource, $privilege);
     }
 
     protected function validationFailed($bool = true, $message = null)

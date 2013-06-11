@@ -12,6 +12,7 @@ use EcampLib\Service\Params\Params;
 
 use EcampLib\Service\ServiceBase;
 use EcampCore\Repository\CampRepository;
+use EcampCore\Acl\Privilege;
 
 /**
  * @method EcampCore\Service\CampService Simulate
@@ -54,8 +55,7 @@ class CampService
         }
 
         if ($camp != null) {
-            //$this->aclRequire($this->me(), $camp, __CLASS__.'::'.__METHOD__);
-            return $camp;
+            return $this->aclIsAllowed($camp, Privilege::CAMP_LIST) ? $camp : null;
         }
 
         return null;
@@ -66,7 +66,7 @@ class CampService
      */
     public function Delete(Camp $camp)
     {
-        $this->aclRequire(null, $camp, 'administrate');
+        $this->aclRequire($camp, Privilege::CAMP_ADMINISTRATE);
 
         $this->remove($camp);
     }
@@ -78,7 +78,7 @@ class CampService
      */
     public function Update(Camp $camp, Params $params)
     {
-        $this->aclRequire($this->me(), $camp, __CLASS__.'::'.__METHOD__);
+        $this->aclRequire($camp, Privilege::CAMP_CONFIGURE);
 
         $campValidator = new CampValidator($camp);
 
@@ -97,7 +97,12 @@ class CampService
      */
     public function Create(CampOwnerInterface $owner, Params $params)
     {
-        $this->aclRequire($this->me(), $owner , __CLASS__.'::'.__METHOD__);
+        if ($owner instanceof User) {
+            $this->aclRequire($owner, Privilege::USER_ADMINISTRATE);
+        }
+        if ($owner instanceof Group) {
+            $this->aclRequire($owner, Privilege::GROUP_CONTRIBUTE);
+        }
 
         $campName =  $params->getValue('name');
 
@@ -120,7 +125,7 @@ class CampService
             $camp->setGroup($owner);
         }
 
-        $camp->setCreator($this->me());
+        $camp->setCreator($this->getMe());
 
         $campValidator = new CampValidator($camp);
         $this->validationFailed( !$campValidator->applyIfValid($params) );

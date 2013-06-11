@@ -6,24 +6,23 @@ use Zend\Permissions\Acl\Acl;
 use Zend\Permissions\Acl\Role\RoleInterface;
 use Zend\Permissions\Acl\Resource\ResourceInterface;
 use Zend\Permissions\Acl\Assertion\AssertionInterface;
-use EcampCore\Acl\Role\UserRole;
 use EcampCore\Auth\AuthenticationService;
+use EcampCore\Entity\User;
 
 class AssertAdminInSupportModus
     implements AssertionInterface
 {
     public function assert(
         Acl $acl,
-        RoleInterface $role = null,
+        RoleInterface $user = null,
         ResourceInterface $resource = null,
         $privilege = null
     ){
-        if ($role instanceof UserRole) {
+        if ($user instanceof User) {
 
             $auth = new AuthenticationService();
-            $storage = $auth->getOrigStorage();
 
-            return !$storage->isEmpty();
+            return $auth->hasOrigIdentity();
         }
 
         return false;

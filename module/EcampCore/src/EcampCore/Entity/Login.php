@@ -23,7 +23,6 @@ namespace EcampCore\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 use EcampLib\Entity\BaseEntity;
-use EcampCore\Acl\BelongsToParentResource;
 
 /**
  * @ORM\Entity(repositoryClass="EcampCore\Repository\LoginRepository")
@@ -31,7 +30,6 @@ use EcampCore\Acl\BelongsToParentResource;
  */
 class Login
     extends BaseEntity
-    implements BelongsToParentResource
 {
 
     /**
@@ -73,11 +71,6 @@ class Login
      * @return User
      */
     public function getUser()
-    {
-        return $this->user;
-    }
-
-    public function getParentResource()
     {
         return $this->user;
     }

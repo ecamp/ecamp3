@@ -23,33 +23,33 @@ namespace EcampCore\Service;
 use EcampCore\Entity\Day;
 use EcampCore\Entity\Camp;
 use EcampCore\Entity\Period;
+
 use EcampLib\Service\Params\Params;
 use EcampLib\Service\ServiceBase;
+use EcampCore\Acl\Privilege;
 
-/**
- * @method EcampCore\Service\PeriodService Simulate
- */
-class PeriodService extends ServiceBase
+class PeriodService
+    extends ServiceBase
 {
 
     /**
-     * @param  Params                $params
-     * @return CoreApi\Entity\Period
+     * @var DayService
      */
-    public function Create(Params $params)
-    {
-        $camp = $this->getContext()->getCamp();
+    private $dayService;
 
-        return $this->CreatePeriodForCamp($camp, $params);
+    public function __construct(
+        DayService $dayService
+    ){
+        $this->dayService = $dayService;
     }
 
     /**
-     * @param  Camp                  $camp
      * @param  Params                $params
      * @return CoreApi\Entity\Period
      */
-    public function CreatePeriodForCamp(Camp $camp, Params $params)
+    public function Create(Camp $camp, Params $params)
     {
+        $this->aclRequire($camp, Privilege::CAMP_CONFIGURE);
 
         if ( $params->getValue('start') == "") {
             $params->addError('start', "Date cannot be empty.");
@@ -78,7 +78,7 @@ class PeriodService extends ServiceBase
         }
 
         for ($offset = 0; $offset < $numOfDays; $offset++) {
-            $this->service()->dayService()->AppendDay($period);
+            $this->dayService->AppendDay($period);
         }
 
         return $period;
@@ -90,7 +90,7 @@ class PeriodService extends ServiceBase
      */
     public function Update(Period $period, Params $params)
     {
-        $this->validationContextAssert($period);
+        $this->aclRequire($camp, Privilege::CAMP_CONFIGURE);
 
         if ($params->hasElement('description')) {
             $period->setDescription($params->getValue('description'));
@@ -102,7 +102,7 @@ class PeriodService extends ServiceBase
      */
     public function Delete(Period $period)
     {
-        $this->validationContextAssert($period);
+        $this->aclRequire($camp, Privilege::CAMP_ADMINISTRATE);
 
         $period->getDays()->clear();
         $period->getEventInstances()->clear();
@@ -116,10 +116,8 @@ class PeriodService extends ServiceBase
      */
     public function Move(Period $period, $newStart)
     {
-        $camp = $this->getContextProvider()->getCamp();
-
-        $this->validationAssert($camp == $period->getCamp(),
-            "Period does not belong to Camp of Context!");
+        $camp = $period->getCamp();
+        $this->aclRequire($camp, Privilege::CAMP_CONFIGURE);
 
         if (! $newStart instanceof \DateTime) {
             $newStart = new \DateTime($newStart, new \DateTimeZone("GMT"));
@@ -134,16 +132,14 @@ class PeriodService extends ServiceBase
      */
     public function Resize(Period $period, $numOfDays)
     {
-        $camp = $this->getContextProvider()->getCamp();
-
-        $this->validationAssert($camp == $period->getCamp(),
-            "Period does not belong to Camp of Context!");
+        $camp = $period->getCamp();
+        $this->aclRequire($camp, Privilege::CAMP_CONFIGURE);
 
         $oldNumOfDays = $period->getNumberOfDays();
 
         if ($oldNumOfDays < $numOfDays) {
             for ($offset = $oldNumOfDays; $offset < $numOfDays; $offset++) {
-                $this->getDayService()->AppendDay($period);
+                $this->dayService->AppendDay($period);
             }
 
             return;
@@ -151,7 +147,7 @@ class PeriodService extends ServiceBase
 
         if ($oldNumOfDays > $numOfDays) {
             for ($offset = $numOfDays; $offset < $oldNumOfDays; $offset++) {
-                $this->getDayService()->RemoveDay($period);
+                $this->dayService->RemoveDay($period);
             }
         }
     }

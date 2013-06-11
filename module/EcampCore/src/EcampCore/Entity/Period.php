@@ -23,7 +23,6 @@ namespace EcampCore\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 use EcampLib\Entity\BaseEntity;
-use EcampCore\Acl\BelongsToParentResource;
 
 /**
  * A period is defined by its starting date and duration (in days).
@@ -34,7 +33,6 @@ use EcampCore\Acl\BelongsToParentResource;
  */
 class Period
     extends BaseEntity
-    implements BelongsToParentResource
 {
     public function __construct($camp = null)
     {
@@ -136,11 +134,6 @@ class Period
      * @return Camp
      */
     public function getCamp()
-    {
-        return $this->camp;
-    }
-
-    public function getParentResource()
     {
         return $this->camp;
     }

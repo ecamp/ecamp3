@@ -15,8 +15,6 @@ class AclFactory
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
         $acl = new Acl();
-        $acl->setRoleFactory(new UserRoleFactory($acl));
-        $acl->setResourceFactory(new EntityResourceFactory($acl));
 
         $config = new Config($serviceLocator->get('config'));
         $roles = $config->ecamp->acl->roles->toArray();

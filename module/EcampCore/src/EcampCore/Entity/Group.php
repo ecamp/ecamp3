@@ -23,6 +23,7 @@ namespace EcampCore\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 use EcampLib\Entity\BaseEntity;
+use Zend\Permissions\Acl\Resource\ResourceInterface;
 
 /**
  * @ORM\Entity(repositoryClass="EcampCore\Repository\GroupRepository")
@@ -31,6 +32,7 @@ use EcampLib\Entity\BaseEntity;
 class Group
     extends BaseEntity
     implements CampOwnerInterface
+    ,	ResourceInterface
 {
     public function __construct()
     {
@@ -205,6 +207,11 @@ class Group
     public function delImage()
     {
         $this->image = null;	return $this;
+    }
+
+    public function getResourceId()
+    {
+        return 'EcampCore\Entity\Group';
     }
 
     public function isManager(User $user)
