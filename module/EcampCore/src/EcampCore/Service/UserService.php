@@ -18,9 +18,9 @@ class UserService
     extends ServiceBase
 {
 
-	/**
-	 * @var \EcampCore\Repository\UserRepository
-	 */
+    /**
+     * @var \EcampCore\Repository\UserRepository
+     */
     private $userRepo;
 
     public function __construct(
