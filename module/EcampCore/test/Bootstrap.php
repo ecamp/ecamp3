@@ -1,6 +1,6 @@
 <?php
 
-namespace AlbumTest;
+namespace EcampCoreTest;
 
 use Zend\Loader\AutoloaderFactory;
 use Zend\Mvc\Service\ServiceManagerConfig;

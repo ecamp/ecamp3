@@ -40,6 +40,7 @@ class Period
 
         $this->camp = $camp;
         $this->days = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->eventInstances = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**

@@ -55,7 +55,7 @@ class Login
      * @ORM\OneToOne(targetEntity="User", mappedBy="login")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
-    public $user;
+    private $user;
 
     /**
      * Set the User of this Login Entity
@@ -80,7 +80,8 @@ class Login
      */
     public function createPwResetKey()
     {
-        $this->pwResetKey = md5(unique(microtime(true)));
+        $this->pwResetKey = md5(microtime(true));
+        return $this->pwResetKey;
     }
 
     /**
@@ -131,6 +132,6 @@ class Login
             'salt' => $this->salt
         );
 
-        return password_hash($password, PASSWORD_BCRYPT, $options);
+        return \password_hash($password, PASSWORD_BCRYPT, $options);
     }
 }

@@ -22,6 +22,7 @@ namespace EcampCore\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
+use OutOfRangeException;
 use EcampLib\Entity\BaseEntity;
 
 /**
@@ -32,8 +33,9 @@ use EcampLib\Entity\BaseEntity;
 class EventType extends BaseEntity
 {
 
-    public function __construct()
+    public function __construct(CampType $campType)
     {
+    	$this->campType = $campType;
         $this->eventPrototypes = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
@@ -119,18 +121,15 @@ class EventType extends BaseEntity
     }
 
     /**
-     * @param CampType $campType
-     */
-    public function setCampType(CampType $campType)
-    {
-        $this->campType = $campType;
-    }
-
-    /**
      * @return CampType
      */
     public function getCampType()
     {
         return $this->campType;
+    }
+    
+    
+    public function getEventPrototypes(){
+    	return $this->eventPrototypes;
     }
 }
