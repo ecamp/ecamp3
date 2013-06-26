@@ -18,18 +18,9 @@
  * along with eCamp.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/**
- * This is the base class for both Panels and Plugins.
- * It shouldn't be extended by your own plugins - simply write a strategy!
- */
-
 namespace EcampCore\Entity;
 
 use EcampLib\Entity\BaseEntity;
-
-use Zend\ServiceManager\ServiceLocatorInterface;
-use Zend\ServiceManager\ServiceLocatorAwareInterface;
-
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -38,21 +29,20 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class PluginInstance
     extends BaseEntity
-    implements ServiceLocatorAwareInterface
 
 {
 
-    public function __construct(ServiceLocatorInterface $serviceLocator)
+    public function __construct(Event $event, PluginPrototype $pluginPrototype)
     {
         parent::__construct();
-
-        $this->serviceLocator = $serviceLocator;
+        
+        $this->event = $event;
+        $this->pluginPrototype = $pluginPrototype;
     }
 
     /**
      * @ORM\ManyToOne(targetEntity="Event")
      * @ORM\JoinColumn(nullable=false, onDelete="cascade")
-     * TODO: set to nullable=false later
      */
     public $event;
 
@@ -60,7 +50,6 @@ class PluginInstance
      * @var PluginPrototype
      * @ORM\ManyToOne(targetEntity="PluginPrototype")
      * @ORM\JoinColumn(nullable=false, onDelete="cascade")
-     * TODO change nullable to false
      */
     protected $pluginPrototype;
 
@@ -72,15 +61,6 @@ class PluginInstance
      */
     protected $strategyInstance;
 
-    /**
-     * @var Zend\ServiceManager\ServiceLocatorInterface
-     */
-    private $serviceLocator;
-
-    public function setEvent(Event $event)
-    {
-        $this->event = $event;
-    }
 
     public function getEvent()
     {
@@ -102,10 +82,6 @@ class PluginInstance
         return $this->pluginPrototype;
     }
 
-    public function setPluginPrototype(PluginPrototype $pluginPrototype)
-    {
-        $this->pluginPrototype  = $pluginPrototype;
-    }
 
     /**
      * Returns the plugin name
@@ -129,15 +105,6 @@ class PluginInstance
         return $this->getPluginPrototype()->getPlugin()->getStrategyClass();
     }
 
-    public function setServiceLocator(ServiceLocatorInterface $serviceLocator)
-    {
-        $this->serviceLocator = $serviceLocator;
-    }
-
-    public function getServiceLocator()
-    {
-        return $this->serviceLocator;
-    }
 
     /**
      * Returns the instantiated strategy
@@ -148,7 +115,7 @@ class PluginInstance
     {
         if ($this->strategyInstance == null) {
             $classname = $this->getPluginStrategyClass();
-            $this->strategyInstance = new $classname($this->serviceLocator, $this);
+            $this->strategyInstance = new $classname($this);
         }
 
         return $this->strategyInstance;

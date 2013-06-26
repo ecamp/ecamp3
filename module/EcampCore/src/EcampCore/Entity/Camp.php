@@ -46,8 +46,9 @@ class Camp extends BaseEntity
         $this->visibility = self::VISIBILITY_PUBLIC;
 
         $this->campType = $campType;
-        $this->userCamps = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->usercamps = new \Doctrine\Common\Collections\ArrayCollection();
         $this->events    = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->periods 	 = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**

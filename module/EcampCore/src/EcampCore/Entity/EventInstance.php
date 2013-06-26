@@ -101,7 +101,7 @@ class EventInstance
      */
     public function getOffset()
     {
-        return new \DateInterval( 'PT' . $this->minOffset . 'M');
+        return new \DateInterval( 'PT' . $this->minOffsetStart . 'M');
     }
 
     /**
@@ -109,7 +109,7 @@ class EventInstance
      */
     public function getOffsetInMinutes()
     {
-        return $this->minOffset;
+        return $this->minOffsetStart;
     }
 
     /**
@@ -148,7 +148,8 @@ class EventInstance
      */
     public function getStartTime()
     {
-        $start = $this->period->getStart()->add(new \DateInterval( 'PT' . $this->minOffsetStart . 'M'));
+    	$start = clone $this->period->getStart();
+        $start->add(new \DateInterval( 'PT' . $this->minOffsetStart . 'M'));
 
         return $start;
     }
@@ -158,7 +159,8 @@ class EventInstance
      */
     public function getEndTime()
     {
-        $end = $this->getStartTime()->add($this->getDuration());
+    	$end = clone $this->getStartTime();
+        $end->add($this->getDuration());
 
         return $end;
     }

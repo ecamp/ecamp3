@@ -33,8 +33,11 @@ use EcampLib\Entity\BaseEntity;
 class PluginPrototype extends BaseEntity
 {
 
-    public function __construct($eventPrototype = null)
+    public function __construct(Plugin $plugin, EventPrototype $eventPrototype)
     {
+    	parent::__construct();
+    	
+    	$this->plugin = $plugin;
         $this->eventPrototype = $eventPrototype;
     }
 
@@ -105,7 +108,24 @@ class PluginPrototype extends BaseEntity
     {
         return json_decode($this->config);
     }
+    
+    
+    public function setActive($active)
+    {
+    	$this->active = $active;
+    }    
+    
+    public function getActive()
+    {
+    	return $this->active;
+    }
 
+    
+    public function setDefaultInstances($defaultInstances)
+    {
+    	$this->defaultInstances = $defaultInstances;
+    }
+    
     /**
      * @return integer
      */
@@ -114,6 +134,12 @@ class PluginPrototype extends BaseEntity
         return $this->defaultInstances;
     }
 
+    
+    public function setMaxInstances($maxInstances)
+    {
+    	$this->maxInstances = $maxInstances;
+    }
+    
     /**
      * @return integer
      */
@@ -122,6 +148,12 @@ class PluginPrototype extends BaseEntity
         return $this->maxInstances;
     }
 
+    
+    public function setMinInstances($minInstances)
+    {
+    	$this->minInstances = $minInstances;
+    }
+    
     /**
      * @return integer
      */
