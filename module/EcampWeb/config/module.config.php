@@ -32,6 +32,7 @@ return array(
 	'controllers' => array(
 		'invokables' => array(
 			'EcampWeb\Controller\Index' => 'EcampWeb\Controller\IndexController',
+			'Index' => 'EcampWeb\Controller\IndexController',
 		),
 	),
 		

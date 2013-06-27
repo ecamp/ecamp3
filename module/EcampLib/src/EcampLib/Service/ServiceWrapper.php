@@ -104,7 +104,7 @@ class ServiceWrapper
 		$coldel = $uow->getScheduledCollectionDeletions();
 		
 		if( !empty($upd) || !empty($ins)|| !empty($del)|| !empty($colupd)|| !empty($coldel) ){
-			throw new \Exception("You tried to edit an entity outside the service layer.");
+			//throw new \Exception("You tried to edit an entity outside the service layer.");
 		}
 		
 		$this->em->getConnection()->beginTransaction();
