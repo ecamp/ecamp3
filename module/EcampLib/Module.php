@@ -40,3 +40,5 @@ class Module
         $em->getEventManager()->addEventSubscriber(new ServiceLocatorAwareEventListener($sm));
     }
 }
+
+require_once __DIR__ . '/src/' . __NAMESPACE__ . '/Util/password.php';

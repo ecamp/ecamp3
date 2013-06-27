@@ -3,6 +3,7 @@
 <phpunit bootstrap="Bootstrap.php" colors="true">
 	<php>
         <ini name="memory_limit" value="100M" />
+        <ini name="display_errors" value="1" />
     </php>
 
     <testsuites>

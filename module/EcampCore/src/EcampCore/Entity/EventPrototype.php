@@ -32,8 +32,10 @@ use EcampLib\Entity\BaseEntity;
 class EventPrototype extends BaseEntity
 {
 
-    public function __construct()
+    public function __construct($name)
     {
+    	$this->name = $name;
+    	
         $this->pluginPrototypes = new \Doctrine\Common\Collections\ArrayCollection();
         $this->eventTemplates = new \Doctrine\Common\Collections\ArrayCollection();
     }
@@ -60,11 +62,7 @@ class EventPrototype extends BaseEntity
      */
     private $eventTemplates;
 
-    public function setName($name)
-    {
-        $this->name = $name;
-    }
-
+    
     /**
      * @return string
      */

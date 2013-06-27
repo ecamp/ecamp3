@@ -34,10 +34,22 @@ use EcampLib\Entity\BaseEntity;
 class Event
     extends BaseEntity
 {
-    public function __construct()
+    public function __construct(Camp $camp, EventPrototype $eventPrototype)
     {
+    	$this->camp = $camp;
+    	$this->eventPrototype = $eventPrototype;
+        
+    	$this->pluginInstances = new \Doctrine\Common\Collections\ArrayCollection();
+        foreach($eventPrototype->getPluginPrototypes() as $pluginPrototype){
+        	
+        	$numInst = $pluginPrototype->getDefaultInstances();
+        	for($i = 0; $i < $numInst; $i++){
+	        	$pluginInstance = new PluginInstance($this, $pluginPrototype);
+	        	$this->pluginInstances->add($pluginInstance);
+        	}
+        }
+        
         $this->eventInstances = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->pluginInstances = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -65,7 +77,7 @@ class Event
      * @ORM\ManyToOne(targetEntity="EventPrototype")
      * @ORM\JoinColumn(nullable=false, onDelete="cascade")
      */
-    private $prototype;
+    private $eventPrototype;
 
     public function setTitle($title)
     {
@@ -77,11 +89,6 @@ class Event
         return $this->title;
     }
 
-    public function setCamp(camp $camp)
-    {
-        $this->camp = $camp;
-    }
-
     /**
      * @return Camp
      */
@@ -90,17 +97,12 @@ class Event
         return $this->camp;
     }
 
-    public function setUser(user $user)
-    {
-        $this->user = $user;
-    }
-
     /**
-     * @return User
+     * @return EventPrototype
      */
-    public function getUser()
+    public function getEventPrototype()
     {
-        return $this->user;
+        return $this->eventPrototype;
     }
 
     /**
@@ -122,10 +124,10 @@ class Event
     /**
      * @return array
      */
-    public function getPluginsByPrototype(PluginPrototype $prototype)
+    public function getPluginsByPrototype(PluginPrototype $pluginPrototype)
     {
-        $closure = function(PluginInstance $instance) use ($prototype) {
-            return $instance->getPluginPrototype()->getId() == $prototype->getId();
+        $closure = function(PluginInstance $instance) use ($pluginPrototype) {
+        	return $instance->getPluginPrototype()->getId() == $pluginPrototype->getId();
         };
 
         return $this->pluginInstances->filter($closure);
@@ -134,25 +136,13 @@ class Event
     /**
      * @return integer
      */
-    public function countPluginsByPrototype(PluginPrototype $prototype)
+    public function countPluginsByPrototype(PluginPrototype $pluginPrototype)
     {
-        $closure = function(PluginInstance $instance) use ($prototype) {
-            return $instance->getPluginPrototype()->getId() == $prototype->getId();
+        $closure = function(PluginInstance $instance) use ($pluginPrototype) {
+            return $instance->getPluginPrototype()->getId() == $pluginPrototype->getId();
         };
 
         return $this->pluginInstances->count($closure);
     }
 
-    /**
-     * @return EventPrototype
-     */
-    public function getPrototype()
-    {
-        return $this->prototype;
-    }
-
-    public function setPrototype(EventPrototype $prototype)
-    {
-        $this->prototype = $prototype;
-    }
 }

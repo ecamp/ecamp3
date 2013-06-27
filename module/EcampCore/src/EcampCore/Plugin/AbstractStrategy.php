@@ -37,24 +37,9 @@ abstract class AbstractStrategy
 {
 
     public function __construct(
-        ServiceLocatorInterface $serviceLocator,
         PluginInstance $pluginInstance
     ){
-        $this->serviceLocator = $serviceLocator;
         $this->pluginInstance = $pluginInstance;
-    }
-
-    /**
-     * @var Zend\ServiceManager\ServiceLocatorInterface
-     */
-    private $serviceLocator;
-
-    /**
-     * @return Zend\ServiceManager\ServiceLocatorInterface
-     */
-    protected function getServiceLocator()
-    {
-        return $this->serviceLocator;
     }
 
     /**
@@ -75,14 +60,4 @@ abstract class AbstractStrategy
      * @return Zend\View\Model\ViewModel
      */
     abstract public function render(Medium $medium);
-
-    /**
-     * @deprecated
-     */
-    abstract public function renderFrontend();
-
-    /**
-    * @deprecated
-    */
-    abstract public function renderBackend();
 }

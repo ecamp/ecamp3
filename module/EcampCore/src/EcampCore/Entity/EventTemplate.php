@@ -32,7 +32,7 @@ use EcampLib\Entity\BaseEntity;
 class EventTemplate extends BaseEntity
 {
 
-    public function __construct($eventPrototype, Medium $medium, $filename)
+    public function __construct(EventPrototype $eventPrototype, Medium $medium, $filename)
     {
         $this->medium = $medium;
         $this->eventPrototype = $eventPrototype;
@@ -76,11 +76,18 @@ class EventTemplate extends BaseEntity
     }
 
     /**
-     * @return string
+     * @return Medium
      */
     public function getMedium()
     {
         return $this->medium;
+    }
+    
+    /**
+     * @return EventPrototype
+     */
+    public function getEventPrototype(){
+    	return $this->eventPrototype;
     }
 
     /**

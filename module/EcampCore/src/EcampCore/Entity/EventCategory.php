@@ -22,6 +22,7 @@ namespace EcampCore\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
+use OutOfRangeException;
 use EcampLib\Entity\BaseEntity;
 
 /**
@@ -33,8 +34,13 @@ class EventCategory
     extends BaseEntity
 {
 
-    public function __construct()
+    public function __construct(Camp $camp, EventType $eventType)
     {
+    	$this->camp = $camp;
+    	$this->setEventType($eventType);
+    	
+    	$this->setColor($eventType->getDefaultColor());
+    	$this->setNumberingStyle($eventType->getDefaultNumberingStyle());
     }
 
     /**
@@ -64,6 +70,7 @@ class EventCategory
      */
     private $eventType;
 
+    
     public function setName($name)
     {
         $this->name = $name;
@@ -116,14 +123,6 @@ class EventCategory
     }
 
     /**
-     * @param Camp $camp
-     */
-    public function setCamp(Camp $camp)
-    {
-        $this->camp = $camp;
-    }
-
-    /**
      * @return Camp
      */
     public function getCamp()
@@ -136,6 +135,14 @@ class EventCategory
      */
     public function setEventType(EventType $eventType)
     {
+    	if($this->getCamp()->getCampType() !== $eventType->getCampType()){
+    		throw new \Exception(sprintf(
+    			"EventType '%s' is not availlable for CampType '%s'",
+    			$eventType->getName(),
+    			$this->getCamp()->getCampType()->getName()
+    		));
+    	}
+    	
         $this->eventType = $eventType;
     }
 
