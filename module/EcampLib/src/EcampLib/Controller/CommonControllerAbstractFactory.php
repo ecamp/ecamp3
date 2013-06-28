@@ -6,16 +6,19 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\ServiceManager\AbstractFactoryInterface;
 
 class CommonControllerAbstractFactory
-	implements AbstractFactoryInterface
+    implements AbstractFactoryInterface
 {
-	
-	public function canCreateServiceWithName(ServiceLocatorInterface $serviceLocator, $name, $requestedName){
-		return class_exists($requestedName . 'Controller');
-	}
-	
-	public function createServiceWithName(ServiceLocatorInterface $serviceLocator, $name, $requestedName){
-		$controllerClass = $requestedName . 'Controller';
-		return new $controllerClass();
-	}
-	
+
+    public function canCreateServiceWithName(ServiceLocatorInterface $serviceLocator, $name, $requestedName)
+    {
+        return class_exists($requestedName . 'Controller');
+    }
+
+    public function createServiceWithName(ServiceLocatorInterface $serviceLocator, $name, $requestedName)
+    {
+        $controllerClass = $requestedName . 'Controller';
+
+        return new $controllerClass();
+    }
+
 }

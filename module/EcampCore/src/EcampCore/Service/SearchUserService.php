@@ -27,149 +27,129 @@ use EcampLib\Service\ServiceBase;
  * @method CoreApi\Service\SearchUserService Simulate
  */
 class SearchUserService
-	extends ServiceBase
+    extends ServiceBase
 {
-	/**
-	 * Setup ACL
-	 * @return void
-	 */
-	public function _setupAcl(){
-		$this->acl->allow(DefaultAcl::MEMBER, $this, 'SearchForUser');		
-	}
-	
-	/*
-		x: query
-		y: user
+    /**
+     * Setup ACL
+     * @return void
+     */
+    public function _setupAcl()
+    {
+        $this->acl->allow(DefaultAcl::MEMBER, $this, 'SearchForUser');
+    }
 
-		p(y|x) = p(x|y) * p(y)
+    /*
+        x: query
+        y: user
 
+        p(y|x) = p(x|y) * p(y)
 
-		p(y e friend)
-		p(y e sameGroup)
-		p(y e unknown)
+        p(y e friend)
+        p(y e sameGroup)
+        p(y e unknown)
 
+        p(x|y)
 
-		p(x|y)
+        Select user.*, Max(user.prob) as maxProb
 
+        From
+        (
+            (
+            SELECT users . * , LENGTH(  'Fort' ) / LENGTH( users.username ) AS prob
+            FROM users
+            WHERE users.username LIKE  'Fort%'
+            )
 
+             UNION
 
-		Select user.*, Max(user.prob) as maxProb
+             (
+            SELECT users . * , LENGTH(  'Pi' ) / LENGTH( users.firstname ) AS prob
+            FROM users
+            WHERE users.firstName LIKE  'Pi%'
+            )
 
-		From
-		(
-			(
-			SELECT users . * , LENGTH(  'Fort' ) / LENGTH( users.username ) AS prob
-			FROM users
-			WHERE users.username LIKE  'Fort%'
-			)
+            UNION
 
-		 	UNION
+             (
+            SELECT users . * , LENGTH(  'Pi' ) / LENGTH( users.surname ) AS prob
+            FROM users
+            WHERE users.surName LIKE  'Pi%'
+            )
 
-		 	(
-			SELECT users . * , LENGTH(  'Pi' ) / LENGTH( users.firstname ) AS prob
-			FROM users
-			WHERE users.firstName LIKE  'Pi%'
-			)
+        ) as user
 
-			UNION
+        Group by user.id
 
-		 	(
-			SELECT users . * , LENGTH(  'Pi' ) / LENGTH( users.surname ) AS prob
-			FROM users
-			WHERE users.surName LIKE  'Pi%'
-			)
-		
-		) as user
+    */
 
-		Group by user.id
+    public function SearchForUser($query)
+    {
+        $q = $this->GetDqlSearchQuery($query);
+        $users = $q->getResult();
 
-	*/
+        return $users;
+    }
 
+    /**
+     * @param  $query
+     * @return \Doctrine\ORM\Query
+     */
+    private function GetDqlSearchQuery($query)
+    {
+        $query = trim($query);
+        $queries = explode(" ", $query);
 
+        $queryTableEntries = array();
 
+        foreach ($queries as $query) {
+            $queryTableEntries[] = "SELECT '" . trim($query) . "' as query";
+        }
 
-	public function SearchForUser($query)
-	{
-		$q = $this->GetDqlSearchQuery($query);
-		$users = $q->getResult();
+        $queryTable = implode(" UNION ", $queryTableEntries);
 
-		return $users;
-	}
+        $sql  = "SELECT users.id, ";
+        $sql .= "(";
+        $sql .= "MAX(IF(users.username Like Concat(queryTable.query, '%'), length(queryTable.query)/length(users.username), 0)) +";
+        $sql .= "MAX(IF(users.scoutname Like Concat(queryTable.query, '%'), length(queryTable.query)/length(users.scoutname), 0)) +";
+        $sql .= "MAX(IF(users.firstname Like Concat(queryTable.query, '%'), length(queryTable.query)/length(users.firstname), 0)) +";
+        $sql .= "MAX(IF(users.surname Like Concat(queryTable.query, '%'), length(queryTable.query)/length(users.surname), 0))";
+        $sql .= ") as prob ";
 
+        $sql .= "FROM ";
+        $sql .= "(";
+        $sql .= $queryTable;
+        $sql .= ") as queryTable, ";
+        $sql .= "users ";
 
-	/**
-	 * @param  $query
-	 * @return \Doctrine\ORM\Query
-	 */
-	private function GetDqlSearchQuery($query)
-	{
-		$query = trim($query);
-		$queries = explode(" ", $query);
+        $sql .= "WHERE ";
+        $sql .= "users.username Like Concat(queryTable.query, '%') OR ";
+        $sql .= "users.scoutname Like Concat(queryTable.query, '%') OR ";
+        $sql .= "users.firstname Like Concat(queryTable.query, '%') OR ";
+        $sql .= "users.surname Like Concat(queryTable.query, '%') ";
 
-		$queryTableEntries = array();
+        $sql .= "GROUP BY users.id ";
+        $sql .= "ORDER BY prob DESC;";
 
-		foreach($queries as $query)
-		{
-			$queryTableEntries[] = "SELECT '" . trim($query) . "' as query";
-		}
+        $rms = new \Doctrine\ORM\Query\ResultSetMapping();
+        $rms->addScalarResult('id', 'id');
+        $rms->addScalarResult('prob', 'prob');
 
-		$queryTable = implode(" UNION ", $queryTableEntries);
+        /** @var \Doctrine\ORM\NativeQuery $q */
+        $sqlQuery = $this->em->createNativeQuery($sql, $rms);
 
+        $sqlResults = $sqlQuery->getResult();
+        $userIds = array();
 
+        foreach ($sqlResults as $sqlResult) {	$userIds[] = $sqlResult['id'];	}
 
-		$sql  = "SELECT users.id, ";
-		$sql .= "(";
-		$sql .= "MAX(IF(users.username Like Concat(queryTable.query, '%'), length(queryTable.query)/length(users.username), 0)) +";
-		$sql .= "MAX(IF(users.scoutname Like Concat(queryTable.query, '%'), length(queryTable.query)/length(users.scoutname), 0)) +";
-		$sql .= "MAX(IF(users.firstname Like Concat(queryTable.query, '%'), length(queryTable.query)/length(users.firstname), 0)) +";
-		$sql .= "MAX(IF(users.surname Like Concat(queryTable.query, '%'), length(queryTable.query)/length(users.surname), 0))";
-		$sql .= ") as prob ";
+        $dql  = "SELECT user FROM CoreApi\Entity\User user ";
 
-		$sql .= "FROM ";
-		$sql .= "(";
-		$sql .= $queryTable;
-		$sql .= ") as queryTable, ";
-		$sql .= "users ";
+        if (empty($userIds)) {	$dql .= "WHERE 0=1";	} else {	$dql .= "WHERE user.id in (" . implode(", ", $userIds) . ")";	}
 
-		$sql .= "WHERE ";
-		$sql .= "users.username Like Concat(queryTable.query, '%') OR ";
-		$sql .= "users.scoutname Like Concat(queryTable.query, '%') OR ";
-		$sql .= "users.firstname Like Concat(queryTable.query, '%') OR ";
-		$sql .= "users.surname Like Concat(queryTable.query, '%') ";
+        /** @var \Doctrine\ORM\Query $dqlQuery */
+        $dqlQuery = $this->em->createQuery($dql);
 
-		$sql .= "GROUP BY users.id ";
-		$sql .= "ORDER BY prob DESC;";
-
-
-
-		$rms = new \Doctrine\ORM\Query\ResultSetMapping();
-		$rms->addScalarResult('id', 'id');
-		$rms->addScalarResult('prob', 'prob');
-
-		/** @var \Doctrine\ORM\NativeQuery $q */
-		$sqlQuery = $this->em->createNativeQuery($sql, $rms);
-
-
-		$sqlResults = $sqlQuery->getResult();
-		$userIds = array();
-		
-		foreach($sqlResults as $sqlResult)
-		{	$userIds[] = $sqlResult['id'];	}
-
-
-		$dql  = "SELECT user FROM CoreApi\Entity\User user ";
-
-		if(empty($userIds))
-		{	$dql .= "WHERE 0=1";	}
-		else
-		{	$dql .= "WHERE user.id in (" . implode(", ", $userIds) . ")";	}
-
-
-		/** @var \Doctrine\ORM\Query $dqlQuery */
-		$dqlQuery = $this->em->createQuery($dql);
-
-		return $dqlQuery;
-	}
-
+        return $dqlQuery;
+    }
 
 }

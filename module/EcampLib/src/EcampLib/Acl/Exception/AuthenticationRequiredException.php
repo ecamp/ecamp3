@@ -2,8 +2,8 @@
 
 namespace EcampLib\Acl\Exception;
 
-class AuthenticationRequiredException 
-	extends \Exception
-	implements ExceptionInterface
+class AuthenticationRequiredException
+    extends \Exception
+    implements ExceptionInterface
 {
 }

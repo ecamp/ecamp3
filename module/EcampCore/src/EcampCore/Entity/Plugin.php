@@ -3,7 +3,7 @@
  * Copyright (C) 2011 Urban Suppiger
  *
  * This file is part of eCamp.
- * 
+ *
  * eCamp is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -13,7 +13,7 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Affero General Public License
  * along with eCamp.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -36,39 +36,45 @@ use EcampLib\Entity\BaseEntity;
 class Plugin extends BaseEntity
 {
 
-	/**
-	 * @ORM\Column(type="string", length=64, nullable=false)
-	 */
-	private $name;
-	
-	
-	/**
-	 * @ORM\Column(type="boolean", nullable=false)
-	 */
-	private $active;
-	
-	
-	/**
-	 * @ORM\Column(type="string", length=128, nullable=false)
-	 */
-	private $strategyClass;
-	
-	
-	public function getName(){
-		return $this->name;
+	public function __construct($name, $strategyClass){
+		parent::__construct();
+		
+		$this->name = $name;
+		$this->strategyClass = $strategyClass;
 	}
 	
-	
-	public function getActive(){
-		return $this->active;
-	}
-	
-	public function setActive($active){
-		$this->active = $active;
-	}
-	
-	
-	public function getStrategyClass(){
-		return $this->strategyClass;
-	}
+    /**
+     * @ORM\Column(type="string", length=64, nullable=false)
+     */
+    private $name;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=false)
+     */
+    private $active;
+
+    /**
+     * @ORM\Column(type="string", length=128, nullable=false)
+     */
+    private $strategyClass;
+
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    public function getActive()
+    {
+        return $this->active;
+    }
+
+    public function setActive($active)
+    {
+        $this->active = $active;
+    }
+
+    public function getStrategyClass()
+    {
+        return $this->strategyClass;
+    }
 }

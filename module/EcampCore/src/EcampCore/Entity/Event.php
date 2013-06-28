@@ -23,7 +23,6 @@ namespace EcampCore\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 use EcampLib\Entity\BaseEntity;
-use EcampCore\Acl\BelongsToParentResource;
 
 /**
  * Container for an event.
@@ -32,138 +31,118 @@ use EcampCore\Acl\BelongsToParentResource;
  * @ORM\Entity(repositoryClass="EcampCore\Repository\EventRepository")
  * @ORM\Table(name="events")
  */
-class Event 
-	extends BaseEntity
-	implements BelongsToParentResource
+class Event
+    extends BaseEntity
 {
-    public function __construct(){
+    public function __construct(Camp $camp, EventPrototype $eventPrototype)
+    {
+    	$this->camp = $camp;
+    	$this->eventPrototype = $eventPrototype;
+        
+    	$this->pluginInstances = new \Doctrine\Common\Collections\ArrayCollection();
+        foreach($eventPrototype->getPluginPrototypes() as $pluginPrototype){
+        	
+        	$numInst = $pluginPrototype->getDefaultInstances();
+        	for($i = 0; $i < $numInst; $i++){
+	        	$pluginInstance = new PluginInstance($this, $pluginPrototype);
+	        	$this->pluginInstances->add($pluginInstance);
+        	}
+        }
+        
         $this->eventInstances = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->pluginInstances = new \Doctrine\Common\Collections\ArrayCollection();
     }
-    
-	/**
-	 * @ORM\Column(type="text")
-	 */
-	private $title;
 
-	/**
-	 * @ORM\ManyToOne(targetEntity="Camp")
-	 */
-	private $camp;
+    /**
+     * @ORM\Column(type="text")
+     */
+    private $title;
 
-	/**
-	 * @ORM\OneToMany(targetEntity="EventInstance", mappedBy="event", cascade={"all"}, orphanRemoval=true)
-	 */
-	private $eventInstances;
+    /**
+     * @ORM\ManyToOne(targetEntity="Camp")
+     */
+    private $camp;
 
-	/**
-	 * @ORM\OneToMany(targetEntity="PluginInstance", mappedBy="event", cascade={"all"}, orphanRemoval=true)
-	 */
-	private $pluginInstances;
-	
-	/**
-	 * @var EventPrototype
-	 * @ORM\ManyToOne(targetEntity="EventPrototype")
-	 * @ORM\JoinColumn(nullable=false, onDelete="cascade")
-	 */
-	private $prototype;
-	
-	
-	public function setTitle($title)
-	{
-		$this->title = $title;
-	}
-	
-	public function getTitle()
-	{
-		return $this->title;
-	}
+    /**
+     * @ORM\OneToMany(targetEntity="EventInstance", mappedBy="event", cascade={"all"}, orphanRemoval=true)
+     */
+    private $eventInstances;
 
-	
-	public function setCamp(camp $camp)
-	{
-		$this->camp = $camp;
-	}
-	
-	/**
-	 * @return Camp
-	 */
-	public function getCamp()
-	{
-		return $this->camp;
-	}
-	
-	
-	public function getParentResource(){
-		return $this->camp;
-	}
+    /**
+     * @ORM\OneToMany(targetEntity="PluginInstance", mappedBy="event", cascade={"all"}, orphanRemoval=true)
+     */
+    private $pluginInstances;
 
-	
-	public function setUser(user $user)
-	{
-		$this->user = $user;
-	}
-	
-	/**
-	 * @return User
-	 */
-	public function getUser()
-	{
-		return $this->user;
-	}
-	
-	
-	/**
-	 * @return array
-	 */
-	public function getEventInstances()
-	{
-		return $this->eventInstances;
-	}
+    /**
+     * @var EventPrototype
+     * @ORM\ManyToOne(targetEntity="EventPrototype")
+     * @ORM\JoinColumn(nullable=false, onDelete="cascade")
+     */
+    private $eventPrototype;
 
-	
-	/**
-	 * @return array
-	 */
-	public function getPluginInstances()
-	{
-		return $this->pluginInstances;
-	}
-	
-	/**
-	 * @return array
-	 */
-	public function getPluginsByPrototype(PluginPrototype $prototype)
-	{
-	    $closure = function(PluginInstance $instance) use ($prototype){
-	        return $instance->getPluginPrototype()->getId() == $prototype->getId();
-	    };
-	    
-	    return $this->pluginInstances->filter($closure);
-	}
-	
-	/**
-	 * @return integer
-	 */
-	public function countPluginsByPrototype(PluginPrototype $prototype)
-	{
-		$closure = function(PluginInstance $instance) use ($prototype){
-			return $instance->getPluginPrototype()->getId() == $prototype->getId();
-		};
-		 
-		return $this->pluginInstances->count($closure);
-	}
-	
-	/**
-	 * @return EventPrototype
-	 */
-	public function getPrototype()
-	{
-	    return $this->prototype;
-	}
-	
-	public function setPrototype(EventPrototype $prototype)
-	{
-	    $this->prototype = $prototype;
-	}
+    public function setTitle($title)
+    {
+        $this->title = $title;
+    }
+
+    public function getTitle()
+    {
+        return $this->title;
+    }
+
+    /**
+     * @return Camp
+     */
+    public function getCamp()
+    {
+        return $this->camp;
+    }
+
+    /**
+     * @return EventPrototype
+     */
+    public function getEventPrototype()
+    {
+        return $this->eventPrototype;
+    }
+
+    /**
+     * @return array
+     */
+    public function getEventInstances()
+    {
+        return $this->eventInstances;
+    }
+
+    /**
+     * @return array
+     */
+    public function getPluginInstances()
+    {
+        return $this->pluginInstances;
+    }
+
+    /**
+     * @return array
+     */
+    public function getPluginsByPrototype(PluginPrototype $pluginPrototype)
+    {
+        $closure = function(PluginInstance $instance) use ($pluginPrototype) {
+        	return $instance->getPluginPrototype()->getId() == $pluginPrototype->getId();
+        };
+
+        return $this->pluginInstances->filter($closure);
+    }
+
+    /**
+     * @return integer
+     */
+    public function countPluginsByPrototype(PluginPrototype $pluginPrototype)
+    {
+        $closure = function(PluginInstance $instance) use ($pluginPrototype) {
+            return $instance->getPluginPrototype()->getId() == $pluginPrototype->getId();
+        };
+
+        return $this->pluginInstances->count($closure);
+    }
+
 }

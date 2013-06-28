@@ -1,12 +1,12 @@
 <?php
 return array(
 
-	'factories' => array(
-		
-	),
+    'factories' => array(
+
+    ),
 
     'invokables' => array(
-		
+
     ),
-     
+
 );

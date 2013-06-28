@@ -24,6 +24,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Criteria;
 
 use EcampLib\Entity\BaseEntity;
+use Zend\Permissions\Acl\Resource\ResourceInterface;
 
 /**
  * @ORM\Entity(repositoryClass="EcampCore\Repository\CampRepository")
@@ -33,253 +34,262 @@ use EcampLib\Entity\BaseEntity;
  *   )
  */
 class Camp extends BaseEntity
+    implements ResourceInterface
 {
-	const VISIBILITY_PUBLIC = 'public';
-	const VISIBILITY_CONTRIBUTORS = 'contributors';
-	
-	
-	public function __construct(CampType $campType){
-		parent::__construct();
-		
-		$this->visibility = self::VISIBILITY_PUBLIC;
-		
-		$this->campType = $campType;
-		$this->userCamps = new \Doctrine\Common\Collections\ArrayCollection();
-		$this->events    = new \Doctrine\Common\Collections\ArrayCollection();
-	}
-	
+    const VISIBILITY_PUBLIC = 'public';
+    const VISIBILITY_CONTRIBUTORS = 'contributors';
 
+    public function __construct(CampType $campType)
+    {
+        parent::__construct();
 
-	/**
-	 * Short identifier, unique inside group or user
-	 * @var string
-	 * @ORM\Column(type="string", length=32, nullable=false)
-	 */
-	private $name;
+        $this->visibility = self::VISIBILITY_PUBLIC;
 
+        $this->campType = $campType;
+        $this->usercamps = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->events    = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->periods 	 = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
-	/**
-	 * @var string
-	 * @ORM\Column(type="string", length=64, nullable=false)
-	 */
-	private $title;
-	
-	
-	/**
-	 * @var string
-	 * @ORM\Column(type="string", length=128, nullable=false)
-	 */
-	private $motto;
+    /**
+     * Short identifier, unique inside group or user
+     * @var string
+     * @ORM\Column(type="string", length=32, nullable=false)
+     */
+    private $name;
 
-	
-	/**
-	 * @var string
-	 * @ORM\Column(type="string", length=16, nullable=false, options={"default" = "public"})
-	 */
-	private $visibility;
+    /**
+     * @var string
+     * @ORM\Column(type="string", length=64, nullable=false)
+     */
+    private $title;
 
-	
-	/**
-	 * @var User
-	 * @ORM\ManyToOne(targetEntity="User")
-	 * @ORM\JoinColumn(name="creator_id", referencedColumnName="id", nullable=false)
-	 */
-	private $creator;
+    /**
+     * @var string
+     * @ORM\Column(type="string", length=128, nullable=false)
+     */
+    private $motto;
 
-	
-	/**
-	 * @var User
-	 * @ORM\ManyToOne(targetEntity="User", inversedBy="mycamps")
-	 */
-	private $owner;
+    /**
+     * @var string
+     * @ORM\Column(type="string", length=16, nullable=false, options={"default" = "public"})
+     */
+    private $visibility;
 
-	
-	/**
-	 * @var Group
-	 * @ORM\ManyToOne(targetEntity="Group", inversedBy="camps")
-	 */
-	private $group;
-	
-	
-	/**
-	 * @var CampType
-	 * @ORM\ManyToOne(targetEntity="CampType")
-	 * @ORM\JoinColumn(nullable=false)
-	 */
-	private $campType;
+    /**
+     * @var User
+     * @ORM\ManyToOne(targetEntity="User")
+     * @ORM\JoinColumn(name="creator_id", referencedColumnName="id", nullable=false)
+     */
+    private $creator;
 
-	
-	/**
-	 * @var Doctrine\Common\Collections\ArrayCollection
-	 * @ORM\OneToMany(targetEntity="UserCamp", mappedBy="camp")
-	 */
-	private $usercamps;
+    /**
+     * @var User
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="mycamps")
+     */
+    private $owner;
 
-	/**
-	 * @var Doctrine\Common\Collections\ArrayCollection
-	 * @ORM\OneToMany(targetEntity="Period", mappedBy="camp")
-	 */
-	private $periods;
+    /**
+     * @var Group
+     * @ORM\ManyToOne(targetEntity="Group", inversedBy="camps")
+     */
+    private $group;
 
-	/**
-	 * @var Doctrine\Common\Collections\ArrayCollection
-	 * @ORM\OneToMany(targetEntity="Event", mappedBy="camp")
-	 */
-	private $events;
-	
+    /**
+     * @var CampType
+     * @ORM\ManyToOne(targetEntity="CampType")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $campType;
 
-	public function setName($name){
-		$this->name = $name;
-	}
+    /**
+     * @var Doctrine\Common\Collections\ArrayCollection
+     * @ORM\OneToMany(targetEntity="UserCamp", mappedBy="camp")
+     */
+    private $usercamps;
 
-	public function getName(){
-		return $this->name;
-	}
+    /**
+     * @var Doctrine\Common\Collections\ArrayCollection
+     * @ORM\OneToMany(targetEntity="Period", mappedBy="camp")
+     */
+    private $periods;
 
-	public function setTitle($title){
-		$this->title = $title;
-	}
+    /**
+     * @var Doctrine\Common\Collections\ArrayCollection
+     * @ORM\OneToMany(targetEntity="Event", mappedBy="camp")
+     */
+    private $events;
 
-	public function getTitle(){
-		return $this->title;
-	}
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
 
-	public function setCreator(User $creator){
-		$this->creator = $creator;
-	}
-	
-	public function getVisibility(){
-		return $this->visibility;
-	}
-	
-	public function setVisibility($visibility){
-		if(in_array($visibility, array(self::VISIBILITY_PUBLIC, self::VISIBILITY_CONTRIBUTORS))){
-			$this->visibility = $visibility;
-		} else {
-			throw new \Exception("Unallowed Value for Camp::Visibility ($visibility)");
-		}
-	}
-	
-	/**
-	 * @return User  
-	 */
-	public function getCreator(){
-		return $this->creator;
-	}
+    public function getName()
+    {
+        return $this->name;
+    }
 
-	public function setGroup(Group $group){
-		$this->owner = null; $this->group = $group;
-	}
-	
-	/**
-	 * @return Group
-	 */
-	public function getGroup(){
-		return $this->group;
-	}
+    public function setTitle($title)
+    {
+        $this->title = $title;
+    }
 
-	public function setOwner(User $owner){
-		$this->group = null; $this->owner = $owner;
-	}
+    public function getTitle()
+    {
+        return $this->title;
+    }
 
-	/**
-	 * @return User  
-	 */
-	public function getOwner(){
-		return $this->owner;
-	}
-		
-	public function belongsToUser(){
-		return isset($this->owner);
-	}
-	
-	
-	/**
-	 * @return CampType
-	 */
-	public function getCampType(){
-		return $this->campType;
-	}
-	
-	
-	/** 
-	 * @return array
-	 */
-	public function getPeriods(){
-		return $this->periods;
-	}
-	
-	/**
-	 * @return array
-	 */
-	public function getEvents(){
-		return $this->events;
-	}
+    public function setCreator(User $creator)
+    {
+        $this->creator = $creator;
+    }
 
-	/**
-	 * @return ArrayCollection
-	 */
-	public function getUserCamps(){
-		return $this->usercamps;
-	}
+    public function getVisibility()
+    {
+        return $this->visibility;
+    }
 
+    public function setVisibility($visibility)
+    {
+        if (in_array($visibility, array(self::VISIBILITY_PUBLIC, self::VISIBILITY_CONTRIBUTORS))) {
+            $this->visibility = $visibility;
+        } else {
+            throw new \Exception("Unallowed Value for Camp::Visibility ($visibility)");
+        }
+    }
 
-	public function getRange(){
-		if($this->getPeriods()->count() == 0){
-			return "-";
-		}
+    /**
+     * @return User
+     */
+    public function getCreator()
+    {
+        return $this->creator;
+    }
 
-		return $this->getPeriods()->first()->getStart()->format("d.m.Y") . ' - ' . $this->getPeriods()->last()->getEnd()->format("d.m.Y");
-	}
+    public function setGroup(Group $group)
+    {
+        $this->owner = null; $this->group = $group;
+    }
 
-	
-	/**
-	 * @return Doctrine\Common\Collections\Collection
-	 */
-	public function getManagers(){
-		$criteria = Criteria::create()->where(Criteria::expr()->eq('role', UserCamp::ROLE_MANAGER));
-		$memperUserCamps = $this->getUserCamps()->matching($criteria);
-		
-		return $memperUserCamps->map(function($uc){
-			return $uc->getUser();
-		});
-	} 
-	
-	/**
-	 * @return Doctrine\Common\Collections\Collection
-	 */
-	public function getMembers(){
-		$criteria = Criteria::create()->where(Criteria::expr()->eq('role', UserCamp::ROLE_MEMBER));
-		$memperUserCamps = $this->getUserCamps()->matching($criteria);
-	
-		return $memperUserCamps->map(function($uc){
-			return $uc->getUser();
-		});
-	}
-	
-	
-	public function isManager(User $user){
-		
-		$criteria = Criteria::create();
-		$expr = Criteria::expr();
-		$criteria->setMaxResults(1);
-		$criteria->where($expr->eq('user', $user));
-		$criteria->andWhere($expr->eq('role', UserCamp::ROLE_MANAGER));
-		
-		return !$this->getUserCamps()->matching($criteria)->isEmpty();
-	}
-	
-	
-	public function isMember(User $user){
-		
-		$criteria = Criteria::create();
-		$expr = Criteria::expr();
-		$criteria->setMaxResults(1);
-		$criteria->where($expr->eq('user', $user));
-		$criteria->andWhere($expr->eq('role', UserCamp::ROLE_MEMBER));
-		
-		return !$this->getUserCamps()->matching($criteria)->isEmpty();
-	}
+    /**
+     * @return Group
+     */
+    public function getGroup()
+    {
+        return $this->group;
+    }
 
+    public function setOwner(User $owner)
+    {
+        $this->group = null; $this->owner = $owner;
+    }
+
+    /**
+     * @return User
+     */
+    public function getOwner()
+    {
+        return $this->owner;
+    }
+
+    public function belongsToUser()
+    {
+        return isset($this->owner);
+    }
+
+    /**
+     * @return CampType
+     */
+    public function getCampType()
+    {
+        return $this->campType;
+    }
+
+    /**
+     * @return array
+     */
+    public function getPeriods()
+    {
+        return $this->periods;
+    }
+
+    /**
+     * @return array
+     */
+    public function getEvents()
+    {
+        return $this->events;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getUserCamps()
+    {
+        return $this->usercamps;
+    }
+
+    public function getRange()
+    {
+        if ($this->getPeriods()->count() == 0) {
+            return "-";
+        }
+
+        return $this->getPeriods()->first()->getStart()->format("d.m.Y") . ' - ' . $this->getPeriods()->last()->getEnd()->format("d.m.Y");
+    }
+
+    /**
+     * @return Doctrine\Common\Collections\Collection
+     */
+    public function getManagers()
+    {
+        $criteria = Criteria::create()->where(Criteria::expr()->eq('role', UserCamp::ROLE_MANAGER));
+        $memperUserCamps = $this->getUserCamps()->matching($criteria);
+
+        return $memperUserCamps->map(function($uc){
+            return $uc->getUser();
+        });
+    }
+
+    /**
+     * @return Doctrine\Common\Collections\Collection
+     */
+    public function getMembers()
+    {
+        $criteria = Criteria::create()->where(Criteria::expr()->eq('role', UserCamp::ROLE_MEMBER));
+        $memperUserCamps = $this->getUserCamps()->matching($criteria);
+
+        return $memperUserCamps->map(function($uc){
+            return $uc->getUser();
+        });
+    }
+
+    public function isManager(User $user)
+    {
+        $criteria = Criteria::create();
+        $expr = Criteria::expr();
+        $criteria->setMaxResults(1);
+        $criteria->where($expr->eq('user', $user));
+        $criteria->andWhere($expr->eq('role', UserCamp::ROLE_MANAGER));
+
+        return !$this->getUserCamps()->matching($criteria)->isEmpty();
+    }
+
+    public function isMember(User $user)
+    {
+        $criteria = Criteria::create();
+        $expr = Criteria::expr();
+        $criteria->setMaxResults(1);
+        $criteria->where($expr->eq('user', $user));
+        $criteria->andWhere($expr->eq('role', UserCamp::ROLE_MEMBER));
+
+        return !$this->getUserCamps()->matching($criteria)->isEmpty();
+    }
+
+    public function getResourceId()
+    {
+        return 'EcampCore\Entity\Camp';
+    }
 
 }

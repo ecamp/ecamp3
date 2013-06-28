@@ -22,38 +22,37 @@ namespace EcampCore\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
-use EcampLib\Entity\BaseEntity;
-
 /**
  * @ORM\Entity(repositoryClass="EcampCore\Repository\MediumRepository", readOnly=true)
  * @ORM\Table(name="media")
  */
 class Medium
 {
-	public function __construct(){
-	}
-	
-	/**
-	 * Short human readable name
-	 * @var string
-	 * @ORM\Id
-	 * @ORM\Column(type="string", length=32, nullable=false)
-	 */
-	private $name;
+    public function __construct()
+    {
+    }
 
-	public function getName(){
-		return $this->name;
-	}
-	
-	
-	
-	/**
-	 * @var boolean
-	 * @ORM\Column(type="boolean", nullable=false)
-	 */
-	private $default;
-	
-	public function isDefault(){
-		return $this->default;
-	}
+    /**
+     * Short human readable name
+     * @var string
+     * @ORM\Id
+     * @ORM\Column(type="string", length=32, nullable=false)
+     */
+    private $name;
+
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @var boolean
+     * @ORM\Column(type="boolean", nullable=false)
+     */
+    private $default;
+
+    public function isDefault()
+    {
+        return $this->default;
+    }
 }

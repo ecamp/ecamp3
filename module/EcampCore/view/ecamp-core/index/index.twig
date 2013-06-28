@@ -27,7 +27,7 @@
 
 
 <hr/>
-{# 
+{#
 <?php if($this->group) { ?>
 
 <?php echo $this->group->getDescription(); ?>
@@ -35,7 +35,7 @@
 <hr/>
 Children:
 <ul>
-	<?php 
+	<?php
 		foreach($this->group->getChildren() as $child){
 			echo "<li>";
 			echo "<a href='" . $this->url('group/camp/default', array('controller' => 'index', 'action' => 'index', 'group' => $child->getId())) . "'>";

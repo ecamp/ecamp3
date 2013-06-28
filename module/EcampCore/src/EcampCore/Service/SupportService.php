@@ -27,21 +27,24 @@ use EcampLib\Service\ServiceBase;
 /**
  * @method EcampCore\Service\SupportService Simulate
  */
-class SupportService 
-	extends ServiceBase
+class SupportService
+    extends ServiceBase
 {
-	
-	
-	public function SupportUser(User $user){
-		$this->aclRequire($this->me(), $user, 'SupportService::SupportUser');
-		
-		$auth = new AuthenticationService();
-		$auth->replaceIdentity($user->getId());
-	}
-	
-	public function StopUserSupport(){
-		$auth = new AuthenticationService();
-		$auth->restoreIdentity();
-	}
-	
+
+    public function SupportUser(User $user)
+    {
+        $this->aclRequire($this->me(), $user, 'support.start');
+
+        $auth = new AuthenticationService();
+        $auth->replaceIdentity($user->getId());
+    }
+
+    public function StopUserSupport()
+    {
+        $this->aclRequire($this->me(), null, 'support.stop');
+
+        $auth = new AuthenticationService();
+        $auth->restoreIdentity();
+    }
+
 }

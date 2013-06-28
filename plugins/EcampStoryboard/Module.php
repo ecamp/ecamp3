@@ -1,11 +1,10 @@
 <?php
 namespace EcampStoryboard;
 
-use Zend\Stdlib\ArrayUtils;
-
 class Module
 {
-    public function getConfig(){
+    public function getConfig()
+    {
         return include __DIR__ . '/config/module.config.php';
     }
 
@@ -19,9 +18,9 @@ class Module
             ),
         );
     }
-    
-	
-	public function getServiceConfig(){
-		return include __DIR__ . '/config/service.config.php';
-	}
+
+    public function getServiceConfig()
+    {
+        return include __DIR__ . '/config/service.config.php';
+    }
 }

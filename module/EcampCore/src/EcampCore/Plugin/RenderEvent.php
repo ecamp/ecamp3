@@ -26,72 +26,78 @@ use CoreApi\Entity\EventTemplate;
 
 class RenderEvent
 {
-	
-	private $renderContainers = array();
-	
-	/**
-	 * @var CoreApi\Entity\Event
-	 */
-	private $event;
-	
-	/**
-	 * @var CoreApi\Entity\Medium
-	 */
-	private $medium;
-	
-	/**
-	 * @var CoreApi\Entity\EventTemplate
-	 */
-	private $template;
-	
-	/**
-	 * @var boolean
-	 */
-	private $backend;
-	
-	
-	public function __construct(Event $event, Medium $medium, EventTemplate $template, $backend = false){
-		$this->event = $event;
-		$this->medium = $medium;
-		$this->template = $template;
-		$this->backend = !!$backend;
-	}
-	
-	public function getEvent(){
-		return $this->event;
-	}
-	
-	public function getMedium(){
-		return $this->medium;
-	}
-	
-	public function getTemplate(){
-		return $this->template;
-	}
-	
-	public function isBackend(){
-		return $this->backend;
-	}
-	
-	public function isFrontend(){
-		return !$this->backend;
-	}
-	
-	/**
-	 * @access private
-	 */
-	public function addRenderContainer(RenderContainer $renderContainer){
-		return $this->renderContainers[$renderContainer->getContainerName()] = $renderContainer;
-	}
-	
-	public function getRenderContainer($containerName){
-		return $this->renderContainers[$containerName];
-	}
-	
-	public function getRenderContainers(){
-		return $this->renderContainers;
-	}
-	
-	
-	
+
+    private $renderContainers = array();
+
+    /**
+     * @var CoreApi\Entity\Event
+     */
+    private $event;
+
+    /**
+     * @var CoreApi\Entity\Medium
+     */
+    private $medium;
+
+    /**
+     * @var CoreApi\Entity\EventTemplate
+     */
+    private $template;
+
+    /**
+     * @var boolean
+     */
+    private $backend;
+
+    public function __construct(Event $event, Medium $medium, EventTemplate $template, $backend = false)
+    {
+        $this->event = $event;
+        $this->medium = $medium;
+        $this->template = $template;
+        $this->backend = !!$backend;
+    }
+
+    public function getEvent()
+    {
+        return $this->event;
+    }
+
+    public function getMedium()
+    {
+        return $this->medium;
+    }
+
+    public function getTemplate()
+    {
+        return $this->template;
+    }
+
+    public function isBackend()
+    {
+        return $this->backend;
+    }
+
+    public function isFrontend()
+    {
+        return !$this->backend;
+    }
+
+    /**
+     * @access private
+     */
+    public function addRenderContainer(RenderContainer $renderContainer)
+    {
+        return $this->renderContainers[$renderContainer->getContainerName()] = $renderContainer;
+    }
+
+    public function getRenderContainer($containerName)
+    {
+        return $this->renderContainers[$containerName];
+    }
+
+    public function getRenderContainers()
+    {
+        return $this->renderContainers;
+    }
+
 }

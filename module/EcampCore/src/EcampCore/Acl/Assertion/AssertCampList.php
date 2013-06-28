@@ -6,46 +6,43 @@ use Zend\Permissions\Acl\Acl;
 use Zend\Permissions\Acl\Role\RoleInterface;
 use Zend\Permissions\Acl\Resource\ResourceInterface;
 use Zend\Permissions\Acl\Assertion\AssertionInterface;
-use EcampCore\Acl\Role\UserRole;
-use EcampCore\Acl\Resource\CampResource;
 use EcampCore\Entity\Camp;
+use EcampCore\Entity\User;
 
 class AssertCampList
-	implements AssertionInterface
+    implements AssertionInterface
 {
-	public function assert(
-		Acl $acl, 
-		RoleInterface $role = null, 
-		ResourceInterface $resource = null, 
-		$privilege = null
-	){
-		if($role instanceof UserRole && $resource instanceof CampResource){
-			$user = $role->getUser();
-			$camp = $resource->getCamp();
-			
-			// If Camp is public
-			if($camp->getVisibility() == Camp::VISIBILITY_PUBLIC){
-				return true;
-			}
+    public function assert(
+        Acl $acl,
+        RoleInterface $user = null,
+        ResourceInterface $camp = null,
+        $privilege = null
+    ){
+        if ($user instanceof User && $camp instanceof Camp) {
 
-			// If User is Member
-			if($camp->isMember($user))		return true;
+            // If Camp is public
+            if ($camp->getVisibility() == Camp::VISIBILITY_PUBLIC) {
+                return true;
+            }
 
-			// If User is Guest
-			if($camp->isGuest($user))		return true;
-			
-			// If User is Manager
-			if($camp->isManager($user))		return true;
-			
-			// If User is Owner
-			if($camp->getOwner() == $user)	return true;
-			
-			// If Camp belongs to Group and User can administrate that group
-			if(null != ($group = $camp->getGroup())){
-				return $acl->isAllowed($user, $group, 'administrate');
-			}
-		}
-		
-		return false;
-	}
+            // If User is Member
+            if($camp->isMember($user))		return true;
+
+            // If User is Guest
+            if($camp->isGuest($user))		return true;
+
+            // If User is Manager
+            if($camp->isManager($user))		return true;
+
+            // If User is Owner
+            if($camp->getOwner() == $user)	return true;
+
+            // If Camp belongs to Group and User can administrate that group
+            if (null != ($group = $camp->getGroup())) {
+                return $acl->isAllowed($user, $group, 'administrate');
+            }
+        }
+
+        return false;
+    }
 }

@@ -4,7 +4,7 @@ namespace EcampCore\Repository;
 
 use Doctrine\ORM\EntityRepository;
 
-class EventPrototypeRepository 
-	extends EntityRepository
+class EventPrototypeRepository
+    extends EntityRepository
 {
 }

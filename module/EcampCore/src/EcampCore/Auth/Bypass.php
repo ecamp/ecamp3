@@ -22,12 +22,11 @@ class Bypass
     const NOT_ACTIVATED_MESSAGE = 'Account is not yet activated!';
     const UNKNOWN_FAILURE 		= 'Unknown error!';
 
-
     private $user;
 
-
-    public function __construct(User $user){
-		$this->user = $user;
+    public function __construct(User $user)
+    {
+        $this->user = $user;
     }
 
     /**
@@ -38,21 +37,18 @@ class Bypass
      */
     public function authenticate()
     {
-		$user = $this->user;
-  
+        $user = $this->user;
+
         // User Not Found:
-        if(is_null($user))
-        {
+        if (is_null($user)) {
             return $this->authResult(
                 Result::FAILURE_IDENTITY_NOT_FOUND,
                 self::NOT_FOUND_MESSAGE
             );
         }
 
-
         // User Not Activated:
-        if($user->getState() != User::STATE_ACTIVATED || is_null($user->getLogin()))
-        {
+        if ($user->getState() != User::STATE_ACTIVATED || is_null($user->getLogin())) {
             return $this->authResult(
                 Result::FAILURE_IDENTITY_AMBIGUOUS,
                 self::NOT_ACTIVATED_MESSAGE
@@ -63,7 +59,6 @@ class Bypass
         return $this->authResult(Result::SUCCESS);
     }
 
-
      /**
       * Factory for Result
       *
@@ -72,10 +67,9 @@ class Bypass
       * @return Zend\Authentication\Result
       */
     private function authResult($code, $messages = array())
-	{
-        if( !is_array( $messages ) )
-        {	$messages = array($messages);	}
-        
-		return new Result($code, $this->user->getId(), $messages);
+    {
+        if ( !is_array( $messages ) ) {	$messages = array($messages);	}
+
+        return new Result($code, $this->user->getId(), $messages);
     }
 }

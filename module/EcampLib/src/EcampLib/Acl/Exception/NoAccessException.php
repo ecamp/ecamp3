@@ -2,8 +2,8 @@
 
 namespace EcampLib\Acl\Exception;
 
-class NoAccessException 
-	extends \Exception
-	implements ExceptionInterface
+class NoAccessException
+    extends \Exception
+    implements ExceptionInterface
 {
 }

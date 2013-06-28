@@ -23,22 +23,20 @@ class Adapter
     const NOT_ACTIVATED_MESSAGE = 'Account is not yet activated!';
     const UNKNOWN_FAILURE 		= 'Unknown error!';
 
-
-    /** 
+    /**
      * @var EcampCore\Entity\User $user
      */
     private $user;
-    
+
     /**
-     * @var EcampCore\Entity\Login $login 
+     * @var EcampCore\Entity\Login $login
      */
     private $login;
-    
-    /** 
+
+    /**
      * @var string $password
      */
     private $password;
-
 
     public function __construct(Login $login, $password)
     {
@@ -55,32 +53,26 @@ class Adapter
     public function authenticate()
     {
         // User Not Found:
-        if(is_null($this->login))
-        {
+        if (is_null($this->login)) {
             return $this->authResult(
-            	Result::FAILURE_IDENTITY_NOT_FOUND,
+                Result::FAILURE_IDENTITY_NOT_FOUND,
                 self::NOT_FOUND_MESSAGE
             );
         }
-        
-        
+
         /** @var $user \Entity\User */
         $this->user = $this->login->getUser();
 
-
         // User Not Activated:
-        if($this->user->getState() != User::STATE_ACTIVATED)
-        {
+        if ($this->user->getState() != User::STATE_ACTIVATED) {
             return $this->authResult(
                 Result::FAILURE_IDENTITY_AMBIGUOUS,
                 self::NOT_ACTIVATED_MESSAGE
             );
         }
 
-
         // User with wrong Password:
-        if(!$this->login->checkPassword($this->password))
-        {
+        if (!$this->login->checkPassword($this->password)) {
             return $this->authResult(
                 Result::FAILURE_CREDENTIAL_INVALID,
                 self::CREDINTIALS_MESSAGE
@@ -91,7 +83,6 @@ class Adapter
         return $this->authResult(Result::SUCCESS);
     }
 
-
     /**
      * Factory for Result
      *
@@ -99,12 +90,12 @@ class Adapter
      * @param mixed      The Message, can be a string or array
      * @return Zend\Authentication\Result
      */
-    private function authResult($code, $messages = array()){
-    	
-        if(!is_array($messages)){
-        	$messages = array($messages);
+    private function authResult($code, $messages = array())
+    {
+        if (!is_array($messages)) {
+            $messages = array($messages);
         }
 
-		return new Result($code, $this->user->getId(), $messages);
+        return new Result($code, $this->user->getId(), $messages);
     }
 }

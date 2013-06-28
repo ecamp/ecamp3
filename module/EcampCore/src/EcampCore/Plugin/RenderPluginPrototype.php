@@ -24,60 +24,64 @@ use CoreApi\Entity\PluginPrototype;
 
 class RenderPluginPrototype
 {
-	/**
-	 * @var RenderContainer
-	 */
-	private $renderContainer;
-	
-	/**
-	 * @var CoreApi\Entity\PluginPrototype
-	 */
-	private $pluginPrototype;
-	
-	
-	private $renderPluginInstances = array();
-	
-	
-	
-	public function __construct(RenderContainer $renderContainer, PluginPrototype $pluginPrototype){
-		$this->renderContainer = $renderContainer;
-		$this->pluginPrototype = $pluginPrototype;
-		
-		$this->renderContainer->addRenderPluginPrototype($this);
-	}
-	
-	
-	/**
-	 * @access private
-	 */
-	public function addRenderPluginInstance(RenderPluginInstance $renderPluginInstance){
-		return $this->renderPluginInstances[] = $renderPluginInstance;
-	}
-	
-	/**
-	 * @return \Core\Plugin\RenderContainer
-	 */
-	public function getRenderContainer(){
-		return $this->renderContainer;
-	}
-	
-	public function getRenderPluginInstances(){
-		return $this->renderPluginInstances;
-	}
-	
-	public function getPluginPrototype(){
-		return $this->pluginPrototype;
-	}
-	
-	public function getPluginName(){
-		return $this->pluginPrototype->getPlugin()->getName();
-	}
-	
-	public function isInstanceAddable(){
-		return $this->pluginPrototype->getMaxInstances() ==null || $this->pluginPrototype->getMaxInstances() > count($this->renderPluginInstances);
-	}
-	
-	public function isInstanceDeletable(){
-		return $this->pluginPrototype->getMinInstances() < count($this->renderPluginInstances);
-	}
+    /**
+     * @var RenderContainer
+     */
+    private $renderContainer;
+
+    /**
+     * @var CoreApi\Entity\PluginPrototype
+     */
+    private $pluginPrototype;
+
+    private $renderPluginInstances = array();
+
+    public function __construct(RenderContainer $renderContainer, PluginPrototype $pluginPrototype)
+    {
+        $this->renderContainer = $renderContainer;
+        $this->pluginPrototype = $pluginPrototype;
+
+        $this->renderContainer->addRenderPluginPrototype($this);
+    }
+
+    /**
+     * @access private
+     */
+    public function addRenderPluginInstance(RenderPluginInstance $renderPluginInstance)
+    {
+        return $this->renderPluginInstances[] = $renderPluginInstance;
+    }
+
+    /**
+     * @return \Core\Plugin\RenderContainer
+     */
+    public function getRenderContainer()
+    {
+        return $this->renderContainer;
+    }
+
+    public function getRenderPluginInstances()
+    {
+        return $this->renderPluginInstances;
+    }
+
+    public function getPluginPrototype()
+    {
+        return $this->pluginPrototype;
+    }
+
+    public function getPluginName()
+    {
+        return $this->pluginPrototype->getPlugin()->getName();
+    }
+
+    public function isInstanceAddable()
+    {
+        return $this->pluginPrototype->getMaxInstances() ==null || $this->pluginPrototype->getMaxInstances() > count($this->renderPluginInstances);
+    }
+
+    public function isInstanceDeletable()
+    {
+        return $this->pluginPrototype->getMinInstances() < count($this->renderPluginInstances);
+    }
 }
