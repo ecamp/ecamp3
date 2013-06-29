@@ -9,7 +9,6 @@ return array(
     ),
 
     'invokables' => array(
-        'EcampCore\Service\Period\Internal' => 'EcampCore\Service\PeriodService',
     ),
 
     'initializers' => array(

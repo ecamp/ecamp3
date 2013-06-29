@@ -83,10 +83,9 @@ class CampService
 	 * @return CoreApi\Entity\Camp
 	 */
 	public function Update($campId, $data){
-	
-		$this->aclRequire($camp, Privilege::CAMP_CONFIGURE);
-
 		$camp = $this->Get($campId);
+		$this->aclRequire($camp, Privilege::CAMP_CONFIGURE);
+		
 		$campFieldset = new CampFieldset($this->getEntityManager());
 		
 		$form = new EntityForm($this->getEntityManager(), $campFieldset, $camp);
