@@ -15,9 +15,9 @@ class UserRelationshipRepository extends EntityRepository
     }
 
     /**
-     * @param  EcampCore\Entity\User             $user1
-     * @param  EcampCore\Entity\User             $user2
-     * @return EcampCore\Entity\UserRelationship
+     * @param  \EcampCore\Entity\User             $user1
+     * @param  \EcampCore\Entity\User             $user2
+     * @return \EcampCore\Entity\UserRelationship
      */
     public function findByUsers(User $fromUser, User $toUser)
     {

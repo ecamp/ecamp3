@@ -21,7 +21,6 @@
 namespace EcampCore\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\Common\Collections\Criteria;
 
 use EcampLib\Entity\BaseEntity;
 use Zend\Permissions\Acl\Resource\ResourceInterface;
@@ -46,9 +45,9 @@ class Camp extends BaseEntity
         $this->visibility = self::VISIBILITY_PUBLIC;
 
         $this->campType = $campType;
-        $this->usercamps = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->events    = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->periods 	 = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->collaborations 	= new \Doctrine\Common\Collections\ArrayCollection();
+        $this->events    		= new \Doctrine\Common\Collections\ArrayCollection();
+        $this->periods 			= new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -104,9 +103,9 @@ class Camp extends BaseEntity
 
     /**
      * @var Doctrine\Common\Collections\ArrayCollection
-     * @ORM\OneToMany(targetEntity="UserCamp", mappedBy="camp")
+     * @ORM\OneToMany(targetEntity="CampCollaboration", mappedBy="camp")
      */
-    private $usercamps;
+    protected $collaborations;
 
     /**
      * @var Doctrine\Common\Collections\ArrayCollection
@@ -140,6 +139,16 @@ class Camp extends BaseEntity
         return $this->title;
     }
 
+    public function setMotto($motto)
+    {
+        $this->motto = $motto;
+    }
+
+    public function getMotto()
+    {
+        return $this->motto;
+    }
+
     public function setCreator(User $creator)
     {
         $this->creator = $creator;
@@ -169,7 +178,8 @@ class Camp extends BaseEntity
 
     public function setGroup(Group $group)
     {
-        $this->owner = null; $this->group = $group;
+        $this->owner = null;
+        $this->group = $group;
     }
 
     /**
@@ -182,7 +192,8 @@ class Camp extends BaseEntity
 
     public function setOwner(User $owner)
     {
-        $this->group = null; $this->owner = $owner;
+        $this->group = null;
+        $this->owner = $owner;
     }
 
     /**
@@ -225,10 +236,10 @@ class Camp extends BaseEntity
     /**
      * @return ArrayCollection
      */
-    public function getUserCamps()
-    {
-        return $this->usercamps;
-    }
+//     public function getUserCamps()
+//     {
+//         return $this->usercamps;
+//     }
 
     public function getRange()
     {
@@ -240,51 +251,11 @@ class Camp extends BaseEntity
     }
 
     /**
-     * @return Doctrine\Common\Collections\Collection
+     * @return CampCollaborationHelper
      */
-    public function getManagers()
+    public function campCollaboration()
     {
-        $criteria = Criteria::create()->where(Criteria::expr()->eq('role', UserCamp::ROLE_MANAGER));
-        $memperUserCamps = $this->getUserCamps()->matching($criteria);
-
-        return $memperUserCamps->map(function($uc){
-            return $uc->getUser();
-        });
-    }
-
-    /**
-     * @return Doctrine\Common\Collections\Collection
-     */
-    public function getMembers()
-    {
-        $criteria = Criteria::create()->where(Criteria::expr()->eq('role', UserCamp::ROLE_MEMBER));
-        $memperUserCamps = $this->getUserCamps()->matching($criteria);
-
-        return $memperUserCamps->map(function($uc){
-            return $uc->getUser();
-        });
-    }
-
-    public function isManager(User $user)
-    {
-        $criteria = Criteria::create();
-        $expr = Criteria::expr();
-        $criteria->setMaxResults(1);
-        $criteria->where($expr->eq('user', $user));
-        $criteria->andWhere($expr->eq('role', UserCamp::ROLE_MANAGER));
-
-        return !$this->getUserCamps()->matching($criteria)->isEmpty();
-    }
-
-    public function isMember(User $user)
-    {
-        $criteria = Criteria::create();
-        $expr = Criteria::expr();
-        $criteria->setMaxResults(1);
-        $criteria->where($expr->eq('user', $user));
-        $criteria->andWhere($expr->eq('role', UserCamp::ROLE_MEMBER));
-
-        return !$this->getUserCamps()->matching($criteria)->isEmpty();
+        return new CampCollaborationHelper($this->collaborations);
     }
 
     public function getResourceId()

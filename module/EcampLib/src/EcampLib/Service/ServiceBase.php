@@ -5,7 +5,6 @@ namespace EcampLib\Service;
 use Doctrine\ORM\EntityManager;
 
 use EcampCore\Entity\User;
-use EcampCore\ServiceUtil\ServiceWrapper;
 use EcampLib\Acl\Acl;
 use Zend\Permissions\Acl\Resource\ResourceInterface;
 
@@ -98,31 +97,23 @@ abstract class ServiceBase
     protected function validationFailed($bool = true, $message = null)
     {
         if ($bool && $message == null) {
-            ServiceWrapper::validationFailed();
+            throw new ValidationException();
         }
 
         if ($bool && $message != null) {
-            ServiceWrapper::addValidationMessage($message);
+            throw new ValidationException($message);
         }
     }
 
     protected function validationAssert($bool = false, $message = null)
     {
-        if(!$bool && $message == null)
-            ServiceWrapper::validationFailed();
+        if(!$bool && $message == null){
+            throw new ValidationException();
+        }
 
-        if(!$bool && $message != null)
-            ServiceWrapper::addValidationMessage($message);
-    }
-
-    protected function addValidationMessage($message)
-    {
-        ServiceWrapper::addValidationMessage($message);
-    }
-
-    protected function hasFailed()
-    {
-        return ServiceWrapper::hasFailed();
+        if(!$bool && $message != null){
+            throw new ValidationException($message);
+        }
     }
 
 }
