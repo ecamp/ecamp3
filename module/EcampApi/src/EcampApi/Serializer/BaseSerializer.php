@@ -2,7 +2,7 @@
 
 namespace EcampApi\Serializer;
 
-use EcampCore\Entity\BaseEntity;
+use EcampLib\Entity\BaseEntity;
 
 abstract class BaseSerializer
 {
@@ -25,7 +25,7 @@ abstract class BaseSerializer
 
             return $list;
         }
-
+		
         if ($entity instanceof BaseEntity) {
             return $this->serialize($entity);
         }

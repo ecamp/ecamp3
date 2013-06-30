@@ -9,12 +9,13 @@ use EcampLib\Controller\AbstractRestfulBaseController;
 use Zend\View\Model\JsonModel;
 
 class CampsController extends AbstractRestfulBaseController
-    implements CampRepositoryProvider
 {
 
     public function getList()
     {
-        $camps = $this->ecampCore_CampRepo()->findAll();
+    	/* @var $campRepo \EcampCore\Repository\CampRepository */
+    	$campRepo = $this->getServiceLocator()->get('EcampCore\Repository\Camp');
+        $camps = $campRepo->findAll();
 
         $campSerializer = new CampSerializer(
             $this->params('format'), $this->getEvent()->getRouter());
