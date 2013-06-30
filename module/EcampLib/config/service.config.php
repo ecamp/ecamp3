@@ -15,11 +15,6 @@ return array(
          */
         'EcampLib\Service\AbstractServiceFactory',
 
-        /**
-         * Provides internal services for all existing service classes
-         * Pattern: EcampCore\Service\*\Internal
-         */
-        'EcampLib\Service\AbstractInternalServiceFactory',
     ),
 
     'factories' => array(

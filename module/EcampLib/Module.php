@@ -1,8 +1,12 @@
 <?php
 namespace EcampLib;
 
+use ZendDeveloperTools\Listener\FlushListener;
+
 use Zend\Mvc\MvcEvent;
 use EcampLib\Entity\ServiceLocatorAwareEventListener;
+
+use EcampLib\Listener\FlushEntitiesListener;
 
 class Module
 {
@@ -38,6 +42,11 @@ class Module
 
         $em = $sm->get('doctrine.entitymanager.orm_default');
         $em->getEventManager()->addEventSubscriber(new ServiceLocatorAwareEventListener($sm));
+        
+        /* listener for flushing entity manager */
+        $eventManager = $e->getTarget()->getEventManager();
+   		$eventManager->attach(new FlushEntitiesListener());
+
     }
 }
 

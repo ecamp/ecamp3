@@ -1,0 +1,13 @@
+{% extends 'layout/layout.twig' %}
+
+
+{% block content %}
+
+{% if validationError %}
+	<p>A validation error has occured:</p>
+	{{ validationError }}
+{% endif %}
+
+{{ form(form) }}
+
+{% endblock content %}
