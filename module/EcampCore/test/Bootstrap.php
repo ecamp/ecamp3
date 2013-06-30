@@ -33,10 +33,13 @@ class Bootstrap
         $config = array(
             'module_listener_options' => array(
                 'module_paths' => $zf2ModulePaths,
+                'config_glob_paths' => array('config/{,*.}{global,local}.php')
             ),
             'modules' => array(
                 'EcampLib',
                 'EcampCore',
+                'DoctrineModule',
+                'DoctrineORMModule',
             )
         );
 

@@ -29,6 +29,7 @@ use EcampLib\Entity\BaseEntity;
  * A Friendship needs one row in each direction. A single row only consitutes a invitation.
  * @ORM\Entity(repositoryClass="EcampCore\Repository\UserRelationshipRepository")
  * @ORM\Table(name="user_relationships", uniqueConstraints={@ORM\UniqueConstraint(name="from_to_unique",columns={"from_id","to_id"})})
+ * @ORM\HasLifecycleCallbacks
  */
 class UserRelationship
     extends BaseEntity
@@ -36,13 +37,16 @@ class UserRelationship
     const TYPE_FRIEND  = 1;
     // const TYPE_BLOCK   = 2;
 
-    public function __construct($from = null, $to = null, $type = self::TYPE_FRIEND)
+    public function __construct(User $from = null, User $to = null, $type = self::TYPE_FRIEND)
     {
         parent::__construct();
 
         $this->type  = $type;
         $this->from  = $from;
         $this->to  = $to;
+
+        $this->from->getList('relationshipTo')->add($this);
+        $this->to->getList('relationshipFrom')->add($this);
     }
 
     /**
@@ -100,6 +104,15 @@ class UserRelationship
     public function getCounterpart()
     {
         return $this->counterpart;
+    }
+
+    /**
+     * @ORM\PreRemove
+     */
+    public function preRemove()
+    {
+        $this->from->getList('relationshipTo')->removeElement($this);
+        $this->to->getList('relationshipFrom')->removeElement($this);
     }
 
     public static function Link(UserRelationship $ur1, UserRelationship $ur2)

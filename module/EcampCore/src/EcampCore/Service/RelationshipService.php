@@ -20,150 +20,141 @@
 
 namespace EcampCore\Service;
 
-use EcampCore\Entity\User;
-use EcampCore\Entity\UserRelationship;
 use EcampLib\Service\ServiceBase;
 
-/**
- * @method EcampCore\Service\RelationshipService Simulate
- */
+use EcampCore\Entity\User;
+use EcampCore\Entity\UserRelationship;
+use EcampCore\Repository\UserRelationshipRepository;
+use EcampCore\Acl\Privilege;
+
 class RelationshipService
     extends ServiceBase
 {
+    /**
+     * @var UserRelationshipRepository
+     */
+    private $userRelationshipRepo;
 
-    public function Get($id, $user_id = null)
+    public function __construct(UserRelationshipRepository $userRelationshipRepo)
     {
-        if ($user_id == null) {
-            if ($id instanceof UserRelationship) {
-                return $id;
-            }
+        $this->userRelationshipRepo = $userRelationshipRepo;
+    }
 
-            return $this->repo()->userRelationshipRepository()->find($id);
-        } else {
-            $user1 = $this->service()->userService()->Get($id);
-            $user2 = $this->service()->userService()->Get($user_id);
+    /**
+     * User $me requests for Friendship with User $target.
+     *
+     * @param  User    $me
+     * @param  User    $target
+     * @return boolean
+     */
+    public function RequestFriendship(User $me, User $target)
+    {
+        $this->aclRequire($me, Privilege::USER_ADMINISTRATE);
 
-            return $this->repo()->userRelationshipRepository()->findByUsers($user1, $user2);
+        if (! $me->userRelationship()->canSendFriendshipRequest($target)) {
+            // can not send FreindshipRequest
+            return false;
         }
-    }
 
-    /**
-     * @return Doctrine\Common\Collection\ArrayCollection
-     */
-    public function GetFriends()
-    {
-        $user = $this->service()->userService()->Get();
-
-        return $this->repo()->userRepository()->findFriends($user);
-    }
-
-    /**
-     * @return Doctrine\Common\Collection\ArrayCollection
-     */
-    public function GetRequests()
-    {
-        $user = $this->service()->userService()->Get();
-
-        return $this->repo()->userRepository()->findFriendRequests($user);
-    }
-
-    /**
-     * @return Doctrine\Common\Collection\ArrayCollection
-     */
-    public function GetInvitations()
-    {
-        $user = $this->service()->userService()->Get();
-
-        return $this->repo()->userRepository()->findFriendInvitations($user);
-    }
-
-    /**
-     * @param  User             $toUser
-     * @return UserRelationship
-     */
-    public function RequestRelationship(User $toUser)
-    {
-        $user = $this->service()->userService()->Get();
-        $ur = $this->repo()->userRelationshipRepository()->findByUsers($user, $toUser);
-
-        $this->validationAssert(
-            $ur == null,
-            "There is already a relationship between these users");
-
-        $ur = new UserRelationship($user, $toUser);
+        $ur = new UserRelationship($me, $target);
         $this->persist($ur);
 
-        return $ur;
+        return true;
     }
 
     /**
-     * @param User $toUser
+     * User $me revokes the friendship request to User $target.
+     *
+     * @param  User    $me
+     * @param  User    $target
+     * @return boolean
      */
-    public function DeleteRequest(User $toUser)
+    public function RevokeFriendshipRequest(User $me, User $target)
     {
-        $user = $this->service()->userService()->Get();
-        $ur = $this->repo()->userRelationshipRepository()->findByUsers($user, $toUser);
+        $this->aclRequire($me, Privilege::USER_ADMINISTRATE);
 
-        $this->validationAssert(
-            $ur != null && $ur->getCounterpart() == null,
-            "There is no open request to delete");
-
-        if ($ur) {
-            $this->remove($ur);
+        if (! $me->userRelationship()->hasSentFriendshipRequestTo($target)) {
+            // there is no open FriendshipRequest
+            return false;
         }
+
+        $ur = $this->userRelationshipRepo->findByUsers($me, $target);
+
+        $this->remove($ur);
+
+        return true;
     }
 
     /**
-     * @param  User             $fromUser
-     * @return UserRelationship
+     * User $me accepts the friendship request from User $requestor.
+     *
+     * @param  User    $me
+     * @param  User    $requestor
+     * @return boolean
      */
-    public function AcceptInvitation(User $fromUser)
+    public function AcceptFriendshipRequest(User $me, User $requestor)
     {
-        $user = $this->service()->userService()->Get();
-        $ur = $this->repo()->userRelationshipRepository()->findByUsers($fromUser, $user);
+        $this->aclRequire($me, Privilege::USER_ADMINISTRATE);
 
-        $this->validationAssert(
-            $ur && $ur->getCounterpart() == null,
-            "There is no open invitation to accept");
+        if (! $me->userRelationship()->hasReceivedFriendshipRequestFrom($requestor)) {
+            // there is no open FriendshipRequest to accept
+            return false;
+        }
 
-        $cp = new UserRelationship($user, $fromUser);
+        $cp = new UserRelationship($me, $requestor);
         $this->persist($cp);
 
+        $ur = $this->userRelationshipRepo->findByUsers($requestor, $me);
         UserRelationship::Link($ur, $cp);
 
-        return $cp;
+        return true;
     }
 
     /**
-     * @param User $fromUser
+     * User $me rejects the friendship request from User $requestor
+     *
+     * @param  User    $me
+     * @param  User    $requestor
+     * @return boolean
      */
-    public function RejectInvitation(User $fromUser)
+    public function RejectFriendshipRequest(User $me, User $requestor)
     {
-        $user = $this->service()->userService()->Get();
-        $ur = $this->repo()->userRelationshipRepository()->findByUsers($fromUser, $user);
+        $this->aclRequire($me, Privilege::USER_ADMINISTRATE);
 
-        $this->validationAssert(
-            $ur && $ur->getCounterpart() == null,
-            "There is no open invitation to delete");
-
-        if ($ur) {
-            $this->remove($ur);
+        if (! $me->userRelationship()->hasReceivedFriendshipRequestFrom($requestor)) {
+            // there is no open FriendshipRequest to reject
+            return false;
         }
+
+        $ur = $this->userRelationshipRepo->findByUsers($requestor, $me);
+        $this->remove($ur);
+
+        return true;
     }
 
-    public function CancelRelationship(User $withUser)
+    /**
+     * User $me terminates the friendship with User $friend
+     *
+     * @param  User    $me
+     * @param  User    $friend
+     * @return boolean
+     */
+    public function TerminateFriendship(User $me, User $friend)
     {
-        $user = $this->service()->userService()->Get();
-        $ur = $this->repo()->userRelationshipRepository()->findByUsers($user, $withUser);
+        $this->aclRequire($me, Privilege::USER_ADMINISTRATE);
 
-        $this->validationAssert(
-            $ur && $ur->getCounterpart(),
-            "There is no relationship to be canceled");
-
-        if ($ur && $ur->getCounterpart()) {
-            $this->remove($ur->getCounterpart());
-            $this->remove($ur);
+        if (! $me->userRelationship()->isFriend($friend)) {
+            // there is no established friendship to terminate
+            return false;
         }
+
+        $ur = $this->userRelationshipRepo->findByUsers($me, $friend);
+        $cp = $ur->getCounterpart();
+
+        $this->remove($ur);
+        $this->remove($cp);
+
+        return true;
     }
 
 }

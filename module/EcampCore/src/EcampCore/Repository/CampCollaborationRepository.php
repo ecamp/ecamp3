@@ -3,8 +3,11 @@
 namespace EcampCore\Repository;
 
 use Doctrine\ORM\EntityRepository;
+use EcampCore\Entity\Camp;
+use EcampCore\Entity\User;
+use EcampCore\Entity\CampCollaboration;
 
-class ContributorRepository extends EntityRepository
+class CampCollaborationRepository extends EntityRepository
 {
     /**
      * @var CoreApi\Acl\ContextProvider
@@ -15,6 +18,24 @@ class ContributorRepository extends EntityRepository
     public function __construct($em, \Doctrine\ORM\Mapping\ClassMetadata $class)
     {
         parent::__construct($em, $class);
+    }
+
+    /**
+     * @param  Camp              $camp
+     * @param  User              $user
+     * @return CampCollaboration
+     */
+    public function findByCampAndUser(Camp $camp, User $user)
+    {
+        $query = $this->createQueryBuilder("cc")
+                    ->where("cc.camp = '" . $camp->getId() . "'")
+                    ->andWhere("cc.user = '" . $user->getId() . "'")
+                    ->setMaxResults(1)
+                    ->getQuery();
+
+           $cc = $query->getResult();
+
+           return (count($cc) > 0) ? $cc[0] : null;
     }
 
     public function findCollaboratorsByCamp($campId)

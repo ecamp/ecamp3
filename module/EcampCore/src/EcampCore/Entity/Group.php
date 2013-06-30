@@ -39,7 +39,7 @@ class Group
         parent::__construct();
 
         $this->children = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->userGroups = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->memberships = new \Doctrine\Common\Collections\ArrayCollection();
         $this->camps = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
@@ -67,19 +67,19 @@ class Group
     private $description;
 
     /**
-     * @var Doctrine\Common\Collections\ArrayCollection
-     * @ORM\OneToMany(targetEntity="UserGroup", mappedBy="group", cascade={"all"}, orphanRemoval=true )
+     * @var \Doctrine\Common\Collections\ArrayCollection
+     * @ORM\OneToMany(targetEntity="GroupMembership", mappedBy="group", cascade={"all"}, orphanRemoval=true )
      */
-    private $userGroups;
+    protected $memberships;
 
     /**
-     * @var Doctrine\Common\Collections\ArrayCollection
+     * @var \Doctrine\Common\Collections\ArrayCollection
      * @ORM\OneToMany(targetEntity="Camp", mappedBy="group")
      */
-    private $camps;
+    protected $camps;
 
     /**
-     * @var CoreApi\Entity\Image
+     * @var Image
      * @ORM\OneToOne(targetEntity="Image")
      * @ORM\JoinColumn(name="image_id", referencedColumnName="id")
      */
@@ -138,35 +138,11 @@ class Group
     }
 
     /**
-     * @return array
-     */
-    public function getUserGroups()
-    {
-        return $this->userGroups;
-    }
-
-    /**
      * @return Camp
      */
     public function getCamps()
     {
         return $this->camps;
-    }
-
-    /**
-     * @return array
-     */
-    public function getMembers()
-    {
-        $members = new \Doctrine\Common\Collections\ArrayCollection();
-
-        foreach ($this->userGroups as $userGroup) {
-            if ($userGroup->isMember()) {
-                $members->add($userGroup->getUser());
-            }
-        }
-
-        return $members;
     }
 
     /**
@@ -214,39 +190,12 @@ class Group
         return 'EcampCore\Entity\Group';
     }
 
-    public function isManager(User $user)
+    /**
+     * @return GroupMembershipHelper
+     */
+    public function groupMembership()
     {
-        $closure = function($key, $element) use ($user) {
-            return  $element->getRole() == UserGroup::ROLE_MANAGER && $element->getUser() == $user;
-        };
-
-        return $this->getUserGroups()->exists( $closure );
+        return new GroupMembershipHelper($this->memberships);
     }
 
-    public function isMember(User $user)
-    {
-        $closure = function($key, $element) use ($user) {
-            return  $element->getRole() == UserGroup::ROLE_MEMBER && $element->getUser() == $user;
-        };
-
-        return $this->getUserGroups()->exists( $closure );
-    }
-
-    public function acceptRequest($request, $manager)
-    {
-        if( $this->isManager($manager) )
-        $request->acceptRequest($manager);
-
-        return $this;
-    }
-
-    public function refuseRequest($request, $manager)
-    {
-        if ( $this->isManager($manager) ) {
-            $request->getUser()->getUserGroups()->removeElement($request);
-            $this->userGroups->removeElement($request);
-        }
-
-        return $this;
-    }
 }
