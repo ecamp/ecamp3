@@ -15,8 +15,8 @@ class AvatarServiceFactory
      */
     public function createService(ServiceLocatorInterface $services)
     {
-        $userService = $services->get('EcampCore\Service\User\Internal');
-        $groupService = $services->get('EcampCore\Service\Group\Internal');
+        $userService = $services->get('EcampCore\Service\User');
+        $groupService = $services->get('EcampCore\Service\Group');
 
         return new AvatarService($userService, $groupService);
     }

@@ -14,6 +14,10 @@ use EcampLib\Service\ServiceBase;
 use EcampCore\Repository\CampRepository;
 use EcampCore\Acl\Privilege;
 
+use EcampCore\Validation\CampFieldset;
+use EcampCore\Validation\EntityForm;
+use Zend\Form\Form;
+
 /**
  * @method EcampCore\Service\CampService Simulate
  */
@@ -71,22 +75,23 @@ class CampService
         $this->remove($camp);
     }
 
-    /**
-     * Updates the current Camp
-     *
-     * @return CoreApi\Entity\Camp
-     */
-    public function Update(Camp $camp, Params $params)
-    {
-        $this->aclRequire($camp, Privilege::CAMP_CONFIGURE);
-
-        $campValidator = new CampValidator($camp);
-
-        $this->validationFailed(
-            !$campValidator->applyIfValid($params));
-
-        return $camp;
-    }
+/**
+	 * Updates the current Camp
+	 * 
+	 * @return CoreApi\Entity\Camp
+	 */
+	public function Update($campId, $data){
+		$camp = $this->Get($campId);
+		$this->aclRequire($camp, Privilege::CAMP_CONFIGURE);
+		
+		$campFieldset = new CampFieldset($this->getEntityManager());
+		
+		$form = new EntityForm($this->getEntityManager(), $campFieldset, $camp);
+		$form->setDataAndValidate($data);
+		
+		return $camp;
+	}
+	
 
     /**
      * Creats a new Camp

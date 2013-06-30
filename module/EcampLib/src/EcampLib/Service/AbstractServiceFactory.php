@@ -5,9 +5,10 @@ namespace EcampLib\Service;
 use Zend\ServiceManager\AbstractFactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Doctrine\ORM\EntityManager;
+use Zend\Authentication\AuthenticationService;
 
 /**
- * Provides wrapped services for all internal service classes
+ * Provides wrapped services for all service classes
  * Pattern: Pattern: Ecamp*\Service\*
  */
 class AbstractServiceFactory implements AbstractFactoryInterface
@@ -20,23 +21,36 @@ class AbstractServiceFactory implements AbstractFactoryInterface
     {
         $this->orm = $orm ?: 'doctrine.entitymanager.orm_default';
     }
-
-    private function getInternalServiceName($serviceName)
+    
+    private function getServiceFactoryName($serviceName)
     {
-        return $serviceName . '\\Internal';
+    	return $serviceName.'ServiceFactory';
     }
 
     public function canCreateServiceWithName(ServiceLocatorInterface $serviceLocator, $name, $requestedName)
     {
-        return preg_match($this->pattern,$requestedName) && $serviceLocator->has($this->getInternalServiceName($requestedName));
+        return preg_match($this->pattern, $requestedName) && class_exists($this->getServiceFactoryName($requestedName));
     }
 
     public function createServiceWithName(ServiceLocatorInterface $serviceLocator, $name, $requestedName)
     {
-        /* load internal service and wrap it with ServiceWrapper for external use */
-        $service = $serviceLocator->get($this->getInternalServiceName($requestedName));
-        $em = $serviceLocator->get($this->orm);
+        /* Create service with specific service factory which does the wiring */
+        /* e.g. Ecamp*\Service\***ServiceFactory */
+        $serviceFactoryName = $this->getServiceFactoryName($requestedName);
+        $serviceFactory = new $serviceFactoryName;
+        $service = $serviceFactory->createService($serviceLocator);
 
-        return new ServiceWrapper($em, $service);
+        /* Inject common dependencies (e.g. dependencies of ServiceBase class) */
+        $service->setEntityManager($serviceLocator->get($this->orm));
+        $service->setAcl($serviceLocator->get('EcampCore\Acl'));
+
+        $authService = new AuthenticationService();
+
+        if ($authService->hasIdentity()) {
+            $authId = $authService->getIdentity();
+            $service->setMe($serviceLocator->get('EcampCore\Repository\User')->find($authId));
+        }
+
+        return $service;
     }
 }

@@ -16,7 +16,7 @@ class PeriodServiceFactory
     public function createService(ServiceLocatorInterface $services)
     {
         $dayService = $services->get('EcampCore\Service\Day');
-
+		
         return new PeriodService($dayService);
     }
 }

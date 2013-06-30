@@ -15,7 +15,7 @@ class CampServiceFactory
      */
     public function createService(ServiceLocatorInterface $services)
     {
-        $periodService  = $services->get('EcampCore\Service\Period\Internal');
+        $periodService  = $services->get('EcampCore\Service\Period');
         $campRepo 		= $services->get('EcampCore\Repository\Camp');
 
         $campService = new CampService($campRepo, $periodService);
