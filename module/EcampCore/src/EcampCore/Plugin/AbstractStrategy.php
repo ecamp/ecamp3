@@ -31,8 +31,6 @@ namespace EcampCore\Plugin;
 use EcampCore\Entity\Medium;
 use EcampCore\Entity\PluginInstance;
 
-use Zend\ServiceManager\ServiceLocatorInterface;
-
 abstract class AbstractStrategy
 {
 

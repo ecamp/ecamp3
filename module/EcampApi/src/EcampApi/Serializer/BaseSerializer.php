@@ -25,7 +25,7 @@ abstract class BaseSerializer
 
             return $list;
         }
-		
+
         if ($entity instanceof BaseEntity) {
             return $this->serialize($entity);
         }

@@ -35,7 +35,7 @@ class PluginInstance
     public function __construct(Event $event, PluginPrototype $pluginPrototype)
     {
         parent::__construct();
-        
+
         $this->event = $event;
         $this->pluginPrototype = $pluginPrototype;
     }
@@ -61,7 +61,6 @@ class PluginInstance
      */
     protected $strategyInstance;
 
-
     public function getEvent()
     {
         return $this->event;
@@ -81,7 +80,6 @@ class PluginInstance
     {
         return $this->pluginPrototype;
     }
-
 
     /**
      * Returns the plugin name
@@ -104,7 +102,6 @@ class PluginInstance
     {
         return $this->getPluginPrototype()->getPlugin()->getStrategyClass();
     }
-
 
     /**
      * Returns the instantiated strategy

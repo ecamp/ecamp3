@@ -21,10 +21,10 @@ class AbstractServiceFactory implements AbstractFactoryInterface
     {
         $this->orm = $orm ?: 'doctrine.entitymanager.orm_default';
     }
-    
+
     private function getServiceFactoryName($serviceName)
     {
-    	return $serviceName.'ServiceFactory';
+        return $serviceName.'ServiceFactory';
     }
 
     public function canCreateServiceWithName(ServiceLocatorInterface $serviceLocator, $name, $requestedName)

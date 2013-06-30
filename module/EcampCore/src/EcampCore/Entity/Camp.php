@@ -233,14 +233,6 @@ class Camp extends BaseEntity
         return $this->events;
     }
 
-    /**
-     * @return ArrayCollection
-     */
-//     public function getUserCamps()
-//     {
-//         return $this->usercamps;
-//     }
-
     public function getRange()
     {
         if ($this->getPeriods()->count() == 0) {

@@ -53,7 +53,7 @@ class CampCollaborationHelper
     /**
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getGuest()
+    public function getGuests()
     {
         $criteria = Criteria::create();
         $expr = Criteria::expr();

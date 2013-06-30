@@ -36,13 +36,14 @@ use EcampLib\Entity\BaseEntity;
 class Plugin extends BaseEntity
 {
 
-	public function __construct($name, $strategyClass){
-		parent::__construct();
-		
-		$this->name = $name;
-		$this->strategyClass = $strategyClass;
-	}
-	
+    public function __construct($name, $strategyClass)
+    {
+        parent::__construct();
+
+        $this->name = $name;
+        $this->strategyClass = $strategyClass;
+    }
+
     /**
      * @ORM\Column(type="string", length=64, nullable=false)
      */

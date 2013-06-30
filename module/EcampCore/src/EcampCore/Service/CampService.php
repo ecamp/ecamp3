@@ -76,22 +76,22 @@ class CampService
     }
 
 /**
-	 * Updates the current Camp
-	 * 
-	 * @return CoreApi\Entity\Camp
-	 */
-	public function Update($campId, $data){
-		$camp = $this->Get($campId);
-		$this->aclRequire($camp, Privilege::CAMP_CONFIGURE);
-		
-		$campFieldset = new CampFieldset($this->getEntityManager());
-		
-		$form = new EntityForm($this->getEntityManager(), $campFieldset, $camp);
-		$form->setDataAndValidate($data);
-		
-		return $camp;
-	}
-	
+     * Updates the current Camp
+     *
+     * @return CoreApi\Entity\Camp
+     */
+    public function Update($campId, $data)
+    {
+        $camp = $this->Get($campId);
+        $this->aclRequire($camp, Privilege::CAMP_CONFIGURE);
+
+        $campFieldset = new CampFieldset($this->getEntityManager());
+
+        $form = new EntityForm($this->getEntityManager(), $campFieldset, $camp);
+        $form->setDataAndValidate($data);
+
+        return $camp;
+    }
 
     /**
      * Creats a new Camp

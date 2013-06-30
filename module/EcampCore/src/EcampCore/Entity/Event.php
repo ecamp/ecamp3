@@ -36,19 +36,19 @@ class Event
 {
     public function __construct(Camp $camp, EventPrototype $eventPrototype)
     {
-    	$this->camp = $camp;
-    	$this->eventPrototype = $eventPrototype;
-        
-    	$this->pluginInstances = new \Doctrine\Common\Collections\ArrayCollection();
-        foreach($eventPrototype->getPluginPrototypes() as $pluginPrototype){
-        	
-        	$numInst = $pluginPrototype->getDefaultInstances();
-        	for($i = 0; $i < $numInst; $i++){
-	        	$pluginInstance = new PluginInstance($this, $pluginPrototype);
-	        	$this->pluginInstances->add($pluginInstance);
-        	}
+        $this->camp = $camp;
+        $this->eventPrototype = $eventPrototype;
+
+        $this->pluginInstances = new \Doctrine\Common\Collections\ArrayCollection();
+        foreach ($eventPrototype->getPluginPrototypes() as $pluginPrototype) {
+
+            $numInst = $pluginPrototype->getDefaultInstances();
+            for ($i = 0; $i < $numInst; $i++) {
+                $pluginInstance = new PluginInstance($this, $pluginPrototype);
+                $this->pluginInstances->add($pluginInstance);
+            }
         }
-        
+
         $this->eventInstances = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
@@ -127,7 +127,7 @@ class Event
     public function getPluginsByPrototype(PluginPrototype $pluginPrototype)
     {
         $closure = function(PluginInstance $instance) use ($pluginPrototype) {
-        	return $instance->getPluginPrototype()->getId() == $pluginPrototype->getId();
+            return $instance->getPluginPrototype()->getId() == $pluginPrototype->getId();
         };
 
         return $this->pluginInstances->filter($closure);
