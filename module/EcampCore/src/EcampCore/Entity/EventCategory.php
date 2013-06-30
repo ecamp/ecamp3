@@ -36,11 +36,11 @@ class EventCategory
 
     public function __construct(Camp $camp, EventType $eventType)
     {
-    	$this->camp = $camp;
-    	$this->setEventType($eventType);
-    	
-    	$this->setColor($eventType->getDefaultColor());
-    	$this->setNumberingStyle($eventType->getDefaultNumberingStyle());
+        $this->camp = $camp;
+        $this->setEventType($eventType);
+
+        $this->setColor($eventType->getDefaultColor());
+        $this->setNumberingStyle($eventType->getDefaultNumberingStyle());
     }
 
     /**
@@ -70,7 +70,6 @@ class EventCategory
      */
     private $eventType;
 
-    
     public function setName($name)
     {
         $this->name = $name;
@@ -135,14 +134,14 @@ class EventCategory
      */
     public function setEventType(EventType $eventType)
     {
-    	if($this->getCamp()->getCampType() !== $eventType->getCampType()){
-    		throw new \Exception(sprintf(
-    			"EventType '%s' is not availlable for CampType '%s'",
-    			$eventType->getName(),
-    			$this->getCamp()->getCampType()->getName()
-    		));
-    	}
-    	
+        if ($this->getCamp()->getCampType() !== $eventType->getCampType()) {
+            throw new \Exception(sprintf(
+                "EventType '%s' is not availlable for CampType '%s'",
+                $eventType->getName(),
+                $this->getCamp()->getCampType()->getName()
+            ));
+        }
+
         $this->eventType = $eventType;
     }
 

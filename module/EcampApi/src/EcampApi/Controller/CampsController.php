@@ -3,7 +3,6 @@
 namespace EcampApi\Controller;
 
 use EcampApi\Serializer\CampSerializer;
-use EcampCore\Repository\Provider\CampRepositoryProvider;
 use EcampLib\Controller\AbstractRestfulBaseController;
 
 use Zend\View\Model\JsonModel;
@@ -13,8 +12,8 @@ class CampsController extends AbstractRestfulBaseController
 
     public function getList()
     {
-    	/* @var $campRepo \EcampCore\Repository\CampRepository */
-    	$campRepo = $this->getServiceLocator()->get('EcampCore\Repository\Camp');
+        /* @var $campRepo \EcampCore\Repository\CampRepository */
+        $campRepo = $this->getServiceLocator()->get('EcampCore\Repository\Camp');
         $camps = $campRepo->findAll();
 
         $campSerializer = new CampSerializer(

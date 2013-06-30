@@ -66,7 +66,7 @@ class JsonExceptionStrategy extends ExceptionStrategy
                     'type' => get_class($exception)
                 );
 
-                if ($this->displayExceptions()){
+                if ($this->displayExceptions()) {
                     $modelData['exception'] = $exception;
                 }
                 $e->setResult(new JsonModel($modelData));

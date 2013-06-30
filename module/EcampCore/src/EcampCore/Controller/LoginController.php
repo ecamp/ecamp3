@@ -26,7 +26,7 @@ class LoginController extends AbstractBaseController
         } else {
             $user = $this->getUserRepository()->findOneBy(array());
         }
-		
+
         $adapter = new Bypass($user);
         $auth = new AuthenticationService();
 
