@@ -29,7 +29,7 @@ class DemoController
      */
     private function getGroupService()
     {
-        return $this->getServiceLocator()->get('EcampCore\Service\Group\Internal');
+        return $this->getServiceLocator()->get('EcampCore\Service\Group');
     }
 
     public function paginatorAction()
