@@ -4,6 +4,7 @@ namespace EcampLib\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Util\ClassUtils;
+use Doctrine\Common\Collections\Collection;
 
 /**
  * @ORM\MappedSuperclass
@@ -33,7 +34,7 @@ abstract class BaseEntity
      * @ ORM\OneToOne(targetEntity="EcampLib\Entity\Uid", cascade={"persist", "remove"})
      * @ ORM\JoinColumn(name="id", nullable=true)
      */
-     protected $uid;
+    protected $uid;
 
     public function __construct()
     {
@@ -87,5 +88,24 @@ abstract class BaseEntity
     private function getClassname()
     {
         return ClassUtils::getRealClass(get_class($this));
+    }
+
+    /**
+     * @param  unknown                                 $property
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    protected function getList($property)
+    {
+        if (property_exists($this, $property)) {
+            $list = $this->{$property};
+        } else {
+            throw new \Exception("Unknown List");
+        }
+
+        if ($list instanceof Collection) {
+            return $list;
+        }
+
+        return null;
     }
 }

@@ -21,7 +21,13 @@
 
 
     <logging>
-        <log type="coverage-html" target="coverage" charset="UTF-8" yui="true" highlight="true"/>
+        <log
+        	type="coverage-html"
+        	charset="UTF-8"
+        	yui="true"
+        	highlight="true"
+        	target="../../../data/EcampCoreTest/coverage"
+        />
     </logging>
 
 </phpunit>

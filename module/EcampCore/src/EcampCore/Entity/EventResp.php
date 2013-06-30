@@ -45,10 +45,10 @@ class EventResp
     private $event;
 
     /**
-     * @ORM\ManyToOne(targetEntity="UserCamp")
+     * @ORM\ManyToOne(targetEntity="CampCollaboration")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $userCamp;
+    private $campCollaboration;
 
     public function setEvent(Event $event)
     {
@@ -63,17 +63,17 @@ class EventResp
         return $this->event;
     }
 
-    public function setUserCamp(UserCamp $userCamp)
+    public function setCampCollaboration(CampCollaboration $campCollaboration)
     {
-        $this->userCamp = $userCamp;
+        $this->campCollaboration = $campCollaboration;
     }
 
     /**
      * @return UserCamp
      */
-    public function getUserCamp()
+    public function getCampCollaboration()
     {
-        return $this->userCamp;
+        return $this->campCollaboration;
     }
 
     /**
@@ -89,6 +89,6 @@ class EventResp
      */
     public function getUser()
     {
-        return $this->userCamp->getUser();
+        return $this->campCollaboration->getUser();
     }
 }

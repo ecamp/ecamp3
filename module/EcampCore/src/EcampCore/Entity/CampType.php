@@ -32,8 +32,12 @@ use EcampLib\Entity\BaseEntity;
 class CampType extends BaseEntity
 {
 
-    public function __construct()
+    public function __construct($name, $type)
     {
+        parent::__construct();
+
+        $this->name = $name;
+        $this->type = $type;
         $this->eventTypes = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
@@ -53,27 +57,11 @@ class CampType extends BaseEntity
     private $eventTypes;
 
     /**
-     * @param string $name
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
-    }
-
-    /**
      * @return string
      */
     public function getName()
     {
         return $this->name;
-    }
-
-    /**
-     * @param string $type
-     */
-    public function setType($type)
-    {
-        $this->type = $type;
     }
 
     /**
