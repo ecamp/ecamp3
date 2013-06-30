@@ -54,5 +54,6 @@ return array(
         'strategies' => array(
             'ViewJsonStrategy',
         ),
+    	'display_exceptions' => false
     )
 );
