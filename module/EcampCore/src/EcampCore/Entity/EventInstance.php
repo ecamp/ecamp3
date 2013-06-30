@@ -148,7 +148,7 @@ class EventInstance
      */
     public function getStartTime()
     {
-    	$start = clone $this->period->getStart();
+        $start = clone $this->period->getStart();
         $start->add(new \DateInterval( 'PT' . $this->minOffsetStart . 'M'));
 
         return $start;
@@ -159,7 +159,7 @@ class EventInstance
      */
     public function getEndTime()
     {
-    	$end = clone $this->getStartTime();
+        $end = clone $this->getStartTime();
         $end->add($this->getDuration());
 
         return $end;

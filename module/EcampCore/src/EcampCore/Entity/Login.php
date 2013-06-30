@@ -81,6 +81,7 @@ class Login
     public function createPwResetKey()
     {
         $this->pwResetKey = md5(microtime(true));
+
         return $this->pwResetKey;
     }
 

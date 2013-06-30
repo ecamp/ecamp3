@@ -107,11 +107,11 @@ abstract class ServiceBase
 
     protected function validationAssert($bool = false, $message = null)
     {
-        if(!$bool && $message == null){
+        if (!$bool && $message == null) {
             throw new ValidationException();
         }
 
-        if(!$bool && $message != null){
+        if (!$bool && $message != null) {
             throw new ValidationException($message);
         }
     }

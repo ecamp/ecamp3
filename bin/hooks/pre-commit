@@ -1,0 +1,6 @@
+DIRTY_FILES=$(php php-cs-fixer.phar fix . --dry-run)
+
+if [ ! -z "$DIRTY_FILES" ]; then
+	echo -e "\x1B[1;37;41m    Please run first 'php php-cs-fixer.phar fix .'    \x1B[0m"
+	exit 1;
+fi

@@ -82,12 +82,13 @@ class EventTemplate extends BaseEntity
     {
         return $this->medium;
     }
-    
+
     /**
      * @return EventPrototype
      */
-    public function getEventPrototype(){
-    	return $this->eventPrototype;
+    public function getEventPrototype()
+    {
+        return $this->eventPrototype;
     }
 
     /**

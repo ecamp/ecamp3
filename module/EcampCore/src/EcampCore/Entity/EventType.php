@@ -35,7 +35,7 @@ class EventType extends BaseEntity
 
     public function __construct(CampType $campType)
     {
-    	$this->campType = $campType;
+        $this->campType = $campType;
         $this->eventPrototypes = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
@@ -127,9 +127,9 @@ class EventType extends BaseEntity
     {
         return $this->campType;
     }
-    
-    
-    public function getEventPrototypes(){
-    	return $this->eventPrototypes;
+
+    public function getEventPrototypes()
+    {
+        return $this->eventPrototypes;
     }
 }
