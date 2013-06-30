@@ -38,7 +38,8 @@
 		"zendframework/zftool": "dev-master",
 		"zendframework/zend-developer-tools": "dev-master",
 		
-        "doctrine/doctrine-orm-module": "0.7.x",
+        "doctrine/doctrine-module": "0.8.x-dev",
+    	"doctrine/doctrine-orm-module": "0.8.x-dev",
         "doctrine/migrations": "dev-master",
 		"sundrique/doctrine-tools": ">=0.2",
 		

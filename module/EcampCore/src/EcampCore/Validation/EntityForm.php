@@ -16,7 +16,7 @@ class EntityForm extends Form
 		$fieldset->setObject($entity);
 		
 		$this->add($fieldset);
-		$this->setHydrator(new DoctrineHydrator($entityManager, \Doctrine\Common\Util\ClassUtils::getRealClass(get_class($entity))));
+		$this->setHydrator(new DoctrineHydrator($entityManager));
 		$this->bind($entity);
 	}
 	

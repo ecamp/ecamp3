@@ -16,7 +16,7 @@ class CampUpdateForm extends Form
 		$this->setAttribute('method', 'post');
 		
 		// The form will hydrate an object of type "camp"
-		$this->setHydrator(new DoctrineHydrator($entityManager,'EcampCore\Entity\Camp'));
+		$this->setHydrator(new DoctrineHydrator($entityManager));
 		
 		// add camp Fieldset
 		$campFieldset = new CampFieldset($entityManager);

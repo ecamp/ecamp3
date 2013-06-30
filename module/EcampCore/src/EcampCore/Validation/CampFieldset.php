@@ -12,7 +12,7 @@ class CampFieldset extends Fieldset implements InputFilterProviderInterface
 		parent::__construct('camp');
 		
 		// The form will hydrate an object of type "camp"
-		$this->setHydrator(new DoctrineHydrator($entityManager,'EcampCore\Entity\Camp'));
+		$this->setHydrator(new DoctrineHydrator($entityManager));
 			 
 		$this->add(array(
 				'name' => 'name',

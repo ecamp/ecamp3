@@ -18,8 +18,6 @@ use EcampCore\Validation\CampFieldset;
 use EcampCore\Validation\EntityForm;
 use Zend\Form\Form;
 
-use DoctrineModule\Stdlib\Hydrator\DoctrineObject as DoctrineHydrator;
-
 /**
  * @method EcampCore\Service\CampService Simulate
  */
