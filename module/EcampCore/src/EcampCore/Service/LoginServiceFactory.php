@@ -4,19 +4,20 @@ namespace EcampCore\Service;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
-class UserServiceFactory
+class LoginServiceFactory
     implements FactoryInterface
 {
     /**
      *
      * @param  ServiceLocatorInterface              $services
-     * @return UserService
+     * @return GroupService
      * @throws Exception\ServiceNotCreatedException
      */
     public function createService(ServiceLocatorInterface $services)
     {
-        $userRepo = $services->get('EcampCore\Repository\User');
+        $loginRepository = $services->get('EcampCore\Repository\Login');
+        $userService = $services->get('EcampCore\Service\User');
 
-        return new UserService($userRepo);
+        return new LoginService($loginRepository, $userService);
     }
 }

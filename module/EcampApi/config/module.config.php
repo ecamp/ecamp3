@@ -17,7 +17,7 @@ return array(
 
                 'may_terminate' => true,
                 'child_routes' => array(
-                    'default' => array(
+                    'rest' => array(
                         'type'    => 'Segment',
                         'options' => array(
                             'route'    => '/[:controller[/:id][.:format]]',
@@ -32,6 +32,19 @@ return array(
                             ),
                         ),
                     ),
+                    'default' => array(
+                        'type'    => 'Segment',
+                        'options' => array(
+                            'route'    => '/login[/:action]',
+                            'constraints' => array(
+                                'action'     => '[a-zA-Z][a-zA-Z0-9_-]*',
+                            ),
+                            'defaults' => array(
+                                'controller' => 'Login',
+                                'action' => 'Index'
+                            ),
+                        ),
+                    ),
                 ),
             ),
         ),
@@ -39,6 +52,7 @@ return array(
 
     'controllers' => array(
         'invokables' => array(
+            'EcampApi\Controller\Login' 			=> 'EcampApi\Controller\LoginController',
             'EcampApi\Controller\Index' 			=> 'EcampApi\Controller\IndexController',
             'EcampApi\Controller\Users' 			=> 'EcampApi\Controller\UsersController',
             'EcampApi\Controller\Contributors' 		=> 'EcampApi\Controller\ContributorsController',

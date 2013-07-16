@@ -38,7 +38,7 @@ class Adapter
      */
     private $password;
 
-    public function __construct(Login $login, $password)
+    public function __construct(Login $login = null, $password)
     {
         $this->login = $login;
         $this->password = $password;
@@ -96,6 +96,8 @@ class Adapter
             $messages = array($messages);
         }
 
-        return new Result($code, $this->user->getId(), $messages);
+        $userId = ($this->user != null) ? $this->user->getId() : null;
+
+        return new Result($code, $userId, $messages);
     }
 }

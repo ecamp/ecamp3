@@ -8,6 +8,7 @@ use EcampApi\Serializer\CampSerializer;
 use EcampLib\Controller\AbstractRestfulBaseController;
 
 use Zend\View\Model\JsonModel;
+use EcampLib\Acl\Exception\AuthenticationRequiredException;
 
 class IndexController extends AbstractRestfulBaseController
 {
@@ -20,26 +21,47 @@ class IndexController extends AbstractRestfulBaseController
         return $this->getServiceLocator()->get('ecamp.acl.contextprovider');
     }
 
+    /**
+     * @return \EcampCore\Repository\CampRepository
+     */
+    private function getCampRepository()
+    {
+        return $this->getServiceLocator()->get('EcampCore\Repository\Camp');
+    }
+
+    /**
+     * @return \EcampCore\Service\RelationshipService
+     */
+    private function getRelationshipService()
+    {
+        return $this->getServiceLocator()->get('EcampCore\Service\Relationship');
+    }
+
     public function getList()
     {
+        throw new AuthenticationRequiredException();
+
         $userSerializer = new UserSerializer(
             $this->params('format'), $this->getEvent()->getRouter());
 
-        $me = $this->me();
-        $meRef = ($me != null) ? $userSerializer->getReference($me) : null;
-        $camps = ($me != null) ? $this->ecampCore_CampRepo()->findUserCamps($me->getId()) : null;
-        $friends = ($me != null) ? $this->ecampCore_UserRelationshipRepo()->findFriends($me) : null;
+        $me = $this->getMe();
 
-        return new JsonModel(array(
-            'me' => $meRef,
-            'camps' => $camps,
-            'friends' => $friends
-        ));
+        if (isset($me)) {
+            return new JsonModel(array(
+                'me' => ($me != null) ? $userSerializer->getReference($me) : null,
+                'camps' => ($me != null) ? $me->campCollaboration()->getCamps() : null,
+                'friends' => ($me != null) ? $me->userRelationship()->getFriends() : null
+            ));
+        } else {
+            return new JsonModel(array(
+                'login' => $this->url()->fromRoute('api/default', array('controller' => 'login'))
+            ));
+        }
     }
 
     public function get($id)
     {
-        $camp = $this->ecampCore_CampRepo()->find($id);
+        $camp = $this->getCampRepository()->find($id);
 
         $campSerializer = new CampSerializer(
             $this->params('format'), $this->getEvent()->getRouter());
