@@ -26,7 +26,7 @@ class AvatarService
     }
 
     /**
-     * @return EcampCore\Entity\Image
+     * @return \EcampCore\Entity\Image
      */
     public function GetUserAvatar($userId)
     {
@@ -43,7 +43,7 @@ class AvatarService
     }
 
     /**
-     * @return EcampCore\Entity\Image
+     * @return \EcampCore\Entity\Image
      */
     public function GetGroupAvatar($groupId)
     {

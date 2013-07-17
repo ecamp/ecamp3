@@ -70,11 +70,17 @@ abstract class BaseEntity
         $this->updatedAt = new \DateTime("now");
     }
 
+    /**
+     * @return \DateTime
+     */
     public function getUpdatedAt()
     {
         return $this->updatedAt;
     }
 
+    /**
+     * @return \DateTime
+     */
     public function getCreatedAt()
     {
         return $this->createdAt;

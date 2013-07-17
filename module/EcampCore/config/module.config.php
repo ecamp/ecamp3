@@ -1,23 +1,6 @@
 <?php
 return array(
     'ecamp' => array(
-        'modules' => array(
-            'ecampcore' => array(
-                'repos' => array(
-                    'module_namespace' 	=> 'EcampCore',
-                    'config_file' 		=> __DIR__ . '/service.config.repos.php',
-                    'traits_path' 		=> __DIR__ . '/../src/EcampCore/RepositoryTraits/',
-                    'traits_namespace'	=> 'EcampCore\RepositoryTraits'
-                ),
-
-                'services' => array(
-                    'services_path' 	=> __DIR__ . '/../src/EcampCore/Service/',
-                    'config_file' 		=> __DIR__ . '/service.config.services.php',
-                    'traits_path' 		=> __DIR__ . '/../src/EcampCore/ServiceTraits/',
-                    'traits_namespace'	=> 'EcampCore\ServiceTraits'
-                ),
-            )
-        ),
 
         'acl' => array(
             'resources' => array(
@@ -56,6 +39,45 @@ return array(
                 'may_terminate' => false,
             ),
 
+            'user-avatar' => array(
+                'type'    => 'Literal',
+                'options' => array(
+                    'route'    => '/avatar/user',
+                    'defaults' => array(
+                        '__NAMESPACE__' => 'EcampCore\Controller',
+                        'controller'    => 'Avatar',
+                        'action'     => 'user',
+
+                    ),
+                ),
+                'may_terminate' => false,
+                'child_routes' => array(
+                    'user' => array(
+                        'type' => 'EcampCore\Router\UserRouter',
+                        'may_terminate' => true,
+                    )
+                   )
+            ),
+
+            'group-avatar' => array(
+                'type'    => 'Literal',
+                'options' => array(
+                    'route'    => '/avatar/group',
+                    'defaults' => array(
+                        '__NAMESPACE__' => 'EcampCore\Controller',
+                        'controller'    => 'Avatar',
+                        'action'     => 'group',
+                    ),
+                ),
+                'may_terminate' => false,
+                'child_routes' => array(
+                    'group' => array(
+                        'type' => 'EcampCore\Router\GroupRouter',
+                        'may_terminate' => true,
+                       )
+                   )
+            ),
+
             'core' => array(
                 'type'    => 'Literal',
                 'options' => array(
@@ -80,78 +102,6 @@ return array(
                     ),
                 ),
             ),
-
-            'group' => array(
-                'type'    => 'Literal',
-                'options' => array(
-                    'route'    => '/group',
-                    'defaults' => array(
-                        '__NAMESPACE__' => 'EcampCore\Controller',
-                        'controller'    => 'Index',
-                        'action'        => 'index',
-                    ),
-                ),
-                'may_terminate' => true,
-
-                'child_routes' => array(
-                    'camp' => array(
-                        'type' => 'EcampCore\Router\GroupCampRouter',
-                        'options' => array(
-                            'defaults' => array(),
-                        ),
-                        'may_terminate' => true,
-
-                        'child_routes' => array(
-                            'default' => array(
-                                'type'    => 'Segment',
-                                'options' => array(
-                                    'route'    => '/[:controller[/:action]]',
-                                    'constraints' => array(
-                                        'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
-                                        'action'     => '[a-zA-Z][a-zA-Z0-9_-]*',
-                                    ),
-                                ),
-                            )
-                        )
-                    )
-                )
-            ),
-
-            'user' => array(
-                'type'    => 'Literal',
-                'options' => array(
-                    'route'    => '/user',
-                    'defaults' => array(
-                        '__NAMESPACE__' => 'EcampCore\Controller',
-                        'controller'    => 'Index',
-                        'action'        => 'index',
-                    ),
-                ),
-                'may_terminate' => true,
-
-                'child_routes' => array(
-                    'camp' => array(
-                        'type' => 'EcampCore\Router\UserCampRouter',
-                        'options' => array(
-                            'defaults' => array(),
-                        ),
-                        'may_terminate' => true,
-
-                        'child_routes' => array(
-                            'default' => array(
-                                'type'    => 'Segment',
-                                'options' => array(
-                                    'route'    => '/[:controller[/:action]]',
-                                    'constraints' => array(
-                                        'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
-                                        'action'     => '[a-zA-Z][a-zA-Z0-9_-]*',
-                                    ),
-                                ),
-                            )
-                        )
-                    )
-                )
-            )
         ),
     ),
 

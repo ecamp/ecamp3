@@ -162,7 +162,7 @@ class Group
     }
 
     /**
-     * @return CoreApi\Entity\Image
+     * @return EcampCore\Entity\Image
      */
     public function getImage()
     {
@@ -170,7 +170,7 @@ class Group
     }
 
     /**
-     * @return CoreApi\Entity\Group
+     * @return EcampCore\Entity\Group
      */
     public function setImage(Image $image)
     {
