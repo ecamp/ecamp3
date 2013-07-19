@@ -115,8 +115,21 @@ class UserRelationship
         $this->to->getList('relationshipFrom')->removeElement($this);
     }
 
+    /**
+     * @param  UserRelationship $ur1
+     * @param  UserRelationship $ur2
+     * @throws \Exception
+     */
     public static function Link(UserRelationship $ur1, UserRelationship $ur2)
     {
+        if ($ur1->getFrom() != $ur2->getTo()  ||  $ur1->getTo() != $ur2->getFrom()) {
+            throw new \Exception(
+                "Only UserRelationships which point vice vers can be linked. | " .
+                "UserRelationship 1 (" . $ur1->getFrom() . " -> " . $ur1->getTo() . ") | " .
+                "UserRelationship 2 (" . $ur2->getFrom() . " -> " . $ur2->getTo() . ")"
+            );
+        }
+
         $ur1->counterpart = $ur2;
         $ur2->counterpart = $ur1;
     }

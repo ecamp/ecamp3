@@ -48,14 +48,13 @@ class LoginService
      */
     public function Create(User $user, Params $params)
     {
-        $login = new Login();
+        $login = new Login($user);
         $loginValdator = new \Core\Validator\Entity\LoginValidator($login);
 
         $this->validationFailed(
             ! $loginValdator->isValid($params));
 
         $login->setNewPassword($params->getValue('password'));
-        $login->setUser($user);
         $this->persist($login);
 
         return $login;

@@ -28,19 +28,22 @@ use Zend\Permissions\Acl\Resource\ResourceInterface;
 /**
  * @ORM\Entity(repositoryClass="EcampCore\Repository\GroupRepository")
  * @ORM\Table(name="groups", indexes={@ORM\Index(name="group_name_idx", columns={"name"})}, uniqueConstraints={@ORM\UniqueConstraint(name="group_parent_name_unique",columns={"parent_id","name"})})
+ * @ORM\HasLifecycleCallbacks
  */
 class Group
     extends BaseEntity
     implements CampOwnerInterface
     ,	ResourceInterface
 {
-    public function __construct()
+    public function __construct(Group $parent = null)
     {
         parent::__construct();
 
         $this->children = new \Doctrine\Common\Collections\ArrayCollection();
         $this->memberships = new \Doctrine\Common\Collections\ArrayCollection();
         $this->camps = new \Doctrine\Common\Collections\ArrayCollection();
+
+        $this->setParent($parent);
     }
 
     /**
@@ -51,11 +54,13 @@ class Group
     private $name;
 
     /**
+     * @var Group
      * @ORM\ManyToOne(targetEntity="Group", inversedBy="children")
      */
     private $parent;
 
     /**
+     * @var \Doctrine\Common\Collections\ArrayCollection
      * @ORM\OneToMany(targetEntity="Group", mappedBy="parent")
      * @ORM\OrderBy({"name" = "ASC"})
      */
@@ -95,7 +100,7 @@ class Group
 
     public function setName( $name )
     {
-        $this->name = $name; return $this;
+        $this->name = $name;
     }
 
     /**
@@ -108,7 +113,7 @@ class Group
 
     public function setDescription( $description )
     {
-        $this->description = $description; return $this;
+        $this->description = $description;
     }
 
     /**
@@ -119,9 +124,17 @@ class Group
         return $this->parent;
     }
 
-    public function setParent( $parent )
+    public function setParent(Group $parent = null)
     {
-        $this->parent = $parent; return $this;
+        if ($this->parent != null) {
+            $this->parent->children->removeElement($this);
+        }
+
+        $this->parent = $parent;
+
+        if ($this->parent != null) {
+            $this->parent->children->add($this);
+        }
     }
 
     /**
@@ -174,7 +187,7 @@ class Group
      */
     public function setImage(Image $image)
     {
-        $this->image = $image;	return $this;
+        $this->image = $image;
     }
 
     /**
@@ -182,7 +195,7 @@ class Group
      */
     public function delImage()
     {
-        $this->image = null;	return $this;
+        $this->image = null;
     }
 
     public function getResourceId()
@@ -198,4 +211,11 @@ class Group
         return new GroupMembershipHelper($this->memberships);
     }
 
+    /**
+     * @ORM\PreRemove
+     */
+    public function preRemove()
+    {
+        $this->setParent(null);
+    }
 }
