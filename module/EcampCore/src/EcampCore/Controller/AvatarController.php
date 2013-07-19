@@ -12,30 +12,28 @@ class AvatarController
     extends AbstractBaseController
 {
 
+    /**
+     * @return \EcampCore\Service\AvatarService
+     */
+    private function getAvatarService()
+    {
+        return $this->serviceLocator->get('EcampCore\Service\Avatar');
+    }
+
     public function userAction()
     {
-        $image = $this->getRouteUser()->getImage();
-        $image = $image ?: $this->loadDefaultUserImage();
+        $user = $this->getRouteUser();
+        $image = $this->getAvatarService()->GetUserAvatar($user);
 
         return $this->sendImage($image);
     }
 
     public function groupAction()
     {
-        $image = $this->getRouteGroup()->getImage();
-        $image = $image ?: $this->loadDefaultGroupImage();
+        $group = $this->getRouteGroup();
+        $image = $this->getAvatarService()->GetGroupAvatar($group);
 
         return $this->sendImage($image);
-    }
-
-    private function loadDefaultUserImage()
-    {
-        return new Image(__DIR__ . '/../../../assets/img/avatar.user.png');
-    }
-
-    private function loadDefaultGroupImage()
-    {
-        return new Image(__DIR__ . '/../../../assets/img/avatar.group.png');
     }
 
     private function sendImage(Image $image)
