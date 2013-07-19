@@ -30,6 +30,7 @@ use EcampLib\Entity\BaseEntity;
  * - An event can either belong to a camp or to a user
  * @ORM\Entity(repositoryClass="EcampCore\Repository\EventRepository")
  * @ORM\Table(name="events")
+ * @ORM\HasLifecycleCallbacks
  */
 class Event
     extends BaseEntity
@@ -40,6 +41,9 @@ class Event
         $this->eventPrototype = $eventPrototype;
 
         $this->pluginInstances = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->eventInstances = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->eventResps = new \Doctrine\Common\Collections\ArrayCollection();
+
         foreach ($eventPrototype->getPluginPrototypes() as $pluginPrototype) {
 
             $numInst = $pluginPrototype->getDefaultInstances();
@@ -49,7 +53,7 @@ class Event
             }
         }
 
-        $this->eventInstances = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->camp->addToList('events', $this);
     }
 
     /**
@@ -65,12 +69,17 @@ class Event
     /**
      * @ORM\OneToMany(targetEntity="EventInstance", mappedBy="event", cascade={"all"}, orphanRemoval=true)
      */
-    private $eventInstances;
+    protected $eventInstances;
 
     /**
      * @ORM\OneToMany(targetEntity="PluginInstance", mappedBy="event", cascade={"all"}, orphanRemoval=true)
      */
-    private $pluginInstances;
+    protected $pluginInstances;
+
+    /**
+     * @ORM\OneToMany(targetEntity="EventResp", mappedBy="event", cascade={"all"}, orphanRemoval=true)
+     */
+    protected $eventResps;
 
     /**
      * @var EventPrototype
@@ -121,6 +130,11 @@ class Event
         return $this->pluginInstances;
     }
 
+    public function getEventResps()
+    {
+        return $this->eventResps;
+    }
+
     /**
      * @return array
      */
@@ -143,6 +157,14 @@ class Event
         };
 
         return $this->pluginInstances->count($closure);
+    }
+
+    /**
+     * @ORM\PreRemove
+     */
+    public function preRemove()
+    {
+        $this->camp->removeFromList('events', $this);
     }
 
 }

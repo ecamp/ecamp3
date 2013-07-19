@@ -29,6 +29,7 @@ use EcampLib\Entity\BaseEntity;
  * EventCategory
  * @ORM\Entity
  * @ORM\Table(name="event_categories")
+ * @ORM\HasLifecycleCallbacks
  */
 class EventCategory
     extends BaseEntity
@@ -41,6 +42,8 @@ class EventCategory
 
         $this->setColor($eventType->getDefaultColor());
         $this->setNumberingStyle($eventType->getDefaultNumberingStyle());
+
+        $this->camp->addToList('eventCategories', $this);
     }
 
     /**
@@ -151,5 +154,13 @@ class EventCategory
     public function getEventType()
     {
         return $this->eventType;
+    }
+
+    /**
+     * @ORM\PreRemove
+     */
+    public function preRemove()
+    {
+        $this->camp->removeFromList('eventCategories', $this);
     }
 }

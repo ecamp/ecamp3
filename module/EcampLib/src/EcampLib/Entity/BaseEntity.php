@@ -4,7 +4,6 @@ namespace EcampLib\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Util\ClassUtils;
-use Doctrine\Common\Collections\Collection;
 
 /**
  * @ORM\MappedSuperclass
@@ -93,25 +92,38 @@ abstract class BaseEntity
 
     private function getClassname()
     {
-        return ClassUtils::getRealClass(get_class($this));
+        return ClassUtils::getClass($this);
     }
 
     /**
-     * @param  unknown                                 $property
-     * @return \Doctrine\Common\Collections\Collection
+     * @param  string     $listProperty
+     * @param  object     $element
+     * @throws \Exception
      */
-    protected function getList($property)
+    protected function addToList($listProperty, $element)
     {
-        if (property_exists($this, $property)) {
-            $list = $this->{$property};
+        if (property_exists($this, $listProperty)) {
+            $list = $this->{$listProperty};
         } else {
             throw new \Exception("Unknown List");
         }
 
-        if ($list instanceof Collection) {
-            return $list;
+        $list->add($element);
+    }
+
+    /**
+     * @param  string     $listProperty
+     * @param  object     $element
+     * @throws \Exception
+     */
+    protected function removeFromList($listProperty, $element)
+    {
+        if (property_exists($this, $listProperty)) {
+            $list = $this->{$listProperty};
+        } else {
+            throw new \Exception("Unknown List");
         }
 
-        return null;
+        $list->removeElement($element);
     }
 }

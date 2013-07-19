@@ -29,7 +29,6 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class PluginInstance
     extends BaseEntity
-
 {
 
     public function __construct(Event $event, PluginPrototype $pluginPrototype)
@@ -38,6 +37,8 @@ class PluginInstance
 
         $this->event = $event;
         $this->pluginPrototype = $pluginPrototype;
+
+        $this->event->addToList('pluginInstances', $this);
     }
 
     /**
@@ -116,5 +117,13 @@ class PluginInstance
         }
 
         return $this->strategyInstance;
+    }
+
+    /**
+     * @ORM\PreRemove
+     */
+    public function preRemove()
+    {
+        $this->event->removeFromList('pluginInstances', $this);
     }
 }
