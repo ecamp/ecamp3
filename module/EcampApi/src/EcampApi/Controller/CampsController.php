@@ -10,11 +10,28 @@ use Zend\View\Model\JsonModel;
 class CampsController extends AbstractRestfulBaseController
 {
 
+    /**
+     * @return \EcampCore\Repository\CampRepository
+     */
+    private function getCampRepository()
+    {
+        return $this->getServiceLocator()->get('EcampCore\Repository\Camp');
+    }
+
     public function getList()
     {
-        /* @var $campRepo \EcampCore\Repository\CampRepository */
-        $campRepo = $this->getServiceLocator()->get('EcampCore\Repository\Camp');
-        $camps = $campRepo->findAll();
+        $criteria = $this->createCriteriaArray(array(
+            'user'			=> $this->params('user'),
+            'owner' 		=> $this->params()->fromQuery('owner'),
+            'owning_only'	=> $this->params()->fromQuery('owning_only'),
+            'group'			=> $this->params()->fromQuery('group'),
+            'creator'		=> $this->params()->fromQuery('creator'),
+            'collaborator' 	=> $this->params()->fromQuery('collaborator'),
+            'search'		=> $this->params()->fromQuery('search'),
+            'past'			=> $this->params()->fromQuery('past')
+        ));
+
+        $camps = $this->getCampRepository()->findForApi($criteria);
 
         $campSerializer = new CampSerializer(
             $this->params('format'), $this->getEvent()->getRouter());
@@ -24,7 +41,7 @@ class CampsController extends AbstractRestfulBaseController
 
     public function get($id)
     {
-        $camp = $this->ecampCore_CampRepo()->find($id);
+        $camp = $this->getCampRepository()->find($id);
 
         $campSerializer = new CampSerializer(
             $this->params('format'), $this->getEvent()->getRouter());

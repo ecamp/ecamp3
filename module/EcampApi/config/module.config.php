@@ -32,6 +32,142 @@ return array(
                             ),
                         ),
                     ),
+
+                    'user' => array(
+                        'type'    => 'Segment',
+                        'options' => array(
+                            'route'    => '/users/:user',
+                            'constraints' => array(
+                                   'user' => '[a-f0-9]*'
+                            ),
+                        ),
+                        'child_routes' => array(
+                            'rest' => array(
+                                'type'    => 'Segment',
+                                'options' => array(
+                                    'route'    => '/[:controller[/:id][.:format]]',
+                                    'constraints' => array(
+                                        'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                                        'format' => '(xml|json)',
+                                        'id' => '[a-f0-9]*'
+                                    ),
+                                    'defaults' => array(
+                                        'controller' => 'Index',
+                                        'format' => 'json'
+                                    ),
+                                ),
+                            ),
+                        )
+                    ),
+
+                    'camp' => array(
+                        'type'    => 'Segment',
+                        'options' => array(
+                            'route'    => '/camps/:camp',
+                            'constraints' => array(
+                                   'camp' => '[a-f0-9]*'
+                            ),
+                        ),
+                        'child_routes' => array(
+                            'rest' => array(
+                                'type'    => 'Segment',
+                                'options' => array(
+                                    'route'    => '/[:controller[/:id][.:format]]',
+                                    'constraints' => array(
+                                        'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                                        'format' => '(xml|json)',
+                                        'id' => '[a-f0-9]*'
+                                    ),
+                                    'defaults' => array(
+                                        'controller' => 'Index',
+                                        'format' => 'json'
+                                    ),
+                                ),
+                            ),
+                        )
+                    ),
+
+                    'period' => array(
+                        'type'    => 'Segment',
+                        'options' => array(
+                            'route'    => '/periods/:period',
+                            'constraints' => array(
+                                   'period' => '[a-f0-9]*'
+                            ),
+                        ),
+                        'child_routes' => array(
+                            'rest' => array(
+                                'type'    => 'Segment',
+                                'options' => array(
+                                    'route'    => '/[:controller[/:id][.:format]]',
+                                    'constraints' => array(
+                                        'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                                        'format' => '(xml|json)',
+                                        'id' => '[a-f0-9]*'
+                                    ),
+                                    'defaults' => array(
+                                        'controller' => 'Index',
+                                        'format' => 'json'
+                                    ),
+                                ),
+                            ),
+                        )
+                    ),
+
+                    'day' => array(
+                        'type'    => 'Segment',
+                        'options' => array(
+                            'route'    => '/days/:day',
+                            'constraints' => array(
+                                   'day' => '[a-f0-9]*'
+                            ),
+                        ),
+                        'child_routes' => array(
+                            'rest' => array(
+                                'type'    => 'Segment',
+                                'options' => array(
+                                    'route'    => '/[:controller[/:id][.:format]]',
+                                    'constraints' => array(
+                                        'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                                        'format' => '(xml|json)',
+                                        'id' => '[a-f0-9]*'
+                                    ),
+                                    'defaults' => array(
+                                        'controller' => 'Index',
+                                        'format' => 'json'
+                                    ),
+                                ),
+                            ),
+                        )
+                    ),
+
+                    'event' => array(
+                        'type'    => 'Segment',
+                        'options' => array(
+                            'route'    => '/events/:event',
+                            'constraints' => array(
+                                   'event' => '[a-f0-9]*'
+                            ),
+                        ),
+                        'child_routes' => array(
+                            'rest' => array(
+                                'type'    => 'Segment',
+                                'options' => array(
+                                    'route'    => '/[:controller[/:id][.:format]]',
+                                    'constraints' => array(
+                                        'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                                        'format' => '(xml|json)',
+                                        'id' => '[a-f0-9]*'
+                                    ),
+                                    'defaults' => array(
+                                        'controller' => 'Index',
+                                        'format' => 'json'
+                                    ),
+                                ),
+                            ),
+                        )
+                    ),
+
                     'default' => array(
                         'type'    => 'Segment',
                         'options' => array(
@@ -55,7 +191,7 @@ return array(
             'EcampApi\Controller\Login' 			=> 'EcampApi\Controller\LoginController',
             'EcampApi\Controller\Index' 			=> 'EcampApi\Controller\IndexController',
             'EcampApi\Controller\Users' 			=> 'EcampApi\Controller\UsersController',
-            'EcampApi\Controller\Contributors' 		=> 'EcampApi\Controller\ContributorsController',
+            'EcampApi\Controller\Collaborators'		=> 'EcampApi\Controller\CollaboratorsController',
             'EcampApi\Controller\Camps' 			=> 'EcampApi\Controller\CampsController',
             'EcampApi\Controller\Periods' 			=> 'EcampApi\Controller\PeriodsController',
             'EcampApi\Controller\Days' 				=> 'EcampApi\Controller\DaysController',

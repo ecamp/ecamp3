@@ -170,7 +170,7 @@ class User
 
     /**
      * @var \Doctrine\Common\Collections\ArrayCollection
-     * ORM\@OneToMany(targetEntity="GroupMembership", mappedBy="user", cascade={"all"}, orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="GroupMembership", mappedBy="user", cascade={"all"}, orphanRemoval=true)
      */
     protected $memberships;
 

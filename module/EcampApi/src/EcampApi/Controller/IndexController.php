@@ -39,7 +39,7 @@ class IndexController extends AbstractRestfulBaseController
 
     public function getList()
     {
-        throw new AuthenticationRequiredException();
+        //throw new AuthenticationRequiredException();
 
         $userSerializer = new UserSerializer(
             $this->params('format'), $this->getEvent()->getRouter());
@@ -48,7 +48,8 @@ class IndexController extends AbstractRestfulBaseController
 
         if (isset($me)) {
             return new JsonModel(array(
-                'me' => ($me != null) ? $userSerializer->getReference($me) : null,
+                'me' => ($me != null) ? $userSerializer($me) : null,
+                'groups' => ($me != null) ? $me->groupMembership()->getGroups() : null,
                 'camps' => ($me != null) ? $me->campCollaboration()->getCamps() : null,
                 'friends' => ($me != null) ? $me->userRelationship()->getFriends() : null
             ));

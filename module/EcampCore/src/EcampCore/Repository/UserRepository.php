@@ -10,15 +10,19 @@ use Doctrine\ORM\EntityRepository;
 class UserRepository extends EntityRepository
 {
 
-    /**
-     * @var CoreApi\Acl\ContextProvider
-     * @Inject CoreApi\Acl\ContextProvider
-     */
-    protected $contextProvider;
-
-    public function __construct($em, \Doctrine\ORM\Mapping\ClassMetadata $class)
+    public function findForApi($criteria)
     {
-        parent::__construct($em, $class);
+        $q = $this->createQueryBuilder('u');
+
+        if (isset($criteria["offset"]) && !is_null($criteria["offset"])) {
+            $q->setFirstResult($criteria["offset"]);
+            $q->setMaxResults(100);
+        }
+        if (isset($criteria["limit"]) && !is_null($criteria["limit"])) {
+            $q->setMaxResults($criteria["limit"]);
+        }
+
+        return $q->getQuery()->getResult();
     }
 
     public function findFriends(User $user)

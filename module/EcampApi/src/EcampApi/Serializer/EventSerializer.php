@@ -47,13 +47,13 @@ class EventSerializer extends BaseSerializer
         return
             $this->router->assemble(
                 array(
-                    'controller' => 'event',
+                    'controller' => 'events',
                     'action' => 'get',
                     'id' => $event->getId(),
                     'format' => $this->format
                 ),
                 array(
-                    'name' => 'api/default'
+                    'name' => 'api/rest'
                 )
         );
     }
@@ -63,13 +63,13 @@ class EventSerializer extends BaseSerializer
         return
             $this->router->assemble(
                 array(
-                    'controller' => 'camp',
+                    'controller' => 'events',
                     'action' => 'getList',
                     'camp' => $camp->getId(),
                     'format' => $this->format
                 ),
                 array(
-                    'name' => 'api/default'
+                    'name' => 'api/camp/rest'
                 )
             );
     }

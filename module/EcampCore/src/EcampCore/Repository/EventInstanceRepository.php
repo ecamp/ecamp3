@@ -8,6 +8,59 @@ use EcampCore\Entity\Day;
 class EventInstanceRepository extends EntityRepository
 {
 
+    public function findForApi(array $criteria)
+    {
+        $q = $this->createQueryBuilder('ei');
+
+        if (isset($criteria['event']) && !is_null($criteria['event'])) {
+            $q->andWhere('ei.event = :event');
+            $q->setParameter('event', $criteria['event']);
+        }
+
+        if (isset($criteria['camp']) && !is_null($criteria['camp'])) {
+            $q->andWhere(
+                $q->expr()->exists("
+                    select	1
+                    from	EcampCore\Entity\Camp c
+                    join	EcampCore\Entity\Event e with e.camp = c
+                    where 	ei.event = e
+                    and		c = :camp
+                ")
+            );
+            $q->setParameter('camp', $criteria['camp']);
+        }
+
+        if (isset($criteria['period']) && !is_null($criteria['period'])) {
+            $q->andWhere('ei.period = :period');
+            $q->setParameter('period', $criteria['period']);
+        }
+
+        if (isset($criteria['day']) && !is_null($criteria['day'])) {
+            $q->andWhere(
+                $q->expr()->exists("
+                    select	1
+                    from	EcampCore\Entity\Day d
+                    join	EcampCore\Entity\Period p with d.period = p
+                    where 	ei.period = p
+                    and		ei.minOffsetStart <= (d.dayOffset + 1) * 1440
+                    and		ei.minOffsetEnd >= d.dayOffset * 1440
+                    and		d = :day
+                ")
+            );
+            $q->setParameter('day', $criteria['day']);
+        }
+
+        if (isset($criteria["offset"]) && !is_null($criteria["offset"])) {
+            $q->setFirstResult($criteria["offset"]);
+            $q->setMaxResults(100);
+        }
+        if (isset($criteria["limit"]) && !is_null($criteria["limit"])) {
+            $q->setMaxResults($criteria["limit"]);
+        }
+
+        return $q->getQuery()->getResult();
+    }
+
     public function findByDay($day)
     {
         if (! $day instanceof Day) {

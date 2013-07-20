@@ -53,13 +53,13 @@ class EventInstanceSerializer extends BaseSerializer
         return
             $this->router->assemble(
                 array(
-                    'controller' => 'eventinstance',
+                    'controller' => 'eventinstances',
                     'action' => 'getList',
                     'id' => $eventInstance->getId(),
                     'format' => $this->format
                 ),
                 array(
-                    'name' => 'api/default'
+                    'name' => 'api/rest'
                 )
         );
     }
@@ -69,13 +69,13 @@ class EventInstanceSerializer extends BaseSerializer
         return
             $this->router->assemble(
                 array(
-                    'controller' => 'period',
+                    'controller' => 'eventinstances',
                     'action' => 'getList',
                     'period' => $period->getId(),
                     'format' => $this->format
                 ),
                 array(
-                    'name' => 'api/default'
+                    'name' => 'api/period/rest'
                 )
         );
     }
@@ -85,13 +85,13 @@ class EventInstanceSerializer extends BaseSerializer
         return
             $this->router->assemble(
                 array(
-                    'controller' => 'event',
+                    'controller' => 'eventInstances',
                     'action' => 'getList',
                     'event' => $event->getId(),
                     'format' => $this->format
                 ),
                 array(
-                    'name' => 'api/default'
+                    'name' => 'api/event/rest'
                 )
             );
     }
