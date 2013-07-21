@@ -88,6 +88,13 @@ class Event
      */
     private $eventPrototype;
 
+    /**
+     * @var EventCategory
+     * @ORM\ManyToOne(targetEntity="EventCategory")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $eventCategory;
+
     public function setTitle($title)
     {
         $this->title = $title;
@@ -112,6 +119,22 @@ class Event
     public function getEventPrototype()
     {
         return $this->eventPrototype;
+    }
+
+    /**
+     * @param EventCategory $eventCategory
+     */
+    public function setEventCategory(EventCategory $eventCategory)
+    {
+        $this->eventCategory = $eventCategory;
+    }
+
+    /**
+     * @return EventCategory
+     */
+    public function getEventCategory()
+    {
+        return $this->eventCategory;
     }
 
     /**

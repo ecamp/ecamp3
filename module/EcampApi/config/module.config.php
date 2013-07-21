@@ -60,6 +60,33 @@ return array(
                         )
                     ),
 
+                    'collaboration' => array(
+                        'type'    => 'Segment',
+                        'options' => array(
+                            'route'    => '/collaborations/:collaboration',
+                            'constraints' => array(
+                                   'collaboration' => '[a-f0-9]*'
+                            ),
+                        ),
+                        'child_routes' => array(
+                            'rest' => array(
+                                'type'    => 'Segment',
+                                'options' => array(
+                                    'route'    => '/[:controller[/:id][.:format]]',
+                                    'constraints' => array(
+                                        'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                                        'format' => '(xml|json)',
+                                        'id' => '[a-f0-9]*'
+                                    ),
+                                    'defaults' => array(
+                                        'controller' => 'Index',
+                                        'format' => 'json'
+                                    ),
+                                ),
+                            ),
+                        )
+                    ),
+
                     'camp' => array(
                         'type'    => 'Segment',
                         'options' => array(
@@ -191,11 +218,13 @@ return array(
             'EcampApi\Controller\Login' 			=> 'EcampApi\Controller\LoginController',
             'EcampApi\Controller\Index' 			=> 'EcampApi\Controller\IndexController',
             'EcampApi\Controller\Users' 			=> 'EcampApi\Controller\UsersController',
-            'EcampApi\Controller\Collaborators'		=> 'EcampApi\Controller\CollaboratorsController',
+            'EcampApi\Controller\Collaborations'	=> 'EcampApi\Controller\CollaborationsController',
             'EcampApi\Controller\Camps' 			=> 'EcampApi\Controller\CampsController',
             'EcampApi\Controller\Periods' 			=> 'EcampApi\Controller\PeriodsController',
             'EcampApi\Controller\Days' 				=> 'EcampApi\Controller\DaysController',
+            'EcampApi\Controller\EventCategories'	=> 'EcampApi\Controller\EventCategoriesController',
             'EcampApi\Controller\EventInstances'	=> 'EcampApi\Controller\EventInstancesController',
+            'EcampApi\Controller\EventResps'		=> 'EcampApi\Controller\EventRespsController',
             'EcampApi\Controller\Events' 			=> 'EcampApi\Controller\EventsController',
         ),
     ),

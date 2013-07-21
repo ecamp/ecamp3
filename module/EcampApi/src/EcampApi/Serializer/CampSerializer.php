@@ -8,10 +8,11 @@ class CampSerializer extends BaseSerializer
 {
     protected function serialize($camp)
     {
-        $userSerializer = new UserSerializer($this->format, $this->router);
         $periodSerializer = new PeriodSerializer($this->format, $this->router);
+        $userSerializer = new UserSerializer($this->format, $this->router);
+        $collaborationSerializer = new CollaborationSerializer($this->format, $this->router);
         $eventSerializer = new EventSerializer($this->format, $this->router);
-        $collaborationSerializer = new CollaboratorSerializer($this->format, $this->router);
+        $eventCategorySerializer = new EventCategorySerializer($this->format, $this->router);
 
         return array(
             'id' 				=> 	$camp->getId(),
@@ -22,8 +23,9 @@ class CampSerializer extends BaseSerializer
             'name'				=> 	$camp->getName(),
             'title'				=> 	$camp->getTitle(),
             'periods'			=> 	$periodSerializer->getCollectionReference($camp),
+            'collaborations'	=>  $collaborationSerializer->getCollectionReference($camp),
             'events'			=>	$eventSerializer->getCollectionReference($camp),
-            'collaborations'	=>  $collaborationSerializer->getCollectionReference($camp)
+            'eventCategories'	=>  $eventCategorySerializer->getCollectionReference($camp)
         );
     }
 

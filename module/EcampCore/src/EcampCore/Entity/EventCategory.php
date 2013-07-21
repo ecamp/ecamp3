@@ -27,7 +27,7 @@ use EcampLib\Entity\BaseEntity;
 
 /**
  * EventCategory
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="EcampCore\Repository\EventCategoryRepository")
  * @ORM\Table(name="event_categories")
  * @ORM\HasLifecycleCallbacks
  */

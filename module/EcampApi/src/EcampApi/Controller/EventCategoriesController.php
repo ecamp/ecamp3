@@ -2,44 +2,44 @@
 
 namespace EcampApi\Controller;
 
+use EcampApi\Serializer\EventCategorySerializer;
 use EcampLib\Controller\AbstractRestfulBaseController;
 
 use Zend\View\Model\JsonModel;
-use EcampApi\Serializer\CollaboratorSerializer;
 
-class CollaboratorsController extends AbstractRestfulBaseController
+class EventCategoriesController extends AbstractRestfulBaseController
 {
+
     /**
-     * @return \EcampCore\Repository\CampCollaborationRepository
+     * @return \EcampCore\Repository\EventCategoryRepository
      */
-    private function getCampCollaborationRepository()
+    private function getEventCategoryRepository()
     {
-        return $this->getServiceLocator()->get('EcampCore\Repository\CampCollaboration');
+        return $this->getServiceLocator()->get('EcampCore\Repository\EventCategory');
     }
 
     public function getList()
     {
         $criteria = $this->createCriteriaArray(array(
-            'camp' 	=> $this->params('camp') ?: $this->params()->fromQuery('camp'),
-            'user' 	=> $this->params('user') ?: $this->params()->fromQuery('user')
+            'camp'	=> $this->params('camp')  ?: $this->params()->fromQuery('camp'),
         ));
 
-        $collaborators = $this->getCampCollaborationRepository()->findForApi($criteria);
+        $eventCategories = $this->getEventCategoryRepository()->findForApi($criteria);
 
-        $collaboratorSerializer = new CollaboratorSerializer(
+        $eventCategorySerializer = new EventCategorySerializer(
             $this->params('format'), $this->getEvent()->getRouter());
 
-        return new JsonModel($collaboratorSerializer($collaborators));
+        return new JsonModel($eventCategorySerializer($eventCategories));
     }
 
     public function get($id)
     {
-        $collaborator = $this->getCampCollaborationRepository()->find($id);
+        $eventCategory = $this->getEventCategoryRepository()->find($id);
 
-        $collaboratorSerializer = new CollaboratorSerializer(
+        $eventCategorySerializer = new EventCategorySerializer(
             $this->params('format'), $this->getEvent()->getRouter());
 
-        return new JsonModel($collaboratorSerializer($collaborator));
+        return new JsonModel($eventCategorySerializer($eventCategory));
     }
 
     public function head($id = null)

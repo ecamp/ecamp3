@@ -6,7 +6,7 @@ use EcampCore\Entity\User;
 use EcampCore\Entity\Camp;
 use EcampCore\Entity\CampCollaboration;
 
-class CollaboratorSerializer extends BaseSerializer
+class CollaborationSerializer extends BaseSerializer
 {
     public function serialize($cc)
     {
@@ -24,6 +24,18 @@ class CollaboratorSerializer extends BaseSerializer
         );
     }
 
+    public function getReference(CampCollaboration $collaboration = null)
+    {
+        if ($collaboration == null) {
+            return null;
+        } else {
+            return array(
+                'id'	=>	$collaboration->getId(),
+                'href'	=>	$this->getCollaboratorHref($collaboration)
+            );
+        }
+    }
+
     public function getCollectionReference($collectionOwner)
     {
         if ($collectionOwner instanceof Camp) {
@@ -38,7 +50,7 @@ class CollaboratorSerializer extends BaseSerializer
         return
             $this->router->assemble(
                 array(
-                    'controller' => 'collaborators',
+                    'controller' => 'collaborations',
                     'action' => 'get',
                     'format' => $this->format,
                     'camp' => $camp->getId()
@@ -54,7 +66,7 @@ class CollaboratorSerializer extends BaseSerializer
         return
             $this->router->assemble(
                 array(
-                    'controller' => 'collaborators',
+                    'controller' => 'collaborations',
                     'action' => 'get',
                     'id' => $campCollaboration->getId(),
                     'format' => $this->format
