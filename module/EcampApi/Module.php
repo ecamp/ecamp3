@@ -4,6 +4,7 @@ namespace EcampApi;
 use Zend\Mvc\MvcEvent;
 
 use EcampApi\Listener\JsonExceptionStrategy;
+use EcampApi\Listener\AuthenticationRequiredExceptionStrategy;
 
 class Module
 {
@@ -40,5 +41,8 @@ class Module
 
         $exceptionStrategy->setDisplayExceptions($displayExceptions);
         $exceptionStrategy->attach($application->getEventManager());
+
+        $authenticationRequiredStrategy = new AuthenticationRequiredExceptionStrategy();
+        $authenticationRequiredStrategy->attach($application->getEventManager());
     }
 }

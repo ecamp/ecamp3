@@ -2,47 +2,44 @@
 
 namespace EcampApi\Controller;
 
-use EcampApi\Serializer\EventInstanceSerializer;
+use EcampApi\Serializer\EventCategorySerializer;
 use EcampLib\Controller\AbstractRestfulBaseController;
 
 use Zend\View\Model\JsonModel;
 
-class EventInstancesController extends AbstractRestfulBaseController
+class EventCategoriesController extends AbstractRestfulBaseController
 {
 
     /**
-     * @return \EcampCore\Repository\EventInstanceRepository
+     * @return \EcampCore\Repository\EventCategoryRepository
      */
-    private function getEventInstanceRepository()
+    private function getEventCategoryRepository()
     {
-        return $this->getServiceLocator()->get('EcampCore\Repository\EventInstance');
+        return $this->getServiceLocator()->get('EcampCore\Repository\EventCategory');
     }
 
     public function getList()
     {
         $criteria = $this->createCriteriaArray(array(
-            'camp'		=> $this->params('camp'),
-            'period'	=> $this->params('period'),
-            'day'		=> $this->params('day'),
-            'event'		=> $this->params('event'),
+            'camp'	=> $this->params('camp')  ?: $this->params()->fromQuery('camp'),
         ));
 
-        $eventInstances = $this->getEventInstanceRepository()->findForApi($criteria);
+        $eventCategories = $this->getEventCategoryRepository()->findForApi($criteria);
 
-        $eventInstanceSerializer = new EventInstanceSerializer(
+        $eventCategorySerializer = new EventCategorySerializer(
             $this->params('format'), $this->getEvent()->getRouter());
 
-        return new JsonModel($eventInstanceSerializer($eventInstances));
+        return new JsonModel($eventCategorySerializer($eventCategories));
     }
 
     public function get($id)
     {
-        $eventInstance = $this->getEventInstanceRepository()->find($id);
+        $eventCategory = $this->getEventCategoryRepository()->find($id);
 
-        $eventInstanceSerializer = new EventInstanceSerializer(
+        $eventCategorySerializer = new EventCategorySerializer(
             $this->params('format'), $this->getEvent()->getRouter());
 
-        return new JsonModel($eventInstanceSerializer($eventInstance));
+        return new JsonModel($eventCategorySerializer($eventCategory));
     }
 
     public function head($id = null)

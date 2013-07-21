@@ -30,17 +30,20 @@ use EcampLib\Entity\BaseEntity;
  * overlap in time. However, a period can have multiple program alternatives (subcamps).
  * @ORM\Entity(repositoryClass="EcampCore\Repository\PeriodRepository")
  * @ORM\Table(name="periods")
+ * @ORM\HasLifecycleCallbacks
  */
 class Period
     extends BaseEntity
 {
-    public function __construct($camp = null)
+    public function __construct(Camp $camp)
     {
         parent::__construct();
 
         $this->camp = $camp;
         $this->days = new \Doctrine\Common\Collections\ArrayCollection();
         $this->eventInstances = new \Doctrine\Common\Collections\ArrayCollection();
+
+        $this->camp->addToList('periods', $this);
     }
 
     /**
@@ -153,5 +156,13 @@ class Period
     public function getEventInstances()
     {
         return $this->eventInstances;
+    }
+
+    /**
+     * @ORM\PreRemove
+     */
+    public function preRemove()
+    {
+        $this->camp->removeFromList('periods', $this);
     }
 }

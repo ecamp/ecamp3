@@ -117,4 +117,63 @@ class GroupMembershipTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($group->groupMembership()->isManager($manager));
     }
 
+    /**
+     * @expectedException Exception
+     */
+    public function testInvalidRole()
+    {
+        $user = new User();
+        $manager = new User();
+        $group = new Group();
+
+        $managerGroupMembership =
+            GroupMembership::createInvitation($manager, $group, $manager, "invalidRole");
+    }
+
+    /**
+     * @expectedException Exception
+     */
+    public function testInvalidStatus()
+    {
+        $user = new User();
+        $manager = new User();
+        $group = new Group();
+
+        $managerGroupMembership =
+            GroupMembership::createInvitation($manager, $group, $manager);
+
+        $setStatus = function($s){	$this->setStatus($s); };
+        $statusSetter = \Closure::bind($setStatus, $managerGroupMembership, 'EcampCore\Entity\GroupMembership');
+        $statusSetter("invalidStatus");
+    }
+
+    /**
+     * @expectedException Exception
+     */
+    public function testAcceptNonInvitation()
+    {
+        $user = new User();
+        $group = new Group();
+
+        $userGroupMembership =
+            GroupMembership::createRequest($user, $group);
+
+        $userGroupMembership->acceptInvitation();
+    }
+
+    /**
+     * @expectedException Exception
+     */
+    public function testAcceptNonRequest()
+    {
+        $user = new User();
+        $manager = new User();
+        $group = new Group();
+
+        $managerGroupMembership =
+            GroupMembership::createInvitation($user, $group, $manager);
+
+        $managerGroupMembership->acceptRequest($manager);
+    }
+
 }

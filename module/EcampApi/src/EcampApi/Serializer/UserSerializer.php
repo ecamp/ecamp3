@@ -8,14 +8,18 @@ class UserSerializer extends BaseSerializer
 {
     public function serialize($user)
     {
+        /* @var $user User */
+
         return array(
-            'id'		=> 	$user->getId(),
-            'href'		=>	$this->getUserHref($user),
-            'username'	=>	$user->getUsername(),
-            'email'		=>	$user->getEmail(),
-            'scoutname'	=>	$user->getScoutname(),
-            'firstname'	=>	$user->getFirstname(),
-            'surname'	=>	$user->getSurname()
+            'id'			=> 	$user->getId(),
+            'href'			=>	$this->getUserHref($user),
+            'username'		=>	$user->getUsername(),
+            'email'			=>	$user->getEmail(),
+            'scoutname'		=>	$user->getScoutname(),
+            'firstname'		=>	$user->getFirstname(),
+            'surname'		=>	$user->getSurname(),
+            'fullname'  	=>	$user->getFullName(),
+            'displayName' 	=>  $user->getDisplayName()
         );
     }
 
@@ -42,7 +46,7 @@ class UserSerializer extends BaseSerializer
                     'format' => $this->format
                 ),
                 array(
-                    'name' => 'api/default'
+                    'name' => 'api/rest'
                 )
             );
     }

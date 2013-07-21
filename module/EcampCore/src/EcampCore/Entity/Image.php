@@ -31,6 +31,15 @@ use EcampLib\Entity\BaseEntity;
 class Image extends BaseEntity
 {
 
+    public function __construct($url = null)
+    {
+        parent::__construct();
+
+        if ($url != null) {
+            $this->setByUrl($url);
+        }
+    }
+
     /**
      * @ORM\Column(type="string", length=32, nullable=false)
      */
@@ -50,10 +59,11 @@ class Image extends BaseEntity
     }
 
     /**
+     * @param string $data
      */
     public function setData($data)
     {
-        $this->imageData = base64_encode($data); return $this;
+        $this->imageData = base64_encode($data);
     }
 
     /**
@@ -65,10 +75,28 @@ class Image extends BaseEntity
     }
 
     /**
+     * @param string $mime
      */
     public function setMime($mime)
     {
-        $this->imageMime = $mime; return $this;
+        $this->imageMime = $mime;
+    }
+
+    public function getSize()
+    {
+        return strlen($this->getData());
+    }
+
+    /**
+     * @param string $url
+     */
+    public function setByUrl($url)
+    {
+        $fi = new \finfo(FILEINFO_MIME);
+
+        $this->setData(file_get_contents($url));
+        $this->imageMime = $fi->file($url);
+
     }
 
 }

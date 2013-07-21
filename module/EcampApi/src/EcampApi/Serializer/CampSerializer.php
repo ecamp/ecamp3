@@ -8,19 +8,24 @@ class CampSerializer extends BaseSerializer
 {
     protected function serialize($camp)
     {
-        $userSerializer = new UserSerializer($this->format, $this->router);
         $periodSerializer = new PeriodSerializer($this->format, $this->router);
+        $userSerializer = new UserSerializer($this->format, $this->router);
+        $collaborationSerializer = new CollaborationSerializer($this->format, $this->router);
         $eventSerializer = new EventSerializer($this->format, $this->router);
+        $eventCategorySerializer = new EventCategorySerializer($this->format, $this->router);
 
         return array(
-            'id' 		=> 	$camp->getId(),
-            'href'		=>	$this->getCampHref($camp),
-            'owner'		=>	$userSerializer->getReference($camp->getOwner()),
-            'creator'	=> 	$userSerializer->getReference($camp->getCreator()),
-            'name'		=> 	$camp->getName(),
-            'title'		=> 	$camp->getTitle(),
-            'periods'	=> 	$periodSerializer->getCollectionReference($camp),
-            'events'	=>	$eventSerializer->getCollectionReference($camp),
+            'id' 				=> 	$camp->getId(),
+            'href'				=>	$this->getCampHref($camp),
+            'owner'				=>	$userSerializer->getReference($camp->getOwner()),
+            'group'				=> 	null,
+            'creator'			=> 	$userSerializer->getReference($camp->getCreator()),
+            'name'				=> 	$camp->getName(),
+            'title'				=> 	$camp->getTitle(),
+            'periods'			=> 	$periodSerializer->getCollectionReference($camp),
+            'collaborations'	=>  $collaborationSerializer->getCollectionReference($camp),
+            'events'			=>	$eventSerializer->getCollectionReference($camp),
+            'eventCategories'	=>  $eventCategorySerializer->getCollectionReference($camp)
         );
     }
 
@@ -47,7 +52,7 @@ class CampSerializer extends BaseSerializer
                     'format' => $this->format
                 ),
                 array(
-                    'name' => 'api/default',
+                    'name' => 'api/rest',
                 )
             );
     }

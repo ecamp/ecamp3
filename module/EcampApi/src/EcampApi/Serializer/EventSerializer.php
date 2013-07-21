@@ -9,15 +9,21 @@ class EventSerializer extends BaseSerializer
 {
     public function serialize($event)
     {
+        /* @var $event \EcampCore\Entity\Event */
+
         $campSerializer = new CampSerializer($this->format, $this->router);
         $eventInstanceSerializer = new EventInstanceSerializer($this->format, $this->router);
+        $eventRespSerializer = new EventRespSerializer($this->format, $this->router);
+        $eventCategorySerializer = new EventCategorySerializer($this->format, $this->router);
 
         return array(
             'id' 				=> 	$event->getId(),
             'href'				=>	$this->getEventHref($event),
             'title'				=> 	$event->getTitle(),
             'camp'				=> 	$campSerializer->getReference($event->getCamp()),
+            'eventCategory'		=>  $eventCategorySerializer->getReference($event->getEventCategory()),
             'eventInstances'	=> 	$eventInstanceSerializer->getCollectionReference($event),
+            'eventResps'		=>  $eventRespSerializer->getCollectionReference($event)
         );
     }
 
@@ -47,13 +53,13 @@ class EventSerializer extends BaseSerializer
         return
             $this->router->assemble(
                 array(
-                    'controller' => 'event',
+                    'controller' => 'events',
                     'action' => 'get',
                     'id' => $event->getId(),
                     'format' => $this->format
                 ),
                 array(
-                    'name' => 'api/default'
+                    'name' => 'api/rest'
                 )
         );
     }
@@ -63,13 +69,13 @@ class EventSerializer extends BaseSerializer
         return
             $this->router->assemble(
                 array(
-                    'controller' => 'camp',
+                    'controller' => 'events',
                     'action' => 'getList',
                     'camp' => $camp->getId(),
                     'format' => $this->format
                 ),
                 array(
-                    'name' => 'api/default'
+                    'name' => 'api/camp/rest'
                 )
             );
     }

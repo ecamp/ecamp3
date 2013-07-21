@@ -4,7 +4,7 @@ namespace EcampCore\Repository;
 
 use Doctrine\ORM\EntityRepository;
 
-class EventRepository extends EntityRepository
+class EventCategoryRepository extends EntityRepository
 {
 
     public function findForApi(array $criteria)

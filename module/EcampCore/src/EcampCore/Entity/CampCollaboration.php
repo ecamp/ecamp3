@@ -61,8 +61,10 @@ class CampCollaboration
             $this->requestAcceptedBy = null;
         }
 
-        $this->user->getList('collaborations')->add($this);
-        $this->camp->getList('collaborations')->add($this);
+        $this->eventResps = new \Doctrine\Common\Collections\ArrayCollection();
+
+        $this->user->addToList('collaborations', $this);
+        $this->camp->addToList('collaborations', $this);
     }
 
     public static function createRequest(User $user, Camp $camp, $role = null)
@@ -108,6 +110,11 @@ class CampCollaboration
     private $requestAcceptedBy;
 
     /**
+     * @ORM\OneToMany(targetEntity="EventResp", mappedBy="event", cascade={"all"}, orphanRemoval=true)
+     */
+    protected $eventResps;
+
+    /**
      * @return Camp
      */
     public function getCamp()
@@ -150,6 +157,11 @@ class CampCollaboration
             throw new \Exception("[$status] is not a valid value for CampCollaboration.status");
         }
         $this->status = $status;
+    }
+
+    public function getEventResps()
+    {
+        return $this->eventResps;
     }
 
     private function setRequestAcceptedBy(User $user)
@@ -246,8 +258,8 @@ class CampCollaboration
      */
     public function preRemove()
     {
-        $this->user->getList('collaborations')->removeElement($this);
-        $this->camp->getList('collaborations')->removeElement($this);
+        $this->user->removeFromList('collaborations', $this);
+        $this->camp->removeFromList('collaborations', $this);
     }
 
 }

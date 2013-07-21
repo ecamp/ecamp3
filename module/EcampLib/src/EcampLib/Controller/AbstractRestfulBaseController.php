@@ -31,6 +31,17 @@ abstract class AbstractRestfulBaseController extends AbstractRestfulController
         return $this->getServiceLocator()->get('EcampCore\Service\Group');
     }
 
+    protected function createCriteriaArray(array $criteria)
+    {
+        return array_merge(
+            array(
+                'offset'	=> $this->params()->fromQuery('offset'),
+                'limit'		=> $this->params()->fromQuery('limit'),
+            ),
+            $criteria
+        );
+    }
+
     /**
      * @return \EcampCore\Entity\User
      */

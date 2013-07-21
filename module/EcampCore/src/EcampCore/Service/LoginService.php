@@ -18,14 +18,27 @@ class LoginService
     extends ServiceBase
 {
 
+    private $loginRepository;
+    private $userService;
+
+    public function __construct(
+        LoginRepository $loginRepository,
+        UserService $userService
+    ){
+        $this->loginRepository = $loginRepository;
+        $this->userService = $userService;
+    }
+
     /**
      * @return EcampCore\Entity\Login | NULL
      */
     public function Get()
     {
-        $user = $this->service()->userService()->get();
+        $user = $this->userService->Get();
 
-        if (!is_null($user)) {	return $user->getLogin();	}
+        if (!is_null($user)) {
+            return $user->getLogin();
+        }
 
         return null;
     }
@@ -35,14 +48,13 @@ class LoginService
      */
     public function Create(User $user, Params $params)
     {
-        $login = new Login();
+        $login = new Login($user);
         $loginValdator = new \Core\Validator\Entity\LoginValidator($login);
 
         $this->validationFailed(
             ! $loginValdator->isValid($params));
 
         $login->setNewPassword($params->getValue('password'));
-        $login->setUser($user);
         $this->persist($login);
 
         return $login;
@@ -50,22 +62,26 @@ class LoginService
 
     public function Delete()
     {
-        $me = $this->getContextProvider()->getMe();
+        $me = $this->getMe();
         $login = $me->getLogin();
 
-        if (is_null($login)) {	$this->addValidationMessage("There is no Login to be deleted!");	} else {	$this->remove($login);	}
+        if (is_null($login)) {
+            $this->addValidationMessage("There is no Login to be deleted!");
+        } else {
+            $this->remove($login);
+        }
     }
 
     /**
-     * @return Zend\Authentication\Result
+     * @return \Zend\Authentication\Result
      */
     public function Login($identifier, $password)
     {
         /** @var EcampCore\Entity\User  */
-        $user = $this->service()->userService()->get($identifier);
+        $user = $this->userService->Get($identifier);
 
         if (is_null($user)) {
-            return null;
+            $login = null;
         } else {
             /** @var EcampCore\Entity\Login */
             $login = $user->getLogin();
@@ -75,8 +91,6 @@ class LoginService
         $authService = new AuthenticationService();
         $result = $authService->authenticate($authAdapter);
 
-        $this->getContextProvider()->reset();
-
         return $result;
     }
 
@@ -84,8 +98,6 @@ class LoginService
     {
         $authService = new AuthenticationService();
         $authService->clearIdentity();
-
-        $this->getContextProvider()->reset();
     }
 
     public function ResetPassword($pwResetKey, Params $params)
@@ -106,7 +118,7 @@ class LoginService
 
     public function ForgotPassword($identifier)
     {
-        $user = $this->service()->userService()->Get($identifier);
+        $user = $this->userService->Get($identifier);
 
         if (is_null($user)) {
             return false;
@@ -134,7 +146,7 @@ class LoginService
     private function getLoginByResetKey($pwResetKey)
     {
         /** @var \EcampCore\Entity\Login $login */
-        $login = $this->repo()->loginRepository()->findOneBy(array('pwResetKey' => $pwResetKey));
+        $login = $this->loginRepository->findOneBy(array('pwResetKey' => $pwResetKey));
 
         return $login;
     }

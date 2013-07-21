@@ -59,4 +59,11 @@ class GroupTest extends \PHPUnit_Framework_TestCase
 
     }
 
+    public function testResourceId()
+    {
+        $group = new Group();
+
+        $this->assertEquals('EcampCore\Entity\Group', $group->getResourceId());
+    }
+
 }

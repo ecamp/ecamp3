@@ -73,7 +73,7 @@ class CampType extends BaseEntity
     }
 
     /**
-     * @return Doctrine\Common\Collections\ArrayCollection
+     * @return \Doctrine\Common\Collections\ArrayCollection
      */
     public function getEventTypes()
     {

@@ -71,7 +71,7 @@ class EventPrototype extends BaseEntity
     }
 
     /**
-     * @return array
+     * @return \Doctrine\Common\Collections\ArrayCollection
      */
     public function getPluginPrototypes()
     {
@@ -79,7 +79,7 @@ class EventPrototype extends BaseEntity
     }
 
     /**
-     * @return array
+     * @return \Doctrine\Common\Collections\ArrayCollection
      */
     public function getEventTemplates()
     {

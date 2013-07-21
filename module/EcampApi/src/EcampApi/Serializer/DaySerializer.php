@@ -9,12 +9,15 @@ class DaySerializer extends BaseSerializer
 {
     public function serialize($day)
     {
+        /* @var $day \EcampCore\Entity\Day */
+
         $periodSerializer = new PeriodSerializer($this->format, $this->router);
 
         return array(
             'id' 		=> 	$day->getId(),
             'href'		=>	$this->getDayHref($day),
             'period'	=> 	$periodSerializer->getReference($day->getPeriod()),
+            'offset'	=>  $day->getDayOffset(),
             'date'		=> 	$day->getStart()->getTimestamp(),
             'notes'		=> 	$day->getNotes()
         );
@@ -46,13 +49,13 @@ class DaySerializer extends BaseSerializer
         return
             $this->router->assemble(
                 array(
-                    'controller' => 'day',
+                    'controller' => 'days',
                     'action' => 'get',
                     'id' => $day->getId(),
                     'format' => $this->format
                 ),
                 array(
-                    'name' => 'api/default'
+                    'name' => 'api/rest'
                 )
         );
     }
@@ -62,13 +65,13 @@ class DaySerializer extends BaseSerializer
         return
             $this->router->assemble(
                 array(
-                    'controller' => 'day',
+                    'controller' => 'days',
                     'action' => 'getList',
                     'period' => $period->getId(),
                     'format' => $this->format
                 ),
                 array(
-                    'name' => 'api/default'
+                    'name' => 'api/period/rest'
                 )
             );
     }

@@ -51,13 +51,13 @@ class PeriodSerializer extends BaseSerializer
         return
             $this->router->assemble(
                 array(
-                    'controller' => 'period',
+                    'controller' => 'periods',
                     'action' => 'get',
                     'id' => $period->getId(),
                     'format' => $this->format
                 ),
                 array(
-                    'name' => 'api/default'
+                    'name' => 'api/rest'
                 )
         );
     }
@@ -67,13 +67,13 @@ class PeriodSerializer extends BaseSerializer
         return
             $this->router->assemble(
                 array(
-                    'controller' => 'camp',
+                    'controller' => 'periods',
                     'action' => 'getList',
                     'camp' => $camp->getId(),
                     'format' => $this->format
                 ),
                 array(
-                    'name' => 'api/default'
+                    'name' => 'api/camp/rest'
                 )
             );
     }

@@ -30,6 +30,7 @@ use EcampLib\Entity\BaseEntity;
  * etc.). The events however are not connected with the days in particular.
  * @ORM\Entity(repositoryClass="EcampCore\Repository\DayRepository")
  * @ORM\Table(name="days", uniqueConstraints={@ORM\UniqueConstraint(name="offset_period_idx", columns={"dayOffset", "period_id"})})
+ * @ORM\HasLifecycleCallbacks
  */
 class Day
     extends BaseEntity
@@ -60,6 +61,8 @@ class Day
 
         $this->period = $period;
         $this->dayOffset = $dayOffset;
+
+        $this->period->addToList('days', $this);
     }
 
 
@@ -126,6 +129,14 @@ class Day
     public function getCamp()
     {
         return $this->period->getCamp();
+    }
+
+    /**
+     * @ORM\PreRemove
+     */
+    public function preRemove()
+    {
+        $this->period->removeFromList('days', $this);
     }
 
 }

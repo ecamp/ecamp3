@@ -9,15 +9,30 @@ use EcampCore\Entity\CampCollaboration;
 
 class CampCollaborationRepository extends EntityRepository
 {
-    /**
-     * @var CoreApi\Acl\ContextProvider
-     * @Inject CoreApi\Acl\ContextProvider
-     */
-    protected $contextProvider;
 
-    public function __construct($em, \Doctrine\ORM\Mapping\ClassMetadata $class)
+    public function findForApi(array $criteria)
     {
-        parent::__construct($em, $class);
+        $q = $this->createQueryBuilder('cc');
+
+        if (isset($criteria["camp"]) && !is_null($criteria["camp"])) {
+            $q->andWhere('cc.camp = :camp');
+            $q->setParameter('camp', $criteria["camp"]);
+        }
+
+        if (isset($criteria["user"]) && !is_null($criteria["user"])) {
+            $q->andWhere('cc.user = :user');
+            $q->setParameter('user', $criteria["user"]);
+        }
+
+        if (isset($criteria["offset"]) && !is_null($criteria["offset"])) {
+            $q->setFirstResult($criteria["offset"]);
+            $q->setMaxResults(100);
+        }
+        if (isset($criteria["limit"]) && !is_null($criteria["limit"])) {
+            $q->setMaxResults($criteria["limit"]);
+        }
+
+        return $q->getQuery()->getResult();
     }
 
     /**
