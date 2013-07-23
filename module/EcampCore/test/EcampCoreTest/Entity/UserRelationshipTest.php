@@ -95,4 +95,19 @@ class UserRelationshipTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($b->userRelationship()->canSendFriendshipRequest($a));
     }
 
+    /**
+     * @expectedException Exception
+     */
+    public function testLinkFailure()
+    {
+        $a = new User();
+        $b = new User();
+        $c = new User();
+
+        $ur = new UserRelationship($a, $b);
+        $cp = new UserRelationship($b, $c);
+
+        UserRelationship::Link($ur, $cp);
+    }
+
 }

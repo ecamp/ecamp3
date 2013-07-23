@@ -32,21 +32,26 @@ class Login
     extends BaseEntity
 {
 
+    public function __construct(User $user)
+    {
+        $this->user = $user;
+    }
+
     /**
-     * @ORM\Column(type="string")
      * @var string
+     * @ORM\Column(type="string")
      */
     private $password;
 
     /**
-     * @ORM\Column(type="string", length=64)
      * @var string
+     * @ORM\Column(type="string", length=64)
      */
     private $salt;
 
     /**
-     * @ORM\Column(type="string", length=64, nullable=true)
      * @var string
+     * @ORM\Column(type="string", length=64, nullable=true)
      */
     private $pwResetKey;
 
@@ -56,14 +61,6 @@ class Login
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
     private $user;
-
-    /**
-     * Set the User of this Login Entity
-     */
-    public function setUser(User $user)
-    {
-        $this->user = $user;
-    }
 
     /**
      * Returns the User of this Login Entity

@@ -3,18 +3,28 @@
 namespace EcampApi\Controller;
 
 use EcampApi\Serializer\EventSerializer;
-use EcampCore\Repository\Provider\EventRepositoryProvider;
 use EcampLib\Controller\AbstractRestfulBaseController;
 
 use Zend\View\Model\JsonModel;
 
 class EventsController extends AbstractRestfulBaseController
-    implements EventRepositoryProvider
 {
+
+    /**
+     * @return \EcampCore\Repository\EventRepository
+     */
+    private function getEventRepository()
+    {
+        return $this->getServiceLocator()->get('EcampCore\Repository\Event');
+    }
 
     public function getList()
     {
-        $events = $this->ecampCore_EventRepo()->findAll();
+        $criteria = $this->createCriteriaArray(array(
+            'camp'		=> $this->params('camp') ?: $this->params()->fromQuery('camp')
+        ));
+
+        $events = $this->getEventRepository()->findForApi($criteria);
 
         $eventSerializer = new EventSerializer(
             $this->params('format'), $this->getEvent()->getRouter());
@@ -24,7 +34,7 @@ class EventsController extends AbstractRestfulBaseController
 
     public function get($id)
     {
-        $event = $this->ecampCore_EventRepo()->find($id);
+        $event = $this->getEventRepository()->find($id);
 
         $eventSerializer = new EventSerializer(
             $this->params('format'), $this->getEvent()->getRouter());

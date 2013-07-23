@@ -7,6 +7,10 @@ use EcampLib\Entity\BaseEntity;
 abstract class BaseSerializer
 {
     protected $format;
+
+    /**
+     * @var \Zend\Mvc\Router\RouteStackInterface
+     */
     protected $router;
 
     public function __construct($format, $router)

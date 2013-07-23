@@ -4,17 +4,25 @@ namespace EcampApi\Controller;
 
 use EcampApi\Serializer\PeriodSerializer;
 use EcampLib\Controller\AbstractRestfulBaseController;
-use EcampCore\Repository\Provider\PeriodRepositoryProvider;
 
 use Zend\View\Model\JsonModel;
 
 class PeriodsController extends AbstractRestfulBaseController
-    implements PeriodRepositoryProvider
 {
+
+    /**
+     * @return \EcampCore\Repository\PeriodRepository
+     */
+    private function getPeriodRepository()
+    {
+        return $this->getServiceLocator()->get('EcampCore\Repository\Period');
+    }
 
     public function getList()
     {
-        $periods = $this->ecampCore_PeriodRepo()->findAll();
+        $criteria = $this->createCriteriaArray(array());
+
+        $periods = $this->getPeriodRepository()->findForApi($criteria);
 
         $periodSerializer = new PeriodSerializer(
             $this->params('format'), $this->getEvent()->getRouter());
@@ -24,7 +32,7 @@ class PeriodsController extends AbstractRestfulBaseController
 
     public function get($id)
     {
-        $period = $this->ecampCore_PeriodRepo()->find($id);
+        $period = $this->getPeriodRepository()->find($id);
 
         $periodSerializer = new PeriodSerializer(
             $this->params('format'), $this->getEvent()->getRouter());

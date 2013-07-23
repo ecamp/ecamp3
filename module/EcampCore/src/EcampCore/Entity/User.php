@@ -143,7 +143,7 @@ class User
     private $role;
 
     /**
-     * @var CoreApi\Entity\Image
+     * @var Image
      * @ORM\OneToOne(targetEntity="Image")
      * @ORM\JoinColumn(name="image_id", referencedColumnName="id")
      */
@@ -157,7 +157,7 @@ class User
     protected $myCamps;
 
     /**
-     * @var Entity\Login
+     * @var Login
      * @ORM\OneToOne(targetEntity="Login", mappedBy="user")
      */
     private $login;
@@ -170,7 +170,7 @@ class User
 
     /**
      * @var \Doctrine\Common\Collections\ArrayCollection
-     * ORM\@OneToMany(targetEntity="GroupMembership", mappedBy="user", cascade={"all"}, orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="GroupMembership", mappedBy="user", cascade={"all"}, orphanRemoval=true)
      */
     protected $memberships;
 
@@ -405,7 +405,7 @@ class User
     }
 
     /**
-     * @return CoreApi\Entity\Image
+     * @return Image
      */
     public function getImage()
     {
@@ -413,23 +413,20 @@ class User
     }
 
     /**
-     * @return CoreApi\Entity\User
+     * @param Image $image
      */
     public function setImage(Image $image)
     {
         $this->image = $image;
     }
 
-    /**
-     * @return CoreApi\Entity\User
-     */
     public function delImage()
     {
         $this->image = null;
     }
 
     /**
-     * @return Doctrine\Common\Collections\Collection
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getCamps()
     {

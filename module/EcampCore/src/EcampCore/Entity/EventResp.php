@@ -30,12 +30,26 @@ use EcampLib\Entity\BaseEntity;
  * - An event can either belong to a camp or to a user
  * @ORM\Entity(repositoryClass="EcampCore\Repository\EventRespRepository")
  * @ORM\Table(name="event_resps")
+ * @ORM\HasLifecycleCallbacks
  */
 class EventResp
     extends BaseEntity
 {
-    public function __construct()
+    public function __construct(Event $event, CampCollaboration $campCollaboration)
     {
+        if ($event->getCamp() != $campCollaboration->getCamp()) {
+            throw new \OutOfRangeException(
+                "Event [" . $event->getId() . "] " .
+                "and CampCollaboration [" . $campCollaboration->getId() . "] " .
+                "do not belong to same Camp."
+            );
+        }
+
+        $this->event = $event;
+        $this->campCollaboration = $campCollaboration;
+
+        $this->event->getList('eventResps')->add($this);
+        $this->campCollaboration->getList('eventResps')->add($this);
     }
 
     /**
@@ -50,22 +64,12 @@ class EventResp
      */
     private $campCollaboration;
 
-    public function setEvent(Event $event)
-    {
-        $this->event = $event;
-    }
-
     /**
      * @return Event
      */
     public function getEvent()
     {
         return $this->event;
-    }
-
-    public function setCampCollaboration(CampCollaboration $campCollaboration)
-    {
-        $this->campCollaboration = $campCollaboration;
     }
 
     /**
@@ -91,4 +95,14 @@ class EventResp
     {
         return $this->campCollaboration->getUser();
     }
+
+    /**
+     * @ORM\PreRemove
+     */
+    public function preRemove()
+    {
+        $this->event->getList('eventResps')->removeElement($this);
+        $this->campCollaboration->getList('eventResps')->removeElement($this);
+    }
+
 }

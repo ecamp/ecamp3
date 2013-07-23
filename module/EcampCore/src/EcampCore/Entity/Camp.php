@@ -46,8 +46,9 @@ class Camp extends BaseEntity
 
         $this->campType = $campType;
         $this->collaborations 	= new \Doctrine\Common\Collections\ArrayCollection();
-        $this->events    		= new \Doctrine\Common\Collections\ArrayCollection();
         $this->periods 			= new \Doctrine\Common\Collections\ArrayCollection();
+        $this->eventCategories	= new \Doctrine\Common\Collections\ArrayCollection();
+        $this->events    		= new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -102,22 +103,28 @@ class Camp extends BaseEntity
     private $campType;
 
     /**
-     * @var Doctrine\Common\Collections\ArrayCollection
+     * @var \Doctrine\Common\Collections\ArrayCollection
      * @ORM\OneToMany(targetEntity="CampCollaboration", mappedBy="camp")
      */
     protected $collaborations;
 
     /**
-     * @var Doctrine\Common\Collections\ArrayCollection
+     * @var \Doctrine\Common\Collections\ArrayCollection
      * @ORM\OneToMany(targetEntity="Period", mappedBy="camp")
      */
-    private $periods;
+    protected $periods;
 
     /**
-     * @var Doctrine\Common\Collections\ArrayCollection
+     * @var \Doctrine\Common\Collections\ArrayCollection
+     * @ORM\OneToMany(targetEntity="EventCategory", mappedBy="camp")
+     */
+    protected $eventCategories;
+
+    /**
+     * @var \Doctrine\Common\Collections\ArrayCollection
      * @ORM\OneToMany(targetEntity="Event", mappedBy="camp")
      */
-    private $events;
+    protected $events;
 
     public function setName($name)
     {
@@ -178,8 +185,21 @@ class Camp extends BaseEntity
 
     public function setGroup(Group $group)
     {
-        $this->owner = null;
+        $this->_setGroup($group);
+        $this->_setOwner(null);
+    }
+
+    private function _setGroup(Group $group = null)
+    {
+        if ($this->owner != null) {
+            $this->owner->removeFromList('myCamps', $this);
+        }
+
         $this->group = $group;
+
+        if ($this->group != null) {
+            $this->group->addToList('camps', $this);
+        }
     }
 
     /**
@@ -192,8 +212,21 @@ class Camp extends BaseEntity
 
     public function setOwner(User $owner)
     {
-        $this->group = null;
-        $this->owner = $owner;
+        $this->_setGroup(null);
+        $this->_setOwner($owner);
+    }
+
+    private function _setOwner(User $user = null)
+    {
+        if ($this->group != null) {
+            $this->group->removeFromList('camps', $this);
+        }
+
+        $this->owner = $user;
+
+        if ($this->owner != null) {
+            $this->owner->addToList('myCamps', $this);
+        }
     }
 
     /**
@@ -223,6 +256,14 @@ class Camp extends BaseEntity
     public function getPeriods()
     {
         return $this->periods;
+    }
+
+    /**
+     * @return array
+     */
+    public function getEventCategories()
+    {
+        return $this->eventCategories;
     }
 
     /**
