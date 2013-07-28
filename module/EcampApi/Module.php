@@ -5,6 +5,7 @@ use Zend\Mvc\MvcEvent;
 
 use EcampApi\Listener\JsonExceptionStrategy;
 use EcampApi\Listener\AuthenticationRequiredExceptionStrategy;
+use EcampApi\Camp\CampResourceListener;
 
 class Module
 {
@@ -44,5 +45,16 @@ class Module
 
         $authenticationRequiredStrategy = new AuthenticationRequiredExceptionStrategy();
         $authenticationRequiredStrategy->attach($application->getEventManager());
+    }
+    
+    public function getServiceConfig()
+    {
+    	return array('factories' => array(
+    			'EcampApi\Camp\CampResourceListener' => function ($services) {
+    				$repository = $services->get('EcampCore\Repository\Camp');
+    				return new CampResourceListener($repository);
+    				
+    			},
+    	));
     }
 }

@@ -2,6 +2,27 @@
 return array(
     'router' => array(
         'routes' => array(
+        		
+        	'apiv0' => array(
+        						'type' => 'Literal',
+        						'options' => array(
+        								'route' => '/apiv0'
+        						),
+        						'may_terminate' => false,
+        						'child_routes' => array(
+        								'camps' => array(
+        										'type' => 'Segment',
+        										'options' => array(
+        												'route'      => '/camps[/:id]',
+        												'defaults' => array(
+                       										'controller'    => 'EcampApi\Camp\ApiController'
+        												),
+        										),
+        								),
+        						),
+        				),
+        	
+        		
             'api' => array(
                 'type'    => 'Literal',
                 'options' => array(
@@ -234,5 +255,20 @@ return array(
             'ViewJsonStrategy',
         ),
         'display_exceptions' => false
-    )
+    ),
+    
+    'phlyrestfully' => array(
+    		'resources' => array(
+    				'EcampApi\Camp\ApiController' => array(
+    						'identifier'              => 'Camps',
+    						'listener'                => 'EcampApi\Camp\CampResourceListener',
+    						'resource_identifiers'    => array('CampResource'),
+    						'collection_http_options' => array('get', 'post'),
+    						'collection_name'         => 'camps',
+    						'page_size'               => 10,
+    						'resource_http_options'   => array('get'),
+    						'route_name'              => 'apiv0/camps',
+    				),
+    		),
+    ),
 );
