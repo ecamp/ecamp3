@@ -3,6 +3,9 @@
 namespace EcampCore\Repository;
 
 use Doctrine\ORM\EntityRepository;
+use DoctrineORMModule\Paginator\Adapter\DoctrinePaginator as PaginatorAdapter;
+use Doctrine\ORM\Tools\Pagination\Paginator as ORMPaginator;
+use Zend\Paginator\Paginator;
 
 use EcampCore\Entity\UserCamp;
 
@@ -10,7 +13,7 @@ class CampRepository
     extends EntityRepository
 {
 
-    public function findForApi(array $criteria)
+    public function getApiCollection(array $criteria)
     {
         $q = $this->createQueryBuilder('c');
 
@@ -84,7 +87,7 @@ class CampRepository
             $q->setMaxResults($criteria["limit"]);
         }
 
-        return $q->getQuery()->getResult();
+        return new Paginator(new PaginatorAdapter(new ORMPaginator($q->getQuery())));
     }
 
     public function findUserCamps($userId)

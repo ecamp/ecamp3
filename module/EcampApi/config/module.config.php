@@ -3,26 +3,48 @@ return array(
     'router' => array(
         'routes' => array(
         		
-        	'apiv0' => array(
+        	'api' => array(
         						'type' => 'Literal',
         						'options' => array(
-        								'route' => '/apiv0'
+        								'route' => '/api/v0'
         						),
         						'may_terminate' => false,
         						'child_routes' => array(
         								'camps' => array(
         										'type' => 'Segment',
         										'options' => array(
-        												'route'      => '/camps[/:id]',
+        												'route'      => '/camps[/:camp]',
         												'defaults' => array(
                        										'controller'    => 'EcampApi\Camp\ApiController'
         												),
         										),
         								),
+        								
+        								'users' => array(
+        										'type' => 'Segment',
+        										'may_terminate' => true,
+        										'options' => array(
+        												'route'      => '/users[/:user]',
+        												'defaults' => array(
+        														'controller'    => 'EcampApi\User\ApiController'
+        												),
+        										),
+        										'child_routes' => array(
+        												'camps' => array(
+        														'type' => 'Segment',
+        														'options' => array(
+        																'route'      => '/camps',
+        																'defaults' => array(
+        																		'controller'    => 'EcampApi\Camp\ApiController'
+        																),
+        														),
+        												)
+        										)
+        								),
         						),
         				),
         	
-        		
+        	/*
             'api' => array(
                 'type'    => 'Literal',
                 'options' => array(
@@ -230,7 +252,7 @@ return array(
                         ),
                     ),
                 ),
-            ),
+            ),*/
         ),
     ),
 
@@ -258,17 +280,29 @@ return array(
     ),
     
     'phlyrestfully' => array(
+    		
     		'resources' => array(
     				'EcampApi\Camp\ApiController' => array(
-    						'identifier'              => 'Camps',
     						'listener'                => 'EcampApi\Camp\CampResourceListener',
-    						'resource_identifiers'    => array('CampResource'),
-    						'collection_http_options' => array('get', 'post'),
-    						'collection_name'         => 'camps',
-    						'page_size'               => 10,
+    						'collection_http_options' => array('get'),
+    						'page_size'               => 3,
+    						'page_size_param'		  => 'limit',
     						'resource_http_options'   => array('get'),
-    						'route_name'              => 'apiv0/camps',
+    						'route_name'              => 'api/camps',
+    						'identifier_name'		  => 'camp',
+    						'collection_query_whitelist' => array('user', 'past')   /* to be discussed */
+    				),
+    				
+    				'EcampApi\User\ApiController' => array(
+    						'listener'                => 'EcampApi\User\UserResourceListener',
+    						'collection_http_options' => array('get'),
+    						'page_size'               => 3,
+    						'page_size_param'		  => 'limit',
+    						'resource_http_options'   => array('get'),
+    						'route_name'              => 'api/users',
+    						'identifier_name'		  => 'user'
     				),
     		),
+    		
     ),
 );

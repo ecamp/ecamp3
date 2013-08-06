@@ -47,7 +47,7 @@
 
         "phpunit/phpunit": "3.7.*",
         
-        "phly/phly-restfully": "2.1.x"
+        "phly/phly-restfully": "2.2.x"
 		
     }
 }
