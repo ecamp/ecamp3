@@ -33,7 +33,7 @@ use Zend\Permissions\Acl\Resource\ResourceInterface;
  *   )
  */
 class Camp extends BaseEntity
-    implements ResourceInterface, \JsonSerializable
+    implements ResourceInterface
 {
     const VISIBILITY_PUBLIC = 'public';
     const VISIBILITY_CONTRIBUTORS = 'contributors';
@@ -294,17 +294,6 @@ class Camp extends BaseEntity
     public function getResourceId()
     {
         return 'EcampCore\Entity\Camp';
-    }
-    
-    public function jsonSerialize(){
-    	
-    	$data = array(
-    			"id" => $this->id,
-    			"name" => $this->name,
-    			"title" => $this->title
-    	);
-    	
-    	return $data;
     }
 
 }
