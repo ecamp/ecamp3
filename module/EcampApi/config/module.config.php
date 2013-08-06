@@ -35,7 +35,7 @@ return array(
         														'options' => array(
         																'route'      => '/camps',
         																'defaults' => array(
-        																		'controller'    => 'EcampApi\Camp\ApiController'
+        																		'controller'    => 'EcampApi\User\Camp\ApiController'
         																),
         														),
         												)
@@ -291,6 +291,17 @@ return array(
     						'route_name'              => 'api/camps',
     						'identifier_name'		  => 'camp',
     						'collection_query_whitelist' => array('user', 'past')   /* to be discussed */
+    				),
+    				
+    				'EcampApi\User\Camp\ApiController' => array(
+    						'listener'                => 'EcampApi\Camp\CampResourceListener',
+    						'collection_http_options' => array('get'),
+    						'page_size'               => 3,
+    						'page_size_param'		  => 'limit',
+    						'resource_http_options'   => array('get'),
+    						'route_name'              => 'api/users/camps',
+    						'identifier_name'		  => 'camp',
+    						'collection_query_whitelist' => array('past')   /* to be discussed */
     				),
     				
     				'EcampApi\User\ApiController' => array(
