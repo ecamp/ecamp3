@@ -10,7 +10,7 @@ use Doctrine\ORM\EntityRepository;
 class UserRepository extends EntityRepository
 {
 
-    public function findForApi($criteria)
+    public function getApiCollection($criteria)
     {
         $q = $this->createQueryBuilder('u');
 

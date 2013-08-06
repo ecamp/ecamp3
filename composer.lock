@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "8600bd02fc9082084d5d4c9ffe3b2bef",
+    "hash": "f31cb8857de8eb77e1bf1ca35ecb98d6",
     "packages": [
         {
             "name": "doctrine/common",
@@ -143,30 +143,30 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/DoctrineModule.git",
-                "reference": "0.8.0-beta1"
+                "reference": "27572e6dc1e7a60d9452b3530eeb5af65e97c550"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/DoctrineModule/zipball/0.8.0-beta1",
-                "reference": "0.8.0-beta1",
+                "url": "https://api.github.com/repos/doctrine/DoctrineModule/zipball/27572e6dc1e7a60d9452b3530eeb5af65e97c550",
+                "reference": "27572e6dc1e7a60d9452b3530eeb5af65e97c550",
                 "shasum": ""
             },
             "require": {
                 "doctrine/common": ">=2.3,<2.5-dev",
                 "php": ">=5.3.3",
-                "symfony/console": ">=2.1,<3.0",
-                "zendframework/zend-authentication": ">=2.1,<3.0",
-                "zendframework/zend-cache": ">=2.1,<3.0",
-                "zendframework/zend-mvc": ">=2.1,<3.0",
-                "zendframework/zend-paginator": ">=2.1,<3.0",
-                "zendframework/zend-servicemanager": ">=2.1,<3.0",
-                "zendframework/zend-stdlib": ">=2.1,<3.0",
-                "zendframework/zend-validator": ">=2.1,<3.0"
+                "symfony/console": "~2.1",
+                "zendframework/zend-authentication": "~2.1",
+                "zendframework/zend-cache": "~2.1",
+                "zendframework/zend-mvc": "~2.1",
+                "zendframework/zend-paginator": "~2.1",
+                "zendframework/zend-servicemanager": "~2.1",
+                "zendframework/zend-stdlib": "~2.1",
+                "zendframework/zend-validator": "~2.1"
             },
             "require-dev": {
-                "phpunit/phpunit": ">=3.7,<4.0",
+                "phpunit/phpunit": "~3.7",
                 "squizlabs/php_codesniffer": "1.4.*",
-                "zendframework/zendframework": ">=2.1,<3.0"
+                "zendframework/zendframework": "~2.1"
             },
             "suggest": {
                 "doctrine/data-fixtures": "Data Fixtures if you want to generate test data or bootstrap data for your deployments"
@@ -219,7 +219,7 @@
                 "module",
                 "zf2"
             ],
-            "time": "2013-06-24 20:10:44"
+            "time": "2013-08-04 14:22:19"
         },
         {
             "name": "doctrine/doctrine-orm-module",
@@ -227,12 +227,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/DoctrineORMModule.git",
-                "reference": "0.8.0-beta1"
+                "reference": "0.8.0-beta3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/DoctrineORMModule/zipball/0.8.0-beta1",
-                "reference": "0.8.0-beta1",
+                "url": "https://api.github.com/repos/doctrine/DoctrineORMModule/zipball/0.8.0-beta3",
+                "reference": "0.8.0-beta3",
                 "shasum": ""
             },
             "require": {
@@ -302,7 +302,7 @@
                 "orm",
                 "zf2"
             ],
-            "time": "2013-06-24 17:35:23"
+            "time": "2013-08-02 20:18:55"
         },
         {
             "name": "doctrine/migrations",
@@ -429,17 +429,81 @@
             "time": "2013-05-11 07:51:12"
         },
         {
-            "name": "phpunit/php-code-coverage",
-            "version": "1.2.11",
+            "name": "phly/phly-restfully",
+            "version": "2.2.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/sebastianbergmann/php-code-coverage.git",
-                "reference": "1.2.11"
+                "url": "https://github.com/weierophinney/PhlyRestfully.git",
+                "reference": "2.2.0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/1.2.11",
-                "reference": "1.2.11",
+                "url": "https://api.github.com/repos/weierophinney/PhlyRestfully/zipball/2.2.0",
+                "reference": "2.2.0",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3",
+                "zendframework/zend-eventmanager": ">=2.2.0",
+                "zendframework/zend-json": ">=2.2.0",
+                "zendframework/zend-loader": ">=2.2.0",
+                "zendframework/zend-mvc": ">=2.2.0",
+                "zendframework/zend-paginator": ">=2.2.0",
+                "zendframework/zend-stdlib": ">=2.2.0",
+                "zendframework/zend-uri": ">=2.2.0",
+                "zendframework/zend-view": ">=2.2.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "3.7.*",
+                "zendframework/zend-console": ">=2.2.0",
+                "zendframework/zend-http": ">=2.2.0",
+                "zendframework/zend-navigation": ">=2.2.0",
+                "zendframework/zend-servicemanager": ">=2.2.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "PhlyRestfully\\": "src/",
+                    "PhlyRestfullyTest\\": "test/"
+                },
+                "classmap": [
+                    "./"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-2-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Matthew Weier O'Phinney",
+                    "email": "matthew@weierophinney.net",
+                    "homepage": "http://mwop.net/",
+                    "role": "Developer"
+                }
+            ],
+            "description": "ZF2 Module providing structure for RESTful resources",
+            "homepage": "https://github.com/weierophinney/PhlyRestfully",
+            "keywords": [
+                "module",
+                "rest",
+                "zend",
+                "zf2"
+            ],
+            "time": "2013-07-25 14:15:37"
+        },
+        {
+            "name": "phpunit/php-code-coverage",
+            "version": "1.2.12",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/sebastianbergmann/php-code-coverage.git",
+                "reference": "1.2.12"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/1.2.12",
+                "reference": "1.2.12",
                 "shasum": ""
             },
             "require": {
@@ -449,13 +513,18 @@
                 "phpunit/php-token-stream": ">=1.1.3@stable"
             },
             "require-dev": {
-                "phpunit/phpunit": "3.7.*"
+                "phpunit/phpunit": "3.7.*@dev"
             },
             "suggest": {
                 "ext-dom": "*",
                 "ext-xdebug": ">=2.0.5"
             },
             "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.2.x-dev"
+                }
+            },
             "autoload": {
                 "classmap": [
                     "PHP/"
@@ -482,7 +551,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2013-05-23 18:23:24"
+            "time": "2013-07-06 06:26:16"
         },
         {
             "name": "phpunit/php-file-iterator",
@@ -575,16 +644,16 @@
         },
         {
             "name": "phpunit/php-timer",
-            "version": "1.0.4",
+            "version": "1.0.5",
             "source": {
                 "type": "git",
-                "url": "git://github.com/sebastianbergmann/php-timer.git",
-                "reference": "1.0.4"
+                "url": "https://github.com/sebastianbergmann/php-timer.git",
+                "reference": "1.0.5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/sebastianbergmann/php-timer/zipball/1.0.4",
-                "reference": "1.0.4",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-timer/zipball/1.0.5",
+                "reference": "1.0.5",
                 "shasum": ""
             },
             "require": {
@@ -611,24 +680,24 @@
                 }
             ],
             "description": "Utility class for timing",
-            "homepage": "http://www.phpunit.de/",
+            "homepage": "https://github.com/sebastianbergmann/php-timer/",
             "keywords": [
                 "timer"
             ],
-            "time": "2012-10-11 04:45:58"
+            "time": "2013-08-02 07:42:54"
         },
         {
             "name": "phpunit/php-token-stream",
-            "version": "1.1.5",
+            "version": "1.2.0",
             "source": {
                 "type": "git",
-                "url": "git://github.com/sebastianbergmann/php-token-stream.git",
-                "reference": "1.1.5"
+                "url": "https://github.com/sebastianbergmann/php-token-stream.git",
+                "reference": "1.2.0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/sebastianbergmann/php-token-stream/zipball/1.1.5",
-                "reference": "1.1.5",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-token-stream/zipball/1.2.0",
+                "reference": "1.2.0",
                 "shasum": ""
             },
             "require": {
@@ -636,6 +705,11 @@
                 "php": ">=5.3.3"
             },
             "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.2-dev"
+                }
+            },
             "autoload": {
                 "classmap": [
                     "PHP/"
@@ -656,24 +730,24 @@
                 }
             ],
             "description": "Wrapper around PHP's tokenizer extension.",
-            "homepage": "http://www.phpunit.de/",
+            "homepage": "https://github.com/sebastianbergmann/php-token-stream/",
             "keywords": [
                 "tokenizer"
             ],
-            "time": "2012-10-11 04:47:14"
+            "time": "2013-08-04 05:57:48"
         },
         {
             "name": "phpunit/phpunit",
-            "version": "3.7.21",
+            "version": "3.7.23",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "3.7.21"
+                "reference": "3.7.23"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/3.7.21",
-                "reference": "3.7.21",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/3.7.23",
+                "reference": "3.7.23",
                 "shasum": ""
             },
             "require": {
@@ -682,12 +756,12 @@
                 "ext-reflection": "*",
                 "ext-spl": "*",
                 "php": ">=5.3.3",
-                "phpunit/php-code-coverage": ">=1.2.1,<1.3.0",
+                "phpunit/php-code-coverage": "~1.2.1",
                 "phpunit/php-file-iterator": ">=1.3.1",
                 "phpunit/php-text-template": ">=1.1.1",
-                "phpunit/php-timer": ">=1.0.2,<1.1.0",
-                "phpunit/phpunit-mock-objects": ">=1.2.0,<1.3.0",
-                "symfony/yaml": ">=2.0,<3.0"
+                "phpunit/php-timer": ">=1.0.4",
+                "phpunit/phpunit-mock-objects": "~1.2.0",
+                "symfony/yaml": "~2.0"
             },
             "require-dev": {
                 "pear-pear/pear": "1.9.4"
@@ -734,7 +808,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2013-05-23 18:54:29"
+            "time": "2013-08-02 19:14:44"
         },
         {
             "name": "phpunit/phpunit-mock-objects",
@@ -834,24 +908,24 @@
         },
         {
             "name": "symfony/console",
-            "version": "v2.3.1",
+            "version": "v2.3.2",
             "target-dir": "Symfony/Component/Console",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Console.git",
-                "reference": "v2.3.1"
+                "reference": "v2.3.2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Console/zipball/v2.3.1",
-                "reference": "v2.3.1",
+                "url": "https://api.github.com/repos/symfony/Console/zipball/v2.3.2",
+                "reference": "v2.3.2",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.3"
             },
             "require-dev": {
-                "symfony/event-dispatcher": ">=2.1,<3.0"
+                "symfony/event-dispatcher": "~2.1"
             },
             "suggest": {
                 "symfony/event-dispatcher": ""
@@ -883,21 +957,21 @@
             ],
             "description": "Symfony Console Component",
             "homepage": "http://symfony.com",
-            "time": "2013-06-11 07:15:14"
+            "time": "2013-07-11 19:36:36"
         },
         {
             "name": "symfony/yaml",
-            "version": "v2.3.1",
+            "version": "v2.3.2",
             "target-dir": "Symfony/Component/Yaml",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Yaml.git",
-                "reference": "v2.3.1"
+                "reference": "v2.3.2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Yaml/zipball/v2.3.1",
-                "reference": "v2.3.1",
+                "url": "https://api.github.com/repos/symfony/Yaml/zipball/v2.3.2",
+                "reference": "v2.3.2",
                 "shasum": ""
             },
             "require": {
@@ -930,20 +1004,20 @@
             ],
             "description": "Symfony Yaml Component",
             "homepage": "http://symfony.com",
-            "time": "2013-05-10 18:12:13"
+            "time": "2013-07-11 19:36:36"
         },
         {
             "name": "twig/twig",
-            "version": "v1.13.1",
+            "version": "v1.13.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/fabpot/Twig.git",
-                "reference": "v1.13.1"
+                "reference": "v1.13.2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fabpot/Twig/zipball/v1.13.1",
-                "reference": "v1.13.1",
+                "url": "https://api.github.com/repos/fabpot/Twig/zipball/v1.13.2",
+                "reference": "v1.13.2",
                 "shasum": ""
             },
             "require": {
@@ -962,7 +1036,7 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
-                "BSD-3"
+                "BSD-3-Clause"
             ],
             "authors": [
                 {
@@ -979,7 +1053,7 @@
             "keywords": [
                 "templating"
             ],
-            "time": "2013-06-06 06:06:01"
+            "time": "2013-08-03 15:35:31"
         },
         {
             "name": "zendframework/zend-developer-tools",
@@ -987,16 +1061,17 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/zendframework/ZendDeveloperTools.git",
-                "reference": "d5ec47c8e916a083fe2ef8a5711b859e8864b042"
+                "reference": "0.0.2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://packages.zendframework.com/composer/zendframework-zend-developer-tools-d5ec47c8e916a083fe2ef8a5711b859e8864b042-zip-c9ebc4.zip",
+                "url": "https://packages.zendframework.com/composer/zendframework-zend-developer-tools-dev-master-0.0.2-3a4e7d.zip",
                 "reference": "dev-master",
-                "shasum": "018cd9a4f1a74403bae3212d4ac7aa7b31b36804"
+                "shasum": "8dba9e6b7d8d36bd65d869c3aa2db445e70b592e"
             },
             "require": {
                 "php": ">=5.3.3",
+                "zendframework/zend-debug": "2.*",
                 "zendframework/zend-eventmanager": "2.*",
                 "zendframework/zend-mvc": "2.*",
                 "zendframework/zend-servicemanager": "2.*",
@@ -1004,7 +1079,8 @@
                 "zendframework/zend-version": "2.*"
             },
             "suggest": {
-                "bjyoungblood/bjy-profiler": "Version: dev-master, allows the usage of the (Zend) Db collector."
+                "bjyoungblood/bjy-profiler": "Version: dev-master, allows the usage of the (Zend) Db collector.",
+                "ocramius/ocra-service-manager": "OcraServiceManager can help you track dependencies within your application."
             },
             "type": "zf-module",
             "autoload": {
@@ -1038,24 +1114,24 @@
                 "zf2"
             ],
             "support": {
-                "source": "https://github.com/zendframework/ZendDeveloperTools/tree/master",
+                "source": "https://github.com/zendframework/ZendDeveloperTools/tree/0.0.2",
                 "issues": "https://github.com/zendframework/ZendDeveloperTools/issues"
             },
-            "time": "2013-06-07 08:49:48"
+            "time": "2013-07-08 19:52:34"
         },
         {
             "name": "zendframework/zendframework",
-            "version": "2.2.1",
+            "version": "2.2.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/zendframework/zf2.git",
-                "reference": "release-2.2.1"
+                "reference": "release-2.2.2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://packages.zendframework.com/composer/zendframework-zendframework-2.2.1-release-2.2.1-8597ab.zip",
-                "reference": "2.2.1",
-                "shasum": "f8419ea13b7f3f1195b625fa789688b47efe8778"
+                "url": "https://packages.zendframework.com/composer/zendframework-zendframework-2.2.2-release-2.2.2-6ab69c.zip",
+                "reference": "2.2.2",
+                "shasum": "1a567f0a86ccb0a6fbe48b1fb52ef66585f58765"
             },
             "require": {
                 "php": ">=5.3.3"
@@ -1097,6 +1173,7 @@
                 "zendframework/zend-permissions-acl": "self.version",
                 "zendframework/zend-permissions-rbac": "self.version",
                 "zendframework/zend-progressbar": "self.version",
+                "zendframework/zend-resources": "self.version",
                 "zendframework/zend-serializer": "self.version",
                 "zendframework/zend-server": "self.version",
                 "zendframework/zend-servicemanager": "self.version",
@@ -1116,7 +1193,7 @@
                 "doctrine/annotations": ">=1.0",
                 "ircmaxell/random-lib": "dev-master",
                 "ircmaxell/security-lib": "dev-master",
-                "ocramius/proxy-manager": "0.3.*",
+                "ocramius/proxy-manager": "0.4.*",
                 "phpunit/phpunit": "3.7.*"
             },
             "suggest": {
@@ -1128,7 +1205,9 @@
                 "zendframework/zendservice-recaptcha": "ZendService\\ReCaptcha for rendering ReCaptchas in Zend\\Captcha and/or Zend\\Form"
             },
             "bin": [
-                "bin/classmap_generator.php"
+                "bin/classmap_generator.php",
+                "bin/pluginmap_generator.php",
+                "bin/templatemap_generator.php"
             ],
             "type": "library",
             "extra": {
@@ -1139,8 +1218,7 @@
             },
             "autoload": {
                 "psr-0": {
-                    "Zend\\": "library/",
-                    "ZendTest\\": "tests/"
+                    "Zend\\": "library/"
                 }
             },
             "license": [
@@ -1153,10 +1231,10 @@
                 "zf2"
             ],
             "support": {
-                "source": "https://github.com/zendframework/zf2/tree/release-2.2.1",
+                "source": "https://github.com/zendframework/zf2/tree/release-2.2.2",
                 "issues": "https://github.com/zendframework/zf2/issues"
             },
-            "time": "2013-06-12 20:13:34"
+            "time": "2013-07-24 14:02:19"
         },
         {
             "name": "zendframework/zftool",
@@ -1164,13 +1242,13 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/zendframework/ZFTool.git",
-                "reference": "1a0fa773dbb60ba4b61e08fcc8aace476eaa9cfc"
+                "reference": "aa5fec21a88a673c361b649726d7fa3b07753733"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://packages.zendframework.com/composer/zendframework-zftool-1a0fa773dbb60ba4b61e08fcc8aace476eaa9cfc-zip-fdc1e6.zip",
+                "url": "https://packages.zendframework.com/composer/zendframework-zftool-aa5fec21a88a673c361b649726d7fa3b07753733-zip-755805.zip",
                 "reference": "dev-master",
-                "shasum": "0ea68a08f69eaa78a9ca037513dc434586c90f72"
+                "shasum": "7e2ca1823c637425f73f1e387b6d5b1c1201cae1"
             },
             "require": {
                 "php": ">=5.3.3",
@@ -1178,6 +1256,7 @@
                 "zendframework/zend-config": ">=2.0.0",
                 "zendframework/zend-console": ">=2.0.0",
                 "zendframework/zend-file": ">=2.0.0",
+                "zendframework/zend-form": ">=2.0.0",
                 "zendframework/zend-loader": ">=2.0.0",
                 "zendframework/zend-modulemanager": ">=2.0.0",
                 "zendframework/zend-mvc": ">=2.0.0",
@@ -1210,7 +1289,7 @@
                 "source": "https://github.com/zendframework/ZFTool/tree/master",
                 "issues": "https://github.com/zendframework/ZFTool/issues"
             },
-            "time": "2013-06-08 07:08:10"
+            "time": "2013-07-23 20:33:41"
         },
         {
             "name": "zf-commons/zfc-twig",
