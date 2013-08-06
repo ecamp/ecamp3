@@ -2,6 +2,49 @@
 return array(
     'router' => array(
         'routes' => array(
+        		
+        	'api' => array(
+        						'type' => 'Literal',
+        						'options' => array(
+        								'route' => '/api/v0'
+        						),
+        						'may_terminate' => false,
+        						'child_routes' => array(
+        								'camps' => array(
+        										'type' => 'Segment',
+        										'options' => array(
+        												'route'      => '/camps[/:camp]',
+        												'defaults' => array(
+                       										'controller'    => 'EcampApi\Camp\ApiController'
+        												),
+        										),
+        								),
+        								
+        								'users' => array(
+        										'type' => 'Segment',
+        										'may_terminate' => true,
+        										'options' => array(
+        												'route'      => '/users[/:user]',
+        												'defaults' => array(
+        														'controller'    => 'EcampApi\User\ApiController'
+        												),
+        										),
+        										'child_routes' => array(
+        												'camps' => array(
+        														'type' => 'Segment',
+        														'options' => array(
+        																'route'      => '/camps',
+        																'defaults' => array(
+        																		'controller'    => 'EcampApi\User\Camp\ApiController'
+        																),
+        														),
+        												)
+        										)
+        								),
+        						),
+        				),
+        	
+        	/*
             'api' => array(
                 'type'    => 'Literal',
                 'options' => array(
@@ -209,7 +252,7 @@ return array(
                         ),
                     ),
                 ),
-            ),
+            ),*/
         ),
     ),
 
@@ -234,5 +277,43 @@ return array(
             'ViewJsonStrategy',
         ),
         'display_exceptions' => false
-    )
+    ),
+    
+    'phlyrestfully' => array(
+    		
+    		'resources' => array(
+    				'EcampApi\Camp\ApiController' => array(
+    						'listener'                => 'EcampApi\Camp\CampResourceListener',
+    						'collection_http_options' => array('get'),
+    						'page_size'               => 3,
+    						'page_size_param'		  => 'limit',
+    						'resource_http_options'   => array('get'),
+    						'route_name'              => 'api/camps',
+    						'identifier_name'		  => 'camp',
+    						'collection_query_whitelist' => array('user', 'past')   /* to be discussed */
+    				),
+    				
+    				'EcampApi\User\Camp\ApiController' => array(
+    						'listener'                => 'EcampApi\Camp\CampResourceListener',
+    						'collection_http_options' => array('get'),
+    						'page_size'               => 3,
+    						'page_size_param'		  => 'limit',
+    						'resource_http_options'   => array('get'),
+    						'route_name'              => 'api/users/camps',
+    						'identifier_name'		  => 'camp',
+    						'collection_query_whitelist' => array('past')   /* to be discussed */
+    				),
+    				
+    				'EcampApi\User\ApiController' => array(
+    						'listener'                => 'EcampApi\User\UserResourceListener',
+    						'collection_http_options' => array('get'),
+    						'page_size'               => 3,
+    						'page_size_param'		  => 'limit',
+    						'resource_http_options'   => array('get'),
+    						'route_name'              => 'api/users',
+    						'identifier_name'		  => 'user'
+    				),
+    		),
+    		
+    ),
 );
