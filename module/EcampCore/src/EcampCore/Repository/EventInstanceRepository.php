@@ -5,10 +5,14 @@ namespace EcampCore\Repository;
 use Doctrine\ORM\EntityRepository;
 use EcampCore\Entity\Day;
 
+use DoctrineORMModule\Paginator\Adapter\DoctrinePaginator as PaginatorAdapter;
+use Doctrine\ORM\Tools\Pagination\Paginator as ORMPaginator;
+use Zend\Paginator\Paginator;
+
 class EventInstanceRepository extends EntityRepository
 {
 
-    public function findForApi(array $criteria)
+    public function getCollection(array $criteria)
     {
         $q = $this->createQueryBuilder('ei');
 
@@ -50,15 +54,7 @@ class EventInstanceRepository extends EntityRepository
             $q->setParameter('day', $criteria['day']);
         }
 
-        if (isset($criteria["offset"]) && !is_null($criteria["offset"])) {
-            $q->setFirstResult($criteria["offset"]);
-            $q->setMaxResults(100);
-        }
-        if (isset($criteria["limit"]) && !is_null($criteria["limit"])) {
-            $q->setMaxResults($criteria["limit"]);
-        }
-
-        return $q->getQuery()->getResult();
+       	return new Paginator(new PaginatorAdapter(new ORMPaginator($q->getQuery())));
     }
 
     public function findByDay($day)
