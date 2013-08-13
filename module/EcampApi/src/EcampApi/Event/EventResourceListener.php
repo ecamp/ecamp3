@@ -1,11 +1,10 @@
 <?php
 namespace EcampApi\Event;
 
-use PhlyRestfully\Exception\CreationException;
 use PhlyRestfully\Exception\DomainException;
 use PhlyRestfully\ResourceEvent;
 use Zend\EventManager\AbstractListenerAggregate;
-use Zend\EventManager\EventManagerInterface; 
+use Zend\EventManager\EventManagerInterface;
 
 class EventResourceListener extends AbstractListenerAggregate
 {
@@ -26,19 +25,19 @@ class EventResourceListener extends AbstractListenerAggregate
     {
         $id = $e->getParam('id');
         $entity = $this->repo->find($id);
-        
+
         if (!$entity) {
             throw new DomainException('Event not found', 404);
         }
-        
+
         return new EventDetailResource($entity);
     }
 
     public function onFetchAll(ResourceEvent $e)
     {
-    	$params = $e->getQueryParams()->toArray();
-    	$params['camp'] = $e->getRouteParam('camp', $e->getQueryParam('camp'));
-    	
-    	return $this->repo->getCollection($params);
+        $params = $e->getQueryParams()->toArray();
+        $params['camp'] = $e->getRouteParam('camp', $e->getQueryParam('camp'));
+
+        return $this->repo->getCollection($params);
     }
 }

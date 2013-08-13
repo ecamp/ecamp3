@@ -7,28 +7,28 @@ use EcampCore\Entity\CampCollaboration as Collaboration;
 use EcampApi\User\UserBriefResource;
 use EcampApi\Camp\CampBriefResource;
 
-class CollaborationResource extends HalResource{
-	
-	public function __construct(Collaboration $entity){
-		
-		$object = array(
-				'id'		=> 	$entity->getId(),
-	            'user'		=>	new UserBriefResource($entity->getUser()),
-	            'camp'		=>	new CampBriefResource($entity->getCamp()),
-	            'role'		=>	$entity->getRole(),
-	            'status'	=>  $entity->getStatus()
-				);
-		
-		parent::__construct($object, $object['id']);
-		
-		$selfLink = new Link('self');
-		$selfLink->setRoute('api/collaborations', array('collaboration' => $entity->getId()));
-		
-		$eventRespLink = new Link('event_resps');
-		$eventRespLink->setRoute('api/collaborations/event_resps', array('collaboration' => $entity->getId()));
+class CollaborationResource extends HalResource
+{
+    public function __construct(Collaboration $entity)
+    {
+        $object = array(
+                'id'		=> 	$entity->getId(),
+                'user'		=>	new UserBriefResource($entity->getUser()),
+                'camp'		=>	new CampBriefResource($entity->getCamp()),
+                'role'		=>	$entity->getRole(),
+                'status'	=>  $entity->getStatus()
+                );
 
-		$this->getLinks()->add($selfLink)
-			 			->add($eventRespLink);
-		
-	}
+        parent::__construct($object, $object['id']);
+
+        $selfLink = new Link('self');
+        $selfLink->setRoute('api/collaborations', array('collaboration' => $entity->getId()));
+
+        $eventRespLink = new Link('event_resps');
+        $eventRespLink->setRoute('api/collaborations/event_resps', array('collaboration' => $entity->getId()));
+
+        $this->getLinks()->add($selfLink)
+                         ->add($eventRespLink);
+
+    }
 }

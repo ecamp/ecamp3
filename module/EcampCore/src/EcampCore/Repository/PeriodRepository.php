@@ -14,12 +14,12 @@ class PeriodRepository extends EntityRepository
     public function getCollection(array $criteria)
     {
         $q = $this->createQueryBuilder('p');
-        
+
         if (isset($criteria['camp']) && !is_null($criteria['camp'])) {
-        	$q->andWhere("p.camp = :camp");
-        	$q->setParameter('camp', $criteria["camp"]);
+            $q->andWhere("p.camp = :camp");
+            $q->setParameter('camp', $criteria["camp"]);
         }
-        
+
         return new Paginator(new PaginatorAdapter(new ORMPaginator($q->getQuery())));
     }
 

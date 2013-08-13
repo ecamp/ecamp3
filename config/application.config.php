@@ -19,10 +19,8 @@ return array(
 //    	'OcraDiCompiler',
 
         'ZfcTwig',
-    		
-    	'PhlyRestfully',
 
-        
+        'PhlyRestfully',
 
         'EcampLib',
         'EcampCore',
@@ -32,8 +30,8 @@ return array(
 //     	'EcampDev',
 
         'EcampStoryboard',
-    		
-    	'Application'
+
+        'Application'
     ),
 
     'module_listener_options' => array(

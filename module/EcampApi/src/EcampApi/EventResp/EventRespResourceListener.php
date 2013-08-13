@@ -1,11 +1,10 @@
 <?php
 namespace EcampApi\EventResp;
 
-use PhlyRestfully\Exception\CreationException;
 use PhlyRestfully\Exception\DomainException;
 use PhlyRestfully\ResourceEvent;
 use Zend\EventManager\AbstractListenerAggregate;
-use Zend\EventManager\EventManagerInterface; 
+use Zend\EventManager\EventManagerInterface;
 
 class EventRespResourceListener extends AbstractListenerAggregate
 {
@@ -26,21 +25,21 @@ class EventRespResourceListener extends AbstractListenerAggregate
     {
         $id = $e->getParam('id');
         $entity = $this->repo->find($id);
-        
+
         if (!$entity) {
             throw new DomainException('EventResp not found', 404);
         }
-        
+
         return new EventRespDetailResource($entity);
     }
 
     public function onFetchAll(ResourceEvent $e)
     {
-    	$params = $e->getQueryParams()->toArray();
-    	$params['event'] = $e->getRouteParam('event', $e->getQueryParam('event'));
-    	$params['user'] = $e->getRouteParam('user', $e->getQueryParam('user'));
-    	$params['collaboration'] = $e->getRouteParam('collaboration', $e->getQueryParam('collaboration'));
-    	
-    	return $this->repo->getCollection($params);
+        $params = $e->getQueryParams()->toArray();
+        $params['event'] = $e->getRouteParam('event', $e->getQueryParam('event'));
+        $params['user'] = $e->getRouteParam('user', $e->getQueryParam('user'));
+        $params['collaboration'] = $e->getRouteParam('collaboration', $e->getQueryParam('collaboration'));
+
+        return $this->repo->getCollection($params);
     }
 }

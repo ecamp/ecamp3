@@ -13,14 +13,14 @@ class DayRepository extends EntityRepository
 
     public function getCollection(array $criteria)
     {
-    	/**
-		TBD: standard order by date
-    	 */
+        /**
+        TBD: standard order by date
+         */
         $q = $this->createQueryBuilder('d');
-        
+
         if (isset($criteria['period']) && !is_null($criteria['period'])) {
-        	$q->andWhere("d.period = :period");
-        	$q->setParameter('period', $criteria["period"]);
+            $q->andWhere("d.period = :period");
+            $q->setParameter('period', $criteria["period"]);
         }
 
         return new Paginator(new PaginatorAdapter(new ORMPaginator($q->getQuery())));

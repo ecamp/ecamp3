@@ -29,6 +29,7 @@ class EventRespRepository extends EntityRepository
             $q->andWhere('er.campCollaboration = :collaboration');
             $q->setParameter('collaboration', $criteria["collaboration"]);
         }
+
         return new Paginator(new PaginatorAdapter(new ORMPaginator($q->getQuery())));
     }
 }

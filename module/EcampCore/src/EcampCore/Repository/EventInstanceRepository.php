@@ -54,7 +54,7 @@ class EventInstanceRepository extends EntityRepository
             $q->setParameter('day', $criteria['day']);
         }
 
-       	return new Paginator(new PaginatorAdapter(new ORMPaginator($q->getQuery())));
+           return new Paginator(new PaginatorAdapter(new ORMPaginator($q->getQuery())));
     }
 
     public function findByDay($day)
