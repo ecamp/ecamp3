@@ -31,5 +31,9 @@ class Module implements
     {
         return include __DIR__ . '/config/controller.config.php';
     }
+    
+    public function onBootstrap(){
+    	date_default_timezone_set("UTC");
+    }
 
 }

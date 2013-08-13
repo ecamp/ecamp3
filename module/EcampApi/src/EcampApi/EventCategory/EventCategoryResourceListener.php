@@ -1,17 +1,17 @@
 <?php
-namespace EcampApi\User;
+namespace EcampApi\EventCategory;
 
 use PhlyRestfully\Exception\CreationException;
 use PhlyRestfully\Exception\DomainException;
 use PhlyRestfully\ResourceEvent;
 use Zend\EventManager\AbstractListenerAggregate;
-use Zend\EventManager\EventManagerInterface;
+use Zend\EventManager\EventManagerInterface; 
 
-class UserResourceListener extends AbstractListenerAggregate
+class EventCategoryResourceListener extends AbstractListenerAggregate
 {
     protected $repo;
 
-    public function __construct(\EcampCore\Repository\UserRepository $repo)
+    public function __construct(\EcampCore\Repository\EventCategoryRepository $repo)
     {
         $this->repo = $repo;
     }
@@ -25,15 +25,20 @@ class UserResourceListener extends AbstractListenerAggregate
     public function onFetch(ResourceEvent $e)
     {
         $id = $e->getParam('id');
-        $user = $this->repo->find($id);
-        if (!$user) {
-            throw new DomainException('User not found', 404);
+        $entity = $this->repo->find($id);
+        
+        if (!$entity) {
+            throw new DomainException('EventCategory not found', 404);
         }
-        return new UserDetailResource($user);
+        
+        return new EventCategoryDetailResource($entity);
     }
 
     public function onFetchAll(ResourceEvent $e)
     {
-    	return $this->repo->getCollection($e->getQueryParams()->toArray());
+    	$params = $e->getQueryParams()->toArray();
+    	$params['camp'] = $e->getRouteParam('camp', $e->getQueryParam('camp'));
+    	
+    	return $this->repo->getCollection($params);
     }
 }
