@@ -18,6 +18,204 @@ return array(
                        										'controller'    => 'EcampApi\Camp\ApiController'
         												),
         										),
+        										'may_terminate' => true,
+        										'child_routes' => array(
+        											
+        												'collaborations' => array(
+        														'type' => 'Segment',
+        														'options' => array(
+        																'route'      => '/collaborations',
+        																'defaults' => array(
+        																		'controller'    => 'EcampApi\Camp\Collaboration\ApiController'
+        																),
+        														),
+        												),
+        												
+        												'events' => array(
+        														'type' => 'Segment',
+        														'options' => array(
+        																'route'      => '/events',
+        																'defaults' => array(
+        																		'controller'    => 'EcampApi\Camp\Event\ApiController'
+        																),
+        														),
+        												),
+        												
+        												'periods' => array(
+        														'type' => 'Segment',
+        														'options' => array(
+        																'route'      => '/periods',
+        																'defaults' => array(
+        																		'controller'    => 'EcampApi\Camp\Period\ApiController'
+        																),
+        														),
+        												),
+        												
+        												'event_instances' => array(
+        														'type' => 'Segment',
+        														'options' => array(
+        																'route'      => '/event_instances',
+        																'defaults' => array(
+        																		'controller'    => 'EcampApi\Camp\EventInstance\ApiController'
+        																),
+        														),
+        												),
+        												
+        												'event_categories' => array(
+        														'type' => 'Segment',
+        														'options' => array(
+        																'route'      => '/event_categories',
+        																'defaults' => array(
+        																		'controller'    => 'EcampApi\Camp\EventCategory\ApiController'
+        																),
+        														),
+        												),
+        										
+        										)
+        								),
+        								
+        								'collaborations' => array(
+        										'type' => 'Segment',
+        										'options' => array(
+        												'route'      => '/collaborations[/:collaboration]',
+        												'defaults' => array(
+        														'controller'    => 'EcampApi\Collaboration\ApiController'
+        												),
+        										),
+        										'may_terminate' => true,
+        										'child_routes' => array(
+        										
+        					
+        												'event_resps' => array(
+        														'type' => 'Segment',
+        														'options' => array(
+        																'route'      => '/event_resps',
+        																'defaults' => array(
+        																		'controller'    => 'EcampApi\Collaboration\EventResp\ApiController'
+        																),
+        														),
+        												),
+        										),
+        								),
+        								
+        								'days' => array(
+        										'type' => 'Segment',
+        										'options' => array(
+        												'route'      => '/days[/:day]',
+        												'defaults' => array(
+        														'controller'    => 'EcampApi\Day\ApiController'
+        												),
+        										),
+        										'may_terminate' => true,
+        										'child_routes' => array(
+        												
+        												'event_instances' => array(
+        														'type' => 'Segment',
+        														'options' => array(
+        																'route'      => '/event_instances',
+        																'defaults' => array(
+        																		'controller'    => 'EcampApi\Day\EventInstance\ApiController'
+        																),
+        														),
+        												),
+        										),
+        								),
+        								
+        								'events' => array(
+        										'type' => 'Segment',
+        										'options' => array(
+        												'route'      => '/events[/:event]',
+        												'defaults' => array(
+        														'controller'    => 'EcampApi\Event\ApiController'
+        												),
+        										),
+        										'may_terminate' => true,
+        										'child_routes' => array(
+        										
+        												'event_instances' => array(
+        														'type' => 'Segment',
+        														'options' => array(
+        																'route'      => '/event_instances',
+        																'defaults' => array(
+        																		'controller'    => 'EcampApi\Event\EventInstance\ApiController'
+        																),
+        														),
+        												),
+        												'event_resps' => array(
+        														'type' => 'Segment',
+        														'options' => array(
+        																'route'      => '/event_resps',
+        																'defaults' => array(
+        																		'controller'    => 'EcampApi\Event\EventResp\ApiController'
+        																),
+        														),
+        												),
+        										),
+        								),
+        								
+        								'event_categories' => array(
+        										'type' => 'Segment',
+        										'options' => array(
+        												'route'      => '/event_categories[/:event_category]',
+        												'defaults' => array(
+        														'controller'    => 'EcampApi\EventCategory\ApiController'
+        												),
+        										),
+        								),
+        								
+        								'event_instances' => array(
+        										'type' => 'Segment',
+        										'options' => array(
+        												'route'      => '/event_instances[/:event_instance]',
+        												'defaults' => array(
+        														'controller'    => 'EcampApi\EventInstance\ApiController'
+        												),
+        										),
+        								),
+        								
+        								'event_resps' => array(
+        										'type' => 'Segment',
+        										'options' => array(
+        												'route'      => '/event_resps[/:event_resp]',
+        												'defaults' => array(
+        														'controller'    => 'EcampApi\EventResp\ApiController'
+        												),
+        										),
+        								),
+        								
+        								'periods' => array(
+        										'type' => 'Segment',
+        										'options' => array(
+        												'route'      => '/periods[/:period]',
+        												'defaults' => array(
+        														'controller'    => 'EcampApi\Period\ApiController'
+        												),
+        										),
+        										'may_terminate' => true,
+        										'child_routes' => array(
+        													
+        												'days' => array(
+        														'type' => 'Segment',
+        														'options' => array(
+        																'route'      => '/days',
+        																'defaults' => array(
+        																		'controller'    => 'EcampApi\Period\Day\ApiController'
+        																),
+        														),
+        												),
+        										
+        												'event_instances' => array(
+        														'type' => 'Segment',
+        														'options' => array(
+        																'route'      => '/event_instances',
+        																'defaults' => array(
+        																		'controller'    => 'EcampApi\Period\EventInstance\ApiController'
+        																),
+        														),
+        												),
+        										
+        										
+        										)
         								),
         								
         								'users' => array(
@@ -38,240 +236,36 @@ return array(
         																		'controller'    => 'EcampApi\User\Camp\ApiController'
         																),
         														),
-        												)
+        												),
+        												
+        												'collaborations' => array(
+        														'type' => 'Segment',
+        														'options' => array(
+        																'route'      => '/collaborations',
+        																'defaults' => array(
+        																		'controller'    => 'EcampApi\User\Collaboration\ApiController'
+        																),
+        														),
+        												),
+        												
+        												'event_resps' => array(
+        														'type' => 'Segment',
+        														'options' => array(
+        																'route'      => '/event_resps',
+        																'defaults' => array(
+        																		'controller'    => 'EcampApi\User\EventResp\ApiController'
+        																),
+        														),
+        												),
         										)
         								),
         						),
         				),
         	
-        	/*
-            'api' => array(
-                'type'    => 'Literal',
-                'options' => array(
-                    // Change this to something specific to your module
-                    'route'    => '/api',
-                    'defaults' => array(
-                        // Change this value to reflect the namespace in which
-                        // the controllers for your module are found
-                        '__NAMESPACE__' => 'EcampApi\Controller',
-                        'controller'    => 'Index',
-                    ),
-                ),
-
-                'may_terminate' => true,
-                'child_routes' => array(
-                    'rest' => array(
-                        'type'    => 'Segment',
-                        'options' => array(
-                            'route'    => '/[:controller[/:id][.:format]]',
-                            'constraints' => array(
-                                'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
-                                'format' => '(xml|json)',
-                                'id' => '[a-f0-9]*'
-                            ),
-                            'defaults' => array(
-                                'controller' => 'Index',
-                                'format' => 'json'
-                            ),
-                        ),
-                    ),
-
-                    'user' => array(
-                        'type'    => 'Segment',
-                        'options' => array(
-                            'route'    => '/users/:user',
-                            'constraints' => array(
-                                   'user' => '[a-f0-9]*'
-                            ),
-                        ),
-                        'child_routes' => array(
-                            'rest' => array(
-                                'type'    => 'Segment',
-                                'options' => array(
-                                    'route'    => '/[:controller[/:id][.:format]]',
-                                    'constraints' => array(
-                                        'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
-                                        'format' => '(xml|json)',
-                                        'id' => '[a-f0-9]*'
-                                    ),
-                                    'defaults' => array(
-                                        'controller' => 'Index',
-                                        'format' => 'json'
-                                    ),
-                                ),
-                            ),
-                        )
-                    ),
-
-                    'collaboration' => array(
-                        'type'    => 'Segment',
-                        'options' => array(
-                            'route'    => '/collaborations/:collaboration',
-                            'constraints' => array(
-                                   'collaboration' => '[a-f0-9]*'
-                            ),
-                        ),
-                        'child_routes' => array(
-                            'rest' => array(
-                                'type'    => 'Segment',
-                                'options' => array(
-                                    'route'    => '/[:controller[/:id][.:format]]',
-                                    'constraints' => array(
-                                        'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
-                                        'format' => '(xml|json)',
-                                        'id' => '[a-f0-9]*'
-                                    ),
-                                    'defaults' => array(
-                                        'controller' => 'Index',
-                                        'format' => 'json'
-                                    ),
-                                ),
-                            ),
-                        )
-                    ),
-
-                    'camp' => array(
-                        'type'    => 'Segment',
-                        'options' => array(
-                            'route'    => '/camps/:camp',
-                            'constraints' => array(
-                                   'camp' => '[a-f0-9]*'
-                            ),
-                        ),
-                        'child_routes' => array(
-                            'rest' => array(
-                                'type'    => 'Segment',
-                                'options' => array(
-                                    'route'    => '/[:controller[/:id][.:format]]',
-                                    'constraints' => array(
-                                        'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
-                                        'format' => '(xml|json)',
-                                        'id' => '[a-f0-9]*'
-                                    ),
-                                    'defaults' => array(
-                                        'controller' => 'Index',
-                                        'format' => 'json'
-                                    ),
-                                ),
-                            ),
-                        )
-                    ),
-
-                    'period' => array(
-                        'type'    => 'Segment',
-                        'options' => array(
-                            'route'    => '/periods/:period',
-                            'constraints' => array(
-                                   'period' => '[a-f0-9]*'
-                            ),
-                        ),
-                        'child_routes' => array(
-                            'rest' => array(
-                                'type'    => 'Segment',
-                                'options' => array(
-                                    'route'    => '/[:controller[/:id][.:format]]',
-                                    'constraints' => array(
-                                        'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
-                                        'format' => '(xml|json)',
-                                        'id' => '[a-f0-9]*'
-                                    ),
-                                    'defaults' => array(
-                                        'controller' => 'Index',
-                                        'format' => 'json'
-                                    ),
-                                ),
-                            ),
-                        )
-                    ),
-
-                    'day' => array(
-                        'type'    => 'Segment',
-                        'options' => array(
-                            'route'    => '/days/:day',
-                            'constraints' => array(
-                                   'day' => '[a-f0-9]*'
-                            ),
-                        ),
-                        'child_routes' => array(
-                            'rest' => array(
-                                'type'    => 'Segment',
-                                'options' => array(
-                                    'route'    => '/[:controller[/:id][.:format]]',
-                                    'constraints' => array(
-                                        'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
-                                        'format' => '(xml|json)',
-                                        'id' => '[a-f0-9]*'
-                                    ),
-                                    'defaults' => array(
-                                        'controller' => 'Index',
-                                        'format' => 'json'
-                                    ),
-                                ),
-                            ),
-                        )
-                    ),
-
-                    'event' => array(
-                        'type'    => 'Segment',
-                        'options' => array(
-                            'route'    => '/events/:event',
-                            'constraints' => array(
-                                   'event' => '[a-f0-9]*'
-                            ),
-                        ),
-                        'child_routes' => array(
-                            'rest' => array(
-                                'type'    => 'Segment',
-                                'options' => array(
-                                    'route'    => '/[:controller[/:id][.:format]]',
-                                    'constraints' => array(
-                                        'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
-                                        'format' => '(xml|json)',
-                                        'id' => '[a-f0-9]*'
-                                    ),
-                                    'defaults' => array(
-                                        'controller' => 'Index',
-                                        'format' => 'json'
-                                    ),
-                                ),
-                            ),
-                        )
-                    ),
-
-                    'default' => array(
-                        'type'    => 'Segment',
-                        'options' => array(
-                            'route'    => '/login[/:action]',
-                            'constraints' => array(
-                                'action'     => '[a-zA-Z][a-zA-Z0-9_-]*',
-                            ),
-                            'defaults' => array(
-                                'controller' => 'Login',
-                                'action' => 'Index'
-                            ),
-                        ),
-                    ),
-                ),
-            ),*/
         ),
     ),
 
-    'controllers' => array(
-        'invokables' => array(
-            'EcampApi\Controller\Login' 			=> 'EcampApi\Controller\LoginController',
-            'EcampApi\Controller\Index' 			=> 'EcampApi\Controller\IndexController',
-            'EcampApi\Controller\Users' 			=> 'EcampApi\Controller\UsersController',
-            'EcampApi\Controller\Collaborations'	=> 'EcampApi\Controller\CollaborationsController',
-            'EcampApi\Controller\Camps' 			=> 'EcampApi\Controller\CampsController',
-            'EcampApi\Controller\Periods' 			=> 'EcampApi\Controller\PeriodsController',
-            'EcampApi\Controller\Days' 				=> 'EcampApi\Controller\DaysController',
-            'EcampApi\Controller\EventCategories'	=> 'EcampApi\Controller\EventCategoriesController',
-            'EcampApi\Controller\EventInstances'	=> 'EcampApi\Controller\EventInstancesController',
-            'EcampApi\Controller\EventResps'		=> 'EcampApi\Controller\EventRespsController',
-            'EcampApi\Controller\Events' 			=> 'EcampApi\Controller\EventsController',
-        ),
-    ),
-
+ 
     'view_manager' => array(
         'strategies' => array(
             'ViewJsonStrategy',
@@ -282,6 +276,10 @@ return array(
     'phlyrestfully' => array(
     		
     		'resources' => array(
+    				
+    				/**
+    				 * Camp
+    				 */
     				'EcampApi\Camp\ApiController' => array(
     						'listener'                => 'EcampApi\Camp\CampResourceListener',
     						'collection_http_options' => array('get'),
@@ -290,7 +288,8 @@ return array(
     						'resource_http_options'   => array('get'),
     						'route_name'              => 'api/camps',
     						'identifier_name'		  => 'camp',
-    						'collection_query_whitelist' => array('user', 'past')   /* to be discussed */
+    						'collection_query_whitelist' => array('user', 'past', 'collaborator', 'owning_only', 'owner', 'group', 'creator', 'search'),
+    						'collection_name'	 	  => 'camps'
     				),
     				
     				'EcampApi\User\Camp\ApiController' => array(
@@ -301,9 +300,13 @@ return array(
     						'resource_http_options'   => array('get'),
     						'route_name'              => 'api/users/camps',
     						'identifier_name'		  => 'camp',
-    						'collection_query_whitelist' => array('past')   /* to be discussed */
+    						'collection_query_whitelist' => array('past', 'collaborator', 'owning_only', 'owner', 'group', 'creator', 'search'),
+    						'collection_name'	 	  => 'camps'
     				),
     				
+    				/**
+    				 * User
+    				 */
     				'EcampApi\User\ApiController' => array(
     						'listener'                => 'EcampApi\User\UserResourceListener',
     						'collection_http_options' => array('get'),
@@ -311,8 +314,284 @@ return array(
     						'page_size_param'		  => 'limit',
     						'resource_http_options'   => array('get'),
     						'route_name'              => 'api/users',
-    						'identifier_name'		  => 'user'
+    						'identifier_name'		  => 'user',
+    						'collection_name'	 	  => 'users'
     				),
+    				
+    				/**
+    				 * Collaboration
+    				 */
+    				'EcampApi\Collaboration\ApiController' => array(
+    						'listener'                => 'EcampApi\Collaboration\CollaborationResourceListener',
+    						'collection_http_options' => array('get'),
+    						'page_size'               => 3,
+    						'page_size_param'		  => 'limit',
+    						'resource_http_options'   => array('get'),
+    						'route_name'              => 'api/collaborations',
+    						'identifier_name'		  => 'collaboration',
+    						'collection_query_whitelist' => array('user', 'camp'),
+    						'collection_name'		  => 'collaborations'
+    				),
+    				
+    				'EcampApi\User\Collaboration\ApiController' => array(
+    						'listener'                => 'EcampApi\Collaboration\CollaborationResourceListener',
+    						'collection_http_options' => array('get'),
+    						'page_size'               => 3,
+    						'page_size_param'		  => 'limit',
+    						'resource_http_options'   => array('get'),
+    						'route_name'              => 'api/users/collaborations',
+    						'identifier_name'		  => 'collaboration',
+    						'collection_query_whitelist' => array('camp'),
+    						'collection_name'		  => 'collaborations'
+    				),
+    				
+    				'EcampApi\Camp\Collaboration\ApiController' => array(
+    						'listener'                => 'EcampApi\Collaboration\CollaborationResourceListener',
+    						'collection_http_options' => array('get'),
+    						'page_size'               => 3,
+    						'page_size_param'		  => 'limit',
+    						'resource_http_options'   => array('get'),
+    						'route_name'              => 'api/camps/collaborations',
+    						'identifier_name'		  => 'collaboration',
+    						'collection_query_whitelist' => array('user'),
+    						'collection_name'		  => 'collaborations'
+    				),
+    				
+    				/**
+    				 * Day
+    				 */
+    				'EcampApi\Day\ApiController' => array(
+    						'listener'                => 'EcampApi\Day\DayResourceListener',
+    						'collection_http_options' => array('get'),
+    						'page_size'               => 3,
+    						'page_size_param'		  => 'limit',
+    						'resource_http_options'   => array('get'),
+    						'route_name'              => 'api/days',
+    						'identifier_name'		  => 'day',
+    						'collection_query_whitelist' => array('period'),
+    						'collection_name'		  => 'days'
+    				),
+    				
+    				'EcampApi\Period\Day\ApiController' => array(
+    						'listener'                => 'EcampApi\Day\DayResourceListener',
+    						'collection_http_options' => array('get'),
+    						'page_size'               => 3,
+    						'page_size_param'		  => 'limit',
+    						'resource_http_options'   => array('get'),
+    						'route_name'              => 'api/periods/days',
+    						'identifier_name'		  => 'day',
+    						'collection_query_whitelist' => array(),
+    						'collection_name'		  => 'days'
+    				),
+    				
+    				/**
+    				 * Event
+    				 */
+    				'EcampApi\Event\ApiController' => array(
+    						'listener'                => 'EcampApi\Event\EventResourceListener',
+    						'collection_http_options' => array('get'),
+    						'page_size'               => 3,
+    						'page_size_param'		  => 'limit',
+    						'resource_http_options'   => array('get'),
+    						'route_name'              => 'api/events',
+    						'identifier_name'		  => 'event',
+    						'collection_query_whitelist' => array('camp'),
+    						'collection_name'		  => 'events'
+    				),
+    				
+    				'EcampApi\Camp\Event\ApiController' => array(
+    						'listener'                => 'EcampApi\Event\EventResourceListener',
+    						'collection_http_options' => array('get'),
+    						'page_size'               => 3,
+    						'page_size_param'		  => 'limit',
+    						'resource_http_options'   => array('get'),
+    						'route_name'              => 'api/camps/events',
+    						'identifier_name'		  => 'event',
+    						'collection_query_whitelist' => array(),
+    						'collection_name'		  => 'events'
+    				),
+    				
+    				
+    				/**
+    				 * Event Category
+    				 */  				
+    				'EcampApi\EventCategory\ApiController' => array(
+    						'listener'                => 'EcampApi\EventCategory\EventCategoryResourceListener',
+    						'collection_http_options' => array('get'),
+    						'page_size'               => 3,
+    						'page_size_param'		  => 'limit',
+    						'resource_http_options'   => array('get'),
+    						'route_name'              => 'api/event_categories',
+    						'identifier_name'		  => 'event_category',
+    						'collection_query_whitelist' => array(),
+    						'collection_name'		  => 'event_categories'
+    				),
+    				'EcampApi\Camp\EventCategory\ApiController' => array(
+    						'listener'                => 'EcampApi\EventCategory\EventCategoryResourceListener',
+    						'collection_http_options' => array('get'),
+    						'page_size'               => 3,
+    						'page_size_param'		  => 'limit',
+    						'resource_http_options'   => array('get'),
+    						'route_name'              => 'api/camps/event_categories',
+    						'identifier_name'		  => 'event_category',
+    						'collection_query_whitelist' => array(),
+    						'collection_name'		  => 'event_categories'
+    				),
+    				
+    				/**
+    				 * Event instance
+    				 */
+    				'EcampApi\EventInstance\ApiController' => array(
+    						'listener'                => 'EcampApi\EventInstance\EventInstanceResourceListener',
+    						'collection_http_options' => array('get'),
+    						'page_size'               => 3,
+    						'page_size_param'		  => 'limit',
+    						'resource_http_options'   => array('get'),
+    						'route_name'              => 'api/event_instances',
+    						'identifier_name'		  => 'event_instance',
+    						'collection_query_whitelist' => array(),
+    						'collection_name'		  => 'event_instances'
+    				),
+    				
+    				'EcampApi\Event\EventInstance\ApiController' => array(
+    						'listener'                => 'EcampApi\EventInstance\EventInstanceResourceListener',
+    						'collection_http_options' => array('get'),
+    						'page_size'               => 3,
+    						'page_size_param'		  => 'limit',
+    						'resource_http_options'   => array('get'),
+    						'route_name'              => 'api/events/event_instances',
+    						'identifier_name'		  => 'event_instance',
+    						'collection_query_whitelist' => array(),
+    						'collection_name'		  => 'event_instances'
+    				),
+    				
+    				'EcampApi\Camp\EventInstance\ApiController' => array(
+    						'listener'                => 'EcampApi\EventInstance\EventInstanceResourceListener',
+    						'collection_http_options' => array('get'),
+    						'page_size'               => 3,
+    						'page_size_param'		  => 'limit',
+    						'resource_http_options'   => array('get'),
+    						'route_name'              => 'api/camps/event_instances',
+    						'identifier_name'		  => 'event_instance',
+    						'collection_query_whitelist' => array(),
+    						'collection_name'		  => 'event_instances'
+    				),
+    				
+    				'EcampApi\Period\EventInstance\ApiController' => array(
+    						'listener'                => 'EcampApi\EventInstance\EventInstanceResourceListener',
+    						'collection_http_options' => array('get'),
+    						'page_size'               => 3,
+    						'page_size_param'		  => 'limit',
+    						'resource_http_options'   => array('get'),
+    						'route_name'              => 'api/periods/event_instances',
+    						'identifier_name'		  => 'event_instance',
+    						'collection_query_whitelist' => array(),
+    						'collection_name'		  => 'event_instances'
+    				),
+    				
+    				'EcampApi\Day\EventInstance\ApiController' => array(
+    						'listener'                => 'EcampApi\EventInstance\EventInstanceResourceListener',
+    						'collection_http_options' => array('get'),
+    						'page_size'               => 3,
+    						'page_size_param'		  => 'limit',
+    						'resource_http_options'   => array('get'),
+    						'route_name'              => 'api/days/event_instances',
+    						'identifier_name'		  => 'event_instance',
+    						'collection_query_whitelist' => array(),
+    						'collection_name'		  => 'event_instances'
+    				),
+    				
+    				'EcampApi\EventInstance\ApiController' => array(
+    						'listener'                => 'EcampApi\EventInstance\EventInstanceResourceListener',
+    						'collection_http_options' => array('get'),
+    						'page_size'               => 3,
+    						'page_size_param'		  => 'limit',
+    						'resource_http_options'   => array('get'),
+    						'route_name'              => 'api/event_instances',
+    						'identifier_name'		  => 'event_instance',
+    						'collection_query_whitelist' => array(),
+    						'collection_name'		  => 'event_instances'
+    				),
+    				
+    				/**
+    				 * Event Responsibles
+    				 */
+    				'EcampApi\EventResp\ApiController' => array(
+    						'listener'                => 'EcampApi\EventResp\EventRespResourceListener',
+    						'collection_http_options' => array('get'),
+    						'page_size'               => 3,
+    						'page_size_param'		  => 'limit',
+    						'resource_http_options'   => array('get'),
+    						'route_name'              => 'api/event_resps',
+    						'identifier_name'		  => 'event_resp',
+    						'collection_query_whitelist' => array('event','collaboration', 'user'),
+    						'collection_name'		  => 'event_resps'
+    				),
+    				
+    				'EcampApi\Event\EventResp\ApiController' => array(
+    						'listener'                => 'EcampApi\EventResp\EventRespResourceListener',
+    						'collection_http_options' => array('get'),
+    						'page_size'               => 3,
+    						'page_size_param'		  => 'limit',
+    						'resource_http_options'   => array('get'),
+    						'route_name'              => 'api/events/event_resps',
+    						'identifier_name'		  => 'event_resp',
+    						'collection_query_whitelist' => array(),
+    						'collection_name'		  => 'event_resps'
+    				),
+    				
+    				'EcampApi\Collaboration\EventResp\ApiController' => array(
+    						'listener'                => 'EcampApi\EventResp\EventRespResourceListener',
+    						'collection_http_options' => array('get'),
+    						'page_size'               => 3,
+    						'page_size_param'		  => 'limit',
+    						'resource_http_options'   => array('get'),
+    						'route_name'              => 'api/collaborations/event_resps',
+    						'identifier_name'		  => 'event_resp',
+    						'collection_query_whitelist' => array(),
+    						'collection_name'		  => 'event_resps'
+    				),
+    				
+    				'EcampApi\User\EventResp\ApiController' => array(
+    						'listener'                => 'EcampApi\EventResp\EventRespResourceListener',
+    						'collection_http_options' => array('get'),
+    						'page_size'               => 3,
+    						'page_size_param'		  => 'limit',
+    						'resource_http_options'   => array('get'),
+    						'route_name'              => 'api/users/event_resps',
+    						'identifier_name'		  => 'event_resp',
+    						'collection_query_whitelist' => array(),
+    						'collection_name'		  => 'event_resps'
+    				),
+    				
+    				
+    				/**
+    				 * Period
+    				 */
+    				'EcampApi\Period\ApiController' => array(
+    						'listener'                => 'EcampApi\Period\PeriodResourceListener',
+    						'collection_http_options' => array('get'),
+    						'page_size'               => 3,
+    						'page_size_param'		  => 'limit',
+    						'resource_http_options'   => array('get'),
+    						'route_name'              => 'api/periods',
+    						'identifier_name'		  => 'period',
+    						'collection_query_whitelist' => array('camp'),
+    						'collection_name'		  => 'periods'
+    				),
+    				
+    				'EcampApi\Camp\Period\ApiController' => array(
+    						'listener'                => 'EcampApi\Period\PeriodResourceListener',
+    						'collection_http_options' => array('get'),
+    						'page_size'               => 3,
+    						'page_size_param'		  => 'limit',
+    						'resource_http_options'   => array('get'),
+    						'route_name'              => 'api/camps/periods',
+    						'identifier_name'		  => 'period',
+    						'collection_query_whitelist' => array(),
+    						'collection_name'		  => 'periods'
+    				),
+    				
     		),
     		
     ),

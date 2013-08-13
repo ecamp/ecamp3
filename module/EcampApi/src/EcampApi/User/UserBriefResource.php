@@ -10,8 +10,10 @@ class UserBriefResource extends HalResource{
 	public function __construct(User $user){
 		
 		$object = array(
-				"id" => $user->getId(),
-				"username" => $user->getUsername()
+				'id' => $user->getId(),
+				'username' => $user->getUsername(),
+				'username'		=>	$user->getUsername(),
+				'displayName' 	=>  $user->getDisplayName()
 				);
 		
 		parent::__construct($object, $object['id']);

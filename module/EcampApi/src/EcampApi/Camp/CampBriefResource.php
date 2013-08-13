@@ -14,6 +14,8 @@ class CampBriefResource extends HalResource{
 				"id" => $camp->getId(),
 				"name" => $camp->getName(),
 				"title" => $camp->getTitle(),
+				"start" => "1.1.1970", /* TBD */
+				"end" => "1.1.1970"
 				);
 		
 		parent::__construct($object, $object['id']);

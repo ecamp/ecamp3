@@ -13,8 +13,13 @@ class CampRepository
     extends EntityRepository
 {
 
-    public function getApiCollection(array $criteria)
+    public function getCollection(array $criteria)
     {
+    	/**
+			TBD
+			startsAfter, startsBefore, endsAfter, endsBefore
+			default order: startDate
+    	 */
         $q = $this->createQueryBuilder('c');
 
         if(isset($criteria['user']) && !is_null($criteria['user'])
@@ -77,14 +82,6 @@ class CampRepository
                  group by p.id, p.start
                  having DATE_ADD(p.start, count(d.id), 'day') > CURRENT_DATE()"
             ));
-        }
-
-        if (isset($criteria["offset"]) && !is_null($criteria["offset"])) {
-            $q->setFirstResult($criteria["offset"]);
-            $q->setMaxResults(100);
-        }
-        if (isset($criteria["limit"]) && !is_null($criteria["limit"])) {
-            $q->setMaxResults($criteria["limit"]);
         }
 
         return new Paginator(new PaginatorAdapter(new ORMPaginator($q->getQuery())));

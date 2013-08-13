@@ -4,10 +4,14 @@ namespace EcampCore\Repository;
 
 use Doctrine\ORM\EntityRepository;
 
+use DoctrineORMModule\Paginator\Adapter\DoctrinePaginator as PaginatorAdapter;
+use Doctrine\ORM\Tools\Pagination\Paginator as ORMPaginator;
+use Zend\Paginator\Paginator;
+
 class EventCategoryRepository extends EntityRepository
 {
 
-    public function findForApi(array $criteria)
+    public function getCollection(array $criteria)
     {
         $q = $this->createQueryBuilder('e');
 
@@ -16,15 +20,7 @@ class EventCategoryRepository extends EntityRepository
             $q->setParameter('camp', $criteria["camp"]);
         }
 
-        if (isset($criteria["offset"]) && !is_null($criteria["offset"])) {
-            $q->setFirstResult($criteria["offset"]);
-            $q->setMaxResults(100);
-        }
-        if (isset($criteria["limit"]) && !is_null($criteria["limit"])) {
-            $q->setMaxResults($criteria["limit"]);
-        }
-
-        return $q->getQuery()->getResult();
+        return new Paginator(new PaginatorAdapter(new ORMPaginator($q->getQuery())));
     }
 
     public function findByCamp($campId)
