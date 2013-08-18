@@ -105,7 +105,9 @@ class Period
      */
     public function getStart()
     {
-        return $this->start;
+        $start = clone $this->start;
+
+        return $start;
     }
 
     /**
@@ -129,9 +131,10 @@ class Period
      */
     public function getEnd()
     {
-        return $this->start
-                    ->add($this->getDuration())
-                    ->sub(new \DateInterval('PT1S'));
+        $start = clone $this->start;
+
+        return $start->add($this->getDuration())
+                     ->sub(new \DateInterval('PT1S'));
     }
 
     /**
