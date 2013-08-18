@@ -8,16 +8,15 @@ class ApiKeyServiceFactory
     implements FactoryInterface
 {
     /**
-     *
      * @param  ServiceLocatorInterface              $services
-     * @return AvatarService
+     * @return ApiKeyService
      * @throws Exception\ServiceNotCreatedException
      */
     public function createService(ServiceLocatorInterface $services)
     {
         $apiKeyRepository = $services->get('EcampApi\Repository\ApiKey');
-        $userService = $services->get('EcampCore\Service\User');
+        $userRepo = $services->get('EcampCore\Repository\User');
 
-        return new ApiKeyService($apiKeyRepository, $userService);
+        return new ApiKeyService($apiKeyRepository, $userRepo);
     }
 }

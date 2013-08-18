@@ -10,7 +10,6 @@ use EcampCore\Repository\UserRepository;
 use EcampLib\Service\ServiceBase;
 use EcampLib\Service\Params\Params;
 
-use Zend\Validator\EmailAddress;
 use Zend\Paginator\Paginator;
 use Zend\Authentication\AuthenticationService;
 
@@ -130,18 +129,11 @@ class UserService
      */
     private function getByIdentifier($identifier)
     {
-        $user = null;
-        $mailValidator = new EmailAddress();
-
-        if ($identifier instanceOf User) {
-            $user = $identifier;
-        } elseif ($mailValidator->isValid($identifier)) {
-            $user = $this->userRepo->findOneBy(array('email' => $identifier));
+        if ($identifier instanceof User) {
+            return $identifier;
         } else {
-            $user = $this->userRepo->find($identifier);
+            return $this->userRepo->findByIdentifier($identifier);
         }
-
-        return $user;
     }
 
     /**

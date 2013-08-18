@@ -3,10 +3,10 @@
 namespace EcampApi\Service;
 
 use EcampLib\Service\ServiceBase;
-use EcampCore\Service\UserService;
+use EcampCore\Acl\Privilege;
+use EcampCore\Repository\UserRepository;
 use EcampCore\Entity\User;
 use EcampApi\Entity\ApiKey;
-use EcampCore\Acl\Privilege;
 use Doctrine\ORM\EntityRepository;
 use Zend\Authentication\AuthenticationService;
 
@@ -19,16 +19,16 @@ class ApiKeyService extends ServiceBase
     private $apiKeyRepository;
 
     /**
-     * @var \EcampCore\Service\UserService
+     * @var \EcampCore\Repository\UserRepository
      */
-    private $userService;
+    private $userRepo;
 
     public function __construct(
         EntityRepository $apiKeyRepository,
-        UserService $userService
+        UserRepository $userRepo
     ){
         $this->apiKeyRepository = $apiKeyRepository;
-        $this->userService = $userService;
+        $this->userRepo = $userRepo;
     }
 
     /**
@@ -58,7 +58,7 @@ class ApiKeyService extends ServiceBase
 
     public function Login($identifier, $key, $appName, $deviceName = null)
     {
-        $user = $this->userService->Get($identifier);
+        $user = $this->userRepo->findByIdentifier($identifier);
 
         $criteria = array(
             'user' => $user,

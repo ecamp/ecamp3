@@ -16,8 +16,8 @@ class LoginServiceFactory
     public function createService(ServiceLocatorInterface $services)
     {
         $loginRepository = $services->get('EcampCore\Repository\Login');
-        $userService = $services->get('EcampCore\Service\User');
+        $userRepo = $services->get('EcampCore\Repository\User');
 
-        return new LoginService($loginRepository, $userService);
+        return new LoginService($loginRepository, $userRepo);
     }
 }
