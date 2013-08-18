@@ -14,6 +14,7 @@ use EcampApi\Event\EventResourceListener;
 use EcampApi\EventInstance\EventInstanceResourceListener;
 use EcampApi\EventResp\EventRespResourceListener;
 use EcampApi\EventCategory\EventCategoryResourceListener;
+use Zend\Authentication\AuthenticationService;
 
 class Module
 {
@@ -31,6 +32,11 @@ class Module
                 ),
             ),
         );
+    }
+
+    public function getControllerConfig()
+    {
+        return include __DIR__ . '/config/controller.config.php';
     }
 
     public function onBootstrap(MvcEvent $event)
@@ -54,11 +60,12 @@ class Module
         $authenticationRequiredStrategy = new AuthenticationRequiredExceptionStrategy();
         $authenticationRequiredStrategy->attach($application->getEventManager());
 
+        $sharedEventManager = $event->getTarget()->getEventManager()->getSharedManager();
         /*
          * collection rendering
          * specify here which classes to use for resource rendering in collections
          */
-        $event->getTarget()->getEventManager()->getSharedManager()->attach('PhlyRestfully\Plugin\HalLinks', 'renderCollection.resource', function ($e) {
+        $sharedEventManager->attach('PhlyRestfully\Plugin\HalLinks', 'renderCollection.resource', function ($e) {
             $collection = $e->getParam('collection');
             $resource = $e->getParam('resource');
             $params = $e->getParams();
@@ -121,26 +128,40 @@ class Module
         /*
          * additional paginator attrbiutes for collections
          */
-           $event->getTarget()->getEventManager()->getSharedManager()->attach('PhlyRestfully\Plugin\HalLinks', 'renderCollection', function ($e) {
-                $collection = $e->getParam('collection');
-                $paginator = $collection->collection;
+        $sharedEventManager->attach('PhlyRestfully\Plugin\HalLinks', 'renderCollection', function ($e) {
+            $collection = $e->getParam('collection');
+            $paginator = $collection->collection;
 
-                if (!$paginator instanceof \Zend\Paginator\Paginator) {
-                    return;
-                }
+            if (!$paginator instanceof \Zend\Paginator\Paginator) {
+                return;
+            }
 
-                /* page number and size is not yet set by phplyrestfully */
-                $paginator->setItemCountPerPage($collection->pageSize);
-                $paginator->setCurrentPageNumber($collection->page);
+            /* page number and size is not yet set by phplyrestfully */
+            $paginator->setItemCountPerPage($collection->pageSize);
+            $paginator->setCurrentPageNumber($collection->page);
 
-                $collection->setAttributes(array(
-                    'page'        => $paginator->getCurrentPageNumber(),
-                    'limit' 	  => $paginator->getItemCountPerPage(),
-                    'pages'		  => count($paginator),
-                    'count'		  => $paginator->getTotalItemCount()
-                ));
+            $collection->setAttributes(array(
+                'page'        => $paginator->getCurrentPageNumber(),
+                'limit' 	  => $paginator->getItemCountPerPage(),
+                'pages'		  => count($paginator),
+                'count'		  => $paginator->getTotalItemCount()
+            ));
 
-            }, 100);
+        }, 100);
+
+        $sharedEventManager->attach('PhlyRestfully\ResourceController', MvcEvent::EVENT_DISPATCH, function(MvcEvent $e){
+            $authService = new AuthenticationService();
+            if (!$authService->hasIdentity()) {
+                $url = $e->getRouter()->assemble(array(), array('name' => 'api/login'));
+
+                $response = $e->getResponse();
+                /* @var $response \Zend\Http\PhpEnvironment\Response */
+                $response->getHeaders()->addHeaderLine('Location', $url);
+                $response->setStatusCode(302);
+                $response->sendHeaders();
+                exit;
+            }
+        });
     }
 
     public function getServiceConfig()

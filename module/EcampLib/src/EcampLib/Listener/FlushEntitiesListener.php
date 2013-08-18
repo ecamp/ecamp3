@@ -23,8 +23,8 @@ class FlushEntitiesListener extends AbstractListenerAggregate
     public function attach(EventManagerInterface $events)
     {
         $this->listeners[] = $events->attach(
-                MvcEvent::EVENT_DISPATCH,
-                array($this, 'onDispatch'),
+                MvcEvent::EVENT_FINISH,
+                array($this, 'onFinish'),
                 -1
         );
     }
@@ -34,7 +34,7 @@ class FlushEntitiesListener extends AbstractListenerAggregate
      *
      * @param MvcEvent $event
      */
-    public function onDispatch(MvcEvent $e)
+    public function onFinish(MvcEvent $e)
     {
         try {
             $e->getApplication()->getServiceManager()->get('Doctrine\ORM\EntityManager' )->flush();
