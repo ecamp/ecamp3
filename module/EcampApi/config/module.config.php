@@ -2,7 +2,6 @@
 return array(
     'router' => array(
         'routes' => array(
-
             'api' => array(
                                 'type' => 'Literal',
                                 'options' => array(
@@ -10,6 +9,38 @@ return array(
                                 ),
                                 'may_terminate' => false,
                                 'child_routes' => array(
+                                        'login' => array(
+                                               'type' => 'Literal',
+                                            'options' => array(
+                                                'route' => '/login',
+                                                'defaults' => array(
+                                                    'controller' => 'EcampApi\Controller\Login',
+                                                    'action' => 'login'
+                                                )
+                                            )
+                                        ),
+
+                                        'logout' => array(
+                                            'type' => 'Literal',
+                                            'options' => array(
+                                                'route' => '/logout',
+                                                'defaults' => array(
+                                                    'controller' => 'EcampApi\Controller\Login',
+                                                    'action' => 'logout'
+                                                )
+                                            )
+                                        ),
+
+                                        'auth' => array(
+                                            'type' => 'Segment',
+                                            'options' => array(
+                                                'route' => '/auth[/:action]',
+                                                'defaults' => array(
+                                                    'controller' => 'EcampApi\Controller\Auth'
+                                                )
+                                            )
+                                        ),
+
                                         'camps' => array(
                                                 'type' => 'Segment',
                                                 'options' => array(
@@ -267,11 +298,9 @@ return array(
         'strategies' => array(
             'ViewJsonStrategy',
         ),
-        'display_exceptions' => false
     ),
 
     'phlyrestfully' => array(
-
             'resources' => array(
 
                     /**
@@ -590,4 +619,21 @@ return array(
             ),
 
     ),
+
+    'doctrine' => array(
+        'driver' => array(
+            'ecamp_api_entities' => array(
+                'class' => 'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
+                'cache' => 'array',
+                'paths' => array(__DIR__ . '/../src/EcampApi/Entity')
+            ),
+
+            'orm_default' => array(
+                'drivers' => array(
+                    'EcampApi\Entity' => 'ecamp_api_entities'
+                )
+            )
+        ),
+    ),
+
 );

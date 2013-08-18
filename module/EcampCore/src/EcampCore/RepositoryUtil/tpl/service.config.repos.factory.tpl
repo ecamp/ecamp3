@@ -1,1 +1,0 @@
-		'/*REPOSITORY-ALIAS*/' => new EcampCore\RepositoryUtil\RepositoryFactory('/*ENTITY-CLASS*/'),

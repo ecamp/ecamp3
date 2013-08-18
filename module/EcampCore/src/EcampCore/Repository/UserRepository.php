@@ -10,6 +10,7 @@ use Doctrine\ORM\EntityRepository;
 use DoctrineORMModule\Paginator\Adapter\DoctrinePaginator as PaginatorAdapter;
 use Doctrine\ORM\Tools\Pagination\Paginator as ORMPaginator;
 use Zend\Paginator\Paginator;
+use Zend\Validator\EmailAddress;
 
 class UserRepository extends EntityRepository
 {
@@ -19,6 +20,20 @@ class UserRepository extends EntityRepository
         $q = $this->createQueryBuilder('u');
 
         return new Paginator(new PaginatorAdapter(new ORMPaginator($q->getQuery())));
+    }
+
+    public function findByIdentifier($identifier)
+    {
+        $user = null;
+        $mailValidator = new EmailAddress();
+
+        if ($mailValidator->isValid($identifier)) {
+            $user = $this->findOneBy(array('email' => $identifier));
+        } else {
+            $user = $this->find($identifier);
+        }
+
+        return $user;
     }
 
     public function findFriends(User $user)

@@ -5,6 +5,7 @@ namespace EcampCore\Service;
 use Zend\Authentication\AuthenticationService;
 
 use EcampCore\Repository\LoginRepository;
+use EcampCore\Repository\UserRepository;
 use EcampLib\Service\Params\Params;
 
 use EcampCore\Entity\User;
@@ -19,14 +20,14 @@ class LoginService
 {
 
     private $loginRepository;
-    private $userService;
+    private $userRepo;
 
     public function __construct(
         LoginRepository $loginRepository,
-        UserService $userService
+        UserRepository $userRepo
     ){
         $this->loginRepository = $loginRepository;
-        $this->userService = $userService;
+        $this->userRepo = $userRepo;
     }
 
     /**
@@ -34,7 +35,7 @@ class LoginService
      */
     public function Get()
     {
-        $user = $this->userService->Get();
+        $user = $this->getMe();
 
         if (!is_null($user)) {
             return $user->getLogin();
@@ -78,7 +79,7 @@ class LoginService
     public function Login($identifier, $password)
     {
         /** @var EcampCore\Entity\User  */
-        $user = $this->userService->Get($identifier);
+        $user = $this->userRepo->findByIdentifier($identifier);
 
         if (is_null($user)) {
             $login = null;
@@ -118,7 +119,7 @@ class LoginService
 
     public function ForgotPassword($identifier)
     {
-        $user = $this->userService->Get($identifier);
+        $user = $this->userRepo->findByIdentifier($identifier);
 
         if (is_null($user)) {
             return false;
