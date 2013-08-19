@@ -5,15 +5,15 @@ use Zend\Mvc\MvcEvent;
 
 use EcampApi\Listener\JsonExceptionStrategy;
 use EcampApi\Listener\AuthenticationRequiredExceptionStrategy;
-use EcampApi\Camp\CampResourceListener;
-use EcampApi\User\UserResourceListener;
-use EcampApi\Collaboration\CollaborationResourceListener;
-use EcampApi\Period\PeriodResourceListener;
-use EcampApi\Day\DayResourceListener;
-use EcampApi\Event\EventResourceListener;
-use EcampApi\EventInstance\EventInstanceResourceListener;
-use EcampApi\EventResp\EventRespResourceListener;
-use EcampApi\EventCategory\EventCategoryResourceListener;
+use EcampApi\Resource\Camp\CampResourceListener;
+use EcampApi\Resource\User\UserResourceListener;
+use EcampApi\Resource\Collaboration\CollaborationResourceListener;
+use EcampApi\Resource\Period\PeriodResourceListener;
+use EcampApi\Resource\Day\DayResourceListener;
+use EcampApi\Resource\Event\EventResourceListener;
+use EcampApi\Resource\EventInstance\EventInstanceResourceListener;
+use EcampApi\Resource\EventResp\EventRespResourceListener;
+use EcampApi\Resource\EventCategory\EventCategoryResourceListener;
 use Zend\Authentication\AuthenticationService;
 
 class Module
@@ -66,60 +66,59 @@ class Module
          * specify here which classes to use for resource rendering in collections
          */
         $sharedEventManager->attach('PhlyRestfully\Plugin\HalLinks', 'renderCollection.resource', function ($e) {
-            $collection = $e->getParam('collection');
             $resource = $e->getParam('resource');
             $params = $e->getParams();
 
             if ($resource instanceof \EcampCore\Entity\Camp) {
-                $params['resource']    = new Camp\CampBriefResource($resource);
+                $params['resource']    = new Resource\Camp\CampBriefResource($resource);
 
                 return;
             }
 
             if ($resource instanceof \EcampCore\Entity\User) {
-                $params['resource']    = new User\UserBriefResource($resource);
+                $params['resource']    = new Resource\User\UserBriefResource($resource);
 
                 return;
             }
 
             if ($resource instanceof \EcampCore\Entity\CampCollaboration) {
-                $params['resource']    = new Collaboration\CollaborationResource($resource);
+                $params['resource']    = new Resource\Collaboration\CollaborationResource($resource);
 
                 return;
             }
 
             if ($resource instanceof \EcampCore\Entity\Period) {
-                $params['resource']    = new Period\PeriodBriefResource($resource);
+                $params['resource']    = new Resource\Period\PeriodBriefResource($resource);
 
                 return;
             }
 
             if ($resource instanceof \EcampCore\Entity\Day) {
-                $params['resource']    = new Day\DayBriefResource($resource);
+                $params['resource']    = new Resource\Day\DayBriefResource($resource);
 
                 return;
             }
 
             if ($resource instanceof \EcampCore\Entity\Event) {
-                $params['resource']    = new Event\EventBriefResource($resource);
+                $params['resource']    = new Resource\Event\EventBriefResource($resource);
 
                 return;
             }
 
             if ($resource instanceof \EcampCore\Entity\EventInstance) {
-                $params['resource']    = new EventInstance\EventInstanceBriefResource($resource);
+                $params['resource']    = new Resource\EventInstance\EventInstanceBriefResource($resource);
 
                 return;
             }
 
             if ($resource instanceof \EcampCore\Entity\EventResp) {
-                $params['resource']    = new EventResp\EventRespBriefResource($resource);
+                $params['resource']    = new Resource\EventResp\EventRespBriefResource($resource);
 
                 return;
             }
 
             if ($resource instanceof \EcampCore\Entity\EventCategory) {
-                $params['resource']    = new EventCategory\EventCategoryBriefResource($resource);
+                $params['resource']    = new Resource\EventCategory\EventCategoryBriefResource($resource);
 
                 return;
             }
@@ -128,26 +127,32 @@ class Module
         /*
          * additional paginator attrbiutes for collections
          */
-        $sharedEventManager->attach('PhlyRestfully\Plugin\HalLinks', 'renderCollection', function ($e) {
-            $collection = $e->getParam('collection');
-            $paginator = $collection->collection;
+        $sharedEventManager->attach(
+            'PhlyRestfully\Plugin\HalLinks',
+            array('renderResource', 'renderCollection'),
+            function ($e) {
 
-            if (!$paginator instanceof \Zend\Paginator\Paginator) {
-                return;
-            }
+                $collection = $e->getParam('collection');
+                $paginator = $collection->collection;
 
-            /* page number and size is not yet set by phplyrestfully */
-            $paginator->setItemCountPerPage($collection->pageSize);
-            $paginator->setCurrentPageNumber($collection->page);
+                if (!$paginator instanceof \Zend\Paginator\Paginator) {
+                    return;
+                }
 
-            $collection->setAttributes(array(
-                'page'        => $paginator->getCurrentPageNumber(),
-                'limit' 	  => $paginator->getItemCountPerPage(),
-                'pages'		  => count($paginator),
-                'count'		  => $paginator->getTotalItemCount()
-            ));
+                /* page number and size is not yet set by phplyrestfully */
+                $paginator->setItemCountPerPage($collection->pageSize);
+                $paginator->setCurrentPageNumber($collection->page);
 
-        }, 100);
+                $collection->setAttributes(array(
+                    'page'        => $paginator->getCurrentPageNumber(),
+                    'limit' 	  => $paginator->getItemCountPerPage(),
+                    'pages'		  => count($paginator),
+                    'count'		  => $paginator->getTotalItemCount()
+                ));
+
+            },
+            100
+           );
 
         $sharedEventManager->attach('PhlyRestfully\ResourceController', MvcEvent::EVENT_DISPATCH, function(MvcEvent $e){
             $authService = new AuthenticationService();
@@ -168,55 +173,55 @@ class Module
     {
         return array(
             'factories' => array(
-                'EcampApi\Camp\CampResourceListener' => function ($services) {
+                'EcampApi\Resource\Camp\CampResourceListener' => function ($services) {
                     $repository = $services->get('EcampCore\Repository\Camp');
 
                     return new CampResourceListener($repository);
                 },
 
-                'EcampApi\User\UserResourceListener' => function ($services) {
+                'EcampApi\Resource\User\UserResourceListener' => function ($services) {
                     $repository = $services->get('EcampCore\Repository\User');
 
                     return new UserResourceListener($repository);
                 },
 
-                'EcampApi\Collaboration\CollaborationResourceListener' => function ($services) {
+                'EcampApi\Resource\Collaboration\CollaborationResourceListener' => function ($services) {
                     $repository = $services->get('EcampCore\Repository\CampCollaboration');
 
                     return new CollaborationResourceListener($repository);
                 },
 
-                'EcampApi\Period\PeriodResourceListener' => function ($services) {
+                'EcampApi\Resource\Period\PeriodResourceListener' => function ($services) {
                     $repository = $services->get('EcampCore\Repository\Period');
 
                     return new PeriodResourceListener($repository);
                 },
 
-                'EcampApi\Day\DayResourceListener' => function ($services) {
+                'EcampApi\Resource\Day\DayResourceListener' => function ($services) {
                     $repository = $services->get('EcampCore\Repository\Day');
 
                     return new DayResourceListener($repository);
                 },
 
-                'EcampApi\Event\EventResourceListener' => function ($services) {
+                'EcampApi\Resource\Event\EventResourceListener' => function ($services) {
                     $repository = $services->get('EcampCore\Repository\Event');
 
                     return new EventResourceListener($repository);
                 },
 
-                'EcampApi\EventInstance\EventInstanceResourceListener' => function ($services) {
+                'EcampApi\Resource\EventInstance\EventInstanceResourceListener' => function ($services) {
                     $repository = $services->get('EcampCore\Repository\EventInstance');
 
                     return new EventInstanceResourceListener($repository);
                 },
 
-                'EcampApi\EventResp\EventRespResourceListener' => function ($services) {
+                'EcampApi\Resource\EventResp\EventRespResourceListener' => function ($services) {
                     $repository = $services->get('EcampCore\Repository\EventResp');
 
                     return new EventRespResourceListener($repository);
                 },
 
-                'EcampApi\EventCategory\EventCategoryResourceListener' => function ($services) {
+                'EcampApi\Resource\EventCategory\EventCategoryResourceListener' => function ($services) {
                     $repository = $services->get('EcampCore\Repository\EventCategory');
 
                     return new EventCategoryResourceListener($repository);
