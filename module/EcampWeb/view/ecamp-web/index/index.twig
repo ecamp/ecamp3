@@ -1,0 +1,221 @@
+{% extends 'layout/dashboard.twig' %}
+
+
+{% block content %}
+
+	<div class="row">
+		<div class="col-sm-6">
+			<div class="row">
+				<div class="col-sm-12">
+					<table style="width: 100%">
+						<tr>
+							<td>
+								<h2>Camps (3)</h2>
+							</td>
+							<td style="vertical-align: bottom; padding-bottom: 7px;">
+								<div class="btn-group pull-right" >
+									<div class="btn btn-sm btn-primary pull-right dropdown-toggle" data-toggle="dropdown">
+										Create new Camp &nbsp;
+							    		<span class="caret"></span>
+									</div>
+		  							<ul class="dropdown-menu pull-right" role="menu">
+										<li><a href="#">
+											<span class="icon-plus"></span>
+											&nbsp;Neues Lager
+										</a></li>
+										<li><a href="#">
+											<span class="icon-plus"></span>
+											&nbsp;Neuen Kurs
+										</a></li>
+									</ul>
+								</div>
+							</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+			<table class="table table-hover">
+				<colgroup>
+			       <col span="1" style="width: 1%;">
+			       <col span="1" style="width: 35%;">
+			       <col span="1" style="width: auto;">
+			       <col span="1" style="width: 30%;">
+			    </colgroup>
+				<tbody>
+					<tr>
+						<td><span class="icon-bell"></span></td>
+						<td><a href="#" class="">SoLa 2012</a></td>
+						<td><a href="#">Zytturm</a></td>
+						<td>
+							<div class="hidden-sm hidden-xs">14. - 28.7.2012</div>
+							<div class="hidden-md hidden-lg">14. - 28.7</div>
+						</td>
+					</tr>
+					<tr>
+						<td><span class="icon-bell"></span></td>
+						<td><a href="#">SoLa 2012</a></td>
+						<td><a href="#">Zytturm</a></td>
+						<td>
+							<div class="hidden-sm hidden-xs">14. - 28.7.2012</div>
+							<div class="hidden-md hidden-lg">14. - 28.7</div>
+						</td>
+					</tr>
+					<tr>
+						<td><span class="icon-bell"></span></td>
+						<td><a href="#">SoLa 2012</a></td>
+						<td><a href="#">Zytturm</a></td>
+						<td>
+							<div class="hidden-sm hidden-xs">14. - 28.7.2012</div>
+							<div class="hidden-md hidden-lg">14. - 28.7</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			<table>
+				<tr>
+					<td><h2>News (?)</h2></td>
+				</tr>
+			</table>
+		</div>
+
+		<div class="col-sm-6">
+			<table>
+				<tr>
+					<td><h2>Groups (4)</h2></td>
+				</tr>
+			</table>
+			<table class="table table-hover">
+				<colgroup>
+			       <col span="1" style="width: 1%;">
+			       <col span="1" style="width: 40%;">
+			       <col span="1" style="width: auto;">
+			       <col span="1" style="width: 60px;">
+			    </colgroup>
+				<tbody>
+					<tr>
+						<td><span class="icon-flag"></span></td>
+						<td>PBS</td>
+						<td>
+							<div class="hidden-xs hidden-sm">Du bist Mitglied</div>
+							<div class="hidden-md hidden-lg">Mitglied</div>
+						</td>
+						<td></td>
+					</tr>
+					<tr>
+						<td><span class="icon-flag"></span></td>
+						<td>Luzern</td>
+						<td>
+							<div class="hidden-xs hidden-sm">Du bist Mitglied</div>
+							<div class="hidden-md hidden-lg">Mitglied</div>
+						</td>
+						<td></td>
+					</tr>
+					<tr>
+						<td><span class="icon-flag"></span></td>
+						<td>Musegg</td>
+						<td>
+							<div class="hidden-xs hidden-sm">Du bist Mitglied</div>
+							<div class="hidden-md hidden-lg">Mitglied</div>
+						</td>
+						<td>
+							<a data-toggle="modal" href="#group_musegg_operations">
+								<i class="icon-warning-sign pull-right"></i>
+							</a>
+						</td>
+					</tr>
+					<tr>
+						<td><span class="icon-flag"></span></td>
+						<td>Zytturm</td>
+						<td>
+							<div class="hidden-xs hidden-sm">Du bist Mitglied</div>
+							<div class="hidden-md hidden-lg">Mitglied</div>
+						</td>
+						<td></td>
+					</tr>
+				</tbody>
+			</table>
+
+			<table>
+				<tr>
+					<td><h2>Friends</h2></td>
+				</tr>
+			</table>
+			<table class="table table-hover">
+				<colgroup>
+			       <col span="1" style="width: 1%;">
+			       <col span="1" style="width: 40%;">
+			       <col span="1" style="width: auto;">
+			       <col span="1" style="width: 60px;">
+			    </colgroup>
+				<tbody>
+					<tr>
+						<td><span class="icon-user"></span></td>
+						<td>Q</td>
+						<td>
+							<b class="label label-success" style="font-size: 12px;">Online</b>&nbsp;
+						</td>
+						<td></td>
+					</tr>
+					<tr>
+						<td><span class="icon-user"></span></td>
+						<td>Habbo</td>
+						<td><b class="label label-danger" style="font-size: 12px;">Offline</b>&nbsp;</td>
+						<td></td>
+					</tr>
+					<tr>
+						<td><span class="icon-user"></span></td>
+						<td>Safari</td>
+						<td><b class="label label-danger" style="font-size: 12px;">Offline</b>&nbsp;</td>
+						<td></td>
+					</tr>
+				</tbody>
+			</table>
+
+			<table>
+				<tr>
+					<td>
+						<h4 class="	">
+					    	Open Requests
+					    	(2)
+					    </h4>
+					</td>
+				</tr>
+			</table>
+			<table class="table table-hover">
+				<colgroup>
+			       <col span="1" style="width: 1%;">
+			       <col span="1" style="width: 40%;">
+			       <col span="1" style="width: auto;">
+			       <col span="1" style="width: 100px;">
+			    </colgroup>
+				<tbody>
+
+					<tr>
+						<td><i class="icon-user"></i></td>
+						<td>Duck</td>
+						<td><b class="label label-danger" style="font-size: 12px;">Offline</b>&nbsp;</td>
+						<td>
+							<div class="pull-right">
+								<a href="#"><i class="icon-ok icon-green" data-toggle="tooltip" data-placement="bottom" data-original-title="Annehmen"></i></a>
+								<a href="#"><i class="icon-remove icon-red" data-toggle="tooltip" data-placement="bottom" data-original-title="Ablehnen"></i></a>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td><i class="icon-user"></i></td>
+						<td>BA</td>
+						<td>
+							<b class="label label-success" style="font-size: 12px;">Online</b>&nbsp;
+						</td>
+						<td>
+							<div class="pull-right">
+								<a href="#"><i class="icon-ok icon-green" data-toggle="tooltip" data-placement="bottom" data-original-title="Annehmen"></i></a>
+								<a href="#"><i class="icon-remove icon-red" data-toggle="tooltip" data-placement="bottom" data-original-title="Ablehnen"></i></a>
+							</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+{% endblock content %}
