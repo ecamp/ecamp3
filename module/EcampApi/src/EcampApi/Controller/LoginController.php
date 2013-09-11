@@ -14,34 +14,42 @@ class LoginController extends AbstractBaseController
         return $this->getServiceLocator()->get('EcampCore\Service\Login');
     }
 
-    public function indexAction()
-    {
-        $this->redirect()->toRoute('api/default', array('controller' => 'login', 'action' => 'login'));
-    }
-
     public function loginAction()
     {
-        if (isset($_SERVER['PHP_AUTH_USER']) && isset($_SERVER['PHP_AUTH_PW'])) {
-            $user = $_SERVER['PHP_AUTH_USER'];
-            $pw = $_SERVER['PHP_AUTH_PW'];
+        $user = $this->params()->fromPost('user') ?: $_SERVER['PHP_AUTH_USER'];
+        $pw = $this->params()->fromPost('password') ?: $_SERVER['PHP_AUTH_PW'];
 
+        if (isset($user) && isset($pw)) {
             $result = $this->getLoginService()->Login($user, $pw);
 
             if ($result->isValid()) {
                 $this->redirect()->toRoute('api/rest', array('controller' => 'index'));
+            } else {
+                $response = $this->getResponse();
+                $response->setStatusCode(401);
+                $response->sendHeaders();
+
+                exit;
             }
         }
 
-        header('WWW-Authenticate: Basic realm="eCamp V3 - Login"');
-        header('HTTP/1.0 401 Unauthorized');
+        $response = $this->getResponse();
+        $response->getHeaders()->addHeaderLine('WWW-Authenticate', 'Basic realm="eCamp V3 - Login"');
+        $response->setStatusCode(401);
+        $response->sendHeaders();
 
-        echo 'Text to send if user hits Cancel button';
         exit;
     }
 
     public function logoutAction()
     {
         $result = $this->getLoginService()->Logout();
+
+        $response = $this->getResponse();
+        $response->setStatusCode(200);
+        $response->sendHeaders();
+
+        exit;
     }
 
 }

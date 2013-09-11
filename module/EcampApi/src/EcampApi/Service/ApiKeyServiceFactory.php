@@ -1,23 +1,22 @@
 <?php
-namespace EcampCore\Service;
+namespace EcampApi\Service;
 
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
-class LoginServiceFactory
+class ApiKeyServiceFactory
     implements FactoryInterface
 {
     /**
-     *
      * @param  ServiceLocatorInterface              $services
-     * @return GroupService
+     * @return ApiKeyService
      * @throws Exception\ServiceNotCreatedException
      */
     public function createService(ServiceLocatorInterface $services)
     {
-        $loginRepository = $services->get('EcampCore\Repository\Login');
+        $apiKeyRepository = $services->get('EcampApi\Repository\ApiKey');
         $userRepo = $services->get('EcampCore\Repository\User');
 
-        return new LoginService($loginRepository, $userRepo);
+        return new ApiKeyService($apiKeyRepository, $userRepo);
     }
 }
