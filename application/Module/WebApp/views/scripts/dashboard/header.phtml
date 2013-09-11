@@ -1,6 +1,0 @@
-<span metal:define-macro="header">
-	<nav id="mainnav" tal:content="structure php: this.navigation().menu().renderMenu(NULL, array('maxDepth' => 0))" />
-	
-	<nav id="subnav" tal:condition="php: !empty(subnavi)" tal:content="structure subnavi" />
-	
-</span>

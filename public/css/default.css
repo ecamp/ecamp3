@@ -1,0 +1,94 @@
+[class^="icon-"] {
+	font-size: 18px;
+	vertical-align: middle;
+}
+
+.btn-xs [class^="icon-"] {
+	font-size: 15px;
+}
+.btn-sm [class^="icon-"] {
+	font-size: 16px;
+}
+.btn-lg [class^="icon-"] {
+	font-size: 20px;
+}
+
+.icon-green {
+	color: rgb(92, 184, 92);
+}
+
+.icon-red {
+	color: rgb(217, 83, 79);
+}
+
+.icon-blue {
+	color: blue;
+}
+
+table.table tr:first-child td {
+	border-top: none;
+}
+
+@media (min-width: 768px){
+
+	div.bgimage {
+		position: fixed;
+		top: -100px;
+		bottom: -100px;
+		left: -100px;
+		right: -100px;
+		
+		background-image: url('http://www.library.ethz.ch/exhibit/imhof/images/d1.1.jpg');
+		/*
+		background-image: url('http://spatialanalysis.co.uk/wp-content/uploads/2012/06/swiss.jpeg');
+		background-image: url('http://bergwelt.files.wordpress.com/2011/10/206.jpg');
+		background-image: url('http://www.alpi-ticinesi.ch/valgrande/valgrande1.jpg');
+		background-image: url('http://de.academic.ru/pictures/dewiki/80/Pilatus_-_Tomlishorn_Oberhaupt_Kulm.jpg');
+		background-image: url('http://upload.wikimedia.org/wikipedia/commons/9/95/Zedlach_von_Sueden.jpg');
+		*/
+		background-repeat: no-repeat;
+		background-position:center center;
+		background-clip: content-box;
+		background-size: cover;
+		opacity:.70;
+		
+		z-index: -100;
+	}
+	
+	.white {
+		padding-left: 0px;
+		padding-right: 0px;
+		background: rgba(255, 255, 255, 1);
+		border-width: 10px;
+		border-style: solid;
+		border-color: rgba(255, 255, 255, .0);
+		border-radius: 5px;
+		margin-bottom: 10px;
+		
+		 /* box-shadow: 5px 5px 5px rgba(66, 139, 202, 0.8); */
+		
+	}
+	
+	body div.transpLayer, body div.popover {
+		opacity: 0.925;
+	}
+	
+	body div.transpLayer.transp {
+		opacity: 0;
+	}
+	
+	.container.login {
+		margin-top: 50px;
+	}
+}
+		
+.white {
+	border-width: 10px;
+	border-style: solid;
+	border-color: white;
+}
+
+.open ul.dropdown-menu{
+	opacity: 0.95;
+}
+	

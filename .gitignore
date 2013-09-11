@@ -1,20 +1,10 @@
 .*
 
-config.ini
+config/autoload/*.local.php
 
-tmp/*
-tmp/**/*
+data/*
+data/**/*
 
-application/Core/Entity/Proxy/*
-!application/Core/Entity/Proxy/.gitignore
-
-
-data/log/*
-data/log/**/*
-
-data/session/*
-data/session/**/*
-
-data/unittest/*
-
-public/UnitTests/result
+vendor
+vendor/*
+vendor/**/*

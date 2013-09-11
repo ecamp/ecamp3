@@ -1,0 +1,99 @@
+{{ docType() }}
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        {% block meta %}{% endblock meta %}
+
+        {% block title %}
+        	<title>eCamp V3</title>
+        {% endblock title %}
+
+
+        <!-- Stylesheets -->
+		<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" />
+		<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.no-icons.min.css" rel="stylesheet">
+		<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css" rel="stylesheet">
+
+		<link type="text/css" rel="stylesheet" href="//cdn.jsdelivr.net/select2/3.4.2/select2.css" />
+		<link type="text/css" rel="stylesheet" href="/css/default.css" />
+
+        {% block style %}{% endblock style %}
+
+
+        <!-- Scripts -->
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+		<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+		<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+
+		<script type="text/javascript" src="//cdn.jsdelivr.net/select2/3.4.2/select2.js"></script>
+		<!--[if lt IE 9]><script type="text/javascript" src="/js/html5.js"></script><![endif]-->
+
+        {% block script %}{% endblock script %}
+
+    </head>
+    <body>
+    	<div class="bgimage"></div>
+
+    	<div class="transpLayer">
+    		<section class="container white" style="margin-top: 10px; ">
+				<div class="row">
+					<div class="col-sm-5 col-sm-push-7">
+						<div class="btn-group pull-right" style="margin-bottom: 8px">
+							<div class="btn btn-sm btn-danger"><i class="icon-inbox"></i> Inbox</div>
+							<div class="btn-group">
+							  <button type="button" class="btn btn-sm btn-danger"><i class="icon-user"></i> Forte</button>
+							  <button type="button" class="btn btn-sm btn-danger dropdown-toggle" data-toggle="dropdown">
+							    &nbsp;<i class="icon-caret-down"></i>&nbsp;
+							  </button>
+								<ul class="dropdown-menu pull-right" role="menu">
+								    <li><a href="#"><span class="icon-user"></span>&nbsp;&nbsp; Profile</a></li>
+								    <li><a href="#"><span class="icon-cog"></span>&nbsp;&nbsp; Options</a></li>
+								    <li class="divider"></li>
+								    <li><a href="#"><span class="icon-info-sign"></span>&nbsp;&nbsp; About</a></li>
+								    <li class="divider"></li>
+								    <li><a href="#"><span class="icon-off"></span>&nbsp;&nbsp; Abmelden</a></li>
+								</ul>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-7 col-sm-pull-5">
+						<div>
+							<ol class="breadcrumb" style="margin-bottom:4px;">
+	  							<li><a href="#"><i class="icon-home"></i> Dashboard</a></li>
+        						{% block breadcrumb %}{{ breadcrumb|raw }}{% endblock breadcrumb %}
+        					</ol>
+        				</div>
+
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-6">
+						{% block header %}{{ header|raw }}{% endblock header %}
+					</div>
+					<div class="col-sm-6">
+
+						<div class="row">
+							<div class="search-box pull-right col-xs-12 col-sm-9 col-md-7 col-lg-6">
+								<div class="input-group pull-right">
+							    	<input type="text" class="form-control input-sm" placeholder="Search" />
+							    	<span class="input-group-btn">
+							        <button class="btn btn-sm btn-default" type="button">
+							        	<span class="icon-search"></span>&nbsp;
+							        </button>
+							      </span>
+							    </div><!-- /input-group -->
+							</div>
+						</div>
+					</div>
+				</div>
+
+			</section>
+
+
+			<section class="container white">
+	        	{% block content %}{{ content|raw }}{% endblock content %}
+	        </section>
+        </div>
+    </body>
+</html>
