@@ -111,6 +111,7 @@ class Camp extends BaseEntity
     /**
      * @var \Doctrine\Common\Collections\ArrayCollection
      * @ORM\OneToMany(targetEntity="Period", mappedBy="camp")
+     * @ORM\OrderBy({"start" = "ASC"})
      */
     protected $periods;
 
@@ -281,6 +282,24 @@ class Camp extends BaseEntity
         }
 
         return $this->getPeriods()->first()->getStart()->format("d.m.Y") . ' - ' . $this->getPeriods()->last()->getEnd()->format("d.m.Y");
+    }
+
+    public function getStart()
+    {
+        if ($this->getPeriods()->count() == 0) {
+            return null;
+        }
+
+        return $this->getPeriods()->first()->getStart();
+    }
+
+    public function getEnd()
+    {
+        if ($this->getPeriods()->count() == 0) {
+            return null;
+        }
+
+        return $this->getPeriods()->last()->getEnd();
     }
 
     /**

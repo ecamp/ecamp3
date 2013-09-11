@@ -13,8 +13,8 @@ class CampBriefResource extends HalResource
                 "id" => $camp->getId(),
                 "name" => $camp->getName(),
                 "title" => $camp->getTitle(),
-                "start" => "1.1.1970", /* TBD */
-                "end" => "1.1.1970"
+                "start" => ($camp->getStart() == null) ? null : $camp->getStart()->format(\DateTime::ISO8601),
+                "end" => ($camp->getEnd() == null) ? null : $camp->getEnd()->format(\DateTime::ISO8601),
                 );
 
         parent::__construct($object, $object['id']);
