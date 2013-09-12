@@ -33,6 +33,7 @@ class BypassLoginForm
             ),
         ));
 
+/*
         $this->add(array(
             'type' => 'DoctrineModule\Form\Element\ObjectRadio',
             'name' => 'user_radio',
@@ -68,7 +69,7 @@ class BypassLoginForm
 // 		        ),
             ),
         ));
-
+*/
         $this->add(array(
             'name' => 'submit',
             'attributes' => array(

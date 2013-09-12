@@ -29,6 +29,37 @@
 		<script type="text/javascript" src="//cdn.jsdelivr.net/select2/3.4.2/select2.js"></script>
 		<!--[if lt IE 9]><script type="text/javascript" src="/js/html5.js"></script><![endif]-->
 
+
+		<script type="text/javascript">
+			$(function(){
+				$("div.search-box input[type='text']")
+					.focus(function(){ $('div.search-box').switchClass('col-sm-9 col-md-7 col-lg-6', 'col-sm-12 col-md-12 col-lg-12', 300); });
+
+				$("div.search-box input[type='text']")
+					.blur(function(){ $('div.search-box').switchClass('col-sm-12 col-md-12 col-lg-12', 'col-sm-9 col-md-7 col-lg-6', 300); });
+
+				$('[data-toggle="tooltip"]').tooltip();
+				$('[data-toggle="popover"]').popover();
+
+				$('select.select2').select2({minimumResultsForSearch: 3});
+
+				var keyQueue = null;
+				$("body").keydown(function(event){
+					if(event.which == 77){
+						keyQueue = 'm';
+					} else if (keyQueue == 'm' && event.which == 65){
+						keyQueue = 'ma';
+					} else if (keyQueue == 'ma' && event.which == 80){
+						$('body div.transpLayer').addClass('transp');
+					} else {
+						keyQueue = null;
+						$('body div.transpLayer').removeClass('transp');
+					}
+				});
+			});
+
+		</script>
+
         {% block script %}{% endblock script %}
 
     </head>

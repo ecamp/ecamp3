@@ -28,4 +28,13 @@ class GroupMembershipRepository extends EntityRepository
         return (count($gm) > 0) ? $gm[0] : null;
     }
 
+    public function findByUser(User $user)
+    {
+        $query = $this->createQueryBuilder('gm')
+            ->where("gm.user = '" . $user->getId() . "'")
+            ->getQuery();
+
+        $gm = $query->getResult();
+    }
+
 }

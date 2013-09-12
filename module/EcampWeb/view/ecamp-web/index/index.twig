@@ -10,7 +10,7 @@
 					<table style="width: 100%">
 						<tr>
 							<td>
-								<h2>Camps (3)</h2>
+								<h2>Camps ({{ camps|length }})</h2>
 							</td>
 							<td style="vertical-align: bottom; padding-bottom: 7px;">
 								<div class="btn-group pull-right" >
@@ -42,33 +42,20 @@
 			       <col span="1" style="width: 30%;">
 			    </colgroup>
 				<tbody>
-					<tr>
-						<td><span class="icon-bell"></span></td>
-						<td><a href="#" class="">SoLa 2012</a></td>
-						<td><a href="#">Zytturm</a></td>
-						<td>
-							<div class="hidden-sm hidden-xs">14. - 28.7.2012</div>
-							<div class="hidden-md hidden-lg">14. - 28.7</div>
-						</td>
-					</tr>
-					<tr>
-						<td><span class="icon-bell"></span></td>
-						<td><a href="#">SoLa 2012</a></td>
-						<td><a href="#">Zytturm</a></td>
-						<td>
-							<div class="hidden-sm hidden-xs">14. - 28.7.2012</div>
-							<div class="hidden-md hidden-lg">14. - 28.7</div>
-						</td>
-					</tr>
-					<tr>
-						<td><span class="icon-bell"></span></td>
-						<td><a href="#">SoLa 2012</a></td>
-						<td><a href="#">Zytturm</a></td>
-						<td>
-							<div class="hidden-sm hidden-xs">14. - 28.7.2012</div>
-							<div class="hidden-md hidden-lg">14. - 28.7</div>
-						</td>
-					</tr>
+					{% for camp in camps %}
+						<tr>
+							<td><span class="icon-bell"></span></td>
+							<td><a href="#">{{ camp.getTitle }}</a></td>
+							<td>
+								<a href="#">{{ camp.getOwner.getDisplayName }}</a>
+								<a href="#">{{ camp.getGroup.getName }}</a>
+							</td>
+							<td>
+								<div class="hidden-sm hidden-xs">{{ camp.getRange }}</div>
+								<div class="hidden-md hidden-lg">{{ camp.getRange }}</div>
+							</td>
+						</tr>
+					{% endfor %}
 				</tbody>
 			</table>
 			<table>
@@ -81,7 +68,7 @@
 		<div class="col-sm-6">
 			<table>
 				<tr>
-					<td><h2>Groups (4)</h2></td>
+					<td><h2>Groups ({{ groupMemberships|length }})</h2></td>
 				</tr>
 			</table>
 			<table class="table table-hover">
@@ -92,52 +79,23 @@
 			       <col span="1" style="width: 60px;">
 			    </colgroup>
 				<tbody>
-					<tr>
-						<td><span class="icon-flag"></span></td>
-						<td>PBS</td>
-						<td>
-							<div class="hidden-xs hidden-sm">Du bist Mitglied</div>
-							<div class="hidden-md hidden-lg">Mitglied</div>
-						</td>
-						<td></td>
-					</tr>
-					<tr>
-						<td><span class="icon-flag"></span></td>
-						<td>Luzern</td>
-						<td>
-							<div class="hidden-xs hidden-sm">Du bist Mitglied</div>
-							<div class="hidden-md hidden-lg">Mitglied</div>
-						</td>
-						<td></td>
-					</tr>
-					<tr>
-						<td><span class="icon-flag"></span></td>
-						<td>Musegg</td>
-						<td>
-							<div class="hidden-xs hidden-sm">Du bist Mitglied</div>
-							<div class="hidden-md hidden-lg">Mitglied</div>
-						</td>
-						<td>
-							<a data-toggle="modal" href="#group_musegg_operations">
-								<i class="icon-warning-sign pull-right"></i>
-							</a>
-						</td>
-					</tr>
-					<tr>
-						<td><span class="icon-flag"></span></td>
-						<td>Zytturm</td>
-						<td>
-							<div class="hidden-xs hidden-sm">Du bist Mitglied</div>
-							<div class="hidden-md hidden-lg">Mitglied</div>
-						</td>
-						<td></td>
-					</tr>
+					{% for groupMembership in groupMemberships %}
+						<tr>
+							<td><span class="icon-flag"></span></td>
+							<td>{{ groupMembership.getGroup.getDescription }}</td>
+							<td>
+								<div class="hidden-xs hidden-sm">Du bist {{ groupMembership.getRole }}</div>
+								<div class="hidden-md hidden-lg">{{ groupMembership.getRole }}</div>
+							</td>
+							<td></td>
+						</tr>
+					{% endfor %}
 				</tbody>
 			</table>
 
 			<table>
 				<tr>
-					<td><h2>Friends</h2></td>
+					<td><h2>Friends ({{friendships|length}})</h2></td>
 				</tr>
 			</table>
 			<table class="table table-hover">
@@ -148,26 +106,16 @@
 			       <col span="1" style="width: 60px;">
 			    </colgroup>
 				<tbody>
-					<tr>
-						<td><span class="icon-user"></span></td>
-						<td>Q</td>
-						<td>
-							<b class="label label-success" style="font-size: 12px;">Online</b>&nbsp;
-						</td>
-						<td></td>
-					</tr>
-					<tr>
-						<td><span class="icon-user"></span></td>
-						<td>Habbo</td>
-						<td><b class="label label-danger" style="font-size: 12px;">Offline</b>&nbsp;</td>
-						<td></td>
-					</tr>
-					<tr>
-						<td><span class="icon-user"></span></td>
-						<td>Safari</td>
-						<td><b class="label label-danger" style="font-size: 12px;">Offline</b>&nbsp;</td>
-						<td></td>
-					</tr>
+					{% for friendship in friendships %}
+						<tr>
+							<td><span class="icon-user"></span></td>
+							<td>{{ friendship.getTo.getDisplayName }}</td>
+							<td>
+								<b class="label label-success" style="font-size: 12px;">?? Online ??</b>&nbsp;
+							</td>
+							<td></td>
+						</tr>
+					{% endfor %}
 				</tbody>
 			</table>
 
@@ -176,7 +124,7 @@
 					<td>
 						<h4 class="	">
 					    	Open Requests
-					    	(2)
+					    	({{ friendshipRequests|length }})
 					    </h4>
 					</td>
 				</tr>
@@ -189,33 +137,22 @@
 			       <col span="1" style="width: 100px;">
 			    </colgroup>
 				<tbody>
-
-					<tr>
-						<td><i class="icon-user"></i></td>
-						<td>Duck</td>
-						<td><b class="label label-danger" style="font-size: 12px;">Offline</b>&nbsp;</td>
-						<td>
-							<div class="pull-right">
-								<a href="#"><i class="icon-ok icon-green" data-toggle="tooltip" data-placement="bottom" data-original-title="Annehmen"></i></a>
-								<a href="#"><i class="icon-remove icon-red" data-toggle="tooltip" data-placement="bottom" data-original-title="Ablehnen"></i></a>
-							</div>
-						</td>
-					</tr>
-					<tr>
-						<td><i class="icon-user"></i></td>
-						<td>BA</td>
-						<td>
-							<b class="label label-success" style="font-size: 12px;">Online</b>&nbsp;
-						</td>
-						<td>
-							<div class="pull-right">
-								<a href="#"><i class="icon-ok icon-green" data-toggle="tooltip" data-placement="bottom" data-original-title="Annehmen"></i></a>
-								<a href="#"><i class="icon-remove icon-red" data-toggle="tooltip" data-placement="bottom" data-original-title="Ablehnen"></i></a>
-							</div>
-						</td>
-					</tr>
+					{% for friendshipRequest in friendshipRequests %}
+						<tr>
+							<td><i class="icon-user"></i></td>
+							<td>{{ friendshipRequest.getTo.getDisplayName }}</td>
+							<td><b class="label label-danger" style="font-size: 12px;">?? Offline ??</b>&nbsp;</td>
+							<td>
+								<div class="pull-right">
+									<a href="#"><i class="icon-ok icon-green" data-toggle="tooltip" data-placement="bottom" data-original-title="Annehmen"></i></a>
+									<a href="#"><i class="icon-remove icon-red" data-toggle="tooltip" data-placement="bottom" data-original-title="Ablehnen"></i></a>
+								</div>
+							</td>
+						</tr>
+					{% endfor %}
 				</tbody>
 			</table>
 		</div>
 	</div>
+
 {% endblock content %}
