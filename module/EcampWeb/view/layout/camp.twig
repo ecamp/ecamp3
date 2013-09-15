@@ -1,0 +1,59 @@
+{% extends 'layout/default.twig' %}
+
+{% block header %}
+	<table border="0" style="width: 100%; border: 0px;">
+		<tr>
+			<td width="120px">
+				<img width="100" class="img-rounded" src="https://cdn3.iconfinder.com/data/icons/outdoor-and-camping-icons/512/Tent-256.png" >
+			</td>
+			<td>
+				<h1>PBS LU 211-11</h1>
+				<p>
+					Tightest shit since slided bread
+				</p>
+			</td>
+		</tr>
+	</table>
+
+{% endblock header %}
+
+{% block content %}
+
+	<div class="row">
+		<div class="col-sm-2">
+			<ul class="nav nav-pills nav-stacked">
+			  <li class="active"><a href="#">Info</a></li>
+			  <li><a href="#">People</a></li>
+			  <li class="dropdown">
+			    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+			      Programm <span class="caret"></span>
+			    </a>
+			    <ul class="dropdown-menu">
+			      <li><a href="#">Grobprogramm</a></li>
+			      <li><a href="#">Tages&uuml;bersicht</a></li>
+			    </ul>
+			  </li>
+			  <li><a href="#">Material</a></li>
+			  <li><a href="#">Print</a></li>
+			  <li class="dropdown">
+			    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+			      Kurs <span class="caret"></span>
+			    </a>
+			    <ul class="dropdown-menu">
+			      <li><a href="#">Ausbildungsziele</a></li>
+			      <li><a href="#">J+S Checklisten</a></li>
+			    </ul>
+			  </li>
+			</ul>
+		</div>
+		<div class="col-sm-10">
+			{% block content2 %}{{ content2|raw }}{% endblock content2 %}
+		</div>
+	</div>
+{% endblock content %}
+
+{% block breadcrumb %}
+	  <li><a href="#">PBS</a></li>
+	  <li><a href="#">Pfadi Luzern</a></li>
+	  <li class="active">PBS LU 211-11</li>
+{% endblock breadcrumb %}
