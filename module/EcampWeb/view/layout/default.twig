@@ -67,45 +67,42 @@
     	<div class="bgimage"></div>
 
     	<div class="transpLayer">
-    		<section class="container white" style="margin-top: 10px; ">
+    		<section class="container white" style="margin-top: -8px; padding-top: 5px; ">
 				<div class="row">
-					<div class="col-sm-5 col-sm-push-7">
-						<div class="btn-group pull-right" style="margin-bottom: 8px">
-							<div class="btn btn-sm btn-danger"><i class="icon-inbox"></i> Inbox</div>
-							<div class="btn-group">
-							  <button type="button" class="btn btn-sm btn-danger"><i class="icon-user"></i> Forte</button>
-							  <button type="button" class="btn btn-sm btn-danger dropdown-toggle" data-toggle="dropdown">
-							    &nbsp;<i class="icon-caret-down"></i>&nbsp;
-							  </button>
-								<ul class="dropdown-menu pull-right" role="menu">
-								    <li><a href="#"><span class="icon-user"></span>&nbsp;&nbsp; Profile</a></li>
-								    <li><a href="#"><span class="icon-cog"></span>&nbsp;&nbsp; Options</a></li>
-								    <li class="divider"></li>
-								    <li><a href="#"><span class="icon-info-sign"></span>&nbsp;&nbsp; About</a></li>
-								    <li class="divider"></li>
-								    <li><a href="#"><span class="icon-off"></span>&nbsp;&nbsp; Abmelden</a></li>
-								</ul>
-							</div>
-						</div>
-					</div>
-					<div class="col-sm-7 col-sm-pull-5">
-						<div>
-							<ol class="breadcrumb" style="margin-bottom:4px;">
-	  							<li><a href="#"><i class="icon-home"></i> Dashboard</a></li>
-        						{% block breadcrumb %}{{ breadcrumb|raw }}{% endblock breadcrumb %}
-        					</ol>
-        				</div>
-
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-sm-6">
-						{% block header %}{{ header|raw }}{% endblock header %}
-					</div>
-					<div class="col-sm-6">
-
+					<div class="col-sm-3 col-sm-push-9 col-md-5 col-md-push-7">
 						<div class="row">
-							<div class="search-box pull-right col-xs-12 col-sm-9 col-md-7 col-lg-6">
+							<div class="col-xs-12">
+								<div class="btn-group pull-right" style="margin-bottom: 8px">
+									<button type="button" class="btn btn-sm btn-primary"><i class="icon-home"></i> Dashboard</button>
+									<button type="button" class="btn btn-sm btn-primary hidden-xs hidden-sm"><i class="icon-user"></i> Users</button>
+									<button type="button" class="btn btn-sm btn-primary hidden-xs hidden-sm"><i class="icon-flag"></i> Groups</button>
+									<button type="button" class="btn btn-sm btn-primary hidden-xs hidden-sm"><i class="icon-bell"></i> Camps</button>
+								
+									<button type="button" class="btn btn-sm btn-primary dropdown-toggle" data-toggle="dropdown">
+										&nbsp;<i class="icon-caret-down"></i>&nbsp;
+									</button>
+									<ul class="dropdown-menu pull-right" role="menu">
+									    <li class="hidden-md hidden-lg"><a href="#"><span class="icon-user"></span>&nbsp;&nbsp; Users</a></li>
+									    <li class="hidden-md hidden-lg"><a href="#"><span class="icon-flag"></span>&nbsp;&nbsp; Groups</a></li>
+									    <li class="hidden-md hidden-lg"><a href="#"><span class="icon-bell"></span>&nbsp;&nbsp; Camps</a></li>
+									    <li class="hidden-md hidden-lg divider"></li>
+									    
+									    <li><a href="#"><span class="icon-user"></span>&nbsp;&nbsp; Username</a></li>
+									    <li><a href="#"><span class="icon-inbox"></span>&nbsp;&nbsp; Inbox</a></li>
+									    <li><a href="#"><span class="icon-cog"></span>&nbsp;&nbsp; Options</a></li>
+									    <!-- 
+									    <li class="divider"></li>
+									    <li><a href="#"><span class="icon-info-sign"></span>&nbsp;&nbsp; About</a></li>
+									     -->
+									    <li class="divider"></li>
+									    <li><a href="#"><span class="icon-off"></span>&nbsp;&nbsp; Abmelden</a></li>
+									</ul>
+								</div>
+							</div>
+							
+						</div>
+						<div class="row">
+							<div class="search-box pull-right col-md-10 col-lg-8 hidden-xs hidden-sm">
 								<div class="input-group pull-right">
 							    	<input type="text" class="form-control input-sm" placeholder="Search" />
 							    	<span class="input-group-btn">
@@ -113,16 +110,36 @@
 							        	<span class="icon-search"></span>&nbsp;
 							        </button>
 							      </span>
-							    </div><!-- /input-group -->
+							    </div>
 							</div>
 						</div>
+						
+					</div>
+					<div class="col-sm-9 col-sm-pull-3 col-md-7 col-md-pull-5">
+						{% block header %}{{ header|raw }}{% endblock header %}
 					</div>
 				</div>
-
+			
+ 				<hr style="margin-top: 10px; margin-bottom: 5px;" />
+ 				
+				<div class="row">
+					<div class="col-sm-12">
+						<ol class="breadcrumb" style="margin-bottom:0px; padding: 0px 5px; background-color: rgba(0,0,0,0);">
+	  						<li>
+	  							<div class="btn-group">
+	  							<a href="/web" class="btn btn-xs btn-noborder">
+		  							<i class="icon-home"></i> Dashboard
+	  							</a>
+	  							</div>
+  							</li>
+        					{% block breadcrumb %}{{ breadcrumb|raw }}{% endblock breadcrumb %}
+        				</ol>
+					</div>
+				</div>
 			</section>
-
-
+			
 			<section class="container white">
+				
 	        	{% block content %}{{ content|raw }}{% endblock content %}
 	        </section>
         </div>

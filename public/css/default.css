@@ -13,6 +13,18 @@
 	font-size: 20px;
 }
 
+.btn-noborder {
+	color: #333;
+	background-color: #fff;
+	border: none;
+}
+.btn-noborder:hover {
+	background-color: #eee;
+}
+.btn-group.open .btn-noborder.dropdown-toggle{
+	background-color: #eee;
+}
+
 .icon-green {
 	color: rgb(92, 184, 92);
 }
@@ -27,6 +39,13 @@
 
 table.table tr:first-child td {
 	border-top: none;
+}
+
+.breadcrumb>li+li:before {
+	padding: 0 3px;
+	color: #888;
+	font-family: FontAwesome;
+	content: "\f0da";
 }
 
 @media (min-width: 768px){

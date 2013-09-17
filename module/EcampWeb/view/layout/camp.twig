@@ -7,7 +7,7 @@
 				<img width="100" class="img-rounded" src="https://cdn3.iconfinder.com/data/icons/outdoor-and-camping-icons/512/Tent-256.png" >
 			</td>
 			<td>
-				<h1>PBS LU 211-11</h1>
+				<h1>PBS LU 211-11 - Name</h1>
 				<p>
 					Tightest shit since slided bread
 				</p>
@@ -53,7 +53,68 @@
 {% endblock content %}
 
 {% block breadcrumb %}
-	  <li><a href="#">PBS</a></li>
-	  <li><a href="#">Pfadi Luzern</a></li>
-	  <li class="active">PBS LU 211-11</li>
+	  
+	  <li>
+		<div class="btn-group">
+			<!-- 
+			<select class="select2">
+				<option selected="selected">PBS</option>
+				<option>JuBla</option>
+				<option>Cevi</option>
+			</select>
+			 -->
+			
+	    	<a href="#" class="btn btn-xs btn-noborder dropdown-toggle" data-toggle="dropdown">
+	    		<i class="icon-flag"></i> PBS 
+	    	</a>
+			<ul class="dropdown-menu" role="menu">
+			    <li><a href="#"><span class="icon-flag"></span>&nbsp;&nbsp; PBS</a></li>
+			    <li class="divider"></li>
+			    <li><a href="#"><span class="icon-flag"></span>&nbsp;&nbsp; Jubla</a></li>
+			</ul>
+	   	</div>
+      </li>
+	  <li>
+		<div class="btn-group">
+			<!-- 
+			<select class="select2">
+				<option selected="selected">Pfadi Luzern</option>
+				<option>Pfadi Basel</option>
+				<option>Pfadi Zürich</option>
+				<option>Pfadi Bern</option>
+				<option>Pfadi Solothurn</option>
+				<option>Pfadi Aargau</option>
+				<option>Pfadi Innerschwyz</option>
+			</select>
+			 -->
+			<a href="#" class="btn btn-xs btn-noborder dropdown-toggle" data-toggle="dropdown">
+				<i class="icon-flag"></i> Pfadi Luzern
+			</a>
+							
+			<ul class="dropdown-menu " role="menu">
+			    <li><a href="#"><span class="icon-flag"></span>&nbsp;&nbsp; Pfadi Luzern</a></li>
+			    <li class="divider"></li>
+			    <li><a href="#"><span class="icon-flag"></span>&nbsp;&nbsp; Pfadi Basel</a></li>
+			    <li><a href="#"><span class="icon-flag"></span>&nbsp;&nbsp; Pfadi Zürich</a></li>
+			    <li style="text-align: center;"><a href="#"><i class="icon-caret-down"></i></a></li>
+			</ul>
+        </div>
+      </li>
+      
+	  <li>
+		<div class="btn-group">
+	    	<a href="#" class="btn btn-xs btn-noborder dropdown-toggle" data-toggle="dropdown">
+	    		<i class="icon-bell"></i> PBS LU 211-11
+	    	</a>
+        					
+			<ul class="dropdown-menu" role="menu">
+			    <li><a href="#"><span class="icon-bell"></span>&nbsp;&nbsp; PBS LU 211-11</a></li>
+			    <li class="divider"></li>
+			    <li><a href="#"><span class="icon-bell"></span>&nbsp;&nbsp; PBS LU 212-11</a></li>
+			    <li><a href="#"><span class="icon-bell"></span>&nbsp;&nbsp; PBS LU 221-11</a></li>
+   			    <li class="divider"></li>
+			    <li><a href="#"><span class="icon-bell"></span>&nbsp;&nbsp; Alle ...</a></li>
+   			</ul>
+        </div>
+      </li>
 {% endblock breadcrumb %}
