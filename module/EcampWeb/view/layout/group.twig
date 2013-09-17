@@ -37,9 +37,9 @@
 {% block breadcrumb %}
 
 	  {%  for item in group.getPathAsArray %}
-	  	<li><a href="{{ url('web/group-prefix/name', {'group' : item.getId } ) }}">{{ item.getDescription }}</a></li>
+	  	<li><a class="btn btn-xs btn-noborder" href="{{ url('web/group-prefix/name', {'group' : item.getId } ) }}">{{ item.getDescription }}</a></li>
 	  {% endfor %}
 
-	  <li class="active">{{ group.getDescription }}</li>
+	  <li class="active"><a class="btn btn-xs btn-noborder disabled" href="#">{{ group.getDescription }}</a></li>
 
 {% endblock breadcrumb %}

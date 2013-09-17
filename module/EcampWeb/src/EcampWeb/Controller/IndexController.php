@@ -2,21 +2,58 @@
 
 namespace EcampWeb\Controller;
 
+use EcampLib\Controller\AbstractBaseController;
+use EcampCore\Entity\GroupMembership;
+
 class IndexController
-    extends BaseController
+    extends AbstractBaseController
 {
 
     /**
-     *
+     * @return \EcampCore\Repository\CampRepository
      */
     private function getCampRepository()
     {
-        $this->getServiceLocator()->get('EcampCore\Repository\Camp');
+        return $this->getServiceLocator()->get('EcampCore\Repository\Camp');
+    }
+
+    /**
+     * @return \EcampCore\Repository\GroupMembershipRepository
+     */
+    private function getGroupMembershipRepository()
+    {
+        return $this->getServiceLocator()->get('EcampCore\Repository\GroupMembership');
+    }
+
+    /**
+     * @return \EcampCore\Repository\UserRelationshipRepository
+     */
+    private function getUserRelationshipRepository()
+    {
+        return $this->getServiceLocator()->get('EcampCore\Repository\UserRelationship');
     }
 
     public function indexAction()
     {
-        return array();
+        $me = $this->getMe();
+
+        $camps = $this->getCampRepository()->findCampsByUser($me);
+
+        $groupMemberships = $this->getGroupMembershipRepository()->findBy(array(
+            'user' => $me,
+            'status' => GroupMembership::STATUS_ESTABLISHED
+        ));
+
+        $friendships = $this->getUserRelationshipRepository()->findFriends($me);
+        $friendshipRequests = $this->getUserRelationshipRepository()->findRequests($me);
+
+        return array(
+            'camps' => $camps,
+            'news' => array(),
+            'groupMemberships' => $groupMemberships,
+            'friendships' => $friendships,
+            'friendshipRequests' => $friendshipRequests
+        );
     }
 
 }

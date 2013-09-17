@@ -281,7 +281,18 @@ class Camp extends BaseEntity
             return "-";
         }
 
-        return $this->getPeriods()->first()->getStart()->format("d.m.Y") . ' - ' . $this->getPeriods()->last()->getEnd()->format("d.m.Y");
+        $start = $this->getPeriods()->first()->getStart();
+        $end = $this->getPeriods()->last()->getEnd();
+
+        if ($start->format("Y") == $end->format("Y")) {
+            if ($start->format("m") == $end->format("m")) {
+                return $start->format("d.") . ' - ' . $end->format('d.m.Y');
+            } else {
+                return $start->format("d.m.") . ' - ' . $end->format('d.m.Y');
+            }
+        } else {
+            return $start->format("d.m.Y") . ' - ' . $end->format('d.m.Y');
+        }
     }
 
     public function getStart()

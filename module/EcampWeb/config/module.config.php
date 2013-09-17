@@ -90,10 +90,11 @@ return array(
     'controllers' => array(
         'invokables' => array(
             'EcampWeb\Controller\Index' => 'EcampWeb\Controller\IndexController',
-            'Index' => 'EcampWeb\Controller\IndexController',
             'EcampWeb\Controller\Camp\Index'  => 'EcampWeb\Controller\Camp\IndexController',
             'EcampWeb\Controller\Group\Index'  => 'EcampWeb\Controller\Group\IndexController',
             'EcampWeb\Controller\Group\Member'  => 'EcampWeb\Controller\Group\MemberController',
+            'EcampWeb\Controller\Bypass' => 'EcampWeb\Controller\BypassController',
+
         ),
     ),
 

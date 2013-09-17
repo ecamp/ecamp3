@@ -11,7 +11,6 @@ use EcampLib\Service\ServiceBase;
 use EcampLib\Service\Params\Params;
 
 use Zend\Paginator\Paginator;
-use Zend\Authentication\AuthenticationService;
 
 class UserService
     extends ServiceBase
@@ -41,11 +40,7 @@ class UserService
         if (isset($id)) {
             $user = $this->getByIdentifier($id);
         } else {
-
-            $authService = new AuthenticationService();
-            if ($authService->hasIdentity()) {
-                $user = $this->userRepo->find($authService->getIdentity());
-            }
+            $user = $this->getMe();
         }
 
         return $this->aclIsAllowed($user, Privilege::USER_LIST)

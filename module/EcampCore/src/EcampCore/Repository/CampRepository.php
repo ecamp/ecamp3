@@ -7,7 +7,8 @@ use DoctrineORMModule\Paginator\Adapter\DoctrinePaginator as PaginatorAdapter;
 use Doctrine\ORM\Tools\Pagination\Paginator as ORMPaginator;
 use Zend\Paginator\Paginator;
 
-use EcampCore\Entity\UserCamp;
+use EcampCore\Entity\CampCollaboration;
+use EcampCore\Entity\User;
 
 class CampRepository
     extends EntityRepository
@@ -87,7 +88,7 @@ class CampRepository
         return new Paginator(new PaginatorAdapter(new ORMPaginator($q->getQuery())));
     }
 
-    public function findUserCamps($userId)
+    public function findCampsByUser(User $user)
     {
         $q = $this->_em->createQuery(
             "	SELECT 	c" .
@@ -95,15 +96,15 @@ class CampRepository
             "	WHERE 	c.owner = :userId" .
             "	OR		EXISTS (" .
             "		SELECT 	1" .
-            "		FROM	EcampCore\Entity\UserCamp uc" .
-            "		WHERE	uc.camp = c.id" .
-            "		AND		uc.user = :userId" .
-            "		AND		uc.role > :role" .
+            "		FROM	EcampCore\Entity\CampCollaboration cc" .
+            "		WHERE	cc.camp = c.id" .
+            "		AND		cc.user = :userId" .
+            "		AND		cc.role >= :role" .
             "	)"
         );
 
-        $q->setParameter('userId', 	$userId);
-        $q->setParameter('role', 	UserCamp::ROLE_NONE);
+        $q->setParameter('userId', 	$user->getId());
+        $q->setParameter('role', 	CampCollaboration::ROLE_GUEST);
 
         return $q->getResult();
     }
