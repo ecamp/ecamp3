@@ -1,8 +1,8 @@
 <?php
 
-namespace EcampWeb\Controller;
+namespace EcampWeb\Controller\Camp;
 
-class CampController
+class IndexController
     extends BaseController
 {
 

@@ -7,9 +7,9 @@
 				<img width="100" class="img-rounded" src="https://cdn3.iconfinder.com/data/icons/outdoor-and-camping-icons/512/Tent-256.png" >
 			</td>
 			<td>
-				<h1>PBS LU 211-11</h1>
+				<h1>{{ camp.getName }}</h1>
 				<p>
-					Tightest shit since slided bread
+					{{ camp.getTitle }}
 				</p>
 			</td>
 		</tr>
@@ -53,7 +53,13 @@
 {% endblock content %}
 
 {% block breadcrumb %}
-	  <li><a href="#">PBS</a></li>
-	  <li><a href="#">Pfadi Luzern</a></li>
-	  <li class="active">PBS LU 211-11</li>
+	  {% if camp.belongsToUser  %}
+	  	<li><a href="{{ url('web/user-prefix/name', {'user' : camp.getOwner.getId } ) }}">{{ camp.getOwner.getName }}</a></li>
+	  {% else %}
+	  	{%  for item in camp.getGroup.getPathAsArray(true) %}
+	  		<li><a href="{{ url('web/group-prefix/name', {'group' : item.getId } ) }}">{{ item.getDescription }}</a></li>
+	  	{% endfor %}
+	  {% endif %}
+
+	  <li class="active">{{ camp.getName }}</li>
 {% endblock breadcrumb %}

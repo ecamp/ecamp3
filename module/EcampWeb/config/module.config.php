@@ -2,7 +2,7 @@
 return array(
     'router' => array(
         'routes' => array(
-            'dev' => array(
+            'web' => array(
                 'type'    => 'Literal',
                 'options' => array(
                     'route'    => '/web',
@@ -25,32 +25,60 @@ return array(
                                 ),
                     ),
 
-                    'group' => array(
+                    'group-prefix' => array(
                             'type'    => 'Literal',
                             'options' => array(
                                     'route'    => '/group',
                                     'defaults' => array(
-                                            'controller'    => 'Group',
-                                            'action'     => 'index',
+                                            '__NAMESPACE__' => 'EcampWeb\Controller\Group',
+                                            'controller'    => 'Index',
+                                            'action'    	=> 'index',
                                     ),
                             ),
                             'may_terminate' => false,
                             'child_routes' => array(
-                                    /*'dev' => array(
-                                            'type'    => 'Literal',
-                                            'options' => array(
-                                                    'route'    => '/pbs',
-                                                    'defaults' => array(
-                                                            'controller'    => 'Group',
-                                                            'action'        => 'index',
-                                                    ),
-                                            ),
-                                    ),*/
-
-                                    'groupname' => array(
+                                    'name' => array(
                                                     'type' => 'EcampCore\Router\GroupRouter',
                                                     'may_terminate' => true,
-                                    )
+
+                                                    'child_routes' => array(
+
+                                                            'default' => array(
+                                                                    'type'    => 'Segment',
+                                                                    'options' => array(
+                                                                            'route'    => '[/:controller[/:action]]',
+                                                                            'constraints' => array(
+                                                                                    'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                                                                                    'action'     => '[a-zA-Z][a-zA-Z0-9_-]*',
+                                                                            ),
+                                                                    ),
+                                                            ),
+                                                    ),
+                                    ),
+
+                                    'name+camp' => array(
+                                            'type' => 'EcampCore\Router\GroupCampRouter',
+                                            'may_terminate' => true,
+                                            'options' => array(
+                                                    'defaults' => array(
+                                                            '__NAMESPACE__' => 'EcampWeb\Controller\Camp',
+                                                            'controller'    => 'Index',
+                                                            'action'     	=> 'index',
+                                                    ),
+                                            ),
+                                            'child_routes' => array(
+                                                    'default' => array(
+                                                            'type'    => 'Segment',
+                                                            'options' => array(
+                                                                    'route'    => '[/:controller[/:action]]',
+                                                                    'constraints' => array(
+                                                                            'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                                                                            'action'     => '[a-zA-Z][a-zA-Z0-9_-]*',
+                                                                    ),
+                                                            ),
+                                                    ),
+                                            ),
+                                    ),
                             ),
                     ),
 
@@ -63,8 +91,9 @@ return array(
         'invokables' => array(
             'EcampWeb\Controller\Index' => 'EcampWeb\Controller\IndexController',
             'Index' => 'EcampWeb\Controller\IndexController',
-            'Camp'  => 'EcampWeb\Controller\CampController',
-            'Group'  => 'EcampWeb\Controller\GroupController',
+            'EcampWeb\Controller\Camp\Index'  => 'EcampWeb\Controller\Camp\IndexController',
+            'EcampWeb\Controller\Group\Index'  => 'EcampWeb\Controller\Group\IndexController',
+            'EcampWeb\Controller\Group\Member'  => 'EcampWeb\Controller\Group\MemberController',
         ),
     ),
 

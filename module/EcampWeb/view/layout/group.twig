@@ -1,0 +1,45 @@
+{% extends 'layout/default.twig' %}
+
+{% block header %}
+	<table border="0" style="width: 100%; border: 0px;">
+		<tr>
+			<td width="120px">
+				<img width="100" class="img-rounded" src="https://cdn3.iconfinder.com/data/icons/glyph/227/Public-256.png" >
+			</td>
+			<td>
+				<h1>{{ group.getName }}</h1>
+				<p>
+					{{ group.getDescription }}
+				</p>
+			</td>
+		</tr>
+	</table>
+
+{% endblock header %}
+
+{% block content %}
+
+	<div class="row">
+		<div class="col-sm-2">
+			<ul class="nav nav-pills nav-stacked">
+			  <li class="active"><a href="#">Info</a></li>
+			  <li><a href="#">Members</a></li>
+			  <li><a href="#">Subgroups</a></li>
+			  <li><a href="#">Camps</a></li>
+			  <li><a href="#">Admin</a></li>
+		</div>
+		<div class="col-sm-10">
+			{% block content2 %}{{ content2|raw }}{% endblock content2 %}
+		</div>
+	</div>
+{% endblock content %}
+
+{% block breadcrumb %}
+
+	  {%  for item in group.getPathAsArray %}
+	  	<li><a href="{{ url('web/group-prefix/name', {'group' : item.getId } ) }}">{{ item.getDescription }}</a></li>
+	  {% endfor %}
+
+	  <li class="active">{{ group.getDescription }}</li>
+
+{% endblock breadcrumb %}

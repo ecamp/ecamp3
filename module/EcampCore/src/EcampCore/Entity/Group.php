@@ -161,10 +161,13 @@ class Group
     /**
      * @return array
      */
-    public function getPathAsArray()
+    public function getPathAsArray( $include_self = false )
     {
         $path = array();
         $group = $this;
+
+        if($include_self)
+            $path[] = $group;
 
         while ( $group->getParent() != null ) {
             $group = $group->getParent();

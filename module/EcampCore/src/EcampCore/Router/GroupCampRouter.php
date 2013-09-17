@@ -96,7 +96,7 @@ class GroupCampRouter
         $camp   = $traceInfo['camp'];
         $length = $traceInfo['length'];
 
-        if ($group == null) {
+        if ($group == null || $camp == null) {
             return null;
         } else {
             $groupId = $group->getId();

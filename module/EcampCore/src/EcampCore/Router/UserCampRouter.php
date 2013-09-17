@@ -96,7 +96,7 @@ class UserCampRouter
         $camp   = $traceInfo['camp'];
         $length = $traceInfo['length'];
 
-        if ($user == null) {
+        if ($user == null || $camp == null) {
             return null;
         } else {
             $userId = $user->getId();
