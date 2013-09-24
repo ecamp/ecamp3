@@ -1,5 +1,5 @@
 {{ docType() }}
-<html>
+<html ng-app="eCamp3">
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -24,13 +24,19 @@
         <!-- Scripts -->
         <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 		<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+		<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js"></script>
+		<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular-resource.min.js"></script>
 		<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
 
 		<script type="text/javascript" src="//cdn.jsdelivr.net/select2/3.4.2/select2.js"></script>
 		<!--[if lt IE 9]><script type="text/javascript" src="/js/html5.js"></script><![endif]-->
 
+		{{ headScript() }}
 
 		<script type="text/javascript">
+
+			angular.module('eCamp3', ['ngResource']);
+
 			$(function(){
 				$("div.search-box input[type='text']")
 					.focus(function(){ $('div.search-box').switchClass('col-sm-9 col-md-7 col-lg-6', 'col-sm-12 col-md-12 col-lg-12', 300); });
@@ -46,10 +52,10 @@
 				var keyQueue = null;
 				$("body").keydown(function(event){
 					if(event.which == 77){
-						keyQueue = 'm';
-					} else if (keyQueue == 'm' && event.which == 65){
-						keyQueue = 'ma';
-					} else if (keyQueue == 'ma' && event.which == 80){
+						keyQueue = 77;
+					} else if (keyQueue == 77 && event.which == 65){
+						keyQueue = 7765;
+					} else if (keyQueue == 7765 && event.which == 80){
 						$('body div.transpLayer').addClass('transp');
 					} else {
 						keyQueue = null;
@@ -66,36 +72,59 @@
     <body>
     	<div class="bgimage"></div>
 
-    	<div class="transpLayer">
+    	<!--
+    	 <div class="transpLayer">
+    	 -->
+
+    	 <div >
     		<section class="container white" style="margin-top: -8px; padding-top: 5px; ">
 				<div class="row">
 					<div class="col-sm-3 col-sm-push-9 col-md-5 col-md-push-7">
 						<div class="row">
 							<div class="col-xs-12">
 								<div class="btn-group pull-right" style="margin-bottom: 8px">
-									<button type="button" class="btn btn-sm btn-primary"><i class="icon-home"></i> Dashboard</button>
-									<button type="button" class="btn btn-sm btn-primary hidden-xs hidden-sm"><i class="icon-user"></i> Users</button>
-									<button type="button" class="btn btn-sm btn-primary hidden-xs hidden-sm"><i class="icon-flag"></i> Groups</button>
-									<button type="button" class="btn btn-sm btn-primary hidden-xs hidden-sm"><i class="icon-bell"></i> Camps</button>
+									<a 	class="btn btn-sm btn-primary"
+										href="{{ url('web') }}">
+										<i class="icon-home"></i> Dashboard
+									</a>
+									<a 	class="btn btn-sm btn-primary hidden-xs hidden-sm"
+										href="#">
+										<i class="icon-user"></i> Users
+									<a class="btn btn-sm btn-primary hidden-xs hidden-sm">
+										<i class="icon-flag"></i> Groups
+									</a>
+									<a class="btn btn-sm btn-primary hidden-xs hidden-sm">
+										<i class="icon-bell"></i> Camps
+									</a>
 
-									<button type="button" class="btn btn-sm btn-primary dropdown-toggle" data-toggle="dropdown">
+									<a class="btn btn-sm btn-primary dropdown-toggle" data-toggle="dropdown">
 										&nbsp;<i class="icon-caret-down"></i>&nbsp;
-									</button>
+									</a>
 									<ul class="dropdown-menu pull-right" role="menu">
-									    <li class="hidden-md hidden-lg"><a href="#"><span class="icon-user"></span>&nbsp;&nbsp; Users</a></li>
-									    <li class="hidden-md hidden-lg"><a href="#"><span class="icon-flag"></span>&nbsp;&nbsp; Groups</a></li>
-									    <li class="hidden-md hidden-lg"><a href="#"><span class="icon-bell"></span>&nbsp;&nbsp; Camps</a></li>
+									    <li class="hidden-md hidden-lg">
+									    	<a href="#"><span class="icon-user"></span>&nbsp;&nbsp; Users</a>
+									    </li>
+									    <li class="hidden-md hidden-lg">
+									    	<a href="#"><span class="icon-flag"></span>&nbsp;&nbsp; Groups</a>
+									    </li>
+									    <li class="hidden-md hidden-lg">
+									    	<a href="#"><span class="icon-bell"></span>&nbsp;&nbsp; Camps</a>
+									    </li>
 									    <li class="hidden-md hidden-lg divider"></li>
 
-									    <li><a href="#"><span class="icon-user"></span>&nbsp;&nbsp; Username</a></li>
-									    <li><a href="#"><span class="icon-inbox"></span>&nbsp;&nbsp; Inbox</a></li>
-									    <li><a href="#"><span class="icon-cog"></span>&nbsp;&nbsp; Options</a></li>
-									    <!--
+									    <li>
+									    	<a href="#"><span class="icon-user"></span>&nbsp;&nbsp; Username</a>
+									    </li>
+									    <li>
+									    	<a href="#"><span class="icon-inbox"></span>&nbsp;&nbsp; Inbox</a>
+									    </li>
+									    <li>
+									    	<a href="#"><span class="icon-cog"></span>&nbsp;&nbsp; Options</a>
+									    </li>
 									    <li class="divider"></li>
-									    <li><a href="#"><span class="icon-info-sign"></span>&nbsp;&nbsp; About</a></li>
-									     -->
-									    <li class="divider"></li>
-									    <li><a href="#"><span class="icon-off"></span>&nbsp;&nbsp; Abmelden</a></li>
+									    <li>
+									    	<a href="#"><span class="icon-off"></span>&nbsp;&nbsp; Abmelden</a>
+									    </li>
 									</ul>
 								</div>
 							</div>
@@ -133,7 +162,7 @@
 	  							</a>
 	  							</div>
   							</li>
-        					{% block breadcrumb %}{{ breadcrumb|raw }}{% endblock breadcrumb %}
+        					{% block breadcrumb %}{% endblock breadcrumb %}
         				</ol>
 					</div>
 				</div>
@@ -141,8 +170,12 @@
 
 			<section class="container white">
 
-	        	{% block content %}{{ content|raw }}{% endblock content %}
+	        	{% block content %}{% endblock content %}
 	        </section>
+
+
         </div>
+
+
     </body>
 </html>

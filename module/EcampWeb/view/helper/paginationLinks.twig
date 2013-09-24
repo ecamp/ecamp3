@@ -1,0 +1,15 @@
+{% verbatim %}
+<ul class="pagination" style="margin: 0">
+	<li ng-class="{disabled: currentPage == 1}">
+		<a style="cursor: pointer" ng-click="loadPage(currentPage-1)">&laquo;</a>
+	</li>
+
+	<li ng-repeat="p in getPageList()" ng-class="{active: currentPage == p}">
+		<a style="cursor: pointer" ng-click="loadPage(p)">{{p}}</a>
+	</li>
+
+	<li ng-class="{disabled: currentPage == numberOfPages}">
+		<a style="cursor: pointer" ng-click="loadPage(currentPage+1)">&raquo;</a>
+	</li>
+</ul>
+{% endverbatim %}

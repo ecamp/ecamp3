@@ -6,6 +6,7 @@ use Zend\EventManager\EventManagerInterface;
 
 use Zend\View\Model\ViewModel;
 use EcampWeb\Controller\BaseController as WebBaseController;
+use Zend\Mvc\MvcEvent;
 
 abstract class BaseController
     extends WebBaseController
@@ -14,28 +15,32 @@ abstract class BaseController
     {
         parent::setEventManager($events);
 
-        $controller = $this;
-        $events->attach('dispatch', function ($e) use ($controller) {
-
-            $group = $this->getGroupRepository()->find($controller->params('group'));
-
-            if(!$e->getResult() instanceof ViewModel)
-
-                return;
-
-            $e->getResult()->setVariable('group',$group);
-
-            return;
-
-        }, -100);
+        $events->attach('dispatch', function($e) { $this->setGroupInViewModel($e); } , -100);
     }
 
     /**
-     * @return \EcampCore\Service\GroupService
+     * @param MvcEvent $e
      */
-    protected function getGroupService()
+    private function setGroupInViewModel(MvcEvent $e)
     {
-        return $this->serviceLocator->get('EcampCore\Service\Group');
+        $result = $e->getResult();
+        $controller = $e->getRouteMatch()->getParam('controller');
+        $controller = substr($controller, 1 + strrpos($controller, '\\'));
+
+        if ($result instanceof ViewModel) {
+            $result->setVariable('group', $this->getGroup());
+            $result->setVariable('controller', $controller);
+        }
+    }
+
+    /**
+     * @return \EcampCore\Entity\Group
+     */
+    protected function getGroup()
+    {
+        $groupId = $this->params('group');
+
+        return $this->getGroupRepository()->find($groupId);
     }
 
     /**
@@ -44,6 +49,14 @@ abstract class BaseController
     protected function getGroupRepository()
     {
         return $this->serviceLocator->get('EcampCore\Repository\Group');
+    }
+
+    /**
+     * @return \EcampCore\Service\GroupService
+     */
+    protected function getGroupService()
+    {
+        return $this->serviceLocator->get('EcampCore\Service\Group');
     }
 
 }

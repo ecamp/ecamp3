@@ -7,8 +7,29 @@ use EcampCore\Entity\User;
 use EcampCore\Entity\Group;
 use EcampCore\Entity\GroupMembership;
 
+use DoctrineORMModule\Paginator\Adapter\DoctrinePaginator as PaginatorAdapter;
+use Doctrine\ORM\Tools\Pagination\Paginator as ORMPaginator;
+use Zend\Paginator\Paginator;
+
 class GroupMembershipRepository extends EntityRepository
 {
+
+    public function getCollection($criteria)
+    {
+        $q = $this->createQueryBuilder('gm');
+
+        if (isset($criteria["group"]) && !is_null($criteria["group"])) {
+            $q->andWhere('gm.group = :group');
+            $q->setParameter('group', $criteria["group"]);
+        }
+
+        if (isset($criteria["user"]) && !is_null($criteria["user"])) {
+            $q->andWhere('gm.user = :user');
+            $q->setParameter('user', $criteria["user"]);
+        }
+
+        return new Paginator(new PaginatorAdapter(new ORMPaginator($q->getQuery())));
+    }
 
     /**
      * @param  Group           $group
