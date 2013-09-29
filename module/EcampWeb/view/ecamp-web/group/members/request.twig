@@ -1,0 +1,96 @@
+<div class="row">
+	<center ng-show="isLoading">
+		<div id="fountainG" style="margin: 31.5px;">
+			<div id="fountainG_1" class="fountainG">
+			</div>
+			<div id="fountainG_2" class="fountainG">
+			</div>
+			<div id="fountainG_3" class="fountainG">
+			</div>
+			<div id="fountainG_4" class="fountainG">
+			</div>
+			<div id="fountainG_5" class="fountainG">
+			</div>
+			<div id="fountainG_6" class="fountainG">
+			</div>
+			<div id="fountainG_7" class="fountainG">
+			</div>
+			<div id="fountainG_8" class="fountainG">
+			</div>
+		</div>
+	</center>
+
+	<div ng-show="numberOfPages == 0">
+		<p align="center">{% block empty_text %}{% endblock %}</p>
+	</div>
+
+	<div ng-show="numberOfPages != 0" class="col-sm-12">
+		<table class="table table-hover col-sm-12" ng-hide="isLoading">
+			<thead>
+				<tr>
+					<th colspan="2">Name</th>
+					<th>eMail</th>
+					<th>Role</th>
+					<th><div class="pull-right">Options</div></th>
+				</tr>
+			</thead>
+
+			<tbody>
+				<tr ng-repeat="item in items">
+					{% verbatim %}
+					<td>
+						<i class="icon-user"></i>
+						 {{ item._embedded.user.username }}
+					</td>
+					<td>
+						{{ item._embedded.user.displayname }}
+					</td>
+					<td>
+						<a href="mailto:{{ item._embedded.user.email }}">
+						{{ item._embedded.user.email }}
+						</a>
+					</td>
+					<td>
+						{{ item.role }}
+					</td>
+					{% endverbatim %}
+					<td>
+						<div class="pull-right">
+							<div class="btn-group">
+							<a
+								class="btn btn-xs btn-success"
+								href="{{ acceptRequestBaseUrl }}{% verbatim %}{{ item._embedded.user.id }}{% endverbatim %}"
+							>
+								<i class="icon-ok"></i> Accept
+							</a>
+							<button type="button" class="btn btn-xs btn-success dropdown-toggle" data-toggle="dropdown">
+								<span class="caret"></span>
+							</button>
+							<ul class="dropdown-menu pull-right" role="menu">
+								<li>
+									<a href="{{ acceptRequestBaseUrl }}{% verbatim %}{{ item._embedded.user.id }}&role=member{% endverbatim %}">
+										as member
+									</a>
+								</li>
+								<li>
+									<a href="{{ acceptRequestBaseUrl }}{% verbatim %}{{ item._embedded.user.id }}&role=manager{% endverbatim %}">
+										as manager
+									</a>
+								</li>
+							</ul>
+							</div>
+
+							<a
+								class="btn btn-xs btn-danger"
+								href="{{ rejectRequestBaseUrl }}{% verbatim %}{{ item._embedded.user.id }}{% endverbatim %}"
+							>
+								<i class="icon-remove"></i> Reject
+							</a>
+
+						</div>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>

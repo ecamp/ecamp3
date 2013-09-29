@@ -4,138 +4,84 @@
 {% block content2 %}
 
 	<div class="row">
-		<div class="col-sm-12">
-			{%  embed "helper/accordion.twig" %}
-				{% block panel_title %}Managers{% endblock %}
+		<div class="col-sm-12" {{ managerPaginator.getNgController|raw }}>
+			{% embed "helper/accordion.twig" %}
+				{% block panel_title %}
+					Managers <p class="pull-right">{{ managerPaginator.getCount }}</p>
+				{% endblock %}
 				{% block panel_content %}
+					{% embed 'ecamp-web/group/members/member.twig' %}
+						{% block empty_text %}No managers{% endblock %}
+					{% endembed %}
 
-					<div class="row">
-						<div class="col-sm-6 col-md-4">
-							<a 	href="#" class="btn btn-default col-xs-12"
-								style="cursor: pointer; margin-bottom: 15px">
-								<table style="margin: 0px; padding: 0px; width: 100%">
-									<tr>
-										<td style="width: 50px">
-											<img style="width: 40px"
-												 src="https://cdn3.iconfinder.com/data/icons/glyph/227/User-1-256.png" />
-										</td>
-										<td style="text-align: left">
-											<h5 style="display: inline">Forte</h5>
-											<p>Pirmin Mattmann</p>
-										</td>
-									</tr>
-								</table>
-
-								<a 	data-toggle="modal"
-									data-backdrop="true"
-									data-target="#remoteModalDialog"
-									href="/web/group/pbs/members/edit?membership=12"
-									class="btn btn-noborder btn-xs btn-top-right"
-								>
-									<i class="icon-edit"></i>
-								</a>
-							</a>
+					<div class="row" ng-show="numberOfPages > 1">
+						<div class="col-sm-12" style="text-align: center">
+							{% include 'helper/paginationLinks.twig' %}
 						</div>
-						<div class="col-sm-6 col-md-4">
-							<a 	href="#" class="btn btn-default col-xs-12"
-								style="cursor: pointer; margin-bottom: 15px">
-								<table style="margin: 0px; padding: 0px; width: 100%">
-									<tr>
-										<td style="width: 50px">
-											<img style="width: 40px"
-												 src="https://cdn3.iconfinder.com/data/icons/glyph/227/User-1-256.png" />
-										</td>
-										<td style="text-align: left">
-											<h5 style="display: inline">Smiley</h5>
-											<p>Urban Suppiger</p>
-										</td>
-									</tr>
-								</table>
-
-								<a 	data-toggle="modal"
-									data-backdrop="true"
-									data-target="#remoteModalDialog"
-									href="/web/group/pbs/members/edit?membership=12"
-									class="btn btn-noborder btn-xs btn-bottom-right"
-								>
-									<i class="icon-edit"></i>
-								</a>
-							</a>
-						</div>
-						<div class="col-sm-6 col-md-4">
-							<a 	href="#" class="btn btn-default col-xs-12"
-								style="cursor: pointer; margin-bottom: 15px">
-								<table style="margin: 0px; padding: 0px; width: 100%">
-									<tr>
-										<td style="width: 50px">
-											<img style="width: 40px"
-												 src="https://cdn3.iconfinder.com/data/icons/glyph/227/User-1-256.png" />
-										</td>
-										<td style="text-align: left">
-											<h5 style="display: inline">Smiley</h5>
-											<p>Urban Suppiger</p>
-										</td>
-									</tr>
-								</table>
-
-								<a 	data-toggle="modal"
-									data-backdrop="true"
-									data-target="#remoteModalDialog"
-									href="/web/group/pbs/members/edit?membership=12"
-									class="btn btn-noborder btn-xs btn-top-right"
-								>
-									<i class="icon-edit"></i>
-								</a>
-							</a>
-						</div>
-						<div class="col-sm-6 col-md-4">
-							<a 	href="#" class="btn btn-default col-xs-12"
-								style="cursor: pointer; margin-bottom: 15px">
-								test
-							</a>
-						</div>
-						<div class="col-sm-6 col-md-4">
-							<a 	href="#" class="btn btn-default col-xs-12"
-								style="cursor: pointer; margin-bottom: 15px">
-								test
-							</a>
-						</div>
-
 					</div>
 				{% endblock %}
 			{% endembed %}
-
 		</div>
 
-
-		<div class="col-sm-12">
-			{%  embed "helper/accordion.twig" %}
-				{% block panel_title %}Members{% endblock %}
+		<div class="col-sm-12" {{ memberPaginator.getNgController|raw }}>
+			{% embed "helper/accordion.twig" %}
+				{% block panel_title %}
+					Members <p class="pull-right">{{ memberPaginator.getCount }}</p>
+				{% endblock %}
 				{% block panel_content %}
+					{% embed 'ecamp-web/group/members/member.twig' %}
+						{% block empty_text %}No members{% endblock %}
+					{% endembed %}
 
+					<div class="row" ng-show="numberOfPages > 1">
+						<div class="col-sm-12" style="text-align: center">
+							{% include 'helper/paginationLinks.twig' %}
+						</div>
+					</div>
+				{% endblock %}
+			{% endembed %}
+		</div>
+
+		{% if acl.isAllowed(me, group, 'administrate') %}
+		<div class="col-sm-12" {{ requestPaginator.getNgController|raw }}>
+			{% embed "helper/accordion.twig" %}
+				{% block panel_title %}
+					Membership - Requests <p class="pull-right">{{ requestPaginator.getCount }}</p>
+				{% endblock %}
+				{% block panel_content %}
+					{% embed 'ecamp-web/group/members/request.twig' %}
+						{% block empty_text %}No open requests{% endblock %}
+					{% endembed %}
+
+					<div class="row" ng-show="numberOfPages > 1">
+						<div class="col-sm-12" style="text-align: center">
+							{% include 'helper/paginationLinks.twig' %}
+						</div>
+					</div>
 				{% endblock %}
 			{% endembed %}
 		</div>
 
 
-		<div class="col-sm-12">
-			{%  embed "helper/accordion.twig" %}
-				{% block panel_title %}Open Requests{% endblock %}
+		<div class="col-sm-12" {{ invitationPaginator.getNgController|raw }}>
+			{% embed "helper/accordion.twig" %}
+				{% block panel_title %}
+					Membership - Invitations <p class="pull-right">{{ invitationPaginator.getCount }}</p>
+				{% endblock %}
 				{% block panel_content %}
+					{% embed 'ecamp-web/group/members/invitation.twig' %}
+						{% block empty_text %}No open invitation{% endblock %}
+					{% endembed %}
 
+					<div class="row" ng-show="numberOfPages > 1">
+						<div class="col-sm-12" style="text-align: center">
+							{% include 'helper/paginationLinks.twig' %}
+						</div>
+					</div>
 				{% endblock %}
 			{% endembed %}
 		</div>
-
-
-		<div class="col-sm-12">
-			{%  embed "helper/accordion.twig" %}
-				{% block panel_title %}Open Invitations{% endblock %}
-				{% block panel_content %}
-
-				{% endblock %}
-			{% endembed %}
-		</div>
+		{% endif %}
 	</div>
 
 	<div class="modal fade" id="remoteModalDialog" tabindex="-1" role="dialog" />

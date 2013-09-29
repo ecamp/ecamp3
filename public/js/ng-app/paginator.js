@@ -6,6 +6,7 @@ function Paginator($scope, $resource){
 	$scope.currentPage = null;
 	$scope.items = [];
 	$scope.resource = null;
+	$scope.isLoading = false;
 	
 	$scope.init = function(url, paramDefaults){
 		$scope.resource = $resource(url, paramDefaults);
@@ -13,6 +14,8 @@ function Paginator($scope, $resource){
 	};
 	
 	$scope.loadPage = function(pageNumber){
+		$scope.isLoading = true;
+		
 		if(angular.isUndefined(pageNumber)){ pageNumber = 1; }
 		
 		params = { 'page': pageNumber };
@@ -28,6 +31,8 @@ function Paginator($scope, $resource){
 				$scope.numberOfItems = list.count;
 				$scope.itemsPerPage = list.limit;
 				$scope.currentPage = list.page;
+				
+				$scope.isLoading = false;
 			}
 		);
 	};

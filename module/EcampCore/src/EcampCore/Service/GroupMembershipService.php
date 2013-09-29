@@ -204,11 +204,20 @@ class GroupMembershipService
         $groupMembership = $this->groupMembershipRepo->findByGroupAndUser($group, $user);
 
         $this->validationAssert(
-                $groupMembership != null && $groupMembership->isEstablished(),
-                "User is not a Group Member"
+            $groupMembership != null && $groupMembership->isEstablished(),
+            "User is not a Group Member"
         );
 
         $this->remove($groupMembership);
+    }
+
+    public function changeRole(Group $group, User $user, $role)
+    {
+        $this->aclRequire($group, Privilege::GROUP_ADMINISTRATE);
+
+        $groupMembership = $this->groupMembershipRepo->findByGroupAndUser($group, $user);
+
+        $groupMembership->setRole($role);
     }
 
 }

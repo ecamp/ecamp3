@@ -16,7 +16,9 @@
 		<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css" rel="stylesheet">
 
 		<link type="text/css" rel="stylesheet" href="//cdn.jsdelivr.net/select2/3.4.2/select2.css" />
+		<link type="text/css" rel="stylesheet" href="/css/ajaxLoader.css" />
 		<link type="text/css" rel="stylesheet" href="/css/default.css" />
+
 
         {% block style %}{% endblock style %}
 
@@ -113,7 +115,9 @@
 									    <li class="hidden-md hidden-lg divider"></li>
 
 									    <li>
-									    	<a href="#"><span class="icon-user"></span>&nbsp;&nbsp; Username</a>
+									    	<a href="#">
+									    		<span class="icon-user"></span>&nbsp;&nbsp; {{ me.getUsername }}
+									    	</a>
 									    </li>
 									    <li>
 									    	<a href="#"><span class="icon-inbox"></span>&nbsp;&nbsp; Inbox</a>

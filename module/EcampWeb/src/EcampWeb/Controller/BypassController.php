@@ -16,7 +16,7 @@ class BypassController
         $orm = $this->getServiceLocator()->get('doctrine.entitymanager.orm_default');
         $login = new BypassLoginForm($orm);
         $login->setAttribute('action', $this->url()->fromRoute(
-            'dev/default',
+            'web/default',
             array(
                 'controller' => 'bypass',
                 'action'     => 'login',

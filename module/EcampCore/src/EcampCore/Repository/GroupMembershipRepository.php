@@ -28,6 +28,16 @@ class GroupMembershipRepository extends EntityRepository
             $q->setParameter('user', $criteria["user"]);
         }
 
+        if (isset($criteria["role"]) && !is_null($criteria["role"])) {
+            $q->andWhere('gm.role = :role');
+            $q->setParameter('role', $criteria["role"]);
+        }
+
+        if (isset($criteria["status"]) && !is_null($criteria["status"])) {
+            $q->andWhere('gm.status = :status');
+            $q->setParameter('status', $criteria["status"]);
+        }
+
         return new Paginator(new PaginatorAdapter(new ORMPaginator($q->getQuery())));
     }
 
@@ -52,10 +62,15 @@ class GroupMembershipRepository extends EntityRepository
     public function findByUser(User $user)
     {
         $query = $this->createQueryBuilder('gm')
-            ->where("gm.user = '" . $user->getId() . "'")
+            ->join("gm.group", "g")
+            ->where("gm.user = :user")
+            ->andWhere("gm.status = :status")
+            ->setParameter('user', $user->getId())
+            ->setParameter('status', GroupMembership::STATUS_ESTABLISHED)
+            ->orderBy("gm.group", "asc")
             ->getQuery();
 
-        $gm = $query->getResult();
+        return $query->getResult();
     }
 
 }

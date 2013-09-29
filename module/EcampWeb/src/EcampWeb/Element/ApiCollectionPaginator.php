@@ -6,11 +6,13 @@ class ApiCollectionPaginator
 {
 
     private $resourceUrl;
+    private $params;
     private $currentPageNumber = 1;
     private $itemsPerPage = null;
 
-    public function __construct($resourceUrl)
+    public function __construct($resourceUrl, $params = array())
     {
+        $this->params = $params;
         $this->resourceUrl = $resourceUrl;
     }
 
@@ -36,15 +38,16 @@ class ApiCollectionPaginator
 
     public function getNgController()
     {
-        $params = array("'page': " . $this->currentPageNumber);
+        $params = $this->params;
+        $params['page'] = $this->currentPageNumber;
         if (isset($this->itemsPerPage)) {
-            $params[] = "'limit': " . $this->itemsPerPage;
+            $params['limit'] = $this->itemsPerPage;
         }
-        $params = "{ " . implode(", ", $params) . " }";
+        $params = json_encode($params);
 
-        $ctr  = "ng-cloak ng-controller=\"Paginator\" ";
-        $ctr .= "ng-init=\"init('" . $this->resourceUrl . "', " . $params;
-        $ctr .= ")\"";
+        $ctr  = "ng-cloak ng-controller='Paginator' ";
+        $ctr .= "ng-init='init(\"" . $this->resourceUrl . "\", " . $params;
+        $ctr .= ")'";
 
         return $ctr;
     }

@@ -39,10 +39,7 @@ class IndexController
 
         $camps = $this->getCampRepository()->findCampsByUser($me);
 
-        $groupMemberships = $this->getGroupMembershipRepository()->findBy(array(
-            'user' => $me,
-            'status' => GroupMembership::STATUS_ESTABLISHED
-        ));
+        $groupMemberships = $this->getGroupMembershipRepository()->findByUser($me);
 
         $friendships = $this->getUserRelationshipRepository()->findFriends($me);
         $friendshipRequests = $this->getUserRelationshipRepository()->findRequests($me);

@@ -1,6 +1,17 @@
+
+*, h1, h2, h3, h4, h5, h6 {
+/*
+*/
+	font-family: Comic Sans MS;
+}
+
+.panel-group .panel {
+	overflow: visible;
+}
+
 [class^="icon-"] {
 	font-size: 18px;
-	vertical-align: middle;
+/*	vertical-align: middle; */
 }
 
 .btn-xs [class^="icon-"] {
