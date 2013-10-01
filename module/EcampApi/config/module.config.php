@@ -288,6 +288,16 @@ return array(
                                     ),
                                 ),
                             ),
+
+                            'memberships' => array(
+                                'type' => 'Literal',
+                                'options' => array(
+                                    'route'      => '/memberships',
+                                    'defaults' => array(
+                                        'controller'    => 'Resource\User\Membership\ApiController'
+                                    ),
+                                ),
+                            ),
                         ),
                     ),
 
@@ -715,6 +725,15 @@ return array(
                             'resource_http_options'   => array('get'),
                             'route_name'              => 'api/memberships',
                             'identifier_name'		  => 'membership',
+                    ),
+
+                    'Resource\User\Membership\ApiController' => array(
+                            'listener'                => 'EcampApi\Resource\Membership\MembershipResourceListener',
+                            'collection_http_options' => array('get'),
+                            'page_size'               => 3,
+                            'page_size_param'		  => 'limit',
+                            'resource_http_options'   => array('get'),
+                            'route_name'              => 'api/users/memberships',
                     ),
 
                     'EcampApi\Resource\Group\Membership\ApiController' => array(

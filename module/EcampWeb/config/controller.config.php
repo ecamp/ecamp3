@@ -8,6 +8,8 @@ return array(
         'EcampWeb\Controller\Group\Index' 		=> 'EcampWeb\Controller\Group\IndexController',
         'EcampWeb\Controller\Group\Members' 	=> 'EcampWeb\Controller\Group\MembersController',
         'EcampWeb\Controller\Group\Camps' 		=> 'EcampWeb\Controller\Group\CampsController',
+
+        'EcampWeb\Controller\Camp\Index'  		=> 'EcampWeb\Controller\Camp\IndexController',
     ),
 
     'factories' => array(
