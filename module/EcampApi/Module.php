@@ -5,6 +5,7 @@ use Zend\Mvc\MvcEvent;
 
 use EcampApi\Listener\JsonExceptionStrategy;
 use EcampApi\Listener\AuthenticationRequiredExceptionStrategy;
+use EcampApi\Listener\DispatchErrorListener;
 use EcampApi\Listener\CollectionRenderingListener;
 use EcampApi\Resource\Camp\CampResourceListener;
 use EcampApi\Resource\User\UserResourceListener;
@@ -48,20 +49,23 @@ class Module
         $serviceManager = $application->getServiceManager();
         $config = $serviceManager->get('Config');
 
+        $dispatchErrorListener = new DispatchErrorListener();
+        $dispatchErrorListener->attach($application->getEventManager());
+
         // Config json enabled exceptionStrategy
-        $exceptionStrategy = new JsonExceptionStrategy();
+//         $exceptionStrategy = new JsonExceptionStrategy();
 
-        $displayExceptions = false;
+//         $displayExceptions = false;
 
-        if (isset($config['view_manager']['display_exceptions'])) {
-            $displayExceptions = $config['view_manager']['display_exceptions'];
-        }
+//         if (isset($config['view_manager']['display_exceptions'])) {
+//             $displayExceptions = $config['view_manager']['display_exceptions'];
+//         }
 
-        $exceptionStrategy->setDisplayExceptions($displayExceptions);
-        $exceptionStrategy->attach($application->getEventManager());
+//         $exceptionStrategy->setDisplayExceptions($displayExceptions);
+//         $exceptionStrategy->attach($application->getEventManager());
 
-        $authenticationRequiredStrategy = new AuthenticationRequiredExceptionStrategy();
-        $authenticationRequiredStrategy->attach($application->getEventManager());
+//         $authenticationRequiredStrategy = new AuthenticationRequiredExceptionStrategy();
+//         $authenticationRequiredStrategy->attach($application->getEventManager());
 
         $sharedEventManager = $event->getTarget()->getEventManager()->getSharedManager();
 
