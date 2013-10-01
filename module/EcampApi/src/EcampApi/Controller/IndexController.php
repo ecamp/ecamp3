@@ -30,11 +30,11 @@ class IndexController extends AbstractRestfulBaseController
     }
 
     /**
-     * @return \EcampCore\Service\RelationshipService
+     * @return \EcampCore\Service\UserRelationshipService
      */
-    private function getRelationshipService()
+    private function getUserRelationshipService()
     {
-        return $this->getServiceLocator()->get('EcampCore\Service\Relationship');
+        return $this->getServiceLocator()->get('EcampCore\Service\UserRelationship');
     }
 
     public function getList()

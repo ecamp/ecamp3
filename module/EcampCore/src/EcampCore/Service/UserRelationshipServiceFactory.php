@@ -4,7 +4,7 @@ namespace EcampCore\Service;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
-class RelationshipServiceFactory
+class UserRelationshipServiceFactory
     implements FactoryInterface
 {
     /**
@@ -17,6 +17,6 @@ class RelationshipServiceFactory
     {
         $userRelationshipRepo = $services->get('EcampCore\Service\UserRelationship');
 
-        return new RelationshipService($userRelationshipRepo);
+        return new UserRelationshipService($userRelationshipRepo);
     }
 }

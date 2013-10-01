@@ -30,7 +30,7 @@ class GroupDetailResource extends HalResource
         $membershipsLink->setRoute('api/groups/memberships', array('group' => $group->getId()));
 
         $groupsLink = new Link('groups');
-        $groupsLink->setRoute('api/groups/groups', array('group' => $group->getId()));
+        $groupsLink->setRoute('api/groups/subgroups', array('group' => $group->getId()));
 
         $this->getLinks()->add($selfLink)
                          ->add($webLink)

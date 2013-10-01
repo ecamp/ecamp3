@@ -31,7 +31,7 @@ class IndexController
         $renderer->headScript()->appendFile('/js/ng-app/paginator.js');
 
         $subgroupResourceUrl = $this->url()->fromRoute(
-            'api/groups/groups', array('group' => $this->getGroup()->getId()));
+            'api/groups/subgroups', array('group' => $this->getGroup()->getId()));
         $campsResourceUrl = $this->url()->fromRoute(
             'api/groups/camps', array('group' => $this->getGroup()->getId()));
 
