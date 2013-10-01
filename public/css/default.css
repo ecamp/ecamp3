@@ -1,6 +1,17 @@
+
+*, h1, h2, h3, h4, h5, h6 {
+/*
+*/
+	font-family: Comic Sans MS;
+}
+
+.panel-group .panel {
+	overflow: visible;
+}
+
 [class^="icon-"] {
 	font-size: 18px;
-	vertical-align: middle;
+/*	vertical-align: middle; */
 }
 
 .btn-xs [class^="icon-"] {
@@ -25,6 +36,32 @@
 	background-color: #eee;
 }
 
+.btn-top-right {
+	position: absolute;
+	top: 1px;
+	right: 16px;
+	
+	border-top-left-radius: 0px;
+	border-bottom-right-radius: 0px;
+	padding: 3px 3px 0px 5px;
+}
+
+.btn-bottom-right {
+	position: absolute;
+	bottom: 16px;
+	right: 16px;
+	
+	border-top-right-radius: 0px;
+	border-bottom-left-radius: 0px;
+	padding: 3px 3px 0px 5px;
+}
+
+.btn-top-right i.icon-edit, 
+.btn-bottom-right i.icon-edit {
+	font-size: 25px;
+	color: #428bca;
+}
+
 .icon-green {
 	color: rgb(92, 184, 92);
 }
@@ -46,6 +83,52 @@ table.table tr:first-child td {
 	color: #888;
 	font-family: FontAwesome;
 	content: "\f0da";
+}
+
+		
+.white {
+	border-width: 10px;
+	border-style: solid;
+	border-color: white;
+}
+
+.open ul.dropdown-menu{
+	opacity: 0.95;
+}
+
+
+a.accordion-toggle {
+	text-decoration: none;
+}
+
+a.accordion-toggle .icon-accordion:before {
+	content: "\f078";
+}
+
+a.accordion-toggle.collapsed .icon-accordion:before {
+	content: "\f054\00a0";
+}
+
+.panel-group {
+	margin-bottom: 20px;
+}
+
+.panel-heading {
+	background-color: #f5f5f5;
+}
+
+.panel-body {
+	padding-bottom: 0px;
+}
+
+.modal {
+	overflow-y: auto !important;
+}
+
+body.modal-open,
+.modal-open .navbar-fixed-top,
+.modal-open .navbar-fixed-bottom {
+	margin-right: 0px;
 }
 
 @media (min-width: 768px){
@@ -98,16 +181,4 @@ table.table tr:first-child td {
 	
 	.container.login {
 		margin-top: 50px;
-	}
 }
-		
-.white {
-	border-width: 10px;
-	border-style: solid;
-	border-color: white;
-}
-
-.open ul.dropdown-menu{
-	opacity: 0.95;
-}
-	

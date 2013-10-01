@@ -11,9 +11,10 @@ class UserBriefResource extends HalResource
     {
         $object = array(
                 'id' => $user->getId(),
-                'username' => $user->getUsername(),
-                'username'		=>	$user->getUsername(),
-                'displayName' 	=>  $user->getDisplayName()
+                'username' 		=> 	$user->getUsername(),
+                'fullname'		=>	$user->getFullName(),
+                'displayName' 	=>  $user->getDisplayName(),
+                'email'			=> 	$user->getEmail()
                 );
 
         parent::__construct($object, $object['id']);
@@ -21,6 +22,11 @@ class UserBriefResource extends HalResource
         $selfLink = new Link('self');
         $selfLink->setRoute('api/users', array('user' => $user->getId()));
 
-        $this->getLinks()->add($selfLink);
+        $webLink = new Link('web');
+        $webLink->setRoute('web', array());
+
+        $this->getLinks()
+            ->add($selfLink)
+               ->add($webLink);
     }
 }

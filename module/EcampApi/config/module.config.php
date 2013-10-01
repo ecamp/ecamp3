@@ -288,7 +288,70 @@ return array(
                                     ),
                                 ),
                             ),
-                        )
+
+                            'memberships' => array(
+                                'type' => 'Literal',
+                                'options' => array(
+                                    'route'      => '/memberships',
+                                    'defaults' => array(
+                                        'controller'    => 'Resource\User\Membership\ApiController'
+                                    ),
+                                ),
+                            ),
+                        ),
+                    ),
+
+                    'groups' => array(
+                        'type' => 'Segment',
+                        'may_terminate' => true,
+                        'options' => array(
+                            'route'      => '/groups[/:group]',
+                            'defaults' => array(
+                                'controller'    => 'Resource\Group\ApiController'
+                            ),
+                        ),
+                        'child_routes' => array(
+                            'camps' => array(
+                                'type' => 'Literal',
+                                'options' => array(
+                                    'route'      => '/camps',
+                                    'defaults' => array(
+                                        'controller'    => 'Resource\Group\Camp\ApiController'
+                                    ),
+                                ),
+                            ),
+
+                            'memberships' => array(
+                                'type' => 'Literal',
+                                'options' => array(
+                                    'route'      => '/memberships',
+                                    'defaults' => array(
+                                        'controller'    => 'Resource\Group\Membership\ApiController'
+                                    ),
+                                ),
+                            ),
+
+                            'groups' => array(
+                                'type' => 'Literal',
+                                'options' => array(
+                                    'route'      => '/groups',
+                                    'defaults' => array(
+                                        'controller'    => 'Resource\Group\Group\ApiController'
+                                    ),
+                                ),
+                            ),
+                        ),
+                    ),
+
+                    'memberships' => array(
+                        'type' => 'Segment',
+                        'may_terminate' => true,
+                        'options' => array(
+                            'route'      => '/memberships[/:membership]',
+                            'defaults' => array(
+                                'controller'    => 'Resource\Membership\ApiController'
+                            ),
+                        ),
                     ),
                 ),
             ),
@@ -328,6 +391,18 @@ return array(
                             'route_name'              => 'api/users/camps',
                             'identifier_name'		  => 'camp',
                             'collection_query_whitelist' => array('past', 'collaborator', 'owning_only', 'owner', 'group', 'creator', 'search'),
+                            'collection_name'	 	  => 'camps'
+                    ),
+
+                    'EcampApi\Resource\Group\Camp\ApiController' => array(
+                            'listener'                => 'EcampApi\Resource\Camp\CampResourceListener',
+                            'collection_http_options' => array('get'),
+                            'page_size'               => 3,
+                            'page_size_param'		  => 'limit',
+                            'resource_http_options'   => array('get'),
+                            'route_name'              => 'api/groups/camps',
+                            'identifier_name'		  => 'camp',
+                            'collection_query_whitelist' => array('user', 'past', 'collaborator', 'owning_only', 'owner', 'creator', 'search'),
                             'collection_name'	 	  => 'camps'
                     ),
 
@@ -615,6 +690,59 @@ return array(
                             'identifier_name'		  => 'period',
                             'collection_query_whitelist' => array(),
                             'collection_name'		  => 'periods'
+                    ),
+
+                    /**
+                     * Group
+                     */
+                    'EcampApi\Resource\Group\ApiController' => array(
+                            'listener'                => 'EcampApi\Resource\Group\GroupResourceListener',
+                            'collection_http_options' => array('get'),
+                            'page_size'               => 3,
+                            'page_size_param'		  => 'limit',
+                            'resource_http_options'   => array('get'),
+                            'route_name'              => 'api/groups',
+                            'identifier_name'		  => 'group',
+                    ),
+
+                    'EcampApi\Resource\Group\Group\ApiController' => array(
+                            'listener'                => 'EcampApi\Resource\Group\GroupResourceListener',
+                            'collection_http_options' => array('get'),
+                            'page_size'               => 3,
+                            'page_size_param'		  => 'limit',
+                            'resource_http_options'   => array('get'),
+                            'route_name'              => 'api/groups/groups',
+                    ),
+
+                    /**
+                     * Membership
+                     */
+                    'EcampApi\Resource\Membership\ApiController' => array(
+                            'listener'                => 'EcampApi\Resource\Membership\MembershipResourceListener',
+                            'collection_http_options' => array('get'),
+                            'page_size'               => 3,
+                            'page_size_param'		  => 'limit',
+                            'resource_http_options'   => array('get'),
+                            'route_name'              => 'api/memberships',
+                            'identifier_name'		  => 'membership',
+                    ),
+
+                    'Resource\User\Membership\ApiController' => array(
+                            'listener'                => 'EcampApi\Resource\Membership\MembershipResourceListener',
+                            'collection_http_options' => array('get'),
+                            'page_size'               => 3,
+                            'page_size_param'		  => 'limit',
+                            'resource_http_options'   => array('get'),
+                            'route_name'              => 'api/users/memberships',
+                    ),
+
+                    'EcampApi\Resource\Group\Membership\ApiController' => array(
+                            'listener'                => 'EcampApi\Resource\Membership\MembershipResourceListener',
+                            'collection_http_options' => array('get'),
+                            'page_size'               => 3,
+                            'page_size_param'		  => 'limit',
+                            'resource_http_options'   => array('get'),
+                            'route_name'              => 'api/groups/memberships',
                     ),
 
             ),

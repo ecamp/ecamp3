@@ -59,8 +59,8 @@ class GroupMembership
             $this->requestAcceptedBy = null;
         }
 
-        $this->user->getList('memberships')->add($this);
-        $this->group->getList('memberships')->add($this);
+        $this->user->addToList('memberships', $this);
+        $this->group->addToList('memberships', $this);
     }
 
     public static function createRequest(User $user, Group $group, $role = null)
@@ -129,7 +129,7 @@ class GroupMembership
         return $this->role;
     }
 
-    private function setRole($role)
+    public function setRole($role)
     {
         if (!in_array($role, array(self::ROLE_MEMBER, self::ROLE_MANAGER))) {
             throw new \Exception("[$role] is not a valid value for GroupMembership.role");
@@ -251,8 +251,8 @@ class GroupMembership
      */
     public function preRemove()
     {
-        $this->user->getList('memberships')->removeElement($this);
-        $this->group->getList('memberships')->removeElement($this);
+        $this->user->removeFromList('memberships', $this);
+        $this->group->removeFromList('memberships', $this);
     }
 
 }

@@ -7,8 +7,9 @@ return array(
                 'options' => array(
                     'route'    => '/web',
                     'defaults' => array(
-                        'controller'    => 'EcampWeb\Controller\Index',
+                        'controller'    => 'Index',
                         'action'        => 'index',
+                        '__NAMESPACE__' => 'EcampWeb\Controller',
                     ),
                 ),
                 'may_terminate' => true,
@@ -84,17 +85,6 @@ return array(
 
                 ),
             ),
-        ),
-    ),
-
-    'controllers' => array(
-        'invokables' => array(
-            'EcampWeb\Controller\Index' => 'EcampWeb\Controller\IndexController',
-            'EcampWeb\Controller\Camp\Index'  => 'EcampWeb\Controller\Camp\IndexController',
-            'EcampWeb\Controller\Group\Index'  => 'EcampWeb\Controller\Group\IndexController',
-            'EcampWeb\Controller\Group\Member'  => 'EcampWeb\Controller\Group\MemberController',
-            'EcampWeb\Controller\Bypass' => 'EcampWeb\Controller\BypassController',
-
         ),
     ),
 

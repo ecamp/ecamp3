@@ -4,9 +4,24 @@ namespace EcampCore\Repository;
 
 use Doctrine\ORM\EntityRepository;
 use EcampCore\Entity\GroupMembership;
+use DoctrineORMModule\Paginator\Adapter\DoctrinePaginator as PaginatorAdapter;
+use Doctrine\ORM\Tools\Pagination\Paginator as ORMPaginator;
+use Zend\Paginator\Paginator;
 
 class GroupRepository extends EntityRepository
 {
+
+    public function getCollection($criteria)
+    {
+        $q = $this->createQueryBuilder('g');
+
+        if (isset($criteria["group"]) && !is_null($criteria["group"])) {
+            $q->andWhere('g.parent = :group');
+            $q->setParameter('group', $criteria["group"]);
+        }
+
+        return new Paginator(new PaginatorAdapter(new ORMPaginator($q->getQuery())));
+    }
 
     public function findRootGroups()
     {

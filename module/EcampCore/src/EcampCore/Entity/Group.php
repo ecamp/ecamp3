@@ -138,7 +138,7 @@ class Group
     }
 
     /**
-     * @return array
+     * @return \Doctrine\Common\Collections\ArrayCollection
      */
     public function getChildren()
     {

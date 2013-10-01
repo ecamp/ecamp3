@@ -1,0 +1,89 @@
+{% extends 'ecamp-web/group/group.twig' %}
+
+
+{% block content2 %}
+
+	<div class="row">
+		<div class="col-sm-12" {{ managerPaginator.getNgController|raw }}>
+			{% embed "helper/accordion.twig" %}
+				{% block panel_title %}
+					Managers <p class="pull-right">{{ managerPaginator.getCount }}</p>
+				{% endblock %}
+				{% block panel_content %}
+					{% embed 'ecamp-web/group/members/member.twig' %}
+						{% block empty_text %}No managers{% endblock %}
+					{% endembed %}
+
+					<div class="row" ng-show="numberOfPages > 1">
+						<div class="col-sm-12" style="text-align: center">
+							{% include 'helper/paginationLinks.twig' %}
+						</div>
+					</div>
+				{% endblock %}
+			{% endembed %}
+		</div>
+
+		<div class="col-sm-12" {{ memberPaginator.getNgController|raw }}>
+			{% embed "helper/accordion.twig" %}
+				{% block panel_title %}
+					Members <p class="pull-right">{{ memberPaginator.getCount }}</p>
+				{% endblock %}
+				{% block panel_content %}
+					{% embed 'ecamp-web/group/members/member.twig' %}
+						{% block empty_text %}No members{% endblock %}
+					{% endembed %}
+
+					<div class="row" ng-show="numberOfPages > 1">
+						<div class="col-sm-12" style="text-align: center">
+							{% include 'helper/paginationLinks.twig' %}
+						</div>
+					</div>
+				{% endblock %}
+			{% endembed %}
+		</div>
+
+		{% if acl.isAllowed(me, group, 'administrate') %}
+		<div class="col-sm-12" {{ requestPaginator.getNgController|raw }}>
+			{% embed "helper/accordion.twig" %}
+				{% block panel_title %}
+					Membership - Requests <p class="pull-right">{{ requestPaginator.getCount }}</p>
+				{% endblock %}
+				{% block panel_content %}
+					{% embed 'ecamp-web/group/members/request.twig' %}
+						{% block empty_text %}No open requests{% endblock %}
+					{% endembed %}
+
+					<div class="row" ng-show="numberOfPages > 1">
+						<div class="col-sm-12" style="text-align: center">
+							{% include 'helper/paginationLinks.twig' %}
+						</div>
+					</div>
+				{% endblock %}
+			{% endembed %}
+		</div>
+
+
+		<div class="col-sm-12" {{ invitationPaginator.getNgController|raw }}>
+			{% embed "helper/accordion.twig" %}
+				{% block panel_title %}
+					Membership - Invitations <p class="pull-right">{{ invitationPaginator.getCount }}</p>
+				{% endblock %}
+				{% block panel_content %}
+					{% embed 'ecamp-web/group/members/invitation.twig' %}
+						{% block empty_text %}No open invitation{% endblock %}
+					{% endembed %}
+
+					<div class="row" ng-show="numberOfPages > 1">
+						<div class="col-sm-12" style="text-align: center">
+							{% include 'helper/paginationLinks.twig' %}
+						</div>
+					</div>
+				{% endblock %}
+			{% endembed %}
+		</div>
+		{% endif %}
+	</div>
+
+	<div class="modal fade" id="remoteModalDialog" tabindex="-1" role="dialog" />
+
+{% endblock content2 %}

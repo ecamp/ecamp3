@@ -85,7 +85,11 @@
 					{% for groupMembership in groupMemberships %}
 						<tr>
 							<td><span class="icon-flag"></span></td>
-							<td>{{ groupMembership.getGroup.getDescription }}</td>
+							<td>
+								<a href="{{ url('web/group-prefix/name', { 'group': groupMembership.getGroup }) }}">
+									{{ groupMembership.getGroup.getDescription }}
+								</a>
+							</td>
 							<td>
 								<div class="hidden-xs hidden-sm">Du bist {{ groupMembership.getRole }}</div>
 								<div class="hidden-md hidden-lg">{{ groupMembership.getRole }}</div>
