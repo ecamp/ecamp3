@@ -1,15 +1,231 @@
-{% extends 'layout/group.twig' %}
+{% extends 'ecamp-web/group/group.twig' %}
 
 
 {% block content2 %}
 
 	<div class="row">
+		<div class="col-sm-12">
+			{% embed "helper/accordion.twig" %}
+				{% block panel_title %}
+					Infos
+				{% endblock %}
+				{% block panel_content %}
+					<div class="col-sm-12">
+					<div class="pull-right">
+						{% if myMembership is null %}
+						<div class="btn-group">
+							<a class="btn btn-sm btn-success"
+								href="{{ url('web/group-prefix/name/default',
+									{ 'group': group, 'controller': 'index', 'action': 'requestMembership'}
+									) }}"
+							>
+								<i class="icon-plus"></i> Request membership
+							</a>
+							<button type="button" class="btn btn-sm btn-success dropdown-toggle" data-toggle="dropdown">
+								<span class="caret"></span>
+							</button>
+							<ul class="dropdown-menu pull-right" role="menu">
+								<li>
+									<a href="{{ url('web/group-prefix/name/default',
+									{ 'group': group, 'controller': 'index', 'action': 'requestMembership'}
+									) }}"
+									>
+										as member
+									</a>
+								</li>
+								<li>
+									<a href="{{ url('web/group-prefix/name/default',
+									{ 'group': group, 'controller': 'index', 'action': 'requestMembership' },
+									{ 'query' : { 'role': 'manager' } }
+									) }}"
+									>
+										as manager
+									</a>
+								</li>
+							</ul>
+						</div>
+						{% else %}
 
-			<div class="col-sm-6">
-			This is the homepage of a group
-			</div>
-			<div class="col-sm-6">
-			test right
-			</div>
+							{% if myMembership.getStatus == 'requested' %}
+							<a class="btn btn-sm btn-danger"
+								href="{{ url('web/group-prefix/name/default',
+									{ 'group': group, 'controller': 'index', 'action': 'revokeRequest'}
+									) }}"
+							>
+								<i class="icon-remove"></i> Revoke Request
+							</a>
+							{% endif %}
+
+							{% if myMembership.getStatus == 'invited' %}
+							<p class="pull-right">
+								<a class="btn btn-sm btn-success"
+									href="{{ url('web/group-prefix/name/default',
+										{ 'group': group, 'controller': 'index', 'action': 'acceptInvitation'}
+										) }}"
+								>
+									<i class="icon-ok"></i> Accept Invitation
+								</a>
+								<a class="btn btn-sm btn-danger"
+									href="{{ url('web/group-prefix/name/default',
+										{ 'group': group, 'controller': 'index', 'action': 'rejectInvitation'}
+										) }}"
+								>
+									<i class="icon-remove"></i> Reject Invitation
+								</a>
+							</p>
+							{% endif %}
+
+							{% if myMembership.getStatus == 'established' %}
+							<a class="btn btn-sm btn-danger"
+								data-toggle="modal"
+								href="#leaveGroupModal"
+
+							>
+								<i class="icon-remove"></i> Leave group
+							</a>
+
+							{% endif %}
+						{% endif %}
+					</div>
+
+						<h4 style="display: inline">{{ group.getName }} - </h4>
+						<p style="display: inline">{{ group.getDescription }}</p>
+						<br />
+						<br />
+						{% if myMembership is not null %}
+							<p>
+								{% if myMembership.getStatus == 'requested' %}
+								You have requested membership in this group
+								{% endif %}
+
+								{% if myMembership.getStatus == 'invited' %}
+								You have been invited to this group
+								{% endif %}
+
+								{% if myMembership.getStatus == 'established' %}
+								You are {{ myMembership.getRole }} in this group
+								{% endif %}
+							</p>
+						{% endif %}
+					</div>
+
+
+
+							<div class="modal fade" id="leaveGroupModal" tabindex="-1" role="dialog" aria-labelledby="leaveGroupModalLabel" aria-hidden="true">
+								<div class="modal-dialog">
+									<div class="modal-content">
+										<div class="modal-header">
+											<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+											<h4 class="modal-title">Leave group {{ group.getName }}</h4>
+										</div>
+										<div class="modal-body">
+											Are you sure, you want to leave group {{ group.getName }}?
+										</div>
+										<div class="modal-footer">
+											<a class="btn btn-danger"
+												href="{{ url('web/group-prefix/name/default',
+													{ 'group': group, 'controller': 'index', 'action': 'leaveGroup'}
+													) }}"
+											>
+												Leave group
+											</a>
+											<button type="button" class="btn btn-default" data-dismiss="modal">Stay in group</button>
+										</div>
+									</div>
+								</div>
+							</div>
+				{% endblock %}
+			{% endembed %}
+		</div>
+	</div>
+
+
+	<div class="row">
+		<div class="col-sm-6" {{ subgroupPaginator.getNgController|raw }}>
+
+			{% embed "helper/accordion.twig" %}
+				{% block panel_title %}
+					Subgroups <p class="pull-right">{{ subgroupPaginator.getCount }}</p>
+				{% endblock %}
+				{% block panel_content %}
+					{% verbatim %}
+						<div class="row">
+							<div ng-show="numberOfPages == 0">
+								<p align="center">No subgroups</p>
+							</div>
+							<div class="col-xs-12 col-sm-6" ng-repeat="item in items">
+								<a 	href="{{item._links.web.href}}"
+									class="btn btn-default col-xs-12"
+									style="cursor: pointer; margin-bottom: 15px">
+									<table style="margin: 0px; padding: 0px; width: 100%">
+										<tr>
+											<td style="width: 50px">
+												<img style="width: 40px"
+													 src="https://cdn3.iconfinder.com/data/icons/glyph/227/Public-256.png" />
+											</td>
+											<td style="text-align: left">
+												<h5 style="display: inline">{{item.name}}</h5>
+												<p>{{item.description}}</p>
+											</td>
+										</tr>
+									</table>
+								</a>
+							</div>
+						</div>
+					{% endverbatim %}
+
+					<div class="row" ng-show="numberOfPages > 1">
+						<div class="col-sm-12" style="text-align: center">
+							{% include 'helper/paginationLinks.twig' %}
+						</div>
+					</div>
+				{% endblock %}
+			{% endembed %}
+		</div>
+
+
+		<div class="col-sm-6" {{ campsPaginator.getNgController|raw }}>
+
+			{% embed "helper/accordion.twig" %}
+				{% block panel_title %}
+					Upcoming camps <p class="pull-right">{{ campsPaginator.getCount }}</p>
+				{% endblock %}
+				{% block panel_content %}
+					{% verbatim %}
+						<div class="row">
+							<div ng-show="numberOfPages == 0">
+								<p align="center">No upcuming camps</p>
+							</div>
+
+							<div class="col-xs-12 col-sm-6" ng-repeat="item in items">
+								<a 	href="{{item._links.web.href}}"
+									class="btn btn-default col-xs-12"
+									style="cursor: pointer; margin-bottom: 15px">
+									<table style="margin: 0px; padding: 0px; width: 100%">
+										<tr>
+											<td style="width: 50px">
+												<img style="width: 40px"
+													 src="https://cdn3.iconfinder.com/data/icons/glyph/227/Public-256.png" />
+											</td>
+											<td style="text-align: left">
+												<h5 style="display: inline">{{item.name}}</h5>
+												<p>{{item.description}}</p>
+											</td>
+										</tr>
+									</table>
+								</a>
+							</div>
+						</div>
+					{% endverbatim %}
+
+					<div class="row" ng-show="numberOfPages > 1">
+						<div class="col-sm-12" style="text-align: center">
+							{% include 'helper/paginationLinks.twig' %}
+						</div>
+					</div>
+				{% endblock %}
+			{% endembed %}
+		</div>
+
 	</div>
 {% endblock content2 %}

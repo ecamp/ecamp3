@@ -20,7 +20,7 @@ class AssertGroupAdministrate
     ){
         if ($user instanceof User && $group instanceof Group) {
 
-            if ($group->isManager($user)) {
+            if ($group->groupMembership()->isManager($user)) {
                 return true;
             }
         }

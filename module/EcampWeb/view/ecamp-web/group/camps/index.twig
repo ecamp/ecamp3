@@ -1,0 +1,45 @@
+{% extends 'ecamp-web/group/group.twig' %}
+
+
+{% block content2 %}
+
+	{% embed "helper/accordion.twig" %}
+		{% block panel_title %}
+			Upcoming camps
+		{% endblock %}
+		{% block panel_content %}
+
+			<table class="table table-striped table-hover">
+				<thead>
+				<tr>
+					<th>Name</th>
+					<th>Title</th>
+					<th>Motto</th>
+					<th>Optionen</th>
+				</tr>
+				</thead>
+				<tbody>
+				{% for camp in camps %}
+					<tr>
+						<td>{{ camp.getName }}</td>
+						<td>{{ camp.getTitle }}</td>
+						<td>{{ camp.getMotto }}</td>
+						<td></td>
+					</tr>
+				{% endfor %}
+				</tbody>
+			</table>
+		{% endblock %}
+	{% endembed %}
+
+
+	{% embed "helper/accordion_collapsed.twig" %}
+		{% block panel_title %}
+			Past camps
+		{% endblock %}
+		{% block panel_content %}
+
+		{% endblock %}
+	{% endembed %}
+
+{% endblock %}

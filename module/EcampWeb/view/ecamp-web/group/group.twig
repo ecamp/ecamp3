@@ -1,0 +1,55 @@
+{% extends 'layout/default.twig' %}
+
+{% block header %}
+	<table border="0" style="width: 100%; border: 0px;">
+		<tr>
+			<td width="120px">
+				<img width="100" class="img-rounded" src="https://cdn3.iconfinder.com/data/icons/glyph/227/Public-256.png" >
+			</td>
+			<td>
+				<h1>{{ group.getName }}</h1>
+				<p>
+					{{ group.getDescription }}
+				</p>
+			</td>
+		</tr>
+	</table>
+
+{% endblock header %}
+
+{% block breadcrumb %}
+
+	  {%  for item in group.getPathAsArray %}
+	  	<li><a class="btn btn-xs btn-noborder" href="{{ url('web/group-prefix/name', {'group' : item.getId } ) }}">{{ item.getDescription }}</a></li>
+	  {% endfor %}
+
+	  <li class="active"><a class="btn btn-xs btn-noborder disabled" href="#">{{ group.getDescription }}</a></li>
+
+{% endblock breadcrumb %}
+
+{% block content %}
+
+	<div class="row">
+
+		<div class="col-sm-2">
+			<ul class="nav nav-pills nav-stacked" style="margin-bottom: 15px">
+				<li class="{{ controller == 'Index' ? 'active' : '' }}">
+					<a href="{{ url('web/group-prefix/name', { 'group': group.getId }) }}">Info</a>
+				</li>
+				<li class="{{ controller == 'Members' ? 'active' : '' }}">
+					<a href="{{ url('web/group-prefix/name/default', { 'group': group.getId, 'controller': 'members'}) }}">Members</a>
+				</li>
+				<li class="{{ controller == 'Camps' ? 'active' : '' }}">
+					<a href="{{ url('web/group-prefix/name/default', { 'group': group.getId, 'controller': 'camps'}) }}">Camps</a>
+				</li>
+				<li class="{{ controller == 'Admin' ? 'active' : '' }}">
+					<a href="{{ url('web/group-prefix/name/default', { 'group': group.getId, 'controller': 'admin'}) }}">Admin</a>
+				</li>
+			</ul>
+		</div>
+
+		<div class="col-sm-10">
+			{% block content2 %}{{ content2|raw }}{% endblock content2 %}
+		</div>
+	</div>
+{% endblock content %}
