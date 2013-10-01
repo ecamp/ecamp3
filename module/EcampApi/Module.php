@@ -3,7 +3,6 @@ namespace EcampApi;
 
 use Zend\Mvc\MvcEvent;
 
-use EcampApi\Listener\JsonExceptionStrategy;
 use EcampApi\Listener\AuthenticationRequiredExceptionStrategy;
 use EcampApi\Listener\CollectionRenderingListener;
 use EcampApi\Resource\Camp\CampResourceListener;
