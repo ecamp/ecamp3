@@ -30,7 +30,7 @@ class CollaborationResourceListener extends AbstractListenerAggregate
             throw new DomainException('Collaboration not found', 404);
         }
 
-        return new CollaborationResource($entity);
+        return new CollaborationDetailResource($entity);
     }
 
     public function onFetchAll(ResourceEvent $e)

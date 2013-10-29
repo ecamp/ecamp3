@@ -2,11 +2,10 @@
 
 namespace EcampWeb\Controller;
 
-use EcampLib\Controller\AbstractBaseController;
 use EcampCore\Entity\GroupMembership;
 
 class IndexController
-    extends AbstractBaseController
+    extends BaseController
 {
 
     /**
