@@ -57,7 +57,7 @@ class UserCollaborationHelper
     {
         $criteria = Criteria::create();
         $expr = Criteria::expr();
-        $criteria->where($expr->eq('status', CampCollaboration::STATUS_ESTABLISHED));
+        //$criteria->where($expr->eq('status', CampCollaboration::STATUS_ESTABLISHED));
         $criteria->andWhere($expr->eq('camp', $camp));
         $criteria->setMaxResults(1);
 

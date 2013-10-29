@@ -4,17 +4,15 @@ namespace EcampApi\Resource\Membership;
 use PhlyRestfully\HalResource;
 use PhlyRestfully\Link;
 use EcampCore\Entity\GroupMembership as Membership;
-use EcampApi\Resource\User\UserBriefResource;
-use EcampApi\Resource\Group\GroupBriefResource;
 
-class MembershipResource extends HalResource
+class MembershipBriefResource extends HalResource
 {
     public function __construct(Membership $entity)
     {
         $object = array(
                 'id'		=> 	$entity->getId(),
-                'user'		=>	new UserBriefResource($entity->getUser()),
-                'group'		=>	new GroupBriefResource($entity->getGroup()),
+                'user'		=>	$entity->getUser()->getId(),
+                'group'		=>	$entity->getGroup()->getId(),
                 'role'		=>	$entity->getRole(),
                 'status'	=>  $entity->getStatus()
                 );

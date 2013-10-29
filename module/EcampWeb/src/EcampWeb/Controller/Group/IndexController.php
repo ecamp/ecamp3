@@ -28,7 +28,7 @@ class IndexController
     public function indexAction()
     {
         $renderer = $this->getServiceLocator()->get('Zend\View\Renderer\PhpRenderer');
-        $renderer->headScript()->appendFile('/js/ng-app/paginator.js');
+        $renderer->headScript()->appendFile($this->getRequest()->getBasePath() . '/js/ng-app/paginator.js');
 
         $subgroupResourceUrl = $this->url()->fromRoute(
             'api/groups/groups', array('group' => $this->getGroup()->getId()));

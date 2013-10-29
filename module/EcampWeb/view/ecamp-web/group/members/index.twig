@@ -3,6 +3,7 @@
 
 {% block content2 %}
 
+
 	<div class="row">
 		<div class="col-sm-12" {{ managerPaginator.getNgController|raw }}>
 			{% embed "helper/accordion.twig" %}
@@ -69,6 +70,8 @@
 					Membership - Invitations <p class="pull-right">{{ invitationPaginator.getCount }}</p>
 				{% endblock %}
 				{% block panel_content %}
+
+
 					{% embed 'ecamp-web/group/members/invitation.twig' %}
 						{% block empty_text %}No open invitation{% endblock %}
 					{% endembed %}
@@ -85,5 +88,6 @@
 	</div>
 
 	<div class="modal fade" id="remoteModalDialog" tabindex="-1" role="dialog" />
+
 
 {% endblock content2 %}

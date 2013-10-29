@@ -7,7 +7,7 @@ use EcampCore\Entity\CampCollaboration as Collaboration;
 use EcampApi\Resource\User\UserBriefResource;
 use EcampApi\Resource\Camp\CampBriefResource;
 
-class CollaborationResource extends HalResource
+class CollaborationDetailResource extends HalResource
 {
     public function __construct(Collaboration $entity)
     {

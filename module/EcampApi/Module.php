@@ -156,6 +156,14 @@ class Module
                     return new MembershipResourceListener($repository);
                 },
 
+                'EcampApi\Resource\Search\UserResourceListener' => function ($services) {
+                    $userRepo = $services->get('EcampCore\Repository\User');
+                    $groupRepo = $services->get('EcampCore\Repository\Group');
+                    $campRepo = $services->get('EcampCore\Repository\Camp');
+
+                    return new \EcampApi\Resource\Search\UserResourceListener($userRepo, $groupRepo, $campRepo);
+                },
+
             ),
 
         );
