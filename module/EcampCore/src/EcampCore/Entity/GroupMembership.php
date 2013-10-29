@@ -30,7 +30,7 @@ use EcampLib\Entity\BaseEntity;
  * Managers can send invitations to Users
  *
  * @ORM\Entity(repositoryClass="EcampCore\Repository\GroupMembershipRepository")
- * @ORM\Table(name="user_groups", uniqueConstraints={@ORM\UniqueConstraint(name="user_group_unique",columns={"user_id","group_id"})})
+ * @ORM\Table(name="group_memberships", uniqueConstraints={@ORM\UniqueConstraint(name="user_group_unique",columns={"user_id","group_id"})})
  * @ORM\HasLifecycleCallbacks
  */
 class GroupMembership

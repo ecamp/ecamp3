@@ -30,7 +30,7 @@ use EcampLib\Entity\BaseEntity;
  * Managers can send invitations to Users
  *
  * @ORM\Entity(repositoryClass="EcampCore\Repository\CampCollaborationRepository")
- * @ORM\Table(name="user_camps", uniqueConstraints={@ORM\UniqueConstraint(name="user_camp_unique",columns={"user_id","camp_id"})})
+ * @ORM\Table(name="camp_collaborations", uniqueConstraints={@ORM\UniqueConstraint(name="user_camp_unique",columns={"user_id","camp_id"})})
  * @ORM\HasLifecycleCallbacks
  */
 class CampCollaboration

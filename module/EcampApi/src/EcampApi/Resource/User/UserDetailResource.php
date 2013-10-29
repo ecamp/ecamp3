@@ -31,6 +31,9 @@ class UserDetailResource extends HalResource
         $collabLink = new Link('collaborations');
         $collabLink->setRoute('api/users/collaborations', array('user' => $user->getId()));
 
+        $collabLink = new Link('memberships');
+        $collabLink->setRoute('api/users/memberships', array('user' => $user->getId()));
+
         $eventRespLink = new Link('event_resps');
         $eventRespLink->setRoute('api/users/event_resps', array('user' => $user->getId()));
 
