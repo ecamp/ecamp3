@@ -27,7 +27,7 @@ use EcampCore\Entity\UserRelationship;
 use EcampCore\Repository\UserRelationshipRepository;
 use EcampCore\Acl\Privilege;
 
-class RelationshipService
+class UserRelationshipService
     extends ServiceBase
 {
     /**

@@ -331,12 +331,12 @@ return array(
                                 ),
                             ),
 
-                            'groups' => array(
+                            'subgroups' => array(
                                 'type' => 'Literal',
                                 'options' => array(
-                                    'route'      => '/groups',
+                                    'route'      => '/subgroups',
                                     'defaults' => array(
-                                        'controller'    => 'Resource\Group\Group\ApiController'
+                                        'controller'    => 'Resource\Group\Subgroup\ApiController'
                                     ),
                                 ),
                             ),
@@ -705,13 +705,13 @@ return array(
                             'identifier_name'		  => 'group',
                     ),
 
-                    'EcampApi\Resource\Group\Group\ApiController' => array(
+                    'EcampApi\Resource\Group\Subgroup\ApiController' => array(
                             'listener'                => 'EcampApi\Resource\Group\GroupResourceListener',
                             'collection_http_options' => array('get'),
                             'page_size'               => 3,
                             'page_size_param'		  => 'limit',
                             'resource_http_options'   => array('get'),
-                            'route_name'              => 'api/groups/groups',
+                            'route_name'              => 'api/groups/subgroups',
                     ),
 
                     /**
@@ -725,15 +725,18 @@ return array(
                             'resource_http_options'   => array('get'),
                             'route_name'              => 'api/memberships',
                             'identifier_name'		  => 'membership',
+                            'collection_query_whitelist' => array('user','group'),
+
                     ),
 
-                    'Resource\User\Membership\ApiController' => array(
+                    'EcampApi\Resource\User\Membership\ApiController' => array(
                             'listener'                => 'EcampApi\Resource\Membership\MembershipResourceListener',
                             'collection_http_options' => array('get'),
                             'page_size'               => 3,
                             'page_size_param'		  => 'limit',
                             'resource_http_options'   => array('get'),
                             'route_name'              => 'api/users/memberships',
+                            'collection_query_whitelist' => array('group'),
                     ),
 
                     'EcampApi\Resource\Group\Membership\ApiController' => array(
@@ -743,6 +746,7 @@ return array(
                             'page_size_param'		  => 'limit',
                             'resource_http_options'   => array('get'),
                             'route_name'              => 'api/groups/memberships',
+                            'collection_query_whitelist' => array('user'),
                     ),
 
             ),

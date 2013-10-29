@@ -1,6 +1,6 @@
 .*
 
-config/autoload/*.local.php
+config/autoload/*local.php
 
 data/*
 data/**/*
