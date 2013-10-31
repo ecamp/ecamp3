@@ -7,7 +7,7 @@
 {% verbatim %}
 
 
-	<div class="col-sm-6 col-md-4" ng-repeat="item in items" ng-controller="MembershipSearchResult">
+	<div class="col-sm-6 col-md-4" ng-repeat="item in items" ng-controller="CollaborationSearchResult">
 
 
 		<div class="btn btn-default col-xs-12" style="margin-bottom: 15px">
@@ -23,13 +23,13 @@
 							<p>{{ item.displayName }}</p>
 						</a>
 
-						<div class="pull-right" ng-show="item._embedded.membership.status == 'invited'">is invited</div>
-						<div class="pull-right" ng-show="item._embedded.membership.status == 'requested'">open requested</div>
-						<div class="pull-right" ng-show="item._embedded.membership.status == 'established'">
-							is {{ item._embedded.membership.role }}
+						<div class="pull-right" ng-show="item._embedded.collaboration.status == 'invited'">is invited</div>
+						<div class="pull-right" ng-show="item._embedded.collaboration.status == 'requested'">open requested</div>
+						<div class="pull-right" ng-show="item._embedded.collaboration.status == 'established'">
+							is {{ item._embedded.collaboration.role }}
 						</div>
 
-						<div class="btn-group pull-right" ng-hide="item._embedded.membership">
+						<div class="btn-group pull-right" ng-hide="item._embedded.collaboration">
 							<button
 								ng-click="invite('{% endverbatim %}{{ inviteAsMemberBaseUrl }}{% verbatim %}' + item.id)"
 								class="btn btn-xs btn-success"

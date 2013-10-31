@@ -21,9 +21,21 @@
 				<tbody>
 				{% for camp in camps %}
 					<tr>
-						<td>{{ camp.getName }}</td>
-						<td>{{ camp.getTitle }}</td>
-						<td>{{ camp.getMotto }}</td>
+						<td>
+							<a href="{{ url('web/group-prefix/name+camp', { 'group': group, 'camp': camp }) }}">
+								{{ camp.getName }}
+							</a>
+						</td>
+						<td>
+							<a href="{{ url('web/group-prefix/name+camp', { 'group': group, 'camp': camp }) }}">
+								{{ camp.getTitle }}
+							</a>
+						</td>
+						<td>
+							<a href="{{ url('web/group-prefix/name+camp', { 'group': group, 'camp': camp }) }}">
+								{{ camp.getMotto }}
+							</a>
+						</td>
 						<td></td>
 					</tr>
 				{% endfor %}
