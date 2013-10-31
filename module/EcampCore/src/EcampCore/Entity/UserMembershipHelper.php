@@ -57,7 +57,7 @@ class UserMembershipHelper
     {
         $criteria = Criteria::create();
         $expr = Criteria::expr();
-        $criteria->where($expr->eq('status', GroupMembership::STATUS_ESTABLISHED));
+        //$criteria->where($expr->eq('status', GroupMembership::STATUS_ESTABLISHED));
         $criteria->andWhere($expr->eq('group', $group));
         $criteria->setMaxResults(1);
 

@@ -1,0 +1,125 @@
+{% extends 'ecamp-web/group/group.twig' %}
+
+
+{% block content2 %}
+	<div {{ searchPaginator.getNgController|raw }}>
+
+	<div class="row">
+		<div class="col-sm-12">
+			{% embed "helper/contentbox.twig" %}
+				{% block panel_title %}
+					Search for users to invite to {{ group.getName }}
+					<div class="pull-right" style="margin-top: -2px;">
+						<a href="{{ url('web/group-prefix/name/default', { 'group': group, 'controller': 'Members'}) }}"
+							class="btn btn-xs btn-primary">Go back</a>
+					</div>
+				{% endblock %}
+				{% block panel_content %}
+					<div class="row">
+						<p class="col-xs-10">
+							<input type="text" ng-model="searchQuery" id="invite_to_group" class="typeahead" placeholder="Search" />
+						</p>
+
+						<div class="col-xs-2">
+							<a 	href="javascript: $('#invite_search_hint').slideToggle(300)"
+								class="btn btn-sm btn-info col-sm-12">
+								<i class="icon-question-sign"></i>
+							</a>
+						</div>
+
+					</div>
+
+					<div class="alert alert-info fade in" id="invite_search_hint" style="display: none">
+						<table>
+							<tr>
+								<td>
+									<i class="icon-info-sign" style="font-size: 70px; display: inline-block; margin-right: 20px;"></i>
+								</td>
+								<td>
+									<strong>Search for users</strong> by typing there username, scoutname, firstname, surname or mail-address.
+									<br />
+									<strong>Search for groups</strong> by typing the groupname. Then invite members of this group.
+									<br />
+									<strong>Search for camps</strong> by typing campname or motto. Then invite collaborators of this camp.
+								</td>
+							</tr>
+						</table>
+					</div>
+				{% endblock %}
+			{% endembed %}
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-sm-12">
+			{% embed "helper/accordion.twig" %}
+				{% block panel_title %}
+					Search results <p class="pull-right">{{ searchPaginator.getCount }}</p>
+				{% endblock %}
+				{% block panel_content %}
+					{% embed 'ecamp-web/group/members/searchResult.twig' %}
+						{% block empty_text %}No search results{% endblock %}
+					{% endembed %}
+
+					<div class="row" ng-show="numberOfPages > 1">
+						<div class="col-sm-12" style="text-align: center">
+							{% include 'helper/paginationLinks.twig' %}
+						</div>
+					</div>
+				{% endblock %}
+			{% endembed %}
+		</div>
+	</div>
+	</div>
+
+
+
+{% endblock %}
+
+{#
+<div class="modal-dialog">
+	<div class="modal-content">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+			<h4 class="modal-title">Invite to {{ group.getName }}</h4>
+		</div>
+		<div class="modal-body" id="memberDetailsContent">
+			<div class="row">
+				<div class="col-xs-12">
+					<input type="text" id="invite_to_group" class="typeahead" placeholder="Search" />
+				</div>
+			</div>
+
+			<div class="col-sm-12" {{ searchPaginator.getNgController|raw }}>
+				{% embed "helper/accordion.twig" %}
+					{% block panel_title %}
+						Managers <p class="pull-right">{{ searchPaginator.getCount }}</p>
+					{% endblock %}
+					{% block panel_content %}
+						{% embed 'ecamp-web/group/members/member.twig' %}
+							{% block empty_text %}No managers{% endblock %}
+						{% endembed %}
+
+						<div class="row" ng-show="numberOfPages > 1">
+							<div class="col-sm-12" style="text-align: center">
+								{% include 'helper/paginationLinks.twig' %}
+							</div>
+						</div>
+					{% endblock %}
+				{% endembed %}
+			</div>
+
+		</div>
+		<div class="modal-footer">
+
+			<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+		</div>
+
+		<script type="text/javascript">
+			alert($compile);
+		</script>
+
+	</div>
+</div>
+
+#}

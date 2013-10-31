@@ -1,0 +1,70 @@
+<div class="modal-dialog">
+	<div class="modal-content">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+			<h4 class="modal-title">Edit Collaboration</h4>
+		</div>
+		<div class="modal-body" id="collaborationDetailsContent">
+			<div class="row">
+				<div class="col-sm-6">
+					<table style="margin: 0px; padding: 0px; width: 100%">
+						<tr>
+							<td style="width: 70px">
+								<img style="width: 60px"
+								     src="https://cdn3.iconfinder.com/data/icons/glyph/227/User-1-256.png" />
+							</td>
+							<td style="text-align: left">
+								<h5 style="display: inline">{{ collaboration.getUser.getUsername }}</h5>
+								<p>{{ collaboration.getUser.getDisplayname }}</p>
+								<p>Role: {{ collaboration.getRole }}</p>
+							</td>
+						</tr>
+					</table>
+				</div>
+				<div class="col-sm-3">
+					<div class="btn-group">
+						<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+							Change Role
+							<span class="caret"></span>
+						</button>
+						<ul class="dropdown-menu" role="menu">
+							<li>
+								<a href="{{ url('web/group-prefix/name+camp/default',
+												{'group': collaboration.getCamp.getGroup, 'camp': collaboration.getCamp, 'controller': 'Collaborations', 'action': 'changeRole'},
+												{'query': { 'user': collaboration.getUser.getId, 'role': 'member'}}
+											) }}">
+									To Member
+								</a>
+							</li>
+							<li>
+								<a href="{{ url('web/group-prefix/name+camp/default',
+												{'group': collaboration.getCamp.getGroup, 'camp': collaboration.getCamp, 'controller': 'Collaborations', 'action': 'changeRole'},
+												{'query': { 'user': collaboration.getUser.getId, 'role': 'manager'}}
+											) }}">
+									To Manager
+								</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+
+				<div class="col-sm-3">
+			        <div class="btn-group">
+						<a class="btn btn-danger"
+						   href="{{ url('web/group-prefix/name+camp/default',
+						   				{'group': collaboration.getCamp.getGroup, 'camp': collaboration.getCamp, 'controller': 'Collaborations', 'action': 'kick'},
+						   				{'query': { 'user': collaboration.getUser.getId }}
+						   			) }}">
+							Kick user
+						</a>
+					</div>
+				</div>
+			</div>
+
+		</div>
+
+		<div class="modal-footer">
+			<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+		</div>
+	</div>
+</div>

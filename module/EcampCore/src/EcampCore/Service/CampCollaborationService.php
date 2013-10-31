@@ -234,4 +234,13 @@ class CampCollaborationService
         $this->remove($campCollaboration);
     }
 
+    public function changeRole(Camp $camp, User $user, $role)
+    {
+        $this->aclRequire($camp, Privilege::CAMP_ADMINISTRATE);
+
+        $campCollaboration = $this->campCollaborationRepo->findByCampAndUser($camp, $user);
+
+        $campCollaboration->setRole($role);
+    }
+
 }

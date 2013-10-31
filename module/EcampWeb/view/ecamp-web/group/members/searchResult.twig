@@ -1,0 +1,62 @@
+<div class="row">
+
+	<div ng-show="numberOfPages == 0">
+		<p align="center">{% block empty_text %}{% endblock %}</p>
+	</div>
+
+{% verbatim %}
+
+
+	<div class="col-sm-6 col-md-4" ng-repeat="item in items" ng-controller="MembershipSearchResult">
+
+
+		<div class="btn btn-default col-xs-12" style="margin-bottom: 15px">
+			<table style="margin: 0px; padding: 0px; width: 100%; height: 76px">
+				<tr>
+					<td style="width: 80px">
+						<img style="width: 70px"
+							 src="https://cdn3.iconfinder.com/data/icons/glyph/227/User-1-256.png" />
+					</td>
+					<td style="text-align: left">
+						<a 	href="{{ item._links.web.href }}">
+							<h5 style="display: inline">{{ item.username }}</h5>
+							<p>{{ item.displayName }}</p>
+						</a>
+
+						<div class="pull-right" ng-show="item._embedded.membership.status == 'invited'">is invited</div>
+						<div class="pull-right" ng-show="item._embedded.membership.status == 'requested'">open requested</div>
+						<div class="pull-right" ng-show="item._embedded.membership.status == 'established'">
+							is {{ item._embedded.membership.role }}
+						</div>
+
+						<div class="btn-group pull-right" ng-hide="item._embedded.membership">
+							<button
+								ng-click="invite('{% endverbatim %}{{ inviteAsMemberBaseUrl }}{% verbatim %}' + item.id)"
+								class="btn btn-xs btn-success"
+							>
+								Invite
+							</button>
+							<button type="button" class="btn btn-xs btn-success dropdown-toggle" data-toggle="dropdown">
+								<span class="caret"></span>
+							</button>
+							<ul class="dropdown-menu pull-right" role="menu">
+								<li>
+									<a ng-click="invite('{% endverbatim %}{{ inviteAsMemberBaseUrl }}{% verbatim %}' + item.id)">
+										as member
+									</a>
+								</li>
+								<li>
+									<a ng-click="invite('{% endverbatim %}{{ inviteAsManagerBaseUrl }}{% verbatim %}' + item.id)">
+										as manager
+									</a>
+								</li>
+							</ul>
+						</div>
+					</td>
+				</tr>
+			</table>
+		</div>
+
+	</div>
+{% endverbatim %}
+</div>

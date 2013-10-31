@@ -3,7 +3,6 @@ namespace EcampApi;
 
 use Zend\Mvc\MvcEvent;
 
-use EcampApi\Listener\AuthenticationRequiredExceptionStrategy;
 use EcampApi\Listener\CollectionRenderingListener;
 use EcampApi\Resource\Camp\CampResourceListener;
 use EcampApi\Resource\User\UserResourceListener;
@@ -46,9 +45,6 @@ class Module
         $application = $event->getTarget();
         $serviceManager = $application->getServiceManager();
         $config = $serviceManager->get('Config');
-
-        $authenticationRequiredStrategy = new AuthenticationRequiredExceptionStrategy();
-        $authenticationRequiredStrategy->attach($application->getEventManager());
 
         $sharedEventManager = $event->getTarget()->getEventManager()->getSharedManager();
 
@@ -137,6 +133,14 @@ class Module
                     $repository = $services->get('EcampCore\Repository\GroupMembership');
 
                     return new MembershipResourceListener($repository);
+                },
+
+                'EcampApi\Resource\Search\UserResourceListener' => function ($services) {
+                    $userRepo = $services->get('EcampCore\Repository\User');
+                    $groupRepo = $services->get('EcampCore\Repository\Group');
+                    $campRepo = $services->get('EcampCore\Repository\Camp');
+
+                    return new \EcampApi\Resource\Search\UserResourceListener($userRepo, $groupRepo, $campRepo);
                 },
 
             ),

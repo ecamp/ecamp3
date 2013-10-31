@@ -1,0 +1,15 @@
+<div class="panel-group">
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<h4 class="panel-title">
+				<i class="icon-accordion"></i>
+				{% block panel_title %}{% endblock %}
+			</h4>
+		</div>
+		<div class="panel-collapse collapse in">
+			<div class="panel-body">
+				{% block panel_content %}{% endblock %}
+			</div>
+		</div>
+	</div>
+</div>

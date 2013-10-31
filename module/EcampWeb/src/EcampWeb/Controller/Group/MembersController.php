@@ -4,6 +4,8 @@ namespace EcampWeb\Controller\Group;
 
 use EcampWeb\Element\ApiCollectionPaginator;
 use EcampCore\Entity\GroupMembership;
+use EcampCore\Entity\User;
+use Zend\Http\Response;
 class MembersController
     extends BaseController
 {
@@ -34,7 +36,8 @@ class MembersController
     public function indexAction()
     {
         $renderer = $this->getServiceLocator()->get('Zend\View\Renderer\PhpRenderer');
-        $renderer->headScript()->appendFile('/js/ng-app/paginator.js');
+        $renderer->headScript()->appendFile(
+            $this->getRequest()->getBasePath() . '/js/ng-app/paginator.js');
 
         $managerResourceUrl = $this->url()->fromRoute(
             'api/groups/memberships', array('group' => $this->getGroup()->getId()));
@@ -139,6 +142,67 @@ class MembersController
         return array(
             'membership' => $membership
         );
+    }
+
+    public function searchAction()
+    {
+        $renderer = $this->getServiceLocator()->get('Zend\View\Renderer\PhpRenderer');
+        $renderer->headScript()->appendFile(
+            $this->getRequest()->getBasePath() . '/js/ng-app/paginator.js');
+        $renderer->headScript()->appendFile(
+                $this->getRequest()->getBasePath() . '/js/ng-app/member/search-result.js');
+
+        $searchResourceUrl = $this->url()->fromRoute('api/search/user', array());
+
+        $searchPaginator = new ApiCollectionPaginator(
+            $searchResourceUrl,
+            array(
+                'status' => User::STATE_ACTIVATED,
+                'showMembershipOfGroup' => $this->getGroup()->getId()
+            )
+        );
+        $searchPaginator->setItemsPerPage(12);
+
+        $inviteAsMemberBaseUrl = $this->url()->fromRoute(
+            'web/group-prefix/name/default',
+            array(
+                'group' => $this->getGroup(),
+                'controller' => 'Members',
+                'action' => 'inviteAjax'
+            ),
+            array('query' => array('role' => GroupMembership::ROLE_MEMBER, 'user' => ''))
+        );
+
+        $inviteAsManagerBaseUrl = $this->url()->fromRoute(
+            'web/group-prefix/name/default',
+            array(
+                'group' => $this->getGroup(),
+                'controller' => 'Members',
+                'action' => 'inviteAjax'
+            ),
+            array('query' => array('role' => GroupMembership::ROLE_MANAGER, 'user' => ''))
+        );
+
+        return array(
+            'searchPaginator' => $searchPaginator,
+
+            'inviteAsMemberBaseUrl' => $inviteAsMemberBaseUrl,
+            'inviteAsManagerBaseUrl' => $inviteAsManagerBaseUrl,
+        );
+    }
+
+    public function inviteAjaxAction()
+    {
+        $user = $this->getUserRepository()->find($this->params()->fromQuery('user'));
+        $role = $this->params()->fromQuery('role') ?: GroupMembership::ROLE_MEMBER;
+
+        $this->getMembershipService()->inviteUser($this->getMe(), $this->getGroup(), $user, $role);
+
+        $resp = new Response();
+        $resp->setStatusCode(Response::STATUS_CODE_200);
+        $resp->setContent($role);
+
+        return $resp;
     }
 
     public function kickAction()
