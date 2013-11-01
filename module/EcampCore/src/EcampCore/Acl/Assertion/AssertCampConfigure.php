@@ -21,7 +21,7 @@ class AssertCampConfigure
         if ($user instanceof User && $camp instanceof Camp) {
 
             // If User is Manager
-            if($camp->isManager($user))		return true;
+            if($camp->campCollaboration()->isManager($user))		return true;
 
             // If User is Owner
             if($camp->getOwner() == $user)	return true;

@@ -26,13 +26,13 @@ class AssertCampList
             }
 
             // If User is Member
-            if($camp->isMember($user))		return true;
+            if($camp->campCollaboration()->isMember($user))		return true;
 
             // If User is Guest
-            if($camp->isGuest($user))		return true;
+            if($camp->campCollaboration()->isGuest($user))		return true;
 
             // If User is Manager
-            if($camp->isManager($user))		return true;
+            if($camp->campCollaboration()->isManager($user))		return true;
 
             // If User is Owner
             if($camp->getOwner() == $user)	return true;

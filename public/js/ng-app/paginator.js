@@ -1,16 +1,45 @@
 
-function Paginator($scope, $resource){
+function Paginator($scope, $resource, $timeout){
 	$scope.numberOfPages = null;
 	$scope.numberOfItems = null;
 	$scope.itemsPerPage = null;
-	$scope.currentPage = null;
+	$scope.currentPage = 1;
 	$scope.items = [];
-	$scope.resource = null;
 	$scope.isLoading = false;
+	$scope.searchQuery = undefined;
+	
+	
+	var resource;
+	var searchTimeout = null;
+	var keyTimeout = null;
+	
+	var loadSearchQuery = function(){
+		if(searchTimeout != null){
+			$timeout.cancel(searchTimeout);
+			searchTimeout = null;
+		}
+		if(keyTimeout != null){
+			$timeout.cancel(keyTimeout); 
+			keyTimeout = null;
+		}
+		$scope.loadPage($scope.currentPage);
+	};
+	var searchQueryChanged = function(){
+		if(searchTimeout == null){
+			searchTimeout = $timeout(loadSearchQuery, 1000);
+		}
+		
+		if(keyTimeout != null){
+			$timeout.cancel(keyTimeout);
+		}
+		keyTimeout = $timeout(loadSearchQuery, 150);
+	};
 	
 	$scope.init = function(url, paramDefaults){
-		$scope.resource = $resource(url, paramDefaults);
+		resource = $resource(url, paramDefaults);
 		$scope.loadPage();
+		
+		$scope.$watch('searchQuery', searchQueryChanged);
 	};
 	
 	$scope.loadPage = function(pageNumber){
@@ -22,8 +51,11 @@ function Paginator($scope, $resource){
 		if(angular.isNumber($scope.itemsPerPage)){
 			params.limit = $scope.itemsPerPage;
 		}
+		if(angular.isDefined($scope.searchQuery)){
+			params.search = $scope.searchQuery;
+		}
 		
-		var list = $scope.resource.get(
+		var list = resource.get(
 			params,
 			function(){
 				$scope.items = list._embedded.items;

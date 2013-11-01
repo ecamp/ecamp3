@@ -138,7 +138,7 @@ class CampCollaboration
         return $this->role;
     }
 
-    private function setRole($role)
+    public function setRole($role)
     {
         if (!in_array($role, array(self::ROLE_GUEST, self::ROLE_MEMBER, self::ROLE_MANAGER, self::ROLE_OWNER))) {
             throw new \Exception("[$role] is not a valid value for CampCollaboration.role");

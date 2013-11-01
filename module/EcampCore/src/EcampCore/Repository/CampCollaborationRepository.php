@@ -28,6 +28,11 @@ class CampCollaborationRepository extends EntityRepository
             $q->setParameter('user', $criteria["user"]);
         }
 
+        if (isset($criteria["status"]) && !is_null($criteria["status"])) {
+            $q->andWhere('cc.status = :status');
+            $q->setParameter('status', $criteria["status"]);
+        }
+
         return new Paginator(new PaginatorAdapter(new ORMPaginator($q->getQuery())));
     }
 
