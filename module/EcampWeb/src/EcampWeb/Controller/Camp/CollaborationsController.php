@@ -57,9 +57,8 @@ class CollaborationsController extends BaseController
         );
 
         $acceptRequestBaseUrl = $this->url()->fromRoute(
-            'web/group-prefix/name+camp/default',
+            'web/camp/default',
             array(
-                'group' => $this->getCamp()->getGroup(),
                 'camp' => $this->getCamp(),
                 'controller' => 'Collaborations',
                 'action' => 'acceptRequest'
@@ -68,9 +67,8 @@ class CollaborationsController extends BaseController
         );
 
         $rejectRequestBaseUrl = $this->url()->fromRoute(
-            'web/group-prefix/name+camp/default',
+            'web/camp/default',
             array(
-                'group' => $this->getCamp()->getGroup(),
                 'camp' => $this->getCamp(),
                 'controller' => 'Collaborations',
                 'action' => 'rejectRequest'
@@ -79,9 +77,8 @@ class CollaborationsController extends BaseController
         );
 
         $revokeInvitationBaseUrl = $this->url()->fromRoute(
-            'web/group-prefix/name+camp/default',
+            'web/camp/default',
             array(
-                'group' => $this->getCamp()->getGroup(),
                 'camp' => $this->getCamp(),
                 'controller' => 'Collaborations',
                 'action' => 'revokeInvitation'
@@ -90,9 +87,8 @@ class CollaborationsController extends BaseController
         );
 
         $editCollaborationBaseUrl = $this->url()->fromRoute(
-            'web/group-prefix/name+camp/default',
+            'web/camp/default',
             array(
-                'group' => $this->getCamp()->getGroup(),
                 'camp' => $this->getCamp(),
                 'controller' => 'Collaborations',
                 'action' => 'edit'
@@ -132,9 +128,8 @@ class CollaborationsController extends BaseController
         $searchPaginator->setItemsPerPage(12);
 
         $inviteAsMemberBaseUrl = $this->url()->fromRoute(
-            'web/group-prefix/name+camp/default',
+            'web/camp/default',
             array(
-                'group' => $this->getCamp()->getGroup(),
                 'camp' => $this->getCamp(),
                 'controller' => 'Collaborations',
                 'action' => 'inviteAjax'
@@ -143,9 +138,8 @@ class CollaborationsController extends BaseController
         );
 
         $inviteAsManagerBaseUrl = $this->url()->fromRoute(
-            'web/group-prefix/name/default',
+            'web/camp/default',
             array(
-                'group' => $this->getCamp()->getGroup(),
                 'camp' => $this->getCamp(),
                 'controller' => 'Collaborations',
                 'action' => 'inviteAjax'
@@ -193,8 +187,8 @@ class CollaborationsController extends BaseController
 
         $this->getCollaborationService()->acceptRequest($this->getMe(), $camp, $user, $role);
 
-        return $this->redirect()->toRoute('web/group-prefix/name+camp/default',
-            array('group' => $camp->getGroup(), 'camp' => $camp, 'controller' => 'Collaborations', 'aciton' => 'index')
+        return $this->redirect()->toRoute(
+            'web/camp/default', array('camp' => $camp, 'controller' => 'Collaborations', 'aciton' => 'index')
         );
     }
 
@@ -205,8 +199,8 @@ class CollaborationsController extends BaseController
 
         $this->getCollaborationService()->rejectRequest($camp, $user);
 
-        return $this->redirect()->toRoute('web/group-prefix/name+camp/default',
-            array('group' => $camp->getGroup(), 'camp' => $camp, 'controller' => 'Collaborations', 'aciton' => 'index')
+        return $this->redirect()->toRoute(
+            'web/camp/default', array('camp' => $camp, 'controller' => 'Collaborations', 'aciton' => 'index')
         );
     }
 
@@ -217,8 +211,8 @@ class CollaborationsController extends BaseController
 
         $this->getCollaborationService()->revokeInvitation($camp, $user);
 
-        return $this->redirect()->toRoute('web/group-prefix/name+camp/default',
-                array('group' => $camp->getGroup(), 'camp' => $camp, 'controller' => 'Collaborations', 'aciton' => 'index')
+        return $this->redirect()->toRoute(
+            'web/camp/default', array('camp' => $camp, 'controller' => 'Collaborations', 'aciton' => 'index')
         );
     }
 
@@ -230,8 +224,8 @@ class CollaborationsController extends BaseController
         $role = $this->params()->fromQuery('role');
         $this->getCollaborationService()->changeRole($camp, $user, $role);
 
-        return $this->redirect()->toRoute('web/group-prefix/name+camp/default',
-            array('group' => $camp->getGroup(), 'camp' => $camp, 'controller' => 'Collaborations', 'aciton' => 'index')
+        return $this->redirect()->toRoute(
+            'web/camp/default', array('camp' => $camp, 'controller' => 'Collaborations', 'aciton' => 'index')
         );
     }
 
@@ -242,8 +236,8 @@ class CollaborationsController extends BaseController
 
         $this->getCollaborationService()->kickUser($this->getCamp(), $user);
 
-        return $this->redirect()->toRoute('web/group-prefix/name+camp/default',
-            array('group' => $camp->getGroup(), 'camp' => $camp, 'controller' => 'Collaborations', 'aciton' => 'index')
+        return $this->redirect()->toRoute(
+            'web/camp/default', array('camp' => $camp, 'controller' => 'Collaborations', 'aciton' => 'index')
         );
     }
 

@@ -40,8 +40,8 @@ class IndexController
         $role = $this->params()->fromQuery('role') ?: CampCollaboration::ROLE_MEMBER;
         $this->getCollaborationService()->requestCollaboration($this->getMe(), $this->getCamp(), $role);
 
-        return $this->redirect()->toRoute('web/group-prefix/name+camp/default',
-            array('group' => $this->getCamp()->getGroup(), 'camp' => $this->getCamp(), 'controller'=>'Index', 'action'=>'index')
+        return $this->redirect()->toRoute(
+            'web/camp/default', array('camp' => $this->getCamp(), 'controller'=>'Index', 'action'=>'index')
         );
     }
 
@@ -49,8 +49,8 @@ class IndexController
     {
         $this->getCollaborationService()->revokeRequest($this->getMe(), $this->getCamp());
 
-        return $this->redirect()->toRoute('web/group-prefix/name+camp/default',
-            array('group' => $this->getCamp()->getGroup(), 'camp' => $this->getCamp(), 'controller'=>'Index', 'action'=>'index')
+        return $this->redirect()->toRoute(
+            'web/camp/default', array('camp' => $this->getCamp(), 'controller'=>'Index', 'action'=>'index')
         );
     }
 
@@ -58,8 +58,8 @@ class IndexController
     {
         $this->getCollaborationService()->acceptInvitation($this->getMe(), $this->getCamp());
 
-        return $this->redirect()->toRoute('web/group-prefix/name+camp/default',
-            array('group' => $this->getCamp()->getGroup(), 'camp' => $this->getCamp(), 'controller'=>'Index', 'action'=>'index')
+        return $this->redirect()->toRoute(
+            'web/camp/default', array('camp' => $this->getCamp(), 'controller'=>'Index', 'action'=>'index')
         );
     }
 
@@ -67,8 +67,8 @@ class IndexController
     {
         $this->getCollaborationService()->rejectInvitation($this->getMe(), $this->getCamp());
 
-        return $this->redirect()->toRoute('web/group-prefix/name+camp/default',
-            array('group' => $this->getCamp()->getGroup(), 'camp' => $this->getCamp(), 'controller'=>'Index', 'action'=>'index')
+        return $this->redirect()->toRoute(
+            'web/camp/default', array('camp' => $this->getCamp(), 'controller'=>'Index', 'action'=>'index')
         );
     }
 
@@ -76,8 +76,8 @@ class IndexController
     {
         $this->getCollaborationService()->leaveCamp($this->getMe(), $this->getCamp());
 
-        return $this->redirect()->toRoute('web/group-prefix/name+camp/default',
-            array('group' => $this->getCamp()->getGroup(), 'camp' => $this->getCamp(), 'controller'=>'Index', 'action'=>'index')
+        return $this->redirect()->toRoute(
+            'web/camp/default', array('camp' => $this->getCamp(), 'controller'=>'Index', 'action'=>'index')
         );
     }
 

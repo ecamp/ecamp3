@@ -236,7 +236,7 @@ class CampCollaborationService
 
     public function changeRole(Camp $camp, User $user, $role)
     {
-        $this->aclRequire($camp, Privilege::CAMP_ADMINISTRATE);
+        $this->aclRequire($camp, Privilege::CAMP_CONFIGURE);
 
         $campCollaboration = $this->campCollaborationRepo->findByCampAndUser($camp, $user);
 

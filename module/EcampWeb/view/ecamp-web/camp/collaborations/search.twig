@@ -10,7 +10,7 @@
 				{% block panel_title %}
 					Search for users to invite to {{ camp.getName }}
 					<div class="pull-right" style="margin-top: -2px;">
-						<a href="{{ url('web/group-prefix/name+camp/default', { 'group': camp.group, 'camp': camp, 'controller': 'Collaborations'}) }}"
+						<a href="{{ url('web/camp/default', { 'camp': camp, 'controller': 'Collaborations'}) }}"
 							class="btn btn-xs btn-primary">Go back</a>
 					</div>
 				{% endblock %}

@@ -27,14 +27,16 @@
 					<th colspan="2">User</th>
 					<th>Role</th>
 					<th>
+						{% if acl.isAllowed(me, camp, 'configure') %}
 						<span class="pull-right">
 							<a 	class="btn btn-xs btn-success"
-								href="{{ url('web/group-prefix/name+camp/default',
-										{'group': camp.getGroup, 'camp': camp, 'controller': 'Collaborations', 'action': 'search' })
+								href="{{ url('web/camp/default',
+										{'camp': camp, 'controller': 'Collaborations', 'action': 'search' })
 										}}">
 								<i class="icon-plus"></i> Send invitation
 							</a>
 						</span>
+						{% endif %}
 					</th>
 				</tr>
 			</thead>
@@ -47,7 +49,7 @@
 {% endverbatim %}
 					<td>
 						<span class="pull-right">
-						{% if acl.isAllowed(me, camp, 'administrate') %}
+						{% if acl.isAllowed(me, camp, 'configure') %}
 							<a
 								class="btn btn-xs btn-danger"
 								href="{{ revokeInvitationBaseUrl }}{% verbatim %}{{ item._embedded.user.id }}{% endverbatim %}"

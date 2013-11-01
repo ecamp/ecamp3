@@ -29,16 +29,16 @@
 						</button>
 						<ul class="dropdown-menu" role="menu">
 							<li>
-								<a href="{{ url('web/group-prefix/name+camp/default',
-												{'group': collaboration.getCamp.getGroup, 'camp': collaboration.getCamp, 'controller': 'Collaborations', 'action': 'changeRole'},
+								<a href="{{ url('web/camp/default',
+												{'camp': collaboration.getCamp, 'controller': 'Collaborations', 'action': 'changeRole'},
 												{'query': { 'user': collaboration.getUser.getId, 'role': 'member'}}
 											) }}">
 									To Member
 								</a>
 							</li>
 							<li>
-								<a href="{{ url('web/group-prefix/name+camp/default',
-												{'group': collaboration.getCamp.getGroup, 'camp': collaboration.getCamp, 'controller': 'Collaborations', 'action': 'changeRole'},
+								<a href="{{ url('web/camp/default',
+												{'camp': collaboration.getCamp, 'controller': 'Collaborations', 'action': 'changeRole'},
 												{'query': { 'user': collaboration.getUser.getId, 'role': 'manager'}}
 											) }}">
 									To Manager
@@ -51,8 +51,8 @@
 				<div class="col-sm-3">
 			        <div class="btn-group">
 						<a class="btn btn-danger"
-						   href="{{ url('web/group-prefix/name+camp/default',
-						   				{'group': collaboration.getCamp.getGroup, 'camp': collaboration.getCamp, 'controller': 'Collaborations', 'action': 'kick'},
+						   href="{{ url('web/camp/default',
+						   				{'camp': collaboration.getCamp, 'controller': 'Collaborations', 'action': 'kick'},
 						   				{'query': { 'user': collaboration.getUser.getId }}
 						   			) }}">
 							Kick user

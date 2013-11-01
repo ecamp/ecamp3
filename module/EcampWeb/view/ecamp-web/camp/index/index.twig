@@ -16,8 +16,8 @@
 							{% if myCollaboration is null %}
 							<div class="btn-group">
 								<a class="btn btn-sm btn-success"
-									href="{{ url('web/group-prefix/name+camp/default',
-										{ 'group': camp.group, 'camp': camp, 'controller': 'index', 'action': 'requestCollaboration'}
+									href="{{ url('web/camp/default',
+										{ 'camp': camp, 'controller': 'index', 'action': 'requestCollaboration'}
 										) }}"
 								>
 									<i class="icon-plus"></i> Request collaboration
@@ -27,16 +27,16 @@
 								</button>
 								<ul class="dropdown-menu pull-right" role="menu">
 									<li>
-										<a href="{{ url('web/group-prefix/name+camp/default',
-										{ 'group': camp.group, 'camp': camp, 'controller': 'index', 'action': 'requestCollaboration'}
+										<a href="{{ url('web/camp/default',
+										{ 'camp': camp, 'controller': 'index', 'action': 'requestCollaboration'}
 										) }}"
 										>
 											as member
 										</a>
 									</li>
 									<li>
-										<a href="{{ url('web/group-prefix/name+camp/default',
-										{ 'group': camp.group, 'camp': camp, 'controller': 'index', 'action': 'requestCollaboration' },
+										<a href="{{ url('web/camp/default',
+										{ 'camp': camp, 'controller': 'index', 'action': 'requestCollaboration' },
 										{ 'query' : { 'role': 'manager' } }
 										) }}"
 										>
@@ -49,8 +49,8 @@
 
 								{% if myCollaboration.getStatus == 'requested' %}
 								<a class="btn btn-sm btn-danger"
-									href="{{ url('web/group-prefix/name+camp/default',
-										{ 'group': camp.group, 'camp': camp, 'controller': 'index', 'action': 'revokeRequest'}
+									href="{{ url('web/camp/default',
+										{ 'camp': camp, 'controller': 'index', 'action': 'revokeRequest'}
 										) }}"
 								>
 									<i class="icon-remove"></i> Revoke Request
@@ -60,15 +60,15 @@
 								{% if myCollaboration.getStatus == 'invited' %}
 								<p class="pull-right">
 									<a class="btn btn-sm btn-success"
-										href="{{ url('web/group-prefix/name+camp/default',
-											{ 'group': camp.group, 'camp': camp, 'controller': 'index', 'action': 'acceptInvitation'}
+										href="{{ url('web/camp/default',
+											{ 'camp': camp, 'controller': 'index', 'action': 'acceptInvitation'}
 											) }}"
 									>
 										<i class="icon-ok"></i> Accept Invitation
 									</a>
 									<a class="btn btn-sm btn-danger"
-										href="{{ url('web/group-prefix/name+camp/default',
-											{ 'group': camp.group, 'camp': camp, 'controller': 'index', 'action': 'rejectInvitation'}
+										href="{{ url('web/camp/default',
+											{ 'camp': camp, 'controller': 'index', 'action': 'rejectInvitation'}
 											) }}"
 									>
 										<i class="icon-remove"></i> Reject Invitation
@@ -122,8 +122,8 @@
 								</div>
 								<div class="modal-footer">
 									<a class="btn btn-danger"
-										href="{{ url('web/group-prefix/name+camp/default',
-											{ 'group': camp.group, 'camp': camp, 'controller': 'index', 'action': 'leaveCamp'}
+										href="{{ url('web/camp/default',
+											{ 'camp': camp, 'controller': 'index', 'action': 'leaveCamp'}
 											) }}"
 									>
 										Leave camp

@@ -6,6 +6,7 @@ use EcampWeb\Element\ApiCollectionPaginator;
 use EcampCore\Entity\GroupMembership;
 use EcampCore\Entity\User;
 use Zend\Http\Response;
+
 class MembersController
     extends BaseController
 {
@@ -150,7 +151,7 @@ class MembersController
         $renderer->headScript()->appendFile(
             $this->getRequest()->getBasePath() . '/js/ng-app/paginator.js');
         $renderer->headScript()->appendFile(
-                $this->getRequest()->getBasePath() . '/js/ng-app/member/search-result.js');
+            $this->getRequest()->getBasePath() . '/js/ng-app/member/search-result.js');
 
         $searchResourceUrl = $this->url()->fromRoute('api/search/user', array());
 
@@ -238,7 +239,7 @@ class MembersController
         $this->getMembershipService()->acceptRequest($this->getMe(), $group, $user, $role);
 
         return $this->redirect()->toRoute('web/group-prefix/name/default',
-                array('group' => $this->getGroup(), 'controller'=>'Members', 'action'=>'index')
+            array('group' => $this->getGroup(), 'controller'=>'Members', 'action'=>'index')
         );
     }
 
@@ -250,7 +251,7 @@ class MembersController
         $this->getMembershipService()->rejectRequest($group, $user);
 
         return $this->redirect()->toRoute('web/group-prefix/name/default',
-                array('group' => $this->getGroup(), 'controller'=>'Members', 'action'=>'index')
+            array('group' => $this->getGroup(), 'controller'=>'Members', 'action'=>'index')
         );
     }
 
@@ -262,7 +263,7 @@ class MembersController
         $this->getMembershipService()->revokeInvitation($group, $user);
 
         return $this->redirect()->toRoute('web/group-prefix/name/default',
-                array('group' => $this->getGroup(), 'controller'=>'Members', 'action'=>'index')
+            array('group' => $this->getGroup(), 'controller'=>'Members', 'action'=>'index')
         );
     }
 
