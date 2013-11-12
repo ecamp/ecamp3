@@ -73,38 +73,27 @@ class CampRepository
             $q->setParameter('search', '%' . $search . '%');
         }
 
+        $exprFutureCamp = $q->expr()->exists(
+                "select 			1
+                     from 				EcampCore\Entity\Period p
+                     left outer join   	EcampCore\Entity\Day d with d.period = p
+                     where 				p.camp = c
+                     group by 			p.id, p.start
+                     having 			DATE_ADD(p.start, count(d.id), 'day') > CURRENT_DATE()"
+        );
+
         if (isset($criteria['mode']) && !is_null($criteria['mode'])) {
             $mode = $criteria['mode'];
+
             if ($mode == 'past') {
-                $q->andWhere($q->expr()->not($q->expr()->exists(
-                    "select 			1
-                     from 				EcampCore\Entity\Period p
-                     left outer join   	EcampCore\Entity\Day d with d.period = p
-                     where 				p.camp = c
-                     group by 			p.id, p.start
-                     having 			DATE_ADD(p.start, count(d.id), 'day') > CURRENT_DATE()"
-                )));
-            } elseif ($mode == 'future') {
-                $q->andWhere($q->expr()->exists(
-                    "select 			1
-                     from 				EcampCore\Entity\Period p
-                     left outer join   	EcampCore\Entity\Day d with d.period = p
-                     where 				p.camp = c
-                     group by 			p.id, p.start
-                     having 			DATE_ADD(p.start, count(d.id), 'day') > CURRENT_DATE()"
-                    ));
+                $q->andWhere($q->expr()->not($exprFutureCamp));
+            } elseif ($mode != 'all') {
+                $q->andWhere($exprFutureCamp);
             }
         } else {
             if (! (isset($criteria['past']) && $criteria['past'])) {
                 // hide past camps
-                $q->andWhere($q->expr()->exists(
-                    "select 1
-                     from 	EcampCore\Entity\Period p
-                     left outer join   EcampCore\Entity\Day d with d.period = p
-                     where 	p.camp = c
-                     group by p.id, p.start
-                     having DATE_ADD(p.start, count(d.id), 'day') > CURRENT_DATE()"
-                ));
+                $q->andWhere($exprFutureCamp);
             }
         }
 

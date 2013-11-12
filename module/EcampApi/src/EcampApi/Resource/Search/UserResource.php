@@ -22,10 +22,7 @@ class UserResource extends HalResource
                 'fullname'		=>	$user->getFullName(),
                 'displayName' 	=>  $user->getDisplayName(),
                 'email'			=> 	$user->getEmail(),
-                'tokens' 		=> array($user->getUsername(), $user->getScoutname(), $user->getFirstname(), $user->getSurname()),
-                'value'			=>	$user->getId(),
-//        		'membership'	=> null,
-//        		'collaboration' => null
+                'value'			=>	$user->getId()
         );
 
         if ($showMembershipOfGroup != null) {
