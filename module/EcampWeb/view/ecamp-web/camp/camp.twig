@@ -22,8 +22,16 @@
 	<div class="row">
 		<div class="col-sm-2">
 			<ul class="nav nav-pills nav-stacked">
-			  <li class="active"><a href="#">Info</a></li>
-			  <li><a href="#">People</a></li>
+			  <li class="{{ controller == 'Index' ? 'active' : '' }}">
+			  	<a href="{{ url('web/camp', { 'camp': camp }) }}">
+			  		Info
+			  	</a>
+			  </li>
+			  <li class="{{ controller == 'Collaborations' ? 'active' : '' }}">
+			  	<a href="{{ url('web/camp/default', { 'camp': camp, 'controller': 'Collaborations' }) }}">
+			  		People
+			  	</a>
+			  </li>
 			  <li class="dropdown">
 			    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
 			      Programm <span class="caret"></span>
@@ -33,8 +41,12 @@
 			      <li><a href="#">Tages&uuml;bersicht</a></li>
 			    </ul>
 			  </li>
-			  <li><a href="#">Material</a></li>
-			  <li><a href="#">Print</a></li>
+			  <li>
+			  	<a href="#">Material</a>
+			  </li>
+			  <li>
+			  	<a href="#">Print</a>
+			  </li>
 			  <li class="dropdown">
 			    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
 			      Kurs <span class="caret"></span>
@@ -55,58 +67,21 @@
 {% block breadcrumb %}
 
 	  {% if camp.belongsToUser  %}
-	  	<li><a class="btn btn-xs btn-noborder" href="{{ url('web/user-prefix/name', {'user' : camp.getOwner.getId } ) }}">{{ camp.getOwner.getName }}</a></li>
+	  	<li>
+	  		<a class="btn btn-xs btn-noborder" href="{{ url('web/user-prefix/name', {'user' : camp.getOwner.getId } ) }}">
+	  			{{ camp.getOwner.getUsername }}
+	  		</a>
+	  	</li>
 	  {% else %}
 	  	{%  for item in camp.getGroup.getPathAsArray(true) %}
-	  		<li><a class="btn btn-xs btn-noborder" href="{{ url('web/group-prefix/name', {'group' : item.getId } ) }}">{{ item.getDescription }}</a></li>
+	  		<li>
+	  			<a class="btn btn-xs btn-noborder" href="{{ url('web/group-prefix/name', {'group' : item.getId } ) }}">
+	  				{{ item.getDescription }}
+	  			</a>
+	  		</li>
 	  	{% endfor %}
 	  {% endif %}
 
 	  <li class="active"><a class="btn btn-xs btn-noborder disabled" href="#">{{ camp.getName }}</a></li>
 
-	  <!--
-	  <li>
-		<div class="btn-group">
-	    	<a href="#" class="btn btn-xs btn-noborder dropdown-toggle" data-toggle="dropdown">
-	    		<i class="icon-flag"></i> PBS
-	    	</a>
-			<ul class="dropdown-menu" role="menu">
-			    <li><a href="#"><span class="icon-flag"></span>&nbsp;&nbsp; PBS</a></li>
-			    <li class="divider"></li>
-			    <li><a href="#"><span class="icon-flag"></span>&nbsp;&nbsp; Jubla</a></li>
-			</ul>
-	   	</div>
-      </li>
-	  <li>
-		<div class="btn-group">
-			<a href="#" class="btn btn-xs btn-noborder dropdown-toggle" data-toggle="dropdown">
-				<i class="icon-flag"></i> Pfadi Luzern
-			</a>
-
-			<ul class="dropdown-menu " role="menu">
-			    <li><a href="#"><span class="icon-flag"></span>&nbsp;&nbsp; Pfadi Luzern</a></li>
-			    <li class="divider"></li>
-			    <li><a href="#"><span class="icon-flag"></span>&nbsp;&nbsp; Pfadi Basel</a></li>
-			    <li><a href="#"><span class="icon-flag"></span>&nbsp;&nbsp; Pfadi Zürich</a></li>
-			    <li style="text-align: center;"><a href="#"><i class="icon-caret-down"></i></a></li>
-			</ul>
-        </div>
-      </li>
-
-	  <li>
-		<div class="btn-group">
-	    	<a href="#" class="btn btn-xs btn-noborder dropdown-toggle" data-toggle="dropdown">
-	    		<i class="icon-bell"></i> PBS LU 211-11
-	    	</a>
-
-			<ul class="dropdown-menu" role="menu">
-			    <li><a href="#"><span class="icon-bell"></span>&nbsp;&nbsp; PBS LU 211-11</a></li>
-			    <li class="divider"></li>
-			    <li><a href="#"><span class="icon-bell"></span>&nbsp;&nbsp; PBS LU 212-11</a></li>
-			    <li><a href="#"><span class="icon-bell"></span>&nbsp;&nbsp; PBS LU 221-11</a></li>
-   			    <li class="divider"></li>
-			    <li><a href="#"><span class="icon-bell"></span>&nbsp;&nbsp; Alle ...</a></li>
-   			</ul>
-        </div>
-      </li> -->
 {% endblock breadcrumb %}

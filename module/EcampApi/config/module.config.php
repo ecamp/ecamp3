@@ -353,6 +353,27 @@ return array(
                             ),
                         ),
                     ),
+
+                    'search' => array(
+                        'type' => 'Literal',
+                        'may_terminate' => false,
+                        'options' => array(
+                            'route'      => '/search',
+                        ),
+
+                        'child_routes' => array(
+                            'user' => array(
+                                'type' => 'Literal',
+                                'may_terminate' => false,
+                                'options' => array(
+                                    'route'      => '/user',
+                                    'defaults' => array(
+                                        'controller'    => 'Resource\Search\User\ApiController'
+                                    ),
+                                ),
+                            ),
+                        ),
+                    ),
                 ),
             ),
         ),
@@ -378,8 +399,7 @@ return array(
                             'resource_http_options'   => array('get'),
                             'route_name'              => 'api/camps',
                             'identifier_name'		  => 'camp',
-                            'collection_query_whitelist' => array('user', 'past', 'collaborator', 'owning_only', 'owner', 'group', 'creator', 'search'),
-                            'collection_name'	 	  => 'camps'
+                            'collection_query_whitelist' => array('user', 'past', 'collaborator', 'owning_only', 'owner', 'group', 'creator', 'search', 'mode'),
                     ),
 
                     'EcampApi\Resource\User\Camp\ApiController' => array(
@@ -390,8 +410,7 @@ return array(
                             'resource_http_options'   => array('get'),
                             'route_name'              => 'api/users/camps',
                             'identifier_name'		  => 'camp',
-                            'collection_query_whitelist' => array('past', 'collaborator', 'owning_only', 'owner', 'group', 'creator', 'search'),
-                            'collection_name'	 	  => 'camps'
+                            'collection_query_whitelist' => array('past', 'collaborator', 'owning_only', 'owner', 'group', 'creator', 'search', 'mode'),
                     ),
 
                     'EcampApi\Resource\Group\Camp\ApiController' => array(
@@ -402,8 +421,7 @@ return array(
                             'resource_http_options'   => array('get'),
                             'route_name'              => 'api/groups/camps',
                             'identifier_name'		  => 'camp',
-                            'collection_query_whitelist' => array('user', 'past', 'collaborator', 'owning_only', 'owner', 'creator', 'search'),
-                            'collection_name'	 	  => 'camps'
+                            'collection_query_whitelist' => array('user', 'past', 'collaborator', 'owning_only', 'owner', 'creator', 'search', 'mode'),
                     ),
 
                     /**
@@ -417,7 +435,6 @@ return array(
                             'resource_http_options'   => array('get'),
                             'route_name'              => 'api/users',
                             'identifier_name'		  => 'user',
-                            'collection_name'	 	  => 'users'
                     ),
 
                     /**
@@ -432,7 +449,6 @@ return array(
                             'route_name'              => 'api/collaborations',
                             'identifier_name'		  => 'collaboration',
                             'collection_query_whitelist' => array('user', 'camp'),
-                            'collection_name'		  => 'collaborations'
                     ),
 
                     'EcampApi\Resource\User\Collaboration\ApiController' => array(
@@ -444,7 +460,6 @@ return array(
                             'route_name'              => 'api/users/collaborations',
                             'identifier_name'		  => 'collaboration',
                             'collection_query_whitelist' => array('camp'),
-                            'collection_name'		  => 'collaborations'
                     ),
 
                     'EcampApi\Resource\Camp\Collaboration\ApiController' => array(
@@ -456,7 +471,6 @@ return array(
                             'route_name'              => 'api/camps/collaborations',
                             'identifier_name'		  => 'collaboration',
                             'collection_query_whitelist' => array('user'),
-                            'collection_name'		  => 'collaborations'
                     ),
 
                     /**
@@ -471,7 +485,6 @@ return array(
                             'route_name'              => 'api/days',
                             'identifier_name'		  => 'day',
                             'collection_query_whitelist' => array('period'),
-                            'collection_name'		  => 'days'
                     ),
 
                     'EcampApi\Resource\Period\Day\ApiController' => array(
@@ -483,7 +496,6 @@ return array(
                             'route_name'              => 'api/periods/days',
                             'identifier_name'		  => 'day',
                             'collection_query_whitelist' => array(),
-                            'collection_name'		  => 'days'
                     ),
 
                     /**
@@ -498,7 +510,6 @@ return array(
                             'route_name'              => 'api/events',
                             'identifier_name'		  => 'event',
                             'collection_query_whitelist' => array('camp'),
-                            'collection_name'		  => 'events'
                     ),
 
                     'EcampApi\Resource\Camp\Event\ApiController' => array(
@@ -510,7 +521,6 @@ return array(
                             'route_name'              => 'api/camps/events',
                             'identifier_name'		  => 'event',
                             'collection_query_whitelist' => array(),
-                            'collection_name'		  => 'events'
                     ),
 
                     /**
@@ -525,7 +535,6 @@ return array(
                             'route_name'              => 'api/event_categories',
                             'identifier_name'		  => 'event_category',
                             'collection_query_whitelist' => array(),
-                            'collection_name'		  => 'event_categories'
                     ),
                     'EcampApi\Resource\Camp\EventCategory\ApiController' => array(
                             'listener'                => 'EcampApi\Resource\EventCategory\EventCategoryResourceListener',
@@ -536,7 +545,6 @@ return array(
                             'route_name'              => 'api/camps/event_categories',
                             'identifier_name'		  => 'event_category',
                             'collection_query_whitelist' => array(),
-                            'collection_name'		  => 'event_categories'
                     ),
 
                     /**
@@ -551,7 +559,6 @@ return array(
                             'route_name'              => 'api/event_instances',
                             'identifier_name'		  => 'event_instance',
                             'collection_query_whitelist' => array(),
-                            'collection_name'		  => 'event_instances'
                     ),
 
                     'EcampApi\Resource\Event\EventInstance\ApiController' => array(
@@ -563,7 +570,6 @@ return array(
                             'route_name'              => 'api/events/event_instances',
                             'identifier_name'		  => 'event_instance',
                             'collection_query_whitelist' => array(),
-                            'collection_name'		  => 'event_instances'
                     ),
 
                     'EcampApi\Resource\Camp\EventInstance\ApiController' => array(
@@ -575,7 +581,6 @@ return array(
                             'route_name'              => 'api/camps/event_instances',
                             'identifier_name'		  => 'event_instance',
                             'collection_query_whitelist' => array(),
-                            'collection_name'		  => 'event_instances'
                     ),
 
                     'EcampApi\Resource\Period\EventInstance\ApiController' => array(
@@ -587,7 +592,6 @@ return array(
                             'route_name'              => 'api/periods/event_instances',
                             'identifier_name'		  => 'event_instance',
                             'collection_query_whitelist' => array(),
-                            'collection_name'		  => 'event_instances'
                     ),
 
                     'EcampApi\Resource\Day\EventInstance\ApiController' => array(
@@ -599,7 +603,6 @@ return array(
                             'route_name'              => 'api/days/event_instances',
                             'identifier_name'		  => 'event_instance',
                             'collection_query_whitelist' => array(),
-                            'collection_name'		  => 'event_instances'
                     ),
 
                     'EcampApi\Resource\EventInstance\ApiController' => array(
@@ -611,7 +614,6 @@ return array(
                             'route_name'              => 'api/event_instances',
                             'identifier_name'		  => 'event_instance',
                             'collection_query_whitelist' => array(),
-                            'collection_name'		  => 'event_instances'
                     ),
 
                     /**
@@ -626,7 +628,6 @@ return array(
                             'route_name'              => 'api/event_resps',
                             'identifier_name'		  => 'event_resp',
                             'collection_query_whitelist' => array('event','collaboration', 'user'),
-                            'collection_name'		  => 'event_resps'
                     ),
 
                     'EcampApi\Resource\Event\EventResp\ApiController' => array(
@@ -638,7 +639,6 @@ return array(
                             'route_name'              => 'api/events/event_resps',
                             'identifier_name'		  => 'event_resp',
                             'collection_query_whitelist' => array(),
-                            'collection_name'		  => 'event_resps'
                     ),
 
                     'EcampApi\Resource\Collaboration\EventResp\ApiController' => array(
@@ -650,7 +650,6 @@ return array(
                             'route_name'              => 'api/collaborations/event_resps',
                             'identifier_name'		  => 'event_resp',
                             'collection_query_whitelist' => array(),
-                            'collection_name'		  => 'event_resps'
                     ),
 
                     'EcampApi\Resource\User\EventResp\ApiController' => array(
@@ -662,7 +661,6 @@ return array(
                             'route_name'              => 'api/users/event_resps',
                             'identifier_name'		  => 'event_resp',
                             'collection_query_whitelist' => array(),
-                            'collection_name'		  => 'event_resps'
                     ),
 
                     /**
@@ -677,7 +675,6 @@ return array(
                             'route_name'              => 'api/periods',
                             'identifier_name'		  => 'period',
                             'collection_query_whitelist' => array('camp'),
-                            'collection_name'		  => 'periods'
                     ),
 
                     'EcampApi\Resource\Camp\Period\ApiController' => array(
@@ -689,7 +686,6 @@ return array(
                             'route_name'              => 'api/camps/periods',
                             'identifier_name'		  => 'period',
                             'collection_query_whitelist' => array(),
-                            'collection_name'		  => 'periods'
                     ),
 
                     /**
@@ -703,6 +699,7 @@ return array(
                             'resource_http_options'   => array('get'),
                             'route_name'              => 'api/groups',
                             'identifier_name'		  => 'group',
+                            'collection_query_whitelist' => array(),
                     ),
 
                     'EcampApi\Resource\Group\Subgroup\ApiController' => array(
@@ -726,7 +723,6 @@ return array(
                             'route_name'              => 'api/memberships',
                             'identifier_name'		  => 'membership',
                             'collection_query_whitelist' => array('user','group'),
-
                     ),
 
                     'EcampApi\Resource\User\Membership\ApiController' => array(
@@ -747,6 +743,16 @@ return array(
                             'resource_http_options'   => array('get'),
                             'route_name'              => 'api/groups/memberships',
                             'collection_query_whitelist' => array('user'),
+                    ),
+
+                    'EcampApi\Resource\Search\User\ApiController' => array(
+                            'listener'                => 'EcampApi\Resource\Search\UserResourceListener',
+                            'collection_http_options' => array('get'),
+                            'page_size'               => 3,
+                            'page_size_param'		  => 'limit',
+                            'resource_http_options'   => array('get'),
+                            'route_name'              => 'api/search/user',
+                            'collection_query_whitelist' => array('search'),
                     ),
 
             ),

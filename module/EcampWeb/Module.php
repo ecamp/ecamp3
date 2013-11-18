@@ -23,4 +23,14 @@ class Module
     {
         return include __DIR__ . '/config/controller.config.php';
     }
+
+    public function getControllerPluginConfig()
+    {
+        return include __DIR__ . '/config/controllerplugin.config.php';
+    }
+
+    public function getViewHelperConfig()
+    {
+        return include __DIR__ . '/config/viewhelper.config.php';
+    }
 }

@@ -62,7 +62,7 @@ class CollectionRenderingListener implements SharedListenerAggregateInterface
         }
 
         if ($resource instanceof \EcampCore\Entity\CampCollaboration) {
-            $params['resource']    = new \EcampApi\Resource\Collaboration\CollaborationResource($resource);
+            $params['resource']    = new \EcampApi\Resource\Collaboration\CollaborationDetailResource($resource);
 
             return;
         }
@@ -110,7 +110,7 @@ class CollectionRenderingListener implements SharedListenerAggregateInterface
         }
 
         if ($resource instanceof \EcampCore\Entity\GroupMembership) {
-            $params['resource']    = new \EcampApi\Resource\Membership\MembershipResource($resource);
+            $params['resource']    = new \EcampApi\Resource\Membership\MembershipDetailResource($resource);
 
             return;
         }
@@ -128,12 +128,16 @@ class CollectionRenderingListener implements SharedListenerAggregateInterface
 
         /* page number and size is not yet set by phplyrestfully */
         $paginator->setItemCountPerPage($collection->pageSize);
-        $paginator->setCurrentPageNumber($collection->page);
+
+        $page = min(array($collection->page, $paginator->count()));
+        $page = max(array(1, $page));
+        $collection->setPage($page);
+        $paginator->setCurrentPageNumber($page);
 
         $collection->setAttributes(array(
             'page'   => $paginator->getCurrentPageNumber(),
             'limit'  => $paginator->getItemCountPerPage(),
-            'pages'	 => count($paginator),
+            'pages'	 => $paginator->count(),
             'count'	 => $paginator->getTotalItemCount()
         ));
     }

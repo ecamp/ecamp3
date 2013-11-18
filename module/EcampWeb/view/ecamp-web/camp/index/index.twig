@@ -11,13 +11,130 @@
 				{% endblock %}
 				{% block panel_content %}
 					<div class="col-sm-12">
-						<p>Name:  {{ camp.getName }}</p>
-						<p>Title: {{ camp.getTitle }}</p>
-						<p>Motto: {{ camp.getMotto }}</p>
+						<div class="pull-right">
+							{% if myCollaboration is null %}
+							<div class="btn-group">
+								<a class="btn btn-sm btn-success"
+									href="{{ url('web/camp/default',
+										{ 'camp': camp, 'controller': 'index', 'action': 'requestCollaboration'}
+										) }}"
+								>
+									<i class="icon-plus"></i> Request collaboration
+								</a>
+								<button type="button" class="btn btn-sm btn-success dropdown-toggle" data-toggle="dropdown">
+									<span class="caret"></span>
+								</button>
+								<ul class="dropdown-menu pull-right" role="menu">
+									<li>
+										<a href="{{ url('web/camp/default',
+										{ 'camp': camp, 'controller': 'index', 'action': 'requestCollaboration'}
+										) }}"
+										>
+											as member
+										</a>
+									</li>
+									<li>
+										<a href="{{ url('web/camp/default',
+										{ 'camp': camp, 'controller': 'index', 'action': 'requestCollaboration' },
+										{ 'query' : { 'role': 'manager' } }
+										) }}"
+										>
+											as manager
+										</a>
+									</li>
+								</ul>
+							</div>
+							{% else %}
+
+								{% if myCollaboration.getStatus == 'requested' %}
+								<a class="btn btn-sm btn-danger"
+									href="{{ url('web/camp/default',
+										{ 'camp': camp, 'controller': 'index', 'action': 'revokeRequest'}
+										) }}"
+								>
+									<i class="icon-remove"></i> Revoke Request
+								</a>
+								{% endif %}
+
+								{% if myCollaboration.getStatus == 'invited' %}
+								<p class="pull-right">
+									<a class="btn btn-sm btn-success"
+										href="{{ url('web/camp/default',
+											{ 'camp': camp, 'controller': 'index', 'action': 'acceptInvitation'}
+											) }}"
+									>
+										<i class="icon-ok"></i> Accept Invitation
+									</a>
+									<a class="btn btn-sm btn-danger"
+										href="{{ url('web/camp/default',
+											{ 'camp': camp, 'controller': 'index', 'action': 'rejectInvitation'}
+											) }}"
+									>
+										<i class="icon-remove"></i> Reject Invitation
+									</a>
+								</p>
+								{% endif %}
+
+								{% if myCollaboration.getStatus == 'established' %}
+								<a class="btn btn-sm btn-danger"
+									data-toggle="modal"
+									href="#leaveCampModal"
+
+								>
+									<i class="icon-remove"></i> Leave camp
+								</a>
+
+								{% endif %}
+							{% endif %}
+						</div>
+
+						{% if myCollaboration is not null %}
+							<p>
+								{% if myCollaboration.getStatus == 'requested' %}
+								You have requested collaboration in this camp
+								{% endif %}
+
+								{% if myCollaboration.getStatus == 'invited' %}
+								You have been invited to this camp
+								{% endif %}
+
+								{% if myCollaboration.getStatus == 'established' %}
+								You are {{ myCollaboration.getRole }} in this camp
+								{% endif %}
+							</p>
+						{% endif %}
 					</div>
+
+					<div class="modal fade" id="leaveCampModal" tabindex="-1" role="dialog" aria-labelledby="leaveCampModalLabel" aria-hidden="true">
+						<div class="modal-dialog">
+							<div class="modal-content">
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+									<h4 class="modal-title">Leave camp {{ camp.getName }}</h4>
+								</div>
+								<div class="modal-body">
+									Are you sure, you want to leave camp {{ camp.getName }}?
+								</div>
+								<div class="modal-footer">
+									<a class="btn btn-danger"
+										href="{{ url('web/camp/default',
+											{ 'camp': camp, 'controller': 'index', 'action': 'leaveCamp'}
+											) }}"
+									>
+										Leave camp
+									</a>
+									<button type="button" class="btn btn-default" data-dismiss="modal">Stay in camp</button>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<p>Name:  {{ camp.getName }}</p>
+					<p>Title: {{ camp.getTitle }}</p>
+					<p>Motto: {{ camp.getMotto }}</p>
+
 				{% endblock %}
 			{% endembed %}
-
 
 			{% embed "helper/accordion.twig" %}
 				{% block panel_title %}
@@ -90,4 +207,4 @@
 			{% endembed %}
 		</div>
 	</div>
-{% endblock content2 %}
+{% endblock %}

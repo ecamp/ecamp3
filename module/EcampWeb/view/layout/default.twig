@@ -16,9 +16,12 @@
 		<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css" rel="stylesheet">
 
 		<link type="text/css" rel="stylesheet" href="//cdn.jsdelivr.net/select2/3.4.2/select2.css" />
-		<link type="text/css" rel="stylesheet" href="/css/ajaxLoader.css" />
-		<link type="text/css" rel="stylesheet" href="/css/default.css" />
+		<link type="text/css" rel="stylesheet" href="{{ request.getBasePath }}/css/ajaxLoader.css" />
+		<link type="text/css" rel="stylesheet" href="{{ request.getBasePath }}/css/default.css" />
+		<link type="text/css" rel="stylesheet" href="{{ request.getBasePath }}/css/searchbox.css" />
 
+		<link href='http://fonts.googleapis.com/css?family=Walter+Turncoat' rel='stylesheet' type='text/css' />
+		<link href='https://raw.github.com/jharding/typeahead.js-bootstrap.css/master/typeahead.js-bootstrap.css' rel='stylesheet' type='text/css' />
 
         {% block style %}{% endblock style %}
 
@@ -30,6 +33,8 @@
 		<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular-resource.min.js"></script>
 		<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
 
+		<script src="//twitter.github.io/typeahead.js/releases/latest/typeahead.min.js"></script>
+
 		<script type="text/javascript" src="//cdn.jsdelivr.net/select2/3.4.2/select2.js"></script>
 		<!--[if lt IE 9]><script type="text/javascript" src="/js/html5.js"></script><![endif]-->
 
@@ -40,11 +45,23 @@
 			angular.module('eCamp3', ['ngResource']);
 
 			$(function(){
-				$("div.search-box input[type='text']")
-					.focus(function(){ $('div.search-box').switchClass('col-sm-9 col-md-7 col-lg-6', 'col-sm-12 col-md-12 col-lg-12', 300); });
+				$("div.search-box input[type='text']").typeahead({
+				  name: 'accounts',
+				  local: ['timtrueman', 'JakeHarding', 'vskarich'],
+				  header: '<h3 class="league-name">NBA Teams</h3>'
+				});
 
 				$("div.search-box input[type='text']")
-					.blur(function(){ $('div.search-box').switchClass('col-sm-12 col-md-12 col-lg-12', 'col-sm-9 col-md-7 col-lg-6', 300); });
+					.focus(function(){
+						 //$('div.search-box').switchClass('col-sm-9 col-md-7 col-lg-6', 'col-sm-12 col-md-12 col-lg-12', 300);
+						 //$('div.search-box .input-group-btn').addClass('open', 300);
+					});
+
+				$("div.search-box input[type='text']")
+					.blur(function(){
+						//$('div.search-box').switchClass('col-sm-12 col-md-12 col-lg-12', 'col-sm-9 col-md-7 col-lg-6', 300);
+						//$('div.search-box .input-group-btn').removeClass('open', 300);
+					});
 
 				$('[data-toggle="tooltip"]').tooltip();
 				$('[data-toggle="popover"]').popover();
@@ -81,7 +98,7 @@
     	 <div >
     		<section class="container white" style="margin-top: -8px; padding-top: 5px; ">
 				<div class="row">
-					<div class="col-sm-3 col-sm-push-9 col-md-5 col-md-push-7">
+					<div class="col-sm-4 col-sm-push-8 col-md-5 col-md-push-7">
 						<div class="row">
 							<div class="col-xs-12">
 								<div class="btn-group pull-right" style="margin-bottom: 8px">
@@ -136,20 +153,13 @@
 						</div>
 
 						<div class="row">
-							<div class="search-box pull-right col-md-10 col-lg-8 hidden-xs hidden-sm">
-								<div class="input-group pull-right">
-							    	<input type="text" class="form-control input-sm" placeholder="Search" />
-							    	<span class="input-group-btn">
-							        <button class="btn btn-sm btn-default" type="button">
-							        	<span class="icon-search"></span>&nbsp;
-							        </button>
-							      </span>
-							    </div>
+							<div class="search-box pull-right" style="padding-right: 15px;">
+								<input type="text" class="typeahead" placeholder="Search" />
 							</div>
 						</div>
 
 					</div>
-					<div class="col-sm-9 col-sm-pull-3 col-md-7 col-md-pull-5">
+					<div class="col-sm-8 col-sm-pull-4 col-md-7 col-md-pull-5">
 						{% block header %}{{ header|raw }}{% endblock header %}
 					</div>
 				</div>

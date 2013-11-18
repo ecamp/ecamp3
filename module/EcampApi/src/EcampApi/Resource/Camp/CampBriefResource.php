@@ -22,7 +22,14 @@ class CampBriefResource extends HalResource
         $selfLink = new Link('self');
         $selfLink->setRoute('api/camps', array('camp' => $camp->getId()));
 
-        $this->getLinks()->add($selfLink);
+        $webLink = new Link('web');
+        $webLink->setRoute(
+                'web/camp',
+                array('camp' => $camp)
+        );
+
+        $this->getLinks()->add($selfLink)
+                        ->add($webLink);
 
     }
 }

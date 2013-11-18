@@ -7,6 +7,7 @@ use Zend\Mvc\MvcEvent;
 use Zend\EventManager\EventManagerInterface;
 
 use Zend\View\Model\ViewModel;
+
 use EcampWeb\Controller\BaseController as WebBaseController;
 
 abstract class BaseController
@@ -16,11 +17,10 @@ abstract class BaseController
     {
         parent::setEventManager($events);
 
-        $controller = $this;
-        $events->attach('dispatch', function($e) { $this->setCampInViewModel($e); } , -100);
+        $events->attach('dispatch', function ($e){ $this->setCampInViewModel($e); }, -100);
     }
 
-/**
+    /**
      * @param MvcEvent $e
      */
     private function setCampInViewModel(MvcEvent $e)
@@ -59,6 +59,14 @@ abstract class BaseController
     protected function getCampRepository()
     {
         return $this->serviceLocator->get('EcampCore\Repository\Camp');
+    }
+
+    /**
+     * @return \EcampCore\Repository\UserRepository
+     */
+    protected function getUserRepository()
+    {
+        return $this->serviceLocator->get('EcampCore\Repository\User');
     }
 
 }

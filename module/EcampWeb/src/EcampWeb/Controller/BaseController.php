@@ -20,6 +20,7 @@ abstract class BaseController
     public function onDispatch( MvcEvent $e)
     {
         $this->getServiceLocator()->get('ZfcTwigEnvironment')->getExtension('core')->setDateFormat('d.m.Y');
+        parent::onDispatch($e);
     }
 
     /**

@@ -11,21 +11,27 @@ class CampDetailResource extends HalResource
     public function __construct(Camp $camp)
     {
         $object = array(
-                "id" => $camp->getId(),
-                "name" => $camp->getName(),
-                "title" => $camp->getTitle(),
-                "start" => ($camp->getStart() == null) ? null : $camp->getStart()->format(\DateTime::ISO8601),
-                "end" => ($camp->getEnd() == null) ? null : $camp->getEnd()->format(\DateTime::ISO8601),
-                "camp_type" => $camp->getCampType()->getName(),
-                "motto" => $camp->getMotto(),
-                "visibility" => $camp->getVisibility(),
-                "creator" => new UserBriefResource($camp->getCreator())
-                );
+            "id" => $camp->getId(),
+            "name" => $camp->getName(),
+            "title" => $camp->getTitle(),
+            "start" => ($camp->getStart() == null) ? null : $camp->getStart()->format(\DateTime::ISO8601),
+            "end" => ($camp->getEnd() == null) ? null : $camp->getEnd()->format(\DateTime::ISO8601),
+            "camp_type" => $camp->getCampType()->getName(),
+            "motto" => $camp->getMotto(),
+            "visibility" => $camp->getVisibility(),
+            "creator" => new UserBriefResource($camp->getCreator())
+        );
 
         parent::__construct($object, $object['id']);
 
         $selfLink = new Link('self');
         $selfLink->setRoute('api/camps', array('camp' => $camp->getId()));
+
+        $webLink = new Link('web');
+        $webLink->setRoute(
+                'web/camp',
+                array('camp' => $camp)
+        );
 
         $collabLink = new Link('collaborations');
         $collabLink->setRoute('api/camps/collaborations', array('camp' => $camp->getId()));
@@ -43,6 +49,7 @@ class CampDetailResource extends HalResource
         $eventCategoryLink->setRoute('api/camps/event_categories', array('camp' => $camp->getId()));
 
         $this->getLinks()->add($selfLink)
+                        ->add($webLink)
                         ->add($collabLink)
                         ->add($eventLink)
                         ->add($periodLink)

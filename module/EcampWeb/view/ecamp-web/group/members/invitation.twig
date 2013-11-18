@@ -31,7 +31,22 @@
 					<th colspan="2">Name</th>
 					<th>eMail</th>
 					<th>Role</th>
-					<th><div class="pull-right">Options</div></th>
+					<th>
+						<!-- <a  data-toggle="modal" data-backdrop="true" data-target="#remoteModalDialog"  -->
+						<a href="{{ url('web/group-prefix/name/default', {'group': group, 'controller': 'Members', 'action': 'search' } ) }}"
+						   class="btn btn-xs btn-success pull-right"
+						>
+							<i class="icon-plus"></i> Send invitation
+						</a>
+					</th>
+
+					<!--
+					<div class="row">
+						<div class="col-sm-12">
+							<div class="pull-right">Options</div>
+						</div>
+					</div>
+					 -->
 				</tr>
 			</thead>
 

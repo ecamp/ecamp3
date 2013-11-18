@@ -1,0 +1,71 @@
+{% extends 'ecamp-web/camp/camp.twig' %}
+
+
+{% block content2 %}
+
+	<div class="row">
+		<div class="col-sm-12" {{ collaborationPaginator.getNgController|raw }}>
+			{% embed "helper/accordion.twig" %}
+				{% block panel_title %}
+					Collaborators <p class="pull-right">{{ collaborationPaginator.getCount }}</p>
+				{% endblock %}
+				{% block panel_content %}
+					{% embed 'ecamp-web/camp/collaborations/collaborator.twig' %}
+						{% block empty_text %}No collaborators{% endblock %}
+					{% endembed %}
+
+					<div class="row" ng-show="numberOfPages > 1">
+						<div class="col-sm-12" style="text-align: center">
+							{% include 'helper/paginationLinks.twig' %}
+						</div>
+					</div>
+				{% endblock %}
+			{% endembed %}
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-sm-12" {{ requestPaginator.getNgController|raw }}>
+			{% embed "helper/accordion.twig" %}
+				{% block panel_title %}
+					Collaboration Requests <p class="pull-right">{{ requestPaginator.getCount }}</p>
+				{% endblock %}
+				{% block panel_content %}
+					{% embed 'ecamp-web/camp/collaborations/request.twig' %}
+						{% block empty_text %}No open requests{% endblock %}
+					{% endembed %}
+
+					<div class="row" ng-show="numberOfPages > 1">
+						<div class="col-sm-12" style="text-align: center">
+							{% include 'helper/paginationLinks.twig' %}
+						</div>
+					</div>
+				{% endblock %}
+			{% endembed %}
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-sm-12" {{ invitationPaginator.getNgController|raw }}>
+			{% embed "helper/accordion.twig" %}
+				{% block panel_title %}
+					Collaboration Invitations <p class="pull-right">{{ invitationPaginator.getCount }}</p>
+				{% endblock %}
+				{% block panel_content %}
+					{% embed 'ecamp-web/camp/collaborations/invitation.twig' %}
+						{% block empty_text %}No open invitations{% endblock %}
+					{% endembed %}
+
+					<div class="row" ng-show="numberOfPages > 1">
+						<div class="col-sm-12" style="text-align: center">
+							{% include 'helper/paginationLinks.twig' %}
+						</div>
+					</div>
+				{% endblock %}
+			{% endembed %}
+		</div>
+	</div>
+
+	<div class="modal fade" id="remoteModalDialog" tabindex="-1" role="dialog" />
+
+{% endblock %}
