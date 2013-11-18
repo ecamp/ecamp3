@@ -2,6 +2,8 @@
 
 namespace EcampWeb\Controller\Camp;
 
+use Zend\Mvc\MvcEvent;
+
 use Zend\EventManager\EventManagerInterface;
 
 use Zend\View\Model\ViewModel;
@@ -15,19 +17,32 @@ abstract class BaseController
         parent::setEventManager($events);
 
         $controller = $this;
-        $events->attach('dispatch', function ($e) use ($controller) {
+        $events->attach('dispatch', function($e) { $this->setCampInViewModel($e); } , -100);
+    }
 
-            $camp = $this->getCampRepository()->find($controller->params('camp'));
+/**
+     * @param MvcEvent $e
+     */
+    private function setCampInViewModel(MvcEvent $e)
+    {
+        $result = $e->getResult();
+        $controller = $e->getRouteMatch()->getParam('controller');
+        $controller = substr($controller, 1 + strrpos($controller, '\\'));
 
-            if(!$e->getResult() instanceof ViewModel)
+        if ($result instanceof ViewModel) {
+            $result->setVariable('camp', $this->getCamp());
+            $result->setVariable('controller', $controller);
+        }
+    }
 
-                return;
+    /**
+     * @return \EcampCore\Entity\Camp
+     */
+    protected function getCamp()
+    {
+        $campId = $this->params('camp');
 
-            $e->getResult()->setVariable('camp',$camp);
-
-            return;
-
-        }, -100);
+        return $this->getCampRepository()->find($campId);
     }
 
     /**
