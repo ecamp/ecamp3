@@ -2,6 +2,8 @@
 
 namespace EcampWeb\Controller\Camp;
 
+use EcampCore\Validation\ValidationException;
+
 use EcampCore\Entity\CampCollaboration;
 class IndexController
     extends BaseController
@@ -34,13 +36,17 @@ class IndexController
     {
         $period = $this->getCamp()->getPeriods();
 
+        $form = new \EcampWeb\Form\PeriodForm($this->getServiceLocator()->get('Doctrine\ORM\EntityManager'));
+        $form->setAttribute('action', $this->url()->fromRoute('web/camp/default', array('camp'=> $this->getCamp(), 'controller'=>'index', 'action' => 'addperiod')));
+
         $renderer = $this->getServiceLocator()->get('Zend\View\Renderer\PhpRenderer');
         $renderer->headScript()->appendFile($this->getRequest()->getBasePath() . '/js/ng-app/paginator.js');
 
         $myCollaboration = $this->getCollaborationRepository()->findByCampAndUser($this->getCamp(), $this->getMe());
 
         return array(
-            'myCollaboration' => $myCollaboration
+            'myCollaboration' => $myCollaboration,
+            'form' => $form
         );
     }
 
@@ -92,9 +98,27 @@ class IndexController
 
     public function addPeriodAction()
     {
-        $this->getPeriodService()->Create($this->getCamp(),null);
+        $form = new \EcampWeb\Form\PeriodForm($this->getServiceLocator()->get('Doctrine\ORM\EntityManager'));
+        $form->setAttribute('action', $this->url()->fromRoute('web/camp/default', array('camp'=> $this->getCamp(), 'controller'=>'index', 'action' => 'addperiod')));
 
-        return array();
+        if ($this->getRequest()->isPost()) {
+            $form->setData($this->getRequest()->getPost());
+
+            if ( $form->isValid() ) {
+                // save data
+                try {
+                    $period = $this->getServiceLocator()->get('EcampCore\Service\Period')->Create($this->getCamp(), $this->getRequest()->getPost());
+                } catch (ValidationException $e) {
+                    $error = $e->getMessageArray();
+                    if( $error['data'] && is_array( $error['data']) )
+                        $form->setMessages($error['data']);
+                    else
+                        $form->setFormError($error);
+                }
+            }
+        }
+
+        return array('form' => $form);
     }
 
 }

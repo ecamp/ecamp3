@@ -103,12 +103,14 @@ abstract class BaseEntity
     protected function addToList($listProperty, $element)
     {
         if (property_exists($this, $listProperty)) {
+            /* @var $list \Doctrine\Common\Collections\ArrayCollection */
             $list = $this->{$listProperty};
         } else {
             throw new \Exception("Unknown List");
         }
 
-        $list->add($element);
+        if( !$list->contains($element) )
+            $list->add($element);
     }
 
     /**

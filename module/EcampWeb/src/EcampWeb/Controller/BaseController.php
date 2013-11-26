@@ -17,9 +17,10 @@ abstract class BaseController
         $events->attach('dispatch', function($e) { $this->setMeInViewModel($e); } , -100);
     }
 
-    public function onDispatch( MvcEvent $e)
+    public function onDispatch( MvcEvent $e )
     {
         $this->getServiceLocator()->get('ZfcTwigEnvironment')->getExtension('core')->setDateFormat('d.m.Y');
+
         parent::onDispatch($e);
     }
 

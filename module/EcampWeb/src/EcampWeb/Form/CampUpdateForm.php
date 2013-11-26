@@ -2,21 +2,14 @@
 
 namespace EcampWeb\Form;
 
-use DoctrineModule\Stdlib\Hydrator\DoctrineObject as DoctrineHydrator;
 use Zend\Form\Form;
 use EcampCore\Validation\CampFieldset;
 
-class CampUpdateForm extends Form
+class CampUpdateForm extends BaseForm
 {
     public function __construct($entityManager)
     {
-        parent::__construct('camp-update-form');
-
-        // general properties
-        $this->setAttribute('method', 'post');
-
-        // The form will hydrate an object of type "camp"
-        $this->setHydrator(new DoctrineHydrator($entityManager));
+        parent::__construct($entityManager);
 
         // add camp Fieldset
         $campFieldset = new CampFieldset($entityManager);

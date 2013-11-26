@@ -164,13 +164,12 @@
 						</table>
 
 						<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalAddPeriod">+ Add Period</button>
-						<p></p>
 
 						<!-- Modal / Add Period -->
 						  <div class="modal fade" id="modalAddPeriod" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 						    <div class="modal-dialog">
 						      <div class="modal-content">
-						        <form role="form" action="">
+						        <form role="form" action="{{ url('web/camp/default', {'camp': camp, 'controller':'index', 'action' : 'addperiod' } ) }}">
 							        <div class="modal-header">
 							          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 							          <h4 class="modal-title">Add Period</h4>

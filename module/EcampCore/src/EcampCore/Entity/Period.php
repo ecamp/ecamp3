@@ -42,8 +42,6 @@ class Period
         $this->camp = $camp;
         $this->days = new \Doctrine\Common\Collections\ArrayCollection();
         $this->eventInstances = new \Doctrine\Common\Collections\ArrayCollection();
-
-        $this->camp->addToList('periods', $this);
     }
 
     /**
@@ -68,7 +66,7 @@ class Period
      * @ORM\OrderBy({"dayOffset" = "ASC"})
      * @var Doctrine\Common\Collections\ArrayCollection
      */
-    private $days;
+    protected $days;
 
     /**
      * @ORM\OneToMany(targetEntity="EventInstance", mappedBy="period")
@@ -105,9 +103,7 @@ class Period
      */
     public function getStart()
     {
-        $start = clone $this->start;
-
-        return $start;
+        return $this->start ? clone $this->start : null;
     }
 
     /**
@@ -131,10 +127,14 @@ class Period
      */
     public function getEnd()
     {
-        $start = clone $this->start;
+        $start = $this->start ? clone $this->start : null;
 
-        return $start->add($this->getDuration())
+        if( $start )
+
+            return $start->add($this->getDuration())
                      ->sub(new \DateInterval('PT1S'));
+        else
+            return null;
     }
 
     /**
@@ -159,6 +159,14 @@ class Period
     public function getEventInstances()
     {
         return $this->eventInstances;
+    }
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function prePersist()
+    {
+        $this->camp->addToList('periods', $this);
     }
 
     /**
