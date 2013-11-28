@@ -7,12 +7,13 @@ use DoctrineModule\Stdlib\Hydrator\DoctrineObject as DoctrineHydrator;
 
 class PeriodFieldset extends Fieldset implements InputFilterProviderInterface
 {
-    public function __construct($entityManager)
+    public function __construct($entityManager = null)
     {
         parent::__construct('period');
 
         // The form will hydrate an object of type "period"
-        $this->setHydrator(new DoctrineHydrator($entityManager));
+        if( $entityManager )
+        	$this->setHydrator(new DoctrineHydrator($entityManager));
 
         $this->add(array(
                 'name' => 'start',

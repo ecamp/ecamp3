@@ -55,7 +55,7 @@ class PeriodService
      * @return EcampCore\Entity\Period
      * @throws ValidationException
      */
-    public function Create(Camp $camp, Array $data)
+    public function Create(Camp $camp, $data)
     {
         $this->aclRequire($camp, Privilege::CAMP_CONFIGURE);
 

@@ -7,12 +7,12 @@ use EcampCore\Validation\CampFieldset;
 
 class CampUpdateForm extends BaseForm
 {
-    public function __construct($entityManager)
+    public function __construct()
     {
-        parent::__construct($entityManager);
+        parent::__construct('camp-update-form');
 
         // add camp Fieldset
-        $campFieldset = new CampFieldset($entityManager);
+        $campFieldset = new CampFieldset(null);
         $campFieldset->setUseAsBaseFieldset(true);
         $this->add($campFieldset);
 

@@ -8,15 +8,12 @@ use Zend\Form\Element;
 
 abstract class BaseForm extends Form
 {
-    public function __construct($entityManager)
+    public function __construct($name = null, $options = array())
     {
-        parent::__construct('period-form');
+        parent::__construct($name, $options);
 
         // general properties
         $this->setAttribute('method', 'post');
-
-        // The form will hydrate an object of type "period"
-        $this->setHydrator(new DoctrineHydrator($entityManager));
 
         $errorField = new Element\Hidden('formError');
         $this->add($errorField);

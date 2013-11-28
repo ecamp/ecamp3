@@ -98,7 +98,7 @@ class IndexController
 
     public function addPeriodAction()
     {
-        $form = new \EcampWeb\Form\PeriodForm($this->getServiceLocator()->get('Doctrine\ORM\EntityManager'));
+        $form = new \EcampWeb\Form\PeriodForm();
         $form->setAttribute('action', $this->url()->fromRoute('web/camp/default', array('camp'=> $this->getCamp(), 'controller'=>'index', 'action' => 'addperiod')));
 
         if ($this->getRequest()->isPost()) {
@@ -107,7 +107,7 @@ class IndexController
             if ( $form->isValid() ) {
                 // save data
                 try {
-                    $period = $this->getServiceLocator()->get('EcampCore\Service\Period')->Create($this->getCamp(), $this->getRequest()->getPost());
+                    $period = $this->getPeriodService()->Create($this->getCamp(), $this->getRequest()->getPost());
                 } catch (ValidationException $e) {
                     $error = $e->getMessageArray();
                     if( $error['data'] && is_array( $error['data']) )

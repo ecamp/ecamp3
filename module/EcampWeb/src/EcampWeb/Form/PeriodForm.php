@@ -7,12 +7,12 @@ use EcampCore\Validation\PeriodFieldset;
 
 class PeriodForm extends BaseForm
 {
-    public function __construct($entityManager)
+    public function __construct()
     {
-        parent::__construct($entityManager);
+        parent::__construct('period-form');
 
         // add camp Fieldset
-        $periodFieldset = new PeriodFieldset($entityManager);
+        $periodFieldset = new PeriodFieldset(null);
         $periodFieldset->setUseAsBaseFieldset(true);
         $this->add($periodFieldset);
 
