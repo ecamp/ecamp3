@@ -20,6 +20,12 @@
 
 namespace EcampCore\Service;
 
+use EcampCore\Validation\PeriodFieldset;
+
+use EcampCore\Validation\ValidationException;
+
+use EcampCore\Validation\EntityForm;
+
 use EcampCore\Entity\Day;
 use EcampCore\Entity\Camp;
 use EcampCore\Entity\Period;
@@ -44,42 +50,37 @@ class PeriodService
     }
 
     /**
-     * @param  Params                $params
-     * @return CoreApi\Entity\Period
+     * @param  EcampCore\Entity\Camp          $camp
+     * @param  array|\ArrayAccess|Traversable $data
+     * @return EcampCore\Entity\Period
+     * @throws ValidationException
      */
-    public function Create(Camp $camp, Params $params)
+    public function Create(Camp $camp, $data)
     {
         $this->aclRequire($camp, Privilege::CAMP_CONFIGURE);
 
-        if ( $params->getValue('start') == "") {
-            $params->addError('start', "Date cannot be empty.");
-            $this->validationFailed();
-        }
-
-        if ( $params->getValue('end') == "" ) {
-            $params->addError('end', "Date cannot be empty.");
-            $this->validationFailed();
-        }
-
         $period = new Period($camp);
-        $this->persist($period);
 
-        $start = new \DateTime($params->getValue('start'), new \DateTimeZone("GMT"));
-        $end   = new \DateTime($params->getValue('end'), new \DateTimeZone("GMT"));
-        $desc  = $params->hasElement('description') ? $params->getValue('description') : "";
+        $periodFieldset = new PeriodFieldset($this->getEntityManager());
+        $form = new EntityForm($this->getEntityManager(), $periodFieldset, $period);
 
-        $period->setStart($start);
-        $period->setDescription($desc);
+        if ( !$form->setDataAndValidate($data) ) {
+            throw new ValidationException("Form validation error", array('data' => $form->getMessages()));
+        }
+
+        $start = new \DateTime($data['period']['start'], new \DateTimeZone("GMT"));
+        $end   = new \DateTime($data['period']['end'], new \DateTimeZone("GMT"));
 
         $numOfDays = ($end->getTimestamp() - $start->getTimestamp())/(24 * 60 * 60) + 1;
         if ($numOfDays < 1) {
-            $params->addError('end', "Minimum length of camp is 1 day.");
-            $this->validationFailed();
+            throw new ValidationException("Minimum length of camp is 1 day.", array('data' => array('period' => array('end' => array("Minimum length of camp is 1 day.")))));
         }
 
         for ($offset = 0; $offset < $numOfDays; $offset++) {
             $this->dayService->AppendDay($period);
         }
+
+        $this->persist($period);
 
         return $period;
     }

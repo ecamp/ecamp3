@@ -2,10 +2,11 @@
 
 namespace EcampWeb\Controller\Camp;
 
+use Zend\Mvc\MvcEvent;
+
 use Zend\EventManager\EventManagerInterface;
 
 use Zend\View\Model\ViewModel;
-use Zend\Mvc\MvcEvent;
 
 use EcampWeb\Controller\BaseController as WebBaseController;
 

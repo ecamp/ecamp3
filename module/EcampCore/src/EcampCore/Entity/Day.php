@@ -61,8 +61,6 @@ class Day
 
         $this->period = $period;
         $this->dayOffset = $dayOffset;
-
-        $this->period->addToList('days', $this);
     }
 
 
@@ -129,6 +127,14 @@ class Day
     public function getCamp()
     {
         return $this->period->getCamp();
+    }
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function prePersist()
+    {
+        $this->period->addToList('days', $this);
     }
 
     /**
