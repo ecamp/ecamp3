@@ -2,7 +2,6 @@
 
 namespace EcampWeb\Form;
 
-use DoctrineModule\Stdlib\Hydrator\DoctrineObject as DoctrineHydrator;
 use Zend\Form\Form;
 use Zend\Form\Element;
 

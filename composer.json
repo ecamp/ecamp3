@@ -47,7 +47,9 @@
 
         "phpunit/phpunit": "3.7.*",
         
-        "phly/phly-restfully": "2.2.x"
+        "phly/phly-restfully": "2.2.x",
+        
+        "neilime/zf2-twb-bundle": "dev-master"
 		
     }
 }

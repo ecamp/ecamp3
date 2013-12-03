@@ -102,19 +102,18 @@ class IndexController
                 // save data
                 try {
                     $period = $this->getPeriodService()->Create($this->getCamp(), $this->getRequest()->getPost());
-                                        
+
                 } catch (ValidationException $e) {
                     $error = $e->getMessageArray();
                     if( $error['data'] && is_array( $error['data']) )
                         $form->setMessages($error['data']);
                     else
                         $form->setFormError($error);
-                    
+
                     $this->getResponse()->setStatusCode(500);
                 }
-            }
-            else {
-            	$this->getResponse()->setStatusCode(500);
+            } else {
+                $this->getResponse()->setStatusCode(500);
             }
         }
 
