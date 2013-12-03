@@ -34,19 +34,14 @@ class IndexController
 
     public function indexAction()
     {
-        $period = $this->getCamp()->getPeriods();
-
-        $form = new \EcampWeb\Form\PeriodForm($this->getServiceLocator()->get('Doctrine\ORM\EntityManager'));
-        $form->setAttribute('action', $this->url()->fromRoute('web/camp/default', array('camp'=> $this->getCamp(), 'controller'=>'index', 'action' => 'addperiod')));
-
         $renderer = $this->getServiceLocator()->get('Zend\View\Renderer\PhpRenderer');
         $renderer->headScript()->appendFile($this->getRequest()->getBasePath() . '/js/ng-app/paginator.js');
+        $renderer->headScript()->appendFile($this->getRequest()->getBasePath() . '/js/ajax-form.js');
 
         $myCollaboration = $this->getCollaborationRepository()->findByCampAndUser($this->getCamp(), $this->getMe());
 
         return array(
-            'myCollaboration' => $myCollaboration,
-            'form' => $form
+            'myCollaboration' => $myCollaboration
         );
     }
 
@@ -99,7 +94,6 @@ class IndexController
     public function addPeriodAction()
     {
         $form = new \EcampWeb\Form\PeriodForm();
-        $form->setAttribute('action', $this->url()->fromRoute('web/camp/default', array('camp'=> $this->getCamp(), 'controller'=>'index', 'action' => 'addperiod')));
 
         if ($this->getRequest()->isPost()) {
             $form->setData($this->getRequest()->getPost());
@@ -108,13 +102,19 @@ class IndexController
                 // save data
                 try {
                     $period = $this->getPeriodService()->Create($this->getCamp(), $this->getRequest()->getPost());
+                                        
                 } catch (ValidationException $e) {
                     $error = $e->getMessageArray();
                     if( $error['data'] && is_array( $error['data']) )
                         $form->setMessages($error['data']);
                     else
                         $form->setFormError($error);
+                    
+                    $this->getResponse()->setStatusCode(500);
                 }
+            }
+            else {
+            	$this->getResponse()->setStatusCode(500);
             }
         }
 
