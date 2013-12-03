@@ -34,15 +34,20 @@ class IndexController
 
     public function indexAction()
     {
+        $return = array();
+
         $renderer = $this->getServiceLocator()->get('Zend\View\Renderer\PhpRenderer');
         $renderer->headScript()->appendFile($this->getRequest()->getBasePath() . '/js/ng-app/paginator.js');
         $renderer->headScript()->appendFile($this->getRequest()->getBasePath() . '/js/ajax-form.js');
 
-        $myCollaboration = $this->getCollaborationRepository()->findByCampAndUser($this->getCamp(), $this->getMe());
+        $return['myCollaboration'] = $this->getCollaborationRepository()->findByCampAndUser($this->getCamp(), $this->getMe());
 
-        return array(
-            'myCollaboration' => $myCollaboration
-        );
+        $flashMessenger = $this->flashMessenger();
+        if ($flashMessenger->hasMessages()) {
+            $return['messages'] = $flashMessenger->getMessages();
+        }
+
+        return $return;
     }
 
     public function requestCollaborationAction()
@@ -102,6 +107,8 @@ class IndexController
                 // save data
                 try {
                     $period = $this->getPeriodService()->Create($this->getCamp(), $this->getRequest()->getPost());
+
+                    $this->flashMessenger()->addMessage('Period successfully created.');
 
                 } catch (ValidationException $e) {
                     $error = $e->getMessageArray();

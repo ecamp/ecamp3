@@ -34,9 +34,9 @@ class PeriodFieldset extends Fieldset implements InputFilterProviderInterface
         $this->add(array(
                 'name' => 'description',
                 'options' => array(
-                        'label' => 'Description',
+                        'label' => 'Description'
                 ),
-                'type'  => 'Text',
+                'type'  => 'Text'
         ));
 
     }
