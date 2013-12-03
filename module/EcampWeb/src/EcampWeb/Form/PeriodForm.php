@@ -15,13 +15,5 @@ class PeriodForm extends BaseForm
         $periodFieldset = new PeriodFieldset(null);
         $periodFieldset->setUseAsBaseFieldset(true);
         $this->add($periodFieldset);
-
-        $this->add(array(
-                'name' => 'send',
-                'type'  => 'Submit',
-                'attributes' => array(
-                        'value' => '+ Add Period',
-                ),
-        ));
     }
 }

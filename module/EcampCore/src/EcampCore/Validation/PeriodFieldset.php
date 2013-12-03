@@ -13,7 +13,7 @@ class PeriodFieldset extends Fieldset implements InputFilterProviderInterface
 
         // The form will hydrate an object of type "period"
         if( $entityManager )
-        	$this->setHydrator(new DoctrineHydrator($entityManager));
+            $this->setHydrator(new DoctrineHydrator($entityManager));
 
         $this->add(array(
                 'name' => 'start',
@@ -34,9 +34,9 @@ class PeriodFieldset extends Fieldset implements InputFilterProviderInterface
         $this->add(array(
                 'name' => 'description',
                 'options' => array(
-                        'label' => 'Description',
+                        'label' => 'Description'
                 ),
-                'type'  => 'Text',
+                'type'  => 'Text'
         ));
 
     }

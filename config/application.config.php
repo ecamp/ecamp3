@@ -19,6 +19,7 @@ return array(
 //    	'OcraDiCompiler',
 
         'ZfcTwig',
+        'TwbBundle',    // Bootstrap3 integration
 
         'PhlyRestfully',
 
