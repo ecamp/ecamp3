@@ -127,4 +127,9 @@ class IndexController
         return array('form' => $form);
     }
 
+    public function editPeriodAction()
+    {
+        return array();
+    }
+
 }

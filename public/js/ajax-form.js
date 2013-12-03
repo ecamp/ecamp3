@@ -13,7 +13,7 @@ jQuery(function($) {
                 $target.html(xhr.responseText);
             },
             
-            success: function(data, status) {	
+            success: function(data, status) {
             	if( $redirect ){
             		window.location = $redirect;
             	}
@@ -24,5 +24,10 @@ jQuery(function($) {
         });
  
         event.preventDefault();
+    });
+    
+    /* clear container after closing modal. prevents from caching the content */
+    $(document).on('hidden.bs.modal', '#asyncform-container', function (e) {
+        $(e.target).removeData('bs.modal').html('');
     });
 });
