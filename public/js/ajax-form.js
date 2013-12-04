@@ -8,7 +8,9 @@ jQuery(function($) {
             type: $form.attr('method'),
             url: $form.attr('action'),
             data: $form.serialize(),
- 
+            
+            // prevents global error handling, errors handled locally
+            global: false,  
             error: function(xhr, status) {
                 $target.html(xhr.responseText);
             },
@@ -30,4 +32,12 @@ jQuery(function($) {
     $(document).on('hidden.bs.modal', '#asyncform-container', function (e) {
         $(e.target).removeData('bs.modal').html('');
     });
+    
+    /* global error handling */
+    /* used e.g. if initial load of form throws an error */
+    $(document).ajaxError(function( event, xhr, settings, exception ) {
+    	alert(xhr.responseText);
+    	$('.modal').modal('hide');
+	});
+    
 });

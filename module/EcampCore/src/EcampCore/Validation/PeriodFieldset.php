@@ -1,6 +1,8 @@
 <?php
 namespace EcampCore\Validation;
 
+use Zend\Validator\Callback;
+
 use Zend\Form\Fieldset;
 use Zend\InputFilter\InputFilterProviderInterface;
 use DoctrineModule\Stdlib\Hydrator\DoctrineObject as DoctrineHydrator;
@@ -64,6 +66,18 @@ class PeriodFieldset extends Fieldset implements InputFilterProviderInterface
                         array(
                                 'name' => 'date',
                         ),
+
+                        array(
+                                'name'     => 'Callback',
+                                'options' => array(
+                                        'message' => array(
+                                                Callback::INVALID_VALUE => 'Minimum duration of period is 1 day.',
+                                        ),
+                                        'callback' => function($value, $context=array()) {
+                                            return $value >= $context['start'];
+                                        },
+                                ),
+                        )
                 ),
             )
         );

@@ -30,7 +30,6 @@ use EcampCore\Entity\Day;
 use EcampCore\Entity\Camp;
 use EcampCore\Entity\Period;
 
-use EcampLib\Service\Params\Params;
 use EcampLib\Service\ServiceBase;
 use EcampCore\Acl\Privilege;
 
@@ -86,16 +85,24 @@ class PeriodService
     }
 
     /**
-     * @param Period $period
-     * @param Params $params
+     * @param  Period                         $period
+     * @param  array|\ArrayAccess|Traversable $data
+     * @return Period
      */
-    public function Update(Period $period, Params $params)
+    public function Update(Period $period, $data)
     {
-        $this->aclRequire($camp, Privilege::CAMP_CONFIGURE);
+        $this->aclRequire($period->getCamp(), Privilege::CAMP_CONFIGURE);
 
-        if ($params->hasElement('description')) {
-            $period->setDescription($params->getValue('description'));
+           $periodFieldset = new PeriodFieldset($this->getEntityManager());
+        $form = new EntityForm($this->getEntityManager(), $periodFieldset, $period);
+
+        if ( !$form->setDataAndValidate($data) ) {
+            throw new ValidationException("Form validation error", array('data' => $form->getMessages()));
         }
+
+        /* TBD: handle modifications on end date */
+
+        return $period;
     }
 
     /**

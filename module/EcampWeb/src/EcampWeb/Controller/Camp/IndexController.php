@@ -25,6 +25,14 @@ class IndexController
     }
 
     /**
+     * @return \EcampCore\Repository\PeriodRepository
+     */
+    private function getPeriodRepository()
+    {
+        return $this->getServiceLocator()->get('EcampCore\Repository\Period');
+    }
+
+    /**
      * @return \EcampCore\Service\CampCollaborationService
      */
     private function getCollaborationService()
@@ -98,7 +106,7 @@ class IndexController
 
     public function addPeriodAction()
     {
-        $form = new \EcampWeb\Form\PeriodForm();
+        $form = new \EcampWeb\Form\PeriodCreateForm();
 
         if ($this->getRequest()->isPost()) {
             $form->setData($this->getRequest()->getPost());
@@ -129,7 +137,48 @@ class IndexController
 
     public function editPeriodAction()
     {
-        return array();
+        /* move these 3 lines to a more general location */
+        $sm  = $this->getServiceLocator();
+        $exceptionstrategy = $sm->get('ViewManager')->getExceptionStrategy();
+        $exceptionstrategy->setExceptionTemplate('error/ajaxform');
+
+        if ($this->getRequest()->isPost()) {
+            $postParams = $this->getRequest()->getPost();
+            $period_id = $postParams['period']['id'];
+        } else {
+            $period_id = $this->params()->fromQuery('period');
+        }
+
+        $period = $this->getPeriodRepository()->find($period_id);
+        if(!$period ) throw new \Exception('Period not found.');
+
+        $form = new \EcampWeb\Form\PeriodEditForm($period);
+
+        if ($this->getRequest()->isPost()) {
+            $form->setData($this->getRequest()->getPost());
+
+            if ( $form->isValid() ) {
+                // save data
+                try {
+                    $period = $this->getPeriodService()->Update($period, $this->getRequest()->getPost());
+
+                    $this->flashMessenger()->addMessage('Period successfully updated.');
+
+                } catch (ValidationException $e) {
+                    $error = $e->getMessageArray();
+                    if( $error['data'] && is_array( $error['data']) )
+                        $form->setMessages($error['data']);
+                    else
+                        $form->setFormError($error);
+
+                    $this->getResponse()->setStatusCode(500);
+                }
+            } else {
+                $this->getResponse()->setStatusCode(500);
+            }
+        }
+
+        return array('form' => $form);
     }
 
 }
