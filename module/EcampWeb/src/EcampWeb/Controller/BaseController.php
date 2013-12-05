@@ -15,6 +15,8 @@ abstract class BaseController
         parent::setEventManager($events);
 
         $events->attach('dispatch', function($e) { $this->setMeInViewModel($e); } , -100);
+        
+        $events->attach('dispatch', function($e) { $this->setConfigInViewModel($e); } , -100);
     }
 
     public function onDispatch( MvcEvent $e )
@@ -37,6 +39,20 @@ abstract class BaseController
 
             $result->setVariable('me', $me);
             $result->setVariable('acl', $acl);
+        }
+    }
+    
+     /**
+     * @param MvcEvent $e
+     */
+    private function setConfigInViewModel(MvcEvent $e)
+    {
+        $result = $e->getResult();
+
+        if ($result instanceof ViewModel) {
+            $config = $this->getServiceLocator()->get('config');
+
+            $result->setVariable('config', array('cdn'=>$config['ecamp']['cdn']));
         }
     }
 
