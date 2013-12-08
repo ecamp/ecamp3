@@ -47,9 +47,6 @@ class EventResp
 
         $this->event = $event;
         $this->campCollaboration = $campCollaboration;
-
-        $this->event->getList('eventResps')->add($this);
-        $this->campCollaboration->getList('eventResps')->add($this);
     }
 
     /**
@@ -97,12 +94,23 @@ class EventResp
     }
 
     /**
+     * @ORM\PrePersist
+     */
+    public function PrePersist()
+    {
+        parent::PrePersist();
+
+        $this->event->addToList('eventResps', $this);
+        $this->campCollaboration->addToList('eventResps', $this);
+    }
+
+    /**
      * @ORM\PreRemove
      */
     public function preRemove()
     {
-        $this->event->getList('eventResps')->removeElement($this);
-        $this->campCollaboration->getList('eventResps')->removeElement($this);
+        $this->event->removeFromList('eventResps', $this);
+        $this->campCollaboration->removeFromList('eventResps', $this);
     }
 
 }

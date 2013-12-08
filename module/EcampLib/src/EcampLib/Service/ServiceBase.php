@@ -7,17 +7,19 @@ use Doctrine\ORM\EntityManager;
 use EcampCore\Entity\User;
 use EcampLib\Acl\Acl;
 use Zend\Permissions\Acl\Resource\ResourceInterface;
+use EcampLib\Entity\BaseEntity;
+use EcampLib\Validation\ValidationForm;
 
 abstract class ServiceBase
 {
 
     /**
-     * @var Doctrine\ORM\EntityManager
+     * @var \Doctrine\ORM\EntityManager
      */
     private $em;
 
     /**
-     * @return Doctrine\ORM\EntityManager
+     * @return \Doctrine\ORM\EntityManager
      */
     public function getEntityManager()
     {
@@ -32,11 +34,15 @@ abstract class ServiceBase
     protected function persist($entity)
     {
         $this->getEntityManager()->persist($entity);
+
+        return $entity;
     }
 
     protected function remove($entity)
     {
         $this->getEntityManager()->remove($entity);
+
+        return $entity;
     }
 
     /**
@@ -116,4 +122,12 @@ abstract class ServiceBase
         }
     }
 
+    /**
+     * @param  BaseEntity                          $entity
+     * @return \EcampLib\Validation\ValidationForm
+     */
+    public function createValidationForm(BaseEntity $entity)
+    {
+        return new ValidationForm($this->getEntityManager(), $entity);
+    }
 }

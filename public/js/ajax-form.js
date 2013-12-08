@@ -1,7 +1,7 @@
 jQuery(function($) {
-    $( document ).on('submit', 'form[data-async]',  function(event) {
-        var $form = $(this);
-        var $target   = $($form.attr('data-target'));
+    $( document ).on('click', '#asyncform-container button[type="submit"]',  function(event) {
+    	var $target   = $('#asyncform-container');
+        var $form 	  = $target.find('form');
         var $redirect = $form.attr('data-redirect-after-success');
  
         $.ajax({

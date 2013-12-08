@@ -3,12 +3,10 @@
 namespace EcampWeb\Controller\Camp;
 
 use Zend\Mvc\MvcEvent;
-
-use Zend\EventManager\EventManagerInterface;
-
 use Zend\View\Model\ViewModel;
-
+use Zend\EventManager\EventManagerInterface;
 use EcampWeb\Controller\BaseController as WebBaseController;
+use Zend\Http\Response;
 
 abstract class BaseController
     extends WebBaseController
@@ -69,4 +67,15 @@ abstract class BaseController
         return $this->serviceLocator->get('EcampCore\Repository\User');
     }
 
+    /**
+     * @param  integer                        $statusCode
+     * @return \Zend\Stdlib\ResponseInterface
+     */
+    protected function emptyResponse($statusCode = Response::STATUS_CODE_200)
+    {
+        $response = $this->getResponse();
+        $response->setStatusCode($statusCode);
+
+        return $response;
+    }
 }

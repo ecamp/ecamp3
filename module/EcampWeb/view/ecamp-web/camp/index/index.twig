@@ -5,14 +5,22 @@
 
 	<div class="row">
 		<div class="col-sm-12">
-			{% if messages %}
+			{% if flashMessenger().hasErrorMessages() %}
+			  <div class="alert alert-danger fade in">
+			    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">x</button>
+				{{ flashMessenger().render('error') | raw }}
+			  </div>
+			{% endif %}
+			{% if flashMessenger().hasSuccessMessages() %}
+			  <div class="alert alert-success fade in">
+			    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">x</button>
+			    {{ flashMessenger().render('success') | raw }}
+			  </div>
+			{% endif %}
+			{% if flashMessenger().hasMessages() %}
 			  <div class="alert alert-info fade in">
 			    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">x</button>
-			    <ul>
-			      {%  for message in messages %}
-			        <li>{{ message }}</li>
-			      {% endfor %}
-			    </ul>
+				{{ flashMessenger().render() | raw }}
 			  </div>
 			{% endif %}
 
@@ -152,19 +160,25 @@
 					Periods
 				{% endblock %}
 				{% block panel_content %}
-					<div class="col-sm-5">
-						<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#asyncform-container" href="{{ url('web/camp/default', {'camp': camp, 'controller':'index', 'action' : 'addperiod' } ) }}">+ Add Period</button>
+					<div class="col-sm-12">
+						<button
+							type="button"
+							class="btn btn-primary"
+							data-toggle="modal"
+							data-target="#asyncform-container"
+							href="{{ url('web/camp/default', {'camp': camp, 'controller':'period', 'action' : 'addPeriod' } ) }}"
+						>+ Add Period</button>
 
 						<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#asyncform-container" href="{{ url('web/camp/default', {'camp': camp, 'controller':'index', 'action' : 'editperiod' } ) }}">Edit</button>
 
-						<table class="table table-striped table-hover">
+						<table class="table table-striped table-hover" style="width: 100%">
 							<thead>
-							<tr>
-								<th>Start</th>
-								<th>End</th>
-								<th>Description</th>
-								<th> </th>
-							</tr>
+								<tr>
+									<th>Start</th>
+									<th>End</th>
+									<th>Description</th>
+									<th>Options</th>
+								</tr>
 							</thead>
 							<tbody>
 							{% for period in camp.getPeriods %}
@@ -172,7 +186,32 @@
 									<td>{{ period.getStart | date }}</td>
 									<td>{{ period.getEnd | date}}</td>
 									<td>{{ period.getDescription }}</td>
-									<td></td>
+									<td>
+										<a
+											class="btn btn-xs btn-primary"
+											data-toggle="modal"
+											data-target="#asyncform-container"
+											href="{{ url('web/camp/default', {'camp': camp, 'controller':'period', 'action' : 'movePeriod' }, { 'query': { 'periodId': period.id } } ) }}"
+										>
+											Move
+										</a>
+										<a
+											class="btn btn-xs btn-primary"
+											data-toggle="modal"
+											data-target="#asyncform-container"
+											href="{{ url('web/camp/default', {'camp': camp, 'controller':'period', 'action' : 'resizePeriod' }, { 'query': { 'periodId': period.id } } ) }}"
+										>
+											Resize
+										</a>
+										<a 	href="{{ url('web/camp/default',
+												{ 'camp': camp, 'controller': 'period', 'action': 'deletePeriod' },
+												{ 'query' : { 'periodId': period.id } }
+												) }}"
+											class="btn btn-xs btn-danger"
+										>
+											Delete
+										</a>
+									</td>
 								</tr>
 							{% endfor %}
 							</tbody>

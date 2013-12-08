@@ -62,14 +62,15 @@ class Period
     private $description;
 
     /**
-     * @ORM\OneToMany(targetEntity="Day", mappedBy="period")
+     * @ORM\OneToMany(targetEntity="Day", mappedBy="period", orphanRemoval=true)
      * @ORM\OrderBy({"dayOffset" = "ASC"})
      * @var Doctrine\Common\Collections\ArrayCollection
      */
     protected $days;
 
     /**
-     * @ORM\OneToMany(targetEntity="EventInstance", mappedBy="period")
+     * @ORM\OneToMany(targetEntity="EventInstance", mappedBy="period", orphanRemoval=true)
+     * @var Doctrine\Common\Collections\ArrayCollection
      */
     private $eventInstances;
 
@@ -146,7 +147,7 @@ class Period
     }
 
     /**
-     * @return Doctrine\Common\Collections\ArrayCollection
+     * @return \Doctrine\Common\Collections\ArrayCollection
      */
     public function getDays()
     {
@@ -154,7 +155,7 @@ class Period
     }
 
     /**
-     * @return Doctrine\Common\Collections\ArrayCollection
+     * @return \Doctrine\Common\Collections\ArrayCollection
      */
     public function getEventInstances()
     {
@@ -166,6 +167,8 @@ class Period
      */
     public function prePersist()
     {
+        parent::PrePersist();
+
         $this->camp->addToList('periods', $this);
     }
 

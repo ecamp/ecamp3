@@ -44,9 +44,6 @@ class UserRelationship
         $this->type  = $type;
         $this->from  = $from;
         $this->to  = $to;
-
-        $this->from->getList('relationshipTo')->add($this);
-        $this->to->getList('relationshipFrom')->add($this);
     }
 
     /**
@@ -107,12 +104,23 @@ class UserRelationship
     }
 
     /**
+     * @ORM\PrePersist
+     */
+    public function PrePersist()
+    {
+        parent::PrePersist();
+
+        $this->from->addToList('relationshipTo', $this);
+        $this->to->addToList('relationshipFrom', $this);
+    }
+
+    /**
      * @ORM\PreRemove
      */
     public function preRemove()
     {
-        $this->from->getList('relationshipTo')->removeElement($this);
-        $this->to->getList('relationshipFrom')->removeElement($this);
+        $this->from->removeFromList('relationshipTo', $this);
+        $this->to->removeFromList('relationshipFrom', $this);
     }
 
     /**

@@ -57,8 +57,8 @@ abstract class BaseEntity
      */
     public function PrePersist()
     {
-        $this->createdAt = new \DateTime("now");
-        $this->updatedAt = new \DateTime("now");
+        $this->createdAt = new \DateTime();
+        $this->updatedAt = new \DateTime();
     }
 
     /**
@@ -66,7 +66,7 @@ abstract class BaseEntity
      */
     public function PreUpdate()
     {
-        $this->updatedAt = new \DateTime("now");
+        $this->updatedAt = new \DateTime();
     }
 
     /**
@@ -109,8 +109,9 @@ abstract class BaseEntity
             throw new \Exception("Unknown List");
         }
 
-        if( !$list->contains($element) )
+        if (!$list->contains($element)) {
             $list->add($element);
+        }
     }
 
     /**
@@ -121,6 +122,7 @@ abstract class BaseEntity
     protected function removeFromList($listProperty, $element)
     {
         if (property_exists($this, $listProperty)) {
+            /* @var $list \Doctrine\Common\Collections\ArrayCollection */
             $list = $this->{$listProperty};
         } else {
             throw new \Exception("Unknown List");

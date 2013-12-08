@@ -37,11 +37,12 @@ class FlushEntitiesListener extends AbstractListenerAggregate
     public function onFinish(MvcEvent $e)
     {
         try {
+            //die( 'doflush' );
             $e->getApplication()->getServiceManager()->get('Doctrine\ORM\EntityManager' )->flush();
         } catch (DBALException $ex) {
-            $e->setError(self::ERROR_FLUSH)
-            ->setParam('exception', $ex);
+            $e->setError(self::ERROR_FLUSH)->setParam('exception', $ex);
             $e->getApplication()->getEventManager()->trigger(MvcEvent::EVENT_DISPATCH_ERROR, $e);
+            throw $ex;
         }
     }
 }

@@ -42,8 +42,6 @@ class EventCategory
 
         $this->setColor($eventType->getDefaultColor());
         $this->setNumberingStyle($eventType->getDefaultNumberingStyle());
-
-        $this->camp->addToList('eventCategories', $this);
     }
 
     /**
@@ -154,6 +152,16 @@ class EventCategory
     public function getEventType()
     {
         return $this->eventType;
+    }
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function PrePersist()
+    {
+        parent::PrePersist();
+
+        $this->camp->addToList('eventCategories', $this);
     }
 
     /**

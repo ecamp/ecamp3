@@ -6,6 +6,7 @@ use Zend\Mvc\Controller\AbstractActionController;
 use Zend\EventManager\EventManagerInterface;
 use Zend\Mvc\MvcEvent;
 use Zend\View\Model\ViewModel;
+use EcampCore\Entity\User;
 
 abstract class BaseController
     extends AbstractActionController

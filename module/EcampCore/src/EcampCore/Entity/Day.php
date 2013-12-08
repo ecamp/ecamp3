@@ -134,6 +134,8 @@ class Day
      */
     public function prePersist()
     {
+        parent::PrePersist();
+
         $this->period->addToList('days', $this);
     }
 

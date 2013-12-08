@@ -22,4 +22,14 @@ abstract class BaseForm extends Form
     {
         $this->setMessages(array('formError' => array($errorMessage)));
     }
+
+    public function setAction($url)
+    {
+        $this->setAttribute('action', $url);
+    }
+
+    public function setRedirectAfterSuccess($url)
+    {
+        $this->setAttribute('data-redirect-after-success', $url);
+    }
 }

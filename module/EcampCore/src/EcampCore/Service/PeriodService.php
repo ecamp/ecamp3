@@ -20,12 +20,6 @@
 
 namespace EcampCore\Service;
 
-use EcampCore\Validation\PeriodFieldset;
-
-use EcampCore\Validation\ValidationException;
-
-use EcampCore\Validation\EntityForm;
-
 use EcampCore\Entity\Day;
 use EcampCore\Entity\Camp;
 use EcampCore\Entity\Period;
@@ -33,6 +27,10 @@ use EcampCore\Entity\Period;
 use EcampLib\Service\Params\Params;
 use EcampLib\Service\ServiceBase;
 use EcampCore\Acl\Privilege;
+use EcampCore\Validation\ValidationException;
+use EcampCore\Validation\Period\PeriodEditFieldset;
+use EcampCore\Validation\Period\PeriodSizeFieldset;
+use EcampCore\Validation\Period\PeriodMoveFieldset;
 
 class PeriodService
     extends ServiceBase
@@ -61,28 +59,36 @@ class PeriodService
 
         $period = new Period($camp);
 
-        $periodFieldset = new PeriodFieldset($this->getEntityManager());
-        $form = new EntityForm($this->getEntityManager(), $periodFieldset, $period);
+        $validationForm = $this->createValidationForm($period)
+            ->addFieldset(new PeriodEditFieldset())
+            ->addFieldset(new PeriodSizeFieldset());
 
-        if ( !$form->setDataAndValidate($data) ) {
-            throw new ValidationException("Form validation error", array('data' => $form->getMessages()));
+        if (!$validationForm->setData($data)->isValid()) {
+            throw new ValidationException(
+                "Form validation error",
+                array('data' => $validationForm->getMessages())
+            );
         }
 
-        $start = new \DateTime($data['period']['start'], new \DateTimeZone("GMT"));
-        $end   = new \DateTime($data['period']['end'], new \DateTimeZone("GMT"));
+        $start = new \DateTime($data['period-size']['start'], new \DateTimeZone("GMT"));
+        $end   = new \DateTime($data['period-size']['end'], new \DateTimeZone("GMT"));
 
         $numOfDays = ($end->getTimestamp() - $start->getTimestamp())/(24 * 60 * 60) + 1;
         if ($numOfDays < 1) {
-            throw new ValidationException("Minimum length of camp is 1 day.", array('data' => array('period' => array('end' => array("Minimum length of camp is 1 day.")))));
+            throw new ValidationException("Minimum length of camp is 1 day.",
+                array(
+                    'data' => array(
+                        'period-size' => array('end' => array("Minimum length of camp is 1 day."))
+                    )
+                )
+            );
         }
 
         for ($offset = 0; $offset < $numOfDays; $offset++) {
             $this->dayService->AppendDay($period);
         }
 
-        $this->persist($period);
-
-        return $period;
+        return $this->persist($period);
     }
 
     /**
@@ -91,6 +97,7 @@ class PeriodService
      */
     public function Update(Period $period, Params $params)
     {
+        $camp = $period->getCamp();
         $this->aclRequire($camp, Privilege::CAMP_CONFIGURE);
 
         if ($params->hasElement('description')) {
@@ -103,7 +110,8 @@ class PeriodService
      */
     public function Delete(Period $period)
     {
-        $this->aclRequire($camp, Privilege::CAMP_ADMINISTRATE);
+        $camp = $period->getCamp();
+        $this->aclRequire($camp, Privilege::CAMP_CONFIGURE);
 
         $period->getDays()->clear();
         $period->getEventInstances()->clear();
@@ -112,29 +120,53 @@ class PeriodService
     }
 
     /**
-     * @param Period       $period
-     * @param unknown_type $newStart
+     * @param Period $period
+     * @param array  $data
      */
-    public function Move(Period $period, $newStart)
+    public function Move(Period $period, $data)
     {
         $camp = $period->getCamp();
         $this->aclRequire($camp, Privilege::CAMP_CONFIGURE);
 
-        if (! $newStart instanceof \DateTime) {
-            $newStart = new \DateTime($newStart, new \DateTimeZone("GMT"));
+        $validationForm = $this->createValidationForm($period)
+            ->addFieldset(new PeriodMoveFieldset());
+
+        if (!$validationForm->setData($data)->isValid()) {
+            throw new ValidationException(
+                "Form validation error",
+                array('data' => $validationForm->getMessages())
+            );
         }
 
-        $period->setStart($newStart);
+        $start = new \DateTime($data['period-move']['start'], new \DateTimeZone("GMT"));
+        $period->setStart($start);
     }
 
     /**
      * @param Period $period
      * @param int    $numOfDays
      */
-    public function Resize(Period $period, $numOfDays)
+    public function Resize(Period $period, $data)
     {
         $camp = $period->getCamp();
         $this->aclRequire($camp, Privilege::CAMP_CONFIGURE);
+
+        $validationForm = $this->createValidationForm($period)
+            ->addFieldset(new PeriodSizeFieldset());
+
+        $start = $period->getStart();
+        $end = new \DateTime($data['period-size']['end'], new \DateTimeZone("GMT"));
+
+        $numOfDays = ($end->getTimestamp() - $start->getTimestamp())/(24 * 60 * 60) + 1;
+        if ($numOfDays < 1) {
+            throw new ValidationException("Minimum length of camp is 1 day.",
+                array(
+                    'data' => array(
+                        'period-size' => array('end' => array("Minimum length of camp is 1 day."))
+                    )
+                )
+            );
+        }
 
         $oldNumOfDays = $period->getNumberOfDays();
 

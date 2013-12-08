@@ -62,9 +62,6 @@ class CampCollaboration
         }
 
         $this->eventResps = new \Doctrine\Common\Collections\ArrayCollection();
-
-        $this->user->addToList('collaborations', $this);
-        $this->camp->addToList('collaborations', $this);
     }
 
     public static function createRequest(User $user, Camp $camp, $role = null)
@@ -251,6 +248,17 @@ class CampCollaboration
         $this->setRequestAcceptedBy($user);
         $this->setRole($role ?: $this->role);
         $this->setStatus(self::STATUS_ESTABLISHED);
+    }
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function PrePersist()
+    {
+        parent::PrePersist();
+
+        $this->user->addToList('collaborations', $this);
+        $this->camp->addToList('collaborations', $this);
     }
 
     /**

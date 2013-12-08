@@ -6,13 +6,9 @@
 	          <h4 class="modal-title">Add Period</h4>
 	        </div>
 	        <div class="modal-body">
-	        	<form role="form" id="asyncform-form" name="asyncform-form"
-	        	   data-async  data-target="#asyncform-container" method="post"
-	        	   action                     ="{{ url('web/camp/default', {'camp': camp, 'controller':'index', 'action' : 'addperiod' } ) }}"
-	               data-redirect-after-success="{{ url('web/camp/default', {'camp': camp, 'controller':'index', 'action' : 'index' } ) }}">
-
-				{{ form(form) }}
-
+				<div class="col-xs-12">
+					{{ form(form) }}
+				</div>
 	        </div>
 	        <div class="modal-footer">
 	          <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
