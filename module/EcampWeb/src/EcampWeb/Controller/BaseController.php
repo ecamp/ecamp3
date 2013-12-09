@@ -56,4 +56,17 @@ abstract class BaseController
     {
         return $this->getUserService()->Get();
     }
+
+    /**
+     * @param  integer                        $statusCode
+     * @return \Zend\Stdlib\ResponseInterface
+     */
+    protected function emptyResponse($statusCode = Response::STATUS_CODE_200)
+    {
+        $response = $this->getResponse();
+        $response->setStatusCode($statusCode);
+
+        return $response;
+    }
+
 }

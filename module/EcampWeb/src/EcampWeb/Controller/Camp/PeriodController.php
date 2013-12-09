@@ -142,14 +142,17 @@ class PeriodController
                 } catch (\Exception $e) {
                     $this->flashMessenger()->addErrorMessage('Period not moved');
 
-                       return $this->emptyResponse();
+                    return $this->emptyResponse();
                 }
             } else {
                 var_dump($form->getMessages());
                 $this->getResponse()->setStatusCode(Response::STATUS_CODE_500);
             }
         } else {
-            $form->setData(array('period-move' => array('start' => $period->getStart())));
+            $form->setData(array('period-move' => array(
+                'start' => $period->getStart(),
+                'moveEvents' => true
+               )));
         }
 
         return array('form' => $form);
@@ -188,7 +191,7 @@ class PeriodController
                 } catch (\Exception $e) {
                     $this->flashMessenger()->addErrorMessage('Period not resized');
 
-                       return $this->emptyResponse();
+                    return $this->emptyResponse();
                 }
 
             } else {

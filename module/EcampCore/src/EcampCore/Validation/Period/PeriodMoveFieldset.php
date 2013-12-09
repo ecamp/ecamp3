@@ -20,9 +20,9 @@ class PeriodMoveFieldset extends Fieldset implements InputFilterProviderInterfac
         ));
 
         $this->add(array(
-            'name' => 'periodOnly',
+            'name' => 'moveEvents',
             'options' => array(
-                'label' => 'Keep days at date'
+                'label' => 'Move events with period'
             ),
             'type' => 'Checkbox'
         ));
