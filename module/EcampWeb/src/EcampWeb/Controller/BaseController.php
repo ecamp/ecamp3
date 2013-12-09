@@ -52,7 +52,7 @@ abstract class BaseController
         if ($result instanceof ViewModel) {
             $config = $this->getServiceLocator()->get('config');
 
-            $result->setVariable('config', array('cdn'=>$config['ecamp']['cdn']));
+            $result->setVariable('config', $config['ecamp']);
         }
     }
 
