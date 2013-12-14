@@ -20,8 +20,9 @@
 
 namespace EcampWeb\Controller\Camp;
 
-use EcampCore\Validation\ValidationException;
 use Zend\Http\Response;
+use Zend\Mvc\MvcEvent;
+use EcampLib\Validation\ValidationException;
 
 class PeriodController
     extends BaseController
@@ -42,9 +43,19 @@ class PeriodController
         return $this->getServiceLocator()->get('EcampCore\Service\Period');
     }
 
+    public function onDispatch( MvcEvent $e )
+    {
+        /* move these 3 lines to a more general location */
+        $sm  = $this->getServiceLocator();
+        $exceptionstrategy = $sm->get('ViewManager')->getExceptionStrategy();
+        //$exceptionstrategy->setExceptionTemplate('error/ajaxform');
+
+        parent::onDispatch($e);
+    }
+
     public function addPeriodAction()
     {
-        $form = new \EcampWeb\Form\Period\CreatePeriod();
+        $form = new \EcampWeb\Form\Period\PeriodCreateForm();
         $form->setAction(
             $this->url()->fromRoute(
                 'web/camp/default',
@@ -66,10 +77,11 @@ class PeriodController
                     return $this->emptyResponse();
 
                 } catch (ValidationException $e) {
-                    $e->pushToForm($form);
+                    $form->extractFromException($e);
                     $this->getResponse()->setStatusCode(Response::STATUS_CODE_500);
 
                 } catch (\Exception $e) {
+                    throw $e;
                     $this->flashMessenger()->addErrorMessage('Error while creating Period.');
 
                     return $this->emptyResponse();
@@ -105,16 +117,17 @@ class PeriodController
         );
     }
 
-    public function movePeriodAction()
+    public function editPeriodAction()
     {
         $periodId = $this->params()->fromQuery('periodId');
         $period = $this->getPeriodRepository()->find($periodId);
+        if(!$period ) throw new \Exception('Period not found.');
 
-        $form = new \EcampWeb\Form\Period\MovePeriod();
+        $form = new \EcampWeb\Form\Period\PeriodEditForm($period);
         $form->setAction(
             $this->url()->fromRoute(
                 'web/camp/default',
-                array('camp' => $this->getCamp(), 'controller' => 'Period', 'action' => 'movePeriod'),
+                array('camp' => $this->getCamp(), 'controller' => 'Period', 'action' => 'editPeriod'),
                 array('query' => array('periodId' => $periodId))
             )
         );
@@ -127,16 +140,14 @@ class PeriodController
 
             if ($form->setData($data)->isValid()) {
                 try {
-                    $this->getPeriodService()->Move($period, $data);
+                    $this->getPeriodService()->Update($period, $data);
 
-                    $this->flashMessenger()->addSuccessMessage(
-                        'Period moved to the ' . $period->getStart()->format('d.m.Y')
-                    );
+                    $this->flashMessenger()->addSuccessMessage('Period successfully updated.');
 
                     return $this->emptyResponse();
 
                 } catch (ValidationException $e) {
-                    $e->pushToForm($form);
+                    $form->extractFromException($e);
                     $this->getResponse()->setStatusCode(Response::STATUS_CODE_500);
 
                 } catch (\Exception $e) {
@@ -145,65 +156,11 @@ class PeriodController
                     return $this->emptyResponse();
                 }
             } else {
-                var_dump($form->getMessages());
                 $this->getResponse()->setStatusCode(Response::STATUS_CODE_500);
             }
-        } else {
-            $form->setData(array('period-move' => array(
-                'start' => $period->getStart(),
-                'moveEvents' => true
-               )));
         }
 
         return array('form' => $form);
     }
 
-    public function resizePeriodAction()
-    {
-        $periodId = $this->params()->fromQuery('periodId');
-        $period = $this->getPeriodRepository()->find($periodId);
-
-        $form = new \EcampWeb\Form\Period\ResizePeriod();
-        $form->setAction(
-            $this->url()->fromRoute(
-                'web/camp/default',
-                array('camp' => $this->getCamp(), 'controller' => 'Period', 'action' => 'resizePeriod'),
-                array('query' => array('periodId' => $periodId))
-            )
-        );
-        $form->setRedirectAfterSuccess(
-            $this->url()->fromRoute('web/camp/default', array('camp' => $this->getCamp()))
-        );
-
-        if ($this->getRequest()->isPost()) {
-            $data = $this->getRequest()->getPost();
-            $data['period-size']['start'] = $period->getStart();
-
-            if ($form->setData($data)->isValid()) {
-                try {
-                    $this->getPeriodService()->Resize($period, $data);
-
-                    $this->flashMessenger()->addSuccessMessage('Period successfully resized');
-                } catch (ValidationException $e) {
-                    $e->pushToForm($form);
-                    $this->getResponse()->setStatusCode(Response::STATUS_CODE_500);
-
-                } catch (\Exception $e) {
-                    $this->flashMessenger()->addErrorMessage('Period not resized');
-
-                    return $this->emptyResponse();
-                }
-
-            } else {
-                $this->getResponse()->setStatusCode(Response::STATUS_CODE_500);
-            }
-        } else {
-            $form->setData(array('period-size' => array(
-                'start' => $period->getStart(),
-                'end' => $period->getEnd()
-            )));
-        }
-
-        return array('form' => $form);
-    }
 }

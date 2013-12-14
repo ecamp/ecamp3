@@ -1,8 +1,6 @@
 <?php
 
-namespace EcampCore\Validation;
-
-use EcampWeb\Form\BaseForm;
+namespace EcampLib\Validation;
 
 class ValidationException extends \Exception
 {
@@ -22,17 +20,6 @@ class ValidationException extends \Exception
     public function getMessageArray()
     {
         return $this->errorArray;
-    }
-
-    public function pushToForm(BaseForm $form)
-    {
-        $error = $this->getMessageArray();
-
-        if ($error['data'] && is_array($error['data'])) {
-            $form->setMessages($error['data']);
-        } else {
-            $form->setFormError($error);
-        }
     }
 
 }

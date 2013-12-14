@@ -39,10 +39,16 @@ class DayService
     {
         $this->aclRequire($period->getCamp(), Privilege::CAMP_CONFIGURE);
 
-        // Can the day be deletet?
-        // What about the EventInstances?
-
+        /* @var $day \EcampCore\Entity\Day */
         $day = $period->getDays()->last();
+
+        foreach ($period->getEventInstances() as $eventInstance) {
+            /* @var $eventInstance \EcampCore\Entity\EventInstance */
+            if ($eventInstance->getEndTime() > $day->getStart()) {
+                throw new \Exception("Period can not be resized, because a Event takes place at a day which will be removed");
+            }
+        }
+
         $period->getDays()->removeElement($day);
 
         $this->remove($day);
