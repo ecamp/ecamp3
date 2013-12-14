@@ -169,8 +169,6 @@
 							href="{{ url('web/camp/default', {'camp': camp, 'controller':'period', 'action' : 'addPeriod' } ) }}"
 						>+ Add Period</button>
 
-						<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#asyncform-container" href="{{ url('web/camp/default', {'camp': camp, 'controller':'index', 'action' : 'editperiod' } ) }}">Edit</button>
-
 						<table class="table table-striped table-hover" style="width: 100%">
 							<thead>
 								<tr>
@@ -191,17 +189,9 @@
 											class="btn btn-xs btn-primary"
 											data-toggle="modal"
 											data-target="#asyncform-container"
-											href="{{ url('web/camp/default', {'camp': camp, 'controller':'period', 'action' : 'movePeriod' }, { 'query': { 'periodId': period.id } } ) }}"
+											href="{{ url('web/camp/default', {'camp': camp, 'controller':'period', 'action' : 'editPeriod' }, { 'query': { 'periodId': period.id } } ) }}"
 										>
-											Move
-										</a>
-										<a
-											class="btn btn-xs btn-primary"
-											data-toggle="modal"
-											data-target="#asyncform-container"
-											href="{{ url('web/camp/default', {'camp': camp, 'controller':'period', 'action' : 'resizePeriod' }, { 'query': { 'periodId': period.id } } ) }}"
-										>
-											Resize
+											Edit
 										</a>
 										<a 	href="{{ url('web/camp/default',
 												{ 'camp': camp, 'controller': 'period', 'action': 'deletePeriod' },
