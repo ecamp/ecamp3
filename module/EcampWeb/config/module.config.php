@@ -26,6 +26,18 @@ return array(
                                 ),
                     ),
 
+                    'login' => array(
+                        'type' => 'Segment',
+                        'options' => array(
+                            'route' => '/login[/:action]',
+                            'defaults' => array(
+                                '__NAMESPACE__' => 'EcampWeb\Controller\Auth',
+                                'controller' => 'Login' ,
+                                'action' => 'index',
+                            )
+                        )
+                    ),
+
                     'group-prefix' => array(
                             'type'    => 'Literal',
                             'options' => array(
