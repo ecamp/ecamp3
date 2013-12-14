@@ -11,31 +11,52 @@
 
 
         <!-- Stylesheets -->
-		<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" />
-		<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.no-icons.min.css" rel="stylesheet">
-		<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css" rel="stylesheet">
-
-		<link type="text/css" rel="stylesheet" href="//cdn.jsdelivr.net/select2/3.4.2/select2.css" />
+        {% if config.cdn %}
+			<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" />
+			<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.no-icons.min.css" rel="stylesheet">
+			<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css" rel="stylesheet">
+	
+			<link type="text/css" rel="stylesheet" href="//cdn.jsdelivr.net/select2/3.4.2/select2.css" />
+			
+			<link href='http://fonts.googleapis.com/css?family=Walter+Turncoat' rel='stylesheet' type='text/css' />
+			<link href='https://raw.github.com/jharding/typeahead.js-bootstrap.css/master/typeahead.js-bootstrap.css' rel='stylesheet' type='text/css' />
+		{% else %}
+			<link href="{{ request.getBasePath }}/css/localcdn/bootstrap.min.css" rel="stylesheet" />
+			<link href="{{ request.getBasePath }}/css/localcdn/bootstrap.no-icons.min.css" rel="stylesheet">
+			<link href="{{ request.getBasePath }}/css/localcdn/font-awesome.min.css" rel="stylesheet">
+	
+			<link type="text/css" rel="stylesheet" href="{{ request.getBasePath }}/css/localcdn/select2.css" />
+			
+			<link href='{{ request.getBasePath }}/css/localcdn/css-walter-turncoat.css' rel='stylesheet' type='text/css' />
+			<link href='{{ request.getBasePath }}/css/localcdn/typeahead.js-bootstrap.css' rel='stylesheet' type='text/css' />
+		{% endif %}
+		
 		<link type="text/css" rel="stylesheet" href="{{ request.getBasePath }}/css/ajaxLoader.css" />
 		<link type="text/css" rel="stylesheet" href="{{ request.getBasePath }}/css/default.css" />
 		<link type="text/css" rel="stylesheet" href="{{ request.getBasePath }}/css/searchbox.css" />
-
-		<link href='http://fonts.googleapis.com/css?family=Walter+Turncoat' rel='stylesheet' type='text/css' />
-		<link href='https://raw.github.com/jharding/typeahead.js-bootstrap.css/master/typeahead.js-bootstrap.css' rel='stylesheet' type='text/css' />
-
+		
         {% block style %}{% endblock style %}
 
 
         <!-- Scripts -->
-        <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
-		<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
-		<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js"></script>
-		<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular-resource.min.js"></script>
-		<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
-
-		<script src="//twitter.github.io/typeahead.js/releases/latest/typeahead.min.js"></script>
-
-		<script type="text/javascript" src="//cdn.jsdelivr.net/select2/3.4.2/select2.js"></script>
+        {% if config.cdn %}
+	        <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+			<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+			<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js"></script>
+			<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular-resource.min.js"></script>
+			<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+			<script src="//twitter.github.io/typeahead.js/releases/latest/typeahead.min.js"></script>
+			<script type="text/javascript" src="//cdn.jsdelivr.net/select2/3.4.2/select2.js"></script>
+		{% else %}
+			<script src="{{ request.getBasePath }}/js/localcdn/jquery.min.js"></script>
+			<script src="{{ request.getBasePath }}/js/localcdn/jquery-ui.min.js"></script>
+			<script src="{{ request.getBasePath }}/js/localcdn/angular.min.js"></script>
+			<script src="{{ request.getBasePath }}/js/localcdn/angular-resource.min.js"></script>
+			<script src="{{ request.getBasePath }}/js/localcdn/bootstrap.min.js"></script>
+			<script src="{{ request.getBasePath }}/js/localcdn/latest/typeahead.min.js"></script>
+			<script type="text/javascript" src="{{ request.getBasePath }}/js/localcdn/select2.js"></script>
+		{% endif %}	
+		
 		<!--[if lt IE 9]><script type="text/javascript" src="/js/html5.js"></script><![endif]-->
 
 		{{ headScript() }}
