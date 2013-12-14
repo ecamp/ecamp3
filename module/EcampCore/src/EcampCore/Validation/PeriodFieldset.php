@@ -41,6 +41,9 @@ class PeriodFieldset extends Fieldset implements InputFilterProviderInterface
             'options' => array(
                 'label' => 'Move events with period'
             ),
+            'attributes' => array(
+                'checked' => 'checked'
+            ),
             'type' => 'Checkbox'
         ));
 
