@@ -4,6 +4,12 @@
 {% block content2 %}
 
 	<div class="row">
+		<div class="col-xs-12">
+			<h3>Day {% if day %} - {{ day.start | date("d.m.Y") }} {% endif %}</h3>
+		</div>
+	</div>
+
+	<div class="row">
 
 		<div class="col-sm-4 col-md-3">
 			<div class="panel-group" id="periodsAccordion">
@@ -67,10 +73,57 @@
 
 			{% embed "helper/accordion.twig" %}
 				{% block panel_title %}
-					Day {% if day %} - {{ day.start | date("d.m.Y") }} {% endif %}
+					Jobs
 				{% endblock %}
 				{% block panel_content %}
 
+
+				{% endblock %}
+			{% endembed %}
+
+			{% embed "helper/accordion.twig" %}
+				{% block panel_title %}
+					Events
+				{% endblock %}
+				{% block panel_content %}
+
+					<div class="col-sm-12">
+						<table class="table table-striped table-hover" style="width: 100%">
+							<thead>
+								<tr>
+									<th>Time</th>
+									<th>Eventname</th>
+									<th>Duration</th>
+									<th>Progress</th>
+									<th>Options</th>
+								</tr>
+							</thead>
+							<tbody>
+								{% for eventInstance in eventInstances %}
+									<tr>
+										<td>{{ eventInstance.getStart() | date('H:i') }}</td>
+										<td>{{ eventInstance.getEvent().getTitle() }}</td>
+										<td>{{ eventInstance.getDuration() | date('%Hh %Imin') }}</td>
+										<td></td>
+										<td>
+											<a href="#">Edit</a> |
+											<a href="#">Delete</a>
+										</td>
+									</tr>
+								{% endfor %}
+							</tbody>
+						</table>
+					</div>
+
+				{% endblock %}
+			{% endembed %}
+
+			{% embed "helper/accordion.twig" %}
+				{% block panel_title %}
+					Story
+				{% endblock %}
+				{% block panel_content %}
+					<textarea rows="" cols=""></textarea>
 
 				{% endblock %}
 			{% endembed %}

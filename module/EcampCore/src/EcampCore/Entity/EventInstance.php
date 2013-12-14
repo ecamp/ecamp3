@@ -136,7 +136,12 @@ class EventInstance
      */
     public function getDuration()
     {
-        return new \DateInterval( 'PT' . $this->getDurationInMinutes() . 'M');
+        $min = $this->getDurationInMinutes();
+
+        $hour = floor($min / 60);
+        $min = $min - 60 * $hour;
+
+        return new \DateInterval( 'PT' . $hour . 'H' . $min . 'M');
     }
 
     /**
@@ -153,7 +158,7 @@ class EventInstance
     public function getStartTime()
     {
         $start = clone $this->period->getStart();
-        $start->add(new \DateInterval( 'PT' . $this->minOffsetStart . 'M'));
+        $start->add($this->getDuration());
 
         return $start;
     }
