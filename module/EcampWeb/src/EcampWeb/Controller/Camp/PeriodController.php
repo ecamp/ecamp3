@@ -48,7 +48,7 @@ class PeriodController
         /* move these 3 lines to a more general location */
         $sm  = $this->getServiceLocator();
         $exceptionstrategy = $sm->get('ViewManager')->getExceptionStrategy();
-        //$exceptionstrategy->setExceptionTemplate('error/ajaxform');
+        $exceptionstrategy->setExceptionTemplate('error/ajaxform');
 
         parent::onDispatch($e);
     }
