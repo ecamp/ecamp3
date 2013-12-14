@@ -58,9 +58,6 @@ class GroupMembership
         } else {
             $this->requestAcceptedBy = null;
         }
-
-        $this->user->addToList('memberships', $this);
-        $this->group->addToList('memberships', $this);
     }
 
     public static function createRequest(User $user, Group $group, $role = null)
@@ -244,6 +241,17 @@ class GroupMembership
         $this->setRequestAcceptedBy($manager);
         $this->setRole($role ?: $this->role);
         $this->setStatus(self::STATUS_ESTABLISHED);
+    }
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function PrePersist()
+    {
+        parent::PrePersist();
+
+        $this->user->addToList('memberships', $this);
+        $this->group->addToList('memberships', $this);
     }
 
     /**

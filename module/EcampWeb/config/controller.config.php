@@ -10,6 +10,7 @@ return array(
         'EcampWeb\Controller\Group\Camps' 			=> 'EcampWeb\Controller\Group\CampsController',
 
         'EcampWeb\Controller\Camp\Index'  			=> 'EcampWeb\Controller\Camp\IndexController',
+        'EcampWeb\Controller\Camp\Period'  			=> 'EcampWeb\Controller\Camp\PeriodController',
         'EcampWeb\Controller\Camp\Collaborations'	=> 'EcampWeb\Controller\Camp\CollaborationsController'
     ),
 

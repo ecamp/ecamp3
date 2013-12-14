@@ -1,26 +1,23 @@
 <?php
 namespace EcampCore\Validation;
 
+use Zend\Validator\Callback;
+
 use Zend\Form\Fieldset;
 use Zend\InputFilter\InputFilterProviderInterface;
-use DoctrineModule\Stdlib\Hydrator\DoctrineObject as DoctrineHydrator;
 
 class PeriodFieldset extends Fieldset implements InputFilterProviderInterface
 {
-    public function __construct($entityManager = null)
+    public function __construct()
     {
         parent::__construct('period');
 
-        // The form will hydrate an object of type "period"
-        if( $entityManager )
-            $this->setHydrator(new DoctrineHydrator($entityManager));
-
         $this->add(array(
-                'name' => 'start',
-                'options' => array(
-                        'label' => 'Start date',
-                ),
-                'type'  => 'Date',
+            'name' => 'start',
+            'options' => array(
+                'label' => 'Start date',
+            ),
+            'type'  => 'Date',
         ));
 
         $this->add(array(
@@ -37,6 +34,17 @@ class PeriodFieldset extends Fieldset implements InputFilterProviderInterface
                         'label' => 'Description'
                 ),
                 'type'  => 'Text'
+        ));
+
+        $this->add(array(
+            'name' => 'moveEvents',
+            'options' => array(
+                'label' => 'Move events with period'
+            ),
+            'attributes' => array(
+                'checked' => 'checked'
+            ),
+            'type' => 'Checkbox'
         ));
 
     }
@@ -64,7 +72,23 @@ class PeriodFieldset extends Fieldset implements InputFilterProviderInterface
                         array(
                                 'name' => 'date',
                         ),
+
+                        array(
+                                'name'     => 'Callback',
+                                'options' => array(
+                                        'message' => array(
+                                                Callback::INVALID_VALUE => 'Minimum duration of period is 1 day.',
+                                        ),
+                                        'callback' => function($value, $context=array()) {
+                                            return $value >= $context['start'];
+                                        },
+                                ),
+                        )
                 ),
+            ),
+            array(
+                'name' => 'moveEvents',
+                'required' => false,
             )
         );
     }

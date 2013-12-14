@@ -90,6 +90,10 @@ class EventInstance
                 $offset->format('%i');
         }
 
+        if ($offset < 0) {
+            throw new \Exception("EventInstance offset can not be negative");
+        }
+
         $shift = $offset - $this->minOffsetStart;
 
         $this->minOffsetStart = $offset;

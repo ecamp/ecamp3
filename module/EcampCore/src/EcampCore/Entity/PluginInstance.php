@@ -37,8 +37,6 @@ class PluginInstance
 
         $this->event = $event;
         $this->pluginPrototype = $pluginPrototype;
-
-        $this->event->addToList('pluginInstances', $this);
     }
 
     /**
@@ -117,6 +115,16 @@ class PluginInstance
         }
 
         return $this->strategyInstance;
+    }
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function PrePersist()
+    {
+        parent::PrePersist();
+
+        $this->event->addToList('pluginInstances', $this);
     }
 
     /**

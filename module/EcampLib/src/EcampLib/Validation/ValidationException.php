@@ -1,6 +1,6 @@
 <?php
 
-namespace EcampCore\Validation;
+namespace EcampLib\Validation;
 
 class ValidationException extends \Exception
 {

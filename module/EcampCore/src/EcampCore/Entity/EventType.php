@@ -38,8 +38,6 @@ class EventType extends BaseEntity
     {
         $this->campType = $campType;
         $this->eventPrototypes = new \Doctrine\Common\Collections\ArrayCollection();
-
-        $this->campType->addToList('eventTypes', $this);
     }
 
     /**
@@ -134,6 +132,16 @@ class EventType extends BaseEntity
     public function getEventPrototypes()
     {
         return $this->eventPrototypes;
+    }
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function PrePersist()
+    {
+        parent::PrePersist();
+
+        $this->campType->addToList('eventTypes', $this);
     }
 
     /**

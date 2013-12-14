@@ -8,6 +8,7 @@ use Zend\Permissions\Acl\Resource\ResourceInterface;
 use Zend\Permissions\Acl\Assertion\AssertionInterface;
 use EcampCore\Entity\User;
 use EcampCore\Entity\Camp;
+use EcampCore\Acl\Privilege;
 
 class AssertCampConfigure
     implements AssertionInterface
@@ -28,7 +29,7 @@ class AssertCampConfigure
 
             // If Camp belongs to Group and User can administrate that group
             if (null != ($group = $camp->getGroup())) {
-                return $acl->isAllowed($user, $group, 'administrate');
+                return $acl->isAllowed($user, $group, Privilege::GROUP_ADMINISTRATE);
             }
         }
 

@@ -52,8 +52,6 @@ class Event
                 $this->pluginInstances->add($pluginInstance);
             }
         }
-
-        $this->camp->addToList('events', $this);
     }
 
     /**
@@ -180,6 +178,16 @@ class Event
         };
 
         return $this->pluginInstances->count($closure);
+    }
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function PrePersist()
+    {
+        parent::PrePersist();
+
+        $this->camp->addToList('events', $this);
     }
 
     /**

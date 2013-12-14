@@ -6,6 +6,8 @@ use Zend\Mvc\Controller\AbstractActionController;
 use Zend\EventManager\EventManagerInterface;
 use Zend\Mvc\MvcEvent;
 use Zend\View\Model\ViewModel;
+use Zend\Http\PhpEnvironment\Response;
+use EcampCore\Entity\User;
 
 abstract class BaseController
     extends AbstractActionController
@@ -55,4 +57,17 @@ abstract class BaseController
     {
         return $this->getUserService()->Get();
     }
+
+    /**
+     * @param  integer                        $statusCode
+     * @return \Zend\Stdlib\ResponseInterface
+     */
+    protected function emptyResponse($statusCode = Response::STATUS_CODE_200)
+    {
+        $response = $this->getResponse();
+        $response->setStatusCode($statusCode);
+
+        return $response;
+    }
+
 }

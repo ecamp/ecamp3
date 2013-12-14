@@ -13,6 +13,8 @@ use Zend\Authentication\AuthenticationService;
  */
 class AbstractServiceFactory implements AbstractFactoryInterface
 {
+    private $inFactory = 0;
+
     private $orm;
 
     private $pattern = "/^Ecamp(\w+)\\\\Service\\\\(\w+)$/";
@@ -34,6 +36,8 @@ class AbstractServiceFactory implements AbstractFactoryInterface
 
     public function createServiceWithName(ServiceLocatorInterface $serviceLocator, $name, $requestedName)
     {
+        $this->inFactory++;
+
         /* Create service with specific service factory which does the wiring */
         /* e.g. Ecamp*\Service\***ServiceFactory */
         $serviceFactoryName = $this->getServiceFactoryName($requestedName);
@@ -51,6 +55,12 @@ class AbstractServiceFactory implements AbstractFactoryInterface
             $service->setMe($serviceLocator->get('EcampCore\Repository\User')->find($authId));
         }
 
-        return $service;
+        $this->inFactory--;
+
+        if ($this->inFactory > 0) {
+            return $service;
+        } else {
+            return new ServiceWrapper($service);
+        }
     }
 }

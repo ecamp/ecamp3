@@ -1,18 +1,20 @@
 <?php
 
-namespace EcampWeb\Form;
+namespace EcampWeb\Form\Period;
 
-use Zend\Form\Form;
+use EcampWeb\Form\AjaxBaseForm;
 use EcampCore\Validation\PeriodFieldset;
 
-class PeriodForm extends BaseForm
+class PeriodCreateForm extends AjaxBaseForm
 {
     public function __construct()
     {
         parent::__construct('period-form');
 
-        // add camp Fieldset
-        $periodFieldset = new PeriodFieldset(null);
+        // add period fieldset
+        $periodFieldset = new PeriodFieldset();
+        $periodFieldset->remove('moveEvents');
+
         $periodFieldset->setUseAsBaseFieldset(true);
         $this->add($periodFieldset);
     }
