@@ -35,23 +35,25 @@ use EcampLib\Entity\BaseEntity;
 class Event
     extends BaseEntity
 {
-    public function __construct(Camp $camp, EventPrototype $eventPrototype)
+    public function __construct(Camp $camp, EventCategory $eventCategory)
     {
         $this->camp = $camp;
-        $this->eventPrototype = $eventPrototype;
+        $this->eventCategory = $eventCategory;
 
-        $this->pluginInstances = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->eventPlugins = new \Doctrine\Common\Collections\ArrayCollection();
         $this->eventInstances = new \Doctrine\Common\Collections\ArrayCollection();
         $this->eventResps = new \Doctrine\Common\Collections\ArrayCollection();
 
-        foreach ($eventPrototype->getPluginPrototypes() as $pluginPrototype) {
-
-            $numInst = $pluginPrototype->getDefaultInstances();
-            for ($i = 0; $i < $numInst; $i++) {
-                $pluginInstance = new PluginInstance($this, $pluginPrototype);
-                $this->pluginInstances->add($pluginInstance);
-            }
-        }
+//         $eventType = $eventCategory->getEventType();
+//         foreach ($eventType->getEventTypePlugins() as $eventTypePlugin) {
+//         }
+//         foreach ($eventPrototype->getPluginPrototypes() as $pluginPrototype) {
+//             $numInst = $pluginPrototype->getDefaultInstances();
+//             for ($i = 0; $i < $numInst; $i++) {
+//                 $pluginInstance = new PluginInstance($this, $pluginPrototype);
+//                 $this->pluginInstances->add($pluginInstance);
+//             }
+//         }
     }
 
     /**
@@ -65,33 +67,26 @@ class Event
     private $camp;
 
     /**
-     * @ORM\OneToMany(targetEntity="EventInstance", mappedBy="event", cascade={"all"}, orphanRemoval=true)
-     */
-    protected $eventInstances;
-
-    /**
-     * @ORM\OneToMany(targetEntity="PluginInstance", mappedBy="event", cascade={"all"}, orphanRemoval=true)
-     */
-    protected $pluginInstances;
-
-    /**
-     * @ORM\OneToMany(targetEntity="EventResp", mappedBy="event", cascade={"all"}, orphanRemoval=true)
-     */
-    protected $eventResps;
-
-    /**
-     * @var EventPrototype
-     * @ORM\ManyToOne(targetEntity="EventPrototype")
-     * @ORM\JoinColumn(nullable=false, onDelete="cascade")
-     */
-    private $eventPrototype;
-
-    /**
      * @var EventCategory
      * @ORM\ManyToOne(targetEntity="EventCategory")
      * @ORM\JoinColumn(nullable=false)
      */
     private $eventCategory;
+
+    /**
+     * @ORM\OneToMany(targetEntity="EventInstance", mappedBy="event", cascade={"all"}, orphanRemoval=true)
+     */
+    protected $eventInstances;
+
+    /**
+     * @ORM\OneToMany(targetEntity="EventPlugin", mappedBy="event", cascade={"all"}, orphanRemoval=true)
+     */
+    protected $eventPlugins;
+
+    /**
+     * @ORM\OneToMany(targetEntity="EventResp", mappedBy="event", cascade={"all"}, orphanRemoval=true)
+     */
+    protected $eventResps;
 
     public function setTitle($title)
     {
@@ -112,14 +107,6 @@ class Event
     }
 
     /**
-     * @return EventPrototype
-     */
-    public function getEventPrototype()
-    {
-        return $this->eventPrototype;
-    }
-
-    /**
      * @param EventCategory $eventCategory
      */
     public function setEventCategory(EventCategory $eventCategory)
@@ -136,7 +123,7 @@ class Event
     }
 
     /**
-     * @return array
+     * @return \Doctrine\Common\Collections\ArrayCollection
      */
     public function getEventInstances()
     {
@@ -144,13 +131,16 @@ class Event
     }
 
     /**
-     * @return array
+     * @return \Doctrine\Common\Collections\ArrayCollection
      */
-    public function getPluginInstances()
+    public function getEventPlugins()
     {
-        return $this->pluginInstances;
+        return $this->eventPlugins;
     }
 
+    /**
+     * @return \Doctrine\Common\Collections\ArrayCollection
+     */
     public function getEventResps()
     {
         return $this->eventResps;
@@ -159,25 +149,25 @@ class Event
     /**
      * @return array
      */
-    public function getPluginsByPrototype(PluginPrototype $pluginPrototype)
+    public function getEventPluginsByPlugin(Plugin $plugin)
     {
-        $closure = function(PluginInstance $instance) use ($pluginPrototype) {
-            return $instance->getPluginPrototype()->getId() == $pluginPrototype->getId();
+        $closure = function(EventPlugin $eventPlugin) use ($plugin) {
+            return $eventPlugin->getPlugin()->getId() == $plugin->getId();
         };
 
-        return $this->pluginInstances->filter($closure);
+        return $this->eventPlugins->filter($closure);
     }
 
     /**
      * @return integer
      */
-    public function countPluginsByPrototype(PluginPrototype $pluginPrototype)
+    public function countEventPluginsByPlugin(Plugin $plugin)
     {
-        $closure = function(PluginInstance $instance) use ($pluginPrototype) {
-            return $instance->getPluginPrototype()->getId() == $pluginPrototype->getId();
+        $closure = function(EventPlugin $eventPlugin) use ($plugin) {
+            return $eventPlugin->getPlugin()->getId() == $plugin->getId();
         };
 
-        return $this->pluginInstances->count($closure);
+        return $this->eventPlugins->count($closure);
     }
 
     /**

@@ -27,15 +27,18 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * TemplateMapItem
  * @ORM\Entity(readOnly=true)
- * @ORM\Table(name="plugin_positions", uniqueConstraints={@ORM\UniqueConstraint(name="plugin_template_unique",columns={"pluginPrototype_id", "eventTemplate_id"})})
+ * @ORM\Table(name="plugin_positions", uniqueConstraints={@ORM\UniqueConstraint(name="plugin_template_unique",columns={"eventTypePlugin_id", "eventTemplate_id"})})
  */
 class PluginPosition extends BaseEntity
 {
 
-    public function __construct($eventTemplate = null, $pluginPrototype = null, $container = null)
-    {
+    public function __construct(
+        EventTemplate $eventTemplate = null,
+        EventTypePlugin $eventTypePlugin = null,
+        $container = null
+    ) {
         $this->eventTemplate = $eventTemplate;
-        $this->pluginPrototype = $pluginPrototype;
+        $this->eventTypePlugin = $eventTypePlugin;
         $this->container = $container;
     }
 
@@ -47,11 +50,11 @@ class PluginPosition extends BaseEntity
     private $eventTemplate;
 
     /**
-     * @var PluginPrototype
-     * @ORM\ManyToOne(targetEntity="PluginPrototype")
+     * @var EventTypePlugin
+     * @ORM\ManyToOne(targetEntity="EventTypePlugin")
      * @ORM\JoinColumn(nullable=false, onDelete="cascade")
      */
-    private $pluginPrototype;
+    private $eventTypePlugin;
 
     /**
      * @var string
@@ -74,11 +77,11 @@ class PluginPosition extends BaseEntity
     }
 
     /**
-     * @return PluginPrototype
+     * @return EventTypePlugin
      */
-    public function getPluginPrototype()
+    public function getEventTypePlugin()
     {
-        return $this->pluginPrototype;
+        return $this->eventTypePlugin;
     }
 
     /**

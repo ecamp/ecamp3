@@ -88,8 +88,8 @@ return array(
             __DIR__ . '/../view',
         ),
     ),
-    
+
     'ecamp' => array(
-    	'cdn' => false
+        'cdn' => false
     )
 );

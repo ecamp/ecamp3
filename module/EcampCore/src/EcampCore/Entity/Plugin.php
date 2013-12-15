@@ -69,11 +69,6 @@ class Plugin extends BaseEntity
         return $this->active;
     }
 
-    public function setActive($active)
-    {
-        $this->active = $active;
-    }
-
     public function getStrategyClass()
     {
         return $this->strategyClass;

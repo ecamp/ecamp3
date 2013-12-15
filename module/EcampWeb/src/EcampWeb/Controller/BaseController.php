@@ -17,7 +17,7 @@ abstract class BaseController
         parent::setEventManager($events);
 
         $events->attach('dispatch', function($e) { $this->setMeInViewModel($e); } , -100);
-        
+
         $events->attach('dispatch', function($e) { $this->setConfigInViewModel($e); } , -100);
     }
 
@@ -43,7 +43,7 @@ abstract class BaseController
             $result->setVariable('acl', $acl);
         }
     }
-    
+
      /**
      * @param MvcEvent $e
      */

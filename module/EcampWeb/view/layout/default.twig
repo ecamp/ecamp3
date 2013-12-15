@@ -15,26 +15,26 @@
 			<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" />
 			<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.no-icons.min.css" rel="stylesheet">
 			<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css" rel="stylesheet">
-	
+
 			<link type="text/css" rel="stylesheet" href="//cdn.jsdelivr.net/select2/3.4.2/select2.css" />
-			
+
 			<link href='http://fonts.googleapis.com/css?family=Walter+Turncoat' rel='stylesheet' type='text/css' />
 			<link href='https://raw.github.com/jharding/typeahead.js-bootstrap.css/master/typeahead.js-bootstrap.css' rel='stylesheet' type='text/css' />
 		{% else %}
 			<link href="{{ request.getBasePath }}/css/localcdn/bootstrap.min.css" rel="stylesheet" />
 			<link href="{{ request.getBasePath }}/css/localcdn/bootstrap.no-icons.min.css" rel="stylesheet">
 			<link href="{{ request.getBasePath }}/css/localcdn/font-awesome.min.css" rel="stylesheet">
-	
+
 			<link type="text/css" rel="stylesheet" href="{{ request.getBasePath }}/css/localcdn/select2.css" />
-			
+
 			<link href='{{ request.getBasePath }}/css/localcdn/css-walter-turncoat.css' rel='stylesheet' type='text/css' />
 			<link href='{{ request.getBasePath }}/css/localcdn/typeahead.js-bootstrap.css' rel='stylesheet' type='text/css' />
 		{% endif %}
-		
+
 		<link type="text/css" rel="stylesheet" href="{{ request.getBasePath }}/css/ajaxLoader.css" />
 		<link type="text/css" rel="stylesheet" href="{{ request.getBasePath }}/css/default.css" />
 		<link type="text/css" rel="stylesheet" href="{{ request.getBasePath }}/css/searchbox.css" />
-		
+
         {% block style %}{% endblock style %}
 
 
@@ -55,8 +55,8 @@
 			<script src="{{ request.getBasePath }}/js/localcdn/bootstrap.min.js"></script>
 			<script src="{{ request.getBasePath }}/js/localcdn/latest/typeahead.min.js"></script>
 			<script type="text/javascript" src="{{ request.getBasePath }}/js/localcdn/select2.js"></script>
-		{% endif %}	
-		
+		{% endif %}
+
 		<!--[if lt IE 9]><script type="text/javascript" src="/js/html5.js"></script><![endif]-->
 
 		{{ headScript() }}
