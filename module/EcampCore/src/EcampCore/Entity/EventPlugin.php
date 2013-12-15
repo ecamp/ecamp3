@@ -24,39 +24,40 @@ use EcampLib\Entity\BaseEntity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="EcampCore\Repository\PluginInstanceRepository")
- * @ORM\Table(name="plugin_instances")
+ * @ORM\Entity(repositoryClass="EcampCore\Repository\EventPluginRepository")
+ * @ORM\Table(name="event_plugins")
  */
-class PluginInstance
+class EventPlugin
     extends BaseEntity
 {
 
-    public function __construct(Event $event, PluginPrototype $pluginPrototype)
+    public function __construct(Event $event = null, Plugin $plugin = null)
     {
         parent::__construct();
 
         $this->event = $event;
-        $this->pluginPrototype = $pluginPrototype;
+        $this->plugin = $plugin;
     }
 
     /**
+     * @var Event
      * @ORM\ManyToOne(targetEntity="Event")
      * @ORM\JoinColumn(nullable=false, onDelete="cascade")
      */
     public $event;
 
     /**
-     * @var PluginPrototype
-     * @ORM\ManyToOne(targetEntity="PluginPrototype")
-     * @ORM\JoinColumn(nullable=false, onDelete="cascade")
+     * @var Plugin
+     * @ORM\ManyToOne(targetEntity="Plugin")
+     * @ORM\JoinColumn(nullable=false)
      */
-    protected $pluginPrototype;
+    protected $plugin;
 
     /**
      * This var contains an instance of $this->pluginStrategy.
      * The instance is loaded with a PostLoad event listener and will not be persisted by Doctrine.
      *
-     * @var IPluginStrategy
+     * @var \EcampCore\Plugin\AbstractStrategy
      */
     protected $strategyInstance;
 
@@ -71,13 +72,13 @@ class PluginInstance
     }
 
     /**
-     * Returns the plugin prototype
+     * Returns the plugin
      *
-     * @return PluginPrototype
+     * @return Plugin
      */
-    public function getPluginPrototype()
+    public function getPlugin()
     {
-        return $this->pluginPrototype;
+        return $this->plugin;
     }
 
     /**
@@ -87,7 +88,7 @@ class PluginInstance
      */
     public function getPluginName()
     {
-        return $this->getPluginPrototype()->getPlugin()->getName();
+        return $this->getPlugin()->getName();
     }
 
     /**
@@ -99,13 +100,13 @@ class PluginInstance
      */
     public function getPluginStrategyClass()
     {
-        return $this->getPluginPrototype()->getPlugin()->getStrategyClass();
+        return $this->getPlugin()->getStrategyClass();
     }
 
     /**
      * Returns the instantiated strategy
      *
-     * @return EcampCore\Plugin\AbstractStrategy
+     * @return \EcampCore\Plugin\AbstractStrategy
      */
     public function getStrategyInstance()
     {
@@ -124,7 +125,7 @@ class PluginInstance
     {
         parent::PrePersist();
 
-        $this->event->addToList('pluginInstances', $this);
+        $this->event->addToList('eventPlugins', $this);
     }
 
     /**
@@ -132,6 +133,6 @@ class PluginInstance
      */
     public function preRemove()
     {
-        $this->event->removeFromList('pluginInstances', $this);
+        $this->event->removeFromList('eventPlugins', $this);
     }
 }
