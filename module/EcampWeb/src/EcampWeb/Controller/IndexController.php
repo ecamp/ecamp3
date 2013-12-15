@@ -36,12 +36,13 @@ class IndexController
     {
         $me = $this->getMe();
 
-        $camps = $this->getCampRepository()->findCampsByUser($me);
+        if ($me != null) {
+            $camps = $this->getCampRepository()->findCampsByUser($me);
+            $groupMemberships = $this->getGroupMembershipRepository()->findByUser($me);
 
-        $groupMemberships = $this->getGroupMembershipRepository()->findByUser($me);
-
-        $friendships = $this->getUserRelationshipRepository()->findFriends($me);
-        $friendshipRequests = $this->getUserRelationshipRepository()->findRequests($me);
+            $friendships = $this->getUserRelationshipRepository()->findFriends($me);
+            $friendshipRequests = $this->getUserRelationshipRepository()->findRequests($me);
+        }
 
         return array(
             'camps' => $camps,

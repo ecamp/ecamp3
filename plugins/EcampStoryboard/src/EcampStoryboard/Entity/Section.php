@@ -3,7 +3,7 @@
 namespace EcampStoryboard\Entity;
 
 use EcampLib\Entity\BaseEntity;
-use EcampCore\Entity\PluginInstance;
+use EcampCore\Entity\Plugin;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -15,9 +15,9 @@ class Section extends BaseEntity
 {
 
     /**
-     * @ORM\ManyToOne(targetEntity="EcampCore\Entity\PluginInstance")
+     * @ORM\ManyToOne(targetEntity="EcampCore\Entity\Plugin")
      */
-    private $pluginInstance;
+    private $plugin;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
@@ -39,10 +39,10 @@ class Section extends BaseEntity
      */
     private $info;
 
-    public function __construct(PluginInstance $pluginInstance)
+    public function __construct(Plugin $plugin)
     {
         parent::__construct();
-        $this->pluginInstance = $pluginInstance;
+        $this->plugin = $plugin;
     }
 
     /**

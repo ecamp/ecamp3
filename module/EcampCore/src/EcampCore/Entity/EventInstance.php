@@ -158,7 +158,7 @@ class EventInstance
     public function getStartTime()
     {
         $start = clone $this->period->getStart();
-        $start->add($this->getDuration());
+        $start->add($this->getOffset());
 
         return $start;
     }
