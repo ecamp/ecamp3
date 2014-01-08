@@ -10,6 +10,8 @@ return array(
         'ZFTool',
         'ZendDeveloperTools',
 
+        'AssetManager',
+
         'DoctrineTools',
         'DoctrineModule',
         'DoctrineORMModule',

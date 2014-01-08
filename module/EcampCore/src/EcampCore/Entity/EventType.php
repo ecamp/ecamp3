@@ -73,6 +73,11 @@ class EventType extends BaseEntity
      */
     protected $eventTypePlugins;
 
+    /**
+     * @ORM\OneToMany(targetEntity="EventTypeFactory", mappedBy="eventType")
+     */
+    protected $eventTypeFactories;
+
     public function setName($name)
     {
         $this->name = $name;
@@ -138,6 +143,14 @@ class EventType extends BaseEntity
     public function getEventTypePlugins()
     {
         return $this->eventTypePlugins;
+    }
+
+    /**
+     * @return \Doctrine\Common\Collections\ArrayCollection
+     */
+    public function getEventTypeFactories()
+    {
+        return $this->eventTypeFactories;
     }
 
     /**

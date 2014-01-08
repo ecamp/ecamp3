@@ -86,4 +86,18 @@ abstract class BaseController
         return $response;
     }
 
+    protected function ajaxSuccssResponse($goToUrl = null)
+    {
+        $response = $this->getResponse();
+
+        if ($goToUrl == null) {
+            return $this->emptyResponse();
+        } else {
+            $response->getHeaders()->addHeaderLine('Location', $goToUrl);
+            $response->setStatusCode(Response::STATUS_CODE_200);
+        }
+
+        return $response;
+    }
+
 }

@@ -38,7 +38,7 @@
 										{ 'camp': camp, 'controller': 'index', 'action': 'requestCollaboration'}
 										) }}"
 								>
-									<i class="icon-plus"></i> Request collaboration
+									<i class="fa fa-plus"></i> Request collaboration
 								</a>
 								<button type="button" class="btn btn-sm btn-success dropdown-toggle" data-toggle="dropdown">
 									<span class="caret"></span>
@@ -71,7 +71,7 @@
 										{ 'camp': camp, 'controller': 'index', 'action': 'revokeRequest'}
 										) }}"
 								>
-									<i class="icon-remove"></i> Revoke Request
+									<i class="fa fa-remove"></i> Revoke Request
 								</a>
 								{% endif %}
 
@@ -82,14 +82,14 @@
 											{ 'camp': camp, 'controller': 'index', 'action': 'acceptInvitation'}
 											) }}"
 									>
-										<i class="icon-ok"></i> Accept Invitation
+										<i class="fa fa-ok"></i> Accept Invitation
 									</a>
 									<a class="btn btn-sm btn-danger"
 										href="{{ url('web/camp/default',
 											{ 'camp': camp, 'controller': 'index', 'action': 'rejectInvitation'}
 											) }}"
 									>
-										<i class="icon-remove"></i> Reject Invitation
+										<i class="fa fa-remove"></i> Reject Invitation
 									</a>
 								</p>
 								{% endif %}
@@ -100,7 +100,7 @@
 									href="#leaveCampModal"
 
 								>
-									<i class="icon-remove"></i> Leave camp
+									<i class="fa fa-remove"></i> Leave camp
 								</a>
 
 								{% endif %}
@@ -189,7 +189,10 @@
 											class="btn btn-xs btn-primary"
 											data-toggle="modal"
 											data-target="#asyncform-container"
-											href="{{ url('web/camp/default', {'camp': camp, 'controller':'period', 'action' : 'editPeriod' }, { 'query': { 'periodId': period.id } } ) }}"
+											href="{{ url('web/camp/default',
+												{'camp': camp, 'controller':'period', 'action' : 'editPeriod' },
+												{ 'query': { 'periodId': period.id } }
+												) }}"
 										>
 											Edit
 										</a>

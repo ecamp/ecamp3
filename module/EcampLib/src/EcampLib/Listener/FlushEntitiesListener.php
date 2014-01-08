@@ -36,12 +36,17 @@ class FlushEntitiesListener extends AbstractListenerAggregate
      */
     public function onFinish(MvcEvent $e)
     {
-        try {
-            $e->getApplication()->getServiceManager()->get('Doctrine\ORM\EntityManager' )->flush();
-        } catch (DBALException $ex) {
-            $e->setError(self::ERROR_FLUSH)->setParam('exception', $ex);
-            $e->getApplication()->getEventManager()->trigger(MvcEvent::EVENT_DISPATCH_ERROR, $e);
-            throw $ex;
+        if(
+            $e->getResponse() instanceof \Zend\Http\PhpEnvironment\Response &&
+            $e->getResponse()->getStatusCode() < 400
+        ){
+            try {
+                $e->getApplication()->getServiceManager()->get('Doctrine\ORM\EntityManager' )->flush();
+            } catch (DBALException $ex) {
+                $e->setError(self::ERROR_FLUSH)->setParam('exception', $ex);
+                $e->getApplication()->getEventManager()->trigger(MvcEvent::EVENT_DISPATCH_ERROR, $e);
+                //throw $ex;
+            }
         }
     }
 }

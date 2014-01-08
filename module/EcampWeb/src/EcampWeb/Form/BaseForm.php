@@ -29,15 +29,9 @@ abstract class BaseForm extends Form
         $this->setAttribute('action', $url);
     }
 
-    public function setRedirectAfterSuccess($url)
-    {
-        $this->setAttribute('data-redirect-after-success', $url);
-    }
-
     public function extractFromException(ValidationException $ex)
     {
         $error = $ex->getMessageArray();
-        var_dump($error);
         if ($error['data'] && is_array($error['data'])) {
             $this->setMessages($error['data']);
         } else {

@@ -59,8 +59,8 @@ class PeriodService
             ->addFieldset(new PeriodFieldset());
         $validationForm->setAndValidate($data);
 
-        $start = new \DateTime($data['period-size']['start'], new \DateTimeZone("GMT"));
-        $end   = new \DateTime($data['period-size']['end'], new \DateTimeZone("GMT"));
+        $start = new \DateTime($data['period']['start'], new \DateTimeZone("GMT"));
+        $end   = new \DateTime($data['period']['end'], new \DateTimeZone("GMT"));
         $numOfDays = ($end->getTimestamp() - $start->getTimestamp())/(24 * 60 * 60) + 1;
 
         for ($offset = 0; $offset < $numOfDays; $offset++) {

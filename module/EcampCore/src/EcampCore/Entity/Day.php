@@ -50,9 +50,11 @@ class Day
     private $period;
 
     /**
-     * @ORM\Column(type="text", nullable=true)
+     * @var Story
+     * @ORM\OneToOne(targetEntity="Story", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(name="story_id", referencedColumnName="id")
      */
-    private $notes;
+    private $story;
 
 
     public function __construct(Period $period, $dayOffset)
@@ -61,6 +63,7 @@ class Day
 
         $this->period = $period;
         $this->dayOffset = $dayOffset;
+        $this->story = new Story();
     }
 
 
@@ -75,20 +78,11 @@ class Day
 
 
     /**
-     * @param stirng $notes
-     */
-    public function setNotes($notes)
-    {
-        $this->notes = $notes;
-    }
-
-
-    /**
      * @return string
      */
-    public function getNotes()
+    public function getStory()
     {
-        return $this->notes;
+        return $this->story;
     }
 
 
@@ -97,7 +91,8 @@ class Day
      */
     public function getStart()
     {
-        $start = $this->period->getStart()->add(new \DateInterval( 'P' . $this->dayOffset . 'D'));
+        $start = clone $this->period->getStart();
+        $start->add(new \DateInterval( 'P' . $this->dayOffset . 'D'));
 
         return $start;
     }
@@ -108,7 +103,9 @@ class Day
      */
     public function getEnd()
     {
-        $end = $this->getStart()->add(new \DateInterval( 'P' . ($this->dayOffset + 1) . 'D'));
+        $end = clone $this->period->getStart();
+        $end->add(new \DateInterval( 'P' . ($this->dayOffset + 1) . 'D'))
+            ->sub(new \DateInterval('PT1S'));
 
         return $end;
     }

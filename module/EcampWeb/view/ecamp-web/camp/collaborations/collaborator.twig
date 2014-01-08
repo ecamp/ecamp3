@@ -36,7 +36,7 @@
 			<tbody>
 				<tr ng-repeat="item in items">
 {% verbatim %}
-					<td><i class="icon-user"></i> {{ item._embedded.user.username }}</td>
+					<td><i class="fa fa-user"></i> {{ item._embedded.user.username }}</td>
 					<td>{{ item._embedded.user.fullname }}</td>
 					<td>{{ item.role }}</td>
 {% endverbatim %}
@@ -45,11 +45,11 @@
 						{% if acl.isAllowed(me, camp, 'configure') %}
 							<a 	data-toggle="modal"
 								data-backdrop="true"
-								data-target="#remoteModalDialog"
+								data-target="#asyncform-container"
 								href="{{ editCollaborationBaseUrl }}{% verbatim %}{{ item._embedded.user.id }}{% endverbatim %}"
 								class="btn btn-xs"
 							>
-								<i class="icon-edit"></i>
+								<i class="fa fa-edit"></i>
 							</a>
 						{% endif %}
 

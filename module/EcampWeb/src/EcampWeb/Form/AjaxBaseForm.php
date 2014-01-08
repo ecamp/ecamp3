@@ -3,16 +3,13 @@
 namespace EcampWeb\Form;
 
 use Zend\Form\Fieldset;
-class AjaxBaseForm extends BaseForm
+
+abstract class AjaxBaseForm extends BaseForm
 {
 
     public function __construct($name = null, $options = array())
     {
-        parent::__construct($name, $options = array());
-
-        $this->setAttribute('data-async', null);
-        $this->setAttribute('data-target', '#asyncform-container');
-
+        parent::__construct($name, $options);
         $this->setHydrator(new ClassMethodsHydrator());
     }
 
@@ -25,5 +22,10 @@ class AjaxBaseForm extends BaseForm
                 $elementOrFieldset->setHydrator($this->getHydrator());
             }
         }
+    }
+
+    public function setRedirectAfterSuccess($url)
+    {
+        $this->setAttribute('data-redirect-after-success', $url);
     }
 }

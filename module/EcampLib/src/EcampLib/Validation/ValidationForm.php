@@ -44,7 +44,7 @@ class ValidationForm extends Form
     public function setAndValidate($data)
     {
         if (!$this->setData($data)->isValid()) {
-               throw new ValidationException(
+            throw new ValidationException(
                 "Form validation error", array('data' => $this->getMessages()));
         }
     }

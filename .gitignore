@@ -5,6 +5,20 @@ config/autoload/*local.php
 data/*
 data/**/*
 
+components/*
+components/**/*
+
 vendor
 vendor/*
 vendor/**/*
+
+public/jquery/*
+public/jquery-ui/*
+public/jquery-autosize/*
+public/bootstrap/*
+public/bootstrap-select/*
+public/bootstrap-datetimepicker/*
+public/angularjs/*
+public/angular-resource/*
+public/font-awesome/*
+

@@ -16,13 +16,23 @@ use EcampCore\Entity\PluginInstance;
 use EcampCore\Entity\EventPrototype;
 use EcampCore\Entity\PluginPrototype;
 use EcampLib\Service\ServiceBase;
+use EcampCore\Repository\EventCategoryRepository;
+use EcampLib\Validation\ValidationException;
+use EcampCore\Validation\EventFieldset;
 
-/**
- * @method CoreApi\Service\EventService Simulate
- */
 class EventService
     extends ServiceBase
 {
+    /**
+     * @var \EcampCore\Repository\EventCategoryRepository
+     */
+    private $eventCategoryRepo;
+
+    public function __construct(
+        EventCategoryRepository $eventCategoryRepo
+    ){
+        $this->eventCategoryRepo = $eventCategoryRepo;
+    }
 
     /**
      * @return CoreApi\Entity\Event | NULL
@@ -95,25 +105,40 @@ class EventService
     /**
      * @return EcampCore\Entity\Event
      */
-    public function Create(Camp $camp)
+    public function Create(Camp $camp, $data)
     {
-        /* define event prototype; will come as a parameter of course */
-        $prototype = $this->repo()->eventPrototypeRepository()->find(1);
+        $eventCategoryId = $data['event']['eventCategory'];
+        $eventCreateFactoryId = null;
 
-        $event = new Event();
-
-        $event->setCamp($camp);
-        $event->setTitle(md5(time()));
-        $event->setPrototype($prototype);
-
-        $pluginPrototypes = $prototype->getPluginPrototypes();
-        foreach ($pluginPrototypes as $plugin) {
-            for ($i=0; $i<$plugin->getDefaultInstances(); $i++) {
-                $this->CreatePluginInstance($event, $plugin);
-            }
+        $splitPos = strpos($eventCategoryId, '-');
+        if ($splitPos !== false) {
+            $eventCreateFactoryId = trim(substr($eventCategoryId, $splitPos + 1));
+            $eventCategoryId = trim(substr($eventCategoryId, 0, $splitPos));
         }
 
+        $eventCategory = $this->eventCategoryRepo->find($eventCategoryId);
+
+        if ($eventCategory == null) {
+            throw new ValidationException("Unknown EventCategory",
+                array('data' => array('event' => array('eventCategory' => array('EventCategory missing' => 'Select a event category')))));
+        }
+
+        $event = new Event($camp, $eventCategory);
+
+        $validationForm = $this->createValidationForm($event)
+            ->addFieldset(new EventFieldset($camp), false);
+        $validationForm->setAndValidate($data);
+
+        if ($eventCreateFactoryId != null) {
+            // apply Facotry;
+            var_dump($eventCreateFactoryId);
+        }
+
+        // Create minimum of required plugins...
+
         $this->persist($event);
+
+        return $event;
     }
 
     private function CreatePluginInstance(Event $event, PluginPrototype $prototype)

@@ -37,6 +37,8 @@ class Event
 {
     public function __construct(Camp $camp, EventCategory $eventCategory)
     {
+        parent::__construct();
+
         $this->camp = $camp;
         $this->eventCategory = $eventCategory;
 
