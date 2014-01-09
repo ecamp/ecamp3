@@ -24,6 +24,14 @@ class DayController extends BaseController
     }
 
     /**
+     * @return \EcampCore\Service\DayService
+     */
+    private function getDayService()
+    {
+        return $this->getServiceLocator()->get('EcampCore\Service\Day');
+    }
+
+    /**
      * @return \EcampCore\Service\EventService
      */
     private function getEventService()
@@ -59,6 +67,22 @@ class DayController extends BaseController
             'nextDay' => $nextDay,
             'prevDay' => $prevDay,
             'eventInstances' => $eventInstances
+        );
+    }
+
+    public function saveStoryAction()
+    {
+        /* @var $day \EcampCore\Entity\Day */
+        $dayId = $this->params()->fromQuery('dayId');
+        $day = $this->getDayRepository()->find($dayId);
+        $notes = $this->params()->fromPost('story_notes');
+
+        $this->getDayService()->UpdateStory($day, $notes);
+
+        $this->redirect()->toRoute(
+            'web/camp/default',
+            array('camp' => $this->getCamp(), 'controller' => 'Day'),
+            array('query' => array('dayId' => $dayId))
         );
     }
 

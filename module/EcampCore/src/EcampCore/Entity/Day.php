@@ -78,11 +78,21 @@ class Day
 
 
     /**
-     * @return string
+     * @return Story
      */
     public function getStory()
     {
         return $this->story;
+    }
+
+    /**
+     * @param Story $story
+     */
+    public function setStory(Story $story)
+    {
+        $this->story = $story;
+
+        return $this;
     }
 
 

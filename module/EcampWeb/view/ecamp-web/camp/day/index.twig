@@ -277,9 +277,15 @@
 				{% block panel_content %}
 					<div class="row" style="margin-bottom: 10px">
 						<div class="col-xs-12">
-							<form>
+							<form method="post"
+								action ="{{ url(
+									'web/camp/default',
+									{'camp': camp, 'controller':'day', 'action' : 'saveStory' },
+									{ 'query': { 'dayId': day.getId() } }
+							) }}">
 								<textarea
 									class="form-control autosize"
+									name="story_notes"
 									style="resize: none; margin-bottom: 15px; max-height: 200px"
 								>{{ day.story.notes }}</textarea>
 
@@ -362,9 +368,9 @@
 												</a>
 												<ul class="dropdown-menu pull-right" role="menu">
 													<li><a href="#"><i class="fa fa-pencil" style="margin-left: 2px; margin-right: 9px"></i> Edit</a></li>
-													<li><a href="#"><i class="fa fa-time"   style="margin-left: 2px; margin-right: 9px"></i> Move</a></li>
-													<li><a href="#"><i class="fa fa-copy"   style="margin-left: 1px; margin-right: 7px"></i> Copy / Split</a></li>
-													<li><a href="#"><i class="fa fa-trash"  style="margin-left: 3px; margin-right: 9px"></i> Delete</a></li>
+													<li><a href="#"><i class="fa fa-clock-o" style="margin-left: 2px; margin-right: 9px"></i> Move</a></li>
+													<li><a href="#"><i class="fa fa-copy" style="margin-left: 1px; margin-right: 7px"></i> Copy / Split</a></li>
+													<li><a href="#"><i class="fa fa-trash-o"  style="margin-left: 3px; margin-right: 9px"></i> Delete</a></li>
 												</ul>
 											</div>
 										</td>
