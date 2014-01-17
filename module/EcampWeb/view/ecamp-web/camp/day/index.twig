@@ -393,6 +393,13 @@
 				{% endblock %}
 				{% block panel_content %}
 
+					{% for job in camp.jobs %}
+						<label>{{ job.name }}:</label>
+
+						{% include 'ecamp-web/camp/job/job-resp-select.twig' %}
+					{% endfor %}
+
+
 
 				{% endblock %}
 			{% endembed %}

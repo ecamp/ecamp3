@@ -127,6 +127,12 @@ class Camp extends BaseEntity
      */
     protected $events;
 
+    /**
+     * @var \Doctrine\Common\Collections\ArrayCollection
+     * @ORM\OneToMany(targetEntity="Job", mappedBy="camp")
+     */
+    protected $jobs;
+
     public function setName($name)
     {
         $this->name = $name;
@@ -252,7 +258,7 @@ class Camp extends BaseEntity
     }
 
     /**
-     * @return array
+     * @return \Doctrine\Common\Collections\ArrayCollection
      */
     public function getPeriods()
     {
@@ -260,7 +266,7 @@ class Camp extends BaseEntity
     }
 
     /**
-     * @return array
+     * @return \Doctrine\Common\Collections\ArrayCollection
      */
     public function getEventCategories()
     {
@@ -268,11 +274,19 @@ class Camp extends BaseEntity
     }
 
     /**
-     * @return array
+     * @return \Doctrine\Common\Collections\ArrayCollection
      */
     public function getEvents()
     {
         return $this->events;
+    }
+
+    /**
+     * @return \Doctrine\Common\Collections\ArrayCollection
+     */
+    public function getJobs()
+    {
+        return $this->jobs;
     }
 
     public function getRange()

@@ -56,6 +56,12 @@ class Day
      */
     private $story;
 
+    /**
+     * @var \Doctrine\Common\Collections\ArrayCollection
+     * @ORM\OneToMany(targetEntity="JobResp", mappedBy="day")
+     */
+    protected $jobResps;
+
 
     public function __construct(Period $period, $dayOffset)
     {
@@ -64,6 +70,8 @@ class Day
         $this->period = $period;
         $this->dayOffset = $dayOffset;
         $this->story = new Story();
+
+        $this->jobResps = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
 
@@ -134,6 +142,14 @@ class Day
     public function getCamp()
     {
         return $this->period->getCamp();
+    }
+
+    /**
+     * @return \Doctrine\Common\Collections\ArrayCollection
+     */
+    public function getJobResps()
+    {
+        return $this->jobResps;
     }
 
     /**
