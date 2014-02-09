@@ -156,17 +156,17 @@ class EventType extends BaseEntity
     /**
      * @ORM\PrePersist
      */
-//     public function PrePersist()
-//     {
-//         parent::PrePersist();
-//         $this->campType->addToList('eventTypes', $this);
-//     }
+     public function PrePersist()
+     {
+         parent::PrePersist();
+         $this->campType->addToList('eventTypes', $this);
+     }
 
     /**
      * @ORM\PreRemove
      */
-//     public function preRemove()
-//     {
-//         $this->campType->removeFromList('eventTypes', $this);
-//     }
+     public function preRemove()
+     {
+         $this->campType->removeFromList('eventTypes', $this);
+     }
 }
