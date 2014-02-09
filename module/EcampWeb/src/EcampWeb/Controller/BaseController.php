@@ -17,7 +17,7 @@ abstract class BaseController
         parent::setEventManager($events);
 
         $events->attach('dispatch', function($e) { $this->setMeInViewModel($e); } , -100);
-        
+
         $events->attach('dispatch', function($e) { $this->setConfigInViewModel($e); } , -100);
     }
 
@@ -43,7 +43,7 @@ abstract class BaseController
             $result->setVariable('acl', $acl);
         }
     }
-    
+
      /**
      * @param MvcEvent $e
      */
@@ -82,6 +82,20 @@ abstract class BaseController
     {
         $response = $this->getResponse();
         $response->setStatusCode($statusCode);
+
+        return $response;
+    }
+
+    protected function ajaxSuccssResponse($goToUrl = null)
+    {
+        $response = $this->getResponse();
+
+        if ($goToUrl == null) {
+            return $this->emptyResponse();
+        } else {
+            $response->getHeaders()->addHeaderLine('Location', $goToUrl);
+            $response->setStatusCode(Response::STATUS_CODE_200);
+        }
 
         return $response;
     }

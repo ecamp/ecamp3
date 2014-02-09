@@ -40,6 +40,7 @@ class Period
         parent::__construct();
 
         $this->camp = $camp;
+        $this->story = new Story();
         $this->days = new \Doctrine\Common\Collections\ArrayCollection();
         $this->eventInstances = new \Doctrine\Common\Collections\ArrayCollection();
     }
@@ -60,6 +61,13 @@ class Period
      * @ORM\Column(type="text", nullable=true )
      */
     private $description;
+
+    /**
+     * @var Story
+     * @ORM\OneToOne(targetEntity="Story", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(name="story_id", referencedColumnName="id")
+     */
+    private $story;
 
     /**
      * @ORM\OneToMany(targetEntity="Day", mappedBy="period", orphanRemoval=true)
@@ -88,6 +96,14 @@ class Period
     public function getDescription()
     {
         return $this->description;
+    }
+
+    /**
+     * @return \EcampCore\Entity\Story
+     */
+    public function getStory()
+    {
+        return $this->story;
     }
 
     /**
@@ -136,6 +152,22 @@ class Period
                      ->sub(new \DateInterval('PT1S'));
         else
             return null;
+    }
+
+    public function getRange()
+    {
+        $start = $this->getStart();
+        $end = $this->getEnd();
+
+        if ($start->format("Y") == $end->format("Y")) {
+            if ($start->format("m") == $end->format("m")) {
+                return $start->format("d.") . ' - ' . $end->format('d.m.Y');
+            } else {
+                return $start->format("d.m.") . ' - ' . $end->format('d.m.Y');
+            }
+        } else {
+            return $start->format("d.m.Y") . ' - ' . $end->format('d.m.Y');
+        }
     }
 
     /**

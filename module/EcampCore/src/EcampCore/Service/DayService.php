@@ -8,6 +8,7 @@ use EcampCore\Entity\Period;
 use EcampCore\Entity\Day;
 use EcampLib\Service\ServiceBase;
 use EcampCore\Acl\Privilege;
+use EcampCore\Entity\Story;
 
 /**
  * @method EcampCore\Service\DayService Simulate
@@ -65,6 +66,19 @@ class DayService
         if ($param->hasElement('notes')) {
             $day->setNotes($param->getValue('notes'));
         }
+    }
+
+    public function UpdateStory(Day $day, $notes)
+    {
+        $this->aclRequire($day->getCamp(), Privilege::CAMP_CONTRIBUTE);
+
+        $story = $day->getStory();
+        if ($story == null) {
+            $story = new Story();
+            $day->setStory($story);
+        }
+
+        $story->setNotes($notes);
     }
 
 }

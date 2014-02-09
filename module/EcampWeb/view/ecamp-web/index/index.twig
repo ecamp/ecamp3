@@ -20,11 +20,11 @@
 									</div>
 		  							<ul class="dropdown-menu pull-right" role="menu">
 										<li><a href="#">
-											<span class="icon-plus"></span>
+											<span class="fa fa-plus"></span>
 											&nbsp;Neues Lager
 										</a></li>
 										<li><a href="#">
-											<span class="icon-plus"></span>
+											<span class="fa fa-plus"></span>
 											&nbsp;Neuen Kurs
 										</a></li>
 									</ul>
@@ -44,8 +44,8 @@
 				<tbody>
 					{% for camp in camps %}
 						<tr>
-							<td><span class="icon-bell"></span></td>
-							<td><a href="#">{{ camp.getTitle }}</a></td>
+							<td><span class="fa fa-bell"></span></td>
+							<td><a href="{{ url('web/camp/default', { camp: camp }) }}">{{ camp.getTitle }}</a></td>
 							<td>
 								<a href="#">{{ camp.getOwner.getDisplayName }}</a>
 								<a href="#">{{ camp.getGroup.getName }}</a>
@@ -84,7 +84,7 @@
 				<tbody>
 					{% for groupMembership in groupMemberships %}
 						<tr>
-							<td><span class="icon-flag"></span></td>
+							<td><span class="fa fa-flag"></span></td>
 							<td>
 								<a href="{{ url('web/group-prefix/name', { 'group': groupMembership.getGroup }) }}">
 									{{ groupMembership.getGroup.getDescription }}
@@ -116,7 +116,7 @@
 				<tbody>
 					{% for friendship in friendships %}
 						<tr>
-							<td><span class="icon-user"></span></td>
+							<td><span class="fa fa-user"></span></td>
 							<td>{{ friendship.getTo.getDisplayName }}</td>
 							<td>
 								<b class="label label-success" style="font-size: 12px;">?? Online ??</b>&nbsp;
@@ -147,13 +147,13 @@
 				<tbody>
 					{% for friendshipRequest in friendshipRequests %}
 						<tr>
-							<td><i class="icon-user"></i></td>
+							<td><i class="fa fa-user"></i></td>
 							<td>{{ friendshipRequest.getTo.getDisplayName }}</td>
 							<td><b class="label label-danger" style="font-size: 12px;">?? Offline ??</b>&nbsp;</td>
 							<td>
 								<div class="pull-right">
-									<a href="#"><i class="icon-ok icon-green" data-toggle="tooltip" data-placement="bottom" data-original-title="Annehmen"></i></a>
-									<a href="#"><i class="icon-remove icon-red" data-toggle="tooltip" data-placement="bottom" data-original-title="Ablehnen"></i></a>
+									<a href="#"><i class="fa fa-ok fa fa-green" data-toggle="tooltip" data-placement="bottom" data-original-title="Annehmen"></i></a>
+									<a href="#"><i class="fa fa-remove fa fa-red" data-toggle="tooltip" data-placement="bottom" data-original-title="Ablehnen"></i></a>
 								</div>
 							</td>
 						</tr>

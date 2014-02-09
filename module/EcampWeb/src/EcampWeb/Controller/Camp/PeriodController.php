@@ -82,9 +82,11 @@ class PeriodController
 
                 } catch (\Exception $e) {
                     throw $e;
+                    /*
                     $this->flashMessenger()->addErrorMessage('Error while creating Period.');
 
                     return $this->emptyResponse();
+                    */
                 }
             } else {
                 $this->getResponse()->setStatusCode(Response::STATUS_CODE_500);
@@ -109,7 +111,7 @@ class PeriodController
             $this->flashMessenger()->addSuccessMessage('Period successfully deleted');
 
         } catch (\Exception $e) {
-            $this->flashMessenger()->addErrorMessage('Period can not be deleted');
+            $this->flashMessenger()->addErrorMessage('Period can not be deleted - ' . $e->getMessage());
         }
 
         return $this->redirect()->toRoute(
@@ -139,12 +141,15 @@ class PeriodController
             $data = $this->getRequest()->getPost();
 
             if ($form->setData($data)->isValid()) {
+
                 try {
                     $this->getPeriodService()->Update($period, $data);
 
                     $this->flashMessenger()->addSuccessMessage('Period successfully updated.');
 
-                    return $this->emptyResponse();
+                    return $this->ajaxSuccssResponse(
+                        $this->url()->fromRoute('web/camp/default', array('camp' => $this->getCamp()))
+                    );
 
                 } catch (ValidationException $e) {
                     $form->extractFromException($e);

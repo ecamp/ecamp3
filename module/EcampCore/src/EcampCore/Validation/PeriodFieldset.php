@@ -21,19 +21,19 @@ class PeriodFieldset extends Fieldset implements InputFilterProviderInterface
         ));
 
         $this->add(array(
-                'name' => 'end',
-                'options' => array(
-                        'label' => 'End date',
-                ),
-                'type'  => 'Date',
+            'name' => 'end',
+            'options' => array(
+                'label' => "End date",
+            ),
+            'type'  => 'Date',
         ));
 
         $this->add(array(
-                'name' => 'description',
-                'options' => array(
-                        'label' => 'Description'
-                ),
-                'type'  => 'Text'
+            'name' => 'description',
+            'options' => array(
+                'label' => 'Description'
+            ),
+            'type'  => 'Text'
         ));
 
         $this->add(array(
@@ -42,7 +42,7 @@ class PeriodFieldset extends Fieldset implements InputFilterProviderInterface
                 'label' => 'Move events with period'
             ),
             'attributes' => array(
-                'checked' => 'checked'
+                'checked' => 'checked',
             ),
             'type' => 'Checkbox'
         ));
@@ -69,21 +69,21 @@ class PeriodFieldset extends Fieldset implements InputFilterProviderInterface
                 'name' => 'end',
                 'required' => true,
                 'validators' => array(
-                        array(
-                                'name' => 'date',
-                        ),
+                    array(
+                        'name' => 'date',
+                    ),
 
-                        array(
-                                'name'     => 'Callback',
-                                'options' => array(
-                                        'message' => array(
-                                                Callback::INVALID_VALUE => 'Minimum duration of period is 1 day.',
-                                        ),
-                                        'callback' => function($value, $context=array()) {
-                                            return $value >= $context['start'];
-                                        },
-                                ),
-                        )
+                    array(
+                        'name'     => 'Callback',
+                        'options' => array(
+                            'message' => array(
+                                Callback::INVALID_VALUE => 'Minimum duration of period is 1 day.',
+                            ),
+                            'callback' => function($value, $context=array()) {
+                                return $value >= $context['start'];
+                            },
+                        ),
+                    ),
                 ),
             ),
             array(
