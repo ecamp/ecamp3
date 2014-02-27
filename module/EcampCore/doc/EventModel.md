@@ -9,12 +9,12 @@
 [Event]- 1>[EventCategory],
 [EventType]++-*>[EventTypePlugin],
 [EventType]++-*>[EventTypeFactory],
-[CampType]++-*>[EventType]
+[CampType]++-*>[EventType],
 [EventCategory]- 1>[EventType],
 [EventTemplate]< 1- *<>[PluginPosition],
-[EventTypePlugin]<1-*<>[PluginPosition]
+[EventTypePlugin]<1-*<>[PluginPosition],
 [EventPlugin]- 1>[Plugin],
 [EventTypePlugin]- 1>[Plugin],
-[EventType]++1-*>[EventTemplate]
+[EventType]++1-*>[EventTemplate],
 [EventTemplate]- 1>[Medium],
 )
