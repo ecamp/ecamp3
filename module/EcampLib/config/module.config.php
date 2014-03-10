@@ -6,6 +6,12 @@ return array(
         ),
     ),
 
+    'zfctwig' => array(
+        'extensions' => array(
+            'ecampLibExtensions' => 'EcampLib\Twig\EcampLibExtensions'
+        ),
+    ),
+
     'doctrine' => array(
         'driver' => array(
             'ecamp_lib_entities' => array(

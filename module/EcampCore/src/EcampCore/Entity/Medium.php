@@ -28,6 +28,10 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Medium
 {
+    const MEDIUM_WEB = 'web';
+    const MEDIUM_PRINT = 'print';
+    const MEDIUM_MOBILE = 'mobile';
+
     public function __construct()
     {
     }

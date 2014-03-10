@@ -5,6 +5,7 @@ namespace EcampWeb\Controller\Camp;
 use EcampWeb\Form\Event\EventCreateForm;
 use Zend\Http\Response;
 use EcampLib\Validation\ValidationException;
+use EcampWeb\Form\Event\EventMoveForm;
 class DayController extends BaseController
 {
     /**
@@ -55,10 +56,15 @@ class DayController extends BaseController
             /* @var $day \EcampCore\Entity\Day */
             $day = $this->getDayRepository()->find($dayId);
 
-            $nextDay = $this->getDayRepository()->findNextDay($day);
-            $prevDay = $this->getDayRepository()->findPrevDay($day);
+            if ($day != null && $day->getCamp() == $this->getCamp()) {
 
-            $eventInstances = $this->getEventInstanceRepository()->findByDay($day);
+                $nextDay = $this->getDayRepository()->findNextDay($day);
+                $prevDay = $this->getDayRepository()->findPrevDay($day);
+
+                $eventInstances = $this->getEventInstanceRepository()->findByDay($day);
+            } else {
+                $day = null;
+            }
         }
 
         return array(
@@ -153,4 +159,67 @@ class DayController extends BaseController
         );
     }
 
+    /*
+    public function moveEventAction()
+    {
+        $eventInstanceId = $this->params()->fromQuery('eventInstanceId');
+        $eventInstance = $this->getEventInstanceRepository()->find($eventInstanceId);
+
+        $form = new EventMoveForm($eventInstance);
+        $form->setAction(
+            $this->url()->fromRoute(
+                'web/camp/default',
+                array('camp' => $this->getCamp(), 'controller' => 'Day', 'action' => 'addEvent'),
+                array('query' => array('dayId' => $dayId))
+            )
+        );
+        $form->setRedirectAfterSuccess(
+            $this->url()->fromRoute(
+                'web/camp/default',
+                array('camp' => $this->getCamp(), 'controller' => 'Day', 'action' => 'Index'),
+                array('query' => array('dayId' => $dayId))
+            )
+        );
+
+        if ($this->getRequest()->isPost()) {
+            $data = $this->getRequest()->getPost();
+
+            if ($form->setData($data)->isValid()) {
+
+                try {
+                    $camp = $this->getCamp();
+                    $event = $this->getEventService()->Create($camp, $data);
+                    $this->getEventInstanceService()->Create($event, $data);
+
+                    $this->flashMessenger()->addSuccessMessage('Event created');
+
+                    return $this->ajaxSuccssResponse(
+                        $this->url()->fromRoute(
+                            'web/camp/default',
+                            array('camp' => $this->getCamp(), 'controller' => 'Day', 'action' => 'Index'),
+                            array('query' => array('dayId' => $dayId))
+                        )
+                    );
+
+                } catch (ValidationException $e) {
+                    $form->extractFromException($e);
+                    $this->getResponse()->setStatusCode(Response::STATUS_CODE_500);
+
+                } catch (\Exception $e) {
+                    $this->flashMessenger()->addErrorMessage('Event not created');
+                    throw $e;
+
+                    return $this->emptyResponse();
+                }
+
+            } else {
+                $this->getResponse()->setStatusCode(Response::STATUS_CODE_500);
+            }
+        }
+
+        return array(
+            'form' => $form
+        );
+    }
+    */
 }

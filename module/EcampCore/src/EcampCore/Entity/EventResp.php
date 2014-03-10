@@ -37,6 +37,8 @@ class EventResp
 {
     public function __construct(Event $event, CampCollaboration $campCollaboration)
     {
+        parent::__construct();
+
         if ($event->getCamp() != $campCollaboration->getCamp()) {
             throw new \OutOfRangeException(
                 "Event [" . $event->getId() . "] " .

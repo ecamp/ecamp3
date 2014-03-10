@@ -1,0 +1,31 @@
+<tabset>
+	{% for childViewModel in childViewModels %}
+		<tab>
+			<tab-heading>{{ childViewModel.title }}
+				{% if eventTypePlugin.canRemovePlugin(event) %}
+				<a href="{{ url(
+						'plugin/default',
+						{ 'eventPluginId': childViewModel.eventPlugin.id, 'controller': 'plugin', 'action': 'delete' }
+					) }}"
+				>
+					<i class="fa fa-times-circle-o deleteLink" style="margin-left: 5px;"></i>
+				</a>
+				{% endif %}
+			</tab-heading>
+			{% RenderViewModel childViewModel %}
+		</tab>
+	{% endfor %}
+
+	{% if eventTypePlugin.canAddPlugin(event) %}
+	<div class="btn-group pull-right" style="margin-right: 5px;">
+		<button
+			type="button"
+			class="btn btn-xs btn-success dropdown-toggle"
+			style="margin-top:3px; height: 25px; padding: 2px 8px"
+			{# data-toggle="dropdown" #}
+		>
+			<i class="fa fa-plus"></i> Add Plugin
+		</button>
+	</div>
+	{% endif %}
+</tabset>

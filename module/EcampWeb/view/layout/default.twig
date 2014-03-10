@@ -12,6 +12,7 @@
 
         <!-- CSS - Files -->
 		<link type="text/css" rel="stylesheet" href="{{ request.getBasePath }}/bootstrap/css/bootstrap.min.css" />
+		<link type="text/css" rel="stylesheet" href="{{ request.getBasePath }}/bootstrap-jasny/css/jasny-bootstrap.min.css" />
 		<link type="text/css" rel="stylesheet" href="{{ request.getBasePath }}/font-awesome/css/font-awesome.min.css" />
 		<link type="text/css" rel="stylesheet" href="{{ request.getBasePath }}/jquery-ui/themes/base/minified/jquery-ui.min.css" />
 
@@ -30,12 +31,19 @@
 		<script src="{{ request.getBasePath }}/jquery-ui/ui/minified/jquery-ui.min.js"></script>
 		<script src="{{ request.getBasePath }}/jquery-autosize/js/jquery.autosize.min.js"></script>
 
+		<script src="https://rawgithub.com/RobinHerbots/jquery.inputmask/2.x/js/jquery.inputmask.js"></script>
+		<script src="https://rawgithub.com/RobinHerbots/jquery.inputmask/2.x/js/jquery.inputmask.regex.extensions.js"></script>
+		<script src="https://rawgithub.com/fabiomcosta/jquery-meiomask/master/src/meiomask.js"></script>
+
 		<script src="{{ request.getBasePath }}/angularjs/angular.min.js"></script>
 		<script src="{{ request.getBasePath }}/angular-resource/angular-resource.min.js"></script>
 
 		<script src="{{ request.getBasePath }}/bootstrap/js/bootstrap.min.js"></script>
+		<script src="{{ request.getBasePath }}/bootstrap-jasny/js/jasny-bootstrap.min.js"></script>
 		<script src="{{ request.getBasePath }}/bootstrap-select/js/bootstrap-select.min.js"></script>
 		<script src="{{ request.getBasePath }}/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+
+		<script src="https://rawgithub.com/angular-ui/bootstrap/gh-pages/ui-bootstrap-tpls-0.10.0.min.js"></script>
 
 		<script src="{{ request.getBasePath }}/ecamp-web/js/ajax-form.js"></script>
 
@@ -49,7 +57,7 @@
 
 		<script type="text/javascript">
 
-			angular.module('eCamp3', ['ngResource']);
+			angular.module('eCamp3', ['ngResource', 'ui.bootstrap']);
 
 			$(function(){
 

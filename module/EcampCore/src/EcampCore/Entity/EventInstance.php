@@ -174,6 +174,22 @@ class EventInstance
         return $end;
     }
 
+    public function getDateRange()
+    {
+        $start = $this->getStartTime();
+        $end = $this->getEndTime();
+
+        if ($start->format("Y") == $end->format("Y")) {
+            if ($start->format("m") == $end->format("m")) {
+                return $start->format("d.") . ' - ' . $end->format('d.m.Y');
+            } else {
+                return $start->format("d.m.") . ' - ' . $end->format('d.m.Y');
+            }
+        } else {
+            return $start->format("d.m.Y") . ' - ' . $end->format('d.m.Y');
+        }
+    }
+
     /**
      * @param Period $period
      */

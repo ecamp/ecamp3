@@ -50,6 +50,11 @@ class EventCategory
     private $name;
 
     /**
+     * @ORM\Column(type="string", length=16, nullable=false)
+     */
+    private $short;
+
+    /**
      * @ORM\Column(type="string", length=8, nullable=false)
      */
     private $color;
@@ -71,6 +76,9 @@ class EventCategory
      */
     private $eventType;
 
+    /**
+     * @param string $name
+     */
     public function setName($name)
     {
         $this->name = $name;
@@ -82,6 +90,22 @@ class EventCategory
     public function getName()
     {
         return $this->name;
+    }
+
+    /**
+     * @param string $short
+     */
+    public function setShort($short)
+    {
+        $this->short = $short;
+    }
+
+    /**
+     * @return string
+     */
+    public function getShort()
+    {
+        return $this->short;
     }
 
     /**

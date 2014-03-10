@@ -101,7 +101,7 @@ class Event
     }
 
     /**
-     * @return Camp
+     * @return \EcampCore\Entity\Camp
      */
     public function getCamp()
     {
@@ -109,7 +109,7 @@ class Event
     }
 
     /**
-     * @param EventCategory $eventCategory
+     * @param \EcampCore\Entity\EventCategory $eventCategory
      */
     public function setEventCategory(EventCategory $eventCategory)
     {
@@ -117,11 +117,19 @@ class Event
     }
 
     /**
-     * @return EventCategory
+     * @return \EcampCore\Entity\EventCategory
      */
     public function getEventCategory()
     {
         return $this->eventCategory;
+    }
+
+    /**
+     * @return \EcampCore\Entity\EventType
+     */
+    public function getEventType()
+    {
+        return $this->eventCategory->getEventType();
     }
 
     /**
@@ -170,6 +178,19 @@ class Event
         };
 
         return $this->eventPlugins->count($closure);
+    }
+
+    /**
+     * @param  User    $user
+     * @return boolean
+     */
+    public function isUserResp(User $user)
+    {
+        $filter = function($key, EventResp $eventResp) use ($user) {
+            return $eventResp->getUser() == $user;
+        };
+
+        return $this->eventResps->exists($filter);
     }
 
     /**

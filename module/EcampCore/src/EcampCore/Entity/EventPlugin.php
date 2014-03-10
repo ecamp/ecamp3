@@ -31,8 +31,11 @@ class EventPlugin
     extends BaseEntity
 {
 
-    public function __construct(Event $event = null, Plugin $plugin = null)
-    {
+    public function __construct(
+        Event $event = null,
+        Plugin $plugin = null,
+        $instanceName = null
+    ) {
         parent::__construct();
 
         $this->event = $event;
@@ -52,6 +55,11 @@ class EventPlugin
      * @ORM\JoinColumn(nullable=false)
      */
     protected $plugin;
+
+    /**
+     * @ORM\Column(type="string", length=64, nullable=false)
+     */
+    private $instanceName;
 
     /**
      * This var contains an instance of $this->pluginStrategy.
@@ -89,6 +97,11 @@ class EventPlugin
     public function getPluginName()
     {
         return $this->getPlugin()->getName();
+    }
+
+    public function getInstanceName()
+    {
+        return $this->instanceName;
     }
 
     /**
