@@ -129,12 +129,6 @@ return array(
         ),
     ),
 
-    'zfctwig' => array(
-        'extensions' => array(
-            'eventPluginExtensions' => 'EcampCore\Twig\EventPluginExtensions'
-        ),
-    ),
-
     'doctrine' => array(
         'driver' => array(
             'ecamp_core_entities' => array(
