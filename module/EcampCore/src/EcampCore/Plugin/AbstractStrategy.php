@@ -30,6 +30,8 @@ namespace EcampCore\Plugin;
 
 use EcampCore\Entity\Medium;
 use EcampCore\Entity\EventPlugin;
+use EcampCore\Entity\Plugin;
+use EcampCore\Entity\Event;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -45,26 +47,12 @@ abstract class AbstractStrategy
      */
     private $entityManager;
 
-    /**
-     * @var \EcampCore\Entity\EventPlugin
-     */
-    private $eventPlugin;
-
-    /**
-     * @var \EcampCore\Entity\Medium
-     */
-    private $medium;
-
     public function __construct(
         ServiceLocatorInterface $serviceLocator,
-        EntityManagerInterface $entityManager,
-        EventPlugin $eventPlugin,
-        Medium $medium
+        EntityManagerInterface $entityManager
     ){
         $this->serviceLocator = $serviceLocator;
         $this->entityManager = $entityManager;
-        $this->eventPlugin = $eventPlugin;
-        $this->medium = $medium;
     }
 
     /**
@@ -103,17 +91,17 @@ abstract class AbstractStrategy
         return $this;
     }
 
-    public function getId()
-    {
-        return $this->eventPlugin->getId();
-    }
-
     /**
-     * @return \EcampCore\Entity\EventPlugin
+     * @param  Event       $event
+     * @param  Plugin      $plugin
+     * @return EventPlugin
      */
-    protected function getEventPlugin()
+    public function create(Event $event, Plugin $plugin)
     {
-        return $this->eventPlugin;
+        $eventPlugin = new EventPlugin($event, $plugin, $plugin->getName());
+        $this->persist($eventPlugin);
+
+        return $eventPlugin;
     }
 
     /**
@@ -121,35 +109,19 @@ abstract class AbstractStrategy
      * This method should be overritten, if a Plugin requires
      * special handling while deleting the EventPlugin Instance
      */
-    protected function deleteEventPlugin()
+    public function delete(EventPlugin $eventPlugin)
     {
-        $this->remove($this->eventPlugin);
-    }
-
-    /**
-     * @return \EcampCore\Entity\Medium
-     */
-    protected function getMedium()
-    {
-        return $this->medium;
-    }
-
-    /**
-     * @return \EcampCore\Entity\Camp
-     */
-    protected function getCamp()
-    {
-        return $this->getEventPlugin()->getCamp();
+        $this->remove($eventPlugin);
     }
 
     /**
      * @return \Zend\View\Model\ViewModel
      */
-    public function render()
+    public function render(EventPlugin $eventPlugin, Medium $medium)
     {
-        $viewModel = $this->createViewModel();
-        $viewModel->setVariable('eventPlugin', $this->getEventPlugin());
-        $viewModel->setVariable('camp', $this->getCamp());
+        $viewModel = $this->createViewModel($eventPlugin, $medium);
+        $viewModel->setVariable('eventPlugin', $eventPlugin);
+        $viewModel->setVariable('camp', $eventPlugin->getCamp());
 
         return $viewModel;
     }
@@ -157,7 +129,7 @@ abstract class AbstractStrategy
     /**
      * @return \Zend\View\Model\ViewModel
      */
-    abstract protected function createViewModel();
+    abstract protected function createViewModel(EventPlugin $eventPlugin, Medium $medium);
 
-    abstract public function getTitle();
+    abstract public function getTitle(EventPlugin $eventPlugin);
 }

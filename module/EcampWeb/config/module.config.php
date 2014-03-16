@@ -140,6 +140,55 @@ return array(
                             ),
                     ),
 
+                    'plugin-create' => array(
+                        'type'    => 'Segment',
+                        'options' => array(
+                            'route'    => '/plugin/create/:eventId/:pluginId',
+                            'constraints' => array(
+                                'eventId' => '[a-f0-9]+',
+                                'pluginId' => '[a-f0-9]+',
+                            ),
+                            'defaults' => array(
+                                '__NAMESPACE__' => 'EcampWeb\Controller',
+                                'controller' => 'EventPlugin',
+                                'action'     => 'create',
+                            ),
+                        ),
+                        'may_terminate' => true,
+                    ),
+
+                    'plugin-get' => array(
+                        'type'    => 'Segment',
+                        'options' => array(
+                            'route'    => '/plugin/get/:eventPluginId',
+                            'constraints' => array(
+                                'eventPluginId' => '[a-f0-9]+'
+                            ),
+                            'defaults' => array(
+                                '__NAMESPACE__' => 'EcampWeb\Controller',
+                                'controller' => 'EventPlugin',
+                                'action'     => 'get',
+                            ),
+                        ),
+                        'may_terminate' => true,
+                    ),
+
+                    'plugin-delete' => array(
+                        'type'    => 'Segment',
+                        'options' => array(
+                            'route'    => '/plugin/delete/:eventPluginId',
+                            'constraints' => array(
+                                'eventPluginId' => '[a-f0-9]+'
+                            ),
+                            'defaults' => array(
+                                '__NAMESPACE__' => 'EcampWeb\Controller',
+                                'controller' => 'EventPlugin',
+                                'action'     => 'delete',
+                            ),
+                        ),
+                        'may_terminate' => true,
+                    ),
+
                 ),
             ),
         ),

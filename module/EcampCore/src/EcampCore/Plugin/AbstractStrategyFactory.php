@@ -32,6 +32,6 @@ abstract class AbstractStrategyFactory
      * @param  Medium                             $medium
      * @return \EcampCore\Plugin\AbstractStrategy
      */
-    abstract public function createStrategy(EventPlugin $eventPlugin, Medium $medium);
+    abstract public function createStrategy();
 
 }

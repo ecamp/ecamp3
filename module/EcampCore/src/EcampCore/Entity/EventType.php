@@ -65,11 +65,7 @@ class EventType extends BaseEntity
     protected $campTypes;
 
     /**
-     * @ORM\ManyToMany(targetEntity="EventTypePlugin")
-     * @ORM\JoinTable(name="eventtype_eventtypeplugin",
-     *      joinColumns={@ORM\JoinColumn(name="eventtype_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="eventtypeplugin_id", referencedColumnName="id")}
-     *      )
+     * @ORM\OneToMany(targetEntity="EventTypePlugin", mappedBy="eventType")
      */
     protected $eventTypePlugins;
 

@@ -40,6 +40,7 @@ class EventPlugin
 
         $this->event = $event;
         $this->plugin = $plugin;
+        $this->instanceName = $instanceName;
     }
 
     /**
@@ -114,21 +115,6 @@ class EventPlugin
     public function getPluginStrategyClass()
     {
         return $this->getPlugin()->getStrategyClass();
-    }
-
-    /**
-     * Returns the instantiated strategy
-     *
-     * @return \EcampCore\Plugin\AbstractStrategy
-     */
-    public function getStrategyInstance()
-    {
-        if ($this->strategyInstance == null) {
-            $classname = $this->getPluginStrategyClass();
-            $this->strategyInstance = new $classname($this);
-        }
-
-        return $this->strategyInstance;
     }
 
     /**

@@ -72,19 +72,6 @@ class EventTemplateContainerRenderer
 
         $pluginStrategyClass = $eventTypePlugin->getPlugin()->getStrategyClass();
         $this->pluginStrategyInstanceFactory = $serviceLocator->get($pluginStrategyClass);
-
-        /*
-        $pluginPositions = $this->eventTemplateContainer-> getPluginPositions();
-
-        foreach ($pluginPositions as $pluginPosition) {
-            / * @var $pluginPosition \EcampCore\Entity\PluginPosition * /
-            $pluginPositionRenderer = new PluginPositionRenderer($pluginPosition);
-            $pluginPositionRenderer->setEventTemplateContainerRenderer($this);
-            $pluginPositionRenderer->buildRendererTree($serviceLocator);
-
-            $this->pluginPositionRenderers[] = $pluginPositionRenderer;
-        }
-        */
     }
 
     /**
@@ -101,25 +88,25 @@ class EventTemplateContainerRenderer
         $eventPlugins = $event->getEventPluginsByPlugin($plugin);
 
         $viewModel = new ViewModel();
-        $viewModel->setTemplate($this->eventTemplateContainer->getFilename());
-        $viewModel->setCaptureTo($this->eventTemplateContainer->getContainerName());
+        $viewModel->setTemplate($eventTemplateContainer->getFilename());
         $viewModel->setVariable('plugin', $plugin);
         $viewModel->setVariable('event', $event);
         $viewModel->setVariable('camp', $event->getCamp());
         $viewModel->setVariable('eventTypePlugin', $eventTypePlugin);
-        $viewModel->setVariable('eventTemplateContainer', $this->eventTemplateContainer);
+        $viewModel->setVariable('eventTemplateContainer', $eventTemplateContainer);
+
+        $pluginStrategy = $this->pluginStrategyInstanceFactory->createStrategy();
 
         $childViewModels = array();
 
         foreach ($eventPlugins as $eventPlugin) {
-            $pluginStrategyInstance = $this->pluginStrategyInstanceFactory->createStrategy($eventPlugin, $medium);
-            $childViewModel = $pluginStrategyInstance->render();
 
-            if ($childViewModel->getVariable('title') == null) {
-                $childViewModel->setVariable('title', $pluginStrategyInstance->getTitle());
-            }
+            $itemViewModel = new ViewModel();
+            $itemViewModel->setTemplate($eventTemplateContainer->getFilename().'.item');
+            $itemViewModel->setVariable('eventPlugin', $eventPlugin);
+            $itemViewModel->setVariable('contentViewModel', $pluginStrategy->render($eventPlugin, $medium));
 
-            $childViewModels[] = $childViewModel;
+            $childViewModels[] = $itemViewModel;
         }
 
         $viewModel->setVariable('childViewModels', $childViewModels);

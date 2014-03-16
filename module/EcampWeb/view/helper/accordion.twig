@@ -5,14 +5,15 @@
 
 <div class="panel-group" id="{{ panelId }}">
 	<div class="panel panel-default">
-		<a class="accordion-toggle" data-toggle="collapse" data-parent="#{{ panelId }}" href="#{{ collapseId }}">
-			<div class="panel-heading">
-				<h4 class="panel-title">
+		<div class="panel-heading">
+			<h4 class="panel-title">
+				<a class="accordion-toggle" data-toggle="collapse" data-parent="#{{ panelId }}" href="#{{ collapseId }}">
 					<i class="fa fa-accordion"></i>
 					{% block panel_title %}{% endblock %}
-				</h4>
-			</div>
-		</a>
+				</a>
+				{% block panel_heading %}{% endblock %}
+			</h4>
+		</div>
 		<div id="{{ collapseId }}" class="panel-collapse collapse in">
 			<div class="panel-body">
 				{% block panel_content %}{% endblock %}

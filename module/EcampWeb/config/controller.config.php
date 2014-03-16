@@ -4,6 +4,7 @@ return array(
     'invokables' => array(
         'EcampWeb\Controller\Index' 				=> 'EcampWeb\Controller\IndexController',
         'EcampWeb\Controller\Bypass' 				=> 'EcampWeb\Controller\BypassController',
+        'EcampWeb\Controller\EventPlugin' 			=> 'EcampWeb\Controller\EventPluginController',
 
         'EcampWeb\Controller\Group\Index' 			=> 'EcampWeb\Controller\Group\IndexController',
         'EcampWeb\Controller\Group\Members' 		=> 'EcampWeb\Controller\Group\MembersController',

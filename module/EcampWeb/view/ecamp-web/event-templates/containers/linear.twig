@@ -1,25 +1,76 @@
-{% for childViewModel in childViewModels %}
-	{% RenderViewModel childViewModel %}
-{% endfor %}
-
-<a href="#" class="btn btn-success">ADD</a>
-
-{#
-<div class="btn-group pull-right" style="margin-right: 5px;">
-	<button
-		type="button"
-		class="btn btn-xs btn-success dropdown-toggle"
-		style="margin-top:3px; height: 25px; padding: 2px 8px"
-		data-toggle="dropdown"
-	>
-		<i class="fa fa-plus"></i> Add Plugin
-		<span class="caret" style="margin-left: 5px"></span>
-	</button>
-	<ul class="dropdown-menu" role="menu"
-		style="border-top-left-radius: 4px; border-top-right-radius: 4px; margin-top: 2px;"
-	>
-    	<li><a href="#">Storyboard</a></li>
-    	<li><a href="#">Storyboard 2</a></li>
-	</ul>
+<div class="eventTemplateContainer" id="{{ eventTemplateContainer.id }}">
+	{% for childViewModel in childViewModels %}
+		{% RenderViewModel childViewModel %}
+	{% endfor %}
 </div>
-#}
+
+<script type="text/javascript">
+	$(function(){
+		var createUrl = "{{ url('web/plugin-create', { 'eventId': event.id, 'pluginId': plugin.id }) }}";
+		var deleteUrl = "{{ url('web/plugin-delete', { 'eventPluginId': '' }) }}";
+
+		var container = $("div#{{ eventTemplateContainer.id }}.eventTemplateContainer");
+
+		function initItem(item){
+			item.find('button.deleteEventPlugin').click(function(e){
+				deleteEventPlugin(item.attr('id'));
+			});
+		}
+
+		function updateItems(){
+			var items = container.find('div.linear-item');
+			var canDelete = getCurrentNumEventPlugin() > getMinNumEventPlugin();
+			var canCreate = getCurrentNumEventPlugin() < getMaxNumEventPlugin();
+
+			items.each(function(idx, itm){
+				var item = $(itm);
+
+				if(canDelete){
+					item.find('button.deleteEventPluginDialog').show();
+				} else {
+					item.find('button.deleteEventPluginDialog').hide();
+				}
+			});
+		}
+
+		function createEventPlugin(){
+			$.get(createUrl).done(function(data){
+				var item = $(data);
+				initItem(item);
+				container.append(item);
+				updateItems();
+			});
+		}
+
+		function deleteEventPlugin(id){
+			$.get(deleteUrl + id).done(function(){
+				container.find('#' + id + '.linear-item').remove();
+				updateItems();
+			});
+		}
+
+		function getMinNumEventPlugin(){
+			return {{ eventTypePlugin.minNumberPluginInstances }};
+		}
+
+		function getMaxNumEventPlugin(){
+			return {{ eventTypePlugin.maxNumberPluginInstances }};
+		}
+
+		function getCurrentNumEventPlugin(){
+			return container.find('.linear-item').length;
+		}
+
+		container.data('$eventTemplateContainerController', {
+			'getMinNumEventPlugin': getMinNumEventPlugin,
+			'getMaxNumEventPlugin': getMaxNumEventPlugin,
+			'getCurrentNumEventPlugin': getCurrentNumEventPlugin,
+
+			'createEventPlugin': createEventPlugin,
+			'deleteEventPlugin': deleteEventPlugin
+		});
+
+		container.find('.linear-item').each(function(idx, item){ initItem($(item)); });
+		updateItems();
+	});
+</script>

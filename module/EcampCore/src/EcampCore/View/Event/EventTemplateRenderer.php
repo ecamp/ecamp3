@@ -81,6 +81,7 @@ class EventTemplateRenderer
         $viewModel->setVariable('event', $event);
         $viewModel->setVariable('eventType', $eventType);
         $viewModel->setVariable('eventCategory', $eventCategory);
+        $viewModel->setVariable('eventTemplate', $this->eventTemplate);
 
         foreach ($this->eventTemplateContainerRenderers as $eventTemplateContainerRenderer) {
             /* @var $eventTemplateContainerRenderer \EcampCore\View\Event\EventTemplateContainerRenderer */

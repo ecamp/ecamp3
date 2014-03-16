@@ -1,31 +1,99 @@
-<tabset>
-	{% for childViewModel in childViewModels %}
-		<tab>
-			<tab-heading>{{ childViewModel.title }}
-				{% if eventTypePlugin.canRemovePlugin(event) %}
-				<a href="{{ url(
-						'plugin/default',
-						{ 'eventPluginId': childViewModel.eventPlugin.id, 'controller': 'plugin', 'action': 'delete' }
-					) }}"
-				>
-					<i class="fa fa-times-circle-o deleteLink" style="margin-left: 5px;"></i>
-				</a>
-				{% endif %}
-			</tab-heading>
-			{% RenderViewModel childViewModel %}
-		</tab>
-	{% endfor %}
+<div class="tabbable eventTemplateContainer" id="{{ eventTemplateContainer.id }}">
+	<ul class="nav nav-tabs">
 
-	{% if eventTypePlugin.canAddPlugin(event) %}
-	<div class="btn-group pull-right" style="margin-right: 5px;">
-		<button
-			type="button"
-			class="btn btn-xs btn-success dropdown-toggle"
-			style="margin-top:3px; height: 25px; padding: 2px 8px"
-			{# data-toggle="dropdown" #}
-		>
-			<i class="fa fa-plus"></i> Add Plugin
-		</button>
+		<div class="btn-group pull-right" style="margin-right: 5px;">
+			<button class="createEventPlugin btn btn-xs btn-success"
+					style="margin-top:3px; height: 25px; padding: 2px 8px">
+				<i class="fa fa-plus"></i> Add Plugin
+			</button>
+		</div>
+	</ul>
+
+	<div class="tab-content">
+		{% for childViewModel in childViewModels %}
+			{% RenderViewModel childViewModel %}
+		{% endfor %}
 	</div>
-	{% endif %}
-</tabset>
+</div>
+
+<script type="text/javascript">
+	$(function(){
+		var createUrl = "{{ url('web/plugin-create', { 'eventId': event.id, 'pluginId': plugin.id }) }}";
+		var deleteUrl = "{{ url('web/plugin-delete', { 'eventPluginId': '' }) }}";
+
+		var tabbable = $("div#{{ eventTemplateContainer.id }}.eventTemplateContainer");
+		var tabContent = tabbable.find('div.tab-content');
+		var ulNavTabs = tabbable.find('ul.nav-tabs');
+		ulNavTabs.find('button.createEventPlugin').click(createEventPlugin);
+
+		function updateNavTabs(){
+			ulNavTabs.find('li').remove();
+			var tabPanes = tabContent.find('.tab-pane');
+			var activePaneId = tabPanes.filter('.active').attr('id');
+			var canDelete = getCurrentNumEventPlugin() > getMinNumEventPlugin();
+			var canCreate = getCurrentNumEventPlugin() < getMaxNumEventPlugin();
+
+			if(canCreate){
+				ulNavTabs.find('button.createEventPlugin').show();
+			} else {
+				ulNavTabs.find('button.createEventPlugin').hide();
+			}
+
+			tabPanes.each(function(idx, item){
+				var tabPane = $(item);
+				var paneId = tabPane.attr('id');
+				var li = tabPane.find('.nav-tabs-li li');
+				var liClone = li.clone();
+
+				if(canDelete){ liClone.find('button').addClass('showDeleteButton'); }
+				liClone.find('button').click(function(){ deleteEventPlugin(paneId); });
+
+				if(idx == 0 && activePaneId == undefined){
+					tabPane.addClass('active');
+					liClone.addClass('active');
+				}
+				if(paneId == activePaneId){
+					liClone.addClass('active');
+				}
+				$(ulNavTabs).append(liClone);
+			});
+		}
+
+		function createEventPlugin(){
+			$.get(createUrl).done(function(data){
+				tabContent.append($(data));
+				updateNavTabs();
+			});
+		}
+
+		function deleteEventPlugin(id){
+			$.get(deleteUrl + id).done(function(){
+				tabContent.find('#' + id + '.tab-pane').remove();
+				updateNavTabs();
+			});
+		}
+
+		function getMinNumEventPlugin(){
+			return {{ eventTypePlugin.minNumberPluginInstances }};
+		}
+
+		function getMaxNumEventPlugin(){
+			return {{ eventTypePlugin.maxNumberPluginInstances }};
+		}
+
+		function getCurrentNumEventPlugin(){
+			return tabContent.find('.tab-pane').length;
+		}
+
+		tabbable.data('$eventTemplateContainerController', {
+			'getMinNumEventPlugin': getMinNumEventPlugin,
+			'getMaxNumEventPlugin': getMaxNumEventPlugin,
+			'getCurrentNumEventPlugin': getCurrentNumEventPlugin,
+
+			'createEventPlugin': createEventPlugin,
+			'deleteEventPlugin': deleteEventPlugin
+		});
+
+		updateNavTabs();
+	});
+</script>

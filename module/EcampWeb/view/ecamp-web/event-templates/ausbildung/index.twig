@@ -3,18 +3,12 @@
 {% block eventTemplateContent %}
 
 	<div class="row">
-		<div class="col-xs-12">
+		<div class="col-sm-12">
+			{% if Storyboard %}{% RenderViewModel Storyboard %}{% endif %}
 
+			{% if Storyboard2 %}{% RenderViewModel Storyboard2 %}{% endif %}
 		</div>
 	</div>
-
-	<div class="row">
-		<div class="col-xs-12">
-			{% RenderViewModel Storyboard %}
-
-		</div>
-	</div>
-
 
 
 

@@ -172,6 +172,27 @@ input.nospinner::-webkit-outer-spin-button {
 	padding: 5px 10px;
 }
 
+.tabbable > .nav > li > a .deleteEventPlugin {
+	display: none;
+	border: none;
+	padding: 0px;
+	margin: 0px;
+	background-color: inherit;
+	outline: none;
+}
+
+.tabbable > .nav > li.active > a .deleteEventPlugin.showDeleteButton {
+	display: inline;
+}
+
+.tabbable > .nav > li > a .deleteEventPlugin > i { 
+	color: lightgray;
+}
+
+.tabbable > .nav > li > a .deleteEventPlugin > i:hover{
+	color: #d9534f;
+}
+
 .tabbable > .tab-content {
 	border-left: 1px solid #ddd;
 	border-right: 1px solid #ddd;
@@ -186,13 +207,6 @@ input.nospinner::-webkit-outer-spin-button {
 	box-shadow: 0 1px 1px rgba(0,0,0,0.05);
 }
 
-.deleteLink {
-	color: lightgray;
-}
-
-.deleteLink:hover{
-	color: #d9534f;
-}
 
 @media (min-width: 768px){
 
