@@ -178,6 +178,53 @@ class EventCategory
         return $this->eventType;
     }
 
+    public function getStyledNumber($num)
+    {
+        switch ($this->numberingStyle) {
+            case '1':
+                return $num;
+            case 'a':
+                return strtolower($this->getAlphaNum($num));
+            case 'A':
+                return strtoupper($this->getAlphaNum($num));
+            case 'i':
+                return strtolower($this->getRomanNum($num));
+            case 'I':
+                return strtoupper($this->getRomanNum($num));
+            default:
+                return $num;
+        }
+    }
+
+    private function getAlphaNum($num)
+    {
+        $num--;
+        $alphaNum = '';
+        if ($num >= 26) {
+            $alphaNum .= $this->getAlphaNum(floor($num / 26));
+        }
+        $alphaNum .= chr(97 + ($num % 26));
+
+        return $alphaNum;
+    }
+
+    private function getRomanNum($num)
+    {
+        $table = array('M'=>1000, 'CM'=>900, 'D'=>500, 'CD'=>400, 'C'=>100, 'XC'=>90, 'L'=>50, 'XL'=>40, 'X'=>10, 'IX'=>9, 'V'=>5, 'IV'=>4, 'I'=>1);
+        $romanNum = '';
+        while ($num > 0) {
+            foreach ($table as $rom => $arb) {
+                if ($num >= $arb) {
+                    $num -= $arb;
+                    $romanNum .= $rom;
+                    break;
+                }
+            }
+        }
+
+        return $romanNum;
+    }
+
     /**
      * @ORM\PrePersist
      */

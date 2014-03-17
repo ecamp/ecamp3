@@ -89,25 +89,6 @@ class EventController extends BaseController
         return $viewModel;
     }
 
-    public function pluginAction()
-    {
-        $medium = $this->getWebMedium();
-
-        $eventPluginId = $this->getRequest()->getQuery('eventPluginId');
-        $eventPlugin = $this->getEventPluginRepository()->find($eventPluginId);
-
-        /* @var $eventPlugin \EcampCore\Entity\EventPlugin */
-        $pluginStrategyClass = $eventPlugin->getPluginStrategyClass();
-
-        /* @var $pluginStrategyInstanceFactory \EcampCore\Plugin\AbstractStrategyFactory */
-        $pluginStrategyInstanceFactory = $this->getServiceLocator()->get($pluginStrategyClass);
-
-        /* @var $pluginStrategyInstance \EcampCore\Plugin\AbstractStrategy */
-        $pluginStrategyInstance = $pluginStrategyInstanceFactory->createStrategy($eventPlugin, $medium);
-
-        return $pluginStrategyInstance->render();
-    }
-
     public function setRespAction()
     {
         $respUserIds = $this->params()->fromPost('resp_user_ids');

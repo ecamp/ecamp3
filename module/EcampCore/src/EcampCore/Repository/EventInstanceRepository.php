@@ -74,7 +74,7 @@ class EventInstanceRepository extends EntityRepository
                 ->setParameter('periodId', $day->getPeriod()->getId())
                 ->setParameter('dayEnd', $dayEnd)
                 ->setParameter('dayStart', $dayStart)
-                ->orderBy('ei.minOffsetStart');
+                ->orderBy('ei.minOffsetStart, ei.createdAt');
 
             return $q->getQuery()->getResult();
         }
