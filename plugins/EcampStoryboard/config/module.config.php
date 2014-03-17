@@ -1,24 +1,5 @@
 <?php
 return array(
-    'ecamp' => array(
-        'modules' => array(
-            'storyboard' => array(
-                'repos' => array(
-                    'module_namespace' 	=> 'EcampStoryboard',
-                    'config_file' 		=> __DIR__ . '/service.config.repos.php',
-                    'traits_path' 		=> __DIR__ . '../src/EcampStoryboard/RepositoryTraits/',
-                    'traits_namespace'	=> 'EcampStoryboard\RepositoryTraits',
-                ),
-
-                'services' => array(
-                    'services_path' 	=> __DIR__ . '/../src/EcampStoryboard/Service/',
-                    'config_file' 		=> __DIR__ . '/service.config.services.php',
-                    'traits_path' 		=> __DIR__ . '../src/EcampStoryboard/ServiceTraits/',
-                    'traits_namespace'	=> 'EcampStoryboard\ServiceTraits'
-                )
-            )
-        )
-    ),
 
     'router' => array(
         'routes' => array(
@@ -39,22 +20,24 @@ return array(
                             'default' => array(
                                 'type'    => 'Segment',
                                 'options' => array(
-                                    'route'    => '/[:controller/:action[/:id].:format]',
+                                    'route'    => '/[:controller[/:action[/:id]]]',
                                     'constraints' => array(
                                         'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
                                         'action'     => '[a-zA-Z][a-zA-Z0-9_-]*',
-                                        'format' 	 => '(xml|json)',
                                         'id'		 => '[a-f0-9]+'
+                                    ),
+                                    'defaults' => array(
+                                        'controller' => 'Sections',
+                                        'action'     => 'index',
                                     ),
                                 ),
                             ),
                             'rest' => array(
                                 'type'    => 'Segment',
                                 'options' => array(
-                                    'route'    => '/[:controller[/:id].:format]',
+                                    'route'    => '/[:controller[/:id]]',
                                     'constraints' => array(
                                         'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
-                                        'format' 	 => '(xml|json)',
                                         'id' 		 => '[a-f0-9]+'
                                     ),
                                     'defaults' => array(

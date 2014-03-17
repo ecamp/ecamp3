@@ -23,6 +23,7 @@ namespace EcampCore\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 use EcampLib\Entity\BaseEntity;
+use Doctrine\Common\Collections\Criteria;
 
 /**
  * Specifies the exact time/duration/subcamp when an event happens
@@ -34,6 +35,7 @@ class EventInstance
 {
 
     /**
+     * @var \EcampCore\Entity\Event
      * @ORM\ManyToOne(targetEntity="Event")
      * @ORM\JoinColumn(nullable=false)
      */
@@ -76,6 +78,19 @@ class EventInstance
     public function getEvent()
     {
         return $this->event;
+    }
+
+    /**
+     * @return \EcampCore\Entity\EventCategory
+     */
+    public function getEventCategory()
+    {
+        return $this->event->getEventCategory();
+    }
+
+    public function getNumberingStyle()
+    {
+        return $this->getEventCategory()->getNumberingStyle();
     }
 
     /**
@@ -174,6 +189,22 @@ class EventInstance
         return $end;
     }
 
+    public function getDateRange()
+    {
+        $start = $this->getStartTime();
+        $end = $this->getEndTime();
+
+        if ($start->format("Y") == $end->format("Y")) {
+            if ($start->format("m") == $end->format("m")) {
+                return $start->format("d.") . ' - ' . $end->format('d.m.Y');
+            } else {
+                return $start->format("d.m.") . ' - ' . $end->format('d.m.Y');
+            }
+        } else {
+            return $start->format("d.m.Y") . ' - ' . $end->format('d.m.Y');
+        }
+    }
+
     /**
      * @param Period $period
      */
@@ -196,6 +227,44 @@ class EventInstance
     public function getCamp()
     {
         return $this->period->getCamp();
+    }
+
+    public function getEventNumber()
+    {
+        return $this->getDayNumber() . '.' . $this->getMinorNumber();
+    }
+
+    private function getDayNumber()
+    {
+        return 1 + floor($this->getOffsetInMinutes() / (24*60));
+    }
+
+    private function getMinorNumber()
+    {
+        $period = $this->getPeriod();
+
+        $dayNum = floor($this->getOffsetInMinutes() / (24*60));
+        $dayOffset = 24 * 60 * $dayNum;
+
+        $criteria = Criteria::create();
+        $expr = Criteria::expr();
+        $criteria->where($expr->andX(
+            $expr->gte('minOffsetStart', $dayOffset),
+            $expr->orX(
+                $expr->lt('minOffsetStart', $this->getOffsetInMinutes()),
+                $expr->andX(
+                    $expr->eq('minOffsetStart', $this->getOffsetInMinutes()),
+                    $expr->lt('createdAt', $this->getCreatedAt())
+                )
+            )
+        ));
+
+        $eventInstances = $period->getEventInstances()->matching($criteria);
+        $num = $eventInstances
+            ->filter(function($ei){ return $ei->getNumberingStyle() == $this->getNumberingStyle(); })
+            ->count();
+
+        return $this->getEventCategory()->getStyledNumber(1 + $num);
     }
 
 }

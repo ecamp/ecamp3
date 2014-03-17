@@ -8,6 +8,8 @@ use Zend\Mvc\MvcEvent;
 use Zend\View\Model\ViewModel;
 use Zend\Http\PhpEnvironment\Response;
 use EcampCore\Entity\User;
+use EcampCore\Repository\MediumRepository;
+use EcampCore\Entity\Medium;
 
 abstract class BaseController
     extends AbstractActionController
@@ -23,7 +25,7 @@ abstract class BaseController
 
     public function onDispatch( MvcEvent $e )
     {
-        $this->getServiceLocator()->get('ZfcTwigEnvironment')->getExtension('core')->setDateFormat('d.m.Y');
+        $this->getServiceLocator()->get('Twig_Environment')->getExtension('core')->setDateFormat('d.m.Y');
 
         parent::onDispatch($e);
     }
@@ -72,6 +74,13 @@ abstract class BaseController
     protected function getMe()
     {
         return $this->getUserService()->Get();
+    }
+
+    protected function getWebMedium()
+    {
+        $mediumRepository = $this->getServiceLocator()->get('EcampCore\Repository\Medium');
+
+        return $mediumRepository->find(Medium::MEDIUM_WEB);
     }
 
     /**

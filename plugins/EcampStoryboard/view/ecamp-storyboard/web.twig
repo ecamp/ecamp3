@@ -1,0 +1,105 @@
+
+<div class="row">
+	<div class="col-sm-2 col-md-1" style="padding-left: 20px;">
+		<b>Duration</b>
+	</div>
+	<div class="col-sm-5 col-md-6">
+		<b>Text</b>
+	</div>
+	<div class="col-sm-3">
+		<b>Info</b>
+	</div>
+	<div class="col-sm-2" style="padding-right: 20px;">
+		<b>Option</b>
+	</div>
+	<div class="col-xs-12">
+		<div style="border-bottom: 2px #ddd solid; margin: 5px 0px;" ></div>
+	</div>
+</div>
+
+<ul style="list-style: none; padding: 0px;">
+	{% for section in sections %}
+		{% include 'ecamp-storyboard/section' %}
+	{% endfor %}
+</ul>
+
+<script type="text/javascript">
+
+	$(function(){
+		function init_section(liElm){
+			var liElm = $(liElm);
+			var showElm = liElm.find('div[name=show]');
+			var editElm = liElm.find('div[name=edit]');
+			var origData = null;
+
+			showElm.hide();
+			editElm.hide();
+
+			var editFunc = function(){
+				showElm.hide();
+
+				origData = {};
+				editElm.find('.form-element').each(function(idx, elm){
+					origData[$(elm).attr('id')] = $(elm).val();
+				});
+
+				editElm.show();
+			};
+
+			var saveFunc = function(){
+				var form = editElm.find('form');
+
+				$.ajax({
+		            type: form.attr('method'),
+		            url: form.attr('action'),
+		            data: form.serialize(),
+
+		            // prevents global error handling, errors handled locally
+		            global: false,
+
+		            statusCode: {
+						200: function(data, statusText, request){
+							var respElm = $(data);
+							liElm.replaceWith(respElm);
+							init_section(respElm);
+
+							origData = null;
+						},
+
+					    500: function(data, status){
+					    	console.log(data);
+						}
+					}
+		        });
+			};
+
+			var cancelFunc = function(){
+				editElm.hide();
+
+				editElm.find('.form-element').each(function(idx, elm){
+					$(elm).val(origData[$(elm).attr('id')]);
+				});
+				editElm.find('select.selectpicker').selectpicker('refresh');
+				origData = null;
+
+				showElm.show();
+			};
+
+			showElm.find('.edit-target').click(editFunc);
+			showElm.find('a.edit').click(editFunc);
+
+			editElm.find('a.submit').click(saveFunc);
+			editElm.find('a.cancel').click(cancelFunc);
+
+			showElm.show();
+
+			liElm.find('select.selectpicker').selectpicker();
+			liElm.find('textarea.autosize').autosize();
+		};
+
+		$('li.section').each(function(idx, elm){	init_section(elm);	});
+	});
+
+
+
+</script>

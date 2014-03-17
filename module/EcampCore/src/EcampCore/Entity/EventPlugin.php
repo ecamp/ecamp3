@@ -31,12 +31,16 @@ class EventPlugin
     extends BaseEntity
 {
 
-    public function __construct(Event $event = null, Plugin $plugin = null)
-    {
+    public function __construct(
+        Event $event = null,
+        Plugin $plugin = null,
+        $instanceName = null
+    ) {
         parent::__construct();
 
         $this->event = $event;
         $this->plugin = $plugin;
+        $this->instanceName = $instanceName;
     }
 
     /**
@@ -52,6 +56,11 @@ class EventPlugin
      * @ORM\JoinColumn(nullable=false)
      */
     protected $plugin;
+
+    /**
+     * @ORM\Column(type="string", length=64, nullable=false)
+     */
+    private $instanceName;
 
     /**
      * This var contains an instance of $this->pluginStrategy.
@@ -91,6 +100,11 @@ class EventPlugin
         return $this->getPlugin()->getName();
     }
 
+    public function getInstanceName()
+    {
+        return $this->instanceName;
+    }
+
     /**
      * Returns the strategy that is used for this pluginitem.
      *
@@ -101,21 +115,6 @@ class EventPlugin
     public function getPluginStrategyClass()
     {
         return $this->getPlugin()->getStrategyClass();
-    }
-
-    /**
-     * Returns the instantiated strategy
-     *
-     * @return \EcampCore\Plugin\AbstractStrategy
-     */
-    public function getStrategyInstance()
-    {
-        if ($this->strategyInstance == null) {
-            $classname = $this->getPluginStrategyClass();
-            $this->strategyInstance = new $classname($this);
-        }
-
-        return $this->strategyInstance;
     }
 
     /**

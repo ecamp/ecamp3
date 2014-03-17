@@ -4,6 +4,7 @@ return array(
     'invokables' => array(
         // Serious Controllers:
         'EcampCore\Controller\Avatar'  => 'EcampCore\Controller\AvatarController',
+        'EcampCore\Controller\Plugin'  => 'EcampCore\Controller\PluginController',
 
         // Experimental Controllers:
         'EcampCore\Controller\Test'  => 'EcampCore\Controller\TestController',

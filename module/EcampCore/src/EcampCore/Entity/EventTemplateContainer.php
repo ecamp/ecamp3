@@ -20,26 +20,33 @@
 
 namespace EcampCore\Entity;
 
-use EcampLib\Entity\BaseEntity;
-
 use Doctrine\ORM\Mapping as ORM;
 
+use EcampLib\Entity\BaseEntity;
+
 /**
- * TemplateMapItem
- * @ORM\Entity(readOnly=true)
- * @ORM\Table(name="plugin_positions", uniqueConstraints={@ORM\UniqueConstraint(name="plugin_template_unique",columns={"eventTypePlugin_id", "eventTemplate_id"})})
+ * EventTemplate
+ * @ORM\Entity(readOnly=true, repositoryClass="EcampCore\Repository\EventTemplateContainerRepository")
+ * @ORM\Table(name="event_template_containers", uniqueConstraints={
+ * 	@ORM\UniqueConstraint(
+ * 		name="eventTemplate_containerName_unique",
+ * 		columns={"eventTemplate_id", "containerName"}
+ * 	)
+ * })
  */
-class PluginPosition extends BaseEntity
+class EventTemplateContainer extends BaseEntity
 {
 
     public function __construct(
-        EventTemplate $eventTemplate = null,
-        EventTypePlugin $eventTypePlugin = null,
-        $container = null
+        EventTemplate $eventTemplate,
+        EventTypePlugin $eventTypePlugin,
+        $containerName
     ) {
+        parent::__construct();
+
         $this->eventTemplate = $eventTemplate;
         $this->eventTypePlugin = $eventTypePlugin;
-        $this->container = $container;
+        $this->containerName = $containerName;
     }
 
     /**
@@ -58,22 +65,22 @@ class PluginPosition extends BaseEntity
 
     /**
      * @var string
-     * @ORM\Column(type="string", nullable=false)
+     * @ORM\Column(type="string", length=128, nullable=false )
      */
-    private $container;
+    private $containerName;
 
     /**
-     * @var integer
-     * @ORM\Column(type="integer", nullable=false)
+     * @var string
+     * @ORM\Column(type="string", length=128, nullable=false )
      */
-    private $sort;
+    private $filename;
 
     /**
-     * @return string
+     * @return EventTemplate
      */
-    public function getContainer()
+    public function getEventTemplate()
     {
-        return $this->container;
+        return $this->eventTemplate;
     }
 
     /**
@@ -85,19 +92,19 @@ class PluginPosition extends BaseEntity
     }
 
     /**
-     * @return TemplateMap
+     * @return string
      */
-    public function getEventTemplate()
+    public function getContainerName()
     {
-        return $this->eventTemplate;
+        return $this->containerName;
     }
 
     /**
-     * @return integer
+     * @return string
      */
-    public function getSort()
+    public function getFilename()
     {
-        return $this->sort;
+        return $this->filename;
     }
 
 }

@@ -78,6 +78,7 @@ class Period
 
     /**
      * @ORM\OneToMany(targetEntity="EventInstance", mappedBy="period", orphanRemoval=true)
+     * @ORM\OrderBy({"minOffsetStart" = "ASC", "createdAt" = "ASC"})
      * @var Doctrine\Common\Collections\ArrayCollection
      */
     private $eventInstances;

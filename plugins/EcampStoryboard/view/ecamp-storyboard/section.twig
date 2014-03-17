@@ -1,0 +1,101 @@
+<li class="section" id="{{ 'section-' ~ section.id }}">
+	<div class="row" name="show">
+		<div class="col-sm-2 col-md-1 edit-target" style="padding-left: 20px;">
+			<center>
+				{{ section.getDurationInMinutes() // 60 }}<small>h</small>
+				<sup><small>{{ section.getDurationInMinutes() % 60 }}</small></sup>
+			</center>
+		</div>
+		<div class="col-sm-5 col-md-6 edit-target">
+			{{ section.text }}
+		</div>
+		<div class="col-sm-3 edit-target">
+			{{ section.info }}
+		</div>
+		<div class="col-sm-2" style="padding-right: 20px;">
+			<b class="edit-target">a, b</b>
+			<!--
+			<br />
+			 -->
+			<div style="text-align: right">
+				<div class="btn-group" style="text-align: left">
+					<a href="#" class="btn btn-xs btn-default edit">Edit</a>
+					<button type="button" class="btn btn-xs btn-default dropdown-toggle" data-toggle="dropdown">
+						<span class="caret"></span>
+						<span class="sr-only">Toggle Dropdown</span>
+					</button>
+					<ul class="dropdown-menu pull-right" role="menu">
+						<li><a href="#"><i class="fa fa-arrow-circle-o-up"></i> Move up</a></li>
+						<li><a href="#"><i class="fa fa-arrow-circle-o-down"></i> Move down</a></li>
+						<li class="divider"></li>
+						<li><a href="#"><i class="fa fa-trash-o"></i> Delete</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="row" name="edit">
+		<form method="POST" action="{{
+			url('plugin/storyboard/default', {
+				'eventPluginId': eventPlugin.id,
+				'controller': 'sections',
+				'action': 'save',
+				'id': section.id
+			} )}}"
+		>
+			<div class="col-sm-2 col-md-1">
+				<input name="duration_hour" id="{{ 'section-duration-hour-' ~ section.id }}"
+					class="form-element nospinner" type="number" min="0" value="{{ section.getDurationInMinutes() // 60 }}"
+					style="width: 30px; height: 20px; border-width: 0px 0px 1px 0px; border-style: dotted; border-color: gray; text-align: center; background-color: inherit"
+				/>h
+				<input name="duration_minute" id="{{ 'section-duration-minute-' ~ section.id }}"
+					class="form-element nospinner" type="number" min="0" max="59" value="{{ section.getDurationInMinutes() % 60 }}"
+					style="width: 25px; height: 20px; border-width: 0px 0px 1px 0px; border-style: dotted; border-color: gray; text-align: center; background-color: inherit"
+				/>min
+			</div>
+			<div class="col-sm-5 col-md-6">
+				<textarea name="section_text" id="{{ 'section-text-' ~ section.id }}"
+					class="form-element form-control autosize"
+				>{{ section.text }}</textarea>
+			</div>
+			<div class="col-sm-3">
+
+				<textarea name="section_info" id="{{ 'section-info-' ~ section.id }}"
+					class="form-element form-control autosize"
+				>{{ section.info }}</textarea>
+			</div>
+			<div class="col-sm-2" style="padding-right: 20px; text-align: right">
+				<select
+					class="form-element selectpicker show-tick"
+					multiple title="-"
+					data-width="100%"
+					name="resp_user_ids[]"
+					id="{{ 'section-resp-user-' ~ section.id }}"
+				>
+					{% for campCollaboration in camp.campCollaboration().getCollaborations() %}
+						{% if event.isUserResp(campCollaboration.user) %}
+							<option value="{{ campCollaboration.user.id }}" selected="selected">
+						{% else %}
+							<option value="{{ campCollaboration.user.id }}">
+						{% endif %}
+
+							{{ campCollaboration.user.getDisplayName() }}
+						</option>
+
+					{% endfor %}
+				</select>
+				<a href="#" class="submit btn btn-xs btn-success"><i class="fa fa-check"></i> Save</a>
+				<a href="#" class="cancel btn btn-xs btn-danger"><i class="fa fa-times"></i> Cancel</a>
+			</div>
+		</form>
+	</div>
+
+	{% if not loop.last %}
+	<div class="row">
+		<div class="col-xs-12">
+			<div style="border-bottom: 1px #ddd solid; margin: 5px 0px;" ></div>
+		</div>
+	</div>
+	{% endif %}
+</li>

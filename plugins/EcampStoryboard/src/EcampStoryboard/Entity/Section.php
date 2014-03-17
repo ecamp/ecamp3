@@ -3,7 +3,6 @@
 namespace EcampStoryboard\Entity;
 
 use EcampLib\Entity\BaseEntity;
-use EcampCore\Entity\Plugin;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -15,9 +14,9 @@ class Section extends BaseEntity
 {
 
     /**
-     * @ORM\ManyToOne(targetEntity="EcampCore\Entity\Plugin")
+     * @ORM\ManyToOne(targetEntity="EcampCore\Entity\EventPlugin")
      */
-    private $plugin;
+    private $eventPlugin;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
@@ -39,18 +38,18 @@ class Section extends BaseEntity
      */
     private $info;
 
-    public function __construct(Plugin $plugin)
+    public function __construct(EventPlugin $eventPlugin)
     {
         parent::__construct();
-        $this->plugin = $plugin;
+        $this->eventPlugin = $eventPlugin;
     }
 
     /**
-     * @return EcampCore\Entity\PluginInstance
+     * @return EcampCore\Entity\EventPlugin
      */
-    public function getPluginInstance()
+    public function getEventPlugin()
     {
-        return $this->pluginInstance;
+        return $this->eventPlugin;
     }
 
     public function setPosition($position)

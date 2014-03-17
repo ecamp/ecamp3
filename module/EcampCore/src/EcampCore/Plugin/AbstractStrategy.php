@@ -29,33 +29,107 @@
 namespace EcampCore\Plugin;
 
 use EcampCore\Entity\Medium;
-use EcampCore\Entity\PluginInstance;
+use EcampCore\Entity\EventPlugin;
+use EcampCore\Entity\Plugin;
+use EcampCore\Entity\Event;
+use Zend\ServiceManager\ServiceLocatorInterface;
+use Doctrine\ORM\EntityManagerInterface;
 
 abstract class AbstractStrategy
 {
+    /**
+     * @var ServiceLocatorInterface
+     */
+    private $serviceLocator;
+
+    /**
+     * @var \Doctrine\ORM\EntityManagerInterface
+     */
+    private $entityManager;
 
     public function __construct(
-        PluginInstance $pluginInstance
+        ServiceLocatorInterface $serviceLocator,
+        EntityManagerInterface $entityManager
     ){
-        $this->pluginInstance = $pluginInstance;
+        $this->serviceLocator = $serviceLocator;
+        $this->entityManager = $entityManager;
     }
 
     /**
-     * @var EcampCore\Entity\PluginInstance
+     * @return \Zend\ServiceManager\ServiceLocatorInterface
      */
-    private $pluginInstance;
-
-    /**
-     * @return EcampCore\Entity\PluginInstance
-     */
-    protected function getPluginInstance()
+    protected function getServiceLocator()
     {
-        return $this->pluginInstance;
+        return $this->serviceLocator;
     }
 
     /**
-     * @param  Medium                    $medium
-     * @return Zend\View\Model\ViewModel
+     * @return \Doctrine\ORM\EntityManagerInterface
      */
-    abstract public function render(Medium $medium);
+    protected function getEntityManager()
+    {
+        return $this->entityManager;
+    }
+
+    /**
+     * @return \EcampCore\Plugin\AbstractStrategy
+     */
+    protected function persist($object)
+    {
+        $this->entityManager->persist($object);
+
+        return $this;
+    }
+
+    /**
+     * @return \EcampCore\Plugin\AbstractStrategy
+     */
+    protected function remove($object)
+    {
+        $this->entityManager->remove($object);
+
+        return $this;
+    }
+
+    /**
+     * @param  Event       $event
+     * @param  Plugin      $plugin
+     * @return EventPlugin
+     */
+    public function create(Event $event, Plugin $plugin)
+    {
+        $eventPlugin = new EventPlugin($event, $plugin, $plugin->getName());
+        $this->persist($eventPlugin);
+
+        return $eventPlugin;
+    }
+
+    /**
+     * Deletes the EventPlugin from the Database.
+     * This method should be overritten, if a Plugin requires
+     * special handling while deleting the EventPlugin Instance
+     */
+    public function delete(EventPlugin $eventPlugin)
+    {
+        $this->remove($eventPlugin);
+    }
+
+    /**
+     * @return \Zend\View\Model\ViewModel
+     */
+    public function render(EventPlugin $eventPlugin, Medium $medium)
+    {
+        $viewModel = $this->createViewModel($eventPlugin, $medium);
+        $viewModel->setVariable('eventPlugin', $eventPlugin);
+        $viewModel->setVariable('camp', $eventPlugin->getCamp());
+
+        return $viewModel;
+    }
+
+    /**
+     * @return \Zend\View\Model\ViewModel
+     */
+    abstract protected function createViewModel(EventPlugin $eventPlugin, Medium $medium);
+
+    abstract public function getTitle(EventPlugin $eventPlugin);
 }

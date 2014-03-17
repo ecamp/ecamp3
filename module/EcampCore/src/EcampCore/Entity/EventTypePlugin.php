@@ -23,6 +23,7 @@ namespace EcampCore\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 use EcampLib\Entity\BaseEntity;
+use Doctrine\Common\Collections\Criteria;
 
 /**
  * EventTypePlugin
@@ -102,6 +103,37 @@ class EventTypePlugin extends BaseEntity
     public function getPlugin()
     {
         return $this->plugin;
+    }
+
+    public function getActualNumberPluginInstances(Event $event)
+    {
+        if ($this->getEventType() != $event->getEventCategory()->getEventType()) {
+            return 0;
+        }
+
+        $criteria = Criteria::create();
+        $expr = Criteria::expr();
+        $criteria->where($expr->eq('plugin', $this->getPlugin()));
+
+        return $event->getEventPlugins()->matching($criteria)->count();
+    }
+
+    public function canAddPlugin(Event $event)
+    {
+        if ($this->getEventType() != $event->getEventCategory()->getEventType()) {
+            return false;
+        }
+
+        return $this->getActualNumberPluginInstances($event) < $this->getMaxNumberPluginInstances();
+    }
+
+    public function canRemovePlugin(Event $event)
+    {
+        if ($this->getEventType() != $event->getEventCategory()->getEventType()) {
+            return false;
+        }
+
+        return $this->getActualNumberPluginInstances($event) > $this->getMinNumberPluginInstances();
     }
 
     /**
