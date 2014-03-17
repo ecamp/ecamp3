@@ -23,7 +23,7 @@ class JobService
         $this->jobRespRepository = $jobRespRepository;
     }
 
-    public function SetResponsableUsers(Job $job, Day $day, array $users)
+    public function setResponsableUsers(Job $job, Day $day, array $users)
     {
         $jobResps =
             $this->jobRespRepository->findBy(array(

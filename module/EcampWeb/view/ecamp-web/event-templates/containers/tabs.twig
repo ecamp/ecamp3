@@ -30,8 +30,8 @@
 			ulNavTabs.find('li').remove();
 			var tabPanes = tabContent.find('.tab-pane');
 			var activePaneId = tabPanes.filter('.active').attr('id');
-			var canDelete = getCurrentNumEventPlugin() > getMinNumEventPlugin();
-			var canCreate = getCurrentNumEventPlugin() < getMaxNumEventPlugin();
+			var canDelete = getCountNumEventPlugin() > getMinNumEventPlugin();
+			var canCreate = getCountNumEventPlugin() < getMaxNumEventPlugin();
 
 			if(canCreate){
 				ulNavTabs.find('button.createEventPlugin').show();
@@ -81,14 +81,14 @@
 			return {{ eventTypePlugin.maxNumberPluginInstances }};
 		}
 
-		function getCurrentNumEventPlugin(){
+		function getCountNumEventPlugin(){
 			return tabContent.find('.tab-pane').length;
 		}
 
 		tabbable.data('$eventTemplateContainerController', {
 			'getMinNumEventPlugin': getMinNumEventPlugin,
 			'getMaxNumEventPlugin': getMaxNumEventPlugin,
-			'getCurrentNumEventPlugin': getCurrentNumEventPlugin,
+			'getCountNumEventPlugin': getCountNumEventPlugin,
 
 			'createEventPlugin': createEventPlugin,
 			'deleteEventPlugin': deleteEventPlugin

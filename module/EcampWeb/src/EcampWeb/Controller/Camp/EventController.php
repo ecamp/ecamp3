@@ -120,7 +120,7 @@ class EventController extends BaseController
             }
         }
 
-        $this->getEventRespService()->SetResponsableUsers($event, $users);
+        $this->getEventRespService()->setResponsableUsers($event, $users);
 
         $viewModel = new ViewModel(array(
             'camp' => $event->getCamp(),

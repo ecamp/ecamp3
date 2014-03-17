@@ -19,8 +19,8 @@
 
 		function updateItems(){
 			var items = container.find('div.linear-item');
-			var canDelete = getCurrentNumEventPlugin() > getMinNumEventPlugin();
-			var canCreate = getCurrentNumEventPlugin() < getMaxNumEventPlugin();
+			var canDelete = getCountNumEventPlugin() > getMinNumEventPlugin();
+			var canCreate = getCountNumEventPlugin() < getMaxNumEventPlugin();
 
 			items.each(function(idx, itm){
 				var item = $(itm);
@@ -57,14 +57,14 @@
 			return {{ eventTypePlugin.maxNumberPluginInstances }};
 		}
 
-		function getCurrentNumEventPlugin(){
+		function getCountNumEventPlugin(){
 			return container.find('.linear-item').length;
 		}
 
 		container.data('$eventTemplateContainerController', {
 			'getMinNumEventPlugin': getMinNumEventPlugin,
 			'getMaxNumEventPlugin': getMaxNumEventPlugin,
-			'getCurrentNumEventPlugin': getCurrentNumEventPlugin,
+			'getCountNumEventPlugin': getCountNumEventPlugin,
 
 			'createEventPlugin': createEventPlugin,
 			'deleteEventPlugin': deleteEventPlugin
