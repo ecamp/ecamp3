@@ -20,11 +20,6 @@ class Strategy extends AbstractStrategy
         return $this->getServiceLocator()->get('EcampStoryboard\Repository\Section');
     }
 
-    public function getTitle(EventPlugin $eventPlugin)
-    {
-        return $eventPlugin->getInstanceName();
-    }
-
     /**
      * @see \EcampCore\Plugin\AbstractStrategy::createViewModel()
      */
