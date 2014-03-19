@@ -2,10 +2,8 @@
 
 namespace EcampStoryboard\Repository;
 
-use EcampCore\Entity\PluginInstance;
-
+use EcampCore\Entity\EventPlugin;
 use EcampStoryboard\Entity\Section;
-
 use Doctrine\ORM\EntityRepository;
 
 class SectionRepository extends EntityRepository
@@ -20,11 +18,11 @@ class SectionRepository extends EntityRepository
         $q = $this->getEntityManager()->createQuery("
             SELECT 		s
             FROM 		EcampStoryboard\Entity\Section s
-            WHERE 		s.pluginInstance = :pluginInstance
+            WHERE 		s.eventPlugin = :eventPlugin
             AND			s.position > :position
             ORDER BY	s.position ASC");
 
-        $q->setParameter('pluginInstance', $section->getPluginInstance()->getId());
+        $q->setParameter('eventPlugin', $section->getEventPlugin()->getId());
         $q->setParameter('position', $section->getPosition());
 
         $q->setMaxResults(1);
@@ -41,11 +39,11 @@ class SectionRepository extends EntityRepository
         $q = $this->getEntityManager()->createQuery("
             SELECT 		s
             FROM 		EcampStoryboard\Entity\Section s
-            WHERE 		s.pluginInstance = :pluginInstance
+            WHERE 		s.eventPlugin = :eventPlugin
             AND			s.position < :position
             ORDER BY	s.position DESC");
 
-        $q->setParameter('pluginInstance', $section->getPluginInstance()->getId());
+        $q->setParameter('eventPlugin', $section->getEventPlugin()->getId());
         $q->setParameter('position', $section->getPosition());
 
         $q->setMaxResults(1);
@@ -53,14 +51,14 @@ class SectionRepository extends EntityRepository
         return $q->getOneOrNullResult();
     }
 
-    public function getMaxPosition(PluginInstance $pluginInstance)
+    public function getMaxPosition(EventPlugin $eventPlugin)
     {
         $q = $this->getEntityManager()->createQuery("
             SELECT		max(s.position)
             FROM		EcampStoryboard\Entity\Section s
-            WHERE		s.pluginInstance = :pluginInstance");
+            WHERE		s.eventPlugin = :eventPlugin");
 
-        $q->setParameter('pluginInstance', $pluginInstance->getId());
+        $q->setParameter('eventPlugin', $eventPlugin->getId());
 
         return $q->getSingleScalarResult();
     }
