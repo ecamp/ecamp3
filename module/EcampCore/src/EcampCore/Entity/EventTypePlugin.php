@@ -105,7 +105,7 @@ class EventTypePlugin extends BaseEntity
         return $this->plugin;
     }
 
-    public function getActualNumberPluginInstances(Event $event)
+    public function getCountPluginInstances(Event $event)
     {
         if ($this->getEventType() != $event->getEventCategory()->getEventType()) {
             return 0;
@@ -124,7 +124,7 @@ class EventTypePlugin extends BaseEntity
             return false;
         }
 
-        return $this->getActualNumberPluginInstances($event) < $this->getMaxNumberPluginInstances();
+        return $this->getCountPluginInstances($event) < $this->getMaxNumberPluginInstances();
     }
 
     public function canRemovePlugin(Event $event)
@@ -133,7 +133,7 @@ class EventTypePlugin extends BaseEntity
             return false;
         }
 
-        return $this->getActualNumberPluginInstances($event) > $this->getMinNumberPluginInstances();
+        return $this->getCountPluginInstances($event) > $this->getMinNumberPluginInstances();
     }
 
     /**

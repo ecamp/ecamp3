@@ -21,7 +21,7 @@ class EventRespService
         $this->eventRespRepository = $eventRespRepository;
     }
 
-    public function SetResponsableUsers(Event $event, array $users)
+    public function setResponsableUsers(Event $event, array $users)
     {
         $eventResps = $this->eventRespRepository->findBy(array('event' => $event));
 

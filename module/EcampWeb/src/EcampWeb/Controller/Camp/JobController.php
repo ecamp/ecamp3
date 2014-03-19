@@ -46,7 +46,7 @@ class JobController extends BaseController
             }
         }
 
-        $this->getJobService()->SetResponsableUsers($job, $day, $users);
+        $this->getJobService()->setResponsableUsers($job, $day, $users);
 
         $viewModel = new ViewModel(array(
             'camp' => $day->getCamp(),
