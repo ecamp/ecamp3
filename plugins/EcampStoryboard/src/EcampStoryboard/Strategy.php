@@ -30,7 +30,10 @@ class Strategy extends AbstractStrategy
      */
     public function createViewModel(EventPlugin $eventPlugin, Medium $medium)
     {
-        $sections = $this->getSectionRepo()->findBy(array('eventPlugin' => $eventPlugin));
+        $sections = $this->getSectionRepo()->findBy(
+            array('eventPlugin' => $eventPlugin),
+            array('position' => 'ASC')
+        );
 
         $view = new ViewModel();
         $view->setVariable('sections', $sections);

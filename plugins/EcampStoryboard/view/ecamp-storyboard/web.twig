@@ -1,31 +1,53 @@
 
-<div class="row">
-	<div class="col-sm-2 col-md-1" style="padding-left: 20px;">
-		<b>Duration</b>
+<div id="sections{{ eventPlugin.id }}">
+	<div class="row">
+		<div class="col-sm-3 col-md-2" style="padding-left: 20px;">
+			<b>Duration</b>
+		</div>
+		<div class="col-sm-6 col-md-7">
+			<b>Text</b>
+		</div>
+		<div class="col-sm-3">
+			<b>Info</b>
+			{#
+		</div>
+		<div class="col-sm-2" style="padding-right: 20px;">
+			<b>Option</b>
+			#}
+			<div class="pull-right">
+				<a href="#"
+					class="btn btn-xs btn-default createNewSection">
+					<i class="fa fa-plus"></i>
+				</a>
+			</div>
+		</div>
+		<div class="col-xs-12">
+			<div style="border-bottom: 1px #ddd solid; margin: 2px 0px 0px 0px;" ></div>
+		</div>
 	</div>
-	<div class="col-sm-5 col-md-6">
-		<b>Text</b>
-	</div>
-	<div class="col-sm-3">
-		<b>Info</b>
-	</div>
-	<div class="col-sm-2" style="padding-right: 20px;">
-		<b>Option</b>
-	</div>
-	<div class="col-xs-12">
-		<div style="border-bottom: 2px #ddd solid; margin: 5px 0px;" ></div>
-	</div>
-</div>
 
-<ul style="list-style: none; padding: 0px;">
-	{% for section in sections %}
-		{% include 'ecamp-storyboard/section' %}
-	{% endfor %}
-</ul>
+	<ul style="list-style: none; padding: 0px;" class="section-list list-striped">
+		{% for section in sections %}
+			{% include 'ecamp-storyboard/section' %}
+		{% endfor %}
+	</ul>
+</div>
 
 <script type="text/javascript">
 
 	$(function(){
+		var sectionsContainer = $("#sections{{ eventPlugin.id }}");
+
+		sectionsContainer.find('a.createNewSection').click(function(){
+			$.get("{{ url('plugin/storyboard/default', { 'eventPluginId': eventPlugin.id, 'action': 'create' }) }}")
+			.done(function(data){
+				var section = $(data);
+				sectionsContainer.find('ul.section-list').append(section);
+				init_section(section);
+			})
+			.fail(function(data){ console.error(data); });
+		});
+
 		function init_section(liElm){
 			var liElm = $(liElm);
 			var showElm = liElm.find('div[name=show]');
@@ -34,6 +56,8 @@
 
 			showElm.hide();
 			editElm.hide();
+
+
 
 			var editFunc = function(){
 				showElm.hide();
@@ -44,6 +68,9 @@
 				});
 
 				editElm.show();
+
+				editElm.find('textarea.autosize').trigger('autosize.resize');
+				editElm.find('.form-element:first').focus();
 			};
 
 			var saveFunc = function(){
@@ -60,6 +87,7 @@
 		            statusCode: {
 						200: function(data, statusText, request){
 							var respElm = $(data);
+							respElm.find('.dropdown-toggle').dropdown();
 							liElm.replaceWith(respElm);
 							init_section(respElm);
 
@@ -67,7 +95,7 @@
 						},
 
 					    500: function(data, status){
-					    	console.log(data);
+					    	console.error(data);
 						}
 					}
 		        });
@@ -85,8 +113,35 @@
 				showElm.show();
 			};
 
+			var deleteFunc = function(e){
+				e.preventDefault();
+				$.get($(this).attr('href'))
+				 .then(function(){
+					 $(liElm).remove();
+				  });
+			};
+
+			var moveUpFunc = function(e){
+				e.preventDefault();
+				$.get($(this).attr('href'))
+				 .then(function(){
+					$(liElm).after($(liElm).prev());
+				  });
+			};
+
+			var moveDownFunc = function(e){
+				e.preventDefault();
+				$.get($(this).attr('href'))
+				 .then(function(){
+					 $(liElm).before($(liElm).next());
+				  });
+			};
+
+			liElm.find('a.deleteSection').click(deleteFunc);
+			liElm.find('a.moveUpSection').click(moveUpFunc);
+			liElm.find('a.moveDownSection').click(moveDownFunc);
+
 			showElm.find('.edit-target').click(editFunc);
-			showElm.find('a.edit').click(editFunc);
 
 			editElm.find('a.submit').click(saveFunc);
 			editElm.find('a.cancel').click(cancelFunc);
@@ -97,7 +152,11 @@
 			liElm.find('textarea.autosize').autosize();
 		};
 
-		$('li.section').each(function(idx, elm){	init_section(elm);	});
+		sectionsContainer
+		.find('ul.section-list li.section')
+		.each(function(idx, elm){
+			init_section(elm);
+		});
 	});
 
 
