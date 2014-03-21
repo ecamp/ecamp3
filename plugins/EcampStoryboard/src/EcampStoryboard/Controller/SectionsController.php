@@ -29,11 +29,11 @@ class SectionsController extends AbstractEventPluginController
     public function createAction()
     {
         $eventPlugin = $this->getRouteEventPlugin();
-        $seciton = $this->getSectionService()->create($eventPlugin);
+        $section = $this->getSectionService()->create($eventPlugin);
 
         $viewModel = new ViewModel();
-        $viewModel->setVariable('section', $seciton);
-        $viewModel->setVariable('eventPlugin', $seciton->getEventPlugin());
+        $viewModel->setVariable('section', $section);
+        $viewModel->setVariable('eventPlugin', $section->getEventPlugin());
         $viewModel->setTemplate('ecamp-storyboard/section');
 
         return $viewModel;

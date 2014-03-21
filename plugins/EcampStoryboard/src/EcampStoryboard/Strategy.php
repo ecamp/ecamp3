@@ -20,11 +20,6 @@ class Strategy extends AbstractStrategy
         return $this->getServiceLocator()->get('EcampStoryboard\Repository\Section');
     }
 
-    public function getTitle(EventPlugin $eventPlugin)
-    {
-        return $eventPlugin->getInstanceName();
-    }
-
     /**
      * @see \EcampCore\Plugin\AbstractStrategy::createViewModel()
      */
@@ -45,23 +40,6 @@ class Strategy extends AbstractStrategy
     private function getTemplate(Medium $medium)
     {
         return 'ecamp-storyboard/' . $medium->getName();
-    }
-
-    public function create(Event $event, Plugin $plugin)
-    {
-        return parent::create($event, $plugin);
-    }
-
-    public function delete(EventPlugin $eventPlugin)
-    {
-        $criteria = array('eventPlugin' => $eventPlugin);
-        $sections = $this->getSectionRepo()->findBy($criteria);
-
-        foreach ($sections as $section) {
-            $this->remove($section);
-        }
-
-        parent::delete($eventPlugin);
     }
 
 }

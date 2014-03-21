@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "138dd1710a311e9ebad65e5123915cb2",
+    "hash": "06b92844027c4ecae3560fa8ef36583e",
     "packages": [
         {
             "name": "bootstrap-select/bootstrap-select",
@@ -11,12 +11,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/silviomoreto/bootstrap-select.git",
-                "reference": "7f58cbb792971709008f24a0717e1b5edcd2c1fc"
+                "reference": "db2a1d3d9f4b19fb9a70a256c6c86fd8d98d0661"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/silviomoreto/bootstrap-select/zipball/7f58cbb792971709008f24a0717e1b5edcd2c1fc",
-                "reference": "7f58cbb792971709008f24a0717e1b5edcd2c1fc",
+                "url": "https://api.github.com/repos/silviomoreto/bootstrap-select/zipball/db2a1d3d9f4b19fb9a70a256c6c86fd8d98d0661",
+                "reference": "db2a1d3d9f4b19fb9a70a256c6c86fd8d98d0661",
                 "shasum": ""
             },
             "suggest": {
@@ -41,7 +41,7 @@
                 "replacement",
                 "select"
             ],
-            "time": "2014-03-14 19:58:47"
+            "time": "2014-03-20 02:09:49"
         },
         {
             "name": "components/angular-resource",
@@ -1179,16 +1179,16 @@
         },
         {
             "name": "neilime/zf2-twb-bundle",
-            "version": "dev-master",
+            "version": "2.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/neilime/zf2-twb-bundle.git",
-                "reference": "19460e2bc52e5a92b452bd29220f9017e91800ea"
+                "reference": "4a71e5bad356072c4390a161255eda10c2beac6c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/neilime/zf2-twb-bundle/zipball/19460e2bc52e5a92b452bd29220f9017e91800ea",
-                "reference": "19460e2bc52e5a92b452bd29220f9017e91800ea",
+                "url": "https://api.github.com/repos/neilime/zf2-twb-bundle/zipball/4a71e5bad356072c4390a161255eda10c2beac6c",
+                "reference": "4a71e5bad356072c4390a161255eda10c2beac6c",
                 "shasum": ""
             },
             "require": {
@@ -1235,7 +1235,7 @@
                 "twitter bootstrap",
                 "zend framework 2"
             ],
-            "time": "2014-03-16 18:53:48"
+            "time": "2014-01-17 10:12:36"
         },
         {
             "name": "phly/phly-restfully",
@@ -2380,7 +2380,6 @@
         "zendframework/zend-developer-tools": 20,
         "doctrine/migrations": 20,
         "zf-commons/zfc-twig": 20,
-        "neilime/zf2-twb-bundle": 20,
         "bootstrap-select/bootstrap-select": 20
     },
     "platform": {

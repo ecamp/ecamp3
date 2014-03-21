@@ -131,5 +131,8 @@ abstract class AbstractStrategy
      */
     abstract protected function createViewModel(EventPlugin $eventPlugin, Medium $medium);
 
-    abstract public function getTitle(EventPlugin $eventPlugin);
+    public function getTitle(EventPlugin $eventPlugin)
+    {
+        return $eventPlugin->getInstanceName();
+    }
 }
