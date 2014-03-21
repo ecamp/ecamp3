@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "138dd1710a311e9ebad65e5123915cb2",
+    "hash": "06b92844027c4ecae3560fa8ef36583e",
     "packages": [
         {
             "name": "bootstrap-select/bootstrap-select",
@@ -11,12 +11,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/silviomoreto/bootstrap-select.git",
-                "reference": "ad009c8bf42ce74fdedba97fb7ec5ac1856c800a"
+                "reference": "db2a1d3d9f4b19fb9a70a256c6c86fd8d98d0661"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/silviomoreto/bootstrap-select/zipball/ad009c8bf42ce74fdedba97fb7ec5ac1856c800a",
-                "reference": "ad009c8bf42ce74fdedba97fb7ec5ac1856c800a",
+                "url": "https://api.github.com/repos/silviomoreto/bootstrap-select/zipball/db2a1d3d9f4b19fb9a70a256c6c86fd8d98d0661",
+                "reference": "db2a1d3d9f4b19fb9a70a256c6c86fd8d98d0661",
                 "shasum": ""
             },
             "suggest": {
@@ -41,7 +41,7 @@
                 "replacement",
                 "select"
             ],
-            "time": "2014-03-08 01:58:24"
+            "time": "2014-03-20 02:09:49"
         },
         {
             "name": "components/angular-resource",
@@ -976,12 +976,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/migrations.git",
-                "reference": "4837b4afac4469c8740f33eae6bdcd8bd1545d2e"
+                "reference": "46a031ddaea47d0685200027cfe8c83b02aee6f6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/migrations/zipball/4837b4afac4469c8740f33eae6bdcd8bd1545d2e",
-                "reference": "4837b4afac4469c8740f33eae6bdcd8bd1545d2e",
+                "url": "https://api.github.com/repos/doctrine/migrations/zipball/46a031ddaea47d0685200027cfe8c83b02aee6f6",
+                "reference": "46a031ddaea47d0685200027cfe8c83b02aee6f6",
                 "shasum": ""
             },
             "require": {
@@ -1028,7 +1028,7 @@
                 "database",
                 "migrations"
             ],
-            "time": "2014-03-04 01:42:11"
+            "time": "2014-03-16 19:02:43"
         },
         {
             "name": "doctrine/orm",
@@ -1179,16 +1179,16 @@
         },
         {
             "name": "neilime/zf2-twb-bundle",
-            "version": "dev-master",
+            "version": "2.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/neilime/zf2-twb-bundle.git",
-                "reference": "88dce5b4559a80945b416fcf5b30b84738af0962"
+                "reference": "4a71e5bad356072c4390a161255eda10c2beac6c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/neilime/zf2-twb-bundle/zipball/88dce5b4559a80945b416fcf5b30b84738af0962",
-                "reference": "88dce5b4559a80945b416fcf5b30b84738af0962",
+                "url": "https://api.github.com/repos/neilime/zf2-twb-bundle/zipball/4a71e5bad356072c4390a161255eda10c2beac6c",
+                "reference": "4a71e5bad356072c4390a161255eda10c2beac6c",
                 "shasum": ""
             },
             "require": {
@@ -1235,7 +1235,7 @@
                 "twitter bootstrap",
                 "zend framework 2"
             ],
-            "time": "2014-03-01 08:43:27"
+            "time": "2014-01-17 10:12:36"
         },
         {
             "name": "phly/phly-restfully",
@@ -2038,13 +2038,13 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/zendframework/ZendDeveloperTools.git",
-                "reference": "b577e10f92cb449cf70cfa1b6d069ee8acbe7b21"
+                "reference": "3e4fb960030a055ac27a7e214ec2586f7d54ad3d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://packages.zendframework.com/composer/zendframework-zend-developer-tools-b577e10f92cb449cf70cfa1b6d069ee8acbe7b21-zip-0b0e67.zip",
+                "url": "https://packages.zendframework.com/composer/zendframework-zend-developer-tools-3e4fb960030a055ac27a7e214ec2586f7d54ad3d-zip-987fed.zip",
                 "reference": "dev-master",
-                "shasum": "45a7dec1666e55f89b162ff68b9d63dd350561c7"
+                "shasum": "cc8c553ff675889beb86e87157047a289fe8c497"
             },
             "require": {
                 "php": ">=5.3.3",
@@ -2094,7 +2094,7 @@
                 "source": "https://github.com/zendframework/ZendDeveloperTools/tree/master",
                 "issues": "https://github.com/zendframework/ZendDeveloperTools/issues"
             },
-            "time": "2014-02-20 14:58:50"
+            "time": "2014-03-12 00:47:04"
         },
         {
             "name": "zendframework/zendframework",
@@ -2269,13 +2269,13 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/zendframework/ZFTool.git",
-                "reference": "d73bf6f0ae6ce9b92acc72ecc8f336e2352f3ae0"
+                "reference": "a8272c70d05e472dca0c56d2ffd3af3e87715350"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://packages.zendframework.com/composer/zendframework-zftool-d73bf6f0ae6ce9b92acc72ecc8f336e2352f3ae0-zip-9b2b2a.zip",
+                "url": "https://packages.zendframework.com/composer/zendframework-zftool-a8272c70d05e472dca0c56d2ffd3af3e87715350-zip-00ee71.zip",
                 "reference": "dev-master",
-                "shasum": "a69020b25bdb8da64459c2f095b50728cece5975"
+                "shasum": "918772315955ce08acd57db3f0d2db8276041c47"
             },
             "require": {
                 "php": ">=5.3.3",
@@ -2316,7 +2316,7 @@
                 "source": "https://github.com/zendframework/ZFTool/tree/master",
                 "issues": "https://github.com/zendframework/ZFTool/issues"
             },
-            "time": "2014-01-02 17:29:50"
+            "time": "2014-03-14 10:30:46"
         },
         {
             "name": "zf-commons/zfc-twig",
@@ -2324,12 +2324,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/ZF-Commons/ZfcTwig.git",
-                "reference": "735999e652b8953493a535f4c1e6bcd26ecefba4"
+                "reference": "1611a5fda84d23cc5a405511f98835b7fe2f03d7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ZF-Commons/ZfcTwig/zipball/735999e652b8953493a535f4c1e6bcd26ecefba4",
-                "reference": "735999e652b8953493a535f4c1e6bcd26ecefba4",
+                "url": "https://api.github.com/repos/ZF-Commons/ZfcTwig/zipball/1611a5fda84d23cc5a405511f98835b7fe2f03d7",
+                "reference": "1611a5fda84d23cc5a405511f98835b7fe2f03d7",
                 "shasum": ""
             },
             "require": {
@@ -2365,7 +2365,7 @@
                 "twig",
                 "zf2"
             ],
-            "time": "2014-03-05 18:08:57"
+            "time": "2014-03-10 14:18:05"
         }
     ],
     "packages-dev": [
@@ -2380,7 +2380,6 @@
         "zendframework/zend-developer-tools": 20,
         "doctrine/migrations": 20,
         "zf-commons/zfc-twig": 20,
-        "neilime/zf2-twb-bundle": 20,
         "bootstrap-select/bootstrap-select": 20
     },
     "platform": {
