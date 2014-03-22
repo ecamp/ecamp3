@@ -32,7 +32,7 @@
 			url('plugin/material/default', {
 				'eventPluginId': eventPlugin.id,
 				'controller': 'item',
-				'action': 'add'
+				'action': 'create'
 			} )}}"
 		>
 			<div class="col-md-2">
@@ -69,10 +69,8 @@
 <script type="text/javascript">
 
 	$(function(){
-		var eventPluginElm = $('#eventplugin-{{eventPlugin.id}}');
+		var eventPluginElm = $('#{{eventPlugin.id}}');
 		var addElm  = eventPluginElm.find('div[name=add]');
-		var origData = null;
-
 
 		var addFunc = function(){
 			var form = addElm.find('form');
@@ -88,11 +86,8 @@
 	            statusCode: {
 					200: function(data, statusText, request){
 						var respElm = $(data);
-						$('#material-items').childs('tr').append(respElm);
-
-						//init_section(respElm);
-
-						origData = null;
+						eventPluginElm.find('#material-items').append(respElm);
+						form[0].reset();
 					},
 
 				    500: function(data, status){

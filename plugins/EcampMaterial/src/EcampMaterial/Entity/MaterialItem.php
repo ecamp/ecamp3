@@ -2,6 +2,8 @@
 
 namespace EcampMaterial\Entity;
 
+use EcampCore\Entity\EventPlugin;
+
 use EcampLib\Entity\BaseEntity;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -15,7 +17,7 @@ class MaterialItem extends BaseEntity
 
     /**
      * @ORM\ManyToOne(targetEntity="EcampCore\Entity\EventPlugin", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(name="eventPlugin_id", referencedColumnName="id", nullable=true)
+     * @ORM\JoinColumn(nullable=true, onDelete="CASCADE")
      */
     private $eventPlugin;
 

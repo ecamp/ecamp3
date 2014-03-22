@@ -24,7 +24,7 @@ class MaterialList extends BaseEntity
 
     /**
      * @ORM\ManyToOne(targetEntity="EcampCore\Entity\Camp")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
      */
     private $camp;
 

@@ -24,7 +24,7 @@ class EventPluginController extends AbstractEventPluginController
     {
         return $this->getMediumRepository()->find(Medium::MEDIUM_WEB);
     }
-    
+
     public function createAction()
     {
         try {
@@ -85,33 +85,32 @@ class EventPluginController extends AbstractEventPluginController
             return $response;
         }
     }
-    
+
     public function deleteAction()
     {
-    	try {
-    		$eventPlugin = $this->getRouteEventPlugin();
-    		if ($eventPlugin == null) {
-    			throw new \Exception("EventPlugin does not exist");
-    		}
-    
-    		$plugin = $eventPlugin->getPlugin();
-    
-    		$pluginStrategy = $this->getPluginStrategyInstance($plugin);
-    		$pluginStrategy->delete($eventPlugin);
-    
-    		$response = $this->getResponse();
-    		$response->setStatusCode(Response::STATUS_CODE_200);
-    
-    		return $response;
-    
-    	} catch (\Exception $ex) {
-    		$response = $this->getResponse();
-    		$response->setStatusCode(Response::STATUS_CODE_500);
-    		$response->setContent($ex->getMessage());
-    
-    		return $response;
-    	}
+        try {
+            $eventPlugin = $this->getRouteEventPlugin();
+            if ($eventPlugin == null) {
+                throw new \Exception("EventPlugin does not exist");
+            }
+
+            $plugin = $eventPlugin->getPlugin();
+
+            $pluginStrategy = $this->getPluginStrategyInstance($plugin);
+            $pluginStrategy->delete($eventPlugin);
+
+            $response = $this->getResponse();
+            $response->setStatusCode(Response::STATUS_CODE_200);
+
+            return $response;
+
+        } catch (\Exception $ex) {
+            $response = $this->getResponse();
+            $response->setStatusCode(Response::STATUS_CODE_500);
+            $response->setContent($ex->getMessage());
+
+            return $response;
+        }
     }
-    
 
 }

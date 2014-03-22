@@ -7,7 +7,6 @@ use Zend\View\Model\ViewModel;
 use EcampCore\Plugin\AbstractStrategy;
 use EcampCore\Entity\Medium;
 use EcampCore\Entity\EventPlugin;
-use EcampCore\Entity\Event;
 use EcampCore\Entity\Plugin;
 
 class Strategy extends AbstractStrategy
