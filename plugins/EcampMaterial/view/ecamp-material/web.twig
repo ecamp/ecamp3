@@ -1,3 +1,4 @@
+<script src="/typeahead.js/typeahead.bundle.js"></script>
 
 <table class="table" id="material-items">
 	<thead>
@@ -39,7 +40,7 @@
 				<input name="quantity" id="quantity" class="form-element form-control" type="text" />
 			</div>
 			<div class="col-md-5">
-				<input name="text" id="text" class="form-element form-control" type="text" />
+				<input name="text" id="text" class="form-element form-control typeahead" type="text" />
 			</div>
 
 			<div class="col-md-3">
@@ -64,10 +65,7 @@
 		</form>
 	</div>
 
-
-
 <script type="text/javascript">
-
 	$(function(){
 		var eventPluginElm = $('#{{eventPlugin.id}}');
 		var addElm  = eventPluginElm.find('div[name=add]');
@@ -100,7 +98,38 @@
 		addElm.find('a.submit').click(addFunc);
 		addElm.find('select.selectpicker').selectpicker();
 	});
+</script>
 
 
+<script>
+$(document).ready(function() {
 
+	var materialDictionary = new Bloodhound({
+	  datumTokenizer:  function(d) {
+	      return Bloodhound.tokenizers.whitespace(d.text);
+	  },
+	  queryTokenizer: Bloodhound.tokenizers.whitespace,
+	  prefetch: '{{
+			url('plugin/material/dictionary', {
+				'eventPluginId': eventPlugin.id
+			} )}}',
+	  remote: {
+		  url: '{{
+			url('plugin/material/dictionary', {
+				'eventPluginId': eventPlugin.id,
+				'query': 'QUERY'
+			} )}}',
+			wildcard:'QUERY'
+	  }
+	});
+
+	materialDictionary.initialize();
+
+	$('#{{eventPlugin.id}} .typeahead').typeahead(null, {
+	  name: 'materialDictionary',
+	  displayKey: 'text',
+	  source: materialDictionary.ttAdapter()
+	});
+
+});
 </script>

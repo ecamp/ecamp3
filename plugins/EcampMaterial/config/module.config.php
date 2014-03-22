@@ -45,6 +45,16 @@ return array(
                                     ),
                                 ),
                             ),
+                            'dictionary' => array(
+                                        'type'    => 'Segment',
+                                        'options' => array(
+                                                'route'    => '/dictionary[/:query]',
+                                                'defaults' => array(
+                                                        'controller' => 'Dictionary',
+                                                        'action'     => 'index',
+                                                ),
+                                        ),
+                            ),
                         ),
                     ),
                 ),
@@ -55,6 +65,7 @@ return array(
     'controllers' => array(
         'invokables' => array(
             'EcampMaterial\Controller\Item' => 'EcampMaterial\Controller\ItemController',
+            'EcampMaterial\Controller\Dictionary' => 'EcampMaterial\Controller\DictionaryController',
         ),
     ),
 
