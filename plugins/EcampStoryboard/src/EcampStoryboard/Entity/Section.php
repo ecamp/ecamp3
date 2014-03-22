@@ -5,6 +5,7 @@ namespace EcampStoryboard\Entity;
 use EcampLib\Entity\BaseEntity;
 
 use Doctrine\ORM\Mapping as ORM;
+use EcampCore\Entity\EventPlugin;
 
 /**
  * @ORM\Entity(repositoryClass="EcampStoryboard\Repository\SectionRepository")
@@ -14,7 +15,8 @@ class Section extends BaseEntity
 {
 
     /**
-     * @ORM\ManyToOne(targetEntity="EcampCore\Entity\EventPlugin")
+     * @ORM\ManyToOne(targetEntity="EcampCore\Entity\EventPlugin", cascade={"remove"})
+     * @ORM\JoinColumn(onDelete="CASCADE")
      */
     private $eventPlugin;
 

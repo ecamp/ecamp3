@@ -97,6 +97,9 @@
 									{% for eventInstance in event.eventInstances %}
 										<tr>
 											<td>
+												{{ eventInstance.getEventNumber() }}
+											</td>
+											<td>
 												{{ eventInstance.getDateRange() }}
 											</td>
 											<td>

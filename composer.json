@@ -34,7 +34,7 @@
         
         "phly/phly-restfully": "2.2.x",
         
-        "neilime/zf2-twb-bundle": "dev-master",
+        "neilime/zf2-twb-bundle": "2.0.x",
         
         "components/jquery": "2.*",
         "components/jqueryui": "1.*",
