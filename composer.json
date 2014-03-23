@@ -9,6 +9,9 @@
 	"repositories" : [{
 			"type" : "composer",
 			"url" : "http://packages.zendframework.com/"
+		}, {
+			"type" : "vcs",
+			"url" : "http://github.com/usu/php-resque-ex"
 		}
 	],
 	"require" : {
@@ -33,7 +36,7 @@
 		"components/angular-resource" : "1.*",
 		"components/typeahead.js" : "0.10.x",
 		"bootstrap-select/bootstrap-select" : "dev-master",
-		"kamisama/php-resque-ex" : "1.2.x",
+		"kamisama/php-resque-ex" : "dev-bugfix as 1.2.7",
 		"fresque/fresque" : "1.2.x"
 	}
 }

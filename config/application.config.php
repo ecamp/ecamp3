@@ -6,9 +6,10 @@
  * @see https://github.com/zendframework/ZFTool
  */
 
-define('__PUBLIC__' , __DIR__ . '/../public');
-define('__VENDOR__', __DIR__ . '/../vendor');
-define('__DATA__' , __DIR__ . '/../data');
+define("__BASE__", dirname(__DIR__) );
+define("__PUBLIC__", __BASE__ . '/public');
+define("__VENDOR__", __BASE__ . '/vendor');
+define("__DATA__", __BASE__ . '/data');
 
 return array(
     'modules' => array(

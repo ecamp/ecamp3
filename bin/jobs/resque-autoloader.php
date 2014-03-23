@@ -4,6 +4,7 @@
  * Autoloader for Resque Job classes
 *
 */
+
 class Ecamp_Job_Autoloader
 {
 	/**

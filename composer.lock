@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "4008f5820014e9763a7bacf04688a0a3",
+    "hash": "824d9d6d347841683e14dc83847dadd2",
     "packages": [
         {
             "name": "bootstrap-select/bootstrap-select",
@@ -11,12 +11,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/silviomoreto/bootstrap-select.git",
-                "reference": "db2a1d3d9f4b19fb9a70a256c6c86fd8d98d0661"
+                "reference": "2b6faf9cf7180945a8ed6cb6bd63e21808e5fc0f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/silviomoreto/bootstrap-select/zipball/db2a1d3d9f4b19fb9a70a256c6c86fd8d98d0661",
-                "reference": "db2a1d3d9f4b19fb9a70a256c6c86fd8d98d0661",
+                "url": "https://api.github.com/repos/silviomoreto/bootstrap-select/zipball/2b6faf9cf7180945a8ed6cb6bd63e21808e5fc0f",
+                "reference": "2b6faf9cf7180945a8ed6cb6bd63e21808e5fc0f",
                 "shasum": ""
             },
             "suggest": {
@@ -41,7 +41,7 @@
                 "replacement",
                 "select"
             ],
-            "time": "2014-03-20 02:09:49"
+            "time": "2014-03-21 16:56:41"
         },
         {
             "name": "components/angular-resource",
@@ -1243,16 +1243,16 @@
         },
         {
             "name": "kamisama/php-resque-ex",
-            "version": "1.2.7",
+            "version": "dev-bugfix",
             "source": {
                 "type": "git",
-                "url": "https://github.com/kamisama/php-resque-ex.git",
-                "reference": "1fa1989ca1669b185ffd354ed0c574857545480d"
+                "url": "https://github.com/usu/php-resque-ex.git",
+                "reference": "cc18c8e52562ad235f8c3ceddafca18ead19a2b9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kamisama/php-resque-ex/zipball/1fa1989ca1669b185ffd354ed0c574857545480d",
-                "reference": "1fa1989ca1669b185ffd354ed0c574857545480d",
+                "url": "https://api.github.com/repos/usu/php-resque-ex/zipball/cc18c8e52562ad235f8c3ceddafca18ead19a2b9",
+                "reference": "cc18c8e52562ad235f8c3ceddafca18ead19a2b9",
                 "shasum": ""
             },
             "require": {
@@ -1273,7 +1273,6 @@
                     "Resque": "lib"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -1281,8 +1280,7 @@
                 {
                     "name": "Wan Chen",
                     "email": "kami@kamisama.me",
-                    "homepage": "http://www.kamisama.me",
-                    "role": "Developer"
+                    "homepage": "http://www.kamisama.me"
                 },
                 {
                     "name": "Chris Boulton",
@@ -1299,7 +1297,12 @@
                 "redis",
                 "resque"
             ],
-            "time": "2013-10-15 15:35:49"
+            "support": {
+                "email": "kami@kamisama.me",
+                "issues": "https://github.com/kamisama/php-resque-ex/issues",
+                "source": "https://github.com/kamisama/php-resque-ex"
+            },
+            "time": "2014-03-23 10:36:47"
         },
         {
             "name": "kamisama/resque-status",
@@ -2382,13 +2385,13 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/zendframework/ZendDeveloperTools.git",
-                "reference": "3e4fb960030a055ac27a7e214ec2586f7d54ad3d"
+                "reference": "763cecf9d68fc0d3765d45847047817a47ecdd4a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://packages.zendframework.com/composer/zendframework-zend-developer-tools-3e4fb960030a055ac27a7e214ec2586f7d54ad3d-zip-987fed.zip",
+                "url": "https://packages.zendframework.com/composer/zendframework-zend-developer-tools-763cecf9d68fc0d3765d45847047817a47ecdd4a-zip-e29860.zip",
                 "reference": "dev-master",
-                "shasum": "cc8c553ff675889beb86e87157047a289fe8c497"
+                "shasum": "dc945ae6bc23a167e94f7ce8bfe7d58d5519f970"
             },
             "require": {
                 "php": ">=5.3.3",
@@ -2438,7 +2441,7 @@
                 "source": "https://github.com/zendframework/ZendDeveloperTools/tree/master",
                 "issues": "https://github.com/zendframework/ZendDeveloperTools/issues"
             },
-            "time": "2014-03-12 00:47:04"
+            "time": "2014-03-23 05:38:41"
         },
         {
             "name": "zendframework/zendframework",
@@ -2836,7 +2839,12 @@
 
     ],
     "aliases": [
-
+        {
+            "alias": "1.2.7",
+            "alias_normalized": "1.2.7.0",
+            "version": "dev-bugfix",
+            "package": "kamisama/php-resque-ex"
+        }
     ],
     "minimum-stability": "stable",
     "stability-flags": {
@@ -2844,7 +2852,8 @@
         "zendframework/zend-developer-tools": 20,
         "doctrine/migrations": 20,
         "zf-commons/zfc-twig": 20,
-        "bootstrap-select/bootstrap-select": 20
+        "bootstrap-select/bootstrap-select": 20,
+        "kamisama/php-resque-ex": 20
     },
     "platform": {
         "php": ">=5.3.3"
