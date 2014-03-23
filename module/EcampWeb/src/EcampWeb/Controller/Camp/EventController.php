@@ -88,6 +88,21 @@ class EventController extends BaseController
 
         return $viewModel;
     }
+    
+    public function printAction(){
+    	$event = $this->getEventEntity();
+    	
+    	$token1 = \Resque::enqueue('ecamp3', 'EventPrinter', array(
+    		'printSingleEvent',
+	    	'eventId' => $event->getId()
+	    	), true);
+    	
+    	$token2 = \Resque::enqueue('ecamp3', 'Zf2Cli', array(
+    			'command' => "job dummy test2"
+    	), true);
+    	
+    	die("let's print this event! $token1 $token2 ");
+    }
 
     public function setRespAction()
     {

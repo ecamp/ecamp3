@@ -5,6 +5,11 @@
  *
  * @see https://github.com/zendframework/ZFTool
  */
+
+define('__PUBLIC__' , __DIR__ . '/../public');
+define('__VENDOR__', __DIR__ . '/../vendor');
+define('__DATA__' , __DIR__ . '/../data');
+
 return array(
     'modules' => array(
         'ZFTool',
