@@ -13,7 +13,7 @@
         <!-- CSS - Files -->
 		<link type="text/css" rel="stylesheet" href="{{ request.getBasePath }}/bootstrap/css/bootstrap.min.css" />
 		<link type="text/css" rel="stylesheet" href="{{ request.getBasePath }}/font-awesome/css/font-awesome.min.css" />
-		<link type="text/css" rel="stylesheet" href="{{ request.getBasePath }}/jquery-ui/themes/base/minified/jquery-ui.min.css" />
+		<link type="text/css" rel="stylesheet" href="{{ request.getBasePath }}/jqueryui/themes/base/minified/jquery-ui.min.css" />
 
 		<link type="text/css" rel="stylesheet" href='{{ request.getBasePath }}/bootstrap-select/css/bootstrap-select.min.css' />
 		<link type="text/css" rel="stylesheet" href='{{ request.getBasePath }}/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css' />
@@ -27,10 +27,10 @@
 
         <!-- Scripts -->
 		<script src="{{ request.getBasePath }}/jquery/jquery.min.js"></script>
-		<script src="{{ request.getBasePath }}/jquery-ui/ui/minified/jquery-ui.min.js"></script>
+		<script src="{{ request.getBasePath }}/jqueryui/ui/minified/jquery-ui.min.js"></script>
 		<script src="{{ request.getBasePath }}/jquery-autosize/js/jquery.autosize.min.js"></script>
 
-		<script src="{{ request.getBasePath }}/angularjs/angular.min.js"></script>
+		<script src="{{ request.getBasePath }}/angular.js/angular.min.js"></script>
 		<script src="{{ request.getBasePath }}/angular-resource/angular-resource.min.js"></script>
 
 		<script src="{{ request.getBasePath }}/bootstrap/js/bootstrap.min.js"></script>
@@ -200,7 +200,7 @@
 				</div>
 			</section>
 
-			<section class="container white">
+			<section class="container white" style="margin-bottom: 200px;">
 
 	        	{% block content %}{% endblock content %}
 	        </section>

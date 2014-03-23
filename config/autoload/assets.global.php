@@ -4,16 +4,15 @@ return array(
     'asset_manager' => array(
         'caching' => array(
             'default' => array(
-//     			'cache'     => 'FileSystem',
-                'cache'     => 'FilePath',
+                'cache'     => 'Filesystem',
                 'options' => array(
-                    'dir' => __PUBLIC__,
+                    'dir' => __DATA__ . "/assets",
                 ),
             ),
         ),
         'resolver_configs' => array(
             'paths' => array(
-                __COMPONENTS__
+                __VENDOR__ . "/components"
             ),
 
             'map' => array(

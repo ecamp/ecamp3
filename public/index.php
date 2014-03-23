@@ -6,7 +6,7 @@
 
 define('__PUBLIC__' , __DIR__);
 define('__VENDOR__', __DIR__ . '/../vendor');
-define('__COMPONENTS__', __DIR__ . '/../components');
+define('__DATA__' , __DIR__ . '/../data');
 
 chdir(dirname(__DIR__));
 

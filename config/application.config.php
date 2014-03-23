@@ -33,6 +33,7 @@ return array(
 //     	'EcampDev',
 
         'EcampStoryboard',
+        'EcampMaterial',
 
         'Application'
     ),
