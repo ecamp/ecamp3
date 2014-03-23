@@ -76,11 +76,24 @@ abstract class BaseController
         return $this->getUserService()->Get();
     }
 
+    /**
+     * @return \EcampCore\Entity\Medium
+     */
     protected function getWebMedium()
     {
         $mediumRepository = $this->getServiceLocator()->get('EcampCore\Repository\Medium');
 
         return $mediumRepository->find(Medium::MEDIUM_WEB);
+    }
+    
+    /**
+     * @return \EcampCore\Entity\Medium
+     */
+    protected function getPrintMedium()
+    {
+    	$mediumRepository = $this->getServiceLocator()->get('EcampCore\Repository\Medium');
+    
+    	return $mediumRepository->find(Medium::MEDIUM_PRINT);
     }
 
     /**

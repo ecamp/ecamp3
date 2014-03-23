@@ -1,0 +1,67 @@
+<button type="button" class="btn btn-primary" id="print">
+	<span class="pull-left" style="margin-right:20px;">Print</span>
+</button>	 
+
+
+<script type="text/javascript">
+
+	$(function(){
+
+		var printBtn  = $('#print');
+		var token = null;
+
+		var createJobFunc = function(){
+			
+	        $.get( '{{ url(
+		    			'web/camp/default',
+		    			{'camp': camp, 'controller':'event', 'action' : 'printJobCreate' },
+		    			{'query': {'eventId': event.id } }
+		    		) }}', 
+		    		function( data ) {
+			        	  token = data;
+
+			        	  printBtn.addClass('disabled');
+				  		  var imgWaitSrc = '<div id="waiting" class="pull-right"><i class="fa fa-spinner fa-spin"></i> printing</div>';
+				  		  var imgWait = $(imgWaitSrc);
+				  		  printBtn.append(imgWait);
+			  			
+			        	  setTimeout(checkForComplete, 500);
+	        		}
+	        );
+		};
+
+		var checkForComplete = function(){
+
+			$.get( '/resque-status.php?token='+token, 
+		    		function( data ) {
+			        	  			        	  
+			        	  if( data == "running" || data == "waiting" ){
+			        	  	setTimeout(checkForComplete, 500);
+			        	  }
+
+			        	  if( data == "failed" )
+			        	  {
+			        		  printBtn.removeClass('disabled');
+			        		  printBtn.find('#waiting').remove();
+		        		  
+				        	  alert("A error has occured during printing.");
+				           }
+				           
+			        	  if( data == "complete" )
+			        	  {
+			        		  printBtn.removeClass('disabled');
+			        		  printBtn.find('#waiting').remove();
+			        		  
+			        		  window.open('{{ url(
+			  		    			'web/default',
+					    			{'controller':'index', 'action' : 'printJobResult' }
+					    		) }}?token=' + token);
+				          }
+	        		}
+        	);
+		};	
+			
+		printBtn.click(createJobFunc);
+		
+	});
+</script>
