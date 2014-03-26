@@ -26,19 +26,26 @@ use EcampLib\Entity\BaseEntity;
 
 /**
  * EventTemplate
- * @ORM\Entity(readOnly=true)
- * @ORM\Table(name="event_templates", uniqueConstraints={@ORM\UniqueConstraint(name="prototype_medium_unique",columns={"eventPrototype_id", "medium"})})
+ * @ORM\Entity(readOnly=true, repositoryClass="EcampCore\Repository\EventTemplateRepository")
+ * @ORM\Table(name="event_templates", uniqueConstraints={
+ * 	@ORM\UniqueConstraint(
+ * 		name="eventtype_medium_unique",
+ * 		columns={"eventType_id", "medium"}
+ * 	)
+ * })
  */
 class EventTemplate extends BaseEntity
 {
 
-    public function __construct(EventPrototype $eventPrototype, Medium $medium, $filename)
+    public function __construct(EventType $eventType, Medium $medium, $filename)
     {
+        parent::__construct();
+
         $this->medium = $medium;
-        $this->eventPrototype = $eventPrototype;
+        $this->eventType = $eventType;
         $this->filename = $filename;
 
-        $this->pluginPositions = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->eventTemplateContainers = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -49,23 +56,22 @@ class EventTemplate extends BaseEntity
     private $medium;
 
     /**
+     * @var EventType
+     * @ORM\ManyToOne(targetEntity="EventType")
+     * @ORM\JoinColumn(nullable=false, onDelete="cascade")
+     */
+    private $eventType;
+
+    /**
      * @var string
      * @ORM\Column(type="string", length=128, nullable=false )
      */
     private $filename;
 
     /**
-     * @var EventPrototype
-     * @ORM\ManyToOne(targetEntity="EventPrototype")
-     * @ORM\JoinColumn(nullable=false, onDelete="cascade")
+     * @ORM\OneToMany(targetEntity="EventTemplateContainer", mappedBy="eventTemplate")
      */
-    private $eventPrototype;
-
-    /**
-     * @ORM\OneToMany(targetEntity="PluginPosition", mappedBy="eventTemplate")
-     * @ORM\OrderBy({"sort" = "ASC"})
-     */
-    private $pluginPositions;
+    private $eventTemplateContainers;
 
     /**
      * @return string
@@ -84,18 +90,18 @@ class EventTemplate extends BaseEntity
     }
 
     /**
-     * @return EventPrototype
+     * @return EventType
      */
-    public function getEventPrototype()
+    public function getEventType()
     {
-        return $this->eventPrototype;
+        return $this->eventType;
     }
 
     /**
      * @return \Doctrine\Common\Collections\ArrayCollection
      */
-    public function getPluginPositions()
+    public function getEventTemplateContainers()
     {
-        return $this->pluginPositions;
+        return $this->eventTemplateContainers;
     }
 }

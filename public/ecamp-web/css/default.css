@@ -1,0 +1,266 @@
+
+*, h1, h2, h3, h4, h5, h6 {
+/*
+*/
+	font-family: Comic Sans MS;
+}
+
+.panel-group .panel {
+	overflow: visible;
+}
+
+[class^="icon-"] {
+	font-size: 18px;
+/*	vertical-align: middle; */
+}
+
+.btn-xs [class^="icon-"] {
+	font-size: 15px;
+}
+.btn-sm [class^="icon-"] {
+	font-size: 16px;
+}
+.btn-lg [class^="icon-"] {
+	font-size: 20px;
+}
+
+.btn-noborder {
+	color: #333;
+	background-color: #fff;
+	border: none;
+}
+.btn-noborder:hover {
+	background-color: #eee;
+}
+.btn-group.open .btn-noborder.dropdown-toggle{
+	background-color: #eee;
+}
+
+.btn-top-right {
+	position: absolute;
+	top: 1px;
+	right: 16px;
+	
+	border-top-left-radius: 0px;
+	border-bottom-right-radius: 0px;
+	padding: 3px 3px 0px 5px;
+}
+
+.btn-bottom-right {
+	position: absolute;
+	bottom: 16px;
+	right: 16px;
+	
+	border-top-right-radius: 0px;
+	border-bottom-left-radius: 0px;
+	padding: 3px 3px 0px 5px;
+}
+
+.btn-top-right i.icon-edit, 
+.btn-bottom-right i.icon-edit {
+	font-size: 25px;
+	color: #428bca;
+}
+
+.icon-green {
+	color: rgb(92, 184, 92);
+}
+
+.icon-red {
+	color: rgb(217, 83, 79);
+}
+
+.icon-blue {
+	color: blue;
+}
+
+table.table tr:first-child td {
+	border-top: none;
+}
+
+.breadcrumb>li+li:before {
+	padding: 0 3px;
+	color: #888;
+	font-family: FontAwesome;
+	content: "\f0da";
+}
+
+		
+.white {
+	border-width: 10px;
+	border-style: solid;
+	border-color: white;
+}
+
+.open ul.dropdown-menu{
+	opacity: 0.95;
+}
+
+
+/* .tabbable > .nav > li > a, */
+a.accordion-toggle {
+	text-decoration: none;
+}
+
+/* .tabbable > .nav > li > a .fa.fa-accordion, */
+a.accordion-toggle .fa.fa-accordion {
+	transition-duration: 0.4s;
+}
+
+/* .tabbable > .nav > li.active > a .fa.fa-accordion, */
+a.accordion-toggle.collapsed .fa.fa-accordion {
+	filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=-1);
+	-webkit-transform: rotate(-90deg);
+	-moz-transform: rotate(-90deg);
+	-ms-transform: rotate(-90deg);
+	-o-transform: rotate(-90deg);
+	transform: rotate(-90deg);
+}
+
+/* .tabbable > .nav > li > a .fa.fa-accordion:before, */
+a.accordion-toggle .fa.fa-accordion:before {
+	content: "\f078";
+}
+
+.panel-group, .tabbable {
+	margin-bottom: 20px;
+}
+
+.panel-heading {
+	background-color: #f5f5f5;
+/*	border-bottom: 1px solid #ddd !important;	*/
+}
+
+.panel-body {
+	padding-bottom: 0px;
+}
+
+.modal {
+	overflow-y: auto !important;
+}
+
+body.modal-open,
+.modal-open .navbar-fixed-top,
+.modal-open .navbar-fixed-bottom {
+	margin-right: 0px;
+}
+
+input.nospinner::-webkit-inner-spin-button,
+input.nospinner::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.tabbable > .nav {
+	background-color: #f5f5f5;
+	
+	border-top: 1px solid #ddd;
+	border-left: 1px solid #ddd;
+	border-right: 1px solid #ddd;
+	border-top-left-radius : 4px;
+	border-top-right-radius : 4px;
+	
+	padding: 3px 3px 0px 3px;
+}
+
+.tabbable > .nav > li {
+	cursor: pointer;
+}
+
+.tabbable > .nav > li > a {
+	font-size: 16px;
+	padding: 5px 10px;
+}
+
+.tabbable > .nav > li > a .deleteEventPlugin {
+	display: none;
+	border: none;
+	padding: 0px;
+	margin: 0px;
+	background-color: inherit;
+	outline: none;
+}
+
+.tabbable > .nav > li.active > a .deleteEventPlugin.showDeleteButton {
+	display: inline;
+}
+
+.tabbable > .nav > li > a .deleteEventPlugin > i { 
+	color: lightgray;
+}
+
+.tabbable > .nav > li > a .deleteEventPlugin > i:hover{
+	color: #d9534f;
+}
+
+.tabbable > .tab-content {
+	border-left: 1px solid #ddd;
+	border-right: 1px solid #ddd;
+	border-bottom: 1px solid #ddd;
+	border-bottom-left-radius : 4px;
+	border-bottom-right-radius : 4px;
+	padding-top: 15px;
+	padding-right: 15px;
+	padding-left: 15px;
+	
+	-webkit-box-shadow: 0 1px 1px rgba(0,0,0,0.05);
+	box-shadow: 0 1px 1px rgba(0,0,0,0.05);
+}
+
+.list-striped>li:nth-child(odd){
+	background-color: #f9f9f9;
+}
+
+
+
+@media (min-width: 768px){
+
+	div.bgimage {
+		position: fixed;
+		top: -100px;
+		bottom: -100px;
+		left: -100px;
+		right: -100px;
+		
+		background-image: url('http://www.library.ethz.ch/exhibit/imhof/images/d1.1.jpg');
+		/*
+		background-image: url('http://spatialanalysis.co.uk/wp-content/uploads/2012/06/swiss.jpeg');
+		background-image: url('http://bergwelt.files.wordpress.com/2011/10/206.jpg');
+		background-image: url('http://www.alpi-ticinesi.ch/valgrande/valgrande1.jpg');
+		background-image: url('http://de.academic.ru/pictures/dewiki/80/Pilatus_-_Tomlishorn_Oberhaupt_Kulm.jpg');
+		background-image: url('http://upload.wikimedia.org/wikipedia/commons/9/95/Zedlach_von_Sueden.jpg');
+		*/
+		background-repeat: no-repeat;
+		background-position:center center;
+		background-clip: content-box;
+		background-size: cover;
+		opacity:.70;
+		
+		z-index: -100;
+	}
+	
+	.white {
+		padding-left: 0px;
+		padding-right: 0px;
+		background: rgba(255, 255, 255, 1);
+		border-width: 10px;
+		border-style: solid;
+		border-color: rgba(255, 255, 255, .0);
+		border-radius: 5px;
+		margin-bottom: 10px;
+		
+		 /* box-shadow: 5px 5px 5px rgba(66, 139, 202, 0.8); */
+		
+	}
+	
+	body div.transpLayer, body div.popover {
+		opacity: 0.925;
+	}
+	
+	body div.transpLayer.transp {
+		opacity: 0;
+	}
+	
+	.container.login {
+		margin-top: 50px;
+}

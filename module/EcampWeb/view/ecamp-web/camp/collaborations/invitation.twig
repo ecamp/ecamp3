@@ -33,7 +33,7 @@
 								href="{{ url('web/camp/default',
 										{'camp': camp, 'controller': 'Collaborations', 'action': 'search' })
 										}}">
-								<i class="icon-plus"></i> Send invitation
+								<i class="fa fa-plus"></i> Send invitation
 							</a>
 						</span>
 						{% endif %}
@@ -43,7 +43,7 @@
 			<tbody>
 				<tr ng-repeat="item in items">
 {% verbatim %}
-					<td><i class="icon-user"></i> {{ item._embedded.user.username }}</td>
+					<td><i class="fa fa-user"></i> {{ item._embedded.user.username }}</td>
 					<td>{{ item._embedded.user.fullname }}</td>
 					<td>{{ item.role }}</td>
 {% endverbatim %}
@@ -54,7 +54,7 @@
 								class="btn btn-xs btn-danger"
 								href="{{ revokeInvitationBaseUrl }}{% verbatim %}{{ item._embedded.user.id }}{% endverbatim %}"
 							>
-								<i class="icon-remove"></i> Revoke
+								<i class="fa fa-remove"></i> Revoke
 							</a>
 						{% endif %}
 						</span>

@@ -3,6 +3,11 @@
  * This makes our life easier when dealing with paths. Everything is relative
  * to the application root now.
  */
+
+define('__PUBLIC__' , __DIR__);
+define('__VENDOR__', __DIR__ . '/../vendor');
+define('__DATA__' , __DIR__ . '/../data');
+
 chdir(dirname(__DIR__));
 
 ini_set('display_errors', true);

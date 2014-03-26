@@ -1,0 +1,115 @@
+
+{% set form_id = 'event-resp-select-' ~ event.id %}
+
+<div id="{{ form_id }}">
+	<form method="post" action="{{ url(
+			'web/camp/default',
+			{'camp': camp, 'controller':'event', 'action' : 'setResp' },
+			{'query': {'eventId': event.id } }
+		) }}"
+	>
+		<select
+			class="selectpicker show-tick"
+			multiple title="-"
+			data-width="100%"
+			name="resp_user_ids[]"
+		>
+			{% for campCollaboration in camp.campCollaboration().getCollaborations() %}
+				{% if event.isUserResp(campCollaboration.user) %}
+					<option value="{{ campCollaboration.user.id }}" selected="selected">
+				{% else %}
+					<option value="{{ campCollaboration.user.id }}">
+				{% endif %}
+
+					{{ campCollaboration.user.getDisplayName() }}
+				</option>
+
+			{% endfor %}
+		</select>
+	</form>
+</div>
+
+<script type="text/javascript">
+
+	$(function(){
+
+		var $form = null;
+		var $select = null;
+		var $saveTimeout = null;
+		var $selectPicker = null;
+		var $newElement = null;
+
+		var initEventRespSelect = function(){
+			$form = $('div#{{ form_id }} form');
+			$select = $form.find('select');
+			$saveTimeout = null;
+
+			$select.selectpicker();
+
+			$selectPicker = $select.data('selectpicker');
+			$newElement = $selectPicker.$newElement;
+
+			$select.on('change', function(e){
+				checkForSave();
+			});
+		};
+
+		var checkForSave = function(){
+			if($newElement.hasClass('open')){
+				if($saveTimeout != null){
+					clearTimeout($saveTimeout);
+				}
+				$saveTimeout = setTimeout(checkForSave, 100);
+			} else {
+
+				$newElement.find('button.selectpicker').addClass('disabled');
+				var btn = $newElement.find('button.selectpicker');
+
+				var imgWaitSrc =
+					'<div style="position: absolute; top: 50%; margin-top: -12px; right: 30px;">' +
+					'<i class="fa fa-spinner fa-spin" style="margin-top: 5px;"></i> saving' +
+					'</div>';
+				var imgWait = $(imgWaitSrc);
+				btn.append(imgWait);
+
+				$.ajax({
+		            type: $form.attr('method'),
+		            url: $form.attr('action'),
+		            data: $form.serialize(),
+
+		            // prevents global error handling, errors handled locally
+		            global: false,
+
+		            statusCode: {
+						200: function(data, statusText, request){
+							$('div#{{ form_id }}').html($(data).html());
+							initEventRespSelect();
+
+							var imgSaveSrc =
+								'<div style="position: absolute; top: 50%; margin-top: -12px; right: 30px; color: green;">' +
+								'<i class="fa fa-save" style="margin-top: 5px;"></i> saved' +
+								'</div>';
+							var imgSave = $(imgSaveSrc);
+							imgSave.hide();
+							var btn = $newElement.find('button.selectpicker');
+							btn.append(imgSave);
+
+							imgSave.fadeIn();
+							setTimeout(function(){ imgSave.fadeOut(); }, 1000);
+							setTimeout(function(){ imgSave.remove(); }, 2000);
+						},
+
+					    500: function(data, status){
+						    console.log(data);
+
+							$newElement.find('button.selectpicker').addClass('btn-danger', { duration: 250 });
+						}
+					}
+		        });
+
+			}
+		};
+
+		initEventRespSelect();
+	});
+</script>

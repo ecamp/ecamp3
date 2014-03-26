@@ -31,12 +31,30 @@ return array(
             'plugin' => array(
                 'type'    => 'Segment',
                 'options' => array(
-                    'route'    => '/plugin/:pluginInstanceId',
+                    'route'    => '/plugin/:eventPluginId',
                     'constraints' => array(
-                        'pluginInstanceId' => '[a-f0-9]+'
+                        'eventPluginId' => '[a-f0-9]+'
                     ),
                 ),
                 'may_terminate' => false,
+                'child_routes' => array(
+                    'default' => array(
+                        'type'    => 'Segment',
+                        'options' => array(
+                            'route'    => '/[:controller[/:action]]',
+                            'constraints' => array(
+                                'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                                'action'     => '[a-zA-Z][a-zA-Z0-9_-]*',
+                            ),
+                            'defaults' => array(
+                                '__NAMESPACE__' => 'EcampCore\Controller',
+                                'controller' => 'Plugin',
+                                'action'     => 'index',
+                            ),
+                        ),
+                        'may_terminate' => true,
+                    ),
+                ),
             ),
 
             'user-avatar' => array(

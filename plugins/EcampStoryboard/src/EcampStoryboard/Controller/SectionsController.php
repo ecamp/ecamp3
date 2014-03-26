@@ -2,140 +2,114 @@
 
 namespace EcampStoryboard\Controller;
 
-use EcampLib\Controller\AbstractRestfulBaseController;
-use EcampCore\Service\Params\Params;
-use EcampCore\ServiceUtil\ValidationException;
-use EcampStoryboard\Serializer\SectionSerializer;
+use Zend\View\Model\ViewModel;
+use EcampCore\Controller\AbstractEventPluginController;
+use EcampStoryboard\Entity\Section;
+use Zend\Http\PhpEnvironment\Response;
 
-use Zend\View\Model\JsonModel;
-
-class SectionsController extends AbstractRestfulBaseController
+class SectionsController extends AbstractEventPluginController
 {
 
-    public function getList()
+    /**
+     * @return \EcampStoryboard\Repository\SectionRepository
+     */
+    private function getSectionRepo()
     {
-        $sections = $this->ecampStoryboard_SectionRepo()->findAll();
-
-        $sectionSerializer = new SectionSerializer(
-            $this->params('format'), $this->getEvent()->getRouter());
-
-        return new JsonModel($sectionSerializer($sections));
+        return $this->getServiceLocator()->get('EcampStoryboard\Repository\Section');
     }
 
-    public function get($id)
+    /**
+     * @return \EcampStoryboard\Service\SectionService
+     */
+    private function getSectionService()
     {
-        $section = $this->ecampStoryboard_SectionRepo()->find($id);
-
-        $sectionSerializer = new SectionSerializer(
-            $this->params('format'), $this->getEvent()->getRouter());
-
-        return new JsonModel($sectionSerializer($section));
-    }
-
-    public function head($id = null)
-    {
-        $format = $this->params('format');
-        die("head." . $format);
-    }
-
-    public function create($data)
-    {
-        $pluginInstanceId = $this->params('pluginInstanceId');
-        $pluginInstance = $this->ecampCore_PluginInstanceRepo()->find($pluginInstanceId);
-
-        $params = Params::FromArray($this->params()->fromPost());
-        try {
-            $section = $this->ecampStoryboard_SectionService()->create($pluginInstance, $params);
-
-        } catch (ValidationException $e) {
-            return new JsonModel(array(
-                'error_message' => $e->getMessage()
-            ));
-        }
-
-        return new JsonModel(array(
-            'id' => $section->getId()
-        ));
-    }
-
-    public function update($id, $data)
-    {
-        $section = $this->ecampStoryboard_SectionRepo()->find($id);
-        $pluginInstanceId = $this->params('pluginInstanceId');
-        if ($section->getPluginInstance()->getId() != $this->params('pluginInstanceId')) {
-            return new JsonModel(array(
-                'error_message' => "Section [$id] does not belong to PluginInstance [$pluginInstanceId]"
-            ));
-        }
-
-        $params = Params::FromArray($data);
-        $this->ecampStoryboard_SectionService()->update($section, $params);
-
-        return new JsonModel(array(
-            'id' => $section->getId()
-        ));
-    }
-
-    public function delete($id)
-    {
-        $section = $this->ecampStoryboard_SectionRepo()->find($id);
-        $pluginInstanceId = $this->params('pluginInstanceId');
-
-        if ($section->getPluginInstance()->getId() != $this->params('pluginInstanceId')) {
-            return new JsonModel(array(
-                'error_message' => "Section [$id] does not belong to PluginInstance [$pluginInstanceId]"
-            ));
-        }
-
-        $this->ecampStoryboard_SectionService()->delete($section);
-
-        return new JsonModel();
+        return $this->getServiceLocator()->get('EcampStoryboard\Service\Section');
     }
 
     public function createAction()
     {
-        $data = $this->params()->fromPost();
+        $eventPlugin = $this->getRouteEventPlugin();
+        $section = $this->getSectionService()->create($eventPlugin);
 
-        return $this->create($data);
+        $viewModel = new ViewModel();
+        $viewModel->setVariable('section', $section);
+        $viewModel->setVariable('eventPlugin', $section->getEventPlugin());
+        $viewModel->setTemplate('ecamp-storyboard/section');
+
+        return $viewModel;
+    }
+
+    public function saveAction()
+    {
+        $sectionId = $this->params()->fromRoute('id');
+        $section = $this->getSectionRepo()->find($sectionId);
+
+        $data = $this->params()->fromPost();
+        $data['duration_in_minutes'] = 60 * ($data['duration_hour'] ?: 0) + ($data['duration_minute'] ?: 0);
+        $data['text'] = $data['section_text'];
+        $data['info'] = $data['section_info'];
+
+        $this->getSectionService()->update($section, $data);
+
+        $viewModel = new ViewModel();
+        $viewModel->setVariable('section', $section);
+        $viewModel->setVariable('eventPlugin', $section->getEventPlugin());
+        $viewModel->setTemplate('ecamp-storyboard/section');
+
+        return $viewModel;
     }
 
     public function deleteAction()
     {
-        $id = $this->params('id');
-
-        return $this->delete($id);
-    }
-
-    public function moveUpAction()
-    {
-        $sectionId = $this->params('id');
-        $section = $this->ecampStoryboard_SectionRepo()->find($sectionId);
+        $sectionId = $this->params()->fromRoute('id');
+        $section = $this->getSectionRepo()->find($sectionId);
 
         try {
-            $this->ecampStoryboard_SectionService()->moveUp($section);
-        } catch (ValidationException $e) {
-            return new JsonModel(array(
-                'error_message' => $e->getMessage()
-            ));
+            $this->getSectionService()->delete($section);
+
+            $response = $this->getResponse();
+            $response->setStatusCode(Response::STATUS_CODE_200);
+
+            return $response;
+
+        } catch (\Exception $ex) {
+            $response = $this->getResponse();
+            $response->setStatusCode(Response::STATUS_CODE_500);
+            $response->setContent($ex->getMessage());
+
+            return $response;
         }
 
-        return new JsonModel();
     }
 
-    public function moveDownAction()
+    public function moveAction()
     {
-        $sectionId = $this->params('id');
-        $section = $this->ecampStoryboard_SectionRepo()->find($sectionId);
+        $direction = strtolower($this->params()->fromQuery('direction'));
+        $sectionId = $this->params()->fromRoute('id');
+        $section = $this->getSectionRepo()->find($sectionId);
 
         try {
-            $this->ecampStoryboard_SectionService()->moveDown($section);
-        } catch (ValidationException $e) {
-            return new JsonModel(array(
-                'error_message' => $e->getMessage()
-            ));
+            if (!in_array($direction, array('up', 'down'))) {
+                throw new \Exception("Direction not defined");
+            }
+
+            if ($direction == 'up') {
+                $this->getSectionService()->moveUp($section);
+            } else {
+                $this->getSectionService()->moveDown($section);
+            }
+
+            $response = $this->getResponse();
+            $response->setStatusCode(Response::STATUS_CODE_200);
+
+            return $response;
+
+        } catch (\Exception $ex) {
+            $response = $this->getResponse();
+            $response->setStatusCode(Response::STATUS_CODE_500);
+            $response->setContent($ex->getMessage());
+
+            return $response;
         }
-
-        return new JsonModel();
     }
-
 }

@@ -36,7 +36,7 @@
 			<tbody>
 				<tr ng-repeat="item in items">
 {% verbatim %}
-					<td><i class="icon-user"></i> {{ item._embedded.user.username }}</td>
+					<td><i class="fa fa-user"></i> {{ item._embedded.user.username }}</td>
 					<td>{{ item._embedded.user.fullname }}</td>
 					<td>{{ item.role }}</td>
 {% endverbatim %}
@@ -48,7 +48,7 @@
 									class="btn btn-xs btn-success"
 									href="{{ acceptRequestBaseUrl }}{% verbatim %}{{ item._embedded.user.id }}{% endverbatim %}"
 								>
-									<i class="icon-ok"></i> Accept
+									<i class="fa fa-ok"></i> Accept
 								</a>
 								<button type="button" class="btn btn-xs btn-success dropdown-toggle" data-toggle="dropdown">
 									<span class="caret"></span>
@@ -71,14 +71,14 @@
 								class="btn btn-xs btn-danger"
 								href="{{ rejectRequestBaseUrl }}{% verbatim %}{{ item._embedded.user.id }}{% endverbatim %}"
 							>
-								<i class="icon-remove"></i> Reject
+								<i class="fa fa-remove"></i> Reject
 							</a>
 							{#
 							<a href="#" class="btn btn-xs">
-								<i class="icon-ok"></i>
+								<i class="fa fa-ok"></i>
 							</a>
 							<a href="#" class="btn btn-xs">
-								<i class="icon-remove"></i>
+								<i class="fa fa-remove"></i>
 							</a>
 							#}
 						{% endif %}

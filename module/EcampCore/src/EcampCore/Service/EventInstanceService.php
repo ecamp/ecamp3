@@ -8,6 +8,7 @@ use EcampCore\Entity\Event;
 use EcampCore\Entity\EventInstance;
 
 use EcampLib\Service\ServiceBase;
+use EcampCore\Repository\DayRepository;
 
 /**
  * @method EcampCore\Service\EventInstanceService Simulate
@@ -15,6 +16,14 @@ use EcampLib\Service\ServiceBase;
 class EventInstanceService
     extends ServiceBase
 {
+
+    private $dayRepo;
+
+    public function __construct(
+        DayRepository $dayRepo
+    ){
+        $this->dayRepo = $dayRepo;
+    }
 
     /**
      * @param  string        $id
@@ -61,31 +70,32 @@ class EventInstanceService
     }
 
     /**
-     * @param  Period                    $period
-     * @param  Event                     $event
-     * @param  DateTime|DateInterval|int $start
-     * @param  DateInterval|int          $duration
+     * @param  Event         $event
      * @return EventInstance
      */
-    public function Create(Period $period, Event $event, $start, $duration)
+    public function Create(Event $event, $data)
     {
-        $this->validationContextAssert($period);
-        $this->validationContextAssert($event);
+        $startDayId = $data['eventInstance']['startday'];
+        $endDayId = $data['eventInstance']['endday'];
+        $startTime = $data['eventInstance']['starttime'];
+        $endTime = $data['eventInstance']['endtime'];
 
-        if ($start instanceof \DateTime) {
-            $start = $period->getStart()->diff($start);
-        }
+        /* @var $startDay \EcampCore\Entity\Day */
+        $startDay = $this->dayRepo->find($startDayId);
+        $endDay = $this->dayRepo->find($endDayId);
+        $period = $startDay->getPeriod();
+
+        $eventInstanceStart = new \DateTime($startDay->getStart()->format('Y-m-d ') . $startTime);
+        $eventInstanceEnd = new \DateTime($endDay->getStart()->format('Y-m-d ') . $endTime);
+
+        $offset = date_diff($period->getStart(), $eventInstanceStart);
+        $duration = date_diff($eventInstanceStart, $eventInstanceEnd);
 
         $eventInstance = new EventInstance($event);
         $eventInstance->setPeriod($period);
-        $eventInstance->setOffset($start);
+
+        $eventInstance->setOffset($offset);
         $eventInstance->setDuration($duration);
-
-        $this->validationAssert($eventInstance->getOffsetInMinutes() >= 0,
-            "It is not allowed, that the EventInstance starts before Period.");
-
-        $this->validationAssert($eventInstance->getEndTime() <= $period->getEnd(),
-            "It is not allowed, that the EventInstance ends after Period.");
 
         $this->persist($eventInstance);
 

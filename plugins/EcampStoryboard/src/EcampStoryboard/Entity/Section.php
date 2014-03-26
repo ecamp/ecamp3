@@ -3,9 +3,9 @@
 namespace EcampStoryboard\Entity;
 
 use EcampLib\Entity\BaseEntity;
-use EcampCore\Entity\PluginInstance;
 
 use Doctrine\ORM\Mapping as ORM;
+use EcampCore\Entity\EventPlugin;
 
 /**
  * @ORM\Entity(repositoryClass="EcampStoryboard\Repository\SectionRepository")
@@ -15,9 +15,10 @@ class Section extends BaseEntity
 {
 
     /**
-     * @ORM\ManyToOne(targetEntity="EcampCore\Entity\PluginInstance")
+     * @ORM\ManyToOne(targetEntity="EcampCore\Entity\EventPlugin", cascade={"remove"})
+     * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
      */
-    private $pluginInstance;
+    private $eventPlugin;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
@@ -39,18 +40,18 @@ class Section extends BaseEntity
      */
     private $info;
 
-    public function __construct(PluginInstance $pluginInstance)
+    public function __construct(EventPlugin $eventPlugin)
     {
         parent::__construct();
-        $this->pluginInstance = $pluginInstance;
+        $this->eventPlugin = $eventPlugin;
     }
 
     /**
-     * @return EcampCore\Entity\PluginInstance
+     * @return EcampCore\Entity\EventPlugin
      */
-    public function getPluginInstance()
+    public function getEventPlugin()
     {
-        return $this->pluginInstance;
+        return $this->eventPlugin;
     }
 
     public function setPosition($position)

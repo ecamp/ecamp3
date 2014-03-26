@@ -1,0 +1,13 @@
+<div class="tab-pane" id="{{ eventPlugin.id }}">
+	<div class="nav-tabs-li" style="display: none">
+		<li>
+			<a href="#{{ eventPlugin.id }}" data-toggle="tab">
+				{{ eventPlugin.instanceName }}
+				<button class="deleteEventPlugin" href="#">
+					<i class="fa fa-times-circle-o" style="margin-left: 5px;"></i>
+				</button>
+			</a>
+		</li>
+	</div>
+	{% RenderViewModel contentViewModel %}
+</div>

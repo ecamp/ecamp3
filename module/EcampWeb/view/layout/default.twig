@@ -10,46 +10,50 @@
         {% endblock title %}
 
 
-        <!-- Stylesheets -->
-		<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" />
-		<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.no-icons.min.css" rel="stylesheet">
-		<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css" rel="stylesheet">
+        <!-- CSS - Files -->
+		<link type="text/css" rel="stylesheet" href="{{ request.getBasePath }}/bootstrap/css/bootstrap.min.css" />
+		<link type="text/css" rel="stylesheet" href="{{ request.getBasePath }}/font-awesome/css/font-awesome.min.css" />
+		<link type="text/css" rel="stylesheet" href="{{ request.getBasePath }}/jqueryui/themes/base/minified/jquery-ui.min.css" />
 
-		<link type="text/css" rel="stylesheet" href="//cdn.jsdelivr.net/select2/3.4.2/select2.css" />
-		<link type="text/css" rel="stylesheet" href="{{ request.getBasePath }}/css/ajaxLoader.css" />
-		<link type="text/css" rel="stylesheet" href="{{ request.getBasePath }}/css/default.css" />
-		<link type="text/css" rel="stylesheet" href="{{ request.getBasePath }}/css/searchbox.css" />
+		<link type="text/css" rel="stylesheet" href='{{ request.getBasePath }}/bootstrap-select/css/bootstrap-select.min.css' />
+		<link type="text/css" rel="stylesheet" href='{{ request.getBasePath }}/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css' />
 
-		<link href='http://fonts.googleapis.com/css?family=Walter+Turncoat' rel='stylesheet' type='text/css' />
-		<link href='https://raw.github.com/jharding/typeahead.js-bootstrap.css/master/typeahead.js-bootstrap.css' rel='stylesheet' type='text/css' />
+		<link type="text/css" rel="stylesheet" href="{{ request.getBasePath }}/ecamp-web/css/ajaxLoader.css" />
+		<link type="text/css" rel="stylesheet" href="{{ request.getBasePath }}/ecamp-web/css/searchbox.css" />
+		<link type="text/css" rel="stylesheet" href="{{ request.getBasePath }}/ecamp-web/css/default.css" />
 
         {% block style %}{% endblock style %}
 
 
         <!-- Scripts -->
-        <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
-		<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
-		<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js"></script>
-		<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular-resource.min.js"></script>
-		<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+		<script src="{{ request.getBasePath }}/jquery/jquery.min.js"></script>
+		<script src="{{ request.getBasePath }}/jqueryui/ui/minified/jquery-ui.min.js"></script>
+		<script src="{{ request.getBasePath }}/jquery-autosize/js/jquery.autosize.min.js"></script>
 
-		<script src="//twitter.github.io/typeahead.js/releases/latest/typeahead.min.js"></script>
+		<script src="{{ request.getBasePath }}/angular.js/angular.min.js"></script>
+		<script src="{{ request.getBasePath }}/angular-resource/angular-resource.min.js"></script>
 
-		<script type="text/javascript" src="//cdn.jsdelivr.net/select2/3.4.2/select2.js"></script>
+		<script src="{{ request.getBasePath }}/bootstrap/js/bootstrap.min.js"></script>
+		<script src="{{ request.getBasePath }}/bootstrap-select/js/bootstrap-select.min.js"></script>
+		<script src="{{ request.getBasePath }}/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+
+		<script src="https://rawgithub.com/angular-ui/bootstrap/gh-pages/ui-bootstrap-tpls-0.10.0.min.js"></script>
+
+		<script src="{{ request.getBasePath }}/ecamp-web/js/ajax-form.js"></script>
+
+        {% block script %}{% endblock script %}
+
+
 		<!--[if lt IE 9]><script type="text/javascript" src="/js/html5.js"></script><![endif]-->
 
 		{{ headScript() }}
 
+
 		<script type="text/javascript">
 
-			angular.module('eCamp3', ['ngResource']);
+			angular.module('eCamp3', ['ngResource', 'ui.bootstrap']);
 
 			$(function(){
-				$("div.search-box input[type='text']").typeahead({
-				  name: 'accounts',
-				  local: ['timtrueman', 'JakeHarding', 'vskarich'],
-				  header: '<h3 class="league-name">NBA Teams</h3>'
-				});
 
 				$("div.search-box input[type='text']")
 					.focus(function(){
@@ -65,8 +69,24 @@
 
 				$('[data-toggle="tooltip"]').tooltip();
 				$('[data-toggle="popover"]').popover();
+				$('.selectpicker').selectpicker();
+				$('textarea.autosize').autosize();
 
-				$('select.select2').select2({minimumResultsForSearch: 3});
+				$(document).on('shown.bs.modal', '.modal', function(event){
+					$(event.target).find('[data-toggle="tooltip"]').tooltip();
+					$(event.target).find('[data-toggle="popover"]').popover();
+					$('.selectpicker').selectpicker();
+					$('textarea.autosize').autosize();
+				});
+
+
+				window.setTimeout(function() {
+				     $(".alert").fadeTo(500, 0).slideUp(500, function(){
+				          $(this).remove();
+				     });
+				}, 5000);
+
+				//$('select.select2').select2({minimumResultsForSearch: 3});
 
 				var keyQueue = null;
 				$("body").keydown(function(event){
@@ -85,19 +105,15 @@
 
 		</script>
 
-        {% block script %}{% endblock script %}
-
     </head>
     <body>
     	<div class="bgimage"></div>
-
-    	<div class="fade modal" id="asyncform-container" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"></div>
 
     	<!--
     	 <div class="transpLayer">
     	 -->
 
-    	 <div >
+    	 <div>
     		<section class="container white" style="margin-top: -8px; padding-top: 5px; ">
 				<div class="row">
 					<div class="col-sm-4 col-sm-push-8 col-md-5 col-md-push-7">
@@ -106,47 +122,47 @@
 								<div class="btn-group pull-right" style="margin-bottom: 8px">
 									<a 	class="btn btn-sm btn-primary"
 										href="{{ url('web') }}">
-										<i class="icon-home"></i> Dashboard
+										<i class="fa fa-home"></i> Dashboard
 									</a>
 									<a 	class="btn btn-sm btn-primary hidden-xs hidden-sm"
 										href="#">
-										<i class="icon-user"></i> Users
+										<i class="fa fa-user"></i> Users
 									<a class="btn btn-sm btn-primary hidden-xs hidden-sm">
-										<i class="icon-flag"></i> Groups
+										<i class="fa fa-flag"></i> Groups
 									</a>
 									<a class="btn btn-sm btn-primary hidden-xs hidden-sm">
-										<i class="icon-bell"></i> Camps
+										<i class="fa fa-bell"></i> Camps
 									</a>
 
 									<a class="btn btn-sm btn-primary dropdown-toggle" data-toggle="dropdown">
-										&nbsp;<i class="icon-caret-down"></i>&nbsp;
+										&nbsp;<i class="fa fa-caret-down"></i>&nbsp;
 									</a>
 									<ul class="dropdown-menu pull-right" role="menu">
 									    <li class="hidden-md hidden-lg">
-									    	<a href="#"><span class="icon-user"></span>&nbsp;&nbsp; Users</a>
+									    	<a href="#"><span class="fa fa-user"></span>&nbsp;&nbsp; Users</a>
 									    </li>
 									    <li class="hidden-md hidden-lg">
-									    	<a href="#"><span class="icon-flag"></span>&nbsp;&nbsp; Groups</a>
+									    	<a href="#"><span class="fa fa-flag"></span>&nbsp;&nbsp; Groups</a>
 									    </li>
 									    <li class="hidden-md hidden-lg">
-									    	<a href="#"><span class="icon-bell"></span>&nbsp;&nbsp; Camps</a>
+									    	<a href="#"><span class="fa fa-bell"></span>&nbsp;&nbsp; Camps</a>
 									    </li>
 									    <li class="hidden-md hidden-lg divider"></li>
 
 									    <li>
 									    	<a href="#">
-									    		<span class="icon-user"></span>&nbsp;&nbsp; {{ me.getUsername }}
+									    		<span class="fa fa-user"></span>&nbsp;&nbsp; {{ me.getUsername }}
 									    	</a>
 									    </li>
 									    <li>
-									    	<a href="#"><span class="icon-inbox"></span>&nbsp;&nbsp; Inbox</a>
+									    	<a href="#"><span class="fa fa-inbox"></span>&nbsp;&nbsp; Inbox</a>
 									    </li>
 									    <li>
-									    	<a href="#"><span class="icon-cog"></span>&nbsp;&nbsp; Options</a>
+									    	<a href="#"><span class="fa fa-cog"></span>&nbsp;&nbsp; Options</a>
 									    </li>
 									    <li class="divider"></li>
 									    <li>
-									    	<a href="#"><span class="icon-off"></span>&nbsp;&nbsp; Abmelden</a>
+									    	<a href="#"><span class="fa fa-off"></span>&nbsp;&nbsp; Abmelden</a>
 									    </li>
 									</ul>
 								</div>
@@ -173,8 +189,8 @@
 						<ol class="breadcrumb" style="margin-bottom:0px; padding: 0px 5px; background-color: rgba(0,0,0,0);">
 	  						<li>
 	  							<div class="btn-group">
-	  							<a href="/web" class="btn btn-xs btn-noborder">
-		  							<i class="icon-home"></i> Dashboard
+	  							<a 	href="/web" class="btn btn-xs btn-noborder">
+		  							<i class="fa fa-home"></i> Dashboard
 	  							</a>
 	  							</div>
   							</li>
@@ -184,7 +200,7 @@
 				</div>
 			</section>
 
-			<section class="container white">
+			<section class="container white" style="margin-bottom: 200px;">
 
 	        	{% block content %}{% endblock content %}
 	        </section>
@@ -192,6 +208,12 @@
 
         </div>
 
+		<div class="modal fade" id="asyncform-container" tabindex="-1" role="dialog" >
+			<div class="modal-dialog">
+	    		<div class="modal-content">
+	    		</div>
+	    	</div>
+	    </div>
 
     </body>
 </html>

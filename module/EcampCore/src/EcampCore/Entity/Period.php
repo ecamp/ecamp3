@@ -40,6 +40,7 @@ class Period
         parent::__construct();
 
         $this->camp = $camp;
+        $this->story = new Story();
         $this->days = new \Doctrine\Common\Collections\ArrayCollection();
         $this->eventInstances = new \Doctrine\Common\Collections\ArrayCollection();
     }
@@ -62,14 +63,23 @@ class Period
     private $description;
 
     /**
-     * @ORM\OneToMany(targetEntity="Day", mappedBy="period")
+     * @var Story
+     * @ORM\OneToOne(targetEntity="Story", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(name="story_id", referencedColumnName="id")
+     */
+    private $story;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Day", mappedBy="period", orphanRemoval=true)
      * @ORM\OrderBy({"dayOffset" = "ASC"})
      * @var Doctrine\Common\Collections\ArrayCollection
      */
     protected $days;
 
     /**
-     * @ORM\OneToMany(targetEntity="EventInstance", mappedBy="period")
+     * @ORM\OneToMany(targetEntity="EventInstance", mappedBy="period", orphanRemoval=true)
+     * @ORM\OrderBy({"minOffsetStart" = "ASC", "createdAt" = "ASC"})
+     * @var Doctrine\Common\Collections\ArrayCollection
      */
     private $eventInstances;
 
@@ -87,6 +97,14 @@ class Period
     public function getDescription()
     {
         return $this->description;
+    }
+
+    /**
+     * @return \EcampCore\Entity\Story
+     */
+    public function getStory()
+    {
+        return $this->story;
     }
 
     /**
@@ -137,6 +155,22 @@ class Period
             return null;
     }
 
+    public function getRange()
+    {
+        $start = $this->getStart();
+        $end = $this->getEnd();
+
+        if ($start->format("Y") == $end->format("Y")) {
+            if ($start->format("m") == $end->format("m")) {
+                return $start->format("d.") . ' - ' . $end->format('d.m.Y');
+            } else {
+                return $start->format("d.m.") . ' - ' . $end->format('d.m.Y');
+            }
+        } else {
+            return $start->format("d.m.Y") . ' - ' . $end->format('d.m.Y');
+        }
+    }
+
     /**
      * @return Camp
      */
@@ -146,7 +180,7 @@ class Period
     }
 
     /**
-     * @return Doctrine\Common\Collections\ArrayCollection
+     * @return \Doctrine\Common\Collections\ArrayCollection
      */
     public function getDays()
     {
@@ -154,7 +188,7 @@ class Period
     }
 
     /**
-     * @return Doctrine\Common\Collections\ArrayCollection
+     * @return \Doctrine\Common\Collections\ArrayCollection
      */
     public function getEventInstances()
     {
@@ -166,6 +200,8 @@ class Period
      */
     public function prePersist()
     {
+        parent::PrePersist();
+
         $this->camp->addToList('periods', $this);
     }
 

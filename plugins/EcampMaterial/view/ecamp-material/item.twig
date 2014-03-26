@@ -1,0 +1,18 @@
+<tr class="item" id="{{ 'item-' ~ item.id }}">
+
+		<td class="col-md-2 edit-target">
+			{{ item.getQuantity }}
+		</td>
+		<td class="col-md-5 edit-target">
+			{{ item.getText }}
+		</td>
+		<td class="col-md-3 edit-target">
+			{% for list in item.getLists %}
+				{{ list.getName }}
+				{%  if not loop.last %}, {% endif %}
+			{%  endfor %}
+		</td>
+		<td class="col-md-1">
+
+		</td>
+</tr>

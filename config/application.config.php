@@ -10,6 +10,8 @@ return array(
         'ZFTool',
         'ZendDeveloperTools',
 
+        'AssetManager',
+
         'DoctrineTools',
         'DoctrineModule',
         'DoctrineORMModule',
@@ -31,6 +33,7 @@ return array(
 //     	'EcampDev',
 
         'EcampStoryboard',
+        'EcampMaterial',
 
         'Application'
     ),

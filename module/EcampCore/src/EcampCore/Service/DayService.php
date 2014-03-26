@@ -8,6 +8,7 @@ use EcampCore\Entity\Period;
 use EcampCore\Entity\Day;
 use EcampLib\Service\ServiceBase;
 use EcampCore\Acl\Privilege;
+use EcampCore\Entity\Story;
 
 /**
  * @method EcampCore\Service\DayService Simulate
@@ -39,10 +40,16 @@ class DayService
     {
         $this->aclRequire($period->getCamp(), Privilege::CAMP_CONFIGURE);
 
-        // Can the day be deletet?
-        // What about the EventInstances?
-
+        /* @var $day \EcampCore\Entity\Day */
         $day = $period->getDays()->last();
+
+        foreach ($period->getEventInstances() as $eventInstance) {
+            /* @var $eventInstance \EcampCore\Entity\EventInstance */
+            if ($eventInstance->getEndTime() > $day->getStart()) {
+                throw new \Exception("Period can not be resized, because a Event takes place at a day which will be removed");
+            }
+        }
+
         $period->getDays()->removeElement($day);
 
         $this->remove($day);
@@ -59,6 +66,19 @@ class DayService
         if ($param->hasElement('notes')) {
             $day->setNotes($param->getValue('notes'));
         }
+    }
+
+    public function UpdateStory(Day $day, $notes)
+    {
+        $this->aclRequire($day->getCamp(), Privilege::CAMP_CONTRIBUTE);
+
+        $story = $day->getStory();
+        if ($story == null) {
+            $story = new Story();
+            $day->setStory($story);
+        }
+
+        $story->setNotes($notes);
     }
 
 }

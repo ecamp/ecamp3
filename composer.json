@@ -12,34 +12,19 @@
 		{
 			"type": "composer",
 			"url": "http://packages.zendframework.com/"
-		},
-		{
-			"type": "package",
-			"package": {
-				"name": "pornel/PHPTAL",
-				"version": "1.2.2",
-				"dist": {
-					"url": "http://phptal.org/files/PHPTAL-1.2.2.zip",
-					"type": "zip"
-				},
-				"source": {
-					"url": "https://github.com/pornel/PHPTAL.git",
-					"type": "git",
-					"reference": "Release 1.2.2"
-				}
-			}
 		}
 	],
     
     "require": {
         "php": ">=5.3.3",
         "zendframework/zendframework": "2.2.x",
+		"rwoverdijk/assetmanager": "1.*",
 		
 		"zendframework/zftool": "dev-master",
 		"zendframework/zend-developer-tools": "dev-master",
 		
-        "doctrine/doctrine-module": "0.8.x-dev",
-    	"doctrine/doctrine-orm-module": "0.8.x-dev",
+        "doctrine/doctrine-module": "0.*",
+    	"doctrine/doctrine-orm-module": "0.*",
         "doctrine/migrations": "dev-master",
 		"sundrique/doctrine-tools": ">=0.2",
 		
@@ -49,7 +34,16 @@
         
         "phly/phly-restfully": "2.2.x",
         
-        "neilime/zf2-twb-bundle": "dev-master"
-		
+        "neilime/zf2-twb-bundle": "2.0.x",
+        
+        "components/jquery": "2.*",
+        "components/jqueryui": "1.*",
+        "components/bootstrap": "3.*",
+        "components/font-awesome": "4.*",
+        "components/angular.js": "1.*",
+        "components/angular-resource": "1.*",
+        "components/typeahead.js": "0.10.x",
+        
+        "bootstrap-select/bootstrap-select": "dev-master"
     }
 }

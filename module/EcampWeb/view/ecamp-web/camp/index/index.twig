@@ -5,14 +5,22 @@
 
 	<div class="row">
 		<div class="col-sm-12">
-			{% if messages %}
+			{% if flashMessenger().hasErrorMessages() %}
+			  <div class="alert alert-danger fade in">
+			    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">x</button>
+				{{ flashMessenger().render('error') | raw }}
+			  </div>
+			{% endif %}
+			{% if flashMessenger().hasSuccessMessages() %}
+			  <div class="alert alert-success fade in">
+			    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">x</button>
+			    {{ flashMessenger().render('success') | raw }}
+			  </div>
+			{% endif %}
+			{% if flashMessenger().hasMessages() %}
 			  <div class="alert alert-info fade in">
 			    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">x</button>
-			    <ul>
-			      {%  for message in messages %}
-			        <li>{{ message }}</li>
-			      {% endfor %}
-			    </ul>
+				{{ flashMessenger().render() | raw }}
 			  </div>
 			{% endif %}
 
@@ -30,7 +38,7 @@
 										{ 'camp': camp, 'controller': 'index', 'action': 'requestCollaboration'}
 										) }}"
 								>
-									<i class="icon-plus"></i> Request collaboration
+									<i class="fa fa-plus"></i> Request collaboration
 								</a>
 								<button type="button" class="btn btn-sm btn-success dropdown-toggle" data-toggle="dropdown">
 									<span class="caret"></span>
@@ -63,7 +71,7 @@
 										{ 'camp': camp, 'controller': 'index', 'action': 'revokeRequest'}
 										) }}"
 								>
-									<i class="icon-remove"></i> Revoke Request
+									<i class="fa fa-remove"></i> Revoke Request
 								</a>
 								{% endif %}
 
@@ -74,14 +82,14 @@
 											{ 'camp': camp, 'controller': 'index', 'action': 'acceptInvitation'}
 											) }}"
 									>
-										<i class="icon-ok"></i> Accept Invitation
+										<i class="fa fa-ok"></i> Accept Invitation
 									</a>
 									<a class="btn btn-sm btn-danger"
 										href="{{ url('web/camp/default',
 											{ 'camp': camp, 'controller': 'index', 'action': 'rejectInvitation'}
 											) }}"
 									>
-										<i class="icon-remove"></i> Reject Invitation
+										<i class="fa fa-remove"></i> Reject Invitation
 									</a>
 								</p>
 								{% endif %}
@@ -92,7 +100,7 @@
 									href="#leaveCampModal"
 
 								>
-									<i class="icon-remove"></i> Leave camp
+									<i class="fa fa-remove"></i> Leave camp
 								</a>
 
 								{% endif %}
@@ -152,19 +160,23 @@
 					Periods
 				{% endblock %}
 				{% block panel_content %}
-					<div class="col-sm-5">
-						<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#asyncform-container" href="{{ url('web/camp/default', {'camp': camp, 'controller':'index', 'action' : 'addperiod' } ) }}">+ Add Period</button>
+					<div class="col-sm-12">
+						<button
+							type="button"
+							class="btn btn-primary"
+							data-toggle="modal"
+							data-target="#asyncform-container"
+							href="{{ url('web/camp/default', {'camp': camp, 'controller':'period', 'action' : 'addPeriod' } ) }}"
+						>+ Add Period</button>
 
-						<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#asyncform-container" href="{{ url('web/camp/default', {'camp': camp, 'controller':'index', 'action' : 'editperiod' } ) }}">Edit</button>
-
-						<table class="table table-striped table-hover">
+						<table class="table table-striped table-hover" style="width: 100%">
 							<thead>
-							<tr>
-								<th>Start</th>
-								<th>End</th>
-								<th>Description</th>
-								<th> </th>
-							</tr>
+								<tr>
+									<th>Start</th>
+									<th>End</th>
+									<th>Description</th>
+									<th>Options</th>
+								</tr>
 							</thead>
 							<tbody>
 							{% for period in camp.getPeriods %}
@@ -172,7 +184,27 @@
 									<td>{{ period.getStart | date }}</td>
 									<td>{{ period.getEnd | date}}</td>
 									<td>{{ period.getDescription }}</td>
-									<td></td>
+									<td>
+										<a
+											class="btn btn-xs btn-primary"
+											data-toggle="modal"
+											data-target="#asyncform-container"
+											href="{{ url('web/camp/default',
+												{'camp': camp, 'controller':'period', 'action' : 'editPeriod' },
+												{ 'query': { 'periodId': period.id } }
+												) }}"
+										>
+											Edit
+										</a>
+										<a 	href="{{ url('web/camp/default',
+												{ 'camp': camp, 'controller': 'period', 'action': 'deletePeriod' },
+												{ 'query' : { 'periodId': period.id } }
+												) }}"
+											class="btn btn-xs btn-danger"
+										>
+											Delete
+										</a>
+									</td>
 								</tr>
 							{% endfor %}
 							</tbody>

@@ -2,18 +2,25 @@
 
 namespace EcampWeb\Controller\Camp;
 
-use EcampCore\Validation\ValidationException;
-
 use EcampCore\Entity\CampCollaboration;
+
 class IndexController
     extends BaseController
 {
+    /**
+     * @return \EcampCore\Repository\PeriodRepository
+     */
+    private function getPeriodRepository()
+    {
+        return $this->getServiceLocator()->get('EcampCore\Repository\Period');
+    }
+
     /**
      * @return \EcampCore\Service\PeriodService
      */
     private function getPeriodService()
     {
-        return $this->getServiceLocator()->get('EcampCore\Service\period');
+        return $this->getServiceLocator()->get('EcampCore\Service\Period');
     }
 
     /**
@@ -38,14 +45,8 @@ class IndexController
 
         $renderer = $this->getServiceLocator()->get('Zend\View\Renderer\PhpRenderer');
         $renderer->headScript()->appendFile($this->getRequest()->getBasePath() . '/js/ng-app/paginator.js');
-        $renderer->headScript()->appendFile($this->getRequest()->getBasePath() . '/js/ajax-form.js');
 
         $return['myCollaboration'] = $this->getCollaborationRepository()->findByCampAndUser($this->getCamp(), $this->getMe());
-
-        $flashMessenger = $this->flashMessenger();
-        if ($flashMessenger->hasMessages()) {
-            $return['messages'] = $flashMessenger->getMessages();
-        }
 
         return $return;
     }
@@ -94,42 +95,6 @@ class IndexController
         return $this->redirect()->toRoute(
             'web/camp/default', array('camp' => $this->getCamp(), 'controller'=>'Index', 'action'=>'index')
         );
-    }
-
-    public function addPeriodAction()
-    {
-        $form = new \EcampWeb\Form\PeriodForm();
-
-        if ($this->getRequest()->isPost()) {
-            $form->setData($this->getRequest()->getPost());
-
-            if ( $form->isValid() ) {
-                // save data
-                try {
-                    $period = $this->getPeriodService()->Create($this->getCamp(), $this->getRequest()->getPost());
-
-                    $this->flashMessenger()->addMessage('Period successfully created.');
-
-                } catch (ValidationException $e) {
-                    $error = $e->getMessageArray();
-                    if( $error['data'] && is_array( $error['data']) )
-                        $form->setMessages($error['data']);
-                    else
-                        $form->setFormError($error);
-
-                    $this->getResponse()->setStatusCode(500);
-                }
-            } else {
-                $this->getResponse()->setStatusCode(500);
-            }
-        }
-
-        return array('form' => $form);
-    }
-
-    public function editPeriodAction()
-    {
-        return array();
     }
 
 }

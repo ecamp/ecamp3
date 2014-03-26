@@ -132,10 +132,12 @@ class UserRepository extends EntityRepository
         $user = null;
         $mailValidator = new EmailAddress();
 
-        if ($mailValidator->isValid($identifier)) {
-            $user = $this->findOneBy(array('email' => $identifier));
-        } else {
-            $user = $this->find($identifier);
+        if ($identifier) {
+            if ($mailValidator->isValid($identifier)) {
+                $user = $this->findOneBy(array('email' => $identifier));
+            } else {
+                $user = $this->find($identifier);
+            }
         }
 
         return $user;

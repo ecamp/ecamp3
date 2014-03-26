@@ -1,0 +1,15 @@
+![Object Model Camp](http://yuml.me/diagram/scruffy/class/
+[Camp]++1-*>[Period],
+[Period]++1-*>[Day],
+[Camp]*-1>[CampType],
+[Camp]<1-*<>[CampCollaboration],
+[Camp]++1-*>[Job],
+[CampCollaboration]<1-*<>[JobResp],
+[Day]++-1>[Story],
+[Day]<1-*<>[JobResp],
+[Job]<1-*<>[JobResp],
+[Period]<>1-*>[EventInstance],
+[Event]++1-*>[EventInstance],
+[Camp]++1-*>[Event],
+[Period]++-1>[Story],
+)

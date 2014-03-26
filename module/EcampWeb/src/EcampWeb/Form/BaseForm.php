@@ -4,6 +4,7 @@ namespace EcampWeb\Form;
 
 use Zend\Form\Form;
 use Zend\Form\Element;
+use EcampLib\Validation\ValidationException;
 
 abstract class BaseForm extends Form
 {
@@ -21,5 +22,20 @@ abstract class BaseForm extends Form
     public function setFormError($errorMessage)
     {
         $this->setMessages(array('formError' => array($errorMessage)));
+    }
+
+    public function setAction($url)
+    {
+        $this->setAttribute('action', $url);
+    }
+
+    public function extractFromException(ValidationException $ex)
+    {
+        $error = $ex->getMessageArray();
+        if ($error['data'] && is_array($error['data'])) {
+            $this->setMessages($error['data']);
+        } else {
+            $this->setFormError($error);
+        }
     }
 }

@@ -23,6 +23,7 @@ namespace EcampCore\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 use EcampLib\Entity\BaseEntity;
+use Doctrine\Common\Collections\Criteria;
 
 /**
  * Specifies the exact time/duration/subcamp when an event happens
@@ -34,6 +35,7 @@ class EventInstance
 {
 
     /**
+     * @var \EcampCore\Entity\Event
      * @ORM\ManyToOne(targetEntity="Event")
      * @ORM\JoinColumn(nullable=false)
      */
@@ -79,6 +81,19 @@ class EventInstance
     }
 
     /**
+     * @return \EcampCore\Entity\EventCategory
+     */
+    public function getEventCategory()
+    {
+        return $this->event->getEventCategory();
+    }
+
+    public function getNumberingStyle()
+    {
+        return $this->getEventCategory()->getNumberingStyle();
+    }
+
+    /**
      * @param DateInterval|int $offset
      */
     public function setOffset($offset)
@@ -88,6 +103,10 @@ class EventInstance
                 $offset->format('%a') * 24 * 60 +
                 $offset->format('%h') * 60 +
                 $offset->format('%i');
+        }
+
+        if ($offset < 0) {
+            throw new \Exception("EventInstance offset can not be negative");
         }
 
         $shift = $offset - $this->minOffsetStart;
@@ -132,7 +151,12 @@ class EventInstance
      */
     public function getDuration()
     {
-        return new \DateInterval( 'PT' . $this->getDurationInMinutes() . 'M');
+        $min = $this->getDurationInMinutes();
+
+        $hour = floor($min / 60);
+        $min = $min - 60 * $hour;
+
+        return new \DateInterval( 'PT' . $hour . 'H' . $min . 'M');
     }
 
     /**
@@ -149,7 +173,7 @@ class EventInstance
     public function getStartTime()
     {
         $start = clone $this->period->getStart();
-        $start->add(new \DateInterval( 'PT' . $this->minOffsetStart . 'M'));
+        $start->add($this->getOffset());
 
         return $start;
     }
@@ -163,6 +187,22 @@ class EventInstance
         $end->add($this->getDuration());
 
         return $end;
+    }
+
+    public function getDateRange()
+    {
+        $start = $this->getStartTime();
+        $end = $this->getEndTime();
+
+        if ($start->format("Y") == $end->format("Y")) {
+            if ($start->format("m") == $end->format("m")) {
+                return $start->format("d.") . ' - ' . $end->format('d.m.Y');
+            } else {
+                return $start->format("d.m.") . ' - ' . $end->format('d.m.Y');
+            }
+        } else {
+            return $start->format("d.m.Y") . ' - ' . $end->format('d.m.Y');
+        }
     }
 
     /**
@@ -187,6 +227,44 @@ class EventInstance
     public function getCamp()
     {
         return $this->period->getCamp();
+    }
+
+    public function getEventNumber()
+    {
+        return $this->getDayNumber() . '.' . $this->getMinorNumber();
+    }
+
+    private function getDayNumber()
+    {
+        return 1 + floor($this->getOffsetInMinutes() / (24*60));
+    }
+
+    private function getMinorNumber()
+    {
+        $period = $this->getPeriod();
+
+        $dayNum = floor($this->getOffsetInMinutes() / (24*60));
+        $dayOffset = 24 * 60 * $dayNum;
+
+        $criteria = Criteria::create();
+        $expr = Criteria::expr();
+        $criteria->where($expr->andX(
+            $expr->gte('minOffsetStart', $dayOffset),
+            $expr->orX(
+                $expr->lt('minOffsetStart', $this->getOffsetInMinutes()),
+                $expr->andX(
+                    $expr->eq('minOffsetStart', $this->getOffsetInMinutes()),
+                    $expr->lt('createdAt', $this->getCreatedAt())
+                )
+            )
+        ));
+
+        $eventInstances = $period->getEventInstances()->matching($criteria);
+        $num = $eventInstances
+            ->filter(function($ei){ return $ei->getNumberingStyle() == $this->getNumberingStyle(); })
+            ->count();
+
+        return $this->getEventCategory()->getStyledNumber(1 + $num);
     }
 
 }

@@ -45,38 +45,6 @@ class CampCollaboration
     const STATUS_INVITED 		= 'invited';
     const STATUS_ESTABLISHED 	= 'established';
 
-    public function __construct(User $user, Camp $camp, User $inviter = null, $status, $role)
-    {
-        parent::__construct();
-
-        $this->user = $user;
-        $this->camp = $camp;
-
-        $this->setStatus($status);
-        $this->setRole($role ?: self::ROLE_GUEST);
-
-        if ($this->isInvitation()) {
-            $this->setRequestAcceptedBy($inviter);
-        } else {
-            $this->requestAcceptedBy = null;
-        }
-
-        $this->eventResps = new \Doctrine\Common\Collections\ArrayCollection();
-
-        $this->user->addToList('collaborations', $this);
-        $this->camp->addToList('collaborations', $this);
-    }
-
-    public static function createRequest(User $user, Camp $camp, $role = null)
-    {
-        return new self($user, $camp, null, self::STATUS_REQUESTED, $role);
-    }
-
-    public static function createInvitation(User $user, Camp $camp, User $inviter, $role = null)
-    {
-        return new self($user, $camp, $inviter, self::STATUS_INVITED, $role);
-    }
-
     /**
      * @ORM\ManyToOne(targetEntity="User")
      * @ORM\JoinColumn(nullable=false)
@@ -115,6 +83,42 @@ class CampCollaboration
     protected $eventResps;
 
     /**
+     * @var \Doctrine\Common\Collections\ArrayCollection
+     * @ORM\OneToMany(targetEntity="JobResp", mappedBy="campCollaboration")
+     */
+    protected $jobResps;
+
+    public function __construct(User $user, Camp $camp, User $inviter = null, $status, $role)
+    {
+        parent::__construct();
+
+        $this->user = $user;
+        $this->camp = $camp;
+
+        $this->setStatus($status);
+        $this->setRole($role ?: self::ROLE_GUEST);
+
+        if ($this->isInvitation()) {
+            $this->setRequestAcceptedBy($inviter);
+        } else {
+            $this->requestAcceptedBy = null;
+        }
+
+        $this->eventResps = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->jobResps = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    public static function createRequest(User $user, Camp $camp, $role = null)
+    {
+        return new self($user, $camp, null, self::STATUS_REQUESTED, $role);
+    }
+
+    public static function createInvitation(User $user, Camp $camp, User $inviter, $role = null)
+    {
+        return new self($user, $camp, $inviter, self::STATUS_INVITED, $role);
+    }
+
+    /**
      * @return Camp
      */
     public function getCamp()
@@ -128,6 +132,22 @@ class CampCollaboration
     public function getUser()
     {
         return $this->user;
+    }
+
+    /**
+     * @return \Doctrine\Common\Collections\ArrayCollection
+     */
+    public function getEventResps()
+    {
+        return $this->eventResps;
+    }
+
+    /**
+     * @return \Doctrine\Common\Collections\ArrayCollection
+     */
+    public function getJobResps()
+    {
+        return $this->jobResps;
     }
 
     /**
@@ -157,11 +177,6 @@ class CampCollaboration
             throw new \Exception("[$status] is not a valid value for CampCollaboration.status");
         }
         $this->status = $status;
-    }
-
-    public function getEventResps()
-    {
-        return $this->eventResps;
     }
 
     private function setRequestAcceptedBy(User $user)
@@ -251,6 +266,17 @@ class CampCollaboration
         $this->setRequestAcceptedBy($user);
         $this->setRole($role ?: $this->role);
         $this->setStatus(self::STATUS_ESTABLISHED);
+    }
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function PrePersist()
+    {
+        parent::PrePersist();
+
+        $this->user->addToList('collaborations', $this);
+        $this->camp->addToList('collaborations', $this);
     }
 
     /**

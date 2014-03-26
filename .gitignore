@@ -5,6 +5,10 @@ config/autoload/*local.php
 data/*
 data/**/*
 
+components/*
+components/**/*
+
 vendor
 vendor/*
 vendor/**/*
+

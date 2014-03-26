@@ -20,19 +20,13 @@
 
 namespace EcampCore\Service;
 
-use EcampCore\Validation\PeriodFieldset;
-
-use EcampCore\Validation\ValidationException;
-
-use EcampCore\Validation\EntityForm;
-
-use EcampCore\Entity\Day;
 use EcampCore\Entity\Camp;
 use EcampCore\Entity\Period;
 
-use EcampLib\Service\Params\Params;
 use EcampLib\Service\ServiceBase;
+use EcampLib\Validation\ValidationException;
 use EcampCore\Acl\Privilege;
+use EcampCore\Validation\PeriodFieldset;
 
 class PeriodService
     extends ServiceBase
@@ -61,89 +55,49 @@ class PeriodService
 
         $period = new Period($camp);
 
-        $periodFieldset = new PeriodFieldset($this->getEntityManager());
-        $form = new EntityForm($this->getEntityManager(), $periodFieldset, $period);
-
-        if ( !$form->setDataAndValidate($data) ) {
-            throw new ValidationException("Form validation error", array('data' => $form->getMessages()));
-        }
+        $validationForm = $this->createValidationForm($period)
+            ->addFieldset(new PeriodFieldset());
+        $validationForm->setAndValidate($data);
 
         $start = new \DateTime($data['period']['start'], new \DateTimeZone("GMT"));
         $end   = new \DateTime($data['period']['end'], new \DateTimeZone("GMT"));
-
         $numOfDays = ($end->getTimestamp() - $start->getTimestamp())/(24 * 60 * 60) + 1;
-        if ($numOfDays < 1) {
-            throw new ValidationException("Minimum length of camp is 1 day.", array('data' => array('period' => array('end' => array("Minimum length of camp is 1 day.")))));
-        }
 
         for ($offset = 0; $offset < $numOfDays; $offset++) {
             $this->dayService->AppendDay($period);
         }
 
-        $this->persist($period);
-
-        return $period;
+        return $this->persist($period);
     }
 
     /**
-     * @param Period $period
-     * @param Params $params
+     * @param  Period                         $period
+     * @param  array|\ArrayAccess|Traversable $data
+     * @return Period
      */
-    public function Update(Period $period, Params $params)
-    {
-        $this->aclRequire($camp, Privilege::CAMP_CONFIGURE);
-
-        if ($params->hasElement('description')) {
-            $period->setDescription($params->getValue('description'));
-        }
-    }
-
-    /**
-     * @param Period $period
-     */
-    public function Delete(Period $period)
-    {
-        $this->aclRequire($camp, Privilege::CAMP_ADMINISTRATE);
-
-        $period->getDays()->clear();
-        $period->getEventInstances()->clear();
-
-        $this->remove($period);
-    }
-
-    /**
-     * @param Period       $period
-     * @param unknown_type $newStart
-     */
-    public function Move(Period $period, $newStart)
+    public function Update(Period $period, $data)
     {
         $camp = $period->getCamp();
         $this->aclRequire($camp, Privilege::CAMP_CONFIGURE);
 
-        if (! $newStart instanceof \DateTime) {
-            $newStart = new \DateTime($newStart, new \DateTimeZone("GMT"));
-        }
+        $validationForm = $this->createValidationForm($period)
+            ->addFieldset(new PeriodFieldset());
 
-        $period->setStart($newStart);
-    }
+        $origPeriodStart = $period->getStart();
 
-    /**
-     * @param Period $period
-     * @param int    $numOfDays
-     */
-    public function Resize(Period $period, $numOfDays)
-    {
-        $camp = $period->getCamp();
-        $this->aclRequire($camp, Privilege::CAMP_CONFIGURE);
+        $validationForm->setAndValidate($data);
 
+        $start = new \DateTime($data['period']['start'], new \DateTimeZone("GMT"));
+        $end   = new \DateTime($data['period']['end'], new \DateTimeZone("GMT"));
+        $numOfDays = ($end->getTimestamp() - $start->getTimestamp())/(24 * 60 * 60) + 1;
+
+        // Change Period Length
         $oldNumOfDays = $period->getNumberOfDays();
 
         if ($oldNumOfDays < $numOfDays) {
             for ($offset = $oldNumOfDays; $offset < $numOfDays; $offset++) {
                 $this->dayService->AppendDay($period);
             }
-
-            return;
         }
 
         if ($oldNumOfDays > $numOfDays) {
@@ -151,6 +105,40 @@ class PeriodService
                 $this->dayService->RemoveDay($period);
             }
         }
+
+        // Move Startdate:
+        if ($start != $origPeriodStart) {
+            if (!$data['period']['moveEvents']) {
+                $delta = $origPeriodStart->diff($start);
+                $deltaMinuten = 24 * 60 * $delta->days;
+
+                foreach ($period->getEventInstances() as $eventInstance) {
+                    /* @var $eventInstance \EcampCore\Entity\EventInstance  */
+                    $instanceOffset = $eventInstance->getOffset() - $deltaMinuten;
+                    $eventInstance->setOffset($instanceOffset);
+
+                    if ($eventInstance->getEndTime() > $period->getEnd()) {
+                        throw new \Exception("Period can not be moved, because an event is sceduled outsite new period");
+                    }
+                }
+            }
+        }
+
+        return $period;
+
     }
 
+    /**
+     * @param Period $period
+     */
+    public function Delete(Period $period)
+    {
+        $camp = $period->getCamp();
+        $this->aclRequire($camp, Privilege::CAMP_CONFIGURE);
+
+        $period->getDays()->clear();
+        $period->getEventInstances()->clear();
+
+        $this->remove($period);
+    }
 }

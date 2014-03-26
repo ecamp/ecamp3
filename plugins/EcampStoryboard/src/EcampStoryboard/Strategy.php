@@ -4,35 +4,30 @@ namespace EcampStoryboard;
 
 use Zend\View\Model\ViewModel;
 
-use EcampCore\Entity\Medium;
 use EcampCore\Plugin\AbstractStrategy;
+use EcampCore\Entity\Medium;
+use EcampCore\Entity\EventPlugin;
+use EcampCore\Entity\Plugin;
 
 class Strategy extends AbstractStrategy
 {
-
-    private $sectionRepo;
-
     /**
-     * @return Doctrine\ORM\EntityRepository
+     * @return \Doctrine\ORM\EntityRepository
      */
-    protected function getStoryboardRepo()
+    protected function getSectionRepo()
     {
-        if ($this->sectionRepo == null) {
-            $this->sectionRepo = $this->getServiceLocator()->get('ecampstoryboard.repo.section');
-        }
-
-        return $this->sectionRepo;
+        return $this->getServiceLocator()->get('EcampStoryboard\Repository\Section');
     }
 
     /**
-     * @see EcampCore\Plugin.AbstractStrategy::render()
+     * @see \EcampCore\Plugin\AbstractStrategy::createViewModel()
      */
-    public function render(Medium $medium)
+    public function createViewModel(EventPlugin $eventPlugin, Medium $medium)
     {
-        $sections =
-            $this->getStoryboardRepo()->findBy(array(
-                'pluginInstance' => $this->getPluginInstance()
-            ));
+        $sections = $this->getSectionRepo()->findBy(
+            array('eventPlugin' => $eventPlugin),
+            array('position' => 'ASC')
+        );
 
         $view = new ViewModel();
         $view->setVariable('sections', $sections);
@@ -46,6 +41,4 @@ class Strategy extends AbstractStrategy
         return 'ecamp-storyboard/' . $medium->getName();
     }
 
-    public function renderBackend(){}
-    public function renderFrontend(){}
 }

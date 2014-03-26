@@ -2,51 +2,33 @@
 
 namespace EcampStoryboard\Service;
 
-use EcampCore\Acl\DefaultAcl;
-use EcampCore\Entity\PluginInstance;
-use EcampCore\Service\ServiceBase;
-use EcampCore\Service\Params\Params;
+use EcampLib\Service\ServiceBase;
+use EcampCore\Entity\EventPlugin;
 
 use EcampStoryboard\Entity\Section;
-use EcampStoryboard\Repository\Provider\SectionRepositoryProvider;
+use EcampStoryboard\Repository\SectionRepository;
 
 class SectionService
     extends ServiceBase
-    implements SectionRepositoryProvider
 {
 
-    public function _setupAcl()
-    {
-        $this->getAcl()->allow(DefaultAcl::CAMP_MEMBER, $this, 'create');
-        $this->getAcl()->allow(DefaultAcl::CAMP_MEMBER, $this, 'delete');
-        $this->getAcl()->allow(DefaultAcl::CAMP_MEMBER, $this, 'moveUp');
-        $this->getAcl()->allow(DefaultAcl::CAMP_MEMBER, $this, 'moveDown');
+    /**
+     *
+     * @var \EcampStoryboard\Repository\SectionRepository
+     */
+    private $sectionRepository;
 
-// 		$this->getAcl()->allow(DefaultAcl::GUEST, $this, 'create');
-        $this->getAcl()->allow(DefaultAcl::GUEST, $this, 'delete');
-// 		$this->getAcl()->allow(DefaultAcl::GUEST, $this, 'moveUp');
-// 		$this->getAcl()->allow(DefaultAcl::GUEST, $this, 'moveDown');
+    public function __construct(
+        SectionRepository $sectionRepository
+    ){
+        $this->sectionRepository = $sectionRepository;
     }
 
-    public function create(
-        PluginInstance $pluginInstance,
-        Params $params
-    ){
-        $section = new Section($pluginInstance);
+    public function create(EventPlugin $eventPlugin)
+    {
+        $section = new Section($eventPlugin);
 
-        if ($params->hasElement('duration')) {
-            $section->setDurationInMinutes($params->getValue('duration'));
-        }
-
-        if ($params->hasElement('text')) {
-            $section->setText($params->getValue('text'));
-        }
-
-        if ($params->hasElement('info')) {
-            $section->setInfo($params->getValue('info'));
-        }
-
-        $position = $this->ecampStoryboard_SectionRepo()->getMaxPosition($pluginInstance) + 1;
+        $position = $this->sectionRepository->getMaxPosition($eventPlugin) + 1;
         $section->setPosition($position);
 
         $this->persist($section);
@@ -54,31 +36,27 @@ class SectionService
         return $section;
     }
 
-    public function update(
-        Section $section,
-        Params $params
-    ){
-        if ($params->hasElement('duration')) {
-            $section->setDurationInMinutes($params->getValue('duration'));
+    public function update(Section $section, array $data)
+    {
+        if (isset($data['duration_in_minutes'])) {
+            $section->setDurationInMinutes($data['duration_in_minutes']);
         }
-
-        if ($params->hasElement('text')) {
-            $section->setText($params->getValue('text'));
+        if (isset($data['text'])) {
+            $section->setText($data['text']);
         }
-
-        if ($params->hasElement('info')) {
-            $section->setInfo($params->getValue('info'));
+        if (isset($data['info'])) {
+            $section->setInfo($data['info']);
         }
     }
 
     public function delete(Section $section)
     {
-        $this->getEM()->remove($section);
+        $this->remove($section);
     }
 
     public function moveUp(Section $section)
     {
-        $prevSection = $this->ecampStoryboard_SectionRepo()->findPrevSection($section);
+        $prevSection = $this->sectionRepository->findPrevSection($section);
 
         if ($prevSection == null) {
             $this->addValidationMessage("First Section can not be moved up");
@@ -92,7 +70,7 @@ class SectionService
 
     public function moveDown(Section $section)
     {
-        $nextSection = $this->ecampStoryboard_SectionRepo()->findNextSection($section);
+        $nextSection = $this->sectionRepository->findNextSection($section);
 
         if ($nextSection == null) {
             $this->addValidationMessage("Last Section can not be moved down");

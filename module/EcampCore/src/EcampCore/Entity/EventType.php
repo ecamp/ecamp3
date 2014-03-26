@@ -34,12 +34,10 @@ use EcampLib\Entity\BaseEntity;
 class EventType extends BaseEntity
 {
 
-    public function __construct(CampType $campType)
+    public function __construct()
     {
-        $this->campType = $campType;
-        $this->eventPrototypes = new \Doctrine\Common\Collections\ArrayCollection();
-
-        $this->campType->addToList('eventTypes', $this);
+        $this->campTypes = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->eventTypePlugins = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -58,19 +56,23 @@ class EventType extends BaseEntity
     private $defaultNumberingStyle;
 
     /**
-     * @ORM\ManyToOne(targetEntity="CampType")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $campType;
-
-    /**
-     * @ORM\ManyToMany(targetEntity="EventPrototype")
-     * @ORM\JoinTable(name="event_type_event_prototypes",
+     * @ORM\ManyToMany(targetEntity="CampType")
+     * @ORM\JoinTable(name="camp_type_event_type",
      *      joinColumns={@ORM\JoinColumn(name="eventtype_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="eventprototype_id", referencedColumnName="id")}
+     *      inverseJoinColumns={@ORM\JoinColumn(name="camptype_id", referencedColumnName="id")}
      *      )
      */
-    private $eventPrototypes;
+    protected $campTypes;
+
+    /**
+     * @ORM\OneToMany(targetEntity="EventTypePlugin", mappedBy="eventType")
+     */
+    protected $eventTypePlugins;
+
+    /**
+     * @ORM\OneToMany(targetEntity="EventTypeFactory", mappedBy="eventType")
+     */
+    protected $eventTypeFactories;
 
     public function setName($name)
     {
@@ -124,23 +126,43 @@ class EventType extends BaseEntity
     }
 
     /**
-     * @return CampType
+     * @return \Doctrine\Common\Collections\ArrayCollection
      */
-    public function getCampType()
+    public function getCampTypes()
     {
-        return $this->campType;
+        return $this->campTypes;
     }
 
-    public function getEventPrototypes()
+    /**
+     * @return \Doctrine\Common\Collections\ArrayCollection
+     */
+    public function getEventTypePlugins()
     {
-        return $this->eventPrototypes;
+        return $this->eventTypePlugins;
     }
+
+    /**
+     * @return \Doctrine\Common\Collections\ArrayCollection
+     */
+    public function getEventTypeFactories()
+    {
+        return $this->eventTypeFactories;
+    }
+
+    /**
+     * @ORM\PrePersist
+     */
+     public function PrePersist()
+     {
+         parent::PrePersist();
+         $this->campType->addToList('eventTypes', $this);
+     }
 
     /**
      * @ORM\PreRemove
      */
-    public function preRemove()
-    {
-        $this->campType->removeFromList('eventTypes', $this);
-    }
+     public function preRemove()
+     {
+         $this->campType->removeFromList('eventTypes', $this);
+     }
 }

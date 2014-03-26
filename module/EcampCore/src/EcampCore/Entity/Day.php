@@ -50,9 +50,17 @@ class Day
     private $period;
 
     /**
-     * @ORM\Column(type="text", nullable=true)
+     * @var Story
+     * @ORM\OneToOne(targetEntity="Story", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(name="story_id", referencedColumnName="id")
      */
-    private $notes;
+    private $story;
+
+    /**
+     * @var \Doctrine\Common\Collections\ArrayCollection
+     * @ORM\OneToMany(targetEntity="JobResp", mappedBy="day")
+     */
+    protected $jobResps;
 
 
     public function __construct(Period $period, $dayOffset)
@@ -61,6 +69,9 @@ class Day
 
         $this->period = $period;
         $this->dayOffset = $dayOffset;
+        $this->story = new Story();
+
+        $this->jobResps = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
 
@@ -75,20 +86,21 @@ class Day
 
 
     /**
-     * @param stirng $notes
+     * @return Story
      */
-    public function setNotes($notes)
+    public function getStory()
     {
-        $this->notes = $notes;
+        return $this->story;
     }
 
-
     /**
-     * @return string
+     * @param Story $story
      */
-    public function getNotes()
+    public function setStory(Story $story)
     {
-        return $this->notes;
+        $this->story = $story;
+
+        return $this;
     }
 
 
@@ -97,7 +109,8 @@ class Day
      */
     public function getStart()
     {
-        $start = $this->period->getStart()->add(new \DateInterval( 'P' . $this->dayOffset . 'D'));
+        $start = clone $this->period->getStart();
+        $start->add(new \DateInterval( 'P' . $this->dayOffset . 'D'));
 
         return $start;
     }
@@ -108,7 +121,9 @@ class Day
      */
     public function getEnd()
     {
-        $end = $this->getStart()->add(new \DateInterval( 'P' . ($this->dayOffset + 1) . 'D'));
+        $end = clone $this->period->getStart();
+        $end->add(new \DateInterval( 'P' . ($this->dayOffset + 1) . 'D'))
+            ->sub(new \DateInterval('PT1S'));
 
         return $end;
     }
@@ -130,10 +145,20 @@ class Day
     }
 
     /**
+     * @return \Doctrine\Common\Collections\ArrayCollection
+     */
+    public function getJobResps()
+    {
+        return $this->jobResps;
+    }
+
+    /**
      * @ORM\PrePersist
      */
     public function prePersist()
     {
+        parent::PrePersist();
+
         $this->period->addToList('days', $this);
     }
 
