@@ -64,12 +64,12 @@ abstract class ServiceBase
     }
 
     /**
-     * @var EcampCore\Entity\User
+     * @var \EcampCore\Entity\User
      */
     private $me = null;
 
     /**
-     * @return EcampCore\Entity\User
+     * @return \EcampCore\Entity\User
      */
     public function getMe()
     {

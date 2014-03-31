@@ -33,7 +33,7 @@ return array(
                             'defaults' => array(
                                 '__NAMESPACE__' => 'EcampWeb\Controller\Auth',
                                 'controller' => 'Login' ,
-                                'action' => 'index',
+                                'action' => 'login',
                             )
                         )
                     ),

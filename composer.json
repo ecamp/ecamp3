@@ -17,7 +17,7 @@
     
     "require": {
         "php": ">=5.3.3",
-        "zendframework/zendframework": "2.2.x",
+        "zendframework/zendframework": "2.3.x",
 		"rwoverdijk/assetmanager": "1.*",
 		
 		"zendframework/zftool": "dev-master",
@@ -34,7 +34,7 @@
         
         "phly/phly-restfully": "2.2.x",
         
-        "neilime/zf2-twb-bundle": "2.0.x",
+        "neilime/zf2-twb-bundle": "2.2.x",
         
         "components/jquery": "2.*",
         "components/jqueryui": "1.*",

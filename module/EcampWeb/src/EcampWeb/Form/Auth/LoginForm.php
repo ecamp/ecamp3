@@ -40,8 +40,37 @@ class LoginForm extends BaseForm
             'options' => array(
                 'label' => 'Login',
             ),
+            'attributes' => array(
+                'value' => 'Login'
+            ),
             'type' => 'Submit'
         ));
+
+        $this->add(array(
+            'name' => 'redirect',
+            'options' => array(
+            ),
+            'attributes' => array(
+            ),
+            'type' => 'Hidden'
+        ));
+    }
+
+    public function setRedirect($url)
+    {
+        $this->get('redirect')->setValue($url);
+    }
+
+    public function getRedirect()
+    {
+        return $this->get('redirect')->getValue();
+    }
+
+    public function hasRedirect()
+    {
+        $url = $this->getRedirect();
+
+        return !empty($url);
     }
 
 }

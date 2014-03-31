@@ -40,10 +40,26 @@ class AbstractServiceFactory implements AbstractFactoryInterface
 
         /* Create service with specific service factory which does the wiring */
         /* e.g. Ecamp*\Service\***ServiceFactory */
+
         $serviceFactoryName = $this->getServiceFactoryName($requestedName);
         $serviceFactory = new $serviceFactoryName;
         $service = $serviceFactory->createService($serviceLocator);
 
+        $this->initService($serviceLocator, $service);
+
+//        $service = new LazyLoadServiceWrapper($serviceLocator, $serviceFactoryName, array($this, 'initService'));
+
+        $this->inFactory--;
+
+        if ($this->inFactory > 0) {
+            return $service;
+        } else {
+            return new ServiceWrapper($service);
+        }
+    }
+
+    public function initService(ServiceLocatorInterface $serviceLocator, ServiceBase $service)
+    {
         /* Inject common dependencies (e.g. dependencies of ServiceBase class) */
         $service->setEntityManager($serviceLocator->get($this->orm));
         $service->setAcl($serviceLocator->get('EcampCore\Acl'));
@@ -55,12 +71,5 @@ class AbstractServiceFactory implements AbstractFactoryInterface
             $service->setMe($serviceLocator->get('EcampCore\Repository\User')->find($authId));
         }
 
-        $this->inFactory--;
-
-        if ($this->inFactory > 0) {
-            return $service;
-        } else {
-            return new ServiceWrapper($service);
-        }
     }
 }

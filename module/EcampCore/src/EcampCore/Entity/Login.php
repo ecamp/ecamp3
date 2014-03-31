@@ -74,11 +74,19 @@ class Login
     }
 
     /**
+     * @return string
+     */
+    public function getSalt()
+    {
+        return $this->salt;
+    }
+
+    /**
      * Create a new PW Reset Key
      */
     public function createPwResetKey()
     {
-        $this->pwResetKey = md5(microtime(true));
+        $this->pwResetKey = $this->getRandomString();
 
         return $this->pwResetKey;
     }
@@ -107,7 +115,7 @@ class Login
      */
     public function setNewPassword($password)
     {
-        $this->salt = md5(microtime(true));
+        $this->salt = $this->getRandomString();
         $this->password = $this->getHash($password);
     }
 
@@ -132,5 +140,10 @@ class Login
         );
 
         return \password_hash($password, PASSWORD_BCRYPT, $options);
+    }
+
+    private function getRandomString()
+    {
+        return md5(microtime(true));
     }
 }

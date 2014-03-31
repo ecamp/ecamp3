@@ -1,81 +1,55 @@
 <?php
-/**
- * Created by JetBrains PhpStorm.
- * User: pirminmattmann
- * Date: 05.04.11
- * Time: 23:18
- * To change this template use File | Settings | File Templates.
- */
 
 namespace EcampCore\Auth;
 
+use EcampCore\Entity\Autologin;
 use EcampCore\Entity\User;
-use EcampCore\Entity\Login;
 use Zend\Authentication\Result;
 use Zend\Authentication\Adapter\AdapterInterface;
 
-class Adapter
+class AutologinAdapter
     implements AdapterInterface
 {
 
-    const NOT_FOUND_MESSAGE 	= 'Unknown login!';
-    const CREDINTIALS_MESSAGE 	= 'Wrong Password!';
+    const NOT_FOUND_MESSAGE 	= 'No Autologin given!';
     const NOT_ACTIVATED_MESSAGE = 'Account is not yet activated!';
     const UNKNOWN_FAILURE 		= 'Unknown error!';
 
     /**
-     * @var EcampCore\Entity\User $user
+     * @var \EcampCore\Entity\User $user
      */
     private $user;
 
     /**
-     * @var EcampCore\Entity\Login $login
+     * @var AutoLogin
      */
-    private $login;
+    private $autologin;
 
-    /**
-     * @var string $password
-     */
-    private $password;
-
-    public function __construct(Login $login = null, $password)
+    public function __construct(Autologin $autologin)
     {
-        $this->login = $login;
-        $this->password = $password;
+        $this->autologin = $autologin;
     }
 
     /**
      * Performs an authentication attempt
-     *
-     * @throws Zend_Auth_Adapter_Exception If authentication cannot be performed
-     * @return Zend_Auth_Result
      */
     public function authenticate()
     {
-        // User Not Found:
-        if (is_null($this->login)) {
+        // No AutologinToken given:
+        if (is_null($this->autologin)) {
             return $this->authResult(
-                Result::FAILURE_IDENTITY_NOT_FOUND,
+                Result::FAILURE_UNCATEGORIZED,
                 self::NOT_FOUND_MESSAGE
             );
         }
 
-        /** @var $user \Entity\User */
-        $this->user = $this->login->getUser();
+        $this->user = $this->autologin->getUser();
 
         // User Not Activated:
         if ($this->user->getState() != User::STATE_ACTIVATED) {
             return $this->authResult(
-                Result::FAILURE_IDENTITY_AMBIGUOUS,
+                Result::FAILURE_UNCATEGORIZED,
                 self::NOT_ACTIVATED_MESSAGE
-            );
-        }
-
-        // User with wrong Password:
-        if (!$this->login->checkPassword($this->password)) {
-            return $this->authResult(
-                Result::FAILURE_CREDENTIAL_INVALID,
-                self::CREDINTIALS_MESSAGE
             );
         }
 
@@ -88,7 +62,7 @@ class Adapter
      *
      * @param integer    The Result code, see Zend_Auth_Result
      * @param mixed      The Message, can be a string or array
-     * @return Zend\Authentication\Result
+     * @return \Zend\Authentication\Result
      */
     private function authResult($code, $messages = array())
     {

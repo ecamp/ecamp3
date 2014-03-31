@@ -7,7 +7,7 @@ class ServiceWrapper
 
     private $service;
 
-    public function __construct(ServiceBase $service)
+    public function __construct($service)
     {
         $this->service = $service;
     }

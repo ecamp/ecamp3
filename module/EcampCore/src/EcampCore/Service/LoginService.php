@@ -2,6 +2,8 @@
 
 namespace EcampCore\Service;
 
+use EcampCore\Entity\Autologin;
+use EcampCore\Repository\AutologinRepository;
 use Zend\Authentication\AuthenticationService;
 
 use EcampCore\Repository\LoginRepository;
@@ -12,26 +14,36 @@ use EcampCore\Entity\User;
 use EcampCore\Entity\Login;
 use EcampLib\Service\ServiceBase;
 
-/**
- * @method EcampCore\Service\LoginService Simulate
- */
 class LoginService
     extends ServiceBase
 {
-
+    /**
+     * @var \EcampCore\Repository\LoginRepository
+     */
     private $loginRepository;
+
+    /**
+     * @var \EcampCore\Repository\UserRepository
+     */
     private $userRepo;
+
+    /**
+     * @var \EcampCore\Repository\AutologinRepository
+     */
+    private $autologinRepository;
 
     public function __construct(
         LoginRepository $loginRepository,
+        AutologinRepository $autologinRepository,
         UserRepository $userRepo
     ){
         $this->loginRepository = $loginRepository;
+        $this->autologinRepository = $autologinRepository;
         $this->userRepo = $userRepo;
     }
 
     /**
-     * @return EcampCore\Entity\Login | NULL
+     * @return \EcampCore\Entity\Login | NULL
      */
     public function Get()
     {
@@ -45,7 +57,7 @@ class LoginService
     }
 
     /**
-     * @return EcampCore\Entity\Login
+     * @return \EcampCore\Entity\Login
      */
     public function Create(User $user, Params $params)
     {
@@ -78,17 +90,17 @@ class LoginService
      */
     public function Login($identifier, $password)
     {
-        /** @var EcampCore\Entity\User  */
+        /** @var \EcampCore\Entity\User  */
         $user = $this->userRepo->findByIdentifier($identifier);
 
         if (is_null($user)) {
             $login = null;
         } else {
-            /** @var EcampCore\Entity\Login */
+            /** @var \EcampCore\Entity\Login */
             $login = $user->getLogin();
         }
 
-        $authAdapter = new \EcampCore\Auth\Adapter($login, $password);
+        $authAdapter = new \EcampCore\Auth\LoginPasswordAdapter($login, $password);
         $authService = new AuthenticationService();
         $result = $authService->authenticate($authAdapter);
 
@@ -139,10 +151,36 @@ class LoginService
     }
 
     /**
+     * @return \Zend\Authentication\Result
+     */
+    public function AutoLogin($token)
+    {
+        $autologin = $this->autologinRepository->findByToken($token);
+
+        $authAdapter = new \EcampCore\Auth\AutologinAdapter($autologin);
+        $authService = new AuthenticationService();
+        $result = $authService->authenticate($authAdapter);
+
+        return $result;
+    }
+
+    /**
+     * @param  User   $user
+     * @return string
+     */
+    public function CreateAutoLoginToken(User $user)
+    {
+        $autoLogin = new AutoLogin($user);
+        $this->persist($autoLogin);
+
+        return $autoLogin->createToken();
+    }
+
+    /**
      * Returns the LoginEntity with the given pwResetKey
      *
-     * @param  string                 $pwResetKey
-     * @return EcampCore\Entity\Login
+     * @param  string                  $pwResetKey
+     * @return \EcampCore\Entity\Login
      */
     private function getLoginByResetKey($pwResetKey)
     {

@@ -136,7 +136,7 @@ class UserRepository extends EntityRepository
             if ($mailValidator->isValid($identifier)) {
                 $user = $this->findOneBy(array('email' => $identifier));
             } else {
-                $user = $this->find($identifier);
+                $user = $this->findOneBy(array('username' => $identifier));
             }
         }
 
