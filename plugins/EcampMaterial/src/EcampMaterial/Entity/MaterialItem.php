@@ -16,7 +16,7 @@ class MaterialItem extends BaseEntity
 {
 
     /**
-     * @ORM\ManyToOne(targetEntity="EcampCore\Entity\EventPlugin", cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity="EcampCore\Entity\EventPlugin")
      * @ORM\JoinColumn(nullable=true, onDelete="CASCADE")
      */
     private $eventPlugin;

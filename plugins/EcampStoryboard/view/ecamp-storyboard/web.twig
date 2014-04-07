@@ -1,5 +1,7 @@
+<script src="/ecamp-web/js/Plugin.js"></script>
+<script src="/ecamp-web/js/Plugin/Itemized.js"></script>
 
-<div id="sections{{ eventPlugin.id }}">
+<div>
 	<div class="row">
 		<div class="col-sm-3 col-md-2" style="padding-left: 20px;">
 			<b>Duration</b>
@@ -15,8 +17,9 @@
 			<b>Option</b>
 			#}
 			<div class="pull-right">
-				<a href="#"
-					class="btn btn-xs btn-default createNewSection">
+				<a
+					href="{{ url('plugin/storyboard/default', { 'eventPluginId': eventPlugin.id, 'action': 'create' }) }}"
+					class="createItem btn btn-xs btn-default">
 					<i class="fa fa-plus"></i>
 				</a>
 			</div>
@@ -26,8 +29,8 @@
 		</div>
 	</div>
 
-	<ul style="list-style: none; padding: 0px;" class="section-list list-striped">
-		{% for section in sections %}
+	<ul style="list-style: none; padding: 0px;" class="items list-striped">
+		{% for item in sections %}
 			{% include 'ecamp-storyboard/section' %}
 		{% endfor %}
 	</ul>
@@ -36,129 +39,15 @@
 <script type="text/javascript">
 
 	$(function(){
-		var sectionsContainer = $("#sections{{ eventPlugin.id }}");
-
-		sectionsContainer.find('a.createNewSection').click(function(){
-			$.get("{{ url('plugin/storyboard/default', { 'eventPluginId': eventPlugin.id, 'action': 'create' }) }}")
-			.done(function(data){
-				var section = $(data);
-				sectionsContainer.find('ul.section-list').append(section);
-				init_section(section);
-			})
-			.fail(function(data){ console.error(data); });
+		var plugin = new Ecamp.Web.Plugin.Itemized({
+			eventPluginId : '{{eventPlugin.id}}',
+			showNewForm   : false,
+			movableItems  : true
 		});
 
-		function init_section(liElm){
-			var liElm = $(liElm);
-			var showElm = liElm.find('div[name=show]');
-			var editElm = liElm.find('div[name=edit]');
-			var origData = null;
-
-			showElm.hide();
-			editElm.hide();
-
-
-
-			var editFunc = function(){
-				showElm.hide();
-
-				origData = {};
-				editElm.find('.form-element').each(function(idx, elm){
-					origData[$(elm).attr('id')] = $(elm).val();
-				});
-
-				editElm.show();
-
-				editElm.find('textarea.autosize').trigger('autosize.resize');
-				editElm.find('.form-element:first').focus();
-			};
-
-			var saveFunc = function(){
-				var form = editElm.find('form');
-
-				$.ajax({
-		            type: form.attr('method'),
-		            url: form.attr('action'),
-		            data: form.serialize(),
-
-		            // prevents global error handling, errors handled locally
-		            global: false,
-
-		            statusCode: {
-						200: function(data, statusText, request){
-							var respElm = $(data);
-							respElm.find('.dropdown-toggle').dropdown();
-							liElm.replaceWith(respElm);
-							init_section(respElm);
-
-							origData = null;
-						},
-
-					    500: function(data, status){
-					    	console.error(data);
-						}
-					}
-		        });
-			};
-
-			var cancelFunc = function(){
-				editElm.hide();
-
-				editElm.find('.form-element').each(function(idx, elm){
-					$(elm).val(origData[$(elm).attr('id')]);
-				});
-				editElm.find('select.selectpicker').selectpicker('refresh');
-				origData = null;
-
-				showElm.show();
-			};
-
-			var deleteFunc = function(e){
-				e.preventDefault();
-				$.get($(this).attr('href'))
-				 .then(function(){
-					 $(liElm).remove();
-				  });
-			};
-
-			var moveUpFunc = function(e){
-				e.preventDefault();
-				$.get($(this).attr('href'))
-				 .then(function(){
-					$(liElm).after($(liElm).prev());
-				  });
-			};
-
-			var moveDownFunc = function(e){
-				e.preventDefault();
-				$.get($(this).attr('href'))
-				 .then(function(){
-					 $(liElm).before($(liElm).next());
-				  });
-			};
-
-			liElm.find('a.deleteSection').click(deleteFunc);
-			liElm.find('a.moveUpSection').click(moveUpFunc);
-			liElm.find('a.moveDownSection').click(moveDownFunc);
-
-			showElm.find('.edit-target').click(editFunc);
-
-			editElm.find('a.submit').click(saveFunc);
-			editElm.find('a.cancel').click(cancelFunc);
-
-			showElm.show();
-
-			liElm.find('select.selectpicker').selectpicker();
-			liElm.find('textarea.autosize').autosize();
-		};
-
-		sectionsContainer
-		.find('ul.section-list li.section')
-		.each(function(idx, elm){
-			init_section(elm);
-		});
+		//plugin.eventPluginElm.find('select.selectpicker').selectpicker();
+		
+		
 	});
-
-
 
 </script>

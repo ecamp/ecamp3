@@ -1,0 +1,48 @@
+<div class="btn-group" style="text-align: left">
+	<a href="#" class="btn btn-xs btn-default editItem">Edit</a>
+	<button type="button" class="btn btn-xs btn-default dropdown-toggle" data-toggle="dropdown">
+		<span class="caret"></span>
+		<span class="sr-only">Toggle Dropdown</span>
+	</button>
+	<ul class="dropdown-menu pull-right" role="menu">
+		{% if movable %}
+			<li>
+				<a 	class="moveUpItem"
+					href="{{ url('plugin/' ~ pluginName ~ '/default', {
+								'eventPluginId': eventPlugin.id,
+								'controller': 'item',
+								'action': 'move',
+								'id': item.id
+							}, { 'query': { 'direction': 'up' } } )}}"
+				>
+					<i class="fa fa-arrow-circle-o-up"></i> Move up
+				</a>
+			</li>
+			<li>
+				<a 	class="moveDownItem"
+					href="{{ url('plugin/' ~ pluginName ~ '/default', {
+								'eventPluginId': eventPlugin.id,
+								'controller': 'item',
+								'action': 'move',
+								'id': item.id
+							}, { 'query': { 'direction': 'down' } } )}}"
+				>
+					<i class="fa fa-arrow-circle-o-down"></i> Move down
+				</a>
+			</li>
+			<li class="divider"></li>
+		{% endif %}
+		<li>
+			<a 	class="deleteItem"
+				href="{{ url('plugin/' ~ pluginName ~ '/default', {
+							'eventPluginId': eventPlugin.id,
+							'controller': 'item',
+							'action': 'delete',
+							'id': item.id
+						} )}}"
+			>
+				<i class="fa fa-trash-o"></i> Delete
+			</a>
+		</li>
+	</ul>
+</div>

@@ -1,5 +1,4 @@
-<li class="section" id="{{ 'section-' ~ section.id }}">
-
+<li class="item" id="{{ 'item-' ~ item.id }}">
 	<div class="row">
 		<div class="col-xs-12">
 			<div style="border-bottom: 1px #ddd solid; margin: 0px 0px 5px 0px" ></div>
@@ -9,20 +8,20 @@
 	<div class="row" name="show">
 		<div class="col-sm-3 col-md-2" style="padding-left: 20px;">
 			<center>
-				<div class="edit-target">
-					{{ section.getDurationInMinutes() // 60 }}<small>h</small>
-					<sup><small>{{ section.getDurationInMinutes() % 60 }}</small></sup>
+				<div class="editItem">
+					{{ item.getDurationInMinutes() // 60 }}<small>h</small>
+					<sup><small>{{ item.getDurationInMinutes() % 60 }}</small></sup>
 				</div>
 			</center>
 		</div>
 		<div class="col-sm-6 col-md-7">
-			<div class="edit-target">
-				<pre style="font-family: inherit; background: inherit; border: inherit;">{{ section.text }}</pre>
+			<div class="editItem">
+				<pre style="font-family: inherit; background: inherit; border: inherit;">{{ item.text }}</pre>
 			</div>
 		</div>
 		<div class="col-sm-3">
-			<div class="edit-target">
-				{{ section.info }}
+			<div class="editItem">
+				{{ item.info }}
 			</div>
 		{#
 		</div>
@@ -31,57 +30,11 @@
 				<b>a, b</b>
 			</div>
 		#}
-			<!--
-			<br />
-			 -->
+		
 			<div style="text-align: right">
-				<div class="btn-group" style="text-align: left">
-					<a href="#" class="btn btn-xs btn-default edit-target">Edit</a>
-					<button type="button" class="btn btn-xs btn-default dropdown-toggle" data-toggle="dropdown">
-						<span class="caret"></span>
-						<span class="sr-only">Toggle Dropdown</span>
-					</button>
-					<ul class="dropdown-menu pull-right" role="menu">
-						<li>
-							<a 	class="moveUpSection"
-								href="{{ url('plugin/storyboard/default', {
-											'eventPluginId': eventPlugin.id,
-											'controller': 'sections',
-											'action': 'move',
-											'id': section.id
-										}, { 'query': { 'direction': 'up' } } )}}"
-							>
-								<i class="fa fa-arrow-circle-o-up"></i> Move up
-							</a>
-						</li>
-						<li>
-							<a 	class="moveDownSection"
-								href="{{ url('plugin/storyboard/default', {
-											'eventPluginId': eventPlugin.id,
-											'controller': 'sections',
-											'action': 'move',
-											'id': section.id
-										}, { 'query': { 'direction': 'down' } } )}}"
-							>
-								<i class="fa fa-arrow-circle-o-down"></i> Move down
-							</a>
-						</li>
-						<li class="divider"></li>
-						<li>
-							<a 	class="deleteSection"
-								href="{{ url('plugin/storyboard/default', {
-											'eventPluginId': eventPlugin.id,
-											'controller': 'sections',
-											'action': 'delete',
-											'id': section.id
-										} )}}"
-							>
-								<i class="fa fa-trash-o"></i> Delete
-							</a>
-						</li>
-					</ul>
-				</div>
+				{% include 'plugin/item-actions' with {'pluginName':'storyboard', 'movable':true } %}
 			</div>
+			
 		</div>
 	</div>
 
@@ -89,31 +42,31 @@
 		<form method="POST" action="{{
 			url('plugin/storyboard/default', {
 				'eventPluginId': eventPlugin.id,
-				'controller': 'sections',
+				'controller': 'item',
 				'action': 'save',
-				'id': section.id
+				'id': item.id
 			} )}}"
 		>
 			<div class="col-sm-3 col-md-2">
-				<input name="duration_hour" id="{{ 'section-duration-hour-' ~ section.id }}"
-					class="form-element nospinner" type="number" min="0" value="{{ section.getDurationInMinutes() // 60 }}"
+				<input name="duration_hour" id="{{ 'item-duration-hour-' ~ item.id }}"
+					class="form-element nospinner" type="number" min="0" value="{{ item.getDurationInMinutes() // 60 }}"
 					style="width: 30px; height: 20px; border-width: 0px 0px 1px 0px; border-style: dotted; border-color: gray; text-align: center; background-color: inherit"
 				/>h
-				<input name="duration_minute" id="{{ 'section-duration-minute-' ~ section.id }}"
-					class="form-element nospinner" type="number" min="0" max="59" value="{{ section.getDurationInMinutes() % 60 }}"
+				<input name="duration_minute" id="{{ 'item-duration-minute-' ~ item.id }}"
+					class="form-element nospinner" type="number" min="0" max="59" value="{{ item.getDurationInMinutes() % 60 }}"
 					style="width: 25px; height: 20px; border-width: 0px 0px 1px 0px; border-style: dotted; border-color: gray; text-align: center; background-color: inherit"
 				/>min
 			</div>
 			<div class="col-sm-6 col-md-7">
-				<textarea name="section_text" id="{{ 'section-text-' ~ section.id }}"
+				<textarea name="section_text" id="{{ 'item-text-' ~ item.id }}"
 					class="form-element form-control autosize"
-				>{{ section.text }}</textarea>
+				>{{ item.text }}</textarea>
 			</div>
 			<div class="col-sm-3">
 
-				<textarea name="section_info" id="{{ 'section-info-' ~ section.id }}"
+				<textarea name="section_info" id="{{ 'item-info-' ~ item.id }}"
 					class="form-element form-control autosize"
-				>{{ section.info }}</textarea>
+				>{{ item.info }}</textarea>
 			{#
 			</div>
 			<div class="col-sm-2" style="padding-right: 20px; text-align: right">
@@ -122,7 +75,7 @@
 					multiple title="-"
 					data-width="100%"
 					name="resp_user_ids[]"
-					id="{{ 'section-resp-user-' ~ section.id }}"
+					id="{{ 'item-resp-user-' ~ item.id }}"
 				>
 					{% for campCollaboration in camp.campCollaboration().getCollaborations() %}
 						{% if event.isUserResp(campCollaboration.user) %}
@@ -138,8 +91,8 @@
 				</select>
 			#}
 				<div class="pull-right" style="margin-top: 10px">
-					<a href="#" class="submit btn btn-xs btn-success"><i class="fa fa-check"></i> Save</a>
-					<a href="#" class="cancel btn btn-xs btn-danger"><i class="fa fa-times"></i> Cancel</a>
+					<a href="#" class="submit saveItem btn btn-xs btn-success"><i class="fa fa-check"></i> Save</a>
+					<a href="#" class="cancel cancelItem btn btn-xs btn-danger"><i class="fa fa-times"></i> Cancel</a>
 				</div>
 			</div>
 		</form>
