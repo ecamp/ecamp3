@@ -1,103 +1,60 @@
 <script src="/typeahead.js/typeahead.bundle.js"></script>
+<script src="/ecamp-web/js/Plugin.js"></script>
+<script src="/ecamp-web/js/Plugin/Itemized.js"></script>
 
-<table class="table" id="material-items">
-	<thead>
-		<tr>
-			<th class="col-md-2">
-				<b>Quantity</b>
-			</th>
-			<th class="col-md-5">
-				<b>Article</b>
-			</th>
-			<th class="col-md-3">
-				<b>Material Lists</b>
-			</th>
-			<th class="col-md-1">
 
-			</th>
-		</tr>
-	</thead>
+<div class="items">
+	<div class="row">
+		<div class="col-md-2">
+			<b>Quantity</b>
+		</div>
+		<div class="col-md-5">
+			<b>Article</b>
+		</div>
+		<div class="col-md-3">
+			<b>Material Lists</b>
+		</div>
+		<div class="col-md-1">
 
-<ul style="list-style: none; padding: 0px;">
+		</div>
+	</div>
+
+	
 	{% for item in items %}
 		{% include 'ecamp-material/item' %}
 	{% endfor %}
-</ul>
 
-	<tr class="empty"></tr>
+</div>
 
-</table>
-
-<div class="row" name="add">
-		<form method="POST" action="{{
+<div class="row" name="add" style="margin-top:30px;">
+		<form 
+		   method="POST"
+		   class="createItem"   
+		   action="{{
 			url('plugin/material/default', {
 				'eventPluginId': eventPlugin.id,
 				'controller': 'item',
 				'action': 'create'
 			} )}}"
 		>
-			<div class="col-md-2">
-				<input name="quantity" id="quantity" class="form-element form-control" type="text" />
-			</div>
-			<div class="col-md-5">
-				<input name="text" id="text" class="form-element form-control typeahead" type="text" />
-			</div>
-
-			<div class="col-md-3">
-				<select
-					class="form-element form-control selectpicker show-tick"
-					multiple title="-"
-					data-width="100%"
-					name="list_id[]"
-					id="list-id"
-				>
-					{% for list in lists %}
-							<option value="{{ list.id }}">
-								{{ list.getName }}
-							</option>
-					{% endfor %}
-				</select>
-
-			</div>
-			<div class="col-md-1" >
+			{% include 'ecamp-material/item-form' %}
+			
+			<div class="col-md-2" style="text-align: right;">
 				<a href="#" class="submit btn btn-xs btn-success"><i class="fa fa-check"></i> Add</a>
 			</div>
 		</form>
 	</div>
 
 <script type="text/javascript">
+
 	$(function(){
-		var eventPluginElm = $('#{{eventPlugin.id}}');
-		var addElm  = eventPluginElm.find('div[name=add]');
-
-		var addFunc = function(){
-			var form = addElm.find('form');
-
-			$.ajax({
-	            type: form.attr('method'),
-	            url: form.attr('action'),
-	            data: form.serialize(),
-
-	            // prevents global error handling, errors handled locally
-	            global: false,
-
-	            statusCode: {
-					200: function(data, statusText, request){
-						var respElm = $(data);
-						eventPluginElm.find('#material-items').append(respElm);
-						form[0].reset();
-					},
-
-				    500: function(data, status){
-				    	console.log(data);
-					}
-				}
-	        });
-		};
-
-		addElm.find('a.submit').click(addFunc);
-		addElm.find('select.selectpicker').selectpicker();
+		var plugin = new Ecamp.Web.Plugin.Itemized({
+			eventPluginId : '{{eventPlugin.id}}',
+			showNewForm   : true,
+			movableItems  : false
+		});
 	});
+		
 </script>
 
 
