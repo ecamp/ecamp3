@@ -17,7 +17,7 @@
     
     "require": {
         "php": ">=5.3.3",
-        "zendframework/zendframework": "2.2.x",
+        "zendframework/zendframework": "2.3.x",
 		"rwoverdijk/assetmanager": "1.*",
 		
 		"zendframework/zftool": "dev-master",
