@@ -19,7 +19,7 @@
 		</div>
 	</div>
 
-	
+
 	{% for item in items %}
 		{% include 'ecamp-material/item' %}
 	{% endfor %}
@@ -27,9 +27,9 @@
 </div>
 
 <div class="row" name="add" style="margin-top:30px;">
-		<form 
+		<form
 		   method="POST"
-		   class="createItem"   
+		   class="createItem"
 		   action="{{
 			url('plugin/material/default', {
 				'eventPluginId': eventPlugin.id,
@@ -38,7 +38,7 @@
 			} )}}"
 		>
 			{% include 'ecamp-material/item-form' %}
-			
+
 			<div class="col-md-2" style="text-align: right;">
 				<a href="#" class="submit btn btn-xs btn-success"><i class="fa fa-check"></i> Add</a>
 			</div>
@@ -54,7 +54,7 @@
 			movableItems  : false
 		});
 	});
-		
+
 </script>
 
 

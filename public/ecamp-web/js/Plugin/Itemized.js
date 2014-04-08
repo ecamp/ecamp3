@@ -1,3 +1,7 @@
+var Ecamp = Ecamp || {};
+Ecamp.Web = Ecamp.Web || {};
+Ecamp.Web.Plugin = Ecamp.Web.Plugin || {};
+
 Ecamp.Web.Plugin.Itemized = function (config) {
 	
 	if (!(this instanceof Ecamp.Web.Plugin.Itemized)) {
@@ -41,7 +45,7 @@ Ecamp.Web.Plugin.Itemized = function (config) {
 	        });
 			
 			return false;
-		});
+        });
 	} else {
 		/* Initialize create new item button */
 		this.eventPluginElm.find('.createItem').click( function(){

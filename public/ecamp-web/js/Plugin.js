@@ -1,6 +1,7 @@
 /* move these lines to better location */
-window.Ecamp = {};
-Ecamp.Web = {};
+
+var Ecamp = Ecamp || {};
+Ecamp.Web = Ecamp.Web || {};
 
 Ecamp.Web.Plugin = function(config) {
 	
