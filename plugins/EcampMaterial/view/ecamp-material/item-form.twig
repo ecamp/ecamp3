@@ -1,0 +1,23 @@
+<div class="col-md-2">
+	<input name="quantity" id="quantity" class="form-element form-control" type="text" value="{{item.quantity}}" />
+</div>
+<div class="col-md-5">
+	<input name="text" id="text" class="form-element form-control typeahead" type="text"  value="{{item.text}}" />
+</div>
+
+<div class="col-md-3">
+	<select
+		class="form-element form-control selectpicker show-tick"
+		multiple title="-"
+		data-width="100%"
+		name="list_id[]"
+		id="list-id"
+	>
+		{% for list in lists %}
+				<option value="{{ list.id }}">
+					{{ list.getName }}
+				</option>
+		{% endfor %}
+	</select>
+
+</div>
