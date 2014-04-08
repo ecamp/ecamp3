@@ -2,6 +2,7 @@
 
 namespace EcampWeb\Controller\Auth;
 
+use EcampWeb\Form\Auth\RegisterForm;
 use Zend\Http\Header\SetCookie;
 use Zend\Http\PhpEnvironment\Response;
 use EcampCore\Entity\Autologin;
@@ -73,7 +74,10 @@ class LoginController extends BaseController
             return $this->emptyResponse(Response::STATUS_CODE_500);
         }
 
-        return array('login' => $loginForm);
+        return array(
+            'login' => $loginForm,
+            'register' => new RegisterForm()
+        );
     }
 
     public function logoutAction()
@@ -97,6 +101,37 @@ class LoginController extends BaseController
         $user->getLogin()->setNewPassword($password);
 
         return $this->emptyResponse();
+    }
+
+    public function checkUsernameAction()
+    {
+        $username = $this->params()->fromQuery('username');
+
+        if (preg_match('/[^A-Za-z0-9_]/', $username)) {
+            $resp = $this->emptyResponse(Response::STATUS_CODE_500);
+            $resp->setContent("Allowed characters: a-z A-Z 0-9 _");
+
+            return $resp;
+        }
+
+        if (strlen($username) >= 3) {
+            $user = $this->getUserRepository()->findOneBy(array('username' => $username));
+
+            if (empty($user)) {
+                return $this->emptyResponse();
+            } else {
+                $resp = $this->emptyResponse(Response::STATUS_CODE_500);
+                $resp->setContent("Username is already taken");
+
+                return $resp;
+            }
+        } else {
+            $resp = $this->emptyResponse(Response::STATUS_CODE_500);
+            $resp->setContent("Minimum of username is 3 letters");
+
+            return $resp;
+        }
+
     }
 
 }

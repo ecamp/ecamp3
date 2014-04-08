@@ -1,0 +1,56 @@
+{{ docType() }}
+<html ng-app="eCamp3">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        {% block meta %}{% endblock meta %}
+
+        {% block title %}
+            <title>eCamp V3</title>
+        {% endblock title %}
+
+
+        <!-- CSS - Files -->
+        <link type="text/css" rel="stylesheet" href="{{ request.getBasePath }}/bootstrap/css/bootstrap.min.css" />
+        <link type="text/css" rel="stylesheet" href="{{ request.getBasePath }}/font-awesome/css/font-awesome.min.css" />
+        <link type="text/css" rel="stylesheet" href="{{ request.getBasePath }}/jqueryui/themes/base/minified/jquery-ui.min.css" />
+
+        <link type="text/css" rel="stylesheet" href='{{ request.getBasePath }}/bootstrap-select/css/bootstrap-select.min.css' />
+        <link type="text/css" rel="stylesheet" href='{{ request.getBasePath }}/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css' />
+
+        <link type="text/css" rel="stylesheet" href="{{ request.getBasePath }}/ecamp-web/css/ajaxLoader.css" />
+        <link type="text/css" rel="stylesheet" href="{{ request.getBasePath }}/ecamp-web/css/searchbox.css" />
+        <link type="text/css" rel="stylesheet" href="{{ request.getBasePath }}/ecamp-web/css/default.css" />
+
+        {% block style %}{% endblock style %}
+
+
+        <!-- Scripts -->
+        <script src="{{ request.getBasePath }}/jquery/jquery.min.js"></script>
+        <script src="{{ request.getBasePath }}/jqueryui/ui/minified/jquery-ui.min.js"></script>
+        <script src="{{ request.getBasePath }}/jquery-autosize/js/jquery.autosize.min.js"></script>
+
+        <!--
+        <script src="{{ request.getBasePath }}/angular.js/angular.min.js"></script>
+        <script src="{{ request.getBasePath }}/angular-resource/angular-resource.min.js"></script>
+        -->
+        <script src="{{ request.getBasePath }}/bootstrap/js/bootstrap.min.js"></script>
+        <script src="{{ request.getBasePath }}/bootstrap-select/js/bootstrap-select.min.js"></script>
+        <script src="{{ request.getBasePath }}/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+
+        {% block script %}{% endblock script %}
+
+
+        <!--[if lt IE 9]><script type="text/javascript" src="/js/html5.js"></script><![endif]-->
+
+        {{ headScript() }}
+
+
+
+    </head>
+    <body>
+        <div class="bgimage"></div>
+
+        {% block htmlbody %}{% endblock %}
+    </body>
+</html>

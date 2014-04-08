@@ -1,5 +1,303 @@
-{{ form(login) }}
+{% extends 'layout/bg-image' %}
 
-{% if failed %}
-FAILED
-{% endif %}
+{% block style %}
+    <style type="text/css">
+        .nav-tabs li a {
+            background-color: #f5f5f5;
+        }
+
+        input[type=radio],
+        input[type=checkbox] {
+            display: none;
+        }
+
+        input[type=checkbox] + label {
+            margin-left: 10px;
+            width: 20px;
+            font-size: 17px;
+            font-family: "FontAwesome";
+            cursor: pointer;
+        }
+        input[type=checkbox] + label + label {
+            cursor: pointer;
+        }
+
+        input[type=checkbox]:checked + label:before {
+            content: "\f046";
+        }
+
+        input[type=checkbox] + label:before {
+            content: "\f096";
+        }
+
+    </style>
+{% endblock %}
+
+{% block script %}
+
+    <script type="text/javascript">
+        (function($){
+
+            $(function(){
+                $('body').on('keyup', 'input.validate', function(e){  $(e.target).validate(); });
+                $('body').on('change', 'input.validate', function(e){ $(e.target).validate(); });
+                $('body').on('focus', 'input.validate', function(e){ $(e.target).validate(); });
+            });
+
+            $.fn.setIcon = function(status, statusText){
+                function hideIcon(input){
+                    var icon = getIcon(input);
+                    icon.removeClass(function(idx, cls){ return (cls.match(/\bfa\S+/g) || []).join(' '); })
+                }
+
+                function setIcon(input, iconCls){
+                    hideIcon(input);
+
+                    var icon = getIcon(input);
+                    icon.addClass(iconCls);
+
+                    return icon;
+                }
+
+                function setMessage(input, message){
+                    var icon = getIcon(input);
+                    icon.popover('destroy');
+                    icon.popover({ 'content': message, 'container': 'body', 'animation': false });
+                }
+
+                function getIconContainer(input){
+
+                    var p = input.parent();
+                    if(! p.hasClass('iconContainer')){
+                        input.blur();
+                        input.css({ 'padding-right': '40px' });
+
+                        p = $('<div class="iconContainer" style="position: relative"></div>');
+                        var i = input.wrap(p);
+                        p = i.parent();
+
+                        var icon = $('<i class="icon"></i>');
+                        icon.css({ 'font-size': '18px', 'position': 'absolute', 'top': '10px', 'right': '8px' });
+
+                        p.append(icon);
+
+                        icon.popover({ 'content': '', 'container': 'body', 'animation': false });
+
+                        input.focus(function(){
+                            icon.popover('show');   console.log('L75 show');    console.log(icon);
+                        });
+                        input.blur(function(){
+                            icon.popover('hide');   console.log('L78 hide');    console.log(icon);
+                        });
+
+                        i.focus();
+                    }
+                    return p;
+                }
+
+                function getIcon(input){
+                    return getIconContainer(input).find('i.icon');
+                }
+
+                switch(status){
+                    case "info":
+                        setIcon(this, 'fa fa-info-circle').css({ 'color': 'dodgerblue', 'width': '17px' });
+                        setMessage(this, statusText);
+                        break;
+
+                    case "spin":
+                        setIcon(this, 'fa fa-spinner fa-spin').css({ 'color': 'skyblue', 'width': '17px' });
+                        setMessage(this, statusText);
+                        break;
+
+                    case "check":
+                        setIcon(this, 'fa fa-check').css({ 'color': 'limegreen' });
+                        setMessage(this, statusText);
+                        break;
+
+                    case "warning":
+                        setIcon(this, 'fa fa-exclamation-triangle').css({ 'color': 'orange' });
+                        setMessage(this, statusText);
+                        break;
+
+                    default:
+                        hideIcon(this);
+                }
+
+                if(this.is(':focus')){
+                    getIcon(this).popover('show');
+                }
+            };
+
+            var ICON_INFO = 0;
+            var ICON_CHECK = 1;
+            var ICON_WARNING = 2;
+            var ICON_SPIN = 3;
+            var ICONS = { 0: 'info', 1: 'check', 2: 'warning', 3: 'spin' };
+
+            var pattern = new RegExp(/^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i);
+
+            $.fn.validate = function(){
+
+                var hasValidated = false;
+                var validationIcon = 0;
+                var validationMessage = '';
+
+                var setMessage = function(icon, message){
+                    hasValidated = true;
+                    if(validationIcon < icon){
+                        validationIcon = icon;
+                        validationMessage = message;
+                    }
+                };
+
+                if(this.is('[data-validation-required]')){
+                    if(this.val().length == 0){
+                        setMessage(ICON_WARNING, 'Field is required');
+                    } else {
+                        setMessage(ICON_CHECK, '');
+                    }
+                }
+
+                if(this.is('[data-validation-email]')){
+                    if(!pattern.test(this.val())){
+                        setMessage(ICON_WARNING, 'eMail address not valid');
+                    } else {
+                        setMessage(ICON_CHECK, '');
+                    }
+                }
+
+                if(this.is('[data-validation-password]')){
+                    if(this.val().length < 8){
+                        setMessage(ICON_WARNING, 'Minimum length is 8 characters');
+                    } else {
+                        setMessage(ICON_CHECK, '');
+                    }
+
+                    var repeatPassword = $('input[data-validation-password-repeat="' + this.attr('name') + '"]');
+                    if(repeatPassword){ repeatPassword.validate(); }
+                }
+
+                if(this.is('[data-validation-password-repeat]')){
+                    var origPassword = $('input[name="' + this.attr('data-validation-password-repeat') + '"]');
+
+                    if(this.val() != ""){
+                        if(this.val() != origPassword.val()){
+                            setMessage(ICON_WARNING, 'Password not identical');
+                        } else {
+                            setMessage(ICON_CHECK, '');
+                        }
+                    }
+                }
+
+                if(hasValidated){
+                    var icon = ICONS[validationIcon];
+                    this.setIcon(icon, validationMessage);
+                }
+            };
+
+        }(jQuery));
+
+
+
+        $(function(){
+            var usernameInput = $('input[name="username"]');
+            var checkUsernameUrl = '{{ url('web/default', { 'controller': 'login', 'action': 'checkUsername' }) }}';
+
+            function checkUsername(username){
+                usernameInput.setIcon('spin');
+                $.ajax({ 'url': checkUsernameUrl, 'data': { 'username': username }})
+                 .done(function(){ usernameInput.setIcon('check', ''); })
+                 .fail(function(e) { usernameInput.setIcon('warning', e.responseText); });
+            }
+
+            usernameInput.keyup(function(e){
+                checkUsername(usernameInput.val());
+            });
+
+        });
+
+    </script>
+
+{% endblock %}
+
+{% block htmlbody %}
+
+    <section class="container" style="margin-top: 10%">
+        <div class="row">
+            <div class="col-sm-5 col-sm-push-5 col-md-4 col-md-push-5">
+                <ul class="nav nav-tabs">
+                    <li class="active">
+                        <a href="#login" data-toggle="tab">Login</a>
+                    </li>
+                    <li>
+                        <a href="#register" data-toggle="tab">Register</a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane active" id="login">
+                        <div class="row white" style="padding-bottom: 15px">
+                            {{ form().openTag(login) | raw }}
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <h3>eCamp</h3>
+                                </div>
+                            </div>
+                            <div class="col-xs-12">
+                                <div class="form-group">
+                                    {{ formElement(login.get('login')) | raw }}
+                                </div>
+                                <div class="form-group">
+                                    {{ formElement(login.get('password')) | raw }}
+                                </div>
+                            </div>
+
+                            <div class="col-sm-7">
+                                <div class="btn-group">
+                                    <input name="rememberme" id="rememberme" type="checkbox">
+                                    <label for="rememberme"> </label>
+                                    <label for="rememberme">Remember me</label>
+                                </div>
+                            </div>
+                            <div class="col-sm-5">
+                                <button type="submit" class="btn btn-success col-xs-12">
+                                    Login
+                                </button>
+                            </div>
+
+                            {{ formElement(login.get('redirect')) }}
+                            {{ form().closeTag() | raw }}
+                        </div>
+                    </div>
+
+                    <div class="tab-pane" id="register">
+                        <div class="tab-pane active" id="login">
+                            <div class="row white" style="padding-bottom: 15px">
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                        <h3>eCamp - Register</h3>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12">
+                                    <div class="col-sm-12">
+                                        {{ form(register, '') }}
+                                    </div>
+                                </div>
+                                <div class="col-sm-12">
+                                    <div class="col-sm-5 col-sm-push-7">
+                                        <div class="row">
+                                            <button type="submit" class="btn btn-success col-xs-12">
+                                                Register
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}

@@ -16,6 +16,9 @@ class LoginForm extends BaseForm
             'options' => array(
                 'label' => 'Login',
             ),
+            'attributes' => array(
+                'placeholder' => 'Login'
+            ),
             'type'  => 'Text'
         ));
 
@@ -23,6 +26,9 @@ class LoginForm extends BaseForm
             'name' => 'password',
             'options' => array(
                 'label' => 'Password',
+            ),
+            'attributes' => array(
+                'placeholder' => 'Password'
             ),
             'type'  => 'Password'
         ));
