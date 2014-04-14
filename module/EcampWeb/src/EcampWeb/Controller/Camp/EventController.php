@@ -75,44 +75,49 @@ class EventController extends BaseController
     {
         return $this->getServiceLocator()->get('EcampCore\Service\EventResp');
     }
-    
-    private function getEventViewModel(Medium $medium){
-    	$event = $this->getEventEntity();
-    	
-    	$eventTemplate = $this->getEventTemplateRepository()->findTemplate($event, $medium);
-    	$eventTemplateRenderer = new EventTemplateRenderer($eventTemplate);
-    	$eventTemplateRenderer->buildRendererTree($this->getServiceLocator());
-    	
-    	$viewModel = $eventTemplateRenderer->render($event);
-    	
-    	return $viewModel;
+
+    private function getEventViewModel(Medium $medium)
+    {
+        $event = $this->getEventEntity();
+
+        $eventTemplate = $this->getEventTemplateRepository()->findTemplate($event, $medium);
+        $eventTemplateRenderer = new EventTemplateRenderer($eventTemplate);
+        $eventTemplateRenderer->buildRendererTree($this->getServiceLocator());
+
+        $viewModel = $eventTemplateRenderer->render($event);
+
+        return $viewModel;
     }
 
     public function indexAction()
     {
         $medium = $this->getWebMedium();
+
         return $this->getEventViewModel($medium);
     }
-    
-    public function printJobCreateAction(){
-    	$event = $this->getEventEntity();
-    	
-    	$token = \Resque::enqueue('ecamp3', 'EventPrinter', array(
-    		'printSingleEvent',
-	    	'eventId' => $event->getId()
-	    	), true);
-    	
-    	/*
-    	$token2 = \Resque::enqueue('ecamp3', 'Zf2Cli', array(
-    			'command' => "job dummy test2"
-    	), true);*/
-    	
-    	die("$token");
+
+    public function printJobCreateAction()
+    {
+        $event = $this->getEventEntity();
+
+        $token = \Resque::enqueue('ecamp3', 'EcampCore\Job\EventPrinter', array(
+            'printSingleEvent',
+            'eventId' => $event->getId()
+            ), true);
+
+        /*
+        $token2 = \Resque::enqueue('ecamp3', 'Zf2Cli', array(
+                'command' => "job dummy test2"
+        ), true);*/
+
+        die("$token");
     }
-    
-    public function printJobGenerateAction(){
-    	$medium = $this->getPrintMedium();
-    	return $this->getEventViewModel($medium);
+
+    public function printJobGenerateAction()
+    {
+        $medium = $this->getPrintMedium();
+
+        return $this->getEventViewModel($medium);
     }
 
     public function setRespAction()

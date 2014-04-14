@@ -49,4 +49,10 @@ class TestController extends AbstractBaseController
         return $viewModel;
     }
 
+    public function jobAction()
+    {
+        $token = (new \EcampCore\Job\Zf2CliJob('modules list'))->enqueue('ecamp3');
+
+        die('Job created, Token: ' . $token);
+    }
 }

@@ -15,7 +15,7 @@ class Section extends BaseEntity
 {
 
     /**
-     * @ORM\ManyToOne(targetEntity="EcampCore\Entity\EventPlugin", cascade={"remove"})
+     * @ORM\ManyToOne(targetEntity="EcampCore\Entity\EventPlugin")
      * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
      */
     private $eventPlugin;

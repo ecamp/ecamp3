@@ -16,7 +16,7 @@
 	],
 	"require" : {
 		"php" : ">=5.3.3",
-		"zendframework/zendframework" : "2.2.x",
+		"zendframework/zendframework" : "2.3.*",
 		"rwoverdijk/assetmanager" : "1.*",
 		"zendframework/zftool" : "dev-master",
 		"zendframework/zend-developer-tools" : "dev-master",
@@ -26,17 +26,21 @@
 		"sundrique/doctrine-tools" : ">=0.2",
 		"zf-commons/zfc-twig" : "dev-master",
 		"phpunit/phpunit" : "3.7.*",
-		"phly/phly-restfully" : "2.2.x",
-		"neilime/zf2-twb-bundle" : "2.0.x",
+		"phly/phly-restfully" : "2.2.*",
+		"neilime/zf2-twb-bundle" : "2.*",
 		"components/jquery" : "2.*",
 		"components/jqueryui" : "1.*",
 		"components/bootstrap" : "3.*",
 		"components/font-awesome" : "4.*",
 		"components/angular.js" : "1.*",
 		"components/angular-resource" : "1.*",
-		"components/typeahead.js" : "0.10.x",
+		"components/typeahead.js" : "0.10.*",
 		"bootstrap-select/bootstrap-select" : "dev-master",
 		"kamisama/php-resque-ex" : "dev-bugfix as 1.2.7",
-		"fresque/fresque" : "1.2.x"
-	}
+        "fresque/fresque" : "1.2.*"
+	},
+
+    "provide": {
+        "ext-pcntl": "*"
+    }
 }

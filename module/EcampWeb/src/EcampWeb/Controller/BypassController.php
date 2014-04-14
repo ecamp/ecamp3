@@ -41,6 +41,7 @@ class BypassController
         $res = $authService->authenticate($ada);
 
         echo $res->isValid() ? 'logged id' : 'failed';
+        var_dump($res->getMessages());
         die();
     }
 
