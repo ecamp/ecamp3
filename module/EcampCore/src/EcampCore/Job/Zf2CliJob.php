@@ -13,7 +13,7 @@ class Zf2CliJob extends AbstractJobBase
         $this->command = $command;
     }
 
-    public function executeJob()
+    public function perform()
     {
         $argv = explode(' ', $this->command);
         array_unshift($argv, 'Zf2CliJob.php');
@@ -22,7 +22,7 @@ class Zf2CliJob extends AbstractJobBase
         $_SERVER['argv'] = $argv;
         $_SERVER['argc'] = $argc;
 
-        $app = \Zend\MVc\Application::init(require 'config/application.config.php');
+        $app = \Zend\MVc\Application::init(require 'config/app.config.php');
         $responseSender = $app->getServiceManager()->get('SendResponseListener');
 
         $responseSender->getEventManager()->attach(

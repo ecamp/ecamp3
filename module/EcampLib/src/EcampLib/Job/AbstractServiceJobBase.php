@@ -27,4 +27,8 @@ class AbstractServiceJobBase extends AbstractJobBase
         return self::$serviceLocator;
     }
 
+    protected function __construct($defaultQueue = 'service')
+    {
+        parent::__construct($defaultQueue);
+    }
 }

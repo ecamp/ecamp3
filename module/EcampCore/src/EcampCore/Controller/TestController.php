@@ -51,7 +51,7 @@ class TestController extends AbstractBaseController
 
     public function cliJobAction()
     {
-        $token = (new \EcampCore\Job\Zf2CliJob('modules list'))->enqueue('ecamp3');
+        $token = (new \EcampCore\Job\Zf2CliJob('modules list'))->enqueue();
 
         die('Job created, Token: ' . $token);
     }
