@@ -1,6 +1,6 @@
 <?php
 
-namespace EcampCore\Job;
+namespace EcampLib\Job;
 
 abstract class AbstractJobBase
 {
@@ -20,13 +20,6 @@ abstract class AbstractJobBase
 
         return \Resque::enqueue($q, get_class($this), $this->args);
     }
-
-    public function perform()
-    {
-        $this->executeJob();
-    }
-
-    abstract protected function executeJob();
 
     public function get($name)
     {

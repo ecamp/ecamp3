@@ -2,6 +2,8 @@
 
 namespace EcampCore\Job;
 
+use EcampLib\Job\AbstractJobBase;
+
 class Zf2CliJob extends AbstractJobBase
 {
     public function __construct($command = null)

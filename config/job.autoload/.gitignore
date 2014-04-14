@@ -1,0 +1,5 @@
+local.php
+*.local.php
+
+local.ini
+*.local.ini

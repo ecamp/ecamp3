@@ -4,7 +4,7 @@
  * to the application root now.
  */
 
-chdir(dirname(__DIR__));
+chdir(__DIR__);
 
 ini_set('display_errors', true);
 error_reporting((E_ALL | E_STRICT) ^ E_NOTICE);

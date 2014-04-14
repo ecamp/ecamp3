@@ -1,9 +1,6 @@
 <?php
 
-define("__BASE__", dirname(__DIR__) );
-define("__PUBLIC__", __BASE__ . '/public');
-define("__VENDOR__", __BASE__ . '/vendor');
-define("__DATA__", __BASE__ . '/data');
+require_once 'define.php';
 
 return array(
     'modules' => array(
@@ -44,6 +41,9 @@ return array(
             './vendor',
             './plugins'
         ),
-        'config_glob_paths' => array('config/autoload/{,*.}{global,local}.php')
+        'config_glob_paths' => array(
+            'config/app.autoload/{,*.}{global,local}.php',
+            'config/common.autoload/{,*.}{global,local}.php',
+        )
     )
 );
