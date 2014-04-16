@@ -37,7 +37,12 @@
 		"components/typeahead.js" : "0.10.*",
 		"bootstrap-select/bootstrap-select" : "dev-master",
 		"kamisama/php-resque-ex" : "dev-bugfix as 1.2.7",
-        "fresque/fresque" : "1.2.*"
+        "fresque/fresque" : "1.2.*",
+
+        "knplabs/knp-snappy": "*",
+        "h4cc/wkhtmltopdf-i386": "0.12.x",
+        "h4cc/wkhtmltopdf-amd64": "0.12.x",
+        "messagedigital/wkhtmltopdf-osx": "*"
 	},
 
     "provide": {

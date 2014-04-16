@@ -4,7 +4,7 @@ namespace EcampLib\Job;
 
 use Zend\ServiceManager\ServiceLocatorInterface;
 
-class AbstractServiceJobBase extends AbstractJobBase
+abstract class AbstractServiceJobBase extends AbstractJobBase
 {
     /**
      * @var ServiceLocatorInterface
@@ -19,6 +19,11 @@ class AbstractServiceJobBase extends AbstractJobBase
         self::$serviceLocator = $serviceLocator;
     }
 
+    protected function __construct($defaultQueue = 'service')
+    {
+        parent::__construct($defaultQueue);
+    }
+
     /**
      * @return ServiceLocatorInterface
      */
@@ -27,8 +32,24 @@ class AbstractServiceJobBase extends AbstractJobBase
         return self::$serviceLocator;
     }
 
-    protected function __construct($defaultQueue = 'service')
+    /**
+     * @return \Zend\Mvc\Router\RouteStackInterface
+     */
+    protected function getRouter()
     {
-        parent::__construct($defaultQueue);
+        return self::$serviceLocator->get('HttpRouter');
+    }
+
+    /**
+     * @param $name
+     * @param  array  $params
+     * @param  array  $options
+     * @return string
+     */
+    protected function urlFromRoute($name, $params = array(), $options = array())
+    {
+        $options['name'] = $name;
+
+        return $this->getRouter()->assemble($params, $options);
     }
 }

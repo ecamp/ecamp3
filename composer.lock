@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "8018276b7b26dc6548d74cc2edf16ea3",
+    "hash": "edae7de1e32c4d65a05bcf76e2340791",
     "packages": [
         {
             "name": "bootstrap-select/bootstrap-select",
@@ -1200,6 +1200,86 @@
             "time": "2013-10-31 03:57:02"
         },
         {
+            "name": "h4cc/wkhtmltopdf-amd64",
+            "version": "0.12.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/h4cc/wkhtmltopdf-amd64.git",
+                "reference": "ebaa56a8ba0ae70a147ee70d544abf743db290d3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/h4cc/wkhtmltopdf-amd64/zipball/ebaa56a8ba0ae70a147ee70d544abf743db290d3",
+                "reference": "ebaa56a8ba0ae70a147ee70d544abf743db290d3",
+                "shasum": ""
+            },
+            "bin": [
+                "bin/wkhtmltopdf-amd64"
+            ],
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPL Version 3"
+            ],
+            "authors": [
+                {
+                    "name": "Julius Beckmann",
+                    "email": "github@h4cc.de"
+                }
+            ],
+            "description": "Convert html to pdf using webkit (qtwebkit). Static linked linux binary for amd64 systems.",
+            "homepage": "http://wkhtmltopdf.org/",
+            "keywords": [
+                "binary",
+                "convert",
+                "pdf",
+                "snapshot",
+                "thumbnail",
+                "wkhtmltopdf"
+            ],
+            "time": "2014-02-11 21:33:07"
+        },
+        {
+            "name": "h4cc/wkhtmltopdf-i386",
+            "version": "0.12.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/h4cc/wkhtmltopdf-i386.git",
+                "reference": "7afbb1468b65305b940fce9c8a9574cb7c0f17b4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/h4cc/wkhtmltopdf-i386/zipball/7afbb1468b65305b940fce9c8a9574cb7c0f17b4",
+                "reference": "7afbb1468b65305b940fce9c8a9574cb7c0f17b4",
+                "shasum": ""
+            },
+            "bin": [
+                "bin/wkhtmltopdf-i386"
+            ],
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPL Version 3"
+            ],
+            "authors": [
+                {
+                    "name": "Julius Beckmann",
+                    "email": "github@h4cc.de"
+                }
+            ],
+            "description": "Convert html to pdf using webkit (qtwebkit). Static linked linux binary for i386 systems.",
+            "homepage": "http://wkhtmltopdf.org/",
+            "keywords": [
+                "binary",
+                "convert",
+                "pdf",
+                "snapshot",
+                "thumbnail",
+                "wkhtmltopdf"
+            ],
+            "time": "2014-02-11 22:00:57"
+        },
+        {
             "name": "kamisama/monolog-init",
             "version": "0.1.1",
             "source": {
@@ -1350,6 +1430,65 @@
             "time": "2013-06-20 17:14:06"
         },
         {
+            "name": "knplabs/knp-snappy",
+            "version": "0.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/KnpLabs/snappy.git",
+                "reference": "4bc7af878a003a2c1ef3c4d8b08851537cb07486"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/KnpLabs/snappy/zipball/4bc7af878a003a2c1ef3c4d8b08851537cb07486",
+                "reference": "4bc7af878a003a2c1ef3c4d8b08851537cb07486",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "suggest": {
+                "google/wkhtmltopdf-amd64": "Provide wkhtmltopdf-amd64 binary, use version `0.11.0-RC1` as dependency",
+                "google/wkhtmltopdf-i386": "Provide wkhtmltopdf-i386 binary, use version `0.11.0-RC1` as dependency",
+                "symfony/process": "Process Component of Symfony2."
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "0.1.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Knp\\Snappy": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "KnpLabs Team",
+                    "homepage": "http://knplabs.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "http://github.com/KnpLabs/snappy/contributors"
+                }
+            ],
+            "description": "PHP5 library allowing thumbnail, snapshot or PDF generation from a url or a html page. Wrapper for wkhtmltopdf/wkhtmltoimage.",
+            "homepage": "http://github.com/KnpLabs/snappy",
+            "keywords": [
+                "knp",
+                "knplabs",
+                "pdf",
+                "snapshot",
+                "thumbnail",
+                "wkhtmltopdf"
+            ],
+            "time": "2014-03-20 15:05:12"
+        },
+        {
             "name": "kriswallsmith/assetic",
             "version": "v1.1.2",
             "source": {
@@ -1419,6 +1558,46 @@
                 "minification"
             ],
             "time": "2013-07-19 00:03:27"
+        },
+        {
+            "name": "messagedigital/wkhtmltopdf-osx",
+            "version": "0.9.9",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/messagedigital/wkhtmltopdf-osx.git",
+                "reference": "0850579902b5906889b51aa09d36b8126b5a3d40"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/messagedigital/wkhtmltopdf-osx/zipball/0850579902b5906889b51aa09d36b8126b5a3d40",
+                "reference": "0850579902b5906889b51aa09d36b8126b5a3d40",
+                "shasum": ""
+            },
+            "bin": [
+                "bin/wkhtmltopdf-osx"
+            ],
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPL Version 3"
+            ],
+            "authors": [
+                {
+                    "name": "Laurence Roberts",
+                    "email": "laurence@message.co.uk"
+                }
+            ],
+            "description": "Convert html to pdf using webkit (qtwebkit). Static linked osx binary.",
+            "homepage": "https://code.google.com/p/wkhtmltopdf/",
+            "keywords": [
+                "binary",
+                "convert",
+                "pdf",
+                "snapshot",
+                "thumbnail",
+                "wkhtmltopdf"
+            ],
+            "time": "2013-10-17 10:10:05"
         },
         {
             "name": "monolog/monolog",
@@ -2446,30 +2625,37 @@
         },
         {
             "name": "zendframework/zenddiagnostics",
-            "version": "v1.0.1",
+            "version": "v1.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/zendframework/ZendDiagnostics.git",
-                "reference": "5707316caf6eeceeba79fccf08ad63ac5151e6ab"
+                "reference": "a39a48e0fc3a28977087dec08399c923e87b4b7a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zendframework/ZendDiagnostics/zipball/5707316caf6eeceeba79fccf08ad63ac5151e6ab",
-                "reference": "5707316caf6eeceeba79fccf08ad63ac5151e6ab",
+                "url": "https://api.github.com/repos/zendframework/ZendDiagnostics/zipball/a39a48e0fc3a28977087dec08399c923e87b4b7a",
+                "reference": "a39a48e0fc3a28977087dec08399c923e87b4b7a",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.3"
             },
             "require-dev": {
+                "guzzle/http": "3.*",
+                "guzzle/plugin-mock": "3.*",
+                "predis/predis": "0.8.*",
                 "sensiolabs/security-checker": "1.3.*@dev",
                 "symfony/yaml": "v2.3.11",
+                "videlalvaro/php-amqplib": "2.*",
                 "zendframework/zend-loader": "2.*"
             },
             "suggest": {
                 "ext-bcmath": "Required by Check\\CpuPerformance",
+                "guzzle/http": "Required by Check\\GuzzleHttpService",
+                "predis/predis": "Required by Check\\Redis",
                 "sensiolabs/security-checker": "Required by Check\\SecurityAdvisory",
-                "symfony/yaml": "Required by Check\\YamlFile"
+                "symfony/yaml": "Required by Check\\YamlFile",
+                "videlalvaro/php-amqplib": "Required by Check\\RabbitMQ"
             },
             "type": "library",
             "extra": {
@@ -2494,21 +2680,21 @@
                 "php",
                 "test"
             ],
-            "time": "2014-04-03 07:22:15"
+            "time": "2014-04-15 19:03:28"
         },
         {
             "name": "zendframework/zendframework",
-            "version": "2.3.0",
+            "version": "2.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/zendframework/zf2.git",
-                "reference": "5d22cee82f6f7f9218f47f22a145f3e95c39cacf"
+                "reference": "055eac4314425c291f3ef0e104a6196a8fc24cd5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://packages.zendframework.com/composer/zendframework-zendframework-5d22cee82f6f7f9218f47f22a145f3e95c39cacf-zip-2b68c6.zip",
-                "reference": "2.3.0",
-                "shasum": "f443b51a5253fc7d51799b82307a439ef5db02ce"
+                "url": "https://packages.zendframework.com/composer/zendframework-zendframework-055eac4314425c291f3ef0e104a6196a8fc24cd5-zip-13cc39.zip",
+                "reference": "2.3.1",
+                "shasum": "3f93bd90560b42b997ba8261e7a99d6dbb73d799"
             },
             "require": {
                 "php": ">=5.3.23",
@@ -2593,8 +2779,8 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.2-dev",
-                    "dev-develop": "2.3-dev"
+                    "dev-master": "2.3-dev",
+                    "dev-develop": "2.4-dev"
                 }
             },
             "autoload": {
@@ -2612,10 +2798,10 @@
                 "zf2"
             ],
             "support": {
-                "source": "https://github.com/zendframework/zf2/tree/release-2.3.0",
+                "source": "https://github.com/zendframework/zf2/tree/release-2.3.1",
                 "issues": "https://github.com/zendframework/zf2/issues"
             },
-            "time": "2014-03-12 16:51:16"
+            "time": "2014-04-15 14:47:18"
         },
         {
             "name": "zendframework/zendxml",

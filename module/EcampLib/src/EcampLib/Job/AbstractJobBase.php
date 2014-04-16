@@ -21,6 +21,19 @@ abstract class AbstractJobBase
         return \Resque::enqueue($q, get_class($this), $this->args);
     }
 
+    abstract public function perform();
+
+    protected function getToken()
+    {
+        if ($this->job instanceof \Resque_Job) {
+            if (!empty($this->job->payload['id'])) {
+                return $this->job->payload['id'];
+            }
+        }
+
+        return null;
+    }
+
     public function get($name)
     {
         if (isset($this->args[$name])) {
@@ -49,4 +62,10 @@ abstract class AbstractJobBase
         $this->set($name, $value);
     }
 
+    public function log($message)
+    {
+        if ($this->job instanceof \Resque_Job) {
+            $this->job->worker->log($message);
+        }
+    }
 }

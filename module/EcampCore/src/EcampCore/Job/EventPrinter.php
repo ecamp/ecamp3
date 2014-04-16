@@ -8,19 +8,41 @@
 
 namespace EcampCore\Job;
 
-define("__BASE__" , dirname(dirname(dirname(dirname(dirname(__DIR__))))) );
-require_once __BASE__.'/config/resque.local.php';
+use EcampCore\Entity\Event;
+use EcampLib\Job\AbstractServiceJobBase;
 
-class EventPrinter extends BaseJob
+class EventPrinter extends AbstractServiceJobBase
 {
-    public function printSingleEvent()
+
+    public function __construct(Event $event = null)
     {
-        $eventId = $this->args['eventId'];
-        $token = $this->job->payload['id'];
+        parent::__construct();
 
-        $command = "wkhtmltopdf --print-media-type ".__BASE_URL__."/web/group/PBS/TestCamp/event/printJobGenerate?eventId=$eventId ".__DATA__."/printer/$token.pdf";
-
-        echo shell_exec($command);
+        if ($event) {
+            $this->setEventId($event->getId());
+        }
     }
 
+    public function setEventId($eventId)
+    {
+        $this->eventId = $eventId;
+    }
+
+    public function getEventId()
+    {
+        return $this->eventId;
+    }
+
+    public function perform()
+    {
+        $src = __BASE_URL__ . $this->urlFromRoute(
+            'web/default',
+            array('controller' => 'EventPrinter', 'action' => 'print'),
+            array('query' => array('eventId' => $this->getEventId()))
+        );
+        $target = __DATA__ . "/printer/" . $this->getToken() . ".pdf";
+
+        $pdf = new \EcampLib\Pdf\WkHtmlToPdf();
+        $pdf->generate($src, $target);
+    }
 }
