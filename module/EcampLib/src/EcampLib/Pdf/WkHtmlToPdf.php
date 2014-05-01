@@ -26,7 +26,6 @@ class WkHtmlToPdf extends Pdf
             $binPath = null;
 
         }
-        var_dump($os);
 
         parent::__construct($binPath);
     }
