@@ -27,7 +27,7 @@ return array(
                                         'id'		 => '[a-f0-9]+'
                                     ),
                                     'defaults' => array(
-                                        'controller' => 'Sections',
+                                        'controller' => 'Item',
                                         'action'     => 'index',
                                     ),
                                 ),
@@ -54,7 +54,7 @@ return array(
 
     'controllers' => array(
         'invokables' => array(
-            'EcampStoryboard\Controller\Sections' => 'EcampStoryboard\Controller\SectionsController',
+            'EcampStoryboard\Controller\Item' => 'EcampStoryboard\Controller\ItemController',
         ),
     ),
 

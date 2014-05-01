@@ -123,6 +123,22 @@ return array(
         ),
     ),
 
+    'console' => array(
+            'router' => array(
+                    'routes' => array(
+                            'dummy-job' => array(
+                                    'options' => array(
+                                            'route'    => 'job dummy <parameter>',
+                                            'defaults' => array(
+                                                    'controller' => 'EcampCore\Job\Job',
+                                                    'action'     => 'dummy'
+                                            )
+                                    )
+                            )
+                    )
+            )
+    ),
+
     'view_manager' => array(
         'template_path_stack' => array(
             __DIR__ . '/../view',

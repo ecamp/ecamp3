@@ -64,7 +64,7 @@ class Bypass
       *
       * @param integer    The Result code, see Zend_Auth_Result
       * @param mixed      The Message, can be a string or array
-      * @return Zend\Authentication\Result
+      * @return \Zend\Authentication\Result
       */
     private function authResult($code, $messages = array())
     {

@@ -7,6 +7,7 @@ use Zend\Stdlib\RequestInterface;
 use Zend\Stdlib\ResponseInterface;
 use Zend\Mvc\Controller\Plugin\Params;
 use EcampCore\View\Event\EventTemplateRenderer;
+use EcampCore\Entity\Medium;
 
 class EventController extends BaseController
 {
@@ -75,9 +76,8 @@ class EventController extends BaseController
         return $this->getServiceLocator()->get('EcampCore\Service\EventResp');
     }
 
-    public function indexAction()
+    private function getEventViewModel(Medium $medium)
     {
-        $medium = $this->getWebMedium();
         $event = $this->getEventEntity();
 
         $eventTemplate = $this->getEventTemplateRepository()->findTemplate($event, $medium);
@@ -87,6 +87,37 @@ class EventController extends BaseController
         $viewModel = $eventTemplateRenderer->render($event);
 
         return $viewModel;
+    }
+
+    public function indexAction()
+    {
+        $medium = $this->getWebMedium();
+
+        return $this->getEventViewModel($medium);
+    }
+
+    public function printJobCreateAction()
+    {
+        $event = $this->getEventEntity();
+
+        $token = \Resque::enqueue('ecamp3', 'EcampCore\Job\EventPrinter', array(
+            'printSingleEvent',
+            'eventId' => $event->getId()
+            ), true);
+
+        /*
+        $token2 = \Resque::enqueue('ecamp3', 'Zf2Cli', array(
+                'command' => "job dummy test2"
+        ), true);*/
+
+        die("$token");
+    }
+
+    public function printJobGenerateAction()
+    {
+        $medium = $this->getPrintMedium();
+
+        return $this->getEventViewModel($medium);
     }
 
     public function setRespAction()

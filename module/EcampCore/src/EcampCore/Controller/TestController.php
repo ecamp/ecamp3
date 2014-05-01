@@ -59,4 +59,21 @@ class TestController extends AbstractBaseController
 
     }
 
+    public function cliJobAction()
+    {
+        $token = (new \EcampCore\Job\Zf2CliJob('modules list'))->enqueue();
+
+        die('Job created, Token: ' . $token);
+    }
+
+    public function eventPrinterAction()
+    {
+        $eventRepo = $this->getServiceLocator()->get('EcampCore\Repository\Event');
+        $events = $eventRepo->findBy(array());
+        $event = array_pop($events);
+
+        $token = (new \EcampCore\Job\EventPrinter($event))->enqueue();
+
+        die('Job created, Token: ' . $token);
+    }
 }

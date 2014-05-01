@@ -7,7 +7,7 @@ use EcampCore\Controller\AbstractEventPluginController;
 use EcampStoryboard\Entity\Section;
 use Zend\Http\PhpEnvironment\Response;
 
-class SectionsController extends AbstractEventPluginController
+class ItemController extends AbstractEventPluginController
 {
 
     /**
@@ -32,7 +32,7 @@ class SectionsController extends AbstractEventPluginController
         $section = $this->getSectionService()->create($eventPlugin);
 
         $viewModel = new ViewModel();
-        $viewModel->setVariable('section', $section);
+        $viewModel->setVariable('item', $section);
         $viewModel->setVariable('eventPlugin', $section->getEventPlugin());
         $viewModel->setTemplate('ecamp-storyboard/section');
 
@@ -52,7 +52,7 @@ class SectionsController extends AbstractEventPluginController
         $this->getSectionService()->update($section, $data);
 
         $viewModel = new ViewModel();
-        $viewModel->setVariable('section', $section);
+        $viewModel->setVariable('item', $section);
         $viewModel->setVariable('eventPlugin', $section->getEventPlugin());
         $viewModel->setTemplate('ecamp-storyboard/section');
 

@@ -4,11 +4,17 @@
 
 	<h1>
 		{{ eventCategory.short }}: {{ event.title }}
+
 		<div class="pull-right">
+
+			 {% include 'ecamp-web/event-templates/base/print.twig' %}
+
 			<div class="btn-group addPluginDropdown">
 			  	<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
 			    	Add Plugin <span class="caret"></span>
 			  	</button>
+
+
 			  	<ul class="dropdown-menu pull-right" role="menu" style="width: 300px">
 					{% for eventTemplateContainer in eventTemplate.eventTemplateContainers %}
 			    		{% set eventTypePlugin = eventTemplateContainer.eventTypePlugin %}

@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "c6e2f19b9b0b9d3679ce8594d80b2d7f",
+    "hash": "41b2cf5fa52abfe2f05d06b0e6d6bc8f",
     "packages": [
         {
             "name": "bootstrap-select/bootstrap-select",
@@ -11,12 +11,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/silviomoreto/bootstrap-select.git",
-                "reference": "1f2a89894f0a74182ba39164b87215570419d1c0"
+                "reference": "0e1b27a538ffe801feda59c4341f4987b98f45d8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/silviomoreto/bootstrap-select/zipball/1f2a89894f0a74182ba39164b87215570419d1c0",
-                "reference": "1f2a89894f0a74182ba39164b87215570419d1c0",
+                "url": "https://api.github.com/repos/silviomoreto/bootstrap-select/zipball/0e1b27a538ffe801feda59c4341f4987b98f45d8",
+                "reference": "0e1b27a538ffe801feda59c4341f4987b98f45d8",
                 "shasum": ""
             },
             "suggest": {
@@ -41,7 +41,7 @@
                 "replacement",
                 "select"
             ],
-            "time": "2014-03-25 20:56:48"
+            "time": "2014-04-29 12:09:12"
         },
         {
             "name": "components/angular-resource",
@@ -338,16 +338,16 @@
         },
         {
             "name": "components/typeahead.js",
-            "version": "0.10.1",
+            "version": "0.10.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/components/typeahead.js.git",
-                "reference": "855f99b7dab41c8d6223d13de93e3e2226fdb072"
+                "reference": "0944a9492758d34ff9119ebdfc96a09037e171bc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/components/typeahead.js/zipball/855f99b7dab41c8d6223d13de93e3e2226fdb072",
-                "reference": "855f99b7dab41c8d6223d13de93e3e2226fdb072",
+                "url": "https://api.github.com/repos/components/typeahead.js/zipball/0944a9492758d34ff9119ebdfc96a09037e171bc",
+                "reference": "0944a9492758d34ff9119ebdfc96a09037e171bc",
                 "shasum": ""
             },
             "require": {
@@ -362,7 +362,8 @@
                     ],
                     "files": [
                         "typeahead.min.js",
-                        "typeahead.js"
+                        "typeahead.js",
+                        "typeahead.bundle.min.js"
                     ]
                 }
             },
@@ -372,7 +373,7 @@
             ],
             "description": "typeahead.js is a fast and fully-featured autocomplete library",
             "homepage": "http://github.com/components/typeahead.js",
-            "time": "2014-02-13 13:58:50"
+            "time": "2014-04-07 20:01:03"
         },
         {
             "name": "doctrine/annotations",
@@ -1145,6 +1146,349 @@
             "time": "2014-02-08 16:35:09"
         },
         {
+            "name": "fresque/fresque",
+            "version": "1.2.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/kamisama/Fresque.git",
+                "reference": "d440bf595fa3693dfd968aba846e36ee2e6c600c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/kamisama/Fresque/zipball/d440bf595fa3693dfd968aba846e36ee2e6c600c",
+                "reference": "d440bf595fa3693dfd968aba846e36ee2e6c600c",
+                "shasum": ""
+            },
+            "require": {
+                "kamisama/php-resque-ex": "~1.2.5",
+                "kamisama/resque-status": ">=0.0.1",
+                "php": ">=5.3.0",
+                "zetacomponents/base": ">=1.8",
+                "zetacomponents/console-tools": ">=1.6"
+            },
+            "require-dev": {
+                "mikey179/vfsstream": ">=1.2.0",
+                "satooshi/php-coveralls": "dev-master"
+            },
+            "suggest": {
+                "chrisboulton/php-resque": "PHP port of resque (Workers and Queueing)"
+            },
+            "bin": [
+                "fresque"
+            ],
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Wan Chen",
+                    "email": "kami@kamisama.me",
+                    "homepage": "http://www.kamisama.me",
+                    "role": "Developer"
+                }
+            ],
+            "description": "A command line tool to manage your php-resque workers",
+            "homepage": "http://kamisama.github.com/Fresque/",
+            "keywords": [
+                "cli",
+                "php-resque",
+                "redis",
+                "resque"
+            ],
+            "time": "2013-10-31 03:57:02"
+        },
+        {
+            "name": "h4cc/wkhtmltopdf-amd64",
+            "version": "0.12.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/h4cc/wkhtmltopdf-amd64.git",
+                "reference": "ebaa56a8ba0ae70a147ee70d544abf743db290d3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/h4cc/wkhtmltopdf-amd64/zipball/ebaa56a8ba0ae70a147ee70d544abf743db290d3",
+                "reference": "ebaa56a8ba0ae70a147ee70d544abf743db290d3",
+                "shasum": ""
+            },
+            "bin": [
+                "bin/wkhtmltopdf-amd64"
+            ],
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPL Version 3"
+            ],
+            "authors": [
+                {
+                    "name": "Julius Beckmann",
+                    "email": "github@h4cc.de"
+                }
+            ],
+            "description": "Convert html to pdf using webkit (qtwebkit). Static linked linux binary for amd64 systems.",
+            "homepage": "http://wkhtmltopdf.org/",
+            "keywords": [
+                "binary",
+                "convert",
+                "pdf",
+                "snapshot",
+                "thumbnail",
+                "wkhtmltopdf"
+            ],
+            "time": "2014-02-11 21:33:07"
+        },
+        {
+            "name": "h4cc/wkhtmltopdf-i386",
+            "version": "0.12.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/h4cc/wkhtmltopdf-i386.git",
+                "reference": "7afbb1468b65305b940fce9c8a9574cb7c0f17b4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/h4cc/wkhtmltopdf-i386/zipball/7afbb1468b65305b940fce9c8a9574cb7c0f17b4",
+                "reference": "7afbb1468b65305b940fce9c8a9574cb7c0f17b4",
+                "shasum": ""
+            },
+            "bin": [
+                "bin/wkhtmltopdf-i386"
+            ],
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPL Version 3"
+            ],
+            "authors": [
+                {
+                    "name": "Julius Beckmann",
+                    "email": "github@h4cc.de"
+                }
+            ],
+            "description": "Convert html to pdf using webkit (qtwebkit). Static linked linux binary for i386 systems.",
+            "homepage": "http://wkhtmltopdf.org/",
+            "keywords": [
+                "binary",
+                "convert",
+                "pdf",
+                "snapshot",
+                "thumbnail",
+                "wkhtmltopdf"
+            ],
+            "time": "2014-02-11 22:00:57"
+        },
+        {
+            "name": "kamisama/monolog-init",
+            "version": "0.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/kamisama/Monolog-Init.git",
+                "reference": "ece3ce44ea8f1b761afff038fb3efdcc0564e763"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/kamisama/Monolog-Init/zipball/ece3ce44ea8f1b761afff038fb3efdcc0564e763",
+                "reference": "ece3ce44ea8f1b761afff038fb3efdcc0564e763",
+                "shasum": ""
+            },
+            "require": {
+                "monolog/monolog": ">=1.2.0",
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "MonologInit": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Wan Chen",
+                    "email": "kami@kamisama.me",
+                    "homepage": "http://www.kamisama.me",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Very basic and light Dependency Injector Container for Monolog",
+            "homepage": "http://www.github.com/kamisama/monolog-init/",
+            "keywords": [
+                "log"
+            ],
+            "time": "2013-06-20 18:42:53"
+        },
+        {
+            "name": "kamisama/php-resque-ex",
+            "version": "dev-bugfix",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/usu/php-resque-ex.git",
+                "reference": "cc18c8e52562ad235f8c3ceddafca18ead19a2b9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/usu/php-resque-ex/zipball/cc18c8e52562ad235f8c3ceddafca18ead19a2b9",
+                "reference": "cc18c8e52562ad235f8c3ceddafca18ead19a2b9",
+                "shasum": ""
+            },
+            "require": {
+                "ext-pcntl": "*",
+                "kamisama/monolog-init": ">=0.1.1",
+                "monolog/monolog": ">=1.2.0",
+                "php": ">=5.3.0"
+            },
+            "conflict": {
+                "chrisboulton/php-resque": "*"
+            },
+            "suggest": {
+                "fresque/fresque": "A command line tool to manage your workers"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Resque": "lib"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Wan Chen",
+                    "email": "kami@kamisama.me",
+                    "homepage": "http://www.kamisama.me"
+                },
+                {
+                    "name": "Chris Boulton",
+                    "email": "chris@bigcommerce.com"
+                }
+            ],
+            "description": "Redis backed library for creating background jobs and processing them later. PHP port based on resque for Ruby.",
+            "homepage": "http://www.github.com/kamisama/php-resque-ex/",
+            "keywords": [
+                "background",
+                "job",
+                "php",
+                "queue",
+                "redis",
+                "resque"
+            ],
+            "support": {
+                "email": "kami@kamisama.me",
+                "issues": "https://github.com/kamisama/php-resque-ex/issues",
+                "source": "https://github.com/kamisama/php-resque-ex"
+            },
+            "time": "2014-03-23 10:36:47"
+        },
+        {
+            "name": "kamisama/resque-status",
+            "version": "0.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/kamisama/ResqueStatus.git",
+                "reference": "6d02b0aaa7651bb79a429cb3e2c55c49074352c8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/kamisama/ResqueStatus/zipball/6d02b0aaa7651bb79a429cb3e2c55c49074352c8",
+                "reference": "6d02b0aaa7651bb79a429cb3e2c55c49074352c8",
+                "shasum": ""
+            },
+            "require-dev": {
+                "satooshi/php-coveralls": "dev-master"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "ResqueStatus": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Wan Chen",
+                    "email": "kami@kamisama.me",
+                    "homepage": "http://www.kamisama.me",
+                    "role": "Developer"
+                }
+            ],
+            "description": "A API for saving a php-resque worker settings and status",
+            "homepage": "http://github.com/kamisama/ResqueStatus",
+            "keywords": [
+                "php-resque",
+                "status",
+                "worker"
+            ],
+            "time": "2013-06-20 17:14:06"
+        },
+        {
+            "name": "knplabs/knp-snappy",
+            "version": "0.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/KnpLabs/snappy.git",
+                "reference": "4bc7af878a003a2c1ef3c4d8b08851537cb07486"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/KnpLabs/snappy/zipball/4bc7af878a003a2c1ef3c4d8b08851537cb07486",
+                "reference": "4bc7af878a003a2c1ef3c4d8b08851537cb07486",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "suggest": {
+                "google/wkhtmltopdf-amd64": "Provide wkhtmltopdf-amd64 binary, use version `0.11.0-RC1` as dependency",
+                "google/wkhtmltopdf-i386": "Provide wkhtmltopdf-i386 binary, use version `0.11.0-RC1` as dependency",
+                "symfony/process": "Process Component of Symfony2."
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "0.1.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Knp\\Snappy": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "KnpLabs Team",
+                    "homepage": "http://knplabs.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "http://github.com/KnpLabs/snappy/contributors"
+                }
+            ],
+            "description": "PHP5 library allowing thumbnail, snapshot or PDF generation from a url or a html page. Wrapper for wkhtmltopdf/wkhtmltoimage.",
+            "homepage": "http://github.com/KnpLabs/snappy",
+            "keywords": [
+                "knp",
+                "knplabs",
+                "pdf",
+                "snapshot",
+                "thumbnail",
+                "wkhtmltopdf"
+            ],
+            "time": "2014-03-20 15:05:12"
+        },
+        {
             "name": "kriswallsmith/assetic",
             "version": "v1.1.2",
             "source": {
@@ -1216,21 +1560,129 @@
             "time": "2013-07-19 00:03:27"
         },
         {
-            "name": "neilime/zf2-twb-bundle",
-            "version": "2.2.1",
+            "name": "messagedigital/wkhtmltopdf-osx",
+            "version": "0.9.9",
             "source": {
                 "type": "git",
-                "url": "https://github.com/neilime/zf2-twb-bundle.git",
-                "reference": "4a8cf1ecf44588183ec3fcd7f1c234d0fca9a6ab"
+                "url": "https://github.com/messagedigital/wkhtmltopdf-osx.git",
+                "reference": "0850579902b5906889b51aa09d36b8126b5a3d40"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/neilime/zf2-twb-bundle/zipball/4a8cf1ecf44588183ec3fcd7f1c234d0fca9a6ab",
-                "reference": "4a8cf1ecf44588183ec3fcd7f1c234d0fca9a6ab",
+                "url": "https://api.github.com/repos/messagedigital/wkhtmltopdf-osx/zipball/0850579902b5906889b51aa09d36b8126b5a3d40",
+                "reference": "0850579902b5906889b51aa09d36b8126b5a3d40",
+                "shasum": ""
+            },
+            "bin": [
+                "bin/wkhtmltopdf-osx"
+            ],
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPL Version 3"
+            ],
+            "authors": [
+                {
+                    "name": "Laurence Roberts",
+                    "email": "laurence@message.co.uk"
+                }
+            ],
+            "description": "Convert html to pdf using webkit (qtwebkit). Static linked osx binary.",
+            "homepage": "https://code.google.com/p/wkhtmltopdf/",
+            "keywords": [
+                "binary",
+                "convert",
+                "pdf",
+                "snapshot",
+                "thumbnail",
+                "wkhtmltopdf"
+            ],
+            "time": "2013-10-17 10:10:05"
+        },
+        {
+            "name": "monolog/monolog",
+            "version": "1.9.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Seldaek/monolog.git",
+                "reference": "65026b610f8c19e61d7242f600530677b0466aac"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/65026b610f8c19e61d7242f600530677b0466aac",
+                "reference": "65026b610f8c19e61d7242f600530677b0466aac",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.3",
+                "php": ">=5.3.0",
+                "psr/log": "~1.0"
+            },
+            "require-dev": {
+                "aws/aws-sdk-php": "~2.4, >2.4.8",
+                "doctrine/couchdb": "~1.0@dev",
+                "graylog2/gelf-php": "~1.0",
+                "phpunit/phpunit": "~3.7.0",
+                "raven/raven": "~0.5",
+                "ruflin/elastica": "0.90.*"
+            },
+            "suggest": {
+                "aws/aws-sdk-php": "Allow sending log messages to AWS services like DynamoDB",
+                "doctrine/couchdb": "Allow sending log messages to a CouchDB server",
+                "ext-amqp": "Allow sending log messages to an AMQP server (1.0+ required)",
+                "ext-mongo": "Allow sending log messages to a MongoDB server",
+                "graylog2/gelf-php": "Allow sending log messages to a GrayLog2 server",
+                "raven/raven": "Allow sending log messages to a Sentry server",
+                "rollbar/rollbar": "Allow sending log messages to Rollbar",
+                "ruflin/elastica": "Allow sending log messages to an Elastic Search server"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.9.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Monolog\\": "src/Monolog"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jordi Boggiano",
+                    "email": "j.boggiano@seld.be",
+                    "homepage": "http://seld.be",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Sends your logs to files, sockets, inboxes, databases and various web services",
+            "homepage": "http://github.com/Seldaek/monolog",
+            "keywords": [
+                "log",
+                "logging",
+                "psr-3"
+            ],
+            "time": "2014-04-24 13:29:03"
+        },
+        {
+            "name": "neilime/zf2-twb-bundle",
+            "version": "2.2.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/neilime/zf2-twb-bundle.git",
+                "reference": "22927fec14a9c5f6b9c342d8db429d683c404cef"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/neilime/zf2-twb-bundle/zipball/22927fec14a9c5f6b9c342d8db429d683c404cef",
+                "reference": "22927fec14a9c5f6b9c342d8db429d683c404cef",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.2",
                 "zendframework/zendframework": "2.3.*@stable"
             },
             "require-dev": {
@@ -1273,7 +1725,7 @@
                 "twitter bootstrap",
                 "zend framework 2"
             ],
-            "time": "2014-03-24 21:00:50"
+            "time": "2014-03-31 20:15:05"
         },
         {
             "name": "phly/phly-restfully",
@@ -1341,22 +1793,22 @@
         },
         {
             "name": "phpunit/php-code-coverage",
-            "version": "1.2.13",
+            "version": "1.2.17",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-code-coverage.git",
-                "reference": "466e7cd2554b4e264c9e3f31216d25ac0e5f3d94"
+                "reference": "6ef2bf3a1c47eca07ea95f0d8a902a6340390b34"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/466e7cd2554b4e264c9e3f31216d25ac0e5f3d94",
-                "reference": "466e7cd2554b4e264c9e3f31216d25ac0e5f3d94",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/6ef2bf3a1c47eca07ea95f0d8a902a6340390b34",
+                "reference": "6ef2bf3a1c47eca07ea95f0d8a902a6340390b34",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.3",
                 "phpunit/php-file-iterator": ">=1.3.0@stable",
-                "phpunit/php-text-template": ">=1.1.1@stable",
+                "phpunit/php-text-template": ">=1.2.0@stable",
                 "phpunit/php-token-stream": ">=1.1.3@stable"
             },
             "require-dev": {
@@ -1398,7 +1850,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2013-09-10 08:14:32"
+            "time": "2014-03-28 10:53:45"
         },
         {
             "name": "phpunit/php-file-iterator",
@@ -1447,16 +1899,16 @@
         },
         {
             "name": "phpunit/php-text-template",
-            "version": "1.1.4",
+            "version": "1.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-text-template.git",
-                "reference": "5180896f51c5b3648ac946b05f9ec02be78a0b23"
+                "reference": "206dfefc0ffe9cebf65c413e3d0e809c82fbf00a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-text-template/zipball/5180896f51c5b3648ac946b05f9ec02be78a0b23",
-                "reference": "5180896f51c5b3648ac946b05f9ec02be78a0b23",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-text-template/zipball/206dfefc0ffe9cebf65c413e3d0e809c82fbf00a",
+                "reference": "206dfefc0ffe9cebf65c413e3d0e809c82fbf00a",
                 "shasum": ""
             },
             "require": {
@@ -1487,7 +1939,7 @@
             "keywords": [
                 "template"
             ],
-            "time": "2012-10-31 18:15:28"
+            "time": "2014-01-30 17:20:04"
         },
         {
             "name": "phpunit/php-timer",
@@ -1585,38 +2037,37 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "3.7.33",
+            "version": "3.7.37",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "619f9179d6d30be8fc7333b5eaba9132dbaa8142"
+                "reference": "ae6cefd7cc84586a5ef27e04bae11ee940ec63dc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/619f9179d6d30be8fc7333b5eaba9132dbaa8142",
-                "reference": "619f9179d6d30be8fc7333b5eaba9132dbaa8142",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/ae6cefd7cc84586a5ef27e04bae11ee940ec63dc",
+                "reference": "ae6cefd7cc84586a5ef27e04bae11ee940ec63dc",
                 "shasum": ""
             },
             "require": {
+                "ext-ctype": "*",
                 "ext-dom": "*",
+                "ext-json": "*",
                 "ext-pcre": "*",
                 "ext-reflection": "*",
                 "ext-spl": "*",
                 "php": ">=5.3.3",
-                "phpunit/php-code-coverage": "~1.2.1",
-                "phpunit/php-file-iterator": "~1.3.1",
-                "phpunit/php-text-template": "~1.1.1",
-                "phpunit/php-timer": "~1.0.4",
-                "phpunit/phpunit-mock-objects": "~1.2.0",
+                "phpunit/php-code-coverage": "~1.2",
+                "phpunit/php-file-iterator": "~1.3",
+                "phpunit/php-text-template": "~1.1",
+                "phpunit/php-timer": "~1.0",
+                "phpunit/phpunit-mock-objects": "~1.2",
                 "symfony/yaml": "~2.0"
             },
             "require-dev": {
                 "pear-pear.php.net/pear": "1.9.4"
             },
             "suggest": {
-                "ext-json": "*",
-                "ext-simplexml": "*",
-                "ext-tokenizer": "*",
                 "phpunit/php-invoker": "~1.1"
             },
             "bin": [
@@ -1655,7 +2106,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2014-03-26 11:35:32"
+            "time": "2014-04-30 12:24:19"
         },
         {
             "name": "phpunit/phpunit-mock-objects",
@@ -1707,6 +2158,44 @@
             "time": "2013-01-13 10:24:48"
         },
         {
+            "name": "psr/log",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-fig/log.git",
+                "reference": "fe0936ee26643249e916849d48e3a51d5f5e278b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-fig/log/zipball/fe0936ee26643249e916849d48e3a51d5f5e278b",
+                "reference": "fe0936ee26643249e916849d48e3a51d5f5e278b",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Psr\\Log\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "PHP-FIG",
+                    "homepage": "http://www.php-fig.org/"
+                }
+            ],
+            "description": "Common interface for logging libraries",
+            "keywords": [
+                "log",
+                "psr",
+                "psr-3"
+            ],
+            "time": "2012-12-21 11:40:51"
+        },
+        {
             "name": "robloach/component-installer",
             "version": "0.0.12",
             "source": {
@@ -1752,33 +2241,32 @@
         },
         {
             "name": "rwoverdijk/assetmanager",
-            "version": "1.3.5",
+            "version": "1.3.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/RWOverdijk/AssetManager.git",
-                "reference": "ef5965c763dd0261d8516d6f9ab011c2fcc3e902"
+                "reference": "bfba7e3151b719aa8168136de897dff2bca9dead"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/RWOverdijk/AssetManager/zipball/ef5965c763dd0261d8516d6f9ab011c2fcc3e902",
-                "reference": "ef5965c763dd0261d8516d6f9ab011c2fcc3e902",
+                "url": "https://api.github.com/repos/RWOverdijk/AssetManager/zipball/bfba7e3151b719aa8168136de897dff2bca9dead",
+                "reference": "bfba7e3151b719aa8168136de897dff2bca9dead",
                 "shasum": ""
             },
             "require": {
-                "kriswallsmith/assetic": "1.1.*",
+                "kriswallsmith/assetic": "~1.1.0",
                 "php": ">=5.3.3",
-                "zendframework/zend-config": "2.*",
-                "zendframework/zend-console": "2.*",
                 "zendframework/zend-eventmanager": "2.*",
-                "zendframework/zend-form": "2.*",
-                "zendframework/zend-http": "2.*",
                 "zendframework/zend-loader": "2.*",
                 "zendframework/zend-modulemanager": "2.*",
                 "zendframework/zend-mvc": "2.*",
-                "zendframework/zend-serializer": "2.*",
                 "zendframework/zend-servicemanager": "2.*",
-                "zendframework/zend-stdlib": "2.*",
-                "zendframework/zend-view": "2.*"
+                "zendframework/zend-stdlib": "2.*"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.0",
+                "squizlabs/php_codesniffer": "1.5.*",
+                "zendframework/zendframework": "2.*"
             },
             "type": "library",
             "autoload": {
@@ -1811,7 +2299,7 @@
                 "zend framework 2",
                 "zf2"
             ],
-            "time": "2013-12-05 22:17:38"
+            "time": "2014-04-07 04:56:33"
         },
         {
             "name": "sundrique/doctrine-tools",
@@ -1862,17 +2350,17 @@
         },
         {
             "name": "symfony/console",
-            "version": "v2.4.2",
+            "version": "v2.4.4",
             "target-dir": "Symfony/Component/Console",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Console.git",
-                "reference": "940f217cbc3c8a33e5403e7c595495c4884400fe"
+                "reference": "2e452005b1e1d003d23702d227e23614679eb5ca"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Console/zipball/940f217cbc3c8a33e5403e7c595495c4884400fe",
-                "reference": "940f217cbc3c8a33e5403e7c595495c4884400fe",
+                "url": "https://api.github.com/repos/symfony/Console/zipball/2e452005b1e1d003d23702d227e23614679eb5ca",
+                "reference": "2e452005b1e1d003d23702d227e23614679eb5ca",
                 "shasum": ""
             },
             "require": {
@@ -1913,21 +2401,21 @@
             ],
             "description": "Symfony Console Component",
             "homepage": "http://symfony.com",
-            "time": "2014-02-11 13:52:09"
+            "time": "2014-04-27 13:34:57"
         },
         {
             "name": "symfony/process",
-            "version": "v2.4.2",
+            "version": "v2.4.4",
             "target-dir": "Symfony/Component/Process",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Process.git",
-                "reference": "c175448bac997556f8ab972908a4e14c7291fb03"
+                "reference": "8721f1476d5d38a43c7d6ccb6435b351cf8f3bb7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Process/zipball/c175448bac997556f8ab972908a4e14c7291fb03",
-                "reference": "c175448bac997556f8ab972908a4e14c7291fb03",
+                "url": "https://api.github.com/repos/symfony/Process/zipball/8721f1476d5d38a43c7d6ccb6435b351cf8f3bb7",
+                "reference": "8721f1476d5d38a43c7d6ccb6435b351cf8f3bb7",
                 "shasum": ""
             },
             "require": {
@@ -1962,21 +2450,21 @@
             ],
             "description": "Symfony Process Component",
             "homepage": "http://symfony.com",
-            "time": "2014-02-11 13:52:09"
+            "time": "2014-04-27 13:34:57"
         },
         {
             "name": "symfony/yaml",
-            "version": "v2.4.2",
+            "version": "v2.4.4",
             "target-dir": "Symfony/Component/Yaml",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Yaml.git",
-                "reference": "bb6ddaf8956139d1b8c360b4b713ed0138e876b3"
+                "reference": "65539ecde838f9c0d18b006b2101e3deb4b5c9ff"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Yaml/zipball/bb6ddaf8956139d1b8c360b4b713ed0138e876b3",
-                "reference": "bb6ddaf8956139d1b8c360b4b713ed0138e876b3",
+                "url": "https://api.github.com/repos/symfony/Yaml/zipball/65539ecde838f9c0d18b006b2101e3deb4b5c9ff",
+                "reference": "65539ecde838f9c0d18b006b2101e3deb4b5c9ff",
                 "shasum": ""
             },
             "require": {
@@ -2011,7 +2499,7 @@
             ],
             "description": "Symfony Yaml Component",
             "homepage": "http://symfony.com",
-            "time": "2014-01-07 13:28:54"
+            "time": "2014-04-18 20:37:09"
         },
         {
             "name": "twig/twig",
@@ -2076,13 +2564,13 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/zendframework/ZendDeveloperTools.git",
-                "reference": "763cecf9d68fc0d3765d45847047817a47ecdd4a"
+                "reference": "26af0e670ee7e94bd114b33ce022d5d646fb8117"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://packages.zendframework.com/composer/zendframework-zend-developer-tools-763cecf9d68fc0d3765d45847047817a47ecdd4a-zip-e29860.zip",
+                "url": "https://packages.zendframework.com/composer/zendframework-zend-developer-tools-26af0e670ee7e94bd114b33ce022d5d646fb8117-zip-9f8e3f.zip",
                 "reference": "dev-master",
-                "shasum": "dc945ae6bc23a167e94f7ce8bfe7d58d5519f970"
+                "shasum": "4d2179d021d1a229a0652d909754236bc2acd0c5"
             },
             "require": {
                 "php": ">=5.3.3",
@@ -2132,21 +2620,80 @@
                 "source": "https://github.com/zendframework/ZendDeveloperTools/tree/master",
                 "issues": "https://github.com/zendframework/ZendDeveloperTools/issues"
             },
-            "time": "2014-03-23 05:38:41"
+            "time": "2014-04-28 13:31:11"
         },
         {
-            "name": "zendframework/zendframework",
-            "version": "2.3.0",
+            "name": "zendframework/zenddiagnostics",
+            "version": "v1.0.2",
             "source": {
                 "type": "git",
-                "url": "https://github.com/zendframework/zf2.git",
-                "reference": "5d22cee82f6f7f9218f47f22a145f3e95c39cacf"
+                "url": "https://github.com/zendframework/ZendDiagnostics.git",
+                "reference": "a39a48e0fc3a28977087dec08399c923e87b4b7a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://packages.zendframework.com/composer/zendframework-zendframework-5d22cee82f6f7f9218f47f22a145f3e95c39cacf-zip-2b68c6.zip",
-                "reference": "2.3.0",
-                "shasum": "f443b51a5253fc7d51799b82307a439ef5db02ce"
+                "url": "https://api.github.com/repos/zendframework/ZendDiagnostics/zipball/a39a48e0fc3a28977087dec08399c923e87b4b7a",
+                "reference": "a39a48e0fc3a28977087dec08399c923e87b4b7a",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "require-dev": {
+                "guzzle/http": "3.*",
+                "guzzle/plugin-mock": "3.*",
+                "predis/predis": "0.8.*",
+                "sensiolabs/security-checker": "1.3.*@dev",
+                "symfony/yaml": "v2.3.11",
+                "videlalvaro/php-amqplib": "2.*",
+                "zendframework/zend-loader": "2.*"
+            },
+            "suggest": {
+                "ext-bcmath": "Required by Check\\CpuPerformance",
+                "guzzle/http": "Required by Check\\GuzzleHttpService",
+                "predis/predis": "Required by Check\\Redis",
+                "sensiolabs/security-checker": "Required by Check\\SecurityAdvisory",
+                "symfony/yaml": "Required by Check\\YamlFile",
+                "videlalvaro/php-amqplib": "Required by Check\\RabbitMQ"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "ZendDiagnostics\\": "src/",
+                    "ZendDiagnosticsTest\\": "tests/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "description": "A set of components for performing diagnostic tests in PHP applications",
+            "homepage": "https://github.com/zendframework/ZendDiagnostics",
+            "keywords": [
+                "diagnostics",
+                "php",
+                "test"
+            ],
+            "time": "2014-04-15 19:03:28"
+        },
+        {
+            "name": "zendframework/zendframework",
+            "version": "2.3.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/zendframework/zf2.git",
+                "reference": "055eac4314425c291f3ef0e104a6196a8fc24cd5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://packages.zendframework.com/composer/zendframework-zendframework-055eac4314425c291f3ef0e104a6196a8fc24cd5-zip-13cc39.zip",
+                "reference": "2.3.1",
+                "shasum": "3f93bd90560b42b997ba8261e7a99d6dbb73d799"
             },
             "require": {
                 "php": ">=5.3.23",
@@ -2231,8 +2778,8 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.2-dev",
-                    "dev-develop": "2.3-dev"
+                    "dev-master": "2.3-dev",
+                    "dev-develop": "2.4-dev"
                 }
             },
             "autoload": {
@@ -2250,10 +2797,10 @@
                 "zf2"
             ],
             "support": {
-                "source": "https://github.com/zendframework/zf2/tree/release-2.3.0",
+                "source": "https://github.com/zendframework/zf2/tree/release-2.3.1",
                 "issues": "https://github.com/zendframework/zf2/issues"
             },
-            "time": "2014-03-12 16:51:16"
+            "time": "2014-04-15 14:47:18"
         },
         {
             "name": "zendframework/zendxml",
@@ -2309,13 +2856,13 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/zendframework/ZFTool.git",
-                "reference": "a8272c70d05e472dca0c56d2ffd3af3e87715350"
+                "reference": "8bab848834bfc48fef2f4b3e874ddd3760fb9e0d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://packages.zendframework.com/composer/zendframework-zftool-a8272c70d05e472dca0c56d2ffd3af3e87715350-zip-00ee71.zip",
+                "url": "https://packages.zendframework.com/composer/zendframework-zftool-8bab848834bfc48fef2f4b3e874ddd3760fb9e0d-zip-9951ef.zip",
                 "reference": "dev-master",
-                "shasum": "918772315955ce08acd57db3f0d2db8276041c47"
+                "shasum": "32d14f13b107ba27d12fa7e95c2c0cbac39c9af0"
             },
             "require": {
                 "php": ">=5.3.3",
@@ -2324,6 +2871,7 @@
                 "zendframework/zend-console": ">=2.2.2",
                 "zendframework/zend-file": ">=2.2.2",
                 "zendframework/zend-form": ">=2.2.2",
+                "zendframework/zend-http": ">=2.2.2",
                 "zendframework/zend-loader": ">=2.2.2",
                 "zendframework/zend-modulemanager": ">=2.2.2",
                 "zendframework/zend-mvc": ">=2.2.2",
@@ -2332,7 +2880,8 @@
                 "zendframework/zend-stdlib": ">=2.2.2",
                 "zendframework/zend-text": ">=2.2.2",
                 "zendframework/zend-version": ">=2.2.2",
-                "zendframework/zend-view": ">=2.2.2"
+                "zendframework/zend-view": ">=2.2.2",
+                "zendframework/zenddiagnostics": ">=1.0.0"
             },
             "bin": [
                 "zf.php"
@@ -2356,7 +2905,127 @@
                 "source": "https://github.com/zendframework/ZFTool/tree/master",
                 "issues": "https://github.com/zendframework/ZFTool/issues"
             },
-            "time": "2014-03-14 10:30:46"
+            "time": "2014-04-22 18:35:37"
+        },
+        {
+            "name": "zetacomponents/base",
+            "version": "1.8",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/zetacomponents/Base.git",
+                "reference": "52ca69c1de55f3fa4f595779e5bc831da7ee176c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/zetacomponents/Base/zipball/52ca69c1de55f3fa4f595779e5bc831da7ee176c",
+                "reference": "52ca69c1de55f3fa4f595779e5bc831da7ee176c",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "src"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "apache2"
+            ],
+            "authors": [
+                {
+                    "name": "Sergey Alexeev"
+                },
+                {
+                    "name": "Sebastian Bergmann"
+                },
+                {
+                    "name": "Jan Borsodi"
+                },
+                {
+                    "name": "Raymond Bosman"
+                },
+                {
+                    "name": "Frederik Holljen"
+                },
+                {
+                    "name": "Kore Nordmann"
+                },
+                {
+                    "name": "Derick Rethans"
+                },
+                {
+                    "name": "Vadym Savchuk"
+                },
+                {
+                    "name": "Tobias Schlitt"
+                },
+                {
+                    "name": "Alexandru Stanoi"
+                }
+            ],
+            "description": "The Base package provides the basic infrastructure that all packages rely on. Therefore every component relies on this package.",
+            "homepage": "https://github.com/zetacomponents",
+            "time": "2009-12-21 12:14:16"
+        },
+        {
+            "name": "zetacomponents/console-tools",
+            "version": "1.6",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/zetacomponents/ConsoleTools.git",
+                "reference": "e0a0def574009f7cfdf79bf0838a810bcf643775"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/zetacomponents/ConsoleTools/zipball/e0a0def574009f7cfdf79bf0838a810bcf643775",
+                "reference": "e0a0def574009f7cfdf79bf0838a810bcf643775",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "src"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "apache2"
+            ],
+            "authors": [
+                {
+                    "name": "Sergey Alexeev"
+                },
+                {
+                    "name": "Sebastian Bergmann"
+                },
+                {
+                    "name": "Jan Borsodi"
+                },
+                {
+                    "name": "Raymond Bosman"
+                },
+                {
+                    "name": "Frederik Holljen"
+                },
+                {
+                    "name": "Kore Nordmann"
+                },
+                {
+                    "name": "Derick Rethans"
+                },
+                {
+                    "name": "Vadym Savchuk"
+                },
+                {
+                    "name": "Tobias Schlitt"
+                },
+                {
+                    "name": "Alexandru Stanoi"
+                }
+            ],
+            "description": "A set of classes to do different actions with the console (also called shell). It can render a progress bar, tables and a status bar and contains a class for parsing command line options.",
+            "homepage": "https://github.com/zetacomponents",
+            "time": "2009-12-21 12:19:33"
         },
         {
             "name": "zf-commons/zfc-twig",
@@ -2364,12 +3033,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/ZF-Commons/ZfcTwig.git",
-                "reference": "1611a5fda84d23cc5a405511f98835b7fe2f03d7"
+                "reference": "0235932354b9c25b1a492e8921d3b2bfedcdba42"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ZF-Commons/ZfcTwig/zipball/1611a5fda84d23cc5a405511f98835b7fe2f03d7",
-                "reference": "1611a5fda84d23cc5a405511f98835b7fe2f03d7",
+                "url": "https://api.github.com/repos/ZF-Commons/ZfcTwig/zipball/0235932354b9c25b1a492e8921d3b2bfedcdba42",
+                "reference": "0235932354b9c25b1a492e8921d3b2bfedcdba42",
                 "shasum": ""
             },
             "require": {
@@ -2405,14 +3074,19 @@
                 "twig",
                 "zf2"
             ],
-            "time": "2014-03-10 14:18:05"
+            "time": "2014-04-29 17:40:31"
         }
     ],
     "packages-dev": [
 
     ],
     "aliases": [
-
+        {
+            "alias": "1.2.7",
+            "alias_normalized": "1.2.7.0",
+            "version": "dev-bugfix",
+            "package": "kamisama/php-resque-ex"
+        }
     ],
     "minimum-stability": "stable",
     "stability-flags": {
@@ -2420,7 +3094,8 @@
         "zendframework/zend-developer-tools": 20,
         "doctrine/migrations": 20,
         "zf-commons/zfc-twig": 20,
-        "bootstrap-select/bootstrap-select": 20
+        "bootstrap-select/bootstrap-select": 20,
+        "kamisama/php-resque-ex": 20
     },
     "platform": {
         "php": ">=5.3.3"

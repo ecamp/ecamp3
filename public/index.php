@@ -4,10 +4,6 @@
  * to the application root now.
  */
 
-define('__PUBLIC__' , __DIR__);
-define('__VENDOR__', __DIR__ . '/../vendor');
-define('__DATA__' , __DIR__ . '/../data');
-
 chdir(dirname(__DIR__));
 
 ini_set('display_errors', true);
@@ -17,4 +13,4 @@ error_reporting((E_ALL | E_STRICT) ^ E_NOTICE);
 require 'init_autoloader.php';
 
 // Run the application!
-Zend\Mvc\Application::init(require 'config/application.config.php')->run();
+Zend\Mvc\Application::init(require 'config/app.config.php')->run();
