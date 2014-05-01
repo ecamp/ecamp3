@@ -1,5 +1,7 @@
 .*
 
+*.local.*
+
 data/*
 data/**/*
 

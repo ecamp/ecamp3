@@ -15,4 +15,6 @@ require 'init_autoloader.php';
 // Run the application!
 $app = Zend\Mvc\Application::init(require 'config/job.config.php');
 
-\EcampLib\Job\AbstractServiceJobBase::setServiceLocator($app->getServiceManager());
+\EcampLib\Job\AbstractBootstrappedJobBase::setServiceLocator($app->getServiceManager());
+
+echo "STRAPPED";

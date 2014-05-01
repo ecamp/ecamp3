@@ -9,9 +9,9 @@
 namespace EcampCore\Job;
 
 use EcampCore\Entity\Event;
-use EcampLib\Job\AbstractServiceJobBase;
+use EcampLib\Job\AbstractBootstrappedJobBase;
 
-class EventPrinter extends AbstractServiceJobBase
+class EventPrinter extends AbstractBootstrappedJobBase
 {
 
     public function __construct(Event $event = null)
@@ -41,7 +41,7 @@ class EventPrinter extends AbstractServiceJobBase
             array('query' => array('eventId' => $this->getEventId()))
         );
         $target = __DATA__ . "/printer/" . $this->getToken() . ".pdf";
-
+        
         $pdf = new \EcampLib\Pdf\WkHtmlToPdf();
         $pdf->generate($src, $target);
     }

@@ -8,7 +8,7 @@ abstract class AbstractJobBase
     public $args;
     public $queue;
 
-    protected function __construct($defaultQueue = 'cli')
+    protected function __construct($defaultQueue = 'php-only')
     {
         $this->args = array();
         $this->queue = $defaultQueue;

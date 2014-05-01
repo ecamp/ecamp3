@@ -16,7 +16,7 @@ class WkHtmlToPdf extends Pdf
             $binPath = __BASE__ . '/vendor/messagedigital/wkhtmltopdf-osx/bin/wkhtmltopdf-osx';
 
         // Linux / Unix
-        } elseif ($os == 'unix') {
+        } elseif ($os == 'unix' || $os == 'linux') {
             $binPath = (strstr(php_uname('m'), '64') > 0)
                 ? __BASE__ . '/vendor/h4cc/wkhtmltopdf-amd64/bin/wkhtmltopdf-amd64'
                 : __BASE__ . '/vendor/h4cc/wkhtmltopdf-i386/bin/wkhtmltopdf-i386';
@@ -26,6 +26,7 @@ class WkHtmlToPdf extends Pdf
             $binPath = null;
 
         }
+        var_dump($os);
 
         parent::__construct($binPath);
     }

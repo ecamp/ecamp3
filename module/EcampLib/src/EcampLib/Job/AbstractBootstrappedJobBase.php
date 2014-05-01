@@ -4,7 +4,7 @@ namespace EcampLib\Job;
 
 use Zend\ServiceManager\ServiceLocatorInterface;
 
-abstract class AbstractServiceJobBase extends AbstractJobBase
+abstract class AbstractBootstrappedJobBase extends AbstractJobBase
 {
     /**
      * @var ServiceLocatorInterface
@@ -19,7 +19,7 @@ abstract class AbstractServiceJobBase extends AbstractJobBase
         self::$serviceLocator = $serviceLocator;
     }
 
-    protected function __construct($defaultQueue = 'service')
+    protected function __construct($defaultQueue = 'bootstrapped')
     {
         parent::__construct($defaultQueue);
     }
