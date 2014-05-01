@@ -10,7 +10,7 @@ use EcampLib\Entity\BaseEntity;
  * @ORM\Entity(repositoryClass="EcampCore\Repository\AutologinRepository")
  * @ORM\Table(name="autologins")
  */
-class Autologin
+class AutoLogin
     extends BaseEntity
 {
 

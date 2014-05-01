@@ -2,11 +2,11 @@
 
 namespace EcampWeb\Form;
 
-use Zend\Form\Form;
 use Zend\Form\Element;
+use EcampLib\Form\BaseForm as LibBaseForm;
 use EcampLib\Validation\ValidationException;
 
-abstract class BaseForm extends Form
+abstract class BaseForm extends LibBaseForm
 {
     public function __construct($name = null, $options = array())
     {

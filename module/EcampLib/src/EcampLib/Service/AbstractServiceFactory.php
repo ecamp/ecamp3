@@ -45,9 +45,8 @@ class AbstractServiceFactory implements AbstractFactoryInterface
         $serviceFactory = new $serviceFactoryName;
         $service = $serviceFactory->createService($serviceLocator);
 
-        $this->initService($serviceLocator, $service);
-
 //        $service = new LazyLoadServiceWrapper($serviceLocator, $serviceFactoryName, array($this, 'initService'));
+        $this->initService($serviceLocator, $service);
 
         $this->inFactory--;
 

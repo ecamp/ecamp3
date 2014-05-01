@@ -85,7 +85,7 @@ abstract class ServiceBase
      * @param User       $user
      * @param BaseEntity $entity
      * @param $privilege
-     * @throws EcampCore\Acl\Exception\NoAccessException
+     * @throws \EcampCore\Acl\Exception\NoAccessException
      */
     protected function aclRequire(ResourceInterface $resource = null, $privilege = null)
     {

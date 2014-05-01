@@ -2,6 +2,7 @@
 
 namespace EcampLib\Controller;
 
+use Zend\Http\PhpEnvironment\Response;
 use Zend\Mvc\Controller\AbstractActionController;
 
 abstract class AbstractBaseController extends AbstractActionController
@@ -29,6 +30,14 @@ abstract class AbstractBaseController extends AbstractActionController
     private function getGroupService()
     {
         return $this->getServiceLocator()->get('EcampCore\Service\Group');
+    }
+
+    /**
+     * @return \Zend\Form\FormElementManager
+     */
+    protected function getFormElementManager()
+    {
+        return $this->getServiceLocator()->get('FormElementManager');
     }
 
     /**
@@ -67,6 +76,19 @@ abstract class AbstractBaseController extends AbstractActionController
         $campId = $this->params('camp');
 
         return $this->getCampService()->Get($campId);
+    }
+
+    /**
+     * @param  integer  $statusCode
+     * @return Response
+     */
+    protected function emptyResponse($statusCode = Response::STATUS_CODE_200)
+    {
+        /* @var $response Response */
+        $response = $this->getResponse();
+        $response->setStatusCode($statusCode);
+
+        return $response;
     }
 
 }

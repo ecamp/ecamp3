@@ -49,4 +49,14 @@ class TestController extends AbstractBaseController
         return $viewModel;
     }
 
+    public function formAction()
+    {
+        $formElementManager = $this->getServiceLocator()->get('FormElementManager');
+
+        return array(
+            'form' => $formElementManager->get('EcampCore\Controller\TestForm')
+        );
+
+    }
+
 }
