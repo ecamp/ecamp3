@@ -12,5 +12,8 @@ return array(
         'EcampCore\Controller\Index' => 'EcampCore\Controller\IndexController',
         'EcampCore\Controller\Login' => 'EcampCore\Controller\LoginController',
         'EcampCore\Controller\Event' => 'EcampCore\Controller\EventController',
+
+        // Job Controllers (console)
+        'EcampCore\Job\Job' 		=> 'EcampCore\Job\JobController',
     )
 );

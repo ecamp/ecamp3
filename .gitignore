@@ -1,7 +1,5 @@
 .*
 
-config/autoload/*local.php
-
 data/*
 data/**/*
 

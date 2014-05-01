@@ -4,7 +4,7 @@
  * to the application root now.
  */
 
-chdir(dirname(__DIR__));
+chdir(__DIR__);
 
 ini_set('display_errors', true);
 error_reporting((E_ALL | E_STRICT) ^ E_NOTICE);
@@ -13,4 +13,6 @@ error_reporting((E_ALL | E_STRICT) ^ E_NOTICE);
 require 'init_autoloader.php';
 
 // Run the application!
-Zend\Mvc\Application::init(require 'config/app.config.php')->run();
+$app = Zend\Mvc\Application::init(require 'config/job.config.php');
+
+\EcampLib\Job\AbstractServiceJobBase::setServiceLocator($app->getServiceManager());

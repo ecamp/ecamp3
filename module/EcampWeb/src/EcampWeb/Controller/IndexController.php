@@ -53,4 +53,28 @@ class IndexController
         );
     }
 
+    public function printJobResultAction()
+    {
+        $token = $this->params()->fromQuery('token');
+
+        $fileName = __DATA__."/printer/$token.pdf";
+
+        if (!is_file($fileName)) {
+            die("error");
+        }
+
+        $fileContents = file_get_contents($fileName);
+
+        $response = $this->getResponse();
+        $response->setContent($fileContents);
+
+        $headers = $response->getHeaders();
+        $headers->clearHeaders()
+        ->addHeaderLine('Content-Type', 'application/pdf')
+        //->addHeaderLine('Content-Disposition', 'attachment; filename="SingleEvent-'.$token.'.pdf"')
+        ->addHeaderLine('Content-Length', strlen($fileContents));
+
+        return $response;
+    }
+
 }
