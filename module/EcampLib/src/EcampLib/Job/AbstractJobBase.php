@@ -34,7 +34,7 @@ abstract class AbstractJobBase
         return null;
     }
 
-    public function get($name)
+    public function &get($name)
     {
         if (isset($this->args[$name])) {
             return $this->args[$name];
@@ -52,7 +52,7 @@ abstract class AbstractJobBase
         $this->args[$name] = $value;
     }
 
-    public function __get($name)
+    public function &__get($name)
     {
         return $this->get($name);
     }

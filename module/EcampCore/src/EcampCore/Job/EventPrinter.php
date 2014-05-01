@@ -9,9 +9,8 @@
 namespace EcampCore\Job;
 
 use EcampCore\Entity\Event;
-use EcampLib\Job\AbstractServiceJobBase;
 
-class EventPrinter extends AbstractServiceJobBase
+class EventPrinter extends BasePdfPrinter
 {
 
     public function __construct(Event $event = null)
@@ -19,30 +18,22 @@ class EventPrinter extends AbstractServiceJobBase
         parent::__construct();
 
         if ($event) {
-            $this->setEventId($event->getId());
+            $this->eventId = $event->getId();
         }
-    }
 
-    public function setEventId($eventId)
-    {
-        $this->eventId = $eventId;
-    }
-
-    public function getEventId()
-    {
-        return $this->eventId;
+        $this->setOption('cookie', $_COOKIE);
     }
 
     public function perform()
     {
-        $src = __BASE_URL__ . $this->urlFromRoute(
+        $url = __BASE_URL__ . $this->urlFromRoute(
             'web/default',
             array('controller' => 'EventPrinter', 'action' => 'print'),
-            array('query' => array('eventId' => $this->getEventId()))
+            array('query' => array('eventId' => $this->eventId))
         );
-        $target = __DATA__ . "/printer/" . $this->getToken() . ".pdf";
 
-        $pdf = new \EcampLib\Pdf\WkHtmlToPdf();
-        $pdf->generate($src, $target);
+        $this->setUrl($url);
+
+        parent::perform();
     }
 }

@@ -22,7 +22,7 @@ class Zf2CliJob extends AbstractJobBase
         $_SERVER['argv'] = $argv;
         $_SERVER['argc'] = $argc;
 
-        $app = \Zend\MVc\Application::init(require 'config/app.config.php');
+        $app = \Zend\Mvc\Application::init(require 'config/app.config.php');
         $responseSender = $app->getServiceManager()->get('SendResponseListener');
 
         $responseSender->getEventManager()->attach(
