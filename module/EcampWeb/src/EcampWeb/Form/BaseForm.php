@@ -24,14 +24,9 @@ abstract class BaseForm extends LibBaseForm
         $this->setMessages(array('formError' => array($errorMessage)));
     }
 
-    public function setAction($url)
-    {
-        $this->setAttribute('action', $url);
-    }
-
     public function extractFromException(ValidationException $ex)
     {
-        $error = $ex->getMessageArray();
+        $error = $ex->getValidationMessages();
         if ($error['data'] && is_array($error['data'])) {
             $this->setMessages($error['data']);
         } else {

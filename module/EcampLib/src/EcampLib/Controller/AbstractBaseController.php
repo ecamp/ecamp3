@@ -2,38 +2,17 @@
 
 namespace EcampLib\Controller;
 
-use Zend\Http\PhpEnvironment\Response;
+use EcampLib\Form\BaseForm;
+use Zend\Form\FormElementManager;
+use Zend\Http\Response;
+use Zend\Log\LoggerInterface;
 use Zend\Mvc\Controller\AbstractActionController;
 
 abstract class AbstractBaseController extends AbstractActionController
 {
 
     /**
-     * @return \EcampCore\Service\UserService
-     */
-    private function getUserService()
-    {
-        return $this->getServiceLocator()->get('EcampCore\Service\User');
-    }
-
-    /**
-     * @return \EcampCore\Service\CampService
-     */
-    private function getCampService()
-    {
-        return $this->getServiceLocator()->get('EcampCore\Service\Camp');
-    }
-
-    /**
-     * @return \EcampCore\Service\GroupService
-     */
-    private function getGroupService()
-    {
-        return $this->getServiceLocator()->get('EcampCore\Service\Group');
-    }
-
-    /**
-     * @return \Zend\Form\FormElementManager
+     * @return FormElementManager
      */
     protected function getFormElementManager()
     {
@@ -41,48 +20,27 @@ abstract class AbstractBaseController extends AbstractActionController
     }
 
     /**
-     * @return \EcampCore\Entity\User
+     * @param $formName
+     * @return BaseForm
      */
-    protected function getMe()
+    protected function createForm($formName)
     {
-       return $this->getUserService()->Get();
+        return $this->getFormElementManager()->get($formName);
     }
 
     /**
-     * @return \EcampCore\Entity\User
+     * @return LoggerInterface
      */
-    protected function getRouteUser()
+    protected function getLogger()
     {
-        $userId = $this->params('user');
-
-        return $this->getUserService()->Get($userId);
-    }
-
-    /**
-     * @return \EcampCore\Entity\Group
-     */
-    protected function getRouteGroup()
-    {
-        $groupId = $this->params('group');
-
-        return $this->getGroupService()->Get($groupId);
-    }
-
-    /**
-     * @return \EcampCore\Entity\Camp
-     */
-    protected function getRouteCamp()
-    {
-        $campId = $this->params('camp');
-
-        return $this->getCampService()->Get($campId);
+        return $this->getServiceLocator()->get('Logger');
     }
 
     /**
      * @param  integer  $statusCode
      * @return Response
      */
-    protected function emptyResponse($statusCode = Response::STATUS_CODE_200)
+    protected function emptyResponse($statusCode = Response::STATUS_CODE_204)
     {
         /* @var $response Response */
         $response = $this->getResponse();

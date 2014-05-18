@@ -2,7 +2,7 @@
 
 namespace EcampCore\Auth;
 
-use EcampCore\Entity\Autologin;
+use EcampCore\Entity\AutoLogin;
 use EcampCore\Entity\User;
 use Zend\Authentication\Result;
 use Zend\Authentication\Adapter\AdapterInterface;
@@ -25,7 +25,7 @@ class AutologinAdapter
      */
     private $autologin;
 
-    public function __construct(Autologin $autologin)
+    public function __construct(AutoLogin $autologin)
     {
         $this->autologin = $autologin;
     }
@@ -58,11 +58,9 @@ class AutologinAdapter
     }
 
     /**
-     * Factory for Result
-     *
-     * @param integer    The Result code, see Zend_Auth_Result
-     * @param mixed      The Message, can be a string or array
-     * @return \Zend\Authentication\Result
+     * @param $code
+     * @param  array  $messages
+     * @return Result
      */
     private function authResult($code, $messages = array())
     {

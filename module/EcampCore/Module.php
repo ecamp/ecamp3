@@ -1,10 +1,23 @@
 <?php
 namespace EcampCore;
 
+use Zend\EventManager\EventInterface;
+use Zend\ModuleManager\Feature\AutoloaderProviderInterface;
+use Zend\ModuleManager\Feature\BootstrapListenerInterface;
+use Zend\ModuleManager\Feature\ConfigProviderInterface;
+use Zend\ModuleManager\Feature\ControllerProviderInterface;
+use Zend\ModuleManager\Feature\FormElementProviderInterface;
 use Zend\ModuleManager\Feature\ServiceProviderInterface;
+use Zend\ModuleManager\Feature\ValidatorProviderInterface;
 
 class Module implements
-    ServiceProviderInterface
+    ConfigProviderInterface,
+    AutoloaderProviderInterface,
+    ServiceProviderInterface,
+    ControllerProviderInterface,
+    FormElementProviderInterface,
+    ValidatorProviderInterface,
+    BootstrapListenerInterface
 {
     public function getConfig()
     {
@@ -37,7 +50,12 @@ class Module implements
         return include __DIR__ . '/config/form.element.config.php';
     }
 
-    public function onBootstrap()
+    public function getValidatorConfig()
+    {
+        return include __DIR__ . '/config/validator.config.php';
+    }
+
+    public function onBootstrap(EventInterface $e)
     {
         date_default_timezone_set("UTC");
     }

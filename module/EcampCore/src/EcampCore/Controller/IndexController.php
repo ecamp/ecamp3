@@ -8,8 +8,6 @@ use EcampCore\ServiceUtil\ServiceConfigWriter;
 use EcampCore\ServiceUtil\ServiceProviderWriter;
 use EcampCore\RepositoryUtil\RepositoryTraitWriter;
 
-use EcampLib\Controller\AbstractBaseController;
-
 use EcampCore\Repository\GroupRepository;
 use EcampCore\Repository\CampRepository;
 use EcampCore\Repository\UserRepository;

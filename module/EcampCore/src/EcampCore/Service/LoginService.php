@@ -2,17 +2,16 @@
 
 namespace EcampCore\Service;
 
-use EcampCore\Entity\Autologin;
-use EcampCore\Repository\AutologinRepository;
-use Zend\Authentication\AuthenticationService;
-
-use EcampCore\Repository\LoginRepository;
-use EcampCore\Repository\UserRepository;
-use EcampLib\Service\Params\Params;
-
+use EcampCore\Entity\AutoLogin;
 use EcampCore\Entity\User;
 use EcampCore\Entity\Login;
+use EcampCore\Fieldset\Login\LoginCreateFieldset;
+use EcampCore\Repository\AutoLoginRepository;
+use EcampCore\Repository\LoginRepository;
+use EcampCore\Repository\UserRepository;
+use EcampLib\Service\ExecutionException;
 use EcampLib\Service\ServiceBase;
+use Zend\Authentication\AuthenticationService;
 
 class LoginService
     extends ServiceBase
@@ -25,25 +24,25 @@ class LoginService
     /**
      * @var \EcampCore\Repository\UserRepository
      */
-    private $userRepo;
+    private $userRepository;
 
     /**
-     * @var \EcampCore\Repository\AutologinRepository
+     * @var \EcampCore\Repository\AutoLoginRepository
      */
-    private $autologinRepository;
+    private $autoLoginRepository;
 
     public function __construct(
         LoginRepository $loginRepository,
-        AutologinRepository $autologinRepository,
-        UserRepository $userRepo
+        AutoLoginRepository $autoLoginRepository,
+        UserRepository $userRepository
     ){
         $this->loginRepository = $loginRepository;
-        $this->autologinRepository = $autologinRepository;
-        $this->userRepo = $userRepo;
+        $this->autoLoginRepository = $autoLoginRepository;
+        $this->userRepository = $userRepository;
     }
 
     /**
-     * @return \EcampCore\Entity\Login | NULL
+     * @return Login | NULL
      */
     public function Get()
     {
@@ -57,17 +56,23 @@ class LoginService
     }
 
     /**
-     * @return \EcampCore\Entity\Login
+     * @param User $user
+     * @param $userInput
+     * @return Login
+     * @throws \EcampLib\Service\ExecutionException
      */
-    public function Create(User $user, Params $params)
+    public function Create(User $user, $userInput)
     {
+        if ($user->getLogin() != null) {
+            // TODO: log!
+            throw new ExecutionException("This User has already a Login");
+        }
+
+        $inputFilter = LoginCreateFieldset::createInputFilterSpecification();
+        $filteredUserInput = $this->validateInputArray($userInput, $inputFilter);
+
         $login = new Login($user);
-        $loginValdator = new \Core\Validator\Entity\LoginValidator($login);
-
-        $this->validationFailed(
-            ! $loginValdator->isValid($params));
-
-        $login->setNewPassword($params->getValue('password'));
+        $login->setNewPassword($filteredUserInput['password1']);
         $this->persist($login);
 
         return $login;
@@ -91,12 +96,12 @@ class LoginService
     public function Login($identifier, $password)
     {
         /** @var \EcampCore\Entity\User  */
-        $user = $this->userRepo->findByIdentifier($identifier);
+        $user = $this->userRepository->findByIdentifier($identifier);
 
         if (is_null($user)) {
             $login = null;
         } else {
-            /** @var \EcampCore\Entity\Login */
+            /** @var Login */
             $login = $user->getLogin();
         }
 
@@ -131,7 +136,7 @@ class LoginService
 
     public function ForgotPassword($identifier)
     {
-        $user = $this->userRepo->findByIdentifier($identifier);
+        $user = $this->userRepository->findByIdentifier($identifier);
 
         if (is_null($user)) {
             return false;
@@ -155,9 +160,9 @@ class LoginService
      */
     public function AutoLogin($token)
     {
-        $autologin = $this->autologinRepository->findByToken($token);
+        $autoLogin = $this->autoLoginRepository->findByToken($token);
 
-        $authAdapter = new \EcampCore\Auth\AutologinAdapter($autologin);
+        $authAdapter = new \EcampCore\Auth\AutologinAdapter($autoLogin);
         $authService = new AuthenticationService();
         $result = $authService->authenticate($authAdapter);
 
@@ -179,12 +184,12 @@ class LoginService
     /**
      * Returns the LoginEntity with the given pwResetKey
      *
-     * @param  string                  $pwResetKey
-     * @return \EcampCore\Entity\Login
+     * @param  string $pwResetKey
+     * @return Login
      */
     private function getLoginByResetKey($pwResetKey)
     {
-        /** @var \EcampCore\Entity\Login $login */
+        /** @var Login $login */
         $login = $this->loginRepository->findOneBy(array('pwResetKey' => $pwResetKey));
 
         return $login;

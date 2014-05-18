@@ -1,0 +1,43 @@
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h4 class="modal-title"><i class="fa fa-user"></i> Successful registered</h4>
+</div>
+<div class="modal-body">
+    <div class="row">
+        <div class="col-xs-12" style="margin-bottom: -15px">
+
+            <div style="text-align: center">
+                <h2>
+                    Hi {{ user.displayName }}, welcome by eCamp
+                </h2>
+
+                <p>
+                    We wil send you a Mail with an activation link.
+                    Check you mails, and activate your eCamp account!
+                </p>
+
+                {#
+                {% if '@gmail.com' in user.email %}
+                    <a href="http://gmail.com">GMail</a>
+                {% endif %}
+                #}
+            </div>
+
+            <div>
+                {% set code = user.createNewActivationCode %}
+
+                <a href="{{ url(
+                    'web/default',
+                    { 'controller':'register', 'action': 'activate' },
+                    { 'query': { 'user': user.username, 'code': code } }
+                ) }}">
+                    {{ code }}
+                </a>
+            </div>
+
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-default" data-dismiss="modal">Goto Login</button>
+</div>

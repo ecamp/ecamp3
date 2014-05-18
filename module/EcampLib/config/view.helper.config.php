@@ -7,6 +7,10 @@ return array(
 
             return $helper;
         }
+    ),
+
+    'invokables' => array(
+
     )
 
 );

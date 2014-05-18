@@ -3,7 +3,6 @@
 namespace EcampCore\Controller;
 
 use EcampCore\Render\EventRenderer;
-use EcampLib\Controller\AbstractBaseController;
 
 class EventController
     extends AbstractBaseController

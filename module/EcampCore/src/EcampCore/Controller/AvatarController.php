@@ -2,7 +2,6 @@
 
 namespace EcampCore\Controller;
 
-use EcampLib\Controller\AbstractBaseController;
 use EcampCore\Entity\Image;
 use Zend\Http\PhpEnvironment\Request;
 use Zend\Http\PhpEnvironment\Response;

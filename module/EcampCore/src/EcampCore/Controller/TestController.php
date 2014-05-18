@@ -4,7 +4,6 @@ namespace EcampCore\Controller;
 
 use EcampCore\Repository\UserRepository;
 use EcampCore\Repository\CampRepository;
-use EcampLib\Controller\AbstractBaseController;
 
 use Zend\View\Model\ViewModel;
 

@@ -3,12 +3,13 @@
 namespace EcampLib\Service;
 
 use Doctrine\ORM\EntityManager;
-
 use EcampCore\Entity\User;
 use EcampLib\Acl\Acl;
-use Zend\Permissions\Acl\Resource\ResourceInterface;
 use EcampLib\Entity\BaseEntity;
+use EcampLib\Validation\ValidationException;
 use EcampLib\Validation\ValidationForm;
+use Zend\InputFilter\Factory;
+use Zend\Permissions\Acl\Resource\ResourceInterface;
 
 abstract class ServiceBase
 {
@@ -46,7 +47,22 @@ abstract class ServiceBase
     }
 
     /**
-     * @var EcampLib\Acl\Acl
+     * @var Factory
+     */
+    private $inputFilterFactory = null;
+
+    public function setInputFilterFactory(Factory $factory)
+    {
+        $this->inputFilterFactory = $factory;
+    }
+
+    protected function getInputFilterFactory()
+    {
+        return $this->inputFilterFactory;
+    }
+
+    /**
+     * @var \EcampLib\Acl\Acl
      */
     private $acl;
 
@@ -61,6 +77,28 @@ abstract class ServiceBase
     public function setAcl(Acl $acl)
     {
         $this->acl = $acl;
+    }
+
+    /**
+     * @param ResourceInterface $resource
+     * @param $privilege
+     */
+    protected function aclRequire(ResourceInterface $resource = null, $privilege = null)
+    {
+        $user = $this->getMe() ?: User::ROLE_GUEST;
+        $this->getAcl()->isAllowedException($user, $resource, $privilege);
+    }
+
+    /**
+     * @param ResourceInterface $resource
+     * @param $privilege
+     * @return bool
+     */
+    protected function aclIsAllowed(ResourceInterface $resource = null, $privilege = null)
+    {
+        $user = $this->getMe() ?: User::ROLE_GUEST;
+
+        return $this->getAcl()->isAllowed($user, $resource, $privilege);
     }
 
     /**
@@ -82,32 +120,80 @@ abstract class ServiceBase
     }
 
     /**
-     * @param User       $user
-     * @param BaseEntity $entity
-     * @param $privilege
-     * @throws \EcampCore\Acl\Exception\NoAccessException
+     * @var int
      */
-    protected function aclRequire(ResourceInterface $resource = null, $privilege = null)
+    private static $isValidationCounter = 0;
+    /**
+     * @var ValidationException
+     */
+    private static $validationException = null;
+
+    protected function beginValidation()
     {
-        $user = $this->getMe() ?: User::ROLE_GUEST;
-        $this->getAcl()->isAllowedException($user, $resource, $privilege);
+        if (self::$isValidationCounter == 0) {
+            self::$validationException = null;
+        }
+        self::$isValidationCounter++;
     }
 
-    protected function aclIsAllowed(ResourceInterface $resource = null, $privilege = null)
+    protected function endValidation()
     {
-        $user = $this->getMe() ?: User::ROLE_GUEST;
+        self::$isValidationCounter--;
 
-        return $this->getAcl()->isAllowed($user, $resource, $privilege);
+        if (self::$validationException != null) {
+            throw self::$validationException;
+        }
+    }
+
+    /**
+     * @return ValidationException
+     */
+    protected function getValidationException()
+    {
+        return self::$validationException;
+    }
+
+    /**
+     * @param ValidationException $validationException
+     */
+    protected function setValidationException(ValidationException $validationException)
+    {
+        self::$validationException = $validationException;
+    }
+
+    /**
+     * @return ValidationException
+     */
+    protected function createValidationException()
+    {
+        if (self::$validationException == null) {
+            self::$validationException = new ValidationException();
+        }
+
+        return self::$validationException;
+    }
+
+    protected function validateInputArray($data, $inputFilterSpec)
+    {
+        $inputFilter = $this->getInputFilterFactory()->createInputFilter($inputFilterSpec);
+        $inputFilter->setData($data);
+
+        if (! $inputFilter->isValid()) {
+            $messages = $inputFilter->getMessages();
+            throw new ValidationException($messages);
+        }
+
+        return $inputFilter->getValues();
     }
 
     protected function validationFailed($bool = true, $message = null)
     {
         if ($bool && $message == null) {
-            throw new ValidationException();
+            $this->createValidationException();
         }
 
         if ($bool && $message != null) {
-            throw new ValidationException($message);
+            $this->createValidationException();
         }
     }
 

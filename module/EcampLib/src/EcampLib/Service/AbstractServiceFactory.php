@@ -4,7 +4,6 @@ namespace EcampLib\Service;
 
 use Zend\ServiceManager\AbstractFactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
-use Doctrine\ORM\EntityManager;
 use Zend\Authentication\AuthenticationService;
 
 /**
@@ -42,6 +41,7 @@ class AbstractServiceFactory implements AbstractFactoryInterface
         /* e.g. Ecamp*\Service\***ServiceFactory */
 
         $serviceFactoryName = $this->getServiceFactoryName($requestedName);
+        /** @var $serviceFactory \Zend\ServiceManager\FactoryInterface */
         $serviceFactory = new $serviceFactoryName;
         $service = $serviceFactory->createService($serviceLocator);
 
@@ -59,6 +59,10 @@ class AbstractServiceFactory implements AbstractFactoryInterface
 
     public function initService(ServiceLocatorInterface $serviceLocator, ServiceBase $service)
     {
+        $factory = new \Zend\InputFilter\Factory();
+        $factory->setInputFilterManager($serviceLocator->get('InputFilterManager'));
+        $service->setInputFilterFactory($factory);
+
         /* Inject common dependencies (e.g. dependencies of ServiceBase class) */
         $service->setEntityManager($serviceLocator->get($this->orm));
         $service->setAcl($serviceLocator->get('EcampCore\Acl'));

@@ -5,6 +5,7 @@ namespace EcampCore\Service;
 use EcampCore\Acl\Privilege;
 use EcampCore\Entity\User;
 use EcampCore\Entity\Image;
+use EcampCore\Fieldset\User\UserCreateFieldset;
 use EcampCore\Repository\UserRepository;
 
 use EcampLib\Service\ServiceBase;
@@ -51,13 +52,17 @@ class UserService
     /**
      * Creates a new User with $username
      *
-     * @param string $username
-     *
+     * @param $userInput
      * @return User
      */
-    public function Create(Params $params)
+    public function Create($userInput)
     {
-        $email = $params->getValue('email');
+        $inputFilter = UserCreateFieldset::createInputFilterSpecification();
+        $filteredUserInput = $this->validateInputArray($userInput, $inputFilter);
+
+        $email = $filteredUserInput['mail'];
+
+        /** @var $user User */
         $user = $this->userRepo->findOneBy(array('email' => $email));
 
         if (is_null($user)) {
@@ -67,22 +72,9 @@ class UserService
             $this->persist($user);
         }
 
-        if ($user->getState() != User::STATE_NONREGISTERED) {
-            $params->addError('email', "This eMail-Adress is already registered!");
-            $this->validationFailed();
-        }
+        $hydrator = new \Zend\Stdlib\Hydrator\ClassMethods();
+        $hydrator->hydrate($filteredUserInput, $user);
 
-        $newUserValidator = new \Core\Validator\Entity\NewUserValidator($user);
-        $this->validationFailed(!$newUserValidator->applyIfValid($params));
-
-        $userValidator = new \Core\Validator\Entity\UserValidator($user);
-        $this->validationFailed(!$userValidator->applyIfValid($params));
-
-        $user->setState(User::STATE_REGISTERED);
-        $activationCode = $user->createNewActivationCode();
-
-        //TODO: Send Mail with Link for activation.
-        // $activationCode;
         return $user;
     }
 
@@ -99,7 +91,7 @@ class UserService
     public function Delete(User $user)
     {
         // delete user
-        $this->em->remove($user);
+        $this->remove($user);
     }
 
     public function SetImage(User $user, $data, $mime)
@@ -133,7 +125,7 @@ class UserService
 
     /**
      * Get all users and wrap in paginator
-     * @return Zend\Paginator\Paginator
+     * @return \Zend\Paginator\Paginator
      */
     public function GetPaginator()
     {

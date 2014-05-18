@@ -4,22 +4,28 @@ namespace EcampLib\Validation;
 
 class ValidationException extends \Exception
 {
-    private $errorArray = null;
+    private $validationMessages = array();
 
-    public function __construct($errorMessage=null, $errorArray=null)
+    public function __construct($validationMessages = array())
     {
-        parent::__construct($errorMessage);
-        $this->setMessageArray($errorArray);
+        parent::__construct("User input validation failed");
+        $this->setValidationMessages($validationMessages);
     }
 
-    public function setMessageArray($errorArray)
+    public function setValidationMessages(array $validationMessages)
     {
-        $this->errorArray = $errorArray;
+        $this->validationMessages = $validationMessages;
     }
 
-    public function getMessageArray()
+    public function addValidationMessages(array $validationMessages)
     {
-        return $this->errorArray;
+        $this->validationMessages =
+            array_merge_recursive($this->validationMessages, $validationMessages);
+    }
+
+    public function getValidationMessages()
+    {
+        return $this->validationMessages;
     }
 
 }

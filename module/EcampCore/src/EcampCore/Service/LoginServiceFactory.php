@@ -8,17 +8,15 @@ class LoginServiceFactory
     implements FactoryInterface
 {
     /**
-     *
-     * @param  ServiceLocatorInterface                                   $services
-     * @return GroupService
-     * @throws \Zend\ServiceManager\Exception\ServiceNotCreatedException
+     * @param  ServiceLocatorInterface $services
+     * @return LoginService
      */
     public function createService(ServiceLocatorInterface $services)
     {
         $loginRepository = $services->get('EcampCore\Repository\Login');
-        $autologinRepository = $services->get('EcampCore\Repository\Autologin');
-        $userRepo = $services->get('EcampCore\Repository\User');
+        $autoLoginRepository = $services->get('EcampCore\Repository\AutoLogin');
+        $userRepository = $services->get('EcampCore\Repository\User');
 
-        return new LoginService($loginRepository, $autologinRepository, $userRepo);
+        return new LoginService($loginRepository, $autoLoginRepository, $userRepository);
     }
 }

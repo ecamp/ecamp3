@@ -12,6 +12,10 @@
 
         <!-- CSS - Files -->
         <link type="text/css" rel="stylesheet" href="{{ request.getBasePath }}/bootstrap/css/bootstrap.min.css" />
+        <!--
+        <link type="text/css" rel="stylesheet" href="//rawgithub.com/mgcrea/bootstrap-additions/master/dist/bootstrap-additions.min.css">
+        -->
+
         <link type="text/css" rel="stylesheet" href="{{ request.getBasePath }}/font-awesome/css/font-awesome.min.css" />
         <link type="text/css" rel="stylesheet" href="{{ request.getBasePath }}/jqueryui/themes/base/minified/jquery-ui.min.css" />
 
@@ -22,6 +26,39 @@
         <link type="text/css" rel="stylesheet" href="{{ request.getBasePath }}/ecamp-web/css/searchbox.css" />
         <link type="text/css" rel="stylesheet" href="{{ request.getBasePath }}/ecamp-web/css/default.css" />
 
+        <style type="text/css">
+
+
+            .form-group .input-group .radio input[type=radio]{
+                margin-right: 15px;
+            }
+
+            .form-group .input-group .radio {
+                border-left: #ccc 1px solid;
+            }
+
+            .form-group .input-group .radio:first-of-type {
+                border-top: #ccc 1px solid;
+                border-top-left-radius: 4px;
+            }
+
+            .form-group .input-group .radio:last-of-type {
+                border-bottom: #ccc 1px solid;
+                border-bottom-left-radius: 4px;
+                padding-bottom: 35px;
+            }
+
+            .form-horizontal .radio {
+                padding-top: 0px;
+                min-height: 28px;
+            }
+
+            .form-horizontal .radio .control-label {
+                text-align: left;
+            }
+
+        </style>
+
         {% block style %}{% endblock style %}
 
 
@@ -30,27 +67,151 @@
         <script src="{{ request.getBasePath }}/jqueryui/ui/minified/jquery-ui.min.js"></script>
         <script src="{{ request.getBasePath }}/jquery-autosize/js/jquery.autosize.min.js"></script>
 
-        <!--
         <script src="{{ request.getBasePath }}/angular.js/angular.min.js"></script>
+        <script src="{{ request.getBasePath }}/angular.js/angular-animate.min.js"></script>
+
+        <script src="//oss.maxcdn.com/angular.strap/2.0.0/angular-strap.min.js"></script>
+        <script src="//oss.maxcdn.com/angular.strap/2.0.0/angular-strap.tpl.min.js"></script>
+
+        <!--
         <script src="{{ request.getBasePath }}/angular-resource/angular-resource.min.js"></script>
         -->
         <script src="{{ request.getBasePath }}/bootstrap/js/bootstrap.min.js"></script>
         <script src="{{ request.getBasePath }}/bootstrap-select/js/bootstrap-select.min.js"></script>
         <script src="{{ request.getBasePath }}/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
 
-        {% block script %}{% endblock script %}
+        <script src="https://rawgithub.com/angular-ui/bootstrap/gh-pages/ui-bootstrap-tpls-0.10.0.min.js"></script>
+
+
+        <script src="/ecamp-web/js/ajax-form.js"></script>
+
+        <script type="text/javascript">
+            var eCamp3 = angular.module('eCamp3', ['mgcrea.ngStrap']);
+/*
+            eCamp3.directive('twbFormRow', function($compile, $tooltip, $popover){
+                return {
+                    restrict: 'E',
+                    replace: true,
+                    transclude: true,
+
+                    scope: {},
+                    template: "<div ng-transclude></div>",
+
+                    controller: function($scope, $compile) {
+                        var formGroup = null;
+                        var formElement = null;
+                        var helpBlock = null;
+                        var tooltip = null;
+
+                        $scope.state = '';
+
+                        $scope.$watch('state', function(val){
+                            if(formGroup != null){
+                                formGroup.removeClass('has-success').removeClass('has-warning').removeClass('has-error');
+                                formGroup.addClass(val);
+                            }
+                        });
+
+
+                        this.setFormGroup = function(val){ formGroup = val; };
+                        this.setHelpBlock = function(val){ helpBlock = val; initHelpBlock(); };
+                        this.setFormElement = function(val){ formElement = val; initTooltip(); };
+
+                        function initHelpBlock(){
+                            $scope.state = helpBlock.is(':empty') ? '' : 'has-error';
+                        }
+
+                        function initTooltip(){
+                            if(tooltip != null){ tooltip.destroy(); }
+                            tooltip = $tooltip(formElement, {
+                                'placement': 'bottom-left',
+                                'trigger': 'focus',
+                                'title': function(){ return (helpBlock != null) ? helpBlock.text() : ''; }
+                            });
+                        }
+                    },
+
+                    compile: function(element, attrs){
+                        return function(scope, element, attrs, controllerInstance){
+
+                            controllerInstance.setFormGroup(element.find('>.form-group'));
+
+                        };
+                    }
+                };
+            });
+
+            eCamp3.directive('twbFormElement', function($compile){
+                return {
+                    restrict: 'E',
+                    replace: true,
+                    transclude: true,
+
+                    scope: {},
+                    template: "<div class='input-group' ng-transclude></div>",
+
+                    require: '^twbFormRow',
+
+                    compile: function(element, attrs){
+
+                        var inputGroupAddon =
+                            $compile("<span class='input-group-addon'><i ng-class='icon' class='glyphicon'></i></span>");
+
+                        return function(scope, element, attrs, controllerInstance) {
+
+                            var addon = inputGroupAddon(scope);
+                            element.append(addon);
+
+                            var formControl = element.find('>.form-control');
+                            controllerInstance.setFormElement(formControl);
+                            //var tooltip = controllerInstance.createTooltip(formControl);
+                        };
+                    }
+                };
+            });
+
+
+            eCamp3.directive('twbFormElementErrors', function(){
+                return {
+                    restrict: 'E',
+                    replace: true,
+                    transclude: true,
+
+                    scope: {},
+                    template: "<div style='display: none' ng-transclude></div>",
+
+                    require: '^twbFormRow',
+
+                    compile: function(element, attrs){
+                        return function(scope, element, attrs, controllerInstance) {
+                            controllerInstance.setHelpBlock(element);
+                        };
+                    }
+                }
+            });
+*/
+        </script>
+
+            {% block script %}{% endblock script %}
 
 
         <!--[if lt IE 9]><script type="text/javascript" src="/js/html5.js"></script><![endif]-->
 
-        {{ headScript() }}
-
-
-
     </head>
     <body>
         <div class="bgimage"></div>
+        {{ flashmessenger().render('success') | raw }}
+        {{ flashmessenger().render('error') | raw }}
+
 
         {% block htmlbody %}{% endblock %}
+
+
+        <div class="modal fade" id="asyncform-container" tabindex="-1" role="dialog" >
+            <div class="modal-dialog">
+                <div class="modal-content">
+                </div>
+            </div>
+        </div>
     </body>
 </html>

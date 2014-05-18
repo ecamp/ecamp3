@@ -38,6 +38,18 @@ return array(
                         )
                     ),
 
+                    'register' => array(
+                        'type' => 'Segment',
+                        'options' => array(
+                            'route' => '/register[/:action]',
+                            'defaults' => array(
+                                '__NAMESPACE__' => 'EcampWeb\Controller\Auth',
+                                'controller' => 'Register' ,
+                                'action' => 'register',
+                            )
+                        )
+                    ),
+
                     'group-prefix' => array(
                             'type'    => 'Literal',
                             'options' => array(

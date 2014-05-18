@@ -4,7 +4,6 @@ namespace EcampCore\Controller;
 
 use Zend\Json\Json;
 use Zend\Http\PhpEnvironment\Response;
-use EcampLib\Controller\AbstractBaseController;
 
 class FormValidationController extends AbstractBaseController
 {

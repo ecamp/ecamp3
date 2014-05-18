@@ -2,24 +2,27 @@
 
 namespace EcampWeb\Controller;
 
-use Zend\Mvc\Controller\AbstractActionController;
+use EcampCore\Controller\AbstractBaseController;
+use EcampCore\Entity\User;
 use Zend\EventManager\EventManagerInterface;
+use Zend\Http\Request;
+use Zend\Http\Response;
 use Zend\Mvc\MvcEvent;
 use Zend\View\Model\ViewModel;
-use Zend\Http\PhpEnvironment\Response;
-use EcampCore\Entity\User;
-use EcampCore\Repository\MediumRepository;
-use EcampCore\Entity\Medium;
 
+/**
+ * Class BaseController
+ * @method Request getRequest()
+ * @method Response getResponse()
+ */
 abstract class BaseController
-    extends AbstractActionController
+    extends AbstractBaseController
 {
     public function setEventManager(EventManagerInterface $events)
     {
         parent::setEventManager($events);
 
         $events->attach('dispatch', function($e) { $this->setMeInViewModel($e); } , -100);
-
         $events->attach('dispatch', function($e) { $this->setConfigInViewModel($e); } , -100);
     }
 
@@ -60,64 +63,18 @@ abstract class BaseController
         }
     }
 
-    /**
-     * @return \EcampCore\Service\UserService
-     */
-    protected function getUserService()
+    protected function getRedirectResponse($url)
     {
-        return $this->getServiceLocator()->get('EcampCore\Service\User');
-    }
+        /** @var $renderer \Zend\View\Renderer\RendererInterface */
+        $renderer = $this->getServiceLocator()->get('ViewRenderer');
 
-    /**
-     * @return \EcampCore\Entity\User
-     */
-    protected function getMe()
-    {
-        return $this->getUserService()->Get();
-    }
+        $viewModel = new ViewModel();
+        $viewModel->setTemplate('ecamp-web/redirect');
+        $viewModel->setVariable('url', $url);
 
-    /**
-     * @return \EcampCore\Entity\Medium
-     */
-    protected function getWebMedium()
-    {
-        $mediumRepository = $this->getServiceLocator()->get('EcampCore\Repository\Medium');
-
-        return $mediumRepository->find(Medium::MEDIUM_WEB);
-    }
-
-    /**
-     * @return \EcampCore\Entity\Medium
-     */
-    protected function getPrintMedium()
-    {
-        $mediumRepository = $this->getServiceLocator()->get('EcampCore\Repository\Medium');
-
-        return $mediumRepository->find(Medium::MEDIUM_PRINT);
-    }
-
-    /**
-     * @param  integer                        $statusCode
-     * @return \Zend\Stdlib\ResponseInterface
-     */
-    protected function emptyResponse($statusCode = Response::STATUS_CODE_200)
-    {
         $response = $this->getResponse();
-        $response->setStatusCode($statusCode);
-
-        return $response;
-    }
-
-    protected function ajaxSuccssResponse($goToUrl = null)
-    {
-        $response = $this->getResponse();
-
-        if ($goToUrl == null) {
-            return $this->emptyResponse();
-        } else {
-            $response->getHeaders()->addHeaderLine('Location', $goToUrl);
-            $response->setStatusCode(Response::STATUS_CODE_200);
-        }
+        $response->getHeaders()->addHeaderLine('Location', $url);
+        $response->setContent($renderer->render($viewModel));
 
         return $response;
     }

@@ -7,6 +7,7 @@ return array(
         'EcampWeb\Controller\EventPlugin' 			=> 'EcampWeb\Controller\EventPluginController',
 
         'EcampWeb\Controller\Auth\Login'			=> 'EcampWeb\Controller\Auth\LoginController',
+        'EcampWeb\Controller\Auth\Register'			=> 'EcampWeb\Controller\Auth\RegisterController',
 
         'EcampWeb\Controller\Group\Index' 			=> 'EcampWeb\Controller\Group\IndexController',
         'EcampWeb\Controller\Group\Members' 		=> 'EcampWeb\Controller\Group\MembersController',

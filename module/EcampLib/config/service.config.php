@@ -19,6 +19,7 @@ return array(
 
     'factories' => array(
         'Router'        => 'EcampLib\Router\RouterFactory',
+        'Logger'        => 'EcampLib\Log\LoggerFactory'
     ),
 
 );

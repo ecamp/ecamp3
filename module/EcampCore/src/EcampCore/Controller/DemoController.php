@@ -2,7 +2,6 @@
 
 namespace EcampCore\Controller;
 
-use EcampLib\Controller\AbstractBaseController;
 use DoctrineModule\Paginator\Adapter\Selectable;
 
 class DemoController

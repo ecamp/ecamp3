@@ -3,60 +3,81 @@
 namespace EcampCore\Service;
 
 use EcampCore\Entity\User;
-
+use EcampCore\Job\SendActivationMailJob;
+use EcampCore\Repository\UserRepository;
+use EcampLib\Service\ExecutionException;
 use EcampLib\Service\ServiceBase;
-use EcampLib\Service\Params\Params;
 
-/**
- * @method EcampCore\Service\RegisterService Simulate
- */
 class RegisterService
     extends ServiceBase
 {
+    /**
+     * @var UserRepository
+     */
+    private $userRepository;
 
     /**
-     * @return EcampCore\Entity\User
+     * @var UserService
      */
-    public function Register(Params $params)
+    private $userService;
+
+    /**
+     * @var LoginService
+     */
+    private $loginService;
+
+    public function __construct(
+        UserRepository $userRepository,
+        UserService $userService,
+        LoginService $loginService
+    ){
+        $this->userRepository = $userRepository;
+        $this->userService = $userService;
+        $this->loginService = $loginService;
+    }
+
+    /**
+     * @param $userInput
+     * @return User
+     * @throws \EcampLib\Service\ExecutionException
+     */
+    public function Register($userInput)
     {
-        $user 	= $this->service()->userService()->Create($params);
-        $login	= $this->service()->loginService()->Create($user, $params);
+        $user = $this->userService->Create($userInput['user-create']);
 
-        //AppEvent::Create(2, array($user->getEmail()));
+        if ($user->getState() != User::STATE_NONREGISTERED) {
+            throw new ExecutionException("This eMail-Address is already registered!");
+        }
 
-        $activationCode = $user->createNewActivationCode();
+        $user->setState(User::STATE_REGISTERED);
+        $this->loginService->Create($user, $userInput['login-create']);
 
-        // TODO: Send Mail with
-        //		 $activationCode!
+        SendActivationMailJob::Create($user);
+
         return $user;
     }
 
     /**
-     * Activate a User
-     *
-     * @param EcampCore\Entity\User|int|string $user
-     * @param string                           $key
-     *
+     * @param $userId
+     * @param $key
      * @return bool
+     * @throws \EcampLib\Service\ExecutionException
      */
     public function Activate($userId, $key)
     {
-        $user = $this->service()->userService()->Get($userId);
-        $success = null;
+        /** @var $user \EcampCore\Entity\User */
+        $user = $this->userRepository->findByIdentifier($userId);
 
         if (is_null($user)) {
-            $this->validationFailed();
-            $this->addValidationMessage("User not found!");
+            throw new ExecutionException("User not found!");
         } elseif ($user->getState() != User::STATE_REGISTERED) {
-            $this->validationFailed();
-            $this->addValidationMessage("User already activated!");
+            throw new ExecutionException("User already activated!");
         } else {
             $success = $user->activateUser($key);
         }
 
         if ($success == false) {
-            $this->validationFailed();
-            $this->addValidationMessage("Wrong activation key!");
+            throw new ExecutionException("Wrong activation key!");
         }
 
         return $success;

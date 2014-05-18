@@ -4,7 +4,6 @@ namespace EcampCore\Controller;
 
 use EcampCore\Auth\Bypass;
 use Zend\Authentication\AuthenticationService;
-use EcampLib\Controller\AbstractBaseController;
 
 class LoginController extends AbstractBaseController
 {

@@ -3,11 +3,10 @@
 namespace EcampCore\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-
 use EcampLib\Entity\BaseEntity;
 
 /**
- * @ORM\Entity(repositoryClass="EcampCore\Repository\AutologinRepository")
+ * @ORM\Entity(repositoryClass="EcampCore\Repository\AutoLoginRepository")
  * @ORM\Table(name="autologins")
  */
 class AutoLogin
