@@ -20,10 +20,16 @@
 {% block breadcrumb %}
 
 	  {%  for item in group.getPathAsArray %}
-	  	<li><a class="btn btn-xs btn-noborder" href="{{ url('web/group-prefix/name', {'group' : item.getId } ) }}">{{ item.getDescription }}</a></li>
+	  	<li><a class="btn btn-xs btn-noborder" href="{{ url('web/group-prefix/name', {'group' : item.getId } ) }}">
+                <i class="fa fa-flag"></i> {{ item.getDescription }}
+        </a></li>
 	  {% endfor %}
 
-	  <li class="active"><a class="btn btn-xs btn-noborder disabled" href="#">{{ group.getDescription }}</a></li>
+	  <li class="active">
+          <a class="btn btn-xs btn-noborder disabled" href="#">
+              <i class="fa fa-flag"></i> {{ group.getDescription }}
+        </a>
+      </li>
 
 {% endblock breadcrumb %}
 

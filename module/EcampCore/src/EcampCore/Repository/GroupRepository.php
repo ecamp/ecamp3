@@ -2,13 +2,13 @@
 
 namespace EcampCore\Repository;
 
-use Doctrine\ORM\EntityRepository;
-use EcampCore\Entity\GroupMembership;
-use DoctrineORMModule\Paginator\Adapter\DoctrinePaginator as PaginatorAdapter;
 use Doctrine\ORM\Tools\Pagination\Paginator as ORMPaginator;
+use DoctrineORMModule\Paginator\Adapter\DoctrinePaginator as PaginatorAdapter;
+use EcampCore\Entity\GroupMembership;
+use EcampCore\Entity\User;
 use Zend\Paginator\Paginator;
 
-class GroupRepository extends EntityRepository
+class GroupRepository extends BaseRepository
 {
 
     public function getCollection($criteria)
@@ -30,8 +30,11 @@ class GroupRepository extends EntityRepository
                 ->getQuery()->getResult();
     }
 
-    public function findUserGroups($userId)
+    public function findUserGroups($user = null)
     {
+        $user = $user ?: $this->getAuthenticatedUser();
+        $userId = ($user instanceof User ? $user->getId() : $user);
+
         $q = $this->_em->createQuery(
                 "	SELECT 	g" .
                 "	FROM 	EcampCore\Entity\Group g" .

@@ -21,8 +21,6 @@
 namespace EcampCore\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-
-use EcampLib\Entity\BaseEntity;
 use Zend\Permissions\Acl\Resource\ResourceInterface;
 
 /**
@@ -31,9 +29,8 @@ use Zend\Permissions\Acl\Resource\ResourceInterface;
  * @ORM\HasLifecycleCallbacks
  */
 class Group
-    extends BaseEntity
-    implements CampOwnerInterface
-    ,	ResourceInterface
+    extends AbstractCampOwner
+    implements ResourceInterface
 {
     public function __construct(Group $parent = null)
     {
@@ -41,7 +38,6 @@ class Group
 
         $this->children = new \Doctrine\Common\Collections\ArrayCollection();
         $this->memberships = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->camps = new \Doctrine\Common\Collections\ArrayCollection();
 
         $this->setParent($parent);
     }
@@ -78,12 +74,6 @@ class Group
     protected $memberships;
 
     /**
-     * @var \Doctrine\Common\Collections\ArrayCollection
-     * @ORM\OneToMany(targetEntity="Camp", mappedBy="group")
-     */
-    protected $camps;
-
-    /**
      * @var Image
      * @ORM\OneToOne(targetEntity="Image")
      * @ORM\JoinColumn(name="image_id", referencedColumnName="id")
@@ -114,6 +104,11 @@ class Group
     public function setDescription( $description )
     {
         $this->description = $description;
+    }
+
+    public function getDisplayName()
+    {
+        return $this->name;
     }
 
     /**
@@ -150,12 +145,12 @@ class Group
         return ! $this->children->isEmpty();
     }
 
-    /**
-     * @return Camp
-     */
-    public function getCamps()
+    public function getPath($seperator = ' > ')
     {
-        return $this->camps;
+        $groups = $this->getPathAsArray(true);
+        $groupNames = array_map(function($g){ return $g->getName(); }, $groups);
+
+        return implode($seperator, $groupNames);
     }
 
     /**
@@ -178,7 +173,7 @@ class Group
     }
 
     /**
-     * @return EcampCore\Entity\Image
+     * @return \EcampCore\Entity\Image
      */
     public function getImage()
     {
@@ -186,19 +181,24 @@ class Group
     }
 
     /**
-     * @return EcampCore\Entity\Group
+     * @param  Image                   $image
+     * @return \EcampCore\Entity\Group
      */
     public function setImage(Image $image)
     {
         $this->image = $image;
+
+        return $this;
     }
 
     /**
-     * @return CoreApi\Entity\Group
+     * @return \EcampCore\Entity\Group
      */
     public function delImage()
     {
         $this->image = null;
+
+        return $this;
     }
 
     public function getResourceId()

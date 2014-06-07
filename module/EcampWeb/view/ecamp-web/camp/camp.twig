@@ -71,21 +71,23 @@
 	  {% if camp.belongsToUser  %}
 	  	<li>
 	  		<a class="btn btn-xs btn-noborder" href="{{ url('web/user-prefix/name', {'user' : camp.getOwner.getId } ) }}">
-	  			{{ camp.getOwner.getUsername }}
+                <i class="fa fa-user"></i> {{ camp.getOwner.getUsername }}
 	  		</a>
 	  	</li>
 	  {% else %}
-	  	{%  for item in camp.getGroup.getPathAsArray(true) %}
+	  	{%  for item in camp.getOwner.getPathAsArray(true) %}
 	  		<li>
 	  			<a class="btn btn-xs btn-noborder" href="{{ url('web/group-prefix/name', {'group' : item.getId } ) }}">
-	  				{{ item.getDescription }}
+                    <i class="fa fa-flag"></i> {{ item.getDescription }}
 	  			</a>
 	  		</li>
 	  	{% endfor %}
 	  {% endif %}
 
 	  <li class="active">
-	  	<a class="btn btn-xs btn-noborder" href="{{ url('web/camp/default', { 'camp': camp }) }}">{{ camp.getName }}</a>
+	  	<a class="btn btn-xs btn-noborder" href="{{ url('web/camp/default', { 'camp': camp }) }}">
+            <i class="fa fa-bell"></i> {{ camp.getName }}
+        </a>
 	  </li>
 
 {% endblock breadcrumb %}

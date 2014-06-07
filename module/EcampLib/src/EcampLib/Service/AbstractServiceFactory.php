@@ -59,10 +59,6 @@ class AbstractServiceFactory implements AbstractFactoryInterface
 
     public function initService(ServiceLocatorInterface $serviceLocator, ServiceBase $service)
     {
-        $factory = new \Zend\InputFilter\Factory();
-        $factory->setInputFilterManager($serviceLocator->get('InputFilterManager'));
-        $service->setInputFilterFactory($factory);
-
         /* Inject common dependencies (e.g. dependencies of ServiceBase class) */
         $service->setEntityManager($serviceLocator->get($this->orm));
         $service->setAcl($serviceLocator->get('EcampCore\Acl'));

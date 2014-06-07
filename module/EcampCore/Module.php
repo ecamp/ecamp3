@@ -47,7 +47,7 @@ class Module implements
 
     public function getFormElementConfig()
     {
-        return include __DIR__ . '/config/form.element.config.php';
+        return include __DIR__ . '/config/formelement.config.php';
     }
 
     public function getValidatorConfig()

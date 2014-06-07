@@ -10,9 +10,6 @@ use EcampLib\Service\ServiceBase;
 use EcampCore\Acl\Privilege;
 use EcampCore\Entity\Story;
 
-/**
- * @method EcampCore\Service\DayService Simulate
- */
 class DayService
     extends ServiceBase
 {

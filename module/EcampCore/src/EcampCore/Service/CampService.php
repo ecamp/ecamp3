@@ -2,25 +2,15 @@
 
 namespace EcampCore\Service;
 
-use EcampCore\Entity\User;
-use EcampCore\Entity\Group;
+use EcampCore\Acl\Privilege;
 use EcampCore\Entity\Camp;
-use EcampCore\Entity\CampOwnerInterface;
-use EcampCore\Validator\Entity\CampValidator;
-
-use EcampLib\Service\Params\Params;
+use EcampCore\Entity\CampCollaboration;
+use EcampCore\Repository\CampRepository;
+use EcampCore\Validation\CampFieldset;
 
 use EcampLib\Service\ServiceBase;
-use EcampCore\Repository\CampRepository;
-use EcampCore\Acl\Privilege;
+use EcampLib\Validation\ValidationException;
 
-use EcampCore\Validation\CampFieldset;
-use EcampCore\Validation\EntityForm;
-use Zend\Form\Form;
-
-/**
- * @method EcampCore\Service\CampService Simulate
- */
 class CampService
     extends ServiceBase
 {
@@ -44,7 +34,8 @@ class CampService
      * For an integer the Camp with the given id
      * For NULL the Camp from the Context
      *
-     * @return CoreApi\Entity\Camp | NULL
+     * @param $id
+     * @return \EcampCore\Entity\Camp | NULL
      */
     public function Get($id)
     {
@@ -75,10 +66,10 @@ class CampService
         $this->remove($camp);
     }
 
-/**
+    /**
      * Updates the current Camp
      *
-     * @return CoreApi\Entity\Camp
+     * @return \EcampCore\Entity\Camp
      */
     public function Update($campId, $data)
     {
@@ -98,44 +89,33 @@ class CampService
      * If Group is defined, the Camp belongs to this Group.
      * Otherwise it belongs to the User.
      *
-     * @return CoreApi\Entity\Camp
      */
-    public function Create(CampOwnerInterface $owner, Params $params)
+    public function Create($data)
     {
-        if ($owner instanceof User) {
-            $this->aclRequire($owner, Privilege::USER_ADMINISTRATE);
-        }
-        if ($owner instanceof Group) {
-            $this->aclRequire($owner, Privilege::GROUP_CONTRIBUTE);
-        }
-
-        $campName =  $params->getValue('name');
-
         $camp = new Camp();
-        $this->persist($camp);
+        $campCollaboration = new CampCollaboration($this->getMe(), $camp, null,
+            CampCollaboration::STATUS_ESTABLISHED, CampCollaboration::ROLE_MANAGER);
 
-        if ($owner instanceof User) {
-            // Create personal Camp
-            if ($this->campRepo->findPersonalCamp($owner->getId(), $campName) != null) {
-                $params->addError('name', "Camp with same name already exists.");
-                $this->validationFailed();
-            }
-            $camp->setOwner($owner);
-        } elseif ($owner instanceof Group) {
-            // Create group Camp
-            if ($this->campRepo->findGroupCamp($owner->getId(), $campName) != null) {
-                $params->addError('name', "Camp with same name already exists.");
-                $this->validationFailed();
-            }
-            $camp->setGroup($owner);
+        $campValidationForm = $this->createValidationForm(
+            $camp, $data, array('name', 'title', 'motto', 'campType', 'owner'));
+
+        if (!$campValidationForm->isValid()) {
+            throw ValidationException::FromForm($campValidationForm);
         }
 
         $camp->setCreator($this->getMe());
 
-        $campValidator = new CampValidator($camp);
-        $this->validationFailed( !$campValidator->applyIfValid($params) );
+        try {
+            $periodData = $data['period'];
+            $periodData['description'] = $data['name'];
 
-        $this->periodService->CreatePeriodForCamp($camp, $params);
+            $this->periodService->Create($camp, $periodData);
+        } catch (ValidationException $ex) {
+            throw ValidationException::FromInnerException('period', $ex);
+        }
+
+        $this->persist($camp);
+        $this->persist($campCollaboration);
 
         return $camp;
     }

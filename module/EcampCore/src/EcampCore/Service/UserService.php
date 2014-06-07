@@ -5,11 +5,10 @@ namespace EcampCore\Service;
 use EcampCore\Acl\Privilege;
 use EcampCore\Entity\User;
 use EcampCore\Entity\Image;
-use EcampCore\Fieldset\User\UserCreateFieldset;
 use EcampCore\Repository\UserRepository;
 
+use EcampLib\Validation\ValidationException;
 use EcampLib\Service\ServiceBase;
-use EcampLib\Service\Params\Params;
 
 use Zend\Paginator\Paginator;
 
@@ -34,6 +33,7 @@ class UserService
      *
      * If no Identifier is given, the Authenticated User is returned
      *
+     * @param  null $id
      * @return User
      */
     public function Get($id = null)
@@ -52,39 +52,44 @@ class UserService
     /**
      * Creates a new User with $username
      *
-     * @param $userInput
+     * @param $data
+     * @throws \EcampLib\Validation\ValidationException
      * @return User
      */
-    public function Create($userInput)
+    public function Create($data)
     {
-        $inputFilter = UserCreateFieldset::createInputFilterSpecification();
-        $filteredUserInput = $this->validateInputArray($userInput, $inputFilter);
+        $email = $data['email'];
 
-        $email = $filteredUserInput['mail'];
+        $mailValidator = new \Zend\Validator\EmailAddress();
+        if (! $mailValidator->isValid($email)) {
+            throw new ValidationException(array('email' => $mailValidator->getMessages()));
+        }
 
         /** @var $user User */
         $user = $this->userRepo->findOneBy(array('email' => $email));
 
         if (is_null($user)) {
             $user = new User();
-            $user->setEmail($email);
 
-            $this->persist($user);
+            $validationForm = $this->createValidationForm($user, $data, array('firstname', 'surname', 'scoutname', 'username', 'email'));
+            if ($validationForm->isValid()) {
+                $this->persist($user);
+            } else {
+                throw ValidationException::FromForm($validationForm);
+            }
+
+        } else {
+            $validationForm = $this->createValidationForm($user, $data, array('firstname', 'surname', 'scoutname', 'username'));
+            if (!$validationForm->isValid()) {
+                throw ValidationException::FromForm($validationForm);
+            }
         }
-
-        $hydrator = new \Zend\Stdlib\Hydrator\ClassMethods();
-        $hydrator->hydrate($filteredUserInput, $user);
 
         return $user;
     }
 
-    public function Update(User $user, Params $params)
+    public function Update(User $user, $data)
     {
-        $userValidator = new \Core\Validator\Entity\UserValidator($user);
-
-        $this->validationFailed(
-            ! $userValidator->applyIfValid($params));
-
         return $user;
     }
 

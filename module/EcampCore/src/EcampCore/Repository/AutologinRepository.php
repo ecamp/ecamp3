@@ -5,7 +5,7 @@ namespace EcampCore\Repository;
 use Doctrine\ORM\EntityRepository;
 use EcampCore\Entity\AutoLogin;
 
-class AutoLoginRepository extends EntityRepository
+class AutologinRepository extends EntityRepository
 {
 
     public function findByToken($token)

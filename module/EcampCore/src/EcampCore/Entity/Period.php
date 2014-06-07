@@ -21,6 +21,7 @@
 namespace EcampCore\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Zend\Form\Annotation as Form;
 
 use EcampLib\Entity\BaseEntity;
 
@@ -31,6 +32,8 @@ use EcampLib\Entity\BaseEntity;
  * @ORM\Entity(repositoryClass="EcampCore\Repository\PeriodRepository")
  * @ORM\Table(name="periods")
  * @ORM\HasLifecycleCallbacks
+ *
+ * @Form\Name("period")
  */
 class Period
     extends BaseEntity
@@ -48,12 +51,13 @@ class Period
     /**
      * @ORM\Column(type="date", nullable=false )
      */
-    private $start;
+    protected $start;
 
     /**
      * @var Camp
      * @ORM\ManyToOne(targetEntity="Camp")
      * @ORM\JoinColumn(nullable=false, onDelete="cascade")
+     * @Form\Exclude
      */
     private $camp;
 
@@ -72,14 +76,14 @@ class Period
     /**
      * @ORM\OneToMany(targetEntity="Day", mappedBy="period", orphanRemoval=true)
      * @ORM\OrderBy({"dayOffset" = "ASC"})
-     * @var Doctrine\Common\Collections\ArrayCollection
+     * @var \Doctrine\Common\Collections\ArrayCollection
      */
     protected $days;
 
     /**
      * @ORM\OneToMany(targetEntity="EventInstance", mappedBy="period", orphanRemoval=true)
      * @ORM\OrderBy({"minOffsetStart" = "ASC", "createdAt" = "ASC"})
-     * @var Doctrine\Common\Collections\ArrayCollection
+     * @var \Doctrine\Common\Collections\ArrayCollection
      */
     private $eventInstances;
 

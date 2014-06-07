@@ -30,15 +30,16 @@
 		<script src="{{ request.getBasePath }}/jqueryui/ui/minified/jquery-ui.min.js"></script>
 		<script src="{{ request.getBasePath }}/jquery-autosize/js/jquery.autosize.min.js"></script>
 
-		<script src="{{ request.getBasePath }}/angular.js/angular.min.js"></script>
-		<script src="{{ request.getBasePath }}/angular-resource/angular-resource.min.js"></script>
+		<script src="{{ request.getBasePath }}/angular.js/angular.js"></script>
+		<script src="{{ request.getBasePath }}/angular-resource/angular-resource.js"></script>
 
 		<script src="{{ request.getBasePath }}/bootstrap/js/bootstrap.min.js"></script>
 		<script src="{{ request.getBasePath }}/bootstrap-select/js/bootstrap-select.min.js"></script>
 		<script src="{{ request.getBasePath }}/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
 
-		<script src="https://rawgithub.com/angular-ui/bootstrap/gh-pages/ui-bootstrap-tpls-0.10.0.min.js"></script>
+		<script src="{{ request.getBasePath }}/angular-ui/js/ui-bootstrap-tpls.min.js"></script>
 
+		<script src="{{ request.getBasePath }}/js/ns.js"></script>
 		<script src="{{ request.getBasePath }}/ecamp-web/js/ajax-form.js"></script>
 
         {% block script %}{% endblock script %}
@@ -55,29 +56,14 @@
 
 			$(function(){
 
-				$("div.search-box input[type='text']")
-					.focus(function(){
-						 //$('div.search-box').switchClass('col-sm-9 col-md-7 col-lg-6', 'col-sm-12 col-md-12 col-lg-12', 300);
-						 //$('div.search-box .input-group-btn').addClass('open', 300);
-					});
-
-				$("div.search-box input[type='text']")
-					.blur(function(){
-						//$('div.search-box').switchClass('col-sm-12 col-md-12 col-lg-12', 'col-sm-9 col-md-7 col-lg-6', 300);
-						//$('div.search-box .input-group-btn').removeClass('open', 300);
-					});
-
-				$('[data-toggle="tooltip"]').tooltip();
-				$('[data-toggle="popover"]').popover();
-				$('.selectpicker').selectpicker();
-				$('textarea.autosize').autosize();
-
-				$(document).on('shown.bs.modal', '.modal', function(event){
-					$(event.target).find('[data-toggle="tooltip"]').tooltip();
-					$(event.target).find('[data-toggle="popover"]').popover();
-					$('.selectpicker').selectpicker();
-					$('textarea.autosize').autosize();
-				});
+                CNS('ecamp');
+                ecamp.initJQueryPlugins = function(root){
+                    $(root).find('[data-toggle="tooltip"]').tooltip();
+                    $(root).find('[data-toggle="popover"]').popover();
+                    $(root).find('.selectpicker').selectpicker();
+                    $(root).find('textarea.autosize').autosize();
+                };
+                ecamp.initJQueryPlugins(document);
 
 
 				window.setTimeout(function() {

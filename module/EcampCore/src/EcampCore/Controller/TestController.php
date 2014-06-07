@@ -2,6 +2,10 @@
 
 namespace EcampCore\Controller;
 
+use DoctrineORMModule\Form\Annotation\AnnotationBuilder;
+//use Zend\Form\Annotation\AnnotationBuilder;
+
+use DoctrineModule\Stdlib\Hydrator\DoctrineObject;
 use EcampCore\Repository\UserRepository;
 use EcampCore\Repository\CampRepository;
 
@@ -20,6 +24,61 @@ class TestController extends AbstractBaseController
     {
         echo get_class($this->campRepo);
         echo "<br />";
+    }
+
+    public function ownerAction()
+    {
+        $campOwnerRepo = $this->getServiceLocator()->get('EcampCore\Repository\AbstractCampOwner');
+        $campOwners = $campOwnerRepo->findPossibleCampOwner();
+
+        foreach ($campOwners as $campOwner) {
+            echo $campOwner;
+        }
+
+        die();
+
+    }
+
+    public function buildAnnotationAction()
+    {
+/*
+        $em = $this->getServiceLocator()->get('doctrine.entitymanager.orm_default');
+        $builder = new AnnotationBuilder($this->getServiceLocator()->get('doctrine.entitymanager.orm_default'));
+
+        $camp = $this->getServiceLocator()->get('EcampCore\Repository\Camp')->find(2);
+
+        $form = $builder->createForm('EcampCore\Entity\Camp');
+        $form->setHydrator(new DoctrineObject($em));
+        $form->bind($camp);
+
+        $form->setValidationGroup('name');
+        $form->setData(array('name' => '', 'title' => ''));
+
+        echo $form->isValid() ? 'valid' : 'notvalid';
+        echo "   -   ";
+        echo $camp->getName();
+        echo "   -   ";
+        echo $camp->getTitle();
+*/
+//        $em = $this->getServiceLocator()->get('doctrine.entitymanager.orm_default');
+//        $builder = new AnnotationBuilder($em);
+//
+//        $form = $builder->createForm('EcampCore\Entity\Camp');
+
+        $formElementManager = $this->getServiceLocator()->get('FormElementManager');
+        $form = $formElementManager->get('EcampWeb\Form\Camp\CampCreateForm');
+//        $form = $formElementManager->get('EcampCore\Entity\CampInterface');
+
+        $form->setData(array(
+            'name' => 'myCampName',
+            'title' => 'myCampTitle',
+            'motto' => 'myCampMotto',
+            'security' => '1234'
+        ));
+        $form->isValid();
+
+        return array('form' => $form);
+
     }
 
     public function indexAction()

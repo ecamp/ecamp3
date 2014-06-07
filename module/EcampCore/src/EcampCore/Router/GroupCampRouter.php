@@ -100,7 +100,7 @@ class GroupCampRouter
             return null;
         } else {
             $groupId = $group->getId();
-            $campId  = ($camp != null) ? $camp->getId() : null;
+            $campId  = $camp->getId();
 
             $params = array_merge(array('group' => $groupId, 'camp' => $campId), $this->defaults);
 
@@ -117,7 +117,7 @@ class GroupCampRouter
         $name = array_shift($names);
 
         $group = $this->getGroupRepository()->findOneBy(
-            array('name' => $name, 'parent' => null));
+            array('name' => urldecode($name), 'parent' => null));
 
         if ($group != null) {
             $length += strlen($name);
@@ -126,7 +126,7 @@ class GroupCampRouter
                 $name = array_shift($names);
 
                 $childGroup = $this->getGroupRepository()->findOneBy(
-                    array('name' => $name, 'parent' => $group));
+                    array('name' => urldecode($name), 'parent' => $group));
 
                 if ($childGroup != null) {
                     $group = $childGroup;
@@ -137,10 +137,10 @@ class GroupCampRouter
             }
 
             $camp = $this->getCampRepository()->findOneBy(
-                array('name' => $name, 'group' => $group));
+                array('name' => urldecode($name), 'owner' => $group));
 
             if ($camp != null) {
-                $length += (strlen($camp->getName()) + 1);
+                $length += (strlen($name) + 1);
             }
         }
 
@@ -161,19 +161,16 @@ class GroupCampRouter
         $campId  = $params['camp'];
 
         $group = $this->getGroupRepository()->find($groupId);
-        $groups = array();
-
         $camp = ($campId != null) ? $this->getCampRepository()->find($campId) : null;
 
+        $path = "";
         while ($group != null) {
-            array_unshift($groups, $group->getName());
+            $path .= "/" . urlencode($group->getName());
             $group = $group->getParent();
         }
 
-        $path = "/" . implode("/", $groups);
-
         if ($camp) {
-            $path .= "/" . $camp->getName();
+            $path .= "/" . urlencode($camp->getName());
         }
 
         return $path;

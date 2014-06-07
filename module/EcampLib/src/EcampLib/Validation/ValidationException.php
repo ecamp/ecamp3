@@ -2,6 +2,8 @@
 
 namespace EcampLib\Validation;
 
+use Zend\Form\Form;
+
 class ValidationException extends \Exception
 {
     private $validationMessages = array();
@@ -10,6 +12,21 @@ class ValidationException extends \Exception
     {
         parent::__construct("User input validation failed");
         $this->setValidationMessages($validationMessages);
+    }
+
+    public static function ValueRequired($name)
+    {
+        return new self(array($name => "Value is required and can't be empty"));
+    }
+
+    public static function FromForm(Form $form)
+    {
+        return new self($form->getMessages());
+    }
+
+    public static function FromInnerException($path, ValidationException $innerException)
+    {
+        return new self(array($path => $innerException->getValidationMessages()));
     }
 
     public function setValidationMessages(array $validationMessages)

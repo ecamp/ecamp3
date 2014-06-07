@@ -1,12 +1,22 @@
 <?php
 namespace EcampLib;
 
-use Zend\Mvc\MvcEvent;
 use EcampLib\Entity\ServiceLocatorAwareEventListener;
-
 use EcampLib\Listener\FlushEntitiesListener;
 
-class Module
+use Zend\ModuleManager\Feature\ServiceProviderInterface;
+use Zend\ModuleManager\Feature\ViewHelperProviderInterface;
+use Zend\ModuleManager\Feature\FormElementProviderInterface;
+use Zend\ModuleManager\Feature\FilterProviderInterface;
+use Zend\ModuleManager\Feature\ValidatorProviderInterface;
+use Zend\Mvc\MvcEvent;
+
+class Module implements
+    ServiceProviderInterface,
+    ViewHelperProviderInterface,
+    FormElementProviderInterface,
+    FilterProviderInterface,
+    ValidatorProviderInterface
 {
     public function getConfig()
     {
@@ -32,6 +42,21 @@ class Module
     public function getViewHelperConfig()
     {
         return include __DIR__ . '/config/view.helper.config.php';
+    }
+
+    public function getFormElementConfig()
+    {
+        return include __DIR__ . '/config/formelement.config.php';
+    }
+
+    public function getFilterConfig()
+    {
+        return include __DIR__ . '/config/filter.config.php';
+    }
+
+    public function getValidatorConfig()
+    {
+        return include __DIR__ . '/config/validator.config.php';
     }
 
     public function onBootstrap(MvcEvent $e)

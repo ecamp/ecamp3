@@ -3,12 +3,14 @@
 namespace EcampLib\Service;
 
 use Doctrine\ORM\EntityManager;
+use DoctrineModule\Stdlib\Hydrator\DoctrineObject;
+use DoctrineORMModule\Form\Annotation\AnnotationBuilder;
+
 use EcampCore\Entity\User;
 use EcampLib\Acl\Acl;
 use EcampLib\Entity\BaseEntity;
 use EcampLib\Validation\ValidationException;
 use EcampLib\Validation\ValidationForm;
-use Zend\InputFilter\Factory;
 use Zend\Permissions\Acl\Resource\ResourceInterface;
 
 abstract class ServiceBase
@@ -47,18 +49,21 @@ abstract class ServiceBase
     }
 
     /**
-     * @var Factory
+     * @param  BaseEntity      $targetEntity
+     * @param  array           $data
+     * @param  array           $whitelist
+     * @return \Zend\Form\Form
      */
-    private $inputFilterFactory = null;
-
-    public function setInputFilterFactory(Factory $factory)
+    protected function createValidationForm(BaseEntity $targetEntity, $data, $whitelist = array())
     {
-        $this->inputFilterFactory = $factory;
-    }
+        $builder = new AnnotationBuilder($this->em);
+        $validationForm = $builder->createForm($targetEntity);
+        $validationForm->setHydrator(new DoctrineObject($this->em));
+        $validationForm->bind($targetEntity);
+        $validationForm->setValidationGroup($whitelist);
+        $validationForm->setData($data);
 
-    protected function getInputFilterFactory()
-    {
-        return $this->inputFilterFactory;
+        return $validationForm;
     }
 
     /**
@@ -208,12 +213,4 @@ abstract class ServiceBase
         }
     }
 
-    /**
-     * @param  BaseEntity                          $entity
-     * @return \EcampLib\Validation\ValidationForm
-     */
-    public function createValidationForm(BaseEntity $entity)
-    {
-        return new ValidationForm($this->getEntityManager(), $entity);
-    }
 }

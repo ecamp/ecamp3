@@ -5,15 +5,12 @@ namespace EcampCore\Repository;
 use EcampCore\Entity\User;
 use EcampCore\Entity\UserRelationship;
 
-use Doctrine\ORM\EntityRepository;
-
 use DoctrineORMModule\Paginator\Adapter\DoctrinePaginator as PaginatorAdapter;
 use Doctrine\ORM\Tools\Pagination\Paginator as ORMPaginator;
 use Zend\Paginator\Paginator;
 use Zend\Validator\EmailAddress;
-use Doctrine\ORM\Query\Expr\Join;
 
-class UserRepository extends EntityRepository
+class UserRepository extends BaseRepository
 {
 
     public function getCollection($criteria)

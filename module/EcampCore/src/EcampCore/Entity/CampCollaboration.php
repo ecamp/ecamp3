@@ -39,7 +39,6 @@ class CampCollaboration
     const ROLE_GUEST   = 'guest';
     const ROLE_MEMBER  = 'member';
     const ROLE_MANAGER = 'manager';
-    const ROLE_OWNER   = 'owner';
 
     const STATUS_REQUESTED 		= 'requested';
     const STATUS_INVITED 		= 'invited';
@@ -88,7 +87,7 @@ class CampCollaboration
      */
     protected $jobResps;
 
-    public function __construct(User $user, Camp $camp, User $inviter = null, $status, $role)
+    public function __construct(User $user, Camp $camp, User $inviter = null, $status, $role = null)
     {
         parent::__construct();
 
@@ -160,7 +159,7 @@ class CampCollaboration
 
     public function setRole($role)
     {
-        if (!in_array($role, array(self::ROLE_GUEST, self::ROLE_MEMBER, self::ROLE_MANAGER, self::ROLE_OWNER))) {
+        if (!in_array($role, array(self::ROLE_GUEST, self::ROLE_MEMBER, self::ROLE_MANAGER))) {
             throw new \Exception("[$role] is not a valid value for CampCollaboration.role");
         }
         $this->role = $role;
@@ -206,14 +205,6 @@ class CampCollaboration
     public function isManager()
     {
         return $this->role == self::ROLE_MANAGER;
-    }
-
-    /**
-     * @return boolean
-     */
-    public function isOwner()
-    {
-        return $this->role == self::ROLE_OWNER;
     }
 
     /**

@@ -5,8 +5,10 @@ namespace EcampCore\Service;
 use EcampCore\Entity\User;
 use EcampCore\Job\SendActivationMailJob;
 use EcampCore\Repository\UserRepository;
+
 use EcampLib\Service\ExecutionException;
 use EcampLib\Service\ServiceBase;
+use EcampLib\Validation\ValidationException;
 
 class RegisterService
     extends ServiceBase
@@ -37,20 +39,28 @@ class RegisterService
     }
 
     /**
-     * @param $userInput
+     * @param $data
+     * @throws ValidationException
      * @return User
-     * @throws \EcampLib\Service\ExecutionException
      */
-    public function Register($userInput)
+    public function Register($data)
     {
-        $user = $this->userService->Create($userInput['user-create']);
+        try {
+            $user = $this->userService->Create($data['user-create']);
+        } catch (ValidationException $ex) {
+            throw ValidationException::FromInnerException('user-create', $ex);
+        }
 
         if ($user->getState() != User::STATE_NONREGISTERED) {
-            throw new ExecutionException("This eMail-Address is already registered!");
+            throw new ValidationException(array('mail' => "This eMail-Address is already registered!"));
         }
 
         $user->setState(User::STATE_REGISTERED);
-        $this->loginService->Create($user, $userInput['login-create']);
+        try {
+            $this->loginService->Create($user, $data['login-create']);
+        } catch (ValidationException $ex) {
+            throw ValidationException::FromInnerException('login-create', $ex);
+        }
 
         SendActivationMailJob::Create($user);
 

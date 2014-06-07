@@ -25,7 +25,7 @@ class UserCreateFieldset extends UserBaseFieldset
         parent::init();
 
         $this->add(array(
-            'name' => 'mail',
+            'name' => 'email',
             'options' => array(
                 'label' => 'Mail',
                 'column-size' => 'sm-9',
@@ -48,7 +48,7 @@ class UserCreateFieldset extends UserBaseFieldset
                         )
                     )
                 ),
-                'mail' => array(
+                'email' => array(
                     'required' => true,
                     'validators' => array(
                         'emailAddress' => array(

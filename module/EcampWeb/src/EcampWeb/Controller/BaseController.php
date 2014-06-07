@@ -66,7 +66,7 @@ abstract class BaseController
     protected function getRedirectResponse($url)
     {
         /** @var $renderer \Zend\View\Renderer\RendererInterface */
-        $renderer = $this->getServiceLocator()->get('ViewRenderer');
+        $renderer = $this->getServiceLocator()->get('ZfcTwigRenderer');
 
         $viewModel = new ViewModel();
         $viewModel->setTemplate('ecamp-web/redirect');

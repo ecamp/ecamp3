@@ -5,12 +5,12 @@ namespace EcampCore\Service;
 use EcampCore\Entity\AutoLogin;
 use EcampCore\Entity\User;
 use EcampCore\Entity\Login;
-use EcampCore\Fieldset\Login\LoginCreateFieldset;
 use EcampCore\Repository\AutoLoginRepository;
 use EcampCore\Repository\LoginRepository;
 use EcampCore\Repository\UserRepository;
 use EcampLib\Service\ExecutionException;
 use EcampLib\Service\ServiceBase;
+use EcampLib\Validation\ValidationException;
 use Zend\Authentication\AuthenticationService;
 
 class LoginService
@@ -61,18 +61,15 @@ class LoginService
      * @return Login
      * @throws \EcampLib\Service\ExecutionException
      */
-    public function Create(User $user, $userInput)
+    public function Create(User $user, $data)
     {
         if ($user->getLogin() != null) {
             // TODO: log!
-            throw new ExecutionException("This User has already a Login");
+            throw new ValidationException(array('user' => "User has already a Login"));
         }
 
-        $inputFilter = LoginCreateFieldset::createInputFilterSpecification();
-        $filteredUserInput = $this->validateInputArray($userInput, $inputFilter);
-
         $login = new Login($user);
-        $login->setNewPassword($filteredUserInput['password1']);
+        $login->setNewPassword($data['password1']);
         $this->persist($login);
 
         return $login;

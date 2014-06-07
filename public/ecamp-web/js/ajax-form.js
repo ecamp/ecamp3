@@ -21,6 +21,7 @@ jQuery(function($) {
 						window.location = locationHeader;
 					} else {
                         $content.html(response.responseText);
+                        ecamp.initJQueryPlugins($content);
 					}
 				},
 
@@ -44,7 +45,11 @@ jQuery(function($) {
     });
     
     $(document).on('shown.bs.modal', '#asyncform-container', function (e) {
-    	$(e.target).find('form [type!=hidden].form-control').first().focus();
+        $(e.target).find('form [type!=hidden].form-control').first().focus();
+    });
+
+    $(document).on('loaded.bs.modal', '#asyncform-container', function(event){
+        ecamp.initJQueryPlugins(event.target);
     });
     
     /* clear container after closing modal. prevents from caching the content */

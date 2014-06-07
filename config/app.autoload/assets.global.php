@@ -25,6 +25,12 @@ return array(
 // 				'assets/js/angular-strap.js' => 'https://raw.github.com/mgcrea/angular-strap/v0.7.5/dist/angular-strap.js',
 // 				'assets/js/angular-strap.min.js' => 'https://raw.github.com/mgcrea/angular-strap/v0.7.5/dist/angular-strap.min.js',
 
+                /* Angular UI */
+                'angular-ui/js/ui-bootstrap.js' => __VENDOR__ . '/angular-ui/bootstrap/ui-bootstrap.js',
+                'angular-ui/js/ui-bootstrap.min.js' => __VENDOR__ . '/angular-ui/bootstrap/ui-bootstrap.min.js',
+                'angular-ui/js/ui-bootstrap-tpls.js' => __VENDOR__ . '/angular-ui/bootstrap/ui-bootstrap-tpls.js',
+                'angular-ui/js/ui-bootstrap-tpls.min.js' => __VENDOR__ . '/angular-ui/bootstrap/ui-bootstrap-tpls.min.js',
+
                 /* Bootstrap Select */
                 'bootstrap-select/js/bootstrap-select.js' => __VENDOR__ . '/bootstrap-select/bootstrap-select/bootstrap-select.js',
                 'bootstrap-select/js/bootstrap-select.min.js' => __VENDOR__ . '/bootstrap-select/bootstrap-select/bootstrap-select.min.js',

@@ -20,10 +20,7 @@
 
 namespace EcampCore\Entity;
 
-use EcampLib\Entity\BaseEntity;
-
 use Doctrine\ORM\Mapping as ORM;
-
 use Zend\Permissions\Acl\Role\RoleInterface;
 use Zend\Permissions\Acl\Resource\ResourceInterface;
 
@@ -33,10 +30,8 @@ use Zend\Permissions\Acl\Resource\ResourceInterface;
  *
  */
 class User
-    extends BaseEntity
-    implements CampOwnerInterface
-    , RoleInterface
-    , ResourceInterface
+    extends AbstractCampOwner
+    implements RoleInterface, ResourceInterface
 {
     const STATE_NONREGISTERED 	= "NonRegistered";
     const STATE_REGISTERED 		= "Registered";
@@ -66,7 +61,6 @@ class User
     {
         parent::__construct();
 
-        $this->mycamps  = new \Doctrine\Common\Collections\ArrayCollection();
         $this->collaborations  = new \Doctrine\Common\Collections\ArrayCollection();
         $this->memberships = new \Doctrine\Common\Collections\ArrayCollection();
         $this->relationshipFrom = new \Doctrine\Common\Collections\ArrayCollection();
@@ -148,13 +142,6 @@ class User
      * @ORM\JoinColumn(name="image_id", referencedColumnName="id")
      */
     private $image;
-
-    /**
-     * Camps, which I own myself
-     * @var \Doctrine\Common\Collections\ArrayCollection
-     * @ORM\OneToMany(targetEntity="Camp", mappedBy="owner")
-     */
-    protected $myCamps;
 
     /**
      * @var Login
@@ -423,14 +410,6 @@ class User
     public function delImage()
     {
         $this->image = null;
-    }
-
-    /**
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getCamps()
-    {
-        return $this->myCamps;
     }
 
     /**

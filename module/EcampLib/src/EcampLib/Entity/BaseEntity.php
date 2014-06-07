@@ -4,10 +4,12 @@ namespace EcampLib\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Util\ClassUtils;
+use Zend\Form\Annotation as Form;
 
 /**
  * @ORM\MappedSuperclass
  * @ORM\HasLifecycleCallbacks
+ * @Form\Hydrator("DoctrineModule\StdLib\Hydrator\DoctrineObject")
  */
 abstract class BaseEntity
 {
@@ -25,6 +27,7 @@ abstract class BaseEntity
      * @var string
      * @ORM\Id
      * @ORM\Column(name="id", type="string", nullable=false)
+     * @Form\Exclude
      */
     protected $id;
 
@@ -32,8 +35,11 @@ abstract class BaseEntity
      * @ var Uid
      * @ ORM\OneToOne(targetEntity="EcampLib\Entity\Uid", cascade={"persist", "remove"})
      * @ ORM\JoinColumn(name="id", nullable=true)
+     * @Form\Exclude
      */
     protected $uid;
+
+    private $isPersisted = true;
 
     public function __construct()
     {
@@ -45,6 +51,8 @@ abstract class BaseEntity
 
         $this->uid = new UId($this->getClassname());
         $this->id = $this->uid->getId();
+
+        $this->isPersisted = false;
     }
 
     public function getId()
@@ -59,6 +67,7 @@ abstract class BaseEntity
     {
         $this->createdAt = new \DateTime();
         $this->updatedAt = new \DateTime();
+        $this->isPersisted = true;
     }
 
     /**
@@ -83,6 +92,11 @@ abstract class BaseEntity
     public function getCreatedAt()
     {
         return $this->createdAt;
+    }
+
+    public function isPersisted()
+    {
+        return $this->isPersisted;
     }
 
     public function __toString()

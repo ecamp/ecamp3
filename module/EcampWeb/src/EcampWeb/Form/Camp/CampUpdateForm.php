@@ -1,8 +1,8 @@
 <?php
 
-namespace EcampWeb\Form;
+namespace EcampWeb\Form\Camp;
 
-use Zend\Form\Form;
+use EcampWeb\Form\BaseForm;
 use EcampCore\Validation\CampFieldset;
 
 class CampUpdateForm extends BaseForm
@@ -16,7 +16,7 @@ class CampUpdateForm extends BaseForm
         $campFieldset->setUseAsBaseFieldset(true);
         $this->add($campFieldset);
 
-        // … add CSRF and submit elements …
+        // ï¿½ add CSRF and submit elements ï¿½
         $this->add(new \Zend\Form\Element\Csrf('security'));
         $this->add(array(
                 'name' => 'send',

@@ -21,6 +21,7 @@
 namespace EcampCore\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Zend\Form\Annotation as Form;
 
 use EcampLib\Entity\BaseEntity;
 use Zend\Permissions\Acl\Resource\ResourceInterface;
@@ -28,9 +29,10 @@ use Zend\Permissions\Acl\Resource\ResourceInterface;
 /**
  * @ORM\Entity(repositoryClass="EcampCore\Repository\CampRepository")
  * @ORM\Table(name="camps",
- *   uniqueConstraints={@ORM\UniqueConstraint(name="group_name_unique",columns={"group_id", "name"}),
- *                      @ORM\UniqueConstraint(name="owner_name_unique",columns={"owner_id", "name"})}
+ *   uniqueConstraints={ @ORM\UniqueConstraint(name="owner_name_unique", columns={"owner_id", "name"}) }
  *   )
+ *
+ * @Form\Name("camp")
  */
 class Camp extends BaseEntity
     implements ResourceInterface
@@ -38,13 +40,12 @@ class Camp extends BaseEntity
     const VISIBILITY_PUBLIC = 'public';
     const VISIBILITY_CONTRIBUTORS = 'contributors';
 
-    public function __construct(CampType $campType)
+    public function __construct()
     {
         parent::__construct();
 
         $this->visibility = self::VISIBILITY_PUBLIC;
 
-        $this->campType = $campType;
         $this->collaborations 	= new \Doctrine\Common\Collections\ArrayCollection();
         $this->periods 			= new \Doctrine\Common\Collections\ArrayCollection();
         $this->eventCategories	= new \Doctrine\Common\Collections\ArrayCollection();
@@ -55,24 +56,28 @@ class Camp extends BaseEntity
      * Short identifier, unique inside group or user
      * @var string
      * @ORM\Column(type="string", length=32, nullable=false)
+     * @Form\Validator({ "name": "StringLength", "options": { "min":"8" } })
      */
-    private $name;
+    protected $name;
 
     /**
      * @var string
      * @ORM\Column(type="string", length=64, nullable=false)
+     * @Form\Validator({ "name": "StringLength", "options": { "min":"8" } })
      */
-    private $title;
+    protected $title;
 
     /**
      * @var string
      * @ORM\Column(type="string", length=128, nullable=false)
+     * @Form\Validator({ "name": "StringLength", "options": { "min":"8" } })
      */
-    private $motto;
+    protected $motto;
 
     /**
      * @var string
      * @ORM\Column(type="string", length=16, nullable=false, options={"default" = "public"})
+     * @Form\Exclude
      */
     private $visibility;
 
@@ -80,31 +85,39 @@ class Camp extends BaseEntity
      * @var User
      * @ORM\ManyToOne(targetEntity="User")
      * @ORM\JoinColumn(name="creator_id", referencedColumnName="id", nullable=false)
+     * @Form\Exclude
      */
     private $creator;
 
     /**
-     * @var User
-     * @ORM\ManyToOne(targetEntity="User", inversedBy="mycamps")
+     * @var AbstractCampOwner
+     * @ORM\ManyToOne(targetEntity="AbstractCampOwner", inversedBy="ownedCamps")
+     * @ORM\JoinColumn(name="owner_id", referencedColumnName="id", nullable=false)
+     *
+     * @Form\Options({
+     *      "property": "displayName",
+     *      "is_method": "true",
+     *      "find_method": { "name": "findPossibleCampOwner", "params": {} },
+     *      "empty_option": "Select ..."
+     * })
      */
     private $owner;
-
-    /**
-     * @var Group
-     * @ORM\ManyToOne(targetEntity="Group", inversedBy="camps")
-     */
-    private $group;
 
     /**
      * @var CampType
      * @ORM\ManyToOne(targetEntity="CampType")
      * @ORM\JoinColumn(nullable=false)
+     * @Form\Options({
+     *      "property": "name",
+     *      "empty_option": "Select ..."
+     * })
      */
     private $campType;
 
     /**
      * @var \Doctrine\Common\Collections\ArrayCollection
      * @ORM\OneToMany(targetEntity="CampCollaboration", mappedBy="camp")
+     * @Form\Exclude
      */
     protected $collaborations;
 
@@ -112,24 +125,28 @@ class Camp extends BaseEntity
      * @var \Doctrine\Common\Collections\ArrayCollection
      * @ORM\OneToMany(targetEntity="Period", mappedBy="camp")
      * @ORM\OrderBy({"start" = "ASC"})
+     * @Form\Exclude
      */
     protected $periods;
 
     /**
      * @var \Doctrine\Common\Collections\ArrayCollection
      * @ORM\OneToMany(targetEntity="EventCategory", mappedBy="camp")
+     * @Form\Exclude
      */
     protected $eventCategories;
 
     /**
      * @var \Doctrine\Common\Collections\ArrayCollection
      * @ORM\OneToMany(targetEntity="Event", mappedBy="camp")
+     * @Form\Exclude
      */
     protected $events;
 
     /**
      * @var \Doctrine\Common\Collections\ArrayCollection
      * @ORM\OneToMany(targetEntity="Job", mappedBy="camp")
+     * @Form\Exclude
      */
     protected $jobs;
 
@@ -163,11 +180,6 @@ class Camp extends BaseEntity
         return $this->motto;
     }
 
-    public function setCreator(User $creator)
-    {
-        $this->creator = $creator;
-    }
-
     public function getVisibility()
     {
         return $this->visibility;
@@ -190,63 +202,32 @@ class Camp extends BaseEntity
         return $this->creator;
     }
 
-    public function setGroup(Group $group)
+    public function setCreator(User $creator)
     {
-        $this->_setGroup($group);
-        $this->_setOwner(null);
-    }
-
-    private function _setGroup(Group $group = null)
-    {
-        if ($this->owner != null) {
-            $this->owner->removeFromList('myCamps', $this);
-        }
-
-        $this->group = $group;
-
-        if ($this->group != null) {
-            $this->group->addToList('camps', $this);
-        }
+        $this->creator = $creator;
     }
 
     /**
-     * @return Group
-     */
-    public function getGroup()
-    {
-        return $this->group;
-    }
-
-    public function setOwner(User $owner)
-    {
-        $this->_setGroup(null);
-        $this->_setOwner($owner);
-    }
-
-    private function _setOwner(User $user = null)
-    {
-        if ($this->group != null) {
-            $this->group->removeFromList('camps', $this);
-        }
-
-        $this->owner = $user;
-
-        if ($this->owner != null) {
-            $this->owner->addToList('myCamps', $this);
-        }
-    }
-
-    /**
-     * @return User
+     * @return AbstractCampOwner
      */
     public function getOwner()
     {
         return $this->owner;
     }
 
+    public function setOwner(AbstractCampOwner $owner)
+    {
+        $this->owner = $owner;
+    }
+
     public function belongsToUser()
     {
-        return isset($this->owner);
+        return $this->owner instanceof User;
+    }
+
+    public function belongsToGroup()
+    {
+        return $this->owner instanceof Group;
     }
 
     /**
@@ -255,6 +236,11 @@ class Camp extends BaseEntity
     public function getCampType()
     {
         return $this->campType;
+    }
+
+    public function setCampType(CampType $campType)
+    {
+        $this->campType = $campType;
     }
 
     /**

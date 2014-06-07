@@ -3,6 +3,7 @@ return array(
 
     'invokables' => array(
         'EcampWeb\Controller\Index' 				=> 'EcampWeb\Controller\IndexController',
+        'EcampWeb\Controller\Camp'                  => 'EcampWeb\Controller\CampController',
         'EcampWeb\Controller\Bypass' 				=> 'EcampWeb\Controller\BypassController',
         'EcampWeb\Controller\EventPlugin' 			=> 'EcampWeb\Controller\EventPluginController',
 

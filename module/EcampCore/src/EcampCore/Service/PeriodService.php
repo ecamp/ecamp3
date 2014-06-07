@@ -44,10 +44,9 @@ class PeriodService
     }
 
     /**
-     * @param  EcampCore\Entity\Camp          $camp
-     * @param  array|\ArrayAccess|Traversable $data
-     * @return EcampCore\Entity\Period
-     * @throws ValidationException
+     * @param  Camp   $camp
+     * @param  array  $data
+     * @return Period
      */
     public function Create(Camp $camp, $data)
     {
@@ -55,19 +54,31 @@ class PeriodService
 
         $period = new Period($camp);
 
-        $validationForm = $this->createValidationForm($period)
-            ->addFieldset(new PeriodFieldset());
-        $validationForm->setAndValidate($data);
+        $validationForm = $this->createValidationForm($period, $data, array('start', 'description'));
+        if ($validationForm->isValid()) {
 
-        $start = new \DateTime($data['period']['start'], new \DateTimeZone("GMT"));
-        $end   = new \DateTime($data['period']['end'], new \DateTimeZone("GMT"));
-        $numOfDays = ($end->getTimestamp() - $start->getTimestamp())/(24 * 60 * 60) + 1;
+            if (!isset($data['start'])) {
+                throw ValidationException::ValueRequired('start');
+            }
+            if (!isset($data['end'])) {
+                throw ValidationException::ValueRequired('start');
+            }
 
-        for ($offset = 0; $offset < $numOfDays; $offset++) {
-            $this->dayService->AppendDay($period);
+            $start = new \DateTime($data['start'], new \DateTimeZone("GMT"));
+            $end   = new \DateTime($data['end'], new \DateTimeZone("GMT"));
+            $numOfDays = ($end->getTimestamp() - $start->getTimestamp())/(24 * 60 * 60) + 1;
+
+            for ($offset = 0; $offset < $numOfDays; $offset++) {
+                $this->dayService->AppendDay($period);
+            }
+
+            $this->persist($period);
+
+        } else {
+            throw ValidationException::FromForm($validationForm);
         }
 
-        return $this->persist($period);
+        return $period;
     }
 
     /**

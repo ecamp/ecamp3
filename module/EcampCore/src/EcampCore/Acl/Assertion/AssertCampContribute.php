@@ -20,6 +20,8 @@ class AssertCampContribute
     ){
         if ($user instanceof User && $camp instanceof Camp) {
 
+            if(!$camp->isPersisted()) return true;
+
             // If User is Member
             if($camp->campCollaboration()->isMember($user))		return true;
 

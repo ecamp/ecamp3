@@ -8,7 +8,6 @@
 
 namespace EcampWeb\Controller\Auth;
 
-use EcampLib\Service\ExecutionException;
 use EcampLib\Validation\ValidationException;
 use EcampWeb\Controller\BaseController;
 use Zend\Http\Response;
@@ -43,12 +42,8 @@ class RegisterController extends BaseController
 
                     return $viewModel;
 
-                } catch (ValidationException $e) {
-                    $form->setFormError($e->getMessage());
-                    $this->getResponse()->setStatusCode(Response::STATUS_CODE_500);
-
-                } catch (ExecutionException $e) {
-                    $form->setFormError($e->getMessage());
+                } catch (ValidationException $ex) {
+                    $form->setMessages($ex->getValidationMessages());
                     $this->getResponse()->setStatusCode(Response::STATUS_CODE_500);
 
                 }

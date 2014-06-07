@@ -20,6 +20,8 @@ return array(
         'ZfcTwig',
         'TwbBundle',    // Bootstrap3 integration
 
+        'AtPhpSettings',
+
         'PhlyRestfully',
 
         'EcampLib',

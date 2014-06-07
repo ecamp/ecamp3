@@ -124,13 +124,13 @@ class UserCampRouter
         }
 
         $user = $this->getUserRepository()->findOneBy(
-            array('username' => $userName));
+            array('username' => urldecode($userName)));
 
         if ($user != null) {
             $length += strlen($userName);
 
             $camp = $this->getCampRepository()->findOneBy(
-                array('name' => $campName, 'owner' => $user));
+                array('name' => urldecode($campName), 'owner' => $user));
 
             if ($camp != null) {
                 $length += (strlen($campName) + 1);
@@ -158,10 +158,10 @@ class UserCampRouter
         $campId = $params['camp'];
         $camp = ($campId != null) ? $this->getCampRepository()->find($campId) : null;
 
-        $path = "/" . $user->getUsername();
+        $path = "/" . urlencode($user->getUsername());
 
         if ($camp) {
-            $path .= "/" . $camp->getName();
+            $path .= "/" . urlencode($camp->getName());
         }
 
         return $path;

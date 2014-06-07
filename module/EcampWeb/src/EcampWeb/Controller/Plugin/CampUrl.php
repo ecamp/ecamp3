@@ -20,7 +20,7 @@ class CampUrl extends Url
                 $params['user'] = $camp->getOwner();
                 $route = 'web/user-prefix/name+camp' . substr($route, 8);
             } else {
-                $params['group'] = $camp->getGroup();
+                $params['group'] = $camp->getOwner();
                 $route = 'web/group-prefix/name+camp' . substr($route, 8);
             }
         }
