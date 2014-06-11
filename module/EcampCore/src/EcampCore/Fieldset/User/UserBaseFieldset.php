@@ -2,9 +2,12 @@
 
 namespace EcampCore\Fieldset\User;
 
+use Zend\InputFilter\InputFilterProviderInterface;
+
 use EcampLib\Form\BaseFieldset;
 
 class UserBaseFieldset extends BaseFieldset
+    implements InputFilterProviderInterface
 {
     public function __construct($name = 'user-base')
     {
@@ -49,7 +52,7 @@ class UserBaseFieldset extends BaseFieldset
         parent::init();
     }
 
-    public static function createInputFilterSpecification()
+    public function getInputFilterSpecification()
     {
         return array(
             'firstname' => array(

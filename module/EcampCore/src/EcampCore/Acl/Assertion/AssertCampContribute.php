@@ -20,8 +20,6 @@ class AssertCampContribute
     ){
         if ($user instanceof User && $camp instanceof Camp) {
 
-            if(!$camp->isPersisted()) return true;
-
             // If User is Member
             if($camp->campCollaboration()->isMember($user))		return true;
 
@@ -32,7 +30,7 @@ class AssertCampContribute
             if($camp->getOwner() == $user)	return true;
 
             // If Camp belongs to Group and User can administrate that group
-            if (null != ($group = $camp->getGroup())) {
+            if (null != ($group = $camp->getOwner())) {
                 return $acl->isAllowed($user, $group, 'administrate');
             }
         }

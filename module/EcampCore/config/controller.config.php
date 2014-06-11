@@ -5,7 +5,6 @@ return array(
         // Serious Controllers:
         'EcampCore\Controller\Avatar'           => 'EcampCore\Controller\AvatarController',
         'EcampCore\Controller\Plugin'           => 'EcampCore\Controller\PluginController',
-        'EcampCore\Controller\FormValidation'   => 'EcampCore\Controller\FormValidationController',
 
         // Experimental Controllers:
         'EcampCore\Controller\Test'  => 'EcampCore\Controller\TestController',

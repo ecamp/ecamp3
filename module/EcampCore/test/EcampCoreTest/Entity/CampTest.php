@@ -29,7 +29,7 @@ class CampTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($campType, $camp->getCampType());
         $this->assertEquals($user, $camp->getCreator());
         $this->assertEquals($user, $camp->getOwner());
-        $this->assertNull($camp->getGroup());
+        $this->assertNull($camp->getOwner());
         $this->assertTrue($camp->belongsToUser());
         $this->assertEquals('any camp name', $camp->getName());
         $this->assertEquals('any camp title', $camp->getTitle());
@@ -68,7 +68,7 @@ class CampTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals($campType, $camp->getCampType());
         $this->assertEquals($user, $camp->getCreator());
-        $this->assertEquals($group, $camp->getGroup());
+        $this->assertEquals($group, $camp->getOwner());
         $this->assertNull($camp->getOwner());
         $this->assertFalse($camp->belongsToUser());
         $this->assertEquals('any camp name', $camp->getName());

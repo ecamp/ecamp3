@@ -2,7 +2,10 @@
 
 namespace EcampCore\Fieldset\User;
 
+use Zend\InputFilter\InputFilterProviderInterface;
+
 class UserCreateFieldset extends UserBaseFieldset
+    implements InputFilterProviderInterface
 {
     public function __construct()
     {
@@ -36,7 +39,7 @@ class UserCreateFieldset extends UserBaseFieldset
         ));
     }
 
-    public static function createInputFilterSpecification()
+    public function getInputFilterSpecification()
     {
         return array_merge_recursive(
             array(
@@ -60,7 +63,7 @@ class UserCreateFieldset extends UserBaseFieldset
                     )
                 )
             ),
-            UserBaseFieldset::createInputFilterSpecification()
+            parent::getInputFilterSpecification()
         );
     }
 }

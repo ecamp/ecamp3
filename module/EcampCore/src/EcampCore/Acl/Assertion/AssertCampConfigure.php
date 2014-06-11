@@ -21,9 +21,6 @@ class AssertCampConfigure
     ){
         if ($user instanceof User && $camp instanceof Camp) {
 
-            // If Camp is not persisted (Camp is new)
-            if(!$camp->isPersisted()) return true;
-
             // If User is Manager
             if($camp->campCollaboration()->isManager($user))		return true;
 
@@ -31,7 +28,7 @@ class AssertCampConfigure
             if($camp->getOwner() == $user)	return true;
 
             // If Camp belongs to Group and User can administrate that group
-            if (null != ($group = $camp->getGroup())) {
+            if (null != ($group = $camp->getOwner())) {
                 return $acl->isAllowed($user, $group, Privilege::GROUP_ADMINISTRATE);
             }
         }

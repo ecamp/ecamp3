@@ -67,8 +67,7 @@
         <script src="{{ request.getBasePath }}/jqueryui/ui/minified/jquery-ui.min.js"></script>
         <script src="{{ request.getBasePath }}/jquery-autosize/js/jquery.autosize.min.js"></script>
 
-        <script src="{{ request.getBasePath }}/angular.js/angular.min.js"></script>
-        <script src="{{ request.getBasePath }}/angular.js/angular-animate.min.js"></script>
+        <script src="{{ request.getBasePath }}/angular.js/angular.js"></script>
 
         <script src="//oss.maxcdn.com/angular.strap/2.0.0/angular-strap.min.js"></script>
         <script src="//oss.maxcdn.com/angular.strap/2.0.0/angular-strap.tpl.min.js"></script>
@@ -86,7 +85,7 @@
         <script src="/ecamp-web/js/ajax-form.js"></script>
 
         <script type="text/javascript">
-            var eCamp3 = angular.module('eCamp3', ['mgcrea.ngStrap']);
+            var eCamp3 = angular.module('eCamp3', []);
 /*
             eCamp3.directive('twbFormRow', function($compile, $tooltip, $popover){
                 return {

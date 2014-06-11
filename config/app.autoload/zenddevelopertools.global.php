@@ -11,7 +11,7 @@ return array(
              * Expects: boolean
              * Default: false
              */
-            'enabled' => true,
+            'enabled' => false,
 
             /**
              * Enables or disables the strict mode. If the strict mode is
@@ -83,7 +83,7 @@ return array(
              * Expects: boolean
              * Default: false
              */
-            'enabled' => true,
+            'enabled' => false,
 
             /**
              * If enabled, every empty collector will be hidden.

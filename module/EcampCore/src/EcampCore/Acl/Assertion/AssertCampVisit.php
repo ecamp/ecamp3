@@ -33,7 +33,7 @@ class AssertCampVisit
             if($camp->getOwner() == $user)	return true;
 
             // If Camp belongs to Group and User can administrate that group
-            if (null != ($group = $camp->getGroup())) {
+            if (null != ($group = $camp->getOwner())) {
                 return $acl->isAllowed($user, $group, 'administrate');
             }
         }
