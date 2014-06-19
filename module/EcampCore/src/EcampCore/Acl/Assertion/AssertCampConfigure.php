@@ -21,9 +21,6 @@ class AssertCampConfigure
     ){
         if ($user instanceof User && $camp instanceof Camp) {
 
-            // If Camp is not persisted (Camp is new)
-            if(!$camp->isPersisted()) return true;
-
             // If User is Manager
             if($camp->campCollaboration()->isManager($user))		return true;
 

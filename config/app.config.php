@@ -4,8 +4,8 @@ require_once 'define.php';
 
 return array(
     'modules' => array(
-//        'ZFTool',
-//        'ZendDeveloperTools',
+        'ZFTool',
+        'ZendDeveloperTools',
 
         'AssetManager',
 

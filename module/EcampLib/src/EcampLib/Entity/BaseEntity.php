@@ -39,8 +39,6 @@ abstract class BaseEntity
      */
     protected $uid;
 
-    private $isPersisted = true;
-
     public function __construct()
     {
         $this->createdAt = new \DateTime();
@@ -51,8 +49,6 @@ abstract class BaseEntity
 
         $this->uid = new UId($this->getClassname());
         $this->id = $this->uid->getId();
-
-        $this->isPersisted = true; //false;
     }
 
     public function getId()
@@ -67,7 +63,6 @@ abstract class BaseEntity
     {
         $this->createdAt = new \DateTime();
         $this->updatedAt = new \DateTime();
-        $this->isPersisted = true;
     }
 
     /**
@@ -92,11 +87,6 @@ abstract class BaseEntity
     public function getCreatedAt()
     {
         return $this->createdAt;
-    }
-
-    public function isPersisted()
-    {
-        return $this->isPersisted;
     }
 
     public function __toString()
