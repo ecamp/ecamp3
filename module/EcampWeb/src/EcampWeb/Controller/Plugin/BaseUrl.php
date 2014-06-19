@@ -4,7 +4,7 @@ namespace EcampWeb\Controller\Plugin;
 
 use Zend\Mvc\Controller\Plugin\Url;
 
-class CampUrl extends Url
+class BaseUrl extends Url
 {
     public function fromRoute($route = null, $params = array(), $options = array(), $reuseMatchedParams = false)
     {

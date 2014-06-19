@@ -12,17 +12,26 @@ class ServiceWrapper
         $this->service = $service;
     }
 
+    /**
+     * @return \Doctrine\ORM\EntityManager
+     */
+    private function getEntityManager()
+    {
+        return $this->service->getEntityManager();
+    }
+
     public function __call($method, $args)
     {
         try {
-            $this->service->getEntityManager()->getConnection()->beginTransaction();
+            $this->getEntityManager()->getConnection()->beginTransaction();
             $result = call_user_func_array(array($this->service, $method), $args);
 
-            $this->service->getEntityManager()->getConnection()->commit();
+            $this->getEntityManager()->flush();
+            $this->getEntityManager()->getConnection()->commit();
 
             return $result;
         } catch (\Exception $ex) {
-            $this->service->getEntityManager()->getConnection()->rollBack();
+            $this->getEntityManager()->getConnection()->rollBack();
             throw $ex;
         }
     }

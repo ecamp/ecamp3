@@ -165,7 +165,7 @@ class GroupCampRouter
 
         $path = "";
         while ($group != null) {
-            $path .= "/" . urlencode($group->getName());
+            $path = "/" . urlencode($group->getName()) . $path;
             $group = $group->getParent();
         }
 

@@ -52,10 +52,19 @@
 					{% for camp in camps %}
 						<tr>
 							<td><span class="fa fa-bell"></span></td>
-							<td><a href="{{ url('web/camp/default', { camp: camp }) }}">{{ camp.getTitle }}</a></td>
+							<td><a href="{{ campUrl(camp) }}">{{ camp.getTitle }}</a></td>
 							<td>
-								<a href="#">{{ camp.getOwner.getDisplayName }}</a>
-								<a href="#">{{ camp.getGroup.getName }}</a>
+                                {% if camp.belongsToUser %}
+                                    <i class="fa fa-user"></i>
+                                    <a href="{{ userUrl(camp.owner) }}">
+                                        {{ camp.owner.displayName }}
+                                    </a>
+                                {% else %}
+                                    <i class="fa fa-flag"></i>
+                                    <a href="{{ groupUrl(camp.owner) }}">
+                                        {{ camp.owner.displayName }}
+                                    </a>
+                                {% endif %}
 							</td>
 							<td>
 								<div class="hidden-sm hidden-xs">{{ camp.getRange }}</div>
@@ -93,7 +102,7 @@
 						<tr>
 							<td><span class="fa fa-flag"></span></td>
 							<td>
-								<a href="{{ url('web/group-prefix/name', { 'group': groupMembership.getGroup }) }}">
+								<a href="{{ groupUrl(groupMembership.getGroup) }}">
 									{{ groupMembership.getGroup.getDescription }}
 								</a>
 							</td>

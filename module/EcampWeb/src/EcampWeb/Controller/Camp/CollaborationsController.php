@@ -2,10 +2,13 @@
 
 namespace EcampWeb\Controller\Camp;
 
+use Doctrine\Common\Collections\Criteria;
+use DoctrineModule\Paginator\Adapter\Selectable as SelectableAdapter;
 use EcampWeb\Element\ApiCollectionPaginator;
 use EcampCore\Entity\CampCollaboration;
 use EcampCore\Entity\User;
 use Zend\Http\Response;
+use Zend\Paginator\Paginator;
 
 class CollaborationsController extends BaseController
 {
@@ -26,85 +29,61 @@ class CollaborationsController extends BaseController
         return $this->getServiceLocator()->get('EcampCore\Service\CampCollaboration');
     }
 
+    protected function getCollaborationsPaginator($status)
+    {
+        $criteria = Criteria::create()
+            ->where(Criteria::expr()->eq('status', $status))
+            ->andWhere(Criteria::expr()->eq('camp', $this->getCamp()));
+
+        $adapter = new SelectableAdapter($this->getCollaborationRepository(), $criteria);
+
+        $paginator = new Paginator($adapter);
+        $paginator->setItemCountPerPage(15);
+        $paginator->setCurrentPageNumber(1);
+
+        return $paginator;
+    }
+
+    public function collaborationsAction()
+    {
+        $page = $this->getRequest()->getQuery('page', 1);
+
+        $paginator = $this->getCollaborationsPaginator(CampCollaboration::STATUS_ESTABLISHED);
+        $paginator->setCurrentPageNumber($page);
+
+        return array('paginator' => $paginator);
+    }
+
+    public function invitationsAction()
+    {
+        $page = $this->getRequest()->getQuery('page', 1);
+
+        $paginator = $this->getCollaborationsPaginator(CampCollaboration::STATUS_INVITED);
+        $paginator->setCurrentPageNumber($page);
+
+        return array('paginator' => $paginator);
+    }
+
+    public function requestsAction()
+    {
+        $page = $this->getRequest()->getQuery('page', 1);
+
+        $paginator = $this->getCollaborationsPaginator(CampCollaboration::STATUS_REQUESTED);
+        $paginator->setCurrentPageNumber($page);
+
+        return array('paginator' => $paginator);
+    }
+
     public function indexAction()
     {
-        $renderer = $this->getServiceLocator()->get('Zend\View\Renderer\PhpRenderer');
-        $renderer->headScript()->appendFile(
-            $this->getRequest()->getBasePath() . '/js/ng-app/paginator.js');
-
-        $collaborationResourceUrl = $this->url()->fromRoute(
-            'api/camps/collaborations', array('camp' => $this->getCamp()->getId()));
-
-        $collaborationPaginator = new ApiCollectionPaginator(
-            $collaborationResourceUrl,
-            array('status' => CampCollaboration::STATUS_ESTABLISHED)
-        );
-
-        $requestResourceUrl = $this->url()->fromRoute(
-            'api/camps/collaborations', array('camp' => $this->getCamp()->getId()));
-
-        $requestPaginator = new ApiCollectionPaginator(
-            $requestResourceUrl,
-            array('status' => CampCollaboration::STATUS_REQUESTED)
-        );
-
-        $invitationResourceUrl = $this->url()->fromRoute(
-            'api/camps/collaborations', array('camp' => $this->getCamp()->getId()));
-
-        $invitationPaginator = new ApiCollectionPaginator(
-            $invitationResourceUrl,
-            array('status' => CampCollaboration::STATUS_INVITED)
-        );
-
-        $acceptRequestBaseUrl = $this->url()->fromRoute(
-            'web/camp/default',
-            array(
-                'camp' => $this->getCamp(),
-                'controller' => 'Collaborations',
-                'action' => 'acceptRequest'
-            ),
-            array('query' => array('user' => ''))
-        );
-
-        $rejectRequestBaseUrl = $this->url()->fromRoute(
-            'web/camp/default',
-            array(
-                'camp' => $this->getCamp(),
-                'controller' => 'Collaborations',
-                'action' => 'rejectRequest'
-            ),
-            array('query' => array('user' => ''))
-        );
-
-        $revokeInvitationBaseUrl = $this->url()->fromRoute(
-            'web/camp/default',
-            array(
-                'camp' => $this->getCamp(),
-                'controller' => 'Collaborations',
-                'action' => 'revokeInvitation'
-            ),
-            array('query' => array('user' => ''))
-        );
-
-        $editCollaborationBaseUrl = $this->url()->fromRoute(
-            'web/camp/default',
-            array(
-                'camp' => $this->getCamp(),
-                'controller' => 'Collaborations',
-                'action' => 'edit'
-            ),
-            array('query' => array('user' => ''))
-        );
+        $collaborationsPaginator = $this->getCollaborationsPaginator(CampCollaboration::STATUS_ESTABLISHED);
+        $invitationsPaginator = $this->getCollaborationsPaginator(CampCollaboration::STATUS_INVITED);
+        $requestsPaginator = $this->getCollaborationsPaginator(CampCollaboration::STATUS_REQUESTED);
 
         return array(
-            'collaborationPaginator' => $collaborationPaginator,
-            'requestPaginator' => $requestPaginator,
-            'invitationPaginator' => $invitationPaginator,
-
-            'acceptRequestBaseUrl' => $acceptRequestBaseUrl,
-            'rejectRequestBaseUrl' => $rejectRequestBaseUrl,
-            'revokeInvitationBaseUrl' => $revokeInvitationBaseUrl,
-            'editCollaborationBaseUrl' => $editCollaborationBaseUrl,
+            'collaborationsPaginator' => $collaborationsPaginator,
+            'invitationsPaginator' => $invitationsPaginator,
+            'requestsPaginator' => $requestsPaginator,
         );
     }
 

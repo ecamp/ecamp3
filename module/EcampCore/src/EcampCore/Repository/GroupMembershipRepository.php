@@ -42,9 +42,9 @@ class GroupMembershipRepository extends EntityRepository
     }
 
     /**
-     * @param  Group                             $group
-     * @param  User                              $user
-     * @return \EcampCore\Entity\GroupMembership
+     * @param  Group           $group
+     * @param  User            $user
+     * @return GroupMembership
      */
     public function findByGroupAndUser(Group $group, User $user)
     {

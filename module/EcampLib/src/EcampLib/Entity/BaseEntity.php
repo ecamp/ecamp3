@@ -52,7 +52,7 @@ abstract class BaseEntity
         $this->uid = new UId($this->getClassname());
         $this->id = $this->uid->getId();
 
-        $this->isPersisted = false;
+        $this->isPersisted = true; //false;
     }
 
     public function getId()

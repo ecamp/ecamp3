@@ -1,0 +1,79 @@
+<div class="paginatorContainer">
+
+    <div class="row">
+        {% if paginator.count == 0 %}
+            <p align="center">No subgroups</p>
+        {% endif %}
+        {% for subgroup in paginator %}
+            <div class="col-xs-12 col-sm-4">
+                <a 	href="{{ groupUrl(subgroup) }}"
+                    class="btn btn-default col-xs-12"
+                    style="cursor: pointer; margin-bottom: 15px"
+                >
+                    <table style="margin: 0px; padding: 0px; width: 100%">
+                        <tr>
+                            <td style="width: 50px">
+                                <img style="width: 40px"
+                                     src="https://cdn3.iconfinder.com/data/icons/glyph/227/Public-256.png" />
+                            </td>
+                            <td style="text-align: left">
+                                <h5 style="display: inline">{{subgroup.name}}</h5>
+                                <p>{{subgroup.description}}</p>
+                            </td>
+                        </tr>
+                    </table>
+                </a>
+            </div>
+        {% endfor %}
+    </div>
+
+    {% if paginator.pages.pageCount > 1 %}
+        <ul class="pagination pagination-sm pull-right" style="margin: 0px 0px 10px 0px">
+            {% if paginator.pages.previous %}
+                <li>
+                    <a  href="{{ url(
+                    'web/group-prefix/name/default',
+                    { 'group': group, 'controller': 'Index', 'action': 'subgroups' },
+                    { 'query': { 'page': paginator.pages.previous } }) }}"
+                        class="nav-link"
+                            >
+                        &laquo;
+                    </a>
+                </li>
+            {% else %}
+                <li class="disabled">
+                    <span>&laquo;</span>
+                </li>
+            {% endif %}
+
+            <li class="disabled">
+
+                <span style="width: 70px; text-align: center">
+                    <div class="spinner" style="display: none">
+                        <i class="fa fa-spinner fa-spin"></i>
+                    </div>
+                    <div class="page-info">
+                        {{ paginator.pages.current }} / {{ paginator.pages.pageCount }}
+                    </div>
+                </span>
+            </li>
+
+            {% if paginator.pages.next %}
+                <li>
+                    <a  href="{{ url(
+                    'web/group-prefix/name/default',
+                    { 'group': group, 'controller': 'Index', 'action': 'subgroups' },
+                    { 'query': { 'page': paginator.pages.next } }) }}"
+                        class="nav-link"
+                            >
+                        &raquo;
+                    </a>
+                </li>
+            {% else %}
+                <li class="disabled">
+                    <span>&raquo;</span>
+                </li>
+            {% endif %}
+        </ul>
+    {% endif %}
+</div>

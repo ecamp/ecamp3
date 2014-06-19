@@ -222,7 +222,7 @@ input.nospinner::-webkit-outer-spin-button {
 		left: -100px;
 		right: -100px;
 		
-		background-image: url('http://www.library.ethz.ch/exhibit/imhof/images/d1.1.jpg');
+		background-image: url('/img/background.jpg');
 		/*
 		background-image: url('http://spatialanalysis.co.uk/wp-content/uploads/2012/06/swiss.jpeg');
 		background-image: url('http://bergwelt.files.wordpress.com/2011/10/206.jpg');

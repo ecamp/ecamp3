@@ -110,7 +110,7 @@ class GroupRouter
         $name = array_shift($names);
 
         $group = $this->getGroupRepository()->findOneBy(
-            array('name' => $name, 'parent' => null));
+            array('name' => urldecode($name), 'parent' => null));
 
         if ($group != null) {
             $length += strlen($name);
@@ -119,11 +119,11 @@ class GroupRouter
                 $name = array_shift($names);
 
                 $childGroup = $this->getGroupRepository()->findOneBy(
-                    array('name' => $name, 'parent' => $group));
+                    array('name' => urldecode($name), 'parent' => $group));
 
                 if ($childGroup != null) {
                     $group = $childGroup;
-                    $length += (strlen($group->getName()) + 1);
+                    $length += (strlen($name) + 1);
                 } else {
                     break;
                 }
@@ -144,16 +144,14 @@ class GroupRouter
     public function assemble(array $params = array(), array $options = array())
     {
         $groupId = $params['group'];
-
         $group = $this->getGroupRepository()->find($groupId);
-        $groups = array();
+
+        $path = "";
 
         while ($group != null) {
-            array_unshift($groups, $group->getName());
+            $path = "/" . urlencode($group->getName()) . $path;
             $group = $group->getParent();
         }
-
-        $path = "/" . implode("/", $groups);
 
         return $path;
     }
