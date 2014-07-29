@@ -20,7 +20,7 @@
 
 namespace EcampWeb\Controller\Camp;
 
-use Zend\Http\Response;
+use Zend\Form\FormInterface;
 use Zend\Mvc\MvcEvent;
 use EcampLib\Validation\ValidationException;
 
@@ -55,41 +55,70 @@ class PeriodController
 
     public function addPeriodAction()
     {
-        $form = new \EcampWeb\Form\Period\PeriodCreateForm();
+        $form = $this->createForm('EcampWeb\Form\Period\PeriodCreateForm');
         $form->setAction(
             $this->url()->fromRoute(
                 'web/camp/default',
                 array('camp' => $this->getCamp(), 'controller' => 'Period', 'action' => 'addPeriod')
             )
         );
-        $form->setRedirectAfterSuccess(
-            $this->url()->fromRoute('web/camp/default', array('camp' => $this->getCamp()))
+
+        if ($this->getRequest()->isPost()) {
+            $form->setData($this->params()->fromPost());
+
+            if ($form->isValid()) {
+                $data = $form->getData();
+
+                try {
+                    $this->getPeriodService()->Create($this->getCamp(), $data);
+                    $this->flashMessenger()->addSuccessMessage('Period successfully created.');
+
+                    return $this->getRedirectResponse(
+                        $this->url()->fromRoute('web/camp/default', array('camp' => $this->getCamp()))
+                    );
+
+                } catch (ValidationException $ex) {
+                    $form->setMessages($ex->getValidationMessages());
+                }
+            }
+        }
+
+        return array('form' => $form);
+    }
+
+    public function editPeriodAction()
+    {
+        $periodId = $this->params()->fromQuery('periodId');
+        $period = $this->getPeriodRepository()->find($periodId);
+        if(!$period ) throw new \Exception('Period not found.');
+
+        $form = $this->createForm('EcampWeb\Form\Period\PeriodEditForm'); // new \EcampWeb\Form\Period\PeriodEditForm($period);
+        $form->bind($period);
+        $form->setAction(
+            $this->url()->fromRoute(
+                'web/camp/default',
+                array('camp' => $this->getCamp(), 'controller' => 'Period', 'action' => 'editPeriod'),
+                array('query' => array('periodId' => $periodId))
+            )
         );
 
         if ($this->getRequest()->isPost()) {
-            $data = $this->getRequest()->getPost();
+            $form->setData($this->params()->fromPost());
 
-            if ($form->setData($data)->isValid()) {
+            if ($form->isValid()) {
+                $data = $form->getData(FormInterface::VALUES_AS_ARRAY);
+
                 try {
-                    $period = $this->getPeriodService()->Create($this->getCamp(), $data);
-                    $this->flashMessenger()->addSuccessMessage('Period successfully created.');
+                    $this->getPeriodService()->Update($period, $data);
+                    $this->flashMessenger()->addSuccessMessage('Period successfully updated.');
 
-                    return $this->emptyResponse();
+                    return $this->getRedirectResponse(
+                        $this->url()->fromRoute('web/camp/default', array('camp' => $this->getCamp()))
+                    );
 
-                } catch (ValidationException $e) {
-                    $form->extractFromException($e);
-                    $this->getResponse()->setStatusCode(Response::STATUS_CODE_500);
-
-                } catch (\Exception $e) {
-                    throw $e;
-                    /*
-                    $this->flashMessenger()->addErrorMessage('Error while creating Period.');
-
-                    return $this->emptyResponse();
-                    */
+                } catch (ValidationException $ex) {
+                    $form->setMessages($ex->getValidationMessages());
                 }
-            } else {
-                $this->getResponse()->setStatusCode(Response::STATUS_CODE_500);
             }
         }
 
@@ -107,65 +136,15 @@ class PeriodController
             }
 
             $this->getPeriodService()->Delete($period);
-
             $this->flashMessenger()->addSuccessMessage('Period successfully deleted');
 
-        } catch (\Exception $e) {
-            $this->flashMessenger()->addErrorMessage('Period can not be deleted - ' . $e->getMessage());
+        } catch (\Exception $ex) {
+            $this->flashMessenger()->addErrorMessage('Period can not be deleted - ' . $ex->getMessage());
         }
 
         return $this->redirect()->toRoute(
             'web/camp/default', array('camp' => $this->getCamp())
         );
-    }
-
-    public function editPeriodAction()
-    {
-        $periodId = $this->params()->fromQuery('periodId');
-        $period = $this->getPeriodRepository()->find($periodId);
-        if(!$period ) throw new \Exception('Period not found.');
-
-        $form = new \EcampWeb\Form\Period\PeriodEditForm($period);
-        $form->setAction(
-            $this->url()->fromRoute(
-                'web/camp/default',
-                array('camp' => $this->getCamp(), 'controller' => 'Period', 'action' => 'editPeriod'),
-                array('query' => array('periodId' => $periodId))
-            )
-        );
-        $form->setRedirectAfterSuccess(
-            $this->url()->fromRoute('web/camp/default', array('camp' => $this->getCamp()))
-        );
-
-        if ($this->getRequest()->isPost()) {
-            $data = $this->getRequest()->getPost();
-
-            if ($form->setData($data)->isValid()) {
-
-                try {
-                    $this->getPeriodService()->Update($period, $data);
-
-                    $this->flashMessenger()->addSuccessMessage('Period successfully updated.');
-
-                    return $this->ajaxSuccssResponse(
-                        $this->url()->fromRoute('web/camp/default', array('camp' => $this->getCamp()))
-                    );
-
-                } catch (ValidationException $e) {
-                    $form->extractFromException($e);
-                    $this->getResponse()->setStatusCode(Response::STATUS_CODE_500);
-
-                } catch (\Exception $e) {
-                    $this->flashMessenger()->addErrorMessage('Period not moved');
-
-                    return $this->emptyResponse();
-                }
-            } else {
-                $this->getResponse()->setStatusCode(Response::STATUS_CODE_500);
-            }
-        }
-
-        return array('form' => $form);
     }
 
 }

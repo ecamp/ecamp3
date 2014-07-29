@@ -5,6 +5,7 @@ namespace EcampCore\Repository;
 use Doctrine\ORM\EntityRepository;
 use DoctrineORMModule\Paginator\Adapter\DoctrinePaginator as PaginatorAdapter;
 use Doctrine\ORM\Tools\Pagination\Paginator as ORMPaginator;
+use EcampCore\Entity\AbstractCampOwner;
 use Zend\Paginator\Paginator;
 
 use EcampCore\Entity\CampCollaboration;
@@ -131,13 +132,49 @@ class CampRepository
         return $this->findOneBy(array('owner' => $userId, 'name' => $campName));
     }
 
-    public function findGroupCamps($groupId)
+    public function findGroupCamps($group)
     {
-        return $this->findBy(array('group' => $groupId));
+        return $this->findBy(array('owner' => $group));
     }
 
     public function findGroupCamp($groupId, $campName)
     {
         return $this->findOneBy(array('group' => $groupId, 'name' => $campName));
+    }
+
+    public function findUpcomingCamps(AbstractCampOwner $owner)
+    {
+        $q = $this->createQueryBuilder('c');
+        $q->where($q->expr()->exists("
+            select    1
+            from      EcampCore\Entity\Period p
+            join      EcampCore\Entity\Day d with d.period = p
+            where     p.camp = c
+            group by  p.id, p.start
+            having    DATE_ADD(p.start, count(d.id), 'day') > CURRENT_DATE()
+        "));
+        $q->andWhere("c.owner = :owner");
+        $q->setParameter('owner', $owner);
+
+        return $q->getQuery()->getResult();
+    }
+
+    public function findPastCamps(AbstractCampOwner $owner)
+    {
+        $q = $this->createQueryBuilder('c');
+        $q->where($q->expr()->not(
+                $q->expr()->exists("
+                select    1
+                from      EcampCore\Entity\Period p
+                join      EcampCore\Entity\Day d with d.period = p
+                where     p.camp = c
+                group by  p.id, p.start
+                having    DATE_ADD(p.start, count(d.id), 'day') > CURRENT_DATE()
+            ")
+        ));
+        $q->andWhere("c.owner = :owner");
+        $q->setParameter('owner', $owner);
+
+        return $q->getQuery()->getResult();
     }
 }

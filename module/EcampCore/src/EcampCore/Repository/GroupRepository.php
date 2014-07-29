@@ -30,7 +30,7 @@ class GroupRepository extends BaseRepository
                 ->getQuery()->getResult();
     }
 
-    public function findUserGroups($user = null)
+    public function findUserGroups($user = null, $role = null)
     {
         $user = $user ?: $this->getAuthenticatedUser();
         $userId = ($user instanceof User ? $user->getId() : $user);
@@ -44,10 +44,15 @@ class GroupRepository extends BaseRepository
                 "		WHERE	gm.group = g.id" .
                 "		AND		gm.user = :userId" .
                 "		AND		gm.status = '" . GroupMembership::STATUS_ESTABLISHED . "'" .
+($role != null ? "      AND     gm.role = :role" : "") .
                 "	)"
         );
 
         $q->setParameter('userId', 	$userId);
+
+        if ($role != null) {
+            $q->setParameter('role', $role);
+        }
 
         return $q->getResult();
     }

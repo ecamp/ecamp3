@@ -11,81 +11,9 @@
 				{% endblock %}
 				{% block panel_content %}
 					<div class="col-sm-12">
-						<div class="pull-right">
-							{% if myMembership is null %}
-							<div class="btn-group">
-								<a class="btn btn-sm btn-success"
-									href="{{ url('web/group-prefix/name/default',
-										{ 'group': group, 'controller': 'index', 'action': 'requestMembership'}
-										) }}"
-								>
-									<i class="fa fa-plus"></i> Request membership
-								</a>
-								<button type="button" class="btn btn-sm btn-success dropdown-toggle" data-toggle="dropdown">
-									<span class="caret"></span>
-								</button>
-								<ul class="dropdown-menu pull-right" role="menu">
-									<li>
-										<a href="{{ url('web/group-prefix/name/default',
-										{ 'group': group, 'controller': 'index', 'action': 'requestMembership'}
-										) }}"
-										>
-											as member
-										</a>
-									</li>
-									<li>
-										<a href="{{ url('web/group-prefix/name/default',
-										{ 'group': group, 'controller': 'index', 'action': 'requestMembership' },
-										{ 'query' : { 'role': 'manager' } }
-										) }}"
-										>
-											as manager
-										</a>
-									</li>
-								</ul>
-							</div>
-							{% else %}
 
-								{% if myMembership.getStatus == 'requested' %}
-								<a class="btn btn-sm btn-danger"
-									href="{{ url('web/group-prefix/name/default',
-										{ 'group': group, 'controller': 'index', 'action': 'revokeRequest'}
-										) }}"
-								>
-									<i class="fa fa-remove"></i> Revoke Request
-								</a>
-								{% endif %}
-
-								{% if myMembership.getStatus == 'invited' %}
-								<p class="pull-right">
-									<a class="btn btn-sm btn-success"
-										href="{{ url('web/group-prefix/name/default',
-											{ 'group': group, 'controller': 'index', 'action': 'acceptInvitation'}
-											) }}"
-									>
-										<i class="fa fa-ok"></i> Accept Invitation
-									</a>
-									<a class="btn btn-sm btn-danger"
-										href="{{ url('web/group-prefix/name/default',
-											{ 'group': group, 'controller': 'index', 'action': 'rejectInvitation'}
-											) }}"
-									>
-										<i class="fa fa-remove"></i> Reject Invitation
-									</a>
-								</p>
-								{% endif %}
-
-								{% if myMembership.getStatus == 'established' %}
-								<a class="btn btn-sm btn-danger"
-									data-toggle="modal"
-									href="#leaveGroupModal"
-
-								>
-									<i class="fa fa-remove"></i> Leave group
-								</a>
-
-								{% endif %}
-							{% endif %}
+                        <div class="pull-right">
+						    {{ membership(group) }}
 						</div>
 
 						<h4 style="display: inline">{{ group.getName }} - </h4>
@@ -139,13 +67,42 @@
 		</div>
 	</div>
 
+    <div class="row">
+        <div class="col-sm-12">
+            {% embed "helper/accordion.twig" %}
+                {% block panel_title %}
+                    Subgroups <div class="pull-right">{{ subgroupsPaginator.totalItemCount }}</div>
+                {% endblock %}
+                {% block panel_content %}
+                    {% include 'ecamp-web/group/index/subgroups.twig' with { 'paginator': subgroupsPaginator } %}
+                {% endblock %}
+            {% endembed %}
+        </div>
+    </div>
 
+    <div class="row">
+        <div class="col-sm-12">
+            {% embed "helper/accordion.twig" %}
+                {% block panel_title %}
+                    Upcoming camps <div class="pull-right">{{ upcomingCampsPaginator.totalItemCount }}</div>
+                {% endblock %}
+                {% block panel_content %}
+                    {% include 'ecamp-web/group/index/upcoming-camps.twig' with { 'paginator': upcomingCampsPaginator } %}
+                {% endblock %}
+            {% endembed %}
+        </div>
+    </div>
+
+
+
+
+    {#
 	<div class="row">
 		<div class="col-sm-6" {{ subgroupPaginator.getNgController|raw }}>
 
 			{% embed "helper/accordion.twig" %}
 				{% block panel_title %}
-					Subgroups <p class="pull-right">{{ subgroupPaginator.getCount }}</p>
+					Subgroups <p class="pull-right">{{ subgroupPaginator.count }}</p>
 				{% endblock %}
 				{% block panel_content %}
 					{% verbatim %}
@@ -228,4 +185,5 @@
 		</div>
 
 	</div>
+    #}
 {% endblock content2 %}

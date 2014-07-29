@@ -13,6 +13,14 @@ use Zend\Validator\EmailAddress;
 class UserRepository extends BaseRepository
 {
 
+    /**
+     * @return null|\EcampCore\Entity\User
+     */
+    public function getMe()
+    {
+        return $this->getAuthenticatedUser();
+    }
+
     public function getCollection($criteria)
     {
         $q = $this->createQueryBuilder('u');
@@ -133,7 +141,9 @@ class UserRepository extends BaseRepository
             if ($mailValidator->isValid($identifier)) {
                 $user = $this->findOneBy(array('email' => $identifier));
             } else {
-                $user = $this->findOneBy(array('username' => $identifier));
+                $user =
+                    $this->find($identifier) ?:
+                    $this->findOneBy(array('username' => $identifier));
             }
         }
 

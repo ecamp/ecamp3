@@ -2,8 +2,11 @@
 
 namespace EcampWeb\Controller\Group;
 
-use EcampWeb\Element\ApiCollectionPaginator;
+use Doctrine\Common\Collections\Criteria;
+use DoctrineModule\Paginator\Adapter\Selectable as SelectableAdapter;
 use EcampCore\Entity\GroupMembership;
+use Zend\Paginator\Adapter\ArrayAdapter;
+use Zend\Paginator\Paginator;
 
 class IndexController
     extends BaseController
@@ -18,6 +21,14 @@ class IndexController
     }
 
     /**
+     * @return \EcampCore\Repository\CampRepository
+     */
+    private function getCampRepository()
+    {
+        return $this->getServiceLocator()->get('EcampCore\Repository\Camp');
+    }
+
+    /**
      * @return \EcampCore\Service\GroupMembershipService
      */
     private function getMembershipService()
@@ -25,28 +36,64 @@ class IndexController
         return $this->getServiceLocator()->get('EcampCore\Service\GroupMembership');
     }
 
+    protected function getSubgroupsPaginator()
+    {
+        $criteria = Criteria::create()
+            ->where(Criteria::expr()->eq('parent', $this->getGroup()));
+
+        $adapter = new SelectableAdapter($this->getGroupRepository(), $criteria);
+
+        $paginator = new Paginator($adapter);
+        $paginator->setItemCountPerPage(15);
+        $paginator->setCurrentPageNumber(1);
+
+        return $paginator;
+    }
+
+    protected function getUpcomingCampsPaginator()
+    {
+        $upcomingCamps = $this->getCampRepository()->findUpcomingCamps($this->getGroup());
+
+        $adapter = new ArrayAdapter($upcomingCamps);
+
+        $paginator = new Paginator($adapter);
+        $paginator->setItemCountPerPage(15);
+        $paginator->setCurrentPageNumber(1);
+
+        return $paginator;
+    }
+
+    public function subgroupsAction()
+    {
+        $page = $this->getRequest()->getQuery('page', 1);
+
+        $paginator = $this->getSubgroupsPaginator();
+        $paginator->setCurrentPageNumber($page);
+
+        return array('paginator' => $paginator);
+    }
+
+    public function upcomingCampsAction()
+    {
+        $page = $this->getRequest()->getQuery('page', 1);
+
+        $paginator = $this->getUpcomingCampsPaginator();
+        $paginator->setCurrentPageNumber($page);
+
+        return array('paginator' => $paginator);
+    }
+
     public function indexAction()
     {
-        $renderer = $this->getServiceLocator()->get('Zend\View\Renderer\PhpRenderer');
-        $renderer->headScript()->appendFile($this->getRequest()->getBasePath() . '/js/ng-app/paginator.js');
-
-        $subgroupResourceUrl = $this->url()->fromRoute(
-            'api/groups/subgroups', array('group' => $this->getGroup()->getId()));
-        $campsResourceUrl = $this->url()->fromRoute(
-            'api/groups/camps', array('group' => $this->getGroup()->getId()));
-
-        $subgroupPaginator = new ApiCollectionPaginator($subgroupResourceUrl);
-        $subgroupPaginator->setItemsPerPage(10);
-
-        $campsPaginator = new ApiCollectionPaginator($campsResourceUrl);
-        $campsPaginator->setItemsPerPage(10);
+        $subgroupsPaginator = $this->getSubgroupsPaginator();
+        $upcomingCampsPaginator = $this->getUpcomingCampsPaginator();
 
         $myMembership = $this->getMembershipRepository()
             ->findByGroupAndUser($this->getGroup(), $this->getMe());
 
         return array(
-            'subgroupPaginator' => $subgroupPaginator,
-            'campsPaginator' => $campsPaginator,
+            'subgroupsPaginator' => $subgroupsPaginator,
+            'upcomingCampsPaginator' => $upcomingCampsPaginator,
             'myMembership' => $myMembership
         );
     }

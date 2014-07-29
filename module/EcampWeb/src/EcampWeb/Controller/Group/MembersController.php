@@ -2,10 +2,13 @@
 
 namespace EcampWeb\Controller\Group;
 
+use Doctrine\Common\Collections\Criteria;
+use DoctrineModule\Paginator\Adapter\Selectable as SelectableAdapter;
 use EcampWeb\Element\ApiCollectionPaginator;
 use EcampCore\Entity\GroupMembership;
 use EcampCore\Entity\User;
 use Zend\Http\Response;
+use Zend\Paginator\Paginator;
 
 class MembersController
     extends BaseController
@@ -34,105 +37,68 @@ class MembersController
         return $this->getServiceLocator()->get('EcampCore\Service\GroupMembership');
     }
 
+    protected function getMembersPaginator($status)
+    {
+        $criteria = Criteria::create()
+            ->where(Criteria::expr()->eq('status', $status))
+            ->andWhere(Criteria::expr()->eq('group', $this->getGroup()));
+
+        $adapter = new SelectableAdapter($this->getMembershipRepository(), $criteria);
+
+        $paginator = new Paginator($adapter);
+        $paginator->setItemCountPerPage(15);
+        $paginator->setCurrentPageNumber(1);
+
+        return $paginator;
+    }
+
+    public function membersAction()
+    {
+        $page = $this->getRequest()->getQuery('page', 1);
+
+        $paginator = $this->getMembersPaginator(GroupMembership::STATUS_ESTABLISHED);
+        $paginator->setCurrentPageNumber($page);
+
+        return array('paginator' => $paginator);
+    }
+
+    public function invitationsAction()
+    {
+        $page = $this->getRequest()->getQuery('page', 1);
+
+        $paginator = $this->getMembersPaginator(GroupMembership::STATUS_INVITED);
+        $paginator->setCurrentPageNumber($page);
+
+        return array('paginator' => $paginator);
+    }
+
+    public function requestsAction()
+    {
+        $page = $this->getRequest()->getQuery('page', 1);
+
+        $paginator = $this->getMembersPaginator(GroupMembership::STATUS_REQUESTED);
+        $paginator->setCurrentPageNumber($page);
+
+        return array('paginator' => $paginator);
+    }
+
     public function indexAction()
     {
-        $renderer = $this->getServiceLocator()->get('Zend\View\Renderer\PhpRenderer');
-        $renderer->headScript()->appendFile(
-            $this->getRequest()->getBasePath() . '/js/ng-app/paginator.js');
 
-        $managerResourceUrl = $this->url()->fromRoute(
-            'api/groups/memberships', array('group' => $this->getGroup()->getId()));
-
-        $managerPaginator = new ApiCollectionPaginator(
-            $managerResourceUrl,
-            array(
-                'role' => GroupMembership::ROLE_MANAGER,
-                'status' => GroupMembership::STATUS_ESTABLISHED
-            )
-        );
-        $managerPaginator->setItemsPerPage(10);
-
-        $meberResourceUrl = $this->url()->fromRoute(
-            'api/groups/memberships', array('group' => $this->getGroup()->getId()));
-
-        $memberPaginator = new ApiCollectionPaginator(
-            $meberResourceUrl,
-            array(
-                'role' => GroupMembership::ROLE_MEMBER,
-                'status' => GroupMembership::STATUS_ESTABLISHED
-            )
-           );
-        $memberPaginator->setItemsPerPage(10);
-
-        $requestsResourceUrl = $this->url()->fromRoute(
-            'api/groups/memberships', array('group' => $this->getGroup()->getId()));
-
-        $requestPaginator = new ApiCollectionPaginator(
-            $requestsResourceUrl,
-            array('status' => GroupMembership::STATUS_REQUESTED)
-        );
-        $requestPaginator->setItemsPerPage(10);
-
-        $invitationsResourceUrl = $this->url()->fromRoute(
-            'api/groups/memberships', array('group' => $this->getGroup()->getId()));
-
-        $invitationPaginator = new ApiCollectionPaginator(
-            $invitationsResourceUrl,
-            array('status' => GroupMembership::STATUS_INVITED)
-        );
-        $invitationPaginator->setItemsPerPage(10);
-
-        $editMembershipBaseUrl = $this->url()->fromRoute(
-            'web/group-prefix/name/default',
-            array(
-                'group' => $this->getGroup(),
-                'controller' => 'Members',
-                'action' => 'edit'
-            ),
-            array('query' => array('user' => ""))
-        );
-
-        $acceptRequestBaseUrl = $this->url()->fromRoute(
-            'web/group-prefix/name/default',
-            array(
-                'group' => $this->getGroup(),
-                'controller' => 'Members',
-                'action' => 'acceptRequest'
-            ),
-            array('query' => array('user' => ''))
-        );
-
-        $rejectRequestBaseUrl = $this->url()->fromRoute(
-            'web/group-prefix/name/default',
-            array(
-                'group' => $this->getGroup(),
-                'controller' => 'Members',
-                'action' => 'rejectRequest'
-            ),
-            array('query' => array('user' => ''))
-        );
-
-        $revokeInvitationBaseUrl = $this->url()->fromRoute(
-            'web/group-prefix/name/default',
-            array(
-                'group' => $this->getGroup(),
-                'controller' => 'Members',
-                'action' => 'revokeInvitation'
-            ),
-            array('query' => array('user' => ''))
-        );
+        $membersPaginator = $this->getMembersPaginator(GroupMembership::STATUS_ESTABLISHED);
+        $invitationsPaginator = $this->getMembersPaginator(GroupMembership::STATUS_INVITED);
+        $requestsPaginator = $this->getMembersPaginator(GroupMembership::STATUS_REQUESTED);
 
         return array(
-            'memberPaginator' => $memberPaginator,
-            'managerPaginator' => $managerPaginator,
-            'requestPaginator' => $requestPaginator,
-            'invitationPaginator' => $invitationPaginator,
-
-            'editMembershipBaseUrl' => $editMembershipBaseUrl,
-            'acceptRequestBaseUrl' => $acceptRequestBaseUrl,
-            'rejectRequestBaseUrl' => $rejectRequestBaseUrl,
-            'revokeInvitationBaseUrl' => $revokeInvitationBaseUrl
+            'membersPaginator' => $membersPaginator,
+            'invitationsPaginator' => $invitationsPaginator,
+            'requestsPaginator' => $requestsPaginator,
         );
+    }
+
+    public function inviteSearchAction()
+    {
+        return array();
     }
 
     public function editAction()
@@ -148,8 +114,6 @@ class MembersController
     public function searchAction()
     {
         $renderer = $this->getServiceLocator()->get('Zend\View\Renderer\PhpRenderer');
-        $renderer->headScript()->appendFile(
-            $this->getRequest()->getBasePath() . '/js/ng-app/paginator.js');
         $renderer->headScript()->appendFile(
             $this->getRequest()->getBasePath() . '/js/ng-app/member/search-result.js');
 

@@ -50,6 +50,16 @@ abstract class AbstractBaseController extends \EcampLib\Controller\AbstractBaseC
     }
 
     /**
+     * @return \EcampCore\Entity\User
+     */
+    protected function getQueryUser($qry = 'user')
+    {
+        $userId = $this->params()->fromQuery($qry);
+
+        return $this->getUserService()->Get($userId);
+    }
+
+    /**
      * @return \EcampCore\Entity\Group
      */
     protected function getRouteGroup()
@@ -60,11 +70,31 @@ abstract class AbstractBaseController extends \EcampLib\Controller\AbstractBaseC
     }
 
     /**
+     * @return \EcampCore\Entity\User
+     */
+    protected function getQueryGroup($qry = 'group')
+    {
+        $groupId = $this->params()->fromQuery($qry);
+
+        return $this->getGroupService()->Get($groupId);
+    }
+
+    /**
      * @return \EcampCore\Entity\Camp
      */
     protected function getRouteCamp()
     {
         $campId = $this->params('camp');
+
+        return $this->getCampService()->Get($campId);
+    }
+
+    /**
+     * @return \EcampCore\Entity\User
+     */
+    protected function getQueryCamp($qry = 'camp')
+    {
+        $campId = $this->params()->fromQuery($qry);
 
         return $this->getCampService()->Get($campId);
     }

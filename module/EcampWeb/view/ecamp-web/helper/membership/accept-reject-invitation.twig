@@ -1,0 +1,21 @@
+<div class="edit-membership-container">
+    <div class="btn-group">
+        <a  class="btn btn-xs btn-default btn-danger reject-invitation"
+            href="{{ url('web/group-prefix/name/default',
+            { 'group': membership.group, 'controller': 'MembershipHelper', 'action': 'rejectInvitation' },
+            { 'query': { 'user': membership.user.id } }) }}"
+                >
+            <b>Reject invitation</b>
+        </a>
+        <a  class="btn btn-xs btn-default btn-success accept-invitation"
+            href="{{ url('web/group-prefix/name/default',
+                        { 'group': membership.group, 'controller': 'MembershipHelper', 'action': 'acceptInvitation' },
+                        { 'query': { 'user': membership.user.id } }) }}"
+        >
+            <b>Accept invitation</b>
+        </a>
+    </div>
+
+    <!-- add loading spinner -->
+
+</div>

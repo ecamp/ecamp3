@@ -2,29 +2,23 @@
 
 namespace EcampWeb\View\Helper;
 
+use EcampCore\Entity\Camp;
+use Zend\Form\View\Helper\AbstractHelper;
 use Zend\View\Helper\Url;
 
-class CampUrl extends Url
+class CampUrl extends AbstractHelper
 {
-    public function __invoke($name = null, $params = array(), $options = array(), $reuseMatchedParams = false)
+    private $url;
+
+    public function __construct(Url $url)
     {
-        // web/camp/* 	wird zu:
-        // web/group-prefix/name+camp/*
-        // web/user-prefix/name+camp/*
+        $this->url = $url;
+    }
 
-        if (substr($name, 0, 8) == 'web/camp') {
-            /* @var $camp \EcampCore\Entity\Camp */
-            $camp = $params['camp'];
+    public function __invoke(Camp $camp)
+    {
+        $url = $this->url;
 
-            if ($camp->belongsToUser()) {
-                $params['user'] = $camp->getOwner();
-                $name = 'web/user-prefix/name+camp' . substr($name, 8);
-            } else {
-                $params['group'] = $camp->getOwner();
-                $name = 'web/group-prefix/name+camp' . substr($name, 8);
-            }
-        }
-
-        return parent::__invoke($name, $params, $options, $reuseMatchedParams);
+        return $url('web/camp/default', array('camp' => $camp));
     }
 }

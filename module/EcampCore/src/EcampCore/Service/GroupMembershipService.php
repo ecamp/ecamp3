@@ -35,7 +35,7 @@ class GroupMembershipService
 
         $this->validationAssert(
             is_null($groupMembership),
-            "Membership can not be requested"
+            array("user" => "Membership can not be requested")
         );
 
         $groupMembership = GroupMembership::createRequest($me, $group, $role);
@@ -93,7 +93,7 @@ class GroupMembershipService
 
         $this->validationAssert(
             $groupMembership != null && $groupMembership->isRequest(),
-            "There is no open Request"
+            array('user' => 'There is no open Request')
         );
 
         $this->remove($groupMembership);
@@ -111,10 +111,11 @@ class GroupMembershipService
         $this->aclRequire($group, Privilege::GROUP_ADMINISTRATE);
 
         $groupMembership = $this->groupMembershipRepo->findByGroupAndUser($group, $user);
+        echo $groupMembership;
 
         $this->validationAssert(
             is_null($groupMembership),
-            "User can not be invited"
+            array('user' => 'User can not be invited')
         );
 
         $groupMembership = GroupMembership::createInvitation($user, $group, $manager, $role);
@@ -187,7 +188,7 @@ class GroupMembershipService
 
         $this->validationAssert(
             $groupMembership != null && $groupMembership->isEstablished(),
-            "User is not a Group Member"
+            array('user' => 'User is not a Group Member')
         );
 
         $this->remove($groupMembership);

@@ -1,20 +1,20 @@
 
-{% set gid = random() %}
-{% set panelId = 'panel-' ~ gid %}
-{% set collapseId = 'collapse-' ~ gid %}
 
-<div class="panel-group" id="{{ panelId }}">
+{% set id = id ?: random() %}
+{% set collapsed = collapsed ?: false %}
+
+<div class="panel-group" id="{{ 'panel-' ~ id }}">
 	<div class="panel panel-default">
 		<div class="panel-heading">
 			<h4 class="panel-title">
-				<a class="accordion-toggle" data-toggle="collapse" data-parent="#{{ panelId }}" href="#{{ collapseId }}">
+				<a class="accordion-toggle {{ collapsed ? 'collapsed' }}" data-toggle="collapse" data-parent="#{{ 'panel-' ~ id }}" href="#{{ 'collapse-' ~ id }}">
 					<i class="fa fa-accordion"></i>
 					{% block panel_title %}{% endblock %}
 				</a>
 				{% block panel_heading %}{% endblock %}
 			</h4>
 		</div>
-		<div id="{{ collapseId }}" class="panel-collapse collapse in">
+		<div id="{{ 'collapse-' ~ id }}" class="panel-collapse collapse {{ not collapsed ? 'in' }}">
 			<div class="panel-body">
 				{% block panel_content %}{% endblock %}
 			</div>

@@ -26,7 +26,6 @@ use EcampCore\Entity\Period;
 use EcampLib\Service\ServiceBase;
 use EcampLib\Validation\ValidationException;
 use EcampCore\Acl\Privilege;
-use EcampCore\Validation\PeriodFieldset;
 
 class PeriodService
     extends ServiceBase
@@ -61,7 +60,7 @@ class PeriodService
                 throw ValidationException::ValueRequired('start');
             }
             if (!isset($data['end'])) {
-                throw ValidationException::ValueRequired('start');
+                throw ValidationException::ValueRequired('end');
             }
 
             $start = new \DateTime($data['start'], new \DateTimeZone("GMT"));
@@ -91,52 +90,57 @@ class PeriodService
         $camp = $period->getCamp();
         $this->aclRequire($camp, Privilege::CAMP_CONFIGURE);
 
-        $validationForm = $this->createValidationForm($period)
-            ->addFieldset(new PeriodFieldset());
+        $validationForm = $this->createValidationForm($period, $data, array('start', 'description'));
+        if ($validationForm->isValid()) {
+            $origPeriodStart = $period->getStart();
 
-        $origPeriodStart = $period->getStart();
-
-        $validationForm->setAndValidate($data);
-
-        $start = new \DateTime($data['period']['start'], new \DateTimeZone("GMT"));
-        $end   = new \DateTime($data['period']['end'], new \DateTimeZone("GMT"));
-        $numOfDays = ($end->getTimestamp() - $start->getTimestamp())/(24 * 60 * 60) + 1;
-
-        // Change Period Length
-        $oldNumOfDays = $period->getNumberOfDays();
-
-        if ($oldNumOfDays < $numOfDays) {
-            for ($offset = $oldNumOfDays; $offset < $numOfDays; $offset++) {
-                $this->dayService->AppendDay($period);
+            if (!isset($data['start'])) {
+                throw ValidationException::ValueRequired('start');
             }
-        }
-
-        if ($oldNumOfDays > $numOfDays) {
-            for ($offset = $numOfDays; $offset < $oldNumOfDays; $offset++) {
-                $this->dayService->RemoveDay($period);
+            if (!isset($data['end'])) {
+                throw ValidationException::ValueRequired('end');
             }
-        }
 
-        // Move Startdate:
-        if ($start != $origPeriodStart) {
-            if (!$data['period']['moveEvents']) {
-                $delta = $origPeriodStart->diff($start);
-                $deltaMinuten = 24 * 60 * $delta->days;
+            $start = new \DateTime($data['start'], new \DateTimeZone("GMT"));
+            $end   = new \DateTime($data['end'], new \DateTimeZone("GMT"));
+            $numOfDays = ($end->getTimestamp() - $start->getTimestamp())/(24 * 60 * 60) + 1;
 
-                foreach ($period->getEventInstances() as $eventInstance) {
-                    /* @var $eventInstance \EcampCore\Entity\EventInstance  */
-                    $instanceOffset = $eventInstance->getOffset() - $deltaMinuten;
-                    $eventInstance->setOffset($instanceOffset);
+            // Change Period Length
+            $oldNumOfDays = $period->getNumberOfDays();
 
-                    if ($eventInstance->getEndTime() > $period->getEnd()) {
-                        throw new \Exception("Period can not be moved, because an event is sceduled outsite new period");
+            if ($oldNumOfDays < $numOfDays) {
+                for ($offset = $oldNumOfDays; $offset < $numOfDays; $offset++) {
+                    $this->dayService->AppendDay($period);
+                }
+            }
+
+            if ($oldNumOfDays > $numOfDays) {
+                for ($offset = $numOfDays; $offset < $oldNumOfDays; $offset++) {
+                    $this->dayService->RemoveDay($period);
+                }
+            }
+
+            // Move Startdate:
+            if ($start != $origPeriodStart) {
+                if (!$data['moveEvents']) {
+                    $delta = $origPeriodStart->diff($start);
+                    $deltaMinuten = 24 * 60 * $delta->days;
+
+                    foreach ($period->getEventInstances() as $eventInstance) {
+                        /* @var $eventInstance \EcampCore\Entity\EventInstance  */
+                        $instanceOffset = $eventInstance->getOffset() - $deltaMinuten;
+                        $eventInstance->setOffset($instanceOffset);
+
+                        if ($eventInstance->getEndTime() > $period->getEnd()) {
+                            throw new \Exception("Period can not be moved, because an event is sceduled outsite new period");
+                        }
                     }
                 }
             }
+
         }
 
         return $period;
-
     }
 
     /**

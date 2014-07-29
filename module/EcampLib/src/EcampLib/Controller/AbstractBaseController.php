@@ -3,6 +3,7 @@
 namespace EcampLib\Controller;
 
 use EcampLib\Form\BaseForm;
+use EcampWeb\Form\ClassMethodsHydrator;
 use Zend\Form\FormElementManager;
 use Zend\Http\Response;
 use Zend\Log\LoggerInterface;
@@ -25,7 +26,11 @@ abstract class AbstractBaseController extends AbstractActionController
      */
     protected function createForm($formName)
     {
-        return $this->getFormElementManager()->get($formName);
+        /* @var $form BaseForm */
+        $form = $this->getFormElementManager()->get($formName);
+        $form->setHydrator(new ClassMethodsHydrator());
+
+        return $form;
     }
 
     /**

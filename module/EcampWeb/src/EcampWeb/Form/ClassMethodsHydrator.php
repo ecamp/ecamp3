@@ -18,10 +18,10 @@ class ClassMethodsHydrator extends ClassMethods
      * Disable hydrating
      * This makes it a readonly/extract-only hydrator
      *
-     * @param  array                            $data
-     * @param  object                           $object
+     * @param  array                                         $data
+     * @param  object                                        $object
      * @return object
-     * @throws Exception\BadMethodCallException for a non-object $object
+     * @throws \Zend\Stdlib\Exception\BadMethodCallException for a non-object $object
      */
     public function hydrate(array $data, $object)
     {
