@@ -1,4 +1,14 @@
 <div class="paginatorContainer">
+    <input type="hidden" class="hide-paginator-event" value="collaboration.collaborators.changed.pre" />
+    <input type="hidden" class="show-paginator-event" value="collaboration.collaborators.changed.post" />
+    <input type="hidden" class="refresh-paginator-event" value="collaboration.collaborators.changed" />
+
+    <a class="refresh-url" href="{{ url(
+        'web/camp/default',
+        { 'camp': camp, 'controller': 'Collaborations', 'action': 'collaborations' },
+        { 'query': { 'page': paginator.pages.current } }) }}"
+    ></a>
+
     {% if paginator.count == 0 %}
         <p align="center">No collaborators</p>
 
@@ -32,6 +42,7 @@
                         <td>{{ coll.role }}</td>
                         <td>
                             <span class="pull-right">
+                                {{ collaboration(coll, 'xs') }}
                                 {% if acl.isAllowed(me, camp, 'configure') %}
                                     <a 	data-toggle="modal"
                                           data-backdrop="true"
@@ -45,6 +56,7 @@
                                     >
                                         <i class="fa fa-edit"></i> Edit
                                     </a>
+
                                 {% endif %}
                             </span>
                         </td>

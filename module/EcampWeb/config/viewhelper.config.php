@@ -38,6 +38,16 @@ return array(
             $renderer = $serviceLocator->get('ZfcTwigRenderer');
 
             return new \EcampWeb\View\Helper\Membership($acl, $userRepository, $groupMembershipRepository, $renderer);
-        }
+        },
+
+        'collaboration' => function($helperPluginManager){
+            $serviceLocator = $helperPluginManager->getServiceLocator();
+            $acl = $serviceLocator->get('EcampCore\Acl');
+            $userRepository = $serviceLocator->get('EcampCore\Repository\User');
+            $campCollaborationRepository = $serviceLocator->get('EcampCore\Repository\CampCollaboration');
+            $renderer = $serviceLocator->get('ZfcTwigRenderer');
+
+            return new \EcampWeb\View\Helper\Collaboration($acl, $userRepository, $campCollaborationRepository, $renderer);
+        },
     )
 );

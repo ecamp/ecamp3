@@ -5,7 +5,7 @@
 
     <div class="row">
         <div class="col-sm-12">
-            {% embed "helper/accordion.twig" %}
+            {% embed "helper/accordion.twig" with { 'id': 'collaborators' } %}
                 {% block panel_title %}
                     Collaborators
                 {% endblock %}

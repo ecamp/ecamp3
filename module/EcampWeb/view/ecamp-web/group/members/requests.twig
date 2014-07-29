@@ -18,7 +18,7 @@
                 <tr>
                     <th style="width: 30px"></th>
                     <th colspan="2">User</th>
-                    <th style="width: 25%">Role</th>
+                    <th >Role</th>
                     <th style="width: 300px">
                         <div class="pull-right">Options</div>
                     </th>
@@ -42,7 +42,7 @@
                         <td>{{ member.role }}</td>
                         <td>
                             <span class="pull-right">
-                                {{ membership(member) }}
+                                {{ membership(member, 'xs') }}
                             </span>
                         </td>
                     </tr>

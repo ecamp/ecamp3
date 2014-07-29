@@ -1,4 +1,14 @@
 <div class="paginatorContainer">
+    <input type="hidden" class="hide-paginator-event" value="collaboration.invitations.changed.pre" />
+    <input type="hidden" class="show-paginator-event" value="collaboration.invitations.changed.post" />
+    <input type="hidden" class="refresh-paginator-event" value="collaboration.invitations.changed" />
+
+    <a class="refresh-url" href="{{ url(
+        'web/camp/default',
+        { 'camp': camp, 'controller': 'Collaborations', 'action': 'invitations' },
+        { 'query': { 'page': paginator.pages.current } }) }}"
+    ></a>
+
     {% if paginator.count == 0 %}
         <p align="center">No open invitations</p>
 

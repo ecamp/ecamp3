@@ -1,26 +1,26 @@
 <div class="edit-membership-container">
     <div class="btn-group">
 
-        <a  class="btn btn-xs btn-default btn-danger reject-request"
+        <a  class="btn btn-{{ size }} btn-default btn-danger reject-request"
             href="{{ url('web/group-prefix/name/default',
             { 'group': membership.group, 'controller': 'MembershipHelper', 'action': 'rejectRequest' },
-            { 'query': { 'user': membership.user.id } }) }}"
+            { 'query': { 'user': membership.user.id, 'size': size } }) }}"
                 >
             <i class="fa fa-times"></i>
             <b>Reject request</b>
         </a>
 
-        <a  class="btn btn-xs btn-default btn-success accept-request"
+        <a  class="btn btn-{{ size }} btn-default btn-success accept-request"
             href="{{ url('web/group-prefix/name/default',
                         { 'group': membership.group, 'controller': 'MembershipHelper', 'action': 'acceptRequest' },
-                        { 'query': { 'user': membership.user.id } }) }}"
+                        { 'query': { 'user': membership.user.id, 'size': size } }) }}"
         >
             <i class="fa fa-check"></i>
             <b>Accept request</b>
         </a>
 
         <div class="btn-group">
-            <button type="button" class="btn btn-xs btn-default btn-success dropdown-toggle" data-toggle="dropdown">
+            <button type="button" class="btn btn-{{ size }} btn-default btn-success dropdown-toggle" data-toggle="dropdown">
                 <span class="caret"></span>
             </button>
             <ul class="dropdown-menu pull-right">
@@ -28,7 +28,7 @@
                     <a  class="accept-request"
                         href="{{ url('web/group-prefix/name/default',
                                     { 'group': membership.group, 'controller': 'MembershipHelper', 'action': 'acceptRequest' },
-                                    { 'query': { 'user': membership.user.id, 'role': 'member' } }) }}"
+                                    { 'query': { 'user': membership.user.id, 'size': size, 'role': 'member' } }) }}"
                     >
                         as member
                     </a>
@@ -37,7 +37,7 @@
                     <a  class="accept-request"
                         href="{{ url('web/group-prefix/name/default',
                                     { 'group': membership.group, 'controller': 'MembershipHelper', 'action': 'acceptRequest' },
-                                    { 'query': { 'user': membership.user.id, 'role': 'manager' } }) }}"
+                                    { 'query': { 'user': membership.user.id, 'size': size, 'role': 'manager' } }) }}"
                     >
                         as manager
                     </a>

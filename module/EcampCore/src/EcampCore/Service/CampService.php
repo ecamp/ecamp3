@@ -6,7 +6,6 @@ use EcampCore\Acl\Privilege;
 use EcampCore\Entity\Camp;
 use EcampCore\Entity\CampCollaboration;
 use EcampCore\Repository\CampRepository;
-use EcampCore\Validation\CampFieldset;
 
 use EcampLib\Service\ServiceBase;
 use EcampLib\Validation\ValidationException;
@@ -76,10 +75,12 @@ class CampService
         $camp = $this->Get($campId);
         $this->aclRequire($camp, Privilege::CAMP_CONFIGURE);
 
-        $campFieldset = new CampFieldset($this->getEntityManager());
+        $campValidationForm = $this->createValidationForm(
+            $camp, $data, array_intersect(array_keys($data), array('name', 'title', 'motto')));
 
-        $form = new EntityForm($this->getEntityManager(), $campFieldset, $camp);
-        $form->setDataAndValidate($data);
+        if (!$campValidationForm->isValid()) {
+            throw ValidationException::FromForm($campValidationForm);
+        }
 
         return $camp;
     }

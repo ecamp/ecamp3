@@ -27,11 +27,11 @@ jQuery(function($){
         }
 
         function hideTBody(){
-            $container.find('tbody').fadeOut();
+            $container.find('tbody').animate({ 'opacity': '0'});
         }
 
         function showTBody(){
-            $container.find('tbody').fadeIn();
+            $container.find('tbody').animate({ 'opacity': '1'});
         }
 
         function reloadCurrentPage(){

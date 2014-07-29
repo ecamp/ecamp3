@@ -210,7 +210,7 @@ class CampCollaborationService
 
         $this->validationAssert(
             $campCollaboration != null && $campCollaboration->isEstablished(),
-            "User is not a Camp Collaborator"
+            array("camp" => "User is not a Camp Collaborator")
         );
 
         $this->remove($campCollaboration);

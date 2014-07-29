@@ -1,4 +1,14 @@
 <div class="paginatorContainer">
+    <input type="hidden" class="hide-paginator-event" value="collaboration.requests.changed.pre" />
+    <input type="hidden" class="show-paginator-event" value="collaboration.requests.changed.post" />
+    <input type="hidden" class="refresh-paginator-event" value="collaboration.requests.changed" />
+
+    <a class="refresh-url" href="{{ url(
+        'web/camp/default',
+        { 'camp': camp, 'controller': 'Collaborations', 'action': 'requests' },
+        { 'query': { 'page': paginator.pages.current } }) }}"
+    ></a>
+
     {% if paginator.count == 0 %}
         <p align="center">No open requests</p>
 
@@ -25,6 +35,8 @@
                         <td>{{ coll.role }}</td>
                         <td>
                             <span class="pull-right">
+                                {{ collaboration(coll, 'xs') }}
+                                {#
                                 <div class="btn-group">
                                     <a  class="btn btn-xs btn-success"
                                         href="{{ url(
@@ -71,6 +83,7 @@
                                 >
                                     <i class="fa fa-remove"></i> Reject
                                 </a>
+                                #}
                             </span>
                         </td>
                     </tr>

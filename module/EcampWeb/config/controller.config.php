@@ -20,7 +20,9 @@ return array(
         'EcampWeb\Controller\Camp\Day'  			    => 'EcampWeb\Controller\Camp\DayController',
         'EcampWeb\Controller\Camp\Event'  			    => 'EcampWeb\Controller\Camp\EventController',
         'EcampWeb\Controller\Camp\Job'  			    => 'EcampWeb\Controller\Camp\JobController',
-        'EcampWeb\Controller\Camp\Collaborations'	    => 'EcampWeb\Controller\Camp\CollaborationsController'
+        'EcampWeb\Controller\Camp\Collaborations'	    => 'EcampWeb\Controller\Camp\CollaborationsController',
+        'EcampWeb\Controller\Camp\CollaborationHelper' 	=> 'EcampWeb\Controller\Camp\CollaborationHelperController',
+
     ),
 
     'factories' => array(

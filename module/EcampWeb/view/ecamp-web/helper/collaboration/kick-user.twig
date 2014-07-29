@@ -1,0 +1,55 @@
+<div class="edit-collaboration-container">
+    <div class="btn-group">
+        <a  class="btn btn-{{ size }} btn-danger"
+            data-toggle="modal"
+            href="#kickUserModal-{{ collaboration.camp.id }}-{{ collaboration.user.id }}"
+            {#
+            href="{{ url('web/camp/default',
+                        { 'camp': collaboration.camp, 'controller': 'CollaborationHelper', 'action': 'kickUser' },
+                        { 'query': { 'user': collaboration.user.id, 'size': size } }) }}"
+            #}
+        >
+            <b>Kick user</b>
+        </a>
+    </div>
+
+    <!-- add loading spinner -->
+
+
+    <div id="kickUserModal-{{ collaboration.camp.id }}-{{ collaboration.user.id }}"
+         class="modal fade"
+         tabindex="-1"
+         role="dialog"
+         aria-labelledby="kickUserModalLabel"
+         aria-hidden="true"
+            >
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Kick user</h4>
+                </div>
+                <div class="modal-body">
+                    Are you sure, you want to kick the user {{ collaboration.user.displayName }}?
+                </div>
+                <div class="modal-footer">
+                    <div class="row">
+                        <div class="btn-group col-xs-12">
+                            <a  class="btn btn-danger leave-camp col-xs-6 kick-user"
+                                data-dismiss="modal"
+                                href="{{ url('web/camp/default',
+                                            { 'camp': collaboration.camp, 'controller': 'CollaborationHelper', 'action': 'kickUser' },
+                                            { 'query': { 'user': collaboration.user.id, 'size': size } }) }}"
+                            >
+                                Kick user
+                            </a>
+                            <button type="button" class="btn btn-default col-xs-6" data-dismiss="modal">Cancel</button>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
