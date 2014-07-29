@@ -12,6 +12,7 @@ return array(
         'DoctrineTools',
         'DoctrineModule',
         'DoctrineORMModule',
+        'DoctrineDataFixtureModule',
 
 // 		'DiWrapper',
 //		'OcraServiceManager',

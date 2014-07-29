@@ -13,4 +13,4 @@ error_reporting((E_ALL | E_STRICT) ^ E_NOTICE);
 require 'init_autoloader.php';
 
 // Run the application!
-Zend\Mvc\Application::init(require 'config/app.config.php')->run();
+Zend\Mvc\Application::init(require 'config/application.config.php')->run();

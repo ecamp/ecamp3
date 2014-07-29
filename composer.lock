@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "470fc077d9e805cdc13efee0abed7f89",
+    "hash": "f43fc22ae3bf75de47086cdddba4e608",
     "packages": [
         {
             "name": "angular-ui/bootstrap",
@@ -98,12 +98,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/silviomoreto/bootstrap-select.git",
-                "reference": "0e1b27a538ffe801feda59c4341f4987b98f45d8"
+                "reference": "a7d6e6f878fbadc500e62a66899eb89072a09270"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/silviomoreto/bootstrap-select/zipball/0e1b27a538ffe801feda59c4341f4987b98f45d8",
-                "reference": "0e1b27a538ffe801feda59c4341f4987b98f45d8",
+                "url": "https://api.github.com/repos/silviomoreto/bootstrap-select/zipball/a7d6e6f878fbadc500e62a66899eb89072a09270",
+                "reference": "a7d6e6f878fbadc500e62a66899eb89072a09270",
                 "shasum": ""
             },
             "suggest": {
@@ -128,7 +128,7 @@
                 "replacement",
                 "select"
             ],
-            "time": "2014-04-29 12:09:12"
+            "time": "2014-07-28 14:23:23"
         },
         {
             "name": "components/angular-resource",
@@ -203,16 +203,16 @@
         },
         {
             "name": "components/bootstrap",
-            "version": "3.1.1",
+            "version": "3.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/components/bootstrap.git",
-                "reference": "839953cfb830aa27e8fd94404a4a6e02fb38a51a"
+                "reference": "9c6cfef04cb74587cd610f7dca8c4352d77bfc32"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/components/bootstrap/zipball/839953cfb830aa27e8fd94404a4a6e02fb38a51a",
-                "reference": "839953cfb830aa27e8fd94404a4a6e02fb38a51a",
+                "url": "https://api.github.com/repos/components/bootstrap/zipball/9c6cfef04cb74587cd610f7dca8c4352d77bfc32",
+                "reference": "9c6cfef04cb74587cd610f7dca8c4352d77bfc32",
                 "shasum": ""
             },
             "require": {
@@ -231,7 +231,8 @@
                         "js/bootstrap.min.js",
                         "css/*.css",
                         "fonts/*",
-                        "less/*"
+                        "less/mixins/*.less",
+                        "less/*.less"
                     ],
                     "shim": {
                         "deps": [
@@ -250,12 +251,12 @@
                 }
             ],
             "description": "Sleek, intuitive, and powerful front-end framework for faster and easier web development.",
-            "homepage": "http://twitter.github.com/bootstrap/",
+            "homepage": "http://getbootstrap.com",
             "keywords": [
                 "bootstrap",
                 "css"
             ],
-            "time": "2014-02-25 09:50:56"
+            "time": "2014-07-02 12:39:50"
         },
         {
             "name": "components/font-awesome",
@@ -299,16 +300,16 @@
         },
         {
             "name": "components/jquery",
-            "version": "2.1.0",
+            "version": "2.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/components/jquery.git",
-                "reference": "099ad075783a6189f13c1e742e03f9cc95654a27"
+                "reference": "9e2c56ed9f17e6b55de97ae64a3ed0cf17cd30d4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/components/jquery/zipball/099ad075783a6189f13c1e742e03f9cc95654a27",
-                "reference": "099ad075783a6189f13c1e742e03f9cc95654a27",
+                "url": "https://api.github.com/repos/components/jquery/zipball/9e2c56ed9f17e6b55de97ae64a3ed0cf17cd30d4",
+                "reference": "9e2c56ed9f17e6b55de97ae64a3ed0cf17cd30d4",
                 "shasum": ""
             },
             "require": {
@@ -341,20 +342,20 @@
             ],
             "description": "jQuery JavaScript Library",
             "homepage": "http://jquery.com",
-            "time": "2014-01-24 19:52:32"
+            "time": "2014-07-02 11:52:43"
         },
         {
             "name": "components/jqueryui",
-            "version": "1.10.4",
+            "version": "1.11.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/components/jqueryui.git",
-                "reference": "51bc3549dd6530a18f43be45c3e8ae520805b9e4"
+                "reference": "a024ef6de51ccd4bc0cfeea470cde113d33a59a8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/components/jqueryui/zipball/51bc3549dd6530a18f43be45c3e8ae520805b9e4",
-                "reference": "51bc3549dd6530a18f43be45c3e8ae520805b9e4",
+                "url": "https://api.github.com/repos/components/jqueryui/zipball/a024ef6de51ccd4bc0cfeea470cde113d33a59a8",
+                "reference": "a024ef6de51ccd4bc0cfeea470cde113d33a59a8",
                 "shasum": ""
             },
             "require": {
@@ -365,11 +366,12 @@
                 "component": {
                     "name": "jquery-ui",
                     "scripts": [
-                        "ui/jquery-ui.js"
+                        "jquery-ui.js"
                     ],
                     "files": [
                         "ui/**",
-                        "themes/**"
+                        "themes/**",
+                        "jquery-ui.min.js"
                     ],
                     "shim": {
                         "deps": [
@@ -421,20 +423,20 @@
                 }
             ],
             "description": "jQuery UI is a curated set of user interface interactions, effects, widgets, and themes built on top of the jQuery JavaScript Library. Whether you're building highly interactive web applications or you just need to add a date picker to a form control, jQuery UI is the perfect choice.",
-            "time": "2014-02-19 12:22:40"
+            "time": "2014-07-19 12:11:30"
         },
         {
             "name": "components/typeahead.js",
-            "version": "0.10.2",
+            "version": "0.10.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/components/typeahead.js.git",
-                "reference": "0944a9492758d34ff9119ebdfc96a09037e171bc"
+                "reference": "1310201eb1eb4a86171da64dbb181fb3778ffe30"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/components/typeahead.js/zipball/0944a9492758d34ff9119ebdfc96a09037e171bc",
-                "reference": "0944a9492758d34ff9119ebdfc96a09037e171bc",
+                "url": "https://api.github.com/repos/components/typeahead.js/zipball/1310201eb1eb4a86171da64dbb181fb3778ffe30",
+                "reference": "1310201eb1eb4a86171da64dbb181fb3778ffe30",
                 "shasum": ""
             },
             "require": {
@@ -445,12 +447,12 @@
                 "component": {
                     "name": "typeaheadjs",
                     "scripts": [
-                        "typeahead.js"
+                        "typeahead.bundle.min.js"
                     ],
                     "files": [
-                        "typeahead.min.js",
-                        "typeahead.js",
-                        "typeahead.bundle.min.js"
+                        "typeahead.bundle.min.js",
+                        "typeahead.bundle.js",
+                        "typeahead.jquery.js"
                     ]
                 }
             },
@@ -460,20 +462,20 @@
             ],
             "description": "typeahead.js is a fast and fully-featured autocomplete library",
             "homepage": "http://github.com/components/typeahead.js",
-            "time": "2014-04-07 20:01:03"
+            "time": "2014-07-25 20:59:50"
         },
         {
             "name": "doctrine/annotations",
-            "version": "v1.1.2",
+            "version": "v1.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/annotations.git",
-                "reference": "40db0c96985aab2822edbc4848b3bd2429e02670"
+                "reference": "d9b1a37e9351ddde1f19f09a02e3d6ee92e82efd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/annotations/zipball/40db0c96985aab2822edbc4848b3bd2429e02670",
-                "reference": "40db0c96985aab2822edbc4848b3bd2429e02670",
+                "url": "https://api.github.com/repos/doctrine/annotations/zipball/d9b1a37e9351ddde1f19f09a02e3d6ee92e82efd",
+                "reference": "d9b1a37e9351ddde1f19f09a02e3d6ee92e82efd",
                 "shasum": ""
             },
             "require": {
@@ -481,12 +483,13 @@
                 "php": ">=5.3.2"
             },
             "require-dev": {
-                "doctrine/cache": "1.*"
+                "doctrine/cache": "1.*",
+                "phpunit/phpunit": "4.*"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.0.x-dev"
+                    "dev-master": "1.3.x-dev"
                 }
             },
             "autoload": {
@@ -502,7 +505,8 @@
                 {
                     "name": "Jonathan Wage",
                     "email": "jonwage@gmail.com",
-                    "homepage": "http://www.jwage.com/"
+                    "homepage": "http://www.jwage.com/",
+                    "role": "Creator"
                 },
                 {
                     "name": "Guilherme Blanco",
@@ -520,7 +524,7 @@
                 {
                     "name": "Johannes Schmitt",
                     "email": "schmittjoh@gmail.com",
-                    "homepage": "http://jmsyst.com",
+                    "homepage": "https://github.com/schmittjoh",
                     "role": "Developer of wrapped JMSSerializerBundle"
                 }
             ],
@@ -531,7 +535,7 @@
                 "docblock",
                 "parser"
             ],
-            "time": "2013-06-16 21:33:03"
+            "time": "2014-07-06 15:52:21"
         },
         {
             "name": "doctrine/cache",
@@ -576,7 +580,8 @@
                 {
                     "name": "Jonathan Wage",
                     "email": "jonwage@gmail.com",
-                    "homepage": "http://www.jwage.com/"
+                    "homepage": "http://www.jwage.com/",
+                    "role": "Creator"
                 },
                 {
                     "name": "Guilherme Blanco",
@@ -751,6 +756,62 @@
                 "spl"
             ],
             "time": "2014-05-21 19:28:51"
+        },
+        {
+            "name": "doctrine/data-fixtures",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/doctrine/data-fixtures.git",
+                "reference": "b4a135c7db56ecc4602b54a2184368f440cac33e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/doctrine/data-fixtures/zipball/b4a135c7db56ecc4602b54a2184368f440cac33e",
+                "reference": "b4a135c7db56ecc4602b54a2184368f440cac33e",
+                "shasum": ""
+            },
+            "require": {
+                "doctrine/common": ">=2.2,<2.5-dev",
+                "php": ">=5.3.2"
+            },
+            "require-dev": {
+                "doctrine/orm": ">=2.2,<2.5-dev"
+            },
+            "suggest": {
+                "doctrine/mongodb-odm": "For loading MongoDB ODM fixtures",
+                "doctrine/orm": "For loading ORM fixtures",
+                "doctrine/phpcr-odm": "For loading PHPCR ODM fixtures"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Doctrine\\Common\\DataFixtures": "lib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jonathan Wage",
+                    "email": "jonwage@gmail.com",
+                    "homepage": "http://www.jwage.com/",
+                    "role": "Creator"
+                }
+            ],
+            "description": "Data Fixtures for all Doctrine Object Managers",
+            "homepage": "http://www.doctrine-project.org",
+            "keywords": [
+                "database"
+            ],
+            "time": "2013-07-10 17:04:07"
         },
         {
             "name": "doctrine/dbal",
@@ -1016,7 +1077,8 @@
                 {
                     "name": "Jonathan Wage",
                     "email": "jonwage@gmail.com",
-                    "homepage": "http://www.jwage.com/"
+                    "homepage": "http://www.jwage.com/",
+                    "role": "Creator"
                 },
                 {
                     "name": "Guilherme Blanco",
@@ -1034,7 +1096,7 @@
                 {
                     "name": "Johannes Schmitt",
                     "email": "schmittjoh@gmail.com",
-                    "homepage": "https://github.com/schmittjoh",
+                    "homepage": "http://jmsyst.com",
                     "role": "Developer of wrapped JMSSerializerBundle"
                 }
             ],
@@ -1106,12 +1168,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/migrations.git",
-                "reference": "46a031ddaea47d0685200027cfe8c83b02aee6f6"
+                "reference": "4256449c5e2603a6b6ee5a78c7c4521d4d4430b8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/migrations/zipball/46a031ddaea47d0685200027cfe8c83b02aee6f6",
-                "reference": "46a031ddaea47d0685200027cfe8c83b02aee6f6",
+                "url": "https://api.github.com/repos/doctrine/migrations/zipball/4256449c5e2603a6b6ee5a78c7c4521d4d4430b8",
+                "reference": "4256449c5e2603a6b6ee5a78c7c4521d4d4430b8",
                 "shasum": ""
             },
             "require": {
@@ -1158,20 +1220,20 @@
                 "database",
                 "migrations"
             ],
-            "time": "2014-03-16 19:02:43"
+            "time": "2014-07-09 07:58:02"
         },
         {
             "name": "doctrine/orm",
-            "version": "v2.4.2",
+            "version": "v2.4.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/doctrine2.git",
-                "reference": "0363a5548d9263f979f9ca149decb9cfc66419ab"
+                "reference": "fc19c3b53dcd00e6584db40669fdd699c4671f97"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/doctrine2/zipball/0363a5548d9263f979f9ca149decb9cfc66419ab",
-                "reference": "0363a5548d9263f979f9ca149decb9cfc66419ab",
+                "url": "https://api.github.com/repos/doctrine/doctrine2/zipball/fc19c3b53dcd00e6584db40669fdd699c4671f97",
+                "reference": "fc19c3b53dcd00e6584db40669fdd699c4671f97",
                 "shasum": ""
             },
             "require": {
@@ -1234,7 +1296,7 @@
                 "database",
                 "orm"
             ],
-            "time": "2014-02-08 16:35:09"
+            "time": "2014-07-11 03:05:53"
         },
         {
             "name": "fresque/fresque",
@@ -1292,16 +1354,16 @@
         },
         {
             "name": "h4cc/wkhtmltopdf-amd64",
-            "version": "0.12.0",
+            "version": "0.12.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/h4cc/wkhtmltopdf-amd64.git",
-                "reference": "ebaa56a8ba0ae70a147ee70d544abf743db290d3"
+                "reference": "f5bb1877134ed0cd522eedf71bbc6e3c42f10964"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/h4cc/wkhtmltopdf-amd64/zipball/ebaa56a8ba0ae70a147ee70d544abf743db290d3",
-                "reference": "ebaa56a8ba0ae70a147ee70d544abf743db290d3",
+                "url": "https://api.github.com/repos/h4cc/wkhtmltopdf-amd64/zipball/f5bb1877134ed0cd522eedf71bbc6e3c42f10964",
+                "reference": "f5bb1877134ed0cd522eedf71bbc6e3c42f10964",
                 "shasum": ""
             },
             "bin": [
@@ -1328,20 +1390,20 @@
                 "thumbnail",
                 "wkhtmltopdf"
             ],
-            "time": "2014-02-11 21:33:07"
+            "time": "2014-07-07 06:00:35"
         },
         {
             "name": "h4cc/wkhtmltopdf-i386",
-            "version": "0.12.0",
+            "version": "0.12.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/h4cc/wkhtmltopdf-i386.git",
-                "reference": "7afbb1468b65305b940fce9c8a9574cb7c0f17b4"
+                "reference": "a330b9c02068ebeae682f29b66815c18a238b897"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/h4cc/wkhtmltopdf-i386/zipball/7afbb1468b65305b940fce9c8a9574cb7c0f17b4",
-                "reference": "7afbb1468b65305b940fce9c8a9574cb7c0f17b4",
+                "url": "https://api.github.com/repos/h4cc/wkhtmltopdf-i386/zipball/a330b9c02068ebeae682f29b66815c18a238b897",
+                "reference": "a330b9c02068ebeae682f29b66815c18a238b897",
                 "shasum": ""
             },
             "bin": [
@@ -1368,7 +1430,61 @@
                 "thumbnail",
                 "wkhtmltopdf"
             ],
-            "time": "2014-02-11 22:00:57"
+            "time": "2014-07-07 06:03:12"
+        },
+        {
+            "name": "hounddog/doctrine-data-fixture-module",
+            "version": "0.0.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Hounddog/DoctrineDataFixtureModule.git",
+                "reference": "4f09fd948dfaf5003acccba4533d52291cd76d2b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Hounddog/DoctrineDataFixtureModule/zipball/4f09fd948dfaf5003acccba4533d52291cd76d2b",
+                "reference": "4f09fd948dfaf5003acccba4533d52291cd76d2b",
+                "shasum": ""
+            },
+            "require": {
+                "doctrine/data-fixtures": "1.0.*",
+                "doctrine/doctrine-orm-module": "~0.7",
+                "php": ">=5.3.3",
+                "zendframework/zend-eventmanager": "2.*",
+                "zendframework/zend-modulemanager": "2.*",
+                "zendframework/zend-servicemanager": "2.*"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "3.7.*",
+                "satooshi/php-coveralls": ">=0.6.0",
+                "squizlabs/php_codesniffer": "1.4.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "DoctrineDataFixtureModule": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Martin Shwalbe",
+                    "email": "martin.shwalbe@gmail.com",
+                    "homepage": "http://hounddog.github.com"
+                }
+            ],
+            "description": "Zend Framework 2 Module that provides Doctrine Data-Fixture functionality",
+            "homepage": "http://www.doctrine-project.org/",
+            "keywords": [
+                "data-fixture",
+                "doctrine",
+                "module",
+                "zf2"
+            ],
+            "time": "2013-12-12 15:42:53"
         },
         {
             "name": "kamisama/monolog-init",
@@ -1823,13 +1939,13 @@
             "version": "2.2.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/weierophinney/PhlyRestfully.git",
-                "reference": "2.2.0"
+                "url": "https://github.com/phly/PhlyRestfully.git",
+                "reference": "189b471d3b1a212bd81833b7cd93dda263dce185"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/weierophinney/PhlyRestfully/zipball/2.2.0",
-                "reference": "2.2.0",
+                "url": "https://api.github.com/repos/phly/PhlyRestfully/zipball/189b471d3b1a212bd81833b7cd93dda263dce185",
+                "reference": "189b471d3b1a212bd81833b7cd93dda263dce185",
                 "shasum": ""
             },
             "require": {
@@ -2038,12 +2154,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-timer.git",
-                "reference": "1.0.5"
+                "reference": "19689d4354b295ee3d8c54b4f42c3efb69cbc17c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-timer/zipball/1.0.5",
-                "reference": "1.0.5",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-timer/zipball/19689d4354b295ee3d8c54b4f42c3efb69cbc17c",
+                "reference": "19689d4354b295ee3d8c54b4f42c3efb69cbc17c",
                 "shasum": ""
             },
             "require": {
@@ -2441,17 +2557,17 @@
         },
         {
             "name": "symfony/console",
-            "version": "v2.5.0",
+            "version": "v2.5.2",
             "target-dir": "Symfony/Component/Console",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Console.git",
-                "reference": "ef4ca73b0b3a10cbac653d3ca482d0cdd4502b2c"
+                "reference": "386fa63407805959bd2c5fe540294721ad4224c8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Console/zipball/ef4ca73b0b3a10cbac653d3ca482d0cdd4502b2c",
-                "reference": "ef4ca73b0b3a10cbac653d3ca482d0cdd4502b2c",
+                "url": "https://api.github.com/repos/symfony/Console/zipball/386fa63407805959bd2c5fe540294721ad4224c8",
+                "reference": "386fa63407805959bd2c5fe540294721ad4224c8",
                 "shasum": ""
             },
             "require": {
@@ -2494,21 +2610,21 @@
             ],
             "description": "Symfony Console Component",
             "homepage": "http://symfony.com",
-            "time": "2014-05-22 08:54:24"
+            "time": "2014-07-15 14:15:12"
         },
         {
             "name": "symfony/process",
-            "version": "v2.5.0",
+            "version": "v2.5.2",
             "target-dir": "Symfony/Component/Process",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Process.git",
-                "reference": "5d7d78e23894544740219e006320678cfa4cd45b"
+                "reference": "5e53efbf61a7fbf73c79e3e08feea50f64c20bfa"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Process/zipball/5d7d78e23894544740219e006320678cfa4cd45b",
-                "reference": "5d7d78e23894544740219e006320678cfa4cd45b",
+                "url": "https://api.github.com/repos/symfony/Process/zipball/5e53efbf61a7fbf73c79e3e08feea50f64c20bfa",
+                "reference": "5e53efbf61a7fbf73c79e3e08feea50f64c20bfa",
                 "shasum": ""
             },
             "require": {
@@ -2543,21 +2659,21 @@
             ],
             "description": "Symfony Process Component",
             "homepage": "http://symfony.com",
-            "time": "2014-05-23 09:02:52"
+            "time": "2014-07-09 09:05:48"
         },
         {
             "name": "symfony/yaml",
-            "version": "v2.5.0",
+            "version": "v2.5.2",
             "target-dir": "Symfony/Component/Yaml",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Yaml.git",
-                "reference": "b4b09c68ec2f2727574544ef0173684281a5033c"
+                "reference": "f868ecdbcc0276b6158dfbf08b9e98ce07f014e1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Yaml/zipball/b4b09c68ec2f2727574544ef0173684281a5033c",
-                "reference": "b4b09c68ec2f2727574544ef0173684281a5033c",
+                "url": "https://api.github.com/repos/symfony/Yaml/zipball/f868ecdbcc0276b6158dfbf08b9e98ce07f014e1",
+                "reference": "f868ecdbcc0276b6158dfbf08b9e98ce07f014e1",
                 "shasum": ""
             },
             "require": {
@@ -2592,20 +2708,20 @@
             ],
             "description": "Symfony Yaml Component",
             "homepage": "http://symfony.com",
-            "time": "2014-05-16 14:25:18"
+            "time": "2014-07-09 09:05:48"
         },
         {
             "name": "twig/twig",
-            "version": "v1.15.1",
+            "version": "v1.16.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/fabpot/Twig.git",
-                "reference": "1fb5784662f438d7d96a541e305e28b812e2eeed"
+                "reference": "8ce37115802e257a984a82d38254884085060024"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fabpot/Twig/zipball/1fb5784662f438d7d96a541e305e28b812e2eeed",
-                "reference": "1fb5784662f438d7d96a541e305e28b812e2eeed",
+                "url": "https://api.github.com/repos/fabpot/Twig/zipball/8ce37115802e257a984a82d38254884085060024",
+                "reference": "8ce37115802e257a984a82d38254884085060024",
                 "shasum": ""
             },
             "require": {
@@ -2614,7 +2730,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.15-dev"
+                    "dev-master": "1.16-dev"
                 }
             },
             "autoload": {
@@ -2649,26 +2765,29 @@
             "keywords": [
                 "templating"
             ],
-            "time": "2014-02-13 10:19:29"
+            "time": "2014-07-05 12:19:05"
         },
         {
             "name": "twitter/bootstrap",
-            "version": "v3.1.1",
+            "version": "v3.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/twbs/bootstrap.git",
-                "reference": "a365d8689c3f3cee7f1acf86b61270ecca8e106d"
+                "reference": "c068162161154a4b85110ea1e7dd3d7897ce2b72"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twbs/bootstrap/zipball/a365d8689c3f3cee7f1acf86b61270ecca8e106d",
-                "reference": "a365d8689c3f3cee7f1acf86b61270ecca8e106d",
+                "url": "https://api.github.com/repos/twbs/bootstrap/zipball/c068162161154a4b85110ea1e7dd3d7897ce2b72",
+                "reference": "c068162161154a4b85110ea1e7dd3d7897ce2b72",
                 "shasum": ""
+            },
+            "replace": {
+                "twitter/bootstrap": "self.version"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.0.x-dev"
+                    "dev-master": "3.2.x-dev"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -2685,13 +2804,19 @@
                     "email": "markdotto@gmail.com"
                 }
             ],
-            "description": "Sleek, intuitive, and powerful mobile first front-end framework for faster and easier web development.",
+            "description": "The most popular front-end framework for developing responsive, mobile first projects on the web.",
             "homepage": "http://getbootstrap.com",
             "keywords": [
-                "bootstrap",
-                "css"
+                "JS",
+                "css",
+                "framework",
+                "front-end",
+                "less",
+                "mobile-first",
+                "responsive",
+                "web"
             ],
-            "time": "2014-02-13 17:24:59"
+            "time": "2014-06-26 16:36:48"
         },
         {
             "name": "zendframework/zend-developer-tools",
@@ -2699,13 +2824,13 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/zendframework/ZendDeveloperTools.git",
-                "reference": "8907edf3a03ae0ac761b43e33b3629ac1b6c3cf3"
+                "reference": "a9244b9cc17861eb36a7c899d450119575d16d41"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://packages.zendframework.com/composer/zendframework-zend-developer-tools-8907edf3a03ae0ac761b43e33b3629ac1b6c3cf3-zip-d7f388.zip",
+                "url": "https://packages.zendframework.com/composer/zendframework-zend-developer-tools-a9244b9cc17861eb36a7c899d450119575d16d41-zip-a04b8e.zip",
                 "reference": "dev-master",
-                "shasum": "4b770a0b2178e1627cd10e73030842305a1eb150"
+                "shasum": "51d7c7df77d5e09acbe37bd2d2edae9441507b4a"
             },
             "require": {
                 "php": ">=5.3.3",
@@ -2752,10 +2877,10 @@
                 "zf2"
             ],
             "support": {
-                "source": "https://github.com/zendframework/ZendDeveloperTools/tree/master",
+                "source": "https://github.com/zendframework/ZendDeveloperTools/tree/1.0.0-BETA5",
                 "issues": "https://github.com/zendframework/ZendDeveloperTools/issues"
             },
-            "time": "2014-05-06 03:29:18"
+            "time": "2014-07-11 19:51:50"
         },
         {
             "name": "zendframework/zenddiagnostics",
@@ -3168,12 +3293,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/ZF-Commons/ZfcTwig.git",
-                "reference": "d0da0e702db364ae4dea683b11cc47648e91f4d6"
+                "reference": "5292c33bf1abcc1f12fbc6f154f7107d5087f990"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ZF-Commons/ZfcTwig/zipball/d0da0e702db364ae4dea683b11cc47648e91f4d6",
-                "reference": "d0da0e702db364ae4dea683b11cc47648e91f4d6",
+                "url": "https://api.github.com/repos/ZF-Commons/ZfcTwig/zipball/5292c33bf1abcc1f12fbc6f154f7107d5087f990",
+                "reference": "5292c33bf1abcc1f12fbc6f154f7107d5087f990",
                 "shasum": ""
             },
             "require": {
@@ -3209,7 +3334,7 @@
                 "twig",
                 "zf2"
             ],
-            "time": "2014-05-03 15:59:59"
+            "time": "2014-07-09 12:44:01"
         }
     ],
     "packages-dev": [
@@ -3234,6 +3359,7 @@
         "kamisama/php-resque-ex": 20,
         "atukai/at-php-settings": 20
     },
+    "prefer-stable": false,
     "platform": {
         "php": ">=5.3.3"
     },

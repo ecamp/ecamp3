@@ -15,6 +15,16 @@
 	<input type="submit" value="Drop Schema" />
 </form>
 <br />
+
+<h2>Fixtures</h2>
+<form style="display: inline" action="{{ url('db/default', {'controller': 'fixtures', 'action': 'append'}) }}">
+	<input type="submit" value="Append" />
+</form>
+<form style="display: inline" action="{{ url('db/default', {'controller': 'fixtures', 'action': 'default'}) }}">
+	<input type="submit" value="Default (Delete and import)" />
+</form>
+
+<br />
 <br />
 
 <h2>Migration</h2>
