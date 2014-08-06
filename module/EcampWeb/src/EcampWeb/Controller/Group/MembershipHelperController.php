@@ -79,7 +79,6 @@ class MembershipHelperController
         try {
             $this->getGroupMembershipService()->inviteUser($this->getMe(), $group, $user, $role);
         } catch (\Exception $ex) {
-            var_dump($ex);
         }
 
         return $this->createViewModel($group, $user);

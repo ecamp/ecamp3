@@ -1,7 +1,7 @@
 
 jQuery(function($){
 
-    var events = $(CNS('ecamp.events'));
+    var events = CNS('ecamp.events');
 
     function getCollaborationController(event){
         event.preventDefault();
@@ -11,7 +11,8 @@ jQuery(function($){
         var container = $this.closest('div.edit-collaboration-container');
 
         var result = function(){
-            container.fadeOut(result.fadeOutPromis.resolve);
+            result.fadeOutPromis.resolve();
+            container.fadeOut();
             container.load(url, result.loadPromis.resolve);
         };
         result.fadeOutPromis = $.Deferred();
@@ -30,13 +31,13 @@ jQuery(function($){
 
         var ctrl = getCollaborationController.call(this, event);
         ctrl.fadeOutPromis.then(function(){
-            events.trigger('collaboration.requests.changed.pre');
+            events.trigger('camp.collaborationRequests.beginUpdate');
         });
         ctrl.loadPromis.then(function(){
-            events.trigger('collaboration.requests.changed');
+            events.trigger('camp.collaborationRequests.refresh');
         });
         ctrl.fadeInPromis.then(function(){
-            events.trigger('collaboration.requests.changed.post');
+            events.trigger('camp.collaborationRequests.endUpdate');
         });
 
         ctrl();
@@ -46,13 +47,13 @@ jQuery(function($){
 
         var ctrl = getCollaborationController.call(this, event);
         ctrl.fadeOutPromis.then(function(){
-            events.trigger('collaboration.requests.changed.pre');
+            events.trigger('camp.collaborationRequests.beginUpdate');
         });
         ctrl.loadPromis.then(function(){
-            events.trigger('collaboration.requests.changed');
+            events.trigger('camp.collaborationRequests.refresh');
         });
         ctrl.fadeInPromis.then(function(){
-            events.trigger('collaboration.requests.changed.post');
+            events.trigger('camp.collaborationRequests.endUpdate');
         });
 
         ctrl();
@@ -62,13 +63,13 @@ jQuery(function($){
 
         var ctrl = getCollaborationController.call(this, event);
         ctrl.fadeOutPromis.then(function(){
-            events.trigger('collaboration.requests.changed.pre');
+            events.trigger('camp.collaborationRequests.beginUpdate');
         });
         ctrl.loadPromis.then(function(){
-            events.trigger('collaboration.requests.changed');
+            events.trigger('camp.collaborationRequests.refresh');
         });
         ctrl.fadeInPromis.then(function(){
-            events.trigger('collaboration.requests.changed.post');
+            events.trigger('camp.collaborationRequests.endUpdate');
         });
 
         ctrl();
@@ -78,16 +79,16 @@ jQuery(function($){
 
         var ctrl = getCollaborationController.call(this, event);
         ctrl.fadeOutPromis.then(function(){
-            events.trigger('collaboration.collaborators.changed.pre');
-            events.trigger('collaboration.requests.changed.pre');
+            events.trigger('camp.collaborations.beginUpdate');
+            events.trigger('camp.collaborationRequests.beginUpdate');
         });
         ctrl.loadPromis.then(function(){
-            events.trigger('collaboration.collaborators.changed');
-            events.trigger('collaboration.requests.changed');
+            events.trigger('camp.collaborations.refresh');
+            events.trigger('camp.collaborationRequests.refresh');
         });
         ctrl.fadeInPromis.then(function(){
-            events.trigger('collaboration.collaborators.changed.post');
-            events.trigger('collaboration.requests.changed.post');
+            events.trigger('camp.collaborations.endUpdate');
+            events.trigger('camp.collaborationRequests.endUpdate');
         });
 
         ctrl();
@@ -98,13 +99,13 @@ jQuery(function($){
 
         var ctrl = getCollaborationController.call(this, event);
         ctrl.fadeOutPromis.then(function(){
-            events.trigger('collaboration.invitations.changed.pre');
+            events.trigger('camp.collaborationInvitations.beginUpdate');
         });
         ctrl.loadPromis.then(function(){
-            events.trigger('collaboration.invitations.changed');
+            events.trigger('camp.collaborationInvitations.refresh');
         });
         ctrl.fadeInPromis.then(function(){
-            events.trigger('collaboration.invitations.changed.post');
+            events.trigger('camp.collaborationInvitations.endUpdate');
         });
 
         ctrl();
@@ -114,13 +115,13 @@ jQuery(function($){
 
         var ctrl = getCollaborationController.call(this, event);
         ctrl.fadeOutPromis.then(function(){
-            events.trigger('collaboration.invitations.changed.pre');
+            events.trigger('camp.collaborationInvitations.beginUpdate');
         });
         ctrl.loadPromis.then(function(){
-            events.trigger('collaboration.invitations.changed');
+            events.trigger('camp.collaborationInvitations.refresh');
         });
         ctrl.fadeInPromis.then(function(){
-            events.trigger('collaboration.invitations.changed.post');
+            events.trigger('camp.collaborationInvitations.endUpdate');
         });
 
         ctrl();
@@ -130,13 +131,13 @@ jQuery(function($){
 
         var ctrl = getCollaborationController.call(this, event);
         ctrl.fadeOutPromis.then(function(){
-            events.trigger('collaboration.invitations.changed.pre');
+            events.trigger('camp.collaborationInvitations.beginUpdate');
         });
         ctrl.loadPromis.then(function(){
-            events.trigger('collaboration.invitations.changed');
+            events.trigger('camp.collaborationInvitations.refresh');
         });
         ctrl.fadeInPromis.then(function(){
-            events.trigger('collaboration.invitations.changed.post');
+            events.trigger('camp.collaborationInvitations.endUpdate');
         });
 
         ctrl();
@@ -146,16 +147,16 @@ jQuery(function($){
 
         var ctrl = getCollaborationController.call(this, event);
         ctrl.fadeOutPromis.then(function(){
-            events.trigger('collaboration.invitations.changed.pre');
-            events.trigger('collaboration.collaborators.changed.pre');
+            events.trigger('camp.collaborations.beginUpdate');
+            events.trigger('camp.collaborationInvitations.beginUpdate');
         });
         ctrl.loadPromis.then(function(){
-            events.trigger('collaboration.invitations.changed');
-            events.trigger('collaboration.collaborators.changed');
+            events.trigger('camp.collaborations.refresh');
+            events.trigger('camp.collaborationInvitations.refresh');
         });
         ctrl.fadeInPromis.then(function(){
-            events.trigger('collaboration.invitations.changed.post');
-            events.trigger('collaboration.collaborators.changed.post');
+            events.trigger('camp.collaborations.endUpdate');
+            events.trigger('camp.collaborationInvitations.endUpdate');
         });
 
         ctrl();
@@ -166,13 +167,13 @@ jQuery(function($){
 
         var ctrl = getCollaborationController.call(this, event);
         ctrl.fadeOutPromis.then(function(){
-            events.trigger('collaboration.collaborators.changed.pre');
+            events.trigger('camp.collaborations.beginUpdate');
         });
         ctrl.loadPromis.then(function(){
-            events.trigger('collaboration.collaborators.changed');
+            events.trigger('camp.collaborations.refresh');
         });
         ctrl.fadeInPromis.then(function(){
-            events.trigger('collaboration.collaborators.changed.post');
+            events.trigger('camp.collaborations.endUpdate');
         });
 
         ctrl();
@@ -182,13 +183,13 @@ jQuery(function($){
 
         var ctrl = getCollaborationController.call(this, event);
         ctrl.fadeOutPromis.then(function(){
-            events.trigger('collaboration.collaborators.changed.pre');
+            events.trigger('camp.collaborations.beginUpdate');
         });
         ctrl.loadPromis.then(function(){
-            events.trigger('collaboration.collaborators.changed');
+            events.trigger('camp.collaborations.refresh');
         });
         ctrl.fadeInPromis.then(function(){
-            events.trigger('collaboration.collaborators.changed.post');
+            events.trigger('camp.collaborations.endUpdate');
         });
 
         ctrl();

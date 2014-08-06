@@ -2,8 +2,10 @@
 
 namespace EcampWeb\Controller\Camp;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Criteria;
 use DoctrineModule\Paginator\Adapter\Selectable as SelectableAdapter;
+use DoctrineModule\Paginator\Adapter\Collection as CollectionAdapter;
 use EcampWeb\Element\ApiCollectionPaginator;
 use EcampCore\Entity\CampCollaboration;
 use EcampCore\Entity\User;
@@ -27,6 +29,42 @@ class CollaborationsController extends BaseController
     private function getCollaborationService()
     {
         return $this->getServiceLocator()->get('EcampCore\Service\CampCollaboration');
+    }
+
+    protected function getUserPaginator($query)
+    {
+        /*
+        $query = str_replace(',', ' ', $query);
+        $query = trim($query);
+
+        if (strlen($query) >= 3) {
+            $criteria = Criteria::create();
+            $qs = explode(' ', $query);
+            foreach ($qs as $q) {
+                $criteria->andWhere(Criteria::expr()->orX(
+                    Criteria::expr()->contains('username', $q),
+                    Criteria::expr()->contains('firstname', $q),
+                    Criteria::expr()->contains('surname', $q),
+                    Criteria::expr()->contains('scoutname', $q),
+                    Criteria::expr()->contains('email', $q)
+                ));
+            }
+
+            $adapter = new SelectableAdapter($this->getUserRepository(), $criteria);
+        } else {
+            $adapter = new CollectionAdapter(new ArrayCollection());
+        }
+
+        $paginator = new Paginator($adapter);
+        $paginator->setItemCountPerPage(15);
+        $paginator->setCurrentPageNumber(1);
+        */
+
+        $paginator = $this->getUserRepository()->getSearchResult($query);
+        $paginator->setItemCountPerPage(15);
+        $paginator->setCurrentPageNumber(1);
+
+        return $paginator;
     }
 
     protected function getCollaborationsPaginator($status)
@@ -87,6 +125,22 @@ class CollaborationsController extends BaseController
         );
     }
 
+    public function inviteSearchAction()
+    {
+    }
+
+    public function inviteSearchResultAction()
+    {
+        $page = $this->getRequest()->getQuery('page', 1);
+        $query = $this->getRequest()->getQuery('q', '');
+
+        $paginator = $this->getUserPaginator($query);
+        $paginator->setCurrentPageNumber($page);
+
+        return array('paginator' => $paginator);
+    }
+
+    /*
     public function searchAction()
     {
         $renderer = $this->getServiceLocator()->get('Zend\View\Renderer\PhpRenderer');
@@ -133,6 +187,7 @@ class CollaborationsController extends BaseController
             'inviteAsManagerBaseUrl' => $inviteAsManagerBaseUrl,
         );
     }
+    */
 
     public function editAction()
     {

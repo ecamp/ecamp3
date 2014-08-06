@@ -23,7 +23,16 @@
                     </div>
                 {% endblock %}
                 {% block panel_content %}
-                    {% include 'ecamp-web/group/members/members.twig' with { 'paginator': membersPaginator } %}
+                    <pagination-container
+                        type="group.memberships"
+                        url="{{ url(
+                            'web/group-prefix/name/default',
+                            { 'group': group, 'controller': 'Members', 'action': 'members' },
+                            { 'query': { 'page': ':page' } })
+                        }}"
+                    >
+                        {% include 'ecamp-web/group/members/members.twig' with { 'paginator': membersPaginator } %}
+                    </pagination-container>
                 {% endblock %}
             {% endembed %}
         </div>
@@ -36,7 +45,16 @@
                     Membership requests
                 {% endblock %}
                 {% block panel_content %}
-                    {% include 'ecamp-web/group/members/requests.twig' with { 'paginator': requestsPaginator } %}
+                    <pagination-container
+                        type="group.membershipRequests"
+                        url="{{ url(
+                            'web/group-prefix/name/default',
+                            { 'group': group, 'controller': 'Members', 'action': 'requests' },
+                            { 'query': { 'page': ':page' } })
+                        }}"
+                    >
+                        {% include 'ecamp-web/group/members/requests.twig' with { 'paginator': requestsPaginator } %}
+                    </pagination-container>
                 {% endblock %}
             {% endembed %}
         </div>
@@ -49,7 +67,16 @@
                     Membership invitations
                 {% endblock %}
                 {% block panel_content %}
-                    {% include 'ecamp-web/group/members/invitations.twig' with { 'paginator': invitationsPaginator } %}
+                    <pagination-container
+                        type="group.membershipInvitations"
+                        url="{{ url(
+                            'web/group-prefix/name/default',
+                            { 'group': group, 'controller': 'Members', 'action': 'invitations' },
+                            { 'query': { 'page': ':page' } })
+                        }}"
+                    >
+                        {% include 'ecamp-web/group/members/invitations.twig' with { 'paginator': invitationsPaginator } %}
+                    </pagination-container>
                 {% endblock %}
             {% endembed %}
         </div>

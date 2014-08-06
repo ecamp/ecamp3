@@ -1,146 +1,43 @@
-<div class="paginatorContainer">
-    <input type="hidden" class="hide-paginator-event" value="collaboration.invitations.changed.pre" />
-    <input type="hidden" class="show-paginator-event" value="collaboration.invitations.changed.post" />
-    <input type="hidden" class="refresh-paginator-event" value="collaboration.invitations.changed" />
-
-    <a class="refresh-url" href="{{ url(
-        'web/camp/default',
-        { 'camp': camp, 'controller': 'Collaborations', 'action': 'invitations' },
-        { 'query': { 'page': paginator.pages.current } }) }}"
-    ></a>
-
-    {% if paginator.count == 0 %}
+{% embed "helper/paginationContainer.twig" %}
+    {% block listEmpty %}
         <p align="center">No open invitations</p>
-
-    {% else %}
+    {% endblock %}
+    {% block list %}
         <table class="table table-hover table-striped" style="margin-bottom: 10px">
             <thead>
-                <tr>
-                    <th style="width: 30px"></th>
-                    <th colspan="2">User</th>
-                    <th style="width: 20%">Role</th>
-                    <th style="width: 170px">
-                        <div class="pull-right">Options</div>
-                    </th>
-                </tr>
+            <tr>
+                <th style="width: 30px"></th>
+                <th colspan="2">User</th>
+                <th style="width: 150px">Role</th>
+                <th style="width: 280px">
+                    <div class="pull-right">Options</div>
+                </th>
+            </tr>
             </thead>
-            <tbody>
-                {% for coll in paginator %}
-                    <tr>
-                        <td><input type="checkbox" name="selected::{{ coll.id }}" /></td>
-                        <td>
-                            <i class="fa fa-user"></i> {{ coll.user.username }}
-                        </td>
-                        <td>{{ coll.user.fullname }}</td>
-                        <td>{{ coll.role }}</td>
-                        <td>
-                            <span class="pull-right">
-                                {#
-
-                                <div class="btn-group">
-                                    <a  class="btn btn-xs btn-success"
-                                        href="{{ url(
-                                            'web/camp/default',
-                                            { 'camp': camp, 'controller': 'Collaborations', 'action': 'acceptRequest' },
-                                            { 'query': { 'user': coll.user.id } }
-                                        ) }}"
-                                    >
-                                        <i class="fa fa-ok"></i> Accept
-                                    </a>
-                                    <button type="button" class="btn btn-xs btn-success dropdown-toggle" data-toggle="dropdown">
-                                        <span class="caret"></span>
-                                    </button>
-                                    <ul class="dropdown-menu pull-right" role="menu">
-                                        <li>
-                                            <a  href="{{ url(
-                                                    'web/camp/default',
-                                                    { 'camp': camp, 'controller': 'Collaborations', 'action': 'acceptRequest' },
-                                                    { 'query': { 'user': coll.user.id, 'role': 'member' } }
-                                                ) }}"
-                                            >
-                                                as member
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a  href="{{ url(
-                                                    'web/camp/default',
-                                                    { 'camp': camp, 'controller': 'Collaborations', 'action': 'acceptRequest' },
-                                                    { 'query': { 'user': coll.user.id, 'role': 'manager' } }
-                                                ) }}"
-                                            >
-                                                as manager
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
-
-                                <a  class="btn btn-xs btn-danger"
-                                    href="{{ url(
-                                        'web/camp/default',
-                                        { 'camp': camp, 'controller': 'Collaborations', 'action': 'rejectRequest' },
-                                        { 'query': { 'user': coll.user.id } }
-                                    ) }}"
-                                >
-                                    <i class="fa fa-remove"></i> Reject
-                                </a>
-                                #}
-                            </span>
-                        </td>
-                    </tr>
-                {% endfor %}
+            <tbody class="pagination-container-body">
+            {% for coll in paginator %}
+                <tr>
+                    <td><input type="checkbox" name="selected::{{ coll.id }}" /></td>
+                    <td>
+                        <i class="fa fa-user"></i>
+                        <a href="{{ userUrl(coll.user) }}">
+                            {{ coll.user.username }}
+                        </a>
+                    </td>
+                    <td>
+                        <a href="{{ userUrl(coll.user) }}">
+                            {{ coll.user.fullname }}
+                        </a>
+                    </td>
+                    <td>{{ coll.role }}</td>
+                    <td>
+                        <span class="pull-right">
+                            {{ collaboration(coll, 'xs') }}
+                        </span>
+                    </td>
+                </tr>
+            {% endfor %}
             </tbody>
         </table>
-    {% endif %}
-
-
-    {% if paginator.pages.pageCount > 1 %}
-
-                <ul class="pagination pull-right" style="margin: 0px 0px 10px 0px">
-                    {% if paginator.pages.previous %}
-                        <li>
-                            <a  href="{{ url(
-                                    'web/camp/default',
-                                    { 'camp': camp, 'controller': 'Collaborations', 'action': 'collaborations' },
-                                    { 'query': { 'page': paginator.pages.previous } }) }}"
-                                class="nav-link"
-                            >
-                                &laquo;
-                            </a>
-                        </li>
-                    {% else %}
-                        <li class="disabled">
-                            <span>&laquo;</span>
-                        </li>
-                    {% endif %}
-
-                    <li class="disabled">
-
-                        <span style="width: 70px; text-align: center">
-                            <div class="spinner" style="display: none">
-                                <i class="fa fa-spinner fa-spin"></i>
-                            </div>
-                            <div class="page-info">
-                                {{ paginator.pages.current }} / {{ paginator.pages.pageCount }}
-                            </div>
-                        </span>
-                    </li>
-
-                    {% if paginator.pages.next %}
-                        <li>
-                            <a  href="{{ url(
-                                    'web/camp/default',
-                                    { 'camp': camp, 'controller': 'Collaborations', 'action': 'collaborations' },
-                                    { 'query': { 'page': paginator.pages.next } }) }}"
-                                class="nav-link"
-                            >
-                                &raquo;
-                            </a>
-                        </li>
-                    {% else %}
-                        <li class="disabled">
-                            <span>&raquo;</span>
-                        </li>
-                    {% endif %}
-                </ul>
-    {% endif %}
-</div>
+    {% endblock %}
+{% endembed %}

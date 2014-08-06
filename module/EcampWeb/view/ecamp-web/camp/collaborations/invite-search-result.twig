@@ -1,0 +1,44 @@
+{% embed "helper/paginationContainer.twig" %}
+    {% block listEmpty %}
+        {#
+        <p align="center">No result</p>
+        #}
+    {% endblock %}
+    {% block list %}
+
+        <div class="row">
+            <div class="col-xs-12 result-set-container">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <table class="table table-stripped">
+                            <!--
+                            <thead>
+                                <tr>
+                                    <th colspan="2">User</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            -->
+                            <tbody>
+                                {% for user in paginator %}
+                                    <tr>
+                                        <td>{{ user.fullname }}</td>
+                                        <!--<td>{{ user.scoutname }}</td>-->
+                                        <td style="text-align: right">
+                                            {% if camp.campCollaboration().canSendCollaborationInvitation(user) %}
+                                                {{ collaboration(camp, user, 'xs') }}
+                                            {% else %}
+                                                {# collaborationDesc(camp, user, 'xs') #}
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    {% endblock %}
+{% endembed %}

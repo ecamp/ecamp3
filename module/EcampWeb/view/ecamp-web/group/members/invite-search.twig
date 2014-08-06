@@ -3,6 +3,41 @@
     <h4 class="modal-title"><i class="fa fa-user"></i> Search User</h4>
 </div>
 
+<div class="modal-body">
+    <pagination-container
+        {# type="camp.collaborationInvitationSearch" #}
+        url="{{ url(
+            'web/group-prefix/name/default',
+            { 'group': group, 'controller': 'Members', 'action': 'inviteSearchResult' },
+            { 'query': { 'page': ':page' } }
+        ) }}"
+    >
+        <pagination-header>
+            <label for="user-invite-search-query">Search for User:</label>
+            <input type="text" class="form-control search-query" name="q" id="user-invite-search-query"
+                   placeholder="Username, Firstname, Surname, Scoutname, Mail-Adress"
+                    />
+        </pagination-header>
+
+        <hr style="margin-top: 15px; margin-bottom: 15px" />
+
+        <page-container>
+            {% include 'ecamp-web/group/members/invite-search-result.twig' with { 'paginator': null } %}
+        </page-container>
+    </pagination-container>
+</div>
+
+<div class="modal-footer">
+    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+</div>
+
+
+{#
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h4 class="modal-title"><i class="fa fa-user"></i> Search User</h4>
+</div>
+
 <div class="modal-body" id="memberDetailsContent">
     <div class="row">
         <div class="col-xs-12">
@@ -112,3 +147,4 @@
 <div class="modal-footer">
     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 </div>
+#}

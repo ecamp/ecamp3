@@ -4,7 +4,6 @@ namespace EcampWeb\Controller\Group;
 
 use Doctrine\Common\Collections\Criteria;
 use DoctrineModule\Paginator\Adapter\Selectable as SelectableAdapter;
-use EcampWeb\Element\ApiCollectionPaginator;
 use EcampCore\Entity\GroupMembership;
 use EcampCore\Entity\User;
 use Zend\Http\Response;
@@ -35,6 +34,15 @@ class MembersController
     private function getMembershipService()
     {
         return $this->getServiceLocator()->get('EcampCore\Service\GroupMembership');
+    }
+
+    protected function getUserPaginator($query)
+    {
+        $paginator = $this->getUserRepository()->getSearchResult($query);
+        $paginator->setItemCountPerPage(15);
+        $paginator->setCurrentPageNumber(1);
+
+        return $paginator;
     }
 
     protected function getMembersPaginator($status)
@@ -98,7 +106,17 @@ class MembersController
 
     public function inviteSearchAction()
     {
-        return array();
+    }
+
+    public function inviteSearchResultAction()
+    {
+        $page = $this->getRequest()->getQuery('page', 1);
+        $query = $this->getRequest()->getQuery('q', '');
+
+        $paginator = $this->getUserPaginator($query);
+        $paginator->setCurrentPageNumber($page);
+
+        return array('paginator' => $paginator);
     }
 
     public function editAction()
@@ -108,51 +126,6 @@ class MembersController
 
         return array(
             'membership' => $membership
-        );
-    }
-
-    public function searchAction()
-    {
-        $renderer = $this->getServiceLocator()->get('Zend\View\Renderer\PhpRenderer');
-        $renderer->headScript()->appendFile(
-            $this->getRequest()->getBasePath() . '/js/ng-app/member/search-result.js');
-
-        $searchResourceUrl = $this->url()->fromRoute('api/search/user', array());
-
-        $searchPaginator = new ApiCollectionPaginator(
-            $searchResourceUrl,
-            array(
-                'status' => User::STATE_ACTIVATED,
-                'showMembershipOfGroup' => $this->getGroup()->getId()
-            )
-        );
-        $searchPaginator->setItemsPerPage(12);
-
-        $inviteAsMemberBaseUrl = $this->url()->fromRoute(
-            'web/group-prefix/name/default',
-            array(
-                'group' => $this->getGroup(),
-                'controller' => 'Members',
-                'action' => 'inviteAjax'
-            ),
-            array('query' => array('role' => GroupMembership::ROLE_MEMBER, 'user' => ''))
-        );
-
-        $inviteAsManagerBaseUrl = $this->url()->fromRoute(
-            'web/group-prefix/name/default',
-            array(
-                'group' => $this->getGroup(),
-                'controller' => 'Members',
-                'action' => 'inviteAjax'
-            ),
-            array('query' => array('role' => GroupMembership::ROLE_MANAGER, 'user' => ''))
-        );
-
-        return array(
-            'searchPaginator' => $searchPaginator,
-
-            'inviteAsMemberBaseUrl' => $inviteAsMemberBaseUrl,
-            'inviteAsManagerBaseUrl' => $inviteAsManagerBaseUrl,
         );
     }
 

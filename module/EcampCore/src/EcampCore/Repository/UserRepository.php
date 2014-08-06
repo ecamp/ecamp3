@@ -52,7 +52,7 @@ class UserRepository extends BaseRepository
         $q = $this->createQueryBuilder('u');
 
         $userQ = $this->createQueryBuilder('uu');
-           $userQ->where('u.id = uu.id');
+        $userQ->where('u.id = uu.id');
 
         $campQ = $this->createQueryBuilder('cu');
         $campQ->join('cu.collaborations', 'col');

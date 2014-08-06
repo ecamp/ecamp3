@@ -1,5 +1,5 @@
 {{ docType() }}
-<html ng-app="eCamp3">
+<html ng-app="ecamp">
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -18,6 +18,7 @@
 		<link type="text/css" rel="stylesheet" href='{{ request.getBasePath }}/bootstrap-select/css/bootstrap-select.min.css' />
 		<link type="text/css" rel="stylesheet" href='{{ request.getBasePath }}/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css' />
 
+        <link type="text/css" rel="stylesheet" href="{{ request.getBasePath }}/ecamp-web/css/bootstrap.css" />
 		<link type="text/css" rel="stylesheet" href="{{ request.getBasePath }}/ecamp-web/css/ajaxLoader.css" />
 		<link type="text/css" rel="stylesheet" href="{{ request.getBasePath }}/ecamp-web/css/searchbox.css" />
 		<link type="text/css" rel="stylesheet" href="{{ request.getBasePath }}/ecamp-web/css/default.css" />
@@ -26,23 +27,28 @@
 
 
         <!-- Scripts -->
-		<script src="{{ request.getBasePath }}/jquery/jquery.min.js"></script>
-		<script src="{{ request.getBasePath }}/jqueryui/ui/minified/jquery-ui.min.js"></script>
-		<script src="{{ request.getBasePath }}/jquery-autosize/js/jquery.autosize.min.js"></script>
+		<script src="{{ request.basePath }}/jquery/jquery.min.js"></script>
+		<script src="{{ request.basePath }}/jqueryui/ui/minified/jquery-ui.min.js"></script>
+		<script src="{{ request.basePath }}/jquery-autosize/js/jquery.autosize.min.js"></script>
 
-		<script src="{{ request.getBasePath }}/angular.js/angular.js"></script>
-		<script src="{{ request.getBasePath }}/angular-resource/angular-resource.js"></script>
+		<script src="{{ request.basePath }}/angular.js/angular.js"></script>
+		<script src="{{ request.basePath }}/angular-resource/angular-resource.js"></script>
 
-		<script src="{{ request.getBasePath }}/bootstrap/js/bootstrap.min.js"></script>
-		<script src="{{ request.getBasePath }}/bootstrap-select/js/bootstrap-select.min.js"></script>
-		<script src="{{ request.getBasePath }}/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+		<script src="{{ request.basePath }}/bootstrap/js/bootstrap.min.js"></script>
+		<script src="{{ request.basePath }}/bootstrap-select/js/bootstrap-select.min.js"></script>
+		<script src="{{ request.basePath }}/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
 
-		<script src="{{ request.getBasePath }}/angular-ui/js/ui-bootstrap-tpls.min.js"></script>
+		<script src="{{ request.basePath }}/angular-ui/js/ui-bootstrap-tpls.min.js"></script>
 
-		<script src="{{ request.getBasePath }}/js/ns.js"></script>
-		<script src="{{ request.getBasePath }}/ecamp-web/js/ajax-form.js"></script>
-        <script src="{{ request.getBasePath }}/ecamp-web/js/ajax-paginator.js"></script>
-        <script src="{{ request.getBasePath }}/ecamp-web/js/ajax-members.js"></script>
+        <script src="{{ request.basePath }}/eldarion-ajax/js/eldarion-ajax-core.js"></script>
+        <script src="{{ request.basePath }}/js/eldarion-ajax-handlers.js"></script>
+
+		<script src="{{ request.basePath }}/js/ns.js"></script>
+		<script src="{{ request.basePath }}/ecamp-web/js/ajax-form.js"></script>
+        <script src="{{ request.basePath }}/ecamp-web/js/ajax-form-element.js"></script>
+        <script src="{{ request.basePath }}/ecamp-web/js/ajax-paginator.js"></script>
+        <script src="{{ request.basePath }}/ecamp-web/js/ajax-members.js"></script>
+        <script src="{{ request.basePath }}/ecamp-web/js/ajax-collaborations.js"></script>
 
         {% block script %}{% endblock script %}
 
@@ -53,8 +59,6 @@
 
 
 		<script type="text/javascript">
-
-			angular.module('eCamp3', ['ngResource', 'ui.bootstrap']);
 
 			$(function(){
 
@@ -68,7 +72,7 @@
                 ecamp.initJQueryPlugins(document);
 
 
-				window.setTimeout(function() {
+                window.setTimeout(function() {
 				     $(".alert").fadeTo(500, 0).slideUp(500, function(){
 				          $(this).remove();
 				     });
@@ -92,6 +96,12 @@
 			});
 
 		</script>
+
+        <script src="{{ request.basePath }}/ecamp-web/js/ng-app.js"></script>
+        <script src="{{ request.basePath }}/ecamp-web/js/ng-util.js"></script>
+        <script src="{{ request.basePath }}/ecamp-web/js/jq-util.js"></script>
+
+        <script src="{{ request.basePath }}/ecamp-web/js/ng-app/ng-paginator.js"></script>
 
     </head>
     <body>
