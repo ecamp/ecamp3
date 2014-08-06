@@ -31,67 +31,38 @@
 					Infos
 				{% endblock %}
 				{% block panel_content %}
-                    {#
-                    <div class="input-group">
-                        <span class="input-group-addon">Name</span>
-                        <input type="text" class="form-control" value="{{ camp.getName }}">
-                    </div>
-                    #}
 
                     <form class="form-horizontal form-show" role="form">
-                        {#
-                        <div class="form-group">
-                            <label for="camp-name" class="col-sm-2 control-label">Name:</label>
-                            <div class="col-sm-10">
-                                { #
-                                <input type="text" class="form-control" id="camp-name" value="{{ camp.name }}">
-                                # }
+                        <div class="form-group has-feedback ajax-form-element orig"
+                             data-backend="{{ url('api/camps', {'camp': camp.id } ) }}"
+                        >
+                            <label class="col-sm-3 control-label" for="camp-name">Name:</label>
+                            <div class="col-sm-9">
                                 <p class="form-control-static">{{ camp.name }}</p>
                             </div>
                         </div>
-                        #}
-
 
                         <div class="form-group has-feedback ajax-form-element orig"
-                             data-backend="{{ url('web/camp/default', {'camp': camp, 'controller':'index', 'action' : 'updateCamp' } ) }}"
+                             data-backend="{{ url('api/camps', {'camp': camp.id } ) }}"
                         >
-                            <label class="col-sm-2 control-label" for="inputSuccess2">Name:</label>
-                            <div class="col-sm-10">
-                                <input type="text" class="form-control" name="name" value="{{ camp.name }}">
+                            <label class="col-sm-3 control-label" for="camp-title">Title:</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" id="camp-title" name="title" value="{{ camp.title }}">
                                 <span class="form-control-feedback feedback-container"></span>
                             </div>
                         </div>
-                    {#
-                    </form>
-                    <form class="form-horizontal" role="form">
-                    #}
 
-                        <div class="form-group has-feedback ajax-form-element orig">
-                            <label class="col-sm-2 control-label" for="inputSuccess2">Title:</label>
-                            <div class="col-sm-10">
-                                <input type="text" class="form-control" name="title" value="{{ camp.title }}">
+                        <div class="form-group has-feedback ajax-form-element orig"
+                             data-backend="{{ url('api/camps', {'camp': camp.id } ) }}"
+                        >
+                            <label class="col-sm-3 control-label" for="camp-motto">Motto:</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" id="camp-motto" name="motto" value="{{ camp.motto }}">
                                 <span class="form-control-feedback feedback-container"></span>
                             </div>
                         </div>
-                    {#
+
                     </form>
-                    <form class="form-horizontal" role="form">
-                    #}
-                        <div class="form-group">
-                            <label for="camp-motto" class="col-sm-2 control-label">Motto:</label>
-                            <div class="col-sm-10">
-                                {#
-                                <input type="text" class="form-control" id="camp-motto" value="{{ camp.motto }}">
-                                #}
-                                <p class="form-control-static">{{ camp.motto }}</p>
-                            </div>
-                        </div>
-                    </form>
-{#
-					<p>Name:  {{ camp.getName }}</p>
-					<p>Title: {{ camp.getTitle }}</p>
-					<p>Motto: {{ camp.getMotto }}</p>
-#}
 
 				{% endblock %}
 			{% endembed %}
@@ -103,7 +74,7 @@
                     My collaboration
                 {% endblock %}
                 {% block panel_content %}
-                    {{ collaborationDesc(camp) }}
+                    {#{{ collaborationDesc(camp) }}#}
 
                     <div class="pull-right">
                         <p>
