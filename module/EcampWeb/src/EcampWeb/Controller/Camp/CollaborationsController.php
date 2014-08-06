@@ -2,11 +2,8 @@
 
 namespace EcampWeb\Controller\Camp;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Criteria;
 use DoctrineModule\Paginator\Adapter\Selectable as SelectableAdapter;
-use DoctrineModule\Paginator\Adapter\Collection as CollectionAdapter;
-use EcampWeb\Element\ApiCollectionPaginator;
 use EcampCore\Entity\CampCollaboration;
 use EcampCore\Entity\User;
 use Zend\Http\Response;
@@ -33,33 +30,6 @@ class CollaborationsController extends BaseController
 
     protected function getUserPaginator($query)
     {
-        /*
-        $query = str_replace(',', ' ', $query);
-        $query = trim($query);
-
-        if (strlen($query) >= 3) {
-            $criteria = Criteria::create();
-            $qs = explode(' ', $query);
-            foreach ($qs as $q) {
-                $criteria->andWhere(Criteria::expr()->orX(
-                    Criteria::expr()->contains('username', $q),
-                    Criteria::expr()->contains('firstname', $q),
-                    Criteria::expr()->contains('surname', $q),
-                    Criteria::expr()->contains('scoutname', $q),
-                    Criteria::expr()->contains('email', $q)
-                ));
-            }
-
-            $adapter = new SelectableAdapter($this->getUserRepository(), $criteria);
-        } else {
-            $adapter = new CollectionAdapter(new ArrayCollection());
-        }
-
-        $paginator = new Paginator($adapter);
-        $paginator->setItemCountPerPage(15);
-        $paginator->setCurrentPageNumber(1);
-        */
-
         $paginator = $this->getUserRepository()->getSearchResult($query);
         $paginator->setItemCountPerPage(15);
         $paginator->setCurrentPageNumber(1);
@@ -139,55 +109,6 @@ class CollaborationsController extends BaseController
 
         return array('paginator' => $paginator);
     }
-
-    /*
-    public function searchAction()
-    {
-        $renderer = $this->getServiceLocator()->get('Zend\View\Renderer\PhpRenderer');
-        $renderer->headScript()->appendFile(
-            $this->getRequest()->getBasePath() . '/js/ng-app/paginator.js');
-        $renderer->headScript()->appendFile(
-            $this->getRequest()->getBasePath() . '/js/ng-app/collaboration/search-result.js');
-
-        $searchResourceUrl = $this->url()->fromRoute('api/search/user', array());
-
-        $searchPaginator = new ApiCollectionPaginator(
-            $searchResourceUrl,
-            array(
-                'status' => User::STATE_ACTIVATED,
-                'showCollaborationOfCamp' => $this->getCamp()->getId()
-            )
-        );
-        $searchPaginator->setItemsPerPage(12);
-
-        $inviteAsMemberBaseUrl = $this->url()->fromRoute(
-            'web/camp/default',
-            array(
-                'camp' => $this->getCamp(),
-                'controller' => 'Collaborations',
-                'action' => 'inviteAjax'
-            ),
-            array('query' => array('role' => CampCollaboration::ROLE_MEMBER, 'user' => ''))
-        );
-
-        $inviteAsManagerBaseUrl = $this->url()->fromRoute(
-            'web/camp/default',
-            array(
-                'camp' => $this->getCamp(),
-                'controller' => 'Collaborations',
-                'action' => 'inviteAjax'
-            ),
-            array('query' => array('role' => CampCollaboration::ROLE_MANAGER, 'user' => ''))
-        );
-
-        return array(
-            'searchPaginator' => $searchPaginator,
-
-            'inviteAsMemberBaseUrl' => $inviteAsMemberBaseUrl,
-            'inviteAsManagerBaseUrl' => $inviteAsManagerBaseUrl,
-        );
-    }
-    */
 
     public function editAction()
     {
