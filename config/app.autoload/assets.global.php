@@ -21,6 +21,10 @@ return array(
                 'jquery-autosize/js/jquery.autosize.js' => 'https://raw.github.com/jackmoore/autosize/master/jquery.autosize.js',
                 'jquery-autosize/js/jquery.autosize.min.js' => 'https://raw.github.com/jackmoore/autosize/master/jquery.autosize.min.js',
 
+                'eldarion-ajax/js/eldarion-ajax.min.js' => __VENDOR__ . '/eldarion/eldarion-ajax/js/eldarion-ajax.min.js',
+                'eldarion-ajax/js/eldarion-ajax-core.js' => __VENDOR__ . '/eldarion/eldarion-ajax/js/eldarion-ajax-core.js',
+                'eldarion-ajax/js/eldarion-ajax-handlers.js' => __VENDOR__ . '/eldarion/eldarion-ajax/js/eldarion-ajax-handlers.js',
+
                 /*Angular Strap */
 // 				'assets/js/angular-strap.js' => 'https://raw.github.com/mgcrea/angular-strap/v0.7.5/dist/angular-strap.js',
 // 				'assets/js/angular-strap.min.js' => 'https://raw.github.com/mgcrea/angular-strap/v0.7.5/dist/angular-strap.min.js',
@@ -32,10 +36,10 @@ return array(
                 'angular-ui/js/ui-bootstrap-tpls.min.js' => __VENDOR__ . '/angular-ui/bootstrap/ui-bootstrap-tpls.min.js',
 
                 /* Bootstrap Select */
-                'bootstrap-select/js/bootstrap-select.js' => __VENDOR__ . '/bootstrap-select/bootstrap-select/bootstrap-select.js',
-                'bootstrap-select/js/bootstrap-select.min.js' => __VENDOR__ . '/bootstrap-select/bootstrap-select/bootstrap-select.min.js',
-                'bootstrap-select/css/bootstrap-select.css' => __VENDOR__ . '/bootstrap-select/bootstrap-select/bootstrap-select.css',
-                'bootstrap-select/css/bootstrap-select.min.css' => __VENDOR__ . '/bootstrap-select/bootstrap-select/bootstrap-select.min.css',
+                'bootstrap-select/js/bootstrap-select.js' => __VENDOR__ . '/bootstrap-select/bootstrap-select/dist/js/bootstrap-select.js',
+                'bootstrap-select/js/bootstrap-select.min.js' => __VENDOR__ . '/bootstrap-select/bootstrap-select/dist/js/bootstrap-select.min.js',
+                'bootstrap-select/css/bootstrap-select.css' => __VENDOR__ . '/bootstrap-select/bootstrap-select/dist/css/bootstrap-select.css',
+                'bootstrap-select/css/bootstrap-select.min.css' => __VENDOR__ . '/bootstrap-select/bootstrap-select/dist/css/bootstrap-select.min.css',
 
                 /* Bootstrap Datetime picker */
                 'bootstrap-datetimepicker/js/bootstrap-datetimepicker.js' => 'https://raw.github.com/smalot/bootstrap-datetimepicker/master/js/bootstrap-datetimepicker.js',

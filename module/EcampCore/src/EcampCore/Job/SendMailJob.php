@@ -4,6 +4,7 @@ namespace EcampCore\Job;
 
 use EcampLib\Job\AbstractBootstrappedJobBase;
 use Zend\Mail\Message;
+use Zend\Mail\Transport\Factory;
 use Zend\Mime\Part as MimePart;
 use Zend\View\Model\ViewModel;
 
@@ -22,7 +23,10 @@ abstract class SendMailJob extends AbstractBootstrappedJobBase
      */
     private function getMailTransport()
     {
-        return new \Zend\Mail\Transport\Sendmail();
+        $config = $this->getServiceLocator()->get('Config');
+        $transportConfig = $config['mail']['transport'] ?: array();
+
+        return Factory::create($transportConfig);
     }
 
     protected function renderViewModel(ViewModel $viewModel)

@@ -45,7 +45,8 @@
         "knplabs/knp-snappy": "*",
         "h4cc/wkhtmltopdf-i386": "0.12.x",
         "h4cc/wkhtmltopdf-amd64": "0.12.x",
-        "messagedigital/wkhtmltopdf-osx": "*"
+        "messagedigital/wkhtmltopdf-osx": "*",
+        "hounddog/doctrine-data-fixture-module":"*"
 	},
 
     "provide": {
