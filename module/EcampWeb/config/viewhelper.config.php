@@ -49,14 +49,5 @@ return array(
 
             return new \EcampWeb\View\Helper\Collaboration($acl, $userRepository, $campCollaborationRepository, $renderer);
         },
-
-        'collaborationDesc' => function($helperPluginManager){
-            $serviceLocator = $helperPluginManager->getServiceLocator();
-            $acl = $serviceLocator->get('EcampCore\Acl');
-            $userRepository = $serviceLocator->get('EcampCore\Repository\User');
-            $campCollaborationRepository = $serviceLocator->get('EcampCore\Repository\CampCollaboration');
-
-            return new \EcampWeb\View\Helper\CollaborationDesc($acl, $userRepository, $campCollaborationRepository);
-        },
     )
 );
