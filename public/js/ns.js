@@ -2,7 +2,7 @@
     function NS(n, p){
         this.NsName = (p instanceof NS) ? p.NsName + '.' + n : n;
 
-        var jq = $({});
+        var jq = $(this);
         this.on =       $.proxy(jq.on, jq);
         this.one =      $.proxy(jq.one, jq);
         this.off =      $.proxy(jq.off, jq);
@@ -15,5 +15,6 @@
         }
         return r;
     }
-    NS.prototype.CNS = window.CNS = function(s){ return CreateNamespace.call(this, s); };
+    NS.prototype.CNS = CreateNamespace;
+    window.CNS = CreateNamespace;
 }(jQuery));
