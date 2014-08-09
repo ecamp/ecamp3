@@ -35,6 +35,7 @@ return array(
             'EcampDB\Controller\Schema' 		=> 'EcampDB\Controller\SchemaController',
             'EcampDB\Controller\Maintenance' 	=> 'EcampDB\Controller\MaintenanceController',
             'EcampDB\Controller\Data' 			=> 'EcampDB\Controller\DataController',
+            'EcampDB\Controller\Fixtures' 		=> 'EcampDB\Controller\FixturesController',
         ),
     ),
 
@@ -43,4 +44,8 @@ return array(
             __DIR__ . '/../view',
         ),
     ),
+
+    'data-fixture' => array(
+            'EcampDB_fixture' =>  __DIR__ . '/../src/EcampDB/Fixtures',
+    )
 );
