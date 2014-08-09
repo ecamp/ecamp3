@@ -1,0 +1,13 @@
+<div class="edit-collaboration-container">
+    <div class="btn-group">
+        <a  class="btn btn-{{ size }} btn-danger reject-request"
+            href="{{ url('web/camp/default',
+                        { 'camp': collaboration.camp, 'controller': 'CollaborationHelper', 'action': 'rejectRequest' },
+                        { 'query': { 'size': size } }) }}"
+        >
+            <b>Reject request</b>
+        </a>
+    </div>
+
+    <!-- add loading spinner -->
+</div>

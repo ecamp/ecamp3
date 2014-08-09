@@ -1,0 +1,13 @@
+<div class="edit-collaboration-container">
+    <div class="btn-group">
+        <a  class="btn btn-{{ size }} btn-danger revoke-invitation"
+            href="{{ url('web/camp/default',
+                        { 'camp': collaboration.camp, 'controller': 'CollaborationHelper', 'action': 'revokeInvitation' },
+                        { 'query': { 'user': collaboration.user.id, 'size': size } }) }}"
+        >
+            <b>Revoke invitation</b>
+        </a>
+    </div>
+
+    <!-- add loading spinner -->
+</div>

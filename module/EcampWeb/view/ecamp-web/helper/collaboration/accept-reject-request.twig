@@ -1,0 +1,86 @@
+<div class="edit-collaboration-container">
+    <div class="btn-group">
+
+        <a  class="btn btn-{{ size }} btn-danger"
+            data-toggle="modal"
+            href="#rejectRequestModal-{{ collaboration.camp.id }}-{{ collaboration.user.id }}"
+        >
+            <i class="fa fa-times"></i>
+            <b>Reject request</b>
+        </a>
+
+        <a  class="btn btn-{{ size }} btn-success accept-request"
+            href="{{ url('web/camp/default',
+                        { 'camp': collaboration.camp, 'controller': 'CollaborationHelper', 'action': 'acceptRequest' },
+                        { 'query': { 'user': collaboration.user.id, 'size': size } }) }}"
+        >
+            <i class="fa fa-check"></i>
+            <b>Accept request</b>
+        </a>
+
+        <div class="btn-group">
+            <button type="button" class="btn btn-{{ size }} btn-success dropdown-toggle" data-toggle="dropdown">
+                <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu pull-right">
+                <li>
+                    <a  class="accept-request"
+                        href="{{ url('web/camp/default',
+                                    { 'camp': collaboration.camp, 'controller': 'CollaborationHelper', 'action': 'acceptRequest' },
+                                    { 'query': { 'user': collaboration.user.id, 'size': size, 'role': 'member' } }) }}"
+                    >
+                        as member
+                    </a>
+                </li>
+                <li>
+                    <a  class="accept-request"
+                        href="{{ url('web/camp/default',
+                                    { 'camp': collaboration.camp, 'controller': 'CollaborationHelper', 'action': 'acceptRequest' },
+                                    { 'query': { 'user': collaboration.user.id, 'size': size, 'role': 'manager' } }) }}"
+                    >
+                        as manager
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- add loading spinner -->
+
+
+    <div id="rejectRequestModal-{{ collaboration.camp.id }}-{{ collaboration.user.id }}"
+         class="modal fade"
+         tabindex="-1"
+         role="dialog"
+         aria-labelledby="rejectRequestModalLabel"
+         aria-hidden="true"
+            >
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Reject request</h4>
+                </div>
+                <div class="modal-body">
+                    Are you sure, you want to reject the request of {{ collaboration.user.displayName }} to camp {{ collaboration.camp.name }}?
+                </div>
+                <div class="modal-footer">
+                    <div class="row">
+                        <div class="btn-group col-xs-12">
+                            <a  class="btn btn-danger col-xs-6 reject-request"
+                                data-dismiss="modal"
+                                href="{{ url('web/camp/default',
+                                            { 'camp': collaboration.camp, 'controller': 'CollaborationHelper', 'action': 'rejectRequest' },
+                                            { 'query': { 'user': collaboration.user.id, 'size': size } }) }}"
+                            >
+                                Reject request
+                            </a>
+                            <button type="button" class="btn btn-default col-xs-6" data-dismiss="modal">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

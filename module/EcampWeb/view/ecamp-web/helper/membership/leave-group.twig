@@ -1,8 +1,9 @@
 <div class="edit-membership-container">
     <div class="btn-group">
-        <a  class="btn btn-xs btn-default btn-danger leave-group"
+        <a  class="btn btn-{{ size }} btn-default btn-danger leave-group"
             href="{{ url('web/group-prefix/name/default',
-                        { 'group': membership.group, 'controller': 'MembershipHelper', 'action': 'leaveGroup' }) }}"
+                        { 'group': membership.group, 'controller': 'MembershipHelper', 'action': 'leaveGroup' },
+                        { 'query': { 'size': size } }) }}"
         >
             <b>Leave group</b>
         </a>

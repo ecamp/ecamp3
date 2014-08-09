@@ -9,6 +9,7 @@ use EcampLib\Service\ServiceBase;
 use EcampLib\Service\Params\Params;
 use EcampCore\Repository\GroupRepository;
 use EcampCore\Acl\Privilege;
+use EcampLib\Validation\ValidationException;
 
 class GroupService
     extends ServiceBase
@@ -57,6 +58,26 @@ class GroupService
         $rootGroups = $this->groupRepo->findRootGroups();
 
         return array_filter($rootGroups, array($this, 'filterGroups'));
+    }
+
+    /**
+     * Updates the current Group
+     *
+     * @return \EcampCore\Entity\Group
+     */
+    public function Update($groupId, $data)
+    {
+        $group = $this->Get($groupId);
+        $this->aclRequire($group, Privilege::GROUP_ADMINISTRATE);
+
+        $groupValidationForm = $this->createValidationForm(
+            $group, $data, array_intersect(array_keys($data), array('description')));
+
+        if (!$groupValidationForm->isValid()) {
+            throw ValidationException::FromForm($groupValidationForm);
+        }
+
+        return $group;
     }
 
     private function filterGroups(Group $group)

@@ -59,9 +59,9 @@ jQuery(function($) {
     
     /* global error handling */
     /* used e.g. if initial load of form throws an error */
-    $(document).ajaxError(function(event, xhr /*, settings, exception */) {
-    	alert(xhr.responseText);
-    	$('.modal').modal('hide');
-	});
+//    $(document).ajaxError(function(event, xhr /*, settings, exception */) {
+//    	alert(xhr.responseText);
+//    	$('.modal').modal('hide');
+//	});
     
 });

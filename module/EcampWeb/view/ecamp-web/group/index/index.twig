@@ -4,74 +4,96 @@
 {% block content2 %}
 
 	<div class="row">
-		<div class="col-sm-12">
+		<div class="col-sm-7">
 			{% embed "helper/accordion.twig" %}
 				{% block panel_title %}
 					Infos
 				{% endblock %}
 				{% block panel_content %}
-					<div class="col-sm-12">
+                    <form class="form-horizontal form-show" role="form">
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label" for="group-name">Name:</label>
+                            <div class="col-sm-9">
+                                <p class="form-control-static">{{ group.name }}</p>
+                            </div>
+                        </div>
 
-                        <div class="pull-right">
-						    {{ membership(group) }}
-						</div>
-
-						<h4 style="display: inline">{{ group.getName }} - </h4>
-						<p style="display: inline">{{ group.getDescription }}</p>
-						<br />
-						<br />
-						{% if myMembership is not null %}
-							<p>
-								{% if myMembership.getStatus == 'requested' %}
-								You have requested membership in this group
-								{% endif %}
-
-								{% if myMembership.getStatus == 'invited' %}
-								You have been invited to this group
-								{% endif %}
-
-								{% if myMembership.getStatus == 'established' %}
-								You are {{ myMembership.getRole }} in this group
-								{% endif %}
-							</p>
-						{% endif %}
-					</div>
-
-
-
-					<div class="modal fade" id="leaveGroupModal" tabindex="-1" role="dialog" aria-labelledby="leaveGroupModalLabel" aria-hidden="true">
-						<div class="modal-dialog">
-							<div class="modal-content">
-								<div class="modal-header">
-									<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-									<h4 class="modal-title">Leave group {{ group.getName }}</h4>
-								</div>
-								<div class="modal-body">
-									Are you sure, you want to leave group {{ group.getName }}?
-								</div>
-								<div class="modal-footer">
-									<a class="btn btn-danger"
-										href="{{ url('web/group-prefix/name/default',
-											{ 'group': group, 'controller': 'index', 'action': 'leaveGroup'}
-											) }}"
-									>
-										Leave group
-									</a>
-									<button type="button" class="btn btn-default" data-dismiss="modal">Stay in group</button>
-								</div>
-							</div>
-						</div>
-					</div>
+                        <div class="form-group has-feedback ajax-form-element orig"
+                             data-backend="{{ url('api/groups', {'group': group.id } ) }}"
+                                >
+                            <label class="col-sm-3 control-label" for="group-description">Description:</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" id="group-description" name="description" value="{{ group.description }}">
+                                <span class="form-control-feedback feedback-container"></span>
+                            </div>
+                        </div>
+                    </form>
 				{% endblock %}
 			{% endembed %}
 		</div>
+        <div class="col-sm-5">
+            {% embed "helper/accordion.twig" %}
+                {% block panel_title %}
+                    My membership
+                {% endblock %}
+                {% block panel_content %}
+                    {% if myMembership is not null %}
+                        <p>
+                            {% if myMembership.getStatus == 'requested' %}
+                                You have requested membership in this group
+                            {% endif %}
+
+                            {% if myMembership.getStatus == 'invited' %}
+                                You have been invited to this group
+                            {% endif %}
+
+                            {% if myMembership.getStatus == 'established' %}
+                                You are {{ myMembership.getRole }} in this group
+                            {% endif %}
+                        </p>
+                    {% endif %}
+
+                    <div class="pull-right">
+                        <p>
+                            {{ membership(group, 'sm') }}
+                        </p>
+                    </div>
+
+                    {#
+                    <div class="modal fade" id="leaveGroupModal" tabindex="-1" role="dialog" aria-labelledby="leaveGroupModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                    <h4 class="modal-title">Leave group {{ group.getName }}</h4>
+                                </div>
+                                <div class="modal-body">
+                                    Are you sure, you want to leave group {{ group.getName }}?
+                                </div>
+                                <div class="modal-footer">
+                                    <a class="btn btn-danger"
+                                       href="{{ url('web/group-prefix/name/default',
+                                       { 'group': group, 'controller': 'index', 'action': 'leaveGroup'}
+                                       ) }}"
+                                            >
+                                        Leave group
+                                    </a>
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Stay in group</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    #}
+                {% endblock %}
+            {% endembed %}
+        </div>
 	</div>
 
     <div class="row">
         <div class="col-sm-12">
             {% embed "helper/accordion.twig" %}
                 {% block panel_title %}
-                    Subgroups <div class="pull-right">{{ subgroupsPaginator.totalItemCount }}</div>
+                    Subgroups
                 {% endblock %}
                 {% block panel_content %}
                     {% include 'ecamp-web/group/index/subgroups.twig' with { 'paginator': subgroupsPaginator } %}
@@ -84,7 +106,7 @@
         <div class="col-sm-12">
             {% embed "helper/accordion.twig" %}
                 {% block panel_title %}
-                    Upcoming camps <div class="pull-right">{{ upcomingCampsPaginator.totalItemCount }}</div>
+                    Upcoming camps
                 {% endblock %}
                 {% block panel_content %}
                     {% include 'ecamp-web/group/index/upcoming-camps.twig' with { 'paginator': upcomingCampsPaginator } %}

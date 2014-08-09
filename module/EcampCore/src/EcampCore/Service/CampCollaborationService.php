@@ -27,9 +27,6 @@ use EcampCore\Acl\Privilege;
 use EcampCore\Entity\CampCollaboration;
 use EcampCore\Repository\CampCollaborationRepository;
 
-/**
- * @method EcampCore\Service\ContributionService Simulate
- */
 class CampCollaborationService
     extends ServiceBase
 {
@@ -57,7 +54,7 @@ class CampCollaborationService
 
         $this->validationAssert(
             is_null($campCollaboration),
-            "Collaboration can not be requested"
+            array("camp" => "Collaboration can not be requested")
         );
 
         $campCollaboration = CampCollaboration::createRequest($me, $camp, $role);
@@ -76,7 +73,7 @@ class CampCollaborationService
 
         $this->validationAssert(
             $campCollaboration != null && $campCollaboration->isRequest(),
-            "There is no open Request"
+            array("camp" => "There is no open Request")
         );
 
         $this->remove($campCollaboration);
@@ -97,7 +94,7 @@ class CampCollaborationService
 
         $this->validationAssert(
             $campCollaboration != null && $campCollaboration->isRequest(),
-            "There is no open Request"
+            array("camp" => "There is no open Request")
         );
 
         $campCollaboration->acceptRequest($manager, $role);
@@ -116,7 +113,7 @@ class CampCollaborationService
 
         $this->validationAssert(
             $campCollaboration != null && $campCollaboration->isRequest(),
-            "There is no open Request"
+            array("camp" => "There is no open Request")
         );
 
         $this->remove($campCollaboration);
@@ -137,7 +134,7 @@ class CampCollaborationService
 
         $this->validationAssert(
             is_null($campCollaboration),
-            "User can not be invited"
+            array("camp" => "User can not be invited")
         );
 
         $campCollaboration = CampCollaboration::createInvitation($user, $camp, $manager, $role);
@@ -156,7 +153,7 @@ class CampCollaborationService
 
         $this->validationAssert(
             $campCollaboration != null && $campCollaboration->isInvitation(),
-            "There is no open Invitation"
+            array("camp" => "There is no open Invitation")
         );
 
         $this->remove($campCollaboration);
@@ -174,7 +171,7 @@ class CampCollaborationService
 
         $this->validationAssert(
             $campCollaboration != null && $campCollaboration->isInvitation(),
-            "There is no open Invitation"
+            array("camp" => "There is no open Invitation")
         );
 
         $campCollaboration->acceptInvitation();
@@ -192,7 +189,7 @@ class CampCollaborationService
 
         $this->validationAssert(
                 $campCollaboration != null && $campCollaboration->isInvitation(),
-                "There is no open Invitation"
+            array("camp" => "There is no open Invitation")
         );
 
         $this->remove($campCollaboration);
@@ -210,7 +207,7 @@ class CampCollaborationService
 
         $this->validationAssert(
             $campCollaboration != null && $campCollaboration->isEstablished(),
-            "User is not a Camp Collaborator"
+            array("camp" => "User is not a Camp Collaborator")
         );
 
         $this->remove($campCollaboration);
@@ -228,7 +225,7 @@ class CampCollaborationService
 
         $this->validationAssert(
             $campCollaboration != null && $campCollaboration->isEstablished(),
-            "User is not a Camp Collaborator"
+            array("camp" => "User is not a Camp Collaborator")
         );
 
         $this->remove($campCollaboration);

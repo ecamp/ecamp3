@@ -1,23 +1,23 @@
 <div class="edit-membership-container">
     <div class="btn-group">
-        <a  class="btn btn-xs btn-default btn-success invite-user"
+        <a  class="btn btn-{{ size }} btn-default btn-success invite-user"
             href="{{ url('web/group-prefix/name/default',
-                        { 'group': group, 'controller': 'MembershipHelper', 'action': 'requestMembership' },
-                        { 'query': { 'user': user.id, 'role': 'member' } }) }}"
+                        { 'group': group, 'controller': 'MembershipHelper', 'action': 'inviteUser' },
+                        { 'query': { 'user': user.id, 'size': size, 'role': 'member' } }) }}"
         >
             <b>Invite user</b>
         </a>
 
         <div class="btn-group">
-            <button type="button" class="btn btn-xs btn-default btn-success dropdown-toggle" data-toggle="dropdown">
+            <button type="button" class="btn btn-{{ size }} btn-default btn-success dropdown-toggle" data-toggle="dropdown">
                 <span class="caret"></span>
             </button>
             <ul class="dropdown-menu pull-right">
                 <li>
                     <a  class="invite-user"
                         href="{{ url('web/group-prefix/name/default',
-                                    { 'group': group, 'controller': 'MembershipHelper', 'action': 'requestMembership' },
-                                    { 'query': { 'user': user.id, 'role': 'member' } }) }}"
+                                    { 'group': group, 'controller': 'MembershipHelper', 'action': 'inviteUser' },
+                                    { 'query': { 'user': user.id, 'size': size, 'role': 'member' } }) }}"
                     >
                         as member
                     </a>
@@ -25,8 +25,8 @@
                 <li>
                     <a  class="invite-user"
                         href="{{ url('web/group-prefix/name/default',
-                                    { 'group': group, 'controller': 'MembershipHelper', 'action': 'requestMembership' },
-                                    { 'query': { 'user': user.id, 'role': 'manager' } }) }}"
+                                    { 'group': group, 'controller': 'MembershipHelper', 'action': 'inviteUser' },
+                                    { 'query': { 'user': user.id, 'size': size, 'role': 'manager' } }) }}"
                     >
                         as manager
                     </a>

@@ -23,150 +23,91 @@
 				{{ flashMessenger().render() | raw }}
 			  </div>
 			{% endif %}
+        </div>
 
-			{% embed "helper/accordion.twig" %}
+        <div class="col-sm-7">
+			{% embed "helper/accordion.twig" with { 'id': 'camp-infos' } %}
 				{% block panel_title %}
 					Infos
 				{% endblock %}
 				{% block panel_content %}
-					<div class="col-sm-12">
-						<div class="pull-right">
-							{% if myCollaboration is null %}
-							<div class="btn-group">
-								<a class="btn btn-sm btn-success"
-									href="{{ url('web/camp/default',
-										{ 'camp': camp, 'controller': 'index', 'action': 'requestCollaboration'}
-										) }}"
-								>
-									<i class="fa fa-plus"></i> Request collaboration
-								</a>
-								<button type="button" class="btn btn-sm btn-success dropdown-toggle" data-toggle="dropdown">
-									<span class="caret"></span>
-								</button>
-								<ul class="dropdown-menu pull-right" role="menu">
-									<li>
-										<a href="{{ url('web/camp/default',
-										{ 'camp': camp, 'controller': 'index', 'action': 'requestCollaboration'}
-										) }}"
-										>
-											as member
-										</a>
-									</li>
-									<li>
-										<a href="{{ url('web/camp/default',
-										{ 'camp': camp, 'controller': 'index', 'action': 'requestCollaboration' },
-										{ 'query' : { 'role': 'manager' } }
-										) }}"
-										>
-											as manager
-										</a>
-									</li>
-								</ul>
-							</div>
-							{% else %}
 
-								{% if myCollaboration.getStatus == 'requested' %}
-								<a class="btn btn-sm btn-danger"
-									href="{{ url('web/camp/default',
-										{ 'camp': camp, 'controller': 'index', 'action': 'revokeRequest'}
-										) }}"
-								>
-									<i class="fa fa-remove"></i> Revoke Request
-								</a>
-								{% endif %}
+                    <form class="form-horizontal form-show" role="form">
+                        <div class="form-group has-feedback ajax-form-element orig"
+                             data-backend="{{ url('api/camps', {'camp': camp.id } ) }}"
+                        >
+                            <label class="col-sm-3 control-label" for="camp-name">Name:</label>
+                            <div class="col-sm-9">
+                                <p class="form-control-static">{{ camp.name }}</p>
+                            </div>
+                        </div>
 
-								{% if myCollaboration.getStatus == 'invited' %}
-								<p class="pull-right">
-									<a class="btn btn-sm btn-success"
-										href="{{ url('web/camp/default',
-											{ 'camp': camp, 'controller': 'index', 'action': 'acceptInvitation'}
-											) }}"
-									>
-										<i class="fa fa-ok"></i> Accept Invitation
-									</a>
-									<a class="btn btn-sm btn-danger"
-										href="{{ url('web/camp/default',
-											{ 'camp': camp, 'controller': 'index', 'action': 'rejectInvitation'}
-											) }}"
-									>
-										<i class="fa fa-remove"></i> Reject Invitation
-									</a>
-								</p>
-								{% endif %}
+                        <div class="form-group has-feedback ajax-form-element orig"
+                             data-backend="{{ url('api/camps', {'camp': camp.id } ) }}"
+                        >
+                            <label class="col-sm-3 control-label" for="camp-title">Title:</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" id="camp-title" name="title" value="{{ camp.title }}">
+                                <span class="form-control-feedback feedback-container"></span>
+                            </div>
+                        </div>
 
-								{% if myCollaboration.getStatus == 'established' %}
-								<a class="btn btn-sm btn-danger"
-									data-toggle="modal"
-									href="#leaveCampModal"
-								>
-									<i class="fa fa-remove"></i> Leave camp
-								</a>
+                        <div class="form-group has-feedback ajax-form-element orig"
+                             data-backend="{{ url('api/camps', {'camp': camp.id } ) }}"
+                        >
+                            <label class="col-sm-3 control-label" for="camp-motto">Motto:</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" id="camp-motto" name="motto" value="{{ camp.motto }}">
+                                <span class="form-control-feedback feedback-container"></span>
+                            </div>
+                        </div>
 
-								{% endif %}
-							{% endif %}
-						</div>
-
-						{% if myCollaboration is not null %}
-							<p>
-								{% if myCollaboration.getStatus == 'requested' %}
-								You have requested collaboration in this camp
-								{% endif %}
-
-								{% if myCollaboration.getStatus == 'invited' %}
-								You have been invited to this camp
-								{% endif %}
-
-								{% if myCollaboration.getStatus == 'established' %}
-								You are {{ myCollaboration.getRole }} in this camp
-								{% endif %}
-							</p>
-						{% endif %}
-					</div>
-
-					<div class="modal fade" id="leaveCampModal" tabindex="-1" role="dialog" aria-labelledby="leaveCampModalLabel" aria-hidden="true">
-						<div class="modal-dialog">
-							<div class="modal-content">
-								<div class="modal-header">
-									<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-									<h4 class="modal-title">Leave camp {{ camp.getName }}</h4>
-								</div>
-								<div class="modal-body">
-									Are you sure, you want to leave camp {{ camp.getName }}?
-								</div>
-								<div class="modal-footer">
-									<a class="btn btn-danger"
-										href="{{ url('web/camp/default',
-											{ 'camp': camp, 'controller': 'index', 'action': 'leaveCamp'}
-											) }}"
-									>
-										Leave camp
-									</a>
-									<button type="button" class="btn btn-default" data-dismiss="modal">Stay in camp</button>
-								</div>
-							</div>
-						</div>
-					</div>
-
-					<p>Name:  {{ camp.getName }}</p>
-					<p>Title: {{ camp.getTitle }}</p>
-					<p>Motto: {{ camp.getMotto }}</p>
+                    </form>
 
 				{% endblock %}
 			{% endembed %}
+        </div>
 
-			{% embed "helper/accordion.twig" %}
+        <div class="col-sm-5">
+            {% embed "helper/accordion.twig" with { 'id': 'my-collaboration' } %}
+                {% block panel_title %}
+                    My collaboration
+                {% endblock %}
+                {% block panel_content %}
+                    {#{{ collaborationDesc(camp) }}#}
+
+                    <div class="pull-right">
+                        <p>
+                            {{ collaboration(camp, 'sm') }}
+                        </p>
+                    </div>
+
+                {% endblock %}
+            {% endembed %}
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+			{% embed "helper/accordion.twig" with { 'id': 'periods' } %}
 				{% block panel_title %}
 					Periods
 				{% endblock %}
+                {% block panel_heading %}
+                    <div class="pull-right">
+                        <button type="button"
+                                class="btn btn-xs btn-primary"
+                                data-toggle="modal"
+                                data-target="#asyncform-container"
+                                href="{{ url('web/camp/default', {'camp': camp, 'controller':'period', 'action' : 'addPeriod' } ) }}"
+                                >+ Add Period</button>
+                    </div>
+                {% endblock %}
 				{% block panel_content %}
-					<div class="col-sm-12">
-						<button
-							type="button"
-							class="btn btn-primary"
-							data-toggle="modal"
-							data-target="#asyncform-container"
-							href="{{ url('web/camp/default', {'camp': camp, 'controller':'period', 'action' : 'addPeriod' } ) }}"
-						>+ Add Period</button>
+					{#
+                    <div class="col-sm-12">
+					#}
+
 
 						<table class="table table-striped table-hover" style="width: 100%">
 							<thead>
@@ -254,8 +195,9 @@
 							</tbody>
 						</table>
 
-
+                    {#
 					</div>
+                    #}
 				{% endblock %}
 			{% endembed %}
 		</div>

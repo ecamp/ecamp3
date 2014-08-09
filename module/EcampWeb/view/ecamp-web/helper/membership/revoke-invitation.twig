@@ -1,9 +1,9 @@
 <div class="edit-membership-container">
     <div class="btn-group">
-        <a  class="btn btn-xs btn-default btn-danger revoke-invitation"
+        <a  class="btn btn-{{ size }} btn-default btn-danger revoke-invitation"
             href="{{ url('web/group-prefix/name/default',
                         { 'group': membership.group, 'controller': 'MembershipHelper', 'action': 'revokeInvitation' },
-                        { 'query': { 'user': membership.user.id } }) }}"
+                        { 'query': { 'user': membership.user.id, 'size': size } }) }}"
         >
             <b>Revoke invitation</b>
         </a>

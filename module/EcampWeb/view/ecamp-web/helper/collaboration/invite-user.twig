@@ -1,0 +1,39 @@
+<div class="edit-collaboration-container">
+    <div class="btn-group">
+        <a  class="btn btn-{{ size }} btn-success invite-user"
+            href="{{ url('web/camp/default',
+                        { 'camp': camp, 'controller': 'CollaborationHelper', 'action': 'inviteUser' },
+                        { 'query': { 'user': user.id, 'size': size, 'role': 'member' } }) }}"
+        >
+            <b>Invite user</b>
+        </a>
+
+        <div class="btn-group">
+            <button type="button" class="btn btn-{{ size }} btn-success dropdown-toggle" data-toggle="dropdown">
+                <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu pull-right">
+                <li>
+                    <a  class="invite-user"
+                        href="{{ url('web/camp/default',
+                                    { 'camp': camp, 'controller': 'CollaborationHelper', 'action': 'inviteUser' },
+                                    { 'query': { 'user': user.id, 'size': size, 'role': 'member' } }) }}"
+                    >
+                        as member
+                    </a>
+                </li>
+                <li>
+                    <a  class="invite-user"
+                        href="{{ url('web/camp/default',
+                                    { 'camp': camp, 'controller': 'CollaborationHelper', 'action': 'inviteUser' },
+                                    { 'query': { 'user': user.id, 'size': size, 'role': 'manager' } }) }}"
+                    >
+                        as manager
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- add loading spinner -->
+</div>

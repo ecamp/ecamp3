@@ -45,39 +45,54 @@ class Membership extends \Zend\View\Helper\AbstractHelper
         return $this->userRepository->getMe();
     }
 
-    public function __invoke($groupOrMembership, User $user = null)
+    public function __invoke($groupOrMembership, $userOrSize = null, $size = null)
     {
+        $me = $this->getMe();
+
         if ($groupOrMembership instanceof Group) {
             $group = $groupOrMembership;
+
+            if ($userOrSize instanceof User) {
+                $user = $userOrSize;
+            } else {
+                $user = $this->getMe();
+                $size = $userOrSize ?: $size;
+            }
+            $membership = $this->membershipRepository->findByGroupAndUser($group, $user);
+
         } elseif ($groupOrMembership instanceof GroupMembership) {
-            $group = $groupOrMembership->getGroup();
-            $user = $groupOrMembership->getUser();
+            $membership = $groupOrMembership;
+            $user = $membership->getUser();
+            $group = $membership->getGroup();
+            $size = $userOrSize;
+
         } else {
             throw new \Exception("Erstes Argument muss Group oder GroupMembership sein");
         }
 
         $viewModel = null;
-        $me = $this->getMe();
-        $user = $user ?: $me;
+        $size = $size ?: '';
 
-        if ($user != null) {
-            $membership = $this->membershipRepository->findByGroupAndUser($group, $user);
+        if ($membership == null) {
+            $viewModel = $this->renderNoMembership($group, $user, $me);
 
-            if ($membership == null) {
-                $viewModel = $this->renderNoMembership($group, $user, $me);
+        } elseif ($membership->isRequest()) {
+            $viewModel = $this->renderRequest($membership, $me);
 
-            } elseif ($membership->isRequest()) {
-                $viewModel = $this->renderRequest($membership, $me);
+        } elseif ($membership->isInvitation()) {
+            $viewModel = $this->renderInvitation($membership, $me);
 
-            } elseif ($membership->isInvitation()) {
-                $viewModel = $this->renderInvitation($membership, $me);
-
-            } elseif ($membership->isEstablished()) {
-                $viewModel = $this->renderEstablished($membership, $me);
-            }
+        } elseif ($membership->isEstablished()) {
+            $viewModel = $this->renderEstablished($membership, $me);
         }
 
-        return ($viewModel != null) ? $this->renderer->render($viewModel) : "";
+        if ($viewModel != null) {
+            $viewModel->setVariable('size', $size);
+
+            return $this->renderer->render($viewModel);
+        }
+
+        return "";
     }
 
     public function renderNoMembership(Group $group, User $user, User $me)

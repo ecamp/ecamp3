@@ -34,7 +34,7 @@ class SendActivationMailJob extends SendMailJob
         $code = $this->code;
 
         $viewModel = new ViewModel();
-        $viewModel->setTemplate('ecamp-core/mail/activation-html');
+        $viewModel->setTemplate('ecamp-core/mail/activation-html.twig');
         $viewModel->setVariable('user', $user);
         $viewModel->setVariable('code', $code);
 

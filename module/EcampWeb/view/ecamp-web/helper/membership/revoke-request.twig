@@ -1,8 +1,9 @@
 <div class="edit-membership-container">
     <div class="btn-group">
-        <a  class="btn btn-xs btn-default btn-danger revoke-request"
+        <a  class="btn btn-{{ size }} btn-default btn-danger revoke-request"
             href="{{ url('web/group-prefix/name/default',
-                        { 'group': membership.group, 'controller': 'MembershipHelper', 'action': 'revokeRequest' }) }}"
+                        { 'group': membership.group, 'controller': 'MembershipHelper', 'action': 'revokeRequest' },
+                        { 'query': { 'size': size } }) }}"
         >
             <b>Revoke request</b>
         </a>

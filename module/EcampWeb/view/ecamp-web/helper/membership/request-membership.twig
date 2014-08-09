@@ -1,15 +1,15 @@
 <div class="edit-membership-container">
     <div class="btn-group">
-        <a  class="btn btn-xs btn-default btn-success request-membership"
+        <a  class="btn btn-{{ size }} btn-default btn-success request-membership"
             href="{{ url('web/group-prefix/name/default',
                         { 'group': group, 'controller': 'MembershipHelper', 'action': 'requestMembership' },
-                        { 'query': { 'role': 'member' } }) }}"
+                        { 'query': { 'size': size, 'role': 'member' } }) }}"
         >
             <i class="fa fa-plus"></i> <b>Request membership</b>
         </a>
 
         <div class="btn-group">
-            <button type="button" class="btn btn-xs btn-default btn-success dropdown-toggle" data-toggle="dropdown">
+            <button type="button" class="btn btn-{{ size }} btn-default btn-success dropdown-toggle" data-toggle="dropdown">
                 <span class="caret"></span>
             </button>
             <ul class="dropdown-menu pull-right">
@@ -17,7 +17,7 @@
                     <a  class="request-membership"
                         href="{{ url('web/group-prefix/name/default',
                                     { 'group': group, 'controller': 'MembershipHelper', 'action': 'requestMembership' },
-                                    { 'query': { 'role': 'member' } }) }}"
+                                    { 'query': { 'size': size, 'role': 'member' } }) }}"
                     >
                         as member
                     </a>
@@ -26,7 +26,7 @@
                     <a  class="request-membership"
                         href="{{ url('web/group-prefix/name/default',
                         { 'group': group, 'controller': 'MembershipHelper', 'action': 'requestMembership' },
-                        { 'query': { 'role': 'manager' } }) }}"
+                        { 'query': { 'size': size, 'role': 'manager' } }) }}"
                     >
                         as manager
                     </a>

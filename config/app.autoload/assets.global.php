@@ -32,10 +32,10 @@ return array(
                 'angular-ui/js/ui-bootstrap-tpls.min.js' => __VENDOR__ . '/angular-ui/bootstrap/ui-bootstrap-tpls.min.js',
 
                 /* Bootstrap Select */
-                'bootstrap-select/js/bootstrap-select.js' => __VENDOR__ . '/bootstrap-select/bootstrap-select/bootstrap-select.js',
-                'bootstrap-select/js/bootstrap-select.min.js' => __VENDOR__ . '/bootstrap-select/bootstrap-select/bootstrap-select.min.js',
-                'bootstrap-select/css/bootstrap-select.css' => __VENDOR__ . '/bootstrap-select/bootstrap-select/bootstrap-select.css',
-                'bootstrap-select/css/bootstrap-select.min.css' => __VENDOR__ . '/bootstrap-select/bootstrap-select/bootstrap-select.min.css',
+                'bootstrap-select/js/bootstrap-select.js' => __VENDOR__ . '/bootstrap-select/bootstrap-select/dist/js/bootstrap-select.js',
+                'bootstrap-select/js/bootstrap-select.min.js' => __VENDOR__ . '/bootstrap-select/bootstrap-select/dist/js/bootstrap-select.min.js',
+                'bootstrap-select/css/bootstrap-select.css' => __VENDOR__ . '/bootstrap-select/bootstrap-select/dist/css/bootstrap-select.css',
+                'bootstrap-select/css/bootstrap-select.min.css' => __VENDOR__ . '/bootstrap-select/bootstrap-select/dist/css/bootstrap-select.min.css',
 
                 /* Bootstrap Datetime picker */
                 'bootstrap-datetimepicker/js/bootstrap-datetimepicker.js' => 'https://raw.github.com/smalot/bootstrap-datetimepicker/master/js/bootstrap-datetimepicker.js',
