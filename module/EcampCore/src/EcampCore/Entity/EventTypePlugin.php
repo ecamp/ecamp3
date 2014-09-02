@@ -27,19 +27,22 @@ use Doctrine\Common\Collections\Criteria;
 
 /**
  * EventTypePlugin
- * @ORM\Entity(readOnly=true)
+ * @ORM\Entity
  * @ORM\Table(name="event_type_plugins")
  * @ORM\HasLifecycleCallbacks
  */
 class EventTypePlugin extends BaseEntity
 {
 
-    public function __construct(EventType $eventType = null, Plugin $plugin = null)
+    public function __construct(EventType $eventType, Plugin $plugin)
     {
         parent::__construct();
 
         $this->eventType = $eventType;
         $this->plugin = $plugin;
+
+        $this->minNumberPluginInstances = 0;
+        $this->maxNumberPluginInstances = 1;
     }
 
     /**
@@ -56,7 +59,7 @@ class EventTypePlugin extends BaseEntity
 
     /**
      * @var string
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", nullable=true)
      */
     private $config;
 

@@ -23,7 +23,7 @@ namespace EcampCore\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="EcampCore\Repository\MediumRepository", readOnly=true)
+ * @ORM\Entity(repositoryClass="EcampCore\Repository\MediumRepository")
  * @ORM\Table(name="media")
  */
 class Medium
@@ -32,8 +32,10 @@ class Medium
     const MEDIUM_PRINT = 'print';
     const MEDIUM_MOBILE = 'mobile';
 
-    public function __construct()
+    public function __construct($name, $default)
     {
+        $this->name = $name;
+        $this->default = $default;
     }
 
     /**
@@ -51,7 +53,7 @@ class Medium
 
     /**
      * @var boolean
-     * @ORM\Column(type="boolean", nullable=false)
+     * @ORM\Column(type="boolean", nullable=false, name="isdefault")
      */
     private $default;
 
@@ -59,4 +61,5 @@ class Medium
     {
         return $this->default;
     }
+
 }

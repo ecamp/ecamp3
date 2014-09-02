@@ -36,12 +36,13 @@ use EcampLib\Entity\BaseEntity;
 class Plugin extends BaseEntity
 {
 
-    public function __construct($name, $strategyClass)
+    public function __construct($name, $strategyClass, $active = true)
     {
         parent::__construct();
 
         $this->name = $name;
         $this->strategyClass = $strategyClass;
+        $this->active = $active;
     }
 
     /**
