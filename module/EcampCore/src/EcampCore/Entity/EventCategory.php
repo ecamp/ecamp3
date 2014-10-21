@@ -37,6 +37,8 @@ class EventCategory
 
     public function __construct(Camp $camp, EventType $eventType)
     {
+        parent::__construct();
+
         $this->camp = $camp;
         $this->setEventType($eventType);
 
@@ -159,9 +161,10 @@ class EventCategory
      */
     public function setEventType(EventType $eventType)
     {
-        if ($this->getCamp()->getCampType() !== $eventType->getCampType()) {
+
+        if ( ! $eventType->getCampTypes()->contains($this->getCamp()->getCampType())) {
             throw new \Exception(sprintf(
-                "EventType '%s' is not availlable for CampType '%s'",
+                "EventType '%s' is not available for CampType '%s'",
                 $eventType->getName(),
                 $this->getCamp()->getCampType()->getName()
             ));

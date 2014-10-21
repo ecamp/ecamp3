@@ -67,7 +67,13 @@ class AbstractServiceFactory implements AbstractFactoryInterface
 
         if ($authService->hasIdentity()) {
             $authId = $authService->getIdentity();
-            $service->setMe($serviceLocator->get('EcampCore\Repository\User')->find($authId));
+            $user = $serviceLocator->get('EcampCore\Repository\User')->find($authId);
+
+            if ( is_null($user) ) {
+                $authService->clearIdentity();
+            } else {
+                $service->setMe($user);
+            }
         }
 
     }

@@ -40,13 +40,15 @@ class EventTemplateContainer extends BaseEntity
     public function __construct(
         EventTemplate $eventTemplate,
         EventTypePlugin $eventTypePlugin,
-        $containerName
+        $containerName,
+        $filename
     ) {
         parent::__construct();
 
         $this->eventTemplate = $eventTemplate;
         $this->eventTypePlugin = $eventTypePlugin;
         $this->containerName = $containerName;
+        $this->filename = $filename;
     }
 
     /**

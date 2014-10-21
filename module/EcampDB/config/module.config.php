@@ -40,6 +40,7 @@ return array(
     ),
 
     'view_manager' => array(
+        'display_exceptions'       => true,
         'template_path_stack' => array(
             __DIR__ . '/../view',
         ),
