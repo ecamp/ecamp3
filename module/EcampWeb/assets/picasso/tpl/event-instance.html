@@ -1,0 +1,37 @@
+<div class="event-instance"
+     ng-repeat="eventView in eventViews.Values"
+     ng-init="currentStyle = eventView.style()"
+     ng-style="eventView.style()"
+     ng-mouseover="eventView.mouseover()"
+     ng-mouseleave="eventView.mouseleave()"
+     style="position: absolute;"
+>
+    <!--
+     ng-style="eventView.style()"
+    -->
+
+    <div style="position:absolute; left: 0; right: 0; top: 0; bottom: 0;" ng-style="eventView.border()"></div>
+    <div class="event-instance-background" style="position: absolute;" ng-style="eventView.bgStyle()"></div>
+
+    <div style="position: absolute; left: 0px; right: 0px; text-align: center" ng-if="currentStyle.isStart">
+        {{ eventView.firstDay.dayNr }}.{{ eventView.eventInstance.GetEventNr() }}  Title
+    </div>
+    <div style="position: absolute; left: 0px; right: 0px; text-align: center; opacity: 0.5" ng-if="!currentStyle.isStart">
+        {{ eventView.firstDay.dayNr }}.{{ eventView.eventInstance.GetEventNr() }}  Title
+    </div>
+
+    <div class="resize-se ui-icon ui-icon-gripsmall-diagonal-se"
+         ng-show="currentStyle.isEnd"
+         style="position: absolute; height: 16px; width: 16px; right: 0px; bottom: 0px; cursor: se-resize">
+
+         </div>
+    <div class="resize-s"
+         ng-show="currentStyle.isEnd"
+         style="position: absolute; height: 7px; left:0px; right: 16px; bottom: 0px; cursor: s-resize"></div>
+    <div class="resize-e"
+         ng-show="currentStyle.isEnd"
+         style="position: absolute; width: 7px; right: 0px; top:0px; bottom: 16px; cursor: e-resize"></div>
+    <div class="resize-e"
+         ng-hide="currentStyle.isEnd"
+         style="position: absolute; width: 7px; right: 0px; top:0px; bottom: 0px; cursor: e-resize"></div>
+</div>

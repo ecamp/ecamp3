@@ -1,0 +1,85 @@
+<section class="container white" style="margin-top: -8px; padding-top: 5px; ">
+    <div class="row">
+        <div class="col-sm-4 col-sm-push-8 col-md-5 col-md-push-7">
+
+            <div class="btn-group pull-right" style="margin-bottom: 8px">
+                <a 	class="btn btn-sm btn-primary"
+                      href="{{ url('web') }}">
+                    <i class="fa fa-home"></i> Dashboard
+                </a>
+                <a 	class="btn btn-sm btn-primary hidden-xs hidden-sm"
+                      href="#">
+                    <i class="fa fa-user"></i> Users
+                </a>
+                <a class="btn btn-sm btn-primary hidden-xs hidden-sm">
+                    <i class="fa fa-flag"></i> Groups
+                </a>
+                <a class="btn btn-sm btn-primary hidden-xs hidden-sm">
+                    <i class="fa fa-bell"></i> Camps
+                </a>
+
+                <a class="btn btn-sm btn-primary dropdown-toggle" data-toggle="dropdown">
+                    &nbsp;<i class="fa fa-caret-down"></i>&nbsp;
+                </a>
+                <ul class="dropdown-menu pull-right" role="menu">
+                    <li class="hidden-md hidden-lg">
+                        <a href="#"><span class="fa fa-user"></span>&nbsp;&nbsp; Users</a>
+                    </li>
+                    <li class="hidden-md hidden-lg">
+                        <a href="#"><span class="fa fa-flag"></span>&nbsp;&nbsp; Groups</a>
+                    </li>
+                    <li class="hidden-md hidden-lg">
+                        <a href="#"><span class="fa fa-bell"></span>&nbsp;&nbsp; Camps</a>
+                    </li>
+                    <li class="hidden-md hidden-lg divider"></li>
+
+                    <li>
+                        <a href="#">
+                            <span class="fa fa-user"></span>&nbsp;&nbsp; {{ me.getUsername }}
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#"><span class="fa fa-inbox"></span>&nbsp;&nbsp; Inbox</a>
+                    </li>
+                    <li>
+                        <a href="#"><span class="fa fa-cog"></span>&nbsp;&nbsp; Options</a>
+                    </li>
+                    <li class="divider"></li>
+                    <li>
+                        <a href="/web/login/logout"><span class="fa fa-off"></span>&nbsp;&nbsp; Abmelden</a>
+                    </li>
+                </ul>
+            </div>
+
+{#
+        <div class="row">
+            <div class="search-box pull-right" style="padding-right: 15px;">
+                <input type="text" class="typeahead" placeholder="Search" />
+            </div>
+        </div>
+#}
+
+        </div>
+
+        <div class="col-sm-8 col-sm-pull-4 col-md-7 col-md-pull-5">
+            {% block header_icon %}{% endblock %}
+        </div>
+    </div>
+
+    <hr style="margin-top: 10px; margin-bottom: 5px;" />
+
+    <div class="row">
+        <div class="col-sm-12">
+            <ol class="breadcrumb" style="margin-bottom:0px; padding: 0px 5px; background-color: rgba(0,0,0,0);">
+                <li>
+                    <div class="btn-group">
+                        <a 	href="/web" class="btn btn-xs btn-noborder">
+                            <i class="fa fa-home"></i> Dashboard
+                        </a>
+                    </div>
+                </li>
+                {% block breadcrumb %}{% endblock %}
+            </ol>
+        </div>
+    </div>
+</section>
