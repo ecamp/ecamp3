@@ -1,0 +1,32 @@
+{% extends 'header/base.twig' %}
+
+{% block header_icon %}
+    <table border="0" style="width: 100%; border: 0px;">
+        <tr>
+            <td width="120px">
+                <img width="100" class="img-rounded" src="https://cdn3.iconfinder.com/data/icons/glyph/227/Public-256.png" >
+            </td>
+            <td>
+                <h1>{{ group.getName }}</h1>
+                <p>
+                    {{ group.getDescription }}
+                </p>
+            </td>
+        </tr>
+    </table>
+{% endblock %}
+
+
+{% block breadcrumb %}
+    {%  for item in group.getPathAsArray %}
+        <li><a class="btn btn-xs btn-noborder" href="{{ url('web/group-prefix/name', {'group' : item.id } ) }}">
+                <i class="fa fa-flag"></i> {{ item.name }}
+            </a></li>
+    {% endfor %}
+
+    <li class="active">
+        <a class="btn btn-xs btn-noborder" href="{{ url('web/group-prefix/name', {'group' : group.id } ) }}">
+            <i class="fa fa-flag"></i> {{ group.name }}
+        </a>
+    </li>
+{% endblock %}

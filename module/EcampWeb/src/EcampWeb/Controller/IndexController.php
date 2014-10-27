@@ -34,6 +34,8 @@ class IndexController
 
     public function indexAction()
     {
+        $this->setFullHeight();
+
         $me = $this->getMe();
 
         if ($me != null) {
