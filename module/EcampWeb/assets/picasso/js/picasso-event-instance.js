@@ -110,12 +110,8 @@
                             _userEventIsProcessing = false;
                             scope.$apply(UpdateEventViews());
 
-                            /*
-                             $scope.remoteData
-                             .SaveEventInstance(eventInstanceModel)
-                             .catch(function(){ alert('Änderung konnte nicht gespeichert werden'); })
-                             .finally(RefreshEvents);
-                             */
+                            SaveEventInstance(eventInstanceModel);
+
                             console.log(
                                 'Save: EventInstance[ID=' + eventInstanceModel.id + '] { ' +
                                 'periodId: ' + eventInstanceModel.periodId + ', ' +
@@ -197,10 +193,7 @@
                             doWidth = false;
 
                             scope.$apply(UpdateEventViews());
-
-                            /*
-                             $scope.remoteData.SaveEventInstance(eventInstanceModel);
-                             */
+                            SaveEventInstance(eventInstanceModel);
 
                             console.log(
                                 'Save: EventInstance[ID=' + eventInstanceModel.id + '] { ' +
@@ -316,6 +309,11 @@
                     function Class(){
                         return _userEventIsProcessing ? 'user-event' : '';
                     }
+                }
+
+
+                function SaveEventInstance(eventInstanceModel){
+                    picassoData.SaveEventInstance(eventInstanceModel)
                 }
             }
         }

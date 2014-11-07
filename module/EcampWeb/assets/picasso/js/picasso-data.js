@@ -80,6 +80,7 @@
             Object.defineProperty(this, 'LoadCamp', { value: LoadCamp });
             Object.defineProperty(this, 'RefreshCamp', { value: RefreshEvents });
             Object.defineProperty(this, 'RefreshEvents', { value: RefreshEvents });
+            Object.defineProperty(this, 'SaveEventInstance', { value: SaveEventInstance });
 
             Object.defineProperty(this, 'GetLength', { value: GetLength });
             Object.defineProperty(this, 'GetOffset', { value: GetOffset });
@@ -180,6 +181,9 @@
                 }
             }
 
+            function SaveEventInstance(eventInstanceModel){
+                return _remoteData.SaveEventInstance(eventInstanceModel);
+            }
 
 
             /** @returns {number} */
