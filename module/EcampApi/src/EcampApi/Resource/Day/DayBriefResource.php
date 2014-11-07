@@ -11,6 +11,7 @@ class DayBriefResource extends HalResource
     {
         $object = array(
                 'id'		=> 	$entity->getId(),
+                'periodId'  =>  $entity->getPeriod()->getId(),
                 'offset'	=>  $entity->getDayOffset(),
                 'date'		=> 	$entity->getStart()->format(\DateTime::ISO8601)
                 );

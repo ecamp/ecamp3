@@ -4,8 +4,18 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "0846c8a63d5f3aa6785339e371657826",
+    "hash": "117b39f9252aa0729833af49e3ca3891",
     "packages": [
+        {
+            "name": "LuvDaSun/angular-hal",
+            "version": "0.1.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/LuvDaSun/angular-hal.git",
+                "reference": "v0.1.5"
+            },
+            "type": "library"
+        },
         {
             "name": "angular-ui/bootstrap",
             "version": "dev-master",
@@ -476,6 +486,52 @@
             "description": "typeahead.js is a fast and fully-featured autocomplete library",
             "homepage": "http://github.com/components/typeahead.js",
             "time": "2014-07-25 20:59:50"
+        },
+        {
+            "name": "components/ui-select",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/wajatimur/ui-select.git",
+                "reference": "08a333dca46f3df68a3377f30ee1ca4ee90fe7d3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/wajatimur/ui-select/zipball/08a333dca46f3df68a3377f30ee1ca4ee90fe7d3",
+                "reference": "08a333dca46f3df68a3377f30ee1ca4ee90fe7d3",
+                "shasum": ""
+            },
+            "require": {
+                "robloach/component-installer": "*"
+            },
+            "type": "component",
+            "extra": {
+                "component": {
+                    "scripts": [
+                        "dist/select.js"
+                    ],
+                    "files": [
+                        "dist/select.js",
+                        "dist/select.css",
+                        "dist/select.min.js",
+                        "dist/select.min.css"
+                    ]
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "AngularJS UI Select",
+            "homepage": "https://github.com/angular-ui/ui-select",
+            "keywords": [
+                "angular",
+                "angular-ui",
+                "angularjs",
+                "select",
+                "select2"
+            ],
+            "time": "2014-07-13 04:40:39"
         },
         {
             "name": "doctrine/annotations",
@@ -2555,17 +2611,17 @@
         },
         {
             "name": "symfony/console",
-            "version": "v2.5.5",
+            "version": "v2.5.6",
             "target-dir": "Symfony/Component/Console",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Console.git",
-                "reference": "ca053eaa031c93afb68a71e4eb1f4168dfd4a661"
+                "reference": "6f177fca24200a5b97aef5ce7a5c98124a0f0db0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Console/zipball/ca053eaa031c93afb68a71e4eb1f4168dfd4a661",
-                "reference": "ca053eaa031c93afb68a71e4eb1f4168dfd4a661",
+                "url": "https://api.github.com/repos/symfony/Console/zipball/6f177fca24200a5b97aef5ce7a5c98124a0f0db0",
+                "reference": "6f177fca24200a5b97aef5ce7a5c98124a0f0db0",
                 "shasum": ""
             },
             "require": {
@@ -2606,21 +2662,21 @@
             ],
             "description": "Symfony Console Component",
             "homepage": "http://symfony.com",
-            "time": "2014-09-25 09:53:56"
+            "time": "2014-10-05 13:57:04"
         },
         {
             "name": "symfony/process",
-            "version": "v2.5.5",
+            "version": "v2.5.6",
             "target-dir": "Symfony/Component/Process",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Process.git",
-                "reference": "8a1ec96c4e519cee0fb971ea48a1eb7369dda54b"
+                "reference": "9bbacbb3a7a27b17c0d51e2f126f59e0e588ad3a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Process/zipball/8a1ec96c4e519cee0fb971ea48a1eb7369dda54b",
-                "reference": "8a1ec96c4e519cee0fb971ea48a1eb7369dda54b",
+                "url": "https://api.github.com/repos/symfony/Process/zipball/9bbacbb3a7a27b17c0d51e2f126f59e0e588ad3a",
+                "reference": "9bbacbb3a7a27b17c0d51e2f126f59e0e588ad3a",
                 "shasum": ""
             },
             "require": {
@@ -2653,21 +2709,21 @@
             ],
             "description": "Symfony Process Component",
             "homepage": "http://symfony.com",
-            "time": "2014-09-23 05:25:11"
+            "time": "2014-10-01 05:50:18"
         },
         {
             "name": "symfony/yaml",
-            "version": "v2.5.5",
+            "version": "v2.5.6",
             "target-dir": "Symfony/Component/Yaml",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Yaml.git",
-                "reference": "b1dbc53593b98c2d694ebf383660ac9134d30b96"
+                "reference": "2d9f527449cabfa8543dd7fa3a466d6ae83d6726"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Yaml/zipball/b1dbc53593b98c2d694ebf383660ac9134d30b96",
-                "reference": "b1dbc53593b98c2d694ebf383660ac9134d30b96",
+                "url": "https://api.github.com/repos/symfony/Yaml/zipball/2d9f527449cabfa8543dd7fa3a466d6ae83d6726",
+                "reference": "2d9f527449cabfa8543dd7fa3a466d6ae83d6726",
                 "shasum": ""
             },
             "require": {
@@ -2700,7 +2756,7 @@
             ],
             "description": "Symfony Yaml Component",
             "homepage": "http://symfony.com",
-            "time": "2014-09-22 09:14:18"
+            "time": "2014-10-01 05:50:18"
         },
         {
             "name": "twig/twig",
@@ -2816,13 +2872,13 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/zendframework/ZendDeveloperTools.git",
-                "reference": "6468ed1c58a65ad797f04ebe794ca85fef0ff142"
+                "reference": "5e38d0889a34bfbfccef2acb93ca9f4df40dfe31"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://packages.zendframework.com/composer/zendframework-zend-developer-tools-6468ed1c58a65ad797f04ebe794ca85fef0ff142-zip-73e483.zip",
+                "url": "https://packages.zendframework.com/composer/zendframework-zend-developer-tools-5e38d0889a34bfbfccef2acb93ca9f4df40dfe31-zip-bfec13.zip",
                 "reference": "dev-master",
-                "shasum": "1e254d3f8589bb5e4fdca32c33fecab5088ec298"
+                "shasum": "2451d6a293f03567a1b9dae73339c9d588e23539"
             },
             "require": {
                 "php": ">=5.3.3",
@@ -2872,7 +2928,7 @@
                 "source": "https://github.com/zendframework/ZendDeveloperTools/tree/master",
                 "issues": "https://github.com/zendframework/ZendDeveloperTools/issues"
             },
-            "time": "2014-08-13 19:03:31"
+            "time": "2014-10-23 18:27:03"
         },
         {
             "name": "zendframework/zenddiagnostics",
@@ -3353,6 +3409,7 @@
         "zendframework/zend-developer-tools": 20,
         "doctrine/migrations": 20,
         "zf-commons/zfc-twig": 20,
+        "components/ui-select": 20,
         "angular-ui/bootstrap": 20,
         "bootstrap-select/bootstrap-select": 20,
         "kamisama/php-resque-ex": 20,

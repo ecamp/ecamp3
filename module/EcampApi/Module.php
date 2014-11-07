@@ -107,9 +107,11 @@ class Module
                 },
 
                 'EcampApi\Resource\EventInstance\EventInstanceResourceListener' => function ($services) {
-                    $repository = $services->get('EcampCore\Repository\EventInstance');
 
-                    return new EventInstanceResourceListener($repository);
+                    $repository = $services->get('EcampCore\Repository\EventInstance');
+                    $service = $services->get('EcampCore\Service\EventInstance');
+
+                    return new EventInstanceResourceListener($repository, $service);
                 },
 
                 'EcampApi\Resource\EventResp\EventRespResourceListener' => function ($services) {

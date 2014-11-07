@@ -18,7 +18,6 @@ use EcampCore\Entity\PluginPrototype;
 use EcampLib\Service\ServiceBase;
 use EcampCore\Repository\EventCategoryRepository;
 use EcampLib\Validation\ValidationException;
-use EcampCore\Validation\EventFieldset;
 
 class EventService
     extends ServiceBase
@@ -103,11 +102,14 @@ class EventService
     }
 
     /**
-     * @return EcampCore\Entity\Event
+     * @param Camp $camp
+     * @param $data
+     * @throws ValidationException
+     * @return \EcampCore\Entity\Event
      */
     public function Create(Camp $camp, $data)
     {
-        $eventCategoryId = $data['event']['eventCategory'];
+        $eventCategoryId = $data['eventCategory'];
         $eventCreateFactoryId = null;
 
         $splitPos = strpos($eventCategoryId, '-');
@@ -116,6 +118,7 @@ class EventService
             $eventCategoryId = trim(substr($eventCategoryId, 0, $splitPos));
         }
 
+        /** @var \EcampCore\Entity\EventCategory $eventCategory */
         $eventCategory = $this->eventCategoryRepo->find($eventCategoryId);
 
         if ($eventCategory == null) {
@@ -125,9 +128,12 @@ class EventService
 
         $event = new Event($camp, $eventCategory);
 
-        $validationForm = $this->createValidationForm($event)
-            ->addFieldset(new EventFieldset($camp), false);
-        $validationForm->setAndValidate($data);
+        $eventValidationForm =
+            $this->createValidationForm($event, $data, array('title'));
+
+        if (!$eventValidationForm->isValid()) {
+            throw ValidationException::FromForm($eventValidationForm);
+        }
 
         if ($eventCreateFactoryId != null) {
             // apply Facotry;
@@ -186,7 +192,7 @@ class EventService
     }
 
     /**
-     * @return EcampCore\Entity\PluginInstance
+     * @return \EcampCore\Entity\PluginInstance
      */
     public function getPluginInstance($id)
     {
@@ -202,7 +208,7 @@ class EventService
     }
 
     /**
-     * @return EcampCore\Entity\Plugin
+     * @return \EcampCore\Entity\Plugin
      */
     public function getPluginPrototype($id)
     {

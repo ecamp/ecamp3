@@ -11,12 +11,13 @@ class DayDetailResource extends HalResource
     public function __construct(Day $entity)
     {
         $object = array(
-                'id'		=> 	$entity->getId(),
-                'period'	=> 	new PeriodBriefResource($entity->getPeriod()),
-                'offset'	=>  $entity->getDayOffset(),
-                'date'		=> 	$entity->getStart()->format(\DateTime::ISO8601),
-                'notes'		=> 	$entity->getNotes()
-                );
+            'id'		=> 	$entity->getId(),
+            'periodId'  =>  $entity->getPeriod()->getId(),
+            'period'	=> 	new PeriodBriefResource($entity->getPeriod()),
+            'offset'	=>  $entity->getDayOffset(),
+            'date'		=> 	$entity->getStart()->format(\DateTime::ISO8601),
+            'notes'		=> 	$entity->getNotes()
+        );
 
         parent::__construct($object, $object['id']);
 

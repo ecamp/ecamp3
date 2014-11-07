@@ -7,12 +7,31 @@ use Zend\InputFilter\InputFilterProviderInterface;
 use EcampCore\Entity\Camp;
 use EcampCore\Entity\Period;
 use EcampCore\Entity\Day;
+use Zend\XmlRpc\Value\DateTime;
 
 class EventInstanceFieldset extends Fieldset implements InputFilterProviderInterface
 {
-    public function __construct(Camp $camp, Period $period = null, Day $day = null)
-    {
+    public function __construct
+    ( Camp $camp
+    , Period $period = null
+    /* , Day $day = null
+    , $startMin = null
+    , $endMin = null */
+    ) {
         parent::__construct('eventInstance');
+
+        /*
+        $startDay = $endDay = $day;
+        if ($period != null && $startMin != null) {
+            $startDay = $period->getDay(floor($startMin / 1440));
+        }
+        if ($period != null && $endMin != null) {
+            $endDay = $period->getDay(floor($endMin / 1440));
+        }
+
+        $startDayId = $startDay != null ? $startDay->getId() : null;
+        $endDayId = $endDay != null ? $endDay->getId() : null;
+        */
 
         $startDayValueOptions = array();
         $endDayValueOptions = array();
@@ -32,7 +51,7 @@ class EventInstanceFieldset extends Fieldset implements InputFilterProviderInter
                 $startDayValueOptions[$p->getId()]['options'][$d->getId()] = array(
                     'value' => $d->getId(),
                     'label' => $d->getStart()->format('D :: d.m.Y'),
-                    'selected' => ($d == $day),
+//                    'selected' => ($d->getId() == $startDayId),
                     'attributes' => array(
                         'data-timestamp' => $d->getStart()->getTimestamp(),
                         'data-period' => $p->getId()
@@ -42,7 +61,7 @@ class EventInstanceFieldset extends Fieldset implements InputFilterProviderInter
                 $endDayValueOptions[$d->getId()] = array(
                     'value' => $d->getId(),
                     'label' => $d->getStart()->format('D :: d.m.Y'),
-                    'selected' => ($d == $day),
+//                    'selected' => ($d->getId() == $endDayId),
                     'attributes' => array(
                         'data-timestamp' => $d->getStart()->getTimestamp(),
                         'data-period' => $p->getId()
@@ -103,6 +122,20 @@ class EventInstanceFieldset extends Fieldset implements InputFilterProviderInter
                 'type' => 'time'
             )
         ));
+
+        /*
+        if ($startMin) {
+            $startTime = new \DateTime();
+            $startTime->setTime(0, $startMin);
+            $this->get('starttime')->setValue($startTime->format('H:i'));
+        }
+
+        if ($endMin) {
+            $endTime = new \DateTime();
+            $endTime->setTime(0, $endMin);
+            $this->get('endtime')->setValue($endTime->format('H:i'));
+        }
+        */
 
     }
 

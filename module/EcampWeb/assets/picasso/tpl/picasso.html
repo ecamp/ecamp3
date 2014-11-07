@@ -1,23 +1,23 @@
-<div class="full-height-container" ng-style="style" ng-class="appearance.fullScreenClass">
+<div class="full-height-container" ng-style="style" ng-class="fullScreenClass">
 
     <div class="full-height-header">
         <h1 style="display: inline">Picasso - {{ data.camp.title }}:</h1>
 
         <div class="pull-right">
             <div style="display: inline-block; width: 60px; text-align: center">
-                {{ timeline.start | date : 'HH:mm' }}
+                {{ config.dayStart | date : 'HH:mm' }}
             </div>
             <div style="display: inline-block; width: 300px" ui-slider="{range: true}"
                  min="0" max="1800" step="15" ng-model="config.timeRange"
             ></div>
             <div style="display: inline-block; width: 60px; text-align: center">
-                {{ timeline.end | date : 'HH:mm' }}
+                {{ config.dayEnd | date : 'HH:mm' }}
             </div>
 
             <div style="display: inline-block; margin-left: 20px">
-                <a href="#" class="btn btn-default" ng-click="config.fullScreen = !config.fullScreen">
-                    <i class="fa fa-expand" ng-hide="config.fullScreen"></i>
-                    <i class="fa fa-compress" ng-show="config.fullScreen"></i>
+                <a href="#" class="btn btn-default" ng-click="config.isFullscreen = !config.isFullscreen">
+                    <i class="fa fa-expand" ng-hide="config.isFullscreen"></i>
+                    <i class="fa fa-compress" ng-show="config.isFullscreen"></i>
                 </a>
             </div>
         </div>
@@ -93,7 +93,7 @@
                     <!-- Begin Days -->
                     <div class="full-height-container picasso-days">
 
-                        <div ng-repeat="date in dates.Values" ng-style="date.style()" class="picasso-date">
+                        <div ng-repeat="date in dates" ng-style="date.style()" class="picasso-date">
                             <div class="picasso-date-background-{{ ($index % 2 == 0) ? 'odd' : 'even' }}"></div>
 
                             <div class="picasso-date-header">
@@ -112,7 +112,7 @@
 
 
 
-                        <div ng-repeat="day in days.Values" ng-style="day.style()" class="picasso-day">
+                        <div ng-repeat="day in days" ng-style="day.style()" class="picasso-day">
                             <div style="text-align: center;">[{{ day.period.bo.description }}]</div>
                         </div>
 
@@ -125,7 +125,7 @@
                         <div class="full-height-body">
                             <div class="event-instances" style="position:relative; height: 100%">
 
-                                <div ng-repeat="eventInstance in eventInstances.Values" class="animate-repeat">
+                                <div ng-repeat="eventInstance in eventInstances" class="animate-repeat">
                                     <event-instance data="eventInstance"></event-instance>
                                 </div>
 

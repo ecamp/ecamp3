@@ -11,11 +11,16 @@ class EventInstanceBriefResource extends HalResource
     public function __construct(EventInstance $entity)
     {
         $object = array(
-                'id'		=> 	$entity->getId(),
-                'start'		=> 	$entity->getStartTime()->format(\DateTime::ISO8601),
-                'end'		=> 	$entity->getEndTime()->format(\DateTime::ISO8601),
-                'event'		=> 	new EventBriefResource($entity->getEvent())
-                );
+            'id'		=> 	$entity->getId(),
+            'periodId'  =>  $entity->getPeriod()->getId(),
+            'start'		=> 	$entity->getStartTime()->format(\DateTime::ISO8601),
+            'start_min' =>  $entity->getOffsetInMinutes(),
+            'end'		=> 	$entity->getEndTime()->format(\DateTime::ISO8601),
+            'end_min'   =>  $entity->getOffsetInMinutes() + $entity->getDurationInMinutes(),
+            'left'      =>  $entity->getLeftOffset(),
+            'width'     =>  $entity->getWidth(),
+            'event'		=> 	new EventBriefResource($entity->getEvent())
+        );
 
         parent::__construct($object, $object['id']);
 

@@ -127,13 +127,13 @@
                     if(key in _map){
                         // Update:
                         _map[key].Value = updateFn(_map[key].Value, list[idx]);
-                        console.log("updated: " + key);
+                        //console.log("updated: " + key);
                     } else {
                         // Insert:
                         var keyValue = new KeyValue(key, insertFn(list[idx]));
                         _map[key] = keyValue;
                         _list.push(keyValue);
-                        console.log("inserted: " + key);
+                        //console.log("inserted: " + key);
                     }
                 }
 
@@ -144,7 +144,7 @@
                         delete _map[item.Key];
                         _list.splice(idx, 1);
 
-                        console.log("deleted: " + item.Key);
+                        //console.log("deleted: " + item.Key);
                     }
                 }
 

@@ -4,6 +4,6 @@
 
 (function(ecamp){
 
-    ecamp.ngApp = angular.module('ecamp', ['ngResource', 'ngAnimate', 'ui.bootstrap', 'ui.slider']);
+    ecamp.ngApp = angular.module('ecamp', ['ngResource', /*'ngAnimate',*/ 'ui.bootstrap', 'ui.slider', 'angular-hal']);
 
 })(CNS('ecamp'));

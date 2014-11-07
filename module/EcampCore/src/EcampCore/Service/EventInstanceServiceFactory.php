@@ -15,8 +15,9 @@ class EventInstanceServiceFactory
      */
     public function createService(ServiceLocatorInterface $services)
     {
+        $eventInstanceRepo = $services->get('EcampCore\Repository\EventInstance');
         $dayRepo = $services->get('EcampCore\Repository\Day');
 
-        return new EventInstanceService($dayRepo);
+        return new EventInstanceService($eventInstanceRepo, $dayRepo);
     }
 }
