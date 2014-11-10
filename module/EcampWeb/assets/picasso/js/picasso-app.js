@@ -5,24 +5,15 @@
 (function(ngApp){
     var SortedDictionary = ecamp.core.util.SortedDictionary;
 
-    function PicassoController
-    ( $scope
-    , $timeout
-    , PicassoData
-    , PicassoTimeline
-    , PicassoEventInstance
-    , PicassoEventCreate
+    function PicassoController(
+        $scope, $timeout, PicassoData, PicassoTimeline, PicassoEventInstance, PicassoEventCreate
     ){
 
-        $scope.log = function(){ console.log.apply(console, arguments) };
-
+        var picassoData = new PicassoData();
         var picassoElement = null;
         var picassoTimeline = null;
         var picassoEventInstance = null;
         var picassoEventCreate = null;
-
-        var picassoData = new PicassoData();
-        picassoData.LoadCamp('5dfd331c').then(RefreshPicasso);
 
         Object.defineProperty($scope, 'periods', { get: function(){ return picassoData.periods.Values; } });
         Object.defineProperty($scope, 'dates', { get: function(){ return picassoData.dates.Values; } });
@@ -47,6 +38,9 @@
             }
         }, 5000);
 */
+        $scope.$watch('campId', function(campId){
+            picassoData.LoadCamp(campId).then(RefreshPicasso);
+        });
 
         $scope.$watch('config.timeRange', function(){
             userEventIsProcessing = true;
@@ -67,6 +61,7 @@
             picassoElement = new PicassoElement(element);
             picassoTimeline = new PicassoTimeline(picassoElement);
             picassoEventInstance = new PicassoEventInstance(picassoData, picassoElement);
+            Object.defineProperty(this, 'LinkEventInstance', { value: picassoEventInstance.Link });
 
             picassoEventCreate = new PicassoEventCreate(picassoData, picassoElement);
 
@@ -87,16 +82,8 @@
                 }
             });
 
-            //console.log(picassoElement.eventInstances);
-
             RefreshTimeline();
-            //InitEventCreateHelper();
-            RefreshPicasso();
-
-
-            Object.defineProperty(this, 'LinkEventInstance', {
-                value: picassoEventInstance.Link
-            });
+            //RefreshPicasso();
         }
 
 
@@ -173,7 +160,9 @@
         return {
             restrict: 'E',
             templateUrl: '/web-assets/picasso/tpl/picasso.html',
-            scope: {},
+            scope: {
+                campId: "@"
+            },
             controller: PicassoController,
 
             link: function($scope, $element, $attrs, $ctrl){

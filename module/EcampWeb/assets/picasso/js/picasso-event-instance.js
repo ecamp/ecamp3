@@ -150,12 +150,11 @@
                             doWidth = target.is('.resize-e, .resize-se');
 
                             divPosition = target.closest('.event-instance').position();
-                            console.log(divPosition);
                             periodId = _picassoData.GetDayByLeft(divPosition.left).periodId;
                         },
                         drag: function(event, ui){
-                            var top = divPosition.top + ui.position.top + 10;
-                            var left = divPosition.left + ui.position.left + 10;
+                            var top = divPosition.top + ui.position.top + 5;
+                            var left = divPosition.left + ui.position.left + 5;
                             var relTop = _picassoElement.CalcRelY(top);
 
                             if(lastLeft == null){
@@ -163,7 +162,7 @@
                             }
 
                             if(doLength){
-                                if(_picassoData.GetDayByLeft(divPosition.left).periodId == periodId) {
+                                if(_picassoData.GetDayByLeft(left).periodId == periodId) {
                                     lastLeft = left;
                                 }
 
@@ -298,11 +297,9 @@
                     }
 
                     function Mouseover(){
-                        //console.log('mouseover');
                         scope.hover = true;
                     }
                     function Mouseleave(){
-                        //console.log('mouseleave');
                         scope.hover = false;
                     }
 

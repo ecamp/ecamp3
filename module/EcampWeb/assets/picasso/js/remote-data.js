@@ -169,9 +169,6 @@
             this.UpdateEventInstance = function(eventInstance){
                 var id = eventInstance.id;
                 _data.eventInstances[id] = eventInstance;
-
-                console.log(eventInstance);
-                console.log(_data.eventInstances[id]);
             };
             this.SaveEventInstance = function(eventInstanceModel){
                 var eventInstance = this.GetEventInstance(eventInstanceModel.id);

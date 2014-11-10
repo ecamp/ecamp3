@@ -48,6 +48,16 @@ class PicassoController
     }
 
 
+    public function indexAction()
+    {
+        $this->setFullHeight();
+
+        return array(
+            'camp' => $this->getCamp()
+        );
+    }
+
+
     public function createEventAction()
     {
         $periodId = $this->params()->fromQuery('periodId');
