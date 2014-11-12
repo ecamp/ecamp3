@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Zend\Form\Annotation as Form;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="EcampMaterial\Repository\MaterialItemRepository")
  * @ORM\Table(name="p_material_items")
  * @Form\Name("material-item")
  */

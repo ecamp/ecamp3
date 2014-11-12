@@ -1,8 +1,34 @@
 <?php
 return array(
+        'router' => array(
+                'routes' => array(
+                        'api-material' => array(
+                                'type' => 'Literal',
+                                'options' => array(
+                                        'route' => '/api/plugin/material/v0',
+                                        'defaults' => array(
+                                                '__NAMESPACE__' => 'EcampMaterial'
+                                        )
+                                ),
 
-    'router' => array(
-        'routes' => array(
+                                'may_terminate' => false,
+                                'child_routes' => array(
+
+                                        'items' => array(
+                                                'type' => 'Segment',
+                                                'options' => array(
+                                                        'route'      => '/:eventPlugin/items[/:item]',
+                                                        'defaults' => array(
+                                                                'controller'    => 'Resource\MaterialItem\ApiController'
+                                                        ),
+                                                ),
+                                                'may_terminate' => true,
+
+                                        ),
+
+                                ),
+                        ),
+
             'plugin' => array(
                 'child_routes' => array(
 
@@ -73,7 +99,30 @@ return array(
         'template_path_stack' => array(
             __DIR__ . '/../view',
         ),
+        'strategies' => array(
+                'ViewJsonStrategy',
+        ),
     ),
+
+        'phlyrestfully' => array(
+                'resources' => array(
+
+                        /**
+                         * Event
+                        */
+                        'EcampMaterial\Resource\MaterialItem\ApiController' => array(
+                                'listener'                => 'EcampMaterial\Resource\MaterialItem\MaterialItemResourceListener',
+                                'collection_http_options' => array('get'),
+                                'page_size'               => 3,
+                                'page_size_param'		  => 'limit',
+                                'resource_http_options'   => array('get'),
+                                'route_name'              => 'api-material/items',
+                                'identifier_name'		  => 'item'
+                        ),
+
+                ),
+
+        ),
 
     'doctrine' => array(
         'driver' => array(
