@@ -12,6 +12,7 @@
                 camp: null,
                 periods: {},
                 days: {},
+                eventCategories: {},
                 events: {},
                 eventInstances: {}
             };
@@ -23,9 +24,12 @@
                 halClient.$get('/api/v0/camps/' + _campId)
                     .then(function(camp){
                         _data.camp = camp;
-                        LoadPeriods(camp)
-                            .then(doResolve)
-                            .catch(q.reject);
+
+                        $q.all(
+                            LoadPeriods(camp),
+                            LoadEventCategories(camp),
+                            LoadEvents(camp)
+                        ).then(doResolve).catch(q.reject);
                     })
                     .catch(q.reject);
 
@@ -35,8 +39,6 @@
 
             function LoadPeriods(camp){
                 _data.periods = {};
-
-                console.log(camp);
 
                 var q = $q.defer();
                 camp.$get('periods')
@@ -87,6 +89,50 @@
                 return $q.all(qs);
             }
 
+            function LoadEventCategories(camp){
+                _data.eventCategories = {};
+
+                var q = $q.defer();
+                camp.$get('event_categories')
+                    .then(function(list){
+                        list.$get('items')
+                            .then(function(eventCategories){
+
+                                for(var idx = 0; idx < eventCategories.length; idx++){
+                                    var id = eventCategories[idx].id;
+                                    _data.eventCategories[id] = eventCategories[idx];
+                                }
+
+                                q.resolve();
+                            })
+                            .catch(q.reject);
+                    })
+                    .catch(q.reject);
+                return q.promise;
+            }
+
+            function LoadEvents(camp){
+                _data.events = {};
+
+                var q = $q.defer();
+                camp.$get('events')
+                    .then(function(list){
+                        list.$get('items')
+                            .then(function(events){
+
+                                for(var idx = 0; idx < events.length; idx++){
+                                    var id = events[idx].id;
+                                    _data.events[id] = events[idx];
+                                }
+
+                                q.resolve();
+                            })
+                            .catch(q.reject);
+                    })
+                    .catch(q.reject);
+                return q.promise;
+            }
+
             function LoadEventInstances(periods){
                 _data.eventInstances = {};
 
@@ -117,7 +163,6 @@
 
 
 
-
             this.GetData = function(){
                 return _data;
             };
@@ -145,6 +190,16 @@
                 var days = Object.keys(_data.days).map(this.GetDay);
                 if(fn){ days = days.filter(fn); }
                 return days;
+            };
+
+
+            this.GetEventCategory = function(id){
+                return _data.eventCategories[id];
+            };
+            this.GetEventCategories = function(fn){
+                var eventCategories = Object.keys(_data.eventCategories).map(this.GetEventCategory);
+                if(fn){ eventCategories = eventCategories.filter(fn); }
+                return eventCategories;
             };
 
 

@@ -68,13 +68,29 @@
             var _periods = new SortedDictionary(PicassoPeriodSort);
             var _dates = new SortedDictionary(PicassoDateSort, PicassoDateInit);
             var _days = new SortedDictionary(PicassoDaySort, PicassoDayInit);
+            var _eventCategories = new SortedDictionary();
+            var _events = new SortedDictionary();
             var _eventInstances = new SortedDictionary(PicassoEventInstanceSort);
 
-            var _periodAdapter = _periods.CreateAdapter(PicassoPeriodGetKey, PicassoPeriodCreate, PicassoPeriodUpdate);
-            var _dateAdapter = _dates.CreateAdapter(PicassoDateGetKey, PicassoDateCreate, PicassoDateUpdate);
-            var _dayAdapter = _days.CreateAdapter(PicassoDayGetKey, PicassoDayCreate, PicassoDayUpdate);
+
+            var _periodAdapter = _periods.CreateAdapter(
+                PicassoPeriodGetKey, PicassoPeriodCreate, PicassoPeriodUpdate);
+
+            var _dateAdapter = _dates.CreateAdapter(
+                PicassoDateGetKey, PicassoDateCreate, PicassoDateUpdate);
+
+            var _dayAdapter = _days.CreateAdapter(
+                PicassoDayGetKey, PicassoDayCreate, PicassoDayUpdate);
+
+            var _eventCategoryAdapter = _eventCategories.CreateAdapter(
+                PicassoEventCategoryGetKey, PicassoEventCategoryCreate, PicassoEventCategoryUpdate);
+
+            var _eventAdapter = _events.CreateAdapter(
+                PicassoEventKey, PicassoEventCreate, PicassoEventUpdate);
+
             var _eventInstanceAdapter = _eventInstances.CreateAdapter(
                 PicassoEventInstanceGetKey, PicassoEventInstanceCreate, PicassoEventInstanceUpdate);
+
 
 
             Object.defineProperty(this, 'LoadCamp', { value: LoadCamp });
@@ -95,6 +111,7 @@
             Object.defineProperty(this, 'periods', { get: function(){ return _periods; } });
             Object.defineProperty(this, 'dates', { get: function(){ return _dates; } });
             Object.defineProperty(this, 'days', { get: function(){ return _days; } });
+            Object.defineProperty(this, 'events', { get: function(){ return _events; } });
             Object.defineProperty(this, 'eventInstances', { get: function(){ return _eventInstances; } });
 
 
@@ -161,6 +178,13 @@
 
             function RefreshEvents(){
                 if(_camp){
+                    var eventCategories = _remoteData.GetEventCategories();
+                    _eventCategoryAdapter(eventCategories);
+
+                    var events = _remoteData.GetEvents();
+                    _eventAdapter(events);
+
+
                     var periodModels = _periods.Values;
                     var eventInstances = [];
 
@@ -183,6 +207,18 @@
 
             function SaveEventInstance(eventInstanceModel){
                 return _remoteData.SaveEventInstance(eventInstanceModel);
+
+                /*
+                var q = _remoteData.SaveEventInstance(eventInstanceModel);
+
+                q.then(function(resp){
+
+                    var key = PicassoEventInstanceGetKey(resp);
+                    _eventInstances.Add(key, PicassoEventInstanceUpdate(eventInstanceModel, resp));
+                });
+
+                return q;
+                */
             }
 
 
@@ -356,6 +392,54 @@
 
 
 
+            function PicassoEventCategory(data){
+                this.id = data.id;
+                this.name = data.name;
+                this.short = data.short;
+                this.color = data.color;
+                this.numbering = data.numbering;
+
+                console.log(data);
+            }
+            function PicassoEventCategoryGetKey(data){
+                return data.id;
+            }
+            function PicassoEventCategoryCreate(data){
+                return new PicassoEventCategory(data);
+            }
+            function PicassoEventCategoryUpdate(picassoEventCategory, data){
+                picassoEventCategory.name = data.name;
+                picassoEventCategory.short = data.short;
+                picassoEventCategory.color = data.color;
+                picassoEventCategory.numbering = data.numbering;
+                return picassoEventCategory;
+            }
+
+
+
+            function PicassoEvent(data){
+                this.id = data.id;
+                this.title = data.title;
+                this.categoryId = data.categoryId;
+
+                Object.defineProperty(this, 'category', {
+                    get: function(){ return _eventCategories.Get(this.categoryId); }.bind(this)
+                });
+            }
+            function PicassoEventKey(data){
+                return data.id;
+            }
+            function PicassoEventCreate(data){
+                return new PicassoEvent(data);
+            }
+            function PicassoEventUpdate(picassoEvent, data){
+                picassoEvent.title = data.title;
+                picassoEvent.categoryId = data.categoryId;
+                return picassoEvent;
+            }
+
+
+
             function PicassoEventInstance(data){
                 this.id  = data.id;
                 this.periodId = data.periodId;
@@ -363,6 +447,12 @@
                 this.end_min = data.end_min;
                 this.left = data.left;
                 this.width = data.width;
+                this.eventId = data.eventId;
+
+                Object.defineProperty(this, 'event', {
+                    get: function(){ return _events.Get(this.eventId); }.bind(this)
+                });
+
 
                 /** @returns {string} */
                 this.GetHash = function(){
@@ -391,9 +481,10 @@
                     return 1 + Math.floor(this.start_min / 1440);
                 };
 
-                /** @returns {number} */
+                /** @returns {*} */
                 this.GetEventNr = function(){
                     var periodId = this.periodId;
+                    var categoryId = this.event.categoryId;
                     var start = this.start_min;
                     var left = this.left;
                     var id = this.id;
@@ -401,6 +492,7 @@
                     var countEventInstances = _eventInstances.Count(function(eventInstanceModel){
                         if(eventInstanceModel.id == id){ return false; }
                         if(eventInstanceModel.periodId != periodId){ return false; }
+                        if(eventInstanceModel.event.categoryId != categoryId){ return false; }
                         if(eventInstanceModel.start_min > start){ return false; }
 
                         if(Math.floor(eventInstanceModel.start_min / 1440) == Math.floor(start / 1440)){
@@ -413,7 +505,23 @@
                         }
                     });
 
-                    return countEventInstances + 1;
+                    var num = countEventInstances + 1;
+
+                    switch (this.event.category.numbering) {
+                        case '1':
+                            return num;
+                        case 'a':
+                            return getAlphaNum(num).toLowerCase();
+                        case 'A':
+                            return getAlphaNum(num).toUpperCase();
+                        case 'i':
+                            return getRomanNum(num).toLowerCase();
+                        case 'I':
+                            return getRomanNum(num).toUpperCase();
+
+                        default:
+                            return num;
+                    }
                 }
             }
             /** @returns {string} */
@@ -429,6 +537,7 @@
                 picassoEventInstance.end_min = data.end_min;
                 picassoEventInstance.left = data.left;
                 picassoEventInstance.width = data.width;
+                picassoEventInstance.eventId = data.eventId;
                 return picassoEventInstance;
             }
             /** @returns {number} */
@@ -437,6 +546,41 @@
                 if(ei1 < ei2) { return -1; }
                 return 0;
             }
+
+        }
+
+
+
+        function getAlphaNum(num){
+            var alphaNum = '';
+            num = num - 1;
+
+            if(num >= 26){
+                alphaNum = alphaNum + getAlphaNum(Math.floor(num / 26));
+            }
+            alphaNum = alphaNum + String.fromCharCode(65 + (num % 26));
+            return alphaNum;
+        }
+
+        function getRomanNum(num){
+            var map = {
+                'M': 1000, 'CM': 900, 'D': 500, 'CD': 400,
+                'C': 100, 'XC': 90, 'L': 50, 'XL': 40,
+                'X': 10, 'IX': 9, 'V': 5, 'IV': 4, 'I': 1
+            };
+            var romanNum = '';
+
+            while(num > 0){
+                for(var rom in map){
+                    if(num >= map[rom]){
+                        num -= map[rom];
+                        romanNum = romanNum + rom;
+                        break;
+                    }
+                }
+            }
+
+            return romanNum;
         }
 
         return PicassoData;

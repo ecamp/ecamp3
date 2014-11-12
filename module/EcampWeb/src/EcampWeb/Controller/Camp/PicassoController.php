@@ -47,7 +47,6 @@ class PicassoController
         return $this->getServiceLocator()->get('EcampCore\Service\EventInstance');
     }
 
-
     public function indexAction()
     {
         $this->setFullHeight();
@@ -56,7 +55,6 @@ class PicassoController
             'camp' => $this->getCamp()
         );
     }
-
 
     public function createEventAction()
     {

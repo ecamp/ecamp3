@@ -13,6 +13,7 @@ class EventInstanceBriefResource extends HalResource
         $object = array(
             'id'		=> 	$entity->getId(),
             'periodId'  =>  $entity->getPeriod()->getId(),
+            'eventId'   =>  $entity->getEvent()->getId(),
             'start'		=> 	$entity->getStartTime()->format(\DateTime::ISO8601),
             'start_min' =>  $entity->getOffsetInMinutes(),
             'end'		=> 	$entity->getEndTime()->format(\DateTime::ISO8601),

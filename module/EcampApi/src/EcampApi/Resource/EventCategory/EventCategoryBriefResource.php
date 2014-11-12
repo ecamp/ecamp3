@@ -10,10 +10,12 @@ class EventCategoryBriefResource extends HalResource
     public function __construct(EventCategory $entity)
     {
         $object = array(
-                'id'		=> 	$entity->getId(),
-                'name'		=>	$entity->getName(),
-                'color'		=>	$entity->getColor(),
-                );
+            'id'		=> 	$entity->getId(),
+            'name'		=>	$entity->getName(),
+            'short'     =>  $entity->getShort(),
+            'color'		=>	$entity->getColor(),
+            'numbering'	=>	$entity->getNumberingStyle(),
+        );
 
         parent::__construct($object, $object['id']);
 

@@ -136,6 +136,7 @@
                     var lastLeft = null;
                     var doLength = false;
                     var doWidth = false;
+                    var eventInstancesOffset = null;
 
 
                     eventInstanceResizables.draggable({
@@ -149,12 +150,13 @@
                             doLength = target.is('.resize-s, .resize-se');
                             doWidth = target.is('.resize-e, .resize-se');
 
+                            eventInstancesOffset = _picassoElement.eventInstances.offset();
                             divPosition = target.closest('.event-instance').position();
                             periodId = _picassoData.GetDayByLeft(divPosition.left).periodId;
                         },
                         drag: function(event, ui){
-                            var top = divPosition.top + ui.position.top + 5;
-                            var left = divPosition.left + ui.position.left + 5;
+                            var top = ui.offset.top - eventInstancesOffset.top + 5;
+                            var left = ui.offset.left - eventInstancesOffset.left + 5;
                             var relTop = _picassoElement.CalcRelY(top);
 
                             if(lastLeft == null){
@@ -277,8 +279,8 @@
                             borderBottomLeftRadius: isEnd ? 10 : 0,
                             borderBottomRightRadius: isEnd ? 10 : 0,
 
-                            backgroundColor: '#298ae8',
-                            opacity: scope.hover ? 0.9 : 0.6
+                            backgroundColor: this.eventInstance.event.category.color,
+                            opacity: scope.hover ? 0.95 : 0.8
                         };
                     }
 
