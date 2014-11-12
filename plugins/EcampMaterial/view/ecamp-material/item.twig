@@ -20,7 +20,7 @@
 	</div>
 
 	<div name="edit">
-		<form
+		{# <form
 		   method="POST"
 		   action="{{
 			url('plugin/material/default', {
@@ -29,13 +29,14 @@
 				'action': 'save',
 				'id': item.id
 			} )}}"
-		>
-			{% include 'ecamp-material/item-form' %}
+		> #}
+
+		 {{ form(forms[item.id], constant('\TwbBundle\Form\View\Helper\TwbBundleForm::LAYOUT_INLINE')) }}
 
 			<div class=""col-md-2 pull-right" style="margin-top: 10px; text-align: right;">
 				<a href="#" class="submit saveItem btn btn-xs btn-success"><i class="fa fa-check"></i> Save</a>
 				<a href="#" class="cancel cancelItem btn btn-xs btn-danger"><i class="fa fa-times"></i> Cancel</a>
 			</div>
-		</form>
+
 	</div>
 </div>

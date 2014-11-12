@@ -27,23 +27,16 @@
 </div>
 
 <div class="row" name="add" style="margin-top:30px;">
-		<form
-		   method="POST"
-		   class="createItem"
-		   action="{{
-			url('plugin/material/default', {
-				'eventPluginId': eventPlugin.id,
-				'controller': 'item',
-				'action': 'create'
-			} )}}"
-		>
-			{% include 'ecamp-material/item-form' %}
 
-			<div class="col-md-2" style="text-align: right;">
-				<a href="#" class="submit btn btn-xs btn-success"><i class="fa fa-check"></i> Add</a>
-			</div>
-		</form>
+	<div name="form">
+		{% include 'ecamp-material/item-newform' %}
 	</div>
+
+	<div class="col-md-2" style="text-align: right;">
+		<a href="#" class="submit btn btn-xs btn-success"><i class="fa fa-check"></i> Add</a>
+	</div>
+
+</div>
 
 <script type="text/javascript">
 

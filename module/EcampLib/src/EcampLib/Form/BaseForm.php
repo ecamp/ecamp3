@@ -12,4 +12,12 @@ class BaseForm extends Form
         $this->setAttribute('action', $url);
     }
 
+    public function copyElements($sourceForm, $elements)
+    {
+        foreach ($elements as $element) {
+            $this->add($sourceForm->get($element));
+            //$this->getInputFilter()->add($sourceForm->getInputFilter()->get($element));
+        }
+    }
+
 }

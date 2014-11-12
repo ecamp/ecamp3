@@ -7,10 +7,12 @@ use EcampCore\Entity\EventPlugin;
 use EcampLib\Entity\BaseEntity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Zend\Form\Annotation as Form;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="p_material_items")
+ * @Form\Name("material-item")
  */
 class MaterialItem extends BaseEntity
 {
@@ -18,6 +20,7 @@ class MaterialItem extends BaseEntity
     /**
      * @ORM\ManyToOne(targetEntity="EcampCore\Entity\EventPlugin")
      * @ORM\JoinColumn(nullable=true, onDelete="CASCADE")
+     * @Form\Exclude
      */
     private $eventPlugin;
 
@@ -31,12 +34,13 @@ class MaterialItem extends BaseEntity
     private $lists;
 
     /**
-     * @ORM\Column(type="text", nullable=true)
+     * @ORM\Column(type="string", length=50, nullable=false)
      */
     private $quantity;
 
     /**
      * @ORM\Column(type="text", nullable=false)
+     * @Form\Validator({ "name": "StringLength", "options": { "min":"1" } })
      */
     private $text;
 

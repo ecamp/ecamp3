@@ -6,9 +6,9 @@ use DoctrineORMModule\Form\Annotation\AnnotationBuilder;
 use Zend\ServiceManager\AbstractFactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
-class EntityFormElementFactory implements AbstractFactoryInterface
+class EntityFormFactory implements AbstractFactoryInterface
 {
-    private $pattern = "/^Ecamp(\w+)\\\\Entity\\\\(\w+).(\w+)$/";
+    private $pattern = "/^Ecamp(\w+)\\\\Entity\\\\(\w+)$/";
 
     private $orm;
 
@@ -16,8 +16,6 @@ class EntityFormElementFactory implements AbstractFactoryInterface
      * @var AnnotationBuilder
      */
     private $annotationBuilder;
-
-    private $formSpecCache = array();
 
     public function __construct($orm = null)
     {
@@ -32,11 +30,6 @@ class EntityFormElementFactory implements AbstractFactoryInterface
     private function getEntityClassName($elementName)
     {
         return preg_replace($this->pattern,"Ecamp$1\\\\Entity\\\\$2", $elementName);
-    }
-
-    private function getPropertyName($elementName)
-    {
-        return preg_replace($this->pattern, "$3", $elementName);
     }
 
     public function canCreateServiceWithName(ServiceLocatorInterface $serviceLocator, $name, $requestedName)
@@ -55,16 +48,9 @@ class EntityFormElementFactory implements AbstractFactoryInterface
             $this->annotationBuilder = new AnnotationBuilder($entityManager);
         }
 
-        /*if (array_key_exists($entityName, $this->formSpecCache)) {
-            $form = $this->formSpecCache[$entityName];
-        } else {*/
-            $form = $this->annotationBuilder->createForm($entityName);
-            $this->formSpecCache[$entityName] = $form;
-        /*}*/
+        $form = $this->annotationBuilder->createForm($entityName);
 
-        $elementName = $this->getPropertyName($requestedName);
-
-        return $form->get($elementName);
+        return $form;
     }
 
 }

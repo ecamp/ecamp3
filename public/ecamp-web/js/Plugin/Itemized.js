@@ -20,9 +20,9 @@ Ecamp.Web.Plugin.Itemized = function (config) {
 	this.containerElm = this.eventPluginElm.find(".items");
 	
 	if(this.config.showNewForm){
-		/* Initialize create new item form */
-		this.eventPluginElm.find('form.createItem').find('.submit').click( function(){
-			form = self.eventPluginElm.find('form.createItem');
+		
+		var addFunc =  function(){
+			form = self.eventPluginElm.find('[name=add]').find('form');
 			
 			$.ajax({
 	            type: form.attr('method'),
@@ -35,7 +35,17 @@ Ecamp.Web.Plugin.Itemized = function (config) {
 						var item = $(data);
 						self.containerElm.append(item);
 						self.initItem(item);
+						
+						form = self.eventPluginElm.find('[name=add]').find('form');
 						form[0].reset();
+					},
+					
+					/* validation error */
+					422: function(data, status){
+						var respElm = $(data.responseText);
+						//respElm.find('.dropdown-toggle').dropdown();
+						self.eventPluginElm.find('[name=add]').find('[name=form]').replaceWith(respElm);
+					
 					},
 
 				    500: function(data, status){
@@ -45,7 +55,10 @@ Ecamp.Web.Plugin.Itemized = function (config) {
 	        });
 			
 			return false;
-        });
+        };
+        
+		/* Initialize create new item form */
+		this.eventPluginElm.find('[name=add]').find('.submit').click(addFunc);
 	} else {
 		/* Initialize create new item button */
 		this.eventPluginElm.find('.createItem').click( function(){
@@ -88,14 +101,14 @@ Ecamp.Web.Plugin.Itemized.prototype.initItem = function(itemElm){
 		showElm.hide();
 
 		origData = {};
-		editElm.find('.form-element').each(function(idx, elm){
-			origData[$(elm).attr('id')] = $(elm).val();
+		editElm.find('.form-control').each(function(idx, elm){
+			origData[$(elm).attr('name')] = $(elm).val();
 		});
 
 		editElm.show();
 
 		editElm.find('textarea.autosize').trigger('autosize.resize');
-		editElm.find('.form-element:first').focus();
+		editElm.find('.form-control:first').focus();
 		
 		return false;
 	};
@@ -117,10 +130,22 @@ Ecamp.Web.Plugin.Itemized.prototype.initItem = function(itemElm){
 					//respElm.find('.dropdown-toggle').dropdown();
 					itemElm.replaceWith(respElm);
 					self.initItem(respElm);
-
+						
 					origData = null;
 				},
-
+				
+				/* validation error */
+				422: function(data, status){
+					var respElm = $(data.responseText);
+					//respElm.find('.dropdown-toggle').dropdown();
+					itemElm.replaceWith(respElm);
+					self.initItem(respElm);
+					
+					respElm.find('div[name=show]').hide();
+					respElm.find('div[name=edit]').show();
+				
+				},
+				
 			    500: function(data, status){
 			    	console.error(data);
 				}
@@ -132,9 +157,11 @@ Ecamp.Web.Plugin.Itemized.prototype.initItem = function(itemElm){
 
 	var cancelFunc = function(){
 		editElm.hide();
-
-		editElm.find('.form-element').each(function(idx, elm){
-			$(elm).val(origData[$(elm).attr('id')]);
+		console.log(origData);
+		editElm.find('.form-control').each(function(idx, elm){
+			if( $.inArray($(elm).attr('name'), origData) ){
+				$(elm).val(origData[$(elm).attr('name')]);
+			}		
 		});
 		//editElm.find('select.selectpicker').selectpicker('refresh');
 		origData = null;
@@ -184,4 +211,6 @@ Ecamp.Web.Plugin.Itemized.prototype.initItem = function(itemElm){
 	showElm.show();
 	
 	itemElm.find('textarea.autosize').autosize();
+	
+	return self;
 };

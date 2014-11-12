@@ -2,6 +2,8 @@
 
 namespace EcampMaterial\Entity;
 
+use EcampCore\Entity\Camp;
+
 use EcampLib\Entity\BaseEntity;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -19,6 +21,7 @@ class MaterialList extends BaseEntity
 
     /**
      * @ORM\OneToOne(targetEntity="EcampCore\Entity\CampCollaboration")
+     * @ORM\Column(nullable=true)
      */
     private $collaboration;
 
