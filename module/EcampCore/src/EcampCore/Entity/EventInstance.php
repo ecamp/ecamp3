@@ -291,7 +291,8 @@ class EventInstance
     {
         $period = $this->getPeriod();
 
-        $dayNum = floor($this->getOffsetInMinutes() / (24*60));
+        $dayNum = floor($this->getOffsetInMinutes() / (24 * 60));
+
         $dayOffset = 24 * 60 * $dayNum;
 
         $criteria = Criteria::create();
@@ -309,15 +310,9 @@ class EventInstance
 
         $eventInstances = $period->getEventInstances()->matching($criteria);
         $num = $eventInstances
-            ->filter(array($this, 'hasEqualNumberingStyle'))
+            ->filter(function ($ei) { return $this->getNumberingStyle() == $ei->getNumberingStyle(); })
             ->count();
 
         return $this->getEventCategory()->getStyledNumber(1 + $num);
     }
-
-    private function hasEqualNumberingStyle(EventInstance $ei)
-    {
-        return $this->getNumberingStyle() == $ei->getNumberingStyle();
-    }
-
 }

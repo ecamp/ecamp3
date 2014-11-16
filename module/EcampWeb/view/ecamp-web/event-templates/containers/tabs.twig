@@ -1,104 +1,38 @@
-<div class="tabbable eventTemplateContainer" id="{{ eventTemplateContainer.id }}">
-	<ul class="nav nav-tabs">
+<tabbed-plugin-container
+    name="{{ plugin.name }}"
+    min-items="{{ eventTypePlugin.minNumberPluginInstances }}"
+    max-items="{{ eventTypePlugin.maxNumberPluginInstances }}"
+    create="{{ url('web/plugin-create', { 'eventId': event.id, 'pluginId': plugin.id }) }}"
+    delete="{{ url('web/plugin-delete', { 'eventPluginId': '' }) }}"
+>
+    <div class="tabbable">
+        <ul class="nav nav-tabs">
+            <div ng-show="CountEventPlugin < MaxEventPlugin" class="btn-group pull-right" style="margin-right: 5px;">
+                <button class="btn btn-xs btn-success" ng-click="Create()" style="margin-top:3px; height: 25px; padding: 2px 8px">
+                    <i class="fa fa-plus"></i> Add Plugin
+                </button>
+            </div>
 
-		<div class="btn-group pull-right" style="margin-right: 5px;">
-			<button class="createEventPlugin btn btn-xs btn-success"
-					style="margin-top:3px; height: 25px; padding: 2px 8px">
-				<i class="fa fa-plus"></i> Add Plugin
-			</button>
-		</div>
-	</ul>
+            <li ng-repeat="eventPlugin in EventPlugins">
+                <a data-toggle="tab" href="#{% verbatim %}{{ eventPlugin.id }}{% endverbatim %}">
+                    <span ng-bind="eventPlugin.name"></span>
 
-	<div class="tab-content">
-		{% for childViewModel in childViewModels %}
-			{% RenderViewModel childViewModel %}
-		{% endfor %}
-	</div>
-</div>
+                    <button
+                        href="#"
+                        ng-show="CountEventPlugin > MinEventPlugin"
+                        ng-click="Delete(eventPlugin.id)"
+                        class="deleteEventPlugin"
+                    >
+                        <i class="fa fa-times-circle-o" style="margin-left: 5px;"></i>
+                    </button>
+                </a>
+            </li>
+        </ul>
 
-<script type="text/javascript">
-	$(function(){
-		var createUrl = "{{ url('web/plugin-create', { 'eventId': event.id, 'pluginId': plugin.id }) }}";
-		var deleteUrl = "{{ url('web/plugin-delete', { 'eventPluginId': '' }) }}";
-
-		var tabbable = $("div#{{ eventTemplateContainer.id }}.eventTemplateContainer");
-		var tabContent = tabbable.find('div.tab-content');
-		var ulNavTabs = tabbable.find('ul.nav-tabs');
-		ulNavTabs.find('button.createEventPlugin').click(createEventPlugin);
-
-		function updateNavTabs(){
-			ulNavTabs.find('li').remove();
-			var tabPanes = tabContent.find('.tab-pane');
-			var activePaneId = tabPanes.filter('.active').attr('id');
-			var canDelete = getCountNumEventPlugin() > getMinNumEventPlugin();
-			var canCreate = getCountNumEventPlugin() < getMaxNumEventPlugin();
-
-			if(canCreate){
-				ulNavTabs.find('button.createEventPlugin').show();
-			} else {
-				ulNavTabs.find('button.createEventPlugin').hide();
-			}
-
-			if(tabPanes.length > 0){
-				tabbable.show();
-				tabPanes.each(function(idx, item){
-					var tabPane = $(item);
-					var paneId = tabPane.attr('id');
-					var li = tabPane.find('.nav-tabs-li li');
-					var liClone = li.clone();
-
-					if(canDelete){ liClone.find('button').addClass('showDeleteButton'); }
-					liClone.find('button').click(function(){ deleteEventPlugin(paneId); });
-
-					if(idx == 0 && activePaneId == undefined){
-						tabPane.addClass('active');
-						liClone.addClass('active');
-					}
-					if(paneId == activePaneId){
-						liClone.addClass('active');
-					}
-					$(ulNavTabs).append(liClone);
-				});
-			} else {
-				tabbable.hide();
-			}
-		}
-
-		function createEventPlugin(){
-			$.get(createUrl).done(function(data){
-				tabContent.append($(data));
-				updateNavTabs();
-			});
-		}
-
-		function deleteEventPlugin(id){
-			$.get(deleteUrl + id).done(function(){
-				tabContent.find('#' + id + '.tab-pane').remove();
-				updateNavTabs();
-			});
-		}
-
-		function getMinNumEventPlugin(){
-			return {{ eventTypePlugin.minNumberPluginInstances }};
-		}
-
-		function getMaxNumEventPlugin(){
-			return {{ eventTypePlugin.maxNumberPluginInstances }};
-		}
-
-		function getCountNumEventPlugin(){
-			return tabContent.find('.tab-pane').length;
-		}
-
-		tabbable.data('$eventTemplateContainerController', {
-			'getMinNumEventPlugin': getMinNumEventPlugin,
-			'getMaxNumEventPlugin': getMaxNumEventPlugin,
-			'getCountNumEventPlugin': getCountNumEventPlugin,
-
-			'createEventPlugin': createEventPlugin,
-			'deleteEventPlugin': deleteEventPlugin
-		});
-
-		updateNavTabs();
-	});
-</script>
+        <div class="tab-content">
+            {% for childViewModel in childViewModels %}
+                {% RenderViewModel childViewModel %}
+            {% endfor %}
+        </div>
+    </div>
+</tabbed-plugin-container>

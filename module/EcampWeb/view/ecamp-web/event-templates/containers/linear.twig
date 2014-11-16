@@ -1,76 +1,11 @@
-<div class="eventTemplateContainer" id="{{ eventTemplateContainer.id }}">
+<linear-plugin-container
+    name="{{ plugin.name }}"
+    min-items="{{ eventTypePlugin.minNumberPluginInstances }}"
+    max-items="{{ eventTypePlugin.maxNumberPluginInstances }}"
+    create="{{ url('web/plugin-create', { 'eventId': event.id, 'pluginId': plugin.id }) }}"
+    delete="{{ url('web/plugin-delete', { 'eventPluginId': '' }) }}"
+>
 	{% for childViewModel in childViewModels %}
 		{% RenderViewModel childViewModel %}
 	{% endfor %}
-</div>
-
-<script type="text/javascript">
-	$(function(){
-		var createUrl = "{{ url('web/plugin-create', { 'eventId': event.id, 'pluginId': plugin.id }) }}";
-		var deleteUrl = "{{ url('web/plugin-delete', { 'eventPluginId': '' }) }}";
-
-		var container = $("div#{{ eventTemplateContainer.id }}.eventTemplateContainer");
-
-		function initItem(item){
-			item.find('button.deleteEventPlugin').click(function(e){
-				deleteEventPlugin(item.attr('id'));
-			});
-		}
-
-		function updateItems(){
-			var items = container.find('div.linear-item');
-			var canDelete = getCountNumEventPlugin() > getMinNumEventPlugin();
-			var canCreate = getCountNumEventPlugin() < getMaxNumEventPlugin();
-
-			items.each(function(idx, itm){
-				var item = $(itm);
-
-				if(canDelete){
-					item.find('button.deleteEventPluginDialog').show();
-				} else {
-					item.find('button.deleteEventPluginDialog').hide();
-				}
-			});
-		}
-
-		function createEventPlugin(){
-			$.get(createUrl).done(function(data){
-				var item = $(data);
-				initItem(item);
-				container.append(item);
-				updateItems();
-			});
-		}
-
-		function deleteEventPlugin(id){
-			$.get(deleteUrl + id).done(function(){
-				container.find('#' + id + '.linear-item').remove();
-				updateItems();
-			});
-		}
-
-		function getMinNumEventPlugin(){
-			return {{ eventTypePlugin.minNumberPluginInstances }};
-		}
-
-		function getMaxNumEventPlugin(){
-			return {{ eventTypePlugin.maxNumberPluginInstances }};
-		}
-
-		function getCountNumEventPlugin(){
-			return container.find('.linear-item').length;
-		}
-
-		container.data('$eventTemplateContainerController', {
-			'getMinNumEventPlugin': getMinNumEventPlugin,
-			'getMaxNumEventPlugin': getMaxNumEventPlugin,
-			'getCountNumEventPlugin': getCountNumEventPlugin,
-
-			'createEventPlugin': createEventPlugin,
-			'deleteEventPlugin': deleteEventPlugin
-		});
-
-		container.find('.linear-item').each(function(idx, item){ initItem($(item)); });
-		updateItems();
-	});
-</script>
+</linear-plugin-container>
