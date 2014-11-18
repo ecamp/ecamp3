@@ -11,7 +11,7 @@ return array(
                         'options' => array(
                             'route'    => '/storyboard',
                             'defaults' => array(
-                                '__NAMESPACE__' => 'EcampStoryboard\Controller',
+                                '__NAMESPACE__' => 'EcampStoryboard',
                             ),
                         ),
 
@@ -27,6 +27,7 @@ return array(
                                         'id'		 => '[a-f0-9]+'
                                     ),
                                     'defaults' => array(
+                                        '__NAMESPACE__' => 'EcampStoryboard\Controller',
                                         'controller' => 'Item',
                                         'action'     => 'index',
                                     ),
@@ -41,13 +42,42 @@ return array(
                                         'id' 		 => '[a-f0-9]+'
                                     ),
                                     'defaults' => array(
+                                        '__NAMESPACE__' => 'EcampStoryboard\Controller',
                                         'controller' => 'Index',
+                                    ),
+                                ),
+                            ),
+                            'api' => array(
+                                'type' => 'Segment',
+                                'options' => array(
+                                    'route'      => '/sections[/:section]',
+                                    'defaults' => array(
+                                        'controller' => 'Resource\Section\ApiController'
                                     ),
                                 ),
                             ),
                         ),
                     ),
                 ),
+            ),
+        ),
+    ),
+
+    'phlyrestfully' => array(
+        'resources' => array(
+
+            /**
+             * Section
+             */
+            'EcampStoryboard\Resource\Section\ApiController' => array(
+                'listener'                => 'EcampStoryboard\Resource\SectionResourceListener',
+                'collection_http_options' => array('get'),
+                'page_size'               => PHP_INT_MAX,
+                'page_size_param'		  => 'limit',
+                'resource_http_options'   => array('get', 'put'),
+                'route_name'              => 'plugin/storyboard/api',
+                'identifier_name'		  => 'section',
+                'collection_query_whitelist' => array(),
             ),
         ),
     ),

@@ -47,7 +47,7 @@ class Section extends BaseEntity
     }
 
     /**
-     * @return EcampCore\Entity\EventPlugin
+     * @return \EcampCore\Entity\EventPlugin
      */
     public function getEventPlugin()
     {
