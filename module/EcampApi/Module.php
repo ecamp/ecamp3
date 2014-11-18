@@ -71,8 +71,9 @@ class Module
             'factories' => array(
                 'EcampApi\Resource\Camp\CampResourceListener' => function ($services) {
                     $repository = $services->get('EcampCore\Repository\Camp');
+                    $service = $services->get('EcampCore\Service\Camp');
 
-                    return new CampResourceListener($repository);
+                    return new CampResourceListener($repository, $service);
                 },
 
                 'EcampApi\Resource\User\UserResourceListener' => function ($services) {
@@ -106,9 +107,11 @@ class Module
                 },
 
                 'EcampApi\Resource\EventInstance\EventInstanceResourceListener' => function ($services) {
-                    $repository = $services->get('EcampCore\Repository\EventInstance');
 
-                    return new EventInstanceResourceListener($repository);
+                    $repository = $services->get('EcampCore\Repository\EventInstance');
+                    $service = $services->get('EcampCore\Service\EventInstance');
+
+                    return new EventInstanceResourceListener($repository, $service);
                 },
 
                 'EcampApi\Resource\EventResp\EventRespResourceListener' => function ($services) {
@@ -125,8 +128,9 @@ class Module
 
                 'EcampApi\Resource\Group\GroupResourceListener' => function ($services) {
                     $repository = $services->get('EcampCore\Repository\Group');
+                    $service = $services->get('EcampCore\Service\Group');
 
-                    return new GroupResourceListener($repository);
+                    return new GroupResourceListener($repository, $service);
                 },
 
                 'EcampApi\Resource\Membership\MembershipResourceListener' => function ($services) {

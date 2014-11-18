@@ -1,5 +1,4 @@
 
-
 {% set id = id ?: random() %}
 {% set collapsed = collapsed ?: false %}
 
@@ -7,7 +6,11 @@
 	<div class="panel panel-default">
 		<div class="panel-heading">
 			<h4 class="panel-title">
-				<a class="accordion-toggle {{ collapsed ? 'collapsed' }}" data-toggle="collapse" data-parent="#{{ 'panel-' ~ id }}" href="#{{ 'collapse-' ~ id }}">
+				<a class="accordion-toggle {{ collapsed ? 'collapsed' }}"
+                   data-toggle="collapse"
+                   data-parent="#{{ 'panel-' ~ id }}"
+                   href="#{{ 'collapse-' ~ id }}"
+                >
 					<i class="fa fa-accordion"></i>
 					{% block panel_title %}{% endblock %}
 				</a>

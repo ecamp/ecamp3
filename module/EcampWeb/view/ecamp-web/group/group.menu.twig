@@ -1,0 +1,14 @@
+<ul class="nav nav-pills nav-stacked" style="margin-bottom: 15px">
+    <li class="{{ controller == 'Index' ? 'active' : '' }}">
+        <a href="{{ url('web/group-prefix/name', { 'group': group.getId }) }}">Info</a>
+    </li>
+    <li class="{{ controller == 'Members' ? 'active' : '' }}">
+        <a href="{{ url('web/group-prefix/name/default', { 'group': group.getId, 'controller': 'members'}) }}">Members</a>
+    </li>
+    <li class="{{ controller == 'Camps' ? 'active' : '' }}">
+        <a href="{{ url('web/group-prefix/name/default', { 'group': group.getId, 'controller': 'camps'}) }}">Camps</a>
+    </li>
+    <li class="{{ controller == 'Admin' ? 'active' : '' }}">
+        <a href="{{ url('web/group-prefix/name/default', { 'group': group.getId, 'controller': 'admin'}) }}">Admin</a>
+    </li>
+</ul>

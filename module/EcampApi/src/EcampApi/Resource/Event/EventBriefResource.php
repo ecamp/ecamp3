@@ -11,10 +11,11 @@ class EventBriefResource extends HalResource
     public function __construct(Event $entity)
     {
         $object = array(
-                'id'				=> 	$entity->getId(),
-                'title'				=> 	$entity->getTitle(),
-                'category'			=>  new EventCategoryBriefResource($entity->getEventCategory())
-                );
+            'id'			=> 	$entity->getId(),
+            'categoryId'    =>  $entity->getEventCategory()->getId(),
+            'title'			=> 	$entity->getTitle(),
+            'category'		=>  new EventCategoryBriefResource($entity->getEventCategory())
+        );
 
         parent::__construct($object, $object['id']);
 

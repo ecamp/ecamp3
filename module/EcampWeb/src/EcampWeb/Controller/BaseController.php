@@ -18,12 +18,15 @@ use Zend\View\Model\ViewModel;
 abstract class BaseController
     extends AbstractBaseController
 {
+    private $fullHeight = false;
+
     public function setEventManager(EventManagerInterface $events)
     {
         parent::setEventManager($events);
 
         $events->attach('dispatch', function($e) { $this->setMeInViewModel($e); } , -100);
         $events->attach('dispatch', function($e) { $this->setConfigInViewModel($e); } , -100);
+        $events->attach('dispatch', function($e) { $this->setLayoutBodyClass($e); }, -100);
     }
 
     public function onDispatch( MvcEvent $e )
@@ -63,6 +66,17 @@ abstract class BaseController
         }
     }
 
+    private function setLayoutBodyClass(MvcEvent $e)
+    {
+        $result = $e->getResult();
+
+        if ($result instanceof ViewModel) {
+            $layoutBodyClass = $this->fullHeight ? 'full-height' : '';
+
+            $result->setVariable('layoutBodyClass', $layoutBodyClass);
+        }
+    }
+
     protected function getRedirectResponse($url)
     {
         /** @var $renderer \Zend\View\Renderer\RendererInterface */
@@ -77,6 +91,11 @@ abstract class BaseController
         $response->setContent($renderer->render($viewModel));
 
         return $response;
+    }
+
+    protected function setFullHeight($fullHeight = true)
+    {
+        $this->fullHeight = $fullHeight;
     }
 
 }

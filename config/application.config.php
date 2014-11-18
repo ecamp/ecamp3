@@ -35,7 +35,7 @@ return array(
         'EcampStoryboard',
         'EcampMaterial',
 
-        'Application'
+//      'Application'
     ),
 
     'module_listener_options' => array(

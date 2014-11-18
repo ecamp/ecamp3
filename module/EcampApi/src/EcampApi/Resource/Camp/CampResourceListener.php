@@ -9,16 +9,20 @@ use Zend\EventManager\EventManagerInterface;
 class CampResourceListener extends AbstractListenerAggregate
 {
     protected $campRepo;
+    protected $campService;
 
-    public function __construct(\EcampCore\Repository\CampRepository $campRepo)
+    public function __construct($campRepo, $campService)
     {
         $this->campRepo = $campRepo;
+        $this->campService = $campService;
     }
 
     public function attach(EventManagerInterface $events)
     {
         $this->listeners[] = $events->attach('fetch', array($this, 'onFetch'));
         $this->listeners[] = $events->attach('fetchAll', array($this, 'onFetchAll'));
+
+        $this->listeners[] = $events->attach('update', array($this, 'onUpdate'));
     }
 
     public function onFetch(ResourceEvent $e)
@@ -41,4 +45,16 @@ class CampResourceListener extends AbstractListenerAggregate
 
         return $this->campRepo->getCollection($params);
     }
+
+    public function onUpdate(ResourceEvent $e)
+    {
+        $id = $e->getParam('id');
+        $data = $e->getParam('data');
+        $dataArray = (array) $data;
+
+        $camp = $this->campService->Update($id, $dataArray);
+
+        return new CampDetailResource($camp);
+    }
+
 }

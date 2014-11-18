@@ -1,0 +1,93 @@
+{% extends 'layout/html.twig' %}
+
+{% block link %}
+    <link type="text/css" rel="stylesheet" href="{{ request.basePath }}/bootstrap/css/bootstrap.min.css" />
+    <link type="text/css" rel="stylesheet" href="{{ request.basePath }}/font-awesome/css/font-awesome.min.css" />
+    <link type="text/css" rel="stylesheet" href="{{ request.basePath }}/jqueryui/themes/base/all.css" />
+
+    <link type="text/css" rel="stylesheet" href='{{ request.basePath }}/bootstrap-select/css/bootstrap-select.min.css' />
+    <link type="text/css" rel="stylesheet" href='{{ request.basePath }}/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css' />
+
+    <link type="text/css" rel="stylesheet" href="{{ request.basePath }}/ecamp-web/css/bootstrap.css" />
+    <link type="text/css" rel="stylesheet" href="{{ request.basePath }}/ecamp-web/css/ajaxLoader.css" />
+    <link type="text/css" rel="stylesheet" href="{{ request.basePath }}/ecamp-web/css/searchbox.css" />
+    <link type="text/css" rel="stylesheet" href="{{ request.basePath }}/ecamp-web/css/default.css" />
+
+    <link type="text/css" rel="stylesheet" href="{{ request.basePath }}/web-assets/css/ui-bootstrap.css" />
+    <link type="text/css" rel="stylesheet" href="{{ request.basePath }}/web-assets/picasso/css/picasso.css" />
+{% endblock %}
+
+{% block script %}
+    <script src="{{ request.basePath }}/jquery/jquery.min.js"></script>
+    <script src="{{ request.basePath }}/jqueryui/jquery-ui.min.js"></script>
+    <script src="{{ request.basePath }}/jquery-autosize/js/jquery.autosize.min.js"></script>
+
+
+    <!--
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.0/angular.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.0/angular-animate.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.0/angular-resource.js"></script>
+    -->
+
+    <script src="{{ request.basePath }}/angular.js/angular.js"></script>
+    <script src="{{ request.basePath }}/angular-resource/angular-resource.js"></script>
+<!--
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.0/angular-animate.js"></script>
+-->
+
+    <script src="{{ request.basePath }}/bootstrap/js/bootstrap.min.js"></script>
+    <script src="{{ request.basePath }}/bootstrap-select/js/bootstrap-select.min.js"></script>
+    <script src="{{ request.basePath }}/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+
+    <script src="{{ request.basePath }}/angular-ui/js/ui-bootstrap-tpls.min.js"></script>
+    <script src="{{ request.basePath }}/angular-ui/js/ui-slider.js"></script>
+
+    <script src="{{ request.basePath }}/js/ns.js"></script>
+    <script src="{{ request.basePath }}/core-assets/util/SortedDictionary.js"></script>
+
+    <script src="{{ request.basePath }}/ecamp-web/js/ajax-form.js"></script>
+    <script src="{{ request.basePath }}/ecamp-web/js/ajax-form-element.js"></script>
+    <script src="{{ request.basePath }}/ecamp-web/js/ajax-members.js"></script>
+    <script src="{{ request.basePath }}/ecamp-web/js/ajax-collaborations.js"></script>
+
+
+    <script src="{{ request.basePath }}/ecamp-web/js/ng-app.js"></script>
+    <script src="{{ request.basePath }}/ecamp-web/js/ng-util.js"></script>
+    <script src="{{ request.basePath }}/ecamp-web/js/jq-util.js"></script>
+    <script src="{{ request.basePath }}/web-assets/js/modal-form.js"></script>
+    <script src="{{ request.basePath }}/web-assets/js/enumeration.js"></script>
+
+    <script src="{{ request.basePath }}/web-assets/js/event-controller.js"></script>
+
+    <script src="{{ request.basePath }}/web-assets/entities.js"></script>
+    <script src="{{ request.basePath }}/web-assets/picasso/entities.js"></script>
+    <script src="{{ request.basePath }}/web-assets/picasso/js/remote-data.js"></script>
+    <script src="{{ request.basePath }}/web-assets/picasso/js/picasso-data.js"></script>
+    <script src="{{ request.basePath }}/web-assets/picasso/js/picasso-timeline.js"></script>
+    <script src="{{ request.basePath }}/web-assets/picasso/js/picasso-event-instance.js"></script>
+    <script src="{{ request.basePath }}/web-assets/picasso/js/picasso-event-create.js"></script>
+    <script src="{{ request.basePath }}/web-assets/picasso/js/picasso-app.js"></script>
+
+    <script src="{{ request.basePath }}/angular-hal/angular-hal.js"></script>
+
+    <script src="{{ request.basePath }}/ecamp-web/js/ng-app/ng-paginator.js"></script>
+
+
+{% endblock %}
+
+{% block layout %}
+    <div class="layout">
+        <div class="layout-header">
+            {% block layout_header %}
+                {% include 'header/main.twig' %}
+            {% endblock %}
+        </div>
+        <div class="layout-body">
+            {% block layout_body %}
+                <section class="container white {{ layoutBodyClass }}" style="margin-bottom: 0px">
+                    {% block content %}{{ content | raw }}{% endblock %}
+                </section>
+            {% endblock %}
+        </div>
+    </div>
+{% endblock %}

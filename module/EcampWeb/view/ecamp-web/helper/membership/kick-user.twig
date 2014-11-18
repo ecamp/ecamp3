@@ -1,9 +1,9 @@
 <div class="edit-membership-container">
     <div class="btn-group">
-        <a  class="btn btn-xs btn-default btn-danger kick-user"
+        <a  class="btn btn-{{ size }} btn-default btn-danger kick-user"
             href="{{ url('web/group-prefix/name/default',
                         { 'group': membership.group, 'controller': 'MembershipHelper', 'action': 'kickUser' },
-                        { 'query': { 'user': membership.user.id } }) }}"
+                        { 'query': { 'user': membership.user.id, 'size': size } }) }}"
         >
             <b>Kick user</b>
         </a>

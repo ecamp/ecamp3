@@ -1,7 +1,7 @@
 
 jQuery(function($){
 
-    var events = $(CNS('ecamp.events'));
+    var events = CNS('ecamp.events');
 
     function getMembershipController(event){
         event.preventDefault();
@@ -30,13 +30,13 @@ jQuery(function($){
 
         var ctrl = getMembershipController.call(this, event);
         ctrl.fadeOutPromis.then(function(){
-            events.trigger('membership.requests.changed.pre');
+            events.trigger('group.membershipRequests.beginUpdate');
         });
         ctrl.loadPromis.then(function(){
-            events.trigger('membership.requests.changed');
+            events.trigger('group.membershipRequests.refresh');
         });
         ctrl.fadeInPromis.then(function(){
-            events.trigger('membership.requests.changed.post');
+            events.trigger('group.membershipRequests.endUpdate');
         });
 
         ctrl();
@@ -46,13 +46,13 @@ jQuery(function($){
 
         var ctrl = getMembershipController.call(this, event);
         ctrl.fadeOutPromis.then(function(){
-            events.trigger('membership.requests.changed.pre');
+            events.trigger('group.membershipRequests.beginUpdate');
         });
         ctrl.loadPromis.then(function(){
-            events.trigger('membership.requests.changed');
+            events.trigger('group.membershipRequests.refresh');
         });
         ctrl.fadeInPromis.then(function(){
-            events.trigger('membership.requests.changed.post');
+            events.trigger('group.membershipRequests.endUpdate');
         });
 
         ctrl();
@@ -62,13 +62,13 @@ jQuery(function($){
 
         var ctrl = getMembershipController.call(this, event);
         ctrl.fadeOutPromis.then(function(){
-            events.trigger('membership.requests.changed.pre');
+            events.trigger('group.membershipRequests.beginUpdate');
         });
         ctrl.loadPromis.then(function(){
-            events.trigger('membership.requests.changed');
+            events.trigger('group.membershipRequests.refresh');
         });
         ctrl.fadeInPromis.then(function(){
-            events.trigger('membership.requests.changed.post');
+            events.trigger('group.membershipRequests.endUpdate');
         });
 
         ctrl();
@@ -78,16 +78,16 @@ jQuery(function($){
 
         var ctrl = getMembershipController.call(this, event);
         ctrl.fadeOutPromis.then(function(){
-            events.trigger('membership.members.changed.pre');
-            events.trigger('membership.requests.changed.pre');
+            events.trigger('group.memberships.beginUpdate');
+            events.trigger('group.membershipRequests.beginUpdate');
         });
         ctrl.loadPromis.then(function(){
-            events.trigger('membership.members.changed');
-            events.trigger('membership.requests.changed');
+            events.trigger('group.memberships.refresh');
+            events.trigger('group.membershipRequests.refresh');
         });
         ctrl.fadeInPromis.then(function(){
-            events.trigger('membership.members.changed.post');
-            events.trigger('membership.requests.changed.post');
+            events.trigger('group.memberships.endUpdate');
+            events.trigger('group.membershipRequests.endUpdate');
         });
 
         ctrl();
@@ -98,13 +98,13 @@ jQuery(function($){
 
         var ctrl = getMembershipController.call(this, event);
         ctrl.fadeOutPromis.then(function(){
-            events.trigger('membership.invitations.changed.pre');
+            events.trigger('group.membershipInvitations.beginUpdate');
         });
         ctrl.loadPromis.then(function(){
-            events.trigger('membership.invitations.changed');
+            events.trigger('group.membershipInvitations.refresh');
         });
         ctrl.fadeInPromis.then(function(){
-            events.trigger('membership.invitations.changed.post');
+            events.trigger('group.membershipInvitations.endUpdate');
         });
 
         ctrl();
@@ -114,13 +114,13 @@ jQuery(function($){
 
         var ctrl = getMembershipController.call(this, event);
         ctrl.fadeOutPromis.then(function(){
-            events.trigger('membership.invitations.changed.pre');
+            events.trigger('group.membershipInvitations.beginUpdate');
         });
         ctrl.loadPromis.then(function(){
-            events.trigger('membership.invitations.changed');
+            events.trigger('group.membershipInvitations.refresh');
         });
         ctrl.fadeInPromis.then(function(){
-            events.trigger('membership.invitations.changed.post');
+            events.trigger('group.membershipInvitations.endUpdate');
         });
 
         ctrl();
@@ -130,13 +130,13 @@ jQuery(function($){
 
         var ctrl = getMembershipController.call(this, event);
         ctrl.fadeOutPromis.then(function(){
-            events.trigger('membership.invitations.changed.pre');
+            events.trigger('group.membershipInvitations.beginUpdate');
         });
         ctrl.loadPromis.then(function(){
-            events.trigger('membership.invitations.changed');
+            events.trigger('group.membershipInvitations.refresh');
         });
         ctrl.fadeInPromis.then(function(){
-            events.trigger('membership.invitations.changed.post');
+            events.trigger('group.membershipInvitations.endUpdate');
         });
 
         ctrl();
@@ -146,16 +146,16 @@ jQuery(function($){
 
         var ctrl = getMembershipController.call(this, event);
         ctrl.fadeOutPromis.then(function(){
-            events.trigger('membership.invitations.changed.pre');
-            events.trigger('membership.members.changed.pre');
+            events.trigger('group.membershipInvitations.beginUpdate');
+            events.trigger('group.memberships.beginUpdate');
         });
         ctrl.loadPromis.then(function(){
-            events.trigger('membership.invitations.changed');
-            events.trigger('membership.members.changed');
+            events.trigger('group.membershipInvitations.refresh');
+            events.trigger('group.memberships.refresh');
         });
         ctrl.fadeInPromis.then(function(){
-            events.trigger('membership.invitations.changed.post');
-            events.trigger('membership.members.changed.post');
+            events.trigger('group.membershipInvitations.endUpdate');
+            events.trigger('group.memberships.endUpdate');
         });
 
         ctrl();
@@ -166,13 +166,13 @@ jQuery(function($){
 
         var ctrl = getMembershipController.call(this, event);
         ctrl.fadeOutPromis.then(function(){
-            events.trigger('membership.members.changed.pre');
+            events.trigger('group.memberships.beginUpdate');
         });
         ctrl.loadPromis.then(function(){
-            events.trigger('membership.members.changed');
+            events.trigger('group.memberships.refresh');
         });
         ctrl.fadeInPromis.then(function(){
-            events.trigger('membership.members.changed.post');
+            events.trigger('group.memberships.endUpdate');
         });
 
         ctrl();
@@ -182,13 +182,13 @@ jQuery(function($){
 
         var ctrl = getMembershipController.call(this, event);
         ctrl.fadeOutPromis.then(function(){
-            events.trigger('membership.members.changed.pre');
+            events.trigger('group.memberships.beginUpdate');
         });
         ctrl.loadPromis.then(function(){
-            events.trigger('membership.members.changed');
+            events.trigger('group.memberships.refresh');
         });
         ctrl.fadeInPromis.then(function(){
-            events.trigger('membership.members.changed.post');
+            events.trigger('group.memberships.endUpdate');
         });
 
         ctrl();

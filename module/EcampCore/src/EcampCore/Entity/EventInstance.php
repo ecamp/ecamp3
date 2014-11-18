@@ -39,25 +39,36 @@ class EventInstance
      * @ORM\ManyToOne(targetEntity="Event")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $event;
+    protected $event;
 
     /**
      * Start-Offset in minutes from the subcamp's starting date (00:00)
      * @ORM\Column(type="integer", nullable=false)
      */
-    private $minOffsetStart;
+    protected $minOffsetStart;
 
     /**
      * End-Offset in minutes from the subcamp's starting date (00:00)
      * @ORM\Column(type="integer", nullable=false)
      */
-    private $minOffsetEnd;
+    protected $minOffsetEnd;
 
     /**
+     * @ORM\Column(type="float", nullable=true)
+     */
+    protected $leftOffset;
+
+    /**
+     * @ORM\Column(type="float", nullable=true)
+     */
+    protected $width;
+
+    /**
+     * @var \EcampCore\Entity\Period
      * @ORM\ManyToOne(targetEntity="Period")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $period;
+    protected $period;
 
     /**
      * @param Event $event
@@ -70,10 +81,12 @@ class EventInstance
 
         $this->minOffsetStart = 0;
         $this->minOffsetEnd = 0;
+        $this->leftOffset = 0.0;
+        $this->width = 1.0;
     }
 
     /**
-     * @return Event
+     * @return \EcampCore\Entity\Event
      */
     public function getEvent()
     {
@@ -93,16 +106,27 @@ class EventInstance
         return $this->getEventCategory()->getNumberingStyle();
     }
 
+    public function setMinOffsetStart($start)
+    {
+        $this->minOffsetStart = $start;
+    }
+
+    public function setMinOffsetEnd($end)
+    {
+        $this->minOffsetEnd = $end;
+    }
+
     /**
-     * @param DateInterval|int $offset
+     * @param  \DateInterval|int $offset
+     * @throws \Exception
      */
     public function setOffset($offset)
     {
         if ($offset instanceof \DateInterval) {
-            $offset =
-                $offset->format('%a') * 24 * 60 +
-                $offset->format('%h') * 60 +
-                $offset->format('%i');
+            $reference = new \DateTimeImmutable();
+            $endTime = $reference->add($offset);
+
+            $offset = round(($endTime->getTimestamp() - $reference->getTimestamp()) / 60);
         }
 
         if ($offset < 0) {
@@ -132,15 +156,16 @@ class EventInstance
     }
 
     /**
-     * @param DateInterval|int $duration
+     * @param \DateInterval|int $duration
      */
     public function setDuration($duration)
     {
         if ($duration instanceof \DateInterval) {
+            $reference = new \DateTimeImmutable();
+            $endTime = $reference->add($duration);
+
             $duration =
-                $duration->format('%a') * 24 * 60 +
-                $duration->format('%h') * 60 +
-                $duration->format('%i');
+                round(($endTime->getTimestamp() - $reference->getTimestamp()) / 60);
         }
 
         $this->minOffsetEnd = $this->minOffsetStart + $duration;
@@ -172,7 +197,7 @@ class EventInstance
      */
     public function getStartTime()
     {
-        $start = clone $this->period->getStart();
+        $start = clone $this->getPeriod()->getStart();
         $start->add($this->getOffset());
 
         return $start;
@@ -205,8 +230,28 @@ class EventInstance
         }
     }
 
+    public function setLeftOffset($leftOffset)
+    {
+        $this->leftOffset = $leftOffset ?: 0;
+    }
+
+    public function getLeftOffset()
+    {
+        return $this->leftOffset ?: 0;
+    }
+
+    public function setWidth($width)
+    {
+        $this->width = $width ?: 1;
+    }
+
+    public function getWidth()
+    {
+        return $this->width ?: 1;
+    }
+
     /**
-     * @param Period $period
+     * @param \EcampCore\Entity\Period $period
      */
     public function setPeriod(Period $period)
     {
@@ -214,7 +259,7 @@ class EventInstance
     }
 
     /**
-     * @return Period
+     * @return \EcampCore\Entity\Period
      */
     public function getPeriod()
     {
@@ -222,11 +267,11 @@ class EventInstance
     }
 
     /**
-     * @return Camp
+     * @return \EcampCore\Entity\Camp
      */
     public function getCamp()
     {
-        return $this->period->getCamp();
+        return $this->getPeriod()->getCamp();
     }
 
     public function getEventNumber()
@@ -239,11 +284,15 @@ class EventInstance
         return 1 + floor($this->getOffsetInMinutes() / (24*60));
     }
 
+    /**
+     * @return string
+     */
     private function getMinorNumber()
     {
         $period = $this->getPeriod();
 
-        $dayNum = floor($this->getOffsetInMinutes() / (24*60));
+        $dayNum = floor($this->getOffsetInMinutes() / (24 * 60));
+
         $dayOffset = 24 * 60 * $dayNum;
 
         $criteria = Criteria::create();
@@ -261,10 +310,9 @@ class EventInstance
 
         $eventInstances = $period->getEventInstances()->matching($criteria);
         $num = $eventInstances
-            ->filter(function($ei){ return $ei->getNumberingStyle() == $this->getNumberingStyle(); })
+            ->filter(function ($ei) { return $this->getNumberingStyle() == $ei->getNumberingStyle(); })
             ->count();
 
         return $this->getEventCategory()->getStyledNumber(1 + $num);
     }
-
 }

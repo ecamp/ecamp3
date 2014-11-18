@@ -1,16 +1,38 @@
 {% extends 'ecamp-web/camp/camp.twig' %}
 
-
-{% block content2 %}
+{% block content %}
 
     <div class="row">
         <div class="col-sm-12">
-            {% embed "helper/accordion.twig" %}
+            {% embed "helper/accordion.twig" with { 'id': 'collaborators' } %}
                 {% block panel_title %}
                     Collaborators
+                    <div class="pull-right">
+                        <a 	data-toggle="modal"
+                            data-backdrop="true"
+                            data-target="#asyncform-container"
+                            href="{{ url(
+                                          'web/camp/default',
+                                          { 'camp': camp, 'controller': 'Collaborations', 'action': 'inviteSearch' }
+                                          ) }}"
+                            class="btn btn-xs btn-success"
+                            style="margin-top: -3px"
+                        >
+                            <i class="fa fa-plus"></i> invite User
+                        </a>
+                    </div>
                 {% endblock %}
                 {% block panel_content %}
-                    {% include 'ecamp-web/camp/collaborations/collaborations.twig' with { 'paginator': collaborationsPaginator } %}
+                    <pagination-container
+                        type="camp.collaborations"
+                        url="{{ url(
+                            'web/camp/default',
+                            { 'camp': camp, 'controller': 'Collaborations', 'action': 'collaborations' },
+                            { 'query': { 'page': ':page' } })
+                        }}"
+                    >
+                        {% include 'ecamp-web/camp/collaborations/collaborations.twig' with { 'paginator': collaborationsPaginator } %}
+                    </pagination-container>
                 {% endblock %}
             {% endembed %}
         </div>
@@ -25,7 +47,16 @@
                         Collaboration requests
                     {% endblock %}
                     {% block panel_content %}
-                        {% include 'ecamp-web/camp/collaborations/requests.twig' with { 'paginator': requestsPaginator } %}
+                        <pagination-container
+                            type="camp.collaborationRequests"
+                            url="{{ url(
+                                'web/camp/default',
+                                { 'camp': camp, 'controller': 'Collaborations', 'action': 'requests' },
+                                { 'query': { 'page': ':page' } })
+                            }}"
+                        >
+                            {% include 'ecamp-web/camp/collaborations/requests.twig' with { 'paginator': requestsPaginator } %}
+                        </pagination-container>
                     {% endblock %}
                 {% endembed %}
             </div>
@@ -41,13 +72,20 @@
                         Collaboration invitations
                     {% endblock %}
                     {% block panel_content %}
-                        {% include 'ecamp-web/camp/collaborations/invitations.twig' with { 'paginator': invitationsPaginator } %}
+                        <pagination-container
+                            type="camp.collaborationInvitations"
+                            url="{{ url(
+                                'web/camp/default',
+                                { 'camp': camp, 'controller': 'Collaborations', 'action': 'invitations' },
+                                { 'query': { 'page': ':page' } })
+                            }}"
+                        >
+                            {% include 'ecamp-web/camp/collaborations/invitations.twig' with { 'paginator': invitationsPaginator } %}
+                        </pagination-container>
                     {% endblock %}
                 {% endembed %}
             </div>
         </div>
-
-
     {% endif %}
 
 {% endblock %}

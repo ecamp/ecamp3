@@ -38,8 +38,15 @@ class CollectionRenderingListener implements SharedListenerAggregateInterface
 
         $this->listeners[] = $events->attach(
             'PhlyRestfully\Plugin\HalLinks',
-            array('renderResource', 'renderCollection'),
+            'renderCollection',
             array($this, 'renderCollection'),
+            100
+        );
+
+        $this->sharedListeners[] = $events->attach(
+            'PhlyRestfully\ResourceController',
+            'getList.pre',
+            array($this, 'getListPre'),
             100
         );
     }
@@ -140,6 +147,20 @@ class CollectionRenderingListener implements SharedListenerAggregateInterface
             'pages'	 => $paginator->count(),
             'count'	 => $paginator->getTotalItemCount()
         ));
+    }
+
+    public function getListPre($e)
+    {
+        $controller = $e->getTarget();
+        $resource = $controller->getResource();
+        $params = $resource->getQueryParams();
+
+        if ($params != null) {
+            $limit = $params->get('limit');
+            if ($limit == "all") {
+                $params->set('limit', PHP_INT_MAX);
+            }
+        }
     }
 
 }

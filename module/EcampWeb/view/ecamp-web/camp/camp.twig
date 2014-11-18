@@ -1,93 +1,20 @@
-{% extends 'layout/default.twig' %}
+{% extends 'layout/layout.default.twig' %}
 
-{% block header %}
-	<table border="0" style="width: 100%; border: 0px;">
-		<tr>
-			<td width="120px">
-				<img width="100" class="img-rounded" src="https://cdn3.iconfinder.com/data/icons/outdoor-and-camping-icons/512/Tent-256.png" >
-			</td>
-			<td>
-				<h1>{{ camp.getName }}</h1>
-				<p>
-					{{ camp.getTitle }}
-				</p>
-			</td>
-		</tr>
-	</table>
 
-{% endblock header %}
+{% block layout_header %}
+    {% include 'header/camp.twig' %}
+{% endblock %}
 
-{% block content %}
 
-	<div class="row">
-		<div class="col-sm-2">
-			<ul class="nav nav-pills nav-stacked">
-			  <li class="{{ controller == 'Index' ? 'active' : '' }}">
-			  	<a href="{{ url('web/camp', { 'camp': camp }) }}">
-			  		Info
-			  	</a>
-			  </li>
-			  <li class="{{ controller == 'Collaborations' ? 'active' : '' }}">
-			  	<a href="{{ url('web/camp/default', { 'camp': camp, 'controller': 'Collaborations' }) }}">
-			  		People
-			  	</a>
-			  </li>
-			  <li class="dropdown {{ (controller == 'Day' or controller=='Picasso' or controller == 'Event') ? 'active' : '' }}">
-			    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-			      Programm <div class="pull-right"><span class="caret"></span></div>
-			    </a>
-			    <ul class="dropdown-menu">
-			      <li><a href="#">Grobprogramm</a></li>
-			      <li class="{{ controller == 'Day' ? 'active' : '' }}">
-			      	<a href="{{ url('web/camp/default', { 'camp': camp, 'controller': 'Day' }) }}">Tages&uuml;bersicht</a>
-			      </li>
-			    </ul>
-			  </li>
-			  <li>
-			  	<a href="#">Material</a>
-			  </li>
-			  <li>
-			  	<a href="#">Print</a>
-			  </li>
-			  <li class="dropdown">
-			    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-			      Kurs <div class="pull-right"><span class="caret"></span></div>
-			    </a>
-			    <ul class="dropdown-menu">
-			      <li><a href="#">Ausbildungsziele</a></li>
-			      <li><a href="#">J+S Checklisten</a></li>
-			    </ul>
-			  </li>
-			</ul>
-		</div>
-		<div class="col-sm-10">
-			{% block content2 %}{{ content2|raw }}{% endblock content2 %}
-		</div>
-	</div>
-{% endblock content %}
-
-{% block breadcrumb %}
-
-	  {% if camp.belongsToUser  %}
-	  	<li>
-	  		<a class="btn btn-xs btn-noborder" href="{{ url('web/user-prefix/name', {'user' : camp.getOwner.getId } ) }}">
-                <i class="fa fa-user"></i> {{ camp.getOwner.username }}
-	  		</a>
-	  	</li>
-	  {% else %}
-	  	{%  for item in camp.getOwner.getPathAsArray(true) %}
-	  		<li>
-	  			<a class="btn btn-xs btn-noborder" href="{{ url('web/group-prefix/name', {'group' : item.getId } ) }}">
-                    <i class="fa fa-flag"></i> {{ item.name }}
-	  			</a>
-	  		</li>
-	  	{% endfor %}
-	  {% endif %}
-
-	  <li class="active">
-	  	<a class="btn btn-xs btn-noborder" href="{{ url('web/camp/default', { 'camp': camp }) }}">
-            <i class="fa fa-bell"></i> {{ camp.name }}
-        </a>
-	  </li>
-
-{% endblock breadcrumb %}
+{% block layout_body %}
+    <section class="container white {{ layoutBodyClass }}">
+        <div class="row {{ layoutBodyClass }}">
+            <div class="col-sm-2">
+                {% include 'ecamp-web/camp/camp.menu.twig' %}
+            </div>
+            <div class="col-sm-10 {{ layoutBodyClass }}">
+                {% block content %}{% endblock %}
+            </div>
+        </div>
+    </section>
+{% endblock %}

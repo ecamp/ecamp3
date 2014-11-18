@@ -1,0 +1,74 @@
+<div class="paginatorContainer">
+
+    {% if paginator.count == 0 %}
+        {% block listEmpty %}{% endblock %}
+    {% else %}
+        {% block list %}{% endblock %}
+    {% endif %}
+
+
+    {% if paginator.pages.pageCount > 1 %}
+        <ul class="pagination pagination-sm pull-right" style="margin: 0px 0px 10px 0px">
+            {% if paginator.pages.previous %}
+                <li>
+                    <a href="#" pagination-page-nr="{{ paginator.pages.first }}">
+                        <i class="fa fa-fast-backward"></i>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" pagination-page-nr="{{ paginator.pages.previous }}">
+                        <i class="fa fa-backward"></i>
+                    </a>
+                </li>
+            {% else %}
+                <li class="disabled">
+                    <span>
+                        <i class="fa fa-fast-backward"></i>
+                    </span>
+                </li>
+                <li class="disabled">
+                    <span>
+                        <i class="fa fa-backward"></i>
+                    </span>
+                </li>
+            {% endif %}
+
+            <li class="page-info">
+                <a href="#" pagination-page-refresh style="width: 70px; text-align: center;">
+                    <span>
+                        {{ paginator.pages.current }} / {{ paginator.pages.pageCount }}
+                    </span>
+                </a>
+            </li>
+            <li class="spinner disabled" style="display: none;">
+                <span style="width: 70px; text-align: center;">
+                    <i class="fa fa-spinner fa-spin"></i>
+                </span>
+            </li>
+
+            {% if paginator.pages.next %}
+                <li>
+                    <a href="#" pagination-page-nr="{{ paginator.pages.next }}">
+                        <i class="fa fa-forward"></i>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" pagination-page-nr="{{ paginator.pages.last }}">
+                        <i class="fa fa-fast-forward"></i>
+                    </a>
+                </li>
+            {% else %}
+                <li class="disabled">
+                    <span>
+                        <i class="fa fa-forward"></i>
+                    </span>
+                </li>
+                <li class="disabled">
+                    <span>
+                        <i class="fa fa-fast-forward"></i>
+                    </span>
+                </li>
+            {% endif %}
+        </ul>
+    {% endif %}
+</div>

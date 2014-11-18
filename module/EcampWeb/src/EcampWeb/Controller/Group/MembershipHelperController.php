@@ -11,14 +11,6 @@ class MembershipHelperController
     extends BaseController
 {
     /**
-     * @return \EcampCore\Repository\UserRepository
-     */
-    private function getUserRepository()
-    {
-        return $this->getServiceLocator()->get('EcampCore\Repository\User');
-    }
-
-    /**
      * @return \EcampCore\Service\GroupMembershipService
      */
     private function getGroupMembershipService()
@@ -87,7 +79,6 @@ class MembershipHelperController
         try {
             $this->getGroupMembershipService()->inviteUser($this->getMe(), $group, $user, $role);
         } catch (\Exception $ex) {
-            var_dump($ex);
         }
 
         return $this->createViewModel($group, $user);
@@ -157,10 +148,13 @@ class MembershipHelperController
 
     private function createViewModel(Group $group, User $user = null)
     {
+        $size = $this->params()->fromQuery('size', '');
+
         $viewModel = new ViewModel();
         $viewModel->setTemplate('ecamp-web/helper/membership/membership.twig');
         $viewModel->setVariable('group', $group);
         $viewModel->setVariable('user', $user);
+        $viewModel->setVariable('size', $size);
 
         return $viewModel;
     }

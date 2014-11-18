@@ -11,12 +11,13 @@ class EventCategoryDetailResource extends HalResource
     public function __construct(EventCategory $entity)
     {
         $object = array(
-                'id'		=> 	$entity->getId(),
-                'name'		=>	$entity->getName(),
-                'color'		=>	$entity->getColor(),
-                'numbering'	=>	$entity->getNumberingStyle(),
-                'camp'		=>	new CampBriefResource($entity->getCamp()),
-                );
+            'id'		=> 	$entity->getId(),
+            'name'		=>	$entity->getName(),
+            'short'     =>  $entity->getShort(),
+            'color'		=>	$entity->getColor(),
+            'numbering'	=>	$entity->getNumberingStyle(),
+            'camp'		=>	new CampBriefResource($entity->getCamp()),
+        );
 
         parent::__construct($object, $object['id']);
 

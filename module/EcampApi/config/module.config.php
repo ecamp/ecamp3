@@ -50,7 +50,7 @@ return array(
                         'options' => array(
                              'route'      => '/camps[/:camp]',
                              'defaults' => array(
-                                 'controller'    => 'Resource\Camp\ApiController'
+                                 'controller' => 'Resource\Camp\ApiController'
                              ),
                         ),
                         'may_terminate' => true,
@@ -61,7 +61,7 @@ return array(
                                 'options' => array(
                                     'route'      => '/collaborations',
                                     'defaults' => array(
-                                        'controller'    => 'Resource\Camp\Collaboration\ApiController'
+                                        'controller' => 'Resource\Camp\Collaboration\ApiController'
                                     ),
                                 ),
                             ),
@@ -199,7 +199,7 @@ return array(
                     'event_instances' => array(
                         'type' => 'Segment',
                         'options' => array(
-                            'route'      => '/event_instances[/:event_instance]',
+                            'route'      => '/event_instances[/:event_instance[?limit=:limit]]',
                             'defaults' => array(
                                 'controller'    => 'Resource\EventInstance\ApiController'
                             ),
@@ -386,376 +386,376 @@ return array(
     ),
 
     'phlyrestfully' => array(
-            'resources' => array(
+        'resources' => array(
 
-                    /**
-                     * Camp
-                     */
-                    'EcampApi\Resource\Camp\ApiController' => array(
-                            'listener'                => 'EcampApi\Resource\Camp\CampResourceListener',
-                            'collection_http_options' => array('get'),
-                            'page_size'               => 3,
-                            'page_size_param'		  => 'limit',
-                            'resource_http_options'   => array('get'),
-                            'route_name'              => 'api/camps',
-                            'identifier_name'		  => 'camp',
-                            'collection_query_whitelist' => array('user', 'past', 'collaborator', 'owning_only', 'owner', 'group', 'creator', 'search', 'mode'),
-                    ),
-
-                    'EcampApi\Resource\User\Camp\ApiController' => array(
-                            'listener'                => 'EcampApi\Resource\Camp\CampResourceListener',
-                            'collection_http_options' => array('get'),
-                            'page_size'               => 3,
-                            'page_size_param'		  => 'limit',
-                            'resource_http_options'   => array('get'),
-                            'route_name'              => 'api/users/camps',
-                            'identifier_name'		  => 'camp',
-                            'collection_query_whitelist' => array('past', 'collaborator', 'owning_only', 'owner', 'group', 'creator', 'search', 'mode'),
-                    ),
-
-                    'EcampApi\Resource\Group\Camp\ApiController' => array(
-                            'listener'                => 'EcampApi\Resource\Camp\CampResourceListener',
-                            'collection_http_options' => array('get'),
-                            'page_size'               => 3,
-                            'page_size_param'		  => 'limit',
-                            'resource_http_options'   => array('get'),
-                            'route_name'              => 'api/groups/camps',
-                            'identifier_name'		  => 'camp',
-                            'collection_query_whitelist' => array('user', 'past', 'collaborator', 'owning_only', 'owner', 'creator', 'search', 'mode'),
-                    ),
-
-                    /**
-                     * User
-                     */
-                    'EcampApi\Resource\User\ApiController' => array(
-                            'listener'                => 'EcampApi\Resource\User\UserResourceListener',
-                            'collection_http_options' => array('get'),
-                            'page_size'               => 3,
-                            'page_size_param'		  => 'limit',
-                            'resource_http_options'   => array('get'),
-                            'route_name'              => 'api/users',
-                            'identifier_name'		  => 'user',
-                    ),
-
-                    /**
-                     * Collaboration
-                     */
-                    'EcampApi\Resource\Collaboration\ApiController' => array(
-                            'listener'                => 'EcampApi\Resource\Collaboration\CollaborationResourceListener',
-                            'collection_http_options' => array('get'),
-                            'page_size'               => 3,
-                            'page_size_param'		  => 'limit',
-                            'resource_http_options'   => array('get'),
-                            'route_name'              => 'api/collaborations',
-                            'identifier_name'		  => 'collaboration',
-                            'collection_query_whitelist' => array('user', 'camp'),
-                    ),
-
-                    'EcampApi\Resource\User\Collaboration\ApiController' => array(
-                            'listener'                => 'EcampApi\Resource\Collaboration\CollaborationResourceListener',
-                            'collection_http_options' => array('get'),
-                            'page_size'               => 3,
-                            'page_size_param'		  => 'limit',
-                            'resource_http_options'   => array('get'),
-                            'route_name'              => 'api/users/collaborations',
-                            'identifier_name'		  => 'collaboration',
-                            'collection_query_whitelist' => array('camp'),
-                    ),
-
-                    'EcampApi\Resource\Camp\Collaboration\ApiController' => array(
-                            'listener'                => 'EcampApi\Resource\Collaboration\CollaborationResourceListener',
-                            'collection_http_options' => array('get'),
-                            'page_size'               => 3,
-                            'page_size_param'		  => 'limit',
-                            'resource_http_options'   => array('get'),
-                            'route_name'              => 'api/camps/collaborations',
-                            'identifier_name'		  => 'collaboration',
-                            'collection_query_whitelist' => array('user'),
-                    ),
-
-                    /**
-                     * Day
-                     */
-                    'EcampApi\Resource\Day\ApiController' => array(
-                            'listener'                => 'EcampApi\Resource\Day\DayResourceListener',
-                            'collection_http_options' => array('get'),
-                            'page_size'               => 3,
-                            'page_size_param'		  => 'limit',
-                            'resource_http_options'   => array('get'),
-                            'route_name'              => 'api/days',
-                            'identifier_name'		  => 'day',
-                            'collection_query_whitelist' => array('period'),
-                    ),
-
-                    'EcampApi\Resource\Period\Day\ApiController' => array(
-                            'listener'                => 'EcampApi\Resource\Day\DayResourceListener',
-                            'collection_http_options' => array('get'),
-                            'page_size'               => 3,
-                            'page_size_param'		  => 'limit',
-                            'resource_http_options'   => array('get'),
-                            'route_name'              => 'api/periods/days',
-                            'identifier_name'		  => 'day',
-                            'collection_query_whitelist' => array(),
-                    ),
-
-                    /**
-                     * Event
-                     */
-                    'EcampApi\Resource\Event\ApiController' => array(
-                            'listener'                => 'EcampApi\Resource\Event\EventResourceListener',
-                            'collection_http_options' => array('get'),
-                            'page_size'               => 3,
-                            'page_size_param'		  => 'limit',
-                            'resource_http_options'   => array('get'),
-                            'route_name'              => 'api/events',
-                            'identifier_name'		  => 'event',
-                            'collection_query_whitelist' => array('camp'),
-                    ),
-
-                    'EcampApi\Resource\Camp\Event\ApiController' => array(
-                            'listener'                => 'EcampApi\Resource\Event\EventResourceListener',
-                            'collection_http_options' => array('get'),
-                            'page_size'               => 3,
-                            'page_size_param'		  => 'limit',
-                            'resource_http_options'   => array('get'),
-                            'route_name'              => 'api/camps/events',
-                            'identifier_name'		  => 'event',
-                            'collection_query_whitelist' => array(),
-                    ),
-
-                    /**
-                     * Event Category
-                     */
-                    'EcampApi\Resource\EventCategory\ApiController' => array(
-                            'listener'                => 'EcampApi\Resource\EventCategory\EventCategoryResourceListener',
-                            'collection_http_options' => array('get'),
-                            'page_size'               => 3,
-                            'page_size_param'		  => 'limit',
-                            'resource_http_options'   => array('get'),
-                            'route_name'              => 'api/event_categories',
-                            'identifier_name'		  => 'event_category',
-                            'collection_query_whitelist' => array(),
-                    ),
-                    'EcampApi\Resource\Camp\EventCategory\ApiController' => array(
-                            'listener'                => 'EcampApi\Resource\EventCategory\EventCategoryResourceListener',
-                            'collection_http_options' => array('get'),
-                            'page_size'               => 3,
-                            'page_size_param'		  => 'limit',
-                            'resource_http_options'   => array('get'),
-                            'route_name'              => 'api/camps/event_categories',
-                            'identifier_name'		  => 'event_category',
-                            'collection_query_whitelist' => array(),
-                    ),
-
-                    /**
-                     * Event instance
-                     */
-                    'EcampApi\Resource\EventInstance\ApiController' => array(
-                            'listener'                => 'EcampApi\Resource\EventInstance\EventInstanceResourceListener',
-                            'collection_http_options' => array('get'),
-                            'page_size'               => 3,
-                            'page_size_param'		  => 'limit',
-                            'resource_http_options'   => array('get'),
-                            'route_name'              => 'api/event_instances',
-                            'identifier_name'		  => 'event_instance',
-                            'collection_query_whitelist' => array(),
-                    ),
-
-                    'EcampApi\Resource\Event\EventInstance\ApiController' => array(
-                            'listener'                => 'EcampApi\Resource\EventInstance\EventInstanceResourceListener',
-                            'collection_http_options' => array('get'),
-                            'page_size'               => 3,
-                            'page_size_param'		  => 'limit',
-                            'resource_http_options'   => array('get'),
-                            'route_name'              => 'api/events/event_instances',
-                            'identifier_name'		  => 'event_instance',
-                            'collection_query_whitelist' => array(),
-                    ),
-
-                    'EcampApi\Resource\Camp\EventInstance\ApiController' => array(
-                            'listener'                => 'EcampApi\Resource\EventInstance\EventInstanceResourceListener',
-                            'collection_http_options' => array('get'),
-                            'page_size'               => 3,
-                            'page_size_param'		  => 'limit',
-                            'resource_http_options'   => array('get'),
-                            'route_name'              => 'api/camps/event_instances',
-                            'identifier_name'		  => 'event_instance',
-                            'collection_query_whitelist' => array(),
-                    ),
-
-                    'EcampApi\Resource\Period\EventInstance\ApiController' => array(
-                            'listener'                => 'EcampApi\Resource\EventInstance\EventInstanceResourceListener',
-                            'collection_http_options' => array('get'),
-                            'page_size'               => 3,
-                            'page_size_param'		  => 'limit',
-                            'resource_http_options'   => array('get'),
-                            'route_name'              => 'api/periods/event_instances',
-                            'identifier_name'		  => 'event_instance',
-                            'collection_query_whitelist' => array(),
-                    ),
-
-                    'EcampApi\Resource\Day\EventInstance\ApiController' => array(
-                            'listener'                => 'EcampApi\Resource\EventInstance\EventInstanceResourceListener',
-                            'collection_http_options' => array('get'),
-                            'page_size'               => 3,
-                            'page_size_param'		  => 'limit',
-                            'resource_http_options'   => array('get'),
-                            'route_name'              => 'api/days/event_instances',
-                            'identifier_name'		  => 'event_instance',
-                            'collection_query_whitelist' => array(),
-                    ),
-
-                    'EcampApi\Resource\EventInstance\ApiController' => array(
-                            'listener'                => 'EcampApi\Resource\EventInstance\EventInstanceResourceListener',
-                            'collection_http_options' => array('get'),
-                            'page_size'               => 3,
-                            'page_size_param'		  => 'limit',
-                            'resource_http_options'   => array('get'),
-                            'route_name'              => 'api/event_instances',
-                            'identifier_name'		  => 'event_instance',
-                            'collection_query_whitelist' => array(),
-                    ),
-
-                    /**
-                     * Event Responsibles
-                     */
-                    'EcampApi\Resource\EventResp\ApiController' => array(
-                            'listener'                => 'EcampApi\Resource\EventResp\EventRespResourceListener',
-                            'collection_http_options' => array('get'),
-                            'page_size'               => 3,
-                            'page_size_param'		  => 'limit',
-                            'resource_http_options'   => array('get'),
-                            'route_name'              => 'api/event_resps',
-                            'identifier_name'		  => 'event_resp',
-                            'collection_query_whitelist' => array('event','collaboration', 'user'),
-                    ),
-
-                    'EcampApi\Resource\Event\EventResp\ApiController' => array(
-                            'listener'                => 'EcampApi\Resource\EventResp\EventRespResourceListener',
-                            'collection_http_options' => array('get'),
-                            'page_size'               => 3,
-                            'page_size_param'		  => 'limit',
-                            'resource_http_options'   => array('get'),
-                            'route_name'              => 'api/events/event_resps',
-                            'identifier_name'		  => 'event_resp',
-                            'collection_query_whitelist' => array(),
-                    ),
-
-                    'EcampApi\Resource\Collaboration\EventResp\ApiController' => array(
-                            'listener'                => 'EcampApi\Resource\EventResp\EventRespResourceListener',
-                            'collection_http_options' => array('get'),
-                            'page_size'               => 3,
-                            'page_size_param'		  => 'limit',
-                            'resource_http_options'   => array('get'),
-                            'route_name'              => 'api/collaborations/event_resps',
-                            'identifier_name'		  => 'event_resp',
-                            'collection_query_whitelist' => array(),
-                    ),
-
-                    'EcampApi\Resource\User\EventResp\ApiController' => array(
-                            'listener'                => 'EcampApi\Resource\EventResp\EventRespResourceListener',
-                            'collection_http_options' => array('get'),
-                            'page_size'               => 3,
-                            'page_size_param'		  => 'limit',
-                            'resource_http_options'   => array('get'),
-                            'route_name'              => 'api/users/event_resps',
-                            'identifier_name'		  => 'event_resp',
-                            'collection_query_whitelist' => array(),
-                    ),
-
-                    /**
-                     * Period
-                     */
-                    'EcampApi\Resource\Period\ApiController' => array(
-                            'listener'                => 'EcampApi\Resource\Period\PeriodResourceListener',
-                            'collection_http_options' => array('get'),
-                            'page_size'               => 3,
-                            'page_size_param'		  => 'limit',
-                            'resource_http_options'   => array('get'),
-                            'route_name'              => 'api/periods',
-                            'identifier_name'		  => 'period',
-                            'collection_query_whitelist' => array('camp'),
-                    ),
-
-                    'EcampApi\Resource\Camp\Period\ApiController' => array(
-                            'listener'                => 'EcampApi\Resource\Period\PeriodResourceListener',
-                            'collection_http_options' => array('get'),
-                            'page_size'               => 3,
-                            'page_size_param'		  => 'limit',
-                            'resource_http_options'   => array('get'),
-                            'route_name'              => 'api/camps/periods',
-                            'identifier_name'		  => 'period',
-                            'collection_query_whitelist' => array(),
-                    ),
-
-                    /**
-                     * Group
-                     */
-                    'EcampApi\Resource\Group\ApiController' => array(
-                            'listener'                => 'EcampApi\Resource\Group\GroupResourceListener',
-                            'collection_http_options' => array('get'),
-                            'page_size'               => 3,
-                            'page_size_param'		  => 'limit',
-                            'resource_http_options'   => array('get'),
-                            'route_name'              => 'api/groups',
-                            'identifier_name'		  => 'group',
-                            'collection_query_whitelist' => array(),
-                    ),
-
-                    'EcampApi\Resource\Group\Subgroup\ApiController' => array(
-                            'listener'                => 'EcampApi\Resource\Group\GroupResourceListener',
-                            'collection_http_options' => array('get'),
-                            'page_size'               => 3,
-                            'page_size_param'		  => 'limit',
-                            'resource_http_options'   => array('get'),
-                            'route_name'              => 'api/groups/subgroups',
-                    ),
-
-                    /**
-                     * Membership
-                     */
-                    'EcampApi\Resource\Membership\ApiController' => array(
-                            'listener'                => 'EcampApi\Resource\Membership\MembershipResourceListener',
-                            'collection_http_options' => array('get'),
-                            'page_size'               => 3,
-                            'page_size_param'		  => 'limit',
-                            'resource_http_options'   => array('get'),
-                            'route_name'              => 'api/memberships',
-                            'identifier_name'		  => 'membership',
-                            'collection_query_whitelist' => array('user','group'),
-                    ),
-
-                    'EcampApi\Resource\User\Membership\ApiController' => array(
-                            'listener'                => 'EcampApi\Resource\Membership\MembershipResourceListener',
-                            'collection_http_options' => array('get'),
-                            'page_size'               => 3,
-                            'page_size_param'		  => 'limit',
-                            'resource_http_options'   => array('get'),
-                            'route_name'              => 'api/users/memberships',
-                            'collection_query_whitelist' => array('group'),
-                    ),
-
-                    'EcampApi\Resource\Group\Membership\ApiController' => array(
-                            'listener'                => 'EcampApi\Resource\Membership\MembershipResourceListener',
-                            'collection_http_options' => array('get'),
-                            'page_size'               => 3,
-                            'page_size_param'		  => 'limit',
-                            'resource_http_options'   => array('get'),
-                            'route_name'              => 'api/groups/memberships',
-                            'collection_query_whitelist' => array('user'),
-                    ),
-
-                    'EcampApi\Resource\Search\User\ApiController' => array(
-                            'listener'                => 'EcampApi\Resource\Search\UserResourceListener',
-                            'collection_http_options' => array('get'),
-                            'page_size'               => 3,
-                            'page_size_param'		  => 'limit',
-                            'resource_http_options'   => array('get'),
-                            'route_name'              => 'api/search/user',
-                            'collection_query_whitelist' => array('search'),
-                    ),
-
+            /**
+             * Camp
+             */
+            'EcampApi\Resource\Camp\ApiController' => array(
+                'listener'                => 'EcampApi\Resource\Camp\CampResourceListener',
+                'collection_http_options' => array('get'),
+                'page_size'               => PHP_INT_MAX,
+                'page_size_param'		  => 'limit',
+                'resource_http_options'   => array('get', 'put'),
+                'route_name'              => 'api/camps',
+                'identifier_name'		  => 'camp',
+                'collection_query_whitelist' => array('user', 'past', 'collaborator', 'owning_only', 'owner', 'group', 'creator', 'search', 'mode'),
             ),
+
+            'EcampApi\Resource\User\Camp\ApiController' => array(
+                'listener'                => 'EcampApi\Resource\Camp\CampResourceListener',
+                'collection_http_options' => array('get'),
+                'page_size'               => PHP_INT_MAX,
+                'page_size_param'		  => 'limit',
+                'resource_http_options'   => array('get'),
+                'route_name'              => 'api/users/camps',
+                'identifier_name'		  => 'camp',
+                'collection_query_whitelist' => array('past', 'collaborator', 'owning_only', 'owner', 'group', 'creator', 'search', 'mode'),
+            ),
+
+            'EcampApi\Resource\Group\Camp\ApiController' => array(
+                'listener'                => 'EcampApi\Resource\Camp\CampResourceListener',
+                'collection_http_options' => array('get'),
+                'page_size'               => PHP_INT_MAX,
+                'page_size_param'		  => 'limit',
+                'resource_http_options'   => array('get'),
+                'route_name'              => 'api/groups/camps',
+                'identifier_name'		  => 'camp',
+                'collection_query_whitelist' => array('user', 'past', 'collaborator', 'owning_only', 'owner', 'creator', 'search', 'mode'),
+            ),
+
+            /**
+             * User
+             */
+            'EcampApi\Resource\User\ApiController' => array(
+                'listener'                => 'EcampApi\Resource\User\UserResourceListener',
+                'collection_http_options' => array('get'),
+                'page_size'               => PHP_INT_MAX,
+                'page_size_param'		  => 'limit',
+                'resource_http_options'   => array('get'),
+                'route_name'              => 'api/users',
+                'identifier_name'		  => 'user',
+            ),
+
+            /**
+             * Collaboration
+             */
+            'EcampApi\Resource\Collaboration\ApiController' => array(
+                'listener'                => 'EcampApi\Resource\Collaboration\CollaborationResourceListener',
+                'collection_http_options' => array('get'),
+                'page_size'               => PHP_INT_MAX,
+                'page_size_param'		  => 'limit',
+                'resource_http_options'   => array('get'),
+                'route_name'              => 'api/collaborations',
+                'identifier_name'		  => 'collaboration',
+                'collection_query_whitelist' => array('user', 'camp'),
+            ),
+
+            'EcampApi\Resource\User\Collaboration\ApiController' => array(
+                'listener'                => 'EcampApi\Resource\Collaboration\CollaborationResourceListener',
+                'collection_http_options' => array('get'),
+                'page_size'               => PHP_INT_MAX,
+                'page_size_param'		  => 'limit',
+                'resource_http_options'   => array('get'),
+                'route_name'              => 'api/users/collaborations',
+                'identifier_name'		  => 'collaboration',
+                'collection_query_whitelist' => array('camp'),
+            ),
+
+            'EcampApi\Resource\Camp\Collaboration\ApiController' => array(
+                'listener'                => 'EcampApi\Resource\Collaboration\CollaborationResourceListener',
+                'collection_http_options' => array('get'),
+                'page_size'               => PHP_INT_MAX,
+                'page_size_param'		  => 'limit',
+                'resource_http_options'   => array('get'),
+                'route_name'              => 'api/camps/collaborations',
+                'identifier_name'		  => 'collaboration',
+                'collection_query_whitelist' => array('user'),
+            ),
+
+            /**
+             * Day
+             */
+            'EcampApi\Resource\Day\ApiController' => array(
+                'listener'                => 'EcampApi\Resource\Day\DayResourceListener',
+                'collection_http_options' => array('get'),
+                'page_size'               => PHP_INT_MAX,
+                'page_size_param'		  => 'limit',
+                'resource_http_options'   => array('get'),
+                'route_name'              => 'api/days',
+                'identifier_name'		  => 'day',
+                'collection_query_whitelist' => array('period'),
+            ),
+
+            'EcampApi\Resource\Period\Day\ApiController' => array(
+                'listener'                => 'EcampApi\Resource\Day\DayResourceListener',
+                'collection_http_options' => array('get'),
+                'page_size'               => PHP_INT_MAX,
+                'page_size_param'		  => 'limit',
+                'resource_http_options'   => array('get'),
+                'route_name'              => 'api/periods/days',
+                'identifier_name'		  => 'day',
+                'collection_query_whitelist' => array(),
+            ),
+
+            /**
+             * Event
+             */
+            'EcampApi\Resource\Event\ApiController' => array(
+                'listener'                => 'EcampApi\Resource\Event\EventResourceListener',
+                'collection_http_options' => array('get'),
+                'page_size'               => PHP_INT_MAX,
+                'page_size_param'		  => 'limit',
+                'resource_http_options'   => array('get'),
+                'route_name'              => 'api/events',
+                'identifier_name'		  => 'event',
+                'collection_query_whitelist' => array('camp'),
+            ),
+
+            'EcampApi\Resource\Camp\Event\ApiController' => array(
+                'listener'                => 'EcampApi\Resource\Event\EventResourceListener',
+                'collection_http_options' => array('get'),
+                'page_size'               => PHP_INT_MAX,
+                'page_size_param'		  => 'limit',
+                'resource_http_options'   => array('get'),
+                'route_name'              => 'api/camps/events',
+                'identifier_name'		  => 'event',
+                'collection_query_whitelist' => array(),
+            ),
+
+            /**
+             * Event Category
+             */
+            'EcampApi\Resource\EventCategory\ApiController' => array(
+                'listener'                => 'EcampApi\Resource\EventCategory\EventCategoryResourceListener',
+                'collection_http_options' => array('get'),
+                'page_size'               => PHP_INT_MAX,
+                'page_size_param'		  => 'limit',
+                'resource_http_options'   => array('get'),
+                'route_name'              => 'api/event_categories',
+                'identifier_name'		  => 'event_category',
+                'collection_query_whitelist' => array(),
+            ),
+            'EcampApi\Resource\Camp\EventCategory\ApiController' => array(
+                'listener'                => 'EcampApi\Resource\EventCategory\EventCategoryResourceListener',
+                'collection_http_options' => array('get'),
+                'page_size'               => PHP_INT_MAX,
+                'page_size_param'		  => 'limit',
+                'resource_http_options'   => array('get'),
+                'route_name'              => 'api/camps/event_categories',
+                'identifier_name'		  => 'event_category',
+                'collection_query_whitelist' => array(),
+            ),
+
+            /**
+             * Event instance
+             */
+            'EcampApi\Resource\EventInstance\ApiController' => array(
+                'listener'                => 'EcampApi\Resource\EventInstance\EventInstanceResourceListener',
+                'collection_http_options' => array('get'),
+                'page_size'               => PHP_INT_MAX,
+                'page_size_param'		  => 'limit',
+                'resource_http_options'   => array('get'),
+                'route_name'              => 'api/event_instances',
+                'identifier_name'		  => 'event_instance',
+                'collection_query_whitelist' => array(),
+            ),
+
+            'EcampApi\Resource\Event\EventInstance\ApiController' => array(
+                'listener'                => 'EcampApi\Resource\EventInstance\EventInstanceResourceListener',
+                'collection_http_options' => array('get'),
+                'page_size'               => PHP_INT_MAX,
+                'page_size_param'		  => 'limit',
+                'resource_http_options'   => array('get'),
+                'route_name'              => 'api/events/event_instances',
+                'identifier_name'		  => 'event_instance',
+                'collection_query_whitelist' => array(),
+            ),
+
+            'EcampApi\Resource\Camp\EventInstance\ApiController' => array(
+                'listener'                => 'EcampApi\Resource\EventInstance\EventInstanceResourceListener',
+                'collection_http_options' => array('get'),
+                'page_size'               => PHP_INT_MAX,
+                'page_size_param'		  => 'limit',
+                'resource_http_options'   => array('get'),
+                'route_name'              => 'api/camps/event_instances',
+                'identifier_name'		  => 'event_instance',
+                'collection_query_whitelist' => array(),
+            ),
+
+            'EcampApi\Resource\Period\EventInstance\ApiController' => array(
+                'listener'                => 'EcampApi\Resource\EventInstance\EventInstanceResourceListener',
+                'collection_http_options' => array('get'),
+                'page_size'               => PHP_INT_MAX,
+                'page_size_param'		  => 'limit',
+                'resource_http_options'   => array('get'),
+                'route_name'              => 'api/periods/event_instances',
+                'identifier_name'		  => 'event_instance',
+                'collection_query_whitelist' => array(),
+            ),
+
+            'EcampApi\Resource\Day\EventInstance\ApiController' => array(
+                'listener'                => 'EcampApi\Resource\EventInstance\EventInstanceResourceListener',
+                'collection_http_options' => array('get'),
+                'page_size'               => PHP_INT_MAX,
+                'page_size_param'		  => 'limit',
+                'resource_http_options'   => array('get'),
+                'route_name'              => 'api/days/event_instances',
+                'identifier_name'		  => 'event_instance',
+                'collection_query_whitelist' => array(),
+            ),
+
+            'EcampApi\Resource\EventInstance\ApiController' => array(
+                'listener'                => 'EcampApi\Resource\EventInstance\EventInstanceResourceListener',
+                'collection_http_options' => array('get'),
+                'page_size'               => PHP_INT_MAX,
+                'page_size_param'		  => 'limit',
+                'resource_http_options'   => array('get', 'put'),
+                'route_name'              => 'api/event_instances',
+                'identifier_name'		  => 'event_instance',
+                'collection_query_whitelist' => array(),
+            ),
+
+            /**
+             * Event Responsibles
+             */
+            'EcampApi\Resource\EventResp\ApiController' => array(
+                'listener'                => 'EcampApi\Resource\EventResp\EventRespResourceListener',
+                'collection_http_options' => array('get'),
+                'page_size'               => PHP_INT_MAX,
+                'page_size_param'		  => 'limit',
+                'resource_http_options'   => array('get'),
+                'route_name'              => 'api/event_resps',
+                'identifier_name'		  => 'event_resp',
+                'collection_query_whitelist' => array('event','collaboration', 'user'),
+            ),
+
+            'EcampApi\Resource\Event\EventResp\ApiController' => array(
+                'listener'                => 'EcampApi\Resource\EventResp\EventRespResourceListener',
+                'collection_http_options' => array('get'),
+                'page_size'               => PHP_INT_MAX,
+                'page_size_param'		  => 'limit',
+                'resource_http_options'   => array('get'),
+                'route_name'              => 'api/events/event_resps',
+                'identifier_name'		  => 'event_resp',
+                'collection_query_whitelist' => array(),
+            ),
+
+            'EcampApi\Resource\Collaboration\EventResp\ApiController' => array(
+                'listener'                => 'EcampApi\Resource\EventResp\EventRespResourceListener',
+                'collection_http_options' => array('get'),
+                'page_size'               => PHP_INT_MAX,
+                'page_size_param'		  => 'limit',
+                'resource_http_options'   => array('get'),
+                'route_name'              => 'api/collaborations/event_resps',
+                'identifier_name'		  => 'event_resp',
+                'collection_query_whitelist' => array(),
+            ),
+
+            'EcampApi\Resource\User\EventResp\ApiController' => array(
+                'listener'                => 'EcampApi\Resource\EventResp\EventRespResourceListener',
+                'collection_http_options' => array('get'),
+                'page_size'               => PHP_INT_MAX,
+                'page_size_param'		  => 'limit',
+                'resource_http_options'   => array('get'),
+                'route_name'              => 'api/users/event_resps',
+                'identifier_name'		  => 'event_resp',
+                'collection_query_whitelist' => array(),
+            ),
+
+            /**
+             * Period
+             */
+            'EcampApi\Resource\Period\ApiController' => array(
+                'listener'                => 'EcampApi\Resource\Period\PeriodResourceListener',
+                'collection_http_options' => array('get'),
+                'page_size'               => PHP_INT_MAX,
+                'page_size_param'		  => 'limit',
+                'resource_http_options'   => array('get'),
+                'route_name'              => 'api/periods',
+                'identifier_name'		  => 'period',
+                'collection_query_whitelist' => array('camp'),
+            ),
+
+            'EcampApi\Resource\Camp\Period\ApiController' => array(
+                'listener'                => 'EcampApi\Resource\Period\PeriodResourceListener',
+                'collection_http_options' => array('get'),
+                'page_size'               => PHP_INT_MAX,
+                'page_size_param'		  => 'limit',
+                'resource_http_options'   => array('get'),
+                'route_name'              => 'api/camps/periods',
+                'identifier_name'		  => 'period',
+                'collection_query_whitelist' => array(),
+            ),
+
+            /**
+             * Group
+             */
+            'EcampApi\Resource\Group\ApiController' => array(
+                'listener'                => 'EcampApi\Resource\Group\GroupResourceListener',
+                'collection_http_options' => array('get'),
+                'page_size'               => PHP_INT_MAX,
+                'page_size_param'		  => 'limit',
+                'resource_http_options'   => array('get', 'put'),
+                'route_name'              => 'api/groups',
+                'identifier_name'		  => 'group',
+                'collection_query_whitelist' => array(),
+            ),
+
+            'EcampApi\Resource\Group\Subgroup\ApiController' => array(
+                'listener'                => 'EcampApi\Resource\Group\GroupResourceListener',
+                'collection_http_options' => array('get'),
+                'page_size'               => PHP_INT_MAX,
+                'page_size_param'		  => 'limit',
+                'resource_http_options'   => array('get'),
+                'route_name'              => 'api/groups/subgroups',
+            ),
+
+            /**
+             * Membership
+             */
+            'EcampApi\Resource\Membership\ApiController' => array(
+                'listener'                => 'EcampApi\Resource\Membership\MembershipResourceListener',
+                'collection_http_options' => array('get'),
+                'page_size'               => PHP_INT_MAX,
+                'page_size_param'		  => 'limit',
+                'resource_http_options'   => array('get'),
+                'route_name'              => 'api/memberships',
+                'identifier_name'		  => 'membership',
+                'collection_query_whitelist' => array('user','group'),
+            ),
+
+            'EcampApi\Resource\User\Membership\ApiController' => array(
+                'listener'                => 'EcampApi\Resource\Membership\MembershipResourceListener',
+                'collection_http_options' => array('get'),
+                'page_size'               => PHP_INT_MAX,
+                'page_size_param'		  => 'limit',
+                'resource_http_options'   => array('get'),
+                'route_name'              => 'api/users/memberships',
+                'collection_query_whitelist' => array('group'),
+            ),
+
+            'EcampApi\Resource\Group\Membership\ApiController' => array(
+                'listener'                => 'EcampApi\Resource\Membership\MembershipResourceListener',
+                'collection_http_options' => array('get'),
+                'page_size'               => PHP_INT_MAX,
+                'page_size_param'		  => 'limit',
+                'resource_http_options'   => array('get'),
+                'route_name'              => 'api/groups/memberships',
+                'collection_query_whitelist' => array('user'),
+            ),
+
+            'EcampApi\Resource\Search\User\ApiController' => array(
+                'listener'                => 'EcampApi\Resource\Search\UserResourceListener',
+                'collection_http_options' => array('get'),
+                'page_size'               => PHP_INT_MAX,
+                'page_size_param'		  => 'limit',
+                'resource_http_options'   => array('get'),
+                'route_name'              => 'api/search/user',
+                'collection_query_whitelist' => array('search'),
+            ),
+
+        ),
 
     ),
 

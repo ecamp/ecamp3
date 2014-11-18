@@ -1,53 +1,112 @@
-<script src="/ecamp-web/js/Plugin.js"></script>
-<script src="/ecamp-web/js/Plugin/Itemized.js"></script>
+<div sortable
+     remote-list-resource="{{ url('plugin/storyboard/api', { 'eventPluginId': eventPlugin.id }) }}"
+>
+    <div class="row">
+        <div class="col-sm-3 col-md-2" style="padding-left: 20px;">
+            <b>Duration</b>
+        </div>
+        <div class="col-sm-6 col-md-7">
+            <b>Text</b>
+        </div>
+        <div class="col-sm-3">
+            <b>Info</b>
 
-<div>
-	<div class="row">
-		<div class="col-sm-3 col-md-2" style="padding-left: 20px;">
-			<b>Duration</b>
-		</div>
-		<div class="col-sm-6 col-md-7">
-			<b>Text</b>
-		</div>
-		<div class="col-sm-3">
-			<b>Info</b>
-			{#
-		</div>
-		<div class="col-sm-2" style="padding-right: 20px;">
-			<b>Option</b>
-			#}
-			<div class="pull-right">
-				<a
-					href="{{ url('plugin/storyboard/default', { 'eventPluginId': eventPlugin.id, 'action': 'create' }) }}"
-					class="createItem btn btn-xs btn-default">
-					<i class="fa fa-plus"></i>
-				</a>
-			</div>
-		</div>
-		<div class="col-xs-12">
-			<div style="border-bottom: 1px #ddd solid; margin: 2px 0px 0px 0px;" ></div>
-		</div>
-	</div>
+            <div class="pull-right">
+                {#
+                <a
+                        href="{{ url('plugin/storyboard/default', { 'eventPluginId': eventPlugin.id, 'action': 'create' }) }}"
+                        class="createItem btn btn-xs btn-default">
+                    <i class="fa fa-plus"></i>
+                </a>
+                #}
+            </div>
+        </div>
+        <div class="col-xs-12">
+            <div style="border-bottom: 1px #ddd solid; margin: 2px 0px 0px 0px;" ></div>
+        </div>
+    </div>
 
-	<ul style="list-style: none; padding: 0px;" class="items list-striped">
-		{% for item in sections %}
-			{% include 'ecamp-storyboard/section' %}
-		{% endfor %}
-	</ul>
+    <ul ng-repeat="section in ListItems"
+        remote-resource="section"
+        style="list-style: none; padding: 0px;"
+        class="items list-striped"
+    >
+        <li class="item">
+            <div class="row">
+                <div class="col-xs-12">
+                    <div style="border-bottom: 1px #ddd solid; margin: 0px 0px 5px 0px" ></div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-3 col-md-2" style="padding-left: 20px;">
+                    <div style="text-align: center" ng-show="!IsEditing" ng-click="Edit()">
+                        <span ng-bind="Resource.duration / 60 | floor"></span><small>h</small>
+                        <sup><small ng-bind="Resource.duration % 60"></small></sup>
+                    </div>
+                    <div ng-show="IsEditing">
+                        <input type="number" ng-model="EditData.duration" class="form-control" />
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-7">
+                    <pre ng-show="!IsEditing" ng-bind="Resource.text" ng-click="Edit()"></pre>
+                    <textarea autosize ng-show="IsEditing" ng-model="EditData.text" class="form-control"></textarea>
+                </div>
+                <div class="col-sm-3">
+                    <pre ng-show="!IsEditing" ng-bind="Resource.info" ng-click="Edit()"></pre>
+                    <textarea autosize ng-show="IsEditing" ng-model="EditData.info" class="form-control"></textarea>
+
+                    <div style="text-align: right">
+                        <div ng-show="!IsEditing" class="btn-group" style="text-align: left">
+                            <a href="#" class="btn btn-xs btn-default" ng-click="Edit()">Edit</a>
+                            <button type="button" class="btn btn-xs btn-default dropdown-toggle" data-toggle="dropdown">
+                                <span class="caret"></span>
+                                <span class="sr-only">Toggle Dropdown</span>
+                            </button>
+                            <ul class="dropdown-menu pull-right" role="menu">
+                                <li>
+                                    <a>
+                                        <i class="fa fa-arrow-circle-o-up"></i> Move up
+                                    </a>
+                                </li>
+                                <li>
+                                    <a   >
+                                        <i class="fa fa-arrow-circle-o-down"></i> Move down
+                                    </a>
+                                </li>
+                                <li class="divider"></li>
+                                <li>
+                                    <a 	 >
+                                        <i class="fa fa-trash-o"></i> Delete
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div ng-show="IsEditing" class="btn-group" style="text-align: left">
+                            <button class="btn btn-xs btn-success" ng-click="Save()">Save</button>
+                            <button class="btn btn-xs btn-danger" ng-click="Cancel()">Cancel</button>
+                        </div>
+                    {#
+                        {% include 'plugin/item-actions' with {'pluginName':'storyboard', 'movable':true } %}
+                    #}
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-12">
+                    <div style="margin: 5px 0px 0px 0px" ></div>
+                </div>
+            </div>
+        </li>
+    </ul>
+
+    {#
+    <ul style="list-style: none; padding: 0px;" class="items list-striped">
+        {% for item in sections %}
+            {% include 'ecamp-storyboard/section' %}
+        {% endfor %}
+    </ul>
+    #}
 </div>
-
-<script type="text/javascript">
-
-	$(function(){
-		var plugin = new Ecamp.Web.Plugin.Itemized({
-			eventPluginId : '{{eventPlugin.id}}',
-			showNewForm   : false,
-			movableItems  : true
-		});
-
-		//plugin.eventPluginElm.find('select.selectpicker').selectpicker();
-
-
-	});
-
-</script>

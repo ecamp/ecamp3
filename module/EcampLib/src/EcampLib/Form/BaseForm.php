@@ -20,4 +20,9 @@ class BaseForm extends Form
         }
     }
 
+    public function getAction()
+    {
+        return $this->getAttribute('action');
+    }
+
 }
