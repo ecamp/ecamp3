@@ -17,7 +17,7 @@ class PluginRenderer
     /**
      * @param  PluginInstance            $pluginInstance
      * @param  Medium                    $medium
-     * @return Zend\View\Model\ViewModel
+     * @return \Zend\View\Model\ViewModel
      */
     public function render(PluginInstance $pluginInstance, Medium $medium = null)
     {

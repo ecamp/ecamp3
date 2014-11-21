@@ -1,5 +1,6 @@
-<div sortable
-     remote-list-resource="{{ url('plugin/storyboard/api', { 'eventPluginId': eventPlugin.id }) }}"
+<div
+    remote-list-resource="{{ url('plugin/storyboard/api', { 'eventPluginId': eventPlugin.id }) }}"
+    ng-model="Sections"
 >
     <div class="row">
         <div class="col-sm-3 col-md-2" style="padding-left: 20px;">
@@ -26,80 +27,163 @@
         </div>
     </div>
 
-    <ul ng-repeat="section in ListItems"
-        remote-resource="section"
+    <ul class="items list-striped"
         style="list-style: none; padding: 0px;"
-        class="items list-striped"
     >
-        <li class="item">
-            <div class="row">
-                <div class="col-xs-12">
-                    <div style="border-bottom: 1px #ddd solid; margin: 0px 0px 5px 0px" ></div>
-                </div>
-            </div>
+        <li ng-repeat="item in Sections.Items" class="item">
+            <form remote-resource="item" ng-model="section" name="form">
 
-            <div class="row">
-                <div class="col-sm-3 col-md-2" style="padding-left: 20px;">
-                    <div style="text-align: center" ng-show="!IsEditing" ng-click="Edit()">
-                        <span ng-bind="Resource.duration / 60 | floor"></span><small>h</small>
-                        <sup><small ng-bind="Resource.duration % 60"></small></sup>
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div style="border-bottom: 1px #ddd solid; margin: 0px 0px 5px 0px" ></div>
                     </div>
-                    <div ng-show="IsEditing">
-                        <input type="number" ng-model="EditData.duration" class="form-control" />
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-3 col-md-2" style="padding-left: 20px;">
+                        <div style="text-align: center" ng-show="!section.IsEditing" ng-click="section.Edit()">
+                            <span ng-bind="section.Resource.duration / 60 | floor"></span><small>h</small>
+                            <sup><small ng-bind="section.Resource.duration % 60"></small></sup>
+                        </div>
+                        {#
+                        <div ng-show="IsEditing">
+                            <input duration-min type="string" ng-model="EditData.duration" class="form-control" required />
+                        </div>
+                        #}
+
+                        <div class="form-group has-feedback" ng-class="{ 'has-success': form.duration.$valid, 'has-error': form.duration.$invalid }" ng-show="section.IsEditing">
+                            <label class="control-label sr-only">Duration</label>
+                            <input duration-min name="duration" type="string" ng-model="section.EditData.duration" class="form-control" required ng-pattern="/[0-9]*\:[0-9]{1,2}/" />
+
+                            <span ng-class="{ 'glyphicon-ok': form.duration.$valid, 'glyphicon-remove': form.duration.$invalid }"
+                                  class="glyphicon form-control-feedback"
+                                  aria-hidden="true"
+                            ></span>
+
+                            <div ng-show="form.duration.$error.required" class="help-block">Value is required.</div>
+                            <div ng-show="form.duration.$error.pattern" class="help-block">Pattern invalid.</div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-7">
+                        <pre ng-show="!section.IsEditing" ng-bind="section.Resource.text" ng-click="section.Edit()"
+                             style="font-family: inherit; background: inherit; border: inherit; padding: 0" ></pre>
+
+                        <div class="form-group has-feedback" ng-class="{ 'has-success': form.text.$valid, 'has-error': form.text.$invalid }" ng-show="section.IsEditing">
+                            <label class="control-label sr-only">Text</label>
+                            <textarea autosize name="text" type="text" ng-model="section.EditData.text" required class="form-control"></textarea>
+
+                            <span ng-class="{ 'glyphicon-ok': form.text.$valid, 'glyphicon-remove': form.text.$invalid }"
+                                  class="glyphicon form-control-feedback"
+                                  aria-hidden="true"
+                            ></span>
+
+                            <div ng-show="form.text.$error.required" class="help-block">Value is required.</div>
+                        </div>
+
+                    </div>
+                    <div class="col-sm-3">
+                        <pre ng-show="!section.IsEditing" ng-bind="section.Resource.info" ng-click="section.Edit()"
+                             style="font-family: inherit; background: inherit; border: inherit; padding: 0"></pre>
+                        <textarea autosize ng-show="section.IsEditing" ng-model="section.EditData.info" class="form-control"></textarea>
+
+                        <div style="text-align: right">
+                            <div ng-show="!section.IsEditing" class="btn-group" style="text-align: left">
+                                <a class="btn btn-xs btn-default" ng-click="section.Edit()">Edit</a>
+                                <button type="button" class="btn btn-xs btn-default dropdown-toggle" data-toggle="dropdown">
+                                    <span class="caret"></span>
+                                    <span class="sr-only">Toggle Dropdown</span>
+                                </button>
+                                <ul class="dropdown-menu pull-right" role="menu">
+                                    <li>
+                                        <a>
+                                            <i class="fa fa-arrow-circle-o-up"></i> Move up
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a   >
+                                            <i class="fa fa-arrow-circle-o-down"></i> Move down
+                                        </a>
+                                    </li>
+                                    <li class="divider"></li>
+                                    <li>
+                                        <a ng-click="section.Delete()">
+                                            <i class="fa fa-trash-o"></i> Delete
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div ng-show="section.IsEditing" class="btn-group" style="text-align: left">
+                                <button class="btn btn-xs btn-success" ng-click="section.Save()">Save</button>
+                                <button class="btn btn-xs btn-danger" ng-click="section.Cancel()">Cancel</button>
+                            </div>
+                        {#
+                            {% include 'plugin/item-actions' with {'pluginName':'storyboard', 'movable':true } %}
+                        #}
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div style="margin: 5px 0px 0px 0px" ></div>
+                    </div>
+                </div>
+
+            </form>
+        </li>
+
+        <form create-form="{{ url('plugin/storyboard/api', { 'eventPluginId': eventPlugin.id }) }}" ng-model="section" name="form">
+            <div class="row" ng-show="showCreate">
+                <div class="col-sm-3 col-md-2" style="padding-left: 20px;">
+
+                    <div class="form-group has-feedback" ng-class="{ 'has-success': form.duration.$valid, 'has-error': form.duration.$invalid }">
+                        <label class="control-label sr-only">Duration</label>
+                        <input duration-min name="duration" type="string" ng-model="section.CreateData.duration" class="form-control" required ng-pattern="/[0-9]*\:[0-9]{1,2}/" />
+
+                        <span ng-class="{ 'glyphicon-ok': form.duration.$valid, 'glyphicon-remove': form.duration.$invalid }"
+                              class="glyphicon form-control-feedback"
+                              aria-hidden="true"
+                        ></span>
+
+                        <div ng-show="form.duration.$error.required" class="help-block">Value is required.</div>
+                        <div ng-show="form.duration.$error.pattern" class="help-block">Pattern invalid.</div>
                     </div>
                 </div>
                 <div class="col-sm-6 col-md-7">
-                    <pre ng-show="!IsEditing" ng-bind="Resource.text" ng-click="Edit()"></pre>
-                    <textarea autosize ng-show="IsEditing" ng-model="EditData.text" class="form-control"></textarea>
+                    <div class="form-group has-feedback" ng-class="{ 'has-success': form.text.$valid, 'has-error': form.text.$invalid }">
+                        <label class="control-label sr-only">Text</label>
+                        <textarea autosize name="text" type="text" ng-model="section.CreateData.text" required class="form-control"></textarea>
+
+                        <span ng-class="{ 'glyphicon-ok': form.text.$valid, 'glyphicon-remove': form.text.$invalid }"
+                              class="glyphicon form-control-feedback"
+                              aria-hidden="true"
+                        ></span>
+
+                        <div ng-show="form.text.$error.required" class="help-block">Value is required.</div>
+                    </div>
+
                 </div>
                 <div class="col-sm-3">
-                    <pre ng-show="!IsEditing" ng-bind="Resource.info" ng-click="Edit()"></pre>
-                    <textarea autosize ng-show="IsEditing" ng-model="EditData.info" class="form-control"></textarea>
+                    <textarea autosize ng-model="section.CreateData.info" class="form-control"></textarea>
 
                     <div style="text-align: right">
-                        <div ng-show="!IsEditing" class="btn-group" style="text-align: left">
-                            <a href="#" class="btn btn-xs btn-default" ng-click="Edit()">Edit</a>
-                            <button type="button" class="btn btn-xs btn-default dropdown-toggle" data-toggle="dropdown">
-                                <span class="caret"></span>
-                                <span class="sr-only">Toggle Dropdown</span>
-                            </button>
-                            <ul class="dropdown-menu pull-right" role="menu">
-                                <li>
-                                    <a>
-                                        <i class="fa fa-arrow-circle-o-up"></i> Move up
-                                    </a>
-                                </li>
-                                <li>
-                                    <a   >
-                                        <i class="fa fa-arrow-circle-o-down"></i> Move down
-                                    </a>
-                                </li>
-                                <li class="divider"></li>
-                                <li>
-                                    <a 	 >
-                                        <i class="fa fa-trash-o"></i> Delete
-                                    </a>
-                                </li>
-                            </ul>
+                        <div class="btn-group" style="text-align: left">
+                            <button class="btn btn-xs btn-success" ng-click="section.Create(); showCreate=false">Create</button>
+                            <button class="btn btn-xs btn-danger" ng-click="section.Cancel(); showCreate=false">Cancel</button>
                         </div>
-                        <div ng-show="IsEditing" class="btn-group" style="text-align: left">
-                            <button class="btn btn-xs btn-success" ng-click="Save()">Save</button>
-                            <button class="btn btn-xs btn-danger" ng-click="Cancel()">Cancel</button>
-                        </div>
-                    {#
-                        {% include 'plugin/item-actions' with {'pluginName':'storyboard', 'movable':true } %}
-                    #}
                     </div>
 
                 </div>
             </div>
-
-            <div class="row">
-                <div class="col-xs-12">
-                    <div style="margin: 5px 0px 0px 0px" ></div>
+        </form>
+        <div class="row" ng-show="!showCreate">
+            <div class="col-xs-12">
+                <div style="text-align: right">
+                    <a class="btn tbn-xs btn-success" ng-click="showCreate = true">Create section</a>
                 </div>
             </div>
-        </li>
+        </div>
     </ul>
 
     {#

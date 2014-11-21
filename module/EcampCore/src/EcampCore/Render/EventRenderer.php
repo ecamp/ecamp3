@@ -27,9 +27,9 @@ class EventRenderer
     }
 
     /**
-     * @param  EcampCore\Entity\Event    $event
-     * @param  EcampCore\Entity\Medium   $medium
-     * @return Zend\View\Model\ViewModel
+     * @param  \EcampCore\Entity\Event    $event
+     * @param  \EcampCore\Entity\Medium   $medium
+     * @return \Zend\View\Model\ViewModel
      */
     public function render(Event $event, Medium $medium = null)
     {
@@ -64,7 +64,7 @@ class EventRenderer
     /**
      * @param  EventPrototype                 $eventPrototype
      * @param  Medium                         $medium
-     * @return EcampCore\Entity\EventTemplate
+     * @return \EcampCore\Entity\EventTemplate
      */
     private function getEventTemplate(EventPrototype $eventPrototype, Medium $medium)
     {

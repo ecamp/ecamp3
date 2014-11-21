@@ -10,27 +10,6 @@
 
                  {% include 'ecamp-web/event-templates/base/print.twig' %}
 
-                {#
-                <div class="btn-group addPluginDropdown">
-                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                        Add Plugin <span class="caret"></span>
-                    </button>
-
-
-                    <ul class="dropdown-menu pull-right" role="menu" style="width: 300px">
-                        {% for eventTemplateContainer in eventTemplate.eventTemplateContainers %}
-                            {% set eventTypePlugin = eventTemplateContainer.eventTypePlugin %}
-                            <li class="{{ eventTypePlugin.getCountPluginInstances(event) >= eventTypePlugin.maxNumberPluginInstances ? 'disabled' : '' }}">
-                                <a href="#{{ eventTemplateContainer.id }}">
-                                    {{ eventTypePlugin.plugin.name }}
-                                    <div class="pull-right eventPluginCountInfo"></div>
-                                </a>
-                            </li>
-
-                        {% endfor %}
-                    </ul>
-                </div>
-                #}
 
                 <div class="btn-group">
                     <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
@@ -42,7 +21,7 @@
                         <li ng-repeat="plugin in plugins"
                             ng-class="{'disabled': plugin.CountEventPlugin >= plugin.MaxEventPlugin}"
                         >
-                            <a href="#" ng-click="plugin.Create()">
+                            <a ng-click="plugin.Create()">
                                 <span ng-bind="plugin.Name"></span>
 
                                 <div class="pull-right eventPluginCountInfo">

@@ -8,13 +8,15 @@
         return {
             restrict: 'EA',
             scope: false,
+            require: ['remoteListResource', '?ngModel'],
 
             controller: ['$scope', 'halClient', function($scope, halClient){
 
-                var _sortable = false;
                 var _endpoint = null;
-                var _listResource = null;
-                var _listItems = [];
+                var _resource = null;
+                var _items = [];
+                var _sortable = false;
+
 
                 function SetSortable(sortable){
                     _sortable = sortable;
@@ -30,59 +32,77 @@
                     }
                 }
 
-                function SetListResource(listResource){
-                    _listResource = listResource;
+                function SetListResource(resource){
+                    _resource = resource;
 
-                    if(_listResource){
-                        _listResource.$get('items').then(SetListItems, ClearListItems);
+                    if(_resource){
+                        _resource.$get('items').then(SetListItems, ClearListItems);
                     } else {
                         ClearListItems();
                     }
                 }
 
-
-                function SetListItems(listItems){
-                    _listItems = listItems;
+                function ClearResource(){
+                    _resource = null;
                 }
 
-                function ClearResource(){
-                    _listResource = null;
+
+                function SetListItems(items){
+                    _items = items;
                 }
 
                 function ClearListItems(){
-                    _listItems = [];
+                    _items = [];
+                }
+
+
+                function AddListItem(listItem){
+                    _items.push(listItem);
                 }
 
                 function RemoveListItem(listItem){
-                    var idx = _listItems.indexOf(listItem);
+                    var idx = _items.indexOf(listItem);
                     if(idx > -1){
-                        _listItems.splice(idx, 1);
+                        _items.splice(idx, 1);
                     }
                 }
 
+
+                function ListResource(){
+                    Object.defineProperty(this, 'Endpoint', { get: function(){ return _endpoint; } });
+                    Object.defineProperty(this, 'Resource', { get: function(){ return _resource; } });
+                    Object.defineProperty(this, 'Items', { get: function(){ return _items; } });
+                    Object.defineProperty(this, 'Sortable', { get: function(){ return _sortable; } });
+                }
+
+
+                Object.defineProperty(this, 'ListResource', { value: new ListResource() });
 
                 Object.defineProperty(this, 'SetSortable', { value: SetSortable });
                 Object.defineProperty(this, 'SetEndpoint', { value: SetEndpoint });
                 Object.defineProperty(this, 'SetListResource', { value: SetListResource });
 
-                Object.defineProperty($scope, 'Sortable', { get: function(){ return _sortable; } });
-                Object.defineProperty($scope, 'Endpoint', { get: function(){ return _endpoint; } });
-                Object.defineProperty($scope, 'ListResource', { get: function(){ return _listResource; } });
-                Object.defineProperty($scope, 'ListItems', { get: function(){ return _listItems; } });
-                Object.defineProperty($scope, 'RemoveListItem', { value: RemoveListItem });
-
+                Object.defineProperty(this, 'AddListItem', { value: AddListItem });
+                Object.defineProperty(this, 'RemoveListItem', { value: RemoveListItem });
             }],
 
-            link: function($scope, $element, $attrs, $ctrl){
+            link: function($scope, $element, $attrs, $ctrls){
+                var $resource = $ctrls[0];
+                var $ngModel = $ctrls[1];
+
+                if($ngModel){
+                    $ngModel.$setViewValue($resource.ListResource);
+                }
+
                 if("sortable" in $attrs) {
-                    $ctrl.SetSortable($attrs.sortable == "" || $attrs.sortable);
+                    $resource.SetSortable($attrs.sortable == "" || $attrs.sortable);
                 }
 
                 var listResource = $attrs.remoteListResource;
                 if(listResource in $scope){
-                    $ctrl.SetListResource($scope[listResource]);
+                    $resource.SetListResource($scope[listResource]);
                 } else {
-                    $ctrl.SetEndpoint(listResource);
+                    $resource.SetEndpoint(listResource);
                 }
             }
         };
@@ -93,12 +113,24 @@
         return {
             restrict: 'EA',
             scope: false,
+            require: ['remoteResource', '?ngModel'],
 
             controller: ['$scope', 'halClient', function($scope, halClient){
 
+                var _form = null;
+                var _owner = null;
                 var _endpoint = null;
                 var _resource = null;
-                var _editData = null;
+                var _editdata = null;
+
+
+                function SetForm(form){
+                    _form = form;
+                }
+
+                function SetOwner(owner){
+                    _owner = (typeof(owner) === "object") ? owner : null;
+                }
 
                 function SetEndpoint(endpoint){
                     _endpoint = endpoint;
@@ -112,89 +144,191 @@
 
                 function SetResource(resource){
                     _resource = resource;
-                    _editData = null;
+                    _editdata = null;
                 }
 
                 function ClearResource(){
                     _resource = null;
                 }
 
-
                 function Delete(){
-                    _resource.$del('self', null).then(Deleted);
+                    if(_resource) {
+                        _resource.$del('self', null).then(Deleted);
+                    }
                 }
 
                 function Deleted(){
-                    if(typeof($scope.RemoveListItem) === "function"){
-                        $scope.RemoveListItem(_resource);
+                    if(_owner != null){
+                        _owner.RemoveListItem(_resource);
                     }
 
                     _endpoint = null;
                     _resource = null;
-                    _editData = null;
+                    _editdata = null;
                 }
 
                 function Edit(){
-                    _editData = {};
+                    _editdata = {};
 
                     for(var attr in _resource){
-                        _editData[attr] = _resource[attr];
+                        _editdata[attr] = _resource[attr];
                     }
                 }
 
                 function Cancel(){
-                    _editData = null;
+                    _editdata = null;
                 }
 
                 function Save(){
-                    _resource.$put('self', null, _editData).then(SetResource);
+                    var doSave = true;
+
+                    if(_form != null){
+                        doSave = _form.is('.ng-valid');
+                    }
+
+                    if(doSave) {
+                        _resource.$put('self', null, _editdata).then(SetResource);
+                    }
                 }
 
                 function IsEditing(){
-                    return _editData != null;
+                    return _editdata != null;
                 }
 
 
+                function Resource(){
+                    Object.defineProperty(this, 'Endpoint', { get: function(){ return _endpoint; } });
+                    Object.defineProperty(this, 'Resource', { get: function(){ return _resource; } });
+                    Object.defineProperty(this, 'EditData', { get: function(){ return _editdata; } });
+
+
+                    Object.defineProperty(this, 'Delete', { value: Delete });
+                    Object.defineProperty(this, 'Edit', { value: Edit });
+                    Object.defineProperty(this, 'Cancel', { value: Cancel });
+                    Object.defineProperty(this, 'Save', { value: Save });
+                    Object.defineProperty(this, 'IsEditing', { get: IsEditing });
+                }
+
+
+                Object.defineProperty(this, 'Resource', { value: new Resource() });
+
+                Object.defineProperty(this, 'SetForm', { value: SetForm });
+                Object.defineProperty(this, 'SetOwner', { value: SetOwner });
                 Object.defineProperty(this, 'SetEndpoint', { value: SetEndpoint });
                 Object.defineProperty(this, 'SetResource', { value: SetResource });
-
-                Object.defineProperty($scope, 'Endpoint', { get: function(){ return _endpoint; } });
-                Object.defineProperty($scope, 'Resource', { get: function(){ return _resource; } });
-                Object.defineProperty($scope, 'EditData', { get: function(){ return _editData; } });
-
-                Object.defineProperty($scope, 'Delete', { value: Delete });
-                Object.defineProperty($scope, 'Edit', { value: Edit });
-                Object.defineProperty($scope, 'Cancel', { value: Cancel });
-                Object.defineProperty($scope, 'Save', { value: Save });
-                Object.defineProperty($scope, 'IsEditing', { get: IsEditing });
             }],
 
-            link: function($scope, $element, $attrs, $ctrl){
+            link: function($scope, $element, $attrs, $ctrls){
+                var $resource = $ctrls[0];
+                var $ngModel = $ctrls[1];
+
+                if($ngModel){
+                    $ngModel.$setViewValue($resource.Resource);
+                }
+
+                $resource.SetOwner($element.controller('remoteListResource'));
+
+                if($element.is('form')){
+                    $resource.SetForm($element);
+                }
 
                 var resource = $attrs.remoteResource;
                 if(resource in $scope){
-                    $ctrl.SetResource($scope[resource]);
+                    $resource.SetResource($scope[resource]);
                 } else {
-                    $ctrl.SetEndpoint(resource);
+                    $resource.SetEndpoint(resource);
                 }
             }
         };
     }]);
+
+
 
 
     ngApp.directive('createForm', [function(){
         return {
             restrict: 'EA',
-            require: '^remoteListResource',
-            scope: {
-                id: "="
-            },
+            scope: false,
+            require: ['createForm', '?ngModel'],
 
-            link: function($scope, $element, $attrs, $ctrl){
+            controller: ['$scope', 'halClient', function($scope, halClient){
 
+                var _form = null;
+                var _owner = null;
+                var _endpoint = null;
+                var _createData = {};
+
+                function SetForm(form){
+                    _form = form;
+                }
+
+                function SetOwner(owner){
+                    _owner = owner;
+                }
+
+                function SetEndpoint(endpoint){
+                    _endpoint = endpoint;
+                }
+
+                function Cancel(){
+                    _createData = {};
+                }
+
+                function Create(){
+                    var doSave = true;
+
+                    if(_form != null){
+                        doSave = _form.is('.ng-valid');
+                    }
+
+                    if(doSave) {
+                        halClient.$post(_endpoint, null, _createData).then(Created);
+                    }
+                }
+
+                function Created(resource){
+                    if(_owner != null){
+                        _owner.AddListItem(resource);
+                    }
+
+                    _createData = {};
+                }
+
+
+                function Form(){
+                    Object.defineProperty(this, 'CreateData', { get: function(){ return _createData; } });
+
+                    Object.defineProperty(this, 'Cancel', { value: Cancel });
+                    Object.defineProperty(this, 'Create', { value: Create });
+                }
+
+                Object.defineProperty(this, 'Form', { value: new Form() });
+
+                Object.defineProperty(this, 'SetForm', { value: SetForm });
+                Object.defineProperty(this, 'SetOwner', { value: SetOwner });
+                Object.defineProperty(this, 'SetEndpoint', { value: SetEndpoint });
+
+            }],
+
+            link: function($scope, $element, $attrs, $ctrls){
+                var $createForm = $ctrls[0];
+                var $ngModel = $ctrls[1];
+
+                if($ngModel){
+                    $ngModel.$setViewValue($createForm.Form);
+                }
+
+                $createForm.SetEndpoint($attrs.createForm);
+                $createForm.SetOwner($element.controller('remoteListResource'));
+
+                if($element.is('form')){
+                    $createForm.SetForm($element);
+                }
             }
 
         };
     }]);
+
+
 
 }(window.ecamp.ngApp));
