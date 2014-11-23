@@ -50,10 +50,17 @@ class SectionResourceListener extends AbstractListenerAggregate
 
         $data = $e->getParam('data');
 
+        $q = $this->sectionRepo->createQueryBuilder('s');
+        $q->select('max(s.position)');
+        $q->where('s.eventPlugin = :eventPluginId');
+        $q->setParameter('eventPluginId', $eventPluginId);
+        $maxPos = $q->getQuery()->getSingleScalarResult();
+
         $section = new Section($eventPlugin);
         $section->setDurationInMinutes($data->duration);
         $section->setText($data->text);
         $section->setInfo($data->info);
+        $section->setPosition($maxPos + 1);
 
         $this->em->persist($section);
 
@@ -78,6 +85,7 @@ class SectionResourceListener extends AbstractListenerAggregate
 
         $q = $this->sectionRepo->createQueryBuilder('s');
         $q->where('s.eventPlugin = :eventPluginId');
+        $q->orderBy('s.position', 'ASC');
         $q->setParameter('eventPluginId', $eventPluginId);
 
         return new Paginator(new PaginatorAdapter(new ORMPaginator($q->getQuery())));
@@ -90,9 +98,21 @@ class SectionResourceListener extends AbstractListenerAggregate
 
         $entity = $this->sectionRepo->find($id);
 
-        $entity->setDurationInMinutes($data->duration);
-        $entity->setText($data->text);
-        $entity->setInfo($data->info);
+        if(isset($data->duration)) {
+            $entity->setDurationInMinutes($data->duration);
+        }
+
+        if(isset($data->text)) {
+            $entity->setText($data->text);
+        }
+
+        if(isset($data->info)) {
+            $entity->setInfo($data->info);
+        }
+
+        if(isset($data->position)) {
+            $entity->setPosition($data->position);
+        }
 
         return new SectionResource($entity);
     }

@@ -1,7 +1,9 @@
 <div
-    remote-list-resource="{{ url('plugin/storyboard/api', { 'eventPluginId': eventPlugin.id }) }}"
-    ng-model="Sections"
+    remote-collection="{{ url('plugin/storyboard/api', { 'eventPluginId': eventPlugin.id }) }}"
+    resource-name="Sections"
+    sortable="position"
 >
+
     <div class="row">
         <div class="col-sm-3 col-md-2" style="padding-left: 20px;">
             <b>Duration</b>
@@ -31,7 +33,7 @@
         style="list-style: none; padding: 0px;"
     >
         <li ng-repeat="item in Sections.Items" class="item">
-            <form remote-resource="item" ng-model="section" name="form">
+            <form remote-resource="item" resource-name="section" name="form" ng-keydown="section.KeyHandler($event)">
 
                 <div class="row">
                     <div class="col-xs-12">
@@ -41,17 +43,13 @@
 
                 <div class="row">
                     <div class="col-sm-3 col-md-2" style="padding-left: 20px;">
-                        <div style="text-align: center" ng-show="!section.IsEditing" ng-click="section.Edit()">
-                            <span ng-bind="section.Resource.duration / 60 | floor"></span><small>h</small>
-                            <sup><small ng-bind="section.Resource.duration % 60"></small></sup>
-                        </div>
-                        {#
-                        <div ng-show="IsEditing">
-                            <input duration-min type="string" ng-model="EditData.duration" class="form-control" required />
-                        </div>
-                        #}
 
-                        <div class="form-group has-feedback" ng-class="{ 'has-success': form.duration.$valid, 'has-error': form.duration.$invalid }" ng-show="section.IsEditing">
+                        <div style="text-align: center" ng-show="!section.IsEditing()" ng-click="section.Edit()">
+                            <span ng-bind="section.HalResource.duration / 60 | floor"></span><small>h</small>
+                            <sup><small ng-bind="section.HalResource.duration % 60"></small></sup>
+                        </div>
+
+                        <div class="form-group has-feedback" ng-class="{ 'has-success': form.duration.$valid, 'has-error': form.duration.$invalid }" ng-show="section.IsEditing()">
                             <label class="control-label sr-only">Duration</label>
                             <input duration-min name="duration" type="string" ng-model="section.EditData.duration" class="form-control" required ng-pattern="/[0-9]*\:[0-9]{1,2}/" />
 
@@ -65,10 +63,10 @@
                         </div>
                     </div>
                     <div class="col-sm-6 col-md-7">
-                        <pre ng-show="!section.IsEditing" ng-bind="section.Resource.text" ng-click="section.Edit()"
+                        <pre ng-show="!section.IsEditing()" ng-bind="section.HalResource.text" ng-click="section.Edit()"
                              style="font-family: inherit; background: inherit; border: inherit; padding: 0" ></pre>
 
-                        <div class="form-group has-feedback" ng-class="{ 'has-success': form.text.$valid, 'has-error': form.text.$invalid }" ng-show="section.IsEditing">
+                        <div class="form-group has-feedback" ng-class="{ 'has-success': form.text.$valid, 'has-error': form.text.$invalid }" ng-show="section.IsEditing()">
                             <label class="control-label sr-only">Text</label>
                             <textarea autosize name="text" type="text" ng-model="section.EditData.text" required class="form-control"></textarea>
 
@@ -82,37 +80,37 @@
 
                     </div>
                     <div class="col-sm-3">
-                        <pre ng-show="!section.IsEditing" ng-bind="section.Resource.info" ng-click="section.Edit()"
+                        <pre ng-show="!section.IsEditing()" ng-bind="section.HalResource.info" ng-click="section.Edit()"
                              style="font-family: inherit; background: inherit; border: inherit; padding: 0"></pre>
-                        <textarea autosize ng-show="section.IsEditing" ng-model="section.EditData.info" class="form-control"></textarea>
+                        <textarea autosize ng-show="section.IsEditing()" ng-model="section.EditData.info" class="form-control"></textarea>
 
                         <div style="text-align: right">
-                            <div ng-show="!section.IsEditing" class="btn-group" style="text-align: left">
-                                <a class="btn btn-xs btn-default" ng-click="section.Edit()">Edit</a>
+                            <div ng-show="!section.IsEditing()" class="btn-group" style="text-align: left">
+                                <button type="button" class="btn btn-xs btn-default" ng-click="section.Edit()">Edit</button>
                                 <button type="button" class="btn btn-xs btn-default dropdown-toggle" data-toggle="dropdown">
                                     <span class="caret"></span>
                                     <span class="sr-only">Toggle Dropdown</span>
                                 </button>
                                 <ul class="dropdown-menu pull-right" role="menu">
                                     <li>
-                                        <a>
+                                        <a ng-click="Sections.MoveUp(section)">
                                             <i class="fa fa-arrow-circle-o-up"></i> Move up
                                         </a>
                                     </li>
                                     <li>
-                                        <a   >
+                                        <a ng-click="Sections.MoveDown(section)">
                                             <i class="fa fa-arrow-circle-o-down"></i> Move down
                                         </a>
                                     </li>
                                     <li class="divider"></li>
                                     <li>
-                                        <a ng-click="section.Delete()">
+                                        <a ng-click="Sections.Delete(section)">
                                             <i class="fa fa-trash-o"></i> Delete
                                         </a>
                                     </li>
                                 </ul>
                             </div>
-                            <div ng-show="section.IsEditing" class="btn-group" style="text-align: left">
+                            <div ng-show="section.IsEditing()" class="btn-group" style="text-align: left">
                                 <button class="btn btn-xs btn-success" ng-click="section.Save()">Save</button>
                                 <button class="btn btn-xs btn-danger" ng-click="section.Cancel()">Cancel</button>
                             </div>
@@ -133,13 +131,17 @@
             </form>
         </li>
 
-        <form create-form="{{ url('plugin/storyboard/api', { 'eventPluginId': eventPlugin.id }) }}" ng-model="section" name="form">
-            <div class="row" ng-show="showCreate">
+        <form remote-create-resource="{{ url('plugin/storyboard/api', { 'eventPluginId': eventPlugin.id }) }}"
+              name="form"
+              resource-name="section"
+              ng-keydown="section.KeyHandler($event)"
+        >
+            <div class="row" ng-show="section.IsVisible()">
                 <div class="col-sm-3 col-md-2" style="padding-left: 20px;">
 
                     <div class="form-group has-feedback" ng-class="{ 'has-success': form.duration.$valid, 'has-error': form.duration.$invalid }">
                         <label class="control-label sr-only">Duration</label>
-                        <input duration-min name="duration" type="string" ng-model="section.CreateData.duration" class="form-control" required ng-pattern="/[0-9]*\:[0-9]{1,2}/" />
+                        <input duration-min name="duration" type="string" ng-model="section.Data.duration" class="form-control" required ng-pattern="/[0-9]*\:[0-9]{1,2}/" />
 
                         <span ng-class="{ 'glyphicon-ok': form.duration.$valid, 'glyphicon-remove': form.duration.$invalid }"
                               class="glyphicon form-control-feedback"
@@ -153,7 +155,7 @@
                 <div class="col-sm-6 col-md-7">
                     <div class="form-group has-feedback" ng-class="{ 'has-success': form.text.$valid, 'has-error': form.text.$invalid }">
                         <label class="control-label sr-only">Text</label>
-                        <textarea autosize name="text" type="text" ng-model="section.CreateData.text" required class="form-control"></textarea>
+                        <textarea autosize name="text" type="text" ng-model="section.Data.text" required class="form-control"></textarea>
 
                         <span ng-class="{ 'glyphicon-ok': form.text.$valid, 'glyphicon-remove': form.text.$invalid }"
                               class="glyphicon form-control-feedback"
@@ -165,22 +167,22 @@
 
                 </div>
                 <div class="col-sm-3">
-                    <textarea autosize ng-model="section.CreateData.info" class="form-control"></textarea>
+                    <textarea autosize ng-model="section.Data.info" class="form-control"></textarea>
 
                     <div style="text-align: right">
                         <div class="btn-group" style="text-align: left">
-                            <button class="btn btn-xs btn-success" ng-click="section.Create(); showCreate=false">Create</button>
-                            <button class="btn btn-xs btn-danger" ng-click="section.Cancel(); showCreate=false">Cancel</button>
+                            <button class="btn btn-xs btn-success" ng-click="Sections.Create(section);">Create</button>
+                            <button class="btn btn-xs btn-danger" ng-click="section.Cancel();">Cancel</button>
                         </div>
                     </div>
 
                 </div>
             </div>
         </form>
-        <div class="row" ng-show="!showCreate">
+        <div class="row" ng-show="!section.IsVisible()">
             <div class="col-xs-12">
                 <div style="text-align: right">
-                    <a class="btn tbn-xs btn-success" ng-click="showCreate = true">Create section</a>
+                    <a class="btn tbn-xs btn-success" ng-click="section.Show()">Create section</a>
                 </div>
             </div>
         </div>
