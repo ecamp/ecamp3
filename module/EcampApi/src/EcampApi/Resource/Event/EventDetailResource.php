@@ -24,15 +24,30 @@ class EventDetailResource extends HalResource
         $selfLink = new Link('self');
         $selfLink->setRoute('api/events', array('event' => $entity->getId()));
 
+        $webLink = new Link('web');
+        $webLink->setRoute(
+            'web/camp/default',
+            array(
+                'camp' => $entity->getCamp(),
+                'controller' => 'event',
+                'action' => 'index'
+            ),
+            array(
+                'query' => array( 'eventId' => $entity->getId())
+            )
+        );
+
         $eventInstanceLink = new Link('event_instances');
         $eventInstanceLink->setRoute('api/events/event_instances', array('event' => $entity->getId()));
 
         $eventRespLink = new Link('event_resps');
         $eventRespLink->setRoute('api/events/event_resps', array('event' => $entity->getId()));
 
-        $this->getLinks()->add($selfLink)
-                        ->add($eventInstanceLink)
-                        ->add($eventRespLink);
+        $this->getLinks()
+            ->add($selfLink)
+            ->add($webLink)
+            ->add($eventInstanceLink)
+            ->add($eventRespLink);
 
     }
 }

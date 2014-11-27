@@ -22,7 +22,19 @@ class EventBriefResource extends HalResource
         $selfLink = new Link('self');
         $selfLink->setRoute('api/events', array('event' => $entity->getId()));
 
-        $this->getLinks()->add($selfLink);
+        $webLink = new Link('web');
+        $webLink->setRoute('web/camp/default', array(
+            'camp' => $entity->getCamp(),
+            'controller' => 'event',
+            'action' => 'index'
+        ), array(
+            'query' => array( 'eventId' => $entity->getId())
+        ));
+
+        $this->getLinks()
+            ->add($selfLink)
+            ->add($webLink)
+        ;
 
     }
 }

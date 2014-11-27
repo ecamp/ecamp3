@@ -3,7 +3,7 @@
  */
 
 (function(ngApp){
-    ngApp.factory('PicassoEventInstance', ['$timeout', function($timeout) {
+    ngApp.factory('PicassoEventInstance', ['$timeout', '$window', function($timeout, $window) {
 
         var SortedDictionary = ecamp.core.util.SortedDictionary;
 

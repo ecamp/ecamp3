@@ -421,6 +421,7 @@
                 this.id = data.id;
                 this.title = data.title;
                 this.categoryId = data.categoryId;
+                this.web = data.$href('web');
 
                 Object.defineProperty(this, 'category', {
                     get: function(){ return _eventCategories.Get(this.categoryId); }.bind(this)
@@ -435,6 +436,7 @@
             function PicassoEventUpdate(picassoEvent, data){
                 picassoEvent.title = data.title;
                 picassoEvent.categoryId = data.categoryId;
+                picassoEvent.web = data.$href('web');
                 return picassoEvent;
             }
 
