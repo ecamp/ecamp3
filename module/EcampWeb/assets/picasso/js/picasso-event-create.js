@@ -43,8 +43,6 @@
                 Reset();
 
                 if(_picassoElement.eventInstances.is(event.target)){
-                    event.preventDefault();
-
                     var offset = _picassoElement.eventInstances.offset();
                     var left = event.pageX - offset.left;
                     var top = event.pageY - offset.top;
@@ -87,8 +85,6 @@
 
             function MouseUp(event){
                 if(_isCreating){
-                    event.preventDefault();
-
                     var start = Math.min(_click1, _click2);
                     var end = Math.max(_click1, _click2);
 

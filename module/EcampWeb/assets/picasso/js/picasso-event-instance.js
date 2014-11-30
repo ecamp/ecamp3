@@ -223,6 +223,8 @@
                     Object.defineProperty(this, 'Mouseleave', { value: Mouseleave });
                     Object.defineProperty(this, 'Class', { value: Class });
 
+                    Object.defineProperty(this, 'Click', { value: Click });
+
 
                     function Border(){
                         var isStart = this.IsStart();
@@ -307,6 +309,29 @@
 
                     function Class(){
                         return _userEventIsProcessing ? 'user-event' : '';
+                    }
+
+
+                    var _dblclickTimeout = null;
+
+                    function Click(event){
+                        /* Double-Click Timeout
+                         * Beim ersten clicken auf das Event wird dem Link nicht gefolgt (preventDefault)
+                         * und es wird ein Timeout gestartet. Wenn innerhalb dieses Timeouts erneut auf
+                         * das Event geclickt wird, wird dem Link normal gefolgt.
+                         *
+                         * Vorteil: Es funktionieren auch die Browser-Funktionen wie "neuen Tab bei Shift-Click"
+                         */
+                        if(_dblclickTimeout == null){
+                            _dblclickTimeout = $timeout(function(){
+                                _dblclickTimeout = null;
+                            }, 300);
+
+                            event.preventDefault();
+                            return false;
+                        }
+
+                        return true;
                     }
                 }
 
