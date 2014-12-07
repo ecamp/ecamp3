@@ -241,7 +241,7 @@
                             borderBottomLeftRadius: isEnd ? 10 : 0,
                             borderBottomRightRadius: isEnd ? 10 : 0,
                             pointerEvents: 'none',
-                            zIndex: scope.hover ? 10001 : null
+                            zIndex: scope.hover ? 1001 : null
                         }
                     }
 
@@ -262,7 +262,7 @@
                             height: (100 * _picassoData.GetLength(end - start)) + '%',
 
                             zIndex: scope.hover ?
-                                10000 : 100 * firstDay.dayOffset + eventInstanceModel.GetEventNr()
+                                1000 : eventInstanceModel.GetZIndex()
                         };
 
                     }

@@ -35,6 +35,17 @@
                     "reference": "v0.1.5"
                 }
             }
+        }, {
+            "type": "package",
+            "package": {
+                "name": "medialize/URI.js",
+                "version": "v1.14.1",
+                "source": {
+                    "url": "https://github.com/medialize/URI.js.git",
+                    "type": "git",
+                    "reference": "v1.14.1"
+                }
+            }
         }
     ],
 
@@ -65,6 +76,7 @@
 		"components/typeahead.js" : "0.10.*",
 		"bootstrap-select/bootstrap-select" : "dev-master",
         "LuvDaSun/angular-hal": "*",
+        "medialize/URI.js": "v1.14.1",
 
 		"kamisama/php-resque-ex" : "dev-bugfix as 1.2.7",
         "fresque/fresque" : "1.2.*",

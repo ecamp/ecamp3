@@ -8,16 +8,15 @@ class EventInstanceServiceFactory
     implements FactoryInterface
 {
     /**
-     *
      * @param  ServiceLocatorInterface              $services
      * @return CampService
-     * @throws Exception\ServiceNotCreatedException
      */
     public function createService(ServiceLocatorInterface $services)
     {
-        $eventInstanceRepo = $services->get('EcampCore\Repository\EventInstance');
-        $dayRepo = $services->get('EcampCore\Repository\Day');
-
-        return new EventInstanceService($eventInstanceRepo, $dayRepo);
+        return new EventInstanceService(
+            $services->get('EcampCore\Repository\Period'),
+            $services->get('EcampCore\Repository\Day'),
+            $services->get('EcampCore\Repository\EventInstance')
+        );
     }
 }

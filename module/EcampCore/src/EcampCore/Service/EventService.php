@@ -110,11 +110,62 @@ class EventService
     public function Create(Camp $camp, $data)
     {
         $eventCategoryId = $data['eventCategory'];
-        $eventCreateFactoryId = null;
+        list($eventCategory, $eventCategoryFactory) = $this->GetEventCategoryFactory($eventCategoryId);
+
+        $event = new Event($camp, $eventCategory);
+
+        $eventValidationForm =
+            $this->createValidationForm($event, $data, array('title'));
+
+        if (!$eventValidationForm->isValid()) {
+            throw ValidationException::FromForm($eventValidationForm);
+        }
+
+        if($eventCategoryFactory != null){
+            // apply Factory
+            var_dump($eventCategoryFactory);
+        }
+
+        // Create minimum of required plugins...
+
+        $this->persist($event);
+
+        return $event;
+    }
+
+    public function Update(Event $event, $data)
+    {
+        $eventCategoryId = $data['eventCategory'];
+        list($eventCategory, $eventCategoryFactory) = $this->GetEventCategoryFactory($eventCategoryId);
+
+        $event->setEventCategory($eventCategory);
+
+        $eventValidationForm =
+            $this->createValidationForm($event, $data, array('title'));
+
+
+        if (!$eventValidationForm->isValid()) {
+            throw ValidationException::FromForm($eventValidationForm);
+        }
+
+        if($eventCategoryFactory != null){
+            // apply Factory
+            var_dump($eventCategoryFactory);
+        }
+
+        // Create minimum of required plugins...
+
+        return $event;
+    }
+
+    private function GetEventCategoryFactory($eventCategoryId)
+    {
+        $eventCategoryFactoryId = null;
+        $eventCategoryFactory = null;
 
         $splitPos = strpos($eventCategoryId, '-');
         if ($splitPos !== false) {
-            $eventCreateFactoryId = trim(substr($eventCategoryId, $splitPos + 1));
+            $eventCategoryFactoryId = trim(substr($eventCategoryId, $splitPos + 1));
             $eventCategoryId = trim(substr($eventCategoryId, 0, $splitPos));
         }
 
@@ -126,26 +177,17 @@ class EventService
                 array('data' => array('event' => array('eventCategory' => array('EventCategory missing' => 'Select a event category')))));
         }
 
-        $event = new Event($camp, $eventCategory);
+        if ($eventCategoryFactoryId != null) {
+            // load EventCategoryFactory;
+            var_dump($eventCategoryFactoryId);
 
-        $eventValidationForm =
-            $this->createValidationForm($event, $data, array('title'));
-
-        if (!$eventValidationForm->isValid()) {
-            throw ValidationException::FromForm($eventValidationForm);
+            //$eventCategoryFactory = ...
         }
 
-        if ($eventCreateFactoryId != null) {
-            // apply Facotry;
-            var_dump($eventCreateFactoryId);
-        }
 
-        // Create minimum of required plugins...
-
-        $this->persist($event);
-
-        return $event;
+        return array($eventCategory, $eventCategoryFactory);
     }
+
 
     private function CreatePluginInstance(Event $event, PluginPrototype $prototype)
     {

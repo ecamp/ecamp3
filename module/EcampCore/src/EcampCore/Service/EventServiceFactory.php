@@ -8,10 +8,8 @@ class EventServiceFactory
     implements FactoryInterface
 {
     /**
-     *
      * @param  ServiceLocatorInterface              $services
      * @return CampService
-     * @throws Exception\ServiceNotCreatedException
      */
     public function createService(ServiceLocatorInterface $services)
     {

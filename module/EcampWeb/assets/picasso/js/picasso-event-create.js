@@ -101,18 +101,24 @@
                         var startTime = $dateFilter(startDate, 'HH:mm');
                         var endTime = $dateFilter(endDate, 'HH:mm');
 
-                        console.log('Create Event: ' + _periodId + ' / ' + start + ' - ' + end);
+                        var url = URI.expand('/web/camp/{campId}/picasso/createEvent', {
+                            campId: picassoData.camp.id
+                        });
+                        url.query({
+                            'periodId': _periodId,
+                            'eventInstance[startday]': startDay.id,
+                            'eventInstance[endday]': endDay.id,
+                            'eventInstance[starttime]': startTime,
+                            'eventInstance[endtime]': endTime
+                        });
 
+                        var dlg = $asyncModal.open({
+                            cache: false,
+                            templateUrl: url.href()
+                        });
 
-                        var url = '/web/group/PBS/Bundeslager/picasso/createEvent';
-                        url += '?periodId=' + _periodId;
-                        url += '&eventInstance[startday]=' + startDay.id;
-                        url += '&eventInstance[endday]=' + endDay.id;
-                        url += '&eventInstance[starttime]=' + startTime;
-                        url += '&eventInstance[endtime]=' + endTime;
-
-                        $asyncModal.open({
-                            templateUrl: url
+                        dlg.result.then(function(result){
+                            console.log(result);
                         });
                     }
                 }

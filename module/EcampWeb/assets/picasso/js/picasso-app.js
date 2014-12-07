@@ -6,7 +6,7 @@
     var SortedDictionary = ecamp.core.util.SortedDictionary;
 
     function PicassoController(
-        $scope, $timeout, PicassoData, PicassoTimeline, PicassoEventInstance, PicassoEventCreate
+        $scope, $timeout, $asyncModal, PicassoData, PicassoTimeline, PicassoEventInstance, PicassoEventCreate
     ){
 
         var picassoData = new PicassoData();
@@ -25,6 +25,9 @@
 
         Object.defineProperty($scope, 'timeline', { get: function(){ return picassoTimeline; } });
         Object.defineProperty($scope, 'createEvent', { get: function(){ return picassoEventCreate; } });
+
+        Object.defineProperty($scope, 'DeleteEventInstance', { value: DeleteEventInstance });
+        Object.defineProperty($scope, 'EditEventInstance', { value: EditEventInstance });
 
         var userEventIsProcessing = false;
 /*
@@ -119,6 +122,39 @@
             picassoTimeline.startMin = picassoData.config.dayStartMin;
             picassoTimeline.endMin = picassoData.config.dayEndMin;
             picassoTimeline.EndUpdate();
+        }
+
+
+        function DeleteEventInstance(eventInstanceModel){
+            var modalInstance = $asyncModal.open({
+                templateUrl: 'deleteEventDialog.html',
+                controller: function($scope, $modalInstance){
+                    $scope.eventInstance = eventInstanceModel;
+
+                    $scope.ok = function(){ $modalInstance.close(); };
+                    $scope.cancel = function(){ $modalInstance.dismiss('cancel'); };
+                }
+            });
+
+            modalInstance.result.then(function(){
+                picassoData.DeleteEventInstance(eventInstanceModel);
+            });
+        }
+
+        function EditEventInstance(eventInstanceModel){
+            var url = URI.expand('/web/camp/{campId}/picasso/updateEventInstance', {
+                campId: picassoData.camp.id
+            });
+            url.query({ 'eventInstanceId': eventInstanceModel.id });
+
+            var dlg = $asyncModal.open({
+                cache: false,
+                templateUrl: url.href()
+            });
+
+            dlg.result.then(function(){
+                picassoData.RefreshEventInstance(eventInstanceModel);
+            });
         }
 
 
