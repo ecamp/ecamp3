@@ -4,7 +4,7 @@ namespace EcampCore\Repository;
 
 use Doctrine\ORM\EntityRepository;
 
-class PluginPrototypeRepository
+class PluginRepository
     extends EntityRepository
 {
 }

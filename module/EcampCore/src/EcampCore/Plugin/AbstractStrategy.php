@@ -21,7 +21,7 @@
 /**
  * This is the base class for all plugin strategies
  *
- * Every pluginstrategy is *only* responsible for rendering a plugin and declaring some basic
+ * Every PluginStrategy is *only* responsible for rendering a plugin and declaring some basic
  * support, but *not* for updating its configuration etc. For this purpose, use controllers
  * and models.
  */
@@ -72,6 +72,7 @@ abstract class AbstractStrategy
     }
 
     /**
+     * @param $object
      * @return \EcampCore\Plugin\AbstractStrategy
      */
     protected function persist($object)
@@ -82,6 +83,7 @@ abstract class AbstractStrategy
     }
 
     /**
+     * @param $object
      * @return \EcampCore\Plugin\AbstractStrategy
      */
     protected function remove($object)
@@ -106,8 +108,10 @@ abstract class AbstractStrategy
 
     /**
      * Deletes the EventPlugin from the Database.
-     * This method should be overritten, if a Plugin requires
+     * This method should be overwritten, if a Plugin requires
      * special handling while deleting the EventPlugin Instance
+     *
+     * @param EventPlugin $eventPlugin
      */
     public function delete(EventPlugin $eventPlugin)
     {
@@ -115,6 +119,8 @@ abstract class AbstractStrategy
     }
 
     /**
+     * @param EventPlugin $eventPlugin
+     * @param Medium $medium
      * @return \Zend\View\Model\ViewModel
      */
     public function render(EventPlugin $eventPlugin, Medium $medium)
@@ -127,10 +133,16 @@ abstract class AbstractStrategy
     }
 
     /**
+     * @param EventPlugin $eventPlugin
+     * @param Medium $medium
      * @return \Zend\View\Model\ViewModel
      */
     abstract protected function createViewModel(EventPlugin $eventPlugin, Medium $medium);
 
+    /**
+     * @param EventPlugin $eventPlugin
+     * @return string
+     */
     public function getTitle(EventPlugin $eventPlugin)
     {
         return $eventPlugin->getInstanceName();

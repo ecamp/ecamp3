@@ -29,6 +29,7 @@ use Doctrine\Common\Collections\Criteria;
  * Specifies the exact time/duration/subcamp when an event happens
  * @ORM\Entity(repositoryClass="EcampCore\Repository\EventInstanceRepository")
  * @ORM\Table(name="event_instances")
+ * @ORM\HasLifecycleCallbacks
  */
 class EventInstance
     extends BaseEntity
@@ -314,5 +315,23 @@ class EventInstance
             ->count();
 
         return $this->getEventCategory()->getStyledNumber(1 + $num);
+    }
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function PrePersist()
+    {
+        parent::PrePersist();
+
+        $this->event->addToList('eventInstances', $this);
+    }
+
+    /**
+     * @ORM\PreRemove
+     */
+    public function preRemove()
+    {
+        $this->event->removeFromList('eventInstances', $this);
     }
 }

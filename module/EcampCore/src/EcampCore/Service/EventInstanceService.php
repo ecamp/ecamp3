@@ -164,7 +164,14 @@ class EventInstanceService
         $eventInstance = $this->Get($eventInstance);
 
         if($eventInstance != null){
+            $event = $eventInstance->getEvent();
+
             $this->remove($eventInstance);
+
+            if($event->getEventInstances()->count() == 0){
+                $this->remove($event);
+            }
+
             return true;
         }
 

@@ -2,19 +2,11 @@
 
 namespace EcampCore\Service;
 
-use Core\Plugin\RenderPluginInstance;
-use Core\Plugin\RenderContainer;
-use Core\Plugin\RenderPluginPrototype;
-use Core\Plugin\RenderEvent;
-
-use EcampCore\Entity\Medium;
 use EcampCore\Entity\Event;
 use EcampCore\Entity\Camp;
-use EcampCore\Entity\Plugin;
-use EcampCore\Entity\PluginInstance;
 
-use EcampCore\Entity\EventPrototype;
-use EcampCore\Entity\PluginPrototype;
+use EcampCore\Plugin\StrategyProvider;
+use EcampCore\Repository\EventRepository;
 use EcampLib\Service\ServiceBase;
 use EcampCore\Repository\EventCategoryRepository;
 use EcampLib\Validation\ValidationException;
@@ -23,82 +15,45 @@ class EventService
     extends ServiceBase
 {
     /**
+     * @var StrategyProvider
+     */
+    private $strategyProvider;
+
+    /**
+     * @var \EcampCore\Repository\EventRepository
+     */
+    private $eventRepository;
+
+    /**
      * @var \EcampCore\Repository\EventCategoryRepository
      */
-    private $eventCategoryRepo;
+    private $eventCategoryRepository;
+
 
     public function __construct(
-        EventCategoryRepository $eventCategoryRepo
+        StrategyProvider $strategyProvider,
+        EventRepository $eventRepository,
+        EventCategoryRepository $eventCategoryRepository
     ){
-        $this->eventCategoryRepo = $eventCategoryRepo;
+        $this->strategyProvider = $strategyProvider;
+        $this->eventRepository = $eventRepository;
+        $this->eventCategoryRepository = $eventCategoryRepository;
     }
 
     /**
-     * @return CoreApi\Entity\Event | NULL
+     * @return \EcampCore\Entity\Event | NULL
      */
     public function Get($id)
     {
-        if (is_string($id)) {
-            $this->repo()->eventRepository()->find($id);
-        }
-
         if ($id instanceof Event) {
             return $id;
         }
 
+        if (is_string($id)) {
+            return $this->eventRepository->find($id);
+        }
+
         return null;
-    }
-
-    public function CreateRenderEvent(Event $event, $medium, $backend = false)
-    {
-        if (! $medium instanceof Medium) {
-            $this->repo()->mediumRepository()->findOneBy(array('name' => $medium));
-        }
-
-        $eventPrototype = $event->getPrototype();
-        $eventTemplate = $this->repo()->eventTemplateRepository()->findOneBy(
-            array('eventPrototype' => $eventPrototype, 'medium' => $medium));
-
-        $renderEvent = new RenderEvent($event, $medium, $eventTemplate, $backend);
-        $renderContainers = array();
-
-        $pluginPositions = $eventTemplate->getPluginPositions();
-        foreach ($pluginPositions as $pluginPosition) {
-
-            $containerName = $pluginPosition->getContainer();
-            if (! array_key_exists($containerName, $renderContainers)) {
-                $renderContainers[$containerName] = new RenderContainer($renderEvent, $containerName);
-            }
-            $renderContainer = $renderContainers[$containerName];
-            $pluginPrototype = $pluginPosition->getPluginPrototype();
-
-            $renderPluginPrototype = new RenderPluginPrototype($renderContainer, $pluginPrototype);
-
-            $pluginInstances = $this->repo()->pluginInstanceRepository()->findBy(
-                array('event' => $event, 'pluginPrototype' => $pluginPrototype));
-
-            foreach ($pluginInstances as $pluginInstance) {
-                new RenderPluginInstance($renderPluginPrototype, $pluginInstance);
-            }
-        }
-
-        return $renderEvent;
-    }
-
-    /**
-     * @return bool
-     */
-    public function Delete($id)
-    {
-        $event = $this->Get($id);
-
-        foreach ($event->getPluginInstances() as $plugin) {
-            $plugin->getStrategyInstance()->remove();
-        }
-
-        $this->em->remove($event);
-
-        return true;
     }
 
     /**
@@ -170,7 +125,7 @@ class EventService
         }
 
         /** @var \EcampCore\Entity\EventCategory $eventCategory */
-        $eventCategory = $this->eventCategoryRepo->find($eventCategoryId);
+        $eventCategory = $this->eventCategoryRepository->find($eventCategoryId);
 
         if ($eventCategory == null) {
             throw new ValidationException("Unknown EventCategory",
@@ -188,88 +143,23 @@ class EventService
         return array($eventCategory, $eventCategoryFactory);
     }
 
-
-    private function CreatePluginInstance(Event $event, PluginPrototype $prototype)
-    {
-        $plugin = new PluginInstance();
-        $plugin->setEvent($event);
-        $plugin->setPluginPrototype($prototype);
-
-        $strategyClassName =  '\Plugin\\' . $prototype->getPlugin()->getName() . '\Strategy';
-        $strategy = new $strategyClassName($this->em, $plugin);
-        $strategy->persist();
-
-        $plugin->setStrategy($strategy);
-        $this->persist($plugin);
-
-        return $plugin;
-    }
-
-    public function AddPlugin($event, $plugin)
+    /**
+     * @param Event|int $event
+     * @return bool
+     */
+    public function Delete($event)
     {
         $event = $this->Get($event);
-        $plugin = $this->getPluginPrototype($plugin);
-        $count = $event->countPluginsByPrototype($plugin);
 
-        if (is_null($plugin->getMaxInstances()) || $count<$plugin->getMaxInstances()) {
-            $this->CreatePluginInstance($event, $plugin);
-        }
-    }
-
-    public function RemovePlugin($event, $instance)
-    {
-        $event 	  = $this->Get($event);
-        $instance = $this->getPluginInstance($instance);
-        $prototype = $instance->getPluginPrototype();
-
-        $count = $event->countPluginsByPrototype($prototype);
-
-        if ($count > $prototype->getMinInstances()) {
-            /* cleanup plugin data */
-            $instance->getStrategyInstance()->remove();
-
-            /* remove plugin record itself */
-            $this->remove($instance);
-        }
-    }
-
-    /**
-     * @return \EcampCore\Entity\PluginInstance
-     */
-    public function getPluginInstance($id)
-    {
-        if (is_string($id)) {
-            return $this->repo()->pluginInstanceRepository()->find($id);
+        /** @var \EcampCore\Entity\EventPlugin $eventPlugin */
+        foreach($event->getEventPlugins() as $eventPlugin){
+            $pluginStrategy = $this->strategyProvider->Get($eventPlugin->getPlugin());
+            $pluginStrategy->delete($eventPlugin);
         }
 
-        if ($id instanceof PluginInstance) {
-            return $id;
-        }
+        $this->remove($event);
 
-        return null;
-    }
-
-    /**
-     * @return \EcampCore\Entity\Plugin
-     */
-    public function getPluginPrototype($id)
-    {
-        if (is_string($id)) {
-            return $this->repo()->pluginPrototypeRepository()->find($id);
-        }
-
-        if ($id instanceof PluginPrototype) {
-            return $id;
-        }
-
-        return null;
-    }
-
-    public function getCampOfPluginInstance($id)
-    {
-        $instance = $this->repo()->pluginInstanceRepository()->find($id);
-
-        return $instance->getEvent()->getCamp();
+        return true;
     }
 
 }

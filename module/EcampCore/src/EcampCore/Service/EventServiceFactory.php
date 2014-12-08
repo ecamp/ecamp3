@@ -13,8 +13,10 @@ class EventServiceFactory
      */
     public function createService(ServiceLocatorInterface $services)
     {
-        $eventCategoryRepo = $services->get('EcampCore\Repository\EventCategory');
-
-        return new EventService($eventCategoryRepo);
+        return new EventService(
+            $services->get('EcampCore\Plugin\StrategyProvider'),
+            $services->get('EcampCore\Repository\Event'),
+            $services->get('EcampCore\Repository\EventCategory')
+        );
     }
 }
