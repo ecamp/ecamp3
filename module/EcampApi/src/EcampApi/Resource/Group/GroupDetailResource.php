@@ -27,7 +27,7 @@ class GroupDetailResource extends HalResource
         $campsLink->setRoute('api/groups/camps', array('group' => $group->getId()));
 
         $membershipsLink = new Link('memberships');
-        $membershipsLink->setRoute('api/groups/memberships', array('group' => $group->getId()));
+        $membershipsLink->setRoute('api/groups/members', array('group' => $group->getId()));
 
         $groupsLink = new Link('groups');
         $groupsLink->setRoute('api/groups/subgroups', array('group' => $group->getId()));

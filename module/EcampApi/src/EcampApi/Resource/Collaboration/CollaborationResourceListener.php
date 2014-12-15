@@ -1,18 +1,18 @@
 <?php
 namespace EcampApi\Resource\Collaboration;
 
+use EcampLib\Resource\BaseResourceListener;
 use PhlyRestfully\Exception\DomainException;
 use PhlyRestfully\ResourceEvent;
-use Zend\EventManager\AbstractListenerAggregate;
 use Zend\EventManager\EventManagerInterface;
 
-class CollaborationResourceListener extends AbstractListenerAggregate
+class CollaborationResourceListener extends BaseResourceListener
 {
-    protected $repo;
-
-    public function __construct(\EcampCore\Repository\CampCollaborationRepository $repo)
-    {
-        $this->repo = $repo;
+    /**
+     * @return \EcampCore\Repository\CampCollaborationRepository
+     */
+    protected function getCampCollaborationRepository(){
+        return $this->getService('EcampCore\Repository\CampCollaboration');
     }
 
     public function attach(EventManagerInterface $events)
@@ -24,7 +24,7 @@ class CollaborationResourceListener extends AbstractListenerAggregate
     public function onFetch(ResourceEvent $e)
     {
         $id = $e->getParam('id');
-        $entity = $this->repo->find($id);
+        $entity = $this->getCampCollaborationRepository()->find($id);
 
         if (!$entity) {
             throw new DomainException('Collaboration not found', 404);
@@ -39,6 +39,6 @@ class CollaborationResourceListener extends AbstractListenerAggregate
         $params['user'] = $e->getRouteParam('user', $e->getQueryParam('user'));
         $params['camp'] = $e->getRouteParam('camp', $e->getQueryParam('camp'));
 
-        return $this->repo->getCollection($params);
+        return $this->getCampCollaborationRepository()->getCollection($params);
     }
 }

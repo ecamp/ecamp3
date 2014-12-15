@@ -74,14 +74,18 @@
                     My collaboration
                 {% endblock %}
                 {% block panel_content %}
-                    {#{{ collaborationDesc(camp) }}#}
+                    <div style="margin-bottom: 10px">
+                        <camp-collaboration-operation show-desc="true" camp="{{ camp.id }}" user="{{ me.id }}" />
+                    </div>
 
+                    {#{{ collaborationDesc(camp) }}#}
+{#
                     <div class="pull-right">
                         <p>
                             {{ collaboration(camp, 'sm') }}
                         </p>
                     </div>
-
+#}
                 {% endblock %}
             {% endembed %}
         </div>

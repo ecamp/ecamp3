@@ -7,28 +7,16 @@ use EcampCore\Entity\CampCollaboration as Collaboration;
 use EcampApi\Resource\User\UserBriefResource;
 use EcampApi\Resource\Camp\CampBriefResource;
 
-class CollaborationDetailResource extends HalResource
+class CollaborationDetailResource extends CollaborationBaseResource
 {
-    public function __construct(Collaboration $entity)
+    protected function createObject()
     {
-        $object = array(
-                'id'		=> 	$entity->getId(),
-                'user'		=>	new UserBriefResource($entity->getUser()),
-                'camp'		=>	new CampBriefResource($entity->getCamp()),
-                'role'		=>	$entity->getRole(),
-                'status'	=>  $entity->getStatus()
-                );
-
-        parent::__construct($object, $object['id']);
-
-        $selfLink = new Link('self');
-        $selfLink->setRoute('api/collaborations', array('collaboration' => $entity->getId()));
-
-        $eventRespLink = new Link('event_resps');
-        $eventRespLink->setRoute('api/collaborations/event_resps', array('collaboration' => $entity->getId()));
-
-        $this->getLinks()->add($selfLink)
-                         ->add($eventRespLink);
-
+        return array(
+            'id'        =>  ($this->collaboration != null ? $this->collaboration->getId() : null),
+            'user'      =>  new UserBriefResource($this->user),
+            'camp'      =>  new CampBriefResource($this->camp),
+            'role'      =>  $this->getRole(),
+            'status'    =>  $this->getStatus(),
+        );
     }
 }

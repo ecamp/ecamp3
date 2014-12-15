@@ -39,6 +39,7 @@ class GroupMembership
     const ROLE_MEMBER  = 'member';
     const ROLE_MANAGER = 'manager';
 
+    const STATUS_UNRELATED      = 'unrelated';
     const STATUS_REQUESTED 		= 'requested';
     const STATUS_INVITED 		= 'invited';
     const STATUS_ESTABLISHED 	= 'established';
