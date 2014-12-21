@@ -1,151 +1,113 @@
-<div>
-    <div data-ng-bind="description" style="margin-bottom: 10px;" data-ng-show="showDesc"></div>
+<div style="display: inline">
 
-    <div class="pull-right">
+    <a class="btn btn-{{ size }} btn-noborder" data-ng-show="isLoading && spinner == 'left'">
+        <i class="fa fa-spinner fa-spin" ng-show="isLoading"></i>
+    </a>
 
-        <div class="btn-group" data-ng-show="HasAction('request')">
-            <a class="btn btn-{{ size }} btn-success" data-ng-click="ExecuteAction('request')">
-                <i class="fa fa-plus"></i> <b>Request collaboration</b>
-            </a>
+    <div class="btn-group" data-ng-show="HasAction('request')">
 
-            <div class="btn-group">
-                <button type="button" class="btn btn-{{ size }} btn-success dropdown-toggle" data-toggle="dropdown">
-                    <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu pull-right">
-                    <li>
-                        <a data-ng-click="ExecuteAction('request', { role: 'member' })">as member</a>
-                    </li>
-                    <li>
-                        <a data-ng-click="ExecuteAction('request', { role: 'manager' })">as manager</a>
-                    </li>
-                </ul>
-            </div>
+        <a class="btn btn-{{ size }} btn-success" data-ng-click="ExecuteAction($event, 'request')">
+            <i class="fa fa-plus"></i> <b>Request collaboration</b>
+        </a>
+
+        <div class="btn-group">
+            <button type="button" class="btn btn-{{ size }} btn-success dropdown-toggle" data-toggle="dropdown">
+                <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu pull-right">
+                <li>
+                    <a data-ng-click="ExecuteAction($event, 'request', { role: 'member' })">as member</a>
+                </li>
+                <li>
+                    <a data-ng-click="ExecuteAction($event, 'request', { role: 'manager' })">as manager</a>
+                </li>
+            </ul>
         </div>
-
-        <div class="btn-group" data-ng-show="HasAction('revokeRequest')">
-            <a class="btn btn-{{ size }} btn-danger" data-ng-click="ExecuteAction('revokeRequest')">
-                <b>Revoke request</b>
-            </a>
-        </div>
-
-        <div class="btn-group" data-ng-show="HasAction('acceptRequest') && HasAction('rejectRequest')">
-            <a class="btn btn-{{ size }} btn-danger" data-ng-click="ExecuteAction('rejectRequest')">
-                <i class="fa fa-times"></i> <b>Reject request</b>
-            </a>
-
-            <a  class="btn btn-{{ size }} btn-success" data-ng-click="ExecuteAction('acceptRequest')">
-                <i class="fa fa-check"></i> <b>Accept request</b>
-            </a>
-
-            <div class="btn-group">
-                <button type="button" class="btn btn-{{ size }} btn-default btn-success dropdown-toggle" data-toggle="dropdown">
-                    <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu pull-right">
-                    <li>
-                        <a data-ng-click="ExecuteAction('acceptRequest', { role: 'member' })">as member</a>
-                    </li>
-                    <li>
-                        <a data-ng-click="ExecuteAction('acceptRequest', { role: 'manager' })">as manager</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-
-
-
-        <div class="btn-group" data-ng-show="HasAction('invite')">
-            <a class="btn btn-{{ size }} btn-success" data-ng-click="ExecuteAction('invite')">
-                <b>Invite user</b>
-            </a>
-
-            <div class="btn-group">
-                <button type="button" class="btn btn-{{ size }} btn-success dropdown-toggle" data-toggle="dropdown">
-                    <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu pull-right">
-                    <li>
-                        <a data-ng-click="ExecuteAction('invite', { role: 'member' })">as member</a>
-                    </li>
-                    <li>
-                        <a data-ng-click="ExecuteAction('invite', { role: 'manager' })">as manager</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-
-        <div class="btn-group" data-ng-show="HasAction('revokeInvitation')">
-            <a class="btn btn-{{ size }} btn-danger" data-ng-click="ExecuteAction('revokeInvitation')">
-                <b>Revoke invitation</b>
-            </a>
-        </div>
-
-        <div class="btn-group" data-ng-show="HasAction('acceptInvitation') && HasAction('rejectInvitation')">
-            <a class="btn btn-{{ size }} btn-danger" data-ng-click="ExecuteAction('rejectInvitation')">
-                <i class="fa fa-times"></i> <b>Reject invitation</b>
-            </a>
-            <a  class="btn btn-{{ size }} btn-success" data-ng-click="ExecuteAction('acceptInvitation')">
-                <i class="fa fa-check"></i> <b>Accept invitation</b>
-            </a>
-        </div>
-
-
-
-        <div class="btn-group" data-ng-show="HasAction('leave')">
-            <a  class="btn btn-{{ size }} btn-danger" data-toggle="modal" data-target="#leaveGroupModal">
-                <b>Leave camp</b>
-            </a>
-        </div>
-
-        <div class="btn-group" data-ng-show="HasAction('kick')">
-            <a  class="btn btn-{{ size }} btn-danger" data-toggle="modal" data-target="#kickUserModal">
-                <b>Kick user</b>
-            </a>
-        </div>
-
-
     </div>
-    <div class="clearfix"></div>
 
-    <div class="modal fade" id="leaveGroupModal" tabindex="-1" role="dialog" aria-labelledby="leaveGroupModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">
-                        <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
-                    </button>
-                    <h4 class="modal-title" id="leaveGroupModalLabel">Leave Camp</h4>
-                </div>
-                <div class="modal-body">
-                    Are you sure, you want to leave this Camp?
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-danger" data-dismiss="modal" data-ng-click="ExecuteAction('leave')">Leave camp</button>
-                </div>
-            </div>
+    <div class="btn-group" data-ng-show="HasAction('revokeRequest')">
+        <a class="btn btn-{{ size }} btn-danger" data-ng-click="ExecuteAction($event, 'revokeRequest')">
+            <b>Revoke request</b>
+        </a>
+    </div>
+
+    <div class="btn-group" data-ng-show="HasAction('acceptRequest') && HasAction('rejectRequest')">
+        <a class="btn btn-{{ size }} btn-danger" data-ng-click="ExecuteAction($event, 'rejectRequest')">
+            <i class="fa fa-times"></i> <b>Reject request</b>
+        </a>
+
+        <a  class="btn btn-{{ size }} btn-success" data-ng-click="ExecuteAction($event, 'acceptRequest')">
+            <i class="fa fa-check"></i> <b>Accept request</b>
+        </a>
+
+        <div class="btn-group">
+            <button type="button" class="btn btn-{{ size }} btn-default btn-success dropdown-toggle" data-toggle="dropdown">
+                <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu pull-right">
+                <li>
+                    <a data-ng-click="ExecuteAction($event, 'acceptRequest', { role: 'member' })">as member</a>
+                </li>
+                <li>
+                    <a data-ng-click="ExecuteAction($event, 'acceptRequest', { role: 'manager' })">as manager</a>
+                </li>
+            </ul>
         </div>
     </div>
 
 
-    <div class="modal fade" id="kickUserModal" tabindex="-1" role="dialog" aria-labelledby="kickUserModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">
-                        <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
-                    </button>
-                    <h4 class="modal-title" id="kickUserModalLabel">Kick User</h4>
-                </div>
-                <div class="modal-body">
-                    Are you sure, you want to kick this User out of Camp?
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-danger" data-dismiss="modal" data-ng-click="ExecuteAction('kick')">Kick user</button>
-                </div>
-            </div>
+
+    <div class="btn-group" data-ng-show="HasAction('invite')">
+        <a class="btn btn-{{ size }} btn-success" data-ng-click="ExecuteAction($event, 'invite')">
+            <b>Invite user</b>
+        </a>
+
+        <div class="btn-group">
+            <button type="button" class="btn btn-{{ size }} btn-success dropdown-toggle" data-toggle="dropdown">
+                <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu pull-right">
+                <li>
+                    <a data-ng-click="ExecuteAction($event, 'invite', { role: 'member' })">as member</a>
+                </li>
+                <li>
+                    <a data-ng-click="ExecuteAction($event, 'invite', { role: 'manager' })">as manager</a>
+                </li>
+            </ul>
         </div>
     </div>
+
+    <div class="btn-group" data-ng-show="HasAction('revokeInvitation')">
+        <a class="btn btn-{{ size }} btn-danger" data-ng-click="ExecuteAction($event, 'revokeInvitation')">
+            <b>Revoke invitation</b>
+        </a>
+    </div>
+
+    <div class="btn-group" data-ng-show="HasAction('acceptInvitation') && HasAction('rejectInvitation')">
+        <a class="btn btn-{{ size }} btn-danger" data-ng-click="ExecuteAction($event, 'rejectInvitation')">
+            <i class="fa fa-times"></i> <b>Reject invitation</b>
+        </a>
+        <a  class="btn btn-{{ size }} btn-success" data-ng-click="ExecuteAction($event, 'acceptInvitation')">
+            <i class="fa fa-check"></i> <b>Accept invitation</b>
+        </a>
+    </div>
+
+
+
+    <div class="btn-group" data-ng-show="HasAction('leave')">
+        <a  class="btn btn-{{ size }} btn-danger" data-ng-click="ShowQuestion($event, '/web-assets/camp/leave.html', 'leave')">
+            <b>Leave camp</b>
+        </a>
+    </div>
+
+    <div class="btn-group" data-ng-show="HasAction('kick')">
+        <a  class="btn btn-{{ size }} btn-danger" data-ng-click="ShowQuestion($event, '/web-assets/camp/kick.html', 'kick')">
+            <b>Kick user</b>
+        </a>
+    </div>
+
+    <a class="btn btn-{{ size }} btn-noborder" data-ng-show="isLoading && spinner == 'right'">
+        <i class="fa fa-spinner fa-spin" ng-show="isLoading"></i>
+    </a>
+
 </div>

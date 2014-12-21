@@ -4,11 +4,13 @@
 
 (function(ngApp){
 
-    ngApp.directive('groupMembershipOperation', [function(){
+    var events = CNS('ecamp.events');
+
+    ngApp.directive('groupMembership', [function(){
         return {
             restrict: 'E',
-            templateUrl: '/web-assets/group/groupMembershipOperation.html',
-            controller: ['$scope', 'halClient', function($scope, halClient){
+            scope: true,
+            controller: ['$scope', '$asyncModal', 'halClient', function($scope, $asyncModal, halClient){
 
                 function Init(group, user){
                     var url = URI.expand('/api/v0/groups/{groupId}/members/{userId}', {
@@ -16,7 +18,14 @@
                         userId: user
                     });
 
-                    halClient.$get(url).then(MembershipResourceLoaded);
+                    LoadMembershipResource(url);
+                }
+
+                function LoadMembershipResource(url){
+                    $scope.isLoading = true;
+
+                    return halClient.$get(url)
+                        .then(MembershipResourceLoaded);
                 }
 
                 function MembershipResourceLoaded(membership){
@@ -28,6 +37,7 @@
                     $scope.role = membership.role;
                     $scope.status = membership.status;
                     $scope.description = membership.description;
+                    $scope.isLoading = false;
                 }
 
                 function UserResourceLoaded(user){
@@ -42,26 +52,77 @@
                     return $scope.membership != null && $scope.membership.$has(action);
                 }
 
-                function ExecuteAction(action, query){
+                function ShowQuestion(event, modalUrl, action, query){
+                    event.stopPropagation();
+                    event.preventDefault();
+
+                    var mi = $asyncModal.open({
+                        templateUrl: modalUrl,
+                        cache: false
+                    });
+
+                    mi.result.then(function(){
+                        ExecuteAction(event, action, query);
+                    });
+                }
+
+                function ExecuteAction(event, action, query){
+                    event.stopPropagation();
+                    event.preventDefault();
+
                     if($scope.membership.$has(action)){
+                        var origStatus = $scope.status;
+
                         var uri = new URI($scope.membership.$href(action));
                         uri.search(query);
 
-                        halClient.$get(uri.toString()).then(MembershipResourceLoaded);
+                        LoadMembershipResource(uri.toString())
+                            .then(function(){ TriggerEvents(origStatus, $scope.status); });
                     } else {
                         throw "Unknown action [" + action + "]";
                     }
                 }
 
+                function TriggerEvents(oldStatus, newStatus){
+                    events.trigger('group-membership', [oldStatus]);
+                    events.trigger('group-membership', [newStatus]);
+                }
+
+                $scope.isLoading = false;
+
                 $scope.HasAction = HasAction;
+                $scope.ShowQuestion = ShowQuestion;
                 $scope.ExecuteAction = ExecuteAction;
 
                 this.Init = Init;
             }],
             link: function($scope, $element, $attrs, $ctrl) {
+                $element.css({ 'display': 'inline' });
                 $ctrl.Init($attrs.group, $attrs.user);
+            }
+        }
+    }]);
+
+    ngApp.directive('groupMembershipDescription', [function(){
+        return {
+            restrict: 'E',
+            template: '<div data-ng-bind="description" style="display: inline"></div>',
+            scope: false,
+            link: function($scope, $element, $attrs, $ctrl) {
+                $element.css({ 'display': 'inline' });
+            }
+        }
+    }]);
+
+    ngApp.directive('groupMembershipOperation', [function(){
+        return {
+            restrict: 'E',
+            templateUrl: '/web-assets/group/groupMembershipOperation.html',
+            scope: false,
+            link: function($scope, $element, $attrs, $ctrl) {
+                $element.css({ 'display': 'inline' });
                 $scope.size = $attrs.size || 'sm';
-                $scope.showDesc = $attrs.showDesc || false;
+                $scope.spinner = $attrs.spinner || 'none';
             }
         }
     }]);

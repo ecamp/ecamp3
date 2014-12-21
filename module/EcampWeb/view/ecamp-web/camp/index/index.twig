@@ -75,17 +75,15 @@
                 {% endblock %}
                 {% block panel_content %}
                     <div style="margin-bottom: 10px">
-                        <camp-collaboration-operation show-desc="true" camp="{{ camp.id }}" user="{{ me.id }}" />
+                        <camp-collaboration camp="{{ camp.id }}" user="{{ me.id }}">
+                            <camp-collaboration-description></camp-collaboration-description>
+                            <div class="clear-fix"></div>
+                            <div class="pull-right" style="margin-top: 10px; margin-bottom: 10px">
+                                <camp-collaboration-operation size="sm" spinner="left"></camp-collaboration-operation>
+                                <div class="clear-fix"></div>
+                            </div>
+                        </camp-collaboration>
                     </div>
-
-                    {#{{ collaborationDesc(camp) }}#}
-{#
-                    <div class="pull-right">
-                        <p>
-                            {{ collaboration(camp, 'sm') }}
-                        </p>
-                    </div>
-#}
                 {% endblock %}
             {% endembed %}
         </div>

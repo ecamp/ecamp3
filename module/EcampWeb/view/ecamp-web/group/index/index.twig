@@ -38,7 +38,14 @@
                 {% endblock %}
                 {% block panel_content %}
                     <div style="margin-bottom: 10px">
-                        <group-membership-operation show-desc="true" group="{{ group.id }}" user="{{ me.id }}" />
+                        <group-membership group="{{ group.id }}" user="{{ me.id }}">
+                            <group-membership-description></group-membership-description>
+                            <div class="clear-fix"></div>
+                            <div class="pull-right" style="margin-top: 10px; margin-bottom: 10px">
+                                <group-membership-operation size="sm" spinner="left"></group-membership-operation>
+                                <div class="clear-fix"></div>
+                            </div>
+                        </group-membership>
                     </div>
 {#
                     {% if myMembership is not null %}
