@@ -28,6 +28,9 @@
                         <a href="{{ userUrl(coll.user) }}">
                             {{ coll.user.fullname }}
                         </a>
+                        {% if coll.user == me %}
+                            <i class="pull-right" style="margin-right: 20px; "><small>(me)</small></i>
+                        {% endif %}
                     </td>
                     <td>{{ coll.role }}</td>
                     <td>

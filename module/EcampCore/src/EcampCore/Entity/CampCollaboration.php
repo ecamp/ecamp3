@@ -78,7 +78,7 @@ class CampCollaboration
     private $requestAcceptedBy;
 
     /**
-     * @ORM\OneToMany(targetEntity="EventResp", mappedBy="event", cascade={"all"}, orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="EventResp", mappedBy="campCollaboration", cascade={"all"}, orphanRemoval=true)
      */
     protected $eventResps;
 
