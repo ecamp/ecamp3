@@ -65,6 +65,13 @@ return array(
                 'bootstrap-datetimepicker/css/bootstrap-datetimepicker.css' => 'https://raw.github.com/smalot/bootstrap-datetimepicker/master/css/bootstrap-datetimepicker.css',
                 'bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css' => 'https://raw.github.com/smalot/bootstrap-datetimepicker/master/css/bootstrap-datetimepicker.min.css',
 
+                /* Angular-Hal */
+                'angular-hal/angular-hal.js' => __VENDOR__ . '/LuvDaSun/angular-hal/angular-hal.js',
+
+                /* URI.js */
+                'uri-js/js/URI.js' => __VENDOR__ . '/medialize/URI.js/src/URI.js',
+                'uri-js/js/URI.min.js' => __VENDOR__ . '/medialize/URI.js/src/URI.min.js',
+                'uri-js/js/URITemplate.js' => __VENDOR__ . '/medialize/URI.js/src/URITemplate.js',
             ),
         ),
     ),

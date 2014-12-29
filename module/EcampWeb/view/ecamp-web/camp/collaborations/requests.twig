@@ -32,7 +32,9 @@
                     <td>{{ coll.role }}</td>
                     <td>
                         <span class="pull-right">
-                            {{ collaboration(coll, 'xs') }}
+                            <camp-collaboration camp="{{ coll.camp.id }}" user="{{ coll.user.id }}">
+                                <camp-collaboration-operation size="xs"></camp-collaboration-operation>
+                            </camp-collaboration>
                         </span>
                     </td>
                 </tr>

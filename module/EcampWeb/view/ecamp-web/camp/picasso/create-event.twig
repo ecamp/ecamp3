@@ -1,0 +1,104 @@
+<!-- Modal / Add Event -->
+{#
+<div async-modal-content>
+#}
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="$dismiss('cancel')">&times;</button>
+        <h4 class="modal-title"><i class="fa fa-plus"></i> Create Event</h4>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-xs-12" style="margin-bottom: -15px">
+                {% do form.prepare() %}
+
+                <form action="{{ form.action }}"
+                      method="post"
+                      name="event-create-form"
+                      role="form"
+                      id="event-create-form"
+                >
+
+                    <fieldset>
+                        <div class="form-group ">
+                            {{ formRow(form.get('event').get('title')) }}
+                        </div>
+                        <div class="form-group ">
+                            {{ formRow(form.get('event').get('eventCategory')) }}
+                        </div>
+                    </fieldset>
+
+
+                    <fieldset>
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-sm-6" style="margin-bottom: -15px">
+                                    {{ formRow(form.get('eventInstance').get('startday')) }}
+                                </div>
+                                <div class="col-sm-6" style="margin-bottom: -15px">
+                                    {{ formRow(form.get('eventInstance').get('starttime')) }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-sm-6" style="margin-bottom: -15px">
+                                    {{ formRow(form.get('eventInstance').get('endday')) }}
+                                </div>
+                                <div class="col-sm-6" style="margin-bottom: -15px">
+                                    {{ formRow(form.get('eventInstance').get('endtime')) }}
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+
+                </form>
+
+                <script type="text/javascript">
+                    (function($){
+
+                        var eventCategorySelect = $('#eventEventCategory');
+                        var startDaySelect = $('#eventInstanceStartDay');
+                        var endDaySelect = $('#eventInstanceEndDay');
+
+                        eventCategorySelect.selectpicker();
+                        startDaySelect.selectpicker();
+                        endDaySelect.selectpicker();
+
+                        startDaySelect.on('change', function(){
+                            var startDayOption = startDaySelect.find('option:selected');
+                            var periodId = startDayOption.attr('data-period');
+                            var timestamp = startDayOption.attr('data-timestamp');
+
+
+                            endDaySelect.find('option').each(function(index, opt){
+                                var option = $(opt);
+
+                                if(option.attr('data-period') == periodId && option.attr('data-timestamp') >= timestamp){
+                                    option.removeAttr('disabled');
+                                } else {
+                                    option.attr('disabled', 'disabled');
+                                }
+                            });
+
+                            if(endDaySelect.find('option:selected:enabled').length == 0){
+                                endDaySelect.val(startDayOption.val());
+                            }
+                            endDaySelect.selectpicker('render');
+                            endDaySelect.selectpicker('refresh');
+                        });
+
+                        startDaySelect.trigger('change');
+                    })(jQuery);
+
+                </script>
+
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" ng-click="$dismiss('cancel')">Cancel</button>
+        <button type="submit" form="event-create-form" class="btn btn-primary">Create Event</button>
+    </div>
+{#
+</div>
+#}

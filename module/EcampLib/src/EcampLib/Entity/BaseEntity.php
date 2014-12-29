@@ -125,10 +125,17 @@ abstract class BaseEntity
      */
     protected function removeFromList($listProperty, $element)
     {
-        if (property_exists($this, $listProperty)) {
+        $methodName = 'get' . ucfirst($listProperty);
+
+        if (method_exists($this, $methodName)){
             /* @var $list \Doctrine\Common\Collections\ArrayCollection */
-            $list = $this->{$listProperty};
-        } else {
+            $list = $this->$methodName();
+        }
+        elseif (property_exists($this, $listProperty)) {
+            /* @var $list \Doctrine\Common\Collections\ArrayCollection */
+            $list = $this->$listProperty;
+        }
+        else {
             throw new \Exception("Unknown List");
         }
 

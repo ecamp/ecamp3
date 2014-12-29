@@ -12,4 +12,9 @@ class BaseForm extends Form
         $this->setAttribute('action', $url);
     }
 
+    public function getAction()
+    {
+        return $this->getAttribute('action');
+    }
+
 }

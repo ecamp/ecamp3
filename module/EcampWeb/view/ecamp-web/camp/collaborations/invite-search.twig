@@ -1,11 +1,10 @@
 <div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <button type="button" class="close" ng-click="$close()">&times;</button>
     <h4 class="modal-title"><i class="fa fa-user"></i> Search User</h4>
 </div>
 
 <div class="modal-body">
     <pagination-container
-        {# type="camp.collaborationInvitationSearch" #}
         url="{{ url(
             'web/camp/default',
             { 'camp': camp, 'controller': 'Collaborations', 'action': 'inviteSearchResult' },
@@ -13,10 +12,12 @@
         ) }}"
     >
         <pagination-header>
-            <label for="user-invite-search-query">Search for User:</label>
-            <input type="text" class="form-control search-query" name="q" id="user-invite-search-query"
-                   placeholder="Username, Firstname, Surname, Scoutname, Mail-Adress"
-            />
+            <form>
+                <label for="user-invite-search-query">Search for User:</label>
+                <input type="text" class="form-control search-query" name="q" id="user-invite-search-query"
+                       placeholder="Username, Firstname, Surname, Scoutname, Mail-Adress"
+                />
+            </form>
         </pagination-header>
 
         <hr style="margin-top: 15px; margin-bottom: 15px" />
@@ -28,5 +29,5 @@
 </div>
 
 <div class="modal-footer">
-    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+    <button type="button" class="btn btn-default" ng-click="$close()">Close</button>
 </div>

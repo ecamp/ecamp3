@@ -1,36 +1,41 @@
-<div class="linear-item" id="{{ eventPlugin.id }}">
-	{% embed "helper/accordion.twig" %}
-		{% block panel_title %}
-			{{ eventPlugin.instanceName }}
-		{% endblock %}
-		{% block panel_heading %}
-			<div class="pull-right">
-				<button class="btn btn-xs btn-danger deleteEventPluginDialog" data-toggle="modal" data-target="#deleteEventPlugin{{ eventPlugin.id }}">
-					<i class="fa fa-times"></i> delete
-				</button>
-				<div class="modal fade" id="deleteEventPlugin{{ eventPlugin.id }}"
-					 aria-labelledby="modalLabel{{ eventPlugin.id }}"
-					 tabindex="-1" role="dialog" aria-hidden="true">
-				  <div class="modal-dialog">
-				    <div class="modal-content">
-				      <div class="modal-header">
-				        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-				        <h4 class="modal-title" id="modalLabel{{ eventPlugin.id }}">Delete {{ eventPlugin.instanceName }}</h4>
-				      </div>
-				      <div class="modal-body">
-				        {{ eventPlugin.instanceName }} wirklich löschen?
-				      </div>
-				      <div class="modal-footer">
-				        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-				        <button type="button" class="deleteEventPlugin btn btn-danger" data-dismiss="modal">Löschen</button>
-				      </div>
-				    </div>
-				  </div>
-				</div>
-			</div>
-		{% endblock %}
-		{% block panel_content %}
-			{% RenderViewModel contentViewModel %}
-		{% endblock %}
-	{% endembed %}
+<div linear-plugin-container-item class="linear-item" id="{{ eventPlugin.id }}">
+    {% embed "helper/accordion.twig" %}
+        {% block panel_title %}
+            {{ eventPlugin.instanceName }}
+        {% endblock %}
+        {% block panel_heading %}
+            <div class="pull-right">
+                <button
+                    ng-show="Deletable()"
+                    data-toggle="modal"
+                    data-target="#deleteEventPlugin{{ eventPlugin.id }}"
+                    class="btn btn-xs btn-danger deleteEventPluginDialog"
+                >
+                    <i class="fa fa-times"></i> delete
+                </button>
+                <div class="modal fade" id="deleteEventPlugin{{ eventPlugin.id }}"
+                     aria-labelledby="modalLabel{{ eventPlugin.id }}"
+                     tabindex="-1" role="dialog" aria-hidden="true">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title" id="modalLabel{{ eventPlugin.id }}">Delete {{ eventPlugin.instanceName }}</h4>
+                      </div>
+                      <div class="modal-body">
+                        {{ eventPlugin.instanceName }} wirklich löschen?
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal" ng-click="Delete()">Löschen</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+            </div>
+        {% endblock %}
+        {% block panel_content %}
+            {% RenderViewModel contentViewModel %}
+        {% endblock %}
+    {% endembed %}
 </div>

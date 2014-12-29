@@ -72,7 +72,7 @@ class EventResp
     }
 
     /**
-     * @return UserCamp
+     * @return CampCollaboration
      */
     public function getCampCollaboration()
     {

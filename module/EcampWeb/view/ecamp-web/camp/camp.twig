@@ -8,11 +8,11 @@
 
 {% block layout_body %}
     <section class="container white {{ layoutBodyClass }}">
-        <div class="row">
+        <div class="row {{ layoutBodyClass }}">
             <div class="col-sm-2">
                 {% include 'ecamp-web/camp/camp.menu.twig' %}
             </div>
-            <div class="col-sm-10">
+            <div class="col-sm-10 {{ layoutBodyClass }}">
                 {% block content %}{% endblock %}
             </div>
         </div>

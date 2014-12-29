@@ -37,6 +37,17 @@
                     My membership
                 {% endblock %}
                 {% block panel_content %}
+                    <div style="margin-bottom: 10px">
+                        <group-membership group="{{ group.id }}" user="{{ me.id }}">
+                            <group-membership-description></group-membership-description>
+                            <div class="clear-fix"></div>
+                            <div class="pull-right" style="margin-top: 10px; margin-bottom: 10px">
+                                <group-membership-operation size="sm" spinner="left"></group-membership-operation>
+                                <div class="clear-fix"></div>
+                            </div>
+                        </group-membership>
+                    </div>
+{#
                     {% if myMembership is not null %}
                         <p>
                             {% if myMembership.getStatus == 'requested' %}
@@ -58,7 +69,7 @@
                             {{ membership(group, 'sm') }}
                         </p>
                     </div>
-
+#}
                     {#
                     <div class="modal fade" id="leaveGroupModal" tabindex="-1" role="dialog" aria-labelledby="leaveGroupModalLabel" aria-hidden="true">
                         <div class="modal-dialog">

@@ -20,6 +20,7 @@
 
 namespace EcampCore\Entity;
 
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
 use Zend\Form\Annotation as Form;
 
@@ -189,6 +190,19 @@ class Period
     public function getDays()
     {
         return $this->days;
+    }
+
+    /**
+     * @param $dayOffset
+     * @return \EcampCore\Entity\Day
+     */
+    public function getDay($dayOffset)
+    {
+        $criteria = Criteria::create();
+        $expr = Criteria::expr();
+        $criteria->where($expr->eq('dayOffset', $dayOffset));
+
+        return $this->days->matching($criteria)->first();
     }
 
     /**

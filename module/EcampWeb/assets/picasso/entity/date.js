@@ -5,8 +5,9 @@
 CNS('ecamp.picasso.entity');
 
 ecamp.picasso.entity.Date = function($scope, date){
-    this.id = date.getTime();
-    this.date = date;
+    var d = new Date(date);
+    this.id = d.getTime();
+    this.date = d;
     this.leftOffset = 0;
     this.dayCount = 0;
 
@@ -19,7 +20,8 @@ ecamp.picasso.entity.Date = function($scope, date){
 };
 
 ecamp.picasso.entity.Date.Key = function(date){
-    return date.getTime();
+    var d = new Date(date);
+    return d.getTime();
 };
 
 ecamp.picasso.entity.Date.Insert = function($scope, date){
@@ -27,7 +29,7 @@ ecamp.picasso.entity.Date.Insert = function($scope, date){
 };
 
 ecamp.picasso.entity.Date.Update = function(dateModel, date){
-    dateModel.date = date;
+    dateModel.date = new Date(date);
     return dateModel;
 };
 

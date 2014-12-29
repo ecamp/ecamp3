@@ -2,15 +2,14 @@
 
 {% block content %}
 
+
     <div class="row">
         <div class="col-sm-12">
             {% embed "helper/accordion.twig" with { 'id': 'collaborators' } %}
                 {% block panel_title %}
                     Collaborators
                     <div class="pull-right">
-                        <a 	data-toggle="modal"
-                            data-backdrop="true"
-                            data-target="#asyncform-container"
+                        <a  async-modal
                             href="{{ url(
                                           'web/camp/default',
                                           { 'camp': camp, 'controller': 'Collaborations', 'action': 'inviteSearch' }
@@ -24,7 +23,7 @@
                 {% endblock %}
                 {% block panel_content %}
                     <pagination-container
-                        type="camp.collaborations"
+                        refresh="camp-collaboration::established"
                         url="{{ url(
                             'web/camp/default',
                             { 'camp': camp, 'controller': 'Collaborations', 'action': 'collaborations' },
@@ -48,7 +47,7 @@
                     {% endblock %}
                     {% block panel_content %}
                         <pagination-container
-                            type="camp.collaborationRequests"
+                            refresh="camp-collaboration::requested"
                             url="{{ url(
                                 'web/camp/default',
                                 { 'camp': camp, 'controller': 'Collaborations', 'action': 'requests' },
@@ -73,7 +72,7 @@
                     {% endblock %}
                     {% block panel_content %}
                         <pagination-container
-                            type="camp.collaborationInvitations"
+                            refresh="camp-collaboration::invited"
                             url="{{ url(
                                 'web/camp/default',
                                 { 'camp': camp, 'controller': 'Collaborations', 'action': 'invitations' },

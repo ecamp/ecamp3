@@ -7,9 +7,9 @@ CNS('ecamp.picasso.entity');
 ecamp.picasso.entity.Day = function($scope, day){
     this.id = day.id;
     this.periodId = day.periodId;
-    this.dayOffset = day.dayOffset;
-    this.dayNr = day.dayOffset + 1;
-    this.date = day.date;
+    this.dayOffset = day.offset;
+    this.dayNr = day.offset + 1;
+    this.date = new Date(day.date);
     this.leftOffset = 0;
 
     this.style = function(){
@@ -30,9 +30,9 @@ ecamp.picasso.entity.Day.Insert = function($scope, day){
 
 ecamp.picasso.entity.Day.Update = function(dayModel, day){
     dayModel.periodId = day.periodId;
-    dayModel.dayOffset = day.dayOffset;
-    dayModel.dayNr = day.dayOffset + 1;
-    dayModel.date = day.date;
+    dayModel.dayOffset = day.offset;
+    dayModel.dayNr = day.offset + 1;
+    dayModel.date = new Date(day.date);
     return dayModel;
 };
 

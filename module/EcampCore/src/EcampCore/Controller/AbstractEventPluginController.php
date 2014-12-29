@@ -2,7 +2,6 @@
 
 namespace EcampCore\Controller;
 
-use EcampCore\Entity\Medium;
 use EcampCore\Entity\Plugin;
 use EcampLib\Controller\AbstractBaseController;
 
@@ -41,15 +40,20 @@ abstract class AbstractEventPluginController extends AbstractBaseController
     }
 
     /**
-     * @param  \EcampCore\Entity\Plugin           $plugin
+     * @return \EcampCore\Plugin\StrategyProvider
+     */
+    protected function getStrategyProvider()
+    {
+        return $this->serviceLocator->get('EcampCore\Plugin\StrategyProvider');
+    }
+
+    /**
+     * @param Plugin $plugin
      * @return \EcampCore\Plugin\AbstractStrategy
      */
     protected function getPluginStrategyInstance(Plugin $plugin)
     {
-        $pluginStrategyClass = $plugin->getStrategyClass();
-        $pluginStrategyFactory = $this->getServiceLocator()->get($pluginStrategyClass);
-
-        return $pluginStrategyFactory->createStrategy();
+        return $this->getStrategyProvider()->Get($plugin);
     }
 
     /**
