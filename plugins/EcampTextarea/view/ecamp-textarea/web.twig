@@ -1,0 +1,40 @@
+<div
+    remote-collection="{{ url('plugin/textarea/api', { 'eventPluginId': eventPlugin.id }) }}"
+    resource-name="Textarea"
+>
+    <div ng-repeat="item in Textarea.Items">
+        <form remote-resource="item"
+              resource-name="textarea"
+              name="form"
+              ng-keydown="textarea.KeyHandler($event)"
+        >
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <pre ng-click="textarea.Edit()"
+                         ng-show="!textarea.IsEditing()"
+                         ng-bind="textarea.HalResource.text"
+                         style="font-family: inherit; background: inherit; border: inherit; padding: 0"
+                    ></pre>
+                    <textarea autosize
+                              ng-show="textarea.IsEditing()"
+                              ng-model="textarea.EditData.text"
+                              class="form-control"
+                    ></textarea>
+
+                    <div style="text-align: right">
+                        <div ng-show="!textarea.IsEditing()">
+                            <button type="button" class="btn btn-xs btn-default" ng-click="textarea.Edit()">Edit</button>
+                        </div>
+
+                        <div ng-show="textarea.IsEditing()" class="btn-group" style="text-align: left">
+                            <button class="btn btn-xs btn-success" ng-click="textarea.Save()">Save</button>
+                            <button class="btn btn-xs btn-danger" ng-click="textarea.Cancel()">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>
