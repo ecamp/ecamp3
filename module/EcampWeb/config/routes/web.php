@@ -159,6 +159,22 @@ return array(
             ),
         ),
 
+        'camp' => array(
+            'type'    => 'Segment',
+            'options' => array(
+                'route'    => '/camp/:camp/:controller[/:action]',
+                'constraints' => array(
+                    'camp'       => '[a-f0-9]+',
+                    'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                    'action'     => '[a-zA-Z][a-zA-Z0-9_-]*',
+                ),
+                'defaults' => array(
+                    '__NAMESPACE__' => 'EcampWeb\Controller\Camp',
+                    'action'    	=> 'index',
+                ),
+            ),
+        ),
+
         'plugin-create' => array(
             'type'    => 'Segment',
             'options' => array(
