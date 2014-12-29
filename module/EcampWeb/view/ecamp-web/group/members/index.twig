@@ -8,9 +8,7 @@
                 {% block panel_title %}
                     Members
                     <div class="pull-right">
-                        <a 	data-toggle="modal"
-                            data-backdrop="true"
-                            data-target="#asyncform-container"
+                        <a 	async-modal
                             href="{{ url(
                                 'web/group-prefix/name/default',
                                 { 'group': group, 'controller': 'Members', 'action': 'inviteSearch' }
@@ -24,7 +22,7 @@
                 {% endblock %}
                 {% block panel_content %}
                     <pagination-container
-                        type="group.memberships"
+                        refresh="group-membership::established"
                         url="{{ url(
                             'web/group-prefix/name/default',
                             { 'group': group, 'controller': 'Members', 'action': 'members' },
@@ -46,7 +44,7 @@
                 {% endblock %}
                 {% block panel_content %}
                     <pagination-container
-                        type="group.membershipRequests"
+                        refresh="group-membership::requested"
                         url="{{ url(
                             'web/group-prefix/name/default',
                             { 'group': group, 'controller': 'Members', 'action': 'requests' },
@@ -68,7 +66,7 @@
                 {% endblock %}
                 {% block panel_content %}
                     <pagination-container
-                        type="group.membershipInvitations"
+                        refresh="group-membership::invited"
                         url="{{ url(
                             'web/group-prefix/name/default',
                             { 'group': group, 'controller': 'Members', 'action': 'invitations' },
@@ -81,8 +79,5 @@
             {% endembed %}
         </div>
     </div>
-
-    <div class="modal fade" id="remoteModalDialog" tabindex="-1" role="dialog" />
-
 
 {% endblock %}

@@ -1,152 +1,102 @@
 {% extends 'ecamp-web/camp/camp.twig' %}
 
-{% block content2 %}
+{% block content %}
+    <event-plugins>
 
-	<h1>
-		{{ eventCategory.short }}: {{ event.title }}
+        <h1>
+            {{ eventCategory.short }}: {{ event.title }}
 
-		<div class="pull-right">
+            <div class="pull-right">
 
-			 {% include 'ecamp-web/event-templates/base/print.twig' %}
-
-			<div class="btn-group addPluginDropdown">
-			  	<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-			    	Add Plugin <span class="caret"></span>
-			  	</button>
+                 {% include 'ecamp-web/event-templates/base/print.twig' %}
 
 
-			  	<ul class="dropdown-menu pull-right" role="menu" style="width: 300px">
-					{% for eventTemplateContainer in eventTemplate.eventTemplateContainers %}
-			    		{% set eventTypePlugin = eventTemplateContainer.eventTypePlugin %}
-			    		<li class="{{ eventTypePlugin.getCountPluginInstances(event) >= eventTypePlugin.maxNumberPluginInstances ? 'disabled' : '' }}">
-			    			<a href="#{{ eventTemplateContainer.id }}">
-			    				{{ eventTypePlugin.plugin.name }}
-			    				<div class="pull-right eventPluginCountInfo"></div>
-			    			</a>
-			    		</li>
-
-			    	{% endfor %}
-			  	</ul>
-			</div>
-		</div>
-	</h1>
-
-	<script>
-		$(function(){
-			var pluginDropdown = $('div.addPluginDropdown');
-			var pluginDropdownButton = pluginDropdown.find('button.dropdown-toggle');
-			var isDropdownInitialized = false;
-			pluginDropdownButton.click(updateDropdown);
+                <div class="btn-group">
+                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                        Add Plugin <span class="caret"></span>
+                    </button>
 
 
+                    <ul class="dropdown-menu pull-right" role="menu" style="width: 300px">
+                        <li ng-repeat="plugin in plugins"
+                            ng-class="{'disabled': plugin.CountEventPlugin >= plugin.MaxEventPlugin}"
+                        >
+                            <a ng-click="plugin.Create()">
+                                <span ng-bind="plugin.Name"></span>
 
-			function updateDropdown(){
-				if(!isDropdownInitialized){
-					initDropdown();
-				}
+                                <div class="pull-right eventPluginCountInfo">
+                                    <span ng-bind="plugin.CountEventPlugin"></span>
+                                    von
+                                    <span ng-bind="plugin.MinEventPlugin"></span>
+                                    -
+                                    <span ng-bind="plugin.MaxEventPlugin"></span>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </h1>
 
-				pluginDropdown.find('li').each(function(idx, item){
-					$(item).data('$updateFunction')();
-				});
-			}
+        <div class="row">
+            <div class="col-xs-12">
+                {% embed "helper/accordion.twig" %}
+                    {% block panel_title %}
+                        Infos
+                    {% endblock %}
+                    {% block panel_content %}
+                        <div class="row">
+                            <div class="col-sm-8">
+                                <h4>Instances:</h4>
+                                <table class="table table-striped table-hover" style="width: 100%">
+                                    <tbody>
+                                        {% for eventInstance in event.eventInstances %}
+                                            <tr>
+                                                <td>
+                                                    {{ eventInstance.getEventNumber() }}
+                                                </td>
+                                                <td>
+                                                    {{ eventInstance.getDateRange() }}
+                                                </td>
+                                                <td>
+                                                    {{ eventInstance.getStarttime() | date('H') }}<sup><small>{{ eventInstance.getStarttime() | date('i') }}</small></sup>
+                                                    -
+                                                    {{ eventInstance.getEndtime() | date('H') }}<sup><small>{{ eventInstance.getEndtime() | date('i') }}</small></sup>
 
-			function initDropdown(){
-				pluginDropdown.find('li').each(function(idx, item){
-					var li = $(item);
-					var eventTemplateContainer = $(li.find('a').attr('href'));
-					var eventTemplateContainerController = eventTemplateContainer.data('$eventTemplateContainerController');
+                                                </td>
+                                                <td>{{ eventInstance.getPeriod().getDescription() }}</td>
 
-					if(eventTemplateContainerController == undefined){
-						console.log('eventTemplateContainerController of ' + li.text().trim() + ' not found!');
-						li.remove();
-					} else {
-						li.find('a').click(function(){
-							var maxNumEventPlugins = eventTemplateContainerController.getMaxNumEventPlugin();
-							var currentNumEventPlugins = eventTemplateContainerController.getCountNumEventPlugin();
-							if(currentNumEventPlugins < maxNumEventPlugins){
-								eventTemplateContainerController.createEventPlugin();
-							}
-						});
+                                                <td style="padding: 2px 8px">
+                                                    <div class="btn-group pull-right">
+                                                    <!--
+                                                        <a class="btn btn-sm btn-default"><i class="fa fa-pencil"></i> Event</a>
+                                                     -->
+                                                        <a class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown">
+                                                            Options <span class="caret"></span>
+                                                        </a>
+                                                        <ul class="dropdown-menu pull-right" role="menu">
+                                                            <li><a href="#"><i class="fa fa-clock-o" style="margin-left: 2px; margin-right: 9px"></i> Move</a></li>
+                                                            <li><a href="#"><i class="fa fa-copy" style="margin-left: 1px; margin-right: 7px"></i> Copy / Split</a></li>
+                                                            <li><a href="#"><i class="fa fa-trash-o"  style="margin-left: 3px; margin-right: 9px"></i> Delete</a></li>
+                                                        </ul>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="col-sm-4">
+                                <h4>Responsables:</h4>
+                                {% include 'ecamp-web/event-templates/base/event-resp-select.twig' %}
+                            </div>
+                        </div>
+                    {% endblock %}
+                {% endembed %}
+            </div>
 
-						li.data('$updateFunction', function(){
-							var minNumEventPlugins = eventTemplateContainerController.getMinNumEventPlugin();
-							var maxNumEventPlugins = eventTemplateContainerController.getMaxNumEventPlugin();
-							var currentNumEventPlugins = eventTemplateContainerController.getCountNumEventPlugin();
-							li.find('div.eventPluginCountInfo').text(
-								currentNumEventPlugins + " von " + minNumEventPlugins + " - " + maxNumEventPlugins);
+        </div>
 
-							if(currentNumEventPlugins >= maxNumEventPlugins){
-								li.addClass('disabled');
-							} else {
-								li.removeClass('disabled');
-							}
-						});
-					}
-				});
-				isDropdownInitialized = true;
-			}
-		});
-	</script>
-
-	<div class="row">
-		<div class="col-xs-12">
-			{% embed "helper/accordion.twig" %}
-				{% block panel_title %}
-					Infos
-				{% endblock %}
-				{% block panel_content %}
-					<div class="row">
-						<div class="col-sm-8">
-							<h4>Instances:</h4>
-							<table class="table table-striped table-hover" style="width: 100%">
-								<tbody>
-									{% for eventInstance in event.eventInstances %}
-										<tr>
-											<td>
-												{{ eventInstance.getEventNumber() }}
-											</td>
-											<td>
-												{{ eventInstance.getDateRange() }}
-											</td>
-											<td>
-												{{ eventInstance.getStarttime() | date('H') }}<sup><small>{{ eventInstance.getStarttime() | date('i') }}</small></sup>
-												-
-												{{ eventInstance.getEndtime() | date('H') }}<sup><small>{{ eventInstance.getEndtime() | date('i') }}</small></sup>
-
-											</td>
-											<td>{{ eventInstance.getPeriod().getDescription() }}</td>
-
-											<td style="padding: 2px 8px">
-												<div class="btn-group pull-right">
-												<!--
-													<a class="btn btn-sm btn-default"><i class="fa fa-pencil"></i> Event</a>
-												 -->
-													<a class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown">
-														Options <span class="caret"></span>
-													</a>
-													<ul class="dropdown-menu pull-right" role="menu">
-														<li><a href="#"><i class="fa fa-clock-o" style="margin-left: 2px; margin-right: 9px"></i> Move</a></li>
-														<li><a href="#"><i class="fa fa-copy" style="margin-left: 1px; margin-right: 7px"></i> Copy / Split</a></li>
-														<li><a href="#"><i class="fa fa-trash-o"  style="margin-left: 3px; margin-right: 9px"></i> Delete</a></li>
-													</ul>
-												</div>
-											</td>
-										</tr>
-									{% endfor %}
-								</tbody>
-							</table>
-						</div>
-						<div class="col-sm-4">
-							<h4>Responsables:</h4>
-							{% include 'ecamp-web/event-templates/base/event-resp-select.twig' %}
-						</div>
-					</div>
-				{% endblock %}
-			{% endembed %}
-		</div>
-
-	</div>
-
-	{% block eventTemplateContent %}{{ eventTemplateContent|raw }}{% endblock eventTemplateContent %}
-
+        {% block eventTemplateContent %}{{ eventTemplateContent|raw }}{% endblock eventTemplateContent %}
+    </event-plugins>
 {% endblock %}

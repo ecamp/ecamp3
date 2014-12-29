@@ -29,7 +29,6 @@ class EventPluginController extends AbstractEventPluginController
     {
         try {
             $event = $this->getRouteEvent();
-            $eventType = $event->getEventCategory()->getEventType();
             $plugin = $this->getRoutePlugin();
             $webMedium = $this->getWebMedium();
 
@@ -48,6 +47,7 @@ class EventPluginController extends AbstractEventPluginController
             return $viewModel;
 
         } catch (\Exception $ex) {
+            /** @var \Zend\Http\Response $response */
             $response = $this->getResponse();
             $response->setStatusCode(Response::STATUS_CODE_500);
             $response->setContent($ex->getMessage());
@@ -78,6 +78,7 @@ class EventPluginController extends AbstractEventPluginController
             return $itemViewModel;
 
         } catch (\Exception $ex) {
+            /** @var \Zend\Http\Response $response */
             $response = $this->getResponse();
             $response->setStatusCode(Response::STATUS_CODE_500);
             $response->setContent($ex->getMessage());
@@ -88,6 +89,9 @@ class EventPluginController extends AbstractEventPluginController
 
     public function deleteAction()
     {
+        /** @var \Zend\Http\Response $response */
+        $response = $this->getResponse();
+
         try {
             $eventPlugin = $this->getRouteEventPlugin();
             if ($eventPlugin == null) {
@@ -99,13 +103,11 @@ class EventPluginController extends AbstractEventPluginController
             $pluginStrategy = $this->getPluginStrategyInstance($plugin);
             $pluginStrategy->delete($eventPlugin);
 
-            $response = $this->getResponse();
-            $response->setStatusCode(Response::STATUS_CODE_200);
+            $response->setStatusCode(Response::STATUS_CODE_204);
 
             return $response;
 
         } catch (\Exception $ex) {
-            $response = $this->getResponse();
             $response->setStatusCode(Response::STATUS_CODE_500);
             $response->setContent($ex->getMessage());
 

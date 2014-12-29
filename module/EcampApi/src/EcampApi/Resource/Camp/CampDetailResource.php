@@ -34,7 +34,7 @@ class CampDetailResource extends HalResource
         );
 
         $collabLink = new Link('collaborations');
-        $collabLink->setRoute('api/camps/collaborations', array('camp' => $camp->getId()));
+        $collabLink->setRoute('api/camps/collaborators', array('camp' => $camp->getId()));
 
         $eventLink = new Link('events');
         $eventLink->setRoute('api/camps/events', array('camp' => $camp->getId()));

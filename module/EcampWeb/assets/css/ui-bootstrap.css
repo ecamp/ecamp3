@@ -1,0 +1,10 @@
+
+.modal-open .async-modal {
+    display: block;
+}
+
+.modal-backdrop {
+    position: fixed;
+    bottom: 0;
+
+}

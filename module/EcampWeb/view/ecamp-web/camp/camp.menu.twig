@@ -14,7 +14,11 @@
             Programm <div class="pull-right"><span class="caret"></span></div>
         </a>
         <ul class="dropdown-menu">
-            <li><a href="#">Grobprogramm</a></li>
+            <li class="{{ controller == 'Picasso' ? 'active' : '' }}">
+                <a href="{{ url('web/camp/default', { 'camp': camp, 'controller': 'Picasso' }) }}">
+                    Grobprogramm
+                </a>
+            </li>
             <li class="{{ controller == 'Day' ? 'active' : '' }}">
                 <a href="{{ url('web/camp/default', { 'camp': camp, 'controller': 'Day' }) }}">Tages&uuml;bersicht</a>
             </li>

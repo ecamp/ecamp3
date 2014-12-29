@@ -1,21 +1,27 @@
 <?php
 namespace EcampApi\Resource\Group;
 
+use EcampLib\Resource\BaseResourceListener;
 use PhlyRestfully\Exception\DomainException;
 use PhlyRestfully\ResourceEvent;
-use Zend\EventManager\AbstractListenerAggregate;
 use Zend\EventManager\EventManagerInterface;
 
-class GroupResourceListener extends AbstractListenerAggregate
+class GroupResourceListener extends BaseResourceListener
 {
-    protected $groupRepo;
-    protected $groupService;
-
-    public function __construct($groupRepo, $groupService)
-    {
-        $this->groupRepo = $groupRepo;
-        $this->groupService = $groupService;
+    /**
+     * @return \EcampCore\Repository\GroupRepository
+     */
+    protected function getGroupRepository(){
+        return $this->getService('EcampCore\Repository\Group');
     }
+
+    /**
+     * @return \EcampCore\Service\GroupService
+     */
+    protected function getGroupService(){
+        return $this->getService('EcampCore\Service\Group');
+    }
+
 
     public function attach(EventManagerInterface $events)
     {
@@ -28,7 +34,7 @@ class GroupResourceListener extends AbstractListenerAggregate
     public function onFetch(ResourceEvent $e)
     {
         $id = $e->getParam('id');
-        $group = $this->repo->find($id);
+        $group = $this->getGroupRepository()->find($id);
 
         if (!$group) {
             throw new DomainException('User not found', 404);
@@ -42,7 +48,7 @@ class GroupResourceListener extends AbstractListenerAggregate
         $params = $e->getQueryParams()->toArray();
         $params['group'] = $e->getRouteParam('group', $e->getQueryParam('group'));
 
-        return $this->repo->getCollection($params);
+        return $this->getGroupRepository()->getCollection($params);
     }
 
     public function onUpdate(ResourceEvent $e)
@@ -51,7 +57,7 @@ class GroupResourceListener extends AbstractListenerAggregate
         $data = $e->getParam('data');
         $dataArray = (array) $data;
 
-        $group = $this->groupService->Update($id, $dataArray);
+        $group = $this->getGroupService()->Update($id, $dataArray);
 
         return new GroupDetailResource($group);
     }

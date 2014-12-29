@@ -2,8 +2,6 @@
 
 namespace EcampCore\Plugin;
 
-use EcampCore\Entity\Medium;
-use EcampCore\Entity\EventPlugin;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -15,7 +13,7 @@ abstract class AbstractStrategyFactory
     protected $serviceLocator;
 
     /**
-     * @var unknown
+     * @var EntityManagerInterface
      */
     protected $entityManager;
 
@@ -28,8 +26,6 @@ abstract class AbstractStrategyFactory
     }
 
     /**
-     * @param  EventPlugin                        $eventPlugin
-     * @param  Medium                             $medium
      * @return \EcampCore\Plugin\AbstractStrategy
      */
     abstract public function createStrategy();

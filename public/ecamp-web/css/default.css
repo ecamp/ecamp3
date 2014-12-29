@@ -181,7 +181,7 @@ input.nospinner::-webkit-outer-spin-button {
 	outline: none;
 }
 
-.tabbable > .nav > li.active > a .deleteEventPlugin.showDeleteButton {
+.tabbable > .nav > li.active > a .deleteEventPlugin {
 	display: inline;
 }
 
@@ -227,7 +227,7 @@ html, body, .layout {
     min-height: 400px;
 }
 
-.container.full-height {
+.full-height {
     height: 100%;
 }
 

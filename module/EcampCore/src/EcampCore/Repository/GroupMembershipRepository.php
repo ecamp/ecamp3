@@ -42,15 +42,17 @@ class GroupMembershipRepository extends EntityRepository
     }
 
     /**
-     * @param  Group           $group
-     * @param  User            $user
+     * @param Group $group
+     * @param User $user
      * @return GroupMembership
      */
     public function findByGroupAndUser(Group $group, User $user)
     {
         $query = $this->createQueryBuilder('gm')
-                    ->where("gm.group = '" . $group->getId() . "'")
-                    ->andWhere("gm.user = '" . $user->getId() . "'")
+                    ->where("gm.group = :group")
+                    ->andWhere("gm.user = :user")
+                    ->setParameter('group', $group->getId())
+                    ->setParameter('user', $user->getId())
                     ->setMaxResults(1)
                     ->getQuery();
 

@@ -5,15 +5,21 @@ return array(
     'abstract_factories' => array(
         /**
          * Provides repositories for all doctrine entities
-         * Pattern: EcampCore\Repository\*
+         * Pattern: Ecamp*\Repository\*
          */
         'EcampLib\Repository\AbstractRepositoryFactory',
 
         /**
          * Provides wrapped services for all internal service classes
-         * Pattern: EcampCore\Service\*
+         * Pattern: Ecamp*\Service\*
          */
         'EcampLib\Service\AbstractServiceFactory',
+
+        /**
+         * Provides Phly-Restfully Resources
+         * Pattern: Ecamp*\Resource\*
+         */
+        'EcampLib\Resource\AbstractResourceFactory'
 
     ),
 

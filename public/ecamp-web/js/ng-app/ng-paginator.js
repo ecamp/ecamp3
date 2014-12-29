@@ -8,85 +8,99 @@
         return {
             restrict: 'E',
             scope: {
-                type: '@',
+                refresh: '@',
                 url: '@'
             },
-            controller: function($scope){},
-            link: function(scope, element, attrs, ctrl){
-                var $element = $(element);
-                var $pageContainer = $element;
-                var $search = $element.find('.search-query');
+            controller: function($scope){
+                var $element = null;
+                var $pageContainer = null;
+                var $search = null;
 
-                if($element.find('page-container').length){
-                    $pageContainer = $element.find('page-container');
+                $scope.query = {};
+                $scope.currentPage = 1;
+                $scope.updateCounter = 0;
+
+                function Init(element){
+                    $element = element;
+                    $pageContainer = $element;
+                    $search = $element.find('.search-query');
+
+                    if($element.find('page-container').length){
+                        $pageContainer = $element.find('page-container');
+                    }
                 }
 
-                scope.query = {};
-                scope.currentPage = 1;
-                scope.updateCounter = 0;
 
-
-                function load(pageNr){
+                function Load(pageNr){
                     $element.find('.page-info').hide();
                     $element.find('.spinner').show();
 
-                    if(scope.url){
-                        var url = scope.url.replace(':page', pageNr);
-                        return $http.get(url, { params: scope.query })
-                                    .success(function(){ scope.currentPage = pageNr; })
-                                    .success(loadPageOnSuccess)
-                                    .error(loadPageOnError);
+                    if($scope.url){
+                        var url = $scope.url.replace(':page', pageNr);
+                        return $http.get(url, { params: $scope.query })
+                            .success(function(){ $scope.currentPage = pageNr; })
+                            .success(LoadPageOnSuccess)
+                            .error(LoadPageOnError);
                     }
 
                     return null;
                 }
 
-                function loadPageOnSuccess(data){
+                function LoadPageOnSuccess(data){
                     $pageContainer.html(data);
 
-                    if(scope.updateCounter > 0){
-                        $pageContainer.find('.pagination-container-body').css({ 'opacity': 0 });
-                    }
-
                     $.each($pageContainer.children(), function(idx, elem){
-                        $compile(elem)(scope);
+                        $compile(elem)($scope);
                     });
                 }
 
-                function loadPageOnError(data, status, headers, config){
+                function LoadPageOnError(data, status, headers, config){
                 }
 
-
-                function loadPage(pageNr){
-                    var l = load(pageNr);
+                function LoadPage(pageNr){
+                    Load(pageNr);
+                    /*
+                    var l = Load(pageNr);
                     if(l){
                         beginUpdate();
                         l.finally(endUpdate);
                     }
+                    */
                 }
 
-                function refreshPage(){
-                    loadPage(scope.currentPage);
+                function RefreshPage(){
+                    LoadPage($scope.currentPage);
                 }
 
-                function beginUpdate(){
-                    scope.updateCounter++;
-                    $pageContainer.find('.pagination-container-body').animate({ 'opacity': 0 });
+                function SetQuery(query){
+                    $scope.query = query;
                 }
 
-                function endUpdate(){
-                    scope.updateCounter--;
 
-                    if(scope.updateCounter == 0){
-                        $pageContainer.find('.pagination-container-body').animate({ 'opacity': 1 });
+                if($scope.refresh){
+                    var events = CNS('ecamp.events');
+
+                    var splits = $scope.refresh.split('::');
+
+                    if(splits.length == 1){
+                        events.on(splits[0], RefreshPage);
+                    }
+                    if(splits.length == 2){
+                        events.on(splits[0], function(event, param){
+                            if(param == splits[1]){ RefreshPage(); }
+                        });
                     }
                 }
 
-                function setQuery(query){
-                    scope.query = query;
-                }
+                this.Init = Init;
+                this.SetQuery = $scope.SetQuery = SetQuery;
+                this.LoadPage = $scope.LoadPage = LoadPage;
+                this.RefreshPage = $scope.RefreshPage = RefreshPage;
+            },
+            link: function(scope, element, attrs, ctrl){
+                ctrl.Init(element);
 
-
+/*
                 if(scope.type){
                     var events = CNS('ecamp.events');
                     var contents = scope.type.split(' ');
@@ -101,6 +115,7 @@
                 scope.setQuery = ctrl.setQuery = setQuery;
                 scope.loadPage = ctrl.loadPage = loadPage;
                 scope.refreshPage = ctrl.refreshPage = refreshPage;
+*/
             }
         }
     }]);
@@ -117,22 +132,22 @@
                 var changeTimeoutMinFreq = null;
                 var changeTimeoutMaxFreq = null;
 
-                function stopTimeout(){
+                function StopTimeout(){
                     clearTimeout(changeTimeoutMinFreq); changeTimeoutMinFreq = null;
                     clearTimeout(changeTimeoutMaxFreq); changeTimeoutMaxFreq = null;
                 }
 
-                function inputValueChanged(){
+                function InputValueChanged(){
                     if(changeTimeoutMinFreq == null){
-                        changeTimeoutMinFreq = setTimeout(updateQuery, 1000);
+                        changeTimeoutMinFreq = setTimeout(UpdateQuery, 1000);
                     }
 
                     clearTimeout(changeTimeoutMaxFreq);
-                    changeTimeoutMaxFreq = setTimeout(updateQuery, 200);
+                    changeTimeoutMaxFreq = setTimeout(UpdateQuery, 200);
                 }
 
-                function updateQuery(){
-                    stopTimeout();
+                function UpdateQuery(){
+                    StopTimeout();
 
                     var q = {};
                     inputs.each(function(idx, input){
@@ -140,8 +155,8 @@
                         q[$input.attr('name')] = $input.val();
                     });
 
-                    paginationContainer.setQuery(q);
-                    paginationContainer.refreshPage();
+                    paginationContainer.SetQuery(q);
+                    paginationContainer.RefreshPage();
                 }
 
                 inputs.each(function(idx, input){
@@ -151,7 +166,7 @@
                     $input.keyup(function(){
                         if($input.val() != oldValue){
                             oldValue = $input.val();
-                            inputValueChanged();
+                            InputValueChanged();
                         }
                     });
                 });
@@ -179,7 +194,7 @@
             },
             link: function(scope, element, attrs, paginationContainer) {
                 $(element).click(function(){
-                    paginationContainer.loadPage(scope.paginationPageNr);
+                    paginationContainer.LoadPage(scope.paginationPageNr);
                 });
             }
         };
@@ -192,7 +207,7 @@
             scope: {},
             link: function(scope, element, attrs, paginationContainer) {
                 $(element).click(function(){
-                    paginationContainer.refreshPage();
+                    paginationContainer.RefreshPage();
                 });
             }
         };

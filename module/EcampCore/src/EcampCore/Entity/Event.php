@@ -157,6 +157,7 @@ class Event
     }
 
     /**
+     * @param Plugin $plugin
      * @return array
      */
     public function getEventPluginsByPlugin(Plugin $plugin)
@@ -169,6 +170,7 @@ class Event
     }
 
     /**
+     * @param Plugin $plugin
      * @return integer
      */
     public function countEventPluginsByPlugin(Plugin $plugin)

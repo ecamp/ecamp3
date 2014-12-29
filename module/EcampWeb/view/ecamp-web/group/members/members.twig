@@ -46,7 +46,10 @@
                                     <i class="fa fa-edit"></i> Edit
                                 </a>
                             {% endif %}
-                            {{ membership(member, 'xs') }}
+
+                            <group-membership group="{{ member.group.id }}" user="{{ member.user.id }}">
+                                <group-membership-operation size="xs"></group-membership-operation>
+                            </group-membership>
                         </span>
                     </td>
                 </tr>

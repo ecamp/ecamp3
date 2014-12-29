@@ -15,9 +15,9 @@ class EventTemplateContainerRenderer
     private $eventTemplateContainer;
 
     /**
-     * @var \EcampCore\Plugin\AbstractStrategyFactory
+     * @var \EcampCore\Plugin\StrategyProvider
      */
-    private $pluginStrategyInstanceFactory;
+    private $strategyProvider;
 
     /**
      * @var \EcampCore\View\Event\EventTemplateRenderer
@@ -68,10 +68,7 @@ class EventTemplateContainerRenderer
 
     public function buildRendererTree(ServiceLocatorInterface $serviceLocator)
     {
-        $eventTypePlugin = $this->eventTemplateContainer->getEventTypePlugin();
-
-        $pluginStrategyClass = $eventTypePlugin->getPlugin()->getStrategyClass();
-        $this->pluginStrategyInstanceFactory = $serviceLocator->get($pluginStrategyClass);
+        $this->strategyProvider = $serviceLocator->get('EcampCore\Plugin\StrategyProvider');
     }
 
     /**
@@ -95,7 +92,7 @@ class EventTemplateContainerRenderer
         $viewModel->setVariable('eventTypePlugin', $eventTypePlugin);
         $viewModel->setVariable('eventTemplateContainer', $eventTemplateContainer);
 
-        $pluginStrategy = $this->pluginStrategyInstanceFactory->createStrategy();
+        $pluginStrategy = $this->strategyProvider->Get($plugin);
 
         $childViewModels = array();
 
