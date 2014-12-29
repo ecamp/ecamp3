@@ -3,7 +3,7 @@
  */
 
 (function(ngApp){
-    ngApp.factory('PicassoEventInstance', ['$timeout', function($timeout) {
+    ngApp.factory('PicassoEventInstance', ['$timeout', '$window', function($timeout, $window) {
 
         var SortedDictionary = ecamp.core.util.SortedDictionary;
 
@@ -223,6 +223,8 @@
                     Object.defineProperty(this, 'Mouseleave', { value: Mouseleave });
                     Object.defineProperty(this, 'Class', { value: Class });
 
+                    Object.defineProperty(this, 'Click', { value: Click });
+
 
                     function Border(){
                         var isStart = this.IsStart();
@@ -239,7 +241,7 @@
                             borderBottomLeftRadius: isEnd ? 10 : 0,
                             borderBottomRightRadius: isEnd ? 10 : 0,
                             pointerEvents: 'none',
-                            zIndex: scope.hover ? 10001 : null
+                            zIndex: scope.hover ? 1001 : null
                         }
                     }
 
@@ -260,7 +262,7 @@
                             height: (100 * _picassoData.GetLength(end - start)) + '%',
 
                             zIndex: scope.hover ?
-                                10000 : 100 * firstDay.dayOffset + eventInstanceModel.GetEventNr()
+                                1000 : eventInstanceModel.GetZIndex()
                         };
 
                     }
@@ -307,6 +309,29 @@
 
                     function Class(){
                         return _userEventIsProcessing ? 'user-event' : '';
+                    }
+
+
+                    var _dblclickTimeout = null;
+
+                    function Click(event){
+                        /* Double-Click Timeout
+                         * Beim ersten clicken auf das Event wird dem Link nicht gefolgt (preventDefault)
+                         * und es wird ein Timeout gestartet. Wenn innerhalb dieses Timeouts erneut auf
+                         * das Event geclickt wird, wird dem Link normal gefolgt.
+                         *
+                         * Vorteil: Es funktionieren auch die Browser-Funktionen wie "neuen Tab bei Shift-Click"
+                         */
+                        if(_dblclickTimeout == null){
+                            _dblclickTimeout = $timeout(function(){
+                                _dblclickTimeout = null;
+                            }, 300);
+
+                            event.preventDefault();
+                            return false;
+                        }
+
+                        return true;
                     }
                 }
 

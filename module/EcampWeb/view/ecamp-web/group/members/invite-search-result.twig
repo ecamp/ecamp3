@@ -25,11 +25,9 @@
                                     <td>{{ user.fullname }}</td>
                                     <!--<td>{{ user.scoutname }}</td>-->
                                     <td style="text-align: right">
-                                        {% if group.groupMembership().canSendMembershipInvitation(user) %}
-                                            {{ membership(group, user, 'xs') }}
-                                        {% else %}
-                                            {# membershipDesc(group, user, 'xs') #}
-                                        {% endif %}
+                                        <group-membership group="{{ group.id }}" user="{{ user.id }}">
+                                            <group-membership-operation size="xs"></group-membership-operation>
+                                        </group-membership>
                                     </td>
                                 </tr>
                             {% endfor %}

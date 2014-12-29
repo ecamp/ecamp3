@@ -1,18 +1,19 @@
 <?php
 namespace EcampApi\Resource\EventResp;
 
+use EcampLib\Resource\BaseResourceListener;
 use PhlyRestfully\Exception\DomainException;
 use PhlyRestfully\ResourceEvent;
-use Zend\EventManager\AbstractListenerAggregate;
 use Zend\EventManager\EventManagerInterface;
 
-class EventRespResourceListener extends AbstractListenerAggregate
+class EventRespResourceListener extends BaseResourceListener
 {
-    protected $repo;
-
-    public function __construct(\EcampCore\Repository\EventRespRepository $repo)
+    /**
+     * @return \EcampCore\Repository\EventRespRepository
+     */
+    protected function getEventRespRepository()
     {
-        $this->repo = $repo;
+        return $this->getService('EcampCore\Repository\EventResp');
     }
 
     public function attach(EventManagerInterface $events)
@@ -24,7 +25,7 @@ class EventRespResourceListener extends AbstractListenerAggregate
     public function onFetch(ResourceEvent $e)
     {
         $id = $e->getParam('id');
-        $entity = $this->repo->find($id);
+        $entity = $this->getEventRespRepository()->find($id);
 
         if (!$entity) {
             throw new DomainException('EventResp not found', 404);
@@ -40,6 +41,6 @@ class EventRespResourceListener extends AbstractListenerAggregate
         $params['user'] = $e->getRouteParam('user', $e->getQueryParam('user'));
         $params['collaboration'] = $e->getRouteParam('collaboration', $e->getQueryParam('collaboration'));
 
-        return $this->repo->getCollection($params);
+        return $this->getEventRespRepository()->getCollection($params);
     }
 }

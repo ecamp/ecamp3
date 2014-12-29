@@ -1,18 +1,19 @@
 <?php
 namespace EcampApi\Resource\Day;
 
+use EcampLib\Resource\BaseResourceListener;
 use PhlyRestfully\Exception\DomainException;
 use PhlyRestfully\ResourceEvent;
-use Zend\EventManager\AbstractListenerAggregate;
 use Zend\EventManager\EventManagerInterface;
 
-class DayResourceListener extends AbstractListenerAggregate
+class DayResourceListener extends BaseResourceListener
 {
-    protected $repo;
-
-    public function __construct(\EcampCore\Repository\DayRepository $repo)
+    /**
+     * @return \EcampCore\Repository\DayRepository
+     */
+    protected function getDayRepository()
     {
-        $this->repo = $repo;
+        return $this->getService('EcampCore\Repository\Day');
     }
 
     public function attach(EventManagerInterface $events)
@@ -24,7 +25,7 @@ class DayResourceListener extends AbstractListenerAggregate
     public function onFetch(ResourceEvent $e)
     {
         $id = $e->getParam('id');
-        $entity = $this->repo->find($id);
+        $entity = $this->getDayRepository()->find($id);
 
         if (!$entity) {
             throw new DomainException('Day not found', 404);
@@ -38,6 +39,6 @@ class DayResourceListener extends AbstractListenerAggregate
         $params = $e->getQueryParams()->toArray();
         $params['period'] = $e->getRouteParam('period', $e->getQueryParam('period'));
 
-        return $this->repo->getCollection($params);
+        return $this->getDayRepository()->getCollection($params);
     }
 }

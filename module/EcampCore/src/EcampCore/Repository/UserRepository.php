@@ -7,6 +7,7 @@ use EcampCore\Entity\UserRelationship;
 
 use DoctrineORMModule\Paginator\Adapter\DoctrinePaginator as PaginatorAdapter;
 use Doctrine\ORM\Tools\Pagination\Paginator as ORMPaginator;
+use Zend\Paginator\Adapter\ArrayAdapter;
 use Zend\Paginator\Paginator;
 use Zend\Validator\EmailAddress;
 
@@ -48,6 +49,7 @@ class UserRepository extends BaseRepository
     {
         $tokens = explode(" ", $search);
         $tokens = array_filter($tokens);
+        $doSearch = false;
 
         $q = $this->createQueryBuilder('u');
 
@@ -65,6 +67,8 @@ class UserRepository extends BaseRepository
         $groupQ->where('u.id = gu.id');
 
         foreach ($tokens as $key => $token) {
+            $doSearch = $doSearch || (strlen($token) >= 3);
+
             $userQ->andWhere(
                 $userQ->expr()->orX(
                     'uu.username like ' . $userQ->expr()->concat(':uu_user_token' . $key, "'%'"),
@@ -129,7 +133,11 @@ class UserRepository extends BaseRepository
             $q->expr()->exists($groupQ->getDQL())
         ));
 
-        return new Paginator(new PaginatorAdapter(new ORMPaginator($q->getQuery())));
+        if ($doSearch) {
+            return new Paginator(new PaginatorAdapter(new ORMPaginator($q->getQuery())));
+        } else {
+            return new Paginator(new ArrayAdapter());
+        }
     }
 
     public function findByIdentifier($identifier)

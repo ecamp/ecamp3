@@ -1,20 +1,27 @@
 <?php
 namespace EcampApi\Resource\Camp;
 
+use EcampLib\Resource\BaseResourceListener;
 use PhlyRestfully\Exception\DomainException;
 use PhlyRestfully\ResourceEvent;
-use Zend\EventManager\AbstractListenerAggregate;
 use Zend\EventManager\EventManagerInterface;
 
-class CampResourceListener extends AbstractListenerAggregate
+class CampResourceListener extends BaseResourceListener
 {
-    protected $campRepo;
-    protected $campService;
-
-    public function __construct($campRepo, $campService)
+    /**
+     * @return \EcampCore\Repository\CampRepository
+     */
+    private function getCampRepository()
     {
-        $this->campRepo = $campRepo;
-        $this->campService = $campService;
+        return $this->getService('EcampCore\Repository\Camp');
+    }
+
+    /**
+     * @return \EcampCore\Service\CampService
+     */
+    private function getCampService()
+    {
+        return $this->getService('EcampCore\Service\Camp');
     }
 
     public function attach(EventManagerInterface $events)
@@ -28,7 +35,7 @@ class CampResourceListener extends AbstractListenerAggregate
     public function onFetch(ResourceEvent $e)
     {
         $id = $e->getParam('id');
-        $camp = $this->campRepo->find($id);
+        $camp = $this->getCampRepository()->find($id);
 
         if (!$camp) {
             throw new DomainException('Camp not found', 404);
@@ -43,7 +50,7 @@ class CampResourceListener extends AbstractListenerAggregate
         $params['user'] = $e->getRouteParam('user', $e->getQueryParam('user'));
         $params['group'] = $e->getRouteParam('group', $e->getQueryParam('group'));
 
-        return $this->campRepo->getCollection($params);
+        return $this->getCampRepository()->getCollection($params);
     }
 
     public function onUpdate(ResourceEvent $e)
@@ -52,7 +59,7 @@ class CampResourceListener extends AbstractListenerAggregate
         $data = $e->getParam('data');
         $dataArray = (array) $data;
 
-        $camp = $this->campService->Update($id, $dataArray);
+        $camp = $this->getCampService()->Update($id, $dataArray);
 
         return new CampDetailResource($camp);
     }

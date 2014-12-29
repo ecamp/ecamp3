@@ -10,6 +10,7 @@ namespace EcampWeb\Controller\Camp;
 
 use EcampLib\Validation\ValidationException;
 use EcampWeb\Form\Event\EventCreateForm;
+use EcampWeb\Form\Event\EventUpdateForm;
 use Zend\Http\PhpEnvironment\Response;
 
 class PicassoController
@@ -29,6 +30,14 @@ class PicassoController
     private function getPeriodRepository()
     {
         return $this->getServiceLocator()->get('EcampCore\Repository\Period');
+    }
+
+    /**
+     * @return \EcampCore\Repository\EventInstanceRepository
+     */
+    private function getEventInstanceRepository()
+    {
+        return $this->getServiceLocator()->get('EcampCore\Repository\EventInstance');
     }
 
     /**
@@ -68,7 +77,7 @@ class PicassoController
         $form->setAction(
             $this->url()->fromRoute(
                 'web/camp/default',
-                array('camp' => $this->getCamp(), 'controller' => 'Picasso', 'action' => 'createEvent'),
+                array('camp' => $camp, 'controller' => 'Picasso', 'action' => 'createEvent'),
                 array('query' => array('periodId' => $periodId))
             )
         );
@@ -119,4 +128,67 @@ class PicassoController
         );
     }
 
+    public function updateEventInstanceAction()
+    {
+        $eventInstanceId = $this->params()->fromQuery('eventInstanceId');
+
+        /** @var \EcampCore\Entity\EventInstance $eventInstance */
+        $eventInstance = $this->getEventInstanceRepository()->find($eventInstanceId);
+        $event = $eventInstance->getEvent();
+        $camp = $this->getCamp();
+
+        $form = new EventUpdateForm($camp, $event, $eventInstance);
+        $form->setAction(
+            $this->url()->fromRoute(
+                'web/camp/default',
+                array('camp' => $camp, 'controller' => 'Picasso', 'action' => 'updateEventInstance'),
+                array('query' => array('eventInstanceId' => $eventInstanceId))
+            )
+        );
+
+        if ($this->getRequest()->isPost()) {
+            $data = $this->getRequest()->getPost();
+
+            if ($form->setData($data)->isValid()) {
+
+                try {
+                    try {
+                        $eventData = $data['event'];
+                        $this->getEventService()->Update($event, $eventData);
+                    } catch (ValidationException $e) {
+                        throw ValidationException::FromInnerException('event', $e);
+                    }
+
+                    try {
+                        $eventInstanceData = $data['eventInstance'];
+                        $this->getEventInstanceService()->Update($eventInstance, $eventInstanceData);
+                    } catch (ValidationException $e) {
+                        throw ValidationException::FromInnerException('eventInstance', $e);
+                    }
+
+                    $this->flashMessenger()->addSuccessMessage('Event created');
+                    $this->getResponse()->setStatusCode(Response::STATUS_CODE_204);
+
+                } catch (ValidationException $e) {
+                    $form->extractFromException($e);
+                    $this->getResponse()->setStatusCode(Response::STATUS_CODE_500);
+
+                } catch (\Exception $e) {
+                    $this->flashMessenger()->addErrorMessage('Event not created');
+                    throw $e;
+                }
+
+            } else {
+                $this->getResponse()->setStatusCode(Response::STATUS_CODE_500);
+            }
+
+        } else {
+            $data = $this->getRequest()->getQuery();
+            $form->setData($data);
+        }
+
+        return array(
+            'form' => $form
+        );
+    }
 }

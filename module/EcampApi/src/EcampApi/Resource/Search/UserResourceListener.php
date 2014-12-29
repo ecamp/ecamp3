@@ -1,26 +1,37 @@
 <?php
 namespace EcampApi\Resource\Search;
 
+use EcampLib\Resource\BaseResourceListener;
 use PhlyRestfully\ResourceEvent;
-use Zend\EventManager\AbstractListenerAggregate;
 use Zend\EventManager\EventManagerInterface;
 
-class UserResourceListener extends AbstractListenerAggregate
+class UserResourceListener extends BaseResourceListener
 {
-    protected $userRepo;
-    protected $groupRepo;
-    protected $campRepo;
-    protected $collectionRenderer;
-
-    public function __construct(
-        \EcampCore\Repository\UserRepository $userRepo,
-        \EcampCore\Repository\GroupRepository $groupRepo,
-        \EcampCore\Repository\CampRepository $campRepo
-    ) {
-        $this->userRepo = $userRepo;
-        $this->groupRepo = $groupRepo;
-        $this->campRepo = $campRepo;
+    /**
+     * @return \EcampCore\Repository\UserRepository
+     */
+    protected function getUserRepository()
+    {
+        return $this->getService('EcampCore\Repository\User');
     }
+
+    /**
+     * @return \EcampCore\Repository\GroupRepository
+     */
+    protected function getGroupRepository()
+    {
+        return $this->getService('EcampCore\Repository\Group');
+    }
+
+    /**
+     * @return \EcampCore\Repository\CampRepository
+     */
+    protected function getCampRepository()
+    {
+        return $this->getService('EcampCore\Repository\Camp');
+    }
+
+    protected $collectionRenderer;
 
     public function attach(EventManagerInterface $events)
     {
@@ -36,17 +47,17 @@ class UserResourceListener extends AbstractListenerAggregate
         $showCollaborationOfCamp = $e->getQueryParam('showCollaborationOfCamp');
 
         if ($showMembershipOfGroup != null) {
-            $this->collectionRenderer->group = $this->groupRepo->find($showMembershipOfGroup);
+            $this->collectionRenderer->group = $this->getGroupRepository()->find($showMembershipOfGroup);
         }
         if ($showCollaborationOfCamp != null) {
-            $this->collectionRenderer->camp = $this->campRepo->find($showCollaborationOfCamp);
+            $this->collectionRenderer->camp = $this->getCampRepository()->find($showCollaborationOfCamp);
         }
 
         $search = $e->getQueryParam('search');
         $search = trim($search);
 
         if (strstr($search, ' ') || strlen($search) >= 3) {
-            return $this->userRepo->getSearchResult($search);
+            return $this->getUserRepository()->getSearchResult($search);
         } else {
             return array();
         }

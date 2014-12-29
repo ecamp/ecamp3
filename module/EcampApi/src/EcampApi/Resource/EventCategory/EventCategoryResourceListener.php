@@ -1,18 +1,19 @@
 <?php
 namespace EcampApi\Resource\EventCategory;
 
+use EcampLib\Resource\BaseResourceListener;
 use PhlyRestfully\Exception\DomainException;
 use PhlyRestfully\ResourceEvent;
-use Zend\EventManager\AbstractListenerAggregate;
 use Zend\EventManager\EventManagerInterface;
 
-class EventCategoryResourceListener extends AbstractListenerAggregate
+class EventCategoryResourceListener extends BaseResourceListener
 {
-    protected $repo;
-
-    public function __construct(\EcampCore\Repository\EventCategoryRepository $repo)
+    /**
+     * @return \EcampCore\Repository\EventCategoryRepository
+     */
+    protected function getEventCategoryRepository()
     {
-        $this->repo = $repo;
+        return $this->getService('EcampCore\Repository\EventCategory');
     }
 
     public function attach(EventManagerInterface $events)
@@ -24,7 +25,7 @@ class EventCategoryResourceListener extends AbstractListenerAggregate
     public function onFetch(ResourceEvent $e)
     {
         $id = $e->getParam('id');
-        $entity = $this->repo->find($id);
+        $entity = $this->getEventCategoryRepository()->find($id);
 
         if (!$entity) {
             throw new DomainException('EventCategory not found', 404);
@@ -38,6 +39,6 @@ class EventCategoryResourceListener extends AbstractListenerAggregate
         $params = $e->getQueryParams()->toArray();
         $params['camp'] = $e->getRouteParam('camp', $e->getQueryParam('camp'));
 
-        return $this->repo->getCollection($params);
+        return $this->getEventCategoryRepository()->getCollection($params);
     }
 }

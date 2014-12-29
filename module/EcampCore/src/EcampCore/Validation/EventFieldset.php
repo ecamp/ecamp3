@@ -1,13 +1,14 @@
 <?php
 namespace EcampCore\Validation;
 
+use EcampCore\Entity\Camp;
+use EcampCore\Entity\Event;
 use Zend\Form\Fieldset;
 use Zend\InputFilter\InputFilterProviderInterface;
-use EcampCore\Entity\Camp;
 
 class EventFieldset extends Fieldset implements InputFilterProviderInterface
 {
-    public function __construct(Camp $camp)
+    public function __construct(Camp $camp, Event $event = null)
     {
         parent::__construct('event');
 
@@ -55,6 +56,11 @@ class EventFieldset extends Fieldset implements InputFilterProviderInterface
                 'class' => 'selectpicker',
             )
         ));
+
+        if ($event != null) {
+            $this->get('title')->setValue($event->getTitle());
+            $this->get('eventCategory')->setValue($event->getEventCategory());
+        }
 
     }
 

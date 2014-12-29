@@ -9,6 +9,7 @@ use EcampCore\Entity\Event;
 use EcampCore\Entity\EventInstance;
 
 use EcampCore\Repository\EventInstanceRepository;
+use EcampCore\Repository\PeriodRepository;
 use EcampLib\Service\ServiceBase;
 use EcampCore\Repository\DayRepository;
 use EcampLib\Validation\ValidationException;
@@ -17,15 +18,18 @@ class EventInstanceService
     extends ServiceBase
 {
 
-    private $eventInstanceRepo;
-    private $dayRepo;
+    private $periodRepository;
+    private $dayRepository;
+    private $eventInstanceRepository;
 
     public function __construct(
-        EventInstanceRepository $eventInstanceRepo,
-        DayRepository $dayRepo
+        PeriodRepository $periodRepository,
+        DayRepository $dayRepository,
+        EventInstanceRepository $eventInstanceRepository
     ){
-        $this->eventInstanceRepo = $eventInstanceRepo;
-        $this->dayRepo = $dayRepo;
+        $this->periodRepository = $periodRepository;
+        $this->dayRepository = $dayRepository;
+        $this->eventInstanceRepository = $eventInstanceRepository;
     }
 
     /**
@@ -37,7 +41,7 @@ class EventInstanceService
         $eventInstance = null;
 
         if (is_string($id)) {
-            $eventInstance = $this->eventInstanceRepo->find($id);
+            $eventInstance = $this->eventInstanceRepository->find($id);
         }
 
         if ($id instanceof EventInstance) {
@@ -99,37 +103,46 @@ class EventInstanceService
      */
     public function Create(Event $event, $data)
     {
-        $startDayId = $data['startday'];
-        $endDayId = $data['endday'];
-        $startTime = $data['starttime'];
-        $endTime = $data['endtime'];
-
-        /* @var $startDay \EcampCore\Entity\Day */
-        $startDay = $this->dayRepo->find($startDayId);
-        $endDay = $this->dayRepo->find($endDayId);
-        $period = $startDay->getPeriod();
-
-        $eventInstanceStart = new \DateTime($startDay->getStart()->format('Y-m-d ') . $startTime);
-        $eventInstanceEnd = new \DateTime($endDay->getStart()->format('Y-m-d ') . $endTime);
-
-        $offset = date_diff($period->getStart(), $eventInstanceStart);
-        $duration = date_diff($eventInstanceStart, $eventInstanceEnd);
-
         $eventInstance = new EventInstance($event);
-        $eventInstance->setPeriod($period);
 
-        $eventInstance->setOffset($offset);
-        $eventInstance->setDuration($duration);
-
+        $this->Update($eventInstance, $data);
         $this->persist($eventInstance);
 
         return $eventInstance;
     }
 
-    public function Update($eventInstanceId, $data)
+    public function Update($eventInstance, $data)
     {
-        $eventInstance = $this->Get($eventInstanceId);
-        //$this->aclRequire($eventInstance->getCamp(), Privilege::CAMP_CONTRIBUTE);
+        $period = null;
+        $eventInstance = $this->Get($eventInstance);
+
+        if (isset($data['period'])) {
+            $period = $this->periodRepository->find($data['period']);
+        }
+
+        if (!isset($data['minOffsetStart']) && isset($data['startday']) && isset($data['starttime'])) {
+            /* @var $startDay \EcampCore\Entity\Day */
+            $startDay = $this->dayRepository->find($data['startday']);
+            $period = $startDay->getPeriod();
+
+            $eventInstanceStart = new \DateTime($startDay->getStart()->format('Y-m-d ') . $data['starttime']);
+            $data['minOffsetStart'] =
+                round(($eventInstanceStart->getTimestamp() - $period->getStart()->getTimestamp()) / 60);
+        }
+
+        if (!isset($data['minOffsetEnd']) && isset($data['endday']) && isset($data['endtime'])) {
+            /* @var $endDay \EcampCore\Entity\Day */
+            $endDay = $this->dayRepository->find($data['endday']);
+            $period = $endDay->getPeriod();
+
+            $eventInstanceEnd = new \DateTime($endDay->getStart()->format('Y-m-d ') . $data['endtime']);
+            $data['minOffsetEnd'] =
+                round(($eventInstanceEnd->getTimestamp() - $period->getStart()->getTimestamp()) / 60);
+        }
+
+        if ($period != null) {
+            $eventInstance->setPeriod($period);
+        }
 
         $updateKeys = array_intersect(
             array_keys($data),
@@ -144,6 +157,25 @@ class EventInstanceService
         }
 
         return $eventInstance;
+    }
+
+    public function Delete($eventInstance)
+    {
+        $eventInstance = $this->Get($eventInstance);
+
+        if ($eventInstance != null) {
+            $event = $eventInstance->getEvent();
+
+            $this->remove($eventInstance);
+
+            if ($event->getEventInstances()->count() == 0) {
+                $this->remove($event);
+            }
+
+            return true;
+        }
+
+        return false;
     }
 
     /**

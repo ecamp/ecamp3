@@ -71,10 +71,10 @@ return array(
              */
             'EcampStoryboard\Resource\Section\ApiController' => array(
                 'listener'                => 'EcampStoryboard\Resource\SectionResourceListener',
-                'collection_http_options' => array('get'),
+                'collection_http_options' => array('get', 'post'),
                 'page_size'               => PHP_INT_MAX,
                 'page_size_param'		  => 'limit',
-                'resource_http_options'   => array('get', 'put'),
+                'resource_http_options'   => array('get', 'put', 'delete'),
                 'route_name'              => 'plugin/storyboard/api',
                 'identifier_name'		  => 'section',
                 'collection_query_whitelist' => array(),

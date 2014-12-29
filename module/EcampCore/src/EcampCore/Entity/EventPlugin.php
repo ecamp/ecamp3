@@ -100,6 +100,9 @@ class EventPlugin
         return $this->getPlugin()->getName();
     }
 
+    /**
+     * @return string
+     */
     public function getInstanceName()
     {
         return $this->instanceName;

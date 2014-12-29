@@ -215,7 +215,7 @@
                         var item = $('div[tabbed-plugin-container-item][id=' + eventPluginId + ']');
 
                         $http.get(_deleteUrl + eventPluginId).success(function(){
-                            item.children('div').fadeOut(500, function(){
+                            item.fadeOut(500, function(){
                                 $timeout(function(){ item.remove(); });
                                 RemoveEventPlugin(eventPluginId);
                             });

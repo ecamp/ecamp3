@@ -211,6 +211,15 @@
                 if(fn){ events = events.filter(fn); }
                 return events;
             };
+            this.UpateEvent = function(event){
+                var id = event.id;
+                _data.events[id] = event;
+            };
+            this.RefreshEvent = function(eventModel){
+                var event = this.GetEvent(eventModel.id);
+
+                return event.$get('self').then(this.UpateEvent);
+            };
 
 
             this.GetEventInstance = function(id){
@@ -225,13 +234,30 @@
                 var id = eventInstance.id;
                 _data.eventInstances[id] = eventInstance;
             };
+            this.RefreshEventInstance = function(eventInstanceModel){
+                var eventInstance = this.GetEventInstance(eventInstanceModel.id);
+
+                return $q.all(
+                    this.RefreshEvent(eventInstanceModel.event),
+                    eventInstance.$get('self').then(this.UpdateEventInstance)
+                );
+            };
             this.SaveEventInstance = function(eventInstanceModel){
                 var eventInstance = this.GetEventInstance(eventInstanceModel.id);
 
                 return eventInstance
                     .$put('self', null, eventInstanceModel)
                     .then(this.UpdateEventInstance);
-            }
+            };
+            this.DeleteEventInstance = function(eventInstanceModel){
+                var eventInstance = this.GetEventInstance(eventInstanceModel.id);
+
+                return eventInstance
+                    .$del('self', null)
+                    .then(function(){
+                        delete _data.eventInstances[eventInstanceModel.id];
+                    });
+            };
         }
 
         return CampData;

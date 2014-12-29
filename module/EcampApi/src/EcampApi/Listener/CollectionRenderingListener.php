@@ -2,26 +2,46 @@
 
 namespace EcampApi\Listener;
 
+use EcampApi\Resource\Camp\CampBriefResource;
+use EcampApi\Resource\Collaboration\CollaborationBriefResource;
+use EcampApi\Resource\Day\DayBriefResource;
+use EcampApi\Resource\Event\EventBriefResource;
+use EcampApi\Resource\EventCategory\EventCategoryBriefResource;
+use EcampApi\Resource\EventInstance\EventInstanceBriefResource;
+use EcampApi\Resource\EventResp\EventRespBriefResource;
+use EcampApi\Resource\Group\GroupBriefResource;
+use EcampApi\Resource\Membership\MembershipBriefResource;
+use EcampApi\Resource\Period\PeriodBriefResource;
+use EcampApi\Resource\User\UserBriefResource;
+use EcampCore\Entity\Camp;
+use EcampCore\Entity\CampCollaboration;
+use EcampCore\Entity\Day;
+use EcampCore\Entity\Event;
+use EcampCore\Entity\EventCategory;
+use EcampCore\Entity\EventInstance;
+use EcampCore\Entity\EventResp;
+use EcampCore\Entity\Group;
+use EcampCore\Entity\GroupMembership;
+use EcampCore\Entity\Period;
+use EcampCore\Entity\User;
 use Zend\EventManager\SharedListenerAggregateInterface;
 use Zend\EventManager\SharedEventManagerInterface;
+use Zend\Paginator\Paginator;
 
 class CollectionRenderingListener implements SharedListenerAggregateInterface
 {
-    /**
-     * @var \Zend\Stdlib\CallbackHandler[]
-     */
-    protected $listeners = array();
+    protected $renderCollectionResourceListener;
+    protected $renderCollectionListener;
+    protected $getListPreListener;
 
     /**
      * @param SharedEventManagerInterface $events
      */
     public function detachShared(SharedEventManagerInterface $events)
     {
-        foreach ($this->listeners as $index => $callback) {
-            if ($events->detach($callback)) {
-                unset($this->listeners[$index]);
-            }
-        }
+        if($events->detach('PhlyRestfully\Plugin\HalLinks', $this->renderCollectionResourceListener));
+        if($events->detach('PhlyRestfully\Plugin\HalLinks', $this->renderCollectionListener));
+        if($events->detach('PhlyRestfully\ResourceController', $this->getListPreListener));
     }
 
     /**
@@ -29,21 +49,21 @@ class CollectionRenderingListener implements SharedListenerAggregateInterface
      */
     public function attachShared(SharedEventManagerInterface $events)
     {
-        $this->listeners[] = $events->attach(
+        $this->renderCollectionResourceListener = $events->attach(
             'PhlyRestfully\Plugin\HalLinks',
             'renderCollection.resource',
             array($this, 'renderCollectionResource'),
             100
         );
 
-        $this->listeners[] = $events->attach(
+        $this->renderCollectionListener = $events->attach(
             'PhlyRestfully\Plugin\HalLinks',
             'renderCollection',
             array($this, 'renderCollection'),
             100
         );
 
-        $this->sharedListeners[] = $events->attach(
+        $this->getListPreListener = $events->attach(
             'PhlyRestfully\ResourceController',
             'getList.pre',
             array($this, 'getListPre'),
@@ -51,85 +71,85 @@ class CollectionRenderingListener implements SharedListenerAggregateInterface
         );
     }
 
-    public function renderCollectionResource($e)
+    public function renderCollectionResource(\Zend\EventManager\Event $e)
     {
-        $resource = $e->getParam('resource');
         $params = $e->getParams();
+        $resource = $params['resource'];
 
-        if ($resource instanceof \EcampCore\Entity\Camp) {
-            $params['resource']    = new \EcampApi\Resource\Camp\CampBriefResource($resource);
-
-            return;
-        }
-
-        if ($resource instanceof \EcampCore\Entity\User) {
-            $params['resource']    = new \EcampApi\Resource\User\UserBriefResource($resource);
+        if ($resource instanceof Camp) {
+            $params['resource'] = new CampBriefResource($resource);
 
             return;
         }
 
-        if ($resource instanceof \EcampCore\Entity\CampCollaboration) {
-            $params['resource']    = new \EcampApi\Resource\Collaboration\CollaborationDetailResource($resource);
+        if ($resource instanceof User) {
+            $params['resource'] = new UserBriefResource($resource);
 
             return;
         }
 
-        if ($resource instanceof \EcampCore\Entity\Period) {
-            $params['resource']    = new \EcampApi\Resource\Period\PeriodBriefResource($resource);
+        if ($resource instanceof CampCollaboration) {
+            $params['resource'] = new CollaborationBriefResource($resource->getId(), $resource);
 
             return;
         }
 
-        if ($resource instanceof \EcampCore\Entity\Day) {
-            $params['resource']    = new \EcampApi\Resource\Day\DayBriefResource($resource);
+        if ($resource instanceof Period) {
+            $params['resource'] = new PeriodBriefResource($resource);
 
             return;
         }
 
-        if ($resource instanceof \EcampCore\Entity\Event) {
-            $params['resource']    = new \EcampApi\Resource\Event\EventBriefResource($resource);
+        if ($resource instanceof Day) {
+            $params['resource'] = new DayBriefResource($resource);
 
             return;
         }
 
-        if ($resource instanceof \EcampCore\Entity\EventInstance) {
-            $params['resource']    = new \EcampApi\Resource\EventInstance\EventInstanceBriefResource($resource);
+        if ($resource instanceof Event) {
+            $params['resource'] = new EventBriefResource($resource);
 
             return;
         }
 
-        if ($resource instanceof \EcampCore\Entity\EventResp) {
-            $params['resource']    = new \EcampApi\Resource\EventResp\EventRespBriefResource($resource);
+        if ($resource instanceof EventInstance) {
+            $params['resource'] = new EventInstanceBriefResource($resource);
 
             return;
         }
 
-        if ($resource instanceof \EcampCore\Entity\EventCategory) {
-            $params['resource']    = new \EcampApi\Resource\EventCategory\EventCategoryBriefResource($resource);
+        if ($resource instanceof EventResp) {
+            $params['resource'] = new EventRespBriefResource($resource);
 
             return;
         }
 
-        if ($resource instanceof \EcampCore\Entity\Group) {
-            $params['resource']    = new \EcampApi\Resource\Group\GroupBriefResource($resource);
+        if ($resource instanceof EventCategory) {
+            $params['resource'] = new EventCategoryBriefResource($resource);
 
             return;
         }
 
-        if ($resource instanceof \EcampCore\Entity\GroupMembership) {
-            $params['resource']    = new \EcampApi\Resource\Membership\MembershipDetailResource($resource);
+        if ($resource instanceof Group) {
+            $params['resource'] = new GroupBriefResource($resource);
+
+            return;
+        }
+
+        if ($resource instanceof GroupMembership) {
+            $params['resource'] = new MembershipBriefResource($resource->getId(), $resource);
 
             return;
         }
 
     }
 
-    public function renderCollection($e)
+    public function renderCollection(\Zend\EventManager\Event $e)
     {
         $collection = $e->getParam('collection');
         $paginator = $collection->collection;
 
-        if (!$paginator instanceof \Zend\Paginator\Paginator) {
+        if (!$paginator instanceof Paginator) {
             return;
         }
 
@@ -149,14 +169,19 @@ class CollectionRenderingListener implements SharedListenerAggregateInterface
         ));
     }
 
-    public function getListPre($e)
+    public function getListPre(\Zend\EventManager\Event $e)
     {
+        /** @var \PhlyRestfully\ResourceController $controller */
         $controller = $e->getTarget();
+
+        /** @var \PhlyRestfully\Resource $resource */
         $resource = $controller->getResource();
+
+        /** @var \Zend\Stdlib\Parameters $params */
         $params = $resource->getQueryParams();
 
         if ($params != null) {
-            $limit = $params->get('limit');
+            $limit = $params->get('limit', 'all');
             if ($limit == "all") {
                 $params->set('limit', PHP_INT_MAX);
             }

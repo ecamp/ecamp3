@@ -13,7 +13,7 @@ class CollectionRenderingListener extends ApiCollectionRenderingListener
     implements SharedListenerAggregateInterface
 {
 
-    public function renderCollectionResource($e)
+    public function renderCollectionResource(\Zend\EventManager\Event $e)
     {
         $resource = $e->getParam('resource');
         $params = $e->getParams();

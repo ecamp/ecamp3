@@ -3,7 +3,7 @@
 <div async-modal-content>
 #}
     <div class="modal-header">
-        <button type="button" class="close" ng-click="cancel()">&times;</button>
+        <button type="button" class="close" ng-click="$dismiss('cancel')">&times;</button>
         <h4 class="modal-title"><i class="fa fa-plus"></i> Create Event</h4>
     </div>
     <div class="modal-body">
@@ -14,9 +14,9 @@
                 <form action="{{ form.action }}"
                       method="post"
                       name="event-create-form"
-                      class=""
                       role="form"
-                      id="event-create-form">
+                      id="event-create-form"
+                >
 
                     <fieldset>
                         <div class="form-group ">
@@ -96,7 +96,7 @@
         </div>
     </div>
     <div class="modal-footer">
-        <button type="button" class="btn btn-default" ng-click="cancel()">Cancel</button>
+        <button type="button" class="btn btn-default" ng-click="$dismiss('cancel')">Cancel</button>
         <button type="submit" form="event-create-form" class="btn btn-primary">Create Event</button>
     </div>
 {#

@@ -178,9 +178,9 @@
 
 .picasso-eventview-title {
     position: absolute;
-    left: 0;
-    right: 0;
-    top: 0;
+    left: 3px;
+    right: 3px;
+    top: 2px;
     bottom: 0;
 
     text-align: center;

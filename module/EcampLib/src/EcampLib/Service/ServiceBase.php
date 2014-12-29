@@ -2,6 +2,7 @@
 
 namespace EcampLib\Service;
 
+use Doctrine\Common\Util\ClassUtils;
 use Doctrine\ORM\EntityManager;
 use DoctrineModule\Stdlib\Hydrator\DoctrineObject;
 use DoctrineORMModule\Form\Annotation\AnnotationBuilder;
@@ -56,8 +57,10 @@ abstract class ServiceBase
      */
     protected function createValidationForm(BaseEntity $targetEntity, $data, $whitelist = array())
     {
+        $entityClass = ClassUtils::getRealClass(get_class($targetEntity));
+
         $builder = new AnnotationBuilder($this->em);
-        $validationForm = $builder->createForm($targetEntity);
+        $validationForm = $builder->createForm($entityClass);
         $validationForm->setHydrator(new DoctrineObject($this->em));
         $validationForm->bind($targetEntity);
         $validationForm->setValidationGroup($whitelist);

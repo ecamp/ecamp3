@@ -5,7 +5,7 @@
     create="{{ url('web/plugin-create', { 'eventId': event.id, 'pluginId': plugin.id }) }}"
     delete="{{ url('web/plugin-delete', { 'eventPluginId': '' }) }}"
 >
-    <div class="tabbable">
+    <div class="tabbable" ng-show="EventPlugins.length > 0">
         <ul class="nav nav-tabs">
             <div ng-show="CountEventPlugin < MaxEventPlugin" class="btn-group pull-right" style="margin-right: 5px;">
                 <button class="btn btn-xs btn-success" ng-click="Create()" style="margin-top:3px; height: 25px; padding: 2px 8px">

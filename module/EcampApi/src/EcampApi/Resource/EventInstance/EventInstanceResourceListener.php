@@ -1,28 +1,27 @@
 <?php
 namespace EcampApi\Resource\EventInstance;
 
+use EcampLib\Resource\BaseResourceListener;
 use PhlyRestfully\Exception\DomainException;
 use PhlyRestfully\ResourceEvent;
-use Zend\EventManager\AbstractListenerAggregate;
 use Zend\EventManager\EventManagerInterface;
 
-class EventInstanceResourceListener extends AbstractListenerAggregate
+class EventInstanceResourceListener extends BaseResourceListener
 {
-
     /**
-     * @var \EcampCore\Repository\EventInstanceRepository
+     * @return \EcampCore\Repository\EventInstanceRepository
      */
-    protected $repo;
-
-    /**
-     * @var \EcampCore\Service\EventInstanceService
-     */
-    protected $service;
-
-    public function __construct($repo, $service)
+    protected function getEventInstanceRepository()
     {
-        $this->repo = $repo;
-        $this->service = $service;
+        return $this->getService('EcampCore\Repository\EventInstance');
+    }
+
+    /**
+     * @return \EcampCore\Service\EventInstanceService
+     */
+    protected function getEventInstanceService()
+    {
+        return $this->getService('EcampCore\Service\EventInstance');
     }
 
     public function attach(EventManagerInterface $events)
@@ -30,12 +29,13 @@ class EventInstanceResourceListener extends AbstractListenerAggregate
         $this->listeners[] = $events->attach('fetch', array($this, 'onFetch'));
         $this->listeners[] = $events->attach('fetchAll', array($this, 'onFetchAll'));
         $this->listeners[] = $events->attach('update', array($this, 'onUpdate'));
+        $this->listeners[] = $events->attach('delete', array($this, 'onDelete'));
     }
 
     public function onFetch(ResourceEvent $e)
     {
         $id = $e->getParam('id');
-        $entity = $this->repo->find($id);
+        $entity = $this->getEventInstanceRepository()->find($id);
 
         if (!$entity) {
             throw new DomainException('EventInstance not found', 404);
@@ -52,7 +52,7 @@ class EventInstanceResourceListener extends AbstractListenerAggregate
         $params['day'] = $e->getRouteParam('day', $e->getQueryParam('day'));
         $params['event'] = $e->getRouteParam('event', $e->getQueryParam('event'));
 
-        return $this->repo->getCollection($params);
+        return $this->getEventInstanceRepository()->getCollection($params);
     }
 
     public function onUpdate(ResourceEvent $e)
@@ -60,7 +60,7 @@ class EventInstanceResourceListener extends AbstractListenerAggregate
         $id = $e->getParam('id');
         $data = $e->getParam('data');
 
-        $entity = $this->repo->find($id);
+        $entity = $this->getEventInstanceRepository()->find($id);
 
         $data = array(
             'minOffsetStart' => (int) $data->start_min,
@@ -69,8 +69,15 @@ class EventInstanceResourceListener extends AbstractListenerAggregate
             'width' => (double) $data->width
         );
 
-        $this->service->Update($id, $data);
+        $this->getEventInstanceService()->Update($id, $data);
 
         return new EventInstanceDetailResource($entity);
+    }
+
+    public function onDelete(ResourceEvent $e)
+    {
+        $id = $e->getParam('id');
+
+        return $this->getEventInstanceService()->Delete($id);
     }
 }

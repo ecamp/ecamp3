@@ -96,7 +96,9 @@
             Object.defineProperty(this, 'LoadCamp', { value: LoadCamp });
             Object.defineProperty(this, 'RefreshCamp', { value: RefreshEvents });
             Object.defineProperty(this, 'RefreshEvents', { value: RefreshEvents });
+            Object.defineProperty(this, 'RefreshEventInstance', { value: RefreshEventInstance });
             Object.defineProperty(this, 'SaveEventInstance', { value: SaveEventInstance });
+            Object.defineProperty(this, 'DeleteEventInstance', { value: DeleteEventInstance });
 
             Object.defineProperty(this, 'GetLength', { value: GetLength });
             Object.defineProperty(this, 'GetOffset', { value: GetOffset });
@@ -205,20 +207,20 @@
                 }
             }
 
+            function RefreshEventInstance(eventInstanceModel){
+                var promise = _remoteData.RefreshEventInstance(eventInstanceModel);
+                promise.then(RefreshEvents);
+                return promise;
+            }
+
             function SaveEventInstance(eventInstanceModel){
                 return _remoteData.SaveEventInstance(eventInstanceModel);
+            }
 
-                /*
-                var q = _remoteData.SaveEventInstance(eventInstanceModel);
-
-                q.then(function(resp){
-
-                    var key = PicassoEventInstanceGetKey(resp);
-                    _eventInstances.Add(key, PicassoEventInstanceUpdate(eventInstanceModel, resp));
-                });
-
-                return q;
-                */
+            function DeleteEventInstance(eventInstanceModel){
+                var promise = _remoteData.DeleteEventInstance(eventInstanceModel);
+                promise.then(RefreshEvents);
+                return promise;
             }
 
 
@@ -421,6 +423,7 @@
                 this.id = data.id;
                 this.title = data.title;
                 this.categoryId = data.categoryId;
+                this.web = data.$href('web');
 
                 Object.defineProperty(this, 'category', {
                     get: function(){ return _eventCategories.Get(this.categoryId); }.bind(this)
@@ -435,6 +438,7 @@
             function PicassoEventUpdate(picassoEvent, data){
                 picassoEvent.title = data.title;
                 picassoEvent.categoryId = data.categoryId;
+                picassoEvent.web = data.$href('web');
                 return picassoEvent;
             }
 
@@ -456,7 +460,7 @@
 
                 /** @returns {string} */
                 this.GetHash = function(){
-                    return this.id + '$' + this.GetEventNr() + '::' +
+                    return this.id + '$' + this.GetZIndex() + '::' +
                     '(' + this.start_min + '/' + _config.timeRange[0] + ') - ' +
                     '(' + this.end_min + '/' + _config.timeRange[1] + ') :: [' +
                     this.left + ', ' + this.width + '] :: ' +
@@ -522,7 +526,31 @@
                         default:
                             return num;
                     }
-                }
+                };
+
+                this.GetZIndex = function(){
+                    var periodId = this.periodId;
+                    var start = this.start_min;
+                    var left = this.left;
+                    var id = this.id;
+
+                    var countEventInstances = _eventInstances.Count(function(eventInstanceModel){
+                        if(eventInstanceModel.id == id){ return false; }
+                        if(eventInstanceModel.periodId != periodId){ return false; }
+                        if(eventInstanceModel.start_min > start){ return false; }
+
+                        if(eventInstanceModel.start_min == start){
+                            if(eventInstanceModel.left > left){ return false; }
+                            if(eventInstanceModel.left == left){
+                                if(eventInstanceModel.id > id) { return false; }
+                            }
+                        }
+
+                        return true;
+                    });
+
+                    return 10 + countEventInstances;
+                };
             }
             /** @returns {string} */
             function PicassoEventInstanceGetKey(data){

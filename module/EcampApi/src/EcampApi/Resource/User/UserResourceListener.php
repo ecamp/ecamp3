@@ -1,18 +1,19 @@
 <?php
 namespace EcampApi\Resource\User;
 
+use EcampLib\Resource\BaseResourceListener;
 use PhlyRestfully\Exception\DomainException;
 use PhlyRestfully\ResourceEvent;
-use Zend\EventManager\AbstractListenerAggregate;
 use Zend\EventManager\EventManagerInterface;
 
-class UserResourceListener extends AbstractListenerAggregate
+class UserResourceListener extends BaseResourceListener
 {
-    protected $repo;
-
-    public function __construct(\EcampCore\Repository\UserRepository $repo)
+    /**
+     * @return \EcampCore\Repository\UserRepository
+     */
+    protected function getUserRepository()
     {
-        $this->repo = $repo;
+        return $this->getService('EcampCore\Repository\User');
     }
 
     public function attach(EventManagerInterface $events)
@@ -24,7 +25,7 @@ class UserResourceListener extends AbstractListenerAggregate
     public function onFetch(ResourceEvent $e)
     {
         $id = $e->getParam('id');
-        $user = $this->repo->find($id);
+        $user = $this->getUserRepository()->find($id);
 
         if (!$user) {
             throw new DomainException('User not found', 404);
@@ -35,6 +36,6 @@ class UserResourceListener extends AbstractListenerAggregate
 
     public function onFetchAll(ResourceEvent $e)
     {
-        return $this->repo->getCollection($e->getQueryParams()->toArray());
+        return $this->getUserRepository()->getCollection($e->getQueryParams()->toArray());
     }
 }

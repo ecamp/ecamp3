@@ -1,18 +1,19 @@
 <?php
 namespace EcampApi\Resource\Membership;
 
+use EcampLib\Resource\BaseResourceListener;
 use PhlyRestfully\Exception\DomainException;
 use PhlyRestfully\ResourceEvent;
-use Zend\EventManager\AbstractListenerAggregate;
 use Zend\EventManager\EventManagerInterface;
 
-class MembershipResourceListener extends AbstractListenerAggregate
+class MembershipResourceListener extends BaseResourceListener
 {
-    protected $repo;
-
-    public function __construct(\EcampCore\Repository\GroupMembershipRepository $repo)
+    /**
+     * @return \EcampCore\Repository\GroupMembershipRepository
+     */
+    protected function getGroupMembershipRepository()
     {
-        $this->repo = $repo;
+        return $this->getService('EcampCore\Repository\GroupMembership');
     }
 
     public function attach(EventManagerInterface $events)
@@ -24,13 +25,13 @@ class MembershipResourceListener extends AbstractListenerAggregate
     public function onFetch(ResourceEvent $e)
     {
         $id = $e->getParam('id');
-        $entity = $this->repo->find($id);
+        $entity = $this->getGroupMembershipRepository()->find($id);
 
         if (!$entity) {
             throw new DomainException('Collaboration not found', 404);
         }
 
-        return new MembershipDetailResource($entity);
+        return new MembershipDetailResource($id, $entity);
     }
 
     public function onFetchAll(ResourceEvent $e)
@@ -39,6 +40,6 @@ class MembershipResourceListener extends AbstractListenerAggregate
         $params['user'] = $e->getRouteParam('user', $e->getQueryParam('user'));
         $params['group'] = $e->getRouteParam('group', $e->getQueryParam('group'));
 
-        return $this->repo->getCollection($params);
+        return $this->getGroupMembershipRepository()->getCollection($params);
     }
 }

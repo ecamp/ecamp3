@@ -10,9 +10,11 @@ return array(
         },
 
         'EcampStoryboard\Resource\SectionResourceListener' => function ($services) {
-            $repository = $services->get('EcampStoryboard\Repository\Section');
+            $em = $services->get('doctrine.entitymanager.orm_default');
+            $eventPluginRepo = $services->get('EcampCore\Repository\EventPlugin');
+            $sectionRepo = $services->get('EcampStoryboard\Repository\Section');
 
-            return new \EcampStoryboard\Resource\SectionResourceListener($repository);
+            return new \EcampStoryboard\Resource\SectionResourceListener($em, $eventPluginRepo, $sectionRepo);
         },
     ),
 );

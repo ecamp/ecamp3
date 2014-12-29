@@ -1,18 +1,19 @@
 <?php
 namespace EcampApi\Resource\Period;
 
+use EcampLib\Resource\BaseResourceListener;
 use PhlyRestfully\Exception\DomainException;
 use PhlyRestfully\ResourceEvent;
-use Zend\EventManager\AbstractListenerAggregate;
 use Zend\EventManager\EventManagerInterface;
 
-class PeriodResourceListener extends AbstractListenerAggregate
+class PeriodResourceListener extends BaseResourceListener
 {
-    protected $repo;
-
-    public function __construct(\EcampCore\Repository\PeriodRepository $repo)
+    /**
+     * @return \EcampCore\Repository\PeriodRepository
+     */
+    protected function getPeriodRepository()
     {
-        $this->repo = $repo;
+        return $this->getService('EcampCore\Repository\Period');
     }
 
     public function attach(EventManagerInterface $events)
@@ -24,7 +25,7 @@ class PeriodResourceListener extends AbstractListenerAggregate
     public function onFetch(ResourceEvent $e)
     {
         $id = $e->getParam('id');
-        $entity = $this->repo->find($id);
+        $entity = $this->getPeriodRepository()->find($id);
 
         if (!$entity) {
             throw new DomainException('Period not found', 404);
@@ -38,6 +39,6 @@ class PeriodResourceListener extends AbstractListenerAggregate
         $params = $e->getQueryParams()->toArray();
         $params['camp'] = $e->getRouteParam('camp', $e->getQueryParam('camp'));
 
-        return $this->repo->getCollection($params);
+        return $this->getPeriodRepository()->getCollection($params);
     }
 }

@@ -7,13 +7,19 @@
     ngApp.provider('$asyncModal', function(){
         var $asyncModalProvider = {
             options: {
+                cache: true,
                 windowTemplateUrl: '/web-assets/tpl/async-modal-window.html',
-                controller: 'BootstrapModalController'
+                windowClass: 'async-modal',
+                controller: function(){}
             },
-            $get: ['$modal', function($modal){
+            $get: ['$modal', '$templateCache', function($modal, $templateCache){
                 var $asyncModal = {};
                 $asyncModal.open = function(modalOptions){
                     modalOptions = angular.extend({}, $asyncModalProvider.options, modalOptions);
+
+                    if(!modalOptions.cache && modalOptions.templateUrl){
+                        $templateCache.remove(modalOptions.templateUrl);
+                    }
 
                     return $modal.open(modalOptions);
                 };
@@ -23,27 +29,15 @@
         return $asyncModalProvider
     });
 
-
-    ngApp.controller(
-        'BootstrapModalController',
-        ['$scope',
-            function($scope){
-
-                $scope.cancel = function(){
-                    $scope.$dismiss('cancel');
-                };
-            }
-        ]
-    );
-
     ngApp.directive('asyncModalWindow', [
-        '$compile', '$timeout',
-        function($compile, $timeout){
+        '$window', '$compile', '$timeout',
+        function($window, $compile, $timeout){
             return {
                 restrict: 'A',
                 scope: false,
                 link: function($scope, $element, $attrs, $ctrl){
                     var $controllerScope = $scope.$parent;
+
                     InitForms();
                     FocusFirstElement();
 
@@ -73,19 +67,20 @@
                                     var locationHeader = response.getResponseHeader('Location');
 
                                     if(locationHeader){
-                                        window.location = locationHeader;
+                                        $controllerScope.$close('Location: ' + locationHeader);
+                                        $window.location = locationHeader;
                                     } else {
                                         SetWindowContent(response.responseText);
                                         FocusFirstElement();
                                     }
                                 },
 
-                                204: function(/* data, statusText, response */){
-                                    $controllerScope.$dismiss('cancel');
+                                204: function(data, statusText, response){
+                                    $controllerScope.$close(response.responseText);
                                 },
 
-                                500: function(data /*, statusText, response */){
-                                    SetWindowContent(data.responseText);
+                                500: function(data, statusText, response){
+                                    SetWindowContent(response.responseText);
                                     FocusErrorElement();
                                 }
                             }
@@ -127,21 +122,27 @@
     ]);
 
 
-/*
-    $(document).on('loaded.bs.modal', '[role=dialog].modal', function(e){
-        console.log('loaded.bs.modal');
-        console.log(e);
-    });
+    ngApp.directive('asyncModal', ['$asyncModal', function($asyncModal){
+        return {
+            restrict: 'A',
+            scope: true,
+            link: function($scope, $element, $attrs, $ctrl) {
+                if($attrs.href !== undefined){
+                    var url = $attrs.href;
 
-    $(document).on('shown.bs.modal', '[role=dialog].modal', function(e){
-        console.log('shown.bs.modal');
-        console.log(e);
-    });
+                    $element.click(function(event){
+                        event.preventDefault();
 
-    $(document).on('hidden.bs.modal', '[role=dialog].modal', function(e){
-        console.log('hidden.bs.modal');
-        console.log(e);
-    });
-*/
+                        $asyncModal.open({
+                            templateUrl: url,
+                            cache: false
+                        });
+
+                        return false;
+                    })
+                }
+            }
+        }
+    }]);
 
 }(window.ecamp.ngApp));

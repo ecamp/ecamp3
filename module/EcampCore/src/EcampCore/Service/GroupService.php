@@ -29,7 +29,7 @@ class GroupService
      *
      * If no Identifier is given, the Context Group is returned
      *
-     * @return EcampCore\Entity\Group
+     * @return \EcampCore\Entity\Group
      */
     public function Get($id)
     {
