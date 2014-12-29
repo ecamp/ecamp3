@@ -170,7 +170,7 @@ return array(
         'collection_http_options' => array('get'),
         'page_size'               => 3,
         'page_size_param'		  => 'limit',
-        'resource_http_options'   => array('get'),
+        'resource_http_options'   => array('get', 'put', 'delete'),
         'route_name'              => 'api/event_instances',
         'identifier_name'		  => 'event_instance',
         'collection_query_whitelist' => array(),

@@ -59,13 +59,6 @@
 
                 function LoadPage(pageNr){
                     Load(pageNr);
-                    /*
-                    var l = Load(pageNr);
-                    if(l){
-                        beginUpdate();
-                        l.finally(endUpdate);
-                    }
-                    */
                 }
 
                 function RefreshPage(){
@@ -99,23 +92,6 @@
             },
             link: function(scope, element, attrs, ctrl){
                 ctrl.Init(element);
-
-/*
-                if(scope.type){
-                    var events = CNS('ecamp.events');
-                    var contents = scope.type.split(' ');
-
-                    $.each(contents, function(idx, content){
-                        events.on(content + '.refresh', refreshPage);
-                        events.on(content + '.beginUpdate', beginUpdate);
-                        events.on(content + '.endUpdate', endUpdate);
-                    });
-                }
-
-                scope.setQuery = ctrl.setQuery = setQuery;
-                scope.loadPage = ctrl.loadPage = loadPage;
-                scope.refreshPage = ctrl.refreshPage = refreshPage;
-*/
             }
         }
     }]);
