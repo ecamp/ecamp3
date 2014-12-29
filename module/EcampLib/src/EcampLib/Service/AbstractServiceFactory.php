@@ -59,7 +59,10 @@ class AbstractServiceFactory implements AbstractFactoryInterface
 
     public function initService(ServiceLocatorInterface $serviceLocator, ServiceBase $service)
     {
+        $application = $serviceLocator->get('Application');
+
         /* Inject common dependencies (e.g. dependencies of ServiceBase class) */
+        $service->setEventManager($application->getEventManager());
         $service->setEntityManager($serviceLocator->get($this->orm));
         $service->setAcl($serviceLocator->get('EcampCore\Acl'));
 

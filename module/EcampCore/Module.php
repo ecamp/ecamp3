@@ -1,6 +1,9 @@
 <?php
 namespace EcampCore;
 
+use EcampCore\EventListener\CampCollaborationEventListener;
+use EcampCore\EventListener\GroupMembershipEventListener;
+use EcampCore\EventListener\UserEventListener;
 use Zend\EventManager\EventInterface;
 use Zend\ModuleManager\Feature\AutoloaderProviderInterface;
 use Zend\ModuleManager\Feature\BootstrapListenerInterface;
@@ -58,6 +61,13 @@ class Module implements
     public function onBootstrap(EventInterface $e)
     {
         date_default_timezone_set("UTC");
+
+        /** @var \Zend\Mvc\Application $application */
+        $application = $e->getTarget();
+        $eventManager = $application->getEventManager();
+        $eventManager->attach(new UserEventListener());
+        $eventManager->attach(new GroupMembershipEventListener());
+        $eventManager->attach(new CampCollaborationEventListener());
     }
 
 }

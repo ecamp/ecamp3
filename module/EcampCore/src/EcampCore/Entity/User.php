@@ -144,6 +144,13 @@ class User
     private $image;
 
     /**
+     * @var UserSettings
+     * @ORM\OneToOne(targetEntity="UserSettings", cascade={"all"})
+     * @ORM\JoinColumn(name="settings_id", referencedColumnName="id")
+     */
+    private $settings;
+
+    /**
      * @var Login
      * @ORM\OneToOne(targetEntity="Login", mappedBy="user")
      */
@@ -410,6 +417,17 @@ class User
     public function delImage()
     {
         $this->image = null;
+    }
+
+    /**
+     * @return UserSettings
+     */
+    public function getSettings()
+    {
+        if($this->settings == null){
+            $this->settings = new UserSettings();
+        }
+        return $this->settings;
     }
 
     /**

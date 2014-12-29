@@ -11,19 +11,24 @@ use EcampCore\Entity\User;
 use EcampLib\Acl\Acl;
 use EcampLib\Entity\BaseEntity;
 use EcampLib\Validation\ValidationException;
-use EcampLib\Validation\ValidationForm;
+use Zend\EventManager\EventManagerInterface;
 use Zend\Permissions\Acl\Resource\ResourceInterface;
 
 abstract class ServiceBase
 {
 
     /**
-     * @var \Doctrine\ORM\EntityManager
+     * @var EntityManager
      */
     private $em;
 
     /**
-     * @return \Doctrine\ORM\EntityManager
+     * @var EventManagerInterface
+     */
+    private $eventManager;
+
+    /**
+     * @return EntityManager
      */
     public function getEntityManager()
     {
@@ -48,6 +53,21 @@ abstract class ServiceBase
 
         return $entity;
     }
+
+
+    /**
+     * @return EventManagerInterface
+     */
+    public function getEventManager()
+    {
+        return $this->eventManager;
+    }
+
+    public function setEventManager(EventManagerInterface $eventManager)
+    {
+        $this->eventManager = $eventManager;
+    }
+
 
     /**
      * @param  BaseEntity      $targetEntity
