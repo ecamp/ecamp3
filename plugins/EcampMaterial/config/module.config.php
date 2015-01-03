@@ -55,34 +55,7 @@ return array(
 
                         'may_terminate' => false,
                         'child_routes' => array(
-                            'default' => array(
-                                'type'    => 'Segment',
-                                'options' => array(
-                                    'route'    => '/[:controller[/:action[/:id]]]',
-                                    'constraints' => array(
-                                        'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
-                                        'action'     => '[a-zA-Z][a-zA-Z0-9_-]*',
-                                        'id'		 => '[a-f0-9]+'
-                                    ),
-                                    'defaults' => array(
-                                        'controller' => 'Item',
-                                        'action'     => 'index',
-                                    ),
-                                ),
-                            ),
-                            'rest' => array(
-                                'type'    => 'Segment',
-                                'options' => array(
-                                    'route'    => '/[:controller[/:id]]',
-                                    'constraints' => array(
-                                        'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
-                                        'id' 		 => '[a-f0-9]+'
-                                    ),
-                                    'defaults' => array(
-                                        'controller' => 'Index',
-                                    ),
-                                ),
-                            ),
+
                             'dictionary' => array(
                                         'type'    => 'Segment',
                                         'options' => array(
@@ -102,7 +75,6 @@ return array(
 
     'controllers' => array(
         'invokables' => array(
-            'EcampMaterial\Controller\Item' => 'EcampMaterial\Controller\ItemController',
             'EcampMaterial\Controller\Dictionary' => 'EcampMaterial\Controller\DictionaryController',
         ),
     ),

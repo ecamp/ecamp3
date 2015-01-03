@@ -34,7 +34,6 @@ use EcampCore\Entity\Plugin;
 use EcampCore\Entity\Event;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Doctrine\ORM\EntityManagerInterface;
-use EcampWeb\Form\ClassMethodsHydrator;
 
 abstract class AbstractStrategy
 {
@@ -149,28 +148,4 @@ abstract class AbstractStrategy
         return $eventPlugin->getInstanceName();
     }
 
-    /*
-     * Following code is DUPLICATED from EcampLib\Controller\AbstractBaseController
-     */
-
-    /**
-     * @return FormElementManager
-     */
-    protected function getFormElementManager()
-    {
-        return $this->getServiceLocator()->get('FormElementManager');
-    }
-
-    /**
-     * @param $formName
-     * @return BaseForm
-     */
-    protected function createForm($formName)
-    {
-        /* @var $form BaseForm */
-        $form = $this->getFormElementManager()->get($formName);
-        $form->setHydrator(new ClassMethodsHydrator());
-
-        return $form;
-    }
 }

@@ -30,10 +30,6 @@ class Module
 
     public function onBootstrap(MvcEvent $event)
     {
-        $application = $event->getTarget();
-        $serviceManager = $application->getServiceManager();
-        $config = $serviceManager->get('Config');
-
         $sharedEventManager = $event->getTarget()->getEventManager()->getSharedManager();
 
         (new CollectionRenderingListener())->attachShared($sharedEventManager);

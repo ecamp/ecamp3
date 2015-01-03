@@ -11,7 +11,7 @@ class MaterialItemRepository
     extends EntityRepository
 {
 
-    public function getCollection()
+    public function getCollection(array $criteria)
     {
         $q = $this->createQueryBuilder('e');
 
