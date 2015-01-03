@@ -1,0 +1,42 @@
+{% extends 'ecamp-web/user/user.twig' %}
+
+{% block content %}
+
+    <div class="row">
+        <div class="col-sm-7">
+            {% embed "helper/accordion.twig" %}
+                {% block panel_title %}
+                    Infos
+                {% endblock %}
+                {% block panel_content %}
+                    <form class="form-horizontal form-show" role="form">
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label" for="group-name">Username:</label>
+                            <div class="col-sm-9">
+                                <p class="form-control-static">{{ user.username }}</p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label" for="group-name">Scoutname:</label>
+                            <div class="col-sm-9">
+                                <p class="form-control-static">{{ user.scoutname }}</p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label" for="group-name">Firstname:</label>
+                            <div class="col-sm-9">
+                                <p class="form-control-static">{{ user.firstname }}</p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label" for="group-name">Surname:</label>
+                            <div class="col-sm-9">
+                                <p class="form-control-static">{{ user.surname }}</p>
+                            </div>
+                        </div>
+                    </form>
+                {% endblock %}
+            {% endembed %}
+        </div>
+    </div>
+{% endblock %}

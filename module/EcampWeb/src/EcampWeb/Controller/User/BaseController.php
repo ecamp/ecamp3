@@ -1,12 +1,11 @@
 <?php
 
-namespace EcampWeb\Controller\Group;
+namespace EcampWeb\Controller\User;
 
-use Zend\EventManager\EventManagerInterface;
-
-use Zend\View\Model\ViewModel;
 use EcampWeb\Controller\BaseController as WebBaseController;
+use Zend\EventManager\EventManagerInterface;
 use Zend\Mvc\MvcEvent;
+use Zend\View\Model\ViewModel;
 
 abstract class BaseController
     extends WebBaseController
@@ -15,40 +14,40 @@ abstract class BaseController
     {
         parent::setEventManager($events);
 
-        $events->attach('dispatch', function($e) { $this->setGroupInViewModel($e); } , -100);
+        $events->attach('dispatch', function($e) { $this->setUserInViewModel($e); } , -100);
     }
 
     /**
      * @param MvcEvent $e
      */
-    private function setGroupInViewModel(MvcEvent $e)
+    private function setUserInViewModel(MvcEvent $e)
     {
         $result = $e->getResult();
         $controller = $e->getRouteMatch()->getParam('controller');
         $controller = substr($controller, 1 + strrpos($controller, '\\'));
 
         if ($result instanceof ViewModel) {
-            $result->setVariable('group', $this->getGroup());
+            $result->setVariable('user', $this->getUser());
             $result->setVariable('controller', $controller);
         }
     }
 
     /**
-     * @return \EcampCore\Entity\Group
+     * @return \EcampCore\Entity\User
      */
-    protected function getGroup()
+    protected function getUser()
     {
-        $groupId = $this->params('group');
+        $userId = $this->params('user');
 
-        return $this->getGroupRepository()->find($groupId);
+        return $this->getUserRepository()->find($userId);
     }
 
     /**
-     * @return \EcampCore\Repository\GroupRepository
+     * @return \EcampCore\Repository\UserRepository
      */
-    protected function getGroupRepository()
+    protected function getUserRepository()
     {
-        return $this->serviceLocator->get('EcampCore\Repository\Group');
+        return $this->serviceLocator->get('EcampCore\Repository\User');
     }
 
 }

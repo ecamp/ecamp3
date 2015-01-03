@@ -1,0 +1,44 @@
+<ul class="nav nav-pills nav-stacked">
+    <li class="{{ controller == 'Index' ? 'active' : '' }}">
+        <a href="{{ userUrl(user) }}">
+            Info
+        </a>
+    </li>
+    {#
+    <li class="{{ controller == 'Collaborations' ? 'active' : '' }}">
+        <a href="{{ url('web/camp/default', { 'camp': camp, 'controller': 'Collaborations' }) }}">
+            People
+        </a>
+    </li>
+    <li class="dropdown {{ (controller == 'Day' or controller=='Picasso' or controller == 'Event') ? 'active' : '' }}">
+        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+            Programm <div class="pull-right"><span class="caret"></span></div>
+        </a>
+        <ul class="dropdown-menu">
+            <li class="{{ controller == 'Picasso' ? 'active' : '' }}">
+                <a href="{{ url('web/camp/default', { 'camp': camp, 'controller': 'Picasso' }) }}">
+                    Grobprogramm
+                </a>
+            </li>
+            <li class="{{ controller == 'Day' ? 'active' : '' }}">
+                <a href="{{ url('web/camp/default', { 'camp': camp, 'controller': 'Day' }) }}">Tages&uuml;bersicht</a>
+            </li>
+        </ul>
+    </li>
+    <li>
+        <a href="#">Material</a>
+    </li>
+    <li>
+        <a href="#">Print</a>
+    </li>
+    <li class="dropdown">
+        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+            Kurs <div class="pull-right"><span class="caret"></span></div>
+        </a>
+        <ul class="dropdown-menu">
+            <li><a href="#">Ausbildungsziele</a></li>
+            <li><a href="#">J+S Checklisten</a></li>
+        </ul>
+    </li>
+    #}
+</ul>
