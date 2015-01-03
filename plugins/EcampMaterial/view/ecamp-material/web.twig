@@ -49,22 +49,26 @@
 	                </div>
 	                <div class="col-md-3">
 
-	                	<span ng-show ="!materialItem.IsEditing()" ng-repeat="list in materialItem.HalResource.lists">
-	                  		<span ng-bind="list.name"></span>
-	                    </span>
-
-	                   <div ng-show ="materialItem.IsEditing()" >
-
-	                   		<ui-select multiple ng-model="materialItem.EditData.listsIdArray" theme="bootstrap" ng-disabled>
+	                	<div ng-show ="!materialItem.IsEditing()" >
+	                   		<ui-select multiple ng-model="materialItem.HalResource.lists" theme="bootstrap" ng-disabled="true">
 							    <ui-select-match placeholder="Select lists...">{% verbatim %}{{$item.name}}{% endverbatim %}</ui-select-match>
 							    <ui-select-choices repeat="list.id as list in MaterialCollection.materialLists">
 							      <div ng-bind-html="list.name"></div>
 							    </ui-select-choices>
 							</ui-select>
+                   	   </div>
 
-                   		</div>
+	                   <div ng-show ="materialItem.IsEditing()" >
+	                   		<ui-select multiple ng-model="materialItem.EditData.lists" theme="bootstrap" ng-disabled>
+							    <ui-select-match placeholder="Select lists...">{% verbatim %}{{$item.name}}{% endverbatim %}</ui-select-match>
+							    <ui-select-choices repeat="list.id as list in MaterialCollection.materialLists">
+							      <div ng-bind-html="list.name"></div>
+							    </ui-select-choices>
+							</ui-select>
+                   	   </div>
 
 	                </div>
+
 	                <div class="col-md-2">
 	                    <div style="text-align: right">
 	                        <div ng-show="!materialItem.IsEditing()" class="btn-group" style="text-align: left">

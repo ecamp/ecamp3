@@ -38,19 +38,6 @@ class Module
 
         (new CollectionRenderingListener())->attachShared($sharedEventManager);
 
-//     	$sharedEventManager->attach('PhlyRestfully\ResourceController', MvcEvent::EVENT_DISPATCH, function(MvcEvent $e){
-//     		$authService = new AuthenticationService();
-//     		if (!$authService->hasIdentity()) {
-//     			$url = $e->getRouter()->assemble(array(), array('name' => 'api/login'));
-
-//     			$response = $e->getResponse();
-//     			/* @var $response \Zend\Http\PhpEnvironment\Response */
-//     			$response->getHeaders()->addHeaderLine('Location', $url);
-//     			$response->setStatusCode(302);
-//     			$response->sendHeaders();
-//     			exit;
-//     		}
-//     	});
     }
 
 }

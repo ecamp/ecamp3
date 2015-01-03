@@ -27,13 +27,13 @@ class MaterialItemResourceListener extends AbstractListenerAggregate
     public function onFetch(ResourceEvent $e)
     {
         $id = $e->getParam('id');
-        $entity = $this->repo->find($id);
+        $item = $this->repo->find($id);
 
-        if (!$entity) {
+        if (!$item) {
             throw new DomainException('Data not found', 404);
         }
 
-        return new MaterialItemDetailResource($entity);
+        return new MaterialItemDetailResource($item);
     }
 
     public function onFetchAll(ResourceEvent $e)
@@ -49,35 +49,34 @@ class MaterialItemResourceListener extends AbstractListenerAggregate
         $id = $e->getParam('id');
         $data = $e->getParam('data');
 
-        $entity = $this->repo->find($id);
-        if (!$entity) {
+        $item = $this->repo->find($id);
+        if (!$item) {
             throw new DomainException('Data not found', 404);
         }
 
-        $entity->setQuantity($data->quantity);
-        $entity->setText($data->text);
+        $item->setQuantity($data->quantity);
+        $item->setText($data->text);
 
         /* update lists based on array */
-        $lists = $entity->getLists();
-        foreach ($lists as $list) {
-            if (!in_array($list->getId(), $data->listsIdArray)) {
-                $listEntity = $this->listRepo->find($list);
 
-                $lists->removeElement($listEntity);
+        /* Step 1: remove lists that are not in array anymore */
+        foreach ($item->getLists() as $list) {
+            if (!in_array($list->getId(), $data->lists)) {
 
-                $listEntity->getItems()->removeElement($entity);
+                $item->removeList($list);
             }
         }
 
-        foreach ($data->listsIdArray as $id) {
+        /* Step 2: add additional lists from array */
+        foreach ($data->lists as $id) {
             $list = $this->listRepo->find($id);
 
-            if ( ! $lists->contains($list) ) {
+            if ($list && !$item->getLists()->contains($list) ) {
 
-                $lists->add($list);
+                $item->addList($list);
             }
         }
 
-        return new MaterialItemDetailResource($entity);
+        return new MaterialItemDetailResource($item);
     }
 }

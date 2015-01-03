@@ -8,6 +8,7 @@ use EcampLib\Entity\BaseEntity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Zend\Form\Annotation as Form;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity(repositoryClass="EcampMaterial\Repository\MaterialItemRepository")
@@ -48,7 +49,7 @@ class MaterialItem extends BaseEntity
     {
         parent::__construct();
         $this->eventPlugin = $eventPlugin;
-        $this->lists =  new \Doctrine\Common\Collections\ArrayCollection();
+        $this->lists =  new ArrayCollection();
     }
 
     /**
@@ -82,6 +83,31 @@ class MaterialItem extends BaseEntity
     public function getLists()
     {
         return $this->lists;
+    }
+
+    /**
+     * @param MaterialList $list
+     */
+    public function addList(MaterialList $list)
+    {
+        if ($this->lists->contains($list)) {
+            return;
+        }
+        $this->lists->add($list);
+        $list->addItem($this);
+    }
+
+    /**
+     * @param MaterialList $list
+     */
+    public function removeList(MaterialList $list)
+    {
+        if (!$this->lists->contains($list)) {
+            return;
+        }
+
+        $this->lists->removeElement($list);
+        $list->removeItem($this);
     }
 
 }

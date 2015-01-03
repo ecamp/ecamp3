@@ -7,12 +7,24 @@
     "**/*.txt"
   ],
   "dependencies": {
-      "jquery": "latest",
-      "bootstrap": "latest",
-      "angular-ui-select": "latest",
-      "angular": "~1.2",
-      "angular-sanitize": "~1.2",
-      "angular-ui": "latest" ,
-      "angular-bootstrap": "latest"
+    "jquery": "~2",
+    "jquery-ui": "~1",
+    "jquery-autosize": "latest",
+    "bootstrap": "~3",
+    "bootstrap-select": "latest",
+    "angular-ui": "latest",
+    "angular-ui-select": "latest",
+    "angular-ui-slider": "latest",
+    "angular": "~1.2",
+    "angular-sanitize": "~1.2",
+    "angular-bootstrap": "latest",
+    "angular-resource": "~1.2",
+    "fontawesome": "~4",
+    "typeahead.js": "latest",
+    "uri.js": "~1.14",
+    "angular-hal": "git@github.com:LuvDaSun/angular-hal.git"
+  },
+  "resolutions": {
+    "angular": "~1.2"
   }
 }

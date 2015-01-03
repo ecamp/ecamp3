@@ -23,7 +23,9 @@ return array(
         'EcampMaterial\Resource\MaterialList\MaterialListResourceListener' => function ($services) {
             $repository = $services->get('EcampMaterial\Repository\MaterialList');
 
-            return new MaterialListResourceListener($repository);
+            $eventPluginRepository = $services->get('EcampCore\Repository\EventPlugin');
+
+            return new MaterialListResourceListener($repository, $eventPluginRepository);
         },
 
     ),

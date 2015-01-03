@@ -10,9 +10,12 @@ class MaterialListResourceListener extends AbstractListenerAggregate
 {
     protected $repo;
 
-    public function __construct($repo)
+    protected $eventPluginRepo;
+
+    public function __construct($repo, $eventPluginRepo)
     {
         $this->repo = $repo;
+        $this->eventPluginRepo = $eventPluginRepo;
     }
 
     public function attach(EventManagerInterface $events)
@@ -22,9 +25,13 @@ class MaterialListResourceListener extends AbstractListenerAggregate
 
     public function onFetchAll(ResourceEvent $e)
     {
-        $params = $e->getQueryParams()->toArray();
+        $eventPluginId = $e->getRouteParam('eventPlugin', $e->getQueryParam('eventPlugin'));
+        $eventPlugin = $this->eventPluginRepo->find($eventPluginId);
 
-        return $this->repo->findAll();
+        $params = $e->getQueryParams()->toArray();
+        $params['camp'] = $eventPlugin->getCamp();
+
+        return $this->repo->getCollection($params);
     }
 
 }

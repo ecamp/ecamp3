@@ -9,7 +9,7 @@ use EcampLib\Entity\BaseEntity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="EcampMaterial\Repository\MaterialListRepository")
  * @ORM\Table(name="p_material_lists")
  */
 class MaterialList extends BaseEntity
@@ -74,5 +74,30 @@ class MaterialList extends BaseEntity
     public function getItems()
     {
         return $this->items;
+    }
+
+    /**
+     * @param MaterialItem $item
+     */
+    public function addItem(MaterialItem $item)
+    {
+        if ($this->items->contains($item)) {
+            return;
+        }
+        $this->items->add($item);
+        $item->addList($this);
+    }
+
+    /**
+     * @param MaterialList $list
+     */
+    public function removeItem(MaterialItem $item)
+    {
+        if (!$this->items->contains($item)) {
+            return;
+        }
+
+        $this->items->removeElement($item);
+        $item->removeList($this);
     }
 }

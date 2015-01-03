@@ -2,9 +2,9 @@
  * Created by pirmin on 13.11.14.
  */
 
-(function(ngApp) {
+angular.module('ecamp.RemoteData', ['angular-hal']);
 
-    ngApp.factory('RemoteResource', ['$timeout', 'halClient', function($timeout, halClient){
+angular.module('ecamp.RemoteData').factory('RemoteResource', ['$timeout', 'halClient', function($timeout, halClient){
 
         function RemoteResource(halResource){
             if(!(this instanceof RemoteResource)){
@@ -111,7 +111,8 @@
         return RemoteResource;
     }]);
 
-    ngApp.factory('RemoteCollection', ['$timeout', '$q', 'halClient', 'RemoteResource', function($timeout, $q, halClient, RemoteResource){
+
+angular.module('ecamp.RemoteData').factory('RemoteCollection', ['$timeout', '$q', 'halClient', 'RemoteResource', function($timeout, $q, halClient, RemoteResource){
 
         function RemoteCollection(halResource){
             if(!(this instanceof RemoteCollection)){
@@ -267,7 +268,7 @@
         return RemoteCollection;
     }]);
 
-    ngApp.factory('RemoteCreateResource', ['$timeout', '$q', 'halClient', function($timeout, $q, halClient){
+angular.module('ecamp.RemoteData').factory('RemoteCreateResource', ['$timeout', '$q', 'halClient', function($timeout, $q, halClient){
 
         function RemoteCreateResource(){
             if(!(this instanceof RemoteCreateResource)) {
@@ -342,7 +343,7 @@
     }]);
 
 
-    ngApp.directive('remoteResource', ['RemoteResource', function(RemoteResource){
+angular.module('ecamp.RemoteData').directive('remoteResource', ['RemoteResource', function(RemoteResource){
         return {
             restrict: 'EA',
             scope: false,
@@ -369,7 +370,7 @@
         };
     }]);
 
-    ngApp.directive('remoteCollection', ['RemoteCollection', function(RemoteCollection){
+angular.module('ecamp.RemoteData').directive('remoteCollection', ['RemoteCollection', function(RemoteCollection){
         return {
             restrict: 'EA',
             scope: false,
@@ -395,7 +396,7 @@
         };
     }]);
 
-    ngApp.directive('remoteCreateResource', ['RemoteCreateResource', function(RemoteCreateResource){
+angular.module('ecamp.RemoteData').directive('remoteCreateResource', ['RemoteCreateResource', function(RemoteCreateResource){
         return {
             restrict: 'EA',
             scope: false,
@@ -415,118 +416,3 @@
             }
         };
     }]);
-
-
-
-    
-
-
-
-    /** TODO: Move to other File */
-    ngApp.factory('RemoteMaterialResource', ['RemoteResource', function(RemoteResource){
-
-        function RemoteMaterialResource(halResource){
-            if(!(this instanceof RemoteMaterialResource)){
-                return new RemoteMaterialResource(halResource)
-            }
-
-            RemoteResource.apply(this, arguments);
-        }
-
-        RemoteMaterialResource.prototype = new RemoteResource();
-
-        RemoteMaterialResource.prototype.SetHalResource = function(halResource){
-            var result = RemoteResource.prototype.SetHalResource.apply(this, arguments);
-
-            // Additional logic for material
-            halResource.$get('lists').then(function (resource) {
-            	halResource.lists = resource;
-            	
-            	/* the ID array is used for the angular ui-select component */
-            	halResource.listsIdArray = $.map(resource,function(obj){return obj.id}); 
-            });
-
-            return result;
-        };
-
-        return RemoteMaterialResource;
-
-    }]);
-    
-    ngApp.factory('RemoteMaterialCollection', ['RemoteCollection', 'RemoteMaterialResource', 'halClient', function(RemoteCollection, RemoteMaterialResource, halClient){
-
-        function RemoteMaterialCollection(halResource){
-            if(!(this instanceof RemoteMaterialCollection)){
-                return new RemoteMaterialCollection(halResource)
-            }
-
-            RemoteCollection.apply(this, arguments);
-            
-            this.ElementType = RemoteMaterialResource;
-            this.materialLists = new Array();
-        }
-
-        RemoteMaterialCollection.prototype = new RemoteCollection();
-        
-        RemoteMaterialCollection.prototype.SetListEndpoint = function(endpoint){  
-            if(endpoint != null){
-                return halClient.$get(endpoint)
-                	.then( this.SetListsResource.bind(this) )
-                	.then( this.SetListsItems.bind(this));
-            }
-        };
-           
-        RemoteMaterialCollection.prototype.SetListsResource = function(resource){
-        	return resource.$get('items');
-        };
-
-        RemoteMaterialCollection.prototype.SetListsItems = function(resource){
-        	this.materialLists = resource;
-        };
-        
-        return RemoteMaterialCollection;
-
-    }]);
-
-    /** TODO: Move to other File */
-    ngApp.directive('remoteMaterialCollection', ['RemoteMaterialCollection', function(RemoteMaterialCollection){
-        return {
-            restrict: 'EA',
-            scope: false,
-
-            link: function($scope, $element, $attrs, $ctrl){
-                var _remoteCollection = new RemoteMaterialCollection();
-
-                if("resourceName" in $attrs){
-                	$scope[$attrs.resourceName] = _remoteCollection;
-                }
-
-                if("sortable" in $attrs) {
-                    _remoteCollection.Sortable = $attrs.sortable;
-                }
-                
-                /* 
-                 * make sure that the complete material lists are loaded before the material items
-                 * otherwise angular ui-select does not work properly
-                 */
-                _remoteCollection.SetListEndpoint($attrs.materialListsEndpoint).then(
-                		
-	                function(){
-		                var remoteMaterialCollection = $attrs.remoteMaterialCollection;
-		                if(remoteMaterialCollection in $scope){
-		                    _remoteCollection.SetHalResource($scope[remoteMaterialCollection]);
-		                } else {
-		                    _remoteCollection.SetEndpoint(remoteMaterialCollection);
-		                }
-	                }
-                
-                );
-                
-                
-            }
-        };
-
-    }]);
-
-
-}(window.ecamp.ngApp));
