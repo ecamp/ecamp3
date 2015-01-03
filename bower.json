@@ -1,0 +1,18 @@
+{
+  "name": "ecamp3",
+  "version": "0.0.1",
+  "directory": "public/assets/vendor",
+  "ignore": [
+    ".jshintrc",
+    "**/*.txt"
+  ],
+  "dependencies": {
+      "jquery": "latest",
+      "bootstrap": "latest",
+      "angular-ui-select": "latest",
+      "angular": "~1.2",
+      "angular-sanitize": "~1.2",
+      "angular-ui": "latest" ,
+      "angular-bootstrap": "latest"
+  }
+}

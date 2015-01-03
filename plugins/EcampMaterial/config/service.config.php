@@ -1,4 +1,6 @@
 <?php
+use EcampMaterial\Resource\MaterialList\MaterialListResourceListener;
+
 use EcampMaterial\Resource\MaterialItem\MaterialItemResourceListener;
 
 use EcampMaterial\StrategyFactory;
@@ -13,8 +15,15 @@ return array(
 
         'EcampMaterial\Resource\MaterialItem\MaterialItemResourceListener' => function ($services) {
             $repository = $services->get('EcampMaterial\Repository\MaterialItem');
+            $listRepository = $services->get('EcampMaterial\Repository\MaterialList');
 
-            return new MaterialItemResourceListener($repository);
+            return new MaterialItemResourceListener($repository, $listRepository);
+        },
+
+        'EcampMaterial\Resource\MaterialList\MaterialListResourceListener' => function ($services) {
+            $repository = $services->get('EcampMaterial\Repository\MaterialList');
+
+            return new MaterialListResourceListener($repository);
         },
 
     ),

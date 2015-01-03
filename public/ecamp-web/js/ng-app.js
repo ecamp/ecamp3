@@ -5,7 +5,7 @@
 (function(ecamp){
 
     ecamp.ngApp = angular.module('ecamp',
-        ['ngResource', /*'ngAnimate',*/ 'ui.bootstrap', 'ui.slider', 'angular-hal']
+        ['ngResource', 'ui.bootstrap', 'ui.slider', 'ui.select', 'angular-hal', 'ngSanitize']
     );
 
 

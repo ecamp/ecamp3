@@ -1,11 +1,12 @@
-<script src="/typeahead.js/typeahead.bundle.js"></script>
-<script src="/ecamp-web/js/Plugin.js"></script>
-<script src="/ecamp-web/js/Plugin/Itemized.js"></script>
+<div
+    remote-material-collection="{{ url('api-material/items', { 'eventPlugin': eventPlugin.id }) }}"
+    resource-name="MaterialCollection"
+    material-lists-endpoint="{{ url('api-material/lists', { 'eventPlugin': eventPlugin.id }) }}"
+>
 
+    <div class="row">
 
-<div class="items">
-	<div class="row">
-		<div class="col-md-2">
+   		<div class="col-md-2">
 			<b>Quantity</b>
 		</div>
 		<div class="col-md-5">
@@ -17,69 +18,93 @@
 		<div class="col-md-1">
 
 		</div>
-	</div>
+    </div>
+
+    <ul class="items list-striped"
+        style="list-style: none; padding: 0px;"
+    >
+        <li ng-repeat="item in MaterialCollection.Items" class="item">
+        	<form remote-resource="item" resource-name="materialItem" name="form" ng-keydown="section.KeyHandler($event)">
+
+	            <div class="row">
+	                <div class="col-xs-12">
+	                    <div style="border-bottom: 1px #ddd solid; margin: 0px 0px 5px 0px" ></div>
+	                </div>
+	            </div>
 
 
-	{% for item in items %}
-		{% include 'ecamp-material/item' %}
-	{% endfor %}
+	            <div class="row">
 
-</div>
+	                <div class="col-md-2" style="padding-left: 20px;">
+	                    <div style="text-align: center" ng-show="!materialItem.IsEditing()" ng-click="materialItem.Edit()">
+	                        <span ng-bind="materialItem.HalResource.quantity"></span>
+	                    </div>
 
-<div class="row" name="add" style="margin-top:30px;">
+	                    <input type="text" ng-show="materialItem.IsEditing()" ng-model="materialItem.EditData.quantity" class="form-control" />
 
-	<div name="form">
-		{% include 'ecamp-material/item-newform' %}
-	</div>
+	                </div>
+	                <div class="col-md-5">
+	                    <pre ng-show="!materialItem.IsEditing()" ng-bind="materialItem.HalResource.text" ng-click="materialItem.Edit()"></pre>
+	                    <input type="text" ng-show="materialItem.IsEditing()" ng-model="materialItem.EditData.text" class="form-control" />
+	                </div>
+	                <div class="col-md-3">
 
-	<div class="col-md-2" style="text-align: right;">
-		<a href="#" class="submit btn btn-xs btn-success"><i class="fa fa-check"></i> Add</a>
-	</div>
+	                	<span ng-show ="!materialItem.IsEditing()" ng-repeat="list in materialItem.HalResource.lists">
+	                  		<span ng-bind="list.name"></span>
+	                    </span>
 
-</div>
+	                   <div ng-show ="materialItem.IsEditing()" >
 
-<script type="text/javascript">
+	                   		<ui-select multiple ng-model="materialItem.EditData.listsIdArray" theme="bootstrap" ng-disabled>
+							    <ui-select-match placeholder="Select lists...">{% verbatim %}{{$item.name}}{% endverbatim %}</ui-select-match>
+							    <ui-select-choices repeat="list.id as list in MaterialCollection.materialLists">
+							      <div ng-bind-html="list.name"></div>
+							    </ui-select-choices>
+							</ui-select>
 
-	$(function(){
-		var plugin = new Ecamp.Web.Plugin.Itemized({
-			eventPluginId : '{{eventPlugin.id}}',
-			showNewForm   : true,
-			movableItems  : false
-		});
-	});
+                   		</div>
 
-</script>
+	                </div>
+	                <div class="col-md-2">
+	                    <div style="text-align: right">
+	                        <div ng-show="!materialItem.IsEditing()" class="btn-group" style="text-align: left">
+	                            <a class="btn btn-xs btn-default" ng-click="materialItem.Edit()">Edit</a>
+	                            <button type="button" class="btn btn-xs btn-default dropdown-toggle" data-toggle="dropdown">
+	                                <span class="caret"></span>
+	                                <span class="sr-only">Toggle Dropdown</span>
+	                            </button>
+	                            <ul class="dropdown-menu pull-right" role="menu">
+	                                <li>
+	                                    <a>
+	                                        <i class="fa fa-arrow-circle-o-up"></i> Move up
+	                                    </a>
+	                                </li>
+	                                <li>
+	                                    <a>
+	                                        <i class="fa fa-arrow-circle-o-down"></i> Move down
+	                                    </a>
+	                                </li>
+	                                <li class="divider"></li>
+	                                <li>
+	                                    <a 	 >
+	                                        <i class="fa fa-trash-o"></i> Delete
+	                                    </a>
+	                                </li>
+	                            </ul>
+	                        </div>
+	                        <div ng-show="materialItem.IsEditing()" class="btn-group" style="text-align: left">
+	                            <button class="btn btn-xs btn-success" ng-click="materialItem.Save()">Save</button>
+	                            <button class="btn btn-xs btn-danger" ng-click="materialItem.Cancel()">Cancel</button>
+	                        </div>
 
+	                    </div>
 
-<script>
-$(document).ready(function() {
+	                </div>
+	            </div>
 
-	var materialDictionary = new Bloodhound({
-	  datumTokenizer:  function(d) {
-	      return Bloodhound.tokenizers.whitespace(d.text);
-	  },
-	  queryTokenizer: Bloodhound.tokenizers.whitespace,
-	  prefetch: '{{
-			url('plugin/material/dictionary', {
-				'eventPluginId': eventPlugin.id
-			} )}}',
-	  remote: {
-		  url: '{{
-			url('plugin/material/dictionary', {
-				'eventPluginId': eventPlugin.id,
-				'query': 'QUERY'
-			} )}}',
-			wildcard:'QUERY'
-	  }
-	});
+			</form>
 
-	materialDictionary.initialize();
+        </li>
+    </ul>
 
-	$('#{{eventPlugin.id}} .typeahead').typeahead(null, {
-	  name: 'materialDictionary',
-	  displayKey: 'text',
-	  source: materialDictionary.ttAdapter()
-	});
-
-});
-</script>
+</remnote-collection>

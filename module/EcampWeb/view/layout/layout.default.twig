@@ -1,7 +1,8 @@
 {% extends 'layout/html.twig' %}
 
 {% block link %}
-    <link type="text/css" rel="stylesheet" href="{{ request.basePath }}/bootstrap/css/bootstrap.min.css" />
+    <link type="text/css" rel="stylesheet" href="{{ request.basePath }}/assets/vendor/bootstrap/dist/css/bootstrap.css" />
+
     <link type="text/css" rel="stylesheet" href="{{ request.basePath }}/font-awesome/css/font-awesome.min.css" />
     <link type="text/css" rel="stylesheet" href="{{ request.basePath }}/jqueryui/themes/base/all.css" />
 
@@ -16,31 +17,26 @@
     <link type="text/css" rel="stylesheet" href="{{ request.basePath }}/web-assets/css/ui-bootstrap.css" />
     <link type="text/css" rel="stylesheet" href="{{ request.basePath }}/web-assets/css/ng-contextmenu.css" />
     <link type="text/css" rel="stylesheet" href="{{ request.basePath }}/web-assets/picasso/css/picasso.css" />
+
+    <link type="text/css" rel="stylesheet" href="{{ request.basePath }}/assets/vendor/angular-ui-select/dist/select.css" />
 {% endblock %}
 
 {% block script %}
-    <script src="{{ request.basePath }}/jquery/jquery.min.js"></script>
+    <script src="{{ request.basePath }}/assets/vendor/jquery/dist/jquery.js"></script>
     <script src="{{ request.basePath }}/jqueryui/jquery-ui.min.js"></script>
     <script src="{{ request.basePath }}/jquery-autosize/js/jquery.autosize.min.js"></script>
 
+    <script src="{{ request.basePath }}/assets/vendor/angular/angular.js"></script>
+    <script src="{{ request.basePath }}/assets/vendor/angular-sanitize/angular-sanitize.js"></script>
+    <script src="{{ request.basePath }}/assets/vendor/angular-ui-select/dist/select.js"></script>
 
-    <!--
-    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.0/angular.min.js"></script>
-    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.0/angular-animate.js"></script>
-    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.0/angular-resource.js"></script>
-    -->
-
-    <script src="{{ request.basePath }}/angular.js/angular.js"></script>
     <script src="{{ request.basePath }}/angular-resource/angular-resource.js"></script>
-<!--
-    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.0/angular-animate.js"></script>
--->
 
-    <script src="{{ request.basePath }}/bootstrap/js/bootstrap.min.js"></script>
+    <script src="{{ request.basePath }}/assets/vendor/bootstrap/dist/js/bootstrap.js"></script>
     <script src="{{ request.basePath }}/bootstrap-select/js/bootstrap-select.min.js"></script>
     <script src="{{ request.basePath }}/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
 
-    <script src="{{ request.basePath }}/angular-ui/js/ui-bootstrap-tpls.min.js"></script>
+    <script src="{{ request.basePath }}/assets/vendor/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
     <script src="{{ request.basePath }}/angular-ui/js/ui-slider.js"></script>
 
     <script src="{{ request.basePath }}/uri-js/js/URI.js"></script>

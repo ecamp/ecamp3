@@ -26,6 +26,18 @@ return array(
 
                                         ),
 
+                                        'lists' => array(
+                                                'type' => 'Segment',
+                                                'options' => array(
+                                                        'route'      => '/:eventPlugin/lists[/:list]',
+                                                        'defaults' => array(
+                                                                'controller'    => 'Resource\MaterialList\ApiController'
+                                                        ),
+                                                ),
+                                                'may_terminate' => true,
+
+                                        ),
+
                                 ),
                         ),
 
@@ -107,17 +119,24 @@ return array(
         'phlyrestfully' => array(
                 'resources' => array(
 
-                        /**
-                         * Event
-                        */
                         'EcampMaterial\Resource\MaterialItem\ApiController' => array(
                                 'listener'                => 'EcampMaterial\Resource\MaterialItem\MaterialItemResourceListener',
                                 'collection_http_options' => array('get'),
                                 'page_size'               => 3,
                                 'page_size_param'		  => 'limit',
-                                'resource_http_options'   => array('get'),
+                                'resource_http_options'   => array('get', 'put'),
                                 'route_name'              => 'api-material/items',
                                 'identifier_name'		  => 'item'
+                        ),
+
+                        'EcampMaterial\Resource\MaterialList\ApiController' => array(
+                                'listener'                => 'EcampMaterial\Resource\MaterialList\MaterialListResourceListener',
+                                'collection_http_options' => array('get'),
+                                'page_size'               => 3,
+                                'page_size_param'		  => 'limit',
+                                'resource_http_options'   => array('get'),
+                                'route_name'              => 'api-material/lists',
+                                'identifier_name'		  => 'list'
                         ),
 
                 ),

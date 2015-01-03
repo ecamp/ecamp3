@@ -15,7 +15,7 @@ use Doctrine\ORM\Mapping as ORM;
 class MaterialList extends BaseEntity
 {
     /**
-     * @ORM\ManyToMany(targetEntity="EcampMaterial\Entity\MaterialItem")
+     * @ORM\ManyToMany(targetEntity="EcampMaterial\Entity\MaterialItem", mappedBy="lists")
      */
     private $items;
 
@@ -71,4 +71,8 @@ class MaterialList extends BaseEntity
         return $this->collaboration;
     }
 
+    public function getItems()
+    {
+        return $this->items;
+    }
 }

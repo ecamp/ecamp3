@@ -25,10 +25,10 @@ class MaterialItem extends BaseEntity
     private $eventPlugin;
 
     /**
-     * @ORM\ManyToMany(targetEntity="EcampMaterial\Entity\MaterialList")
+     * @ORM\ManyToMany(targetEntity="EcampMaterial\Entity\MaterialList", inversedBy="items", cascade={"persist","remove"})
      * @ORM\JoinTable(name="p_material_list_item",
-     *      joinColumns={@ORM\JoinColumn(name="Item_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="List_id", referencedColumnName="id")}
+     *      joinColumns={@ORM\JoinColumn(name="Item_id", referencedColumnName="id", onDelete="cascade")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="List_id", referencedColumnName="id", onDelete="cascade")}
      *      )
      */
     private $lists;

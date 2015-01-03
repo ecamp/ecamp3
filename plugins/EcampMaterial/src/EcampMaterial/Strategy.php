@@ -32,40 +32,9 @@ class Strategy extends AbstractStrategy
      */
     public function createViewModel(EventPlugin $eventPlugin, Medium $medium)
     {
-        $items = $this->getItemRepo()->findBy(array('eventPlugin' => $eventPlugin));
-        $lists = $this->getListRepo()->findBy(array('camp' => $eventPlugin->getCamp()));
-
-        $urlHelper = $this->getServiceLocator()->get('ControllerPluginManager')->get('url');
-
-        $forms = array();
-
-        foreach ($items as $item) {
-            $form = new Form\MaterialItemForm($this->getFormElementManager());
-            $form->bind($item);
-
-            $form->setAction(
-                    $urlHelper->fromRoute(
-                            'plugin/material/default',
-                            array('eventPluginId' => $item->getEventPlugin()->getId(), 'controller' => 'item', 'action' => 'save', 'id' => $item->getId())
-                    )
-            );
-
-            $forms[$item->getId()] = $form;
-        }
-
-        $newform = new Form\MaterialItemForm($this->getFormElementManager());
-        $newform->setAction(
-                $urlHelper->fromRoute(
-                        'plugin/material/default',
-                        array('eventPluginId' => $item->getEventPlugin()->getId(), 'controller' => 'item', 'action' => 'create')
-                )
-        );
 
         $view = new ViewModel();
-        $view->setVariable('items', $items);
-        $view->setVariable('lists', $lists);
-        $view->setVariable('forms', $forms);
-        $view->setVariable('newform', $newform);
+
         $view->setTemplate($this->getTemplate($medium));
 
         return $view;

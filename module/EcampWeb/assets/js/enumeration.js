@@ -15,6 +15,7 @@
             this.Owner = null;
             this.HalResource = null;
             this.EditData = null;
+            this.EditMode = false;
 
             this.SetHalResource(halResource);
         }
@@ -33,6 +34,7 @@
         RemoteResource.prototype.SetHalResource = function(halResource){
             this.HalResource = halResource;
             this.EditData = null;
+            this.EditMode = false;
         };
 
         RemoteResource.prototype.ClearHalResource = function(){
@@ -49,6 +51,7 @@
 
         RemoteResource.prototype.Edit = function(){
             this.EditData = {};
+            this.EditMode = true;
 
             for(var attr in this.HalResource){
                 this.EditData[attr] = this.HalResource[attr];
@@ -61,11 +64,12 @@
         };
 
         RemoteResource.prototype.IsEditing = function(){
-            return this.EditData != null;
+            return this.EditMode;
         };
 
         RemoteResource.prototype.Cancel = function(){
             this.EditData = null;
+            this.EditMode = false;
         };
 
         RemoteResource.prototype.Save = function(){
@@ -355,11 +359,9 @@
                 }
 
                 if("resourceName" in $attrs){
-                    Object.defineProperty($scope, $attrs.resourceName, {
-                        get: function(){ return _remoteResource; }
-                    });
+                	$scope[$attrs.resourceName] = _remoteResource;
                 }
-
+                
                 if($element.is('form')){
                     _remoteResource.Form = $element;
                 }
@@ -376,9 +378,7 @@
                 var _remoteCollection = new RemoteCollection();
 
                 if("resourceName" in $attrs){
-                    Object.defineProperty($scope, $attrs.resourceName, {
-                        get: function(){ return _remoteCollection; }
-                    });
+                	$scope[$attrs.resourceName] = _remoteCollection;
                 }
 
                 if("sortable" in $attrs) {
@@ -404,10 +404,9 @@
                 var _remoteCreateResource = new RemoteCreateResource();
                 _remoteCreateResource.Endpoint = $attrs.remoteCreateResource;
 
+                
                 if("resourceName" in $attrs){
-                    Object.defineProperty($scope, $attrs.resourceName, {
-                        get: function(){ return _remoteCreateResource; }
-                    });
+                	$scope[$attrs.resourceName] = _remoteCreateResource;
                 }
 
                 if($element.is('form')){
@@ -439,7 +438,13 @@
         RemoteMaterialResource.prototype.SetHalResource = function(halResource){
             var result = RemoteResource.prototype.SetHalResource.apply(this, arguments);
 
-            // Additional logic
+            // Additional logic for material
+            halResource.$get('lists').then(function (resource) {
+            	halResource.lists = resource;
+            	
+            	/* the ID array is used for the angular ui-select component */
+            	halResource.listsIdArray = $.map(resource,function(obj){return obj.id}); 
+            });
 
             return result;
         };
@@ -447,33 +452,77 @@
         return RemoteMaterialResource;
 
     }]);
+    
+    ngApp.factory('RemoteMaterialCollection', ['RemoteCollection', 'RemoteMaterialResource', 'halClient', function(RemoteCollection, RemoteMaterialResource, halClient){
+
+        function RemoteMaterialCollection(halResource){
+            if(!(this instanceof RemoteMaterialCollection)){
+                return new RemoteMaterialCollection(halResource)
+            }
+
+            RemoteCollection.apply(this, arguments);
+            
+            this.ElementType = RemoteMaterialResource;
+            this.materialLists = new Array();
+        }
+
+        RemoteMaterialCollection.prototype = new RemoteCollection();
+        
+        RemoteMaterialCollection.prototype.SetListEndpoint = function(endpoint){  
+            if(endpoint != null){
+                return halClient.$get(endpoint)
+                	.then( this.SetListsResource.bind(this) )
+                	.then( this.SetListsItems.bind(this));
+            }
+        };
+           
+        RemoteMaterialCollection.prototype.SetListsResource = function(resource){
+        	return resource.$get('items');
+        };
+
+        RemoteMaterialCollection.prototype.SetListsItems = function(resource){
+        	this.materialLists = resource;
+        };
+        
+        return RemoteMaterialCollection;
+
+    }]);
 
     /** TODO: Move to other File */
-    ngApp.directive('remoteMaterialCollection', ['RemoteCollection', 'RemoteMaterialResource', function(RemoteCollection, RemoteMaterialResource){
+    ngApp.directive('remoteMaterialCollection', ['RemoteMaterialCollection', function(RemoteMaterialCollection){
         return {
             restrict: 'EA',
             scope: false,
 
             link: function($scope, $element, $attrs, $ctrl){
-                var _remoteCollection = new RemoteCollection();
-                _remoteCollection.ElementType = RemoteMaterialResource;
+                var _remoteCollection = new RemoteMaterialCollection();
 
                 if("resourceName" in $attrs){
-                    Object.defineProperty($scope, $attrs.resourceName, {
-                        get: function(){ return _remoteCollection; }
-                    });
+                	$scope[$attrs.resourceName] = _remoteCollection;
                 }
 
                 if("sortable" in $attrs) {
                     _remoteCollection.Sortable = $attrs.sortable;
                 }
-
-                var remoteMaterialCollection = $attrs.remoteMaterialCollection;
-                if(remoteMaterialCollection in $scope){
-                    _remoteCollection.SetHalResource($scope[remoteMaterialCollection]);
-                } else {
-                    _remoteCollection.SetEndpoint(remoteMaterialCollection);
-                }
+                
+                /* 
+                 * make sure that the complete material lists are loaded before the material items
+                 * otherwise angular ui-select does not work properly
+                 */
+                _remoteCollection.SetListEndpoint($attrs.materialListsEndpoint).then(
+                		
+	                function(){
+		                var remoteMaterialCollection = $attrs.remoteMaterialCollection;
+		                if(remoteMaterialCollection in $scope){
+		                    _remoteCollection.SetHalResource($scope[remoteMaterialCollection]);
+		                } else {
+		                    _remoteCollection.SetEndpoint(remoteMaterialCollection);
+		                }
+	                }
+                
+                );
+                
+                
             }
         };
 
