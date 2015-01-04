@@ -89,8 +89,6 @@ class CampCreateForm extends AjaxBaseForm implements InputFilterProviderInterfac
 
     public function getInputFilterSpecification()
     {
-        $this->
-
         return array(
             array(
                 'name' => 'name',
