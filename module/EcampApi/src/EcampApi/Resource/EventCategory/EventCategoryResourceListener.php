@@ -11,7 +11,8 @@ class EventCategoryResourceListener extends BaseResourceListener
     /**
      * @return \EcampCore\Repository\EventCategoryRepository
      */
-    protected function getEventCategoryRepository(){
+    protected function getEventCategoryRepository()
+    {
         return $this->getService('EcampCore\Repository\EventCategory');
     }
 

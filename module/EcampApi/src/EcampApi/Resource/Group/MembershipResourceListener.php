@@ -3,7 +3,6 @@ namespace EcampApi\Resource\Group;
 
 use EcampApi\Resource\Membership\MembershipDetailResource;
 use EcampLib\Resource\BaseResourceListener;
-use PhlyRestfully\Exception\DomainException;
 use PhlyRestfully\ResourceEvent;
 use Zend\Authentication\AuthenticationService;
 use Zend\EventManager\EventManagerInterface;
@@ -13,28 +12,31 @@ class MembershipResourceListener extends BaseResourceListener
     /**
      * @return \EcampCore\Repository\GroupRepository
      */
-    protected function getGroupRepository(){
+    protected function getGroupRepository()
+    {
         return $this->getService('EcampCore\Repository\Group');
     }
 
     /**
      * @return \EcampCore\Repository\UserRepository
      */
-    protected function getUserRepository(){
+    protected function getUserRepository()
+    {
         return $this->getService('EcampCore\Repository\User');
     }
 
     /**
      * @return \EcampCore\Repository\GroupMembershipRepository
      */
-    protected function getGroupMembershipRepository(){
+    protected function getGroupMembershipRepository()
+    {
         return $this->getService('EcampCore\Repository\GroupMembership');
     }
 
-    protected function getAuthenticationService(){
+    protected function getAuthenticationService()
+    {
         return new AuthenticationService();
     }
-
 
     public function attach(EventManagerInterface $events)
     {
@@ -55,7 +57,7 @@ class MembershipResourceListener extends BaseResourceListener
             new MembershipDetailResource($user->getId(), $groupMembership, $group, $user);
 
         $identifiedUser = $this->getIdentifiedUser();
-        if($identifiedUser != null) {
+        if ($identifiedUser != null) {
             $membershipResource->setVisitor($identifiedUser);
         }
 
@@ -71,26 +73,27 @@ class MembershipResourceListener extends BaseResourceListener
         return $this->getGroupMembershipRepository()->getCollection($params);
     }
 
-
     /**
-     * @param ResourceEvent $e
+     * @param  ResourceEvent           $e
      * @return \EcampCore\Entity\Group
      */
     protected function getGroup(ResourceEvent $e)
     {
         $groupId = $e->getRouteParam('group', $e->getQueryParam('group'));
         $group = ($groupId != null) ? $this->getGroupRepository()->find($groupId) : null;
+
         return $group;
     }
 
     /**
-     * @param ResourceEvent $e
+     * @param  ResourceEvent          $e
      * @return \EcampCore\Entity\User
      */
     protected function getUser(ResourceEvent $e)
     {
         $userId = $e->getRouteParam('member', $e->getQueryParam('member'));
         $user = ($userId != null) ? $this->getUserRepository()->find($userId) : null;
+
         return $user;
     }
 

@@ -25,5 +25,4 @@ class SectionResource extends HalResource
         $this->getLinks()->add($selfLink);
     }
 
-
 }

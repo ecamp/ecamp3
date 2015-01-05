@@ -60,7 +60,7 @@
 		"doctrine/migrations" : "dev-master",
 		"sundrique/doctrine-tools" : ">=0.2",
 		"zf-commons/zfc-twig" : "dev-master",
-		"phpunit/phpunit" : "3.7.*",
+		"phpunit/phpunit" : "4.4.*",
 		"phly/phly-restfully" : "2.2.*",
 		"neilime/zf2-twb-bundle" : "2.*",
 

@@ -4,6 +4,6 @@ namespace EcampTextarea\Repository;
 
 use Doctrine\ORM\EntityRepository;
 
-class TextareaRepository extends EntityRepository {
-
-} 
+class TextareaRepository extends EntityRepository
+{
+}

@@ -11,17 +11,18 @@ class GroupResourceListener extends BaseResourceListener
     /**
      * @return \EcampCore\Repository\GroupRepository
      */
-    protected function getGroupRepository(){
+    protected function getGroupRepository()
+    {
         return $this->getService('EcampCore\Repository\Group');
     }
 
     /**
      * @return \EcampCore\Service\GroupService
      */
-    protected function getGroupService(){
+    protected function getGroupService()
+    {
         return $this->getService('EcampCore\Service\Group');
     }
-
 
     public function attach(EventManagerInterface $events)
     {

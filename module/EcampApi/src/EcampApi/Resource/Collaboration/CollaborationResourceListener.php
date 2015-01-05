@@ -11,7 +11,8 @@ class CollaborationResourceListener extends BaseResourceListener
     /**
      * @return \EcampCore\Repository\CampCollaborationRepository
      */
-    protected function getCampCollaborationRepository(){
+    protected function getCampCollaborationRepository()
+    {
         return $this->getService('EcampCore\Repository\CampCollaboration');
     }
 

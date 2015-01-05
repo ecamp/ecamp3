@@ -119,8 +119,8 @@ abstract class AbstractStrategy
     }
 
     /**
-     * @param EventPlugin $eventPlugin
-     * @param Medium $medium
+     * @param  EventPlugin                $eventPlugin
+     * @param  Medium                     $medium
      * @return \Zend\View\Model\ViewModel
      */
     public function render(EventPlugin $eventPlugin, Medium $medium)
@@ -133,14 +133,14 @@ abstract class AbstractStrategy
     }
 
     /**
-     * @param EventPlugin $eventPlugin
-     * @param Medium $medium
+     * @param  EventPlugin                $eventPlugin
+     * @param  Medium                     $medium
      * @return \Zend\View\Model\ViewModel
      */
     abstract protected function createViewModel(EventPlugin $eventPlugin, Medium $medium);
 
     /**
-     * @param EventPlugin $eventPlugin
+     * @param  EventPlugin $eventPlugin
      * @return string
      */
     public function getTitle(EventPlugin $eventPlugin)
