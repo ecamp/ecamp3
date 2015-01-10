@@ -2,7 +2,9 @@
 
 namespace EcampWeb\View\Helper;
 
-class BaseUrl extends \Zend\View\Helper\Url
+use Zend\View\Helper\Url;
+
+class BaseUrl extends Url
 {
     public function __invoke($name = null, $params = array(), $options = array(), $reuseMatchedParams = false)
     {

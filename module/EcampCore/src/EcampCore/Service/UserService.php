@@ -5,6 +5,7 @@ namespace EcampCore\Service;
 use EcampCore\Acl\Privilege;
 use EcampCore\Entity\User;
 use EcampCore\Entity\Image;
+use EcampCore\Job\SendActivationMailJob;
 use EcampCore\Repository\UserRepository;
 
 use EcampLib\Validation\ValidationException;
@@ -86,6 +87,12 @@ class UserService
         }
 
         return $user;
+    }
+
+    public function CreateActivationMail(User $user)
+    {
+        $code = $user->createNewActivationCode();
+        SendActivationMailJob::Create($user, $code);
     }
 
     public function Update(User $user, $data)

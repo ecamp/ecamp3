@@ -50,7 +50,7 @@
 				<tbody>
 					{% for camp in camps %}
 						<tr>
-							<td><span class="fa fa-bell"></span></td>
+							<td><span class="fa fa-flag"></span></td>
 							<td><a href="{{ campUrl(camp) }}">{{ camp.getTitle }}</a></td>
 							<td>
                                 {% if camp.belongsToUser %}
@@ -59,7 +59,7 @@
                                         {{ camp.owner.displayName }}
                                     </a>
                                 {% else %}
-                                    <i class="fa fa-flag"></i>
+                                    <i class="fa fa-users"></i>
                                     <a href="{{ groupUrl(camp.owner) }}">
                                         {{ camp.owner.displayName }}
                                     </a>
@@ -99,7 +99,7 @@
 				<tbody>
 					{% for groupMembership in groupMemberships %}
 						<tr>
-							<td><span class="fa fa-flag"></span></td>
+							<td><span class="fa fa-users"></span></td>
 							<td>
 								<a href="{{ groupUrl(groupMembership.getGroup) }}">
 									{{ groupMembership.getGroup.getDescription }}

@@ -4,7 +4,6 @@ namespace EcampCore\Job;
 
 use EcampCore\Entity\User;
 use Zend\Mail\Message;
-use Zend\Mime\Message as MimeMessage;
 use Zend\View\Model\ViewModel;
 
 class SendActivationMailJob extends SendMailJob
@@ -17,17 +16,22 @@ class SendActivationMailJob extends SendMailJob
         return $this->getServiceLocator()->get('EcampCore\Repository\User');
     }
 
-    public static function Create(User $user)
+    public static function Create(User $user, $code)
     {
         $job = new self();
         $job->userId = $user->getId();
-        $job->code = $user->createNewActivationCode();
+        $job->code = $code;
         $job->enqueue();
 
         return $job;
     }
 
-    public function perform()
+    public function createTextPart()
+    {
+        return false;
+    }
+
+    public function createHtmlPart()
     {
         /* @var \EcampCore\Entity\User $user */
         $user = $this->getUserRepository()->find($this->userId);
@@ -38,14 +42,15 @@ class SendActivationMailJob extends SendMailJob
         $viewModel->setVariable('user', $user);
         $viewModel->setVariable('code', $code);
 
-        $mimeMessage = new MimeMessage();
-        $mimeMessage->addPart($this->createHtmlPart($viewModel));
+        return $this->createHtmlPartByViewModel($viewModel);
+    }
 
-        $mail = new Message();
-        $mail->setTo($user->getEmail());
-        //$mail->setFrom('no-reply@ecamp3.ch');
-        $mail->setBody($mimeMessage);
+    public function completeMail(Message $mail)
+    {
+        /* @var \EcampCore\Entity\User $user */
+        $user = $this->getUserRepository()->find($this->userId);
 
-        $this->sendMail($mail);
+        $mail->addTo($user->getEmail());
+        $mail->setSubject('Welcome at eCamp3');
     }
 }

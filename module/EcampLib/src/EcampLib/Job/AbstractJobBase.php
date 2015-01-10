@@ -18,7 +18,11 @@ abstract class AbstractJobBase
     {
         $q = $queue ?: $this->queue;
 
-        return \Resque::enqueue($q, get_class($this), $this->args);
+        try {
+            return \Resque::enqueue($q, get_class($this), $this->args);
+        } catch(\Exception $ex) {
+            $this->perform();
+        }
     }
 
     abstract public function perform();

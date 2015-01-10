@@ -18,6 +18,22 @@ return array(
             return $urlHelper;
         },
 
+        'fqdnUrl' => function($helperPluginManager) {
+            $serviceLocator = $helperPluginManager->getServiceLocator();
+            $urlHelper =  new \EcampWeb\View\Helper\FqdnUrl();
+            $urlHelper->setRouter($serviceLocator->get('HttpRouter'));
+
+            $match = $serviceLocator->get('application')
+                ->getMvcEvent()
+                ->getRouteMatch();
+
+            if ($match instanceof \Zend\Mvc\Router\Http\RouteMatch) {
+                $urlHelper->setRouteMatch($match);
+            }
+
+            return $urlHelper;
+        },
+
         'userUrl' => function($helperPluginManager){
             return new \EcampWeb\View\Helper\UserUrl($helperPluginManager->get('url'));
         },

@@ -62,7 +62,7 @@ class RegisterService
             throw ValidationException::FromInnerException('login-create', $ex);
         }
 
-        SendActivationMailJob::Create($user);
+        $this->userService->CreateActivationMail($user);
 
         return $user;
     }
