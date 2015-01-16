@@ -375,6 +375,31 @@ return array(
             ),
         ),
 
+        'images' => array(
+            'type' => 'Segment',
+            'may_terminate' => true,
+            'options' => array(
+                'route' => '/images/:image',
+                'defaults' => array(
+                    'controller' => 'Resource\Image'
+                )
+            ),
+            'child_routes' => array(
+                'default' => array(
+                    'type' => 'Segment',
+                    'may_terminater' => true,
+                    'options' => array(
+                        'route' => '/:action',
+                        'defaults' => array(
+                            'controller' => 'Controller\Image',
+                            'action' => 'show'
+                        )
+                    )
+                )
+            )
+        ),
+
+
         'search' => array(
             'type' => 'Literal',
             'may_terminate' => false,

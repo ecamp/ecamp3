@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: pirminmattmann
- * Date: 07.05.14
- * Time: 21:58
- */
 
 namespace EcampWeb\Controller\Auth;
 

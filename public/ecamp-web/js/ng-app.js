@@ -71,4 +71,54 @@
     });
 
 
+
+    ecamp.ngApp.directive('fileread', [function(){
+        return {
+            scope: {
+                'fileread': "="
+            },
+            link: function (scope, element, attributes) {
+
+                var isSingleFile = (element.attr('multiple') == undefined);
+                /*
+                if(isSingleFile){
+                    scope.fileread = undefined;
+                } else {
+                    scope.fileread = [];
+                }
+                */
+
+                element.bind("change", function(changeEvent) {
+
+                    if(isSingleFile){
+                        scope.fileread = undefined;
+                        var file = element.get(0).files[0];
+                        var reader = new FileReader();
+                        reader.onload = function(loadEvent){
+                            scope.$apply(function(){
+                                scope.fileread = loadEvent.target.result;
+                            });
+                        };
+                        reader.readAsDataURL(file);
+
+                    } else {
+                        scope.fileread = [];
+                        var files = element.get(0).files;
+                        for(var idx = 0; idx < files.length; idx++){
+                            var reader = new FileReader();
+                            reader.onload = function(loadEvent){
+                                scope.$apply(function(){
+                                    scope.fileread[idx] = loadEvent.target.result;
+                                });
+                            };
+                            reader.readAsDataURL(files[idx])
+                        }
+                    }
+
+                });
+            }
+        }
+    }])
+
+
 })(CNS('ecamp'));

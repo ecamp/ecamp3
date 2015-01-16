@@ -25,7 +25,7 @@ use Doctrine\ORM\Mapping as ORM;
 use EcampLib\Entity\BaseEntity;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="EcampCore\Repository\ImageRepository")
  * @ORM\Table(name="images")
  */
 class Image extends BaseEntity

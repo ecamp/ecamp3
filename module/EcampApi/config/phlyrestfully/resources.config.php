@@ -362,6 +362,16 @@ return array(
     ),
 */
 
+    'EcampApi\Resource\Image' => array(
+        'listener'                => 'EcampApi\Resource\Image\ImageResourceListener',
+        'collection_http_options' => array('get'),
+        'page_size'               => 3,
+        'page_size_param'		  => 'limit',
+        'resource_http_options'   => array('get'),
+        'route_name'              => 'api/images',
+        'identifier_name'		  => 'image',
+    ),
+
     'EcampApi\Resource\Search\User' => array(
         'listener'                => 'EcampApi\Resource\Search\UserResourceListener',
         'collection_http_options' => array('get'),
