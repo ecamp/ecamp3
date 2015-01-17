@@ -3,7 +3,6 @@ namespace EcampApi\Resource\EventInstance;
 
 use EcampLib\Resource\BaseResourceListener;
 use PhlyRestfully\Exception\DomainException;
-use PhlyRestfully\HalResource;
 use PhlyRestfully\ResourceEvent;
 use Zend\EventManager\EventManagerInterface;
 
@@ -12,17 +11,18 @@ class EventInstanceResourceListener extends BaseResourceListener
     /**
      * @return \EcampCore\Repository\EventInstanceRepository
      */
-    protected function getEventInstanceRepository(){
+    protected function getEventInstanceRepository()
+    {
         return $this->getService('EcampCore\Repository\EventInstance');
     }
 
-	/**
-	 * @return \EcampCore\Service\EventInstanceService
-	 */
-	protected function getEventInstanceService(){
-		return $this->getService('EcampCore\Service\EventInstance');
-	}
-
+    /**
+     * @return \EcampCore\Service\EventInstanceService
+     */
+    protected function getEventInstanceService()
+    {
+        return $this->getService('EcampCore\Service\EventInstance');
+    }
 
     public function attach(EventManagerInterface $events)
     {
@@ -77,6 +77,7 @@ class EventInstanceResourceListener extends BaseResourceListener
     public function onDelete(ResourceEvent $e)
     {
         $id = $e->getParam('id');
+
         return $this->getEventInstanceService()->Delete($id);
     }
 }

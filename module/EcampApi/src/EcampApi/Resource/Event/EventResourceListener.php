@@ -11,10 +11,10 @@ class EventResourceListener extends BaseResourceListener
     /**
      * @return \EcampCore\Repository\EventRepository
      */
-    protected function getEventRepository(){
+    protected function getEventRepository()
+    {
         return $this->getService('EcampCore\Repository\Event');
     }
-
 
     public function attach(EventManagerInterface $events)
     {

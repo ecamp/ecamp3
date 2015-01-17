@@ -133,7 +133,7 @@ class UserRepository extends BaseRepository
             $q->expr()->exists($groupQ->getDQL())
         ));
 
-        if($doSearch){
+        if ($doSearch) {
             return new Paginator(new PaginatorAdapter(new ORMPaginator($q->getQuery())));
         } else {
             return new Paginator(new ArrayAdapter());

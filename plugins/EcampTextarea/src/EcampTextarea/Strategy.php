@@ -21,8 +21,8 @@ class Strategy extends AbstractStrategy
         return $this->getServiceLocator()->get('EcampTextarea\Repository\Textarea');
     }
 
-
-    public function create(Event $event, Plugin $plugin){
+    public function create(Event $event, Plugin $plugin)
+    {
         $eventPlugin = parent::create($event, $plugin);
 
         $textarea = new Textarea($eventPlugin);

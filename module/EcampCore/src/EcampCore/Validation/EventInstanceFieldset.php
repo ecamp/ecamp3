@@ -14,11 +14,11 @@ class EventInstanceFieldset extends Fieldset implements InputFilterProviderInter
     {
         parent::__construct('eventInstance');
 
-        if($period == null && $eventInstance != null){
+        if ($period == null && $eventInstance != null) {
             $period = $eventInstance->getPeriod();
         }
 
-        if($eventInstance != null){
+        if ($eventInstance != null) {
             $starttime = $eventInstance->getStartTime();
             $endtime = $eventInstance->getEndTime();
 
@@ -30,7 +30,6 @@ class EventInstanceFieldset extends Fieldset implements InputFilterProviderInter
             $startday = null;
             $endday = null;
         }
-
 
         /*
         $startDay = $endDay = $day;
@@ -78,9 +77,9 @@ class EventInstanceFieldset extends Fieldset implements InputFilterProviderInter
                     )
                 );
 
-                if($p == $period){
-                    if($idx == $startdayIdx){ $startday = $d; }
-                    if($idx == $enddayIdx){ $endday = $d; }
+                if ($p == $period) {
+                    if ($idx == $startdayIdx) { $startday = $d; }
+                    if ($idx == $enddayIdx) { $endday = $d; }
                 }
             }
         }
@@ -141,18 +140,18 @@ class EventInstanceFieldset extends Fieldset implements InputFilterProviderInter
         // $this->get('startday')->setValue();
         // $this->get('endday')->setValue();
 
-        if($starttime != null) {
+        if ($starttime != null) {
             $this->get('starttime')->setValue($starttime->format('H:i'));
         }
-        if($endtime != null) {
+        if ($endtime != null) {
             $this->get('endtime')->setValue($endtime->format('H:i'));
         }
 
-        if($startday != null){
+        if ($startday != null) {
             $this->get('startday')->setValue($startday);
         }
 
-        if($endday != null){
+        if ($endday != null) {
             $this->get('endday')->setValue($endday);
         }
         /*

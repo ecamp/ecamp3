@@ -9,7 +9,6 @@ class AbstractResourceFactory implements AbstractFactoryInterface
 {
     private $pattern = "/^Ecamp(\w+)\\\\Resource\\\\([\w|\\\\]+)$/";
 
-
     public function canCreateServiceWithName(ServiceLocatorInterface $serviceLocator, $name, $requestedName)
     {
         return

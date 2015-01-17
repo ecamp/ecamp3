@@ -220,7 +220,6 @@ return array(
         'collection_query_whitelist' => array(),
     ),
 
-
     /**
      * Event Responsibles
      */

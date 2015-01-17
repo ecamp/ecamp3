@@ -1,6 +1,10 @@
 <?php
 namespace EcampMaterial;
 
+use EcampMaterial\Listener\CollectionRenderingListener;
+
+use Zend\Mvc\MvcEvent;
+
 class Module
 {
     public function getConfig()
@@ -23,4 +27,13 @@ class Module
     {
         return include __DIR__ . '/config/service.config.php';
     }
+
+    public function onBootstrap(MvcEvent $event)
+    {
+        $sharedEventManager = $event->getTarget()->getEventManager()->getSharedManager();
+
+        (new CollectionRenderingListener())->attachShared($sharedEventManager);
+
+    }
+
 }

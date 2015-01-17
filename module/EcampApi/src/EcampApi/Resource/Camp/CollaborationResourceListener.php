@@ -12,24 +12,26 @@ class CollaborationResourceListener extends BaseResourceListener
     /**
      * @return \EcampCore\Repository\CampRepository
      */
-    protected function getCampRepository(){
+    protected function getCampRepository()
+    {
         return $this->getService('EcampCore\Repository\Camp');
     }
 
     /**
      * @return \EcampCore\Repository\UserRepository
      */
-    protected function getUserRepository(){
+    protected function getUserRepository()
+    {
         return $this->getService('EcampCore\Repository\User');
     }
 
     /**
      * @return \EcampCore\Repository\CampCollaborationRepository
      */
-    protected function getCollaborationRepository(){
+    protected function getCollaborationRepository()
+    {
         return $this->getService('EcampCore\Repository\CampCollaboration');
     }
-
 
     public function attach(EventManagerInterface $events)
     {
@@ -50,7 +52,7 @@ class CollaborationResourceListener extends BaseResourceListener
             new CollaborationDetailResource($user->getId(), $campCollaboration, $camp, $user);
 
         $identifiedUser = $this->getIdentifiedUser();
-        if($identifiedUser != null) {
+        if ($identifiedUser != null) {
             $collaborationResource->setVisitor($identifiedUser);
         }
 
@@ -66,27 +68,28 @@ class CollaborationResourceListener extends BaseResourceListener
         return $this->getCollaborationRepository()->getCollection($params);
     }
 
-
     /**
-     * @param ResourceEvent $e
+     * @param  ResourceEvent          $e
      * @return \EcampCore\Entity\Camp
      */
     protected function getCamp(ResourceEvent $e)
     {
         $campId = $e->getRouteParam('camp', $e->getQueryParam('camp'));
         $camp = ($campId != null) ? $this->getCampRepository()->find($campId) : null;
+
         return $camp;
     }
 
     /**
-     * @param ResourceEvent $e
+     * @param  ResourceEvent          $e
      * @return \EcampCore\Entity\User
      */
     protected function getUser(ResourceEvent $e)
     {
         $userId = $e->getRouteParam('collaborator', $e->getQueryParam('collaborator'));
         $user = ($userId != null) ? $this->getUserRepository()->find($userId) : null;
+
         return $user;
     }
 
-} 
+}

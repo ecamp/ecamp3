@@ -11,10 +11,10 @@ class MembershipResourceListener extends BaseResourceListener
     /**
      * @return \EcampCore\Repository\GroupMembershipRepository
      */
-    protected function getGroupMembershipRepository(){
+    protected function getGroupMembershipRepository()
+    {
         return $this->getService('EcampCore\Repository\GroupMembership');
     }
-
 
     public function attach(EventManagerInterface $events)
     {
