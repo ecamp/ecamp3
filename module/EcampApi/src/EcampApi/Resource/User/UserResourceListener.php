@@ -11,10 +11,10 @@ class UserResourceListener extends BaseResourceListener
     /**
      * @return \EcampCore\Repository\UserRepository
      */
-    protected function getUserRepository(){
+    protected function getUserRepository()
+    {
         return $this->getService('EcampCore\Repository\User');
     }
-
 
     public function attach(EventManagerInterface $events)
     {

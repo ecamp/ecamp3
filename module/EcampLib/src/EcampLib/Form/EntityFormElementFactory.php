@@ -55,12 +55,12 @@ class EntityFormElementFactory implements AbstractFactoryInterface
             $this->annotationBuilder = new AnnotationBuilder($entityManager);
         }
 
-        if (array_key_exists($entityName, $this->formSpecCache)) {
+        /*if (array_key_exists($entityName, $this->formSpecCache)) {
             $form = $this->formSpecCache[$entityName];
-        } else {
+        } else {*/
             $form = $this->annotationBuilder->createForm($entityName);
             $this->formSpecCache[$entityName] = $form;
-        }
+        /*}*/
 
         $elementName = $this->getPropertyName($requestedName);
 

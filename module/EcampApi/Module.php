@@ -4,17 +4,6 @@ namespace EcampApi;
 use Zend\Mvc\MvcEvent;
 
 use EcampApi\Listener\CollectionRenderingListener;
-use EcampApi\Resource\Camp\CampResourceListener;
-use EcampApi\Resource\User\UserResourceListener;
-use EcampApi\Resource\Collaboration\CollaborationResourceListener;
-use EcampApi\Resource\Period\PeriodResourceListener;
-use EcampApi\Resource\Day\DayResourceListener;
-use EcampApi\Resource\Event\EventResourceListener;
-use EcampApi\Resource\EventInstance\EventInstanceResourceListener;
-use EcampApi\Resource\EventResp\EventRespResourceListener;
-use EcampApi\Resource\EventCategory\EventCategoryResourceListener;
-use EcampApi\Resource\Group\GroupResourceListener;
-use EcampApi\Resource\Membership\MembershipResourceListener;
 use Zend\Authentication\AuthenticationService;
 
 class Module

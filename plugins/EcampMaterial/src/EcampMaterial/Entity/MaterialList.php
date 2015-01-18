@@ -2,23 +2,26 @@
 
 namespace EcampMaterial\Entity;
 
+use EcampCore\Entity\Camp;
+
 use EcampLib\Entity\BaseEntity;
 
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="EcampMaterial\Repository\MaterialListRepository")
  * @ORM\Table(name="p_material_lists")
  */
 class MaterialList extends BaseEntity
 {
     /**
-     * @ORM\ManyToMany(targetEntity="EcampMaterial\Entity\MaterialItem")
+     * @ORM\ManyToMany(targetEntity="EcampMaterial\Entity\MaterialItem", mappedBy="lists")
      */
     private $items;
 
     /**
      * @ORM\OneToOne(targetEntity="EcampCore\Entity\CampCollaboration")
+     * @ORM\Column(nullable=true)
      */
     private $collaboration;
 
@@ -68,4 +71,33 @@ class MaterialList extends BaseEntity
         return $this->collaboration;
     }
 
+    public function getItems()
+    {
+        return $this->items;
+    }
+
+    /**
+     * @param MaterialItem $item
+     */
+    public function addItem(MaterialItem $item)
+    {
+        if ($this->items->contains($item)) {
+            return;
+        }
+        $this->items->add($item);
+        $item->addList($this);
+    }
+
+    /**
+     * @param MaterialList $list
+     */
+    public function removeItem(MaterialItem $item)
+    {
+        if (!$this->items->contains($item)) {
+            return;
+        }
+
+        $this->items->removeElement($item);
+        $item->removeList($this);
+    }
 }

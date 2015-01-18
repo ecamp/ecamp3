@@ -1,0 +1,30 @@
+{
+  "name": "ecamp3",
+  "version": "0.0.1",
+  "directory": "public/assets/vendor",
+  "ignore": [
+    ".jshintrc",
+    "**/*.txt"
+  ],
+  "dependencies": {
+    "jquery": "~2",
+    "jquery-ui": "~1",
+    "jquery-autosize": "latest",
+    "bootstrap": "~3",
+    "bootstrap-select": "latest",
+    "angular-ui": "latest",
+    "angular-ui-select": "latest",
+    "angular-ui-slider": "latest",
+    "angular": "~1.2",
+    "angular-sanitize": "~1.2",
+    "angular-bootstrap": "latest",
+    "angular-resource": "~1.2",
+    "fontawesome": "~4",
+    "typeahead.js": "latest",
+    "uri.js": "~1.14",
+    "angular-hal": "https://github.com/LuvDaSun/angular-hal.git"
+  },
+  "resolutions": {
+    "angular": "~1.2"
+  }
+}

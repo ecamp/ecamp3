@@ -128,8 +128,8 @@ class PicassoController
         );
     }
 
-
-    public function updateEventInstanceAction(){
+    public function updateEventInstanceAction()
+    {
         $eventInstanceId = $this->params()->fromQuery('eventInstanceId');
 
         /** @var \EcampCore\Entity\EventInstance $eventInstance */
@@ -146,7 +146,7 @@ class PicassoController
             )
         );
 
-        if($this->getRequest()->isPost()) {
+        if ($this->getRequest()->isPost()) {
             $data = $this->getRequest()->getPost();
 
             if ($form->setData($data)->isValid()) {

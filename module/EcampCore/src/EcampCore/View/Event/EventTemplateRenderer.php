@@ -64,7 +64,7 @@ class EventTemplateRenderer
     }
 
     /**
-     * @param  Event $event
+     * @param  Event                      $event
      * @return \Zend\View\Model\ViewModel
      * @throws \Exception
      */

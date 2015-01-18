@@ -29,7 +29,6 @@ class EventService
      */
     private $eventCategoryRepository;
 
-
     public function __construct(
         StrategyProvider $strategyProvider,
         EventRepository $eventRepository,
@@ -76,7 +75,7 @@ class EventService
             throw ValidationException::FromForm($eventValidationForm);
         }
 
-        if($eventCategoryFactory != null){
+        if ($eventCategoryFactory != null) {
             // apply Factory
             var_dump($eventCategoryFactory);
         }
@@ -98,18 +97,16 @@ class EventService
         $eventValidationForm =
             $this->createValidationForm($event, $data, array('title'));
 
-
         if (!$eventValidationForm->isValid()) {
             throw ValidationException::FromForm($eventValidationForm);
         }
 
-        if($eventCategoryFactory != null){
+        if ($eventCategoryFactory != null) {
             // apply Factory
             var_dump($eventCategoryFactory);
         }
 
         // Create minimum of required plugins...
-
         return $event;
     }
 
@@ -139,12 +136,11 @@ class EventService
             //$eventCategoryFactory = ...
         }
 
-
         return array($eventCategory, $eventCategoryFactory);
     }
 
     /**
-     * @param Event|int $event
+     * @param  Event|int $event
      * @return bool
      */
     public function Delete($event)
@@ -152,7 +148,7 @@ class EventService
         $event = $this->Get($event);
 
         /** @var \EcampCore\Entity\EventPlugin $eventPlugin */
-        foreach($event->getEventPlugins() as $eventPlugin){
+        foreach ($event->getEventPlugins() as $eventPlugin) {
             $pluginStrategy = $this->strategyProvider->Get($eventPlugin->getPlugin());
             $pluginStrategy->delete($eventPlugin);
         }

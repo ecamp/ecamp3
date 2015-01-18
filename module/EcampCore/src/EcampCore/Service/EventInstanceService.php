@@ -116,11 +116,11 @@ class EventInstanceService
         $period = null;
         $eventInstance = $this->Get($eventInstance);
 
-        if(isset($data['period'])){
+        if (isset($data['period'])) {
             $period = $this->periodRepository->find($data['period']);
         }
 
-        if(!isset($data['minOffsetStart']) && isset($data['startday']) && isset($data['starttime'])){
+        if (!isset($data['minOffsetStart']) && isset($data['startday']) && isset($data['starttime'])) {
             /* @var $startDay \EcampCore\Entity\Day */
             $startDay = $this->dayRepository->find($data['startday']);
             $period = $startDay->getPeriod();
@@ -130,8 +130,7 @@ class EventInstanceService
                 round(($eventInstanceStart->getTimestamp() - $period->getStart()->getTimestamp()) / 60);
         }
 
-
-        if(!isset($data['minOffsetEnd']) && isset($data['endday']) && isset($data['endtime'])){
+        if (!isset($data['minOffsetEnd']) && isset($data['endday']) && isset($data['endtime'])) {
             /* @var $endDay \EcampCore\Entity\Day */
             $endDay = $this->dayRepository->find($data['endday']);
             $period = $endDay->getPeriod();
@@ -141,7 +140,7 @@ class EventInstanceService
                 round(($eventInstanceEnd->getTimestamp() - $period->getStart()->getTimestamp()) / 60);
         }
 
-        if($period != null){
+        if ($period != null) {
             $eventInstance->setPeriod($period);
         }
 
@@ -160,15 +159,16 @@ class EventInstanceService
         return $eventInstance;
     }
 
-    public function Delete($eventInstance){
+    public function Delete($eventInstance)
+    {
         $eventInstance = $this->Get($eventInstance);
 
-        if($eventInstance != null){
+        if ($eventInstance != null) {
             $event = $eventInstance->getEvent();
 
             $this->remove($eventInstance);
 
-            if($event->getEventInstances()->count() == 0){
+            if ($event->getEventInstances()->count() == 0) {
                 $this->remove($event);
             }
 

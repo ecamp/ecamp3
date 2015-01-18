@@ -57,7 +57,7 @@ class EventFieldset extends Fieldset implements InputFilterProviderInterface
             )
         ));
 
-        if($event != null) {
+        if ($event != null) {
             $this->get('title')->setValue($event->getTitle());
             $this->get('eventCategory')->setValue($event->getEventCategory());
         }

@@ -10,24 +10,26 @@ class UserResourceListener extends BaseResourceListener
     /**
      * @return \EcampCore\Repository\UserRepository
      */
-    protected function getUserRepository(){
+    protected function getUserRepository()
+    {
         return $this->getService('EcampCore\Repository\User');
     }
 
     /**
      * @return \EcampCore\Repository\GroupRepository
      */
-    protected function getGroupRepository(){
+    protected function getGroupRepository()
+    {
         return $this->getService('EcampCore\Repository\Group');
     }
 
     /**
      * @return \EcampCore\Repository\CampRepository
      */
-    protected function getCampRepository(){
+    protected function getCampRepository()
+    {
         return $this->getService('EcampCore\Repository\Camp');
     }
-
 
     protected $collectionRenderer;
 

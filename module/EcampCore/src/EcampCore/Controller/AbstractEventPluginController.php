@@ -48,7 +48,7 @@ abstract class AbstractEventPluginController extends AbstractBaseController
     }
 
     /**
-     * @param Plugin $plugin
+     * @param  Plugin                             $plugin
      * @return \EcampCore\Plugin\AbstractStrategy
      */
     protected function getPluginStrategyInstance(Plugin $plugin)

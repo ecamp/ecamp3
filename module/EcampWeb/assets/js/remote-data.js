@@ -2,9 +2,9 @@
  * Created by pirmin on 13.11.14.
  */
 
-(function(ngApp) {
+angular.module('ecamp.RemoteData', ['angular-hal']);
 
-    ngApp.factory('RemoteResource', ['$timeout', 'halClient', function($timeout, halClient){
+angular.module('ecamp.RemoteData').factory('RemoteResource', ['$timeout', 'halClient', function($timeout, halClient){
 
         function RemoteResource(halResource){
             if(!(this instanceof RemoteResource)){
@@ -15,6 +15,7 @@
             this.Owner = null;
             this.HalResource = null;
             this.EditData = null;
+            this.EditMode = false;
 
             this.SetHalResource(halResource);
         }
@@ -33,6 +34,7 @@
         RemoteResource.prototype.SetHalResource = function(halResource){
             this.HalResource = halResource;
             this.EditData = null;
+            this.EditMode = false;
         };
 
         RemoteResource.prototype.ClearHalResource = function(){
@@ -49,6 +51,7 @@
 
         RemoteResource.prototype.Edit = function(){
             this.EditData = {};
+            this.EditMode = true;
 
             for(var attr in this.HalResource){
                 this.EditData[attr] = this.HalResource[attr];
@@ -61,11 +64,12 @@
         };
 
         RemoteResource.prototype.IsEditing = function(){
-            return this.EditData != null;
+            return this.EditMode;
         };
 
         RemoteResource.prototype.Cancel = function(){
             this.EditData = null;
+            this.EditMode = false;
         };
 
         RemoteResource.prototype.Save = function(){
@@ -107,7 +111,8 @@
         return RemoteResource;
     }]);
 
-    ngApp.factory('RemoteCollection', ['$timeout', '$q', 'halClient', 'RemoteResource', function($timeout, $q, halClient, RemoteResource){
+
+angular.module('ecamp.RemoteData').factory('RemoteCollection', ['$timeout', '$q', 'halClient', 'RemoteResource', function($timeout, $q, halClient, RemoteResource){
 
         function RemoteCollection(halResource){
             if(!(this instanceof RemoteCollection)){
@@ -263,7 +268,7 @@
         return RemoteCollection;
     }]);
 
-    ngApp.factory('RemoteCreateResource', ['$timeout', '$q', 'halClient', function($timeout, $q, halClient){
+angular.module('ecamp.RemoteData').factory('RemoteCreateResource', ['$timeout', '$q', 'halClient', function($timeout, $q, halClient){
 
         function RemoteCreateResource(){
             if(!(this instanceof RemoteCreateResource)) {
@@ -338,7 +343,7 @@
     }]);
 
 
-    ngApp.directive('remoteResource', ['RemoteResource', function(RemoteResource){
+angular.module('ecamp.RemoteData').directive('remoteResource', ['RemoteResource', function(RemoteResource){
         return {
             restrict: 'EA',
             scope: false,
@@ -355,11 +360,9 @@
                 }
 
                 if("resourceName" in $attrs){
-                    Object.defineProperty($scope, $attrs.resourceName, {
-                        get: function(){ return _remoteResource; }
-                    });
+                	$scope[$attrs.resourceName] = _remoteResource;
                 }
-
+                
                 if($element.is('form')){
                     _remoteResource.Form = $element;
                 }
@@ -367,7 +370,7 @@
         };
     }]);
 
-    ngApp.directive('remoteCollection', ['RemoteCollection', function(RemoteCollection){
+angular.module('ecamp.RemoteData').directive('remoteCollection', ['RemoteCollection', function(RemoteCollection){
         return {
             restrict: 'EA',
             scope: false,
@@ -376,9 +379,7 @@
                 var _remoteCollection = new RemoteCollection();
 
                 if("resourceName" in $attrs){
-                    Object.defineProperty($scope, $attrs.resourceName, {
-                        get: function(){ return _remoteCollection; }
-                    });
+                	$scope[$attrs.resourceName] = _remoteCollection;
                 }
 
                 if("sortable" in $attrs) {
@@ -395,7 +396,7 @@
         };
     }]);
 
-    ngApp.directive('remoteCreateResource', ['RemoteCreateResource', function(RemoteCreateResource){
+angular.module('ecamp.RemoteData').directive('remoteCreateResource', ['RemoteCreateResource', function(RemoteCreateResource){
         return {
             restrict: 'EA',
             scope: false,
@@ -404,10 +405,9 @@
                 var _remoteCreateResource = new RemoteCreateResource();
                 _remoteCreateResource.Endpoint = $attrs.remoteCreateResource;
 
+                
                 if("resourceName" in $attrs){
-                    Object.defineProperty($scope, $attrs.resourceName, {
-                        get: function(){ return _remoteCreateResource; }
-                    });
+                	$scope[$attrs.resourceName] = _remoteCreateResource;
                 }
 
                 if($element.is('form')){
@@ -416,68 +416,3 @@
             }
         };
     }]);
-
-
-
-    
-
-
-
-    /** TODO: Move to other File */
-    ngApp.factory('RemoteMaterialResource', ['RemoteResource', function(RemoteResource){
-
-        function RemoteMaterialResource(halResource){
-            if(!(this instanceof RemoteMaterialResource)){
-                return new RemoteMaterialResource(halResource)
-            }
-
-            RemoteResource.apply(this, arguments);
-        }
-
-        RemoteMaterialResource.prototype = new RemoteResource();
-
-        RemoteMaterialResource.prototype.SetHalResource = function(halResource){
-            var result = RemoteResource.prototype.SetHalResource.apply(this, arguments);
-
-            // Additional logic
-
-            return result;
-        };
-
-        return RemoteMaterialResource;
-
-    }]);
-
-    /** TODO: Move to other File */
-    ngApp.directive('remoteMaterialCollection', ['RemoteCollection', 'RemoteMaterialResource', function(RemoteCollection, RemoteMaterialResource){
-        return {
-            restrict: 'EA',
-            scope: false,
-
-            link: function($scope, $element, $attrs, $ctrl){
-                var _remoteCollection = new RemoteCollection();
-                _remoteCollection.ElementType = RemoteMaterialResource;
-
-                if("resourceName" in $attrs){
-                    Object.defineProperty($scope, $attrs.resourceName, {
-                        get: function(){ return _remoteCollection; }
-                    });
-                }
-
-                if("sortable" in $attrs) {
-                    _remoteCollection.Sortable = $attrs.sortable;
-                }
-
-                var remoteMaterialCollection = $attrs.remoteMaterialCollection;
-                if(remoteMaterialCollection in $scope){
-                    _remoteCollection.SetHalResource($scope[remoteMaterialCollection]);
-                } else {
-                    _remoteCollection.SetEndpoint(remoteMaterialCollection);
-                }
-            }
-        };
-
-    }]);
-
-
-}(window.ecamp.ngApp));

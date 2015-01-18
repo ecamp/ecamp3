@@ -72,7 +72,7 @@ class SectionResourceListener extends AbstractListenerAggregate
         $id = $e->getParam('id');
         $entity = $this->sectionRepo->find($id);
 
-        if(!$entity){
+        if (!$entity) {
             throw new DomainException('Section not found', 404);
         }
 
@@ -98,19 +98,19 @@ class SectionResourceListener extends AbstractListenerAggregate
 
         $entity = $this->sectionRepo->find($id);
 
-        if(isset($data->duration)) {
+        if (isset($data->duration)) {
             $entity->setDurationInMinutes($data->duration);
         }
 
-        if(isset($data->text)) {
+        if (isset($data->text)) {
             $entity->setText($data->text);
         }
 
-        if(isset($data->info)) {
+        if (isset($data->info)) {
             $entity->setInfo($data->info);
         }
 
-        if(isset($data->position)) {
+        if (isset($data->position)) {
             $entity->setPosition($data->position);
         }
 

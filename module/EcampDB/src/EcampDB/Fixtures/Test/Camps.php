@@ -1,6 +1,8 @@
 <?php
 namespace EcampDB\Fixtures\Test;
 
+use EcampMaterial\Entity\MaterialList;
+
 use EcampCore\Entity\Event;
 
 use EcampCore\Entity\EventInstance;
@@ -56,6 +58,10 @@ class Camps extends AbstractFixture implements OrderedFixtureInterface
         $instance1->setDuration(30);
         $instance1->setOffset(8*60);
         $manager->persist($instance1);
+
+        $materiallist = new MaterialList($camp1);
+        $materiallist->setName("Einkaufsliste");
+        $manager->persist($materiallist);
 
         $manager->flush();
     }

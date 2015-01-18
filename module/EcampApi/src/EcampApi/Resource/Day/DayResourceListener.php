@@ -11,10 +11,10 @@ class DayResourceListener extends BaseResourceListener
     /**
      * @return \EcampCore\Repository\DayRepository
      */
-    protected function getDayRepository(){
+    protected function getDayRepository()
+    {
         return $this->getService('EcampCore\Repository\Day');
     }
-
 
     public function attach(EventManagerInterface $events)
     {

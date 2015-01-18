@@ -22,16 +22,15 @@ class StrategyProvider
         $this->serviceLocator = $serviceLocator;
     }
 
-
     /**
-     * @param Plugin $plugin
+     * @param  Plugin           $plugin
      * @return AbstractStrategy
      */
     public function Get(Plugin $plugin)
     {
         $pluginStrategyClass = $plugin->getStrategyClass();
 
-        if(!array_key_exists($pluginStrategyClass, $this->pluginStrategies)){
+        if (!array_key_exists($pluginStrategyClass, $this->pluginStrategies)) {
             /** @var \EcampCore\Plugin\AbstractStrategyFactory $pluginStrategyFactory */
             $pluginStrategyFactory = $this->serviceLocator->get($pluginStrategyClass);
 

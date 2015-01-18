@@ -4,7 +4,6 @@ namespace EcampApi\Listener;
 
 use EcampApi\Resource\Camp\CampBriefResource;
 use EcampApi\Resource\Collaboration\CollaborationBriefResource;
-use EcampApi\Resource\Collaboration\CollaborationDetailResource;
 use EcampApi\Resource\Day\DayBriefResource;
 use EcampApi\Resource\Event\EventBriefResource;
 use EcampApi\Resource\EventCategory\EventCategoryBriefResource;
@@ -71,7 +70,6 @@ class CollectionRenderingListener implements SharedListenerAggregateInterface
             100
         );
     }
-
 
     public function renderCollectionResource(\Zend\EventManager\Event $e)
     {
