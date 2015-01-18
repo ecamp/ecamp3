@@ -35,7 +35,6 @@ class TextareaResourceListener extends AbstractListenerAggregate
         $this->textareaRepo = $textareaRepo;
     }
 
-
     public function attach(EventManagerInterface $events)
     {
         $this->listeners[] = $events->attach('fetch', array($this, 'onFetch'));
@@ -48,7 +47,7 @@ class TextareaResourceListener extends AbstractListenerAggregate
         $id = $e->getParam('id');
         $entity = $this->textareaRepo->find($id);
 
-        if(!$entity){
+        if (!$entity) {
             throw new DomainException('Textarea not found', 404);
         }
 
@@ -73,7 +72,7 @@ class TextareaResourceListener extends AbstractListenerAggregate
 
         $entity = $this->textareaRepo->find($id);
 
-        if(isset($data->text)) {
+        if (isset($data->text)) {
             $entity->setText($data->text);
         }
 

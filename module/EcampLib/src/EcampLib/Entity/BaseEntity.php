@@ -127,15 +127,13 @@ abstract class BaseEntity
     {
         $methodName = 'get' . ucfirst($listProperty);
 
-        if (method_exists($this, $methodName)){
+        if (method_exists($this, $methodName)) {
             /* @var $list \Doctrine\Common\Collections\ArrayCollection */
             $list = $this->$methodName();
-        }
-        elseif (property_exists($this, $listProperty)) {
+        } elseif (property_exists($this, $listProperty)) {
             /* @var $list \Doctrine\Common\Collections\ArrayCollection */
             $list = $this->$listProperty;
-        }
-        else {
+        } else {
             throw new \Exception("Unknown List");
         }
 

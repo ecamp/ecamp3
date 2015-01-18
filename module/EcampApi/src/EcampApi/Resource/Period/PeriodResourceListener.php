@@ -11,10 +11,10 @@ class PeriodResourceListener extends BaseResourceListener
     /**
      * @return \EcampCore\Repository\PeriodRepository
      */
-    protected function getPeriodRepository(){
+    protected function getPeriodRepository()
+    {
         return $this->getService('EcampCore\Repository\Period');
     }
-
 
     public function attach(EventManagerInterface $events)
     {

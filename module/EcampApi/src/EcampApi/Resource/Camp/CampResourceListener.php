@@ -11,18 +11,18 @@ class CampResourceListener extends BaseResourceListener
     /**
      * @return \EcampCore\Repository\CampRepository
      */
-    private function getCampRepository(){
+    private function getCampRepository()
+    {
         return $this->getService('EcampCore\Repository\Camp');
     }
 
     /**
      * @return \EcampCore\Service\CampService
      */
-    private function getCampService(){
+    private function getCampService()
+    {
         return $this->getService('EcampCore\Service\Camp');
     }
-
-
 
     public function attach(EventManagerInterface $events)
     {

@@ -26,4 +26,4 @@ class EventUpdateForm extends AjaxBaseForm
         $this->add($eventInstanceFieldset);
     }
 
-} 
+}

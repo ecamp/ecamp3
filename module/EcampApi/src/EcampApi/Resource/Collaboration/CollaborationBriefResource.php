@@ -1,8 +1,6 @@
 <?php
 namespace EcampApi\Resource\Collaboration;
 
-use PhlyRestfully\HalResource;
-use PhlyRestfully\Link;
 use EcampCore\Entity\CampCollaboration as Collaboration;
 
 class CollaborationBriefResource extends CollaborationBaseResource
