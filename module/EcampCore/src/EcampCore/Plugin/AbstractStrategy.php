@@ -147,4 +147,5 @@ abstract class AbstractStrategy
     {
         return $eventPlugin->getInstanceName();
     }
+
 }

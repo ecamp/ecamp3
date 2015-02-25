@@ -13,40 +13,7 @@
 		}, {
 			"type" : "vcs",
 			"url" : "http://github.com/usu/php-resque-ex"
-        }, {
-            "type": "package",
-            "package": {
-                "name": "angular-ui/ui-slider",
-                "version": "0.0.2",
-                "source": {
-                    "url": "https://github.com/angular-ui/ui-slider.git",
-                    "type": "git",
-                    "reference": "v0.0.2"
-                }
-            }
-        }, {
-            "type": "package",
-            "package": {
-                "name": "LuvDaSun/angular-hal",
-                "version": "0.1.5",
-                "source": {
-                    "url": "https://github.com/LuvDaSun/angular-hal.git",
-                    "type": "git",
-                    "reference": "v0.1.5"
-                }
-            }
-        }, {
-            "type": "package",
-            "package": {
-                "name": "medialize/URI.js",
-                "version": "v1.14.1",
-                "source": {
-                    "url": "https://github.com/medialize/URI.js.git",
-                    "type": "git",
-                    "reference": "v1.14.1"
-                }
-            }
-        }
+        } 
     ],
 
 	"require" : {
@@ -63,25 +30,9 @@
 		"phpunit/phpunit" : "4.4.*",
 		"phly/phly-restfully" : "2.2.*",
 		"neilime/zf2-twb-bundle" : "2.*",
-
-		"components/jquery" : "2.*",
-		"components/jqueryui" : "1.*",
-		"components/bootstrap" : "3.*",
-		"components/font-awesome" : "4.*",
-		"components/angular.js" : "1.2.*",
-        "components/angular-resource" : "1.2.*",
-        "components/ui-select": "dev-master",
-        "angular-ui/bootstrap": "dev-master",
-        "angular-ui/ui-slider": "*",
-		"components/typeahead.js" : "0.10.*",
-		"bootstrap-select/bootstrap-select" : "dev-master",
-        "LuvDaSun/angular-hal": "*",
-        "medialize/URI.js": "v1.14.1",
-
 		"kamisama/php-resque-ex" : "dev-bugfix as 1.2.7",
         "fresque/fresque" : "1.2.*",
         "atukai/at-php-settings": "dev-master",
-
         "knplabs/knp-snappy": "*",
         "h4cc/wkhtmltopdf-i386": "0.12.x",
         "h4cc/wkhtmltopdf-amd64": "0.12.x",

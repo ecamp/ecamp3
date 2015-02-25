@@ -1,8 +1,46 @@
 <?php
 return array(
+        'router' => array(
+                'routes' => array(
+                        'api-material' => array(
+                                'type' => 'Literal',
+                                'options' => array(
+                                        'route' => '/api/plugin/material/v0',
+                                        'defaults' => array(
+                                                '__NAMESPACE__' => 'EcampMaterial'
+                                        )
+                                ),
 
-    'router' => array(
-        'routes' => array(
+                                'may_terminate' => false,
+                                'child_routes' => array(
+
+                                        'items' => array(
+                                                'type' => 'Segment',
+                                                'options' => array(
+                                                        'route'      => '/:eventPlugin/items[/:item]',
+                                                        'defaults' => array(
+                                                                'controller'    => 'Resource\MaterialItem\ApiController'
+                                                        ),
+                                                ),
+                                                'may_terminate' => true,
+
+                                        ),
+
+                                        'lists' => array(
+                                                'type' => 'Segment',
+                                                'options' => array(
+                                                        'route'      => '/:eventPlugin/lists[/:list]',
+                                                        'defaults' => array(
+                                                                'controller'    => 'Resource\MaterialList\ApiController'
+                                                        ),
+                                                ),
+                                                'may_terminate' => true,
+
+                                        ),
+
+                                ),
+                        ),
+
             'plugin' => array(
                 'child_routes' => array(
 
@@ -17,34 +55,7 @@ return array(
 
                         'may_terminate' => false,
                         'child_routes' => array(
-                            'default' => array(
-                                'type'    => 'Segment',
-                                'options' => array(
-                                    'route'    => '/[:controller[/:action[/:id]]]',
-                                    'constraints' => array(
-                                        'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
-                                        'action'     => '[a-zA-Z][a-zA-Z0-9_-]*',
-                                        'id'		 => '[a-f0-9]+'
-                                    ),
-                                    'defaults' => array(
-                                        'controller' => 'Item',
-                                        'action'     => 'index',
-                                    ),
-                                ),
-                            ),
-                            'rest' => array(
-                                'type'    => 'Segment',
-                                'options' => array(
-                                    'route'    => '/[:controller[/:id]]',
-                                    'constraints' => array(
-                                        'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
-                                        'id' 		 => '[a-f0-9]+'
-                                    ),
-                                    'defaults' => array(
-                                        'controller' => 'Index',
-                                    ),
-                                ),
-                            ),
+
                             'dictionary' => array(
                                         'type'    => 'Segment',
                                         'options' => array(
@@ -64,7 +75,6 @@ return array(
 
     'controllers' => array(
         'invokables' => array(
-            'EcampMaterial\Controller\Item' => 'EcampMaterial\Controller\ItemController',
             'EcampMaterial\Controller\Dictionary' => 'EcampMaterial\Controller\DictionaryController',
         ),
     ),
@@ -73,7 +83,37 @@ return array(
         'template_path_stack' => array(
             __DIR__ . '/../view',
         ),
+        'strategies' => array(
+                'ViewJsonStrategy',
+        ),
     ),
+
+        'phlyrestfully' => array(
+                'resources' => array(
+
+                        'EcampMaterial\Resource\MaterialItem\ApiController' => array(
+                                'listener'                => 'EcampMaterial\Resource\MaterialItem\MaterialItemResourceListener',
+                                'collection_http_options' => array('get'),
+                                'page_size'               => 3,
+                                'page_size_param'		  => 'limit',
+                                'resource_http_options'   => array('get', 'put'),
+                                'route_name'              => 'api-material/items',
+                                'identifier_name'		  => 'item'
+                        ),
+
+                        'EcampMaterial\Resource\MaterialList\ApiController' => array(
+                                'listener'                => 'EcampMaterial\Resource\MaterialList\MaterialListResourceListener',
+                                'collection_http_options' => array('get'),
+                                'page_size'               => 3,
+                                'page_size_param'		  => 'limit',
+                                'resource_http_options'   => array('get'),
+                                'route_name'              => 'api-material/lists',
+                                'identifier_name'		  => 'list'
+                        ),
+
+                ),
+
+        ),
 
     'doctrine' => array(
         'driver' => array(

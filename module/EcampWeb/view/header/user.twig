@@ -1,0 +1,24 @@
+{% extends 'header/base.twig' %}
+
+{% block header_icon %}
+    <table border="0" style="width: 100%; border: 0px;">
+        <tr>
+            <td width="120px" style="text-align: center">
+                <i class="fa fa-user" style="font-size: 7em"></i>
+            </td>
+            <td>
+                <h1>{{ user.displayName }}</h1>
+                <p>{{ user.fullName }}</p>
+            </td>
+        </tr>
+    </table>
+{% endblock %}
+
+
+{% block breadcrumb %}
+    <li class="active">
+        <a class="btn btn-xs btn-noborder" href="{{ userUrl(user) }}">
+            <i class="fa fa-user"></i> {{ user.username }}
+        </a>
+    </li>
+{% endblock %}
