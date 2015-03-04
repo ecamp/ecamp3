@@ -22,6 +22,11 @@ env:
 # script: phpunit --configuration phpunit_$DB.xml --coverage-text
 
 before_script:
-    - composer install
+    - composer install --dev --no-interaction
 
-script: ./vendor/bin/phpunit
+script:
+    - mkdir -p build/logs
+    - ./vendor/bin/phpunit --coverage-clover build/logs/clover.xml
+
+after_script:
+ - php vendor/bin/coveralls -v
