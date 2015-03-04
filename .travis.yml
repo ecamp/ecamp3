@@ -24,8 +24,4 @@ env:
 before_script:
     - composer install
 
-script: phpunit --configuration phpunit.xml
-
-branches:
-  only:
-    - devel
+script: ./vendor/bin/phpunit
