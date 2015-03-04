@@ -41,7 +41,7 @@
 	},
 	"require-dev": {
         "satooshi/php-coveralls": "dev-master"
-    }
+    },
 
     "provide": {
         "ext-pcntl": "*"
