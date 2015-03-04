@@ -22,16 +22,7 @@ namespace EcampCore\Service;
 
 use EcampCore\Entity\User;
 use EcampCore\Entity\Camp;
-use EcampCore\Event\CampCollaboration\CollaborationCampLeftEvent;
-use EcampCore\Event\CampCollaboration\CollaborationInvitationAcceptedEvent;
-use EcampCore\Event\CampCollaboration\CollaborationInvitationCreatedEvent;
-use EcampCore\Event\CampCollaboration\CollaborationInvitationRejectedEvent;
-use EcampCore\Event\CampCollaboration\CollaborationInvitationRevokedEvent;
-use EcampCore\Event\CampCollaboration\CollaborationRequestAcceptedEvent;
-use EcampCore\Event\CampCollaboration\CollaborationRequestCreatedEvent;
-use EcampCore\Event\CampCollaboration\CollaborationRequestRejectedEvent;
-use EcampCore\Event\CampCollaboration\CollaborationRequestRevokedEvent;
-use EcampCore\Event\CampCollaboration\CollaborationUserKickedEvent;
+use EcampCore\Event\CampCollaborationEvent;
 use EcampLib\Service\ServiceBase;
 use EcampCore\Acl\Privilege;
 use EcampCore\Entity\CampCollaboration;
@@ -70,7 +61,7 @@ class CampCollaborationService
         $campCollaboration = CampCollaboration::createRequest($me, $camp, $role);
         $this->persist($campCollaboration);
 
-        $this->getEventManager()->trigger(new CollaborationRequestCreatedEvent($this, $campCollaboration));
+        $this->getEventManager()->trigger(CampCollaborationEvent::RequestCreated($this, $campCollaboration));
     }
 
     /**
@@ -90,14 +81,16 @@ class CampCollaborationService
 
         $this->remove($campCollaboration);
 
-        $this->getEventManager()->trigger(new CollaborationRequestRevokedEvent($this, $campCollaboration));
+        $this->getEventManager()->trigger(CampCollaborationEvent::RequestRevoked($this, $campCollaboration));
     }
 
     /**
-     * @param User   $manager
-     * @param Group  $group
-     * @param User   $user
+     * @param User $manager
+     * @param Camp $camp
+     * @param User $user
      * @param string $role
+     * @throws \EcampLib\Validation\ValidationException
+     * @throws \Exception
      */
     public function acceptRequest(User $manager, Camp $camp, User $user, $role = null)
     {
@@ -113,11 +106,10 @@ class CampCollaborationService
 
         $campCollaboration->acceptRequest($manager, $role);
 
-        $this->getEventManager()->trigger(new CollaborationRequestAcceptedEvent($this, $campCollaboration));
+        $this->getEventManager()->trigger(CampCollaborationEvent::RequestAccepted($this, $campCollaboration));
     }
 
     /**
-     * @param User $manager
      * @param Camp $camp
      * @param User $user
      */
@@ -134,7 +126,7 @@ class CampCollaborationService
 
         $this->remove($campCollaboration);
 
-        $this->getEventManager()->trigger(new CollaborationRequestRejectedEvent($this, $campCollaboration));
+        $this->getEventManager()->trigger(CampCollaborationEvent::RequestRejected($this, $campCollaboration));
     }
 
     /**
@@ -158,7 +150,7 @@ class CampCollaborationService
         $campCollaboration = CampCollaboration::createInvitation($user, $camp, $manager, $role);
         $this->persist($campCollaboration);
 
-        $this->getEventManager()->trigger(new CollaborationInvitationCreatedEvent($this, $campCollaboration));
+        $this->getEventManager()->trigger(CampCollaborationEvent::InvitationCreated($this, $campCollaboration));
     }
 
     /**
@@ -178,7 +170,7 @@ class CampCollaborationService
 
         $this->remove($campCollaboration);
 
-        $this->getEventManager()->trigger(new CollaborationInvitationRevokedEvent($this, $campCollaboration));
+        $this->getEventManager()->trigger(CampCollaborationEvent::InvitationRevoked($this, $campCollaboration));
     }
 
     /**
@@ -198,7 +190,7 @@ class CampCollaborationService
 
         $campCollaboration->acceptInvitation();
 
-        $this->getEventManager()->trigger(new CollaborationInvitationAcceptedEvent($this, $campCollaboration));
+        $this->getEventManager()->trigger(CampCollaborationEvent::InvitationAccepted($this, $campCollaboration));
     }
 
     /**
@@ -218,7 +210,7 @@ class CampCollaborationService
 
         $this->remove($campCollaboration);
 
-        $this->getEventManager()->trigger(new CollaborationInvitationRejectedEvent($this, $campCollaboration));
+        $this->getEventManager()->trigger(CampCollaborationEvent::InvitationRejected($this, $campCollaboration));
     }
 
     /**
@@ -238,7 +230,7 @@ class CampCollaborationService
 
         $this->remove($campCollaboration);
 
-        $this->getEventManager()->trigger(new CollaborationCampLeftEvent($this, $campCollaboration));
+        $this->getEventManager()->trigger(CampCollaborationEvent::CampLeft($this, $campCollaboration));
     }
 
     /**
@@ -258,7 +250,7 @@ class CampCollaborationService
 
         $this->remove($campCollaboration);
 
-        $this->getEventManager()->trigger(new CollaborationUserKickedEvent($this, $campCollaboration));
+        $this->getEventManager()->trigger(CampCollaborationEvent::UserKicked($this, $campCollaboration));
     }
 
     public function changeRole(Camp $camp, User $user, $role)

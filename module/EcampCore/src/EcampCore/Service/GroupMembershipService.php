@@ -5,17 +5,7 @@ namespace EcampCore\Service;
 use EcampCore\Entity\User;
 use EcampCore\Entity\Group;
 use EcampCore\Entity\GroupMembership;
-
-use EcampCore\Event\GroupMembership\MembershipGroupLeftEvent;
-use EcampCore\Event\GroupMembership\MembershipInvitationAcceptedEvent;
-use EcampCore\Event\GroupMembership\MembershipInvitationCreatedEvent;
-use EcampCore\Event\GroupMembership\MembershipInvitationRejectedEvent;
-use EcampCore\Event\GroupMembership\MembershipInvitationRevokedEvent;
-use EcampCore\Event\GroupMembership\MembershipRequestAcceptedEvent;
-use EcampCore\Event\GroupMembership\MembershipRequestCreatedEvent;
-use EcampCore\Event\GroupMembership\MembershipRequestRejectedEvent;
-use EcampCore\Event\GroupMembership\MembershipRequestRevokedEvent;
-use EcampCore\Event\GroupMembership\MembershipUserKickedEvent;
+use EcampCore\Event\GroupMembershipEvent;
 use EcampLib\Service\ServiceBase;
 use EcampCore\Acl\Privilege;
 use EcampCore\Repository\GroupMembershipRepository;
@@ -51,7 +41,7 @@ class GroupMembershipService
         $groupMembership = GroupMembership::createRequest($me, $group, $role);
         $this->persist($groupMembership);
 
-        $this->getEventManager()->trigger(new MembershipRequestCreatedEvent($this, $groupMembership));
+        $this->getEventManager()->trigger(GroupMembershipEvent::RequestCreated($this, $groupMembership));
     }
 
     /**
@@ -71,7 +61,7 @@ class GroupMembershipService
 
         $this->remove($groupMembership);
 
-        $this->getEventManager()->trigger(new MembershipRequestRevokedEvent($this, $groupMembership));
+        $this->getEventManager()->trigger(GroupMembershipEvent::RequestRevoked($this, $groupMembership));
     }
 
     /**
@@ -94,7 +84,7 @@ class GroupMembershipService
 
         $groupMembership->acceptRequest($manager, $role);
 
-        $this->getEventManager()->trigger(new MembershipRequestAcceptedEvent($this, $groupMembership));
+        $this->getEventManager()->trigger(GroupMembershipEvent::RequestAccepted($this, $groupMembership));
     }
 
     /**
@@ -114,7 +104,7 @@ class GroupMembershipService
 
         $this->remove($groupMembership);
 
-        $this->getEventManager()->trigger(new MembershipRequestRejectedEvent($this, $groupMembership));
+        $this->getEventManager()->trigger(GroupMembershipEvent::RequestRejected($this, $groupMembership));
     }
 
     /**
@@ -139,7 +129,7 @@ class GroupMembershipService
         $groupMembership = GroupMembership::createInvitation($user, $group, $manager, $role);
         $this->persist($groupMembership);
 
-        $this->getEventManager()->trigger(new MembershipInvitationCreatedEvent($this, $groupMembership));
+        $this->getEventManager()->trigger(GroupMembershipEvent::InvitationCreated($this, $groupMembership));
     }
 
     /**
@@ -159,7 +149,7 @@ class GroupMembershipService
 
         $this->remove($groupMembership);
 
-        $this->getEventManager()->trigger(new MembershipInvitationRevokedEvent($this, $groupMembership));
+        $this->getEventManager()->trigger(GroupMembershipEvent::InvitationRevoked($this, $groupMembership));
     }
 
     /**
@@ -179,7 +169,7 @@ class GroupMembershipService
 
         $groupMembership->acceptInvitation();
 
-        $this->getEventManager()->trigger(new MembershipInvitationAcceptedEvent($this, $groupMembership));
+        $this->getEventManager()->trigger(GroupMembershipEvent::InvitationAccepted($this, $groupMembership));
     }
 
     /**
@@ -199,7 +189,7 @@ class GroupMembershipService
 
         $this->remove($groupMembership);
 
-        $this->getEventManager()->trigger(new MembershipInvitationRejectedEvent($this, $groupMembership));
+        $this->getEventManager()->trigger(GroupMembershipEvent::InvitationRejected($this, $groupMembership));
     }
 
     /**
@@ -219,7 +209,7 @@ class GroupMembershipService
 
         $this->remove($groupMembership);
 
-        $this->getEventManager()->trigger(new MembershipGroupLeftEvent($this, $groupMembership));
+        $this->getEventManager()->trigger(GroupMembershipEvent::GroupLeft($this, $groupMembership));
     }
 
     /**
@@ -239,7 +229,7 @@ class GroupMembershipService
 
         $this->remove($groupMembership);
 
-        $this->getEventManager()->trigger(new MembershipUserKickedEvent($this, $groupMembership));
+        $this->getEventManager()->trigger(GroupMembershipEvent::UserKicked($this, $groupMembership));
     }
 
     public function changeRole(Group $group, User $user, $role)

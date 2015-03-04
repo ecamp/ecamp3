@@ -3,9 +3,7 @@
 namespace EcampCore\Service;
 
 use EcampCore\Entity\User;
-use EcampCore\Event\User\UserActivatedEvent;
-use EcampCore\Event\User\UserRegisteredEvent;
-use EcampCore\Job\SendActivationMailJob;
+use EcampCore\Event\UserEvent;
 use EcampCore\Repository\UserRepository;
 
 use EcampLib\Service\ExecutionException;
@@ -64,7 +62,7 @@ class RegisterService
             throw ValidationException::FromInnerException('login-create', $ex);
         }
 
-        $this->getEventManager()->trigger(new UserRegisteredEvent($this, $user));
+        $this->getEventManager()->trigger(UserEvent::Registered($this, $user));
 
         return $user;
     }
@@ -89,7 +87,7 @@ class RegisterService
         }
 
         if ($success) {
-            $this->getEventManager()->trigger(new UserActivatedEvent($this, $user));
+            $this->getEventManager()->trigger(UserEvent::Activated($this, $user));
         } else {
             throw new ExecutionException("Wrong activation key!");
         }
