@@ -1,1 +1,2 @@
-src_dir: module
+src_dir: module	
+coverage_clover: module/EcampCore/test/build/logs/clover.xml
