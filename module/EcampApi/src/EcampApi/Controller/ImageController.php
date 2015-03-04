@@ -47,11 +47,11 @@ class ImageController extends AbstractRestfulBaseController
         $mime = null;
         $content = $this->getRequest()->getContent();
 
-        if($this->getRequest()->isPost()){
+        if ($this->getRequest()->isPost()) {
             $dataUriFormat = "/^data:([a-zA-Z0-9\/]+);base64,([a-zA-Z0-9\/+]*={0,2})$/";
 
             $matches = array();
-            if(preg_match($dataUriFormat, $content, $matches)){
+            if (preg_match($dataUriFormat, $content, $matches)) {
                 $mime = $matches[1];
                 $content = base64_decode($matches[2]);
             }

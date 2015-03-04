@@ -1,6 +1,6 @@
 <?php
 
-namespace EcampWeb\Controller\User;
+namespace EcampWeb\Controller\Profile;
 
 use EcampWeb\Controller\BaseController as WebBaseController;
 use Zend\EventManager\EventManagerInterface;
@@ -37,17 +37,7 @@ abstract class BaseController
      */
     protected function getUser()
     {
-        $userId = $this->params('user');
-
-        return $this->getUserRepository()->find($userId);
-    }
-
-    /**
-     * @return \EcampCore\Repository\UserRepository
-     */
-    protected function getUserRepository()
-    {
-        return $this->serviceLocator->get('EcampCore\Repository\User');
+        return $this->getUserService()->Get();
     }
 
 }

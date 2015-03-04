@@ -17,7 +17,15 @@ class UserDetailResource extends HalResource
                 'firstname'		=>	$user->getFirstname(),
                 'surname'		=>	$user->getSurname(),
                 'fullname'  	=>	$user->getFullName(),
-                'displayName' 	=>  $user->getDisplayName()
+                'displayName' 	=>  $user->getDisplayName(),
+                'homeNr'        =>  $user->getHomeNr(),
+                'mobilNr'       =>  $user->getMobilNr(),
+                'gender'        =>  $user->getGender(),
+                'birthday'      =>  $user->getBirthday(),
+                'ahv'           =>  $user->getAHV(),
+                'jsPersNr'      =>  $user->getJsPersNr(),
+                'jsEdu'         =>  $user->getJsEdu(),
+                'pbsEdu'        =>  $user->getPbsEdu()
             );
 
         parent::__construct($object, $object['id']);

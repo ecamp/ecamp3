@@ -10,8 +10,13 @@ class ValidationException extends \Exception
 
     public function __construct($validationMessages = array())
     {
-        parent::__construct("User input validation failed");
+        parent::__construct("User input validation failed: " . var_export($validationMessages, true));
         $this->setValidationMessages($validationMessages);
+    }
+
+    public static function Create(array $messages)
+    {
+        return new self($messages);
     }
 
     public static function ValueRequired($name)

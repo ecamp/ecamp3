@@ -34,7 +34,7 @@ class IndexController
 
     public function indexAction()
     {
-        $this->setFullHeight();
+        //$this->setFullHeight();
 
         $me = $this->getMe();
 

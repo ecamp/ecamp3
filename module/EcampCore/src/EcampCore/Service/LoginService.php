@@ -8,7 +8,6 @@ use EcampCore\Entity\Login;
 use EcampCore\Repository\AutoLoginRepository;
 use EcampCore\Repository\LoginRepository;
 use EcampCore\Repository\UserRepository;
-use EcampLib\Service\ExecutionException;
 use EcampLib\Service\ServiceBase;
 use EcampLib\Validation\ValidationException;
 use Zend\Authentication\AuthenticationService;
@@ -42,12 +41,20 @@ class LoginService
     }
 
     /**
-     * @return Login | NULL
+     * @param  null       $login
+     * @return Login|NULL
      */
-    public function Get()
+    public function Get($login = null)
     {
-        $user = $this->getMe();
+        if (isset($login)) {
+            if ($login instanceof Login) {
+                return $login;
+            } else {
+                return $this->loginRepository->find($login);
+            }
+        }
 
+        $user = $this->getMe();
         if (!is_null($user)) {
             return $user->getLogin();
         }
@@ -57,9 +64,9 @@ class LoginService
 
     /**
      * @param User $user
-     * @param $userInput
+     * @param $data
      * @return Login
-     * @throws \EcampLib\Service\ExecutionException
+     * @throws ValidationException
      */
     public function Create(User $user, $data)
     {
@@ -88,6 +95,8 @@ class LoginService
     }
 
     /**
+     * @param $identifier
+     * @param $password
      * @return \Zend\Authentication\Result
      */
     public function Login($identifier, $password)
@@ -113,6 +122,19 @@ class LoginService
     {
         $authService = new AuthenticationService();
         $authService->clearIdentity();
+    }
+
+    public function ChangePassword($login, $oldPassword, $newPassword)
+    {
+        $login = $this->Get($login);
+
+        if ($login->checkPassword($oldPassword)) {
+            $login->setNewPassword($newPassword);
+        } else {
+            throw ValidationException::Create(
+                array('password' => array('Password not correct'))
+            );
+        }
     }
 
     public function ResetPassword($pwResetKey, Params $params)

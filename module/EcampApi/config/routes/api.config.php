@@ -307,6 +307,16 @@ return array(
                         ),
                     ),
                 ),
+
+                'image' => array(
+                    'type' => 'Literal',
+                    'options' => array(
+                        'route'      => '/image',
+                        'defaults' => array(
+                            'controller'    => 'Resource\User\Image'
+                        ),
+                    ),
+                )
             ),
         ),
 
@@ -398,7 +408,6 @@ return array(
                 )
             )
         ),
-
 
         'search' => array(
             'type' => 'Literal',

@@ -47,6 +47,18 @@ return array(
             )
         ),
 
+        'profile' => array(
+            'type' => 'Segment',
+            'options' => array(
+                'route' => '/profile[/:action]',
+                'defaults' => array(
+                    '__NAMESPACE__' => 'EcampWeb\Controller\Profile',
+                    'controller' => 'Index' ,
+                    'action' => 'index',
+                )
+            )
+        ),
+
         'group-prefix' => array(
             'type'    => 'Literal',
             'options' => array(

@@ -18,7 +18,12 @@ class ImageResource extends HalResource
 
         parent::__construct($object, $object['id']);
 
-        $selfLink = new Link('self');
-        $selfLink->setRoute('api/images', array('image' => $image->getId()));
+        $imgLink = new Link('img');
+        $imgLink->setRoute('api/images', array('image' => $image->getId()));
+
+        $this->getLinks()
+            ->add($imgLink)
+        ;
+
     }
 }

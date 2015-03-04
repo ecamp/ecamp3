@@ -42,8 +42,8 @@ class User
     const ROLE_USER				= "User";
     const ROLE_ADMIN			= "Admin";
 
-    const GENDER_FEMALE			= true;
-    const GENDER_MALE 			= false;
+    const GENDER_MALE 			= 'male';
+    const GENDER_FEMALE			= 'female';
 
     const JSEDU_GRUPPENLEITER 	= "Gruppenleiter";
     const JSEDU_LAGERLEITER		= "Lagerleiter";
@@ -118,7 +118,7 @@ class User
     /** @ORM\Column(type="string", length=32, nullable=true ) */
     private $ahv;
 
-    /** @ORM\Column(type="boolean", nullable=true) */
+    /** @ORM\Column(type="string", length=8, nullable=true) */
     private $gender;
 
     /** @ORM\Column(type="string", length=16, nullable=true ) */
@@ -302,15 +302,15 @@ class User
     }
 
     /**
-     * @return date
+     * @return \DateTime
      */
     public function getBirthday()
     {
         return $this->birthday;
     }
-    public function setBirthday( $birthday )
+    public function setBirthday(\DateTime $birthday )
     {
-        $this->birthday = $birthday;
+        $this->birthday = $birthday ? clone $birthday : null;
     }
 
     /**
@@ -326,7 +326,7 @@ class User
     }
 
     /**
-     * @return boolean
+     * @return string
      */
     public function getGender()
     {
@@ -334,7 +334,7 @@ class User
     }
     public function setGender( $gender )
     {
-        $this->gender = (BOOLEAN) $gender;
+        $this->gender = $gender;
     }
 
     /**

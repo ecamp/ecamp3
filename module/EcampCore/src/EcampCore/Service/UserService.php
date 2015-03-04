@@ -88,8 +88,39 @@ class UserService
         return $user;
     }
 
-    public function Update(User $user, $data)
+    public function Update($userId, $data)
     {
+        $user = $this->Get($userId);
+        $this->aclRequire($user, Privilege::USER_ADMINISTRATE);
+
+        $userValidationForm = $this->createValidationForm(
+            $user,
+            $data,
+            array_intersect(
+                array_keys($data),
+                array(
+                    'scoutname',
+                    'firstname',
+                    'surname',
+                    'street',
+                    'zipcode',
+                    'city',
+                    'homeNr',
+                    'mobilNr',
+                    'gender',
+                    'birthday',
+                    'ahv',
+                    'jsPersNr',
+                    'jsEdu',
+                    'pbsEdu'
+                )
+            )
+        );
+
+        if (!$userValidationForm->isValid()) {
+            throw ValidationException::FromForm($userValidationForm);
+        }
+
         return $user;
     }
 

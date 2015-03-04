@@ -46,7 +46,7 @@ return array(
         'collection_http_options' => array('get'),
         'page_size'               => 3,
         'page_size_param'		  => 'limit',
-        'resource_http_options'   => array('get'),
+        'resource_http_options'   => array('get', 'put'),
         'route_name'              => 'api/users',
         'identifier_name'		  => 'user',
     ),
@@ -360,6 +360,16 @@ return array(
         'collection_query_whitelist' => array('user'),
     ),
 */
+
+    'EcampApi\Resource\User\Image' => array(
+        'listener'                => 'EcampApi\Resource\User\ImageResourceListener',
+        'collection_http_options' => array(),
+        'page_size'               => 1,
+        'page_size_param'		  => 'limit',
+        'resource_http_options'   => array('get', 'put', 'delete'),
+        'route_name'              => 'api/users/image',
+        'identifier_name'		  => 'user',
+    ),
 
     'EcampApi\Resource\Image' => array(
         'listener'                => 'EcampApi\Resource\Image\ImageResourceListener',

@@ -12,6 +12,7 @@
     "jquery-autosize": "latest",
     "bootstrap": "~3",
     "bootstrap-select": "latest",
+    "bootstrap-datepicker": "latest",
     "angular-ui": "latest",
     "angular-ui-select": "latest",
     "angular-ui-slider": "latest",

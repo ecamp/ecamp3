@@ -1,3 +1,4 @@
+
 jQuery(function($){
 
     function AjaxFormElementController(container){
@@ -26,16 +27,21 @@ jQuery(function($){
     };
 
 
-    AjaxFormElementController.prototype.setOrig = function(){
-        this.$feedbackContainer.empty();
-        this.$feedbackContainer.css('width', '0px');
-        this.$control.css('padding-right', '12px');
-        this.$state = 'orig';
+    AjaxFormElementController.prototype.setOrig = function(force){
+        force = force || false;
+
+        if(force || !this.isDirty()) {
+            this.$feedbackContainer.empty();
+            this.$feedbackContainer.css('width', '0px');
+            this.$control.css('padding-right', '12px');
+            this.$state = 'orig';
+        }
     };
 
     AjaxFormElementController.prototype.setDirty = function(){
         this.$feedbackContainer.empty();
         this.$feedbackContainer.css('width', '70px');
+        this.$feedbackContainer.css('pointer-events', 'all');
         this.$control.css('padding-right', '72.5px');
 
         var iconSave = $('<i class="fa fa-check"></i>');
@@ -43,6 +49,7 @@ jQuery(function($){
         iconSave.css('font-size', '15px');
         var btnSave = $('<button class="btn btn-xs btn-success btn-ajax-feedback"></button>');
         btnSave.css('width', '30px');
+        btnSave.attr('tabindex', '-1');
         btnSave.append(iconSave);
 
         var iconCancel = $('<i class="fa fa-times"></i>');
@@ -50,6 +57,7 @@ jQuery(function($){
         iconCancel.css('font-size', '15px');
         var btnCancel = $('<button class="btn btn-xs btn-danger btn-ajax-feedback"></button>');
         btnCancel.css('width', '30px');
+        btnCancel.attr('tabindex', '-1');
         btnCancel.append(iconCancel);
 
         var btnGroup = $('<div class="btn-group"></div>');
@@ -96,14 +104,16 @@ jQuery(function($){
         var btnCheck = $('<button class="btn btn-xs btn-noborder btn-ajax-feedback"></button>');
         btnCheck.css('background-color', 'transparent');
         btnCheck.css('cursor', 'default');
-        btnCheck.css('tabindex', '-1');
         btnCheck.css('width', '30px');
+        btnCheck.attr('tabindex', '-1');
         btnCheck.append(iconCheck);
 
         this.$feedbackContainer.append(btnCheck);
         this.$state = 'saved';
 
-        this.$control.focus();
+        if($(':focus').length == 0 /* && !this.$control.is(':radio') */) {
+            this.$control.focus();
+        }
     };
 
     AjaxFormElementController.prototype.setFailed = function(){
@@ -117,8 +127,8 @@ jQuery(function($){
         var btnCheck = $('<button class="btn btn-xs btn-noborder btn-ajax-feedback"></button>');
         btnCheck.css('background-color', 'transparent');
         btnCheck.css('cursor', 'default');
-        btnCheck.css('tabindex', '-1');
         btnCheck.css('width', '30px');
+        btnCheck.attr('tabindex', '-1');
         btnCheck.append(iconCheck);
 
         this.$feedbackContainer.append(btnCheck);
@@ -156,7 +166,7 @@ jQuery(function($){
     AjaxFormElementController.prototype.undo = function(){
         if(this.isDirty()){
             this.setValue(this.getOrigValue());
-            this.setOrig();
+            this.setOrig(true);
             this.$control.focus();
         }
     };
@@ -176,10 +186,14 @@ jQuery(function($){
 
     AjaxFormElementController.prototype.save = function(){
         this.setSaving();
-        this.$control.attr('disabled', true);
 
+        var inputData = this.$control.serializeArray();
         var formData = {};
-        formData[this.$control.attr('name')] = this.getValue();
+        $.each(inputData, function(idx, data){
+            formData[data.name] = data.value;
+        });
+
+        this.$control.attr('disabled', true);
 
         $.ajax({
             type: 'PUT',
@@ -224,9 +238,11 @@ jQuery(function($){
         this.checkDirty();
     };
 
+
+
     AjaxFormElementController.getInstance = function(element){
-        $element = $(element);
-        $container = $element.closest('.ajax-form-element');
+        var $element = $(element);
+        var $container = $element.closest('.ajax-form-element');
 
         var controller = $container.data('ajax-form-element-controller');
         if(!controller){
@@ -253,10 +269,24 @@ jQuery(function($){
         AjaxFormElementController.getInstance(this).onKeyUp(event);
     };
 
+    AjaxFormElementController.onChange = function(event){
+        if($(this).is(':radio')){
+            var instance = AjaxFormElementController.getInstance(this);
+
+            instance.$saveTimeout = setTimeout(instance.save.bind(instance), this.$saveDelay);
+        }
+    };
+
+    /*
     var $document = $(document);
     $document.on('focus', '.ajax-form-element .form-control', AjaxFormElementController.onFocus);
     $document.on('blur', '.ajax-form-element .form-control', AjaxFormElementController.onBlur);
     $document.on('keydown', '.ajax-form-element .form-control', AjaxFormElementController.onKeyDown);
     $document.on('keyup', '.ajax-form-element .form-control', AjaxFormElementController.onKeyUp);
-
+    $document.on('change', '.ajax-form-element .form-control', AjaxFormElementController.onChange);
+    */
 });
+
+
+
+

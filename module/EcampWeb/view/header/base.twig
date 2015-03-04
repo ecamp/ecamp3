@@ -33,10 +33,15 @@
                     </li>
                     <li class="hidden-md hidden-lg divider"></li>
 
+                    {% if me is defined %}
                     <li>
-                        <a href="#">
+                        <a href="{{ userUrl(me) }}">
                             <span class="fa fa-user"></span>&nbsp;&nbsp; {{ me.getUsername }}
                         </a>
+                    </li>
+                    {% endif %}
+                    <li>
+                        <a href="{{ url('web/profile') }}"><span class="fa fa-user"></span>&nbsp;&nbsp; Profile</a>
                     </li>
                     <li>
                         <a href="#"><span class="fa fa-inbox"></span>&nbsp;&nbsp; Inbox</a>
@@ -82,4 +87,13 @@
             </ol>
         </div>
     </div>
+
+{#
+    <hr style="margin-top: 10px; margin-bottom: 5px;" />
+    <div class="row ">
+        <div class="col-sm-12">
+            {% include 'ecamp-web/camp/camp.menu.twig' %}
+        </div>
+    </div>
+#}
 </section>

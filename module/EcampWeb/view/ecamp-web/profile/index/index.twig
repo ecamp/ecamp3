@@ -36,7 +36,7 @@
                             </div>
                             {% if user.login %}
                                 <div class="col-xs-2">
-                                    <a href="{{ url('web/profile', { 'action': 'changePassword' }) }}" class="btn btn-default btn-sm pull-right" style="width: 120px;">
+                                    <a async-modal href="{{ url('web/profile', { 'action': 'changePassword' }) }}" class="btn btn-default btn-sm pull-right" style="width: 120px;">
                                         <i class="fa fa-edit"></i> password
                                     </a>
                                 </div>
@@ -86,7 +86,7 @@
                 {% block panel_content %}
                     <div style="margin-bottom: 15px">
                         <user-image-edit
-                            style="max-height: 185px;"
+                            style="max-height: 233px;"
                             url="{{ url('api/users/image', { 'user': user.id }) }}"
                         ></user-image-edit>
                     </div>
@@ -229,7 +229,7 @@
 
                                 <ajax-form action="{{ url('api/users', {'user': user.id } ) }}">
                                     <div class="form-group has-feedback ajax-form-element">
-                                        <label class="col-sm-3 control-label" for="user-pbsEdu">J+S Ausb:</label>
+                                        <label class="col-sm-3 control-label" for="user-pbsEdu">PBS Ausb:</label>
                                         <div class="col-sm-9">
                                             <select class="form-control selectpicker" id="user-pbsEdu" name="pbsEdu" data-width="100%">
                                                 <option value="basiskurs" {{ user.pbsEdu == 'basiskurs' ? 'selected="selected"' : '' }}>Basiskurs</option>

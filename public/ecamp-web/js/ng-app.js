@@ -4,9 +4,17 @@
 
 (function(ecamp){
 
-    ecamp.ngApp = angular.module('ecamp',
-        ['ngResource', 'ui.bootstrap', 'ui.slider', 'ui.select', 'ngSanitize', 'ecamp.RemoteData', 'ecamp.RemoteMaterialData']
-    );
+    ecamp.ngApp =
+        angular.module('ecamp', [
+            'ngResource',
+            'ui.bootstrap',
+            'ui.slider',
+            'ui.select',
+            'ngSanitize',
+            'angularFileUpload',
+            'ecamp.RemoteData',
+            'ecamp.RemoteMaterialData'
+        ]);
 
 
     ecamp.ngApp.filter('floor', function() {

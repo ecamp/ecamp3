@@ -12,10 +12,10 @@ class ImageResourceListener extends BaseResourceListener
     /**
      * @return \EcampCore\Repository\ImageRepository
      */
-    protected function getImageRepository(){
+    protected function getImageRepository()
+    {
         return $this->getService('EcampCore\Repository\Image');
     }
-
 
     public function attach(EventManagerInterface $events)
     {
@@ -27,11 +27,13 @@ class ImageResourceListener extends BaseResourceListener
     {
         $id = $e->getParam('id');
 
+        var_dump($id);
+
         /** @var \EcampCore\Entity\Image $image */
         $image = $this->getImageRepository()->find($id);
 
         if (!$image) {
-            throw new DomainException('User not found', 404);
+            throw new DomainException('Image not found', 404);
         }
 
         return new ImageResource($image);
