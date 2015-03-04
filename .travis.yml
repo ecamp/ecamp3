@@ -22,7 +22,7 @@ env:
 # script: phpunit --configuration phpunit_$DB.xml --coverage-text
 
 before_script:
-    - composer install --dev --no-interaction
+    - composer install --no-interaction
 
 script:
     - mkdir -p build/logs
