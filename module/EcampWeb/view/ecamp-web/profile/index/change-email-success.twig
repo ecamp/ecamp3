@@ -1,0 +1,25 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="$close()">&times;</button>
+    <h4 class="modal-title"><i class="fa fa-thumbs-up"></i> New Mail-Address registered</h4>
+</div>
+
+<div class="modal-body">
+    <div class="row">
+        <div class="col-xs-12">
+            <center>
+
+                <i class="fa fa-thumbs-up" style="font-size: 7em; color: #5cb85c;"></i>
+                <br />
+                New mail address is registered. We send you a Mail to activate this new address.
+                Please check your mails.
+            </center>
+
+            <p>{{ user.getEmailVerificationCode() }}</p>
+
+        </div>
+    </div>
+</div>
+
+<div class="modal-footer">
+    <button type="button" class="btn btn-default" ng-click="$close()">Close</button>
+</div>

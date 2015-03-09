@@ -21,14 +21,6 @@ class IndexController
     }
 
     /**
-     * @return \EcampCore\Repository\CampRepository
-     */
-    private function getCampRepository()
-    {
-        return $this->getServiceLocator()->get('EcampCore\Repository\Camp');
-    }
-
-    /**
      * @return \EcampCore\Service\GroupMembershipService
      */
     private function getMembershipService()

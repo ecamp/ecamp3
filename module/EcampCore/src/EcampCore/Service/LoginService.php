@@ -75,8 +75,7 @@ class LoginService
             throw new ValidationException(array('user' => "User has already a Login"));
         }
 
-        $login = new Login($user);
-        $login->setNewPassword($data['password1']);
+        $login = new Login($user, $data['password1']);
         $this->persist($login);
 
         return $login;
@@ -127,51 +126,7 @@ class LoginService
     public function ChangePassword($login, $oldPassword, $newPassword)
     {
         $login = $this->Get($login);
-
-        if ($login->checkPassword($oldPassword)) {
-            $login->setNewPassword($newPassword);
-        } else {
-            throw ValidationException::Create(
-                array('password' => array('Password not correct'))
-            );
-        }
-    }
-
-    public function ResetPassword($pwResetKey, Params $params)
-    {
-        $login = $this->getLoginByResetKey($pwResetKey);
-        $loginValidator = new \EcampCore\Validate\LoginValidator($login);
-
-        if (is_null($login)) {
-            $this->addValidationMessage("No Login found for given PasswordResetKey");
-        }
-
-        $this->validationFailed(
-            ! $loginValidator->isValid($params));
-
-        $login->setNewPassword($params->getValue('password'));
-        $login->clearPwResetKey();
-    }
-
-    public function ForgotPassword($identifier)
-    {
-        $user = $this->userRepository->findByIdentifier($identifier);
-
-        if (is_null($user)) {
-            return false;
-        }
-
-        $login = $user->getLogin();
-
-        if (is_null($login)) {
-            return false;
-        }
-
-        $login->createPwResetKey();
-        $resetKey = $login->getPwResetKey();
-
-        //TODO: Send Mail with Link to Reset Password.
-        return $resetKey;
+        $login->changePassword($oldPassword, $newPassword);
     }
 
     /**

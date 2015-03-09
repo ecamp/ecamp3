@@ -10,17 +10,15 @@ class CheckPasswordFieldset extends BaseFieldset implements InputFilterProviderI
     public function __construct()
     {
         parent::__construct('check-password');
+    }
 
+    public function init()
+    {
         $this->add(array(
             'name' => 'password',
             'options' => array(
-                'label' => 'Password: ',
-/*
-                'column-size' => 'sm-9',
-                'label_attributes' => array('class' => 'col-sm-3')
-*/
+                'label' => 'Password: '
             ),
-//            'attributes' => array(),
             'type' => 'Password'
         ));
     }

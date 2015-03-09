@@ -10,7 +10,10 @@ class SetPasswordFieldset extends BaseFieldset implements InputFilterProviderInt
     public function __construct()
     {
         parent::__construct('set-password');
+    }
 
+    public function init()
+    {
         $this->add(array(
             'name' => 'password1',
             'options' => array(

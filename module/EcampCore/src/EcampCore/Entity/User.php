@@ -83,10 +83,16 @@ class User
     private $email;
 
     /**
+     * untrusted e-mail address
+     * @ORM\Column(type="string", length=64, nullable=true )
+     */
+    private $untrustedEmail;
+
+    /**
      * ActivationCode to verify eMail address
      * @ORM\Column(type="string", length=64, nullable=true)
      */
-    private $activationCode;
+    private $emailVerificationCode;
 
     /** @ORM\Column(type="string", length=32, nullable=true ) */
     private $scoutname;
@@ -203,6 +209,15 @@ class User
     public function setEmail( $email )
     {
         $this->email = $email; return $this;
+    }
+
+    public function getUntrustedEmail()
+    {
+        return $this->untrustedEmail;
+    }
+    public function setUntrustedEmail($untrustedEmail)
+    {
+        $this->untrustedEmail = $untrustedEmail; return $this;
     }
 
     /**
@@ -475,7 +490,7 @@ class User
     public function createNewActivationCode()
     {
         $guid = hash('sha256', uniqid(md5(mt_rand()), true));
-        $this->activationCode = md5($guid);
+        $this->emailVerificationCode = md5($guid);
 
         return $guid;
     }
@@ -483,23 +498,36 @@ class User
     /**
      * @deprecated
      */
-    public function getActivationCode()
+    public function getEmailVerificationCode()
     {
-        return $this->activationCode;
+        return $this->emailVerificationCode;
     }
 
-    public function checkActivationCode($activationCode)
+    public function checkEmailVerificationCode($verificationCode)
     {
-        $code = md5($activationCode);
+        $code = md5($verificationCode);
 
-        return $code == $this->activationCode;
+        return $code == $this->emailVerificationCode;
     }
 
-    public function activateUser($activationCode)
+    public function verifyEmail($verificationCode)
     {
-        if ($this->checkActivationCode($activationCode)) {
+        if ($this->checkEmailVerificationCode($verificationCode)) {
+            $this->setEmail($this->getUntrustedEmail());
+            $this->setUntrustedEmail(null);
+            $this->emailVerificationCode = null;
+
+            return true;
+        }
+
+        return false;
+    }
+
+    public function activateUser($verificationCode)
+    {
+        if ($this->checkEmailVerificationCode($verificationCode)) {
             $this->state = self::STATE_ACTIVATED;
-            $this->activationCode = null;
+            $this->emailVerificationCode = null;
 
             return true;
         }
@@ -509,7 +537,7 @@ class User
 
     public function resetActivationCode()
     {
-        $this->activationCode = null;
+        $this->emailVerificationCode = null;
     }
 
     /**

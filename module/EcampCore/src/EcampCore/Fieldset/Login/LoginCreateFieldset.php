@@ -3,8 +3,9 @@
 namespace EcampCore\Fieldset\Login;
 
 use EcampLib\Form\BaseFieldset;
+use Zend\InputFilter\InputFilterProviderInterface;
 
-class LoginCreateFieldset extends BaseFieldset
+class LoginCreateFieldset extends BaseFieldset implements InputFilterProviderInterface
 {
     public function __construct()
     {
@@ -36,7 +37,7 @@ class LoginCreateFieldset extends BaseFieldset
         ));
     }
 
-    public static function createInputFilterSpecification()
+    public function getInputFilterSpecification()
     {
         return array(
             'password1' => array(

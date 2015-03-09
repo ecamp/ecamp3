@@ -140,6 +140,10 @@ class UserRepository extends BaseRepository
         }
     }
 
+    /**
+     * @param $identifier
+     * @return null|\EcampCore\Entity\User
+     */
     public function findByIdentifier($identifier)
     {
         $user = null;

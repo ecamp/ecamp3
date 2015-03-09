@@ -20,14 +20,6 @@ class LoginController extends BaseController
         return $this->getServiceLocator()->get('EcampCore\Service\Login');
     }
 
-    /**
-     * @return \EcampCore\Repository\UserRepository
-     */
-    private function getUserRepository()
-    {
-        return $this->getServiceLocator()->get('EcampCore\Repository\User');
-    }
-
     public function loginAction()
     {
         $loginForm = new LoginForm();

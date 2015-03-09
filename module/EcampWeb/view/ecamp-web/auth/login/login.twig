@@ -78,21 +78,23 @@
                     <hr />
 
                     <div style="text-align: center">
-                        <button
-                            type="button"
+                        <a
+                            async-modal
                             class="btn-link"
-                            data-toggle="modal"
-                            data-target="#asyncform-container"
                             href="{{ url('web/default', { 'controller':'register' }) }}"
-                        >Register</button>
-
-                        <button
-                            type="button"
+                        >Register</a>
+                        &nbsp;&nbsp;|&nbsp;&nbsp;
+                        <a
+                            async-modal
                             class="btn-link"
-                            data-toggle="modal"
-                            data-target="#asyncform-container"
+                            href="{{ url('web/default', { 'controller': 'register', 'action': 'forgot-password' }) }}"
+                        >Forgot password</a>
+                        &nbsp;&nbsp;|&nbsp;&nbsp;
+                        <a
+                            async-modal
+                            class="btn-link"
                             href="#"
-                        >About</button>
+                        >About</a>
                     </div>
                 </div>
 

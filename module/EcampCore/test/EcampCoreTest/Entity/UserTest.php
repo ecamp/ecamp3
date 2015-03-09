@@ -80,12 +80,12 @@ class UserTest extends \PHPUnit_Framework_TestCase
         $user->setState(User::STATE_REGISTERED);
 
         $user->resetActivationCode();
-        $this->assertFalse($user->checkActivationCode(""));
+        $this->assertFalse($user->checkEmailVerificationCode(""));
 
         $acode = $user->createNewActivationCode();
 
-        $this->assertTrue($user->checkActivationCode($acode));
-        $this->assertFalse($user->checkActivationCode(""));
+        $this->assertTrue($user->checkEmailVerificationCode($acode));
+        $this->assertFalse($user->checkEmailVerificationCode(""));
 
         $this->assertFalse($user->activateUser(""));
         $this->assertEquals(User::STATE_REGISTERED, $user->getState());
