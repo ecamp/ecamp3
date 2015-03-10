@@ -2,10 +2,10 @@
 
 namespace EcampCoreTest\Entity;
 
+use Bootstrap;
 use EcampCore\Entity\User;
 use EcampCoreTest\Mock\AclMock;
 use EcampCoreTest\Mock\EntityManagerMock;
-use EcampCoreTest\Bootstrap;
 use Doctrine\ORM\EntityManager;
 use EcampCore\Service\CampCollaborationService;
 use EcampCore\Entity\Camp;

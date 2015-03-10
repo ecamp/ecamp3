@@ -29,7 +29,8 @@ class Module implements
         return array(
             'Zend\Loader\StandardAutoloader' => array(
                 'namespaces' => array(
-                    __NAMESPACE__ => __DIR__ . '/src/' . __NAMESPACE__,
+                    'EcampCore' => __DIR__ . '/src/EcampCore',
+                    'EcampCoreTest' => __DIR__ . '/test/EcampCoreTest'
                 ),
             ),
         );

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<phpunit bootstrap="module/EcampCore/test/Bootstrap.php" colors="true">
+<phpunit bootstrap="test/Bootstrap.php" colors="true">
 	<php>
         <ini name="memory_limit" value="100M" />
         <ini name="display_errors" value="1" />
@@ -8,6 +8,9 @@
 
     <testsuites>
         <testsuite name="eCampCore">
+            <!--
+            <directory suffix='.php'>module/EcampCore/test/</directory>
+            -->
             <file>module/EcampCore/test/EcampCoreTest/Service/CampCollaborationServiceTest.php</file>
         </testsuite>
     </testsuites>
