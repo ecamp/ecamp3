@@ -26,7 +26,7 @@ before_script:
 
 script:
     - mkdir -p build/logs
-    - ./vendor/bin/phpunit --coverage-clover build/logs/clover.xml
+    - ./vendor/bin/phpunit --coverage-clover test/clover.xml
 
 after_script:
  - php vendor/bin/coveralls -v
