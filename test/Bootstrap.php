@@ -18,11 +18,11 @@ class Bootstrap
         require './init_autoloader.php';
 
         $config = include './config/application.config.php';
-        $config['module_listener_options']['config_glob_paths'][] = 'config/test.autoload/{,*.}{global,local}.php';
 
         $serviceManager = new ServiceManager(new ServiceManagerConfig());
         $serviceManager->setService('ApplicationConfig', $config);
         $serviceManager->get('ModuleManager')->loadModules();
+
         static::$serviceManager = $serviceManager;
     }
 

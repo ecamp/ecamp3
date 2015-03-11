@@ -2,6 +2,9 @@
 
 require_once 'define.php';
 
+$typ = getenv('typ') ?: 'web';  // web, job
+$env = getenv('env') ?: 'prod'; // dev, test, prod
+
 return array(
     'modules' => array(
         'ZFTool',
@@ -45,8 +48,9 @@ return array(
             './plugins'
         ),
         'config_glob_paths' => array(
-            'config/app.autoload/{,*.}{global,local}.php',
-            'config/common.autoload/{,*.}{global,local}.php',
+            sprintf('config/autoload/{,*.}{common,%s}{,.%s}{,.local}.php', $typ, $env),
+            // 'config/app.autoload/{,*.}{global,local}.php',
+            // 'config/common.autoload/{,*.}{global,local}.php',
         )
     )
 );

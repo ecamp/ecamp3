@@ -4,6 +4,9 @@ define("__BASE_URL__" , 'http://www.ecamp3.dev');
 
 require_once 'define.php';
 
+$typ = getenv('typ') ?: 'web';
+$env = getenv('env') ?: 'prod';
+
 return array(
     'modules' => array(
         'DoctrineModule',
@@ -22,8 +25,9 @@ return array(
             './vendor'
         ),
         'config_glob_paths' => array(
-            'config/job.autoload/{,*.}{global,local}.php',
-            'config/common.autoload/{,*.}{global,local}.php',
+            sprintf('config/autoload/{,*.}{common,%s}{,.%s}{,.local}.php', $typ, $env),
+            // 'config/job.autoload/{,*.}{global,local}.php',
+            // 'config/common.autoload/{,*.}{global,local}.php',
         )
     )
 );
