@@ -28,7 +28,7 @@
 
             this.savedTimeout = null;
             this.saveTimeout = null;
-            this.saveDelay = 100;
+            this.saveDelay = 150;
 
             this.SaveOrigValue();
             this.SetupEvents();
@@ -257,6 +257,8 @@
 
         AjaxForm.prototype.Undo = function(){
             if(this.IsDirty()){
+                clearTimeout(this.saveTimeout);
+
                 angular.forEach(this.controls, function(ctrl){
                     ctrl.Reset();
                 }, this);
@@ -468,6 +470,7 @@
         };
 
         AjaxFormControl.prototype.Edit = function(h){
+            this.element.change(h);
             this.element.keyup(h);
         };
 

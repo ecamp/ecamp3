@@ -323,7 +323,7 @@ class User
     {
         return $this->birthday;
     }
-    public function setBirthday(\DateTime $birthday )
+    public function setBirthday(\DateTime $birthday = null)
     {
         $this->birthday = $birthday ? clone $birthday : null;
     }

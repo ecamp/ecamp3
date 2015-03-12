@@ -186,7 +186,7 @@
                                     <div class="form-group has-feedback ajax-form-element orig">
                                         <label class="col-sm-3 control-label" for="user-birthday">Birthday:</label>
                                         <div class="col-sm-9">
-                                            <input type="date" class="form-control" name="birthday" value="{{ user.birthday|date('Y-m-d') }}" format="dd.mm.yyyy" />
+                                            <input type="date" class="form-control" name="birthday" value="{{ user.birthday is empty ? "" : user.birthday|date('Y-m-d') }}" format="dd.mm.yyyy" />
                                             <span class="form-control-feedback feedback-container"></span>
                                         </div>
                                     </div>

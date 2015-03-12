@@ -23,7 +23,8 @@
     "fontawesome": "~4",
     "typeahead.js": "latest",
     "uri.js": "~1.14",
-    "angular-hal": "https://github.com/LuvDaSun/angular-hal.git"
+    "angular-hal": "https://github.com/LuvDaSun/angular-hal.git",
+    "ng-file-upload": "latest"
   },
   "resolutions": {
     "angular": "~1.2"
