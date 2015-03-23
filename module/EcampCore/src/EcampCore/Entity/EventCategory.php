@@ -158,6 +158,7 @@ class EventCategory
 
     /**
      * @param EventType $eventType
+     * @throws \Exception
      */
     public function setEventType(EventType $eventType)
     {
