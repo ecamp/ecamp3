@@ -106,6 +106,7 @@ class CampService
 
         $camp->setCreator($this->getMe());
 
+        /*
         try {
             $periodData = $data['period'];
             $periodData['description'] = $data['name'];
@@ -114,6 +115,7 @@ class CampService
         } catch (ValidationException $ex) {
             throw ValidationException::FromInnerException('period', $ex);
         }
+        */
 
         $this->persist($camp);
         $this->persist($campCollaboration);

@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: pirminmattmann
- * Date: 01.05.14
- * Time: 16:23
- */
 
 namespace EcampLib\Form\View\Helper;
 

@@ -21,6 +21,7 @@
 namespace EcampCore\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Zend\Form\Annotation as Form;
 
 use OutOfRangeException;
 use EcampLib\Entity\BaseEntity;
@@ -30,6 +31,8 @@ use EcampLib\Entity\BaseEntity;
  * @ORM\Entity(repositoryClass="EcampCore\Repository\EventCategoryRepository")
  * @ORM\Table(name="event_categories")
  * @ORM\HasLifecycleCallbacks
+ *
+ * @Form\Name("event-category")
  */
 class EventCategory
     extends BaseEntity
@@ -48,11 +51,13 @@ class EventCategory
 
     /**
      * @ORM\Column(type="string", length=64, nullable=false)
+     * @Form\Validator({ "name":"StringLength", "options":{ "min":1 } })
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", length=16, nullable=false)
+     * @Form\Validator({ "name":"StringLength", "options":{ "min":1, "max":3 } })
      */
     private $short;
 
