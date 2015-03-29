@@ -2,6 +2,8 @@
 
 namespace EcampCore\Service;
 
+use EcampCore\Acl\Privilege;
+use EcampCore\Entity\Camp;
 use EcampCore\Entity\Job;
 use EcampCore\Entity\Day;
 use EcampCore\Repository\JobRespRepository;
@@ -21,6 +23,20 @@ class JobService
         JobRespRepository $jobRespRepository
     ){
         $this->jobRespRepository = $jobRespRepository;
+    }
+
+    public function Create(Camp $camp, $data)
+    {
+        $this->aclRequire($camp, Privilege::CAMP_CONTRIBUTE);
+
+        $job = new Job($camp);
+
+        $validationForm = $this->createValidationForm($job, $data, array('name'));
+        if ($validationForm->isValid()) {
+            $this->persist($job);
+        }
+
+        return $job;
     }
 
     public function setResponsableUsers(Job $job, Day $day, array $users)

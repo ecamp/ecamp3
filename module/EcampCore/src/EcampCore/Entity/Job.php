@@ -51,12 +51,11 @@ class Job
      */
     protected $jobResps;
 
-    public function __construct(Camp $camp, $name)
+    public function __construct(Camp $camp)
     {
         parent::__construct();
 
         $this->camp = $camp;
-        $this->name = $name;
 
         $this->jobResps = new \Doctrine\Common\Collections\ArrayCollection();
     }
@@ -75,6 +74,14 @@ class Job
     public function getName()
     {
         return $this->name;
+    }
+
+    /**
+     * @param $name
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
     }
 
     /**

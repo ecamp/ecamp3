@@ -50,6 +50,7 @@ class Camp extends BaseEntity
         $this->periods 			= new \Doctrine\Common\Collections\ArrayCollection();
         $this->eventCategories	= new \Doctrine\Common\Collections\ArrayCollection();
         $this->events    		= new \Doctrine\Common\Collections\ArrayCollection();
+        $this->jobs     		= new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**

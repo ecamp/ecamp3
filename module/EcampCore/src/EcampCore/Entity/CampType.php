@@ -52,7 +52,7 @@ class CampType extends BaseEntity
     private $type;
 
     /**
-     * @ORM\ManyToMany(targetEntity="EventType")
+     * @ORM\ManyToMany(targetEntity="EventType", mappedBy="campTypes")
      */
     private $eventTypes;
 
