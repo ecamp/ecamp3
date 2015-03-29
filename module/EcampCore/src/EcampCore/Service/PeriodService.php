@@ -43,9 +43,10 @@ class PeriodService
     }
 
     /**
-     * @param  Camp   $camp
-     * @param  array  $data
+     * @param  Camp $camp
+     * @param  array $data
      * @return Period
+     * @throws ValidationException
      */
     public function Create(Camp $camp, $data)
     {

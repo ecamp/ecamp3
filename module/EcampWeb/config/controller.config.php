@@ -18,6 +18,7 @@ return array(
         'EcampWeb\Controller\Group\MembershipHelper' 	=> 'EcampWeb\Controller\Group\MembershipHelperController',
 
         'EcampWeb\Controller\Camp\Index'  			    => 'EcampWeb\Controller\Camp\IndexController',
+        'EcampWeb\Controller\Camp\Settings'             => 'EcampWeb\Controller\Camp\SettingsController',
         'EcampWeb\Controller\Camp\Period'  			    => 'EcampWeb\Controller\Camp\PeriodController',
         'EcampWeb\Controller\Camp\Day'  			    => 'EcampWeb\Controller\Camp\DayController',
         'EcampWeb\Controller\Camp\Event'  			    => 'EcampWeb\Controller\Camp\EventController',

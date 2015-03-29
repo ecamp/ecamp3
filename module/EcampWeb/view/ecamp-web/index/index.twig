@@ -50,9 +50,13 @@
 				<tbody>
 					{% for camp in camps %}
 						<tr>
-							<td><span class="fa fa-bell"></span></td>
-							<td><a href="{{ campUrl(camp) }}">{{ camp.getTitle }}</a></td>
+							<td class="hidden-xs">
+								<span class="fa fa-bell"></span>
+							</td>
 							<td>
+								<a href="{{ campUrl(camp) }}">{{ camp.getTitle }}</a>
+							</td>
+							<td class="hidden-xs">
                                 {% if camp.belongsToUser %}
                                     <i class="fa fa-user"></i>
                                     <a href="{{ userUrl(camp.owner) }}">
