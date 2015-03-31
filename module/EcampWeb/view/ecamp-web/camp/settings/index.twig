@@ -7,6 +7,18 @@
         {% embed "helper/accordion.twig" with { 'id': 'event-categories' } %}
             {% block panel_title %}
                 Event Categories
+                <div class="pull-right">
+                    <a  async-modal
+                        href="{{ url(
+                            'web/camp/default',
+                            { 'camp': camp, 'controller': 'Settings', 'action': 'createEventCategory' }
+                        ) }}"
+                        class="btn btn-xs btn-success"
+                        style="margin-top: -3px"
+                    >
+                        <i class="fa fa-plus"></i> Create Category
+                    </a>
+                </div>
             {% endblock %}
             {% block panel_content %}
                 <table class="table table-striped">
@@ -71,6 +83,18 @@
         {% embed "helper/accordion.twig" with { 'id': 'jobs' } %}
             {% block panel_title %}
                 Jobs
+                <div class="pull-right">
+                    <a  async-modal
+                        href="{{ url(
+                            'web/camp/default',
+                            { 'camp': camp, 'controller': 'Settings', 'action': 'createJob' }
+                        ) }}"
+                        class="btn btn-xs btn-success"
+                        style="margin-top: -3px"
+                            >
+                        <i class="fa fa-plus"></i> Create Job
+                    </a>
+                </div>
             {% endblock %}
             {% block panel_content %}
                 <table class="table table-striped">

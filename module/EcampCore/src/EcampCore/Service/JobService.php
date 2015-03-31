@@ -9,6 +9,7 @@ use EcampCore\Entity\Day;
 use EcampCore\Repository\JobRespRepository;
 use EcampLib\Service\ServiceBase;
 use EcampCore\Entity\JobResp;
+use EcampLib\Validation\ValidationException;
 
 class JobService
     extends ServiceBase
@@ -27,7 +28,7 @@ class JobService
 
     public function Create(Camp $camp, $data)
     {
-        $this->aclRequire($camp, Privilege::CAMP_CONTRIBUTE);
+        $this->aclRequire($camp, Privilege::CAMP_CONFIGURE);
 
         $job = new Job($camp);
 
@@ -37,6 +38,28 @@ class JobService
         }
 
         return $job;
+    }
+
+    public function Update(Job $job, $data)
+    {
+        $camp = $job->getCamp();
+        $this->aclRequire($camp, Privilege::CAMP_CONFIGURE);
+
+        $validationForm = $this->createValidationForm($job, $data, array('name'));
+
+        if (! $validationForm->isValid()) {
+            throw ValidationException::FromForm($validationForm);
+        }
+
+        return $job;
+    }
+
+    public function Delete(Job $job)
+    {
+        $camp = $job->getCamp();
+        $this->aclRequire($camp, Privilege::CAMP_CONFIGURE);
+
+        $this->remove($job);
     }
 
     public function setResponsableUsers(Job $job, Day $day, array $users)

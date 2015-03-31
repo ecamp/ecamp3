@@ -52,4 +52,37 @@ class EventCategoryService extends ServiceBase
 
         return $category;
     }
+
+    public function Update(EventCategory $eventCategory, $data)
+    {
+        $camp = $eventCategory->getCamp();
+        $this->aclRequire($camp, Privilege::CAMP_CONFIGURE);
+
+        if(isset($data['eventType'])){
+            /** @var \EcampCore\Entity\EventCategory $eventType */
+            $eventType = $this->eventTypeRepo->find($data['eventType']);
+
+            if (!$camp->getCampType()->getEventTypes()->contains($eventType)) {
+                throw new ValidationException(array(
+                    'eventType' => array('Selected EventType is not allowed for this CampType')
+                ));
+            }
+        }
+
+
+        $validationForm = $this->createValidationForm($eventCategory, $data, array('short', 'name', 'eventType', 'numberingStyle', 'color'));
+        if (! $validationForm->isValid()) {
+            throw ValidationException::FromForm($validationForm);
+        }
+
+        return $eventCategory;
+    }
+
+    public function Delete(EventCategory $eventCategory)
+    {
+        $camp = $eventCategory->getCamp();
+        $this->aclRequire($camp, Privilege::CAMP_CONFIGURE);
+
+        $this->remove($eventCategory);
+    }
 }

@@ -14,6 +14,20 @@ class EventCategoryForm extends AjaxBaseForm
 
     public function init()
     {
+        parent::init();
 
+        $this->add(array(
+            'name' => 'event-category',
+            'type' => 'EcampCore\Fieldset\EventCategory\EventCategoryFieldset',
+            'options' => array(
+                'use_as_base_fieldset' => true
+            )
+        ));
     }
+
+    public function setCampTypeId($campTypeId)
+    {
+        $this->get('event-category')->setCampTypeId($campTypeId);
+    }
+
 }

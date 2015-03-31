@@ -29,6 +29,19 @@ class WizardForm extends BaseForm
         ));
     }
 
+    public function getWizardData()
+    {
+        return $this->getDataContainer();
+    }
+
+    public function getData($flag = FormInterface::VALUES_NORMALIZED)
+    {
+        $data = parent::getData($flag = FormInterface::VALUES_NORMALIZED);
+        $data[self::INFO_FIELDSET_NAME] = $this->getInfoFieldset()->getData();
+
+        return $data;
+    }
+
     public function setData($newData)
     {
         if (isset($newData[self::INFO_FIELDSET_NAME])) {
@@ -43,23 +56,28 @@ class WizardForm extends BaseForm
         return parent::setData($presentData);
     }
 
-    public function getWizardData($step = null)
+    public function getStepData($step = null, $default = null)
     {
-        $data = $this->getDataContainer();
+        $presentData = $this->getDataContainer();
+        $step = $step ?: $this->getStepName();
 
-        if ($step != null) {
-            $data = $data[$step];
-        }
-
-        return $data;
+        return $presentData->{$step} ?: $default;
     }
 
-    public function getData($flag = FormInterface::VALUES_NORMALIZED)
+    public function setStepData($step, $stepData)
     {
-        $data = parent::getData($flag = FormInterface::VALUES_NORMALIZED);
-        $data[self::INFO_FIELDSET_NAME] = $this->getInfoFieldset()->getData();
+        $presentData = $this->getDataContainer();
+        $presentData->{$step} = $stepData;
 
-        return $data;
+        parent::setData($presentData);
+    }
+
+    public function hasStepData($step = null)
+    {
+        $presentData = $this->getDataContainer();
+        $step = $step ?: $this->getStepName();
+
+        return ($presentData->{$step} != null);
     }
 
     public function isValid()
@@ -72,7 +90,7 @@ class WizardForm extends BaseForm
 
     public function isComplete()
     {
-        if ($this->getInfoFieldset()->getStepName() == self::COMPLETED) {
+        if ($this->getStepName() == self::COMPLETED) {
             $this->setValidationGroup(FormInterface::VALIDATE_ALL);
 
             return parent::isValid();
@@ -96,7 +114,6 @@ class WizardForm extends BaseForm
     public function getStep()
     {
         $stepName = $this->getStepName();
-
         return $this->getStepFieldset($stepName) ?: $this->getFirstStep();
     }
 
@@ -126,9 +143,19 @@ class WizardForm extends BaseForm
             $stepName = $this->getFirstStep()->getName();
         }
 
+        if ($stepName != self::COMPLETED && !$this->hasStepData($stepName)) {
+            $stepData = $this->initializeStepData($stepName);
+            if(!empty($stepData)){  $this->setStepData($stepName, $stepData);   }
+        }
+
         $this->getInfoFieldset()->setStepName($stepName);
 
         return $stepName;
+    }
+
+    protected function initializeStepData($stepName)
+    {
+        return array();
     }
 
     /** @return \Zend\Form\Fieldset */

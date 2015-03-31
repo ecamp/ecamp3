@@ -4,6 +4,7 @@ namespace EcampCore\Fieldset\EventCategory;
 
 use EcampLib\Form\BaseFieldset;
 use Zend\InputFilter\InputFilterProviderInterface;
+use Zend\Stdlib\ArrayUtils;
 
 class EventCategoryFieldset extends BaseFieldset
     implements InputFilterProviderInterface
@@ -86,6 +87,38 @@ class EventCategoryFieldset extends BaseFieldset
                 )
             )
         ));
+    }
+
+    /** @return \Zend\Form\ElementInterface */
+    private function getEventTypeElement()
+    {
+        return $this->get('eventType');
+    }
+
+    public function setCampTypeId($campTypeId)
+    {
+        $eventTypeElement = $this->getEventTypeElement();
+        $options = ArrayUtils::merge($eventTypeElement->getOptions(), array(
+            'find_method' => array(
+                'name' => 'findByCampTypeId',
+                'params' => array('campTypeId' => $campTypeId)
+            )
+        ));
+
+        $eventTypeElement->setOptions($options);
+    }
+
+    public function extract()
+    {
+        $data = parent::extract();
+
+        if(isset($data['camp'])){
+            /** @var \EcampCore\Entity\Camp $camp */
+            $camp = $data['camp'];
+            $this->setCampTypeId($camp->getCampType()->getId());
+        }
+
+        return $data;
     }
 
     public function getInputFilterSpecification()
