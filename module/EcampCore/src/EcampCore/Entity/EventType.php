@@ -40,6 +40,7 @@ class EventType extends BaseEntity
 
         $this->campTypes = new \Doctrine\Common\Collections\ArrayCollection();
         $this->eventTypePlugins = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->eventTypeFactories = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
