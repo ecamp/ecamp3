@@ -25,7 +25,6 @@ class SettingsController extends BaseController
         return $this->getServiceLocator()->get('EcampCore\Repository\Job');
     }
 
-
     /**
      * @return \EcampCore\Service\EventCategoryService
      */
@@ -42,11 +41,9 @@ class SettingsController extends BaseController
         return $this->getServiceLocator()->get('EcampCore\Service\Job');
     }
 
-
     public function indexAction()
     {
     }
-
 
     public function createEventCategoryAction()
     {
@@ -62,10 +59,10 @@ class SettingsController extends BaseController
             )
         );
 
-        if($this->getRequest()->isPost()){
+        if ($this->getRequest()->isPost()) {
             $form->setData($this->params()->fromPost());
 
-            if($form->isValid()){
+            if ($form->isValid()) {
                 $data = $form->getData();
 
                 try {
@@ -95,7 +92,6 @@ class SettingsController extends BaseController
 
         return array('form' => $form);
     }
-
 
     public function editEventCategoryAction()
     {
@@ -144,7 +140,6 @@ class SettingsController extends BaseController
         return array('form' => $form);
     }
 
-
     public function deleteEventCategoryAction()
     {
         $eventCategoryId = $this->params()->fromQuery('eventCategoryId');
@@ -171,15 +166,13 @@ class SettingsController extends BaseController
                         array('camp' => $this->getCamp(), 'controller' => 'Settings')
                     )
                 );
-            } catch(\Exception $ex) {
+            } catch (\Exception $ex) {
                 $this->getResponse()->setStatusCode(Response::STATUS_CODE_500);
             }
         }
 
         return array('form' => $form, 'eventCategory' => $eventCategory);
     }
-
-
 
     public function createJobAction()
     {
@@ -194,10 +187,10 @@ class SettingsController extends BaseController
             )
         );
 
-        if($this->getRequest()->isPost()){
+        if ($this->getRequest()->isPost()) {
             $form->setData($this->params()->fromPost());
 
-            if($form->isValid()){
+            if ($form->isValid()) {
                 $data = $form->getData();
 
                 try {
@@ -244,10 +237,10 @@ class SettingsController extends BaseController
             )
         );
 
-        if($this->getRequest()->isPost()) {
+        if ($this->getRequest()->isPost()) {
             $form->setData($this->params()->fromPost());
 
-            if($form->isValid()) {
+            if ($form->isValid()) {
                 $data = $form->getData(FormInterface::VALUES_AS_ARRAY);
 
                 try {
@@ -275,7 +268,6 @@ class SettingsController extends BaseController
         return array('form' => $form);
     }
 
-
     public function deleteJobAction()
     {
         $jobId = $this->params()->fromQuery('jobId');
@@ -302,7 +294,7 @@ class SettingsController extends BaseController
                         array('camp' => $this->getCamp(), 'controller' => 'Settings')
                     )
                 );
-            } catch(\Exception $ex) {
+            } catch (\Exception $ex) {
                 $this->getResponse()->setStatusCode(Response::STATUS_CODE_500);
             }
         }

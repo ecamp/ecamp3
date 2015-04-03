@@ -274,7 +274,7 @@ class CampCollaboration
     /**
      * @ORM\PreRemove
      */
-    public function preRemove()
+    public function PreRemove()
     {
         $this->user->removeFromList('collaborations', $this);
         $this->camp->removeFromList('collaborations', $this);

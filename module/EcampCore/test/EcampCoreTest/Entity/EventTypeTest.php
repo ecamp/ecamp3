@@ -21,7 +21,6 @@ class EventTypeTest extends \PHPUnit_Framework_TestCase
         return $eventType;
     }
 
-
     public function testEventType()
     {
         $eventType = $this->createEventType();

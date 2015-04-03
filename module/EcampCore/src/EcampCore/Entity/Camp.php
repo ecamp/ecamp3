@@ -31,6 +31,7 @@ use Zend\Permissions\Acl\Resource\ResourceInterface;
  * @ORM\Table(name="camps",
  *   uniqueConstraints={ @ORM\UniqueConstraint(name="owner_name_unique", columns={"owner_id", "name"}) }
  *   )
+ * @ORM\HasLifecycleCallbacks
  *
  * @Form\Name("camp")
  */
@@ -282,8 +283,8 @@ class Camp extends BaseEntity
             return "-";
         }
 
-        $start = $this->getPeriods()->first()->getStart();
-        $end = $this->getPeriods()->last()->getEnd();
+        $start = $this->getStart();
+        $end = $this->getEnd();
 
         if ($start->format("Y") == $end->format("Y")) {
             if ($start->format("m") == $end->format("m")) {
@@ -296,6 +297,7 @@ class Camp extends BaseEntity
         }
     }
 
+    /** @return null|\DateTime */
     public function getStart()
     {
         if ($this->getPeriods()->count() == 0) {
@@ -305,6 +307,7 @@ class Camp extends BaseEntity
         return $this->getPeriods()->first()->getStart();
     }
 
+    /** @return null|\DateTime */
     public function getEnd()
     {
         if ($this->getPeriods()->count() == 0) {
@@ -327,4 +330,21 @@ class Camp extends BaseEntity
         return 'EcampCore\Entity\Camp';
     }
 
+    /**
+     * @ORM\PrePersist
+     */
+    public function prePersist()
+    {
+        parent::PrePersist();
+
+        $this->owner->addToList('ownedCamps', $this);
+    }
+
+    /**
+     * @ORM\PreRemove
+     */
+    public function preRemove()
+    {
+        $this->owner->removeFromList('ownedCamps', $this);
+    }
 }

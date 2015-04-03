@@ -30,13 +30,15 @@ class EventCategoryTest extends \PHPUnit_Framework_TestCase
         $eventCategory->setShort('EC');
         $eventCategory->setName('EventCategory Name');
 
+        $eventCategory->PrePersist();
+
         return $eventCategory;
     }
-
 
     public function testEventCategory()
     {
         $eventCategory = $this->createEventCategory();
+        $camp = $eventCategory->getCamp();
 
         $this->assertEquals('EC', $eventCategory->getShort());
         $this->assertEquals('EventCategory Name', $eventCategory->getName());
@@ -49,7 +51,6 @@ class EventCategoryTest extends \PHPUnit_Framework_TestCase
 
         $eventCategory->setColor('#111111');
         $this->assertEquals('#FFFFFF', $eventCategory->getTextColor());
-
 
         $eventCategory->setNumberingStyle('1');
         $this->assertEquals('2', $eventCategory->getStyledNumber(2));
@@ -65,6 +66,11 @@ class EventCategoryTest extends \PHPUnit_Framework_TestCase
 
         $eventCategory->setNumberingStyle('I');
         $this->assertEquals('II', $eventCategory->getStyledNumber(2));
+
+        $this->assertContains($eventCategory, $camp->getEventCategories());
+
+        $eventCategory->preRemove();
+        $this->assertNotContains($eventCategory, $camp->getEventCategories());
 
     }
 

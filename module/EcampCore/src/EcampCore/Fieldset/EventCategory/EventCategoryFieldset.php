@@ -112,7 +112,7 @@ class EventCategoryFieldset extends BaseFieldset
     {
         $data = parent::extract();
 
-        if(isset($data['camp'])){
+        if (isset($data['camp'])) {
             /** @var \EcampCore\Entity\Camp $camp */
             $camp = $data['camp'];
             $this->setCampTypeId($camp->getCampType()->getId());

@@ -25,6 +25,7 @@ class ServiceWrapper
         try {
             $result = call_user_func_array(array($this->service, $method), $args);
             $this->getEntityManager()->flush();
+
             return $result;
         } catch (\Exception $ex) {
             $this->getEntityManager()->getConnection()->rollBack();

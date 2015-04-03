@@ -55,8 +55,7 @@ class CampCreateWizard extends WizardForm
 
     protected function initializeStepData($stepName)
     {
-        switch($stepName)
-        {
+        switch ($stepName) {
             case self::STEP_CAMP_EVENT_CATEGORIES:
                 $campTypeId = $this->getCampTypeId();
 
@@ -92,6 +91,7 @@ class CampCreateWizard extends WizardForm
     private function getCampTypeId()
     {
         $data = $this->getStepData(self::STEP_CAMP_DETAILS);
+
         return $data['campType'];
     }
 

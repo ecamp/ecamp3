@@ -114,6 +114,7 @@ class WizardForm extends BaseForm
     public function getStep()
     {
         $stepName = $this->getStepName();
+
         return $this->getStepFieldset($stepName) ?: $this->getFirstStep();
     }
 
@@ -145,7 +146,7 @@ class WizardForm extends BaseForm
 
         if ($stepName != self::COMPLETED && !$this->hasStepData($stepName)) {
             $stepData = $this->initializeStepData($stepName);
-            if(!empty($stepData)){  $this->setStepData($stepName, $stepData);   }
+            if (!empty($stepData)) {  $this->setStepData($stepName, $stepData);   }
         }
 
         $this->getInfoFieldset()->setStepName($stepName);

@@ -2,7 +2,6 @@
 
 namespace EcampCoreTest\Entity;
 
-
 use EcampCore\Entity\Camp;
 use EcampCore\Entity\CampType;
 use EcampCore\Entity\Job;
@@ -10,9 +9,10 @@ use EcampCore\Entity\Job;
 class JobTest extends \PHPUnit_Framework_TestCase
 {
 
-    private function createJob()
+    public static function createJob()
     {
-        $campType = new CampType('CampType Name', 'CampType Type');
+        $campType = CampTypeTest::createCampType();
+
         $camp = new Camp();
         $camp->setName('CampName');
         $camp->setCampType($campType);
@@ -26,11 +26,18 @@ class JobTest extends \PHPUnit_Framework_TestCase
     public function testJob()
     {
         $job = $this->createJob();
+        $camp = $job->getCamp();
 
         $this->assertEquals('JobName', $job->getName());
-        $this->assertEquals('CampName', $job->getCamp()->getName());
+        $this->assertEquals('CampName', $camp->getName());
 
         $this->assertInstanceOf('Doctrine\Common\Collections\ArrayCollection', $job->getJobResps());
+
+        $job->prePersist();
+        $this->assertContains($job, $camp->getJobs());
+
+        $job->preRemove();
+        $this->assertNotContains($job, $camp->getJobs());
     }
 
 }

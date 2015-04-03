@@ -93,16 +93,6 @@ class Day
         return $this->story;
     }
 
-    /**
-     * @param Story $story
-     */
-    public function setStory(Story $story)
-    {
-        $this->story = $story;
-
-        return $this;
-    }
-
 
     /**
      * @return \DateTime

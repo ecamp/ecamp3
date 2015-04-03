@@ -58,7 +58,7 @@ class EventCategoryService extends ServiceBase
         $camp = $eventCategory->getCamp();
         $this->aclRequire($camp, Privilege::CAMP_CONFIGURE);
 
-        if(isset($data['eventType'])){
+        if (isset($data['eventType'])) {
             /** @var \EcampCore\Entity\EventCategory $eventType */
             $eventType = $this->eventTypeRepo->find($data['eventType']);
 
@@ -68,7 +68,6 @@ class EventCategoryService extends ServiceBase
                 ));
             }
         }
-
 
         $validationForm = $this->createValidationForm($eventCategory, $data, array('short', 'name', 'eventType', 'numberingStyle', 'color'));
         if (! $validationForm->isValid()) {

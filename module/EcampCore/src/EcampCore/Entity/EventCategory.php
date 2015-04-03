@@ -162,7 +162,7 @@ class EventCategory
     }
 
     /**
-     * @param EventType $eventType
+     * @param  EventType  $eventType
      * @throws \Exception
      */
     public function setEventType(EventType $eventType)
@@ -202,7 +202,7 @@ class EventCategory
             $b * $b * .068
         );
 
-        if($contrast > 130) {
+        if ($contrast > 130) {
             return '#000000';
         } else {
             return '#FFFFFF';
