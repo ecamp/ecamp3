@@ -1,0 +1,121 @@
+<!-- Modal / Register -->
+
+{% set id = id ?: random() %}
+
+<div class="modal-header">
+    <button type="button" class="close" ng-click="$close()">&times;</button>
+    <h4 class="modal-title"><i class="fa fa-flag"></i> Add Periods</h4>
+</div>
+<div class="modal-body">
+    <div class="row">
+        <div class="col-xs-12" style="margin-bottom: -15px">
+            {% do form.prepare() %}
+            {{ form().openTag(form) | raw }}
+                {{ formCollection(form.get('wizard-info')) }}
+
+                {% set periods = form.get('camp-periods') %}
+
+                <twb-form-collection>
+                    <fieldset class="form-horizontal">
+                        <table class="table table-striped" id="table-{{ id }}"
+                               last-index="{{ periods.lastChildIndex }}"
+                                >
+                            <colgroup>
+                                <col width="20%">
+                                <col width="20%">
+                                <col width="50%">
+                                <col width="10%">
+                            </colgroup>
+                            <thead>
+                                <tr>
+                                    <th>From</th>
+                                    <th>To</th>
+                                    <th colspan="2">Description</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for period in periods %}
+                                    <tr>
+                                        <td class="{{ period.get('start').messages ? 'has-error':'' }}">
+                                            {{ formElement(period.get('start')) }}
+                                            <twb-form-element>
+                                                {{ formElementErrors(period.get('start')) }}
+                                            </twb-form-element>
+                                        </td>
+                                        <td class="{{ period.get('end').messages ? 'has-error':'' }}">
+                                            {{ formElement(period.get('end')) }}
+                                            <twb-form-element>
+                                                {{ formElementErrors(period.get('end')) }}
+                                            </twb-form-element>
+                                        </td>
+                                        <td class="{{ period.get('description').messages ? 'has-error':'' }}">
+                                            {{ formElement(period.get('description')) }}
+                                            <twb-form-element>
+                                                {{ formElementErrors(period.get('description')) }}
+                                            </twb-form-element>
+                                        </td>
+                                        <td>
+                                            <button class="form-control btn btn-danger remove">&times;</button>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+
+                        <div id="template-{{ id }}" style="display: none;">
+                            {% set period = periods.templateElement %}
+                            {{ escapeHtmlAttr([
+                            '<tr><td>',
+                            formElement(period.get('start')),
+                            '</td><td>',
+                            formElement(period.get('end')),
+                            '</td><td>',
+                            formElement(period.get('description')),
+                            '</td><td><button class="form-control btn btn-danger remove">&times;</button></td></tr>'
+                            ] | join) }}
+                        </div>
+                    </fieldset>
+                </twb-form-collection>
+
+            {{ form().closeTag() | raw }}
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <div class="pull-left">
+        <button id="add-{{ id }}" type="button" class="btn btn-default pull-right">Add Period</button>
+    </div>
+
+    <button type="button" class="btn btn-default" ng-click="$close()">Close</button>
+    <button type="submit" form="create-camp" class="btn btn-primary">Next</button>
+</div>
+
+
+
+<script type="text/javascript">
+    (function(){
+        function initRow(idx, element){
+            $(element).find('button.remove').click(function(){ $(element).remove(); });
+        }
+
+        var tableId = '#table-{{ id }}';
+        var table = $(tableId);
+        var maxIndex = table.attr('last-index');
+
+        var templateId = '#template-{{ id }}';
+        var template = $(templateId).text();
+
+        var rows = table.find('tr');
+        rows.each(initRow);
+
+        var addId = '#add-{{ id }}';
+        $(addId).click(function(){
+            var templateInstance = template.replace(/__index__/g, ++maxIndex);
+            var templateInstance = $(templateInstance);
+            initRow(0, templateInstance);
+            table.append(templateInstance);
+
+            return false;
+        });
+    })();
+</script>

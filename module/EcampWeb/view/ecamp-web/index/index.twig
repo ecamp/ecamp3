@@ -19,11 +19,11 @@
 									</div>
 		  							<ul class="dropdown-menu pull-right" role="menu">
 										<li>
-                                            <a
+											<a
+												async-modal
                                                 class="btn-link"
-                                                data-toggle="modal"
-                                                data-target="#asyncform-container"
                                                 href="{{ url('web/default', { 'controller':'camp', 'action': 'create' }) }}"
+												data-size="lg"
                                             >
 											    <span class="fa fa-plus"></span>
 											    &nbsp;Neues Lager
@@ -50,9 +50,13 @@
 				<tbody>
 					{% for camp in camps %}
 						<tr>
-							<td><span class="fa fa-bell"></span></td>
-							<td><a href="{{ campUrl(camp) }}">{{ camp.getTitle }}</a></td>
+							<td class="hidden-xs">
+								<span class="fa fa-bell"></span>
+							</td>
 							<td>
+								<a href="{{ campUrl(camp) }}">{{ camp.getTitle }}</a>
+							</td>
+							<td class="hidden-xs">
                                 {% if camp.belongsToUser %}
                                     <i class="fa fa-user"></i>
                                     <a href="{{ userUrl(camp.owner) }}">

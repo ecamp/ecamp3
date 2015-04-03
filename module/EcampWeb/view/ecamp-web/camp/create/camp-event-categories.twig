@@ -1,0 +1,142 @@
+<!-- Modal / Register -->
+
+{% set id = id ?: random() %}
+
+<div class="modal-header">
+    <button type="button" class="close" ng-click="$close()">&times;</button>
+    <h4 class="modal-title"><i class="fa fa-flag"></i> Configure Event Categories</h4>
+</div>
+<div class="modal-body">
+    <div class="row">
+        <div class="col-xs-12" style="margin-bottom: -15px">
+
+            {% do form.prepare() %}
+            {{ form().openTag(form) | raw }}
+                {{ formCollection(form.get('wizard-info')) }}
+
+                {% set eventCategories = form.get('camp-event-categories') %}
+
+                <twb-form-collection>
+                    <fieldset class="form-horizontal">
+                        <table class="table table-striped" id="table-{{ id }}"
+                               last-index="{{ eventCategories.lastChildIndex }}"
+                        >
+                            <colgroup>
+                                <col width="15%">
+                                <col width="35%">
+                                <col width="17%">
+                                <col width="17%">
+                                <col width="8%">
+                                <col width="8%">
+                            </colgroup>
+                            <thead>
+                                <tr>
+                                    <th>Short</th>
+                                    <th>Name</th>
+                                    <th>Type</th>
+                                    <th>Numbering</th>
+                                    <th colspan="2">Color</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for eventCategory in eventCategories %}
+                                    <tr>
+                                        <td class="{{ eventCategory.get('short').messages ? 'has-error':'' }}">
+                                            {{ formElement(eventCategory.get('short')) }}
+                                            <twb-form-element>
+                                                {{ formElementErrors(eventCategory.get('short')) }}
+                                            </twb-form-element>
+                                        </td>
+                                        <td class="{{ eventCategory.get('name').messages ? 'has-error':'' }}">
+                                            {{ formElement(eventCategory.get('name')) }}
+                                            <twb-form-element>
+                                                {{ formElementErrors(eventCategory.get('name')) }}
+                                            </twb-form-element>
+                                        </td>
+                                        <td class="{{ eventCategory.get('eventType').messages ? 'has-error':'' }}">
+                                            {{ formElement(eventCategory.get('eventType')) }}
+                                            <twb-form-element>
+                                                {{ formElementErrors(eventCategory.get('eventType')) }}
+                                            </twb-form-element>
+                                        </td>
+                                        <td class="{{ eventCategory.get('numberingStyle').messages ? 'has-error':'' }}">
+                                            {{ formElement(eventCategory.get('numberingStyle')) }}
+                                            <twb-form-element>
+                                                {{ formElementErrors(eventCategory.get('numberingStyle')) }}
+                                            </twb-form-element>
+                                        </td>
+                                        <td class="{{ eventCategory.get('color').messages ? 'has-error':'' }}">
+                                            {{ formElement(eventCategory.get('color')) }}
+                                            <twb-form-element>
+                                                {{ formElementErrors(eventCategory.get('color')) }}
+                                            </twb-form-element>
+                                        </td>
+                                        <td>
+                                            <button class="form-control btn btn-danger remove">&times;</button>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+
+                        <div id="template-{{ id }}" style="display: none;">
+                            {% set eventCategory = eventCategories.templateElement %}
+                            {{ escapeHtmlAttr([
+                            '<tr><td>',
+                            formElement(eventCategory.get('short')),
+                            '</td><td>',
+                            formElement(eventCategory.get('name')),
+                            '</td><td>',
+                            formElement(eventCategory.get('eventType')),
+                            '</td><td>',
+                            formElement(eventCategory.get('numberingStyle')),
+                            '</td><td>',
+                            formElement(eventCategory.get('color')),
+                            '</td><td><button class="form-control btn btn-danger remove">&times;</button></td></tr>'
+                            ] | join) }}
+                        </div>
+                    </fieldset>
+                </twb-form-collection>
+
+            {{ form().closeTag() | raw }}
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <div class="pull-left">
+        <button id="add-{{ id }}" type="button" class="btn btn-default pull-right">Add Event Category</button>
+    </div>
+
+    <button type="button" class="btn btn-default" ng-click="$close()">Close</button>
+    <button type="submit" form="create-camp" class="btn btn-primary">Next</button>
+</div>
+
+
+
+<script type="text/javascript">
+    (function(){
+        function initRow(idx, element){
+            $(element).find('button.remove').click(function(){ $(element).remove(); });
+        }
+
+        var tableId = '#table-{{ id }}';
+        var table = $(tableId);
+        var maxIndex = table.attr('last-index');
+
+        var templateId = '#template-{{ id }}';
+        var template = $(templateId).text();
+
+        var rows = table.find('tr');
+        rows.each(initRow);
+
+        var addId = '#add-{{ id }}';
+        $(addId).click(function(){
+            var templateInstance = template.replace(/__index__/g, ++maxIndex);
+            var templateInstance = $(templateInstance);
+            initRow(0, templateInstance);
+            table.append(templateInstance);
+
+            return false;
+        });
+    })();
+</script>

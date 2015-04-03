@@ -8,6 +8,24 @@ use EcampCore\Entity\Image;
 class UserTest extends \PHPUnit_Framework_TestCase
 {
 
+    public static function createUser()
+    {
+        $user = new User();
+        $user->setUsername("User.Username");
+        $user->setFirstname("User.Firstname");
+        $user->setSurname("User.Surname");
+        $user->setScoutname("User.Scoutname");
+        $user->setStreet("User.Street");
+        $user->setZipcode("User.Zipcode");
+        $user->setCity("User.City");
+        $user->setEmail('User@Email.com');
+        $user->setHomeNr('000 000 00 00');
+        $user->setMobilNr('111 111 11 11');
+        $user->setGender(User::GENDER_MALE);
+
+        return $user;
+    }
+
     public function testNaming()
     {
         $user = new User();

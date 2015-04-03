@@ -43,14 +43,6 @@ abstract class BaseController
     }
 
     /**
-     * @return \EcampCore\Service\CampService
-     */
-    protected function getCampService()
-    {
-        return $this->serviceLocator->get('EcampCore\Service\Camp');
-    }
-
-    /**
      * @return \EcampCore\Repository\CampRepository
      */
     protected function getCampRepository()

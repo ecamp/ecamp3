@@ -1,0 +1,101 @@
+<!-- Modal / Register -->
+
+{% set id = id ?: random() %}
+
+<div class="modal-header">
+    <button type="button" class="close" ng-click="$close()">&times;</button>
+    <h4 class="modal-title"><i class="fa fa-flag"></i> Add daily Jobs</h4>
+</div>
+<div class="modal-body">
+    <div class="row">
+        <div class="col-xs-12" style="margin-bottom: -15px">
+            {% do form.prepare() %}
+            {{ form().openTag(form) | raw }}
+            {{ formCollection(form.get('wizard-info')) }}
+
+            {% set jobs = form.get('camp-jobs') %}
+
+            <twb-form-collection>
+                <fieldset class="form-horizontal">
+                    <table class="table table-striped" id="table-{{ id }}"
+                           last-index="{{ jobs.lastChildIndex }}"
+                            >
+                        <colgroup>
+                            <col width="90%">
+                            <col width="10%">
+                        </colgroup>
+                        <thead>
+                        <tr>
+                            <th colspan="2">Name</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for job in jobs %}
+                            <tr>
+                                <td class="{{ job.get('name').messages ? 'has-error':'' }}">
+                                    {{ formElement(job.get('name')) }}
+                                    <twb-form-element>
+                                        {{ formElementErrors(job.get('name')) }}
+                                    </twb-form-element>
+                                </td>
+                                <td>
+                                    <button class="form-control btn btn-danger remove">&times;</button>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+
+                    <div id="template-{{ id }}" style="display: none;">
+                        {% set job = jobs.templateElement %}
+                        {{ escapeHtmlAttr([
+                        '<tr><td>',
+                        formElement(job.get('name')),
+                        '</td><td><button class="form-control btn btn-danger remove">&times;</button></td></tr>'
+                        ] | join) }}
+                    </div>
+                </fieldset>
+            </twb-form-collection>
+
+            {{ form().closeTag() | raw }}
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <div class="pull-left">
+        <button id="add-{{ id }}" type="button" class="btn btn-default pull-right">Add Job</button>
+    </div>
+
+    <button type="button" class="btn btn-default" ng-click="$close()">Close</button>
+    <button type="submit" form="create-camp" class="btn btn-primary">Next</button>
+</div>
+
+
+
+<script type="text/javascript">
+    (function(){
+        function initRow(idx, element){
+            $(element).find('button.remove').click(function(){ $(element).remove(); });
+        }
+
+        var tableId = '#table-{{ id }}';
+        var table = $(tableId);
+        var maxIndex = table.attr('last-index');
+
+        var templateId = '#template-{{ id }}';
+        var template = $(templateId).text();
+
+        var rows = table.find('tr');
+        rows.each(initRow);
+
+        var addId = '#add-{{ id }}';
+        $(addId).click(function(){
+            var templateInstance = template.replace(/__index__/g, ++maxIndex);
+            var templateInstance = $(templateInstance);
+            initRow(0, templateInstance);
+            table.append(templateInstance);
+
+            return false;
+        });
+    })();
+</script>

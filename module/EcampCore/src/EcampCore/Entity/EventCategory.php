@@ -21,6 +21,7 @@
 namespace EcampCore\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Zend\Form\Annotation as Form;
 
 use OutOfRangeException;
 use EcampLib\Entity\BaseEntity;
@@ -30,6 +31,8 @@ use EcampLib\Entity\BaseEntity;
  * @ORM\Entity(repositoryClass="EcampCore\Repository\EventCategoryRepository")
  * @ORM\Table(name="event_categories")
  * @ORM\HasLifecycleCallbacks
+ *
+ * @Form\Name("event-category")
  */
 class EventCategory
     extends BaseEntity
@@ -48,11 +51,13 @@ class EventCategory
 
     /**
      * @ORM\Column(type="string", length=64, nullable=false)
+     * @Form\Validator({ "name":"StringLength", "options":{ "min":1 } })
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", length=16, nullable=false)
+     * @Form\Validator({ "name":"StringLength", "options":{ "min":1, "max":3 } })
      */
     private $short;
 
@@ -157,7 +162,7 @@ class EventCategory
     }
 
     /**
-     * @param EventType $eventType
+     * @param  EventType  $eventType
      * @throws \Exception
      */
     public function setEventType(EventType $eventType)
@@ -180,6 +185,28 @@ class EventCategory
     public function getEventType()
     {
         return $this->eventType;
+    }
+
+    public function getTextColor()
+    {
+        $color = $this->getColor();
+        $color = ltrim($color, '#');
+
+        $r = hexdec(substr($color, 0, 2));
+        $g = hexdec(substr($color, 2, 2));
+        $b = hexdec(substr($color, 4, 2));
+
+        $contrast = sqrt(
+            $r * $r * .241 +
+            $g * $g * .691 +
+            $b * $b * .068
+        );
+
+        if ($contrast > 130) {
+            return '#000000';
+        } else {
+            return '#FFFFFF';
+        }
     }
 
     public function getStyledNumber($num)
