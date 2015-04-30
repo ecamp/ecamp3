@@ -47,60 +47,52 @@ class CampCreateWizard extends WizardForm
         $return = parent::setStep($stepName);
 
         if ($campTypeId = $this->getCampTypeId()) {
-            /** @var \DoctrineModule\Form\Element\ObjectSelect $eventTypeElement */
-            $eventTypeElement = $this->get(self::STEP_CAMP_EVENT_CATEGORIES)->getTemplateElement()->get('eventType');
-            $eventTypeElement->setOptions(array('find_method' => array(
-                'name' => 'findByCampTypeId',
-                'params' => array('campTypeId' => $campTypeId)
-            )));
+            $this->get(self::STEP_CAMP_EVENT_CATEGORIES)->getTemplateElement()->setCampTypeId($campTypeId);
         }
 
         return $return;
     }
 
-    public function setData($newData)
+    protected function initializeStepData($stepName)
     {
-        $result = parent::setData($newData);
+        switch ($stepName) {
+            case self::STEP_CAMP_EVENT_CATEGORIES:
+                $campTypeId = $this->getCampTypeId();
 
-        $campType = $newData[self::STEP_CAMP_DETAILS]['campType'];
+                return array(
+                    array(
+                        'name' => 'Lagersport',
+                        'short' => 'LS',
+                        'eventType' => '1235',
+                        'numberingStyle' => '1',
+                        'color' => '#55ff55'
+                    ),
+                    array(
+                        'name' => 'Lageraktivität',
+                        'short' => 'LA',
+                        'eventType' => '1235',
+                        'numberingStyle' => 'a',
+                        'color' => '#ff5555'
+                    )
+                );
 
-        if (isset($campType)) {
-            $data = $this->getWizardData();
+            case self::STEP_CAMP_JOBS:
+                return array(
+                    array(
+                        'name' => 'Tages-Chef'
+                    )
+                );
 
-            // TODO: Load Event-Types for campType
-            $data[self::STEP_CAMP_EVENT_CATEGORIES] = array(
-                array(
-                    'name' => 'Lagersport',
-                    'short' => 'LS',
-                    'eventType' => '1235',
-                    'numberingStyle' => '1',
-                    'color' => '#55ff55'
-                ),
-                array(
-                    'name' => 'Lageraktivität',
-                    'short' => 'LA',
-                    'eventType' => '1235',
-                    'numberingStyle' => 'a',
-                    'color' => '#ff5555'
-                )
-            );
-
-            // TODO: Load Default daily Jobs:
-            $data[self::STEP_CAMP_JOBS] = array(
-                array(
-                    'name' => 'Tages-Chef'
-                )
-            );
+            default:
+                return array();
         }
-
-        return $result;
     }
 
     private function getCampTypeId()
     {
-        $data = $this->getWizardData();
+        $data = $this->getStepData(self::STEP_CAMP_DETAILS);
 
-        return $data['camp-details']['campType'];
+        return $data['campType'];
     }
 
 }

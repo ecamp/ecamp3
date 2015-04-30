@@ -1,17 +1,19 @@
 
-<!-- Modal / Edit Period -->
+<!-- Modal / Delete Job -->
 <div class="modal-header">
     <button type="button" class="close" ng-click="$close()">&times;</button>
-    <h4 class="modal-title"><i class="fa fa-pencil"></i> Edit Period</h4>
+    <h4 class="modal-title"><i class="fa fa-bin"></i> Delete Job</h4>
 </div>
 <div class="modal-body">
     <div class="row">
-        <div class="col-xs-12" style="margin-bottom: -15px">
+        <div class="col-xs-12">
+            Do you want do delete the Job <b>{{ job.name }}</b>?
+
             {{ form(form) }}
         </div>
     </div>
 </div>
 <div class="modal-footer">
     <button type="button" class="btn btn-default" ng-click="$close()">Cancel</button>
-    <button type="submit" form="period-edit" class="btn btn-primary">Save</button>
+    <button type="submit" form="job" class="btn btn-danger">Delete</button>
 </div>

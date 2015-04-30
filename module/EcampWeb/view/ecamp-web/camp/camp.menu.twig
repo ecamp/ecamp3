@@ -4,6 +4,11 @@
             Info
         </a>
     </li>
+    <li class="{{ controller == 'Settings' ? 'active' : '' }}">
+        <a href="{{ url('web/camp/default', { 'camp': camp, 'controller': 'Settings' }) }}">
+            Settings
+        </a>
+    </li>
     <li class="{{ controller == 'Collaborations' ? 'active' : '' }}">
         <a href="{{ url('web/camp/default', { 'camp': camp, 'controller': 'Collaborations' }) }}">
             People

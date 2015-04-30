@@ -44,15 +44,19 @@ class CampCollaborationServiceTest extends \PHPUnit_Framework_TestCase
         $em = $this->createEm();
         $campCollaborationService = $this->getCampCollaborationService($em);
 
-        $em->persist($user = new User());
-        $em->persist($campType = new CampType('name', 'type'));
-        $em->persist($camp = new Camp());
+        $user = new User();
+        $campType = new CampType('name', 'type');
+        $camp = new Camp();
         $camp->setName('name');
         $camp->setTitle('title');
         $camp->setMotto('motto');
         $camp->setCreator($user);
         $camp->setOwner($user);
         $camp->setCampType($campType);
+
+        $em->persist($user);
+        $em->persist($campType);
+        $em->persist($camp);
 
         $campCollaborationService->requestCollaboration($user, $camp);
         $em->flush();

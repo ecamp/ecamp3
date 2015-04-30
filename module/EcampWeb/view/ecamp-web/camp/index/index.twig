@@ -98,9 +98,8 @@
                 {% block panel_heading %}
                     <div class="pull-right">
                         <button type="button"
+                                async-modal
                                 class="btn btn-xs btn-primary"
-                                data-toggle="modal"
-                                data-target="#asyncform-container"
                                 href="{{ url('web/camp/default', {'camp': camp, 'controller':'period', 'action' : 'addPeriod' } ) }}"
                                 >+ Add Period</button>
                     </div>
@@ -128,9 +127,8 @@
 									<td>{{ period.getDescription }}</td>
 									<td>
 										<a
+                                            async-modal
 											class="btn btn-xs btn-primary"
-											data-toggle="modal"
-											data-target="#asyncform-container"
 											href="{{ url('web/camp/default',
 												{'camp': camp, 'controller':'period', 'action' : 'editPeriod' },
 												{ 'query': { 'periodId': period.id } }

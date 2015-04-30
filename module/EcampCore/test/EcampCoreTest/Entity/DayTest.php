@@ -4,33 +4,44 @@ namespace EcampCoreTest\Entity;
 
 use EcampCore\Entity\Period;
 use EcampCore\Entity\Camp;
-use EcampCore\Entity\CampType;
 use EcampCore\Entity\Day;
 
 class DayTest extends \PHPUnit_Framework_TestCase
 {
 
+    public static function createDay()
+    {
+        $camp = CampTest::createUserCamp();
+
+        $period = new Period($camp);
+        $period->setDescription('Period.Description');
+        $period->setStart(\DateTime::createFromFormat('j-M-Y H:i:s', '1-Jan-2000 00:00:00'));
+        $period->prePersist();
+
+        $day = new Day($period, 0);
+        $day->prePersist();
+
+        return $day;
+    }
+
     public function testDay()
     {
-        $pStart = \DateTime::createFromFormat('j-M-Y H:i:s', '1-Jan-2000 00:00:00');
-        $pEnd = \DateTime::createFromFormat('j-M-Y H:i:s', '2-Jan-2000 00:00:00');
-
-        $campType = new CampType('name', 'type');
-        $camp = new Camp($campType);
-        $period = new Period($camp);
-        $period->setStart($pStart);
-        $day = new Day($period, 0);
-        $day->setNotes('any notes');
+        $day = self::createDay();
+        $period = $day->getPeriod();
+        $camp = $day->getCamp();
 
         $this->assertEquals(0, $day->getDayOffset());
-        $this->assertEquals($period, $day->getPeriod());
-        $this->assertEquals($camp, $day->getCamp());
+        $this->assertEquals($day->getStart(), $period->getStart());
+        $this->assertEquals($day->getEnd(), $period->getEnd());
 
-        $this->assertEquals($pStart, $day->getStart());
-        $this->assertEquals($pEnd, $day->getEnd());
+        $this->assertInstanceOf('EcampCore\Entity\Camp', $camp);
+        $this->assertInstanceOf('EcampCore\Entity\Period', $period);
+        $this->assertInstanceOf('EcampCore\Entity\Story', $day->getStory());
 
-        $this->assertEquals('any notes', $day->getNotes());
+        $this->assertInstanceOf('Doctrine\Common\Collections\ArrayCollection', $day->getJobResps());
 
+        $day->preRemove();
+        $this->assertNotContains($day, $period->getDays());
     }
 
 }

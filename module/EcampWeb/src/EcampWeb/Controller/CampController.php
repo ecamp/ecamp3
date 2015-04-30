@@ -40,6 +40,7 @@ class CampController extends BaseController
         /** @var \EcampLib\Form\WizardForm $wizard */
         $wizard = $this->createForm('EcampWeb\Form\Camp\CampCreateWizard');
         $wizard->setAction($this->url()->fromRoute('web/default', array('controller' => 'Camp', 'action' => 'create')));
+        $wizard->setStep(WizardForm::FIRST_STEP);
 
         if ($this->getRequest()->isPost()) {
             $data = $this->getRequest()->getPost();
@@ -48,18 +49,17 @@ class CampController extends BaseController
                 $wizard->setStep($this->getRequest()->getQuery('step', WizardForm::NEXT_STEP));
 
                 if ($wizard->isComplete()) {
-
                     try {
 
                         try {
-                            $campData = $wizard->getWizardData(CampCreateWizard::STEP_CAMP_DETAILS);
+                            $campData = $wizard->getStepData(CampCreateWizard::STEP_CAMP_DETAILS);
                             $camp = $this->getCampService()->Create($campData);
                         } catch (ValidationException $ex) {
                             $wizard->setStep(CampCreateWizard::STEP_CAMP_DETAILS);
                             throw ValidationException::FromInnerException(CampCreateWizard::STEP_CAMP_DETAILS, $ex);
                         }
 
-                        $periodsData = $wizard->getWizardData(CampCreateWizard::STEP_CAMP_PERIODS);
+                        $periodsData = $wizard->getStepData(CampCreateWizard::STEP_CAMP_PERIODS, array());
                         try {
                             foreach ($periodsData as $idx => $periodData) {
                                 try {
@@ -73,7 +73,7 @@ class CampController extends BaseController
                             throw ValidationException::FromInnerException(CampCreateWizard::STEP_CAMP_PERIODS, $ex);
                         }
 
-                        $categoriesData = $wizard->getWizardData(CampCreateWizard::STEP_CAMP_EVENT_CATEGORIES);
+                        $categoriesData = $wizard->getStepData(CampCreateWizard::STEP_CAMP_EVENT_CATEGORIES, array());
                         try {
                             foreach ($categoriesData as $idx => $categoryData) {
                                 try {
@@ -87,7 +87,7 @@ class CampController extends BaseController
                             throw ValidationException::FromInnerException(CampCreateWizard::STEP_CAMP_EVENT_CATEGORIES, $ex);
                         }
 
-                        $jobsData = $wizard->getWizardData(CampCreateWizard::STEP_CAMP_JOBS);
+                        $jobsData = $wizard->getStepData(CampCreateWizard::STEP_CAMP_JOBS, array());
                         try {
                             foreach ($jobsData as $idx => $jobData) {
                                 try {
@@ -103,8 +103,10 @@ class CampController extends BaseController
 
                         return $this->emptyResponse();
                     } catch (ValidationException $ex) {
-                        $this->getResponse()->setStatusCode(Response::STATUS_CODE_500);
                         $wizard->setMessages($ex->getValidationMessages());
+                        $this->getResponse()->setStatusCode(Response::STATUS_CODE_500);
+                    } catch (\Exception $ex) {
+                        $this->getResponse()->setStatusCode(Response::STATUS_CODE_500);
                     }
                 }
 

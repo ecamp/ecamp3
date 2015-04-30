@@ -13,7 +13,21 @@
             <!--
             <directory suffix='.php'>module/EcampCore/test/</directory>
             -->
+
+            <file>module/EcampCore/test/EcampCoreTest/Entity/CampTypeTest.php</file>
+            <file>module/EcampCore/test/EcampCoreTest/Entity/EventTypeTest.php</file>
+
+            <file>module/EcampCore/test/EcampCoreTest/Entity/CampTest.php</file>
+            <file>module/EcampCore/test/EcampCoreTest/Entity/PeriodTest.php</file>
+            <file>module/EcampCore/test/EcampCoreTest/Entity/DayTest.php</file>
+
+            <file>module/EcampCore/test/EcampCoreTest/Entity/EventCategoryTest.php</file>
+            <file>module/EcampCore/test/EcampCoreTest/Entity/JobTest.php</file>
+            <file>module/EcampCore/test/EcampCoreTest/Entity/JobRespsTest.php</file>
+
             <file>module/EcampCore/test/EcampCoreTest/Service/CampCollaborationServiceTest.php</file>
+            <!--
+            -->
         </testsuite>
     </testsuites>
 

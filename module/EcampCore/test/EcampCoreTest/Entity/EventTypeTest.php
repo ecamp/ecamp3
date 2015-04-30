@@ -4,25 +4,36 @@ namespace EcampCoreTest\Entity;
 
 use EcampCore\Entity\EventType;
 use EcampCore\Entity\CampType;
+use OutOfRangeException;
 
 class EventTypeTest extends \PHPUnit_Framework_TestCase
 {
 
-    public function testEventType()
+    private function createEventType()
     {
         $campType = new CampType('name', 'type');
-        $eventType = new EventType($campType);
-
-        $eventType->setName('any event type');
-        $eventType->setDefaultColor('any default color');
+        $eventType = new EventType();
+        $eventType->getCampTypes()->add($campType);
+        $eventType->setName('EventType Name');
+        $eventType->setDefaultColor('#FF00FF');
         $eventType->setDefaultNumberingStyle('i');
 
-        $this->assertEquals('any event type', $eventType->getName());
-        $this->assertEquals('any default color', $eventType->getDefaultColor());
-        $this->assertEquals('i', $eventType->getDefaultNumberingStyle());
-        $this->assertEquals($campType, $eventType->getCampType());
+        return $eventType;
+    }
 
-        $this->assertInstanceOf('Doctrine\Common\Collections\ArrayCollection', $eventType->getEventPrototypes());
+    public function testEventType()
+    {
+        $eventType = $this->createEventType();
+
+        $this->assertEquals('EventType Name', $eventType->getName());
+        $this->assertEquals('#FF00FF', $eventType->getDefaultColor());
+        $this->assertEquals('i', $eventType->getDefaultNumberingStyle());
+
+        $this->assertEquals('name', $eventType->getCampTypes()->get(0)->getName());
+
+        $this->assertInstanceOf('Doctrine\Common\Collections\ArrayCollection', $eventType->getCampTypes());
+        $this->assertInstanceOf('Doctrine\Common\Collections\ArrayCollection', $eventType->getEventTypePlugins());
+        $this->assertInstanceOf('Doctrine\Common\Collections\ArrayCollection', $eventType->getEventTypeFactories());
     }
 
     /**
@@ -30,10 +41,7 @@ class EventTypeTest extends \PHPUnit_Framework_TestCase
      */
     public function testNumberStyle()
     {
-        $campType = new CampType('name', 'type');
-        $eventType = new EventType($campType);
-
-        $eventType->setDefaultNumberingStyle('x');
+        $this->createEventType()->setDefaultNumberingStyle('x');
     }
 
 }
