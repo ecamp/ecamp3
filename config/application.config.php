@@ -16,6 +16,7 @@ return array(
         'DoctrineModule',
         'DoctrineORMModule',
         'DoctrineDataFixtureModule',
+        'BsbDoctrineTranslationLoader',
 
 // 		'DiWrapper',
 //		'OcraServiceManager',

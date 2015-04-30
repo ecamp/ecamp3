@@ -26,6 +26,7 @@
 		"doctrine/doctrine-orm-module" : "0.*",
 		"doctrine/migrations" : "dev-master",
 		"sundrique/doctrine-tools" : ">=0.2",
+        "bushbaby/bsb-doctrine-translation-loader": "~1.0",
 		"zf-commons/zfc-twig" : "dev-master",
 		"phpunit/phpunit" : "4.4.*",
 		"phly/phly-restfully" : "2.2.*",
