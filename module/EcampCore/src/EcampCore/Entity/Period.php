@@ -63,7 +63,7 @@ class Period
     private $camp;
 
     /**
-     * @ORM\Column(type="text", nullable=true )
+     * @ORM\Column(type="string", length=128, nullable=true )
      */
     private $description;
 
