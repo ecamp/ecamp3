@@ -5,7 +5,15 @@
 (function(ecamp){
 
     ecamp.ngApp = angular.module('ecamp',
-        ['ngResource', 'ui.bootstrap', 'ui.slider', 'ui.select', 'ngSanitize', 'ecamp.RemoteData', 'ecamp.RemoteMaterialData']
+        [   'ngResource'
+        ,   'pascalprecht.translate'
+        ,   'ui.bootstrap'
+        ,   'ui.slider'
+        ,   'ui.select'
+        ,   'ngSanitize'
+        ,   'ecamp.RemoteData'
+        ,   'ecamp.RemoteMaterialData'
+        ]
     );
 
 

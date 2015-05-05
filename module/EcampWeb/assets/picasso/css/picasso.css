@@ -220,6 +220,15 @@
     opacity:1;
 }
 
+.event-instance {
+    transition: left 1s, top 1s, width 1s, height 1s;
+}
+
+.event-instance.user-event {
+    transition: none;
+}
+
+
 /* .event-instance, */
 /*
 .event-instance.ng-enter,

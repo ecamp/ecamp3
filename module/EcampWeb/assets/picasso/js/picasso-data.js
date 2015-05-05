@@ -489,6 +489,7 @@
                 this.GetEventNr = function(){
                     var periodId = this.periodId;
                     var categoryId = this.event.categoryId;
+                    var category = this.event.category;
                     var start = this.start_min;
                     var left = this.left;
                     var id = this.id;
@@ -496,7 +497,11 @@
                     var countEventInstances = _eventInstances.Count(function(eventInstanceModel){
                         if(eventInstanceModel.id == id){ return false; }
                         if(eventInstanceModel.periodId != periodId){ return false; }
-                        if(eventInstanceModel.event.categoryId != categoryId){ return false; }
+                        if(eventInstanceModel.event.categoryId != categoryId){
+                            if(eventInstanceModel.event.category.numbering != category.numbering) {
+                                return false;
+                            }
+                        }
                         if(eventInstanceModel.start_min > start){ return false; }
 
                         if(Math.floor(eventInstanceModel.start_min / 1440) == Math.floor(start / 1440)){
@@ -511,7 +516,7 @@
 
                     var num = countEventInstances + 1;
 
-                    switch (this.event.category.numbering) {
+                    switch (category.numbering) {
                         case '1':
                             return num;
                         case 'a':
