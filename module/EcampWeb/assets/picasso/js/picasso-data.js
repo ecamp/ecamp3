@@ -8,10 +8,11 @@
         var SortedDictionary = ecamp.core.util.SortedDictionary;
 
         function PicassoConfig(cfg){
-            var _timeRange = [420, 1680];
+            var _timeRange = [420, 1500];
             var _isFullscreen = false;
             var _minDayWidth = 150;
             var _dayWidth = _minDayWidth;
+            var _userEventProcessing = 0;
 
             if(cfg){
                 _timeRange = cfg.timeRange || _timeRange;
@@ -53,10 +54,18 @@
                     _dayWidth = Math.max(_minDayWidth, _dayWidth);
                 }
             });
+
             Object.defineProperty(this, 'dayWidth', {
                 get: function(){ return _dayWidth; },
                 set: function(value){ _dayWidth = Math.max(_minDayWidth, value); }
             });
+
+            Object.defineProperty(this, 'userEventProcessing', {
+                get: function(){ return _userEventProcessing > 0; }
+            });
+
+            Object.defineProperty(this, 'beginUserEvent', { value: function(){ _userEventProcessing++; } });
+            Object.defineProperty(this, 'endUserEvent', { value: function(){ _userEventProcessing--; } });
         }
 
         function PicassoData(cfg){
@@ -94,7 +103,7 @@
 
 
             Object.defineProperty(this, 'LoadCamp', { value: LoadCamp });
-            Object.defineProperty(this, 'RefreshCamp', { value: RefreshEvents });
+            Object.defineProperty(this, 'RefreshCamp', { value: RefreshCamp });
             Object.defineProperty(this, 'RefreshEvents', { value: RefreshEvents });
             Object.defineProperty(this, 'RefreshEventInstance', { value: RefreshEventInstance });
             Object.defineProperty(this, 'SaveEventInstance', { value: SaveEventInstance });
@@ -400,8 +409,6 @@
                 this.short = data.short;
                 this.color = data.color;
                 this.numbering = data.numbering;
-
-                console.log(data);
             }
             function PicassoEventCategoryGetKey(data){
                 return data.id;
@@ -478,6 +485,23 @@
 
                         return dayModel.periodId == periodId && dayStart < end && dayEnd > start;
                     });
+                };
+
+                this.GetFirstDay = function(){
+                    var days = _days.Values;
+                    var periodId = this.periodId;
+                    var start = this.start_min;
+
+                    for(var idx = 0; idx < days.length; idx++){
+                        var dayModel = days[idx];
+                        var dayStart = 1440 * dayModel.dayOffset;
+                        var dayEnd = 1440 * (1 + dayModel.dayOffset);
+
+                        if(dayStart <= start && start <= dayEnd){
+                            return dayModel;
+                        }
+                    }
+                    return null;
                 };
 
                 /** @returns {number} */

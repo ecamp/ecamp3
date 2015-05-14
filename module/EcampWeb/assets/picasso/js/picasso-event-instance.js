@@ -9,14 +9,11 @@
 
         function PicassoEventInstance(picassoData, picassoElement) {
 
-            var _anyUserEventIsProcessing = false;
+            var _eventHover = {};
             var _picassoData = picassoData;
             var _picassoElement = picassoElement;
 
             Object.defineProperty(this, 'Link', { value: Link });
-            Object.defineProperty(this, 'AnyUserEventIsProcessing',
-                { get: function(){ return _anyUserEventIsProcessing; } }
-            );
 
             function Link(scope, element){
 
@@ -24,26 +21,35 @@
                 var eventViews = new SortedDictionary();
                 var eventViewsAdapter = eventViews.CreateAdapter(
                     function(data){ return data.id; },
-                    function(data){ return new EventView(data.id, data.day, data.firstDay, data.eventInstance); },
+                    function(data){ return new EventView(data.id, data.day, data.eventInstance, data.isHandle); },
                     function(eventView, data){
                         eventView.day = data.day;
-                        eventView.firstDay = data.firstDay;
                         eventView.eventInstance = data.eventInstance;
+                        eventView.isHandle = data.isHandle;
 
                         return eventView;
                     }
                 );
 
-
-                scope._hover = false;
                 Object.defineProperty(scope, 'hover', {
-                    get: function(){ return scope._hover || scope.userEventIsProcessing; }
+                    get: function(){ return !!_eventHover[eventInstanceModel.eventId] || scope.userEventIsProcessing; },
+                    set: function(val){ _eventHover[eventInstanceModel.eventId] = val; }
                 });
 
-                var _userEventIsProcessing = false;
+                var _userEventProcessing = 0;
+
+                function BeginUserEvent(){
+                    _userEventProcessing++;
+                    picassoData.config.beginUserEvent();
+                }
+
+                function EndUserEvent(){
+                    _userEventProcessing--;
+                    picassoData.config.endUserEvent();
+                }
+
                 Object.defineProperty(scope, 'userEventIsProcessing', {
-                    get: function(){ return _userEventIsProcessing; },
-                    set: function(val){ _anyUserEventIsProcessing = _userEventIsProcessing = val; }
+                    get: function(){ return _userEventProcessing > 0; }
                 });
 
                 Object.defineProperty(scope, 'eventViews', {
@@ -54,15 +60,23 @@
 
 
                 function UpdateEventViews() {
+                    var data = [{
+                        'id': eventInstanceModel.id,
+                        'day': eventInstanceModel.GetFirstDay(),
+                        'eventInstance': eventInstanceModel,
+                        'isHandle': true
+                    }];
                     var days = eventInstanceModel.GetDays();
-
-                    var data = [];
-                    var firstDay = days[0];
 
                     for (var idx = 0; idx < days.length; idx++) {
                         var id = eventInstanceModel.id + '.' + idx;
                         var day = days[idx];
-                        data.push({'id': id, 'day': day, 'firstDay': firstDay, 'eventInstance': eventInstanceModel });
+                        data.push({
+                            'id': id,
+                            'day': day,
+                            'eventInstance': eventInstanceModel,
+                            'isHandle': false
+                        });
                     }
                     eventViewsAdapter(data);
 
@@ -81,9 +95,17 @@
                 };
 
                 function InitDraggable(){
-                    var eventInstances = element.find('.event-instance');
 
-                    eventInstances.draggable({
+                    var eventInstances = element.find('.event-instance');
+                    var firstEventInstances = eventInstances.first();
+
+                    eventInstances.not(':first').mousedown(function(e){
+                        firstEventInstances.trigger(e);
+                    });
+
+                    firstEventInstances.draggable({
+                        delay: 300,
+
                         helper: function(event){
                             var target = $(event.target);
 
@@ -93,7 +115,7 @@
 
                         },
                         start: function(event, ui){
-                            scope.userEventIsProcessing = true;
+                            BeginUserEvent();
 
                             draggable_info.duration = eventInstanceModel.end_min - eventInstanceModel.start_min;
 
@@ -134,20 +156,11 @@
 
                         },
                         stop: function(){
-                            scope.userEventIsProcessing = false;
+                            EndUserEvent();
+
                             scope.$apply(UpdateEventViews());
 
                             SaveEventInstance(eventInstanceModel);
-
-
-                            console.log(
-                                'Save: EventInstance[ID=' + eventInstanceModel.id + '] { ' +
-                                'periodId: ' + eventInstanceModel.periodId + ', ' +
-                                'start: ' + eventInstanceModel.start_min + ', ' +
-                                'end: ' + eventInstanceModel.end_min + ', ' +
-                                'left: ' + eventInstanceModel.left +
-                                '}');
-
                         }
                     });
                 }
@@ -163,18 +176,28 @@
                 };
 
                 function InitResizable(){
-                    var eventInstanceResizables = element.find(
-                        '.event-instance .resize-se, ' +
-                        '.event-instance .resize-s, ' +
-                        '.event-instance .resize-e'
-                    );
 
-                    eventInstanceResizables.draggable({
+                    var resizeSEs = element.find('.event-instance .resize-se');
+                    var firstResizeSE = resizeSEs.first();
+
+                    var resizeSs = element.find('.event-instance .resize-s');
+                    var firstResizeS = resizeSs.first();
+
+                    var resizeEs = element.find('.event-instance .resize-e');
+                    var firstResizeE = resizeEs.first();
+
+                    resizeSEs.not(':first').mousedown(function(e){  firstResizeSE.trigger(e);   });
+                    resizeSs.not(':first').mousedown(function(e){  firstResizeS.trigger(e);   });
+                    resizeEs.not(':first').mousedown(function(e){  firstResizeE.trigger(e);   });
+
+                    var draggableOptions =
+                    {
+                        delay: 300,
                         cursorAt: { left: 0, top: 0 },
                         helper: function(){ return $('<div />'); },
 
                         start: function(event, ui){
-                            scope.userEventIsProcessing = true;
+                            BeginUserEvent();
                             var target = $(event.target);
 
                             resizable_info.doLength = target.is('.resize-s, .resize-se');
@@ -218,33 +241,32 @@
                             }
                         },
                         stop: function(){
-                            scope.userEventIsProcessing = false;
+                            EndUserEvent();
 
                             resizable_info.doLength = false;
                             resizable_info.doWidth = false;
 
                             scope.$apply(UpdateEventViews());
                             SaveEventInstance(eventInstanceModel);
-
-                            console.log(
-                                'Save: EventInstance[ID=' + eventInstanceModel.id + '] { ' +
-                                'end: ' + eventInstanceModel.end_min + ', ' +
-                                'width: ' + eventInstanceModel.width +
-                                '}');
                         }
-                    });
+                    };
+
+                    firstResizeSE.draggable(draggableOptions);
+                    firstResizeS.draggable(draggableOptions);
+                    firstResizeE.draggable(draggableOptions);
                 }
 
 
-                function EventView(id, day, firstDay, eventInstance){
+                function EventView(id, day, eventInstance, isHandle){
                     this.id = id;
                     this.day = day;
-                    this.firstDay = firstDay;
                     this.eventInstance = eventInstance;
+                    this.isHandle = isHandle;
 
                     Object.defineProperty(this, 'Border', { value: Border });
                     Object.defineProperty(this, 'Style', { value: Style });
                     Object.defineProperty(this, 'BgStyle', { value: BgStyle });
+                    Object.defineProperty(this, 'TitleStyle', { value: TitleStyle });
 
                     Object.defineProperty(this, 'IsStart', { value: IsStart });
                     Object.defineProperty(this, 'IsEnd', { value: IsEnd });
@@ -271,7 +293,9 @@
                             borderBottomLeftRadius: isEnd ? 10 : 0,
                             borderBottomRightRadius: isEnd ? 10 : 0,
                             pointerEvents: 'none',
-                            zIndex: scope.hover ? 1001 : null
+                            zIndex: scope.hover ? 1001 : null,
+
+                            opacity: this.isHandle ? 0 : 1
                         }
                     }
 
@@ -284,17 +308,15 @@
                         var end = Math.min(eventInstanceModel.end_min, dayEnd);
 
                         return {
-                            //transition: scope.userEventIsProcessing ? '' : /* 'top 1s, height 1s', */ 'left 60s, top 60s, height 60s, width 60s',
                             position: 'absolute',
                             left: (eventInstanceModel.left + this.day.leftOffset) * _picassoData.dayWidth,
                             width: eventInstanceModel.width * _picassoData.dayWidth,
                             top: (100 * _picassoData.GetOffset(start - dayMinOffset)) + '%',
                             height: (100 * _picassoData.GetLength(end - start)) + '%',
 
-                            zIndex: scope.hover ?
-                                1000 : eventInstanceModel.GetZIndex()
+                            zIndex: scope.hover ? 1000 : eventInstanceModel.GetZIndex(),
+                            opacity: this.isHandle ? 0 : 1
                         };
-
                     }
 
                     function BgStyle(){
@@ -312,10 +334,16 @@
                             borderBottomRightRadius: isEnd ? 10 : 0,
 
                             backgroundColor: this.eventInstance.event.category.color,
-                            opacity: scope.hover ? 0.95 : 0.8
+                            opacity: this.isHandle ? 0 : (scope.hover ? 0.95 : 0.75)
                         };
                     }
 
+                    function TitleStyle() {
+                        return {
+                            cursor: scope.userEventIsProcessing ? 'move' : 'pointer',
+                            opacity: this.isHandle ? 0 : 1
+                        }
+                    }
 
                     function IsStart(){
                         var dayMinOffset = 1440 * this.day.dayOffset;
@@ -331,18 +359,18 @@
                     }
 
                     function Mouseover(){
-                        if(!_anyUserEventIsProcessing) {
-                            scope._hover = true;
+                        if(!picassoData.config.userEventProcessing) {
+                            scope.hover = true;
                         }
                     }
                     function Mouseleave(){
-                        if(!_anyUserEventIsProcessing) {
-                            scope._hover = false;
+                        if(!picassoData.config.userEventProcessing) {
+                            scope.hover = false;
                         }
                     }
 
                     function Class(){
-                        return scope.userEventIsProcessing ? 'user-event' : '';
+                        return picassoData.config.userEventProcessing ? 'user-event' : '';
                     }
 
 

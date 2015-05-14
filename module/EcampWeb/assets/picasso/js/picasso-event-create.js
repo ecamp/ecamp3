@@ -5,9 +5,6 @@
 (function(ngApp) {
     ngApp.factory('PicassoEventCreate', ['$filter', '$timeout', '$translate', '$asyncModal',
         function($filter, $timeout, $translate, $asyncModal){
-
-        console.log($translate);
-
         var $dateFilter = $filter('date');
 
         function PicassoEventCreate(picassoData, picassoElement){
@@ -120,10 +117,6 @@
                         });
 
                         dlg.result.then(function(result){
-                            console.log(result);
-
-                            console.log(_picassoData);
-
                             $timeout(function(){
                                 _picassoData.remoteData.Update(function(){
                                     _picassoData.RefreshCamp();

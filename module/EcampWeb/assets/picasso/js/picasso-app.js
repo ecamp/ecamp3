@@ -29,50 +29,45 @@
         Object.defineProperty($scope, 'DeleteEventInstance', { value: DeleteEventInstance });
         Object.defineProperty($scope, 'EditEventInstance', { value: EditEventInstance });
 
-        var userEventIsProcessing = false;
+        // var userEventIsProcessing = false;
 
         setInterval(function(){
             $timeout(function(){
-                if(
-                    !userEventIsProcessing &&
-                    !picassoEventInstance.AnyUserEventIsProcessing
-                ) {
+                if(picassoData.config.userEventProcessing){
                     picassoData.remoteData.Update(function () {
-                        if (
-                            !userEventIsProcessing && !picassoEventInstance.AnyUserEventIsProcessing
-                        ) {
+                        if(picassoData.config.userEventProcessing) {
                             picassoData.RefreshCamp();
                         }
                     });
                 }
             });
-        }, 5000);
-/*
-        setInterval(function(){
-            if(!userEventIsProcessing) {
-                $scope.remoteData.Update(function(){
-                    if(!userEventIsProcessing) {
-                        RefreshData();
-                    }
-                });
-            }
-        }, 5000);
-*/
+        }, 15000);
+
+
         $scope.$watch('campId', function(campId){
             picassoData.LoadCamp(campId).then(RefreshPicasso);
         });
 
         $scope.$watch('config.timeRange', function(){
-            userEventIsProcessing = true;
-            RefreshPicasso();
-            $timeout(function(){ userEventIsProcessing = false; });
+            try {
+                picassoData.config.beginUserEvent();
+                RefreshPicasso();
+            } finally {
+                $timeout(function(){ picassoData.config.endUserEvent(); });
+            }
         });
 
         $scope.$watch('config.isFullscreen', RefreshFullScreen);
 
         $(window).resize(ThrottleScopeApplys(function(){
-            RefreshTimeline();
-            RefreshAppearance();
+            try {
+                $scope.$apply(picassoData.config.beginUserEvent());
+
+                RefreshTimeline();
+                RefreshAppearance();
+            } finally {
+                $timeout(function(){ picassoData.config.endUserEvent(); });
+            }
         }, 200));
 
 
@@ -111,8 +106,14 @@
             if(picassoElement == null) return;
 
             $timeout(function(){
-                RefreshTimeline();
-                RefreshAppearance();
+                try {
+                    $scope.$apply(picassoData.config.beginUserEvent());
+
+                    RefreshTimeline();
+                    RefreshAppearance();
+                } finally {
+                    $timeout(function(){ picassoData.config.endUserEvent(); });
+                }
             });
         }
 
