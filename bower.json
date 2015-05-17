@@ -19,6 +19,7 @@
     "angular-sanitize": "~1.2",
     "angular-bootstrap": "latest",
     "angular-resource": "~1.2",
+    "angular-translate": "latest",
     "fontawesome": "~4",
     "typeahead.js": "latest",
     "uri.js": "~1.14",

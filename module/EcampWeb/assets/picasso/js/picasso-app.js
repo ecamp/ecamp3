@@ -6,7 +6,7 @@
     var SortedDictionary = ecamp.core.util.SortedDictionary;
 
     function PicassoController(
-        $scope, $timeout, $asyncModal, PicassoData, PicassoTimeline, PicassoEventInstance, PicassoEventCreate
+        $scope, $timeout, $translate, $asyncModal, PicassoData, PicassoTimeline, PicassoEventInstance, PicassoEventCreate
     ){
 
         var picassoData = new PicassoData();
@@ -30,6 +30,23 @@
         Object.defineProperty($scope, 'EditEventInstance', { value: EditEventInstance });
 
         var userEventIsProcessing = false;
+
+        setInterval(function(){
+            $timeout(function(){
+                if(
+                    !userEventIsProcessing &&
+                    !picassoEventInstance.AnyUserEventIsProcessing
+                ) {
+                    picassoData.remoteData.Update(function () {
+                        if (
+                            !userEventIsProcessing && !picassoEventInstance.AnyUserEventIsProcessing
+                        ) {
+                            picassoData.RefreshCamp();
+                        }
+                    });
+                }
+            });
+        }, 5000);
 /*
         setInterval(function(){
             if(!userEventIsProcessing) {
@@ -142,7 +159,7 @@
         }
 
         function EditEventInstance(eventInstanceModel){
-            var url = URI.expand('/web/camp/{campId}/picasso/updateEventInstance', {
+            var url = URI.expand($translate.instant('URL_CAMP_UPDATE_EVENT_INSTANCE'), {
                 campId: picassoData.camp.id
             });
             url.query({ 'eventInstanceId': eventInstanceModel.id });

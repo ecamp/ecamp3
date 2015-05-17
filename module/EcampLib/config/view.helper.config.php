@@ -10,7 +10,7 @@ return array(
     ),
 
     'invokables' => array(
-
+        'SetTextDomain' => 'EcampLib\View\Helper\SetTextDomain'
     )
 
 );

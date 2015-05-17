@@ -3,8 +3,10 @@
  */
 
 (function(ngApp) {
-    ngApp.factory('PicassoEventCreate', ['$filter', '$timeout', '$asyncModal',
-        function($filter, $timeout, $asyncModal){
+    ngApp.factory('PicassoEventCreate', ['$filter', '$timeout', '$translate', '$asyncModal',
+        function($filter, $timeout, $translate, $asyncModal){
+
+        console.log($translate);
 
         var $dateFilter = $filter('date');
 
@@ -101,7 +103,7 @@
                         var startTime = $dateFilter(startDate, 'HH:mm');
                         var endTime = $dateFilter(endDate, 'HH:mm');
 
-                        var url = URI.expand('/web/camp/{campId}/picasso/createEvent', {
+                        var url = URI.expand($translate.instant('URL_CAMP_CREATE_EVENT'), {
                             campId: picassoData.camp.id
                         });
                         url.query({
@@ -119,6 +121,14 @@
 
                         dlg.result.then(function(result){
                             console.log(result);
+
+                            console.log(_picassoData);
+
+                            $timeout(function(){
+                                _picassoData.remoteData.Update(function(){
+                                    _picassoData.RefreshCamp();
+                                });
+                            });
                         });
                     }
                 }

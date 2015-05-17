@@ -9,20 +9,45 @@
 
         function PicassoEventInstance(picassoData, picassoElement) {
 
+            var _anyUserEventIsProcessing = false;
             var _picassoData = picassoData;
             var _picassoElement = picassoElement;
-            var _userEventIsProcessing = false;
 
             Object.defineProperty(this, 'Link', { value: Link });
+            Object.defineProperty(this, 'AnyUserEventIsProcessing',
+                { get: function(){ return _anyUserEventIsProcessing; } }
+            );
 
             function Link(scope, element){
 
                 var eventInstanceModel = scope.data;
-                var eventViews = [];
+                var eventViews = new SortedDictionary();
+                var eventViewsAdapter = eventViews.CreateAdapter(
+                    function(data){ return data.id; },
+                    function(data){ return new EventView(data.id, data.day, data.firstDay, data.eventInstance); },
+                    function(eventView, data){
+                        eventView.day = data.day;
+                        eventView.firstDay = data.firstDay;
+                        eventView.eventInstance = data.eventInstance;
 
-                scope.hover = false;
+                        return eventView;
+                    }
+                );
+
+
+                scope._hover = false;
+                Object.defineProperty(scope, 'hover', {
+                    get: function(){ return scope._hover || scope.userEventIsProcessing; }
+                });
+
+                var _userEventIsProcessing = false;
+                Object.defineProperty(scope, 'userEventIsProcessing', {
+                    get: function(){ return _userEventIsProcessing; },
+                    set: function(val){ _anyUserEventIsProcessing = _userEventIsProcessing = val; }
+                });
+
                 Object.defineProperty(scope, 'eventViews', {
-                    get: function(){ return eventViews; }
+                    get: function(){ return eventViews.Values; }
                 });
 
                 scope.$watch('data.GetHash()', UpdateEventViews);
@@ -31,17 +56,15 @@
                 function UpdateEventViews() {
                     var days = eventInstanceModel.GetDays();
 
+                    var data = [];
                     var firstDay = days[0];
-                    eventViews = [];
 
                     for (var idx = 0; idx < days.length; idx++) {
-
                         var id = eventInstanceModel.id + '.' + idx;
                         var day = days[idx];
-                        var eventView = new EventView(id, day, firstDay, eventInstanceModel);
-
-                        eventViews.push(eventView);
+                        data.push({'id': id, 'day': day, 'firstDay': firstDay, 'eventInstance': eventInstanceModel });
                     }
+                    eventViewsAdapter(data);
 
                     $timeout(InitInteractable);
                 }
@@ -52,11 +75,13 @@
                     InitResizable();
                 }
 
+                var draggable_info = {
+                    duration: 0,
+                    deltaTime: 0
+                };
+
                 function InitDraggable(){
                     var eventInstances = element.find('.event-instance');
-
-                    var duration = 0;
-                    var deltaTime = 0;
 
                     eventInstances.draggable({
                         helper: function(event){
@@ -65,15 +90,16 @@
                             var h = $('<div />');
                             h.css({ 'height': target.height(), 'width': target.width() });
                             return h;
+
                         },
                         start: function(event, ui){
-                            _userEventIsProcessing = true;
+                            scope.userEventIsProcessing = true;
 
-                            duration = eventInstanceModel.end_min - eventInstanceModel.start_min;
+                            draggable_info.duration = eventInstanceModel.end_min - eventInstanceModel.start_min;
 
                             var relTop = _picassoElement.CalcRelY(ui.position.top);
                             var left = ui.position.left + ui.helper.width() / 2;
-                            deltaTime = _picassoData.GetTime(left, relTop) - eventInstanceModel.start_min;
+                            draggable_info.deltaTime = _picassoData.GetTime(left, relTop) - eventInstanceModel.start_min;
                         },
                         drag: function(event, ui){
                             var dayStart = _picassoData.dayStartMin;
@@ -88,9 +114,9 @@
                             var left = ui.position.left + ui.helper.width() / 2;
                             var dayModel = _picassoData.GetDayByLeft(left);
                             var periodModel = _picassoData.periods.Get(dayModel.periodId);
-                            var start = _picassoData.GetTime(left, relTop) - deltaTime;
+                            var start = _picassoData.GetTime(left, relTop) - draggable_info.deltaTime;
                             start = Math.max(start, 0);
-                            start = Math.min(start, 24 * 60 * periodModel.getDays().length - duration);
+                            start = Math.min(start, 24 * 60 * periodModel.getDays().length - draggable_info.duration);
 
                             var inDayLeft = ui.position.left - dayModel.leftOffset * _picassoData.dayWidth;
                             inDayLeft = inDayLeft / _picassoData.dayWidth;
@@ -101,16 +127,18 @@
 
                             eventInstanceModel.periodId = dayModel.periodId;
                             eventInstanceModel.start_min = start;
-                            eventInstanceModel.end_min = start + duration;
+                            eventInstanceModel.end_min = start + draggable_info.duration;
                             eventInstanceModel.left = inDayLeft;
 
                             scope.$apply(UpdateEventViews());
+
                         },
                         stop: function(){
-                            _userEventIsProcessing = false;
+                            scope.userEventIsProcessing = false;
                             scope.$apply(UpdateEventViews());
 
                             SaveEventInstance(eventInstanceModel);
+
 
                             console.log(
                                 'Save: EventInstance[ID=' + eventInstanceModel.id + '] { ' +
@@ -124,6 +152,16 @@
                     });
                 }
 
+
+                var resizable_info = {
+                    divPosition: null,
+                    periodId: null,
+                    lastLeft: null,
+                    doLength: false,
+                    doWidth: false,
+                    eventInstanceOffset: null
+                };
+
                 function InitResizable(){
                     var eventInstanceResizables = element.find(
                         '.event-instance .resize-se, ' +
@@ -131,49 +169,41 @@
                         '.event-instance .resize-e'
                     );
 
-                    var divPosition = null;
-                    var periodId = null;
-                    var lastLeft = null;
-                    var doLength = false;
-                    var doWidth = false;
-                    var eventInstancesOffset = null;
-
-
                     eventInstanceResizables.draggable({
                         cursorAt: { left: 0, top: 0 },
                         helper: function(){ return $('<div />'); },
 
                         start: function(event, ui){
-                            _userEventIsProcessing = true;
+                            scope.userEventIsProcessing = true;
                             var target = $(event.target);
 
-                            doLength = target.is('.resize-s, .resize-se');
-                            doWidth = target.is('.resize-e, .resize-se');
+                            resizable_info.doLength = target.is('.resize-s, .resize-se');
+                            resizable_info.doWidth = target.is('.resize-e, .resize-se');
 
-                            eventInstancesOffset = _picassoElement.eventInstances.offset();
-                            divPosition = target.closest('.event-instance').position();
-                            periodId = _picassoData.GetDayByLeft(divPosition.left).periodId;
+                            resizable_info.eventInstancesOffset = _picassoElement.eventInstances.offset();
+                            resizable_info.divPosition = target.closest('.event-instance').position();
+                            resizable_info.periodId = _picassoData.GetDayByLeft(resizable_info.divPosition.left).periodId;
                         },
                         drag: function(event, ui){
-                            var top = ui.offset.top - eventInstancesOffset.top + 5;
-                            var left = ui.offset.left - eventInstancesOffset.left + 5;
+                            var top = ui.offset.top - resizable_info.eventInstancesOffset.top + 5;
+                            var left = ui.offset.left - resizable_info.eventInstancesOffset.left + 5;
                             var relTop = _picassoElement.CalcRelY(top);
 
-                            if(lastLeft == null){
-                                lastLeft = left;
+                            if(resizable_info.lastLeft == null){
+                                resizable_info.lastLeft = left;
                             }
 
-                            if(doLength){
-                                if(_picassoData.GetDayByLeft(left).periodId == periodId) {
-                                    lastLeft = left;
+                            if(resizable_info.doLength){
+                                if(_picassoData.GetDayByLeft(left).periodId == resizable_info.periodId) {
+                                    resizable_info.lastLeft = left;
                                 }
 
-                                var end = _picassoData.GetTime(lastLeft, relTop);
+                                var end = _picassoData.GetTime(resizable_info.lastLeft, relTop);
                                 eventInstanceModel.end_min = Math.max(end, eventInstanceModel.start_min + 15);
                             }
 
-                            if(doWidth){
-                                var day = _picassoData.GetDayByLeft(lastLeft);
+                            if(resizable_info.doWidth){
+                                var day = _picassoData.GetDayByLeft(resizable_info.lastLeft);
                                 var width = left - (day.leftOffset + eventInstanceModel.left) * _picassoData.dayWidth;
                                 width = width / _picassoData.dayWidth;
                                 width = Math.max(width, 0.3);
@@ -183,15 +213,15 @@
                                 eventInstanceModel.width = width;
                             }
 
-                            if(doLength || doWidth) {
+                            if(resizable_info.doLength || resizable_info.doWidth) {
                                 scope.$digest();
                             }
                         },
                         stop: function(){
-                            _userEventIsProcessing = false;
+                            scope.userEventIsProcessing = false;
 
-                            doLength = false;
-                            doWidth = false;
+                            resizable_info.doLength = false;
+                            resizable_info.doWidth = false;
 
                             scope.$apply(UpdateEventViews());
                             SaveEventInstance(eventInstanceModel);
@@ -254,7 +284,7 @@
                         var end = Math.min(eventInstanceModel.end_min, dayEnd);
 
                         return {
-                            //transition: _userEventIsProcessing ? '' : /* 'top 1s, height 1s', */ 'left 60s, top 60s, height 60s, width 60s',
+                            //transition: scope.userEventIsProcessing ? '' : /* 'top 1s, height 1s', */ 'left 60s, top 60s, height 60s, width 60s',
                             position: 'absolute',
                             left: (eventInstanceModel.left + this.day.leftOffset) * _picassoData.dayWidth,
                             width: eventInstanceModel.width * _picassoData.dayWidth,
@@ -301,14 +331,18 @@
                     }
 
                     function Mouseover(){
-                        scope.hover = true;
+                        if(!_anyUserEventIsProcessing) {
+                            scope._hover = true;
+                        }
                     }
                     function Mouseleave(){
-                        scope.hover = false;
+                        if(!_anyUserEventIsProcessing) {
+                            scope._hover = false;
+                        }
                     }
 
                     function Class(){
-                        return _userEventIsProcessing ? 'user-event' : '';
+                        return scope.userEventIsProcessing ? 'user-event' : '';
                     }
 
 
