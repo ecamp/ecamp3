@@ -33,9 +33,9 @@
 
         setInterval(function(){
             $timeout(function(){
-                if(picassoData.config.userEventProcessing){
+                if(!picassoData.config.userEventProcessing){
                     picassoData.remoteData.Update(function () {
-                        if(picassoData.config.userEventProcessing) {
+                        if(!picassoData.config.userEventProcessing) {
                             picassoData.RefreshCamp();
                         }
                     });
@@ -182,7 +182,8 @@
                 if(idx) clearTimeout(idx);
                 idx = setTimeout(function(){
                     idx = Number.NaN;
-                    $scope.$apply(fn);
+                    fn();
+                    $scope.$apply();
                 }, delay);
             };
         }

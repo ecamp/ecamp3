@@ -17,7 +17,7 @@
     "angular-ui-slider": "latest",
     "angular": "~1.2",
     "angular-sanitize": "~1.2",
-    "angular-bootstrap": "latest",
+    "angular-bootstrap": "~0.12",
     "angular-resource": "~1.2",
     "angular-translate": "latest",
     "fontawesome": "~4",

@@ -10,4 +10,4 @@
         $translateProvider.preferredLanguage('de');
     });
 
-})(window.ecamp.ngApp);
+}(window.ecamp.ngApp));
