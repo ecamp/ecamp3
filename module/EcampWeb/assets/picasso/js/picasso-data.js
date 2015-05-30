@@ -8,10 +8,11 @@
         var SortedDictionary = ecamp.core.util.SortedDictionary;
 
         function PicassoConfig(cfg){
-            var _timeRange = [420, 1680];
+            var _timeRange = [420, 1500];
             var _isFullscreen = false;
             var _minDayWidth = 150;
             var _dayWidth = _minDayWidth;
+            var _userEventProcessing = 0;
 
             if(cfg){
                 _timeRange = cfg.timeRange || _timeRange;
@@ -53,10 +54,18 @@
                     _dayWidth = Math.max(_minDayWidth, _dayWidth);
                 }
             });
+
             Object.defineProperty(this, 'dayWidth', {
                 get: function(){ return _dayWidth; },
                 set: function(value){ _dayWidth = Math.max(_minDayWidth, value); }
             });
+
+            Object.defineProperty(this, 'userEventProcessing', {
+                get: function(){ return _userEventProcessing > 0; }
+            });
+
+            Object.defineProperty(this, 'beginUserEvent', { value: function(){ _userEventProcessing++; } });
+            Object.defineProperty(this, 'endUserEvent', { value: function(){ _userEventProcessing--; } });
         }
 
         function PicassoData(cfg){
@@ -94,7 +103,7 @@
 
 
             Object.defineProperty(this, 'LoadCamp', { value: LoadCamp });
-            Object.defineProperty(this, 'RefreshCamp', { value: RefreshEvents });
+            Object.defineProperty(this, 'RefreshCamp', { value: RefreshCamp });
             Object.defineProperty(this, 'RefreshEvents', { value: RefreshEvents });
             Object.defineProperty(this, 'RefreshEventInstance', { value: RefreshEventInstance });
             Object.defineProperty(this, 'SaveEventInstance', { value: SaveEventInstance });
@@ -400,8 +409,6 @@
                 this.short = data.short;
                 this.color = data.color;
                 this.numbering = data.numbering;
-
-                console.log(data);
             }
             function PicassoEventCategoryGetKey(data){
                 return data.id;
@@ -480,6 +487,23 @@
                     });
                 };
 
+                this.GetFirstDay = function(){
+                    var days = _days.Values;
+                    var periodId = this.periodId;
+                    var start = this.start_min;
+
+                    for(var idx = 0; idx < days.length; idx++){
+                        var dayModel = days[idx];
+                        var dayStart = 1440 * dayModel.dayOffset;
+                        var dayEnd = 1440 * (1 + dayModel.dayOffset);
+
+                        if(dayStart <= start && start <= dayEnd){
+                            return dayModel;
+                        }
+                    }
+                    return null;
+                };
+
                 /** @returns {number} */
                 this.GetDayNr = function(){
                     return 1 + Math.floor(this.start_min / 1440);
@@ -489,6 +513,7 @@
                 this.GetEventNr = function(){
                     var periodId = this.periodId;
                     var categoryId = this.event.categoryId;
+                    var category = this.event.category;
                     var start = this.start_min;
                     var left = this.left;
                     var id = this.id;
@@ -496,7 +521,11 @@
                     var countEventInstances = _eventInstances.Count(function(eventInstanceModel){
                         if(eventInstanceModel.id == id){ return false; }
                         if(eventInstanceModel.periodId != periodId){ return false; }
-                        if(eventInstanceModel.event.categoryId != categoryId){ return false; }
+                        if(eventInstanceModel.event.categoryId != categoryId){
+                            if(eventInstanceModel.event.category.numbering != category.numbering) {
+                                return false;
+                            }
+                        }
                         if(eventInstanceModel.start_min > start){ return false; }
 
                         if(Math.floor(eventInstanceModel.start_min / 1440) == Math.floor(start / 1440)){
@@ -511,7 +540,7 @@
 
                     var num = countEventInstances + 1;
 
-                    switch (this.event.category.numbering) {
+                    switch (category.numbering) {
                         case '1':
                             return num;
                         case 'a':

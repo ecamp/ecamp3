@@ -6,7 +6,7 @@
     var SortedDictionary = ecamp.core.util.SortedDictionary;
 
     function PicassoController(
-        $scope, $timeout, $asyncModal, PicassoData, PicassoTimeline, PicassoEventInstance, PicassoEventCreate
+        $scope, $timeout, $translate, $asyncModal, PicassoData, PicassoTimeline, PicassoEventInstance, PicassoEventCreate
     ){
 
         var picassoData = new PicassoData();
@@ -29,33 +29,45 @@
         Object.defineProperty($scope, 'DeleteEventInstance', { value: DeleteEventInstance });
         Object.defineProperty($scope, 'EditEventInstance', { value: EditEventInstance });
 
-        var userEventIsProcessing = false;
-/*
+        // var userEventIsProcessing = false;
+
         setInterval(function(){
-            if(!userEventIsProcessing) {
-                $scope.remoteData.Update(function(){
-                    if(!userEventIsProcessing) {
-                        RefreshData();
-                    }
-                });
-            }
-        }, 5000);
-*/
+            $timeout(function(){
+                if(!picassoData.config.userEventProcessing){
+                    picassoData.remoteData.Update(function () {
+                        if(!picassoData.config.userEventProcessing) {
+                            picassoData.RefreshCamp();
+                        }
+                    });
+                }
+            });
+        }, 15000);
+
+
         $scope.$watch('campId', function(campId){
             picassoData.LoadCamp(campId).then(RefreshPicasso);
         });
 
         $scope.$watch('config.timeRange', function(){
-            userEventIsProcessing = true;
-            RefreshPicasso();
-            $timeout(function(){ userEventIsProcessing = false; });
+            try {
+                picassoData.config.beginUserEvent();
+                RefreshPicasso();
+            } finally {
+                $timeout(function(){ picassoData.config.endUserEvent(); });
+            }
         });
 
         $scope.$watch('config.isFullscreen', RefreshFullScreen);
 
         $(window).resize(ThrottleScopeApplys(function(){
-            RefreshTimeline();
-            RefreshAppearance();
+            try {
+                $scope.$apply(picassoData.config.beginUserEvent());
+
+                RefreshTimeline();
+                RefreshAppearance();
+            } finally {
+                $timeout(function(){ picassoData.config.endUserEvent(); });
+            }
         }, 200));
 
 
@@ -94,8 +106,14 @@
             if(picassoElement == null) return;
 
             $timeout(function(){
-                RefreshTimeline();
-                RefreshAppearance();
+                try {
+                    $scope.$apply(picassoData.config.beginUserEvent());
+
+                    RefreshTimeline();
+                    RefreshAppearance();
+                } finally {
+                    $timeout(function(){ picassoData.config.endUserEvent(); });
+                }
             });
         }
 
@@ -142,7 +160,7 @@
         }
 
         function EditEventInstance(eventInstanceModel){
-            var url = URI.expand('/web/camp/{campId}/picasso/updateEventInstance', {
+            var url = URI.expand($translate.instant('URL_CAMP_UPDATE_EVENT_INSTANCE'), {
                 campId: picassoData.camp.id
             });
             url.query({ 'eventInstanceId': eventInstanceModel.id });
@@ -164,7 +182,8 @@
                 if(idx) clearTimeout(idx);
                 idx = setTimeout(function(){
                     idx = Number.NaN;
-                    $scope.$apply(fn);
+                    fn();
+                    $scope.$apply();
                 }, delay);
             };
         }

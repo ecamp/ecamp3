@@ -11,7 +11,7 @@
         <div class="event-instance-background" style="position: absolute;" ng-style="eventView.BgStyle()"></div>
         <div style="position:absolute; left: 0; right: 0; top: 0; bottom: 0;" ng-style="eventView.Border()"></div>
 
-        <div class="picasso-eventview-title" ng-if="eventView.IsStart()">
+        <div class="picasso-eventview-title" ng-if="eventView.IsStart()" ng-style="eventView.TitleStyle()">
             {{ eventView.eventInstance.event.category.short }}
             {{ eventView.eventInstance.GetDayNr() }}.{{ eventView.eventInstance.GetEventNr() }}:
             {{ eventView.eventInstance.event.title }}

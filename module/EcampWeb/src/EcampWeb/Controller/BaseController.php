@@ -42,6 +42,12 @@ abstract class BaseController
         $translateHelper = $this->getServiceLocator()->get('viewhelpermanager')->get('TranslatePlural');
         $translateHelper->setTranslatorTextDomain($textDomain);
 
+        $translateHelper = $this->getServiceLocator()->get('viewhelpermanager')->get('FormRow');
+        $translateHelper->setTranslatorTextDomain($textDomain);
+
+        $translateHelper = $this->getServiceLocator()->get('viewhelpermanager')->get('FormLabel');
+        $translateHelper->setTranslatorTextDomain($textDomain);
+
         $this->getServiceLocator()->get('Twig_Environment')->getExtension('core')->setDateFormat('d.m.Y');
 
         parent::onDispatch($e);
