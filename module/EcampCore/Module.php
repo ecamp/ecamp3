@@ -1,6 +1,7 @@
 <?php
 namespace EcampCore;
 
+use EcampCore\I18n\Translator\TranslatorEventListener;
 use EcampCore\Mvc\HandleDbTransactionListener;
 use Zend\EventManager\EventInterface;
 use Zend\ModuleManager\Feature\AutoloaderProviderInterface;
@@ -70,6 +71,15 @@ class Module implements
 
         (new HandleDbTransactionListener($em))->attach($application->getEventManager());
 
+
+        /** @var \Zend\Mvc\I18n\Translator $mvcTranslator */
+        $mvcTranslator = $application->getServiceManager()->get('MvcTranslator');
+        /** @var \Zend\I18n\Translator\Translator $translator */
+        $translator = $mvcTranslator->getTranslator();
+
+        $translator->setLocale('en');
+
+        (new TranslatorEventListener($em))->attach($translator->getEventManager());
     }
 
 }

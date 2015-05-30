@@ -17,8 +17,10 @@ return array(
             'form' =>               'EcampLib\Form\View\Helper\Form',
             'formRow' =>            'EcampLib\Form\View\Helper\FormRow',
             'formCollection' =>     'EcampLib\Form\View\Helper\FormCollection',
-            'formElement' =>        'EcampLib\Form\View\Helper\FormElement',
             'formElementErrors' =>  'EcampLib\Form\View\Helper\FormElementErrors',
+        ),
+        'factories' => array(
+            'formElement' =>    'EcampLib\Form\View\Helper\Factory\FormElementFactory'
         )
     ),
 
