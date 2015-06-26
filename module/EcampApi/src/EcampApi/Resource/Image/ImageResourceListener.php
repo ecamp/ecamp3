@@ -27,8 +27,6 @@ class ImageResourceListener extends BaseResourceListener
     {
         $id = $e->getParam('id');
 
-        var_dump($id);
-
         /** @var \EcampCore\Entity\Image $image */
         $image = $this->getImageRepository()->find($id);
 
