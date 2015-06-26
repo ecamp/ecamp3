@@ -5,17 +5,17 @@
             <div class="btn-group pull-right" style="margin-bottom: 8px">
                 <a 	class="btn btn-sm btn-primary"
                       href="{{ url('web') }}">
-                    <i class="fa fa-home"></i> Dashboard
+                    <i class="fa fa-home"></i> {{ translate("Dashboard") }}
                 </a>
                 <a 	class="btn btn-sm btn-primary hidden-xs hidden-sm"
                       href="#">
-                    <i class="fa fa-user"></i> Users
+                    <i class="fa fa-user"></i> {{ translate("Users") }}
                 </a>
                 <a class="btn btn-sm btn-primary hidden-xs hidden-sm">
-                    <i class="fa fa-flag"></i> Groups
+                    <i class="fa fa-flag"></i> {{ translate("Groups") }}
                 </a>
                 <a class="btn btn-sm btn-primary hidden-xs hidden-sm">
-                    <i class="fa fa-bell"></i> Camps
+                    <i class="fa fa-bell"></i> {{ translate("Camps") }}
                 </a>
 
                 <a class="btn btn-sm btn-primary dropdown-toggle" data-toggle="dropdown">
@@ -23,13 +23,13 @@
                 </a>
                 <ul class="dropdown-menu pull-right" role="menu">
                     <li class="hidden-md hidden-lg">
-                        <a href="#"><span class="fa fa-user"></span>&nbsp;&nbsp; Users</a>
+                        <a href="#"><span class="fa fa-user"></span>&nbsp;&nbsp; {{ translate("Users") }}</a>
                     </li>
                     <li class="hidden-md hidden-lg">
-                        <a href="#"><span class="fa fa-flag"></span>&nbsp;&nbsp; Groups</a>
+                        <a href="#"><span class="fa fa-flag"></span>&nbsp;&nbsp; {{ translate("Groups") }}</a>
                     </li>
                     <li class="hidden-md hidden-lg">
-                        <a href="#"><span class="fa fa-bell"></span>&nbsp;&nbsp; Camps</a>
+                        <a href="#"><span class="fa fa-bell"></span>&nbsp;&nbsp; {{ translate("Camps") }}</a>
                     </li>
                     <li class="hidden-md hidden-lg divider"></li>
 
@@ -44,18 +44,20 @@
                         <a href="{{ url('web/profile') }}"><span class="fa fa-user"></span>&nbsp;&nbsp; Profile</a>
                     </li>
                     <li>
-                        <a href="#"><span class="fa fa-inbox"></span>&nbsp;&nbsp; Inbox</a>
+                        <a href="#"><span class="fa fa-inbox"></span>&nbsp;&nbsp; {{ translate("Inbox") }}</a>
                     </li>
                     <li>
-                        <a href="#"><span class="fa fa-cog"></span>&nbsp;&nbsp; Options</a>
+                        <a href="#"><span class="fa fa-cog"></span>&nbsp;&nbsp; {{ translate("Options") }}</a>
                     </li>
                     <li class="divider"></li>
                     <li>
-                        <a href="/web/login/logout"><span class="fa fa-off"></span>&nbsp;&nbsp; Abmelden</a>
+                        <a href="{{ url('web/login', { 'action': 'logout' }) }}">
+                            <span class="fa fa-sign-out"></span>&nbsp;&nbsp; {{ translate("Logout") }}
+                        </a>
                     </li>
                 </ul>
             </div>
-
+            <div class="clearfix"></div>
 {#
         <div class="row">
             <div class="search-box pull-right" style="padding-right: 15px;">
@@ -78,8 +80,8 @@
             <ol class="breadcrumb" style="margin-bottom:0px; padding: 0px 5px; background-color: rgba(0,0,0,0);">
                 <li>
                     <div class="btn-group">
-                        <a 	href="/web" class="btn btn-xs btn-noborder">
-                            <i class="fa fa-home"></i> Dashboard
+                        <a 	href="{{ url('web') }}" class="btn btn-xs btn-noborder">
+                            <i class="fa fa-home"></i> {{ translate("Dashboard") }}
                         </a>
                     </div>
                 </li>

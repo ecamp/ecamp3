@@ -168,17 +168,6 @@
                                 {{ date.date | date : 'dd. MMM' }}
                             </div>
                         </div>
-                        <!--
-                        <div ng-repeat="day in days.Values" ng-style="day.style()" class="picasso-date">
-                            <div class="picasso-date-background-{{ ($index % 2 == 0) ? 'odd' : 'even' }}"></div>
-
-                            <div class="picasso-date-header">
-                                {{ day.date | date : 'dd. MMM' }}
-                            </div>
-                        </div>
-                        -->
-
-
 
                         <div ng-repeat="day in days" ng-style="day.style()" class="picasso-day">
                             <div style="text-align: center;">[{{ day.period.bo.description }}]</div>

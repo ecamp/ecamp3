@@ -1,0 +1,2 @@
+src_dir: module	
+coverage_clover: test/clover.xml

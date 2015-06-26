@@ -47,6 +47,11 @@ class IndexController
         );
     }
 
+    public function aboutAction()
+    {
+        return array();
+    }
+
     public function printJobResultAction()
     {
         $token = $this->params()->fromQuery('token');
@@ -64,9 +69,9 @@ class IndexController
 
         $headers = $response->getHeaders();
         $headers->clearHeaders()
-        ->addHeaderLine('Content-Type', 'application/pdf')
-        //->addHeaderLine('Content-Disposition', 'attachment; filename="SingleEvent-'.$token.'.pdf"')
-        ->addHeaderLine('Content-Length', strlen($fileContents));
+            ->addHeaderLine('Content-Type', 'application/pdf')
+            //->addHeaderLine('Content-Disposition', 'attachment; filename="SingleEvent-'.$token.'.pdf"')
+            ->addHeaderLine('Content-Length', strlen($fileContents));
 
         return $response;
     }

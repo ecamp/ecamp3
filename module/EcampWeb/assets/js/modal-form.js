@@ -130,16 +130,16 @@
             link: function($scope, $element, $attrs, $ctrl) {
                 if($attrs.href !== undefined){
                     var url = $attrs.href;
+                    var size = $attrs.size;
 
                     $element.click(function(event){
                         event.preventDefault();
 
                         $asyncModal.open({
                             templateUrl: url,
-                            cache: false
+                            cache: false,
+                            size: size
                         });
-
-                        return false;
                     })
                 }
             }

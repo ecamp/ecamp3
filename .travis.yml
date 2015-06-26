@@ -5,8 +5,8 @@ language: php
 php:
   # using major version aliases
   # aliased to 5.3.10
-  - 5.3
-  - 5.4
+  - 5.5
+  - 5.6
 
 # optionally specify a list of environments, for example to test different RDBMS
 env:
@@ -21,9 +21,12 @@ env:
 # use the $DB env variable to determine the phpunit.xml to use
 # script: phpunit --configuration phpunit_$DB.xml --coverage-text
 
+before_script:
+    - composer install --no-interaction
 
-script: phpunit --configuration phpunit.xml
+script:
+    - mkdir -p build/logs
+    - ./vendor/bin/phpunit --coverage-clover test/clover.xml
 
-branches:
-  only:
-    - devel
+after_script:
+ - php vendor/bin/coveralls -v

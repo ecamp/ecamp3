@@ -18,7 +18,8 @@ class Module
         return array(
             'Zend\Loader\StandardAutoloader' => array(
                 'namespaces' => array(
-                    __NAMESPACE__ => __DIR__ . '/src/' . __NAMESPACE__,
+                    'EcampApi' => __DIR__ . '/src/EcampApi',
+                    'EcampApiTest' => __DIR__ . '/test/EcampApiTest'
                 ),
             ),
         );

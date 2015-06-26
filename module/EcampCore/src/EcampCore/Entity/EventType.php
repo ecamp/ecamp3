@@ -27,7 +27,7 @@ use EcampLib\Entity\BaseEntity;
 
 /**
  * EventType
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="EcampCore\Repository\EventTypeRepository")
  * @ORM\Table(name="event_types")
  * @ORM\HasLifecycleCallbacks
  */
@@ -40,6 +40,7 @@ class EventType extends BaseEntity
 
         $this->campTypes = new \Doctrine\Common\Collections\ArrayCollection();
         $this->eventTypePlugins = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->eventTypeFactories = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**

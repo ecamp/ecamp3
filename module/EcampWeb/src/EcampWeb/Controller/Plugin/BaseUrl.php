@@ -25,6 +25,19 @@ class BaseUrl extends Url
             }
         }
 
+        if(!isset($params['locale'])){
+            /** @var \Zend\Mvc\Controller\AbstractActionController $controller */
+            $controller = $this->getController();
+
+            /** @var \Zend\Mvc\I18n\Translator $mvcTranslator */
+            $mvcTranslator = $controller->getServiceLocator()->get('MvcTranslator');
+
+            /** @var \Zend\I18n\Translator\Translator $translator */
+            $translator = $mvcTranslator->getTranslator();
+
+            $params['locale'] = $translator->getLocale();
+        }
+
         return parent::fromRoute($route, $params, $options, $reuseMatchedParams);
     }
 }

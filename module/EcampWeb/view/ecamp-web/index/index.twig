@@ -2,36 +2,36 @@
 
 {% block content %}
 
-	<div class="row">
+    <div class="row">
 		<div class="col-sm-6">
 			<div class="row">
 				<div class="col-sm-12">
 					<table style="width: 100%">
 						<tr>
 							<td>
-								<h2>Camps ({{ camps|length }})</h2>
+								<h2>{{ translate("Camps") }} ({{ camps|length }})</h2>
 							</td>
 							<td style="vertical-align: bottom; padding-bottom: 7px;">
 								<div class="btn-group pull-right" >
 									<div class="btn btn-sm btn-primary pull-right dropdown-toggle" data-toggle="dropdown">
-										Create new Camp &nbsp;
+										{{ translate("Create new camp") }} &nbsp;
 							    		<span class="caret"></span>
 									</div>
 		  							<ul class="dropdown-menu pull-right" role="menu">
 										<li>
-                                            <a
+											<a
+												async-modal
                                                 class="btn-link"
-                                                data-toggle="modal"
-                                                data-target="#asyncform-container"
                                                 href="{{ url('web/default', { 'controller':'camp', 'action': 'create' }) }}"
+												data-size="lg"
                                             >
 											    <span class="fa fa-plus"></span>
-											    &nbsp;Neues Lager
+											    &nbsp; {{ translate("New camp") }}
 										    </a>
                                         </li>
 										<li><a href="#">
 											<span class="fa fa-plus"></span>
-											&nbsp;Neuen Kurs
+											&nbsp; {{ translate("New course") }}
 										</a></li>
 									</ul>
 								</div>
@@ -50,9 +50,13 @@
 				<tbody>
 					{% for camp in camps %}
 						<tr>
-							<td><span class="fa fa-bell"></span></td>
-							<td><a href="{{ campUrl(camp) }}">{{ camp.getTitle }}</a></td>
+							<td class="hidden-xs">
+								<span class="fa fa-bell"></span>
+							</td>
 							<td>
+								<a href="{{ campUrl(camp) }}">{{ camp.getTitle }}</a>
+							</td>
+							<td class="hidden-xs">
                                 {% if camp.belongsToUser %}
                                     <i class="fa fa-user"></i>
                                     <a href="{{ userUrl(camp.owner) }}">
@@ -77,7 +81,7 @@
 
 			<table>
 				<tr>
-					<td><h2>News (?)</h2></td>
+					<td><h2>{{ translate("News") }} (?)</h2></td>
 				</tr>
 			</table>
 			<hr />
@@ -86,7 +90,7 @@
 		<div class="col-sm-6">
 			<table>
 				<tr>
-					<td><h2>Groups ({{ groupMemberships|length }})</h2></td>
+					<td><h2>{{ translate("Groups") }} ({{ groupMemberships|length }})</h2></td>
 				</tr>
 			</table>
 			<table class="table table-hover">
@@ -118,7 +122,7 @@
 
 			<table>
 				<tr>
-					<td><h2>Friends ({{friendships|length}})</h2></td>
+					<td><h2>{{ translate("Friends") }} ({{friendships|length}})</h2></td>
 				</tr>
 			</table>
 			<table class="table table-hover">
@@ -146,7 +150,7 @@
 				<tr>
 					<td>
 						<h4 class="	">
-					    	Open Requests
+					    	{{ translate("Open requests") }}
 					    	({{ friendshipRequests|length }})
 					    </h4>
 					</td>

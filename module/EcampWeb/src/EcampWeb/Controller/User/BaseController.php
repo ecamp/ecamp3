@@ -42,4 +42,12 @@ abstract class BaseController
         return $this->getUserRepository()->find($userId);
     }
 
+    /**
+     * @return \EcampCore\Repository\UserRepository
+     */
+    protected function getUserRepository()
+    {
+        return $this->serviceLocator->get('EcampCore\Repository\User');
+    }
+
 }

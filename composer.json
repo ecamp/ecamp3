@@ -26,8 +26,9 @@
 		"doctrine/doctrine-orm-module" : "0.*",
 		"doctrine/migrations" : "dev-master",
 		"sundrique/doctrine-tools" : ">=0.2",
+        "bushbaby/bsb-doctrine-translation-loader": "~1.0",
 		"zf-commons/zfc-twig" : "dev-master",
-		"phpunit/phpunit" : "3.7.*",
+		"phpunit/phpunit" : "4.4.*",
 		"phly/phly-restfully" : "2.2.*",
 		"neilime/zf2-twb-bundle" : "2.*",
 		"kamisama/php-resque-ex" : "dev-bugfix as 1.2.7",
@@ -39,6 +40,9 @@
         "messagedigital/wkhtmltopdf-osx": "*",
         "hounddog/doctrine-data-fixture-module":"*"
 	},
+	"require-dev": {
+        "satooshi/php-coveralls": "dev-master"
+    },
 
     "provide": {
         "ext-pcntl": "*"

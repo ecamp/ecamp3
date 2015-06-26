@@ -7,38 +7,71 @@ use EcampCore\Entity\CampType;
 use EcampCore\Entity\EventCategory;
 use EcampCore\Entity\Camp;
 
+use Exception;
+use OutOfRangeException;
+
 class EventCategoryTest extends \PHPUnit_Framework_TestCase
 {
 
-    public function testEventCategory()
+    private function createEventCategory()
     {
         $campType = new CampType('name', 'type');
 
-        $eventType = new EventType($campType);
-        $eventType->setName('any event type');
-        $eventType->setDefaultColor('any default color');
+        $eventType = new EventType();
+        $eventType->setName('EventType Name');
+        $eventType->setDefaultColor('#FF00FF');
         $eventType->setDefaultNumberingStyle('i');
+        $eventType->getCampTypes()->add($campType);
 
-        $camp = new Camp($campType);
+        $camp = new Camp();
+        $camp->setCampType($campType);
+
         $eventCategory = new EventCategory($camp, $eventType);
-        $eventCategory->setName('any event category name');
+        $eventCategory->setShort('EC');
+        $eventCategory->setName('EventCategory Name');
 
-        $this->assertEquals($camp, $eventCategory->getCamp());
-        $this->assertEquals($eventType, $eventCategory->getEventType());
-        $this->assertEquals('any event category name', $eventCategory->getName());
+        $eventCategory->PrePersist();
 
+        return $eventCategory;
+    }
+
+    public function testEventCategory()
+    {
+        $eventCategory = $this->createEventCategory();
+        $camp = $eventCategory->getCamp();
+
+        $this->assertEquals('EC', $eventCategory->getShort());
+        $this->assertEquals('EventCategory Name', $eventCategory->getName());
         $this->assertEquals('i', $eventCategory->getNumberingStyle());
-        $this->assertEquals('any default color', $eventCategory->getColor());
+        $this->assertEquals('#FF00FF', $eventCategory->getColor());
+        $this->assertEquals('EventType Name', $eventCategory->getEventType()->getName());
 
-        $eventType = new EventType($campType);
-        $eventType->setName('other event type');
-        $eventCategory->setEventType($eventType);
+        $eventCategory->setColor('#EEEEEE');
+        $this->assertEquals('#000000', $eventCategory->getTextColor());
+
+        $eventCategory->setColor('#111111');
+        $this->assertEquals('#FFFFFF', $eventCategory->getTextColor());
+
+        $eventCategory->setNumberingStyle('1');
+        $this->assertEquals('2', $eventCategory->getStyledNumber(2));
+
         $eventCategory->setNumberingStyle('a');
-        $eventCategory->setColor('specific color');
+        $this->assertEquals('ab', $eventCategory->getStyledNumber(28));
 
-        $this->assertEquals($eventType, $eventCategory->getEventType());
-        $this->assertEquals('a', $eventCategory->getNumberingStyle());
-        $this->assertEquals('specific color', $eventCategory->getColor());
+        $eventCategory->setNumberingStyle('A');
+        $this->assertEquals('B', $eventCategory->getStyledNumber(2));
+
+        $eventCategory->setNumberingStyle('i');
+        $this->assertEquals('ii', $eventCategory->getStyledNumber(2));
+
+        $eventCategory->setNumberingStyle('I');
+        $this->assertEquals('II', $eventCategory->getStyledNumber(2));
+
+        $this->assertContains($eventCategory, $camp->getEventCategories());
+
+        $eventCategory->preRemove();
+        $this->assertNotContains($eventCategory, $camp->getEventCategories());
+
     }
 
     /**
@@ -47,10 +80,12 @@ class EventCategoryTest extends \PHPUnit_Framework_TestCase
     public function testSameCampType()
     {
         $campType = new CampType('name', 'type');
-        $eventType = new EventType($campType);
-        $camp = new Camp(new CampType('name', 'type'));
+        $eventType = new EventType();
+        $eventType->getCampTypes()->add($campType);
+        $camp = new Camp();
+        $camp->setCampType(new CampType('name', 'type'));
 
-        $eventCategory = new EventCategory($camp, $eventType);
+        new EventCategory($camp, $eventType);
     }
 
     /**
@@ -58,13 +93,7 @@ class EventCategoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testNumberStyle()
     {
-        $campType = new CampType('name', 'type');
-        $eventType = new EventType($campType);
-        $camp = new Camp($campType);
-
-        $eventCategory = new EventCategory($camp, $eventType);
-
-        $eventCategory->setNumberingStyle('x');
+        $this->createEventCategory()->setNumberingStyle('x');
     }
 
 }

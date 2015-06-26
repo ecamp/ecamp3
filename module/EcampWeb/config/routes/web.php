@@ -1,12 +1,17 @@
 <?php
 return array(
-    'type'    => 'Literal',
+    'type'    => 'Segment',
     'options' => array(
-        'route'    => '/web',
+        'route'    => '/web[/:locale]',
         'defaults' => array(
+            'module'        => 'EcampWeb',
             'controller'    => 'Index',
             'action'        => 'index',
+            'locale'        => 'en',
             '__NAMESPACE__' => 'EcampWeb\Controller',
+        ),
+        'constraints' => array(
+            'locale' => '[a-z]{2}',
         ),
     ),
     'may_terminate' => true,
@@ -194,6 +199,7 @@ return array(
                     'action'     => '[a-zA-Z][a-zA-Z0-9_-]*',
                 ),
                 'defaults' => array(
+                    'module'        => 'EcampWeb',
                     '__NAMESPACE__' => 'EcampWeb\Controller\Camp',
                     'action'    	=> 'index',
                 ),

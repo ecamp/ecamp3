@@ -123,6 +123,13 @@ return array(
         ),
     ),
 
+    'translator' => array(
+        'remote_translation' => array(
+            /* add a remote translation loader for each text domain */
+            array('type' => 'BsbDoctrineTranslationLoader', 'text_domain' => 'default'),
+        ),
+    ),
+
     'console' => array(
         'router' => array(
             'routes' => array(

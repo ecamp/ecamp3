@@ -4,8 +4,7 @@ namespace EcampLib\Form;
 
 use Zend\Form\Fieldset;
 
-abstract class BaseFieldset
-    extends Fieldset
+abstract class BaseFieldset extends Fieldset
 {
     public function __construct($name = null, $options = array())
     {
@@ -13,5 +12,6 @@ abstract class BaseFieldset
 
         $this->setAttribute('style', 'margin: 0 15px');
     }
+
 
 }

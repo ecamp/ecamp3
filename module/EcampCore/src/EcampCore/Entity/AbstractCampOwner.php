@@ -23,7 +23,7 @@ abstract class AbstractCampOwner extends BaseEntity
     /**
      * Camps, which I own myself
      * @var \Doctrine\Common\Collections\Collection
-     * @ORM\OneToMany(targetEntity="Camp", mappedBy="ownerUser")
+     * @ORM\OneToMany(targetEntity="Camp", mappedBy="owner")
      */
     protected $ownedCamps;
 
