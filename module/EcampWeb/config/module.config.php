@@ -6,6 +6,8 @@ return array(
         ),
     ),
 
+    'asset_manager' => include __DIR__ . '/assets/assets.config.php',
+
     'translator' => array(
         'remote_translation' => array(
             /* add a remote translation loader for each text domain */

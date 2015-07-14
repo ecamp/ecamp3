@@ -112,9 +112,19 @@ class EventInstance
         $this->minOffsetStart = $start;
     }
 
+    public function getMinOffsetStart()
+    {
+        return $this->minOffsetStart;
+    }
+
     public function setMinOffsetEnd($end)
     {
         $this->minOffsetEnd = $end;
+    }
+
+    public function getMinOffsetEnd()
+    {
+        return $this->minOffsetEnd;
     }
 
     /**
@@ -220,14 +230,18 @@ class EventInstance
         $start = $this->getStartTime();
         $end = $this->getEndTime();
 
-        if ($start->format("Y") == $end->format("Y")) {
-            if ($start->format("m") == $end->format("m")) {
-                return $start->format("d.") . ' - ' . $end->format('d.m.Y');
+        if ($start->format('Y') == $end->format('Y')) {
+            if ($start->format('m') == $end->format('m')) {
+                if ($start->format('d') == $end->format('d')) {
+                    return $start->format('d.m.Y');
+                } else {
+                    return $start->format('d.') . ' - ' . $end->format('d.m.Y');
+                }
             } else {
-                return $start->format("d.m.") . ' - ' . $end->format('d.m.Y');
+                return $start->format('d.m.') . ' - ' . $end->format('d.m.Y');
             }
         } else {
-            return $start->format("d.m.Y") . ' - ' . $end->format('d.m.Y');
+            return $start->format('d.m.Y') . ' - ' . $end->format('d.m.Y');
         }
     }
 

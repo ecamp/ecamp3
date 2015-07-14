@@ -23,7 +23,7 @@ class BaseUrl extends \Zend\View\Helper\Url
             }
         }
 
-        if(!isset($params['locale'])){
+        if (!isset($params['locale'])) {
             /** @var \Zend\View\Renderer\PhpRenderer $view */
             $view = $this->getView();
 

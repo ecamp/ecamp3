@@ -25,7 +25,7 @@ class BaseUrl extends Url
             }
         }
 
-        if(!isset($params['locale'])){
+        if (!isset($params['locale'])) {
             /** @var \Zend\Mvc\Controller\AbstractActionController $controller */
             $controller = $this->getController();
 

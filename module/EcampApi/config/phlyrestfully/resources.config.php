@@ -370,4 +370,27 @@ return array(
         'route_name'              => 'api/search/user',
         'collection_query_whitelist' => array('search'),
     ),
+
+    'EcampApi\Resource\Resque\Worker' => array(
+        'listener'                => 'EcampApi\Resource\Resque\Worker\WorkerResourceListener',
+        'collection_http_options' => array('get', 'post', 'delete'),
+        'page_size'               => 3,
+        'page_size_param'		  => 'limit',
+        'resource_http_options'   => array('get', 'delete'),
+        'route_name'              => 'api/resque/workers',
+        'identifier_name'		  => 'worker',
+        'collection_query_whitelist' => array(),
+    ),
+
+    'EcampApi\Resource\Resque\Job' => array(
+        'listener'                => 'EcampApi\Resource\Resque\Job\JobResourceListener',
+        'collection_http_options' => array('get', 'post'),
+        'page_size'               => 3,
+        'page_size_param'		  => 'limit',
+        'resource_http_options'   => array('get'),
+        'route_name'              => 'api/resque/jobs',
+        'identifier_name'		  => 'job',
+        'collection_query_whitelist' => array(),
+    ),
+
 );

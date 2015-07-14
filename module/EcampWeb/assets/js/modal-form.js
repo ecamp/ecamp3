@@ -2,9 +2,13 @@
  * Created by pirmin on 26.10.14.
  */
 
-(function(ngApp){
+(function(){
 
-    ngApp.provider('$asyncModal', function(){
+    var module = angular.module('ecamp-modal-form', [
+        'ui.bootstrap'
+    ]);
+
+    module.provider('$asyncModal', function(){
         var $asyncModalProvider = {
             options: {
                 cache: true,
@@ -29,7 +33,7 @@
         return $asyncModalProvider
     });
 
-    ngApp.directive('asyncModalWindow', [
+    module.directive('asyncModalWindow', [
         '$window', '$compile', '$timeout',
         function($window, $compile, $timeout){
             return {
@@ -122,7 +126,7 @@
     ]);
 
 
-    ngApp.directive('asyncModal', ['$asyncModal', function($asyncModal){
+    module.directive('asyncModal', ['$asyncModal', function($asyncModal){
         return {
             restrict: 'A',
             scope: true,
@@ -145,4 +149,4 @@
         }
     }]);
 
-}(window.ecamp.ngApp));
+})();

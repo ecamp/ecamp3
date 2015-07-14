@@ -4,8 +4,8 @@ namespace EcampCore\View\Event;
 
 use EcampCore\Entity\Event;
 use EcampCore\Entity\EventTemplateContainer;
+use EcampCore\Plugin\StrategyProvider;
 use Zend\View\Model\ViewModel;
-use Zend\ServiceManager\ServiceLocatorInterface;
 
 class EventTemplateContainerRenderer
 {
@@ -29,8 +29,11 @@ class EventTemplateContainerRenderer
      */
     private $pluginPositionRenderers;
 
-    public function __construct(EventTemplateContainer $eventTemplateContainer)
-    {
+    public function __construct(
+        StrategyProvider $strategyProvider,
+        EventTemplateContainer $eventTemplateContainer
+    ) {
+        $this->strategyProvider = $strategyProvider;
         $this->eventTemplateContainer = $eventTemplateContainer;
         $this->pluginPositionRenderers = array();
     }
@@ -64,11 +67,6 @@ class EventTemplateContainerRenderer
     public function getEventTemplateRenderer()
     {
         return $this->eventTemplateRenderer;
-    }
-
-    public function buildRendererTree(ServiceLocatorInterface $serviceLocator)
-    {
-        $this->strategyProvider = $serviceLocator->get('EcampCore\Plugin\StrategyProvider');
     }
 
     /**

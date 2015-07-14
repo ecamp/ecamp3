@@ -1,0 +1,174 @@
+{% extends 'ecamp-web/camp/camp.twig' %}
+
+{% block ng_app %}ecamp-camp-print{% endblock %}
+
+{% block script %}
+    {{ parent() }}
+
+    <script type="text/javascript" src="{{ basePath('/vendor-assets/js/angular.ui.sortable.js') }}"></script>
+
+    <script type="text/javascript" src="{{ basePath('/web-assets/js/camp/print/print-controller.js') }}"></script>
+
+    <script type="text/javascript">
+        (function(){
+            angular.module('ecamp-camp-print', [
+                'ui.sortable',
+                'ecamp.camp.print'
+            ]);
+        })();
+    </script>
+{% endblock %}
+
+
+{% block content %}
+
+    <style>
+        ul li button.remove-print-item {
+            margin-right: -1px;
+            margin-top: -2px;
+
+            border-radius: 0 0 0 4px;
+            min-width: 60px;
+        }
+
+        ul li:first-child button.remove-print-item {
+            border-top-right-radius: 4px;
+        }
+    </style>
+
+    <script type="text/ng-template" id="title-page">
+        <h4 ng-bind="item.name"></h4>
+    </script>
+
+    <script type="text/ng-template" id="table-of-contents">
+        <h4 ng-bind="item.name"></h4>
+    </script>
+
+    <script type="text/ng-template" id="collaborators-list">
+        <h4 ng-bind="item.name"></h4>
+    </script>
+
+    <script type="text/ng-template" id="picasso">
+        <h4 ng-bind="item.name"></h4>
+    </script>
+
+    <script type="text/ng-template" id="detailed-program">
+        <h4 ng-bind="item.name"></h4>
+    </script>
+
+
+    <div ng-controller="PrintController" ng-init="init('{{
+        url('web/camp/default', { 'camp': camp, 'controller': 'Print', 'action': 'config' })
+        }}', '{{
+        url('api/resque/jobs')
+        }}')"
+    >
+
+        <div class="col-sm-8">
+            {% embed "helper/accordion.twig" with { 'id': 'print' } %}
+                {% block panel_title %}
+                    Print
+                    <div class="dropdown pull-right">
+                        <a href="#" class="btn btn-xs btn-success dropdown-toggle" data-toggle="dropdown">
+                            Add <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                            <li data-ng-repeat="item in catalog">
+                                <a data-ng-click="addItem(item)" data-ng-bind="item.name"></a>
+                            </li>
+                        </ul>
+                    </div>
+                {% endblock %}
+                {% block panel_content %}
+                    <div class="row">
+                        <div class="col-sm-12">
+
+                            <ul data-ui-sortable="{ 'forcePlaceholderSize': true, 'forceHelperSize': true }" class="list-group" data-ng-model="items">
+                                <li data-ng-repeat="item in items" class="list-group-item" style="padding: 0;">
+                                    <div class="pull-right">
+                                        <button
+                                                data-ng-click="removeItem($index)"
+                                            class="btn btn-xs btn-danger remove-print-item"
+                                        >
+                                            <i class="fa fa-remove"></i>
+                                        </button>
+                                    </div>
+                                    <div style="padding: 10px  15px">
+                                        <div data-ng-include="item.template"></div>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </li>
+                            </ul>
+
+                        </div>
+
+                        <div class="col-sm-4">
+
+                        </div>
+                    </div>
+
+                    {#
+                    <form method="post" target="_blank" action="{% verbatim %}{{ pdfUrl() }}{% endverbatim %}">
+                        <textarea name="config">{% verbatim %}{{ items }}{% endverbatim %}</textarea>
+                    #}
+
+                        <div class="pull-right">
+                            <button
+                                type="submit"
+                                class="btn btn-primary"
+                                data-ng-click="createPrintJob()"
+                                {#
+                                ng-href="{% verbatim %}{{ pdfUrl() }}{% endverbatim %}"
+                                #}
+                            >
+                                <i class="fa fa-print" style="margin-right: 10px"></i>
+                                Print
+                            </button>
+                        </div>
+                    {#
+                    </form>
+                    #}
+                    <div class="clearfix"></div>
+
+                    <div style="margin-bottom: 15px"> </div>
+                {% endblock %}
+            {% endembed %}
+        </div>
+
+
+        <div class="col-sm-4">
+            {% embed "helper/accordion.twig" with { 'id': 'print-history' } %}
+                {% block panel_title %}
+                    Created PDFs
+                {% endblock %}
+                {% block panel_content %}
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <ul class="list-group">
+                                <li data-ng-repeat="job in jobs" class="list-group-item" style="padding: 0; border: none;">
+                                    <a data-ng-href="{% verbatim %}{{ job.url }}{% endverbatim %}"
+                                       class="btn btn-primary" data-ng-disabled="job.disable"
+                                       style="width: 100%; margin: 5px 0;"
+                                    >
+                                        <span data-ng-show="job.state == 'waiting'">
+                                            <i class="fa fa-spinner fa-pulse"></i> &nbsp; waiting
+                                        </span>
+
+                                        <span data-ng-show="job.state == 'creating'">
+                                            <i class="fa fa-spinner fa-pulse"></i> &nbsp; creating
+                                        </span>
+
+                                        <span data-ng-show="job.state == 'created'">
+                                            <i class="fa fa-download"></i> &nbsp; download pdf
+                                        </span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                {% endblock %}
+            {% endembed %}
+        </div>
+
+    </div>
+{% endblock %}

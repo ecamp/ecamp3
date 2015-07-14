@@ -2,7 +2,7 @@
 return array(
     'router' => array(
         'routes' => array(
-            'api' => include __DIR__ . '/routes/api.config.php'
+            'api' => include __DIR__ . '/routes/api.v0.php'
         ),
     ),
 

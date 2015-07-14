@@ -2,6 +2,8 @@
 
 namespace EcampWeb\Controller\Camp;
 
+use EcampCore\Entity\Event;
+use EcampCore\Plugin\StrategyProvider;
 use Zend\View\Model\ViewModel;
 use Zend\Stdlib\RequestInterface;
 use Zend\Stdlib\ResponseInterface;
@@ -34,6 +36,14 @@ class EventController extends BaseController
         }
 
         parent::dispatch($request, $response);
+    }
+
+    /**
+     * @return StrategyProvider
+     */
+    private function getStrategyProvider()
+    {
+        return $this->getServiceLocator()->get('EcampCore\Plugin\StrategyProvider');
     }
 
     /**
@@ -80,13 +90,12 @@ class EventController extends BaseController
     {
         $event = $this->getEventEntity();
 
+        $strategyProvider = $this->getStrategyProvider();
         $eventTemplate = $this->getEventTemplateRepository()->findTemplate($event, $medium);
-        $eventTemplateRenderer = new EventTemplateRenderer($eventTemplate);
+        $eventTemplateRenderer = new EventTemplateRenderer($strategyProvider, $eventTemplate);
         $eventTemplateRenderer->buildRendererTree($this->getServiceLocator());
 
-        $viewModel = $eventTemplateRenderer->render($event);
-
-        return $viewModel;
+        return $eventTemplateRenderer->render($event);
     }
 
     public function indexAction()

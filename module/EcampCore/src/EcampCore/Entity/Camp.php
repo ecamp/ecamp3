@@ -84,6 +84,12 @@ class Camp extends BaseEntity
     private $visibility;
 
     /**
+     * @var string
+     * @ORM\Column(type="string", length=2048, nullable=false, options={"default" = "[]"})
+     */
+    private $printConfig;
+
+    /**
      * @var User
      * @ORM\ManyToOne(targetEntity="User")
      * @ORM\JoinColumn(name="creator_id", referencedColumnName="id", nullable=false)
@@ -194,6 +200,16 @@ class Camp extends BaseEntity
         } else {
             throw new \Exception("Unallowed Value for Camp::Visibility ($visibility)");
         }
+    }
+
+    public function getPrintConfig()
+    {
+        return $this->printConfig;
+    }
+
+    public function setPrintConfig($printConfig)
+    {
+        $this->printConfig = $printConfig;
     }
 
     /**

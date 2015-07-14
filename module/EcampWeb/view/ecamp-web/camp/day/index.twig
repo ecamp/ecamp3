@@ -1,5 +1,25 @@
 {% extends 'ecamp-web/camp/camp.twig' %}
 
+{% block ng_app %}ecamp-camp-day{% endblock %}
+
+{% block link %}
+    {{ parent() }}
+
+    <link href="{{ basePath('/vendor-assets/css/bootstrap.select.css') }}" media="screen" rel="stylesheet" type="text/css">
+{% endblock %}
+
+{% block script %}
+    {{ parent() }}
+
+    <script type="text/javascript" src="{{ basePath('/vendor-assets/js/bootstrap.select.js') }}"></script>
+
+    <script type="text/javascript">
+        (function(){
+            angular.module('ecamp-camp-day', []);
+        })();
+    </script>
+{% endblock %}
+
 
 {% block content %}
 
@@ -58,11 +78,13 @@
 					data-placement="bottom"
 					data-original-title="{{ prevDay.getStart() | date("d.m.Y") }}"
 				>
+                    <i class="fa fa-arrow-left"></i>
+                </a>
 			{% else %}
 				<a 	class="btn btn-default btn-block" disabled="disabled">
+                    <i class="fa fa-arrow-left"></i>
+                </a>
 			{% endif %}
-				<i class="fa fa-arrow-left"></i>
-			</a>
 		</div>
 		<div class="col-xs-12 col-sm-8">
 			<form action="{{url('web/camp/default',{ 'camp': camp, 'controller': 'day', 'action': 'index' })}}">
@@ -134,11 +156,13 @@
 					data-placement="bottom"
 					data-original-title="{{ nextDay.getStart() | date("d.m.Y") }}"
 				>
+                    <i class="fa fa-arrow-right"></i>
+                </a>
 			{% else %}
 				<a 	class="btn btn-default btn-block" disabled="disabled">
+                    <i class="fa fa-arrow-right"></i>
+                </a>
 			{% endif %}
-				<i class="fa fa-arrow-right"></i>
-			</a>
 		</div>
 	</div>
 
@@ -155,11 +179,13 @@
 					data-placement="bottom"
 					data-original-title="{{ prevDay.getStart() | date("d.m.Y") }}"
 				>
+                    <i class="fa fa-arrow-left"></i>
+                </a>
 			{% else %}
 				<a 	class="btn btn-default btn-block" disabled="disabled">
+                    <i class="fa fa-arrow-left"></i>
+                </a>
 			{% endif %}
-				<i class="fa fa-arrow-left"></i>
-			</a>
 		</div>
 		<div class="col-xs-6">
 			{% if nextDay != NULL %}
@@ -173,11 +199,13 @@
 					data-placement="bottom"
 					data-original-title="{{ nextDay.getStart() | date("d.m.Y") }}"
 				>
+                    <i class="fa fa-arrow-right"></i>
+                </a>
 			{% else %}
 				<a 	class="btn btn-default btn-block" disabled="disabled">
+                    <i class="fa fa-arrow-right"></i>
+                </a>
 			{% endif %}
-				<i class="fa fa-arrow-right"></i>
-			</a>
 		</div>
 	</div>
 

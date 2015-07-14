@@ -25,6 +25,10 @@ return array(
 
     ),
 
+    'resque' => array(
+        'bin' => __VENDOR__ . '/bin/resque'
+    ),
+
     'router' => array(
         'routes' => array(
 
