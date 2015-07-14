@@ -125,10 +125,6 @@
                             });
 
                             dlg.result.then(function(result){
-                                console.log(result);
-
-                                console.log(_picassoData);
-
                                 $timeout(function(){
                                     _picassoData.remoteData.Update(function(){
                                         _picassoData.RefreshCamp();
