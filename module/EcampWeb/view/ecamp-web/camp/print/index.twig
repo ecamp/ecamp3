@@ -2,26 +2,40 @@
 
 {% block ng_app %}ecamp-camp-print{% endblock %}
 
+{% block link %}
+    {{ parent() }}
+
+    <link href="{{ basePath('/vendor-assets/css/bootstrap.select.css') }}" media="screen" rel="stylesheet" type="text/css">
+{% endblock %}
+
 {% block script %}
     {{ parent() }}
 
+    <script type="text/javascript" src="{{ basePath('/vendor-assets/js/bootstrap.select.js') }}"></script>
+
+    <script type="text/javascript" src="{{ basePath('/vendor-assets/js/angular.hal.js') }}"></script>
     <script type="text/javascript" src="{{ basePath('/vendor-assets/js/angular.ui.sortable.js') }}"></script>
+
+    <script type="text/javascript" src="{{ basePath('/api-assets/js/api.v0.js') }}"></script>
 
     <script type="text/javascript" src="{{ basePath('/web-assets/js/camp/print/print-controller.js') }}"></script>
 
     <script type="text/javascript">
         (function(){
-            angular.module('ecamp-camp-print', [
+
+            var module = angular.module('ecamp-camp-print', [
                 'ui.sortable',
                 'ecamp.camp.print'
             ]);
+
+            module.value('CampId', '{{ camp.id }}');
+            module.value('CampPrintConfig', '{{ url('web/camp/default', { 'camp': camp, 'controller': 'Print', 'action': 'config' }) }}');
         })();
     </script>
 {% endblock %}
 
 
 {% block content %}
-
     <style>
         ul li button.remove-print-item {
             margin-right: -1px;
@@ -37,34 +51,109 @@
     </style>
 
     <script type="text/ng-template" id="title-page">
-        <h4 ng-bind="item.name"></h4>
+        <h4 ng-bind="item.constructor.title"></h4>
     </script>
 
     <script type="text/ng-template" id="table-of-contents">
-        <h4 ng-bind="item.name"></h4>
+        <h4 ng-bind="item.constructor.title"></h4>
     </script>
 
     <script type="text/ng-template" id="collaborators-list">
-        <h4 ng-bind="item.name"></h4>
+        <h4 ng-bind="item.constructor.title"></h4>
     </script>
 
     <script type="text/ng-template" id="picasso">
-        <h4 ng-bind="item.name"></h4>
+        <h4 ng-bind="item.constructor.title"></h4>
+
+        <div style="margin: auto -25px">
+            <p data-ng-repeat="period in periods" style="display: inline-block; margin: auto 25px">
+                {% verbatim %}
+                    <label>
+                        <input
+                            type="checkbox"
+                            name="periods[{{ period.id }}]"
+                            data-ng-checked="item.periods.indexOf(period.id) != -1"
+                            data-ng-click="item.TogglePeriod(period)"
+                        />
+                        <b>{{ period.description }}</b>
+                        <i style="font-weight: normal">({{ period.start | date }} - {{ period.end | date }})</i>
+                    </label>
+                {% endverbatim %}
+            </p>
+        </div>
     </script>
 
     <script type="text/ng-template" id="detailed-program">
-        <h4 ng-bind="item.name"></h4>
+        <h4 ng-bind="item.constructor.title"></h4>
+
+        <div style="margin: auto -25px">
+            <p data-ng-repeat="period in periods" style="display: inline-block; margin: auto 25px">
+                {% verbatim %}
+                <label>
+                    <input
+                            type="checkbox"
+                            name="periods[{{ period.id }}]"
+                            data-ng-checked="item.periods.indexOf(period.id) != -1"
+                            data-ng-click="item.TogglePeriod(period)"
+                            />
+                    <b>{{ period.description }}</b>
+                    <i style="font-weight: normal">({{ period.start | date }} - {{ period.end | date }})</i>
+                </label>
+                {% endverbatim %}
+            </p>
+        </div>
     </script>
 
-
-    <div ng-controller="PrintController" ng-init="init('{{
-        url('web/camp/default', { 'camp': camp, 'controller': 'Print', 'action': 'config' })
-        }}', '{{
-        url('api/resque/jobs')
-        }}')"
-    >
-
+    <div ng-controller="PrintController">
         <div class="col-sm-8">
+            {#
+            {% embed "helper/accordion.twig" with { 'id': 'camp_periods' } %}
+                {% block panel_title %}
+                    Camp + Periods
+                {% endblock %}
+                {% block panel_content %}
+                    <div class="row">
+                        <div class="col-sm-12" style="text-align: center">
+                            <h3>{{ camp.title }}</h3>
+                            <p>{{ camp.motto }}</p>
+                        </div>
+                        <div class="col-sm-12">
+                            Select periods to print.
+
+                            {% verbatim %}
+                            <table class="table table-condensed table-hover">
+                                <tr data-ng-repeat="period in periods">
+                                    <td style="border-top: none;">
+                                        <input type="checkbox" id="{{ period.id }}" checked>
+                                    </td>
+                                    <td style="border-top: none;">
+                                        <label for="{{ period.id }}" style="font-weight: normal;">
+                                            {{ period.description }}
+                                        </label>
+                                    </td>
+                                    <td style="border-top: none;">
+                                        <label for="{{ period.id }}" style="font-weight: normal;">
+                                            {{ period.start | date }}
+                                        </label>
+                                    </td>
+                                    <td style="border-top: none;">
+                                        <label for="{{ period.id }}" style="font-weight: normal;"> - </label>
+                                    </td>
+                                    <td style="border-top: none;">
+                                        <label for="{{ period.id }}" style="font-weight: normal;">
+                                            {{ period.end | date }}
+                                        </label>
+                                    </td>
+                                </tr>
+
+                            </table>
+                            {% endverbatim %}
+                        </div>
+                    </div>
+                {% endblock %}
+            {% endembed %}
+            #}
+
             {% embed "helper/accordion.twig" with { 'id': 'print' } %}
                 {% block panel_title %}
                     Print
@@ -74,27 +163,28 @@
                         </a>
                         <ul class="dropdown-menu dropdown-menu-right" role="menu">
                             <li data-ng-repeat="item in catalog">
-                                <a data-ng-click="addItem(item)" data-ng-bind="item.name"></a>
+                                <a data-ng-click="addItem(item)" data-ng-bind="item.title"></a>
                             </li>
                         </ul>
                     </div>
                 {% endblock %}
                 {% block panel_content %}
+
                     <div class="row">
                         <div class="col-sm-12">
 
-                            <ul data-ui-sortable="{ 'forcePlaceholderSize': true, 'forceHelperSize': true }" class="list-group" data-ng-model="items">
+                            <ul data-ui-sortable="{ 'forcePlaceholderSize': true, 'forceHelperSize': true, stop: saveConfig }" class="list-group" data-ng-model="items">
                                 <li data-ng-repeat="item in items" class="list-group-item" style="padding: 0;">
                                     <div class="pull-right">
                                         <button
-                                                data-ng-click="removeItem($index)"
+                                            data-ng-click="removeItem($index)"
                                             class="btn btn-xs btn-danger remove-print-item"
                                         >
                                             <i class="fa fa-remove"></i>
                                         </button>
                                     </div>
                                     <div style="padding: 10px  15px">
-                                        <div data-ng-include="item.template"></div>
+                                        <div data-ng-include="item.constructor.template"></div>
                                     </div>
                                     <div class="clearfix"></div>
                                 </li>
@@ -107,32 +197,25 @@
                         </div>
                     </div>
 
-                    {#
-                    <form method="post" target="_blank" action="{% verbatim %}{{ pdfUrl() }}{% endverbatim %}">
-                        <textarea name="config">{% verbatim %}{{ items }}{% endverbatim %}</textarea>
-                    #}
+                    <div class="pull-right">
+                        <button
+                            type="submit"
+                            class="btn btn-primary"
+                            data-ng-click="createPrintJob()"
+                        >
+                            <i class="fa fa-print" style="margin-right: 10px"></i>
+                            Print
+                        </button>
+                    </div>
 
-                        <div class="pull-right">
-                            <button
-                                type="submit"
-                                class="btn btn-primary"
-                                data-ng-click="createPrintJob()"
-                                {#
-                                ng-href="{% verbatim %}{{ pdfUrl() }}{% endverbatim %}"
-                                #}
-                            >
-                                <i class="fa fa-print" style="margin-right: 10px"></i>
-                                Print
-                            </button>
-                        </div>
-                    {#
-                    </form>
-                    #}
                     <div class="clearfix"></div>
 
                     <div style="margin-bottom: 15px"> </div>
                 {% endblock %}
             {% endembed %}
+{#
+            <pre>{% verbatim %}{{ items | json }}{% endverbatim %}</pre>
+#}
         </div>
 
 
@@ -145,21 +228,25 @@
                     <div class="row">
                         <div class="col-sm-12">
                             <ul class="list-group">
-                                <li data-ng-repeat="job in jobs" class="list-group-item" style="padding: 0; border: none;">
-                                    <a data-ng-href="{% verbatim %}{{ job.url }}{% endverbatim %}"
-                                       class="btn btn-primary" data-ng-disabled="job.disable"
+                                <li data-ng-repeat="jobItem in jobs" class="list-group-item" style="padding: 0; border: none;">
+                                    <a data-ng-href="{% verbatim %}{{ jobItem.download }}{% endverbatim %}"
+                                       class="btn btn-primary" data-ng-disabled="jobItem.disable"
                                        style="width: 100%; margin: 5px 0;"
                                     >
-                                        <span data-ng-show="job.state == 'waiting'">
+                                        <span data-ng-show="jobItem.job.status == 1">
                                             <i class="fa fa-spinner fa-pulse"></i> &nbsp; waiting
                                         </span>
 
-                                        <span data-ng-show="job.state == 'creating'">
+                                        <span data-ng-show="jobItem.job.status == 3">
                                             <i class="fa fa-spinner fa-pulse"></i> &nbsp; creating
                                         </span>
 
-                                        <span data-ng-show="job.state == 'created'">
+                                        <span data-ng-show="jobItem.job.status == 4">
                                             <i class="fa fa-download"></i> &nbsp; download pdf
+                                        </span>
+
+                                        <span data-ng-show="jobItem.job.status == 6">
+                                            <i class="fa fa-ban"></i> &nbsp; failed
                                         </span>
                                     </a>
                                 </li>
@@ -168,7 +255,11 @@
                     </div>
                 {% endblock %}
             {% endembed %}
+{#
+            <pre>{% verbatim %}{{ jobs | json }}{% endverbatim %}</pre>
+#}
         </div>
+
 
     </div>
 {% endblock %}

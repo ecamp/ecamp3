@@ -23,10 +23,14 @@ class Cover implements PrintableInterface
 
         $camp = $this->campRepository->find($campId);
 
-        $viewModel = new ViewModel();
-        $viewModel->setTemplate('ecamp-core/printable/cover.twig');
-        $viewModel->setVariable('camp', $camp);
+        if ($camp != null) {
+            $viewModel = new ViewModel();
+            $viewModel->setTemplate('ecamp-core/printable/cover.twig');
+            $viewModel->setVariable('camp', $camp);
 
-        return $viewModel;
+            return $viewModel;
+        }
+
+        return null;
     }
 }

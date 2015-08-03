@@ -13,9 +13,13 @@
 
     <script type="text/javascript" src="{{ basePath('/vendor-assets/js/bootstrap.select.js') }}"></script>
 
+    <script type="text/javascript" src="{{ basePath('/web-assets/js/modal-form.js') }}"></script>
+
     <script type="text/javascript">
         (function(){
-            angular.module('ecamp-camp-day', []);
+            angular.module('ecamp-camp-day', [
+                'ecamp-modal-form'
+            ]);
         })();
     </script>
 {% endblock %}
@@ -354,17 +358,17 @@
 									<!--
 									 Options
 									 -->
-									 <button
-										type="button"
-										class="btn btn-sm btn-success pull-right"
-										data-toggle="modal"
-										data-target="#asyncform-container"
-										href="{{ url(
-											'web/camp/default',
-											{'camp': camp, 'controller':'day', 'action' : 'addEvent' },
-											{ 'query': { 'dayId': day.getId() } }
-										) }}"
-									><i class="fa fa-plus"></i> Event</button>
+                                         <button
+                                             async-modal
+                                             class="btn btn-sm btn-success pull-right"
+                                             data-size="md"
+                                             type="button"
+                                             href="{{ url(
+                                                'web/camp/default',
+                                                {'camp': camp, 'controller':'day', 'action' : 'addEvent' },
+                                                { 'query': { 'dayId': day.getId() } }
+                                            ) }}"
+                                         ><i class="fa fa-plus"></i> Event</button>
 
 									</th>
 								</tr>

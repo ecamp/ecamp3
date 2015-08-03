@@ -14,6 +14,6 @@ class CreatePdfJobFactory
      */
     public function create($options = null)
     {
-        return new CreatePdfJob($options->pages);
+        return new CreatePdfJob($options['pages']);
     }
 }

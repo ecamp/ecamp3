@@ -3,6 +3,7 @@
 namespace EcampCore\Job;
 
 use EcampLib\Job\AbstractJobBase;
+use EcampLib\Job\JobResultInterface;
 use EcampLib\Printable\PrintableInterface;
 use EcampLib\ServiceManager\PrintableManager;
 use mikehaertl\shellcommand\Command;
@@ -10,7 +11,7 @@ use mikehaertl\tmp\File;
 use mikehaertl\wkhtmlto\Pdf;
 use Zend\View\Model\ViewModel;
 
-class CreatePdfJob extends AbstractJobBase
+class CreatePdfJob extends AbstractJobBase implements JobResultInterface
 {
     const PAGE = 'PAGE';
     const TOC = 'TOC';
@@ -77,7 +78,7 @@ class CreatePdfJob extends AbstractJobBase
             }
         }
 
-        $this->createPdf($pdf);
+        echo $this->createPdf($pdf);
     }
 
     private function getPdfFactory()
@@ -105,7 +106,9 @@ class CreatePdfJob extends AbstractJobBase
             $printable = $this->getPrintableManager()->get($item['name']);
             $viewModel = $printable->create($item);
 
-            $content .= $this->render($viewModel);
+            if ($viewModel != null) {
+                $content .= $this->render($viewModel);
+            }
         }
 
         $pageModel = new ViewModel();
@@ -131,10 +134,23 @@ class CreatePdfJob extends AbstractJobBase
 
         if ($command->execute()) {
             $tmpA4->saveAs($pdfFilename);
+
+            return $pdfFilename;
         } else {
             echo $command->getError();
             die((string) $command->getExitCode());
         }
+    }
+
+    public function getResult()
+    {
+        $pdfFilename = __DATA__ . '/print/' . $this->getId() . '.pdf';
+
+        if (file_exists($pdfFilename)) {
+            return $pdfFilename;
+        }
+
+        return null;
     }
 
     /**

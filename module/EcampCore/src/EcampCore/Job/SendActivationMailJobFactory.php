@@ -20,7 +20,7 @@ class SendActivationMailJobFactory
      */
     public function create($options = null)
     {
-        $userId = $options->userId;
+        $userId = $options['userId'];
         /** @var \EcampCore\Entity\User $user */
         $user = $this->getUserRepository()->find($userId);
 

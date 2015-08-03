@@ -4,17 +4,26 @@ a[ng-click], a[data-ng-click] {
 }
 
 .panel-group .panel{
-    border-color: transparent;
-    -webkit-box-shadow: none;
+    /*border-color: transparent;*/
+    /*-webkit-box-shadow: none;*/
 }
 
 .panel-group .panel-heading {
-    background-color: transparent;
-    border-bottom: 2px solid rgba(200,200,200,.7);
+    /*background-color: transparent;*/
+    /*border-bottom: 2px solid rgba(200,200,200,.7);*/
 }
 
 .panel-group .panel-heading+.panel-collapse .panel-body {
-    border: none;
+    /*border: none;*/
+}
+
+.modal-open .async-modal {
+    display: block;
+}
+
+.modal-backdrop {
+    position: fixed;
+    bottom: 0;
 }
 
 

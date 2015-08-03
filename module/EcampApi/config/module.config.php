@@ -1,5 +1,7 @@
 <?php
 return array(
+    'asset_manager' => include __DIR__ . '/assets.config.php',
+
     'router' => array(
         'routes' => array(
             'api' => include __DIR__ . '/routes/api.v0.php'

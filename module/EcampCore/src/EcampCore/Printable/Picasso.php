@@ -25,12 +25,16 @@ class Picasso implements PrintableInterface
 
         $period = $this->periodRepository->find($periodId);
 
-        $viewModel = new ViewModel();
-        $viewModel->setTemplate('ecamp-core/printable/picasso.twig');
-        $viewModel->setVariable('period', $period);
-        $viewModel->setVariable('dayStart', $start);
-        $viewModel->setVariable('dayEnd', $end);
+        if ($period != null) {
+            $viewModel = new ViewModel();
+            $viewModel->setTemplate('ecamp-core/printable/picasso.twig');
+            $viewModel->setVariable('period', $period);
+            $viewModel->setVariable('dayStart', $start);
+            $viewModel->setVariable('dayEnd', $end);
 
-        return $viewModel;
+            return $viewModel;
+        }
+
+        return null;
     }
 }

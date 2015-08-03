@@ -56,6 +56,7 @@ return array(
 
             'web-assets/css/bootstrap.css'                          =>  __MODULE__ . '/EcampWeb/assets/css/bootstrap.css',
             'web-assets/css/default.css'                            =>  __MODULE__ . '/EcampWeb/assets/css/default.css',
+            'web-assets/css/print.css'                              =>  __MODULE__ . '/EcampWeb/assets/css/print.css',
             'web-assets/css/ng-contextmenu.css'                     =>  __MODULE__ . '/EcampWeb/assets/css/ng-contextmenu.css',
 
             'web-assets/tpl/async-modal-window.html'                =>  __MODULE__ . '/EcampWeb/assets/tpl/async-modal-window.html',

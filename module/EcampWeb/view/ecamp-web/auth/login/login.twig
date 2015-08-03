@@ -1,5 +1,7 @@
 {% extends 'layout/layout.default.twig' %}
 
+{% block ng_app %}ecamp-login{% endblock %}
+
 {% block link %}
     {{ parent() }}
 
@@ -37,6 +39,16 @@
 
 {% block script %}
     {{ parent() }}
+
+    <script type="text/javascript" src="{{ basePath('/web-assets/js/modal-form.js') }}"></script>
+
+    <script type="text/javascript">
+        (function(){
+            angular.module('ecamp-login', [
+                'ecamp-modal-form'
+            ]);
+        })();
+    </script>
 {% endblock %}
 
 
@@ -88,16 +100,16 @@
 
                     <div style="text-align: center">
                         <button
+                            async-modal
                             type="button"
                             class="btn-link"
-                            async-modal
                             href="{{ url('web/default', { 'controller':'register' } ) }}"
                         >Register</button>
 
                         <button
+                            async-modal
                             type="button"
                             class="btn-link"
-                            async-modal
                             href="{{ url('web/default', { 'controller': 'index', 'action': 'about'} ) }}"
                         >About</button>
                     </div>
