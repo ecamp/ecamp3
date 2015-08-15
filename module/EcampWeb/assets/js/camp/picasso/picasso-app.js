@@ -204,6 +204,7 @@
 
         var _picassoBody = _element.find('.picasso-body');
         var _eventInstances = _element.find('.event-instances');
+        var _scrollContainer = _element.find('.picasso-body>div');
 
         Object.defineProperty(this, 'picassoBody', { value: _picassoBody });
         Object.defineProperty(this, 'picassoBodyWidth', { get: function(){ return _picassoBody.width(); } });
@@ -215,6 +216,21 @@
 
         Object.defineProperty(this, 'CalcRelY', {
             value: function(value){ return value / this.eventInstanceHeight; }
+        });
+
+        Object.defineProperty(this, 'ScrollLeft', {
+            value: function(){ return _eventInstances.position().left; }
+        });
+
+        Object.defineProperty(this, 'OnScroll', {
+            value: function(fn){    _scrollContainer.on('scroll', fn);    }
+        });
+        Object.defineProperty(this, 'OffScroll', {
+            value: function(fn){    _scrollContainer.off('scroll', fn);   }
+        });
+
+        _scrollContainer.scroll(function(e){
+            $(e.target).scrollTop(0);
         });
     }
 
@@ -231,11 +247,6 @@
 
             link: function($scope, $element, $attrs, $ctrl){
                 $ctrl.Init($element);
-
-                $element.find('.picasso-body>div').scroll(function(e){
-                    var $target = $(e.target);
-                    $target.scrollTop(0);
-                });
             }
         };
     }]);

@@ -65,19 +65,21 @@
     <script type="text/ng-template" id="picasso">
         <h4 ng-bind="item.constructor.title"></h4>
 
-        <div style="margin: auto -25px">
-            <p data-ng-repeat="period in periods" style="display: inline-block; margin: auto 25px">
+        <div style="margin: auto -15px">
+            <p data-ng-repeat="period in periods" style="display: block; margin: auto 30px">
                 {% verbatim %}
-                    <label>
-                        <input
-                            type="checkbox"
-                            name="periods[{{ period.id }}]"
-                            data-ng-checked="item.periods.indexOf(period.id) != -1"
-                            data-ng-click="item.TogglePeriod(period)"
-                        />
-                        <b>{{ period.description }}</b>
-                        <i style="font-weight: normal">({{ period.start | date }} - {{ period.end | date }})</i>
-                    </label>
+                <label style="display: block;">
+                    <input
+                        type="checkbox"
+                        name="periods[{{ period.id }}]"
+                        data-ng-checked="item.periods.indexOf(period.id) != -1"
+                        data-ng-click="item.TogglePeriod(period)"
+                    />
+                        <span style="display: inline-block; vertical-align: text-top;">
+                            <b>{{ period.description }}</b><br />
+                            <i style="font-weight: normal">({{ period.start | date }} - {{ period.end | date }})</i>
+                        </span>
+                </label>
                 {% endverbatim %}
             </p>
         </div>
@@ -86,18 +88,20 @@
     <script type="text/ng-template" id="detailed-program">
         <h4 ng-bind="item.constructor.title"></h4>
 
-        <div style="margin: auto -25px">
-            <p data-ng-repeat="period in periods" style="display: inline-block; margin: auto 25px">
+        <div style="margin: auto -15px">
+            <p data-ng-repeat="period in periods" style="display: block; margin: auto 30px">
                 {% verbatim %}
-                <label>
+                <label style="display: block;">
                     <input
-                            type="checkbox"
-                            name="periods[{{ period.id }}]"
-                            data-ng-checked="item.periods.indexOf(period.id) != -1"
-                            data-ng-click="item.TogglePeriod(period)"
-                            />
-                    <b>{{ period.description }}</b>
-                    <i style="font-weight: normal">({{ period.start | date }} - {{ period.end | date }})</i>
+                        type="checkbox"
+                        name="periods[{{ period.id }}]"
+                        data-ng-checked="item.periods.indexOf(period.id) != -1"
+                        data-ng-click="item.TogglePeriod(period)"
+                    />
+                        <span style="display: inline-block; vertical-align: text-top;">
+                            <b>{{ period.description }}</b><br />
+                            <i style="font-weight: normal">({{ period.start | date }} - {{ period.end | date }})</i>
+                        </span>
                 </label>
                 {% endverbatim %}
             </p>

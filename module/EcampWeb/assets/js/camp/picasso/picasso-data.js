@@ -502,7 +502,7 @@
                             var dayStart = 1440 * dayModel.dayOffset;
                             var dayEnd = 1440 * (1 + dayModel.dayOffset);
 
-                            if(dayStart <= start && start <= dayEnd){
+                            if(dayModel.periodId == periodId && dayStart <= start && start <= dayEnd){
                                 return dayModel;
                             }
                         }

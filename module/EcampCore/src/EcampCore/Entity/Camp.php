@@ -85,7 +85,7 @@ class Camp extends BaseEntity
 
     /**
      * @var string
-     * @ORM\Column(type="string", length=2048, nullable=false, options={"default" = "[]"})
+     * @ORM\Column(type="string", length=2048, nullable=true, options={"default" = "[]"})
      */
     private $printConfig;
 

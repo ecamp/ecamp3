@@ -96,6 +96,7 @@
 
                     var draggable_info = {
                         duration: 0,
+                        initLeft: 0,
                         deltaTime: 0
                     };
 
@@ -109,7 +110,7 @@
                         });
 
                         firstEventInstances.draggable({
-                            delay: 300,
+                            delay: 200,
 
                             helper: function(event){
                                 var target = $(event.target);
@@ -121,53 +122,68 @@
                             },
                             start: function(event, ui){
                                 BeginUserEvent();
+                                _picassoElement.OnScroll(onScroll);
 
                                 draggable_info.duration = eventInstanceModel.end_min - eventInstanceModel.start_min;
+                                draggable_info.initLeft = _picassoElement.ScrollLeft();
 
                                 var relTop = _picassoElement.CalcRelY(ui.position.top);
                                 var left = ui.position.left + ui.helper.width() / 2;
                                 draggable_info.deltaTime = _picassoData.GetTime(left, relTop) - eventInstanceModel.start_min;
                             },
-                            drag: function(event, ui){
-                                var dayStart = _picassoData.dayStartMin;
-                                var dayEnd = _picassoData.dayEndMin;
-                                var deltaTop = 15 * _picassoElement.eventInstanceHeight / (dayEnd - dayStart);
-                                var deltaLeft = _picassoData.dayWidth / 10;
-
-                                ui.position.top = Math.round(ui.position.top / deltaTop) * deltaTop;
-                                ui.position.left = Math.round(ui.position.left / deltaLeft) * deltaLeft;
-
-                                var relTop = _picassoElement.CalcRelY(ui.position.top);
-                                var left = ui.position.left + ui.helper.width() / 2;
-                                var dayModel = _picassoData.GetDayByLeft(left);
-                                var periodModel = _picassoData.periods.Get(dayModel.periodId);
-                                var start = _picassoData.GetTime(left, relTop) - draggable_info.deltaTime;
-                                start = Math.max(start, 0);
-                                start = Math.min(start, 24 * 60 * periodModel.getDays().length - draggable_info.duration);
-
-                                var inDayLeft = ui.position.left - dayModel.leftOffset * _picassoData.dayWidth;
-                                inDayLeft = inDayLeft / _picassoData.dayWidth;
-                                inDayLeft = Math.max(inDayLeft, 0);
-                                inDayLeft = Math.min(inDayLeft, 1 - eventInstanceModel.width);
-                                inDayLeft = Math.round(10 * inDayLeft) / 10;
-
-
-                                eventInstanceModel.periodId = dayModel.periodId;
-                                eventInstanceModel.start_min = start;
-                                eventInstanceModel.end_min = start + draggable_info.duration;
-                                eventInstanceModel.left = inDayLeft;
-
-                                scope.$apply(UpdateEventViews());
-
-                            },
+                            drag: onDrag,
                             stop: function(){
                                 EndUserEvent();
+                                _picassoElement.OffScroll(onScroll);
 
                                 scope.$apply(UpdateEventViews());
 
                                 SaveEventInstance(eventInstanceModel);
                             }
                         });
+
+                        var lastEvent = null;
+                        var lastUi = null;
+
+                        function onDrag(event, ui){
+                            lastEvent = event;
+                            lastUi = ui;
+
+                            var dayStart = _picassoData.dayStartMin;
+                            var dayEnd = _picassoData.dayEndMin;
+                            var deltaTop = 15 * _picassoElement.eventInstanceHeight / (dayEnd - dayStart);
+                            var deltaLeft = _picassoData.dayWidth / 10;
+                            var deltaScrollLeft = _picassoElement.ScrollLeft() - draggable_info.initLeft;
+
+                            ui.position.top = Math.round(ui.position.top / deltaTop) * deltaTop;
+                            ui.position.left = Math.round((ui.position.left) / deltaLeft) * deltaLeft;
+
+                            var relTop = _picassoElement.CalcRelY(ui.position.top);
+                            var left = ui.position.left + ui.helper.width() / 2 - deltaScrollLeft;
+                            var dayModel = _picassoData.GetDayByLeft(left);
+                            var periodModel = _picassoData.periods.Get(dayModel.periodId);
+                            var start = _picassoData.GetTime(left, relTop) - draggable_info.deltaTime;
+                            start = Math.max(start, 0);
+                            start = Math.min(start, 24 * 60 * periodModel.getDays().length - draggable_info.duration);
+
+                            var inDayLeft = ui.position.left - dayModel.leftOffset * _picassoData.dayWidth - deltaScrollLeft;
+                            inDayLeft = inDayLeft / _picassoData.dayWidth;
+                            inDayLeft = Math.max(inDayLeft, 0);
+                            inDayLeft = Math.min(inDayLeft, 1 - eventInstanceModel.width);
+                            inDayLeft = Math.round(10 * inDayLeft) / 10;
+
+                            eventInstanceModel.periodId = dayModel.periodId;
+                            eventInstanceModel.start_min = start;
+                            eventInstanceModel.end_min = start + draggable_info.duration;
+                            eventInstanceModel.left = inDayLeft;
+
+                            scope.$apply(UpdateEventViews());
+                        }
+
+                        function onScroll(){
+                            console.log('scrolling');
+                            onDrag(lastEvent, lastUi);
+                        }
                     }
 
 
@@ -177,6 +193,7 @@
                         lastLeft: null,
                         doLength: false,
                         doWidth: false,
+                        initLeft: 0,
                         eventInstanceOffset: null
                     };
 
@@ -197,7 +214,8 @@
 
                         var draggableOptions =
                         {
-                            delay: 300,
+                            delay: 200,
+
                             cursorAt: { left: 0, top: 0 },
                             helper: function(){ return $('<div />'); },
 
@@ -207,14 +225,17 @@
 
                                 resizable_info.doLength = target.is('.resize-s, .resize-se');
                                 resizable_info.doWidth = target.is('.resize-e, .resize-se');
+                                draggable_info.initLeft = _picassoElement.ScrollLeft();
 
                                 resizable_info.eventInstancesOffset = _picassoElement.eventInstances.offset();
                                 resizable_info.divPosition = target.closest('.event-instance').position();
                                 resizable_info.periodId = _picassoData.GetDayByLeft(resizable_info.divPosition.left).periodId;
                             },
                             drag: function(event, ui){
+                                var deltaScrollLeft = _picassoElement.ScrollLeft() - draggable_info.initLeft;
+
                                 var top = ui.offset.top - resizable_info.eventInstancesOffset.top + 5;
-                                var left = ui.offset.left - resizable_info.eventInstancesOffset.left + 5;
+                                var left = ui.offset.left - resizable_info.eventInstancesOffset.left + 5 - deltaScrollLeft;
                                 var relTop = _picassoElement.CalcRelY(top);
 
                                 if(resizable_info.lastLeft == null){
