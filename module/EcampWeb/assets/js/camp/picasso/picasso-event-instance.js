@@ -109,45 +109,51 @@
                             firstEventInstances.trigger(e);
                         });
 
-                        firstEventInstances.draggable({
-                            delay: 200,
+                        var draggable =
+                            firstEventInstances.draggable({
+                                delay: 200,
 
-                            helper: function(event){
-                                var target = $(event.target);
+                                helper: function(event){
+                                    var target = $(event.target);
 
-                                var h = $('<div />');
-                                h.css({ 'height': target.height(), 'width': target.width() });
-                                return h;
+                                    var h = $('<div />');
+                                    h.css({ 'height': target.height(), 'width': target.width() });
+                                    return h;
 
-                            },
-                            start: function(event, ui){
-                                BeginUserEvent();
-                                _picassoElement.OnScroll(onScroll);
+                                },
+                                start: function(event, ui){
+                                    BeginUserEvent();
 
-                                draggable_info.duration = eventInstanceModel.end_min - eventInstanceModel.start_min;
-                                draggable_info.initLeft = _picassoElement.ScrollLeft();
+                                    draggable_info.duration = eventInstanceModel.end_min - eventInstanceModel.start_min;
+                                    draggable_info.initLeft = _picassoElement.ScrollLeft();
 
-                                var relTop = _picassoElement.CalcRelY(ui.position.top);
-                                var left = ui.position.left + ui.helper.width() / 2;
-                                draggable_info.deltaTime = _picassoData.GetTime(left, relTop) - eventInstanceModel.start_min;
-                            },
-                            drag: onDrag,
-                            stop: function(){
-                                EndUserEvent();
-                                _picassoElement.OffScroll(onScroll);
+                                    var relTop = _picassoElement.CalcRelY(ui.position.top);
+                                    var left = ui.position.left + ui.helper.width() / 2;
+                                    draggable_info.deltaTime = _picassoData.GetTime(left, relTop) - eventInstanceModel.start_min;
+                                },
+                                drag: onDrag,
+                                stop: function(){
+                                    EndUserEvent();
 
-                                scope.$apply(UpdateEventViews());
+                                    scope.$apply(UpdateEventViews());
 
-                                SaveEventInstance(eventInstanceModel);
-                            }
+                                    SaveEventInstance(eventInstanceModel);
+                                }
+                            });
+
+                        draggable.on('dragstart', function(){
+                            _picassoElement.OnScroll(onDrag);
+                        });
+                        draggable.on('dragstop', function(){
+                            _picassoElement.OffScroll(onDrag);
                         });
 
-                        var lastEvent = null;
-                        var lastUi = null;
-
                         function onDrag(event, ui){
-                            lastEvent = event;
-                            lastUi = ui;
+                            if(typeof ui !== 'undefined'){
+                                onDrag.lastUi = ui;
+                            } else {
+                                ui = onDrag.lastUi;
+                            }
 
                             var dayStart = _picassoData.dayStartMin;
                             var dayEnd = _picassoData.dayEndMin;
@@ -180,10 +186,7 @@
                             scope.$apply(UpdateEventViews());
                         }
 
-                        function onScroll(){
-                            console.log('scrolling');
-                            onDrag(lastEvent, lastUi);
-                        }
+                        onDrag.lastUi = null;
                     }
 
 

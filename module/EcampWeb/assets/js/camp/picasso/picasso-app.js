@@ -204,7 +204,7 @@
 
         var _picassoBody = _element.find('.picasso-body');
         var _eventInstances = _element.find('.event-instances');
-        var _scrollContainer = _element.find('.picasso-body>div');
+        var _scrollContainer = _element.find('.picasso-body>div.picasso-content');
 
         Object.defineProperty(this, 'picassoBody', { value: _picassoBody });
         Object.defineProperty(this, 'picassoBodyWidth', { get: function(){ return _picassoBody.width(); } });
@@ -231,6 +231,21 @@
 
         _scrollContainer.scroll(function(e){
             $(e.target).scrollTop(0);
+        });
+
+        console.log(_scrollContainer);
+
+        _scrollContainer.bind('mousewheel', function(e){
+            var left = _scrollContainer.scrollLeft();
+            var deltaX = e.originalEvent.wheelDeltaX / 2;
+            var deltaY = e.originalEvent.wheelDeltaY / 5;
+
+            left -= deltaX + deltaY;
+
+            if(!isNaN(left)){
+                _scrollContainer.scrollLeft(left);
+                e.preventDefault();
+            }
         });
     }
 
