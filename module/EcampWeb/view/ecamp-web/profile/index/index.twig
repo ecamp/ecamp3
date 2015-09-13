@@ -1,5 +1,25 @@
 {% extends 'ecamp-web/user/user.twig' %}
 
+{% block ng_app %}ecamp-profile{% endblock %}
+
+{% block script %}
+    {{ parent() }}
+
+    <script type="text/javascript" src="{{ basePath('/vendor-assets/js/ng-file-upload.js') }}"></script>
+
+    <script type="text/javascript" src="{{ basePath('/web-assets/js/modal-form.js') }}"></script>
+    <script type="text/javascript" src="{{ basePath('/web-assets/js/image-edit.js') }}"></script>
+
+    <script type="text/javascript">
+        (function(){
+            angular.module('ecamp-profile', [
+                'ecamp-modal-form',
+                'ecamp-image-edit'
+            ]);
+        })();
+    </script>
+{% endblock %}
+
 {% block content %}
 
     <div class="row">

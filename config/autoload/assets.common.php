@@ -34,6 +34,9 @@ return array(
                 // Angular Translate:
                 'vendor-assets/js/angular.translate.js'         => __ASSETS__ . '/angular-translate/angular-translate.js',
 
+                // ng-File-Upload:
+                'vendor-assets/js/ng-file-upload.js'            => __ASSETS__ . '/ng-file-upload/angular-file-upload.js',
+
                 // Angular UI:
                 'vendor-assets/js/angular.ui.js'                => __ASSETS__ . '/jquery-ui/ui/minified/jquery-ui.min.js',
 

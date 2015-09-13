@@ -34,6 +34,7 @@ return array(
 
             'web-assets/js/remote-data.js'                          =>  __MODULE__ . '/EcampWeb/assets/js/remote-data.js',
             'web-assets/js/modal-form.js'                           =>  __MODULE__ . '/EcampWeb/assets/js/modal-form.js',
+            'web-assets/js/image-edit.js'                           =>  __MODULE__ . '/EcampWeb/assets/js/image-edit.js',
             'web-assets/js/ng-paginator.js'                         =>  __MODULE__ . '/EcampWeb/assets/js/ng-paginator.js',
             'web-assets/js/ng-contextmenu.js'                       =>  __MODULE__ . '/EcampWeb/assets/js/ng-contextmenu.js',
             'web-assets/js/sorted-dictionary.js'                    =>  __MODULE__ . '/EcampWeb/assets/js/sorted-dictionary.js',
@@ -60,6 +61,7 @@ return array(
             'web-assets/css/ng-contextmenu.css'                     =>  __MODULE__ . '/EcampWeb/assets/css/ng-contextmenu.css',
 
             'web-assets/tpl/async-modal-window.html'                =>  __MODULE__ . '/EcampWeb/assets/tpl/async-modal-window.html',
+            'web-assets/tpl/image-edit.html'                        =>  __MODULE__ . '/EcampWeb/assets/tpl/image-edit.html',
 
             'web-assets/tpl/camp/collaboration/kick.html'           =>  __MODULE__ . '/EcampWeb/assets/tpl/camp/collaboration/kick.html',
             'web-assets/tpl/camp/collaboration/leave.html'          =>  __MODULE__ . '/EcampWeb/assets/tpl/camp/collaboration/leave.html',

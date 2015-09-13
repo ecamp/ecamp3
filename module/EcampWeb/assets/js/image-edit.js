@@ -2,10 +2,13 @@
  * Created by pirmin on 18.01.2015.
  */
 
-(function(ngApp){
+(function(){
 
-    ngApp.factory('ImageEditController', ['$http', '$upload', function($http, $upload){
-        console.log($upload);
+    var module = angular.module('ecamp-image-edit', [
+        'ngFileUpload'
+    ]);
+
+    module.factory('ImageEditController', ['$http', '$upload', function($http, $upload){
 
         return function ($scope) {
 
@@ -76,19 +79,15 @@
                     }).error(function(){
                         $scope.image = 'user';
                     });
-
-                //$scope.image = url + '?show';
-                //$scope.origImage = url + '?show';
-
             }
         };
     }]);
 
 
-    ngApp.directive('userImageEdit', ['ImageEditController', function(ImageEditController){
+    module.directive('userImageEdit', ['ImageEditController', function(ImageEditController){
         return {
             restrict: 'E',
-            templateUrl: '/web-assets/image/image-edit.html',
+            templateUrl: '/web-assets/tpl/image-edit.html',
             scope: true,
 
             controller: ImageEditController,
@@ -106,4 +105,4 @@
 
     }]);
 
-}(window.ecamp.ngApp));
+}());
