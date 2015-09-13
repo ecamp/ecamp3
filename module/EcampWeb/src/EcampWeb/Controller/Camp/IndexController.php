@@ -43,9 +43,6 @@ class IndexController
     {
         $return = array();
 
-        $renderer = $this->getServiceLocator()->get('Zend\View\Renderer\PhpRenderer');
-        $renderer->headScript()->appendFile($this->getRequest()->getBasePath() . '/js/ng-app/paginator.js');
-
         $return['myCollaboration'] = $this->getCollaborationRepository()->findByCampAndUser($this->getCamp(), $this->getMe());
 
         return $return;

@@ -9,7 +9,7 @@ use EcampCore\Entity\User;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\Persistence\ObjectManager;
 
-class Users extends AbstractFixture implements OrderedFixtureInterface
+class Users // extends AbstractFixture implements OrderedFixtureInterface
 {
     public function load(ObjectManager $manager)
     {

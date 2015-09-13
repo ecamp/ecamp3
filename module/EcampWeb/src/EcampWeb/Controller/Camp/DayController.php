@@ -102,18 +102,11 @@ class DayController extends BaseController
             $camp = $day->getCamp();
         }
 
-        $form = new EventCreateForm($camp, $period, $day );
+        $form = new EventCreateForm($camp, $period, $day);
         $form->setAction(
             $this->url()->fromRoute(
                 'web/camp/default',
                 array('camp' => $this->getCamp(), 'controller' => 'Day', 'action' => 'addEvent'),
-                array('query' => array('dayId' => $dayId))
-            )
-        );
-        $form->setRedirectAfterSuccess(
-            $this->url()->fromRoute(
-                'web/camp/default',
-                array('camp' => $this->getCamp(), 'controller' => 'Day', 'action' => 'Index'),
                 array('query' => array('dayId' => $dayId))
             )
         );
@@ -124,20 +117,27 @@ class DayController extends BaseController
             if ($form->setData($data)->isValid()) {
 
                 try {
-                    $camp = $this->getCamp();
-                    $event = $this->getEventService()->Create($camp, $data);
-                    $this->getEventInstanceService()->Create($event, $data);
+                    try {
+                        $eventData = $data['event'];
+                        $event = $this->getEventService()->Create($camp, $eventData);
+                    } catch (ValidationException $e) {
+                        throw ValidationException::FromInnerException('event', $e);
+                    }
 
-                    $this->flashMessenger()->addSuccessMessage('Event created');
+                    try {
+                        $eventInstanceData = $data['eventInstance'];
+                        $this->getEventInstanceService()->Create($event, $eventInstanceData);
+                    } catch (ValidationException $e) {
+                        throw ValidationException::FromInnerException('eventInstance', $e);
+                    }
 
-                    return $this->ajaxSuccssResponse(
+                    return $this->getRedirectResponse(
                         $this->url()->fromRoute(
                             'web/camp/default',
-                            array('camp' => $this->getCamp(), 'controller' => 'Day', 'action' => 'Index'),
-                            array('query' => array('dayId' => $dayId))
+                            array('camp' => $this->getCamp(), 'controller' => 'Day'),
+                            array('query' => array('dayId' => $day->getId()))
                         )
                     );
-
                 } catch (ValidationException $e) {
                     $form->extractFromException($e);
                     $this->getResponse()->setStatusCode(Response::STATUS_CODE_500);
@@ -145,13 +145,15 @@ class DayController extends BaseController
                 } catch (\Exception $e) {
                     $this->flashMessenger()->addErrorMessage('Event not created');
                     throw $e;
-
-                    return $this->emptyResponse();
                 }
 
             } else {
                 $this->getResponse()->setStatusCode(Response::STATUS_CODE_500);
             }
+
+        } else {
+            $data = $this->getRequest()->getQuery();
+            $form->setData($data);
         }
 
         return array(

@@ -92,9 +92,19 @@ class Job
         return $this->jobResps;
     }
 
+    public function getJobRespsByDay(Day $day)
+    {
+        $filter = function(JobResp $jobResp) use ($day) {
+            return $jobResp->getDay() == $day;
+        };
+
+        return $this->jobResps->filter($filter);
+    }
+
     /**
-     * @param  User    $user
-     * @return boolean
+     * @param  Day  $day
+     * @param  User $user
+     * @return bool
      */
     public function isUserResp(Day $day, User $user)
     {

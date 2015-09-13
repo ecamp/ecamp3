@@ -20,7 +20,7 @@ use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\Persistence\ObjectManager;
 
-class EventTypes extends AbstractFixture implements OrderedFixtureInterface
+class EventTypes //extends AbstractFixture implements OrderedFixtureInterface
 {
     public function load(ObjectManager $manager)
     {
@@ -61,7 +61,7 @@ class EventTypes extends AbstractFixture implements OrderedFixtureInterface
 
         /*
         $type = new EventType();
-        $type->setName("Lageraktivität");
+        $type->setName("Lageraktivitï¿½t");
         $type->setDefaultColor('red');
         $type->setDefaultNumberingStyle("1");
         $manager->persist($type);

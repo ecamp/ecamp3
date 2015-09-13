@@ -11,6 +11,7 @@ class FormElementFactory implements FactoryInterface
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
         $options = $serviceLocator->getServiceLocator()->get('TwbBundle\Options\ModuleOptions');
+
         return new FormElement($options);
     }
 }

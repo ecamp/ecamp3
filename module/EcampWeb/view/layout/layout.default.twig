@@ -1,51 +1,51 @@
 {% extends 'layout/html.twig' %}
 
 {% block link %}
-    <link type="text/css" rel="stylesheet" href="{{ request.basePath }}/assets/vendor/bootstrap/dist/css/bootstrap.css" />
-    <link type="text/css" rel="stylesheet" href="{{ request.basePath }}/assets/vendor/fontawesome/css/font-awesome.min.css" />
-    <link type="text/css" rel="stylesheet" href="{{ request.basePath }}/assets/vendor/jquery-ui/themes/base/jquery.ui.all.css" />
+    {{ parent() }}
+    <link href="{{ basePath('/vendor-assets/css/jquery-ui.css') }}" media="screen" rel="stylesheet" type="text/css">
+    <link href="{{ basePath('/vendor-assets/css/bootstrap.css') }}" media="screen" rel="stylesheet" type="text/css">
+    <link href="{{ basePath('/vendor-assets/css/fontawesome.css') }}" media="screen" rel="stylesheet" type="text/css">
 
-    <link type="text/css" rel="stylesheet" href='{{ request.basePath }}/assets/vendor/bootstrap-select/dist/css/bootstrap-select.min.css' />
-    <link type="text/css" rel="stylesheet" href='{{ request.basePath }}/assets/vendor/bootstrap-datepicker/dist/css/bootstrap-datepicker3.css' />
-    <link type="text/css" rel="stylesheet" href="{{ request.basePath }}/assets/vendor/angular-ui-select/dist/select.css" />
-
-    <link type="text/css" rel="stylesheet" href="{{ request.basePath }}/ecamp-web/css/bootstrap.css" />
-    <link type="text/css" rel="stylesheet" href="{{ request.basePath }}/ecamp-web/css/ajaxLoader.css" />
-    <link type="text/css" rel="stylesheet" href="{{ request.basePath }}/ecamp-web/css/searchbox.css" />
-    <link type="text/css" rel="stylesheet" href="{{ request.basePath }}/ecamp-web/css/default.css" />
-
-    <link type="text/css" rel="stylesheet" href="{{ request.basePath }}/web-assets/css/ui-bootstrap.css" />
-    <link type="text/css" rel="stylesheet" href="{{ request.basePath }}/web-assets/css/ng-contextmenu.css" />
-    <link type="text/css" rel="stylesheet" href="{{ request.basePath }}/web-assets/picasso/css/picasso.css" />
-
-
+    <link href="{{ basePath('/web-assets/css/bootstrap.css') }}" media="screen" rel="stylesheet" type="text/css">
+    <link href="{{ basePath('/web-assets/css/default.css') }}" media="screen" rel="stylesheet" type="text/css">
+    <link href="{{ basePath('/web-assets/css/ng-contextmenu.css') }}" media="screen" rel="stylesheet" type="text/css">
 {% endblock %}
 
 {% block script %}
-    <script src="{{ request.basePath }}/assets/vendor/jquery/dist/jquery.js"></script>
-    <script src="{{ request.basePath }}/assets/vendor/angular/angular.js"></script>
+    {{ parent() }}
+    <script type="text/javascript" src="{{ basePath('/vendor-assets/js/jquery.js') }}"></script>
+    <script type="text/javascript" src="{{ basePath('/vendor-assets/js/jquery.ui.js') }}"></script>
+    <script type="text/javascript" src="{{ basePath('/vendor-assets/js/jquery.autosize.js') }}"></script>
+    <script type="text/javascript" src="{{ basePath('/vendor-assets/js/bootstrap.js') }}"></script>
+    <script type="text/javascript" src="{{ basePath('/vendor-assets/js/angular.js') }}"></script>
+    <script type="text/javascript" src="{{ basePath('/vendor-assets/js/angular.bootstrap.js') }}"></script>
 
-    <script src="{{ request.basePath }}/assets/vendor/jquery-ui/ui/minified/jquery-ui.min.js"></script>
-    <script src="{{ request.basePath }}/assets/vendor/jquery-autosize/dist/autosize.min.js"></script>
+    <script type="text/javascript" src="{{ basePath('/web-assets/js/ns.js') }}"></script>
+{% endblock %}
 
-    <script src="{{ request.basePath }}/assets/vendor/angular-sanitize/angular-sanitize.js"></script>
-    <script src="{{ request.basePath }}/assets/vendor/angular-ui-select/dist/select.js"></script>
-    <script src="{{ request.basePath }}/assets/vendor/angular-resource/angular-resource.js"></script>
-    <script src="{{ request.basePath }}/assets/vendor/angular-translate/angular-translate.js"></script>
-    <script src="{{ request.basePath }}/assets/vendor/angular-hal/angular-hal.js"></script>
-    <script src="{{ request.basePath }}/assets/vendor/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
-    <script src="{{ request.basePath }}/assets/vendor/angular-ui-slider/src/slider.js"></script>
-    <script src="{{ request.basePath }}/assets/vendor/ng-file-upload/angular-file-upload-all.min.js"></script>
 
-    <script src="{{ request.basePath }}/assets/vendor/bootstrap/dist/js/bootstrap.js"></script>
-    <script src="{{ request.basePath }}/assets/vendor/bootstrap-select/dist/js/bootstrap-select.min.js"></script>
-    <script src="{{ request.basePath }}/assets/vendor/bootstrap-datepicker/dist/js/bootstrap-datepicker.js"></script>
+{#
 
-    <script src="{{ request.basePath }}/assets/vendor/uri.js/src/URI.js"></script>
-    <script src="{{ request.basePath }}/assets/vendor/uri.js/src/URITemplate.js"></script>
+{% block script %}
+
+
+    <script src="{{ request.basePath }}/assets/vendor-assets/angular-sanitize/angular-sanitize.js"></script>
+    <script src="{{ request.basePath }}/assets/vendor-assets/angular-ui-select/dist/select.js"></script>
+    <script src="{{ request.basePath }}/assets/vendor-assets/angular-ui-slider/src/slider.js"></script>
+    <script src="{{ request.basePath }}/assets/vendor-assets/angular-ui-sortable/sortable.js"></script>
+    <script src="{{ request.basePath }}/assets/vendor-assets/angular-resource/angular-resource.js"></script>
+    <script src="{{ request.basePath }}/assets/vendor-assets/angular-translate/angular-translate.js"></script>
+    <script src="{{ request.basePath }}/assets/vendor-assets/angular-hal/angular-hal.js"></script>
+    <script src="{{ request.basePath }}/assets/vendor-assets/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+
+    <script src="{{ request.basePath }}/assets/vendor-assets/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="{{ request.basePath }}/assets/vendor-assets/bootstrap-select/dist/js/bootstrap-select.min.js"></script>
+
+    <script src="{{ request.basePath }}/assets/vendor-assets/uri.js/src/URI.js"></script>
+    <script src="{{ request.basePath }}/assets/vendor-assets/uri.js/src/URITemplate.js"></script>
 
     <script src="{{ request.basePath }}/js/ns.js"></script>
-    <script src="{{ request.basePath }}/core-assets/util/SortedDictionary.js"></script>
+    <script src="{{ request.basePath }}/core-assets/util/sorted-dictionary.js"></script>
 
     <script src="{{ request.basePath }}/ecamp-web/js/ajax-form.js"></script>
     <script src="{{ request.basePath }}/ecamp-web/js/ajax-form-element.js"></script>
@@ -73,7 +73,7 @@
     <script src="{{ request.basePath }}/web-assets/picasso/js/picasso-event-create.js"></script>
     <script src="{{ request.basePath }}/web-assets/picasso/js/picasso-app.js"></script>
 
-    <script src="{{ request.basePath }}/web-assets/image/image-edit.js"></script>
+    <script src="{{ request.basePath }}/web-assets/print/js/print-controller.js"></script>
 
     <script src="{{ request.basePath }}/web-assets/camp/collaboration.js"></script>
     <script src="{{ request.basePath }}/web-assets/group/membership.js"></script>
@@ -86,7 +86,45 @@
 
 {% endblock %}
 
+
+
+
+
+
+
+
+    <script src="{{ request.basePath }}/assets/vendor-assets/jquery-ui/ui/minified/jquery-ui.min.js"></script>
+    <script src="{{ request.basePath }}/assets/vendor-assets/jquery-autosize/jquery.autosize.min.js"></script>
+
+    <script src="{{ request.basePath }}/assets/vendor-assets/jquery/dist/jquery.js"></script>
+    <script src="{{ request.basePath }}/assets/vendor-assets/angular/angular.js"></script>
+
+
+{% block link %}
+    <link type="text/css" rel="stylesheet" href="{{ request.basePath }}/web-assets/css/ng-contextmenu.css" />
+    <link type="text/css" rel="stylesheet" href="{{ request.basePath }}/web-assets/css/ui-bootstrap.css" />
+    <link type="text/css" rel="stylesheet" href="{{ request.basePath }}/ecamp-web/css/default.css" />
+    <link type="text/css" rel="stylesheet" href="{{ request.basePath }}/ecamp-web/css/bootstrap.css" />
+    <link type="text/css" rel="stylesheet" href='{{ request.basePath }}/assets/vendor-assets/bootstrap-select/dist/css/bootstrap-select.min.css' />
+    <link type="text/css" rel="stylesheet" href="{{ request.basePath }}/assets/vendor-assets/angular-ui-select/dist/select.css" />
+
+    <link type="text/css" rel="stylesheet" href="{{ request.basePath }}/assets/vendor-assets/bootstrap/dist/css/bootstrap.css" />
+
+
+    <link type="text/css" rel="stylesheet" href="{{ request.basePath }}/ecamp-web/css/ajaxLoader.css" />
+    <link type="text/css" rel="stylesheet" href="{{ request.basePath }}/ecamp-web/css/searchbox.css" />
+
+    <link type="text/css" rel="stylesheet" href="{{ request.basePath }}/web-assets/picasso/css/picasso.css" />
+
+{% endblock %}
+
+{% do headLink().appendStylesheet(basePath('/assets/vendor-assets/fontawesome/css/font-awesome.min.css')) %}
+{% do headLink().appendStylesheet(basePath('/assets/vendor-assets/jquery-ui/themes/base/jquery.ui.all.css')) %}
+#}
+
 {% block layout %}
+    <div class="bgimage"></div>
+
     <div class="layout">
         <div class="layout-header">
             {% block layout_header %}

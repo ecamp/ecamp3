@@ -3,6 +3,8 @@ namespace EcampCore;
 
 use EcampCore\I18n\Translator\TranslatorEventListener;
 use EcampCore\Mvc\HandleDbTransactionListener;
+use EcampLib\ModuleManager\Feature\JobFactoryProviderInterface;
+use EcampLib\ModuleManager\Feature\PrintableProviderInterface;
 use Zend\EventManager\EventInterface;
 use Zend\ModuleManager\Feature\AutoloaderProviderInterface;
 use Zend\ModuleManager\Feature\BootstrapListenerInterface;
@@ -20,6 +22,8 @@ class Module implements
     ControllerProviderInterface,
     FormElementProviderInterface,
     ValidatorProviderInterface,
+    JobFactoryProviderInterface,
+    PrintableProviderInterface,
     BootstrapListenerInterface
 {
     public function getConfig()
@@ -59,6 +63,16 @@ class Module implements
         return include __DIR__ . '/config/validator.config.php';
     }
 
+    public function getJobFactoryConfig()
+    {
+        return include __DIR__ . '/config/job.config.php';
+    }
+
+    public function getPrintableConfig()
+    {
+        return include __DIR__ . '/config/printable.config.php';
+    }
+
     public function onBootstrap(EventInterface $event)
     {
         date_default_timezone_set("UTC");
@@ -70,7 +84,6 @@ class Module implements
         $em = $application->getServiceManager()->get('doctrine.entitymanager.orm_default');
 
         (new HandleDbTransactionListener($em))->attach($application->getEventManager());
-
 
         /** @var \Zend\Mvc\I18n\Translator $mvcTranslator */
         $mvcTranslator = $application->getServiceManager()->get('MvcTranslator');

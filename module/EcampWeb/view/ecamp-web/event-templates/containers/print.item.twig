@@ -1,0 +1,11 @@
+<div class="linear-item">
+    {% embed "helper/contentbox-print.twig" %}
+        {% block panel_title %}
+            {{ eventPlugin.instanceName }}
+        {% endblock %}
+
+        {% block panel_content %}
+            {% RenderViewModel contentViewModel %}
+        {% endblock %}
+    {% endembed %}
+</div>

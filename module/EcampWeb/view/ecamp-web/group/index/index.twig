@@ -1,5 +1,30 @@
 {% extends 'ecamp-web/group/group.twig' %}
 
+{% block ng_app %}ecamp-group-index{% endblock %}
+
+{% block script %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ basePath('/vendor-assets/js/uri.js') }}"></script>
+    <script type="text/javascript" src="{{ basePath('/vendor-assets/js/uri.template.js') }}"></script>
+    <script type="text/javascript" src="{{ basePath('/vendor-assets/js/angular.hal.js') }}"></script>
+
+    <script type="text/javascript" src="{{ basePath('/web-assets/js/group/membership.js') }}"></script>
+    <script type="text/javascript" src="{{ basePath('/web-assets/js/ajax-form-element.js') }}"></script>
+    <script type="text/javascript" src="{{ basePath('/web-assets/js/modal-form.js') }}"></script>
+    <script type="text/javascript" src="{{ basePath('/web-assets/js/ng-paginator.js') }}"></script>
+
+    <script type="text/javascript">
+        (function(){
+            angular.module('ecamp-group-index', [
+                'ecamp-modal-form',
+                'ecamp-paginator',
+                'ecamp-membership'
+            ]);
+        })();
+    </script>
+{% endblock %}
+
+
 
 {% block content %}
 

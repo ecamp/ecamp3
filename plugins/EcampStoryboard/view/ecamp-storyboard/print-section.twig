@@ -1,0 +1,13 @@
+<tr>
+    <td style="padding: 1px 3px; vertical-align: top;">
+        {% set duration = 60 * section.durationInMinutes %}
+        {{ section.durationInMinutes // 60 }}h
+        <small><sup>{{ date(duration) | date('i') }}</sup></small>
+    </td>
+    <td style="padding: 1px 5px; vertical-align: top; text-align: justify;">
+        {{ section.text }}
+    </td>
+    <td style="padding: 1px 3px; vertical-align: top;">
+        {{ section.info }}
+    </td>
+</tr>

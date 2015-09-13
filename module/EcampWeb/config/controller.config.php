@@ -29,6 +29,7 @@ return array(
         'EcampWeb\Controller\Camp\Collaborations'	    => 'EcampWeb\Controller\Camp\CollaborationsController',
         'EcampWeb\Controller\Camp\CollaborationHelper' 	=> 'EcampWeb\Controller\Camp\CollaborationHelperController',
 
+        'EcampWeb\Controller\Camp\Print'                => 'EcampWeb\Controller\Camp\PrintController'
     ),
 
     'factories' => array(

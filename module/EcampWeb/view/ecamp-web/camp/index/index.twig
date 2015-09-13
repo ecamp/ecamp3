@@ -1,5 +1,30 @@
 {% extends 'ecamp-web/camp/camp.twig' %}
 
+{% block ng_app %}ecamp-camp-index{% endblock %}
+
+{% block script %}
+    {{ parent() }}
+
+    <script type="text/javascript" src="{{ basePath('/vendor-assets/js/uri.js') }}"></script>
+    <script type="text/javascript" src="{{ basePath('/vendor-assets/js/uri.template.js') }}"></script>
+    <script type="text/javascript" src="{{ basePath('/vendor-assets/js/angular.hal.js') }}"></script>
+
+    <script type="text/javascript" src="{{ basePath('/web-assets/js/ajax-form-element.js') }}"></script>
+    <script type="text/javascript" src="{{ basePath('/web-assets/js/modal-form.js') }}"></script>
+    <script type="text/javascript" src="{{ basePath('/web-assets/js/ng-paginator.js') }}"></script>
+    <script type="text/javascript" src="{{ basePath('/web-assets/js/camp/collaboration.js') }}"></script>
+
+    <script type="text/javascript">
+        (function(){
+            angular.module('ecamp-camp-index', [
+                'ecamp-modal-form',
+                'ecamp-paginator',
+                'ecamp-collaboration'
+            ]);
+        })();
+    </script>
+{% endblock %}
+
 
 {% block content %}
 
@@ -104,100 +129,81 @@
                                 >+ Add Period</button>
                     </div>
                 {% endblock %}
-				{% block panel_content %}
-					{#
-                    <div class="col-sm-12">
-					#}
+            {% block panel_content %}
+                    <table class="table table-striped table-hover" style="width: 100%">
+                        <thead>
+                            <tr>
+                                <th>Start</th>
+                                <th>End</th>
+                                <th>Description</th>
+                                <th>Options</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for period in camp.getPeriods %}
+                            <tr>
+                                <td>{{ period.getStart | date }}</td>
+                                <td>{{ period.getEnd | date}}</td>
+                                <td>{{ period.getDescription }}</td>
+                                <td>
+                                    <a
+                                        async-modal
+                                        class="btn btn-xs btn-primary"
+                                        href="{{ url('web/camp/default',
+                                            {'camp': camp, 'controller':'period', 'action' : 'editPeriod' },
+                                            { 'query': { 'periodId': period.id } }
+                                            ) }}"
+                                    >
+                                        Edit
+                                    </a>
+                                    <a class="btn btn-xs btn-danger"
+                                       data-toggle="modal"
+                                       href="#deletePeriod{{ period.id }}Modal"
+                                    >
+                                        Delete
+                                    </a>
 
-
-						<table class="table table-striped table-hover" style="width: 100%">
-							<thead>
-								<tr>
-									<th>Start</th>
-									<th>End</th>
-									<th>Description</th>
-									<th>Options</th>
-								</tr>
-							</thead>
-							<tbody>
-							{% for period in camp.getPeriods %}
-								<tr>
-									<td>{{ period.getStart | date }}</td>
-									<td>{{ period.getEnd | date}}</td>
-									<td>{{ period.getDescription }}</td>
-									<td>
-										<a
-                                            async-modal
-											class="btn btn-xs btn-primary"
-											href="{{ url('web/camp/default',
-												{'camp': camp, 'controller':'period', 'action' : 'editPeriod' },
-												{ 'query': { 'periodId': period.id } }
-												) }}"
-										>
-											Edit
-										</a>
-										{#
-                                        <a 	href="{{ url('web/camp/default',
-												{ 'camp': camp, 'controller': 'period', 'action': 'deletePeriod' },
-												{ 'query' : { 'periodId': period.id } }
-												) }}"
-											class="btn btn-xs btn-danger"
-										>
-											Delete
-										</a>
-										#}
-                                        <a class="btn btn-xs btn-danger"
-                                           data-toggle="modal"
-                                           href="#deletePeriod{{ period.id }}Modal"
-                                        >
-                                            Delete
-                                        </a>
-
-                                        <div class="modal fade" id="deletePeriod{{ period.id }}Modal" tabindex="-1" role="dialog" aria-labelledby="deletePeriod{{ period.id }}ModalLabel" aria-hidden="true">
-                                            <div class="modal-dialog">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                                        <h4 class="modal-title">Delete Period</h4>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        <p>
-                                                            Are you sure, you want to delete this period? "{{ period.description }}"?
-                                                        </p>
-                                                        <table>
-                                                            <tr>
-                                                                <td><b>Description:</b> </td>
-                                                                <td> {{ period.description }}</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td><b>Date: </b></td>
-                                                                <td> {{ period.start|date() }} - {{ period.end|date() }}</td>
-                                                            </tr>
-                                                        </table>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <a 	href="{{ url('web/camp/default',
-                                                            { 'camp': camp, 'controller': 'period', 'action': 'deletePeriod' },
-                                                            { 'query' : { 'periodId': period.id } }
-                                                            ) }}"
-                                                              class="btn btn-danger"
-                                                        >
-                                                            Delete
-                                                        </a>
-                                                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                                                    </div>
+                                    <div class="modal fade" id="deletePeriod{{ period.id }}Modal" tabindex="-1" role="dialog" aria-labelledby="deletePeriod{{ period.id }}ModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                                    <h4 class="modal-title">Delete Period</h4>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <p>
+                                                        Are you sure, you want to delete this period? "{{ period.description }}"?
+                                                    </p>
+                                                    <table>
+                                                        <tr>
+                                                            <td><b>Description:</b> </td>
+                                                            <td> {{ period.description }}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td><b>Date: </b></td>
+                                                            <td> {{ period.start|date() }} - {{ period.end|date() }}</td>
+                                                        </tr>
+                                                    </table>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <a 	href="{{ url('web/camp/default',
+                                                        { 'camp': camp, 'controller': 'period', 'action': 'deletePeriod' },
+                                                        { 'query' : { 'periodId': period.id } }
+                                                        ) }}"
+                                                          class="btn btn-danger"
+                                                    >
+                                                        Delete
+                                                    </a>
+                                                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
                                                 </div>
                                             </div>
                                         </div>
-									</td>
-								</tr>
-							{% endfor %}
-							</tbody>
-						</table>
-
-                    {#
-					</div>
-                    #}
+                                    </div>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
 				{% endblock %}
 			{% endembed %}
 		</div>

@@ -1,0 +1,93 @@
+<div
+    style="
+        border: 1px solid black;
+        border-radius: 35px;
+        background-color: #d3d3d3;
+        text-align: center;
+        padding: 10px 0 15px 0;
+    "
+>
+    <h2>{{ day.start | date('D, d.m.Y') }}</h2>
+    <p>Daily overview</p>
+</div>
+
+<br />
+
+{% set jobCount = camp.jobs | length %}
+{% if jobCount > 0 %}
+    {% set jobRows = (jobCount / 4) | round(0, 'ceil') %}
+    {% set remainingJobs = jobCount %}
+    {% set jobIdx = 0 %}
+
+
+    {% for jobRow in range(1, jobRows) %}
+        <div class="row" style="margin: 4px -2px">
+
+        {% set jobRowCount = (remainingJobs / (1 + jobRows - jobRow)) | round(0, 'ceil') %}
+        {% set remainingJobs = remainingJobs - jobRowCount %}
+
+        {% for jobNum in range(1, jobRowCount) %}
+            {% set job = camp.jobs[jobIdx] %}
+            {% set jobIdx = jobIdx + 1 %}
+
+            <div class="col-xs-{{ 12 / jobRowCount }}" style="padding-left: 2px; padding-right: 2px;">
+                <div class="row" style="margin-left: -2px; margin-right: -2px">
+                    <div class="col-xs-12" style="padding-left: 2px; padding-right: 2px;">
+                        <div style="background-color: #d3d3d3; text-align: center; border: 1px solid black; border-radius: 20px 20px 0 0;">
+                            <b>{{ job.name }}</b>
+                        </div>
+                    </div>
+                    <div class="col-xs-12" style="padding-left: 2px; padding-right: 2px;">
+                        <div style="text-align: center; border: 1px solid black; border-width: 0 1px 1px 1px; border-radius: 0 0 20px 20px;">
+                            {% for jobResp in job.getJobRespsByDay(day) %}
+                                {{ jobResp.user.displayName }}{{ loop.last ? '' : ', ' }}
+                            {% else %}
+                                ??
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+        </div>
+    {% endfor %}
+{% endif %}
+
+<br />
+
+<table style="width: 100%; ">
+    <colgroup>
+        <col width="20%" />
+        <col width="50%" />
+        <col width="30%" />
+    </colgroup>
+    <thead style="border-bottom: 1px black solid">
+        <tr>
+            <th style="padding-left: 5px">Zeit</th>
+            <th>Block</th>
+            <th>Verantwortliche/r</th>
+        </tr>
+    </thead>
+    <tbody>
+
+        {% for eventInstance in day.eventInstances %}
+            <tr>
+                <td style="padding-left: 5px">
+                    {{ eventInstance.startTime | date('H:i') }} - {{ eventInstance.endTime | date('H:i') }}
+                </td>
+                <td>
+                    ({{ eventInstance.eventNumber }})
+                    {{ eventInstance.event.eventCategory.short }}:
+                    {{ eventInstance.event.title }}
+                </td>
+                <td>
+                    {% for resp in eventInstance.event.eventResps %}
+                        {{ resp.user.displayName }}{{ loop.last ? '' : ', ' }}
+                    {% endfor %}
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<div style="margin-bottom: 100px;"></div>

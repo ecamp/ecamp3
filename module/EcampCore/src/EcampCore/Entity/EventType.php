@@ -49,6 +49,11 @@ class EventType extends BaseEntity
     private $name;
 
     /**
+     * @ORM\Column(type="string", length=32, nullable=false)
+     */
+    private $type;
+
+    /**
      * @ORM\Column(type="string", length=8, nullable=false)
      */
     private $defaultColor;
@@ -88,6 +93,19 @@ class EventType extends BaseEntity
     public function getName()
     {
         return $this->name;
+    }
+
+    public function setType($type)
+    {
+        $this->type = $type;
+    }
+
+    /**
+     * @return string
+     */
+    public function getType()
+    {
+        return $this->type;
     }
 
     /**

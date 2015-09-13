@@ -2,40 +2,41 @@
 
 {% block content %}
 
-<h1>Ecamp-DB</h1>
-<br />
-<h2>Schema-Tool</h2>
-<form style="display: inline" action="{{ url('db/default', {'controller': 'schema', 'action': 'create'}) }}">
-	<input type="submit" value="Create Schema" />
-</form>
-<form style="display: inline" action="{{ url('db/default', {'controller': 'schema', 'action': 'update'}) }}">
-	<input type="submit" value="Update Schema" />
-</form>
-<form style="display: inline" action="{{ url('db/default', {'controller': 'schema', 'action': 'drop'}) }}">
-	<input type="submit" value="Drop Schema" />
-</form>
-<br />
+    <h1>Ecamp-DB</h1>
+    <br />
 
-<h2>Fixtures</h2>
-<form style="display: inline" action="{{ url('db/default', {'controller': 'fixtures', 'action': 'append'}) }}">
-	<input type="submit" value="Append" />
-</form>
-<form style="display: inline" action="{{ url('db/default', {'controller': 'fixtures', 'action': 'default'}) }}">
-	<input type="submit" value="Default (Delete and import)" />
-</form>
+    <h2>Schema-Tool</h2>
+    <form style="display: inline" action="{{ url('db/default', {'controller': 'schema', 'action': 'create'}) }}">
+        <input type="submit" value="Create Schema" />
+    </form>
+    <form style="display: inline" action="{{ url('db/default', {'controller': 'schema', 'action': 'update'}) }}">
+        <input type="submit" value="Update Schema" />
+    </form>
+    <form style="display: inline" action="{{ url('db/default', {'controller': 'schema', 'action': 'drop'}) }}">
+        <input type="submit" value="Drop Schema" />
+    </form>
+    <br />
 
-<br />
-<br />
+    <h2>Fixtures</h2>
+    <form style="display: inline" action="{{ url('db/default', {'controller': 'fixtures', 'action': 'append'}) }}">
+        <input type="submit" value="Append" />
+    </form>
+    <form style="display: inline" action="{{ url('db/default', {'controller': 'fixtures', 'action': 'default'}) }}">
+        <input type="submit" value="Default (Delete and import)" />
+    </form>
+    <br />
 
-<h2>Migration</h2>
-<br />
+    <br />
 
-<h2>Backup</h2>
-<br />
+    <h2>Migration</h2>
+    <br />
 
-<h2>Repair UId</h2>
-<form style="display: inline" action="{{ url('db/default', {'controller': 'maintenance', 'action': 'repairUid'}) }}">
-	<input type="submit" value="Repair Uid" />
-</form>
+    <h2>Backup</h2>
+    <br />
+
+    <h2>Repair UId</h2>
+    <form style="display: inline" action="{{ url('db/default', {'controller': 'maintenance', 'action': 'repairUid'}) }}">
+        <input type="submit" value="Repair Uid" />
+    </form>
 
 {% endblock content %}

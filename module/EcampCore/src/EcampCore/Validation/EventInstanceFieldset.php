@@ -2,6 +2,7 @@
 
 namespace EcampCore\Validation;
 
+use EcampCore\Entity\Day;
 use EcampCore\Entity\EventInstance;
 use EcampCore\Entity\Period;
 use Zend\Form\Fieldset;
@@ -10,12 +11,17 @@ use EcampCore\Entity\Camp;
 
 class EventInstanceFieldset extends Fieldset implements InputFilterProviderInterface
 {
-    public function __construct(Camp $camp, Period $period = null, EventInstance $eventInstance = null)
+    public function __construct(Camp $camp, Period $period = null, Day $day = null, EventInstance $eventInstance = null)
     {
         parent::__construct('eventInstance');
 
         if ($period == null && $eventInstance != null) {
             $period = $eventInstance->getPeriod();
+        }
+
+        if ($day != null) {
+            $startday = $day;
+            $endday = $day;
         }
 
         if ($eventInstance != null) {
@@ -78,8 +84,8 @@ class EventInstanceFieldset extends Fieldset implements InputFilterProviderInter
                 );
 
                 if ($p == $period) {
-                    if ($idx == $startdayIdx) { $startday = $d; }
-                    if ($idx == $enddayIdx) { $endday = $d; }
+                    if ($idx === $startdayIdx) { $startday = $d; }
+                    if ($idx === $enddayIdx) { $endday = $d; }
                 }
             }
         }

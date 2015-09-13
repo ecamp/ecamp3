@@ -3,12 +3,18 @@
 namespace EcampCore\View\Event;
 
 use EcampCore\Entity\Event;
+use EcampCore\Entity\EventInstance;
 use EcampCore\Entity\EventTemplate;
+use EcampCore\Plugin\StrategyProvider;
 use Zend\View\Model\ViewModel;
-use Zend\ServiceManager\ServiceLocatorInterface;
 
 class EventTemplateRenderer
 {
+    /**
+     * @var StrategyProvider
+     */
+    private $strategyProvider;
+
     /**
      * @var \EcampCore\Entity\EventTemplate
      */
@@ -19,8 +25,11 @@ class EventTemplateRenderer
      */
     private $eventTemplateContainerRenderers;
 
-    public function __construct(EventTemplate $eventTemplate)
-    {
+    public function __construct(
+        StrategyProvider $strategyProvider,
+        EventTemplate $eventTemplate
+    ) {
+        $this->strategyProvider = $strategyProvider;
         $this->eventTemplate = $eventTemplate;
         $this->eventTemplateContainerRenderers = array();
     }
@@ -49,26 +58,26 @@ class EventTemplateRenderer
         return $this->eventTemplate->getMedium();
     }
 
-    public function buildRendererTree(ServiceLocatorInterface $serviceLocator)
+    public function buildRendererTree()
     {
         $containers = $this->eventTemplate->getEventTemplateContainers();
 
         foreach ($containers as $container) {
             /* @var $container \EcampCore\Entity\EventTemplateContainer */
-            $eventTemplateContainerRenderer = new EventTemplateContainerRenderer($container);
+            $eventTemplateContainerRenderer = new EventTemplateContainerRenderer($this->strategyProvider, $container);
             $eventTemplateContainerRenderer->setEventTemplateRenderer($this);
-            $eventTemplateContainerRenderer->buildRendererTree($serviceLocator);
 
             $this->eventTemplateContainerRenderers[] = $eventTemplateContainerRenderer;
         }
     }
 
     /**
-     * @param  Event                      $event
-     * @return \Zend\View\Model\ViewModel
+     * @param  Event         $event
+     * @param  EventInstance $eventInstance
+     * @return ViewModel
      * @throws \Exception
      */
-    public function render(Event $event)
+    public function render(Event $event, EventInstance $eventInstance = null)
     {
         if ($event->getEventType() != $this->getEventType()) {
             throw new \Exception("EventTemplateRenderer can not render the given Event");
@@ -83,6 +92,7 @@ class EventTemplateRenderer
         $viewModel->setVariable('eventType', $eventType);
         $viewModel->setVariable('eventCategory', $eventCategory);
         $viewModel->setVariable('eventTemplate', $this->eventTemplate);
+        $viewModel->setVariable('eventInstance', $eventInstance);
 
         foreach ($this->eventTemplateContainerRenderers as $eventTemplateContainerRenderer) {
             /* @var $eventTemplateContainerRenderer \EcampCore\View\Event\EventTemplateContainerRenderer */

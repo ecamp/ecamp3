@@ -61,6 +61,7 @@ class AbstractServiceFactory implements AbstractFactoryInterface
     {
         /* Inject common dependencies (e.g. dependencies of ServiceBase class) */
         $service->setEntityManager($serviceLocator->get($this->orm));
+        $service->setConfigArray($serviceLocator->get('Config'));
         $service->setAcl($serviceLocator->get('EcampCore\Acl'));
 
         $authService = new AuthenticationService();
