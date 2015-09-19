@@ -6,8 +6,7 @@ use Zend\InputFilter\InputFilterProviderInterface;
 
 use EcampLib\Form\BaseFieldset;
 
-class UserBaseFieldset extends BaseFieldset
-    implements InputFilterProviderInterface
+class UserBaseFieldset extends BaseFieldset implements InputFilterProviderInterface
 {
     public function __construct($name = 'user-base')
     {

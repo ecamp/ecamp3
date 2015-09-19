@@ -87,19 +87,23 @@
                     <hr />
 
                     <div style="text-align: center">
-                        <button
-                            type="button"
-                            class="btn-link"
+                        <a
                             async-modal
-                            href="{{ url('web/default', { 'controller':'register' } ) }}"
-                        >Register</button>
-
-                        <button
-                            type="button"
                             class="btn-link"
+                            href="{{ url('web/default', { 'controller':'register' }) }}"
+                        >Register</a>
+                        &nbsp;&nbsp;|&nbsp;&nbsp;
+                        <a
                             async-modal
+                            class="btn-link"
+                            href="{{ url('web/default', { 'controller': 'register', 'action': 'forgot-password' }) }}"
+                        >Forgot password</a>
+                        &nbsp;&nbsp;|&nbsp;&nbsp;
+                        <a
+                            async-modal
+                            class="btn-link"
                             href="{{ url('web/default', { 'controller': 'index', 'action': 'about'} ) }}"
-                        >About</button>
+                        >About</a>
                     </div>
                 </div>
 

@@ -6,6 +6,29 @@ use EcampCore\Entity\Medium;
 
 abstract class AbstractBaseController extends \EcampLib\Controller\AbstractBaseController
 {
+    /**
+     * @return \EcampCore\Repository\UserRepository
+     */
+    protected function getUserRepository()
+    {
+        return $this->getServiceLocator()->get('EcampCore\Repository\User');
+    }
+
+    /**
+     * @return \EcampCore\Repository\CampRepository
+     */
+    protected function getCampRepository()
+    {
+        return $this->getServiceLocator()->get('EcampCore\Repository\Camp');
+    }
+
+    /**
+     * @return \EcampCore\Repository\GroupRepository
+     */
+    protected function getGroupRepository()
+    {
+        return $this->getServiceLocator()->get('EcampCore\Repository\Group');
+    }
 
     /**
      * @return \EcampCore\Service\UserService

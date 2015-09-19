@@ -60,10 +60,11 @@
                             type: $form.attr('method'),
                             url:  $form.attr('action'),
                             data: $form.serialize(),
-                            global: false,
-
-                            statusCode: {
-                                200: function(data, statusText, response){
+                            global: false
+                        })
+                        .then(
+                            function(data, statusText, response){
+                                if(response.status == 200){
                                     var locationHeader = response.getResponseHeader('Location');
 
                                     if(locationHeader){
@@ -73,18 +74,18 @@
                                         SetWindowContent(response.responseText);
                                         FocusFirstElement();
                                     }
-                                },
 
-                                204: function(data, statusText, response){
+                                } else if(response.status == 204){
                                     $controllerScope.$close(response.responseText);
-                                },
-
-                                500: function(data, statusText, response){
-                                    SetWindowContent(data.responseText);
+                                }
+                            },
+                            function(response){
+                                if(response.status == 500){
+                                    SetWindowContent(response.responseText);
                                     FocusErrorElement();
                                 }
                             }
-                        });
+                        );
                     }
 
                     function SetWindowContent(content){

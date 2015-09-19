@@ -9,14 +9,6 @@ class IndexController
 {
 
     /**
-     * @return \EcampCore\Repository\CampRepository
-     */
-    private function getCampRepository()
-    {
-        return $this->getServiceLocator()->get('EcampCore\Repository\Camp');
-    }
-
-    /**
      * @return \EcampCore\Repository\GroupMembershipRepository
      */
     private function getGroupMembershipRepository()
@@ -34,7 +26,7 @@ class IndexController
 
     public function indexAction()
     {
-        $this->setFullHeight();
+        //$this->setFullHeight();
 
         $me = $this->getMe();
 

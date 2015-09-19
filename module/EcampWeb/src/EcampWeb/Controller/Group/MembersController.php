@@ -12,13 +12,6 @@ use Zend\Paginator\Paginator;
 class MembersController
     extends BaseController
 {
-    /**
-     * @return \EcampCore\Repository\UserRepository
-     */
-    private function getUserRepository()
-    {
-        return $this->getServiceLocator()->get('EcampCore\Repository\User');
-    }
 
     /**
      * @return \EcampCore\Repository\GroupMembershipRepository

@@ -307,6 +307,16 @@ return array(
                         ),
                     ),
                 ),
+
+                'image' => array(
+                    'type' => 'Literal',
+                    'options' => array(
+                        'route'      => '/image',
+                        'defaults' => array(
+                            'controller'    => 'Resource\User\Image'
+                        ),
+                    ),
+                )
             ),
         ),
 
@@ -373,6 +383,30 @@ return array(
                     'controller'    => 'Resource\Membership'
                 ),
             ),
+        ),
+
+        'images' => array(
+            'type' => 'Segment',
+            'may_terminate' => true,
+            'options' => array(
+                'route' => '/images/:image',
+                'defaults' => array(
+                    'controller' => 'Resource\Image'
+                )
+            ),
+            'child_routes' => array(
+                'default' => array(
+                    'type' => 'Segment',
+                    'may_terminater' => true,
+                    'options' => array(
+                        'route' => '/:action',
+                        'defaults' => array(
+                            'controller' => 'Controller\Image',
+                            'action' => 'show'
+                        )
+                    )
+                )
+            )
         ),
 
         'search' => array(

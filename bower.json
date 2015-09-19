@@ -12,6 +12,7 @@
     "jquery-autosize": "latest",
     "bootstrap": "~3",
     "bootstrap-select": "latest",
+    "bootstrap-datepicker": "latest",
     "angular-ui": "latest",
     "angular-ui-select": "latest",
     "angular-ui-slider": "latest",
@@ -23,7 +24,8 @@
     "fontawesome": "~4",
     "typeahead.js": "latest",
     "uri.js": "~1.14",
-    "angular-hal": "https://github.com/LuvDaSun/angular-hal.git"
+    "angular-hal": "https://github.com/LuvDaSun/angular-hal.git",
+    "ng-file-upload": "~3.1"
   },
   "resolutions": {
     "angular": "~1.2"

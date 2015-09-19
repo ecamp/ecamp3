@@ -2,7 +2,9 @@
 
 namespace EcampCore\Service;
 
+use EcampCore\Entity\Login;
 use EcampCore\Entity\User;
+use EcampCore\Job\Login\SendPwResetMailJob;
 use EcampCore\Job\SendActivationMailJob;
 use EcampCore\Repository\UserRepository;
 
@@ -93,4 +95,25 @@ class RegisterService
         return $success;
     }
 
+    public function ForgotPassword($email)
+    {
+        $user = $this->userRepository->findByIdentifier($email);
+        if (is_null($user)) {
+            throw ValidationException::Create(array('email' => array('Unknown email address')));
+        }
+
+        $login = $user->getLogin();
+        if (is_null($login)) {
+            throw ValidationException::Create(array('email' => array('Unknown email address')));
+        }
+
+        // TODO: Send Mail
+        // SendPwResetMailJob::Create($login);
+        return $login->createPwResetKey();
+    }
+
+    public function ResetPassword(Login $login, $pwResetKey, $password)
+    {
+        $login->resetPassword($pwResetKey, $password);
+    }
 }

@@ -20,6 +20,8 @@ class UserResourceListener extends BaseResourceListener
     {
         $this->listeners[] = $events->attach('fetch', array($this, 'onFetch'));
         $this->listeners[] = $events->attach('fetchAll', array($this, 'onFetchAll'));
+        $this->listeners[] = $events->attach('update', array($this, 'onUpdate'));
+
     }
 
     public function onFetch(ResourceEvent $e)
@@ -38,4 +40,16 @@ class UserResourceListener extends BaseResourceListener
     {
         return $this->getUserRepository()->getCollection($e->getQueryParams()->toArray());
     }
+
+    public function onUpdate(ResourceEvent $e)
+    {
+        $id = $e->getParam('id');
+        $data = $e->getParam('data');
+        $dataArray = (array) $data;
+
+        $user = $this->getUserService()->Update($id, $dataArray);
+
+        return new UserDetailResource($user);
+    }
+
 }

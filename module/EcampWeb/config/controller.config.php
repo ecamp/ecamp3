@@ -10,6 +10,8 @@ return array(
         'EcampWeb\Controller\Auth\Login'			    => 'EcampWeb\Controller\Auth\LoginController',
         'EcampWeb\Controller\Auth\Register'			    => 'EcampWeb\Controller\Auth\RegisterController',
 
+        'EcampWeb\Controller\Profile\Index'             => 'EcampWeb\Controller\Profile\IndexController',
+
         'EcampWeb\Controller\User\Index'                => 'EcampWeb\Controller\User\IndexController',
 
         'EcampWeb\Controller\Group\Index' 			    => 'EcampWeb\Controller\Group\IndexController',

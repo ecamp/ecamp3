@@ -23,6 +23,7 @@ namespace EcampCore\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 use EcampLib\Entity\BaseEntity;
+use EcampLib\Validation\ValidationException;
 
 /**
  * @ORM\Entity(repositoryClass="EcampCore\Repository\LoginRepository")
@@ -32,10 +33,12 @@ class Login
     extends BaseEntity
 {
 
-    public function __construct(User $user)
+    public function __construct(User $user, $password)
     {
         parent::__construct();
         $this->user = $user;
+
+        $this->setNewPassword($password);
     }
 
     /**
@@ -52,7 +55,7 @@ class Login
 
     /**
      * @var string
-     * @ORM\Column(type="string", length=64, nullable=true)
+     * @ORM\Column(type="string", length=64, nullable=true, unique=true)
      */
     private $pwResetKey;
 
@@ -74,21 +77,14 @@ class Login
     }
 
     /**
-     * @return string
-     */
-    public function getSalt()
-    {
-        return $this->salt;
-    }
-
-    /**
      * Create a new PW Reset Key
      */
     public function createPwResetKey()
     {
-        $this->pwResetKey = $this->getRandomString();
+        $pwResetKey = $this->getRandomString();
+        $this->pwResetKey = $this->getHash($pwResetKey);
 
-        return $this->pwResetKey;
+        return $pwResetKey;
     }
 
     /**
@@ -100,23 +96,44 @@ class Login
     }
 
     /**
-     * Returns the PwResetKey
-     * @return string
+     * @param $pwResetKey
+     * @return bool
      */
-    public function getPwResetKey()
+    public function checkPwResetKey($pwResetKey)
     {
-        return $this->pwResetKey;
+        return ($this->getHash($pwResetKey) == $this->pwResetKey);
     }
 
     /**
-     * Sets a new Password. It creates a new salt
-     * ans stores the salten password
-     * @param string $password
+     * @param $pwResetKey
+     * @param $password
+     * @throws ValidationException
      */
-    public function setNewPassword($password)
+    public function resetPassword($pwResetKey, $password)
     {
-        $this->salt = $this->getRandomString();
-        $this->password = $this->getHash($password);
+        if ($this->checkPwResetKey($pwResetKey)) {
+            $this->setNewPassword($password);
+        } else {
+            throw ValidationException::Create(array(
+                'pwResetKey' => array('Invalid reset-key.')
+            ));
+        }
+    }
+
+    /**
+     * @param $oldPassword
+     * @param $newPassword
+     * @throws ValidationException
+     */
+    public function changePassword($oldPassword, $newPassword)
+    {
+        if ($this->checkPassword($oldPassword)) {
+            $this->setNewPassword($newPassword);
+        } else {
+            throw ValidationException::Create(array(
+                'oldPassword' => array('Password incorrect.')
+            ));
+        }
     }
 
     /**
@@ -130,6 +147,24 @@ class Login
     public function checkPassword($password)
     {
         return ($this->getHash($password) == $this->password);
+    }
+
+    /**
+     * Sets a new Password. It creates a new salt
+     * ans stores the salten password
+     * @param string $password
+     */
+    private function setNewPassword($password)
+    {
+        $this->createSalt();
+        $this->password = $this->getHash($password);
+    }
+
+    private function createSalt()
+    {
+        $this->password = null;
+        $this->pwResetKey = null;
+        $this->salt = $this->getRandomString();
     }
 
     private function getHash($password)
