@@ -1,292 +1,588 @@
+(function(){
 
-jQuery(function($){
+    var module = angular.module('ecamp-ajax-form-element', []);
 
-    function AjaxFormElementController(container){
-        this.$container = $(container);
-        this.$control = this.$container.find('.form-control');
-        this.$feedbackContainer = this.$container.find('.feedback-container');
-
-        this.$state = 'orig';
-        this.$origValue = this.getValue();
-        this.$saveTimeout = null;
-        this.$saveDelay = 100;
-
-        this.$backendStorageUrl = this.$container.attr('data-backend');
-    }
-
-    AjaxFormElementController.prototype.getValue = function(){
-        return this.$control.val();
-    };
-
-    AjaxFormElementController.prototype.setValue = function(value){
-        this.$control.val(value);
-    };
-
-    AjaxFormElementController.prototype.getOrigValue = function(){
-        return this.$origValue;
-    };
+    module.directive('ajaxForm', ['$filter', function($filter){
+        var $dateFilter = $filter('date');
 
 
-    AjaxFormElementController.prototype.setOrig = function(force){
-        force = force || false;
+        var AjaxForm = function(url, controls, feedbacks){
+            this.url = url;
+            this.controls = controls;
+            this.feedbacks = feedbacks;
+            this.state = 'orig';
 
-        if(force || !this.isDirty()) {
-            this.$feedbackContainer.empty();
-            this.$feedbackContainer.css('width', '0px');
-            this.$control.css('padding-right', '12px');
-            this.$state = 'orig';
-        }
-    };
+            this.savedTimeout = null;
+            this.saveTimeout = null;
+            this.saveDelay = 150;
 
-    AjaxFormElementController.prototype.setDirty = function(){
-        this.$feedbackContainer.empty();
-        this.$feedbackContainer.css('width', '70px');
-        this.$feedbackContainer.css('pointer-events', 'all');
-        this.$control.css('padding-right', '72.5px');
+            this.SaveOrigValue();
+            this.SetupEvents();
 
-        var iconSave = $('<i class="fa fa-check"></i>');
-        iconSave.css('color', 'white');
-        iconSave.css('font-size', '15px');
-        var btnSave = $('<button class="btn btn-xs btn-success btn-ajax-feedback"></button>');
-        btnSave.css('width', '30px');
-        btnSave.attr('tabindex', '-1');
-        btnSave.append(iconSave);
+            this.feedbacks.empty();
+        };
 
-        var iconCancel = $('<i class="fa fa-times"></i>');
-        iconCancel.css('color', 'white');
-        iconCancel.css('font-size', '15px');
-        var btnCancel = $('<button class="btn btn-xs btn-danger btn-ajax-feedback"></button>');
-        btnCancel.css('width', '30px');
-        btnCancel.attr('tabindex', '-1');
-        btnCancel.append(iconCancel);
+        AjaxForm.prototype.SetupEvents = function(){
+            angular.forEach(this.controls, function(ctrl){
+                ctrl.Focus(this.OnFocus.bind(this));
+                ctrl.Edit(this.OnEdit.bind(this));
+                ctrl.Save(this.OnSave.bind(this));
+                ctrl.Cancel(this.OnCancel.bind(this));
+            }, this);
+        };
 
-        var btnGroup = $('<div class="btn-group"></div>');
-        btnGroup.append(btnSave);
-        btnGroup.append(btnCancel);
+        AjaxForm.prototype.OnFocus = function(){
+            this.StopSave();
+            this.CheckAndSetDirty();
+        };
 
-        btnSave.click(this.save.bind(this));
-        btnCancel.click(this.undo.bind(this));
-        btnSave.focus(this.onFocus.bind(this));
-        btnCancel.focus(this.onFocus.bind(this));
-        btnSave.blur(this.onBlur.bind(this));
-        btnCancel.blur(this.onBlur.bind(this));
-        btnSave.keydown(this.onKeyDown.bind(this));
-        btnCancel.keydown(this.onKeyDown.bind(this));
+        AjaxForm.prototype.OnEdit = function(){
+            this.CheckAndSetDirty();
+        };
 
-        this.$feedbackContainer.append(btnGroup);
-        this.$state = 'dirty';
-    };
+        AjaxForm.prototype.OnSave = function(){
+            this.BeginSave();
+        };
 
-    AjaxFormElementController.prototype.setSaving = function(){
-        this.$feedbackContainer.empty();
-        this.$feedbackContainer.css('width', '40px');
-        this.$control.css('padding-right', '42.5px');
+        AjaxForm.prototype.OnCancel = function(){
+            this.Undo();
+        };
 
-        var iconWait = $('<i class="fa fa-spinner"></i>');
-        iconWait.css('color', '#428bca');
-        iconWait.css('font-size', '20px');
-        iconWait.css('margin-top', '8px');
-        iconWait.css('animation', 'spin-step 0.7s steps(8, end) infinite');
-        iconWait.css('-webkit-animation', 'spin-step 0.7s steps(8, end) infinite');
 
-        this.$feedbackContainer.append(iconWait);
-        this.$state = 'saving';
-    };
+        /** @return {boolean} */
+        AjaxForm.prototype.IsOrig = function(){
+            return this.state == 'orig';
+        };
 
-    AjaxFormElementController.prototype.setSaved = function(){
-        this.$feedbackContainer.empty();
-        this.$feedbackContainer.css('width', '40px');
-        this.$control.css('padding-right', '42.5px');
+        /** @return {boolean} */
+        AjaxForm.prototype.IsDirty = function(){
+            return this.state == 'dirty';
+        };
 
-        var iconCheck = $('<i class="fa fa-check"></i>');
-        iconCheck.css('color', '#4cae4c');
-        iconCheck.css('font-size', '15px');
-        var btnCheck = $('<button class="btn btn-xs btn-noborder btn-ajax-feedback"></button>');
-        btnCheck.css('background-color', 'transparent');
-        btnCheck.css('cursor', 'default');
-        btnCheck.css('width', '30px');
-        btnCheck.attr('tabindex', '-1');
-        btnCheck.append(iconCheck);
+        /** @return {boolean} */
+        AjaxForm.prototype.IsSaving = function(){
+            return this.state == 'saving';
+        };
 
-        this.$feedbackContainer.append(btnCheck);
-        this.$state = 'saved';
+        /** @return {boolean} */
+        AjaxForm.prototype.IsSaved = function(){
+            return this.state == 'saved';
+        };
 
-        if($(':focus').length == 0 /* && !this.$control.is(':radio') */) {
-            this.$control.focus();
-        }
-    };
+        /** @return {boolean} */
+        AjaxForm.prototype.IsFailed = function(){
+            return this.state == 'failed';
+        };
 
-    AjaxFormElementController.prototype.setFailed = function(){
-        this.$feedbackContainer.empty();
-        this.$feedbackContainer.css('width', '40px');
-        this.$control.css('padding-right', '42.5px');
+        /** @return {boolean} */
+        AjaxForm.prototype.CheckDirty = function(){
+            var isDirty = this.IsDirty();
 
-        var iconCheck = $('<i class="fa fa-exclamation-triangle"></i>');
-        iconCheck.css('color', '#f0ad4e');
-        iconCheck.css('font-size', '20px');
-        var btnCheck = $('<button class="btn btn-xs btn-noborder btn-ajax-feedback"></button>');
-        btnCheck.css('background-color', 'transparent');
-        btnCheck.css('cursor', 'default');
-        btnCheck.css('width', '30px');
-        btnCheck.attr('tabindex', '-1');
-        btnCheck.append(iconCheck);
+            if(!isDirty){
+                if(this.IsOrig() || this.IsSaved() || this.IsFailed()){
+                    angular.forEach(this.controls, function(ctrl){
+                        isDirty = isDirty || ctrl.CheckDirty();
+                    });
+                }
+            }
 
-        this.$feedbackContainer.append(btnCheck);
-        this.$state = 'failed';
-    };
+            return isDirty;
+        };
 
-    AjaxFormElementController.prototype.isOrig = function(){
-        return this.$state == 'orig';
-    };
+        AjaxForm.prototype.CheckAndSetDirty = function(){
+            if(!this.IsDirty() && this.CheckDirty()){
+                this.SetDirty();
+            }
+        };
 
-    AjaxFormElementController.prototype.isDirty = function(){
-        return this.$state == 'dirty';
-    };
+        AjaxForm.prototype.SetOrig = function(force){
+            force = force || false;
 
-    AjaxFormElementController.prototype.isSaving = function(){
-        return this.$state == 'saving';
-    };
+            if(force || !this.IsDirty()) {
+                if(this.savedTimeout){
+                    clearTimeout(this.savedTimeout);
+                    this.savedTimeout = null;
+                }
 
-    AjaxFormElementController.prototype.isSaved = function(){
-        return this.$state == 'saved';
-    };
+                this.feedbacks.empty();
+                this.feedbacks.css('width', '0px');
+                this.SetFeedbackSize(0);
 
-    AjaxFormElementController.prototype.isFailed = function(){
-        return this.$state == 'failed';
-    };
+                this.state = 'orig';
+            }
+        };
 
-    AjaxFormElementController.prototype.checkDirty = function(){
-        if(this.isOrig() || this.isSaved() || this.isFailed()){
-            if(this.getValue() != this.getOrigValue()){
-                this.setDirty();
+        AjaxForm.prototype.SetDirty = function(){
+            if(this.savedTimeout){
+                clearTimeout(this.savedTimeout);
+                this.savedTimeout = null;
+            }
+
+            this.feedbacks.empty();
+            this.feedbacks.css('width', '70px');
+            this.feedbacks.css('pointer-events', 'all');
+            this.SetFeedbackSize(70);
+
+            angular.forEach(this.feedbacks, function(feedback) {
+                var iconSave = $('<i class="fa fa-check"></i>');
+                iconSave.css('color', 'white');
+                iconSave.css('font-size', '15px');
+                var btnSave = $('<button class="btn btn-xs btn-success btn-ajax-feedback"></button>');
+                btnSave.click(this.Save.bind(this));
+                btnSave.css('width', '30px');
+                btnSave.attr('tabindex', '-1');
+                btnSave.attr('name', 'btnSave');
+                btnSave.append(iconSave);
+
+                var iconCancel = $('<i class="fa fa-times"></i>');
+                iconCancel.css('color', 'white');
+                iconCancel.css('font-size', '15px');
+                var btnCancel = $('<button class="btn btn-xs btn-danger btn-ajax-feedback"></button>');
+                btnCancel.click(this.Undo.bind(this));
+                btnCancel.css('width', '30px');
+                btnCancel.attr('tabindex', '-1');
+                btnCancel.attr('name', 'btnCancel');
+                btnCancel.append(iconCancel);
+
+                var btnGroup = $('<div class="btn-group"></div>');
+                btnGroup.append(btnSave);
+                btnGroup.append(btnCancel);
+
+
+                $(feedback).append(btnGroup);
+            }, this);
+
+            this.state = 'dirty';
+        };
+
+        AjaxForm.prototype.SetSaving = function() {
+            if(this.savedTimeout){
+                clearTimeout(this.savedTimeout);
+                this.savedTimeout = null;
+            }
+
+            this.feedbacks.empty();
+            this.feedbacks.css('width', '40px');
+            this.SetFeedbackSize(40);
+
+            angular.forEach(this.feedbacks, function(feedback){
+                var icon = $('<i class="fa fa-spinner"></i>');
+                icon.css('color', '#428bca');
+                icon.css('font-size', '20px');
+                icon.css('margin-top', '8px');
+                icon.css('animation', 'spin-step 0.7s steps(8, end) infinite');
+                icon.css('-webkit-animation', 'spin-step 0.7s steps(8, end) infinite');
+
+                $(feedback).append(icon);
+            });
+
+            this.state = 'saving';
+        };
+
+        AjaxForm.prototype.SetSaved = function(){
+            this.feedbacks.empty();
+            this.feedbacks.css('width', '40px');
+            this.SetFeedbackSize(40);
+
+            angular.forEach(this.feedbacks, function(feedback){
+                var icon = $('<i class="fa fa-check"></i>');
+                icon.css('color', '#4cae4c');
+                icon.css('font-size', '15px');
+
+                $(feedback).append(icon);
+            });
+
+            this.state = 'saved';
+        };
+
+        AjaxForm.prototype.SetFailed = function(){
+            this.feedbacks.empty();
+            this.feedbacks.css('width', '40px');
+            this.SetFeedbackSize(40);
+
+            angular.forEach(this.feedbacks, function(feedback){
+                var icon = $('<i class="fa fa-exclamation-triangle"></i>');
+                icon.css('color', '#f0ad4e');
+                icon.css('font-size', '20px');
+                icon.css('margin-top', '8px');
+
+                $(feedback).append(icon);
+            });
+
+            this.state = 'failed';
+        };
+
+
+        AjaxForm.prototype.GetValue = function(){
+            var formData = {};
+            angular.forEach(this.controls, function(ctrl, name){
+                this[name] = ctrl.GetValue();
+            }, formData);
+            return formData;
+        };
+
+        AjaxForm.prototype.SaveOrigValue = function() {
+            angular.forEach(this.controls, function (ctrl) {
+                ctrl.SaveOrigValue();
+            });
+        };
+
+        AjaxForm.prototype.Disable = function() {
+            angular.forEach(this.controls, function (ctrl) {
+                ctrl.Disable();
+            }, this);
+        };
+
+        AjaxForm.prototype.Enable = function() {
+            angular.forEach(this.controls, function (ctrl) {
+                ctrl.Enable();
+            }, this);
+        };
+
+        AjaxForm.prototype.SetFeedbackSize = function(size){
+            angular.forEach(this.controls, function (ctrl) {
+                ctrl.SetFeedbackSize(size);
+            }, this);
+        };
+
+        AjaxForm.prototype.Undo = function(){
+            if(this.IsDirty()){
+                if(this.saveTimeout != null) {
+                    clearTimeout(this.saveTimeout);
+                }
+                this.saveTimeout = null;
+
+                angular.forEach(this.controls, function(ctrl){
+                    ctrl.Reset();
+                }, this);
+                this.SetOrig(true);
+
+                /* todo: Focus any Control? */
+            }
+        };
+
+        /** @return {boolean} */
+        AjaxForm.prototype.BeginSave = function(){
+            if(this.CheckDirty()){
+                this.saveTimeout = setTimeout(this.Save.bind(this), this.saveDelay);
+                return true;
+            }
+            return false;
+        };
+
+        AjaxForm.prototype.StopSave = function(){
+            if(this.saveTimeout != null){
+                clearTimeout(this.saveTimeout);
+            }
+            this.saveTimeout = null;
+        };
+
+        AjaxForm.prototype.Save = function(){
+            this.SetSaving();
+            var formData = this.GetValue();
+
+            this.Disable();
+
+            jQuery.ajax({
+                type: 'PUT',
+                url: this.url,
+                data: formData,
+                cache: false,
+                context: this,
+                orientation: 'bottom'
+            })
+                .done(this.Saved)
+                .fail(this.Failed);
+        };
+
+        AjaxForm.prototype.Saved = function(){
+            this.SaveOrigValue();
+            this.Enable();
+            this.SetSaved();
+
+            this.savedTimeout = setTimeout(this.SetOrig.bind(this), 2000);
+        };
+
+        AjaxForm.prototype.Failed = function(){
+            this.Enable();
+            this.SetFailed();
+        };
+
+
+
+        var AjaxFormControl = function(element){
+            this.element = element;
+            this.origValue = null;
+        };
+
+
+
+        var AjaxFormControlRadio = function(elements){
+            this.element = elements;
+
+            angular.forEach(this.element, function(elm){
+                var $elm = $(elm);
+                $elm.focus(function(){ $elm.prop('checked', true); });
+            }, this);
+
+            this.SetValue(this.element.filter('[checked]').val());
+        };
+
+        AjaxFormControlRadio.prototype = new AjaxFormControl();
+        AjaxFormControlRadio.prototype.constructor = AjaxFormControlRadio;
+        AjaxFormControlRadio.prototype.parent = AjaxFormControl.prototype;
+
+
+
+        var AjaxFormControlDate = function(elements){
+            this.element = elements;
+            this.element.attr('type', 'text');
+
+            var format = this.element.attr('format') || 'yyyy-mm-dd';
+            var value = this.element.attr('value') || '';
+
+            this.datepicker = this.element.datepicker({
+                format: format,
+                weekStart: 1,
+                autoclose: true,
+                clearBtn: true
+            });
+
+            this.SetValue(value);
+        };
+
+        AjaxFormControlDate.prototype = new AjaxFormControl();
+        AjaxFormControlDate.prototype.constructor = AjaxFormControlDate;
+        AjaxFormControlDate.prototype.parent = AjaxFormControl.prototype;
+
+
+
+        var AjaxFormControlSelect = function(elements){
+            this.element = elements;
+        };
+
+        AjaxFormControlSelect.prototype = new AjaxFormControl();
+        AjaxFormControlSelect.prototype.constructor = AjaxFormControlSelect;
+        AjaxFormControlSelect.prototype.parent = AjaxFormControl.prototype;
+
+
+
+        AjaxFormControl.Create = function(elements){
+            if(!elements || elements.length == 0){
+                throw "Now Element given";
+            }
+
+            var elementTypes = [];
+            angular.forEach(elements, function(element){
+                elementTypes.push(this.GetType(element));
+            }, this);
+
+            var elementType = $.unique(elementTypes);
+
+            if(elementType.length != 1){
+                throw "Element Type is ambiguous";
+            }
+
+            elementType = elementType[0];
+
+            elements.focus(function(event){
+                AjaxFormControl.LastFocusedControl = event.target;
+            });
+
+            switch(elementType.toLowerCase()){
+                case 'radio':
+                    return new AjaxFormControlRadio(elements);
+
+                case 'date':
+                    return new AjaxFormControlDate(elements);
+
+                case 'select':
+                    return new AjaxFormControlSelect(elements);
+
+                default:
+                    return new AjaxFormControl(elements);
+            }
+        };
+
+        /** @return {string} */
+        AjaxFormControl.GetType = function(element){
+            var $element = $(element);
+
+            if($element.is('input')){
+                return $element.attr('type') || 'text';
+            }
+
+            if($element.is('select')){
+                return 'select';
+            }
+
+            return 'unknown';
+        };
+
+        AjaxFormControl.LastFocusedControl = null;
+
+        AjaxFormControl.prototype.GetValue = function(){
+            return angular.isElement(this.element) ? this.element.val() : null;
+        };
+
+        AjaxFormControl.prototype.SetValue = function(val){
+            angular.isElement(this.element) && this.element.val(val);
+        };
+
+        AjaxFormControl.prototype.SaveOrigValue = function(){
+            this.origValue = this.GetValue();
+        };
+
+        AjaxFormControl.prototype.Reset = function(){
+            this.SetValue(this.origValue);
+        };
+
+        AjaxFormControl.prototype.Disable = function(){
+            this.element.attr('disabled', true);
+        };
+
+        AjaxFormControl.prototype.Enable = function(){
+            this.element.removeAttr('disabled');
+
+            if($(':focus').length == 0 && this.element.is(AjaxFormControl.LastFocusedControl)){
+                this.element.focus();
+            }
+        };
+
+        /** @return {boolean} */
+        AjaxFormControl.prototype.CheckDirty = function(){
+            return this.origValue != this.GetValue();
+        };
+
+        AjaxFormControl.prototype.Focus = function(h){
+            this.element.focus(h);
+        };
+
+        AjaxFormControl.prototype.Edit = function(h){
+            this.element.change(h);
+            this.element.keyup(h);
+        };
+
+        AjaxFormControl.prototype.Save = function(h){
+            this.element.blur(h);
+        };
+
+        AjaxFormControl.prototype.Cancel = function(h){
+            this.element.keydown(function(event){
+                if(event.keyCode == 27){ h(event); }
+            });
+        };
+
+        AjaxFormControl.prototype.SetFeedbackSize = function(size){
+            size = size + 2.5;
+            this.element.css('padding-right', size + 'px')
+        };
+
+
+
+
+        /** @return {null} */
+        AjaxFormControlRadio.prototype.GetValue = function(){
+            if(angular.isElement(this.element)){
+                var checkedElement = this.element.filter(':checked');
+                return checkedElement.length == 1 ? checkedElement.val() : null;
+            }
+            return null;
+        };
+
+        AjaxFormControlRadio.prototype.SetValue = function(val){
+            var elm = this.element.filter('[value=' + val + ']');
+            elm.prop('checked', true);
+            elm.parent().filter('label').addClass('active');
+
+            elm = this.element.filter('[value!=' + val + ']');
+            elm.prop('checked', false);
+            elm.parent().filter('label').removeClass('active');
+        };
+
+        AjaxFormControlRadio.prototype.Disable = function(){
+            this.element.parent().filter('label').css('pointer-events', 'none');
+        };
+
+        AjaxFormControlRadio.prototype.Enable = function(){
+            this.element.parent().filter('label').css('pointer-events', '');
+        };
+
+        AjaxFormControlRadio.prototype.Focus = function(h){};
+        AjaxFormControlRadio.prototype.Edit = function(h){};
+        AjaxFormControlRadio.prototype.Save = function(h){
+            this.element.keyup(function(event){
+                if(event.keyCode >= 37 && event.keyCode <= 40){ h(event);   }
+            });
+            this.element.change(h);
+        };
+        AjaxFormControlRadio.prototype.Cancel = function(h){};
+
+
+
+        AjaxFormControlDate.prototype.GetValue = function(){
+            var d = this.element.datepicker('getDate');
+            return !isNaN(d) ? $dateFilter(d, 'yyyy-MM-dd') : '';
+        };
+
+        AjaxFormControlDate.prototype.SetValue = function(val){
+            if(isNaN(val)){
+                this.element.datepicker('setDate', null);
+            } else {
+                this.element.datepicker('setDate', new Date(val));
+            }
+        };
+
+        AjaxFormControlDate.prototype.Focus = function(h){};
+        AjaxFormControlDate.prototype.Edit = function(h){};
+        AjaxFormControlDate.prototype.Save = function(h){
+            var save = function(event){
+                if(h(event)){
+                    //this.element.focus();
+                    this.element.datepicker('hide');
+                }
+            }.bind(this);
+
+            this.element.change(save);
+            this.datepicker.on('clearDate', save);
+        };
+        AjaxFormControlDate.prototype.Cancel = function(h){};
+
+
+
+        AjaxFormControlSelect.prototype.Focus = function(h){};
+        AjaxFormControlSelect.prototype.Edit = function(h){};
+        AjaxFormControlSelect.prototype.Save = function(h){
+            this.element.change(h);
+        };
+        AjaxFormControlSelect.prototype.Cancel = function(h){};
+
+
+        return {
+            restrict: 'E',
+            scope: true,
+
+            link: function($scope, $element, $attrs) {
+
+                var formControls = $element.find('.form-control');
+                var ajaxFormControls = {};
+
+                if(formControls.length > 0) {
+                    angular.forEach(formControls, function (formControl) {
+                        var controlName = $(formControl).attr('name');
+                        if (controlName && controlName.length > 0 && ajaxFormControls[controlName] == undefined) {
+                            ajaxFormControls[controlName] =
+                                AjaxFormControl.Create($element.find('[name=' + controlName + '].form-control'));
+                        }
+                    });
+                }
+
+                var ajaxFeedbackContainers = $element.find('.form-control-feedback');
+
+                var action = $attrs['action'];
+                new AjaxForm(action, ajaxFormControls, ajaxFeedbackContainers);
             }
         }
-    };
+    }]);
 
-    AjaxFormElementController.prototype.undo = function(){
-        if(this.isDirty()){
-            this.setValue(this.getOrigValue());
-            this.setOrig(true);
-            this.$control.focus();
-        }
-    };
-
-    AjaxFormElementController.prototype.beginSave = function(){
-        if(this.isDirty()){
-            this.$saveTimeout = setTimeout(this.save.bind(this), this.$saveDelay);
-        }
-    };
-
-    AjaxFormElementController.prototype.stopSave = function(){
-        if(this.$saveTimeout != null){
-            clearTimeout(this.$saveTimeout);
-        }
-        this.$saveTimeout = null;
-    };
-
-    AjaxFormElementController.prototype.save = function(){
-        this.setSaving();
-
-        var inputData = this.$control.serializeArray();
-        var formData = {};
-        $.each(inputData, function(idx, data){
-            formData[data.name] = data.value;
-        });
-
-        this.$control.attr('disabled', true);
-
-        $.ajax({
-            type: 'PUT',
-            url: this.$backendStorageUrl,
-            data: formData,
-            cache: false,
-            context: this
-        })
-        .done(this.saved)
-        .fail(this.failed);
-    };
-
-    AjaxFormElementController.prototype.saved = function(){
-        this.$origValue = this.getValue();
-        this.$control.removeAttr('disabled');
-        this.setSaved();
-
-        setTimeout(this.setOrig.bind(this), 2000);
-    };
-
-    AjaxFormElementController.prototype.failed = function(){
-        this.$control.removeAttr('disabled');
-        this.setFailed();
-    };
-
-    AjaxFormElementController.prototype.onFocus = function(event){
-        this.stopSave();
-        this.checkDirty();
-    };
-
-    AjaxFormElementController.prototype.onBlur = function(event){
-        this.beginSave();
-    };
-
-    AjaxFormElementController.prototype.onKeyDown = function(event){
-        if(event.keyCode == 27){
-            this.undo();
-        }
-    };
-
-    AjaxFormElementController.prototype.onKeyUp = function(event){
-        this.checkDirty();
-    };
-
-
-
-    AjaxFormElementController.getInstance = function(element){
-        var $element = $(element);
-        var $container = $element.closest('.ajax-form-element');
-
-        var controller = $container.data('ajax-form-element-controller');
-        if(!controller){
-            controller = new AjaxFormElementController($container);
-            $container.data('ajax-form-element-controller', controller);
-        }
-
-        return controller;
-    };
-
-    AjaxFormElementController.onFocus = function(event){
-        AjaxFormElementController.getInstance(this).onFocus(event);
-    };
-
-    AjaxFormElementController.onBlur = function(event){
-        AjaxFormElementController.getInstance(this).onBlur(event);
-    };
-
-    AjaxFormElementController.onKeyDown = function(event){
-        AjaxFormElementController.getInstance(this).onKeyDown(event);
-    };
-
-    AjaxFormElementController.onKeyUp = function(event){
-        AjaxFormElementController.getInstance(this).onKeyUp(event);
-    };
-
-    AjaxFormElementController.onChange = function(event){
-        if($(this).is(':radio')){
-            var instance = AjaxFormElementController.getInstance(this);
-
-            instance.$saveTimeout = setTimeout(instance.save.bind(instance), this.$saveDelay);
-        }
-    };
-
-    /*
-    var $document = $(document);
-    $document.on('focus', '.ajax-form-element .form-control', AjaxFormElementController.onFocus);
-    $document.on('blur', '.ajax-form-element .form-control', AjaxFormElementController.onBlur);
-    $document.on('keydown', '.ajax-form-element .form-control', AjaxFormElementController.onKeyDown);
-    $document.on('keyup', '.ajax-form-element .form-control', AjaxFormElementController.onKeyUp);
-    $document.on('change', '.ajax-form-element .form-control', AjaxFormElementController.onChange);
-    */
-});
-
-
-
-
+}());

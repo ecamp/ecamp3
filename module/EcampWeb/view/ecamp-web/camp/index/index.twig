@@ -11,6 +11,7 @@
 
     <script type="text/javascript" src="{{ basePath('/web-assets/js/ajax-form-element.js') }}"></script>
     <script type="text/javascript" src="{{ basePath('/web-assets/js/modal-form.js') }}"></script>
+    <script type="text/javascript" src="{{ basePath('/web-assets/js/ajax-form-element.js') }}"></script>
     <script type="text/javascript" src="{{ basePath('/web-assets/js/ng-paginator.js') }}"></script>
     <script type="text/javascript" src="{{ basePath('/web-assets/js/camp/collaboration.js') }}"></script>
 
@@ -18,6 +19,7 @@
         (function(){
             angular.module('ecamp-camp-index', [
                 'ecamp-modal-form',
+                'ecamp-ajax-form-element',
                 'ecamp-paginator',
                 'ecamp-collaboration'
             ]);
@@ -58,34 +60,38 @@
 				{% block panel_content %}
 
                     <form class="form-horizontal form-show" role="form">
-                        <div class="form-group has-feedback ajax-form-element orig"
-                             data-backend="{{ url('api/camps', {'camp': camp.id } ) }}"
-                        >
-                            <label class="col-sm-3 control-label" for="camp-name">Name:</label>
-                            <div class="col-sm-9">
-                                <p class="form-control-static">{{ camp.name }}</p>
+                        {#
+                        <ajax-form action="{{ url('api/camps', {'camp': camp.id } ) }}">
+                        #}
+                            <div class="form-group has-feedback ajax-form-element">
+                                <label class="col-sm-3 control-label" for="camp-name">Name:</label>
+                                <div class="col-sm-9">
+                                    <p class="form-control-static">{{ camp.name }}</p>
+                                </div>
                             </div>
-                        </div>
+                        {#
+                        </ajax-form>
+                        #}
 
-                        <div class="form-group has-feedback ajax-form-element orig"
-                             data-backend="{{ url('api/camps', {'camp': camp.id } ) }}"
-                        >
-                            <label class="col-sm-3 control-label" for="camp-title">Title:</label>
-                            <div class="col-sm-9">
-                                <input type="text" class="form-control" id="camp-title" name="title" value="{{ camp.title }}">
-                                <span class="form-control-feedback feedback-container"></span>
+                        <ajax-form action="{{ url('api/camps', {'camp': camp.id } ) }}">
+                            <div class="form-group has-feedback ajax-form-element">
+                                <label class="col-sm-3 control-label" for="camp-title">Title:</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" id="camp-title" name="title" value="{{ camp.title }}">
+                                    <span class="form-control-feedback feedback-container"></span>
+                                </div>
                             </div>
-                        </div>
+                        </ajax-form>
 
-                        <div class="form-group has-feedback ajax-form-element orig"
-                             data-backend="{{ url('api/camps', {'camp': camp.id } ) }}"
-                        >
-                            <label class="col-sm-3 control-label" for="camp-motto">Motto:</label>
-                            <div class="col-sm-9">
-                                <input type="text" class="form-control" id="camp-motto" name="motto" value="{{ camp.motto }}">
-                                <span class="form-control-feedback feedback-container"></span>
+                        <ajax-form action="{{ url('api/camps', {'camp': camp.id } ) }}">
+                            <div class="form-group has-feedback ajax-form-element">
+                                <label class="col-sm-3 control-label" for="camp-motto">Motto:</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" id="camp-motto" name="motto" value="{{ camp.motto }}">
+                                    <span class="form-control-feedback feedback-container"></span>
+                                </div>
                             </div>
-                        </div>
+                        </ajax-form>
 
                     </form>
 
