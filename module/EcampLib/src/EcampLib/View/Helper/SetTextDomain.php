@@ -4,9 +4,10 @@ namespace EcampLib\View\Helper;
 
 use Zend\View\Helper\AbstractHelper;
 
-class SetTextDomain extends AbstractHelper {
-
-    public function __invoke($textDomain) {
+class SetTextDomain extends AbstractHelper
+{
+    public function __invoke($textDomain)
+    {
         /** @var \Zend\View\Renderer\PhpRenderer $view */
         $view = $this->getView();
 

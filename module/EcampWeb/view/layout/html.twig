@@ -5,17 +5,21 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
         {% block meta %}{% endblock meta %}
+        {{ headMeta() }}
 
-        {% block title %}
-            <title>eCamp V3</title>
-        {% endblock title %}
+        {% block title %}<title>eCamp V3</title>{% endblock title %}
 
         {% block link %}{% endblock %}
-        {% block script %}{% endblock %}
-    </head>
-    <body ng-app="ecamp">
-        <div class="bgimage"></div>
+        {{ headLink() }}
 
-        {% block layout %}{% endblock %}
-    </body>
+        {% block script %}{% endblock %}
+        {{ headScript() }}
+
+        {{ headStyle() }}
+    </head>
+    {% block html_body %}
+        <body {{ (block('ng_app') ? 'ng-app="' ~ block('ng_app') ~ '"' : '') | raw }}>
+            {% block layout %}{% endblock %}
+        </body>
+    {% endblock %}
 </html>

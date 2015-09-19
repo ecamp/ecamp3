@@ -1,8 +1,50 @@
 {% extends 'ecamp-web/camp/camp.twig' %}
 
+{% block ng_app %}ecamp-camp-picasso{% endblock %}
+
+{% block link %}
+    {{ parent() }}
+
+    <link href="{{ basePath('/vendor-assets/css/bootstrap.select.css') }}" media="screen" rel="stylesheet" type="text/css">
+    <link href="{{ basePath('/web-assets/css/camp/picasso/picasso.css') }}" media="screen" rel="stylesheet" type="text/css">
+{% endblock %}
+
+{% block script %}
+    {{ parent() }}
+
+    <script type="text/javascript" src="{{ basePath('/vendor-assets/js/uri.js') }}"></script>
+    <script type="text/javascript" src="{{ basePath('/vendor-assets/js/uri.template.js') }}"></script>
+
+    <script type="text/javascript" src="{{ basePath('/vendor-assets/js/angular.translate.js') }}"></script>
+    <script type="text/javascript" src="{{ basePath('/vendor-assets/js/angular.hal.js') }}"></script>
+    <script type="text/javascript" src="{{ basePath('/vendor-assets/js/angular.ui.slider.js') }}"></script>
+    <script type="text/javascript" src="{{ basePath('/vendor-assets/js/bootstrap.select.js') }}"></script>
+
+    <script type="text/javascript" src="{{ basePath('/web-assets/js/modal-form.js') }}"></script>
+    <script type="text/javascript" src="{{ basePath('/web-assets/js/ng-contextmenu.js') }}"></script>
+    <script type="text/javascript" src="{{ basePath('/web-assets/js/sorted-dictionary.js') }}"></script>
+
+    <script type="text/javascript" src="{{ basePath('/web-assets/js/camp/picasso/remote-data.js') }}"></script>
+    <script type="text/javascript" src="{{ basePath('/web-assets/js/camp/picasso/picasso-data.js') }}"></script>
+    <script type="text/javascript" src="{{ basePath('/web-assets/js/camp/picasso/picasso-event-create.js') }}"></script>
+    <script type="text/javascript" src="{{ basePath('/web-assets/js/camp/picasso/picasso-event-instance.js') }}"></script>
+    <script type="text/javascript" src="{{ basePath('/web-assets/js/camp/picasso/picasso-timeline.js') }}"></script>
+    <script type="text/javascript" src="{{ basePath('/web-assets/js/camp/picasso/picasso-app.js') }}"></script>
+    <script type="text/javascript" src="{{ basePath('/web-assets/js/camp/picasso/picasso.de.js') }}"></script>
+
+
+    <script type="text/javascript">
+        (function(){
+            angular.module('ecamp-camp-picasso', [
+                'ui.slider',
+                'ecamp.picasso.app',
+                'ecamp.contextmenu'
+            ]);
+        })();
+    </script>
+{% endblock %}
+
 
 {% block content %}
-
     <picasso camp-id="{{ camp.id }}"></picasso>
-
 {% endblock content %}

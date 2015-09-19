@@ -1,0 +1,13 @@
+{% extends 'ecamp-web/event-templates/base/index.twig' %}
+
+{% block eventTemplateContent %}
+
+	<div class="row">
+		<div class="col-sm-12">
+			{% if Storyboard %}{% RenderViewModel Storyboard %}{% endif %}
+		</div>
+	</div>
+
+
+
+{% endblock eventTemplateContent %}

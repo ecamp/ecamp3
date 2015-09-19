@@ -11,14 +11,14 @@ use EcampCore\Entity\Camp;
 class EventCreateForm extends AjaxBaseForm
 {
 
-    public function __construct(Camp $camp, Period $period = null)
+    public function __construct(Camp $camp, Period $period = null, $day = null)
     {
         parent::__construct('event-create-form');
 
         $eventFieldset = new EventFieldset($camp);
         $this->add($eventFieldset);
 
-        $eventInstanceFieldset = new EventInstanceFieldset($camp, $period);
+        $eventInstanceFieldset = new EventInstanceFieldset($camp, $period, $day);
         $this->add($eventInstanceFieldset);
 
     }

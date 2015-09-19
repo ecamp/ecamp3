@@ -1,10 +1,16 @@
 <?php
 namespace EcampWeb;
 
+use Zend\ModuleManager\Feature\ControllerPluginProviderInterface;
+use Zend\ModuleManager\Feature\ControllerProviderInterface;
+use Zend\ModuleManager\Feature\ViewHelperProviderInterface;
 use Zend\Mvc\ModuleRouteListener;
 use Zend\Mvc\MvcEvent;
 
-class Module
+class Module implements
+    ControllerProviderInterface,
+    ControllerPluginProviderInterface,
+    ViewHelperProviderInterface
 {
     public function onBootstrap(MvcEvent $e)
     {

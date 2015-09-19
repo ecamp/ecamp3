@@ -1,5 +1,21 @@
 {% extends 'layout/layout.default.twig' %}
 
+{% block ng_app %}ecamp-index{% endblock %}
+
+{% block script %}
+    {{ parent() }}
+
+    <script type="text/javascript" src="{{ basePath('/web-assets/js/modal-form.js') }}"></script>
+
+    <script type="text/javascript">
+        (function(){
+            angular.module('ecamp-index', [
+                'ecamp-modal-form'
+            ]);
+        })();
+    </script>
+{% endblock %}
+
 {% block content %}
 
     <div class="row">

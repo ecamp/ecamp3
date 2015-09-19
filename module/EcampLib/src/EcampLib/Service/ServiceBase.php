@@ -12,6 +12,7 @@ use EcampLib\Acl\Acl;
 use EcampLib\Entity\BaseEntity;
 use EcampLib\Validation\ValidationException;
 use EcampLib\Validation\ValidationForm;
+use Zend\Config\Config;
 use Zend\Permissions\Acl\Resource\ResourceInterface;
 
 abstract class ServiceBase
@@ -21,6 +22,11 @@ abstract class ServiceBase
      * @var \Doctrine\ORM\EntityManager
      */
     private $em;
+
+    /**
+     * @var array
+     */
+    private $configArray;
 
     /**
      * @return \Doctrine\ORM\EntityManager
@@ -33,6 +39,29 @@ abstract class ServiceBase
     public function setEntityManager(EntityManager $em)
     {
         $this->em = $em;
+    }
+
+    /**
+     * @return array
+     */
+    public function getConfigArray()
+    {
+        return $this->configArray;
+    }
+
+    public function getConfig($name = null)
+    {
+        $config = new Config($this->configArray);
+        if ($name != null) {
+            return $config->get($name);
+        }
+
+        return $config;
+    }
+
+    public function setConfigArray(array $configArray)
+    {
+        $this->configArray = $configArray;
     }
 
     protected function persist($entity)

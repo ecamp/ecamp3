@@ -1,45 +1,47 @@
 <?php
 return array(
-        'router' => array(
-                'routes' => array(
-                        'api-material' => array(
-                                'type' => 'Literal',
-                                'options' => array(
-                                        'route' => '/api/plugin/material/v0',
-                                        'defaults' => array(
-                                                '__NAMESPACE__' => 'EcampMaterial'
-                                        )
-                                ),
+    'asset_manager' => include __DIR__ . '/assets.config.php',
 
-                                'may_terminate' => false,
-                                'child_routes' => array(
+    'router' => array(
+        'routes' => array(
+            'api-material' => array(
+                'type' => 'Literal',
+                'options' => array(
+                    'route' => '/api/plugin/material/v0',
+                    'defaults' => array(
+                        '__NAMESPACE__' => 'EcampMaterial'
+                    )
+                ),
 
-                                        'items' => array(
-                                                'type' => 'Segment',
-                                                'options' => array(
-                                                        'route'      => '/:eventPlugin/items[/:item]',
-                                                        'defaults' => array(
-                                                                'controller'    => 'Resource\MaterialItem\ApiController'
-                                                        ),
-                                                ),
-                                                'may_terminate' => true,
+                'may_terminate' => false,
+                'child_routes' => array(
 
-                                        ),
-
-                                        'lists' => array(
-                                                'type' => 'Segment',
-                                                'options' => array(
-                                                        'route'      => '/:eventPlugin/lists[/:list]',
-                                                        'defaults' => array(
-                                                                'controller'    => 'Resource\MaterialList\ApiController'
-                                                        ),
-                                                ),
-                                                'may_terminate' => true,
-
-                                        ),
-
-                                ),
+                    'items' => array(
+                        'type' => 'Segment',
+                        'options' => array(
+                            'route'      => '/:eventPlugin/items[/:item]',
+                            'defaults' => array(
+                                'controller'    => 'Resource\MaterialItem\ApiController'
+                            ),
                         ),
+                        'may_terminate' => true,
+
+                    ),
+
+                    'lists' => array(
+                        'type' => 'Segment',
+                        'options' => array(
+                            'route'      => '/:eventPlugin/lists[/:list]',
+                            'defaults' => array(
+                                'controller'    => 'Resource\MaterialList\ApiController'
+                            ),
+                        ),
+                        'may_terminate' => true,
+
+                    ),
+
+                ),
+            ),
 
             'plugin' => array(
                 'child_routes' => array(
@@ -57,14 +59,14 @@ return array(
                         'child_routes' => array(
 
                             'dictionary' => array(
-                                        'type'    => 'Segment',
-                                        'options' => array(
-                                                'route'    => '/dictionary[/:query]',
-                                                'defaults' => array(
-                                                        'controller' => 'Dictionary',
-                                                        'action'     => 'index',
-                                                ),
-                                        ),
+                                'type'    => 'Segment',
+                                'options' => array(
+                                    'route'    => '/dictionary[/:query]',
+                                    'defaults' => array(
+                                        'controller' => 'Dictionary',
+                                        'action'     => 'index',
+                                    ),
+                                ),
                             ),
                         ),
                     ),

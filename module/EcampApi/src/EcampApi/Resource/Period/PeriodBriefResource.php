@@ -10,12 +10,13 @@ class PeriodBriefResource extends HalResource
     public function __construct(Period $entity)
     {
         $object = array(
-                'id'				=> 	$entity->getId(),
-                'campId'            =>  $entity->getCamp()->getId(),
-                'start'				=> 	$entity->getStart()->format(\DateTime::ISO8601),
-                'end'				=> 	$entity->getEnd()->format(\DateTime::ISO8601),
-                'numDays'			=> 	$entity->getNumberOfDays(),
-                );
+            'id'				=> 	$entity->getId(),
+            'campId'            =>  $entity->getCamp()->getId(),
+            'start'				=> 	$entity->getStart()->format(\DateTime::ISO8601),
+            'end'				=> 	$entity->getEnd()->format(\DateTime::ISO8601),
+            'numDays'			=> 	$entity->getNumberOfDays(),
+            'description'       =>  $entity->getDescription()
+        );
 
         parent::__construct($object, $object['id']);
 

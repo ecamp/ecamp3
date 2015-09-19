@@ -1,34 +1,18 @@
 
-<div id="sections{{ eventPlugin.id }}">
-	<div class="row">
-		<div class="col-sm-3 col-md-2" style="padding-left: 20px;">
-			<b>Duration</b>
-		</div>
-		<div class="col-sm-6 col-md-7">
-			<b>Text</b>
-		</div>
-		<div class="col-sm-3">
-			<b>Info</b>
-			{#
-		</div>
-		<div class="col-sm-2" style="padding-right: 20px;">
-			<b>Option</b>
-			#}
-			<div class="pull-right">
-				<a href="#"
-					class="btn btn-xs btn-default createNewSection">
-					<i class="fa fa-plus"></i>
-				</a>
-			</div>
-		</div>
-		<div class="col-xs-12">
-			<div style="border-bottom: 1px #ddd solid; margin: 2px 0px 0px 0px;" ></div>
-		</div>
-	</div>
+<div>
+    <table border="0" style="width: 100%">
+        <col width="10%" />
+        <col width="70%" />
+        <col width="20%" />
+        <tr>
+            <td style="padding: 0px 3px; text-decoration: underline;">Duration:</td>
+            <td style="padding: 0px 5px; text-decoration: underline;">Text:</td>
+            <td style="padding: 0px 3px; text-decoration: underline;">Info:</td>
+        </tr>
 
-	<ul style="list-style: none; padding: 0px;" class="section-list list-striped">
-		{% for section in sections %}
-			{% include 'ecamp-storyboard/section' %}
-		{% endfor %}
-	</ul>
+        {% for section in sections %}
+            {% include 'ecamp-storyboard/print-section' %}
+        {% endfor %}
+    </table>
+
 </div>

@@ -1,0 +1,68 @@
+{{ docType() }}
+<html>
+    <head>
+        <meta charset="utf-8" />
+
+        <style type="text/css">
+            * {
+                background: transparent;
+                font-size: 15px;
+                font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+                color: #444444;
+            }
+
+            body {
+                border: 0;
+                margin: 0;
+                padding: 0 20mm 5px 20mm;
+            }
+
+            table {
+                width: 100%;
+                margin: 0;
+                padding: 0;
+                border-spacing: 0;
+            }
+
+            table.top {
+                padding-top: 12mm;
+            }
+
+            table.bottom {
+                border-bottom: 1px solid #888888;
+            }
+
+            tr, td {
+                margin: 0;
+                padding: 0;
+            }
+
+        </style>
+    </head>
+    <body>
+        <table class="top">
+            <tr>
+                <td style="width: 30%; text-align: left">
+                    {{ camp.owner.displayName }}
+                </td>
+                <td style="width: 40%; text-align: center">
+                    {{ camp.motto }}
+                </td>
+                <td style="width: 30%; text-align: right">
+                    {{ camp.title }}
+                </td>
+            </tr>
+        </table>
+        <table class="bottom">
+            <tr>
+                <td style="width: 50%; text-align: left">
+                    {{ camp.range }}
+                </td>
+                <td style="width: 50%; text-align: right">
+                    ORT
+                </td>
+            </tr>
+        </table>
+
+    </body>
+</html>
