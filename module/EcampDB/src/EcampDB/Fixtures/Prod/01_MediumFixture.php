@@ -1,6 +1,6 @@
 <?php
 
-namespace EcampDB\Fixtures\Test;
+namespace EcampDB\Fixtures\Prod;
 
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 
@@ -17,33 +17,48 @@ class MediumFixture extends AbstractFixture implements OrderedFixtureInterface
 
     public function load(ObjectManager $manager)
     {
-        $repository = $manager->getRepository('EcampCore\Entity\Medium');
+        $this->load_($manager, array(
+            array(
+                'name' => Medium::MEDIUM_WEB,
+                'default' => true,
+                'reference' => self::MEDIUM_WEB
+            ),
+            array(
+                'name' => Medium::MEDIUM_PRINT,
+                'default' => false,
+                'reference' => self::MEDIUM_PRINT
+            ),
+            array(
+                'name' => Medium::MEDIUM_MOBILE,
+                'default' => false,
+                'reference' => self::MEDIUM_MOBILE
+            ),
+        ));
+    }
 
-        $web = $repository->findOneBy(array('name' => Medium::MEDIUM_WEB));
-        $print = $repository->findOneBy(array('name' => Medium::MEDIUM_PRINT));
-        $mobile = $repository->findOneBy(array('name' => Medium::MEDIUM_MOBILE));
+    private function load_(ObjectManager $manager, array $config)
+    {
+        $mediumRepo = $manager->getRepository('EcampCore\Entity\Medium');
 
-        if($web == null){
-            $web = new Medium(Medium::MEDIUM_WEB, true);
-            $manager->persist($web);
+        foreach($config as $mediumConfig){
+            $name = $mediumConfig['name'];
+            $default = $mediumConfig['default'];
+            $reference = $mediumConfig['reference'];
+
+            /** @var Medium $medium */
+            $medium = $mediumRepo->findOneBy(array('name' => $name));
+
+            if($medium == null){
+                $medium = new Medium($name, $default);
+                $manager->persist($medium);
+            } else {
+                $medium->setDefault($default);
+            }
+
+            $this->addReference($reference, $medium);
         }
-
-        if($print == null){
-            $print = new Medium(Medium::MEDIUM_PRINT, false);
-            $manager->persist($print);
-        }
-
-        if($mobile == null){
-            $mobile = new Medium(Medium::MEDIUM_MOBILE, false);
-            $manager->persist($mobile);
-        }
-
 
         $manager->flush();
-
-        $this->addReference(Medium::MEDIUM_WEB, $web);
-        $this->addReference(Medium::MEDIUM_PRINT, $print);
-        $this->addReference(Medium::MEDIUM_MOBILE, $mobile);
     }
 
     public function getOrder()

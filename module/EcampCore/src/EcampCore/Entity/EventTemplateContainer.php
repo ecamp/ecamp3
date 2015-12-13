@@ -26,7 +26,7 @@ use EcampLib\Entity\BaseEntity;
 
 /**
  * EventTemplate
- * @ORM\Entity(readOnly=true, repositoryClass="EcampCore\Repository\EventTemplateContainerRepository")
+ * @ORM\Entity(repositoryClass="EcampCore\Repository\EventTemplateContainerRepository")
  * @ORM\Table(name="event_template_containers", uniqueConstraints={
  * 	@ORM\UniqueConstraint(
  * 		name="eventTemplate_containerName_unique",
@@ -94,6 +94,14 @@ class EventTemplateContainer extends BaseEntity
     }
 
     /**
+     * @param EventTypePlugin $eventTypePlugin
+     */
+    public function setEventTypePlugin(EventTypePlugin $eventTypePlugin)
+    {
+        $this->eventTypePlugin = $eventTypePlugin;
+    }
+
+    /**
      * @return string
      */
     public function getContainerName()
@@ -107,6 +115,14 @@ class EventTemplateContainer extends BaseEntity
     public function getFilename()
     {
         return $this->filename;
+    }
+
+    /**
+     * @param $filename
+     */
+    public function setFilename($filename)
+    {
+        $this->filename = $filename;
     }
 
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace EcampDB\Fixtures\Test;
+namespace EcampDB\Fixtures\Prod;
 
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 
@@ -17,33 +17,48 @@ class PluginFixture extends AbstractFixture implements OrderedFixtureInterface
 
     public function load(ObjectManager $manager)
     {
-        $repository = $manager->getRepository('EcampCore\Entity\Plugin');
+        $this->load_($manager, array(
+            array(
+                'name' => 'textarea',
+                'strategy' => 'EcampTextarea\Strategy',
+                'reference' => self::PLUGIN_TEXTAREA
+            ),
+            array(
+                'name' => 'material',
+                'strategy' => 'EcampMaterial\Strategy',
+                'reference' => self::PLUGIN_MATERIAL
+            ),
+            array(
+                'name' => 'storyboard',
+                'strategy' => 'EcampStoryboard\Strategy',
+                'reference' => self::PLUGIN_STORYBOARD
+            ),
+        ));
+    }
 
-        $textarea = $repository->findOneBy(array('name' => 'textarea'));
-        $material = $repository->findOneBy(array('name' => 'material'));
-        $storyboard = $repository->findOneBy(array('name' => 'storyboard'));
+    private function load_(ObjectManager $manager, array $config)
+    {
+        $pluginRepo = $manager->getRepository('EcampCore\Entity\Plugin');
 
-        if($textarea == null){
-            $textarea = new Plugin('textarea', 'EcampTextarea\Strategy');
-            $manager->persist($textarea);
+        foreach ($config as $pluginConfig) {
+            $name = $pluginConfig['name'];
+            $strategy = $pluginConfig['strategy'];
+            $reference = $pluginConfig['reference'];
+
+            /** @var Plugin $plugin */
+            $plugin = $pluginRepo->findOneBy(array('name' => $name));
+
+            if($plugin == null){
+                $plugin = new Plugin($name, $strategy);
+                $manager->persist($plugin);
+            } else {
+                $plugin->setStrategyClass($strategy);
+            }
+
+            $this->addReference($reference, $plugin);
         }
-
-        if($material == null){
-            $material = new Plugin('material', 'EcampMaterial\Strategy');
-            $manager->persist($material);
-        }
-
-        if($storyboard == null){
-            $storyboard = new Plugin('storyboard', 'EcampStoryboard\Strategy');
-            $manager->persist($storyboard);
-        }
-
 
         $manager->flush();
-
-        $this->addReference(self::PLUGIN_TEXTAREA, $textarea);
-        $this->addReference(self::PLUGIN_MATERIAL, $material);
-        $this->addReference(self::PLUGIN_STORYBOARD, $storyboard);
     }
 
     public function getOrder()
