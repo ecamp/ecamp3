@@ -17,10 +17,7 @@ class EventCategoryTest extends \PHPUnit_Framework_TestCase
     {
         $campType = new CampType('name', 'type');
 
-        $eventType = new EventType();
-        $eventType->setName('EventType Name');
-        $eventType->setDefaultColor('#FF00FF');
-        $eventType->setDefaultNumberingStyle('i');
+        $eventType = new EventType('EventType Name', '#FF00FF', 'i');
         $eventType->getCampTypes()->add($campType);
 
         $camp = new Camp();
@@ -80,7 +77,7 @@ class EventCategoryTest extends \PHPUnit_Framework_TestCase
     public function testSameCampType()
     {
         $campType = new CampType('name', 'type');
-        $eventType = new EventType();
+        $eventType = new EventType('EventType Name', '#FF00FF', 'i');
         $eventType->getCampTypes()->add($campType);
         $camp = new Camp();
         $camp->setCampType(new CampType('name', 'type'));
