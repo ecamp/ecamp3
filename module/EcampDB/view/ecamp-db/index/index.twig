@@ -17,12 +17,15 @@
 <br />
 
 <h2>Fixtures</h2>
-<form style="display: inline" action="{{ url('db/default', {'controller': 'fixtures', 'action': 'append'}) }}">
-	<input type="submit" value="Append" />
-</form>
-<form style="display: inline" action="{{ url('db/default', {'controller': 'fixtures', 'action': 'default'}) }}">
-	<input type="submit" value="Default (Delete and import)" />
-</form>
+	<form style="display: inline" action="{{ url('db/default', {'controller': 'fixtures', 'action': 'replace_rod'}) }}">
+		<input type="submit" value="Replace (Delete and import) Prod" />
+	</form>
+	<form style="display: inline" action="{{ url('db/default', {'controller': 'fixtures', 'action': 'append_prod'}) }}">
+		<input type="submit" value="Append Prod" />
+	</form>
+	<form style="display: inline" action="{{ url('db/default', {'controller': 'fixtures', 'action': 'append_test'}) }}">
+		<input type="submit" value="Append Test" />
+	</form>
 
 <br />
 <br />

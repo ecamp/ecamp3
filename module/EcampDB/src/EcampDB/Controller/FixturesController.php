@@ -12,13 +12,13 @@ use Doctrine\Common\DataFixtures\Loader;
 class FixturesController extends AbstractActionController
 {
 
-    private function loadFixtures($append = false)
+    private function loadFixtures($directory, $append = false)
     {
         $em = $this->getServiceLocator()->get('doctrine.entitymanager.orm_default');
 
         $loader = new Loader();
 
-        $loader->loadFromDirectory( __DIR__ . '/../Fixtures' );
+        $loader->loadFromDirectory($directory);
         $fixtures = $loader->getFixtures();
 
         $purger = new ORMPurger();
@@ -27,17 +27,21 @@ class FixturesController extends AbstractActionController
         $executor->execute($fixtures, $append);
     }
 
-    public function appendAction()
+    public function appendProdAction()
     {
-        $this->loadFixtures(true);
-
+        $this->loadFixtures(__DIR__ . '/../Fixtures/Prod', true);
         $this->redirect()->toRoute('db', array('controller' => 'index', 'action' => 'index'));
     }
 
-    public function defaultAction()
+    public function replaceProdAction()
     {
-        $this->loadFixtures(false);
+        $this->loadFixtures(__DIR__ . '/../Fixtures/Prod', false);
+        $this->redirect()->toRoute('db', array('controller' => 'index', 'action' => 'index'));
+    }
 
+    public function appendTestAction()
+    {
+        $this->loadFixtures(__DIR__ . '/../Fixtures/Test', true);
         $this->redirect()->toRoute('db', array('controller' => 'index', 'action' => 'index'));
     }
 
