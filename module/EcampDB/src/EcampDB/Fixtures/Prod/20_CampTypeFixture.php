@@ -76,8 +76,8 @@ class CampTypeFixture extends AbstractFixture implements OrderedFixtureInterface
             foreach ($eventTypes as $eventType) {
                 /** @var EventType $eventType */
                 $eventType = $this->getReference($eventType);
-                if(!$campType->getEventTypes()->contains($eventType)){
-                    $campType->getEventTypes()->add($eventType);
+                if(!$eventType->getCampTypes()->contains($campType)){
+                    $eventType->getCampTypes()->add(($campType));
                 }
             }
 

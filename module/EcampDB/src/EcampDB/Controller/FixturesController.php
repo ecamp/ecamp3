@@ -41,7 +41,7 @@ class FixturesController extends AbstractActionController
 
     public function appendTestAction()
     {
-        $this->loadFixtures(__DIR__ . '/../Fixtures/Test', true);
+        $this->loadFixtures(__DIR__ . '/../Fixtures', true);
         $this->redirect()->toRoute('db', array('controller' => 'index', 'action' => 'index'));
     }
 
