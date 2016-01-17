@@ -16,7 +16,7 @@ class CampsController
         $adapter = new ArrayAdapter($upcomingCamps);
 
         $paginator = new Paginator($adapter);
-        $paginator->setItemCountPerPage(15);
+        $paginator->setItemCountPerPage(5);
         $paginator->setCurrentPageNumber(1);
 
         return $paginator;
@@ -29,7 +29,7 @@ class CampsController
         $adapter = new ArrayAdapter($upcomingCamps);
 
         $paginator = new Paginator($adapter);
-        $paginator->setItemCountPerPage(15);
+        $paginator->setItemCountPerPage(5);
         $paginator->setCurrentPageNumber(1);
 
         return $paginator;

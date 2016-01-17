@@ -19,18 +19,6 @@
                             <span class="fa fa-plus"></span>
                             &nbsp; {{ translate("New camp") }}
                         </a>
-                    {#
-                        <a  async-modal
-                            href="{{ url(
-                            'web/camp/default',
-                            { 'camp': camp, 'controller': 'Collaborations', 'action': 'inviteSearch' }
-                            ) }}"
-                            class="btn btn-xs btn-success"
-                            style="margin-top: -3px"
-                                >
-                            <i class="fa fa-plus"></i> Create Camp
-                        </a>
-                    #}
                     </div>
                 {% endblock %}
                 {% block panel_content %}

@@ -22,7 +22,11 @@
                     </div>
                 {% endblock %}
                 {% block panel_content %}
-                    {% include 'ecamp-web/group/camps/upcoming-camps.twig' with { 'paginator': upcomingCampsPaginator } %}
+                    <pagination-container
+                        url="{{ groupUrl(group, { 'controller': 'Camps', 'action': 'upcomingCamps' }, { 'query': { 'page': ':page' } }) }}"
+                    >
+                        {% include 'ecamp-web/group/camps/upcoming-camps.twig' with { 'paginator': upcomingCampsPaginator } %}
+                    </pagination-container>
                 {% endblock %}
             {% endembed %}
         </div>
@@ -35,7 +39,11 @@
                     Past camps {# [{{ pastCampsPaginator.totalItemCount  }}] #}
                 {% endblock %}
                 {% block panel_content %}
-                    {% include 'ecamp-web/group/camps/past-camps.twig' with { 'paginator': pastCampsPaginator } %}
+                    <pagination-container
+                        url="{{ groupUrl(group, { 'controller': 'Camps', 'action': 'pastCamps' }, { 'query': { 'page': ':page' } }) }}"
+                    >
+                        {% include 'ecamp-web/group/camps/past-camps.twig' with { 'paginator': pastCampsPaginator } %}
+                    </pagination-container>
                 {% endblock %}
             {% endembed %}
         </div>

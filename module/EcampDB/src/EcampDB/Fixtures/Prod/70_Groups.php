@@ -8,11 +8,20 @@ use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\Persistence\ObjectManager;
 
-class Groups extends AbstractFixture implements OrderedFixtureInterface
+class GroupFixture extends AbstractFixture implements OrderedFixtureInterface
 {
     const PBS = 'group-pbs';
+    const AG = 'group-ag';
+    const BE = 'group-be';
+    const GE = 'group-ge';
+    const JU = 'group-ju';
     const LU = 'group-lu';
+    const NE = 'group-ne';
+    const SO = 'group-so';
+    const TG = 'group-tg';
+    const VS = 'group-vs';
     const ZG = 'group-zg';
+    const ZH = 'group-zh';
 
     public function load(ObjectManager $manager)
     {
@@ -24,16 +33,70 @@ class Groups extends AbstractFixture implements OrderedFixtureInterface
                 'reference' => self::PBS
             ),
             array(
+                'name' => 'Pfadi Argau',
+                'desc' => 'Kantonalverband Pfadi Argau',
+                'parent' => self::PBS,
+                'reference' => self::AG
+            ),
+            array(
+                'name' => 'Pfadi Bern',
+                'desc' => 'Kantonalverband Pfadi Bern',
+                'parent' => self::PBS,
+                'reference' => self::BE
+            ),
+            array(
+                'name' => 'Scouts Genevois',
+                'desc' => 'Association du Scoutisme Genevois',
+                'parent' => self::PBS,
+                'reference' => self::GE
+            ),
+            array(
+                'name' => 'Scouts Jurassien',
+                'desc' => 'Association du Scoutisme Jurassien',
+                'parent' => self::PBS,
+                'reference' => self::JU
+            ),
+            array(
                 'name' => 'Pfadi Luzern',
                 'desc' => 'Kantonalverband Pfadi Luzern',
                 'parent' => self::PBS,
                 'reference' => self::LU
             ),
             array(
+                'name' => 'Scouts Neuchâtelois',
+                'desc' => 'Association du Scoutisme Neuchâtelois',
+                'parent' => self::PBS,
+                'reference' => self::NE
+            ),
+            array(
+                'name' => 'Pfadi Solothurn',
+                'desc' => 'Kantonalverband Pfadi Solothurn',
+                'parent' => self::PBS,
+                'reference' => self::SO
+            ),
+            array(
+                'name' => 'Pfadi Thurgau',
+                'desc' => 'Kantonalverband Pfadi Thurgau',
+                'parent' => self::PBS,
+                'reference' => self::TG
+            ),
+            array(
+                'name' => 'Scouts Valaisan',
+                'desc' => 'Association du Scoutisme Valaisan',
+                'parent' => self::PBS,
+                'reference' => self::VS
+            ),
+            array(
                 'name' => 'Pfaid Zug',
                 'desc' => 'Kantonalverband Pfadi Zug',
                 'parent' => self::PBS,
                 'reference' => self::ZG
+            ),
+            array(
+                'name' => 'Pfaid Züri',
+                'desc' => 'Kantonalverband Pfadi Züri',
+                'parent' => self::PBS,
+                'reference' => self::ZH
             ),
         ));
     }

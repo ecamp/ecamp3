@@ -3,57 +3,7 @@
 {% block content %}
 
     <div class="row">
-        <div class="col-sm-7">
-            {% embed "helper/accordion.twig" %}
-                {% block panel_title %}
-                    Infos
-                {% endblock %}
-                {% block panel_content %}
-                    <form class="form-horizontal form-show" role="form">
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label" for="user-username">Username:</label>
-                            <div class="col-sm-7 col-xs-10">
-                                <div class="form-control-static">{{ user.username }}</div>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label" for="user-scoutname">Scoutname:</label>
-                            <div class="col-sm-7 col-xs-10">
-                                <div class="form-control-static">{{ user.scoutname }}</div>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label" for="user-firstname">Firstname:</label>
-                            <div class="col-sm-7 col-xs-10">
-                                <p class="form-control-static">{{ user.firstname }}</p>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label" for="user-surname">Surname:</label>
-                            <div class="col-sm-7 col-xs-10">
-                                <p class="form-control-static">{{ user.surname }}</p>
-                            </div>
-                        </div>
-
-                        {#
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label" for="user-email">Mail:</label>
-                            <div class="col-sm-7 col-xs-10">
-                                <p class="form-control-static">{{ user.email }}</p>
-                            </div>
-                        </div>
-                        #}
-
-                    </form>
-
-                {% endblock %}
-            {% endembed %}
-        </div>
-
-        <div class="col-sm-5">
+        <div class="col-sm-6 col-sm-push-6">
             {% embed "helper/accordion.twig" %}
                 {% block panel_title %}
                     Foto
@@ -71,6 +21,62 @@
                             <i class="fa fa-user" style="font-size: 200px"></i>
                         </div>
                     {% endif %}
+                {% endblock %}
+            {% endembed %}
+        </div>
+
+        <div class="col-sm-6 col-sm-pull-6">
+            {% embed "helper/accordion.twig" %}
+                {% block panel_title %}
+                    Adress
+                {% endblock %}
+                {% block panel_content %}
+                    <div class="col-xs-12">
+                        {{ user.firstname }} {{ user.surname }}
+                        {% if user.scoutname is not empty %}
+                        / {{ user.scoutname }}
+                        {% endif %}
+                    </div>
+                    <div class="col-xs-12">
+                        {{ user.street }}
+                    </div>
+                    <div class="col-xs-12">
+                        {{ user.zipcode }} {{ user.city }}
+                    </div>
+                {% endblock %}
+            {% endembed %}
+
+            {% embed "helper/accordion.twig" %}
+                {% block panel_title %}
+                    Contact
+                {% endblock %}
+                {% block panel_content %}
+                    <div class="col-xs-12">
+                        <a href="mailto:{{ user.email }}">{{ user.email }}</a>
+                    </div>
+                    <div class="col-xs-12">
+                        <a href="tel:{{ user.homeNr }}">{{ user.homeNr }}</a>
+                    </div>
+                    <div class="col-xs-12">
+                        <a href="tel:{{ user.mobileNr }}">{{ user.mobileNr }}</a>
+                    </div>
+                {% endblock %}
+            {% endembed %}
+
+            {% embed "helper/accordion.twig" %}
+                {% block panel_title %}
+                    Education
+                {% endblock %}
+                {% block panel_content %}
+                    <div class="col-xs-12">
+                        {{ user.jsPersNr }}
+                    </div>
+                    <div class="col-xs-12">
+                        {{ user.jsEdu }}
+                    </div>
+                    <div class="col-xs-12">
+                        {{ user.pbsEdu }}
+                    </div>
                 {% endblock %}
             {% endembed %}
         </div>
