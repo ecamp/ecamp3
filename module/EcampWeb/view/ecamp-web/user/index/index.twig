@@ -18,235 +18,59 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="col-sm-3 control-label" for="user-email">Mail:</label>
+                            <label class="col-sm-3 control-label" for="user-scoutname">Scoutname:</label>
                             <div class="col-sm-7 col-xs-10">
-                                <p class="form-control-static">{{ user.email }}</p>
-                            </div>
-                            <div class="col-xs-2">
-                                <a async-modal href="#" class="btn btn-default btn-sm pull-right" style="width: 120px;">
-                                    <i class="fa fa-edit"></i> mail adress
-                                </a>
+                                <div class="form-control-static">{{ user.scoutname }}</div>
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label class="col-sm-3 control-label" for="user-email">Password:</label>
+                            <label class="col-sm-3 control-label" for="user-firstname">Firstname:</label>
                             <div class="col-sm-7 col-xs-10">
-                                <p class="form-control-static">********</p>
+                                <p class="form-control-static">{{ user.firstname }}</p>
                             </div>
-                            {% if user.login %}
-                                <div class="col-xs-2">
-                                    <a href="{{ url('web/profile', { 'action': 'changePassword' }) }}" class="btn btn-default btn-sm pull-right" style="width: 120px;">
-                                        <i class="fa fa-edit"></i> password
-                                    </a>
-                                </div>
-                            {% endif %}
                         </div>
 
-                        <ajax-form action="{{ url('api/users', {'user': user.id } ) }}">
-                            <div class="form-group has-feedback ajax-form-element">
-                                <label class="col-sm-3 control-label" for="user-scoutname">Scoutname:</label>
-                                <div class="col-sm-9">
-                                    <input type="text" class="form-control" id="user-scoutname" name="scoutname" value="{{ user.scoutname }}">
-                                    <span class="form-control-feedback feedback-container"></span>
-                                </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label" for="user-surname">Surname:</label>
+                            <div class="col-sm-7 col-xs-10">
+                                <p class="form-control-static">{{ user.surname }}</p>
                             </div>
-                        </ajax-form>
+                        </div>
 
-                        <ajax-form action="{{ url('api/users', {'user': user.id } ) }}">
-                            <div class="form-group has-feedback ajax-form-element">
-                                <label class="col-sm-3 control-label" for="user-firstname">Firstname:</label>
-                                <div class="col-sm-9">
-                                    <input type="text" class="form-control" id="user-firstname" name="firstname" value="{{ user.firstname }}">
-                                    <span class="form-control-feedback feedback-container"></span>
-                                </div>
+                        {#
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label" for="user-email">Mail:</label>
+                            <div class="col-sm-7 col-xs-10">
+                                <p class="form-control-static">{{ user.email }}</p>
                             </div>
-                        </ajax-form>
-
-                        <ajax-form action="{{ url('api/users', {'user': user.id } ) }}">
-                            <div class="form-group has-feedback ajax-form-element">
-                                <label class="col-sm-3 control-label" for="user-surname">Surname:</label>
-                                <div class="col-sm-9">
-                                    <input type="text" class="form-control" id="user-surname" name="surname" value="{{ user.surname }}">
-                                    <span class="form-control-feedback feedback-container"></span>
-                                </div>
-                            </div>
-                        </ajax-form>
+                        </div>
+                        #}
 
                     </form>
 
                 {% endblock %}
             {% endembed %}
         </div>
+
         <div class="col-sm-5">
             {% embed "helper/accordion.twig" %}
                 {% block panel_title %}
                     Foto
                 {% endblock %}
                 {% block panel_content %}
-                    <div style="margin-bottom: 15px">
-                        <user-image-edit
-                            style="max-height: 185px;"
-                            url="{{ url('api/users/image', { 'user': user.id }) }}"
-                        ></user-image-edit>
-                    </div>
-                {% endblock %}
-            {% endembed %}
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-sm-12">
-            {% embed "helper/accordion.twig" %}
-                {% block panel_title %}
-                    Details
-                {% endblock %}
-                {% block panel_content %}
-                    <form class="form-horizontal form-show" role="form">
-                        <div class="row">
-                            <div class="col-sm-6">
-
-                                <ajax-form action="{{ url('api/users', {'user': user.id } ) }}">
-                                    <div class="form-group has-feedback ajax-form-element">
-                                        <label class="col-sm-3 control-label" for="user-street">Street:</label>
-                                        <div class="col-sm-9">
-                                            <input type="text" class="form-control" id="user-street" name="street" value="{{ user.street }}">
-                                            <span class="form-control-feedback feedback-container"></span>
-                                        </div>
-                                    </div>
-                                </ajax-form>
-
-                                <ajax-form action="{{ url('api/users', {'user': user.id } ) }}">
-                                    <div class="form-group has-feedback ajax-form-element">
-                                        <label class="col-sm-3 control-label" for="user-zipcode">Zip:</label>
-                                        <div class="col-sm-9 ajax-form-element orig" data-backend="{{ url('api/users', {'user': user.id } ) }}">
-                                            <input type="text" class="form-control" id="user-zipcode" name="zipcode" value="{{ user.zipcode }}">
-                                            <span class="form-control-feedback feedback-container"></span>
-                                        </div>
-                                    </div>
-                                </ajax-form>
-
-                                <ajax-form action="{{ url('api/users', {'user': user.id } ) }}">
-                                    <div class="form-group has-feedback ajax-form-element">
-                                        <label class="col-sm-3 control-label" for="user-city">City:</label>
-                                        <div class="col-sm-9">
-                                            <input type="text" class="form-control" id="user-city" name="city" value="{{ user.city }}">
-                                            <span class="form-control-feedback feedback-container"></span>
-                                        </div>
-                                    </div>
-                                </ajax-form>
-
-                                <ajax-form action="{{ url('api/users', {'user': user.id } ) }}">
-                                    <div class="form-group has-feedback ajax-form-element">
-                                        <label class="col-sm-3 control-label" for="user-homeNr">Home Nr:</label>
-                                        <div class="col-sm-9">
-                                            <input type="text" class="form-control" id="user-homeNr" name="homeNr" value="{{ user.homeNr }}">
-                                            <span class="form-control-feedback feedback-container"></span>
-                                        </div>
-                                    </div>
-                                </ajax-form>
-
-                                <ajax-form action="{{ url('api/users', {'user': user.id } ) }}">
-                                    <div class="form-group has-feedback ajax-form-element">
-                                        <label class="col-sm-3 control-label" for="user-mobilNr">Mobile Nr:</label>
-                                        <div class="col-sm-9">
-                                            <input type="text" class="form-control" id="user-mobilNr" name="mobilNr" value="{{ user.mobilNr }}">
-                                            <span class="form-control-feedback feedback-container"></span>
-                                        </div>
-                                    </div>
-                                </ajax-form>
-
-                            </div>
-                            <div class="col-sm-6">
-
-                                <ajax-form action="{{ url('api/users', {'user': user.id } ) }}">
-                                    <div class="form-group has-feedback ajax-form-element orig">
-                                        <label class="col-sm-3 control-label" for="user-gender">Gender:</label>
-                                        <div class="col-sm-9">
-                                            <div class="btn-group" data-toggle="buttons">
-                                                <label class="btn btn-default">
-                                                    <input class="form-control" type="radio" name="gender" value="male" {{ user.gender == 'male' ? 'checked="checked"' : '' }}
-                                                           style="margin: -6px -12px;"
-                                                            />
-                                                    <i class="fa fa-fw fa-male"></i> Male
-                                                </label>
-                                                <label class="btn btn-default">
-                                                    <input class="form-control" type="radio" name="gender" value="female" {{ user.gender == 'female' ? 'checked="checked"' : '' }}
-                                                           style="margin: -6px -12px;"
-                                                            />
-                                                    <i class="fa fa-fw fa-female"></i> Female
-                                                </label>
-                                            </div>
-                                            <span class="form-control-feedback feedback-container"></span>
-                                        </div>
-                                    </div>
-                                </ajax-form>
-
-                                <ajax-form action="{{ url('api/users', {'user': user.id } ) }}">
-                                    <div class="form-group has-feedback ajax-form-element orig">
-                                        <label class="col-sm-3 control-label" for="user-birthday">Birthday:</label>
-                                        <div class="col-sm-9">
-                                            <input type="date" class="form-control" name="birthday" value="{{ user.birthday|date('Y-m-d') }}" format="dd.mm.yyyy" />
-                                            <span class="form-control-feedback feedback-container"></span>
-                                        </div>
-                                    </div>
-                                </ajax-form>
-
-                                <ajax-form action="{{ url('api/users', {'user': user.id } ) }}">
-                                    <div class="form-group has-feedback ajax-form-element">
-                                        <label class="col-sm-3 control-label" for="user-ahv">AHV Nr:</label>
-                                        <div class="col-sm-9">
-                                            <input type="text" class="form-control" id="user-ahv" name="ahv" value="{{ user.AHV }}">
-                                            <span class="form-control-feedback feedback-container"></span>
-                                        </div>
-                                    </div>
-                                </ajax-form>
-
-                                <ajax-form action="{{ url('api/users', {'user': user.id } ) }}">
-                                    <div class="form-group has-feedback ajax-form-element">
-                                        <label class="col-sm-3 control-label" for="user-jsPersNr">J+S Nr:</label>
-                                        <div class="col-sm-9">
-                                            <input type="text" class="form-control" id="user-jsPersNr" name="jsPersNr" value="{{ user.jsPersNr }}">
-                                            <span class="form-control-feedback feedback-container"></span>
-                                        </div>
-                                    </div>
-                                </ajax-form>
-
-                                <ajax-form action="{{ url('api/users', {'user': user.id } ) }}">
-                                    <div class="form-group has-feedback ajax-form-element">
-                                        <label class="col-sm-3 control-label" for="user-jsEdu">J+S Ausb:</label>
-                                        <div class="col-sm-9">
-                                            <select class="form-control selectpicker" id="user-jsEdu" name="jsEdu" data-width="100%">
-                                                <option value="gruppeneleiter" {{ user.jsEdu == 'gruppenleiter' ? 'selected="selected"' : ''}}>Gruppenleiter</option>
-                                                <option value="lagerleiter" {{ user.jsEdu == 'lagerleiter' ? 'selected="selected"' : ''}}>Lagerleiter</option>
-                                                <option value="ausbildner" {{ user.jsEdu == 'ausbildner' ? 'selected="selected"' : ''}}>Ausbildner</option>
-                                                <option value="experte" {{ user.jsEdu == 'experte' ? 'selected="selected"' : ''}}>Experte</option>
-                                            </select>
-                                            <span class="form-control-feedback feedback-container" style="margin-right: 20px;"></span>
-                                        </div>
-                                    </div>
-                                </ajax-form>
-
-                                <ajax-form action="{{ url('api/users', {'user': user.id } ) }}">
-                                    <div class="form-group has-feedback ajax-form-element">
-                                        <label class="col-sm-3 control-label" for="user-pbsEdu">J+S Ausb:</label>
-                                        <div class="col-sm-9">
-                                            <select class="form-control selectpicker" id="user-pbsEdu" name="pbsEdu" data-width="100%">
-                                                <option value="basiskurs" {{ user.pbsEdu == 'basiskurs' ? 'selected="selected"' : '' }}>Basiskurs</option>
-                                                <option value="aufbaukurs" {{ user.pbsEdu == 'aufbaukurs' ? 'selected="selected"' : '' }}>Aufbaukurs</option>
-                                                <option value="panokurs" {{ user.pbsEdu == 'panokurs' ? 'selected="selected"' : '' }}>Panokurs</option>
-                                                <option value="spektrum" {{ user.pbsEdu == 'spektrum' ? 'selected="selected"' : '' }}>Spektrum</option>
-                                                <option value="topkurs" {{ user.pbsEdu == 'topkurs' ? 'selected="selected"' : '' }}>Topkurs</option>
-                                                <option value="gillwell" {{ user.pbsEdu == 'gillwell' ? 'selected="selected"' : '' }}>Gillwell</option>
-                                            </select>
-                                            <span class="form-control-feedback feedback-container" style="margin-right: 20px;"></span>
-                                        </div>
-                                    </div>
-                                </ajax-form>
-
-                            </div>
+                    {% if user.image != null %}
+                        <div style="margin-bottom: 15px">
+                            <img
+                                style="max-height: 185px;"
+                                src="{{ url('api/users/image', { 'user': user.id }, { 'query': { 'show': '' } }) }}"
+                            />
                         </div>
-                    </form>
+                    {% else %}
+                        <div style="text-align: center">
+                            <i class="fa fa-user" style="font-size: 200px"></i>
+                        </div>
+                    {% endif %}
                 {% endblock %}
             {% endembed %}
         </div>

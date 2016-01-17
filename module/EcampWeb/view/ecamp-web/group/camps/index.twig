@@ -9,12 +9,16 @@
                 {% block panel_title %}
                     Upcoming camps
                     <div class="pull-right" style="margin-top: -2px">
-                        {#
-                        {{ upcomingCampsPaginator.totalItemCount }}
-                        #}
-                        <button class="btn btn-xs btn-success">
-                            <i class="fa fa-plus"></i> Create camp
-                        </button>
+                        <a
+                            async-modal
+                            class="btn btn-xs btn-success"
+                            style="margin-top: -3px"
+                            href="{{ url('web/default', { 'controller':'camp', 'action': 'create' }, { 'query': { 'owner': group.id } }) }}"
+                            data-size="lg"
+                        >
+                            <span class="fa fa-plus"></span>
+                            &nbsp; {{ translate("New camp") }}
+                        </a>
                     </div>
                 {% endblock %}
                 {% block panel_content %}

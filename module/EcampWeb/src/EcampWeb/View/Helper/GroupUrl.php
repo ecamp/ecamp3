@@ -15,10 +15,14 @@ class GroupUrl extends AbstractHelper
         $this->url = $url;
     }
 
-    public function __invoke(Group $group)
+    public function __invoke(Group $group, $params = array(), $options = array(), $reuseMatchedParams = false)
     {
         $url = $this->url;
 
-        return $url('web/group-prefix/name', array('group' => $group));
+        if(!array_key_exists('group', $params)){
+            $params['group'] = $group;
+        }
+
+        return $url('web/group-prefix/name/default', $params, $options, $reuseMatchedParams);
     }
 }

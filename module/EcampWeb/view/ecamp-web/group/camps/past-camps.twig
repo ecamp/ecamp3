@@ -52,12 +52,13 @@
         <ul class="pagination pagination-sm pull-right" style="margin: 0px 0px 10px 0px">
             {% if paginator.pages.previous %}
                 <li>
-                    <a  href="{{ url(
-                    'web/group-prefix/name/default',
-                    { 'group': group, 'controller': 'Index', 'action': 'upcomingCamps' },
-                    { 'query': { 'page': paginator.pages.previous } }) }}"
-                        class="nav-link"
-                            >
+                    <a href="{{ groupUrl(
+                            group,
+                            { 'controller': 'Index', 'action': 'pastCamps' },
+                            { 'query': { 'page': paginator.pages.previous } }
+                        ) }}"
+                       class="nav-link"
+                    >
                         &laquo;
                     </a>
                 </li>
@@ -81,12 +82,13 @@
 
             {% if paginator.pages.next %}
                 <li>
-                    <a  href="{{ url(
-                    'web/group-prefix/name/default',
-                    { 'group': group, 'controller': 'Index', 'action': 'upcomingCamps' },
-                    { 'query': { 'page': paginator.pages.next } }) }}"
-                        class="nav-link"
-                            >
+                    <a href="{{ groupUrl(
+                            group,
+                            { 'controller': 'Index', 'action': 'pastCamps' },
+                            { 'query': { 'page': paginator.pages.next } }
+                        ) }}"
+                       class="nav-link"
+                    >
                         &raquo;
                     </a>
                 </li>

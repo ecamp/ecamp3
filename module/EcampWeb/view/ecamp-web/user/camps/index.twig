@@ -1,0 +1,72 @@
+{% extends 'ecamp-web/user/user.twig' %}
+
+
+{% block content %}
+
+    <div class="row">
+        <div class="col-sm-12">
+            {% embed "helper/accordion.twig" with { 'id': 'upcoming-camps' } %}
+                {% block panel_title %}
+                    Upcoming camps
+                    <div class="pull-right">
+                        <a
+                            async-modal
+                            class="btn btn-xs btn-success"
+                            style="margin-top: -3px"
+                            href="{{ url('web/default', { 'controller':'camp', 'action': 'create' }, { 'query': { 'owner': user.id } }) }}"
+                            data-size="lg"
+                        >
+                            <span class="fa fa-plus"></span>
+                            &nbsp; {{ translate("New camp") }}
+                        </a>
+                    {#
+                        <a  async-modal
+                            href="{{ url(
+                            'web/camp/default',
+                            { 'camp': camp, 'controller': 'Collaborations', 'action': 'inviteSearch' }
+                            ) }}"
+                            class="btn btn-xs btn-success"
+                            style="margin-top: -3px"
+                                >
+                            <i class="fa fa-plus"></i> Create Camp
+                        </a>
+                    #}
+                    </div>
+                {% endblock %}
+                {% block panel_content %}
+                    <pagination-container
+                            url="{{ userUrl(
+                                user,
+                                { 'controller': 'Camps', 'action': 'upcomingCamps' },
+                                { 'query': { 'page': ':page' } }
+                            ) }}"
+                    >
+                        {% include 'ecamp-web/user/camps/upcoming-camps.twig' with { 'paginator': upcomingCampsPaginator } %}
+                    </pagination-container>
+                {% endblock %}
+            {% endembed %}
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+            {% embed "helper/accordion.twig" with { 'id': 'past-camps', 'collapsed': true } %}
+                {% block panel_title %}
+                    Past camps
+                {% endblock %}
+                {% block panel_content %}
+                    <pagination-container
+                            url="{{ userUrl(
+                            user,
+                            { 'controller': 'Camps', 'action': 'pastCamps' },
+                            { 'query': { 'page': ':page' } }
+                            ) }}"
+                            >
+                        {% include 'ecamp-web/user/camps/past-camps.twig' with { 'paginator': pastCampsPaginator } %}
+                    </pagination-container>
+                {% endblock %}
+            {% endembed %}
+        </div>
+    </div>
+
+{% endblock %}
