@@ -29,7 +29,7 @@ class AdminUserFixture extends AbstractFixture implements OrderedFixtureInterfac
         ));
     }
 
-    private function load_(ObjectManager$manager, array $config)
+    private function load_(ObjectManager $manager, array $config)
     {
         $userRepo = $manager->getRepository('EcampCore\Entity\User');
 

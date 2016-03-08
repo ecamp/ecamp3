@@ -15,10 +15,14 @@ class CampUrl extends AbstractHelper
         $this->url = $url;
     }
 
-    public function __invoke(Camp $camp)
+    public function __invoke(Camp $camp, $params = array(), $options = array(), $reuseMatchedParams = false)
     {
         $url = $this->url;
 
-        return $url('web/camp/default', array('camp' => $camp));
+        if(!array_key_exists('camp', $params)){
+            $params['camp'] = $camp;
+        }
+
+        return $url('web/camp/default', $params, $options, $reuseMatchedParams);
     }
 }

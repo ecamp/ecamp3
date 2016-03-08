@@ -3,9 +3,8 @@
         <p align="center">No upcoming camps</p>
     {% endblock %}
     {% block list %}
-        <div class="col-xs-12">
-            <table class="table table-striped table-hover">
-                <thead>
+        <table class="table table-hover table-striped" style="margin-bottom: 10px">
+            <thead>
                 <tr>
                     <th>Name</th>
                     <th>Title</th>
@@ -13,35 +12,31 @@
                     <th>Dauer</th>
                     <th>Optionen</th>
                 </tr>
-                </thead>
-                <tbody>
+            </thead>
+            <tbody class="pagination-container-body">
                 {% for camp in paginator %}
                     <tr>
                         <td>
                             <i class="fa fa-bell"></i>
-                            <a href="{{ url('web/group-prefix/name+camp', { 'group': group, 'camp': camp }) }}">
-                                {{ camp.getName }}
-                            </a>
+                            <a href="{{ campUrl(camp) }}">{{ camp.getName }}</a>
                         </td>
                         <td>
-                            <a href="{{ url('web/group-prefix/name+camp', { 'group': group, 'camp': camp }) }}">
-                                {{ camp.getTitle }}
-                            </a>
+                            <a href="{{ campUrl(camp) }}">{{ camp.getTitle }}</a>
                         </td>
                         <td>
-                            <a href="{{ url('web/group-prefix/name+camp', { 'group': group, 'camp': camp }) }}">
-                                {{ camp.getMotto }}
-                            </a>
+                            <a href="{{ campUrl(camp) }}">{{ camp.getMotto }}</a>
                         </td>
                         <td>
                             {{ camp.range }}
                         </td>
-                        <td></td>
+                        <td>
+                            <a href="#" class="btn btn-xs btn-danger">
+                                <i class="fa fa-trash-o"></i> Delete
+                            </a>
+                        </td>
                     </tr>
                 {% endfor %}
-                </tbody>
-            </table>
-        </div>
+            </tbody>
+        </table>
     {% endblock %}
 {% endembed %}
-

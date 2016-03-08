@@ -10,6 +10,13 @@ use Zend\View\Model\ViewModel;
 
 class CampController extends BaseController
 {
+    /**
+     * @return \EcampCore\Repository\CampOwnerRepository
+     */
+    private function getCampOwnerRepository()
+    {
+        return $this->getServiceLocator()->get('EcampCore\Repository\AbstractCampOwner');
+    }
 
     /**
      * @return \EcampCore\Service\PeriodService
@@ -41,6 +48,12 @@ class CampController extends BaseController
         $wizard = $this->createForm('EcampWeb\Form\Camp\CampCreateWizard');
         $wizard->setAction($this->url()->fromRoute('web/default', array('controller' => 'Camp', 'action' => 'create')));
         $wizard->setStep(WizardForm::FIRST_STEP);
+
+        $ownerId = $this->getRequest()->getQuery('owner');
+        if($ownerId != null){
+            $owner = $this->getCampOwnerRepository()->find($ownerId);
+            $wizard->setStepData(CampCreateWizard::STEP_CAMP_DETAILS, array('owner' => $owner));
+        }
 
         if ($this->getRequest()->isPost()) {
             $data = $this->getRequest()->getPost();

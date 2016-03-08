@@ -47,54 +47,6 @@
                             </div>
                         </group-membership>
                     </div>
-{#
-                    {% if myMembership is not null %}
-                        <p>
-                            {% if myMembership.getStatus == 'requested' %}
-                                You have requested membership in this group
-                            {% endif %}
-
-                            {% if myMembership.getStatus == 'invited' %}
-                                You have been invited to this group
-                            {% endif %}
-
-                            {% if myMembership.getStatus == 'established' %}
-                                You are {{ myMembership.getRole }} in this group
-                            {% endif %}
-                        </p>
-                    {% endif %}
-
-                    <div class="pull-right">
-                        <p>
-                            {{ membership(group, 'sm') }}
-                        </p>
-                    </div>
-#}
-                    {#
-                    <div class="modal fade" id="leaveGroupModal" tabindex="-1" role="dialog" aria-labelledby="leaveGroupModalLabel" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                    <h4 class="modal-title">Leave group {{ group.getName }}</h4>
-                                </div>
-                                <div class="modal-body">
-                                    Are you sure, you want to leave group {{ group.getName }}?
-                                </div>
-                                <div class="modal-footer">
-                                    <a class="btn btn-danger"
-                                       href="{{ url('web/group-prefix/name/default',
-                                       { 'group': group, 'controller': 'index', 'action': 'leaveGroup'}
-                                       ) }}"
-                                            >
-                                        Leave group
-                                    </a>
-                                    <button type="button" class="btn btn-default" data-dismiss="modal">Stay in group</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    #}
                 {% endblock %}
             {% endembed %}
         </div>
@@ -107,7 +59,11 @@
                     Subgroups
                 {% endblock %}
                 {% block panel_content %}
-                    {% include 'ecamp-web/group/index/subgroups.twig' with { 'paginator': subgroupsPaginator } %}
+                    <pagination-container
+                        url="{{ groupUrl(group, {'controller': 'Index', 'action': 'subgroups'}, { 'query': { 'page': ':page'} }) }}"
+                    >
+                        {% include 'ecamp-web/group/index/subgroups.twig' with { 'paginator': subgroupsPaginator } %}
+                    </pagination-container>
                 {% endblock %}
             {% endembed %}
         </div>
@@ -120,7 +76,11 @@
                     Upcoming camps
                 {% endblock %}
                 {% block panel_content %}
-                    {% include 'ecamp-web/group/index/upcoming-camps.twig' with { 'paginator': upcomingCampsPaginator } %}
+                    <pagination-container
+                        url="{{ groupUrl(group, {'conrainer': 'Index', 'action': 'upcomingCamps'}, { 'query': { 'page': ':page' } }) }}"
+                    >
+                        {% include 'ecamp-web/group/index/upcoming-camps.twig' with { 'paginator': upcomingCampsPaginator } %}
+                    </pagination-container>
                 {% endblock %}
             {% endembed %}
         </div>

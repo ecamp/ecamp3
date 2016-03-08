@@ -18,6 +18,7 @@ use EcampCore\Entity\User;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\Persistence\ObjectManager;
+use EcampDB\Fixtures\Prod\GroupFixture;
 
 class Camps extends AbstractFixture implements OrderedFixtureInterface
 {
@@ -82,8 +83,240 @@ class Camps extends AbstractFixture implements OrderedFixtureInterface
                 ),
 
                 'reference' => self::PFILA
-            )
+            ),
+            array(
+                'name' => 'SoLa',
+                'title' => 'SoLa',
+                'motto' => 'SoLa',
+                'campType' => CampTypeFixture::JUGENDSPORT,
+                'creator' => UserFixture::TIFFANY,
+                'owner-user' => UserFixture::TIFFANY,
+
+                'periods' => array(
+                    array(
+                        'desc' => 'Default Period',
+                        'start' => new \DateTime('2018-05-04'),
+                        'length' => 4,
+                        'reference' => self::SOMMERLAGER . ':P1'
+                    )
+                ),
+
+                'categories' => array(
+                    array(
+                        'name' => 'Lagersport',
+                        'short' => 'LS',
+                        'eventType' => EventTypeFixture::LAGERSPORT,
+                        'reference' => self::SOMMERLAGER . ':ls'
+                    ),
+                    array(
+                        'name' => 'Lageraktivität',
+                        'short' => 'LA',
+                        'eventType' => EventTypeFixture::LAGERAKTIVITAET,
+                        'reference' => self::SOMMERLAGER . ':la'
+                    ),
+                    array(
+                        'name' => 'Lagerprogramm',
+                        'short' => 'LP',
+                        'eventType' => EventTypeFixture::LAGERPROGRAMM,
+                        'reference' => self::SOMMERLAGER . ':lp'
+                    )
+                ),
+
+                'events' => array(
+                    array(
+                        'title' => 'Olympiade',
+                        'category' => self::SOMMERLAGER . ':ls',
+                        'instances' => array(
+                            array(
+                                'period' => self::SOMMERLAGER . ':P1',
+                                'minOffsetStart' => 840,
+                                'duration' => 240
+                            )
+                        )
+                    ),
+                ),
+
+                'reference' => self::SOMMERLAGER
+            ),
+            array(
+                'name' => 'LU 222-18',
+                'title' => 'LU 222-18',
+                'motto' => 'LU 222-18',
+                'campType' => CampTypeFixture::JUGENDSPORT,
+                'creator' => UserFixture::TIFFANY,
+                'owner-user' => UserFixture::TIFFANY,
+
+                'periods' => array(
+                    array(
+                        'desc' => 'Default Period',
+                        'start' => new \DateTime('2018-07-04'),
+                        'length' => 4,
+                        'reference' => self::LEITERKURS . ':P1'
+                    )
+                ),
+
+                'categories' => array(
+                    array(
+                        'name' => 'Lagersport',
+                        'short' => 'LS',
+                        'eventType' => EventTypeFixture::LAGERSPORT,
+                        'reference' => self::LEITERKURS . ':ls'
+                    ),
+                    array(
+                        'name' => 'Lageraktivität',
+                        'short' => 'LA',
+                        'eventType' => EventTypeFixture::LAGERAKTIVITAET,
+                        'reference' => self::LEITERKURS . ':la'
+                    ),
+                    array(
+                        'name' => 'Lagerprogramm',
+                        'short' => 'LP',
+                        'eventType' => EventTypeFixture::LAGERPROGRAMM,
+                        'reference' => self::LEITERKURS . ':lp'
+                    )
+                ),
+
+                'events' => array(
+                    array(
+                        'title' => 'Olympiade',
+                        'category' => self::LEITERKURS . ':ls',
+                        'instances' => array(
+                            array(
+                                'period' => self::LEITERKURS . ':P1',
+                                'minOffsetStart' => 840,
+                                'duration' => 240
+                            )
+                        )
+                    ),
+                ),
+
+                'reference' => self::LEITERKURS
+            ),
         ));
+
+        for($i = 0; $i < 10; $i++){
+            $name = 'LU 11' . $i . '-17';
+            $ref = self::LEITERKURS . UserFixture::TIFFANY . $i;
+
+            $this->load_($manager, array(
+                array(
+                    'name' => $name,
+                    'title' => $name,
+                    'motto' => $name,
+                    'campType' => CampTypeFixture::JUGENDSPORT,
+                    'creator' => UserFixture::TIFFANY,
+                    'owner-user' => UserFixture::TIFFANY,
+
+                    'periods' => array(
+                        array(
+                            'desc' => 'Default Period',
+                            'start' => new \DateTime('201' . $i . '-07-1' . $i),
+                            'length' => 4,
+                            'reference' => $ref . ':P1'
+                        )
+                    ),
+
+                    'categories' => array(
+                        array(
+                            'name' => 'Lagersport',
+                            'short' => 'LS',
+                            'eventType' => EventTypeFixture::LAGERSPORT,
+                            'reference' => $ref . ':ls'
+                        ),
+                        array(
+                            'name' => 'Lageraktivität',
+                            'short' => 'LA',
+                            'eventType' => EventTypeFixture::LAGERAKTIVITAET,
+                            'reference' => $ref . ':la'
+                        ),
+                        array(
+                            'name' => 'Lagerprogramm',
+                            'short' => 'LP',
+                            'eventType' => EventTypeFixture::LAGERPROGRAMM,
+                            'reference' => $ref . ':lp'
+                        )
+                    ),
+
+                    'events' => array(
+                        array(
+                            'title' => 'Olympiade',
+                            'category' => $ref . ':ls',
+                            'instances' => array(
+                                array(
+                                    'period' => $ref . ':P1',
+                                    'minOffsetStart' => 840,
+                                    'duration' => 240
+                                )
+                            )
+                        ),
+                    ),
+
+                    'reference' => $ref
+                )
+            ));
+        }
+
+        for($i = 0; $i < 10; $i++){
+            $name = 'LU 21' . $i . '-18';
+            $ref = self::LEITERKURS . GroupFixture::PBS . $i;
+
+            $this->load_($manager, array(
+                array(
+                    'name' => $name,
+                    'title' => $name,
+                    'motto' => $name,
+                    'campType' => CampTypeFixture::JUGENDSPORT,
+                    'creator' => UserFixture::JOHN,
+                    'owner-user' => GroupFixture::PBS,
+
+                    'periods' => array(
+                        array(
+                            'desc' => 'Default Period',
+                            'start' => new \DateTime('201' . $i . '-07-1' . $i),
+                            'length' => 4,
+                            'reference' => $ref . ':P1'
+                        )
+                    ),
+
+                    'categories' => array(
+                        array(
+                            'name' => 'Lagersport',
+                            'short' => 'LS',
+                            'eventType' => EventTypeFixture::LAGERSPORT,
+                            'reference' => $ref . ':ls'
+                        ),
+                        array(
+                            'name' => 'Lageraktivität',
+                            'short' => 'LA',
+                            'eventType' => EventTypeFixture::LAGERAKTIVITAET,
+                            'reference' => $ref . ':la'
+                        ),
+                        array(
+                            'name' => 'Lagerprogramm',
+                            'short' => 'LP',
+                            'eventType' => EventTypeFixture::LAGERPROGRAMM,
+                            'reference' => $ref . ':lp'
+                        )
+                    ),
+
+                    'events' => array(
+                        array(
+                            'title' => 'Olympiade',
+                            'category' => $ref . ':ls',
+                            'instances' => array(
+                                array(
+                                    'period' => $ref . ':P1',
+                                    'minOffsetStart' => 840,
+                                    'duration' => 240
+                                )
+                            )
+                        ),
+                    ),
+
+                    'reference' => $ref
+                )
+            ));
+        }
     }
 
     private function load_(ObjectManager $manager, array $config)
