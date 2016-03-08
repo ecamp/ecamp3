@@ -34,9 +34,13 @@ use EcampLib\Entity\BaseEntity;
 class EventType extends BaseEntity
 {
 
-    public function __construct()
+    public function __construct($name, $defaultColor, $defaultNumberingStyle)
     {
         parent::__construct();
+
+        $this->name = $name;
+        $this->defaultColor = $defaultColor;
+        $this->defaultNumberingStyle = $defaultNumberingStyle;
 
         $this->campTypes = new \Doctrine\Common\Collections\ArrayCollection();
         $this->eventTypePlugins = new \Doctrine\Common\Collections\ArrayCollection();

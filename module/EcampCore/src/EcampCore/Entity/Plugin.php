@@ -30,7 +30,7 @@ use Doctrine\ORM\Mapping as ORM;
 use EcampLib\Entity\BaseEntity;
 
 /**
- * @ORM\Entity(readOnly=true)
+ * @ORM\Entity
  * @ORM\Table(name="plugins")
  */
 class Plugin extends BaseEntity
@@ -73,5 +73,10 @@ class Plugin extends BaseEntity
     public function getStrategyClass()
     {
         return $this->strategyClass;
+    }
+
+    public function setStrategyClass($strategyClass)
+    {
+        $this->strategyClass = $strategyClass;
     }
 }

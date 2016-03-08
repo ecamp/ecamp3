@@ -12,11 +12,8 @@ class EventTypeTest extends \PHPUnit_Framework_TestCase
     private function createEventType()
     {
         $campType = new CampType('name', 'type');
-        $eventType = new EventType();
+        $eventType = new EventType('EventType Name', '#FF00FF', 'i');
         $eventType->getCampTypes()->add($campType);
-        $eventType->setName('EventType Name');
-        $eventType->setDefaultColor('#FF00FF');
-        $eventType->setDefaultNumberingStyle('i');
 
         return $eventType;
     }

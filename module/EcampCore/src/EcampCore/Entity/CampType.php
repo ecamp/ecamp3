@@ -26,7 +26,7 @@ use EcampLib\Entity\BaseEntity;
 
 /**
  * CampType
- * @ORM\Entity(readOnly=true)
+ * @ORM\Entity
  * @ORM\Table(name="camp_types")
  */
 class CampType extends BaseEntity
@@ -62,6 +62,11 @@ class CampType extends BaseEntity
     public function getName()
     {
         return $this->name;
+    }
+
+    public function setName($name)
+    {
+        $this->name = $name;
     }
 
     /**

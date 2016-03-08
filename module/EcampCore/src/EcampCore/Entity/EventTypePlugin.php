@@ -77,9 +77,19 @@ class EventTypePlugin extends BaseEntity
      */
     private $plugin;
 
+    public function setMinNumberPluginInstances($min)
+    {
+        $this->minNumberPluginInstances = $min;
+    }
+
     public function getMinNumberPluginInstances()
     {
         return $this->minNumberPluginInstances;
+    }
+
+    public function setMaxNumberPluginInstances($max)
+    {
+        $this->maxNumberPluginInstances = $max;
     }
 
     public function getMaxNumberPluginInstances()
