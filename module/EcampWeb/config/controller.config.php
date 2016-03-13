@@ -13,6 +13,7 @@ return array(
         'EcampWeb\Controller\Profile\Index'             => 'EcampWeb\Controller\Profile\IndexController',
 
         'EcampWeb\Controller\User\Index'                => 'EcampWeb\Controller\User\IndexController',
+        'EcampWeb\Controller\User\Camps'                => 'EcampWeb\Controller\User\CampsController',
 
         'EcampWeb\Controller\Group\Index' 			    => 'EcampWeb\Controller\Group\IndexController',
         'EcampWeb\Controller\Group\Members' 		    => 'EcampWeb\Controller\Group\MembersController',

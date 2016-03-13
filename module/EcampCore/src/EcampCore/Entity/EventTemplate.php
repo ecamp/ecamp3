@@ -26,7 +26,7 @@ use EcampLib\Entity\BaseEntity;
 
 /**
  * EventTemplate
- * @ORM\Entity(readOnly=true, repositoryClass="EcampCore\Repository\EventTemplateRepository")
+ * @ORM\Entity(repositoryClass="EcampCore\Repository\EventTemplateRepository")
  * @ORM\Table(name="event_templates", uniqueConstraints={
  * 	@ORM\UniqueConstraint(
  * 		name="eventtype_medium_unique",
@@ -79,6 +79,11 @@ class EventTemplate extends BaseEntity
     public function getFilename()
     {
         return $this->filename;
+    }
+
+    public function setFilename($filename)
+    {
+        $this->filename = $filename;
     }
 
     /**

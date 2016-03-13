@@ -1,17 +1,16 @@
 <?php
 
-namespace EcampWeb\Controller\Group;
+namespace EcampWeb\Controller\User;
 
 use Zend\Paginator\Adapter\ArrayAdapter;
 use Zend\Paginator\Paginator;
 
-class CampsController
-    extends BaseController
+class CampsController extends BaseController
 {
 
     protected function getUpcomingCampsPaginator()
     {
-        $upcomingCamps = $this->getCampRepository()->findUpcomingCamps($this->getGroup());
+        $upcomingCamps = $this->getCampRepository()->findUpcomingCamps($this->getUser());
 
         $adapter = new ArrayAdapter($upcomingCamps);
 
@@ -24,7 +23,7 @@ class CampsController
 
     protected function getPastCampsPaginator()
     {
-        $upcomingCamps = $this->getCampRepository()->findPastCamps($this->getGroup());
+        $upcomingCamps = $this->getCampRepository()->findPastCamps($this->getUser());
 
         $adapter = new ArrayAdapter($upcomingCamps);
 
@@ -64,7 +63,5 @@ class CampsController
             'upcomingCampsPaginator' => $upcomingCampsPaginator,
             'pastCampsPaginator' => $pastCampsPaginator
         );
-
     }
-
 }

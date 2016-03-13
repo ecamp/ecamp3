@@ -86,7 +86,11 @@
                     Subgroups
                 {% endblock %}
                 {% block panel_content %}
-                    {% include 'ecamp-web/group/index/subgroups.twig' with { 'paginator': subgroupsPaginator } %}
+                    <pagination-container
+                        url="{{ groupUrl(group, {'controller': 'Index', 'action': 'subgroups'}, { 'query': { 'page': ':page'} }) }}"
+                    >
+                        {% include 'ecamp-web/group/index/subgroups.twig' with { 'paginator': subgroupsPaginator } %}
+                    </pagination-container>
                 {% endblock %}
             {% endembed %}
         </div>
@@ -99,7 +103,11 @@
                     Upcoming camps
                 {% endblock %}
                 {% block panel_content %}
-                    {% include 'ecamp-web/group/index/upcoming-camps.twig' with { 'paginator': upcomingCampsPaginator } %}
+                    <pagination-container
+                        url="{{ groupUrl(group, {'conrainer': 'Index', 'action': 'upcomingCamps'}, { 'query': { 'page': ':page' } }) }}"
+                    >
+                        {% include 'ecamp-web/group/index/upcoming-camps.twig' with { 'paginator': upcomingCampsPaginator } %}
+                    </pagination-container>
                 {% endblock %}
             {% endembed %}
         </div>

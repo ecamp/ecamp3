@@ -62,4 +62,9 @@ class Medium
         return $this->default;
     }
 
+    public function setDefault($default)
+    {
+        $this->default = $default;
+    }
+
 }
