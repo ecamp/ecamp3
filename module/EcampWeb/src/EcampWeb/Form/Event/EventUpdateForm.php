@@ -22,7 +22,7 @@ class EventUpdateForm extends AjaxBaseForm
         $eventFieldset = new EventFieldset($camp, $event);
         $this->add($eventFieldset);
 
-        $eventInstanceFieldset = new EventInstanceFieldset($camp, null, $eventInstance);
+        $eventInstanceFieldset = new EventInstanceFieldset($camp, null, null, $eventInstance);
         $this->add($eventInstanceFieldset);
     }
 

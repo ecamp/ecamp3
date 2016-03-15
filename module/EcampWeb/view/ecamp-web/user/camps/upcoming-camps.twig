@@ -1,0 +1,42 @@
+{% embed "helper/paginationContainer.twig" %}
+    {% block listEmpty %}
+        <p align="center">No upcoming camps</p>
+    {% endblock %}
+    {% block list %}
+        <table class="table table-hover table-striped" style="margin-bottom: 10px">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Title</th>
+                    <th>Motto</th>
+                    <th>Dauer</th>
+                    <th>Optionen</th>
+                </tr>
+            </thead>
+            <tbody class="pagination-container-body">
+                {% for camp in paginator %}
+                    <tr>
+                        <td>
+                            <i class="fa fa-bell"></i>
+                            <a href="{{ campUrl(camp) }}">{{ camp.getName }}</a>
+                        </td>
+                        <td>
+                            <a href="{{ campUrl(camp) }}">{{ camp.getTitle }}</a>
+                        </td>
+                        <td>
+                            <a href="{{ campUrl(camp) }}">{{ camp.getMotto }}</a>
+                        </td>
+                        <td>
+                            {{ camp.range }}
+                        </td>
+                        <td>
+                            <a href="#" class="btn btn-xs btn-danger">
+                                <i class="fa fa-trash-o"></i> Delete
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endblock %}
+{% endembed %}

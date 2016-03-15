@@ -9,14 +9,6 @@ class CampsController
     extends BaseController
 {
 
-    /**
-     * @return \EcampCore\Repository\CampRepository
-     */
-    private function getCampRepository()
-    {
-        return $this->getServiceLocator()->get('EcampCore\Repository\Camp');
-    }
-
     protected function getUpcomingCampsPaginator()
     {
         $upcomingCamps = $this->getCampRepository()->findUpcomingCamps($this->getGroup());
@@ -24,7 +16,7 @@ class CampsController
         $adapter = new ArrayAdapter($upcomingCamps);
 
         $paginator = new Paginator($adapter);
-        $paginator->setItemCountPerPage(15);
+        $paginator->setItemCountPerPage(5);
         $paginator->setCurrentPageNumber(1);
 
         return $paginator;
@@ -37,7 +29,7 @@ class CampsController
         $adapter = new ArrayAdapter($upcomingCamps);
 
         $paginator = new Paginator($adapter);
-        $paginator->setItemCountPerPage(15);
+        $paginator->setItemCountPerPage(5);
         $paginator->setCurrentPageNumber(1);
 
         return $paginator;

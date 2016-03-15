@@ -29,8 +29,25 @@ abstract class BaseController
         $events->attach('dispatch', function($e) { $this->setLayoutBodyClass($e); }, -100);
     }
 
-    public function onDispatch( MvcEvent $e )
+    public function onDispatch(MvcEvent $e)
     {
+        $locale = $this->params()->fromRoute('locale', 'en');
+        $this->getTranslator()->setLocale($locale);
+
+        $textDomain = $this->params()->fromRoute('module', 'default');
+
+        $translateHelper = $this->getServiceLocator()->get('viewhelpermanager')->get('Translate');
+        $translateHelper->setTranslatorTextDomain($textDomain);
+
+        $translateHelper = $this->getServiceLocator()->get('viewhelpermanager')->get('TranslatePlural');
+        $translateHelper->setTranslatorTextDomain($textDomain);
+
+        $translateHelper = $this->getServiceLocator()->get('viewhelpermanager')->get('FormRow');
+        $translateHelper->setTranslatorTextDomain($textDomain);
+
+        $translateHelper = $this->getServiceLocator()->get('viewhelpermanager')->get('FormLabel');
+        $translateHelper->setTranslatorTextDomain($textDomain);
+
         $this->getServiceLocator()->get('Twig_Environment')->getExtension('core')->setDateFormat('d.m.Y');
 
         parent::onDispatch($e);
@@ -75,6 +92,17 @@ abstract class BaseController
 
             $result->setVariable('layoutBodyClass', $layoutBodyClass);
         }
+    }
+
+    /**
+     * @return \Zend\I18n\Translator\Translator
+     */
+    protected function getTranslator()
+    {
+        /** @var \Zend\Mvc\I18n\Translator $mvcTranslator */
+        $mvcTranslator = $this->getServiceLocator()->get('MvcTranslator');
+
+        return $mvcTranslator->getTranslator();
     }
 
     protected function getRedirectResponse($url)

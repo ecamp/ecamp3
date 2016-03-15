@@ -28,7 +28,7 @@ abstract class AbstractBaseController extends AbstractActionController
     {
         /* @var $form BaseForm */
         $form = $this->getFormElementManager()->get($formName);
-        $form->setHydrator(new ClassMethodsHydrator());
+        $form->setHydrator(new ClassMethodsHydrator(false));
 
         return $form;
     }

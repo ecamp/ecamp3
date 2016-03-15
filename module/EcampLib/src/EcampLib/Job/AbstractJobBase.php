@@ -2,37 +2,76 @@
 
 namespace EcampLib\Job;
 
+use Resque\Job;
+use Zend\ServiceManager\ServiceLocatorAwareInterface;
+use Zend\ServiceManager\ServiceLocatorInterface;
+
 abstract class AbstractJobBase
+    implements JobInterface, ServiceLocatorAwareInterface
 {
     public $job;
     public $args;
     public $queue;
 
+    /**
+     * @var ServiceLocatorInterface
+     */
+    private $serviceLocator;
+
     protected function __construct($defaultQueue = 'php-only')
     {
         $this->args = array();
         $this->queue = $defaultQueue;
+
+        /** @var \Zend\Mvc\Application $app */
+        $app = Application::Get();
+        if ($app) {
+            $this->serviceLocator = $app->getServiceManager();
+        }
+    }
+
+    /** @param ServiceLocatorInterface $serviceLocator */
+    public function setServiceLocator(ServiceLocatorInterface $serviceLocator)
+    {
+        $this->serviceLocator = $serviceLocator;
+    }
+
+    /** @return ServiceLocatorInterface */
+    public function getServiceLocator()
+    {
+        return $this->serviceLocator;
+    }
+
+    public function getService($name)
+    {
+        return $this->serviceLocator->get($name);
     }
 
     public function enqueue($queue =  null)
     {
         $q = $queue ?: $this->queue;
+        $this->job = \Resque::queue()->push(get_class($this), $this->args, $q);
 
-        try {
-            return \Resque::enqueue($q, get_class($this), $this->args);
-        } catch(\Exception $ex) {
-            $this->perform();
-        }
+        return $this->job;
     }
 
-    abstract public function perform();
+    public function setUp() { }
+    public function tearDown() { }
 
-    protected function getToken()
+    public function perform($args, $job)
     {
-        if ($this->job instanceof \Resque_Job) {
-            if (!empty($this->job->payload['id'])) {
-                return $this->job->payload['id'];
-            }
+        $this->job = $job;
+        $this->args = $args;
+
+        $this->execute();
+    }
+
+    abstract public function execute();
+
+    public function getId()
+    {
+        if ($this->job instanceof Job) {
+            return $this->job->getId();
         }
 
         return null;
@@ -66,10 +105,34 @@ abstract class AbstractJobBase
         $this->set($name, $value);
     }
 
-    public function log($message)
+    public function getStatus()
     {
-        if ($this->job instanceof \Resque_Job) {
-            $this->job->worker->log($message);
+        if ($this->job instanceof Job) {
+            return $this->job->getStatus();
         }
+
+        return 0;
     }
+
+    /**
+     * @return \Zend\Mvc\Router\RouteStackInterface
+     */
+    protected function getRouter()
+    {
+        return $this->getServiceLocator()->get('HttpRouter');
+    }
+
+    /**
+     * @param $name
+     * @param  array  $params
+     * @param  array  $options
+     * @return string
+     */
+    protected function urlFromRoute($name, $params = array(), $options = array())
+    {
+        $options['name'] = $name;
+
+        return $this->getRouter()->assemble($params, $options);
+    }
+
 }

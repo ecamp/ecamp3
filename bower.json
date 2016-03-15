@@ -12,17 +12,21 @@
     "jquery-autosize": "latest",
     "bootstrap": "~3",
     "bootstrap-select": "latest",
+    "bootstrap-datepicker": "latest",
+    "angular": "~1.2",
+    "angular-bootstrap": "~0.12",
+    "angular-hal": "https://github.com/LuvDaSun/angular-hal.git",
+    "angular-resource": "~1.2",
+    "angular-sanitize": "~1.2",
+    "angular-translate": "latest",
     "angular-ui": "latest",
     "angular-ui-select": "latest",
     "angular-ui-slider": "latest",
-    "angular": "~1.2",
-    "angular-sanitize": "~1.2",
-    "angular-bootstrap": "latest",
-    "angular-resource": "~1.2",
+    "angular-ui-sortable": "latest",
+    "ng-file-upload": "~3.1",
     "fontawesome": "~4",
     "typeahead.js": "latest",
-    "uri.js": "~1.14",
-    "angular-hal": "https://github.com/LuvDaSun/angular-hal.git"
+    "uri.js": "~1.14"
   },
   "resolutions": {
     "angular": "~1.2"

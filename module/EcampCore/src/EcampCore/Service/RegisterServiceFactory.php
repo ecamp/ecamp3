@@ -16,7 +16,13 @@ class RegisterServiceFactory
         $userRepository = $services->get('EcampCore\Repository\User');
         $userService = $services->get('EcampCore\Service\User');
         $loginService = $services->get('EcampCore\Service\Login');
+        $resqueJobService = $services->get('EcampCore\Service\ResqueJob');
 
-        return new RegisterService($userRepository, $userService, $loginService);
+        return new RegisterService(
+            $userRepository,
+            $userService,
+            $loginService,
+            $resqueJobService
+        );
     }
 }

@@ -43,12 +43,4 @@ abstract class BaseController
         return $this->getGroupRepository()->find($groupId);
     }
 
-    /**
-     * @return \EcampCore\Repository\GroupRepository
-     */
-    protected function getGroupRepository()
-    {
-        return $this->serviceLocator->get('EcampCore\Repository\Group');
-    }
-
 }

@@ -63,6 +63,7 @@ class EventInstanceResourceListener extends BaseResourceListener
         $entity = $this->getEventInstanceRepository()->find($id);
 
         $data = array(
+            'period' => $data->periodId,
             'minOffsetStart' => (int) $data->start_min,
             'minOffsetEnd' => (int) $data->end_min,
             'leftOffset' => (double) $data->left,

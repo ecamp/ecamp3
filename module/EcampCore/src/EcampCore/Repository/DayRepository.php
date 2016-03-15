@@ -69,7 +69,10 @@ class DayRepository extends EntityRepository
 
     public function findPeriodDays($periodId)
     {
-        return $this->findBy(array('period' => $periodId));
+        return $this->findBy(
+            array('period' => $periodId),
+            array('dayOffset' => 'ASC')
+        );
     }
 
 }

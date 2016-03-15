@@ -2,6 +2,11 @@
 
 return array(
 
+    'aliases' => array(
+        'PrintableManager'  => 'EcampLib\ServiceManager\PrintableManager',
+        'JobFactoryManager' => 'EcampLib\ServiceManager\JobFactoryManager',
+    ),
+
     'abstract_factories' => array(
         /**
          * Provides repositories for all doctrine entities
@@ -24,8 +29,10 @@ return array(
     ),
 
     'factories' => array(
-        'Router'        => 'EcampLib\Router\RouterFactory',
-        'Logger'        => 'EcampLib\Log\LoggerFactory'
+        'Logger'                                    => 'EcampLib\Log\LoggerFactory',
+        'Router'                                    => 'EcampLib\Router\RouterFactory',
+        'EcampLib\ServiceManager\PrintableManager'  => 'EcampLib\ServiceManager\PrintableManagerFactory',
+        'EcampLib\ServiceManager\JobFactoryManager' => 'EcampLib\ServiceManager\JobFactoryManagerFactory',
     ),
 
 );

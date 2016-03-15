@@ -6,6 +6,15 @@ return array(
         ),
     ),
 
+    'asset_manager' => include __DIR__ . '/assets/assets.config.php',
+
+    'translator' => array(
+        'remote_translation' => array(
+            /* add a remote translation loader for each text domain */
+            array('type' => 'BsbDoctrineTranslationLoader', 'text_domain' => 'EcampWeb'),
+        ),
+    ),
+
     'view_manager' => array(
         'display_not_found_reason' => true,
         'display_exceptions'       => true,

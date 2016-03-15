@@ -9,14 +9,6 @@ class IndexController
 {
 
     /**
-     * @return \EcampCore\Repository\CampRepository
-     */
-    private function getCampRepository()
-    {
-        return $this->getServiceLocator()->get('EcampCore\Repository\Camp');
-    }
-
-    /**
      * @return \EcampCore\Repository\GroupMembershipRepository
      */
     private function getGroupMembershipRepository()
@@ -34,7 +26,7 @@ class IndexController
 
     public function indexAction()
     {
-        $this->setFullHeight();
+        //$this->setFullHeight();
 
         $me = $this->getMe();
 
@@ -55,6 +47,11 @@ class IndexController
         );
     }
 
+    public function aboutAction()
+    {
+        return array();
+    }
+
     public function printJobResultAction()
     {
         $token = $this->params()->fromQuery('token');
@@ -72,9 +69,9 @@ class IndexController
 
         $headers = $response->getHeaders();
         $headers->clearHeaders()
-        ->addHeaderLine('Content-Type', 'application/pdf')
-        //->addHeaderLine('Content-Disposition', 'attachment; filename="SingleEvent-'.$token.'.pdf"')
-        ->addHeaderLine('Content-Length', strlen($fileContents));
+            ->addHeaderLine('Content-Type', 'application/pdf')
+            //->addHeaderLine('Content-Disposition', 'attachment; filename="SingleEvent-'.$token.'.pdf"')
+            ->addHeaderLine('Content-Length', strlen($fileContents));
 
         return $response;
     }

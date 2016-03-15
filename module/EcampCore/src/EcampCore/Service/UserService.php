@@ -5,13 +5,11 @@ namespace EcampCore\Service;
 use EcampCore\Acl\Privilege;
 use EcampCore\Entity\User;
 use EcampCore\Entity\Image;
-use EcampCore\Job\SendActivationMailJob;
+use EcampCore\Job\Mail\MailVerificationSenderJob;
 use EcampCore\Repository\UserRepository;
-
+use EcampCore\Validator\User\UniqueMailAddress;
 use EcampLib\Validation\ValidationException;
 use EcampLib\Service\ServiceBase;
-
-use Zend\Paginator\Paginator;
 
 class UserService
     extends ServiceBase
@@ -89,15 +87,74 @@ class UserService
         return $user;
     }
 
-    public function CreateActivationMail(User $user)
+    public function Update($userId, $data)
     {
-        $code = $user->createNewActivationCode();
-        SendActivationMailJob::Create($user, $code);
+        $user = $this->Get($userId);
+        $this->aclRequire($user, Privilege::USER_ADMINISTRATE);
+
+        $userValidationForm = $this->createValidationForm(
+            $user,
+            $data,
+            array_intersect(
+                array_keys($data),
+                array(
+                    'scoutname',
+                    'firstname',
+                    'surname',
+                    'street',
+                    'zipcode',
+                    'city',
+                    'homeNr',
+                    'mobilNr',
+                    'gender',
+                    'birthday',
+                    'ahv',
+                    'jsPersNr',
+                    'jsEdu',
+                    'pbsEdu'
+                )
+            )
+        );
+
+        if (!$userValidationForm->isValid()) {
+            throw ValidationException::FromForm($userValidationForm);
+        }
+
+        return $user;
     }
 
-    public function Update(User $user, $data)
+    public function UpdateEmail($userId, $email)
     {
-        return $user;
+        $user = $this->Get($userId);
+        $this->aclRequire($user, Privilege::USER_ADMINISTRATE);
+
+        $mailValidator = new \Zend\Validator\EmailAddress();
+        if (! $mailValidator->isValid($email)) {
+            throw new ValidationException(array('email' => $mailValidator->getMessages()));
+        }
+
+        $uniqueMail = new UniqueMailAddress($this->getEntityManager());
+        if (!$uniqueMail->isValid($email)) {
+            throw new ValidationException(array('email' => $uniqueMail->getMessages()));
+        }
+
+        $user->setUntrustedEmail($email);
+
+        // TODO: Trigger Event 'Untrusted-Email-Set'
+        // Move Mail-Creation into EventHandler
+        // MailVerificationSenderJob::Create($user);
+        return $user->createNewActivationCode();
+    }
+
+    public function VerifyEmail($userId, $verificationCode)
+    {
+        $user = $this->Get($userId);
+
+        if (!$user->verifyEmail($verificationCode)) {
+            throw ValidationException::Create(array('verificationCode' => array('Email verification failed')));
+        }
+
+        // Trigger Event 'Untrusted-Email-Verified'
     }
 
     public function Delete(User $user)
@@ -135,15 +192,4 @@ class UserService
         }
     }
 
-    /**
-     * Get all users and wrap in paginator
-     * @return \Zend\Paginator\Paginator
-     */
-    public function GetPaginator()
-    {
-        $query = $this->userRepo->createQueryBuilder("u");
-        $adapter = new \EcampCore\Paginator\Doctrine($query);
-
-        return new Paginator($adapter);
-    }
 }

@@ -4,6 +4,13 @@
             Info
         </a>
     </li>
+
+    <li class="{{ controller == 'Camps' ? 'active' : '' }}">
+        <a href="{{ userUrl(user, { 'controller': 'Camps' }) }}">
+            Camps
+        </a>
+    </li>
+
     {#
     <li class="{{ controller == 'Collaborations' ? 'active' : '' }}">
         <a href="{{ url('web/camp/default', { 'camp': camp, 'controller': 'Collaborations' }) }}">

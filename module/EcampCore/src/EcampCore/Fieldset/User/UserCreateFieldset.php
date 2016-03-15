@@ -4,8 +4,7 @@ namespace EcampCore\Fieldset\User;
 
 use Zend\InputFilter\InputFilterProviderInterface;
 
-class UserCreateFieldset extends UserBaseFieldset
-    implements InputFilterProviderInterface
+class UserCreateFieldset extends UserBaseFieldset implements InputFilterProviderInterface
 {
     public function __construct()
     {

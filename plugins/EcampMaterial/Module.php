@@ -17,7 +17,8 @@ class Module
         return array(
             'Zend\Loader\StandardAutoloader' => array(
                 'namespaces' => array(
-                    __NAMESPACE__ => __DIR__ . '/src/' . __NAMESPACE__,
+                    'EcampMaterial' => __DIR__ . '/src/EcampMaterial',
+                    'EcampMaterialTest' => __DIR__ . '/test/EcampMaterialTest',
                 ),
             ),
         );

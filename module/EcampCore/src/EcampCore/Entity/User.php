@@ -42,8 +42,8 @@ class User
     const ROLE_USER				= "User";
     const ROLE_ADMIN			= "Admin";
 
-    const GENDER_FEMALE			= true;
-    const GENDER_MALE 			= false;
+    const GENDER_MALE 			= 'male';
+    const GENDER_FEMALE			= 'female';
 
     const JSEDU_GRUPPENLEITER 	= "Gruppenleiter";
     const JSEDU_LAGERLEITER		= "Lagerleiter";
@@ -83,10 +83,16 @@ class User
     private $email;
 
     /**
+     * untrusted e-mail address
+     * @ORM\Column(type="string", length=64, nullable=true )
+     */
+    private $untrustedEmail;
+
+    /**
      * ActivationCode to verify eMail address
      * @ORM\Column(type="string", length=64, nullable=true)
      */
-    private $activationCode;
+    private $emailVerificationCode;
 
     /** @ORM\Column(type="string", length=32, nullable=true ) */
     private $scoutname;
@@ -118,7 +124,7 @@ class User
     /** @ORM\Column(type="string", length=32, nullable=true ) */
     private $ahv;
 
-    /** @ORM\Column(type="boolean", nullable=true) */
+    /** @ORM\Column(type="string", length=8, nullable=true) */
     private $gender;
 
     /** @ORM\Column(type="string", length=16, nullable=true ) */
@@ -203,6 +209,15 @@ class User
     public function setEmail( $email )
     {
         $this->email = $email; return $this;
+    }
+
+    public function getUntrustedEmail()
+    {
+        return $this->untrustedEmail;
+    }
+    public function setUntrustedEmail($untrustedEmail)
+    {
+        $this->untrustedEmail = $untrustedEmail; return $this;
     }
 
     /**
@@ -302,15 +317,15 @@ class User
     }
 
     /**
-     * @return date
+     * @return \DateTime
      */
     public function getBirthday()
     {
         return $this->birthday;
     }
-    public function setBirthday( $birthday )
+    public function setBirthday(\DateTime $birthday = null)
     {
-        $this->birthday = $birthday;
+        $this->birthday = $birthday ? clone $birthday : null;
     }
 
     /**
@@ -326,7 +341,7 @@ class User
     }
 
     /**
-     * @return boolean
+     * @return string
      */
     public function getGender()
     {
@@ -334,7 +349,7 @@ class User
     }
     public function setGender( $gender )
     {
-        $this->gender = (BOOLEAN) $gender;
+        $this->gender = $gender;
     }
 
     /**
@@ -475,7 +490,7 @@ class User
     public function createNewActivationCode()
     {
         $guid = hash('sha256', uniqid(md5(mt_rand()), true));
-        $this->activationCode = md5($guid);
+        $this->emailVerificationCode = md5($guid);
 
         return $guid;
     }
@@ -483,23 +498,36 @@ class User
     /**
      * @deprecated
      */
-    public function getActivationCode()
+    public function getEmailVerificationCode()
     {
-        return $this->activationCode;
+        return $this->emailVerificationCode;
     }
 
-    public function checkActivationCode($activationCode)
+    public function checkEmailVerificationCode($verificationCode)
     {
-        $code = md5($activationCode);
+        $code = md5($verificationCode);
 
-        return $code == $this->activationCode;
+        return $code == $this->emailVerificationCode;
     }
 
-    public function activateUser($activationCode)
+    public function verifyEmail($verificationCode)
     {
-        if ($this->checkActivationCode($activationCode)) {
+        if ($this->checkEmailVerificationCode($verificationCode)) {
+            $this->setEmail($this->getUntrustedEmail());
+            $this->setUntrustedEmail(null);
+            $this->emailVerificationCode = null;
+
+            return true;
+        }
+
+        return false;
+    }
+
+    public function activateUser($verificationCode)
+    {
+        if ($this->checkEmailVerificationCode($verificationCode)) {
             $this->state = self::STATE_ACTIVATED;
-            $this->activationCode = null;
+            $this->emailVerificationCode = null;
 
             return true;
         }
@@ -509,7 +537,7 @@ class User
 
     public function resetActivationCode()
     {
-        $this->activationCode = null;
+        $this->emailVerificationCode = null;
     }
 
     /**

@@ -15,10 +15,14 @@ class UserUrl extends AbstractHelper
         $this->url = $url;
     }
 
-    public function __invoke(User $user)
+    public function __invoke(User $user, $params = array(), $options = array(), $reuseMatchedParams = false)
     {
         $url = $this->url;
 
-        return $url('web/user-prefix/name', array('user' => $user));
+        if(!array_key_exists('user', $params)){
+            $params['user'] = $user;
+        }
+
+        return $url('web/user-prefix/name/default', $params, $options, $reuseMatchedParams);
     }
 }

@@ -25,6 +25,10 @@ return array(
 
     ),
 
+    'resque' => array(
+        'bin' => __VENDOR__ . '/bin/resque'
+    ),
+
     'router' => array(
         'routes' => array(
 
@@ -120,6 +124,13 @@ return array(
                     ),
                 ),
             ),
+        ),
+    ),
+
+    'translator' => array(
+        'remote_translation' => array(
+            /* add a remote translation loader for each text domain */
+            array('type' => 'BsbDoctrineTranslationLoader', 'text_domain' => 'default'),
         ),
     ),
 

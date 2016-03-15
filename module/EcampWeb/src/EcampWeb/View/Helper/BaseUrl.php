@@ -25,6 +25,19 @@ class BaseUrl extends Url
             }
         }
 
+        if (!isset($params['locale'])) {
+            /** @var \Zend\View\Renderer\PhpRenderer $view */
+            $view = $this->getView();
+
+            /** @var \Zend\I18n\View\Helper\Translate $translateHelper */
+            $translateHelper = $view->getHelperPluginManager()->get('Translate');
+
+            /** @var \Zend\I18n\Translator\Translator $translator */
+            $translator = $translateHelper->getTranslator();
+
+            $params['locale'] = $translator->getLocale();
+        }
+
         return parent::__invoke($name, $params, $options, $reuseMatchedParams);
     }
 }

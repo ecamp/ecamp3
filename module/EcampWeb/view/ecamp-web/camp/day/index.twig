@@ -1,5 +1,29 @@
 {% extends 'ecamp-web/camp/camp.twig' %}
 
+{% block ng_app %}ecamp-camp-day{% endblock %}
+
+{% block link %}
+    {{ parent() }}
+
+    <link href="{{ basePath('/vendor-assets/css/bootstrap.select.css') }}" media="screen" rel="stylesheet" type="text/css">
+{% endblock %}
+
+{% block script %}
+    {{ parent() }}
+
+    <script type="text/javascript" src="{{ basePath('/vendor-assets/js/bootstrap.select.js') }}"></script>
+
+    <script type="text/javascript" src="{{ basePath('/web-assets/js/modal-form.js') }}"></script>
+
+    <script type="text/javascript">
+        (function(){
+            angular.module('ecamp-camp-day', [
+                'ecamp-modal-form'
+            ]);
+        })();
+    </script>
+{% endblock %}
+
 
 {% block content %}
 
@@ -45,7 +69,7 @@
 	</div>
 	{% endif %}
 
-	<div class="row">
+	<div class="row" style="margin-bottom: 15px">
 		<div class="hidden-xs col-sm-2">
 			{% if prevDay != NULL %}
 				<a 	href="{{ url(
@@ -58,11 +82,13 @@
 					data-placement="bottom"
 					data-original-title="{{ prevDay.getStart() | date("d.m.Y") }}"
 				>
+                    <i class="fa fa-arrow-left"></i>
+                </a>
 			{% else %}
 				<a 	class="btn btn-default btn-block" disabled="disabled">
+                    <i class="fa fa-arrow-left"></i>
+                </a>
 			{% endif %}
-				<i class="fa fa-arrow-left"></i>
-			</a>
 		</div>
 		<div class="col-xs-12 col-sm-8">
 			<form action="{{url('web/camp/default',{ 'camp': camp, 'controller': 'day', 'action': 'index' })}}">
@@ -134,11 +160,13 @@
 					data-placement="bottom"
 					data-original-title="{{ nextDay.getStart() | date("d.m.Y") }}"
 				>
+                    <i class="fa fa-arrow-right"></i>
+                </a>
 			{% else %}
 				<a 	class="btn btn-default btn-block" disabled="disabled">
+                    <i class="fa fa-arrow-right"></i>
+                </a>
 			{% endif %}
-				<i class="fa fa-arrow-right"></i>
-			</a>
 		</div>
 	</div>
 
@@ -155,11 +183,13 @@
 					data-placement="bottom"
 					data-original-title="{{ prevDay.getStart() | date("d.m.Y") }}"
 				>
+                    <i class="fa fa-arrow-left"></i>
+                </a>
 			{% else %}
 				<a 	class="btn btn-default btn-block" disabled="disabled">
+                    <i class="fa fa-arrow-left"></i>
+                </a>
 			{% endif %}
-				<i class="fa fa-arrow-left"></i>
-			</a>
 		</div>
 		<div class="col-xs-6">
 			{% if nextDay != NULL %}
@@ -173,11 +203,13 @@
 					data-placement="bottom"
 					data-original-title="{{ nextDay.getStart() | date("d.m.Y") }}"
 				>
+                    <i class="fa fa-arrow-right"></i>
+                </a>
 			{% else %}
 				<a 	class="btn btn-default btn-block" disabled="disabled">
+                    <i class="fa fa-arrow-right"></i>
+                </a>
 			{% endif %}
-				<i class="fa fa-arrow-right"></i>
-			</a>
 		</div>
 	</div>
 
@@ -326,17 +358,17 @@
 									<!--
 									 Options
 									 -->
-									 <button
-										type="button"
-										class="btn btn-sm btn-success pull-right"
-										data-toggle="modal"
-										data-target="#asyncform-container"
-										href="{{ url(
-											'web/camp/default',
-											{'camp': camp, 'controller':'day', 'action' : 'addEvent' },
-											{ 'query': { 'dayId': day.getId() } }
-										) }}"
-									><i class="fa fa-plus"></i> Event</button>
+                                         <button
+                                             async-modal
+                                             class="btn btn-sm btn-success pull-right"
+                                             data-size="md"
+                                             type="button"
+                                             href="{{ url(
+                                                'web/camp/default',
+                                                {'camp': camp, 'controller':'day', 'action' : 'addEvent' },
+                                                { 'query': { 'dayId': day.getId() } }
+                                            ) }}"
+                                         ><i class="fa fa-plus"></i> Event</button>
 
 									</th>
 								</tr>

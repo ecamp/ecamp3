@@ -8,10 +8,8 @@ class PeriodServiceFactory
     implements FactoryInterface
 {
     /**
-     *
-     * @param  ServiceLocatorInterface              $services
-     * @return GroupService
-     * @throws Exception\ServiceNotCreatedException
+     * @param  ServiceLocatorInterface $services
+     * @return PeriodService
      */
     public function createService(ServiceLocatorInterface $services)
     {

@@ -2,11 +2,13 @@
  * Created by pirmin on 13.11.14.
  */
 
-(function(ngApp) {
+(function() {
+
+    var module = angular.module('ecamp.contextmenu', []);
 
     var pointerEvents = 'contextmenu';
 
-    ngApp.directive('contextmenuMenu', ['$window', '$parse', function($window, $parse){
+    module.directive('contextmenuMenu', ['$window', '$parse', function($window, $parse){
 
         var $window = angular.element($window);
 
@@ -76,7 +78,7 @@
         }
     }]);
 
-    ngApp.directive('contextmenuContainer', ['$parse', function($parse){
+    module.directive('contextmenuContainer', ['$parse', function($parse){
         return {
             restrict: 'A',
             scope: false,
@@ -86,7 +88,7 @@
         }
     }]);
 
-    ngApp.directive('contextmenuItem', [function(){
+    module.directive('contextmenuItem', [function(){
         return {
             restrict: 'A',
             require: '^contextmenuContainer',
@@ -116,4 +118,4 @@
         }
     }]);
 
-}(window.ecamp.ngApp));
+})();

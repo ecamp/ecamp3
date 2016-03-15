@@ -51,12 +51,11 @@ class Job
      */
     protected $jobResps;
 
-    public function __construct(Camp $camp, $name)
+    public function __construct(Camp $camp)
     {
         parent::__construct();
 
         $this->camp = $camp;
-        $this->name = $name;
 
         $this->jobResps = new \Doctrine\Common\Collections\ArrayCollection();
     }
@@ -78,6 +77,14 @@ class Job
     }
 
     /**
+     * @param $name
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
+
+    /**
      * @return \Doctrine\Common\Collections\ArrayCollection
      */
     public function getJobResps()
@@ -85,9 +92,19 @@ class Job
         return $this->jobResps;
     }
 
+    public function getJobRespsByDay(Day $day)
+    {
+        $filter = function(JobResp $jobResp) use ($day) {
+            return $jobResp->getDay() == $day;
+        };
+
+        return $this->jobResps->filter($filter);
+    }
+
     /**
-     * @param  User    $user
-     * @return boolean
+     * @param  Day  $day
+     * @param  User $user
+     * @return bool
      */
     public function isUserResp(Day $day, User $user)
     {

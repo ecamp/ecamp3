@@ -74,14 +74,14 @@ class CampRepository
             $q->setParameter('search', '%' . $search . '%');
         }
 
-        $exprFutureCamp = $q->expr()->exists(
-                "select 			1
-                     from 				EcampCore\Entity\Period p
-                     left outer join   	EcampCore\Entity\Day d with d.period = p
-                     where 				p.camp = c
-                     group by 			p.id, p.start
-                     having 			DATE_ADD(p.start, count(d.id), 'day') > CURRENT_DATE()"
-        );
+        $exprFutureCamp = $q->expr()->exists("
+            select 			1
+            from 			EcampCore\Entity\Period p
+            left outer join EcampCore\Entity\Day d with d.period = p
+            where 			p.camp = c
+            group by 		p.id, p.start
+            having 			DATE_ADD(p.start, count(d.id), 'day') > CURRENT_DATE()
+        ");
 
         if (isset($criteria['mode']) && !is_null($criteria['mode'])) {
             $mode = $criteria['mode'];
@@ -145,6 +145,7 @@ class CampRepository
     public function findUpcomingCamps(AbstractCampOwner $owner)
     {
         $q = $this->createQueryBuilder('c');
+        $q->leftJoin('c.periods', 'cp');
         $q->where($q->expr()->exists("
             select    1
             from      EcampCore\Entity\Period p
@@ -154,6 +155,8 @@ class CampRepository
             having    DATE_ADD(p.start, count(d.id), 'day') > CURRENT_DATE()
         "));
         $q->andWhere("c.owner = :owner");
+        $q->groupBy('c.id');
+        $q->orderBy('cp.start', 'ASC');
         $q->setParameter('owner', $owner);
 
         return $q->getQuery()->getResult();
@@ -162,8 +165,9 @@ class CampRepository
     public function findPastCamps(AbstractCampOwner $owner)
     {
         $q = $this->createQueryBuilder('c');
+        $q->leftJoin('c.periods', 'cp');
         $q->where($q->expr()->not(
-                $q->expr()->exists("
+            $q->expr()->exists("
                 select    1
                 from      EcampCore\Entity\Period p
                 join      EcampCore\Entity\Day d with d.period = p
@@ -173,6 +177,8 @@ class CampRepository
             ")
         ));
         $q->andWhere("c.owner = :owner");
+        $q->groupBy('c.id');
+        $q->orderBy('cp.start', 'DESC');
         $q->setParameter('owner', $owner);
 
         return $q->getQuery()->getResult();

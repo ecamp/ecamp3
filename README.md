@@ -1,3 +1,6 @@
+[![Build Status](https://travis-ci.org/ecamp/ecamp3.svg?branch=devel)](https://travis-ci.org/ecamp/ecamp3)
+[![Coverage Status](https://coveralls.io/repos/ecamp/ecamp3/badge.svg?branch=devel)](https://coveralls.io/r/ecamp/ecamp3?branch=devel)
+
 eCamp3
 =======================
 

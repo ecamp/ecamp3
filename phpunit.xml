@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<phpunit bootstrap="test/Bootstrap.php" colors="true">
+	<php>
+        <ini name="memory_limit" value="100M" />
+        <ini name="display_errors" value="1" />
+
+        <env name="env" value="test"/>
+    </php>
+
+    <testsuites>
+        <testsuite name="eCampCore">
+            <!--
+            <directory suffix='.php'>module/EcampCore/test/</directory>
+            -->
+
+            <file>module/EcampCore/test/EcampCoreTest/Entity/CampTypeTest.php</file>
+            <file>module/EcampCore/test/EcampCoreTest/Entity/EventTypeTest.php</file>
+
+            <file>module/EcampCore/test/EcampCoreTest/Entity/CampTest.php</file>
+            <file>module/EcampCore/test/EcampCoreTest/Entity/PeriodTest.php</file>
+            <file>module/EcampCore/test/EcampCoreTest/Entity/DayTest.php</file>
+
+            <file>module/EcampCore/test/EcampCoreTest/Entity/EventCategoryTest.php</file>
+            <file>module/EcampCore/test/EcampCoreTest/Entity/JobTest.php</file>
+            <file>module/EcampCore/test/EcampCoreTest/Entity/JobRespsTest.php</file>
+
+            <file>module/EcampCore/test/EcampCoreTest/Service/CampCollaborationServiceTest.php</file>
+            <!--
+            -->
+        </testsuite>
+    </testsuites>
+
+
+    <filter>
+        <whitelist>
+            <directory>module/EcampCore/src</directory>
+        </whitelist>
+    </filter>
+
+
+    <logging>
+        <log
+        	type="coverage-html"
+        	charset="UTF-8"
+        	yui="true"
+        	highlight="true"
+        	target="data/EcampCoreTest/coverage"
+        />
+    </logging>
+
+</phpunit>

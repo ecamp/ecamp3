@@ -63,7 +63,7 @@ class Period
     private $camp;
 
     /**
-     * @ORM\Column(type="text", nullable=true )
+     * @ORM\Column(type="string", length=128, nullable=true )
      */
     private $description;
 
@@ -206,11 +206,31 @@ class Period
     }
 
     /**
+     * @param  null                                         $minDateTime
+     * @param  null                                         $maxDateTime
      * @return \Doctrine\Common\Collections\ArrayCollection
      */
-    public function getEventInstances()
+    public function getEventInstances($minDateTime = null, $maxDateTime = null)
     {
-        return $this->eventInstances;
+        $eventInstances = $this->eventInstances;
+
+        if ($minDateTime != null) {
+            $eventInstances = $eventInstances->filter(
+                function(EventInstance $eventInstance) use ($minDateTime) {
+                    return $eventInstance->getEndTime() > $minDateTime;
+                }
+            );
+        }
+
+        if ($maxDateTime != null) {
+            $eventInstances = $eventInstances->filter(
+                function(EventInstance $eventInstance) use ($maxDateTime) {
+                    return $eventInstance->getStartTime() < $maxDateTime;
+                }
+            );
+        }
+
+        return $eventInstances;
     }
 
     /**

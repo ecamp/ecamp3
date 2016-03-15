@@ -3,40 +3,83 @@
 {% block content %}
 
     <div class="row">
-        <div class="col-sm-7">
+        <div class="col-sm-6 col-sm-push-6">
             {% embed "helper/accordion.twig" %}
                 {% block panel_title %}
-                    Infos
+                    Foto
                 {% endblock %}
                 {% block panel_content %}
-                    <form class="form-horizontal form-show" role="form">
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label" for="group-name">Username:</label>
-                            <div class="col-sm-9">
-                                <p class="form-control-static">{{ user.username }}</p>
-                            </div>
+                    {% if user.image != null %}
+                        <div style="margin-bottom: 15px">
+                            <img
+                                style="max-height: 185px;"
+                                src="{{ url('api/users/image', { 'user': user.id }, { 'query': { 'show': '' } }) }}"
+                            />
                         </div>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label" for="group-name">Scoutname:</label>
-                            <div class="col-sm-9">
-                                <p class="form-control-static">{{ user.scoutname }}</p>
-                            </div>
+                    {% else %}
+                        <div style="text-align: center">
+                            <i class="fa fa-user" style="font-size: 200px"></i>
                         </div>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label" for="group-name">Firstname:</label>
-                            <div class="col-sm-9">
-                                <p class="form-control-static">{{ user.firstname }}</p>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label" for="group-name">Surname:</label>
-                            <div class="col-sm-9">
-                                <p class="form-control-static">{{ user.surname }}</p>
-                            </div>
-                        </div>
-                    </form>
+                    {% endif %}
+                {% endblock %}
+            {% endembed %}
+        </div>
+
+        <div class="col-sm-6 col-sm-pull-6">
+            {% embed "helper/accordion.twig" %}
+                {% block panel_title %}
+                    Adress
+                {% endblock %}
+                {% block panel_content %}
+                    <div class="col-xs-12">
+                        {{ user.firstname }} {{ user.surname }}
+                        {% if user.scoutname is not empty %}
+                        / {{ user.scoutname }}
+                        {% endif %}
+                    </div>
+                    <div class="col-xs-12">
+                        {{ user.street }}
+                    </div>
+                    <div class="col-xs-12">
+                        {{ user.zipcode }} {{ user.city }}
+                    </div>
+                {% endblock %}
+            {% endembed %}
+
+            {% embed "helper/accordion.twig" %}
+                {% block panel_title %}
+                    Contact
+                {% endblock %}
+                {% block panel_content %}
+                    <div class="col-xs-12">
+                        <a href="mailto:{{ user.email }}">{{ user.email }}</a>
+                    </div>
+                    <div class="col-xs-12">
+                        <a href="tel:{{ user.homeNr }}">{{ user.homeNr }}</a>
+                    </div>
+                    <div class="col-xs-12">
+                        <a href="tel:{{ user.mobileNr }}">{{ user.mobileNr }}</a>
+                    </div>
+                {% endblock %}
+            {% endembed %}
+
+            {% embed "helper/accordion.twig" %}
+                {% block panel_title %}
+                    Education
+                {% endblock %}
+                {% block panel_content %}
+                    <div class="col-xs-12">
+                        {{ user.jsPersNr }}
+                    </div>
+                    <div class="col-xs-12">
+                        {{ user.jsEdu }}
+                    </div>
+                    <div class="col-xs-12">
+                        {{ user.pbsEdu }}
+                    </div>
                 {% endblock %}
             {% endembed %}
         </div>
     </div>
+
 {% endblock %}

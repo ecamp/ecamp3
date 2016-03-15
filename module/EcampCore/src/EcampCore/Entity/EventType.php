@@ -27,25 +27,35 @@ use EcampLib\Entity\BaseEntity;
 
 /**
  * EventType
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="EcampCore\Repository\EventTypeRepository")
  * @ORM\Table(name="event_types")
  * @ORM\HasLifecycleCallbacks
  */
 class EventType extends BaseEntity
 {
 
-    public function __construct()
+    public function __construct($name, $defaultColor, $defaultNumberingStyle)
     {
         parent::__construct();
 
+        $this->name = $name;
+        $this->defaultColor = $defaultColor;
+        $this->defaultNumberingStyle = $defaultNumberingStyle;
+
         $this->campTypes = new \Doctrine\Common\Collections\ArrayCollection();
         $this->eventTypePlugins = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->eventTypeFactories = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
      * @ORM\Column(type="string", length=64, nullable=false)
      */
     private $name;
+
+    /**
+     * @ORM\Column(type="string", length=32, nullable=false)
+     */
+    private $type;
 
     /**
      * @ORM\Column(type="string", length=8, nullable=false)
@@ -87,6 +97,19 @@ class EventType extends BaseEntity
     public function getName()
     {
         return $this->name;
+    }
+
+    public function setType($type)
+    {
+        $this->type = $type;
+    }
+
+    /**
+     * @return string
+     */
+    public function getType()
+    {
+        return $this->type;
     }
 
     /**

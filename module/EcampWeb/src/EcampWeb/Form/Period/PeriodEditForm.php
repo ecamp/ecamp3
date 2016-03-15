@@ -55,7 +55,6 @@ class PeriodEditForm extends AjaxBaseForm
             ),
             'attributes' => array(
                 'checked' => 'checked',
-                'class' => 'col-sm-push-3'
             ),
             'type' => 'Checkbox'
         ));

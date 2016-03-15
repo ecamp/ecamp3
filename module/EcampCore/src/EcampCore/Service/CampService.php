@@ -76,7 +76,7 @@ class CampService
         $this->aclRequire($camp, Privilege::CAMP_CONFIGURE);
 
         $campValidationForm = $this->createValidationForm(
-            $camp, $data, array_intersect(array_keys($data), array('title', 'motto')));
+            $camp, $data, array_intersect(array_keys($data), array('title', 'motto', 'printConfig')));
 
         if (!$campValidationForm->isValid()) {
             throw ValidationException::FromForm($campValidationForm);
@@ -106,6 +106,7 @@ class CampService
 
         $camp->setCreator($this->getMe());
 
+        /*
         try {
             $periodData = $data['period'];
             $periodData['description'] = $data['name'];
@@ -114,6 +115,7 @@ class CampService
         } catch (ValidationException $ex) {
             throw ValidationException::FromInnerException('period', $ex);
         }
+        */
 
         $this->persist($camp);
         $this->persist($campCollaboration);

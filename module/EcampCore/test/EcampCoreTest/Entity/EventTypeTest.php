@@ -4,25 +4,33 @@ namespace EcampCoreTest\Entity;
 
 use EcampCore\Entity\EventType;
 use EcampCore\Entity\CampType;
+use OutOfRangeException;
 
 class EventTypeTest extends \PHPUnit_Framework_TestCase
 {
 
-    public function testEventType()
+    private function createEventType()
     {
         $campType = new CampType('name', 'type');
-        $eventType = new EventType($campType);
+        $eventType = new EventType('EventType Name', '#FF00FF', 'i');
+        $eventType->getCampTypes()->add($campType);
 
-        $eventType->setName('any event type');
-        $eventType->setDefaultColor('any default color');
-        $eventType->setDefaultNumberingStyle('i');
+        return $eventType;
+    }
 
-        $this->assertEquals('any event type', $eventType->getName());
-        $this->assertEquals('any default color', $eventType->getDefaultColor());
+    public function testEventType()
+    {
+        $eventType = $this->createEventType();
+
+        $this->assertEquals('EventType Name', $eventType->getName());
+        $this->assertEquals('#FF00FF', $eventType->getDefaultColor());
         $this->assertEquals('i', $eventType->getDefaultNumberingStyle());
-        $this->assertEquals($campType, $eventType->getCampType());
 
-        $this->assertInstanceOf('Doctrine\Common\Collections\ArrayCollection', $eventType->getEventPrototypes());
+        $this->assertEquals('name', $eventType->getCampTypes()->get(0)->getName());
+
+        $this->assertInstanceOf('Doctrine\Common\Collections\ArrayCollection', $eventType->getCampTypes());
+        $this->assertInstanceOf('Doctrine\Common\Collections\ArrayCollection', $eventType->getEventTypePlugins());
+        $this->assertInstanceOf('Doctrine\Common\Collections\ArrayCollection', $eventType->getEventTypeFactories());
     }
 
     /**
@@ -30,10 +38,7 @@ class EventTypeTest extends \PHPUnit_Framework_TestCase
      */
     public function testNumberStyle()
     {
-        $campType = new CampType('name', 'type');
-        $eventType = new EventType($campType);
-
-        $eventType->setDefaultNumberingStyle('x');
+        $this->createEventType()->setDefaultNumberingStyle('x');
     }
 
 }

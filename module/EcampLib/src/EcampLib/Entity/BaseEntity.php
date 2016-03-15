@@ -106,6 +106,10 @@ abstract class BaseEntity
      */
     protected function addToList($listProperty, $element)
     {
+        if($this instanceof \Doctrine\Common\Persistence\Proxy){
+            $this->__load();
+        }
+
         if (property_exists($this, $listProperty)) {
             /* @var $list \Doctrine\Common\Collections\ArrayCollection */
             $list = $this->{$listProperty};
@@ -125,6 +129,10 @@ abstract class BaseEntity
      */
     protected function removeFromList($listProperty, $element)
     {
+        if($this instanceof \Doctrine\Common\Persistence\Proxy){
+            $this->__load();
+        }
+
         $methodName = 'get' . ucfirst($listProperty);
 
         if (method_exists($this, $methodName)) {

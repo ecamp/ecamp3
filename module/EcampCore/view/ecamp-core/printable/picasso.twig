@@ -1,0 +1,200 @@
+{% set dayPerPage = 4 %}
+{% set dayWidth = 235 %}
+{% set timelineWidth = 150 %}
+{% set dayStartHour = (dayStart / 60)|round(0, 'floor')  %}
+{% set dayEndHour = (dayEnd / 60)|round(0, 'ceil') %}
+{% set height = 100 / (dayEndHour - dayStartHour) %}
+
+
+{% set pages = ((period.days | length) / dayPerPage) | round(0, 'ceil') %}
+{% for pageNr in range(0, pages - 1) %}
+    {% set days = period.days | slice(pageNr * dayPerPage, dayPerPage ) %}
+
+    <div class="page">
+        <div style=" width: {{ timelineWidth + (days | length) * dayWidth }}px; height: 400mm; position: relative">
+
+            <div class="picasso-timetable">
+                <!-- Begin Timeline -->
+                <div class="picasso-timeline-left">
+                    <div class="full-height-container picasso-timeline" style="width: {{ timelineWidth }}px;">
+
+                        <div class="full-height-header" style="height: 70px;">
+                            <div style="text-align: center; height: 70px; padding-top: 6px;">Zeit</div>
+                        </div>
+
+                        <div class="full-height-body">
+                            <div style="display: table-cell; position: relative">
+                                {% for time in range(dayStartHour, dayEndHour - 1) %}
+                                    {% if time is even %}
+                                        <div class="picasso-timeline-slot-even" style="top: {{ loop.index0 * height }}%; height: {{ height }}%;">
+                                            <div class="picasso-timeslot" >
+                                                <div style="font-size: 18px; margin: 5px 0 10px 0;">
+                                                    {{ (time * 3600 + 0000)|date("H:i") }} - {{ (time * 3600 + 1800)|date("H:i") }}
+                                                </div>
+                                                <div style="font-size: 18px; margin: 10px 0 5px 0;">
+                                                    {{ (time * 3600 + 1800)|date("H:i") }} - {{ (time * 3600 + 3600)|date("H:i") }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% else %}
+                                        <div class="picasso-timeline-slot-odd" style="top: {{ loop.index0 * height }}%; height: {{ height }}%;">
+                                            <div class="picasso-timeslot">
+                                                <div style="font-size: 18px; margin: 5px 0 10px 0;">
+                                                    {{ (time * 3600 + 0000)|date("H:i") }} - {{ (time * 3600 + 1800)|date("H:i") }}
+                                                </div>
+                                                <div style="font-size: 18px; margin: 10px 0 5px 0;">
+                                                    {{ (time * 3600 + 1800)|date("H:i") }} - {{ (time * 3600 + 3600)|date("H:i") }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <!-- End Timeline -->
+
+                <!-- Begin Picasso-Body -->
+                <div class="picasso-body" style="left: {{ timelineWidth }}px;">
+
+                    <!-- Begin Timeline-Strips -->
+                    <div class="full-height-container picasso-timestrips">
+                        <div class="full-height-header" style="height: 70px;">
+                            <div style="text-align: center; height: 70px;"></div>
+                        </div>
+                        <div class="full-height-body">
+                            <div style="display: table-cell; position: relative">
+                                {% for time in range(dayStartHour, dayEndHour - 1) %}
+                                    {% if time is even %}
+                                        <div class="picasso-timeline-slot-even" style="top: {{ loop.index0 * height }}%; height: {{ height }}%;"></div>
+                                    {% else %}
+                                        <div class="picasso-timeline-slot-odd" style="top: {{ loop.index0 * height }}%; height: {{ height }}%;"></div>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End Timeline-Strips -->
+
+
+                    <div style="position: absolute; left: 0; right: 0; top:0; bottom: 0;">
+                        <!-- Begin Days -->
+                        <div class="full-height-container picasso-days">
+                            {% for day in days %}
+                                <div class="picasso-date" style="left: {{ loop.index0 * dayWidth }}px; width: {{ dayWidth }}px">
+                                    {% if loop.index is even %}
+                                        <div class="picasso-date-background-even"></div>
+                                    {% else %}
+                                        <div class="picasso-date-background-odd"></div>
+                                    {% endif %}
+
+                                    <div class="picasso-date-header" style="padding-top: 6px">{{ day.start|date('d. M') }}</div>
+                                </div>
+
+                                <div class="picasso-day" style="left: {{ loop.index0 * dayWidth }}px; width: {{ dayWidth }}px">
+                                    <div style="text-align: center">[resp]</div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                        <!-- End Days -->
+
+
+                        <!-- Begin EventInstances -->
+                        <div class="full-height-container">
+                            <div class="full-height-header" style="height: 70px;"></div>
+                            <div class="full-height-body">
+                                <div class="event-instances" style="position: relative; height: 100%;">
+                                    {% for day in days %}
+                                        {% set dayStartDate = day.start|date_modify("+" ~ dayStart ~ " min") %}
+                                        {% set dayEndDate = day.start|date_modify("+" ~ dayEnd ~ " min") %}
+
+                                        {% set dayStartOffset = day.dayOffset * 1440 + dayStart %}
+                                        {% set dayEndOffset = day.dayOffset * 1440 + dayEnd %}
+
+                                        {% for eventInstance in period.getEventInstances(dayStartDate, dayEndDate) %}
+                                            {% set isStart = eventInstance.minOffsetStart >= day.dayOffset * 1440 + dayStart %}
+                                            {% set isEnd = eventInstance.minOffsetEnd <= day.dayOffset * 1440 + dayEnd %}
+
+                                            {% set eventLeft = ((day.dayOffset % dayPerPage) + eventInstance.leftOffset) * dayWidth  %}
+                                            {% set eventWidth = eventInstance.width * dayWidth %}
+
+                                            {% set eventTop = isStart ? 100 * (eventInstance.minOffsetStart - dayStartOffset) / (dayEnd - dayStart) : 0 %}
+                                            {% set eventHeight = (isEnd ? 100 * (eventInstance.minOffsetEnd - dayStartOffset) / (dayEnd - dayStart) : 100) - eventTop %}
+
+                                            <div
+                                                class="event-instance"
+                                                style="
+                                                    position: absolute;
+                                                    left: {{ eventLeft }}px;
+                                                    width: {{ eventWidth }}px;
+                                                    top: {{ eventTop }}%;
+                                                    height: {{ eventHeight }}%
+                                                "
+                                            >
+                                                <div
+                                                    class="event-instance-background"
+                                                    style="
+                                                        position: absolute;
+                                                        left: 0;
+                                                        right: 0;
+                                                        top: 0;
+                                                        bottom: 0;
+                                                        border-left: solid black 1px;
+                                                        border-right: solid black 1px;
+                                                        border-top: {{ isStart ? 'solid black 1px' : 'dashed black 1px' }};
+                                                        border-bottom: {{ isEnd ? 'solid black 1px' : 'dashed black 1px' }};
+                                                        border-top-left-radius: {{ isStart ? '15px' : '0' }};
+                                                        border-top-right-radius: {{ isStart ? '15px' : '0' }};
+                                                        border-bottom-left-radius: {{ isEnd ? '15px' : '0' }};
+                                                        border-bottom-right-radius: {{ isEnd ? '15px' : '0' }};
+                                                        background-color: {{ eventInstance.event.eventCategory.color }};
+                                                        opacity: 0.8;
+                                                    "
+                                                >
+                                                </div>
+
+                                                <div class="picasso-eventview-title">
+                                                    <a
+                                                        href="#EVENT{{ eventInstance.event.id }}"
+                                                        class="event-link"
+                                                        style="
+                                                            font-size: {{ isStart ? '22px' : '16px' }};
+                                                            opacity: {{ isStart ? '1' : '0.4' }};
+                                                        "
+                                                    >
+                                                        {{ eventInstance.event.eventCategory.short }}
+                                                        {{ eventInstance.eventNumber }}:
+                                                        {{ eventInstance.event.title }}
+                                                    </a>
+                                                    <p
+                                                        style="
+                                                            font-size: {{ isStart ? '16px' : '12px' }};
+                                                            opacity: {{ isStart ? '1' : '0.4' }};
+                                                        "
+                                                    >
+                                                        {% for eventResp in eventInstance.event.eventResps %}
+                                                            {{ loop.first ? '[' : '' }}{{ eventResp.user.displayName }}{{ loop.last ? ']' : ', ' }}
+                                                        {% endfor %}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                        <!-- End EventInstances -->
+
+                    </div>
+                </div>
+                <!-- End Picasso-Body -->
+
+            </div>
+        </div>
+    </div>
+    <div class="clearfix"></div>
+    <div class="page-break"></div>
+
+{% endfor %}

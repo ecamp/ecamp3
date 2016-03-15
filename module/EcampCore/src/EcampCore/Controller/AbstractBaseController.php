@@ -4,32 +4,88 @@ namespace EcampCore\Controller;
 
 use EcampCore\Entity\Medium;
 
+/**
+ * @method \EcampCore\Repository\UserRepository getUserRepository()
+ * @method \EcampCore\Repository\CampRepository getCampRepository()
+ * @method \EcampCore\Repository\GroupRepository getGroupRepository()
+ *
+ * @method \EcampCore\Service\UserService getUserService()
+ * @method \EcampCore\Service\CampService getCampService()
+ * @method \EcampCore\Service\GroupService getGroupService()
+ */
 abstract class AbstractBaseController extends \EcampLib\Controller\AbstractBaseController
 {
+    /**
+     * @return \EcampCore\Repository\UserRepository
+     */
+    protected function getUserRepository()
+    {
+        return $this->getServiceLocator()->get('EcampCore\Repository\User');
+    }
+
+    /**
+     * @return \EcampCore\Repository\CampRepository
+     */
+    protected function getCampRepository()
+    {
+        return $this->getServiceLocator()->get('EcampCore\Repository\Camp');
+    }
+
+    /**
+     * @return \EcampCore\Repository\GroupRepository
+     */
+    protected function getGroupRepository()
+    {
+        return $this->getServiceLocator()->get('EcampCore\Repository\Group');
+    }
+
+    private $repoPattern = "/^get(\w+)Repository$/";
+    private $servicePattern = "/^get(\w+)Service$/";
+
+    public function __call($method, $params)
+    {
+        $matches = null;
+
+        if (preg_match($this->repoPattern, $method, $matches)) {
+            $name = 'EcampCore\Repository\\' . $matches[1];
+            if ($this->getServiceLocator()->has($name)) {
+                return $this->getServiceLocator()->get($name);
+            }
+        }
+
+        if (preg_match($this->servicePattern, $method, $matches)) {
+            $name = 'EcampCore\Service\\' . $matches[1];
+            if ($this->getServiceLocator()->has($name)) {
+                return $this->getServiceLocator()->get($name);
+            }
+        }
+
+        return parent::__call($method, $params);
+    }
 
     /**
      * @return \EcampCore\Service\UserService
      */
-    protected function getUserService()
-    {
-        return $this->getServiceLocator()->get('EcampCore\Service\User');
-    }
+//    protected function getUserService()
+//    {
+//        return $this->getServiceLocator()->get('EcampCore\Service\User');
+//    }
 
     /**
      * @return \EcampCore\Service\CampService
      */
-    protected function getCampService()
-    {
-        return $this->getServiceLocator()->get('EcampCore\Service\Camp');
-    }
+//    protected function getCampService()
+//    {
+//        return $this->getServiceLocator()->get('EcampCore\Service\Camp');
+//    }
 
     /**
      * @return \EcampCore\Service\GroupService
      */
-    protected function getGroupService()
-    {
-        return $this->getServiceLocator()->get('EcampCore\Service\Group');
-    }
+//    protected function getGroupService()
+//    {
+//        return $this->getServiceLocator()->get('EcampCore\Service\Group');
+//    }
 
     /**
      * @return \EcampCore\Entity\User
@@ -90,7 +146,7 @@ abstract class AbstractBaseController extends \EcampLib\Controller\AbstractBaseC
     }
 
     /**
-     * @return \EcampCore\Entity\User
+     * @return \EcampCore\Entity\Camp
      */
     protected function getQueryCamp($qry = 'camp')
     {

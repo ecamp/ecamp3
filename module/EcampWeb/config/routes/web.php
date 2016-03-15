@@ -1,12 +1,17 @@
 <?php
 return array(
-    'type'    => 'Literal',
+    'type'    => 'Segment',
     'options' => array(
-        'route'    => '/web',
+        'route'    => '/web[/:locale]',
         'defaults' => array(
+            'module'        => 'EcampWeb',
             'controller'    => 'Index',
             'action'        => 'index',
+            'locale'        => 'en',
             '__NAMESPACE__' => 'EcampWeb\Controller',
+        ),
+        'constraints' => array(
+            'locale' => '[a-z]{2}',
         ),
     ),
     'may_terminate' => true,
@@ -31,19 +36,44 @@ return array(
                     '__NAMESPACE__' => 'EcampWeb\Controller\Auth',
                     'controller' => 'Login' ,
                     'action' => 'login',
-                )
+                ),
+                'constraints' => array(
+                    'action'    => '[a-zA-Z][a-zA-Z0-9_-]*',
+                ),
             )
         ),
 
         'register' => array(
             'type' => 'Segment',
             'options' => array(
-                'route' => '/register[/:action]',
+                'route' => '/register[/:action[/:id/:key]]',
                 'defaults' => array(
                     '__NAMESPACE__' => 'EcampWeb\Controller\Auth',
                     'controller' => 'Register' ,
                     'action' => 'register',
-                )
+                ),
+                'constraints' => array(
+                    'action'    => '[a-zA-Z][a-zA-Z0-9_-]*',
+                    'id'        => '[a-f0-9]+',
+                    'key'       => '[a-f0-9]+',
+                ),
+            )
+        ),
+
+        'profile' => array(
+            'type' => 'Segment',
+            'options' => array(
+                'route' => '/profile[/:action[/:id/:key]]',
+                'defaults' => array(
+                    '__NAMESPACE__' => 'EcampWeb\Controller\Profile',
+                    'controller' => 'Index' ,
+                    'action' => 'index',
+                ),
+                'constraints' => array(
+                    'action'    => '[a-zA-Z][a-zA-Z0-9_-]*',
+                    'id'        => '[a-f0-9]+',
+                    'key'       => '[a-f0-9]+',
+                ),
             )
         ),
 
@@ -169,6 +199,7 @@ return array(
                     'action'     => '[a-zA-Z][a-zA-Z0-9_-]*',
                 ),
                 'defaults' => array(
+                    'module'        => 'EcampWeb',
                     '__NAMESPACE__' => 'EcampWeb\Controller\Camp',
                     'action'    	=> 'index',
                 ),

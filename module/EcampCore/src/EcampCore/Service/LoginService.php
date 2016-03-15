@@ -8,7 +8,6 @@ use EcampCore\Entity\Login;
 use EcampCore\Repository\AutoLoginRepository;
 use EcampCore\Repository\LoginRepository;
 use EcampCore\Repository\UserRepository;
-use EcampLib\Service\ExecutionException;
 use EcampLib\Service\ServiceBase;
 use EcampLib\Validation\ValidationException;
 use Zend\Authentication\AuthenticationService;
@@ -42,12 +41,20 @@ class LoginService
     }
 
     /**
-     * @return Login | NULL
+     * @param  null       $login
+     * @return Login|NULL
      */
-    public function Get()
+    public function Get($login = null)
     {
-        $user = $this->getMe();
+        if (isset($login)) {
+            if ($login instanceof Login) {
+                return $login;
+            } else {
+                return $this->loginRepository->find($login);
+            }
+        }
 
+        $user = $this->getMe();
         if (!is_null($user)) {
             return $user->getLogin();
         }
@@ -57,9 +64,9 @@ class LoginService
 
     /**
      * @param User $user
-     * @param $userInput
+     * @param $data
      * @return Login
-     * @throws \EcampLib\Service\ExecutionException
+     * @throws ValidationException
      */
     public function Create(User $user, $data)
     {
@@ -68,8 +75,7 @@ class LoginService
             throw new ValidationException(array('user' => "User has already a Login"));
         }
 
-        $login = new Login($user);
-        $login->setNewPassword($data['password1']);
+        $login = new Login($user, $data['password1']);
         $this->persist($login);
 
         return $login;
@@ -88,6 +94,8 @@ class LoginService
     }
 
     /**
+     * @param $identifier
+     * @param $password
      * @return \Zend\Authentication\Result
      */
     public function Login($identifier, $password)
@@ -115,41 +123,10 @@ class LoginService
         $authService->clearIdentity();
     }
 
-    public function ResetPassword($pwResetKey, Params $params)
+    public function ChangePassword($login, $oldPassword, $newPassword)
     {
-        $login = $this->getLoginByResetKey($pwResetKey);
-        $loginValidator = new \EcampCore\Validate\LoginValidator($login);
-
-        if (is_null($login)) {
-            $this->addValidationMessage("No Login found for given PasswordResetKey");
-        }
-
-        $this->validationFailed(
-            ! $loginValidator->isValid($params));
-
-        $login->setNewPassword($params->getValue('password'));
-        $login->clearPwResetKey();
-    }
-
-    public function ForgotPassword($identifier)
-    {
-        $user = $this->userRepository->findByIdentifier($identifier);
-
-        if (is_null($user)) {
-            return false;
-        }
-
-        $login = $user->getLogin();
-
-        if (is_null($login)) {
-            return false;
-        }
-
-        $login->createPwResetKey();
-        $resetKey = $login->getPwResetKey();
-
-        //TODO: Send Mail with Link to Reset Password.
-        return $resetKey;
+        $login = $this->Get($login);
+        $login->changePassword($oldPassword, $newPassword);
     }
 
     /**

@@ -2,9 +2,13 @@
  * Created by pirmin on 26.10.14.
  */
 
-(function(ngApp){
+(function(){
 
-    ngApp.provider('$asyncModal', function(){
+    var module = angular.module('ecamp-modal-form', [
+        'ui.bootstrap'
+    ]);
+
+    module.provider('$asyncModal', function(){
         var $asyncModalProvider = {
             options: {
                 cache: true,
@@ -29,7 +33,7 @@
         return $asyncModalProvider
     });
 
-    ngApp.directive('asyncModalWindow', [
+    module.directive('asyncModalWindow', [
         '$window', '$compile', '$timeout',
         function($window, $compile, $timeout){
             return {
@@ -60,10 +64,11 @@
                             type: $form.attr('method'),
                             url:  $form.attr('action'),
                             data: $form.serialize(),
-                            global: false,
-
-                            statusCode: {
-                                200: function(data, statusText, response){
+                            global: false
+                        })
+                        .then(
+                            function(data, statusText, response){
+                                if(response.status == 200){
                                     var locationHeader = response.getResponseHeader('Location');
 
                                     if(locationHeader){
@@ -73,18 +78,18 @@
                                         SetWindowContent(response.responseText);
                                         FocusFirstElement();
                                     }
-                                },
 
-                                204: function(data, statusText, response){
+                                } else if(response.status == 204){
                                     $controllerScope.$close(response.responseText);
-                                },
-
-                                500: function(data, statusText, response){
+                                }
+                            },
+                            function(response){
+                                if(response.status == 500){
                                     SetWindowContent(response.responseText);
                                     FocusErrorElement();
                                 }
                             }
-                        });
+                        );
                     }
 
                     function SetWindowContent(content){
@@ -122,27 +127,27 @@
     ]);
 
 
-    ngApp.directive('asyncModal', ['$asyncModal', function($asyncModal){
+    module.directive('asyncModal', ['$asyncModal', function($asyncModal){
         return {
             restrict: 'A',
             scope: true,
             link: function($scope, $element, $attrs, $ctrl) {
                 if($attrs.href !== undefined){
                     var url = $attrs.href;
+                    var size = $attrs.size;
 
                     $element.click(function(event){
                         event.preventDefault();
 
                         $asyncModal.open({
                             templateUrl: url,
-                            cache: false
+                            cache: false,
+                            size: size
                         });
-
-                        return false;
                     })
                 }
             }
         }
     }]);
 
-}(window.ecamp.ngApp));
+})();

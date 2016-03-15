@@ -1,0 +1,19 @@
+<!-- Modal / Register -->
+
+<div class="modal-header">
+    <button type="button" class="close" ng-click="$close()">&times;</button>
+    <h4 class="modal-title"><i class="fa fa-flag"></i> Create new camp</h4>
+</div>
+<div class="modal-body">
+    <div class="row">
+        <div class="col-xs-12" style="margin-bottom: -15px">
+
+            {{ form(form) }}
+
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-default" ng-click="$close()">Close</button>
+    <button type="submit" form="create-camp" class="btn btn-primary">Next</button>
+</div>

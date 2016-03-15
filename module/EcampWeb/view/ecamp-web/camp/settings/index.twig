@@ -1,0 +1,155 @@
+{% extends 'ecamp-web/camp/camp.twig' %}
+
+{% block ng_app %}ecamp-camp-settings{% endblock %}
+
+{% block script %}
+    {{ parent() }}
+
+    <script type="text/javascript" src="{{ basePath('/web-assets/js/modal-form.js') }}"></script>
+
+    <script type="text/javascript">
+        (function(){
+            angular.module('ecamp-camp-settings', [
+                'ecamp-modal-form'
+            ]);
+        })();
+    </script>
+{% endblock %}
+
+
+{% block content %}
+    <div class="col-sm-12">
+        {% embed "helper/accordion.twig" with { 'id': 'event-categories' } %}
+            {% block panel_title %}
+                Event Categories
+                <div class="pull-right">
+                    <a  async-modal
+                        href="{{ url(
+                            'web/camp/default',
+                            { 'camp': camp, 'controller': 'Settings', 'action': 'createEventCategory' }
+                        ) }}"
+                        class="btn btn-xs btn-success"
+                        style="margin-top: -3px"
+                    >
+                        <i class="fa fa-plus"></i> Create Category
+                    </a>
+                </div>
+            {% endblock %}
+            {% block panel_content %}
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th class="visible-xs">Name</th>
+                            <th class="hidden-xs" colspan="2">Name</th>
+                            <th class="hidden-xs">Type</th>
+                            <th class="hidden-xs">Appearance</th>
+                            <th>Options</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for eventCategory in camp.eventCategories %}
+                            <tr>
+                                <td class="hidden-xs">{{ eventCategory.short }}</td>
+                                <td>{{ eventCategory.name }}</td>
+                                <td class="hidden-xs">{{ eventCategory.eventType.name }}</td>
+                                <td class="hidden-xs">
+                                    <span class="label"
+                                          style="padding: 5px 20px;
+                                                  color: {{ eventCategory.textColor }};
+                                                  font-weight: normal;
+                                                  background-color: {{ eventCategory.color }};
+                                    ">
+                                        {{ eventCategory.getStyledNumber(1) }},
+                                        {{ eventCategory.getStyledNumber(2) }},
+                                        {{ eventCategory.getStyledNumber(3) }}, ...
+                                    </span>
+                                </td>
+                                <td>
+                                    <a
+                                        async-modal
+                                        class="btn btn-xs btn-primary"
+                                        href="{{url('web/camp/default',
+                                            { 'camp': camp, 'controller': 'Settings', 'action': 'editEventCategory' },
+                                            { 'query': { 'eventCategoryId': eventCategory.id } }
+                                        ) }}"
+                                    >
+                                        Edit
+                                    </a>
+                                    <a
+                                        async-modal
+                                        class="btn btn-xs btn-danger"
+                                        href="{{url('web/camp/default',
+                                            { 'camp': camp, 'controller': 'Settings', 'action': 'deleteEventCategory' },
+                                            { 'query': { 'eventCategoryId': eventCategory.id } }
+                                        ) }}"
+                                    >
+                                        Delete
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% endblock %}
+        {% endembed %}
+    </div>
+
+    <div class="col-sm-12">
+        {% embed "helper/accordion.twig" with { 'id': 'jobs' } %}
+            {% block panel_title %}
+                Jobs
+                <div class="pull-right">
+                    <a  async-modal
+                        href="{{ url(
+                            'web/camp/default',
+                            { 'camp': camp, 'controller': 'Settings', 'action': 'createJob' }
+                        ) }}"
+                        class="btn btn-xs btn-success"
+                        style="margin-top: -3px"
+                            >
+                        <i class="fa fa-plus"></i> Create Job
+                    </a>
+                </div>
+            {% endblock %}
+            {% block panel_content %}
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Options</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for job in camp.jobs %}
+                            <tr>
+                                <td>{{ job.name }}</td>
+                                <td>
+                                    <a
+                                            async-modal
+                                            class="btn btn-xs btn-primary"
+                                            href="{{url('web/camp/default',
+                                                { 'camp': camp, 'controller': 'Settings', 'action': 'editJob' },
+                                                { 'query': { 'jobId': job.id } }
+                                            ) }}"
+                                            >
+                                        Edit
+                                    </a>
+                                    <a
+                                            async-modal
+                                            class="btn btn-xs btn-danger"
+                                            href="{{url('web/camp/default',
+                                                { 'camp': camp, 'controller': 'Settings', 'action': 'deleteJob' },
+                                                { 'query': { 'jobId': job.id } }
+                                            ) }}"
+                                            >
+                                        Delete
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% endblock %}
+        {% endembed %}
+    </div>
+{% endblock %}

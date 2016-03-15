@@ -46,7 +46,7 @@ return array(
         'collection_http_options' => array('get'),
         'page_size'               => 3,
         'page_size_param'		  => 'limit',
-        'resource_http_options'   => array('get'),
+        'resource_http_options'   => array('get', 'put'),
         'route_name'              => 'api/users',
         'identifier_name'		  => 'user',
     ),
@@ -361,6 +361,26 @@ return array(
     ),
 */
 
+    'EcampApi\Resource\User\Image' => array(
+        'listener'                => 'EcampApi\Resource\User\ImageResourceListener',
+        'collection_http_options' => array(),
+        'page_size'               => 1,
+        'page_size_param'		  => 'limit',
+        'resource_http_options'   => array('get', 'put', 'delete'),
+        'route_name'              => 'api/users/image',
+        'identifier_name'		  => 'user',
+    ),
+
+    'EcampApi\Resource\Image' => array(
+        'listener'                => 'EcampApi\Resource\Image\ImageResourceListener',
+        'collection_http_options' => array('get'),
+        'page_size'               => 3,
+        'page_size_param'		  => 'limit',
+        'resource_http_options'   => array('get'),
+        'route_name'              => 'api/images',
+        'identifier_name'		  => 'image',
+    ),
+
     'EcampApi\Resource\Search\User' => array(
         'listener'                => 'EcampApi\Resource\Search\UserResourceListener',
         'collection_http_options' => array('get'),
@@ -370,4 +390,27 @@ return array(
         'route_name'              => 'api/search/user',
         'collection_query_whitelist' => array('search'),
     ),
+
+    'EcampApi\Resource\Resque\Worker' => array(
+        'listener'                => 'EcampApi\Resource\Resque\Worker\WorkerResourceListener',
+        'collection_http_options' => array('get', 'post', 'delete'),
+        'page_size'               => 3,
+        'page_size_param'		  => 'limit',
+        'resource_http_options'   => array('get', 'delete'),
+        'route_name'              => 'api/resque/workers',
+        'identifier_name'		  => 'worker',
+        'collection_query_whitelist' => array(),
+    ),
+
+    'EcampApi\Resource\Resque\Job' => array(
+        'listener'                => 'EcampApi\Resource\Resque\Job\JobResourceListener',
+        'collection_http_options' => array('get', 'post'),
+        'page_size'               => 3,
+        'page_size_param'		  => 'limit',
+        'resource_http_options'   => array('get'),
+        'route_name'              => 'api/resque/jobs',
+        'identifier_name'		  => 'job',
+        'collection_query_whitelist' => array(),
+    ),
+
 );

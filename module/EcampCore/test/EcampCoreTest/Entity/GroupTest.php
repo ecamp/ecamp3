@@ -11,6 +11,15 @@ use EcampCore\Entity\GroupMembership;
 class GroupTest extends \PHPUnit_Framework_TestCase
 {
 
+    public static function createGroup()
+    {
+        $group = new Group();
+        $group->setName("Group.Name");
+        $group->setDescription("Group.Description");
+
+        return $group;
+    }
+
     public function testGroup()
     {
         $group = new Group();

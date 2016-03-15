@@ -10,7 +10,10 @@ return array(
         'EcampWeb\Controller\Auth\Login'			    => 'EcampWeb\Controller\Auth\LoginController',
         'EcampWeb\Controller\Auth\Register'			    => 'EcampWeb\Controller\Auth\RegisterController',
 
+        'EcampWeb\Controller\Profile\Index'             => 'EcampWeb\Controller\Profile\IndexController',
+
         'EcampWeb\Controller\User\Index'                => 'EcampWeb\Controller\User\IndexController',
+        'EcampWeb\Controller\User\Camps'                => 'EcampWeb\Controller\User\CampsController',
 
         'EcampWeb\Controller\Group\Index' 			    => 'EcampWeb\Controller\Group\IndexController',
         'EcampWeb\Controller\Group\Members' 		    => 'EcampWeb\Controller\Group\MembersController',
@@ -18,6 +21,7 @@ return array(
         'EcampWeb\Controller\Group\MembershipHelper' 	=> 'EcampWeb\Controller\Group\MembershipHelperController',
 
         'EcampWeb\Controller\Camp\Index'  			    => 'EcampWeb\Controller\Camp\IndexController',
+        'EcampWeb\Controller\Camp\Settings'             => 'EcampWeb\Controller\Camp\SettingsController',
         'EcampWeb\Controller\Camp\Period'  			    => 'EcampWeb\Controller\Camp\PeriodController',
         'EcampWeb\Controller\Camp\Day'  			    => 'EcampWeb\Controller\Camp\DayController',
         'EcampWeb\Controller\Camp\Event'  			    => 'EcampWeb\Controller\Camp\EventController',
@@ -26,6 +30,7 @@ return array(
         'EcampWeb\Controller\Camp\Collaborations'	    => 'EcampWeb\Controller\Camp\CollaborationsController',
         'EcampWeb\Controller\Camp\CollaborationHelper' 	=> 'EcampWeb\Controller\Camp\CollaborationHelperController',
 
+        'EcampWeb\Controller\Camp\Print'                => 'EcampWeb\Controller\Camp\PrintController'
     ),
 
     'factories' => array(

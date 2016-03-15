@@ -21,14 +21,6 @@ class IndexController
     }
 
     /**
-     * @return \EcampCore\Repository\CampRepository
-     */
-    private function getCampRepository()
-    {
-        return $this->getServiceLocator()->get('EcampCore\Repository\Camp');
-    }
-
-    /**
      * @return \EcampCore\Service\GroupMembershipService
      */
     private function getMembershipService()
@@ -44,7 +36,7 @@ class IndexController
         $adapter = new SelectableAdapter($this->getGroupRepository(), $criteria);
 
         $paginator = new Paginator($adapter);
-        $paginator->setItemCountPerPage(15);
+        $paginator->setItemCountPerPage(9);
         $paginator->setCurrentPageNumber(1);
 
         return $paginator;
@@ -57,7 +49,7 @@ class IndexController
         $adapter = new ArrayAdapter($upcomingCamps);
 
         $paginator = new Paginator($adapter);
-        $paginator->setItemCountPerPage(15);
+        $paginator->setItemCountPerPage(9);
         $paginator->setCurrentPageNumber(1);
 
         return $paginator;
