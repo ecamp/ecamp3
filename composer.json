@@ -9,7 +9,7 @@
 	"repositories" : [
         {
 			"type" : "composer",
-			"url" : "http://packages.zendframework.com/"
+			"url" : "https://packages.zendframework.com/"
 		}, {
             "type": "package",
             "package": {
@@ -27,6 +27,10 @@
             }
       }
     ],
+
+    "config": {
+        "secure-http": false
+    },
 
 	"require" : {
 		"php" : ">=5.3.3",

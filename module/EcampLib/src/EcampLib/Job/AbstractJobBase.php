@@ -68,7 +68,7 @@ abstract class AbstractJobBase
 
     abstract public function execute();
 
-    protected function getId()
+    public function getId()
     {
         if ($this->job instanceof Job) {
             return $this->job->getId();

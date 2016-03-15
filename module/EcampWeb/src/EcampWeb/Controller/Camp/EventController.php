@@ -4,6 +4,8 @@ namespace EcampWeb\Controller\Camp;
 
 use EcampCore\Entity\Event;
 use EcampCore\Plugin\StrategyProvider;
+use EcampLib\Job\JobInterface;
+use Resque\Job;
 use Zend\View\Model\ViewModel;
 use Zend\Stdlib\RequestInterface;
 use Zend\Stdlib\ResponseInterface;
@@ -86,6 +88,14 @@ class EventController extends BaseController
         return $this->getServiceLocator()->get('EcampCore\Service\EventResp');
     }
 
+    /**
+     * @return \EcampCore\Service\ResqueJobService
+     */
+    protected function getResqueJobService()
+    {
+        return $this->getServiceLocator()->get('EcampCore\Service\ResqueJob');
+    }
+
     private function getEventViewModel(Medium $medium)
     {
         $event = $this->getEventEntity();
@@ -109,17 +119,23 @@ class EventController extends BaseController
     {
         $event = $this->getEventEntity();
 
-        $token = \Resque::enqueue('ecamp3', 'EcampCore\Job\EventPrinter', array(
-            'printSingleEvent',
-            'eventId' => $event->getId()
-            ), true);
+        /** @var JobInterface $job */
+        $job = $this->getResqueJobService()->Create('CreatePdf', array(
+            'pages' => array(
+                array(
+                    'type' => 'PAGE',
+                    'items' => array(
+                        array(
+                            'name' => 'EventInstance',
+                            'eventInstanceId' => $event->getEventInstances()->first()->getId()
+                        )
+                    )
+                )
+            )
+        ));
+        $job->enqueue();
 
-        /*
-        $token2 = \Resque::enqueue('ecamp3', 'Zf2Cli', array(
-                'command' => "job dummy test2"
-        ), true);*/
-
-        die("$token");
+        die($job->getId());
     }
 
     public function printJobGenerateAction()

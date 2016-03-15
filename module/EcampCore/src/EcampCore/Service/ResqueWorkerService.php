@@ -6,6 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use EcampLib\Service\ServiceBase;
 use Resque\Host;
+use Resque\Job;
 use Resque\Redis;
 use Resque\Worker;
 
@@ -18,6 +19,7 @@ class ResqueWorkerService extends ServiceBase
      */
     public function Get($id)
     {
+        $this->Cleanup();
         return Worker::fromId($id);
     }
 
@@ -26,10 +28,8 @@ class ResqueWorkerService extends ServiceBase
      */
     public function GetAll()
     {
-        $workerIds = Redis::instance()->smembers('resque:workers');
-        $workers = array_map(array($this, 'Get'), $workerIds);
-
-        return new ArrayCollection($workers);
+        $this->Cleanup();
+        return new ArrayCollection(Worker::hostWorkers());
     }
 
     /**
@@ -54,30 +54,37 @@ class ResqueWorkerService extends ServiceBase
         $resqueBin = $this->getConfig()->get('resque')->get('bin');
         $command =  $resqueBin . ' worker:start ';
         $command .= implode($options, ' ') . ' ';
-        $command .= '> /dev/null 2> /dev/null &';
+        $command .= /*'2>&1 &'; */ '> /dev/null 2> /dev/null &';
 
-        exec($command);
+        $output = array();
+        exec($command, $output);
 
         for ($i = 10; $i > 0; $i--) {
             if (file_exists($pidFile)) { break;  }
             sleep(1);
         }
 
+        $worker = null;
         if (file_exists($pidFile)) {
             $host = new Host();
-
-            return $this->Get($host . ':' . file_get_contents($pidFile));
+            $worker = $this->Get($host . ':' . file_get_contents($pidFile));
+            unlink($pidFile);
         }
 
-        return null;
+        return $worker;
     }
 
     public function Delete($id)
     {
         $worker = $this->Get($id);
 
-        return posix_kill($worker->getPid(), SIGQUIT);
+        $command = 'kill -s term ' . $worker->getPid();
+        $output = array();
+        $result = array();
 
+        exec($command, $output, $result);
+
+        return true;
     }
 
     public function DeleteAll()
@@ -90,6 +97,21 @@ class ResqueWorkerService extends ServiceBase
         }
 
         return $ok;
+    }
+
+    public function Cleanup()
+    {
+        $host = new Host();
+        $host->cleanup();
+
+        $worker = new Worker();
+        $worker->cleanup();
+
+        $host->cleanup();
+
+        Job::cleanup();
+
+        return true;
     }
 
 }
