@@ -26,6 +26,14 @@ class JobResource extends HalResource
         ));
         $this->getLinks()->add($selfLink);
 
+        $runLink = new Link('run');
+        $runLink->setRoute(
+            'api/resque/jobs',
+            array('job' => $id),
+            array('query' => array('run' => ''))
+        );
+        $this->getLinks()->add($runLink);
+
         $class = new \ReflectionClass($job->getClass());
         if ($class->implementsInterface('EcampLib\Job\JobResultInterface')) {
             $resultLink = new Link('result');

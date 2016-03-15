@@ -9,14 +9,14 @@
 	"repositories" : [
         {
 			"type" : "composer",
-			"url" : "http://packages.zendframework.com/"
+			"url" : "https://packages.zendframework.com/"
 		}, {
             "type": "package",
             "package": {
                 "name": "coherentgraphics/cpdf-binaries",
                 "version": "0.1.1",
                 "source": {
-                    "url": "git://github.com/coherentgraphics/cpdf-binaries.git",
+                    "url": "https://github.com/coherentgraphics/cpdf-binaries.git",
                     "type": "git",
                     "reference": "origin/master"
                 },
