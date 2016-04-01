@@ -62,7 +62,7 @@ abstract class BaseController
 
         if ($result instanceof ViewModel) {
             $me = $this->getMe() ?: User::ROLE_GUEST;
-            $acl = $this->getServiceLocator()->get('EcampCore\Acl');
+            $acl = $this->getServiceLocator()->get('EcampLib\Acl');
 
             $result->setVariable('me', $me);
             $result->setVariable('acl', $acl);

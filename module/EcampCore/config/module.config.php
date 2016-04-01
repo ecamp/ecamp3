@@ -21,9 +21,45 @@ return array(
                 EcampCore\Entity\User::ROLE_USER	=> EcampCore\Entity\User::ROLE_GUEST,
                 EcampCore\Entity\User::ROLE_ADMIN	=> EcampCore\Entity\User::ROLE_USER
             ),
-        )
+        ),
 
+        'doctrine' => array(
+            'repository' => array(
+                'ecamp_core' => array(
+                    'entitymanager' => 'orm_default',
+                    'mappings' => array(
+                        "/^EcampCore\\\\Repository\\\\(\\w+)$/" => "EcampCore\\\\Entity\\\\$1",
+                    ),
+                ),
+            ),
+
+            'entity_form' => array(
+                'ecamp_core' => array(
+                    'entitymanager' => 'orm_default',
+                    'pattern' => "/^EcampCore\\\\Entity\\\\(\\w+)$/",
+                )
+            ),
+
+            'entity_form_element' => array(
+                'ecamp_core' => array(
+                    'entitymanager' => 'orm_default',
+                    'pattern' => "/^EcampCore\\\\Entity\\\\(\\w+).(\\w+)$/",
+                    'entity' => "EcampCore\\\\Entity\\\\$1",
+                    'property' => "$2"
+                )
+            )
+        ),
+
+        'service_manager' => array(
+            'abstract_service_factory_config' => array(
+                'ecamp_core' => array(
+                    'servicePattern' => "/^EcampCore\\\\Service\\\\(\\w+)$/",
+                    'factoryPattern' => "EcampCore\\\\Service\\\\Factory\\\\$1ServiceFactory"
+                )
+            )
+        ),
     ),
+
 
     'resque' => array(
         'bin' => __VENDOR__ . '/bin/resque'
@@ -168,7 +204,7 @@ return array(
                 'drivers' => array(
                     'EcampCore\Entity' => 'ecamp_core_entities'
                 )
-            )
+            ),
         ),
     ),
 

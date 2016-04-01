@@ -4,15 +4,13 @@ namespace EcampCore\Service;
 
 use EcampCore\Acl\Privilege;
 use EcampCore\Entity\Camp;
-use EcampCore\Entity\Job;
 use EcampCore\Entity\Day;
-use EcampCore\Repository\JobRespRepository;
-use EcampLib\Service\ServiceBase;
+use EcampCore\Entity\Job;
 use EcampCore\Entity\JobResp;
+use EcampCore\Repository\JobRespRepository;
 use EcampLib\Validation\ValidationException;
 
-class JobService
-    extends ServiceBase
+class JobService extends Base\ServiceBase
 {
 
     /**

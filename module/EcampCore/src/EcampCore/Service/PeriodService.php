@@ -20,15 +20,12 @@
 
 namespace EcampCore\Service;
 
+use EcampCore\Acl\Privilege;
 use EcampCore\Entity\Camp;
 use EcampCore\Entity\Period;
-
-use EcampLib\Service\ServiceBase;
 use EcampLib\Validation\ValidationException;
-use EcampCore\Acl\Privilege;
 
-class PeriodService
-    extends ServiceBase
+class PeriodService extends Base\ServiceBase
 {
 
     /**

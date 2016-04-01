@@ -20,15 +20,12 @@
 
 namespace EcampCore\Service;
 
-use EcampLib\Service\ServiceBase;
-
+use EcampCore\Acl\Privilege;
 use EcampCore\Entity\User;
 use EcampCore\Entity\UserRelationship;
 use EcampCore\Repository\UserRelationshipRepository;
-use EcampCore\Acl\Privilege;
 
-class UserRelationshipService
-    extends ServiceBase
+class UserRelationshipService extends Base\ServiceBase
 {
     /**
      * @var UserRelationshipRepository

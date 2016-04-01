@@ -2,16 +2,13 @@
 
 namespace EcampCore\Service;
 
+use EcampCore\Acl\Privilege;
 use EcampCore\Entity\User;
 use EcampCore\Entity\Group;
 use EcampCore\Entity\GroupMembership;
-
-use EcampLib\Service\ServiceBase;
-use EcampCore\Acl\Privilege;
 use EcampCore\Repository\GroupMembershipRepository;
 
-class GroupMembershipService
-    extends ServiceBase
+class GroupMembershipService extends Base\ServiceBase
 {
     /** @var GroupMembershipRepository */
     private $groupMembershipRepo;

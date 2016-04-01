@@ -10,12 +10,10 @@ use EcampCore\Entity\EventInstance;
 
 use EcampCore\Repository\EventInstanceRepository;
 use EcampCore\Repository\PeriodRepository;
-use EcampLib\Service\ServiceBase;
 use EcampCore\Repository\DayRepository;
 use EcampLib\Validation\ValidationException;
 
-class EventInstanceService
-    extends ServiceBase
+class EventInstanceService extends Base\ServiceBase
 {
 
     private $periodRepository;

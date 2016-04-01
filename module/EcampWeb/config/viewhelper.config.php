@@ -48,7 +48,7 @@ return array(
 
         'membership' => function($helperPluginManager){
             $serviceLocator = $helperPluginManager->getServiceLocator();
-            $acl = $serviceLocator->get('EcampCore\Acl');
+            $acl = $serviceLocator->get('EcampLib\Acl');
             $userRepository = $serviceLocator->get('EcampCore\Repository\User');
             $groupMembershipRepository = $serviceLocator->get('EcampCore\Repository\GroupMembership');
             $renderer = $serviceLocator->get('ZfcTwigRenderer');
@@ -58,7 +58,7 @@ return array(
 
         'collaboration' => function($helperPluginManager){
             $serviceLocator = $helperPluginManager->getServiceLocator();
-            $acl = $serviceLocator->get('EcampCore\Acl');
+            $acl = $serviceLocator->get('EcampLib\Acl');
             $userRepository = $serviceLocator->get('EcampCore\Repository\User');
             $campCollaborationRepository = $serviceLocator->get('EcampCore\Repository\CampCollaboration');
             $renderer = $serviceLocator->get('ZfcTwigRenderer');

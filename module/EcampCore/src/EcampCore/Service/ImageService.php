@@ -5,9 +5,8 @@ namespace EcampCore\Service;
 use EcampCore\Entity\Image;
 use EcampCore\Entity\User;
 use EcampCore\Repository\ImageRepository;
-use EcampLib\Service\ServiceBase;
 
-class ImageService extends ServiceBase
+class ImageService extends Base\ServiceBase
 {
     const DATA_URI_FORMAT = "/^data:([a-zA-Z0-9\/]+);base64,([a-zA-Z0-9\/+]*={0,2})$/";
 

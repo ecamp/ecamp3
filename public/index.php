@@ -14,6 +14,5 @@ require 'init_autoloader.php';
 
 // Run the application!
 $app = Zend\Mvc\Application::init(require 'config/application.config.php');
-EcampLib\Job\AbstractBootstrappedJobBase::setServiceLocator($app->getServiceManager());
 $app->run();
 

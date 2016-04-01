@@ -2,16 +2,12 @@
 
 namespace EcampCore\Service;
 
-use EcampCore\Service\Params\Params;
-
 use EcampCore\Entity\Period;
 use EcampCore\Entity\Day;
-use EcampLib\Service\ServiceBase;
 use EcampCore\Acl\Privilege;
 use EcampCore\Entity\Story;
 
-class DayService
-    extends ServiceBase
+class DayService extends Base\ServiceBase
 {
 
     /**

@@ -7,7 +7,7 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 
 class AbstractResourceFactory implements AbstractFactoryInterface
 {
-    private $pattern = "/^Ecamp(\w+)\\\\Resource\\\\([\w|\\\\]+)$/";
+    private $pattern = "/^Ecamp(\\w+)\\\\Resource\\\\([\\w|\\\\]+)$/";
 
     public function canCreateServiceWithName(ServiceLocatorInterface $serviceLocator, $name, $requestedName)
     {

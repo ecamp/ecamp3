@@ -20,7 +20,7 @@ class RenderViewModelNode extends Twig_Node
             ->write("\$viewModel = ")
             ->subcompile($viewModelName)
             ->raw(";\n")
-            ->write("if (\$viewModel instanceOf \Zend\View\Model\ModelInterface) {\n")
+            ->write("if (\$viewModel instanceOf \\Zend\\View\\Model\\ModelInterface) {\n")
             ->indent()
                 ->write("\$template = \$this->env->resolveTemplate(")
                 ->raw("\$viewModel->getTemplate()")

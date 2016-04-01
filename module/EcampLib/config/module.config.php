@@ -1,9 +1,17 @@
 <?php
 return array(
-    'controllers' => array(
-        'abstract_factories' => array(
-//			'EcampLib\Controller\CommonControllerAbstractFactory'
-        ),
+    'ecamp' => array(
+        'doctrine' => array(
+            'repositories' => array(
+                'ecamp_lib' => array(
+                    'entitymanager' => 'orm_default',
+                    'mappings' => array(
+//                        "/^EcampLib\\\\Repository\\\\(\\w+)$/" => "EcampLib\\\\Entity\\\\$1",
+                    )
+                )
+            ),
+
+        )
     ),
 
     'zfctwig' => array(

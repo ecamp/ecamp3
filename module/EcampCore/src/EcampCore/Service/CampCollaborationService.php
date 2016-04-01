@@ -22,13 +22,11 @@ namespace EcampCore\Service;
 
 use EcampCore\Entity\User;
 use EcampCore\Entity\Camp;
-use EcampLib\Service\ServiceBase;
 use EcampCore\Acl\Privilege;
 use EcampCore\Entity\CampCollaboration;
 use EcampCore\Repository\CampCollaborationRepository;
 
-class CampCollaborationService
-    extends ServiceBase
+class CampCollaborationService extends Base\ServiceBase
 {
 
     /**

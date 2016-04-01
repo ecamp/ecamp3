@@ -2,12 +2,10 @@
 
 namespace EcampCore\Service;
 
-use EcampLib\Service\ServiceBase;
 use EcampCore\Entity\EventPlugin;
 use EcampCore\Repository\EventPluginRepository;
 
-class EventPluginService
-    extends ServiceBase
+class EventPluginService extends Base\ServiceBase
 {
     /**
      * @var \EcampCore\Repository\EventPluginRepository

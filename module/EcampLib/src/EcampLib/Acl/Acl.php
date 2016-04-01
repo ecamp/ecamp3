@@ -10,6 +10,7 @@ use EcampLib\Acl\Exception\AuthenticationRequiredException;
 class Acl
     extends ZendAcl
 {
+    const ROLE_GUEST = 'GUEST';
 
     /**
      * @var RoleFactoryInterface
@@ -74,7 +75,7 @@ class Acl
         if ($this->isAllowed($role, $resource, $privilege)) {
             return true;
         } else {
-            if ($role == null) {
+            if ($role == self::ROLE_GUEST) {
                 throw new AuthenticationRequiredException();
             } else {
                 throw new NoAccessException();

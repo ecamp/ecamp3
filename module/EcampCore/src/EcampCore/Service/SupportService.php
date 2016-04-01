@@ -24,16 +24,12 @@ use EcampCore\Entity\User;
 use EcampCore\Auth\AuthenticationService;
 use EcampLib\Service\ServiceBase;
 
-/**
- * @method EcampCore\Service\SupportService Simulate
- */
-class SupportService
-    extends ServiceBase
+class SupportService extends Base\ServiceBase
 {
 
     public function SupportUser(User $user)
     {
-        $this->aclRequire($this->me(), $user, 'support.start');
+        $this->aclRequire($user, 'support.start');
 
         $auth = new AuthenticationService();
         $auth->replaceIdentity($user->getId());
@@ -41,7 +37,7 @@ class SupportService
 
     public function StopUserSupport()
     {
-        $this->aclRequire($this->me(), null, 'support.stop');
+        $this->aclRequire(null, 'support.stop');
 
         $auth = new AuthenticationService();
         $auth->restoreIdentity();

@@ -4,15 +4,12 @@ namespace EcampCore\Service;
 
 use EcampCore\Entity\Event;
 use EcampCore\Entity\Camp;
-
 use EcampCore\Plugin\StrategyProvider;
 use EcampCore\Repository\EventRepository;
-use EcampLib\Service\ServiceBase;
 use EcampCore\Repository\EventCategoryRepository;
 use EcampLib\Validation\ValidationException;
 
-class EventService
-    extends ServiceBase
+class EventService extends Base\ServiceBase
 {
     /**
      * @var StrategyProvider

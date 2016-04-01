@@ -6,12 +6,9 @@ use EcampCore\Acl\Privilege;
 use EcampCore\Entity\Camp;
 use EcampCore\Entity\CampCollaboration;
 use EcampCore\Repository\CampRepository;
-
-use EcampLib\Service\ServiceBase;
 use EcampLib\Validation\ValidationException;
 
-class CampService
-    extends ServiceBase
+class CampService extends Base\ServiceBase
 {
     /** @var CampRepository */
     private $campRepo;

@@ -4,21 +4,26 @@ namespace EcampCore\Service;
 
 use EcampLib\Job\JobFactoryInterface;
 use EcampLib\Job\JobInterface;
-use EcampLib\Service\ServiceBase;
+use EcampLib\Job\JobQueue;
 use EcampLib\ServiceManager\JobFactoryManager;
 use Resque\Job;
 use Resque\Redis;
 
-class ResqueJobService extends ServiceBase
+class ResqueJobService extends Base\ServiceBase
 {
 
     /** @var JobFactoryManager */
     private $jobFactoryManager;
 
+    /** @var JobQueue */
+    private $jobQueue;
+
     public function __construct(
-        JobFactoryManager $jobFactoryManager
+        JobFactoryManager $jobFactoryManager,
+        JobQueue $jobQueue
     ) {
         $this->jobFactoryManager = $jobFactoryManager;
+        $this->jobQueue = $jobQueue;
     }
 
     /**
@@ -49,15 +54,46 @@ class ResqueJobService extends ServiceBase
 
     /**
      * @param $name
-     * @param  array        $options
+     * @param  array $options
+     * @param bool $enqueue
      * @return JobInterface
      */
-    public function Create($name, $options = array())
+    public function Create($name, $options = array(), $enqueue = false)
     {
         /** @var JobFactoryInterface $jobFactory */
         $jobFactory = $this->jobFactoryManager->get($name);
 
-        return $jobFactory->create($options);
+        $job = $jobFactory->create($options);
+
+        if($enqueue){
+            $this->Enqueue($job);
+        }
+
+        return $job;
+    }
+
+    /**
+     * @param JobInterface $job
+     */
+    public function Enqueue(JobInterface $job)
+    {
+        $this->jobQueue->push($job);
+    }
+
+    public function Flush()
+    {
+        $this->jobQueue->Flush();
+    }
+
+
+    /**
+     * @return \Resque\Job|null
+     */
+    public function GetNextJob(){
+        /** @var \Resque\Job $job */
+        $job = \Resque::pop(array('php-only'));
+
+        return $job;
     }
 
 }

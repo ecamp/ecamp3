@@ -6,10 +6,9 @@ use EcampCore\Acl\Privilege;
 use EcampCore\Entity\Camp;
 use EcampCore\Entity\EventCategory;
 use EcampCore\Repository\EventTypeRepository;
-use EcampLib\Service\ServiceBase;
 use EcampLib\Validation\ValidationException;
 
-class EventCategoryService extends ServiceBase
+class EventCategoryService extends Base\ServiceBase
 {
 
     /** @var EventTypeRepository */

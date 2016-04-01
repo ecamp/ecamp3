@@ -12,5 +12,8 @@
  */
 
 return array(
-    // ...
+    'php_settings' => array(
+        'display_startup_errors' => true,
+        'display_errors'         => true,
+    )
 );

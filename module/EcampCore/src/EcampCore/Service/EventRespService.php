@@ -2,13 +2,11 @@
 
 namespace EcampCore\Service;
 
-use EcampLib\Service\ServiceBase;
 use EcampCore\Repository\EventRespRepository;
 use EcampCore\Entity\Event;
 use EcampCore\Entity\EventResp;
 
-class EventRespService
-    extends ServiceBase
+class EventRespService extends Base\ServiceBase
 {
     /**
      * @var \EcampCore\Repository\EventRespRepository

@@ -2,17 +2,13 @@
 
 namespace EcampCore\Service;
 
+use EcampCore\Acl\Privilege;
 use EcampCore\Entity\Group;
 use EcampCore\Entity\GroupRequest;
-
-use EcampLib\Service\ServiceBase;
-use EcampLib\Service\Params\Params;
 use EcampCore\Repository\GroupRepository;
-use EcampCore\Acl\Privilege;
 use EcampLib\Validation\ValidationException;
 
-class GroupService
-    extends ServiceBase
+class GroupService extends Base\ServiceBase
 {
     /** @var GroupRepository */
     private $groupRepo;

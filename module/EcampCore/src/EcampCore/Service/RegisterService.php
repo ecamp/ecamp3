@@ -4,13 +4,10 @@ namespace EcampCore\Service;
 
 use EcampCore\Entity\User;
 use EcampCore\Repository\UserRepository;
-
 use EcampLib\Service\ExecutionException;
-use EcampLib\Service\ServiceBase;
 use EcampLib\Validation\ValidationException;
 
-class RegisterService
-    extends ServiceBase
+class RegisterService extends Base\ServiceBase
 {
     /**
      * @var UserRepository
@@ -33,10 +30,7 @@ class RegisterService
     private $resqueJobService;
 
     public function __construct(
-        UserRepository $userRepository,
-        UserService $userService,
-        LoginService $loginService,
-        ResqueJobService $resqueJobService
+        $userRepository, $userService, $loginService, $resqueJobService
     ){
         $this->userRepository = $userRepository;
         $this->userService = $userService;
@@ -68,11 +62,11 @@ class RegisterService
             throw ValidationException::FromInnerException('login-create', $ex);
         }
 
-        $job = $this->resqueJobService->Create(
-            'SendActivationMail',
-            array('userId' => $user->getId())
+        $this->resqueJobService->Create(
+            'SendEmailVerificationEmail',
+            array('userId' => $user->getId()),
+            true
         );
-        $job->enqueue();
 
         return $user;
     }
