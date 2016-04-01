@@ -2,9 +2,9 @@
 
 namespace EcampApi\Resource\Resque\Job;
 
+use EcampCore\Resource\BaseResourceListener;
 use EcampLib\Job\Application;
 use EcampLib\Job\JobResultInterface;
-use EcampLib\Resource\BaseResourceListener;
 use PhlyRestfully\Exception\DomainException;
 use PhlyRestfully\ResourceEvent;
 use Resque\Job;

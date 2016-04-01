@@ -1,7 +1,7 @@
 <?php
 namespace EcampApi\Resource\Search;
 
-use EcampLib\Resource\BaseResourceListener;
+use EcampCore\Resource\BaseResourceListener;
 use PhlyRestfully\ResourceEvent;
 use Zend\EventManager\EventManagerInterface;
 

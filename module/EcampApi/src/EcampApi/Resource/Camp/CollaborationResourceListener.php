@@ -2,7 +2,7 @@
 namespace EcampApi\Resource\Camp;
 
 use EcampApi\Resource\Collaboration\CollaborationDetailResource;
-use EcampLib\Resource\BaseResourceListener;
+use EcampCore\Resource\BaseResourceListener;
 use PhlyRestfully\ResourceEvent;
 use Zend\EventManager\EventManagerInterface;
 

@@ -2,7 +2,7 @@
 namespace EcampApi\Resource\Group;
 
 use EcampApi\Resource\Membership\MembershipDetailResource;
-use EcampLib\Resource\BaseResourceListener;
+use EcampCore\Resource\BaseResourceListener;
 use PhlyRestfully\ResourceEvent;
 use Zend\Authentication\AuthenticationService;
 use Zend\EventManager\EventManagerInterface;

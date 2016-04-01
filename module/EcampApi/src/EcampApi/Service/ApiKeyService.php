@@ -5,7 +5,6 @@ namespace EcampApi\Service;
 use EcampLib\Service\ServiceBase;
 use EcampCore\Acl\Privilege;
 use EcampCore\Repository\UserRepository;
-use EcampCore\Entity\User;
 use EcampApi\Entity\ApiKey;
 use Doctrine\ORM\EntityRepository;
 use Zend\Authentication\AuthenticationService;
