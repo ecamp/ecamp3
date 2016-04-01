@@ -121,13 +121,16 @@ class CreatePdfJob extends AbstractJobBase implements JobResultInterface
 
     private function createPdf(Pdf $pdf)
     {
-        $pdfFilename = __DATA__ . '/print/' . $this->getId() . '.pdf';
+    	$cpdfConfig = $this->getService('Config');
+    	$cpdfConfig = $cpdfConfig['cpdf']['config'];
+    	
+    	$pdfFilename = __DATA__ . '/print/' . $this->getId() . '.pdf';
 
         $pdf->saveAs($pdfFilename);
 
         $tmpA4 = new File('', '.pdf', 'tmp_wkhtmlto_pdf_', __DATA__ . '/tmp');
 
-        $command = new Command(__VENDOR__ . '/coherentgraphics/cpdf-binaries/OSX-Intel/cpdf');
+        $command = new Command($cpdfConfig['binary']);
         $command->addArg('-scale-page', array('0.5 0.5'));
         $command->addArg('-o', array($tmpA4->getFileName()));
         $command->addArg($pdfFilename);

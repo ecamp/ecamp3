@@ -53,7 +53,7 @@ class EventType extends BaseEntity
     private $name;
 
     /**
-     * @ORM\Column(type="string", length=32, nullable=false)
+     * @ORM\Column(type="string", length=32, nullable=true)
      */
     private $type;
 

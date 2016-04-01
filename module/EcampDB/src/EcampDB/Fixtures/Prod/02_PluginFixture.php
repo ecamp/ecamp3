@@ -20,17 +20,17 @@ class PluginFixture extends AbstractFixture implements OrderedFixtureInterface
         $this->load_($manager, array(
             array(
                 'name' => 'textarea',
-                'strategy' => 'EcampTextarea\Strategy',
+                'strategy' => 'EcampTextarea\StrategyFactory',
                 'reference' => self::PLUGIN_TEXTAREA
             ),
             array(
                 'name' => 'material',
-                'strategy' => 'EcampMaterial\Strategy',
+                'strategy' => 'EcampMaterial\StrategyFactory',
                 'reference' => self::PLUGIN_MATERIAL
             ),
             array(
                 'name' => 'storyboard',
-                'strategy' => 'EcampStoryboard\Strategy',
+                'strategy' => 'EcampStoryboard\StrategyFactory',
                 'reference' => self::PLUGIN_STORYBOARD
             ),
         ));
