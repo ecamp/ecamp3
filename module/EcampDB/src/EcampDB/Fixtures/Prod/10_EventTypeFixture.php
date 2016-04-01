@@ -58,6 +58,7 @@ class EventTypeFixture extends AbstractFixture implements OrderedFixtureInterfac
 
             if($eventType == null){
                 $eventType = new EventType($name, $color, $numberingStyle);
+                $eventType->setType($type);
                 $manager->persist($eventType);
             } else {
                 $eventType->setDefaultColor($color);
