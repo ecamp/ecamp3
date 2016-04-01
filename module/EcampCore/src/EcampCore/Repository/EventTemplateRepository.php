@@ -7,6 +7,12 @@ use EcampCore\Entity\Event;
 use EcampCore\Entity\Medium;
 use EcampCore\Entity\EventTemplate;
 
+/**
+ * Class EventTemplateRepository
+ * @package EcampCore\Repository
+ *
+ * @method EventTemplate find($id)
+ */
 class EventTemplateRepository
     extends EntityRepository
 {

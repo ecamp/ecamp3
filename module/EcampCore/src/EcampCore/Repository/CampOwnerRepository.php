@@ -2,8 +2,15 @@
 
 namespace EcampCore\Repository;
 
+use EcampCore\Entity\CampOwnerInterface;
 use EcampCore\Entity\GroupMembership;
 
+/**
+ * Class CampOwnerRepository
+ * @package EcampCore\Repository
+ *
+ * @method CampOwnerInterface find($id)
+ */
 class CampOwnerRepository extends BaseRepository
 {
     public function findPossibleCampOwner()

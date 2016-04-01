@@ -11,6 +11,12 @@ use DoctrineORMModule\Paginator\Adapter\DoctrinePaginator as PaginatorAdapter;
 use Doctrine\ORM\Tools\Pagination\Paginator as ORMPaginator;
 use Zend\Paginator\Paginator;
 
+/**
+ * Class CampCollaborationRepository
+ * @package EcampCore\Repository
+ *
+ * @method CampCollaboration find($id)
+ */
 class CampCollaborationRepository extends EntityRepository
 {
 

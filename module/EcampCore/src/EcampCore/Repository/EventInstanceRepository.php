@@ -2,13 +2,19 @@
 
 namespace EcampCore\Repository;
 
-use Doctrine\ORM\EntityRepository;
-use EcampCore\Entity\Day;
-
 use DoctrineORMModule\Paginator\Adapter\DoctrinePaginator as PaginatorAdapter;
+use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Tools\Pagination\Paginator as ORMPaginator;
+use EcampCore\Entity\Day;
+use EcampCore\Printable\EventInstance;
 use Zend\Paginator\Paginator;
 
+/**
+ * Class EventInstanceRepository
+ * @package EcampCore\Repository
+ *
+ * @method EventInstance find($id)
+ */
 class EventInstanceRepository extends EntityRepository
 {
 
