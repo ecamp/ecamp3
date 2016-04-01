@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "50f2e9a89b0837947f80d03f2bb3ebb5",
-    "content-hash": "2070d04f27d53b3c8c30e8216ebb88a3",
+    "hash": "49e76f72d210cc382442c12b25658e13",
+    "content-hash": "3e499e1639bf7e0fc5b67fc1e7f99cca",
     "packages": [
         {
             "name": "atukai/at-php-settings",
@@ -2794,12 +2794,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Sundrique/DoctrineTools.git",
-                "reference": "90ba0b71951e2b0f6984bbed09f4c4a1e7c4d303"
+                "reference": "0.2.2"
             },
             "dist": {
                 "type": "zip",
                 "url": "https://api.github.com/repos/Sundrique/DoctrineTools/zipball/90ba0b71951e2b0f6984bbed09f4c4a1e7c4d303",
-                "reference": "90ba0b71951e2b0f6984bbed09f4c4a1e7c4d303",
+                "reference": "0.2.2",
                 "shasum": ""
             },
             "require": {
@@ -3112,6 +3112,57 @@
                 "templating"
             ],
             "time": "2016-01-25 21:22:18"
+        },
+        {
+            "name": "wemersonjanuario/wkhtmltopdf-windows",
+            "version": "0.12.2.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/wemersonjanuario/wkhtmltopdf-windows.git",
+                "reference": "90fcd3487cad5931287742113c449b926e9e48d8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/wemersonjanuario/wkhtmltopdf-windows/zipball/90fcd3487cad5931287742113c449b926e9e48d8",
+                "reference": "90fcd3487cad5931287742113c449b926e9e48d8",
+                "shasum": ""
+            },
+            "suggest": {
+                "h4cc/wkhtmltopdf-amd64": "*",
+                "h4cc/wkhtmltopdf-i386": "*",
+                "wemersonjanuario/laravelpdf": "1.0.*"
+            },
+            "bin": [
+                "bin/32bit/wkhtmltopdf.exe",
+                "bin/32bit/wkhtmltoimage.exe",
+                "bin/64bit/wkhtmltopdf.exe",
+                "bin/64bit/wkhtmltoimage.exe"
+            ],
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPL Version 3"
+            ],
+            "authors": [
+                {
+                    "name": "Wemerson Januario",
+                    "email": "wemerson.januario@gmail.com",
+                    "homepage": "http://wemersonjanuario.com.br"
+                }
+            ],
+            "description": "Convert html to pdf using webkit (qtwebkit). Static linked windows binary for 32 bit and 64 bit systems.",
+            "homepage": "http://wkhtmltopdf.org/",
+            "keywords": [
+                "binary",
+                "convert",
+                "htmltoimage",
+                "htmltopdf",
+                "pdf",
+                "snapshot",
+                "thumbnail",
+                "wkhtmltopdf"
+            ],
+            "time": "2015-06-30 20:19:22"
         },
         {
             "name": "zendframework/zend-developer-tools",

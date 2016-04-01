@@ -53,6 +53,7 @@
         "knplabs/knp-snappy": "*",
         "mikehaertl/phpwkhtmltopdf": "2.0.*",
         "profburial/wkhtmltopdf-binaries": "0.12.1",
+        "wemersonjanuario/wkhtmltopdf-windows": "*",
         "coherentgraphics/cpdf-binaries": "0.1.1",
 
         "hounddog/doctrine-data-fixture-module":"*"
