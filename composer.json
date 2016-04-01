@@ -9,12 +9,28 @@
 	"repositories" : [
         {
 			"type" : "composer",
-			"url" : "http://packages.zendframework.com/"
+			"url" : "https://packages.zendframework.com/"
 		}, {
-			"type" : "vcs",
-			"url" : "http://github.com/usu/php-resque-ex"
-        } 
+            "type": "package",
+            "package": {
+                "name": "coherentgraphics/cpdf-binaries",
+                "version": "0.1.1",
+                "source": {
+                    "url": "git://github.com/coherentgraphics/cpdf-binaries.git",
+                    "type": "git",
+                    "reference": "origin/master"
+                },
+                "bin": [
+                    "OSX-Intel/cpdf",
+                    "Windows/cpdf.exe"
+                ]
+            }
+      }
     ],
+
+    "config": {
+        "secure-http": false
+    },
 
 	"require" : {
 		"php" : ">=5.3.3",
@@ -31,13 +47,15 @@
 		"phpunit/phpunit" : "4.4.*",
 		"phly/phly-restfully" : "2.2.*",
 		"neilime/zf2-twb-bundle" : "2.*",
-		"kamisama/php-resque-ex" : "dev-bugfix as 1.2.7",
-        "fresque/fresque" : "1.2.*",
+        "mjphaynes/php-resque" : "1.2.*",
+
         "atukai/at-php-settings": "dev-master",
         "knplabs/knp-snappy": "*",
-        "h4cc/wkhtmltopdf-i386": "0.12.x",
-        "h4cc/wkhtmltopdf-amd64": "0.12.x",
-        "messagedigital/wkhtmltopdf-osx": "*",
+        "mikehaertl/phpwkhtmltopdf": "2.0.*",
+        "profburial/wkhtmltopdf-binaries": "0.12.1",
+        "wemersonjanuario/wkhtmltopdf-windows": "*",
+        "coherentgraphics/cpdf-binaries": "0.1.1",
+
         "hounddog/doctrine-data-fixture-module":"*"
 	},
 	"require-dev": {

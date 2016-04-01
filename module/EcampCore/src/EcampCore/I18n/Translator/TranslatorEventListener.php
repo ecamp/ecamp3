@@ -15,7 +15,8 @@ class TranslatorEventListener extends AbstractListenerAggregate
     /** @var EntityManager */
     private $em;
 
-    public function __construct(EntityManager $em){
+    public function __construct(EntityManager $em)
+    {
         $this->em = $em;
     }
 
@@ -25,11 +26,13 @@ class TranslatorEventListener extends AbstractListenerAggregate
         $this->listeners[] = $events->attach(Translator::EVENT_MISSING_TRANSLATION, array($this, 'missingTranslation'));
     }
 
-    public function noMessagesLoaded(Event $e){
+    public function noMessagesLoaded(Event $e)
+    {
         // var_dump($e);
     }
 
-    public function missingTranslation(Event $e){
+    public function missingTranslation(Event $e)
+    {
         // var_dump($e);
 
         $localeRepo = $this->em->getRepository('BsbDoctrineTranslationLoader\Entity\Locale');
@@ -44,15 +47,14 @@ class TranslatorEventListener extends AbstractListenerAggregate
             'locale' => $locale
         ));
 
-
-        if($locale){
+        if ($locale) {
             $message = $messageRepo->findOneBy(array(
                 'locale' => $locale,
                 'domain' => $textDomain,
                 'message' => $textMessage
             ));
 
-            if($message == null) {
+            if ($message == null) {
                 $message = new Message();
                 $message->setLocale($locale);
                 $message->setDomain($textDomain);
@@ -62,24 +64,27 @@ class TranslatorEventListener extends AbstractListenerAggregate
             }
         }
 
-
         // return new TranslationMissing($textMessage);
     }
 }
 
 /*
-class TranslationMissing {
+class TranslationMissing
+{
     private $textMessage;
 
-    public function __construct($textMessage) {
+    public function __construct($textMessage)
+    {
         $this->textMessage = $textMessage;
     }
 
-    public function __toString(){
+    public function __toString()
+    {
         return $this->textMessage . ' [Translation missing]';
     }
 
-    public function __get($key){
+    public function __get($key)
+    {
         return $this->textMessage . ' [Plural Translation missing]';
     }
 }

@@ -1,24 +1,10 @@
+(function(){
 
-(function(ngApp){
+    var module = angular.module('ecamp-ajax-form-element', []);
 
-    /*
-
-        [AjaxForm]
-         - Url
-         - State
-         - Controls
-         + Reset
-         + Submit
-
-        [AjaxFormControl]
-         - Elements
-         - OrigValues
-         + Reset
-
-     */
-
-    ngApp.directive('ajaxForm', ['$filter', function($filter){
+    module.directive('ajaxForm', ['$filter', function($filter){
         var $dateFilter = $filter('date');
+
 
         var AjaxForm = function(url, controls, feedbacks){
             this.url = url;
@@ -45,20 +31,20 @@
             }, this);
         };
 
-        AjaxForm.prototype.OnFocus = function(event){
+        AjaxForm.prototype.OnFocus = function(){
             this.StopSave();
             this.CheckAndSetDirty();
         };
 
-        AjaxForm.prototype.OnEdit = function(event){
+        AjaxForm.prototype.OnEdit = function(){
             this.CheckAndSetDirty();
         };
 
-        AjaxForm.prototype.OnSave = function(event){
-            return this.BeginSave();
+        AjaxForm.prototype.OnSave = function(){
+            this.BeginSave();
         };
 
-        AjaxForm.prototype.OnCancel = function(event){
+        AjaxForm.prototype.OnCancel = function(){
             this.Undo();
         };
 
@@ -92,17 +78,19 @@
         AjaxForm.prototype.CheckDirty = function(){
             var isDirty = this.IsDirty();
 
-            if(this.IsOrig() || this.IsSaved() || this.IsFailed()){
-                angular.forEach(this.controls, function(ctrl){
-                    isDirty = isDirty || ctrl.CheckDirty();
-                });
+            if(!isDirty){
+                if(this.IsOrig() || this.IsSaved() || this.IsFailed()){
+                    angular.forEach(this.controls, function(ctrl){
+                        isDirty = isDirty || ctrl.CheckDirty();
+                    });
+                }
             }
 
             return isDirty;
         };
 
         AjaxForm.prototype.CheckAndSetDirty = function(){
-            if(this.CheckDirty()){
+            if(!this.IsDirty() && this.CheckDirty()){
                 this.SetDirty();
             }
         };
@@ -140,24 +128,26 @@
                 iconSave.css('color', 'white');
                 iconSave.css('font-size', '15px');
                 var btnSave = $('<button class="btn btn-xs btn-success btn-ajax-feedback"></button>');
+                btnSave.click(this.Save.bind(this));
                 btnSave.css('width', '30px');
                 btnSave.attr('tabindex', '-1');
+                btnSave.attr('name', 'btnSave');
                 btnSave.append(iconSave);
 
                 var iconCancel = $('<i class="fa fa-times"></i>');
                 iconCancel.css('color', 'white');
                 iconCancel.css('font-size', '15px');
                 var btnCancel = $('<button class="btn btn-xs btn-danger btn-ajax-feedback"></button>');
+                btnCancel.click(this.Undo.bind(this));
                 btnCancel.css('width', '30px');
                 btnCancel.attr('tabindex', '-1');
+                btnCancel.attr('name', 'btnCancel');
                 btnCancel.append(iconCancel);
 
                 var btnGroup = $('<div class="btn-group"></div>');
                 btnGroup.append(btnSave);
                 btnGroup.append(btnCancel);
 
-                btnSave.click(this.Save.bind(this));
-                btnCancel.click(this.Undo.bind(this));
 
                 $(feedback).append(btnGroup);
             }, this);
@@ -257,7 +247,10 @@
 
         AjaxForm.prototype.Undo = function(){
             if(this.IsDirty()){
-                clearTimeout(this.saveTimeout);
+                if(this.saveTimeout != null) {
+                    clearTimeout(this.saveTimeout);
+                }
+                this.saveTimeout = null;
 
                 angular.forEach(this.controls, function(ctrl){
                     ctrl.Reset();
@@ -366,8 +359,6 @@
 
         var AjaxFormControlSelect = function(elements){
             this.element = elements;
-
-            console.log(this);
         };
 
         AjaxFormControlSelect.prototype = new AjaxFormControl();
@@ -393,8 +384,6 @@
             }
 
             elementType = elementType[0];
-
-            console.log(elementType);
 
             elements.focus(function(event){
                 AjaxFormControl.LastFocusedControl = event.target;
@@ -521,7 +510,12 @@
 
         AjaxFormControlRadio.prototype.Focus = function(h){};
         AjaxFormControlRadio.prototype.Edit = function(h){};
-        AjaxFormControlRadio.prototype.Save = function(h){ this.element.change(h); };
+        AjaxFormControlRadio.prototype.Save = function(h){
+            this.element.keyup(function(event){
+                if(event.keyCode >= 37 && event.keyCode <= 40){ h(event);   }
+            });
+            this.element.change(h);
+        };
         AjaxFormControlRadio.prototype.Cancel = function(h){};
 
 
@@ -532,8 +526,11 @@
         };
 
         AjaxFormControlDate.prototype.SetValue = function(val){
-            var d = new Date(val);
-            this.element.datepicker('setDate', !isNaN(d) ? d : null);
+            if(isNaN(val)){
+                this.element.datepicker('setDate', null);
+            } else {
+                this.element.datepicker('setDate', new Date(val));
+            }
         };
 
         AjaxFormControlDate.prototype.Focus = function(h){};
@@ -565,7 +562,7 @@
             restrict: 'E',
             scope: true,
 
-            link: function($scope, $element, $attrs, $ctrl) {
+            link: function($scope, $element, $attrs) {
 
                 var formControls = $element.find('.form-control');
                 var ajaxFormControls = {};
@@ -588,4 +585,4 @@
         }
     }]);
 
-}(window.ecamp.ngApp));
+}());

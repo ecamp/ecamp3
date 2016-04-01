@@ -1,5 +1,32 @@
 {% extends 'ecamp-web/camp/camp.twig' %}
 
+{% block ng_app %}ecamp-camp-index{% endblock %}
+
+{% block script %}
+    {{ parent() }}
+
+    <script type="text/javascript" src="{{ basePath('/vendor-assets/js/uri.js') }}"></script>
+    <script type="text/javascript" src="{{ basePath('/vendor-assets/js/uri.template.js') }}"></script>
+    <script type="text/javascript" src="{{ basePath('/vendor-assets/js/angular.hal.js') }}"></script>
+
+    <script type="text/javascript" src="{{ basePath('/web-assets/js/ajax-form-element.js') }}"></script>
+    <script type="text/javascript" src="{{ basePath('/web-assets/js/modal-form.js') }}"></script>
+    <script type="text/javascript" src="{{ basePath('/web-assets/js/ajax-form-element.js') }}"></script>
+    <script type="text/javascript" src="{{ basePath('/web-assets/js/ng-paginator.js') }}"></script>
+    <script type="text/javascript" src="{{ basePath('/web-assets/js/camp/collaboration.js') }}"></script>
+
+    <script type="text/javascript">
+        (function(){
+            angular.module('ecamp-camp-index', [
+                'ecamp-modal-form',
+                'ecamp-ajax-form-element',
+                'ecamp-paginator',
+                'ecamp-collaboration'
+            ]);
+        })();
+    </script>
+{% endblock %}
+
 
 {% block content %}
 
@@ -33,34 +60,38 @@
 				{% block panel_content %}
 
                     <form class="form-horizontal form-show" role="form">
-                        <div class="form-group has-feedback ajax-form-element orig"
-                             data-backend="{{ url('api/camps', {'camp': camp.id } ) }}"
-                        >
-                            <label class="col-sm-3 control-label" for="camp-name">Name:</label>
-                            <div class="col-sm-9">
-                                <p class="form-control-static">{{ camp.name }}</p>
+                        {#
+                        <ajax-form action="{{ url('api/camps', {'camp': camp.id } ) }}">
+                        #}
+                            <div class="form-group has-feedback ajax-form-element">
+                                <label class="col-sm-3 control-label" for="camp-name">Name:</label>
+                                <div class="col-sm-9">
+                                    <p class="form-control-static">{{ camp.name }}</p>
+                                </div>
                             </div>
-                        </div>
+                        {#
+                        </ajax-form>
+                        #}
 
-                        <div class="form-group has-feedback ajax-form-element orig"
-                             data-backend="{{ url('api/camps', {'camp': camp.id } ) }}"
-                        >
-                            <label class="col-sm-3 control-label" for="camp-title">Title:</label>
-                            <div class="col-sm-9">
-                                <input type="text" class="form-control" id="camp-title" name="title" value="{{ camp.title }}">
-                                <span class="form-control-feedback feedback-container"></span>
+                        <ajax-form action="{{ url('api/camps', {'camp': camp.id } ) }}">
+                            <div class="form-group has-feedback ajax-form-element">
+                                <label class="col-sm-3 control-label" for="camp-title">Title:</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" id="camp-title" name="title" value="{{ camp.title }}">
+                                    <span class="form-control-feedback feedback-container"></span>
+                                </div>
                             </div>
-                        </div>
+                        </ajax-form>
 
-                        <div class="form-group has-feedback ajax-form-element orig"
-                             data-backend="{{ url('api/camps', {'camp': camp.id } ) }}"
-                        >
-                            <label class="col-sm-3 control-label" for="camp-motto">Motto:</label>
-                            <div class="col-sm-9">
-                                <input type="text" class="form-control" id="camp-motto" name="motto" value="{{ camp.motto }}">
-                                <span class="form-control-feedback feedback-container"></span>
+                        <ajax-form action="{{ url('api/camps', {'camp': camp.id } ) }}">
+                            <div class="form-group has-feedback ajax-form-element">
+                                <label class="col-sm-3 control-label" for="camp-motto">Motto:</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" id="camp-motto" name="motto" value="{{ camp.motto }}">
+                                    <span class="form-control-feedback feedback-container"></span>
+                                </div>
                             </div>
-                        </div>
+                        </ajax-form>
 
                     </form>
 
@@ -104,100 +135,81 @@
                                 >+ Add Period</button>
                     </div>
                 {% endblock %}
-				{% block panel_content %}
-					{#
-                    <div class="col-sm-12">
-					#}
+            {% block panel_content %}
+                    <table class="table table-striped table-hover" style="width: 100%">
+                        <thead>
+                            <tr>
+                                <th>Start</th>
+                                <th>End</th>
+                                <th>Description</th>
+                                <th>Options</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for period in camp.getPeriods %}
+                            <tr>
+                                <td>{{ period.getStart | date }}</td>
+                                <td>{{ period.getEnd | date}}</td>
+                                <td>{{ period.getDescription }}</td>
+                                <td>
+                                    <a
+                                        async-modal
+                                        class="btn btn-xs btn-primary"
+                                        href="{{ url('web/camp/default',
+                                            {'camp': camp, 'controller':'period', 'action' : 'editPeriod' },
+                                            { 'query': { 'periodId': period.id } }
+                                            ) }}"
+                                    >
+                                        Edit
+                                    </a>
+                                    <a class="btn btn-xs btn-danger"
+                                       data-toggle="modal"
+                                       href="#deletePeriod{{ period.id }}Modal"
+                                    >
+                                        Delete
+                                    </a>
 
-
-						<table class="table table-striped table-hover" style="width: 100%">
-							<thead>
-								<tr>
-									<th>Start</th>
-									<th>End</th>
-									<th>Description</th>
-									<th>Options</th>
-								</tr>
-							</thead>
-							<tbody>
-							{% for period in camp.getPeriods %}
-								<tr>
-									<td>{{ period.getStart | date }}</td>
-									<td>{{ period.getEnd | date}}</td>
-									<td>{{ period.getDescription }}</td>
-									<td>
-										<a
-                                            async-modal
-											class="btn btn-xs btn-primary"
-											href="{{ url('web/camp/default',
-												{'camp': camp, 'controller':'period', 'action' : 'editPeriod' },
-												{ 'query': { 'periodId': period.id } }
-												) }}"
-										>
-											Edit
-										</a>
-										{#
-                                        <a 	href="{{ url('web/camp/default',
-												{ 'camp': camp, 'controller': 'period', 'action': 'deletePeriod' },
-												{ 'query' : { 'periodId': period.id } }
-												) }}"
-											class="btn btn-xs btn-danger"
-										>
-											Delete
-										</a>
-										#}
-                                        <a class="btn btn-xs btn-danger"
-                                           data-toggle="modal"
-                                           href="#deletePeriod{{ period.id }}Modal"
-                                        >
-                                            Delete
-                                        </a>
-
-                                        <div class="modal fade" id="deletePeriod{{ period.id }}Modal" tabindex="-1" role="dialog" aria-labelledby="deletePeriod{{ period.id }}ModalLabel" aria-hidden="true">
-                                            <div class="modal-dialog">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                                        <h4 class="modal-title">Delete Period</h4>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        <p>
-                                                            Are you sure, you want to delete this period? "{{ period.description }}"?
-                                                        </p>
-                                                        <table>
-                                                            <tr>
-                                                                <td><b>Description:</b> </td>
-                                                                <td> {{ period.description }}</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td><b>Date: </b></td>
-                                                                <td> {{ period.start|date() }} - {{ period.end|date() }}</td>
-                                                            </tr>
-                                                        </table>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <a 	href="{{ url('web/camp/default',
-                                                            { 'camp': camp, 'controller': 'period', 'action': 'deletePeriod' },
-                                                            { 'query' : { 'periodId': period.id } }
-                                                            ) }}"
-                                                              class="btn btn-danger"
-                                                        >
-                                                            Delete
-                                                        </a>
-                                                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                                                    </div>
+                                    <div class="modal fade" id="deletePeriod{{ period.id }}Modal" tabindex="-1" role="dialog" aria-labelledby="deletePeriod{{ period.id }}ModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                                    <h4 class="modal-title">Delete Period</h4>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <p>
+                                                        Are you sure, you want to delete this period? "{{ period.description }}"?
+                                                    </p>
+                                                    <table>
+                                                        <tr>
+                                                            <td><b>Description:</b> </td>
+                                                            <td> {{ period.description }}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td><b>Date: </b></td>
+                                                            <td> {{ period.start|date() }} - {{ period.end|date() }}</td>
+                                                        </tr>
+                                                    </table>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <a 	href="{{ url('web/camp/default',
+                                                        { 'camp': camp, 'controller': 'period', 'action': 'deletePeriod' },
+                                                        { 'query' : { 'periodId': period.id } }
+                                                        ) }}"
+                                                          class="btn btn-danger"
+                                                    >
+                                                        Delete
+                                                    </a>
+                                                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
                                                 </div>
                                             </div>
                                         </div>
-									</td>
-								</tr>
-							{% endfor %}
-							</tbody>
-						</table>
-
-                    {#
-					</div>
-                    #}
+                                    </div>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
 				{% endblock %}
 			{% endembed %}
 		</div>

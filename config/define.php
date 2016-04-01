@@ -6,3 +6,6 @@ define("__VENDOR__", __BASE__ . '/vendor');
 define("__MODULE__", __BASE__ . '/module');
 define("__PLUGINS__", __BASE__ . '/plugins');
 define("__PUBLIC__", __BASE__ . '/public');
+define("__ASSETS__", __BASE__ . '/public/assets/vendor');
+
+define("__BASE_URL__" , 'http://ecamp3.dev');

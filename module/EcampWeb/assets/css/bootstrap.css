@@ -1,0 +1,49 @@
+
+a[ng-click], a[data-ng-click] {
+    cursor: pointer;
+}
+
+.panel-group .panel{
+    /*border-color: transparent;*/
+    /*-webkit-box-shadow: none;*/
+}
+
+.panel-group .panel-heading {
+    /*background-color: transparent;*/
+    /*border-bottom: 2px solid rgba(200,200,200,.7);*/
+}
+
+.panel-group .panel-heading+.panel-collapse .panel-body {
+    /*border: none;*/
+}
+
+.modal-open .async-modal {
+    display: block;
+}
+
+.modal-backdrop {
+    position: fixed;
+    bottom: 0;
+}
+
+
+.edit-collaboration-container {
+    display: inline;
+}
+
+.edit-membership-container {
+    display: inline;
+}
+
+
+@keyframes spin-step {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@-webkit-keyframes spin-step {
+    to {
+        -webkit-transform: rotate(360deg) translate3d(0, 0, 0);
+    }
+}

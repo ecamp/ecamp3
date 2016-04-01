@@ -33,9 +33,7 @@
                     <td>
                         <span class="pull-right">
                             {% if acl.isAllowed(me, group, 'administrate') %}
-                                <a 	data-toggle="modal"
-                                    data-backdrop="true"
-                                    data-target="#asyncform-container"
+                                <a 	async-modal
                                     href="{{ url(
                                         'web/group-prefix/name/default',
                                         { 'group': group, 'controller': 'Members', 'action': 'edit' },

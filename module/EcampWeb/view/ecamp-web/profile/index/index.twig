@@ -1,5 +1,28 @@
 {% extends 'ecamp-web/user/user.twig' %}
 
+{% block ng_app %}ecamp-profile{% endblock %}
+
+{% block script %}
+    {{ parent() }}
+
+    <script type="text/javascript" src="{{ basePath('/vendor-assets/js/ng-file-upload.js') }}"></script>
+
+    <script type="text/javascript" src="{{ basePath('/web-assets/js/modal-form.js') }}"></script>
+    <script type="text/javascript" src="{{ basePath('/web-assets/js/image-edit.js') }}"></script>
+
+    <script type="text/javascript" src="{{ basePath('/web-assets/js/ajax-form-element.js') }}"></script>
+
+    <script type="text/javascript">
+        (function(){
+            angular.module('ecamp-profile', [
+                'ecamp-modal-form',
+                'ecamp-ajax-form-element',
+                'ecamp-image-edit'
+            ]);
+        })();
+    </script>
+{% endblock %}
+
 {% block content %}
 
     <div class="row">
@@ -23,7 +46,7 @@
                                 <p class="form-control-static">{{ user.email }}</p>
                             </div>
                             <div class="col-xs-2">
-                                <a async-modal href="{{ url('web/profile', { 'action': 'changeEmail' }) }}" class="btn btn-default btn-sm pull-right" style="width: 120px;">
+                                <a data-async-modal href="{{ url('web/profile', { 'action': 'changeEmail' }) }}" class="btn btn-default btn-sm pull-right" style="width: 120px;">
                                     <i class="fa fa-edit"></i> mail adress
                                 </a>
                             </div>
@@ -36,7 +59,7 @@
                             </div>
                             {% if user.login %}
                                 <div class="col-xs-2">
-                                    <a async-modal href="{{ url('web/profile', { 'action': 'changePassword' }) }}" class="btn btn-default btn-sm pull-right" style="width: 120px;">
+                                    <a data-async-modal href="{{ url('web/profile', { 'action': 'changePassword' }) }}" class="btn btn-default btn-sm pull-right" style="width: 120px;">
                                         <i class="fa fa-edit"></i> password
                                     </a>
                                 </div>

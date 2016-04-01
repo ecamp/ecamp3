@@ -32,32 +32,30 @@
 
 		var checkForComplete = function(){
 
-			$.get( '/resque-status.php?token='+token,
-		    		function( data ) {
+			// http://ecamp3.dev/api/v0/resque/jobs/82c54643153718fb992c2d
+			$.get( '{{ url('api/resque/jobs') }}' + '/' + token,
+				function( data ) {
+					// Waiting, Delayed, Running
+					if( data.status == "1" || data.status == "2" || data.status == "3"){
+						setTimeout(checkForComplete, 500);
+					}
+					// Cancelled, Failed
+					if( data.status == "5" || data.status ==  "6" )
+					{
+						printBtn.removeClass('disabled');
+						printBtn.find('#waiting').remove();
 
-			        	  if( data == "running" || data == "waiting" ){
-			        	  	setTimeout(checkForComplete, 500);
-			        	  }
+						alert("A error has occured during printing.");
+					}
+					// Complete
+					if( data.status == "4" )
+					{
+						printBtn.removeClass('disabled');
+						printBtn.find('#waiting').remove();
 
-			        	  if( data == "failed" )
-			        	  {
-			        		  printBtn.removeClass('disabled');
-			        		  printBtn.find('#waiting').remove();
-
-				        	  alert("A error has occured during printing.");
-				           }
-
-			        	  if( data == "complete" )
-			        	  {
-			        		  printBtn.removeClass('disabled');
-			        		  printBtn.find('#waiting').remove();
-
-			        		  window.open('{{ url(
-			  		    			'web/default',
-					    			{'controller':'index', 'action' : 'printJobResult' }
-					    		) }}?token=' + token);
-				          }
-	        		}
+						window.open(data._links.result.href);
+					}
+				}
         	);
 		};
 

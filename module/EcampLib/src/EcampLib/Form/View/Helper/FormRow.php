@@ -9,7 +9,7 @@ class FormRow extends TwbBundleFormRow
 
     public function render(\Zend\Form\ElementInterface $oElement, $labelPosition = null)
     {
-        return "<twb-form-row>" . parent::render($oElement) . "</twb-form-row>";
+        return "<twb-form-row>" . parent::render($oElement, $labelPosition) . "</twb-form-row>";
     }
 
 }

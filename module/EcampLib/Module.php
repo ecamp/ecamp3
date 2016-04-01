@@ -4,11 +4,14 @@ namespace EcampLib;
 use EcampLib\Entity\ServiceLocatorAwareEventListener;
 use EcampLib\Listener\FlushEntitiesListener;
 
+use Zend\ModuleManager\Feature\InitProviderInterface;
 use Zend\ModuleManager\Feature\ServiceProviderInterface;
 use Zend\ModuleManager\Feature\ViewHelperProviderInterface;
 use Zend\ModuleManager\Feature\FormElementProviderInterface;
 use Zend\ModuleManager\Feature\FilterProviderInterface;
 use Zend\ModuleManager\Feature\ValidatorProviderInterface;
+use Zend\ModuleManager\ModuleManager;
+use Zend\ModuleManager\ModuleManagerInterface;
 use Zend\Mvc\MvcEvent;
 
 class Module implements
@@ -16,7 +19,8 @@ class Module implements
     ViewHelperProviderInterface,
     FormElementProviderInterface,
     FilterProviderInterface,
-    ValidatorProviderInterface
+    ValidatorProviderInterface,
+    InitProviderInterface
 {
     public function getConfig()
     {
@@ -60,6 +64,26 @@ class Module implements
         return include __DIR__ . '/config/validator.config.php';
     }
 
+    public function init(ModuleManagerInterface $moduleManager)
+    {
+        /** @var \Zend\ModuleManager\ModuleManager $moduleManager */
+        $sm = $moduleManager->getEvent()->getParam('ServiceManager');
+        /** @var \Zend\ModuleManager\Listener\ServiceListener $serviceListener */
+        $serviceListener = $sm->get('ServiceListener');
+        $serviceListener->addServiceManager(
+            'JobFactoryManager',
+            'job_factory_manager',
+            'EcampLib\ModuleManager\Feature\JobFactoryProviderInterface',
+            'getJobFactoryConfig'
+        );
+        $serviceListener->addServiceManager(
+            'PrintableManager',
+            'printable_manager',
+            'EcampLib\ModuleManager\Feature\PrintableProviderInterface',
+            'getPrintableConfig'
+        );
+    }
+
     public function onBootstrap(MvcEvent $e)
     {
         $sm = $e->getApplication()->getServiceManager();
@@ -71,7 +95,7 @@ class Module implements
         $eventManager = $e->getTarget()->getEventManager();
         $eventManager->attach(new FlushEntitiesListener());
 
-        \Resque::setBackend('localhost:6379', 0, 'resque.ecamp3');
+        // \Resque::setBackend('localhost:6379', 0, 'resque.ecamp3');
     }
 }
 

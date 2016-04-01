@@ -143,6 +143,20 @@ class Day
     }
 
     /**
+     * @return \Doctrine\Common\Collections\ArrayCollection
+     */
+    public function getEventInstances()
+    {
+        $filter = function(EventInstance $eventInstance) {
+            return $eventInstance->getStartTime() >= $this->getStart()
+                && $eventInstance->getStartTime() < $this->getEnd()
+            ;
+        };
+
+        return $this->period->getEventInstances()->filter($filter);
+    }
+
+    /**
      * @ORM\PrePersist
      */
     public function prePersist()

@@ -1,33 +1,27 @@
-{{ docType() }}
-<html>
-    <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        {% block meta %}{% endblock meta %}
+{% extends 'layout/html.twig' %}
 
-        {% block title %}
-        	<title>eCamp V3</title>
-        {% endblock title %}
+{% block link %}
+    <link type="text/css" rel="stylesheet" href="{{ request.basePath }}/assets/vendor/bootstrap/dist/css/bootstrap.css" />
+    <link type="text/css" rel="stylesheet" href="{{ request.basePath }}/assets/vendor/fontawesome/css/font-awesome.min.css" />
+    <link type="text/css" rel="stylesheet" href="{{ request.basePath }}/assets/vendor/jquery-ui/themes/base/jquery.ui.all.css" />
 
+    <link type="text/css" rel="stylesheet" href="{{ request.basePath }}/ecamp-web/css/bootstrap.css" />
+    <link type="text/css" rel="stylesheet" href="{{ request.basePath }}/ecamp-web/css/default.css" />
 
-        <!-- CSS - Files -->
-		<link type="text/css" rel="stylesheet" href="{{ request.getBasePath }}/bootstrap/css/bootstrap.min.css" />
-		<link type="text/css" rel="stylesheet" href="{{ request.getBasePath }}/font-awesome/css/font-awesome.min.css" />
-		<link type="text/css" rel="stylesheet" href="{{ request.getBasePath }}/jqueryui/themes/base/minified/jquery-ui.min.css" />
+    <link type="text/css" rel="stylesheet" href="{{ request.basePath }}/web-assets/css/ui-bootstrap.css" />
+    <link type="text/css" rel="stylesheet" href="{{ request.basePath }}/web-assets/css/print.css" />
 
-		<link type="text/css" rel="stylesheet" href='{{ request.getBasePath }}/bootstrap-select/css/bootstrap-select.min.css' />
-		<link type="text/css" rel="stylesheet" href='{{ request.getBasePath }}/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css' />
+    <style>
+    </style>
 
-		<link type="text/css" rel="stylesheet" href="{{ request.getBasePath }}/ecamp-web/css/ajaxLoader.css" />
-		<link type="text/css" rel="stylesheet" href="{{ request.getBasePath }}/ecamp-web/css/searchbox.css" />
-		<link type="text/css" rel="stylesheet" href="{{ request.getBasePath }}/ecamp-web/css/default.css" />
+{% endblock %}
 
-        {% block style %}{% endblock style %}
+{% block script %}
 
-    </head>
+{% endblock %}
+
+{% block html_body %}
     <body>
-         <div style="width:800px;">
-	        	{% block content %}{% endblock content %}
- 		</div>
+        {% block content %}{% endblock content %}
     </body>
-</html>
+{% endblock %}

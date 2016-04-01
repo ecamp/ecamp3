@@ -76,7 +76,7 @@ class CampService
         $this->aclRequire($camp, Privilege::CAMP_CONFIGURE);
 
         $campValidationForm = $this->createValidationForm(
-            $camp, $data, array_intersect(array_keys($data), array('title', 'motto')));
+            $camp, $data, array_intersect(array_keys($data), array('title', 'motto', 'printConfig')));
 
         if (!$campValidationForm->isValid()) {
             throw ValidationException::FromForm($campValidationForm);

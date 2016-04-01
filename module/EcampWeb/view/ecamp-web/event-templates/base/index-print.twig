@@ -1,56 +1,82 @@
-{% extends 'layout/print.twig' %}
+{#
+<div class="page">
+#}
+    <div style="border: 2px solid black; border-radius: 8px 8px 0 0; padding: 2px 8px; background-color: {{ eventCategory.color }}">
+        <table border="0" style="width: 100%;">
+            <colgroup>
+                <col width="*" />
+                <col width="80" />
+                <col width="240" />
+            </colgroup>
+            <tr>
+                <td rowspan="3" >
+                    <h3 style="margin: 0; padding: 0;">
+                        ({{ eventInstance.eventNumber }}) {{ eventCategory.short }}: {{ event.title }}
+                    </h3>
+                </td>
+                <td>
+                    <a name="EVENT{{ event.id }}" class="event-link-target">
+                        <small>Datum:</small>
+                    </a>
+                </td>
+                <td>
+                    <b>{{ eventInstance.getDateRange() }}</b>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <small>Zeit:</small>
+                </td>
+                <td>
+                    <b>
+                    {{ eventInstance.getStarttime() | date('H') }}<small><sup>{{ eventInstance.getStarttime() | date('i') }}</sup></small>
+                    -
+                    {{ eventInstance.getEndtime() | date('H') }}<small><sup>{{ eventInstance.getEndtime() | date('i') }}</sup></small>
+                    </b>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <small>Ort:</small>
+                </td>
+                <td></td>
+            </tr>
+        </table>
+    </div>
+    <div style="border: 1px solid black; border-width: 0px 1px 1px 1px; padding: 0;">
+        <table border="0" style="width: 100%;">
+            <colgroup>
+                <col width="66%" />
+                <col width="34%" />
+            </colgroup>
+            <tr>
+                <td style="padding: 0px 3px; text-decoration: underline;">Roter Faden:</td>
+                <td style="padding: 0px 3px; text-decoration: underline;">Verantwortliche/r:</td>
+            </tr>
+            <tr>
+                <td style="padding: 0px 3px 2px 3px">
 
-{% block content %}
+                </td>
+                <td rowspan="3" style="padding: 1px 3px; vertical-align: top">
+                    {% for eventResp in event.eventResps %}
+                        {{ eventResp.user.displayName }}{{ loop.last ? '' : ', ' }}
+                    {% endfor %}
+                </td>
+            </tr>
+            <tr>
+                <td style="padding: 0px 3px; text-decoration: underline;">Ziele:</td>
+            </tr>
+            <tr>
+                <td style="padding: 0px 3px 2px 3px">
 
-	<h1>
-		{{ eventCategory.short }}: {{ event.title }}
-	</h1>
+                </td>
+            </tr>
+        </table>
+    </div>
 
+    {% block eventTemplateContent %}{{ eventTemplateContent|raw }}{% endblock eventTemplateContent %}
 
-
-	<div class="row">
-		<div class="col-xs-12">
-			{% embed "helper/contentbox-print.twig" %}
-				{% block panel_title %}
-					Infos
-				{% endblock %}
-				{% block panel_content %}
-					<div class="row">
-						<div class="col-sm-8">
-							<h4>Instances:</h4>
-							<table class="table table-striped table-hover" style="width: 100%">
-								<tbody>
-									{% for eventInstance in event.eventInstances %}
-										<tr>
-											<td>
-												{{ eventInstance.getEventNumber() }}
-											</td>
-											<td>
-												{{ eventInstance.getDateRange() }}
-											</td>
-											<td>
-												{{ eventInstance.getStarttime() | date('H') }}<sup><small>{{ eventInstance.getStarttime() | date('i') }}</small></sup>
-												-
-												{{ eventInstance.getEndtime() | date('H') }}<sup><small>{{ eventInstance.getEndtime() | date('i') }}</small></sup>
-
-											</td>
-											<td>{{ eventInstance.getPeriod().getDescription() }}</td>
-										</tr>
-									{% endfor %}
-								</tbody>
-							</table>
-						</div>
-						<div class="col-sm-4">
-							<h4>Responsables:</h4>
-							{% include 'ecamp-web/event-templates/base/event-resp-select.twig' %}
-						</div>
-					</div>
-				{% endblock %}
-			{% endembed %}
-		</div>
-
-	</div>
-
-	{% block eventTemplateContent %}{{ eventTemplateContent|raw }}{% endblock eventTemplateContent %}
-
-{% endblock %}
+    <div style="margin-bottom: 50px;"></div>
+{#
+</div>
+#}
