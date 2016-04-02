@@ -22,19 +22,22 @@ class EventTypeFixture extends AbstractFixture implements OrderedFixtureInterfac
                 'name' => 'Lagersport',
                 'defaultColor' => '#ff5555',
                 'defaultNumberingStyle' => 'a',
-                'reference' => self::LAGERSPORT
+                'reference' => self::LAGERSPORT,
+                'type' => 'LS'
             ),
             array(
                 'name' => 'Lageraktivität',
                 'defaultColor' => '#55ff55',
                 'defaultNumberingStyle' => '1',
-                'reference' => self::LAGERAKTIVITAET
+                'reference' => self::LAGERAKTIVITAET,
+                'type' => 'LA'
             ),
             array(
                 'name' => 'Lagerprogramm',
                 'defaultColor' => '#00ffff',
                 'defaultNumberingStyle' => 'i',
-                'reference' => self::LAGERPROGRAMM
+                'reference' => self::LAGERPROGRAMM,
+                'type' => 'LP'
             )
         ));
     }
@@ -48,12 +51,14 @@ class EventTypeFixture extends AbstractFixture implements OrderedFixtureInterfac
             $color = $eventTypeConfig['defaultColor'];
             $numberingStyle = $eventTypeConfig['defaultNumberingStyle'];
             $reference = $eventTypeConfig['reference'];
+            $type = $eventTypeConfig['type'];
 
             /** @var EventType $eventType */
             $eventType = $eventTypeRepo->findOneBy(array('name' => $name));
 
             if($eventType == null){
                 $eventType = new EventType($name, $color, $numberingStyle);
+                $eventType->setType($type);
                 $manager->persist($eventType);
             } else {
                 $eventType->setDefaultColor($color);

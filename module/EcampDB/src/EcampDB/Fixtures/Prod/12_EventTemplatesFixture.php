@@ -14,19 +14,19 @@ use EcampCore\Entity\Medium;
 class EventTemplatesFixture extends AbstractFixture implements OrderedFixtureInterface
 {
     const LAGERSPORT_WEB = 'eventtemplate-lagersport-web';
+    const LAGERSPORT_PRINT = 'eventtemplate-lagersport-print';
     const LAGERAKTIVITAET_WEB = 'eventtemplate-lageraktivitaet-web';
     const LAGERPROGRAMM_WEB = 'eventtemplate-lagerprogramm-web';
 
-    /*   AKTUELL NICHT IMPLEMENTIERT
+    /*
+    AKTUELL NICHT IMPLEMENTIERT
 
     const LAGERSPORT_MOBILE = 'eventtemplate-lagersport-mobile';
     const LAGERAKTIVITAET_MOBILE = 'eventtemplate-lageraktivitaet-mobile';
     const LAGERPROGRAMM_MOBILE = 'eventtemplate-lagerprogramm-mobile';
 
-    const LAGERSPORT_PRINT = 'eventtemplate-lagersport-print';
     const LAGERAKTIVITAET_PRINT = 'eventtemplate-lageraktivitaet-print';
     const LAGERPROGRAMM_PRINT = 'eventtemplate-lagerprogramm-print';
-
     */
 
     public function load(ObjectManager $manager)
@@ -50,6 +50,24 @@ class EventTemplatesFixture extends AbstractFixture implements OrderedFixtureInt
                 ),
                 'reference' => self::LAGERSPORT_WEB
             ),
+        	array(
+        		'eventType' => EventTypeFixture::LAGERSPORT,
+        		'medium' => MediumFixture::MEDIUM_PRINT,
+        		'template' => 'ecamp-web/event-templates/lagersport/print',
+        		'containers' => array(
+        			array(
+        				'name' => 'Storyboard',
+        				'eventTypePlugin' => EventTypePluginFixture::LAGERSPORT_STORYBOARD,
+        				'template' => 'ecamp-web/event-templates/containers/linear'
+        			),
+        			array(
+        				'name' => 'Material',
+        				'eventTypePlugin' => EventTypePluginFixture::LAGERSPORT_MATERIAL,
+        				'template' => 'ecamp-web/event-templates/containers/linear'
+        			)
+        		),
+        		'reference' => self::LAGERSPORT_PRINT
+        	),	
             array(
                 'eventType' => EventTypeFixture::LAGERAKTIVITAET,
                 'medium' => MediumFixture::MEDIUM_WEB,

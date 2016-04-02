@@ -35,7 +35,9 @@ class BaseUrl extends Url
             /** @var \Zend\I18n\Translator\Translator $translator */
             $translator = $translateHelper->getTranslator();
 
-            $params['locale'] = $translator->getLocale();
+            if($translator) {
+                $params['locale'] = $translator->getLocale();
+            }
         }
 
         return parent::__invoke($name, $params, $options, $reuseMatchedParams);
