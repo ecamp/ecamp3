@@ -1,21 +1,14 @@
 <?php
 namespace EcampWeb;
 
-use Zend\ModuleManager\Feature\ControllerPluginProviderInterface;
-use Zend\ModuleManager\Feature\ControllerProviderInterface;
-use Zend\ModuleManager\Feature\ViewHelperProviderInterface;
 use Zend\Mvc\ModuleRouteListener;
 use Zend\Mvc\MvcEvent;
 
-class Module implements
-    ControllerProviderInterface,
-    ControllerPluginProviderInterface,
-    ViewHelperProviderInterface
+class Module
 {
     public function onBootstrap(MvcEvent $e)
     {
-        //$e->getApplication()->getServiceManager()->get('translator');
-        $eventManager        = $e->getApplication()->getEventManager();
+        $eventManager = $e->getApplication()->getEventManager();
         $moduleRouteListener = new ModuleRouteListener();
         $moduleRouteListener->attach($eventManager);
     }
