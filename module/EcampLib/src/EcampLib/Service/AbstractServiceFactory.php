@@ -21,18 +21,18 @@ class AbstractServiceFactory implements AbstractFactoryInterface
 
     public function canCreateServiceWithName(ServiceLocatorInterface $serviceLocator, $name, $requestedName)
     {
-        if(array_key_exists($requestedName, $this->cache)){
+        if (array_key_exists($requestedName, $this->cache)) {
             return true;
         }
 
-        if($this->moduleOptions == null){
+        if ($this->moduleOptions == null) {
             $this->moduleOptions = $serviceLocator->get('EcampLib\Options\ModuleOptions');
         }
 
         $canCreateService = false;
 
-        foreach($this->moduleOptions->getServiceMappings() as $servicePattern => $serviceMapping){
-            if(preg_match($servicePattern, $requestedName)){
+        foreach ($this->moduleOptions->getServiceMappings() as $servicePattern => $serviceMapping) {
+            if (preg_match($servicePattern, $requestedName)) {
                 $serviceFactory = preg_replace($servicePattern, $serviceMapping[self::Factory], $requestedName);
                 $canCreateService = true;
 
@@ -49,13 +49,13 @@ class AbstractServiceFactory implements AbstractFactoryInterface
 
     public function createServiceWithName(ServiceLocatorInterface $serviceLocator, $name, $requestedName)
     {
-        if(!$this->canCreateServiceWithName($serviceLocator, $name, $requestedName)){
+        if (!$this->canCreateServiceWithName($serviceLocator, $name, $requestedName)) {
             return null;
         }
 
         $cacheEntry = $this->cache[$requestedName];
 
-        if($cacheEntry[self::ServiceInstance] == null){
+        if ($cacheEntry[self::ServiceInstance] == null) {
             $cacheEntry[self::ServiceInstance] = new ServiceWrapper($cacheEntry[self::Factory]);
         }
 

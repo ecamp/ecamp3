@@ -13,5 +13,4 @@ abstract class BaseFieldset extends Fieldset
         $this->setAttribute('style', 'margin: 0 15px');
     }
 
-
 }

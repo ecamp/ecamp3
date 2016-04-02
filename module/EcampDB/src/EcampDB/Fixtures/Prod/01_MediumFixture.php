@@ -14,7 +14,6 @@ class MediumFixture extends AbstractFixture implements OrderedFixtureInterface
     const MEDIUM_PRINT = 'medium-print';
     const MEDIUM_MOBILE = 'medium-mobile';
 
-
     public function load(ObjectManager $manager)
     {
         $this->load_($manager, array(
@@ -40,7 +39,7 @@ class MediumFixture extends AbstractFixture implements OrderedFixtureInterface
     {
         $mediumRepo = $manager->getRepository('EcampCore\Entity\Medium');
 
-        foreach($config as $mediumConfig){
+        foreach ($config as $mediumConfig) {
             $name = $mediumConfig['name'];
             $default = $mediumConfig['default'];
             $reference = $mediumConfig['reference'];
@@ -48,7 +47,7 @@ class MediumFixture extends AbstractFixture implements OrderedFixtureInterface
             /** @var Medium $medium */
             $medium = $mediumRepo->findOneBy(array('name' => $name));
 
-            if($medium == null){
+            if ($medium == null) {
                 $medium = new Medium($name, $default);
                 $manager->persist($medium);
             } else {

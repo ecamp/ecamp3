@@ -2,7 +2,6 @@
 
 namespace EcampCore\DB;
 
-
 use Doctrine\ORM\EntityManager;
 use EcampLib\DB\AbstractDatabaseTransactionListener;
 
@@ -11,25 +10,26 @@ class DatabaseTransactionListener extends AbstractDatabaseTransactionListener
     /** @var EntityManager */
     private $entityManager;
 
-    public function __construct(EntityManager $entityManager) {
+    public function __construct(EntityManager $entityManager)
+    {
         $this->entityManager = $entityManager;
     }
 
     /** @return \Doctrine\DBAL\Connection */
-    private function getConnection() {
+    private function getConnection()
+    {
         return $this->entityManager->getConnection();
     }
 
-
-    function beginTransaction()
+    public function beginTransaction()
     {
         $this->getConnection()->beginTransaction();
     }
 
-    function commitTransaction()
+    public function commitTransaction()
     {
-        if($this->getConnection()->isTransactionActive()){
-            if(! $this->getConnection()->isRollbackOnly()) {
+        if ($this->getConnection()->isTransactionActive()) {
+            if (! $this->getConnection()->isRollbackOnly()) {
                 $this->getConnection()->commit();
             } else {
                 $this->getConnection()->rollBack();
@@ -37,9 +37,9 @@ class DatabaseTransactionListener extends AbstractDatabaseTransactionListener
         }
     }
 
-    function rollbackTransaction()
+    public function rollbackTransaction()
     {
-        if($this->getConnection()->isTransactionActive()){
+        if ($this->getConnection()->isTransactionActive()) {
             $this->getConnection()->rollBack();
         }
     }

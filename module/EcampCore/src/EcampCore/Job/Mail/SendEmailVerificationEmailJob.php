@@ -36,7 +36,7 @@ class SendEmailVerificationEmailJob extends AbstractSendMailJob
 
         $viewModel = new ViewModel();
 
-        if($user->getState() == User::STATE_REGISTERED){
+        if ($user->getState() == User::STATE_REGISTERED) {
             $viewModel->setTemplate('ecamp-core/mail/email-verification-registered.twig');
         } else {
             $viewModel->setTemplate('ecamp-core/mail/email-verification-updated.twig');

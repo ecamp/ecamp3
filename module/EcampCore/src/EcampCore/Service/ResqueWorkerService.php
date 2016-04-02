@@ -18,6 +18,7 @@ class ResqueWorkerService extends Base\ServiceBase
     public function Get($id)
     {
         $this->Cleanup();
+
         return Worker::fromId($id);
     }
 
@@ -27,6 +28,7 @@ class ResqueWorkerService extends Base\ServiceBase
     public function GetAll()
     {
         $this->Cleanup();
+
         return new ArrayCollection(Worker::hostWorkers());
     }
 

@@ -10,10 +10,10 @@ class DatabaseFlushListener extends AbstractDatabaseFlushListener
     /** @var EntityManager */
     private $entityManager;
 
-    public function __construct(EntityManager $entityManager) {
+    public function __construct(EntityManager $entityManager)
+    {
         $this->entityManager = $entityManager;
     }
-
 
     public function flush()
     {
@@ -22,7 +22,7 @@ class DatabaseFlushListener extends AbstractDatabaseFlushListener
 
     public function rollback()
     {
-        if($this->entityManager->getConnection()->isTransactionActive()){
+        if ($this->entityManager->getConnection()->isTransactionActive()) {
             $this->entityManager->getConnection()->rollback();
         }
     }

@@ -16,39 +16,43 @@ class ModuleOptions extends AbstractOptions
         parent::__construct($options);
     }
 
-
-    public function setRepositoryMappings(array $repositoryMappings){
+    public function setRepositoryMappings(array $repositoryMappings)
+    {
         $this->repositoryMappings = $repositoryMappings;
     }
 
-    public function getRepositoryMappings(){
+    public function getRepositoryMappings()
+    {
         return $this->repositoryMappings;
     }
 
-
-    public function setEntityFormMappings(array $entityFormMappings){
+    public function setEntityFormMappings(array $entityFormMappings)
+    {
         $this->entityFormMappings = $entityFormMappings;
     }
 
-    public function getEntityFormMappings(){
+    public function getEntityFormMappings()
+    {
         return $this->entityFormMappings;
     }
 
-
-    public function setEntityFormElementMappings(array $entityFormElementMappings){
+    public function setEntityFormElementMappings(array $entityFormElementMappings)
+    {
         $this->entityFormElementMappings = $entityFormElementMappings;
     }
 
-    public function getEntityFormElementMappings(){
+    public function getEntityFormElementMappings()
+    {
         return $this->entityFormElementMappings;
     }
 
-
-    public function setServiceMappings(array $serviceMappings){
+    public function setServiceMappings(array $serviceMappings)
+    {
         $this->serviceMappings = $serviceMappings;
     }
 
-    public function getServiceMappings(){
+    public function getServiceMappings()
+    {
         return $this->serviceMappings;
     }
 

@@ -20,7 +20,6 @@ abstract class AbstractDatabaseFlushListener
 
     private $serviceNestingCounter = 0;
 
-
     public function setServiceLocator(ServiceLocatorInterface $serviceLocator)
     {
         $this->serviceLocator = $serviceLocator;
@@ -30,8 +29,6 @@ abstract class AbstractDatabaseFlushListener
     {
         return $this->serviceLocator;
     }
-
-
 
     public function attachShared(SharedEventManagerInterface $events)
     {
@@ -43,8 +40,7 @@ abstract class AbstractDatabaseFlushListener
 
     public function detachShared(SharedEventManagerInterface $events)
     {
-        foreach($this->listeners as $listener)
-        {
+        foreach ($this->listeners as $listener) {
             $events->detach(self::IDENTIFIER, $listener);
         }
     }
@@ -61,19 +57,19 @@ abstract class AbstractDatabaseFlushListener
 
     public function onServiceSuccess()
     {
-        if($this->serviceNestingCounter == 1){
+        if ($this->serviceNestingCounter == 1) {
             $this->flush();
         }
     }
 
     public function onServiceError()
     {
-        if($this->serviceNestingCounter == 1){
+        if ($this->serviceNestingCounter == 1) {
             $this->rollback();
         }
     }
 
-    public abstract function flush();
-    public abstract function rollback();
+    abstract public function flush();
+    abstract public function rollback();
 
 }

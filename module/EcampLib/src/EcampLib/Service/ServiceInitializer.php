@@ -31,18 +31,18 @@ class ServiceInitializer extends AbstractListenerAggregate
         return $this->serviceLocator;
     }
 
-
     public function attach(EventManagerInterface $events)
     {
         $this->listeners[] = $events->attach(ServiceEvent::SERVICE_CREATED, array($this, 'onCreated'));
     }
 
-    public function onCreated(Event $e){
-        if($this->config == null){
+    public function onCreated(Event $e)
+    {
+        if ($this->config == null) {
             $this->config = $this->serviceLocator->get('Config');
         }
 
-        if($this->acl == null){
+        if ($this->acl == null) {
             $this->acl = $this->serviceLocator->get('EcampLib\Acl');
         }
 

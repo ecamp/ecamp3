@@ -83,6 +83,7 @@ class IndexController extends BaseController
 
                     try {
                         $this->getUserService()->UpdateEmail($user, $email);
+
                         return $this->redirect()->toRoute('web/profile', array('action' => 'changeEmailSuccess'));
 
                     } catch (ValidationException $e) {
@@ -111,7 +112,6 @@ class IndexController extends BaseController
     {
         $userId = $this->params()->fromQuery('user');
         $code = $this->params()->fromQuery('code');
-
 
         if (!$userId) {
             $response = $this->getResponse();

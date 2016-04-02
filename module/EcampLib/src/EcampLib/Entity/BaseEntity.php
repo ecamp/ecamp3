@@ -107,7 +107,7 @@ abstract class BaseEntity
      */
     protected function addToList($listProperty, $element)
     {
-        if($this instanceof Proxy){
+        if ($this instanceof Proxy) {
             $this->__load();
         }
 
@@ -130,7 +130,7 @@ abstract class BaseEntity
      */
     protected function removeFromList($listProperty, $element)
     {
-        if($this instanceof Proxy){
+        if ($this instanceof Proxy) {
             $this->__load();
         }
 

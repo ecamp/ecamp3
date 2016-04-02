@@ -21,15 +21,12 @@ $app = Zend\Mvc\Application::init(require 'config/job.config.php');
 
 EcampLib\Job\Application::Set($app);
 
-
-
-
 $start = time();
 $stop = $start + (60*60); // 1h
 $fileToken = __DATA__ . '/tmp/' . $start . '.job';
 touch($fileToken);
 
-while($stop > time() && file_exists($fileToken)) {
+while ($stop > time() && file_exists($fileToken)) {
 
     /** @var \Resque\Job $job */
     $job = \Resque::pop(array('php-only'));
@@ -38,7 +35,7 @@ while($stop > time() && file_exists($fileToken)) {
         // Log Job-Start
         file_put_contents($fileToken, date($timeFormat) . " # " . $job->getId() . ": Job started" . PHP_EOL, FILE_APPEND);
 
-        if($job->perform()){
+        if ($job->perform()) {
             file_put_contents($fileToken, date($timeFormat) . " # " . $job->getId() . " Job succeeded" . PHP_EOL, FILE_APPEND);
 
             $instance = $job->getInstance();

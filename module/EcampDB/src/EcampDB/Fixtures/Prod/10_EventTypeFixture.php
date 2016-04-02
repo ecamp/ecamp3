@@ -14,7 +14,6 @@ class EventTypeFixture extends AbstractFixture implements OrderedFixtureInterfac
     const LAGERAKTIVITAET = 'eventtype-lageraktivitaet';
     const LAGERPROGRAMM = 'eventtype-lagerprogramm';
 
-
     public function load(ObjectManager $manager)
     {
         $this->load_($manager, array(
@@ -46,7 +45,7 @@ class EventTypeFixture extends AbstractFixture implements OrderedFixtureInterfac
     {
         $eventTypeRepo = $manager->getRepository('EcampCore\Entity\EventType');
 
-        foreach($config as $eventTypeConfig){
+        foreach ($config as $eventTypeConfig) {
             $name = $eventTypeConfig['name'];
             $color = $eventTypeConfig['defaultColor'];
             $numberingStyle = $eventTypeConfig['defaultNumberingStyle'];
@@ -56,7 +55,7 @@ class EventTypeFixture extends AbstractFixture implements OrderedFixtureInterfac
             /** @var EventType $eventType */
             $eventType = $eventTypeRepo->findOneBy(array('name' => $name));
 
-            if($eventType == null){
+            if ($eventType == null) {
                 $eventType = new EventType($name, $color, $numberingStyle);
                 $eventType->setType($type);
                 $manager->persist($eventType);

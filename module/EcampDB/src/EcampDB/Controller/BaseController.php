@@ -7,7 +7,7 @@ use Zend\Mvc\MvcEvent;
 
 class BaseController extends AbstractActionController
 {
-    
+
     public function onDispatch(MvcEvent $e)
     {
         // Disable translation (in case for non-existing translation tables)

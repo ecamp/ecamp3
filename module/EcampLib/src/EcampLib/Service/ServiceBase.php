@@ -5,8 +5,6 @@ namespace EcampLib\Service;
 use EcampLib\Acl\Acl;
 use EcampLib\Validation\ValidationException;
 use Zend\Config\Config;
-use Zend\Permissions\Acl\Resource\ResourceInterface;
-use Zend\Permissions\Acl\Role\RoleInterface;
 
 abstract class ServiceBase
 {

@@ -54,8 +54,8 @@ class ResqueJobService extends Base\ServiceBase
 
     /**
      * @param $name
-     * @param  array $options
-     * @param bool $enqueue
+     * @param  array        $options
+     * @param  bool         $enqueue
      * @return JobInterface
      */
     public function Create($name, $options = array(), $enqueue = false)
@@ -65,7 +65,7 @@ class ResqueJobService extends Base\ServiceBase
 
         $job = $jobFactory->create($options);
 
-        if($enqueue){
+        if ($enqueue) {
             $this->Enqueue($job);
         }
 
@@ -85,11 +85,11 @@ class ResqueJobService extends Base\ServiceBase
         $this->jobQueue->Flush();
     }
 
-
     /**
      * @return \Resque\Job|null
      */
-    public function GetNextJob(){
+    public function GetNextJob()
+    {
         /** @var \Resque\Job $job */
         $job = \Resque::pop(array('php-only'));
 

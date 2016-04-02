@@ -2,7 +2,6 @@
 
 namespace EcampCore\Service\Base;
 
-
 use Doctrine\ORM\EntityManager;
 use EcampCore\Entity\User;
 use EcampCore\Repository\UserRepository;
@@ -21,7 +20,6 @@ class ServiceInitializer extends LibServiceInitializer
     /** @var User */
     private $user;
 
-
     public function getEntityManager()
     {
         return $this->getServiceLocator()->get('doctrine.entitymanager.orm_default');
@@ -35,25 +33,26 @@ class ServiceInitializer extends LibServiceInitializer
         return $this->getServiceLocator()->get('EcampCore\Repository\User');
     }
 
-    public function onCreated(Event $e){
+    public function onCreated(Event $e)
+    {
         parent::onCreated($e);
 
-        if($this->authService == null){
+        if ($this->authService == null) {
             $this->authService = new AuthenticationService();
         }
 
-        if($this->user == null){
-            if($this->authService->hasIdentity()){
+        if ($this->user == null) {
+            if ($this->authService->hasIdentity()) {
                 $userId = $this->authService->getIdentity();
                 $this->user = $this->getUserRepository()->find($userId);
             }
 
-            if($this->user == null){
+            if ($this->user == null) {
                 $this->authService->clearIdentity();
             }
         }
 
-        if($this->entityManager == null){
+        if ($this->entityManager == null) {
             $this->entityManager = $this->getEntityManager();
         }
 

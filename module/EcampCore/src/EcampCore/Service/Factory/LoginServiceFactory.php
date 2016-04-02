@@ -2,7 +2,6 @@
 namespace EcampCore\Service\Factory;
 
 use EcampCore\Service\LoginService;
-use Zend\ServiceManager\Exception;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 

@@ -21,10 +21,10 @@ class ModuleOptionsFactory implements FactoryInterface
         $abstractServiceFactoryConfigs = ($serviceManager['abstract_service_factory_config'] ?: array());
 
         $repositoryMappings = array();
-        foreach($repositories as $repository){
+        foreach ($repositories as $repository) {
             $mappings = $repository['mappings'] ?: array();
 
-            foreach($mappings as $repo => $entityName){
+            foreach ($mappings as $repo => $entityName) {
                 $repositoryMappings[$repo] = array(
                     'entitymanager' => $repository['entitymanager'],
                     'entityname' => $entityName,
@@ -32,15 +32,13 @@ class ModuleOptionsFactory implements FactoryInterface
             }
         }
 
-
         $entityFormMappings = array();
-        foreach($entityForms as $entityForm){
+        foreach ($entityForms as $entityForm) {
             $pattern = $entityForm['pattern'];
             $entityFormMappings[$pattern] = array(
                 'entitymanager' => $entityForm['entitymanager'],
             );
         }
-
 
         $entityFormElementMappings = array();
         foreach ($entityFormElements as $entityFormElement) {
@@ -52,9 +50,8 @@ class ModuleOptionsFactory implements FactoryInterface
             );
         }
 
-
         $serviceMappings = array();
-        foreach($abstractServiceFactoryConfigs as $abstractServiceFactoryConfig){
+        foreach ($abstractServiceFactoryConfigs as $abstractServiceFactoryConfig) {
             $servicePattern = $abstractServiceFactoryConfig['servicePattern'];
             $factoryPattern = $abstractServiceFactoryConfig['factoryPattern'];
 
@@ -62,7 +59,6 @@ class ModuleOptionsFactory implements FactoryInterface
                 'factory' => $factoryPattern
             );
         }
-
 
         return new ModuleOptions(array(
             'repositoryMappings' => $repositoryMappings,

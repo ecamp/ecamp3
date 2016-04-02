@@ -21,7 +21,6 @@ class EventTypePluginFixture extends AbstractFixture implements OrderedFixtureIn
     const LAGERPROGRAMM_STORYBOARD = 'eventtypeplugin-lagerprogramm-storyboard';
     const LAGERPROGRAMM_MATERIAL = 'eventtypeplugin-lagerprogramm-material';
 
-
     public function load(ObjectManager $manager)
     {
         $this->init_($manager, array(
@@ -92,7 +91,7 @@ class EventTypePluginFixture extends AbstractFixture implements OrderedFixtureIn
                 'plugin' => $plugin
             ));
 
-            if($eventTypePlugin == null){
+            if ($eventTypePlugin == null) {
                 $eventTypePlugin = new EventTypePlugin($eventType, $plugin);
                 $manager->persist($eventTypePlugin);
             }
@@ -104,7 +103,6 @@ class EventTypePluginFixture extends AbstractFixture implements OrderedFixtureIn
 
         $manager->flush();
     }
-
 
     public function getOrder()
     {

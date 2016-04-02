@@ -23,19 +23,18 @@ class EntityFormElementFactory implements AbstractFactoryInterface
     /** @var \EcampLib\Options\ModuleOptions */
     private $moduleOptions = null;
 
-
     public function canCreateServiceWithName(ServiceLocatorInterface $formElementManager, $name, $requestedName)
     {
-        if($this->moduleOptions == null){
+        if ($this->moduleOptions == null) {
             /** @var AbstractPluginManager $formElementManager */
             $serviceLocator = $formElementManager->getServiceLocator();
             $this->moduleOptions = $serviceLocator->get('EcampLib\Options\ModuleOptions');
         }
-        
+
         $canCreateService = false;
 
-        foreach ($this->moduleOptions->getEntityFormElementMappings() as $entityPattern => $entityFormElementMapping){
-            if(preg_match($entityPattern, $requestedName)){
+        foreach ($this->moduleOptions->getEntityFormElementMappings() as $entityPattern => $entityFormElementMapping) {
+            if (preg_match($entityPattern, $requestedName)) {
                 $canCreateService = true;
 
                 $this->cache[$requestedName] = array(
@@ -54,7 +53,7 @@ class EntityFormElementFactory implements AbstractFactoryInterface
 
     public function createServiceWithName(ServiceLocatorInterface $formElementManager, $name, $requestedName)
     {
-        if(!$this->canCreateServiceWithName($formElementManager, $name, $requestedName)){
+        if (!$this->canCreateServiceWithName($formElementManager, $name, $requestedName)) {
             return null;
         }
 
@@ -63,7 +62,7 @@ class EntityFormElementFactory implements AbstractFactoryInterface
         $entityName = preg_replace($pattern, $cacheEntry[self::Entity], $requestedName);
         $propertyName = preg_replace($pattern, $cacheEntry[self::Property], $requestedName);
 
-        if($cacheEntry[self::AnnotationBuilder] == null){
+        if ($cacheEntry[self::AnnotationBuilder] == null) {
             $entityManagerName = $cacheEntry[self::EntityManager];
 
             /** @var AbstractPluginManager $formElementManager */
@@ -75,7 +74,7 @@ class EntityFormElementFactory implements AbstractFactoryInterface
             $cacheEntry[self::AnnotationBuilder] = new AnnotationBuilder($entityManager);
         }
 
-        if($cacheEntry[self::Form] ==  null){
+        if ($cacheEntry[self::Form] ==  null) {
             /** @var AnnotationBuilder $annotationBuilder */
             $annotationBuilder = $cacheEntry[self::AnnotationBuilder];
             $cacheEntry[self::Form] = $annotationBuilder->createForm($entityName);

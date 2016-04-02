@@ -211,7 +211,7 @@ class User
     {
         $this->email = $email;
 
-        if($this->state == self::STATE_NONREGISTERED){
+        if ($this->state == self::STATE_NONREGISTERED) {
             $this->setUntrustedEmail($email);
         }
 

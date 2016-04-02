@@ -19,10 +19,9 @@ class EntityFormFactory implements AbstractFactoryInterface
     /** @var \EcampLib\Options\ModuleOptions */
     private $moduleOptions = null;
 
-
     public function canCreateServiceWithName(ServiceLocatorInterface $formElementManager, $name, $requestedName)
     {
-        if($this->moduleOptions == null){
+        if ($this->moduleOptions == null) {
             /** @var AbstractPluginManager $formElementManager */
             $serviceLocator = $formElementManager->getServiceLocator();
             $this->moduleOptions = $serviceLocator->get('EcampLib\Options\ModuleOptions');
@@ -31,7 +30,7 @@ class EntityFormFactory implements AbstractFactoryInterface
         $canCreateService = false;
 
         foreach ($this->moduleOptions->getEntityFormMappings() as $entityPattern => $entityFormMapping) {
-            if(preg_match($entityPattern, $requestedName)){
+            if (preg_match($entityPattern, $requestedName)) {
                 $canCreateService = true;
 
                 $this->cache[$requestedName] = array(
@@ -47,13 +46,13 @@ class EntityFormFactory implements AbstractFactoryInterface
 
     public function createServiceWithName(ServiceLocatorInterface $formElementManager, $name, $requestedName)
     {
-        if(!$this->canCreateServiceWithName($formElementManager, $name, $requestedName)){
+        if (!$this->canCreateServiceWithName($formElementManager, $name, $requestedName)) {
             return null;
         }
 
         $cacheEntry = $this->cache[$requestedName];
 
-        if($cacheEntry[self::AnnotationBuilder] == null){
+        if ($cacheEntry[self::AnnotationBuilder] == null) {
             $entityManagerName = $cacheEntry[self::EntityManager];
 
             /** @var AbstractPluginManager $formElementManager */
@@ -67,6 +66,7 @@ class EntityFormFactory implements AbstractFactoryInterface
 
         /** @var AnnotationBuilder $annotationBuilder */
         $annotationBuilder = $cacheEntry[self::AnnotationBuilder];
+
         return $annotationBuilder->createForm($requestedName);
     }
 

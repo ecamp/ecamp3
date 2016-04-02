@@ -23,18 +23,18 @@ class AbstractRepositoryFactory implements AbstractFactoryInterface
 
     public function canCreateServiceWithName(ServiceLocatorInterface $serviceLocator, $name, $requestedName)
     {
-        if(array_key_exists($requestedName, $this->cache)){
+        if (array_key_exists($requestedName, $this->cache)) {
             return true;
         }
 
-        if($this->moduleOptions == null){
+        if ($this->moduleOptions == null) {
             $this->moduleOptions = $serviceLocator->get('EcampLib\Options\ModuleOptions');
         }
 
         $canCreateService = false;
 
         foreach ($this->moduleOptions->getrepositoryMappings() as $repoPattern => $repositoryMapping) {
-            if(preg_match($repoPattern, $requestedName)){
+            if (preg_match($repoPattern, $requestedName)) {
                 $entityPattern = $repositoryMapping[self::EntityName];
                 $canCreateService = true;
 
@@ -50,16 +50,15 @@ class AbstractRepositoryFactory implements AbstractFactoryInterface
         return $canCreateService;
     }
 
-
     public function createServiceWithName(ServiceLocatorInterface $serviceLocator, $name, $requestedName)
     {
-        if(!$this->canCreateServiceWithName($serviceLocator, $name, $requestedName)){
+        if (!$this->canCreateServiceWithName($serviceLocator, $name, $requestedName)) {
             return null;
         }
 
         $cacheEntry = $this->cache[$requestedName];
 
-        if($cacheEntry[self::RepositoryInstance] == null){
+        if ($cacheEntry[self::RepositoryInstance] == null) {
             $entityName = $cacheEntry[self::EntityName];
             $entityManagerName = $cacheEntry[self::EntityManager];
 

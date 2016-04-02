@@ -45,7 +45,7 @@ class AdminUserFixture extends AbstractFixture implements OrderedFixtureInterfac
 
             $user = $userRepo->findOneBy(array('username' => $username));
 
-            if($user == null){
+            if ($user == null) {
                 $user = new User();
                 $user->setUsername($username);
                 $manager->persist($user);
@@ -58,11 +58,11 @@ class AdminUserFixture extends AbstractFixture implements OrderedFixtureInterfac
             $user->setRole($role);
             $user->setState($state);
 
-            if(array_key_exists('password', $userConfig)){
+            if (array_key_exists('password', $userConfig)) {
                 $password = $userConfig['password'];
                 $login = $user->getLogin();
 
-                if($login == null){
+                if ($login == null) {
                     $login = new Login($user, $password);
                     $manager->persist($login);
                 } else {

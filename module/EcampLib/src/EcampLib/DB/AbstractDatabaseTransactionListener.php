@@ -16,16 +16,18 @@ abstract class AbstractDatabaseTransactionListener extends AbstractListenerAggre
         $this->listeners[] = $events->attach(MvcEvent::EVENT_DISPATCH_ERROR, array($this, 'onDispatchError'), 10);
     }
 
-    public function onBootstrap(){
+    public function onBootstrap()
+    {
         $this->beginTransaction();
     }
 
-    public function onFinish(MvcEvent $e){
+    public function onFinish(MvcEvent $e)
+    {
         $response = $e->getResponse();
 
         $statusCode = method_exists($response, 'getStatusCode') ? $response->getStatusCode() : 200;
 
-        switch(floor($statusCode / 100)){
+        switch (floor($statusCode / 100)) {
             case 2:
             case 3:
                 $this->commitTransaction();
@@ -41,11 +43,12 @@ abstract class AbstractDatabaseTransactionListener extends AbstractListenerAggre
         }
     }
 
-    public function onDispatchError(MvcEvent $e){
+    public function onDispatchError(MvcEvent $e)
+    {
         $this->rollbackTransaction();
     }
 
-    abstract function beginTransaction();
-    abstract function commitTransaction();
-    abstract function rollbackTransaction();
+    abstract public function beginTransaction();
+    abstract public function commitTransaction();
+    abstract public function rollbackTransaction();
 }

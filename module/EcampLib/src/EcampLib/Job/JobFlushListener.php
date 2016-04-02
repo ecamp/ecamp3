@@ -10,22 +10,23 @@ class JobFlushListener extends AbstractListenerAggregate
 {
     private $jobQueue;
 
-    public function __construct(JobQueue $jobQueue){
+    public function __construct(JobQueue $jobQueue)
+    {
         $this->jobQueue = $jobQueue;
     }
-
 
     public function attach(Events $events)
     {
         $this->listeners[] = $events->attach(MvcEvent::EVENT_FINISH, array($this, 'onFinish'), -10);
     }
 
-    public function onFinish(MvcEvent $e){
+    public function onFinish(MvcEvent $e)
+    {
         $response = $e->getResponse();
 
         $statusCode = method_exists($response, 'getStatusCode') ? $response->getStatusCode() : 200;
 
-        switch(floor($statusCode / 100)){
+        switch (floor($statusCode / 100)) {
             case 2:
             case 3:
                 $this->flushJobQueue();
@@ -40,7 +41,8 @@ class JobFlushListener extends AbstractListenerAggregate
         }
     }
 
-    public function flushJobQueue(){
+    public function flushJobQueue()
+    {
         $this->jobQueue->Flush();
     }
 }

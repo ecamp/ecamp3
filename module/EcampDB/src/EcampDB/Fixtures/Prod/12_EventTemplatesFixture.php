@@ -50,24 +50,24 @@ class EventTemplatesFixture extends AbstractFixture implements OrderedFixtureInt
                 ),
                 'reference' => self::LAGERSPORT_WEB
             ),
-        	array(
-        		'eventType' => EventTypeFixture::LAGERSPORT,
-        		'medium' => MediumFixture::MEDIUM_PRINT,
-        		'template' => 'ecamp-web/event-templates/lagersport/print',
-        		'containers' => array(
-        			array(
-        				'name' => 'Storyboard',
-        				'eventTypePlugin' => EventTypePluginFixture::LAGERSPORT_STORYBOARD,
-        				'template' => 'ecamp-web/event-templates/containers/linear'
-        			),
-        			array(
-        				'name' => 'Material',
-        				'eventTypePlugin' => EventTypePluginFixture::LAGERSPORT_MATERIAL,
-        				'template' => 'ecamp-web/event-templates/containers/linear'
-        			)
-        		),
-        		'reference' => self::LAGERSPORT_PRINT
-        	),	
+            array(
+                'eventType' => EventTypeFixture::LAGERSPORT,
+                'medium' => MediumFixture::MEDIUM_PRINT,
+                'template' => 'ecamp-web/event-templates/lagersport/print',
+                'containers' => array(
+                    array(
+                        'name' => 'Storyboard',
+                        'eventTypePlugin' => EventTypePluginFixture::LAGERSPORT_STORYBOARD,
+                        'template' => 'ecamp-web/event-templates/containers/linear'
+                    ),
+                    array(
+                        'name' => 'Material',
+                        'eventTypePlugin' => EventTypePluginFixture::LAGERSPORT_MATERIAL,
+                        'template' => 'ecamp-web/event-templates/containers/linear'
+                    )
+                ),
+                'reference' => self::LAGERSPORT_PRINT
+            ),
             array(
                 'eventType' => EventTypeFixture::LAGERAKTIVITAET,
                 'medium' => MediumFixture::MEDIUM_WEB,
@@ -107,7 +107,6 @@ class EventTemplatesFixture extends AbstractFixture implements OrderedFixtureInt
         ));
     }
 
-
     private function load_(ObjectManager $manager, array $config)
     {
         $eventTemplateRepo = $manager->getRepository('EcampCore\Entity\EventTemplate');
@@ -128,13 +127,12 @@ class EventTemplatesFixture extends AbstractFixture implements OrderedFixtureInt
                 'medium' => $medium
             ));
 
-            if($eventTemplate == null){
+            if ($eventTemplate == null) {
                 $eventTemplate = new EventTemplate($eventType, $medium, $template);
                 $manager->persist($eventTemplate);
             } else {
                 $eventTemplate->setFilename($template);
             }
-
 
             foreach ($containers as $container) {
                 /** @var EventTypePlugin $eventTypePlugin */
@@ -148,7 +146,7 @@ class EventTemplatesFixture extends AbstractFixture implements OrderedFixtureInt
                     'containerName' => $containerName
                 ));
 
-                if($eventTemplateContainer == null){
+                if ($eventTemplateContainer == null) {
                     $eventTemplateContainer = new EventTemplateContainer($eventTemplate, $eventTypePlugin, $containerName, $containerTemplate);
                     $manager->persist($eventTemplateContainer);
                 } else {

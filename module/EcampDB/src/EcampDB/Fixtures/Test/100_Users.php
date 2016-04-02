@@ -16,8 +16,6 @@ class UserFixture extends AbstractFixture implements OrderedFixtureInterface
     const TIFFANY = 'user-tiffany';
     const BILL = 'user-bill';
 
-
-
     public function load(ObjectManager $manager)
     {
         $this->load_($manager, array(
@@ -84,7 +82,7 @@ class UserFixture extends AbstractFixture implements OrderedFixtureInterface
 
             $user = $userRepo->findOneBy(array('username' => $username));
 
-            if($user == null){
+            if ($user == null) {
                 $user = new User();
                 $user->setUsername($username);
                 $manager->persist($user);
@@ -97,11 +95,11 @@ class UserFixture extends AbstractFixture implements OrderedFixtureInterface
             $user->setRole($role);
             $user->setState($state);
 
-            if(array_key_exists('password', $userConfig)){
+            if (array_key_exists('password', $userConfig)) {
                 $password = $userConfig['password'];
                 $login = $user->getLogin();
 
-                if($login == null){
+                if ($login == null) {
                     $login = new Login($user, $password);
                     $manager->persist($login);
                 } else {
@@ -115,7 +113,6 @@ class UserFixture extends AbstractFixture implements OrderedFixtureInterface
 
         $manager->flush();
     }
-
 
     public function getOrder()
     {

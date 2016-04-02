@@ -20,22 +20,18 @@ class ServiceWrapper implements ServiceLocatorAwareInterface, EventManagerAwareI
      */
     protected $events;
 
-
     private $service;
     private $serviceFactoryName;
-
 
     protected $defaultListeners = array(
         'EcampLib\Service\ServiceInitializer',
     );
-
 
     public function __construct($serviceFactoryName)
     {
         $this->service = null;
         $this->serviceFactoryName = $serviceFactoryName;
     }
-
 
     /**
      * Set service locator
@@ -57,7 +53,6 @@ class ServiceWrapper implements ServiceLocatorAwareInterface, EventManagerAwareI
         return $this->serviceLocator;
     }
 
-
     /**
      * Inject an EventManager instance
      *
@@ -70,11 +65,12 @@ class ServiceWrapper implements ServiceLocatorAwareInterface, EventManagerAwareI
             __CLASS__,
             get_class($this),
         ));
-        foreach($this->defaultListeners as $listener){
+        foreach ($this->defaultListeners as $listener) {
             $events->attach($this->getServiceLocator()->get($listener));
         }
 
         $this->events = $events;
+
         return $this;
     }
 
@@ -88,16 +84,18 @@ class ServiceWrapper implements ServiceLocatorAwareInterface, EventManagerAwareI
         if (null === $this->events) {
             $this->setEventManager(new EventManager());
         }
+
         return $this->events;
     }
 
-
-    public function setService(ServiceBase $service){
+    public function setService(ServiceBase $service)
+    {
         $this->service = $service;
     }
 
-    public function getService(){
-        if(null === $this->service){
+    public function getService()
+    {
+        if (null === $this->service) {
             $serviceFactoryName = $this->serviceFactoryName;
 
             /** @var $serviceFactory \Zend\ServiceManager\FactoryInterface */
@@ -114,9 +112,9 @@ class ServiceWrapper implements ServiceLocatorAwareInterface, EventManagerAwareI
 
             $this->service = $service;
         }
+
         return $this->service;
     }
-
 
     public function __call($method, $args)
     {

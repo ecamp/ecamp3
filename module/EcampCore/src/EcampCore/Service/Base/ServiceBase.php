@@ -19,17 +19,16 @@ abstract class ServiceBase extends LibServiceBase
     /** @var User */
     private $me = null;
 
-
-
     /** @return EntityManager */
-    public function getEntityManager() {
+    public function getEntityManager()
+    {
         return $this->entityManager;
     }
 
-    public function setEntityManager(EntityManager $entityManager) {
+    public function setEntityManager(EntityManager $entityManager)
+    {
         $this->entityManager = $entityManager;
     }
-
 
     protected function persist($entity)
     {
@@ -83,9 +82,9 @@ abstract class ServiceBase extends LibServiceBase
     protected function aclIsAllowed(ResourceInterface $resource = null, $privilege = null)
     {
         $user = $this->getMe() ?: User::ROLE_GUEST;
+
         return $this->getAcl()->isAllowed($user, $resource, $privilege);
     }
-
 
     /**
      * @return User
