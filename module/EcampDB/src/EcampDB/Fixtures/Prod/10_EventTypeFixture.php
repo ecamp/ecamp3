@@ -23,21 +23,21 @@ class EventTypeFixture extends AbstractFixture implements OrderedFixtureInterfac
                 'defaultColor' => '#ff5555',
                 'defaultNumberingStyle' => 'a',
                 'reference' => self::LAGERSPORT,
-            	'type' => ''
+                'type' => 'LS'
             ),
             array(
                 'name' => 'Lageraktivität',
                 'defaultColor' => '#55ff55',
                 'defaultNumberingStyle' => '1',
                 'reference' => self::LAGERAKTIVITAET,
-            	'type' => ''
+                'type' => 'LA'
             ),
             array(
                 'name' => 'Lagerprogramm',
                 'defaultColor' => '#00ffff',
                 'defaultNumberingStyle' => 'i',
                 'reference' => self::LAGERPROGRAMM,
-            	'type' => ''
+                'type' => 'LP'
             )
         ));
     }

@@ -94,8 +94,6 @@ class Module implements
         /* listener for flushing entity manager */
         $eventManager = $e->getTarget()->getEventManager();
         $eventManager->attach(new FlushEntitiesListener());
-
-        // \Resque::setBackend('localhost:6379', 0, 'resque.ecamp3');
     }
 }
 
