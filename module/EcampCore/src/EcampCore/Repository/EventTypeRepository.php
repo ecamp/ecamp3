@@ -3,7 +3,14 @@
 namespace EcampCore\Repository;
 
 use Doctrine\ORM\EntityRepository;
+use EcampCore\Entity\EventType;
 
+/**
+ * Class EventTypeRepository
+ * @package EcampCore\Repository
+ *
+ * @method EventType find($id)
+ */
 class EventTypeRepository
     extends EntityRepository
 {

@@ -4,10 +4,17 @@ namespace EcampCore\Repository;
 
 use Doctrine\ORM\Tools\Pagination\Paginator as ORMPaginator;
 use DoctrineORMModule\Paginator\Adapter\DoctrinePaginator as PaginatorAdapter;
+use EcampCore\Entity\Group;
 use EcampCore\Entity\GroupMembership;
 use EcampCore\Entity\User;
 use Zend\Paginator\Paginator;
 
+/**
+ * Class GroupRepository
+ * @package EcampCore\Repository
+ *
+ * @method Group find($id)
+ */
 class GroupRepository extends BaseRepository
 {
 

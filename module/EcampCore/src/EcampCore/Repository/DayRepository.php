@@ -9,6 +9,12 @@ use Doctrine\ORM\Tools\Pagination\Paginator as ORMPaginator;
 use Zend\Paginator\Paginator;
 use EcampCore\Entity\Day;
 
+/**
+ * Class DayRepository
+ * @package EcampCore\Repository
+ *
+ * @method Day find($id)
+ */
 class DayRepository extends EntityRepository
 {
 
