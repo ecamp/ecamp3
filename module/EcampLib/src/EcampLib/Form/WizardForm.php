@@ -154,7 +154,7 @@ class WizardForm extends BaseForm
         return $stepName;
     }
 
-    protected function initializeStepData($stepName)
+    protected function initializeStepData(/** @noinspection PhpUnusedParameterInspection */ $stepName)
     {
         return array();
     }
@@ -243,7 +243,10 @@ class WizardForm extends BaseForm
         return $this->stepFieldsets;
     }
 
-    /** @return WizardInfoFieldset */
+    /**
+     * @param $name
+     * @return WizardInfoFieldset
+     */
     private function getStepFieldset($name)
     {
         $name = $name ?: self::FIRST_STEP;

@@ -3,8 +3,8 @@
 {% block header_icon %}
     <table border="0" style="width: 100%; border: 0px;">
         <tr>
-            <td width="120px">
-                <img width="100" class="img-rounded" src="https://cdn3.iconfinder.com/data/icons/outdoor-and-camping-icons/512/Tent-256.png" >
+            <td width="120px" style="text-align: center">
+                <i class="fa fa-flag" style="font-size: 7em"></i>
             </td>
             <td>
                 <h1>{{ camp.getName }}</h1>
@@ -28,7 +28,7 @@
         {%  for item in camp.getOwner.getPathAsArray(true) %}
             <li>
                 <a class="btn btn-xs btn-noborder" href="{{ url('web/group-prefix/name', {'group' : item.getId } ) }}">
-                    <i class="fa fa-flag"></i> {{ item.name }}
+                    <i class="fa fa-users"></i> {{ item.name }}
                 </a>
             </li>
         {% endfor %}
@@ -36,7 +36,7 @@
 
     <li class="active">
         <a class="btn btn-xs btn-noborder" href="{{ url('web/camp/default', { 'camp': camp }) }}">
-            <i class="fa fa-bell"></i> {{ camp.name }}
+            <i class="fa fa-flag"></i> {{ camp.name }}
         </a>
     </li>
 {% endblock %}

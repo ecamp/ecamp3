@@ -5,14 +5,11 @@ namespace EcampCore\Service;
 use EcampCore\Acl\Privilege;
 use EcampCore\Entity\User;
 use EcampCore\Entity\Image;
-use EcampCore\Job\Mail\MailVerificationSenderJob;
 use EcampCore\Repository\UserRepository;
 use EcampCore\Validator\User\UniqueMailAddress;
 use EcampLib\Validation\ValidationException;
-use EcampLib\Service\ServiceBase;
 
-class UserService
-    extends ServiceBase
+class UserService extends Base\ServiceBase
 {
 
     /**
@@ -20,10 +17,17 @@ class UserService
      */
     private $userRepo;
 
+    /**
+     * @var ResqueJobService
+     */
+    private $resqueJobService;
+
     public function __construct(
-        UserRepository $userRepo
+        UserRepository $userRepo,
+        $resqueJobService
     ){
         $this->userRepo = $userRepo;
+        $this->resqueJobService = $resqueJobService;
     }
 
     /**
@@ -140,10 +144,11 @@ class UserService
 
         $user->setUntrustedEmail($email);
 
-        // TODO: Trigger Event 'Untrusted-Email-Set'
-        // Move Mail-Creation into EventHandler
-        // MailVerificationSenderJob::Create($user);
-        return $user->createNewActivationCode();
+        $this->resqueJobService->Create(
+            'SendEmailVerificationEmail',
+            array('userId' => $user->getId()),
+            true
+        );
     }
 
     public function VerifyEmail($userId, $verificationCode)
@@ -153,8 +158,6 @@ class UserService
         if (!$user->verifyEmail($verificationCode)) {
             throw ValidationException::Create(array('verificationCode' => array('Email verification failed')));
         }
-
-        // Trigger Event 'Untrusted-Email-Verified'
     }
 
     public function Delete(User $user)

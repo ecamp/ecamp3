@@ -8,12 +8,10 @@ use EcampCore\Entity\Login;
 use EcampCore\Repository\AutoLoginRepository;
 use EcampCore\Repository\LoginRepository;
 use EcampCore\Repository\UserRepository;
-use EcampLib\Service\ServiceBase;
 use EcampLib\Validation\ValidationException;
 use Zend\Authentication\AuthenticationService;
 
-class LoginService
-    extends ServiceBase
+class LoginService extends Base\ServiceBase
 {
     /**
      * @var \EcampCore\Repository\LoginRepository

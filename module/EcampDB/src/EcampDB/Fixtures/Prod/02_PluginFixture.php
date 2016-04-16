@@ -14,7 +14,6 @@ class PluginFixture extends AbstractFixture implements OrderedFixtureInterface
     const PLUGIN_MATERIAL = 'plugin-material';
     const PLUGIN_STORYBOARD = 'plugin-storyboard';
 
-
     public function load(ObjectManager $manager)
     {
         $this->load_($manager, array(
@@ -48,7 +47,7 @@ class PluginFixture extends AbstractFixture implements OrderedFixtureInterface
             /** @var Plugin $plugin */
             $plugin = $pluginRepo->findOneBy(array('name' => $name));
 
-            if($plugin == null){
+            if ($plugin == null) {
                 $plugin = new Plugin($name, $strategy);
                 $manager->persist($plugin);
             } else {

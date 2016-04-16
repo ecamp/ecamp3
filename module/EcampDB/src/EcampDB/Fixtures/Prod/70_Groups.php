@@ -105,13 +105,13 @@ class GroupFixture extends AbstractFixture implements OrderedFixtureInterface
     {
         $groupRepo = $manager->getRepository('EcampCore\Entity\Group');
 
-        foreach($config as $groupConfig) {
+        foreach ($config as $groupConfig) {
             $name = $groupConfig['name'];
             $desc = $groupConfig['desc'];
             $parent = $groupConfig['parent'];
             $reference = $groupConfig['reference'];
 
-            if($parent != null){
+            if ($parent != null) {
                 $parent = $this->getReference($parent);
             }
 
@@ -121,7 +121,7 @@ class GroupFixture extends AbstractFixture implements OrderedFixtureInterface
                 'name' => $name
             ));
 
-            if($group == null){
+            if ($group == null) {
                 $group = new Group($parent);
                 $group->setName($name);
                 $manager->persist($group);

@@ -50,7 +50,7 @@ class CampController extends BaseController
         $wizard->setStep(WizardForm::FIRST_STEP);
 
         $ownerId = $this->getRequest()->getQuery('owner');
-        if($ownerId != null){
+        if ($ownerId != null) {
             $owner = $this->getCampOwnerRepository()->find($ownerId);
             $wizard->setStepData(CampCreateWizard::STEP_CAMP_DETAILS, array('owner' => $owner));
         }

@@ -28,10 +28,6 @@
       }
     ],
 
-    "config": {
-        "secure-http": false
-    },
-
 	"require" : {
 		"php" : ">=5.3.3",
 		"zendframework/zendframework" : "2.3.*",

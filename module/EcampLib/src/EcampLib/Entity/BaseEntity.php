@@ -2,6 +2,7 @@
 
 namespace EcampLib\Entity;
 
+use Doctrine\Common\Persistence\Proxy;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Util\ClassUtils;
 use Zend\Form\Annotation as Form;
@@ -106,7 +107,7 @@ abstract class BaseEntity
      */
     protected function addToList($listProperty, $element)
     {
-        if($this instanceof \Doctrine\Common\Persistence\Proxy){
+        if ($this instanceof Proxy) {
             $this->__load();
         }
 
@@ -129,7 +130,7 @@ abstract class BaseEntity
      */
     protected function removeFromList($listProperty, $element)
     {
-        if($this instanceof \Doctrine\Common\Persistence\Proxy){
+        if ($this instanceof Proxy) {
             $this->__load();
         }
 

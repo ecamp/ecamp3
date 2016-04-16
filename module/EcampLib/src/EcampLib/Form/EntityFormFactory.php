@@ -2,55 +2,72 @@
 
 namespace EcampLib\Form;
 
+use Doctrine\ORM\EntityManager;
 use DoctrineORMModule\Form\Annotation\AnnotationBuilder;
 use Zend\ServiceManager\AbstractFactoryInterface;
+use Zend\ServiceManager\AbstractPluginManager;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 class EntityFormFactory implements AbstractFactoryInterface
 {
-    private $pattern = "/^Ecamp(\w+)\\\\Entity\\\\(\w+)$/";
 
-    private $orm;
+    const EntityManager = 'entitymanager';
+    const AnnotationBuilder = 'annotationbuilder';
 
-    /**
-     * @var AnnotationBuilder
-     */
-    private $annotationBuilder;
+    private $cache = array();
 
-    public function __construct($orm = null)
+    /** @var \EcampLib\Options\ModuleOptions */
+    private $moduleOptions = null;
+
+    public function canCreateServiceWithName(ServiceLocatorInterface $formElementManager, $name, $requestedName)
     {
-        $this->orm = $orm ?: 'doctrine.entitymanager.orm_default';
-    }
+        if ($this->moduleOptions == null) {
+            /** @var AbstractPluginManager $formElementManager */
+            $serviceLocator = $formElementManager->getServiceLocator();
+            $this->moduleOptions = $serviceLocator->get('EcampLib\Options\ModuleOptions');
+        }
 
-    /**
-     * Translate a repository class name into the corresponding entity class name
-     * @param  string $elementName
-     * @return string
-     */
-    private function getEntityClassName($elementName)
-    {
-        return preg_replace($this->pattern,"Ecamp$1\\\\Entity\\\\$2", $elementName);
-    }
+        $canCreateService = false;
 
-    public function canCreateServiceWithName(ServiceLocatorInterface $serviceLocator, $name, $requestedName)
-    {
-        return preg_match($this->pattern, $requestedName) && class_exists($this->getEntityClassName($requestedName));
+        foreach ($this->moduleOptions->getEntityFormMappings() as $entityPattern => $entityFormMapping) {
+            if (preg_match($entityPattern, $requestedName)) {
+                $canCreateService = true;
+
+                $this->cache[$requestedName] = array(
+                    self::EntityManager => $entityFormMapping[self::EntityManager]
+                );
+
+                break;
+            }
+        }
+
+        return $canCreateService;
     }
 
     public function createServiceWithName(ServiceLocatorInterface $formElementManager, $name, $requestedName)
     {
-
-        $serviceLocator = $formElementManager->getServiceLocator();
-        $entityName = $this->getEntityClassName($requestedName);
-
-        if ($this->annotationBuilder == null) {
-            $entityManager = $serviceLocator->get($this->orm);
-            $this->annotationBuilder = new AnnotationBuilder($entityManager);
+        if (!$this->canCreateServiceWithName($formElementManager, $name, $requestedName)) {
+            return null;
         }
 
-        $form = $this->annotationBuilder->createForm($entityName);
+        $cacheEntry = $this->cache[$requestedName];
 
-        return $form;
+        if ($cacheEntry[self::AnnotationBuilder] == null) {
+            $entityManagerName = $cacheEntry[self::EntityManager];
+
+            /** @var AbstractPluginManager $formElementManager */
+            $serviceLocator = $formElementManager->getServiceLocator();
+
+            /** @var EntityManager $entityManager */
+            $entityManager = $serviceLocator->get('doctrine.entitymanager.' . $entityManagerName);
+
+            $cacheEntry[self::AnnotationBuilder] = new AnnotationBuilder($entityManager);
+        }
+
+        /** @var AnnotationBuilder $annotationBuilder */
+        $annotationBuilder = $cacheEntry[self::AnnotationBuilder];
+
+        return $annotationBuilder->createForm($requestedName);
     }
 
 }

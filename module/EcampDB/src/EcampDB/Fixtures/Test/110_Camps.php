@@ -26,7 +26,6 @@ class Camps extends AbstractFixture implements OrderedFixtureInterface
     const SOMMERLAGER = 'camp-sommerlager';
     const LEITERKURS = 'camp-leiterkurs';
 
-
     public function load(ObjectManager $manager)
     {
         $this->load_($manager, array(
@@ -194,7 +193,7 @@ class Camps extends AbstractFixture implements OrderedFixtureInterface
             ),
         ));
 
-        for($i = 0; $i < 10; $i++){
+        for ($i = 0; $i < 10; $i++) {
             $name = 'LU 11' . $i . '-17';
             $ref = self::LEITERKURS . UserFixture::TIFFANY . $i;
 
@@ -256,7 +255,7 @@ class Camps extends AbstractFixture implements OrderedFixtureInterface
             ));
         }
 
-        for($i = 0; $i < 10; $i++){
+        for ($i = 0; $i < 10; $i++) {
             $name = 'LU 21' . $i . '-18';
             $ref = self::LEITERKURS . GroupFixture::PBS . $i;
 
@@ -337,11 +336,11 @@ class Camps extends AbstractFixture implements OrderedFixtureInterface
 
             $owner = null;
 
-            if(array_key_exists('owner-user', $campConfig)){
+            if (array_key_exists('owner-user', $campConfig)) {
                 /** @var User $owner */
                 $owner = $this->getReference($campConfig['owner-user']);
             }
-            if(array_key_exists('owner-group', $campConfig)){
+            if (array_key_exists('owner-group', $campConfig)) {
                 /** @var Group $owner */
                 $owner = $this->getReference($campConfig['owner-group']);
             }
@@ -352,7 +351,7 @@ class Camps extends AbstractFixture implements OrderedFixtureInterface
 
             $camp = $campRepo->findOneBy(array('owner' => $owner, 'name' => $name));
 
-            if($camp == null){
+            if ($camp == null) {
                 $camp = new Camp();
                 $camp->setOwner($owner);
                 $camp->setName($name);
@@ -378,7 +377,7 @@ class Camps extends AbstractFixture implements OrderedFixtureInterface
     {
         $periodRepo = $manager->getRepository('EcampCore\Entity\Period');
 
-        foreach($config as $periodConfig){
+        foreach ($config as $periodConfig) {
             $desc = $periodConfig['desc'];
             $start = $periodConfig['start'];
             $length = $periodConfig['length'];
@@ -389,7 +388,7 @@ class Camps extends AbstractFixture implements OrderedFixtureInterface
                 'description' => $desc
             ));
 
-            if($period == null){
+            if ($period == null) {
                 $period = new Period($camp);
                 $period->setDescription($desc);
                 $manager->persist($period);
@@ -397,7 +396,7 @@ class Camps extends AbstractFixture implements OrderedFixtureInterface
 
             $period->setStart($start);
 
-            for($i = $period->getNumberOfDays(); $i <= $length; $i++){
+            for ($i = $period->getNumberOfDays(); $i <= $length; $i++) {
                 $day = new Day($period, $i);
                 $manager->persist($day);
             }
@@ -423,7 +422,7 @@ class Camps extends AbstractFixture implements OrderedFixtureInterface
                 'name' => $name
             ));
 
-            if($category == null){
+            if ($category == null) {
                 $category = new EventCategory($camp, $eventType);
                 $category->setName($name);
                 $manager->persist($category);
@@ -431,10 +430,10 @@ class Camps extends AbstractFixture implements OrderedFixtureInterface
 
             $category->setShort($short);
 
-            if(array_key_exists('color', $categoryConfig)){
+            if (array_key_exists('color', $categoryConfig)) {
                 $category->setColor($categoryConfig['color']);
             }
-            if(array_key_exists('numberingStyle', $categoryConfig)){
+            if (array_key_exists('numberingStyle', $categoryConfig)) {
                 $category->setNumberingStyle($categoryConfig['numberingStyle']);
             }
 
@@ -446,7 +445,6 @@ class Camps extends AbstractFixture implements OrderedFixtureInterface
     {
         $eventRepo = $manager->getRepository('EcampCore\Entity\Event');
         $eventInstanceRepo = $manager->getRepository('EcampCore\Entity\EventInstance');
-
 
         foreach ($config as $eventConfig) {
             /** @var EventCategory $eventCategory */
@@ -460,14 +458,13 @@ class Camps extends AbstractFixture implements OrderedFixtureInterface
                 'title' => $title
             ));
 
-            if($event == null){
+            if ($event == null) {
                 $event = new Event($camp, $eventCategory);
                 $event->setTitle($title);
                 $manager->persist($event);
             } else {
                 $event->setEventCategory($eventCategory);
             }
-
 
             foreach ($instances as $instanceConfig) {
                 /** @var Period $period */
@@ -481,7 +478,7 @@ class Camps extends AbstractFixture implements OrderedFixtureInterface
                     'minOffsetStart' => $minOffsetStart
                 ));
 
-                if($instance == null){
+                if ($instance == null) {
                     $instance = new EventInstance($event);
                     $instance->setPeriod($period);
                     $instance->setMinOffsetStart($minOffsetStart);
@@ -490,10 +487,10 @@ class Camps extends AbstractFixture implements OrderedFixtureInterface
 
                 $instance->setDuration($duration);
 
-                if(array_key_exists('leftOffset', $instanceConfig)){
+                if (array_key_exists('leftOffset', $instanceConfig)) {
                     $instance->setLeftOffset($instanceConfig['leftOffset']);
                 }
-                if(array_key_exists('width', $instanceConfig)){
+                if (array_key_exists('width', $instanceConfig)) {
                     $instance->setWidth($instanceConfig['width']);
                 }
             }

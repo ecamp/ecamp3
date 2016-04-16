@@ -1,0 +1,52 @@
+{% extends 'ecamp-core/mail/layout.twig' %}
+
+{% block desc %}Mail-Adress changed{% endblock %}
+
+{% block body %}
+    <h1>eCamp v3</h1>
+
+    <p>
+        bla bla bla...
+    </p>
+
+    <p style="text-align: center">
+        <a href="{{ fqdnUrl(
+                    'web/default',
+                    { 'controller':'profile', 'action': 'verifyEmail' },
+                    { 'query': { 'user': user.username, 'code': code } }
+                ) }}"
+           style="
+                display: inline-block;
+                padding: 10px 40px;
+                margin-bottom: 0;
+                font-size: 15px;
+                font-weight: 400;
+                line-height: 1.5;
+                text-align: center;
+                white-space: nowrap;
+                vertical-align: middle;
+                -ms-touch-action: manipulation;
+                touch-action: manipulation;
+                cursor: pointer;
+                -webkit-user-select: none;
+                -moz-user-select: none;
+                -ms-user-select: none;
+                user-select: none;
+                background-image: none;
+                border: 1px solid transparent;
+                border-radius: 5px;
+                color: #fff;
+                background-color: #24b714;
+                border-color: #18a405;
+            "
+        >
+            Activate
+        </a>
+    </p>
+
+    <p>
+
+    </p>
+
+
+{% endblock %}

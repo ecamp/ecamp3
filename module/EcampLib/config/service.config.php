@@ -7,6 +7,18 @@ return array(
         'JobFactoryManager' => 'EcampLib\ServiceManager\JobFactoryManager',
     ),
 
+    'invokables' => array(
+        'EcampLib\Job\JobQueue'                     => 'EcampLib\Job\JobQueue',
+        'EcampLib\Service\ServiceInitializer'       => 'EcampLib\Service\ServiceInitializer',
+    ),
+
+    'factories' => array(
+        'Logger'                                    => 'EcampLib\Log\LoggerFactory',
+        'EcampLib\Options\ModuleOptions'            => 'EcampLib\Options\ModuleOptionsFactory',
+        'EcampLib\ServiceManager\PrintableManager'  => 'EcampLib\ServiceManager\PrintableManagerFactory',
+        'EcampLib\ServiceManager\JobFactoryManager' => 'EcampLib\ServiceManager\JobFactoryManagerFactory',
+    ),
+
     'abstract_factories' => array(
         /**
          * Provides repositories for all doctrine entities
@@ -27,12 +39,4 @@ return array(
         'EcampLib\Resource\AbstractResourceFactory'
 
     ),
-
-    'factories' => array(
-        'Logger'                                    => 'EcampLib\Log\LoggerFactory',
-        'Router'                                    => 'EcampLib\Router\RouterFactory',
-        'EcampLib\ServiceManager\PrintableManager'  => 'EcampLib\ServiceManager\PrintableManagerFactory',
-        'EcampLib\ServiceManager\JobFactoryManager' => 'EcampLib\ServiceManager\JobFactoryManagerFactory',
-    ),
-
 );

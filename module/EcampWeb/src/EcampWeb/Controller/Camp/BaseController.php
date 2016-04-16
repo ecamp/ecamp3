@@ -42,7 +42,6 @@ abstract class BaseController
         return $this->getCampRepository()->find($campId);
     }
 
-
     /**
      * @return \EcampCore\Repository\CampRepository
      */

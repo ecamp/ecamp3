@@ -4,13 +4,11 @@ namespace EcampCore\Service;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use EcampLib\Service\ServiceBase;
 use Resque\Host;
 use Resque\Job;
-use Resque\Redis;
 use Resque\Worker;
 
-class ResqueWorkerService extends ServiceBase
+class ResqueWorkerService extends Base\ServiceBase
 {
 
     /**
@@ -20,6 +18,7 @@ class ResqueWorkerService extends ServiceBase
     public function Get($id)
     {
         $this->Cleanup();
+
         return Worker::fromId($id);
     }
 
@@ -29,6 +28,7 @@ class ResqueWorkerService extends ServiceBase
     public function GetAll()
     {
         $this->Cleanup();
+
         return new ArrayCollection(Worker::hostWorkers());
     }
 

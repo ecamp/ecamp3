@@ -47,22 +47,25 @@ class DetailedProgram implements PrintableInterface
     }
 
     /**
-     * @param ModelInterface $viewModel
+     * @param  ModelInterface $viewModel
      * @return string
      */
-    private function render(ModelInterface $viewModel){
+    private function render(ModelInterface $viewModel)
+    {
         $viewModel->setOption('has_parent', true);
+
         return $this->view->render($viewModel);
     }
 
-    public function create(array $item){
+    public function create(array $item)
+    {
         $periodId = $item['periodId'];
 
         $days = "";
         $dayEntities = $this->dayRepository->findPeriodDays($periodId);
 
         /** @var \EcampCore\Entity\Day $day */
-        foreach($dayEntities as $day){
+        foreach ($dayEntities as $day) {
             $dayViewModel = new ViewModel();
             $dayViewModel->setTemplate('ecamp-core/printable/detailed-program-day.twig');
             $dayViewModel->setVariable('day', $this->render(

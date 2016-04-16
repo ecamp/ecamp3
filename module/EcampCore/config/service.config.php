@@ -5,11 +5,12 @@ return array(
     ),
 
     'factories' => array(
-        'EcampCore\Acl' => 'EcampCore\Acl\AclFactory',
-        'EcampCore\Plugin\StrategyProvider' => 'EcampCore\Plugin\StrategyProviderFactory'
+        'EcampLib\Acl'                          => 'EcampCore\Acl\AclFactory',
+        'EcampCore\Plugin\StrategyProvider'     => 'EcampCore\Plugin\StrategyProviderFactory'
     ),
 
     'invokables' => array(
+        'EcampLib\Service\ServiceInitializer'   => 'EcampCore\Service\Base\ServiceInitializer',
     ),
 
     'initializers' => array(

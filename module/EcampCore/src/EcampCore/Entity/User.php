@@ -21,6 +21,7 @@
 namespace EcampCore\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use EcampLib\Acl\Acl;
 use Zend\Permissions\Acl\Role\RoleInterface;
 use Zend\Permissions\Acl\Resource\ResourceInterface;
 
@@ -38,7 +39,7 @@ class User
     const STATE_ACTIVATED  		= "Activated";
     const STATE_DELETED			= "Deleted";
 
-    const ROLE_GUEST			= "Guest";
+    const ROLE_GUEST			= Acl::ROLE_GUEST;
     const ROLE_USER				= "User";
     const ROLE_ADMIN			= "Admin";
 
@@ -206,9 +207,15 @@ class User
     {
         return $this->email;
     }
-    public function setEmail( $email )
+    public function setEmail($email)
     {
-        $this->email = $email; return $this;
+        $this->email = $email;
+
+        if ($this->state == self::STATE_NONREGISTERED) {
+            $this->setUntrustedEmail($email);
+        }
+
+        return $this;
     }
 
     public function getUntrustedEmail()
@@ -527,6 +534,7 @@ class User
     {
         if ($this->checkEmailVerificationCode($verificationCode)) {
             $this->state = self::STATE_ACTIVATED;
+            $this->setUntrustedEmail(null);
             $this->emailVerificationCode = null;
 
             return true;

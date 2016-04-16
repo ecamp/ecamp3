@@ -2,7 +2,7 @@
 
 namespace EcampApi\Resource\Resque\Worker;
 
-use EcampLib\Resource\BaseResourceListener;
+use EcampCore\Resource\BaseResourceListener;
 use PhlyRestfully\Exception\CreationException;
 use PhlyRestfully\ResourceEvent;
 use Zend\EventManager\EventManagerInterface;

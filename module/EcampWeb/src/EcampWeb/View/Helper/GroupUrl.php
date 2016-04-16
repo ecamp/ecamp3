@@ -19,7 +19,7 @@ class GroupUrl extends AbstractHelper
     {
         $url = $this->url;
 
-        if(!array_key_exists('group', $params)){
+        if (!array_key_exists('group', $params)) {
             $params['group'] = $group;
         }
 

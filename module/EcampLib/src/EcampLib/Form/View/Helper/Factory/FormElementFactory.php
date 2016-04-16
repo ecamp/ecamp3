@@ -10,6 +10,8 @@ class FormElementFactory implements FactoryInterface
 {
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
+        /** @var \Zend\View\HelperPluginManager $serviceLocator */
+        /** @var \TwbBundle\Options\ModuleOptions $options */
         $options = $serviceLocator->getServiceLocator()->get('TwbBundle\Options\ModuleOptions');
 
         return new FormElement($options);

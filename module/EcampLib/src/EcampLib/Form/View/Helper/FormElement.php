@@ -4,6 +4,7 @@ namespace EcampLib\Form\View\Helper;
 
 use TwbBundle\Form\View\Helper\TwbBundleFormElement;
 use TwbBundle\Options\ModuleOptions;
+use Zend\Form\ElementInterface;
 
 class FormElement extends TwbBundleFormElement
 {
@@ -12,7 +13,7 @@ class FormElement extends TwbBundleFormElement
         parent::__construct($options);
     }
 
-    public function render(\Zend\Form\ElementInterface $oElement)
+    public function render(ElementInterface $oElement)
     {
         return "<twb-form-element>" . parent::render($oElement) . "</twb-form-element>";
     }

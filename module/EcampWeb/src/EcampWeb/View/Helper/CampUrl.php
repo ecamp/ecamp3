@@ -19,7 +19,7 @@ class CampUrl extends AbstractHelper
     {
         $url = $this->url;
 
-        if(!array_key_exists('camp', $params)){
+        if (!array_key_exists('camp', $params)) {
             $params['camp'] = $camp;
         }
 

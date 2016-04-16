@@ -19,9 +19,9 @@ class EventTemplateContainerRepository
 {
 
     /**
-     * @param Event $event
-     * @param Plugin $plugin
-     * @param Medium $medium
+     * @param  Event                  $event
+     * @param  Plugin                 $plugin
+     * @param  Medium                 $medium
      * @return EventTemplateContainer
      */
     public function findTemplateContainer

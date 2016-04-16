@@ -12,35 +12,62 @@ use Doctrine\ORM\EntityManager;
  */
 class AbstractRepositoryFactory implements AbstractFactoryInterface
 {
-    private $orm;
+    const EntityManager = 'entitymanager';
+    const EntityName = 'entityname';
+    const RepositoryInstance = 'repositoryinstance';
 
-    private $pattern = "/^Ecamp(\w+)\\\\Repository\\\\(\w+)$/";
+    private $cache = array();
 
-    public function __construct($orm = null)
-    {
-        $this->orm = $orm ?: 'doctrine.entitymanager.orm_default';
-    }
-
-    /**
-     * Translate a repository class name into the corresponding entity class name
-     * @param  string $repoName
-     * @return string
-     */
-    private function getEntityClassName($repoName)
-    {
-        return preg_replace($this->pattern,"Ecamp$1\\\\Entity\\\\$2", $repoName);
-    }
+    /** @var \EcampLib\Options\ModuleOptions */
+    private $moduleOptions = null;
 
     public function canCreateServiceWithName(ServiceLocatorInterface $serviceLocator, $name, $requestedName)
     {
-        return preg_match($this->pattern,$requestedName) && class_exists($this->getEntityClassName($requestedName));
+        if (array_key_exists($requestedName, $this->cache)) {
+            return true;
+        }
+
+        if ($this->moduleOptions == null) {
+            $this->moduleOptions = $serviceLocator->get('EcampLib\Options\ModuleOptions');
+        }
+
+        $canCreateService = false;
+
+        foreach ($this->moduleOptions->getrepositoryMappings() as $repoPattern => $repositoryMapping) {
+            if (preg_match($repoPattern, $requestedName)) {
+                $entityPattern = $repositoryMapping[self::EntityName];
+                $canCreateService = true;
+
+                $this->cache[$requestedName] = array(
+                    self::EntityManager => $repositoryMapping[self::EntityManager],
+                    self::EntityName => preg_replace($repoPattern, $entityPattern, $requestedName),
+                );
+
+                break;
+            }
+        }
+
+        return $canCreateService;
     }
 
     public function createServiceWithName(ServiceLocatorInterface $serviceLocator, $name, $requestedName)
     {
-        /* Reository is fetched from Doctrine EntityManager */
-        $em = $serviceLocator->get($this->orm);
+        if (!$this->canCreateServiceWithName($serviceLocator, $name, $requestedName)) {
+            return null;
+        }
 
-        return $em->getRepository($this->getEntityClassName($requestedName));
+        $cacheEntry = $this->cache[$requestedName];
+
+        if ($cacheEntry[self::RepositoryInstance] == null) {
+            $entityName = $cacheEntry[self::EntityName];
+            $entityManagerName = $cacheEntry[self::EntityManager];
+
+            /** @var EntityManager $entityManager */
+            $entityManager = $serviceLocator->get('doctrine.entitymanager.' . $entityManagerName);
+
+            $cacheEntry[self::RepositoryInstance] = $entityManager->getRepository($entityName);
+        }
+
+        return $cacheEntry[self::RepositoryInstance];
     }
 }

@@ -22,12 +22,7 @@
 
 namespace EcampCore\Service;
 
-use EcampLib\Service\ServiceBase;
-/**
- * @method CoreApi\Service\SearchUserService Simulate
- */
-class SearchUserService
-    extends ServiceBase
+class SearchUserService extends Base\ServiceBase
 {
     /**
      * Setup ACL

@@ -4,7 +4,6 @@ namespace EcampLib\Service;
 
 use Zend\ServiceManager\AbstractFactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
-use Zend\Authentication\AuthenticationService;
 
 /**
  * Provides wrapped services for all service classes
@@ -12,70 +11,54 @@ use Zend\Authentication\AuthenticationService;
  */
 class AbstractServiceFactory implements AbstractFactoryInterface
 {
-    private $inFactory = 0;
+    const Factory = 'factory';
+    const ServiceInstance = 'serviceinstance';
 
-    private $orm;
+    private $cache = array();
 
-    private $pattern = "/^Ecamp(\w+)\\\\Service\\\\(\w+)$/";
-
-    public function __construct($orm = null)
-    {
-        $this->orm = $orm ?: 'doctrine.entitymanager.orm_default';
-    }
-
-    private function getServiceFactoryName($serviceName)
-    {
-        return $serviceName.'ServiceFactory';
-    }
+    /** @var \EcampLib\Options\ModuleOptions */
+    private $moduleOptions = null;
 
     public function canCreateServiceWithName(ServiceLocatorInterface $serviceLocator, $name, $requestedName)
     {
-        return preg_match($this->pattern, $requestedName) && class_exists($this->getServiceFactoryName($requestedName));
+        if (array_key_exists($requestedName, $this->cache)) {
+            return true;
+        }
+
+        if ($this->moduleOptions == null) {
+            $this->moduleOptions = $serviceLocator->get('EcampLib\Options\ModuleOptions');
+        }
+
+        $canCreateService = false;
+
+        foreach ($this->moduleOptions->getServiceMappings() as $servicePattern => $serviceMapping) {
+            if (preg_match($servicePattern, $requestedName)) {
+                $serviceFactory = preg_replace($servicePattern, $serviceMapping[self::Factory], $requestedName);
+                $canCreateService = true;
+
+                $this->cache[$requestedName] = array(
+                    self::Factory => $serviceFactory
+                );
+
+                break;
+            }
+        }
+
+        return $canCreateService;
     }
 
     public function createServiceWithName(ServiceLocatorInterface $serviceLocator, $name, $requestedName)
     {
-        $this->inFactory++;
-
-        /* Create service with specific service factory which does the wiring */
-        /* e.g. Ecamp*\Service\***ServiceFactory */
-
-        $serviceFactoryName = $this->getServiceFactoryName($requestedName);
-        /** @var $serviceFactory \Zend\ServiceManager\FactoryInterface */
-        $serviceFactory = new $serviceFactoryName;
-        $service = $serviceFactory->createService($serviceLocator);
-
-//        $service = new LazyLoadServiceWrapper($serviceLocator, $serviceFactoryName, array($this, 'initService'));
-        $this->initService($serviceLocator, $service);
-
-        $this->inFactory--;
-
-        if ($this->inFactory > 0) {
-            return $service;
-        } else {
-            return new ServiceWrapper($service);
-        }
-    }
-
-    public function initService(ServiceLocatorInterface $serviceLocator, ServiceBase $service)
-    {
-        /* Inject common dependencies (e.g. dependencies of ServiceBase class) */
-        $service->setEntityManager($serviceLocator->get($this->orm));
-        $service->setConfigArray($serviceLocator->get('Config'));
-        $service->setAcl($serviceLocator->get('EcampCore\Acl'));
-
-        $authService = new AuthenticationService();
-
-        if ($authService->hasIdentity()) {
-            $authId = $authService->getIdentity();
-            $user = $serviceLocator->get('EcampCore\Repository\User')->find($authId);
-
-            if ( is_null($user) ) {
-                $authService->clearIdentity();
-            } else {
-                $service->setMe($user);
-            }
+        if (!$this->canCreateServiceWithName($serviceLocator, $name, $requestedName)) {
+            return null;
         }
 
+        $cacheEntry = $this->cache[$requestedName];
+
+        if ($cacheEntry[self::ServiceInstance] == null) {
+            $cacheEntry[self::ServiceInstance] = new ServiceWrapper($cacheEntry[self::Factory]);
+        }
+
+        return $cacheEntry[self::ServiceInstance];
     }
 }

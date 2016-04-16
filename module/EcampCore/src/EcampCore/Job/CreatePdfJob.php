@@ -121,11 +121,10 @@ class CreatePdfJob extends AbstractJobBase implements JobResultInterface
 
     private function createPdf(Pdf $pdf)
     {
-    	$cpdfConfig = $this->getService('Config');
-    	$cpdfConfig = $cpdfConfig['cpdf']['config'];
-    	
-    	$pdfFilename = __DATA__ . '/print/' . $this->getId() . '.pdf';
+        $cpdfConfig = $this->getService('Config');
+        $cpdfConfig = $cpdfConfig['cpdf']['config'];
 
+        $pdfFilename = __DATA__ . '/print/' . $this->getId() . '.pdf';
         $pdf->saveAs($pdfFilename);
 
         $tmpA4 = new File('', '.pdf', 'tmp_wkhtmlto_pdf_', __DATA__ . '/tmp');

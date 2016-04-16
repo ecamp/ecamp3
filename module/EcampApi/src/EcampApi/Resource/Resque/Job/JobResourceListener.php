@@ -2,9 +2,9 @@
 
 namespace EcampApi\Resource\Resque\Job;
 
+use EcampCore\Resource\BaseResourceListener;
 use EcampLib\Job\Application;
 use EcampLib\Job\JobResultInterface;
-use EcampLib\Resource\BaseResourceListener;
 use PhlyRestfully\Exception\DomainException;
 use PhlyRestfully\ResourceEvent;
 use Resque\Job;
@@ -33,7 +33,7 @@ class JobResourceListener extends BaseResourceListener
         $id = $e->getParam('id');
         $job = $this->getResqueJobService()->Get($id);
 
-        if($e->getQueryParam('run') !== null){
+        if ($e->getQueryParam('run') !== null) {
             $this->performJob($job);
         }
 
@@ -99,7 +99,8 @@ class JobResourceListener extends BaseResourceListener
         }
     }
 
-    private function performJob(Job $job){
+    private function performJob(Job $job)
+    {
         /** @var \Zend\Mvc\Application $app */
         $app = $this->getService('Application');
         Application::Set($app);

@@ -19,7 +19,7 @@ class UserUrl extends AbstractHelper
     {
         $url = $this->url;
 
-        if(!array_key_exists('user', $params)){
+        if (!array_key_exists('user', $params)) {
             $params['user'] = $user;
         }
 

@@ -9,7 +9,7 @@ return array(
     'modules' => array(
         'DoctrineModule',
         'DoctrineORMModule',
-    	'BsbDoctrineTranslationLoader',
+        'BsbDoctrineTranslationLoader',
 
         'ZfcTwig',
 

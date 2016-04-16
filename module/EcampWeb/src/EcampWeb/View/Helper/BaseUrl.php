@@ -2,7 +2,9 @@
 
 namespace EcampWeb\View\Helper;
 
-class BaseUrl extends \Zend\View\Helper\Url
+use Zend\View\Helper\Url;
+
+class BaseUrl extends Url
 {
     public function __invoke($name = null, $params = array(), $options = array(), $reuseMatchedParams = false)
     {
@@ -33,8 +35,9 @@ class BaseUrl extends \Zend\View\Helper\Url
             /** @var \Zend\I18n\Translator\Translator $translator */
             $translator = $translateHelper->getTranslator();
 
-            if($translator)
-            	$params['locale'] = $translator->getLocale();
+            if ($translator) {
+                $params['locale'] = $translator->getLocale();
+            }
         }
 
         return parent::__invoke($name, $params, $options, $reuseMatchedParams);

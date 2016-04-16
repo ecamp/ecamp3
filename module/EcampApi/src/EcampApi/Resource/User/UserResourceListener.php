@@ -1,7 +1,7 @@
 <?php
 namespace EcampApi\Resource\User;
 
-use EcampLib\Resource\BaseResourceListener;
+use EcampCore\Resource\BaseResourceListener;
 use PhlyRestfully\Exception\DomainException;
 use PhlyRestfully\ResourceEvent;
 use Zend\EventManager\EventManagerInterface;

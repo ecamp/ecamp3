@@ -18,6 +18,22 @@ return array(
             return $urlHelper;
         },
 
+        'fqdnUrl' => function($helperPluginManager) {
+            $serviceLocator = $helperPluginManager->getServiceLocator();
+            $urlHelper =  new \EcampWeb\View\Helper\FqdnUrl();
+            $urlHelper->setRouter($serviceLocator->get('HttpRouter'));
+
+            $match = $serviceLocator->get('application')
+                ->getMvcEvent()
+                ->getRouteMatch();
+
+            if ($match instanceof \Zend\Mvc\Router\Http\RouteMatch) {
+                $urlHelper->setRouteMatch($match);
+            }
+
+            return $urlHelper;
+        },
+
         'userUrl' => function($helperPluginManager){
             return new \EcampWeb\View\Helper\UserUrl($helperPluginManager->get('url'));
         },
@@ -32,7 +48,7 @@ return array(
 
         'membership' => function($helperPluginManager){
             $serviceLocator = $helperPluginManager->getServiceLocator();
-            $acl = $serviceLocator->get('EcampCore\Acl');
+            $acl = $serviceLocator->get('EcampLib\Acl');
             $userRepository = $serviceLocator->get('EcampCore\Repository\User');
             $groupMembershipRepository = $serviceLocator->get('EcampCore\Repository\GroupMembership');
             $renderer = $serviceLocator->get('ZfcTwigRenderer');
@@ -42,7 +58,7 @@ return array(
 
         'collaboration' => function($helperPluginManager){
             $serviceLocator = $helperPluginManager->getServiceLocator();
-            $acl = $serviceLocator->get('EcampCore\Acl');
+            $acl = $serviceLocator->get('EcampLib\Acl');
             $userRepository = $serviceLocator->get('EcampCore\Repository\User');
             $campCollaborationRepository = $serviceLocator->get('EcampCore\Repository\CampCollaboration');
             $renderer = $serviceLocator->get('ZfcTwigRenderer');

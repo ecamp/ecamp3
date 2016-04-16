@@ -3,13 +3,8 @@
 namespace EcampCore\Service;
 
 use EcampCore\Entity\Image;
-use EcampLib\Service\ServiceBase;
 
-/**
- * @method EcampCore\Service\AvatarService Simulate
- */
-class AvatarService
-    extends ServiceBase
+class AvatarService extends Base\ServiceBase
 {
     /** @var UserService */
     private $userService;
@@ -18,8 +13,8 @@ class AvatarService
     private $groupService;
 
     public function __construct(
-        UserService $userService,
-        GroupService $groupService
+        $userService,
+        $groupService
     ){
         $this->userService = $userService;
         $this->groupService = $groupService;

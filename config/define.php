@@ -1,5 +1,8 @@
 <?php
 
+if( file_exists('define.local.php'))
+    include 'define.local.php';
+
 define("__BASE__", dirname(__DIR__));
 define("__DATA__", __BASE__ . '/data');
 define("__VENDOR__", __BASE__ . '/vendor');

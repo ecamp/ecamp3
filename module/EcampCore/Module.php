@@ -1,8 +1,9 @@
 <?php
 namespace EcampCore;
 
+use EcampCore\DB\DatabaseFlushListener;
+use EcampCore\DB\DatabaseTransactionListener;
 use EcampCore\I18n\Translator\TranslatorEventListener;
-use EcampCore\Mvc\HandleDbTransactionListener;
 use EcampLib\ModuleManager\Feature\JobFactoryProviderInterface;
 use EcampLib\ModuleManager\Feature\PrintableProviderInterface;
 use Zend\EventManager\EventInterface;
@@ -83,7 +84,8 @@ class Module implements
         /** @var \Doctrine\ORM\EntityManager $em */
         $em = $application->getServiceManager()->get('doctrine.entitymanager.orm_default');
 
-        (new HandleDbTransactionListener($em))->attach($application->getEventManager());
+        (new DatabaseTransactionListener($em))->attach($application->getEventManager());
+        (new DatabaseFlushListener($em))->attachShared($application->getEventManager()->getSharedManager());
 
         /** @var \Zend\Mvc\I18n\Translator $mvcTranslator */
         $mvcTranslator = $application->getServiceManager()->get('MvcTranslator');

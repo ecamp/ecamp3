@@ -2,12 +2,10 @@
 
 namespace EcampApi\Resource\User;
 
-use EcampCore\Entity\Image;
-use EcampLib\Resource\BaseResourceListener;
+use EcampCore\Resource\BaseResourceListener;
 use PhlyRestfully\Exception\DomainException;
 use PhlyRestfully\ResourceEvent;
 use Zend\EventManager\EventManagerInterface;
-use Zend\Http\PhpEnvironment\Request;
 
 class ImageResourceListener extends BaseResourceListener
 {

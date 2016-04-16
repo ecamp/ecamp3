@@ -82,11 +82,9 @@ class IndexController extends BaseController
                     $email = $data['user-email']['email'];
 
                     try {
-                        echo "<b>";
-                        echo $this->getUserService()->UpdateEmail($user, $email);
-                        echo "</b>";
-                        die();
-                        // return $this->redirect()->toRoute('web/profile', array('action' => 'changeEmailSuccess'));
+                        $this->getUserService()->UpdateEmail($user, $email);
+
+                        return $this->redirect()->toRoute('web/profile', array('action' => 'changeEmailSuccess'));
 
                     } catch (ValidationException $e) {
                         throw ValidationException::FromInnerException('user-email', $e);
@@ -112,8 +110,8 @@ class IndexController extends BaseController
 
     public function verifyEmailAction()
     {
-        $userId = $this->params()->fromRoute('id');
-        $code = $this->params()->fromRoute('key');
+        $userId = $this->params()->fromQuery('user');
+        $code = $this->params()->fromQuery('code');
 
         if (!$userId) {
             $response = $this->getResponse();
@@ -124,7 +122,7 @@ class IndexController extends BaseController
         }
 
         /** @var \EcampCore\Entity\User $user */
-        $user = $this->getUserRepository()->find($userId);
+        $user = $this->getUserService()->Get($userId);
 
         if (!$user) {
             $response = $this->getResponse();

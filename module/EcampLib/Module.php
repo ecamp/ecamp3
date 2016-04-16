@@ -1,16 +1,13 @@
 <?php
 namespace EcampLib;
 
-use EcampLib\Entity\ServiceLocatorAwareEventListener;
-use EcampLib\Listener\FlushEntitiesListener;
-
+use EcampLib\Job\JobFlushListener;
 use Zend\ModuleManager\Feature\InitProviderInterface;
 use Zend\ModuleManager\Feature\ServiceProviderInterface;
 use Zend\ModuleManager\Feature\ViewHelperProviderInterface;
 use Zend\ModuleManager\Feature\FormElementProviderInterface;
 use Zend\ModuleManager\Feature\FilterProviderInterface;
 use Zend\ModuleManager\Feature\ValidatorProviderInterface;
-use Zend\ModuleManager\ModuleManager;
 use Zend\ModuleManager\ModuleManagerInterface;
 use Zend\Mvc\MvcEvent;
 
@@ -86,15 +83,14 @@ class Module implements
 
     public function onBootstrap(MvcEvent $e)
     {
-        $sm = $e->getApplication()->getServiceManager();
+        $application = $e->getApplication();
 
-        $em = $sm->get('doctrine.entitymanager.orm_default');
-        $em->getEventManager()->addEventSubscriber(new ServiceLocatorAwareEventListener($sm));
+        /** @var \EcampLib\Job\JobQueue $jobQueue */
+        $jobQueue = $application->getServiceManager()->get('EcampLib\Job\JobQueue');
 
-        /* listener for flushing entity manager */
-        $eventManager = $e->getTarget()->getEventManager();
-        $eventManager->attach(new FlushEntitiesListener());
+        (new JobFlushListener($jobQueue))->attach($application->getEventManager());
+
     }
 }
 
-require_once __DIR__ . '/src/' . __NAMESPACE__ . '/Util/password.php';
+require_once __DIR__ . '/src/EcampLib/Util/password.php';
