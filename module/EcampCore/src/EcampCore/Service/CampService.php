@@ -18,7 +18,7 @@ class CampService extends Base\ServiceBase
 
     public function __construct(
         CampRepository $campRepo,
-        PeriodService $periodService
+        $periodService
     ){
         $this->campRepo = $campRepo;
         $this->periodService = $periodService;

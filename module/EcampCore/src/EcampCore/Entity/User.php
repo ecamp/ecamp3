@@ -534,6 +534,7 @@ class User
     {
         if ($this->checkEmailVerificationCode($verificationCode)) {
             $this->state = self::STATE_ACTIVATED;
+            $this->setUntrustedEmail(null);
             $this->emailVerificationCode = null;
 
             return true;

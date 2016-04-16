@@ -13,8 +13,8 @@ class AvatarService extends Base\ServiceBase
     private $groupService;
 
     public function __construct(
-        UserService $userService,
-        GroupService $groupService
+        $userService,
+        $groupService
     ){
         $this->userService = $userService;
         $this->groupService = $groupService;

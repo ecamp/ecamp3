@@ -90,10 +90,6 @@ class Module implements
 
         (new JobFlushListener($jobQueue))->attach($application->getEventManager());
 
-        /* listener for flushing entity manager */
-        $eventManager = $e->getTarget()->getEventManager();
-        $eventManager->attach(new FlushEntitiesListener());
-
     }
 }
 

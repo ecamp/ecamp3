@@ -34,7 +34,7 @@ class PeriodService extends Base\ServiceBase
     private $dayService;
 
     public function __construct(
-        DayService $dayService
+        $dayService
     ){
         $this->dayService = $dayService;
     }
