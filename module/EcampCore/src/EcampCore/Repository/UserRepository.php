@@ -2,20 +2,25 @@
 
 namespace EcampCore\Repository;
 
-use EcampCore\Entity\User;
-use EcampCore\Entity\UserRelationship;
-
 use DoctrineORMModule\Paginator\Adapter\DoctrinePaginator as PaginatorAdapter;
 use Doctrine\ORM\Tools\Pagination\Paginator as ORMPaginator;
+use EcampCore\Entity\User;
+use EcampCore\Entity\UserRelationship;
 use Zend\Paginator\Adapter\ArrayAdapter;
 use Zend\Paginator\Paginator;
 use Zend\Validator\EmailAddress;
 
+/**
+ * Class UserRepository
+ * @package EcampCore\Repository
+ *
+ * @method User find($id)
+ */
 class UserRepository extends BaseRepository
 {
 
     /**
-     * @return null|\EcampCore\Entity\User
+     * @return null|User
      */
     public function getMe()
     {
@@ -142,7 +147,7 @@ class UserRepository extends BaseRepository
 
     /**
      * @param $identifier
-     * @return null|\EcampCore\Entity\User
+     * @return null|User
      */
     public function findByIdentifier($identifier)
     {

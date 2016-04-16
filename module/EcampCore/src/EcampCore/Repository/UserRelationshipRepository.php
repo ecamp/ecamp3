@@ -6,6 +6,12 @@ use Doctrine\ORM\EntityRepository;
 use EcampCore\Entity\User;
 use EcampCore\Entity\UserRelationship;
 
+/**
+ * Class UserRelationshipRepository
+ * @package EcampCore\Repository
+ *
+ * @method UserRelationship find($id)
+ */
 class UserRelationshipRepository extends EntityRepository
 {
 

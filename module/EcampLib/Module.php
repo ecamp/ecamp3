@@ -89,6 +89,11 @@ class Module implements
         $jobQueue = $application->getServiceManager()->get('EcampLib\Job\JobQueue');
 
         (new JobFlushListener($jobQueue))->attach($application->getEventManager());
+
+        /* listener for flushing entity manager */
+        $eventManager = $e->getTarget()->getEventManager();
+        $eventManager->attach(new FlushEntitiesListener());
+
     }
 }
 

@@ -2,12 +2,18 @@
 
 namespace EcampCore\Repository;
 
-use Doctrine\ORM\EntityRepository;
-
 use DoctrineORMModule\Paginator\Adapter\DoctrinePaginator as PaginatorAdapter;
+use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Tools\Pagination\Paginator as ORMPaginator;
+use EcampCore\Entity\EventCategory;
 use Zend\Paginator\Paginator;
 
+/**
+ * Class EventCategoryRepository
+ * @package EcampCore\Repository
+ *
+ * @method EventCategory find($id)
+ */
 class EventCategoryRepository extends EntityRepository
 {
 

@@ -6,11 +6,17 @@ use Doctrine\ORM\EntityRepository;
 use DoctrineORMModule\Paginator\Adapter\DoctrinePaginator as PaginatorAdapter;
 use Doctrine\ORM\Tools\Pagination\Paginator as ORMPaginator;
 use EcampCore\Entity\AbstractCampOwner;
+use EcampCore\Entity\CampCollaboration;
+use EcampCore\Entity\Camp;
+use EcampCore\Entity\User;
 use Zend\Paginator\Paginator;
 
-use EcampCore\Entity\CampCollaboration;
-use EcampCore\Entity\User;
-
+/**
+ * Class CampRepository
+ * @package EcampCore\Repository
+ *
+ * @method Camp find($id)
+ */
 class CampRepository
     extends EntityRepository
 {

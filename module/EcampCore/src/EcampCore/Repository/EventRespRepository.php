@@ -2,12 +2,18 @@
 
 namespace EcampCore\Repository;
 
-use Doctrine\ORM\EntityRepository;
-
 use DoctrineORMModule\Paginator\Adapter\DoctrinePaginator as PaginatorAdapter;
+use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Tools\Pagination\Paginator as ORMPaginator;
+use EcampCore\Entity\EventResp;
 use Zend\Paginator\Paginator;
 
+/**
+ * Class EventRespRepository
+ * @package EcampCore\Repository
+ *
+ * @method EventResp find($id)
+ */
 class EventRespRepository extends EntityRepository
 {
     public function getCollection(array $criteria)

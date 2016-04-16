@@ -6,8 +6,15 @@ use Doctrine\ORM\EntityRepository;
 
 use DoctrineORMModule\Paginator\Adapter\DoctrinePaginator as PaginatorAdapter;
 use Doctrine\ORM\Tools\Pagination\Paginator as ORMPaginator;
+use EcampCore\Entity\Period;
 use Zend\Paginator\Paginator;
 
+/**
+ * Class PeriodRepository
+ * @package EcampCore\Repository
+ *
+ * @method Period find($id)
+ */
 class PeriodRepository extends EntityRepository
 {
 
