@@ -110,5 +110,33 @@ return array(
         ),
 
     ),
+		
+		
+		'ecamp' => array(
+	
+				'doctrine' => array(
+						'repository' => array(
+								'ecamp_storyboard' => array(
+										'entitymanager' => 'orm_default',
+										'mappings' => array(
+												"/^EcampStoryboard\\\\Repository\\\\(\\w+)$/" => "EcampStoryboard\\\\Entity\\\\$1",
+										),
+								),
+						),
+		
+					
+				),
+		
+				'service_manager' => array(
+						'abstract_service_factory_config' => array(
+								'ecamp_storyboard' => array(
+										'servicePattern' => "/^EcampStoryboard\\\\Service\\\\(\\w+)$/",
+										'factoryPattern' => "EcampStoryboard\\\\Service\\\\$1ServiceFactory"
+								)
+						)
+				),
+		),
+		
+		
 
 );

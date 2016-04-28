@@ -5,8 +5,9 @@ return array(
         'transport' => array(
             'type' => 'file',
             'options' => array(
-                'path' => __DATA__ . '/mails'
-            )
+                'path'              => __DATA__ . '/mails'
+            ),
+
         )
     )
 );
