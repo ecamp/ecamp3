@@ -11,4 +11,4 @@ define("__PLUGINS__", __BASE__ . '/plugins');
 define("__PUBLIC__", __BASE__ . '/public');
 define("__ASSETS__", __BASE__ . '/public/assets/vendor');
 
-define("__BASE_URL__" , 'http://ecamp3.dev');
+defined("__BASE_URL__") || define("__BASE_URL__" , 'http://ecamp3.dev');
