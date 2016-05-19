@@ -18,6 +18,10 @@ class EventTemplatesFixture extends AbstractFixture implements OrderedFixtureInt
     const LAGERAKTIVITAET_WEB = 'eventtemplate-lageraktivitaet-web';
     const LAGERPROGRAMM_WEB = 'eventtemplate-lagerprogramm-web';
 
+    const AUSBILDUNG_WEB = 'eventtemplate-ausbildung-web';
+
+    const AUSBILDUNG_PBS_JS_WEB = 'eventtemplate-ausbildung-pbs-js-web';
+
     /*
     AKTUELL NICHT IMPLEMENTIERT
 
@@ -103,6 +107,49 @@ class EventTemplatesFixture extends AbstractFixture implements OrderedFixtureInt
                     )
                 ),
                 'reference' => self::LAGERPROGRAMM_WEB
+            ),
+
+            array(
+                'eventType' => EventTypeFixture::AUSBILDUNG,
+                'medium' => MediumFixture::MEDIUM_WEB,
+                'template' => 'ecamp-web/event-templates/ausbildung/index',
+                'containers' => array(
+                    array(
+                        'name' => 'Storyboard',
+                        'eventTypePlugin' => EventTypePluginFixture::AUSBILDUNG_STORYBOARD,
+                        'template' => 'ecamp-web/event-templates/containers/linear'
+                    ),
+                    array(
+                        'name' => 'Material',
+                        'eventTypePlugin' => EventTypePluginFixture::AUSBILDUNG_MATERIAL,
+                        'template' => 'ecamp-web/event-templates/containers/tabs'
+                    )
+                ),
+                'reference' => self::AUSBILDUNG_WEB
+            ),
+
+            array(
+                'eventType' => EventTypeFixture::AUSBILDUNG_PBS_JS,
+                'medium' => MediumFixture::MEDIUM_WEB,
+                'template' => 'ecamp-web/event-templates/ausbildung/index',
+                'containers' => array(
+                    array(
+                        'name' => 'CourseAim',
+                        'eventTypePlugin' => EventTypePluginFixture::AUSBILDUNG_PBS_JS_COURSEAIM,
+                        'template' => 'ecamp-web/event-templates/containers/linear'
+                    ),
+                    array(
+                        'name' => 'Storyboard',
+                        'eventTypePlugin' => EventTypePluginFixture::AUSBILDUNG_PBS_JS_STORYBOARD,
+                        'template' => 'ecamp-web/event-templates/containers/linear'
+                    ),
+                    array(
+                        'name' => 'Material',
+                        'eventTypePlugin' => EventTypePluginFixture::AUSBILDUNG_PBS_JS_MATERIAL,
+                        'template' => 'ecamp-web/event-templates/containers/linear'
+                    )
+                ),
+                'reference' => self::AUSBILDUNG_PBS_JS_WEB
             )
         ));
     }

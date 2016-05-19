@@ -13,6 +13,7 @@ class PluginFixture extends AbstractFixture implements OrderedFixtureInterface
     const PLUGIN_TEXTAREA = 'plugin-textarea';
     const PLUGIN_MATERIAL = 'plugin-material';
     const PLUGIN_STORYBOARD = 'plugin-storyboard';
+    const PLUGIN_COURSE_AIM = 'plugin-course-aim';
 
     public function load(ObjectManager $manager)
     {
@@ -31,6 +32,11 @@ class PluginFixture extends AbstractFixture implements OrderedFixtureInterface
                 'name' => 'storyboard',
                 'strategy' => 'EcampStoryboard\StrategyFactory',
                 'reference' => self::PLUGIN_STORYBOARD
+            ),
+            array(
+                'name' => 'course-aim',
+                'strategy' => 'EcampCourseAim\StrategyFactory',
+                'reference' => self::PLUGIN_COURSE_AIM
             ),
         ));
     }
