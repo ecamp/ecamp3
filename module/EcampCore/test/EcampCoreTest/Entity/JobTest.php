@@ -11,7 +11,7 @@ class JobTest extends \PHPUnit_Framework_TestCase
 
     public static function createJob()
     {
-        $campType = CampTypeTest::createCampType();
+        $campType = CampTypeTest::createCampType(true, CampType::ORGANIZATION_PBS, true);
 
         $camp = new Camp();
         $camp->setName('CampName');

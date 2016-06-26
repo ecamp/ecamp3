@@ -45,7 +45,7 @@ class CampCollaborationServiceTest extends \PHPUnit_Framework_TestCase
         $campCollaborationService = $this->getCampCollaborationService($em);
 
         $user = new User();
-        $campType = new CampType('name', 'type');
+        $campType = new CampType('name', true, CampType::ORGANIZATION_PBS, true);
         $camp = new Camp();
         $camp->setName('name');
         $camp->setTitle('title');

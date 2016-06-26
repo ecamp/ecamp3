@@ -13,6 +13,8 @@ class EventTypeFixture extends AbstractFixture implements OrderedFixtureInterfac
     const LAGERSPORT = 'eventtype-lagersport';
     const LAGERAKTIVITAET = 'eventtype-lageraktivitaet';
     const LAGERPROGRAMM = 'eventtype-lagerprogramm';
+    const AUSBILDUNG = 'ausbildung';
+    const AUSBILDUNG_PBS_JS = 'ausbildung_pbs_js';
 
     public function load(ObjectManager $manager)
     {
@@ -37,6 +39,28 @@ class EventTypeFixture extends AbstractFixture implements OrderedFixtureInterfac
                 'defaultNumberingStyle' => 'i',
                 'reference' => self::LAGERPROGRAMM,
                 'type' => 'LP'
+            ),
+
+            /**
+             * General event type for training courses
+             */
+            array(
+                'name' => 'Ausbildung (default)',
+                'defaultColor' => '#00ffff',
+                'defaultNumberingStyle' => 'i',
+                'reference' => self::AUSBILDUNG,
+                'type' => 'A'
+            ),
+
+            /**
+             * Specific event type for trainings courses registered with PBS and J+S (eg. Basiskurs, Aufbaukurs, Einführungskurs)
+             */
+            array(
+                'name' => 'Ausbildung PBS/J+S',
+                'defaultColor' => '#00ffff',
+                'defaultNumberingStyle' => 'i',
+                'reference' => self::AUSBILDUNG_PBS_JS,
+                'type' => 'A'
             )
         ));
     }

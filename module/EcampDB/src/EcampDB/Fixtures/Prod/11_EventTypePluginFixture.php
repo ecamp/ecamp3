@@ -21,6 +21,13 @@ class EventTypePluginFixture extends AbstractFixture implements OrderedFixtureIn
     const LAGERPROGRAMM_STORYBOARD = 'eventtypeplugin-lagerprogramm-storyboard';
     const LAGERPROGRAMM_MATERIAL = 'eventtypeplugin-lagerprogramm-material';
 
+    const AUSBILDUNG_STORYBOARD = 'eventtypeplugin-ausbildung-storyboard';
+    const AUSBILDUNG_MATERIAL = 'eventtypeplugin-ausbildung-material';
+
+    const AUSBILDUNG_PBS_JS_STORYBOARD = 'eventtypeplugin-ausbildung-pbs-js-storyboard';
+    const AUSBILDUNG_PBS_JS_MATERIAL = 'eventtypeplugin-ausbildung-pbs-js-material';
+    const AUSBILDUNG_PBS_JS_COURSEAIM = 'eventtypeplugin-ausbildung-pbs-js-courseaim';
+
     public function load(ObjectManager $manager)
     {
         $this->init_($manager, array(
@@ -67,7 +74,51 @@ class EventTypePluginFixture extends AbstractFixture implements OrderedFixtureIn
                 'minNumberPluginInstances' => 0,
                 'maxNumberPluginInstances' => 1,
                 'reference' => self::LAGERPROGRAMM_MATERIAL
+            ),
+
+            /**
+             * Event Type: Ausbildung (default)
+             */
+            array(
+                'eventType' => EventTypeFixture::AUSBILDUNG,
+                'plugin' => PluginFixture::PLUGIN_STORYBOARD,
+                'minNumberPluginInstances' => 0,
+                'maxNumberPluginInstances' => 1,
+                'reference' => self::AUSBILDUNG_STORYBOARD
+            ),
+            array(
+                'eventType' => EventTypeFixture::AUSBILDUNG,
+                'plugin' => PluginFixture::PLUGIN_MATERIAL,
+                'minNumberPluginInstances' => 0,
+                'maxNumberPluginInstances' => 1,
+                'reference' => self::AUSBILDUNG_MATERIAL
+            ),
+
+             /**
+              * Event Type: Ausbildung (specific for PBS+JS)
+              */
+            array(
+                'eventType' => EventTypeFixture::AUSBILDUNG_PBS_JS,
+                'plugin' => PluginFixture::PLUGIN_STORYBOARD,
+                'minNumberPluginInstances' => 0,
+                'maxNumberPluginInstances' => 1,
+                'reference' => self::AUSBILDUNG_PBS_JS_STORYBOARD
+            ),
+            array(
+                'eventType' => EventTypeFixture::AUSBILDUNG_PBS_JS,
+                'plugin' => PluginFixture::PLUGIN_MATERIAL,
+                'minNumberPluginInstances' => 0,
+                'maxNumberPluginInstances' => 1,
+                'reference' => self::AUSBILDUNG_PBS_JS_MATERIAL
+            ),
+            array(
+                'eventType' => EventTypeFixture::AUSBILDUNG_PBS_JS,
+                'plugin' => PluginFixture::PLUGIN_COURSE_AIM,
+                'minNumberPluginInstances' => 0,
+                'maxNumberPluginInstances' => 1,
+                'reference' => self::AUSBILDUNG_PBS_JS_COURSEAIM
             )
+
         ));
     }
 

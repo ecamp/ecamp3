@@ -31,13 +31,22 @@ use EcampLib\Entity\BaseEntity;
  */
 class CampType extends BaseEntity
 {
+    const ORGANIZATION_JS 	    = "J+S";
+    const ORGANIZATION_PBS 	    = "PBS";
+    const ORGANIZATION_JUBLA	= "JUBLA";
+    const ORGANIZATION_CEVI	    = "CEVI";
+    const ORGANIZATION_OTHER  	= "Other";
+    const ORGANIZATION_NONE		= "None";
 
-    public function __construct($name, $type)
+    public function __construct($name, $isCourse, $organization, $isJS)
     {
         parent::__construct();
 
         $this->name = $name;
-        $this->type = $type;
+        $this->isCourse = $isCourse;
+        $this->organization = $organization;
+        $this->isJS = $isJS;
+
         $this->eventTypes = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
@@ -47,14 +56,28 @@ class CampType extends BaseEntity
     private $name;
 
     /**
-     * @ORM\Column(type="string", length=32, nullable=false)
-     */
-    private $type;
-
-    /**
      * @ORM\ManyToMany(targetEntity="EventType", mappedBy="campTypes")
      */
     private $eventTypes;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=false)
+     * true for training courses
+     * false for camps
+     */
+    private $isCourse;
+
+    /**
+     * @ORM\Column(type="string", length=32, nullable=true)
+     * Main organization (Verband) of the course/camp
+     */
+    private $organization;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=false)
+     * true for camps/courses registered with J+S
+     */
+    private $isJS;
 
     /**
      * @return string
@@ -64,17 +87,28 @@ class CampType extends BaseEntity
         return $this->name;
     }
 
-    public function setName($name)
-    {
-        $this->name = $name;
-    }
-
     /**
      * @return string
      */
-    public function getType()
+    public function getOrganization()
     {
-        return $this->type;
+        return $this->organization;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isCourse()
+    {
+        return $this->isCourse;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isJS()
+    {
+        return $this->isJS;
     }
 
     /**

@@ -38,6 +38,7 @@ return array(
 
         'EcampStoryboard',
         'EcampMaterial',
+        'EcampCourseAim',
 
 //      'Application'
     ),

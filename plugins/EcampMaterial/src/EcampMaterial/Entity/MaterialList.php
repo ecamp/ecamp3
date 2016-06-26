@@ -44,7 +44,7 @@ class MaterialList extends BaseEntity
     }
 
     /**
-     * @return EcampCore\Entity\EventPlugin
+     * @return \EcampCore\Entity\Camp
      */
     public function getCamp()
     {
@@ -89,7 +89,7 @@ class MaterialList extends BaseEntity
     }
 
     /**
-     * @param MaterialList $list
+     * @param MaterialItem $item
      */
     public function removeItem(MaterialItem $item)
     {

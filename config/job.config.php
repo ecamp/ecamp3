@@ -21,6 +21,7 @@ return array(
 
         'EcampStoryboard',
         'EcampMaterial',
+        'EcampCourseAim',
     ),
 
     'module_listener_options' => array(

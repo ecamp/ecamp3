@@ -33,7 +33,7 @@ return array(
             'map' => array(
 
                 // Angular HAL:
-                'vendor-assets/js/angular.hal.js'                           => __ASSETS__ . '/angular-hal/angular-hal.js',
+                'vendor-assets/js/angular.hal.js'                           => __ASSETS__ . '/angular-hal/dist/angular-hal.js',
 
                 // Angular Resource:
                 'vendor-assets/js/angular.resource.js'                      => __ASSETS__ . '/angular-resource/angular-resource.js',

@@ -13,14 +13,18 @@ class CampTypeFixture extends AbstractFixture implements OrderedFixtureInterface
 {
     const KINDERSPORT = 'camptype-kindersport';
     const JUGENDSPORT = 'camptype-jugendsport';
-    const AUSBILDUNG = 'camptype-ausbildung';
+    const AUSBILDUNG_WOLF_BASIS = 'camptype-wolf-basiskurs';
+    const AUSBILDUNG_PANO       = 'camptype-panokurs';
+    const AUSBILDUNG_EXPERTE    = 'camptype-experte';
 
     public function load(ObjectManager $manager)
     {
         $this->load_($manager, array(
             array(
-                'name' => 'J+S Kindersport',
-                'type' => 'kindersport',
+                'name' => 'J+S Lager',
+                'isCourse' => false,
+                'organization' => null,
+                'isJS' => true,
                 'eventTypes' => array(
                     EventTypeFixture::LAGERSPORT,
                     EventTypeFixture::LAGERAKTIVITAET,
@@ -29,8 +33,10 @@ class CampTypeFixture extends AbstractFixture implements OrderedFixtureInterface
                 'reference' => self::KINDERSPORT
             ),
             array(
-                'name' => 'J+S Jugendsport',
-                'type' => 'jugendsport',
+                'name' => 'Lager ohne J+S',
+                'isCourse' => false,
+                'organization' => null,
+                'isJS' => false,
                 'eventTypes' => array(
                     EventTypeFixture::LAGERSPORT,
                     EventTypeFixture::LAGERAKTIVITAET,
@@ -39,14 +45,34 @@ class CampTypeFixture extends AbstractFixture implements OrderedFixtureInterface
                 'reference' => self::JUGENDSPORT
             ),
             array(
-                'name' => 'J+S Ausbildung',
-                'type' => 'ausbildung',
+                'name' => 'Wolfstufe Basiskurs',
+                'isCourse' => true,
+                'organization' => CampType::ORGANIZATION_PBS,
+                'isJS' => true,
                 'eventTypes' => array(
-                    EventTypeFixture::LAGERSPORT,
-                    EventTypeFixture::LAGERAKTIVITAET,
-                    EventTypeFixture::LAGERPROGRAMM
+                    EventTypeFixture::AUSBILDUNG_PBS_JS
                 ),
-                'reference' => self::AUSBILDUNG
+                'reference' => self::AUSBILDUNG_WOLF_BASIS
+            ),
+            array(
+                'name' => 'Panokurs',
+                'isCourse' => true,
+                'organization' => CampType::ORGANIZATION_PBS,
+                'isJS' => false,
+                'eventTypes' => array(
+                    EventTypeFixture::AUSBILDUNG
+                ),
+                'reference' => self::AUSBILDUNG_PANO
+            ),
+            array(
+                'name' => 'Expertenkurs',
+                'isCourse' => true,
+                'organization' => CampType::ORGANIZATION_JS,
+                'isJS' => true,
+                'eventTypes' => array(
+                    EventTypeFixture::AUSBILDUNG
+                ),
+                'reference' => self::AUSBILDUNG_EXPERTE
             )
         ));
     }
@@ -57,18 +83,20 @@ class CampTypeFixture extends AbstractFixture implements OrderedFixtureInterface
 
         foreach ($config as $campTypeConfig) {
             $name = $campTypeConfig['name'];
-            $type = $campTypeConfig['type'];
+            $isCourse = $campTypeConfig['isCourse'];
+            $organization = $campTypeConfig['organization'];
+            $isJS = $campTypeConfig['isJS'];
             $eventTypes = $campTypeConfig['eventTypes'];
             $reference = $campTypeConfig['reference'];
 
             /** @var CampType $campType */
-            $campType = $campTypeRepo->findOneBy(array('type' => $type));
+            $campType = $campTypeRepo->findOneBy(array('name' => $name));
 
             if ($campType == null) {
-                $campType = new CampType($name, $type);
+                $campType = new CampType($name, $isCourse, $organization, $isJS);
                 $manager->persist($campType);
             } else {
-                $campType->setName($name);
+
             }
 
             foreach ($eventTypes as $eventType) {
