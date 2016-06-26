@@ -16,7 +16,7 @@ class CampTest extends \PHPUnit_Framework_TestCase
     public static function createUserCamp()
     {
         $camp = new Camp();
-        $camp->setCampType(CampTypeTest::createCampType());
+        $camp->setCampType(CampTypeTest::createCampType(true, CampType::ORGANIZATION_PBS, true));
         $camp->setCreator(UserTest::createUser());
         $camp->setOwner(UserTest::createUser());
 
@@ -33,7 +33,7 @@ class CampTest extends \PHPUnit_Framework_TestCase
     public static function createGroupCamp()
     {
         $camp = new Camp();
-        $camp->setCampType(CampTypeTest::createCampType());
+        $camp->setCampType(CampTypeTest::createCampType(true, CampType::ORGANIZATION_PBS, true));
         $camp->setCreator(UserTest::createUser());
         $camp->setOwner(GroupTest::createGroup());
 

@@ -11,7 +11,7 @@ class EventTypeTest extends \PHPUnit_Framework_TestCase
 
     private function createEventType()
     {
-        $campType = new CampType('name', 'type');
+        $campType = new CampType('name', true, CampType::ORGANIZATION_PBS, true);
         $eventType = new EventType('EventType Name', '#FF00FF', 'i');
         $eventType->getCampTypes()->add($campType);
 
