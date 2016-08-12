@@ -2,7 +2,12 @@
 [![Coverage Status](https://coveralls.io/repos/ecamp/ecamp3/badge.svg?branch=devel)](https://coveralls.io/r/ecamp/ecamp3?branch=devel)
 
 eCamp3
-=======================
+======
+
+Setup
+-----
+[Installation](INSTALL.md)
+
 
 Object Model
 ------------
