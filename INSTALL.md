@@ -71,9 +71,10 @@ php -S localhost:8080 server.php
 
 
 Visit the following url to create/update the tables in your database:
-[http://localhost:8080/db/schema/create](http://localhost:8080/db/schema/create)
+http://localhost:8080/db
 
+Click on ``Create Schema`` and on ``Replace (Delete and import) Prod``
+This should enable you to log in with User: ``admin`` and Password: ``admin``
 
-
-
+Log in: http://localhost:8080/web/en/login
 
