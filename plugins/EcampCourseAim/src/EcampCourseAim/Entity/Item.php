@@ -26,7 +26,6 @@ class Item extends BaseEntity
     /**
      * @var \Doctrine\Common\Collections\ArrayCollection
      * @ORM\OneToMany(targetEntity="Item", mappedBy="parent")
-     * @ORM\OrderBy({"name" = "ASC"})
      */
     private $children;
 
@@ -43,7 +42,7 @@ class Item extends BaseEntity
      *      inverseJoinColumns={@ORM\JoinColumn(name="EventPlugin_id", referencedColumnName="id", onDelete="cascade")}
      *      )
      */
-    private $eventPlugins;
+    public $eventPlugins;
 
 
     /**
@@ -67,5 +66,38 @@ class Item extends BaseEntity
     public function getText()
     {
         return $this->text;
+    }
+
+    public function getChildren(){
+        return $this->children;
+    }
+
+    public function isLinkedToEventPlugin($eventPlugin)
+    {
+        return $this->eventPlugins->contains($eventPlugin);
+    }
+
+
+    /**
+     * @param EventPlugin $eventPlugin
+     */
+    public function addEventPlugin(EventPlugin $eventPlugin)
+    {
+        if ($this->eventPlugins->contains($eventPlugin)) {
+            return;
+        }
+        $this->eventPlugins->add($eventPlugin);
+    }
+
+    /**
+     * @param EventPlugin $eventPlugin
+     */
+    public function removeEventPlugin(EventPlugin $eventPlugin)
+    {
+        if (!$this->eventPlugins->contains($eventPlugin)) {
+            return;
+        }
+
+        $this->eventPlugins->removeElement($eventPlugin);
     }
 }

@@ -13,6 +13,7 @@
     "bootstrap": "~3",
     "bootstrap-select": "latest",
     "bootstrap-datepicker": "latest",
+    "bootstrap-treeview": "latest",
     "angular": "~1.2",
     "angular-bootstrap": "~0.12",
     "angular-hal": "https://github.com/LuvDaSun/angular-hal.git",

@@ -24,6 +24,7 @@ return array(
                 // Bootstrap:
                 'vendor-assets/bootstrap/js/'           => __ASSETS__ . '/bootstrap/dist/js/',
                 'vendor-assets/bootstrap/css/'          => __ASSETS__ . '/bootstrap/dist/css/',
+                'vendor-assets/bootstrap/fonts/'        => __ASSETS__ . '/bootstrap/dist/fonts/',
 
                 // Font Awesome:
                 'vendor-assets/fontawesome/css/'        => __ASSETS__ . '/fontawesome/css/',

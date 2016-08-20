@@ -24,17 +24,17 @@ class PluginFixture extends AbstractFixture implements OrderedFixtureInterface
                 'reference' => self::PLUGIN_TEXTAREA
             ),
             array(
-                'name' => 'material',
+                'name' => 'Material',
                 'strategy' => 'EcampMaterial\StrategyFactory',
                 'reference' => self::PLUGIN_MATERIAL
             ),
             array(
-                'name' => 'storyboard',
+                'name' => 'Storyboard',
                 'strategy' => 'EcampStoryboard\StrategyFactory',
                 'reference' => self::PLUGIN_STORYBOARD
             ),
             array(
-                'name' => 'course-aim',
+                'name' => 'Course Aims',
                 'strategy' => 'EcampCourseAim\StrategyFactory',
                 'reference' => self::PLUGIN_COURSE_AIM
             ),

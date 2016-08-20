@@ -6,6 +6,8 @@
     {{ parent() }}
 
     <link href="{{ basePath('/vendor-assets/css/bootstrap.select.css') }}" media="screen" rel="stylesheet" type="text/css">
+
+    <link href="{{ basePath('/assets/vendor/bootstrap-treeview/src/css/bootstrap-treeview.css') }}" media="screen" rel="stylesheet" type="text/css">
 {% endblock %}
 
 {% block script %}
@@ -14,8 +16,12 @@
     <script type="text/javascript" src="{{ basePath('/vendor-assets/js/angular.hal.js') }}"></script>
     <script type="text/javascript" src="{{ basePath('/vendor-assets/js/bootstrap.select.js') }}"></script>
 
+    <script type="text/javascript" src="{{ basePath('/assets/vendor/bootstrap-treeview/src/js/bootstrap-treeview.js') }}"></script>
+
     <script type="text/javascript" src="{{ basePath('/web-assets/js/remote-data.js') }}"></script>
     <script type="text/javascript" src="{{ basePath('/web-assets/js/camp/event/event-controller.js') }}"></script>
+
+    <script type="text/javascript" src="{{ basePath('/material-assets/js/remote-material-data.js') }}"></script>
 
     <script type="text/javascript">
         (function(){
