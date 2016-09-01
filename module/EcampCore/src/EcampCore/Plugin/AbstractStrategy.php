@@ -102,6 +102,7 @@ abstract class AbstractStrategy
     {
         $eventPlugin = new EventPlugin($event, $plugin, $plugin->getName());
         $this->persist($eventPlugin);
+        $this->entityManager->flush();
 
         return $eventPlugin;
     }
@@ -116,6 +117,7 @@ abstract class AbstractStrategy
     public function delete(EventPlugin $eventPlugin)
     {
         $this->remove($eventPlugin);
+        $this->entityManager->flush();
     }
 
     /**

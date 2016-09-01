@@ -1,3 +1,57 @@
 <div>
-	Placeholder for CourseAim Plugin
+	<div id="aim-summary"></div>
+
+	<div id="aim-selection"></div>
+
 </div>
+
+<script type="text/javascript">
+
+	var $tree = $('#aim-selection').treeview({
+		data: {{ aim_tree | json_encode() | raw }},
+		multiSelect:true,
+		levels:2,
+		onNodeSelected: function(event, node) {
+			updateSummary();
+
+			$.ajax({
+				url: node.url,
+				type: 'PUT',
+				dataType: 'json',
+				success: function(result) {
+					// to be done
+				}
+			});
+		},
+
+		onNodeUnselected: function (event, node) {
+			updateSummary();
+
+			$.ajax({
+				url: node.url,
+				type: 'DELETE',
+				dataType: 'json',
+				success: function(result) {
+					// to be done
+				}
+			});
+		}
+	});
+
+
+	var updateSummary = function() {
+		var results = $tree.treeview('getSelected');
+
+		var output = '<ul>';
+		$.each(results, function (index, result) {
+			output += '<li>' + result.text + '</li>';
+		});
+		output += '<ul>';
+
+
+		$('#aim-summary').html(output);
+	}
+
+	updateSummary();
+
+</script>
