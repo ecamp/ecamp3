@@ -42,7 +42,7 @@ class Item extends BaseEntity
      *      inverseJoinColumns={@ORM\JoinColumn(name="EventPlugin_id", referencedColumnName="id", onDelete="cascade")}
      *      )
      */
-    public $eventPlugins;
+    private $eventPlugins;
 
 
     /**

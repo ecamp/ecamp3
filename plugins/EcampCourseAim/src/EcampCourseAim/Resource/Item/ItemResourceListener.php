@@ -47,15 +47,7 @@ class ItemResourceListener extends AbstractListenerAggregate
         $item = $this->repo->find($itemId);
         $eventPlugin = $this->eventPluginRepo->find($eventPluginId);
 
-        foreach($item->eventPlugins as $eventPlugin){
-            print_r($eventPlugin->getId());
-        }
-
         $item->removeEventPlugin($eventPlugin);
-
-        foreach($item->eventPlugins as $eventPlugin){
-            print_r($eventPlugin->getId());
-        }
 
         $this->em->flush();
 
