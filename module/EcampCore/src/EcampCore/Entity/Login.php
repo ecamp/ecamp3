@@ -32,6 +32,8 @@ use EcampLib\Validation\ValidationException;
 class Login
     extends BaseEntity
 {
+    const CURRENT_HASH_VERSION = 1;
+
 
     public function __construct(User $user, $password)
     {
@@ -67,6 +69,12 @@ class Login
     private $user;
 
     /**
+     * @var integer
+     * @ORM\Column(type="integer", nullable=false)
+     */
+    private $hashVersion = null;
+
+    /**
      * Returns the User of this Login Entity
      *
      * @return User
@@ -77,11 +85,19 @@ class Login
     }
 
     /**
+     * @return int
+     */
+    public function getHashVersion()
+    {
+        return $this->hashVersion;
+    }
+
+    /**
      * Create a new PW Reset Key
      */
     public function createPwResetKey()
     {
-        $pwResetKey = $this->getRandomString();
+        $pwResetKey = md5(microtime(true));
         $this->pwResetKey = $this->getHash($pwResetKey);
 
         return $pwResetKey;
@@ -101,18 +117,19 @@ class Login
      */
     public function checkPwResetKey($pwResetKey)
     {
-        return ($this->getHash($pwResetKey) == $this->pwResetKey);
+        return $this->checkHash($pwResetKey, $this->pwResetKey);
     }
 
     /**
      * @param $pwResetKey
      * @param $password
+     * @param null $hashVersion
      * @throws ValidationException
      */
-    public function resetPassword($pwResetKey, $password)
+    public function resetPassword($pwResetKey, $password, $hashVersion = null)
     {
         if ($this->checkPwResetKey($pwResetKey)) {
-            $this->setNewPassword($password);
+            $this->setNewPassword($password, $hashVersion);
         } else {
             throw ValidationException::Create(array(
                 'pwResetKey' => array('Invalid reset-key.')
@@ -123,12 +140,13 @@ class Login
     /**
      * @param $oldPassword
      * @param $newPassword
+     * @param null $hashVersion
      * @throws ValidationException
      */
-    public function changePassword($oldPassword, $newPassword)
+    public function changePassword($oldPassword, $newPassword, $hashVersion = null)
     {
         if ($this->checkPassword($oldPassword)) {
-            $this->setNewPassword($newPassword);
+            $this->setNewPassword($newPassword, $hashVersion);
         } else {
             throw ValidationException::Create(array(
                 'oldPassword' => array('Password incorrect.')
@@ -142,21 +160,29 @@ class Login
      *
      * @param string $password
      *
+     * @param bool $rehash
      * @return bool
      */
-    public function checkPassword($password)
+    public function checkPassword($password, $rehash = false)
     {
-        return ($this->getHash($password) == $this->password);
+        if ($this->checkHash($password, $this->password)) {
+            if ($rehash) {
+                $this->setNewPassword($password);
+            }
+            return true;
+        }
+        return false;
     }
 
     /**
-     * Sets a new Password. It creates a new salt
-     * ans stores the salten password
+     * Sets a new Password. It creates a new salt and stores the salten password
      * @param string $password
+     * @param null $hashVersion
      */
-    private function setNewPassword($password)
+    private function setNewPassword($password, $hashVersion = null)
     {
         $this->createSalt();
+        $this->hashVersion = ($hashVersion !== null) ? $hashVersion : self::CURRENT_HASH_VERSION;
         $this->password = $this->getHash($password);
     }
 
@@ -164,21 +190,69 @@ class Login
     {
         $this->password = null;
         $this->pwResetKey = null;
-        $this->salt = $this->getRandomString();
+        $this->salt = md5(microtime(true));
     }
 
+    /**
+     * @param $password
+     * @return string
+     */
     private function getHash($password)
     {
-        $options = array(
-            'cost' => 10,
-            'salt' => $this->salt
-        );
-
-        return \password_hash($password, PASSWORD_BCRYPT, $options);
+        switch ($this->hashVersion) {
+            case 1:
+                return $this->getHash_v1($password);
+            default:
+                return $password;
+        }
     }
 
-    private function getRandomString()
+    /**
+     * @param $password
+     * @param $hash
+     * @return bool
+     */
+    private function checkHash($password, $hash)
     {
-        return md5(microtime(true));
+        switch ($this->hashVersion) {
+            case 1:
+                return $this->checkHash_v1($password, $hash);
+            default:
+                return ($password == $hash);
+        }
     }
+
+
+
+    /****************************  HASH - VERSION 1  ****************************/
+
+    /**
+     * @param $password
+     * @return string
+     */
+    private function getHash_v1($password)
+    {
+        return password_hash($this->addSalt_v1($password), PASSWORD_BCRYPT, ['cost' => 10]);
+    }
+
+    /**
+     * @param $password
+     * @param $hash
+     * @return bool
+     */
+    private function checkHash_v1($password, $hash)
+    {
+        return password_verify($this->addSalt_v1($password), $hash);
+    }
+
+    /**
+     * @param $password
+     * @return string
+     */
+    private function addSalt_v1($password)
+    {
+        return $this->salt . $password;
+    }
+
+    /****************************************************************************/
 }
