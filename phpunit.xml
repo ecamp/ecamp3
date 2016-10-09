@@ -9,6 +9,10 @@
     </php>
 
     <testsuites>
+        <testsuite name="eCampLib">
+            <directory suffix='.php'>module/EcampLib/test/</directory>
+        </testsuite>
+
         <testsuite name="eCampCore">
             <!--
             <directory suffix='.php'>module/EcampCore/test/</directory>
@@ -37,6 +41,7 @@
 
     <filter>
         <whitelist>
+            <directory>module/EcampLib/src</directory>
             <directory>module/EcampCore/src</directory>
         </whitelist>
     </filter>
@@ -48,7 +53,7 @@
         	charset="UTF-8"
         	yui="true"
         	highlight="true"
-        	target="data/EcampCoreTest/coverage"
+        	target="data/EcampTest/coverage"
         />
     </logging>
 

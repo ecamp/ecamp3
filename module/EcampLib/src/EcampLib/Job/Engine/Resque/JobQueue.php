@@ -50,7 +50,9 @@ class JobQueue extends BaseJobQueue
     public function getResqueQueue()
     {
         if($this->resqueQueue == null){
+            // @codeCoverageIgnoreStart
             $this->setResqueQueue(\Resque::queue());
+            // @codeCoverageIgnoreEnd
         }
         return $this->resqueQueue;
     }

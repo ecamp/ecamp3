@@ -11,7 +11,6 @@ class JobQueueItem
     const CLASS_NAME = 'class_name';
     const SERIALIZED_DATA = 'serialized_data';
 
-
     public function setUp()
     {
     }
@@ -19,7 +18,11 @@ class JobQueueItem
     public function perform($args, $job)
     {
         $application = Application::Instance();
-        JobQueueItem::Create($args, $job)->execute($application);
+        $job = JobQueueItem::Create($args, $job);
+
+        $job->execute($application);
+
+        return $job;
     }
 
     public function tearDown()

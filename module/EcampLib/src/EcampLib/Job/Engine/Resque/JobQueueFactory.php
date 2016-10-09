@@ -8,6 +8,9 @@ use Zend\Mvc\MvcEvent;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
+/**
+ * @codeCoverageIgnore
+ */
 class JobQueueFactory implements FactoryInterface
 {
     public function createService(ServiceLocatorInterface $serviceLocator)

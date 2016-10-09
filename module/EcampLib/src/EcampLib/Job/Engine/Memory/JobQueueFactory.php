@@ -2,13 +2,15 @@
 
 namespace EcampLib\Job\Engine\Memory;
 
-use Zend\EventManager\EventManager;
 use Zend\Http\Response as HTTPResponse;
 use Zend\Mvc\Application;
 use Zend\Mvc\MvcEvent;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
+/**
+ * @codeCoverageIgnore
+ */
 class JobQueueFactory implements FactoryInterface
 {
     public function createService(ServiceLocatorInterface $serviceLocator)
