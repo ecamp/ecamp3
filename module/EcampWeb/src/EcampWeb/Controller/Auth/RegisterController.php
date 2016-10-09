@@ -85,12 +85,7 @@ class RegisterController extends BaseController
                 try {
                     $userEmail = $data['user-email'];
                     try {
-                        $email = $userEmail['email'];
-
-                        echo "<b>";
-                        echo $this->getRegisterService()->ForgotPassword($email);
-                        echo "</b>";
-                        die();
+                        $this->getRegisterService()->ForgotPassword($userEmail);
 
                         $viewModel = new ViewModel();
                         $viewModel->setTemplate('ecamp-web/auth/register/forgot-password-success');
@@ -147,7 +142,7 @@ class RegisterController extends BaseController
 
         $form = $this->createForm('EcampWeb\Form\Auth\ResetPasswordForm');
         $form->setAction($this->url()->fromRoute('web/register',
-            array('action' => 'resetPassword', 'id' => $loginId, 'key' => $resetKey)));
+            array('action' => 'reset-password', 'id' => $loginId, 'key' => $resetKey)));
 
         if ($this->getRequest()->isPost()) {
             $data = $this->getRequest()->getPost();

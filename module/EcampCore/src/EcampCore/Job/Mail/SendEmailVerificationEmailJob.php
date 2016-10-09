@@ -3,35 +3,48 @@
 namespace EcampCore\Job\Mail;
 
 use EcampCore\Entity\User;
+use EcampCore\Repository\UserRepository;
 use EcampLib\Job\AbstractSendMailJob;
 use Zend\Mail\Message;
 use Zend\Mime\Message as MimeMessage;
+use Zend\Mvc\ApplicationInterface;
 use Zend\View\Model\ViewModel;
 
+/**
+ * Class SendEmailVerificationEmailJob
+ * @package EcampCore\Job\Mails
+ * 
+ * @property string userId
+ * @property string code
+ */
 class SendEmailVerificationEmailJob extends AbstractSendMailJob
 {
-    /**
-     * @return \EcampCore\Repository\UserRepository
-     */
-    private function getUserRepository()
-    {
-        return $this->getService('EcampCore\Repository\User');
-    }
+    /** @var UserRepository */
+    private $userRepository;
 
+    /**
+     * SendEmailVerificationEmailJob constructor.
+     * @param User $user
+     */
     public function __construct(User $user = null)
     {
-        parent::__construct();
-
         if ($user != null) {
             $this->userId = $user->getId();
             $this->code = $user->createNewActivationCode();
         }
     }
 
-    public function execute()
+    public function doInit(ApplicationInterface $app)
+    {
+        parent::doInit($app);
+
+        $this->userRepository = $app->getServiceManager()->get('EcampCore\Repository\User');
+    }
+
+    public function doExecute(ApplicationInterface $app)
     {
         /* @var \EcampCore\Entity\User $user */
-        $user = $this->getUserRepository()->find($this->userId);
+        $user = $this->userRepository->find($this->userId);
         $code = $this->code;
 
         $textViewModel = new ViewModel();

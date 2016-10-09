@@ -5,10 +5,6 @@ namespace EcampCore\Controller;
 use EcampCore\Entity\Medium;
 
 /**
- * @method \EcampCore\Repository\UserRepository getUserRepository()
- * @method \EcampCore\Repository\CampRepository getCampRepository()
- * @method \EcampCore\Repository\GroupRepository getGroupRepository()
- *
  * @method \EcampCore\Service\UserService getUserService()
  * @method \EcampCore\Service\CampService getCampService()
  * @method \EcampCore\Service\GroupService getGroupService()
@@ -106,6 +102,7 @@ abstract class AbstractBaseController extends \EcampLib\Controller\AbstractBaseC
     }
 
     /**
+     * @param string $qry
      * @return \EcampCore\Entity\User
      */
     protected function getQueryUser($qry = 'user')
@@ -126,6 +123,7 @@ abstract class AbstractBaseController extends \EcampLib\Controller\AbstractBaseC
     }
 
     /**
+     * @param string $qry
      * @return \EcampCore\Entity\User
      */
     protected function getQueryGroup($qry = 'group')
@@ -146,6 +144,7 @@ abstract class AbstractBaseController extends \EcampLib\Controller\AbstractBaseC
     }
 
     /**
+     * @param string $qry
      * @return \EcampCore\Entity\Camp
      */
     protected function getQueryCamp($qry = 'camp')

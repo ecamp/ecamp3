@@ -4,31 +4,28 @@ namespace EcampLib\Job;
 
 use Zend\Mail\Message;
 use Zend\Mail\Transport\Factory;
+use Zend\Mail\Transport\TransportInterface;
 use Zend\Mime\Message as MimeMessage;
 use Zend\Mime\Mime;
 use Zend\Mime\Part as MimePart;
+use Zend\Mvc\ApplicationInterface;
 use Zend\View\Model\ViewModel;
 
 abstract class AbstractSendMailJob extends AbstractJobBase
 {
-    /**
-     * @return \Zend\View\View
-     */
-    private function getView()
-    {
-        return $this->getService('View');
-    }
+    /** @var TransportInterface */
+    private $mailTransport;
 
-    /**
-     * @return \Zend\Mail\Transport\TransportInterface
-     */
-    private function getMailTransport()
+    public function doInit(ApplicationInterface $app)
     {
-        $config = $this->getService('Config');
+        parent::doInit($app);
+
+        $config = $app->getServiceManager()->get('Config');
         $transportConfig = $config['mail']['transport'] ?: array();
-
-        return Factory::create($transportConfig);
+        $this->mailTransport = Factory::create($transportConfig);
     }
+
+
 
     protected function createHtmlPart(ViewModel $viewModel)
     {
@@ -101,11 +98,11 @@ abstract class AbstractSendMailJob extends AbstractJobBase
 
         /** @noinspection PhpVoidFunctionResultUsedInspection */
 
-        return $this->getView()->render($viewModel);
+        return $this->view->render($viewModel);
     }
 
     protected function sendMail(Message $message)
     {
-        $this->getMailTransport()->send($message);
+        $this->mailTransport->send($message);
     }
 }

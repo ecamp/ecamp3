@@ -2,14 +2,20 @@
 
 namespace EcampCoreTest\Entity;
 
-use EcampCore\Entity\User;
 use EcampCore\Entity\Group;
-use EcampCore\Entity\UserGroup;
 use EcampCore\Entity\Image;
-use EcampCore\Entity\GroupMembership;
 
 class GroupTest extends \PHPUnit_Framework_TestCase
 {
+
+    public static function createParentGroup($name = null)
+    {
+        $group = new Group();
+        $group->setName($name ?: "Group.ParentName");
+        $group->setDescription("Group.ParentDescription");
+
+        return $group;
+    }
 
     public static function createGroup()
     {
@@ -20,59 +26,57 @@ class GroupTest extends \PHPUnit_Framework_TestCase
         return $group;
     }
 
-    public function testGroup()
+
+    public function testNewGroup()
     {
-        $group = new Group();
-        $pgroup = new Group();
-        $image = new Image();
-        $user = new User();
-        $manager = new User();
+        $group = self::createGroup();
 
-        $pgroup->setImage($image);
-        $this->assertEquals($image, $pgroup->getImage());
-
-        $pgroup->delImage();
-        $this->assertNull($pgroup->getImage());
-
-        $group->setName('any group');
-        $group->setDescription('any desc');
-        $group->setImage($image);
-        $group->setParent($pgroup);
-        $pgroup->getChildren()->add($group);
-
-        $usergroup = GroupMembership::createRequest($manager, $group, GroupMembership::ROLE_MANAGER);
-        $usergroup->acceptRequest($manager);
-
-        $usergroup = GroupMembership::createRequest($user, $group, GroupMembership::ROLE_MEMBER);
-        $usergroup->acceptRequest($manager);
-
-        $this->assertEquals('any group', $group->getName());
-        $this->assertEquals('any desc', $group->getDescription());
-        $this->assertEquals($image, $group->getImage());
-        $this->assertEquals($pgroup, $group->getParent());
-        $this->assertContains($pgroup, $group->getPathAsArray());
-
-        $this->assertTrue($pgroup->hasChildren());
-        $this->assertFalse($group->hasChildren());
-
-        $this->assertTrue($group->groupMembership()->isMember($user));
-        $this->assertFalse($group->groupMembership()->isManager($user));
-
-        $this->assertFalse($group->groupMembership()->isMember($manager));
-        $this->assertTrue($group->groupMembership()->isManager($manager));
-
-        $this->assertInstanceOf('Doctrine\Common\Collections\ArrayCollection', $group->getCamps());
-        $this->assertInstanceOf('Doctrine\Common\Collections\ArrayCollection', $group->getChildren());
-        $this->assertInstanceOf('Doctrine\Common\Collections\ArrayCollection', $group->groupMembership()->getMembers());
-        $this->assertInstanceOf('Doctrine\Common\Collections\ArrayCollection', $group->groupMembership()->getMembers());
-
-    }
-
-    public function testResourceId()
-    {
-        $group = new Group();
+        $this->assertEquals('Group.Name', $group->getName());
+        $this->assertEquals('Group.Description', $group->getDescription());
 
         $this->assertEquals('EcampCore\Entity\Group', $group->getResourceId());
+        $this->assertNotNull($group->groupMembership());
     }
 
+    public function testParentGroup()
+    {
+        $group = self::createGroup();
+        $parentGroupA = self::createParentGroup("Group.ParentName.A");
+        $parentGroupB = self::createParentGroup("Group.ParentName.B");
+
+        $group->setParent($parentGroupA);
+        $this->assertEquals($parentGroupA, $group->getParent());
+        $this->assertContains($group, $parentGroupA->getChildren());
+        $this->assertNotContains($group, $parentGroupB->getChildren());
+        $this->assertTrue($parentGroupA->hasChildren());
+        $this->assertFalse($parentGroupB->hasChildren());
+        $this->assertEquals('Group.ParentName.A > Group.Name', $group->getPath());
+
+        $group->setParent($parentGroupB);
+        $this->assertEquals($parentGroupB, $group->getParent());
+        $this->assertContains($group, $parentGroupB->getChildren());
+        $this->assertNotContains($group, $parentGroupA->getChildren());
+        $this->assertTrue($parentGroupB->hasChildren());
+        $this->assertFalse($parentGroupA->hasChildren());
+        $this->assertEquals('Group.ParentName.B > Group.Name', $group->getPath());
+
+        $group->preRemove();
+        $this->assertNull($group->getParent());
+        $this->assertNotContains($group, $parentGroupA->getChildren());
+        $this->assertNotContains($group, $parentGroupB->getChildren());
+
+    }
+
+    public function testGroupImage()
+    {
+        $image = new Image();
+
+        $group = self::createGroup();
+
+        $group->setImage($image);
+        $this->assertEquals($image, $group->getImage());
+
+        $group->delImage();
+        $this->assertNull($group->getImage());
+    }
 }

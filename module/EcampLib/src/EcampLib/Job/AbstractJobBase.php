@@ -2,137 +2,157 @@
 
 namespace EcampLib\Job;
 
-use Resque\Job;
-use Zend\ServiceManager\ServiceLocatorAwareInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\Mvc\ApplicationInterface;
+use Zend\Mvc\Router\RouteStackInterface;
+use Zend\View\View;
 
-abstract class AbstractJobBase
-    implements JobInterface, ServiceLocatorAwareInterface
+abstract class AbstractJobBase implements JobInterface
 {
-    public $job;
-    public $args;
-    public $queue;
+    private $id = null;
+    private $storage = array();
+
+
+    /** @var array */
+    protected $config;
+
+    /** @var RouteStackInterface */
+    protected $router;
+
+    /** @var View */
+    protected $view;
+
+
+    public function id($id = null)
+    {
+        if (isset($id)) {
+            $this->id = $id;
+        }
+        return $this->id;
+    }
+
+
+    public function execute(ApplicationInterface $app)
+    {
+        $this->doInit($app);
+        $this->doExecute($app);
+    }
+
+    public function doInit(ApplicationInterface $app)
+    {
+        $serviceManager = $app->getServiceManager();
+
+        $this->config = $serviceManager->get('Config');
+        $this->router = $serviceManager->get('HttpRouter');
+        $this->view = $serviceManager->get('View');
+    }
+
+    abstract public function doExecute(ApplicationInterface $app);
+
 
     /**
-     * @var ServiceLocatorInterface
+     * @param $name
+     * @return bool
      */
-    private $serviceLocator;
-
-    protected function __construct($defaultQueue = 'php-only')
+    public function has($name)
     {
-        $this->args = array();
-        $this->queue = $defaultQueue;
-
-        /** @var \Zend\Mvc\Application $app */
-        $app = Application::Get();
-        if ($app) {
-            $this->serviceLocator = $app->getServiceManager();
-        }
+        return isset($this->storage[$name]);
     }
 
-    /** @param ServiceLocatorInterface $serviceLocator */
-    public function setServiceLocator(ServiceLocatorInterface $serviceLocator)
-    {
-        $this->serviceLocator = $serviceLocator;
-    }
-
-    /** @return ServiceLocatorInterface */
-    public function getServiceLocator()
-    {
-        return $this->serviceLocator;
-    }
-
-    public function getService($name)
-    {
-        return $this->serviceLocator->get($name);
-    }
-
-    public function enqueue($queue =  null)
-    {
-        $q = $queue ?: $this->queue;
-        $this->job = \Resque::queue()->push(get_class($this), $this->args, $q);
-
-        return $this->job;
-    }
-
-    public function setUp() { }
-    public function tearDown() { }
-
-    public function perform($args, $job)
-    {
-        $this->job = $job;
-        $this->args = $args;
-
-        $this->execute();
-    }
-
-    abstract public function execute();
-
-    public function getId()
-    {
-        if ($this->job instanceof Job) {
-            return $this->job->getId();
-        }
-
-        return null;
-    }
-
+    /**
+     * @param $name
+     * @return mixed
+     * @throws \Exception
+     */
     public function &get($name)
     {
-        if (isset($this->args[$name])) {
-            return $this->args[$name];
+        if ($this->has($name)) {
+            return $this->storage[$name];
         }
-
-        return null;
+        throw new \Exception('Unknown property: ' . $name);
     }
 
+    /**
+     * @param $name
+     * @param $value
+     * @throws \Exception
+     */
     public function set($name, $value)
     {
-        if (is_object($value)) {
-            throw new \Exception("You can not store Objects in a Job-Context: ");
+        if (!$this->propertyValueIsValid($value)) {
+            throw new \Exception("Only arrays und scalars (int, string, ...) are allowed.");
         }
-
-        $this->args[$name] = $value;
+        $this->storage[$name] = $value;
     }
 
+    /**
+     * @param $name
+     * @return mixed
+     * @throws \Exception
+     */
     public function &__get($name)
     {
         return $this->get($name);
     }
 
+    /**
+     * @param $name
+     * @param $value
+     * @throws \Exception
+     */
     public function __set($name, $value)
     {
         $this->set($name, $value);
     }
 
-    public function getStatus()
-    {
-        if ($this->job instanceof Job) {
-            return $this->job->getStatus();
-        }
-
-        return 0;
-    }
 
     /**
-     * @return \Zend\Mvc\Router\RouteStackInterface
-     */
-    protected function getRouter()
-    {
-        return $this->getServiceLocator()->get('HttpRouter');
-    }
-
-    /**
-     * @param $name
-     * @param  array  $params
-     * @param  array  $options
      * @return string
      */
+    public function serialize()
+    {
+        $data = array(
+            'storage' => $this->storage
+        );
+        return serialize($data);
+    }
+
+    /**
+     * @param string $serialized
+     */
+    public function unserialize($serialized)
+    {
+        $data = unserialize($serialized);
+
+        $this->storage = $data['storage'];
+    }
+
+
+    /**
+     * @param $value
+     * @return bool
+     */
+    private function propertyValueIsValid($value)
+    {
+        if (is_object($value)) {
+            return false;
+        }
+        if (is_array($value)) {
+            foreach ($value as $key => $item) {
+                if (!$this->propertyValueIsValid($key)) {
+                    return false;
+                }
+                if (!$this->propertyValueIsValid($item)) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+
     protected function urlFromRoute($name, $params = array(), $options = array())
     {
         $options['name'] = $name;
-
-        return $this->getRouter()->assemble($params, $options);
+        return $this->router->assemble($params, $options);
     }
-
 }

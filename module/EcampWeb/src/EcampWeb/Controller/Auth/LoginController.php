@@ -5,9 +5,8 @@ namespace EcampWeb\Controller\Auth;
 use EcampWeb\Form\Auth\RegisterForm;
 use Zend\Http\Header\SetCookie;
 use Zend\Http\PhpEnvironment\Response;
-use EcampCore\Entity\AutoLogin;
+use EcampCore\Entity\Autologin;
 use EcampWeb\Controller\BaseController;
-use EcampWeb\Form\Auth\LoginForm;
 
 class LoginController extends BaseController
 {
@@ -39,10 +38,10 @@ class LoginController extends BaseController
                 $rememberMe = $authResult->isValid() && $data['rememberme'];
             } elseif ($this->getRequest()->isGet()) {
                 $cookies = $this->getRequest()->getCookie();
-                $autologinToken = $cookies[AutoLogin::COOKIE_NAME];
+                $autologinToken = $cookies[Autologin::COOKIE_NAME];
 
                 if ($autologinToken) {
-                    $authResult = $this->getLoginService()->AutoLogin($autologinToken);
+                    $authResult = $this->getLoginService()->Autologin($autologinToken);
                 }
             }
 
@@ -55,10 +54,10 @@ class LoginController extends BaseController
                 if ($rememberMe) {
                     /* @var $user \EcampCore\Entity\User */
                     $user = $this->getUserRepository()->find($authResult->getIdentity());
-                    $token = $this->getLoginService()->CreateAutoLoginToken($user);
+                    $token = $this->getLoginService()->CreateAutologinToken($user);
 
                     $headers = $result->getHeaders();
-                    $headers->addHeader(new SetCookie(AutoLogin::COOKIE_NAME, $token, time() + AutoLogin::COOKIE_EXPIRES , '/'));
+                    $headers->addHeader(new SetCookie(Autologin::COOKIE_NAME, $token, time() + Autologin::COOKIE_EXPIRES , '/'));
                 }
 
                 return $result;
@@ -80,7 +79,7 @@ class LoginController extends BaseController
         $result = $this->redirect()->toRoute('web/login');
 
         $headers = $result->getHeaders();
-        $headers->addHeader(new SetCookie(AutoLogin::COOKIE_NAME, '', 0, '/'));
+        $headers->addHeader(new SetCookie(Autologin::COOKIE_NAME, '', 0, '/'));
 
         return $result;
     }

@@ -2,33 +2,32 @@
 
 namespace EcampCore\Job\Mail;
 
-use EcampCore\Repository\UserRepository;
+use EcampCore\Repository\LoginRepository;
 use EcampLib\Job\JobFactoryInterface;
 use EcampLib\Job\JobInterface;
 use EcampLib\ServiceManager\JobFactoryManager;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
-class SendEmailVerificationEmailJobFactory implements JobFactoryInterface
+class SendPwResetMailJobFactory implements JobFactoryInterface
 {
-    /** @var UserRepository */
-    private $userRepository;
+    /** @var LoginRepository */
+    private $loginRepository;
 
     /**
      * Create service
      *
      * @param ServiceLocatorInterface $jobFactoryManager
-     * @return mixed
+     * @return SendPwResetMailJobFactory
      */
     public function createService(ServiceLocatorInterface $jobFactoryManager)
     {
         /** @var JobFactoryManager $jobFactoryManager */
         $serviceLocator = $jobFactoryManager->getServiceLocator();
-        
-        $this->userRepository = $serviceLocator->get('EcampCore\Repository\User');
+
+        $this->loginRepository = $serviceLocator->get('EcampCore\Repository\Login');
 
         return $this;
     }
-    
 
     /**
      * @param  array $options
@@ -36,10 +35,10 @@ class SendEmailVerificationEmailJobFactory implements JobFactoryInterface
      */
     public function create($options = null)
     {
-        $userId = $options['userId'];
-        /** @var \EcampCore\Entity\User $user */
-        $user = $this->userRepository->find($userId);
-
-        return new SendEmailVerificationEmailJob($user);
+        $loginId = $options['loginId'];
+        /** @var \EcampCore\Entity\Login $login */
+        $login = $this->loginRepository->find($loginId);
+        
+        return new SendPwResetMailJob($login);
     }
 }

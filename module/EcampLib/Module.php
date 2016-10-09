@@ -81,16 +81,6 @@ class Module implements
         );
     }
 
-    public function onBootstrap(MvcEvent $e)
-    {
-        $application = $e->getApplication();
-
-        /** @var \EcampLib\Job\JobQueue $jobQueue */
-        $jobQueue = $application->getServiceManager()->get('EcampLib\Job\JobQueue');
-
-        (new JobFlushListener($jobQueue))->attach($application->getEventManager());
-
-    }
 }
 
 require_once __DIR__ . '/src/EcampLib/Util/password.php';

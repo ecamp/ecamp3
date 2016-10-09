@@ -2,7 +2,7 @@
 
 namespace EcampCore\Auth;
 
-use EcampCore\Entity\AutoLogin;
+use EcampCore\Entity\Autologin;
 use EcampCore\Entity\User;
 use Zend\Authentication\Result;
 use Zend\Authentication\Adapter\AdapterInterface;
@@ -21,11 +21,11 @@ class AutologinAdapter
     private $user;
 
     /**
-     * @var AutoLogin
+     * @var Autologin
      */
     private $autologin;
 
-    public function __construct(AutoLogin $autologin)
+    public function __construct(Autologin $autologin)
     {
         $this->autologin = $autologin;
     }

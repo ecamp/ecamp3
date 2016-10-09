@@ -20,6 +20,7 @@
 
 namespace EcampCore\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use EcampLib\Acl\Acl;
 use Zend\Permissions\Acl\Role\RoleInterface;
@@ -62,10 +63,10 @@ class User
     {
         parent::__construct();
 
-        $this->collaborations  = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->memberships = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->relationshipFrom = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->relationshipTo   = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->collaborations  = new ArrayCollection();
+        $this->memberships = new ArrayCollection();
+        $this->relationshipFrom = new ArrayCollection();
+        $this->relationshipTo   = new ArrayCollection();
 
         $this->state = self::STATE_NONREGISTERED;
         $this->role  = self::ROLE_USER;
@@ -157,25 +158,25 @@ class User
     private $login;
 
     /**
-     * @var \Doctrine\Common\Collections\ArrayCollection
+     * @var ArrayCollection
      * @ORM\OneToMany(targetEntity="CampCollaboration", mappedBy="user")
      */
     protected $collaborations;
 
     /**
-     * @var \Doctrine\Common\Collections\ArrayCollection
+     * @var ArrayCollection
      * @ORM\OneToMany(targetEntity="GroupMembership", mappedBy="user", cascade={"all"}, orphanRemoval=true)
      */
     protected $memberships;
 
     /**
-     * @var \Doctrine\Common\Collections\ArrayCollection
+     * @var ArrayCollection
      * @ORM\OneToMany(targetEntity="UserRelationship", mappedBy="from", cascade={"all"}, orphanRemoval=true )
      */
     protected $relationshipFrom;
 
     /**
-     * @var \Doctrine\Common\Collections\ArrayCollection
+     * @var ArrayCollection
      * @ORM\OneToMany(targetEntity="UserRelationship", mappedBy="to", cascade={"all"}, orphanRemoval= true)
      */
     protected $relationshipTo;
@@ -224,7 +225,8 @@ class User
     }
     public function setUntrustedEmail($untrustedEmail)
     {
-        $this->untrustedEmail = $untrustedEmail; return $this;
+        $this->untrustedEmail = $untrustedEmail;
+        return $this;
     }
 
     /**

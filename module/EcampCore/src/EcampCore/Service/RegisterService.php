@@ -3,9 +3,12 @@
 namespace EcampCore\Service;
 
 use EcampCore\Entity\User;
+use EcampCore\Job\Mail\SendEmailVerificationEmailJobFactory;
+use EcampCore\Job\Mail\SendPwResetMailJobFactory;
 use EcampCore\Repository\UserRepository;
 use EcampLib\Service\ExecutionException;
 use EcampLib\Validation\ValidationException;
+use Zend\Validator\EmailAddress;
 
 class RegisterService extends Base\ServiceBase
 {
@@ -63,9 +66,8 @@ class RegisterService extends Base\ServiceBase
         }
 
         $this->resqueJobService->Create(
-            'SendEmailVerificationEmail',
-            array('userId' => $user->getId()),
-            true
+            SendEmailVerificationEmailJobFactory::class,
+            array('userId' => $user->getId())
         );
 
         return $user;
@@ -96,5 +98,44 @@ class RegisterService extends Base\ServiceBase
 
         return $success;
     }
+
+
+
+    public function ForgotPassword($data)
+    {
+        $email = $data['email'];
+
+        $mailValidator = new EmailAddress();
+        if (! $mailValidator->isValid($email)) {
+            throw new ValidationException(array('email' => $mailValidator->getMessages()));
+        }
+
+        /** @var $user User */
+        $user = $this->userRepository->findOneBy(array('email' => $email));
+
+        if($user == null){
+            throw new ValidationException(array('email' => 'Unknown email-address'));
+        }
+
+        $login = $user->getLogin();
+
+        if($login == null){
+            throw new ValidationException(array('email' => 'User has no login'));
+        }
+
+        $this->resqueJobService->Create(
+            SendPwResetMailJobFactory::class,
+            array('loginId' => $login->getId())
+        );
+    }
+
+
+    public function ResetPassword($login, $resetKey, $password)
+    {
+        $login = $this->loginService->Get($login);
+
+        $login->resetPassword($resetKey, $password);
+    }
+
 
 }

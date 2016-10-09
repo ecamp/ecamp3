@@ -3,12 +3,14 @@
 return array(
 
     'aliases' => array(
-        'PrintableManager'  => 'EcampLib\ServiceManager\PrintableManager',
-        'JobFactoryManager' => 'EcampLib\ServiceManager\JobFactoryManager',
+        'EcampLib\Job\JobQueue' => EcampLib\Job\Engine\Memory\JobQueue::class,
+
+        'PrintableManager'      => 'EcampLib\ServiceManager\PrintableManager',
+        'JobFactoryManager'     => 'EcampLib\ServiceManager\JobFactoryManager',
     ),
 
     'invokables' => array(
-        'EcampLib\Job\JobQueue'                     => 'EcampLib\Job\JobQueue',
+
         'EcampLib\Service\ServiceInitializer'       => 'EcampLib\Service\ServiceInitializer',
     ),
 
@@ -17,6 +19,9 @@ return array(
         'EcampLib\Options\ModuleOptions'            => 'EcampLib\Options\ModuleOptionsFactory',
         'EcampLib\ServiceManager\PrintableManager'  => 'EcampLib\ServiceManager\PrintableManagerFactory',
         'EcampLib\ServiceManager\JobFactoryManager' => 'EcampLib\ServiceManager\JobFactoryManagerFactory',
+
+        EcampLib\Job\Engine\Memory\JobQueue::class  => EcampLib\Job\Engine\Memory\JobQueueFactory::class,
+        EcampLib\Job\Engine\Resque\JobQueue::class  => \EcampLib\Job\Engine\Resque\JobQueueFactory::class
     ),
 
     'abstract_factories' => array(

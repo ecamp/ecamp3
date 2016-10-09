@@ -2,13 +2,15 @@
 
 namespace EcampLib\Job;
 
-interface JobInterface
+use Zend\Mvc\ApplicationInterface;
+
+/**
+ * Interface JobInterface
+ * @package EcampLib\JobEngine
+ */
+interface JobInterface extends \Serializable
 {
-    /**
-     * @param  null        $queue
-     * @return \Resque\Job
-     */
-    public function enqueue($queue =  null);
-    public function perform($args, $job);
-    public function getId();
+    public function id($id = null);
+
+    public function execute(ApplicationInterface $app);
 }

@@ -4,7 +4,7 @@ namespace EcampCore\Service;
 
 use EcampLib\Job\JobFactoryInterface;
 use EcampLib\Job\JobInterface;
-use EcampLib\Job\JobQueue;
+use EcampLib\Job\Engine\JobQueue;
 use EcampLib\ServiceManager\JobFactoryManager;
 use Resque\Job;
 use Resque\Redis;
@@ -58,15 +58,15 @@ class ResqueJobService extends Base\ServiceBase
      * @param  bool         $enqueue
      * @return JobInterface
      */
-    public function Create($name, $options = array(), $enqueue = false)
+    public function Create($name, $options = array(), $enqueue = true)
     {
         /** @var JobFactoryInterface $jobFactory */
         $jobFactory = $this->jobFactoryManager->get($name);
 
         $job = $jobFactory->create($options);
 
-        if ($enqueue) {
-            $this->Enqueue($job);
+        if($enqueue) {
+            $this->jobQueue->enqueue($job);
         }
 
         return $job;

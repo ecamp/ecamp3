@@ -3,17 +3,19 @@
 namespace EcampCore\Job;
 
 use EcampLib\Job\AbstractJobBase;
+use EcampLib\Mvc\ResponseSender\ConsoleResponseSender;
+use Zend\Mvc\ApplicationInterface;
+use Zend\Mvc\ResponseSender\SendResponseEvent;
+use Zend\Mvc\SendResponseListener;
 
 class Zf2CliJob extends AbstractJobBase
 {
     public function __construct($command = null)
     {
-        parent::__construct();
-
         $this->command = $command;
     }
 
-    public function perform()
+    public function doExecute(ApplicationInterface $app)
     {
         $argv = explode(' ', $this->command);
         array_unshift($argv, 'Zf2CliJob.php');
@@ -22,15 +24,17 @@ class Zf2CliJob extends AbstractJobBase
         $_SERVER['argv'] = $argv;
         $_SERVER['argc'] = $argc;
 
-        $app = \Zend\Mvc\Application::init(require 'config/application.config.php');
+        /** @var SendResponseListener $responseSender */
         $responseSender = $app->getServiceManager()->get('SendResponseListener');
 
-        $responseSender->getEventManager()->attach(
-            \Zend\Mvc\ResponseSender\SendResponseEvent::EVENT_SEND_RESPONSE,
-            new \EcampLib\Mvc\ResponseSender\ConsoleResponseSender(false)
+        $event = $responseSender->getEventManager()->attach(
+            SendResponseEvent::EVENT_SEND_RESPONSE,
+            new ConsoleResponseSender(false)
         );
 
         $app->run();
+
+        $responseSender->getEventManager()->detach($event);
     }
 
 }

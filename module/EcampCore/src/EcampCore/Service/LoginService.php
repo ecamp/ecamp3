@@ -2,10 +2,11 @@
 
 namespace EcampCore\Service;
 
-use EcampCore\Entity\AutoLogin;
+use EcampCore\Auth\LoginPasswordAdapter;
+use EcampCore\Entity\Autologin;
 use EcampCore\Entity\User;
 use EcampCore\Entity\Login;
-use EcampCore\Repository\AutoLoginRepository;
+use EcampCore\Repository\AutologinRepository;
 use EcampCore\Repository\LoginRepository;
 use EcampCore\Repository\UserRepository;
 use EcampLib\Validation\ValidationException;
@@ -24,17 +25,17 @@ class LoginService extends Base\ServiceBase
     private $userRepository;
 
     /**
-     * @var \EcampCore\Repository\AutoLoginRepository
+     * @var \EcampCore\Repository\AutologinRepository
      */
-    private $autoLoginRepository;
+    private $autologinRepository;
 
     public function __construct(
         LoginRepository $loginRepository,
-        AutoLoginRepository $autoLoginRepository,
+        AutologinRepository $autologinRepository,
         UserRepository $userRepository
     ){
         $this->loginRepository = $loginRepository;
-        $this->autoLoginRepository = $autoLoginRepository;
+        $this->autologinRepository = $autologinRepository;
         $this->userRepository = $userRepository;
     }
 
@@ -69,7 +70,6 @@ class LoginService extends Base\ServiceBase
     public function Create(User $user, $data)
     {
         if ($user->getLogin() != null) {
-            // TODO: log!
             throw new ValidationException(array('user' => "User has already a Login"));
         }
 
@@ -79,13 +79,16 @@ class LoginService extends Base\ServiceBase
         return $login;
     }
 
-    public function Delete()
+    /**
+     * @param User $user
+     * @throws ValidationException
+     */
+    public function Delete(User $user)
     {
-        $me = $this->getMe();
-        $login = $me->getLogin();
+        $login = $user->getLogin();
 
-        if (is_null($login)) {
-            $this->addValidationMessage("There is no Login to be deleted!");
+        if ($login == null) {
+            throw new ValidationException(array('login' => 'User has no Login'));
         } else {
             $this->remove($login);
         }
@@ -101,14 +104,9 @@ class LoginService extends Base\ServiceBase
         /** @var \EcampCore\Entity\User  */
         $user = $this->userRepository->findByIdentifier($identifier);
 
-        if (is_null($user)) {
-            $login = null;
-        } else {
-            /** @var Login */
-            $login = $user->getLogin();
-        }
+        $login = ($user != null) ? $user->getLogin() : null;
 
-        $authAdapter = new \EcampCore\Auth\LoginPasswordAdapter($login, $password);
+        $authAdapter = new LoginPasswordAdapter($login, $password);
         $authService = new AuthenticationService();
         $result = $authService->authenticate($authAdapter);
 
@@ -127,12 +125,13 @@ class LoginService extends Base\ServiceBase
         $login->changePassword($oldPassword, $newPassword);
     }
 
+
     /**
      * @return \Zend\Authentication\Result
      */
-    public function AutoLogin($token)
+    public function Autologin($token)
     {
-        $autoLogin = $this->autoLoginRepository->findByToken($token);
+        $autoLogin = $this->autologinRepository->findByToken($token);
 
         $authAdapter = new \EcampCore\Auth\AutologinAdapter($autoLogin);
         $authService = new AuthenticationService();
@@ -145,9 +144,9 @@ class LoginService extends Base\ServiceBase
      * @param  User   $user
      * @return string
      */
-    public function CreateAutoLoginToken(User $user)
+    public function CreateAutologinToken(User $user)
     {
-        $autoLogin = new AutoLogin($user);
+        $autoLogin = new Autologin($user);
         $this->persist($autoLogin);
 
         return $autoLogin->createToken();

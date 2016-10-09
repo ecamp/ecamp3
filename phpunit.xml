@@ -15,6 +15,7 @@
             -->
             <file>module/EcampCore/test/EcampCoreTest/Entity/LoginTest.php</file>
 
+            <file>module/EcampCore/test/EcampCoreTest/Entity/GroupTest.php</file>
 
             <file>module/EcampCore/test/EcampCoreTest/Entity/CampTypeTest.php</file>
             <file>module/EcampCore/test/EcampCoreTest/Entity/EventTypeTest.php</file>

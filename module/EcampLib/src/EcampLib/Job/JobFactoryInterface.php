@@ -2,7 +2,9 @@
 
 namespace EcampLib\Job;
 
-interface JobFactoryInterface
+use Zend\ServiceManager\FactoryInterface;
+
+interface JobFactoryInterface extends FactoryInterface
 {
     /**
      * @param  array        $options

@@ -3,41 +3,32 @@
 namespace EcampCore\Job;
 
 use EcampLib\Job\AbstractJobBase;
-use EcampLib\Job\JobResultInterface;
+use EcampLib\Job\Engine\JobResultInterface;
 use EcampLib\Printable\PrintableInterface;
 use EcampLib\ServiceManager\PrintableManager;
 use mikehaertl\shellcommand\Command;
 use mikehaertl\tmp\File;
 use mikehaertl\wkhtmlto\Pdf;
+use Zend\Mvc\ApplicationInterface;
 use Zend\View\Model\ViewModel;
 
+/**
+ * @property string footer
+ * @property string header
+ * @property array pages
+ */
 class CreatePdfJob extends AbstractJobBase implements JobResultInterface
 {
     const PAGE = 'PAGE';
     const TOC = 'TOC';
 
-    /** @return \Zend\View\View */
-    private function getView()
-    {
-        return $this->getService('View');
-    }
 
-    /** @return array */
-    protected function getConfig()
-    {
-        return $this->getService('Config');
-    }
+    /** @var PrintableManager */
+    protected $printableManager;
 
-    /** @return PrintableManager */
-    protected function getPrintableManager()
-    {
-        return $this->getService('PrintableManager');
-    }
 
     public function __construct(array $pages = null)
     {
-        parent::__construct();
-
         $this->header = null;
         $this->footer = null;
 
@@ -64,7 +55,16 @@ class CreatePdfJob extends AbstractJobBase implements JobResultInterface
         $this->footer = $footer;
     }
 
-    public function execute()
+
+
+    public function doInit(ApplicationInterface $app)
+    {
+        parent::doInit($app);
+
+        $this->printableManager = $app->getServiceManager()->get('PrintableManager');
+    }
+
+    public function doExecute(ApplicationInterface $app)
     {
         $pdf = $this->getPdfFactory();
 
@@ -83,7 +83,7 @@ class CreatePdfJob extends AbstractJobBase implements JobResultInterface
 
     private function getPdfFactory()
     {
-        $config = $this->getService('Config');
+        $config = $this->config;
         $config = $config['wkhtmltopdf']['config'];
 
         if ($this->header != null) {
@@ -103,7 +103,7 @@ class CreatePdfJob extends AbstractJobBase implements JobResultInterface
 
         foreach ($page['items'] as $item) {
             /** @var PrintableInterface $printable */
-            $printable = $this->getPrintableManager()->get($item['name']);
+            $printable = $this->printableManager->get($item['name']);
             $viewModel = $printable->create($item);
 
             if ($viewModel != null) {
@@ -121,10 +121,10 @@ class CreatePdfJob extends AbstractJobBase implements JobResultInterface
 
     private function createPdf(Pdf $pdf)
     {
-        $cpdfConfig = $this->getService('Config');
+        $cpdfConfig = $this->config;
         $cpdfConfig = $cpdfConfig['cpdf']['config'];
 
-        $pdfFilename = __DATA__ . '/print/' . $this->getId() . '.pdf';
+        $pdfFilename = __DATA__ . '/print/' . $this->id() . '.pdf';
         $pdf->saveAs($pdfFilename);
 
         $tmpA4 = new File('', '.pdf', 'tmp_wkhtmlto_pdf_', __DATA__ . '/tmp');
@@ -146,7 +146,7 @@ class CreatePdfJob extends AbstractJobBase implements JobResultInterface
 
     public function getResult()
     {
-        $pdfFilename = __DATA__ . '/print/' . $this->getId() . '.pdf';
+        $pdfFilename = __DATA__ . '/print/' . $this->id() . '.pdf';
 
         if (file_exists($pdfFilename)) {
             return $pdfFilename;
@@ -164,8 +164,7 @@ class CreatePdfJob extends AbstractJobBase implements JobResultInterface
         $viewModel->setOption('has_parent', true);
 
         /** @noinspection PhpVoidFunctionResultUsedInspection */
-
-        return $this->getView()->render($viewModel);
+        return $this->view->render($viewModel);
     }
 
 }

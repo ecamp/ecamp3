@@ -2,11 +2,10 @@
 
 namespace EcampCore\Job;
 
-use EcampLib\Job\AbstractJobFactory;
+use EcampLib\Job\JobFactoryInterface;
 use EcampLib\Job\JobInterface;
 
-class CreatePdfJobFactory
-    extends AbstractJobFactory
+class CreatePdfJobFactory implements JobFactoryInterface
 {
     /**
      * @param  array        $options

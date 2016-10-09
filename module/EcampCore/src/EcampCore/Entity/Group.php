@@ -20,6 +20,7 @@
 
 namespace EcampCore\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Zend\Permissions\Acl\Resource\ResourceInterface;
 
@@ -36,8 +37,8 @@ class Group
     {
         parent::__construct();
 
-        $this->children = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->memberships = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->children = new ArrayCollection();
+        $this->memberships = new ArrayCollection();
 
         $this->setParent($parent);
     }
@@ -56,7 +57,7 @@ class Group
     private $parent;
 
     /**
-     * @var \Doctrine\Common\Collections\ArrayCollection
+     * @var ArrayCollection
      * @ORM\OneToMany(targetEntity="Group", mappedBy="parent")
      * @ORM\OrderBy({"name" = "ASC"})
      */
@@ -68,7 +69,7 @@ class Group
     private $description;
 
     /**
-     * @var \Doctrine\Common\Collections\ArrayCollection
+     * @var ArrayCollection
      * @ORM\OneToMany(targetEntity="GroupMembership", mappedBy="group", cascade={"all"}, orphanRemoval=true )
      */
     protected $memberships;
@@ -133,24 +134,34 @@ class Group
     }
 
     /**
-     * @return \Doctrine\Common\Collections\ArrayCollection
+     * @return ArrayCollection
      */
     public function getChildren()
     {
         return $this->children;
     }
 
+    /**
+     * @return bool
+     */
     public function hasChildren()
     {
         return ! $this->children->isEmpty();
     }
 
-    public function getPath($seperator = ' > ')
+    /**
+     * @param string $separator
+     * @return string
+     */
+    public function getPath($separator = ' > ')
     {
         $groups = $this->getPathAsArray(true);
-        $groupNames = array_map(function($g){ return $g->getName(); }, $groups);
+        $groupNames = array_map(function($g){
+            /** @var Group $g */
+            return $g->getName();
+        }, $groups);
 
-        return implode($seperator, $groupNames);
+        return implode($separator, $groupNames);
     }
 
     /**

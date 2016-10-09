@@ -1,6 +1,6 @@
 <?php
 
-namespace EcampLib\Job;
+namespace EcampLib\Job\Engine;
 
 interface JobResultInterface
 {
