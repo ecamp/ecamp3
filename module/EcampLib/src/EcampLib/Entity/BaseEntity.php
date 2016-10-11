@@ -108,14 +108,18 @@ abstract class BaseEntity
     protected function addToList($listProperty, $element)
     {
         if ($this instanceof Proxy) {
+            // @codeCoverageIgnoreStart
             $this->__load();
+            // @codeCoverageIgnoreEnd
         }
 
         if (property_exists($this, $listProperty)) {
             /* @var $list \Doctrine\Common\Collections\ArrayCollection */
             $list = $this->{$listProperty};
         } else {
+            // @codeCoverageIgnoreStart
             throw new \Exception("Unknown List");
+            // @codeCoverageIgnoreEnd
         }
 
         if (!$list->contains($element)) {
@@ -131,7 +135,9 @@ abstract class BaseEntity
     protected function removeFromList($listProperty, $element)
     {
         if ($this instanceof Proxy) {
+            // @codeCoverageIgnoreStart
             $this->__load();
+            // @codeCoverageIgnoreEnd
         }
 
         $methodName = 'get' . ucfirst($listProperty);
@@ -143,7 +149,9 @@ abstract class BaseEntity
             /* @var $list \Doctrine\Common\Collections\ArrayCollection */
             $list = $this->$listProperty;
         } else {
+            // @codeCoverageIgnoreStart
             throw new \Exception("Unknown List");
+            // @codeCoverageIgnoreEnd
         }
 
         $list->removeElement($element);

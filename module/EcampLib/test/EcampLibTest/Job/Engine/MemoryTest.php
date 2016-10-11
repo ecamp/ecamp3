@@ -2,9 +2,7 @@
 
 namespace EcampLibTest\Job\Engine;
 
-
 use EcampLib\Job\Engine\Memory\JobQueue;
-use Zend\Mvc\ApplicationInterface;
 
 class MemoryTest extends \PHPUnit_Framework_TestCase
 {
