@@ -1,0 +1,71 @@
+{
+    "name": "zfcampus/zf-apigility-skeleton",
+    "description": "Skeleton Application for Apigility",
+    "type": "library",
+    "license": "BSD-3-Clause",
+    "keywords": [
+        "api",
+        "apigility",
+        "framework",
+        "zf2"
+    ],
+    "homepage": "http://apigility.org/",
+    "support": {
+        "email": "apigility-users@zend.com",
+        "irc": "irc://irc.freenode.net/apigility",
+        "source": "https://github.com/zfcampus/zf-apigility-skeleton",
+        "issues": "https://github.com/zfcampus/zf-apigility-skeleton/issues"
+    },
+    "config": {
+        "process-timeout": 5000
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.4-dev",
+            "dev-develop": "1.5-dev"
+        }
+    },
+    "require": {
+        "php": "^5.6 || ^7.0",
+        "zendframework/zend-component-installer": "^1.0 || ^0.5 || ^1.0.0-dev@dev",
+        "zfcampus/zf-apigility": "^1.3",
+        "zfcampus/zf-apigility-documentation": "^1.2.3",
+        "zfcampus/zf-development-mode": "^3.0",
+        "zfcampus/zf-apigility-doctrine": "^2.1",
+        "doctrine/doctrine-orm-module": "^1.1"
+    },
+    "require-dev": {
+        "zendframework/zend-developer-tools": "^1.1",
+        "zfcampus/zf-apigility-admin": "^1.5.9",
+        "zfcampus/zf-asset-manager": "^1.1.1",
+        "zfcampus/zf-composer-autoloading": "^1.0",
+        "zfcampus/zf-deploy": "^1.2"
+    },
+    "suggest": {
+        "zfcampus/zf-apigility-doctrine": "zfcampus/zf-apigility-doctrine ^2.1 to create Doctrine-Connected REST services",
+        "zfcampus/zf-http-cache": "zfcampus/zf-http-cache ^1.3 to add HTTP caching to your API",
+        "zfr/zfr-cors": "zfr/zfr-cors ^1.2 to add CORS support to your API"
+    },
+    "autoload": {
+        "psr-4": {
+            "Application\\": "module/Application/src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "ApplicationTest\\": "module/Application/test/"
+        },
+        "files": [
+            "src/Apigility/constants.php"
+        ]
+    },
+    "scripts": {
+        "cs-check": "phpcs",
+        "cs-fix": "phpcbf",
+        "development-disable": "zf-development-mode disable",
+        "development-enable": "zf-development-mode enable",
+        "development-status": "zf-development-mode status",
+        "serve": "php -S 0.0.0.0:8080 -t public/ public/index.php",
+        "test": "phpunit"
+    }
+}
