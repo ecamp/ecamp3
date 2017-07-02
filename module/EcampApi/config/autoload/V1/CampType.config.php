@@ -64,11 +64,13 @@ return [
                 'entity_identifier_name' => 'id',
                 'route_name' => 'ecamp-api.rest.doctrine.camp-type',
                 'hydrator' => 'EcampApi\\V1\\Rest\\CampType\\CampTypeHydrator',
+            	'max_depth' => 2
             ],
             \EcampApi\V1\Rest\CampType\CampTypeCollection::class => [
                 'entity_identifier_name' => 'id',
                 'route_name' => 'ecamp-api.rest.doctrine.camp-type',
                 'is_collection' => true,
+            	'max_depth' => 1
             ],
         ],
     ],
@@ -84,9 +86,13 @@ return [
         'EcampApi\\V1\\Rest\\CampType\\CampTypeHydrator' => [
             'entity_class' => \EcampCore\Entity\CampType::class,
             'object_manager' => 'doctrine.entitymanager.orm_default',
-            'by_value' => true,
-            'strategies' => [],
-            'use_generated_hydrator' => true,
+        	'by_value' => true,
+        	'strategies' => [
+        		'eventTypes' => ZF\Doctrine\Hydrator\Strategy\CollectionExtract::class
+        	],
+        	'filters' => [
+        		[ 'filter' => EcampApi\Hydrator\Filter\BaseEntityFilter::class ]
+        	]
         ],
     ],
     'zf-content-validation' => [

@@ -6,13 +6,17 @@ use Zend\Config\Factory;
 
 class Module implements ApigilityProviderInterface
 {
+	
+	
     public function getConfig()
     {
-    	return Factory::fromFiles(glob( __DIR__ . '/config/autoload/*.*'));
-       // return include __DIR__ . '/config/module.config.php';
+    	return Factory::fromFiles(array_merge(
+    		[ __DIR__ . '/config/module.config.php' ],
+    		glob( __DIR__ . '/config/autoload/*.*'),
+    		glob( __DIR__ . '/config/autoload/V1/*.*')
+    	));
     }
     
-
     public function getAutoloaderConfig()
     {
         return [

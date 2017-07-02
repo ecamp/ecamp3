@@ -42,6 +42,7 @@ if (! file_exists('vendor/autoload.php')) {
     );
 }
 
+
 // Setup autoloading
 include 'vendor/autoload.php';
 
@@ -53,6 +54,9 @@ if (file_exists('config/development.config.php')) {
         include 'config/development.config.php'
     );
 }
+
+ini_set('error_reporting', E_ALL);
+ini_set('display_errors', 1);
 
 // Run the application!
 Application::init($appConfig)->run();
