@@ -13,6 +13,7 @@ return [
     'Zend\\InputFilter',
     'Zend\\Paginator',
     'Zend\\Router',
+    'Zend\\Session',
 	'Zend\\Validator',
 	'Phpro\\DoctrineHydrationModule',
     'ZF\\Apigility',
@@ -32,7 +33,6 @@ return [
     'DoctrineModule',
     'DoctrineORMModule',
 	'ZF\Doctrine\QueryBuilder',
-		
 	
     'EcampLib',
     'EcampCore',

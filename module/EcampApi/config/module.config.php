@@ -1,9 +1,9 @@
 <?php
 
 return [
-	'service_manager' => [
-		'factories' => [
-			'EcampApi\\Hydrator\\Filter\\BaseEntityFilter' => EcampApi\Hydrator\Filter\BaseEntityFilterFactory::class
-		]
-	]
+    'controllers' => [
+        'factories' => [
+            \EcampApi\Controller\AssetsController::class => \EcampApi\Controller\AssetsControllerFactory::class,
+        ],
+    ],
 ];

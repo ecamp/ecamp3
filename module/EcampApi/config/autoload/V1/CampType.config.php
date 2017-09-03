@@ -1,4 +1,5 @@
 <?php
+
 return [
     'router' => [
         'routes' => [
@@ -13,6 +14,12 @@ return [
             ],
         ],
     ],
+	'service_manager' => [
+		'factories' => [
+			\EcampApi\V1\Rest\CampType\CampTypeHydrator::class => \EcampApi\V1\DoctrineHydratorFactory::class,
+				\EcampApi\V1\Rest\CampType\CampTypeFilter::class => \Zend\ServiceManager\Factory\InvokableFactory::class
+		]
+	],
     'zf-versioning' => [
         'uri' => [
             0 => 'ecamp-api.rest.doctrine.camp-type',
@@ -63,7 +70,7 @@ return [
                 'route_identifier_name' => 'camp_type_id',
                 'entity_identifier_name' => 'id',
                 'route_name' => 'ecamp-api.rest.doctrine.camp-type',
-                'hydrator' => 'EcampApi\\V1\\Rest\\CampType\\CampTypeHydrator',
+            	'hydrator' => \EcampApi\V1\Rest\CampType\CampTypeHydrator::class,
             	'max_depth' => 2
             ],
             \EcampApi\V1\Rest\CampType\CampTypeCollection::class => [
@@ -78,20 +85,22 @@ return [
         'doctrine-connected' => [
             \EcampApi\V1\Rest\CampType\CampTypeResource::class => [
                 'object_manager' => 'doctrine.entitymanager.orm_default',
-                'hydrator' => 'EcampApi\\V1\\Rest\\CampType\\CampTypeHydrator',
+            	'hydrator' => \EcampApi\V1\Rest\CampType\CampTypeHydrator::class,
             ],
         ],
     ],
     'doctrine-hydrator' => [
-        'EcampApi\\V1\\Rest\\CampType\\CampTypeHydrator' => [
+    	\EcampApi\V1\Rest\CampType\CampTypeHydrator::class=> [
             'entity_class' => \EcampCore\Entity\CampType::class,
             'object_manager' => 'doctrine.entitymanager.orm_default',
+        	'hydrator' => \EcampApi\V1\Rest\CampType\CampTypeHydrator::class,
         	'by_value' => true,
         	'strategies' => [
-        		'eventTypes' => ZF\Doctrine\Hydrator\Strategy\CollectionExtract::class
+        		//'eventTypes' => ZF\Doctrine\Hydrator\Strategy\CollectionExtract::class
         	],
         	'filters' => [
-        		[ 'filter' => EcampApi\Hydrator\Filter\BaseEntityFilter::class ]
+        		[ 'condition' => 'and', 'filter' => \EcampApi\V1\BaseEntityFilter::class ],
+        		[ 'condition' => 'and', 'filter' => \EcampApi\V1\Rest\CampType\CampTypeFilter::class ]
         	]
         ],
     ],
