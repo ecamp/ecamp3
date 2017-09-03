@@ -34,7 +34,8 @@
 		"zfcampus/zf-apigility-doctrine" : "^2.1",
 		"zfcampus/zf-doctrine-querybuilder": "^1",
 		"doctrine/doctrine-orm-module" : "^1.1",
-		"api-skeletons/zf-doctrine-hydrator": "^3"
+		"api-skeletons/zf-doctrine-hydrator": "^3",
+		"zendframework/zend-session": "^2.8"
 	},
 	"require-dev" : {
 		"zendframework/zend-developer-tools" : "^1.1",
