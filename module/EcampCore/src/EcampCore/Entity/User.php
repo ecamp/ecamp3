@@ -21,7 +21,7 @@
 namespace EcampCore\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use EcampLib\Acl\Acl;
+//use EcampLib\Acl\Acl;
 use Zend\Permissions\Acl\Role\RoleInterface;
 use Zend\Permissions\Acl\Resource\ResourceInterface;
 
@@ -39,7 +39,7 @@ class User
     const STATE_ACTIVATED  		= "Activated";
     const STATE_DELETED			= "Deleted";
 
-    const ROLE_GUEST			= Acl::ROLE_GUEST;
+    const ROLE_GUEST			= "Guest";
     const ROLE_USER				= "User";
     const ROLE_ADMIN			= "Admin";
 
