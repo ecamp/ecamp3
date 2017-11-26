@@ -22,28 +22,34 @@ return [
 		],
 		'zf-rest' => [
 				'EcampApi\\V1\\Rest\\Period\\Controller' => [
-						'listener' => \EcampApi\V1\Rest\Period\PeriodResource::class,
-						'route_name' => 'ecamp-api.rest.doctrine.period',
-						'route_identifier_name' => 'period_id',
-						'entity_identifier_name' => 'id',
-						'collection_name' => 'items',
-						'entity_http_methods' => [
-								0 => 'GET',
-								1 => 'PATCH',
-								2 => 'PUT',
-								3 => 'DELETE',
-						],
-						'collection_http_methods' => [
-								0 => 'GET',
-								1 => 'POST',
-						],
-						'collection_query_whitelist' => [],
-						'page_size' => 25,
-						'page_size_param' => null,
-						'entity_class' => \EcampCore\Entity\Period::class,
-						'collection_class' => \EcampApi\V1\Rest\Period\PeriodCollection::class,
-						'service_name' => 'Period',
+                    'listener' => \EcampCore\Service\PeriodService::class,
+                    'route_name' => 'ecamp-api.rest.doctrine.period',
+                    'route_identifier_name' => 'period_id',
+                    'entity_identifier_name' => 'id',
+                    'collection_name' => 'items',
+                    'entity_http_methods' => [
+                            0 => 'GET',
+                            1 => 'PATCH',
+                            2 => 'PUT',
+                            3 => 'DELETE',
+                    ],
+                    'collection_http_methods' => [
+                            0 => 'GET',
+                            1 => 'POST',
+                    ],
+                    'collection_query_whitelist' => [],
+                    'page_size' => 25,
+                    'page_size_param' => null,
+                    'entity_class' => \EcampCore\Entity\Period::class,
+                    'collection_class' => \EcampApi\V1\Rest\Period\PeriodCollection::class,
+                    'service_name' => 'Period',
+
 				],
+                'EcampApi\\V1\\Rest\\Period\\Controller::DUMMMMMMMMMMMMY' => [
+                    'listener' => \EcampApi\V1\Rest\Period\PeriodResource::class,
+                    'route_identifier_name' => 'period_id',
+                    'entity_identifier_name' => 'id',
+                ],
 		],
 		'zf-content-negotiation' => [
 				'controllers' => [
