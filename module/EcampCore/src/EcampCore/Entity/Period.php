@@ -39,11 +39,11 @@ use EcampLib\Entity\BaseEntity;
 class Period
     extends BaseEntity
 {
-    public function __construct(Camp $camp)
+    public function __construct()
     {
         parent::__construct();
 
-        $this->camp = $camp;
+        //$this->camp = $camp;
         $this->story = new Story();
         $this->days = new \Doctrine\Common\Collections\ArrayCollection();
         $this->eventInstances = new \Doctrine\Common\Collections\ArrayCollection();
@@ -182,6 +182,10 @@ class Period
     public function getCamp()
     {
         return $this->camp;
+    }
+    
+    public function setCamp(Camp $camp){
+    	$this->camp = $camp;
     }
 
     /**

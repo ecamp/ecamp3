@@ -21,7 +21,6 @@
 namespace EcampCore\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-//use EcampLib\Acl\Acl;
 use Zend\Permissions\Acl\Role\RoleInterface;
 use Zend\Permissions\Acl\Resource\ResourceInterface;
 
