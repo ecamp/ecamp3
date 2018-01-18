@@ -1,210 +1,69 @@
 <?php
-return array(
-//     'ecamp' => array(
 
-//         'acl' => array(
-//             'resources' => array(
-//                 'EcampCore\Entity\Camp'		=>  null,
-//                 'EcampCore\Entity\Period' 	=> 'EcampCore\Entity\Camp',
-//                 'EcampCore\Entity\Day' 		=> 'EcampCore\Entity\Period',
-//                 // ...
+return [
+    'service_manager' => [
+        'factories' => [
+            \Zend\Permissions\Acl\AclInterface::class => \eCamp\Core\Acl\AclFactory::class,
 
-//                 'EcampCore\Entity\Group'	=> null,
-//                 // ...
+            \eCamp\Core\Service\MediumService::class => \eCamp\Core\ServiceFactory\MediumServiceFactory::class,
+            \eCamp\Core\Service\OrganizationService::class => \eCamp\Core\ServiceFactory\OrganizationServiceFactory::class,
+            \eCamp\Core\Service\GroupService::class => \eCamp\Core\ServiceFactory\GroupServiceFactory::class,
+            \eCamp\Core\Service\GroupMembershipService::class => \eCamp\Core\ServiceFactory\GroupMembershipServiceFactory::class,
 
-//                 'EcampCore\Entity\User'		=> null,
-//                 // ...
-//             ),
+            \eCamp\Core\Service\UserService::class => \eCamp\Core\ServiceFactory\UserServiceFactory::class,
 
-//             'roles' => array(
-//                 EcampCore\Entity\User::ROLE_GUEST	=> null,
-//                 EcampCore\Entity\User::ROLE_USER	=> EcampCore\Entity\User::ROLE_GUEST,
-//                 EcampCore\Entity\User::ROLE_ADMIN	=> EcampCore\Entity\User::ROLE_USER
-//             ),
-//         ),
+            \eCamp\Core\Service\PluginService::class => \eCamp\Core\ServiceFactory\PluginServiceFactory::class,
+            \eCamp\Core\Service\CampTypeService::class => \eCamp\Core\ServiceFactory\CampTypeServiceFactory::class,
+            \eCamp\Core\Service\EventTypeService::class => \eCamp\Core\ServiceFactory\EventTypeServiceFactory::class,
+            \eCamp\Core\Service\EventTypePluginService::class => \eCamp\Core\ServiceFactory\EventTypePluginServiceFactory::class,
+            \eCamp\Core\Service\EventTypeFactoryService::class => \eCamp\Core\ServiceFactory\EventTypeFactoryServiceFactory::class,
+            \eCamp\Core\Service\EventTemplateService::class => \eCamp\Core\ServiceFactory\EventTemplateServiceFactory::class,
+            \eCamp\Core\Service\EventTemplateContainerService::class => \eCamp\Core\ServiceFactory\EventTemplateContainerServiceFactory::class,
 
-//         'doctrine' => array(
-//             'repository' => array(
-//                 'ecamp_core' => array(
-//                     'entitymanager' => 'orm_default',
-//                     'mappings' => array(
-//                         "/^EcampCore\\\\Repository\\\\(\\w+)$/" => "EcampCore\\\\Entity\\\\$1",
-//                     ),
-//                 ),
-//             ),
+            \eCamp\Core\Service\CampService::class => \eCamp\Core\ServiceFactory\CampServiceFactory::class,
+            \eCamp\Core\Service\JobService::class => \eCamp\Core\ServiceFactory\JobServiceFactory::class,
+            \eCamp\Core\Service\JobRespService::class => \eCamp\Core\ServiceFactory\JobRespServiceFactory::class,
+            \eCamp\Core\Service\EventCategoryService::class => \eCamp\Core\ServiceFactory\EventCategoryServiceFactory::class,
 
-//             'entity_form' => array(
-//                 'ecamp_core' => array(
-//                     'entitymanager' => 'orm_default',
-//                     'pattern' => "/^EcampCore\\\\Entity\\\\(\\w+)$/",
-//                 )
-//             ),
+            \eCamp\Core\Service\CampCollaborationService::class => \eCamp\Core\ServiceFactory\CampCollaborationServiceFactory::class,
+            \eCamp\Core\Service\PeriodService::class => \eCamp\Core\ServiceFactory\PeriodServiceFactory::class,
+            \eCamp\Core\Service\DayService::class => \eCamp\Core\ServiceFactory\DayServiceFactory::class,
 
-//             'entity_form_element' => array(
-//                 'ecamp_core' => array(
-//                     'entitymanager' => 'orm_default',
-//                     'pattern' => "/^EcampCore\\\\Entity\\\\(\\w+).(\\w+)$/",
-//                     'entity' => "EcampCore\\\\Entity\\\\$1",
-//                     'property' => "$2"
-//                 )
-//             )
-//         ),
+            \eCamp\Core\Service\EventService::class => \eCamp\Core\ServiceFactory\EventServiceFactory::class,
+            \eCamp\Core\Service\EventPluginService::class => \eCamp\Core\ServiceFactory\EventPluginServiceFactory::class,
+            \eCamp\Core\Service\EventInstanceService::class => \eCamp\Core\ServiceFactory\EventInstanceServiceFactory::class,
+        ]
+    ],
 
-//         'service_manager' => array(
-//             'abstract_service_factory_config' => array(
-//                 'ecamp_core' => array(
-//                     'servicePattern' => "/^EcampCore\\\\Service\\\\(\\w+)$/",
-//                     'factoryPattern' => "EcampCore\\\\Service\\\\Factory\\\\$1ServiceFactory"
-//                 )
-//             )
-//         ),
-//     ),
-
-//     'resque' => array(
-//         'bin' => __VENDOR__ . '/bin/resque'
-//     ),
-
-//     'router' => array(
-//         'routes' => array(
-
-//             'plugin' => array(
-//                 'type'    => 'Segment',
-//                 'options' => array(
-//                     'route'    => '/plugin/:eventPluginId',
-//                     'constraints' => array(
-//                         'eventPluginId' => '[a-f0-9]+'
-//                     ),
-//                 ),
-//                 'may_terminate' => false,
-//                 'child_routes' => array(
-//                     'default' => array(
-//                         'type'    => 'Segment',
-//                         'options' => array(
-//                             'route'    => '/[:controller[/:action]]',
-//                             'constraints' => array(
-//                                 'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
-//                                 'action'     => '[a-zA-Z][a-zA-Z0-9_-]*',
-//                             ),
-//                             'defaults' => array(
-//                                 '__NAMESPACE__' => 'EcampCore\Controller',
-//                                 'controller' => 'Plugin',
-//                                 'action'     => 'index',
-//                             ),
-//                         ),
-//                         'may_terminate' => true,
-//                     ),
-//                 ),
-//             ),
-
-//             'user-avatar' => array(
-//                 'type'    => 'Literal',
-//                 'options' => array(
-//                     'route'    => '/avatar/user',
-//                     'defaults' => array(
-//                         '__NAMESPACE__' => 'EcampCore\Controller',
-//                         'controller'    => 'Avatar',
-//                         'action'     => 'user',
-
-//                     ),
-//                 ),
-//                 'may_terminate' => false,
-//                 'child_routes' => array(
-//                     'user' => array(
-//                         'type' => 'EcampCore\Router\UserRouter',
-//                         'may_terminate' => true,
-//                     )
-//                    )
-//             ),
-
-//             'group-avatar' => array(
-//                 'type'    => 'Literal',
-//                 'options' => array(
-//                     'route'    => '/avatar/group',
-//                     'defaults' => array(
-//                         '__NAMESPACE__' => 'EcampCore\Controller',
-//                         'controller'    => 'Avatar',
-//                         'action'     => 'group',
-//                     ),
-//                 ),
-//                 'may_terminate' => false,
-//                 'child_routes' => array(
-//                     'group' => array(
-//                         'type' => 'EcampCore\Router\GroupRouter',
-//                         'may_terminate' => true,
-//                        )
-//                    )
-//             ),
-
-//             'core' => array(
-//                 'type'    => 'Literal',
-//                 'options' => array(
-//                     'route'    => '/core',
-//                     'defaults' => array(
-//                         '__NAMESPACE__' => 'EcampCore\Controller',
-//                         'controller'    => 'Index',
-//                         'action'        => 'index',
-//                     ),
-//                 ),
-//                 'may_terminate' => true,
-//                 'child_routes' => array(
-//                     'default' => array(
-//                         'type'    => 'Segment',
-//                         'options' => array(
-//                             'route'    => '/[:controller[/:action]]',
-//                             'constraints' => array(
-//                                 'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
-//                                 'action'     => '[a-zA-Z][a-zA-Z0-9_-]*',
-//                             ),
-//                         ),
-//                     ),
-//                 ),
-//             ),
-//         ),
-//     ),
-
-//     'translator' => array(
-//         'remote_translation' => array(
-//             /* add a remote translation loader for each text domain */
-//             array('type' => 'BsbDoctrineTranslationLoader', 'text_domain' => 'default'),
-//         ),
-//     ),
-
-//     'console' => array(
-//         'router' => array(
-//             'routes' => array(
-//                 'dummy-job' => array(
-//                     'options' => array(
-//                         'route'    => 'job dummy <parameter>',
-//                         'defaults' => array(
-//                             'controller' => 'EcampCore\Job\Job',
-//                             'action'     => 'dummy'
-//                         )
-//                     )
-//                 )
-//             )
-//         )
-//     ),
-
-    'view_manager' => array(
-        'template_path_stack' => array(
-            __DIR__ . '/../view',
-        ),
-    ),
-
-    'doctrine' => array(
-        'driver' => array(
-            'ecamp_core_entities' => array(
+    'doctrine' => [
+        'driver' => [
+            'ecamp_core_entities' => [
                 'class' => 'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
                 'cache' => 'array',
-                'paths' => array(__DIR__ . '/../src/EcampCore/Entity')
-            ),
+                'paths' => [__DIR__ . '/../src/Entity']
+            ],
 
-            'orm_default' => array(
-                'drivers' => array(
-                    'EcampCore\Entity' => 'ecamp_core_entities'
-                )
-            ),
-        ),
-    ),
+            'orm_default' => [
+                'drivers' => [
+                    'eCamp\Core\Entity' => 'ecamp_core_entities'
+                ]
+            ],
+        ],
+    ],
 
-);
+    'view_manager' => [
+        'display_not_found_reason' => true,
+        'display_exceptions'       => true,
+        'doctype'                  => 'HTML5',
+        'not_found_template'       => 'error/404',
+        'exception_template'       => 'error/index',
+        'template_map' => [
+            'layout/layout'           => __DIR__ . '/../view/layout/layout.phtml',
+            'error/404'               => __DIR__ . '/../view/error/404.phtml',
+            'error/index'             => __DIR__ . '/../view/error/index.phtml',
+        ],
+        'template_path_stack' => [
+            __DIR__ . '/../view',
+        ],
+    ],
+];

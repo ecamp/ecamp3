@@ -1,0 +1,224 @@
+<?php
+
+namespace eCamp\Core\Entity;
+
+use Doctrine\Common\Collections\Criteria;
+use Doctrine\ORM\Mapping as ORM;
+use eCamp\Lib\Entity\BaseEntity;
+
+
+/**
+ * @ORM\Entity()
+ * @ORM\Table(name="event_instances")
+ * @ORM\HasLifecycleCallbacks
+ */
+class EventInstance extends BaseEntity
+{
+    public function __construct() {
+        parent::__construct();
+    }
+
+
+    /**
+     * @var Period
+     * @ORM\ManyToOne(targetEntity="Period")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $period;
+
+    /**
+     * @var Event
+     * @ORM\ManyToOne(targetEntity="Event")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $event;
+
+    /**
+     * @var int
+     * @ORM\Column(type="integer", nullable=false)
+     */
+    private $start;
+
+    /**
+     * @var int
+     * @ORM\Column(type="integer", nullable=false)
+     */
+    private $length;
+
+    /**
+     * @ORM\Column(type="float", nullable=true)
+     */
+    private $left;
+
+    /**
+     * @ORM\Column(type="float", nullable=true)
+     */
+    private $width;
+
+
+    /**
+     * @return Period
+     */
+    public function getPeriod(): Period {
+        return $this->period;
+    }
+
+    public function setPeriod(Period $period): void {
+        $this->period = $period;
+    }
+
+    public function getCamp(): Camp {
+        return ($this->period !== null) ? $this->period->getCamp() : null;
+    }
+
+
+    /**
+     * @return Event
+     */
+    public function getEvent(): Event {
+        return $this->event;
+    }
+
+    public function setEvent(Event $event): void {
+        $this->event = $event;
+    }
+
+
+    /**
+     * @return EventCategory
+     */
+    public function getEventCategory(): EventCategory {
+        return ($this->event !== null) ? $this->event->getEventCategory() : null;
+    }
+
+    /**
+     * @return string
+     */
+    public function getNumberingStyle(): string {
+        $eventCategory = $this->getEventCategory();
+        return ($eventCategory !== null) ? $eventCategory->getNumberingStyle() : null;
+    }
+
+    /**
+     * @return string
+     */
+    public function getColor(): string {
+        $eventCategory = $this->getEventCategory();
+        return ($eventCategory !== null) ? $eventCategory->getColor() : null;
+    }
+
+
+    /**
+     * @return int
+     */
+    public function getStart(): int {
+        return $this->start;
+    }
+
+    public function setStart(int $start): void {
+        $this->start = $start;
+    }
+
+
+    /**
+     * @return int
+     */
+    public function getLength(): int {
+        return $this->length;
+    }
+
+    public function setLength(int $length): void {
+        $this->length = $length;
+    }
+
+
+    /**
+     * @return mixed
+     */
+    public function getLeft() {
+        return $this->left ?: 0;
+    }
+
+    public function setLeft($left): void {
+        $this->left = $left;
+    }
+
+
+    /**
+     * @return mixed
+     */
+    public function getWidth() {
+        return $this->width ?: 1;
+    }
+
+    public function setWidth($width): void {
+        $this->width = $width;
+    }
+
+
+    public function getDuration(): \DateInterval {
+        return new \DateInterval('PT' . $this->length . 'M');
+    }
+
+    public function getStartTime(): \DateTime {
+        $start = $this->getPeriod()->getStart();
+        $start->add(new \DateInterval('PT' . $this->start . 'M'));
+
+        return $start;
+    }
+
+    public function getEndTime(): \DateTime {
+        $end = $this->getStartTime();
+        $end->add($this->getDuration());
+
+        return $end;
+    }
+
+
+    public function getDayNumber(): int {
+        return 1 + floor($this->start / (24 * 60));
+    }
+
+    public function getEventInstanceNumber(): int {
+        $dayOffset = floor($this->start / (24 * 60)) * 24 * 60;
+
+        $expr = Criteria::expr();
+        $crit = Criteria::create();
+        $crit->where($expr->andX(
+            $expr->gte('start', $dayOffset),
+            $expr->lte('start', $this->start)
+        ));
+
+        $eventInstances = $this->period->getEventInstances()->matching($crit);
+        $eventNumber = $eventInstances->filter(function (EventInstance $ei) {
+            if ($ei->getNumberingStyle() === $this->getNumberingStyle()) {
+                if ($ei->start < $this->start) { return true; }
+
+                $eiLeft = $ei->left ?: 0;
+                $thisLeft = $this->left ?: 0;
+
+                if ($eiLeft < $thisLeft) { return true; }
+                if ($eiLeft === $thisLeft) {
+                    if ($ei->createTime < $this->createTime) { return true; }
+                }
+            }
+            return false;
+        })->count();
+
+        return ($eventNumber + 1);
+    }
+
+    public function getNumber(): string {
+        $dayNumber = $this->getDayNumber();
+        $eventInstanceNumber = $this->getEventInstanceNumber();
+        $eventInstanceStyledNumber = $eventInstanceNumber;
+
+        $category = $this->getEventCategory();
+        if ($category != null) {
+            $eventInstanceStyledNumber = $category->getStyledNumber($eventInstanceNumber);
+        }
+
+        return $dayNumber . '.' . $eventInstanceStyledNumber;
+    }
+
+}

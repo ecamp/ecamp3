@@ -1,0 +1,39 @@
+<?php
+
+namespace eCamp\Lib\Acl;
+
+use Zend\Permissions\Acl\Acl as ZendAcl;
+use Zend\Permissions\Acl\Resource\ResourceInterface;
+use Zend\Permissions\Acl\Role\RoleInterface;
+
+class Acl extends ZendAcl
+{
+    public const REST_PRIVILEGE_FETCH = 'fetch';
+    public const REST_PRIVILEGE_FETCH_ALL = 'fetchAll';
+    public const REST_PRIVILEGE_CREATE = 'create';
+
+    /**
+     * @param RoleInterface|string $role
+     * @param ResourceInterface|string $resource
+     * @param string $privilege
+     * @return bool
+     */
+    public function isAllowed($role = null, $resource = null, $privilege = null) {
+        if ($role == null) { $role = Guest::class; }
+
+        return parent::isAllowed($role, $resource, $privilege);
+    }
+
+    /**
+     * @param RoleInterface|string $role
+     * @param ResourceInterface|string $resource
+     * @param string $privilege
+     * @throws NoAccessException
+     */
+    public function assertAllowed($role = null, $resource = null, $privilege = null) {
+        if (!$this->isAllowed($role, $resource, $privilege)) {
+            throw new NoAccessException();
+        }
+    }
+
+}
