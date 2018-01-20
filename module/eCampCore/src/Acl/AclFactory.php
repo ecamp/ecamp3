@@ -15,8 +15,10 @@ use eCamp\Core\Entity\Organization;
 use eCamp\Core\Entity\Period;
 use eCamp\Core\Entity\Plugin;
 use eCamp\Core\Entity\User;
+use eCamp\Core\Entity\UserIdentity;
 use eCamp\Lib\Acl\Acl;
 use eCamp\Lib\Acl\Guest;
+use eCamp\Lib\Entity\BaseEntity;
 use Interop\Container\ContainerInterface;
 use Zend\ServiceManager\Factory\FactoryInterface;
 
@@ -31,25 +33,29 @@ class AclFactory implements FactoryInterface
         $acl->addRole(User::ROLE_USER, User::ROLE_GUEST);
         $acl->addRole(User::ROLE_ADMIN, User::ROLE_USER);
 
-        $acl->addResource(Medium::class);
-        $acl->addResource(Organization::class);
 
-        $acl->addResource(CampType::class);
-        $acl->addResource(EventType::class);
-        $acl->addResource(EventTypeFactory::class);
+        $acl->addResource(BaseEntity::class);
 
-        $acl->addResource(Plugin::class);
-        $acl->addResource(EventTypePlugin::class);
+        $acl->addResource(Medium::class, BaseEntity::class);
+        $acl->addResource(Organization::class, BaseEntity::class);
 
-        $acl->addResource(EventTemplate::class);
-        $acl->addResource(EventTemplateContainer::class);
+        $acl->addResource(CampType::class, BaseEntity::class);
+        $acl->addResource(EventType::class, BaseEntity::class);
+        $acl->addResource(EventTypeFactory::class, BaseEntity::class);
+
+        $acl->addResource(Plugin::class, BaseEntity::class);
+        $acl->addResource(EventTypePlugin::class, BaseEntity::class);
+
+        $acl->addResource(EventTemplate::class, BaseEntity::class);
+        $acl->addResource(EventTemplateContainer::class, BaseEntity::class);
 
 
-        $acl->addResource(User::class);
+        $acl->addResource(User::class, BaseEntity::class);
+        $acl->addResource(UserIdentity::class, BaseEntity::class);
 
-        $acl->addResource(Camp::class);
-        $acl->addResource(Period::class);
-        $acl->addResource(Day::class);
+        $acl->addResource(Camp::class, BaseEntity::class);
+        $acl->addResource(Period::class, BaseEntity::class);
+        $acl->addResource(Day::class, BaseEntity::class);
 
 
         $acl->allow(
@@ -71,13 +77,15 @@ class AclFactory implements FactoryInterface
             ]
         );
 
-
         $acl->allow(Guest::class, User::class, ACL::REST_PRIVILEGE_CREATE);
         $acl->allow(User::ROLE_USER, User::class, [ACL::REST_PRIVILEGE_FETCH, ACL::REST_PRIVILEGE_FETCH_ALL]);
 
         $campAcl = new CampAcl();
         $acl->allow(User::ROLE_USER, Camp::class, Acl::REST_PRIVILEGE_FETCH_ALL, $campAcl);
         $acl->allow(User::ROLE_USER, Camp::class, Acl::REST_PRIVILEGE_FETCH, $campAcl);
+
+        // DEBUG:
+        $acl->allow(Guest::class, BaseEntity::class);
 
 
         return $acl;

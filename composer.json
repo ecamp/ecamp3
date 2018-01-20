@@ -17,7 +17,8 @@
     "zendframework/zend-test": "^3.0",
     "doctrine/doctrine-orm-module" : "^1.1",
     "doctrine/data-fixtures": "^1.3",
-    "doctrine/migrations": "^1.6"
+    "doctrine/migrations": "^1.6",
+    "hybridauth/hybridauth": "^3.0-dev"
   },
   "require-dev": {
     "phpunit/phpunit": "^6.5"

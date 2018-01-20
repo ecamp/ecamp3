@@ -36,7 +36,7 @@ class MailAddress extends BaseEntity
 
     /**
      * @var string
-     * @ORM\Column(type="string", length=64, nullable=false)
+     * @ORM\Column(type="string", length=64, nullable=true)
      */
     private $verificationCode;
 

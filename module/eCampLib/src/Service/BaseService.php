@@ -28,7 +28,7 @@ abstract class BaseService extends AbstractResourceListener
     private $repository;
 
     /** @var string */
-    private $className;
+    private $entityClassName;
 
     /** @var string */
     private $hydratorClassName;
@@ -40,12 +40,12 @@ abstract class BaseService extends AbstractResourceListener
     public function __construct
     (   Acl $acl
     ,   EntityManager $entityManager
-    ,   $className
+    ,   $entityClassName
     ,   $hydratorClassName
     ) {
         $this->acl = $acl;
         $this->entityManager = $entityManager;
-        $this->className = $className;
+        $this->entityClassName = $entityClassName;
         $this->hydratorClassName = $hydratorClassName;
     }
 
@@ -58,7 +58,7 @@ abstract class BaseService extends AbstractResourceListener
     /** @return EntityRepository */
     protected function getRepository() {
         if ($this->repository == null) {
-            $this->repository = $this->entityManager->getRepository($this->className);
+            $this->repository = $this->entityManager->getRepository($this->entityClassName);
         }
         return $this->repository;
     }
@@ -83,7 +83,7 @@ abstract class BaseService extends AbstractResourceListener
         reset($users);
         $user = current($users);
 
-        return null; //$user;
+        return $user;
     }
 
     /**
@@ -91,10 +91,8 @@ abstract class BaseService extends AbstractResourceListener
      * @param null $privilege
      * @return bool
      */
-    protected function isAllowed($resource = null, $privilege = null) {
+    protected function isAllowed($resource, $privilege = null) {
         $user = $this->getAuthUser();
-        if ($resource == null) { $resource = $this->className; }
-
         return $this->acl->isAllowed($user, $resource, $privilege);
     }
 
@@ -103,10 +101,8 @@ abstract class BaseService extends AbstractResourceListener
      * @param null $privilege
      * @throws \eCamp\Lib\Acl\NoAccessException
      */
-    protected function assertAllowed($resource = null, $privilege = null) {
+    protected function assertAllowed($resource, $privilege = null) {
         $user = $this->getAuthUser();
-        if ($resource == null) { $resource = $this->className; }
-
         return $this->acl->assertAllowed($user, $resource, $privilege);
     }
 
@@ -160,7 +156,7 @@ abstract class BaseService extends AbstractResourceListener
      * @throws NoAccessException
      */
     public function fetch($id) {
-        $entity = $this->findEntity($this->className, $id);
+        $entity = $this->findEntity($this->entityClassName, $id);
         $this->assertAllowed($entity, __FUNCTION__);
 
         return $entity;
@@ -172,7 +168,7 @@ abstract class BaseService extends AbstractResourceListener
      * @throws NoAccessException
      */
     public function fetchAll($params = []) {
-        $this->assertAllowed($this->className, __FUNCTION__);
+        $this->assertAllowed($this->entityClassName, __FUNCTION__);
 
         $collectionClass = $this->getCollectionClass() ?: Paginator::class;
 
@@ -194,9 +190,9 @@ abstract class BaseService extends AbstractResourceListener
      * @throws ORMException
      */
     public function create($data) {
-        $this->assertAllowed($this->className, __FUNCTION__);
+        $this->assertAllowed($this->entityClassName, __FUNCTION__);
 
-        $entity = $this->createEntity($this->className);
+        $entity = $this->createEntity($this->entityClassName);
 
         $this->getHydrator()->hydrate((array) $data, $entity);
         $this->entityManager->persist($entity);
@@ -211,7 +207,7 @@ abstract class BaseService extends AbstractResourceListener
      * @throws NoAccessException
      */
     public function patch($id, $data) {
-        $entity = $this->findEntity($this->className, $id);
+        $entity = $this->findEntity($this->entityClassName, $id);
 
         $this->assertAllowed($entity, __FUNCTION__);
 
@@ -228,7 +224,7 @@ abstract class BaseService extends AbstractResourceListener
      * @throws NoAccessException
      */
     public function patchList($data) {
-        $this->assertAllowed($this->className, __FUNCTION__);
+        $this->assertAllowed($this->entityClassName, __FUNCTION__);
 
         return parent::patchList($data);
     }
@@ -240,7 +236,7 @@ abstract class BaseService extends AbstractResourceListener
      * @throws NoAccessException
      */
     public function update($id, $data) {
-        $entity = $this->findEntity($this->className, $id);
+        $entity = $this->findEntity($this->entityClassName, $id);
 
         $this->assertAllowed($entity, __FUNCTION__);
         $this->getHydrator()->hydrate((array)$data, $entity);
@@ -254,7 +250,7 @@ abstract class BaseService extends AbstractResourceListener
      * @throws NoAccessException
      */
     public function replaceList($data) {
-        $this->assertAllowed($this->className, __FUNCTION__);
+        $this->assertAllowed($this->entityClassName, __FUNCTION__);
 
         return parent::replaceList($data);
     }
@@ -266,7 +262,7 @@ abstract class BaseService extends AbstractResourceListener
      * @throws ORMException
      */
     public function delete($id) {
-        $entity = $this->findEntity($this->className, $id);
+        $entity = $this->findEntity($this->entityClassName, $id);
 
         $this->assertAllowed($entity, __FUNCTION__);
 
@@ -284,7 +280,7 @@ abstract class BaseService extends AbstractResourceListener
      * @throws NoAccessException
      */
     public function deleteList($data) {
-        $this->assertAllowed($this->className, __FUNCTION__);
+        $this->assertAllowed($this->entityClassName, __FUNCTION__);
 
         return parent::deleteList($data);
     }

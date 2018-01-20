@@ -1,14 +1,13 @@
 <?php
 
-namespace eCamp\Api\Controller;
+namespace eCamp\Core\Auth;
 
 use Interop\Container\ContainerInterface;
 use Zend\ServiceManager\Factory\FactoryInterface;
 
-class AuthControllerFactory implements FactoryInterface
+class RegisterServiceFactory implements FactoryInterface
 {
-
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null) {
-        return new AuthController();
+        return new RegisterService();
     }
 }

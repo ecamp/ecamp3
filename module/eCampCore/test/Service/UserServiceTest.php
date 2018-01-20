@@ -31,7 +31,7 @@ class UserServiceTest extends AbstractHttpControllerTestCase
         /** @var UserService $userService */
         $userService = \eCampApp::GetService(UserService::class);
 
-        $user = $userService->create([
+        $user = $userService->create((object)[
             'username' => 'username',
             'mailAddress' => 'test@eCamp3.ch'
         ]);

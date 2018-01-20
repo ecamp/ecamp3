@@ -4,11 +4,10 @@ namespace eCamp\Core\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-use Zend\Permissions\Acl\Resource\ResourceInterface;
 use Zend\Permissions\Acl\Role\RoleInterface;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="eCamp\Core\Repository\UserRepository")
  * @ORM\Table(name="users")
  */
 class User extends AbstractCampOwner implements RoleInterface
@@ -67,6 +66,12 @@ class User extends AbstractCampOwner implements RoleInterface
      * @ORM\Column(type="string", length=16, nullable=false)
      */
     private $role;
+
+    /**
+     * @var Login
+     * @ORM\OneToOne(targetEntity="Login", mappedBy="user")
+     */
+    private $login;
 
     /**
      * @var ArrayCollection
@@ -131,6 +136,14 @@ class User extends AbstractCampOwner implements RoleInterface
         return $this->trustedMailAddress->getMail();
     }
 
+    public function setTrustedMailAddress(string $mail) {
+        if ($this->trustedMailAddress == null) {
+            $this->trustedMailAddress = new MailAddress();
+        }
+        $this->untrustedMailAddress = null;
+        $this->trustedMailAddress->setMail($mail);
+    }
+
     /**
      * @return string
      */
@@ -160,12 +173,11 @@ class User extends AbstractCampOwner implements RoleInterface
     }
 
     /**
-     * @param string $mailAddress
      * @param string $hash
      * @return bool
      * @throws \Exception
      */
-    public function verifyMailAddress(string $mailAddress, string $hash): bool {
+    public function verifyMailAddress(string $hash): bool {
         if ($this->state === self::STATE_NONREGISTERED) {
             throw new \Exception("Verification failed.");
         }
@@ -174,9 +186,6 @@ class User extends AbstractCampOwner implements RoleInterface
         }
 
         if ($this->untrustedMailAddress === null) {
-            throw new \Exception("Verification failed.");
-        }
-        if ($this->untrustedMailAddress->getMail() !== $mailAddress) {
             throw new \Exception("Verification failed.");
         }
 
@@ -216,6 +225,14 @@ class User extends AbstractCampOwner implements RoleInterface
 
     public function setRole(string $role): void {
         $this->role = $role;
+    }
+
+
+    /**
+     * @return Login
+     */
+    public function getLogin() {
+        return $this->login;
     }
 
 

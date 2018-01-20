@@ -47,7 +47,7 @@ class CampService extends BaseService
      * @throws \eCamp\Lib\Acl\NoAccessException
      */
     public function create($data) {
-        $this->assertAllowed(null, __FUNCTION__);
+        $this->assertAllowed(Camp::class, __FUNCTION__);
 
         /** @var CampType $campType */
         $campType = $this->findEntity(CampType::class, $data->camp_type_id);

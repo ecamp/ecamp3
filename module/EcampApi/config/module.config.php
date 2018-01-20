@@ -3,6 +3,7 @@
 return [
     'router' => [
         'routes' => [
+
             'ecamp.api'  => [
                 'type' => 'Segment',
                 'options' => [
@@ -14,13 +15,24 @@ return [
                 ],
             ],
 
-            'ecamp.api.auth'  => [
+            'ecamp.api.login'  => [
                 'type' => 'Segment',
                 'options' => [
-                    'route' => '/api/auth[/:action]',
+                    'route' => '/api/login[/:action]',
                     'defaults' => [
-                        'controller' => \eCamp\Api\Controller\AuthController::class,
+                        'controller' => \eCamp\Api\Controller\LoginController::class,
                         'action' => 'index'
+                    ],
+                ],
+            ],
+
+            'ecamp.api.logout'  => [
+                'type' => 'Segment',
+                'options' => [
+                    'route' => '/api/logout',
+                    'defaults' => [
+                        'controller' => \eCamp\Api\Controller\LoginController::class,
+                        'action' => 'logout'
                     ],
                 ],
             ],
@@ -35,31 +47,16 @@ return [
                     ],
                 ],
             ],
+
         ],
     ],
 
     'controllers' => [
         'factories' => [
             eCamp\Api\Controller\IndexController::class => eCamp\Api\Controller\IndexControllerFactory::class,
-            eCamp\Api\Controller\AuthController::class => eCamp\Api\Controller\AuthControllerFactory::class,
+            eCamp\Api\Controller\LoginController::class => eCamp\Api\Controller\LoginControllerFactory::class,
             eCamp\Api\Controller\SwaggerController::class => eCamp\Api\Controller\SwaggerControllerFactory::class,
         ]
     ],
 
-    /*
-    'zf-mvc-auth' => [
-        'authentication' => [
-            'adapters' => [
-                'basic' => [
-                    'adapter' => 'ZF\MvcAuth\Authentication\HttpAdapter',
-                    'options' => [
-                        'accept_schemes' => ['basic'],
-                        'realm' => 'eCamp',
-                        'nonce_timeout' => 3600
-                    ],
-                ],
-            ]
-        ]
-    ]
-    */
 ];

@@ -4,6 +4,7 @@ return [
     'service_manager' => [
         'factories' => [
             \Zend\Permissions\Acl\AclInterface::class => \eCamp\Core\Acl\AclFactory::class,
+            \eCamp\Core\Auth\AuthService::class => \eCamp\Core\Auth\AuthServiceFactory::class,
 
             \eCamp\Core\Service\MediumService::class => \eCamp\Core\ServiceFactory\MediumServiceFactory::class,
             \eCamp\Core\Service\OrganizationService::class => \eCamp\Core\ServiceFactory\OrganizationServiceFactory::class,
@@ -11,6 +12,7 @@ return [
             \eCamp\Core\Service\GroupMembershipService::class => \eCamp\Core\ServiceFactory\GroupMembershipServiceFactory::class,
 
             \eCamp\Core\Service\UserService::class => \eCamp\Core\ServiceFactory\UserServiceFactory::class,
+            \eCamp\Core\Service\UserIdentityService::class => \eCamp\Core\ServiceFactory\UserIdentityServiceFactory::class,
 
             \eCamp\Core\Service\PluginService::class => \eCamp\Core\ServiceFactory\PluginServiceFactory::class,
             \eCamp\Core\Service\CampTypeService::class => \eCamp\Core\ServiceFactory\CampTypeServiceFactory::class,
@@ -32,6 +34,27 @@ return [
             \eCamp\Core\Service\EventService::class => \eCamp\Core\ServiceFactory\EventServiceFactory::class,
             \eCamp\Core\Service\EventPluginService::class => \eCamp\Core\ServiceFactory\EventPluginServiceFactory::class,
             \eCamp\Core\Service\EventInstanceService::class => \eCamp\Core\ServiceFactory\EventInstanceServiceFactory::class,
+        ]
+    ],
+
+    'router' => [
+        'routes' => [
+            'ecamp.auth.google' => [
+                'type' => 'Segment',
+                'options' => [
+                    'route' => '/auth/google[/:action]',
+                    'defaults' => [
+                        'controller' => \eCamp\Core\Controller\Auth\GoogleController::class,
+                        'action' => 'index'
+                    ],
+                ],
+            ]
+        ]
+    ],
+
+    'controllers' => [
+        'factories' => [
+            \eCamp\Core\Controller\Auth\GoogleController::class => \eCamp\Core\Controller\Auth\GoogleControllerFactory::class,
         ]
     ],
 
