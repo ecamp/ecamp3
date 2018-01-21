@@ -1,6 +1,22 @@
 <?php
 
 return [
+
+    'router' => [
+        'routes' => [
+            'ecamp.auth.google' => [
+                'type' => 'Segment',
+                'options' => [
+                    'route' => '/auth/google[/:action]',
+                    'defaults' => [
+                        'controller' => \eCamp\Core\Controller\Auth\GoogleController::class,
+                        'action' => 'index'
+                    ],
+                ],
+            ]
+        ]
+    ],
+
     'service_manager' => [
         'factories' => [
             \Zend\Permissions\Acl\AclInterface::class => \eCamp\Core\Acl\AclFactory::class,
@@ -37,24 +53,15 @@ return [
         ]
     ],
 
-    'router' => [
-        'routes' => [
-            'ecamp.auth.google' => [
-                'type' => 'Segment',
-                'options' => [
-                    'route' => '/auth/google[/:action]',
-                    'defaults' => [
-                        'controller' => \eCamp\Core\Controller\Auth\GoogleController::class,
-                        'action' => 'index'
-                    ],
-                ],
-            ]
-        ]
-    ],
-
     'controllers' => [
         'factories' => [
             \eCamp\Core\Controller\Auth\GoogleController::class => \eCamp\Core\Controller\Auth\GoogleControllerFactory::class,
+        ]
+    ],
+
+    'hydrators' => [
+        'factories' => [
+            \eCamp\Core\Hydrator\EventPluginHydrator::class => \eCamp\Core\HydratorFactory\EventPluginHydratorFactory::class
         ]
     ],
 

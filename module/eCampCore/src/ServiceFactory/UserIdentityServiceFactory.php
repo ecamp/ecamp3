@@ -2,11 +2,12 @@
 
 namespace eCamp\Core\ServiceFactory;
 
+use eCamp\Core\Hydrator\UserIdentityHydrator;
 use eCamp\Core\Service\UserIdentityService;
+use eCamp\Lib\Service\BaseServiceFactory;
 use Interop\Container\ContainerInterface;
-use Zend\ServiceManager\Factory\FactoryInterface;
 
-class UserIdentityServiceFactory implements FactoryInterface
+class UserIdentityServiceFactory extends BaseServiceFactory
 {
     /**
      * @param ContainerInterface $container
@@ -18,7 +19,10 @@ class UserIdentityServiceFactory implements FactoryInterface
      */
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null) {
         $acl = $container->get(\Zend\Permissions\Acl\AclInterface::class);
-        $entityManager = $container->get('doctrine.entitymanager.orm_default');
-        return new UserIdentityService($acl, $entityManager);
+
+        $entityManager = $this->getEntityManager($container);
+        $hydrator = $this->getHydrator($container, UserIdentityHydrator::class);
+
+        return new UserIdentityService($acl, $entityManager, $hydrator);
     }
 }

@@ -18,7 +18,6 @@ class PluginHydrator implements HydratorInterface
             'id' => $plugin->getId(),
             'name' => $plugin->getName(),
             'active' => $plugin->getActive(),
-            'strategy' => $plugin->getStrategyClass()
         ];
     }
 

@@ -2,14 +2,15 @@
 
 namespace eCamp\Core\ServiceFactory;
 
+use eCamp\Core\Hydrator\CampHydrator;
 use eCamp\Core\Service\CampService;
 use eCamp\Core\Service\EventCategoryService;
 use eCamp\Core\Service\JobService;
 use eCamp\Core\Service\PeriodService;
+use eCamp\Lib\Service\BaseServiceFactory;
 use Interop\Container\ContainerInterface;
-use Zend\ServiceManager\Factory\FactoryInterface;
 
-class CampServiceFactory implements FactoryInterface
+class CampServiceFactory extends BaseServiceFactory
 {
     /**
      * @param ContainerInterface $container
@@ -21,7 +22,10 @@ class CampServiceFactory implements FactoryInterface
      */
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null) {
         $acl = $container->get(\Zend\Permissions\Acl\AclInterface::class);
-        $entityManager = $container->get('doctrine.entitymanager.orm_default');
+
+        $entityManager = $this->getEntityManager($container);
+        $hydrator = $this->getHydrator($container, CampHydrator::class);
+
         $jobService = $container->get(JobService::class);
         $eventCategoryService = $container->get(EventCategoryService::class);
         $periodService = $container->get(PeriodService::class);
@@ -29,6 +33,7 @@ class CampServiceFactory implements FactoryInterface
         return new CampService
         ( $acl
         , $entityManager
+        , $hydrator
         , $jobService
         , $eventCategoryService
         , $periodService

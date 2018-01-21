@@ -10,7 +10,16 @@ use eCamp\Lib\Service\BaseService;
 
 class CampTypeService extends BaseService
 {
-    public function __construct(Acl $acl, EntityManager $entityManager) {
-        parent::__construct($acl, $entityManager, CampType::class, CampTypeHydrator::class);
+    public function __construct
+    ( Acl $acl
+    , EntityManager $entityManager
+    , CampTypeHydrator $campTypeHydrator
+    ) {
+        parent::__construct
+        ( $acl
+        , $entityManager
+        , $campTypeHydrator
+        , CampType::class
+        );
     }
 }

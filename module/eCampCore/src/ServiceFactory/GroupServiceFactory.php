@@ -2,11 +2,12 @@
 
 namespace eCamp\Core\ServiceFactory;
 
+use eCamp\Core\Hydrator\GroupHydrator;
 use eCamp\Core\Service\GroupService;
+use eCamp\Lib\Service\BaseServiceFactory;
 use Interop\Container\ContainerInterface;
-use Zend\ServiceManager\Factory\FactoryInterface;
 
-class GroupServiceFactory implements FactoryInterface
+class GroupServiceFactory extends BaseServiceFactory
 {
     /**
      * @param ContainerInterface $container
@@ -18,7 +19,10 @@ class GroupServiceFactory implements FactoryInterface
      */
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null) {
         $acl = $container->get(\Zend\Permissions\Acl\AclInterface::class);
-        $entityManager = $container->get('doctrine.entitymanager.orm_default');
-        return new GroupService($acl, $entityManager);
+
+        $entityManager = $this->getEntityManager($container);
+        $hydrator = $this->getHydrator($container, GroupHydrator::class);
+
+        return new GroupService($acl, $entityManager, $hydrator);
     }
 }

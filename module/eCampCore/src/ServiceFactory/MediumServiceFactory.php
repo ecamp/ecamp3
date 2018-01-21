@@ -2,11 +2,12 @@
 
 namespace eCamp\Core\ServiceFactory;
 
+use eCamp\Core\Hydrator\MediumHydrator;
 use eCamp\Core\Service\MediumService;
+use eCamp\Lib\Service\BaseServiceFactory;
 use Interop\Container\ContainerInterface;
-use Zend\ServiceManager\Factory\FactoryInterface;
 
-class MediumServiceFactory implements FactoryInterface
+class MediumServiceFactory extends BaseServiceFactory
 {
     /**
      * @param ContainerInterface $container
@@ -18,7 +19,10 @@ class MediumServiceFactory implements FactoryInterface
      */
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null) {
         $acl = $container->get(\Zend\Permissions\Acl\AclInterface::class);
-        $entityManager = $container->get('doctrine.entitymanager.orm_default');
-        return new MediumService($acl, $entityManager);
+
+        $entityManager = $this->getEntityManager($container);
+        $hydrator = $this->getHydrator($container, MediumHydrator::class);
+
+        return new MediumService($acl, $entityManager, $hydrator);
     }
 }

@@ -15,8 +15,17 @@ use ZF\ApiProblem\ApiProblem;
 
 class EventCategoryService extends BaseService
 {
-    public function __construct(Acl $acl, EntityManager $entityManager) {
-        parent::__construct($acl, $entityManager, EventCategory::class, EventCategoryHydrator::class);
+    public function __construct
+    ( Acl $acl
+    , EntityManager $entityManager
+    , EventCategoryHydrator $eventCategoryHydrator
+    ) {
+        parent::__construct
+        ( $acl
+        , $entityManager
+        , $eventCategoryHydrator
+        , EventCategory::class
+        );
     }
 
     /**

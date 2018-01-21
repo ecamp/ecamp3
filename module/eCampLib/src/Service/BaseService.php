@@ -5,6 +5,7 @@ namespace eCamp\Lib\Service;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\ORMException;
+use Doctrine\ORM\QueryBuilder;
 use eCamp\Core\Entity\User;
 use eCamp\Lib\Acl\Acl;
 use eCamp\Lib\Acl\NoAccessException;
@@ -30,9 +31,6 @@ abstract class BaseService extends AbstractResourceListener
     /** @var string */
     private $entityClassName;
 
-    /** @var string */
-    private $hydratorClassName;
-
     /** @var HydratorInterface */
     private $hydrator;
 
@@ -40,13 +38,13 @@ abstract class BaseService extends AbstractResourceListener
     public function __construct
     (   Acl $acl
     ,   EntityManager $entityManager
+    ,   HydratorInterface $hydrator
     ,   $entityClassName
-    ,   $hydratorClassName
     ) {
         $this->acl = $acl;
         $this->entityManager = $entityManager;
         $this->entityClassName = $entityClassName;
-        $this->hydratorClassName = $hydratorClassName;
+        $this->hydrator = $hydrator;
     }
 
 
@@ -65,10 +63,6 @@ abstract class BaseService extends AbstractResourceListener
 
     /** @return HydratorInterface */
     protected function getHydrator() {
-        if ($this->hydrator == null) {
-            $hydratorClassName = $this->hydratorClassName;
-            $this->hydrator = new $hydratorClassName();
-        }
         return $this->hydrator;
     }
 
@@ -121,24 +115,60 @@ abstract class BaseService extends AbstractResourceListener
     }
 
     /**
+     * @param $className
+     * @param $id
+     * @return QueryBuilder
+     */
+    protected function findEntityQueryBuilder($className, $id) {
+        return $this->getEntityManager()->createQueryBuilder()
+                ->select('row')
+                ->from($className, 'row')
+                ->where('row.id = :entity_id')
+                ->setParameter('entity_id', $id);
+    }
+
+    /**
      * @param string $className
      * @param string $id
      * @return null|object|ApiProblem
      */
     protected function findEntity($className, $id) {
-        $entity = null;
         try {
-            $entity = $this->getEntityManager()->find($className, $id);
+            $q = $this->findEntityQueryBuilder($className, $id);
+            return $q->getQuery()->getSingleResult();
         } catch (\Exception $e) {
             return new ApiProblem(500, $e->getMessage());
         }
-        return $entity;
+    }
+
+    /**
+     * @param $className
+     * @return QueryBuilder
+     */
+    protected function findCollectionQueryBuilder($className) {
+        return $this->getEntityManager()->createQueryBuilder()
+            ->select('row')
+            ->from($className, 'row');
+    }
+
+    /**
+     * @param $className
+     * @return mixed|ApiProblem
+     */
+    protected function findCollection($className) {
+        try {
+            $q = $this->findCollectionQueryBuilder($className);
+            return $q->getQuery()->getResult();
+        }  catch (\Exception $e) {
+            return new ApiProblem(500, $e->getMessage());
+        }
     }
 
 
     public function attach(EventManagerInterface $events, $priority = 1) {
         parent::attach($events, $priority);
-        
+
+        /*
         $dbFlush = function() { $this->entityManager->flush(); };
         $this->listeners[] = $events->attach('create', $dbFlush, -100);
         $this->listeners[] = $events->attach('delete', $dbFlush, -100);
@@ -147,6 +177,7 @@ abstract class BaseService extends AbstractResourceListener
         $this->listeners[] = $events->attach('patchList', $dbFlush, -100);
         $this->listeners[] = $events->attach('replaceList', $dbFlush, -100);
         $this->listeners[] = $events->attach('update', $dbFlush, -100);
+        */
     }
 
 
@@ -157,6 +188,8 @@ abstract class BaseService extends AbstractResourceListener
      */
     public function fetch($id) {
         $entity = $this->findEntity($this->entityClassName, $id);
+        if ($entity instanceof ApiProblem){ return $entity; }
+
         $this->assertAllowed($entity, __FUNCTION__);
 
         return $entity;
@@ -170,13 +203,14 @@ abstract class BaseService extends AbstractResourceListener
     public function fetchAll($params = []) {
         $this->assertAllowed($this->entityClassName, __FUNCTION__);
 
-        $collectionClass = $this->getCollectionClass() ?: Paginator::class;
+        $list = $this->findCollection($this->entityClassName);
+        if ($list instanceof ApiProblem){ return $list; }
 
-        $list = $this->getRepository()->findAll();
         $list = array_filter($list, function($entity) {
             return $this->isAllowed($entity, Acl::REST_PRIVILEGE_FETCH);
         });
 
+        $collectionClass = $this->getCollectionClass() ?: Paginator::class;
         $adapter = new ArrayAdapter($list);
 
         return new $collectionClass($adapter);
@@ -193,6 +227,7 @@ abstract class BaseService extends AbstractResourceListener
         $this->assertAllowed($this->entityClassName, __FUNCTION__);
 
         $entity = $this->createEntity($this->entityClassName);
+        if ($entity instanceof ApiProblem){ return $entity; }
 
         $this->getHydrator()->hydrate((array) $data, $entity);
         $this->entityManager->persist($entity);
@@ -208,6 +243,7 @@ abstract class BaseService extends AbstractResourceListener
      */
     public function patch($id, $data) {
         $entity = $this->findEntity($this->entityClassName, $id);
+        if ($entity instanceof ApiProblem){ return $entity; }
 
         $this->assertAllowed($entity, __FUNCTION__);
 
@@ -237,6 +273,7 @@ abstract class BaseService extends AbstractResourceListener
      */
     public function update($id, $data) {
         $entity = $this->findEntity($this->entityClassName, $id);
+        if ($entity instanceof ApiProblem){ return $entity; }
 
         $this->assertAllowed($entity, __FUNCTION__);
         $this->getHydrator()->hydrate((array)$data, $entity);
@@ -263,6 +300,7 @@ abstract class BaseService extends AbstractResourceListener
      */
     public function delete($id) {
         $entity = $this->findEntity($this->entityClassName, $id);
+        if ($entity instanceof ApiProblem){ return $entity; }
 
         $this->assertAllowed($entity, __FUNCTION__);
 

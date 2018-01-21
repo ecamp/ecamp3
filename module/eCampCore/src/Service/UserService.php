@@ -20,8 +20,17 @@ use ZF\ApiProblem\ApiProblem;
  */
 class UserService extends BaseService
 {
-    public function __construct(Acl $acl, EntityManager $entityManager) {
-        parent::__construct($acl, $entityManager, User::class, UserHydrator::class);
+    public function __construct
+    ( Acl $acl
+    , EntityManager $entityManager
+    , UserHydrator $userHydrator
+    ) {
+        parent::__construct
+        ( $acl
+        , $entityManager
+        , $userHydrator
+        , User::class
+        );
     }
 
     /**

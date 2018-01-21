@@ -10,12 +10,16 @@ use eCamp\Lib\Service\BaseService;
 
 class UserIdentityService extends BaseService
 {
-    public function __construct(Acl $acl, EntityManager $entityManager) {
+    public function __construct
+    ( Acl $acl
+    , EntityManager $entityManager
+    , UserIdentityHydrator $userIdentityHydrator
+    ) {
         parent::__construct
         ( $acl
         , $entityManager
+        , $userIdentityHydrator
         , UserIdentity::class
-        , UserIdentityHydrator::class
         );
     }
 

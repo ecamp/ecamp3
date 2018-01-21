@@ -2,11 +2,12 @@
 
 namespace eCamp\Core\ServiceFactory;
 
+use eCamp\Core\Hydrator\EventTypePluginHydrator;
 use eCamp\Core\Service\EventTypePluginService;
+use eCamp\Lib\Service\BaseServiceFactory;
 use Interop\Container\ContainerInterface;
-use Zend\ServiceManager\Factory\FactoryInterface;
 
-class EventTypePluginServiceFactory implements FactoryInterface
+class EventTypePluginServiceFactory extends BaseServiceFactory
 {
     /**
      * @param ContainerInterface $container
@@ -18,7 +19,10 @@ class EventTypePluginServiceFactory implements FactoryInterface
      */
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null) {
         $acl = $container->get(\Zend\Permissions\Acl\AclInterface::class);
-        $entityManager = $container->get('doctrine.entitymanager.orm_default');
-        return new EventTypePluginService($acl, $entityManager);
+
+        $entityManager = $this->getEntityManager($container);
+        $hydrator = $this->getHydrator($container, EventTypePluginHydrator::class);
+
+        return new EventTypePluginService($acl, $entityManager, $hydrator);
     }
 }

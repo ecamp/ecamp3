@@ -10,7 +10,16 @@ use eCamp\Lib\Service\BaseService;
 
 class OrganizationService extends BaseService
 {
-    public function __construct(Acl $acl, EntityManager $entityManager) {
-        parent::__construct($acl, $entityManager, Organization::class, OrganizationHydrator::class);
+    public function __construct
+    ( Acl $acl
+    , EntityManager $entityManager
+    , OrganizationHydrator $organizationHydrator
+    ) {
+        parent::__construct
+        ( $acl
+        , $entityManager
+        , $organizationHydrator
+        , Organization::class
+        );
     }
 }

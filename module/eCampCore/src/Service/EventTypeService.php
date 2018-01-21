@@ -10,7 +10,16 @@ use eCamp\Lib\Service\BaseService;
 
 class EventTypeService extends BaseService
 {
-    public function __construct(Acl $acl, EntityManager $entityManager) {
-        parent::__construct($acl, $entityManager, EventType::class, EventTypeHydrator::class);
+    public function __construct
+    ( Acl $acl
+    , EntityManager $entityManager
+    , EventTypeHydrator $eventTypeHydrator
+    ) {
+        parent::__construct
+        ( $acl
+        , $entityManager
+        , $eventTypeHydrator
+        , EventType::class
+        );
     }
 }

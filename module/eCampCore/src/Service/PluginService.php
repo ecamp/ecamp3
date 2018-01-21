@@ -10,7 +10,16 @@ use eCamp\Lib\Service\BaseService;
 
 class PluginService extends BaseService
 {
-    public function __construct(Acl $acl, EntityManager $entityManager) {
-        parent::__construct($acl, $entityManager, Plugin::class, PluginHydrator::class);
+    public function __construct
+    ( Acl $acl
+    , EntityManager $entityManager
+    , PluginHydrator $pluginHydrator
+    ) {
+        parent::__construct
+        ( $acl
+        , $entityManager
+        , $pluginHydrator
+        , Plugin::class
+        );
     }
 }

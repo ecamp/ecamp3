@@ -2,12 +2,13 @@
 
 namespace eCamp\Core\ServiceFactory;
 
+use eCamp\Core\Hydrator\PeriodHydrator;
 use eCamp\Core\Service\DayService;
 use eCamp\Core\Service\PeriodService;
+use eCamp\Lib\Service\BaseServiceFactory;
 use Interop\Container\ContainerInterface;
-use Zend\ServiceManager\Factory\FactoryInterface;
 
-class PeriodServiceFactory implements FactoryInterface
+class PeriodServiceFactory extends BaseServiceFactory
 {
     /**
      * @param ContainerInterface $container
@@ -19,8 +20,11 @@ class PeriodServiceFactory implements FactoryInterface
      */
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null) {
         $acl = $container->get(\Zend\Permissions\Acl\AclInterface::class);
-        $entityManager = $container->get('doctrine.entitymanager.orm_default');
+
+        $entityManager = $this->getEntityManager($container);
+        $hydrator = $this->getHydrator($container, PeriodHydrator::class);
+
         $dayService = $container->get(DayService::class);
-        return new PeriodService($acl, $entityManager, $dayService);
+        return new PeriodService($acl, $entityManager, $hydrator, $dayService);
     }
 }

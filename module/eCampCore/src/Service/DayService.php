@@ -14,8 +14,17 @@ use ZF\ApiProblem\ApiProblem;
 
 class DayService extends BaseService
 {
-    public function __construct(Acl $acl, EntityManager $entityManager) {
-        parent::__construct($acl, $entityManager, Day::class, DayHydrator::class);
+    public function __construct
+    ( Acl $acl
+    , EntityManager $entityManager
+    , DayHydrator $dayHydrator
+    ) {
+        parent::__construct
+        ( $acl
+        , $entityManager
+        , $dayHydrator
+        , Day::class
+        );
     }
 
     /**

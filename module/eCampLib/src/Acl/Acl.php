@@ -11,6 +11,7 @@ class Acl extends ZendAcl
     public const REST_PRIVILEGE_FETCH = 'fetch';
     public const REST_PRIVILEGE_FETCH_ALL = 'fetchAll';
     public const REST_PRIVILEGE_CREATE = 'create';
+    public const REST_PRIVILEGE_UPDATE = 'update';
 
     /**
      * @param RoleInterface|string $role

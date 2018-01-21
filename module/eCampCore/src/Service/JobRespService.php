@@ -10,7 +10,16 @@ use eCamp\Lib\Service\BaseService;
 
 class JobRespService extends BaseService
 {
-    public function __construct(Acl $acl, EntityManager $entityManager) {
-        parent::__construct($acl, $entityManager, JobResp::class, JobRespHydrator::class);
+    public function __construct
+    ( Acl $acl
+    , EntityManager $entityManager
+    , JobRespHydrator $jobRespHydrator
+    ) {
+        parent::__construct
+        ( $acl
+        , $entityManager
+        , $jobRespHydrator
+        , JobResp::class
+        );
     }
 }

@@ -14,8 +14,17 @@ use ZF\ApiProblem\ApiProblem;
 
 class CampCollaborationService extends BaseService
 {
-    public function __construct(Acl $acl, EntityManager $entityManager) {
-        parent::__construct($acl, $entityManager, CampCollaboration::class, CampCollaborationHydrator::class);
+    public function __construct
+    ( Acl $acl
+    , EntityManager $entityManager
+    , CampCollaborationHydrator $campCollaborationHydrator
+    ) {
+        parent::__construct
+        ( $acl
+        , $entityManager
+        , $campCollaborationHydrator
+        , CampCollaboration::class
+        );
     }
 
     /**

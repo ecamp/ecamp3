@@ -2,7 +2,7 @@
 
 return [
     'Zend\\Router',
-    //'Zend\\Test',
+    'Zend\\Hydrator',
 
     'ZF\\Rest',
     'ZF\\Hal',
@@ -15,5 +15,6 @@ return [
 
     'eCamp\\Lib',
     'eCamp\\Core',
-    'eCamp\\Api'
+    'eCamp\\Api',
+    'eCamp\\Plugin\\Textarea'
 ];

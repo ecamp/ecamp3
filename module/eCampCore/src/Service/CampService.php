@@ -28,11 +28,17 @@ class CampService extends BaseService
     public function __construct
     ( Acl $acl
     , EntityManager $entityManager
+    , CampHydrator $campHydrator
     , JobService $jobService
     , EventCategoryService $eventCategoryService
     , PeriodService $periodService
     ) {
-        parent::__construct($acl, $entityManager, Camp::class, CampHydrator::class);
+        parent::__construct
+        ( $acl
+        , $entityManager
+        , $campHydrator
+        , Camp::class
+        );
 
         $this->jobService = $jobService;
         $this->eventCategoryService = $eventCategoryService;

@@ -49,7 +49,7 @@ class IndexController extends AbstractActionController
 
         $data['login'] = Link::factory([
                 'rel' => 'login',
-                'route' => 'ecamp.api.login'
+                'route' => 'ecamp.api/login'
             ]);
 
         $camps = new Link('camps');

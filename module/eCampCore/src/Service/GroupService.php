@@ -10,8 +10,17 @@ use eCamp\Lib\Service\BaseService;
 
 class GroupService extends BaseService
 {
-    public function __construct(Acl $acl, EntityManager $entityManager) {
-        parent::__construct($acl, $entityManager, Group::class, GroupHydrator::class);
+    public function __construct
+    ( Acl $acl
+    , EntityManager $entityManager
+    , GroupHydrator $groupHydrator
+    ) {
+        parent::__construct
+        ( $acl
+        , $entityManager
+        , $groupHydrator
+        , Group::class
+        );
     }
 
 }

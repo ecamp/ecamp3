@@ -14,8 +14,17 @@ use ZF\ApiProblem\ApiProblem;
 
 class GroupMembershipService extends BaseService
 {
-    public function __construct(Acl $acl, EntityManager $entityManager) {
-        parent::__construct($acl, $entityManager, GroupMembership::class, GroupMembershipHydrator::class);
+    public function __construct
+    ( Acl $acl
+    , EntityManager $entityManager
+    , GroupMembershipHydrator $groupMembershipHydrator
+    ) {
+        parent::__construct
+        ( $acl
+        , $entityManager
+        , $groupMembershipHydrator
+        , GroupMembership::class
+        );
     }
 
     /**

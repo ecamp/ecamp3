@@ -10,7 +10,16 @@ use eCamp\Lib\Service\BaseService;
 
 class MediumService extends BaseService
 {
-    public function __construct(Acl $acl, EntityManager $entityManager) {
-        parent::__construct($acl, $entityManager, Medium::class, MediumHydrator::class);
+    public function __construct
+    ( Acl $acl
+    , EntityManager $entityManager
+    , MediumHydrator $mediumHydrator
+    ) {
+        parent::__construct
+        ( $acl
+        , $entityManager
+        , $mediumHydrator
+        , Medium::class
+        );
     }
 }

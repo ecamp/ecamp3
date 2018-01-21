@@ -27,14 +27,18 @@
     "psr-4": {
       "eCamp\\Lib\\": "module/eCampLib/src/",
       "eCamp\\Core\\": "module/eCampCore/src/",
-      "eCamp\\Api\\": "module/eCampApi/src/"
+      "eCamp\\Api\\": "module/eCampApi/src/",
+
+      "eCamp\\Plugin\\Textarea\\": "plugin/eCampTextarea/src/"
     }
   },
   "autoload-dev": {
     "psr-4": {
       "eCamp\\LibTest\\": "module/eCampLib/test/",
       "eCamp\\CoreTest\\": "module/eCampCore/test/",
-      "eCamp\\ApiTest\\" : "module/eCampApi/test"
+      "eCamp\\ApiTest\\" : "module/eCampApi/test",
+
+      "eCamp\\Plugin\\TextareaTest\\": "plugin/eCampTextarea/test/"
     }
   },
   "scripts": {

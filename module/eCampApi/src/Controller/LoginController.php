@@ -67,7 +67,7 @@ class LoginController extends AbstractActionController
         $data['google'] = Link::factory([
                 'rel' => 'google',
                 'route' => [
-                    'name' => 'ecamp.api.login',
+                    'name' => 'ecamp.api/login',
                     'params' => [ 'action' => 'google' ]
                 ]
             ]);
@@ -75,7 +75,7 @@ class LoginController extends AbstractActionController
         if ($userId != null) {
             $data['logout'] = Link::factory([
                 'rel' => 'logout',
-                'route' => ['name' => 'ecamp.api.logout']
+                'route' => ['name' => 'ecamp.api/logout']
             ]);
         }
 
@@ -97,7 +97,7 @@ class LoginController extends AbstractActionController
         $data = ($content != null) ? Json::decode($content) : [];
         $this->authService->login($data->username, $data->password);
 
-        return $this->redirect()->toRoute('ecamp.api.login');
+        return $this->redirect()->toRoute('ecamp.api/login');
     }
 
     /**
@@ -106,14 +106,14 @@ class LoginController extends AbstractActionController
     public function logoutAction() {
         $this->authService->clearIdentity();
 
-        return $this->redirect()->toRoute('ecamp.api.login');
+        return $this->redirect()->toRoute('ecamp.api/login');
     }
 
     /**
      * @return Response
      */
     public function googleAction() {
-        $redirect = $this->url()->fromRoute('ecamp.api.login');
+        $redirect = $this->url()->fromRoute('ecamp.api/login');
 
         return $this->redirect()->toRoute(
             'ecamp.auth.google', [],

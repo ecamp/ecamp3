@@ -19,9 +19,15 @@ class PeriodService extends BaseService
     public function __construct
     ( Acl $acl
     , EntityManager $entityManager
+    , PeriodHydrator $dayHydrator
     , DayService $dayService
     ) {
-        parent::__construct($acl, $entityManager, Period::class, PeriodHydrator::class);
+        parent::__construct
+        ( $acl
+        , $entityManager
+        , $dayHydrator
+        , Period::class
+        );
 
         $this->dayService = $dayService;
     }
