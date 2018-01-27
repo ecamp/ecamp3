@@ -18,9 +18,16 @@ return [
     ],
 
     'service_manager' => [
+        'aliases' => [
+            \Zend\Permissions\Acl\AclInterface::class => \eCamp\Lib\Acl\Acl::class
+        ],
         'factories' => [
-            \Zend\Permissions\Acl\AclInterface::class => \eCamp\Core\Acl\AclFactory::class,
+            \eCamp\Lib\Acl\Acl::class => \eCamp\Core\Acl\AclFactory::class,
+
             \eCamp\Core\Auth\AuthService::class => \eCamp\Core\Auth\AuthServiceFactory::class,
+
+            \eCamp\Core\Plugin\PluginStrategyProvider::class =>\eCamp\Core\Plugin\PluginStrategyProviderFactory::class,
+
 
             \eCamp\Core\Service\MediumService::class => \eCamp\Core\ServiceFactory\MediumServiceFactory::class,
             \eCamp\Core\Service\OrganizationService::class => \eCamp\Core\ServiceFactory\OrganizationServiceFactory::class,

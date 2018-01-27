@@ -4,7 +4,7 @@ namespace eCamp\Core\Hydrator;
 
 use eCamp\Core\Entity\EventPlugin;
 use eCamp\Core\Plugin\PluginStrategyInterface;
-use Interop\Container\ContainerInterface;
+use eCamp\Core\Plugin\PluginStrategyProvider;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use Zend\Hydrator\HydratorInterface;
@@ -12,11 +12,11 @@ use ZF\Hal\Link\Link;
 
 class EventPluginHydrator implements HydratorInterface
 {
-    /** @var  ContainerInterface */
-    private $container;
+    /** @var  PluginStrategyProvider */
+    private $pluginStrategyProvider;
 
-    public function __construct(ContainerInterface $container) {
-        $this->container = $container;
+    public function __construct(PluginStrategyProvider $pluginStrategyProvider) {
+        $this->pluginStrategyProvider = $pluginStrategyProvider;
     }
 
 
@@ -47,20 +47,11 @@ class EventPluginHydrator implements HydratorInterface
             ])
         ];
 
-
         /** @var PluginStrategyInterface $strategy */
-        $strategy = null;
-        $strategyClass = $plugin->getStrategyClass();
+        $strategy = $this->pluginStrategyProvider->get($plugin);
 
-        if (is_string($strategyClass)) {
-            if ($this->container->has($strategyClass)) {
-                $strategy = $this->container->get($strategyClass);
-            } elseif (class_exists($strategyClass)) {
-                $strategy = new $strategyClass();
-            }
-        }
         if ($strategy != null) {
-            $links = $strategy->getHalLinks($eventPlugin);
+            $links = $strategy->eventPluginExtract($eventPlugin);
             $data = array_merge($data, $links);
         }
 

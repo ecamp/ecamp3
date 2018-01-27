@@ -6,28 +6,27 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\ORMException;
 use eCamp\Core\Entity\Event;
 use eCamp\Core\Entity\EventTypePlugin;
-use eCamp\Core\Entity\Plugin;
 use eCamp\Core\Hydrator\EventPluginHydrator;
 use eCamp\Core\Entity\EventPlugin;
 use eCamp\Core\Plugin\PluginStrategyInterface;
+use eCamp\Core\Plugin\PluginStrategyProvider;
 use eCamp\Lib\Acl\Acl;
 use eCamp\Lib\Acl\NoAccessException;
 use eCamp\Lib\Service\BaseService;
-use Interop\Container\ContainerInterface;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use ZF\ApiProblem\ApiProblem;
 
 class EventPluginService extends BaseService
 {
-    /** @var ContainerInterface */
-    private $container;
+    /** @var  PluginStrategyProvider */
+    private $pluginStrategyProvider;
 
     public function __construct
     ( Acl $acl
     , EntityManager $entityManager
     , EventPluginHydrator $eventPluginHydrator
-    , ContainerInterface $container
+    , PluginStrategyProvider $pluginStrategyProvider
     ) {
         parent::__construct
         ( $acl
@@ -36,28 +35,20 @@ class EventPluginService extends BaseService
         , EventPlugin::class
         );
 
-        $this->container = $container;
+        $this->pluginStrategyProvider = $pluginStrategyProvider;
     }
 
-    /**
-     * @param Plugin $plugin
-     * @return PluginStrategyInterface
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
-     */
-    private function getStrategy(Plugin $plugin) {
-        $strategy = null;
-        $strategyClass = $plugin->getStrategyClass();
 
-        if (is_string($strategyClass)) {
-            if ($this->container->has($strategyClass)) {
-                $strategy = $this->container->get($strategyClass);
-            } else {
-                $strategy = new $strategyClass();
-            }
+    protected function findCollectionQueryBuilder($className, $params = []) {
+        $q = parent::findCollectionQueryBuilder($className, $params);
+
+        $eventId = $params['event_id'];
+        if ($eventId) {
+            $q->andWhere('row.event = :eventId');
+            $q->setParameter('eventId', $eventId);
         }
 
-        return $strategy;
+        return $q;
     }
 
 
@@ -84,9 +75,9 @@ class EventPluginService extends BaseService
         $eventPlugin->setEventTypePlugin($eventTypePlugin);
 
         /** @var PluginStrategyInterface $strategy */
-        $strategy = $this->getStrategy($eventTypePlugin->getPlugin());
+        $strategy = $this->pluginStrategyProvider->get($eventTypePlugin->getPlugin());
         if ($strategy != null) {
-            $strategy->postCreated($eventPlugin);
+            $strategy->eventPluginCreated($eventPlugin);
         }
 
         return $eventPlugin;

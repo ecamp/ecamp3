@@ -143,41 +143,28 @@ abstract class BaseService extends AbstractResourceListener
 
     /**
      * @param $className
+     * @param array $params
      * @return QueryBuilder
      */
-    protected function findCollectionQueryBuilder($className) {
-        return $this->getEntityManager()->createQueryBuilder()
+    protected function findCollectionQueryBuilder($className, $params = []) {
+        $q = $this->getEntityManager()->createQueryBuilder()
             ->select('row')
             ->from($className, 'row');
+        return $q;
     }
 
     /**
      * @param $className
+     * @param array $params
      * @return mixed|ApiProblem
      */
-    protected function findCollection($className) {
+    protected function findCollection($className, $params = []) {
         try {
-            $q = $this->findCollectionQueryBuilder($className);
+            $q = $this->findCollectionQueryBuilder($className, $params);
             return $q->getQuery()->getResult();
         }  catch (\Exception $e) {
             return new ApiProblem(500, $e->getMessage());
         }
-    }
-
-
-    public function attach(EventManagerInterface $events, $priority = 1) {
-        parent::attach($events, $priority);
-
-        /*
-        $dbFlush = function() { $this->entityManager->flush(); };
-        $this->listeners[] = $events->attach('create', $dbFlush, -100);
-        $this->listeners[] = $events->attach('delete', $dbFlush, -100);
-        $this->listeners[] = $events->attach('deleteList', $dbFlush, -100);
-        $this->listeners[] = $events->attach('patch', $dbFlush, -100);
-        $this->listeners[] = $events->attach('patchList', $dbFlush, -100);
-        $this->listeners[] = $events->attach('replaceList', $dbFlush, -100);
-        $this->listeners[] = $events->attach('update', $dbFlush, -100);
-        */
     }
 
 
@@ -203,7 +190,7 @@ abstract class BaseService extends AbstractResourceListener
     public function fetchAll($params = []) {
         $this->assertAllowed($this->entityClassName, __FUNCTION__);
 
-        $list = $this->findCollection($this->entityClassName);
+        $list = $this->findCollection($this->entityClassName, $params);
         if ($list instanceof ApiProblem){ return $list; }
 
         $list = array_filter($list, function($entity) {

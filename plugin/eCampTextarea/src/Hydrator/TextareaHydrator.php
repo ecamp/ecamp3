@@ -14,10 +14,15 @@ class TextareaHydrator implements HydratorInterface
     public function extract($object) {
         /** @var Textarea $textarea */
         $textarea = $object;
+
+
         return [
             'id' => $textarea->getId(),
-            'text' => $textarea->getText()
+            'text' => $textarea->getText(),
+            'event_plugin' => $textarea->getEventPlugin()
         ];
+
+
     }
 
     /**

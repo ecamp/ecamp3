@@ -10,11 +10,11 @@ interface PluginStrategyInterface
      * @param EventPlugin $eventPlugin
      * @return array
      */
-    function getHalLinks(EventPlugin $eventPlugin) : array;
+    function eventPluginExtract(EventPlugin $eventPlugin) : array;
 
     /**
      * @param EventPlugin $eventPlugin
      */
-    function postCreated(EventPlugin $eventPlugin) : void;
+    function eventPluginCreated(EventPlugin $eventPlugin) : void;
 
 }

@@ -4,13 +4,12 @@ namespace eCamp\Plugin\Textarea;
 
 use Doctrine\ORM\ORMException;
 use eCamp\Core\Entity\EventPlugin;
-use eCamp\Core\Plugin\PluginStrategyInterface;
+use eCamp\Core\Plugin\PluginStrategyBase;
 use eCamp\Lib\Acl\NoAccessException;
-use eCamp\Plugin\Textarea\Entity\Textarea;
 use eCamp\Plugin\Textarea\Service\TextareaService;
 use ZF\Hal\Link\Link;
 
-class Strategy implements PluginStrategyInterface
+class Strategy extends PluginStrategyBase
 {
     /** @var TextareaService */
     private $textareaService;
@@ -20,28 +19,34 @@ class Strategy implements PluginStrategyInterface
     }
 
 
-    function getHalLinks(EventPlugin $eventPlugin) : array {
+    /**
+     * @param EventPlugin $eventPlugin
+     * @return array
+     */
+    function eventPluginExtract(EventPlugin $eventPlugin) : array {
         return [
             'textarea' => Link::factory([
                 'rel' => 'textarea',
                 'route' => [
                     'name' => 'ecamp.api.event_plugin/ecamp.textarea',
-                    'params' => [ 'event_plugin_id' => $eventPlugin->getId() ]
+                    'params' => [
+                        'event_plugin_id' => $eventPlugin->getId(),
+                        'textarea_id' => null
+                    ]
                 ]
             ])
-
         ];
     }
 
     /**
      * @param EventPlugin $eventPlugin
-     * @throws ORMException
      * @throws NoAccessException
+     * @throws ORMException
      */
-    function postCreated(EventPlugin $eventPlugin): void {
-        /** @var Textarea $textarea */
-        $textarea = $this->textareaService->create((object)[]);
-        $textarea->setEventPlugin($eventPlugin);
+    function eventPluginCreated(EventPlugin $eventPlugin) : void {
+        $this->textareaService->create((object)[
+            'event_plugin_id' => $eventPlugin->getId()
+        ]);
     }
 
 }

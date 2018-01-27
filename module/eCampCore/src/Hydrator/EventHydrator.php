@@ -3,9 +3,9 @@
 namespace eCamp\Core\Hydrator;
 
 use eCamp\Api\Collection\EventInstanceCollection;
-use eCamp\Api\Collection\EventPluginCollection;
 use eCamp\Core\Entity\Event;
 use Zend\Hydrator\HydratorInterface;
+use ZF\Hal\Link\Link;
 
 class EventHydrator implements HydratorInterface
 {
@@ -22,9 +22,15 @@ class EventHydrator implements HydratorInterface
             'camp' => $event->getCamp(),
 
             'event_category' => $event->getEventCategory(),
-
-            'event_plugins' => new EventPluginCollection($event->getEventPlugins()),
             'event_instances' => new EventInstanceCollection($event->getEventInstances()),
+
+            'event_plugins' => Link::factory([
+                'rel' => 'event_plugins',
+                'route' => [
+                    'name' => 'ecamp.api.event_plugin',
+                    'options' => [ 'query' => [ 'event_id' => $event->getId() ] ]
+                ]
+            ]),
         ];
     }
 

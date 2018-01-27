@@ -60,7 +60,7 @@ abstract class BasePluginService extends BaseService
         return $q;
     }
 
-    protected function findCollectionQueryBuilder($className) {
+    protected function findCollectionQueryBuilder($className, $params = []) {
         $q = parent::findCollectionQueryBuilder($className);
 
         if (is_subclass_of($className, BasePluginEntity::class)) {
