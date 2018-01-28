@@ -1,0 +1,33 @@
+# see http://about.travis-ci.org/docs/user/languages/php/ for more hints
+language: php
+
+# list any PHP version you want to test against
+php:
+  # using major version aliases
+  # aliased to 5.3.10
+  - 7.1
+  - 7.2
+
+# optionally specify a list of environments, for example to test different RDBMS
+env:
+  - DB=sqlite
+
+
+# execute any number of scripts before the test run, custom env's are available as variables
+# before_script:
+#  - if [[ "$DB" == "mysql" ]]; then mysql -e "create database IF NOT EXISTS eCamp3dev_UnitTest;" -uroot; fi
+
+# omitting "script:" will default to phpunit
+# use the $DB env variable to determine the phpunit.xml to use
+# script: phpunit --configuration phpunit_$DB.xml --coverage-text
+
+before_script:
+    - composer install --no-interaction
+
+script:
+    - mkdir -p build/logs
+    - ./vendor/bin/phpunit --coverage-clover test/clover.xml
+
+after_script:
+ - php vendor/bin/coveralls -v
+ 
