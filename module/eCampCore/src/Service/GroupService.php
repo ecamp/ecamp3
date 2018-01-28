@@ -15,12 +15,7 @@ class GroupService extends BaseService
     , EntityManager $entityManager
     , GroupHydrator $groupHydrator
     ) {
-        parent::__construct
-        ( $acl
-        , $entityManager
-        , $groupHydrator
-        , Group::class
-        );
+        parent::__construct($acl, $entityManager, $groupHydrator, Group::class);
     }
 
 }

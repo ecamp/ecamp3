@@ -4,14 +4,10 @@ namespace eCamp\CoreTest\Service;
 
 use eCamp\Core\Entity\User;
 use eCamp\Core\Service\UserService;
-use Zend\Test\PHPUnit\Controller\AbstractHttpControllerTestCase;
+use eCamp\LibTest\PHPUnit\AbstractDatabaseTestCase;
 
-class UserServiceTest extends AbstractHttpControllerTestCase
+class UserServiceTest extends AbstractDatabaseTestCase
 {
-    public function setUp() {
-        include_once __DIR__ . '/../../../eCampApp.php';
-    }
-
 
     public function testCreateUser() {
         /** @var UserService $userService */
@@ -32,9 +28,11 @@ class UserServiceTest extends AbstractHttpControllerTestCase
         $userService = \eCampApp::GetService(UserService::class);
 
         $user = $userService->create((object)[
-            'username' => 'username',
-            'mailAddress' => 'test@eCamp3.ch'
+            'username' => 'username2',
+            'mailAddress' => 'test2@eCamp3.ch'
         ]);
+
+        $this->getEntityManager()->flush();
 
         $userId = $user->getId();
 

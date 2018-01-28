@@ -3,17 +3,10 @@
 namespace eCamp\ApiTest;
 
 use Zend\Http\Request;
-use Zend\Test\PHPUnit\Controller\AbstractHttpControllerTestCase;
+use eCamp\LibTest\PHPUnit\AbstractHttpControllerTestCase;
 
 class EventPluginTest extends  AbstractHttpControllerTestCase
 {
-
-    public function setUp() {
-        $data = include __DIR__ . '/../../../config/application.config.php';
-        $this->setApplicationConfig($data);
-
-        parent::setUp();
-    }
 
     public function testCreateEventPlugin() {
         $headers = $this->getRequest()->getHeaders();
@@ -28,7 +21,7 @@ class EventPluginTest extends  AbstractHttpControllerTestCase
             "instance_name": "mytest3"
         }');
 
-        $this->dispatch("http://localhost:8888/api/event_plugin", 'POST');
+        $this->dispatch("/api/event_plugin", 'POST');
         $req  = $this->getRequest();
         $resp = $this->getResponse();
 

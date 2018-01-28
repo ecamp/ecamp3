@@ -19,12 +19,7 @@ class DayService extends BaseService
     , EntityManager $entityManager
     , DayHydrator $dayHydrator
     ) {
-        parent::__construct
-        ( $acl
-        , $entityManager
-        , $dayHydrator
-        , Day::class
-        );
+        parent::__construct($acl, $entityManager, $dayHydrator, Day::class);
     }
 
 

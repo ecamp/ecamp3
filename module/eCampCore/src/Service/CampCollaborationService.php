@@ -19,12 +19,7 @@ class CampCollaborationService extends BaseService
     , EntityManager $entityManager
     , CampCollaborationHydrator $campCollaborationHydrator
     ) {
-        parent::__construct
-        ( $acl
-        , $entityManager
-        , $campCollaborationHydrator
-        , CampCollaboration::class
-        );
+        parent::__construct($acl, $entityManager, $campCollaborationHydrator, CampCollaboration::class);
     }
 
     /**

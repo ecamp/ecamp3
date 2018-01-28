@@ -15,11 +15,6 @@ class CampTypeService extends BaseService
     , EntityManager $entityManager
     , CampTypeHydrator $campTypeHydrator
     ) {
-        parent::__construct
-        ( $acl
-        , $entityManager
-        , $campTypeHydrator
-        , CampType::class
-        );
+        parent::__construct($acl, $entityManager, $campTypeHydrator, CampType::class);
     }
 }

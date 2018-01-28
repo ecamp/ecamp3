@@ -2,17 +2,10 @@
 
 namespace eCamp\ApiTest;
 
-use Zend\Test\PHPUnit\Controller\AbstractHttpControllerTestCase;
+use eCamp\LibTest\PHPUnit\AbstractHttpControllerTestCase;
 
 class CampTypeApiTest extends  AbstractHttpControllerTestCase
 {
-
-    public function setUp() {
-        $data = include __DIR__ . '/../../../config/application.config.php';
-        $this->setApplicationConfig($data);
-
-        parent::setUp();
-    }
 
     public function testCreateCamp() {
         $headers = $this->getRequest()->getHeaders();
@@ -23,7 +16,7 @@ class CampTypeApiTest extends  AbstractHttpControllerTestCase
         $req  = $this->getRequest();
 
 
-        $this->dispatch("http://localhost:8888/api/camp_type", 'GET');
+        $this->dispatch("/api/camp_type", 'GET');
         $req  = $this->getRequest();
         $resp = $this->getResponse();
 

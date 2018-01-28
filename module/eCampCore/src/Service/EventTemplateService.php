@@ -15,11 +15,6 @@ class EventTemplateService extends BaseService
     , EntityManager $entityManager
     , EventTemplateHydrator $eventTemplateHydrator
     ) {
-        parent::__construct
-        ( $acl
-        , $entityManager
-        , $eventTemplateHydrator
-        , EventTemplate::class
-        );
+        parent::__construct($acl, $entityManager, $eventTemplateHydrator, EventTemplate::class);
     }
 }

@@ -33,12 +33,7 @@ class CampService extends BaseService
     , EventCategoryService $eventCategoryService
     , PeriodService $periodService
     ) {
-        parent::__construct
-        ( $acl
-        , $entityManager
-        , $campHydrator
-        , Camp::class
-        );
+        parent::__construct($acl, $entityManager, $campHydrator, Camp::class);
 
         $this->jobService = $jobService;
         $this->eventCategoryService = $eventCategoryService;

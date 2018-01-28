@@ -29,12 +29,7 @@ class PeriodService extends BaseService
     , DayService $dayService
     , EventInstanceService $eventInstanceService
     ) {
-        parent::__construct
-        ( $acl
-        , $entityManager
-        , $dayHydrator
-        , Period::class
-        );
+        parent::__construct($acl, $entityManager, $dayHydrator, Period::class);
 
         $this->dayService = $dayService;
         $this->eventInstanceService = $eventInstanceService;

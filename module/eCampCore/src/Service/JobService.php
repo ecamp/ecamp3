@@ -15,11 +15,6 @@ class JobService extends BaseService
     , EntityManager $entityManager
     , JobHydrator $jobHydrator
     ) {
-        parent::__construct
-        ( $acl
-        , $entityManager
-        , $jobHydrator
-        , Job::class
-        );
+        parent::__construct($acl, $entityManager, $jobHydrator, Job::class);
     }
 }

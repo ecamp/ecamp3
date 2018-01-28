@@ -20,12 +20,7 @@ class EventCategoryService extends BaseService
     , EntityManager $entityManager
     , EventCategoryHydrator $eventCategoryHydrator
     ) {
-        parent::__construct
-        ( $acl
-        , $entityManager
-        , $eventCategoryHydrator
-        , EventCategory::class
-        );
+        parent::__construct($acl, $entityManager, $eventCategoryHydrator, EventCategory::class);
     }
 
     /**

@@ -15,12 +15,7 @@ class EventService extends BaseService
     , EntityManager $entityManager
     , EventHydrator $eventHydrator
     ) {
-        parent::__construct
-        ( $acl
-        , $entityManager
-        , $eventHydrator
-        , Event::class
-        );
+        parent::__construct($acl, $entityManager, $eventHydrator, Event::class);
     }
 
 }

@@ -15,11 +15,6 @@ class PluginService extends BaseService
     , EntityManager $entityManager
     , PluginHydrator $pluginHydrator
     ) {
-        parent::__construct
-        ( $acl
-        , $entityManager
-        , $pluginHydrator
-        , Plugin::class
-        );
+        parent::__construct($acl, $entityManager, $pluginHydrator, Plugin::class);
     }
 }

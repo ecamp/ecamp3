@@ -15,11 +15,6 @@ class OrganizationService extends BaseService
     , EntityManager $entityManager
     , OrganizationHydrator $organizationHydrator
     ) {
-        parent::__construct
-        ( $acl
-        , $entityManager
-        , $organizationHydrator
-        , Organization::class
-        );
+        parent::__construct($acl, $entityManager, $organizationHydrator, Organization::class);
     }
 }

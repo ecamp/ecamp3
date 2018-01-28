@@ -15,12 +15,7 @@ class UserIdentityService extends BaseService
     , EntityManager $entityManager
     , UserIdentityHydrator $userIdentityHydrator
     ) {
-        parent::__construct
-        ( $acl
-        , $entityManager
-        , $userIdentityHydrator
-        , UserIdentity::class
-        );
+        parent::__construct($acl, $entityManager, $userIdentityHydrator, UserIdentity::class);
     }
 
     /**

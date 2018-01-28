@@ -2,16 +2,10 @@
 
 namespace eCamp\ApiTest;
 
-use Zend\Test\PHPUnit\Controller\AbstractHttpControllerTestCase;
+use eCamp\LibTest\PHPUnit\AbstractHttpControllerTestCase;
 
 class PeriodTest extends AbstractHttpControllerTestCase
 {
-    public function setUp() {
-        $data = include __DIR__ . '/../../../config/application.config.php';
-        $this->setApplicationConfig($data);
-
-        parent::setUp();
-    }
 
     public function testPeriodPatch() {
         $headers = $this->getRequest()->getHeaders();
@@ -20,7 +14,7 @@ class PeriodTest extends AbstractHttpControllerTestCase
         
         $req  = $this->getRequest();
         $req->setContent('{ "start": "2018-02-18", "move_events": false }');
-        $this->dispatch("http://localhost:8888/api/period/1234a", 'PATCH');
+        $this->dispatch("/api/period/1234a", 'PATCH');
 
         $req  = $this->getRequest();
         $resp = $this->getResponse();

@@ -3,9 +3,9 @@
 namespace eCamp\CoreTest\Entity;
 
 use eCamp\Core\Entity\User;
-use PHPUnit\Framework\TestCase;
+use eCamp\LibTest\PHPUnit\AbstractTestCase;
 
-class UserTest extends TestCase
+class UserTest extends AbstractTestCase
 {
 
     public function testUserNonRegistered() {
@@ -30,10 +30,10 @@ class UserTest extends TestCase
         $this->assertEquals(User::STATE_REGISTERED, $user->getState());
         $this->assertEquals(User::ROLE_USER, $user->getRole());
 
-        $verified = $user->verifyMailAddress('test@eCamp3.ch', '');
+        $verified = $user->verifyMailAddress('');
         $this->assertFalse($verified);
 
-        $verified = $user->verifyMailAddress('test@eCamp3.ch', $key);
+        $verified = $user->verifyMailAddress($key);
         $this->assertTrue($verified);
 
         $this->assertEquals(User::STATE_ACTIVATED, $user->getState());

@@ -4,6 +4,7 @@ namespace eCamp\Lib\Service;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\ORMException;
 use Doctrine\ORM\QueryBuilder;
 use eCamp\Core\Entity\User;
@@ -145,6 +146,8 @@ abstract class BaseService extends AbstractResourceListener
         try {
             $q = $this->findEntityQueryBuilder($className, $id);
             return $q->getQuery()->getSingleResult();
+        } catch (NoResultException $x) {
+            return null;
         } catch (\Exception $e) {
             return new ApiProblem(500, $e->getMessage());
         }
@@ -186,7 +189,9 @@ abstract class BaseService extends AbstractResourceListener
         $entity = $this->findEntity($this->entityClassName, $id);
         if ($entity instanceof ApiProblem){ return $entity; }
 
-        $this->assertAllowed($entity, __FUNCTION__);
+        if ($entity !== null) {
+            $this->assertAllowed($entity, __FUNCTION__);
+        }
 
         return $entity;
     }

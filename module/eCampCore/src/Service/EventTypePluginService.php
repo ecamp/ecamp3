@@ -15,11 +15,6 @@ class EventTypePluginService extends BaseService
     , EntityManager $entityManager
     , EventTypePluginHydrator $eventTypePluginHydrator
     ) {
-        parent::__construct
-        ( $acl
-        , $entityManager
-        , $eventTypePluginHydrator
-        , EventTypePlugin::class
-        );
+        parent::__construct($acl, $entityManager, $eventTypePluginHydrator, EventTypePlugin::class);
     }
 }

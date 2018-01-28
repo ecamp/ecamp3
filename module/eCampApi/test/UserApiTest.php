@@ -2,23 +2,16 @@
 
 namespace eCamp\ApiTest;
 
-use Zend\Test\PHPUnit\Controller\AbstractHttpControllerTestCase;
+use eCamp\LibTest\PHPUnit\AbstractHttpControllerTestCase;
 
 class UserApiTest extends AbstractHttpControllerTestCase
 {
-
-    public function setUp() {
-        $data = include __DIR__ . '/../../../config/application.config.php';
-        $this->setApplicationConfig($data);
-
-        parent::setUp();
-    }
 
     public function testUserFetch() {
         $headers = $this->getRequest()->getHeaders();
         $headers->addHeaderLine('Accept', 'application/json');
 
-        $this->dispatch("http://localhost:8888/api/user");
+        $this->dispatch("/api/user");
         $req  = $this->getRequest();
         $resp = $this->getResponse();
 
@@ -35,8 +28,10 @@ class UserApiTest extends AbstractHttpControllerTestCase
 
         $req  = $this->getRequest();
         $req->setContent('{ "username": "test-user-22" }');
-        $this->dispatch("http://localhost:8888/api/user/1", 'PATCH');
+        $this->dispatch("/api/user/1", 'PATCH');
 
         $resp = $this->getResponse();
+
+        $this->assertNotRedirect();
     }
 }

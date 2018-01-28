@@ -28,12 +28,7 @@ class EventPluginService extends BaseService
     , EventPluginHydrator $eventPluginHydrator
     , PluginStrategyProvider $pluginStrategyProvider
     ) {
-        parent::__construct
-        ( $acl
-        , $entityManager
-        , $eventPluginHydrator
-        , EventPlugin::class
-        );
+        parent::__construct($acl, $entityManager, $eventPluginHydrator, EventPlugin::class);
 
         $this->pluginStrategyProvider = $pluginStrategyProvider;
     }

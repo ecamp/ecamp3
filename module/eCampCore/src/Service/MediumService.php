@@ -15,11 +15,6 @@ class MediumService extends BaseService
     , EntityManager $entityManager
     , MediumHydrator $mediumHydrator
     ) {
-        parent::__construct
-        ( $acl
-        , $entityManager
-        , $mediumHydrator
-        , Medium::class
-        );
+        parent::__construct($acl, $entityManager, $mediumHydrator, Medium::class);
     }
 }

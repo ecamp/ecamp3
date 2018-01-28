@@ -3,17 +3,10 @@
 namespace eCamp\ApiTest;
 
 use Zend\Http\Request;
-use Zend\Test\PHPUnit\Controller\AbstractHttpControllerTestCase;
+use eCamp\LibTest\PHPUnit\AbstractHttpControllerTestCase;
 
 class CampCollaborationApiTest extends  AbstractHttpControllerTestCase
 {
-
-    public function setUp() {
-        $data = include __DIR__ . '/../../../config/application.config.php';
-        $this->setApplicationConfig($data);
-
-        parent::setUp();
-    }
 
     public function testCreateCampCollaboration() {
 
@@ -39,7 +32,7 @@ class CampCollaborationApiTest extends  AbstractHttpControllerTestCase
         $post->set('role', 'member');
         */
 
-        $this->dispatch("http://localhost:8888/api/camp_collaboration", 'POST');
+        $this->dispatch("/api/camp_collaboration", 'POST');
         $req  = $this->getRequest();
         $resp = $this->getResponse();
 
