@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="phpunit.xsd"
+    bootstrap="tests/bootstrap.php"
+    verbose="true"
+>
+    <testsuites>
+        <testsuite name="eCamp.Lib">
+            <directory suffix="Test.php">module/eCampLib/test</directory>
+        </testsuite>
+
+        <testsuite name="eCamp.Core">
+            <directory suffix="Test.php">module/eCampCore/test</directory>
+        </testsuite>
+    </testsuites>
+
+
+    <filter>
+        <whitelist processUncoveredFilesFromWhitelist="true">
+            <directory suffix=".php">module/eCampLib/src</directory>
+            <directory suffix=".php">module/eCampCore/src</directory>
+        </whitelist>
+    </filter>
+
+
+    <logging>
+        <log type="coverage-html" target="./data/codeCoverage" charset="UTF-8"
+             yui="true" highlight="true" lowUpperBound="50" highLowerBound="80"
+             showUncoveredFiles="false" />
+    </logging>
+
+
+    <php>
+        <const name="PHPUNIT_TESTSUITE" value="true"/>
+    </php>
+</phpunit>
