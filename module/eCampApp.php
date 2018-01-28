@@ -25,4 +25,8 @@ class eCampApp
     public static function GetService($name) {
         return self::ServiceManager()->get($name);
     }
+
+    public static function GetEntityManager($name = 'orm_default') {
+        return self::GetService('doctrine.entitymanager.' . $name);
+    }
 }

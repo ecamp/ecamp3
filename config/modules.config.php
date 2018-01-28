@@ -16,5 +16,6 @@ return [
     'eCamp\\Lib',
     'eCamp\\Core',
     'eCamp\\Api',
-    'eCamp\\Plugin\\Textarea'
+    'eCamp\\Plugin\\Textarea',
+    'eCamp\\Plugin\\Storyboard'
 ];

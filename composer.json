@@ -29,7 +29,8 @@
       "eCamp\\Core\\": "module/eCampCore/src/",
       "eCamp\\Api\\": "module/eCampApi/src/",
 
-      "eCamp\\Plugin\\Textarea\\": "plugin/eCampTextarea/src/"
+      "eCamp\\Plugin\\Textarea\\": "plugin/eCampTextarea/src/",
+      "eCamp\\Plugin\\Storyboard\\": "plugin/eCampStoryboard/src/"
     }
   },
   "autoload-dev": {
@@ -38,7 +39,8 @@
       "eCamp\\CoreTest\\": "module/eCampCore/test/",
       "eCamp\\ApiTest\\" : "module/eCampApi/test",
 
-      "eCamp\\Plugin\\TextareaTest\\": "plugin/eCampTextarea/test/"
+      "eCamp\\Plugin\\TextareaTest\\": "plugin/eCampTextarea/test/",
+      "eCamp\\Plugin\\StoryboardTest\\": "plugin/eCampStoryboard/test/"
     }
   },
   "scripts": {

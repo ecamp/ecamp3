@@ -14,15 +14,16 @@
         <testsuite name="eCamp.Lib">
             <directory suffix="Test.php">module/eCampLib/test</directory>
         </testsuite>
-
         <testsuite name="eCamp.Core">
             <directory suffix="Test.php">module/eCampCore/test</directory>
         </testsuite>
-
         <testsuite name="eCamp.Api">
             <directory suffix="Test.php">module/eCampApi/test</directory>
         </testsuite>
 
+        <testsuite name="eCamp.Plugin.Storyboard">
+            <directory suffix="Test.php">plugin/eCampStoryboard/test</directory>
+        </testsuite>
         <testsuite name="eCamp.Plugin.Textarea">
             <directory suffix="Test.php">plugin/eCampTextarea/test</directory>
         </testsuite>
@@ -34,6 +35,7 @@
             <directory suffix=".php">module/eCampLib/src</directory>
             <directory suffix=".php">module/eCampCore/src</directory>
             <directory suffix=".php">module/eCampApi/src</directory>
+            <directory suffix=".php">plugin/eCampStoryboard/src</directory>
             <directory suffix=".php">plugin/eCampTextarea/src</directory>
         </whitelist>
     </filter>

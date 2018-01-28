@@ -13,7 +13,7 @@ abstract class BasePluginEntity extends BaseEntity
 {
     /**
      * @var EventPlugin
-     * @ORM\OneToOne(targetEntity="eCamp\Core\Entity\EventPlugin")
+     * @ORM\ManyToOne(targetEntity="eCamp\Core\Entity\EventPlugin")
      * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
      */
     protected $eventPlugin;

@@ -3,8 +3,10 @@
 namespace eCamp\Core\Plugin;
 
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\ORMException;
 use eCamp\Core\Entity\EventPlugin;
 use eCamp\Lib\Acl\Acl;
+use eCamp\Lib\Acl\NoAccessException;
 use eCamp\Lib\Service\BaseService;
 use Zend\Hydrator\HydratorInterface;
 use ZF\ApiProblem\ApiProblem;
@@ -47,6 +49,25 @@ abstract class BasePluginService extends BaseService
     }
 
 
+    /**
+     * @param string $className
+     * @return BasePluginEntity|ApiProblem
+     */
+    protected function createEntity($className) {
+        /** @var BasePluginEntity $entity */
+        $entity = parent::createEntity($className);
+
+        if ($entity instanceof ApiProblem) {
+            return $entity;
+        }
+
+        if ($this->getEventPlugin() != null) {
+            $entity->setEventPlugin($this->getEventPlugin());
+        }
+
+        return $entity;
+    }
+
     protected function findEntityQueryBuilder($className, $id) {
         $q = parent::findEntityQueryBuilder($className, $id);
 
@@ -73,20 +94,21 @@ abstract class BasePluginService extends BaseService
         return $q;
     }
 
+
     /**
-     * @param string $className
+     * @param mixed $data
      * @return BasePluginEntity|ApiProblem
+     * @throws ORMException
+     * @throws NoAccessException
      */
-    protected function createEntity($className) {
+    public function create($data) {
         /** @var BasePluginEntity $entity */
-        $entity = parent::createEntity($className);
+        $entity = parent::create($data);
 
-        if ($entity instanceof ApiProblem) {
-            return $entity;
-        }
-
-        if ($this->getEventPlugin() != null) {
-            $entity->setEventPlugin($this->getEventPlugin());
+        if ($entity->getEventPlugin() == null) {
+            /** @var EventPlugin $eventPlugin */
+            $eventPlugin = $this->findEntity(EventPlugin::class, $data->event_plugin_id);
+            $entity->setEventPlugin($eventPlugin);
         }
 
         return $entity;

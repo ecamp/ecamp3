@@ -20,30 +20,7 @@ class TextareaService extends BasePluginService
     , TextareaHydrator $textareaHydrator
     , $eventPluginId
     ) {
-        parent::__construct
-        ( $acl
-        , $entityManager
-        , $textareaHydrator
-        , Textarea::class
-        , $eventPluginId
-        );
+        parent::__construct($acl, $entityManager, $textareaHydrator, Textarea::class, $eventPluginId);
     }
 
-
-    /**
-     * @param mixed $data
-     * @return Textarea|ApiProblem
-     * @throws ORMException
-     * @throws NoAccessException
-     */
-    public function create($data) {
-        /** @var EventPlugin $eventPlugin */
-        $eventPlugin = $this->findEntity(EventPlugin::class, $data->event_plugin_id);
-
-        /** @var Textarea $textarea */
-        $textarea = parent::create($data);
-        $textarea->setEventPlugin($eventPlugin);
-
-        return $textarea;
-    }
 }

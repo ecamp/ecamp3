@@ -15,14 +15,11 @@ class TextareaHydrator implements HydratorInterface
         /** @var Textarea $textarea */
         $textarea = $object;
 
-
         return [
             'id' => $textarea->getId(),
             'text' => $textarea->getText(),
             'event_plugin' => $textarea->getEventPlugin()
         ];
-
-
     }
 
     /**
