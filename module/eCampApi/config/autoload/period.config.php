@@ -25,11 +25,14 @@ return [
             //'collection_name' => 'items',
             'entity_http_methods' => [
                 0 => 'GET',
+                1 => 'PUT',
+                2 => 'PATCH'
             ],
             'collection_http_methods' => [
                 0 => 'GET',
+                1 => 'POST'
             ],
-            'collection_query_whitelist' => [],
+            'collection_query_whitelist' => [ 'camp_id' ],
             //'page_size' => 25,
             //'page_size_param' => null,
             'entity_class' => \eCamp\Core\Entity\Period::class,

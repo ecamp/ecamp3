@@ -4,9 +4,8 @@ namespace eCamp\ApiTest;
 
 use Zend\Test\PHPUnit\Controller\AbstractHttpControllerTestCase;
 
-class UserApiTest extends AbstractHttpControllerTestCase
+class PeriodTest extends AbstractHttpControllerTestCase
 {
-
     public function setUp() {
         $data = include __DIR__ . '/../../../config/application.config.php';
         $this->setApplicationConfig($data);
@@ -14,11 +13,15 @@ class UserApiTest extends AbstractHttpControllerTestCase
         parent::setUp();
     }
 
-    public function testUserFetch() {
+    public function testPeriodPatch() {
         $headers = $this->getRequest()->getHeaders();
         $headers->addHeaderLine('Accept', 'application/json');
+        $headers->addHeaderLine('Content-Type', 'application/json');
+        
+        $req  = $this->getRequest();
+        $req->setContent('{ "start": "2018-02-18", "move_events": false }');
+        $this->dispatch("http://localhost:8888/api/period/1234a", 'PATCH');
 
-        $this->dispatch("http://localhost:8888/api/user");
         $req  = $this->getRequest();
         $resp = $this->getResponse();
 
@@ -29,14 +32,4 @@ class UserApiTest extends AbstractHttpControllerTestCase
 
     }
 
-    public function testUserPatch() {
-        $headers = $this->getRequest()->getHeaders();
-        $headers->addHeaderLine('Accept', 'application/json');
-
-        $req  = $this->getRequest();
-        $req->setContent('{ "username": "test-user-22" }');
-        $this->dispatch("http://localhost:8888/api/user/1", 'PATCH');
-
-        $resp = $this->getResponse();
-    }
 }

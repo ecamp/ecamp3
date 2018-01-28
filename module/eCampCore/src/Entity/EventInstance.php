@@ -46,7 +46,7 @@ class EventInstance extends BaseEntity
     private $length;
 
     /**
-     * @ORM\Column(type="float", nullable=true)
+     * @ORM\Column(name="`left`", type="float", nullable=true)
      */
     private $left;
 

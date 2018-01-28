@@ -4,6 +4,7 @@ namespace eCamp\Core\ServiceFactory;
 
 use eCamp\Core\Hydrator\PeriodHydrator;
 use eCamp\Core\Service\DayService;
+use eCamp\Core\Service\EventInstanceService;
 use eCamp\Core\Service\PeriodService;
 use eCamp\Lib\Service\BaseServiceFactory;
 use Interop\Container\ContainerInterface;
@@ -25,6 +26,9 @@ class PeriodServiceFactory extends BaseServiceFactory
         $hydrator = $this->getHydrator($container, PeriodHydrator::class);
 
         $dayService = $container->get(DayService::class);
-        return new PeriodService($acl, $entityManager, $hydrator, $dayService);
+        $eventInstanceService = $container->get(EventInstanceService::class);
+
+        return new PeriodService($acl, $entityManager, $hydrator, $dayService, $eventInstanceService);
     }
+
 }

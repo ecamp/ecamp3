@@ -81,6 +81,15 @@ abstract class BaseService extends AbstractResourceListener
     }
 
     /**
+     * @param BaseEntity $entity
+     * @return array
+     */
+    protected function getOrigEntityData($entity) {
+        $uow = $this->getEntityManager()->getUnitOfWork();
+        return $uow->getOriginalEntityData($entity);
+    }
+
+    /**
      * @param null $resource
      * @param null $privilege
      * @return bool

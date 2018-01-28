@@ -55,7 +55,7 @@ class Period extends BaseEntity
 
     /**
      * @var ArrayCollection
-     * @ORM\OneToMany(targetEntity="EventInstance", mappedBy="event", cascade={"all"}, orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="EventInstance", mappedBy="period", cascade={"all"}, orphanRemoval=true)
      */
     protected $eventInstances;
 

@@ -27,6 +27,22 @@ class DayService extends BaseService
         );
     }
 
+
+    public function findCollectionQueryBuilder($className, $params = []) {
+        $q = parent::findCollectionQueryBuilder($className, $params);
+
+        $periodId = $params['period_id'];
+        if ($periodId) {
+            $q->andWhere('row.period = :periodId');
+            $q->setParameter('periodId', $periodId);
+        }
+
+        $q->orderBy('row.period, row.dayOffset');
+
+        return $q;
+    }
+
+
     /**
      * @param mixed $data
      * @return Day|ApiProblem
@@ -42,5 +58,22 @@ class DayService extends BaseService
         $period->addDay($day);
 
         return $day;
+    }
+
+
+    /**
+     * @param mixed $id
+     * @return bool|null|ApiProblem
+     * @throws NoAccessException
+     * @throws ORMException
+     */
+    public function delete($id) {
+        /** @var Day $day */
+        $day = $this->fetch($id);
+        $period = $day->getPeriod();
+        $period->removeDay($day);
+
+        return parent::delete($id);
+
     }
 }

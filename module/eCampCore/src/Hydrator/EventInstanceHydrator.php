@@ -3,6 +3,7 @@
 namespace eCamp\Core\Hydrator;
 
 use eCamp\Core\Entity\EventInstance;
+use eCamp\Lib\Hydrator\Util;
 use Zend\Hydrator\HydratorInterface;
 
 class EventInstanceHydrator implements HydratorInterface
@@ -26,8 +27,8 @@ class EventInstanceHydrator implements HydratorInterface
             'left' => $eventInstance->getLeft(),
             'width' => $eventInstance->getWidth(),
 
-            'start_time' => $eventInstance->getStartTime(),
-            'end_time' => $eventInstance->getEndTime(),
+            'start_time' => Util::extractDateTime($eventInstance->getStartTime()),
+            'end_time' => Util::extractDateTime($eventInstance->getEndTime()),
 
             'day_number' => $eventInstance->getDayNumber(),
             'event_instance_number' => $eventInstance->getEventInstanceNumber(),
@@ -41,10 +42,14 @@ class EventInstanceHydrator implements HydratorInterface
      * @return object
      */
     public function hydrate(array $data, $object) {
-        /** @var EventInstance $event */
-        $event = $object;
+        /** @var EventInstance $eventInstance */
+        $eventInstance = $object;
 
+        $eventInstance->setStart($data['start']);
+        $eventInstance->setLength($data['length']);
+        $eventInstance->setLeft($data['left']);
+        $eventInstance->setWidth($data['width']);
 
-        return $event;
+        return $eventInstance;
     }
 }

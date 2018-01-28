@@ -29,7 +29,7 @@ return [
             'collection_http_methods' => [
                 0 => 'GET',
             ],
-            'collection_query_whitelist' => [],
+            'collection_query_whitelist' => [ 'period_id' ],
             //'page_size' => 25,
             //'page_size_param' => null,
             'entity_class' => \eCamp\Core\Entity\Day::class,

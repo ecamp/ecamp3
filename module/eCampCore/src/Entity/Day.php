@@ -9,7 +9,7 @@ use eCamp\Lib\Entity\BaseEntity;
 /**
  * @ORM\Entity()
  * @ORM\Table(name="days", uniqueConstraints={
- *     @ORM\UniqueConstraint(name="offset_period_idx", columns={"dayOffset", "period_id"})
+ *     @ORM\UniqueConstraint(name="offset_period_idx", columns={"period_id", "dayOffset"})
  * })
  * @ORM\HasLifecycleCallbacks
  */
@@ -41,7 +41,7 @@ class Day extends BaseEntity
         return $this->period;
     }
 
-    public function setPeriod(Period $period): void {
+    public function setPeriod(Period $period = null): void {
         $this->period = $period;
     }
 

@@ -61,7 +61,6 @@ class CampService extends BaseService
         /** @var AbstractCampOwner $owner */
         $owner = $this->findEntity(AbstractCampOwner::class, $data->owner_id);
 
-        // TODO: via AUTH bestimmen
         /** @var User $creator */
         $creator = $this->getAuthUser();
 
