@@ -1,0 +1,22 @@
+{% extends 'header/base.twig' %}
+
+{% block header_icon %}
+    <table border="0" style="width: 100%; border: 0;">
+        <tr>
+            <td width="1" style="padding-left: 5px; padding-right: 10px;">
+                <i class="zmdi zmdi-hc-3x zmdi-account"></i>
+            </td>
+            <td style="padding-top: 3px; padding-bottom: 5px">
+                <h1>[User]</h1>
+            </td>
+        </tr>
+    </table>
+{% endblock %}
+
+{% block breadcrumb %}
+    {{ parent() }}
+
+    <li class="breadcrumb-item">
+        <a href="{{ url('ecamp.web') }}"><i class="zmdi zmdi-account"></i> UserName</a>
+    </li>
+{% endblock %}

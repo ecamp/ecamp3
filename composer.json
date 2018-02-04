@@ -18,7 +18,8 @@
     "doctrine/doctrine-orm-module" : "^1.1",
     "doctrine/data-fixtures": "^1.3",
     "doctrine/migrations": "^1.6",
-    "hybridauth/hybridauth": "^3.0-dev"
+    "hybridauth/hybridauth": "^3.0-dev",
+    "oxcom/zend-twig": "^0.1"
   },
   "require-dev": {
     "phpunit/phpunit": "^6.5"
@@ -28,6 +29,7 @@
       "eCamp\\Lib\\": "module/eCampLib/src/",
       "eCamp\\Core\\": "module/eCampCore/src/",
       "eCamp\\Api\\": "module/eCampApi/src/",
+      "eCamp\\Web\\": "module/eCampWeb/src/",
 
       "eCamp\\Plugin\\Textarea\\": "plugin/eCampTextarea/src/",
       "eCamp\\Plugin\\Storyboard\\": "plugin/eCampStoryboard/src/"
@@ -38,6 +40,7 @@
       "eCamp\\LibTest\\": "module/eCampLib/test/",
       "eCamp\\CoreTest\\": "module/eCampCore/test/",
       "eCamp\\ApiTest\\" : "module/eCampApi/test",
+      "eCamp\\WebTest\\": "module/eCampWeb/test/",
 
       "eCamp\\Plugin\\TextareaTest\\": "plugin/eCampTextarea/test/",
       "eCamp\\Plugin\\StoryboardTest\\": "plugin/eCampStoryboard/test/"

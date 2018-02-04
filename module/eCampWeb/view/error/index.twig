@@ -1,0 +1,57 @@
+<h1>An error occurred</h1>
+<h2>{{ message }}</h2>
+
+{% if display_exceptions %}
+    {% if exception is defined and ( exception is instanceof('\Throwable') or exception is instanceof('\Exception') ) %}
+
+    <h2>Additional information:</h2>
+    <h3> {{ class(exception) }}</h3>
+    <dl>
+        <dt>File:</dt>
+        <dd>
+            <pre class="prettyprint linenums">{{ exception.getFile }}:{{ exception.getLine }}</pre>
+        </dd>
+        <dt>Message:</dt>
+        <dd>
+            <pre class="prettyprint linenums">{{ exception.getMessage }}</pre>
+        </dd>
+        <dt>Stack trace:</dt>
+        <dd>
+            <pre class="prettyprint linenums">{{ exception.getTraceAsString }}</pre>
+        </dd>
+    </dl>
+    {% endif %}
+
+    {% set exception = exception.getPrevious %}
+    {% if exception is not null %}
+        <hr/>
+        <h2>Previous exceptions:</h2>
+        <ul class="unstyled">
+
+        {% for i in 0..100 if exception is not null %}
+            <li>
+                <h3>{{ class(exception) }}</h3>
+                <dl>
+                    <dt>File:</dt>
+                    <dd>
+                        <pre class="prettyprint linenums">{{ exception.getFile }}:{{ exception.getLine }}</pre>
+                    </dd>
+                    <dt>Message:</dt>
+                    <dd>
+                        <pre class="prettyprint linenums">{{ exception.getMessage }}</pre>
+                    </dd>
+                    <dt>Stack trace:</dt>
+                    <dd>
+                        <pre class="prettyprint linenums">{{ exception.getTraceAsString }}</pre>
+                    </dd>
+                </dl>
+            </li>
+
+            {% set exception = exception.getPrevious %}
+        {% endfor %}
+
+        </ul>
+    {% else %}
+        <h3>No Exception available</h3>
+    {% endif %}
+{% endif %}

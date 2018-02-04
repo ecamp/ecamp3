@@ -16,4 +16,16 @@ return [
         ]
     ],
 
+    'service_manager' => [
+        'factories' => [
+            \eCamp\Lib\Twig\Extensions::class => \ZendTwig\Service\TwigExtensionFactory::class,
+        ],
+    ],
+
+    'zend_twig' => [
+        'extensions' => [
+            \eCamp\Lib\Twig\Extensions::class,
+        ],
+    ],
+
 ];

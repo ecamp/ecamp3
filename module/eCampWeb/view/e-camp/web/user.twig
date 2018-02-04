@@ -1,0 +1,10 @@
+{% extends 'layout/layout.base.twig' %}
+
+{% block setTitle %}
+    {{ parent() }}
+    {% do headTitle().append('UserName') %}
+{% endblock %}
+
+{% block layout_header %}
+    {% include 'header/user.twig' %}
+{% endblock %}

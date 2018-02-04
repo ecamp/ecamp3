@@ -1,0 +1,16 @@
+{% extends 'layout/html5.bootstrap.twig' %}
+
+{% block body %}
+    <div class="bgimage"></div>
+
+    <div class="layout">
+        <div class="layout-header">
+            {% block layout_header %}
+                {% include 'header/main.twig' %}
+            {% endblock %}
+        </div>
+        <div class="layout-body">
+            {% block layout_body %}{% endblock %}
+        </div>
+    </div>
+{% endblock %}
