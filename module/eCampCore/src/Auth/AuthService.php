@@ -37,6 +37,19 @@ class AuthService extends AuthenticationService
         return $this->getIdentity();
     }
 
+    /** @return User */
+    public function getAuthUser() {
+        $id = $this->getAuthUserId();
+        $user = null;
+
+        if ($id != null) {
+            /** @var User $user */
+            $user = $this->userRepository->find($id);
+        }
+
+        return $user;
+    }
+
 
     /**
      * @param $username

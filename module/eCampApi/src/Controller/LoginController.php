@@ -116,7 +116,7 @@ class LoginController extends AbstractActionController
         $redirect = $this->url()->fromRoute('ecamp.api/login');
 
         return $this->redirect()->toRoute(
-            'ecamp.auth.google', [],
+            'ecamp.auth/google', [],
             ['query' => ['redirect' => $redirect]]
         );
     }

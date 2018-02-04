@@ -5,13 +5,13 @@
                 <a class="btn btn-sm btn-primary" href="{{ url('ecamp.web') }}">
                     <i class="zmdi zmdi-hc-fw zmdi-home"></i> Dashboard
                 </a>
-                <a 	class="btn btn-sm btn-primary d-none d-md-block" href="{{ url('ecamp.web.user') }}">
+                <a 	class="btn btn-sm btn-primary d-none d-md-block" href="{{ url('ecamp.web/user') }}">
                     <i class="zmdi zmdi-hc-fw zmdi-account"></i> Users
                 </a>
-                <a class="btn btn-sm btn-primary d-none d-md-block" href="{{ url('ecamp.web.group') }}">
+                <a class="btn btn-sm btn-primary d-none d-md-block" href="{{ url('ecamp.web/group') }}">
                     <i class="zmdi zmdi-hc-fw zmdi-flag"></i> Groups
                 </a>
-                <a class="btn btn-sm btn-primary d-none d-md-block" href="{{ url('ecamp.web.camp') }}">
+                <a class="btn btn-sm btn-primary d-none d-md-block" href="{{ url('ecamp.web/camp') }}">
                     <i class="zmdi zmdi-hc-fw zmdi-labels"></i> Camps
                 </a>
 
@@ -25,26 +25,32 @@
                         <span class="sr-only">Toggle Dropdown</span>
                     </button>
                     <div class="dropdown-menu dropdown-menu-right" >
-                        <a class="dropdown-item d-block d-md-none" href="{{ url('ecamp.web.user') }}">
-                            <i class="zmdi zmdi-hc-fw zmdi-account"></i> &nbsp; Users
+                        <a class="dropdown-item d-block d-md-none" href="{{ url('ecamp.web/user') }}">
+                            <i class="zmdi zmdi-hc-fw zmdi-account"></i> Users
                         </a>
-                        <a class="dropdown-item d-block d-md-none" href="{{ url('ecamp.web.group') }}">
-                            <i class="zmdi zmdi-hc-fw zmdi-flag"></i> &nbsp; Groups
+                        <a class="dropdown-item d-block d-md-none" href="{{ url('ecamp.web/group') }}">
+                            <i class="zmdi zmdi-hc-fw zmdi-flag"></i> Groups
                         </a>
-                        <a class="dropdown-item d-block d-md-none" href="{{ url('ecamp.web.camp') }}">
-                            <i class="zmdi zmdi-hc-fw zmdi-labels"></i> &nbsp; Camps
+                        <a class="dropdown-item d-block d-md-none" href="{{ url('ecamp.web/camp') }}">
+                            <i class="zmdi zmdi-hc-fw zmdi-labels"></i> Camps
                         </a>
 
                         <div class="dropdown-divider d-block d-md-none"></div>
 
+                        {% if authUser is defined %}
+                            <a class="dropdown-item" href="#">
+                                <i class="zmdi zmdi-hc-fw zmdi-account"></i> {{ authUser.displayName }}
+                            </a>
+                        {% endif %}
+
                         <a class="dropdown-item" href="#">
-                            <i class="zmdi zmdi-hc-fw zmdi-settings"></i> &nbsp; Options
+                            <i class="zmdi zmdi-hc-fw zmdi-settings"></i> Options
                         </a>
 
                         <div class="dropdown-divider"></div>
 
-                        <a class="dropdown-item" href="#">
-                            <i class="zmdi zmdi-hc-fw zmdi-power"></i> &nbsp; Logout
+                        <a class="dropdown-item" href="{{ url('ecamp.web/login', { 'action': 'logout' }) }}">
+                            <i class="zmdi zmdi-hc-fw zmdi-power"></i> Logout
                         </a>
                     </div>
                 </div>
@@ -52,7 +58,7 @@
             <div class="clearfix"></div>
         </div>
 
-        <div class="col-md-7 col order-1">
+        <div class="col-md-7 col order-1" style="z-index: -1">
             <div class="ecamp-header-icon">
                 {% block header_icon %}
                     <table border="0" style="width: 100%; border: 0;">

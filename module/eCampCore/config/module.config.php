@@ -4,13 +4,33 @@ return [
 
     'router' => [
         'routes' => [
-            'ecamp.auth.google' => [
+            'ecamp.auth' => [
                 'type' => 'Segment',
                 'options' => [
-                    'route' => '/auth/google[/:action]',
-                    'defaults' => [
-                        'controller' => \eCamp\Core\Controller\Auth\GoogleController::class,
-                        'action' => 'index'
+                    'route' => '/auth',
+                ],
+
+                'child_routes' => [
+                    'google' => [
+                        'type' => 'Segment',
+                        'options' => [
+                            'route' => '/google[/:action]',
+                            'defaults' => [
+                                'controller' => \eCamp\Core\Controller\Auth\GoogleController::class,
+                                'action' => 'index'
+                            ],
+                        ],
+                    ],
+
+                    'facebook' => [
+                        'type' => 'Segment',
+                        'options' => [
+                            'route' => '/facebook[/:action]',
+//                            'defaults' => [
+//                                'controller' => \eCamp\Core\Controller\Auth\FacebookController::class,
+//                                'action' => 'index'
+//                            ],
+                        ],
                     ],
                 ],
             ]

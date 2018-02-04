@@ -13,6 +13,7 @@
     "zendframework/zend-mvc": "^3.0",
     "zendframework/zend-router": "^3.0",
     "zendframework/zend-session": "^2.8",
+    "zendframework/zend-i18n": "^2.7",
     "zendframework/zend-developer-tools": "^1.1",
     "zendframework/zend-test": "^3.0",
     "doctrine/doctrine-orm-module" : "^1.1",

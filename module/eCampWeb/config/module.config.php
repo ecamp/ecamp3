@@ -12,46 +12,49 @@ return [
                         'action' => 'index'
                     ],
                 ],
-            ],
-            'ecamp.web.login' => [
-                'type' => 'Segment',
-                'options' => [
-                    'route' => '/login',
-                    'defaults' => [
-                        'controller' => \eCamp\Web\Controller\LoginController::class,
-                        'action' => 'index'
+                'may_terminate' => true,
+                'child_routes' => [
+                    'login' => [
+                        'type' => 'Segment',
+                        'options' => [
+                            'route' => 'login[/:action]',
+                            'defaults' => [
+                                'controller' => \eCamp\Web\Controller\LoginController::class,
+                                'action' => 'index'
+                            ],
+                        ],
                     ],
-                ],
-            ],
-            'ecamp.web.user' => [
-                'type' => 'Segment',
-                'options' => [
-                    'route' => '/user',
-                    'defaults' => [
-                        'controller' => \eCamp\Web\Controller\UserController::class,
-                        'action' => 'index'
+                    'user' => [
+                        'type' => 'Segment',
+                        'options' => [
+                            'route' => 'user',
+                            'defaults' => [
+                                'controller' => \eCamp\Web\Controller\UserController::class,
+                                'action' => 'index'
+                            ],
+                        ],
                     ],
-                ],
-            ],
-            'ecamp.web.group' => [
-                'type' => 'Segment',
-                'options' => [
-                    'route' => '/group',
-                    'defaults' => [
-                        'controller' => \eCamp\Web\Controller\GroupController::class,
-                        'action' => 'index'
+                    'group' => [
+                        'type' => 'Segment',
+                        'options' => [
+                            'route' => 'group',
+                            'defaults' => [
+                                'controller' => \eCamp\Web\Controller\GroupController::class,
+                                'action' => 'index'
+                            ],
+                        ],
                     ],
-                ],
-            ],
-            'ecamp.web.camp' => [
-                'type' => 'Segment',
-                'options' => [
-                    'route' => '/camp',
-                    'defaults' => [
-                        'controller' => \eCamp\Web\Controller\CampController::class,
-                        'action' => 'index'
+                    'camp' => [
+                        'type' => 'Segment',
+                        'options' => [
+                            'route' => 'camp',
+                            'defaults' => [
+                                'controller' => \eCamp\Web\Controller\CampController::class,
+                                'action' => 'index'
+                            ],
+                        ],
                     ],
-                ],
+                ]
             ],
         ],
     ],
@@ -65,6 +68,10 @@ return [
             \eCamp\Web\Controller\GroupController::class => \Zend\ServiceManager\Factory\InvokableFactory::class,
             \eCamp\Web\Controller\CampController::class => \Zend\ServiceManager\Factory\InvokableFactory::class,
         ]
+    ],
+
+    'translator' => [
+        
     ],
 
     'view_manager' => [

@@ -6,7 +6,7 @@ use Twig\TwigFunction;
 use Twig\TwigTest;
 use ZendTwig\Extension\Extension;
 
-class Extensions extends Extension
+class TwigExtensions extends Extension
 {
     public function getFunctions() {
         return [

@@ -123,6 +123,25 @@
             </label>
         </div>
 
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+        <div class="form-label-group">
+            <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+        </div>
+
+        <hr />
+
+        <div class="btn-group btn-block">
+            <a class="btn btn-link"
+               style="width: 100%;"
+               href="{{ url('ecamp.auth/google', {}, { 'query': { 'redirect': '/' } }) }}"
+            >
+                <i class="zmdi zmdi-google"></i>
+            </a>
+            <a class="btn btn-link"
+               style="width: 100%;"
+               href="{{ url('ecamp.auth/facebook', {}, { 'query': { 'redirect': '/' } }) }}"
+            >
+                <i class="zmdi zmdi-facebook"></i>
+            </a>
+        </div>
     </form>
 {% endblock %}

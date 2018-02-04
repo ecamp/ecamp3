@@ -3,6 +3,7 @@
 return [
     'Zend\\Router',
     'Zend\\Hydrator',
+    'Zend\\I18n',
 
     'ZF\\Rest',
     'ZF\\Hal',

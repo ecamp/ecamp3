@@ -25,7 +25,7 @@ class GoogleController extends BaseController
     }
 
     protected function getCallbackRoute() {
-        return 'ecamp.auth.google';
+        return 'ecamp.auth/google';
     }
 
 }
