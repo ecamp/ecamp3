@@ -1,17 +1,49 @@
 <?php
 return [
 
+    'route_manager' => [
+        'factories' => [
+            \eCamp\Web\Route\FluentRouter::class => \eCamp\Web\Route\FluentRouterFactory::class,
+        ]
+    ],
+
     'router' => [
         'routes' => [
             'ecamp.web' => [
-                'type' => 'Segment',
+                'type' => \eCamp\Web\Route\FluentRouter::class,
                 'options' => [
                     'route' => '/',
                     'defaults' => [
                         'controller' => \eCamp\Web\Controller\IndexController::class,
                         'action' => 'index'
                     ],
+
+                    'user' => [
+                        'options' => [
+                            'defaults' => [
+                                'controller' => \eCamp\Web\Controller\UserController::class,
+                                'action' => 'index'
+                            ],
+                        ]
+                    ],
+                    'group' => [
+                        'options' => [
+                            'defaults' => [
+                                'controller' => \eCamp\Web\Controller\GroupController::class,
+                                'action' => 'index'
+                            ],
+                        ]
+                    ],
+                    'camp' => [
+                        'options' => [
+                            'defaults' => [
+                                'controller' => \eCamp\Web\Controller\CampController::class,
+                                'action' => 'index'
+                            ],
+                        ]
+                    ],
                 ],
+
                 'may_terminate' => true,
                 'child_routes' => [
                     'login' => [
@@ -24,38 +56,30 @@ return [
                             ],
                         ],
                     ],
-                    'user' => [
+
+                    'groups' => [
                         'type' => 'Segment',
                         'options' => [
-                            'route' => 'user',
+                            'route' => 'groups',
                             'defaults' => [
-                                'controller' => \eCamp\Web\Controller\UserController::class,
+                                'controller' => \eCamp\Web\Controller\GroupsController::class,
                                 'action' => 'index'
                             ],
                         ],
                     ],
-                    'group' => [
+
+                    'camps' => [
                         'type' => 'Segment',
                         'options' => [
-                            'route' => 'group',
+                            'route' => 'camps',
                             'defaults' => [
-                                'controller' => \eCamp\Web\Controller\GroupController::class,
+                                'controller' => \eCamp\Web\Controller\CampsController::class,
                                 'action' => 'index'
                             ],
                         ],
                     ],
-                    'camp' => [
-                        'type' => 'Segment',
-                        'options' => [
-                            'route' => 'camp',
-                            'defaults' => [
-                                'controller' => \eCamp\Web\Controller\CampController::class,
-                                'action' => 'index'
-                            ],
-                        ],
-                    ],
-                ]
-            ],
+                ],
+            ]
         ],
     ],
 
@@ -64,6 +88,9 @@ return [
             \eCamp\Web\Controller\IndexController::class => \Zend\ServiceManager\Factory\InvokableFactory::class,
             \eCamp\Web\Controller\LoginController::class => \eCamp\Web\ControllerFactory\LoginControllerFactory::class,
 
+            \eCamp\Web\Controller\GroupsController::class => \eCamp\Web\ControllerFactory\GroupsControllerFactory::class,
+            \eCamp\Web\Controller\CampsController::class => \Zend\ServiceManager\Factory\InvokableFactory::class,
+
             \eCamp\Web\Controller\UserController::class => \Zend\ServiceManager\Factory\InvokableFactory::class,
             \eCamp\Web\Controller\GroupController::class => \Zend\ServiceManager\Factory\InvokableFactory::class,
             \eCamp\Web\Controller\CampController::class => \Zend\ServiceManager\Factory\InvokableFactory::class,
@@ -71,7 +98,7 @@ return [
     ],
 
     'translator' => [
-        
+
     ],
 
     'view_manager' => [

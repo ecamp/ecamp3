@@ -1,0 +1,43 @@
+{% extends 'layout/layout.base.twig' %}
+
+{% block layout_header %}
+    {% include 'header/groups.twig' %}
+{% endblock %}
+
+{% block layout_body %}
+    <section class="container">
+
+        <div class="row">
+            <div class="col-sm-12">
+                {% for group in groups %}
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h2>{{ group.name }}</h2>
+                            <p>{{ group.description }}</p>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                            {% for subgroup in group.children %}
+                                <div class="col-md-6 col-xl-4">
+                                    <a  href="{{ url('ecamp.web', { group: subgroup }) }}"
+                                        style="text-decoration: none; color: black"
+                                    >
+                                        <div class="card" style="margin-bottom: 10px">
+                                            <div class="card-body">
+                                                <h4>{{ subgroup.name }}</h4>
+                                                <p>{{ subgroup.description }}</p>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+{% endblock %}

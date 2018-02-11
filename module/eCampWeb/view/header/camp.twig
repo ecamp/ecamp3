@@ -3,11 +3,11 @@
 {% block header_icon %}
     <table border="0" style="width: 100%; border: 0;">
         <tr>
-            <td width="1" style="padding-left: 5px; padding-right: 10px;">
-                <i class="zmdi zmdi-hc-3x zmdi-labels"></i>
+            <td width="1" style="padding-right: 10px;">
+                <i class="zmdi zmdi-hc-fw zmdi-hc-3x zmdi-labels"></i>
             </td>
             <td style="padding-top: 3px; padding-bottom: 5px">
-                <h1>[title]</h1>
+                <h1>{{ camp.title }}</h1>
             </td>
         </tr>
     </table>
@@ -16,12 +16,17 @@
 {% block breadcrumb %}
     {{ parent() }}
 
-    <li class="breadcrumb-item">
-        <a href="{{ url('ecamp.web/user') }}"><i class="zmdi zmdi-account"></i> UserName</a>
-    </li>
+    {% if camp.belongsToUser %}
+        <li class="breadcrumb-item">
+            <a href="{{ url('ecamp.web', { user: camp.owner }) }}"><i class="zmdi zmdi-account"></i> {{ camp.owner.username }}</a>
+        </li>
+    {% else %}
+        <li class="breadcrumb-item">
+            <a href="{{ url('ecamp.web', { group: camp.owner }) }}"><i class="zmdi zmdi-flag"></i> {{ camp.owner.name }}</a>
+        </li>
+    {% endif %}
 
     <li class="breadcrumb-item">
-        <a href="{{ url('ecamp.web') }}"><i class="zmdi zmdi-labels"></i> CampName</a>
+        <a href="{{ url('ecamp.web', { camp: camp }) }}"><i class="zmdi zmdi-labels"></i> {{ camp.name }}</a>
     </li>
-
 {% endblock %}

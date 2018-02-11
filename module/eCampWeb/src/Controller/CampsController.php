@@ -5,7 +5,7 @@ namespace eCamp\Web\Controller;
 use eCamp\Lib\Auth\AuthRequiredException;
 use Zend\View\Model\ViewModel;
 
-class CampController extends AbstractBaseController
+class CampsController extends AbstractBaseController
 {
 
     /**
@@ -15,9 +15,7 @@ class CampController extends AbstractBaseController
     public function indexAction() {
         $this->forceLogin();
 
-        return [
-            'camp' => $this->params()->fromRoute('camp'),
-        ];
+        return [];
     }
 
 }

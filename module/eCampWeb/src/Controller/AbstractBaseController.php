@@ -19,7 +19,7 @@ class AbstractBaseController extends \eCamp\Core\Controller\AbstractBaseControll
             $url = $req->getRequestUri();
 
             return $this->redirect()->toRoute(
-                'ecamp.web/login', [], [ 'query' => [ 'url' => $url ] ]
+                'ecamp.web/login', [], [ 'query' => [ 'redirect' => $url ] ]
             );
         }
 

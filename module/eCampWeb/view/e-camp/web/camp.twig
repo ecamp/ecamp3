@@ -2,7 +2,7 @@
 
 {% block setTitle %}
     {{ parent() }}
-    {% do headTitle().append('CampName') %}
+    {% do headTitle().append(camp.name) %}
 {% endblock %}
 
 {% block layout_header %}

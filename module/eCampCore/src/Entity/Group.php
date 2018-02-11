@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 
 /**
- * @ORM\Entity()
+ * @ORM\Entity(repositoryClass="eCamp\Core\Repository\GroupRepository")
  * @ORM\Table(name="groups",
  *   indexes={@ORM\Index(name="group_name_idx", columns={"name"})},
  *   uniqueConstraints={@ORM\UniqueConstraint(
@@ -120,6 +120,14 @@ class Group extends AbstractCampOwner
             $this->organization = $parent->getOrganization();
         }
         $this->parent = $parent;
+    }
+
+
+    public function pathAsArray() {
+        $path = ($this->parent != null) ? $this->parent->pathAsArray() : [];
+        $path[] = $this;
+
+        return $path;
     }
 
 

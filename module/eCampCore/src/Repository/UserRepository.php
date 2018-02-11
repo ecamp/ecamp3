@@ -11,7 +11,6 @@ class UserRepository extends EntityRepository
     /**
      * @param $username
      * @return mixed
-     * @throws NonUniqueResultException
      */
     public function findByUsername($username) {
         $q = $this->createQueryBuilder('u');

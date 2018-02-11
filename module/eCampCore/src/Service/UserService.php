@@ -41,7 +41,7 @@ class UserService extends BaseService
 
         if ($profile instanceof Profile) {
             $data = (object)[
-                'username' => $profile->email,
+                'username' => $profile->displayName,
                 'mailAddress' => $profile->email,
                 'state' => User::STATE_REGISTERED,
             ];
@@ -76,7 +76,7 @@ class UserService extends BaseService
         if ($data instanceof Profile) {
             /** @var Profile $profile */
             $profile = $data;
-            $data = (object)['username' => $profile->email];
+            $data = (object)['username' => $profile->displayName];
         }
         return parent::update($id, $data);
     }

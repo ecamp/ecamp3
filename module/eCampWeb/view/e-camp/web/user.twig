@@ -2,7 +2,7 @@
 
 {% block setTitle %}
     {{ parent() }}
-    {% do headTitle().append('UserName') %}
+    {% do headTitle().append(user.username) %}
 {% endblock %}
 
 {% block layout_header %}

@@ -2,7 +2,7 @@
 
 {% block setTitle %}
     {{ parent() }}
-    {% do headTitle().append('GroupName') %}
+    {% do headTitle().append(group.name) %}
 {% endblock %}
 
 {% block layout_header %}

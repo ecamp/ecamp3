@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 use eCamp\Lib\Entity\BaseEntity;
 
 /**
- * @ORM\Entity()
+ * @ORM\Entity(repositoryClass="eCamp\Core\Repository\CampRepository")
  * @ORM\HasLifecycleCallbacks
  * @ORM\Table(name="camps", uniqueConstraints={
  *   @ORM\UniqueConstraint(name="owner_name_unique", columns={"owner_id", "name"})
@@ -173,6 +173,21 @@ class Camp extends BaseEntity
 
     public function setOwner(AbstractCampOwner $owner): void {
         $this->owner = $owner;
+    }
+
+
+    /**
+     * @return bool
+     */
+    public function belongsToUser() {
+        return $this->owner instanceof User;
+    }
+
+    /**
+     * @return bool
+     */
+    public function belongsToGroup() {
+        return $this->owner instanceof Group;
     }
 
 
