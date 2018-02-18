@@ -38,7 +38,7 @@
                         <div class="dropdown-divider d-block d-md-none"></div>
 
                         {% if authUser is defined %}
-                            <a class="dropdown-item" href="{{ url('ecamp.web', {'userId': authUser.id }) }}">
+                            <a class="dropdown-item" href="{{ url('ecamp.web/user', {'userId': authUser.id }) }}">
                                 <i class="zmdi zmdi-hc-fw zmdi-account"></i> {{ authUser.displayName }}
                             </a>
                         {% endif %}
@@ -90,5 +90,7 @@
         </div>
     </div>
 
-    <hr style="margin-top: 5px; margin-bottom: 15px;" />
+    {% block hr %}
+        <hr style="margin-top: 5px; margin-bottom: 15px;" />
+    {% endblock %}
 </section>

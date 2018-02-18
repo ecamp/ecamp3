@@ -8,7 +8,7 @@ class IndexTest extends AbstractHttpControllerTestCase
 {
 
     public function testIndex() {
-        $this->dispatch("/", 'GET');
+        $this->dispatch("/login", 'GET');
         $req  = $this->getRequest();
         $resp = $this->getResponse();
 

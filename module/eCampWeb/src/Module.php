@@ -5,6 +5,7 @@ namespace eCamp\Web;
 use eCamp\Core\Auth\AuthService;
 use eCamp\Web\View\AuthUserInjector;
 use eCamp\Web\View\TranslatorInjector;
+use eCamp\Web\View\ViewModelTerminator;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use Zend\I18n\Translator\TranslatorInterface;
@@ -39,6 +40,10 @@ class Module
 
         $translatorInjector = new TranslatorInjector($translator);
         $translatorInjector->attach($events);
+
+
+        $viewModelTerminator = new ViewModelTerminator();
+        $viewModelTerminator->attach($events);
     }
 
 }

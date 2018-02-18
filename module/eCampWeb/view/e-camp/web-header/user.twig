@@ -1,4 +1,4 @@
-{% extends 'header/base.twig' %}
+{% extends 'e-camp/web-header/base.twig' %}
 
 {% block header_icon %}
     <table border="0" style="width: 100%; border: 0;">
@@ -17,7 +17,7 @@
     {{ parent() }}
 
     <li class="breadcrumb-item">
-        <a href="{#{{ url('ecamp.web/user', { 'userId': user.id }) }}#}">
+        <a href="{{ url('ecamp.web/user', { 'userId': user.id }) }}">
             <i class="zmdi zmdi-account"></i> {{ user.username }}
         </a>
     </li>

@@ -28,6 +28,6 @@ class FluentRouterFactory implements FactoryInterface
         /** @var CampRepository $campRepository */
         $campRepository = $em->getRepository(Camp::class);
 
-        return new FluentRouter($userRepository, $groupRepository, $campRepository, $options);
+        return new $requestedName($userRepository, $groupRepository, $campRepository, $options);
     }
 }

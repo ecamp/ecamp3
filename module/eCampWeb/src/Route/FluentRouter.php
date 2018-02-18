@@ -10,12 +10,11 @@ use eCamp\Core\Repository\GroupRepository;
 use eCamp\Core\Repository\UserRepository;
 use Zend\Router\Exception\RuntimeException;
 use Zend\Router\Http\RouteInterface;
-use Zend\Router\Http\RouteMatch as HttpRouteMatch;
 use Zend\Router\RouteMatch;
 use Zend\Stdlib\RequestInterface as Request;
 use Zend\Uri\Uri;
 
-class FluentRouter implements RouteInterface
+abstract class FluentRouter implements RouteInterface
 {
     /** @var UserRepository */
     private $userRepository;
@@ -29,10 +28,13 @@ class FluentRouter implements RouteInterface
     /** @var array */
     protected $options;
 
-    /** @var string */
-    protected $route = '';
-
-
+    /**
+     * FluentRouter constructor.
+     * @param $userRepository
+     * @param $groupRepository
+     * @param $campRepository
+     * @param array $options
+     */
     public function __construct
     ( $userRepository
     , $groupRepository
@@ -44,10 +46,6 @@ class FluentRouter implements RouteInterface
         $this->campRepository = $campRepository;
 
         $this->options = $options;
-
-        if(isset($options['route'])) {
-            $this->route = $options['route'];
-        }
     }
 
 
@@ -82,14 +80,6 @@ class FluentRouter implements RouteInterface
         $path = substr($path, $pathOffset);
         $length = 0;
 
-        $routeLength = strlen($this->route);
-        if ($routeLength > 0) {
-            if ($routeLength > strlen($path)) { return null; }
-            if (substr($path, 0, $routeLength) != $this->route) { return null; }
-            $path = substr($path, $routeLength);
-            $length += $routeLength;
-        }
-
         if (substr($path, 0, 5) == 'user/') {
             $path = substr($path, 4);
             $length += 4;
@@ -102,12 +92,7 @@ class FluentRouter implements RouteInterface
             return $this->matchGroup($path, $length, []);
         }
 
-        $params = [];
-        if (isset($this->options['defaults'])) {
-            $params = $this->options['defaults'];
-        }
-
-        return new HttpRouteMatch($params, $length);
+        return null;
     }
 
     /**
@@ -116,7 +101,7 @@ class FluentRouter implements RouteInterface
      * @param array $params
      * @return null|RouteMatch
      */
-    function matchUser($path, $length, $params){
+    protected function matchUser($path, $length, $params){
         if (empty($path)) { return null; }
         if (substr($path, 0, 1) !== '/') { return null; }
 
@@ -150,17 +135,16 @@ class FluentRouter implements RouteInterface
             return $this->matchCamp($path, $length, $params);
         }
 
-        $config = isset($this->options['user']) ? $this->options['user'] : [];
-        $options = isset($config['options']) ? $config['options'] : [];
-        $defaults = isset($options['defaults']) ? $options['defaults'] : [];
+        $defaults = isset($this->options['defaults']) ? $this->options['defaults'] : [];
 
         $params = array_merge([
             'user' => $user,
             'userId' => $user->getId(),
         ], $params, $defaults);
 
-        return new HttpRouteMatch($params, $length);
+        return new UserRouteMatch($params, $length);
     }
+
 
     /**
      * @param $path
@@ -168,7 +152,7 @@ class FluentRouter implements RouteInterface
      * @param $params
      * @return null|RouteMatch
      */
-    function matchGroup($path, $length, $params) {
+    protected function matchGroup($path, $length, $params) {
         if (empty($path)) { return null; }
         if (substr($path, 0, 1) !== '/') { return null; }
 
@@ -192,7 +176,6 @@ class FluentRouter implements RouteInterface
         }
         if ($group == null) { return null; }
 
-
         if (substr($path, 0, 6) == '/camp/') {
             $path = substr($path, 5);
             $length += 5;
@@ -205,16 +188,14 @@ class FluentRouter implements RouteInterface
             return $this->matchCamp($path, $length, $params);
         }
 
-        $config = isset($this->options['group']) ? $this->options['group'] : [];
-        $options = isset($config['options']) ? $config['options'] : [];
-        $defaults = isset($options['defaults']) ? $options['defaults'] : [];
+        $defaults = isset($this->options['defaults']) ? $this->options['defaults'] : [];
 
         $params = array_merge([
             'group' => $group,
             'groupId' => $group->getId(),
         ], $params, $defaults);
 
-        return new HttpRouteMatch($params, $length);
+        return new GroupRouteMatch($params, $length);
     }
 
     /**
@@ -223,7 +204,7 @@ class FluentRouter implements RouteInterface
      * @param $params
      * @return null|RouteMatch
      */
-    function matchCamp($path, $length, $params) {
+    protected function matchCamp($path, $length, $params) {
         if (empty($path)) { return null; }
         if (substr($path, 0, 1) !== '/') { return null; }
 
@@ -244,21 +225,14 @@ class FluentRouter implements RouteInterface
         $campnameLength = strlen($campname);
         $length += $campnameLength;
 
-//        TODO
-//        $path = substr($path, $campnameLength);
-//        if (substr($path, 0, 7) == '/period') {
-//        }
-
-        $config = isset($this->options['camp']) ? $this->options['camp'] : [];
-        $options = isset($config['options']) ? $config['options'] : [];
-        $defaults = isset($options['defaults']) ? $options['defaults'] : [];
+        $defaults = isset($this->options['defaults']) ? $this->options['defaults'] : [];
 
         $params = array_merge([
             'camp' => $camp,
             'campId' => $camp->getId(),
         ], $params, $defaults);
 
-        return new HttpRouteMatch($params, $length);
+        return new CampRouteMatch($params, $length);
     }
 
 
@@ -268,7 +242,7 @@ class FluentRouter implements RouteInterface
      * @return mixed
      */
     public function assemble(array $params = [], array $options = []) {
-        $path = $this->route;
+        $path = '';
         $target = $this->getTarget($params);
 
         switch ($target) {

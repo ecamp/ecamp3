@@ -1,43 +1,41 @@
-{% extends 'layout/layout.base.twig' %}
+{% extends 'e-camp/web-layout/layout.base.twig' %}
 
 {% block layout_header %}
-    {% include 'header/groups.twig' %}
+    {% include 'e-camp/web-header/groups.twig' %}
 {% endblock %}
 
 {% block layout_body %}
     <section class="container">
-
         <div class="row">
-            <div class="col-sm-12">
-                {% for group in groups %}
+            <div class="col-xl-12">
+                <h2>My Groups</h2>
+            </div>
 
-                    <div class="card">
-                        <div class="card-header">
-                            <h2>{{ group.name }}</h2>
-                            <p>{{ group.description }}</p>
-                        </div>
-                        <div class="card-body">
-                            <div class="row">
-                            {% for subgroup in group.children %}
-                                <div class="col-md-6 col-xl-4">
-                                    <a  href="{{ url('ecamp.web', { group: subgroup }) }}"
-                                        style="text-decoration: none; color: black"
-                                    >
-                                        <div class="card" style="margin-bottom: 10px">
-                                            <div class="card-body">
-                                                <h4>{{ subgroup.name }}</h4>
-                                                <p>{{ subgroup.description }}</p>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </div>
-                            {% endfor %}
+            <div class="col-xl-12">
+                <hr />
+            </div>
+
+            <div class="col-xl-12">
+                <h2>Root Groups</h2>
+            </div>
+
+            {% for group in groups %}
+                <div class="col-md-12 col-lg-6">
+                    <a  href="{{ url('ecamp.web/group', { group: group }) }}"
+                        style="text-decoration: none; color: inherit"
+                    >
+                        <div class="card">
+                            <h3 class="card-header">
+                                <i class="zmdi zmdi-hc-fw zmdi-flag"></i>
+                                {{ group.name }}
+                            </h3>
+                            <div class="card-body">
+                                <p>{{ group.description }}</p>
                             </div>
                         </div>
-                    </div>
-
-                {% endfor %}
-            </div>
+                    </a>
+                </div>
+            {% endfor %}
         </div>
     </section>
 {% endblock %}

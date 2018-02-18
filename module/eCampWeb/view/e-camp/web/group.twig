@@ -1,4 +1,4 @@
-{% extends 'layout/layout.base.twig' %}
+{% extends 'e-camp/web-layout/layout.base.twig' %}
 
 {% block setTitle %}
     {{ parent() }}
@@ -6,5 +6,6 @@
 {% endblock %}
 
 {% block layout_header %}
-    {% include 'header/group.twig' %}
+    {% include 'e-camp/web-header/group.twig' %}
+    {% include 'e-camp/web-navbar/group.twig' %}
 {% endblock %}

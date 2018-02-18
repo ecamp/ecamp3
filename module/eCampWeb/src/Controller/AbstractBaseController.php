@@ -6,9 +6,26 @@ use eCamp\Lib\Auth\AuthRequiredException;
 use Zend\Authentication\AuthenticationService;
 use Zend\Http\PhpEnvironment\Request;
 use Zend\Mvc\MvcEvent;
+use Zend\View\Model\ViewModel;
 
 class AbstractBaseController extends \eCamp\Core\Controller\AbstractBaseController
 {
+
+    public function attachDefaultListeners() {
+        parent::attachDefaultListeners();
+
+        $events = $this->getEventManager();
+        $events->attach(MvcEvent::EVENT_DISPATCH, [$this, 'setViewModelTerminal'], -90);
+    }
+
+    public function setViewModelTerminal(MvcEvent $e) {
+        $vm = $e->getResult();
+
+        if ($vm instanceof ViewModel) {
+            $vm->setTerminal(true);
+        }
+    }
+
 
     public function onDispatch(MvcEvent $e) {
         try {

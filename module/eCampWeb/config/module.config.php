@@ -1,46 +1,29 @@
 <?php
 return [
 
+    'service_manager' => [
+        'factories' => [
+            \eCamp\Web\View\TwigExtensions::class => \ZendTwig\Service\TwigExtensionFactory::class,
+        ],
+    ],
+
     'route_manager' => [
         'factories' => [
-            \eCamp\Web\Route\FluentRouter::class => \eCamp\Web\Route\FluentRouterFactory::class,
+            \eCamp\Web\Route\UserRouter::class => \eCamp\Web\Route\FluentRouterFactory::class,
+            \eCamp\Web\Route\GroupRouter::class => \eCamp\Web\Route\FluentRouterFactory::class,
+            \eCamp\Web\Route\CampRouter::class => \eCamp\Web\Route\FluentRouterFactory::class,
         ]
     ],
 
     'router' => [
         'routes' => [
             'ecamp.web' => [
-                'type' => \eCamp\Web\Route\FluentRouter::class,
+                'type' => 'Segment',
                 'options' => [
                     'route' => '/',
                     'defaults' => [
                         'controller' => \eCamp\Web\Controller\IndexController::class,
                         'action' => 'index'
-                    ],
-
-                    'user' => [
-                        'options' => [
-                            'defaults' => [
-                                'controller' => \eCamp\Web\Controller\UserController::class,
-                                'action' => 'index'
-                            ],
-                        ]
-                    ],
-                    'group' => [
-                        'options' => [
-                            'defaults' => [
-                                'controller' => \eCamp\Web\Controller\GroupController::class,
-                                'action' => 'index'
-                            ],
-                        ]
-                    ],
-                    'camp' => [
-                        'options' => [
-                            'defaults' => [
-                                'controller' => \eCamp\Web\Controller\CampController::class,
-                                'action' => 'index'
-                            ],
-                        ]
                     ],
                 ],
 
@@ -57,6 +40,18 @@ return [
                         ],
                     ],
 
+
+                    'user' => [
+                        'type' => \eCamp\Web\Route\UserRouter::class,
+                        'options' => [
+                            'defaults' => [
+                                'controller' => \eCamp\Web\Controller\UserController::class,
+                                'action' => 'index'
+                            ],
+                        ]
+                    ],
+
+
                     'groups' => [
                         'type' => 'Segment',
                         'options' => [
@@ -67,6 +62,16 @@ return [
                             ],
                         ],
                     ],
+                    'group' => [
+                        'type' => \eCamp\Web\Route\GroupRouter::class,
+                        'options' => [
+                            'defaults' => [
+                                'controller' => \eCamp\Web\Controller\GroupController::class,
+                                'action' => 'index'
+                            ],
+                        ]
+                    ],
+
 
                     'camps' => [
                         'type' => 'Segment',
@@ -77,6 +82,28 @@ return [
                                 'action' => 'index'
                             ],
                         ],
+                    ],
+                    'camp' => [
+                        'type' => \eCamp\Web\Route\CampRouter::class,
+                        'options' => [
+                            'defaults' => [
+                                'controller' => \eCamp\Web\Controller\Camp\CampController::class,
+                                'action' => 'index'
+                            ],
+                        ],
+                        'may_terminate' => true,
+                        'child_routes' => [
+                            'collaborators' => [
+                                'type' => 'Segment',
+                                'options' => [
+                                    'route' => '/collaborators',
+                                    'defaults' => [
+                                        'controller' => \eCamp\Web\Controller\Camp\CollaboratorsController::class,
+                                        'action' => 'index'
+                                    ],
+                                ],
+                            ]
+                        ]
                     ],
                 ],
             ]
@@ -89,11 +116,13 @@ return [
             \eCamp\Web\Controller\LoginController::class => \eCamp\Web\ControllerFactory\LoginControllerFactory::class,
 
             \eCamp\Web\Controller\GroupsController::class => \eCamp\Web\ControllerFactory\GroupsControllerFactory::class,
-            \eCamp\Web\Controller\CampsController::class => \Zend\ServiceManager\Factory\InvokableFactory::class,
+            \eCamp\Web\Controller\CampsController::class => \eCamp\Web\ControllerFactory\CampsControllerFactory::class,
 
             \eCamp\Web\Controller\UserController::class => \Zend\ServiceManager\Factory\InvokableFactory::class,
             \eCamp\Web\Controller\GroupController::class => \Zend\ServiceManager\Factory\InvokableFactory::class,
-            \eCamp\Web\Controller\CampController::class => \Zend\ServiceManager\Factory\InvokableFactory::class,
+
+            \eCamp\Web\Controller\Camp\CampController::class => \Zend\ServiceManager\Factory\InvokableFactory::class,
+            \eCamp\Web\Controller\Camp\CollaboratorsController::class => \Zend\ServiceManager\Factory\InvokableFactory::class,
         ]
     ],
 
@@ -102,18 +131,23 @@ return [
     ],
 
     'view_manager' => [
-        'doctype'                  => 'HTML5',
-        'not_found_template'       => 'error/404',
-        'exception_template'       => 'error/index',
+        'doctype'               => 'HTML5',
+        'not_found_template'    => 'e-camp/web-error/404',
+        'exception_template'    => 'e-camp/web-error/index',
 
         'template_map' => [
-            'layout/layout'           => __DIR__ . '/../view/layout/layout.phtml',
-            'error/404'               => __DIR__ . '/../view/error/404.phtml',
-            'error/index'             => __DIR__ . '/../view/error/index.phtml',
+            // obsolete:
+            'layout/layout'     => __DIR__ . '/../view/e-camp/web-layout/layout.twig',
         ],
 
         'template_path_stack' => [
             __DIR__ . '/../view',
+        ],
+    ],
+
+    'zend_twig'       => [
+        'extensions' => [
+            \eCamp\Web\View\TwigExtensions::class,
         ],
     ],
 

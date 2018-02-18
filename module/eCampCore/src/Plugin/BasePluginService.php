@@ -68,10 +68,10 @@ abstract class BasePluginService extends BaseService
         return $entity;
     }
 
-    protected function findEntityQueryBuilder($className, $id) {
-        $q = parent::findEntityQueryBuilder($className, $id);
+    protected function fetchQueryBuilder($id) {
+        $q = parent::fetchQueryBuilder($id);
 
-        if (is_subclass_of($className, BasePluginEntity::class)) {
+        if (is_subclass_of($this->entityClass, BasePluginEntity::class)) {
             if ($this->eventPluginId !== null) {
                 $q->andWhere('row.eventPlugin = :eventPluginId');
                 $q->setParameter('eventPluginId', $this->eventPluginId);
@@ -81,10 +81,10 @@ abstract class BasePluginService extends BaseService
         return $q;
     }
 
-    protected function findCollectionQueryBuilder($className, $params = []) {
-        $q = parent::findCollectionQueryBuilder($className);
+    protected function fetchAllQueryBuilder($params = []) {
+        $q = parent::fetchAllQueryBuilder($params);
 
-        if (is_subclass_of($className, BasePluginEntity::class)) {
+        if (is_subclass_of($this->entityClass, BasePluginEntity::class)) {
             if ($this->eventPluginId !== null) {
                 $q->andWhere('row.eventPlugin = :eventPluginId');
                 $q->setParameter('eventPluginId', $this->eventPluginId);
@@ -93,6 +93,7 @@ abstract class BasePluginService extends BaseService
 
         return $q;
     }
+
 
 
     /**

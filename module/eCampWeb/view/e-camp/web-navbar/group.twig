@@ -1,0 +1,29 @@
+<section class="container">
+    <div class="row" style="margin-bottom: 10px">
+        <div class="col-sm-12">
+            <div class="nav nav-justified btn-group btn-block" role="group">
+                <a class="nav-item btn btn-sm btn-outline-secondary"
+                   href="{{ url('ecamp.web/group', { group: group }) }}"
+                >
+                    <i class="zmdi zmdi-hc-fw zmdi-info-outline"></i> Info
+                </a>
+                <a class="nav-item btn btn-sm btn-outline-secondary d-none d-sm-block"
+                   href="{{ url('ecamp.web/group', { group: group }) }}"
+                >
+                    <i class="zmdi zmdi-hc-fw zmdi-accounts"></i> Members
+                    &nbsp;<span class="badge badge-success">3</span>
+                </a>
+                <a class="nav-item btn btn-sm btn-outline-secondary"
+                   href="{{ url('ecamp.web/group', { group: group }) }}"
+                >
+                    <i class="zmdi zmdi-hc-fw zmdi-labels"></i> Camps
+                </a>
+                <a class="nav-item btn btn-sm btn-outline-secondary d-none d-sm-block"
+                   href="{{ url('ecamp.web/group', { group: group }) }}"
+                >
+                    <i class="zmdi zmdi-hc-fw zmdi-settings"></i> Admin
+                </a>
+            </div>
+        </div>
+    </div>
+</section>

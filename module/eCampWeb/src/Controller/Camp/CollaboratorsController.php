@@ -1,11 +1,12 @@
 <?php
 
-namespace eCamp\Web\Controller;
+namespace eCamp\Web\Controller\Camp;
 
 use eCamp\Lib\Auth\AuthRequiredException;
+use eCamp\Web\Controller\AbstractBaseController;
 use Zend\View\Model\ViewModel;
 
-class CampController extends AbstractBaseController
+class CollaboratorsController extends AbstractBaseController
 {
 
     /**

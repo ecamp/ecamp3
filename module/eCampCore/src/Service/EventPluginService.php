@@ -34,8 +34,8 @@ class EventPluginService extends BaseService
     }
 
 
-    protected function findCollectionQueryBuilder($className, $params = []) {
-        $q = parent::findCollectionQueryBuilder($className, $params);
+    protected function findCollectionQueryBuilder($className, $alias, $params = []) {
+        $q = parent::findCollectionQueryBuilder($className, $alias, $params);
 
         $eventId = $params['event_id'];
         if ($eventId) {

@@ -11,7 +11,7 @@ use eCamp\Core\Entity\User;
 use eCamp\Lib\Acl\Acl;
 use eCamp\Lib\Acl\NoAccessException;
 use eCamp\Lib\Entity\BaseEntity;
-use Zend\EventManager\EventManagerInterface;
+use Zend\Authentication\AuthenticationService;
 use Zend\Hydrator\HydratorInterface;
 use Zend\Paginator\Adapter\ArrayAdapter;
 use Zend\Paginator\Paginator;
@@ -68,17 +68,33 @@ abstract class BaseService extends AbstractResourceListener
     }
 
     /**
-     * @return null|User|ApiProblem
+     * @param string $className
+     * @param string $alias
+     * @return QueryBuilder
+     */
+    public function createQueryBuilder($className, $alias) {
+        $q = $this->entityManager->createQueryBuilder();
+        $q->from($className, $alias)->select($alias);
+        return $q;
+    }
+
+
+    /**
+     * @return null|User
      */
     protected function getAuthUser() {
-        // TODO: Use AuthService
-        $userRepo = $this->entityManager->getRepository(User::class);
-        $users = $userRepo->findAll();
+        $authService = new AuthenticationService();
+        if ($authService->hasIdentity()) {
+            $userRepo = $this->entityManager->getRepository(User::class);
+            $userId = $authService->getIdentity();
 
-        reset($users);
-        $user = current($users);
+            /** @var User $user */
+            $user = $userRepo->find($userId);
 
-        return $user;
+            return $user;
+        }
+
+        return null;
     }
 
     /**
@@ -126,71 +142,93 @@ abstract class BaseService extends AbstractResourceListener
 
     /**
      * @param $className
+     * @param $alias
      * @param $id
      * @return QueryBuilder
      */
-    protected function findEntityQueryBuilder($className, $id) {
-        return $this->getEntityManager()->createQueryBuilder()
-                ->select('row')
-                ->from($className, 'row')
-                ->where('row.id = :entity_id')
-                ->setParameter('entity_id', $id);
-    }
-
-    /**
-     * @param string $className
-     * @param string $id
-     * @return null|object|ApiProblem
-     */
-    protected function findEntity($className, $id) {
-        try {
-            $q = $this->findEntityQueryBuilder($className, $id);
-            return $q->getQuery()->getSingleResult();
-        } catch (NoResultException $x) {
-            return null;
-        } catch (\Exception $e) {
-            return new ApiProblem(500, $e->getMessage());
-        }
-    }
-
-    /**
-     * @param $className
-     * @param array $params
-     * @return QueryBuilder
-     */
-    protected function findCollectionQueryBuilder($className, $params = []) {
-        $q = $this->getEntityManager()->createQueryBuilder()
-            ->select('row')
-            ->from($className, 'row');
+    protected function findEntityQueryBuilder($className, $alias, $id) {
+        $q = $this->createQueryBuilder($className, $alias);
+        $q->where($alias . '.id = :entity_id');
+        $q->setParameter('entity_id', $id);
         return $q;
     }
 
     /**
      * @param $className
-     * @param array $params
-     * @return mixed|ApiProblem
+     * @param string $alias
+     * @return QueryBuilder
      */
-    protected function findCollection($className, $params = []) {
+    protected function findCollectionQueryBuilder($className, $alias) {
+        return $this->createQueryBuilder($className, $alias);
+    }
+
+
+    protected function getQuerySingleResult(QueryBuilder $q) {
         try {
-            $q = $this->findCollectionQueryBuilder($className, $params);
-            return $q->getQuery()->getResult();
-        }  catch (\Exception $e) {
-            return new ApiProblem(500, $e->getMessage());
+            $row = $q->getQuery()->getSingleResult();
+            if ($this->isAllowed($row, Acl::REST_PRIVILEGE_FETCH)) {
+                return $row;
+            }
+            return null;
+        } catch (NoResultException $ex) {
+            return null;
+        } catch (\Exception $ex) {
+            return new ApiProblem(500, $ex->getMessage());
         }
+    }
+
+    protected function getQueryResult(QueryBuilder $q) {
+        try {
+            $rows = $q->getQuery()->getResult();
+            $rows = array_filter($rows, function($entity) {
+                return $this->isAllowed($entity, Acl::REST_PRIVILEGE_FETCH);
+            });
+            return $rows;
+        } catch (\Exception $ex) {
+            return new ApiProblem(500, $ex->getMessage());
+        }
+    }
+
+
+    protected function fetchQueryBuilder($id) {
+        $q =  $this->findEntityQueryBuilder($this->entityClassName, 'row', $id);
+        return $q;
+    }
+
+    protected function fetchAllQueryBuilder($params = []) {
+        $q = $this->findCollectionQueryBuilder($this->entityClassName, 'row');
+
+        // TODO: WHERE
+        if (isset($params['where'])) {
+            $where = $params['where'];
+        }
+        // TODO: ODER_BY
+        if (isset($params['order_by'])) {
+            $orderBy = $params['order_by'];
+        }
+
+        return $q;
+    }
+
+
+    protected function findEntity($className, $id) {
+        $q = $this->findEntityQueryBuilder($className, 'row', $id);
+        $entity = $this->getQuerySingleResult($q);
+
+        return $entity;
     }
 
 
     /**
      * @param mixed $id
-     * @return mixed|object|ApiProblem
-     * @throws NoAccessException
+     * @return BaseEntity|ApiProblem
      */
     public function fetch($id) {
-        $entity = $this->findEntity($this->entityClassName, $id);
-        if ($entity instanceof ApiProblem){ return $entity; }
+        $q = $this->fetchQueryBuilder($id);
+        $entity = $this->getQuerySingleResult($q);
 
-        if ($entity !== null) {
-            $this->assertAllowed($entity, __FUNCTION__);
+        if ($entity instanceof ApiProblem){
+            return $entity;
         }
 
         return $entity;
@@ -204,12 +242,12 @@ abstract class BaseService extends AbstractResourceListener
     public function fetchAll($params = []) {
         $this->assertAllowed($this->entityClassName, __FUNCTION__);
 
-        $list = $this->findCollection($this->entityClassName, $params);
-        if ($list instanceof ApiProblem){ return $list; }
+        $q = $this->fetchAllQueryBuilder($params);
+        $list = $this->getQueryResult($q);
 
-        $list = array_filter($list, function($entity) {
-            return $this->isAllowed($entity, Acl::REST_PRIVILEGE_FETCH);
-        });
+        if ($list instanceof ApiProblem){
+            return $list;
+        }
 
         $collectionClass = $this->getCollectionClass() ?: Paginator::class;
         $adapter = new ArrayAdapter($list);
@@ -243,8 +281,12 @@ abstract class BaseService extends AbstractResourceListener
      * @throws NoAccessException
      */
     public function patch($id, $data) {
-        $entity = $this->findEntity($this->entityClassName, $id);
-        if ($entity instanceof ApiProblem){ return $entity; }
+        $q = $this->fetchQueryBuilder($id);
+        $entity = $this->getQuerySingleResult($q);
+
+        if ($entity instanceof ApiProblem){
+            return $entity;
+        }
 
         $this->assertAllowed($entity, __FUNCTION__);
 
@@ -273,8 +315,12 @@ abstract class BaseService extends AbstractResourceListener
      * @throws NoAccessException
      */
     public function update($id, $data) {
-        $entity = $this->findEntity($this->entityClassName, $id);
-        if ($entity instanceof ApiProblem){ return $entity; }
+        $q = $this->fetchQueryBuilder($id);
+        $entity = $this->getQuerySingleResult($q);
+
+        if ($entity instanceof ApiProblem){
+            return $entity;
+        }
 
         $this->assertAllowed($entity, __FUNCTION__);
         $this->getHydrator()->hydrate((array)$data, $entity);
@@ -300,8 +346,12 @@ abstract class BaseService extends AbstractResourceListener
      * @throws ORMException
      */
     public function delete($id) {
-        $entity = $this->findEntity($this->entityClassName, $id);
-        if ($entity instanceof ApiProblem){ return $entity; }
+        $q = $this->fetchQueryBuilder($id);
+        $entity = $this->getQuerySingleResult($q);
+
+        if ($entity instanceof ApiProblem){
+            return $entity;
+        }
 
         $this->assertAllowed($entity, __FUNCTION__);
 

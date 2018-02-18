@@ -23,8 +23,8 @@ class DayService extends BaseService
     }
 
 
-    public function findCollectionQueryBuilder($className, $params = []) {
-        $q = parent::findCollectionQueryBuilder($className, $params);
+    public function findCollectionQueryBuilder($className, $alias, $params = []) {
+        $q = parent::findCollectionQueryBuilder($className, $alias, $params);
 
         $periodId = $params['period_id'];
         if ($periodId) {

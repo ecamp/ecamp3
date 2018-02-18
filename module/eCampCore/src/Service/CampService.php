@@ -4,12 +4,14 @@ namespace eCamp\Core\Service;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\ORMException;
+use eCamp\Core\Entity\CampCollaboration;
 use eCamp\Core\Hydrator\CampHydrator;
 use eCamp\Core\Entity\AbstractCampOwner;
 use eCamp\Core\Entity\Camp;
 use eCamp\Core\Entity\CampType;
 use eCamp\Core\Entity\User;
 use eCamp\Lib\Acl\Acl;
+use eCamp\Lib\Acl\NoAccessException;
 use eCamp\Lib\Service\BaseService;
 use ZF\ApiProblem\ApiProblem;
 
@@ -41,11 +43,35 @@ class CampService extends BaseService
     }
 
 
+    protected function fetchAllQueryBuilder($params = []) {
+        $collQ = parent::findCollectionQueryBuilder(CampCollaboration::class, 'c');
+        $collQ->where('c.user = :user', 'c.status = :status');
+
+        $q = parent::fetchAllQueryBuilder($params);
+        $q->orWhere(
+            // Camp is Public,
+            // ...
+            // AuthUser is the Owner
+            $q->expr()->eq('row.owner', ':owner'),
+            // AuthUser is a Collaborator
+            $q->expr()->in('row.id', $collQ->getDQL())
+        );
+
+        $user = $this->getAuthUser();
+        $q->setParameter('owner', $user);
+        $q->setParameter('user', $user);
+        $q->setParameter('status', CampCollaboration::STATUS_ESTABLISHED);
+
+        return $q;
+    }
+
+
+
     /**
      * @param mixed $data
      * @return Camp|ApiProblem
      * @throws ORMException
-     * @throws \eCamp\Lib\Acl\NoAccessException
+     * @throws NoAccessException
      */
     public function create($data) {
         $this->assertAllowed(Camp::class, __FUNCTION__);
@@ -95,6 +121,19 @@ class CampService extends BaseService
         }
 
         return $camp;
+    }
+
+
+    /**
+     * @param AbstractCampOwner $owner
+     * @return array|ApiProblem
+     */
+    public function fetchByOwner(AbstractCampOwner $owner) {
+        $q = parent::findCollectionQueryBuilder(Camp::class, 'row');
+        $q->where('row.owner = :owner');
+        $q->setParameter('owner', $owner);
+
+        return $this->getQueryResult($q);
     }
 
 }

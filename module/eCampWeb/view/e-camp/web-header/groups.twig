@@ -1,4 +1,4 @@
-{% extends 'header/base.twig' %}
+{% extends 'e-camp/web-header/base.twig' %}
 
 {% block header_icon %}
     <table border="0" style="width: 100%; border: 0;">
@@ -7,20 +7,14 @@
                 <i class="zmdi zmdi-hc-fw zmdi-hc-3x zmdi-flag"></i>
             </td>
             <td style="padding-top: 3px; padding-bottom: 5px">
-                <h1>{{ group.name }}</h1>
+                <h1>Groups</h1>
             </td>
         </tr>
     </table>
 {% endblock %}
 
 {% block breadcrumb %}
-    {{ parent() }}
-
-    {% for item in group.pathAsArray %}
-        <li class="breadcrumb-item">
-            <a href="{{ url('ecamp.web', { 'group': item }) }}">
-                <i class="zmdi zmdi-flag"></i> {{ item.name }}
-            </a>
-        </li>
-    {% endfor %}
+    <li class="breadcrumb-item">
+        <a href="{{ url('ecamp.web') }}"><i class="zmdi zmdi-home"></i> {{ translate('Dashboard') }}</a>
+    </li>
 {% endblock %}

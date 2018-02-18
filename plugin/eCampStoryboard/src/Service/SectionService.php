@@ -20,13 +20,12 @@ class SectionService extends BasePluginService
         parent::__construct($acl, $entityManager, $textareaHydrator, Section::class, $eventPluginId);
     }
 
-    protected function findCollectionQueryBuilder($className, $params = []) {
-        $q = parent::findCollectionQueryBuilder($className, $params);
+    protected function fetchAllQueryBuilder($params = []) {
+        $q = parent::fetchAllQueryBuilder($params);
         $q->orderBy('row.pos');
 
         return $q;
     }
-
 
     public function moveUp($id) {
         /** @var Section $section2 */
