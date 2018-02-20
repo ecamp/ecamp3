@@ -48,8 +48,8 @@ Create a new empty database.
 
 
 Copy file [config/autoload/doctrine.common.prod.php](config/autoload/doctrine.common.prod.php) and rename it to 
-[config/autolaod/doctrine.common.prod.local.php](config/autolaod/doctrine.common.prod.local.php).
-Open the new file [config/autolaod/doctrine.common.prod.local.php](config/autolaod/doctrine.common.prod.local.php)
+[config/autoload/doctrine.common.prod.local.php](config/autoload/doctrine.common.prod.local.php).
+Open the new file [config/autoload/doctrine.common.prod.local.php](config/autoload/doctrine.common.prod.local.php)
 and update it with your own database settings.
 
 You find some details here: [https://github.com/doctrine/DoctrineORMModule#connection-settings](https://github.com/doctrine/DoctrineORMModule#connection-settings)
