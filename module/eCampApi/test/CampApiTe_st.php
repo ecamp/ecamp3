@@ -5,10 +5,10 @@ namespace eCamp\ApiTest;
 use Zend\Http\Request;
 use eCamp\LibTest\PHPUnit\AbstractHttpControllerTestCase;
 
-class CampApiTest extends  AbstractHttpControllerTestCase
+class CampApiTe_st extends  AbstractHttpControllerTestCase
 {
 
-    public function testCreateCamp() {
+    public function devTestCreateCamp() {
         $headers = $this->getRequest()->getHeaders();
         $headers->addHeaderLine('Accept', 'application/json');
 

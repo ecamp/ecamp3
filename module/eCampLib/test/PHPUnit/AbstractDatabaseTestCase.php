@@ -5,26 +5,24 @@ namespace eCamp\LibTest\PHPUnit;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Tools\SchemaTool;
 use Doctrine\ORM\Tools\ToolsException;
+use PHPUnit\Framework\TestCase;
 
-abstract class AbstractDatabaseTestCase extends AbstractTestCase
+abstract class AbstractDatabaseTestCase extends TestCase
 {
-
     /**
      * @throws ToolsException
      */
     public function setUp() {
-        include_once __DIR__ . '/../../../eCampApp.php';
-
-        putenv('env=test');
+        parent::setUp();
 
         $em = $this->getEntityManager();
-        $metadatas = $em->getMetadataFactory()->getAllMetadata();
+        $this->createDatabaseSchema($em);
+    }
 
-        $schemaTool = new SchemaTool($em);
-        $schemaTool->dropDatabase();
-        $schemaTool->createSchema($metadatas);
+    public function tearDown() {
+        parent::tearDown();
 
-        parent::setUp();
+        \eCampApp::Reset();
     }
 
     /**
@@ -33,7 +31,21 @@ abstract class AbstractDatabaseTestCase extends AbstractTestCase
      */
     protected function getEntityManager($name = null) {
         $name = $name ?: 'orm_default';
-        return \eCampApp::GetService('doctrine.entitymanager.' . $name);
+        $name = 'doctrine.entitymanager.' . $name;
+
+        return \eCampApp::GetService($name);
+    }
+
+    /**
+     * @param EntityManager $em
+     * @throws ToolsException
+     */
+    protected function createDatabaseSchema(EntityManager $em) {
+        $metadatas = $em->getMetadataFactory()->getAllMetadata();
+
+        $schemaTool = new SchemaTool($em);
+        $schemaTool->dropDatabase();
+        $schemaTool->createSchema($metadatas);
     }
 
 }
