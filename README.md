@@ -8,3 +8,5 @@ eCamp dient zur kollaborativen Planung von J+S Lager oder J+S Ausbildungskursen.
 [Installation](docu/install.md)
 
 [Datenmodel](docu/model.md)
+
+[Unittests](docu/unittest.md)

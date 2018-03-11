@@ -9,7 +9,7 @@ class AuthTest extends AbstractHttpControllerTestCase
     public function testGoogle() {
         $this->dispatch("/api/login/google");
         $this->assertRedirect();
-        $this->assertRedirectRegex('/^.*google.*$/');
+        $this->assertRedirectRegex('/^\/auth\/google.*$/');
     }
 
 }
