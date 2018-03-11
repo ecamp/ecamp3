@@ -2,6 +2,7 @@
 .idea/
 vendor/
 config/development.config.php
+config/autoload/*.local.*
 data/cache/*
 data/codeCoverage/*
 data/DoctrineORMModule/Proxy/*

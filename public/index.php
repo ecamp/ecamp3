@@ -1,4 +1,5 @@
 <?php
 
-require_once __DIR__ . '/../module/eCampApp.php';
+include __DIR__ . '/../vendor/autoload.php';
+
 eCampApp::Run();
