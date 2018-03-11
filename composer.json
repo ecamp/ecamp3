@@ -51,6 +51,9 @@
     "cs-check": "phpcs",
     "cs-fix": "phpcbf",
     "serve": "php -S 0.0.0.0:8080 -t public/ public/index.php",
+    "migrate": ".\\vendor\\bin\\doctrine orm:schema-tool:create",
+    "migrate:fresh": ".\\vendor\\bin\\doctrine orm:schema-tool:update",
+    "seed": "php setup.php",
     "test": "phpunit"
   }
 }
