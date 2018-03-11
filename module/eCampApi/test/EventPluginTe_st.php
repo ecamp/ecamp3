@@ -5,10 +5,10 @@ namespace eCamp\ApiTest;
 use Zend\Http\Request;
 use eCamp\LibTest\PHPUnit\AbstractHttpControllerTestCase;
 
-class EventPluginTest extends  AbstractHttpControllerTestCase
+class EventPluginTe_st extends  AbstractHttpControllerTestCase
 {
 
-    public function testCreateEventPlugin() {
+    public function devTestCreateEventPlugin() {
         $headers = $this->getRequest()->getHeaders();
         $headers->addheaderLine('Content-Type', 'application/json');
         $headers->addHeaderLine('Accept', 'application/json');
@@ -29,7 +29,6 @@ class EventPluginTest extends  AbstractHttpControllerTestCase
         $basePath = $req->getBasePath();
 
         $this->assertNotRedirect();
-
     }
 
 }

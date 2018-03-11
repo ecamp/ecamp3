@@ -2,5 +2,5 @@
 
 include __DIR__ . '/vendor/autoload.php';
 
-$entityManager = eCampApp::GetService('doctrine.entitymanager.orm_default');
+$entityManager = eCampApp::GetEntityManager();
 return \Doctrine\ORM\Tools\Console\ConsoleRunner::createHelperSet($entityManager);
