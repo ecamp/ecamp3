@@ -1,6 +1,5 @@
 # eCamp3
-eCamp dient zur kollaborativen Planung von 
-J+S Lager oder J+S Ausbildungskursen.
+eCamp dient zur kollaborativen Planung von J+S Lager oder J+S Ausbildungskursen.
 
 ## Für Entwickler
 
