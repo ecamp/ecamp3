@@ -22,5 +22,5 @@
 4) DB-Zugangs-Daten in ```/config/autoload/doctrine.local.prod.php``` setzen. 
 5) Leeres Datenbank-Schema erzeugen (z.B. mit phpMyAdmin).
 6) Tabellen erzeugen: ```vendor/bin/doctrine orm:schema-tool:create```
-7) Tabellen mit Stammdaten befüllen:  ```php setup.php```
+7) Tabellen mit Stammdaten befüllen:  ```php setup.php dev-data```
 8) Seite besuchen: http://HOST/web
