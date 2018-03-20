@@ -10,7 +10,7 @@ php:
 
 # optionally specify a list of environments, for example to test different RDBMS
 env:
-  - DB=sqlite
+  - DB=sqlite env=test
 
 
 # execute any number of scripts before the test run, custom env's are available as variables
@@ -25,8 +25,7 @@ before_script:
     - composer install --no-interaction
 
 script:
-    - mkdir -p build/logs
-    - ./vendor/bin/phpunit --coverage-clover test/clover.xml
+    - vendor/bin/phpunit --coverage-clover test/clover.xml
 
-after_script:
- - php vendor/bin/coveralls -v
+# after_script:
+#    - php vendor/bin/coveralls -v

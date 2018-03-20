@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__ . '/module/eCampApp.php';
+include __DIR__ . '/vendor/autoload.php';
 
-$entityManager = eCampApp::GetService('doctrine.entitymanager.orm_default');
+$entityManager = eCampApp::GetEntityManager();
 return \Doctrine\ORM\Tools\Console\ConsoleRunner::createHelperSet($entityManager);

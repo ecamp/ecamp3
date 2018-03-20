@@ -2,7 +2,6 @@
 
 namespace eCamp\Core\Auth;
 
-use Doctrine\ORM\NonUniqueResultException;
 use eCamp\Core\Auth\Adapter\LoginPassword;
 use eCamp\Core\Entity\User;
 use eCamp\Core\Repository\UserRepository;
@@ -55,7 +54,6 @@ class AuthService extends AuthenticationService
      * @param $username
      * @param $password
      * @return Result
-     * @throws NonUniqueResultException
      */
     public function login($username, $password) {
         /** @var User $user */

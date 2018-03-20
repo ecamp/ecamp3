@@ -39,7 +39,7 @@ class UserServiceTest extends AbstractDatabaseTestCase
         $user2 = $userService->fetch($userId);
         $this->assertEquals($user, $user2);
 
-        $user3 = $userService->fetch(0);
+        $user3 = $userService->fetch(-1);
         $this->assertNull($user3);
     }
 

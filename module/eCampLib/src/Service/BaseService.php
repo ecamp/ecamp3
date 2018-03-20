@@ -227,10 +227,6 @@ abstract class BaseService extends AbstractResourceListener
         $q = $this->fetchQueryBuilder($id);
         $entity = $this->getQuerySingleResult($q);
 
-        if ($entity instanceof ApiProblem){
-            return $entity;
-        }
-
         return $entity;
     }
 

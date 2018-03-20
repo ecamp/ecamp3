@@ -11,7 +11,7 @@ class OrganizationApiTest extends AbstractHttpControllerTestCase
         $headers = $this->getRequest()->getHeaders();
         $headers->addHeaderLine('Accept', 'application/json');
 
-        $this->dispatch("/api/organization/1");
+        $this->dispatch("/api/organization");
         $req  = $this->getRequest();
         $resp = $this->getResponse();
 

@@ -34,7 +34,11 @@
 
       "eCamp\\Plugin\\Textarea\\": "plugin/eCampTextarea/src/",
       "eCamp\\Plugin\\Storyboard\\": "plugin/eCampStoryboard/src/"
-    }
+    },
+    "files": [
+      "module/eCampApp.php",
+      "module/eCampSetup.php"
+    ]
   },
   "autoload-dev": {
     "psr-4": {

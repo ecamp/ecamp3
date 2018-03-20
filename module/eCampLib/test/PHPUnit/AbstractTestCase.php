@@ -2,9 +2,9 @@
 
 namespace eCamp\LibTest\PHPUnit;
 
-use Zend\Test\PHPUnit\Controller\AbstractHttpControllerTestCase;
+use PHPUnit\Framework\TestCase;
 
-abstract class AbstractTestCase extends AbstractHttpControllerTestCase
+abstract class AbstractTestCase extends TestCase
 {
 
 }

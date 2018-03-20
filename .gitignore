@@ -1,11 +1,5 @@
+.DS_Store
+*/.DS_Store
 .vagrant/
 .idea/
 vendor/
-config/development.config.php
-data/cache/*
-data/codeCoverage/*
-data/DoctrineORMModule/Proxy/*
-.DS_Store
-*/.DS_Store
-!data/cache/.gitkeep
-phpunit.xml
