@@ -36,8 +36,7 @@
       "eCamp\\Plugin\\Storyboard\\": "plugin/eCampStoryboard/src/"
     },
     "files": [
-      "module/eCampApp.php",
-      "module/eCampSetup.php"
+      "module/eCampApp.php"
     ]
   },
   "autoload-dev": {
