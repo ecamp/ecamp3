@@ -13,6 +13,15 @@
   - MySql
   - ...
 
+## WebServer
+Falls kein WebServer vorhanden ist, kann der PHP BuiltIn WebServer verwendet werden.
+```php -S 0.0.0.0:8000 public public\server.php```
+
+WebSite besuchen: 
+```http://localhost:8000/```
+
+
+
 ## Instruktion
 1) Repository clonen ``` git clone https://github.com/ecamp/ecamp3.git ```
 2) Abhängigkeiten installieren ``` composer install ```
