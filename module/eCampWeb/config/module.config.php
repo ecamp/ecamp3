@@ -93,12 +93,62 @@ return [
                         ],
                         'may_terminate' => true,
                         'child_routes' => [
+                            'periods' => [
+                                'type' => 'Segment',
+                                'options' => [
+                                    'route' => '/periods',
+                                    'defaults' => [
+                                        'controller' => \eCamp\Web\Controller\Camp\PeriodsController::class,
+                                        'action' => 'index'
+                                    ],
+                                ],
+                            ],
+                            'picasso' => [
+                                'type' => 'Segment',
+                                'options' => [
+                                    'route' => '/picasso',
+                                    'defaults' => [
+                                        'controller' => \eCamp\Web\Controller\Camp\PicassoController::class,
+                                        'action' => 'index'
+                                    ],
+                                ],
+                            ],
+                            'tasks' => [
+                                'type' => 'Segment',
+                                'options' => [
+                                    'route' => '/tasks',
+                                    'defaults' => [
+                                        'controller' => \eCamp\Web\Controller\Camp\TasksController::class,
+                                        'action' => 'index'
+                                    ],
+                                ],
+                            ],
                             'collaborators' => [
                                 'type' => 'Segment',
                                 'options' => [
                                     'route' => '/collaborators',
                                     'defaults' => [
                                         'controller' => \eCamp\Web\Controller\Camp\CollaboratorsController::class,
+                                        'action' => 'index'
+                                    ],
+                                ],
+                            ],
+                            'print' => [
+                                'type' => 'Segment',
+                                'options' => [
+                                    'route' => '/print',
+                                    'defaults' => [
+                                        'controller' => \eCamp\Web\Controller\Camp\PrintController::class,
+                                        'action' => 'index'
+                                    ],
+                                ],
+                            ],
+                            'settings' => [
+                                'type' => 'Segment',
+                                'options' => [
+                                    'route' => '/settings',
+                                    'defaults' => [
+                                        'controller' => \eCamp\Web\Controller\Camp\SettingsController::class,
                                         'action' => 'index'
                                     ],
                                 ],
@@ -122,7 +172,12 @@ return [
             \eCamp\Web\Controller\GroupController::class => \Zend\ServiceManager\Factory\InvokableFactory::class,
 
             \eCamp\Web\Controller\Camp\CampController::class => \Zend\ServiceManager\Factory\InvokableFactory::class,
+            \eCamp\Web\Controller\Camp\PeriodsController::class => \Zend\ServiceManager\Factory\InvokableFactory::class,
+            \eCamp\Web\Controller\Camp\PicassoController::class => \Zend\ServiceManager\Factory\InvokableFactory::class,
+            \eCamp\Web\Controller\Camp\TasksController::class => \Zend\ServiceManager\Factory\InvokableFactory::class,
             \eCamp\Web\Controller\Camp\CollaboratorsController::class => \Zend\ServiceManager\Factory\InvokableFactory::class,
+            \eCamp\Web\Controller\Camp\PrintController::class => \Zend\ServiceManager\Factory\InvokableFactory::class,
+            \eCamp\Web\Controller\Camp\SettingsController::class => \Zend\ServiceManager\Factory\InvokableFactory::class,
         ]
     ],
 
