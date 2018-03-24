@@ -43,6 +43,20 @@ class CampData extends AbstractFixture implements DependentFixtureInterface
         }
         $this->addReference(self::$CAMP_1, $camp);
 
+        $camp = $repository->findOneBy([ 'owner' => $pbs, 'name' => 'Camp2' ]);
+        if ($camp == null) {
+            $camp = new Camp();
+            $camp->setOwner($pbs);
+            $camp->setCreator($user);
+            $camp->setName('Camp2');
+            $camp->setTitle('Camp2Title');
+            $camp->setMotto('Camp2Motto');
+            $camp->setCampType($jsTeenCampType);
+
+            $manager->persist($camp);
+        }
+        $this->addReference(self::$CAMP_2, $camp);
+
         $manager->flush();
     }
 
