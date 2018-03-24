@@ -1,10 +1,15 @@
 <?php
 
-$env = getenv('env') ?: 'prod';
-
 return [
     // Retrieve the list of modules for this application.
-    'modules' => include __DIR__ . '/modules.config.php',
+    'modules' => [
+        'Zend\\Router',
+        'DoctrineModule',
+        'DoctrineORMModule',
+
+        'eCamp\\Lib',
+        'eCamp\\Core',
+    ],
     // This should be an array of paths in which modules reside.
     // If a string key is provided, the listener will consider that a module
     // namespace, the value of that key the specific path to that module's
@@ -19,9 +24,9 @@ return [
         // e.g., IBM i -- have problems with globs that are not qualified.
         'config_glob_paths' => [
             realpath(__DIR__) . '/autoload/{,*.}global.php',
-            realpath(__DIR__) . '/autoload/{,*.}global.' . $env. '.php',
+            realpath(__DIR__) . '/autoload/{,*.}global.prod.php',
             realpath(__DIR__) . '/autoload/{,*.}local.php',
-            realpath(__DIR__) . '/autoload/{,*.}local.' . $env. '.php',
+            realpath(__DIR__) . '/autoload/{,*.}local.prod.php',
         ],
         'config_cache_key' => 'application.config.cache',
         'config_cache_enabled' => false,

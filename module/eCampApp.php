@@ -4,7 +4,7 @@ class eCampApp
 {
     private static $instance;
 
-    private static function GetConfig() {
+    private static function GetAppConfig() {
         $appConfigFile = __DIR__ . '/../config/application.config.php';
         $devConfigFile = __DIR__ . '/../config/development.config.php';
 
@@ -22,7 +22,7 @@ class eCampApp
 
     /** @return \Zend\Mvc\Application */
     public static function CreateApp() {
-        $config = self::GetConfig();
+        $config = self::GetAppConfig();
         return \Zend\Mvc\Application::init($config);
     }
 
@@ -53,4 +53,20 @@ class eCampApp
     public static function GetEntityManager($name = 'orm_default') {
         return self::GetService('doctrine.entitymanager.' . $name);
     }
+
+
+
+    private static function GetSetupConfig() {
+        $setupConfigFile = __DIR__ . '/../config/setup.config.php';
+
+        /** @noinspection PhpIncludeInspection */
+        return include $setupConfigFile;
+    }
+
+    /** @return \Zend\Mvc\Application */
+    public static function CreateSetup() {
+        $config = self::GetSetupConfig();
+        return \Zend\Mvc\Application::init($config);
+    }
+
 }
