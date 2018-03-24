@@ -44,8 +44,10 @@ class CampService extends BaseService
 
 
     protected function fetchAllQueryBuilder($params = []) {
-        $collQ = parent::findCollectionQueryBuilder(CampCollaboration::class, 'c');
-        $collQ->where('c.user = :user', 'c.status = :status');
+        $collQ = parent::findCollectionQueryBuilder(CampCollaboration::class, 'cc');
+        $collQ->join('cc.camp', 'c');
+        $collQ->where('cc.user = :user', 'cc.status = :status');
+        $collQ->select('c');
 
         $q = parent::fetchAllQueryBuilder($params);
         $q->orWhere(

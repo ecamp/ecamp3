@@ -27,16 +27,15 @@ class CampsController extends AbstractBaseController
     /**
      * @return array|ViewModel
      * @throws AuthRequiredException
+     * @throws \eCamp\Lib\Acl\NoAccessException
      */
     public function indexAction() {
         $this->forceLogin();
 
-        $user = $this->authService->getAuthUser();
-
-        $campsByOwner = $this->campService->fetchByOwner($user);
+        $camps = $this->campService->fetchAll();
 
         return [
-            'campsByOwner' => $campsByOwner,
+            'camps' => $camps,
         ];
     }
 
