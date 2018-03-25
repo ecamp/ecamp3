@@ -80,11 +80,11 @@ class GroupMembership extends BaseEntity
     /**
      * @return Group
      */
-    public function getGroup(): Group {
+    public function getGroup() {
         return $this->group;
     }
 
-    public function setGroup(Group $group): void {
+    public function setGroup($group) {
         $this->group = $group;
     }
 
@@ -152,11 +152,11 @@ class GroupMembership extends BaseEntity
     /**
      * @return string
      */
-    public function getMembershipAcceptedBy(): string {
+    public function getMembershipAcceptedBy() {
         return $this->membershipAcceptedBy;
     }
 
-    public function setMembershipAcceptedBy(string $membershipAcceptedBy): void {
+    public function setMembershipAcceptedBy($membershipAcceptedBy) {
         $this->membershipAcceptedBy = $membershipAcceptedBy;
     }
 

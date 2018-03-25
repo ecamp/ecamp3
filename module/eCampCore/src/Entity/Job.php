@@ -63,7 +63,7 @@ class Job extends BaseEntity
         return $this->camp;
     }
 
-    public function setCamp(Camp $camp) {
+    public function setCamp($camp) {
         $this->camp = $camp;
     }
 

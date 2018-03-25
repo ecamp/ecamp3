@@ -80,11 +80,11 @@ class CampCollaboration extends BaseEntity
     /**
      * @return Camp
      */
-    public function getCamp(): Camp {
+    public function getCamp() {
         return $this->camp;
     }
 
-    public function setCamp(Camp $camp): void {
+    public function setCamp($camp) {
         $this->camp = $camp;
     }
 
@@ -152,11 +152,11 @@ class CampCollaboration extends BaseEntity
     /**
      * @return string
      */
-    public function getCollaborationAcceptedBy(): string {
+    public function getCollaborationAcceptedBy() {
         return $this->collaborationAcceptedBy;
     }
 
-    public function setCollaborationAcceptedBy(string $collaborationAcceptedBy): void {
+    public function setCollaborationAcceptedBy($collaborationAcceptedBy) {
         $this->collaborationAcceptedBy = $collaborationAcceptedBy;
     }
 

@@ -28,9 +28,9 @@ abstract class AbstractCampOwner extends BaseEntity
 
 
     /**
-     * @return Camp[]
+     * @return ArrayCollection
      */
-    public function getOwnedCamps(): array {
+    public function getOwnedCamps() {
         return $this->ownedCamps;
     }
 

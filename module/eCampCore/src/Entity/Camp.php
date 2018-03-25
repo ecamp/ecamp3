@@ -111,8 +111,8 @@ class Camp extends BaseEntity
     /**
      * @return object
      */
-    public function getCampTypeConfig() {
-        return ($this->campType !== null) ? $this->campType->getConfig() : null;
+    public function getConfig($key = null) {
+        return ($this->campType !== null) ? $this->campType->getConfig($key) : null;
     }
 
 
@@ -167,11 +167,11 @@ class Camp extends BaseEntity
     /**
      * @return AbstractCampOwner
      */
-    public function getOwner(): AbstractCampOwner {
+    public function getOwner() {
         return $this->owner;
     }
 
-    public function setOwner(AbstractCampOwner $owner): void {
+    public function setOwner($owner) {
         $this->owner = $owner;
     }
 

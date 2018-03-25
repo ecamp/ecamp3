@@ -59,11 +59,11 @@ class EventCategory extends BaseEntity
     /**
      * @return Camp
      */
-    public function getCamp(): Camp {
+    public function getCamp() {
         return $this->camp;
     }
 
-    public function setCamp(Camp $camp): void {
+    public function setCamp($camp) {
         $this->camp = $camp;
     }
 

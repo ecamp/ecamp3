@@ -22,6 +22,7 @@ class Group extends AbstractCampOwner
         parent::__construct();
 
         $this->children = new ArrayCollection();
+        $this->memberships = new ArrayCollection();
     }
 
 
