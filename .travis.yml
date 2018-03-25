@@ -25,7 +25,8 @@ before_script:
     - composer install --no-interaction
 
 script:
-    - vendor/bin/phpunit --coverage-clover test/clover.xml
+    - mkdir -p build/logs
+    - vendor/bin/phpunit
 
-# after_script:
-#    - php vendor/bin/coveralls -v
+after_script:
+    - vendor/bin/php-coveralls
