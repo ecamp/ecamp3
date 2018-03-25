@@ -165,7 +165,7 @@ class EventType extends BaseEntity
                 $pluginName .= str_pad($idx + 1, 2, '0');
 
                 $eventPlugin = new EventPlugin();
-                $eventPlugin->setPlugin($plugin);
+                $eventPlugin->setEventTypePlugin($eventTypePlugin);
                 $eventPlugin->setInstanceName($pluginName);
 
                 $event->addEventPlugin($eventPlugin);

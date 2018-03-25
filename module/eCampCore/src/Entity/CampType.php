@@ -85,7 +85,7 @@ class CampType extends BaseEntity
         return $this->organization;
     }
 
-    public function setOrganization(Organization $organization) {
+    public function setOrganization($organization) {
         $this->organization = $organization;
     }
 

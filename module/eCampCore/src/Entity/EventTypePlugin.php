@@ -53,11 +53,11 @@ class EventTypePlugin extends BaseEntity
     /**
      * @return EventType
      */
-    public function getEventType(): EventType {
+    public function getEventType() {
         return $this->eventType;
     }
 
-    public function setEventType(EventType $eventType): void {
+    public function setEventType($eventType) {
         $this->eventType = $eventType;
     }
 
@@ -111,10 +111,16 @@ class EventTypePlugin extends BaseEntity
 
 
     /**
+     * @param string $key
      * @return mixed
      */
-    public function getConfig() {
-        return Json::decode($this->jsonConfig);
+    public function getConfig($key = null) {
+        $config = null;
+        if ($this->jsonConfig != null) {
+            $config = Json::decode($this->jsonConfig);
+            if ($key != null) { $config = $config->{$key}; }
+        }
+        return $config;
     }
 
 }

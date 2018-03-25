@@ -66,11 +66,11 @@ class EventTypeFactory extends BaseEntity
     /**
      * @return EventType
      */
-    public function getEventType(): EventType {
+    public function getEventType() {
         return $this->eventType;
     }
 
-    public function setEventType(EventType $eventType): void {
+    public function setEventType($eventType) {
         $this->eventType = $eventType;
     }
 
