@@ -2,7 +2,6 @@
 
 namespace eCamp\CoreTest\Entity;
 
-use eCamp\Core\Entity\Medium;
 use eCamp\Core\Entity\Plugin;
 use eCamp\LibTest\PHPUnit\AbstractTestCase;
 

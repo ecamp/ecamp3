@@ -2,10 +2,8 @@
 
 namespace eCamp\CoreTest\Entity;
 
-use eCamp\Core\Entity\Camp;
 use eCamp\Core\Entity\Group;
 use eCamp\Core\Entity\GroupMembership;
-use eCamp\Core\Entity\Organization;
 use eCamp\Core\Entity\User;
 use eCamp\LibTest\PHPUnit\AbstractTestCase;
 

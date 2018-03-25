@@ -3,14 +3,7 @@
 namespace eCamp\CoreTest\Entity;
 
 use eCamp\Core\Entity\CampType;
-use eCamp\Core\Entity\Event;
-use eCamp\Core\Entity\EventCategory;
-use eCamp\Core\Entity\EventTemplate;
-use eCamp\Core\Entity\EventType;
-use eCamp\Core\Entity\EventTypeFactory;
-use eCamp\Core\Entity\EventTypePlugin;
 use eCamp\Core\Entity\Organization;
-use eCamp\Core\Entity\Plugin;
 use eCamp\LibTest\PHPUnit\AbstractTestCase;
 
 class OrganizationTest extends AbstractTestCase

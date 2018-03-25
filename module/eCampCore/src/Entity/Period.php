@@ -85,7 +85,7 @@ class Period extends BaseEntity
 
         $this->start = $start;
 
-        if ($this->end < $start) {
+        if ($this->end != null && $this->end < $start) {
             $this->setEnd($start);
         }
     }
@@ -104,7 +104,7 @@ class Period extends BaseEntity
 
         $this->end = $end;
 
-        if ($this->start > $end) {
+        if ($this->start != null && $this->start > $end) {
             $this->setStart($end);
         }
     }

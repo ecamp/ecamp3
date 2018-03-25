@@ -7,7 +7,6 @@ use eCamp\Core\Entity\CampCollaboration;
 use eCamp\Core\Entity\CampType;
 use eCamp\Core\Entity\Event;
 use eCamp\Core\Entity\EventCategory;
-use eCamp\Core\Entity\EventType;
 use eCamp\Core\Entity\Group;
 use eCamp\Core\Entity\Job;
 use eCamp\Core\Entity\Organization;

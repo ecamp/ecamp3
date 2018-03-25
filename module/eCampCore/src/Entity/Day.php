@@ -37,11 +37,11 @@ class Day extends BaseEntity
     /**
      * @return Period
      */
-    public function getPeriod(): Period {
+    public function getPeriod() {
         return $this->period;
     }
 
-    public function setPeriod(Period $period = null): void {
+    public function setPeriod($period) {
         $this->period = $period;
     }
 

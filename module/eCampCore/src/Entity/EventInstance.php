@@ -59,11 +59,11 @@ class EventInstance extends BaseEntity
     /**
      * @return Period
      */
-    public function getPeriod(): Period {
+    public function getPeriod() {
         return $this->period;
     }
 
-    public function setPeriod(Period $period): void {
+    public function setPeriod($period) {
         $this->period = $period;
     }
 
