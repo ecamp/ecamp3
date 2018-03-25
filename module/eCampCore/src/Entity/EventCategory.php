@@ -71,11 +71,11 @@ class EventCategory extends BaseEntity
     /**
      * @return EventType
      */
-    public function getEventType(): EventType {
+    public function getEventType() {
         return $this->eventType;
     }
 
-    public function setEventType(EventType $eventType): void {
+    public function setEventType(EventType $eventType) {
         $this->eventType = $eventType;
 
         if ($this->getColor() == null) {
@@ -90,11 +90,11 @@ class EventCategory extends BaseEntity
     /**
      * @return string
      */
-    public function getShort(): string {
+    public function getShort() {
         return $this->short;
     }
 
-    public function setShort(string $short): void {
+    public function setShort($short) {
         $this->short = $short;
     }
 
@@ -102,11 +102,11 @@ class EventCategory extends BaseEntity
     /**
      * @return string
      */
-    public function getName(): string {
+    public function getName() {
         return $this->name;
     }
 
-    public function setName(string $name): void {
+    public function setName($name) {
         $this->name = $name;
     }
 
@@ -114,11 +114,11 @@ class EventCategory extends BaseEntity
     /**
      * @return string
      */
-    public function getColor(): string {
+    public function getColor() {
         return $this->color;
     }
 
-    public function setColor(string $color): void {
+    public function setColor($color) {
         $this->color = $color;
     }
 
@@ -126,11 +126,11 @@ class EventCategory extends BaseEntity
     /**
      * @return string
      */
-    public function getNumberingStyle(): string {
+    public function getNumberingStyle() {
         return $this->numberingStyle;
     }
 
-    public function setNumberingStyle(string $numberingStyle): void {
+    public function setNumberingStyle($numberingStyle) {
         $this->numberingStyle = $numberingStyle;
     }
 
