@@ -79,7 +79,7 @@ class Event extends BaseEntity
     /**
      * @return EventType
      */
-    public function getEventType(): EventType {
+    public function getEventType() {
         return ($this->eventCategory !== null) ? $this->eventCategory->getEventType() : null;
     }
 

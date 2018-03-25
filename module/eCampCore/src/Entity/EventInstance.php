@@ -75,11 +75,11 @@ class EventInstance extends BaseEntity
     /**
      * @return Event
      */
-    public function getEvent(): Event {
+    public function getEvent() {
         return $this->event;
     }
 
-    public function setEvent(Event $event): void {
+    public function setEvent($event) {
         $this->event = $event;
     }
 
