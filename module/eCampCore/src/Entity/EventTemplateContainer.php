@@ -51,11 +51,11 @@ class EventTemplateContainer extends BaseEntity
     /**
      * @return EventTemplate
      */
-    public function getEventTemplate(): EventTemplate {
+    public function getEventTemplate() {
         return $this->eventTemplate;
     }
 
-    public function setEventTemplate(EventTemplate $eventTemplate): void {
+    public function setEventTemplate($eventTemplate) {
         $this->eventTemplate = $eventTemplate;
     }
 
