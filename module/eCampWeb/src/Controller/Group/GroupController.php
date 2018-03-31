@@ -1,6 +1,8 @@
 <?php
 
-namespace eCamp\Web\Controller;
+namespace eCamp\Web\Controller\Group;
+
+use eCamp\Web\Controller\AbstractBaseController;
 
 class GroupController extends AbstractBaseController
 {

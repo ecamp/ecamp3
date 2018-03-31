@@ -3,28 +3,32 @@
 namespace eCamp\Web\Controller;
 
 use eCamp\Core\Repository\GroupRepository;
+use eCamp\Core\Service\GroupService;
 use Zend\View\Model\ViewModel;
 
 class GroupsController extends AbstractBaseController
 {
-    private $groupRepository;
+    /** @var GroupService */
+    private $groupService;
 
     /**
-     * @param GroupRepository $groupRepository
-     * @return void|ViewModel
+     * @param GroupService $groupService
      */
-    public function __construct(GroupRepository $groupRepository) {
-        $this->groupRepository = $groupRepository;
+    public function __construct
+    ( GroupService $groupService
+    ) {
+        $this->groupService = $groupService;
     }
 
 
     public function indexAction() {
-        $groups = $this->groupRepository->findBy([
-            'parent' => null
-        ]);
+
+        $userGroups = $this->groupService->fetchByUser();
+        $rootGroups = $this->groupService->fetchByParentGroup(null);
 
         return [
-            'groups' => $groups
+            'userGroups' => $userGroups,
+            'rootGroups' => $rootGroups
         ];
     }
 

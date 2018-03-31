@@ -52,7 +52,7 @@ class CampService extends BaseService
         $q = parent::fetchAllQueryBuilder($params);
         $q->orWhere(
             // Camp is Public,
-            // ...
+            $q->expr()->eq('1', '1'),
             // AuthUser is the Owner
             $q->expr()->eq('row.owner', ':owner'),
             // AuthUser is a Collaborator
@@ -63,6 +63,12 @@ class CampService extends BaseService
         $q->setParameter('owner', $user);
         $q->setParameter('user', $user);
         $q->setParameter('status', CampCollaboration::STATUS_ESTABLISHED);
+
+
+        if (isset($params['group'])) {
+            $q->andWhere('row.owner = :group');
+            $q->setParameter('group', $params['group']);
+        }
 
         return $q;
     }

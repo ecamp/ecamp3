@@ -11,6 +11,24 @@
                 <h2>My Groups</h2>
             </div>
 
+            {% for group in userGroups %}
+                <div class="col-md-12 col-lg-6">
+                    <a  href="{{ url('ecamp.web/group', { group: group }) }}"
+                        style="text-decoration: none; color: inherit"
+                    >
+                        <div class="card">
+                            <h3 class="card-header">
+                                <i class="zmdi zmdi-hc-fw zmdi-flag"></i>
+                                {{ group.name }}
+                            </h3>
+                            <div class="card-body">
+                                <p>{{ group.description }}</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            {% endfor %}
+
             <div class="col-xl-12">
                 <hr />
             </div>
@@ -19,7 +37,7 @@
                 <h2>Root Groups</h2>
             </div>
 
-            {% for group in groups %}
+            {% for group in rootGroups %}
                 <div class="col-md-12 col-lg-6">
                     <a  href="{{ url('ecamp.web/group', { group: group }) }}"
                         style="text-decoration: none; color: inherit"

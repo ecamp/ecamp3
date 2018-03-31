@@ -13,6 +13,8 @@ use eCamp\Core\Entity\EventTemplateContainer;
 use eCamp\Core\Entity\EventType;
 use eCamp\Core\Entity\EventTypeFactory;
 use eCamp\Core\Entity\EventTypePlugin;
+use eCamp\Core\Entity\Group;
+use eCamp\Core\Entity\GroupMembership;
 use eCamp\Core\Entity\Medium;
 use eCamp\Core\Entity\Organization;
 use eCamp\Core\Entity\Period;
@@ -41,6 +43,8 @@ class AclFactory implements FactoryInterface
 
         $acl->addResource(Medium::class, BaseEntity::class);
         $acl->addResource(Organization::class, BaseEntity::class);
+        $acl->addResource(Group::class, BaseEntity::class);
+        $acl->addResource(GroupMembership::class, BaseEntity::class);
 
         $acl->addResource(CampType::class, BaseEntity::class);
         $acl->addResource(EventType::class, BaseEntity::class);
@@ -61,6 +65,7 @@ class AclFactory implements FactoryInterface
         $acl->addResource(User::class, BaseEntity::class);
         $acl->addResource(UserIdentity::class, BaseEntity::class);
 
+
         $acl->addResource(Camp::class, BaseEntity::class);
         $acl->addResource(Period::class, BaseEntity::class);
         $acl->addResource(Day::class, BaseEntity::class);
@@ -71,6 +76,8 @@ class AclFactory implements FactoryInterface
             [
                 Medium::class,
                 Organization::class,
+                Group::class,
+                GroupMembership::class,
                 CampType::class,
                 EventType::class,
                 EventInstance::class,

@@ -66,8 +66,41 @@ return [
                         'type' => \eCamp\Web\Route\GroupRouter::class,
                         'options' => [
                             'defaults' => [
-                                'controller' => \eCamp\Web\Controller\GroupController::class,
+                                'controller' => \eCamp\Web\Controller\Group\GroupController::class,
                                 'action' => 'index'
+                            ],
+                        ],
+                        'may_terminate' => true,
+                        'child_routes' => [
+                            'membership' => [
+                                'type' => 'Segment',
+                                'options' => [
+                                    'route' => '/membership',
+                                    'defaults' => [
+                                        'controller' => \eCamp\Web\Controller\Group\MembershipController::class,
+                                        'action' => 'index'
+                                    ],
+                                ],
+                            ],
+                            'camps' => [
+                                'type' => 'Segment',
+                                'options' => [
+                                    'route' => '/camps',
+                                    'defaults' => [
+                                        'controller' => \eCamp\Web\Controller\Group\CampController::class,
+                                        'action' => 'index'
+                                    ],
+                                ],
+                            ],
+                            'admin' => [
+                                'type' => 'Segment',
+                                'options' => [
+                                    'route' => '/admin',
+                                    'defaults' => [
+                                        'controller' => \eCamp\Web\Controller\Group\AdminController::class,
+                                        'action' => 'index'
+                                    ],
+                                ],
                             ],
                         ]
                     ],
@@ -169,7 +202,11 @@ return [
             \eCamp\Web\Controller\CampsController::class => \eCamp\Web\ControllerFactory\CampsControllerFactory::class,
 
             \eCamp\Web\Controller\UserController::class => \Zend\ServiceManager\Factory\InvokableFactory::class,
-            \eCamp\Web\Controller\GroupController::class => \Zend\ServiceManager\Factory\InvokableFactory::class,
+
+            \eCamp\Web\Controller\Group\GroupController::class => \Zend\ServiceManager\Factory\InvokableFactory::class,
+            \eCamp\Web\Controller\Group\MembershipController::class => \eCamp\Web\ControllerFactory\Group\MembershipControllerFactory::class,
+            \eCamp\Web\Controller\Group\CampController::class => \eCamp\Web\ControllerFactory\Group\CampControllerFactory::class,
+            \eCamp\Web\Controller\Group\AdminController::class => \Zend\ServiceManager\Factory\InvokableFactory::class,
 
             \eCamp\Web\Controller\Camp\CampController::class => \Zend\ServiceManager\Factory\InvokableFactory::class,
             \eCamp\Web\Controller\Camp\PeriodsController::class => \Zend\ServiceManager\Factory\InvokableFactory::class,

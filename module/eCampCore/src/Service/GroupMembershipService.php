@@ -22,6 +22,19 @@ class GroupMembershipService extends BaseService
         parent::__construct($acl, $entityManager, $groupMembershipHydrator, GroupMembership::class);
     }
 
+
+    public function fetchAllQueryBuilder($params = []) {
+        $q = parent::fetchAllQueryBuilder($params);
+
+        if (isset($params['group'])) {
+            $q->andWhere('row.group = :group');
+            $q->setParameter('group', $params['group']);
+        }
+
+        return $q;
+    }
+
+
     /**
      * @param mixed $data
      * @return GroupMembership|ApiProblem
