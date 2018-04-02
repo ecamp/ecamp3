@@ -18,11 +18,32 @@
                 >
                     <i class="zmdi zmdi-hc-fw zmdi-labels"></i> Camps
                 </a>
-                <a class="nav-item btn btn-sm btn-outline-secondary d-none d-sm-block"
-                   href="{{ url('ecamp.web/group/admin', { group: group }) }}"
+
+                <a href="#"
+                   class="btn btn-sm btn-outline-secondary dropdown-toggle"
+                   style="width: 60px"
+                   data-toggle="dropdown"
+                   aria-haspopup="true"
+                   aria-expanded="false"
                 >
-                    <i class="zmdi zmdi-hc-fw zmdi-settings"></i> Admin
+                    <span class="badge badge-success d-inline d-sm-none">3</span>
                 </a>
+                <div class="dropdown-menu dropdown-menu-right">
+                    <a class="dropdown-item d-block d-sm-none"
+                       href="{{ url('ecamp.web/group/membership', { group: group }) }}"
+                    >
+                        <i class="zmdi zmdi-hc-fw zmdi-accounts"></i> Members
+                        &nbsp;<span class="badge badge-success">3</span>
+                    </a>
+
+                    <div class="dropdown-divider d-block d-sm-none"></div>
+
+                    <a class="dropdown-item"
+                       href="{{ url('ecamp.web/group/admin', { group: group }) }}"
+                    >
+                        <i class="zmdi zmdi-hc-fw zmdi-settings"></i> Admin
+                    </a>
+                </div>
             </div>
         </div>
     </div>
