@@ -30,12 +30,7 @@ abstract class BaseServiceFactory implements FactoryInterface
      */
     protected function getHydrator(ContainerInterface $container, $className) {
         $hydrators = $container->get(HydratorPluginManager::class);
-
-        if ($hydrators->has($className)) {
-            return $hydrators->get($className);
-        } else {
-            return new $className();
-        }
+        return $hydrators->get($className);
     }
 
 }

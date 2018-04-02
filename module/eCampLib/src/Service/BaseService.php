@@ -6,11 +6,16 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\ORMException;
+use Doctrine\ORM\Query\Expr;
 use Doctrine\ORM\QueryBuilder;
 use eCamp\Core\Entity\User;
 use eCamp\Lib\Acl\Acl;
 use eCamp\Lib\Acl\NoAccessException;
 use eCamp\Lib\Entity\BaseEntity;
+use eCamp\Lib\ServiceManager\AclAware;
+use eCamp\Lib\ServiceManager\EntityFilterManager;
+use eCamp\Lib\ServiceManager\EntityFilterManagerAware;
+use eCamp\Lib\ServiceManager\EntityManagerAware;
 use Zend\Authentication\AuthenticationService;
 use Zend\Hydrator\HydratorInterface;
 use Zend\Paginator\Adapter\ArrayAdapter;
@@ -19,12 +24,16 @@ use ZF\ApiProblem\ApiProblem;
 use ZF\Rest\AbstractResourceListener;
 
 abstract class BaseService extends AbstractResourceListener
+    implements AclAware, EntityManagerAware, EntityFilterManagerAware
 {
     /** @var Acl */
     private $acl;
 
     /** @var EntityManager */
     private $entityManager;
+
+    /** @var EntityFilterManager */
+    private $entityFilterManager;
 
     /** @var EntityRepository */
     private $repository;
@@ -37,22 +46,41 @@ abstract class BaseService extends AbstractResourceListener
 
 
     public function __construct
-    (   Acl $acl
-    ,   EntityManager $entityManager
-    ,   HydratorInterface $hydrator
+    (   HydratorInterface $hydrator
     ,   $entityClassName
     ) {
-        $this->acl = $acl;
-        $this->entityManager = $entityManager;
         $this->entityClassName = $entityClassName;
         $this->hydrator = $hydrator;
     }
 
 
+    /** @return Acl */
+    protected function getAcl() {
+        return $this->acl;
+    }
+
+    public function setAcl(Acl $acl) {
+        $this->acl = $acl;
+    }
+
     /** @return EntityManager */
     protected function getEntityManager() {
         return $this->entityManager;
     }
+
+    public function setEntityManager(EntityManager $entityManager) {
+        $this->entityManager = $entityManager;
+    }
+
+    /** @return EntityFilterManager */
+    protected function getEntityFilterManager() {
+        return $this->entityFilterManager;
+    }
+
+    public function setEntityFilterManager(EntityFilterManager $entityFilterManager) {
+        $this->entityFilterManager = $entityFilterManager;
+    }
+
 
     /** @return EntityRepository */
     protected function getRepository() {
@@ -65,17 +93,6 @@ abstract class BaseService extends AbstractResourceListener
     /** @return HydratorInterface */
     protected function getHydrator() {
         return $this->hydrator;
-    }
-
-    /**
-     * @param string $className
-     * @param string $alias
-     * @return QueryBuilder
-     */
-    public function createQueryBuilder($className, $alias) {
-        $q = $this->entityManager->createQueryBuilder();
-        $q->from($className, $alias)->select($alias);
-        return $q;
     }
 
 
@@ -102,7 +119,7 @@ abstract class BaseService extends AbstractResourceListener
      * @return array
      */
     protected function getOrigEntityData($entity) {
-        $uow = $this->getEntityManager()->getUnitOfWork();
+        $uow = $this->entityManager->getUnitOfWork();
         return $uow->getOriginalEntityData($entity);
     }
 
@@ -140,6 +157,41 @@ abstract class BaseService extends AbstractResourceListener
         return $entity;
     }
 
+
+    /**
+     * @param string $className
+     * @param string $alias
+     * @return QueryBuilder
+     */
+    public function createQueryBuilder($className, $alias) {
+        $q = $this->entityManager->createQueryBuilder();
+        $q->from($className, $alias)->select($alias);
+
+        $filter = $this->createFilter($q, $className, $alias, 'id');
+        if ($filter != null) {
+            $q->where($filter);
+        }
+
+        return $q;
+    }
+
+    /**
+     * @param QueryBuilder $q
+     * @param $className
+     * @param string $alias
+     * @param string $field
+     * @return Expr\Func
+     */
+    protected function createFilter(QueryBuilder $q, $className, $alias,  $field) {
+        $filter = $this->entityFilterManager->getByEntityClass($className);
+
+        if ($filter == null) {
+            return null;
+        }
+        return $filter->create($q, $alias, $field);
+    }
+
+
     /**
      * @param $className
      * @param $alias
@@ -148,7 +200,7 @@ abstract class BaseService extends AbstractResourceListener
      */
     protected function findEntityQueryBuilder($className, $alias, $id) {
         $q = $this->createQueryBuilder($className, $alias);
-        $q->where($alias . '.id = :entity_id');
+        $q->andWhere($alias . '.id = :entity_id');
         $q->setParameter('entity_id', $id);
         return $q;
     }
@@ -197,7 +249,6 @@ abstract class BaseService extends AbstractResourceListener
 
     protected function fetchAllQueryBuilder($params = []) {
         $q = $this->findCollectionQueryBuilder($this->entityClassName, 'row');
-
         // TODO: WHERE
         if (isset($params['where'])) {
             $where = $params['where'];

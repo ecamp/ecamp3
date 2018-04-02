@@ -18,11 +18,8 @@ class UserServiceFactory extends BaseServiceFactory
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null) {
-        $acl = $container->get(\Zend\Permissions\Acl\AclInterface::class);
-
-        $entityManager = $this->getEntityManager($container);
         $hydrator = $this->getHydrator($container, UserHydrator::class);
 
-        return new UserService($acl, $entityManager, $hydrator);
+        return new UserService($hydrator);
     }
 }

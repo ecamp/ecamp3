@@ -18,11 +18,8 @@ class MediumServiceFactory extends BaseServiceFactory
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null) {
-        $acl = $container->get(\Zend\Permissions\Acl\AclInterface::class);
-
-        $entityManager = $this->getEntityManager($container);
         $hydrator = $this->getHydrator($container, MediumHydrator::class);
 
-        return new MediumService($acl, $entityManager, $hydrator);
+        return new MediumService($hydrator);
     }
 }

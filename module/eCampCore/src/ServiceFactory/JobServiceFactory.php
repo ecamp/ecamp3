@@ -18,11 +18,8 @@ class JobServiceFactory extends BaseServiceFactory
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null) {
-        $acl = $container->get(\Zend\Permissions\Acl\AclInterface::class);
-
-        $entityManager = $this->getEntityManager($container);
         $hydrator = $this->getHydrator($container, JobHydrator::class);
 
-        return new JobService($acl, $entityManager, $hydrator);
+        return new JobService($hydrator);
     }
 }

@@ -2,25 +2,28 @@
 
 namespace eCamp\Core\Service;
 
-use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\ORMException;
 use eCamp\Core\Hydrator\CampCollaborationHydrator;
 use eCamp\Core\Entity\Camp;
 use eCamp\Core\Entity\CampCollaboration;
 use eCamp\Core\Entity\User;
-use eCamp\Lib\Acl\Acl;
 use eCamp\Lib\Service\BaseService;
 use ZF\ApiProblem\ApiProblem;
 
 class CampCollaborationService extends BaseService
 {
-    public function __construct
-    ( Acl $acl
-    , EntityManager $entityManager
-    , CampCollaborationHydrator $campCollaborationHydrator
-    ) {
-        parent::__construct($acl, $entityManager, $campCollaborationHydrator, CampCollaboration::class);
+    public function __construct(CampCollaborationHydrator $campCollaborationHydrator) {
+        parent::__construct($campCollaborationHydrator, CampCollaboration::class);
     }
+
+
+    protected function fetchAllQueryBuilder($params = []) {
+        $q = parent::fetchAllQueryBuilder($params);
+        $q->andWhere($this->createFilter($q, Camp::class, 'row', 'camp'));
+
+        return $q;
+    }
+
 
     /**
      * @param mixed $data

@@ -2,15 +2,12 @@
 
 namespace eCamp\Core\Service;
 
-use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\ORMException;
-use eCamp\Core\Entity\CampCollaboration;
 use eCamp\Core\Hydrator\CampHydrator;
 use eCamp\Core\Entity\AbstractCampOwner;
 use eCamp\Core\Entity\Camp;
 use eCamp\Core\Entity\CampType;
 use eCamp\Core\Entity\User;
-use eCamp\Lib\Acl\Acl;
 use eCamp\Lib\Acl\NoAccessException;
 use eCamp\Lib\Service\BaseService;
 use ZF\ApiProblem\ApiProblem;
@@ -28,14 +25,12 @@ class CampService extends BaseService
 
 
     public function __construct
-    ( Acl $acl
-    , EntityManager $entityManager
-    , CampHydrator $campHydrator
+    ( CampHydrator $campHydrator
     , JobService $jobService
     , EventCategoryService $eventCategoryService
     , PeriodService $periodService
     ) {
-        parent::__construct($acl, $entityManager, $campHydrator, Camp::class);
+        parent::__construct($campHydrator, Camp::class);
 
         $this->jobService = $jobService;
         $this->eventCategoryService = $eventCategoryService;
@@ -44,26 +39,7 @@ class CampService extends BaseService
 
 
     protected function fetchAllQueryBuilder($params = []) {
-        $collQ = parent::findCollectionQueryBuilder(CampCollaboration::class, 'cc');
-        $collQ->join('cc.camp', 'c');
-        $collQ->where('cc.user = :user', 'cc.status = :status');
-        $collQ->select('c');
-
         $q = parent::fetchAllQueryBuilder($params);
-        $q->orWhere(
-            // Camp is Public,
-            $q->expr()->eq('1', '1'),
-            // AuthUser is the Owner
-            $q->expr()->eq('row.owner', ':owner'),
-            // AuthUser is a Collaborator
-            $q->expr()->in('row.id', $collQ->getDQL())
-        );
-
-        $user = $this->getAuthUser();
-        $q->setParameter('owner', $user);
-        $q->setParameter('user', $user);
-        $q->setParameter('status', CampCollaboration::STATUS_ESTABLISHED);
-
 
         if (isset($params['group'])) {
             $q->andWhere('row.owner = :group');

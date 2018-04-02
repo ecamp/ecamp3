@@ -3,6 +3,7 @@
 namespace eCamp\Core\Acl;
 
 use eCamp\Core\Entity\Camp;
+use eCamp\Core\Entity\CampCollaboration;
 use eCamp\Core\Entity\CampType;
 use eCamp\Core\Entity\Day;
 use eCamp\Core\Entity\Event;
@@ -70,6 +71,9 @@ class AclFactory implements FactoryInterface
         $acl->addResource(Period::class, BaseEntity::class);
         $acl->addResource(Day::class, BaseEntity::class);
 
+        $acl->addResource(CampCollaboration::class, BaseEntity::class);
+
+
 
         $acl->allow(
             Guest::class,
@@ -86,6 +90,8 @@ class AclFactory implements FactoryInterface
                 EventTypeFactory::class,
                 EventTypePlugin::class,
                 Plugin::class,
+
+                CampCollaboration::class,
             ],
             [
                 Acl::REST_PRIVILEGE_FETCH,

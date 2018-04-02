@@ -2,7 +2,6 @@
 
 namespace eCamp\Core\Service;
 
-use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\ORMException;
 use eCamp\Core\Entity\Event;
 use eCamp\Core\Entity\EventTypePlugin;
@@ -23,19 +22,17 @@ class EventPluginService extends BaseService
     private $pluginStrategyProvider;
 
     public function __construct
-    ( Acl $acl
-    , EntityManager $entityManager
-    , EventPluginHydrator $eventPluginHydrator
+    ( EventPluginHydrator $eventPluginHydrator
     , PluginStrategyProvider $pluginStrategyProvider
     ) {
-        parent::__construct($acl, $entityManager, $eventPluginHydrator, EventPlugin::class);
+        parent::__construct($eventPluginHydrator, EventPlugin::class);
 
         $this->pluginStrategyProvider = $pluginStrategyProvider;
     }
 
 
     protected function findCollectionQueryBuilder($className, $alias, $params = []) {
-        $q = parent::findCollectionQueryBuilder($className, $alias, $params);
+        $q = parent::findCollectionQueryBuilder($className, $alias);
 
         $eventId = $params['event_id'];
         if ($eventId) {

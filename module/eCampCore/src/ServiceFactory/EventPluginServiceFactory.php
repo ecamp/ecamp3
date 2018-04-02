@@ -9,7 +9,6 @@ use eCamp\Lib\Service\BaseServiceFactory;
 use Interop\Container\ContainerInterface;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
-use Zend\Permissions\Acl\AclInterface;
 
 class EventPluginServiceFactory extends BaseServiceFactory
 {
@@ -22,14 +21,11 @@ class EventPluginServiceFactory extends BaseServiceFactory
      * @throws NotFoundExceptionInterface
      */
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null) {
-        $acl = $container->get(AclInterface::class);
-
-        $entityManager = $this->getEntityManager($container);
         $hydrator = $this->getHydrator($container, EventPluginHydrator::class);
 
         /** @var PluginStrategyProvider $pluginStrategyProvider */
         $pluginStrategyProvider = $container->get(PluginStrategyProvider::class );
 
-        return new EventPluginService($acl, $entityManager, $hydrator, $pluginStrategyProvider);
+        return new EventPluginService($hydrator, $pluginStrategyProvider);
     }
 }

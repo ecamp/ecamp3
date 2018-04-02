@@ -2,25 +2,19 @@
 
 namespace eCamp\Core\Service;
 
-use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\ORMException;
 use eCamp\Core\Hydrator\EventCategoryHydrator;
 use eCamp\Core\Entity\Camp;
 use eCamp\Core\Entity\EventCategory;
 use eCamp\Core\Entity\EventType;
-use eCamp\Lib\Acl\Acl;
 use eCamp\Lib\Acl\NoAccessException;
 use eCamp\Lib\Service\BaseService;
 use ZF\ApiProblem\ApiProblem;
 
 class EventCategoryService extends BaseService
 {
-    public function __construct
-    ( Acl $acl
-    , EntityManager $entityManager
-    , EventCategoryHydrator $eventCategoryHydrator
-    ) {
-        parent::__construct($acl, $entityManager, $eventCategoryHydrator, EventCategory::class);
+    public function __construct(EventCategoryHydrator $eventCategoryHydrator) {
+        parent::__construct($eventCategoryHydrator, EventCategory::class);
     }
 
     /**

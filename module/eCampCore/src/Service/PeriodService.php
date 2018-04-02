@@ -2,14 +2,12 @@
 
 namespace eCamp\Core\Service;
 
-use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\ORMException;
 use eCamp\Core\Entity\Day;
 use eCamp\Core\Entity\EventInstance;
 use eCamp\Core\Hydrator\PeriodHydrator;
 use eCamp\Core\Entity\Camp;
 use eCamp\Core\Entity\Period;
-use eCamp\Lib\Acl\Acl;
 use eCamp\Lib\Acl\NoAccessException;
 use eCamp\Lib\Service\BaseService;
 use ZF\ApiProblem\ApiProblem;
@@ -23,13 +21,11 @@ class PeriodService extends BaseService
     private $eventInstanceService;
 
     public function __construct
-    ( Acl $acl
-    , EntityManager $entityManager
-    , PeriodHydrator $dayHydrator
+    ( PeriodHydrator $dayHydrator
     , DayService $dayService
     , EventInstanceService $eventInstanceService
     ) {
-        parent::__construct($acl, $entityManager, $dayHydrator, Period::class);
+        parent::__construct($dayHydrator, Period::class);
 
         $this->dayService = $dayService;
         $this->eventInstanceService = $eventInstanceService;
