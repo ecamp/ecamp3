@@ -51,7 +51,7 @@ class Day extends BaseEntity
     /**
      * @return Camp
      */
-    public function getCamp(): Camp
+    public function getCamp()
     {
         return ($this->period != null) ? $this->period->getCamp() : null;
     }
@@ -60,17 +60,17 @@ class Day extends BaseEntity
     /**
      * @return int
      */
-    public function getDayOffset(): int
+    public function getDayOffset()
     {
         return $this->dayOffset;
     }
 
-    public function setDayOffset(int $dayOffset): void
+    public function setDayOffset(int $dayOffset)
     {
         $this->dayOffset = $dayOffset;
     }
 
-    public function getDayNumber(): int
+    public function getDayNumber()
     {
         return ($this->dayOffset + 1);
     }

@@ -108,7 +108,7 @@ class Camp extends BaseEntity
         return $this->campType;
     }
 
-    public function setCampType(CampType $campType): void
+    public function setCampType(CampType $campType)
     {
         $this->campType = $campType;
     }
@@ -126,12 +126,12 @@ class Camp extends BaseEntity
     /**
      * @return string
      */
-    public function getName(): string
+    public function getName()
     {
         return $this->name;
     }
 
-    public function setName(string $name): void
+    public function setName(string $name)
     {
         $this->name = $name;
     }
@@ -140,12 +140,12 @@ class Camp extends BaseEntity
     /**
      * @return string
      */
-    public function getTitle(): string
+    public function getTitle()
     {
         return $this->title;
     }
 
-    public function setTitle(string $title): void
+    public function setTitle(string $title)
     {
         $this->title = $title;
     }
@@ -154,12 +154,12 @@ class Camp extends BaseEntity
     /**
      * @return string
      */
-    public function getMotto(): string
+    public function getMotto()
     {
         return $this->motto;
     }
 
-    public function setMotto(string $motto): void
+    public function setMotto(string $motto)
     {
         $this->motto = $motto;
     }
@@ -168,12 +168,12 @@ class Camp extends BaseEntity
     /**
      * @return User
      */
-    public function getCreator(): User
+    public function getCreator()
     {
         return $this->creator;
     }
 
-    public function setCreator(User $creator): void
+    public function setCreator(User $creator)
     {
         $this->creator = $creator;
     }
