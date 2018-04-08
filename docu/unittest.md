@@ -17,7 +17,7 @@ Für UnitTests ohne Datenbank wird die Klasse
 ```\eCamp\LibTest\PHPUnit\AbstractTestCase``` verwendet.
 
 Beispiel:
-```
+```php
 <?php
 
 namespace eCamp\CoreTest\Entity;
@@ -54,7 +54,7 @@ Dabei dient die statische Klasse ```\eCampApp``` als Container für die
 ```Repositories``` geladen werden.
 
 Beispiel:
-```
+```php
 <?php
 
 namespace eCamp\CoreTest\Service;
@@ -93,7 +93,7 @@ Unter ```$this->getRequest()``` und ```$this->getResponse()``` kann Request
 und Response geladen, manipuliert und überprüft werden. 
 
 Beispiel:
-```
+```php
 <?php
 
 namespace eCamp\ApiTest;

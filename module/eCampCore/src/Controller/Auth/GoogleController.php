@@ -20,7 +20,7 @@ class GoogleController extends BaseController
         , $userIdentityService
         , $userService
         , $authService
-        , 'google'
+        , 'Google'
         );
     }
 
