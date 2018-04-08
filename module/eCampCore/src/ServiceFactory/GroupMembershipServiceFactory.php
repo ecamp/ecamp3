@@ -18,11 +18,8 @@ class GroupMembershipServiceFactory extends BaseServiceFactory
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null) {
-        $acl = $container->get(\Zend\Permissions\Acl\AclInterface::class);
-
-        $entityManager = $this->getEntityManager($container);
         $hydrator = $this->getHydrator($container, GroupMembershipHydrator::class);
 
-        return new GroupMembershipService($acl, $entityManager, $hydrator);
+        return new GroupMembershipService($hydrator);
     }
 }

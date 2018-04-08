@@ -2,24 +2,18 @@
 
 namespace eCamp\Core\Service;
 
-use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\ORMException;
 use eCamp\Core\Hydrator\GroupMembershipHydrator;
 use eCamp\Core\Entity\Group;
 use eCamp\Core\Entity\GroupMembership;
 use eCamp\Core\Entity\User;
-use eCamp\Lib\Acl\Acl;
 use eCamp\Lib\Service\BaseService;
 use ZF\ApiProblem\ApiProblem;
 
 class GroupMembershipService extends BaseService
 {
-    public function __construct
-    ( Acl $acl
-    , EntityManager $entityManager
-    , GroupMembershipHydrator $groupMembershipHydrator
-    ) {
-        parent::__construct($acl, $entityManager, $groupMembershipHydrator, GroupMembership::class);
+    public function __construct(GroupMembershipHydrator $groupMembershipHydrator) {
+        parent::__construct($groupMembershipHydrator, GroupMembership::class);
     }
 
 

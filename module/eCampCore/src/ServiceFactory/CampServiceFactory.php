@@ -21,9 +21,6 @@ class CampServiceFactory extends BaseServiceFactory
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null) {
-        $acl = $container->get(\Zend\Permissions\Acl\AclInterface::class);
-
-        $entityManager = $this->getEntityManager($container);
         $hydrator = $this->getHydrator($container, CampHydrator::class);
 
         $jobService = $container->get(JobService::class);
@@ -31,12 +28,11 @@ class CampServiceFactory extends BaseServiceFactory
         $periodService = $container->get(PeriodService::class);
 
         return new CampService
-        ( $acl
-        , $entityManager
-        , $hydrator
+        ( $hydrator
         , $jobService
         , $eventCategoryService
         , $periodService
         );
     }
+
 }

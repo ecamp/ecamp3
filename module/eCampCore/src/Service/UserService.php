@@ -2,12 +2,10 @@
 
 namespace eCamp\Core\Service;
 
-use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\ORMException;
 use eCamp\Core\Hydrator\UserHydrator;
 use eCamp\Core\Entity\User;
 use eCamp\Core\Repository\UserRepository;
-use eCamp\Lib\Acl\Acl;
 use eCamp\Lib\Acl\NoAccessException;
 use eCamp\Lib\Service\BaseService;
 use Hybridauth\User\Profile;
@@ -15,17 +13,11 @@ use ZF\ApiProblem\ApiProblem;
 
 /**
  * Class UserService
- *
- * @method UserRepository getRepository()
  */
 class UserService extends BaseService
 {
-    public function __construct
-    ( Acl $acl
-    , EntityManager $entityManager
-    , UserHydrator $userHydrator
-    ) {
-        parent::__construct($acl, $entityManager, $userHydrator, User::class);
+    public function __construct(UserHydrator $userHydrator) {
+        parent::__construct($userHydrator, User::class);
     }
 
     /**

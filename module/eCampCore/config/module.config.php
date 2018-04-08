@@ -38,12 +38,16 @@ return [
     ],
 
     'service_manager' => [
+        'initializers' => [
+            \eCamp\Core\ServiceManager\AuthUserProviderInjector::class,
+        ],
         'aliases' => [
             \Zend\Permissions\Acl\AclInterface::class => \eCamp\Lib\Acl\Acl::class
         ],
         'factories' => [
             \eCamp\Lib\Acl\Acl::class => \eCamp\Core\Acl\AclFactory::class,
 
+            \eCamp\Core\Auth\AuthUserProvider::class => \eCamp\Core\Auth\AuthUserProviderFactory::class,
             \eCamp\Core\Auth\AuthService::class => \eCamp\Core\Auth\AuthServiceFactory::class,
 
             \eCamp\Core\Plugin\PluginStrategyProvider::class =>\eCamp\Core\Plugin\PluginStrategyProviderFactory::class,
@@ -78,6 +82,12 @@ return [
             \eCamp\Core\Service\EventPluginService::class => \eCamp\Core\ServiceFactory\EventPluginServiceFactory::class,
             \eCamp\Core\Service\EventInstanceService::class => \eCamp\Core\ServiceFactory\EventInstanceServiceFactory::class,
         ]
+    ],
+
+    'entity_filter' => [
+        'initializers' => [
+            \eCamp\Core\ServiceManager\AuthUserProviderInjector::class,
+        ],
     ],
 
     'controllers' => [

@@ -20,15 +20,12 @@ class PeriodServiceFactory extends BaseServiceFactory
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null) {
-        $acl = $container->get(\Zend\Permissions\Acl\AclInterface::class);
-
-        $entityManager = $this->getEntityManager($container);
         $hydrator = $this->getHydrator($container, PeriodHydrator::class);
 
         $dayService = $container->get(DayService::class);
         $eventInstanceService = $container->get(EventInstanceService::class);
 
-        return new PeriodService($acl, $entityManager, $hydrator, $dayService, $eventInstanceService);
+        return new PeriodService($hydrator, $dayService, $eventInstanceService);
     }
 
 }

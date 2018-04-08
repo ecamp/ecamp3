@@ -18,11 +18,8 @@ class PluginServiceFactory extends BaseServiceFactory
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null) {
-        $acl = $container->get(\Zend\Permissions\Acl\AclInterface::class);
-
-        $entityManager = $this->getEntityManager($container);
         $hydrator = $this->getHydrator($container, PluginHydrator::class);
 
-        return new PluginService($acl, $entityManager, $hydrator);
+        return new PluginService($hydrator);
     }
 }

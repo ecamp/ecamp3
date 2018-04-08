@@ -18,11 +18,8 @@ class EventTypeFactoryServiceFactory extends BaseServiceFactory
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null) {
-        $acl = $container->get(\Zend\Permissions\Acl\AclInterface::class);
-
-        $entityManager = $this->getEntityManager($container);
         $hydrator = $this->getHydrator($container, EventTypeFactoryHydrator::class);
 
-        return new EventTypeFactoryService($acl, $entityManager, $hydrator);
+        return new EventTypeFactoryService($hydrator);
     }
 }
