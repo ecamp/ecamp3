@@ -184,10 +184,10 @@ abstract class BaseService extends AbstractResourceListener
      */
     protected function createFilter(QueryBuilder $q, $className, $alias,  $field) {
         $filter = $this->entityFilterManager->getByEntityClass($className);
-
         if ($filter == null) {
             return null;
         }
+
         return $filter->create($q, $alias, $field);
     }
 
@@ -244,18 +244,17 @@ abstract class BaseService extends AbstractResourceListener
 
     protected function fetchQueryBuilder($id) {
         $q =  $this->findEntityQueryBuilder($this->entityClassName, 'row', $id);
+
         return $q;
     }
 
     protected function fetchAllQueryBuilder($params = []) {
         $q = $this->findCollectionQueryBuilder($this->entityClassName, 'row');
-        // TODO: WHERE
         if (isset($params['where'])) {
-            $where = $params['where'];
+            $q->andWhere($params['where']);
         }
-        // TODO: ODER_BY
         if (isset($params['order_by'])) {
-            $orderBy = $params['order_by'];
+            $q->orderBy($params['order_by']);
         }
 
         return $q;
