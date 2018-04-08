@@ -3,6 +3,7 @@
 namespace eCamp\Core\Service;
 
 use Doctrine\ORM\ORMException;
+use eCamp\Core\Entity\Camp;
 use eCamp\Core\Hydrator\DayHydrator;
 use eCamp\Core\Entity\Day;
 use eCamp\Core\Entity\Period;
@@ -27,6 +28,22 @@ class DayService extends BaseService
         }
 
         $q->orderBy('row.period, row.dayOffset');
+
+        return $q;
+    }
+
+    protected function fetchAllQueryBuilder($params = []) {
+        $q = parent::fetchAllQueryBuilder($params);
+        $q->join('row.period', 'p');
+        $q->andWhere($this->createFilter($q, Camp::class, 'p', 'camp'));
+
+        return $q;
+    }
+
+    protected function fetchQueryBuilder($id) {
+        $q = parent::fetchQueryBuilder($id);
+        $q->join('row.period', 'p');
+        $q->andWhere($this->createFilter($q, Camp::class, 'p', 'camp'));
 
         return $q;
     }
