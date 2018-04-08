@@ -20,11 +20,12 @@ class EventPluginServiceFactory extends BaseServiceFactory
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      */
-    public function __invoke(ContainerInterface $container, $requestedName, array $options = null) {
+    public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
+    {
         $hydrator = $this->getHydrator($container, EventPluginHydrator::class);
 
         /** @var PluginStrategyProvider $pluginStrategyProvider */
-        $pluginStrategyProvider = $container->get(PluginStrategyProvider::class );
+        $pluginStrategyProvider = $container->get(PluginStrategyProvider::class);
 
         return new EventPluginService($hydrator, $pluginStrategyProvider);
     }

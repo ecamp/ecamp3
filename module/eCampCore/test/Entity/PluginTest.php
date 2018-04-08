@@ -7,8 +7,8 @@ use eCamp\LibTest\PHPUnit\AbstractTestCase;
 
 class PluginTest extends AbstractTestCase
 {
-
-    public function testPlugin() {
+    public function testPlugin()
+    {
         $plugin = new Plugin();
         $plugin->setName('TestPlugin');
         $plugin->setActive(true);
@@ -18,5 +18,4 @@ class PluginTest extends AbstractTestCase
         $this->assertTrue($plugin->getActive());
         $this->assertEquals('PluginStrategyClass', $plugin->getStrategyClass());
     }
-
 }

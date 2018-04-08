@@ -6,5 +6,4 @@ use eCamp\Lib\Entity\BaseCollection;
 
 class UserCollection extends BaseCollection
 {
-
 }

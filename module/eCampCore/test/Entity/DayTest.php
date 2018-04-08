@@ -25,5 +25,4 @@ class DayTest extends AbstractTestCase
         $this->assertEquals(0, $day->getDayOffset());
         $this->assertEquals(1, $day->getDayNumber());
     }
-
 }

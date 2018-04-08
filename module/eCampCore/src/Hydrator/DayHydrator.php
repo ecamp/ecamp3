@@ -12,7 +12,8 @@ class DayHydrator implements HydratorInterface
      * @param object $object
      * @return array
      */
-    public function extract($object) {
+    public function extract($object)
+    {
         /** @var Day $day */
         $day = $object;
         return [
@@ -36,7 +37,8 @@ class DayHydrator implements HydratorInterface
      * @param object $object
      * @return object
      */
-    public function hydrate(array $data, $object) {
+    public function hydrate(array $data, $object)
+    {
         /** @var Day $day */
         $day = $object;
 

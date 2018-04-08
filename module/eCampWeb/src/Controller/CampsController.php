@@ -16,9 +16,9 @@ class CampsController extends AbstractBaseController
     private $campService;
 
 
-    public function __construct
-    ( AuthService $authService
-    , CampService $campService
+    public function __construct(
+        AuthService $authService,
+        CampService $campService
     ) {
         $this->authService = $authService;
         $this->campService = $campService;
@@ -29,7 +29,8 @@ class CampsController extends AbstractBaseController
      * @throws AuthRequiredException
      * @throws \eCamp\Lib\Acl\NoAccessException
      */
-    public function indexAction() {
+    public function indexAction()
+    {
         $this->forceLogin();
 
         $camps = $this->campService->fetchAll();
@@ -38,5 +39,4 @@ class CampsController extends AbstractBaseController
             'camps' => $camps,
         ];
     }
-
 }

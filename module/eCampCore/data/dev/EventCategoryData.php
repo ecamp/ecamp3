@@ -16,7 +16,8 @@ class EventCategoryData extends AbstractFixture implements DependentFixtureInter
     public static $EVENTCATEGORY_2_LS = EventCategory::class . ':EVENTCATEGORY_2_LS';
     public static $EVENTCATEGORY_2_LA = EventCategory::class . ':EVENTCATEGORY_2_LA';
 
-    public function load(ObjectManager $manager) {
+    public function load(ObjectManager $manager)
+    {
         $repository = $manager->getRepository(EventCategory::class);
 
         /** @var Camp $camp */
@@ -86,7 +87,8 @@ class EventCategoryData extends AbstractFixture implements DependentFixtureInter
         $manager->flush();
     }
 
-    function getDependencies() {
+    public function getDependencies()
+    {
         return [ CampData::class, EventTypeData::class ];
     }
 }

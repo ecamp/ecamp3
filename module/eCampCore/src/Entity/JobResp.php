@@ -27,10 +27,10 @@ use eCamp\Lib\Entity\BaseEntity;
  * @ORM\Entity()
  * @ORM\Table(name="job_resps")
  */
-class JobResp
-    extends BaseEntity
+class JobResp extends BaseEntity
 {
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
     }
 
@@ -58,48 +58,56 @@ class JobResp
 
 
     /** @return Day */
-    public function getDay() {
+    public function getDay()
+    {
         return $this->day;
     }
 
-    public function setDay(Day $day) {
+    public function setDay(Day $day)
+    {
         $this->day = $day;
     }
 
     /** @return Period */
-    public function getPeriod() {
+    public function getPeriod()
+    {
         return $this->day->getPeriod();
     }
 
     /** @return Camp */
-    public function getCamp() {
+    public function getCamp()
+    {
         return $this->day->getCamp();
     }
 
 
     /** @return Job */
-    public function getJob() {
+    public function getJob()
+    {
         return $this->job;
     }
 
-    public function setJob(Job $job) {
+    public function setJob(Job $job)
+    {
         $this->job = $job;
     }
 
 
     /** @return CampCollaboration */
-    public function getCampCollaboration() {
+    public function getCampCollaboration()
+    {
         return $this->campCollaboration;
     }
 
-    public function setCampCollaboration(CampCollaboration $collaboration) {
+    public function setCampCollaboration(CampCollaboration $collaboration)
+    {
         $this->campCollaboration = $collaboration;
     }
 
 
     /** @return User */
-    public function getUser() {
+    public function getUser()
+    {
         return $this->campCollaboration->getUser();
     }
-
 }

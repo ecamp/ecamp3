@@ -14,15 +14,15 @@ class GroupsController extends AbstractBaseController
     /**
      * @param GroupService $groupService
      */
-    public function __construct
-    ( GroupService $groupService
+    public function __construct(
+        GroupService $groupService
     ) {
         $this->groupService = $groupService;
     }
 
 
-    public function indexAction() {
-
+    public function indexAction()
+    {
         $userGroups = $this->groupService->fetchByUser();
         $rootGroups = $this->groupService->fetchByParentGroup(null);
 
@@ -31,5 +31,4 @@ class GroupsController extends AbstractBaseController
             'rootGroups' => $rootGroups
         ];
     }
-
 }

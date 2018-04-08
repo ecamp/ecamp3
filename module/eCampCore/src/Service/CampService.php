@@ -24,11 +24,11 @@ class CampService extends BaseService
     private $periodService;
 
 
-    public function __construct
-    ( CampHydrator $campHydrator
-    , JobService $jobService
-    , EventCategoryService $eventCategoryService
-    , PeriodService $periodService
+    public function __construct(
+        CampHydrator $campHydrator,
+        JobService $jobService,
+        EventCategoryService $eventCategoryService,
+        PeriodService $periodService
     ) {
         parent::__construct($campHydrator, Camp::class);
 
@@ -38,7 +38,8 @@ class CampService extends BaseService
     }
 
 
-    protected function fetchAllQueryBuilder($params = []) {
+    protected function fetchAllQueryBuilder($params = [])
+    {
         $q = parent::fetchAllQueryBuilder($params);
 
         if (isset($params['group'])) {
@@ -57,7 +58,8 @@ class CampService extends BaseService
      * @throws ORMException
      * @throws NoAccessException
      */
-    public function create($data) {
+    public function create($data)
+    {
         $this->assertAllowed(Camp::class, __FUNCTION__);
 
         /** @var CampType $campType */
@@ -112,12 +114,12 @@ class CampService extends BaseService
      * @param AbstractCampOwner $owner
      * @return array|ApiProblem
      */
-    public function fetchByOwner(AbstractCampOwner $owner) {
+    public function fetchByOwner(AbstractCampOwner $owner)
+    {
         $q = parent::findCollectionQueryBuilder(Camp::class, 'row');
         $q->where('row.owner = :owner');
         $q->setParameter('owner', $owner);
 
         return $this->getQueryResult($q);
     }
-
 }

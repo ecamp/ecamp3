@@ -5,7 +5,6 @@ namespace eCamp\Core\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use eCamp\Lib\Entity\BaseEntity;
 
-
 /**
  * @ORM\Entity()
  * @ORM\Table(name="days", uniqueConstraints={
@@ -15,7 +14,8 @@ use eCamp\Lib\Entity\BaseEntity;
  */
 class Day extends BaseEntity
 {
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
     }
 
@@ -37,11 +37,13 @@ class Day extends BaseEntity
     /**
      * @return Period
      */
-    public function getPeriod() {
+    public function getPeriod()
+    {
         return $this->period;
     }
 
-    public function setPeriod($period) {
+    public function setPeriod($period)
+    {
         $this->period = $period;
     }
 
@@ -49,7 +51,8 @@ class Day extends BaseEntity
     /**
      * @return Camp
      */
-    public function getCamp(): Camp {
+    public function getCamp(): Camp
+    {
         return ($this->period != null) ? $this->period->getCamp() : null;
     }
 
@@ -57,16 +60,18 @@ class Day extends BaseEntity
     /**
      * @return int
      */
-    public function getDayOffset(): int {
+    public function getDayOffset(): int
+    {
         return $this->dayOffset;
     }
 
-    public function setDayOffset(int $dayOffset): void {
+    public function setDayOffset(int $dayOffset): void
+    {
         $this->dayOffset = $dayOffset;
     }
 
-    public function getDayNumber(): int {
+    public function getDayNumber(): int
+    {
         return ($this->dayOffset + 1);
     }
-
 }

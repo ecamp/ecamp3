@@ -13,7 +13,8 @@ class MediumData extends AbstractFixture
     public static $PRINT = Medium::class . ':PRINT';
 
 
-    public function load(ObjectManager $manager) {
+    public function load(ObjectManager $manager)
+    {
         $repository = $manager->getRepository(Medium::class);
 
 

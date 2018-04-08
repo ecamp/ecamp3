@@ -5,7 +5,6 @@ namespace eCamp\Core\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
-
 /**
  * @ORM\Entity(repositoryClass="eCamp\Core\Repository\GroupRepository")
  * @ORM\Table(name="groups",
@@ -18,7 +17,8 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Group extends AbstractCampOwner
 {
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
 
         $this->children = new ArrayCollection();
@@ -68,11 +68,13 @@ class Group extends AbstractCampOwner
     /**
      * @return string
      */
-    public function getName(): string {
+    public function getName(): string
+    {
         return $this->name;
     }
 
-    public function setName(string $name): void {
+    public function setName(string $name): void
+    {
         $this->name = $name;
     }
 
@@ -80,7 +82,8 @@ class Group extends AbstractCampOwner
     /**
      * @return string
      */
-    public function getDisplayName() {
+    public function getDisplayName()
+    {
         return $this->name;
     }
 
@@ -88,11 +91,13 @@ class Group extends AbstractCampOwner
     /**
      * @return string
      */
-    public function getDescription(): string {
+    public function getDescription(): string
+    {
         return $this->description;
     }
 
-    public function setDescription(string $description): void {
+    public function setDescription(string $description): void
+    {
         $this->description = $description;
     }
 
@@ -100,11 +105,13 @@ class Group extends AbstractCampOwner
     /**
      * @return Organization
      */
-    public function getOrganization(): Organization {
+    public function getOrganization(): Organization
+    {
         return $this->organization;
     }
 
-    public function setOrganization(Organization $organization): void {
+    public function setOrganization(Organization $organization): void
+    {
         $this->organization = $organization;
     }
 
@@ -112,11 +119,13 @@ class Group extends AbstractCampOwner
     /**
      * @return Group
      */
-    public function getParent() {
+    public function getParent()
+    {
         return $this->parent;
     }
 
-    public function setParent(Group $parent = null): void {
+    public function setParent(Group $parent = null): void
+    {
         if ($parent != null) {
             $this->organization = $parent->getOrganization();
         }
@@ -124,7 +133,8 @@ class Group extends AbstractCampOwner
     }
 
 
-    public function pathAsArray() {
+    public function pathAsArray()
+    {
         $path = ($this->parent != null) ? $this->parent->pathAsArray() : [];
         $path[] = $this;
 
@@ -135,16 +145,19 @@ class Group extends AbstractCampOwner
     /**
      * @return ArrayCollection
      */
-    public function getChildren() {
+    public function getChildren()
+    {
         return $this->children;
     }
 
-    public function addChild(Group $child) {
+    public function addChild(Group $child)
+    {
         $child->setParent($this);
         $this->children->add($child);
     }
 
-    public function removeChild(Group $child) {
+    public function removeChild(Group $child)
+    {
         $child->setParent(null);
         $this->children->removeElement($child);
     }
@@ -153,18 +166,20 @@ class Group extends AbstractCampOwner
     /**
      * @return ArrayCollection
      */
-    public function getGroupMemberships(): ArrayCollection {
+    public function getGroupMemberships(): ArrayCollection
+    {
         return $this->memberships;
     }
 
-    public function addGroupMembership(GroupMembership $membership) {
+    public function addGroupMembership(GroupMembership $membership)
+    {
         $membership->setGroup($this);
         $this->memberships->add($membership);
     }
 
-    public function removeGroupMembership(GroupMembership $membership) {
+    public function removeGroupMembership(GroupMembership $membership)
+    {
         $membership->setGroup(null);
         $this->memberships->removeElement($membership);
     }
-
 }

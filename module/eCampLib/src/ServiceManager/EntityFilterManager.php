@@ -12,9 +12,12 @@ class EntityFilterManager extends AbstractPluginManager
      * @param $className
      * @return EntityFilterInterface
      */
-    public function getByEntityClass($className) {
+    public function getByEntityClass($className)
+    {
         $filterName = AnnotationsReader::getEntityFilterAnnotation($className);
-        if ($filterName == null) { return null; }
+        if ($filterName == null) {
+            return null;
+        }
 
         return $this->get($filterName->filterClass);
     }

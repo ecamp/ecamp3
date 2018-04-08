@@ -11,12 +11,12 @@ class UserController extends AbstractBaseController
      * @return array|ViewModel
      * @throws AuthRequiredException
      */
-    public function indexAction() {
+    public function indexAction()
+    {
         $this->forceLogin();
 
         return [
             'user' => $this->params()->fromRoute('user')
         ];
     }
-
 }

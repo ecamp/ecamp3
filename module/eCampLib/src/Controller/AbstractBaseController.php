@@ -12,7 +12,8 @@ abstract class AbstractBaseController extends AbstractActionController
      * @param null $statusCode
      * @return Response
      */
-    protected function emptyResponse($statusCode = null) {
+    protected function emptyResponse($statusCode = null)
+    {
         if ($statusCode == null) {
             $statusCode = Response::STATUS_CODE_204;
         }
@@ -23,5 +24,4 @@ abstract class AbstractBaseController extends AbstractActionController
 
         return $response;
     }
-
 }

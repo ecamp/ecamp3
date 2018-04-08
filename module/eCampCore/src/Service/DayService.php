@@ -13,12 +13,14 @@ use ZF\ApiProblem\ApiProblem;
 
 class DayService extends BaseService
 {
-    public function __construct(DayHydrator $dayHydrator) {
+    public function __construct(DayHydrator $dayHydrator)
+    {
         parent::__construct($dayHydrator, Day::class);
     }
 
 
-    public function findCollectionQueryBuilder($className, $alias, $params = []) {
+    public function findCollectionQueryBuilder($className, $alias, $params = [])
+    {
         $q = parent::findCollectionQueryBuilder($className, $alias);
 
         $periodId = $params['period_id'];
@@ -32,7 +34,8 @@ class DayService extends BaseService
         return $q;
     }
 
-    protected function fetchAllQueryBuilder($params = []) {
+    protected function fetchAllQueryBuilder($params = [])
+    {
         $q = parent::fetchAllQueryBuilder($params);
         $q->join('row.period', 'p');
         $q->andWhere($this->createFilter($q, Camp::class, 'p', 'camp'));
@@ -40,7 +43,8 @@ class DayService extends BaseService
         return $q;
     }
 
-    protected function fetchQueryBuilder($id) {
+    protected function fetchQueryBuilder($id)
+    {
         $q = parent::fetchQueryBuilder($id);
         $q->join('row.period', 'p');
         $q->andWhere($this->createFilter($q, Camp::class, 'p', 'camp'));
@@ -55,7 +59,8 @@ class DayService extends BaseService
      * @throws ORMException
      * @throws NoAccessException
      */
-    public function create($data) {
+    public function create($data)
+    {
         /** @var Period $period */
         $period = $this->findEntity(Period::class, $data->period_id);
 
@@ -73,13 +78,13 @@ class DayService extends BaseService
      * @throws NoAccessException
      * @throws ORMException
      */
-    public function delete($id) {
+    public function delete($id)
+    {
         /** @var Day $day */
         $day = $this->fetch($id);
         $period = $day->getPeriod();
         $period->removeDay($day);
 
         return parent::delete($id);
-
     }
 }

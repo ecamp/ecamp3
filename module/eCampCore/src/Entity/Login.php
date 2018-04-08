@@ -9,12 +9,12 @@ use eCamp\Lib\Entity\BaseEntity;
  * @ORM\Entity()
  * @ORM\Table(name="logins")
  */
-class Login
-    extends BaseEntity
+class Login extends BaseEntity
 {
     const CURRENT_HASH_VERSION = 0;
 
-    public function __construct(User $user, $password) {
+    public function __construct(User $user, $password)
+    {
         parent::__construct();
         $this->user = $user;
         $this->setNewPassword($password);
@@ -57,21 +57,24 @@ class Login
      *
      * @return User
      */
-    public function getUser() {
+    public function getUser()
+    {
         return $this->user;
     }
 
     /**
      * @return int
      */
-    public function getHashVersion() {
+    public function getHashVersion()
+    {
         return $this->hashVersion;
     }
 
     /**
      * Create a new PW Reset Key
      */
-    public function createPwResetKey() {
+    public function createPwResetKey()
+    {
         $pwResetKey = md5(microtime(true));
         $this->pwResetKey = $this->getHash($pwResetKey);
         return $pwResetKey;
@@ -80,7 +83,8 @@ class Login
     /**
      * Clears the pwResetKey Field.
      */
-    public function clearPwResetKey() {
+    public function clearPwResetKey()
+    {
         $this->pwResetKey = null;
     }
 
@@ -88,7 +92,8 @@ class Login
      * @param $pwResetKey
      * @return bool
      */
-    public function checkPwResetKey($pwResetKey) {
+    public function checkPwResetKey($pwResetKey)
+    {
         return $this->checkHash($pwResetKey, $this->pwResetKey);
     }
 
@@ -98,7 +103,8 @@ class Login
      * @param null $hashVersion
      * @throws \Exception
      */
-    public function resetPassword($pwResetKey, $password, $hashVersion = null) {
+    public function resetPassword($pwResetKey, $password, $hashVersion = null)
+    {
         if ($this->checkPwResetKey($pwResetKey)) {
             $this->setNewPassword($password, $hashVersion);
         } else {
@@ -112,7 +118,8 @@ class Login
      * @param null $hashVersion
      * @throws \Exception
      */
-    public function changePassword($oldPassword, $newPassword, $hashVersion = null) {
+    public function changePassword($oldPassword, $newPassword, $hashVersion = null)
+    {
         if ($this->checkPassword($oldPassword)) {
             $this->setNewPassword($newPassword, $hashVersion);
         } else {
@@ -129,7 +136,8 @@ class Login
      * @param bool $rehash
      * @return bool
      */
-    public function checkPassword($password, $rehash = false) {
+    public function checkPassword($password, $rehash = false)
+    {
         if ($this->checkHash($password, $this->password)) {
             if ($rehash) {
                 $this->setNewPassword($password);
@@ -144,13 +152,15 @@ class Login
      * @param string $password
      * @param null $hashVersion
      */
-    private function setNewPassword($password, $hashVersion = null) {
+    private function setNewPassword($password, $hashVersion = null)
+    {
         $this->createSalt();
         $this->hashVersion = ($hashVersion !== null) ? $hashVersion : self::CURRENT_HASH_VERSION;
         $this->password = $this->getHash($password);
     }
 
-    private function createSalt() {
+    private function createSalt()
+    {
         $this->password = null;
         $this->pwResetKey = null;
         $this->salt = md5(microtime(true));
@@ -160,7 +170,8 @@ class Login
      * @param $password
      * @return string
      */
-    private function getHash($password) {
+    private function getHash($password)
+    {
         switch ($this->hashVersion) {
             case 1:
                 return $this->getHash_v1($password);
@@ -174,7 +185,8 @@ class Login
      * @param $hash
      * @return bool
      */
-    private function checkHash($password, $hash) {
+    private function checkHash($password, $hash)
+    {
         switch ($this->hashVersion) {
             case 1:
                 return $this->checkHash_v1($password, $hash);
@@ -188,7 +200,8 @@ class Login
      * @param $password
      * @return string
      */
-    private function getHash_v1($password) {
+    private function getHash_v1($password)
+    {
         return password_hash($this->addSalt_v1($password), PASSWORD_BCRYPT, ['cost' => 10]);
     }
 
@@ -197,7 +210,8 @@ class Login
      * @param $hash
      * @return bool
      */
-    private function checkHash_v1($password, $hash) {
+    private function checkHash_v1($password, $hash)
+    {
         return password_verify($this->addSalt_v1($password), $hash);
     }
 
@@ -205,7 +219,8 @@ class Login
      * @param $password
      * @return string
      */
-    private function addSalt_v1($password) {
+    private function addSalt_v1($password)
+    {
         return $this->salt . $password;
     }
     /****************************************************************************/

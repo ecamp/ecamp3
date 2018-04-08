@@ -17,9 +17,9 @@ class IndexController extends AbstractActionController
     /** @var UserService */
     private $userService;
 
-    public function __construct
-    ( AuthService $authService
-    , UserService $userService
+    public function __construct(
+        AuthService $authService,
+        UserService $userService
     ) {
         $this->authService = $authService;
         $this->userService = $userService;
@@ -30,7 +30,8 @@ class IndexController extends AbstractActionController
      * @return \Zend\View\Model\ViewModel|HalJsonModel
      * @throws \eCamp\Lib\Acl\NoAccessException
      */
-    public function indexAction() {
+    public function indexAction()
+    {
 
         // Login-Info
         // Login-Endpoint
@@ -61,5 +62,4 @@ class IndexController extends AbstractActionController
 
         return $json;
     }
-
 }

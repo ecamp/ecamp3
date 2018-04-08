@@ -6,5 +6,4 @@ use ZF\Rest\RestController;
 
 class GroupMembershipApiController extends RestController
 {
-
 }

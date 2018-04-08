@@ -8,7 +8,8 @@ use eCamp\Lib\Service\BaseService;
 
 class UserIdentityService extends BaseService
 {
-    public function __construct(UserIdentityHydrator $userIdentityHydrator) {
+    public function __construct(UserIdentityHydrator $userIdentityHydrator)
+    {
         parent::__construct($userIdentityHydrator, UserIdentity::class);
     }
 
@@ -17,11 +18,11 @@ class UserIdentityService extends BaseService
      * @param $identifier
      * @return UserIdentity|null|object
      */
-    public function find($provider, $identifier) {
+    public function find($provider, $identifier)
+    {
         return $this->getRepository()->findOneBy([
             'provider' => $provider,
             'providerId' => $identifier
         ]);
     }
-
 }

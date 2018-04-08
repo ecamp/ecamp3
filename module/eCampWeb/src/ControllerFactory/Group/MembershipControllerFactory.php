@@ -17,7 +17,8 @@ class MembershipControllerFactory implements FactoryInterface
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    public function __invoke(ContainerInterface $container, $requestedName, array $options = null) {
+    public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
+    {
         /** @var GroupMembershipService $groupMembershipService */
         $groupMembershipService = $container->get(GroupMembershipService::class);
 

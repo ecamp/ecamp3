@@ -6,7 +6,6 @@ use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
 use eCamp\Lib\Entity\BaseEntity;
 
-
 /**
  * @ORM\Entity()
  * @ORM\Table(name="event_instances")
@@ -14,7 +13,8 @@ use eCamp\Lib\Entity\BaseEntity;
  */
 class EventInstance extends BaseEntity
 {
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
     }
 
@@ -59,15 +59,18 @@ class EventInstance extends BaseEntity
     /**
      * @return Period
      */
-    public function getPeriod() {
+    public function getPeriod()
+    {
         return $this->period;
     }
 
-    public function setPeriod($period) {
+    public function setPeriod($period)
+    {
         $this->period = $period;
     }
 
-    public function getCamp(): Camp {
+    public function getCamp(): Camp
+    {
         return ($this->period !== null) ? $this->period->getCamp() : null;
     }
 
@@ -75,11 +78,13 @@ class EventInstance extends BaseEntity
     /**
      * @return Event
      */
-    public function getEvent() {
+    public function getEvent()
+    {
         return $this->event;
     }
 
-    public function setEvent($event) {
+    public function setEvent($event)
+    {
         $this->event = $event;
     }
 
@@ -87,14 +92,16 @@ class EventInstance extends BaseEntity
     /**
      * @return EventCategory
      */
-    public function getEventCategory(): EventCategory {
+    public function getEventCategory(): EventCategory
+    {
         return ($this->event !== null) ? $this->event->getEventCategory() : null;
     }
 
     /**
      * @return string
      */
-    public function getNumberingStyle(): string {
+    public function getNumberingStyle(): string
+    {
         $eventCategory = $this->getEventCategory();
         return ($eventCategory !== null) ? $eventCategory->getNumberingStyle() : null;
     }
@@ -102,7 +109,8 @@ class EventInstance extends BaseEntity
     /**
      * @return string
      */
-    public function getColor(): string {
+    public function getColor(): string
+    {
         $eventCategory = $this->getEventCategory();
         return ($eventCategory !== null) ? $eventCategory->getColor() : null;
     }
@@ -111,11 +119,13 @@ class EventInstance extends BaseEntity
     /**
      * @return int
      */
-    public function getStart(): int {
+    public function getStart(): int
+    {
         return $this->start;
     }
 
-    public function setStart(int $start): void {
+    public function setStart(int $start): void
+    {
         $this->start = $start;
     }
 
@@ -123,11 +133,13 @@ class EventInstance extends BaseEntity
     /**
      * @return int
      */
-    public function getLength(): int {
+    public function getLength(): int
+    {
         return $this->length;
     }
 
-    public function setLength(int $length): void {
+    public function setLength(int $length): void
+    {
         $this->length = $length;
     }
 
@@ -135,11 +147,13 @@ class EventInstance extends BaseEntity
     /**
      * @return mixed
      */
-    public function getLeft() {
+    public function getLeft()
+    {
         return $this->left ?: 0;
     }
 
-    public function setLeft($left): void {
+    public function setLeft($left): void
+    {
         $this->left = $left;
     }
 
@@ -147,27 +161,32 @@ class EventInstance extends BaseEntity
     /**
      * @return mixed
      */
-    public function getWidth() {
+    public function getWidth()
+    {
         return $this->width ?: 1;
     }
 
-    public function setWidth($width): void {
+    public function setWidth($width): void
+    {
         $this->width = $width;
     }
 
 
-    public function getDuration(): \DateInterval {
+    public function getDuration(): \DateInterval
+    {
         return new \DateInterval('PT' . $this->length . 'M');
     }
 
-    public function getStartTime(): \DateTime {
+    public function getStartTime(): \DateTime
+    {
         $start = $this->getPeriod()->getStart();
         $start->add(new \DateInterval('PT' . $this->start . 'M'));
 
         return $start;
     }
 
-    public function getEndTime(): \DateTime {
+    public function getEndTime(): \DateTime
+    {
         $end = $this->getStartTime();
         $end->add($this->getDuration());
 
@@ -175,11 +194,13 @@ class EventInstance extends BaseEntity
     }
 
 
-    public function getDayNumber(): int {
+    public function getDayNumber(): int
+    {
         return 1 + floor($this->start / (24 * 60));
     }
 
-    public function getEventInstanceNumber(): int {
+    public function getEventInstanceNumber(): int
+    {
         $dayOffset = floor($this->start / (24 * 60)) * 24 * 60;
 
         $expr = Criteria::expr();
@@ -192,14 +213,20 @@ class EventInstance extends BaseEntity
         $eventInstances = $this->period->getEventInstances()->matching($crit);
         $eventNumber = $eventInstances->filter(function (EventInstance $ei) {
             if ($ei->getNumberingStyle() === $this->getNumberingStyle()) {
-                if ($ei->start < $this->start) { return true; }
+                if ($ei->start < $this->start) {
+                    return true;
+                }
 
                 $eiLeft = $ei->left ?: 0;
                 $thisLeft = $this->left ?: 0;
 
-                if ($eiLeft < $thisLeft) { return true; }
+                if ($eiLeft < $thisLeft) {
+                    return true;
+                }
                 if ($eiLeft === $thisLeft) {
-                    if ($ei->createTime < $this->createTime) { return true; }
+                    if ($ei->createTime < $this->createTime) {
+                        return true;
+                    }
                 }
             }
             return false;
@@ -208,7 +235,8 @@ class EventInstance extends BaseEntity
         return ($eventNumber + 1);
     }
 
-    public function getNumber(): string {
+    public function getNumber(): string
+    {
         $dayNumber = $this->getDayNumber();
         $eventInstanceNumber = $this->getEventInstanceNumber();
         $eventInstanceStyledNumber = $eventInstanceNumber;
@@ -220,5 +248,4 @@ class EventInstance extends BaseEntity
 
         return $dayNumber . '.' . $eventInstanceStyledNumber;
     }
-
 }

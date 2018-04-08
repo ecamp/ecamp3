@@ -38,7 +38,8 @@ class UserIdentity extends BaseEntity
      * Set user
      * @param User $user
      */
-    public function setUser(User $user) {
+    public function setUser(User $user)
+    {
         $this->user = $user;
     }
 
@@ -46,7 +47,8 @@ class UserIdentity extends BaseEntity
      * Get user
      * @return User
      */
-    public function getUser() {
+    public function getUser()
+    {
         return $this->user;
     }
 
@@ -54,7 +56,8 @@ class UserIdentity extends BaseEntity
      * Set provider
      * @param string $provider
      */
-    public function setProvider($provider) {
+    public function setProvider($provider)
+    {
         $this->provider = $provider;
     }
 
@@ -62,7 +65,8 @@ class UserIdentity extends BaseEntity
      * Get provider
      * @return string
      */
-    public function getProvider() {
+    public function getProvider()
+    {
         return $this->provider;
     }
 
@@ -70,7 +74,8 @@ class UserIdentity extends BaseEntity
      * Set provider ID
      * @param string $providerId
      */
-    public function setProviderId($providerId) {
+    public function setProviderId($providerId)
+    {
         $this->providerId = $providerId;
     }
 
@@ -78,7 +83,8 @@ class UserIdentity extends BaseEntity
      * Get provider Id
      * @return string
      */
-    public function getProviderId() {
+    public function getProviderId()
+    {
         return $this->providerId;
     }
 }

@@ -23,9 +23,9 @@ class LoginController extends AbstractActionController
     private $userService;
 
 
-    public function __construct
-    ( AuthService $authService
-    , UserService $userService
+    public function __construct(
+        AuthService $authService,
+        UserService $userService
     ) {
         $this->authService = $authService;
         $this->userService = $userService;
@@ -37,7 +37,8 @@ class LoginController extends AbstractActionController
      * @throws NoAccessException
      * @throws NonUniqueResultException
      */
-    public function indexAction() {
+    public function indexAction()
+    {
         /** @var Request $request */
         $request = $this->getRequest();
 
@@ -89,7 +90,8 @@ class LoginController extends AbstractActionController
      * @return Response
      * @throws NonUniqueResultException
      */
-    public function loginAction() {
+    public function loginAction()
+    {
         /** @var Request $request */
         $request = $this->getRequest();
         $content = $request->getContent();
@@ -103,7 +105,8 @@ class LoginController extends AbstractActionController
     /**
      * @return Response
      */
-    public function logoutAction() {
+    public function logoutAction()
+    {
         $this->authService->clearIdentity();
 
         return $this->redirect()->toRoute('ecamp.api/login');
@@ -112,13 +115,14 @@ class LoginController extends AbstractActionController
     /**
      * @return Response
      */
-    public function googleAction() {
+    public function googleAction()
+    {
         $redirect = $this->url()->fromRoute('ecamp.api/login');
 
         return $this->redirect()->toRoute(
-            'ecamp.auth/google', [],
+            'ecamp.auth/google',
+            [],
             ['query' => ['redirect' => $redirect]]
         );
     }
-
 }

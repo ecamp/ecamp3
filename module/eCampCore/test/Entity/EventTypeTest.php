@@ -90,5 +90,4 @@ class EventTypeTest extends AbstractTestCase
 
         $this->assertCount(2, $event->getEventPlugins());
     }
-
 }

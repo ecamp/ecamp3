@@ -17,7 +17,8 @@ class EventCategoryServiceFactory extends BaseServiceFactory
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    public function __invoke(ContainerInterface $container, $requestedName, array $options = null) {
+    public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
+    {
         $hydrator = $this->getHydrator($container, EventCategoryHydrator::class);
 
         return new EventCategoryService($hydrator);

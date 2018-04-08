@@ -13,7 +13,8 @@ use ZF\ApiProblem\ApiProblem;
 
 class EventCategoryService extends BaseService
 {
-    public function __construct(EventCategoryHydrator $eventCategoryHydrator) {
+    public function __construct(EventCategoryHydrator $eventCategoryHydrator)
+    {
         parent::__construct($eventCategoryHydrator, EventCategory::class);
     }
 
@@ -23,7 +24,8 @@ class EventCategoryService extends BaseService
      * @throws ORMException
      * @throws NoAccessException
      */
-    public function create($data) {
+    public function create($data)
+    {
         /** @var EventCategory $eventCategory */
         $eventCategory = parent::create($data);
 
@@ -32,10 +34,9 @@ class EventCategoryService extends BaseService
         $eventCategory->setEventType($eventType);
 
         /** @var Camp $camp */
-        $camp = $this->findEntity(Camp::class, $data->camp_id );
+        $camp = $this->findEntity(Camp::class, $data->camp_id);
         $camp->addEventCategory($eventCategory);
 
         return $eventCategory;
     }
-
 }

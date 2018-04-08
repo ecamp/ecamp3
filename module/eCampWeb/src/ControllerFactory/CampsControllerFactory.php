@@ -20,7 +20,8 @@ class CampsControllerFactory implements FactoryInterface
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      */
-    public function __invoke(ContainerInterface $container, $requestedName, array $options = null) {
+    public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
+    {
         /** @var AuthService $authService */
         $authService = $container->get(AuthService::class);
         /** @var CampService $campService */

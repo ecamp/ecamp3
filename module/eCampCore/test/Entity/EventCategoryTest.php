@@ -48,7 +48,5 @@ class EventCategoryTest extends AbstractTestCase
 
         $eventCategory->setNumberingStyle('I');
         $this->assertEquals('XXXI', $eventCategory->getStyledNumber(31));
-
     }
-
 }

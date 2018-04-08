@@ -22,16 +22,19 @@ class TranslatorInjector extends AbstractListenerAggregate
     /** @var Container */
     private $sessionContainer;
 
-    public function __construct(TranslatorInterface $translator) {
+    public function __construct(TranslatorInterface $translator)
+    {
         $this->translator = $translator;
     }
 
 
-    public function attach(EventManagerInterface $events, $priority = 1) {
+    public function attach(EventManagerInterface $events, $priority = 1)
+    {
         $this->listeners = $events->attach(MvcEvent::EVENT_DISPATCH, [$this, 'onDispatch'], -1000);
     }
 
-    public function onDispatch(MvcEvent $e) {
+    public function onDispatch(MvcEvent $e)
+    {
         /** @var Request $req */
         $req = $e->getRequest();
         $locale = $req->getQuery('locale');
@@ -51,20 +54,19 @@ class TranslatorInjector extends AbstractListenerAggregate
     }
 
 
-    function getLocale() {
+    public function getLocale()
+    {
         if ($this->sessionContainer == null) {
             $this->sessionContainer = new Container(self::SESSION_NAMESPACE);
         }
         return $this->sessionContainer->locale;
     }
 
-    function setLocale($locale) {
+    public function setLocale($locale)
+    {
         if ($this->sessionContainer == null) {
             $this->sessionContainer = new Container(self::SESSION_NAMESPACE);
         }
         $this->sessionContainer->locale = $locale;
     }
-
-
-
 }

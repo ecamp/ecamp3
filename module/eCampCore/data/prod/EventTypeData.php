@@ -2,7 +2,6 @@
 
 namespace eCamp\CoreData;
 
-
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -17,7 +16,8 @@ class EventTypeData extends AbstractFixture implements DependentFixtureInterface
     public static $LAGERSPORT = 'LAGERSPORT';
     public static $LAGERAKTIVITAET = 'LAGERAKTIVITAET';
 
-    public function load(ObjectManager $manager) {
+    public function load(ObjectManager $manager)
+    {
         $repository = $manager->getRepository(EventType::class);
 
         $web = $this->getReference(MediumData::$WEB);
@@ -99,7 +99,8 @@ class EventTypeData extends AbstractFixture implements DependentFixtureInterface
         $manager->flush();
     }
 
-    function getDependencies() {
+    public function getDependencies()
+    {
         return [ PluginData::class, MediumData::class ];
     }
 }

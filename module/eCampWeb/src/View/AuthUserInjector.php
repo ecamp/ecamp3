@@ -13,16 +13,19 @@ class AuthUserInjector extends AbstractListenerAggregate
     /** @var AuthService */
     private $authService;
 
-    public function __construct(AuthService $authService) {
+    public function __construct(AuthService $authService)
+    {
         $this->authService = $authService;
     }
 
 
-    public function attach(EventManagerInterface $events, $priority = 1) {
+    public function attach(EventManagerInterface $events, $priority = 1)
+    {
         $this->listeners = $events->attach(MvcEvent::EVENT_DISPATCH, [$this, 'onDispatch'], -1000);
     }
 
-    public function onDispatch(MvcEvent $e) {
+    public function onDispatch(MvcEvent $e)
+    {
         $res = $e->getResult();
 
         if ($res instanceof ViewModel) {

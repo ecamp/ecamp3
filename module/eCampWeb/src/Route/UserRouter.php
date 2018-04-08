@@ -14,7 +14,8 @@ class UserRouter extends FluentRouter
      * @param $params
      * @return null|RouteMatch
      */
-    protected function matchGroup($path, $length, $params) {
+    protected function matchGroup($path, $length, $params)
+    {
         return null;
     }
 
@@ -26,8 +27,8 @@ class UserRouter extends FluentRouter
      * @param $params
      * @return null|RouteMatch
      */
-    protected function matchCamp($path, $length, $params) {
+    protected function matchCamp($path, $length, $params)
+    {
         return null;
     }
-
 }

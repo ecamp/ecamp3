@@ -13,12 +13,12 @@ class PrintController extends AbstractBaseController
      * @return array|ViewModel
      * @throws AuthRequiredException
      */
-    public function indexAction() {
+    public function indexAction()
+    {
         $this->forceLogin();
 
         return [
             'camp' => $this->params()->fromRoute('camp'),
         ];
     }
-
 }

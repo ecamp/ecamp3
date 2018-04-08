@@ -13,8 +13,8 @@ use eCamp\Lib\Entity\BaseEntity;
  */
 class EventType extends BaseEntity
 {
-
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
 
         $this->campTypes = new ArrayCollection();
@@ -68,11 +68,13 @@ class EventType extends BaseEntity
     /**
      * @return string
      */
-    public function getName(): string {
+    public function getName(): string
+    {
         return $this->name;
     }
 
-    public function setName(string $name): void {
+    public function setName(string $name): void
+    {
         $this->name = $name;
     }
 
@@ -80,11 +82,13 @@ class EventType extends BaseEntity
     /**
      * @return string
      */
-    public function getDefaultColor(): string {
+    public function getDefaultColor(): string
+    {
         return $this->defaultColor;
     }
 
-    public function setDefaultColor(string $defaultColor): void {
+    public function setDefaultColor(string $defaultColor): void
+    {
         $this->defaultColor = $defaultColor;
     }
 
@@ -92,11 +96,13 @@ class EventType extends BaseEntity
     /**
      * @return string
      */
-    public function getDefaultNumberingStyle(): string {
+    public function getDefaultNumberingStyle(): string
+    {
         return $this->defaultNumberingStyle;
     }
 
-    public function setDefaultNumberingStyle(string $defaultNumberingStyle): void {
+    public function setDefaultNumberingStyle(string $defaultNumberingStyle): void
+    {
         $this->defaultNumberingStyle = $defaultNumberingStyle;
     }
 
@@ -104,16 +110,19 @@ class EventType extends BaseEntity
     /**
      * @return ArrayCollection
      */
-    public function getEventTypePlugins() {
+    public function getEventTypePlugins()
+    {
         return $this->eventTypePlugins;
     }
 
-    public function addEventTypePlugin(EventTypePlugin $eventTypePlugin) {
+    public function addEventTypePlugin(EventTypePlugin $eventTypePlugin)
+    {
         $eventTypePlugin->setEventType($this);
         $this->eventTypePlugins->add($eventTypePlugin);
     }
 
-    public function removeEventTypePlugin(EventTypePlugin $eventTypePlugin) {
+    public function removeEventTypePlugin(EventTypePlugin $eventTypePlugin)
+    {
         $eventTypePlugin->setEventType(null);
         $this->eventTypePlugins->removeElement($eventTypePlugin);
     }
@@ -122,16 +131,19 @@ class EventType extends BaseEntity
     /**
      * @return ArrayCollection
      */
-    public function getEventTypeFactories() {
+    public function getEventTypeFactories()
+    {
         return $this->eventTypeFactories;
     }
 
-    public function addEventTypeFactory(EventTypeFactory $factory) {
+    public function addEventTypeFactory(EventTypeFactory $factory)
+    {
         $factory->setEventType($this);
         $this->eventTypeFactories->add($factory);
     }
 
-    public function removeEventTypeFactory(EventTypeFactory $factory) {
+    public function removeEventTypeFactory(EventTypeFactory $factory)
+    {
         $factory->setEventType(null);
         $this->eventTypeFactories->removeElement($factory);
     }
@@ -140,23 +152,27 @@ class EventType extends BaseEntity
     /**
      * @return ArrayCollection
      */
-    public function getEventTemplates() {
+    public function getEventTemplates()
+    {
         return $this->eventTemplates;
     }
 
-    public function addEventTemplate(EventTemplate $eventTemplate) {
+    public function addEventTemplate(EventTemplate $eventTemplate)
+    {
         $eventTemplate->setEventType($this);
         $this->eventTemplates->add($eventTemplate);
     }
 
-    public function removeEventTemplate(EventTemplate $eventTemplateContainer) {
+    public function removeEventTemplate(EventTemplate $eventTemplateContainer)
+    {
         $eventTemplateContainer->setEventType(null);
         $this->eventTemplates->removeElement($eventTemplateContainer);
     }
 
 
 
-    public function createDefaultEventPlugins(Event $event) {
+    public function createDefaultEventPlugins(Event $event)
+    {
         foreach ($this->getEventTypePlugins() as $eventTypePlugin) {
             for ($idx = 0; $idx < $eventTypePlugin->getMinNumberPluginInstances(); $idx++) {
                 /** @var Plugin $plugin */
@@ -172,5 +188,4 @@ class EventType extends BaseEntity
             }
         }
     }
-
 }

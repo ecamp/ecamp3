@@ -10,12 +10,14 @@ use eCamp\Lib\Service\BaseService;
 
 class GroupService extends BaseService
 {
-    public function __construct(GroupHydrator $groupHydrator) {
+    public function __construct(GroupHydrator $groupHydrator)
+    {
         parent::__construct($groupHydrator, Group::class);
     }
 
 
-    public function fetchByParentGroup(Group $group = null) {
+    public function fetchByParentGroup(Group $group = null)
+    {
         $q = $this->findCollectionQueryBuilder(Group::class, 'g');
         if ($group == null) {
             $q->where($q->expr()->isNull('g.parent'));
@@ -27,7 +29,8 @@ class GroupService extends BaseService
         return $this->getQueryResult($q);
     }
 
-    public function fetchByUser(User $user = null) {
+    public function fetchByUser(User $user = null)
+    {
         $memQ = $this->findCollectionQueryBuilder(GroupMembership::class, 'gm');
         $memQ->join('gm.group', 'g');
         $memQ->where('gm.user = :user', 'gm.status = :status');
@@ -44,5 +47,4 @@ class GroupService extends BaseService
 
         return $this->getQueryResult($q);
     }
-
 }

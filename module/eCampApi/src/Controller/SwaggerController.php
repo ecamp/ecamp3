@@ -11,11 +11,13 @@ class SwaggerController extends AbstractActionController
 {
     private $config;
 
-    public function __construct(array $config) {
+    public function __construct(array $config)
+    {
         $this->config = $config;
     }
 
-    public function indexAction() {
+    public function indexAction()
+    {
         $viewModel = new JsonModel();
 
         $zfRestConfigs = $this->config['zf-rest'];
@@ -77,5 +79,4 @@ class SwaggerController extends AbstractActionController
         echo Yaml::dump($docu, 10, 2);
         die();
     }
-
 }

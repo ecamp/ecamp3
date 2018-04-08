@@ -10,7 +10,8 @@ class OrganizationData extends AbstractFixture
 {
     public static $PBS = Organization::class . ':PBS';
 
-    public function load(ObjectManager $manager) {
+    public function load(ObjectManager $manager)
+    {
         $repository = $manager->getRepository(Organization::class);
 
         $organization = $repository->findOneBy([ 'name' => 'PBS' ]);
@@ -23,5 +24,4 @@ class OrganizationData extends AbstractFixture
 
         $manager->flush();
     }
-
 }

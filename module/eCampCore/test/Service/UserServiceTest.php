@@ -8,8 +8,8 @@ use eCamp\LibTest\PHPUnit\AbstractDatabaseTestCase;
 
 class UserServiceTest extends AbstractDatabaseTestCase
 {
-
-    public function testCreateUser() {
+    public function testCreateUser()
+    {
         /** @var UserService $userService */
         $userService = \eCampApp::GetService(UserService::class);
 
@@ -19,11 +19,11 @@ class UserServiceTest extends AbstractDatabaseTestCase
         ]);
 
         $this->assertEquals(User::STATE_NONREGISTERED, $user->getState());
-
     }
 
 
-    public function testGetUser() {
+    public function testGetUser()
+    {
         /** @var UserService $userService */
         $userService = \eCampApp::GetService(UserService::class);
 
@@ -42,5 +42,4 @@ class UserServiceTest extends AbstractDatabaseTestCase
         $user3 = $userService->fetch(-1);
         $this->assertNull($user3);
     }
-
 }

@@ -18,7 +18,8 @@ class EventInstanceData extends AbstractFixture implements DependentFixtureInter
     public static $EVENT_INSTANCE_2_LS = Event::class . ':EVENT_INSTANCE_2_LS';
     public static $EVENT_INSTANCE_2_LA = Event::class . ':EVENT_INSTANCE_2_LA';
 
-    public function load(ObjectManager $manager) {
+    public function load(ObjectManager $manager)
+    {
         $repository = $manager->getRepository(EventInstance::class);
 
 
@@ -138,7 +139,8 @@ class EventInstanceData extends AbstractFixture implements DependentFixtureInter
         $manager->flush();
     }
 
-    function getDependencies() {
+    public function getDependencies()
+    {
         return [ PeriodData::class, EventData::class ];
     }
 }

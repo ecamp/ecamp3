@@ -18,7 +18,8 @@ class SectionServiceFactory extends BasePluginServiceFactory
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      */
-    public function __invoke(ContainerInterface $container, $requestedName, array $options = null) {
+    public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
+    {
         $acl = $container->get(\Zend\Permissions\Acl\AclInterface::class);
         $entityManager = $this->getEntityManager($container);
         $textareaHydrator = $this->getHydrator($container, SectionHydrator::class);

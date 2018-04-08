@@ -28,5 +28,4 @@ class OrganizationTest extends AbstractTestCase
         $organization->removeCampType($campType);
         $this->assertEquals(0, $organization->getCampTypes()->count());
     }
-
 }

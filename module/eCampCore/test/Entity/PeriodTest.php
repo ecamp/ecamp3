@@ -67,7 +67,8 @@ class PeriodTest extends AbstractTestCase
         $this->assertEquals(8, $period->getDurationInDays());
     }
 
-    public function testDay() {
+    public function testDay()
+    {
         $period = new Period();
         $day = new Day();
 
@@ -78,7 +79,8 @@ class PeriodTest extends AbstractTestCase
         $this->assertEquals(0, $period->getDays()->count());
     }
 
-    public function testEventInstance() {
+    public function testEventInstance()
+    {
         $period = new Period();
         $eventInstance = new EventInstance();
 
@@ -90,7 +92,8 @@ class PeriodTest extends AbstractTestCase
     }
 
 
-    public function testLifecycle() {
+    public function testLifecycle()
+    {
         $period = new Period();
         $period->PrePersist();
         $period->PreUpdate();

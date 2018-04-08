@@ -10,11 +10,10 @@ interface PluginStrategyInterface
      * @param EventPlugin $eventPlugin
      * @return array
      */
-    function eventPluginExtract(EventPlugin $eventPlugin) : array;
+    public function eventPluginExtract(EventPlugin $eventPlugin) : array;
 
     /**
      * @param EventPlugin $eventPlugin
      */
-    function eventPluginCreated(EventPlugin $eventPlugin) : void;
-
+    public function eventPluginCreated(EventPlugin $eventPlugin) : void;
 }

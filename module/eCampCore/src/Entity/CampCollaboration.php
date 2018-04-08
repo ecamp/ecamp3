@@ -24,7 +24,8 @@ class CampCollaboration extends BaseEntity
     const STATUS_ESTABLISHED 	= 'established';
 
 
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
 
         $this->status = self::STATUS_UNRELATED;
@@ -68,11 +69,13 @@ class CampCollaboration extends BaseEntity
     /**
      * @return User
      */
-    public function getUser(): User {
+    public function getUser(): User
+    {
         return $this->user;
     }
 
-    public function setUser(User $user): void {
+    public function setUser(User $user): void
+    {
         $this->user = $user;
     }
 
@@ -80,11 +83,13 @@ class CampCollaboration extends BaseEntity
     /**
      * @return Camp
      */
-    public function getCamp() {
+    public function getCamp()
+    {
         return $this->camp;
     }
 
-    public function setCamp($camp) {
+    public function setCamp($camp)
+    {
         $this->camp = $camp;
     }
 
@@ -92,29 +97,34 @@ class CampCollaboration extends BaseEntity
     /**
      * @return string
      */
-    public function getStatus(): string {
+    public function getStatus(): string
+    {
         return $this->status;
     }
     /**
      * @param string $status
      * @throws \Exception
      */
-    public function setStatus(string $status): void {
+    public function setStatus(string $status): void
+    {
         if (!in_array($status, [self::STATUS_INVITED, self::STATUS_REQUESTED, self::STATUS_ESTABLISHED])) {
             throw new \Exception('Invalid status: ' . $status);
         }
         $this->status = $status;
     }
 
-    public function isEstablished(): bool {
+    public function isEstablished(): bool
+    {
         return ($this->status === self::STATUS_ESTABLISHED);
     }
 
-    public function isRequest(): bool {
+    public function isRequest(): bool
+    {
         return ($this->status === self::STATUS_REQUESTED);
     }
 
-    public function isInvitation(): bool {
+    public function isInvitation(): bool
+    {
         return ($this->status === self::STATUS_INVITED);
     }
 
@@ -122,29 +132,34 @@ class CampCollaboration extends BaseEntity
     /**
      * @return string
      */
-    public function getRole(): string {
+    public function getRole(): string
+    {
         return $this->role;
     }
     /**
      * @param string $role
      * @throws \Exception
      */
-    public function setRole(string $role): void {
+    public function setRole(string $role): void
+    {
         if (!in_array($role, [self::ROLE_GUEST, self::ROLE_MEMBER, self::ROLE_MANAGER])) {
             throw new \Exception('Invalid role: ' . $role);
         }
         $this->role = $role;
     }
 
-    public function isGuest(): bool {
+    public function isGuest(): bool
+    {
         return ($this->role === self::ROLE_GUEST);
     }
 
-    public function isMember(): bool {
+    public function isMember(): bool
+    {
         return ($this->role === self::ROLE_MEMBER);
     }
 
-    public function isManager(): bool {
+    public function isManager(): bool
+    {
         return ($this->role === self::ROLE_MANAGER);
     }
 
@@ -152,11 +167,13 @@ class CampCollaboration extends BaseEntity
     /**
      * @return string
      */
-    public function getCollaborationAcceptedBy() {
+    public function getCollaborationAcceptedBy()
+    {
         return $this->collaborationAcceptedBy;
     }
 
-    public function setCollaborationAcceptedBy($collaborationAcceptedBy) {
+    public function setCollaborationAcceptedBy($collaborationAcceptedBy)
+    {
         $this->collaborationAcceptedBy = $collaborationAcceptedBy;
     }
 
@@ -165,7 +182,8 @@ class CampCollaboration extends BaseEntity
      * @ORM\PrePersist
      * @throws \Exception
      */
-    public function PrePersist() {
+    public function PrePersist()
+    {
         parent::PrePersist();
 
         if (in_array($this->status, [self::STATUS_REQUESTED, self::STATUS_UNRELATED])) {
@@ -174,8 +192,8 @@ class CampCollaboration extends BaseEntity
     }
 
     /** @ORM\PreUpdate */
-    public function PreUpdate() {
+    public function PreUpdate()
+    {
         parent::PreUpdate();
     }
-
 }

@@ -9,8 +9,8 @@ use eCamp\Core\Entity\CampCollaboration;
 
 class CampFilter extends BaseFilter
 {
-
-    public function create(QueryBuilder $q, $alias, $field) {
+    public function create(QueryBuilder $q, $alias, $field)
+    {
         $collQ = $this->findCollectionQueryBuilder(CampCollaboration::class, 'cc');
         $collQ->join('cc.camp', 'camp');
         $collQ->select('camp');
@@ -31,5 +31,4 @@ class CampFilter extends BaseFilter
 
         return new Expr\Func($alias . '.' . $field . ' IN', (array)$campQ->getDQL());
     }
-
 }

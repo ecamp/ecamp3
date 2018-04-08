@@ -44,7 +44,5 @@ class EventTemplateContainerTest extends AbstractTestCase
         $this->assertEquals($eventTypePlugin, $eventTemplateContainer->getEventTypePlugin());
         $this->assertEquals('container.twig', $eventTemplateContainer->getFilename());
         $this->assertEquals('containername', $eventTemplateContainer->getContainerName());
-
     }
-
 }

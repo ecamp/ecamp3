@@ -17,7 +17,8 @@ use eCamp\Lib\Entity\BaseEntity;
  */
 class Camp extends BaseEntity
 {
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
 
         $this->collaborations = new ArrayCollection();
@@ -102,11 +103,13 @@ class Camp extends BaseEntity
     /**
      * @return CampType
      */
-    public function getCampType() {
+    public function getCampType()
+    {
         return $this->campType;
     }
 
-    public function setCampType(CampType $campType): void {
+    public function setCampType(CampType $campType): void
+    {
         $this->campType = $campType;
     }
 
@@ -114,7 +117,8 @@ class Camp extends BaseEntity
      * @param null $key
      * @return object
      */
-    public function getConfig($key = null) {
+    public function getConfig($key = null)
+    {
         return ($this->campType !== null) ? $this->campType->getConfig($key) : null;
     }
 
@@ -122,11 +126,13 @@ class Camp extends BaseEntity
     /**
      * @return string
      */
-    public function getName(): string {
+    public function getName(): string
+    {
         return $this->name;
     }
 
-    public function setName(string $name): void {
+    public function setName(string $name): void
+    {
         $this->name = $name;
     }
 
@@ -134,11 +140,13 @@ class Camp extends BaseEntity
     /**
      * @return string
      */
-    public function getTitle(): string {
+    public function getTitle(): string
+    {
         return $this->title;
     }
 
-    public function setTitle(string $title): void {
+    public function setTitle(string $title): void
+    {
         $this->title = $title;
     }
 
@@ -146,11 +154,13 @@ class Camp extends BaseEntity
     /**
      * @return string
      */
-    public function getMotto(): string {
+    public function getMotto(): string
+    {
         return $this->motto;
     }
 
-    public function setMotto(string $motto): void {
+    public function setMotto(string $motto): void
+    {
         $this->motto = $motto;
     }
 
@@ -158,11 +168,13 @@ class Camp extends BaseEntity
     /**
      * @return User
      */
-    public function getCreator(): User {
+    public function getCreator(): User
+    {
         return $this->creator;
     }
 
-    public function setCreator(User $creator): void {
+    public function setCreator(User $creator): void
+    {
         $this->creator = $creator;
     }
 
@@ -170,11 +182,13 @@ class Camp extends BaseEntity
     /**
      * @return AbstractCampOwner
      */
-    public function getOwner() {
+    public function getOwner()
+    {
         return $this->owner;
     }
 
-    public function setOwner($owner) {
+    public function setOwner($owner)
+    {
         $this->owner = $owner;
     }
 
@@ -182,14 +196,16 @@ class Camp extends BaseEntity
     /**
      * @return bool
      */
-    public function belongsToUser() {
+    public function belongsToUser()
+    {
         return $this->owner instanceof User;
     }
 
     /**
      * @return bool
      */
-    public function belongsToGroup() {
+    public function belongsToGroup()
+    {
         return $this->owner instanceof Group;
     }
 
@@ -197,16 +213,19 @@ class Camp extends BaseEntity
     /**
      * @return ArrayCollection
      */
-    public function getCampCollaborations() {
+    public function getCampCollaborations()
+    {
         return $this->collaborations;
     }
 
-    public function addCampCollaboration(CampCollaboration $collaboration) {
+    public function addCampCollaboration(CampCollaboration $collaboration)
+    {
         $collaboration->setCamp($this);
         $this->collaborations->add($collaboration);
     }
 
-    public function removeCampCollaboration(CampCollaboration $collaboration) {
+    public function removeCampCollaboration(CampCollaboration $collaboration)
+    {
         $collaboration->setCamp(null);
         $this->collaborations->removeElement($collaboration);
     }
@@ -215,16 +234,19 @@ class Camp extends BaseEntity
     /**
      * @return ArrayCollection
      */
-    public function getJobs() {
+    public function getJobs()
+    {
         return $this->jobs;
     }
 
-    public function addJob(Job $job) {
+    public function addJob(Job $job)
+    {
         $job->setCamp($this);
         $this->jobs->add($job);
     }
 
-    public function removeJob(Job $job) {
+    public function removeJob(Job $job)
+    {
         $job->setCamp(null);
         $this->jobs->removeElement($job);
     }
@@ -233,16 +255,19 @@ class Camp extends BaseEntity
     /**
      * @return ArrayCollection
      */
-    public function getPeriods() {
+    public function getPeriods()
+    {
         return $this->periods;
     }
 
-    public function addPeriod(Period $period): void {
+    public function addPeriod(Period $period): void
+    {
         $period->setCamp($this);
         $this->periods->add($period);
     }
 
-    public function removePeriod(Period $period): void {
+    public function removePeriod(Period $period): void
+    {
         $period->setCamp(null);
         $this->periods->removeElement($period);
     }
@@ -251,16 +276,19 @@ class Camp extends BaseEntity
     /**
      * @return ArrayCollection
      */
-    public function getEventCategories() {
+    public function getEventCategories()
+    {
         return $this->eventCategories;
     }
 
-    public function addEventCategory(EventCategory $eventCategory): void {
+    public function addEventCategory(EventCategory $eventCategory): void
+    {
         $eventCategory->setCamp($this);
         $this->eventCategories->add($eventCategory);
     }
 
-    public function removeEventCategory(EventCategory $eventCategory): void {
+    public function removeEventCategory(EventCategory $eventCategory): void
+    {
         $eventCategory->setCamp(null);
         $this->eventCategories->removeElement($eventCategory);
     }
@@ -269,18 +297,20 @@ class Camp extends BaseEntity
     /**
      * @return ArrayCollection
      */
-    public function getEvents(): ArrayCollection {
+    public function getEvents(): ArrayCollection
+    {
         return $this->events;
     }
 
-    public function addEvent(Event $event): void {
+    public function addEvent(Event $event): void
+    {
         $event->setCamp($this);
         $this->events->add($event);
     }
 
-    public function removeEvent(Event $event): void {
+    public function removeEvent(Event $event): void
+    {
         $event->setCamp(null);
         $this->events->removeElement($event);
     }
-
 }

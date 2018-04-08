@@ -19,9 +19,10 @@ class EventPluginHydratorFactory implements FactoryInterface
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      */
-    public function __invoke(ContainerInterface $container, $requestedName, array $options = null) {
+    public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
+    {
         /** @var PluginStrategyProvider $pluginStrategyProvider */
-        $pluginStrategyProvider = $container->get(PluginStrategyProvider::class );
+        $pluginStrategyProvider = $container->get(PluginStrategyProvider::class);
 
         return new EventPluginHydrator($pluginStrategyProvider);
     }

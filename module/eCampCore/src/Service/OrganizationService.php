@@ -8,7 +8,8 @@ use eCamp\Lib\Service\BaseService;
 
 class OrganizationService extends BaseService
 {
-    public function __construct(OrganizationHydrator $organizationHydrator) {
+    public function __construct(OrganizationHydrator $organizationHydrator)
+    {
         parent::__construct($organizationHydrator, Organization::class);
     }
 }

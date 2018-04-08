@@ -14,7 +14,8 @@ class GroupRouter extends FluentRouter
      * @param array $params
      * @return null|RouteMatch
      */
-    protected function matchUser($path, $length, $params) {
+    protected function matchUser($path, $length, $params)
+    {
         return null;
     }
 
@@ -26,7 +27,8 @@ class GroupRouter extends FluentRouter
      * @param $params
      * @return null|RouteMatch
      */
-    protected function matchCamp($path, $length, $params) {
+    protected function matchCamp($path, $length, $params)
+    {
         return null;
     }
 }

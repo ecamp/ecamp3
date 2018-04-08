@@ -12,9 +12,8 @@ class IndexController extends AbstractBaseController
      * @return void|ViewModel
      * @throws AuthRequiredException
      */
-    public function indexAction() {
+    public function indexAction()
+    {
         $this->forceLogin();
-
     }
-
 }

@@ -10,10 +10,10 @@ abstract class PluginStrategyBase implements PluginStrategyInterface
      * @param EventPlugin $eventPlugin
      * @return array
      */
-    abstract function eventPluginExtract(EventPlugin $eventPlugin) : array;
+    abstract public function eventPluginExtract(EventPlugin $eventPlugin) : array;
 
     /**
      * @param EventPlugin $eventPlugin
      */
-    abstract function eventPluginCreated(EventPlugin $eventPlugin) : void;
+    abstract public function eventPluginCreated(EventPlugin $eventPlugin) : void;
 }

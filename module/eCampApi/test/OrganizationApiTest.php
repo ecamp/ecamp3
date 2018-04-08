@@ -6,8 +6,8 @@ use eCamp\LibTest\PHPUnit\AbstractHttpControllerTestCase;
 
 class OrganizationApiTest extends AbstractHttpControllerTestCase
 {
-
-    public function testOrganizationFetch() {
+    public function testOrganizationFetch()
+    {
         $headers = $this->getRequest()->getHeaders();
         $headers->addHeaderLine('Accept', 'application/json');
 
@@ -19,6 +19,5 @@ class OrganizationApiTest extends AbstractHttpControllerTestCase
         $basePath = $req->getBasePath();
 
         $this->assertNotRedirect();
-
     }
 }

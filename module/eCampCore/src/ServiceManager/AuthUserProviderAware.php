@@ -10,5 +10,4 @@ interface AuthUserProviderAware
      * @param AuthUserProvider $authUserProvider
      */
     public function setAuthUserProvider(AuthUserProvider $authUserProvider);
-
 }

@@ -83,5 +83,4 @@ class EventInstanceTest extends AbstractTestCase
         $end = $eventInstance->getEndTime();
         $this->assertEquals($period->getStart()->setTime(17, 0, 0), $end);
     }
-
 }
