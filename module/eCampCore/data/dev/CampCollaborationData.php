@@ -11,8 +11,8 @@ use eCamp\Core\Entity\User;
 
 class CampCollaborationData extends AbstractFixture implements DependentFixtureInterface
 {
-
-    public function load(ObjectManager $manager) {
+    public function load(ObjectManager $manager)
+    {
         $repository = $manager->getRepository(CampCollaboration::class);
         $campRepository = $manager->getRepository(Camp::class);
         $userRepository = $manager->getRepository(User::class);
@@ -24,7 +24,7 @@ class CampCollaborationData extends AbstractFixture implements DependentFixtureI
             foreach ($users as $user) {
                 /** @var CampCollaboration $collaboration */
                 $collaboration = $repository->findOneBy(['camp' => $camp, 'user' => $user]);
-                if($collaboration == null) {
+                if ($collaboration == null) {
                     $collaboration = new CampCollaboration();
                     $collaboration->setCamp($camp);
                     $collaboration->setUser($user);
@@ -39,7 +39,8 @@ class CampCollaborationData extends AbstractFixture implements DependentFixtureI
         $manager->flush();
     }
 
-    function getDependencies() {
+    public function getDependencies()
+    {
         return [ CampData::class, UserData::class ];
     }
 }

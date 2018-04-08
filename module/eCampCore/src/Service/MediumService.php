@@ -8,7 +8,8 @@ use eCamp\Lib\Service\BaseService;
 
 class MediumService extends BaseService
 {
-    public function __construct(MediumHydrator $mediumHydrator) {
+    public function __construct(MediumHydrator $mediumHydrator)
+    {
         parent::__construct($mediumHydrator, Medium::class);
     }
 }

@@ -14,13 +14,12 @@ use ZF\ApiProblem\ApiProblem;
 
 class TextareaService extends BasePluginService
 {
-    public function __construct
-    ( Acl $acl
-    , EntityManager $entityManager
-    , TextareaHydrator $textareaHydrator
-    , $eventPluginId
+    public function __construct(
+        Acl $acl,
+        EntityManager $entityManager,
+        TextareaHydrator $textareaHydrator,
+        $eventPluginId
     ) {
         parent::__construct($acl, $entityManager, $textareaHydrator, Textarea::class, $eventPluginId);
     }
-
 }

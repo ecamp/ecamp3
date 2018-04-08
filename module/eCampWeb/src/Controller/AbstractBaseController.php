@@ -10,15 +10,16 @@ use Zend\View\Model\ViewModel;
 
 class AbstractBaseController extends \eCamp\Core\Controller\AbstractBaseController
 {
-
-    public function attachDefaultListeners() {
+    public function attachDefaultListeners()
+    {
         parent::attachDefaultListeners();
 
         $events = $this->getEventManager();
         $events->attach(MvcEvent::EVENT_DISPATCH, [$this, 'setViewModelTerminal'], -90);
     }
 
-    public function setViewModelTerminal(MvcEvent $e) {
+    public function setViewModelTerminal(MvcEvent $e)
+    {
         $vm = $e->getResult();
 
         if ($vm instanceof ViewModel) {
@@ -27,7 +28,8 @@ class AbstractBaseController extends \eCamp\Core\Controller\AbstractBaseControll
     }
 
 
-    public function onDispatch(MvcEvent $e) {
+    public function onDispatch(MvcEvent $e)
+    {
         try {
             $result = parent::onDispatch($e);
         } catch (AuthRequiredException $ex) {
@@ -36,7 +38,9 @@ class AbstractBaseController extends \eCamp\Core\Controller\AbstractBaseControll
             $url = $req->getRequestUri();
 
             return $this->redirect()->toRoute(
-                'ecamp.web/login', [], [ 'query' => [ 'redirect' => $url ] ]
+                'ecamp.web/login',
+                [],
+                [ 'query' => [ 'redirect' => $url ] ]
             );
         }
 
@@ -46,11 +50,11 @@ class AbstractBaseController extends \eCamp\Core\Controller\AbstractBaseControll
     /**
      * @throws AuthRequiredException
      */
-    public function forceLogin() {
+    public function forceLogin()
+    {
         $auth = new AuthenticationService();
         if (!$auth->hasIdentity()) {
             throw new AuthRequiredException();
         }
     }
-
 }

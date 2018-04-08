@@ -17,7 +17,8 @@ use eCamp\Lib\Entity\BaseEntity;
  */
 class EventTemplateContainer extends BaseEntity
 {
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
     }
 
@@ -51,11 +52,13 @@ class EventTemplateContainer extends BaseEntity
     /**
      * @return EventTemplate
      */
-    public function getEventTemplate() {
+    public function getEventTemplate()
+    {
         return $this->eventTemplate;
     }
 
-    public function setEventTemplate($eventTemplate) {
+    public function setEventTemplate($eventTemplate)
+    {
         $this->eventTemplate = $eventTemplate;
     }
 
@@ -63,11 +66,13 @@ class EventTemplateContainer extends BaseEntity
     /**
      * @return EventTypePlugin
      */
-    public function getEventTypePlugin(): EventTypePlugin {
+    public function getEventTypePlugin(): EventTypePlugin
+    {
         return $this->eventTypePlugin;
     }
 
-    public function setEventTypePlugin(EventTypePlugin $eventTypePlugin): void {
+    public function setEventTypePlugin(EventTypePlugin $eventTypePlugin): void
+    {
         $this->eventTypePlugin = $eventTypePlugin;
     }
 
@@ -75,11 +80,13 @@ class EventTemplateContainer extends BaseEntity
     /**
      * @return string
      */
-    public function getContainerName(): string {
+    public function getContainerName(): string
+    {
         return $this->containerName;
     }
 
-    public function setContainerName(string $containerName): void {
+    public function setContainerName(string $containerName): void
+    {
         $this->containerName = $containerName;
     }
 
@@ -87,12 +94,13 @@ class EventTemplateContainer extends BaseEntity
     /**
      * @return string
      */
-    public function getFilename(): string {
+    public function getFilename(): string
+    {
         return $this->filename;
     }
 
-    public function setFilename(string $filename): void {
+    public function setFilename(string $filename): void
+    {
         $this->filename = $filename;
     }
-
 }

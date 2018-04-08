@@ -11,7 +11,8 @@ class PluginData extends AbstractFixture
     public static $TEXTAREA = Plugin::class . ':TEXTAREA';
     public static $RICHTEXT = Plugin::class . ':RICHTEXT';
 
-    public function load(ObjectManager $manager) {
+    public function load(ObjectManager $manager)
+    {
         $repository = $manager->getRepository(Plugin::class);
 
 

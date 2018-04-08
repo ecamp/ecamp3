@@ -21,7 +21,8 @@ class GoogleControllerFactory implements FactoryInterface
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      */
-    public function __invoke(ContainerInterface $container, $requestedName, array $options = null) {
+    public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
+    {
 
         /** @var EntityManager $entityManager */
         $entityManager = $container->get('doctrine.entitymanager.orm_default');
@@ -35,12 +36,11 @@ class GoogleControllerFactory implements FactoryInterface
         /** @var AuthService $authService */
         $authService = $container->get(AuthService::class);
 
-        return new GoogleController
-        ( $entityManager
-        , $userIdentityService
-        , $userService
-        , $authService
+        return new GoogleController(
+            $entityManager,
+            $userIdentityService,
+            $userService,
+            $authService
         );
     }
-
 }

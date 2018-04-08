@@ -8,7 +8,8 @@ use eCamp\Lib\Service\BaseService;
 
 class EventTypePluginService extends BaseService
 {
-    public function __construct(EventTypePluginHydrator $eventTypePluginHydrator) {
+    public function __construct(EventTypePluginHydrator $eventTypePluginHydrator)
+    {
         parent::__construct($eventTypePluginHydrator, EventTypePlugin::class);
     }
 }

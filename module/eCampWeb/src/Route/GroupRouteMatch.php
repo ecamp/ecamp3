@@ -6,6 +6,4 @@ use Zend\Router\Http\RouteMatch;
 
 class GroupRouteMatch extends RouteMatch
 {
-
-
 }

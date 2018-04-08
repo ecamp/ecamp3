@@ -41,5 +41,4 @@ class EventTemplateTest extends AbstractTestCase
         $eventTemplate->removeEventTemplateContainer($eventTemplateContainer);
         $this->assertEquals(0, $eventTemplate->getEventTemplateContainers()->count());
     }
-
 }

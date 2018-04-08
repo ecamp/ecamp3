@@ -13,7 +13,8 @@ class PeriodHydrator implements HydratorInterface
      * @param object $object
      * @return array
      */
-    public function extract($object) {
+    public function extract($object)
+    {
         /** @var Period $period */
         $period = $object;
         return [
@@ -31,7 +32,8 @@ class PeriodHydrator implements HydratorInterface
      * @param object $object
      * @return object
      */
-    public function hydrate(array $data, $object) {
+    public function hydrate(array $data, $object)
+    {
         /** @var Period $period */
         $period = $object;
 

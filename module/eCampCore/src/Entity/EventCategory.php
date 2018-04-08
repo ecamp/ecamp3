@@ -12,9 +12,9 @@ use eCamp\Lib\Entity\BaseEntity;
  */
 class EventCategory extends BaseEntity
 {
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
-
     }
 
     /**
@@ -59,11 +59,13 @@ class EventCategory extends BaseEntity
     /**
      * @return Camp
      */
-    public function getCamp() {
+    public function getCamp()
+    {
         return $this->camp;
     }
 
-    public function setCamp($camp) {
+    public function setCamp($camp)
+    {
         $this->camp = $camp;
     }
 
@@ -71,11 +73,13 @@ class EventCategory extends BaseEntity
     /**
      * @return EventType
      */
-    public function getEventType() {
+    public function getEventType()
+    {
         return $this->eventType;
     }
 
-    public function setEventType(EventType $eventType) {
+    public function setEventType(EventType $eventType)
+    {
         $this->eventType = $eventType;
 
         if ($this->getColor() == null) {
@@ -90,11 +94,13 @@ class EventCategory extends BaseEntity
     /**
      * @return string
      */
-    public function getShort() {
+    public function getShort()
+    {
         return $this->short;
     }
 
-    public function setShort($short) {
+    public function setShort($short)
+    {
         $this->short = $short;
     }
 
@@ -102,11 +108,13 @@ class EventCategory extends BaseEntity
     /**
      * @return string
      */
-    public function getName() {
+    public function getName()
+    {
         return $this->name;
     }
 
-    public function setName($name) {
+    public function setName($name)
+    {
         $this->name = $name;
     }
 
@@ -114,11 +122,13 @@ class EventCategory extends BaseEntity
     /**
      * @return string
      */
-    public function getColor() {
+    public function getColor()
+    {
         return $this->color;
     }
 
-    public function setColor($color) {
+    public function setColor($color)
+    {
         $this->color = $color;
     }
 
@@ -126,11 +136,13 @@ class EventCategory extends BaseEntity
     /**
      * @return string
      */
-    public function getNumberingStyle() {
+    public function getNumberingStyle()
+    {
         return $this->numberingStyle;
     }
 
-    public function setNumberingStyle($numberingStyle) {
+    public function setNumberingStyle($numberingStyle)
+    {
         $this->numberingStyle = $numberingStyle;
     }
 
@@ -139,7 +151,8 @@ class EventCategory extends BaseEntity
      * @param int $num
      * @return string
      */
-    public function getStyledNumber(int $num): string {
+    public function getStyledNumber(int $num): string
+    {
         switch ($this->numberingStyle) {
             case 'a':
                 return strtolower($this->getAlphaNum($num));
@@ -154,7 +167,8 @@ class EventCategory extends BaseEntity
         }
     }
 
-    private function getAlphaNum($num) {
+    private function getAlphaNum($num)
+    {
         $num--;
         $alphaNum = '';
         if ($num >= 26) {
@@ -165,7 +179,8 @@ class EventCategory extends BaseEntity
         return $alphaNum;
     }
 
-    private function getRomanNum($num) {
+    private function getRomanNum($num)
+    {
         $table = [
             'M'=>1000,  'CM'=>900,  'D'=>500,   'CD'=>400,
             'C'=>100,   'XC'=>90,   'L'=>50,    'XL'=>40,
@@ -185,5 +200,4 @@ class EventCategory extends BaseEntity
 
         return $romanNum;
     }
-
 }

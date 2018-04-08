@@ -8,7 +8,8 @@ use eCamp\Lib\Service\BaseService;
 
 class EventTemplateService extends BaseService
 {
-    public function __construct(EventTemplateHydrator $eventTemplateHydrator) {
+    public function __construct(EventTemplateHydrator $eventTemplateHydrator)
+    {
         parent::__construct($eventTemplateHydrator, EventTemplate::class);
     }
 }

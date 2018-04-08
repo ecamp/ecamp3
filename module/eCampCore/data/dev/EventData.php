@@ -16,7 +16,8 @@ class EventData extends AbstractFixture implements DependentFixtureInterface
     public static $EVENT_2_LS = Event::class . ':EVENT_2_LS';
     public static $EVENT_2_LA = Event::class . ':EVENT_2_LA';
 
-    public function load(ObjectManager $manager) {
+    public function load(ObjectManager $manager)
+    {
         $repository = $manager->getRepository(Event::class);
 
         /** @var Camp $camp */
@@ -81,7 +82,8 @@ class EventData extends AbstractFixture implements DependentFixtureInterface
         $manager->flush();
     }
 
-    function getDependencies() {
+    public function getDependencies()
+    {
         return [ CampData::class, EventCategoryData::class ];
     }
 }

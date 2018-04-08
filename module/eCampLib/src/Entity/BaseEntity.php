@@ -6,14 +6,12 @@ use Doctrine\Common\Util\ClassUtils;
 use Doctrine\ORM\Mapping as ORM;
 use Zend\Permissions\Acl\Resource\ResourceInterface;
 
-
 /**
  * @ORM\MappedSuperclass
  * @ORM\HasLifecycleCallbacks
  */
 abstract class BaseEntity implements ResourceInterface
 {
-
     public function __construct()
     {
         $this->id = base_convert(crc32(uniqid()), 10, 16);
@@ -45,7 +43,8 @@ abstract class BaseEntity implements ResourceInterface
     protected $updateTime;
 
 
-    public function getResourceId() {
+    public function getResourceId()
+    {
         return ClassUtils::getClass($this);
     }
 
@@ -53,14 +52,16 @@ abstract class BaseEntity implements ResourceInterface
     /**
      * @return string
      */
-    public function getId() {
+    public function getId()
+    {
         return $this->id;
     }
 
     /**
      * @ORM\PrePersist
      */
-    public function PrePersist() {
+    public function PrePersist()
+    {
         $this->createTime = new \DateTime();
         $this->updateTime = new \DateTime();
     }
@@ -68,16 +69,18 @@ abstract class BaseEntity implements ResourceInterface
     /**
      * @ORM\PreUpdate
      */
-    public function PreUpdate() {
+    public function PreUpdate()
+    {
         $this->updateTime = new \DateTime();
     }
 
-    public function __toString() {
+    public function __toString()
+    {
         return "[" . $this->getClassname() . "::" . $this->getId() . "]";
     }
 
-    private function getClassname() {
+    private function getClassname()
+    {
         return ClassUtils::getClass($this);
     }
-
 }

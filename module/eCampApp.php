@@ -4,7 +4,8 @@ class eCampApp
 {
     private static $instance;
 
-    private static function GetAppConfig() {
+    private static function GetAppConfig()
+    {
         $appConfigFile = __DIR__ . '/../config/application.config.php';
         $devConfigFile = __DIR__ . '/../config/development.config.php';
 
@@ -21,42 +22,50 @@ class eCampApp
     }
 
     /** @return \Zend\Mvc\Application */
-    public static function CreateApp() {
+    public static function CreateApp()
+    {
         $config = self::GetAppConfig();
         return \Zend\Mvc\Application::init($config);
     }
 
     /** @return \Zend\Mvc\Application */
-    public static function App() {
+    public static function App()
+    {
         if (self::$instance == null) {
             self::$instance = self::CreateApp();
         }
         return self::$instance;
     }
 
-    public static function Reset() {
+    public static function Reset()
+    {
         self::$instance = null;
     }
 
-    public static function Run() {
+    public static function Run()
+    {
         self::App()->run();
     }
 
-    public static function ServiceManager() {
+    public static function ServiceManager()
+    {
         return self::App()->getServiceManager();
     }
 
-    public static function GetService($name) {
+    public static function GetService($name)
+    {
         return self::ServiceManager()->get($name);
     }
 
-    public static function GetEntityManager($name = 'orm_default') {
+    public static function GetEntityManager($name = 'orm_default')
+    {
         return self::GetService('doctrine.entitymanager.' . $name);
     }
 
 
 
-    private static function GetSetupConfig() {
+    private static function GetSetupConfig()
+    {
         $setupConfigFile = __DIR__ . '/../config/setup.config.php';
 
         /** @noinspection PhpIncludeInspection */
@@ -64,9 +73,9 @@ class eCampApp
     }
 
     /** @return \Zend\Mvc\Application */
-    public static function CreateSetup() {
+    public static function CreateSetup()
+    {
         $config = self::GetSetupConfig();
         return \Zend\Mvc\Application::init($config);
     }
-
 }

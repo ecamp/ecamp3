@@ -10,7 +10,8 @@ use Zend\Json\Json;
 
 class EventTypePluginTest extends AbstractTestCase
 {
-    public function testEventTypePlugin() {
+    public function testEventTypePlugin()
+    {
         $eventType = new EventType();
         $plugin = new Plugin();
         $config = Json::encode(['test' => 4]);
@@ -29,7 +30,5 @@ class EventTypePluginTest extends AbstractTestCase
         $this->assertEquals($config, $eventTypePlugin->getJsonConfig());
 
         $this->assertEquals(4, $eventTypePlugin->getConfig('test'));
-
     }
-
 }

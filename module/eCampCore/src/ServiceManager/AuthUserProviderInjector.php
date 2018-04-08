@@ -14,7 +14,8 @@ class AuthUserProviderInjector implements InitializerInterface
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    public function __invoke(ContainerInterface $container, $instance) {
+    public function __invoke(ContainerInterface $container, $instance)
+    {
         if ($instance instanceof AuthUserProviderAware) {
             $authUserProvider = $container->get(AuthUserProvider::class);
             $instance->setAuthUserProvider($authUserProvider);

@@ -15,5 +15,4 @@ class EntityFilter
      * @var string
      */
     public $filterClass;
-
 }

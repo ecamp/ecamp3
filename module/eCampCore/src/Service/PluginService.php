@@ -8,7 +8,8 @@ use eCamp\Lib\Service\BaseService;
 
 class PluginService extends BaseService
 {
-    public function __construct(PluginHydrator $pluginHydrator) {
+    public function __construct(PluginHydrator $pluginHydrator)
+    {
         parent::__construct($pluginHydrator, Plugin::class);
     }
 }

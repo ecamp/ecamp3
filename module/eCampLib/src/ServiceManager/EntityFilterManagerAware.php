@@ -8,5 +8,4 @@ interface EntityFilterManagerAware
      * @param EntityFilterManager $entityFilterManager
      */
     public function setEntityFilterManager(EntityFilterManager $entityFilterManager);
-
 }

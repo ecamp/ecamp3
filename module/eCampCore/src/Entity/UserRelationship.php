@@ -16,7 +16,8 @@ class UserRelationship extends BaseEntity
 {
     const TYPE_FRIEND  = 1;
 
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
 
         $this->type = self::TYPE_FRIEND;
@@ -54,11 +55,13 @@ class UserRelationship extends BaseEntity
     /**
      * @return User
      */
-    public function getFrom(): User {
+    public function getFrom(): User
+    {
         return $this->from;
     }
 
-    public function setFrom(User $from): void {
+    public function setFrom(User $from): void
+    {
         $this->from = $from;
     }
 
@@ -66,11 +69,13 @@ class UserRelationship extends BaseEntity
     /**
      * @return User
      */
-    public function getTo(): User {
+    public function getTo(): User
+    {
         return $this->to;
     }
 
-    public function setTo(User $to): void {
+    public function setTo(User $to): void
+    {
         $this->to = $to;
     }
 
@@ -78,11 +83,13 @@ class UserRelationship extends BaseEntity
     /**
      * @return int
      */
-    public function getType(): int {
+    public function getType(): int
+    {
         return $this->type;
     }
 
-    public function setType(int $type): void {
+    public function setType(int $type): void
+    {
         $this->type = $type;
     }
 
@@ -90,11 +97,13 @@ class UserRelationship extends BaseEntity
     /**
      * @return UserRelationship
      */
-    public function getCounterpart(): UserRelationship {
+    public function getCounterpart(): UserRelationship
+    {
         return $this->counterpart;
     }
 
-    public function setCounterpart(UserRelationship $counterpart): void {
+    public function setCounterpart(UserRelationship $counterpart): void
+    {
         if ($this->counterpart !== $counterpart) {
             $this->counterpart = $counterpart;
 
@@ -103,5 +112,4 @@ class UserRelationship extends BaseEntity
             }
         }
     }
-
 }

@@ -10,5 +10,4 @@ interface EntityManagerAware
      * @param EntityManager $entityManager
      */
     public function setEntityManager(EntityManager $entityManager);
-
 }

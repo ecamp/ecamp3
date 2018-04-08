@@ -17,7 +17,8 @@ class GroupServiceFactory extends BaseServiceFactory
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    public function __invoke(ContainerInterface $container, $requestedName, array $options = null) {
+    public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
+    {
         $hydrator = $this->getHydrator($container, GroupHydrator::class);
 
         return new GroupService($hydrator);

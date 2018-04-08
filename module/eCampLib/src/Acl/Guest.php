@@ -6,7 +6,8 @@ use Zend\Permissions\Acl\Role\RoleInterface;
 
 class Guest implements RoleInterface
 {
-    public function getRoleId() {
+    public function getRoleId()
+    {
         return __CLASS__;
     }
 }

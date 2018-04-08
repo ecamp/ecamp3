@@ -21,14 +21,16 @@ class Textarea extends BasePluginEntity
     /**
      * @return string
      */
-    public function getText() {
+    public function getText()
+    {
         return $this->text;
     }
 
     /**
      * @param string $text
      */
-    public function setText($text) {
+    public function setText($text)
+    {
         $this->text = $text;
     }
 }

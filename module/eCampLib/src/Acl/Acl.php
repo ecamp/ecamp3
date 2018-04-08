@@ -21,8 +21,11 @@ class Acl extends ZendAcl
      * @param string $privilege
      * @return bool
      */
-    public function isAllowed($role = null, $resource = null, $privilege = null) {
-        if ($role == null) { $role = Guest::class; }
+    public function isAllowed($role = null, $resource = null, $privilege = null)
+    {
+        if ($role == null) {
+            $role = Guest::class;
+        }
 
         return parent::isAllowed($role, $resource, $privilege);
     }
@@ -33,10 +36,10 @@ class Acl extends ZendAcl
      * @param string $privilege
      * @throws NoAccessException
      */
-    public function assertAllowed($role = null, $resource = null, $privilege = null) {
+    public function assertAllowed($role = null, $resource = null, $privilege = null)
+    {
         if (!$this->isAllowed($role, $resource, $privilege)) {
             throw new NoAccessException();
         }
     }
-
 }

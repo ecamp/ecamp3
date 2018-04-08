@@ -8,7 +8,8 @@ use eCamp\Lib\Service\BaseService;
 
 class CampTypeService extends BaseService
 {
-    public function __construct(CampTypeHydrator $campTypeHydrator) {
+    public function __construct(CampTypeHydrator $campTypeHydrator)
+    {
         parent::__construct($campTypeHydrator, CampType::class);
     }
 }

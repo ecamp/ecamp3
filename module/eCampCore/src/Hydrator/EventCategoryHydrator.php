@@ -11,7 +11,8 @@ class EventCategoryHydrator implements HydratorInterface
      * @param object $object
      * @return array
      */
-    public function extract($object) {
+    public function extract($object)
+    {
         /** @var EventCategory $eventCategory */
         $eventCategory = $object;
         return [
@@ -31,7 +32,8 @@ class EventCategoryHydrator implements HydratorInterface
      * @param object $object
      * @return object
      */
-    public function hydrate(array $data, $object) {
+    public function hydrate(array $data, $object)
+    {
         /** @var EventCategory $eventCategory */
         $eventCategory = $object;
 

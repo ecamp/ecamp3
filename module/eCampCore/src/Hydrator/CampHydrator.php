@@ -20,7 +20,8 @@ class CampHydrator implements HydratorInterface
      * @param object $object
      * @return array
      */
-    public function extract($object) {
+    public function extract($object)
+    {
         /** @var Camp $camp */
         $camp = $object;
         return [
@@ -45,7 +46,8 @@ class CampHydrator implements HydratorInterface
      * @param object $object
      * @return object
      */
-    public function hydrate(array $data, $object) {
+    public function hydrate(array $data, $object)
+    {
         /** @var Camp $camp */
         $camp = $object;
 

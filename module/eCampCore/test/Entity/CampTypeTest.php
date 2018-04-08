@@ -32,7 +32,6 @@ class CampTypeTest extends AbstractTestCase
         $this->assertEquals(3, $campType->getConfig('test'));
 
         $this->assertInstanceOf('Doctrine\Common\Collections\ArrayCollection', $campType->getEventTypes());
-
     }
 
     public function testEventType()

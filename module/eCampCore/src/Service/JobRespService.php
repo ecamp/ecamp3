@@ -8,7 +8,8 @@ use eCamp\Lib\Service\BaseService;
 
 class JobRespService extends BaseService
 {
-    public function __construct(JobRespHydrator $jobRespHydrator) {
+    public function __construct(JobRespHydrator $jobRespHydrator)
+    {
         parent::__construct($jobRespHydrator, JobResp::class);
     }
 }

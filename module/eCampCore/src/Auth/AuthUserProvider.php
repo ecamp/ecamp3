@@ -11,12 +11,14 @@ class AuthUserProvider
     /** @var UserRepository */
     private $userRepository;
 
-    public function __construct(UserRepository $userRepository) {
+    public function __construct(UserRepository $userRepository)
+    {
         $this->userRepository = $userRepository;
     }
 
     /** @return null|User */
-    public function getAuthUser() {
+    public function getAuthUser()
+    {
         $authService = new AuthenticationService();
         if ($authService->hasIdentity()) {
             $userId = $authService->getIdentity();
@@ -29,5 +31,4 @@ class AuthUserProvider
 
         return null;
     }
-
 }

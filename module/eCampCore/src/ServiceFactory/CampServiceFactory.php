@@ -20,19 +20,19 @@ class CampServiceFactory extends BaseServiceFactory
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    public function __invoke(ContainerInterface $container, $requestedName, array $options = null) {
+    public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
+    {
         $hydrator = $this->getHydrator($container, CampHydrator::class);
 
         $jobService = $container->get(JobService::class);
         $eventCategoryService = $container->get(EventCategoryService::class);
         $periodService = $container->get(PeriodService::class);
 
-        return new CampService
-        ( $hydrator
-        , $jobService
-        , $eventCategoryService
-        , $periodService
+        return new CampService(
+            $hydrator,
+            $jobService,
+            $eventCategoryService,
+            $periodService
         );
     }
-
 }

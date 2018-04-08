@@ -23,23 +23,26 @@ class Section extends BasePluginEntity
 
 
     /** @return int */
-    public function getPos() {
+    public function getPos()
+    {
         return $this->pos;
     }
 
     /** @param int $pos */
-    public function setPos($pos): void {
+    public function setPos($pos): void
+    {
         $this->pos = $pos;
     }
 
     /** @return string */
-    public function getText() {
+    public function getText()
+    {
         return $this->text;
     }
 
     /** @param string $text */
-    public function setText($text) {
+    public function setText($text)
+    {
         $this->text = $text;
     }
-
 }

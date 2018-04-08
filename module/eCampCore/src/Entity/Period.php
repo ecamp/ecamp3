@@ -13,7 +13,8 @@ use eCamp\Lib\Entity\BaseEntity;
  */
 class Period extends BaseEntity
 {
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
 
         $this->days = new ArrayCollection();
@@ -63,11 +64,13 @@ class Period extends BaseEntity
     /**
      * @return Camp
      */
-    public function getCamp() {
+    public function getCamp()
+    {
         return $this->camp;
     }
 
-    public function setCamp($camp) {
+    public function setCamp($camp)
+    {
         $this->camp = $camp;
     }
 
@@ -75,11 +78,13 @@ class Period extends BaseEntity
     /**
      * @return \DateTime
      */
-    public function getStart() {
+    public function getStart()
+    {
         return ($this->start !== null) ? (clone $this->start) : null;
     }
 
-    public function setStart(\DateTime $start): void {
+    public function setStart(\DateTime $start): void
+    {
         $start = clone $start;
         $start->setTime(0, 0, 0);
 
@@ -94,11 +99,13 @@ class Period extends BaseEntity
     /**
      * @return \DateTime
      */
-    public function getEnd() {
+    public function getEnd()
+    {
         return ($this->end !== null) ? (clone $this->end) : null;
     }
 
-    public function setEnd(\DateTime $end): void {
+    public function setEnd(\DateTime $end): void
+    {
         $end = clone $end;
         $end->setTime(23, 59, 59);
 
@@ -113,7 +120,8 @@ class Period extends BaseEntity
     /**
      * @return int
      */
-    public function getDurationInDays(): int {
+    public function getDurationInDays(): int
+    {
         $start = $this->getStart();
         $end = $this->getEnd();
 
@@ -128,11 +136,13 @@ class Period extends BaseEntity
     /**
      * @return string
      */
-    public function getDescription() {
+    public function getDescription()
+    {
         return $this->description;
     }
 
-    public function setDescription($description): void {
+    public function setDescription($description): void
+    {
         $this->description = $description;
     }
 
@@ -140,16 +150,19 @@ class Period extends BaseEntity
     /**
      * @return ArrayCollection
      */
-    public function getDays() {
+    public function getDays()
+    {
         return $this->days;
     }
 
-    public function addDay(Day $day): void {
+    public function addDay(Day $day): void
+    {
         $day->setPeriod($this);
         $this->days->add($day);
     }
 
-    public function removeDay(Day $day): void {
+    public function removeDay(Day $day): void
+    {
         $day->setPeriod(null);
         $this->days->removeElement($day);
     }
@@ -158,16 +171,19 @@ class Period extends BaseEntity
     /**
      * @return ArrayCollection
      */
-    public function getEventInstances() {
+    public function getEventInstances()
+    {
         return $this->eventInstances;
     }
 
-    public function addEventInstance(EventInstance $eventInstance) {
+    public function addEventInstance(EventInstance $eventInstance)
+    {
         $eventInstance->setPeriod($this);
         $this->eventInstances->add($eventInstance);
     }
 
-    public function removeEventInstance(EventInstance $eventInstance) {
+    public function removeEventInstance(EventInstance $eventInstance)
+    {
         $eventInstance->setPeriod(null);
         $this->eventInstances->removeElement($eventInstance);
     }
@@ -175,17 +191,18 @@ class Period extends BaseEntity
 
 
     /** @ORM\PrePersist */
-    public function PrePersist() {
+    public function PrePersist()
+    {
         parent::PrePersist();
 
         // Update Number of days
     }
 
     /** @ORM\PreUpdate */
-    public function PreUpdate() {
+    public function PreUpdate()
+    {
         parent::PreUpdate();
 
         // Update Number of days
     }
-
 }

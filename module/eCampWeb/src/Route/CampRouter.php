@@ -4,7 +4,8 @@ namespace eCamp\Web\Route;
 
 class CampRouter extends FluentRouter
 {
-    protected function matchUser($path, $length, $params) {
+    protected function matchUser($path, $length, $params)
+    {
         $match = parent::matchUser($path, $length, $params);
 
         if (!$match instanceof CampRouteMatch) {
@@ -14,7 +15,8 @@ class CampRouter extends FluentRouter
         return $match;
     }
 
-    protected function matchGroup($path, $length, $params) {
+    protected function matchGroup($path, $length, $params)
+    {
         $match = parent::matchGroup($path, $length, $params);
 
         if (!$match instanceof CampRouteMatch) {

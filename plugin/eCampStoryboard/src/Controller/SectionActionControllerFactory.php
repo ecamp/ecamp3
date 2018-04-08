@@ -18,11 +18,11 @@ class SectionActionControllerFactory implements FactoryInterface
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      */
-    public function __invoke(ContainerInterface $container, $requestedName, array $options = null) {
+    public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
+    {
         /** @var SectionService $sectionService */
         $sectionService = $container->get(SectionService::class);
 
         return new SectionActionController($sectionService);
     }
-
 }

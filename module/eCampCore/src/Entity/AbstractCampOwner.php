@@ -14,7 +14,8 @@ use eCamp\Lib\Entity\BaseEntity;
  */
 abstract class AbstractCampOwner extends BaseEntity
 {
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
 
         $this->ownedCamps = new ArrayCollection();
@@ -30,16 +31,19 @@ abstract class AbstractCampOwner extends BaseEntity
     /**
      * @return ArrayCollection
      */
-    public function getOwnedCamps() {
+    public function getOwnedCamps()
+    {
         return $this->ownedCamps;
     }
 
-    public function addOwnedCamp(Camp $camp): void {
+    public function addOwnedCamp(Camp $camp): void
+    {
         $camp->setOwner($this);
         $this->ownedCamps->add($camp);
     }
 
-    public function removeOwnedCamp(Camp $camp): void {
+    public function removeOwnedCamp(Camp $camp): void
+    {
         $camp->setOwner(null);
         $this->ownedCamps->removeElement($camp);
     }
@@ -49,5 +53,4 @@ abstract class AbstractCampOwner extends BaseEntity
      * @return string
      */
     abstract public function getDisplayName();
-
 }

@@ -6,11 +6,10 @@ use eCamp\Web\Controller\AbstractBaseController;
 
 class GroupController extends AbstractBaseController
 {
-
-    public function indexAction() {
+    public function indexAction()
+    {
         return [
             'group' => $this->params()->fromRoute('group')
         ];
     }
-
 }

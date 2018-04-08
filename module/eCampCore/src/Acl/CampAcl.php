@@ -12,7 +12,8 @@ use Zend\Permissions\Acl\Role\RoleInterface;
 
 class CampAcl implements AssertionInterface
 {
-    public function assert(Acl $acl, RoleInterface $role = null, ResourceInterface $resource = null, $privilege = null) {
+    public function assert(Acl $acl, RoleInterface $role = null, ResourceInterface $resource = null, $privilege = null)
+    {
         /** @var User $user */
         $user = $role;
         /** @var Camp $camp */
@@ -32,6 +33,5 @@ class CampAcl implements AssertionInterface
             default:
                 return false;
         }
-
     }
 }

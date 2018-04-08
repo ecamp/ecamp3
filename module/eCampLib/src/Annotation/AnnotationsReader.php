@@ -20,7 +20,8 @@ class AnnotationsReader
      * @return Reader
      * @throws AnnotationException
      */
-    private static function getReader() {
+    private static function getReader()
+    {
         if (self::$reader == null) {
             $cache = new ArrayCache();
             $reader = new AnnotationReader();
@@ -39,14 +40,15 @@ class AnnotationsReader
      * @return \ReflectionClass
      * @throws ReflectionException
      */
-    private static function getRefClass($class) {
+    private static function getRefClass($class)
+    {
         if (self::$refClassCache == null) {
             self::$refClassCache = new ArrayCache();
         }
 
         $refClass = self::$refClassCache->fetch($class);
 
-        if($refClass === false) {
+        if ($refClass === false) {
             $refClass = new \ReflectionClass($class);
             self::$refClassCache->save($class, $refClass);
         }
@@ -60,7 +62,8 @@ class AnnotationsReader
      * @param $name
      * @return object
      */
-    public static function getClassAnnotation($class, $name) {
+    public static function getClassAnnotation($class, $name)
+    {
         try {
             $refClass = self::getRefClass($class);
             return self::getReader()->getClassAnnotation($refClass, $name);
@@ -74,10 +77,10 @@ class AnnotationsReader
      * @param $class
      * @return EntityFilter
      */
-    public static function getEntityFilterAnnotation($class) {
+    public static function getEntityFilterAnnotation($class)
+    {
         /** @var EntityFilter $entityFilter */
         $entityFilter = self::getClassAnnotation($class, EntityFilter::class);
         return $entityFilter;
     }
-
 }

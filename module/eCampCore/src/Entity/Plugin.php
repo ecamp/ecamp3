@@ -11,7 +11,8 @@ use eCamp\Lib\Entity\BaseEntity;
  */
 class Plugin extends BaseEntity
 {
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
     }
 
@@ -37,11 +38,13 @@ class Plugin extends BaseEntity
     /**
      * @return string
      */
-    public function getName(): string {
+    public function getName(): string
+    {
         return $this->name;
     }
 
-    public function setName(string $name): void{
+    public function setName(string $name): void
+    {
         $this->name = $name;
     }
 
@@ -49,11 +52,13 @@ class Plugin extends BaseEntity
     /**
      * @return bool
      */
-    public function getActive(): bool {
+    public function getActive(): bool
+    {
         return $this->active;
     }
 
-    public function setActive(bool $active): void {
+    public function setActive(bool $active): void
+    {
         $this->active = $active;
     }
 
@@ -61,12 +66,13 @@ class Plugin extends BaseEntity
     /**
      * @return string
      */
-    public function getStrategyClass(): string {
+    public function getStrategyClass(): string
+    {
         return $this->strategyClass;
     }
 
-    public function setStrategyClass(string $strategyClass): void {
+    public function setStrategyClass(string $strategyClass): void
+    {
         $this->strategyClass = $strategyClass;
     }
-
 }

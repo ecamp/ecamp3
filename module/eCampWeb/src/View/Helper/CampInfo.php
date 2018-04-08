@@ -14,7 +14,8 @@ class CampInfo
     /** @var Camp */
     private $camp;
 
-    public function __construct(CampService $campService, $campId) {
+    public function __construct(CampService $campService, $campId)
+    {
         $this->campService = $campService;
 
         if ($campId instanceof Camp) {
@@ -25,11 +26,11 @@ class CampInfo
     }
 
 
-    public function countCollaborationRequests() {
-        return $this->camp->getCampCollaborations()->filter(function($c) {
+    public function countCollaborationRequests()
+    {
+        return $this->camp->getCampCollaborations()->filter(function ($c) {
             /** @var CampCollaboration $c */
             return $c->isRequest();
         })->count();
     }
-
 }

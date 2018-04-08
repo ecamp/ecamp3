@@ -12,7 +12,8 @@ class PluginStrategyProvider
     /** @var  ContainerInterface */
     private $container;
 
-    public function __construct(ContainerInterface $container) {
+    public function __construct(ContainerInterface $container)
+    {
         $this->container = $container;
     }
 
@@ -23,7 +24,8 @@ class PluginStrategyProvider
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      */
-    public function get($pluginOrStrategyClass) {
+    public function get($pluginOrStrategyClass)
+    {
         $strategyClass = $pluginOrStrategyClass;
 
         if ($pluginOrStrategyClass instanceof Plugin) {
@@ -41,5 +43,4 @@ class PluginStrategyProvider
 
         return $strategy;
     }
-
 }

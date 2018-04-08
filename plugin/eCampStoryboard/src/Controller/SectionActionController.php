@@ -10,12 +10,14 @@ class SectionActionController extends AbstractActionController
     /** @var SectionService */
     private $sectionService;
 
-    public function __construct(SectionService $sectionService) {
+    public function __construct(SectionService $sectionService)
+    {
         $this->sectionService = $sectionService;
     }
 
 
-    public function moveUpAction() {
+    public function moveUpAction()
+    {
         $sectionId = $this->params()->fromRoute('section_id');
 
         $this->sectionService->moveUp($sectionId);
@@ -26,7 +28,8 @@ class SectionActionController extends AbstractActionController
         );
     }
 
-    public function moveDownAction() {
+    public function moveDownAction()
+    {
         $sectionId = $this->params()->fromRoute('section_id');
 
         $this->sectionService->moveDown($sectionId);
@@ -36,5 +39,4 @@ class SectionActionController extends AbstractActionController
             ['action' => null, 'section_id' => $sectionId]
         );
     }
-
 }

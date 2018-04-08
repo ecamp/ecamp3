@@ -35,11 +35,11 @@ abstract class FluentRouter implements RouteInterface
      * @param $campRepository
      * @param array $options
      */
-    public function __construct
-    ( $userRepository
-    , $groupRepository
-    , $campRepository
-    , $options = []
+    public function __construct(
+        $userRepository,
+        $groupRepository,
+        $campRepository,
+        $options = []
     ) {
         $this->userRepository = $userRepository;
         $this->groupRepository = $groupRepository;
@@ -53,7 +53,8 @@ abstract class FluentRouter implements RouteInterface
      * @param  array|\Traversable $options
      * @return void
      */
-    public static function factory($options = []) {
+    public static function factory($options = [])
+    {
         throw new RuntimeException("not implemented");
     }
 
@@ -64,7 +65,8 @@ abstract class FluentRouter implements RouteInterface
      * @param array $options
      * @return null|RouteMatch
      */
-    public function match(Request $request, $pathOffset = null, $options = []) {
+    public function match(Request $request, $pathOffset = null, $options = [])
+    {
         if (!method_exists($request, 'getUri')) {
             return null;
         }
@@ -73,10 +75,18 @@ abstract class FluentRouter implements RouteInterface
         $uri  = $request->getUri();
         $path = $uri->getPath();
 
-        if (empty($path)) { return null; }
-        if ($pathOffset == null) { $pathOffset = 0; }
-        if ($pathOffset < 0) { return null; }
-        if ($pathOffset > strlen($path)) { return null; }
+        if (empty($path)) {
+            return null;
+        }
+        if ($pathOffset == null) {
+            $pathOffset = 0;
+        }
+        if ($pathOffset < 0) {
+            return null;
+        }
+        if ($pathOffset > strlen($path)) {
+            return null;
+        }
         $path = substr($path, $pathOffset);
         $length = 0;
 
@@ -101,13 +111,20 @@ abstract class FluentRouter implements RouteInterface
      * @param array $params
      * @return null|RouteMatch
      */
-    protected function matchUser($path, $length, $params){
-        if (empty($path)) { return null; }
-        if (substr($path, 0, 1) !== '/') { return null; }
+    protected function matchUser($path, $length, $params)
+    {
+        if (empty($path)) {
+            return null;
+        }
+        if (substr($path, 0, 1) !== '/') {
+            return null;
+        }
 
         $path = substr($path, 1);
         $length += 1;
-        if (empty($path)) { return null; }
+        if (empty($path)) {
+            return null;
+        }
 
         $elements = explode('/', $path);
         $username = array_shift($elements);
@@ -116,7 +133,9 @@ abstract class FluentRouter implements RouteInterface
         $user = $this->userRepository->findOneBy([
             'username' => urldecode($username)
         ]);
-        if ($user == null) { return null; }
+        if ($user == null) {
+            return null;
+        }
 
         $usernameLength = strlen($username);
         $path = substr($path, $usernameLength);
@@ -152,9 +171,14 @@ abstract class FluentRouter implements RouteInterface
      * @param $params
      * @return null|RouteMatch
      */
-    protected function matchGroup($path, $length, $params) {
-        if (empty($path)) { return null; }
-        if (substr($path, 0, 1) !== '/') { return null; }
+    protected function matchGroup($path, $length, $params)
+    {
+        if (empty($path)) {
+            return null;
+        }
+        if (substr($path, 0, 1) !== '/') {
+            return null;
+        }
 
         $groupnames = substr($path, 1);
         $elements = explode('/', $groupnames);
@@ -168,13 +192,17 @@ abstract class FluentRouter implements RouteInterface
                 'name' => urldecode($groupname)
             ]);
 
-            if ($childGroup == null) { break; }
+            if ($childGroup == null) {
+                break;
+            }
             $groupnameLength = 1 + strlen($groupname);
             $path = substr($path, $groupnameLength);
             $length += $groupnameLength;
             $group = $childGroup;
         }
-        if ($group == null) { return null; }
+        if ($group == null) {
+            return null;
+        }
 
         if (substr($path, 0, 6) == '/camp/') {
             $path = substr($path, 5);
@@ -204,13 +232,20 @@ abstract class FluentRouter implements RouteInterface
      * @param $params
      * @return null|RouteMatch
      */
-    protected function matchCamp($path, $length, $params) {
-        if (empty($path)) { return null; }
-        if (substr($path, 0, 1) !== '/') { return null; }
+    protected function matchCamp($path, $length, $params)
+    {
+        if (empty($path)) {
+            return null;
+        }
+        if (substr($path, 0, 1) !== '/') {
+            return null;
+        }
 
         $path = substr($path, 1);
         $length += 1;
-        if (empty($path)) { return null; }
+        if (empty($path)) {
+            return null;
+        }
 
         $elements = explode('/', $path);
         $campname = array_shift($elements);
@@ -220,7 +255,9 @@ abstract class FluentRouter implements RouteInterface
             'owner' => $params['campOwner'],
             'name' => $campname
         ]);
-        if ($camp == null) { return null; }
+        if ($camp == null) {
+            return null;
+        }
 
         $campnameLength = strlen($campname);
         $length += $campnameLength;
@@ -241,7 +278,8 @@ abstract class FluentRouter implements RouteInterface
      * @param  array $options
      * @return mixed
      */
-    public function assemble(array $params = [], array $options = []) {
+    public function assemble(array $params = [], array $options = [])
+    {
         $path = '';
         $target = $this->getTarget($params);
 
@@ -260,21 +298,37 @@ abstract class FluentRouter implements RouteInterface
         return $path;
     }
 
-    private function getTarget(array $params) {
-        if (isset($params['target'])) { return $params['target']; }
+    private function getTarget(array $params)
+    {
+        if (isset($params['target'])) {
+            return $params['target'];
+        }
 
         $target = null;
-        if (isset($params['user'])) { $target = 'user'; }
-        if (isset($params['userId'])) { $target = 'user'; }
-        if (isset($params['group'])) { $target = 'group'; }
-        if (isset($params['groupId'])) { $target = 'group'; }
-        if (isset($params['camp'])) { $target = 'camp'; }
-        if (isset($params['campId'])) { $target = 'camp'; }
+        if (isset($params['user'])) {
+            $target = 'user';
+        }
+        if (isset($params['userId'])) {
+            $target = 'user';
+        }
+        if (isset($params['group'])) {
+            $target = 'group';
+        }
+        if (isset($params['groupId'])) {
+            $target = 'group';
+        }
+        if (isset($params['camp'])) {
+            $target = 'camp';
+        }
+        if (isset($params['campId'])) {
+            $target = 'camp';
+        }
 
         return $target;
     }
 
-    function assembleUser(array $params = []) {
+    public function assembleUser(array $params = [])
+    {
         /** @var User $user */
         $user = null;
         if ($user == null) {
@@ -297,7 +351,8 @@ abstract class FluentRouter implements RouteInterface
         return $path;
     }
 
-    function assembleGroup(array $params = []) {
+    public function assembleGroup(array $params = [])
+    {
         /** @var Group $group */
         $group = null;
         if ($group == null) {
@@ -321,7 +376,8 @@ abstract class FluentRouter implements RouteInterface
         return $path;
     }
 
-    function assembleCamp(array $params = []) {
+    public function assembleCamp(array $params = [])
+    {
         /** @var Camp $camp */
         $camp = null;
         if ($camp == null) {
@@ -342,11 +398,9 @@ abstract class FluentRouter implements RouteInterface
             if ($owner instanceof User) {
                 $params = array_merge(['user' => $owner], $params);
                 $path = $this->assembleUser($params);
-
             } elseif ($owner instanceof Group) {
                 $params = array_merge(['group' => $owner], $params);
                 $path = $this->assembleGroup($params);
-
             }
 
             $path .= '/camp';
@@ -360,8 +414,8 @@ abstract class FluentRouter implements RouteInterface
     /**
      * @return array
      */
-    public function getAssembledParams() {
+    public function getAssembledParams()
+    {
         return [];
     }
-
 }

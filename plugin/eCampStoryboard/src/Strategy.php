@@ -14,7 +14,8 @@ class Strategy extends PluginStrategyBase
     /** @var SectionService */
     private $sectionService;
 
-    public function __construct(SectionService $sectionService) {
+    public function __construct(SectionService $sectionService)
+    {
         $this->sectionService = $sectionService;
     }
 
@@ -23,7 +24,8 @@ class Strategy extends PluginStrategyBase
      * @param EventPlugin $eventPlugin
      * @return array
      */
-    function eventPluginExtract(EventPlugin $eventPlugin) : array {
+    public function eventPluginExtract(EventPlugin $eventPlugin) : array
+    {
         return [
             'section' => Link::factory([
                 'rel' => 'section',
@@ -43,11 +45,11 @@ class Strategy extends PluginStrategyBase
      * @throws NoAccessException
      * @throws ORMException
      */
-    function eventPluginCreated(EventPlugin $eventPlugin) : void {
+    public function eventPluginCreated(EventPlugin $eventPlugin) : void
+    {
         $this->sectionService->create((object)[
             'event_plugin_id' => $eventPlugin->getId(),
             'pos' => 0
         ]);
     }
-
 }

@@ -30,8 +30,8 @@ use Zend\ServiceManager\Factory\FactoryInterface;
 
 class AclFactory implements FactoryInterface
 {
-    public function __invoke(ContainerInterface $container, $requestedName, array $options = null) {
-
+    public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
+    {
         $acl = new Acl();
 
         $acl->addRole(Guest::class);

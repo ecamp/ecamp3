@@ -16,7 +16,8 @@ abstract class BasePluginServiceFactory extends BaseServiceFactory
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      */
-    protected function getEventPluginId(ContainerInterface $container) {
+    protected function getEventPluginId(ContainerInterface $container)
+    {
         /** @var Application $app */
         $app = $container->get('Application');
 

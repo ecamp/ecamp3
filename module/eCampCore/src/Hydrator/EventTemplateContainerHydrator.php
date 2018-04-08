@@ -11,7 +11,8 @@ class EventTemplateContainerHydrator implements HydratorInterface
      * @param object $object
      * @return array
      */
-    public function extract($object) {
+    public function extract($object)
+    {
         /** @var EventTemplateContainer $eventTemplateContainer */
         $eventTemplateContainer = $object;
         return [
@@ -27,7 +28,8 @@ class EventTemplateContainerHydrator implements HydratorInterface
      * @param object $object
      * @return object
      */
-    public function hydrate(array $data, $object) {
+    public function hydrate(array $data, $object)
+    {
         /** @var EventTemplateContainer $eventTemplateContainer */
         $eventTemplateContainer = $object;
 

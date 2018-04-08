@@ -14,7 +14,8 @@ class EventTypeHydrator implements HydratorInterface
      * @param object $object
      * @return array
      */
-    public function extract($object) {
+    public function extract($object)
+    {
         /** @var EventType $eventType */
         $eventType = $object;
         return [
@@ -33,7 +34,8 @@ class EventTypeHydrator implements HydratorInterface
      * @param object $object
      * @return object
      */
-    public function hydrate(array $data, $object) {
+    public function hydrate(array $data, $object)
+    {
         /** @var EventType $eventType */
         $eventType = $object;
 

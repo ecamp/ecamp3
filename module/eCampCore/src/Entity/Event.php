@@ -13,7 +13,8 @@ use eCamp\Lib\Entity\BaseEntity;
  */
 class Event extends BaseEntity
 {
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
 
         $this->eventPlugins = new ArrayCollection();
@@ -55,11 +56,13 @@ class Event extends BaseEntity
     /**
      * @return Camp
      */
-    public function getCamp() {
+    public function getCamp()
+    {
         return $this->camp;
     }
 
-    public function setCamp($camp) {
+    public function setCamp($camp)
+    {
         $this->camp = $camp;
     }
 
@@ -67,11 +70,13 @@ class Event extends BaseEntity
     /**
      * @return EventCategory
      */
-    public function getEventCategory(): EventCategory {
+    public function getEventCategory(): EventCategory
+    {
         return $this->eventCategory;
     }
 
-    public function setEventCategory(EventCategory $eventCategory): void {
+    public function setEventCategory(EventCategory $eventCategory): void
+    {
         $this->eventCategory = $eventCategory;
     }
 
@@ -79,7 +84,8 @@ class Event extends BaseEntity
     /**
      * @return EventType
      */
-    public function getEventType() {
+    public function getEventType()
+    {
         return ($this->eventCategory !== null) ? $this->eventCategory->getEventType() : null;
     }
 
@@ -87,11 +93,13 @@ class Event extends BaseEntity
     /**
      * @return string
      */
-    public function getTitle(): string {
+    public function getTitle(): string
+    {
         return $this->title;
     }
 
-    public function setTitle(string $title): void {
+    public function setTitle(string $title): void
+    {
         $this->title = $title;
     }
 
@@ -99,16 +107,19 @@ class Event extends BaseEntity
     /**
      * @return ArrayCollection
      */
-    public function getEventPlugins() {
+    public function getEventPlugins()
+    {
         return $this->eventPlugins;
     }
 
-    public function addEventPlugin(EventPlugin $eventPlugin) {
+    public function addEventPlugin(EventPlugin $eventPlugin)
+    {
         $eventPlugin->setEvent($this);
         $this->eventPlugins->add($eventPlugin);
     }
 
-    public function removeEventPlugin(EventPlugin $eventPlugin) {
+    public function removeEventPlugin(EventPlugin $eventPlugin)
+    {
         $eventPlugin->setEvent(null);
         $this->eventPlugins->removeElement($eventPlugin);
     }
@@ -117,16 +128,19 @@ class Event extends BaseEntity
     /**
      * @return ArrayCollection
      */
-    public function getEventInstances() {
+    public function getEventInstances()
+    {
         return $this->eventInstances;
     }
 
-    public function addEventInstance(EventInstance $eventInstance) {
+    public function addEventInstance(EventInstance $eventInstance)
+    {
         $eventInstance->setEvent($this);
         $this->eventInstances->add($eventInstance);
     }
 
-    public function removeEventInstance(EventInstance $eventInstance) {
+    public function removeEventInstance(EventInstance $eventInstance)
+    {
         $eventInstance->setEvent(null);
         $this->eventInstances->removeElement($eventInstance);
     }
@@ -134,7 +148,8 @@ class Event extends BaseEntity
 
 
     /** @ORM\PrePersist */
-    public function PrePersist() {
+    public function PrePersist()
+    {
         parent::PrePersist();
 
         $eventType = $this->getEventType();

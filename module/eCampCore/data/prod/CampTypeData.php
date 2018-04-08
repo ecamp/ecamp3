@@ -13,7 +13,8 @@ class CampTypeData extends AbstractFixture implements DependentFixtureInterface
     public static $PBS_JS_KIDS = CampType::class . ':PBS_JS_KIDS';
     public static $PBS_JS_TEEN = CampType::class . ':PBS_JS_TEEN';
 
-    public function load(ObjectManager $manager) {
+    public function load(ObjectManager $manager)
+    {
         $repository = $manager->getRepository(CampType::class);
 
         $lagersport = $this->getReference(EventTypeData::$LAGERSPORT);
@@ -62,7 +63,8 @@ class CampTypeData extends AbstractFixture implements DependentFixtureInterface
         $manager->flush();
     }
 
-    function getDependencies() {
+    public function getDependencies()
+    {
         return [ OrganizationData::class, EventTypeData::class ];
     }
 }

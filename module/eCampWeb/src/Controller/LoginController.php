@@ -9,12 +9,14 @@ class LoginController extends AbstractBaseController
     /** @var AuthService */
     private $authService;
 
-    public function __construct(AuthService $authService) {
+    public function __construct(AuthService $authService)
+    {
         $this->authService = $authService;
     }
 
 
-    public function indexAction() {
+    public function indexAction()
+    {
         $redirect = $this->params()->fromQuery('redirect');
 
         return [
@@ -22,10 +24,10 @@ class LoginController extends AbstractBaseController
         ];
     }
 
-    public function logoutAction() {
+    public function logoutAction()
+    {
         $this->authService->clearIdentity();
 
         return $this->redirect()->toRoute('ecamp.web');
     }
-
 }

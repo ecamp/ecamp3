@@ -20,10 +20,10 @@ class PeriodService extends BaseService
     /** @var EventInstanceService */
     private $eventInstanceService;
 
-    public function __construct
-    ( PeriodHydrator $dayHydrator
-    , DayService $dayService
-    , EventInstanceService $eventInstanceService
+    public function __construct(
+        PeriodHydrator $dayHydrator,
+        DayService $dayService,
+        EventInstanceService $eventInstanceService
     ) {
         parent::__construct($dayHydrator, Period::class);
 
@@ -31,14 +31,16 @@ class PeriodService extends BaseService
         $this->eventInstanceService = $eventInstanceService;
     }
 
-    protected function fetchAllQueryBuilder($params = []) {
+    protected function fetchAllQueryBuilder($params = [])
+    {
         $q = parent::fetchAllQueryBuilder($params);
         $q->andWhere($this->createFilter($q, Camp::class, 'row', 'camp'));
 
         return $q;
     }
 
-    protected function fetchQueryBuilder($id) {
+    protected function fetchQueryBuilder($id)
+    {
         $q = parent::fetchQueryBuilder($id);
         $q->andWhere($this->createFilter($q, Camp::class, 'row', 'camp'));
 
@@ -51,7 +53,8 @@ class PeriodService extends BaseService
      * @throws ORMException
      * @throws NoAccessException
      */
-    public function create($data) {
+    public function create($data)
+    {
         /** @var Camp $camp */
         $camp = $this->findEntity(Camp::class, $data->camp_id);
 
@@ -77,7 +80,8 @@ class PeriodService extends BaseService
      * @throws NoAccessException
      * @throws ORMException
      */
-    public function update($id, $data) {
+    public function update($id, $data)
+    {
         /** @var Period $period */
         $period = parent::update($id, $data);
         $this->updatePeriodDays($period);
@@ -95,7 +99,8 @@ class PeriodService extends BaseService
      * @throws NoAccessException
      * @throws ORMException
      */
-    public function patch($id, $data) {
+    public function patch($id, $data)
+    {
         /** @var Period $period */
         $period = parent::patch($id, $data);
         $this->updatePeriodDays($period);
@@ -112,11 +117,12 @@ class PeriodService extends BaseService
      * @throws NoAccessException
      * @throws ORMException
      */
-    private function updatePeriodDays(Period $period) {
+    private function updatePeriodDays(Period $period)
+    {
         $days = $period->getDays();
         $daysCountNew = $period->getDurationInDays();
 
-        $daysToDelete = $days->filter(function(Day $day) use ($daysCountNew) {
+        $daysToDelete = $days->filter(function (Day $day) use ($daysCountNew) {
             return $day->getDayOffset() >= $daysCountNew;
         });
 
@@ -144,8 +150,11 @@ class PeriodService extends BaseService
      * @param bool $moveEvents
      * @throws NoAccessException
      */
-    private function updateEventInstances(Period $period, $moveEvents = null) {
-        if (is_null($moveEvents)) { $moveEvents = true; }
+    private function updateEventInstances(Period $period, $moveEvents = null)
+    {
+        if (is_null($moveEvents)) {
+            $moveEvents = true;
+        }
 
         if (!$moveEvents) {
             $start = $period->getStart();
@@ -167,5 +176,4 @@ class PeriodService extends BaseService
             }
         }
     }
-
 }

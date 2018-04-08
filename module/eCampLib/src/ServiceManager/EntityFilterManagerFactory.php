@@ -12,7 +12,8 @@ class EntityFilterManagerFactory extends AbstractPluginManagerFactory
     const CONFIG_KEY = 'entity_filter';
     const CONFIG_METHOD = 'getEntityFilterConfig';
 
-    public static function initModule(ModuleManagerInterface $manager) {
+    public static function initModule(ModuleManagerInterface $manager)
+    {
         /** @var \Zend\ModuleManager\ModuleManager $manager */
         $sm = $manager->getEvent()->getParam('ServiceManager');
         /** @var \Zend\ModuleManager\Listener\ServiceListener $serviceListener */
@@ -25,5 +26,4 @@ class EntityFilterManagerFactory extends AbstractPluginManagerFactory
             self::CONFIG_METHOD
         );
     }
-
 }

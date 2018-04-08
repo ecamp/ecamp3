@@ -6,5 +6,4 @@ use ZF\Rest\RestController;
 
 class EventTypeFactoryApiController extends RestController
 {
-
 }

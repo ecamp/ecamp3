@@ -6,10 +6,10 @@ use eCamp\LibTest\PHPUnit\AbstractHttpControllerTestCase;
 
 class AuthTest extends AbstractHttpControllerTestCase
 {
-    public function testGoogle() {
+    public function testGoogle()
+    {
         $this->dispatch("/api/login/google");
         $this->assertRedirect();
         $this->assertRedirectRegex('/^\/auth\/google.*$/');
     }
-
 }

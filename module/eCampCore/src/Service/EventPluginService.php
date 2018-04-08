@@ -21,9 +21,9 @@ class EventPluginService extends BaseService
     /** @var  PluginStrategyProvider */
     private $pluginStrategyProvider;
 
-    public function __construct
-    ( EventPluginHydrator $eventPluginHydrator
-    , PluginStrategyProvider $pluginStrategyProvider
+    public function __construct(
+        EventPluginHydrator $eventPluginHydrator,
+        PluginStrategyProvider $pluginStrategyProvider
     ) {
         parent::__construct($eventPluginHydrator, EventPlugin::class);
 
@@ -31,7 +31,8 @@ class EventPluginService extends BaseService
     }
 
 
-    protected function findCollectionQueryBuilder($className, $alias, $params = []) {
+    protected function findCollectionQueryBuilder($className, $alias, $params = [])
+    {
         $q = parent::findCollectionQueryBuilder($className, $alias);
 
         $eventId = $params['event_id'];
@@ -52,7 +53,8 @@ class EventPluginService extends BaseService
      * @throws ORMException
      * @throws NoAccessException
      */
-    public function create($data) {
+    public function create($data)
+    {
         /** @var EventPlugin $eventPlugin */
         $eventPlugin = parent::create($data);
 
@@ -74,6 +76,4 @@ class EventPluginService extends BaseService
 
         return $eventPlugin;
     }
-
-
 }

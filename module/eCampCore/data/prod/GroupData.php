@@ -14,7 +14,8 @@ class GroupData extends AbstractFixture implements DependentFixtureInterface
     public static $PFADI_BASEL = Group::class . ':PBS:PfadiBasel';
 
 
-    public function load(ObjectManager $manager) {
+    public function load(ObjectManager $manager)
+    {
         $repository = $manager->getRepository(Group::class);
 
         $pbs = $this->getReference(OrganizationData::$PBS);
@@ -70,8 +71,8 @@ class GroupData extends AbstractFixture implements DependentFixtureInterface
         $manager->flush();
     }
 
-    function getDependencies() {
+    public function getDependencies()
+    {
         return [ OrganizationData::class ];
     }
-
 }

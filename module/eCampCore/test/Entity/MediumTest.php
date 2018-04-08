@@ -7,8 +7,8 @@ use eCamp\LibTest\PHPUnit\AbstractTestCase;
 
 class MediumTest extends AbstractTestCase
 {
-
-    public function testMedium() {
+    public function testMedium()
+    {
         $medium = new Medium();
         $medium->setName('TestMedium');
         $medium->setDefault(true);
@@ -16,5 +16,4 @@ class MediumTest extends AbstractTestCase
         $this->assertEquals('TestMedium', $medium->getName());
         $this->assertTrue($medium->isDefault());
     }
-
 }

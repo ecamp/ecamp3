@@ -7,8 +7,8 @@ use eCamp\LibTest\PHPUnit\AbstractTestCase;
 
 class UserTest extends AbstractTestCase
 {
-
-    public function testUserNonRegistered() {
+    public function testUserNonRegistered()
+    {
         $user = new User();
         $user->setUsername('username');
         $user->setMailAddress('test@eCamp3.ch');
@@ -17,10 +17,10 @@ class UserTest extends AbstractTestCase
         $this->assertEquals(User::ROLE_GUEST, $user->getRole());
         $this->assertEquals('username', $user->getUsername());
         $this->assertEquals('test@eCamp3.ch', $user->getUntrustedMailAddress());
-
     }
 
-    public function testUserActivated() {
+    public function testUserActivated()
+    {
         $user = new User();
         $user->setState(User::STATE_REGISTERED);
         $user->setRole(User::ROLE_USER);
@@ -45,5 +45,4 @@ class UserTest extends AbstractTestCase
         $this->assertEmpty($user->getUntrustedMailAddress());
         $this->assertNotEmpty($user->getTrustedMailAddress());
     }
-
 }
