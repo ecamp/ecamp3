@@ -32,6 +32,9 @@ class PluginHydrator implements HydratorInterface
         /** @var Plugin $plugin */
         $plugin = $object;
 
+        $plugin->setName($data['name']);
+        $plugin->setActive($data['active']);
+
         return $plugin;
     }
 }

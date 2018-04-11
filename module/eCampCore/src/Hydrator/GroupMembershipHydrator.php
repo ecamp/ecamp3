@@ -34,6 +34,11 @@ class GroupMembershipHydrator implements HydratorInterface
         /** @var GroupMembership $groupMembership */
         $groupMembership = $object;
 
+        $groupMembership->setGroup($data['group']);
+        $groupMembership->setUser($data['user']);
+        $groupMembership->setRole($data['role']);
+        $groupMembership->setStatus($data['status']);
+
         return $groupMembership;
     }
 }

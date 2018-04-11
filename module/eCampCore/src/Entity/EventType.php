@@ -68,12 +68,12 @@ class EventType extends BaseEntity
     /**
      * @return string
      */
-    public function getName(): string
+    public function getName()
     {
         return $this->name;
     }
 
-    public function setName(string $name): void
+    public function setName($name)
     {
         $this->name = $name;
     }
@@ -82,12 +82,12 @@ class EventType extends BaseEntity
     /**
      * @return string
      */
-    public function getDefaultColor(): string
+    public function getDefaultColor()
     {
         return $this->defaultColor;
     }
 
-    public function setDefaultColor(string $defaultColor): void
+    public function setDefaultColor($defaultColor)
     {
         $this->defaultColor = $defaultColor;
     }
@@ -96,12 +96,12 @@ class EventType extends BaseEntity
     /**
      * @return string
      */
-    public function getDefaultNumberingStyle(): string
+    public function getDefaultNumberingStyle()
     {
         return $this->defaultNumberingStyle;
     }
 
-    public function setDefaultNumberingStyle(string $defaultNumberingStyle): void
+    public function setDefaultNumberingStyle($defaultNumberingStyle)
     {
         $this->defaultNumberingStyle = $defaultNumberingStyle;
     }
