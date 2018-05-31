@@ -1,5 +1,7 @@
 <?php
 
+$env = getenv('env') ?: 'dev';
+
 return [
     // Retrieve the list of modules for this application.
     'modules' => [
@@ -24,9 +26,9 @@ return [
         // e.g., IBM i -- have problems with globs that are not qualified.
         'config_glob_paths' => [
             realpath(__DIR__) . '/autoload/{,*.}global.php',
-            realpath(__DIR__) . '/autoload/{,*.}global.prod.php',
+            realpath(__DIR__) . '/autoload/{,*.}global.' . $env. '.php',
             realpath(__DIR__) . '/autoload/{,*.}local.php',
-            realpath(__DIR__) . '/autoload/{,*.}local.prod.php',
+            realpath(__DIR__) . '/autoload/{,*.}local.' . $env. '.php',
         ],
         'config_cache_key' => 'application.config.cache',
         'config_cache_enabled' => false,

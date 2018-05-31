@@ -3,20 +3,21 @@
 if (!file_exists(__DIR__ . '/vendor/autoload.php')) {
     $isCli = (PHP_SAPI === 'cli');
 
-    echo $isCli ? PHP_EOL : "<br />";
-    echo "  Autoloader is missing.";
-    echo $isCli ? PHP_EOL : "<br />";
-    echo "  Run composer install!";
-    echo $isCli ? PHP_EOL : "<br />";
-
     if ($isCli) {
-        echo "  https://getcomposer.org/";
+        echo PHP_EOL;
+        echo "  Installation is not complete.";
+        echo PHP_EOL;
+        echo "  Visit setup.php";
+        echo PHP_EOL;
+        echo PHP_EOL;
+
     } else {
-        echo "  <a href='https://getcomposer.org/'>https://getcomposer.org/</a>";
+        header("location: setup.php");
+        echo "Installation is not complete.";
+        echo "<br />";
+        echo "Visit setup.php";
     }
 
-    echo $isCli ? PHP_EOL : "<br />";
-    echo $isCli ? PHP_EOL : "<br />";
     die();
 }
 

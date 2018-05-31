@@ -1,6 +1,6 @@
 <?php
 
-$env = getenv('env') ?: 'prod';
+$env = getenv('env') ?: 'dev';
 
 return [
     // Retrieve the list of modules for this application.
