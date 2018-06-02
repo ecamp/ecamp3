@@ -1,0 +1,20 @@
+{% extends 'e-camp/web/user.twig' %}
+
+{% block layout_body %}
+    <section class="container">
+
+        <div class="row">
+            <div class="col-sm-12">
+                Friends...
+                <br />
+                <br />
+                <table style="width: 100%" border="1">
+                    <tr>
+                        <td>Name: </td>
+                        <td>{{ user.displayname }}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </section>
+{% endblock %}
