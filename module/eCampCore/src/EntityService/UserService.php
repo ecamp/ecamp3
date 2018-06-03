@@ -60,8 +60,11 @@ class UserService extends AbstractEntityService
             //...
 
             // TODO: Remove Dev-Code
-            // Dev:
-            $user->verifyMailAddress($key);
+            // Dev: Registrierte Benutzer sofort freischalten
+            //      Keine Aktivierung mit Mail notwendig
+            if ($user->getState() == User::STATE_REGISTERED) {
+                $user->verifyMailAddress($key);
+            }
         }
 
 
