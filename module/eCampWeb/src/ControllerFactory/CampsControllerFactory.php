@@ -3,7 +3,7 @@
 namespace eCamp\Web\ControllerFactory;
 
 use eCamp\Core\Auth\AuthService;
-use eCamp\Core\Service\CampService;
+use eCamp\Core\EntityService\CampService;
 use eCamp\Web\Controller\CampsController;
 use Interop\Container\ContainerInterface;
 use Psr\Container\ContainerExceptionInterface;

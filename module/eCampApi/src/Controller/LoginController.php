@@ -4,7 +4,7 @@ namespace eCamp\Api\Controller;
 
 use Doctrine\ORM\NonUniqueResultException;
 use eCamp\Core\Auth\AuthService;
-use eCamp\Core\Service\UserService;
+use eCamp\Core\EntityService\UserService;
 use eCamp\Lib\Acl\NoAccessException;
 use Zend\Http\Request;
 use Zend\Http\Response;

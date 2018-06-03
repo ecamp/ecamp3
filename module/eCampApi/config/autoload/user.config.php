@@ -17,7 +17,7 @@ return [
 
     'zf-rest' => [
         \eCamp\Api\RestController\UserApiController::class => [
-            'listener' => \eCamp\Core\Service\UserService::class,
+            'listener' => \eCamp\Core\EntityService\UserService::class,
             'controller_class' => \eCamp\Api\RestController\UserApiController::class,
             'route_name' => 'ecamp.api.user',
             'route_identifier_name' => 'user_id',

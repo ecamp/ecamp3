@@ -5,7 +5,7 @@ namespace eCamp\Web\ControllerFactory;
 use Doctrine\ORM\EntityManager;
 use eCamp\Core\Entity\Group;
 use eCamp\Core\Repository\GroupRepository;
-use eCamp\Core\Service\GroupService;
+use eCamp\Core\EntityService\GroupService;
 use eCamp\Web\Controller\GroupsController;
 use Interop\Container\ContainerInterface;
 use Zend\ServiceManager\Factory\FactoryInterface;

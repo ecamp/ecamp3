@@ -17,7 +17,7 @@ return [
 
     'zf-rest' => [
         \eCamp\Api\RestController\GroupMembershipApiController::class => [
-            'listener' => \eCamp\Core\Service\GroupMembershipService::class,
+            'listener' => \eCamp\Core\EntityService\GroupMembershipService::class,
             'controller_class' => \eCamp\Api\RestController\GroupMembershipApiController::class,
             'route_name' => 'ecamp.api.group_membership',
             'route_identifier_name' => 'group_membership_id',

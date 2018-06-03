@@ -17,7 +17,7 @@ return [
 
     'zf-rest' => [
         \eCamp\Api\RestController\CampApiController::class => [
-            'listener' => \eCamp\Core\Service\CampService::class,
+            'listener' => \eCamp\Core\EntityService\CampService::class,
             'controller_class' => \eCamp\Api\RestController\CampApiController::class,
             'route_name' => 'ecamp.api.camp',
             'route_identifier_name' => 'camp_id',

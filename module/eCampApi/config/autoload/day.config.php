@@ -17,7 +17,7 @@ return [
 
     'zf-rest' => [
         \eCamp\Api\RestController\DayApiController::class => [
-            'listener' => \eCamp\Core\Service\DayService::class,
+            'listener' => \eCamp\Core\EntityService\DayService::class,
             'controller_class' => \eCamp\Api\RestController\DayApiController::class,
             'route_name' => 'ecamp.api.day',
             'route_identifier_name' => 'day_id',

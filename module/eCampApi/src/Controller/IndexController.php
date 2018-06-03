@@ -3,7 +3,7 @@
 namespace eCamp\Api\Controller;
 
 use eCamp\Core\Auth\AuthService;
-use eCamp\Core\Service\UserService;
+use eCamp\Core\EntityService\UserService;
 use Zend\Mvc\Controller\AbstractActionController;
 use ZF\Hal\Entity;
 use ZF\Hal\Link\Link;

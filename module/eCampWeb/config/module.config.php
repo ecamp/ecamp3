@@ -40,6 +40,17 @@ return [
                         ],
                     ],
 
+                    'register' => [
+                        'type' => 'Segment',
+                        'options' => [
+                            'route' => 'register[/:action]',
+                            'defaults' => [
+                                'controller' => \eCamp\Web\Controller\RegisterController::class,
+                                'action' => 'index'
+                            ],
+                        ],
+                    ],
+
 
                     'user' => [
                         'type' => \eCamp\Web\Route\UserRouter::class,
@@ -230,6 +241,7 @@ return [
         'factories' => [
             \eCamp\Web\Controller\IndexController::class => \Zend\ServiceManager\Factory\InvokableFactory::class,
             \eCamp\Web\Controller\LoginController::class => \eCamp\Web\ControllerFactory\LoginControllerFactory::class,
+            \eCamp\Web\Controller\RegisterController::class => \eCamp\Web\ControllerFactory\RegisterControllerFactory::class,
 
             \eCamp\Web\Controller\GroupsController::class => \eCamp\Web\ControllerFactory\GroupsControllerFactory::class,
             \eCamp\Web\Controller\CampsController::class => \eCamp\Web\ControllerFactory\CampsControllerFactory::class,

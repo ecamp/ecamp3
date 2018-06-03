@@ -3,7 +3,7 @@
 namespace eCamp\Web\Controller;
 
 use eCamp\Core\Auth\AuthService;
-use eCamp\Core\Service\CampService;
+use eCamp\Core\EntityService\CampService;
 use eCamp\Lib\Auth\AuthRequiredException;
 use Zend\View\Model\ViewModel;
 

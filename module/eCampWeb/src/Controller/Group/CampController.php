@@ -2,7 +2,7 @@
 
 namespace eCamp\Web\Controller\Group;
 
-use eCamp\Core\Service\CampService;
+use eCamp\Core\EntityService\CampService;
 use eCamp\Web\Controller\AbstractBaseController;
 
 class CampController extends AbstractBaseController

@@ -2,7 +2,7 @@
 
 namespace eCamp\Web\ControllerFactory\Group;
 
-use eCamp\Core\Service\GroupMembershipService;
+use eCamp\Core\EntityService\GroupMembershipService;
 use eCamp\Web\Controller\Group\MembershipController;
 use Interop\Container\ContainerInterface;
 use Zend\ServiceManager\Factory\FactoryInterface;

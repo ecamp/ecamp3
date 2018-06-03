@@ -3,7 +3,7 @@
 namespace eCamp\Web\Controller;
 
 use eCamp\Core\Repository\GroupRepository;
-use eCamp\Core\Service\GroupService;
+use eCamp\Core\EntityService\GroupService;
 use Zend\View\Model\ViewModel;
 
 class GroupsController extends AbstractBaseController

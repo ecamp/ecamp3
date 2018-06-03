@@ -3,7 +3,7 @@
 namespace eCamp\Web\Controller\Group;
 
 use eCamp\Core\Entity\GroupMembership;
-use eCamp\Core\Service\GroupMembershipService;
+use eCamp\Core\EntityService\GroupMembershipService;
 use eCamp\Web\Controller\AbstractBaseController;
 
 class MembershipController extends AbstractBaseController

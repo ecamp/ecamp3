@@ -3,21 +3,18 @@
 namespace eCamp\Plugin\Storyboard\Service;
 
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\ORM\EntityManager;
 use eCamp\Core\Plugin\BasePluginService;
-use eCamp\Lib\Acl\Acl;
 use eCamp\Plugin\Storyboard\Entity\Section;
 use eCamp\Plugin\Storyboard\Hydrator\SectionHydrator;
 
 class SectionService extends BasePluginService
 {
-    public function __construct(
-        Acl $acl,
-        EntityManager $entityManager,
-        SectionHydrator $textareaHydrator,
-        $eventPluginId
-    ) {
-        parent::__construct($acl, $entityManager, $textareaHydrator, Section::class, $eventPluginId);
+    public function __construct($eventPluginId) {
+        parent::__construct(
+            Section::class,
+            SectionHydrator::class,
+            $eventPluginId
+        );
     }
 
     protected function fetchAllQueryBuilder($params = [])

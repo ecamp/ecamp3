@@ -17,7 +17,7 @@ return [
 
     'zf-rest' => [
         \eCamp\Api\RestController\EventTemplateApiController::class => [
-            'listener' => \eCamp\Core\Service\EventTemplateService::class,
+            'listener' => \eCamp\Core\EntityService\EventTemplateService::class,
             'controller_class' => \eCamp\Api\RestController\EventTemplateApiController::class,
             'route_name' => 'ecamp.api.event_template',
             'route_identifier_name' => 'event_template_id',

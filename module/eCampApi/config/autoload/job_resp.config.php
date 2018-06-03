@@ -17,7 +17,7 @@ return [
 
     'zf-rest' => [
         \eCamp\Api\RestController\JobRespApiController::class => [
-            'listener' => \eCamp\Core\Service\JobRespService::class,
+            'listener' => \eCamp\Core\EntityService\JobRespService::class,
             'controller_class' => \eCamp\Api\RestController\JobRespApiController::class,
             'route_name' => 'ecamp.api.job_resp',
             'route_identifier_name' => 'job_resp_id',

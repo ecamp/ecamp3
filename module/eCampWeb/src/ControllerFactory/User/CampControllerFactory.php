@@ -2,7 +2,7 @@
 
 namespace eCamp\Web\ControllerFactory\User;
 
-use eCamp\Core\Service\CampService;
+use eCamp\Core\EntityService\CampService;
 use eCamp\Web\Controller\User\CampController;
 use Interop\Container\ContainerInterface;
 use Zend\ServiceManager\Factory\FactoryInterface;
