@@ -26,6 +26,10 @@ class GroupMembershipService extends BaseService
             $q->andWhere('row.group = :group');
             $q->setParameter('group', $params['group']);
         }
+        if (isset($params['user'])) {
+            $q->andWhere('row.user = :user');
+            $q->setParameter('user', $params['user']);
+        }
 
         return $q;
     }

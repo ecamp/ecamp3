@@ -1,8 +1,9 @@
 <?php
 
-namespace eCamp\Web\Controller;
+namespace eCamp\Web\Controller\User;
 
 use eCamp\Lib\Auth\AuthRequiredException;
+use eCamp\Web\Controller\AbstractBaseController;
 use Zend\View\Model\ViewModel;
 
 class UserController extends AbstractBaseController
