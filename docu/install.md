@@ -1,5 +1,5 @@
 # Installation
-## Voraussetzungen
+## Requirements
 
 - GIT
 - Composer
@@ -9,27 +9,30 @@
   - WAMP
   - MAMP
   - ...
-- Datenbank
+- Database
   - MySql
   - ...
 
+
+## Instructions:
+1) Clone repository ``` git clone https://github.com/ecamp/ecamp3.git ```
+2) Install dependencies ``` composer install ```
+3) Create DB-Configuration-File:  
+   Copy ```/config/autoload/doctrine.local.dev.dist``` to 
+   ```/config/autoload/doctrine.local.dev.php```
+4) Change DB-Configuration in ```/config/autoload/doctrine.local.dev.php```. 
+5) Create new empty Databse-Schema (using phpMyAdmin).
+6) Create tables: ```vendor/bin/doctrine orm:schema-tool:create```
+7) Visit Setup: http://localhost/setup.php
+8) Load data into database 
+9) Visit WebSite: http://localhost/
+
+Replace ```localhost``` depending on your WebServer-Setup.
+
+
 ## WebServer
-Falls kein WebServer vorhanden ist, kann der PHP BuiltIn WebServer verwendet werden.
+If you do not have a WebServer, you can use the built-in WebServer from PHP.
 ```php -S 0.0.0.0:8000 public public\server.php```
 
-WebSite besuchen: 
+Visite WebSite: 
 ```http://localhost:8000/```
-
-
-
-## Instruktion
-1) Repository clonen ``` git clone https://github.com/ecamp/ecamp3.git ```
-2) Abhängigkeiten installieren ``` composer install ```
-3) DB-Konfiguration erfassen:  
-   Copy ```/config/autoload/doctrine.local.prod.dist``` to 
-   ```/config/autoload/doctrine.local.prod.php```
-4) DB-Zugangs-Daten in ```/config/autoload/doctrine.local.prod.php``` setzen. 
-5) Leeres Datenbank-Schema erzeugen (z.B. mit phpMyAdmin).
-6) Tabellen erzeugen: ```vendor/bin/doctrine orm:schema-tool:create```
-7) Tabellen mit Stammdaten befüllen:  ```php cli-setup.php dev```
-8) Seite besuchen: http://HOST/web
