@@ -13,13 +13,11 @@ use Zend\Json\Json;
  * @ORM\Entity
  * @ORM\Table(name="camp_types")
  */
-class CampType extends BaseEntity
-{
+class CampType extends BaseEntity {
     const CNF_EVENT_CATEGORIES  = 'event_categories';
     const CNF_JOBS              = 'jobs';
 
-    public function __construct()
-    {
+    public function __construct() {
         parent::__construct();
 
         $this->eventTypes = new ArrayCollection();
@@ -70,13 +68,11 @@ class CampType extends BaseEntity
     /**
      * @return string
      */
-    public function getName()
-    {
+    public function getName() {
         return $this->name;
     }
 
-    public function setName(string $name)
-    {
+    public function setName(string $name) {
         $this->name = $name;
     }
 
@@ -84,13 +80,11 @@ class CampType extends BaseEntity
     /**
      * @return Organization
      */
-    public function getOrganization()
-    {
+    public function getOrganization() {
         return $this->organization;
     }
 
-    public function setOrganization($organization)
-    {
+    public function setOrganization($organization) {
         $this->organization = $organization;
     }
 
@@ -98,13 +92,11 @@ class CampType extends BaseEntity
     /**
      * @return bool
      */
-    public function getIsJS()
-    {
+    public function getIsJS() {
         return $this->isJS;
     }
 
-    public function setIsJS(bool $isJS)
-    {
+    public function setIsJS(bool $isJS) {
         $this->isJS = $isJS;
     }
 
@@ -112,13 +104,11 @@ class CampType extends BaseEntity
     /**
      * @return bool
      */
-    public function getIsCourse()
-    {
+    public function getIsCourse() {
         return $this->isCourse;
     }
 
-    public function setIsCourse(bool $isCourse)
-    {
+    public function setIsCourse(bool $isCourse) {
         $this->isCourse = $isCourse;
     }
 
@@ -126,13 +116,11 @@ class CampType extends BaseEntity
     /**
      * @return string
      */
-    public function getJsonConfig(): string
-    {
+    public function getJsonConfig(): string {
         return $this->jsonConfig;
     }
 
-    public function setJsonConfig(string $jsonConfig): void
-    {
+    public function setJsonConfig(string $jsonConfig): void {
         $this->jsonConfig = $jsonConfig;
     }
 
@@ -140,8 +128,7 @@ class CampType extends BaseEntity
      * @param string $key
      * @return object
      */
-    public function getConfig($key = null)
-    {
+    public function getConfig($key = null) {
         $config = null;
         if ($this->jsonConfig != null) {
             $config = Json::decode($this->jsonConfig);
@@ -156,18 +143,15 @@ class CampType extends BaseEntity
     /**
      * @return ArrayCollection
      */
-    public function getEventTypes()
-    {
+    public function getEventTypes() {
         return $this->eventTypes;
     }
 
-    public function addEventType(EventType $eventType)
-    {
+    public function addEventType(EventType $eventType) {
         $this->eventTypes->add($eventType);
     }
 
-    public function removeEventType(EventType $eventType)
-    {
+    public function removeEventType(EventType $eventType) {
         $this->eventTypes->removeElement($eventType);
     }
 }

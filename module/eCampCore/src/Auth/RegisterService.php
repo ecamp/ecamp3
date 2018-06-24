@@ -2,6 +2,5 @@
 
 namespace eCamp\Core\Auth;
 
-class RegisterService
-{
+class RegisterService {
 }

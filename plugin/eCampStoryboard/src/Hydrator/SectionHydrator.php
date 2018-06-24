@@ -6,14 +6,12 @@ use eCamp\Plugin\Storyboard\Entity\Section;
 use Zend\Hydrator\HydratorInterface;
 use ZF\Hal\Link\Link;
 
-class SectionHydrator implements HydratorInterface
-{
+class SectionHydrator implements HydratorInterface {
     /**
      * @param object $object
      * @return array
      */
-    public function extract($object)
-    {
+    public function extract($object) {
         /** @var Section $section */
         $section = $object;
 
@@ -51,8 +49,7 @@ class SectionHydrator implements HydratorInterface
      * @param object $object
      * @return object
      */
-    public function hydrate(array $data, $object)
-    {
+    public function hydrate(array $data, $object) {
         /** @var Section $section */
         $section = $object;
 

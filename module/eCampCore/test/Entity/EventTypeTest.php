@@ -11,10 +11,8 @@ use eCamp\Core\Entity\EventTypePlugin;
 use eCamp\Core\Entity\Plugin;
 use eCamp\LibTest\PHPUnit\AbstractTestCase;
 
-class EventTypeTest extends AbstractTestCase
-{
-    public function testEventType()
-    {
+class EventTypeTest extends AbstractTestCase {
+    public function testEventType() {
         $eventType = new EventType();
         $eventType->setName('EventType Name');
         $eventType->setDefaultColor('#FF00FF');
@@ -29,8 +27,7 @@ class EventTypeTest extends AbstractTestCase
         $this->assertInstanceOf('Doctrine\Common\Collections\ArrayCollection', $eventType->getEventTypeFactories());
     }
 
-    public function testEventTypeFactory()
-    {
+    public function testEventTypeFactory() {
         $eventType = new EventType();
         $eventTypeFactory = new EventTypeFactory();
 
@@ -41,8 +38,7 @@ class EventTypeTest extends AbstractTestCase
         $this->assertEquals(0, $eventType->getEventTypeFactories()->count());
     }
 
-    public function testEventTemplate()
-    {
+    public function testEventTemplate() {
         $eventType = new EventType();
         $eventTemplate = new EventTemplate();
 
@@ -53,8 +49,7 @@ class EventTypeTest extends AbstractTestCase
         $this->assertEquals(0, $eventType->getEventTemplates()->count());
     }
 
-    public function testEventTypePlugin()
-    {
+    public function testEventTypePlugin() {
         $eventType = new EventType();
         $eventTypePlugin = new EventTypePlugin();
 
@@ -65,8 +60,7 @@ class EventTypeTest extends AbstractTestCase
         $this->assertEquals(0, $eventType->getEventTypePlugins()->count());
     }
 
-    public function testCreateEventPlugins()
-    {
+    public function testCreateEventPlugins() {
         $plugin = new Plugin();
         $plugin->setName('test');
 

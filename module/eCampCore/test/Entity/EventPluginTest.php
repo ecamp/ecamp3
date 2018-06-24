@@ -10,10 +10,8 @@ use eCamp\Core\Entity\EventTypePlugin;
 use eCamp\Core\Entity\Plugin;
 use eCamp\LibTest\PHPUnit\AbstractTestCase;
 
-class EventPluginTest extends AbstractTestCase
-{
-    public function testEventPlugin()
-    {
+class EventPluginTest extends AbstractTestCase {
+    public function testEventPlugin() {
         $camp = new Camp();
 
         $plugin = new Plugin();

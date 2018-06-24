@@ -7,10 +7,8 @@ use eCamp\Core\Entity\Organization;
 use eCamp\Core\Hydrator\CampTypeHydrator;
 use eCamp\LibTest\PHPUnit\AbstractTestCase;
 
-class CampTypeHydratorTest extends AbstractTestCase
-{
-    public function testExtract()
-    {
+class CampTypeHydratorTest extends AbstractTestCase {
+    public function testExtract() {
         $organization = new Organization();
         $campType = new CampType();
         $campType->setName('name');
@@ -27,8 +25,7 @@ class CampTypeHydratorTest extends AbstractTestCase
         $this->assertEquals($organization, $data['organization']);
     }
 
-    public function testHydrate()
-    {
+    public function testHydrate() {
         $organization = new Organization();
         $campType = new CampType();
         $data = [

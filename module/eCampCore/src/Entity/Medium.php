@@ -8,15 +8,13 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity()
  * @ORM\Table(name="medium")
  */
-class Medium
-{
+class Medium {
     const MEDIUM_WEB = 'web';
     const MEDIUM_PRINT = 'print';
     const MEDIUM_MOBILE = 'mobile';
 
 
-    public function __construct()
-    {
+    public function __construct() {
     }
 
     /**
@@ -36,13 +34,11 @@ class Medium
     /**
      * @return string
      */
-    public function getName(): string
-    {
+    public function getName(): string {
         return $this->name;
     }
 
-    public function setName(string $name): void
-    {
+    public function setName(string $name): void {
         $this->name = $name;
     }
 
@@ -50,13 +46,11 @@ class Medium
     /**
      * @return bool
      */
-    public function isDefault(): bool
-    {
+    public function isDefault(): bool {
         return $this->default;
     }
 
-    public function setDefault(bool $default): void
-    {
+    public function setDefault(bool $default): void {
         $this->default = $default;
     }
 }

@@ -7,15 +7,13 @@ use Doctrine\ORM\Tools\SchemaTool;
 use Doctrine\ORM\Tools\ToolsException;
 use Zend\Test\PHPUnit\Controller\AbstractHttpControllerTestCase as ZendAbstractHttpControllerTestCase;
 
-abstract class AbstractHttpControllerTestCase extends ZendAbstractHttpControllerTestCase
-{
+abstract class AbstractHttpControllerTestCase extends ZendAbstractHttpControllerTestCase {
     /**
      * @throws ToolsException
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    public function setUp()
-    {
+    public function setUp() {
         parent::setUp();
 
         $data = include __DIR__ . '/../../../../config/application.config.php';
@@ -25,8 +23,7 @@ abstract class AbstractHttpControllerTestCase extends ZendAbstractHttpController
         $this->createDatabaseSchema($em);
     }
 
-    protected function getEntityManager($name = null)
-    {
+    protected function getEntityManager($name = null) {
         $name = $name ?: 'orm_default';
         $name = 'doctrine.entitymanager.' . $name;
 
@@ -34,8 +31,7 @@ abstract class AbstractHttpControllerTestCase extends ZendAbstractHttpController
     }
 
     /** @throws ToolsException */
-    protected function createDatabaseSchema(EntityManager $em)
-    {
+    protected function createDatabaseSchema(EntityManager $em) {
         $metadatas = $em->getMetadataFactory()->getAllMetadata();
 
         $schemaTool = new SchemaTool($em);

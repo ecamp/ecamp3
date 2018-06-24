@@ -10,10 +10,8 @@ use eCamp\Lib\Entity\BaseEntity;
  * @ORM\Entity()
  * @ORM\Table(name="event_plugins")
  */
-class EventPlugin extends BaseEntity
-{
-    public function __construct()
-    {
+class EventPlugin extends BaseEntity {
+    public function __construct() {
         parent::__construct();
     }
 
@@ -41,13 +39,11 @@ class EventPlugin extends BaseEntity
     /**
      * @return Event
      */
-    public function getEvent()
-    {
+    public function getEvent() {
         return $this->event;
     }
 
-    public function setEvent($event)
-    {
+    public function setEvent($event) {
         $this->event = $event;
     }
 
@@ -55,13 +51,11 @@ class EventPlugin extends BaseEntity
     /**
      * @return EventTypePlugin
      */
-    public function getEventTypePlugin()
-    {
+    public function getEventTypePlugin() {
         return $this->eventTypePlugin;
     }
 
-    public function setEventTypePlugin(EventTypePlugin $eventTypePlugin): void
-    {
+    public function setEventTypePlugin(EventTypePlugin $eventTypePlugin): void {
         $this->eventTypePlugin = $eventTypePlugin;
     }
 
@@ -69,8 +63,7 @@ class EventPlugin extends BaseEntity
     /**
      * @return Plugin
      */
-    public function getPlugin()
-    {
+    public function getPlugin() {
         return ($this->eventTypePlugin != null) ? $this->eventTypePlugin->getPlugin() : null;
     }
 
@@ -78,13 +71,11 @@ class EventPlugin extends BaseEntity
     /**
      * @return string
      */
-    public function getInstanceName()
-    {
+    public function getInstanceName() {
         return $this->instanceName;
     }
 
-    public function setInstanceName($instanceName): void
-    {
+    public function setInstanceName($instanceName): void {
         $this->instanceName = $instanceName;
     }
 }

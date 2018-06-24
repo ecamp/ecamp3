@@ -4,8 +4,7 @@ namespace eCamp\Lib\ServiceManager;
 
 use Doctrine\ORM\EntityManager;
 
-interface EntityManagerAware
-{
+interface EntityManagerAware {
     /**
      * @param EntityManager $entityManager
      */

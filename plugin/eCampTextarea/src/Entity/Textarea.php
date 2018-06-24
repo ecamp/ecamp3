@@ -9,8 +9,7 @@ use eCamp\Core\Plugin\BasePluginEntity;
  * @ORM\Entity
  * @ORM\Table(name="plugin_textarea_textareas")
  */
-class Textarea extends BasePluginEntity
-{
+class Textarea extends BasePluginEntity {
 
     /**
      * @ORM\Column(type="text", nullable=true)
@@ -21,16 +20,14 @@ class Textarea extends BasePluginEntity
     /**
      * @return string
      */
-    public function getText()
-    {
+    public function getText() {
         return $this->text;
     }
 
     /**
      * @param string $text
      */
-    public function setText($text)
-    {
+    public function setText($text) {
         $this->text = $text;
     }
 }

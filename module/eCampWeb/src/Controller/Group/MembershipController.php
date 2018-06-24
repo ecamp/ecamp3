@@ -6,14 +6,12 @@ use eCamp\Core\Entity\GroupMembership;
 use eCamp\Core\Service\GroupMembershipService;
 use eCamp\Web\Controller\AbstractBaseController;
 
-class MembershipController extends AbstractBaseController
-{
+class MembershipController extends AbstractBaseController {
     /** @var GroupMembershipService */
     private $groupMembershipService;
 
 
-    public function __construct(GroupMembershipService $groupMembershipService)
-    {
+    public function __construct(GroupMembershipService $groupMembershipService) {
         $this->groupMembershipService = $groupMembershipService;
     }
 
@@ -21,8 +19,7 @@ class MembershipController extends AbstractBaseController
      * @return array|\Zend\View\Model\ViewModel
      * @throws \eCamp\Lib\Acl\NoAccessException
      */
-    public function indexAction()
-    {
+    public function indexAction() {
         $group = $this->params()->fromRoute('group');
 
         /** @var GroupMembership[] $groupMemberships */

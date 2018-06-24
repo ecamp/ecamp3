@@ -8,10 +8,8 @@ use eCamp\Core\Entity\EventInstance;
 use eCamp\Core\Entity\Period;
 use eCamp\LibTest\PHPUnit\AbstractTestCase;
 
-class PeriodTest extends AbstractTestCase
-{
-    public function testCamp()
-    {
+class PeriodTest extends AbstractTestCase {
+    public function testCamp() {
         $camp = new Camp();
 
         $start = new \DateTime();
@@ -32,8 +30,7 @@ class PeriodTest extends AbstractTestCase
         $this->assertEquals($end, $period->getEnd());
     }
 
-    public function testStartEnd()
-    {
+    public function testStartEnd() {
         $start = new \DateTime();
         $start->setTime(0, 0, 0);
         $end = clone $start;
@@ -51,8 +48,7 @@ class PeriodTest extends AbstractTestCase
         $this->assertEquals($end, $period->getEnd());
     }
 
-    public function testDuration()
-    {
+    public function testDuration() {
         $start = new \DateTime();
         $start->setTime(0, 0, 0);
         $end = clone $start;
@@ -67,8 +63,7 @@ class PeriodTest extends AbstractTestCase
         $this->assertEquals(8, $period->getDurationInDays());
     }
 
-    public function testDay()
-    {
+    public function testDay() {
         $period = new Period();
         $day = new Day();
 
@@ -79,8 +74,7 @@ class PeriodTest extends AbstractTestCase
         $this->assertEquals(0, $period->getDays()->count());
     }
 
-    public function testEventInstance()
-    {
+    public function testEventInstance() {
         $period = new Period();
         $eventInstance = new EventInstance();
 
@@ -92,8 +86,7 @@ class PeriodTest extends AbstractTestCase
     }
 
 
-    public function testLifecycle()
-    {
+    public function testLifecycle() {
         $period = new Period();
         $period->PrePersist();
         $period->PreUpdate();

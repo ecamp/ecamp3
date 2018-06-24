@@ -10,10 +10,8 @@ use eCamp\Core\Entity\EventType;
 use eCamp\Core\Entity\Period;
 use eCamp\LibTest\PHPUnit\AbstractTestCase;
 
-class EventInstanceTest extends AbstractTestCase
-{
-    public function testEventInstance()
-    {
+class EventInstanceTest extends AbstractTestCase {
+    public function testEventInstance() {
         $eventType = new EventType();
         $eventType->setDefaultColor('#FF00FF');
         $eventType->setDefaultNumberingStyle('i');

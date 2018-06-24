@@ -28,10 +28,8 @@ use eCamp\Lib\Entity\BaseEntity;
  * @ORM\Entity()
  * @ORM\Table(name="jobs")
  */
-class Job extends BaseEntity
-{
-    public function __construct()
-    {
+class Job extends BaseEntity {
+    public function __construct() {
         parent::__construct();
 
         $this->jobResps = new ArrayCollection();
@@ -60,26 +58,22 @@ class Job extends BaseEntity
     /**
      * @return Camp
      */
-    public function getCamp()
-    {
+    public function getCamp() {
         return $this->camp;
     }
 
-    public function setCamp($camp)
-    {
+    public function setCamp($camp) {
         $this->camp = $camp;
     }
 
     /**
      * @return string
      */
-    public function getName()
-    {
+    public function getName() {
         return $this->name;
     }
 
-    public function setName($name)
-    {
+    public function setName($name) {
         $this->name = $name;
     }
 
@@ -87,8 +81,7 @@ class Job extends BaseEntity
      * @param Period|Day|null $periodOrDay
      * @return ArrayCollection
      */
-    public function getJobResps($periodOrDay = null)
-    {
+    public function getJobResps($periodOrDay = null) {
         $filter = null;
 
         if ($periodOrDay instanceof Period) {
@@ -108,14 +101,12 @@ class Job extends BaseEntity
         return $this->jobResps;
     }
 
-    public function addJobResp(JobResp $jobResp)
-    {
+    public function addJobResp(JobResp $jobResp) {
         $jobResp->setJob($this);
         $this->jobResps->add($jobResp);
     }
 
-    public function removeJobResp(JobResp $jobResp)
-    {
+    public function removeJobResp(JobResp $jobResp) {
         $jobResp->setJob(null);
         $this->jobResps->removeElement($jobResp);
     }
@@ -126,8 +117,7 @@ class Job extends BaseEntity
      * @param  User $user
      * @return bool
      */
-    public function isUserResp(Day $day, User $user)
-    {
+    public function isUserResp(Day $day, User $user) {
         $filter = function ($key, JobResp $jobResp) use ($user, $day) {
             return $jobResp->getUser() === $user && $jobResp->getDay() === $day;
         };

@@ -5,14 +5,12 @@ namespace eCamp\Core\Hydrator;
 use eCamp\Core\Entity\EventTypePlugin;
 use Zend\Hydrator\HydratorInterface;
 
-class EventTypePluginHydrator implements HydratorInterface
-{
+class EventTypePluginHydrator implements HydratorInterface {
     /**
      * @param object $object
      * @return array
      */
-    public function extract($object)
-    {
+    public function extract($object) {
         /** @var EventTypePlugin $eventTypePlugin */
         $eventTypePlugin = $object;
         return [
@@ -30,8 +28,7 @@ class EventTypePluginHydrator implements HydratorInterface
      * @param object $object
      * @return object
      */
-    public function hydrate(array $data, $object)
-    {
+    public function hydrate(array $data, $object) {
         /** @var EventTypePlugin $eventTypePlugin */
         $eventTypePlugin = $object;
 

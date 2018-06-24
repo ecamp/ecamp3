@@ -8,10 +8,8 @@ use eCamp\Core\Entity\GroupMembership;
 use eCamp\Core\Entity\Organization;
 use eCamp\LibTest\PHPUnit\AbstractTestCase;
 
-class GroupTest extends AbstractTestCase
-{
-    public function testGroup()
-    {
+class GroupTest extends AbstractTestCase {
+    public function testGroup() {
         $organization = new Organization();
 
         $group = new Group();
@@ -27,8 +25,7 @@ class GroupTest extends AbstractTestCase
         $this->assertNull($group->getParent());
     }
 
-    public function testParentGroup()
-    {
+    public function testParentGroup() {
         $organization = new Organization();
 
         $group1 = new Group();
@@ -52,8 +49,7 @@ class GroupTest extends AbstractTestCase
         $this->assertEquals(0, $group2->getChildren()->count());
     }
 
-    public function testCamp()
-    {
+    public function testCamp() {
         $camp = new Camp();
         $group = new Group();
 
@@ -64,8 +60,7 @@ class GroupTest extends AbstractTestCase
         $this->assertEquals(0, $group->getOwnedCamps()->count());
     }
 
-    public function testMembership()
-    {
+    public function testMembership() {
         $membership = new GroupMembership();
         $group = new Group();
 

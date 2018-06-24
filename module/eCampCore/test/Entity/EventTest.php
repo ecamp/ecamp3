@@ -12,10 +12,8 @@ use eCamp\Core\Entity\EventTypePlugin;
 use eCamp\Core\Entity\Plugin;
 use eCamp\LibTest\PHPUnit\AbstractTestCase;
 
-class EventTest extends AbstractTestCase
-{
-    public function testEventCategory()
-    {
+class EventTest extends AbstractTestCase {
+    public function testEventCategory() {
         $camp = new Camp();
 
         $eventType = new EventType();
@@ -36,8 +34,7 @@ class EventTest extends AbstractTestCase
         $this->assertEquals($eventType, $event->getEventType());
     }
 
-    public function testEventTemplate()
-    {
+    public function testEventTemplate() {
         $event = new Event();
         $eventPlugin = new EventPlugin();
 
@@ -48,8 +45,7 @@ class EventTest extends AbstractTestCase
         $this->assertEquals(0, $event->getEventPlugins()->count());
     }
 
-    public function testEventInstance()
-    {
+    public function testEventInstance() {
         $event = new Event();
         $eventInstance = new EventInstance();
 
@@ -60,8 +56,7 @@ class EventTest extends AbstractTestCase
         $this->assertEquals(0, $event->getEventInstances()->count());
     }
 
-    public function testCreateEventPlugins()
-    {
+    public function testCreateEventPlugins() {
         $plugin = new Plugin();
         $plugin->setName('TestPlugin');
 

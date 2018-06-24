@@ -7,10 +7,8 @@ use eCamp\Core\Service\UserService;
 use eCamp\LibTest\PHPUnit\AbstractDatabaseTestCase;
 use Zend\Authentication\AuthenticationService;
 
-class AuthUserProviderTest extends AbstractDatabaseTestCase
-{
-    public function testAuthUser()
-    {
+class AuthUserProviderTest extends AbstractDatabaseTestCase {
+    public function testAuthUser() {
         /** @var UserService $userService */
         $userService = \eCampApp::GetService(UserService::class);
 
@@ -31,8 +29,7 @@ class AuthUserProviderTest extends AbstractDatabaseTestCase
         $this->assertEquals($user->getId(), $authUser->getId());
     }
 
-    public function testNoAuthUser()
-    {
+    public function testNoAuthUser() {
         $authService = new AuthenticationService();
         $authService->clearIdentity();
 

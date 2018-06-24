@@ -12,10 +12,8 @@ use eCamp\Lib\Entity\BaseEntity;
  * })
  * @ORM\HasLifecycleCallbacks
  */
-class Day extends BaseEntity
-{
-    public function __construct()
-    {
+class Day extends BaseEntity {
+    public function __construct() {
         parent::__construct();
     }
 
@@ -37,13 +35,11 @@ class Day extends BaseEntity
     /**
      * @return Period
      */
-    public function getPeriod()
-    {
+    public function getPeriod() {
         return $this->period;
     }
 
-    public function setPeriod($period)
-    {
+    public function setPeriod($period) {
         $this->period = $period;
     }
 
@@ -51,8 +47,7 @@ class Day extends BaseEntity
     /**
      * @return Camp
      */
-    public function getCamp()
-    {
+    public function getCamp() {
         return ($this->period != null) ? $this->period->getCamp() : null;
     }
 
@@ -60,18 +55,15 @@ class Day extends BaseEntity
     /**
      * @return int
      */
-    public function getDayOffset()
-    {
+    public function getDayOffset() {
         return $this->dayOffset;
     }
 
-    public function setDayOffset(int $dayOffset)
-    {
+    public function setDayOffset(int $dayOffset) {
         $this->dayOffset = $dayOffset;
     }
 
-    public function getDayNumber()
-    {
+    public function getDayNumber() {
         return ($this->dayOffset + 1);
     }
 }

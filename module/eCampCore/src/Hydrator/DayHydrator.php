@@ -6,14 +6,12 @@ use eCamp\Core\Entity\Day;
 use Zend\Hydrator\HydratorInterface;
 use ZF\Hal\Link\Link;
 
-class DayHydrator implements HydratorInterface
-{
+class DayHydrator implements HydratorInterface {
     /**
      * @param object $object
      * @return array
      */
-    public function extract($object)
-    {
+    public function extract($object) {
         /** @var Day $day */
         $day = $object;
         return [
@@ -37,8 +35,7 @@ class DayHydrator implements HydratorInterface
      * @param object $object
      * @return object
      */
-    public function hydrate(array $data, $object)
-    {
+    public function hydrate(array $data, $object) {
         /** @var Day $day */
         $day = $object;
 

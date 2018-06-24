@@ -7,10 +7,8 @@ use eCamp\Core\Entity\GroupMembership;
 use eCamp\Core\Entity\User;
 use eCamp\LibTest\PHPUnit\AbstractTestCase;
 
-class GroupMembershipTest extends AbstractTestCase
-{
-    public function testGroupMembership()
-    {
+class GroupMembershipTest extends AbstractTestCase {
+    public function testGroupMembership() {
         $group = new Group();
         $user = new User();
 
@@ -28,8 +26,7 @@ class GroupMembershipTest extends AbstractTestCase
         $this->assertEquals('install', $membership->getMembershipAcceptedBy());
     }
 
-    public function testStatus()
-    {
+    public function testStatus() {
         $membership = new GroupMembership();
         $membership->setStatus(GroupMembership::STATUS_REQUESTED);
         $this->assertTrue($membership->isRequest());
@@ -45,8 +42,7 @@ class GroupMembershipTest extends AbstractTestCase
         $membership->setStatus('test');
     }
 
-    public function testRole()
-    {
+    public function testRole() {
         $membership = new GroupMembership();
         $membership->setRole(GroupMembership::ROLE_GUEST);
         $this->assertTrue($membership->isGuest());
@@ -62,8 +58,7 @@ class GroupMembershipTest extends AbstractTestCase
         $membership->setRole('test');
     }
 
-    public function testLifecycle()
-    {
+    public function testLifecycle() {
         $membership = new GroupMembership();
         $membership->setStatus(GroupMembership::STATUS_REQUESTED);
         $membership->setMembershipAcceptedBy('install');

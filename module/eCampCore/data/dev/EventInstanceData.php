@@ -9,8 +9,7 @@ use eCamp\Core\Entity\Event;
 use eCamp\Core\Entity\EventInstance;
 use eCamp\Core\Entity\Period;
 
-class EventInstanceData extends AbstractFixture implements DependentFixtureInterface
-{
+class EventInstanceData extends AbstractFixture implements DependentFixtureInterface {
     public static $EVENT_INSTANCE_1_LS_1 = Event::class . ':EVENT_INSTANCE_1_LS_1';
     public static $EVENT_INSTANCE_1_LS_2 = Event::class . ':EVENT_INSTANCE_1_LS_2';
     public static $EVENT_INSTANCE_1_LA_1 = Event::class . ':EVENT_INSTANCE_1_LA_1';
@@ -18,8 +17,7 @@ class EventInstanceData extends AbstractFixture implements DependentFixtureInter
     public static $EVENT_INSTANCE_2_LS = Event::class . ':EVENT_INSTANCE_2_LS';
     public static $EVENT_INSTANCE_2_LA = Event::class . ':EVENT_INSTANCE_2_LA';
 
-    public function load(ObjectManager $manager)
-    {
+    public function load(ObjectManager $manager) {
         $repository = $manager->getRepository(EventInstance::class);
 
 
@@ -139,8 +137,7 @@ class EventInstanceData extends AbstractFixture implements DependentFixtureInter
         $manager->flush();
     }
 
-    public function getDependencies()
-    {
+    public function getDependencies() {
         return [ PeriodData::class, EventData::class ];
     }
 }

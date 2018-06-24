@@ -7,14 +7,12 @@ use eCamp\Core\Entity\Event;
 use Zend\Hydrator\HydratorInterface;
 use ZF\Hal\Link\Link;
 
-class EventHydrator implements HydratorInterface
-{
+class EventHydrator implements HydratorInterface {
     /**
      * @param object $object
      * @return array
      */
-    public function extract($object)
-    {
+    public function extract($object) {
         /** @var Event $event */
         $event = $object;
         return [
@@ -40,8 +38,7 @@ class EventHydrator implements HydratorInterface
      * @param object $object
      * @return object
      */
-    public function hydrate(array $data, $object)
-    {
+    public function hydrate(array $data, $object) {
         /** @var Event $event */
         $event = $object;
 

@@ -14,8 +14,7 @@ use Zend\Router\RouteMatch;
 use Zend\Stdlib\RequestInterface as Request;
 use Zend\Uri\Uri;
 
-abstract class FluentRouter implements RouteInterface
-{
+abstract class FluentRouter implements RouteInterface {
     /** @var UserRepository */
     private $userRepository;
 
@@ -53,8 +52,7 @@ abstract class FluentRouter implements RouteInterface
      * @param  array|\Traversable $options
      * @return void
      */
-    public static function factory($options = [])
-    {
+    public static function factory($options = []) {
         throw new RuntimeException("not implemented");
     }
 
@@ -65,8 +63,7 @@ abstract class FluentRouter implements RouteInterface
      * @param array $options
      * @return null|RouteMatch
      */
-    public function match(Request $request, $pathOffset = null, $options = [])
-    {
+    public function match(Request $request, $pathOffset = null, $options = []) {
         if (!method_exists($request, 'getUri')) {
             return null;
         }
@@ -111,8 +108,7 @@ abstract class FluentRouter implements RouteInterface
      * @param array $params
      * @return null|RouteMatch
      */
-    protected function matchUser($path, $length, $params)
-    {
+    protected function matchUser($path, $length, $params) {
         if (empty($path)) {
             return null;
         }
@@ -171,8 +167,7 @@ abstract class FluentRouter implements RouteInterface
      * @param $params
      * @return null|RouteMatch
      */
-    protected function matchGroup($path, $length, $params)
-    {
+    protected function matchGroup($path, $length, $params) {
         if (empty($path)) {
             return null;
         }
@@ -232,8 +227,7 @@ abstract class FluentRouter implements RouteInterface
      * @param $params
      * @return null|RouteMatch
      */
-    protected function matchCamp($path, $length, $params)
-    {
+    protected function matchCamp($path, $length, $params) {
         if (empty($path)) {
             return null;
         }
@@ -278,8 +272,7 @@ abstract class FluentRouter implements RouteInterface
      * @param  array $options
      * @return mixed
      */
-    public function assemble(array $params = [], array $options = [])
-    {
+    public function assemble(array $params = [], array $options = []) {
         $path = '';
         $target = $this->getTarget($params);
 
@@ -298,8 +291,7 @@ abstract class FluentRouter implements RouteInterface
         return $path;
     }
 
-    private function getTarget(array $params)
-    {
+    private function getTarget(array $params) {
         if (isset($params['target'])) {
             return $params['target'];
         }
@@ -327,8 +319,7 @@ abstract class FluentRouter implements RouteInterface
         return $target;
     }
 
-    public function assembleUser(array $params = [])
-    {
+    public function assembleUser(array $params = []) {
         /** @var User $user */
         $user = null;
         if ($user == null) {
@@ -351,8 +342,7 @@ abstract class FluentRouter implements RouteInterface
         return $path;
     }
 
-    public function assembleGroup(array $params = [])
-    {
+    public function assembleGroup(array $params = []) {
         /** @var Group $group */
         $group = null;
         if ($group == null) {
@@ -376,8 +366,7 @@ abstract class FluentRouter implements RouteInterface
         return $path;
     }
 
-    public function assembleCamp(array $params = [])
-    {
+    public function assembleCamp(array $params = []) {
         /** @var Camp $camp */
         $camp = null;
         if ($camp == null) {
@@ -414,8 +403,7 @@ abstract class FluentRouter implements RouteInterface
     /**
      * @return array
      */
-    public function getAssembledParams()
-    {
+    public function getAssembledParams() {
         return [];
     }
 }

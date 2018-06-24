@@ -6,15 +6,13 @@ use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\Persistence\ObjectManager;
 use eCamp\Core\Entity\Medium;
 
-class MediumData extends AbstractFixture
-{
+class MediumData extends AbstractFixture {
     public static $WEB = Medium::class . ':WEB';
     public static $MOBILE= Medium::class . ':MOBILE';
     public static $PRINT = Medium::class . ':PRINT';
 
 
-    public function load(ObjectManager $manager)
-    {
+    public function load(ObjectManager $manager) {
         $repository = $manager->getRepository(Medium::class);
 
 

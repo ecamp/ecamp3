@@ -9,8 +9,7 @@ use eCamp\Lib\Acl\Acl;
 use eCamp\Plugin\Storyboard\Entity\Section;
 use eCamp\Plugin\Storyboard\Hydrator\SectionHydrator;
 
-class SectionService extends BasePluginService
-{
+class SectionService extends BasePluginService {
     public function __construct(
         Acl $acl,
         EntityManager $entityManager,
@@ -20,16 +19,14 @@ class SectionService extends BasePluginService
         parent::__construct($acl, $entityManager, $textareaHydrator, Section::class, $eventPluginId);
     }
 
-    protected function fetchAllQueryBuilder($params = [])
-    {
+    protected function fetchAllQueryBuilder($params = []) {
         $q = parent::fetchAllQueryBuilder($params);
         $q->orderBy('row.pos');
 
         return $q;
     }
 
-    public function moveUp($id)
-    {
+    public function moveUp($id) {
         /** @var Section $section2 */
         $section2 = $this->findEntity(Section::class, $id);
 
@@ -56,8 +53,7 @@ class SectionService extends BasePluginService
         }
     }
 
-    public function moveDown($id)
-    {
+    public function moveDown($id) {
         /** @var Section $section1 */
         $section1 = $this->findEntity(Section::class, $id);
 

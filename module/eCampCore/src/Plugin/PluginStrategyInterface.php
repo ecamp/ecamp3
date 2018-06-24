@@ -4,8 +4,7 @@ namespace eCamp\Core\Plugin;
 
 use eCamp\Core\Entity\EventPlugin;
 
-interface PluginStrategyInterface
-{
+interface PluginStrategyInterface {
     /**
      * @param EventPlugin $eventPlugin
      * @return array

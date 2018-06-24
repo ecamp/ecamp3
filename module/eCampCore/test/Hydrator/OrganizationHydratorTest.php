@@ -6,10 +6,8 @@ use eCamp\Core\Entity\Organization;
 use eCamp\Core\Hydrator\OrganizationHydrator;
 use eCamp\LibTest\PHPUnit\AbstractTestCase;
 
-class OrganizationHydratorTest extends AbstractTestCase
-{
-    public function testExtract()
-    {
+class OrganizationHydratorTest extends AbstractTestCase {
+    public function testExtract() {
         $organization = new Organization();
         $organization->setName('name');
 
@@ -19,8 +17,7 @@ class OrganizationHydratorTest extends AbstractTestCase
         $this->assertEquals('name', $data['name']);
     }
 
-    public function testHydrate()
-    {
+    public function testHydrate() {
         $organization = new Organization();
         $data = [
             'name' => 'name'

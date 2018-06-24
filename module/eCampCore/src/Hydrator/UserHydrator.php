@@ -5,14 +5,12 @@ namespace eCamp\Core\Hydrator;
 use eCamp\Core\Entity\User;
 use Zend\Hydrator\HydratorInterface;
 
-class UserHydrator implements HydratorInterface
-{
+class UserHydrator implements HydratorInterface {
     /**
      * @param object $object
      * @return array
      */
-    public function extract($object)
-    {
+    public function extract($object) {
         /** @var User $user */
         $user = $object;
         return [
@@ -26,8 +24,7 @@ class UserHydrator implements HydratorInterface
      * @param object $object
      * @return object
      */
-    public function hydrate(array $data, $object)
-    {
+    public function hydrate(array $data, $object) {
         /** @var User $user */
         $user = $object;
 

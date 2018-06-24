@@ -9,10 +9,8 @@ use Psr\Container\NotFoundExceptionInterface;
 use Twig\TwigFunction;
 use ZendTwig\Extension\Extension;
 
-class TwigExtensions extends Extension
-{
-    public function getFunctions()
-    {
+class TwigExtensions extends Extension {
+    public function getFunctions() {
         return [
             'campInfo' => new TwigFunction('campInfo', [$this, 'campInfo'])
         ];
@@ -24,8 +22,7 @@ class TwigExtensions extends Extension
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      */
-    public function campInfo($campId)
-    {
+    public function campInfo($campId) {
         /** @var CampService $campService */
         $campService = $this->getServiceManager()->get(CampService::class);
 

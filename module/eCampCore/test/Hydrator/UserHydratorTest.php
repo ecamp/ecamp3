@@ -6,10 +6,8 @@ use eCamp\Core\Entity\User;
 use eCamp\Core\Hydrator\UserHydrator;
 use eCamp\LibTest\PHPUnit\AbstractTestCase;
 
-class UserHydratorTest extends AbstractTestCase
-{
-    public function testExtract()
-    {
+class UserHydratorTest extends AbstractTestCase {
+    public function testExtract() {
         $user = new User();
         $user->setUsername('test');
 
@@ -19,8 +17,7 @@ class UserHydratorTest extends AbstractTestCase
         $this->assertEquals('test', $data['username']);
     }
 
-    public function testHydrate()
-    {
+    public function testHydrate() {
         $user = new User();
 
         $hydrator = new UserHydrator();
