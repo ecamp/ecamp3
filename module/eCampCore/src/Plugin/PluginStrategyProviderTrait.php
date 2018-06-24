@@ -2,8 +2,7 @@
 
 namespace eCamp\Core\Plugin;
 
-trait PluginStrategyProviderTrait
-{
+trait PluginStrategyProviderTrait {
     /** @var PluginStrategyProvider */
     private $pluginStrategyProvider;
 
@@ -14,5 +13,4 @@ trait PluginStrategyProviderTrait
     public function getPluginStrategyProvider() {
         return $this->pluginStrategyProvider;
     }
-
 }

@@ -8,10 +8,8 @@ use eCamp\Core\Entity\EventType;
 use eCamp\Core\Entity\Medium;
 use eCamp\LibTest\PHPUnit\AbstractTestCase;
 
-class EventTemplateTest extends AbstractTestCase
-{
-    public function testEventTemplate()
-    {
+class EventTemplateTest extends AbstractTestCase {
+    public function testEventTemplate() {
         $medium = new Medium();
 
         $eventType = new EventType();
@@ -30,8 +28,7 @@ class EventTemplateTest extends AbstractTestCase
         $this->assertEquals($medium, $eventTemplate->getMedium());
     }
 
-    public function testEventTemplateContainer()
-    {
+    public function testEventTemplateContainer() {
         $eventTemplate = new EventTemplate();
         $eventTemplateContainer = new EventTemplateContainer();
 

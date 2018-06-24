@@ -18,8 +18,7 @@ use eCamp\Lib\Acl\NoAccessException;
 use ZF\ApiProblem\ApiProblem;
 
 class CampService extends AbstractEntityService
-    implements JobServiceAware, EventCategoryServiceAware, PeriodServiceAware
-{
+    implements JobServiceAware, EventCategoryServiceAware, PeriodServiceAware {
     use JobServiceTrait;
     use EventCategoryServiceTrait;
     use PeriodServiceTrait;
@@ -33,8 +32,7 @@ class CampService extends AbstractEntityService
     }
 
 
-    protected function fetchAllQueryBuilder($params = [])
-    {
+    protected function fetchAllQueryBuilder($params = []) {
         $q = parent::fetchAllQueryBuilder($params);
 
         if (isset($params['group'])) {
@@ -53,8 +51,7 @@ class CampService extends AbstractEntityService
      * @throws ORMException
      * @throws NoAccessException
      */
-    public function create($data)
-    {
+    public function create($data) {
         $this->assertAllowed(Camp::class, __FUNCTION__);
 
         /** @var CampType $campType */
@@ -109,13 +106,11 @@ class CampService extends AbstractEntityService
      * @param AbstractCampOwner $owner
      * @return array|ApiProblem
      */
-    public function fetchByOwner(AbstractCampOwner $owner)
-    {
+    public function fetchByOwner(AbstractCampOwner $owner) {
         $q = parent::findCollectionQueryBuilder(Camp::class, 'row');
         $q->where('row.owner = :owner');
         $q->setParameter('owner', $owner);
 
         return $this->getQueryResult($q);
     }
-
 }

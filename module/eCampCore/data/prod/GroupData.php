@@ -7,15 +7,13 @@ use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use eCamp\Core\Entity\Group;
 
-class GroupData extends AbstractFixture implements DependentFixtureInterface
-{
+class GroupData extends AbstractFixture implements DependentFixtureInterface {
     public static $PBS = Group::class . ':PBS';
     public static $PFADI_LUZERN = Group::class . ':PBS:PfadiLuzern';
     public static $PFADI_BASEL = Group::class . ':PBS:PfadiBasel';
 
 
-    public function load(ObjectManager $manager)
-    {
+    public function load(ObjectManager $manager) {
         $repository = $manager->getRepository(Group::class);
 
         $pbs = $this->getReference(OrganizationData::$PBS);
@@ -71,8 +69,7 @@ class GroupData extends AbstractFixture implements DependentFixtureInterface
         $manager->flush();
     }
 
-    public function getDependencies()
-    {
+    public function getDependencies() {
         return [ OrganizationData::class ];
     }
 }

@@ -8,8 +8,7 @@ use eCamp\Core\Hydrator\GroupHydrator;
 use eCamp\Core\Entity\Group;
 use eCamp\Lib\Service\BaseService;
 
-class GroupService extends AbstractEntityService
-{
+class GroupService extends AbstractEntityService {
     public function __construct() {
         parent::__construct(
             Group::class,
@@ -18,8 +17,7 @@ class GroupService extends AbstractEntityService
     }
 
 
-    public function fetchByParentGroup(Group $group = null)
-    {
+    public function fetchByParentGroup(Group $group = null) {
         $q = $this->findCollectionQueryBuilder(Group::class, 'g');
         if ($group == null) {
             $q->where($q->expr()->isNull('g.parent'));
@@ -31,8 +29,7 @@ class GroupService extends AbstractEntityService
         return $this->getQueryResult($q);
     }
 
-    public function fetchByUser(User $user = null)
-    {
+    public function fetchByUser(User $user = null) {
         $memQ = $this->findCollectionQueryBuilder(GroupMembership::class, 'gm');
         $memQ->join('gm.group', 'g');
         $memQ->where('gm.user = :user', 'gm.status = :status');

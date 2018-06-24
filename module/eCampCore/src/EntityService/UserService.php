@@ -12,8 +12,7 @@ use ZF\ApiProblem\ApiProblem;
 /**
  * Class UserService
  */
-class UserService extends AbstractEntityService
-{
+class UserService extends AbstractEntityService {
     public function __construct() {
         parent::__construct(
             User::class,
@@ -28,8 +27,7 @@ class UserService extends AbstractEntityService
      * @throws ORMException
      * @throws \Exception
      */
-    public function create($data)
-    {
+    public function create($data) {
         /** @var Profile $profile */
         $profile = $data;
 
@@ -78,8 +76,7 @@ class UserService extends AbstractEntityService
      * @return User|ApiProblem
      * @throws NoAccessException
      */
-    public function update($id, $data)
-    {
+    public function update($id, $data) {
         if ($data instanceof Profile) {
             /** @var Profile $profile */
             $profile = $data;

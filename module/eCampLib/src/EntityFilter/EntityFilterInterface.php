@@ -5,8 +5,7 @@ namespace eCamp\Lib\EntityFilter;
 use Doctrine\ORM\Query\Expr;
 use Doctrine\ORM\QueryBuilder;
 
-interface EntityFilterInterface
-{
+interface EntityFilterInterface {
     /**
      * @param QueryBuilder $q
      * @param $alias

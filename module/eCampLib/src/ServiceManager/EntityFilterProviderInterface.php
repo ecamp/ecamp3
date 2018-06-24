@@ -2,7 +2,6 @@
 
 namespace eCamp\Lib\ServiceManager;
 
-interface EntityFilterProviderInterface
-{
+interface EntityFilterProviderInterface {
     public function getEntityFilterConfig();
 }

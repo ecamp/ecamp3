@@ -7,16 +7,14 @@ use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use Zend\Mvc\Application;
 
-abstract class BasePluginServiceFactory
-{
+abstract class BasePluginServiceFactory {
     /**
      * @param ContainerInterface $container
      * @return mixed
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      */
-    protected function getEventPluginId(ContainerInterface $container)
-    {
+    protected function getEventPluginId(ContainerInterface $container) {
         /** @var Application $app */
         $app = $container->get('Application');
 

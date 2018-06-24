@@ -6,8 +6,7 @@ use eCamp\Web\Controller\User\FriendsController;
 use Interop\Container\ContainerInterface;
 use Zend\ServiceManager\Factory\FactoryInterface;
 
-class FriendsControllerFactory implements FactoryInterface
-{
+class FriendsControllerFactory implements FactoryInterface {
     /**
      * @param ContainerInterface $container
      * @param string $requestedName
@@ -16,8 +15,7 @@ class FriendsControllerFactory implements FactoryInterface
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
-    {
+    public function __invoke(ContainerInterface $container, $requestedName, array $options = null) {
         return new FriendsController();
     }
 }

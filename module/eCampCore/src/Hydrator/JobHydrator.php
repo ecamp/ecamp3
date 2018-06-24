@@ -5,14 +5,12 @@ namespace eCamp\Core\Hydrator;
 use eCamp\Core\Entity\Job;
 use Zend\Hydrator\HydratorInterface;
 
-class JobHydrator implements HydratorInterface
-{
+class JobHydrator implements HydratorInterface {
     /**
      * @param object $object
      * @return array
      */
-    public function extract($object)
-    {
+    public function extract($object) {
         /** @var Job $job */
         $job = $object;
         return [
@@ -28,8 +26,7 @@ class JobHydrator implements HydratorInterface
      * @param object $object
      * @return object
      */
-    public function hydrate(array $data, $object)
-    {
+    public function hydrate(array $data, $object) {
         /** @var Job $job */
         $job = $object;
 

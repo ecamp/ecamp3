@@ -7,8 +7,7 @@ use eCamp\Core\Entity\User;
 use Zend\Authentication\Adapter\AdapterInterface;
 use Zend\Authentication\Result;
 
-class LoginPassword implements AdapterInterface
-{
+class LoginPassword implements AdapterInterface {
     const NOT_FOUND_MESSAGE = 'Unknown login!';
     const CREDINTIALS_MESSAGE = 'Wrong Password!';
     const NOT_ACTIVATED_MESSAGE = 'Account is not yet activated!';
@@ -30,8 +29,7 @@ class LoginPassword implements AdapterInterface
     private $password;
 
 
-    public function __construct(Login $login = null, $password)
-    {
+    public function __construct(Login $login = null, $password) {
         $this->login = $login;
         $this->password = $password;
     }
@@ -40,8 +38,7 @@ class LoginPassword implements AdapterInterface
      * Performs an authentication attempt
      *
      */
-    public function authenticate()
-    {
+    public function authenticate() {
         // User Not Found:
         if (is_null($this->login)) {
             return $this->authResult(
@@ -76,8 +73,7 @@ class LoginPassword implements AdapterInterface
      * @param mixed      The Message, can be a string or array
      * @return \Zend\Authentication\Result
      */
-    private function authResult($code, $messages = array())
-    {
+    private function authResult($code, $messages = array()) {
         if (!is_array($messages)) {
             $messages = array($messages);
         }

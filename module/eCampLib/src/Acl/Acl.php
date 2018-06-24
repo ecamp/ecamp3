@@ -6,8 +6,7 @@ use Zend\Permissions\Acl\Acl as ZendAcl;
 use Zend\Permissions\Acl\Resource\ResourceInterface;
 use Zend\Permissions\Acl\Role\RoleInterface;
 
-class Acl extends ZendAcl
-{
+class Acl extends ZendAcl {
     public const REST_PRIVILEGE_FETCH = 'fetch';
     public const REST_PRIVILEGE_FETCH_ALL = 'fetchAll';
     public const REST_PRIVILEGE_CREATE = 'create';
@@ -21,8 +20,7 @@ class Acl extends ZendAcl
      * @param string $privilege
      * @return bool
      */
-    public function isAllowed($role = null, $resource = null, $privilege = null)
-    {
+    public function isAllowed($role = null, $resource = null, $privilege = null) {
         if ($role == null) {
             $role = Guest::class;
         }
@@ -36,8 +34,7 @@ class Acl extends ZendAcl
      * @param string $privilege
      * @throws NoAccessException
      */
-    public function assertAllowed($role = null, $resource = null, $privilege = null)
-    {
+    public function assertAllowed($role = null, $resource = null, $privilege = null) {
         if (!$this->isAllowed($role, $resource, $privilege)) {
             throw new NoAccessException();
         }

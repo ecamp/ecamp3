@@ -4,10 +4,8 @@ namespace eCamp\Plugin\StoryboardTest;
 
 use eCamp\LibTest\PHPUnit\AbstractHttpControllerTestCase;
 
-class SectionTest extends AbstractHttpControllerTestCase
-{
-    public function testSectionMoveUp()
-    {
+class SectionTest extends AbstractHttpControllerTestCase {
+    public function testSectionMoveUp() {
         $headers = $this->getRequest()->getHeaders();
         $headers->addHeaderLine('Accept', 'application/json');
         $headers->addHeaderLine('Content-Type', 'application/json');

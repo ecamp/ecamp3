@@ -12,10 +12,8 @@ use eCamp\Lib\Entity\BaseEntity;
  *   @ORM\UniqueConstraint(name="eventtype_name_unique", columns={"eventType_id", "name"})
  * })
  */
-class EventTypeFactory extends BaseEntity
-{
-    public function __construct()
-    {
+class EventTypeFactory extends BaseEntity {
+    public function __construct() {
         parent::__construct();
     }
 
@@ -42,13 +40,11 @@ class EventTypeFactory extends BaseEntity
     /**
      * @return string
      */
-    public function getName(): string
-    {
+    public function getName(): string {
         return $this->name;
     }
 
-    public function setName(string $name): void
-    {
+    public function setName(string $name): void {
         $this->name = $name;
     }
 
@@ -56,13 +52,11 @@ class EventTypeFactory extends BaseEntity
     /**
      * @return string
      */
-    public function getFactoryName(): string
-    {
+    public function getFactoryName(): string {
         return $this->factoryName;
     }
 
-    public function setFactoryName(string $factoryName): void
-    {
+    public function setFactoryName(string $factoryName): void {
         $this->factoryName = $factoryName;
     }
 
@@ -70,13 +64,11 @@ class EventTypeFactory extends BaseEntity
     /**
      * @return EventType
      */
-    public function getEventType()
-    {
+    public function getEventType() {
         return $this->eventType;
     }
 
-    public function setEventType($eventType)
-    {
+    public function setEventType($eventType) {
         $this->eventType = $eventType;
     }
 }

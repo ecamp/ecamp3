@@ -7,10 +7,8 @@ use eCamp\Core\Entity\EventCategory;
 use eCamp\Core\Entity\EventType;
 use eCamp\LibTest\PHPUnit\AbstractTestCase;
 
-class EventCategoryTest extends AbstractTestCase
-{
-    public function testEventCategory()
-    {
+class EventCategoryTest extends AbstractTestCase {
+    public function testEventCategory() {
         $camp = new Camp();
 
         $eventType = new EventType();
@@ -31,8 +29,7 @@ class EventCategoryTest extends AbstractTestCase
         $this->assertEquals('i', $eventCategory->getNumberingStyle());
     }
 
-    public function testNumberingStyle()
-    {
+    public function testNumberingStyle() {
         $eventCategory = new EventCategory();
 
         $this->assertEquals('31', $eventCategory->getStyledNumber(31));

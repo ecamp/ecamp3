@@ -8,12 +8,10 @@ use eCamp\Core\EntityServiceAware\UserServiceAware;
 use eCamp\Core\EntityServiceTrait\UserServiceTrait;
 
 class RegisterService extends AbstractService
-    implements UserServiceAware
-{
+    implements UserServiceAware {
     use UserServiceTrait;
 
     public function register($username, $mail, $password) {
-
         $user = $this->getUserService()->create((object)[
             'username' => $username,
             'mailAddress' => $mail,
@@ -24,5 +22,4 @@ class RegisterService extends AbstractService
 
         $this->getEntityManager()->persist($login);
     }
-
 }

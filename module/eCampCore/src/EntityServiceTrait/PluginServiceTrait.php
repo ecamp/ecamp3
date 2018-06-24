@@ -4,8 +4,7 @@ namespace eCamp\Core\EntityServiceTrait;
 
 use eCamp\Core\EntityService;
 
-trait PluginServiceTrait
-{
+trait PluginServiceTrait {
     /** @var EntityService\PluginService */
     private $pluginService;
 
@@ -16,5 +15,4 @@ trait PluginServiceTrait
     public function getPluginService() {
         return $this->pluginService;
     }
-
 }

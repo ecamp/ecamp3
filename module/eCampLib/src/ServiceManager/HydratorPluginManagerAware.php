@@ -4,7 +4,6 @@ namespace eCamp\Lib\ServiceManager;
 
 use Zend\Hydrator\HydratorPluginManager;
 
-interface HydratorPluginManagerAware
-{
+interface HydratorPluginManagerAware {
     public function setHydratorPluginManager(HydratorPluginManager $hydratorPluginManager);
 }

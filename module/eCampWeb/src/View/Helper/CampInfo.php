@@ -6,16 +6,14 @@ use eCamp\Core\Entity\Camp;
 use eCamp\Core\Entity\CampCollaboration;
 use eCamp\Core\EntityService\CampService;
 
-class CampInfo
-{
+class CampInfo {
     /** @var CampService */
     private $campService;
 
     /** @var Camp */
     private $camp;
 
-    public function __construct(CampService $campService, $campId)
-    {
+    public function __construct(CampService $campService, $campId) {
         $this->campService = $campService;
 
         if ($campId instanceof Camp) {
@@ -26,8 +24,7 @@ class CampInfo
     }
 
 
-    public function countCollaborationRequests()
-    {
+    public function countCollaborationRequests() {
         return $this->camp->getCampCollaborations()->filter(function ($c) {
             /** @var CampCollaboration $c */
             return $c->isRequest();

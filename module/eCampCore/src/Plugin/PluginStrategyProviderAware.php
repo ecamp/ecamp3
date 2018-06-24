@@ -2,8 +2,7 @@
 
 namespace eCamp\Core\Plugin;
 
-interface PluginStrategyProviderAware
-{
+interface PluginStrategyProviderAware {
     /**
      * @return PluginStrategyProvider
      */

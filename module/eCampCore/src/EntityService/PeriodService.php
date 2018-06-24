@@ -16,8 +16,7 @@ use eCamp\Lib\Acl\NoAccessException;
 use ZF\ApiProblem\ApiProblem;
 
 class PeriodService extends AbstractEntityService
-    implements DayServiceAware, EventInstanceServiceAware
-{
+    implements DayServiceAware, EventInstanceServiceAware {
     use DayServiceTrait;
     use EventInstanceServiceTrait;
 
@@ -29,16 +28,14 @@ class PeriodService extends AbstractEntityService
         );
     }
 
-    protected function fetchAllQueryBuilder($params = [])
-    {
+    protected function fetchAllQueryBuilder($params = []) {
         $q = parent::fetchAllQueryBuilder($params);
         $q->andWhere($this->createFilter($q, Camp::class, 'row', 'camp'));
 
         return $q;
     }
 
-    protected function fetchQueryBuilder($id)
-    {
+    protected function fetchQueryBuilder($id) {
         $q = parent::fetchQueryBuilder($id);
         $q->andWhere($this->createFilter($q, Camp::class, 'row', 'camp'));
 
@@ -51,8 +48,7 @@ class PeriodService extends AbstractEntityService
      * @throws ORMException
      * @throws NoAccessException
      */
-    public function create($data)
-    {
+    public function create($data) {
         /** @var Camp $camp */
         $camp = $this->findEntity(Camp::class, $data->camp_id);
 
@@ -78,8 +74,7 @@ class PeriodService extends AbstractEntityService
      * @throws NoAccessException
      * @throws ORMException
      */
-    public function update($id, $data)
-    {
+    public function update($id, $data) {
         /** @var Period $period */
         $period = parent::update($id, $data);
         $this->updatePeriodDays($period);
@@ -97,8 +92,7 @@ class PeriodService extends AbstractEntityService
      * @throws NoAccessException
      * @throws ORMException
      */
-    public function patch($id, $data)
-    {
+    public function patch($id, $data) {
         /** @var Period $period */
         $period = parent::patch($id, $data);
         $this->updatePeriodDays($period);
@@ -115,8 +109,7 @@ class PeriodService extends AbstractEntityService
      * @throws NoAccessException
      * @throws ORMException
      */
-    private function updatePeriodDays(Period $period)
-    {
+    private function updatePeriodDays(Period $period) {
         $days = $period->getDays();
         $daysCountNew = $period->getDurationInDays();
 
@@ -148,8 +141,7 @@ class PeriodService extends AbstractEntityService
      * @param bool $moveEvents
      * @throws NoAccessException
      */
-    private function updateEventInstances(Period $period, $moveEvents = null)
-    {
+    private function updateEventInstances(Period $period, $moveEvents = null) {
         if (is_null($moveEvents)) {
             $moveEvents = true;
         }

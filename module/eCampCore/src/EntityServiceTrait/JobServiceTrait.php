@@ -4,8 +4,7 @@ namespace eCamp\Core\EntityServiceTrait;
 
 use eCamp\Core\EntityService;
 
-trait JobServiceTrait
-{
+trait JobServiceTrait {
     /** @var EntityService\JobService */
     private $jobService;
 
@@ -16,5 +15,4 @@ trait JobServiceTrait
     public function getJobService() {
         return $this->jobService;
     }
-
 }

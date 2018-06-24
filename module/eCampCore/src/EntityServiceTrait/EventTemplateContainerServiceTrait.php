@@ -4,8 +4,7 @@ namespace eCamp\Core\EntityServiceTrait;
 
 use eCamp\Core\EntityService;
 
-trait EventTemplateContainerServiceTrait
-{
+trait EventTemplateContainerServiceTrait {
     /** @var EntityService\EventTemplateContainerService */
     private $eventTemplateContainerService;
 
@@ -16,5 +15,4 @@ trait EventTemplateContainerServiceTrait
     public function getEventTemplateContainerService() {
         return $this->eventTemplateContainerService;
     }
-
 }

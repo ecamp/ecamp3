@@ -4,8 +4,7 @@ namespace eCamp\Core\EntityServiceTrait;
 
 use eCamp\Core\EntityService;
 
-trait PeriodServiceTrait
-{
+trait PeriodServiceTrait {
     /** @var EntityService\PeriodService */
     private $periodService;
 
@@ -16,5 +15,4 @@ trait PeriodServiceTrait
     public function getPeriodService() {
         return $this->periodService;
     }
-
 }

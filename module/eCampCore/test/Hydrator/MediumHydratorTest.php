@@ -6,10 +6,8 @@ use eCamp\Core\Entity\Medium;
 use eCamp\Core\Hydrator\MediumHydrator;
 use eCamp\LibTest\PHPUnit\AbstractTestCase;
 
-class MediumHydratorTest extends AbstractTestCase
-{
-    public function testExtract()
-    {
+class MediumHydratorTest extends AbstractTestCase {
+    public function testExtract() {
         $medium = new Medium();
         $medium->setName('name');
         $medium->setDefault(true);
@@ -21,8 +19,7 @@ class MediumHydratorTest extends AbstractTestCase
         $this->assertTrue($data['default']);
     }
 
-    public function testHydrate()
-    {
+    public function testHydrate() {
         $medium = new Medium();
         $data = [
             'default' => true,

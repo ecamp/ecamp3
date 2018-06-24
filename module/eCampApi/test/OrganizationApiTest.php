@@ -4,10 +4,8 @@ namespace eCamp\ApiTest;
 
 use eCamp\LibTest\PHPUnit\AbstractHttpControllerTestCase;
 
-class OrganizationApiTest extends AbstractHttpControllerTestCase
-{
-    public function testOrganizationFetch()
-    {
+class OrganizationApiTest extends AbstractHttpControllerTestCase {
+    public function testOrganizationFetch() {
         $headers = $this->getRequest()->getHeaders();
         $headers->addHeaderLine('Accept', 'application/json');
 

@@ -23,8 +23,7 @@ use Zend\Mvc\Controller\AbstractActionController;
 use Zend\Session\Container;
 use Zend\View\Model\ViewModel;
 
-abstract class BaseController extends AbstractActionController
-{
+abstract class BaseController extends AbstractActionController {
     public const SESSION_NAMESPACE = self::class;
 
 
@@ -75,8 +74,7 @@ abstract class BaseController extends AbstractActionController
      * @throws OptimisticLockException
      * @throws \Exception
      */
-    public function indexAction()
-    {
+    public function indexAction() {
         /** @var Request $request */
         $request = $this->getRequest();
         $this->setRedirect($request->getQuery('redirect'));
@@ -95,8 +93,7 @@ abstract class BaseController extends AbstractActionController
      * @throws \Exception
      * @throws NoAccessException
      */
-    public function callbackAction()
-    {
+    public function callbackAction() {
         $this->getAuthAdapter()->authenticate();
 
         $profile = $this->getAuthAdapter()->getUserProfile();
@@ -145,8 +142,7 @@ abstract class BaseController extends AbstractActionController
      * @throws InvalidArgumentException
      * @throws UnexpectedValueException
      */
-    public function logoutAction()
-    {
+    public function logoutAction() {
         $this->authService->clearIdentity();
         $this->getAuthAdapter()->disconnect();
 
@@ -156,16 +152,14 @@ abstract class BaseController extends AbstractActionController
     }
 
 
-    protected function getRedirect()
-    {
+    protected function getRedirect() {
         if ($this->sessionContainer == null) {
             $this->sessionContainer = new Container(self::SESSION_NAMESPACE);
         }
         return $this->sessionContainer->redirect;
     }
 
-    protected function setRedirect($redirect)
-    {
+    protected function setRedirect($redirect) {
         if ($this->sessionContainer == null) {
             $this->sessionContainer = new Container(self::SESSION_NAMESPACE);
         }
@@ -173,8 +167,7 @@ abstract class BaseController extends AbstractActionController
     }
 
 
-    protected function getCallbackUri($route = null, $params = [], $options = [])
-    {
+    protected function getCallbackUri($route = null, $params = [], $options = []) {
         /** @var Request $request */
         $request = $this->getRequest();
 
@@ -194,8 +187,7 @@ abstract class BaseController extends AbstractActionController
      * @throws InvalidArgumentException
      * @throws UnexpectedValueException
      */
-    protected function getAuthAdapter()
-    {
+    protected function getAuthAdapter() {
         if ($this->authAdapter == null) {
             $this->authAdapter = $this->createAuthAdapter();
         }
@@ -207,8 +199,7 @@ abstract class BaseController extends AbstractActionController
      * @throws InvalidArgumentException
      * @throws UnexpectedValueException
      */
-    protected function createAuthAdapter()
-    {
+    protected function createAuthAdapter() {
         $route = $this->getCallbackRoute();
         $callback = $this->getCallbackUri($route, [ 'action' => 'callback' ]);
         $config = ['provider' => $this->providerName, 'callback' => $callback];

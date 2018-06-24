@@ -4,8 +4,7 @@ namespace eCamp\Core\EntityServiceTrait;
 
 use eCamp\Core\EntityService;
 
-trait CampCollaborationServiceTrait
-{
+trait CampCollaborationServiceTrait {
     /** @var EntityService\CampCollaborationService */
     private $campCollaborationService;
 
@@ -16,5 +15,4 @@ trait CampCollaborationServiceTrait
     public function getCampCollaborationService() {
         return $this->campCollaborationService;
     }
-
 }

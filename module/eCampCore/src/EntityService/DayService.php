@@ -10,10 +10,8 @@ use eCamp\Core\Entity\Period;
 use eCamp\Lib\Acl\NoAccessException;
 use ZF\ApiProblem\ApiProblem;
 
-class DayService extends AbstractEntityService
-{
-    public function __construct()
-    {
+class DayService extends AbstractEntityService {
+    public function __construct() {
         parent::__construct(
             Day::class,
             DayHydrator::class
@@ -21,8 +19,7 @@ class DayService extends AbstractEntityService
     }
 
 
-    public function findCollectionQueryBuilder($className, $alias, $params = [])
-    {
+    public function findCollectionQueryBuilder($className, $alias, $params = []) {
         $q = parent::findCollectionQueryBuilder($className, $alias);
 
         $periodId = $params['period_id'];
@@ -36,8 +33,7 @@ class DayService extends AbstractEntityService
         return $q;
     }
 
-    protected function fetchAllQueryBuilder($params = [])
-    {
+    protected function fetchAllQueryBuilder($params = []) {
         $q = parent::fetchAllQueryBuilder($params);
         $q->join('row.period', 'p');
         $q->andWhere($this->createFilter($q, Camp::class, 'p', 'camp'));
@@ -45,8 +41,7 @@ class DayService extends AbstractEntityService
         return $q;
     }
 
-    protected function fetchQueryBuilder($id)
-    {
+    protected function fetchQueryBuilder($id) {
         $q = parent::fetchQueryBuilder($id);
         $q->join('row.period', 'p');
         $q->andWhere($this->createFilter($q, Camp::class, 'p', 'camp'));
@@ -61,8 +56,7 @@ class DayService extends AbstractEntityService
      * @throws ORMException
      * @throws NoAccessException
      */
-    public function create($data)
-    {
+    public function create($data) {
         /** @var Period $period */
         $period = $this->findEntity(Period::class, $data->period_id);
 
@@ -80,8 +74,7 @@ class DayService extends AbstractEntityService
      * @throws NoAccessException
      * @throws ORMException
      */
-    public function delete($id)
-    {
+    public function delete($id) {
         /** @var Day $day */
         $day = $this->fetch($id);
         $period = $day->getPeriod();

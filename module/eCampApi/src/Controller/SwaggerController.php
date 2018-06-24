@@ -7,17 +7,14 @@ use Zend\Http\Request;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\JsonModel;
 
-class SwaggerController extends AbstractActionController
-{
+class SwaggerController extends AbstractActionController {
     private $config;
 
-    public function __construct(array $config)
-    {
+    public function __construct(array $config) {
         $this->config = $config;
     }
 
-    public function indexAction()
-    {
+    public function indexAction() {
         $viewModel = new JsonModel();
 
         $zfRestConfigs = $this->config['zf-rest'];

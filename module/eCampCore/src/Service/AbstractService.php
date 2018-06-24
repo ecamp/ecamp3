@@ -11,8 +11,7 @@ use eCamp\Lib\ServiceManager\EntityManagerAware;
 use Zend\Authentication\AuthenticationService;
 
 abstract class AbstractService
-    implements EntityManagerAware, AclAware
-{
+    implements EntityManagerAware, AclAware {
     /** @var EntityManager */
     private $entityManager;
 
@@ -21,13 +20,11 @@ abstract class AbstractService
 
 
 
-    public function setEntityManager(EntityManager $entityManager)
-    {
+    public function setEntityManager(EntityManager $entityManager) {
         $this->entityManager = $entityManager;
     }
 
-    protected function getEntityManager()
-    {
+    protected function getEntityManager() {
         return $this->entityManager;
     }
 
@@ -35,28 +32,24 @@ abstract class AbstractService
      * @param BaseEntity $entity
      * @return array
      */
-    protected function getOrigEntityData($entity)
-    {
+    protected function getOrigEntityData($entity) {
         $uow = $this->entityManager->getUnitOfWork();
         return $uow->getOriginalEntityData($entity);
     }
 
 
-    public function setAcl(Acl $acl)
-    {
+    public function setAcl(Acl $acl) {
         $this->acl = $acl;
     }
 
-    protected function getAcl()
-    {
+    protected function getAcl() {
         return $this->acl;
     }
 
     /**
      * @return null|User
      */
-    protected function getAuthUser()
-    {
+    protected function getAuthUser() {
         /** @var User $user */
         $user = null;
 
@@ -75,8 +68,7 @@ abstract class AbstractService
      * @param null $privilege
      * @return bool
      */
-    protected function isAllowed($resource, $privilege = null)
-    {
+    protected function isAllowed($resource, $privilege = null) {
         $user = $this->getAuthUser();
         return $this->getAcl()->isAllowed($user, $resource, $privilege);
     }
@@ -86,11 +78,8 @@ abstract class AbstractService
      * @param null $privilege
      * @throws \eCamp\Lib\Acl\NoAccessException
      */
-    protected function assertAllowed($resource, $privilege = null)
-    {
+    protected function assertAllowed($resource, $privilege = null) {
         $user = $this->getAuthUser();
         return $this->getAcl()->assertAllowed($user, $resource, $privilege);
     }
-
-
 }

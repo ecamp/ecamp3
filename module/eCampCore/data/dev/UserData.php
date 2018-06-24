@@ -8,12 +8,10 @@ use Doctrine\Common\Persistence\ObjectManager;
 use eCamp\Core\Entity\MailAddress;
 use eCamp\Core\Entity\User;
 
-class UserData extends AbstractFixture implements DependentFixtureInterface
-{
+class UserData extends AbstractFixture implements DependentFixtureInterface {
     public static $USER = User::class . ':USER';
 
-    public function load(ObjectManager $manager)
-    {
+    public function load(ObjectManager $manager) {
         $repository = $manager->getRepository(User::class);
 
         $user = $repository->findOneBy([ 'username' => 'test-user' ]);
@@ -35,8 +33,7 @@ class UserData extends AbstractFixture implements DependentFixtureInterface
         $manager->flush();
     }
 
-    public function getDependencies()
-    {
+    public function getDependencies() {
         return [ GroupData::class, CampTypeData::class ];
     }
 }

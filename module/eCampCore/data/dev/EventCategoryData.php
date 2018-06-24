@@ -9,15 +9,13 @@ use eCamp\Core\Entity\Camp;
 use eCamp\Core\Entity\EventCategory;
 use eCamp\Core\Entity\EventType;
 
-class EventCategoryData extends AbstractFixture implements DependentFixtureInterface
-{
+class EventCategoryData extends AbstractFixture implements DependentFixtureInterface {
     public static $EVENTCATEGORY_1_LS = EventCategory::class . ':EVENTCATEGORY_1_LS';
     public static $EVENTCATEGORY_1_LA = EventCategory::class . ':EVENTCATEGORY_1_LA';
     public static $EVENTCATEGORY_2_LS = EventCategory::class . ':EVENTCATEGORY_2_LS';
     public static $EVENTCATEGORY_2_LA = EventCategory::class . ':EVENTCATEGORY_2_LA';
 
-    public function load(ObjectManager $manager)
-    {
+    public function load(ObjectManager $manager) {
         $repository = $manager->getRepository(EventCategory::class);
 
         /** @var Camp $camp */
@@ -87,8 +85,7 @@ class EventCategoryData extends AbstractFixture implements DependentFixtureInter
         $manager->flush();
     }
 
-    public function getDependencies()
-    {
+    public function getDependencies() {
         return [ CampData::class, EventTypeData::class ];
     }
 }

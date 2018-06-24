@@ -9,13 +9,11 @@ use eCamp\Lib\Acl\NoAccessException;
 use eCamp\Plugin\Textarea\Service\TextareaService;
 use ZF\Hal\Link\Link;
 
-class Strategy extends PluginStrategyBase
-{
+class Strategy extends PluginStrategyBase {
     /** @var TextareaService */
     private $textareaService;
 
-    public function __construct(TextareaService $textareaService)
-    {
+    public function __construct(TextareaService $textareaService) {
         $this->textareaService = $textareaService;
     }
 
@@ -24,8 +22,7 @@ class Strategy extends PluginStrategyBase
      * @param EventPlugin $eventPlugin
      * @return array
      */
-    public function eventPluginExtract(EventPlugin $eventPlugin) : array
-    {
+    public function eventPluginExtract(EventPlugin $eventPlugin) : array {
         return [
             'textarea' => Link::factory([
                 'rel' => 'textarea',
@@ -45,8 +42,7 @@ class Strategy extends PluginStrategyBase
      * @throws NoAccessException
      * @throws ORMException
      */
-    public function eventPluginCreated(EventPlugin $eventPlugin) : void
-    {
+    public function eventPluginCreated(EventPlugin $eventPlugin) : void {
         $this->textareaService->create((object)[
             'event_plugin_id' => $eventPlugin->getId()
         ]);

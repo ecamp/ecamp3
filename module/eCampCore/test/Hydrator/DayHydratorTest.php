@@ -8,10 +8,8 @@ use eCamp\Core\Entity\Period;
 use eCamp\Core\Hydrator\DayHydrator;
 use eCamp\LibTest\PHPUnit\AbstractTestCase;
 
-class DayHydratorTest extends AbstractTestCase
-{
-    public function testExtract()
-    {
+class DayHydratorTest extends AbstractTestCase {
+    public function testExtract() {
         $camp = new Camp();
         $camp->setName('name');
         $camp->setTitle('title');
@@ -34,8 +32,7 @@ class DayHydratorTest extends AbstractTestCase
         $this->assertEquals(1, $data['number']);
     }
 
-    public function testHydrate()
-    {
+    public function testHydrate() {
         $camp = new Camp();
 
         $period = new Period();

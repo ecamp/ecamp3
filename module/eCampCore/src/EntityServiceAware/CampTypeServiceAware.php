@@ -4,8 +4,7 @@ namespace eCamp\Core\EntityServiceAware;
 
 use eCamp\Core\EntityService;
 
-interface CampTypeServiceAware
-{
+interface CampTypeServiceAware {
     /**
      * @return EntityService\CampTypeService
      */

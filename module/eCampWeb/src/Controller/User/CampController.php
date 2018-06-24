@@ -5,13 +5,11 @@ namespace eCamp\Web\Controller\User;
 use eCamp\Core\EntityService\CampService;
 use eCamp\Web\Controller\AbstractBaseController;
 
-class CampController extends AbstractBaseController
-{
+class CampController extends AbstractBaseController {
     /** @var CampService */
     private $campService;
 
-    public function __construct(CampService $campService)
-    {
+    public function __construct(CampService $campService) {
         $this->campService = $campService;
     }
 
@@ -19,8 +17,7 @@ class CampController extends AbstractBaseController
      * @return array|\Zend\View\Model\ViewModel
      * @throws \eCamp\Lib\Acl\NoAccessException
      */
-    public function indexAction()
-    {
+    public function indexAction() {
         $user = $this->params()->fromRoute('user');
         $camps = $this->campService->fetchAll(['user' => $user]);
 

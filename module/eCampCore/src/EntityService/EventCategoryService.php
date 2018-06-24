@@ -10,10 +10,8 @@ use eCamp\Core\Entity\EventType;
 use eCamp\Lib\Acl\NoAccessException;
 use ZF\ApiProblem\ApiProblem;
 
-class EventCategoryService extends AbstractEntityService
-{
-    public function __construct()
-    {
+class EventCategoryService extends AbstractEntityService {
+    public function __construct() {
         parent::__construct(
             EventCategory::class,
             EventCategoryHydrator::class
@@ -26,8 +24,7 @@ class EventCategoryService extends AbstractEntityService
      * @throws ORMException
      * @throws NoAccessException
      */
-    public function create($data)
-    {
+    public function create($data) {
         /** @var EventCategory $eventCategory */
         $eventCategory = parent::create($data);
 
@@ -41,5 +38,4 @@ class EventCategoryService extends AbstractEntityService
 
         return $eventCategory;
     }
-
 }

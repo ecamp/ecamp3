@@ -8,10 +8,8 @@ use eCamp\Core\Entity\Organization;
 use eCamp\LibTest\PHPUnit\AbstractTestCase;
 use Zend\Json\Json;
 
-class CampTypeTest extends AbstractTestCase
-{
-    public function testCampType()
-    {
+class CampTypeTest extends AbstractTestCase {
+    public function testCampType() {
         $organization = new Organization();
         $organization->setName('PBS');
 
@@ -34,8 +32,7 @@ class CampTypeTest extends AbstractTestCase
         $this->assertInstanceOf('Doctrine\Common\Collections\ArrayCollection', $campType->getEventTypes());
     }
 
-    public function testEventType()
-    {
+    public function testEventType() {
         $campType = new CampType();
         $eventType = new EventType();
 

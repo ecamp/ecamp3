@@ -6,15 +6,13 @@ use eCamp\Lib\Auth\AuthRequiredException;
 use eCamp\Web\Controller\AbstractBaseController;
 use Zend\View\Model\ViewModel;
 
-class PrintController extends AbstractBaseController
-{
+class PrintController extends AbstractBaseController {
 
     /**
      * @return array|ViewModel
      * @throws AuthRequiredException
      */
-    public function indexAction()
-    {
+    public function indexAction() {
         $this->forceLogin();
 
         return [

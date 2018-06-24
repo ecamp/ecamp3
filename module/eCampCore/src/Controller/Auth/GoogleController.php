@@ -7,8 +7,7 @@ use eCamp\Core\Auth\AuthService;
 use eCamp\Core\EntityService\UserIdentityService;
 use eCamp\Core\EntityService\UserService;
 
-class GoogleController extends BaseController
-{
+class GoogleController extends BaseController {
     public function __construct(
         EntityManager $entityManager,
         UserIdentityService $userIdentityService,
@@ -24,8 +23,7 @@ class GoogleController extends BaseController
         );
     }
 
-    protected function getCallbackRoute()
-    {
+    protected function getCallbackRoute() {
         return 'ecamp.auth/google';
     }
 }

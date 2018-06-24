@@ -12,8 +12,7 @@ use Hybridauth\Hybridauth;
 use Zend\Authentication\AuthenticationService;
 use Zend\Authentication\Result;
 
-class AuthService extends AuthenticationService
-{
+class AuthService extends AuthenticationService {
     /** @var UserRepository */
     private $userRepository;
 
@@ -32,14 +31,12 @@ class AuthService extends AuthenticationService
     }
 
     /** @return string */
-    public function getAuthUserId()
-    {
+    public function getAuthUserId() {
         return $this->getIdentity();
     }
 
     /** @return User */
-    public function getAuthUser()
-    {
+    public function getAuthUser() {
         $id = $this->getAuthUserId();
         $user = null;
 
@@ -57,8 +54,7 @@ class AuthService extends AuthenticationService
      * @param $password
      * @return Result
      */
-    public function login($username, $password)
-    {
+    public function login($username, $password) {
         /** @var User $user */
         $user = $this->userRepository->findByUsername($username);
         $login = ($user !== null) ? $user->getLogin() : null;
@@ -76,8 +72,7 @@ class AuthService extends AuthenticationService
      * @throws InvalidArgumentException
      * @throws UnexpectedValueException
      */
-    public function createOAuthAdapter($providerName, array $config)
-    {
+    public function createOAuthAdapter($providerName, array $config) {
         $hybridAuthConfig = $this->hybridAuthConfig + $config;
         $hybridauth = new Hybridauth($hybridAuthConfig);
 

@@ -9,8 +9,7 @@ use eCamp\Core\Entity\User;
 use eCamp\Core\Hydrator\CampCollaborationHydrator;
 use ZF\ApiProblem\ApiProblem;
 
-class CampCollaborationService extends AbstractEntityService
-{
+class CampCollaborationService extends AbstractEntityService {
     public function __construct() {
         parent::__construct(
             CampCollaboration::class,
@@ -19,8 +18,7 @@ class CampCollaborationService extends AbstractEntityService
     }
 
 
-    protected function fetchAllQueryBuilder($params = [])
-    {
+    protected function fetchAllQueryBuilder($params = []) {
         $q = parent::fetchAllQueryBuilder($params);
         $q->andWhere($this->createFilter($q, Camp::class, 'row', 'camp'));
 
@@ -33,8 +31,7 @@ class CampCollaborationService extends AbstractEntityService
      * @throws ORMException
      * @throws \Exception
      */
-    public function create($data)
-    {
+    public function create($data) {
         $authUser = $this->getAuthUser();
         if (!isset($data->user_id)) {
             $data->user_id = $authUser->getId();
@@ -76,8 +73,7 @@ class CampCollaborationService extends AbstractEntityService
      * @return CampCollaboration|ApiProblem
      * @throws \Exception
      */
-    public function update($id, $data)
-    {
+    public function update($id, $data) {
 
         /** @var CampCollaboration $campCollaboration */
         $campCollaboration = parent::update($id, $data);
@@ -99,8 +95,7 @@ class CampCollaborationService extends AbstractEntityService
      * @param $data
      * @throws \Exception
      */
-    private function updateCollaboration(CampCollaboration $campCollaboration, $data)
-    {
+    private function updateCollaboration(CampCollaboration $campCollaboration, $data) {
         // TODO: ACL-Check can update Collaboration
 
         if (isset($data->role)) {
@@ -118,8 +113,7 @@ class CampCollaborationService extends AbstractEntityService
      * @param $data
      * @throws \Exception
      */
-    private function updateInvitation(CampCollaboration $campCollaboration, $data)
-    {
+    private function updateInvitation(CampCollaboration $campCollaboration, $data) {
         $authUser = $this->getAuthUser();
 
         // TODO: ACL-Check can update Invitation
@@ -147,8 +141,7 @@ class CampCollaborationService extends AbstractEntityService
      * @throws ORMException
      * @throws \Exception
      */
-    private function updateRequest(CampCollaboration $campCollaboration, $data)
-    {
+    private function updateRequest(CampCollaboration $campCollaboration, $data) {
         $authUser = $this->getAuthUser();
 
         // TODO: ACL-Check can update Request

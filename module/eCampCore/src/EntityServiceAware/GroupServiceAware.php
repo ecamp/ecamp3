@@ -4,8 +4,7 @@ namespace eCamp\Core\EntityServiceAware;
 
 use eCamp\Core\EntityService;
 
-interface GroupServiceAware
-{
+interface GroupServiceAware {
     /**
      * @return EntityService\GroupService
      */

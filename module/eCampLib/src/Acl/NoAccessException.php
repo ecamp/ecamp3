@@ -2,6 +2,5 @@
 
 namespace eCamp\Lib\Acl;
 
-class NoAccessException extends \Exception
-{
+class NoAccessException extends \Exception {
 }

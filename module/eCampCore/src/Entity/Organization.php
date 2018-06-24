@@ -11,10 +11,8 @@ use eCamp\Lib\Entity\BaseEntity;
  * @ORM\Entity()
  * @ORM\Table(name="organizations")
  */
-class Organization extends BaseEntity
-{
-    public function __construct()
-    {
+class Organization extends BaseEntity {
+    public function __construct() {
         parent::__construct();
 
         $this->campTypes = new ArrayCollection();
@@ -33,13 +31,11 @@ class Organization extends BaseEntity
     protected $campTypes;
 
 
-    public function getName()
-    {
+    public function getName() {
         return $this->name;
     }
 
-    public function setName(string $name)
-    {
+    public function setName(string $name) {
         $this->name = $name;
     }
 
@@ -47,19 +43,16 @@ class Organization extends BaseEntity
     /**
      * @return ArrayCollection
      */
-    public function getCampTypes()
-    {
+    public function getCampTypes() {
         return $this->campTypes;
     }
 
-    public function addCampType(CampType $campType): void
-    {
+    public function addCampType(CampType $campType): void {
         $campType->setOrganization($this);
         $this->campTypes->add($campType);
     }
 
-    public function removeCampType(CampType $campType): void
-    {
+    public function removeCampType(CampType $campType): void {
         $campType->setOrganization(null);
         $this->campTypes->removeElement($campType);
     }

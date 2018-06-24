@@ -4,8 +4,7 @@ namespace eCamp\Core\ServiceManager;
 
 use eCamp\Core\Auth\AuthUserProvider;
 
-interface AuthUserProviderAware
-{
+interface AuthUserProviderAware {
     /**
      * @param AuthUserProvider $authUserProvider
      */

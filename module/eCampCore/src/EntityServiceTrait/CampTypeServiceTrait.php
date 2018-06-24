@@ -4,8 +4,7 @@ namespace eCamp\Core\EntityServiceTrait;
 
 use eCamp\Core\EntityService;
 
-trait CampTypeServiceTrait
-{
+trait CampTypeServiceTrait {
     /** @var EntityService\CampTypeService */
     private $campTypeService;
 
@@ -16,5 +15,4 @@ trait CampTypeServiceTrait
     public function getCampTypeService() {
         return $this->campTypeService;
     }
-
 }

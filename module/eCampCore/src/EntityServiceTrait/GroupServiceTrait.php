@@ -4,8 +4,7 @@ namespace eCamp\Core\EntityServiceTrait;
 
 use eCamp\Core\EntityService;
 
-trait GroupServiceTrait
-{
+trait GroupServiceTrait {
     /** @var EntityService\GroupService */
     private $groupService;
 
@@ -16,5 +15,4 @@ trait GroupServiceTrait
     public function getGroupService() {
         return $this->groupService;
     }
-
 }

@@ -6,10 +6,8 @@ use eCamp\Core\Entity\User;
 use eCamp\Core\EntityService\UserService;
 use eCamp\LibTest\PHPUnit\AbstractDatabaseTestCase;
 
-class UserServiceTest extends AbstractDatabaseTestCase
-{
-    public function testCreateUser()
-    {
+class UserServiceTest extends AbstractDatabaseTestCase {
+    public function testCreateUser() {
         /** @var UserService $userService */
         $userService = \eCampApp::GetService(UserService::class);
 
@@ -22,8 +20,7 @@ class UserServiceTest extends AbstractDatabaseTestCase
     }
 
 
-    public function testGetUser()
-    {
+    public function testGetUser() {
         /** @var UserService $userService */
         $userService = \eCampApp::GetService(UserService::class);
 

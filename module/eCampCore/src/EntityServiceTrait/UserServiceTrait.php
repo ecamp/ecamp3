@@ -4,8 +4,7 @@ namespace eCamp\Core\EntityServiceTrait;
 
 use eCamp\Core\EntityService;
 
-trait UserServiceTrait
-{
+trait UserServiceTrait {
     /** @var EntityService\UserService */
     private $userService;
 
@@ -16,5 +15,4 @@ trait UserServiceTrait
     public function getUserService() {
         return $this->userService;
     }
-
 }

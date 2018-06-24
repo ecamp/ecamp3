@@ -4,8 +4,7 @@ namespace eCamp\Core\EntityServiceAware;
 
 use eCamp\Core\EntityService;
 
-interface EventTypeServiceAware
-{
+interface EventTypeServiceAware {
     /**
      * @return EntityService\EventTypeService
      */

@@ -4,8 +4,7 @@ namespace eCamp\Core\EntityServiceTrait;
 
 use eCamp\Core\EntityService;
 
-trait MediumServiceTrait
-{
+trait MediumServiceTrait {
     /** @var EntityService\MediumService */
     private $mediumService;
 
@@ -16,5 +15,4 @@ trait MediumServiceTrait
     public function getMediumService() {
         return $this->mediumService;
     }
-
 }

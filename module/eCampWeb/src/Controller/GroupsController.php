@@ -6,8 +6,7 @@ use eCamp\Core\Repository\GroupRepository;
 use eCamp\Core\EntityService\GroupService;
 use Zend\View\Model\ViewModel;
 
-class GroupsController extends AbstractBaseController
-{
+class GroupsController extends AbstractBaseController {
     /** @var GroupService */
     private $groupService;
 
@@ -21,8 +20,7 @@ class GroupsController extends AbstractBaseController
     }
 
 
-    public function indexAction()
-    {
+    public function indexAction() {
         $userGroups = $this->groupService->fetchByUser();
         $rootGroups = $this->groupService->fetchByParentGroup(null);
 

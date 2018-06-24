@@ -5,21 +5,18 @@ namespace eCamp\Web\Controller;
 use eCamp\Core\Service\RegisterService;
 use Zend\Http\Request;
 
-class RegisterController extends AbstractBaseController
-{
+class RegisterController extends AbstractBaseController {
 
     /** @var RegisterService */
     private $registerService;
 
 
-    public function __construct(RegisterService $registerService)
-    {
+    public function __construct(RegisterService $registerService) {
         $this->registerService = $registerService;
     }
 
 
-    public function indexAction()
-    {
+    public function indexAction() {
         /** @var Request $request */
         $request = $this->getRequest();
 
@@ -39,5 +36,4 @@ class RegisterController extends AbstractBaseController
 
         return [];
     }
-
 }

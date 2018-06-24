@@ -8,15 +8,12 @@ use eCamp\Plugin\Storyboard\Entity\Section;
 use Zend\Mvc\MvcEvent;
 use Zend\Permissions\Acl\AclInterface;
 
-class Module
-{
-    public function getConfig()
-    {
+class Module {
+    public function getConfig() {
         return include __DIR__ . '/../config/module.config.php';
     }
 
-    public function onBootstrap(MvcEvent $e)
-    {
+    public function onBootstrap(MvcEvent $e) {
         /** @var Acl $acl */
         $acl = $e->getApplication()->getServiceManager()->get(AclInterface::class);
 

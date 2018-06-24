@@ -26,8 +26,7 @@ use ZF\ApiProblem\ApiProblem;
 use ZF\Rest\AbstractResourceListener;
 
 abstract class AbstractEntityService extends AbstractResourceListener
-    implements EntityManagerAware, EntityFilterManagerAware, HydratorPluginManagerAware, AclAware
-{
+    implements EntityManagerAware, EntityFilterManagerAware, HydratorPluginManagerAware, AclAware {
     /** @var string */
     private $entityClassname;
 
@@ -82,8 +81,7 @@ abstract class AbstractEntityService extends AbstractResourceListener
      * @param BaseEntity $entity
      * @return array
      */
-    protected function getOrigEntityData($entity)
-    {
+    protected function getOrigEntityData($entity) {
         $uow = $this->entityManager->getUnitOfWork();
         return $uow->getOriginalEntityData($entity);
     }
@@ -91,12 +89,10 @@ abstract class AbstractEntityService extends AbstractResourceListener
 
 
     /** @return EntityFilterManager */
-    protected function getEntityFilterManager()
-    {
+    protected function getEntityFilterManager() {
         return $this->entityFilterManager;
     }
-    public function setEntityFilterManager(EntityFilterManager $entityFilterManager)
-    {
+    public function setEntityFilterManager(EntityFilterManager $entityFilterManager) {
         $this->entityFilterManager = $entityFilterManager;
     }
 
@@ -167,8 +163,7 @@ abstract class AbstractEntityService extends AbstractResourceListener
      * @param string $className
      * @return object|ApiProblem
      */
-    protected function createEntity($className)
-    {
+    protected function createEntity($className) {
         $entity = null;
         try {
             $entity = new $className();
@@ -183,8 +178,7 @@ abstract class AbstractEntityService extends AbstractResourceListener
      * @param string $alias
      * @return QueryBuilder
      */
-    public function createQueryBuilder($className, $alias)
-    {
+    public function createQueryBuilder($className, $alias) {
         $q = $this->entityManager->createQueryBuilder();
         $q->from($className, $alias)->select($alias);
         $filter = $this->createFilter($q, $className, $alias, 'id');
@@ -201,8 +195,7 @@ abstract class AbstractEntityService extends AbstractResourceListener
      * @param string $field
      * @return Expr\Func
      */
-    protected function createFilter(QueryBuilder $q, $className, $alias, $field)
-    {
+    protected function createFilter(QueryBuilder $q, $className, $alias, $field) {
         $filter = $this->entityFilterManager->getByEntityClass($className);
         if ($filter == null) {
             return null;
@@ -216,8 +209,7 @@ abstract class AbstractEntityService extends AbstractResourceListener
      * @param $id
      * @return QueryBuilder
      */
-    protected function findEntityQueryBuilder($className, $alias, $id)
-    {
+    protected function findEntityQueryBuilder($className, $alias, $id) {
         $q = $this->createQueryBuilder($className, $alias);
         $q->andWhere($alias . '.id = :entity_id');
         $q->setParameter('entity_id', $id);
@@ -229,13 +221,11 @@ abstract class AbstractEntityService extends AbstractResourceListener
      * @param string $alias
      * @return QueryBuilder
      */
-    protected function findCollectionQueryBuilder($className, $alias)
-    {
+    protected function findCollectionQueryBuilder($className, $alias) {
         return $this->createQueryBuilder($className, $alias);
     }
 
-    protected function getQuerySingleResult(QueryBuilder $q)
-    {
+    protected function getQuerySingleResult(QueryBuilder $q) {
         try {
             $row = $q->getQuery()->getSingleResult();
             if ($this->isAllowed($row, Acl::REST_PRIVILEGE_FETCH)) {
@@ -249,8 +239,7 @@ abstract class AbstractEntityService extends AbstractResourceListener
         }
     }
 
-    protected function getQueryResult(QueryBuilder $q)
-    {
+    protected function getQueryResult(QueryBuilder $q) {
         try {
             $rows = $q->getQuery()->getResult();
             $rows = array_filter($rows, function ($entity) {
@@ -262,14 +251,12 @@ abstract class AbstractEntityService extends AbstractResourceListener
         }
     }
 
-    protected function fetchQueryBuilder($id)
-    {
+    protected function fetchQueryBuilder($id) {
         $q =  $this->findEntityQueryBuilder($this->entityClassname, 'row', $id);
         return $q;
     }
 
-    protected function fetchAllQueryBuilder($params = [])
-    {
+    protected function fetchAllQueryBuilder($params = []) {
         $q = $this->findCollectionQueryBuilder($this->entityClassname, 'row');
         if (isset($params['where'])) {
             $q->andWhere($params['where']);
@@ -280,8 +267,7 @@ abstract class AbstractEntityService extends AbstractResourceListener
         return $q;
     }
 
-    protected function findEntity($className, $id)
-    {
+    protected function findEntity($className, $id) {
         $q = $this->findEntityQueryBuilder($className, 'row', $id);
         $entity = $this->getQuerySingleResult($q);
         return $entity;
@@ -291,8 +277,7 @@ abstract class AbstractEntityService extends AbstractResourceListener
      * @param mixed $id
      * @return BaseEntity|ApiProblem
      */
-    public function fetch($id)
-    {
+    public function fetch($id) {
         $q = $this->fetchQueryBuilder($id);
         $entity = $this->getQuerySingleResult($q);
         return $entity;
@@ -303,8 +288,7 @@ abstract class AbstractEntityService extends AbstractResourceListener
      * @return Paginator
      * @throws NoAccessException
      */
-    public function fetchAll($params = [])
-    {
+    public function fetchAll($params = []) {
         $this->assertAllowed($this->entityClassname, __FUNCTION__);
         $q = $this->fetchAllQueryBuilder($params);
         $list = $this->getQueryResult($q);
@@ -322,8 +306,7 @@ abstract class AbstractEntityService extends AbstractResourceListener
      * @throws NoAccessException
      * @throws ORMException
      */
-    public function create($data)
-    {
+    public function create($data) {
         $this->assertAllowed($this->entityClassname, __FUNCTION__);
         $entity = $this->createEntity($this->entityClassname);
         if ($entity instanceof ApiProblem) {
@@ -340,8 +323,7 @@ abstract class AbstractEntityService extends AbstractResourceListener
      * @return BaseEntity|ApiProblem
      * @throws NoAccessException
      */
-    public function patch($id, $data)
-    {
+    public function patch($id, $data) {
         $q = $this->fetchQueryBuilder($id);
         $entity = $this->getQuerySingleResult($q);
         if ($entity instanceof ApiProblem) {
@@ -359,8 +341,7 @@ abstract class AbstractEntityService extends AbstractResourceListener
      * @return mixed|ApiProblem
      * @throws NoAccessException
      */
-    public function patchList($data)
-    {
+    public function patchList($data) {
         $this->assertAllowed($this->entityClassname, __FUNCTION__);
         return parent::patchList($data);
     }
@@ -371,8 +352,7 @@ abstract class AbstractEntityService extends AbstractResourceListener
      * @return BaseEntity|ApiProblem
      * @throws NoAccessException
      */
-    public function update($id, $data)
-    {
+    public function update($id, $data) {
         $q = $this->fetchQueryBuilder($id);
         $entity = $this->getQuerySingleResult($q);
         if ($entity instanceof ApiProblem) {
@@ -388,8 +368,7 @@ abstract class AbstractEntityService extends AbstractResourceListener
      * @return mixed|ApiProblem
      * @throws NoAccessException
      */
-    public function replaceList($data)
-    {
+    public function replaceList($data) {
         $this->assertAllowed($this->entityClassname, __FUNCTION__);
         return parent::replaceList($data);
     }
@@ -400,8 +379,7 @@ abstract class AbstractEntityService extends AbstractResourceListener
      * @throws NoAccessException
      * @throws ORMException
      */
-    public function delete($id)
-    {
+    public function delete($id) {
         $q = $this->fetchQueryBuilder($id);
         $entity = $this->getQuerySingleResult($q);
         if ($entity instanceof ApiProblem) {
@@ -420,10 +398,8 @@ abstract class AbstractEntityService extends AbstractResourceListener
      * @return mixed|ApiProblem
      * @throws NoAccessException
      */
-    public function deleteList($data)
-    {
+    public function deleteList($data) {
         $this->assertAllowed($this->entityClassname, __FUNCTION__);
         return parent::deleteList($data);
     }
-
 }

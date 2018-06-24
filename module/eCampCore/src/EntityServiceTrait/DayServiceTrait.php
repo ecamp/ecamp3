@@ -4,8 +4,7 @@ namespace eCamp\Core\EntityServiceTrait;
 
 use eCamp\Core\EntityService;
 
-trait DayServiceTrait
-{
+trait DayServiceTrait {
     /** @var EntityService\DayService */
     private $dayService;
 
@@ -16,5 +15,4 @@ trait DayServiceTrait
     public function getDayService() {
         return $this->dayService;
     }
-
 }

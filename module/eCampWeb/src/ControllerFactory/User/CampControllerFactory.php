@@ -7,8 +7,7 @@ use eCamp\Web\Controller\User\CampController;
 use Interop\Container\ContainerInterface;
 use Zend\ServiceManager\Factory\FactoryInterface;
 
-class CampControllerFactory implements FactoryInterface
-{
+class CampControllerFactory implements FactoryInterface {
     /**
      * @param ContainerInterface $container
      * @param string $requestedName
@@ -17,8 +16,7 @@ class CampControllerFactory implements FactoryInterface
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
-    {
+    public function __invoke(ContainerInterface $container, $requestedName, array $options = null) {
         /** @var CampService $campService */
         $campService = $container->get(CampService::class);
 

@@ -4,8 +4,7 @@ namespace eCamp\Core\EntityServiceTrait;
 
 use eCamp\Core\EntityService;
 
-trait EventTypeServiceTrait
-{
+trait EventTypeServiceTrait {
     /** @var EntityService\EventTypeService */
     private $eventTypeService;
 
@@ -16,5 +15,4 @@ trait EventTypeServiceTrait
     public function getEventTypeService() {
         return $this->eventTypeService;
     }
-
 }

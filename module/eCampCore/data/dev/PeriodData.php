@@ -9,13 +9,11 @@ use eCamp\Core\Entity\Camp;
 use eCamp\Core\Entity\Day;
 use eCamp\Core\Entity\Period;
 
-class PeriodData extends AbstractFixture implements DependentFixtureInterface
-{
+class PeriodData extends AbstractFixture implements DependentFixtureInterface {
     public static $PERIOD_1 = Period::class . ':PERIOD_1';
     public static $PERIOD_2 = Period::class . ':PERIOD_2';
 
-    public function load(ObjectManager $manager)
-    {
+    public function load(ObjectManager $manager) {
         $repository = $manager->getRepository(Period::class);
 
         /** @var Camp $camp */
@@ -78,8 +76,7 @@ class PeriodData extends AbstractFixture implements DependentFixtureInterface
         $manager->flush();
     }
 
-    public function getDependencies()
-    {
+    public function getDependencies() {
         return [ CampData::class ];
     }
 }

@@ -14,8 +14,7 @@ use ZF\Hal\Entity;
 use ZF\Hal\Link\Link;
 use ZF\Hal\View\HalJsonModel;
 
-class LoginController extends AbstractActionController
-{
+class LoginController extends AbstractActionController {
     /** @var AuthService */
     private $authService;
 
@@ -37,8 +36,7 @@ class LoginController extends AbstractActionController
      * @throws NoAccessException
      * @throws NonUniqueResultException
      */
-    public function indexAction()
-    {
+    public function indexAction() {
         /** @var Request $request */
         $request = $this->getRequest();
 
@@ -90,8 +88,7 @@ class LoginController extends AbstractActionController
      * @return Response
      * @throws NonUniqueResultException
      */
-    public function loginAction()
-    {
+    public function loginAction() {
         /** @var Request $request */
         $request = $this->getRequest();
         $content = $request->getContent();
@@ -105,8 +102,7 @@ class LoginController extends AbstractActionController
     /**
      * @return Response
      */
-    public function logoutAction()
-    {
+    public function logoutAction() {
         $this->authService->clearIdentity();
 
         return $this->redirect()->toRoute('ecamp.api/login');
@@ -115,8 +111,7 @@ class LoginController extends AbstractActionController
     /**
      * @return Response
      */
-    public function googleAction()
-    {
+    public function googleAction() {
         $redirect = $this->url()->fromRoute('ecamp.api/login');
 
         return $this->redirect()->toRoute(

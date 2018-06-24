@@ -5,14 +5,12 @@ namespace eCamp\Plugin\Textarea\Hydrator;
 use eCamp\Plugin\Textarea\Entity\Textarea;
 use Zend\Hydrator\HydratorInterface;
 
-class TextareaHydrator implements HydratorInterface
-{
+class TextareaHydrator implements HydratorInterface {
     /**
      * @param object $object
      * @return array
      */
-    public function extract($object)
-    {
+    public function extract($object) {
         /** @var Textarea $textarea */
         $textarea = $object;
 
@@ -28,8 +26,7 @@ class TextareaHydrator implements HydratorInterface
      * @param object $object
      * @return object
      */
-    public function hydrate(array $data, $object)
-    {
+    public function hydrate(array $data, $object) {
         /** @var Textarea $textarea */
         $textarea = $object;
 

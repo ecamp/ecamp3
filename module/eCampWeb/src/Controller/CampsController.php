@@ -7,8 +7,7 @@ use eCamp\Core\EntityService\CampService;
 use eCamp\Lib\Auth\AuthRequiredException;
 use Zend\View\Model\ViewModel;
 
-class CampsController extends AbstractBaseController
-{
+class CampsController extends AbstractBaseController {
     /** @var AuthService */
     private $authService;
 
@@ -29,8 +28,7 @@ class CampsController extends AbstractBaseController
      * @throws AuthRequiredException
      * @throws \eCamp\Lib\Acl\NoAccessException
      */
-    public function indexAction()
-    {
+    public function indexAction() {
         $this->forceLogin();
 
         $camps = $this->campService->fetchAll();

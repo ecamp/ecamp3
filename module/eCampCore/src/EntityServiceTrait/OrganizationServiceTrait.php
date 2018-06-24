@@ -4,8 +4,7 @@ namespace eCamp\Core\EntityServiceTrait;
 
 use eCamp\Core\EntityService;
 
-trait OrganizationServiceTrait
-{
+trait OrganizationServiceTrait {
     /** @var EntityService\OrganizationService */
     private $organizationService;
 
@@ -16,5 +15,4 @@ trait OrganizationServiceTrait
     public function getOrganizationService() {
         return $this->organizationService;
     }
-
 }
