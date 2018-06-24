@@ -9,8 +9,7 @@ use ZF\Hal\Entity;
 use ZF\Hal\Link\Link;
 use ZF\Hal\View\HalJsonModel;
 
-class IndexController extends AbstractActionController
-{
+class IndexController extends AbstractActionController {
     /** @var AuthService */
     private $authService;
 
@@ -30,8 +29,7 @@ class IndexController extends AbstractActionController
      * @return \Zend\View\Model\ViewModel|HalJsonModel
      * @throws \eCamp\Lib\Acl\NoAccessException
      */
-    public function indexAction()
-    {
+    public function indexAction() {
 
         // Login-Info
         // Login-Endpoint

@@ -7,8 +7,7 @@ use eCamp\Core\Service\DayService;
 use eCamp\Lib\Service\BaseServiceFactory;
 use Interop\Container\ContainerInterface;
 
-class DayServiceFactory extends BaseServiceFactory
-{
+class DayServiceFactory extends BaseServiceFactory {
     /**
      * @param ContainerInterface $container
      * @param string $requestedName
@@ -17,8 +16,7 @@ class DayServiceFactory extends BaseServiceFactory
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
-    {
+    public function __invoke(ContainerInterface $container, $requestedName, array $options = null) {
         $hydrator = $this->getHydrator($container, DayHydrator::class);
 
         return new DayService($hydrator);

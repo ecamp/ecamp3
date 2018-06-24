@@ -7,8 +7,7 @@ use eCamp\Core\Service\MediumService;
 use eCamp\Lib\Service\BaseServiceFactory;
 use Interop\Container\ContainerInterface;
 
-class MediumServiceFactory extends BaseServiceFactory
-{
+class MediumServiceFactory extends BaseServiceFactory {
     /**
      * @param ContainerInterface $container
      * @param string $requestedName
@@ -17,8 +16,7 @@ class MediumServiceFactory extends BaseServiceFactory
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
-    {
+    public function __invoke(ContainerInterface $container, $requestedName, array $options = null) {
         $hydrator = $this->getHydrator($container, MediumHydrator::class);
 
         return new MediumService($hydrator);

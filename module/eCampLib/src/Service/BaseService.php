@@ -23,8 +23,7 @@ use Zend\Paginator\Paginator;
 use ZF\ApiProblem\ApiProblem;
 use ZF\Rest\AbstractResourceListener;
 
-abstract class BaseService extends AbstractResourceListener implements AclAware, EntityManagerAware, EntityFilterManagerAware
-{
+abstract class BaseService extends AbstractResourceListener implements AclAware, EntityManagerAware, EntityFilterManagerAware {
     /** @var Acl */
     private $acl;
 
@@ -54,42 +53,35 @@ abstract class BaseService extends AbstractResourceListener implements AclAware,
 
 
     /** @return Acl */
-    protected function getAcl()
-    {
+    protected function getAcl() {
         return $this->acl;
     }
 
-    public function setAcl(Acl $acl)
-    {
+    public function setAcl(Acl $acl) {
         $this->acl = $acl;
     }
 
     /** @return EntityManager */
-    protected function getEntityManager()
-    {
+    protected function getEntityManager() {
         return $this->entityManager;
     }
 
-    public function setEntityManager(EntityManager $entityManager)
-    {
+    public function setEntityManager(EntityManager $entityManager) {
         $this->entityManager = $entityManager;
     }
 
     /** @return EntityFilterManager */
-    protected function getEntityFilterManager()
-    {
+    protected function getEntityFilterManager() {
         return $this->entityFilterManager;
     }
 
-    public function setEntityFilterManager(EntityFilterManager $entityFilterManager)
-    {
+    public function setEntityFilterManager(EntityFilterManager $entityFilterManager) {
         $this->entityFilterManager = $entityFilterManager;
     }
 
 
     /** @return EntityRepository */
-    protected function getRepository()
-    {
+    protected function getRepository() {
         if ($this->repository == null) {
             $this->repository = $this->entityManager->getRepository($this->entityClassName);
         }
@@ -97,8 +89,7 @@ abstract class BaseService extends AbstractResourceListener implements AclAware,
     }
 
     /** @return HydratorInterface */
-    protected function getHydrator()
-    {
+    protected function getHydrator() {
         return $this->hydrator;
     }
 
@@ -106,8 +97,7 @@ abstract class BaseService extends AbstractResourceListener implements AclAware,
     /**
      * @return null|User
      */
-    protected function getAuthUser()
-    {
+    protected function getAuthUser() {
         $authService = new AuthenticationService();
         if ($authService->hasIdentity()) {
             $userRepo = $this->entityManager->getRepository(User::class);
@@ -126,8 +116,7 @@ abstract class BaseService extends AbstractResourceListener implements AclAware,
      * @param BaseEntity $entity
      * @return array
      */
-    protected function getOrigEntityData($entity)
-    {
+    protected function getOrigEntityData($entity) {
         $uow = $this->entityManager->getUnitOfWork();
         return $uow->getOriginalEntityData($entity);
     }
@@ -137,8 +126,7 @@ abstract class BaseService extends AbstractResourceListener implements AclAware,
      * @param null $privilege
      * @return bool
      */
-    protected function isAllowed($resource, $privilege = null)
-    {
+    protected function isAllowed($resource, $privilege = null) {
         $user = $this->getAuthUser();
         return $this->acl->isAllowed($user, $resource, $privilege);
     }
@@ -148,8 +136,7 @@ abstract class BaseService extends AbstractResourceListener implements AclAware,
      * @param null $privilege
      * @throws \eCamp\Lib\Acl\NoAccessException
      */
-    protected function assertAllowed($resource, $privilege = null)
-    {
+    protected function assertAllowed($resource, $privilege = null) {
         $user = $this->getAuthUser();
         return $this->acl->assertAllowed($user, $resource, $privilege);
     }
@@ -158,8 +145,7 @@ abstract class BaseService extends AbstractResourceListener implements AclAware,
      * @param string $className
      * @return object|ApiProblem
      */
-    protected function createEntity($className)
-    {
+    protected function createEntity($className) {
         $entity = null;
         try {
             $entity = new $className();
@@ -175,8 +161,7 @@ abstract class BaseService extends AbstractResourceListener implements AclAware,
      * @param string $alias
      * @return QueryBuilder
      */
-    public function createQueryBuilder($className, $alias)
-    {
+    public function createQueryBuilder($className, $alias) {
         $q = $this->entityManager->createQueryBuilder();
         $q->from($className, $alias)->select($alias);
 
@@ -195,8 +180,7 @@ abstract class BaseService extends AbstractResourceListener implements AclAware,
      * @param string $field
      * @return Expr\Func
      */
-    protected function createFilter(QueryBuilder $q, $className, $alias, $field)
-    {
+    protected function createFilter(QueryBuilder $q, $className, $alias, $field) {
         $filter = $this->entityFilterManager->getByEntityClass($className);
         if ($filter == null) {
             return null;
@@ -212,8 +196,7 @@ abstract class BaseService extends AbstractResourceListener implements AclAware,
      * @param $id
      * @return QueryBuilder
      */
-    protected function findEntityQueryBuilder($className, $alias, $id)
-    {
+    protected function findEntityQueryBuilder($className, $alias, $id) {
         $q = $this->createQueryBuilder($className, $alias);
         $q->andWhere($alias . '.id = :entity_id');
         $q->setParameter('entity_id', $id);
@@ -225,14 +208,12 @@ abstract class BaseService extends AbstractResourceListener implements AclAware,
      * @param string $alias
      * @return QueryBuilder
      */
-    protected function findCollectionQueryBuilder($className, $alias)
-    {
+    protected function findCollectionQueryBuilder($className, $alias) {
         return $this->createQueryBuilder($className, $alias);
     }
 
 
-    protected function getQuerySingleResult(QueryBuilder $q)
-    {
+    protected function getQuerySingleResult(QueryBuilder $q) {
         try {
             $row = $q->getQuery()->getSingleResult();
             if ($this->isAllowed($row, Acl::REST_PRIVILEGE_FETCH)) {
@@ -246,8 +227,7 @@ abstract class BaseService extends AbstractResourceListener implements AclAware,
         }
     }
 
-    protected function getQueryResult(QueryBuilder $q)
-    {
+    protected function getQueryResult(QueryBuilder $q) {
         try {
             $rows = $q->getQuery()->getResult();
             $rows = array_filter($rows, function ($entity) {
@@ -260,15 +240,13 @@ abstract class BaseService extends AbstractResourceListener implements AclAware,
     }
 
 
-    protected function fetchQueryBuilder($id)
-    {
+    protected function fetchQueryBuilder($id) {
         $q =  $this->findEntityQueryBuilder($this->entityClassName, 'row', $id);
 
         return $q;
     }
 
-    protected function fetchAllQueryBuilder($params = [])
-    {
+    protected function fetchAllQueryBuilder($params = []) {
         $q = $this->findCollectionQueryBuilder($this->entityClassName, 'row');
         if (isset($params['where'])) {
             $q->andWhere($params['where']);
@@ -281,8 +259,7 @@ abstract class BaseService extends AbstractResourceListener implements AclAware,
     }
 
 
-    protected function findEntity($className, $id)
-    {
+    protected function findEntity($className, $id) {
         $q = $this->findEntityQueryBuilder($className, 'row', $id);
         $entity = $this->getQuerySingleResult($q);
 
@@ -294,8 +271,7 @@ abstract class BaseService extends AbstractResourceListener implements AclAware,
      * @param mixed $id
      * @return BaseEntity|ApiProblem
      */
-    public function fetch($id)
-    {
+    public function fetch($id) {
         $q = $this->fetchQueryBuilder($id);
         $entity = $this->getQuerySingleResult($q);
 
@@ -307,8 +283,7 @@ abstract class BaseService extends AbstractResourceListener implements AclAware,
      * @return Paginator
      * @throws NoAccessException
      */
-    public function fetchAll($params = [])
-    {
+    public function fetchAll($params = []) {
         $this->assertAllowed($this->entityClassName, __FUNCTION__);
 
         $q = $this->fetchAllQueryBuilder($params);
@@ -331,8 +306,7 @@ abstract class BaseService extends AbstractResourceListener implements AclAware,
      * @throws NoAccessException
      * @throws ORMException
      */
-    public function create($data)
-    {
+    public function create($data) {
         $this->assertAllowed($this->entityClassName, __FUNCTION__);
 
         $entity = $this->createEntity($this->entityClassName);
@@ -352,8 +326,7 @@ abstract class BaseService extends AbstractResourceListener implements AclAware,
      * @return BaseEntity|ApiProblem
      * @throws NoAccessException
      */
-    public function patch($id, $data)
-    {
+    public function patch($id, $data) {
         $q = $this->fetchQueryBuilder($id);
         $entity = $this->getQuerySingleResult($q);
 
@@ -375,8 +348,7 @@ abstract class BaseService extends AbstractResourceListener implements AclAware,
      * @return mixed|ApiProblem
      * @throws NoAccessException
      */
-    public function patchList($data)
-    {
+    public function patchList($data) {
         $this->assertAllowed($this->entityClassName, __FUNCTION__);
 
         return parent::patchList($data);
@@ -388,8 +360,7 @@ abstract class BaseService extends AbstractResourceListener implements AclAware,
      * @return BaseEntity|ApiProblem
      * @throws NoAccessException
      */
-    public function update($id, $data)
-    {
+    public function update($id, $data) {
         $q = $this->fetchQueryBuilder($id);
         $entity = $this->getQuerySingleResult($q);
 
@@ -408,8 +379,7 @@ abstract class BaseService extends AbstractResourceListener implements AclAware,
      * @return mixed|ApiProblem
      * @throws NoAccessException
      */
-    public function replaceList($data)
-    {
+    public function replaceList($data) {
         $this->assertAllowed($this->entityClassName, __FUNCTION__);
 
         return parent::replaceList($data);
@@ -421,8 +391,7 @@ abstract class BaseService extends AbstractResourceListener implements AclAware,
      * @throws NoAccessException
      * @throws ORMException
      */
-    public function delete($id)
-    {
+    public function delete($id) {
         $q = $this->fetchQueryBuilder($id);
         $entity = $this->getQuerySingleResult($q);
 
@@ -445,8 +414,7 @@ abstract class BaseService extends AbstractResourceListener implements AclAware,
      * @return mixed|ApiProblem
      * @throws NoAccessException
      */
-    public function deleteList($data)
-    {
+    public function deleteList($data) {
         $this->assertAllowed($this->entityClassName, __FUNCTION__);
 
         return parent::deleteList($data);

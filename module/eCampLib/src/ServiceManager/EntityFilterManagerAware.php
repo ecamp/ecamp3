@@ -2,8 +2,7 @@
 
 namespace eCamp\Lib\ServiceManager;
 
-interface EntityFilterManagerAware
-{
+interface EntityFilterManagerAware {
     /**
      * @param EntityFilterManager $entityFilterManager
      */

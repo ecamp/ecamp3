@@ -10,10 +10,8 @@ use eCamp\Core\Entity\Medium;
 use eCamp\Core\Entity\Plugin;
 use eCamp\LibTest\PHPUnit\AbstractTestCase;
 
-class EventTemplateContainerTest extends AbstractTestCase
-{
-    public function testEventTemplateContainer()
-    {
+class EventTemplateContainerTest extends AbstractTestCase {
+    public function testEventTemplateContainer() {
         $plugin = new Plugin();
         $medium = new Medium();
 

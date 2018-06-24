@@ -10,8 +10,7 @@ use Zend\Permissions\Acl\Role\RoleInterface;
  * @ORM\Entity(repositoryClass="eCamp\Core\Repository\UserRepository")
  * @ORM\Table(name="users")
  */
-class User extends AbstractCampOwner implements RoleInterface
-{
+class User extends AbstractCampOwner implements RoleInterface {
     const STATE_NONREGISTERED 	= "non-registered";
     const STATE_REGISTERED 		= "registered";
     const STATE_ACTIVATED  		= "activated";
@@ -21,8 +20,7 @@ class User extends AbstractCampOwner implements RoleInterface
     const ROLE_USER				= "user";
     const ROLE_ADMIN			= "admin";
 
-    public function __construct()
-    {
+    public function __construct() {
         parent::__construct();
 
         $this->state = self::STATE_NONREGISTERED;
@@ -102,8 +100,7 @@ class User extends AbstractCampOwner implements RoleInterface
     /**
      * @return string
      */
-    public function getRoleId()
-    {
+    public function getRoleId() {
         return $this->role ?: self::ROLE_GUEST;
     }
 
@@ -111,13 +108,11 @@ class User extends AbstractCampOwner implements RoleInterface
     /**
      * @return string
      */
-    public function getUsername(): string
-    {
+    public function getUsername(): string {
         return $this->username;
     }
 
-    public function setUsername(string $username): void
-    {
+    public function setUsername(string $username): void {
         $this->username = $username;
     }
 
@@ -125,8 +120,7 @@ class User extends AbstractCampOwner implements RoleInterface
     /**
      * @return string
      */
-    public function getDisplayName()
-    {
+    public function getDisplayName() {
         return $this->username;
     }
 
@@ -134,16 +128,14 @@ class User extends AbstractCampOwner implements RoleInterface
     /**
      * @return string
      */
-    public function getTrustedMailAddress(): string
-    {
+    public function getTrustedMailAddress(): string {
         if ($this->trustedMailAddress === null) {
             return "";
         }
         return $this->trustedMailAddress->getMail();
     }
 
-    public function setTrustedMailAddress(string $mail)
-    {
+    public function setTrustedMailAddress(string $mail) {
         if ($this->trustedMailAddress == null) {
             $this->trustedMailAddress = new MailAddress();
         }
@@ -154,8 +146,7 @@ class User extends AbstractCampOwner implements RoleInterface
     /**
      * @return string
      */
-    public function getUntrustedMailAddress(): string
-    {
+    public function getUntrustedMailAddress(): string {
         if ($this->untrustedMailAddress === null) {
             return "";
         }
@@ -166,8 +157,7 @@ class User extends AbstractCampOwner implements RoleInterface
      * @param string $mailAddress
      * @return string
      */
-    public function setMailAddress(string $mailAddress): string
-    {
+    public function setMailAddress(string $mailAddress): string {
         if ($this->getTrustedMailAddress() !== $mailAddress) {
             if ($this->untrustedMailAddress === null) {
                 $this->untrustedMailAddress = new MailAddress();
@@ -185,8 +175,7 @@ class User extends AbstractCampOwner implements RoleInterface
      * @return bool
      * @throws \Exception
      */
-    public function verifyMailAddress(string $hash): bool
-    {
+    public function verifyMailAddress(string $hash): bool {
         if ($this->state === self::STATE_NONREGISTERED) {
             throw new \Exception("Verification failed.");
         }
@@ -216,13 +205,11 @@ class User extends AbstractCampOwner implements RoleInterface
     /**
      * @return string
      */
-    public function getState(): string
-    {
+    public function getState(): string {
         return $this->state;
     }
 
-    public function setState(string $state): void
-    {
+    public function setState(string $state): void {
         $this->state = $state;
     }
 
@@ -230,13 +217,11 @@ class User extends AbstractCampOwner implements RoleInterface
     /**
      * @return string
      */
-    public function getRole(): string
-    {
+    public function getRole(): string {
         return $this->role;
     }
 
-    public function setRole(string $role): void
-    {
+    public function setRole(string $role): void {
         $this->role = $role;
     }
 
@@ -244,8 +229,7 @@ class User extends AbstractCampOwner implements RoleInterface
     /**
      * @return Login
      */
-    public function getLogin()
-    {
+    public function getLogin() {
         return $this->login;
     }
 
@@ -253,19 +237,16 @@ class User extends AbstractCampOwner implements RoleInterface
     /**
      * @return ArrayCollection
      */
-    public function getRelationshipTo(): ArrayCollection
-    {
+    public function getRelationshipTo(): ArrayCollection {
         return $this->relationshipTo;
     }
 
-    public function addRelationshipTo(UserRelationship $rel)
-    {
+    public function addRelationshipTo(UserRelationship $rel) {
         $rel->setTo($this);
         $this->relationshipTo->add($rel);
     }
 
-    public function removeRelationshipTo(UserRelationship $rel)
-    {
+    public function removeRelationshipTo(UserRelationship $rel) {
         $rel->setTo(null);
         $this->relationshipTo->removeElement($rel);
     }
@@ -274,19 +255,16 @@ class User extends AbstractCampOwner implements RoleInterface
     /**
      * @return ArrayCollection
      */
-    public function getRelationshipFrom(): ArrayCollection
-    {
+    public function getRelationshipFrom(): ArrayCollection {
         return $this->relationshipFrom;
     }
 
-    public function addRelationshipFrom(UserRelationship $rel)
-    {
+    public function addRelationshipFrom(UserRelationship $rel) {
         $rel->setFrom($this);
         $this->relationshipFrom->add($rel);
     }
 
-    public function removeRelationshipFrom(UserRelationship $rel)
-    {
+    public function removeRelationshipFrom(UserRelationship $rel) {
         $rel->setFrom(null);
         $this->relationshipFrom->removeElement($rel);
     }
@@ -295,19 +273,16 @@ class User extends AbstractCampOwner implements RoleInterface
     /**
      * @return ArrayCollection
      */
-    public function getGroupMemberships(): ArrayCollection
-    {
+    public function getGroupMemberships(): ArrayCollection {
         return $this->memberships;
     }
 
-    public function addGroupMembership(GroupMembership $membership)
-    {
+    public function addGroupMembership(GroupMembership $membership) {
         $membership->setUser($this);
         $this->memberships->add($membership);
     }
 
-    public function removeGroupMembership(GroupMembership $membership)
-    {
+    public function removeGroupMembership(GroupMembership $membership) {
         $membership->setUser(null);
         $this->memberships->removeElement($membership);
     }
@@ -316,19 +291,16 @@ class User extends AbstractCampOwner implements RoleInterface
     /**
      * @return ArrayCollection
      */
-    public function getCampCollaborations(): ArrayCollection
-    {
+    public function getCampCollaborations(): ArrayCollection {
         return $this->collaborations;
     }
 
-    public function addCampCollaboration(CampCollaboration $collaboration)
-    {
+    public function addCampCollaboration(CampCollaboration $collaboration) {
         $collaboration->setUser($this);
         $this->collaborations->add($collaboration);
     }
 
-    public function removeCampCollaboration(CampCollaboration $collaboration)
-    {
+    public function removeCampCollaboration(CampCollaboration $collaboration) {
         $collaboration->setUser(null);
         $this->collaborations->removeElement($collaboration);
     }

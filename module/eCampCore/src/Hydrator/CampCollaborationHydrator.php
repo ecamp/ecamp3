@@ -5,14 +5,12 @@ namespace eCamp\Core\Hydrator;
 use eCamp\Core\Entity\CampCollaboration;
 use Zend\Hydrator\HydratorInterface;
 
-class CampCollaborationHydrator implements HydratorInterface
-{
+class CampCollaborationHydrator implements HydratorInterface {
     /**
      * @param object $object
      * @return array
      */
-    public function extract($object)
-    {
+    public function extract($object) {
         /** @var CampCollaboration $campCollaboration */
         $campCollaboration = $object;
         return [
@@ -29,8 +27,7 @@ class CampCollaborationHydrator implements HydratorInterface
      * @param object $object
      * @return object
      */
-    public function hydrate(array $data, $object)
-    {
+    public function hydrate(array $data, $object) {
         /** @var CampCollaboration $campCollaboration */
         $campCollaboration = $object;
 

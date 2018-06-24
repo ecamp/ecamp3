@@ -7,8 +7,7 @@ use eCamp\Core\Service\EventTypeService;
 use eCamp\Lib\Service\BaseServiceFactory;
 use Interop\Container\ContainerInterface;
 
-class EventTypeServiceFactory extends BaseServiceFactory
-{
+class EventTypeServiceFactory extends BaseServiceFactory {
     /**
      * @param ContainerInterface $container
      * @param string $requestedName
@@ -17,8 +16,7 @@ class EventTypeServiceFactory extends BaseServiceFactory
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
-    {
+    public function __invoke(ContainerInterface $container, $requestedName, array $options = null) {
         $hydrator = $this->getHydrator($container, EventTypeHydrator::class);
 
         return new EventTypeService($hydrator);

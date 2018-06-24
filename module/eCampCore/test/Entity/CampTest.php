@@ -15,10 +15,8 @@ use eCamp\Core\Entity\User;
 use eCamp\LibTest\PHPUnit\AbstractTestCase;
 use Zend\Json\Json;
 
-class CampTest extends AbstractTestCase
-{
-    public function testCamp()
-    {
+class CampTest extends AbstractTestCase {
+    public function testCamp() {
         $user = new User();
         $user->setUsername('username');
 
@@ -57,8 +55,7 @@ class CampTest extends AbstractTestCase
         $this->assertFalse($camp->belongsToUser());
     }
 
-    public function testPeriod()
-    {
+    public function testPeriod() {
         $camp = new Camp();
         $period = new Period();
 
@@ -69,8 +66,7 @@ class CampTest extends AbstractTestCase
         $this->assertEquals(0, $camp->getPeriods()->count());
     }
 
-    public function testCampCollaboration()
-    {
+    public function testCampCollaboration() {
         $camp = new Camp();
         $collaboration = new CampCollaboration();
 
@@ -81,8 +77,7 @@ class CampTest extends AbstractTestCase
         $this->assertEquals(0, $camp->getCampCollaborations()->count());
     }
 
-    public function testJob()
-    {
+    public function testJob() {
         $camp = new Camp();
         $job = new Job();
 
@@ -93,8 +88,7 @@ class CampTest extends AbstractTestCase
         $this->assertEquals(0, $camp->getJobs()->count());
     }
 
-    public function testEventCategory()
-    {
+    public function testEventCategory() {
         $camp = new Camp();
         $category = new EventCategory();
 
@@ -105,8 +99,7 @@ class CampTest extends AbstractTestCase
         $this->assertEquals(0, $camp->getEventCategories()->count());
     }
 
-    public function testEvent()
-    {
+    public function testEvent() {
         $camp = new Camp();
         $event = new Event();
 

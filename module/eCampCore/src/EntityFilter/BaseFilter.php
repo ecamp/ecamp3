@@ -10,13 +10,11 @@ use eCamp\Core\ServiceManager\AuthUserProviderAware;
 use eCamp\Lib\EntityFilter\EntityFilterInterface;
 use eCamp\Lib\ServiceManager\EntityManagerAware;
 
-abstract class BaseFilter implements EntityFilterInterface, AuthUserProviderAware, EntityManagerAware
-{
+abstract class BaseFilter implements EntityFilterInterface, AuthUserProviderAware, EntityManagerAware {
     /** @var AuthUserProvider */
     protected $authUserProvider;
 
-    public function setAuthUserProvider(AuthUserProvider $authUserProvider)
-    {
+    public function setAuthUserProvider(AuthUserProvider $authUserProvider) {
         $this->authUserProvider = $authUserProvider;
     }
 
@@ -24,14 +22,12 @@ abstract class BaseFilter implements EntityFilterInterface, AuthUserProviderAwar
     /** @var EntityManager */
     protected $entityManager;
 
-    public function setEntityManager(EntityManager $entityManager)
-    {
+    public function setEntityManager(EntityManager $entityManager) {
         $this->entityManager = $entityManager;
     }
 
 
-    public function createQueryBuilder($className, $alias)
-    {
+    public function createQueryBuilder($className, $alias) {
         $q = $this->entityManager->createQueryBuilder();
         $q->from($className, $alias)->select($alias);
         return $q;
@@ -43,8 +39,7 @@ abstract class BaseFilter implements EntityFilterInterface, AuthUserProviderAwar
      * @param $id
      * @return QueryBuilder
      */
-    protected function findEntityQueryBuilder($className, $alias, $id)
-    {
+    protected function findEntityQueryBuilder($className, $alias, $id) {
         $q = $this->createQueryBuilder($className, $alias);
         $q->where($alias . '.id = :entity_id');
         $q->setParameter('entity_id', $id);
@@ -56,8 +51,7 @@ abstract class BaseFilter implements EntityFilterInterface, AuthUserProviderAwar
      * @param string $alias
      * @return QueryBuilder
      */
-    protected function findCollectionQueryBuilder($className, $alias)
-    {
+    protected function findCollectionQueryBuilder($className, $alias) {
         return $this->createQueryBuilder($className, $alias);
     }
 

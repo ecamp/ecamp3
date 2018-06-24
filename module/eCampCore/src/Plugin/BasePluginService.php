@@ -11,8 +11,7 @@ use eCamp\Lib\Service\BaseService;
 use Zend\Hydrator\HydratorInterface;
 use ZF\ApiProblem\ApiProblem;
 
-abstract class BasePluginService extends BaseService
-{
+abstract class BasePluginService extends BaseService {
 
     /** @var string */
     private $eventPluginId;
@@ -34,14 +33,12 @@ abstract class BasePluginService extends BaseService
 
 
     /** @return string */
-    protected function getEventPluginId()
-    {
+    protected function getEventPluginId() {
         return $this->eventPluginId;
     }
 
     /** @return EventPlugin */
-    protected function getEventPlugin()
-    {
+    protected function getEventPlugin() {
         if ($this->eventPlugin == null) {
             if ($this->eventPluginId != null) {
                 $this->eventPlugin = $this->findEntity(EventPlugin::class, $this->eventPluginId);
@@ -55,8 +52,7 @@ abstract class BasePluginService extends BaseService
      * @param string $className
      * @return BasePluginEntity|ApiProblem
      */
-    protected function createEntity($className)
-    {
+    protected function createEntity($className) {
         /** @var BasePluginEntity $entity */
         $entity = parent::createEntity($className);
 
@@ -71,8 +67,7 @@ abstract class BasePluginService extends BaseService
         return $entity;
     }
 
-    protected function fetchQueryBuilder($id)
-    {
+    protected function fetchQueryBuilder($id) {
         $q = parent::fetchQueryBuilder($id);
 
         if (is_subclass_of($this->entityClass, BasePluginEntity::class)) {
@@ -85,8 +80,7 @@ abstract class BasePluginService extends BaseService
         return $q;
     }
 
-    protected function fetchAllQueryBuilder($params = [])
-    {
+    protected function fetchAllQueryBuilder($params = []) {
         $q = parent::fetchAllQueryBuilder($params);
 
         if (is_subclass_of($this->entityClass, BasePluginEntity::class)) {
@@ -107,8 +101,7 @@ abstract class BasePluginService extends BaseService
      * @throws ORMException
      * @throws NoAccessException
      */
-    public function create($data)
-    {
+    public function create($data) {
         /** @var BasePluginEntity $entity */
         $entity = parent::create($data);
 

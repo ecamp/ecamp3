@@ -26,7 +26,6 @@ if (file_exists(__DIR__ . '/../vendor/autoload.php')) {
     echo "(01) Composer: OK";
 
     include_once __DIR__ . '/../vendor/autoload.php';
-
 } else {
     echo "<br />";
     echo "(01) Composer: ERROR";
@@ -60,7 +59,6 @@ try {
     $conn->connect();
     echo "<br />";
     echo "(02) Database-Connection: OK";
-
 } catch (\Exception $e) {
     echo "<br />";
     echo "(02) Database-Connection: ERROR";

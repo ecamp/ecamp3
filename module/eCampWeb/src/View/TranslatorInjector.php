@@ -11,8 +11,7 @@ use Zend\Mvc\MvcEvent;
 use Zend\Session\Container;
 use Zend\View\Model\ViewModel;
 
-class TranslatorInjector extends AbstractListenerAggregate
-{
+class TranslatorInjector extends AbstractListenerAggregate {
     public const SESSION_NAMESPACE = self::class;
 
 
@@ -22,19 +21,16 @@ class TranslatorInjector extends AbstractListenerAggregate
     /** @var Container */
     private $sessionContainer;
 
-    public function __construct(TranslatorInterface $translator)
-    {
+    public function __construct(TranslatorInterface $translator) {
         $this->translator = $translator;
     }
 
 
-    public function attach(EventManagerInterface $events, $priority = 1)
-    {
+    public function attach(EventManagerInterface $events, $priority = 1) {
         $this->listeners = $events->attach(MvcEvent::EVENT_DISPATCH, [$this, 'onDispatch'], -1000);
     }
 
-    public function onDispatch(MvcEvent $e)
-    {
+    public function onDispatch(MvcEvent $e) {
         /** @var Request $req */
         $req = $e->getRequest();
         $locale = $req->getQuery('locale');
@@ -54,16 +50,14 @@ class TranslatorInjector extends AbstractListenerAggregate
     }
 
 
-    public function getLocale()
-    {
+    public function getLocale() {
         if ($this->sessionContainer == null) {
             $this->sessionContainer = new Container(self::SESSION_NAMESPACE);
         }
         return $this->sessionContainer->locale;
     }
 
-    public function setLocale($locale)
-    {
+    public function setLocale($locale) {
         if ($this->sessionContainer == null) {
             $this->sessionContainer = new Container(self::SESSION_NAMESPACE);
         }

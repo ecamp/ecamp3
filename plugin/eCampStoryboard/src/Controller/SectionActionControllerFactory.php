@@ -8,8 +8,7 @@ use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use Zend\ServiceManager\Factory\FactoryInterface;
 
-class SectionActionControllerFactory implements FactoryInterface
-{
+class SectionActionControllerFactory implements FactoryInterface {
     /**
      * @param ContainerInterface $container
      * @param string $requestedName
@@ -18,8 +17,7 @@ class SectionActionControllerFactory implements FactoryInterface
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      */
-    public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
-    {
+    public function __invoke(ContainerInterface $container, $requestedName, array $options = null) {
         /** @var SectionService $sectionService */
         $sectionService = $container->get(SectionService::class);
 

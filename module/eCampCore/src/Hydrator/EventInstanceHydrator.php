@@ -6,14 +6,12 @@ use eCamp\Core\Entity\EventInstance;
 use eCamp\Lib\Hydrator\Util;
 use Zend\Hydrator\HydratorInterface;
 
-class EventInstanceHydrator implements HydratorInterface
-{
+class EventInstanceHydrator implements HydratorInterface {
     /**
      * @param object $object
      * @return array
      */
-    public function extract($object)
-    {
+    public function extract($object) {
         /** @var EventInstance $eventInstance */
         $eventInstance = $object;
         return [
@@ -42,8 +40,7 @@ class EventInstanceHydrator implements HydratorInterface
      * @param object $object
      * @return object
      */
-    public function hydrate(array $data, $object)
-    {
+    public function hydrate(array $data, $object) {
         /** @var EventInstance $eventInstance */
         $eventInstance = $object;
 

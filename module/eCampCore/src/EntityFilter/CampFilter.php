@@ -7,10 +7,8 @@ use Doctrine\ORM\QueryBuilder;
 use eCamp\Core\Entity\Camp;
 use eCamp\Core\Entity\CampCollaboration;
 
-class CampFilter extends BaseFilter
-{
-    public function create(QueryBuilder $q, $alias, $field)
-    {
+class CampFilter extends BaseFilter {
+    public function create(QueryBuilder $q, $alias, $field) {
         $collQ = $this->findCollectionQueryBuilder(CampCollaboration::class, 'cc');
         $collQ->join('cc.camp', 'camp');
         $collQ->select('camp');

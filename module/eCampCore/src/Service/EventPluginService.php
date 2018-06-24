@@ -16,8 +16,7 @@ use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use ZF\ApiProblem\ApiProblem;
 
-class EventPluginService extends BaseService
-{
+class EventPluginService extends BaseService {
     /** @var  PluginStrategyProvider */
     private $pluginStrategyProvider;
 
@@ -31,8 +30,7 @@ class EventPluginService extends BaseService
     }
 
 
-    protected function findCollectionQueryBuilder($className, $alias, $params = [])
-    {
+    protected function findCollectionQueryBuilder($className, $alias, $params = []) {
         $q = parent::findCollectionQueryBuilder($className, $alias);
 
         $eventId = $params['event_id'];
@@ -53,8 +51,7 @@ class EventPluginService extends BaseService
      * @throws ORMException
      * @throws NoAccessException
      */
-    public function create($data)
-    {
+    public function create($data) {
         /** @var EventPlugin $eventPlugin */
         $eventPlugin = parent::create($data);
 

@@ -9,13 +9,11 @@ use eCamp\Lib\Acl\NoAccessException;
 use eCamp\Plugin\Storyboard\Service\SectionService;
 use ZF\Hal\Link\Link;
 
-class Strategy extends PluginStrategyBase
-{
+class Strategy extends PluginStrategyBase {
     /** @var SectionService */
     private $sectionService;
 
-    public function __construct(SectionService $sectionService)
-    {
+    public function __construct(SectionService $sectionService) {
         $this->sectionService = $sectionService;
     }
 
@@ -24,8 +22,7 @@ class Strategy extends PluginStrategyBase
      * @param EventPlugin $eventPlugin
      * @return array
      */
-    public function eventPluginExtract(EventPlugin $eventPlugin) : array
-    {
+    public function eventPluginExtract(EventPlugin $eventPlugin) : array {
         return [
             'section' => Link::factory([
                 'rel' => 'section',
@@ -45,8 +42,7 @@ class Strategy extends PluginStrategyBase
      * @throws NoAccessException
      * @throws ORMException
      */
-    public function eventPluginCreated(EventPlugin $eventPlugin) : void
-    {
+    public function eventPluginCreated(EventPlugin $eventPlugin) : void {
         $this->sectionService->create((object)[
             'event_plugin_id' => $eventPlugin->getId(),
             'pos' => 0

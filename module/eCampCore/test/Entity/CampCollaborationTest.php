@@ -7,10 +7,8 @@ use eCamp\Core\Entity\CampCollaboration;
 use eCamp\Core\Entity\User;
 use eCamp\LibTest\PHPUnit\AbstractTestCase;
 
-class CampCollaborationTest extends AbstractTestCase
-{
-    public function testCampCollaboration()
-    {
+class CampCollaborationTest extends AbstractTestCase {
+    public function testCampCollaboration() {
         $camp = new Camp();
         $user = new User();
 
@@ -28,8 +26,7 @@ class CampCollaborationTest extends AbstractTestCase
         $this->assertEquals('install', $collaboration->getCollaborationAcceptedBy());
     }
 
-    public function testStatus()
-    {
+    public function testStatus() {
         $collaboration = new CampCollaboration();
         $collaboration->setStatus(CampCollaboration::STATUS_REQUESTED);
         $this->assertTrue($collaboration->isRequest());
@@ -45,8 +42,7 @@ class CampCollaborationTest extends AbstractTestCase
         $collaboration->setStatus('test');
     }
 
-    public function testRole()
-    {
+    public function testRole() {
         $collaboration = new CampCollaboration();
         $collaboration->setRole(CampCollaboration::ROLE_GUEST);
         $this->assertTrue($collaboration->isGuest());
@@ -62,8 +58,7 @@ class CampCollaborationTest extends AbstractTestCase
         $collaboration->setRole('test');
     }
 
-    public function testLifecycle()
-    {
+    public function testLifecycle() {
         $collaboration = new CampCollaboration();
         $collaboration->setStatus(CampCollaboration::STATUS_REQUESTED);
         $collaboration->setCollaborationAcceptedBy('install');

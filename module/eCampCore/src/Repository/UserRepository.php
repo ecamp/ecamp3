@@ -6,14 +6,12 @@ use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\NonUniqueResultException;
 use eCamp\Core\Entity\User;
 
-class UserRepository extends EntityRepository
-{
+class UserRepository extends EntityRepository {
     /**
      * @param $username
      * @return mixed
      */
-    public function findByUsername($username)
-    {
+    public function findByUsername($username) {
         $q = $this->createQueryBuilder('u');
         $q->where('u.username = :username');
         $q->setParameter('username', $username);
@@ -26,8 +24,7 @@ class UserRepository extends EntityRepository
      * @return User
      * @throws NonUniqueResultException
      */
-    public function findByMail($mail)
-    {
+    public function findByMail($mail) {
         $q = $this->createQueryBuilder('u');
         $q->leftJoin('u.trustedMailAddress', 'tm');
         $q->leftJoin('u.untrustedMailAddress', 'utm');

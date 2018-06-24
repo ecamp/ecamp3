@@ -4,6 +4,5 @@ namespace eCamp\Api\RestController;
 
 use ZF\Rest\RestController;
 
-class GroupMembershipApiController extends RestController
-{
+class GroupMembershipApiController extends RestController {
 }

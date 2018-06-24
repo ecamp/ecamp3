@@ -4,8 +4,7 @@ namespace eCamp\Web\Route;
 
 use Zend\Router\RouteMatch;
 
-class GroupRouter extends FluentRouter
-{
+class GroupRouter extends FluentRouter {
     /**
      * Group-Router erlaubt kein User-Match
      *
@@ -14,8 +13,7 @@ class GroupRouter extends FluentRouter
      * @param array $params
      * @return null|RouteMatch
      */
-    protected function matchUser($path, $length, $params)
-    {
+    protected function matchUser($path, $length, $params) {
         return null;
     }
 
@@ -27,8 +25,7 @@ class GroupRouter extends FluentRouter
      * @param $params
      * @return null|RouteMatch
      */
-    protected function matchCamp($path, $length, $params)
-    {
+    protected function matchCamp($path, $length, $params) {
         return null;
     }
 }

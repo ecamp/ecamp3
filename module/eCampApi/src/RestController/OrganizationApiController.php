@@ -4,6 +4,5 @@ namespace eCamp\Api\RestController;
 
 use ZF\Rest\RestController;
 
-class OrganizationApiController extends RestController
-{
+class OrganizationApiController extends RestController {
 }

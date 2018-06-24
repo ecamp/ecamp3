@@ -10,8 +10,7 @@ use Interop\Container\ContainerInterface;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 
-class EventPluginServiceFactory extends BaseServiceFactory
-{
+class EventPluginServiceFactory extends BaseServiceFactory {
     /**
      * @param ContainerInterface $container
      * @param string $requestedName
@@ -20,8 +19,7 @@ class EventPluginServiceFactory extends BaseServiceFactory
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      */
-    public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
-    {
+    public function __invoke(ContainerInterface $container, $requestedName, array $options = null) {
         $hydrator = $this->getHydrator($container, EventPluginHydrator::class);
 
         /** @var PluginStrategyProvider $pluginStrategyProvider */

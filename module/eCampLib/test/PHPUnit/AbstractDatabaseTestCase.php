@@ -7,21 +7,18 @@ use Doctrine\ORM\Tools\SchemaTool;
 use Doctrine\ORM\Tools\ToolsException;
 use PHPUnit\Framework\TestCase;
 
-abstract class AbstractDatabaseTestCase extends TestCase
-{
+abstract class AbstractDatabaseTestCase extends TestCase {
     /**
      * @throws ToolsException
      */
-    public function setUp()
-    {
+    public function setUp() {
         parent::setUp();
 
         $em = $this->getEntityManager();
         $this->createDatabaseSchema($em);
     }
 
-    public function tearDown()
-    {
+    public function tearDown() {
         parent::tearDown();
 
         \eCampApp::Reset();
@@ -31,8 +28,7 @@ abstract class AbstractDatabaseTestCase extends TestCase
      * @param string $name
      * @return EntityManager
      */
-    protected function getEntityManager($name = 'orm_default')
-    {
+    protected function getEntityManager($name = 'orm_default') {
         return \eCampApp::GetEntityManager($name);
     }
 
@@ -40,8 +36,7 @@ abstract class AbstractDatabaseTestCase extends TestCase
      * @param EntityManager $em
      * @throws ToolsException
      */
-    protected function createDatabaseSchema(EntityManager $em)
-    {
+    protected function createDatabaseSchema(EntityManager $em) {
         $metadatas = $em->getMetadataFactory()->getAllMetadata();
 
         $schemaTool = new SchemaTool($em);

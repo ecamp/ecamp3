@@ -10,16 +10,13 @@ use eCamp\Core\Entity\User;
 use eCamp\Lib\Service\BaseService;
 use ZF\ApiProblem\ApiProblem;
 
-class GroupMembershipService extends BaseService
-{
-    public function __construct(GroupMembershipHydrator $groupMembershipHydrator)
-    {
+class GroupMembershipService extends BaseService {
+    public function __construct(GroupMembershipHydrator $groupMembershipHydrator) {
         parent::__construct($groupMembershipHydrator, GroupMembership::class);
     }
 
 
-    public function fetchAllQueryBuilder($params = [])
-    {
+    public function fetchAllQueryBuilder($params = []) {
         $q = parent::fetchAllQueryBuilder($params);
 
         if (isset($params['group'])) {
@@ -41,8 +38,7 @@ class GroupMembershipService extends BaseService
      * @throws \Doctrine\ORM\ORMException
      * @throws \Exception
      */
-    public function create($data)
-    {
+    public function create($data) {
         $authUser = $this->getAuthUser();
         if (!isset($data->user_id)) {
             $data->user_id = $authUser->getId();
@@ -84,8 +80,7 @@ class GroupMembershipService extends BaseService
      * @throws ORMException
      * @throws \Exception
      */
-    public function update($id, $data)
-    {
+    public function update($id, $data) {
 
         /** @var GroupMembership $groupMembership */
         $groupMembership = parent::update($id, $data);
@@ -106,8 +101,7 @@ class GroupMembershipService extends BaseService
      * @param $data
      * @throws \Exception
      */
-    private function updateMembership(GroupMembership $groupMembership, $data)
-    {
+    private function updateMembership(GroupMembership $groupMembership, $data) {
         // TODO: ACL-Check can update Membership
 
         if (isset($data->role)) {
@@ -125,8 +119,7 @@ class GroupMembershipService extends BaseService
      * @throws \Doctrine\ORM\ORMException
      * @throws \Exception
      */
-    private function updateInvitation(GroupMembership $groupMembership, $data)
-    {
+    private function updateInvitation(GroupMembership $groupMembership, $data) {
         $authUser = $this->getAuthUser();
 
         // TODO: ACL-Check can update Invitation
@@ -154,8 +147,7 @@ class GroupMembershipService extends BaseService
      * @throws \Doctrine\ORM\ORMException
      * @throws \Exception
      */
-    private function updateRequest(GroupMembership $groupMembership, $data)
-    {
+    private function updateRequest(GroupMembership $groupMembership, $data) {
         $authUser = $this->getAuthUser();
 
         // TODO: ACL-Check can update Request

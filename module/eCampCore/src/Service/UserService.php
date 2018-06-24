@@ -14,10 +14,8 @@ use ZF\ApiProblem\ApiProblem;
 /**
  * Class UserService
  */
-class UserService extends BaseService
-{
-    public function __construct(UserHydrator $userHydrator)
-    {
+class UserService extends BaseService {
+    public function __construct(UserHydrator $userHydrator) {
         parent::__construct($userHydrator, User::class);
     }
 
@@ -28,8 +26,7 @@ class UserService extends BaseService
      * @throws ORMException
      * @throws \Exception
      */
-    public function create($data)
-    {
+    public function create($data) {
         /** @var Profile $profile */
         $profile = $data;
 
@@ -66,8 +63,7 @@ class UserService extends BaseService
      * @return User|ApiProblem
      * @throws NoAccessException
      */
-    public function update($id, $data)
-    {
+    public function update($id, $data) {
         if ($data instanceof Profile) {
             /** @var Profile $profile */
             $profile = $data;

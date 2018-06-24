@@ -6,10 +6,8 @@ use eCamp\Core\Entity\CampType;
 use eCamp\Core\Entity\Organization;
 use eCamp\LibTest\PHPUnit\AbstractTestCase;
 
-class OrganizationTest extends AbstractTestCase
-{
-    public function testOrganization()
-    {
+class OrganizationTest extends AbstractTestCase {
+    public function testOrganization() {
         $organization = new Organization();
         $organization->setName('OrganizationName');
 
@@ -17,8 +15,7 @@ class OrganizationTest extends AbstractTestCase
         $this->assertInstanceOf('Doctrine\Common\Collections\ArrayCollection', $organization->getCampTypes());
     }
 
-    public function testCampTypes()
-    {
+    public function testCampTypes() {
         $campType = new CampType();
         $organization = new Organization();
 

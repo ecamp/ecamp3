@@ -11,10 +11,8 @@ use Zend\Json\Json;
  * @ORM\Entity
  * @ORM\Table(name="event_type_plugins")
  */
-class EventTypePlugin extends BaseEntity
-{
-    public function __construct()
-    {
+class EventTypePlugin extends BaseEntity {
+    public function __construct() {
         parent::__construct();
     }
 
@@ -54,13 +52,11 @@ class EventTypePlugin extends BaseEntity
     /**
      * @return EventType
      */
-    public function getEventType()
-    {
+    public function getEventType() {
         return $this->eventType;
     }
 
-    public function setEventType($eventType)
-    {
+    public function setEventType($eventType) {
         $this->eventType = $eventType;
     }
 
@@ -68,13 +64,11 @@ class EventTypePlugin extends BaseEntity
     /**
      * @return Plugin
      */
-    public function getPlugin(): Plugin
-    {
+    public function getPlugin(): Plugin {
         return $this->plugin;
     }
 
-    public function setPlugin(Plugin $plugin): void
-    {
+    public function setPlugin(Plugin $plugin): void {
         $this->plugin = $plugin;
     }
 
@@ -82,13 +76,11 @@ class EventTypePlugin extends BaseEntity
     /**
      * @return int
      */
-    public function getMinNumberPluginInstances(): int
-    {
+    public function getMinNumberPluginInstances(): int {
         return $this->minNumberPluginInstances;
     }
 
-    public function setMinNumberPluginInstances(int $minNumberPluginInstances): void
-    {
+    public function setMinNumberPluginInstances(int $minNumberPluginInstances): void {
         $this->minNumberPluginInstances = $minNumberPluginInstances;
     }
 
@@ -96,13 +88,11 @@ class EventTypePlugin extends BaseEntity
     /**
      * @return int
      */
-    public function getMaxNumberPluginInstances(): int
-    {
+    public function getMaxNumberPluginInstances(): int {
         return $this->maxNumberPluginInstances;
     }
 
-    public function setMaxNumberPluginInstances(int $maxNumberPluginInstances): void
-    {
+    public function setMaxNumberPluginInstances(int $maxNumberPluginInstances): void {
         $this->maxNumberPluginInstances = $maxNumberPluginInstances;
     }
 
@@ -110,13 +100,11 @@ class EventTypePlugin extends BaseEntity
     /**
      * @return string
      */
-    public function getJsonConfig(): string
-    {
+    public function getJsonConfig(): string {
         return $this->jsonConfig;
     }
 
-    public function setJsonConfig(string $jsonConfig): void
-    {
+    public function setJsonConfig(string $jsonConfig): void {
         $this->jsonConfig = $jsonConfig;
     }
 
@@ -125,8 +113,7 @@ class EventTypePlugin extends BaseEntity
      * @param string $key
      * @return mixed
      */
-    public function getConfig($key = null)
-    {
+    public function getConfig($key = null) {
         $config = null;
         if ($this->jsonConfig != null) {
             $config = Json::decode($this->jsonConfig);

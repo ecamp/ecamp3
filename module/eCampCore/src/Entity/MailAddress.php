@@ -10,14 +10,12 @@ use eCamp\Lib\Entity\BaseEntity;
  * @ORM\Entity
  * @ORM\Table(name="mail_address")
  */
-class MailAddress extends BaseEntity
-{
+class MailAddress extends BaseEntity {
     const STATE_TRUSTED = 'trusted';
     const STATE_UNTRUSTED = 'untrusted';
 
 
-    public function __construct()
-    {
+    public function __construct() {
         parent::__construct();
 
         $this->state = self::STATE_UNTRUSTED;
@@ -46,8 +44,7 @@ class MailAddress extends BaseEntity
     /**
      * @return mixed
      */
-    public function getState()
-    {
+    public function getState() {
         return $this->state;
     }
 
@@ -55,13 +52,11 @@ class MailAddress extends BaseEntity
     /**
      * @return mixed
      */
-    public function getMail()
-    {
+    public function getMail() {
         return $this->mail;
     }
 
-    public function setMail($mail): void
-    {
+    public function setMail($mail): void {
         $this->mail = $mail;
     }
 
@@ -69,8 +64,7 @@ class MailAddress extends BaseEntity
     /**
      * @return string
      */
-    public function createVerificationCode(): string
-    {
+    public function createVerificationCode(): string {
         $hash = hash('sha256', mt_rand());
         $this->verificationCode = md5($hash);
 
@@ -82,8 +76,7 @@ class MailAddress extends BaseEntity
      * @return bool
      * @throws \Exception
      */
-    public function verify($hash): bool
-    {
+    public function verify($hash): bool {
         if ($this->state === self::STATE_TRUSTED) {
             throw new \Exception("MailAddress already trusted");
         }

@@ -5,10 +5,8 @@ namespace eCamp\CoreTest\Entity;
 use eCamp\Core\Entity\User;
 use eCamp\LibTest\PHPUnit\AbstractTestCase;
 
-class UserTest extends AbstractTestCase
-{
-    public function testUserNonRegistered()
-    {
+class UserTest extends AbstractTestCase {
+    public function testUserNonRegistered() {
         $user = new User();
         $user->setUsername('username');
         $user->setMailAddress('test@eCamp3.ch');
@@ -19,8 +17,7 @@ class UserTest extends AbstractTestCase
         $this->assertEquals('test@eCamp3.ch', $user->getUntrustedMailAddress());
     }
 
-    public function testUserActivated()
-    {
+    public function testUserActivated() {
         $user = new User();
         $user->setState(User::STATE_REGISTERED);
         $user->setRole(User::ROLE_USER);

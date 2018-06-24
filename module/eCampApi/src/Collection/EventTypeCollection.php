@@ -4,6 +4,5 @@ namespace eCamp\Api\Collection;
 
 use eCamp\Lib\Entity\BaseCollection;
 
-class EventTypeCollection extends BaseCollection
-{
+class EventTypeCollection extends BaseCollection {
 }

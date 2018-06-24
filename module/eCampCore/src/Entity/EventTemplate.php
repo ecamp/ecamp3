@@ -13,10 +13,8 @@ use eCamp\Lib\Entity\BaseEntity;
  * 	 @ORM\UniqueConstraint(name="eventtype_medium_unique", columns={"eventType_id", "medium"})
  * })
  */
-class EventTemplate extends BaseEntity
-{
-    public function __construct()
-    {
+class EventTemplate extends BaseEntity {
+    public function __construct() {
         parent::__construct();
 
         $this->eventTemplateContainers = new ArrayCollection();
@@ -53,13 +51,11 @@ class EventTemplate extends BaseEntity
     /**
      * @return EventType
      */
-    public function getEventType()
-    {
+    public function getEventType() {
         return $this->eventType;
     }
 
-    public function setEventType($eventType)
-    {
+    public function setEventType($eventType) {
         $this->eventType = $eventType;
     }
 
@@ -67,13 +63,11 @@ class EventTemplate extends BaseEntity
     /**
      * @return Medium
      */
-    public function getMedium(): Medium
-    {
+    public function getMedium(): Medium {
         return $this->medium;
     }
 
-    public function setMedium(Medium $medium): void
-    {
+    public function setMedium(Medium $medium): void {
         $this->medium = $medium;
     }
 
@@ -81,13 +75,11 @@ class EventTemplate extends BaseEntity
     /**
      * @return string
      */
-    public function getFilename(): string
-    {
+    public function getFilename(): string {
         return $this->filename;
     }
 
-    public function setFilename(string $filename): void
-    {
+    public function setFilename(string $filename): void {
         $this->filename = $filename;
     }
 
@@ -95,19 +87,16 @@ class EventTemplate extends BaseEntity
     /**
      * @return ArrayCollection
      */
-    public function getEventTemplateContainers()
-    {
+    public function getEventTemplateContainers() {
         return $this->eventTemplateContainers;
     }
 
-    public function addEventTemplateContainer(EventTemplateContainer $eventTemplateContainer)
-    {
+    public function addEventTemplateContainer(EventTemplateContainer $eventTemplateContainer) {
         $eventTemplateContainer->setEventTemplate($this);
         $this->eventTemplateContainers->add($eventTemplateContainer);
     }
 
-    public function removeEventTemplateContainer(EventTemplateContainer $eventTemplateContainer)
-    {
+    public function removeEventTemplateContainer(EventTemplateContainer $eventTemplateContainer) {
         $eventTemplateContainer->setEventTemplate(null);
         $this->eventTemplateContainers->removeElement($eventTemplateContainer);
     }

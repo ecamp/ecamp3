@@ -6,10 +6,8 @@ use eCamp\Core\Entity\Plugin;
 use eCamp\Core\Hydrator\PluginHydrator;
 use eCamp\LibTest\PHPUnit\AbstractTestCase;
 
-class PluginHydratorTest extends AbstractTestCase
-{
-    public function testExtract()
-    {
+class PluginHydratorTest extends AbstractTestCase {
+    public function testExtract() {
         $plugin = new Plugin();
         $plugin->setName('name');
         $plugin->setActive(true);
@@ -22,8 +20,7 @@ class PluginHydratorTest extends AbstractTestCase
         $this->assertTrue($data['active']);
     }
 
-    public function testHydrate()
-    {
+    public function testHydrate() {
         $plugin = new Plugin();
         $data = [
             'name' => 'name',

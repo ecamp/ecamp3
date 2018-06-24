@@ -5,14 +5,12 @@ namespace eCamp\Core\Hydrator;
 use eCamp\Core\Entity\GroupMembership;
 use Zend\Hydrator\HydratorInterface;
 
-class GroupMembershipHydrator implements HydratorInterface
-{
+class GroupMembershipHydrator implements HydratorInterface {
     /**
      * @param object $object
      * @return array
      */
-    public function extract($object)
-    {
+    public function extract($object) {
         /** @var GroupMembership $groupMembership */
         $groupMembership = $object;
         return [
@@ -29,8 +27,7 @@ class GroupMembershipHydrator implements HydratorInterface
      * @param object $object
      * @return object
      */
-    public function hydrate(array $data, $object)
-    {
+    public function hydrate(array $data, $object) {
         /** @var GroupMembership $groupMembership */
         $groupMembership = $object;
 

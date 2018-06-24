@@ -6,19 +6,16 @@ use eCamp\Core\Entity\User;
 use eCamp\Core\Repository\UserRepository;
 use Zend\Authentication\AuthenticationService;
 
-class AuthUserProvider
-{
+class AuthUserProvider {
     /** @var UserRepository */
     private $userRepository;
 
-    public function __construct(UserRepository $userRepository)
-    {
+    public function __construct(UserRepository $userRepository) {
         $this->userRepository = $userRepository;
     }
 
     /** @return null|User */
-    public function getAuthUser()
-    {
+    public function getAuthUser() {
         $authService = new AuthenticationService();
         if ($authService->hasIdentity()) {
             $userId = $authService->getIdentity();

@@ -11,13 +11,11 @@ use eCamp\Core\Entity\EventType;
 use eCamp\Core\Entity\EventTypeFactory;
 use eCamp\Core\Entity\EventTypePlugin;
 
-class EventTypeData extends AbstractFixture implements DependentFixtureInterface
-{
+class EventTypeData extends AbstractFixture implements DependentFixtureInterface {
     public static $LAGERSPORT = 'LAGERSPORT';
     public static $LAGERAKTIVITAET = 'LAGERAKTIVITAET';
 
-    public function load(ObjectManager $manager)
-    {
+    public function load(ObjectManager $manager) {
         $repository = $manager->getRepository(EventType::class);
 
         $web = $this->getReference(MediumData::$WEB);
@@ -99,8 +97,7 @@ class EventTypeData extends AbstractFixture implements DependentFixtureInterface
         $manager->flush();
     }
 
-    public function getDependencies()
-    {
+    public function getDependencies() {
         return [ PluginData::class, MediumData::class ];
     }
 }

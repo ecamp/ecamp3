@@ -8,10 +8,8 @@ use eCamp\Core\Entity\EventType;
 use eCamp\Core\Hydrator\EventCategoryHydrator;
 use eCamp\LibTest\PHPUnit\AbstractTestCase;
 
-class EventCategoryHydratorTest extends AbstractTestCase
-{
-    public function testExtract()
-    {
+class EventCategoryHydratorTest extends AbstractTestCase {
+    public function testExtract() {
         $eventType = new EventType();
         $camp = new Camp();
         $eventCategory = new EventCategory();
@@ -33,8 +31,7 @@ class EventCategoryHydratorTest extends AbstractTestCase
         $this->assertEquals('i', $data['numbering_style']);
     }
 
-    public function testHydrate()
-    {
+    public function testHydrate() {
         $eventType = new EventType();
         $camp = new Camp();
 

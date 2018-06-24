@@ -6,10 +6,8 @@ use eCamp\Core\Entity\Camp;
 use eCamp\Core\Hydrator\CampHydrator;
 use eCamp\LibTest\PHPUnit\AbstractTestCase;
 
-class CampHydratorTest extends AbstractTestCase
-{
-    public function testExtract()
-    {
+class CampHydratorTest extends AbstractTestCase {
+    public function testExtract() {
         $camp = new Camp();
         $camp->setName('name');
         $camp->setTitle('title');
@@ -23,8 +21,7 @@ class CampHydratorTest extends AbstractTestCase
         $this->assertEquals('motto', $data['motto']);
     }
 
-    public function testHydrate()
-    {
+    public function testHydrate() {
         $camp = new Camp();
         $data = [
             'name' => 'name',

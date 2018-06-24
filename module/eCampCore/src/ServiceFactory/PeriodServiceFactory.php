@@ -9,8 +9,7 @@ use eCamp\Core\Service\PeriodService;
 use eCamp\Lib\Service\BaseServiceFactory;
 use Interop\Container\ContainerInterface;
 
-class PeriodServiceFactory extends BaseServiceFactory
-{
+class PeriodServiceFactory extends BaseServiceFactory {
     /**
      * @param ContainerInterface $container
      * @param string $requestedName
@@ -19,8 +18,7 @@ class PeriodServiceFactory extends BaseServiceFactory
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
-    {
+    public function __invoke(ContainerInterface $container, $requestedName, array $options = null) {
         $hydrator = $this->getHydrator($container, PeriodHydrator::class);
 
         $dayService = $container->get(DayService::class);

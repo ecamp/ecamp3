@@ -10,13 +10,11 @@ use Psr\Container\NotFoundExceptionInterface;
 use Zend\Hydrator\HydratorInterface;
 use ZF\Hal\Link\Link;
 
-class EventPluginHydrator implements HydratorInterface
-{
+class EventPluginHydrator implements HydratorInterface {
     /** @var  PluginStrategyProvider */
     private $pluginStrategyProvider;
 
-    public function __construct(PluginStrategyProvider $pluginStrategyProvider)
-    {
+    public function __construct(PluginStrategyProvider $pluginStrategyProvider) {
         $this->pluginStrategyProvider = $pluginStrategyProvider;
     }
 
@@ -27,8 +25,7 @@ class EventPluginHydrator implements HydratorInterface
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      */
-    public function extract($object)
-    {
+    public function extract($object) {
         /** @var EventPlugin $eventPlugin */
         $eventPlugin = $object;
         $plugin = $eventPlugin->getPlugin();
@@ -65,8 +62,7 @@ class EventPluginHydrator implements HydratorInterface
      * @param object $object
      * @return object
      */
-    public function hydrate(array $data, $object)
-    {
+    public function hydrate(array $data, $object) {
         /** @var EventPlugin $eventPlugin */
         $eventPlugin = $object;
 
