@@ -7,7 +7,7 @@ use eCamp\Core\Hydrator\UserIdentityHydrator;
 
 class UserIdentityService extends AbstractEntityService
 {
-    public function __construct(UserIdentityHydrator $userIdentityHydrator)
+    public function __construct()
     {
         parent::__construct(
             UserIdentity::class,
