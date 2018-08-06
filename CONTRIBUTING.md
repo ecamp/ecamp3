@@ -67,6 +67,16 @@ fi
 echo "php-cs-fixer pre commit hook finish"
 ```
 
+## Before submitting pull requests
+
+* Did cs-fixer run on all changed or new PHP files?
+* Did the test coverage stay the same or get higher across the project?
+* Are all passwords, credentials and local configuration removed from the code changes?
+* Do all changed files contain some important changes (as opposed to e.g. only whitespace changes)?
+* Is the fork up-to-date with the central repository and can your changes be merged automatically?
+* Did the travis CI build run through without test failures?
+
+
 # Mitarbeit (deutsche Übersetzung)
 
 eCamp wird momentan in diesem repository von einem kleinen Entwicklerteam neu entwickelt. Dieses Team besteht aus den ursprünglichen Entwicklern von eCamp v2, sowie einzelnen weiteren interessierten Personen. Aktuell bauen wir die Funktionalität von eCamp v2 auf eine erweiterbare und flexible Art neu, erst später werden neue Funktionen hinzugefügt.
@@ -133,3 +143,12 @@ fi
 
 echo "php-cs-fixer pre commit hook finish"
 ```
+
+## Vor dem Einreichen eines Pull Requests
+
+* Wurden alle geänderten oder neuen PHP-Dateien von cs-fixer verarbeitet?
+* Ist die Testabdeckung gleich hoch oder höher als vor den Änderungen?
+* Wurden alle Passwörter, Zugangsdaten und lokale Konfiguration aus den Code-Änderungen entfernt?
+* Enthalten alle geänderten Dateien auch wirklich eine sinnvolle Änderung (im Gegensatz zu z.B. nur Whitespace-Änderungen)?
+* Ist der Fork auf dem aktuellen Stand des zentralen Repositories und können die Änderungen automatisch gemerged werden?
+* Ist der Travis CI-Build erfolgreich und ohne Test Failures durchgelaufen?
