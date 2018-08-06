@@ -3,17 +3,13 @@
 namespace eCamp\Web\Controller\Group;
 
 use eCamp\Core\Entity\GroupMembership;
-use eCamp\Core\EntityService\GroupMembershipService;
+use eCamp\Core\EntityServiceAware\GroupMembershipServiceAware;
+use eCamp\Core\EntityServiceTrait\GroupMembershipServiceTrait;
 use eCamp\Web\Controller\AbstractBaseController;
 
-class MembershipController extends AbstractBaseController {
-    /** @var GroupMembershipService */
-    private $groupMembershipService;
-
-
-    public function __construct(GroupMembershipService $groupMembershipService) {
-        $this->groupMembershipService = $groupMembershipService;
-    }
+class MembershipController extends AbstractBaseController
+    implements GroupMembershipServiceAware {
+    use GroupMembershipServiceTrait;
 
     /**
      * @return array|\Zend\View\Model\ViewModel
@@ -23,7 +19,7 @@ class MembershipController extends AbstractBaseController {
         $group = $this->params()->fromRoute('group');
 
         /** @var GroupMembership[] $groupMemberships */
-        $groupMemberships = $this->groupMembershipService->fetchAll(['group' => $group]);
+        $groupMemberships = $this->getGroupMembershipService()->fetchAll(['group' => $group]);
 
         return [
             'group' => $group,

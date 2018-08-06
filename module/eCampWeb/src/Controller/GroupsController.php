@@ -2,27 +2,17 @@
 
 namespace eCamp\Web\Controller;
 
-use eCamp\Core\Repository\GroupRepository;
-use eCamp\Core\EntityService\GroupService;
-use Zend\View\Model\ViewModel;
+use eCamp\Core\EntityServiceAware\GroupServiceAware;
+use eCamp\Core\EntityServiceTrait\GroupServiceTrait;
 
-class GroupsController extends AbstractBaseController {
-    /** @var GroupService */
-    private $groupService;
-
-    /**
-     * @param GroupService $groupService
-     */
-    public function __construct(
-        GroupService $groupService
-    ) {
-        $this->groupService = $groupService;
-    }
+class GroupsController extends AbstractBaseController
+    implements GroupServiceAware {
+    use GroupServiceTrait;
 
 
     public function indexAction() {
-        $userGroups = $this->groupService->fetchByUser();
-        $rootGroups = $this->groupService->fetchByParentGroup(null);
+        $userGroups = $this->getGroupService()->fetchByUser();
+        $rootGroups = $this->getGroupService()->fetchByParentGroup(null);
 
         return [
             'userGroups' => $userGroups,

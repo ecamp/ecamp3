@@ -97,6 +97,9 @@ return [
     ],
 
     'controllers' => [
+        'initializers' => [
+            \eCamp\Core\ServiceManager\EntityServiceInjector::class,
+        ],
         'factories' => [
             \eCamp\Core\Controller\Auth\GoogleController::class => \eCamp\Core\Controller\Auth\GoogleControllerFactory::class,
         ]

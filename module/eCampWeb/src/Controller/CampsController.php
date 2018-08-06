@@ -2,26 +2,15 @@
 
 namespace eCamp\Web\Controller;
 
-use eCamp\Core\Auth\AuthService;
-use eCamp\Core\EntityService\CampService;
+use eCamp\Core\EntityServiceAware\CampServiceAware;
+use eCamp\Core\EntityServiceTrait\CampServiceTrait;
 use eCamp\Lib\Auth\AuthRequiredException;
 use Zend\View\Model\ViewModel;
 
-class CampsController extends AbstractBaseController {
-    /** @var AuthService */
-    private $authService;
+class CampsController extends AbstractBaseController
+    implements CampServiceAware {
+    use CampServiceTrait;
 
-    /** @var CampService */
-    private $campService;
-
-
-    public function __construct(
-        AuthService $authService,
-        CampService $campService
-    ) {
-        $this->authService = $authService;
-        $this->campService = $campService;
-    }
 
     /**
      * @return array|ViewModel
@@ -31,7 +20,7 @@ class CampsController extends AbstractBaseController {
     public function indexAction() {
         $this->forceLogin();
 
-        $camps = $this->campService->fetchAll();
+        $camps = $this->getCampService()->fetchAll();
 
         return [
             'camps' => $camps,

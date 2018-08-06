@@ -2,16 +2,13 @@
 
 namespace eCamp\Web\Controller\Group;
 
-use eCamp\Core\EntityService\CampService;
+use eCamp\Core\EntityServiceAware\CampServiceAware;
+use eCamp\Core\EntityServiceTrait\CampServiceTrait;
 use eCamp\Web\Controller\AbstractBaseController;
 
-class CampController extends AbstractBaseController {
-    /** @var CampService */
-    private $campService;
-
-    public function __construct(CampService $campService) {
-        $this->campService = $campService;
-    }
+class CampController extends AbstractBaseController
+    implements CampServiceAware {
+    use CampServiceTrait;
 
     /**
      * @return array|\Zend\View\Model\ViewModel
@@ -19,7 +16,7 @@ class CampController extends AbstractBaseController {
      */
     public function indexAction() {
         $group = $this->params()->fromRoute('group');
-        $camps = $this->campService->fetchAll(['group' => $group]);
+        $camps = $this->getCampService()->fetchAll(['group' => $group]);
 
         return [
             'group' => $group,

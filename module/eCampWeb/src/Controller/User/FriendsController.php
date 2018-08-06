@@ -7,8 +7,6 @@ use eCamp\Web\Controller\AbstractBaseController;
 use Zend\View\Model\ViewModel;
 
 class FriendsController extends AbstractBaseController {
-//    /** @var UserRelationshipService */
-//    private $userRelationshipService;
 
     /**
      * @return array|ViewModel
