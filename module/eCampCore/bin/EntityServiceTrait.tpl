@@ -4,8 +4,7 @@ namespace eCamp\Core\EntityServiceTrait;
 
 use eCamp\Core\EntityService;
 
-trait [ServiceName]Trait
-{
+trait [ServiceName]Trait {
     /** @var EntityService\[ServiceName] */
     private $[ServiceVariable];
 
@@ -16,5 +15,4 @@ trait [ServiceName]Trait
     public function get[ServiceName]() {
         return $this->[ServiceVariable];
     }
-
 }

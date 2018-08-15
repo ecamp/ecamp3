@@ -48,9 +48,11 @@ foreach ($services as $service) {
     }
 }
 
+$injectBody = trim($injectBody, PHP_EOL);
 $entityServiceInjector = file_get_contents(__DIR__ . '/EntityServiceInjector.tpl');
 $entityServiceInjector = str_replace('[InjectBody]', $injectBody, $entityServiceInjector);
 
+$configBody = trim($configBody, PHP_EOL);
 $entityServiceConfig = file_get_contents(__DIR__ . '/EntityServiceConfig.tpl');
 $entityServiceConfig = str_replace('[ServiceFactories]', $configBody, $entityServiceConfig);
 

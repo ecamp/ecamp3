@@ -24,6 +24,5 @@ return [
         \eCamp\Core\EntityService\PluginService::class => \eCamp\Core\EntityServiceFactory\PluginServiceFactory::class,
         \eCamp\Core\EntityService\UserIdentityService::class => \eCamp\Core\EntityServiceFactory\UserIdentityServiceFactory::class,
         \eCamp\Core\EntityService\UserService::class => \eCamp\Core\EntityServiceFactory\UserServiceFactory::class,
-
     ]
 ];

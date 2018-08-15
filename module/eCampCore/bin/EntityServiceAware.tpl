@@ -4,8 +4,7 @@ namespace eCamp\Core\EntityServiceAware;
 
 use eCamp\Core\EntityService;
 
-interface [ServiceName]Aware
-{
+interface [ServiceName]Aware {
     /**
      * @return EntityService\[ServiceName]
      */

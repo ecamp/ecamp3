@@ -9,10 +9,8 @@ use ProxyManager\Factory\LazyLoadingValueHolderFactory;
 use ProxyManager\Proxy\LazyLoadingInterface;
 use Zend\ServiceManager\Factory\FactoryInterface;
 
-final class [ServiceName]Factory implements FactoryInterface
-{
-    public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
-    {
+final class [ServiceName]Factory implements FactoryInterface {
+    public function __invoke(ContainerInterface $container, $requestedName, array $options = null) {
         $proxyFactory = $container->get(LazyLoadingValueHolderFactory::class);
 
         $initializer = function(&$service, LazyLoadingInterface $proxy, $method, array $parameters, &$initializer) use ($container) {
