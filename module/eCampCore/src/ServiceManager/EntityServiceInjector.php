@@ -7,8 +7,12 @@ use eCamp\Core\EntityServiceAware;
 use Interop\Container\ContainerInterface;
 use Zend\ServiceManager\Initializer\InitializerInterface;
 
-class EntityServiceInjector implements InitializerInterface {
+final class EntityServiceInjector implements InitializerInterface {
     public function __invoke(ContainerInterface $container, $instance) {
+        self::Inject($container, $instance);
+    }
+
+    public static function Inject(ContainerInterface $container, $instance) {
         if ($instance instanceof EntityServiceAware\CampCollaborationServiceAware) {
             $instance->setCampCollaborationService($container->get(EntityService\CampCollaborationService::class));
         }

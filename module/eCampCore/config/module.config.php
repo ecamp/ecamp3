@@ -37,58 +37,32 @@ return [
         ]
     ],
 
-    'service_manager' => [
-        'initializers' => [
-            \eCamp\Core\Plugin\PluginStrategyProviderInjector::class,
-            \eCamp\Core\ServiceManager\EntityServiceInjector::class,
-            \eCamp\Core\ServiceManager\AuthUserProviderInjector::class,
-        ],
-        'aliases' => [
-            \Zend\Permissions\Acl\AclInterface::class => \eCamp\Lib\Acl\Acl::class
-        ],
-        'factories' => [
-            \eCamp\Lib\Acl\Acl::class => \eCamp\Core\Acl\AclFactory::class,
+    'service_manager' => \Zend\Stdlib\ArrayUtils::merge(
+        file_exists(__DIR__ . '/generated/entityservices.config.php')
+            ? include __DIR__ . '/generated/entityservices.config.php' : []
+        ,
+        [
+            'initializers' => [
+//                \eCamp\Core\Plugin\PluginStrategyProviderInjector::class,
+                \eCamp\Core\ServiceManager\AuthUserProviderInjector::class,
+            ],
+            'aliases' => [
+                \Zend\Permissions\Acl\AclInterface::class => \eCamp\Lib\Acl\Acl::class
+            ],
+            'factories' => [
+                \ProxyManager\Factory\LazyLoadingValueHolderFactory::class => \Zend\ServiceManager\Factory\InvokableFactory::class,
 
-            \eCamp\Core\Auth\AuthUserProvider::class => \eCamp\Core\Auth\AuthUserProviderFactory::class,
-            \eCamp\Core\Auth\AuthService::class => \eCamp\Core\Auth\AuthServiceFactory::class,
+                \eCamp\Lib\Acl\Acl::class => \eCamp\Core\Acl\AclFactory::class,
 
+                \eCamp\Core\Auth\AuthUserProvider::class => \eCamp\Core\Auth\AuthUserProviderFactory::class,
+                \eCamp\Core\Auth\AuthService::class => \eCamp\Core\Auth\AuthServiceFactory::class,
 
-            \eCamp\Core\EntityService\MediumService::class => \Zend\ServiceManager\Factory\InvokableFactory::class,
-            \eCamp\Core\EntityService\OrganizationService::class => \Zend\ServiceManager\Factory\InvokableFactory::class,
-            \eCamp\Core\EntityService\GroupService::class => \Zend\ServiceManager\Factory\InvokableFactory::class,
-            \eCamp\Core\EntityService\GroupMembershipService::class => \Zend\ServiceManager\Factory\InvokableFactory::class,
+                \eCamp\Core\Plugin\PluginStrategyProvider::class =>\eCamp\Core\Plugin\PluginStrategyProviderFactory::class,
 
-            \eCamp\Core\EntityService\UserService::class => \Zend\ServiceManager\Factory\InvokableFactory::class,
-            \eCamp\Core\EntityService\UserIdentityService::class => \Zend\ServiceManager\Factory\InvokableFactory::class,
-
-            \eCamp\Core\EntityService\PluginService::class => \Zend\ServiceManager\Factory\InvokableFactory::class,
-            \eCamp\Core\EntityService\CampTypeService::class => \Zend\ServiceManager\Factory\InvokableFactory::class,
-            \eCamp\Core\EntityService\EventTypeService::class => \Zend\ServiceManager\Factory\InvokableFactory::class,
-            \eCamp\Core\EntityService\EventTypePluginService::class => \Zend\ServiceManager\Factory\InvokableFactory::class,
-            \eCamp\Core\EntityService\EventTypeFactoryService::class => \Zend\ServiceManager\Factory\InvokableFactory::class,
-            \eCamp\Core\EntityService\EventTemplateService::class => \Zend\ServiceManager\Factory\InvokableFactory::class,
-            \eCamp\Core\EntityService\EventTemplateContainerService::class => \Zend\ServiceManager\Factory\InvokableFactory::class,
-
-            \eCamp\Core\EntityService\CampService::class => \Zend\ServiceManager\Factory\InvokableFactory::class,
-            \eCamp\Core\EntityService\JobService::class => \Zend\ServiceManager\Factory\InvokableFactory::class,
-            \eCamp\Core\EntityService\JobRespService::class => \Zend\ServiceManager\Factory\InvokableFactory::class,
-            \eCamp\Core\EntityService\EventCategoryService::class => \Zend\ServiceManager\Factory\InvokableFactory::class,
-
-            \eCamp\Core\EntityService\CampCollaborationService::class => \Zend\ServiceManager\Factory\InvokableFactory::class,
-            \eCamp\Core\EntityService\PeriodService::class => \Zend\ServiceManager\Factory\InvokableFactory::class,
-            \eCamp\Core\EntityService\DayService::class => \Zend\ServiceManager\Factory\InvokableFactory::class,
-
-            \eCamp\Core\EntityService\EventService::class => \Zend\ServiceManager\Factory\InvokableFactory::class,
-            \eCamp\Core\EntityService\EventPluginService::class => \Zend\ServiceManager\Factory\InvokableFactory::class,
-            \eCamp\Core\EntityService\EventInstanceService::class => \Zend\ServiceManager\Factory\InvokableFactory::class,
-
-
-            \eCamp\Core\Plugin\PluginStrategyProvider::class =>\eCamp\Core\Plugin\PluginStrategyProviderFactory::class,
-
-
-            \eCamp\Core\Service\RegisterService::class => \Zend\ServiceManager\Factory\InvokableFactory::class,
+                \eCamp\Core\Service\RegisterService::class => \Zend\ServiceManager\Factory\InvokableFactory::class,
+            ]
         ]
-    ],
+    ),
 
     'entity_filter' => [
         'initializers' => [

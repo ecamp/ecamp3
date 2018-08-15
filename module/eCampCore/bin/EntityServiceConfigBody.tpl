@@ -1,0 +1,1 @@
+        \eCamp\Core\EntityService\[ServiceName]::class => \eCamp\Core\EntityServiceFactory\[ServiceName]Factory::class,
