@@ -37,10 +37,19 @@ Vue.component('camp-details', {
         '            <div class="card-body">\n' +
         '                <button style="float: right" class="btn btn-sm" v-bind:class="{ \'btn-primary\': editing, \'btn-outline-primary\': !editing }" v-on:click="editing=!editing">{{ buttonText }}</button>' +
         '                Vue.js Infos zu genau einem Lager, id {{ campId }}\n' +
-        '                <ul>\n' +
+        '                <ul v-bind:style="{display: editing ? \'none\' : \'\'}">\n' +
         '                    <li>Name: {{ campDetails.name }}</li>\n' +
         '                    <li>Titel: {{ campDetails.title }}</li>\n' +
         '                    <li>Motto: {{ campDetails.motto }}</li>\n' +
+        '                    <li>Besitzer Name: {{ ownerName }}</li>\n' +
+        '                    <li>Lager-Perioden:' +
+        '                        <ul><li v-for="period in periods">{{ period.description }} ({{ period.start }} - {{ period.end }})</li></ul>' +
+        '                    </li>\n' +
+        '                </ul>\n' +
+        '                <ul v-bind:style="{display: editing ? \'\' : \'none\'}">\n' +
+        '                    <li>Name: {{ campDetails.name }}</li>\n' +
+        '                    <li>Titel: <input v-model="campDetails.title"></li>\n' +
+        '                    <li>Motto: <input v-model="campDetails.motto"></li>\n' +
         '                    <li>Besitzer Name: {{ ownerName }}</li>\n' +
         '                    <li>Lager-Perioden:' +
         '                        <ul><li v-for="period in periods">{{ period.description }} ({{ period.start }} - {{ period.end }})</li></ul>' +
