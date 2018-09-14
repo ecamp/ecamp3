@@ -92,8 +92,8 @@ Vue.component('toggleable-input', {
     },
     template: '\
         <span>\
-            <span v-bind:style="{display: editing ? \'none\' : \'\'}">{{ fieldname }}: {{ value }}</span>\
-            <span v-bind:style="{display: editing ? \'\' : \'none\'}">{{ fieldname }}: <input class="form-control" v-model="valueModel"></span>\
+            <span v-if="!editing">{{ fieldname }}: {{ value }}</span>\
+            <span v-if="editing">{{ fieldname }}: <input class="form-control" v-model="valueModel"></span>\
         </span>\
     ',
 });
