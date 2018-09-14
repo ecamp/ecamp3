@@ -32,7 +32,7 @@ Vue.component('camp-details', {
         },
         saveToAPI: function() {
             let $this = this;
-            axios.put('/api/camp/' + this.campId, this.campDetails)
+            axios.patch('/api/camp/' + this.campId, this.campDetails)
                 .then(function (response) {
                     $this.messages = [ { type: 'success', text: 'Successfully saved' } ];
                     $this.campDetails = response.data;

@@ -48,7 +48,6 @@ class CampHydrator implements HydratorInterface {
         /** @var Camp $camp */
         $camp = $object;
 
-        $camp->setName($data['name']);
         $camp->setTitle($data['title']);
         $camp->setMotto($data['motto']);
 
