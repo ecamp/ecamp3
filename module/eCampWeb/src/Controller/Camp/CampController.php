@@ -17,6 +17,7 @@ class CampController extends AbstractBaseController {
 
         return [
             'camp' => $this->params()->fromRoute('camp'),
+            'campId' => $this->params()->fromRoute('camp')->getId(),
         ];
     }
 }
