@@ -4,6 +4,7 @@ Vue.component('camp-details', {
         return {
             editing: false,
             campDetails: {},
+            messages: [],
         }
     },
     created: function() {
@@ -44,10 +45,11 @@ Vue.component('camp-details', {
 
             if (request.status !== 200) {
                 console.log('can not save camp details');
+                this.messages = [ { type: 'danger', text: 'Could not save camp details' } ];
                 return this.campDetails;
             }
 
-            console.log(request.responseText);
+            this.messages = [ { type: 'success', text: 'Successfully saved' } ];
             return JSON.parse(request.responseText);
         },
         toggleEdit: function() {
@@ -58,6 +60,8 @@ Vue.component('camp-details', {
         },
     },
     template: '\
+    <div>\
+        <div v-for="message in messages" role="alert" class="alert" v-bind:class="\'alert-\' + message.type">{{ message.text }}</div>\
         <div class="card" style="margin-bottom: 10px">\
             <div class="card-body">\
                 <button style="float: right" class="btn btn-sm" v-bind:class="{ \'btn-primary\': editing, \'btn-outline-primary\': !editing }" v-on:click="toggleEdit">{{ buttonText }}</button>\
@@ -82,6 +86,7 @@ Vue.component('camp-details', {
                 </ul>\
             </div>\
         </div>\
+    </div>\
         ',
 });
 
