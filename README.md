@@ -30,15 +30,15 @@ folgende Ziele verfolgt:
 
 Du möchtest mithelfen?
 - Lies [Contributing](CONTRIBUTING.md)
-- Studier das WIKI
+- Studier das [WIKI](https://github.com/ecamp/ecamp3/wiki)
 
 
 
 
 # eCamp3 (english translation)
 
-eCamp is a web application for planning Y+S camps, 
-Y+S courses and other camps. All users always have 
+eCamp is a web application for planning J+S camps, 
+J+S courses and other camps. All users always have 
 the latest planning status.
 
 eCamp2 is in productive use and can be used at 
@@ -61,7 +61,7 @@ objectives are followed:
 
 You want to help?
 - Read [Contributing](CONTRIBUTING.md)
-- Study the WIKI
+- Study the [WIKI](https://github.com/ecamp/ecamp3/wiki)
 
 
 
