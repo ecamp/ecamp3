@@ -65,10 +65,8 @@ Vue.component('camp-details', {
                     Vue.js Infos zu genau einem Lager, id {{ campId }}\
                     <ul>\
                         <li>Name: {{ campDetails.name }}</li>\
-                        <li v-bind:style="{display: editing ? \'none\' : \'\'}">Titel: {{ campDetails.title }}</li>\
-                        <li v-bind:style="{display: editing ? \'\' : \'none\'}">Titel: <input class="form-control" v-model="campDetails.title"></li>\
-                        <li v-bind:style="{display: editing ? \'none\' : \'\'}">Motto: {{ campDetails.motto }}</li>\
-                        <li v-bind:style="{display: editing ? \'\' : \'none\'}">Motto: <input class="form-control" v-model="campDetails.motto"></li>\
+                        <li><toggleable-input v-bind:editing="editing" fieldname="Titel" v-model:value="campDetails.title"></toggleable-input></li>\
+                        <li><toggleable-input v-bind:editing="editing" fieldname="Motto" v-model:value="campDetails.motto"></toggleable-input></li>\
                         <li>Besitzer Name: {{ ownerName }}</li>\
                         <li>Lager-Perioden:\
                             <ul><li v-for="period in periods">{{ period.description }} ({{ period.start }} - {{ period.end }})</li></ul>\
@@ -78,6 +76,28 @@ Vue.component('camp-details', {
             </div>\
         </div>\
     </div>\
+        ',
+});
+
+// A component that displays a field as text or as an input field, depending on the editing prop.
+// You can two-way bind to the value using v-model:value.
+Vue.component('toggleable-input', {
+    props: ['editing', 'fieldname', 'value'],
+    computed: {
+        valueModel: {
+            get: function() {
+                return this.value;
+            },
+            set: function(newValue) {
+                this.$emit('input', newValue);
+            },
+        },
+    },
+    template: '\
+        <span>\
+            <span v-bind:style="{display: editing ? \'none\' : \'\'}">{{ fieldname }}: {{ value }}</span>\
+            <span v-bind:style="{display: editing ? \'\' : \'none\'}">{{ fieldname }}: <input class="form-control" v-model="valueModel"></span>\
+        </span>\
         ',
 });
 
