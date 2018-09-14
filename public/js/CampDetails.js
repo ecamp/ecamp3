@@ -8,13 +8,15 @@ Vue.component('camp-details', {
         }
     },
     created: function() {
-        this.campDetails = this.fetchFromAPI();
+        this.fetchFromAPI();
     },
     computed: {
         ownerName: function () {
+            if (this.campDetails._embedded == null) return '';
             return this.campDetails._embedded.owner.name;
         },
         periods: function () {
+            if (this.campDetails._embedded == null) return [];
             return this.campDetails._embedded.periods;
         },
         buttonText: function () {
@@ -25,36 +27,30 @@ Vue.component('camp-details', {
         fetchFromAPI: function() {
             // Since we don't yet include vue.js with NPM and webpack, we cannot use npm modules such as vue-fetch, and
             // also cannot use advanced javascript features such as async / await (which are required for the
-            // fetch API). Therefore, to prove our point, we use a good old-fashioned XMLHttpRequest here to query our
-            // eCamp API.
-            var request = new XMLHttpRequest();
-            request.open("GET", "/api/camp/" + this.campId, false);
-            request.send();
-
-            if (request.status !== 200) {
-                alert('can not get camp details');
-                return {};
-            }
-
-            return JSON.parse(request.responseText);
+            // fetch API). Therefore, to prove our point, we use axios here to query our eCamp API.
+            let $this = this;
+            axios.get('/api/camp/' + this.campId)
+                .then(function (response) {
+                    $this.campDetails = response.data;
+                })
+                .catch(function (error) {
+                    $this.messages = [ { type: 'danger', text: 'Could get camp details. ' + error } ];
+                });
         },
         saveToAPI: function() {
-            var request = new XMLHttpRequest();
-            request.open("PUT", "/api/camp/" + this.campId, false);
-            request.send(this.campDetails);
-
-            if (request.status !== 200) {
-                console.log('can not save camp details');
-                this.messages = [ { type: 'danger', text: 'Could not save camp details' } ];
-                return this.campDetails;
-            }
-
-            this.messages = [ { type: 'success', text: 'Successfully saved' } ];
-            return JSON.parse(request.responseText);
+            let $this = this;
+            axios.put('/api/camp/' + this.campId, this.campDetails)
+                .then(function (response) {
+                    $this.messages = [ { type: 'success', text: 'Successfully saved' } ];
+                    $this.campDetails = response.data;
+                })
+                .catch(function (error) {
+                    $this.messages = [ { type: 'danger', text: 'Could not save camp details' } ];
+                });
         },
         toggleEdit: function() {
             if (this.editing) {
-                this.campDetails = this.saveToAPI();
+                this.saveToAPI();
             }
             this.editing = !this.editing;
         },
