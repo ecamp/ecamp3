@@ -1,5 +1,10 @@
 Vue.component('camp-details', {
     props: ['campId'],
+    data: function() {
+        return {
+            editing: false,
+        }
+    },
     computed: {
         campDetails: function() {
             // Since we don't yet include vue.js with NPM and webpack, we cannot use npm modules such as vue-fetch, and
@@ -23,10 +28,14 @@ Vue.component('camp-details', {
         periods: function() {
             return this.campDetails._embedded.periods;
         },
+        buttonText: function() {
+            return this.editing ? 'Speichern' : 'Bearbeiten';
+        },
     },
     template:
         '        <div class="card" style="margin-bottom: 10px">\n' +
         '            <div class="card-body">\n' +
+        '                <button style="float: right" class="btn btn-sm" v-bind:class="{ \'btn-primary\': editing, \'btn-outline-primary\': !editing }" v-on:click="editing=!editing">{{ buttonText }}</button>' +
         '                Vue.js Infos zu genau einem Lager, id {{ campId }}\n' +
         '                <ul>\n' +
         '                    <li>Name: {{ campDetails.name }}</li>\n' +
