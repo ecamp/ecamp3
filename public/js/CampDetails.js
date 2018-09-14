@@ -2,17 +2,20 @@ Vue.component('camp-details', {
     props: ['campId'],
     computed: {
         campDetails: function() {
-            return {
-                name: 'So-La',
-                title: 'Sommerlager',
-                motto: 'Römer',
-                _embedded: {
-                    owner: {
-                        name: 'Pfadi Bewegung Schweiz'
-                    },
-                    periods: [ { description: 'Vorweekend', start: '2018-05-19', end: '2018-05-20' }, { description: 'Lager', start: '2018-07-14', end: '2018-07-28' } ]
-                },
+            // Since we don't yet include vue.js with NPM and webpack, we cannot use npm modules such as vue-fetch, and
+            // also cannot use advanced javascript features such as async / await (which are required for the
+            // fetch API). Therefore, to prove our point, we use a good old-fashioned XMLHttpRequest here to query our
+            // eCamp API.
+            var request = new XMLHttpRequest();
+            request.open("GET", "/api/camp/" + this.campId, false);
+            request.send();
+
+            if (request.status !== 200) {
+                alert('can not get camp details');
+                return {};
             }
+
+            return JSON.parse(request.responseText);
         },
         ownerName: function() {
             return this.campDetails._embedded.owner.name;
