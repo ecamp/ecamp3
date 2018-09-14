@@ -8,10 +8,6 @@ Vue.component('camp-details', {
         }
     },
     computed: {
-        ownerName: function () {
-            if (this.campDetails._embedded == null) return '';
-            return this.campDetails._embedded.owner.name;
-        },
         periods: function () {
             if (this.campDetails._embedded == null) return [];
             return this.campDetails._embedded.periods;
@@ -64,7 +60,7 @@ Vue.component('camp-details', {
                         <li>Name: {{ campDetails.name }}</li>\
                         <li><toggleable-input v-bind:editing="editing" fieldname="Titel" v-model="campDetails.title"></toggleable-input></li>\
                         <li><toggleable-input v-bind:editing="editing" fieldname="Motto" v-model="campDetails.motto"></toggleable-input></li>\
-                        <li>Besitzer Name: {{ ownerName }}</li>\
+                        <li><toggleable-group-input v-if="campDetails._embedded" v-bind:editing="editing" fieldname="Besitzer" v-model="campDetails._embedded.owner"></toggleable-group-input></li>\
                         <li>Lager-Perioden:\
                             <ul><li v-for="period in periods">{{ period.description }} ({{ period.start }} - {{ period.end }})</li></ul>\
                         </li>\
@@ -94,6 +90,50 @@ Vue.component('toggleable-input', {
         <span>\
             <span v-if="!editing">{{ fieldname }}: {{ value }}</span>\
             <span v-if="editing">{{ fieldname }}: <input class="form-control" v-model="valueModel"></span>\
+        </span>\
+    ',
+});
+
+// A component that displays a group as text or as an dropdown selection field, depending on the editing prop.
+// You can two-way bind to the value using v-model.
+Vue.component('toggleable-group-input', {
+    props: ['editing', 'fieldname', 'value'],
+    data: function() {
+        return {
+            allGroups: this.fetchFromAPI(),
+        }
+    },
+    computed: {
+        valueModel: {
+            get: function() {
+                return this.getGroup(this.value.id);
+            },
+            set: function(newValue) {
+                let $this = this;
+                this.$emit('input', this.getGroup(newValue));
+            },
+        },
+    },
+    methods: {
+        fetchFromAPI: function() {
+            let $this = this;
+            axios.get('/api/group')
+                .then(function (response) {
+                    $this.allGroups = response.data._embedded.items;
+                })
+                .catch(function (error) {
+                    console.log('Could get group list.');
+                    $this.$emit('error', [ { type: 'danger', text: 'Could get group list. ' + error } ] );
+                });
+        },
+        getGroup: function(id) {
+            return this.allGroups.find(function(group) { return group.id === id; });
+        }
+    },
+    template: '\
+        <span>\
+            <span v-if="!editing">{{ fieldname }}: {{ value.name }}</span>\
+            <span v-if="editing">{{ fieldname }}: <select class="form-control" v-model="valueModel"><option v-for="group in this.allGroups" v-bind:value="group.id" v-bind:selected="group.id == valueModel.id">{{ group.name }}</option></select></span>\
         </span>\
     ',
 });
