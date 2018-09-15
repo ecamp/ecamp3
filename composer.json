@@ -21,7 +21,8 @@
     "doctrine/migrations": "^1.6",
     "hybridauth/hybridauth": "^3.0-dev",
     "oxcom/zend-twig": "^0.1",
-    "friendsofphp/php-cs-fixer": "^2.11"
+    "friendsofphp/php-cs-fixer": "^2.11",
+    "rwoverdijk/assetmanager": "^1.0"
   },
   "require-dev": {
     "phpunit/phpunit": "^6.5",
