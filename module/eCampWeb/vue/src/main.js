@@ -3,5 +3,7 @@ import CampDetails from './components/camp-details'
 
 new Vue({
     el: '#camp-details',
-    render: createElement => createElement(CampDetails),
+    render(h) {
+        return h(CampDetails, { props: this.$el.dataset } );
+    },
 });
