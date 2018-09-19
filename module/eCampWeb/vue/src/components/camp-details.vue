@@ -53,7 +53,7 @@ Displays details on a single camp (with id specified as prop campId) and allows 
             ToggleableGroupInput,
         },
         props: ['campId'],
-        data: function () {
+        data() {
             return {
                 editing: false,
                 campDetails: {},
@@ -61,38 +61,30 @@ Displays details on a single camp (with id specified as prop campId) and allows 
             }
         },
         computed: {
-            periods: function () {
+            periods() {
                 if (this.campDetails._embedded == null) return [];
                 return this.campDetails._embedded.periods;
             },
-            buttonText: function () {
+            buttonText() {
                 return this.editing ? 'Speichern' : 'Bearbeiten';
             },
         },
         methods: {
-            fetchFromAPI: function () {
-                // TODO: Use an NPM plugin such as vue-fetch for this
-                let $this = this;
+            fetchFromAPI() {
+                // TODO: Use an NPM plugin for REST interfaces instead of raw axios?
                 axios.get('/api/camp/' + this.campId)
-                    .then(function (response) {
-                        $this.campDetails = response.data;
-                    })
-                    .catch(function (error) {
-                        $this.messages = [{type: 'danger', text: 'Could get camp details. ' + error}];
-                    });
+                    .then((response) => this.campDetails = response.data)
+                    .catch((error) => this.messages = [{type: 'danger', text: 'Could get camp details. ' + error}] );
             },
-            saveToAPI: function () {
-                let $this = this;
+            saveToAPI() {
                 axios.patch('/api/camp/' + this.campId, this.campDetails)
-                    .then(function (response) {
-                        $this.messages = [{type: 'success', text: 'Successfully saved'}];
-                        $this.campDetails = response.data;
+                    .then((response) => {
+                        this.messages = [{type: 'success', text: 'Successfully saved'}];
+                        this.campDetails = response.data;
                     })
-                    .catch(function (error) {
-                        $this.messages = [{type: 'danger', text: 'Could not save camp details. ' + error}];
-                    });
+                    .catch((error) => this.messages = [{type: 'danger', text: 'Could not save camp details. ' + error}] );
             },
-            toggleEdit: function () {
+            toggleEdit() {
                 if (this.editing) {
                     this.saveToAPI();
                 }

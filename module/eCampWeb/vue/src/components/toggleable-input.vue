@@ -16,10 +16,10 @@ You can two-way bind to the value using v-model.
         props: ['editing', 'fieldname', 'value'],
         computed: {
             valueModel: {
-                get: function () {
+                get() {
                     return this.value;
                 },
-                set: function (newValue) {
+                set(newValue) {
                     this.$emit('input', newValue);
                 },
             },

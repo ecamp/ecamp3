@@ -17,35 +17,28 @@ TODO: Fix bug causing the dropdown to be blank when closed
     export default {
         name: "toggleable-group-input",
         props: ['editing', 'fieldname', 'value'],
-        data: function() {
+        data() {
             return {
                 allGroups: this.fetchFromAPI(),
             }
         },
         computed: {
             valueModel: {
-                get: function() {
+                get() {
                     return this.getGroup(this.value.id);
                 },
-                set: function(newValue) {
-                    let $this = this;
+                set(newValue) {
                     this.$emit('input', this.getGroup(newValue));
                 },
             },
         },
         methods: {
-            fetchFromAPI: function() {
-                let $this = this;
+            fetchFromAPI() {
                 axios.get('/api/group')
-                    .then(function (response) {
-                        $this.allGroups = response.data._embedded.items;
-                    })
-                    .catch(function (error) {
-                        console.log('Could get group list.');
-                        $this.$emit('error', [ { type: 'danger', text: 'Could get group list. ' + error } ] );
-                    });
+                    .then((response) => this.allGroups = response.data._embedded.items)
+                    .catch((error) => this.$emit('error', [ { type: 'danger', text: 'Could get group list. ' + error } ] ) );
             },
-            getGroup: function(id) {
+            getGroup(id) {
                 return this.allGroups.find(function(group) { return group.id === id; });
             }
         },
