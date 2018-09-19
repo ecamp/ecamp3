@@ -12,6 +12,8 @@ TODO: Fix bug causing the dropdown to be blank when closed
 </template>
 
 <script>
+    import axios from 'axios';
+
     export default {
         name: "toggleable-group-input",
         props: ['editing', 'fieldname', 'value'],
