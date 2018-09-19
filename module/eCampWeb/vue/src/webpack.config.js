@@ -29,7 +29,10 @@ module.exports = function (env = {}) {
     }
 
     return {
-        entry: './src/main.js',
+        entry: [
+            './src/entry.js',
+            './src/main.js'
+        ],
         output: {
             path: path.resolve(__dirname, '../../assets'),
             filename: env.production ? 'js/main.min.js?[chunkhash]' : 'js/main.js',
