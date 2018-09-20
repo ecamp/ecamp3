@@ -5,8 +5,9 @@
   "main": "src/main.js",
   "scripts": {
     "test": "test",
-    "dev": "webpack-dev-server --config src/webpack.config.js",
-    "build": "webpack --config src/webpack.config.js --env.production"
+    "dev": "webpack-dev-server --config webpack/config.development.js",
+    "prod": "webpack-dev-server --config webpack/config.production.js",
+    "build": "webpack --config webpack/config.production.js --env.production"
   },
   "repository": {
     "type": "git",
@@ -20,21 +21,24 @@
   "homepage": "https://github.com/ecamp/ecamp3#readme",
   "dependencies": {
     "axios": "^0.18.0",
-    "vue": "^2.3.3"
+    "vue": "^2.5.17"
   },
   "devDependencies": {
-    "assets-webpack-plugin": "^3.5.1",
-    "babel-core": "^6.0.0",
-    "babel-loader": "^6.0.0",
-    "babel-preset-env": "^1.6.0",
-    "css-loader": "^0.25.0",
-    "extract-text-webpack-plugin": "^2.1.2",
-    "file-loader": "^0.9.0",
+    "@babel/core": "^7.1.0",
+    "@babel/preset-env": "^7.1.0",
+    "ajv": "^6.5.3",
+    "assets-webpack-plugin": "^3.9.6",
+    "babel-loader": "^8.0.2",
+    "css-loader": "^1.0.0",
+    "extract-text-webpack-plugin": "^4.0.0-beta.0",
+    "file-loader": "^2.0.0",
     "node-sass": "^4.9.3",
     "sass-loader": "^7.1.0",
-    "vue-loader": "^12.1.0",
-    "vue-template-compiler": "^2.3.3",
-    "webpack": "^2.6.1",
-    "webpack-dev-server": "^2.5.0"
+    "vue-loader": "^14.2.3",
+    "vue-template-compiler": "^2.5.17",
+    "webpack": "^4.19.1",
+    "webpack-cli": "^3.1.0",
+    "webpack-dev-server": "^3.1.8",
+    "webpack-merge": "^4.1.4"
   }
 }
