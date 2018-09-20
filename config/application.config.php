@@ -29,4 +29,5 @@ return [
         'module_map_cache_enabled' => false,
         'cache_dir' => 'data/cache/',
     ],
+
 ];

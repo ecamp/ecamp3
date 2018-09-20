@@ -2,6 +2,17 @@
 
 return [
 
+    'dependencies' => [
+        'auto' => [
+            'preferences' => [
+                // A map of classname => preferred type
+                Interop\Container\ContainerInterface::class => Zend\ServiceManager\ServiceManager::class,
+                Doctrine\ORM\EntityManager::class => 'doctrine.entitymanager.orm_default'
+            ]
+        ],
+
+    ],
+    
     'router' => [
         'routes' => [
             'ecamp.auth' => [
@@ -71,9 +82,6 @@ return [
     ],
 
     'controllers' => [
-        'initializers' => [
-            \eCamp\Core\ServiceManager\EntityServiceInjector::class,
-        ],
         'factories' => [
             \eCamp\Core\Controller\Auth\GoogleController::class => \eCamp\Core\Controller\Auth\GoogleControllerFactory::class,
         ]

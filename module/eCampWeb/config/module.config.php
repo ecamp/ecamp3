@@ -244,7 +244,7 @@ return [
             \eCamp\Web\Controller\RegisterController::class => \eCamp\Web\ControllerFactory\RegisterControllerFactory::class,
 
             \eCamp\Web\Controller\GroupsController::class => \Zend\ServiceManager\Factory\InvokableFactory::class,
-            \eCamp\Web\Controller\CampsController::class => \Zend\ServiceManager\Factory\InvokableFactory::class,
+            \eCamp\Web\Controller\CampsController::class => Zend\Mvc\Controller\LazyControllerAbstractFactory::class,
 
             \eCamp\Web\Controller\User\UserController::class =>  \Zend\ServiceManager\Factory\InvokableFactory::class,
             \eCamp\Web\Controller\User\MembershipController::class => \Zend\ServiceManager\Factory\InvokableFactory::class,
@@ -263,7 +263,7 @@ return [
             \eCamp\Web\Controller\Camp\CollaboratorsController::class => \Zend\ServiceManager\Factory\InvokableFactory::class,
             \eCamp\Web\Controller\Camp\PrintController::class => \Zend\ServiceManager\Factory\InvokableFactory::class,
             \eCamp\Web\Controller\Camp\SettingsController::class => \Zend\ServiceManager\Factory\InvokableFactory::class,
-        ]
+        ],
     ],
 
     'translator' => [

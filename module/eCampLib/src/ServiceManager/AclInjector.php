@@ -17,7 +17,7 @@ class AclInjector implements InitializerInterface {
             return;
         }
 
-        if ($instance instanceof AclAware) {
+        if ($instance instanceof AclAware) { 
             /** @var Acl $acl */
             $acl = $container->get(Acl::class);
             $instance->setAcl($acl);

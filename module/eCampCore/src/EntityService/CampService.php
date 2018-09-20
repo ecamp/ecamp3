@@ -18,17 +18,24 @@ use eCamp\Lib\Acl\NoAccessException;
 use ZF\ApiProblem\ApiProblem;
 
 class CampService extends AbstractEntityService
-    implements JobServiceAware, EventCategoryServiceAware, PeriodServiceAware {
+    implements JobServiceAware {
     use JobServiceTrait;
-    use EventCategoryServiceTrait;
-    use PeriodServiceTrait;
+    
+    
+    /** @var PeriodService */
+    protected $periodService;
 
+    /** @var EventCategoryService */
+    protected $eventCategoryService;
 
-    public function __construct() {
+    public function __construct(EventCategoryService $eventCategoryService/*, PeriodService $periodService*/) {
         parent::__construct(
             Camp::class,
             CampHydrator::class
         );
+
+        //$this->$periodService = $periodService;
+        $this->eventCategoryService = $eventCategoryService;
     }
 
 
@@ -112,5 +119,10 @@ class CampService extends AbstractEntityService
         $q->setParameter('owner', $owner);
 
         return $this->getQueryResult($q);
+    }
+
+    public function doSomethingWithCategory()
+    {
+        $this->eventCategoryService->fetchAll();
     }
 }

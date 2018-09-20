@@ -31,27 +31,26 @@ abstract class AbstractEntityService extends AbstractResourceListener
     private $entityClassname;
 
     /** @var EntityManager */
-    private $entityManager;
+    protected $entityManager;
 
     /** @var EntityRepository */
     private $repository;
 
     /** @var EntityFilterManager */
-    private $entityFilterManager;
-
+    protected $entityFilterManager;
 
     /** @var string */
     private $hydratorClassname;
 
     /** @var HydratorPluginManager */
-    private $hydratorPluginManager;
+    protected $hydratorPluginManager;
 
     /** @var HydratorInterface */
     private $hydrator;
 
 
     /** @var Acl */
-    private $acl;
+    protected $acl;
 
 
     public function __construct($entityClassname, $hydratorClassname) {

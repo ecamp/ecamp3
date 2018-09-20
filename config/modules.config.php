@@ -1,6 +1,8 @@
 <?php
 
 return [
+    'Zend\Mail',
+    'Zend\Di',
     'Zend\\Router',
     'Zend\\Hydrator',
     'Zend\\I18n',
@@ -19,6 +21,8 @@ return [
     'eCamp\\Core',
     'eCamp\\Api',
     'eCamp\\Web',
+    'eCamp\\AoT',
     'eCamp\\Plugin\\Textarea',
-    'eCamp\\Plugin\\Storyboard'
+    'eCamp\\Plugin\\Storyboard',
+    'ZendDeveloperTools',
 ];

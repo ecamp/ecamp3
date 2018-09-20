@@ -2,10 +2,10 @@
 return [
     'factories' => [
         \eCamp\Core\EntityService\CampCollaborationService::class => \eCamp\Core\EntityServiceFactory\CampCollaborationServiceFactory::class,
-        \eCamp\Core\EntityService\CampService::class => \eCamp\Core\EntityServiceFactory\CampServiceFactory::class,
+       
         \eCamp\Core\EntityService\CampTypeService::class => \eCamp\Core\EntityServiceFactory\CampTypeServiceFactory::class,
         \eCamp\Core\EntityService\DayService::class => \eCamp\Core\EntityServiceFactory\DayServiceFactory::class,
-        \eCamp\Core\EntityService\EventCategoryService::class => \eCamp\Core\EntityServiceFactory\EventCategoryServiceFactory::class,
+        
         \eCamp\Core\EntityService\EventInstanceService::class => \eCamp\Core\EntityServiceFactory\EventInstanceServiceFactory::class,
         \eCamp\Core\EntityService\EventPluginService::class => \eCamp\Core\EntityServiceFactory\EventPluginServiceFactory::class,
         \eCamp\Core\EntityService\EventService::class => \eCamp\Core\EntityServiceFactory\EventServiceFactory::class,
@@ -24,5 +24,16 @@ return [
         \eCamp\Core\EntityService\PluginService::class => \eCamp\Core\EntityServiceFactory\PluginServiceFactory::class,
         \eCamp\Core\EntityService\UserIdentityService::class => \eCamp\Core\EntityServiceFactory\UserIdentityServiceFactory::class,
         \eCamp\Core\EntityService\UserService::class => \eCamp\Core\EntityServiceFactory\UserServiceFactory::class,
-    ]
+    ],
+
+    'lazy_services' => [
+        'class_map' => [
+           \eCamp\Core\EntityService\EventCategoryService::class => \eCamp\Core\EntityService\EventCategoryService::class,
+        ],
+   ],
+   'delegators' => [
+       \eCamp\Core\EntityService\EventCategoryService::class => [
+           Zend\ServiceManager\Proxy\LazyServiceFactory::class,
+       ],
+   ],
 ];
