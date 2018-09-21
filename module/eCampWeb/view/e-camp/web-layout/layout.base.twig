@@ -15,6 +15,17 @@
     </div>
 {% endblock %}
 
+{% block link %}
+    {{ parent() }}
+    {% if asset('main.css') is not empty %}
+        <link href="{{ asset('main.css') }}" rel="stylesheet" type="text/css" />
+    {% endif %}
+{% endblock %}
+
 {% block bodyScript %}
-    <script type="text/javascript" src="http://localhost:8080/js/main.js"></script>
+    {{ parent() }}
+    {% if asset('webpack-hot-reload') is not empty %}
+    <script src="{{ asset('webpack-hot-reload') }}" type="text/javascript"></script>
+    {% endif %}
+    <script src="{{ asset('main.js') }}" type="text/javascript"></script>
 {% endblock %}

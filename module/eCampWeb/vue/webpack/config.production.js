@@ -1,5 +1,6 @@
 const merge = require('webpack-merge');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const WebpackAssetsManifest = require('webpack-assets-manifest');
 
 module.exports = function() {
     process.env.NODE_ENV = 'production';
@@ -9,7 +10,7 @@ module.exports = function() {
 
         output: {
             filename: 'js/main.min.[contenthash].js',
-            publicPath: '../',
+            publicPath: '/assets/module/web/',
         },
 
         module: {
@@ -29,6 +30,12 @@ module.exports = function() {
             new MiniCssExtractPlugin( {
                 filename: 'css/style.min.[contenthash].css'
             } ),
+            new WebpackAssetsManifest( {
+                output: 'assets.json',
+                writeToDisk: true,
+                publicPath: true,
+                assets: { 'webpack-hot-reload': '' },
+            } )
         ],
 
         devtool: false,

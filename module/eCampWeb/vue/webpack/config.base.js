@@ -1,6 +1,5 @@
 const path = require('path');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
-const WebpackAssetsManifest = require('webpack-assets-manifest');
 
 module.exports = {
     entry: './src/main.js',
@@ -35,9 +34,5 @@ module.exports = {
 
     plugins: [
         new VueLoaderPlugin(),
-        new WebpackAssetsManifest( {
-            output: 'assets.json',
-            writeToDisk: true,
-        } )
     ]
 };
