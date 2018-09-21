@@ -11,6 +11,7 @@ module.exports = function() {
 
         output: {
             filename: 'js/main.min.js?[chunkhash]',
+            publicPath: '../',
         },
 
         module: {

@@ -12,6 +12,7 @@ module.exports = function() {
 
         output: {
             filename: 'js/main.js',
+            publicPath: 'http://localhost:8080/',
         },
 
         module: {
