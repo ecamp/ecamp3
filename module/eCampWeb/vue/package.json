@@ -5,7 +5,9 @@
   "main": "src/main.js",
   "scripts": {
     "dev": "webpack-dev-server --config webpack/config.development.js",
-    "build": "webpack --config webpack/config.production.js --env.production"
+    "build": "webpack --config webpack/config.production.js --env.production",
+    "lint": "eslint --ext .js,.vue src",
+    "lint:fix": "eslint --ext .js,.vue src --fix"
   },
   "repository": {
     "type": "git",
