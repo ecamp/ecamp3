@@ -286,10 +286,22 @@ return [
         ],
     ],
 
+    'view_helpers' => [
+        'factories' => [
+            \eCamp\Web\View\Helper\IncludeScriptIfPresent::class => \Zend\ServiceManager\Factory\InvokableFactory::class,
+            \eCamp\Web\View\Helper\IncludeStyleIfPresent::class => \Zend\ServiceManager\Factory\InvokableFactory::class,
+            \Zend\View\Helper\Asset::class => \eCamp\Web\View\Helper\Service\RobustAssetFactory::class,
+        ],
+        'aliases' => [
+            'includeScriptIfPresent' => \eCamp\Web\View\Helper\IncludeScriptIfPresent::class,
+            'includeStyleIfPresent' => \eCamp\Web\View\Helper\IncludeStyleIfPresent::class,
+        ]
+    ],
+
     'view_helper_config' => [
         'asset' => [
             'resource_map' => json_decode(file_get_contents(__DIR__ . '/../assets/assets.json'), true),
-        ],
+        ]
     ],
 
 ];

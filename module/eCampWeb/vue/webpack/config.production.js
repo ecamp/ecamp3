@@ -34,7 +34,6 @@ module.exports = function() {
                 output: 'assets.json',
                 writeToDisk: true,
                 publicPath: true,
-                assets: { 'webpack-hot-reload': '' },
             } )
         ],
 

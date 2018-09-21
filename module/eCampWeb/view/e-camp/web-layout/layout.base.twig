@@ -17,15 +17,11 @@
 
 {% block link %}
     {{ parent() }}
-    {% if asset('main.css') is not empty %}
-        <link href="{{ asset('main.css') }}" rel="stylesheet" type="text/css" />
-    {% endif %}
+    {{ includeStyleIfPresent('main.css') }}
 {% endblock %}
 
 {% block bodyScript %}
     {{ parent() }}
-    {% if asset('webpack-hot-reload') is not empty %}
-    <script src="{{ asset('webpack-hot-reload') }}" type="text/javascript"></script>
-    {% endif %}
-    <script src="{{ asset('main.js') }}" type="text/javascript"></script>
+    {{ includeScriptIfPresent('webpack-hot-reload') }}
+    {{ includeScriptIfPresent('main.js', 'No generated JavaScript Assets from Webpack found. Please run the following command inside the module/eCampWeb/vue folder:<pre>npm install && npm run dev</pre>') }}
 {% endblock %}

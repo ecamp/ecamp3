@@ -35,7 +35,7 @@ module.exports = function() {
                 output: 'assets.json',
                 writeToDisk: true,
                 publicPath: true,
-                assets: { 'main.css': '', 'webpack-hot-reload': WEBPACK_DEV_SERVER + '/webpack-dev-server.js' },
+                assets: { 'webpack-hot-reload': WEBPACK_DEV_SERVER + '/webpack-dev-server.js' },
             } )
         ],
 
