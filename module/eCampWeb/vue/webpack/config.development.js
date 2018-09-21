@@ -1,7 +1,5 @@
 const merge = require('webpack-merge');
-const path = require('path');
 const webpack = require('webpack');
-const AssetsPlugin = require( 'assets-webpack-plugin' );
 
 module.exports = function() {
     process.env.NODE_ENV = 'development';
@@ -30,11 +28,6 @@ module.exports = function() {
 
         plugins: [
             new webpack.HotModuleReplacementPlugin(),
-            new AssetsPlugin( {
-                filename: 'assets.json',
-                path: path.resolve( __dirname, '../../assets' ),
-                fullPath: false
-            } )
         ],
 
         devtool: '#cheap-module-eval-source-map',

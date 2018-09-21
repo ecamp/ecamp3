@@ -1,7 +1,5 @@
 const merge = require('webpack-merge');
-const path = require('path');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const AssetsPlugin = require( 'assets-webpack-plugin' );
 
 module.exports = function() {
     process.env.NODE_ENV = 'production';
@@ -31,11 +29,6 @@ module.exports = function() {
             new MiniCssExtractPlugin( {
                 filename: 'css/style.min.css?[contenthash]'
             } ),
-            new AssetsPlugin( {
-                filename: 'assets.json',
-                path: path.resolve( __dirname, '../../assets' ),
-                fullPath: false
-            } )
         ],
 
         devtool: false,
