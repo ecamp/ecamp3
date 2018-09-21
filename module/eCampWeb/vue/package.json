@@ -4,9 +4,7 @@
   "description": "JavaScript frontend support using Vue.js for eCampWeb",
   "main": "src/main.js",
   "scripts": {
-    "test": "test",
     "dev": "webpack-dev-server --config webpack/config.development.js",
-    "prod": "webpack-dev-server --config webpack/config.production.js",
     "build": "webpack --config webpack/config.production.js --env.production"
   },
   "repository": {
