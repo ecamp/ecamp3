@@ -8,7 +8,7 @@ module.exports = function() {
         mode: 'production',
 
         output: {
-            filename: 'js/main.min.js?[chunkhash]',
+            filename: 'js/main.min.[contenthash].js',
             publicPath: '../',
         },
 
@@ -27,7 +27,7 @@ module.exports = function() {
 
         plugins: [
             new MiniCssExtractPlugin( {
-                filename: 'css/style.min.css?[contenthash]'
+                filename: 'css/style.min.[contenthash].css'
             } ),
         ],
 

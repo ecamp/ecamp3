@@ -1,5 +1,4 @@
 const path = require('path');
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const WebpackAssetsManifest = require('webpack-assets-manifest');
 
@@ -22,7 +21,7 @@ module.exports = {
                 test: /\.(png|jpg)$/,
                 loader: 'file-loader',
                 options: {
-                    name: 'images/[name].[ext]?[hash]'
+                    name: 'images/[name].[hash].[ext]'
                 }
             }
         ]
@@ -35,9 +34,6 @@ module.exports = {
     },
 
     plugins: [
-        new MiniCssExtractPlugin({
-            filename: 'css/style.min.css?[contenthash]'
-        }),
         new VueLoaderPlugin(),
         new WebpackAssetsManifest( {
             output: 'assets.json',
