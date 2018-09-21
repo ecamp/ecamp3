@@ -11,7 +11,20 @@ module.exports = function() {
         watch: true,
 
         output: {
-            filename: 'js/main.js'
+            filename: 'js/main.js',
+        },
+
+        module: {
+            rules: [
+                {
+                    test: /\.(sass|scss|css)$/,
+                    use: [
+                        'vue-style-loader',
+                        'css-loader',
+                        'sass-loader',
+                    ]
+                },
+            ]
         },
 
         plugins: [
