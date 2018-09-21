@@ -17,6 +17,11 @@ module.exports = {
         loader: 'babel-loader'
       },
       {
+        test: /\.(js|vue)$/,
+        use: 'eslint-loader',
+        enforce: 'pre'
+      },
+      {
         test: /\.(png|jpg)$/,
         loader: 'file-loader',
         options: {

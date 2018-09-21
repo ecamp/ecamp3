@@ -5,44 +5,60 @@ TODO: Fix bug causing the dropdown to be blank when closed
 -->
 
 <template>
-    <span>
-        <span v-if="!editing">{{ fieldname }}: {{ value.name }}</span>
-        <span v-if="editing">{{ fieldname }}: <select class="form-control" v-model="valueModel"><option v-for="group in this.allGroups" v-bind:value="group.id" v-bind:selected="group.id == valueModel.id">{{ group.name }}</option></select></span>
-    </span>
+  <span>
+    <span v-if="!editing">{{ fieldname }}: {{ value.name }}</span>
+    <span v-if="editing">{{ fieldname }}:
+      <select
+        v-model="valueModel"
+        class="form-control">
+        <option
+          v-for="group in allGroups"
+          :key="group.id"
+          :value="group.id"
+          :selected="group.id === valueModel.id">{{ group.name }}</option></select></span>
+  </span>
 </template>
 
 <script>
-    import axios from 'axios';
+import axios from 'axios'
 
-    export default {
-        name: "toggleable-group-input",
-        props: ['editing', 'fieldname', 'value'],
-        data() {
-            return {
-                allGroups: this.fetchFromAPI(),
-            }
-        },
-        computed: {
-            valueModel: {
-                get() {
-                    return this.getGroup(this.value.id);
-                },
-                set(newValue) {
-                    this.$emit('input', this.getGroup(newValue));
-                },
-            },
-        },
-        methods: {
-            fetchFromAPI() {
-                axios.get('/api/group')
-                    .then((response) => this.allGroups = response.data._embedded.items)
-                    .catch((error) => this.$emit('error', [ { type: 'danger', text: 'Could get group list. ' + error } ] ) );
-            },
-            getGroup(id) {
-                return this.allGroups.find(function(group) { return group.id === id; });
-            }
-        },
+export default {
+  name: 'ToggleableGroupInput',
+  props: {
+    editing: { type: Boolean, default: false },
+    fieldname: { type: String, default: '' },
+    value: { type: String, required: true }
+  },
+  data () {
+    return {
+      allGroups: this.fetchFromAPI()
     }
+  },
+  computed: {
+    valueModel: {
+      get () {
+        return this.getGroup(this.value.id)
+      },
+      set (newValue) {
+        this.$emit('input', this.getGroup(newValue))
+      }
+    }
+  },
+  methods: {
+    fetchFromAPI () {
+      axios.get('/api/group')
+        .then((response) => {
+          this.allGroups = response.data._embedded.items
+        })
+        .catch((error) => this.$emit('error', [{ type: 'danger', text: 'Could get group list. ' + error }]))
+    },
+    getGroup (id) {
+      return this.allGroups.find(function (group) {
+        return group.id === id
+      })
+    }
+  }
+}
 </script>
 
 <style scoped>
