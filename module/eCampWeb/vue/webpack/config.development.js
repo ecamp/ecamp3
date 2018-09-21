@@ -3,19 +3,10 @@ const path = require('path');
 const webpack = require('webpack');
 const AssetsPlugin = require( 'assets-webpack-plugin' );
 
-function makeStyleLoader( type ) {
-    const loaders = [ 'vue-style-loader', { loader: 'css-loader' } ];
-    if ( type ) {
-        loaders.push(type + '-loader');
-    }
-
-    return loaders;
-}
-
 module.exports = function() {
     process.env.NODE_ENV = 'development';
 
-    return merge(require('./config.base.js')(makeStyleLoader), {
+    return merge(require('./config.base.js'), {
         mode: 'development',
         watch: true,
 
