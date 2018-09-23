@@ -7,11 +7,13 @@ use eCamp\Core\Hydrator\GroupMembershipHydrator;
 use eCamp\Core\Entity\Group;
 use eCamp\Core\Entity\GroupMembership;
 use eCamp\Core\Entity\User;
+use eCamp\Lib\Service\ServiceUtils;
 use ZF\ApiProblem\ApiProblem;
 
 class GroupMembershipService extends AbstractEntityService {
-    public function __construct() {
+    public function __construct(ServiceUtils $serviceUtils) {
         parent::__construct(
+            $serviceUtils,
             GroupMembership::class,
             GroupMembershipHydrator::class
         );

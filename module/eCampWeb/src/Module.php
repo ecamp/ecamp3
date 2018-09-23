@@ -44,4 +44,8 @@ class Module {
         $viewModelTerminator = new ViewModelTerminator();
         $viewModelTerminator->attach($events);
     }
+
+    public function getModuleDependencies() {
+        return ['eCamp\\AoT'];
+    }
 }

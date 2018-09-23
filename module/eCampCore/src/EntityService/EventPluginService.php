@@ -12,6 +12,7 @@ use eCamp\Core\Plugin\PluginStrategyProviderAware;
 use eCamp\Core\Plugin\PluginStrategyProviderTrait;
 use eCamp\Lib\Acl\Acl;
 use eCamp\Lib\Acl\NoAccessException;
+use eCamp\Lib\Service\ServiceUtils;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use ZF\ApiProblem\ApiProblem;
@@ -21,9 +22,9 @@ class EventPluginService extends AbstractEntityService
     use PluginStrategyProviderTrait;
 
 
-    public function __construct(
-    ) {
+    public function __construct(ServiceUtils $serviceUtils) {
         parent::__construct(
+            $serviceUtils,
             EventPlugin::class,
             EventPluginHydrator::class
         );

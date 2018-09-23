@@ -15,6 +15,12 @@ return [
         ],
     ],
 
+    'controllers' => [
+        'factories' => [
+            \eCamp\Api\RestController\MediumApiController::class => \ZF\Rest\Factory\RestControllerFactory::class
+        ]
+    ],
+
     'zf-rest' => [
         \eCamp\Api\RestController\MediumApiController::class => [
             'listener' => \eCamp\Core\EntityService\MediumService::class,

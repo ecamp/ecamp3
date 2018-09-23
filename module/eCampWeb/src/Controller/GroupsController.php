@@ -2,17 +2,19 @@
 
 namespace eCamp\Web\Controller;
 
-use eCamp\Core\EntityServiceAware\GroupServiceAware;
-use eCamp\Core\EntityServiceTrait\GroupServiceTrait;
+use eCamp\Core\EntityService\GroupService;
 
-class GroupsController extends AbstractBaseController
-    implements GroupServiceAware {
-    use GroupServiceTrait;
+class GroupsController extends AbstractBaseController {
 
+    private $groupService;
+
+    public function __construct(GroupService $groupService) {
+        $this->groupService = $groupService;
+    }
 
     public function indexAction() {
-        $userGroups = $this->getGroupService()->fetchByUser();
-        $rootGroups = $this->getGroupService()->fetchByParentGroup(null);
+        $userGroups = $this->groupService->fetchByUser();
+        $rootGroups = $this->groupService->fetchByParentGroup(null);
 
         return [
             'userGroups' => $userGroups,

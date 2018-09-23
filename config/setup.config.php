@@ -9,6 +9,7 @@ return [
         'DoctrineModule',
         'DoctrineORMModule',
 
+        'eCamp\\AoT',
         'eCamp\\Lib',
         'eCamp\\Core',
     ],

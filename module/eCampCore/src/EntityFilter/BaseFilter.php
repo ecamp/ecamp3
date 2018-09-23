@@ -6,23 +6,20 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Query\Expr;
 use Doctrine\ORM\QueryBuilder;
 use eCamp\Core\Auth\AuthUserProvider;
-use eCamp\Core\ServiceManager\AuthUserProviderAware;
 use eCamp\Lib\EntityFilter\EntityFilterInterface;
-use eCamp\Lib\ServiceManager\EntityManagerAware;
 
-abstract class BaseFilter implements EntityFilterInterface, AuthUserProviderAware, EntityManagerAware {
+abstract class BaseFilter implements EntityFilterInterface {
+
     /** @var AuthUserProvider */
     protected $authUserProvider;
-
-    public function setAuthUserProvider(AuthUserProvider $authUserProvider) {
-        $this->authUserProvider = $authUserProvider;
-    }
-
 
     /** @var EntityManager */
     protected $entityManager;
 
-    public function setEntityManager(EntityManager $entityManager) {
+
+    public function __construct(AuthUserProvider $authUserProvider, EntityManager $entityManager)
+    {
+        $this->authUserProvider = $authUserProvider;
         $this->entityManager = $entityManager;
     }
 

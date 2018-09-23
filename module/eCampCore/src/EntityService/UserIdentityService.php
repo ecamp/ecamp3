@@ -4,10 +4,12 @@ namespace eCamp\Core\EntityService;
 
 use eCamp\Core\Entity\UserIdentity;
 use eCamp\Core\Hydrator\UserIdentityHydrator;
+use eCamp\Lib\Service\ServiceUtils;
 
 class UserIdentityService extends AbstractEntityService {
-    public function __construct() {
+    public function __construct(ServiceUtils $serviceUtils) {
         parent::__construct(
+            $serviceUtils,
             UserIdentity::class,
             UserIdentityHydrator::class
         );

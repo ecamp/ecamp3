@@ -3,24 +3,16 @@
 namespace eCamp\Core\EntityService;
 
 use Doctrine\ORM\ORMException;
-use eCamp\Core\EntityServiceAware\EventCategoryServiceAware;
-use eCamp\Core\EntityServiceAware\JobServiceAware;
-use eCamp\Core\EntityServiceAware\PeriodServiceAware;
-use eCamp\Core\EntityServiceTrait\EventCategoryServiceTrait;
-use eCamp\Core\EntityServiceTrait\JobServiceTrait;
-use eCamp\Core\EntityServiceTrait\PeriodServiceTrait;
 use eCamp\Core\Hydrator\CampHydrator;
 use eCamp\Core\Entity\AbstractCampOwner;
 use eCamp\Core\Entity\Camp;
 use eCamp\Core\Entity\CampType;
 use eCamp\Core\Entity\User;
 use eCamp\Lib\Acl\NoAccessException;
+use eCamp\Lib\Service\ServiceUtils;
 use ZF\ApiProblem\ApiProblem;
 
-class CampService extends AbstractEntityService
-    implements JobServiceAware {
-    use JobServiceTrait;
-    
+class CampService extends AbstractEntityService {
     
     /** @var PeriodService */
     protected $periodService;
@@ -28,8 +20,13 @@ class CampService extends AbstractEntityService
     /** @var EventCategoryService */
     protected $eventCategoryService;
 
-    public function __construct(EventCategoryService $eventCategoryService/*, PeriodService $periodService*/) {
+    public function __construct
+    (   EventCategoryService $eventCategoryService
+        /*, PeriodService $periodService*/
+    ,   ServiceUtils $serviceUtils
+    ) {
         parent::__construct(
+            $serviceUtils,
             Camp::class,
             CampHydrator::class
         );
@@ -121,8 +118,7 @@ class CampService extends AbstractEntityService
         return $this->getQueryResult($q);
     }
 
-    public function doSomethingWithCategory()
-    {
+    public function doSomethingWithCategory() {
         $this->eventCategoryService->fetchAll();
     }
 }

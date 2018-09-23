@@ -6,10 +6,8 @@ use eCamp\AoT\Generated\GeneratedInjector;
 use Interop\Container\ContainerInterface;
 use Zend\ServiceManager\Factory\DelegatorFactoryInterface;
 
-class InjectorDecoratorFactory implements DelegatorFactoryInterface
-{
-    public function __invoke(ContainerInterface $container, $name, callable $callback, array $options = null)
-    {
+class InjectorDecoratorFactory implements DelegatorFactoryInterface {
+    public function __invoke(ContainerInterface $container, $name, callable $callback, array $options = null) {
         $injector = $callback();
 
         if (class_exists(GeneratedInjector::class)) {

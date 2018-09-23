@@ -8,11 +8,13 @@ use eCamp\Core\Hydrator\DayHydrator;
 use eCamp\Core\Entity\Day;
 use eCamp\Core\Entity\Period;
 use eCamp\Lib\Acl\NoAccessException;
+use eCamp\Lib\Service\ServiceUtils;
 use ZF\ApiProblem\ApiProblem;
 
 class DayService extends AbstractEntityService {
-    public function __construct() {
+    public function __construct(ServiceUtils $serviceUtils) {
         parent::__construct(
+            $serviceUtils,
             Day::class,
             DayHydrator::class
         );

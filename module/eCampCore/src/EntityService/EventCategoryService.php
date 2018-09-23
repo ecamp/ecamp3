@@ -9,6 +9,7 @@ use eCamp\Core\Entity\Camp;
 use eCamp\Core\Entity\EventCategory;
 use eCamp\Core\Entity\EventType;
 use eCamp\Lib\Acl\NoAccessException;
+use eCamp\Lib\Service\ServiceUtils;
 use ZF\ApiProblem\ApiProblem;
 use eCamp\Lib\Acl\Acl;
 use eCamp\Lib\ServiceManager\EntityFilterManager;
@@ -16,28 +17,23 @@ use Zend\Hydrator\HydratorPluginManager;
 
 
 class EventCategoryService extends AbstractEntityService {
-
-    public function __construct(CampService $campService, EntityManager $entityManager, Acl $acl, EntityFilterManager $entityFilterManager, HydratorPluginManager $hydratorPluginManager) {
+    public function __construct
+    (   ServiceUtils $serviceUtils
+    ,   CampService $campService
+//    ,   EntityManager $entityManager
+//    ,   Acl $acl
+//    ,   EntityFilterManager $entityFilterManager
+//    ,   HydratorPluginManager $hydratorPluginManager
+    ) {
         parent::__construct(
+            $serviceUtils,
             EventCategory::class,
             EventCategoryHydrator::class
         );
 
-        /** 
-         * necessary because manual injections (initializiers) seems not to run after lazy loading 
-         * on the other hand, initializers seems to be discouraged anyway and regarded as bad practice.
-         * more details on https://zendframework.github.io/zend-servicemanager/configuring-the-service-manager/
-         * */
-        
-        $this->entityManager = $entityManager;
-        $this->acl = $acl;
-        $this->entityFilterManager = $entityFilterManager;
-        $this->hydratorPluginmanager = $hydratorPluginManager;
-     
         var_dump("EventCategoryService::_construct : Very expensive contructor.");
         var_dump("EventCategoryService::_construct : Now starting a call on a circular dependency.");
         $campService->fetchAll();
-
     }
 
     /**

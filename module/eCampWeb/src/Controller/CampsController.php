@@ -2,20 +2,16 @@
 
 namespace eCamp\Web\Controller;
 
-use eCamp\Core\EntityServiceAware\CampServiceAware;
-use eCamp\Core\EntityServiceTrait\CampServiceTrait;
 use eCamp\Lib\Auth\AuthRequiredException;
 use Zend\View\Model\ViewModel;
 use eCamp\Core\EntityService\CampService;
 
-class CampsController extends AbstractBaseController
-{
+class CampsController extends AbstractBaseController {
     /** @var CampService */
     protected $campService;
 
     /** @var CampService $campService */
-    public function __construct(CampService $campService)
-    {
+    public function __construct(CampService $campService) {
         $this->campService = $campService;
     }
 
@@ -30,8 +26,8 @@ class CampsController extends AbstractBaseController
         $camps = $this->campService->fetchAll();
 
         // This will lazy load the eventCategory Service
-        var_dump("CampsController: Now going to do something with category Service.");
-        $this->campService->doSomethingWithCategory();
+        //var_dump("CampsController: Now going to do something with category Service.");
+        //$this->campService->doSomethingWithCategory();
 
         return [
             'camps' => $camps,

@@ -10,8 +10,7 @@ use eCamp\Lib\ServiceManager\AclAware;
 use eCamp\Lib\ServiceManager\EntityManagerAware;
 use Zend\Authentication\AuthenticationService;
 
-abstract class AbstractService
-    implements EntityManagerAware, AclAware {
+abstract class AbstractService {
     /** @var EntityManager */
     private $entityManager;
 

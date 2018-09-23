@@ -12,4 +12,8 @@ class Module {
             glob(__DIR__ . '/../config/autoload/V1/*.*')
         ));
     }
+
+    public function getModuleDependencies() {
+        return ['eCamp\\AoT'];
+    }
 }

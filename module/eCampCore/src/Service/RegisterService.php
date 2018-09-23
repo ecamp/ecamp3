@@ -7,9 +7,7 @@ use eCamp\Core\Entity\User;
 use eCamp\Core\EntityServiceAware\UserServiceAware;
 use eCamp\Core\EntityServiceTrait\UserServiceTrait;
 
-class RegisterService extends AbstractService
-    implements UserServiceAware {
-    use UserServiceTrait;
+class RegisterService extends AbstractService {
 
     public function register($username, $mail, $password) {
         $user = $this->getUserService()->create((object)[

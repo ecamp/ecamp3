@@ -7,11 +7,13 @@ use eCamp\Core\Entity\Camp;
 use eCamp\Core\Entity\CampCollaboration;
 use eCamp\Core\Entity\User;
 use eCamp\Core\Hydrator\CampCollaborationHydrator;
+use eCamp\Lib\Service\ServiceUtils;
 use ZF\ApiProblem\ApiProblem;
 
 class CampCollaborationService extends AbstractEntityService {
-    public function __construct() {
+    public function __construct(ServiceUtils $serviceUtils) {
         parent::__construct(
+            $serviceUtils,
             CampCollaboration::class,
             CampCollaborationHydrator::class
         );

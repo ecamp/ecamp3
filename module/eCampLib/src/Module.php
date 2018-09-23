@@ -14,4 +14,8 @@ class Module implements InitProviderInterface {
     public function init(ModuleManagerInterface $manager) {
         EntityFilterManagerFactory::initModule($manager);
     }
+
+    public function getModuleDependencies() {
+        return ['eCamp\\AoT'];
+    }
 }

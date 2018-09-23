@@ -6,8 +6,8 @@ return [
         'auto' => [
             'preferences' => [
                 // A map of classname => preferred type
-                Interop\Container\ContainerInterface::class => Zend\ServiceManager\ServiceManager::class,
-                Doctrine\ORM\EntityManager::class => 'doctrine.entitymanager.orm_default'
+                \Interop\Container\ContainerInterface::class => Zend\ServiceManager\ServiceManager::class,
+                \Doctrine\ORM\EntityManager::class => 'doctrine.entitymanager.orm_default'
             ]
         ],
 
@@ -49,43 +49,22 @@ return [
     ],
 
     'service_manager' => \Zend\Stdlib\ArrayUtils::merge(
-        file_exists(__DIR__ . '/generated/entityservices.config.php')
-            ? include __DIR__ . '/generated/entityservices.config.php' : []
+        file_exists(__DIR__ . '/generated/entityservices.config.php') ? include __DIR__ . '/generated/entityservices.config.php' : []
         ,
         [
-            'initializers' => [
-//                \eCamp\Core\Plugin\PluginStrategyProviderInjector::class,
-                \eCamp\Core\ServiceManager\AuthUserProviderInjector::class,
-            ],
             'aliases' => [
-                \Zend\Permissions\Acl\AclInterface::class => \eCamp\Lib\Acl\Acl::class
+                \Zend\Permissions\Acl\AclInterface::class => \eCamp\Lib\Acl\Acl::class,
             ],
             'factories' => [
-                \ProxyManager\Factory\LazyLoadingValueHolderFactory::class => \Zend\ServiceManager\Factory\InvokableFactory::class,
-
                 \eCamp\Lib\Acl\Acl::class => \eCamp\Core\Acl\AclFactory::class,
 
                 \eCamp\Core\Auth\AuthUserProvider::class => \eCamp\Core\Auth\AuthUserProviderFactory::class,
                 \eCamp\Core\Auth\AuthService::class => \eCamp\Core\Auth\AuthServiceFactory::class,
 
                 \eCamp\Core\Plugin\PluginStrategyProvider::class =>\eCamp\Core\Plugin\PluginStrategyProviderFactory::class,
-
-                \eCamp\Core\Service\RegisterService::class => \Zend\ServiceManager\Factory\InvokableFactory::class,
             ]
         ]
     ),
-
-    'entity_filter' => [
-        'initializers' => [
-            \eCamp\Core\ServiceManager\AuthUserProviderInjector::class,
-        ],
-    ],
-
-    'controllers' => [
-        'factories' => [
-            \eCamp\Core\Controller\Auth\GoogleController::class => \eCamp\Core\Controller\Auth\GoogleControllerFactory::class,
-        ]
-    ],
 
     'hydrators' => [
         'factories' => [

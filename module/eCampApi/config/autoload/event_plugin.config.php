@@ -16,6 +16,12 @@ return [
         ],
     ],
 
+    'controllers' => [
+        'factories' => [
+            \eCamp\Api\RestController\EventPluginApiController::class => \ZF\Rest\Factory\RestControllerFactory::class
+        ]
+    ],
+
     'zf-rest' => [
         \eCamp\Api\RestController\EventPluginApiController::class => [
             'listener' => \eCamp\Core\EntityService\EventPluginService::class,

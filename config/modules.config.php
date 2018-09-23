@@ -17,12 +17,13 @@ return [
     'DoctrineModule',
     'DoctrineORMModule',
 
+    'eCamp\\AoT',
     'eCamp\\Lib',
     'eCamp\\Core',
     'eCamp\\Api',
     'eCamp\\Web',
-    'eCamp\\AoT',
     'eCamp\\Plugin\\Textarea',
     'eCamp\\Plugin\\Storyboard',
+
     'ZendDeveloperTools',
 ];

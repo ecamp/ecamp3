@@ -12,15 +12,14 @@ use Zend\Di\Resolver\DependencyResolver;
 
 require __DIR__ . '/../vendor/autoload.php';
 
-function getClassNames(): iterable
-{
+function getClassNames(): iterable {
     // Define the source directories to scan for classes to generate
     // AoT factories for
     $directories = [
-        __DIR__ . '/../module/eCampCore/src',
         __DIR__ . '/../module/eCampLib/src',
-        __DIR__ . '/../module/eCampWeb/src',
+        __DIR__ . '/../module/eCampCore/src',
         __DIR__ . '/../module/eCampApi/src',
+        __DIR__ . '/../module/eCampWeb/src',
     ];
 
     $scanner = new DirectoryScanner($directories);

@@ -5,24 +5,18 @@ namespace eCamp\Core\EntityService;
 use Doctrine\ORM\ORMException;
 use eCamp\Core\Entity\Day;
 use eCamp\Core\Entity\EventInstance;
-use eCamp\Core\EntityServiceAware\DayServiceAware;
-use eCamp\Core\EntityServiceAware\EventInstanceServiceAware;
-use eCamp\Core\EntityServiceTrait\DayServiceTrait;
-use eCamp\Core\EntityServiceTrait\EventInstanceServiceTrait;
 use eCamp\Core\Hydrator\PeriodHydrator;
 use eCamp\Core\Entity\Camp;
 use eCamp\Core\Entity\Period;
 use eCamp\Lib\Acl\NoAccessException;
+use eCamp\Lib\Service\ServiceUtils;
 use ZF\ApiProblem\ApiProblem;
 
-class PeriodService extends AbstractEntityService
-    implements DayServiceAware, EventInstanceServiceAware {
-    use DayServiceTrait;
-    use EventInstanceServiceTrait;
+class PeriodService extends AbstractEntityService {
 
-
-    public function __construct() {
+    public function __construct(ServiceUtils $serviceUtils) {
         parent::__construct(
+            $serviceUtils,
             Period::class,
             PeriodHydrator::class
         );

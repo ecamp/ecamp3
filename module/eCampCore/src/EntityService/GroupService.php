@@ -6,11 +6,12 @@ use eCamp\Core\Entity\GroupMembership;
 use eCamp\Core\Entity\User;
 use eCamp\Core\Hydrator\GroupHydrator;
 use eCamp\Core\Entity\Group;
-use eCamp\Lib\Service\BaseService;
+use eCamp\Lib\Service\ServiceUtils;
 
 class GroupService extends AbstractEntityService {
-    public function __construct() {
+    public function __construct(ServiceUtils $serviceUtils) {
         parent::__construct(
+            $serviceUtils,
             Group::class,
             GroupHydrator::class
         );

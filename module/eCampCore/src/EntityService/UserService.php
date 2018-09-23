@@ -6,6 +6,7 @@ use Doctrine\ORM\ORMException;
 use eCamp\Core\Hydrator\UserHydrator;
 use eCamp\Core\Entity\User;
 use eCamp\Lib\Acl\NoAccessException;
+use eCamp\Lib\Service\ServiceUtils;
 use Hybridauth\User\Profile;
 use ZF\ApiProblem\ApiProblem;
 
@@ -13,8 +14,9 @@ use ZF\ApiProblem\ApiProblem;
  * Class UserService
  */
 class UserService extends AbstractEntityService {
-    public function __construct() {
+    public function __construct(ServiceUtils $serviceUtils) {
         parent::__construct(
+            $serviceUtils,
             User::class,
             UserHydrator::class
         );

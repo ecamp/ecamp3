@@ -2,13 +2,16 @@
 
 namespace eCamp\Web\Controller\User;
 
-use eCamp\Core\EntityServiceAware\CampServiceAware;
-use eCamp\Core\EntityServiceTrait\CampServiceTrait;
+use eCamp\Core\EntityService\CampService;
 use eCamp\Web\Controller\AbstractBaseController;
 
-class CampController extends AbstractBaseController
-    implements CampServiceAware {
-    use CampServiceTrait;
+class CampController extends AbstractBaseController {
+
+    private $campService;
+
+    public function __construct(CampService $campService) {
+        $this->campService = $campService;
+    }
 
     /**
      * @return array|\Zend\View\Model\ViewModel
@@ -16,7 +19,7 @@ class CampController extends AbstractBaseController
      */
     public function indexAction() {
         $user = $this->params()->fromRoute('user');
-        $camps = $this->getCampService()->fetchAll(['user' => $user]);
+        $camps = $this->campService->fetchAll(['user' => $user]);
 
         return [
             'user' => $user,

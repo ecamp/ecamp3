@@ -2,7 +2,6 @@
 
 namespace eCamp\Core\EntityService;
 
-use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\ORMException;
@@ -12,112 +11,61 @@ use eCamp\Core\Entity\User;
 use eCamp\Lib\Acl\Acl;
 use eCamp\Lib\Acl\NoAccessException;
 use eCamp\Lib\Entity\BaseEntity;
+use eCamp\Lib\Service\ServiceUtils;
 use eCamp\Lib\ServiceManager\AclAware;
-use eCamp\Lib\ServiceManager\EntityFilterManager;
 use eCamp\Lib\ServiceManager\EntityFilterManagerAware;
 use eCamp\Lib\ServiceManager\EntityManagerAware;
 use eCamp\Lib\ServiceManager\HydratorPluginManagerAware;
 use Zend\Authentication\AuthenticationService;
 use Zend\Hydrator\HydratorInterface;
-use Zend\Hydrator\HydratorPluginManager;
 use Zend\Paginator\Adapter\ArrayAdapter;
 use Zend\Paginator\Paginator;
 use ZF\ApiProblem\ApiProblem;
 use ZF\Rest\AbstractResourceListener;
 
-abstract class AbstractEntityService extends AbstractResourceListener
-    implements EntityManagerAware, EntityFilterManagerAware, HydratorPluginManagerAware, AclAware {
+abstract class AbstractEntityService extends AbstractResourceListener {
+
+    /** @var ServiceUtils */
+    private $serviceUtils;
+
     /** @var string */
     private $entityClassname;
-
-    /** @var EntityManager */
-    protected $entityManager;
-
-    /** @var EntityRepository */
-    private $repository;
-
-    /** @var EntityFilterManager */
-    protected $entityFilterManager;
 
     /** @var string */
     private $hydratorClassname;
 
-    /** @var HydratorPluginManager */
-    protected $hydratorPluginManager;
 
-    /** @var HydratorInterface */
-    private $hydrator;
-
-
-    /** @var Acl */
-    protected $acl;
-
-
-    public function __construct($entityClassname, $hydratorClassname) {
+    public function __construct($serviceUtils, $entityClassname, $hydratorClassname) {
+        $this->serviceUtils = $serviceUtils;
         $this->entityClassname = $entityClassname;
         $this->hydratorClassname = $hydratorClassname;
     }
 
 
-
-    public function setEntityManager(EntityManager $entityManager) {
-        $this->entityManager = $entityManager;
-    }
-
-    protected function getEntityManager() {
-        return $this->entityManager;
-    }
+    /** @var EntityRepository */
+    private $repository;
 
     /** @return EntityRepository */
     protected function getRepository() {
         if ($this->repository == null) {
-            $this->repository = $this->getEntityManager()->getRepository($this->entityClassname);
+            $this->repository = $this->serviceUtils->emGetRepository($this->entityClassname);
         }
         return $this->repository;
     }
 
-    /**
-     * @param BaseEntity $entity
-     * @return array
-     */
-    protected function getOrigEntityData($entity) {
-        $uow = $this->entityManager->getUnitOfWork();
-        return $uow->getOriginalEntityData($entity);
-    }
 
-
-
-    /** @return EntityFilterManager */
-    protected function getEntityFilterManager() {
-        return $this->entityFilterManager;
-    }
-    public function setEntityFilterManager(EntityFilterManager $entityFilterManager) {
-        $this->entityFilterManager = $entityFilterManager;
-    }
-
-
-
-    public function setHydratorPluginManager(HydratorPluginManager $hydratorPluginManager) {
-        $this->hydratorPluginManager = $hydratorPluginManager;
-    }
+    /** @var HydratorInterface */
+    private $hydrator;
 
     /** @return HydratorInterface */
     protected function getHydrator() {
         if ($this->hydrator == null) {
-            $this->hydrator = $this->hydratorPluginManager->get($this->hydratorClassname);
+            $this->hydrator = $this->serviceUtils->getHydrator($this->hydratorClassname);
         }
         return $this->hydrator;
     }
 
 
-
-    public function setAcl(Acl $acl) {
-        $this->acl = $acl;
-    }
-
-    protected function getAcl() {
-        return $this->acl;
-    }
 
     /**
      * @return null|User
@@ -128,7 +76,7 @@ abstract class AbstractEntityService extends AbstractResourceListener
 
         $authService = new AuthenticationService();
         if ($authService->hasIdentity()) {
-            $userRepository = $this->getEntityManager()->getRepository(User::class);
+            $userRepository = $this->serviceUtils->emGetRepository(User::class);
             $userId = $authService->getIdentity();
             $user = $userRepository->find($userId);
         }
@@ -143,7 +91,7 @@ abstract class AbstractEntityService extends AbstractResourceListener
      */
     protected function isAllowed($resource, $privilege = null) {
         $user = $this->getAuthUser();
-        return $this->getAcl()->isAllowed($user, $resource, $privilege);
+        return $this->serviceUtils->aclIsAllowed($user, $resource, $privilege);
     }
 
     /**
@@ -153,14 +101,14 @@ abstract class AbstractEntityService extends AbstractResourceListener
      */
     protected function assertAllowed($resource, $privilege = null) {
         $user = $this->getAuthUser();
-        return $this->getAcl()->assertAllowed($user, $resource, $privilege);
+        $this->serviceUtils->aclAssertAllowed($user, $resource, $privilege);
     }
 
 
 
     /**
      * @param string $className
-     * @return object|ApiProblem
+     * @return BaseEntity|ApiProblem
      */
     protected function createEntity($className) {
         $entity = null;
@@ -178,7 +126,7 @@ abstract class AbstractEntityService extends AbstractResourceListener
      * @return QueryBuilder
      */
     public function createQueryBuilder($className, $alias) {
-        $q = $this->entityManager->createQueryBuilder();
+        $q = $this->serviceUtils->emCreateQueryBuilder();
         $q->from($className, $alias)->select($alias);
         $filter = $this->createFilter($q, $className, $alias, 'id');
         if ($filter != null) {
@@ -195,7 +143,7 @@ abstract class AbstractEntityService extends AbstractResourceListener
      * @return Expr\Func
      */
     protected function createFilter(QueryBuilder $q, $className, $alias, $field) {
-        $filter = $this->entityFilterManager->getByEntityClass($className);
+        $filter = $this->serviceUtils->getEntityFilter($className);
         if ($filter == null) {
             return null;
         }
@@ -312,7 +260,7 @@ abstract class AbstractEntityService extends AbstractResourceListener
             return $entity;
         }
         $this->getHydrator()->hydrate((array) $data, $entity);
-        $this->entityManager->persist($entity);
+        $this->serviceUtils->emPersist($entity);
         return $entity;
     }
 
@@ -386,7 +334,7 @@ abstract class AbstractEntityService extends AbstractResourceListener
         }
         $this->assertAllowed($entity, __FUNCTION__);
         if ($entity !== null) {
-            $this->entityManager->remove($entity);
+            $this->serviceUtils->emRemove($entity);
             return true;
         }
         return null;

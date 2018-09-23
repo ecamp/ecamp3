@@ -239,30 +239,7 @@ return [
 
     'controllers' => [
         'factories' => [
-            \eCamp\Web\Controller\IndexController::class => \Zend\ServiceManager\Factory\InvokableFactory::class,
-            \eCamp\Web\Controller\LoginController::class => \eCamp\Web\ControllerFactory\LoginControllerFactory::class,
-            \eCamp\Web\Controller\RegisterController::class => \eCamp\Web\ControllerFactory\RegisterControllerFactory::class,
 
-            \eCamp\Web\Controller\GroupsController::class => \Zend\ServiceManager\Factory\InvokableFactory::class,
-            \eCamp\Web\Controller\CampsController::class => Zend\Mvc\Controller\LazyControllerAbstractFactory::class,
-
-            \eCamp\Web\Controller\User\UserController::class =>  \Zend\ServiceManager\Factory\InvokableFactory::class,
-            \eCamp\Web\Controller\User\MembershipController::class => \Zend\ServiceManager\Factory\InvokableFactory::class,
-            \eCamp\Web\Controller\User\CampController::class => \Zend\ServiceManager\Factory\InvokableFactory::class,
-            \eCamp\Web\Controller\User\FriendsController::class => \Zend\ServiceManager\Factory\InvokableFactory::class,
-
-            \eCamp\Web\Controller\Group\GroupController::class => \Zend\ServiceManager\Factory\InvokableFactory::class,
-            \eCamp\Web\Controller\Group\MembershipController::class => \Zend\ServiceManager\Factory\InvokableFactory::class,
-            \eCamp\Web\Controller\Group\CampController::class => \Zend\ServiceManager\Factory\InvokableFactory::class,
-            \eCamp\Web\Controller\Group\AdminController::class => \Zend\ServiceManager\Factory\InvokableFactory::class,
-
-            \eCamp\Web\Controller\Camp\CampController::class => \Zend\ServiceManager\Factory\InvokableFactory::class,
-            \eCamp\Web\Controller\Camp\PeriodsController::class => \Zend\ServiceManager\Factory\InvokableFactory::class,
-            \eCamp\Web\Controller\Camp\PicassoController::class => \Zend\ServiceManager\Factory\InvokableFactory::class,
-            \eCamp\Web\Controller\Camp\TasksController::class => \Zend\ServiceManager\Factory\InvokableFactory::class,
-            \eCamp\Web\Controller\Camp\CollaboratorsController::class => \Zend\ServiceManager\Factory\InvokableFactory::class,
-            \eCamp\Web\Controller\Camp\PrintController::class => \Zend\ServiceManager\Factory\InvokableFactory::class,
-            \eCamp\Web\Controller\Camp\SettingsController::class => \Zend\ServiceManager\Factory\InvokableFactory::class,
         ],
     ],
 
