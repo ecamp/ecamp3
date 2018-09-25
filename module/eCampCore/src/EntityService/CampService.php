@@ -21,9 +21,9 @@ class CampService extends AbstractEntityService {
     protected $eventCategoryService;
 
     public function __construct
-    (   //EventCategoryService $eventCategoryService
-        /*, PeriodService $periodService*/
-       ServiceUtils $serviceUtils
+    (   EventCategoryService $eventCategoryService,
+        PeriodService $periodService,
+        ServiceUtils $serviceUtils
     ) {
         parent::__construct(
             $serviceUtils,
@@ -31,8 +31,8 @@ class CampService extends AbstractEntityService {
             CampHydrator::class
         );
 
-        //$this->$periodService = $periodService;
-        //$this->eventCategoryService = $eventCategoryService;
+        $this->$periodService = $periodService;
+        $this->eventCategoryService = $eventCategoryService;
     }
 
 
@@ -117,8 +117,5 @@ class CampService extends AbstractEntityService {
 
         return $this->getQueryResult($q);
     }
-
-    public function doSomethingWithCategory() {
-        $this->eventCategoryService->fetchAll();
-    }
+    
 }

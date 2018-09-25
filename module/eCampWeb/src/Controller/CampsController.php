@@ -25,10 +25,6 @@ class CampsController extends AbstractBaseController {
 
         $camps = $this->campService->fetchAll();
 
-        // This will lazy load the eventCategory Service
-        //var_dump("CampsController: Now going to do something with category Service.");
-        //$this->campService->doSomethingWithCategory();
-
         return [
             'camps' => $camps,
         ];

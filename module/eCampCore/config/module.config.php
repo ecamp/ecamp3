@@ -50,6 +50,9 @@ return [
             \eCamp\Core\Plugin\PluginStrategyProvider::class =>\eCamp\Core\Plugin\PluginStrategyProviderFactory::class,
         ],
 
+        /**
+         * Use lazy services (service proxies) for expensive constructors or in case circular dependencies are needed
+         */
         'lazy_services' => [
             'class_map' => [
                 \eCamp\Core\EntityService\EventCategoryService::class => \eCamp\Core\EntityService\EventCategoryService::class,

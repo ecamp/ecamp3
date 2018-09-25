@@ -19,21 +19,12 @@ use Zend\Hydrator\HydratorPluginManager;
 class EventCategoryService extends AbstractEntityService {
     public function __construct
     (   ServiceUtils $serviceUtils
-    ,   CampService $campService
-//    ,   EntityManager $entityManager
-//    ,   Acl $acl
-//    ,   EntityFilterManager $entityFilterManager
-//    ,   HydratorPluginManager $hydratorPluginManager
     ) {
         parent::__construct(
             $serviceUtils,
             EventCategory::class,
             EventCategoryHydrator::class
         );
-
-        var_dump("EventCategoryService::_construct : Very expensive contructor.");
-        var_dump("EventCategoryService::_construct : Now starting a call on a circular dependency.");
-        $campService->fetchAll();
     }
 
     /**
