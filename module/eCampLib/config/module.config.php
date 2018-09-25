@@ -16,6 +16,21 @@ return [
         ]
     ],
 
+    'dependencies' => [
+        'auto' => [
+            'preferences' => [
+                \Doctrine\ORM\EntityManager::class => 'doctrine.entitymanager.orm_default'
+            ],
+            'types' => [
+                \ZendTwig\Extension\Extension::class => [
+                    'preferences' => [
+                        \Interop\Container\ContainerInterface::class => Zend\ServiceManager\ServiceManager::class,
+                    ],
+                ],
+            ],    
+        ],
+    ],
+
     'service_manager' => [
         'factories' => [
             \Zend\Mail\Transport\TransportInterface::class => \eCamp\Lib\Mail\TransportFactory::class,
@@ -23,7 +38,11 @@ return [
             \eCamp\Lib\ServiceManager\EntityFilterManager::class => \eCamp\Lib\ServiceManager\EntityFilterManagerFactory::class,
         ],
     ],
-
+    'entity_filter' => [
+        'abstract_factories' => [
+            \Zend\Di\Container\ServiceManager\AutowireFactory::class
+        ],
+    ],
     'zend_twig' => [
         'extensions' => [
             \eCamp\Lib\Twig\TwigExtensions::class,

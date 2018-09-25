@@ -41,4 +41,12 @@ return [
         ],
     ],
 
+    'controllers' => [
+        'factories' => [
+            eCamp\Api\Controller\IndexController::class => eCamp\Api\Controller\IndexControllerFactory::class,
+            eCamp\Api\Controller\LoginController::class => eCamp\Api\Controller\LoginControllerFactory::class,
+            eCamp\Api\Controller\SwaggerController::class => eCamp\Api\Controller\SwaggerControllerFactory::class,
+        ]
+    ],
+
 ];

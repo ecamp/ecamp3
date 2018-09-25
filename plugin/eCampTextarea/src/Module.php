@@ -29,8 +29,4 @@ class Module {
             ]
         );
     }
-
-    public function getModuleDependencies() {
-        return ['eCamp\\AoT'];
-    }
 }

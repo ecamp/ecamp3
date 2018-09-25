@@ -1,17 +1,6 @@
 <?php
 
 return [
-
-    'dependencies' => [
-        'auto' => [
-            'preferences' => [
-                // A map of classname => preferred type
-                \Interop\Container\ContainerInterface::class => Zend\ServiceManager\ServiceManager::class,
-                \Doctrine\ORM\EntityManager::class => 'doctrine.entitymanager.orm_default'
-            ]
-        ],
-
-    ],
     
     'router' => [
         'routes' => [
@@ -48,23 +37,30 @@ return [
         ]
     ],
 
-    'service_manager' => \Zend\Stdlib\ArrayUtils::merge(
-        file_exists(__DIR__ . '/generated/entityservices.config.php') ? include __DIR__ . '/generated/entityservices.config.php' : []
-        ,
-        [
-            'aliases' => [
-                \Zend\Permissions\Acl\AclInterface::class => \eCamp\Lib\Acl\Acl::class,
+    'service_manager' => [
+        'aliases' => [
+            \Zend\Permissions\Acl\AclInterface::class => \eCamp\Lib\Acl\Acl::class,
+        ],
+        'factories' => [
+            \eCamp\Lib\Acl\Acl::class => \eCamp\Core\Acl\AclFactory::class,
+
+            \eCamp\Core\Auth\AuthUserProvider::class => \eCamp\Core\Auth\AuthUserProviderFactory::class,
+            \eCamp\Core\Auth\AuthService::class => \eCamp\Core\Auth\AuthServiceFactory::class,
+
+            \eCamp\Core\Plugin\PluginStrategyProvider::class =>\eCamp\Core\Plugin\PluginStrategyProviderFactory::class,
+        ],
+
+        'lazy_services' => [
+            'class_map' => [
+                \eCamp\Core\EntityService\EventCategoryService::class => \eCamp\Core\EntityService\EventCategoryService::class,
             ],
-            'factories' => [
-                \eCamp\Lib\Acl\Acl::class => \eCamp\Core\Acl\AclFactory::class,
-
-                \eCamp\Core\Auth\AuthUserProvider::class => \eCamp\Core\Auth\AuthUserProviderFactory::class,
-                \eCamp\Core\Auth\AuthService::class => \eCamp\Core\Auth\AuthServiceFactory::class,
-
-                \eCamp\Core\Plugin\PluginStrategyProvider::class =>\eCamp\Core\Plugin\PluginStrategyProviderFactory::class,
-            ]
-        ]
-    ),
+        ],
+        'delegators' => [
+            \eCamp\Core\EntityService\EventCategoryService::class => [
+                Zend\ServiceManager\Proxy\LazyServiceFactory::class,
+            ],
+        ],
+    ],
 
     'hydrators' => [
         'factories' => [

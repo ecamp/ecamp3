@@ -21,9 +21,9 @@ class CampService extends AbstractEntityService {
     protected $eventCategoryService;
 
     public function __construct
-    (   EventCategoryService $eventCategoryService
+    (   //EventCategoryService $eventCategoryService
         /*, PeriodService $periodService*/
-    ,   ServiceUtils $serviceUtils
+       ServiceUtils $serviceUtils
     ) {
         parent::__construct(
             $serviceUtils,
@@ -32,7 +32,7 @@ class CampService extends AbstractEntityService {
         );
 
         //$this->$periodService = $periodService;
-        $this->eventCategoryService = $eventCategoryService;
+        //$this->eventCategoryService = $eventCategoryService;
     }
 
 
