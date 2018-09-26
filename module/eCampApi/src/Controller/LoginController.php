@@ -50,7 +50,8 @@ class LoginController extends AbstractActionController {
         $userId = $this->authService->getAuthUserId();
         if ($userId != null) {
             $user = $this->userService->fetch($userId);
-
+        }
+        if ($user != null) {
             $data['user'] = $user->getDisplayName();
             $data['role'] = $user->getRole();
         } else {

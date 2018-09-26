@@ -31,7 +31,7 @@ class CampService extends AbstractEntityService {
             CampHydrator::class
         );
 
-        $this->$periodService = $periodService;
+        $this->periodService = $periodService;
         $this->eventCategoryService = $eventCategoryService;
     }
 
