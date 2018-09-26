@@ -25,6 +25,7 @@ return [
             //'collection_name' => 'items',
             'entity_http_methods' => [
                 0 => 'GET',
+                1 => 'PATCH',
             ],
             'collection_http_methods' => [
                 0 => 'GET',

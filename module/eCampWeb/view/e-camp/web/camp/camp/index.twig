@@ -3,24 +3,10 @@
 {% block layout_body %}
     <section class="container">
 
-        <div class="card" style="margin-bottom: 10px">
-            <div class="card-body">
-                Infos zu genau einem Lager
-                <ul>
-                    <li>Name</li>
-                    <li>Titel</li>
-                    <li>Motto</li>
-                    <li>Ort</li>
-                    <li>Lager-Perioden</li>
-                </ul>
-            </div>
-        </div>
+        <camp-details id="camp-details" camp-id="{{ campId }}"></camp-details>
+        <script src="https://cdn.jsdelivr.net/npm/axios@0.12.0/dist/axios.min.js"></script>
+        <script type="text/javascript" src="/js/CampDetails.js"></script>
 
-        <div class="row">
-            <div class="col-sm-12">
-                TODO
-            </div>
-        </div>
     </section>
 
 {% endblock %}
