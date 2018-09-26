@@ -13,6 +13,7 @@ module.exports = function () {
 
     output: {
       filename: 'js/main.js',
+      chunkFilename: 'js/[name].bundle.js',
       publicPath: WEBPACK_DEV_SERVER + '/assets/module/web/'
     },
 
