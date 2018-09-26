@@ -15,6 +15,8 @@ return [
     'DoctrineModule',
     'DoctrineORMModule',
 
+    'AssetManager',
+
     'eCamp\\Lib',
     'eCamp\\Core',
     'eCamp\\Api',

@@ -1,5 +1,11 @@
 {% extends 'e-camp/web-layout/layout.base.twig' %}
 
+{% block link %}
+    {{ parent() }}
+
+    <link rel="stylesheet" type="text/css" href="{{ basePath('assets/module/web/css/main.css') }}" />
+{% endblock %}
+
 {% block layout_body %}
     <section class="container">
 

@@ -255,7 +255,6 @@ return [
     ],
 
     'translator' => [
-
     ],
 
     'view_manager' => [
@@ -270,6 +269,14 @@ return [
 
         'template_path_stack' => [
             __DIR__ . '/../view',
+        ],
+    ],
+
+    'asset_manager' => [
+        'resolver_configs' => [
+            'aliases' => [
+                'assets/module/web/' => __DIR__ . '/../assets/',
+            ],
         ],
     ],
 
