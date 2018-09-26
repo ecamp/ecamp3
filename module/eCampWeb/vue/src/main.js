@@ -1,17 +1,17 @@
 import Vue from 'vue'
-import CampDetails from './components/camp-details'
 
 const vueApps = {
-  'camp-details': CampDetails
+  'camp-details': () => import('./components/camp-details')
 }
 
 for (let id in vueApps) {
   if (!vueApps.hasOwnProperty(id)) continue
-  if (document.getElementById(id)) {
+  const element = document.getElementById(id)
+  if (element) {
     new Vue({ // eslint-disable-line no-new
-      el: '#' + id,
+      el: element,
       render (h) {
-        return h(vueApps[id], { props: this.$el.dataset })
+        return h(vueApps[id], { props: element.dataset })
       }
     })
   }
