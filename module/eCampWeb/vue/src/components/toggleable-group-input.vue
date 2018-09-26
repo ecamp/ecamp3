@@ -50,7 +50,7 @@ export default {
         .then((response) => {
           this.allGroups = response.data._embedded.items
         })
-        .catch((error) => this.$emit('error', [{ type: 'danger', text: 'Could get group list. ' + error }]))
+        .catch((error) => this.$emit('error', [{ type: 'danger', text: 'Could not get group list. ' + error }]))
     },
     getGroup (id) {
       return this.allGroups.find(function (group) {
