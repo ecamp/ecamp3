@@ -59,21 +59,19 @@ Displays details on a single camp (with id specified as prop campId) and allows 
 </template>
 
 <script>
-import ToggleableInput from './toggleable-input.vue'
-import ToggleableGroupInput from './toggleable-group-input.vue'
 import axios from 'axios'
 
 export default {
   name: 'CampDetails',
   components: {
-    ToggleableInput,
-    ToggleableGroupInput
+    'ToggleableInput': () => import('./toggleable-input.vue'),
+    'ToggleableGroupInput': () => import('./toggleable-group-input.vue')
   },
   props: { campId: { type: String, required: true } },
   data () {
     return {
       editing: false,
-      campDetails: {},
+      campDetails: { title: '', motto: '', _embedded: { owner: '' } },
       messages: this.fetchFromAPI()
     }
   },

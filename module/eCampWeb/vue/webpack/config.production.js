@@ -10,6 +10,7 @@ module.exports = function () {
 
     output: {
       filename: 'js/main.min.[contenthash].js',
+      chunkFilename: 'js/[name].bundle.min.[contenthash].js',
       publicPath: '/assets/module/web/'
     },
 
