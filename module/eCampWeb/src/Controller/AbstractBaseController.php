@@ -7,6 +7,8 @@ use Zend\Authentication\AuthenticationService;
 use Zend\Http\PhpEnvironment\Request;
 use Zend\Mvc\MvcEvent;
 use Zend\View\Model\ViewModel;
+use ZF\Hal\Entity;
+use ZF\Hal\View\HalJsonModel;
 
 class AbstractBaseController extends \eCamp\Core\Controller\AbstractBaseController {
     public function attachDefaultListeners() {
@@ -26,6 +28,32 @@ class AbstractBaseController extends \eCamp\Core\Controller\AbstractBaseControll
 
 
     public function onDispatch(MvcEvent $e) {
+        $showRouteMatch = !!$this->params()->fromQuery('route-match', false);
+
+        if(!$showRouteMatch) {
+            // Shortcut: just add &rm to URL
+            $q = $e->getRequest()->getUri()->getQuery();
+            $q = explode('&', $q);
+            $showRouteMatch = in_array('rm', $q);
+        }
+
+        if ($showRouteMatch) {
+            $params = $this->params()->fromRoute();
+            // Remove Controller & Action
+            unset($params['controller']);
+            unset($params['action']);
+            // Remove objects (e.g. Entities)
+            $params = array_filter($params, function($p) { return !is_object(($p)); });
+
+            $result = new HalJsonModel();
+            $result->setPayload(new Entity($params));
+            $result->setTerminal(true);
+            $e->setResult($result);
+
+            return $result;
+        }
+
+
         try {
             $result = parent::onDispatch($e);
         } catch (AuthRequiredException $ex) {

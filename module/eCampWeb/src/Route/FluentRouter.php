@@ -144,7 +144,8 @@ abstract class FluentRouter implements RouteInterface {
 
             $params = array_merge([
                 'campOwner' => $user,
-                'campOwnerId' => $user->getId()
+                'campOwnerId' => $user->getId(),
+                'campOwnerType' => 'user'
             ], $params);
 
             return $this->matchCamp($path, $length, $params);
@@ -205,7 +206,8 @@ abstract class FluentRouter implements RouteInterface {
 
             $params = array_merge([
                 'campOwner' => $group,
-                'campOwnerId' => $group->getId()
+                'campOwnerId' => $group->getId(),
+                'campOwnerType' => 'group'
             ], $params);
 
             return $this->matchCamp($path, $length, $params);
