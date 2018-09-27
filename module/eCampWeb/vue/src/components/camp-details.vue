@@ -73,7 +73,7 @@ export default {
     return {
       editing: false,
       campDetails: { title: '', motto: '', _embedded: { owner: '' } },
-      messages: this.fetchFromAPI()
+      messages: []
     }
   },
   computed: {
@@ -85,26 +85,25 @@ export default {
       return this.editing ? 'Speichern' : 'Bearbeiten'
     }
   },
+  created () {
+    this.fetchFromAPI()
+  },
   methods: {
-    fetchFromAPI () {
+    async fetchFromAPI () {
       // TODO: Use an NPM plugin for REST interfaces instead of raw axios?
-      axios.get('/api/camp/' + this.campId)
-        .then((response) => {
-          this.campDetails = response.data
-        })
-        .catch((error) => {
-          this.messages = [{ type: 'danger', text: 'Could get camp details. ' + error }]
-        })
+      try {
+        this.campDetails = (await axios.get('/api/camp/' + this.campId)).data
+      } catch (error) {
+        this.messages = [{ type: 'danger', text: 'Could get camp details. ' + error }]
+      }
     },
-    saveToAPI () {
-      axios.patch('/api/camp/' + this.campId, this.campDetails)
-        .then((response) => {
-          this.messages = [{ type: 'success', text: 'Successfully saved' }]
-          this.campDetails = response.data
-        })
-        .catch((error) => {
-          this.messages = [{ type: 'danger', text: 'Could not save camp details. ' + error }]
-        })
+    async saveToAPI () {
+      try {
+        this.campDetails = (await axios.patch('/api/camp/' + this.campId, this.campDetails)).data
+        this.messages = [{ type: 'success', text: 'Successfully saved' }]
+      } catch (error) {
+        this.messages = [{ type: 'danger', text: 'Could not save camp details. ' + error }]
+      }
     },
     toggleEdit () {
       if (this.editing) {

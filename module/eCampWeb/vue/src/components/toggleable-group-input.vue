@@ -35,7 +35,7 @@ export default {
   },
   data () {
     return {
-      allGroups: this.fetchFromAPI()
+      allGroups: []
     }
   },
   computed: {
@@ -48,13 +48,16 @@ export default {
       }
     }
   },
+  created () {
+    this.fetchFromAPI()
+  },
   methods: {
-    fetchFromAPI () {
-      axios.get('/api/group')
-        .then((response) => {
-          this.allGroups = response.data._embedded.items
-        })
-        .catch((error) => this.$emit('error', [{ type: 'danger', text: 'Could not get group list. ' + error }]))
+    async fetchFromAPI () {
+      try {
+        this.allGroups = (await axios.get('/api/group')).data._embedded.items
+      } catch (error) {
+        this.$emit('error', [{ type: 'danger', text: 'Could not get group list. ' + error }])
+      }
     },
     getGroup (id) {
       return this.allGroups.find(function (group) {
