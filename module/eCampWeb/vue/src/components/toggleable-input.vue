@@ -9,7 +9,8 @@ You can two-way bind to the value using v-model.
     <span v-if="editing">{{ fieldname }}:
       <input
         v-model="valueModel"
-        class="form-control"></span>
+        class="form-control">
+    </span>
   </span>
 </template>
 

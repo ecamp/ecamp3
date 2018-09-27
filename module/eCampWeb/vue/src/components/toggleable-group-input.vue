@@ -15,7 +15,11 @@ TODO: Fix bug causing the dropdown to be blank when closed
           v-for="group in allGroups"
           :key="group.id"
           :value="group.id"
-          :selected="group.id === valueModel.id">{{ group.name }}</option></select></span>
+          :selected="group.id === valueModel.id">
+          {{ group.name }}
+        </option>
+      </select>
+    </span>
   </span>
 </template>
 

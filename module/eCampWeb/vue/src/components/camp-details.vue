@@ -18,29 +18,30 @@ Displays details on a single camp (with id specified as prop campId) and allows 
           <button
             :class="{ 'btn-primary': editing, 'btn-outline-primary': !editing }"
             type="submit"
-            class="btn btn-sm camp-detail-submit-button">{{ buttonText }}
+            class="btn btn-sm camp-detail-submit-button">
+            {{ buttonText }}
           </button>
           Vue.js Infos zu genau einem Lager, id {{ campId }}
           <ul>
             <li>Name: {{ campDetails.name }}</li>
             <li>
               <toggleable-input
-                :editing="editing"
                 v-model="campDetails.title"
-                fieldname="Titel"/>
+                :editing="editing"
+                fieldname="Titel" />
             </li>
             <li>
               <toggleable-input
-                :editing="editing"
                 v-model="campDetails.motto"
-                fieldname="Motto"/>
+                :editing="editing"
+                fieldname="Motto" />
             </li>
             <li>
               <toggleable-group-input
                 v-if="campDetails._embedded"
-                :editing="editing"
                 v-model="campDetails._embedded.owner"
-                fieldname="Besitzer"/>
+                :editing="editing"
+                fieldname="Besitzer" />
             </li>
             <li>Lager-Perioden:
               <ul>
