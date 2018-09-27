@@ -1,4 +1,4 @@
-import '@babel/polyfill'
+import 'regenerator-runtime/runtime'
 import Vue from 'vue'
 
 const vueApps = {

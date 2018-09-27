@@ -20,8 +20,8 @@
   },
   "homepage": "https://github.com/ecamp/ecamp3#readme",
   "dependencies": {
-    "@babel/polyfill": "^7.0.0",
     "axios": "^0.18.0",
+    "regenerator": "^0.13.2",
     "vue": "^2.5.17"
   },
   "devDependencies": {
