@@ -22,7 +22,8 @@
   "dependencies": {
     "axios": "^0.18.0",
     "regenerator": "^0.13.2",
-    "vue": "^2.5.17"
+    "vue": "^2.5.17",
+    "vue-router": "^3.0.1"
   },
   "devDependencies": {
     "@babel/core": "^7.1.0",

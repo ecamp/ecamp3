@@ -1,20 +1,27 @@
 import 'regenerator-runtime/runtime'
 import Vue from 'vue'
+import Router from 'vue-router'
 
-const vueApps = {
-  'camp-details': () => import('@/components/camp-details')
-}
+// Add vue plugins here
+Vue.use(Router)
 
-for (let id in vueApps) {
-  if (!vueApps.hasOwnProperty(id)) continue
+// Add routes here
+let router = new Router({
+  mode: 'history',
+  routes: [
+    {
+      path: '/group/:groupName/camp/:campName',
+      component: () => import('@/components/camp-details'),
+      props: true
+    }
+  ]
+})
 
-  const element = document.getElementById(id)
-  if (element) {
-    new Vue({ // eslint-disable-line no-new
-      el: element,
-      render (h) {
-        return h(vueApps[id], { props: element.dataset })
-      }
-    })
+new Vue({ // eslint-disable-line no-new
+  el: '#app',
+  router,
+  render (h) {
+    let props = this.$el.dataset
+    return h('router-view', { props })
   }
-}
+})

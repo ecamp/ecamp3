@@ -21,7 +21,7 @@ Displays details on a single camp (with id specified as prop campId) and allows 
             class="btn btn-sm camp-detail-submit-button">
             {{ buttonText }}
           </button>
-          Vue.js Infos zu genau einem Lager, id {{ campId }}
+          Vue.js Infos zu genau einem Lager, name {{ campName }}
           <ul>
             <li>Name: {{ campDetails.name }}</li>
             <li>
@@ -68,9 +68,10 @@ export default {
     'ToggleableInput': () => import('@/components/toggleable-input.vue'),
     'ToggleableGroupInput': () => import('@/components/toggleable-group-input.vue')
   },
-  props: { campId: { type: String, required: true } },
+  props: { campName: { type: String, required: true }, groupName: { type: String, required: true } },
   data () {
     return {
+      campId: null,
       editing: false,
       campDetails: { title: '', motto: '', _embedded: { owner: '' } },
       messages: []
@@ -92,9 +93,12 @@ export default {
     async fetchFromAPI () {
       // TODO: Use an NPM plugin for REST interfaces instead of raw axios?
       try {
+        if (!this.campId) {
+          this.campId = (await axios.get('/group/' + this.groupName + '/camp/' + this.campName + '?route-match=true')).data.campId
+        }
         this.campDetails = (await axios.get('/api/camp/' + this.campId)).data
       } catch (error) {
-        this.messages = [{ type: 'danger', text: 'Could get camp details. ' + error }]
+        this.messages = [{ type: 'danger', text: 'Could get camp details for id ' + this.campId + '. ' + error }]
       }
     },
     async saveToAPI () {
