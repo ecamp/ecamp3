@@ -56,7 +56,9 @@ class DayService extends BaseService {
      */
     public function create($data) {
         /** @var Period $period */
-        $period = $this->findEntity(Period::class, $data->period_id);
+        $period = isset($data->period)
+            ? $data->period
+            : $this->findEntity(Period::class, $data->period_id);
 
         /** @var Day $day */
         $day = parent::create($data);

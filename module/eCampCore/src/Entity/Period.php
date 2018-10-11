@@ -75,7 +75,12 @@ class Period extends BaseEntity {
      * @return \DateTime
      */
     public function getStart() {
-        return ($this->start !== null) ? (clone $this->start) : null;
+        if ($this->start !== null) {
+            $start = (clone $this->start);
+            $start->setTime(0, 0, 0);
+            return $start;
+        }
+        return null;
     }
 
     public function setStart(\DateTime $start): void {
@@ -94,7 +99,12 @@ class Period extends BaseEntity {
      * @return \DateTime
      */
     public function getEnd() {
-        return ($this->end !== null) ? (clone $this->end) : null;
+        if ($this->end !== null) {
+            $end = clone $this->end;
+            $end->setTime(23, 59, 59);
+            return $end;
+        }
+        return null;
     }
 
     public function setEnd(\DateTime $end): void {

@@ -18,6 +18,10 @@ class Util {
             $result = $date;
         }
 
+        if (is_array($date)) {
+            $date = $date['date'];
+        }
+
         if (is_string($date)) {
             $result = new \DateTime($date);
         }

@@ -52,7 +52,9 @@ class PeriodService extends BaseService {
      */
     public function create($data) {
         /** @var Camp $camp */
-        $camp = $this->findEntity(Camp::class, $data->camp_id);
+        $camp = isset($data->camp)
+            ? $data->camp
+            : $this->findEntity(Camp::class, $data->camp_id);
 
         /** @var Period $period */
         $period = parent::create($data);
@@ -61,28 +63,10 @@ class PeriodService extends BaseService {
         $durationInDays = $period->getDurationInDays();
         for ($idx = 0; $idx < $durationInDays; $idx++) {
             $this->dayService->create((object)[
-                'period_id' => $period->getId(),
+                'period' => $period,
                 'day_offset' => $idx
             ]);
         }
-
-        return $period;
-    }
-
-    /**
-     * @param mixed $id
-     * @param mixed $data
-     * @return Period|ApiProblem
-     * @throws NoAccessException
-     * @throws ORMException
-     */
-    public function update($id, $data) {
-        /** @var Period $period */
-        $period = parent::update($id, $data);
-        $this->updatePeriodDays($period);
-
-        $moveEvents = isset($data->move_events) ? $data->move_events : null;
-        $this->updateEventInstances($period, $moveEvents);
 
         return $period;
     }
@@ -105,6 +89,20 @@ class PeriodService extends BaseService {
         return $period;
     }
 
+    /**
+     * @param mixed $id
+     * @return bool|null|ApiProblem
+     * @throws NoAccessException
+     * @throws ORMException
+     */
+    public function delete($id) {
+        /** @var Period $period */
+        $period = $this->fetch($id);
+        $camp = $period->getCamp();
+        $camp->removePeriod($period);
+
+        return parent::delete($id);
+    }
 
     /**
      * @param Period $period

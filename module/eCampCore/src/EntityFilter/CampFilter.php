@@ -16,7 +16,6 @@ class CampFilter extends BaseFilter {
 
         $campQ = $this->findCollectionQueryBuilder(Camp::class, 'c');
         $campQ->orWhere(
-            //$campQ->expr()->eq('1', '1'),
             $campQ->expr()->in('c.id', $collQ->getDQL()),
             $campQ->expr()->eq('c.owner', ':f_auth_user')
         );

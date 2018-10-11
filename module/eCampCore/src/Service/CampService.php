@@ -72,6 +72,7 @@ class CampService extends BaseService {
         $camp = parent::create($data);
         $camp->setCampType($campType);
         $camp->setCreator($creator);
+        $camp->setName($data->name);
         $owner->addOwnedCamp($camp);
 
         /** Create default Jobs */
@@ -91,12 +92,13 @@ class CampService extends BaseService {
         /** Create Periods: */
         if (isset($data->periods)) {
             foreach ($data->periods as $period) {
-                $period->camp_id = $camp->getId();
+                $period = (object)$period;
+                $period->camp = $camp;
                 $this->periodService->create($period);
             }
         } elseif (isset($data->start, $data->end)) {
             $this->periodService->create((object)[
-                'camp_id' => $camp->getId(),
+                'camp' => $camp,
                 'description' => 'Main',
                 'start' => $data->start,
                 'end' => $data->end
