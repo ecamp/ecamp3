@@ -62,7 +62,13 @@ return [
             \eCamp\Core\EntityService\EventCategoryService::class => [
                 Zend\ServiceManager\Proxy\LazyServiceFactory::class,
             ],
-        ],
+        ]
+    ],
+
+    'controllers' => [
+        'factories' => [
+            \eCamp\Core\Controller\Auth\GoogleController::class => \Zend\Mvc\Controller\LazyControllerAbstractFactory::class
+        ]
     ],
 
     'hydrators' => [

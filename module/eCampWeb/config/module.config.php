@@ -240,15 +240,15 @@ return [
     'controllers' => [
         'factories' => [
             \eCamp\Web\Controller\IndexController::class => \Zend\ServiceManager\Factory\InvokableFactory::class,
-            \eCamp\Web\Controller\LoginController::class => \eCamp\Web\ControllerFactory\LoginControllerFactory::class,
-            \eCamp\Web\Controller\RegisterController::class => \eCamp\Web\ControllerFactory\RegisterControllerFactory::class,
+            \eCamp\Web\Controller\LoginController::class => \Zend\Mvc\Controller\LazyControllerAbstractFactory::class,
+            \eCamp\Web\Controller\RegisterController::class => \Zend\Mvc\Controller\LazyControllerAbstractFactory::class,
 
             \eCamp\Web\Controller\GroupsController::class => \Zend\ServiceManager\Factory\InvokableFactory::class,
 
             /**
              * use LazyControllerAbstractFactory for constructor based injection of controller dependencies
              */
-            \eCamp\Web\Controller\CampsController::class => Zend\Mvc\Controller\LazyControllerAbstractFactory::class,
+            \eCamp\Web\Controller\CampsController::class => \Zend\Mvc\Controller\LazyControllerAbstractFactory::class,
 
             \eCamp\Web\Controller\User\UserController::class =>  \Zend\ServiceManager\Factory\InvokableFactory::class,
             \eCamp\Web\Controller\User\MembershipController::class => \Zend\ServiceManager\Factory\InvokableFactory::class,
