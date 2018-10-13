@@ -38,6 +38,17 @@ return [
                 ],
             ],
 
+            'ecamp.api-docu'  => [
+                'type' => 'Segment',
+                'options' => [
+                    'route' => '/api-docu[/:action]',
+                    'defaults' => [
+                        'controller' => \eCamp\Api\Controller\SwaggerController::class,
+                        'action' => 'index'
+                    ],
+                ],
+            ]
+
         ],
     ],
 

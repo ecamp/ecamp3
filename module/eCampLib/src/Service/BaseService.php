@@ -280,11 +280,12 @@ abstract class BaseService extends AbstractResourceListener implements AclAware,
 
     /**
      * @param array $params
-     * @return Paginator
-     * @throws NoAccessException
+     * @return Paginator|ApiProblem
      */
     public function fetchAll($params = []) {
-        $this->assertAllowed($this->entityClassName, __FUNCTION__);
+        if (!$this->isAllowed($this->entityClassName, __FUNCTION__)) {
+            return new ApiProblem(403, 'No Access');
+        }
 
         $q = $this->fetchAllQueryBuilder($params);
         $list = $this->getQueryResult($q);
@@ -303,28 +304,32 @@ abstract class BaseService extends AbstractResourceListener implements AclAware,
     /**
      * @param mixed $data
      * @return BaseEntity|ApiProblem
-     * @throws NoAccessException
-     * @throws ORMException
      */
     public function create($data) {
-        $this->assertAllowed($this->entityClassName, __FUNCTION__);
+        if (!$this->isAllowed($this->entityClassName, __FUNCTION__)) {
+            return new ApiProblem(403, 'No Access');
+        }
 
         $entity = $this->createEntity($this->entityClassName);
         if ($entity instanceof ApiProblem) {
             return $entity;
         }
 
-        $this->getHydrator()->hydrate((array) $data, $entity);
-        $this->entityManager->persist($entity);
+        try {
+            $this->getHydrator()->hydrate((array) $data, $entity);
+            $this->entityManager->persist($entity);
 
-        return $entity;
+            return $entity;
+
+        } catch (\Exception $ex) {
+            return new ApiProblem(500, $ex->getMessage());
+        }
     }
 
     /**
      * @param mixed $id
      * @param mixed $data
      * @return BaseEntity|ApiProblem
-     * @throws NoAccessException
      */
     public function patch($id, $data) {
         $q = $this->fetchQueryBuilder($id);
@@ -334,7 +339,13 @@ abstract class BaseService extends AbstractResourceListener implements AclAware,
             return $entity;
         }
 
-        $this->assertAllowed($entity, __FUNCTION__);
+        if ($entity == null) {
+            return new ApiProblem(404, 'Id [' . $id . '] is unknown');
+        }
+
+        if (!$this->isAllowed($entity, __FUNCTION__)) {
+            return new ApiProblem(403, 'No Access');
+        }
 
         $allData = $this->getHydrator()->extract($entity);
         $data = array_merge($allData, (array) $data);
@@ -346,10 +357,11 @@ abstract class BaseService extends AbstractResourceListener implements AclAware,
     /**
      * @param mixed $data
      * @return mixed|ApiProblem
-     * @throws NoAccessException
      */
     public function patchList($data) {
-        $this->assertAllowed($this->entityClassName, __FUNCTION__);
+        if (!$this->isAllowed($this->entityClassName, __FUNCTION__)) {
+            return new ApiProblem(403, 'No Access');
+        }
 
         return parent::patchList($data);
     }
@@ -358,7 +370,6 @@ abstract class BaseService extends AbstractResourceListener implements AclAware,
      * @param mixed $id
      * @param mixed $data
      * @return BaseEntity|ApiProblem
-     * @throws NoAccessException
      */
     public function update($id, $data) {
         $q = $this->fetchQueryBuilder($id);
@@ -368,7 +379,14 @@ abstract class BaseService extends AbstractResourceListener implements AclAware,
             return $entity;
         }
 
-        $this->assertAllowed($entity, __FUNCTION__);
+        if ($entity == null) {
+            return new ApiProblem(404, 'Id [' . $id . '] is unknown');
+        }
+
+        if (!$this->isAllowed($entity, __FUNCTION__)) {
+            return new ApiProblem(403, 'No Access');
+        }
+
         $this->getHydrator()->hydrate((array)$data, $entity);
 
         return $entity;
@@ -380,15 +398,16 @@ abstract class BaseService extends AbstractResourceListener implements AclAware,
      * @throws NoAccessException
      */
     public function replaceList($data) {
-        $this->assertAllowed($this->entityClassName, __FUNCTION__);
+        if (!$this->isAllowed($this->entityClassName, __FUNCTION__)) {
+            return new ApiProblem(403, 'No Access');
+        }
 
         return parent::replaceList($data);
     }
 
     /**
      * @param mixed $id
-     * @return bool|null|ApiProblem
-     * @throws NoAccessException
+     * @return bool|ApiProblem
      * @throws ORMException
      */
     public function delete($id) {
@@ -399,14 +418,16 @@ abstract class BaseService extends AbstractResourceListener implements AclAware,
             return $entity;
         }
 
-        $this->assertAllowed($entity, __FUNCTION__);
-
-        if ($entity !== null) {
-            $this->entityManager->remove($entity);
-            return true;
+        if ($entity == null) {
+            return new ApiProblem(404, 'Id [' . $id . '] is unknown');
         }
 
-        return null;
+        if (!$this->isAllowed($entity, __FUNCTION__)) {
+            return new ApiProblem(403, 'No Access');
+        }
+
+        $this->entityManager->remove($entity);
+        return true;
     }
 
     /**
@@ -415,8 +436,11 @@ abstract class BaseService extends AbstractResourceListener implements AclAware,
      * @throws NoAccessException
      */
     public function deleteList($data) {
-        $this->assertAllowed($this->entityClassName, __FUNCTION__);
+        if (!$this->isAllowed($this->entityClassName, __FUNCTION__)) {
+            return new ApiProblem(403, 'No Access');
+        }
 
         return parent::deleteList($data);
     }
+
 }

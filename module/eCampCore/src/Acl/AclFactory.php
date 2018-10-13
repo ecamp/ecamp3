@@ -97,15 +97,20 @@ class AclFactory implements FactoryInterface {
             ]
         );
 
+        $userAcl = new UserAcl();
         $acl->allow(Guest::class, User::class, ACL::REST_PRIVILEGE_CREATE);
         $acl->allow(User::ROLE_USER, User::class, [ACL::REST_PRIVILEGE_FETCH, ACL::REST_PRIVILEGE_FETCH_ALL]);
+        $acl->allow(User::ROLE_USER, User::class, null, $userAcl);
+
+        $acl->allow(Guest::class, UserIdentity::class, ACL::REST_PRIVILEGE_CREATE);
 
         $campAcl = new CampAcl();
-        $acl->allow(User::ROLE_USER, Camp::class, Acl::REST_PRIVILEGE_FETCH_ALL, $campAcl);
-        $acl->allow(User::ROLE_USER, Camp::class, Acl::REST_PRIVILEGE_FETCH, $campAcl);
+        $acl->allow(User::ROLE_USER, Camp::class, null, $campAcl);
+        $acl->allow(User::ROLE_USER, Period::class);
+        $acl->allow(User::ROLE_USER, Day::class);
 
         // DEBUG:
-        $acl->allow(Guest::class, BaseEntity::class);
+        //$acl->allow(Guest::class, BaseEntity::class);
 
 
         return $acl;

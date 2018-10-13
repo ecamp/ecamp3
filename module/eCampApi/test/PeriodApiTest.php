@@ -5,13 +5,10 @@ namespace eCamp\ApiTest;
 use DateInterval;
 use eCamp\Core\Entity\Camp;
 use eCamp\Core\Entity\Period;
-use eCamp\Core\Service\CampService;
+use eCamp\Core\Service\DayService;
 use eCamp\Core\Service\PeriodService;
-use eCamp\Lib\Hydrator\Util;
-use eCamp\LibTest\PHPUnit\AbstractHttpControllerTestCase;
-use Zend\Stdlib\Parameters;
 
-class PeriodApiTest extends AbstractHttpControllerTestCase {
+class PeriodApiTest extends AbstractApiTestCase {
     function setUp() {
         parent::setUp();
         $this->createDummyData();
@@ -24,58 +21,80 @@ class PeriodApiTest extends AbstractHttpControllerTestCase {
         $campId = $camp->getId();
         $this->login($camp->getCreator()->getId());
 
-
         $periodCount = $camp->getPeriods()->count();
 
-        /** @var \Zend\Http\PhpEnvironment\Request $request */
-        $request = $this->getRequest();
-        $request->setMethod('POST');
-        $request->getHeaders()->addHeaderLine('Accept', 'application/json');
-        $request->setPost(new Parameters([
-            'camp_id' => $campId,
-            'description' => 'test',
-            'start' => '2018-10-11T00:00:00.000Z',
-            'end' => '2018-10-14T00:00:00.000Z'
-        ]));
-        $this->dispatch("/api/period");
+        $this->dispatchPost(
+            "/api/period",
+            [
+                'camp_id' => $campId,
+                'description' => 'test',
+                'start' => '2018-10-11T00:00:00.000Z',
+                'end' => '2018-10-14T00:00:00.000Z'
+            ]
+        );
 
-        /** @var CampService $campService */
-        $campService = $this->getService(CampService::class);
-        /** @var Camp $camp */
-        $camp = $campService->fetch($campId);
+        /** @var PeriodService $periodService */
+        $periodService = $this->getService(PeriodService::class);
+        $periods = $periodService->fetchAll(['where' => "row.camp = '$campId'"]);
 
-        $this->assertEquals($periodCount + 1, $camp->getPeriods()->count());
+        $this->assertEquals($periodCount + 1, $periods->getTotalItemCount());
     }
 
-    public function testPatchPeriod() {
+    public function testPatchPeriod1() {
         /** @var Period $period */
         $period = $this->getRandomEntity(Period::class);
         $periodId = $period->getId();
         $this->login($period->getCamp()->getCreator()->getId());
 
         $start = $period->getStart();
+        $start->add(new DateInterval('P1D'));
+        $end = $period->getEnd();
+        $dayCount = $period->getDurationInDays();
+
+        $this->dispatchPatch(
+            "/api/period/" . $periodId,
+            [
+                'description' => 'desc_patch',
+                'start' => $start,
+                'end'=> $end
+            ]
+        );
+
+        /** @var DayService $dayService */
+        $dayService = $this->getService(DayService::class);
+        $days = $dayService->fetchAll(['period_id' => $periodId]);
+
+        $this->assertEquals($dayCount - 1, $days->getTotalItemCount());
+    }
+
+    public function testPatchPeriod2() {
+        /** @var Period $period */
+        $period = $this->getRandomEntity(Period::class);
+        $periodId = $period->getId();
+        $this->login($period->getCamp()->getCreator()->getId());
+
+        $start = $period->getStart();
+        $start->sub(new DateInterval('P1D'));
         $end = $period->getEnd();
         $end->add(new DateInterval('P1D'));
-        $days = $period->getDurationInDays();
+        $dayCount = $period->getDurationInDays();
 
-        /** @var \Zend\Http\PhpEnvironment\Request $request */
-        $request = $this->getRequest();
-        $request->setMethod('PATCH');
-        $request->getHeaders()->addHeaderLine('Accept', 'application/json');
-        $request->setContent(json_encode([
-            'description' => 'desc_patch',
-            'start' => $start,
-            'end'=> $end
-        ]));
-        $this->dispatch("/api/period/" . $periodId);
-
+        $this->dispatchPatch(
+            "/api/period/" . $periodId,
+            [
+                'description' => 'desc_patch',
+                'start' => $start,
+                'end'=> $end,
+                'move_events' => false
+            ]
+        );
 
         /** @var PeriodService $periodService */
         $periodService = $this->getService(PeriodService::class);
         $period = $periodService->fetch($periodId);
 
         $this->assertEquals('desc_patch', $period->getDescription());
-        $this->assertEquals($days + 1, $period->getDurationInDays());
+        $this->assertEquals($dayCount + 2, $period->getDurationInDays());
     }
 
     public function testDeletePeriod() {
@@ -84,11 +103,7 @@ class PeriodApiTest extends AbstractHttpControllerTestCase {
         $periodId = $period->getId();
         $this->login($period->getCamp()->getCreator()->getId());
 
-        /** @var \Zend\Http\PhpEnvironment\Request $request */
-        $request = $this->getRequest();
-        $request->setMethod('DELETE');
-        $request->getHeaders()->addHeaderLine('Accept', 'application/json');
-        $this->dispatch("/api/period/" . $periodId);
+        $this->dispatchDelete("/api/period/" . $periodId);
 
         /** @var PeriodService $periodService */
         $periodService = $this->getService(PeriodService::class);

@@ -32,6 +32,7 @@ class UserServiceTest extends AbstractDatabaseTestCase {
         $this->getEntityManager()->flush();
 
         $userId = $user->getId();
+        $this->login($userId);
 
         $user2 = $userService->fetch($userId);
         $this->assertEquals($user, $user2);

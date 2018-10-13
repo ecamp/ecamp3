@@ -6,6 +6,7 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Tools\SchemaTool;
 use Doctrine\ORM\Tools\ToolsException;
 use PHPUnit\Framework\TestCase;
+use Zend\Authentication\AuthenticationService;
 
 abstract class AbstractDatabaseTestCase extends TestCase {
     /**
@@ -30,6 +31,16 @@ abstract class AbstractDatabaseTestCase extends TestCase {
      */
     protected function getEntityManager($name = 'orm_default') {
         return \eCampApp::GetEntityManager($name);
+    }
+
+    protected function login($userId) {
+        $authService = new AuthenticationService();
+        $authService->getStorage()->write($userId);
+    }
+
+    protected function logout() {
+        $authService = new AuthenticationService();
+        $authService->clearIdentity();
     }
 
     /**

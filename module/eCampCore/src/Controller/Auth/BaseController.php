@@ -22,6 +22,7 @@ use Zend\Http\Response;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\Session\Container;
 use Zend\View\Model\ViewModel;
+use ZF\ApiProblem\ApiProblem;
 
 abstract class BaseController extends AbstractActionController {
     public const SESSION_NAMESPACE = self::class;
@@ -108,9 +109,15 @@ abstract class BaseController extends AbstractActionController {
             $user = $userRepository->findByMail($profile->email);
         }
 
-        if ($user == null) {
+        $createUser = ($user == null);
+
+        if ($createUser) {
             $user = $this->userService->create($profile);
-        } else {
+        }
+
+        $result = $this->authService->authenticate(new OAuthAdapter($user->getId()));
+
+        if (!$createUser) {
             $user = $this->userService->update($user, $profile);
         }
 
@@ -120,13 +127,9 @@ abstract class BaseController extends AbstractActionController {
                 'provider' => $this->providerName,
                 'providerId' => $profile->identifier
             ]);
+
             $identity->setUser($user);
         }
-        $this->entityManager->flush();
-
-        $result = $this->authService->authenticate(
-            new OAuthAdapter($user->getId())
-        );
 
         if ($result->isValid()) {
             $redirect = $this->getRedirect();
@@ -135,6 +138,7 @@ abstract class BaseController extends AbstractActionController {
             }
         }
 
+        $this->entityManager->flush();
         die('login ok');
     }
 

@@ -19,13 +19,6 @@ class DayService extends BaseService {
 
     public function findCollectionQueryBuilder($className, $alias, $params = []) {
         $q = parent::findCollectionQueryBuilder($className, $alias);
-
-        $periodId = $params['period_id'];
-        if ($periodId) {
-            $q->andWhere('row.period = :periodId');
-            $q->setParameter('periodId', $periodId);
-        }
-
         $q->orderBy('row.period, row.dayOffset');
 
         return $q;
@@ -35,6 +28,13 @@ class DayService extends BaseService {
         $q = parent::fetchAllQueryBuilder($params);
         $q->join('row.period', 'p');
         $q->andWhere($this->createFilter($q, Camp::class, 'p', 'camp'));
+
+        if (isset($params['period_id'])) {
+            $periodId = $params['period_id'];
+
+            $q->andWhere('row.period = :periodId');
+            $q->setParameter('periodId', $periodId);
+        }
 
         return $q;
     }

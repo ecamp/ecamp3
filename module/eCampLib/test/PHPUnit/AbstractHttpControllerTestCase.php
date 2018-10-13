@@ -58,6 +58,10 @@ abstract class AbstractHttpControllerTestCase extends ZendAbstractHttpController
         $authService->getStorage()->write($userId);
     }
 
+    protected function logout() {
+        $authService = new AuthenticationService();
+        $authService->clearIdentity();
+    }
 
 
     /** @throws ToolsException */
