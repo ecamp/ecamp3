@@ -22,7 +22,8 @@
     "hybridauth/hybridauth": "^3.0-dev",
     "oxcom/zend-twig": "^0.1",
     "friendsofphp/php-cs-fixer": "^2.11",
-    "rwoverdijk/assetmanager": "^1.0"
+    "rwoverdijk/assetmanager": "^1.0",
+    "ext-json": "*"
   },
   "require-dev": {
     "phpunit/phpunit": "^6.5",
