@@ -2,24 +2,16 @@
 
 namespace eCamp\Web\Controller;
 
-use eCamp\Core\Auth\AuthService;
-use eCamp\Core\Service\CampService;
 use eCamp\Lib\Auth\AuthRequiredException;
 use Zend\View\Model\ViewModel;
+use eCamp\Core\EntityService\CampService;
 
 class CampsController extends AbstractBaseController {
-    /** @var AuthService */
-    private $authService;
-
     /** @var CampService */
-    private $campService;
+    protected $campService;
 
-
-    public function __construct(
-        AuthService $authService,
-        CampService $campService
-    ) {
-        $this->authService = $authService;
+    /** @var CampService $campService */
+    public function __construct(CampService $campService) {
         $this->campService = $campService;
     }
 

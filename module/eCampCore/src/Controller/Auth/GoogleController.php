@@ -4,8 +4,8 @@ namespace eCamp\Core\Controller\Auth;
 
 use Doctrine\ORM\EntityManager;
 use eCamp\Core\Auth\AuthService;
-use eCamp\Core\Service\UserIdentityService;
-use eCamp\Core\Service\UserService;
+use eCamp\Core\EntityService\UserIdentityService;
+use eCamp\Core\EntityService\UserService;
 
 class GoogleController extends BaseController {
     public function __construct(

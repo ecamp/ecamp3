@@ -22,7 +22,7 @@ class Acl extends ZendAcl {
      */
     public function isAllowed($role = null, $resource = null, $privilege = null) {
         if ($role == null) {
-            $role = Guest::class;
+            $role = new Guest();
         }
 
         return parent::isAllowed($role, $resource, $privilege);

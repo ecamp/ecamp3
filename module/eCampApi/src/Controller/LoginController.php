@@ -4,7 +4,7 @@ namespace eCamp\Api\Controller;
 
 use Doctrine\ORM\NonUniqueResultException;
 use eCamp\Core\Auth\AuthService;
-use eCamp\Core\Service\UserService;
+use eCamp\Core\EntityService\UserService;
 use eCamp\Lib\Acl\NoAccessException;
 use Zend\Http\Request;
 use Zend\Http\Response;
@@ -50,7 +50,8 @@ class LoginController extends AbstractActionController {
         $userId = $this->authService->getAuthUserId();
         if ($userId != null) {
             $user = $this->userService->fetch($userId);
-
+        }
+        if ($user != null) {
             $data['user'] = $user->getDisplayName();
             $data['role'] = $user->getRole();
         } else {

@@ -3,7 +3,7 @@
 namespace eCamp\Api\Controller;
 
 use eCamp\Core\Auth\AuthService;
-use eCamp\Core\Service\UserService;
+use eCamp\Core\EntityService\UserService;
 use Interop\Container\ContainerInterface;
 use Zend\ServiceManager\Factory\FactoryInterface;
 

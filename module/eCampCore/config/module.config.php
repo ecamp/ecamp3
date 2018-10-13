@@ -1,7 +1,7 @@
 <?php
 
 return [
-
+    
     'router' => [
         'routes' => [
             'ecamp.auth' => [
@@ -38,11 +38,8 @@ return [
     ],
 
     'service_manager' => [
-        'initializers' => [
-            \eCamp\Core\ServiceManager\AuthUserProviderInjector::class,
-        ],
         'aliases' => [
-            \Zend\Permissions\Acl\AclInterface::class => \eCamp\Lib\Acl\Acl::class
+            \Zend\Permissions\Acl\AclInterface::class => \eCamp\Lib\Acl\Acl::class,
         ],
         'factories' => [
             \eCamp\Lib\Acl\Acl::class => \eCamp\Core\Acl\AclFactory::class,
@@ -51,49 +48,21 @@ return [
             \eCamp\Core\Auth\AuthService::class => \eCamp\Core\Auth\AuthServiceFactory::class,
 
             \eCamp\Core\Plugin\PluginStrategyProvider::class =>\eCamp\Core\Plugin\PluginStrategyProviderFactory::class,
-
-
-            \eCamp\Core\Service\MediumService::class => \eCamp\Core\ServiceFactory\MediumServiceFactory::class,
-            \eCamp\Core\Service\OrganizationService::class => \eCamp\Core\ServiceFactory\OrganizationServiceFactory::class,
-            \eCamp\Core\Service\GroupService::class => \eCamp\Core\ServiceFactory\GroupServiceFactory::class,
-            \eCamp\Core\Service\GroupMembershipService::class => \eCamp\Core\ServiceFactory\GroupMembershipServiceFactory::class,
-
-            \eCamp\Core\Service\UserService::class => \eCamp\Core\ServiceFactory\UserServiceFactory::class,
-            \eCamp\Core\Service\UserIdentityService::class => \eCamp\Core\ServiceFactory\UserIdentityServiceFactory::class,
-
-            \eCamp\Core\Service\PluginService::class => \eCamp\Core\ServiceFactory\PluginServiceFactory::class,
-            \eCamp\Core\Service\CampTypeService::class => \eCamp\Core\ServiceFactory\CampTypeServiceFactory::class,
-            \eCamp\Core\Service\EventTypeService::class => \eCamp\Core\ServiceFactory\EventTypeServiceFactory::class,
-            \eCamp\Core\Service\EventTypePluginService::class => \eCamp\Core\ServiceFactory\EventTypePluginServiceFactory::class,
-            \eCamp\Core\Service\EventTypeFactoryService::class => \eCamp\Core\ServiceFactory\EventTypeFactoryServiceFactory::class,
-            \eCamp\Core\Service\EventTemplateService::class => \eCamp\Core\ServiceFactory\EventTemplateServiceFactory::class,
-            \eCamp\Core\Service\EventTemplateContainerService::class => \eCamp\Core\ServiceFactory\EventTemplateContainerServiceFactory::class,
-
-            \eCamp\Core\Service\CampService::class => \eCamp\Core\ServiceFactory\CampServiceFactory::class,
-            \eCamp\Core\Service\JobService::class => \eCamp\Core\ServiceFactory\JobServiceFactory::class,
-            \eCamp\Core\Service\JobRespService::class => \eCamp\Core\ServiceFactory\JobRespServiceFactory::class,
-            \eCamp\Core\Service\EventCategoryService::class => \eCamp\Core\ServiceFactory\EventCategoryServiceFactory::class,
-
-            \eCamp\Core\Service\CampCollaborationService::class => \eCamp\Core\ServiceFactory\CampCollaborationServiceFactory::class,
-            \eCamp\Core\Service\PeriodService::class => \eCamp\Core\ServiceFactory\PeriodServiceFactory::class,
-            \eCamp\Core\Service\DayService::class => \eCamp\Core\ServiceFactory\DayServiceFactory::class,
-
-            \eCamp\Core\Service\EventService::class => \eCamp\Core\ServiceFactory\EventServiceFactory::class,
-            \eCamp\Core\Service\EventPluginService::class => \eCamp\Core\ServiceFactory\EventPluginServiceFactory::class,
-            \eCamp\Core\Service\EventInstanceService::class => \eCamp\Core\ServiceFactory\EventInstanceServiceFactory::class,
-        ]
-    ],
-
-    'entity_filter' => [
-        'initializers' => [
-            \eCamp\Core\ServiceManager\AuthUserProviderInjector::class,
         ],
-    ],
 
-    'controllers' => [
-        'factories' => [
-            \eCamp\Core\Controller\Auth\GoogleController::class => \eCamp\Core\Controller\Auth\GoogleControllerFactory::class,
-        ]
+        /**
+         * Use lazy services (service proxies) for expensive constructors or in case circular dependencies are needed
+         */
+        'lazy_services' => [
+            'class_map' => [
+                \eCamp\Core\EntityService\EventCategoryService::class => \eCamp\Core\EntityService\EventCategoryService::class,
+            ],
+        ],
+        'delegators' => [
+            \eCamp\Core\EntityService\EventCategoryService::class => [
+                Zend\ServiceManager\Proxy\LazyServiceFactory::class,
+            ],
+        ],
     ],
 
     'hydrators' => [

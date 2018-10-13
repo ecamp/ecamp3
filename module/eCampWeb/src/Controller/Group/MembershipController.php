@@ -3,13 +3,14 @@
 namespace eCamp\Web\Controller\Group;
 
 use eCamp\Core\Entity\GroupMembership;
-use eCamp\Core\Service\GroupMembershipService;
+use eCamp\Core\EntityService\GroupMembershipService;
+use eCamp\Core\EntityServiceAware\GroupMembershipServiceAware;
+use eCamp\Core\EntityServiceTrait\GroupMembershipServiceTrait;
 use eCamp\Web\Controller\AbstractBaseController;
 
 class MembershipController extends AbstractBaseController {
-    /** @var GroupMembershipService */
-    private $groupMembershipService;
 
+    private $groupMembershipService;
 
     public function __construct(GroupMembershipService $groupMembershipService) {
         $this->groupMembershipService = $groupMembershipService;

@@ -2,13 +2,12 @@
 
 namespace eCamp\Core\Plugin;
 
-use eCamp\Lib\Service\BaseServiceFactory;
 use Interop\Container\ContainerInterface;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use Zend\Mvc\Application;
 
-abstract class BasePluginServiceFactory extends BaseServiceFactory {
+abstract class BasePluginServiceFactory {
     /**
      * @param ContainerInterface $container
      * @return mixed

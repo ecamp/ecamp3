@@ -15,9 +15,15 @@ return [
         ],
     ],
 
+    'controllers' => [
+        'factories' => [
+            \eCamp\Api\RestController\MediumApiController::class => \ZF\Rest\Factory\RestControllerFactory::class
+        ]
+    ],
+
     'zf-rest' => [
         \eCamp\Api\RestController\MediumApiController::class => [
-            'listener' => \eCamp\Core\Service\MediumService::class,
+            'listener' => \eCamp\Core\EntityService\MediumService::class,
             'controller_class' => \eCamp\Api\RestController\MediumApiController::class,
             'route_name' => 'ecamp.api.medium',
             'route_identifier_name' => 'medium_id',

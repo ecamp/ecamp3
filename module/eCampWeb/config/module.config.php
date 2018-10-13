@@ -40,6 +40,17 @@ return [
                         ],
                     ],
 
+                    'register' => [
+                        'type' => 'Segment',
+                        'options' => [
+                            'route' => 'register[/:action]',
+                            'defaults' => [
+                                'controller' => \eCamp\Web\Controller\RegisterController::class,
+                                'action' => 'index'
+                            ],
+                        ],
+                    ],
+
 
                     'user' => [
                         'type' => \eCamp\Web\Route\UserRouter::class,
@@ -230,18 +241,23 @@ return [
         'factories' => [
             \eCamp\Web\Controller\IndexController::class => \Zend\ServiceManager\Factory\InvokableFactory::class,
             \eCamp\Web\Controller\LoginController::class => \eCamp\Web\ControllerFactory\LoginControllerFactory::class,
+            \eCamp\Web\Controller\RegisterController::class => \eCamp\Web\ControllerFactory\RegisterControllerFactory::class,
 
-            \eCamp\Web\Controller\GroupsController::class => \eCamp\Web\ControllerFactory\GroupsControllerFactory::class,
-            \eCamp\Web\Controller\CampsController::class => \eCamp\Web\ControllerFactory\CampsControllerFactory::class,
+            \eCamp\Web\Controller\GroupsController::class => \Zend\ServiceManager\Factory\InvokableFactory::class,
 
-            \eCamp\Web\Controller\User\UserController::class => \Zend\ServiceManager\Factory\InvokableFactory::class,
-            \eCamp\Web\Controller\User\MembershipController::class => \eCamp\Web\ControllerFactory\User\MembershipControllerFactory::class,
-            \eCamp\Web\Controller\User\CampController::class => \eCamp\Web\ControllerFactory\User\CampControllerFactory::class,
-            \eCamp\Web\Controller\User\FriendsController::class => \eCamp\Web\ControllerFactory\User\FriendsControllerFactory::class,
+            /**
+             * use LazyControllerAbstractFactory for constructor based injection of controller dependencies
+             */
+            \eCamp\Web\Controller\CampsController::class => Zend\Mvc\Controller\LazyControllerAbstractFactory::class,
+
+            \eCamp\Web\Controller\User\UserController::class =>  \Zend\ServiceManager\Factory\InvokableFactory::class,
+            \eCamp\Web\Controller\User\MembershipController::class => \Zend\ServiceManager\Factory\InvokableFactory::class,
+            \eCamp\Web\Controller\User\CampController::class => \Zend\ServiceManager\Factory\InvokableFactory::class,
+            \eCamp\Web\Controller\User\FriendsController::class => \Zend\ServiceManager\Factory\InvokableFactory::class,
 
             \eCamp\Web\Controller\Group\GroupController::class => \Zend\ServiceManager\Factory\InvokableFactory::class,
-            \eCamp\Web\Controller\Group\MembershipController::class => \eCamp\Web\ControllerFactory\Group\MembershipControllerFactory::class,
-            \eCamp\Web\Controller\Group\CampController::class => \eCamp\Web\ControllerFactory\Group\CampControllerFactory::class,
+            \eCamp\Web\Controller\Group\MembershipController::class => \Zend\ServiceManager\Factory\InvokableFactory::class,
+            \eCamp\Web\Controller\Group\CampController::class => \Zend\ServiceManager\Factory\InvokableFactory::class,
             \eCamp\Web\Controller\Group\AdminController::class => \Zend\ServiceManager\Factory\InvokableFactory::class,
 
             \eCamp\Web\Controller\Camp\CampController::class => \Zend\ServiceManager\Factory\InvokableFactory::class,
@@ -251,7 +267,7 @@ return [
             \eCamp\Web\Controller\Camp\CollaboratorsController::class => \Zend\ServiceManager\Factory\InvokableFactory::class,
             \eCamp\Web\Controller\Camp\PrintController::class => \Zend\ServiceManager\Factory\InvokableFactory::class,
             \eCamp\Web\Controller\Camp\SettingsController::class => \Zend\ServiceManager\Factory\InvokableFactory::class,
-        ]
+        ],
     ],
 
     'translator' => [

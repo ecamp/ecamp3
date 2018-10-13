@@ -10,6 +10,7 @@ class UserRepository extends EntityRepository {
     /**
      * @param $username
      * @return mixed
+     * @throws NonUniqueResultException
      */
     public function findByUsername($username) {
         $q = $this->createQueryBuilder('u');
@@ -28,13 +29,9 @@ class UserRepository extends EntityRepository {
         $q = $this->createQueryBuilder('u');
         $q->leftJoin('u.trustedMailAddress', 'tm');
         $q->leftJoin('u.untrustedMailAddress', 'utm');
-        $q->where($q->expr()->orX(
-            'tm.mail = :tm_mail',
-            'utm.mail = :utm_mail'
-        ));
+        $q->where($q->expr()->orX('tm.mail = :mail', 'utm.mail = :mail'));
 
-        $q->setParameter('tm_mail', $mail);
-        $q->setParameter('utm_mail', $mail);
+        $q->setParameter('mail', $mail);
 
         return $q->getQuery()->getOneOrNullResult();
     }
