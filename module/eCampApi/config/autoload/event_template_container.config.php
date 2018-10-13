@@ -15,9 +15,15 @@ return [
         ],
     ],
 
+    'controllers' => [
+        'factories' => [
+            \eCamp\Api\RestController\EventTemplateContainerApiController::class => \ZF\Rest\Factory\RestControllerFactory::class
+        ]
+    ],
+
     'zf-rest' => [
         \eCamp\Api\RestController\EventTemplateContainerApiController::class => [
-            'listener' => \eCamp\Core\Service\EventTemplateContainerService::class,
+            'listener' => \eCamp\Core\EntityService\EventTemplateContainerService::class,
             'controller_class' => \eCamp\Api\RestController\EventTemplateContainerApiController::class,
             'route_name' => 'ecamp.api.event_template_container',
             'route_identifier_name' => 'event_template_container_id',

@@ -3,7 +3,7 @@
 namespace eCamp\CoreTest\Service;
 
 use eCamp\Core\Entity\User;
-use eCamp\Core\Service\UserService;
+use eCamp\Core\EntityService\UserService;
 use eCamp\LibTest\PHPUnit\AbstractDatabaseTestCase;
 
 class UserServiceTest extends AbstractDatabaseTestCase {

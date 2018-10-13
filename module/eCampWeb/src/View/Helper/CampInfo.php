@@ -4,7 +4,7 @@ namespace eCamp\Web\View\Helper;
 
 use eCamp\Core\Entity\Camp;
 use eCamp\Core\Entity\CampCollaboration;
-use eCamp\Core\Service\CampService;
+use eCamp\Core\EntityService\CampService;
 
 class CampInfo {
     /** @var CampService */

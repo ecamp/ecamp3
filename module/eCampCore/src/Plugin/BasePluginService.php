@@ -2,16 +2,13 @@
 
 namespace eCamp\Core\Plugin;
 
-use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\ORMException;
 use eCamp\Core\Entity\EventPlugin;
-use eCamp\Lib\Acl\Acl;
+use eCamp\Core\EntityService\AbstractEntityService;
 use eCamp\Lib\Acl\NoAccessException;
-use eCamp\Lib\Service\BaseService;
-use Zend\Hydrator\HydratorInterface;
 use ZF\ApiProblem\ApiProblem;
 
-abstract class BasePluginService extends BaseService {
+abstract class BasePluginService extends AbstractEntityService {
 
     /** @var string */
     private $eventPluginId;
@@ -20,13 +17,11 @@ abstract class BasePluginService extends BaseService {
     private $eventPlugin;
 
     public function __construct(
-        Acl $acl,
-        EntityManager $entityManager,
-        HydratorInterface $hydrator,
-        $entityClassName,
+        $entityClassname,
+        $hydratorClassname,
         $eventPluginId
     ) {
-        parent::__construct($acl, $entityManager, $hydrator, $entityClassName);
+        parent::__construct($entityClassname, $hydratorClassname);
 
         $this->eventPluginId = $eventPluginId;
     }

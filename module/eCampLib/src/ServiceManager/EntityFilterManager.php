@@ -16,7 +16,7 @@ class EntityFilterManager extends AbstractPluginManager {
         if ($filterName == null) {
             return null;
         }
-
+        
         return $this->get($filterName->filterClass);
     }
 }

@@ -3,7 +3,7 @@
 namespace eCamp\Api\Controller;
 
 use eCamp\Core\Auth\AuthService;
-use eCamp\Core\Service\UserService;
+use eCamp\Core\EntityService\UserService;
 use Zend\Mvc\Controller\AbstractActionController;
 use ZF\Hal\Entity;
 use ZF\Hal\Link\Link;
@@ -43,6 +43,8 @@ class IndexController extends AbstractActionController {
         $userId = $this->authService->getAuthUserId();
         if ($userId != null) {
             $user = $this->userService->fetch($userId);
+        }
+        if ($user != null) {
             $data['user'] = $user->getDisplayName();
         }
 

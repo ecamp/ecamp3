@@ -15,9 +15,15 @@ return [
         ],
     ],
 
+    'controllers' => [
+        'factories' => [
+            \eCamp\Api\RestController\EventCategoryApiController::class => \ZF\Rest\Factory\RestControllerFactory::class
+        ]
+    ],
+
     'zf-rest' => [
         \eCamp\Api\RestController\EventCategoryApiController::class => [
-            'listener' => \eCamp\Core\Service\EventCategoryService::class,
+            'listener' => \eCamp\Core\EntityService\EventCategoryService::class,
             'controller_class' => \eCamp\Api\RestController\EventCategoryApiController::class,
             'route_name' => 'ecamp.api.event_category',
             'route_identifier_name' => 'event_category_id',

@@ -2,7 +2,7 @@
 
 namespace eCamp\Web\View;
 
-use eCamp\Core\Service\CampService;
+use eCamp\Core\EntityService\CampService;
 use eCamp\Web\View\Helper\CampInfo;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;

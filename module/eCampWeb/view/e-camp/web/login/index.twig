@@ -102,22 +102,25 @@
 {% endblock %}
 
 {% block body %}
-    <form class="form-signin">
+    <form class="form-signin"
+          method="post"
+          action="{{ url('ecamp.web/login', {}, { 'query': { 'redirect': redirect } }) }}"
+    >
         <div class="text-center mb-4">
             <i class="zmdi zmdi-hc-5x zmdi-labels"></i>
         </div>
 
         <div class="form-label-group">
-            <input type="text" id="inputUsername" class="form-control" placeholder="Username" required autofocus>
+            <input type="text" name="username" id="inputUsername" class="form-control" placeholder="Username" required autofocus>
             <label for="inputUsername">Username</label>
         </div>
 
         <div class="form-label-group">
-            <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+            <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Password" required>
             <label for="inputPassword">Password</label>
         </div>
 
-        <div class="checkbox mb-3">
+        <div class="checkbox mb-3" style="margin-left: 10px">
             <label>
                 <input type="checkbox" value="remember-me"> Remember me
             </label>
@@ -129,7 +132,7 @@
 
         <hr />
 
-        <div class="btn-group btn-block">
+        <div class="btn-group btn-block" style="margin-top: 7px">
             <a class="btn btn-link"
                style="width: 100%;"
                href="{{ url('ecamp.auth/google', {}, { 'query': { 'redirect': redirect } }) }}"
@@ -143,5 +146,13 @@
                 <i class="zmdi zmdi-facebook"></i>
             </a>
         </div>
+
+        <hr style="margin-top: 22px" />
+
+        <div class="form-label-group">
+            <a href="{{ url('ecamp.web/register') }}" class="btn btn-md btn-link btn-block" >Register</a>
+        </div>
+
     </form>
+
 {% endblock %}

@@ -40,6 +40,17 @@ return [
                         ],
                     ],
 
+                    'register' => [
+                        'type' => 'Segment',
+                        'options' => [
+                            'route' => 'register[/:action]',
+                            'defaults' => [
+                                'controller' => \eCamp\Web\Controller\RegisterController::class,
+                                'action' => 'index'
+                            ],
+                        ],
+                    ],
+
 
                     'user' => [
                         'type' => \eCamp\Web\Route\UserRouter::class,
@@ -229,19 +240,24 @@ return [
     'controllers' => [
         'factories' => [
             \eCamp\Web\Controller\IndexController::class => \Zend\ServiceManager\Factory\InvokableFactory::class,
-            \eCamp\Web\Controller\LoginController::class => \eCamp\Web\ControllerFactory\LoginControllerFactory::class,
+            \eCamp\Web\Controller\LoginController::class => \Zend\Mvc\Controller\LazyControllerAbstractFactory::class,
+            \eCamp\Web\Controller\RegisterController::class => \Zend\Mvc\Controller\LazyControllerAbstractFactory::class,
 
-            \eCamp\Web\Controller\GroupsController::class => \eCamp\Web\ControllerFactory\GroupsControllerFactory::class,
-            \eCamp\Web\Controller\CampsController::class => \eCamp\Web\ControllerFactory\CampsControllerFactory::class,
+            \eCamp\Web\Controller\GroupsController::class => \Zend\ServiceManager\Factory\InvokableFactory::class,
 
-            \eCamp\Web\Controller\User\UserController::class => \Zend\ServiceManager\Factory\InvokableFactory::class,
-            \eCamp\Web\Controller\User\MembershipController::class => \eCamp\Web\ControllerFactory\User\MembershipControllerFactory::class,
-            \eCamp\Web\Controller\User\CampController::class => \eCamp\Web\ControllerFactory\User\CampControllerFactory::class,
-            \eCamp\Web\Controller\User\FriendsController::class => \eCamp\Web\ControllerFactory\User\FriendsControllerFactory::class,
+            /**
+             * use LazyControllerAbstractFactory for constructor based injection of controller dependencies
+             */
+            \eCamp\Web\Controller\CampsController::class => \Zend\Mvc\Controller\LazyControllerAbstractFactory::class,
+
+            \eCamp\Web\Controller\User\UserController::class =>  \Zend\ServiceManager\Factory\InvokableFactory::class,
+            \eCamp\Web\Controller\User\MembershipController::class => \Zend\ServiceManager\Factory\InvokableFactory::class,
+            \eCamp\Web\Controller\User\CampController::class => \Zend\ServiceManager\Factory\InvokableFactory::class,
+            \eCamp\Web\Controller\User\FriendsController::class => \Zend\ServiceManager\Factory\InvokableFactory::class,
 
             \eCamp\Web\Controller\Group\GroupController::class => \Zend\ServiceManager\Factory\InvokableFactory::class,
-            \eCamp\Web\Controller\Group\MembershipController::class => \eCamp\Web\ControllerFactory\Group\MembershipControllerFactory::class,
-            \eCamp\Web\Controller\Group\CampController::class => \eCamp\Web\ControllerFactory\Group\CampControllerFactory::class,
+            \eCamp\Web\Controller\Group\MembershipController::class => \Zend\ServiceManager\Factory\InvokableFactory::class,
+            \eCamp\Web\Controller\Group\CampController::class => \Zend\ServiceManager\Factory\InvokableFactory::class,
             \eCamp\Web\Controller\Group\AdminController::class => \Zend\ServiceManager\Factory\InvokableFactory::class,
 
             \eCamp\Web\Controller\Camp\CampController::class => \Zend\ServiceManager\Factory\InvokableFactory::class,
@@ -251,7 +267,7 @@ return [
             \eCamp\Web\Controller\Camp\CollaboratorsController::class => \Zend\ServiceManager\Factory\InvokableFactory::class,
             \eCamp\Web\Controller\Camp\PrintController::class => \Zend\ServiceManager\Factory\InvokableFactory::class,
             \eCamp\Web\Controller\Camp\SettingsController::class => \Zend\ServiceManager\Factory\InvokableFactory::class,
-        ]
+        ],
     ],
 
     'translator' => [
@@ -284,6 +300,24 @@ return [
         'extensions' => [
             \eCamp\Web\View\TwigExtensions::class,
         ],
+    ],
+
+    'view_helpers' => [
+        'factories' => [
+            \eCamp\Web\View\Helper\IncludeScriptIfPresent::class => \Zend\ServiceManager\Factory\InvokableFactory::class,
+            \eCamp\Web\View\Helper\IncludeStyleIfPresent::class => \Zend\ServiceManager\Factory\InvokableFactory::class,
+            \Zend\View\Helper\Asset::class => \eCamp\Web\View\Helper\Service\RobustAssetFactory::class,
+        ],
+        'aliases' => [
+            'includeScriptIfPresent' => \eCamp\Web\View\Helper\IncludeScriptIfPresent::class,
+            'includeStyleIfPresent' => \eCamp\Web\View\Helper\IncludeStyleIfPresent::class,
+        ]
+    ],
+
+    'view_helper_config' => [
+        'asset' => [
+            'resource_map' => json_decode(@file_get_contents(__DIR__ . '/../assets/assets.json') ?: '{}', true),
+        ]
     ],
 
 ];

@@ -15,9 +15,15 @@ return [
         ],
     ],
 
+    'controllers' => [
+        'factories' => [
+            \eCamp\Api\RestController\PeriodApiController::class => \ZF\Rest\Factory\RestControllerFactory::class
+        ]
+    ],
+
     'zf-rest' => [
         \eCamp\Api\RestController\PeriodApiController::class => [
-            'listener' => \eCamp\Core\Service\PeriodService::class,
+            'listener' => \eCamp\Core\EntityService\PeriodService::class,
             'controller_class' => \eCamp\Api\RestController\PeriodApiController::class,
             'route_name' => 'ecamp.api.period',
             'route_identifier_name' => 'period_id',

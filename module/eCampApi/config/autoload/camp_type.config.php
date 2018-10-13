@@ -15,9 +15,15 @@ return [
         ],
     ],
 
+    'controllers' => [
+        'factories' => [
+            \eCamp\Api\RestController\CampTypeApiController::class => \ZF\Rest\Factory\RestControllerFactory::class
+        ]
+    ],
+
     'zf-rest' => [
         \eCamp\Api\RestController\CampTypeApiController::class => [
-            'listener' => \eCamp\Core\Service\CampTypeService::class,
+            'listener' => \eCamp\Core\EntityService\CampTypeService::class,
             'controller_class' => \eCamp\Api\RestController\CampTypeApiController::class,
             'route_name' => 'ecamp.api.camp_type',
             'route_identifier_name' => 'camp_type_id',

@@ -15,9 +15,15 @@ return [
         ],
     ],
 
+    'controllers' => [
+        'factories' => [
+            \eCamp\Api\RestController\PluginApiController::class => \ZF\Rest\Factory\RestControllerFactory::class
+        ]
+    ],
+
     'zf-rest' => [
         \eCamp\Api\RestController\PluginApiController::class => [
-            'listener' => \eCamp\Core\Service\PluginService::class,
+            'listener' => \eCamp\Core\EntityService\PluginService::class,
             'controller_class' => \eCamp\Api\RestController\PluginApiController::class,
             'route_name' => 'ecamp.api.plugin',
             'route_identifier_name' => 'plugin_id',
