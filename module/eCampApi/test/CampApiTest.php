@@ -6,8 +6,8 @@ use eCamp\Core\Entity\Camp;
 use eCamp\Core\Entity\CampCollaboration;
 use eCamp\Core\Entity\CampType;
 use eCamp\Core\Entity\User;
-use eCamp\Core\Service\CampService;
-use eCamp\Core\Service\UserService;
+use eCamp\Core\EntityService\CampService;
+use eCamp\Core\EntityService\UserService;
 use Zend\Http\Response;
 
 class CampApiTest extends AbstractApiTestCase {

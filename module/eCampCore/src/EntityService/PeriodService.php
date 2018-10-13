@@ -14,12 +14,25 @@ use ZF\ApiProblem\ApiProblem;
 
 class PeriodService extends AbstractEntityService {
 
-    public function __construct(ServiceUtils $serviceUtils) {
+    /** @var DayService */
+    protected $dayService;
+
+    /** @var EventInstanceService */
+    protected $eventInstanceService;
+
+    public function __construct
+    (   DayService $dayService
+    ,   EventInstanceService $eventInstanceService
+    ,   ServiceUtils $serviceUtils
+    ) {
         parent::__construct(
             $serviceUtils,
             Period::class,
             PeriodHydrator::class
         );
+
+        $this->dayService = $dayService;
+        $this->eventInstanceService = $eventInstanceService;
     }
 
     protected function fetchAllQueryBuilder($params = []) {
@@ -111,7 +124,7 @@ class PeriodService extends AbstractEntityService {
 
         foreach ($daysToDelete as $day) {
             /** @var Day $day */
-            $this->getDayService()->delete($day->getId());
+            $this->dayService->delete($day->getId());
         }
 
         for ($idx = 0; $idx < $daysCountNew; $idx++) {
@@ -120,7 +133,7 @@ class PeriodService extends AbstractEntityService {
             });
 
             if ($day->isEmpty()) {
-                $this->getDayService()->create((object)[
+                $this->dayService->create((object)[
                     'period_id' => $period->getId(),
                     'day_offset' => $idx
                 ]);
@@ -152,7 +165,7 @@ class PeriodService extends AbstractEntityService {
             $eventInstances = $period->getEventInstances();
             foreach ($eventInstances as $eventInstance) {
                 /** @var EventInstance $eventInstance */
-                $this->getEventInstanceService()->patch($eventInstance->getId(), (object)[
+                $this->eventInstanceService->patch($eventInstance->getId(), (object)[
                     'start' => $eventInstance->getStart() - $delta
                 ]);
             }

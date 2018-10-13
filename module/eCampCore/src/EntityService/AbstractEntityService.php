@@ -12,10 +12,6 @@ use eCamp\Lib\Acl\Acl;
 use eCamp\Lib\Acl\NoAccessException;
 use eCamp\Lib\Entity\BaseEntity;
 use eCamp\Lib\Service\ServiceUtils;
-use eCamp\Lib\ServiceManager\AclAware;
-use eCamp\Lib\ServiceManager\EntityFilterManagerAware;
-use eCamp\Lib\ServiceManager\EntityManagerAware;
-use eCamp\Lib\ServiceManager\HydratorPluginManagerAware;
 use Zend\Authentication\AuthenticationService;
 use Zend\Hydrator\HydratorInterface;
 use Zend\Paginator\Adapter\ArrayAdapter;
@@ -104,6 +100,14 @@ abstract class AbstractEntityService extends AbstractResourceListener {
         $this->serviceUtils->aclAssertAllowed($user, $resource, $privilege);
     }
 
+
+    /**
+     * @param BaseEntity $entity
+     * @return array
+     */
+    protected function getOrigEntityData($entity) {
+        return $this->serviceUtils->emGetOrigEntityData($entity);
+    }
 
 
     /**
@@ -232,11 +236,12 @@ abstract class AbstractEntityService extends AbstractResourceListener {
 
     /**
      * @param array $params
-     * @return Paginator
-     * @throws NoAccessException
+     * @return Paginator|ApiProblem
      */
     public function fetchAll($params = []) {
-        $this->assertAllowed($this->entityClassname, __FUNCTION__);
+        if (!$this->isAllowed($this->entityClassname, __FUNCTION__)) {
+            return new ApiProblem(403, 'No Access');
+        }
         $q = $this->fetchAllQueryBuilder($params);
         $list = $this->getQueryResult($q);
         if ($list instanceof ApiProblem) {
@@ -254,14 +259,20 @@ abstract class AbstractEntityService extends AbstractResourceListener {
      * @throws ORMException
      */
     public function create($data) {
-        $this->assertAllowed($this->entityClassname, __FUNCTION__);
+        if (!$this->isAllowed($this->entityClassname, __FUNCTION__)) {
+            return new ApiProblem(403, 'No Access');
+        }
         $entity = $this->createEntity($this->entityClassname);
         if ($entity instanceof ApiProblem) {
             return $entity;
         }
-        $this->getHydrator()->hydrate((array) $data, $entity);
-        $this->serviceUtils->emPersist($entity);
-        return $entity;
+        try {
+            $this->getHydrator()->hydrate((array) $data, $entity);
+            $this->serviceUtils->emPersist($entity);
+            return $entity;
+        } catch (\Exception $ex) {
+            return new ApiProblem(500, $ex->getMessage());
+        }
     }
 
     /**
@@ -276,7 +287,12 @@ abstract class AbstractEntityService extends AbstractResourceListener {
         if ($entity instanceof ApiProblem) {
             return $entity;
         }
-        $this->assertAllowed($entity, __FUNCTION__);
+        if ($entity == null) {
+            return new ApiProblem(404, 'Id [' . $id . '] is unknown');
+        }
+        if (!$this->isAllowed($entity, __FUNCTION__)) {
+            return new ApiProblem(403, 'No Access');
+        }
         $allData = $this->getHydrator()->extract($entity);
         $data = array_merge($allData, (array) $data);
         $this->getHydrator()->hydrate($data, $entity);
@@ -289,7 +305,9 @@ abstract class AbstractEntityService extends AbstractResourceListener {
      * @throws NoAccessException
      */
     public function patchList($data) {
-        $this->assertAllowed($this->entityClassname, __FUNCTION__);
+        if (!$this->isAllowed($this->entityClassname, __FUNCTION__)) {
+            return new ApiProblem(403, 'No Access');
+        }
         return parent::patchList($data);
     }
 
@@ -305,7 +323,12 @@ abstract class AbstractEntityService extends AbstractResourceListener {
         if ($entity instanceof ApiProblem) {
             return $entity;
         }
-        $this->assertAllowed($entity, __FUNCTION__);
+        if ($entity == null) {
+            return new ApiProblem(404, 'Id [' . $id . '] is unknown');
+        }
+        if (!$this->isAllowed($entity, __FUNCTION__)) {
+            return new ApiProblem(403, 'No Access');
+        }
         $this->getHydrator()->hydrate((array)$data, $entity);
         return $entity;
     }
@@ -316,7 +339,9 @@ abstract class AbstractEntityService extends AbstractResourceListener {
      * @throws NoAccessException
      */
     public function replaceList($data) {
-        $this->assertAllowed($this->entityClassname, __FUNCTION__);
+        if (!$this->isAllowed($this->entityClassname, __FUNCTION__)) {
+            return new ApiProblem(403, 'No Access');
+        }
         return parent::replaceList($data);
     }
 
@@ -332,12 +357,14 @@ abstract class AbstractEntityService extends AbstractResourceListener {
         if ($entity instanceof ApiProblem) {
             return $entity;
         }
-        $this->assertAllowed($entity, __FUNCTION__);
-        if ($entity !== null) {
-            $this->serviceUtils->emRemove($entity);
-            return true;
+        if ($entity == null) {
+            return new ApiProblem(404, 'Id [' . $id . '] is unknown');
         }
-        return null;
+        if (!$this->isAllowed($entity, __FUNCTION__)) {
+            return new ApiProblem(403, 'No Access');
+        }
+        $this->serviceUtils->emRemove($entity);
+        return true;
     }
 
     /**
@@ -346,7 +373,9 @@ abstract class AbstractEntityService extends AbstractResourceListener {
      * @throws NoAccessException
      */
     public function deleteList($data) {
-        $this->assertAllowed($this->entityClassname, __FUNCTION__);
+        if (!$this->isAllowed($this->entityClassname, __FUNCTION__)) {
+            return new ApiProblem(403, 'No Access');
+        }
         return parent::deleteList($data);
     }
 }

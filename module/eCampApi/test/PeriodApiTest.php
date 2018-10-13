@@ -5,8 +5,8 @@ namespace eCamp\ApiTest;
 use DateInterval;
 use eCamp\Core\Entity\Camp;
 use eCamp\Core\Entity\Period;
-use eCamp\Core\Service\DayService;
-use eCamp\Core\Service\PeriodService;
+use eCamp\Core\EntityService\DayService;
+use eCamp\Core\EntityService\PeriodService;
 
 class PeriodApiTest extends AbstractApiTestCase {
     function setUp() {

@@ -17,12 +17,16 @@ class CampService extends AbstractEntityService {
     /** @var PeriodService */
     protected $periodService;
 
+    /** @var JobService  */
+    protected $jobService;
+
     /** @var EventCategoryService */
     protected $eventCategoryService;
 
     public function __construct
-    (   EventCategoryService $eventCategoryService,
-        PeriodService $periodService,
+    (   PeriodService $periodService,
+        JobService $jobService,
+        EventCategoryService $eventCategoryService,
         ServiceUtils $serviceUtils
     ) {
         parent::__construct(
@@ -32,6 +36,7 @@ class CampService extends AbstractEntityService {
         );
 
         $this->periodService = $periodService;
+        $this->jobService = $jobService;
         $this->eventCategoryService = $eventCategoryService;
     }
 
@@ -78,14 +83,14 @@ class CampService extends AbstractEntityService {
         $jobConfigs = $campType->getConfig(CampType::CNF_JOBS) ?: [];
         foreach ($jobConfigs as $jobConfig) {
             $jobConfig->camp_id = $camp->getId();
-            $this->getJobService()->create($jobConfig);
+            $this->jobService->create($jobConfig);
         }
 
         /** Create default EventCategories: */
         $ecConfigs = $campType->getConfig(CampType::CNF_EVENT_CATEGORIES) ?: [];
         foreach ($ecConfigs as $ecConfig) {
             $ecConfig->camp_id = $camp->getId();
-            $this->getEventCategoryService()->create($ecConfig);
+            $this->eventCategoryService->create($ecConfig);
         }
 
         /** Create Periods: */
