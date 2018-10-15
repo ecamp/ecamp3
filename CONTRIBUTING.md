@@ -25,7 +25,7 @@ We use a triangular git workflow. This means that all changes are first pushed t
 3. Add the master repository as a remote and name the remotes in a sensible way:
 
     ```
-    git remote add ecamp3 https://github.com/ecamp3/ecamp3.git
+    git remote add ecamp3 https://github.com/ecamp/ecamp3.git
     git remote rename origin mine
     ```
 
@@ -103,7 +103,7 @@ Wir wenden einen triangulären Git-Workflow an. Das bedeutet, dass alle Code-Än
 3. Füge das zentrale Repository als Remote hinzu und benenne deinen Fork sinnvoll:
 
     ```
-    git remote add ecamp3 https://github.com/ecamp3/ecamp3.git
+    git remote add ecamp3 https://github.com/ecamp/ecamp3.git
     git remote rename origin mine
     ```
 
