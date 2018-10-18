@@ -37,8 +37,6 @@ class EventCategoryHydratorTest extends AbstractTestCase {
 
         $eventCategory = new EventCategory();
         $data = [
-            'event_type' => $eventType,
-            'camp' => $camp,
             'short' => 'sh',
             'name' => 'name',
             'color' => '#00ff00',
@@ -48,8 +46,6 @@ class EventCategoryHydratorTest extends AbstractTestCase {
         $hydrator = new EventCategoryHydrator();
         $hydrator->hydrate($data, $eventCategory);
 
-        $this->assertEquals($eventType, $eventCategory->getEventType());
-        $this->assertEquals($camp, $eventCategory->getCamp());
         $this->assertEquals('sh', $eventCategory->getShort());
         $this->assertEquals('name', $eventCategory->getName());
         $this->assertEquals('#00ff00', $eventCategory->getColor());

@@ -12,9 +12,6 @@ use ZF\Hal\Link\Link;
 
 class CampHydrator implements HydratorInterface {
 
-    // TODO: Move to Core
-
-
     /**
      * @param object $object
      * @return array
@@ -36,6 +33,16 @@ class CampHydrator implements HydratorInterface {
             'periods' => new PeriodCollection($camp->getPeriods()),
             'event_categories' => new EventCategoryCollection($camp->getEventCategories()),
 
+
+            'events' => Link::factory([
+                'rel' => 'events',
+                'route' => [
+                    'name' => 'ecamp.api.event',
+                    'options' => [
+                        'query' => [ 'camp_id' => $camp->getId() ]
+                    ]
+                ]
+            ]),
         ];
     }
 

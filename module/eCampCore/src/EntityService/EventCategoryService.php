@@ -34,15 +34,26 @@ class EventCategoryService extends AbstractEntityService {
      * @throws NoAccessException
      */
     public function create($data) {
+        if (!isset($data->color)) {
+            $data->color = null;
+        }
+        if (!isset($data->numbering_style)) {
+            $data->numbering_style = null;
+        }
+
         /** @var EventCategory $eventCategory */
         $eventCategory = parent::create($data);
 
+        if ($eventCategory instanceof ApiProblem) {
+            return $eventCategory;
+        }
+
         /** @var EventType $eventType */
-        $eventType = $this->findEntity(EventType::class, $data->event_type_id);
+        $eventType = $this->getEntityFromData(EventType::class, $data, 'event_type');
         $eventCategory->setEventType($eventType);
 
         /** @var Camp $camp */
-        $camp = $this->findEntity(Camp::class, $data->camp_id);
+        $camp = $this->getEntityFromData(Camp::class, $data, 'camp');
         $camp->addEventCategory($eventCategory);
 
         return $eventCategory;

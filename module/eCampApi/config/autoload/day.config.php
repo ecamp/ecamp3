@@ -40,7 +40,7 @@ return [
             //'page_size_param' => null,
             'entity_class' => \eCamp\Core\Entity\Day::class,
             'collection_class' => \eCamp\Api\Collection\DayCollection::class,
-            'service_name' => 'Period',
+            'service_name' => 'Day',
         ],
     ],
 

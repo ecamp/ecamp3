@@ -4,9 +4,9 @@ namespace eCamp\ApiTest;
 
 use eCamp\LibTest\PHPUnit\AbstractHttpControllerTestCase;
 use Zend\Http\Request;
+use Zend\Http\Response;
 
-abstract class AbstractApiTestCase extends AbstractHttpControllerTestCase
-{
+abstract class AbstractApiTestCase extends AbstractHttpControllerTestCase {
     /**
      * @param $url
      * @param array $params
@@ -61,5 +61,17 @@ abstract class AbstractApiTestCase extends AbstractHttpControllerTestCase
         $headers->addHeaderLine('Accept', 'application/json');
 
         $this->dispatch($url, Request::METHOD_DELETE, $params);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getResponseJson() {
+        /** @var Response $resp */
+        $resp = $this->getResponse();
+        $body = $resp->getBody();
+
+        $this->assertJson($body);
+        return json_decode($body);
     }
 }

@@ -224,6 +224,28 @@ abstract class AbstractEntityService extends AbstractResourceListener {
         return $entity;
     }
 
+    protected function getEntityFromData($className, $data, $property) {
+        if (is_object($data)) {
+            $data = (array)$data;
+        }
+
+        $entity = null;
+
+        if (array_key_exists($property, $data)) {
+            $entity = $data[$property];
+        }
+
+        if ($entity == null) {
+            $property = $property . '_id';
+            if (array_key_exists($property, $data)) {
+                $entityId = $data[$property];
+                $entity = $this->findEntity($className, $entityId);
+            }
+        }
+
+        return $entity;
+    }
+
     /**
      * @param mixed $id
      * @return BaseEntity|ApiProblem

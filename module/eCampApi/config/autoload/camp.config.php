@@ -38,7 +38,7 @@ return [
                 0 => 'GET',
                 1 => 'POST'
             ],
-            'collection_query_whitelist' => [],
+            'collection_query_whitelist' => [ 'owner_id', 'user_id', 'creator_id' ],
             //'page_size' => 25,
             //'page_size_param' => null,
             'entity_class' => \eCamp\Core\Entity\Camp::class,

@@ -268,16 +268,16 @@ class Camp extends BaseEntity {
     /**
      * @return ArrayCollection
      */
-    public function getEvents(): ArrayCollection {
+    public function getEvents() {
         return $this->events;
     }
 
-    public function addEvent(Event $event): void {
+    public function addEvent(Event $event) {
         $event->setCamp($this);
         $this->events->add($event);
     }
 
-    public function removeEvent(Event $event): void {
+    public function removeEvent(Event $event) {
         $event->setCamp(null);
         $this->events->removeElement($event);
     }

@@ -28,6 +28,20 @@ class CampTypeData extends AbstractFixture implements DependentFixtureInterface 
             $campType->setOrganization($pbs);
             $campType->setIsJS(true);
             $campType->setIsCourse(false);
+            $campType->setJsonConfig(json_encode([
+                CampType::CNF_EVENT_CATEGORIES => [
+                    [
+                        'event_type_id' => $lagersport->getId(),
+                        'short' => 'LS',
+                        'name' => 'Lagersport'
+                    ],
+                    [
+                        'event_type_id' => $lageraktivitaet->getId(),
+                        'short' => 'LA',
+                        'name' => 'Lageraktivität'
+                    ]
+                ]
+            ]));
 
             $manager->persist($campType);
         }
@@ -46,6 +60,20 @@ class CampTypeData extends AbstractFixture implements DependentFixtureInterface 
             $campType->setOrganization($pbs);
             $campType->setIsJS(true);
             $campType->setIsCourse(false);
+            $campType->setJsonConfig(json_encode([
+                CampType::CNF_EVENT_CATEGORIES => [
+                    [
+                        'event_type_id' => $lagersport->getId(),
+                        'short' => 'LS',
+                        'name' => 'Lagersport'
+                    ],
+                    [
+                        'event_type_id' => $lageraktivitaet->getId(),
+                        'short' => 'LA',
+                        'name' => 'Lageraktivität'
+                    ]
+                ]
+            ]));
 
             $manager->persist($campType);
         }

@@ -16,6 +16,41 @@ class CampApiTest extends AbstractApiTestCase {
         $this->createDummyData();
     }
 
+    public function testFetchAllCamps() {
+        /** @var Camp $camp */
+        $camp = $this->getRandomEntity(Camp::class);
+        $user = $camp->getCreator();
+        $owner = $camp->getOwner();
+
+        $this->login($user);
+
+        $url = "/api/camp?user_id=%s&owner_id=%s&creator_id=%s";
+        $url = sprintf($url, $user->getId(), $owner->getId(), $user->getId());
+        $this->dispatchGet($url);
+        $json = $this->getResponseJson();
+
+        $items = $json->_embedded->items;
+        $campIds = array_map(function($i) {
+            return $i->id;
+        }, $items);
+
+        $this->assertContains($camp->getId(), $campIds);
+    }
+
+
+    public function testFetchCamp1() {
+        /** @var Camp $camp */
+        $camp = $this->getRandomEntity(Camp::class);
+        $user = $camp->getCreator();
+
+        $this->login($user);
+
+        $this->dispatchGet("/api/camp/" . $camp->getId());
+        $json = $this->getResponseJson();
+
+        $this->assertEquals($camp->getId(), $json->id);
+    }
+
 
     public function testCreateCamp1() {
         /** @var User $user */
@@ -37,13 +72,7 @@ class CampApiTest extends AbstractApiTestCase {
                 'end' => '2018-10-14T00:00:00.000Z'
             ]
         );
-
-        /** @var Response $resp */
-        $resp = $this->getResponse();
-        $body = $resp->getBody();
-
-        $this->assertJson($body);
-        $json = json_decode($body);
+        $json = $this->getResponseJson();
 
         /** @var CampService $campService */
         $campService = $this->getService(CampService::class);
@@ -85,13 +114,7 @@ class CampApiTest extends AbstractApiTestCase {
                 ]
             ]
         );
-
-        /** @var Response $resp */
-        $resp = $this->getResponse();
-        $body = $resp->getBody();
-
-        $this->assertJson($body);
-        $json = json_decode($body);
+        $json = $this->getResponseJson();
 
         /** @var CampService $campService */
         $campService = $this->getService(CampService::class);
@@ -161,5 +184,4 @@ class CampApiTest extends AbstractApiTestCase {
         // Camp not found
         $this->assertResponseStatusCode(Response::STATUS_CODE_403);
     }
-
 }

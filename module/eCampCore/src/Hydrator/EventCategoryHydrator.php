@@ -34,9 +34,6 @@ class EventCategoryHydrator implements HydratorInterface {
         /** @var EventCategory $eventCategory */
         $eventCategory = $object;
 
-        $eventCategory->setCamp($data['camp']);
-        $eventCategory->setEventType($data['event_type']);
-
         $eventCategory->setShort($data['short']);
         $eventCategory->setName($data['name']);
 
