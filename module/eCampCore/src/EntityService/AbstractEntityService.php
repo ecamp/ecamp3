@@ -3,6 +3,7 @@
 namespace eCamp\Core\EntityService;
 
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\Mapping\MappingException;
 use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\ORMException;
 use Doctrine\ORM\Query\Expr;
@@ -157,12 +158,16 @@ abstract class AbstractEntityService extends AbstractResourceListener {
     /**
      * @param $className
      * @param $alias
+     * @param $primaryKey
      * @param $id
      * @return QueryBuilder
+     * @throws MappingException
      */
     protected function findEntityQueryBuilder($className, $alias, $id) {
+        $primaryKey = $this->serviceUtils->emGetPrimaryKeyColumn($className);
+
         $q = $this->createQueryBuilder($className, $alias);
-        $q->andWhere($alias . '.id = :entity_id');
+        $q->andWhere($alias . '.' . $primaryKey . ' = :entity_id');
         $q->setParameter('entity_id', $id);
         return $q;
     }
@@ -238,9 +243,12 @@ abstract class AbstractEntityService extends AbstractResourceListener {
         if ($entity == null) {
             $property = $property . '_id';
             if (array_key_exists($property, $data)) {
-                $entityId = $data[$property];
-                $entity = $this->findEntity($className, $entityId);
+                $entity = $data[$property];
             }
+        }
+
+        if (is_string($entity)) {
+            $entity = $this->findEntity($className, $entity);
         }
 
         return $entity;

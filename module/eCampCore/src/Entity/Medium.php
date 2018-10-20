@@ -2,13 +2,15 @@
 
 namespace eCamp\Core\Entity;
 
+use Doctrine\Common\Util\ClassUtils;
 use Doctrine\ORM\Mapping as ORM;
+use Zend\Permissions\Acl\Resource\ResourceInterface;
 
 /**
  * @ORM\Entity()
  * @ORM\Table(name="medium")
  */
-class Medium {
+class Medium implements ResourceInterface {
     const MEDIUM_WEB = 'web';
     const MEDIUM_PRINT = 'print';
     const MEDIUM_MOBILE = 'mobile';
@@ -52,5 +54,12 @@ class Medium {
 
     public function setDefault(bool $default): void {
         $this->default = $default;
+    }
+
+    /**
+     * @return string
+     */
+    public function getResourceId() {
+        return ClassUtils::getClass($this);
     }
 }

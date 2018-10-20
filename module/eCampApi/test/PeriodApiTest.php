@@ -109,5 +109,4 @@ class PeriodApiTest extends AbstractApiTestCase {
         $periodService = $this->getService(PeriodService::class);
         $this->assertNull($periodService->fetch($periodId));
     }
-
 }

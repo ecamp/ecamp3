@@ -90,6 +90,19 @@ class EventTypeData extends AbstractFixture implements DependentFixtureInterface
             $eventTypeFactory->setFactoryName('');
             $eventType->addEventTypeFactory($eventTypeFactory);
             $manager->persist($eventTypeFactory);
+
+            $eventTemplate = new EventTemplate();
+            $eventTemplate->setMedium($web);
+            $eventTemplate->setFilename('ls_web');
+            $eventType->addEventTemplate($eventTemplate);
+            $manager->persist($eventTemplate);
+
+            $eventTemplateCont = new EventTemplateContainer();
+            $eventTemplateCont->setContainerName('a');
+            $eventTemplateCont->setFilename('a.html');
+            $eventTemplateCont->setEventTypePlugin($eventTypePlugin);
+            $eventTemplate->addEventTemplateContainer($eventTemplateCont);
+            $manager->persist($eventTemplateCont);
         }
         $this->addReference(self::$LAGERAKTIVITAET, $eventType);
 

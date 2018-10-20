@@ -78,19 +78,21 @@ class AclFactory implements FactoryInterface {
         $acl->allow(
             Guest::class,
             [
+                // Public:
                 Medium::class,
                 Organization::class,
-                Group::class,
-                GroupMembership::class,
                 CampType::class,
                 EventType::class,
-                EventInstance::class,
-                EventTemplate::class,
-                EventTemplateContainer::class,
                 EventTypeFactory::class,
                 EventTypePlugin::class,
-                Plugin::class,
+                EventTemplate::class,
+                EventTemplateContainer::class,
 
+                // TBD:
+                Group::class,
+                GroupMembership::class,
+                EventInstance::class,
+                Plugin::class,
                 CampCollaboration::class,
             ],
             [

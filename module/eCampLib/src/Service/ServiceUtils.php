@@ -3,6 +3,7 @@
 namespace eCamp\Lib\Service;
 
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\Mapping\MappingException;
 use Doctrine\ORM\ORMException;
 use Doctrine\ORM\QueryBuilder;
 use eCamp\Lib\Acl\Acl;
@@ -15,8 +16,7 @@ use Zend\Hydrator\HydratorPluginManager;
 use Zend\Permissions\Acl\Resource\ResourceInterface;
 use Zend\Permissions\Acl\Role\RoleInterface;
 
-class ServiceUtils
-{
+class ServiceUtils {
     /** @var Acl */
     private $acl;
 
@@ -64,6 +64,15 @@ class ServiceUtils
     }
 
 
+    /**
+     * @param $className
+     * @return string
+     * @throws MappingException
+     */
+    public function emGetPrimaryKeyColumn($className) {
+        $meta = $this->entityManager->getClassMetadata($className);
+        return $meta->getSingleIdentifierFieldName();
+    }
 
     /**
      * @return QueryBuilder
@@ -125,5 +134,4 @@ class ServiceUtils
     public function getHydrator($name, array $options = null) {
         return $this->hydratorPluginManager->get($name, $options);
     }
-
 }

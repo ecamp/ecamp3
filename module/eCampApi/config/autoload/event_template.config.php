@@ -35,7 +35,12 @@ return [
             'collection_http_methods' => [
                 0 => 'GET',
             ],
-            'collection_query_whitelist' => [],
+            'collection_query_whitelist' => [
+                'event_id',
+                'event_category_id',
+                'event_type_id',
+                'medium'
+            ],
             //'page_size' => 25,
             //'page_size_param' => null,
             'entity_class' => \eCamp\Core\Entity\EventTemplate::class,
