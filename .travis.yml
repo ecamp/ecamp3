@@ -21,12 +21,18 @@ env:
 # script: phpunit --configuration phpunit_$DB.xml --coverage-text
 
 before_script:
+    - cd backend
     - composer install --no-interaction
     - composer di-generate-aot
+    - cd ..
 
 script:
+    - cd backend
     - mkdir -p build/logs
     - vendor/bin/phpunit
+    - cd ..
 
 after_script:
+    - cd backend
     - vendor/bin/php-coveralls
+    - cd ..
