@@ -1,0 +1,8 @@
+.DS_Store
+*/.DS_Store
+.php_cs.cache
+build
+.vagrant/
+.idea/
+vendor/
+node_modules
