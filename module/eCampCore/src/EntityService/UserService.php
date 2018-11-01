@@ -48,6 +48,10 @@ class UserService extends AbstractEntityService {
 
         /** @var User $user */
         $user = parent::create($data);
+        if ($user instanceof ApiProblem) {
+            return $user;
+        }
+
         $user->setState($state);
         $user->setRole(User::ROLE_USER);
 
@@ -66,8 +70,6 @@ class UserService extends AbstractEntityService {
                 $user->verifyMailAddress($key);
             }
         }
-
-
 
         return $user;
     }

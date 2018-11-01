@@ -41,10 +41,6 @@ class EventService extends AbstractEntityService {
     }
 
 
-    public function fetchAll($params = []) {
-        return parent::fetchAll($params);
-    }
-
     /**
      * @param mixed $data
      * @return Event|ApiProblem

@@ -6,6 +6,7 @@ use Doctrine\ORM\ORMException;
 use eCamp\Core\Entity\Event;
 use eCamp\Core\Entity\EventPlugin;
 use eCamp\Core\Entity\EventTypePlugin;
+use eCamp\Core\Entity\Plugin;
 use eCamp\Core\Hydrator\EventPluginHydrator;
 use eCamp\Core\Plugin\PluginStrategyInterface;
 use eCamp\Core\Plugin\PluginStrategyProviderAware;
@@ -34,10 +35,10 @@ class EventPluginService extends AbstractEntityService
     protected function findCollectionQueryBuilder($className, $alias, $params = []) {
         $q = parent::findCollectionQueryBuilder($className, $alias);
 
-        $eventId = $params['event_id'];
-        if ($eventId) {
-            $q->andWhere('row.event = :eventId');
-            $q->setParameter('eventId', $eventId);
+        $event = $this->getEntityFromData(Event::class, $params, 'event');
+        if ($event) {
+            $q->andWhere('row.event = :event');
+            $q->setParameter('event', $event);
         }
 
         return $q;
@@ -53,21 +54,22 @@ class EventPluginService extends AbstractEntityService
      * @throws NoAccessException
      */
     public function create($data) {
-        /** @var EventPlugin $eventPlugin */
-        $eventPlugin = parent::create($data);
-
         /** @var Event $event */
-        $event = $this->findEntity(Event::class, $data->event_id);
+        $event = $this->getEntityFromData(Event::class, $data, 'event');
         /** @var EventTypePlugin $eventTypePlugin */
-        $eventTypePlugin = $this->findEntity(EventTypePlugin::class, $data->event_type_plugin_id);
+        $eventTypePlugin = $this->getEntityFromData(EventTypePlugin::class, $data, 'event_type_plugin');
 
         $this->assertAllowed($event, Acl::REST_PRIVILEGE_UPDATE);
 
+        /** @var EventPlugin $eventPlugin */
+        $eventPlugin = parent::create($data);
         $eventPlugin->setEvent($event);
         $eventPlugin->setEventTypePlugin($eventTypePlugin);
 
+        /** @var Plugin $plugin */
+        $plugin = $eventTypePlugin->getPlugin();
         /** @var PluginStrategyInterface $strategy */
-        $strategy = $this->getPluginStrategyProvider()->get($eventTypePlugin->getPlugin());
+        $strategy = $this->getPluginStrategyProvider()->get($plugin);
         if ($strategy != null) {
             $strategy->eventPluginCreated($eventPlugin);
         }

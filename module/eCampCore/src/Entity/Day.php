@@ -2,6 +2,7 @@
 
 namespace eCamp\Core\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use eCamp\Lib\Entity\BaseEntity;
 
@@ -51,6 +52,28 @@ class Day extends BaseEntity {
         return ($this->period != null) ? $this->period->getCamp() : null;
     }
 
+    /**
+     * @return ArrayCollection
+     */
+    public function getEventInstances() {
+        $dayStart = 24 * 60 * ($this->dayOffset);
+        $dayEnd = 24 * 60 * ($this->dayOffset + 1);
+
+        $eventInstances = $this->period->getEventInstances();
+        $eventInstances = $eventInstances->filter(
+            function($ei) use ($dayStart, $dayEnd) {
+                /** @var EventInstance $ei */
+                $start = $ei->getStart();
+                $end = $start + $ei->getLength();
+
+                if ($start > $dayEnd) return false;
+                if ($end < $dayStart) return false;
+                return true;
+            }
+        );
+
+        return $eventInstances;
+    }
 
     /**
      * @return int

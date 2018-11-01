@@ -91,7 +91,6 @@ class AclFactory implements FactoryInterface {
                 // TBD:
                 Group::class,
                 GroupMembership::class,
-                EventInstance::class,
                 Plugin::class,
                 CampCollaboration::class,
             ],
@@ -115,6 +114,7 @@ class AclFactory implements FactoryInterface {
 
         $acl->allow(User::ROLE_USER, EventCategory::class);
         $acl->allow(User::ROLE_USER, Event::class);
+        $acl->allow(User::ROLE_USER, EventInstance::class);
 
         // DEBUG:
         //$acl->allow(Guest::class, BaseEntity::class);

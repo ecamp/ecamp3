@@ -1,6 +1,7 @@
 <?php
 
 class eCampApp {
+    /** @var \Zend\Mvc\Application */
     private static $instance;
 
     private static function GetAppConfig() {

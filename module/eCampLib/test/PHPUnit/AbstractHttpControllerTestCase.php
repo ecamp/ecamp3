@@ -17,11 +17,20 @@ abstract class AbstractHttpControllerTestCase extends ZendAbstractHttpController
     public function setUp() {
         parent::setUp();
 
+        putenv("env=test");
+
         $data = include __DIR__ . '/../../../../config/application.config.php';
         $this->setApplicationConfig($data);
 
         $em = $this->getEntityManager();
         $this->createDatabaseSchema($em);
+    }
+
+    protected function tearDown() {
+        $em = $this->getEntityManager();
+        $em->close();
+
+        parent::tearDown();
     }
 
     protected function getService($name) {
@@ -45,7 +54,7 @@ abstract class AbstractHttpControllerTestCase extends ZendAbstractHttpController
         $repo = $this->getRepository($entityName, $name);
         $entities = $repo->findAll();
 
-        if(count($entities)){
+        if(count($entities)) {
             $idx = array_rand($entities, 1);
             return $entities[$idx];
         }
@@ -71,6 +80,7 @@ abstract class AbstractHttpControllerTestCase extends ZendAbstractHttpController
         $schemaTool = new SchemaTool($em);
         $schemaTool->dropDatabase();
         $schemaTool->createSchema($metadatas);
+        unset($schemaTool);
     }
 
     protected function createDummyData($name = null) {
@@ -87,5 +97,8 @@ abstract class AbstractHttpControllerTestCase extends ZendAbstractHttpController
             $em, new \Doctrine\Common\DataFixtures\Purger\ORMPurger()
         );
         $executor->execute($loader->getFixtures(), true);
+
+        unset($loader);
+        unset($executor);
     }
 }

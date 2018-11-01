@@ -15,14 +15,19 @@ abstract class AbstractDatabaseTestCase extends TestCase {
     public function setUp() {
         parent::setUp();
 
+        putenv("env=test");
+
         $em = $this->getEntityManager();
         $this->createDatabaseSchema($em);
     }
 
     public function tearDown() {
-        parent::tearDown();
+        $em = $this->getEntityManager();
+        $em->close();
 
         \eCampApp::Reset();
+
+        parent::tearDown();
     }
 
     /**
