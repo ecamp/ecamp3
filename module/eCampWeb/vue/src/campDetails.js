@@ -10,7 +10,7 @@ let router = new Router({
   routes: [
     {
       path: '/',
-      component: () => import('@/components/camp-details'),
+      component: () => import('@/components/CampDetails'),
       props: () => ({ infoUrl: window.location.pathname + '?route-match=true' })
     }
   ]

@@ -65,8 +65,8 @@ import axios from 'axios'
 export default {
   name: 'CampDetails',
   components: {
-    'ToggleableInput': () => import('@/components/toggleable-input.vue'),
-    'ToggleableGroupInput': () => import('@/components/toggleable-group-input.vue')
+    'ToggleableInput': () => import('@/components/ToggleableInput.vue'),
+    'ToggleableGroupInput': () => import('@/components/ToggleableGroupInput.vue')
   },
   props: { infoUrl: { type: String, required: true } },
   data () {
