@@ -7,12 +7,11 @@ Vue.use(Router)
 
 // Add routes here
 let router = new Router({
-  mode: 'history',
   routes: [
     {
-      path: '/group/:groupName/camp/:campName',
+      path: '/',
       component: () => import('@/components/camp-details'),
-      props: route => ({ infoUrl: route.path + '?route-match=true' })
+      props: () => ({ infoUrl: window.location.pathname + '?route-match=true' })
     }
   ]
 })
