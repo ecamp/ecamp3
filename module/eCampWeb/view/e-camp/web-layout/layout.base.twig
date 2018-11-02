@@ -23,5 +23,4 @@
 {% block bodyScript %}
     {{ parent() }}
     {{ includeScriptIfPresent('webpack-hot-reload') }}
-    {{ includeScriptIfPresent('main.js', 'No generated JavaScript Assets from Webpack found. Please run the following command inside the module/eCampWeb/vue folder:<pre>npm install && npm run dev</pre>') }}
 {% endblock %}
