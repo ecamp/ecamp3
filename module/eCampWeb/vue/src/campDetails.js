@@ -13,6 +13,11 @@ let router = new Router({
       path: '/',
       component: () => import('@/components/CampDetails'),
       props: () => ({ infoUrl: window.location.pathname + '?route-match=true' })
+    },
+    {
+      path: '/periods',
+      component: () => import('@/components/CampDetailsPeriods'),
+      props: () => ({ infoUrl: window.location.pathname + '?route-match=true' })
     }
   ]
 })
