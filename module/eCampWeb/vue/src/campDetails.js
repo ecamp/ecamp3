@@ -1,6 +1,7 @@
 import 'regenerator-runtime/runtime'
 import Vue from 'vue'
 import Router from 'vue-router'
+import CampDetailsContainer from '@/components/CampDetailsContainer'
 
 // Add vue plugins here
 Vue.use(Router)
@@ -18,9 +19,10 @@ let router = new Router({
 
 new Vue({ // eslint-disable-line no-new
   el: '#app',
+  components: { CampDetailsContainer },
   router,
   render (h) {
     let props = this.$el.dataset
-    return h('router-view', { props })
+    return h('camp-details-container', { props })
   }
 })

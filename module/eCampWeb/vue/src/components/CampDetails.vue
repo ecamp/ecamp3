@@ -1,5 +1,5 @@
 <!--
-Displays details on a single camp (with id specified as prop campId) and allows to edit them.
+Displays details on a single camp (specified by the url in the prop) and allows to edit them.
 -->
 
 <template>
