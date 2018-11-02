@@ -31,7 +31,7 @@ export default {
   props: {
     editing: { type: Boolean, default: false },
     fieldname: { type: String, default: '' },
-    value: { type: String, required: true }
+    value: { type: Object, required: true }
   },
   data () {
     return {

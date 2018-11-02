@@ -21,7 +21,7 @@ Displays details on a single camp (with id specified as prop campId) and allows 
             class="btn btn-sm camp-detail-submit-button">
             {{ buttonText }}
           </button>
-          Vue.js Infos zu genau einem Lager, name {{ campName }}
+          Vue.js Infos zu genau einem Lager
           <ul>
             <li>Name: {{ campDetails.name }}</li>
             <li>
@@ -73,7 +73,7 @@ export default {
     return {
       campId: null,
       editing: false,
-      campDetails: { title: '', motto: '', _embedded: { owner: '' } },
+      campDetails: { title: '', motto: '', _embedded: { owner: {} } },
       messages: []
     }
   },
