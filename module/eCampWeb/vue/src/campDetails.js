@@ -12,7 +12,7 @@ let router = new Router({
     {
       path: '/group/:groupName/camp/:campName',
       component: () => import('@/components/camp-details'),
-      props: true
+      props: route => ({ infoUrl: route.path + '?route-match=true' })
     }
   ]
 })

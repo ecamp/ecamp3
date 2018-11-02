@@ -68,7 +68,7 @@ export default {
     'ToggleableInput': () => import('@/components/toggleable-input.vue'),
     'ToggleableGroupInput': () => import('@/components/toggleable-group-input.vue')
   },
-  props: { campName: { type: String, required: true }, groupName: { type: String, required: true } },
+  props: { infoUrl: { type: String, required: true } },
   data () {
     return {
       campId: null,
@@ -94,7 +94,7 @@ export default {
       // TODO: Use an NPM plugin for REST interfaces instead of raw axios?
       try {
         if (!this.campId) {
-          this.campId = (await axios.get('/group/' + this.groupName + '/camp/' + this.campName + '?route-match=true')).data.campId
+          this.campId = (await axios.get(this.infoUrl)).data.campId
         }
         this.campDetails = (await axios.get('/api/camp/' + this.campId)).data
       } catch (error) {
