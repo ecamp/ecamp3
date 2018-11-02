@@ -17,7 +17,7 @@ Displays several tabs with details on a single camp (specified by the url in the
 
           <router-link
             to="/collaborators"
-            class="nav-item btn btn-sm btn-outline-secondary d-none d-sm-block">
+            class="nav-item btn btn-sm btn-outline-secondary d-none d-sm-block disabled">
             <i class="zmdi zmdi-hc-fw zmdi-accounts" /> Collaborators
           </router-link>
 
@@ -29,7 +29,7 @@ Displays several tabs with details on a single camp (specified by the url in the
 
           <router-link
             to="/picasso"
-            class="nav-item btn btn-sm btn-outline-secondary d-none d-sm-block">
+            class="nav-item btn btn-sm btn-outline-secondary d-none d-sm-block disabled">
             <i class="zmdi zmdi-hc-fw zmdi-grid" /> Picasso
           </router-link>
         </div>
