@@ -1,5 +1,7 @@
 <template>
-  <h3>Login</h3>
+  <section class="container">
+    <h3>Login</h3>
+  </section>
 </template>
 
 <script>

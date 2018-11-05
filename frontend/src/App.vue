@@ -35,9 +35,7 @@
       <h1>eCamp3</h1>
       <hr>
     </section>
-    <section class="container">
-      <router-view />
-    </section>
+    <router-view />
   </div>
 </template>
 
