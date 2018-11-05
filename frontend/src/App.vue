@@ -2,7 +2,7 @@
   <div
     id="app"
     class="layout">
-    <div class="layout-header">
+    <section class="layout-header container">
       <div
         class="btn-group float-right"
         style="margin-top: 7px">
@@ -31,13 +31,16 @@
           class="btn btn-sm btn-primary d-none d-md-block">
           Camp periods
         </router-link>
-
       </div>
-      <slot name="layout_title" />
-    </div>
-    <router-view />
+      <h1>eCamp3</h1>
+      <hr>
+    </section>
+    <section class="container">
+      <router-view />
+    </section>
   </div>
 </template>
 
 <style lang="scss">
+  @import '../node_modules/bootstrap/scss/bootstrap.scss';
 </style>
