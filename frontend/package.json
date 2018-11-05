@@ -37,10 +37,18 @@
       "node": true
     },
     "extends": [
-      "plugin:vue/essential",
+      "plugin:vue/recommended",
       "@vue/standard"
     ],
-    "rules": {},
+    "rules": {
+      "vue/html-closing-bracket-newline": [
+        "error",
+        {
+          "singleline": "never",
+          "multiline": "never"
+        }
+      ]
+    },
     "parserOptions": {
       "parser": "babel-eslint"
     }
