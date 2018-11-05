@@ -22,7 +22,6 @@ return [
     'eCamp\\Lib',
     'eCamp\\Core',
     'eCamp\\Api',
-    'eCamp\\Web',
     'eCamp\\Plugin\\Textarea',
     'eCamp\\Plugin\\Storyboard',
     'eCamp\\AoT',
