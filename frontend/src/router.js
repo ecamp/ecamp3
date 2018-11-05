@@ -13,24 +13,25 @@ export default new Router({
       component: () => import(/* webpackChunkName: "about" */ './views/Home.vue')
     },
     {
-      path: '/group/:groupname/camps',
+      path: '/group/:groupName/camps',
       name: 'camps',
       component: () => import(/* webpackChunkName: "camps" */ './views/Camps.vue')
     },
     {
-      path: '/group/:groupname/camp/:campname',
-      name: 'camp',
+      path: '/group/:groupName/camp/:campId',
       component: () => import(/* webpackChunkName: "camp" */ './views/Camp.vue'),
       children: [
         {
           path: '',
-          name: 'camp/basic',
-          component: () => import(/* webpackChunkName: "campDetails" */ './components/camp/Basic.vue')
+          name: 'camp',
+          component: () => import(/* webpackChunkName: "campDetails" */ './components/camp/Basic.vue'),
+          props: true
         },
         {
           path: 'periods',
           name: 'camp/periods',
-          component: () => import(/* webpackChunkName: "campPeriods" */ './components/camp/Periods.vue')
+          component: () => import(/* webpackChunkName: "campPeriods" */ './components/camp/Periods.vue'),
+          props: true
         }
       ]
     },

@@ -1,10 +1,14 @@
 <template>
   <section class="container">
     <h3>Camps</h3>
-    <router-link
-      v-for="campName in campNameList"
-      :key="campName"
-      :to="{ name: 'camp/basic', params: { groupname: 'Pfadi Bewegung Schweiz', campname: campName } }">{{ campName }}</router-link>
+    <ul>
+      <li
+        v-for="campId in campIdList"
+        :key="campId">
+        <router-link
+          :to="{ name: 'camp', params: { campId: campId } }">{{ campId }}</router-link>
+      </li>
+    </ul>
   </section>
 </template>
 
@@ -13,7 +17,7 @@ export default {
   name: 'Camps',
   data () {
     return {
-      campNameList: [ 'Camp1', 'Camp2' ]
+      campIdList: [ '1fb176e0', '77dd2792' ]
     }
   }
 }

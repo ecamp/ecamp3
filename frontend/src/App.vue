@@ -17,17 +17,17 @@
           Login
         </router-link>
         <router-link
-          :to="{ name: 'camps', params: { groupname: 'Pfadi Bewegung Schweiz' } }"
+          :to="{ name: 'camps', params: { groupName: 'Pfadi Bewegung Schweiz' } }"
           class="btn btn-sm btn-primary d-none d-md-block">
           Camps
         </router-link>
         <router-link
-          :to="{ name: 'camp/basic', params: { groupname: 'Pfadi Bewegung Schweiz', campname: 'Camp2' } }"
+          :to="{ name: 'camp', params: { groupName: 'Pfadi Bewegung Schweiz', campId: '1fb176e0' } }"
           class="btn btn-sm btn-primary d-none d-md-block">
           Single camp
         </router-link>
         <router-link
-          :to="{ name: 'camp/periods', params: { groupname: 'Pfadi Bewegung Schweiz', campname: 'Camp2' } }"
+          :to="{ name: 'camp/periods', params: { groupName: 'Pfadi Bewegung Schweiz', campId: '1fb176e0' } }"
           class="btn btn-sm btn-primary d-none d-md-block">
           Camp periods
         </router-link>

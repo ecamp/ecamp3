@@ -1,3 +1,7 @@
+<!--
+Displays several tabs with details on a single camp.
+-->
+
 <template>
   <section class="container">
     <div
@@ -8,11 +12,11 @@
           class="nav nav-justified btn-group btn-block"
           role="group">
           <router-link
-            :to="{ name: 'camp/basic' }"
+            :to="{ name: 'camp' }"
             class="nav-item btn btn-sm btn-outline-secondary">Info
           </router-link>
           <router-link
-            :to="{ name: 'camp/collaborators' }"
+            :to="{ name: 'camp' }"
             class="nav-item btn btn-sm btn-outline-secondary d-none d-sm-block disabled">
             Collaborators
           </router-link>
@@ -22,14 +26,14 @@
             Periods
           </router-link>
           <router-link
-            :to="{ name: 'camp/picasso' }"
+            :to="{ name: 'camp' }"
             class="nav-item btn btn-sm btn-outline-secondary d-none d-sm-block disabled">
             Picasso
           </router-link>
         </div>
       </div>
     </div>
-    <router-view />
+    <router-view :camp-id="this.$route.params.campId" />
   </section>
 </template>
 
