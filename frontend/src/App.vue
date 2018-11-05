@@ -1,29 +1,43 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+  <div
+    id="app"
+    class="layout">
+    <div class="layout-header">
+      <div
+        class="btn-group float-right"
+        style="margin-top: 7px">
+        <router-link
+          :to="{ name: 'home' }"
+          class="btn btn-sm btn-primary">
+          Home
+        </router-link>
+        <router-link
+          :to="{ name: 'login' }"
+          class="btn btn-sm btn-primary d-none d-md-block">
+          Login
+        </router-link>
+        <router-link
+          :to="{ name: 'camps', params: { groupname: 'Pfadi Bewegung Schweiz' } }"
+          class="btn btn-sm btn-primary d-none d-md-block">
+          Camps
+        </router-link>
+        <router-link
+          :to="{ name: 'camp/basic', params: { groupname: 'Pfadi Bewegung Schweiz', campname: 'Camp2' } }"
+          class="btn btn-sm btn-primary d-none d-md-block">
+          Single camp
+        </router-link>
+        <router-link
+          :to="{ name: 'camp/periods', params: { groupname: 'Pfadi Bewegung Schweiz', campname: 'Camp2' } }"
+          class="btn btn-sm btn-primary d-none d-md-block">
+          Camp periods
+        </router-link>
+
+      </div>
+      <slot name="layout_title" />
     </div>
-    <router-view/>
+    <router-view />
   </div>
 </template>
 
 <style lang="scss">
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-#nav {
-  padding: 30px;
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
-}
 </style>
