@@ -27,7 +27,6 @@ Displays periods of a single camp.
   </div>
 </template>
 <script>
-import axios from 'axios'
 export default {
   name: 'Periods',
   props: {
@@ -58,7 +57,7 @@ export default {
   methods: {
     async fetchFromAPI () {
       try {
-        this.campDetails = (await axios.get(this.apiUrl)).data
+        this.campDetails = (await this.axios.get(this.apiUrl)).data
       } catch (error) {
         this.messages = [{ type: 'danger', text: 'Could get camp details for id ' + this.campId + '. ' + error }]
       }

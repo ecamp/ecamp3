@@ -60,7 +60,6 @@ Displays details on a single camp and allows to edit them.
 </template>
 
 <script>
-import axios from 'axios'
 export default {
   name: 'Basic',
   components: {
@@ -96,14 +95,14 @@ export default {
     async fetchFromAPI () {
       // TODO: Abstract the API calls instead of working with axios directly in the component?
       try {
-        this.campDetails = (await axios.get(this.apiUrl)).data
+        this.campDetails = (await this.axios.get(this.apiUrl)).data
       } catch (error) {
         this.messages = [{ type: 'danger', text: 'Could get camp details for id ' + this.campId + '. Are you not logged in (which would be indicated by Network Error)? ' + error }]
       }
     },
     async saveToAPI () {
       try {
-        this.campDetails = (await axios.patch(this.apiUrl, this.campDetails)).data
+        this.campDetails = (await this.axios.patch(this.apiUrl, this.campDetails)).data
         this.messages = [{ type: 'success', text: 'Successfully saved' }]
       } catch (error) {
         this.messages = [{ type: 'danger', text: 'Could not save camp details. ' + error }]
