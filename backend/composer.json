@@ -25,7 +25,8 @@
     "oxcom/zend-twig": "^0.1",
     "friendsofphp/php-cs-fixer": "^2.11",
     "rwoverdijk/assetmanager": "^1.0",
-    "ext-json": "*"
+    "ext-json": "*",
+    "zfr/zfr-cors": "^1.5"
   },
   "require-dev": {
     "phpunit/phpunit": "^6.5",

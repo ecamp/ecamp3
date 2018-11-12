@@ -13,6 +13,7 @@ return [
     'ZF\\ContentNegotiation',
     'ZF\\MvcAuth',
     'ZendTwig',
+    'ZfrCors',
 
     'DoctrineModule',
     'DoctrineORMModule',
