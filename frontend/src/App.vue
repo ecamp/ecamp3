@@ -12,11 +12,6 @@
           Home
         </router-link>
         <router-link
-          :to="{ name: 'login' }"
-          class="btn btn-sm btn-primary d-none d-md-block">
-          Login
-        </router-link>
-        <router-link
           :to="{ name: 'camps', params: { groupName: 'Pfadi Bewegung Schweiz' } }"
           class="btn btn-sm btn-primary d-none d-md-block">
           Camps
@@ -31,6 +26,18 @@
           class="btn btn-sm btn-primary d-none d-md-block">
           Camp periods
         </router-link>
+        <router-link
+          v-if="!isLoggedIn()"
+          :to="{ name: 'login' }"
+          class="btn btn-sm btn-primary d-md-block">
+          Log in
+        </router-link>
+        <router-link
+          v-else
+          :to="{ name: 'logout' }"
+          class="btn btn-sm btn-primary d-md-block">
+          Log out
+        </router-link>
       </div>
       <h1>eCamp3</h1>
       <hr>
@@ -38,6 +45,18 @@
     <router-view />
   </div>
 </template>
+
+<script>
+import { isLoggedIn } from '@/auth'
+export default {
+  name: 'App',
+  methods: {
+    isLoggedIn () {
+      return isLoggedIn()
+    }
+  }
+}
+</script>
 
 <style lang="scss">
   @import '../node_modules/bootstrap/scss/bootstrap.scss';
