@@ -47,6 +47,7 @@ class LoginController extends AbstractActionController {
 
         $data = [];
 
+        $user = null;
         $userId = $this->authService->getAuthUserId();
         if ($userId != null) {
             $user = $this->userService->fetch($userId);
