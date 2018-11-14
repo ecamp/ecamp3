@@ -20,7 +20,8 @@ export default {
   },
   methods: {
     logout () {
-      logout(this.axios, this.redirect, () => { this.error = true })
+      logout()
+      this.redirect()
     },
     redirect () {
       this.$router.replace(this.$route.query.redirect || '/')

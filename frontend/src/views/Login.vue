@@ -28,7 +28,7 @@ export default {
   },
   methods: {
     loginGoogle () {
-      login(this.axios, this.redirect, () => { this.error = true })
+      login()
     },
     redirect () {
       this.$router.replace(this.$route.query.redirect || '/')
