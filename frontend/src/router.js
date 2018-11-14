@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import { isLoggedIn } from '@/auth'
 
 Vue.use(Router)
 
@@ -15,11 +16,13 @@ export default new Router({
     {
       path: '/group/:groupName/camps',
       name: 'camps',
-      component: () => import(/* webpackChunkName: "camps" */ './views/Camps.vue')
+      component: () => import(/* webpackChunkName: "camps" */ './views/Camps.vue'),
+      beforeEnter: requireAuth
     },
     {
       path: '/group/:groupName/camp/:campId',
       component: () => import(/* webpackChunkName: "camp" */ './views/Camp.vue'),
+      beforeEnter: requireAuth,
       children: [
         {
           path: '',
@@ -42,3 +45,11 @@ export default new Router({
     }
   ]
 })
+
+function requireAuth (to, from, next) {
+  if (isLoggedIn()) {
+    next()
+  } else {
+    next({ name: 'login', query: { redirect: to.fullPath } })
+  }
+}
