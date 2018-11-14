@@ -7,7 +7,7 @@ export function loggedInUser () {
 }
 
 export function login (http, successCallback, errorCallback) {
-  http.get(process.env.VUE_APP_ROOT_API + '/login/google').then(result => {
+  http.get(process.env.VUE_APP_ROOT_API + '/login/google?redirect=' + encodeURI(window.location.href)).then(result => {
     window.localStorage.setItem('loggedInUser', result)
     successCallback(result)
   }).catch(error => {
