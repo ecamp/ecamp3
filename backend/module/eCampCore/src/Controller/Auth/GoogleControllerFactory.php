@@ -34,11 +34,14 @@ class GoogleControllerFactory implements FactoryInterface {
         /** @var AuthService $authService */
         $authService = $container->get(AuthService::class);
 
+        $config = $container->get('config');
+
         return new GoogleController(
             $entityManager,
             $userIdentityService,
             $userService,
-            $authService
+            $authService,
+            $config['crypto_key']
         );
     }
 }

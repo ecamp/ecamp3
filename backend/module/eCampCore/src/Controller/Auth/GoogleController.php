@@ -12,14 +12,16 @@ class GoogleController extends BaseController {
         EntityManager $entityManager,
         UserIdentityService $userIdentityService,
         UserService $userService,
-        AuthService $authService
+        AuthService $authService,
+        $cryptoKey
     ) {
         parent::__construct(
             $entityManager,
             $userIdentityService,
             $userService,
             $authService,
-            'Google'
+            'Google',
+            $cryptoKey
         );
     }
 
