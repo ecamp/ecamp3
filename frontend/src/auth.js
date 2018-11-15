@@ -35,6 +35,13 @@ export const auth = {
   }
 }
 
+axios.interceptors.response.use(null, error => {
+  if (error.status === 401) {
+    auth.logout()
+  }
+  return Promise.reject(error)
+})
+
 Vue.auth = auth
 Object.defineProperties(Vue.prototype, {
   $auth: {
