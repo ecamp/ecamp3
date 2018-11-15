@@ -53,6 +53,13 @@ class LoginController extends AbstractActionController {
             $user = $this->userService->fetch($userId);
         }
         if ($user != null) {
+
+            $callback = $request->getQuery('callback');
+            if ($callback) {
+                // This request is made from an external client, redirect it to the requested url
+                return $this->redirect()->toUrl($callback);
+            }
+
             $data['user'] = $user->getDisplayName();
             $data['role'] = $user->getRole();
         } else {
