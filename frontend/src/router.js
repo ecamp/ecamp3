@@ -44,6 +44,11 @@ export default new Router({
       component: () => import(/* webpackChunkName: "login" */ './views/Login.vue')
     },
     {
+      path: '/loginCallback',
+      name: 'loginCallback',
+      component: () => import(/* webpackChunkName: "login" */ './views/LoginCallback.vue')
+    },
+    {
       path: '/logout',
       name: 'logout',
       component: () => import(/* webpackChunkName: "logout" */ './views/Logout.vue')

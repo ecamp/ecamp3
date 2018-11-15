@@ -21,3 +21,6 @@ export function loginSuccess (jwt) {
 export function logout () {
   window.localStorage.removeItem(storageLocation)
 }
+
+// Make the login callback function available on global level, so the popup can call it
+window.loginSuccess = loginSuccess

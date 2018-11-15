@@ -20,7 +20,7 @@ export default {
       error: false
     }
   },
-  beforeRouteUpdate (to, from, next) {
+  beforeRouteEnter (to, from, next) {
     if (isLoggedIn()) {
       this.redirect()
     }
