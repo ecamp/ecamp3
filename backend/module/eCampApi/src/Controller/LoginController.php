@@ -6,10 +6,12 @@ use Doctrine\ORM\NonUniqueResultException;
 use eCamp\Core\Auth\AuthService;
 use eCamp\Core\EntityService\UserService;
 use eCamp\Lib\Acl\NoAccessException;
+use eCamp\Lib\Util\UrlUtils;
 use Zend\Http\Request;
 use Zend\Http\Response;
 use Zend\Json\Json;
 use Zend\Mvc\Controller\AbstractActionController;
+use Zend\Uri\UriFactory;
 use ZF\Hal\Entity;
 use ZF\Hal\Link\Link;
 use ZF\Hal\View\HalJsonModel;
@@ -55,9 +57,10 @@ class LoginController extends AbstractActionController {
         if ($user != null) {
 
             $callback = $request->getQuery('callback');
-            if ($callback) {
+            $token = $request->getQuery('token');
+            if ($callback && $token) {
                 // This request is made from an external client, redirect it to the requested url
-                return $this->redirect()->toUrl($callback);
+                return $this->redirect()->toUrl(UrlUtils::addQueryParameterToUrl($callback, 'token', $token));
             }
 
             $data['user'] = $user->getDisplayName();
