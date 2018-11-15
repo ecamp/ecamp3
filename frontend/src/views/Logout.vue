@@ -7,7 +7,6 @@
 </template>
 
 <script>
-import { logout } from '@/auth'
 export default {
   name: 'Logout',
   data () {
@@ -20,7 +19,7 @@ export default {
   },
   methods: {
     logout () {
-      logout()
+      this.$auth.logout()
       this.redirect()
     },
     redirect () {

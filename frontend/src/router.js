@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import { isLoggedIn } from '@/auth'
 
 Vue.use(Router)
 
@@ -57,7 +56,7 @@ export default new Router({
 })
 
 function requireAuth (to, from, next) {
-  if (isLoggedIn()) {
+  if (Vue.auth.isLoggedIn()) {
     next()
   } else {
     next({ name: 'login', query: { redirect: to.fullPath } })

@@ -27,7 +27,7 @@
           Camp periods
         </router-link>
         <router-link
-          v-if="!isLoggedIn()"
+          v-if="!$auth.isLoggedIn()"
           :to="{ name: 'login' }"
           class="btn btn-sm btn-primary d-md-block">
           Log in
@@ -45,18 +45,6 @@
     <router-view />
   </div>
 </template>
-
-<script>
-import { isLoggedIn } from '@/auth'
-export default {
-  name: 'App',
-  methods: {
-    isLoggedIn () {
-      return isLoggedIn()
-    }
-  }
-}
-</script>
 
 <style lang="scss">
   @import '../node_modules/bootstrap/scss/bootstrap.scss';

@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import { isLoggedIn, login } from '@/auth'
+import Vue from 'vue'
 export default {
   name: 'Login',
   data () {
@@ -21,14 +21,14 @@ export default {
     }
   },
   beforeRouteEnter (to, from, next) {
-    if (isLoggedIn()) {
+    if (Vue.auth.isLoggedIn()) {
       this.redirect()
     }
     next()
   },
   methods: {
     loginGoogle () {
-      login()
+      this.$auth.login()
     },
     redirect () {
       this.$router.replace(this.$route.query.redirect || '/')
