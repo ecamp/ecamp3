@@ -33,7 +33,8 @@ export default {
         this.$auth.loginSuccess(this, token)
         this.redirect()
       }
-      this.$auth.login()
+      let callbackUrl = window.location.origin + this.$router.resolve({ name: 'loginCallback' }).href
+      this.$auth.login(callbackUrl)
     },
     redirect () {
       this.$router.replace(this.$route.query.redirect || '/')

@@ -12,8 +12,8 @@ export const auth = {
   loggedInUser () {
     return JSON.parse(atob(this.loggedInUserToken().split('.')[1]))
   },
-  login () {
-    window.open(process.env.VUE_APP_ROOT_API + '/login/google?redirect=' + encodeURI(window.location.href), '', 'width=500px,height=600px')
+  login (returnUrl) {
+    window.open(process.env.VUE_APP_ROOT_API + '/login/google?callback=' + encodeURI(returnUrl), '', 'width=500px,height=600px')
   },
   loginSuccess (vm, jwt) {
     window.localStorage.setItem(storageLocation, jwt)
