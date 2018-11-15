@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import axios from 'axios'
 
 const storageLocation = 'loggedInUserToken'
 
@@ -17,10 +18,20 @@ export const auth = {
   },
   loginSuccess (vm, jwt) {
     window.localStorage.setItem(storageLocation, jwt)
+    this.setAuthorizationHeader()
     console.log(this.loggedInUser())
   },
   logout () {
     window.localStorage.removeItem(storageLocation)
+    this.setAuthorizationHeader()
+  },
+  setAuthorizationHeader () {
+    let value = this.loggedInUserToken()
+    if (value !== null) {
+      axios.defaults.headers.common['Authorization'] = 'Bearer ' + value
+    } else {
+      delete axios.defaults.headers.common['Authorization']
+    }
   }
 }
 

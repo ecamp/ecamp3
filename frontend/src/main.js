@@ -9,6 +9,8 @@ import VueAxios from 'vue-axios'
 Vue.use(BootstrapVue)
 Vue.use(VueAxios, axios)
 
+Vue.auth.setAuthorizationHeader()
+
 new Vue({
   router,
   render: h => h(App)
