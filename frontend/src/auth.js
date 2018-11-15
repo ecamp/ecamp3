@@ -15,7 +15,7 @@ export const auth = {
   login () {
     window.open(process.env.VUE_APP_ROOT_API + '/login/google?redirect=' + encodeURI(window.location.href), '', 'width=500px,height=600px')
   },
-  loginSuccess (jwt) {
+  loginSuccess (vm, jwt) {
     window.localStorage.setItem(storageLocation, jwt)
     console.log(this.loggedInUser())
   },
@@ -32,6 +32,3 @@ Object.defineProperties(Vue.prototype, {
     }
   }
 })
-
-// Make the login callback function available on global level, so the popup can call it
-window.loginSuccess = auth.loginSuccess

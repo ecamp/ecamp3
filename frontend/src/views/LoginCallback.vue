@@ -8,8 +8,7 @@
 export default {
   name: 'LoginCallback',
   beforeRouteEnter (to, from, next) {
-    const token = window.location.search.replace('?token=', '')
-    window.opener.loginSuccess(token)
+    window.opener.loginSuccess(to.query.token)
     window.close()
   }
 }

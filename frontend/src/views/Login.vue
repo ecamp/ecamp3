@@ -22,12 +22,16 @@ export default {
   },
   beforeRouteEnter (to, from, next) {
     if (Vue.auth.isLoggedIn()) {
-      this.redirect()
+      next(to.query.redirect || '/')
     }
     next()
   },
   methods: {
     loginGoogle () {
+      // Make the login callback function available on global level, so the popup can call it
+      window.loginSuccess = token => {
+        this.$auth.loginSuccess(this, token)
+      }
       this.$auth.login()
     },
     redirect () {
