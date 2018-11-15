@@ -67,7 +67,7 @@ return [
 
     'controllers' => [
         'factories' => [
-            \eCamp\Core\Controller\Auth\GoogleController::class => \Zend\Mvc\Controller\LazyControllerAbstractFactory::class
+            \eCamp\Core\Controller\Auth\GoogleController::class => \eCamp\Core\Controller\Auth\GoogleControllerFactory::class
         ]
     ],
 

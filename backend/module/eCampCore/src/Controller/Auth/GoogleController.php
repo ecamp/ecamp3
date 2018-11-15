@@ -13,7 +13,7 @@ class GoogleController extends BaseController {
         UserIdentityService $userIdentityService,
         UserService $userService,
         AuthService $authService,
-        $cryptoKey
+        string $cryptoKey
     ) {
         parent::__construct(
             $entityManager,

@@ -62,7 +62,7 @@ abstract class BaseController extends AbstractActionController {
         UserService $userService,
         AuthService $authService,
         string $providerName,
-        $cryptoKey
+        string $cryptoKey
     ) {
         $this->entityManager = $entityManager;
         $this->userIdentityService = $userIdentityService;
@@ -141,7 +141,7 @@ abstract class BaseController extends AbstractActionController {
 
                 $message = [
                     'id' => $user->getId(),
-                    'name' => $user->getUsername(),
+                    'username' => $user->getUsername(),
                     'email' => $user->getTrustedMailAddress() ?: $user->getUntrustedMailAddress(),
                 ];
 
