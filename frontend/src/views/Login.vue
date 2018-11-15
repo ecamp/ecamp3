@@ -31,6 +31,7 @@ export default {
       // Make the login callback function available on global level, so the popup can call it
       window.loginSuccess = token => {
         this.$auth.loginSuccess(this, token)
+        this.redirect()
       }
       this.$auth.login()
     },
