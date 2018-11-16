@@ -2,7 +2,6 @@
 
 namespace eCamp\Core\Controller\Auth;
 
-use Carnage\JwtZendAuth\Authentication\Storage\Jwt;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\OptimisticLockException;
@@ -125,8 +124,13 @@ abstract class BaseController extends AbstractActionController {
         }
         $this->entityManager->flush();
 
+        $jwtPayload = [
+            'id' => $user->getId(),
+            'role' => $user->getRole()
+        ];
+
         $result = $this->authService->authenticate(
-            new OAuthAdapter($user->getId())
+            new OAuthAdapter($jwtPayload)
         );
 
         if ($result->isValid()) {

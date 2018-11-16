@@ -13,11 +13,6 @@ use eCamp\Lib\Acl\Acl;
 use eCamp\Lib\Acl\NoAccessException;
 use eCamp\Lib\Entity\BaseEntity;
 use eCamp\Lib\Service\ServiceUtils;
-use eCamp\Lib\ServiceManager\AclAware;
-use eCamp\Lib\ServiceManager\EntityFilterManagerAware;
-use eCamp\Lib\ServiceManager\EntityManagerAware;
-use eCamp\Lib\ServiceManager\HydratorPluginManagerAware;
-use Zend\Authentication\AuthenticationService;
 use Zend\Hydrator\HydratorInterface;
 use Zend\Paginator\Adapter\ArrayAdapter;
 use Zend\Paginator\Paginator;
@@ -69,21 +64,34 @@ abstract class AbstractEntityService extends AbstractResourceListener {
         return $this->hydrator;
     }
 
+    /**
+     * @return null|string
+     */
+    protected function getAuthUserRole() {
+        if ($this->authService->hasIdentity()) {
+            return $this->authService->getIdentity()['role'];
+        }
+        return null;
+    }
 
+    /**
+     * @return null|string
+     */
+    protected function getAuthUserId() {
+        if ($this->authService->hasIdentity()) {
+            return $this->authService->getIdentity()['id'];
+        }
+        return null;
+    }
 
     /**
      * @return null|User
      */
     protected function getAuthUser() {
-        /** @var User $user */
-        $user = null;
-
-        if ($this->authService->hasIdentity()) {
-            $userRepository = $this->serviceUtils->emGetRepository(User::class);
-            $userId = $this->authService->getIdentity();
-            $user = $userRepository->find($userId);
-        }
-
+        $userRepository = $this->serviceUtils->emGetRepository(User::class);
+        $userId = $this->getAuthUserId();
+        /** @var User|null $user */
+        $user = $userRepository->find($userId);
         return $user;
     }
 
@@ -93,7 +101,7 @@ abstract class AbstractEntityService extends AbstractResourceListener {
      * @return bool
      */
     protected function isAllowed($resource, $privilege = null) {
-        $user = $this->getAuthUser();
+        $user = $this->getAuthUserRole();
         return $this->serviceUtils->aclIsAllowed($user, $resource, $privilege);
     }
 
@@ -103,7 +111,7 @@ abstract class AbstractEntityService extends AbstractResourceListener {
      * @throws \eCamp\Lib\Acl\NoAccessException
      */
     protected function assertAllowed($resource, $privilege = null) {
-        $user = $this->getAuthUser();
+        $user = $this->getAuthUserRole();
         $this->serviceUtils->aclAssertAllowed($user, $resource, $privilege);
     }
 
