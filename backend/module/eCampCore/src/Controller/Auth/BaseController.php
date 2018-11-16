@@ -2,6 +2,7 @@
 
 namespace eCamp\Core\Controller\Auth;
 
+use Carnage\JwtZendAuth\Authentication\Storage\Jwt;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\OptimisticLockException;
@@ -9,16 +10,14 @@ use Doctrine\ORM\ORMException;
 use eCamp\Core\Auth\AuthService;
 use eCamp\Core\Entity\User;
 use eCamp\Core\Entity\UserIdentity;
-use eCamp\Core\Repository\UserRepository;
 use eCamp\Core\EntityService\UserIdentityService;
 use eCamp\Core\EntityService\UserService;
+use eCamp\Core\Repository\UserRepository;
 use eCamp\Lib\Acl\NoAccessException;
 use eCamp\Lib\Auth\OAuthAdapter;
-use eCamp\Lib\Util\UrlUtils;
 use Hybridauth\Adapter\AdapterInterface;
 use Hybridauth\Exception\InvalidArgumentException;
 use Hybridauth\Exception\UnexpectedValueException;
-use OAuth2\Encryption\Jwt;
 use Zend\Http\Request;
 use Zend\Http\Response;
 use Zend\Mvc\Controller\AbstractActionController;
@@ -51,9 +50,6 @@ abstract class BaseController extends AbstractActionController {
     /** @var AdapterInterface */
     private $authAdapter;
 
-    /** @var string */
-    private $cryptoKey;
-
 
 
     public function __construct(
@@ -61,15 +57,13 @@ abstract class BaseController extends AbstractActionController {
         UserIdentityService $userIdentityService,
         UserService $userService,
         AuthService $authService,
-        string $providerName,
-        string $cryptoKey
+        string $providerName
     ) {
         $this->entityManager = $entityManager;
         $this->userIdentityService = $userIdentityService;
         $this->userService = $userService;
         $this->authService = $authService;
         $this->providerName = $providerName;
-        $this->cryptoKey = $cryptoKey;
     }
 
 
@@ -138,16 +132,7 @@ abstract class BaseController extends AbstractActionController {
         if ($result->isValid()) {
             $redirect = $this->getRedirect();
             if (isset($redirect)) {
-
-                $message = [
-                    'id' => $user->getId(),
-                    'username' => $user->getUsername(),
-                    'email' => $user->getTrustedMailAddress() ?: $user->getUntrustedMailAddress(),
-                ];
-
-                $jwt = new Jwt();
-                $token = $jwt->encode($message, $this->cryptoKey);
-                return $this->redirect()->toUrl(UrlUtils::addQueryParameterToUrl($redirect, 'token', $token));
+                return $this->redirect()->toUrl($redirect);
             }
         }
 

@@ -14,6 +14,7 @@ return [
     'ZF\\MvcAuth',
     'ZendTwig',
     'ZfrCors',
+    'Carnage\JwtZendAuth',
 
     'DoctrineModule',
     'DoctrineORMModule',

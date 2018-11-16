@@ -2,9 +2,12 @@
 
 namespace eCamp\Core\Auth;
 
+use Carnage\JwtZendAuth\Authentication\Storage\Jwt;
+use Carnage\JwtZendAuth\Service\Jwt as JwtService;
 use Doctrine\ORM\EntityManager;
 use eCamp\Core\Entity\User;
 use eCamp\Core\Repository\UserRepository;
+use eCamp\Lib\Auth\Storage\AuthHeaderAndRedirectQueryParam;
 use Interop\Container\ContainerInterface;
 use Zend\ServiceManager\Factory\FactoryInterface;
 
@@ -17,6 +20,15 @@ class AuthServiceFactory implements FactoryInterface {
 
         $config = $container->get('config');
 
-        return new AuthService($userRepository, $config['hybridauth']);
+        /** @var Jwt $jwtStorage */
+        $jwtStorage = new Jwt(
+            $container->get(JwtService::class),
+            $container->get(AuthHeaderAndRedirectQueryParam::class),
+            $config['jwt_zend_auth']['expiry']
+        );
+
+        $authService = new AuthService($userRepository, $config['hybridauth']);
+        $authService->setStorage($jwtStorage);
+        return $authService;
     }
 }

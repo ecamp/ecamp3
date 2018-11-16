@@ -1,8 +1,6 @@
 <?php
 
 return [
-    // TODO: read the crypto key from some secure location, or even better regenerate it regularly
-    'crypto_key' => 'SOME SUPER SECRET PASSPHRASE HERE THAT YOU JUST MADE UP',
     'hybridauth' => [
         'providers' => [
             'google' => [

@@ -46,6 +46,12 @@ class LoginController extends AbstractActionController {
             return $this->loginAction();
         }
 
+        $callback = $request->getQuery('callback');
+        $token = $request->getQuery('token');
+        if ($callback && $token) {
+            // This request is made from an external client, redirect it to the requested url
+            return $this->redirect()->toUrl(UrlUtils::addQueryParameterToUrl($callback, 'token', $token));
+        }
 
         $data = [];
 
@@ -55,14 +61,6 @@ class LoginController extends AbstractActionController {
             $user = $this->userService->fetch($userId);
         }
         if ($user != null) {
-
-            $callback = $request->getQuery('callback');
-            $token = $request->getQuery('token');
-            if ($callback && $token) {
-                // This request is made from an external client, redirect it to the requested url
-                return $this->redirect()->toUrl(UrlUtils::addQueryParameterToUrl($callback, 'token', $token));
-            }
-
             $data['user'] = $user->getDisplayName();
             $data['role'] = $user->getRole();
         } else {

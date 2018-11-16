@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "ab836030419fb1bf97dadba9ca150b0b",
-    "content-hash": "0e62d5739f566c83894bcb4d8695c61a",
+    "hash": "97f2dd38a78c7f58abf8b6d73dcae5ed",
+    "content-hash": "a24d810d35fcba58e0f52dc85e2a7cd4",
     "packages": [
         {
             "name": "bshaffer/oauth2-server-php",
@@ -64,6 +64,50 @@
                 "oauth2"
             ],
             "time": "2017-11-15 01:41:02"
+        },
+        {
+            "name": "carnage/jwt-zend-auth",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/carlobeltrame/JwtZendAuth.git",
+                "reference": "28d154b2412b35fa42a8d3730b07828aad404d99"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/carlobeltrame/JwtZendAuth/zipball/28d154b2412b35fa42a8d3730b07828aad404d99",
+                "reference": "28d154b2412b35fa42a8d3730b07828aad404d99",
+                "shasum": ""
+            },
+            "require": {
+                "lcobucci/jwt": "~3.0.0",
+                "php": ">=5.5",
+                "zendframework/zend-authentication": "^2.6.0",
+                "zendframework/zend-console": "^2.7.0",
+                "zendframework/zend-http": "^2.8.0",
+                "zendframework/zend-modulemanager": "^2.8.0",
+                "zendframework/zend-servicemanager": "^3.0.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "^0.9.0",
+                "phpunit/phpunit": "^4.0.14"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Carnage\\JwtZendAuth\\": "src/"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "Carnage\\JwtZendAuthTest\\": "test/"
+                }
+            },
+            "description": "JWT authentication module for ZF3",
+            "support": {
+                "source": "https://github.com/carlobeltrame/JwtZendAuth/tree/master"
+            },
+            "time": "2018-11-16 13:31:57"
         },
         {
             "name": "composer/semver",
@@ -1596,6 +1640,64 @@
                 "minification"
             ],
             "time": "2016-11-11 18:43:20"
+        },
+        {
+            "name": "lcobucci/jwt",
+            "version": "3.0.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/lcobucci/jwt.git",
+                "reference": "0935669796f0ecacebe93c19c99b3d0c82fda1cc"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/lcobucci/jwt/zipball/0935669796f0ecacebe93c19c99b3d0c82fda1cc",
+                "reference": "0935669796f0ecacebe93c19c99b3d0c82fda1cc",
+                "shasum": ""
+            },
+            "require": {
+                "ext-openssl": "*",
+                "php": ">=5.5"
+            },
+            "require-dev": {
+                "mdanter/ecc": "~0.3",
+                "mikey179/vfsstream": "~1.5",
+                "phpmd/phpmd": "~2.2",
+                "phpunit/php-invoker": "~1.1",
+                "phpunit/phpunit": "~4.5",
+                "squizlabs/php_codesniffer": "~2.3"
+            },
+            "suggest": {
+                "mdanter/ecc": "Required to use Elliptic Curves based algorithms."
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.1-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Lcobucci\\JWT\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Luís Otávio Cobucci Oblonczyk",
+                    "email": "lcobucci@gmail.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "A simple library to work with JSON Web Token and JSON Web Signature",
+            "keywords": [
+                "JWS",
+                "jwt"
+            ],
+            "time": "2015-10-01 16:14:36"
         },
         {
             "name": "myclabs/deep-copy",
@@ -7512,7 +7614,8 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "hybridauth/hybridauth": 20
+        "hybridauth/hybridauth": 20,
+        "carnage/jwt-zend-auth": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

@@ -26,7 +26,8 @@
     "friendsofphp/php-cs-fixer": "^2.11",
     "rwoverdijk/assetmanager": "^1.0",
     "ext-json": "*",
-    "zfr/zfr-cors": "^1.5"
+    "zfr/zfr-cors": "^1.5",
+    "carnage/jwt-zend-auth": "dev-master"
   },
   "require-dev": {
     "phpunit/phpunit": "^6.5",
@@ -62,6 +63,12 @@
       "eCamp\\Plugin\\StoryboardTest\\": "plugin/eCampStoryboard/test/"
     }
   },
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "https://github.com/carlobeltrame/JwtZendAuth"
+    }
+  ],
   "scripts": {
     "cs-check": "phpcs",
     "cs-fix": "phpcbf",
