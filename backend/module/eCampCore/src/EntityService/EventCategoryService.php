@@ -4,6 +4,7 @@ namespace eCamp\Core\EntityService;
 
 use Doctrine\ORM\ORMException;
 use Doctrine\ORM\EntityManager;
+use eCamp\Core\Auth\AuthService;
 use eCamp\Core\Hydrator\EventCategoryHydrator;
 use eCamp\Core\Entity\Camp;
 use eCamp\Core\Entity\EventCategory;
@@ -17,11 +18,10 @@ use Zend\Hydrator\HydratorPluginManager;
 
 
 class EventCategoryService extends AbstractEntityService {
-    public function __construct
-    (   ServiceUtils $serviceUtils
-    ) {
+    public function __construct(ServiceUtils $serviceUtils, AuthService $authService) {
         parent::__construct(
             $serviceUtils,
+            $authService,
             EventCategory::class,
             EventCategoryHydrator::class
         );

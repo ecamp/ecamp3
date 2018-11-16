@@ -7,6 +7,7 @@ use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\ORMException;
 use Doctrine\ORM\Query\Expr;
 use Doctrine\ORM\QueryBuilder;
+use eCamp\Core\Auth\AuthService;
 use eCamp\Core\Entity\User;
 use eCamp\Lib\Acl\Acl;
 use eCamp\Lib\Acl\NoAccessException;
@@ -28,15 +29,18 @@ abstract class AbstractEntityService extends AbstractResourceListener {
     /** @var ServiceUtils */
     private $serviceUtils;
 
+    /** @var AuthService */
+    private $authService;
+
     /** @var string */
     private $entityClassname;
 
     /** @var string */
     private $hydratorClassname;
 
-
-    public function __construct($serviceUtils, $entityClassname, $hydratorClassname) {
+    public function __construct($serviceUtils, $authService, $entityClassname, $hydratorClassname) {
         $this->serviceUtils = $serviceUtils;
+        $this->authService = $authService;
         $this->entityClassname = $entityClassname;
         $this->hydratorClassname = $hydratorClassname;
     }
@@ -74,10 +78,9 @@ abstract class AbstractEntityService extends AbstractResourceListener {
         /** @var User $user */
         $user = null;
 
-        $authService = new AuthenticationService();
-        if ($authService->hasIdentity()) {
+        if ($this->authService->hasIdentity()) {
             $userRepository = $this->serviceUtils->emGetRepository(User::class);
-            $userId = $authService->getIdentity();
+            $userId = $this->authService->getIdentity();
             $user = $userRepository->find($userId);
         }
 

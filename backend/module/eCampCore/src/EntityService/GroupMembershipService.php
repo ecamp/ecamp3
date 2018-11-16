@@ -3,6 +3,7 @@
 namespace eCamp\Core\EntityService;
 
 use Doctrine\ORM\ORMException;
+use eCamp\Core\Auth\AuthService;
 use eCamp\Core\Hydrator\GroupMembershipHydrator;
 use eCamp\Core\Entity\Group;
 use eCamp\Core\Entity\GroupMembership;
@@ -11,9 +12,10 @@ use eCamp\Lib\Service\ServiceUtils;
 use ZF\ApiProblem\ApiProblem;
 
 class GroupMembershipService extends AbstractEntityService {
-    public function __construct(ServiceUtils $serviceUtils) {
+    public function __construct(ServiceUtils $serviceUtils, AuthService $authService) {
         parent::__construct(
             $serviceUtils,
+            $authService,
             GroupMembership::class,
             GroupMembershipHydrator::class
         );

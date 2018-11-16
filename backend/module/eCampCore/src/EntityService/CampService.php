@@ -3,6 +3,7 @@
 namespace eCamp\Core\EntityService;
 
 use Doctrine\ORM\ORMException;
+use eCamp\Core\Auth\AuthService;
 use eCamp\Core\Hydrator\CampHydrator;
 use eCamp\Core\Entity\AbstractCampOwner;
 use eCamp\Core\Entity\Camp;
@@ -13,7 +14,7 @@ use eCamp\Lib\Service\ServiceUtils;
 use ZF\ApiProblem\ApiProblem;
 
 class CampService extends AbstractEntityService {
-    
+
     /** @var PeriodService */
     protected $periodService;
 
@@ -23,10 +24,12 @@ class CampService extends AbstractEntityService {
     public function __construct
     (   EventCategoryService $eventCategoryService,
         PeriodService $periodService,
-        ServiceUtils $serviceUtils
+        ServiceUtils $serviceUtils,
+        AuthService $authService
     ) {
         parent::__construct(
             $serviceUtils,
+            $authService,
             Camp::class,
             CampHydrator::class
         );
@@ -117,5 +120,5 @@ class CampService extends AbstractEntityService {
 
         return $this->getQueryResult($q);
     }
-    
+
 }

@@ -3,6 +3,7 @@
 namespace eCamp\Core\EntityService;
 
 use Doctrine\ORM\ORMException;
+use eCamp\Core\Auth\AuthService;
 use eCamp\Core\Entity\Event;
 use eCamp\Core\Entity\EventPlugin;
 use eCamp\Core\Entity\EventTypePlugin;
@@ -22,9 +23,10 @@ class EventPluginService extends AbstractEntityService
     use PluginStrategyProviderTrait;
 
 
-    public function __construct(ServiceUtils $serviceUtils) {
+    public function __construct(ServiceUtils $serviceUtils, AuthService $authService) {
         parent::__construct(
             $serviceUtils,
+            $authService,
             EventPlugin::class,
             EventPluginHydrator::class
         );

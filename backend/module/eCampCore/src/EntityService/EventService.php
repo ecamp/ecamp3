@@ -2,15 +2,17 @@
 
 namespace eCamp\Core\EntityService;
 
+use eCamp\Core\Auth\AuthService;
 use eCamp\Core\Entity\Camp;
 use eCamp\Core\Hydrator\EventHydrator;
 use eCamp\Core\Entity\Event;
 use eCamp\Lib\Service\ServiceUtils;
 
 class EventService extends AbstractEntityService {
-    public function __construct(ServiceUtils $serviceUtils) {
+    public function __construct(ServiceUtils $serviceUtils, AuthService $authService) {
         parent::__construct(
             $serviceUtils,
+            $authService,
             Event::class,
             EventHydrator::class
         );

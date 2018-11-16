@@ -3,6 +3,7 @@
 namespace eCamp\Core\EntityService;
 
 use Doctrine\ORM\ORMException;
+use eCamp\Core\Auth\AuthService;
 use eCamp\Core\Entity\Camp;
 use eCamp\Core\Hydrator\DayHydrator;
 use eCamp\Core\Entity\Day;
@@ -12,9 +13,10 @@ use eCamp\Lib\Service\ServiceUtils;
 use ZF\ApiProblem\ApiProblem;
 
 class DayService extends AbstractEntityService {
-    public function __construct(ServiceUtils $serviceUtils) {
+    public function __construct(ServiceUtils $serviceUtils, AuthService $authService) {
         parent::__construct(
             $serviceUtils,
+            $authService,
             Day::class,
             DayHydrator::class
         );

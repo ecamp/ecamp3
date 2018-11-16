@@ -3,6 +3,7 @@
 namespace eCamp\Core\EntityService;
 
 use Doctrine\ORM\ORMException;
+use eCamp\Core\Auth\AuthService;
 use eCamp\Core\Hydrator\UserHydrator;
 use eCamp\Core\Entity\User;
 use eCamp\Lib\Acl\NoAccessException;
@@ -14,9 +15,10 @@ use ZF\ApiProblem\ApiProblem;
  * Class UserService
  */
 class UserService extends AbstractEntityService {
-    public function __construct(ServiceUtils $serviceUtils) {
+    public function __construct(ServiceUtils $serviceUtils, AuthService $authService) {
         parent::__construct(
             $serviceUtils,
+            $authService,
             User::class,
             UserHydrator::class
         );
