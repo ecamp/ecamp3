@@ -3,23 +3,25 @@
 namespace eCamp\Core\Controller\Auth;
 
 use Doctrine\ORM\EntityManager;
-use eCamp\Core\Auth\AuthService;
 use eCamp\Core\EntityService\UserIdentityService;
 use eCamp\Core\EntityService\UserService;
+use Zend\Authentication\AuthenticationService;
 
 class GoogleController extends BaseController {
     public function __construct(
         EntityManager $entityManager,
         UserIdentityService $userIdentityService,
         UserService $userService,
-        AuthService $authService
+        AuthenticationService $authenticationService,
+        array $hybridAuthConfig
     ) {
         parent::__construct(
             $entityManager,
             $userIdentityService,
             $userService,
-            $authService,
-            'Google'
+            $authenticationService,
+            'Google',
+            $hybridAuthConfig
         );
     }
 

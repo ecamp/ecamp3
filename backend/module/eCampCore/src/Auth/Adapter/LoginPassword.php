@@ -29,7 +29,7 @@ class LoginPassword implements AdapterInterface {
     private $password;
 
 
-    public function __construct(Login $login = null, $password) {
+    public function __construct(Login $login, $password) {
         $this->login = $login;
         $this->password = $password;
     }

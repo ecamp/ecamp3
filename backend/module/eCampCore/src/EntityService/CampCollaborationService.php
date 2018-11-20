@@ -3,19 +3,19 @@
 namespace eCamp\Core\EntityService;
 
 use Doctrine\ORM\ORMException;
-use eCamp\Core\Auth\AuthService;
 use eCamp\Core\Entity\Camp;
 use eCamp\Core\Entity\CampCollaboration;
 use eCamp\Core\Entity\User;
 use eCamp\Core\Hydrator\CampCollaborationHydrator;
 use eCamp\Lib\Service\ServiceUtils;
+use Zend\Authentication\AuthenticationService;
 use ZF\ApiProblem\ApiProblem;
 
 class CampCollaborationService extends AbstractEntityService {
-    public function __construct(ServiceUtils $serviceUtils, AuthService $authService) {
+    public function __construct(ServiceUtils $serviceUtils, AuthenticationService $authenticationService) {
         parent::__construct(
             $serviceUtils,
-            $authService,
+            $authenticationService,
             CampCollaboration::class,
             CampCollaborationHydrator::class
         );

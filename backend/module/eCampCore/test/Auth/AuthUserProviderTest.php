@@ -17,8 +17,8 @@ class AuthUserProviderTest extends AbstractDatabaseTestCase {
             'mailAddress' => 'test@eCamp3.ch'
         ]);
 
-        $authService = new AuthenticationService();
-        $authService->getStorage()->write($user->getId());
+        $authenticationService = new AuthenticationService();
+        $authenticationService->getStorage()->write($user->getId());
 
 
         /** @var AuthUserProvider $authUserProvider */
@@ -30,8 +30,8 @@ class AuthUserProviderTest extends AbstractDatabaseTestCase {
     }
 
     public function testNoAuthUser() {
-        $authService = new AuthenticationService();
-        $authService->clearIdentity();
+        $authenticationService = new AuthenticationService();
+        $authenticationService->clearIdentity();
 
         /** @var AuthUserProvider $authUserProvider */
         $authUserProvider = \eCampApp::GetService(AuthUserProvider::class);

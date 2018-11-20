@@ -2,25 +2,25 @@
 
 namespace eCamp\Api\Controller;
 
-use eCamp\Core\Auth\AuthService;
 use eCamp\Core\EntityService\UserService;
+use Zend\Authentication\AuthenticationService;
 use Zend\Mvc\Controller\AbstractActionController;
 use ZF\Hal\Entity;
 use ZF\Hal\Link\Link;
 use ZF\Hal\View\HalJsonModel;
 
 class IndexController extends AbstractActionController {
-    /** @var AuthService */
-    private $authService;
+    /** @var AuthenticationService */
+    private $authenticationService;
 
     /** @var UserService */
     private $userService;
 
     public function __construct(
-        AuthService $authService,
+        AuthenticationService $authenticationService,
         UserService $userService
     ) {
-        $this->authService = $authService;
+        $this->authenticationService = $authenticationService;
         $this->userService = $userService;
     }
 
@@ -41,7 +41,7 @@ class IndexController extends AbstractActionController {
         $data['title'] = 'eCamp V3 - API';
 
         $user = null;
-        $userId = $this->authService->getAuthUserId();
+        $userId = $this->authenticationService->getIdentity();
         if ($userId != null) {
             $user = $this->userService->fetch($userId);
         }

@@ -3,32 +3,32 @@
 namespace eCamp\Api\Controller;
 
 use Doctrine\ORM\NonUniqueResultException;
-use eCamp\Core\Auth\AuthService;
+use eCamp\Core\Auth\Adapter\LoginPassword;
 use eCamp\Core\EntityService\UserService;
 use eCamp\Lib\Acl\NoAccessException;
 use eCamp\Lib\Util\UrlUtils;
+use Zend\Authentication\AuthenticationService;
 use Zend\Http\Request;
 use Zend\Http\Response;
 use Zend\Json\Json;
 use Zend\Mvc\Controller\AbstractActionController;
-use Zend\Uri\UriFactory;
 use ZF\Hal\Entity;
 use ZF\Hal\Link\Link;
 use ZF\Hal\View\HalJsonModel;
 
 class LoginController extends AbstractActionController {
-    /** @var AuthService */
-    private $authService;
+    /** @var AuthenticationService */
+    private $authenticationService;
 
     /** @var UserService */
     private $userService;
 
 
     public function __construct(
-        AuthService $authService,
+        AuthenticationService $authenticationService,
         UserService $userService
     ) {
-        $this->authService = $authService;
+        $this->authenticationService = $authenticationService;
         $this->userService = $userService;
     }
 
@@ -56,7 +56,7 @@ class LoginController extends AbstractActionController {
         $data = [];
 
         $user = null;
-        $userId = $this->authService->getAuthUserId();
+        $userId = $this->authenticationService->getIdentity();
         if ($userId != null) {
             $user = $this->userService->fetch($userId);
         }
@@ -104,7 +104,9 @@ class LoginController extends AbstractActionController {
         $content = $request->getContent();
 
         $data = ($content != null) ? Json::decode($content) : [];
-        $this->authService->login($data->username, $data->password);
+
+        $adapter = new LoginPassword($data->username, $data->password);
+        $this->authenticationService->authenticate($adapter);
 
         return $this->redirect()->toRoute('ecamp.api/login');
     }
@@ -113,7 +115,7 @@ class LoginController extends AbstractActionController {
      * @return Response
      */
     public function logoutAction() {
-        $this->authService->clearIdentity();
+        $this->authenticationService->clearIdentity();
 
         return $this->redirect()->toRoute('ecamp.api/login');
     }

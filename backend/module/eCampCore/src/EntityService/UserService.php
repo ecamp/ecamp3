@@ -3,22 +3,22 @@
 namespace eCamp\Core\EntityService;
 
 use Doctrine\ORM\ORMException;
-use eCamp\Core\Auth\AuthService;
-use eCamp\Core\Hydrator\UserHydrator;
 use eCamp\Core\Entity\User;
+use eCamp\Core\Hydrator\UserHydrator;
 use eCamp\Lib\Acl\NoAccessException;
 use eCamp\Lib\Service\ServiceUtils;
 use Hybridauth\User\Profile;
+use Zend\Authentication\AuthenticationService;
 use ZF\ApiProblem\ApiProblem;
 
 /**
  * Class UserService
  */
 class UserService extends AbstractEntityService {
-    public function __construct(ServiceUtils $serviceUtils, AuthService $authService) {
+    public function __construct(ServiceUtils $serviceUtils, AuthenticationService $authenticationService) {
         parent::__construct(
             $serviceUtils,
-            $authService,
+            $authenticationService,
             User::class,
             UserHydrator::class
         );

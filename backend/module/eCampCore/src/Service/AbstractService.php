@@ -52,10 +52,10 @@ abstract class AbstractService {
         /** @var User $user */
         $user = null;
 
-        $authService = new AuthenticationService();
-        if ($authService->hasIdentity()) {
+        $authenticationService = new AuthenticationService();
+        if ($authenticationService->hasIdentity()) {
             $userRepository = $this->getEntityManager()->getRepository(User::class);
-            $userId = $authService->getIdentity();
+            $userId = $authenticationService->getIdentity();
             $user = $userRepository->find($userId);
         }
 

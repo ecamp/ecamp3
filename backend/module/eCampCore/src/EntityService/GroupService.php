@@ -2,18 +2,18 @@
 
 namespace eCamp\Core\EntityService;
 
-use eCamp\Core\Auth\AuthService;
+use eCamp\Core\Entity\Group;
 use eCamp\Core\Entity\GroupMembership;
 use eCamp\Core\Entity\User;
 use eCamp\Core\Hydrator\GroupHydrator;
-use eCamp\Core\Entity\Group;
 use eCamp\Lib\Service\ServiceUtils;
+use Zend\Authentication\AuthenticationService;
 
 class GroupService extends AbstractEntityService {
-    public function __construct(ServiceUtils $serviceUtils, AuthService $authService) {
+    public function __construct(ServiceUtils $serviceUtils, AuthenticationService $authenticationService) {
         parent::__construct(
             $serviceUtils,
-            $authService,
+            $authenticationService,
             Group::class,
             GroupHydrator::class
         );

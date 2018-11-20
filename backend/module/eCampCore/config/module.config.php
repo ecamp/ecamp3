@@ -46,7 +46,7 @@ return [
             \eCamp\Lib\Auth\Storage\AuthHeaderAndRedirectQueryParam::class =>\eCamp\Lib\Auth\Storage\AuthHeaderAndRedirectQueryParamFactory::class,
 
             \eCamp\Core\Auth\AuthUserProvider::class => \eCamp\Core\Auth\AuthUserProviderFactory::class,
-            \eCamp\Core\Auth\AuthService::class => \eCamp\Core\Auth\AuthServiceFactory::class,
+            \Zend\Authentication\AuthenticationService::class => \eCamp\Core\Auth\AuthenticationServiceFactory::class,
 
             \eCamp\Core\Plugin\PluginStrategyProvider::class =>\eCamp\Core\Plugin\PluginStrategyProviderFactory::class,
 

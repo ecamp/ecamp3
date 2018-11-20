@@ -3,7 +3,6 @@
 namespace eCamp\Core\EntityService;
 
 use Doctrine\ORM\ORMException;
-use eCamp\Core\Auth\AuthService;
 use eCamp\Core\Entity\Event;
 use eCamp\Core\Entity\EventPlugin;
 use eCamp\Core\Entity\EventTypePlugin;
@@ -16,6 +15,7 @@ use eCamp\Lib\Acl\NoAccessException;
 use eCamp\Lib\Service\ServiceUtils;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
+use Zend\Authentication\AuthenticationService;
 use ZF\ApiProblem\ApiProblem;
 
 class EventPluginService extends AbstractEntityService
@@ -23,10 +23,10 @@ class EventPluginService extends AbstractEntityService
     use PluginStrategyProviderTrait;
 
 
-    public function __construct(ServiceUtils $serviceUtils, AuthService $authService) {
+    public function __construct(ServiceUtils $serviceUtils, AuthenticationService $authenticationService) {
         parent::__construct(
             $serviceUtils,
-            $authService,
+            $authenticationService,
             EventPlugin::class,
             EventPluginHydrator::class
         );

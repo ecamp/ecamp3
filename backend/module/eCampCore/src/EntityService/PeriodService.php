@@ -3,22 +3,22 @@
 namespace eCamp\Core\EntityService;
 
 use Doctrine\ORM\ORMException;
-use eCamp\Core\Auth\AuthService;
+use eCamp\Core\Entity\Camp;
 use eCamp\Core\Entity\Day;
 use eCamp\Core\Entity\EventInstance;
-use eCamp\Core\Hydrator\PeriodHydrator;
-use eCamp\Core\Entity\Camp;
 use eCamp\Core\Entity\Period;
+use eCamp\Core\Hydrator\PeriodHydrator;
 use eCamp\Lib\Acl\NoAccessException;
 use eCamp\Lib\Service\ServiceUtils;
+use Zend\Authentication\AuthenticationService;
 use ZF\ApiProblem\ApiProblem;
 
 class PeriodService extends AbstractEntityService {
 
-    public function __construct(ServiceUtils $serviceUtils, AuthService $authService) {
+    public function __construct(ServiceUtils $serviceUtils, AuthenticationService $authenticationService) {
         parent::__construct(
             $serviceUtils,
-            $authService,
+            $authenticationService,
             Period::class,
             PeriodHydrator::class
         );

@@ -2,16 +2,16 @@
 
 namespace eCamp\Core\EntityService;
 
-use eCamp\Core\Auth\AuthService;
-use eCamp\Core\Hydrator\PluginHydrator;
 use eCamp\Core\Entity\Plugin;
+use eCamp\Core\Hydrator\PluginHydrator;
 use eCamp\Lib\Service\ServiceUtils;
+use Zend\Authentication\AuthenticationService;
 
 class PluginService extends AbstractEntityService {
-    public function __construct(ServiceUtils $serviceUtils, AuthService $authService) {
+    public function __construct(ServiceUtils $serviceUtils, AuthenticationService $authenticationService) {
         parent::__construct(
             $serviceUtils,
-            $authService,
+            $authenticationService,
             Plugin::class,
             PluginHydrator::class
         );

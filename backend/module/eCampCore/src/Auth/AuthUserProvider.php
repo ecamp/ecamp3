@@ -16,9 +16,9 @@ class AuthUserProvider {
 
     /** @return null|User */
     public function getAuthUser() {
-        $authService = new AuthenticationService();
-        if ($authService->hasIdentity()) {
-            $userId = $authService->getIdentity();
+        $authenticationService = new AuthenticationService();
+        if ($authenticationService->hasIdentity()) {
+            $userId = $authenticationService->getIdentity();
 
             /** @var User $user */
             $user = $this->userRepository->find($userId);

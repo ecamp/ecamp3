@@ -2,16 +2,16 @@
 
 namespace eCamp\Core\EntityService;
 
-use eCamp\Core\Auth\AuthService;
-use eCamp\Core\Hydrator\CampTypeHydrator;
 use eCamp\Core\Entity\CampType;
+use eCamp\Core\Hydrator\CampTypeHydrator;
 use eCamp\Lib\Service\ServiceUtils;
+use Zend\Authentication\AuthenticationService;
 
 class CampTypeService extends AbstractEntityService {
-    public function __construct(ServiceUtils $serviceUtils, AuthService $authService) {
+    public function __construct(ServiceUtils $serviceUtils, AuthenticationService $authenticationService) {
         parent::__construct(
             $serviceUtils,
-            $authService,
+            $authenticationService,
             CampType::class,
             CampTypeHydrator::class
         );

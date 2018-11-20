@@ -7,12 +7,12 @@ use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\ORMException;
 use Doctrine\ORM\Query\Expr;
 use Doctrine\ORM\QueryBuilder;
-use eCamp\Core\Auth\AuthService;
 use eCamp\Core\Entity\User;
 use eCamp\Lib\Acl\Acl;
 use eCamp\Lib\Acl\NoAccessException;
 use eCamp\Lib\Entity\BaseEntity;
 use eCamp\Lib\Service\ServiceUtils;
+use Zend\Authentication\AuthenticationService;
 use Zend\Hydrator\HydratorInterface;
 use Zend\Paginator\Adapter\ArrayAdapter;
 use Zend\Paginator\Paginator;
@@ -24,8 +24,8 @@ abstract class AbstractEntityService extends AbstractResourceListener {
     /** @var ServiceUtils */
     private $serviceUtils;
 
-    /** @var AuthService */
-    private $authService;
+    /** @var AuthenticationService */
+    private $authenticationService;
 
     /** @var string */
     private $entityClassname;
@@ -33,9 +33,9 @@ abstract class AbstractEntityService extends AbstractResourceListener {
     /** @var string */
     private $hydratorClassname;
 
-    public function __construct($serviceUtils, $authService, $entityClassname, $hydratorClassname) {
+    public function __construct($serviceUtils, AuthenticationService $authenticationService, $entityClassname, $hydratorClassname) {
         $this->serviceUtils = $serviceUtils;
-        $this->authService = $authService;
+        $this->authenticationService = $authenticationService;
         $this->entityClassname = $entityClassname;
         $this->hydratorClassname = $hydratorClassname;
     }
@@ -68,8 +68,8 @@ abstract class AbstractEntityService extends AbstractResourceListener {
      * @return null|string
      */
     protected function getAuthUserRole() {
-        if ($this->authService->hasIdentity()) {
-            return $this->authService->getIdentity()['role'];
+        if ($this->authenticationService->hasIdentity()) {
+            return $this->authenticationService->getIdentity()['role'];
         }
         return null;
     }
@@ -78,8 +78,8 @@ abstract class AbstractEntityService extends AbstractResourceListener {
      * @return null|string
      */
     protected function getAuthUserId() {
-        if ($this->authService->hasIdentity()) {
-            return $this->authService->getIdentity()['id'];
+        if ($this->authenticationService->hasIdentity()) {
+            return $this->authenticationService->getIdentity()['id'];
         }
         return null;
     }
