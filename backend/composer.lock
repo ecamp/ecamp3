@@ -71,12 +71,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/carlobeltrame/JwtZendAuth.git",
-                "reference": "28d154b2412b35fa42a8d3730b07828aad404d99"
+                "reference": "948c15eb165a5f5f8853346d54e10ef02e3588b7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/carlobeltrame/JwtZendAuth/zipball/28d154b2412b35fa42a8d3730b07828aad404d99",
-                "reference": "28d154b2412b35fa42a8d3730b07828aad404d99",
+                "url": "https://api.github.com/repos/carlobeltrame/JwtZendAuth/zipball/948c15eb165a5f5f8853346d54e10ef02e3588b7",
+                "reference": "948c15eb165a5f5f8853346d54e10ef02e3588b7",
                 "shasum": ""
             },
             "require": {
@@ -107,7 +107,7 @@
             "support": {
                 "source": "https://github.com/carlobeltrame/JwtZendAuth/tree/master"
             },
-            "time": "2018-11-16 13:31:57"
+            "time": "2018-11-20 15:48:52"
         },
         {
             "name": "composer/semver",
@@ -5238,16 +5238,16 @@
         },
         {
             "name": "zendframework/zend-hydrator",
-            "version": "2.4.0",
+            "version": "2.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/zendframework/zend-hydrator.git",
-                "reference": "bd48bc3bc046df007a94125f868dd1aa1b73a813"
+                "reference": "70b02f4d8676e64af932625751750b5ca72fff3a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zendframework/zend-hydrator/zipball/bd48bc3bc046df007a94125f868dd1aa1b73a813",
-                "reference": "bd48bc3bc046df007a94125f868dd1aa1b73a813",
+                "url": "https://api.github.com/repos/zendframework/zend-hydrator/zipball/70b02f4d8676e64af932625751750b5ca72fff3a",
+                "reference": "70b02f4d8676e64af932625751750b5ca72fff3a",
                 "shasum": ""
             },
             "require": {
@@ -5297,7 +5297,7 @@
                 "hydrator",
                 "zf"
             ],
-            "time": "2018-04-30 21:22:14"
+            "time": "2018-11-19 19:16:10"
         },
         {
             "name": "zendframework/zend-i18n",
