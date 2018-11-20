@@ -6,6 +6,7 @@ use Doctrine\ORM\EntityManager;
 use eCamp\Core\Entity\User;
 use eCamp\Core\Repository\UserRepository;
 use Interop\Container\ContainerInterface;
+use Zend\Authentication\AuthenticationService;
 use Zend\ServiceManager\Factory\FactoryInterface;
 
 class AuthUserProviderFactory implements FactoryInterface {
@@ -23,6 +24,9 @@ class AuthUserProviderFactory implements FactoryInterface {
         /** @var UserRepository $userRepository */
         $userRepository = $entityManager->getRepository(User::class);
 
-        return new AuthUserProvider($userRepository);
+        /** @var AuthenticationService */
+        $authenticationService = $container->get(AuthenticationService::class);
+
+        return new AuthUserProvider($userRepository, $authenticationService);
     }
 }
