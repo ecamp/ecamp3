@@ -40,6 +40,7 @@ class IndexController extends AbstractActionController {
         $data = [];
         $data['title'] = 'eCamp V3 - API';
 
+        $user = null;
         $userId = $this->authService->getAuthUserId();
         if ($userId != null) {
             $user = $this->userService->fetch($userId);
