@@ -6,13 +6,10 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
-use eCamp\Core\Entity\User;
-use eCamp\Core\Entity\UserIdentity;
+use eCamp\Core\Auth\Adapter\JwtPayload;
 use eCamp\Core\EntityService\UserIdentityService;
 use eCamp\Core\EntityService\UserService;
-use eCamp\Core\Repository\UserRepository;
 use eCamp\Lib\Acl\NoAccessException;
-use eCamp\Lib\Auth\OAuthAdapter;
 use Hybridauth\Adapter\AdapterInterface;
 use Hybridauth\Exception\InvalidArgumentException;
 use Hybridauth\Exception\UnexpectedValueException;
@@ -38,7 +35,7 @@ abstract class BaseController extends AbstractActionController {
     protected $userService;
 
     /** @var AuthenticationService */
-    protected $authenticationService;
+    protected $zendAuthenticationService;
 
     /** @var string */
     protected $providerName;
@@ -51,7 +48,7 @@ abstract class BaseController extends AbstractActionController {
     private $sessionContainer;
 
     /** @var AdapterInterface */
-    private $authAdapter;
+    private $hybridAuthAdapter;
 
 
 
@@ -59,14 +56,14 @@ abstract class BaseController extends AbstractActionController {
         EntityManager $entityManager,
         UserIdentityService $userIdentityService,
         UserService $userService,
-        AuthenticationService $authenticationService,
+        AuthenticationService $zendAuthenticationService,
         string $providerName,
         array $hybridAuthConfig
     ) {
         $this->entityManager = $entityManager;
         $this->userIdentityService = $userIdentityService;
         $this->userService = $userService;
-        $this->authenticationService = $authenticationService;
+        $this->zendAuthenticationService = $zendAuthenticationService;
         $this->providerName = $providerName;
         $this->hybridAuthConfig = $hybridAuthConfig;
     }
@@ -85,59 +82,37 @@ abstract class BaseController extends AbstractActionController {
         $request = $this->getRequest();
         $this->setRedirect($request->getQuery('redirect'));
 
-        $this->getAuthAdapter()->disconnect();
-        $this->getAuthAdapter()->authenticate();
+        $this->getHybridauthAdapter()->disconnect();
 
-        return $this->callbackAction();
+        if ($this->getHybridauthAdapter()->authenticate()) {
+            // We were already authenticated, skip to callback
+            return $this->callbackAction();
+        }
+
+        // Authentication failed in some way
+        /** @var Response $response */
+        $response = $this->getResponse();
+        $response->setStatusCode(401);
+        return $response;
     }
 
     /**
      * @return Response
-     * @throws NonUniqueResultException
      * @throws ORMException
-     * @throws OptimisticLockException
      * @throws \Exception
      * @throws NoAccessException
      */
     public function callbackAction() {
-        $this->getAuthAdapter()->authenticate();
+        // Perform the second step of OAuth2 authentication
+        $this->getHybridauthAdapter()->authenticate();
 
-        $profile = $this->getAuthAdapter()->getUserProfile();
-        $identity = $this->userIdentityService->find($this->providerName, $profile->identifier);
+        // Get information about the authenticated user
+        $profile = $this->getHybridauthAdapter()->getUserProfile();
 
-        $user = null;
-        if ($identity) {
-            $user = $identity->getUser();
-        } else {
-            /** @var UserRepository $userRepository */
-            $userRepository = $this->entityManager->getRepository(User::class);
-            $user = $userRepository->findByMail($profile->email);
-        }
+        $user = $this->userIdentityService->findOrCreateUser($this->providerName, $profile);
 
-        if ($user == null) {
-            $user = $this->userService->create($profile);
-        } else {
-            $user = $this->userService->update($user, $profile);
-        }
-
-        if ($identity == null) {
-            /** @var UserIdentity $identity */
-            $identity = $this->userIdentityService->create((object)[
-                'provider' => $this->providerName,
-                'providerId' => $profile->identifier
-            ]);
-            $identity->setUser($user);
-        }
-        $this->entityManager->flush();
-
-        $jwtPayload = [
-            'id' => $user->getId(),
-            'role' => $user->getRole()
-        ];
-
-        $result = $this->authenticationService->authenticate(
-            new OAuthAdapter($jwtPayload)
-        );
+        // Send proof of authentication in a signed JWT token to the user
+        $result = $this->zendAuthenticationService->authenticate(new JwtPayload($user->getId(), $user->getRole()));
 
         if ($result->isValid()) {
             $redirect = $this->getRedirect();
@@ -146,7 +121,11 @@ abstract class BaseController extends AbstractActionController {
             }
         }
 
-        die('login ok');
+        // Authentication or redirection failed in some way
+        /** @var Response $response */
+        $response = $this->getResponse();
+        $response->setStatusCode(401);
+        return $response;
     }
 
     /**
@@ -154,8 +133,8 @@ abstract class BaseController extends AbstractActionController {
      * @throws UnexpectedValueException
      */
     public function logoutAction() {
-        $this->authenticationService->clearIdentity();
-        $this->getAuthAdapter()->disconnect();
+        $this->zendAuthenticationService->clearIdentity();
+        $this->getHybridauthAdapter()->disconnect();
 
         // TODO: Redirect
 
@@ -198,11 +177,11 @@ abstract class BaseController extends AbstractActionController {
      * @throws InvalidArgumentException
      * @throws UnexpectedValueException
      */
-    protected function getAuthAdapter() {
-        if ($this->authAdapter == null) {
-            $this->authAdapter = $this->createAuthAdapter();
+    protected function getHybridauthAdapter() {
+        if ($this->hybridAuthAdapter == null) {
+            $this->hybridAuthAdapter = $this->createHybridauthAdapter();
         }
-        return $this->authAdapter;
+        return $this->hybridAuthAdapter;
     }
 
     /**
@@ -210,7 +189,7 @@ abstract class BaseController extends AbstractActionController {
      * @throws InvalidArgumentException
      * @throws UnexpectedValueException
      */
-    protected function createAuthAdapter() {
+    protected function createHybridauthAdapter() {
         $route = $this->getCallbackRoute();
         $callback = $this->getCallbackUri($route, [ 'action' => 'callback' ]);
         $config = ['provider' => $this->providerName, 'callback' => $callback];

@@ -5,6 +5,7 @@ namespace eCamp\Core\EntityService;
 use Doctrine\ORM\ORMException;
 use eCamp\Core\Entity\User;
 use eCamp\Core\Hydrator\UserHydrator;
+use eCamp\Core\Repository\UserRepository;
 use eCamp\Lib\Acl\NoAccessException;
 use eCamp\Lib\Service\ServiceUtils;
 use Hybridauth\User\Profile;
@@ -22,6 +23,12 @@ class UserService extends AbstractEntityService {
             User::class,
             UserHydrator::class
         );
+    }
+
+    public function findByMail($email) {
+        /** @var UserRepository $repository */
+        $repository = $this->getRepository();
+        $repository->findByMail($email);
     }
 
     /**

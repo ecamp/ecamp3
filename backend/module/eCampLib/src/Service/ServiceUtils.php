@@ -105,6 +105,10 @@ class ServiceUtils
         $this->entityManager->remove($entity);
     }
 
+    public function emFlush() {
+        $this->entityManager->flush();
+    }
+
 
 
     /**
