@@ -97,7 +97,7 @@ export default {
       try {
         this.campDetails = (await this.axios.get(this.apiUrl)).data
       } catch (error) {
-        this.messages = [{ type: 'danger', text: 'Could get camp details for id ' + this.campId + '. Are you not logged in (which would be indicated by Network Error)? ' + error }]
+        this.messages = [{ type: 'danger', text: 'Could get camp details for id ' + this.campId + '. ' + error }]
       }
     },
     async saveToAPI () {
