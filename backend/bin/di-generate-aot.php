@@ -20,7 +20,6 @@ function getClassNames(ContainerInterface $container): iterable {
         __DIR__ . '/../module/eCampLib/src',
         __DIR__ . '/../module/eCampCore/src',
         __DIR__ . '/../module/eCampApi/src',
-        __DIR__ . '/../module/eCampWeb/src',
     ];
 
     $scanner = new DirectoryScanner($directories);
@@ -29,7 +28,7 @@ function getClassNames(ContainerInterface $container): iterable {
     foreach ($scanner->getClasses() as $class) {
 
         /**
-         * omit classes that 
+         * omit classes that
          * - already have a factory (or abstract factory), e.g. discoverable by service manager without using Zend\DI
          * - are not instantiable (e.g. abstract classes)
          * - have no constructor
