@@ -74,7 +74,7 @@ abstract class AbstractEntityService extends AbstractResourceListener {
      */
     protected function getAuthUserRole() {
         if ($this->authenticationService->hasIdentity()) {
-            return $this->authenticationService->getIdentity()['role'];
+            return $this->authenticationService->getIdentity()->role;
         }
         return null;
     }
@@ -84,7 +84,7 @@ abstract class AbstractEntityService extends AbstractResourceListener {
      */
     protected function getAuthUserId() {
         if ($this->authenticationService->hasIdentity()) {
-            return $this->authenticationService->getIdentity()['id'];
+            return $this->authenticationService->getIdentity()->id;
         }
         return null;
     }

@@ -55,7 +55,7 @@ abstract class AbstractService {
         $authenticationService = new AuthenticationService();
         if ($authenticationService->hasIdentity()) {
             $userRepository = $this->getEntityManager()->getRepository(User::class);
-            $userId = $authenticationService->getIdentity();
+            $userId = $authenticationService->getIdentity()->id;
             $user = $userRepository->find($userId);
         }
 
