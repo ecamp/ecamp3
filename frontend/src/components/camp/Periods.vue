@@ -59,7 +59,7 @@ export default {
       try {
         this.campDetails = (await this.axios.get(this.apiUrl)).data
       } catch (error) {
-        this.messages = [{ type: 'danger', text: 'Could get camp details for id ' + this.campId + '. ' + error }]
+        this.messages = [{ type: 'danger', text: 'Could not get camp details for id ' + this.campId + '. ' + error }]
       }
     }
   }
