@@ -4,6 +4,16 @@ const storageLocation = 'loggedIn'
 
 export const auth = {
   isLoggedIn () {
+    let savedStatus = window.localStorage.getItem(storageLocation)
+    if (savedStatus === null) {
+      axios.get(process.env.VUE_APP_ROOT_API + '/login').then(response => {
+        let loggedIn = '0'
+        if (response.data.user !== 'guest') {
+          loggedIn = '1'
+        }
+        window.localStorage.setItem(storageLocation, loggedIn)
+      })
+    }
     return window.localStorage.getItem(storageLocation) === '1'
   },
   login (returnUrl) {
@@ -15,7 +25,7 @@ export const auth = {
   },
   logout (callback) {
     axios.get(process.env.VUE_APP_ROOT_API + '/logout').then(response => {
-      window.localStorage.removeItem(storageLocation)
+      window.localStorage.setItem(storageLocation, '0')
       if (callback) {
         callback(response)
       }
