@@ -15,11 +15,13 @@ export default new Router({
     {
       path: '/group/:groupName/camps',
       name: 'camps',
-      component: () => import(/* webpackChunkName: "camps" */ './views/Camps.vue')
+      component: () => import(/* webpackChunkName: "camps" */ './views/Camps.vue'),
+      beforeEnter: requireAuth
     },
     {
       path: '/group/:groupName/camp/:campId',
       component: () => import(/* webpackChunkName: "camp" */ './views/Camp.vue'),
+      beforeEnter: requireAuth,
       children: [
         {
           path: '',
@@ -52,3 +54,11 @@ export default new Router({
     }
   ]
 })
+
+function requireAuth (to, from, next) {
+  if (Vue.auth.isLoggedIn()) {
+    next()
+  } else {
+    next({ name: 'login', query: { redirect: to.fullPath } })
+  }
+}
