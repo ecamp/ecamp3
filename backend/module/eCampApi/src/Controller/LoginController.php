@@ -43,6 +43,13 @@ class LoginController extends AbstractActionController {
         }
 
 
+        $callback = $request->getQuery('callback');
+        if ($callback) {
+            // This request is made from an external client, redirect it to the requested url
+            return $this->redirect()->toUrl($callback);
+        }
+
+
         $data = [];
 
         /** @var User $user */
@@ -114,7 +121,11 @@ class LoginController extends AbstractActionController {
      * @return Response
      */
     public function googleAction() {
-        $redirect = $this->url()->fromRoute('ecamp.api/login');
+        /** @var Request $request */
+        $request = $this->getRequest();
+        $externalCallback = $request->getQuery('callback');
+
+        $redirect = $this->url()->fromRoute('ecamp.api/login', [], ['query'=>['callback'=>$externalCallback]]);
 
         return $this->redirect()->toRoute(
             'ecamp.auth/google',
