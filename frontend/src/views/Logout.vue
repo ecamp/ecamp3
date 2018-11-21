@@ -18,8 +18,7 @@ export default {
   },
   methods: {
     logout () {
-      this.$auth.logout()
-      this.redirect()
+      this.$auth.logout(this.redirect)
     },
     redirect () {
       this.$router.replace(this.$route.query.redirect || '/')
