@@ -3,14 +3,9 @@
 namespace eCamp\Core\Controller\Auth;
 
 use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\NonUniqueResultException;
-use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
-use eCamp\Core\Entity\User;
-use eCamp\Core\Entity\UserIdentity;
 use eCamp\Core\EntityService\UserIdentityService;
 use eCamp\Core\EntityService\UserService;
-use eCamp\Core\Repository\UserRepository;
 use eCamp\Lib\Acl\NoAccessException;
 use eCamp\Lib\Auth\OAuthAdapter;
 use Hybridauth\Adapter\AdapterInterface;
@@ -75,9 +70,7 @@ abstract class BaseController extends AbstractActionController {
     /**
      * @return Response|ViewModel
      * @throws NoAccessException
-     * @throws NonUniqueResultException
      * @throws ORMException
-     * @throws OptimisticLockException
      * @throws \Exception
      */
     public function indexAction() {
@@ -86,53 +79,35 @@ abstract class BaseController extends AbstractActionController {
         $this->setRedirect($request->getQuery('redirect'));
 
         $this->getAuthAdapter()->disconnect();
-        $this->getAuthAdapter()->authenticate();
 
-        return $this->callbackAction();
+        if ($this->getAuthAdapter()->authenticate()) {
+            // We were already authenticated, skip to callback
+            return $this->callbackAction();
+        }
+
+        // We were not authenticated, but the OAuth redirect also didn't happen...
+        /** @var Response $response */
+        $response = $this->getResponse();
+        $response->setStatusCode(401);
+        return $response;
     }
 
     /**
      * @return Response
-     * @throws NonUniqueResultException
      * @throws ORMException
-     * @throws OptimisticLockException
      * @throws \Exception
      * @throws NoAccessException
      */
     public function callbackAction() {
+        // Perform the second step of OAuth2 authentication
         $this->getAuthAdapter()->authenticate();
 
+        // Get information about the authenticated user
         $profile = $this->getAuthAdapter()->getUserProfile();
-        $identity = $this->userIdentityService->find($this->providerName, $profile->identifier);
 
-        $user = null;
-        if ($identity) {
-            $user = $identity->getUser();
-        } else {
-            /** @var UserRepository $userRepository */
-            $userRepository = $this->entityManager->getRepository(User::class);
-            $user = $userRepository->findByMail($profile->email);
-        }
+        $user = $this->userIdentityService->findOrCreateUser($this->providerName, $profile);
 
-        if ($user == null) {
-            $user = $this->userService->create($profile);
-        } else {
-            $user = $this->userService->update($user, $profile);
-        }
-
-        if ($identity == null) {
-            /** @var UserIdentity $identity */
-            $identity = $this->userIdentityService->create((object)[
-                'provider' => $this->providerName,
-                'providerId' => $profile->identifier
-            ]);
-            $identity->setUser($user);
-        }
-        $this->entityManager->flush();
-
-        $result = $this->authenticationService->authenticate(
-            new OAuthAdapter($user->getId())
-        );
+        $result = $this->authenticationService->authenticate(new OAuthAdapter($user->getId()));
 
         if ($result->isValid()) {
             $redirect = $this->getRedirect();
@@ -141,7 +116,11 @@ abstract class BaseController extends AbstractActionController {
             }
         }
 
-        die('login ok');
+        // Authentication or redirection failed in some way
+        /** @var Response $response */
+        $response = $this->getResponse();
+        $response->setStatusCode(401);
+        return $response;
     }
 
     /**
@@ -211,8 +190,8 @@ abstract class BaseController extends AbstractActionController {
         $config = ['provider' => $this->providerName, 'callback' => $callback];
 
         $hybridAuthConfig = $this->hybridAuthConfig + $config;
-        $hybridauth = new Hybridauth($hybridAuthConfig);
-        return $hybridauth->getAdapter($this->providerName);
+        $hybridAuth = new Hybridauth($hybridAuthConfig);
+        return $hybridAuth->getAdapter($this->providerName);
     }
 
     /** @return string */

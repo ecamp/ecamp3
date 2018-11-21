@@ -105,6 +105,13 @@ class ServiceUtils
         $this->entityManager->remove($entity);
     }
 
+    /**
+     * @throws ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
+    public function emFlush() {
+        $this->entityManager->flush();
+    }
 
 
     /**

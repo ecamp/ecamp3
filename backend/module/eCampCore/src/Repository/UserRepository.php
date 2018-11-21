@@ -28,7 +28,6 @@ class UserRepository extends EntityRepository {
     /**
      * @param string $mail
      * @return User
-     * @throws NonUniqueResultException
      */
     public function findByMail($mail) {
         $q = $this->createQueryBuilder('u');
@@ -38,6 +37,12 @@ class UserRepository extends EntityRepository {
 
         $q->setParameter('mail', $mail);
 
-        return $q->getQuery()->getOneOrNullResult();
+        try {
+            $q->setMaxResults(1);
+            return $q->getQuery()->getOneOrNullResult();
+        } catch (NonUniqueResultException $e) {
+            // This shouldn't ever happen
+            return null;
+        }
     }
 }

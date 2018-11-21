@@ -25,6 +25,12 @@ class UserService extends AbstractEntityService {
         );
     }
 
+    public function findByMail($email) {
+        /** @var UserRepository $repository */
+        $repository = $this->getRepository();
+        $repository->findByMail($email);
+    }
+
     /**
      * @param mixed $data
      * @return User|mixed|ApiProblem
@@ -69,7 +75,6 @@ class UserService extends AbstractEntityService {
                 $user->verifyMailAddress($key);
             }
         }
-
 
 
         return $user;

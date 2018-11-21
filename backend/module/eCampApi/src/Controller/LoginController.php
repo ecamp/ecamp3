@@ -2,11 +2,9 @@
 
 namespace eCamp\Api\Controller;
 
-use Doctrine\ORM\NonUniqueResultException;
 use eCamp\Core\Auth\Adapter\LoginPassword;
 use eCamp\Core\Entity\User;
 use eCamp\Core\EntityService\UserService;
-use eCamp\Lib\Acl\NoAccessException;
 use Zend\Authentication\AuthenticationService;
 use Zend\Http\Request;
 use Zend\Http\Response;
@@ -35,8 +33,6 @@ class LoginController extends AbstractActionController {
 
     /**
      * @return Response|HalJsonModel
-     * @throws NoAccessException
-     * @throws NonUniqueResultException
      */
     public function indexAction() {
         /** @var Request $request */
@@ -91,7 +87,6 @@ class LoginController extends AbstractActionController {
 
     /**
      * @return Response
-     * @throws NonUniqueResultException
      */
     public function loginAction() {
         /** @var Request $request */

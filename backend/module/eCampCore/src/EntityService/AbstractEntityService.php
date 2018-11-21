@@ -24,6 +24,13 @@ abstract class AbstractEntityService extends AbstractResourceListener {
     /** @var ServiceUtils */
     private $serviceUtils;
 
+    /**
+     * @return ServiceUtils
+     */
+    protected function getServiceUtils() {
+        return $this->serviceUtils;
+    }
+
     /** @var string */
     private $entityClassname;
 
