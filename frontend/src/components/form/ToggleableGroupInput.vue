@@ -24,7 +24,6 @@ TODO: Fix bug causing the dropdown to be blank when closed
 </template>
 
 <script>
-import axios from 'axios'
 export default {
   name: 'ToggleableGroupInput',
   props: {
@@ -53,7 +52,7 @@ export default {
   methods: {
     async fetchFromAPI () {
       try {
-        this.allGroups = (await axios.get(process.env.VUE_APP_ROOT_API + '/group')).data._embedded.items
+        this.allGroups = (await this.axios.get(process.env.VUE_APP_ROOT_API + '/group')).data._embedded.items
       } catch (error) {
         this.$emit('error', [{ type: 'danger', text: 'Could not get group list. ' + error }])
       }
