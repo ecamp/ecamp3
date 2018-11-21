@@ -17,7 +17,28 @@ export default {
   name: 'Camps',
   data () {
     return {
-      campIdList: [ '1fb176e0', '77dd2792' ]
+      campIdList: []
+    }
+  },
+  computed: {
+    apiUrl () {
+      return process.env.VUE_APP_ROOT_API + '/camp'
+    }
+  },
+  created () {
+    this.fetchFromAPI()
+  },
+  methods: {
+    async fetchFromAPI () {
+      try {
+        this.campIdList = (await this.axios.get(this.apiUrl)).data._embedded.items.map(item => item.id)
+        console.log(this.campIdList)
+      } catch (error) {
+        this.messages = [{
+          type: 'danger',
+          text: 'Could not get camp list. ' + error
+        }]
+      }
     }
   }
 }

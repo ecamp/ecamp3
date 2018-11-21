@@ -17,16 +17,6 @@
           Camps
         </router-link>
         <router-link
-          :to="{ name: 'camp', params: { groupName: 'Pfadi Bewegung Schweiz', campId: '1fb176e0' } }"
-          class="btn btn-sm btn-primary d-none d-md-block">
-          Single camp
-        </router-link>
-        <router-link
-          :to="{ name: 'camp/periods', params: { groupName: 'Pfadi Bewegung Schweiz', campId: '1fb176e0' } }"
-          class="btn btn-sm btn-primary d-none d-md-block">
-          Camp periods
-        </router-link>
-        <router-link
           v-if="!$auth.isLoggedIn()"
           :to="{ name: 'login' }"
           class="btn btn-sm btn-primary d-md-block">
