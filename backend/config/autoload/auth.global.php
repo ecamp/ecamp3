@@ -1,7 +1,6 @@
 <?php
 
 return [
-    'crypto_key' => 'SOME SUPER SECRET PASSPHRASE HERE THAT YOU JUST MADE UP',
     'hybridauth' => [
         'providers' => [
             'google' => [
