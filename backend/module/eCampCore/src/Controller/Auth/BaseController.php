@@ -33,7 +33,7 @@ abstract class BaseController extends AbstractActionController {
     protected $userService;
 
     /** @var AuthenticationService */
-    protected $authenticationService;
+    protected $zendAuthenticationService;
 
     /** @var string */
     protected $providerName;
@@ -46,7 +46,7 @@ abstract class BaseController extends AbstractActionController {
     private $sessionContainer;
 
     /** @var AdapterInterface */
-    private $authAdapter;
+    private $hybridAuthAdapter;
 
 
 
@@ -54,14 +54,14 @@ abstract class BaseController extends AbstractActionController {
         EntityManager $entityManager,
         UserIdentityService $userIdentityService,
         UserService $userService,
-        AuthenticationService $authenticationService,
+        AuthenticationService $zendAuthenticationService,
         string $providerName,
         array $hybridAuthConfig
     ) {
         $this->entityManager = $entityManager;
         $this->userIdentityService = $userIdentityService;
         $this->userService = $userService;
-        $this->authenticationService = $authenticationService;
+        $this->zendAuthenticationService = $zendAuthenticationService;
         $this->providerName = $providerName;
         $this->hybridAuthConfig = $hybridAuthConfig;
     }
@@ -78,9 +78,9 @@ abstract class BaseController extends AbstractActionController {
         $request = $this->getRequest();
         $this->setRedirect($request->getQuery('redirect'));
 
-        $this->getAuthAdapter()->disconnect();
+        $this->getHybridAuthAdapter()->disconnect();
 
-        if ($this->getAuthAdapter()->authenticate()) {
+        if ($this->getHybridAuthAdapter()->authenticate()) {
             // We were already authenticated, skip to callback
             return $this->callbackAction();
         }
@@ -100,14 +100,14 @@ abstract class BaseController extends AbstractActionController {
      */
     public function callbackAction() {
         // Perform the second step of OAuth2 authentication
-        $this->getAuthAdapter()->authenticate();
+        $this->getHybridAuthAdapter()->authenticate();
 
         // Get information about the authenticated user
-        $profile = $this->getAuthAdapter()->getUserProfile();
+        $profile = $this->getHybridAuthAdapter()->getUserProfile();
 
         $user = $this->userIdentityService->findOrCreateUser($this->providerName, $profile);
 
-        $result = $this->authenticationService->authenticate(new OAuthAdapter($user->getId()));
+        $result = $this->zendAuthenticationService->authenticate(new OAuthAdapter($user->getId()));
 
         if ($result->isValid()) {
             $redirect = $this->getRedirect();
@@ -128,8 +128,8 @@ abstract class BaseController extends AbstractActionController {
      * @throws UnexpectedValueException
      */
     public function logoutAction() {
-        $this->authenticationService->clearIdentity();
-        $this->getAuthAdapter()->disconnect();
+        $this->zendAuthenticationService->clearIdentity();
+        $this->getHybridAuthAdapter()->disconnect();
 
         // TODO: Redirect
 
@@ -172,11 +172,11 @@ abstract class BaseController extends AbstractActionController {
      * @throws InvalidArgumentException
      * @throws UnexpectedValueException
      */
-    protected function getAuthAdapter() {
-        if ($this->authAdapter == null) {
-            $this->authAdapter = $this->createAuthAdapter();
+    protected function getHybridAuthAdapter() {
+        if ($this->hybridAuthAdapter == null) {
+            $this->hybridAuthAdapter = $this->createHybridAuthAdapter();
         }
-        return $this->authAdapter;
+        return $this->hybridAuthAdapter;
     }
 
     /**
@@ -184,7 +184,7 @@ abstract class BaseController extends AbstractActionController {
      * @throws InvalidArgumentException
      * @throws UnexpectedValueException
      */
-    protected function createAuthAdapter() {
+    protected function createHybridAuthAdapter() {
         $route = $this->getCallbackRoute();
         $callback = $this->getCallbackUri($route, [ 'action' => 'callback' ]);
         $config = ['provider' => $this->providerName, 'callback' => $callback];
