@@ -34,6 +34,6 @@ return [
          * this to work, you must set this option to true so that the server can serve
          * the proper response header.
          */
-        // 'allowed_credentials' => false,
+        'allowed_credentials' => true,
     ],
 ];
