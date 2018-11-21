@@ -32,12 +32,12 @@
           class="btn btn-sm btn-primary d-md-block">
           Log in
         </router-link>
-        <button
+        <router-link
           v-else
-          class="btn btn-sm btn-primary d-md-block"
-          @click="logout">
+          :to="{ name: 'logout' }"
+          class="btn btn-sm btn-primary d-md-block">
           Log out
-        </button>
+        </router-link>
       </div>
       <h1>eCamp3</h1>
       <hr>
@@ -45,19 +45,6 @@
     <router-view />
   </div>
 </template>
-
-<script>
-export default {
-  name: 'App',
-  methods: {
-    logout () {
-      this.$auth.logout(response => {
-        this.$router.push(this.$route.query.redirect || '/')
-      })
-    }
-  }
-}
-</script>
 
 <style lang="scss">
   @import '../node_modules/bootstrap/scss/bootstrap.scss';
