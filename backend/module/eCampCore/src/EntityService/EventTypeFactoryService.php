@@ -5,14 +5,16 @@ namespace eCamp\Core\EntityService;
 use eCamp\Core\Hydrator\EventTypeFactoryHydrator;
 use eCamp\Core\Entity\EventTypeFactory;
 use eCamp\Lib\Service\ServiceUtils;
+use Zend\Authentication\AuthenticationService;
 
 class EventTypeFactoryService extends AbstractEntityService {
 
-    public function __construct(ServiceUtils $serviceUtils) {
+    public function __construct(ServiceUtils $serviceUtils, AuthenticationService $authenticationService) {
         parent::__construct(
             $serviceUtils,
             EventTypeFactory::class,
-            EventTypeFactoryHydrator::class
+            EventTypeFactoryHydrator::class,
+            $authenticationService
         );
     }
 }

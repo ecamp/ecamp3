@@ -6,17 +6,18 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
-use eCamp\Core\Auth\AuthService;
 use eCamp\Core\Entity\User;
 use eCamp\Core\Entity\UserIdentity;
-use eCamp\Core\Repository\UserRepository;
 use eCamp\Core\EntityService\UserIdentityService;
 use eCamp\Core\EntityService\UserService;
+use eCamp\Core\Repository\UserRepository;
 use eCamp\Lib\Acl\NoAccessException;
 use eCamp\Lib\Auth\OAuthAdapter;
 use Hybridauth\Adapter\AdapterInterface;
 use Hybridauth\Exception\InvalidArgumentException;
 use Hybridauth\Exception\UnexpectedValueException;
+use Hybridauth\Hybridauth;
+use Zend\Authentication\AuthenticationService;
 use Zend\Http\Request;
 use Zend\Http\Response;
 use Zend\Mvc\Controller\AbstractActionController;
@@ -36,11 +37,14 @@ abstract class BaseController extends AbstractActionController {
     /** @var UserService */
     protected $userService;
 
-    /** @var AuthService */
-    protected $authService;
+    /** @var AuthenticationService */
+    protected $authenticationService;
 
     /** @var string */
     protected $providerName;
+
+    /** @var array */
+    protected $hybridAuthConfig;
 
 
     /** @var Container */
@@ -55,14 +59,16 @@ abstract class BaseController extends AbstractActionController {
         EntityManager $entityManager,
         UserIdentityService $userIdentityService,
         UserService $userService,
-        AuthService $authService,
-        string $providerName
+        AuthenticationService $authenticationService,
+        string $providerName,
+        array $hybridAuthConfig
     ) {
         $this->entityManager = $entityManager;
         $this->userIdentityService = $userIdentityService;
         $this->userService = $userService;
-        $this->authService = $authService;
+        $this->authenticationService = $authenticationService;
         $this->providerName = $providerName;
+        $this->hybridAuthConfig = $hybridAuthConfig;
     }
 
 
@@ -124,7 +130,7 @@ abstract class BaseController extends AbstractActionController {
         }
         $this->entityManager->flush();
 
-        $result = $this->authService->authenticate(
+        $result = $this->authenticationService->authenticate(
             new OAuthAdapter($user->getId())
         );
 
@@ -143,7 +149,7 @@ abstract class BaseController extends AbstractActionController {
      * @throws UnexpectedValueException
      */
     public function logoutAction() {
-        $this->authService->clearIdentity();
+        $this->authenticationService->clearIdentity();
         $this->getAuthAdapter()->disconnect();
 
         // TODO: Redirect
@@ -204,7 +210,9 @@ abstract class BaseController extends AbstractActionController {
         $callback = $this->getCallbackUri($route, [ 'action' => 'callback' ]);
         $config = ['provider' => $this->providerName, 'callback' => $callback];
 
-        return $this->authService->createOAuthAdapter($this->providerName, $config);
+        $hybridAuthConfig = $this->hybridAuthConfig + $config;
+        $hybridauth = new Hybridauth($hybridAuthConfig);
+        return $hybridauth->getAdapter($this->providerName);
     }
 
     /** @return string */

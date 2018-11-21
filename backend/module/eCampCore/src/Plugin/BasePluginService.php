@@ -6,6 +6,8 @@ use Doctrine\ORM\ORMException;
 use eCamp\Core\Entity\EventPlugin;
 use eCamp\Core\EntityService\AbstractEntityService;
 use eCamp\Lib\Acl\NoAccessException;
+use eCamp\Lib\Service\ServiceUtils;
+use Zend\Authentication\AuthenticationService;
 use ZF\ApiProblem\ApiProblem;
 
 abstract class BasePluginService extends AbstractEntityService {
@@ -17,11 +19,13 @@ abstract class BasePluginService extends AbstractEntityService {
     private $eventPlugin;
 
     public function __construct(
-        $entityClassname,
-        $hydratorClassname,
-        $eventPluginId
+        ServiceUtils $serviceUtils,
+        string $entityClassname,
+        string $hydratorClassname,
+        AuthenticationService $authenticationService,
+        string $eventPluginId
     ) {
-        parent::__construct($entityClassname, $hydratorClassname);
+        parent::__construct($serviceUtils, $entityClassname, $hydratorClassname, $authenticationService);
 
         $this->eventPluginId = $eventPluginId;
     }

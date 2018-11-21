@@ -10,10 +10,11 @@ use eCamp\Core\Entity\CampType;
 use eCamp\Core\Entity\User;
 use eCamp\Lib\Acl\NoAccessException;
 use eCamp\Lib\Service\ServiceUtils;
+use Zend\Authentication\AuthenticationService;
 use ZF\ApiProblem\ApiProblem;
 
 class CampService extends AbstractEntityService {
-    
+
     /** @var PeriodService */
     protected $periodService;
 
@@ -23,12 +24,14 @@ class CampService extends AbstractEntityService {
     public function __construct
     (   EventCategoryService $eventCategoryService,
         PeriodService $periodService,
-        ServiceUtils $serviceUtils
+        ServiceUtils $serviceUtils,
+        AuthenticationService $authenticationService
     ) {
         parent::__construct(
             $serviceUtils,
             Camp::class,
-            CampHydrator::class
+            CampHydrator::class,
+            $authenticationService
         );
 
         $this->periodService = $periodService;
@@ -117,5 +120,5 @@ class CampService extends AbstractEntityService {
 
         return $this->getQueryResult($q);
     }
-    
+
 }

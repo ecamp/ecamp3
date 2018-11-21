@@ -3,27 +3,23 @@
 namespace eCamp\Core\EntityService;
 
 use Doctrine\ORM\ORMException;
-use Doctrine\ORM\EntityManager;
-use eCamp\Core\Hydrator\EventCategoryHydrator;
 use eCamp\Core\Entity\Camp;
 use eCamp\Core\Entity\EventCategory;
 use eCamp\Core\Entity\EventType;
+use eCamp\Core\Hydrator\EventCategoryHydrator;
 use eCamp\Lib\Acl\NoAccessException;
 use eCamp\Lib\Service\ServiceUtils;
+use Zend\Authentication\AuthenticationService;
 use ZF\ApiProblem\ApiProblem;
-use eCamp\Lib\Acl\Acl;
-use eCamp\Lib\ServiceManager\EntityFilterManager;
-use Zend\Hydrator\HydratorPluginManager;
 
 
 class EventCategoryService extends AbstractEntityService {
-    public function __construct
-    (   ServiceUtils $serviceUtils
-    ) {
+    public function __construct(ServiceUtils $serviceUtils, AuthenticationService $authenticationService) {
         parent::__construct(
             $serviceUtils,
             EventCategory::class,
-            EventCategoryHydrator::class
+            EventCategoryHydrator::class,
+            $authenticationService
         );
     }
 

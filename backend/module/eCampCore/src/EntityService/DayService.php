@@ -9,14 +9,16 @@ use eCamp\Core\Entity\Day;
 use eCamp\Core\Entity\Period;
 use eCamp\Lib\Acl\NoAccessException;
 use eCamp\Lib\Service\ServiceUtils;
+use Zend\Authentication\AuthenticationService;
 use ZF\ApiProblem\ApiProblem;
 
 class DayService extends AbstractEntityService {
-    public function __construct(ServiceUtils $serviceUtils) {
+    public function __construct(ServiceUtils $serviceUtils, AuthenticationService $authenticationService) {
         parent::__construct(
             $serviceUtils,
             Day::class,
-            DayHydrator::class
+            DayHydrator::class,
+            $authenticationService
         );
     }
 

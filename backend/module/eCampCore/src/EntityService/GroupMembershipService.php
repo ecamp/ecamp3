@@ -8,14 +8,16 @@ use eCamp\Core\Entity\Group;
 use eCamp\Core\Entity\GroupMembership;
 use eCamp\Core\Entity\User;
 use eCamp\Lib\Service\ServiceUtils;
+use Zend\Authentication\AuthenticationService;
 use ZF\ApiProblem\ApiProblem;
 
 class GroupMembershipService extends AbstractEntityService {
-    public function __construct(ServiceUtils $serviceUtils) {
+    public function __construct(ServiceUtils $serviceUtils, AuthenticationService $authenticationService) {
         parent::__construct(
             $serviceUtils,
             GroupMembership::class,
-            GroupMembershipHydrator::class
+            GroupMembershipHydrator::class,
+            $authenticationService
         );
     }
 

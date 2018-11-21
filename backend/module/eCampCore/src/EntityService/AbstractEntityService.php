@@ -12,10 +12,6 @@ use eCamp\Lib\Acl\Acl;
 use eCamp\Lib\Acl\NoAccessException;
 use eCamp\Lib\Entity\BaseEntity;
 use eCamp\Lib\Service\ServiceUtils;
-use eCamp\Lib\ServiceManager\AclAware;
-use eCamp\Lib\ServiceManager\EntityFilterManagerAware;
-use eCamp\Lib\ServiceManager\EntityManagerAware;
-use eCamp\Lib\ServiceManager\HydratorPluginManagerAware;
 use Zend\Authentication\AuthenticationService;
 use Zend\Hydrator\HydratorInterface;
 use Zend\Paginator\Adapter\ArrayAdapter;
@@ -34,11 +30,20 @@ abstract class AbstractEntityService extends AbstractResourceListener {
     /** @var string */
     private $hydratorClassname;
 
+    /** @var AuthenticationService */
+    private $authenticationService;
 
-    public function __construct($serviceUtils, $entityClassname, $hydratorClassname) {
+
+    public function __construct(
+        ServiceUtils $serviceUtils,
+        string $entityClassname,
+        string $hydratorClassname,
+        AuthenticationService $authenticationService
+    ) {
         $this->serviceUtils = $serviceUtils;
         $this->entityClassname = $entityClassname;
         $this->hydratorClassname = $hydratorClassname;
+        $this->authenticationService = $authenticationService;
     }
 
 
@@ -74,10 +79,9 @@ abstract class AbstractEntityService extends AbstractResourceListener {
         /** @var User $user */
         $user = null;
 
-        $authService = new AuthenticationService();
-        if ($authService->hasIdentity()) {
+        if ($this->authenticationService->hasIdentity()) {
             $userRepository = $this->serviceUtils->emGetRepository(User::class);
-            $userId = $authService->getIdentity();
+            $userId = $this->authenticationService->getIdentity();
             $user = $userRepository->find($userId);
         }
 

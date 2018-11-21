@@ -15,6 +15,7 @@ use eCamp\Lib\Acl\NoAccessException;
 use eCamp\Lib\Service\ServiceUtils;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
+use Zend\Authentication\AuthenticationService;
 use ZF\ApiProblem\ApiProblem;
 
 class EventPluginService extends AbstractEntityService
@@ -22,11 +23,12 @@ class EventPluginService extends AbstractEntityService
     use PluginStrategyProviderTrait;
 
 
-    public function __construct(ServiceUtils $serviceUtils) {
+    public function __construct(ServiceUtils $serviceUtils, AuthenticationService $authenticationService) {
         parent::__construct(
             $serviceUtils,
             EventPlugin::class,
-            EventPluginHydrator::class
+            EventPluginHydrator::class,
+            $authenticationService
         );
     }
 

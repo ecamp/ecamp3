@@ -3,12 +3,12 @@
 namespace eCamp\Core\Controller\Auth;
 
 use Doctrine\ORM\EntityManager;
-use eCamp\Core\Auth\AuthService;
 use eCamp\Core\EntityService\UserIdentityService;
 use eCamp\Core\EntityService\UserService;
 use Interop\Container\ContainerInterface;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
+use Zend\Authentication\AuthenticationService;
 use Zend\ServiceManager\Factory\FactoryInterface;
 
 class GoogleControllerFactory implements FactoryInterface {
@@ -31,14 +31,17 @@ class GoogleControllerFactory implements FactoryInterface {
         /** @var UserService $userService */
         $userService = $container->get(UserService::class);
 
-        /** @var AuthService $authService */
-        $authService = $container->get(AuthService::class);
+        /** @var AuthenticationService $authenticationService */
+        $authenticationService = $container->get(AuthenticationService::class);
+
+        $hybridAuthConfig = $container->get('config')['hybridauth'];
 
         return new GoogleController(
             $entityManager,
             $userIdentityService,
             $userService,
-            $authService
+            $authenticationService,
+            $hybridAuthConfig
         );
     }
 }

@@ -4,6 +4,7 @@ namespace eCamp\Core\Auth\Adapter;
 
 use eCamp\Core\Entity\Login;
 use eCamp\Core\Entity\User;
+use eCamp\Core\EntityService\UserService;
 use Zend\Authentication\Adapter\AdapterInterface;
 use Zend\Authentication\Result;
 
@@ -29,8 +30,16 @@ class LoginPassword implements AdapterInterface {
     private $password;
 
 
-    public function __construct(Login $login = null, $password) {
-        $this->login = $login;
+    /**
+     * LoginPassword constructor.
+     * @param $username
+     * @param $password
+     * @param UserService $userService
+     */
+    public function __construct($username, $password, UserService $userService) {
+        /** @var User $user */
+        $user = $userService->findByUsername($username);
+        $this->login = ($user !== null) ? $user->getLogin() : null;
         $this->password = $password;
     }
 

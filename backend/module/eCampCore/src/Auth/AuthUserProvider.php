@@ -10,15 +10,18 @@ class AuthUserProvider {
     /** @var UserRepository */
     private $userRepository;
 
-    public function __construct(UserRepository $userRepository) {
+    /** @var AuthenticationService */
+    private $authenticationService;
+
+    public function __construct(UserRepository $userRepository, AuthenticationService $authenticationService) {
         $this->userRepository = $userRepository;
+        $this->authenticationService = $authenticationService;
     }
 
     /** @return null|User */
     public function getAuthUser() {
-        $authService = new AuthenticationService();
-        if ($authService->hasIdentity()) {
-            $userId = $authService->getIdentity();
+        if ($this->authenticationService->hasIdentity()) {
+            $userId = $this->authenticationService->getIdentity();
 
             /** @var User $user */
             $user = $this->userRepository->find($userId);

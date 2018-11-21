@@ -6,8 +6,6 @@ use Doctrine\ORM\EntityManager;
 use eCamp\Core\Entity\User;
 use eCamp\Lib\Acl\Acl;
 use eCamp\Lib\Entity\BaseEntity;
-use eCamp\Lib\ServiceManager\AclAware;
-use eCamp\Lib\ServiceManager\EntityManagerAware;
 use Zend\Authentication\AuthenticationService;
 
 abstract class AbstractService {
@@ -17,7 +15,12 @@ abstract class AbstractService {
     /** @var Acl */
     private $acl;
 
+    /** @var AuthenticationService */
+    private $authenticationService;
 
+    public function __construct(AuthenticationService $authenticationService) {
+        $this->authenticationService = $authenticationService;
+    }
 
     public function setEntityManager(EntityManager $entityManager) {
         $this->entityManager = $entityManager;
@@ -52,10 +55,9 @@ abstract class AbstractService {
         /** @var User $user */
         $user = null;
 
-        $authService = new AuthenticationService();
-        if ($authService->hasIdentity()) {
+        if ($this->authenticationService->hasIdentity()) {
             $userRepository = $this->getEntityManager()->getRepository(User::class);
-            $userId = $authService->getIdentity();
+            $userId = $this->authenticationService->getIdentity();
             $user = $userRepository->find($userId);
         }
 

@@ -10,15 +10,17 @@ use eCamp\Core\Entity\Camp;
 use eCamp\Core\Entity\Period;
 use eCamp\Lib\Acl\NoAccessException;
 use eCamp\Lib\Service\ServiceUtils;
+use Zend\Authentication\AuthenticationService;
 use ZF\ApiProblem\ApiProblem;
 
 class PeriodService extends AbstractEntityService {
 
-    public function __construct(ServiceUtils $serviceUtils) {
+    public function __construct(ServiceUtils $serviceUtils, AuthenticationService $authenticationService) {
         parent::__construct(
             $serviceUtils,
             Period::class,
-            PeriodHydrator::class
+            PeriodHydrator::class,
+            $authenticationService
         );
     }
 

@@ -10,14 +10,19 @@ class UserRepository extends EntityRepository {
     /**
      * @param $username
      * @return mixed
-     * @throws NonUniqueResultException
      */
     public function findByUsername($username) {
         $q = $this->createQueryBuilder('u');
         $q->where('u.username = :username');
         $q->setParameter('username', $username);
 
-        return $q->getQuery()->getOneOrNullResult();
+        try {
+            $q->setMaxResults(1);
+            return $q->getQuery()->getOneOrNullResult();
+        } catch (NonUniqueResultException $e) {
+            // This shouldn't ever happen
+            return null;
+        }
     }
 
     /**

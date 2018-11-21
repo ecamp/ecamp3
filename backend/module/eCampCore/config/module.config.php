@@ -1,7 +1,7 @@
 <?php
 
 return [
-    
+
     'router' => [
         'routes' => [
             'ecamp.auth' => [
@@ -45,7 +45,6 @@ return [
             \eCamp\Lib\Acl\Acl::class => \eCamp\Core\Acl\AclFactory::class,
 
             \eCamp\Core\Auth\AuthUserProvider::class => \eCamp\Core\Auth\AuthUserProviderFactory::class,
-            \eCamp\Core\Auth\AuthService::class => \eCamp\Core\Auth\AuthServiceFactory::class,
 
             \eCamp\Core\Plugin\PluginStrategyProvider::class =>\eCamp\Core\Plugin\PluginStrategyProviderFactory::class,
         ],
