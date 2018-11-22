@@ -7,7 +7,7 @@
 export default {
   name: 'LoginCallback',
   beforeRouteEnter (to, from, next) {
-    window.opener.loginSuccess(to.query.token)
+    window.opener.loginSuccess()
     window.close()
   }
 }

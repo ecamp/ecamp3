@@ -17,13 +17,13 @@
           Camps
         </router-link>
         <router-link
-          v-if="!$auth.isLoggedIn()"
+          v-if="loggedIn === false"
           :to="{ name: 'login' }"
           class="btn btn-sm btn-primary d-md-block">
           Log in
         </router-link>
         <router-link
-          v-else
+          v-else-if="loggedIn === true"
           :to="{ name: 'logout' }"
           class="btn btn-sm btn-primary d-md-block">
           Log out
@@ -35,7 +35,25 @@
     <router-view />
   </div>
 </template>
-
+<script>
+export default {
+  name: 'App',
+  data () {
+    return {
+      loggedIn: null
+    }
+  },
+  created () {
+    this.$auth.subscribe(this.checkLoginStatus)
+    this.checkLoginStatus()
+  },
+  methods: {
+    async checkLoginStatus () {
+      this.loggedIn = await this.$auth.isLoggedIn()
+    }
+  }
+}
+</script>
 <style lang="scss">
   @import '../node_modules/bootstrap/scss/bootstrap.scss';
 </style>

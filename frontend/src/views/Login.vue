@@ -21,15 +21,18 @@ export default {
     }
   },
   beforeRouteEnter (to, from, next) {
-    if (Vue.auth.isLoggedIn()) {
-      next(to.query.redirect || '/')
-    }
-    next()
+    Vue.auth.isLoggedIn().then(loggedIn => {
+      if (loggedIn) {
+        next(to.query.redirect || '/')
+      } else {
+        next()
+      }
+    })
   },
   methods: {
     loginGoogle () {
       // Make the login callback function available on global level, so the popup can call it
-      window.loginSuccess = token => {
+      window.loginSuccess = () => {
         this.$auth.loginSuccess()
         this.redirect()
       }

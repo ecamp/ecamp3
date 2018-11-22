@@ -32,7 +32,6 @@ export default {
     async fetchFromAPI () {
       try {
         this.campIdList = (await this.axios.get(this.apiUrl)).data._embedded.items.map(item => item.id)
-        console.log(this.campIdList)
       } catch (error) {
         this.messages = [{
           type: 'danger',

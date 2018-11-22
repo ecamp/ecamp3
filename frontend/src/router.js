@@ -56,9 +56,11 @@ export default new Router({
 })
 
 function requireAuth (to, from, next) {
-  if (Vue.auth.isLoggedIn()) {
-    next()
-  } else {
-    next({ name: 'login', query: { redirect: to.fullPath } })
-  }
+  Vue.auth.isLoggedIn().then(loggedIn => {
+    if (loggedIn) {
+      next()
+    } else {
+      next({ name: 'login', query: { redirect: to.fullPath } })
+    }
+  })
 }
