@@ -15,7 +15,6 @@
     "zendframework/zend-mail": "^2.10",
     "zendframework/zend-router": "^3.0",
     "zendframework/zend-session": "^2.8",
-    "zendframework/zend-i18n": "^2.9",
     "zendframework/zend-test": "^3.0",
     "doctrine/doctrine-orm-module" : "^1.1",
     "doctrine/data-fixtures": "^1.3",
@@ -24,7 +23,6 @@
     "ocramius/proxy-manager": "^2.2",
     "oxcom/zend-twig": "^0.1",
     "friendsofphp/php-cs-fixer": "^2.11",
-    "rwoverdijk/assetmanager": "^1.0",
     "ext-json": "*",
     "zfr/zfr-cors": "^1.5"
   },
@@ -40,7 +38,6 @@
       "eCamp\\Lib\\": "module/eCampLib/src/",
       "eCamp\\Core\\": "module/eCampCore/src/",
       "eCamp\\Api\\": "module/eCampApi/src/",
-      "eCamp\\Web\\": "module/eCampWeb/src/",
       "eCamp\\AoT\\": "module/eCampAoT/src/",
       "eCamp\\AoT\\Generated\\": "module/eCampAoT/gen/",
 
@@ -56,7 +53,6 @@
       "eCamp\\LibTest\\": "module/eCampLib/test/",
       "eCamp\\CoreTest\\": "module/eCampCore/test/",
       "eCamp\\ApiTest\\" : "module/eCampApi/test",
-      "eCamp\\WebTest\\": "module/eCampWeb/test/",
 
       "eCamp\\Plugin\\TextareaTest\\": "plugin/eCampTextarea/test/",
       "eCamp\\Plugin\\StoryboardTest\\": "plugin/eCampStoryboard/test/"

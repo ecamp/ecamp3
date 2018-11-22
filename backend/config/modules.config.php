@@ -5,7 +5,6 @@ return [
     'Zend\Di',
     'Zend\\Router',
     'Zend\\Hydrator',
-    'Zend\\I18n',
 
     'ZF\\Rest',
     'ZF\\Hal',
@@ -17,8 +16,6 @@ return [
 
     'DoctrineModule',
     'DoctrineORMModule',
-
-    'AssetManager',
 
     'eCamp\\Lib',
     'eCamp\\Core',

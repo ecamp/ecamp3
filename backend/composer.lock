@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "ab836030419fb1bf97dadba9ca150b0b",
-    "content-hash": "0e62d5739f566c83894bcb4d8695c61a",
+    "hash": "c5fc41b1209a1ffcfec37dcaee0c2b55",
+    "content-hash": "32f551584ef714ca41fc4d96ce2832c0",
     "packages": [
         {
             "name": "bshaffer/oauth2-server-php",
@@ -1523,83 +1523,6 @@
             "time": "2018-10-22 06:39:31"
         },
         {
-            "name": "kriswallsmith/assetic",
-            "version": "v1.4.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/kriswallsmith/assetic.git",
-                "reference": "e911c437dbdf006a8f62c2f59b15b2d69a5e0aa1"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/kriswallsmith/assetic/zipball/e911c437dbdf006a8f62c2f59b15b2d69a5e0aa1",
-                "reference": "e911c437dbdf006a8f62c2f59b15b2d69a5e0aa1",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.1",
-                "symfony/process": "~2.1|~3.0"
-            },
-            "conflict": {
-                "twig/twig": "<1.27"
-            },
-            "require-dev": {
-                "leafo/lessphp": "^0.3.7",
-                "leafo/scssphp": "~0.1",
-                "meenie/javascript-packer": "^1.1",
-                "mrclay/minify": "<2.3",
-                "natxet/cssmin": "3.0.4",
-                "patchwork/jsqueeze": "~1.0|~2.0",
-                "phpunit/phpunit": "~4.8 || ^5.6",
-                "psr/log": "~1.0",
-                "ptachoire/cssembed": "~1.0",
-                "symfony/phpunit-bridge": "~2.7|~3.0",
-                "twig/twig": "~1.23|~2.0",
-                "yfix/packager": "dev-master"
-            },
-            "suggest": {
-                "leafo/lessphp": "Assetic provides the integration with the lessphp LESS compiler",
-                "leafo/scssphp": "Assetic provides the integration with the scssphp SCSS compiler",
-                "leafo/scssphp-compass": "Assetic provides the integration with the SCSS compass plugin",
-                "patchwork/jsqueeze": "Assetic provides the integration with the JSqueeze JavaScript compressor",
-                "ptachoire/cssembed": "Assetic provides the integration with phpcssembed to embed data uris",
-                "twig/twig": "Assetic provides the integration with the Twig templating engine"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.4-dev"
-                }
-            },
-            "autoload": {
-                "psr-0": {
-                    "Assetic": "src/"
-                },
-                "files": [
-                    "src/functions.php"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Kris Wallsmith",
-                    "email": "kris.wallsmith@gmail.com",
-                    "homepage": "http://kriswallsmith.net/"
-                }
-            ],
-            "description": "Asset Management for PHP",
-            "homepage": "https://github.com/kriswallsmith/assetic",
-            "keywords": [
-                "assets",
-                "compression",
-                "minification"
-            ],
-            "time": "2016-11-11 18:43:20"
-        },
-        {
             "name": "myclabs/deep-copy",
             "version": "1.8.1",
             "source": {
@@ -2779,16 +2702,16 @@
         },
         {
             "name": "psr/log",
-            "version": "1.0.2",
+            "version": "1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-fig/log.git",
-                "reference": "4ebe3a8bf773a19edfe0a84b6585ba3d401b724d"
+                "reference": "6c001f1daafa3a3ac1d8ff69ee4db8e799a654dd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-fig/log/zipball/4ebe3a8bf773a19edfe0a84b6585ba3d401b724d",
-                "reference": "4ebe3a8bf773a19edfe0a84b6585ba3d401b724d",
+                "url": "https://api.github.com/repos/php-fig/log/zipball/6c001f1daafa3a3ac1d8ff69ee4db8e799a654dd",
+                "reference": "6c001f1daafa3a3ac1d8ff69ee4db8e799a654dd",
                 "shasum": ""
             },
             "require": {
@@ -2822,7 +2745,7 @@
                 "psr",
                 "psr-3"
             ],
-            "time": "2016-10-10 12:19:37"
+            "time": "2018-11-20 15:27:04"
         },
         {
             "name": "psr/simple-cache",
@@ -2871,73 +2794,6 @@
                 "simple-cache"
             ],
             "time": "2017-10-23 01:57:42"
-        },
-        {
-            "name": "rwoverdijk/assetmanager",
-            "version": "1.8.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/RWOverdijk/AssetManager.git",
-                "reference": "74af954e64d20cc517a388fb97c42ec4562f578f"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/RWOverdijk/AssetManager/zipball/74af954e64d20cc517a388fb97c42ec4562f578f",
-                "reference": "74af954e64d20cc517a388fb97c42ec4562f578f",
-                "shasum": ""
-            },
-            "require": {
-                "kriswallsmith/assetic": "^1.4.0",
-                "php": "^5.5 || ^7.0",
-                "zendframework/zend-eventmanager": "^2.6.3 || ^3.0.1",
-                "zendframework/zend-loader": "^2.5.1",
-                "zendframework/zend-modulemanager": "^2.7.2",
-                "zendframework/zend-mvc": "^2.7.9 || ^3.0.2",
-                "zendframework/zend-servicemanager": "^2.7.6 || ^3.1.1",
-                "zendframework/zend-stdlib": "^2.7.7 || ^3.0.1"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "^4.8",
-                "squizlabs/php_codesniffer": "~1.5.0",
-                "zendframework/zend-cache": "^2.7.1",
-                "zendframework/zend-console": "^2.6",
-                "zendframework/zend-http": "^2.5.4",
-                "zendframework/zend-view": "^2.8.1"
-            },
-            "suggest": {
-                "zendframework/zend-mvc-console": "zend-mvc-console provides the ability to expose zend-mvc as a console application"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "AssetManager": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-2-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Wesley Overdijk",
-                    "email": "r.w.overdijk@gmail.com",
-                    "homepage": "http://blog.spoonx.nl/"
-                },
-                {
-                    "name": "Marco Pivetta",
-                    "email": "ocramius@gmail.com",
-                    "homepage": "http://ocramius.github.com/"
-                }
-            ],
-            "description": "An assetmanager module for Zend Framework 2.",
-            "homepage": "https://github.com/RWOverdijk/AssetManager",
-            "keywords": [
-                "asset",
-                "asset manager",
-                "zend framework 2",
-                "zf2"
-            ],
-            "time": "2018-08-30 14:12:50"
         },
         {
             "name": "sebastian/code-unit-reverse-lookup",
@@ -4072,25 +3928,25 @@
         },
         {
             "name": "symfony/process",
-            "version": "v3.4.18",
+            "version": "v4.1.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/process.git",
-                "reference": "35c2914a9f50519bd207164c353ae4d59182c2cb"
+                "reference": "3e83acef94d979b1de946599ef86b3a352abcdc9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/process/zipball/35c2914a9f50519bd207164c353ae4d59182c2cb",
-                "reference": "35c2914a9f50519bd207164c353ae4d59182c2cb",
+                "url": "https://api.github.com/repos/symfony/process/zipball/3e83acef94d979b1de946599ef86b3a352abcdc9",
+                "reference": "3e83acef94d979b1de946599ef86b3a352abcdc9",
                 "shasum": ""
             },
             "require": {
-                "php": "^5.5.9|>=7.0.8"
+                "php": "^7.1.3"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.4-dev"
+                    "dev-master": "4.1-dev"
                 }
             },
             "autoload": {
@@ -4117,7 +3973,7 @@
             ],
             "description": "Symfony Process Component",
             "homepage": "https://symfony.com",
-            "time": "2018-10-14 17:33:21"
+            "time": "2018-10-14 20:48:13"
         },
         {
             "name": "symfony/stopwatch",
@@ -5198,74 +5054,6 @@
                 "zf"
             ],
             "time": "2018-11-19 19:16:10"
-        },
-        {
-            "name": "zendframework/zend-i18n",
-            "version": "2.9.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/zendframework/zend-i18n.git",
-                "reference": "6d69af5a04e1a4de7250043cb1322f077a0cdb7f"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/zendframework/zend-i18n/zipball/6d69af5a04e1a4de7250043cb1322f077a0cdb7f",
-                "reference": "6d69af5a04e1a4de7250043cb1322f077a0cdb7f",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^5.6 || ^7.0",
-                "zendframework/zend-stdlib": "^2.7 || ^3.0"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "^5.7.27 || ^6.5.8 || ^7.1.2",
-                "zendframework/zend-cache": "^2.6.1",
-                "zendframework/zend-coding-standard": "~1.0.0",
-                "zendframework/zend-config": "^2.6",
-                "zendframework/zend-eventmanager": "^2.6.2 || ^3.0",
-                "zendframework/zend-filter": "^2.6.1",
-                "zendframework/zend-servicemanager": "^2.7.5 || ^3.0.3",
-                "zendframework/zend-validator": "^2.6",
-                "zendframework/zend-view": "^2.6.3"
-            },
-            "suggest": {
-                "ext-intl": "Required for most features of Zend\\I18n; included in default builds of PHP",
-                "zendframework/zend-cache": "Zend\\Cache component",
-                "zendframework/zend-config": "Zend\\Config component",
-                "zendframework/zend-eventmanager": "You should install this package to use the events in the translator",
-                "zendframework/zend-filter": "You should install this package to use the provided filters",
-                "zendframework/zend-i18n-resources": "Translation resources",
-                "zendframework/zend-servicemanager": "Zend\\ServiceManager component",
-                "zendframework/zend-validator": "You should install this package to use the provided validators",
-                "zendframework/zend-view": "You should install this package to use the provided view helpers"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.9.x-dev",
-                    "dev-develop": "2.10.x-dev"
-                },
-                "zf": {
-                    "component": "Zend\\I18n",
-                    "config-provider": "Zend\\I18n\\ConfigProvider"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Zend\\I18n\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "description": "Provide translations for your application, and filter and validate internationalized values",
-            "keywords": [
-                "ZendFramework",
-                "i18n",
-                "zf"
-            ],
-            "time": "2018-05-16 16:39:13"
         },
         {
             "name": "zendframework/zend-inputfilter",
