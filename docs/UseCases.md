@@ -1,19 +1,40 @@
 # Use Cases
+Legende für die Bilder:
+Blau: Aktion
+Rot: Aktiv
+Violett: Disabled
+
 
 #### ```UC 01``` Neuregistrierter Benutzer ohne Einladung 
  _(Prio 10)_  
+ Dem Benutzer wird die Über eCamp Seite angezeigt.
  - Lager erstellen  
  - Gruppe erstellen  
  - Hilfe anschauen  
- - eCamp empfehlen  
  
- ![Bild UC 1](images/uc01.png)  
+ ![Bild UC 1](images/Uc01.png)  
  
 ---
 #### ```UC 02``` Neues Camp erstellen
  _(Prio 10)_  
- Name, Gruppe, Zeit (Perioden), CampType (Lager oder Kurs), Mitarbeitende.  
+  Name, Gruppe, Zeit (Perioden), CampType (Lager oder Kurs), Mitarbeitende.  
+
+##### ```UC 02.1``` Benutzer hat noch keine Gruppe
+ Wenn der Benutzer noch keine Gruppe hat, 
+ kann er hier eine Gruppe mit dem Namen erstellen. 
+ Diese wird automatisch in die versteckte Übergruppe "Benutzer" erstellt.
+ ![Bild UC 2.1](images/UC02_1.png) 
  
+##### ```UC 02.2``` Benutzer hat bereits mind. eine Gruppe
+ Wenn der Benutzer bereits eine Gruppe hat, dann
+ wird automatisch die ausgewählte Gruppe ausgewählt.
+  ![Bild UC 2.2](images/UC02_2.png) 
+ 
+##### ```UC 02.3``` Benutzer kommt via Gruppenview auf diesen Flow
+ (Falls der Benutzer bereits eine vorgegebene Struktur hat (MiData / Hitobito / …))  
+ Hier kann der Benutzer die Gruppe nicht auswählen,
+ es wird ihm einfach angezeit, in welcher Gruppe 
+ das Lager kreiert wird.
  
 ---
 #### ```UC 03``` Camp finden und öffnen.
