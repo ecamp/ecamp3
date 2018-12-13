@@ -12,7 +12,7 @@ Violett: Disabled
  - Gruppe erstellen  
  - Hilfe anschauen  
  
- ![Bild UC 1](images/Uc01.png)  
+ ![Bild UC 1](images/UC01.png)  
  
 ---
 #### ```UC 02``` Neues Camp erstellen
