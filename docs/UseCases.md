@@ -2,7 +2,12 @@
 
 #### ```UC 01``` Neuregistrierter Benutzer ohne Einladung 
  _(Prio 10)_  
- (eventuelle Tour durch eCamp abgeschlossen). Was sehe ich in der Navigation, was im Detail? Ideen: Einladungen in Gruppen und Camps, Camp erstellen, Gruppe suchen.
+ - Lager erstellen  
+ - Gruppe erstellen  
+ - Hilfe anschauen  
+ - eCamp empfehlen  
+ 
+ ![Bild UC 1](images/uc01.png)  
  
 ---
 #### ```UC 02``` Neues Camp erstellen
