@@ -22,7 +22,7 @@ Violett: Disabled
 ##### ```UC 02.1``` Benutzer hat noch keine Gruppe
  Wenn der Benutzer noch keine Gruppe hat, 
  kann er hier eine Gruppe mit dem Namen erstellen. 
- Diese wird automatisch in die versteckte Übergruppe "Benutzer" erstellt.
+ Diese wird automatisch in die versteckte Übergruppe "Benutzer" erstellt.  
  ![Bild UC 2.1](images/UC02_1.png) 
  
 ##### ```UC 02.2``` Benutzer hat bereits mind. eine Gruppe
@@ -31,8 +31,9 @@ Violett: Disabled
   ![Bild UC 2.2](images/UC02_2.png) 
  
 ##### ```UC 02.3``` Benutzer kommt via Gruppenview auf diesen Flow
- (Falls der Benutzer bereits eine vorgegebene Struktur hat (MiData / Hitobito / …))  
- Hier kann der Benutzer die Gruppe nicht auswählen,
+ (Falls der Benutzer bereits eine vorgegebene Struktur hat (MiData / Hitobito / …)
+  und das Lager direkt aus der Gruppe heraus erstellt)  
+ Hier kann der Benutzer die Gruppe nicht mehr ändern,
  es wird ihm einfach angezeit, in welcher Gruppe 
  das Lager kreiert wird.
  
@@ -44,13 +45,28 @@ Violett: Disabled
 ---
 #### ```UC 04``` Anderen User zu Camp einladen.
  _(Prio 9)_  
- Bekannte User / unbekannte User aus Sicht eCamp-Datenbank. 
- 
+ Es gibt keine öffentliche Suchmethodik für Benutzer (Datenschutzgründe)  
+ Die Benutzer können nur über den Camp Erstellungsdialog oder 
+ den Camp Einstellungsdialog hinzugefügt werden.
+  
+##### ```UC 04.1``` Normale eingeladene Person
+ Der Benutzer kann E-Mail Adressen eingeben.  
+  
+##### ```UC 04.2``` Eingeladene Person ist in einer gemeinsamen Gruppe
+ Bei der Eingabe wird dem Benutzer die eingeladene Person vorgeschlagen,
+ weil er bereits in einer gemeinsamen Gruppe ist. 
+  
+##### ```UC 04.3``` Der Benutzer ist mit einem Identity-Provider verbunden
+ Falls der Benutzer einen Identity-Provider verwendet, werden die Benutzer bei
+ der Eingabe vorgeschlagen, die Anhand der Berechtigungen in Frage kommen könnten 
   
 ---
 #### ```UC 05``` Camp-Einladung annehmen oder ablehnen.
  _(Prio 8.9)_  
- 
+ Es wird in jedemfall ein E-Mail an die E-Mail-Adresse versendet.
+ Falls die Adresse bereits in der Datenbank vorhanden ist,
+ wird dem eingeladenen Benutzer die Anmeldung in der Anwendung angezeigt und er
+ kann sie annehmen, ignorieren oder ablehnen.  
   
 ---
 #### ```UC 06``` Camp-Einstellungen vornehmen.
@@ -66,7 +82,7 @@ Violett: Disabled
   
 ---
 #### ```UC 08``` Event im Lager einplanen.  
- _(Prio 9)_  
+ _(Prio 8.5)_  
  Derselbe Block mit demselben DP kann an mehreren Orten im Lager eingefügt werden. Events können im Lager verschoben werden. Events können zeitlich gleichzeitig stattfinden (Buebe / Meitli, Wölfli / Pfadi, Quali-Höck / Programm).
   
   
