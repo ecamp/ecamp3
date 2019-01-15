@@ -77,6 +77,18 @@ Violett: Disabled
 ---
 #### ```UC 07``` Event (Block im DP) erstellen.
  _(Prio 9)_  
+ Der Block kann über vier verschiedene Wege erstellt werden:
+  
+##### ```UC 07.1``` Über die Wochenansicht per Button
+Dropdownbutton wo aus verschiedenen Event-Typen ausgewählt werden kann.   
+  
+##### ```UC 07.1``` Über die Tagesansicht per Button
+ 
+  
+##### ```UC 07.1``` Über die Wochenansicht durch drücken und ziehen
+  
+##### ```UC 07.1``` Über die Tagesansicht, in der Liste 
+   
  0 Event-Instanzen (möglich? nötig? in v2 gibt es Lagerleiter welche einen Block ganz am Anfang des ersten Tages für Lagerregeln etc. “missbrauchen”), 1 Event-Instanz, mehrere Event-Instanzen.
  
   
