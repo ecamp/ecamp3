@@ -32,10 +32,21 @@
       <h1>eCamp3</h1>
       <hr>
     </section>
+
+    <b-alert
+      :show="error !== null"
+      variant="danger"
+      dismissible>
+      {{ error }}
+    </b-alert>
+
     <router-view />
   </div>
 </template>
+
 <script>
+import { mapState } from 'vuex'
+
 export default {
   name: 'App',
   data () {
@@ -43,6 +54,10 @@ export default {
       loggedIn: null
     }
   },
+  computed: mapState({
+    loading: state => state.shared.loading,
+    error: state => state.shared.error
+  }),
   created () {
     this.$auth.subscribe(this.checkLoginStatus)
     this.checkLoginStatus()

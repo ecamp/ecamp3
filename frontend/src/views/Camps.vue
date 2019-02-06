@@ -1,44 +1,48 @@
 <template>
   <section class="container">
     <h3>Camps</h3>
-    <ul>
+
+    <div
+      v-if="loading"
+      class="spinner-border"
+      role="status">
+      Loading... (Boostrap spinner, coming soon with vue-boostrap/2.0.0-rc.12)
+      <span class="sr-only">Loading...</span>
+    </div>
+
+    <ul v-if="!loading">
       <li
-        v-for="campId in campIdList"
-        :key="campId">
+        v-for="camp in camps"
+        :key="camp.id">
         <router-link
-          :to="{ name: 'camp', params: { campId: campId } }">{{ campId }}</router-link>
+          :to="{ name: 'camp', params: { campId: camp.id } }">{{ camp.name }} / {{ camp.id }}</router-link>
       </li>
     </ul>
   </section>
 </template>
 
 <script>
+
+import { mapState, mapActions } from 'vuex'
+
 export default {
   name: 'Camps',
   data () {
     return {
-      campIdList: []
     }
   },
-  computed: {
-    apiUrl () {
-      return process.env.VUE_APP_ROOT_API + '/camp'
-    }
-  },
+  // make states available
+  computed: mapState({
+    camps: state => state.camps.camps,
+    loading: state => state.shared.loading
+  }),
   created () {
-    this.fetchFromAPI()
+    this.fetchAll()
   },
   methods: {
-    async fetchFromAPI () {
-      try {
-        this.campIdList = (await this.axios.get(this.apiUrl)).data._embedded.items.map(item => item.id)
-      } catch (error) {
-        this.messages = [{
-          type: 'danger',
-          text: 'Could not get camp list. ' + error
-        }]
-      }
-    }
+    ...mapActions('camps', [
+      'fetchAll'
+    ])
   }
 }
 </script>
