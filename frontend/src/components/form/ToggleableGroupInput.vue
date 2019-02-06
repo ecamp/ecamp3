@@ -6,8 +6,11 @@ TODO: Fix bug causing the dropdown to be blank when closed
 
 <template>
   <span>
-    <span v-if="!editing">{{ fieldname }}: {{ value.name }}</span>
-    <span v-if="editing">{{ fieldname }}:
+    <span v-if="!editing">
+      {{ fieldname }}: {{ value.name }}
+    </span>
+    <span v-if="editing">
+      {{ fieldname }}:
       <select
         v-model="valueModel"
         class="form-control">

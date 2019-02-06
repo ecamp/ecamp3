@@ -7,7 +7,9 @@
       class="spinner-border"
       role="status">
       Loading... (Boostrap spinner, coming soon with vue-boostrap/2.0.0-rc.12)
-      <span class="sr-only">Loading...</span>
+      <span class="sr-only">
+        Loading...
+      </span>
     </div>
 
     <ul v-if="!loading">
@@ -15,7 +17,9 @@
         v-for="camp in camps"
         :key="camp.id">
         <router-link
-          :to="{ name: 'camp', params: { campId: camp.id } }">{{ camp.name }} / {{ camp.id }}</router-link>
+          :to="{ name: 'camp', params: { campId: camp.id } }">
+          {{ camp.name }} / {{ camp.id }}
+        </router-link>
       </li>
     </ul>
   </section>

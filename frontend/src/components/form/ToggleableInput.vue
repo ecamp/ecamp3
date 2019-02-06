@@ -5,8 +5,11 @@ You can two-way bind to the value using v-model.
 
 <template>
   <span>
-    <span v-if="!editing">{{ fieldname }}: {{ value }}</span>
-    <span v-if="editing">{{ fieldname }}:
+    <span v-if="!editing">
+      {{ fieldname }}: {{ value }}
+    </span>
+    <span v-if="editing">
+      {{ fieldname }}:
       <input
         v-model="valueModel"
         class="form-control">
