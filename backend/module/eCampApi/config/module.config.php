@@ -15,6 +15,16 @@ return [
                 ],
                 'may_terminate' => true,
                 'child_routes' => [
+                    'register' => [
+                        'type' => 'Segment',
+                        'options' => [
+                            'route' => '/register',
+                            'defaults' => [
+                                'controller' => \eCamp\Api\Controller\RegisterController::class,
+                                'action' => 'register'
+                            ],
+                        ],
+                    ],
                     'login' => [
                         'type' => 'Segment',
                         'options' => [
@@ -44,6 +54,7 @@ return [
     'controllers' => [
         'factories' => [
             eCamp\Api\Controller\IndexController::class => eCamp\Api\Controller\IndexControllerFactory::class,
+            eCamp\Api\Controller\RegisterController::class => eCamp\Api\Controller\RegisterControllerFactory::class,
             eCamp\Api\Controller\LoginController::class => eCamp\Api\Controller\LoginControllerFactory::class,
             eCamp\Api\Controller\SwaggerController::class => eCamp\Api\Controller\SwaggerControllerFactory::class,
         ]

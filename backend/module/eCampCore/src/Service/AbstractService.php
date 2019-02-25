@@ -2,32 +2,32 @@
 
 namespace eCamp\Core\Service;
 
-use Doctrine\ORM\EntityManager;
 use eCamp\Core\Entity\User;
-use eCamp\Lib\Acl\Acl;
 use eCamp\Lib\Entity\BaseEntity;
+use eCamp\Lib\Service\ServiceUtils;
 use Zend\Authentication\AuthenticationService;
 
 abstract class AbstractService {
-    /** @var EntityManager */
-    private $entityManager;
 
-    /** @var Acl */
-    private $acl;
+    /** @var ServiceUtils */
+    private $serviceUtils;
 
     /** @var AuthenticationService */
     private $authenticationService;
 
-    public function __construct(AuthenticationService $authenticationService) {
+    public function __construct(
+        ServiceUtils $serviceUtils,
+        AuthenticationService $authenticationService
+    ) {
+        $this->serviceUtils = $serviceUtils;
         $this->authenticationService = $authenticationService;
     }
 
-    public function setEntityManager(EntityManager $entityManager) {
-        $this->entityManager = $entityManager;
-    }
-
-    protected function getEntityManager() {
-        return $this->entityManager;
+    /**
+     * @return ServiceUtils
+     */
+    protected function getServiceUtils() {
+        return $this->serviceUtils;
     }
 
     /**
@@ -35,17 +35,7 @@ abstract class AbstractService {
      * @return array
      */
     protected function getOrigEntityData($entity) {
-        $uow = $this->entityManager->getUnitOfWork();
-        return $uow->getOriginalEntityData($entity);
-    }
-
-
-    public function setAcl(Acl $acl) {
-        $this->acl = $acl;
-    }
-
-    protected function getAcl() {
-        return $this->acl;
+        return $this->serviceUtils->emGetOrigEntityData($entity);
     }
 
     /**
@@ -56,7 +46,7 @@ abstract class AbstractService {
         $user = null;
 
         if ($this->authenticationService->hasIdentity()) {
-            $userRepository = $this->getEntityManager()->getRepository(User::class);
+            $userRepository = $this->serviceUtils->emGetRepository(User::class);
             $userId = $this->authenticationService->getIdentity();
             $user = $userRepository->find($userId);
         }
@@ -71,7 +61,7 @@ abstract class AbstractService {
      */
     protected function isAllowed($resource, $privilege = null) {
         $user = $this->getAuthUser();
-        return $this->getAcl()->isAllowed($user, $resource, $privilege);
+        return $this->serviceUtils->aclIsAllowed($user, $resource, $privilege);
     }
 
     /**
@@ -81,6 +71,7 @@ abstract class AbstractService {
      */
     protected function assertAllowed($resource, $privilege = null) {
         $user = $this->getAuthUser();
-        return $this->getAcl()->assertAllowed($user, $resource, $privilege);
+        $this->serviceUtils->aclAssertAllowed($user, $resource, $privilege);
     }
+
 }
