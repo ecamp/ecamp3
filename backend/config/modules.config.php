@@ -1,7 +1,6 @@
 <?php
 
 return [
-    'Zend\Mvc\Plugin\FlashMessenger',
     'Zend\Session',
     'Zend\Cache',
     'Zend\Form',

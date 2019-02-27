@@ -26,11 +26,10 @@
         id="inputEmail"
         v-model="email"
         type="text"
-        name="username"
+        name="email"
         class="form-control"
         placeholder="eMail"
-        required
-        autofocus>
+        required>
       <label for="inputEmail">eMail</label>
     </div>
 
@@ -39,7 +38,7 @@
         id="inputPassword1"
         v-model="pw1"
         type="password"
-        name="password"
+        name="pw1"
         class="form-control"
         placeholder="Password"
         required>
@@ -51,7 +50,7 @@
         id="inputPassword2"
         v-model="pw2"
         type="password"
-        name="password"
+        name="pw2"
         class="form-control"
         placeholder="Password"
         required>

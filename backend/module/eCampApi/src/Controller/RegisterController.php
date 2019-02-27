@@ -40,9 +40,6 @@ class RegisterController extends ApiController
             return $user;
         }
 
-        $plugin = $this->plugin('Hal');
-        $entity = $plugin->createEntity($user, 'ecamp.api.user', 'user_id');
-
-        return $entity;
+        return $this->createHalEntity($user, 'ecamp.api.user', 'user_id');
     }
 }

@@ -6,15 +6,13 @@ import BootstrapVue from 'bootstrap-vue'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 
-import EmptyLayout from './layouts/EmptyLayout'
-import DefaultLayout from './layouts/DefaultLayout'
-
 Vue.use(BootstrapVue)
 axios.defaults.withCredentials = true
 Vue.use(VueAxios, axios)
 
-Vue.component('empty-layout', EmptyLayout)
-Vue.component('default-layout', DefaultLayout)
+Vue.component('empty-layout', () => import( './layouts/EmptyLayout'))
+Vue.component('default-layout', () => import( './layouts/DefaultLayout'))
+
 
 new Vue({
   router,
