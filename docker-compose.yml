@@ -36,3 +36,7 @@ services:
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     container_name: 'ecamp3-phpmyadmin'
+    ports:
+      - '8081:80'
+    links:
+      - db
