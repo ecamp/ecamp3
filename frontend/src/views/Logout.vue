@@ -1,8 +1,12 @@
 <template>
   <section class="container">
     <h3>Logout</h3>
-    <p v-if="!error">Logging you out...</p>
-    <p v-else>Error logging out.</p>
+    <p v-if="!error">
+      Logging you out...
+    </p>
+    <p v-else>
+      Error logging out.
+    </p>
   </section>
 </template>
 <script>

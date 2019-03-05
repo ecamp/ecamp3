@@ -1,13 +1,17 @@
 <template>
   <section class="container">
     <h3>Login</h3>
-    <p v-if="$route.query.redirect">You need to log in first.</p>
+    <p v-if="$route.query.redirect">
+      You need to log in first.
+    </p>
     <button
       class="btn btn-primary"
       @click="loginGoogle">
       Login with Google
     </button>
-    <p v-if="error">Error logging in.</p>
+    <p v-if="error">
+      Error logging in.
+    </p>
   </section>
 </template>
 

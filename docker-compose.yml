@@ -1,0 +1,38 @@
+version: "3"
+
+services:
+  frontend:
+    build:
+      context: .
+      dockerfile: ./frontend/Dockerfile
+    container_name: 'ecamp3-frontend'
+    ports:
+      - '8080:8080'
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    environment:
+      NODE_ENV: development
+
+  #backend:
+  #  build: ./backend
+  #  container_name: 'ecamp3-backend'
+  #  ports:
+  #    - '80:80'
+  #  links:
+  #    - db
+  #  volumes:
+  #    - ./backend:/var/www/ecamp3
+
+  db:
+    image: mariadb:10.3
+    container_name: 'ecamp3-db'
+    environment:
+      - MYSQL_DATABASE=eCamp3dev
+      - MYSQL_USER=docker
+      - MYSQL_PASSWORD=docker
+      - MYSQL_ROOT_PASSWORD=docker
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: 'ecamp3-phpmyadmin'

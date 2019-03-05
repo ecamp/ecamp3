@@ -6,7 +6,9 @@
         v-for="campId in campIdList"
         :key="campId">
         <router-link
-          :to="{ name: 'camp', params: { campId: campId } }">{{ campId }}</router-link>
+          :to="{ name: 'camp', params: { campId: campId } }">
+          {{ campId }}
+        </router-link>
       </li>
     </ul>
   </section>
