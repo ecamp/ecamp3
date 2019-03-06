@@ -1,6 +1,5 @@
-FROM node:11.10.1-alpine AS npm-install
-RUN mkdir -p /app
+FROM node:11.10.1-alpine
+
 WORKDIR /app
-COPY package.json package-lock.json ./
-RUN npm install
-ENTRYPOINT npm run serve
+
+ENTRYPOINT npm install && npm run serve
