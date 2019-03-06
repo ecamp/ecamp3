@@ -16,8 +16,6 @@ services:
     container_name: 'ecamp3-backend'
     ports:
       - '80:80'
-    depends_on:
-      - composer-install
     links:
       - db:db
     volumes:
@@ -32,14 +30,6 @@ services:
       - MYSQL_RANDOM_ROOT_PASSWORD=yes
       - MYSQL_USER=ecamp3
       - MYSQL_PASSWORD=ecamp3
-  
-  composer-install:
-    image: composer:1.8.4
-    container_name: 'ecamp3-composer-install'
-    restart: 'no'
-    volumes:
-      - ./backend:/app
-    command: install --ignore-platform-reqs --no-interaction --no-plugins --no-scripts --prefer-dist
   
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
