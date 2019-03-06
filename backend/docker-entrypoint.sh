@@ -1,6 +1,6 @@
 #!/bin/bash
 
-COMPOSER_ALLOW_SUPERUSER=1 composer install --ignore-platform-reqs --no-interaction --no-plugins --no-scripts --prefer-dist
+composer install --ignore-platform-reqs --no-interaction --no-plugins --no-scripts --prefer-dist
 
 DB_CONFIG_FILE="config/autoload/doctrine.local.dev.php"
 if [ ! -f "$DB_CONFIG_FILE" ]; then
