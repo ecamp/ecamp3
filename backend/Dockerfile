@@ -11,4 +11,5 @@ RUN docker-php-ext-install pdo pdo_mysql mbstring xml
 RUN a2enmod rewrite
 COPY apache-vhost.conf /etc/apache2/sites-enabled/000-default.conf
 
-ENTRYPOINT COMPOSER_ALLOW_SUPERUSER=1 composer install --ignore-platform-reqs --no-interaction --no-plugins --no-scripts --prefer-dist && apache2-foreground
+COPY docker-entrypoint.sh .
+ENTRYPOINT bash docker-entrypoint.sh
