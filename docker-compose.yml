@@ -25,7 +25,7 @@ services:
     image: mariadb:10.3
     container_name: 'ecamp3-db'
     environment:
-      - MYSQL_DATABASE=eCamp3dev
+      - MYSQL_DATABASE=ecamp3dev
       - MYSQL_ROOT_PASSWORD=will-be-randomized-and-output-on-the-console
       - MYSQL_RANDOM_ROOT_PASSWORD=yes
       - MYSQL_USER=ecamp3

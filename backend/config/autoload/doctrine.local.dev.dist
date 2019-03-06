@@ -10,7 +10,7 @@ return array(
                     'port'     => '3306',
                     'user'     => 'ecamp3',
                     'password' => 'ecamp3',
-                    'dbname'   => 'eCamp3dev',
+                    'dbname'   => 'ecamp3dev',
                 )
             ),
         ),
