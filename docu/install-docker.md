@@ -29,6 +29,7 @@ Der entsprechende Befehl, falls du auf der Konsole arbeitest, sieht so aus:
 git clone https://github.com/ecamp/ecamp3.git
 ```
 
+
 ## Docker container starten
 Das eCamp3 Repository enthält ein docker-compose.yml File, welches die benötigten Docker containers beschreibt.
 
@@ -43,3 +44,13 @@ Unter [http://ecamp3/setup.php](http://ecamp3/setup.php) hast du die Möglichkei
 in die Datenbank zu laden. Klicke hierfür auf 'Load Dev-Data'.
 
 Gratuliere. Du hast es geschaft!
+
+
+## Composer und NPM bedienen
+Für die Installation und Verwaltung von benötigter Drittsoftware verwenden wir in eCamp v3 im backend Composer und im Frontend NPM. Während der Entwicklung muss man manchmal Drittsoftware updaten oder neu installieren. Dafür muss man Composer und NPM in den Containern bedienen. Dies sieht z.B. so aus:
+```
+docker exec -it ecamp3-backend composer update
+docker exec -it ecamp3-frontend npm update
+```
+
+Die Tools funktionieren also grundsätzlich genau gleich wie wenn man sie ausserhalb des Containers installiert hat, nur dass man den Befehl in einen Container hinein absetzen muss (mit `docker exec -it <container-name>`).
