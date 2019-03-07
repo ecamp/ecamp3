@@ -10,6 +10,9 @@ php bin/wait-for-db.php
 vendor/bin/doctrine orm:schema-tool:update --force --complete
 
 mkdir -p data/DoctrineORMModule/Proxy
-chmod a+rw data/DoctrineORMModule/Proxy
+mkdir -p data/mail
+chmod -R a+rw data
+
+composer di-generate-aot
 
 apache2-foreground

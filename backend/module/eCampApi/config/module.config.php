@@ -15,6 +15,16 @@ return [
                 ],
                 'may_terminate' => true,
                 'child_routes' => [
+                    'register' => [
+                        'type' => 'Segment',
+                        'options' => [
+                            'route' => '/register',
+                            'defaults' => [
+                                'controller' => \eCamp\Api\Controller\RegisterController::class,
+                                'action' => 'register'
+                            ],
+                        ],
+                    ],
                     'login' => [
                         'type' => 'Segment',
                         'options' => [

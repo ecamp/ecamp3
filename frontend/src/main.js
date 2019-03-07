@@ -10,6 +10,9 @@ Vue.use(BootstrapVue)
 axios.defaults.withCredentials = true
 Vue.use(VueAxios, axios)
 
+Vue.component('empty-layout', () => import('./layouts/EmptyLayout'))
+Vue.component('default-layout', () => import('./layouts/DefaultLayout'))
+
 new Vue({
   router,
   render: h => h(App)
