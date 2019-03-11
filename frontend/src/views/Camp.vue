@@ -13,7 +13,8 @@ Displays several tabs with details on a single camp.
           role="group">
           <router-link
             :to="{ name: 'camp' }"
-            class="nav-item btn btn-sm btn-outline-secondary">Info
+            class="nav-item btn btn-sm btn-outline-secondary">
+            Info
           </router-link>
           <router-link
             :to="{ name: 'camp' }"

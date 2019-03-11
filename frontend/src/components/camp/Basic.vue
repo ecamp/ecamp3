@@ -43,7 +43,8 @@ Displays details on a single camp and allows to edit them.
                 :editing="editing"
                 fieldname="Besitzer" />
             </li>
-            <li>Lager-Perioden:
+            <li>
+              Lager-Perioden:
               <ul>
                 <li
                   v-for="period in periods"

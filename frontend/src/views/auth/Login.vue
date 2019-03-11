@@ -46,13 +46,17 @@
     <div
       v-if="error"
       class="form-label-group">
-      <div style="color:red"> Login failed </div>
+      <div style="color:red">
+        Login failed
+      </div>
     </div>
 
     <div class="form-label-group">
       <button
         class="btn btn-lg btn-primary btn-block"
-        type="submit">Sign in</button>
+        type="submit">
+        Sign in
+      </button>
     </div>
 
     <hr>
