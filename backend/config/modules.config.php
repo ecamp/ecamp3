@@ -1,6 +1,13 @@
 <?php
 
 return [
+    'Zend\Session',
+    'Zend\Cache',
+    'Zend\Form',
+    'Zend\InputFilter',
+    'Zend\Filter',
+    'Zend\Paginator',
+    'Zend\Validator',
     'Zend\Mail',
     'Zend\Di',
     'Zend\\Router',

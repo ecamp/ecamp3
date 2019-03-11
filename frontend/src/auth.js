@@ -25,7 +25,18 @@ export const auth = {
   subscribe (onLoginStatusChange) {
     subscribers.push(onLoginStatusChange)
   },
-  login (returnUrl) {
+  login (username, password) {
+    return axios.post(process.env.VUE_APP_ROOT_API + '/login/login', { 'username': username, 'password': password })
+      .then(resp => {
+        if (resp.data.user !== 'guest') {
+          this.loginSuccess()
+          return true
+        } else {
+          return false
+        }
+      })
+  },
+  loginGoogle (returnUrl) {
     window.open(process.env.VUE_APP_ROOT_API + '/login/google?callback=' + encodeURI(returnUrl), '', 'width=500px,height=600px')
   },
   loginSuccess () {

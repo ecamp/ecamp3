@@ -8,6 +8,34 @@ export default new Router({
   base: process.env.BASE_URL,
   routes: [
     {
+      path: '/register',
+      name: 'register',
+      meta: { layout: 'empty' },
+      component: () => import(/* webpackChunkName: "register" */ './views/auth/Register.vue')
+    },
+    {
+      path: '/register-done',
+      name: 'register-done',
+      meta: { layout: 'empty' },
+      component: () => import(/* webpackChunkName: "register" */ './views/auth/RegisterDone.vue')
+    },
+    {
+      path: '/login',
+      name: 'login',
+      meta: { layout: 'empty' },
+      component: () => import(/* webpackChunkName: "login" */ './views/auth/Login.vue')
+    },
+    {
+      path: '/loginCallback',
+      name: 'loginCallback',
+      component: () => import(/* webpackChunkName: "login" */ './views/auth/LoginCallback.vue')
+    },
+    {
+      path: '/logout',
+      name: 'logout',
+      component: () => import(/* webpackChunkName: "logout" */ './views/auth/Logout.vue')
+    },
+    {
       path: '/',
       name: 'home',
       component: () => import(/* webpackChunkName: "about" */ './views/Home.vue')
@@ -36,21 +64,6 @@ export default new Router({
           props: true
         }
       ]
-    },
-    {
-      path: '/login',
-      name: 'login',
-      component: () => import(/* webpackChunkName: "login" */ './views/Login.vue')
-    },
-    {
-      path: '/loginCallback',
-      name: 'loginCallback',
-      component: () => import(/* webpackChunkName: "login" */ './views/LoginCallback.vue')
-    },
-    {
-      path: '/logout',
-      name: 'logout',
-      component: () => import(/* webpackChunkName: "logout" */ './views/Logout.vue')
     }
   ]
 })

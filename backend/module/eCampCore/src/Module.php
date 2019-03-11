@@ -23,7 +23,9 @@ class Module {
                     $em->rollback();
                 }
             } else {
-                $em->flush();
+                if ($em->getConnection()->isTransactionActive()) {
+                    $em->flush();
+                }
             }
         });
     }

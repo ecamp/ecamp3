@@ -6,6 +6,7 @@ use Doctrine\ORM\ORMException;
 use eCamp\Core\Entity\User;
 use eCamp\Core\Hydrator\UserHydrator;
 use eCamp\Core\Repository\UserRepository;
+use eCamp\Core\Service\SendmailService;
 use eCamp\Lib\Acl\NoAccessException;
 use eCamp\Lib\Service\ServiceUtils;
 use Hybridauth\User\Profile;
@@ -16,13 +17,24 @@ use ZF\ApiProblem\ApiProblem;
  * Class UserService
  */
 class UserService extends AbstractEntityService {
-    public function __construct(ServiceUtils $serviceUtils, AuthenticationService $authenticationService) {
+    /**
+     * @var SendmailService
+     */
+    private $sendmailService;
+
+    public function __construct(
+        ServiceUtils $serviceUtils,
+        AuthenticationService $authenticationService,
+        SendmailService $sendmailService
+    ) {
         parent::__construct(
             $serviceUtils,
             User::class,
             UserHydrator::class,
             $authenticationService
         );
+
+        $this->sendmailService = $sendmailService;
     }
 
     public function findByMail($email) {
@@ -65,8 +77,9 @@ class UserService extends AbstractEntityService {
         if ($profile instanceof Profile) {
             $user->verifyMailAddress($key);
         } else {
-            // TODO: Send Activtion Mail:
-            //...
+            // Send Activtion Mail:
+            $this->sendmailService->sendRegisterMail($user, $key);
+
 
             // TODO: Remove Dev-Code
             // Dev: Registrierte Benutzer sofort freischalten
