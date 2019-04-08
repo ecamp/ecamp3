@@ -21,10 +21,18 @@ services:
       - db
     volumes:
       - ./backend:/var/www/ecamp3:ro
-      - ./backend/module/eCampAoT:/var/www/ecamp3/module/eCampAoT:delegated
       - ./backend/config/autoload/doctrine.local.dev.php:/var/www/ecamp3/config/autoload/doctrine.local.dev.php:delegated
       - ./backend/data:/var/www/ecamp3/data:delegated
-      - ./backend/vendor:/var/www/ecamp3/vendor:delegated
+
+  composer:
+    container_name: 'ecamp3-composer'
+    restart: 'no'
+    image: composer:1.8
+    command: bash -c "composer install --ignore-platform-reqs --no-interaction --no-plugins --no-scripts --prefer-dist --no-suggest && composer di-generate-aot"
+    volumes:
+      - ./backend:/app:ro
+      - ./backend/vendor:/app/vendor:delegated
+      - ./backend/module/eCampAoT:/app/module/eCampAoT:delegated
 
   db:
     image: mariadb:10.3
