@@ -2,15 +2,10 @@
   <section class="container">
     <h3>Camps</h3>
 
-    <div
+    <b-spinner
       v-if="loading"
-      class="spinner-border"
-      role="status">
-      Loading... (Boostrap spinner, coming soon with vue-boostrap/2.0.0-rc.12)
-      <span class="sr-only">
-        Loading...
-      </span>
-    </div>
+      variant="primary"
+      label="Loading" />
 
     <ul v-if="!loading">
       <li
@@ -22,6 +17,10 @@
         </router-link>
       </li>
     </ul>
+
+    <span v-if="!loading && camps.length===0">
+      Keine Lager gefunden.
+    </span>
   </section>
 </template>
 

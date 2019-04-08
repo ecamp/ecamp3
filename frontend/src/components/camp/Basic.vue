@@ -12,7 +12,15 @@ Displays details on a single camp and allows to edit them.
       class="alert">
       {{ message.text }}
     </div>
-    <div class="card camp-detail-card">
+
+    <b-spinner
+      v-if="loading"
+      variant="primary"
+      label="Loading" />
+
+    <div
+      v-if="!loading"
+      class="card camp-detail-card">
       <div class="card-body">
         <form @submit.prevent="toggleEdit">
           <button
@@ -23,26 +31,28 @@ Displays details on a single camp and allows to edit them.
           </button>
           Vue.js Infos zu genau einem Lager
           <ul>
-            <li>Name: {{ campDetails.name }}</li>
+            <li>Name: {{ camp.name }}</li>
             <li>
               <toggleable-input
-                v-model="campDetails.title"
+                v-model="camp.title"
                 :editing="editing"
                 fieldname="Titel" />
             </li>
             <li>
               <toggleable-input
-                v-model="campDetails.motto"
+                v-model="camp.motto"
                 :editing="editing"
                 fieldname="Motto" />
             </li>
+            <li>Owner: {{ owner.username }}</li>
+            <!--
             <li>
               <toggleable-group-input
-                v-if="campDetails._embedded"
-                v-model="campDetails._embedded.owner"
+                v-if="camp._embedded"
+                v-model="camp._embedded.owner"
                 :editing="editing"
                 fieldname="Besitzer" />
-            </li>
+            </li> -->
             <li>
               Lager-Perioden:
               <ul>
@@ -61,11 +71,13 @@ Displays details on a single camp and allows to edit them.
 </template>
 
 <script>
+import { mapState, mapActions } from 'vuex'
+
 export default {
   name: 'Basic',
   components: {
-    'ToggleableInput': () => import('@/components/form/ToggleableInput.vue'),
-    'ToggleableGroupInput': () => import('@/components/form/ToggleableGroupInput.vue')
+    'ToggleableInput': () => import('@/components/form/ToggleableInput.vue') /* ,
+    'ToggleableGroupInput': () => import('@/components/form/ToggleableGroupInput.vue') */
   },
   props: {
     campId: { type: String, required: true }
@@ -73,26 +85,38 @@ export default {
   data () {
     return {
       editing: false,
-      campDetails: { title: '', motto: '', _embedded: { owner: {} } },
       messages: []
     }
   },
+  // make states available
   computed: {
+    ...mapState({
+      loading: state => state.shared.loading
+    }),
+    camp () {
+      return this.$store.state.camp.camps[this.campId]
+    },
+    owner () {
+      return this.camp.embeddedResource('owner')
+    },
     periods () {
-      if (this.campDetails._embedded == null) return []
-      return this.campDetails._embedded.periods
+      return this.camp.embeddedArray('periods')
+      /*
+      if (this.camp._embedded == null) return []
+      return this.camp._embedded.periods */
     },
     buttonText () {
       return this.editing ? 'Speichern' : 'Bearbeiten'
-    },
-    apiUrl () {
-      return process.env.VUE_APP_ROOT_API + '/camp/' + this.campId
     }
   },
   created () {
-    this.fetchFromAPI()
+    this.fetchById({ id: this.campId }) /* , forceReload: true */
   },
   methods: {
+    ...mapActions('camp', [
+      'fetchById'
+    ]),
+    /*
     async fetchFromAPI () {
       // TODO: Abstract the API calls instead of working with axios directly in the component?
       try {
@@ -103,12 +127,12 @@ export default {
     },
     async saveToAPI () {
       try {
-        this.campDetails = (await this.axios.patch(this.apiUrl, this.campDetails)).data
+        this.campDetails = (await this.axios.patch(this.apiUrl, this.camp)).data
         this.messages = [{ type: 'success', text: 'Successfully saved' }]
       } catch (error) {
         this.messages = [{ type: 'danger', text: 'Could not save camp details. ' + error }]
       }
-    },
+    }, */
     toggleEdit () {
       if (this.editing) {
         this.saveToAPI()
