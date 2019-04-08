@@ -2,8 +2,8 @@
 
 namespace eCamp\Core\Hydrator;
 
-use eCamp\Api\Collection\EventTypeCollection;
 use eCamp\Core\Entity\CampType;
+use eCampApi\V1\Rest\EventType\EventTypeCollection;
 use Zend\Hydrator\HydratorInterface;
 
 class CampTypeHydrator implements HydratorInterface {
@@ -12,6 +12,7 @@ class CampTypeHydrator implements HydratorInterface {
      * @return array
      */
     public function extract($object) {
+
         /** @var CampType $campType */
         $campType = $object;
         return [

@@ -2,8 +2,8 @@
 
 namespace eCamp\Core\Hydrator;
 
-use eCamp\Api\Collection\EventInstanceCollection;
 use eCamp\Core\Entity\Event;
+use eCampApi\V1\Rest\EventInstance\EventInstanceCollection;
 use Zend\Hydrator\HydratorInterface;
 use ZF\Hal\Link\Link;
 

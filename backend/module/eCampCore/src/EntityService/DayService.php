@@ -26,10 +26,9 @@ class DayService extends AbstractEntityService {
     public function findCollectionQueryBuilder($className, $alias, $params = []) {
         $q = parent::findCollectionQueryBuilder($className, $alias);
 
-        $periodId = $params['period_id'];
-        if ($periodId) {
+        if (isset($params['period_id'])) {
             $q->andWhere('row.period = :periodId');
-            $q->setParameter('periodId', $periodId);
+            $q->setParameter('periodId', $params['period_id']);
         }
 
         $q->orderBy('row.period, row.dayOffset');

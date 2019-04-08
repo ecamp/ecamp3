@@ -2,9 +2,9 @@
 
 namespace eCamp\Core\Hydrator;
 
-use eCamp\Api\Collection\DayCollection;
 use eCamp\Core\Entity\Period;
 use eCamp\Lib\Hydrator\Util;
+use eCampApi\V1\Rest\Day\DayCollection;
 use Zend\Hydrator\HydratorInterface;
 
 class PeriodHydrator implements HydratorInterface {

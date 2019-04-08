@@ -2,9 +2,8 @@
 
 namespace eCamp\Core\Hydrator;
 
-use eCamp\Api\Collection\CampTypeCollection;
-use eCamp\Api\Collection\GroupCollection;
 use eCamp\Core\Entity\Organization;
+use eCampApi\V1\Rest\CampType\CampTypeCollection;
 use Zend\Hydrator\HydratorInterface;
 
 class OrganizationHydrator implements HydratorInterface {
