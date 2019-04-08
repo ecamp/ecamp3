@@ -7,10 +7,11 @@ services:
     ports:
       - '8080:8080'
     volumes:
-      - ./frontend:/app
+      - ./frontend:/app:ro
+      - ./frontend/node_modules:/app/node_modules:delegated
     environment:
       NODE_ENV: development
-  
+
   backend:
     build: ./backend
     container_name: 'ecamp3-backend'
@@ -19,8 +20,12 @@ services:
     links:
       - db
     volumes:
-      - ./backend:/var/www/ecamp3
-  
+      - ./backend:/var/www/ecamp3:ro
+      - ./backend/module/eCampAoT:/var/www/ecamp3/module/eCampAoT:delegated
+      - ./backend/config/autoload/doctrine.local.dev.php:/var/www/ecamp3/config/autoload/doctrine.local.dev.php:delegated
+      - ./backend/data:/var/www/ecamp3/data:delegated
+      - ./backend/vendor:/var/www/ecamp3/vendor:delegated
+
   db:
     image: mariadb:10.3
     container_name: 'ecamp3-db'
@@ -30,7 +35,7 @@ services:
       - MYSQL_RANDOM_ROOT_PASSWORD=yes
       - MYSQL_USER=ecamp3
       - MYSQL_PASSWORD=ecamp3
-  
+
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     container_name: 'ecamp3-phpmyadmin'
