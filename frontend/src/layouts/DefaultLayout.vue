@@ -92,4 +92,54 @@
 </script>
 
 <style lang="scss">
+  .ecamp_layout {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    background: #90A4AE;
+  }
+
+  .ecamp_navbar_main {
+    z-index: 110;
+  }
+
+  .ecamp_navbar_second {
+    z-index: 100;
+  }
+
+  .ecamp_main {
+    display: flex;
+    flex-wrap: wrap;
+    flex-grow: 1;
+  }
+
+  .ecamp_aside {
+    background: #dee3e8;
+  }
+
+  .ecamp_aside-hide {
+    margin: 0;
+
+    :before {
+      display: block;
+    }
+    &[aria-expanded="true"]:before {
+      content: '◀';
+    }
+
+    &[aria-expanded="false"]:before {
+      content: '▶️';
+    }
+  }
+
+  .ecamp_content {
+    flex: 1 1 0;
+  }
+
+  .collapsing.width {
+    transition-property: visibility, flex, max-width;
+    flex: 0 0 0;
+    max-width: 0;
+    height: auto;
+  }
 </style>
