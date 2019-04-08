@@ -64,22 +64,31 @@
 </template>
 
 <script>
-export default {
-  data () {
-    return {
-      loggedIn: null
-    }
-  },
-  created () {
-    this.$auth.subscribe(this.checkLoginStatus)
-    this.checkLoginStatus()
-  },
-  methods: {
-    async checkLoginStatus () {
-      this.loggedIn = await this.$auth.isLoggedIn()
+  import BCollapse from "bootstrap-vue/src/components/collapse/collapse";
+  import BNavbar from "bootstrap-vue/src/components/navbar/navbar";
+  import BNavbarBrand from "bootstrap-vue/src/components/navbar/navbar-brand";
+  import BNavbarToggle from "bootstrap-vue/src/components/navbar/navbar-toggle";
+  import BNavbarNav from "bootstrap-vue/src/components/navbar/navbar-nav";
+  import BNavItem from "bootstrap-vue/src/components/nav/nav-item";
+  import BCard from "bootstrap-vue/src/components/card/card";
+
+  export default {
+    components: {BNavbarNav, BNavbarToggle, BNavbar, BNavbarBrand, BCollapse, BNavItem, BCard},
+    data() {
+      return {
+        loggedIn: null
+      }
+    },
+    created() {
+      this.$auth.subscribe(this.checkLoginStatus)
+      this.checkLoginStatus()
+    },
+    methods: {
+      async checkLoginStatus() {
+        this.loggedIn = await this.$auth.isLoggedIn()
+      }
     }
   }
-}
 </script>
 
 <style lang="scss">
