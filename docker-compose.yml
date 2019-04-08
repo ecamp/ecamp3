@@ -21,16 +21,16 @@ services:
       - db
     volumes:
       - ./backend:/var/www/ecamp3:ro
-      - ./backend/config/autoload/doctrine.local.dev.php:/var/www/ecamp3/config/autoload/doctrine.local.dev.php:delegated
       - ./backend/data:/var/www/ecamp3/data:delegated
 
   composer:
     container_name: 'ecamp3-composer'
     restart: 'no'
     image: composer:1.8
-    command: bash -c "composer install --ignore-platform-reqs --no-interaction --no-plugins --no-scripts --prefer-dist --no-suggest && composer di-generate-aot"
+    entrypoint: bash /app/docker-entrypoint-composer.sh
     volumes:
       - ./backend:/app:ro
+      - ./backend/config/autoload:/app/config/autoload:delegated
       - ./backend/vendor:/app/vendor:delegated
       - ./backend/module/eCampAoT:/app/module/eCampAoT:delegated
 
