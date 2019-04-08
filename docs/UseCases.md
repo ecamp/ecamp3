@@ -32,7 +32,7 @@ Violett: Disabled
  
 ##### ```UC 02.3``` Benutzer kommt via Gruppenview auf diesen Flow
  (Falls der Benutzer bereits eine vorgegebene Struktur hat (MiData / Hitobito / …)
-  und das Lager direkt aus der Gruppe heraus erstellt)  
+ und das Lager direkt aus der Gruppe heraus erstellt)  
  Hier kann der Benutzer die Gruppe nicht mehr ändern,
  es wird ihm einfach angezeit, in welcher Gruppe 
  das Lager kreiert wird.
@@ -66,7 +66,11 @@ Violett: Disabled
  Es wird in jedemfall ein E-Mail an die E-Mail-Adresse versendet.
  Falls die Adresse bereits in der Datenbank vorhanden ist,
  wird dem eingeladenen Benutzer die Anmeldung in der Anwendung angezeigt und er
- kann sie annehmen, ignorieren oder ablehnen.  
+ kann sie annehmen oder ignorieren.  
+ 
+ //TODO  
+ uc05.1 übereinstimmende adresse  
+ uc05.2 nicht übereinstimmende Adresse  
   
 ---
 #### ```UC 06``` Camp-Einstellungen vornehmen.
@@ -79,16 +83,36 @@ Violett: Disabled
  _(Prio 9)_  
  Der Block kann über vier verschiedene Wege erstellt werden:
   
-##### ```UC 07.1``` Über die Wochenansicht per Button
-Dropdownbutton wo aus verschiedenen Event-Typen ausgewählt werden kann.   
+##### ```UC 07.1``` Mit zeitlichen Einordnung erstellen
+Die definierte Zeit kann auch noch im Anschluss (UC09) verändert werden.
   
-##### ```UC 07.1``` Über die Tagesansicht per Button
+###### ```UC 07.1a``` Via Wochenansicht 
+Durch drücken und ziehen kann der Block (die erste Instanz) Zeitlich erstellt werden
+  
+###### ```UC 07.1b``` Via Tagesansicht, in der Liste auf der Seite (+)
+![Bild UC 7.1b](images/UseCases-UC07.1b.png)
+ Auf der Seite wird beim drüberfahren ein Knopf auf der Seite zum hinzufügen eines Blocks angezeigt.
  
+##### ```UC 07.2``` Ohne zeitliche Einordnung erstellen
+Hier werden je nach Ansicht Beispielswerte für die Einplanung verwendet.
+Es können aber im Anschluss alle zeitlichen Einplanungen noch definiert werden.
   
-##### ```UC 07.1``` Über die Wochenansicht durch drücken und ziehen
+###### ```UC 07.2a``` Über die Wochenansicht per Button
+ Verschiedenen Event-Typen können ausgewählt werden.   
   
-##### ```UC 07.1``` Über die Tagesansicht, in der Liste 
-   
+###### ```UC 07.2b``` Über die Tagesansicht per Button
+![Bild UC 7.2b](images/UseCases-UC07.2b.png)
+ Verschiedenen Event-Typen können ausgewählt werden.  
+ 
+##### ```UC 07.3``` Inhalt erfassen 
+Im Anschluss öffnet sich das Blockinhalt Fenster. 
+Hier kann Titel, Kategorie und den ganzen restlichen Inhalt erfasst werden.
+
+
+- HTML
+- Block erfassen aus Benutzersicht
+- 
+ 
  0 Event-Instanzen (möglich? nötig? in v2 gibt es Lagerleiter welche einen Block ganz am Anfang des ersten Tages für Lagerregeln etc. “missbrauchen”), 1 Event-Instanz, mehrere Event-Instanzen.
  
   
