@@ -90,7 +90,7 @@ Die definierte Zeit kann auch noch im Anschluss (UC09) verändert werden.
 Durch drücken und ziehen kann der Block (die erste Instanz) Zeitlich erstellt werden
   
 ###### ```UC 07.1b``` Via Tagesansicht, in der Liste auf der Seite (+)
-![Bild UC 7.1b](images/UseCases-UC07.1b.png)
+ ![Bild UC 7.1b](images/UseCases-UC07.1b.png)
  Auf der Seite wird beim drüberfahren ein Knopf auf der Seite zum hinzufügen eines Blocks angezeigt.
  
 ##### ```UC 07.2``` Ohne zeitliche Einordnung erstellen
@@ -101,7 +101,7 @@ Es können aber im Anschluss alle zeitlichen Einplanungen noch definiert werden.
  Verschiedenen Event-Typen können ausgewählt werden.   
   
 ###### ```UC 07.2b``` Über die Tagesansicht per Button
-![Bild UC 7.2b](images/UseCases-UC07.2b.png)
+ ![Bild UC 7.2b](images/UseCases-UC07.2b.png)
  Verschiedenen Event-Typen können ausgewählt werden.  
  
 ##### ```UC 07.3``` Inhalt erfassen 
