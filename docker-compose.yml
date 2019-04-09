@@ -2,13 +2,16 @@ version: "3"
 
 services:
   frontend:
-    build: ./frontend
+    image: node:11.13.0-alpine
     container_name: 'ecamp3-frontend'
     ports:
       - '8080:8080'
+    working_dir: /app
+    entrypoint: /bin/sh -c "npm install && cp -r node_modules/* /node_modules-copy-to-host && npm run serve"
     volumes:
-      - ./frontend:/app:ro
-      - ./frontend/node_modules:/app/node_modules:delegated
+      - ./frontend:/app:delegated
+      - node_modules:/app/node_modules
+      - ./frontend/node_modules:/node_modules-copy-to-host
     environment:
       NODE_ENV: development
 
@@ -20,19 +23,21 @@ services:
     links:
       - db
     volumes:
-      - ./backend:/var/www/ecamp3:ro
-      - ./backend/data:/var/www/ecamp3/data:delegated
+      - ./backend:/var/www/ecamp3:delegated
+      - data:/var/www/ecamp3/data
+      - ./backend/data/mail:/var/www/ecamp3/data/mail:delegated
+      - temp:/var/www/ecamp3/temp
+      - vendor:/var/www/ecamp3/vendor
 
   composer:
+    image: composer:1.8
     container_name: 'ecamp3-composer'
     restart: 'no'
-    image: composer:1.8
-    entrypoint: bash /app/docker-entrypoint-composer.sh
+    entrypoint: bash -c "composer install --ignore-platform-reqs --no-interaction --no-plugins --no-scripts --prefer-dist --no-suggest && cp -r vendor/* /vendor-copy-to-host && composer di-generate-aot"
     volumes:
-      - ./backend:/app:ro
-      - ./backend/config/autoload:/app/config/autoload:delegated
-      - ./backend/vendor:/app/vendor:delegated
-      - ./backend/module/eCampAoT:/app/module/eCampAoT:delegated
+      - ./backend:/app:delegated
+      - vendor:/app/vendor:delegated
+      - ./backend/vendor:/vendor-copy-to-host
 
   db:
     image: mariadb:10.3
@@ -51,3 +56,9 @@ services:
       - '8081:80'
     links:
       - db
+
+volumes:
+  vendor:
+  data:
+  temp:
+  node_modules:
