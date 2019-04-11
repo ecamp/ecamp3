@@ -8,6 +8,7 @@ if ! grep "host.docker.internal" /etc/hosts > /dev/null ; then
     echo -e "$DOCKER_INTERNAL_IP\thost.docker.internal" >> /etc/hosts
     echo "Added host.docker.internal to /etc/hosts"
 fi
+touch /var/log/xdebug.log && chmod a+rw /tmp/xdebug.log
 
 DB_CONFIG_FILE="config/autoload/doctrine.local.dev.php"
 if [ ! -f "$DB_CONFIG_FILE" ]; then
