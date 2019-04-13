@@ -43,13 +43,17 @@ export default new Router({
     {
       path: '/group/:groupName/camps',
       name: 'camps',
-      component: () => import(/* webpackChunkName: "camps" */ './views/Camps.vue'),
+      components: {
+        aside: () => import(/* webpackChunkName: "camps" */ './views/Camps.vue')
+      },
       beforeEnter: requireAuth
     },
     {
       path: '/group/:groupName/camp/:campId',
-      component: () => import(/* webpackChunkName: "camp" */ './views/Camp.vue'),
-      beforeEnter: requireAuth,
+      components: {
+        default: () => import(/* webpackChunkName: "camp" */ './views/Camp.vue'),
+        aside: () => import(/* webpackChunkName: "camps" */ './views/Camps.vue'),
+      }, beforeEnter: requireAuth,
       children: [
         {
           path: '',
