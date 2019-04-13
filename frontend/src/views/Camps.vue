@@ -1,5 +1,5 @@
 <template>
-  <section class="container">
+  <div>
     <h3>Camps</h3>
     <ul>
       <li
@@ -11,7 +11,7 @@
         </router-link>
       </li>
     </ul>
-  </section>
+  </div>
 </template>
 
 <script>

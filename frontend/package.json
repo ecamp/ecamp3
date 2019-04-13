@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "axios": "^0.18.0",
-    "bootstrap-vue": "^2.0.0-rc.13",
+    "bootstrap-vue": "^2.0.0-rc.17",
     "material-design-iconic-font": "^2.2.0",
     "vue": "^2.6.8",
     "vue-axios": "^2.1.4",
