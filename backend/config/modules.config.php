@@ -5,6 +5,7 @@
  * The previous config file has been stored in ./config/modules.config.old
  */
 return array(
+    'Zend\Db',
     'Zend\\Session',
     'Zend\\Cache',
     'Zend\\Form',

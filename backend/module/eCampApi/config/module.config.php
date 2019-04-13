@@ -121,6 +121,16 @@ return array(
                     ),
                 ),
             ),
+            'e-camp-api.rpc.register' => array(
+                'type' => 'Segment',
+                'options' => array(
+                    'route' => '/api/register[/:action]',
+                    'defaults' => array(
+                        'controller' => 'eCampApi\\V1\\Rpc\\Register\\Controller',
+                        'action' => 'register',
+                    ),
+                ),
+            ),
         ),
     ),
     'zf-versioning' => array(
@@ -138,6 +148,7 @@ return array(
             10 => 'e-camp-api.rest.doctrine.camp-collaboration',
             12 => 'e-camp-api.rpc.index',
             11 => 'e-camp-api.rpc.login',
+            13 => 'e-camp-api.rpc.register',
         ),
     ),
     'zf-rest' => array(
@@ -410,6 +421,7 @@ return array(
             'eCampApi\\V1\\Rest\\CampCollaboration\\Controller' => 'HalJson',
             'eCampApi\\V1\\Rpc\\Index\\Controller' => 'HalJson',
             'eCampApi\\V1\\Rpc\\Login\\Controller' => 'HalJson',
+            'eCampApi\\V1\\Rpc\\Register\\Controller' => 'Json',
         ),
         'accept_whitelist' => array(
             'eCampApi\\V1\\Rest\\CampType\\Controller' => array(
@@ -477,6 +489,11 @@ return array(
                 1 => 'application/json',
                 2 => 'application/*+json',
             ),
+            'eCampApi\\V1\\Rpc\\Register\\Controller' => array(
+                0 => 'application/vnd.e-camp-api.v1+json',
+                1 => 'application/json',
+                2 => 'application/*+json',
+            ),
         ),
         'content_type_whitelist' => array(
             'eCampApi\\V1\\Rest\\CampType\\Controller' => array(
@@ -528,6 +545,10 @@ return array(
                 1 => 'application/json',
             ),
             'eCampApi\\V1\\Rpc\\Login\\Controller' => array(
+                0 => 'application/vnd.e-camp-api.v1+json',
+                1 => 'application/json',
+            ),
+            'eCampApi\\V1\\Rpc\\Register\\Controller' => array(
                 0 => 'application/vnd.e-camp-api.v1+json',
                 1 => 'application/json',
             ),
@@ -1209,6 +1230,7 @@ return array(
         'factories' => array(
             'eCampApi\\V1\\Rpc\\Login\\Controller' => 'eCampApi\\V1\\Rpc\\Login\\LoginControllerFactory',
             'eCampApi\\V1\\Rpc\\Index\\Controller' => 'eCampApi\\V1\\Rpc\\Index\\IndexControllerFactory',
+            'eCampApi\\V1\\Rpc\\Register\\Controller' => 'eCampApi\\V1\\Rpc\\Register\\RegisterControllerFactory',
         ),
     ),
     'zf-rpc' => array(
@@ -1216,6 +1238,7 @@ return array(
             'service_name' => 'Login',
             'http_methods' => array(
                 0 => 'GET',
+                1 => 'POST',
             ),
             'route_name' => 'e-camp-api.rpc.login',
         ),
@@ -1225,6 +1248,14 @@ return array(
                 0 => 'GET',
             ),
             'route_name' => 'e-camp-api.rpc.index',
+        ),
+        'eCampApi\\V1\\Rpc\\Register\\Controller' => array(
+            'service_name' => 'Register',
+            'http_methods' => array(
+                0 => 'GET',
+                1 => 'POST',
+            ),
+            'route_name' => 'e-camp-api.rpc.register',
         ),
     ),
 );

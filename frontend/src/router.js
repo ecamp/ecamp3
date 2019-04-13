@@ -38,7 +38,8 @@ export default new Router({
     {
       path: '/',
       name: 'home',
-      component: () => import(/* webpackChunkName: "about" */ './views/Home.vue')
+      component: () => import(/* webpackChunkName: "about" */ './views/Home.vue'),
+      beforeEnter: requireAuth
     },
     {
       path: '/group/:groupName/camps',

@@ -44,7 +44,7 @@ export const auth = {
     notifySubscribers(true)
   },
   logout (callback) {
-    axios.get(process.env.VUE_APP_ROOT_API + '/logout').then(response => {
+    axios.get(process.env.VUE_APP_ROOT_API + '/login/logout').then(response => {
       window.localStorage.setItem(storageLocation, '0')
       notifySubscribers(false)
       if (callback) {

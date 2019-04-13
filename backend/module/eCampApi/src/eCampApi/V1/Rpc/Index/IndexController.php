@@ -31,6 +31,12 @@ class IndexController extends AbstractActionController
             'route' => 'e-camp-api.rpc.login'
         ]);
 
+
+        $data['admin'] = Link::factory([
+            'rel' => 'admin',
+            'route' => 'zf-apigility/ui'
+        ]);
+
 //        $camps = new Link('camps');
 //        $camps->setRoute('ecamp.api.camp');
 //        $data['camps'] = $camps;

@@ -54,7 +54,7 @@ class LoginController extends AbstractActionController
         $user = null;
         $userId = $this->authenticationService->getIdentity();
         if ($userId != null) {
-            $user = null; // $this->userService->fetch($userId);
+            $user = $this->userService->fetch($userId);
         }
         if ($user != null) {
             $data['user'] = $user->getDisplayName();
@@ -69,20 +69,23 @@ class LoginController extends AbstractActionController
             'route' => [ 'name' => 'e-camp-api.rpc.index' ]
         ]);
 
-//        $data['google'] = Link::factory([
-//            'rel' => 'google',
-//            'route' => [
-//                'name' => 'ecamp.api/login',
-//                'params' => [ 'action' => 'google' ]
-//            ]
-//        ]);
+        $data['google'] = Link::factory([
+            'rel' => 'google',
+            'route' => [
+                'name' => 'e-camp-api.rpc.login',
+                'params' => [ 'action' => 'google' ]
+            ]
+        ]);
 
-//        if ($userId != null) {
-//            $data['logout'] = Link::factory([
-//                'rel' => 'logout',
-//                'route' => ['name' => 'ecamp.api/logout']
-//            ]);
-//        }
+        if ($userId != null) {
+            $data['logout'] = Link::factory([
+                'rel' => 'logout',
+                'route' => [
+                    'name' => 'e-camp-api.rpc.login',
+                    'params' => [ 'action' => 'logout' ]
+                ]
+            ]);
+        }
 
         $json = new HalJsonModel();
         $json->setPayload(new Entity($data));
@@ -107,6 +110,24 @@ class LoginController extends AbstractActionController
         $this->authenticationService->authenticate($adapter);
 
         return $this->redirect()->toRoute('e-camp-api.rpc.login');
+    }
+
+
+    /**
+     * @return Response
+     */
+    public function googleAction() {
+        /** @var Request $request */
+        $request = $this->getRequest();
+        $externalCallback = $request->getQuery('callback');
+
+        $redirect = $this->url()->fromRoute('e-camp-api.rpc.login', [], ['query'=>['callback'=>$externalCallback]]);
+
+        return $this->redirect()->toRoute(
+            'ecamp.auth/google',
+            [],
+            ['query' => ['redirect' => $redirect]]
+        );
     }
 
 
