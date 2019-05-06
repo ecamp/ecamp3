@@ -31,11 +31,11 @@ class RegisterController extends ApiController
         if(!isset($data->email)) {
             return new ApiProblem(400, "No eMail provided");
         }
-        if(!isset($data->pw)) {
+        if(!isset($data->password)) {
             return new ApiProblem(400, "No password provided");
         }
 
-        $user = $this->registerService->register($data->username, $data->email, $data->pw);
+        $user = $this->registerService->register($data->username, $data->email, $data->password);
 
         if ($user instanceof ApiProblem) {
             return $user;

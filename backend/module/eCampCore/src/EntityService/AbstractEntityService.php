@@ -177,9 +177,10 @@ abstract class AbstractEntityService extends AbstractResourceListener {
     /**
      * @param $className
      * @param string $alias
+     * @param array $params
      * @return QueryBuilder
      */
-    protected function findCollectionQueryBuilder($className, $alias) {
+    protected function findCollectionQueryBuilder($className, $alias, $params) {
         return $this->createQueryBuilder($className, $alias);
     }
 
@@ -215,7 +216,7 @@ abstract class AbstractEntityService extends AbstractResourceListener {
     }
 
     protected function fetchAllQueryBuilder($params = []) {
-        $q = $this->findCollectionQueryBuilder($this->entityClassname, 'row');
+        $q = $this->findCollectionQueryBuilder($this->entityClassname, 'row', $params);
         if (isset($params['where'])) {
             $q->andWhere($params['where']);
         }

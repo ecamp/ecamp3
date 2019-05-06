@@ -2,6 +2,7 @@
 
 namespace eCamp\Core\EntityService;
 
+use eCamp\Core\Entity\Camp;
 use eCamp\Core\Hydrator\EventInstanceHydrator;
 use eCamp\Core\Entity\EventInstance;
 use eCamp\Lib\Service\ServiceUtils;
@@ -16,4 +17,27 @@ class EventInstanceService extends AbstractEntityService {
             $authenticationService
         );
     }
+
+
+    protected function fetchAllQueryBuilder($params = []) {
+        $q = parent::fetchAllQueryBuilder($params);
+        $q->join('row.event', 'e');
+        $q->andWhere($this->createFilter($q, Camp::class, 'e', 'camp'));
+
+        if (isset($params['event_id'])) {
+            $q->andWhere('row.event = :eventId');
+            $q->setParameter('eventId', $params['event_id']);
+        }
+
+        return $q;
+    }
+
+    protected function fetchQueryBuilder($id) {
+        $q = parent::fetchQueryBuilder($id);
+        $q->join('row.event', 'e');
+        $q->andWhere($this->createFilter($q, Camp::class, 'e', 'camp'));
+
+        return $q;
+    }
+
 }

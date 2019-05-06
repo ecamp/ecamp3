@@ -3,6 +3,7 @@
 namespace eCamp\Core\EntityService;
 
 use Doctrine\ORM\ORMException;
+use Doctrine\ORM\Query\Expr;
 use eCamp\Core\Entity\Camp;
 use eCamp\Core\Hydrator\DayHydrator;
 use eCamp\Core\Entity\Day;
@@ -23,8 +24,15 @@ class DayService extends AbstractEntityService {
     }
 
 
-    public function findCollectionQueryBuilder($className, $alias, $params = []) {
-        $q = parent::findCollectionQueryBuilder($className, $alias);
+    protected function fetchAllQueryBuilder($params = []) {
+        $q = parent::fetchAllQueryBuilder($params);
+        $q->join('row.period', 'p');
+        $q->andWhere($this->createFilter($q, Camp::class, 'p', 'camp'));
+
+        if (isset($params['camp_id'])) {
+            $q->andWhere('p.camp = :campId');
+            $q->setParameter('campId', $params['camp_id']);
+        }
 
         if (isset($params['period_id'])) {
             $q->andWhere('row.period = :periodId');
@@ -32,14 +40,6 @@ class DayService extends AbstractEntityService {
         }
 
         $q->orderBy('row.period, row.dayOffset');
-
-        return $q;
-    }
-
-    protected function fetchAllQueryBuilder($params = []) {
-        $q = parent::fetchAllQueryBuilder($params);
-        $q->join('row.period', 'p');
-        $q->andWhere($this->createFilter($q, Camp::class, 'p', 'camp'));
 
         return $q;
     }

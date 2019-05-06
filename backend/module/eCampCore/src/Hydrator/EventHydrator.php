@@ -23,6 +23,7 @@ class EventHydrator implements HydratorInterface {
             'event_category' => $event->getEventCategory(),
             'event_instances' => new EventInstanceCollection($event->getEventInstances()),
 
+            /*
             'event_plugins' => Link::factory([
                 'rel' => 'event_plugins',
                 'route' => [
@@ -30,6 +31,7 @@ class EventHydrator implements HydratorInterface {
                     'options' => [ 'query' => [ 'event_id' => $event->getId() ] ]
                 ]
             ]),
+            */
         ];
     }
 

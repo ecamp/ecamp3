@@ -160,13 +160,9 @@ return array(
             'collection_name' => 'items',
             'entity_http_methods' => array(
                 0 => 'GET',
-                1 => 'PATCH',
-                2 => 'PUT',
-                3 => 'DELETE',
             ),
             'collection_http_methods' => array(
                 0 => 'GET',
-                1 => 'POST',
             ),
             'collection_query_whitelist' => array(),
             'page_size' => 25,
@@ -183,15 +179,13 @@ return array(
             'collection_name' => 'items',
             'entity_http_methods' => array(
                 0 => 'GET',
-                1 => 'PATCH',
-                2 => 'PUT',
-                3 => 'DELETE',
             ),
             'collection_http_methods' => array(
                 0 => 'GET',
-                1 => 'POST',
             ),
-            'collection_query_whitelist' => array(),
+            'collection_query_whitelist' => array(
+                0 => 'camp_type_id',
+            ),
             'page_size' => 25,
             'page_size_param' => null,
             'entity_class' => 'eCamp\\Core\\Entity\\EventType',
@@ -260,7 +254,9 @@ return array(
                 0 => 'GET',
                 1 => 'POST',
             ),
-            'collection_query_whitelist' => array(),
+            'collection_query_whitelist' => array(
+                0 => 'camp_id',
+            ),
             'page_size' => 25,
             'page_size_param' => null,
             'entity_class' => 'eCamp\\Core\\Entity\\Period',
@@ -283,7 +279,10 @@ return array(
                 0 => 'GET',
                 1 => 'POST',
             ),
-            'collection_query_whitelist' => array(),
+            'collection_query_whitelist' => array(
+                0 => 'camp_id',
+                1 => 'period_id',
+            ),
             'page_size' => 25,
             'page_size_param' => null,
             'entity_class' => 'eCamp\\Core\\Entity\\Day',
@@ -306,7 +305,9 @@ return array(
                 0 => 'GET',
                 1 => 'POST',
             ),
-            'collection_query_whitelist' => array(),
+            'collection_query_whitelist' => array(
+                0 => 'camp_id',
+            ),
             'page_size' => 25,
             'page_size_param' => null,
             'entity_class' => 'eCamp\\Core\\Entity\\Event',
@@ -329,7 +330,9 @@ return array(
                 0 => 'GET',
                 1 => 'POST',
             ),
-            'collection_query_whitelist' => array(),
+            'collection_query_whitelist' => array(
+                0 => 'camp_id',
+            ),
             'page_size' => 25,
             'page_size_param' => null,
             'entity_class' => 'eCamp\\Core\\Entity\\EventCategory',
@@ -352,7 +355,9 @@ return array(
                 0 => 'GET',
                 1 => 'POST',
             ),
-            'collection_query_whitelist' => array(),
+            'collection_query_whitelist' => array(
+                0 => 'event_id',
+            ),
             'page_size' => 25,
             'page_size_param' => null,
             'entity_class' => 'eCamp\\Core\\Entity\\EventInstance',
@@ -398,7 +403,10 @@ return array(
                 0 => 'GET',
                 1 => 'POST',
             ),
-            'collection_query_whitelist' => array(),
+            'collection_query_whitelist' => array(
+                0 => 'camp_id',
+                1 => 'user_id',
+            ),
             'page_size' => 25,
             'page_size_param' => null,
             'entity_class' => 'eCamp\\Core\\Entity\\CampCollaboration',
@@ -1252,8 +1260,7 @@ return array(
         'eCampApi\\V1\\Rpc\\Register\\Controller' => array(
             'service_name' => 'Register',
             'http_methods' => array(
-                0 => 'GET',
-                1 => 'POST',
+                0 => 'POST',
             ),
             'route_name' => 'e-camp-api.rpc.register',
         ),
