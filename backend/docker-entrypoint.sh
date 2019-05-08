@@ -10,7 +10,6 @@ if [[ ! `getent hosts host.docker.internal | cut -d' ' -f1` ]]; then
         echo "Added host.docker.internal to /etc/hosts"
     fi
 fi
-touch /var/log/xdebug.log && chmod a+rw /tmp/xdebug.log
 
 DB_CONFIG_FILE="config/autoload/doctrine.local.dev.php"
 if [ ! -f "$DB_CONFIG_FILE" ]; then
