@@ -26,7 +26,7 @@ Der eCamp-Programmcode liegt auf GitHub. Damit du die Dateien auf deinen Rechner
 
 Der entsprechende Befehl, falls du auf der Konsole arbeitest, sieht so aus:
 ```
-git clone https://github.com/ecamp/ecamp3.git
+git clone https://github.com/ecamp/ecamp3.git && cd ecamp3
 ```
 
 
@@ -38,9 +38,9 @@ Du kannst die containers alle mit einem Befehl installieren und starten:
 docker-compose up
 ```
 
-Das braucht eine Internetverbindung und kann einige Minuten dauern, da alle Software von anderen Herstellern die eCamp benötigt noch heruntergeladen werden muss. Wenn sich das ganze beruhigt hat, läuft eCamp v3 auf deinem Computer. Du kannst es unter [http://localhost:8080](http://localhost:8080) aufrufen. Die Datenbank kannst du unter [http://localhost:8081](http://localhost:8081) begutachten, wenn du dich mit ecamp3 / ecamp3. Das Backend, welches die Daten für die Webseite aus der Datenbank holt, kannst du unter [http://localhost/api](http://localhost/api) anschauen.
+Das braucht eine Internetverbindung und kann einige Minuten dauern, da alle Software von anderen Herstellern die eCamp benötigt noch heruntergeladen werden muss. Wenn sich das ganze beruhigt hat, läuft eCamp v3 auf deinem Computer. Du kannst es unter [http://localhost:3000](http://localhost:3000) aufrufen. Die Datenbank kannst du unter [http://localhost:3002](http://localhost:3002) begutachten, wenn du dich mit ecamp3 / ecamp3 einloggst. Das Backend, welches die Daten für die Webseite aus der Datenbank holt, kannst du unter [http://localhost:3001/api](http://localhost:3001/api) anschauen.
 
-Unter [http://ecamp3/setup.php](http://ecamp3/setup.php) hast du die Möglichkeit ein paar Test-Daten
+Unter [http://localhost:3001/setup.php](http://localhost:3001/setup.php) hast du die Möglichkeit ein paar Test-Daten
 in die Datenbank zu laden. Klicke hierfür auf 'Load Dev-Data'.
 
 Gratuliere. Du hast es geschaft!
