@@ -74,7 +74,8 @@
       <a
         class="btn btn-link"
         style="width: 100%;"
-        href="">
+        href="#"
+        @click="loginHitobito">
         <i class="zmdi zmdi-facebook" />
       </a>
     </div>
@@ -129,6 +130,15 @@ export default {
       }
       let callbackUrl = window.location.origin + this.$router.resolve({ name: 'loginCallback' }).href
       this.$auth.loginGoogle(callbackUrl)
+    },
+    loginHitobito () {
+      // Make the login callback function available on global level, so the popup can call it
+      window.loginSuccess = () => {
+        this.$auth.loginSuccess()
+        this.redirect()
+      }
+      let callbackUrl = window.location.origin + this.$router.resolve({ name: 'loginCallback' }).href
+      this.$auth.loginHitobito(callbackUrl)
     },
     redirect () {
       this.$router.replace(this.$route.query.redirect || '/')

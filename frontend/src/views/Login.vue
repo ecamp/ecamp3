@@ -9,6 +9,11 @@
       @click="loginGoogle">
       Login with Google
     </button>
+    <button
+      class="btn btn-primary"
+      @click="loginHitobito">
+      Login with Hitobito
+    </button>
     <p v-if="error">
       Error logging in.
     </p>
@@ -35,6 +40,15 @@ export default {
   },
   methods: {
     loginGoogle () {
+      // Make the login callback function available on global level, so the popup can call it
+      window.loginSuccess = () => {
+        this.$auth.loginSuccess()
+        this.redirect()
+      }
+      let callbackUrl = window.location.origin + this.$router.resolve({ name: 'loginCallback' }).href
+      this.$auth.login(callbackUrl)
+    },
+    loginHitobito () {
       // Make the login callback function available on global level, so the popup can call it
       window.loginSuccess = () => {
         this.$auth.loginSuccess()

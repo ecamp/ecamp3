@@ -72,12 +72,20 @@ class LoginController extends AbstractActionController {
             ]);
 
         $data['google'] = Link::factory([
-                'rel' => 'google',
-                'route' => [
-                    'name' => 'ecamp.api/login',
-                    'params' => [ 'action' => 'google' ]
-                ]
-            ]);
+          'rel' => 'google',
+          'route' => [
+            'name' => 'ecamp.api/login',
+            'params' => [ 'action' => 'google' ]
+          ]
+        ]);
+
+        $data['hitobito'] = Link::factory([
+          'rel' => 'hitobito',
+          'route' => [
+            'name' => 'ecamp.api/login',
+            'params' => [ 'action' => 'hitobito' ]
+          ]
+        ]);
 
         if ($userId != null) {
             $data['logout'] = Link::factory([
@@ -128,9 +136,26 @@ class LoginController extends AbstractActionController {
         $redirect = $this->url()->fromRoute('ecamp.api/login', [], ['query'=>['callback'=>$externalCallback]]);
 
         return $this->redirect()->toRoute(
-            'ecamp.auth/google',
-            [],
-            ['query' => ['redirect' => $redirect]]
+          'ecamp.auth/google',
+          [],
+          ['query' => ['redirect' => $redirect]]
+        );
+    }
+
+    /**
+     * @return Response
+     */
+    public function hitobitoAction() {
+        /** @var Request $request */
+        $request = $this->getRequest();
+        $externalCallback = $request->getQuery('callback');
+
+        $redirect = $this->url()->fromRoute('ecamp.api/login', [], ['query'=>['callback'=>$externalCallback]]);
+
+        return $this->redirect()->toRoute(
+          'ecamp.auth/hitobito',
+          [],
+          ['query' => ['redirect' => $redirect]]
         );
     }
 }
