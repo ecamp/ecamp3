@@ -25,11 +25,6 @@ class HitobitoController extends BaseController {
         );
     }
 
-    protected function getCallbackUri($route = null, $params = [], $options = []) {
-        //return 'urn:ietf:wg:oauth:2.0:oob';
-        return 'https://localhost:4001/auth/hitobito/callback';
-    }
-
     /** @return string */
     protected function getCallbackRoute() {
         return 'ecamp.auth/hitobito';
