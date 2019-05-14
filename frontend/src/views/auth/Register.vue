@@ -112,7 +112,7 @@ export default {
       return {
         username: this.username,
         email: this.email,
-        pw: this.pw1
+        password: this.pw1
       }
     }
   },

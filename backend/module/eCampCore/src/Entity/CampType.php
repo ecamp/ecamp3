@@ -116,7 +116,7 @@ class CampType extends BaseEntity {
     /**
      * @return string
      */
-    public function getJsonConfig(): string {
+    public function getJsonConfig() {
         return $this->jsonConfig;
     }
 

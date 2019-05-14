@@ -23,6 +23,27 @@ class EventCategoryService extends AbstractEntityService {
         );
     }
 
+
+    protected function fetchAllQueryBuilder($params = []) {
+        $q = parent::fetchAllQueryBuilder($params);
+        $q->andWhere($this->createFilter($q, Camp::class, 'row', 'camp'));
+
+        if (isset($params['camp_id'])) {
+            $q->andWhere('row.camp = :campId');
+            $q->setParameter('campId', $params['camp_id']);
+        }
+
+        return $q;
+    }
+
+    protected function fetchQueryBuilder($id) {
+        $q = parent::fetchQueryBuilder($id);
+        $q->andWhere($this->createFilter($q, Camp::class, 'row', 'camp'));
+
+        return $q;
+    }
+
+
     /**
      * @param mixed $data
      * @return EventCategory|ApiProblem

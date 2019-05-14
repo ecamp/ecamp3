@@ -2,18 +2,13 @@
 
 namespace eCamp\Core\Hydrator;
 
-use eCamp\Api\Collection\CampCollaborationCollection;
-use eCamp\Api\Collection\EventCategoryCollection;
-use eCamp\Api\Collection\JobCollection;
-use eCamp\Api\Collection\PeriodCollection;
 use eCamp\Core\Entity\Camp;
+use eCampApi\V1\Rest\CampCollaboration\CampCollaborationCollection;
+use eCampApi\V1\Rest\EventCategory\EventCategoryCollection;
+use eCampApi\V1\Rest\Period\PeriodCollection;
 use Zend\Hydrator\HydratorInterface;
-use ZF\Hal\Link\Link;
 
 class CampHydrator implements HydratorInterface {
-
-    // TODO: Move to Core
-
 
     /**
      * @param object $object
@@ -32,7 +27,7 @@ class CampHydrator implements HydratorInterface {
             'creator' => $camp->getCreator(),
 
             'camp_collaborations' => new CampCollaborationCollection($camp->getCampCollaborations()),
-            'jobs' => new JobCollection($camp->getJobs()),
+//            'jobs' => new JobCollection($camp->getJobs()),
             'periods' => new PeriodCollection($camp->getPeriods()),
             'event_categories' => new EventCategoryCollection($camp->getEventCategories()),
 

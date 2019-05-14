@@ -26,6 +26,16 @@ class CampCollaborationService extends AbstractEntityService {
         $q = parent::fetchAllQueryBuilder($params);
         $q->andWhere($this->createFilter($q, Camp::class, 'row', 'camp'));
 
+        if (isset($params['camp_id'])) {
+            $q->andWhere('row.camp = :campId');
+            $q->setParameter('campId', $params['camp_id']);
+        }
+
+        if (isset($params['user_id'])) {
+            $q->andWhere('row.user = :userId');
+            $q->setParameter('userId', $params['user_id']);
+        }
+
         return $q;
     }
 

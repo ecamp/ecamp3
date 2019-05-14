@@ -2,7 +2,6 @@
 
 namespace eCamp\Core\Hydrator;
 
-use eCamp\Api\Collection\GroupCollection;
 use eCamp\Core\Entity\Group;
 use Zend\Hydrator\HydratorInterface;
 
@@ -22,7 +21,7 @@ class GroupHydrator implements HydratorInterface {
             'organization' => $group->getOrganization(),
 
             'parent' => $group->getParent(),
-            'children' => new GroupCollection($group->getChildren()),
+//            'children' => new GroupCollection($group->getChildren()),
         ];
     }
 

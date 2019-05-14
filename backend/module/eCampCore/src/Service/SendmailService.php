@@ -13,6 +13,7 @@ use Zend\Mime\Message as MimeMessage;
 use Zend\Mime\Part as MimePart;
 use Zend\View\Model\ViewModel;
 use Zend\View\View;
+use ZendTwig\View\TwigModel;
 
 class SendmailService extends AbstractService
 {
@@ -87,7 +88,7 @@ class SendmailService extends AbstractService
     }
 
     protected function createViewModel($template) {
-        $viewModel = new ViewModel();
+        $viewModel = new TwigModel();
         $viewModel->setOption('has_parent', true);
         $viewModel->setTemplate($template);
         return $viewModel;

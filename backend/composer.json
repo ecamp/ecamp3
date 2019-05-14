@@ -24,22 +24,31 @@
     "oxcom/zend-twig": "^0.1",
     "friendsofphp/php-cs-fixer": "^2.11",
     "ext-json": "*",
-    "zfr/zfr-cors": "^1.5"
+
+    "zfr/zfr-cors": "^1.5",
+    "zfcampus/zf-apigility": "^1.4",
+    "zfcampus/zf-apigility-documentation": "^1.3",
+    "symfony/process": "^3.0",
+    "rwoverdijk/assetmanager": "^1.8",
+    "zfcampus/zf-apigility-doctrine": "^2.3",
+    "zfcampus/zf-apigility-documentation-swagger": "^1.3"
   },
   "require-dev": {
     "phpunit/phpunit": "^6.5",
     "php-coveralls/php-coveralls": "^2.0",
     "zendframework/zend-component-installer": "^2.1",
     "zendframework/zend-developer-tools": "^1.2",
-    "zendframework/zend-code": "^3.3"
+    "zendframework/zend-code": "^3.3",
+    "zfcampus/zf-apigility-admin": "^1.8"
   },
   "autoload": {
     "psr-4": {
       "eCamp\\Lib\\": "module/eCampLib/src/",
       "eCamp\\Core\\": "module/eCampCore/src/",
-      "eCamp\\Api\\": "module/eCampApi/src/",
       "eCamp\\AoT\\": "module/eCampAoT/src/",
       "eCamp\\AoT\\Generated\\": "module/eCampAoT/gen/",
+
+      "eCampApi\\": "module/eCampApi/src/eCampApi/",
 
       "eCamp\\Plugin\\Textarea\\": "plugin/eCampTextarea/src/",
       "eCamp\\Plugin\\Storyboard\\": "plugin/eCampStoryboard/src/"
@@ -52,7 +61,8 @@
     "psr-4": {
       "eCamp\\LibTest\\": "module/eCampLib/test/",
       "eCamp\\CoreTest\\": "module/eCampCore/test/",
-      "eCamp\\ApiTest\\" : "module/eCampApi/test",
+
+      "eCampApiTest\\" : "module/eCampApi/test",
 
       "eCamp\\Plugin\\TextareaTest\\": "plugin/eCampTextarea/test/",
       "eCamp\\Plugin\\StoryboardTest\\": "plugin/eCampStoryboard/test/"

@@ -32,13 +32,10 @@ class LoginPassword implements AdapterInterface {
 
     /**
      * LoginPassword constructor.
-     * @param $username
+     * @param User $user
      * @param $password
-     * @param UserService $userService
      */
-    public function __construct($username, $password, UserService $userService) {
-        /** @var User $user */
-        $user = $userService->findByUsername($username);
+    public function __construct(User $user = null, $password) {
         $this->login = ($user !== null) ? $user->getLogin() : null;
         $this->password = $password;
     }
