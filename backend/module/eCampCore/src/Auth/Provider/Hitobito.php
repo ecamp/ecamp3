@@ -30,8 +30,7 @@ final class Hitobito extends OAuth2 {
 
     function getUserProfile() {
         /* Send a signed http request to provider API to request user's profile */
-        $response = $this->apiRequest('profile');
-        var_dump($response);
+        $response = $this->apiRequest('profile', 'GET', [], ['X-Scope' => 'name']);
         $data = new Data\Collection($response);
 
         if (! $data->exists('id')) {
@@ -40,39 +39,11 @@ final class Hitobito extends OAuth2 {
 
         $userProfile = new User\Profile();
 
-        $userProfile->identifier  = $data->get('id');
-        $userProfile->firstName   = $data->filter('name')->get('givenName');
-        $userProfile->lastName    = $data->filter('name')->get('familyName');
-        $userProfile->displayName = $data->get('displayName');
-        $userProfile->photoURL    = $data->get('image');
-        $userProfile->profileURL  = $data->get('url');
-        $userProfile->description = $data->get('aboutMe');
-        $userProfile->gender      = $data->get('gender');
-        $userProfile->language    = $data->get('language');
+        $userProfile->identifier  = $data->get('email');
+        $userProfile->firstName   = $data->get('first_name');
+        $userProfile->lastName    = $data->get('last_name');
+        $userProfile->displayName = $data->get('nickname');
         $userProfile->email       = $data->get('email');
-        $userProfile->phone       = $data->get('phone');
-        $userProfile->country     = $data->get('country');
-        $userProfile->region      = $data->get('region');
-        $userProfile->zip         = $data->get('zip');
-
-        $userProfile->emailVerified = $data->get('verified') ? $userProfile->email : '';
-
-        if ($data->filter('image')->exists('url')) {
-            $photoSize = $this->config->get('photo_size') ?: '150';
-            $userProfile->photoURL = substr($data->filter('image')->get('url'), 0, -2) . $photoSize;
-        }
-
-        if (! $userProfile->email && $data->exists('emails')) {
-            $userProfile = $this->fetchUserEmail($userProfile, $data);
-        }
-
-        if (! $userProfile->profileURL && $data->exists('urls')) {
-            $userProfile = $this->fetchUserProfileUrl($userProfile, $data);
-        }
-
-        if (! $userProfile->profileURL && $data->exists('urls')) {
-            $userProfile = $this->fetchBirthday($userProfile, $data->get('birthday'));
-        }
 
         return $userProfile;
     }
