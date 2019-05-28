@@ -32,10 +32,10 @@ Du kannst XAMPP hier herunterladen:
 Die Installation startest du am einfachsten aus dem Terminal.
 ```
 # Berechtigung zum Ausführen erteilen
-$ sudo chmod 755 xampp-linux-*-installer.run
+sudo chmod 755 xampp-linux-*-installer.run
 
 # Installieren:
-$ sudo ./xampp-linux-*-installer.run
+sudo ./xampp-linux-*-installer.run
 ```
 
 Es öffnet sich ein Installations-Wizard. Folge seinen Anweisungen.
@@ -47,19 +47,19 @@ Grundsätzlich lässt sich XAMPP nach der Installation mittels Terminal
 bedienen.
 ```
 # Start:
-$ sudo /opt/lampp/xampp start
+sudo /opt/lampp/xampp start
 
 # Stop:
-$ sudo /opt/lampp/xampp stop
+sudo /opt/lampp/xampp stop
 ```
 
 Wenn du lieber mit dem GUI arbeitest, dann gehe wie folgt vor:
 ```
 # Berechtigung zum Ausführen erteilen:
-$ sudo chmod 755 /opt/lampp/xampp/manager-linux-x64.run
+sudo chmod 755 /opt/lampp/xampp/manager-linux-x64.run
 
 # GUI Starten:
-$ sudo /opt/lampp/xampp/manager-linux-x64.run
+sudo /opt/lampp/xampp/manager-linux-x64.run
 ```
 
 
@@ -75,7 +75,7 @@ Das Dashboard hat oben rechts zwei spannende Links.
 Für eCamp brauchen wir zusätzliche PHP-Extensions.
 Diese kannst du mittels Terminal einfach installieren:
 ```
-$ sudo apt-get install -y php-xml php-mbstring php-mysqli
+sudo apt-get install -y php-xml php-mbstring php-mysqli
 ```
 
 ### Datenbank einrichten
@@ -99,16 +99,16 @@ ein paar Zeilen überspringen.
 ### git installieren
 git installieren ist nicht weiter schwer. Tippe im Terminal folgendes:
 ```
-$ sudo apt-get install -y git
+sudo apt-get install -y git
 ```
 
 ### Composer installieren
 Bei Composer muss man etwas mehr Aufwand betreiben, damit man danach wirklich die richtige Version hat.
 ```
-$ sudo apt-get install -y wget
-$ sudo wget -q -O- https://getcomposer.org/installer | /opt/lampp/bin/php
-$ sudo ln -s /opt/lampp/bin/php /usr/local/bin/php
-$ sudo mv composer.phar /usr/local/bin/composer
+sudo apt-get install -y wget
+sudo wget -q -O- https://getcomposer.org/installer | /opt/lampp/bin/php
+sudo ln -s /opt/lampp/bin/php /usr/local/bin/php
+sudo mv composer.phar /usr/local/bin/composer
 ```
 
 ### Quellcode von GitHub laden
@@ -117,18 +117,18 @@ heruntergeladen bekommst, musst du das Git-Repository von eCamp3 klonen.
 Überlege dir hierfür, wo du den Quellcode auf deinem Rechner haben möchtest.
 In diesem Beispiel werden wir den Code unter '/var/www/ecamp3' abspeichern.
 ```
-$ sudo mkdir -p /var/www
-$ cd /var/www
-$ sudo chown $USER .
-$ git clone https://github.com/ecamp/ecamp3.git
+sudo mkdir -p /var/www
+cd /var/www
+sudo chown $USER .
+git clone https://github.com/ecamp/ecamp3.git
 ```
 
 Das eCamp3 Repository enthält ein composer.json File, welches weitere Abhängigkeiten
 deklariert. Diese Abhängigkeiten müssen ebenfalls auf deinen Rechner heruntergeladen
 werden. Dafür verwenden wir Composer.
 ```
-$ cd ecamp3/backend
-$ composer install
+cd ecamp3/backend
+composer install
 ```
 
 Falls composer nachfragt, wie folgt antworten:
@@ -152,13 +152,13 @@ Dafür sind folgende Schritte notwendig:
 
 1) Apache stoppen
 ```
-$ sudo /opt/lampp/xampp stop
+sudo /opt/lampp/xampp stop
 ```
 
 2) Apache Config anpassen
 
 ```
-$ sudo gedit /opt/lampp/etc/httpd.conf
+sudo gedit /opt/lampp/etc/httpd.conf
 ```
 
 Bei der Zeile "#Include etc/extra/httpd-vhosts.conf" (fast am Ende der Datei) entfernen wir das "#" (Kommentar-Zeichen).
@@ -175,7 +175,7 @@ Speichern, schliessen.
 
 
 ```
-$ sudo gedit /opt/lampp/etc/extra/httpd-vhosts.conf
+sudo gedit /opt/lampp/etc/extra/httpd-vhosts.conf
 ```
 
 Hier tragen wir nun unseren zusätzlichen Virtual-Host ein.
@@ -197,7 +197,7 @@ Ersetze hierzu den Inhalt mit folgenden Zeilen:
 
 3) Apache starten
 ```
-$ sudo /opt/lampp/xampp start
+sudo /opt/lampp/xampp start
 ```
 
 
@@ -211,7 +211,7 @@ Adresse mit der IP-Adresse 127.0.0.1 aufgelöst werden.
 Wir tragen die Adresse daher im Hosts-File ein.
 
 ```
-$ sudo gedit /etc/hosts
+sudo gedit /etc/hosts
 ```
 
 Hier fügen wir folgende Zeile ein:
@@ -223,7 +223,7 @@ Speichern, schliessen.
 
 Du kannst den Eintrag mit einem PING überprüfen.
 ```
-$ ping ecamp3
+ping ecamp3
 ```
 Dies sollte nun die IP-Adresse 127.0.0.1 anzeigen. Mit Ctrl+C kannst du ping wieder beenden.
 
@@ -251,8 +251,8 @@ wir die Zugangsdaten konfigurieren.
 Hierfür kopieren wir die Konfigurations-Vorlage.
 
 ```
-$ cd /var/www/ecamp3/backend/config/autoload
-$ cp doctrine.local.dev.dist doctrine.local.dev.php
+cd /var/www/ecamp3/backend/config/autoload
+cp doctrine.local.dev.dist doctrine.local.dev.php
 ```
 
 
@@ -261,7 +261,7 @@ die Konfigurations-Vorlage bereits passen.
 Ansonsten setzt du nun 'user' und 'password' auf die korrekten Werte. Dazu die erstellte Datei öffnen und anpassen.
 
 ```
-$ gedit doctrine.local.dev.php
+gedit doctrine.local.dev.php
 ```
 
 
@@ -271,9 +271,9 @@ konnte. Die Datenbank enthält jedoch noch keine Tabellen.
 
 Die fehlenden Tabellen lassen sich leicht mit einem Befehl erstellen. Dieser braucht aber zuerst noch Schreibzugriff auf einen bestimmten Ordner.
 ```
-$ cd /var/www/ecamp3/backend
-$ sudo chmod -R a+w data
-$ vendor/bin/doctrine orm:schema-tool:create
+cd /var/www/ecamp3/backend
+sudo chmod -R a+w data
+vendor/bin/doctrine orm:schema-tool:create
 ```
 
 
@@ -287,29 +287,29 @@ Das nun installierte Backend kümmert sich um die Datenspeicherung, Zugriffsbere
 Dazu brauchst du Node.js auf deinem Rechner.
 
 ```
-$ cd ~
-$ wget -q -O- https://deb.nodesource.com/setup_10.x | sudo -E bash -
-$ sudo apt-get install -y nodejs
+cd ~
+wget -q -O- https://deb.nodesource.com/setup_10.x | sudo -E bash -
+sudo apt-get install -y nodejs
 ```
 
 Nun kannst du im frontend-Ordner die Frontend-Dependencies installieren lassen:
 
 ```
-$ cd /var/www/ecamp3/frontend
-$ npm install
+cd /var/www/ecamp3/frontend
+npm install
 ```
 
 Ähnlich wie wir dem Backend mit doctrine.local.dev.php sagen mussten, wie es die Datenbank erreichen kann, müssen wir jetzt dem Frontend mit .env.local noch sagen, wo das Backend ist.
 Kopiere dazu die vorgefertigte .env.local-Beispieldatei:
 
 ```
-$ cp .env.local.dist .env.local
+cp .env.local.dist .env.local
 ```
 
 Schliesslich musst du nur noch das Frontend starten:
 
 ```
-$ npm run serve
+npm run serve
 ```
 
 
