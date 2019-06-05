@@ -28,7 +28,7 @@ class HitobitoController extends BaseController {
     /** @return string */
     protected function getCallbackUri($route = null, $params = [], $options = []) {
         // Only needed locally (when using reverse HTTPS proxy)
-        return 'https://localhost:4001/auth/hitobito/callback';
+        return 'http://localhost:3001/auth/hitobito/callback';
     }
 
     /** @return string */
