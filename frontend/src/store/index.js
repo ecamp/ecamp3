@@ -19,8 +19,10 @@ export default new Vuex.Store({
     addEmpty (state, uri) {
       Vue.set(state.api, uri, { _loading: true })
     },
-    add (state, { uri, data }) {
-      Vue.set(state.api, uri, data)
+    add (state, dataArray) {
+      dataArray.forEach(entry => {
+        Vue.set(state.api, entry._links.self.href, entry)
+      })
     }
   },
 
@@ -29,10 +31,28 @@ export default new Vuex.Store({
 
 async function fetchFromAPI (store, uri) {
   store.commit('addEmpty', uri)
-  let data = await Vue.axios.get(uri)
-  // TODO replace embedded and linked entities (anything that has a self-link) with store pointers
+  let data = await Vue.axios.get(uri).data
+  store.commit('add', replaceRelationsWithURIs(data))
+  // TODO replace linked entities with store pointers
   // TODO save Proxy objects instead of raw data in order to automatically resolve store pointers when accessing properties
-  store.commit('add', { uri, data })
+}
+
+function replaceRelationsWithURIs (data) {
+  let toAdd = []
+  Object.keys(data).forEach(key => {
+    if (data[key].hasOwnProperty('_links')) {
+      // embedded single entity
+      toAdd.concat(replaceRelationsWithURIs(data[key]))
+      data[key] = data[key]._links.self.href
+    } else if (Array.isArray(data[key])) {
+      // embedded collection (not paginated, full list)
+      data[key].forEach((entry, index) => {
+        toAdd.concat(replaceRelationsWithURIs(entry))
+        data[key][index] = data[key][index]._links.self.href
+      })
+    }
+  })
+  return toAdd
 }
 
 Vue.mixin({
