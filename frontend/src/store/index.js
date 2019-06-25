@@ -21,7 +21,7 @@ export default new Vuex.Store({
     },
     add (state, dataArray) {
       dataArray.forEach(entry => {
-        Vue.set(state.api, entry._links.self.href, entry)
+        Vue.set(state.api, entry.self, entry)
       })
     }
   },
@@ -33,25 +33,32 @@ async function fetchFromAPI (store, uri) {
   store.commit('addEmpty', uri)
   let data = await Vue.axios.get(uri).data
   store.commit('add', replaceRelationsWithURIs(data))
-  // TODO replace linked entities with store pointers
   // TODO save Proxy objects instead of raw data in order to automatically resolve store pointers when accessing properties
 }
 
-function replaceRelationsWithURIs (data) {
+function replaceRelationsWithURIs ({ data }) {
   let toAdd = []
   Object.keys(data).forEach(key => {
     if (data[key].hasOwnProperty('_links')) {
       // embedded single entity
-      toAdd.concat(replaceRelationsWithURIs(data[key]))
-      data[key] = data[key]._links.self.href
+      toAdd.concat(replaceRelationsWithURIs({ data: data[key] }))
+      data[key] = data[key].self
     } else if (Array.isArray(data[key])) {
       // embedded collection (not paginated, full list)
       data[key].forEach((entry, index) => {
-        toAdd.concat(replaceRelationsWithURIs(entry))
-        data[key][index] = data[key][index]._links.self.href
+        toAdd.concat(replaceRelationsWithURIs({ data: entry }))
+        data[key][index] = entry.self
       })
     }
   })
+  if (data.hasOwnProperty('_links')) {
+    Object.keys(data._links).forEach(key => {
+      // linked single entity and collection
+      data[key] = data._links[key].href
+    })
+    delete data._links
+  }
+  toAdd.push(data)
   return toAdd
 }
 
@@ -61,7 +68,7 @@ Vue.mixin({
       if (!start) {
         start = API_ROOT
       } else if (typeof start === 'object') {
-        start = start._links.self.href
+        start = start.self
       }
       if (!this.$store.state.api.hasOwnProperty(start)) {
         fetchFromAPI(start)
