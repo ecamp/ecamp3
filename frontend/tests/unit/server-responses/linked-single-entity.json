@@ -1,0 +1,10 @@
+{
+  "_links": {
+    "self": {
+      "href": "/camps/1"
+    },
+    "mainLeader": {
+      "href": "/users/83"
+    }
+  }
+}

@@ -9,7 +9,7 @@ Vue.use(VueAxios, axios)
 
 const API_ROOT = process.env.VUE_APP_ROOT_API
 
-const state = {
+export const state = {
   // TODO find a way to split the API state up and dynamically add independent state entries for each entity
   api: {}
 }
