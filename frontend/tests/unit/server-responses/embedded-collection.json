@@ -1,0 +1,39 @@
+{
+  "periods": [
+    {
+      "start": "01-01-2019",
+      "end": "03-01-2019",
+      "_links": {
+        "self": {
+          "href": "/periods/104"
+        },
+        "camp": {
+          "href": "/periods/104/camp"
+        },
+        "events": {
+          "href": "/periods/104/events"
+        }
+      }
+    },
+    {
+      "start": "12-04-2019",
+      "end": "19-04-2019",
+      "_links": {
+        "self": {
+          "href": "/periods/128"
+        },
+        "camp": {
+          "href": "/periods/128/camp"
+        },
+        "events": {
+          "href": "/periods/128/events"
+        }
+      }
+    }
+  ],
+  "_links": {
+    "self": {
+      "href": "/camps/1"
+    }
+  }
+}
