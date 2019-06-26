@@ -53,10 +53,20 @@ function replaceRelationsWithURIs ({ data }) {
   })
   if (data.hasOwnProperty('_links')) {
     Object.keys(data._links).forEach(key => {
-      // linked single entity and collection
+      // linked single entity, collection or self
       data[key] = data._links[key].href
     })
     delete data._links
+  }
+  if (data.hasOwnProperty('_embedded')) {
+    // page of a collection
+    data.items = data._embedded.items
+    data.items.forEach((item, index) => {
+      toAdd.concat(replaceRelationsWithURIs({ data: item }))
+      // TODO normalize URIs so the order of query parameters does not matter when paginating
+      data.items[index] = item.self
+    })
+    delete data._embedded
   }
   toAdd.push(data)
   return toAdd
