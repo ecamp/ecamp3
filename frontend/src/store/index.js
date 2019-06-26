@@ -44,19 +44,19 @@ function replaceRelationsWithURIs ({ data }) {
     if (data[key].hasOwnProperty('_links')) {
       // embedded single entity
       toAdd.push(...replaceRelationsWithURIs({ data: data[key] }))
-      data[key] = data[key].self
+      data[key] = normalizedUri(data[key].self)
     } else if (Array.isArray(data[key])) {
       // embedded collection (not paginated, full list)
       data[key].forEach((entry, index) => {
         toAdd.push(...replaceRelationsWithURIs({ data: entry }))
-        data[key][index] = entry.self
+        data[key][index] = normalizedUri(entry.self)
       })
     }
   })
   if (data.hasOwnProperty('_links')) {
     Object.keys(data._links).forEach(key => {
       // linked single entity, collection or self
-      data[key] = data._links[key].href
+      data[key] = normalizedUri(data._links[key].href)
     })
     delete data._links
   }
@@ -65,7 +65,7 @@ function replaceRelationsWithURIs ({ data }) {
     data.items = data._embedded.items
     data.items.forEach((item, index) => {
       toAdd.push(...replaceRelationsWithURIs({ data: item }))
-      data.items[index] = item.self
+      data.items[index] = normalizedUri(item.self)
     })
     delete data._embedded
   }
@@ -73,12 +73,10 @@ function replaceRelationsWithURIs ({ data }) {
   return toAdd
 }
 
-function normalizeUri (uri) {
+function normalizedUri (uri) {
   // TODO normalize the order of query parameters so it does not matter when paginating
   if (!uri) {
     return '/'
-  } else if (typeof uri === 'object') {
-    uri = uri.self
   }
   if (uri.startsWith(API_ROOT)) {
     return uri.substr(API_ROOT.length)
@@ -87,7 +85,7 @@ function normalizeUri (uri) {
 }
 
 export const api = function (uri) {
-  uri = normalizeUri(uri)
+  uri = normalizedUri(uri)
   return this.$store.state.api[uri] || requestFromApi(this, uri)
 }
 
