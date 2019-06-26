@@ -16,7 +16,7 @@ const state = {
 
 export const mutations = {
   addEmpty (state, uri) {
-    Vue.set(state.api, uri, { _loading: true })
+    Vue.set(state.api, uri, { _loading: true, self: uri })
   },
   add (state, dataArray) {
     dataArray.forEach(entry => {
@@ -31,10 +31,10 @@ export default new Vuex.Store({
   strict: process.env.NODE_ENV !== 'production'
 })
 
-async function requestFromApi (store, uri) {
-  store.commit('addEmpty', uri)
-  let data = await Vue.axios.get(uri).data
-  store.commit('add', replaceRelationsWithURIs(data))
+async function requestFromApi ({ $store, axios }, uri) {
+  $store.commit('addEmpty', uri)
+  let { data } = await axios.get(API_ROOT + uri)
+  $store.commit('add', replaceRelationsWithURIs({ data }))
   // TODO save Proxy objects instead of raw data in order to automatically resolve store pointers when accessing properties
 }
 
@@ -43,12 +43,12 @@ function replaceRelationsWithURIs ({ data }) {
   Object.keys(data).forEach(key => {
     if (data[key].hasOwnProperty('_links')) {
       // embedded single entity
-      toAdd.concat(replaceRelationsWithURIs({ data: data[key] }))
+      toAdd.push(...replaceRelationsWithURIs({ data: data[key] }))
       data[key] = data[key].self
     } else if (Array.isArray(data[key])) {
       // embedded collection (not paginated, full list)
       data[key].forEach((entry, index) => {
-        toAdd.concat(replaceRelationsWithURIs({ data: entry }))
+        toAdd.push(...replaceRelationsWithURIs({ data: entry }))
         data[key][index] = entry.self
       })
     }
@@ -64,8 +64,7 @@ function replaceRelationsWithURIs ({ data }) {
     // page of a collection
     data.items = data._embedded.items
     data.items.forEach((item, index) => {
-      toAdd.concat(replaceRelationsWithURIs({ data: item }))
-      // TODO normalize URIs so the order of query parameters does not matter when paginating
+      toAdd.push(...replaceRelationsWithURIs({ data: item }))
       data.items[index] = item.self
     })
     delete data._embedded
@@ -74,13 +73,22 @@ function replaceRelationsWithURIs ({ data }) {
   return toAdd
 }
 
-export const api = function (uri) {
+function normalizeUri (uri) {
+  // TODO normalize the order of query parameters so it does not matter when paginating
   if (!uri) {
-    uri = API_ROOT
+    return '/'
   } else if (typeof uri === 'object') {
     uri = uri.self
   }
-  return this.$store.state.api[uri] || requestFromApi(uri)
+  if (uri.startsWith(API_ROOT)) {
+    return uri.substr(API_ROOT.length)
+  }
+  return uri
+}
+
+export const api = function (uri) {
+  uri = normalizeUri(uri)
+  return this.$store.state.api[uri] || requestFromApi(this, uri)
 }
 
 Vue.mixin({
