@@ -31,6 +31,7 @@ export default new Vuex.Store({
   strict: process.env.NODE_ENV !== 'production'
 })
 
+// This is not an action on the store because we need the 'addEmpty' commit to happen immediately and synchronously
 async function requestFromApi ({ $store, axios }, uri) {
   $store.commit('addEmpty', uri)
   let { data } = await axios.get(API_ROOT + uri)
