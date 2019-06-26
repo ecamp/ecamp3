@@ -1,0 +1,18 @@
+{
+  "serverResponse": {
+    "_links": {
+      "self": {
+        "href": "/camps/1"
+      },
+      "mainLeader": {
+        "href": "/users/83"
+      }
+    }
+  },
+  "storeState": {
+    "/camps/1": {
+      "mainLeader": "/users/83",
+      "self": "/camps/1"
+    }
+  }
+}

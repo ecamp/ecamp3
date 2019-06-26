@@ -4,14 +4,10 @@ import axios from 'axios'
 import MockAdapter from 'axios-mock-adapter'
 import VueAxios from 'vue-axios'
 import Vuex from 'vuex'
-import embeddedSingleEntity from './server-responses/embedded-single-entity'
-import storedEmbeddedSingleEntity from './store-states/embedded-single-entity'
-import embeddedCollection from './server-responses/embedded-collection'
-import storedEmbeddedCollection from './store-states/embedded-collection'
-import linkedSingleEntity from './server-responses/linked-single-entity'
-import storedLinkedSingleEntity from './store-states/linked-single-entity'
-import linkedCollection from './server-responses/linked-collection'
-import storedLinkedCollection from './store-states/linked-collection'
+import embeddedSingleEntity from './resources/embedded-single-entity'
+import embeddedCollection from './resources/embedded-collection'
+import linkedSingleEntity from './resources/linked-single-entity'
+import linkedCollection from './resources/linked-collection'
 
 const flushPromises = () => new Promise(resolve => setTimeout(resolve))
 
@@ -34,7 +30,7 @@ describe('API store', () => {
 
   it('imports embedded single entity', async done => {
     // given
-    axiosMock.onGet('http://localhost/camps/1').reply(200, embeddedSingleEntity)
+    axiosMock.onGet('http://localhost/camps/1').reply(200, embeddedSingleEntity.serverResponse)
 
     // when
     vm.api('/camps/1')
@@ -42,13 +38,13 @@ describe('API store', () => {
     // then
     expect(vm.$store.state.api).toEqual({ '/camps/1': { '_loading': true, self: '/camps/1' } })
     await flushPromises()
-    expect(vm.$store.state.api).toEqual(storedEmbeddedSingleEntity)
+    expect(vm.$store.state.api).toEqual(embeddedSingleEntity.storeState)
     done()
   })
 
   it('imports embedded collection', async done => {
     // given
-    axiosMock.onGet('http://localhost/camps/1').reply(200, embeddedCollection)
+    axiosMock.onGet('http://localhost/camps/1').reply(200, embeddedCollection.serverResponse)
 
     // when
     vm.api('/camps/1')
@@ -56,13 +52,13 @@ describe('API store', () => {
     // then
     expect(vm.$store.state.api).toEqual({ '/camps/1': { '_loading': true, self: '/camps/1' } })
     await flushPromises()
-    expect(vm.$store.state.api).toEqual(storedEmbeddedCollection)
+    expect(vm.$store.state.api).toEqual(embeddedCollection.storeState)
     done()
   })
 
   it('imports linked single entity', async done => {
     // given
-    axiosMock.onGet('http://localhost/camps/1').reply(200, linkedSingleEntity)
+    axiosMock.onGet('http://localhost/camps/1').reply(200, linkedSingleEntity.serverResponse)
 
     // when
     vm.api('/camps/1')
@@ -70,13 +66,13 @@ describe('API store', () => {
     // then
     expect(vm.$store.state.api).toEqual({ '/camps/1': { '_loading': true, self: '/camps/1' } })
     await flushPromises()
-    expect(vm.$store.state.api).toEqual(storedLinkedSingleEntity)
+    expect(vm.$store.state.api).toEqual(linkedSingleEntity.storeState)
     done()
   })
 
   it('imports linked collection', async done => {
     // given
-    axiosMock.onGet('http://localhost/camps/1').reply(200, linkedCollection)
+    axiosMock.onGet('http://localhost/camps/1').reply(200, linkedCollection.serverResponse)
 
     // when
     vm.api('/camps/1')
@@ -84,7 +80,7 @@ describe('API store', () => {
     // then
     expect(vm.$store.state.api).toEqual({ '/camps/1': { '_loading': true, self: '/camps/1' } })
     await flushPromises()
-    expect(vm.$store.state.api).toEqual(storedLinkedCollection)
+    expect(vm.$store.state.api).toEqual(linkedCollection.storeState)
     done()
   })
 })

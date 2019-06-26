@@ -1,0 +1,31 @@
+{
+  "serverResponse": {
+    "campType": {
+      "name": "camp",
+      "js": true,
+      "targetGroup": "Kids",
+      "_links": {
+        "self": {
+          "href": "/campTypes/20"
+        }
+      }
+    },
+    "_links": {
+      "self": {
+        "href": "/camps/1"
+      }
+    }
+  },
+  "storeState": {
+    "/campTypes/20": {
+      "name": "camp",
+      "js": true,
+      "targetGroup": "Kids",
+      "self": "/campTypes/20"
+    },
+    "/camps/1": {
+      "campType": "/campTypes/20",
+      "self": "/camps/1"
+    }
+  }
+}
