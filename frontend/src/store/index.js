@@ -31,7 +31,7 @@ export default new Vuex.Store({
   strict: process.env.NODE_ENV !== 'production'
 })
 
-async function fetchFromAPI (store, uri) {
+async function requestFromApi (store, uri) {
   store.commit('addEmpty', uri)
   let data = await Vue.axios.get(uri).data
   store.commit('add', replaceRelationsWithURIs(data))
@@ -74,21 +74,15 @@ function replaceRelationsWithURIs ({ data }) {
   return toAdd
 }
 
-Vue.mixin({
-  computed: {
-    api: function ({ apiPath, start }) {
-      if (!start) {
-        start = API_ROOT
-      } else if (typeof start === 'object') {
-        start = start.self
-      }
-      if (!this.$store.state.api.hasOwnProperty(start)) {
-        fetchFromAPI(start)
-      }
-      if (!apiPath || apiPath.length === 0) {
-        return this.$store.state.api[start]
-      }
-      return this.api({ apiPath: apiPath.slice(1), start: this.$store.state.api[start][apiPath[0]] })
-    }
+export const api = function (uri) {
+  if (!uri) {
+    uri = API_ROOT
+  } else if (typeof uri === 'object') {
+    uri = uri.self
   }
+  return this.$store.state.api[uri] || requestFromApi(uri)
+}
+
+Vue.mixin({
+  methods: { api }
 })
