@@ -9,23 +9,25 @@ Vue.use(VueAxios, axios)
 
 const API_ROOT = process.env.VUE_APP_ROOT_API
 
+const state = {
+  // TODO find a way to split the API state up and dynamically add independent state entries for each entity
+  api: {}
+}
+
+export const mutations = {
+  addEmpty (state, uri) {
+    Vue.set(state.api, uri, { _loading: true })
+  },
+  add (state, dataArray) {
+    dataArray.forEach(entry => {
+      Vue.set(state.api, entry.self, entry)
+    })
+  }
+}
+
 export default new Vuex.Store({
-  state: {
-    // TODO find a way to split the API state up and dynamically add independent state entries for each entity
-    api: {}
-  },
-
-  mutations: {
-    addEmpty (state, uri) {
-      Vue.set(state.api, uri, { _loading: true })
-    },
-    add (state, dataArray) {
-      dataArray.forEach(entry => {
-        Vue.set(state.api, entry.self, entry)
-      })
-    }
-  },
-
+  state,
+  mutations,
   strict: process.env.NODE_ENV !== 'production'
 })
 
