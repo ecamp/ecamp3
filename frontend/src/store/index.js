@@ -18,10 +18,8 @@ export const mutations = {
   addEmpty (state, uri) {
     Vue.set(state.api, uri, { _loading: true, self: uri })
   },
-  add (state, dataArray) {
-    dataArray.forEach(entry => {
-      Vue.set(state.api, entry.self, entry)
-    })
+  add (state, data) {
+    Vue.set(state.api, data.self, data)
   }
 }
 
@@ -31,33 +29,37 @@ export default new Vuex.Store({
   strict: process.env.NODE_ENV !== 'production'
 })
 
-// This is not an action on the store because we need the 'addEmpty' commit to happen immediately and synchronously
-async function requestFromApi ({ $store, axios }, uri) {
-  $store.commit('addEmpty', uri)
-  let { data } = await axios.get(API_ROOT + uri)
-  $store.commit('add', replaceRelationsWithURIs({ data }))
-  // TODO save Proxy objects instead of raw data in order to automatically resolve store pointers when accessing properties
+function requestFromApi (vm, uri) {
+  vm.$store.commit('addEmpty', uri)
+  vm.axios.get(API_ROOT + uri).then(({ data }) => {
+    replaceRelationsWithURIs(vm, data)
+  })
+  return vm.$store.state.api[uri]
 }
 
-function replaceRelationsWithURIs ({ data }) {
-  let toAdd = []
+function replaceRelationsWithURIs (vm, data) {
   Object.keys(data).forEach(key => {
     if (data[key].hasOwnProperty('_links')) {
       // embedded single entity
-      toAdd.push(...replaceRelationsWithURIs({ data: data[key] }))
-      data[key] = normalizedUri(data[key].self)
+      let uri = replaceRelationsWithURIs(vm, data[key])
+      data[key] = () => vm.api(uri)
     } else if (Array.isArray(data[key])) {
       // embedded collection (not paginated, full list)
       data[key].forEach((entry, index) => {
-        toAdd.push(...replaceRelationsWithURIs({ data: entry }))
-        data[key][index] = normalizedUri(entry.self)
+        let uri = replaceRelationsWithURIs(vm, entry)
+        data[key][index] = () => vm.api(uri)
       })
     }
   })
   if (data.hasOwnProperty('_links')) {
     Object.keys(data._links).forEach(key => {
       // linked single entity, collection or self
-      data[key] = normalizedUri(data._links[key].href)
+      if (key === 'self') {
+        data[key] = normalizedUri(data._links[key].href)
+      } else {
+        let uri = data._links[key].href
+        data[key] = () => vm.api(uri)
+      }
     })
     delete data._links
   }
@@ -65,13 +67,13 @@ function replaceRelationsWithURIs ({ data }) {
     // page of a collection
     data.items = data._embedded.items
     data.items.forEach((item, index) => {
-      toAdd.push(...replaceRelationsWithURIs({ data: item }))
-      data.items[index] = normalizedUri(item.self)
+      let uri = replaceRelationsWithURIs(vm, item)
+      data.items[index] = () => vm.api(uri)
     })
     delete data._embedded
   }
-  toAdd.push(data)
-  return toAdd
+  vm.$store.commit('add', data)
+  return data.self
 }
 
 function normalizedUri (uri) {
