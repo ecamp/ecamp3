@@ -24,7 +24,6 @@
       "self": "/campTypes/20"
     },
     "/camps/1": {
-      "campType": "/campTypes/20",
       "self": "/camps/1"
     }
   }

@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
+import Collection from './collection'
 
 Vue.use(Vuex)
 axios.defaults.withCredentials = true
@@ -32,52 +33,46 @@ export default new Vuex.Store({
 function requestFromApi (vm, uri) {
   vm.$store.commit('addEmpty', uri)
   vm.axios.get(API_ROOT + uri).then(({ data }) => {
-    replaceRelationsWithURIs(vm, data)
+    getStoreAccessor(vm, data)
   })
   return vm.$store.state.api[uri]
 }
 
-function replaceRelationsWithURIs (vm, data) {
+function getStoreAccessor (vm, data) {
   Object.keys(data).forEach(key => {
     if (data[key].hasOwnProperty('_links')) {
-      // embedded single entity
-      let uri = replaceRelationsWithURIs(vm, data[key])
-      data[key] = () => vm.api(uri)
+      // embedded single entity, replace by accessor function
+      data[key] = getStoreAccessor(vm, data[key])
     } else if (Array.isArray(data[key])) {
-      // embedded collection (not paginated, full list)
-      data[key].forEach((entry, index) => {
-        let uri = replaceRelationsWithURIs(vm, entry)
-        data[key][index] = () => vm.api(uri)
-      })
+      // embedded collection (not paginated, full list), replace by accessor function for collection of accessor functions
+      let collection = Collection.fromArray(data[key].map(entry => getStoreAccessor(vm, entry)))
+      data[key] = () => collection
     }
   })
   if (data.hasOwnProperty('_links')) {
-    Object.keys(data._links).forEach(key => {
-      // linked single entity, collection or self
+    Object.entries(data._links).forEach(([key, { href: uri }]) => {
       if (key === 'self') {
-        data[key] = normalizedUri(data._links[key].href)
+        // self link, keep as URI
+        data[key] = normalizedUri(uri)
       } else {
-        let uri = data._links[key].href
+        // linked single entity or collection, replace by accessor function
         data[key] = () => vm.api(uri)
       }
     })
     delete data._links
   }
   if (data.hasOwnProperty('_embedded')) {
-    // page of a collection
-    data.items = data._embedded.items
-    data.items.forEach((item, index) => {
-      let uri = replaceRelationsWithURIs(vm, item)
-      data.items[index] = () => vm.api(uri)
-    })
+    // page of a collection, replace by collection of accessor functions
+    data.items = data._embedded.items.map(item => getStoreAccessor(vm, item))
     delete data._embedded
+    data = Collection.fromPage(data)
   }
   vm.$store.commit('add', data)
-  return data.self
+  return () => vm.api(data.self)
 }
 
 function normalizedUri (uri) {
-  // TODO normalize the order of query parameters so it does not matter when paginating
+  // TODO normalize the order of query parameters so it does not matter when paginating, filtering, sorting, ...
   if (!uri) {
     return '/'
   }
@@ -95,3 +90,5 @@ export const api = function (uri) {
 Vue.mixin({
   methods: { api }
 })
+
+export { Collection }

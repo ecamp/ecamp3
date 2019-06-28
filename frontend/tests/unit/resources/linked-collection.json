@@ -5,13 +5,13 @@
         "href": "/camps/1"
       },
       "events": {
-        "href": "/camps/1/events"
+        "href": "/camps/1/events",
+        "_collection": true
       }
     }
   },
   "storeState": {
     "/camps/1": {
-      "events": "/camps/1/events",
       "self": "/camps/1"
     }
   }

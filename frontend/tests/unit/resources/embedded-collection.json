@@ -9,7 +9,7 @@
             "href": "/periods/104"
           },
           "camp": {
-            "href": "/periods/104/camp"
+            "href": "/camps/1"
           },
           "events": {
             "href": "/periods/104/events"
@@ -24,7 +24,7 @@
             "href": "/periods/128"
           },
           "camp": {
-            "href": "/periods/128/camp"
+            "href": "/camps/1"
           },
           "events": {
             "href": "/periods/128/events"
@@ -42,22 +42,14 @@
     "/periods/104": {
       "start": "01-01-2019",
       "end": "03-01-2019",
-      "self": "/periods/104",
-      "camp": "/periods/104/camp",
-      "events": "/periods/104/events"
+      "self": "/periods/104"
     },
     "/periods/128": {
       "start": "12-04-2019",
       "end": "19-04-2019",
-      "self": "/periods/128",
-      "camp": "/periods/128/camp",
-      "events": "/periods/128/events"
+      "self": "/periods/128"
     },
     "/camps/1": {
-      "periods": [
-        "/periods/104",
-        "/periods/128"
-      ],
       "self": "/camps/1"
     }
   }
