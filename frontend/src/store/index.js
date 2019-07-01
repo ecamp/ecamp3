@@ -11,16 +11,18 @@ Vue.use(VueAxios, axios)
 const API_ROOT = process.env.VUE_APP_ROOT_API
 
 export const state = {
-  // TODO find a way to split the API state up and dynamically add independent state entries for each entity
   api: {}
 }
 
 export const mutations = {
-  addEmpty (state, uri) {
-    Vue.set(state.api, uri, { _loading: true, self: uri })
+  addEmpty (state, { uri, loaded }) {
+    Vue.set(state.api, uri, { _loading: true, self: uri, loaded })
   },
   add (state, data) {
-    Vue.set(state.api, data.self, data)
+    Vue.set(state.api, data.self, { ...data, loaded: new Promise(resolve => resolve(state.api[data.self])) })
+  },
+  appendCollectionItem (state, { collectionUri, item }) {
+    state.api[collectionUri].items.push(item)
   }
 }
 
@@ -31,9 +33,14 @@ export default new Vuex.Store({
 })
 
 function requestFromApi (vm, uri) {
-  vm.$store.commit('addEmpty', uri)
-  vm.axios.get(API_ROOT + uri).then(({ data }) => {
-    getStoreAccessor(vm, data)
+  vm.$store.commit('addEmpty', {
+    uri,
+    loaded: new Promise((resolve) => {
+      vm.axios.get(API_ROOT + uri).then(({ data }) => {
+        let accessLoadedData = getStoreAccessor(vm, data)
+        resolve(accessLoadedData())
+      })
+    })
   })
   return vm.$store.state.api[uri]
 }
@@ -65,14 +72,14 @@ function getStoreAccessor (vm, data) {
     // page of a collection, replace by collection of accessor functions
     data.items = data._embedded.items.map(item => getStoreAccessor(vm, item))
     delete data._embedded
-    data = Collection.fromPage(data)
+    data = Collection.fromPage(vm, data)
   }
   vm.$store.commit('add', data)
   return () => vm.api(data.self)
 }
 
 function normalizedUri (uri) {
-  // TODO normalize the order of query parameters so it does not matter when paginating, filtering, sorting, ...
+  // TODO sort query parameters so the order does not matter when paginating, filtering, sorting, ...
   if (!uri) {
     return '/'
   }

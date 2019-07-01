@@ -9,8 +9,6 @@ import embeddedCollection from './resources/embedded-collection'
 import linkedSingleEntity from './resources/linked-single-entity'
 import linkedCollection from './resources/linked-collection'
 
-const flushPromises = () => new Promise(resolve => setTimeout(resolve))
-
 describe('API store', () => {
   let localVue
   let axiosMock
@@ -36,12 +34,12 @@ describe('API store', () => {
     vm.api('/camps/1')
 
     // then
-    expect(vm.$store.state.api).toEqual({ '/camps/1': { '_loading': true, self: '/camps/1' } })
-    await flushPromises()
+    expect(vm.$store.state.api).toMatchObject({ '/camps/1': { '_loading': true, self: '/camps/1', loaded: {} } })
+    await vm.$store.state.api['/camps/1'].loaded
     expect(vm.$store.state.api).toMatchObject(embeddedSingleEntity.storeState)
     expect(vm.api('/camps/1')).toMatchObject(embeddedSingleEntity.storeState['/camps/1'])
-    expect(vm.api('/camps/1').campType()).toEqual(embeddedSingleEntity.storeState['/campTypes/20'])
-    expect(vm.api('/campTypes/20')).toEqual(embeddedSingleEntity.storeState['/campTypes/20'])
+    expect(vm.api('/camps/1').campType()).toMatchObject(embeddedSingleEntity.storeState['/campTypes/20'])
+    expect(vm.api('/campTypes/20')).toMatchObject(embeddedSingleEntity.storeState['/campTypes/20'])
     done()
   })
 
@@ -53,8 +51,8 @@ describe('API store', () => {
     vm.api('/camps/1')
 
     // then
-    expect(vm.$store.state.api).toEqual({ '/camps/1': { '_loading': true, self: '/camps/1' } })
-    await flushPromises()
+    expect(vm.$store.state.api).toMatchObject({ '/camps/1': { '_loading': true, self: '/camps/1', loaded: {} } })
+    await vm.$store.state.api['/camps/1'].loaded
     expect(vm.$store.state.api).toMatchObject(embeddedCollection.storeState)
     expect(vm.api('/camps/1')).toMatchObject(embeddedCollection.storeState['/camps/1'])
     expect(vm.api('/camps/1').periods().items[0]()).toMatchObject(embeddedCollection.storeState['/periods/104'])
@@ -79,14 +77,14 @@ describe('API store', () => {
     vm.api('/camps/1')
 
     // then
-    expect(vm.$store.state.api).toEqual({ '/camps/1': { '_loading': true, self: '/camps/1' } })
-    await flushPromises()
+    expect(vm.$store.state.api).toMatchObject({ '/camps/1': { '_loading': true, self: '/camps/1', loaded: {} } })
+    await vm.$store.state.api['/camps/1'].loaded
     expect(vm.$store.state.api).toMatchObject(linkedSingleEntity.storeState)
     expect(vm.api('/camps/1')).toMatchObject(linkedSingleEntity.storeState['/camps/1'])
-    expect(vm.api('/camps/1').mainLeader()).toEqual({ '_loading': true, self: '/users/83' })
-    await flushPromises()
-    expect(vm.api('/camps/1').mainLeader()).toEqual(mainLeader.storeState)
-    expect(vm.api('/users/83')).toEqual(mainLeader.storeState)
+    expect(vm.api('/camps/1').mainLeader()).toMatchObject({ '_loading': true, self: '/users/83', loaded: {} })
+    await vm.$store.state.api['/users/83'].loaded
+    expect(vm.api('/camps/1').mainLeader()).toMatchObject(mainLeader.storeState)
+    expect(vm.api('/users/83')).toMatchObject(mainLeader.storeState)
     done()
   })
 
@@ -94,11 +92,18 @@ describe('API store', () => {
     // given
     axiosMock.onGet('http://localhost/camps/1').reply(200, linkedCollection.serverResponse)
     const events = {
-      serverResponse: { '_embedded': { 'items': [
-        { 'title': 'LS Volleyball', '_links': { 'self': { 'href': '/events/1234' } } },
-        { 'title': 'LA Blachen', '_links': { 'self': { 'href': '/events/1236' } } }
-      ] },
-      '_links': { 'self': { 'href': '/camps/1/events' }, 'first': { 'href': '/camps/1/events' } } },
+      serverResponse: {
+        '_embedded': {
+          'items': [
+            { 'title': 'LS Volleyball', '_links': { 'self': { 'href': '/events/1234' } } },
+            { 'title': 'LA Blachen', '_links': { 'self': { 'href': '/events/1236' } } }
+          ]
+        },
+        '_links': { 'self': { 'href': '/camps/1/events' }, 'first': { 'href': '/camps/1/events' } },
+        '_page': 0,
+        '_per_page': 3,
+        '_total': 2
+      },
       storeState: { 'items': [
         null, // accessor functions will be replaced with null to compare them in Jest
         null
@@ -111,14 +116,15 @@ describe('API store', () => {
     vm.api('/camps/1')
 
     // then
-    expect(vm.$store.state.api).toEqual({ '/camps/1': { '_loading': true, self: '/camps/1' } })
-    await flushPromises()
+    expect(vm.$store.state.api).toMatchObject({ '/camps/1': { '_loading': true, self: '/camps/1', loaded: {} } })
+    await vm.$store.state.api['/camps/1'].loaded
     expect(vm.$store.state.api).toMatchObject(linkedCollection.storeState)
-    expect(vm.api('/camps/1').events()).toEqual({ '_loading': true, self: '/camps/1/events' })
-    await flushPromises()
-    expect(vm.api('/camps/1').events()).toEqual(events.storeState)
-    expect(vm.api('/camps/1/events')).toEqual(events.storeState)
-    // TODO vm.api('...').events(0)
-    done()
+    expect(vm.api('/camps/1').events()).toMatchObject({ '_loading': true, self: '/camps/1/events', loaded: {} })
+    await vm.$store.state.api['/camps/1/events'].loaded
+    setTimeout(() => {
+      expect(JSON.parse(JSON.stringify(vm.api('/camps/1').events()))).toMatchObject(events.storeState)
+      expect(JSON.parse(JSON.stringify(vm.api('/camps/1/events')))).toMatchObject(events.storeState)
+      done()
+    })
   })
 })
