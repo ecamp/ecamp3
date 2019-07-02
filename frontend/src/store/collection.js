@@ -5,37 +5,33 @@ export default class Collection {
     return new ArrayBackedCollection(array)
   }
 
-  static fromPage (vm, page) {
-    return new PaginatedCollection(vm, page)
+  static fromPage (page, onLoadedItem) {
+    return new PaginatedCollection(page, onLoadedItem)
   }
 
-  constructor (items, loadingIterator = null) {
+  constructor (items, loadingIterator = null, onLoadedItem = () => {}) {
     this.items = items
-    this._fullyLoaded = (loadingIterator === null)
     this._loadingIterator = loadingIterator
+    this._onLoadedItem = onLoadedItem
   }
 
   async load (numElementsToLoad = 1) {
-    for (let i = 0; i < numElementsToLoad && !this._fullyLoaded; i++) {
-      let next = await this._loadingIterator.next()
-      this._fullyLoaded = next.done
+    if (!this._loadingIterator) return
+    for (let i = 0; i < numElementsToLoad; i++) {
+      let { done, value: item } = await this._loadingIterator.next()
+      if (done) break
+      this._onLoadedItem(item)
     }
   }
 }
 
-class ArrayBackedCollection extends Collection {
-  constructor (array) {
-    super(array, arrayIterator(array), true)
-  }
-}
+class ArrayBackedCollection extends Collection {}
 
 class PaginatedCollection extends Collection {
-  constructor (vm, page) {
+  constructor (page, onLoadedItem) {
     const items = []
-    const _appendItemToStore = (item, index) => appendItemToStore(vm, page.self, item, index)
-    super(items, paginatedStoringIterator(page, items, _appendItemToStore))
+    super(items, paginatedIterator(page.items, page.next), onLoadedItem)
     this._page = page
-    this._appendItemToStore = _appendItemToStore
     this.loading = true
     this.loaded = new Promise(async resolve => {
       await this.load(page._per_page)
@@ -44,42 +40,23 @@ class PaginatedCollection extends Collection {
       resolve(this)
     })
     Object.keys(page).forEach(key => {
-      if (!(key in ['next', 'prev', 'first', 'last'])) {
+      if (!['items', 'next', 'prev', 'first', 'last'].includes(key)) {
         this[key] = page[key]
       }
     })
   }
 
   async * [Symbol.asyncIterator] () {
-    return paginatedStoringIterator(this._page, this.items, this._appendItemToStore)
-  }
-}
-
-function appendItemToStore (vm, collectionUri, item, index) {
-  if (index >= vm.$store.state.api[collectionUri].items.length) {
-    vm.$store.commit('appendCollectionItem', { item, collectionUri })
-  }
-}
-
-function * arrayIterator (array) {
-  for (const item of array) {
-    yield item
+    return paginatedIterator(this._page.items, this._page.next)
   }
 }
 
 async function * paginatedIterator (initialItems, next = undefined) {
-  yield * arrayIterator(initialItems)
+  for (const item of initialItems) {
+    yield item
+  }
   if (next !== undefined) {
     let remainingPages = await next().loaded
     yield * remainingPages
-  }
-}
-
-async function * paginatedStoringIterator (page, numStoredItems, storeItem) {
-  let index = 0
-  for await (const item of paginatedIterator(page.items, page.next)) {
-    storeItem(item, index)
-    index++
-    yield item
   }
 }

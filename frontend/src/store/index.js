@@ -59,7 +59,7 @@ function storeHalJsonData (vm, data) {
     // page of a collection, replace by collection of accessor functions
     data.items = data._embedded.items.map(item => storeHalJsonData(vm, item))
     delete data._embedded
-    data = Collection.fromPage(vm, data)
+    data = Collection.fromPage(data, item => vm.$store.commit('appendCollectionItem', { item, collectionUri: data.self }))
   }
   vm.$store.commit('add', data)
   return () => vm.api(data.self)
