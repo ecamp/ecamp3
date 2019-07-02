@@ -9,14 +9,13 @@ export default class Collection {
     return new PaginatedCollection(page, onLoadedItem)
   }
 
-  constructor (items, loadingIterator = null, onLoadedItem = () => {}) {
+  constructor (items, loadingIterator = { next: () => ({ done: true }) }, onLoadedItem = () => {}) {
     this.items = items
     this._loadingIterator = loadingIterator
     this._onLoadedItem = onLoadedItem
   }
 
   async load (numElementsToLoad = 1) {
-    if (!this._loadingIterator) return
     for (let i = 0; i < numElementsToLoad; i++) {
       let { done, value: item } = await this._loadingIterator.next()
       if (done) break
