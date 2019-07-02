@@ -32,27 +32,14 @@ export default new Vuex.Store({
   strict: process.env.NODE_ENV !== 'production'
 })
 
-function requestFromApi (vm, uri) {
-  vm.$store.commit('addEmpty', {
-    uri,
-    loaded: new Promise((resolve) => {
-      vm.axios.get(API_ROOT + uri).then(({ data }) => {
-        let accessLoadedData = getStoreAccessor(vm, data)
-        resolve(accessLoadedData())
-      })
-    })
-  })
-  return vm.$store.state.api[uri]
-}
-
-function getStoreAccessor (vm, data) {
+function storeHalJsonData (vm, data) {
   Object.keys(data).forEach(key => {
     if (data[key].hasOwnProperty('_links')) {
       // embedded single entity, replace by accessor function
-      data[key] = getStoreAccessor(vm, data[key])
+      data[key] = storeHalJsonData(vm, data[key])
     } else if (Array.isArray(data[key])) {
       // embedded collection (not paginated, full list), replace by accessor function for collection of accessor functions
-      let collection = Collection.fromArray(data[key].map(entry => getStoreAccessor(vm, entry)))
+      let collection = Collection.fromArray(data[key].map(entry => storeHalJsonData(vm, entry)))
       data[key] = () => collection
     }
   })
@@ -70,7 +57,7 @@ function getStoreAccessor (vm, data) {
   }
   if (data.hasOwnProperty('_embedded')) {
     // page of a collection, replace by collection of accessor functions
-    data.items = data._embedded.items.map(item => getStoreAccessor(vm, item))
+    data.items = data._embedded.items.map(item => storeHalJsonData(vm, item))
     delete data._embedded
     data = Collection.fromPage(vm, data)
   }
@@ -91,7 +78,18 @@ function normalizedUri (uri) {
 
 export const api = function (uri) {
   uri = normalizedUri(uri)
-  return this.$store.state.api[uri] || requestFromApi(this, uri)
+  if (!(uri in this.$store.state.api)) {
+    this.$store.commit('addEmpty', {
+      uri,
+      loaded: new Promise((resolve) => {
+        this.axios.get(API_ROOT + uri).then(({ data }) => {
+          let referenceToStoredData = storeHalJsonData(this, data)
+          resolve(referenceToStoredData())
+        })
+      })
+    })
+  }
+  return this.$store.state.api[uri]
 }
 
 Vue.mixin({
