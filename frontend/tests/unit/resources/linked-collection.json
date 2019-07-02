@@ -5,8 +5,7 @@
         "href": "/camps/1"
       },
       "events": {
-        "href": "/camps/1/events",
-        "_collection": true
+        "href": "/camps/1/events"
       }
     }
   },
