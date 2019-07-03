@@ -1,0 +1,56 @@
+{
+  "serverResponse": {
+    "_page": 1,
+    "_per_page": 2,
+    "_total": 3,
+    "_links": {
+      "self": {
+        "href": "/camps/1/events?page=1"
+      },
+      "first": {
+        "href": "/camps/1/events"
+      },
+      "prev": {
+        "href": "/camps/1/events"
+      }
+    },
+    "_embedded": {
+      "items": [
+        {
+          "title": "TABS",
+          "type": {
+            "name": "LP",
+            "color": "#aaaa00",
+            "_links": {
+              "self": {
+                "href": "/eventTypes/8879"
+              }
+            }
+          },
+          "_links": {
+            "self": {
+              "href": "/events/2402"
+            }
+          }
+        }
+      ]
+    }
+  },
+  "storeState": {
+    "/camps/1/events": {
+      "self": "/camps/1/events",
+      "_page": 1,
+      "_per_page": 2,
+      "_total": 3
+    },
+    "/eventTypes/8879": {
+      "color": "#aaaa00",
+      "name": "LP",
+      "self": "/eventTypes/8879"
+    },
+    "/events/2402": {
+      "self": "/events/2402",
+      "title": "TABS"
+    }
+  }
+}

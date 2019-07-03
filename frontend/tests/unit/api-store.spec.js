@@ -8,6 +8,8 @@ import embeddedSingleEntity from './resources/embedded-single-entity'
 import embeddedCollection from './resources/embedded-collection'
 import linkedSingleEntity from './resources/linked-single-entity'
 import linkedCollection from './resources/linked-collection'
+import collectionPage0 from './resources/collection-page0'
+import collectionPage1 from './resources/collection-page1'
 
 describe('API store', () => {
   let localVue
@@ -124,6 +126,28 @@ describe('API store', () => {
     setTimeout(() => {
       expect(JSON.parse(JSON.stringify(vm.api('/camps/1').events()))).toMatchObject(events.storeState)
       expect(JSON.parse(JSON.stringify(vm.api('/camps/1/events')))).toMatchObject(events.storeState)
+      done()
+    })
+  })
+
+  it('imports linked collection with multiple pages', async done => {
+    // given
+    axiosMock.onGet('http://localhost/camps/1/events').reply(200, collectionPage0.serverResponse)
+    axiosMock.onGet('http://localhost/camps/1/events?page=1').reply(200, collectionPage1.serverResponse)
+
+    // when
+    vm.api('/camps/1/events')
+
+    // then
+    expect(vm.$store.state.api).toMatchObject({ '/camps/1/events': { '_loading': true, self: '/camps/1/events', loaded: {} } })
+    await vm.$store.state.api['/camps/1/events'].loaded
+    expect(vm.$store.state.api).toMatchObject(collectionPage0.storeState)
+    vm.api('/camps/1/events').load(7)
+    setTimeout(() => {
+      expect(JSON.parse(JSON.stringify(vm.api('/camps/1/events').items.length))).toEqual(3)
+      expect(JSON.parse(JSON.stringify(vm.api('/camps/1/events').items[0]))).toMatchObject(collectionPage0.storeState['/events/2394'])
+      expect(JSON.parse(JSON.stringify(vm.api('/camps/1/events').items[1]))).toMatchObject(collectionPage0.storeState['/events/2362'])
+      expect(JSON.parse(JSON.stringify(vm.api('/camps/1/events').items[2]))).toMatchObject(collectionPage1.storeState['/events/2402'])
       done()
     })
   })

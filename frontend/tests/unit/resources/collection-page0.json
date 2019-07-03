@@ -1,0 +1,82 @@
+{
+  "serverResponse": {
+    "_page": 0,
+    "_per_page": 2,
+    "_total": 3,
+    "_links": {
+      "self": {
+        "href": "/camps/1/events"
+      },
+      "first": {
+        "href": "/camps/1/events"
+      },
+      "next": {
+        "href": "/camps/1/events?page=1"
+      }
+    },
+    "_embedded": {
+      "items": [
+        {
+          "title": "Volleyball",
+          "type": {
+            "name": "LS",
+            "color": "#00aa00",
+            "_links": {
+              "self": {
+                "href": "/eventTypes/8877"
+              }
+            }
+          },
+          "_links": {
+            "self": {
+              "href": "/events/2394"
+            }
+          }
+        },
+        {
+          "title": "Geländespiel",
+          "type": {
+            "name": "LP",
+            "color": "#aaaa00",
+            "_links": {
+              "self": {
+                "href": "/eventTypes/8879"
+              }
+            }
+          },
+          "_links": {
+            "self": {
+              "href": "/events/2362"
+            }
+          }
+        }
+      ]
+    }
+  },
+  "storeState": {
+    "/camps/1/events": {
+      "self": "/camps/1/events",
+      "_page": 0,
+      "_per_page": 2,
+      "_total": 3
+    },
+    "/eventTypes/8877": {
+      "color": "#00aa00",
+      "name": "LS",
+      "self": "/eventTypes/8877"
+    },
+    "/eventTypes/8879": {
+      "color": "#aaaa00",
+      "name": "LP",
+      "self": "/eventTypes/8879"
+    },
+    "/events/2362": {
+      "self": "/events/2362",
+      "title": "Geländespiel"
+    },
+    "/events/2394": {
+      "self": "/events/2394",
+      "title": "Volleyball"
+    }
+  }
+}
