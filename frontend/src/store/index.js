@@ -65,11 +65,25 @@ function storeHalJsonData (vm, data) {
   return () => vm.api(data.self)
 }
 
+export function sortQueryParams (uri) {
+  let queryStart = uri.indexOf('?')
+  if (queryStart === -1) return uri
+  let prefix = uri.substring(0, queryStart + 1)
+  let query = new URLSearchParams(uri.substring(queryStart + 1))
+  let sortedQuery = new URLSearchParams()
+  for (const key of [ ...new Set(query.keys()) ].sort()) {
+    for (const value of query.getAll(key)) {
+      sortedQuery.append(key, value)
+    }
+  }
+  return prefix + sortedQuery.toString()
+}
+
 function normalizedUri (uri) {
-  // TODO sort query parameters so the order does not matter when paginating, filtering, sorting, ...
   if (!uri) {
     return '/'
   }
+  uri = sortQueryParams(uri)
   if (uri.startsWith(API_ROOT)) {
     return uri.substr(API_ROOT.length)
   }

@@ -1,5 +1,5 @@
 import { createLocalVue, mount } from '@vue/test-utils'
-import store, { api, state } from '@/store'
+import store, { api, state, sortQueryParams } from '@/store'
 import axios from 'axios'
 import MockAdapter from 'axios-mock-adapter'
 import VueAxios from 'vue-axios'
@@ -126,5 +126,39 @@ describe('API store', () => {
       expect(JSON.parse(JSON.stringify(vm.api('/camps/1/events')))).toMatchObject(events.storeState)
       done()
     })
+  })
+
+  it('sorts query parameters', () => {
+    // given
+    let examples = {
+      '': '',
+      '/': '/',
+      '/?': '/?',
+      '?': '?',
+      'http://localhost': 'http://localhost',
+      'http://localhost/': 'http://localhost/',
+      'https://scout.ch:3000': 'https://scout.ch:3000',
+      'https://scout.ch:3000/': 'https://scout.ch:3000/',
+      'http://localhost/?': 'http://localhost/?',
+      '/camps/1': '/camps/1',
+      '/camps/': '/camps/',
+      '/camps': '/camps',
+      '/camps/1?': '/camps/1?',
+      '/camps/?page=0': '/camps/?page=0',
+      '/camps/?page=0&abc=123': '/camps/?abc=123&page=0',
+      '/camps?page=0&abc=123': '/camps?abc=123&page=0',
+      '/camps?page=0&abc=123&page=1': '/camps?abc=123&page=0&page=1',
+      '/camps?page=1&abc=123&page=0': '/camps?abc=123&page=1&page=0',
+      '/camps?page=0&xyz=123&page=1': '/camps?page=0&page=1&xyz=123',
+      '/camps/?e[]=abc&a[]=123&a=test': '/camps/?a=test&a%5B%5D=123&e%5B%5D=abc'
+    }
+
+    for (const [ example, expected ] of Object.entries(examples)) {
+      // when
+      let result = sortQueryParams(example)
+
+      // then
+      expect(result).toEqual(expected)
+    }
   })
 })
