@@ -1,5 +1,6 @@
 import { createLocalVue, mount } from '@vue/test-utils'
-import store, { api, state, sortQueryParams } from '@/store'
+import store, { api, state } from '@/store'
+import { sortQueryParams } from '@/store/uriUtils'
 import axios from 'axios'
 import MockAdapter from 'axios-mock-adapter'
 import VueAxios from 'vue-axios'
@@ -36,8 +37,8 @@ describe('API store', () => {
     vm.api('/camps/1')
 
     // then
-    expect(vm.$store.state.api).toMatchObject({ '/camps/1': { '_loading': true, self: '/camps/1', loaded: {} } })
-    await vm.$store.state.api['/camps/1'].loaded
+    expect(vm.$store.state.api).toMatchObject({ '/camps/1': { _meta: { loading: true, self: '/camps/1', loaded: {} } } })
+    await vm.$store.state.api['/camps/1']._meta.loaded
     expect(vm.$store.state.api).toMatchObject(embeddedSingleEntity.storeState)
     expect(vm.api('/camps/1')).toMatchObject(embeddedSingleEntity.storeState['/camps/1'])
     expect(vm.api('/camps/1').campType()).toMatchObject(embeddedSingleEntity.storeState['/campTypes/20'])
@@ -53,8 +54,8 @@ describe('API store', () => {
     vm.api('/camps/1')
 
     // then
-    expect(vm.$store.state.api).toMatchObject({ '/camps/1': { '_loading': true, self: '/camps/1', loaded: {} } })
-    await vm.$store.state.api['/camps/1'].loaded
+    expect(vm.$store.state.api).toMatchObject({ '/camps/1': { _meta: { loading: true, self: '/camps/1', loaded: {} } } })
+    await vm.$store.state.api['/camps/1']._meta.loaded
     expect(vm.$store.state.api).toMatchObject(embeddedCollection.storeState)
     expect(vm.api('/camps/1')).toMatchObject(embeddedCollection.storeState['/camps/1'])
     expect(vm.api('/camps/1').periods().items[0]()).toMatchObject(embeddedCollection.storeState['/periods/104'])
@@ -70,8 +71,8 @@ describe('API store', () => {
     // given
     axiosMock.onGet('http://localhost/camps/1').reply(200, linkedSingleEntity.serverResponse)
     const mainLeader = {
-      serverResponse: { 'name': 'Smiley', '_links': { 'self': { 'href': '/users/83' } } },
-      storeState: { 'name': 'Smiley', 'self': '/users/83' }
+      serverResponse: { 'id': 83, 'name': 'Smiley', '_links': { 'self': { 'href': '/users/83' } } },
+      storeState: { 'id': 83, 'name': 'Smiley', '_meta': { 'self': '/users/83' } }
     }
     axiosMock.onGet('http://localhost/users/83').reply(200, mainLeader.serverResponse)
 
@@ -79,12 +80,12 @@ describe('API store', () => {
     vm.api('/camps/1')
 
     // then
-    expect(vm.$store.state.api).toMatchObject({ '/camps/1': { '_loading': true, self: '/camps/1', loaded: {} } })
-    await vm.$store.state.api['/camps/1'].loaded
+    expect(vm.$store.state.api).toMatchObject({ '/camps/1': { _meta: { loading: true, self: '/camps/1', loaded: {} } } })
+    await vm.$store.state.api['/camps/1']._meta.loaded
     expect(vm.$store.state.api).toMatchObject(linkedSingleEntity.storeState)
     expect(vm.api('/camps/1')).toMatchObject(linkedSingleEntity.storeState['/camps/1'])
-    expect(vm.api('/camps/1').mainLeader()).toMatchObject({ '_loading': true, self: '/users/83', loaded: {} })
-    await vm.$store.state.api['/users/83'].loaded
+    expect(vm.api('/camps/1').mainLeader()).toMatchObject({ _meta: { loading: true, self: '/users/83', loaded: {} } })
+    await vm.$store.state.api['/users/83']._meta.loaded
     expect(vm.api('/camps/1').mainLeader()).toMatchObject(mainLeader.storeState)
     expect(vm.api('/users/83')).toMatchObject(mainLeader.storeState)
     done()
@@ -97,8 +98,8 @@ describe('API store', () => {
       serverResponse: {
         '_embedded': {
           'items': [
-            { 'title': 'LS Volleyball', '_links': { 'self': { 'href': '/events/1234' } } },
-            { 'title': 'LA Blachen', '_links': { 'self': { 'href': '/events/1236' } } }
+            { 'id': 1234, 'title': 'LS Volleyball', '_links': { 'self': { 'href': '/events/1234' } } },
+            { 'id': 1236, 'title': 'LA Blachen', '_links': { 'self': { 'href': '/events/1236' } } }
           ]
         },
         '_links': { 'self': { 'href': '/camps/1/events' }, 'first': { 'href': '/camps/1/events' } },
@@ -106,11 +107,15 @@ describe('API store', () => {
         '_per_page': 3,
         '_total': 2
       },
-      storeState: { 'items': [
-        null, // accessor functions will be replaced with null to compare them in Jest
-        null
-      ],
-      'self': '/camps/1/events' }
+      storeState: {
+        'items': [
+          null, // accessor functions will be replaced with null to compare them in Jest
+          null
+        ],
+        '_meta': {
+          'self': '/camps/1/events'
+        }
+      }
     }
     axiosMock.onGet('http://localhost/camps/1/events').reply(200, events.serverResponse)
 
@@ -118,11 +123,11 @@ describe('API store', () => {
     vm.api('/camps/1')
 
     // then
-    expect(vm.$store.state.api).toMatchObject({ '/camps/1': { '_loading': true, self: '/camps/1', loaded: {} } })
-    await vm.$store.state.api['/camps/1'].loaded
+    expect(vm.$store.state.api).toMatchObject({ '/camps/1': { _meta: { loading: true, self: '/camps/1', loaded: {} } } })
+    await vm.$store.state.api['/camps/1']._meta.loaded
     expect(vm.$store.state.api).toMatchObject(linkedCollection.storeState)
-    expect(vm.api('/camps/1').events()).toMatchObject({ '_loading': true, self: '/camps/1/events', loaded: {} })
-    await vm.$store.state.api['/camps/1/events'].loaded
+    expect(vm.api('/camps/1').events()).toMatchObject({ _meta: { loading: true, self: '/camps/1/events', loaded: {} } })
+    await vm.$store.state.api['/camps/1/events']._meta.loaded
     setTimeout(() => {
       expect(JSON.parse(JSON.stringify(vm.api('/camps/1').events()))).toMatchObject(events.storeState)
       expect(JSON.parse(JSON.stringify(vm.api('/camps/1/events')))).toMatchObject(events.storeState)
@@ -139,8 +144,8 @@ describe('API store', () => {
     vm.api('/camps/1/events')
 
     // then
-    expect(vm.$store.state.api).toMatchObject({ '/camps/1/events': { '_loading': true, self: '/camps/1/events', loaded: {} } })
-    await vm.$store.state.api['/camps/1/events'].loaded
+    expect(vm.$store.state.api).toMatchObject({ '/camps/1/events': { _meta: { loading: true, self: '/camps/1/events', loaded: {} } } })
+    await vm.$store.state.api['/camps/1/events']._meta.loaded
     expect(vm.$store.state.api).toMatchObject(collectionPage0.storeState)
     vm.api('/camps/1/events').load(7)
     setTimeout(() => {

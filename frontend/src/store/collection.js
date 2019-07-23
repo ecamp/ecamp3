@@ -1,15 +1,27 @@
-import Vue from 'vue'
+import { removeQueryParam } from '@/store/uriUtils'
+
+export const PAGE_QUERY_PARAM = 'page'
+
+export function getFullList (vm, data) {
+  const uri = removeQueryParam(data._links.self.href, PAGE_QUERY_PARAM)
+  if (!vm.$store.state.api[uri]._meta.loading) {
+    return vm.api(uri)
+  }
+  let page = { ...data }
+  page._meta.self = uri
+  return Collection.fromPage(page, vm.api)
+}
 
 export default class Collection {
   static fromArray (array) {
-    return new ArrayBackedCollection(array)
+    return new ArrayCollection(array)
   }
 
-  static fromPage (page, onLoadedItem) {
-    return new PaginatedCollection(page, onLoadedItem)
+  static fromPage (page, api, onLoadedItem) {
+    return new PaginatedCollection(page, api, onLoadedItem)
   }
 
-  constructor (items, loadingIterator = { next: () => ({ done: true }) }, onLoadedItem = () => {}) {
+  constructor (items, loadingIterator, onLoadedItem) {
     this.items = items
     this._loadingIterator = loadingIterator
     this._onLoadedItem = onLoadedItem
@@ -24,25 +36,18 @@ export default class Collection {
   }
 }
 
-class ArrayBackedCollection extends Collection {}
+class ArrayCollection extends Collection {
+  constructor (array) {
+    super(array, { next: () => ({ done: true }) }, () => {})
+  }
+}
 
 class PaginatedCollection extends Collection {
-  constructor (page, onLoadedItem) {
+  constructor (page, api, onLoadedItem) {
     const items = []
     super(items, paginatedIterator(page.items, page.next), onLoadedItem)
-    this._page = page
-    this.loading = true
-    this.loaded = new Promise(async resolve => {
-      await this.load(page._per_page)
-      Vue.delete(this, 'loading')
-      this.loaded = new Promise(resolve => resolve(this))
-      resolve(this)
-    })
-    Object.keys(page).forEach(key => {
-      if (!['items', 'next', 'prev', 'first', 'last'].includes(key)) {
-        this[key] = page[key]
-      }
-    })
+    copyProperties(page, { target: this }, ['items', 'next', 'prev'])
+    this._meta.self = removeQueryParam(page._meta.self, PAGE_QUERY_PARAM)
   }
 
   async * [Symbol.asyncIterator] () {
@@ -50,12 +55,20 @@ class PaginatedCollection extends Collection {
   }
 }
 
-async function * paginatedIterator (initialItems, next = undefined) {
-  for (const item of initialItems) {
+function copyProperties (source, { target }, excludeKeys = []) {
+  Object.keys(source).forEach(key => {
+    if (!excludeKeys.includes(key)) {
+      target[key] = source[key]
+    }
+  })
+}
+
+async function * paginatedIterator (page) {
+  for (const item of page.items) {
     yield item
   }
-  if (next !== undefined) {
-    let remainingPages = await next().loaded
-    yield * remainingPages
+  if (page.next !== undefined) {
+    let remainingPages = await page.next().loaded
+    yield * paginatedIterator(remainingPages)
   }
 }

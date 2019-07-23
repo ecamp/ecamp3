@@ -1,6 +1,7 @@
 {
   "serverResponse": {
     "campType": {
+      "id": 20,
       "name": "camp",
       "js": true,
       "targetGroup": "Kids",
@@ -10,6 +11,7 @@
         }
       }
     },
+    "id": 1,
     "_links": {
       "self": {
         "href": "/camps/1"
@@ -18,13 +20,19 @@
   },
   "storeState": {
     "/campTypes/20": {
+      "id": 20,
       "name": "camp",
       "js": true,
       "targetGroup": "Kids",
-      "self": "/campTypes/20"
+      "_meta": {
+        "self": "/campTypes/20"
+      }
     },
     "/camps/1": {
-      "self": "/camps/1"
+      "id": 1,
+      "_meta": {
+        "self": "/camps/1"
+      }
     }
   }
 }

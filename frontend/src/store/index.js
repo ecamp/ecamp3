@@ -2,13 +2,12 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
-import Collection from './collection'
+import Collection, { getFullList, PAGE_QUERY_PARAM } from '@/store/collection'
+import { sortQueryParams, API_ROOT, hasQueryParam } from '@/store/uriUtils'
 
 Vue.use(Vuex)
 axios.defaults.withCredentials = true
 Vue.use(VueAxios, axios)
-
-const API_ROOT = process.env.VUE_APP_ROOT_API
 
 export const state = {
   api: {}
@@ -16,13 +15,11 @@ export const state = {
 
 export const mutations = {
   addEmpty (state, { uri, loaded }) {
-    Vue.set(state.api, uri, { _loading: true, self: uri, loaded })
+    Vue.set(state.api, uri, { _meta: { loading: true, self: uri, loaded } })
   },
   add (state, data) {
-    Vue.set(state.api, data.self, { ...data, loaded: new Promise(resolve => resolve(state.api[data.self])) })
-  },
-  appendCollectionItem (state, { collectionUri, item }) {
-    state.api[collectionUri].items.push(item)
+    data._meta.loaded = new Promise(resolve => resolve(state.api[data._meta.self]))
+    Vue.set(state.api, data._meta.self, data)
   }
 }
 
@@ -31,64 +28,6 @@ export default new Vuex.Store({
   mutations,
   strict: process.env.NODE_ENV !== 'production'
 })
-
-function storeHalJsonData (vm, data) {
-  Object.keys(data).forEach(key => {
-    if (data[key].hasOwnProperty('_links')) {
-      // embedded single entity, replace by accessor function
-      data[key] = storeHalJsonData(vm, data[key])
-    } else if (Array.isArray(data[key])) {
-      // embedded collection (not paginated, full list), replace by accessor function for collection of accessor functions
-      let collection = Collection.fromArray(data[key].map(entry => storeHalJsonData(vm, entry)))
-      data[key] = () => collection
-    }
-  })
-  if (data.hasOwnProperty('_links')) {
-    Object.entries(data._links).forEach(([key, { href: uri }]) => {
-      if (key === 'self') {
-        // self link, keep as URI
-        data[key] = normalizedUri(uri)
-      } else {
-        // linked single entity or collection, replace by accessor function
-        data[key] = () => vm.api(uri)
-      }
-    })
-    delete data._links
-  }
-  if (data.hasOwnProperty('_embedded')) {
-    // page of a collection, replace by collection of accessor functions
-    data.items = data._embedded.items.map(item => storeHalJsonData(vm, item))
-    delete data._embedded
-    data = Collection.fromPage(data, item => vm.$store.commit('appendCollectionItem', { item, collectionUri: data.self }))
-  }
-  vm.$store.commit('add', data)
-  return () => vm.api(data.self)
-}
-
-export function sortQueryParams (uri) {
-  let queryStart = uri.indexOf('?')
-  if (queryStart === -1) return uri
-  let prefix = uri.substring(0, queryStart + 1)
-  let query = new URLSearchParams(uri.substring(queryStart + 1))
-  let sortedQuery = new URLSearchParams()
-  for (const key of [ ...new Set(query.keys()) ].sort()) {
-    for (const value of query.getAll(key)) {
-      sortedQuery.append(key, value)
-    }
-  }
-  return prefix + sortedQuery.toString()
-}
-
-function normalizedUri (uri) {
-  if (!uri) {
-    return '/'
-  }
-  uri = sortQueryParams(uri)
-  if (uri.startsWith(API_ROOT)) {
-    return uri.substr(API_ROOT.length)
-  }
-  return uri
-}
 
 export const api = function (uri) {
   uri = normalizedUri(uri)
@@ -106,8 +45,120 @@ export const api = function (uri) {
   return this.$store.state.api[uri]
 }
 
+function isList (data) {
+  return Array.isArray(data)
+}
+
+function hasLinks (data) {
+  return data.hasOwnProperty('_links')
+}
+
+function hasSelfLink (data) {
+  return hasLinks(data) && data._links.hasOwnProperty('self')
+}
+
+function hasIdProperty (data) {
+  return data.hasOwnProperty('id')
+}
+
+function hasEmbedded (data) {
+  return data.hasOwnProperty('_embedded')
+}
+
+/**
+ * Stores data into the Vuex store and returns a function that can be used to access the stored data.
+ * Works recursively on nested (embedded, linked or referenced) objects and arrays.
+ * @param {Vue} vm the global Vue instance
+ * @param {Object} data to be stored in the Vuex store
+ * @returns {Function|Number|String|Object|Array} accessor function that can be called to retrieve the data from the Vuex store, or literal value if no self link is found.
+ */
+function storeHalJsonData (vm, data) {
+  if (isList(data)) {
+    return storeEmbeddedList(vm, data)
+  }
+
+  if (!hasSelfLink(data)) {
+    return storePrimitive(vm, data)
+  }
+
+  if (hasIdProperty(data)) {
+    return storeObject(vm, data)
+  }
+
+  if (hasEmbedded(data)) {
+    return storeListPage(vm, data)
+  }
+
+  return storeReference(vm, data)
+}
+
+function storePrimitive (vm, data) {
+  return data
+}
+
+function storeObject (vm, data) {
+  Object.keys(data).forEach(key => {
+    data[key] = storeHalJsonData(vm, data[key])
+  })
+
+  copySelfLinkToMeta({ data })
+  Object.entries(data._links).forEach(([key, { href: uri }]) => {
+    data[key] = () => vm.api(uri)
+  })
+
+  Object.keys(data._embedded || {}).forEach(key => {
+    data[key] = storeHalJsonData(vm, data._embedded[key])
+  })
+
+  removeLinksAndEmbedded({ data })
+
+  return commitToStore(vm, data)
+}
+
+function storeEmbeddedList (vm, data) {
+  let collection = Collection.fromArray(data.map(entry => storeHalJsonData(vm, entry)))
+  return () => collection
+}
+
+function storeListPage (vm, data) {
+  if (hasQueryParam(data._links.self.href, PAGE_QUERY_PARAM)) {
+    storeObject(vm, [...data])
+  }
+  return storeObject(vm, getFullList(vm, data))
+}
+
+function storeReference (vm, data) {
+  return () => vm.api(data._links.self.href)
+}
+
+function copySelfLinkToMeta ({ data }) {
+  if (!data.hasOwnProperty('_meta')) {
+    data._meta = {}
+  }
+  data._meta.self = data._links.self.href
+}
+
+function removeLinksAndEmbedded ({ data }) {
+  delete data._links
+  delete data._embedded
+}
+
+function commitToStore (vm, data) {
+  vm.$store.commit('add', data)
+  return () => vm.api(data._meta.self)
+}
+
+function normalizedUri (uri) {
+  if (!uri) {
+    return '/'
+  }
+  uri = sortQueryParams(uri)
+  if (uri.startsWith(API_ROOT)) {
+    return uri.substr(API_ROOT.length)
+  }
+  return uri
+}
+
 Vue.mixin({
   methods: { api }
 })
-
-export { Collection }

@@ -1,37 +1,42 @@
 {
   "serverResponse": {
-    "periods": [
-      {
-        "start": "01-01-2019",
-        "end": "03-01-2019",
-        "_links": {
-          "self": {
-            "href": "/periods/104"
-          },
-          "camp": {
-            "href": "/camps/1"
-          },
-          "events": {
-            "href": "/periods/104/events"
+    "id": 1,
+    "_embedded": {
+      "periods": [
+        {
+          "id": 104,
+          "start": "01-01-2019",
+          "end": "03-01-2019",
+          "_links": {
+            "self": {
+              "href": "/periods/104"
+            },
+            "camp": {
+              "href": "/camps/1"
+            },
+            "events": {
+              "href": "/periods/104/events"
+            }
+          }
+        },
+        {
+          "id": 128,
+          "start": "12-04-2019",
+          "end": "19-04-2019",
+          "_links": {
+            "self": {
+              "href": "/periods/128"
+            },
+            "camp": {
+              "href": "/camps/1"
+            },
+            "events": {
+              "href": "/periods/128/events"
+            }
           }
         }
-      },
-      {
-        "start": "12-04-2019",
-        "end": "19-04-2019",
-        "_links": {
-          "self": {
-            "href": "/periods/128"
-          },
-          "camp": {
-            "href": "/camps/1"
-          },
-          "events": {
-            "href": "/periods/128/events"
-          }
-        }
-      }
-    ],
+      ]
+    },
     "_links": {
       "self": {
         "href": "/camps/1"
@@ -40,17 +45,26 @@
   },
   "storeState": {
     "/periods/104": {
+      "id": 104,
       "start": "01-01-2019",
       "end": "03-01-2019",
-      "self": "/periods/104"
+      "_meta": {
+        "self": "/periods/104"
+      }
     },
     "/periods/128": {
+      "id": 128,
       "start": "12-04-2019",
       "end": "19-04-2019",
-      "self": "/periods/128"
+      "_meta": {
+        "self": "/periods/128"
+      }
     },
     "/camps/1": {
-      "self": "/camps/1"
+      "id": 1,
+      "_meta": {
+        "self": "/camps/1"
+      }
     }
   }
 }
