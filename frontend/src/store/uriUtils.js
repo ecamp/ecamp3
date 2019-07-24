@@ -31,9 +31,12 @@ export function sortQueryParams (uri) {
 function modifyQueryParams (uri, modifierFunction) {
   let queryStart = uri.indexOf('?')
   if (queryStart === -1) return uri
-  let prefix = uri.substring(0, queryStart + 1)
+  let prefix = uri.substring(0, queryStart)
   let query = new URLSearchParams(uri.substring(queryStart + 1))
-  let sortedQuery = new URLSearchParams()
-  modifierFunction((key, value) => sortedQuery.append(key, value), query.keys(), query)
-  return prefix + sortedQuery.toString()
+  let modifiedQuery = new URLSearchParams()
+  modifierFunction((key, value) => modifiedQuery.append(key, value), query.keys(), query)
+  if ([...modifiedQuery.keys()].length) {
+    return prefix + '?' + modifiedQuery.toString()
+  }
+  return prefix
 }

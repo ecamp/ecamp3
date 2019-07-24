@@ -1,15 +1,17 @@
-import { removeQueryParam } from '@/store/uriUtils'
+import { hasQueryParam, removeQueryParam } from '@/store/uriUtils'
 
-export const PAGE_QUERY_PARAM = 'page'
+const PAGE_QUERY_PARAM = 'page'
 
-export function getFullList (vm, data) {
-  const uri = removeQueryParam(data._links.self.href, PAGE_QUERY_PARAM)
-  if (!vm.$store.state.api[uri]._meta.loading) {
-    return vm.api(uri)
+export function isSinglePage (data) {
+  return hasQueryParam(data._meta.self, PAGE_QUERY_PARAM)
+}
+
+export function getFullList (data, storeHas, api) {
+  const uri = removeQueryParam(data._meta.self, PAGE_QUERY_PARAM)
+  if (storeHas(uri)) {
+    return api(uri)
   }
-  let page = { ...data }
-  page._meta.self = uri
-  return Collection.fromPage(page, vm.api)
+  return Collection.fromPage(uri, data, api)
 }
 
 export default class Collection {
@@ -17,21 +19,20 @@ export default class Collection {
     return new ArrayCollection(array)
   }
 
-  static fromPage (page, api, onLoadedItem) {
-    return new PaginatedCollection(page, api, onLoadedItem)
+  static fromPage (uri, page, api, onLoadedItem) {
+    return new PaginatedCollection(uri, page, api, onLoadedItem)
   }
 
   constructor (items, loadingIterator, onLoadedItem) {
     this.items = items
-    this._loadingIterator = loadingIterator
-    this._onLoadedItem = onLoadedItem
+    this._meta = { loadingIterator, onLoadedItem }
   }
 
   async load (numElementsToLoad = 1) {
     for (let i = 0; i < numElementsToLoad; i++) {
-      let { done, value: item } = await this._loadingIterator.next()
+      let { done, value: item } = await this._meta.loadingIterator.next()
       if (done) break
-      this._onLoadedItem(item)
+      this._meta.onLoadedItem(item)
     }
   }
 }
@@ -43,28 +44,28 @@ class ArrayCollection extends Collection {
 }
 
 class PaginatedCollection extends Collection {
-  constructor (page, api, onLoadedItem) {
+  constructor (uri, page, api, onLoadedItem) {
     const items = []
-    super(items, paginatedIterator(page.items, page.next), onLoadedItem)
-    copyProperties(page, { target: this }, ['items', 'next', 'prev'])
-    this._meta.self = removeQueryParam(page._meta.self, PAGE_QUERY_PARAM)
+    super(items, paginatedIterator(page), onLoadedItem)
+    this.copyProperties(page, ['prev', 'next'])
+    this._meta.self = uri
   }
 
   async * [Symbol.asyncIterator] () {
-    return paginatedIterator(this._page.items, this._page.next)
+    return paginatedIterator(this.first())
+  }
+
+  copyProperties (source, excludeKeys = []) {
+    Object.keys(source).forEach(key => {
+      if (!this.hasOwnProperty(key) && !excludeKeys.includes(key)) {
+        this[key] = source[key]
+      }
+    })
   }
 }
 
-function copyProperties (source, { target }, excludeKeys = []) {
-  Object.keys(source).forEach(key => {
-    if (!excludeKeys.includes(key)) {
-      target[key] = source[key]
-    }
-  })
-}
-
 async function * paginatedIterator (page) {
-  for (const item of page.items) {
+  for (const item of page.items()) {
     yield item
   }
   if (page.next !== undefined) {

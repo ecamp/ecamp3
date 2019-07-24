@@ -2,8 +2,8 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
-import Collection, { getFullList, PAGE_QUERY_PARAM } from '@/store/collection'
-import { sortQueryParams, API_ROOT, hasQueryParam } from '@/store/uriUtils'
+import Collection, { getFullList, isSinglePage } from '@/store/collection'
+import { sortQueryParams, API_ROOT } from '@/store/uriUtils'
 
 Vue.use(Vuex)
 axios.defaults.withCredentials = true
@@ -74,30 +74,31 @@ function hasEmbedded (data) {
  */
 function storeHalJsonData (vm, data) {
   if (isList(data)) {
-    return storeEmbeddedList(vm, data)
+    let embeddedList = parseEmbeddedList(vm, data)
+    return () => embeddedList
   }
 
   if (!hasSelfLink(data)) {
-    return storePrimitive(vm, data)
+    return parsePrimitive(vm, data)
   }
 
   if (hasIdProperty(data)) {
-    return storeObject(vm, data)
+    return commitToStore(vm, parseObject(vm, data))
   }
 
   if (hasEmbedded(data)) {
-    return storeListPage(vm, data)
+    return commitToStore(vm, parseListPage(vm, data))
   }
 
-  return storeReference(vm, data)
+  return parseReference(vm, data)
 }
 
-function storePrimitive (vm, data) {
+function parsePrimitive (vm, data) {
   return data
 }
 
-function storeObject (vm, data) {
-  Object.keys(data).forEach(key => {
+function parseObject (vm, data) {
+  Object.keys(data).filter(key => key !== '_meta').forEach(key => {
     data[key] = storeHalJsonData(vm, data[key])
   })
 
@@ -112,22 +113,22 @@ function storeObject (vm, data) {
 
   removeLinksAndEmbedded({ data })
 
-  return commitToStore(vm, data)
+  return data
 }
 
-function storeEmbeddedList (vm, data) {
-  let collection = Collection.fromArray(data.map(entry => storeHalJsonData(vm, entry)))
-  return () => collection
+function parseEmbeddedList (vm, data) {
+  return Collection.fromArray(data.map(entry => storeHalJsonData(vm, entry)))
 }
 
-function storeListPage (vm, data) {
-  if (hasQueryParam(data._links.self.href, PAGE_QUERY_PARAM)) {
-    storeObject(vm, [...data])
+function parseListPage (vm, data) {
+  data = parseObject(vm, { ...data })
+  if (isSinglePage(data)) {
+    commitToStore(vm, data)
   }
-  return storeObject(vm, getFullList(vm, data))
+  return getFullList(data, uri => !vm.$store.state.api[uri]._meta.loading, uri => vm.api(uri))
 }
 
-function storeReference (vm, data) {
+function parseReference (vm, data) {
   return () => vm.api(data._links.self.href)
 }
 

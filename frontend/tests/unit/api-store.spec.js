@@ -1,6 +1,6 @@
 import { createLocalVue, mount } from '@vue/test-utils'
 import store, { api, state } from '@/store'
-import { sortQueryParams } from '@/store/uriUtils'
+import { removeQueryParam, sortQueryParams } from '@/store/uriUtils'
 import axios from 'axios'
 import MockAdapter from 'axios-mock-adapter'
 import VueAxios from 'vue-axios'
@@ -108,10 +108,7 @@ describe('API store', () => {
         '_total': 2
       },
       storeState: {
-        'items': [
-          null, // accessor functions will be replaced with null to compare them in Jest
-          null
-        ],
+        'items': [],
         '_meta': {
           'self': '/camps/1/events'
         }
@@ -137,14 +134,14 @@ describe('API store', () => {
 
   it('imports linked collection with multiple pages', async done => {
     // given
-    axiosMock.onGet('http://localhost/camps/1/events').reply(200, collectionPage0.serverResponse)
+    axiosMock.onGet('http://localhost/camps/1/events?page=0').reply(200, collectionPage0.serverResponse)
     axiosMock.onGet('http://localhost/camps/1/events?page=1').reply(200, collectionPage1.serverResponse)
 
     // when
-    vm.api('/camps/1/events')
+    vm.api('/camps/1/events?page=0')
 
     // then
-    expect(vm.$store.state.api).toMatchObject({ '/camps/1/events': { _meta: { loading: true, self: '/camps/1/events', loaded: {} } } })
+    expect(vm.$store.state.api).toMatchObject({ '/camps/1/events?page=0': { _meta: { loading: true, self: '/camps/1/events?page=0', loaded: {} } } })
     await vm.$store.state.api['/camps/1/events']._meta.loaded
     expect(vm.$store.state.api).toMatchObject(collectionPage0.storeState)
     vm.api('/camps/1/events').load(7)
@@ -162,17 +159,17 @@ describe('API store', () => {
     let examples = {
       '': '',
       '/': '/',
-      '/?': '/?',
-      '?': '?',
+      '/?': '/',
+      '?': '',
       'http://localhost': 'http://localhost',
       'http://localhost/': 'http://localhost/',
       'https://scout.ch:3000': 'https://scout.ch:3000',
       'https://scout.ch:3000/': 'https://scout.ch:3000/',
-      'http://localhost/?': 'http://localhost/?',
+      'http://localhost/?': 'http://localhost/',
       '/camps/1': '/camps/1',
       '/camps/': '/camps/',
       '/camps': '/camps',
-      '/camps/1?': '/camps/1?',
+      '/camps/1?': '/camps/1',
       '/camps/?page=0': '/camps/?page=0',
       '/camps/?page=0&abc=123': '/camps/?abc=123&page=0',
       '/camps?page=0&abc=123': '/camps?abc=123&page=0',
@@ -185,6 +182,40 @@ describe('API store', () => {
     for (const [ example, expected ] of Object.entries(examples)) {
       // when
       let result = sortQueryParams(example)
+
+      // then
+      expect(result).toEqual(expected)
+    }
+  })
+
+  it('removes query parameter', () => {
+    // given
+    let examples = {
+      '': '',
+      '/': '/',
+      '/?': '/',
+      '?': '',
+      'http://localhost': 'http://localhost',
+      'http://localhost/': 'http://localhost/',
+      'https://scout.ch:3000': 'https://scout.ch:3000',
+      'https://scout.ch:3000/': 'https://scout.ch:3000/',
+      'http://localhost/?': 'http://localhost/',
+      '/camps/1': '/camps/1',
+      '/camps/': '/camps/',
+      '/camps': '/camps',
+      '/camps/1?': '/camps/1',
+      '/camps/?page=0': '/camps/',
+      '/camps/?page=0&abc=123': '/camps/?abc=123',
+      '/camps?page=0&abc=123': '/camps?abc=123',
+      '/camps?page=0&abc=123&page=1': '/camps?abc=123',
+      '/camps?page=1&abc=123&page=0': '/camps?abc=123',
+      '/camps?page=0&xyz=123&page=1': '/camps?xyz=123',
+      '/camps/?e[]=abc&a[]=123&PaGe=444&a=test': '/camps/?e%5B%5D=abc&a%5B%5D=123&PaGe=444&a=test'
+    }
+
+    for (const [ example, expected ] of Object.entries(examples)) {
+      // when
+      let result = removeQueryParam(example, 'page')
 
       // then
       expect(result).toEqual(expected)

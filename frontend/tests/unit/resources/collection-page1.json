@@ -8,17 +8,19 @@
         "href": "/camps/1/events?page=1"
       },
       "first": {
-        "href": "/camps/1/events"
+        "href": "/camps/1/events?page=0"
       },
       "prev": {
-        "href": "/camps/1/events"
+        "href": "/camps/1/events?page=0"
       }
     },
     "_embedded": {
       "items": [
         {
+          "id": 2402,
           "title": "TABS",
           "type": {
+            "id": 8879,
             "name": "LP",
             "color": "#aaaa00",
             "_links": {
@@ -38,18 +40,26 @@
   },
   "storeState": {
     "/camps/1/events": {
-      "self": "/camps/1/events",
+      "_meta": {
+        "self": "/camps/1/events?page=1"
+      },
       "_page": 1,
       "_per_page": 2,
       "_total": 3
     },
     "/eventTypes/8879": {
+      "id": 8879,
       "color": "#aaaa00",
       "name": "LP",
-      "self": "/eventTypes/8879"
+      "_meta": {
+        "self": "/eventTypes/8879"
+      }
     },
     "/events/2402": {
-      "self": "/events/2402",
+      "id": 2402,
+      "_meta": {
+        "self": "/events/2402"
+      },
       "title": "TABS"
     }
   }
