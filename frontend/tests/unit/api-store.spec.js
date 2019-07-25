@@ -6,11 +6,11 @@ import MockAdapter from 'axios-mock-adapter'
 import VueAxios from 'vue-axios'
 import Vuex from 'vuex'
 import embeddedSingleEntity from './resources/embedded-single-entity'
+import referenceToSingleEntity from './resources/reference-to-single-entity'
 import embeddedCollection from './resources/embedded-collection'
 import linkedSingleEntity from './resources/linked-single-entity'
 import linkedCollection from './resources/linked-collection'
 import collectionFirstPage from './resources/collection-firstPage'
-import collectionPage0 from './resources/collection-page0'
 import collectionPage1 from './resources/collection-page1'
 
 describe('API store', () => {
@@ -44,6 +44,21 @@ describe('API store', () => {
     expect(vm.api('/camps/1')).toMatchObject(embeddedSingleEntity.storeState['/camps/1'])
     expect(vm.api('/camps/1').campType()).toMatchObject(embeddedSingleEntity.storeState['/campTypes/20'])
     expect(vm.api('/campTypes/20')).toMatchObject(embeddedSingleEntity.storeState['/campTypes/20'])
+    done()
+  })
+
+  it('imports reference to single entity', async done => {
+    // given
+    axiosMock.onGet('http://localhost/camps/1').reply(200, referenceToSingleEntity.serverResponse)
+
+    // when
+    vm.api('/camps/1')
+
+    // then
+    expect(vm.$store.state.api).toMatchObject({ '/camps/1': { _meta: { loading: true, self: '/camps/1', loaded: {} } } })
+    await vm.$store.state.api['/camps/1']._meta.loaded
+    expect(vm.$store.state.api).toMatchObject(referenceToSingleEntity.storeState)
+    expect(vm.api('/camps/1')).toMatchObject(referenceToSingleEntity.storeState['/camps/1'])
     done()
   })
 
@@ -134,7 +149,6 @@ describe('API store', () => {
   it('imports linked collection with multiple pages', async done => {
     // given
     axiosMock.onGet('http://localhost/camps/1/events').reply(200, collectionFirstPage.serverResponse)
-    // axiosMock.onGet('http://localhost/camps/1/events?page=0').reply(200, collectionPage0.serverResponse)
     axiosMock.onGet('http://localhost/camps/1/events?page=1').reply(200, collectionPage1.serverResponse)
 
     // when
@@ -146,8 +160,8 @@ describe('API store', () => {
     expect(vm.$store.state.api).toMatchObject(collectionFirstPage.storeState)
     await vm.api('/camps/1/events').load()
     expect(JSON.parse(JSON.stringify(vm.api('/camps/1/events').items.length))).toEqual(3)
-    expect(JSON.parse(JSON.stringify(vm.api('/camps/1/events').items[0]))).toMatchObject(collectionPage0.storeState['/events/2394'])
-    expect(JSON.parse(JSON.stringify(vm.api('/camps/1/events').items[1]))).toMatchObject(collectionPage0.storeState['/events/2362'])
+    expect(JSON.parse(JSON.stringify(vm.api('/camps/1/events').items[0]))).toMatchObject(collectionFirstPage.storeState['/events/2394'])
+    expect(JSON.parse(JSON.stringify(vm.api('/camps/1/events').items[1]))).toMatchObject(collectionFirstPage.storeState['/events/2362'])
     expect(JSON.parse(JSON.stringify(vm.api('/camps/1/events').items[2]))).toMatchObject(collectionPage1.storeState['/events/2402'])
     done()
   })
