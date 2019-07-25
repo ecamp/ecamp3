@@ -17,14 +17,17 @@ export const state = {
 
 export const mutations = {
   addEmpty (state, { uri, loaded }) {
-    Vue.set(state.api, uri, { _meta: { loading: true, self: uri, loaded } })
+    const normalizedUri = normalizeUri(uri)
+    Vue.set(state.api, normalizeUri(uri), { _meta: { loading: true, self: normalizedUri, loaded } })
   },
   add (state, data) {
-    data._meta.loaded = new Promise(resolve => resolve(state.api[data._meta.self]))
-    Vue.set(state.api, data._meta.self, data)
+    const normalizedUri = normalizeUri(data._meta.self)
+    data._meta.loaded = new Promise(resolve => resolve(state.api[normalizedUri]))
+    Vue.set(state.api, normalizedUri, data)
   },
   addCollectionItem (state, { collectionUri, item }) {
-    state.api[collectionUri].items.push(item)
+    const normalizedUri = normalizeUri(collectionUri)
+    state.api[normalizedUri].items.push(item)
   }
 }
 
@@ -35,7 +38,7 @@ export default new Vuex.Store({
 })
 
 export const api = function (uri) {
-  uri = normalizedUri(uri)
+  uri = normalizeUri(uri)
   if (!(uri in this.$store.state.api)) {
     this.$store.commit('addEmpty', {
       uri,
@@ -124,10 +127,11 @@ function parseObject (vm, data) {
   })
 
   copySelfLinkToMeta(data)
-  Object.entries(data._links).forEach(([key, { href: linkedUri }]) => {
+  Object.entries(data._links).forEach(([key, { href: uri }]) => {
     if (data.hasOwnProperty(key)) {
       console.warn('Overwriting existing property \'' + key + '\' with property from _links.')
     }
+    let linkedUri = normalizeUri(uri)
     data[key] = () => vm.api(linkedUri)
   })
 
@@ -169,7 +173,7 @@ function autoPaginatingCollection (vm, data) {
 }
 
 function parseReference (vm, data) {
-  const referenceUri = data._links.self.href
+  const referenceUri = normalizeUri(data._links.self.href)
   return () => vm.api(referenceUri)
 }
 
@@ -187,11 +191,11 @@ function removeLinksAndEmbedded (data) {
 
 function commitToStore (vm, data) {
   vm.$store.commit('add', data)
-  const uri = data._meta.self
+  const uri = normalizeUri(data._meta.self)
   return () => vm.api(uri)
 }
 
-function normalizedUri (uri) {
+function normalizeUri (uri) {
   if (!uri) {
     return '/'
   }
