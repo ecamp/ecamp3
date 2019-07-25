@@ -1,4 +1,4 @@
-import { hasQueryParam, removeQueryParam } from '@/store/uriUtils'
+import { hasQueryParam } from '@/store/uriUtils'
 
 const PAGE_QUERY_PARAM = 'page'
 
@@ -6,21 +6,13 @@ export function isSinglePage (data) {
   return hasQueryParam(data._meta.self, PAGE_QUERY_PARAM)
 }
 
-export function getFullList (data, storeHas, api) {
-  const uri = removeQueryParam(data._meta.self, PAGE_QUERY_PARAM)
-  if (storeHas(uri)) {
-    return api(uri)
-  }
-  return Collection.fromPage(uri, data, api)
-}
-
 export default class Collection {
   static fromArray (array) {
     return new ArrayCollection(array)
   }
 
-  static fromPage (uri, page, api, onLoadedItem) {
-    return new PaginatedCollection(uri, page, api, onLoadedItem)
+  static fromPage (page, api, onLoadedItem) {
+    return new PaginatedCollection(page, api, onLoadedItem)
   }
 
   constructor (items, loadingIterator, onLoadedItem) {
@@ -44,15 +36,15 @@ class ArrayCollection extends Collection {
 }
 
 class PaginatedCollection extends Collection {
-  constructor (uri, page, api, onLoadedItem) {
+  constructor (page, api, onLoadedItem) {
     const items = []
-    super(items, paginatedIterator(page), onLoadedItem)
-    this.copyProperties(page, ['prev', 'next'])
-    this._meta.self = uri
+    super(items, paginatedIterator(page), item => onLoadedItem(page._meta.self, item))
+    this.copyProperties(page, ['prev', 'next', '_page'])
+    this._meta = { ...page._meta, ...this._meta }
   }
 
   async * [Symbol.asyncIterator] () {
-    return paginatedIterator(this.first())
+    return paginatedIterator(await this.first().loaded)
   }
 
   copyProperties (source, excludeKeys = []) {
@@ -65,11 +57,12 @@ class PaginatedCollection extends Collection {
 }
 
 async function * paginatedIterator (page) {
-  for (const item of page.items()) {
-    yield item
+  for (const item of page.items) {
+    yield item()
   }
   if (page.next !== undefined) {
-    let remainingPages = await page.next().loaded
-    yield * paginatedIterator(remainingPages)
+    const next = page.next()
+    const nextPage = await next._meta.loaded
+    yield * paginatedIterator(nextPage)
   }
 }

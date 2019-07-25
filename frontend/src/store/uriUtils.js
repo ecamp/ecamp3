@@ -8,16 +8,6 @@ export function hasQueryParam (uri, paramName) {
   return [...query.keys()].includes(paramName)
 }
 
-export function removeQueryParam (uri, paramName) {
-  return modifyQueryParams(uri, (set, keys, query) => {
-    for (const key of keys) {
-      if (key !== paramName) {
-        set(key, query.get(key))
-      }
-    }
-  })
-}
-
 export function sortQueryParams (uri) {
   return modifyQueryParams(uri, (set, keys, params) => {
     for (const key of [ ...new Set(keys) ].sort()) {

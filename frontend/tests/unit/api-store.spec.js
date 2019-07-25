@@ -1,6 +1,6 @@
 import { createLocalVue, mount } from '@vue/test-utils'
 import store, { api, state } from '@/store'
-import { removeQueryParam, sortQueryParams } from '@/store/uriUtils'
+import { sortQueryParams } from '@/store/uriUtils'
 import axios from 'axios'
 import MockAdapter from 'axios-mock-adapter'
 import VueAxios from 'vue-axios'
@@ -9,6 +9,7 @@ import embeddedSingleEntity from './resources/embedded-single-entity'
 import embeddedCollection from './resources/embedded-collection'
 import linkedSingleEntity from './resources/linked-single-entity'
 import linkedCollection from './resources/linked-collection'
+import collectionFirstPage from './resources/collection-firstPage'
 import collectionPage0 from './resources/collection-page0'
 import collectionPage1 from './resources/collection-page1'
 
@@ -125,28 +126,28 @@ describe('API store', () => {
     expect(vm.$store.state.api).toMatchObject(linkedCollection.storeState)
     expect(vm.api('/camps/1').events()).toMatchObject({ _meta: { loading: true, self: '/camps/1/events', loaded: {} } })
     await vm.$store.state.api['/camps/1/events']._meta.loaded
-    setTimeout(() => {
-      expect(JSON.parse(JSON.stringify(vm.api('/camps/1').events()))).toMatchObject(events.storeState)
-      expect(JSON.parse(JSON.stringify(vm.api('/camps/1/events')))).toMatchObject(events.storeState)
-      done()
-    })
+    expect(JSON.parse(JSON.stringify(vm.api('/camps/1').events()))).toMatchObject(events.storeState)
+    expect(JSON.parse(JSON.stringify(vm.api('/camps/1/events')))).toMatchObject(events.storeState)
+    done()
   })
 
   it('imports linked collection with multiple pages', async done => {
     // given
-    axiosMock.onGet('http://localhost/camps/1/events?page=0').reply(200, collectionPage0.serverResponse)
+    axiosMock.onGet('http://localhost/camps/1/events').reply(200, collectionFirstPage.serverResponse)
+    // axiosMock.onGet('http://localhost/camps/1/events?page=0').reply(200, collectionPage0.serverResponse)
     axiosMock.onGet('http://localhost/camps/1/events?page=1').reply(200, collectionPage1.serverResponse)
 
     // when
-    vm.api('/camps/1/events?page=0')
+    vm.api('/camps/1/events')
 
     // then
-    expect(vm.$store.state.api).toMatchObject({ '/camps/1/events?page=0': { _meta: { loading: true, self: '/camps/1/events?page=0', loaded: {} } } })
+    expect(vm.$store.state.api).toMatchObject({ '/camps/1/events': { _meta: { loading: true, self: '/camps/1/events', loaded: {} } } })
     await vm.$store.state.api['/camps/1/events']._meta.loaded
-    expect(vm.$store.state.api).toMatchObject(collectionPage0.storeState)
+    expect(vm.$store.state.api).toMatchObject(collectionFirstPage.storeState)
     vm.api('/camps/1/events').load(7)
     setTimeout(() => {
       expect(JSON.parse(JSON.stringify(vm.api('/camps/1/events').items.length))).toEqual(3)
+      console.log(JSON.stringify(vm.api('/camps/1/events').items[0]))
       expect(JSON.parse(JSON.stringify(vm.api('/camps/1/events').items[0]))).toMatchObject(collectionPage0.storeState['/events/2394'])
       expect(JSON.parse(JSON.stringify(vm.api('/camps/1/events').items[1]))).toMatchObject(collectionPage0.storeState['/events/2362'])
       expect(JSON.parse(JSON.stringify(vm.api('/camps/1/events').items[2]))).toMatchObject(collectionPage1.storeState['/events/2402'])
@@ -182,40 +183,6 @@ describe('API store', () => {
     for (const [ example, expected ] of Object.entries(examples)) {
       // when
       let result = sortQueryParams(example)
-
-      // then
-      expect(result).toEqual(expected)
-    }
-  })
-
-  it('removes query parameter', () => {
-    // given
-    let examples = {
-      '': '',
-      '/': '/',
-      '/?': '/',
-      '?': '',
-      'http://localhost': 'http://localhost',
-      'http://localhost/': 'http://localhost/',
-      'https://scout.ch:3000': 'https://scout.ch:3000',
-      'https://scout.ch:3000/': 'https://scout.ch:3000/',
-      'http://localhost/?': 'http://localhost/',
-      '/camps/1': '/camps/1',
-      '/camps/': '/camps/',
-      '/camps': '/camps',
-      '/camps/1?': '/camps/1',
-      '/camps/?page=0': '/camps/',
-      '/camps/?page=0&abc=123': '/camps/?abc=123',
-      '/camps?page=0&abc=123': '/camps?abc=123',
-      '/camps?page=0&abc=123&page=1': '/camps?abc=123',
-      '/camps?page=1&abc=123&page=0': '/camps?abc=123',
-      '/camps?page=0&xyz=123&page=1': '/camps?xyz=123',
-      '/camps/?e[]=abc&a[]=123&PaGe=444&a=test': '/camps/?e%5B%5D=abc&a%5B%5D=123&PaGe=444&a=test'
-    }
-
-    for (const [ example, expected ] of Object.entries(examples)) {
-      // when
-      let result = removeQueryParam(example, 'page')
 
       // then
       expect(result).toEqual(expected)

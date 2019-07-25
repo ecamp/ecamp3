@@ -5,7 +5,7 @@
     "_total": 3,
     "_links": {
       "self": {
-        "href": "/camps/1/events?page=0"
+        "href": "/camps/1/events"
       },
       "first": {
         "href": "/camps/1/events?page=0"
@@ -58,11 +58,10 @@
     }
   },
   "storeState": {
-    "/camps/1/events?page=0": {
+    "/camps/1/events": {
       "_meta": {
-        "self": "/camps/1/events?page=0"
+        "self": "/camps/1/events"
       },
-      "_page": 0,
       "_per_page": 2,
       "_total": 3
     },

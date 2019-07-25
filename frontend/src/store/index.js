@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
-import Collection, { getFullList, isSinglePage } from '@/store/collection'
+import Collection, { isSinglePage } from '@/store/collection'
 import { sortQueryParams, API_ROOT } from '@/store/uriUtils'
 
 Vue.use(Vuex)
@@ -20,6 +20,9 @@ export const mutations = {
   add (state, data) {
     data._meta.loaded = new Promise(resolve => resolve(state.api[data._meta.self]))
     Vue.set(state.api, data._meta.self, data)
+  },
+  addCollectionItem (state, { collectionUri, item }) {
+    state.api[collectionUri].items.push(item)
   }
 }
 
@@ -65,6 +68,18 @@ function hasEmbedded (data) {
   return data.hasOwnProperty('_embedded')
 }
 
+function isReference (data) {
+  return !hasIdProperty(data) && !hasEmbedded(data)
+}
+
+function hasEmbeddedItems (data) {
+  return data.hasOwnProperty('items') && isList(data.items)
+}
+
+function isCollection (data) {
+  return hasEmbeddedItems(data) && !isSinglePage(data)
+}
+
 /**
  * Stores data into the Vuex store and returns a function that can be used to access the stored data.
  * Works recursively on nested (embedded, linked or referenced) objects and arrays.
@@ -82,15 +97,19 @@ function storeHalJsonData (vm, data) {
     return parsePrimitive(vm, data)
   }
 
-  if (hasIdProperty(data)) {
-    return commitToStore(vm, parseObject(vm, data))
+  if (isReference(data)) {
+    return parseReference(vm, data)
   }
 
-  if (hasEmbedded(data)) {
-    return commitToStore(vm, parseListPage(vm, data))
+  const originalData = { ...data }
+  parseObject(vm, data)
+
+  if (isCollection(data)) {
+    commitToStore(vm, asFirstPage(vm, originalData))
+    return commitToStore(vm, createCollection(vm, data))
   }
 
-  return parseReference(vm, data)
+  return commitToStore(vm, data)
 }
 
 function parsePrimitive (vm, data) {
@@ -108,7 +127,11 @@ function parseObject (vm, data) {
   })
 
   Object.keys(data._embedded || {}).forEach(key => {
-    data[key] = storeHalJsonData(vm, data._embedded[key])
+    if (key === 'items') {
+      data[key] = data._embedded[key].map(entry => storeHalJsonData(vm, entry))
+    } else {
+      data[key] = storeHalJsonData(vm, data._embedded[key])
+    }
   })
 
   removeLinksAndEmbedded({ data })
@@ -120,12 +143,15 @@ function parseEmbeddedList (vm, data) {
   return Collection.fromArray(data.map(entry => storeHalJsonData(vm, entry)))
 }
 
-function parseListPage (vm, data) {
-  data = parseObject(vm, { ...data })
-  if (isSinglePage(data)) {
-    commitToStore(vm, data)
-  }
-  return getFullList(data, uri => !vm.$store.state.api[uri]._meta.loading, uri => vm.api(uri))
+function asFirstPage (vm, data) {
+  const page = { ...data }
+  page._links.self = page._links.first
+  return parseObject(vm, page)
+}
+
+function createCollection (vm, parsedData) {
+  return Collection.fromPage(parsedData, uri => vm.api(uri),
+    (uri, item) => vm.$store.commit('addCollectionItem', { collectionUri: uri, item }))
 }
 
 function parseReference (vm, data) {
