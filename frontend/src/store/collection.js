@@ -1,18 +1,10 @@
-import { hasQueryParam } from '@/store/uriUtils'
-
-const PAGE_QUERY_PARAM = 'page'
-
-export function isSinglePage (data) {
-  return hasQueryParam(data._meta.self, PAGE_QUERY_PARAM)
-}
-
 export default class Collection {
   static fromArray (array) {
     return new ArrayCollection(array)
   }
 
-  static fromPage (page, api, onLoadedItem) {
-    return new PaginatedCollection(page, api, onLoadedItem)
+  static fromPage (page, onLoadedItem) {
+    return new PaginatedCollection(page, onLoadedItem)
   }
 
   constructor (items, loadingIterator, onLoadedItem) {
@@ -41,17 +33,13 @@ class ArrayCollection extends Collection {
 }
 
 class PaginatedCollection extends Collection {
-  constructor (page, api, onLoadedItem) {
+  constructor (page, onLoadedItem) {
     const items = []
-    super(items, paginatedIterator(page), item => onLoadedItem(page._meta.self, item))
+    super(items, paginatedIterator(page), onLoadedItem)
     this.copyProperties(page, ['prev', 'next', '_page'])
     this._meta = { ...page._meta, ...this._meta }
     // asynchronously load all items by default
     this.load()
-  }
-
-  async * [Symbol.asyncIterator] () {
-    return paginatedIterator(await this.first().loaded)
   }
 
   copyProperties (source, excludeKeys = []) {

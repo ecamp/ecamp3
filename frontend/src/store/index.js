@@ -2,12 +2,14 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
-import Collection, { isSinglePage } from '@/store/collection'
-import { sortQueryParams, API_ROOT } from '@/store/uriUtils'
+import Collection from '@/store/collection'
+import { hasQueryParam, sortQueryParams } from '@/store/uriUtils'
 
 Vue.use(Vuex)
 axios.defaults.withCredentials = true
 Vue.use(VueAxios, axios)
+
+const API_ROOT = process.env.VUE_APP_ROOT_API
 
 export const state = {
   api: {}
@@ -39,17 +41,13 @@ export const api = function (uri) {
       uri,
       loaded: new Promise((resolve) => {
         this.axios.get(API_ROOT + uri).then(({ data }) => {
-          let referenceToStoredData = storeHalJsonData(this, data)
+          let referenceToStoredData = parseAndStoreHalJsonData(this, data)
           resolve(referenceToStoredData())
         })
       })
     })
   }
   return this.$store.state.api[uri]
-}
-
-function isList (data) {
-  return Array.isArray(data)
 }
 
 function hasLinks (data) {
@@ -68,12 +66,24 @@ function hasEmbedded (data) {
   return data.hasOwnProperty('_embedded')
 }
 
-function isReference (data) {
-  return !hasIdProperty(data) && !hasEmbedded(data)
+function hasEmbeddedItems (data) {
+  return hasEmbedded(data) && data._embedded.hasOwnProperty('items') && isList(data._embedded.items)
 }
 
-function hasEmbeddedItems (data) {
-  return data.hasOwnProperty('items') && isList(data.items)
+export function isSinglePage (data) {
+  return hasSelfLink(data) && hasQueryParam(data._links.self.href, 'page')
+}
+
+function isList (data) {
+  return Array.isArray(data)
+}
+
+function isPrimitive (data) {
+  return !hasSelfLink(data)
+}
+
+function isReference (data) {
+  return !hasIdProperty(data) && !hasEmbedded(data)
 }
 
 function isCollection (data) {
@@ -87,41 +97,33 @@ function isCollection (data) {
  * @param {Object} data to be stored in the Vuex store
  * @returns {Function|Number|String|Object|Array} accessor function that can be called to retrieve the data from the Vuex store, or literal value if no self link is found.
  */
-function storeHalJsonData (vm, data) {
+function parseAndStoreHalJsonData (vm, data) {
   if (isList(data)) {
-    let embeddedList = parseEmbeddedList(vm, data)
-    return () => embeddedList
+    return parseEmbeddedCollection(vm, data)
   }
 
-  if (!hasSelfLink(data)) {
-    return parsePrimitive(vm, data)
+  if (isPrimitive(data)) {
+    return data
   }
 
   if (isReference(data)) {
     return parseReference(vm, data)
   }
 
-  const originalData = { ...data }
-  parseObject(vm, data)
-
   if (isCollection(data)) {
-    commitToStore(vm, asFirstPage(vm, originalData))
-    return commitToStore(vm, createCollection(vm, data))
+    commitToStore(vm, asFirstPage(vm, data))
+    return commitToStore(vm, autoPaginatingCollection(vm, data))
   }
 
-  return commitToStore(vm, data)
-}
-
-function parsePrimitive (vm, data) {
-  return data
+  return commitToStore(vm, parseObject(vm, data))
 }
 
 function parseObject (vm, data) {
   Object.keys(data).filter(key => key !== '_meta').forEach(key => {
-    data[key] = storeHalJsonData(vm, data[key])
+    data[key] = parseAndStoreHalJsonData(vm, data[key])
   })
 
-  copySelfLinkToMeta({ data })
+  copySelfLinkToMeta(data)
   Object.entries(data._links).forEach(([key, { href: linkedUri }]) => {
     if (data.hasOwnProperty(key)) {
       console.warn('Overwriting existing property \'' + key + '\' with property from _links.')
@@ -134,30 +136,36 @@ function parseObject (vm, data) {
       console.warn('Overwriting existing property \'' + key + '\' with property from _embedded.')
     }
     if (key === 'items') {
-      data[key] = data._embedded[key].map(entry => storeHalJsonData(vm, entry))
+      data[key] = data._embedded[key].map(entry => parseAndStoreHalJsonData(vm, entry))
     } else {
-      data[key] = storeHalJsonData(vm, data._embedded[key])
+      data[key] = parseAndStoreHalJsonData(vm, data._embedded[key])
     }
   })
 
-  removeLinksAndEmbedded({ data })
+  removeLinksAndEmbedded(data)
 
   return data
 }
 
-function parseEmbeddedList (vm, data) {
-  return Collection.fromArray(data.map(entry => storeHalJsonData(vm, entry)))
+function parseEmbeddedCollection (vm, data) {
+  const embeddedList = Collection.fromArray(data.map(entry => parseAndStoreHalJsonData(vm, entry)))
+  return () => embeddedList
+}
+
+function deepCloneJsonData (data) {
+  return JSON.parse(JSON.stringify(data))
 }
 
 function asFirstPage (vm, data) {
-  const page = { ...data }
+  const page = deepCloneJsonData(data)
   page._links.self = page._links.first
   return parseObject(vm, page)
 }
 
-function createCollection (vm, parsedData) {
-  return Collection.fromPage(parsedData, uri => vm.api(uri),
-    (uri, item) => vm.$store.commit('addCollectionItem', { collectionUri: uri, item }))
+function autoPaginatingCollection (vm, data) {
+  const parsedData = parseObject(vm, data)
+  return Collection.fromPage(parsedData,
+    item => vm.$store.commit('addCollectionItem', { collectionUri: parsedData._meta.self, item }))
 }
 
 function parseReference (vm, data) {
@@ -165,14 +173,14 @@ function parseReference (vm, data) {
   return () => vm.api(referenceUri)
 }
 
-function copySelfLinkToMeta ({ data }) {
+function copySelfLinkToMeta (data) {
   if (!data.hasOwnProperty('_meta')) {
     data._meta = {}
   }
   data._meta.self = data._links.self.href
 }
 
-function removeLinksAndEmbedded ({ data }) {
+function removeLinksAndEmbedded (data) {
   delete data._links
   delete data._embedded
 }
