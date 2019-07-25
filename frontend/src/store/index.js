@@ -122,11 +122,11 @@ function parseObject (vm, data) {
   })
 
   copySelfLinkToMeta({ data })
-  Object.entries(data._links).forEach(([key, { href: uri }]) => {
+  Object.entries(data._links).forEach(([key, { href: linkedUri }]) => {
     if (data.hasOwnProperty(key)) {
       console.warn('Overwriting existing property \'' + key + '\' with property from _links.')
     }
-    data[key] = () => vm.api(uri)
+    data[key] = () => vm.api(linkedUri)
   })
 
   Object.keys(data._embedded || {}).forEach(key => {
@@ -161,7 +161,8 @@ function createCollection (vm, parsedData) {
 }
 
 function parseReference (vm, data) {
-  return () => vm.api(data._links.self.href)
+  const referenceUri = data._links.self.href
+  return () => vm.api(referenceUri)
 }
 
 function copySelfLinkToMeta ({ data }) {
@@ -178,7 +179,8 @@ function removeLinksAndEmbedded ({ data }) {
 
 function commitToStore (vm, data) {
   vm.$store.commit('add', data)
-  return () => vm.api(data._meta.self)
+  const uri = data._meta.self
+  return () => vm.api(uri)
 }
 
 function normalizedUri (uri) {
