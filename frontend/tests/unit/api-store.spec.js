@@ -144,15 +144,13 @@ describe('API store', () => {
     expect(vm.$store.state.api).toMatchObject({ '/camps/1/events': { _meta: { loading: true, self: '/camps/1/events', loaded: {} } } })
     await vm.$store.state.api['/camps/1/events']._meta.loaded
     expect(vm.$store.state.api).toMatchObject(collectionFirstPage.storeState)
-    vm.api('/camps/1/events').load(7)
-    setTimeout(() => {
-      expect(JSON.parse(JSON.stringify(vm.api('/camps/1/events').items.length))).toEqual(3)
-      console.log(JSON.stringify(vm.api('/camps/1/events').items[0]))
-      expect(JSON.parse(JSON.stringify(vm.api('/camps/1/events').items[0]))).toMatchObject(collectionPage0.storeState['/events/2394'])
-      expect(JSON.parse(JSON.stringify(vm.api('/camps/1/events').items[1]))).toMatchObject(collectionPage0.storeState['/events/2362'])
-      expect(JSON.parse(JSON.stringify(vm.api('/camps/1/events').items[2]))).toMatchObject(collectionPage1.storeState['/events/2402'])
-      done()
-    })
+    await vm.api('/camps/1/events').load()
+    expect(JSON.parse(JSON.stringify(vm.api('/camps/1/events').items.length))).toEqual(3)
+    console.log(JSON.stringify(vm.api('/camps/1/events').items[0]))
+    expect(JSON.parse(JSON.stringify(vm.api('/camps/1/events').items[0]))).toMatchObject(collectionPage0.storeState['/events/2394'])
+    expect(JSON.parse(JSON.stringify(vm.api('/camps/1/events').items[1]))).toMatchObject(collectionPage0.storeState['/events/2362'])
+    expect(JSON.parse(JSON.stringify(vm.api('/camps/1/events').items[2]))).toMatchObject(collectionPage1.storeState['/events/2402'])
+    done()
   })
 
   it('sorts query parameters', () => {

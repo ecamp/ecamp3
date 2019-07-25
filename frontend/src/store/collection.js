@@ -20,12 +20,17 @@ export default class Collection {
     this._meta = { loadingIterator, onLoadedItem }
   }
 
-  async load (numElementsToLoad = 1) {
-    for (let i = 0; i < numElementsToLoad; i++) {
-      let { done, value: item } = await this._meta.loadingIterator.next()
-      if (done) break
-      this._meta.onLoadedItem(item)
-    }
+  load (numElementsToLoad = 0) {
+    return new Promise(async resolve => {
+      const loadAll = numElementsToLoad === 0
+      // eslint-disable-next-line no-unmodified-loop-condition
+      for (let i = 0; i < numElementsToLoad || loadAll; i++) {
+        let { done, value: item } = await this._meta.loadingIterator.next()
+        if (done) break
+        this._meta.onLoadedItem(item)
+      }
+      resolve(this)
+    })
   }
 }
 
@@ -41,6 +46,8 @@ class PaginatedCollection extends Collection {
     super(items, paginatedIterator(page), item => onLoadedItem(page._meta.self, item))
     this.copyProperties(page, ['prev', 'next', '_page'])
     this._meta = { ...page._meta, ...this._meta }
+    // asynchronously load all items by default
+    this.load()
   }
 
   async * [Symbol.asyncIterator] () {
