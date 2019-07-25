@@ -123,10 +123,16 @@ function parseObject (vm, data) {
 
   copySelfLinkToMeta({ data })
   Object.entries(data._links).forEach(([key, { href: uri }]) => {
+    if (data.hasOwnProperty(key)) {
+      console.warn('Overwriting existing property \'' + key + '\' with property from _links.')
+    }
     data[key] = () => vm.api(uri)
   })
 
   Object.keys(data._embedded || {}).forEach(key => {
+    if (data.hasOwnProperty(key)) {
+      console.warn('Overwriting existing property \'' + key + '\' with property from _embedded.')
+    }
     if (key === 'items') {
       data[key] = data._embedded[key].map(entry => storeHalJsonData(vm, entry))
     } else {
