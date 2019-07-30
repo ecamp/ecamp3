@@ -181,7 +181,7 @@ function copySelfLinkToMeta (data) {
   if (!data.hasOwnProperty('_meta')) {
     data._meta = {}
   }
-  data._meta.self = data._links.self.href
+  data._meta.self = normalizeUri(data._links.self.href)
 }
 
 function removeLinksAndEmbedded (data) {
