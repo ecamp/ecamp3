@@ -44,6 +44,9 @@ export const api = function (uri) {
       uri,
       loaded: new Promise((resolve) => {
         this.axios.get(API_ROOT + uri).then(({ data }) => {
+          // Workaround because API adds page parameter even to first page when it was not requested that way
+          // TODO fix backend API and remove the next line
+          data._links.self.href = uri
           let referenceToStoredData = parseAndStoreHalJsonData(this, data)
           resolve(referenceToStoredData())
         })
