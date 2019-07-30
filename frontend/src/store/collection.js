@@ -53,7 +53,7 @@ class PaginatedCollection extends Collection {
 
 async function * paginatedIterator (page) {
   for (const item of page.items) {
-    yield item()
+    yield item
   }
   if (page.next !== undefined) {
     const next = page.next()
