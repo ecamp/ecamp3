@@ -7,7 +7,7 @@
         :key="camp().id">
         <router-link
           :to="{ name: 'camp', params: { campId: camp().id } }">
-          {{ camp().name }} - {{ camp().motto }}
+          {{ camp().name }} - {{ camp().camp_type().organization().name }}
         </router-link>
       </li>
     </ul>
