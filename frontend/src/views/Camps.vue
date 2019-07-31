@@ -6,12 +6,16 @@
         v-for="camp in camps"
         :key="camp().id">
         <router-link
-          :to="{ name: 'camp', params: { campId: camp().id } }">
-          {{ camp().name }} - {{ camp().camp_type().organization().name }}
+          :to="{ name: 'camp', params: { campUri: camp()._meta.self } }">
+          {{ camp().name }} "{{ camp().title }}" - {{ camp().camp_type().organization().name }}
         </router-link>
       </li>
     </ul>
-    <button class="btn btn-primary" @click="changeCampName">Change camp #1 name in Vuex store</button>
+    <button
+      class="btn btn-primary"
+      @click="changeCampTitle">
+      Change camp #1 title in Vuex store
+    </button>
   </div>
 </template>
 
@@ -27,9 +31,10 @@ export default {
     }
   },
   methods: {
-    changeCampName () {
+    changeCampTitle () {
+      if (!Array.isArray(this.camps)) return
       const changedCamp = { ...this.camps[0]() }
-      changedCamp.name = changedCamp.name + ' HELLO'
+      changedCamp.title = changedCamp.title + ' HELLO'
       this.$store.commit('add', changedCamp)
     }
   }

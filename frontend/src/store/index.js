@@ -18,6 +18,7 @@ export const state = {
 export const mutations = {
   addEmpty (state, { uri, loaded }) {
     const normalizedUri = normalizeUri(uri)
+    // TODO return a JavaScript Proxy object that handles member access on entities that are still loading
     Vue.set(state.api, normalizeUri(uri), { _meta: { loading: true, self: normalizedUri, loaded } })
   },
   add (state, data) {
@@ -109,6 +110,7 @@ function parseAndStoreHalJsonData (vm, data) {
   }
 
   if (isPrimitive(data)) {
+    // TODO add a computed setter to enable using v-model on primitive fields
     return data
   }
 
