@@ -19,13 +19,15 @@
         {
           "id": 2394,
           "title": "Volleyball",
-          "type": {
-            "id": 8877,
-            "name": "LS",
-            "color": "#00aa00",
-            "_links": {
-              "self": {
-                "href": "/eventTypes/8877"
+          "_embedded": {
+            "type": {
+              "id": 8877,
+              "name": "LS",
+              "color": "#00aa00",
+              "_links": {
+                "self": {
+                  "href": "/eventTypes/8877"
+                }
               }
             }
           },
@@ -38,13 +40,15 @@
         {
           "id": 2362,
           "title": "Geländespiel",
-          "type": {
-            "id": 8879,
-            "name": "LP",
-            "color": "#aaaa00",
-            "_links": {
-              "self": {
-                "href": "/eventTypes/8879"
+          "_embedded": {
+            "type": {
+              "id": 8879,
+              "name": "LP",
+              "color": "#aaaa00",
+              "_links": {
+                "self": {
+                  "href": "/eventTypes/8879"
+                }
               }
             }
           },
@@ -62,8 +66,23 @@
       "_meta": {
         "self": "/camps/1/events"
       },
-      "_per_page": 2,
-      "_total": 3
+      "page": 0,
+      "perPage": 2,
+      "total": 3,
+      "first": {
+        "href": "/camps/1/events?page=0"
+      },
+      "next": {
+        "href": "/camps/1/events?page=1"
+      },
+      "items": [
+        {
+          "href": "/events/2394"
+        },
+        {
+          "href": "/events/2362"
+        }
+      ]
     },
     "/eventTypes/8877": {
       "id": 8877,
@@ -83,6 +102,9 @@
     },
     "/events/2362": {
       "id": 2362,
+      "type": {
+        "href": "/eventTypes/8879"
+      },
       "_meta": {
         "self": "/events/2362"
       },
@@ -90,6 +112,9 @@
     },
     "/events/2394": {
       "id": 2394,
+      "type": {
+        "href": "/eventTypes/8877"
+      },
       "_meta": {
         "self": "/events/2394"
       },

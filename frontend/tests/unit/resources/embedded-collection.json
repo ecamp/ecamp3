@@ -48,6 +48,12 @@
       "id": 104,
       "start": "01-01-2019",
       "end": "03-01-2019",
+      "camp": {
+        "href": "/camps/1"
+      },
+      "events": {
+        "href": "/periods/104/events"
+      },
       "_meta": {
         "self": "/periods/104"
       }
@@ -56,12 +62,26 @@
       "id": 128,
       "start": "12-04-2019",
       "end": "19-04-2019",
+      "camp": {
+        "href": "/camps/1"
+      },
+      "events": {
+        "href": "/periods/128/events"
+      },
       "_meta": {
         "self": "/periods/128"
       }
     },
     "/camps/1": {
       "id": 1,
+      "periods": [
+        {
+          "href": "/periods/104"
+        },
+        {
+          "href": "/periods/128"
+        }
+      ],
       "_meta": {
         "self": "/camps/1"
       }

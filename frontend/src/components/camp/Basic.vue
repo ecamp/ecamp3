@@ -69,7 +69,7 @@ export default {
       return this.api(this.campUri)
     },
     periods () {
-      return this.campDetails._meta.loading ? [] : this.campDetails.periods().items
+      return this.campDetails.periods().items
     },
     buttonText () {
       return this.editing ? 'Speichern' : 'Bearbeiten'
@@ -78,7 +78,7 @@ export default {
   methods: {
     async saveToAPI () {
       try {
-        this.campDetails = (await this.axios.patch(this.campUri, this.campDetails)).data
+        await this.axios.patch(this.campUri, this.campDetails)
         this.messages = [ { type: 'success', text: 'Successfully saved' } ]
       } catch (error) {
         this.messages = [ { type: 'danger', text: 'Could not save camp details. ' + error } ]

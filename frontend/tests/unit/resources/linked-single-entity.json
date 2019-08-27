@@ -13,6 +13,9 @@
   "storeState": {
     "/camps/1": {
       "id": 1,
+      "mainLeader": {
+        "href": "/users/83"
+      },
       "_meta": {
         "self": "/camps/1"
       }

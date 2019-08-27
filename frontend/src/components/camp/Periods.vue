@@ -39,13 +39,10 @@ export default {
       return this.api(this.campUri)
     },
     periods () {
-      return this.campDetails._meta.loading ? [] : this.campDetails.periods().items
+      return this.campDetails().periods().items
     },
     organizationName () {
-      return this.campDetails._meta.loading ||
-        this.campDetails.camp_type()._meta.loading ||
-        this.campDetails.camp_type().organization()._meta.loading
-        ? '' : this.campDetails.camp_type().organization().name
+      return this.campDetails().camp_type().organization().name
     },
     buttonText () {
       return this.editing ? 'Speichern' : 'Bearbeiten'

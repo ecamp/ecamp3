@@ -5,21 +5,25 @@ export function hasQueryParam (uri, paramName) {
   return [...query.keys()].includes(paramName)
 }
 
-export function sortQueryParams (uri) {
-  let queryStart = uri.indexOf('?')
+function sortQueryParams (uri) {
+  const queryStart = uri.indexOf('?')
   if (queryStart === -1) return uri
-  let prefix = uri.substring(0, queryStart)
-  let query = new URLSearchParams(uri.substring(queryStart + 1))
-  let modifiedQuery = new URLSearchParams()
+  const prefix = uri.substring(0, queryStart)
+  const query = new URLSearchParams(uri.substring(queryStart + 1))
+  const modifiedQuery = new URLSearchParams();
 
-  for (const key of [ ...new Set(query.keys()) ].sort()) {
-    for (const value of query.getAll(key)) {
+  [...new Set(query.keys())].sort().forEach((key) => {
+    query.getAll(key).forEach((value) => {
       modifiedQuery.append(key, value)
-    }
-  }
+    })
+  })
 
   if ([...modifiedQuery.keys()].length) {
-    return prefix + '?' + modifiedQuery.toString()
+    return `${prefix}?${modifiedQuery.toString()}`
   }
   return prefix
+}
+
+export function normalizeUri (uri, baseUrl = '') {
+  return sortQueryParams(uri).replace(new RegExp(`^${baseUrl}`), '')
 }

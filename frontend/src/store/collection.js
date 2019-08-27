@@ -58,6 +58,6 @@ async function * paginatedIterator (page) {
   if (page.next !== undefined) {
     const next = page.next()
     const nextPage = await next._meta.loaded
-    yield * paginatedIterator(nextPage)
+    yield * paginatedIterator(nextPage())
   }
 }

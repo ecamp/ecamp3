@@ -4,10 +4,10 @@
     <ul>
       <li
         v-for="camp in camps"
-        :key="camp().id">
+        :key="camp.id">
         <router-link
-          :to="{ name: 'camp', params: { campUri: camp()._meta.self } }">
-          {{ camp().name }} "{{ camp().title }}" - {{ camp().camp_type().organization().name }}
+          :to="{ name: 'camp', params: { campUri: camp._meta.self } }">
+          {{ camp.name }} "{{ camp.title }}" - {{ /*camp().camp_type().organization().name*/ }}
         </router-link>
       </li>
     </ul>
@@ -23,9 +23,6 @@
 export default {
   name: 'Camps',
   computed: {
-    apiUrl () {
-      return process.env.VUE_APP_ROOT_API + '/camp'
-    },
     camps () {
       return this.api('/camp').items
     }

@@ -13,6 +13,9 @@
   "storeState": {
     "/camps/1": {
       "id": 1,
+      "events": {
+        "href": "/camps/1/events"
+      },
       "_meta": {
         "self": "/camps/1"
       }
