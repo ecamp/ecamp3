@@ -4,6 +4,7 @@ import axios from 'axios'
 import VueAxios from 'vue-axios'
 import normalize from 'hal-json-normalizer'
 import { normalizeUri } from '@/store/uriUtils'
+import storeValueProxy from '@/store/storeValueProxy'
 
 Vue.use(Vuex)
 axios.defaults.withCredentials = true
@@ -21,7 +22,6 @@ export const mutations = {
   },
   add (state, data) {
     Object.keys(data).forEach((uri) => {
-      console.log('setting', uri)
       Vue.set(state.api, uri, data[uri])
     })
   }
@@ -44,7 +44,7 @@ export const api = function (uri) {
       storeHalJsonData(this, data)
     })
   }
-  return this.$store.state.api[uri]
+  return storeValueProxy(this, this.$store.state.api[uri])
 }
 
 function storeHalJsonData (vm, data) {

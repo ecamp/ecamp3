@@ -7,7 +7,7 @@
         :key="camp.id">
         <router-link
           :to="{ name: 'camp', params: { campUri: camp._meta.self } }">
-          {{ camp.name }} "{{ camp.title }}" - {{ /*camp().camp_type().organization().name*/ }}
+          {{ camp.name }} "{{ camp.title }}" - {{ camp.campType().organization().name }}
         </router-link>
       </li>
     </ul>
@@ -24,15 +24,15 @@ export default {
   name: 'Camps',
   computed: {
     camps () {
-      return this.api('/camp').items
+      return this.api('/camp').items()
     }
   },
   methods: {
     changeCampTitle () {
       if (!Array.isArray(this.camps)) return
-      const changedCamp = { ...this.camps[0]() }
+      const changedCamp = { ...this.camps[0] }
       changedCamp.title = changedCamp.title + ' HELLO'
-      this.$store.commit('add', changedCamp)
+      this.$store.commit('add', { [changedCamp._meta.self]: changedCamp })
     }
   }
 }

@@ -16,8 +16,8 @@ Displays periods of a single camp.
     <ul>
       <li
         v-for="period in periods"
-        :key="period().id">
-        {{ period().description }} ({{ period().start }} - {{ period().end }})
+        :key="period.id">
+        {{ period.description }} ({{ period.start }} - {{ period.end }})
       </li>
     </ul>
   </div>
@@ -39,16 +39,13 @@ export default {
       return this.api(this.campUri)
     },
     periods () {
-      return this.campDetails().periods().items
+      return this.campDetails.periods()
     },
     organizationName () {
-      return this.campDetails().camp_type().organization().name
+      return this.campDetails.campType().organization().name
     },
     buttonText () {
       return this.editing ? 'Speichern' : 'Bearbeiten'
-    },
-    apiUrl () {
-      return process.env.VUE_APP_ROOT_API + '/camp/' + this.campId
     }
   }
 }

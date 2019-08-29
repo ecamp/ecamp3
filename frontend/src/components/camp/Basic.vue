@@ -39,8 +39,8 @@ Displays details on a single camp and allows to edit them.
           <ul>
             <li
               v-for="period in periods"
-              :key="period().id">
-              {{ period().description }} ({{ period().start }} - {{ period().end }})
+              :key="period.id">
+              {{ period.description }} ({{ period.start }} - {{ period.end }})
             </li>
           </ul>
         </li>
@@ -69,7 +69,7 @@ export default {
       return this.api(this.campUri)
     },
     periods () {
-      return this.campDetails.periods().items
+      return this.campDetails.periods()
     },
     buttonText () {
       return this.editing ? 'Speichern' : 'Bearbeiten'
