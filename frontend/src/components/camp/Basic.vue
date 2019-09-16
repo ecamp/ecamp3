@@ -78,6 +78,7 @@ export default {
   methods: {
     async saveToAPI () {
       try {
+        // TODO replace this with this.api.patch(...) once it's implemented
         await this.axios.patch(this.campUri, this.campDetails)
         this.messages = [ { type: 'success', text: 'Successfully saved' } ]
       } catch (error) {

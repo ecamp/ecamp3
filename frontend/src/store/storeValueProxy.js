@@ -16,7 +16,6 @@ function loadingProxy () {
       if (prop === Symbol.toPrimitive) {
         return () => ''
       }
-      // TODO avoid adding a separate if here for each nestable primitive property...
       if (prop === '_meta') {
         return loadingProxy()
       }
@@ -66,8 +65,8 @@ export default function storeValueProxy (vm, data) {
   const result = {}
   Object.keys(data).forEach(key => {
     if (key === 'items' && isCollection(data)) {
+      // Define this as a getter to make it evaluate only lazily
       Object.defineProperty(result, key, { get: () => paginatedCollectionProxy(vm, data).items, enumerable: true })
-      // result[key] = paginatedCollectionProxy(vm, data).items
       return
     }
     const value = data[key]
@@ -76,7 +75,7 @@ export default function storeValueProxy (vm, data) {
     } else if (isLink(value)) {
       result[key] = () => vm.api(value.href)
     } else {
-      // Object.defineProperty(result, key, { get: () => data[key], enumerable: true })
+      // No getter here because we already had to evaluate data[key] by now
       result[key] = value
     }
   })
