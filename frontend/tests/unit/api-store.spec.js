@@ -47,7 +47,7 @@ describe('API store', () => {
     await letNetworkRequestFinish()
     expect(vm.$store.state.api).toEqual(embeddedSingleEntity.storeState)
     expect(vm.api.get('/camps/1')._meta.self).toEqual('/camps/1')
-    expect(vm.api.get('/camps/1').campType()._meta.self).toEqual('/campTypes/20')
+    expect(vm.api.get('/camps/1').camp_type()._meta.self).toEqual('/campTypes/20')
     expect(vm.api.get('/campTypes/20')._meta.self).toEqual('/campTypes/20')
     done()
   })
@@ -105,10 +105,10 @@ describe('API store', () => {
     await letNetworkRequestFinish()
     expect(vm.$store.state.api).toEqual(linkedSingleEntity.storeState)
     expect(vm.api.get('/camps/1')._meta.self).toEqual('/camps/1')
-    // expect(vm.api.get('/camps/1').mainLeader()._meta.self).toEqual('/users/83')
-    expect(vm.api.get('/camps/1').mainLeader()._meta.loading).toEqual(true)
+    // expect(vm.api.get('/camps/1').main_leader()._meta.self).toEqual('/users/83')
+    expect(vm.api.get('/camps/1').main_leader()._meta.loading).toEqual(true)
     await letNetworkRequestFinish()
-    expect(vm.api.get('/camps/1').mainLeader()._meta).toEqual({ self: '/users/83' })
+    expect(vm.api.get('/camps/1').main_leader()._meta).toEqual({ self: '/users/83' })
     expect(vm.api.get('/users/83')._meta.self).toEqual('/users/83')
     done()
   })
@@ -141,9 +141,9 @@ describe('API store', () => {
         'first': {
           'href': '/camps/1/events'
         },
-        'page': 0,
-        'perPage': 3,
-        'total': 2,
+        '_page': 0,
+        '_per_page': 3,
+        '_total': 2,
         '_meta': {
           'self': '/camps/1/events'
         }

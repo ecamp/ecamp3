@@ -42,7 +42,7 @@ export default {
       return this.campDetails.periods().items
     },
     organizationName () {
-      return this.campDetails.campType().organization().name
+      return this.campDetails.camp_type().organization().name
     },
     buttonText () {
       return this.editing ? 'Speichern' : 'Bearbeiten'

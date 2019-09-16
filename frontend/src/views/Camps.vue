@@ -7,7 +7,7 @@
         :key="camp.id">
         <router-link
           :to="{ name: 'camp', params: { campUri: camp._meta.self } }">
-          {{ camp.name }} "{{ camp.title }}" - {{ camp.campType().organization().name }}
+          {{ camp.name }} "{{ camp.title }}" - {{ camp.camp_type().organization().name }}
         </router-link>
       </li>
     </ul>

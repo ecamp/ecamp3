@@ -48,7 +48,12 @@ export const get = function (vm, uri) {
 }
 
 function storeHalJsonData (vm, data) {
-  const normalizedData = normalize(data, { normalizeUri: (uri) => normalizeUri(uri, API_ROOT), filterReferences: true })
+  const normalizedData = normalize(data, {
+    camelizeKeys: false,
+    metaKey: '_meta',
+    normalizeUri: (uri) => normalizeUri(uri, API_ROOT),
+    filterReferences: true
+  })
   vm.$store.commit('add', normalizedData)
 }
 

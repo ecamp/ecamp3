@@ -5,7 +5,7 @@
       "self": {
         "href": "/camps/1"
       },
-      "mainLeader": {
+      "main_leader": {
         "href": "/users/83"
       }
     }
@@ -13,7 +13,7 @@
   "storeState": {
     "/camps/1": {
       "id": 1,
-      "mainLeader": {
+      "main_leader": {
         "href": "/users/83"
       },
       "_meta": {
