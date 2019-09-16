@@ -24,7 +24,7 @@ export default {
   name: 'Camps',
   computed: {
     camps () {
-      return this.api('/camp').items
+      return this.api.get('/camp').items
     }
   },
   methods: {

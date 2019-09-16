@@ -38,7 +38,7 @@ function collectionProxy (vm, array) {
     get items () {
       return array.map(entry => {
         if (isLink(entry)) {
-          return vm.api(entry.href)
+          return vm.api.get(entry.href)
         }
         return entry
       })
@@ -50,7 +50,7 @@ function paginatedCollectionProxy (vm, data) {
   const allItems = []
   allItems.push(...data.items)
   if (isLink(data.next)) {
-    const next = vm.api(data.next.href)
+    const next = vm.api.get(data.next.href)
     if (!next._meta.loading) {
       allItems.push(...next.items)
     }
@@ -73,7 +73,7 @@ export default function storeValueProxy (vm, data) {
     if (Array.isArray(value)) {
       result[key] = () => collectionProxy(vm, value)
     } else if (isLink(value)) {
-      result[key] = () => vm.api(value.href)
+      result[key] = () => vm.api.get(value.href)
     } else {
       // No getter here because we already had to evaluate data[key] by now
       result[key] = value

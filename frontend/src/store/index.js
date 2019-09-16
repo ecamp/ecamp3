@@ -33,18 +33,18 @@ export default new Vuex.Store({
   strict: process.env.NODE_ENV !== 'production'
 })
 
-export const api = function (uri) {
+export const get = function (vm, uri) {
   uri = normalizeUri(uri)
-  if (!(uri in this.$store.state.api)) {
-    this.$store.commit('addEmpty', uri)
-    this.axios.get(API_ROOT + uri).then(({ data }) => {
+  if (!(uri in vm.$store.state.api)) {
+    vm.$store.commit('addEmpty', uri)
+    vm.axios.get(API_ROOT + uri).then(({ data }) => {
       // Workaround because API adds page parameter even to first page when it was not requested that way
       // TODO fix backend API and remove the next line
       data._links.self.href = uri
-      storeHalJsonData(this, data)
+      storeHalJsonData(vm, data)
     })
   }
-  return storeValueProxy(this, this.$store.state.api[uri])
+  return storeValueProxy(vm, vm.$store.state.api[uri])
 }
 
 function storeHalJsonData (vm, data) {
@@ -52,6 +52,12 @@ function storeHalJsonData (vm, data) {
   vm.$store.commit('add', normalizedData)
 }
 
-Vue.mixin({
-  methods: { api }
+Object.defineProperties(Vue.prototype, {
+  api: {
+    get () {
+      return {
+        get: uri => get(this, uri)
+      }
+    }
+  }
 })

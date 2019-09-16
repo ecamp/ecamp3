@@ -66,7 +66,7 @@ export default {
   },
   computed: {
     campDetails () {
-      return this.api(this.campUri)
+      return this.api.get(this.campUri)
     },
     periods () {
       return this.campDetails.periods().items
