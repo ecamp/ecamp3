@@ -50,11 +50,12 @@ export default new Router({
       beforeEnter: requireAuth
     },
     {
-      path: '/group/:groupName/camp/:campId',
+      path: '/group/:groupName/camp/:campUri',
       components: {
         default: () => import(/* webpackChunkName: "camp" */ './views/Camp.vue'),
-        aside: () => import(/* webpackChunkName: "camps" */ './views/Camps.vue'),
-      }, beforeEnter: requireAuth,
+        aside: () => import(/* webpackChunkName: "camps" */ './views/Camps.vue')
+      },
+      beforeEnter: requireAuth,
       children: [
         {
           path: '',

@@ -12,7 +12,7 @@ Displays periods of a single camp.
       class="alert">
       {{ message.text }}
     </div>
-    Vue.js Infos zu den Perioden genau eines Lagers
+    Infos zu den Perioden eines Lagers der Organisation {{ organizationName }}
     <ul>
       <li
         v-for="period in periods"
@@ -23,46 +23,30 @@ Displays periods of a single camp.
   </div>
 </template>
 <script>
-  export default {
-    name: 'Periods',
-    props: {
-      campId: {type: String, required: true}
+export default {
+  name: 'Periods',
+  props: {
+    campUri: { type: String, required: true }
+  },
+  data () {
+    return {
+      editing: false,
+      messages: []
+    }
+  },
+  computed: {
+    campDetails () {
+      return this.api.get(this.campUri)
     },
-    data() {
-      return {
-        editing: false,
-        campDetails: {title: '', motto: '', _embedded: {owner: {}}},
-        messages: []
-      }
+    periods () {
+      return this.campDetails.periods().items
     },
-    computed: {
-      periods() {
-        if (this.campDetails._embedded == null) return []
-        return this.campDetails._embedded.periods
-      },
-      buttonText() {
-        return this.editing ? 'Speichern' : 'Bearbeiten'
-      },
-      apiUrl() {
-        return process.env.VUE_APP_ROOT_API + '/camp/' + this.campId
-      }
+    organizationName () {
+      return this.campDetails.camp_type().organization().name
     },
-    created() {
-      this.fetchFromAPI()
-    },
-    methods: {
-      async fetchFromAPI() {
-        try {
-          this.campDetails = (await this.axios.get(this.apiUrl)).data
-        } catch (error) {
-          this.messages = [{type: 'danger', text: 'Could not get camp details for id ' + this.campId + '. ' + error}]
-        }
-      }
+    buttonText () {
+      return this.editing ? 'Speichern' : 'Bearbeiten'
     }
   }
+}
 </script>
-<style scoped>
-  .camp-detail-card {
-    margin-bottom: 10px;
-  }
-</style>
