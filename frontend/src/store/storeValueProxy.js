@@ -6,8 +6,7 @@ function isLink (object) {
 
 function isCollection (object) {
   if (!object) return false
-  // TODO is this check appropriate? Could we check for page in _meta instead? Can backend even send it in _meta?
-  return !object.hasOwnProperty('id') && object.hasOwnProperty('items') && Array.isArray(object.items)
+  return object.hasOwnProperty('page_count')
 }
 
 function loadingProxy () {

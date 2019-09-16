@@ -3,6 +3,7 @@
     "_page": 1,
     "_per_page": 2,
     "_total": 3,
+    "page_count": 2,
     "_links": {
       "self": {
         "href": "/camps/1/events?page=1"
@@ -45,7 +46,8 @@
       },
       "_page": 1,
       "_per_page": 2,
-      "_total": 3
+      "_total": 3,
+      "page_count": 2
     },
     "/eventTypes/8879": {
       "id": 8879,

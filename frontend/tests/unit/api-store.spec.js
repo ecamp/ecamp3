@@ -127,7 +127,8 @@ describe('API store', () => {
         '_links': { 'self': { 'href': '/camps/1/events' }, 'first': { 'href': '/camps/1/events' } },
         '_page': 0,
         '_per_page': 3,
-        '_total': 2
+        '_total': 2,
+        'page_count': 1
       },
       storeState: {
         'items': [
@@ -144,6 +145,7 @@ describe('API store', () => {
         '_page': 0,
         '_per_page': 3,
         '_total': 2,
+        'page_count': 1,
         '_meta': {
           'self': '/camps/1/events'
         }
