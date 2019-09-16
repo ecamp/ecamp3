@@ -69,7 +69,7 @@ export default {
       return this.api(this.campUri)
     },
     periods () {
-      return this.campDetails.periods()
+      return this.campDetails.periods().items
     },
     buttonText () {
       return this.editing ? 'Speichern' : 'Bearbeiten'

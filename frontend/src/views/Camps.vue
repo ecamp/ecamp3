@@ -24,12 +24,12 @@ export default {
   name: 'Camps',
   computed: {
     camps () {
-      return this.api('/camp').items()
+      return this.api('/camp').items
     }
   },
   methods: {
     changeCampTitle () {
-      if (!Array.isArray(this.camps)) return
+      if (this.camps.length < 1) return
       const changedCamp = { ...this.camps[0] }
       changedCamp.title = changedCamp.title + ' HELLO'
       this.$store.commit('add', { [changedCamp._meta.self]: changedCamp })

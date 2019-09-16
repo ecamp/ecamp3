@@ -130,7 +130,20 @@ describe('API store', () => {
         '_total': 2
       },
       storeState: {
-        'items': [],
+        'items': [
+          {
+            'href': '/events/1234'
+          },
+          {
+            'href': '/events/1236'
+          }
+        ],
+        'first': {
+          'href': '/camps/1/events'
+        },
+        'page': 0,
+        'perPage': 3,
+        'total': 2,
         '_meta': {
           'self': '/camps/1/events'
         }
@@ -145,12 +158,12 @@ describe('API store', () => {
     expect(vm.$store.state.api).toEqual({ '/camps/1': { _meta: { self: '/camps/1', loading: true } } })
     await letNetworkRequestFinish()
     expect(vm.$store.state.api).toEqual(linkedCollection.storeState)
-    /*
-    expect(vm.api('/camps/1').events()).toEqual({ _meta: { self: '/camps/1/events', loaded: {} } })
+    expect(vm.api('/camps/1').events().items).toEqual([])
     await letNetworkRequestFinish()
-    expect(JSON.parse(JSON.stringify(vm.api('/camps/1').events()))).toEqual(events.storeState)
-    expect(JSON.parse(JSON.stringify(vm.api('/camps/1/events')))).toEqual(events.storeState)
-    */
+    expect(vm.$store.state.api['/camps/1/events']).toEqual(events.storeState)
+    expect(vm.api('/camps/1').events().items.length).toEqual(2)
+    expect(vm.api('/camps/1').events().items[0]._meta.self).toEqual('/events/1234')
+    expect(vm.api('/camps/1').events().items[1]._meta.self).toEqual('/events/1236')
     done()
   })
 
@@ -166,13 +179,12 @@ describe('API store', () => {
     expect(vm.$store.state.api).toEqual({ '/camps/1/events': { _meta: { self: '/camps/1/events', loading: true } } })
     await letNetworkRequestFinish()
     expect(vm.$store.state.api).toEqual(collectionFirstPage.storeState)
-    /*
-    await vm.api('/camps/1/events').load()
-    expect(JSON.parse(JSON.stringify(vm.api('/camps/1/events').items.length))).toEqual(3)
-    expect(JSON.parse(JSON.stringify(vm.api('/camps/1/events').items[0]()))).toEqual(collectionFirstPage.storeState['/events/2394'])
-    expect(JSON.parse(JSON.stringify(vm.api('/camps/1/events').items[1]()))).toEqual(collectionFirstPage.storeState['/events/2362'])
-    expect(JSON.parse(JSON.stringify(vm.api('/camps/1/events').items[2]()))).toEqual(collectionPage1.storeState['/events/2402'])
-    */
+    expect(vm.api('/camps/1/events').items.length).toEqual(2)
+    await letNetworkRequestFinish()
+    expect(vm.api('/camps/1/events').items.length).toEqual(3)
+    expect(vm.api('/camps/1/events').items[0]._meta.self).toEqual('/events/2394')
+    expect(vm.api('/camps/1/events').items[1]._meta.self).toEqual('/events/2362')
+    expect(vm.api('/camps/1/events').items[2]._meta.self).toEqual('/events/2402')
     done()
   })
 })

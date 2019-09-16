@@ -39,7 +39,7 @@ export default {
       return this.api(this.campUri)
     },
     periods () {
-      return this.campDetails.periods()
+      return this.campDetails.periods().items
     },
     organizationName () {
       return this.campDetails.campType().organization().name
