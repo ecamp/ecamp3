@@ -14,7 +14,7 @@ Um eCamp bei dir laufen zu lassen musst du nur Docker (inklusive docker-compose)
 
 Anleitungen um Git auf Linux, Mac OS und Windows zu installieren findest du hier: [https://git-scm.com/book/en/v2/Getting-Started-Installing-Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
 
-Um Docker (und das dazugehörige Tool docker-compose) kannst du dieser Anleitung folgen: [https://docs.docker.com/compose/install/](https://docs.docker.com/compose/install/). Wenn du auf Linux arbeitest, musst du zuerst noch separat [Docker für Linux](https://docs.docker.com/install/#server) installieren.
+Für Docker (und das dazugehörige Tool docker-compose) kannst du dieser Anleitung folgen: [https://docs.docker.com/compose/install/](https://docs.docker.com/compose/install/). Wenn du auf Linux arbeitest, musst du zuerst noch separat [Docker für Linux](https://docs.docker.com/install/#server) installieren.
 
 Wenn du diese beiden Voraussetzungen hast, können wir eCamp selber installieren. Das heisst, wir laden den Quellcode mithilfe von Git aus dem Internet ([GitHub](https://github.com/ecamp/ecamp3)) herunter und lassen die darin definierten Docker container laufen.
 
