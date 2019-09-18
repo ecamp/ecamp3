@@ -88,6 +88,9 @@ Displays details on a single camp and allows to edit them.
     created() {
       this.fetchFromAPI()
     },
+    watch: {
+      campId: function(val, old) { this.fetchFromAPI() }
+    },
     methods: {
       async fetchFromAPI() {
         // TODO: Abstract the API calls instead of working with axios directly in the component?
