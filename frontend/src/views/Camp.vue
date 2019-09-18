@@ -34,14 +34,14 @@ Displays several tabs with details on a single camp.
         </div>
       </div>
     </div>
-    <router-view :camp-id="this.$route.params.campId"/>
+    <router-view :camp-uri="this.$route.params.campUri" />
   </b-card>
 </template>
 
 <script>
-  export default {
-    name: 'CampDetails'
-  }
+export default {
+  name: 'CampDetails'
+}
 </script>
 
 <style scoped>
