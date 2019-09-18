@@ -25,8 +25,8 @@ class CampHydrator implements HydratorInterface {
             'motto' => $camp->getMotto(),
             'camp_type' => $camp->getCampType(),
             'owner' =>  $camp->getOwner(),
-            
-            'creator' => new EntityLink($camp->getCreator()),
+
+            'creator' => EntityLink::Create($camp->getCreator()),
 
             'camp_collaborations' => new CampCollaborationCollection($camp->getCampCollaborations()),
 //            'jobs' => new JobCollection($camp->getJobs()),

@@ -4,6 +4,14 @@ namespace eCamp\Lib\Entity;
 
 class EntityLink {
 
+    public static function Create($entity) {
+        if ($entity instanceof BaseEntity) {
+            return new EntityLink($entity);
+        }
+        return null;
+    }
+
+
     /** @var BaseEntity */
     private $entity;
 
