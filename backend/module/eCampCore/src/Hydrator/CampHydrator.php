@@ -3,6 +3,7 @@
 namespace eCamp\Core\Hydrator;
 
 use eCamp\Core\Entity\Camp;
+use eCamp\Lib\Entity\EntityLink;
 use eCampApi\V1\Rest\CampCollaboration\CampCollaborationCollection;
 use eCampApi\V1\Rest\EventCategory\EventCategoryCollection;
 use eCampApi\V1\Rest\Period\PeriodCollection;
@@ -23,8 +24,9 @@ class CampHydrator implements HydratorInterface {
             'title' => $camp->getTitle(),
             'motto' => $camp->getMotto(),
             'camp_type' => $camp->getCampType(),
-            'owner' => $camp->getOwner(),
-            'creator' => $camp->getCreator(),
+            'owner' =>  $camp->getOwner(),
+
+            'creator' => EntityLink::Create($camp->getCreator()),
 
             'camp_collaborations' => new CampCollaborationCollection($camp->getCampCollaborations()),
 //            'jobs' => new JobCollection($camp->getJobs()),

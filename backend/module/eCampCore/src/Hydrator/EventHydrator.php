@@ -23,15 +23,13 @@ class EventHydrator implements HydratorInterface {
             'event_category' => $event->getEventCategory(),
             'event_instances' => new EventInstanceCollection($event->getEventInstances()),
 
-            /*
             'event_plugins' => Link::factory([
                 'rel' => 'event_plugins',
                 'route' => [
-                    'name' => 'ecamp.api.event_plugin',
+                    'name' => 'e-camp-api.rest.doctrine.event-plugin',
                     'options' => [ 'query' => [ 'event_id' => $event->getId() ] ]
                 ]
             ]),
-            */
         ];
     }
 
