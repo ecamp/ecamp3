@@ -24,6 +24,9 @@ export const mutations = {
     Object.keys(data).forEach((uri) => {
       Vue.set(state.api, uri, data[uri])
     })
+  },
+  purge (state, uri) {
+    Vue.delete(state.api, uri)
   }
 }
 
@@ -33,12 +36,12 @@ export default new Vuex.Store({
   strict: process.env.NODE_ENV !== 'production'
 })
 
+function getNormalizedUri(uriOrObject) {
+  return normalizeUri(typeof uriOrObject === 'string' ? uriOrObject : (uriOrObject._meta || {}).self)
+}
+
 const get = function (vm, uriOrObject) {
-  let uri = uriOrObject
-  if (typeof uriOrObject !== 'string') {
-    uri = (uriOrObject._meta || {}).self
-  }
-  uri = normalizeUri(uri)
+  const uri = getNormalizedUri(uriOrObject)
   if (uri === null) {
     // We don't even know the URI, so return something that doesn't break the UI.
     // Hopefully this is running inside a reactive method that will be re-calculated once the URI is known.
@@ -56,6 +59,15 @@ const get = function (vm, uriOrObject) {
   return storeValueProxy(vm, vm.$store.state.api[uri])
 }
 
+const purge = function (vm, uriOrObject) {
+  const uri = getNormalizedUri(uriOrObject)
+  if (uri === null) {
+    // Can't purge an unknown URI, do nothing
+    return
+  }
+  vm.$store.commit('purge', uri)
+}
+
 function storeHalJsonData (vm, data) {
   const normalizedData = normalize(data, {
     camelizeKeys: false,
@@ -70,7 +82,8 @@ Object.defineProperties(Vue.prototype, {
   api: {
     get () {
       return {
-        get: uri => get(this, uri)
+        get: uriOrObject => get(this, uriOrObject),
+        purge: uriOrObject => purge(this, uriOrObject)
       }
     }
   }

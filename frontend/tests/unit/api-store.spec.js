@@ -233,4 +233,45 @@ describe('API store', () => {
     expect(vm.$store.state.api).toEqual(embeddedSingleEntity.storeState)
     done()
   })
+
+  it('purges and later re-fetches a URI from the store', async done => {
+    // given
+    axiosMock.onGet('http://localhost/camps/1').reply(200, embeddedSingleEntity.serverResponse)
+    axiosMock.onGet('http://localhost/campTypes/20').reply(200, embeddedSingleEntity.serverResponse._embedded.camp_type)
+    vm.api.get('/camps/1')
+    await letNetworkRequestFinish()
+    const storeStateWithoutCampType = JSON.parse(JSON.stringify(embeddedSingleEntity.storeState))
+    delete storeStateWithoutCampType['/campTypes/20']
+
+    // when
+    vm.api.purge('/campTypes/20')
+
+    // then
+    expect(vm.$store.state.api).toEqual(storeStateWithoutCampType)
+    expect(vm.api.get('/camps/1').camp_type()._meta.loading).toEqual(true)
+    await letNetworkRequestFinish()
+    expect(vm.$store.state.api).toEqual(embeddedSingleEntity.storeState)
+    done()
+  })
+
+  it('purges and later re-fetches an object from the store', async done => {
+    // given
+    axiosMock.onGet('http://localhost/camps/1').reply(200, embeddedSingleEntity.serverResponse)
+    axiosMock.onGet('http://localhost/campTypes/20').reply(200, embeddedSingleEntity.serverResponse._embedded.camp_type)
+    vm.api.get('/camps/1')
+    await letNetworkRequestFinish()
+    const campType = vm.api.get('/camps/1').camp_type()
+    const storeStateWithoutCampType = JSON.parse(JSON.stringify(embeddedSingleEntity.storeState))
+    delete storeStateWithoutCampType['/campTypes/20']
+
+    // when
+    vm.api.purge(campType)
+
+    // then
+    expect(vm.$store.state.api).toEqual(storeStateWithoutCampType)
+    expect(vm.api.get('/camps/1').camp_type()._meta.loading).toEqual(true)
+    await letNetworkRequestFinish()
+    expect(vm.$store.state.api).toEqual(embeddedSingleEntity.storeState)
+    done()
+  })
 })
