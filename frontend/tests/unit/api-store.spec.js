@@ -274,4 +274,83 @@ describe('API store', () => {
     expect(vm.$store.state.api).toEqual(embeddedSingleEntity.storeState)
     done()
   })
+
+  it('reloads a URI from the store', async done => {
+    // given
+    axiosMock.onGet('http://localhost/camps/1').reply(200, embeddedSingleEntity.serverResponse)
+    const campType = {
+      serverResponse: {
+        id: 20,
+        name: 'Nicht-J+S-Lager',
+        js: false,
+        targetGroup: 'Teens',
+        _links: {
+          self: {
+            href: '/campTypes/20'
+          }
+        }
+      },
+      storeState: {
+        id: 20,
+        name: 'Nicht-J+S-Lager',
+        js: false,
+        targetGroup: 'Teens',
+        _meta: {
+          self: '/campTypes/20'
+        }
+      }
+    }
+    axiosMock.onGet('http://localhost/campTypes/20').reply(200, campType.serverResponse)
+    vm.api.get('/camps/1')
+    await letNetworkRequestFinish()
+
+    // when
+    vm.api.reload('/campTypes/20')
+
+    // then
+    expect(vm.$store.state.api).toEqual(embeddedSingleEntity.storeState)
+    await letNetworkRequestFinish()
+    expect(vm.$store.state.api['/campTypes/20']).toEqual(campType.storeState)
+    done()
+  })
+
+  it('reloads an object from the store', async done => {
+    // given
+    axiosMock.onGet('http://localhost/camps/1').reply(200, embeddedSingleEntity.serverResponse)
+    const campTypeData = {
+      serverResponse: {
+        id: 20,
+        name: 'Nicht-J+S-Lager',
+        js: false,
+        targetGroup: 'Teens',
+        _links: {
+          self: {
+            href: '/campTypes/20'
+          }
+        }
+      },
+      storeState: {
+        id: 20,
+        name: 'Nicht-J+S-Lager',
+        js: false,
+        targetGroup: 'Teens',
+        _meta: {
+          self: '/campTypes/20'
+        }
+      }
+    }
+    axiosMock.onGet('http://localhost/campTypes/20').reply(200, campTypeData.serverResponse)
+    vm.api.get('/camps/1').camp_type()
+    await letNetworkRequestFinish()
+    const campType = vm.api.get('/camps/1').camp_type()
+
+    // when
+    vm.api.reload(campType)
+
+    // then
+    expect(vm.$store.state.api).toEqual(embeddedSingleEntity.storeState)
+    await letNetworkRequestFinish()
+    expect(vm.$store.state.api['/campTypes/20']).toEqual(campTypeData.storeState)
+    done()
+  })
 })

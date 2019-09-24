@@ -40,15 +40,18 @@ function getNormalizedUri(uriOrObject) {
   return normalizeUri(typeof uriOrObject === 'string' ? uriOrObject : (uriOrObject._meta || {}).self)
 }
 
-const get = function (vm, uriOrObject) {
+const get = function (vm, uriOrObject, forceReload = false) {
   const uri = getNormalizedUri(uriOrObject)
   if (uri === null) {
     // We don't even know the URI, so return something that doesn't break the UI.
     // Hopefully this is running inside a reactive method that will be re-calculated once the URI is known.
     return loadingProxy()
   }
-  if (!(uri in vm.$store.state.api)) {
-    vm.$store.commit('addEmpty', uri)
+  const existsInStore = (uri in vm.$store.state.api)
+  if (forceReload || !existsInStore) {
+    if (!existsInStore) {
+      vm.$store.commit('addEmpty', uri)
+    }
     vm.axios.get(API_ROOT + uri).then(({ data }) => {
       // Workaround because API adds page parameter even to first page when it was not requested that way
       // TODO fix backend API and remove the next line
@@ -83,7 +86,8 @@ Object.defineProperties(Vue.prototype, {
     get () {
       return {
         get: uriOrObject => get(this, uriOrObject),
-        purge: uriOrObject => purge(this, uriOrObject)
+        purge: uriOrObject => purge(this, uriOrObject),
+        reload: uriOrObject => get(this, uriOrObject, true)
       }
     }
   }
