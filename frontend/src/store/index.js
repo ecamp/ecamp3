@@ -4,7 +4,7 @@ import axios from 'axios'
 import VueAxios from 'vue-axios'
 import normalize from 'hal-json-normalizer'
 import { normalizeUri } from '@/store/uriUtils'
-import storeValueProxy from '@/store/storeValueProxy'
+import storeValueProxy, { loadingProxy } from '@/store/storeValueProxy'
 
 Vue.use(Vuex)
 axios.defaults.withCredentials = true
@@ -33,8 +33,17 @@ export default new Vuex.Store({
   strict: process.env.NODE_ENV !== 'production'
 })
 
-export const get = function (vm, uri) {
+const get = function (vm, uriOrObject) {
+  let uri = uriOrObject
+  if (typeof uriOrObject !== 'string') {
+    uri = (uriOrObject._meta || {}).self
+  }
   uri = normalizeUri(uri)
+  if (uri === null) {
+    // We don't even know the URI, so return something that doesn't break the UI.
+    // Hopefully this is running inside a reactive method that will be re-calculated once the URI is known.
+    return loadingProxy()
+  }
   if (!(uri in vm.$store.state.api)) {
     vm.$store.commit('addEmpty', uri)
     vm.axios.get(API_ROOT + uri).then(({ data }) => {

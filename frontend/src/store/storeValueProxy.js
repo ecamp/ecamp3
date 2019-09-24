@@ -9,17 +9,20 @@ function isCollection (object) {
   return object.hasOwnProperty('page_count')
 }
 
-function loadingProxy () {
+export function loadingProxy (uri = '') {
   const handler = {
     get: function (target, prop, receiver) {
       if (prop === Symbol.toPrimitive) {
         return () => ''
       }
       if (prop === '_meta') {
-        return loadingProxy()
+        return loadingProxy(uri)
       }
       if (prop === 'loading') {
         return true
+      }
+      if (prop === 'self') {
+        return uri
       }
       if (prop === 'items') {
         return []
@@ -58,8 +61,9 @@ function paginatedCollectionProxy (vm, data) {
 }
 
 export default function storeValueProxy (vm, data) {
-  if ((data._meta || {}).loading) {
-    return loadingProxy()
+  const meta = data._meta || {}
+  if (meta.loading) {
+    return loadingProxy(meta.self)
   }
   const result = {}
   Object.keys(data).forEach(key => {

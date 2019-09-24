@@ -189,4 +189,48 @@ describe('API store', () => {
     expect(vm.api.get('/camps/1/events').items[2]._meta.self).toEqual('/events/2402')
     done()
   })
+
+  it('allows redundantly using get with an object', async done => {
+    // given
+    axiosMock.onGet('http://localhost/camps/1').reply(200, embeddedSingleEntity.serverResponse)
+
+    // when
+    vm.api.get({ _meta: { self: '/camps/1' } })
+
+    // then
+    expect(vm.$store.state.api).toEqual({ '/camps/1': { _meta: { self: '/camps/1', loading: true } } })
+    await letNetworkRequestFinish()
+    expect(vm.$store.state.api).toEqual(embeddedSingleEntity.storeState)
+    done()
+  })
+
+  it('allows using get with a loading object with known URI', async done => {
+    // given
+    axiosMock.onGet('http://localhost/camps/1').reply(200, embeddedSingleEntity.serverResponse)
+    let loadingObject = vm.api.get('/camps/1')
+
+    // when
+    vm.api.get(loadingObject)
+
+    // then
+    expect(vm.$store.state.api).toEqual({ '/camps/1': { _meta: { self: '/camps/1', loading: true } } })
+    await letNetworkRequestFinish()
+    expect(vm.$store.state.api).toEqual(embeddedSingleEntity.storeState)
+    done()
+  })
+
+  it('allows using get with a loading object with unknown URI', async done => {
+    // given
+    axiosMock.onGet('http://localhost/camps/1').reply(200, embeddedSingleEntity.serverResponse)
+    let loadingObject = vm.api.get('/camps/1').camp_type()
+
+    // when
+    vm.api.get(loadingObject)
+
+    // then
+    expect(vm.$store.state.api).toEqual({ '/camps/1': { _meta: { self: '/camps/1', loading: true } } })
+    await letNetworkRequestFinish()
+    expect(vm.$store.state.api).toEqual(embeddedSingleEntity.storeState)
+    done()
+  })
 })
