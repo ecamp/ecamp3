@@ -11,6 +11,7 @@ import linkedSingleEntity from './resources/linked-single-entity'
 import linkedCollection from './resources/linked-collection'
 import collectionFirstPage from './resources/collection-firstPage'
 import collectionPage1 from './resources/collection-page1'
+import multipleReferencesToUser from './resources/multiple-references-to-user'
 
 async function letNetworkRequestFinish () {
   await new Promise(resolve => {
@@ -351,6 +352,75 @@ describe('API store', () => {
     expect(vm.$store.state.api).toEqual(embeddedSingleEntity.storeState)
     await letNetworkRequestFinish()
     expect(vm.$store.state.api['/campTypes/20']).toEqual(campTypeData.storeState)
+    done()
+  })
+
+  it('deletes an URI from the store and reloads all entities referencing it', async done => {
+    // given
+    axiosMock.onGet('http://localhost/groups/99').replyOnce(200, multipleReferencesToUser)
+    axiosMock.onGet('http://localhost/groups/99').reply(200, {
+      id: 99,
+      name: 'Pfadi Züri',
+      _links: {
+        self: {
+          href: '/groups/99'
+        }
+      }
+    })
+    axiosMock.onGet('http://localhost/camps/123').reply(200, {
+      id: 123,
+      _links: {
+        self: {
+          href: '/camps/123'
+        }
+      }
+    })
+    axiosMock.onDelete('http://localhost/users/1').replyOnce(204)
+    vm.api.get('/groups/99')
+    await letNetworkRequestFinish()
+
+    // when
+    vm.api.delete('/users/1')
+
+    // then
+    await letNetworkRequestFinish()
+    expect(axiosMock.history.delete.length).toEqual(1)
+    expect(axiosMock.history.get.length).toEqual(3)
+    done()
+  })
+
+  it('deletes an object from the store and reloads all entities referencing it', async done => {
+    // given
+    axiosMock.onGet('http://localhost/groups/99').replyOnce(200, multipleReferencesToUser)
+    axiosMock.onGet('http://localhost/groups/99').reply(200, {
+      id: 99,
+      name: 'Pfadi Züri',
+      _links: {
+        self: {
+          href: '/groups/99'
+        }
+      }
+    })
+    axiosMock.onGet('http://localhost/camps/123').reply(200, {
+      id: 123,
+      _links: {
+        self: {
+          href: '/camps/123'
+        }
+      }
+    })
+    axiosMock.onDelete('http://localhost/users/1').replyOnce(204)
+    vm.api.get('/groups/99')
+    await letNetworkRequestFinish()
+    const user = vm.api.get('/users/1')
+
+    // when
+    vm.api.delete(user)
+
+    // then
+    await letNetworkRequestFinish()
+    expect(axiosMock.history.delete.length).toEqual(1)
+    expect(axiosMock.history.get.length).toEqual(3)
     done()
   })
 })

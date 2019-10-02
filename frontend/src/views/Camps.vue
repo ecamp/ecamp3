@@ -9,6 +9,9 @@
           :to="{ name: 'camp', params: { campUri: camp._meta.self } }">
           {{ camp.name }} "{{ camp.title }}" - {{ camp.camp_type().organization().name }}
         </router-link>
+        <a
+          class="btn btn-danger"
+          @click.prevent="deleteCamp(camp, ...arguments)">[löschen]</a>
       </li>
     </ul>
     <button
@@ -33,6 +36,9 @@ export default {
       const changedCamp = { ...this.camps[0] }
       changedCamp.title = changedCamp.title + ' HELLO'
       this.$store.commit('add', { [changedCamp._meta.self]: changedCamp })
+    },
+    deleteCamp (camp) {
+      this.api.delete(camp)
     }
   }
 }

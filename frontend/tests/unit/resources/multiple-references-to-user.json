@@ -1,0 +1,35 @@
+{
+  "id": 99,
+  "name": "Pfadi Züri",
+  "_embedded": {
+    "users": [
+      {
+        "id": 1,
+        "name": "Linux",
+        "_embedded": {
+          "lastViewedCamp": {
+            "id": 123,
+            "_links": {
+              "owner": {
+                "href": "/users/1"
+              },
+              "self": {
+                "href": "/camps/123"
+              }
+            }
+          }
+        },
+        "_links": {
+          "self": {
+            "href": "/users/1"
+          }
+        }
+      }
+    ]
+  },
+  "_links": {
+    "self": {
+      "href": "/groups/99"
+    }
+  }
+}
