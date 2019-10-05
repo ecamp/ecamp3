@@ -57,6 +57,10 @@ const get = function (vm, uriOrObject, forceReload = false) {
       // TODO fix backend API and remove the next line
       data._links.self.href = uri
       storeHalJsonData(vm, data)
+    }, ({ response }) => {
+      if (response.status === 404) {
+        deleted(vm, uri)
+      }
     })
   }
   return storeValueProxy(vm, vm.$store.state.api[uri])
@@ -69,6 +73,15 @@ const purge = function (vm, uriOrObject) {
     return
   }
   vm.$store.commit('purge', uri)
+}
+
+const del = function (vm, uriOrObject) {
+  const uri = getNormalizedUri(uriOrObject)
+  if (uri === null) {
+    // Can't delete an unknown URI, do nothing
+    return
+  }
+  return vm.axios.delete(API_ROOT + uri).then(() => deleted(vm, uri))
 }
 
 function valueIsArrayWithReferenceTo (value, uri) {
@@ -84,23 +97,16 @@ function findEntitiesReferencing (vm, uri) {
   return Object.values(vm.$store.state.api)
     .filter((entity) => {
       return Object.values(entity).some(propertyValue => (valueIsReferenceTo(propertyValue, uri) ||
-                                                          valueIsArrayWithReferenceTo(propertyValue, uri)))
+        valueIsArrayWithReferenceTo(propertyValue, uri)))
     })
 }
 
-const _delete = function (vm, uriOrObject) {
-  const uri = getNormalizedUri(uriOrObject)
-  if (uri === null) {
-    // Can't purge an unknown URI, do nothing
-    return
-  }
-  return vm.axios.delete(API_ROOT + uri).then(() => {
-    findEntitiesReferencing(vm, uri).forEach(referencing => {
-      // TODO for paginated lists, reload all pages starting from the changed one
-      vm.api.reload(referencing)
-    })
-    vm.$store.commit('purge', uri)
+function deleted (vm, uri) {
+  findEntitiesReferencing(vm, uri).forEach(referencing => {
+    // TODO for paginated lists, reload all pages starting from the changed one
+    vm.api.reload(referencing)
   })
+  vm.api.purge(uri)
 }
 
 function storeHalJsonData (vm, data) {
@@ -120,7 +126,7 @@ Object.defineProperties(Vue.prototype, {
         get: uriOrObject => get(this, uriOrObject),
         purge: uriOrObject => purge(this, uriOrObject),
         reload: uriOrObject => get(this, uriOrObject, true),
-        'delete': uriOrObject => _delete(this, uriOrObject)
+        del: uriOrObject => del(this, uriOrObject)
       }
     }
   }

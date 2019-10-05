@@ -38,7 +38,7 @@ export default {
       this.$store.commit('add', { [changedCamp._meta.self]: changedCamp })
     },
     deleteCamp (camp) {
-      this.api.delete(camp)
+      this.api.del(camp)
     }
   }
 }

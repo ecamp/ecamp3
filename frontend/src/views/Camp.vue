@@ -17,8 +17,8 @@ Displays several tabs with details on a single camp.
             Info
           </router-link>
           <router-link
-            :to="{ name: 'camp' }"
-            class="nav-item btn btn-sm btn-outline-secondary d-none d-sm-block disabled">
+            :to="{ name: 'camp/collaborators' }"
+            class="nav-item btn btn-sm btn-outline-secondary">
             Collaborators
           </router-link>
           <router-link

@@ -380,7 +380,7 @@ describe('API store', () => {
     await letNetworkRequestFinish()
 
     // when
-    vm.api.delete('/users/1')
+    vm.api.del('/users/1')
 
     // then
     await letNetworkRequestFinish()
@@ -415,7 +415,7 @@ describe('API store', () => {
     const user = vm.api.get('/users/1')
 
     // when
-    vm.api.delete(user)
+    vm.api.del(user)
 
     // then
     await letNetworkRequestFinish()
