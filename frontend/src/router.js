@@ -64,6 +64,12 @@ export default new Router({
           props: true
         },
         {
+          path: 'collaborators',
+          name: 'camp/collaborators',
+          component: () => import(/* webpackChunkName: "campCollaborators" */ './components/camp/Collaborators.vue'),
+          props: true
+        },
+        {
           path: 'periods',
           name: 'camp/periods',
           component: () => import(/* webpackChunkName: "campPeriods" */ './components/camp/Periods.vue'),

@@ -27,6 +27,9 @@ export const mutations = {
   },
   purge (state, uri) {
     Vue.delete(state.api, uri)
+  },
+  deleted(state, uri) {
+    Vue.set(state.api, uri, { _meta: { self: uri, deleted: true } })
   }
 }
 
@@ -57,9 +60,18 @@ const get = function (vm, uriOrObject, forceReload = false) {
       // TODO fix backend API and remove the next line
       data._links.self.href = uri
       storeHalJsonData(vm, data)
+    }, ({response}) => {
+      if (response.status === 404) {
+        vm.$store.commit('deleted', uri);
+      }
     })
   }
-  return storeValueProxy(vm, vm.$store.state.api[uri])
+  const obj = vm.$store.state.api[uri]
+  if (obj._meta.deleted) {
+    return null
+  } else {
+    return storeValueProxy(vm, obj)
+  }
 }
 
 const purge = function (vm, uriOrObject) {
@@ -69,6 +81,17 @@ const purge = function (vm, uriOrObject) {
     return
   }
   vm.$store.commit('purge', uri)
+}
+
+const del = function (vm, uriOrObject) {
+  const uri = getNormalizedUri(uriOrObject)
+  if (uri === null) {
+    // Can't delete an unknown URI, do nothing
+    return
+  }
+  vm.axios.delete(API_ROOT + uri).then(() => {
+    vm.$store.commit('deleted', uri)
+  })
 }
 
 function storeHalJsonData (vm, data) {
@@ -87,7 +110,8 @@ Object.defineProperties(Vue.prototype, {
       return {
         get: uriOrObject => get(this, uriOrObject),
         purge: uriOrObject => purge(this, uriOrObject),
-        reload: uriOrObject => get(this, uriOrObject, true)
+        reload: uriOrObject => get(this, uriOrObject, true),
+        del: uriOrObject => del(this, uriOrObject),
       }
     }
   }

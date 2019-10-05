@@ -43,6 +43,8 @@ function collectionProxy (vm, array) {
           return vm.api.get(entry.href)
         }
         return entry
+      }).filter(entry => {
+        return entry !== undefined && entry !== null
       })
     }
   }
