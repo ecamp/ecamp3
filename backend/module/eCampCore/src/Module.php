@@ -29,6 +29,9 @@ class Module {
                 }
             } else {
                 $em->flush();
+                if ($em->getConnection()->isTransactionActive()) {
+                    $em->commit();
+                }
             }
         });
     }
