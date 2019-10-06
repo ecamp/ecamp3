@@ -99,7 +99,7 @@ class CampCollaboration extends BaseEntity {
      * @throws \Exception
      */
     public function setStatus(string $status): void {
-        if (!in_array($status, [self::STATUS_INVITED, self::STATUS_REQUESTED, self::STATUS_ESTABLISHED])) {
+        if (!in_array($status, [self::STATUS_UNRELATED, self::STATUS_INVITED, self::STATUS_REQUESTED, self::STATUS_ESTABLISHED])) {
             throw new \Exception('Invalid status: ' . $status);
         }
         $this->status = $status;

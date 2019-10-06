@@ -410,7 +410,9 @@ return array(
                 0 => 'GET',
                 1 => 'POST',
             ),
-            'collection_query_whitelist' => array(),
+            'collection_query_whitelist' => array(
+                0 => 'search'
+            ),
             'page_size' => 25,
             'page_size_param' => null,
             'entity_class' => 'eCamp\\Core\\Entity\\User',
@@ -1381,7 +1383,7 @@ return array(
         'eCampApi\\V1\\Rest\\CampCollaboration\\Validator' => array(
             0 => array(
                 'name' => 'status',
-                'required' => true,
+                'required' => false,
                 'filters' => array(
                     0 => array(
                         'name' => 'Zend\\Filter\\StringTrim',

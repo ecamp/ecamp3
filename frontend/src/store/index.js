@@ -40,6 +40,17 @@ function getNormalizedUri (uriOrObject) {
   return normalizeUri(typeof uriOrObject === 'string' ? uriOrObject : (uriOrObject._meta || {}).self)
 }
 
+const post = function (vm, uriOrObject, data) {
+  const uri = getNormalizedUri(uriOrObject)
+
+  vm.axios.post(API_ROOT + uri, data).then(({ data }) => {
+    // Workaround because API adds page parameter even to first page when it was not requested that way
+    // TODO fix backend API and remove the next line
+    data._links.self.href = uri
+    storeHalJsonData(vm, data)
+  })
+}
+
 const get = function (vm, uriOrObject, forceReload = false) {
   const uri = getNormalizedUri(uriOrObject)
   if (uri === null) {
@@ -64,6 +75,24 @@ const get = function (vm, uriOrObject, forceReload = false) {
     })
   }
   return storeValueProxy(vm, vm.$store.state.api[uri])
+}
+
+const patch = function (vm, uriOrObject, data) {
+  const uri = getNormalizedUri(uriOrObject)
+  if (uri === null) {
+    // Can't patch an unknown URI, do nothing
+    return
+  }
+  vm.axios.patch(API_ROOT + uri, data).then(({ data }) => {
+    // Workaround because API adds page parameter even to first page when it was not requested that way
+    // TODO fix backend API and remove the next line
+    data._links.self.href = uri
+    storeHalJsonData(vm, data)
+  }, ({ response }) => {
+    if (response.status === 404) {
+      deleted(vm, uri)
+    }
+  })
 }
 
 const purge = function (vm, uriOrObject) {
@@ -123,10 +152,12 @@ Object.defineProperties(Vue.prototype, {
   api: {
     get () {
       return {
+        post: (uriOrObject, data) => post(this, uriOrObject, data),
         get: uriOrObject => get(this, uriOrObject),
-        purge: uriOrObject => purge(this, uriOrObject),
         reload: uriOrObject => get(this, uriOrObject, true),
-        del: uriOrObject => del(this, uriOrObject)
+        del: uriOrObject => del(this, uriOrObject),
+        patch: (uriOrObject, data) => patch(this, uriOrObject, data),
+        purge: uriOrObject => purge(this, uriOrObject)
       }
     }
   }
