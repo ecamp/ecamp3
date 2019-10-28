@@ -37,7 +37,7 @@ export default new Vuex.Store({
 })
 
 function getNormalizedUri (uriOrObject) {
-  return normalizeUri(typeof uriOrObject === 'string' ? uriOrObject : (uriOrObject._meta || {}).self)
+  return normalizeUri(typeof uriOrObject === 'string' ? uriOrObject : ((uriOrObject || {})._meta || {}).self)
 }
 
 const post = function (vm, uriOrObject, data) {

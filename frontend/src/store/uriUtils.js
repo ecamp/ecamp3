@@ -25,6 +25,6 @@ function sortQueryParams (uri) {
 }
 
 export function normalizeUri (uri, baseUrl = '') {
-  if (typeof uri !== 'string' || uri === '') return null
+  if (typeof uri !== 'string' || uri === '') return '/'
   return sortQueryParams(uri).replace(new RegExp(`^${baseUrl}`), '')
 }
