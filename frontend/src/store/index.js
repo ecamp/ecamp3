@@ -3,7 +3,7 @@ import Vuex from 'vuex'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 import normalize from 'hal-json-normalizer'
-import { normalizeUri } from '@/store/uriUtils'
+import { normalizeObjectUri } from '@/store/uriUtils'
 import storeValueProxy, { loadingProxy } from '@/store/storeValueProxy'
 
 Vue.use(Vuex)
@@ -36,12 +36,8 @@ export default new Vuex.Store({
   strict: process.env.NODE_ENV !== 'production'
 })
 
-function getNormalizedUri (uriOrObject) {
-  return normalizeUri(typeof uriOrObject === 'string' ? uriOrObject : ((uriOrObject || {})._meta || {}).self)
-}
-
 const post = function (vm, uriOrObject, data) {
-  const uri = getNormalizedUri(uriOrObject)
+  const uri = normalizeObjectUri(uriOrObject)
 
   vm.axios.post(API_ROOT + uri, data).then(({ data }) => {
     // Workaround because API adds page parameter even to first page when it was not requested that way
@@ -52,7 +48,7 @@ const post = function (vm, uriOrObject, data) {
 }
 
 const get = function (vm, uriOrObject, forceReload = false) {
-  const uri = getNormalizedUri(uriOrObject)
+  const uri = normalizeObjectUri(uriOrObject)
   if (uri === null) {
     // We don't even know the URI, so return something that doesn't break the UI.
     // Hopefully this is running inside a reactive method that will be re-calculated once the URI is known.
@@ -78,7 +74,7 @@ const get = function (vm, uriOrObject, forceReload = false) {
 }
 
 const patch = function (vm, uriOrObject, data) {
-  const uri = getNormalizedUri(uriOrObject)
+  const uri = normalizeObjectUri(uriOrObject)
   if (uri === null) {
     // Can't patch an unknown URI, do nothing
     return
@@ -96,7 +92,7 @@ const patch = function (vm, uriOrObject, data) {
 }
 
 const purge = function (vm, uriOrObject) {
-  const uri = getNormalizedUri(uriOrObject)
+  const uri = normalizeObjectUri(uriOrObject)
   if (uri === null) {
     // Can't purge an unknown URI, do nothing
     return
@@ -105,7 +101,7 @@ const purge = function (vm, uriOrObject) {
 }
 
 const del = function (vm, uriOrObject) {
-  const uri = getNormalizedUri(uriOrObject)
+  const uri = normalizeObjectUri(uriOrObject)
   if (uri === null) {
     // Can't delete an unknown URI, do nothing
     return
@@ -142,7 +138,7 @@ function storeHalJsonData (vm, data) {
   const normalizedData = normalize(data, {
     camelizeKeys: false,
     metaKey: '_meta',
-    normalizeUri: (uri) => normalizeUri(uri, API_ROOT),
+    normalizeUri: (uri) => normalizeObjectUri(uri, API_ROOT),
     filterReferences: true
   })
   vm.$store.commit('add', normalizedData)
