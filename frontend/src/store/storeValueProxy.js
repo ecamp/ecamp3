@@ -9,7 +9,7 @@ function isCollection (object) {
   return object.hasOwnProperty('page_count')
 }
 
-export function loadingProxy (uri = '') {
+export function loadingProxy (uri = null) {
   const handler = {
     get: function (target, prop, receiver) {
       if (prop === Symbol.toPrimitive) {

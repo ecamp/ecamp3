@@ -24,7 +24,13 @@ function sortQueryParams (uri) {
   return prefix
 }
 
-export function normalizeUri (uri, baseUrl = '') {
-  if (typeof uri !== 'string' || uri === '') return null
+export function normalizeObjectUri (uriOrObject, baseUrl = '') {
+  if (uriOrObject === undefined) return normalizeUri('', baseUrl)
+  if (typeof uriOrObject === 'string') return normalizeUri(uriOrObject, baseUrl)
+  return normalizeUri(((uriOrObject || {})._meta || {}).self, baseUrl)
+}
+
+function normalizeUri (uri, baseUrl) {
+  if (typeof uri !== 'string') return null
   return sortQueryParams(uri).replace(new RegExp(`^${baseUrl}`), '')
 }
