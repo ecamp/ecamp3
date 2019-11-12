@@ -5,8 +5,7 @@ function isLink (object) {
 }
 
 function isCollection (object) {
-  if (!object) return false
-  return object.hasOwnProperty('page_count')
+  return object && Array.isArray(object['items'])
 }
 
 export function loadingProxy (uri = null) {
@@ -35,29 +34,21 @@ export function loadingProxy (uri = null) {
   return new Proxy({}, handler)
 }
 
+function mapArrayOfLinks (vm, array) {
+  return array.map(entry => {
+    if (isLink(entry)) {
+      return vm.api.get(entry.href)
+    }
+    return entry
+  })
+}
+
 function collectionProxy (vm, array) {
   return {
     get items () {
-      return array.map(entry => {
-        if (isLink(entry)) {
-          return vm.api.get(entry.href)
-        }
-        return entry
-      })
+      return mapArrayOfLinks(vm, array)
     }
   }
-}
-
-function paginatedCollectionProxy (vm, data) {
-  const allItems = []
-  allItems.push(...data.items)
-  if (isLink(data.next)) {
-    const next = vm.api.get(data.next.href)
-    if (!next._meta.loading) {
-      allItems.push(...next.items)
-    }
-  }
-  return collectionProxy(vm, allItems)
 }
 
 export default function storeValueProxy (vm, data) {
@@ -69,7 +60,7 @@ export default function storeValueProxy (vm, data) {
   Object.keys(data).forEach(key => {
     if (key === 'items' && isCollection(data)) {
       // Define this as a getter to make it evaluate only lazily
-      Object.defineProperty(result, key, { get: () => paginatedCollectionProxy(vm, data).items, enumerable: true })
+      Object.defineProperty(result, key, { get: () => mapArrayOfLinks(vm, data[key]) })
       return
     }
     const value = data[key]

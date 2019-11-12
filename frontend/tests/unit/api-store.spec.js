@@ -114,7 +114,7 @@ describe('API store', () => {
     done()
   })
 
-  it('imports linked collection', async done => {
+  it('imports paginatable collection', async done => {
     // given
     axiosMock.onGet('http://localhost/camps/1').reply(200, linkedCollection.serverResponse)
     const events = {
@@ -127,7 +127,7 @@ describe('API store', () => {
         },
         '_links': { 'self': { 'href': '/camps/1/events' }, 'first': { 'href': '/camps/1/events' } },
         '_page': 0,
-        '_per_page': 3,
+        '_per_page': -1,
         '_total': 2,
         'page_count': 1
       },
@@ -144,7 +144,7 @@ describe('API store', () => {
           'href': '/camps/1/events'
         },
         '_page': 0,
-        '_per_page': 3,
+        '_per_page': -1,
         '_total': 2,
         'page_count': 1,
         '_meta': {
@@ -170,24 +170,31 @@ describe('API store', () => {
     done()
   })
 
-  it('imports linked collection with multiple pages', async done => {
+  it('imports paginatable collection with multiple pages', async done => {
     // given
-    axiosMock.onGet('http://localhost/camps/1/events').reply(200, collectionFirstPage.serverResponse)
-    axiosMock.onGet('http://localhost/camps/1/events?page=1').reply(200, collectionPage1.serverResponse)
+    axiosMock.onGet('http://localhost/camps/1/events?page=0&page_size=2').reply(200, collectionFirstPage.serverResponse)
+    axiosMock.onGet('http://localhost/camps/1/events?page=1&page_size=2').reply(200, collectionPage1.serverResponse)
 
     // when
-    vm.api.get('/camps/1/events')
+    vm.api.get('/camps/1/events?page_size=2&page=0')
 
     // then
-    expect(vm.$store.state.api).toEqual({ '/camps/1/events': { _meta: { self: '/camps/1/events', loading: true } } })
+    expect(vm.$store.state.api).toEqual({ '/camps/1/events?page=0&page_size=2': { _meta: { self: '/camps/1/events?page=0&page_size=2', loading: true } } })
     await letNetworkRequestFinish()
     expect(vm.$store.state.api).toEqual(collectionFirstPage.storeState)
-    expect(vm.api.get('/camps/1/events').items.length).toEqual(2)
+    expect(vm.api.get('/camps/1/events?page_size=2&page=0').items.length).toEqual(2)
+
+    // when
+    vm.api.get('/camps/1/events?page_size=2&page=1')
+
+    // then
+    expect(vm.$store.state.api).toEqual({ ...collectionFirstPage.storeState,
+      '/camps/1/events?page=1&page_size=2': { _meta: { self: '/camps/1/events?page=1&page_size=2', loading: true } } })
+    expect(vm.api.get('/camps/1/events?page_size=2&page=0').items.length).toEqual(2)
     await letNetworkRequestFinish()
-    expect(vm.api.get('/camps/1/events').items.length).toEqual(3)
-    expect(vm.api.get('/camps/1/events').items[0]._meta.self).toEqual('/events/2394')
-    expect(vm.api.get('/camps/1/events').items[1]._meta.self).toEqual('/events/2362')
-    expect(vm.api.get('/camps/1/events').items[2]._meta.self).toEqual('/events/2402')
+    expect(vm.$store.state.api).toEqual({ ...collectionFirstPage.storeState, ...collectionPage1.storeState })
+    expect(vm.api.get('/camps/1/events?page_size=2&page=0').items.length).toEqual(2)
+    expect(vm.api.get('/camps/1/events?page_size=2&page=1').items.length).toEqual(1)
     done()
   })
 

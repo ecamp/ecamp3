@@ -27,6 +27,12 @@ export const mutations = {
   },
   purge (state, uri) {
     Vue.delete(state.api, uri)
+  },
+  deleting (state, uri) {
+    Vue.set(state.api[uri]._meta, 'deleting', true)
+  },
+  deletingFailed (state, uri) {
+    Vue.set(state.api[uri]._meta, 'deleting', false)
   }
 }
 
@@ -55,20 +61,16 @@ const get = function (vm, uriOrObject, forceReload = false) {
     return loadingProxy()
   }
   const existsInStore = (uri in vm.$store.state.api)
-  if (forceReload || !existsInStore) {
-    if (!existsInStore) {
-      vm.$store.commit('addEmpty', uri)
-    }
+  if (!existsInStore) {
+    vm.$store.commit('addEmpty', uri)
+  }
+  if (!existsInStore || forceReload) {
     vm.axios.get(API_ROOT + uri).then(({ data }) => {
       // Workaround because API adds page parameter even to first page when it was not requested that way
       // TODO fix backend API and remove the next line
       data._links.self.href = uri
       storeHalJsonData(vm, data)
-    }, ({ response }) => {
-      if (response.status === 404) {
-        deleted(vm, uri)
-      }
-    })
+    }, ({ response }) => retrievalFailed(vm, uri, response))
   }
   return storeValueProxy(vm, vm.$store.state.api[uri])
 }
@@ -106,7 +108,9 @@ const del = function (vm, uriOrObject) {
     // Can't delete an unknown URI, do nothing
     return
   }
-  return vm.axios.delete(API_ROOT + uri).then(() => deleted(vm, uri))
+  vm.$store.commit('deleting', uri)
+  return vm.axios.delete(API_ROOT + uri)
+    .then(() => deleted(vm, uri), ({ response }) => deletingFailed(vm, uri, response))
 }
 
 function valueIsArrayWithReferenceTo (value, uri) {
@@ -121,17 +125,27 @@ function valueIsReferenceTo (value, uri) {
 function findEntitiesReferencing (vm, uri) {
   return Object.values(vm.$store.state.api)
     .filter((entity) => {
-      return Object.values(entity).some(propertyValue => (valueIsReferenceTo(propertyValue, uri) ||
-        valueIsArrayWithReferenceTo(propertyValue, uri)))
+      return Object.values(entity).some(propertyValue =>
+        valueIsReferenceTo(propertyValue, uri) || valueIsArrayWithReferenceTo(propertyValue, uri)
+      )
     })
 }
 
 function deleted (vm, uri) {
-  findEntitiesReferencing(vm, uri).forEach(referencing => {
-    // TODO for paginated lists, reload all pages starting from the changed one
-    vm.api.reload(referencing)
-  })
+  findEntitiesReferencing(vm, uri).forEach(outdatedEntity => vm.api.reload(outdatedEntity))
   vm.api.purge(uri)
+}
+
+function deletingFailed (vm, uri, response) {
+  if (response.status !== 204) {
+    vm.$store.commit('deletingFailed', uri)
+  }
+}
+
+function retrievalFailed (vm, uri, response) {
+  if (response.status === 404) {
+    deleted(vm, uri)
+  }
 }
 
 function storeHalJsonData (vm, data) {

@@ -18,7 +18,7 @@ Displays collaborators of a single camp.
             <button class="btn btn-sm btn-primary">
               <i class="zmdi zmdi-edit"></i> edit
             </button>
-            <button @click="changeStatus(collaborator, 'unrelated')" class="btn btn-sm btn-danger">
+            <button @click="api.del(collaborator)" class="btn btn-sm btn-danger">
               <i class="zmdi zmdi-close"></i> delete
             </button>
           </div>
@@ -69,7 +69,7 @@ Displays collaborators of a single camp.
               <button class="btn btn-sm btn-primary">
                 <i class="zmdi zmdi-edit"></i> edit
               </button>
-              <button @click="changeStatus(collaborator, 'unrelated')" class="btn btn-sm btn-danger">
+              <button @click="api.del(collaborator)" class="btn btn-sm btn-danger">
                 <i class="zmdi zmdi-close"></i> delete
               </button>
             </div>
@@ -119,7 +119,7 @@ export default {
       return this.api.get(this.campUri)
     },
     collaborators () {
-      return this.campDetails.camp_collaborations().items
+      return this.campDetails.camp_collaborations().items.filter(c => !c._meta.deleting)
     },
     establishedCollaborators () {
       return this.collaborators.filter(c => c.status === 'established')
