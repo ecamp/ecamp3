@@ -4,7 +4,7 @@ import axios from 'axios'
 import VueAxios from 'vue-axios'
 import normalize from 'hal-json-normalizer'
 import { normalizeObjectUri } from '@/store/uriUtils'
-import storeValueProxy, { loadingProxy } from '@/store/storeValueProxy'
+import storeValueProxy from '@/store/storeValueProxy'
 
 Vue.use(Vuex)
 axios.defaults.withCredentials = true

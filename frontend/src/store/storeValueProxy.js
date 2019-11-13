@@ -48,14 +48,15 @@ function mapArrayOfLinks (vm, array) {
   })
 }
 
+function addItemsGetter (vm, target, items) {
+  // Items should be a getter to make the map operation evaluate lazily
+  Object.defineProperty(target, 'items', { get: () => mapArrayOfLinks(vm, items) })
+  return target
+}
+
 function embeddedCollectionProxy (vm, array) {
-  const result = {
-    _meta: {},
-    // Define this as a getter to make it evaluate only lazily
-    get items () {
-      return mapArrayOfLinks(vm, array)
-    }
-  }
+  // Imitate a full collection with an items property, even though we don't have a URI for this collection
+  const result = addItemsGetter(vm, { _meta: {} }, array)
   result._meta.loaded = Promise.resolve(result)
   return result
 }
@@ -73,8 +74,7 @@ export default function storeValueProxy (vm, data, rawDataFinishedLoading) {
   Object.keys(data).forEach(key => {
     const value = data[key]
     if (key === 'items' && isCollection(data)) {
-      // Define this as a getter to make it evaluate only lazily
-      Object.defineProperty(result, key, { get: () => mapArrayOfLinks(vm, data[key]) })
+      addItemsGetter(vm, result, data[key])
     } else if (Array.isArray(value)) {
       result[key] = () => embeddedCollectionProxy(vm, value)
     } else if (isLink(value)) {
