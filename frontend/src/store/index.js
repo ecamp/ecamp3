@@ -152,8 +152,8 @@ function findEntitiesReferencing (vm, uri) {
 }
 
 function deleted (vm, uri) {
-  findEntitiesReferencing(vm, uri).forEach(outdatedEntity => vm.api.reload(outdatedEntity))
-  vm.api.purge(uri)
+  Promise.all(findEntitiesReferencing(vm, uri).map(outdatedEntity => vm.api.reload(outdatedEntity)._meta.loaded))
+    .then(() => vm.api.purge(uri))
 }
 
 function deletingFailed (vm, uri, response) {
