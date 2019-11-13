@@ -44,9 +44,9 @@ describe('API store', () => {
     vm.api.get('/camps/1')
 
     // then
-    expect(vm.$store.state.api).toEqual({ '/camps/1': { _meta: { self: '/camps/1', loading: true } } })
+    expect(vm.$store.state.api).toMatchObject({ '/camps/1': { _meta: { self: '/camps/1', loading: true } } })
     await letNetworkRequestFinish()
-    expect(vm.$store.state.api).toEqual(embeddedSingleEntity.storeState)
+    expect(vm.$store.state.api).toMatchObject(embeddedSingleEntity.storeState)
     expect(vm.api.get('/camps/1')._meta.self).toEqual('/camps/1')
     expect(vm.api.get('/camps/1').camp_type()._meta.self).toEqual('/campTypes/20')
     expect(vm.api.get('/campTypes/20')._meta.self).toEqual('/campTypes/20')
@@ -61,9 +61,9 @@ describe('API store', () => {
     vm.api.get('/camps/1')
 
     // then
-    expect(vm.$store.state.api).toEqual({ '/camps/1': { _meta: { self: '/camps/1', loading: true } } })
+    expect(vm.$store.state.api).toMatchObject({ '/camps/1': { _meta: { self: '/camps/1', loading: true } } })
     await letNetworkRequestFinish()
-    expect(vm.$store.state.api).toEqual(referenceToSingleEntity.storeState)
+    expect(vm.$store.state.api).toMatchObject(referenceToSingleEntity.storeState)
     expect(vm.api.get('/camps/1')._meta.self).toEqual('/camps/1')
     done()
   })
@@ -76,9 +76,9 @@ describe('API store', () => {
     vm.api.get('/camps/1')
 
     // then
-    expect(vm.$store.state.api).toEqual({ '/camps/1': { _meta: { self: '/camps/1', loading: true } } })
+    expect(vm.$store.state.api).toMatchObject({ '/camps/1': { _meta: { self: '/camps/1', loading: true } } })
     await letNetworkRequestFinish()
-    expect(vm.$store.state.api).toEqual(embeddedCollection.storeState)
+    expect(vm.$store.state.api).toMatchObject(embeddedCollection.storeState)
     expect(vm.api.get('/camps/1')._meta.self).toEqual('/camps/1')
     expect(vm.api.get('/camps/1').periods().items[0]._meta.self).toEqual('/periods/104')
     expect(vm.api.get('/camps/1').periods().items[1]._meta.self).toEqual('/periods/128')
@@ -102,14 +102,14 @@ describe('API store', () => {
     vm.api.get('/camps/1')
 
     // then
-    expect(vm.$store.state.api).toEqual({ '/camps/1': { _meta: { self: '/camps/1', loading: true } } })
+    expect(vm.$store.state.api).toMatchObject({ '/camps/1': { _meta: { self: '/camps/1', loading: true } } })
     await letNetworkRequestFinish()
-    expect(vm.$store.state.api).toEqual(linkedSingleEntity.storeState)
+    expect(vm.$store.state.api).toMatchObject(linkedSingleEntity.storeState)
     expect(vm.api.get('/camps/1')._meta.self).toEqual('/camps/1')
     // expect(vm.api.get('/camps/1').main_leader()._meta.self).toEqual('/users/83')
     expect(vm.api.get('/camps/1').main_leader()._meta.loading).toEqual(true)
     await letNetworkRequestFinish()
-    expect(vm.api.get('/camps/1').main_leader()._meta).toEqual({ self: '/users/83' })
+    expect(vm.api.get('/camps/1').main_leader()._meta).toMatchObject({ self: '/users/83' })
     expect(vm.api.get('/users/83')._meta.self).toEqual('/users/83')
     done()
   })
@@ -158,12 +158,12 @@ describe('API store', () => {
     vm.api.get('/camps/1')
 
     // then
-    expect(vm.$store.state.api).toEqual({ '/camps/1': { _meta: { self: '/camps/1', loading: true } } })
+    expect(vm.$store.state.api).toMatchObject({ '/camps/1': { _meta: { self: '/camps/1', loading: true } } })
     await letNetworkRequestFinish()
-    expect(vm.$store.state.api).toEqual(linkedCollection.storeState)
+    expect(vm.$store.state.api).toMatchObject(linkedCollection.storeState)
     expect(vm.api.get('/camps/1').events().items).toEqual([])
     await letNetworkRequestFinish()
-    expect(vm.$store.state.api['/camps/1/events']).toEqual(events.storeState)
+    expect(vm.$store.state.api['/camps/1/events']).toMatchObject(events.storeState)
     expect(vm.api.get('/camps/1').events().items.length).toEqual(2)
     expect(vm.api.get('/camps/1').events().items[0]._meta.self).toEqual('/events/1234')
     expect(vm.api.get('/camps/1').events().items[1]._meta.self).toEqual('/events/1236')
@@ -179,20 +179,20 @@ describe('API store', () => {
     vm.api.get('/camps/1/events?page_size=2&page=0')
 
     // then
-    expect(vm.$store.state.api).toEqual({ '/camps/1/events?page=0&page_size=2': { _meta: { self: '/camps/1/events?page=0&page_size=2', loading: true } } })
+    expect(vm.$store.state.api).toMatchObject({ '/camps/1/events?page=0&page_size=2': { _meta: { self: '/camps/1/events?page=0&page_size=2', loading: true } } })
     await letNetworkRequestFinish()
-    expect(vm.$store.state.api).toEqual(collectionFirstPage.storeState)
+    expect(vm.$store.state.api).toMatchObject(collectionFirstPage.storeState)
     expect(vm.api.get('/camps/1/events?page_size=2&page=0').items.length).toEqual(2)
 
     // when
     vm.api.get('/camps/1/events?page_size=2&page=1')
 
     // then
-    expect(vm.$store.state.api).toEqual({ ...collectionFirstPage.storeState,
+    expect(vm.$store.state.api).toMatchObject({ ...collectionFirstPage.storeState,
       '/camps/1/events?page=1&page_size=2': { _meta: { self: '/camps/1/events?page=1&page_size=2', loading: true } } })
     expect(vm.api.get('/camps/1/events?page_size=2&page=0').items.length).toEqual(2)
     await letNetworkRequestFinish()
-    expect(vm.$store.state.api).toEqual({ ...collectionFirstPage.storeState, ...collectionPage1.storeState })
+    expect(vm.$store.state.api).toMatchObject({ ...collectionFirstPage.storeState, ...collectionPage1.storeState })
     expect(vm.api.get('/camps/1/events?page_size=2&page=0').items.length).toEqual(2)
     expect(vm.api.get('/camps/1/events?page_size=2&page=1').items.length).toEqual(1)
     done()
@@ -206,9 +206,9 @@ describe('API store', () => {
     vm.api.get({ _meta: { self: '/camps/1' } })
 
     // then
-    expect(vm.$store.state.api).toEqual({ '/camps/1': { _meta: { self: '/camps/1', loading: true } } })
+    expect(vm.$store.state.api).toMatchObject({ '/camps/1': { _meta: { self: '/camps/1', loading: true } } })
     await letNetworkRequestFinish()
-    expect(vm.$store.state.api).toEqual(embeddedSingleEntity.storeState)
+    expect(vm.$store.state.api).toMatchObject(embeddedSingleEntity.storeState)
     done()
   })
 
@@ -221,9 +221,9 @@ describe('API store', () => {
     vm.api.get(loadingObject)
 
     // then
-    expect(vm.$store.state.api).toEqual({ '/camps/1': { _meta: { self: '/camps/1', loading: true } } })
+    expect(vm.$store.state.api).toMatchObject({ '/camps/1': { _meta: { self: '/camps/1', loading: true } } })
     await letNetworkRequestFinish()
-    expect(vm.$store.state.api).toEqual(embeddedSingleEntity.storeState)
+    expect(vm.$store.state.api).toMatchObject(embeddedSingleEntity.storeState)
     done()
   })
 
@@ -236,10 +236,33 @@ describe('API store', () => {
     vm.api.get(loadingObject)
 
     // then
-    expect(vm.$store.state.api).toEqual({ '/camps/1': { _meta: { self: '/camps/1', loading: true } } })
+    expect(vm.$store.state.api).toMatchObject({ '/camps/1': { _meta: { self: '/camps/1', loading: true } } })
     await letNetworkRequestFinish()
-    expect(vm.$store.state.api).toEqual(embeddedSingleEntity.storeState)
+    expect(vm.$store.state.api).toMatchObject(embeddedSingleEntity.storeState)
     done()
+  })
+
+  it('allows accessing _meta in a loading object with unknown URI', async done => {
+    // given
+    axiosMock.onGet('http://localhost/camps/1').reply(200, embeddedSingleEntity.serverResponse)
+    let loadingObject = vm.api.get('/camps/1').camp_type()
+
+    // when
+    let meta = vm.api.get(loadingObject)._meta
+
+    // then
+    expect(`${meta}`).toEqual('')
+    done()
+  })
+
+  it('throws when trying to access _meta in an invalid object', () => {
+    // given
+
+    // when
+    expect(() => vm.api.get({})._meta)
+
+      // then
+      .toThrow(Error)
   })
 
   it('purges and later re-fetches a URI from the store', async done => {
@@ -255,10 +278,10 @@ describe('API store', () => {
     vm.api.purge('/campTypes/20')
 
     // then
-    expect(vm.$store.state.api).toEqual(storeStateWithoutCampType)
+    expect(vm.$store.state.api).toMatchObject(storeStateWithoutCampType)
     expect(vm.api.get('/camps/1').camp_type()._meta.loading).toEqual(true)
     await letNetworkRequestFinish()
-    expect(vm.$store.state.api).toEqual(embeddedSingleEntity.storeState)
+    expect(vm.$store.state.api).toMatchObject(embeddedSingleEntity.storeState)
     done()
   })
 
@@ -276,10 +299,10 @@ describe('API store', () => {
     vm.api.purge(campType)
 
     // then
-    expect(vm.$store.state.api).toEqual(storeStateWithoutCampType)
+    expect(vm.$store.state.api).toMatchObject(storeStateWithoutCampType)
     expect(vm.api.get('/camps/1').camp_type()._meta.loading).toEqual(true)
     await letNetworkRequestFinish()
-    expect(vm.$store.state.api).toEqual(embeddedSingleEntity.storeState)
+    expect(vm.$store.state.api).toMatchObject(embeddedSingleEntity.storeState)
     done()
   })
 
@@ -316,7 +339,7 @@ describe('API store', () => {
     vm.api.reload('/campTypes/20')
 
     // then
-    expect(vm.$store.state.api).toEqual(embeddedSingleEntity.storeState)
+    expect(vm.$store.state.api).toMatchObject(embeddedSingleEntity.storeState)
     await letNetworkRequestFinish()
     expect(vm.$store.state.api['/campTypes/20']).toEqual(campType.storeState)
     done()
@@ -356,7 +379,7 @@ describe('API store', () => {
     vm.api.reload(campType)
 
     // then
-    expect(vm.$store.state.api).toEqual(embeddedSingleEntity.storeState)
+    expect(vm.$store.state.api).toMatchObject(embeddedSingleEntity.storeState)
     await letNetworkRequestFinish()
     expect(vm.$store.state.api['/campTypes/20']).toEqual(campTypeData.storeState)
     done()

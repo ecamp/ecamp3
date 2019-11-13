@@ -56,23 +56,43 @@ const post = function (vm, uriOrObject, data) {
 const get = function (vm, uriOrObject, forceReload = false) {
   const uri = normalizeObjectUri(uriOrObject)
   if (uri === null) {
-    // We don't even know the URI, so return something that doesn't break the UI.
-    // Hopefully this is running inside a reactive method that will be re-calculated once the URI is known.
-    return loadingProxy()
+    if (uriOrObject[Symbol('isLoadingProxy')]) {
+      // A loadingProxy is safe to return without breaking the UI.
+      return uriOrObject
+    }
+    // We don't know anything about the requested object.
+    throw new Error(`Could not interpret "${uriOrObject}" as an object or URI`)
   }
   const existsInStore = (uri in vm.$store.state.api)
+  const isLoading = existsInStore && (vm.$store.state.api[uri]._meta || {}).loading
   if (!existsInStore) {
     vm.$store.commit('addEmpty', uri)
   }
-  if (!existsInStore || forceReload) {
-    vm.axios.get(API_ROOT + uri).then(({ data }) => {
-      // Workaround because API adds page parameter even to first page when it was not requested that way
-      // TODO fix backend API and remove the next line
-      data._links.self.href = uri
-      storeHalJsonData(vm, data)
-    }, ({ response }) => retrievalFailed(vm, uri, response))
+  let loaded
+  if (isLoading && !forceReload) {
+    // Reuse the existing promise that is already waiting for a pending API request
+    loaded = vm.$store.state.api[uri]._meta.loaded
+  } else if (!existsInStore || forceReload) {
+    loaded = new Promise((resolve, reject) => {
+      vm.axios.get(API_ROOT + uri).then(
+        ({ data }) => {
+          // Workaround because API adds page parameter even to first page when it was not requested that way
+          // TODO fix backend API and remove the next line
+          data._links.self.href = uri
+          storeHalJsonData(vm, data)
+          resolve(vm.$store.state.api[uri])
+        },
+        ({ response }) => {
+          if (response.status === 404) {
+            deleted(vm, uri)
+          }
+          reject(response)
+        })
+    })
+  } else {
+    loaded = Promise.resolve(vm.$store.state.api[uri])
   }
-  return storeValueProxy(vm, vm.$store.state.api[uri])
+  return storeValueProxy(vm, vm.$store.state.api[uri], loaded)
 }
 
 const patch = function (vm, uriOrObject, data) {
@@ -139,12 +159,6 @@ function deleted (vm, uri) {
 function deletingFailed (vm, uri, response) {
   if (response.status !== 204) {
     vm.$store.commit('deletingFailed', uri)
-  }
-}
-
-function retrievalFailed (vm, uri, response) {
-  if (response.status === 404) {
-    deleted(vm, uri)
   }
 }
 
