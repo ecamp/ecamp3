@@ -10,22 +10,28 @@ Displays collaborators of a single camp.
         <th>Rolle</th>
         <th>Option</th>
       </tr>
-      <tr v-for="collaborator in establishedCollaborators" :key="collaborator.id">
+      <tr
+        v-for="collaborator in establishedCollaborators"
+        :key="collaborator.id">
         <td>{{ collaborator.user().username }}</td>
         <td>{{ collaborator.role }}</td>
         <td width="150">
-          <div class="btn-group" role="group">
+          <div
+            class="btn-group"
+            role="group">
             <button class="btn btn-sm btn-primary">
-              <i class="zmdi zmdi-edit"></i> edit
+              <i class="zmdi zmdi-edit" /> edit
             </button>
-            <button @click="api.del(collaborator)" class="btn btn-sm btn-danger">
-              <i class="zmdi zmdi-close"></i> delete
+            <button
+              class="btn btn-sm btn-danger"
+              @click="api.del(collaborator)">
+              <i class="zmdi zmdi-close" /> delete
             </button>
           </div>
         </td>
       </tr>
     </table>
-    <hr />
+    <hr>
 
     <div v-if="requestedCollaborators.length > 0">
       <h3>Offene Anfragen</h3>
@@ -35,22 +41,30 @@ Displays collaborators of a single camp.
           <th>Rolle</th>
           <th>Option</th>
         </tr>
-        <tr v-for="collaborator in requestedCollaborators" :key="collaborator.id">
+        <tr
+          v-for="collaborator in requestedCollaborators"
+          :key="collaborator.id">
           <td>{{ collaborator.user().username }}</td>
           <td>{{ collaborator.role }}</td>
           <td width="150">
-            <div class="btn-group" role="group">
-              <button @click="changeStatus(collaborator, 'established')" class="btn btn-sm btn-success">
-                <i class="zmdi zmdi-check"></i> accept
+            <div
+              class="btn-group"
+              role="group">
+              <button
+                class="btn btn-sm btn-success"
+                @click="changeStatus(collaborator, 'established')">
+                <i class="zmdi zmdi-check" /> accept
               </button>
-              <button @click="changeStatus(collaborator, 'unrelated')" class="btn btn-sm btn-danger">
-                <i class="zmdi zmdi-close"></i> deny
+              <button
+                class="btn btn-sm btn-danger"
+                @click="changeStatus(collaborator, 'unrelated')">
+                <i class="zmdi zmdi-close" /> deny
               </button>
             </div>
           </td>
         </tr>
       </table>
-      <hr />
+      <hr>
     </div>
 
     <div v-if="invitedCollaborators.length > 0">
@@ -61,40 +75,59 @@ Displays collaborators of a single camp.
           <th>Rolle</th>
           <th>Option</th>
         </tr>
-        <tr v-for="collaborator in invitedCollaborators" :key="collaborator.id">
+        <tr
+          v-for="collaborator in invitedCollaborators"
+          :key="collaborator.id">
           <td>{{ collaborator.user().username }}</td>
           <td>{{ collaborator.role }}</td>
           <td width="150">
-            <div class="btn-group" role="group">
+            <div
+              class="btn-group"
+              role="group">
               <button class="btn btn-sm btn-primary">
-                <i class="zmdi zmdi-edit"></i> edit
+                <i class="zmdi zmdi-edit" /> edit
               </button>
-              <button @click="api.del(collaborator)" class="btn btn-sm btn-danger">
-                <i class="zmdi zmdi-close"></i> delete
+              <button
+                class="btn btn-sm btn-danger"
+                @click="api.del(collaborator)">
+                <i class="zmdi zmdi-close" /> delete
               </button>
             </div>
           </td>
         </tr>
       </table>
-      <hr />
+      <hr>
     </div>
 
     <h3>Einladen</h3>
-    <table width="100%" cellpadding="3">
+    <table
+      width="100%"
+      cellpadding="3">
       <tr>
         <td colspan="2">
-          <input type="text" class="form-control form-control-sm" placeholder="Suchen" v-model="search">
+          <input
+            v-model="search"
+            type="text"
+            class="form-control form-control-sm"
+            placeholder="Suchen">
         </td>
       </tr>
 
-      <tr v-for="result in searchResults" :key="result.id">
+      <tr
+        v-for="result in searchResults"
+        :key="result.id">
         <td>{{ result.username }}</td>
         <td width="200">
-          <button @click="invite(result, 'member')" class="btn btn-sm btn-success" style="margin-right: 4px">
-            <i class="zmdi zmdi-plus-circle-o"></i> member
+          <button
+            class="btn btn-sm btn-success"
+            style="margin-right: 4px"
+            @click="invite(result, 'member')">
+            <i class="zmdi zmdi-plus-circle-o" /> member
           </button>
-          <button @click="invite(result, 'manager')" class="btn btn-sm btn-success">
-            <i class="zmdi zmdi-plus-circle-o"></i> manager
+          <button
+            class="btn btn-sm btn-success"
+            @click="invite(result, 'manager')">
+            <i class="zmdi zmdi-plus-circle-o" /> manager
           </button>
         </td>
       </tr>
