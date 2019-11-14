@@ -1,4 +1,4 @@
-import { normalizeObjectUri } from '../../src/store/uriUtils'
+import { normalizeEntityUri } from '../../src/store/uriUtils'
 
 describe('URI normalizing', () => {
   it('sorts query parameters correctly', () => {
@@ -28,7 +28,7 @@ describe('URI normalizing', () => {
 
     Object.entries(examples).forEach(([example, expected]) => {
       // when
-      const result = normalizeObjectUri(example)
+      const result = normalizeEntityUri(example)
 
       // then
       expect(result).toEqual(expected)
@@ -39,7 +39,7 @@ describe('URI normalizing', () => {
     // given
 
     // when
-    const result = normalizeObjectUri(null)
+    const result = normalizeEntityUri(null)
 
     // then
     expect(result).toEqual(null)
@@ -49,7 +49,7 @@ describe('URI normalizing', () => {
     // given
 
     // when
-    const result = normalizeObjectUri(undefined)
+    const result = normalizeEntityUri(undefined)
 
     // then
     expect(result).toEqual('')
