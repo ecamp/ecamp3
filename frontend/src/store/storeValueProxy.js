@@ -101,11 +101,11 @@ function addItemsGetter (vm, target, items) {
  * Imitates a full standalone collection with an items property, even if there is no separate URI (as it
  * is the case with embedded collections).
  * @param vm       Vue instance
- * @param array    array of items, which can be mixed primitive values and entity references
+ * @param items    array of items, which can be mixed primitive values and entity references
  * @returns object the imitated collection object
  */
-function embeddedCollectionProxy (vm, array) {
-  const result = addItemsGetter(vm, { _meta: {} }, array)
+function embeddedCollectionProxy (vm, items) {
+  const result = addItemsGetter(vm, { _meta: {} }, items)
   result._meta.loaded = Promise.resolve(result)
   return result
 }
@@ -140,13 +140,21 @@ function embeddedCollectionProxy (vm, array) {
  */
 export default function storeValueProxy (vm, data) {
   const meta = data._meta || {}
+
   if (meta.loading) {
-    let entityLoaded = meta.loaded.then(result => {
-      // In here, result._meta.loading should never be true
-      return storeValueProxy(vm, result)
-    })
+    let entityLoaded = meta.loaded.then(loadedData => createStoreValueProxy(vm, loadedData))
     return loadingProxy(entityLoaded, meta.self)
   }
+
+  return createStoreValueProxy(vm, data)
+}
+
+/**
+ * Creates an actual storeValueProxy, by wrapping the given Vuex store data. The data must not be loading.
+ * @param vm   Vue instance
+ * @param data fully loaded entity data from the Vuex store
+ */
+function createStoreValueProxy (vm, data) {
   const result = {}
   Object.keys(data).forEach(key => {
     const value = data[key]
@@ -161,6 +169,6 @@ export default function storeValueProxy (vm, data) {
     }
   })
   // Use a shallow clone of _meta, since we don't want to overwrite the ._meta.loaded promise in the Vuex store
-  result._meta = { ...meta, loaded: Promise.resolve(result) }
+  result._meta = { ...data._meta, loaded: Promise.resolve(result) }
   return result
 }
