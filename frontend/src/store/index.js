@@ -130,18 +130,18 @@ const get = function (vm, uriOrEntity, forceReload = false) {
     throw new Error(`Could not perform GET, "${uriOrEntity}" is not an entity or URI`)
   }
 
-  let dataFinishedLoading = load(vm, uri, forceReload)
-  return storeValueProxy(vm, vm.$store.state.api[uri], dataFinishedLoading)
+  load(vm, uri, forceReload)
+  return storeValueProxy(vm, vm.$store.state.api[uri])
 }
 
 /**
- * Loads the entity specified by the URI from the Vuex store, or from the API if necessary. Returns a
- * promise that resolves to the loaded reactive entity data.
- * @param vm                Vue instance
- * @param uri               URI of the entity to load
- * @param forceReload       If true, the entity will be fetched from the API even if it is already in the Vuex store.
- * @returns Promise<entity> resolves to the data from the Vuex store after the HTTP request has finished, or
- *                          immediately if there is no need to fetch from the API.
+ * Loads the entity specified by the URI from the Vuex store, or from the API if necessary. If applicable,
+ * sets the loaded promise on the entity in the Vuex store.
+ * @param vm          Vue instance
+ * @param uri         URI of the entity to load
+ * @param forceReload If true, the entity will be fetched from the API even if it is already in the Vuex store.
+ * @returns entity    the current entity data from the Vuex store. Note: This may be a reactive dummy if the
+ *                    backend request is still ongoing.
  */
 function load (vm, uri, forceReload) {
   const existsInStore = (uri in vm.$store.state.api)
@@ -150,13 +150,20 @@ function load (vm, uri, forceReload) {
     vm.$store.commit('addEmpty', uri)
   }
   if (isLoading && !forceReload) {
-    // Reuse the existing promise that is already waiting for a pending API request
-    return vm.$store.state.api[uri]._meta.loaded
+    // Reuse the loading entity and loaded promise that is already waiting for a pending API request
+    return vm.$store.state.api[uri]
   }
+
+  let dataFinishedLoading = Promise.resolve(vm.$store.state.api[uri])
   if (!existsInStore || forceReload) {
-    return loadFromApi(vm, uri)
+    dataFinishedLoading = loadFromApi(vm, uri)
   }
-  return Promise.resolve(vm.$store.state.api[uri])
+  // We mutate the store state here without telling Vuex about it, so it won't complain and won't make loaded reactive.
+  // The promise is needed in the store for a special case when a loading entity is requested a second time with
+  // this.api.get(...).
+  vm.$store.state.api[uri]._meta.loaded = dataFinishedLoading
+
+  return vm.$store.state.api[uri]
 }
 
 /**

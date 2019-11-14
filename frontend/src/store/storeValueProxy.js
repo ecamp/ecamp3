@@ -30,13 +30,13 @@ function isCollection (object) {
  * let user = loadingProxy(...)
  * 'The "' + user + '" is called "' + user.name + '"' // gives 'The "" is called ""'
  *
- * @param dataLoaded a Promise that resolves to a storeValueProxy when the entity has finished
- *                   loading from the API
- * @param uri        optional URI of the entity being loaded, if available. If passed, the
- *                   returned loadingProxy will return it in calls to .self and ._meta.self
- * @returns object   a loadingProxy
+ * @param entityLoaded a Promise that resolves to a storeValueProxy when the entity has finished
+ *                     loading from the API
+ * @param uri          optional URI of the entity being loaded, if available. If passed, the
+ *                     returned loadingProxy will return it in calls to .self and ._meta.self
+ * @returns object     a loadingProxy
  */
-function loadingProxy (dataLoaded, uri = null) {
+function loadingProxy (entityLoaded, uri = null) {
   const handler = {
     get: function (target, prop, receiver) {
       if (prop === Symbol('isLoadingProxy')) {
@@ -54,10 +54,11 @@ function loadingProxy (dataLoaded, uri = null) {
       if (prop === 'items') {
         return []
       }
-      const nestedLoaded = dataLoaded.then(result => result[prop])
+      const nestedLoaded = entityLoaded.then(entity => entity[prop])
       if (prop === '_meta') {
         return loadingProxy(nestedLoaded, uri)
       }
+      // Normal property access: return a function that yields another loadingProxy and renders as empty string
       let result = () => loadingProxy(nestedLoaded)
       result.toString = () => ''
       return result
@@ -92,7 +93,6 @@ function mapArrayOfEntityReferences (vm, array) {
  * @returns object the target object with the added getter
  */
 function addItemsGetter (vm, target, items) {
-  // Items should be a getter to make the map operation evaluate lazily
   Object.defineProperty(target, 'items', { get: () => mapArrayOfEntityReferences(vm, items) })
   return target
 }
@@ -129,23 +129,23 @@ function embeddedCollectionProxy (vm, array) {
  *     self: '/self/uri'
  *   }
  * }
- * let usable = storeValueProxy(vm, storeData, ...)
+ * // Apply storeValueProxy
+ * let usable = storeValueProxy(vm, storeData)
+ * // Now we can use accessor methods
  * usable.reference_to_other_entity() // returns the result of this.api.get('/uri/of/other/entity')
  *
  * @param vm                  Vue instance
  * @param data                entity data from the Vuex store
- * @param dataFinishedLoading Promise resolving to the fully loaded entity data from the Vuex store. Only
- *                            needed when the data is still loading from the API
  * @returns object            wrapped entity ready for use in a frontend component
  */
-export default function storeValueProxy (vm, data, dataFinishedLoading) {
+export default function storeValueProxy (vm, data) {
   const meta = data._meta || {}
   if (meta.loading) {
-    meta.loaded = dataFinishedLoading.then(result => {
+    let entityLoaded = meta.loaded.then(result => {
       // In here, result._meta.loading should never be true
-      return storeValueProxy(vm, result, Promise.resolve(result))
+      return storeValueProxy(vm, result)
     })
-    return loadingProxy(meta.loaded, meta.self)
+    return loadingProxy(entityLoaded, meta.self)
   }
   const result = {}
   Object.keys(data).forEach(key => {
@@ -160,6 +160,7 @@ export default function storeValueProxy (vm, data, dataFinishedLoading) {
       result[key] = value
     }
   })
-  result._meta.loaded = Promise.resolve(result)
+  // Use a shallow clone of _meta, since we don't want to overwrite the ._meta.loaded promise in the Vuex store
+  result._meta = { ...meta, loaded: Promise.resolve(result) }
   return result
 }
