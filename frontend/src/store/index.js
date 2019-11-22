@@ -105,7 +105,7 @@ const post = function (vm, uriOrCollection, data) {
  *   user () { return this.api.get().profile() } // Root endpoint ('/') and navigate through self-discovery API
  * },
  * created () {
- *   this.oneSpecificCamp.loaded.then(() => {
+ *   this.oneSpecificCamp._meta.loaded.then(() => {
  *     // do something now that the camp is loaded from the API
  *   })
  * }
@@ -130,8 +130,8 @@ const get = function (vm, uriOrEntity, forceReload = false) {
     throw new Error(`Could not perform GET, "${uriOrEntity}" is not an entity or URI`)
   }
 
-  load(vm, uri, forceReload)
-  return storeValueProxy(vm, vm.$store.state.api[uri])
+  let storeData = load(vm, uri, forceReload)
+  return storeValueProxy(vm, storeData)
 }
 
 /**
