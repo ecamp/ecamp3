@@ -93,8 +93,8 @@ describe('API store', () => {
     // given
     axiosMock.onGet('http://localhost/camps/1').reply(200, linkedSingleEntity.serverResponse)
     const mainLeader = {
-      serverResponse: { 'id': 83, 'name': 'Smiley', '_links': { 'self': { 'href': '/users/83' } } },
-      storeState: { 'id': 83, 'name': 'Smiley', '_meta': { 'self': '/users/83' } }
+      serverResponse: { id: 83, name: 'Smiley', _links: { self: { href: '/users/83' } } },
+      storeState: { id: 83, name: 'Smiley', _meta: { self: '/users/83' } }
     }
     axiosMock.onGet('http://localhost/users/83').reply(200, mainLeader.serverResponse)
 
@@ -119,36 +119,36 @@ describe('API store', () => {
     axiosMock.onGet('http://localhost/camps/1').reply(200, linkedCollection.serverResponse)
     const events = {
       serverResponse: {
-        '_embedded': {
-          'items': [
-            { 'id': 1234, 'title': 'LS Volleyball', '_links': { 'self': { 'href': '/events/1234' } } },
-            { 'id': 1236, 'title': 'LA Blachen', '_links': { 'self': { 'href': '/events/1236' } } }
+        _embedded: {
+          items: [
+            { id: 1234, title: 'LS Volleyball', _links: { self: { href: '/events/1234' } } },
+            { id: 1236, title: 'LA Blachen', _links: { self: { href: '/events/1236' } } }
           ]
         },
-        '_links': { 'self': { 'href': '/camps/1/events' }, 'first': { 'href': '/camps/1/events' } },
-        '_page': 0,
-        '_per_page': -1,
-        '_total': 2,
-        'page_count': 1
+        _links: { self: { href: '/camps/1/events' }, first: { href: '/camps/1/events' } },
+        _page: 0,
+        _per_page: -1,
+        _total: 2,
+        page_count: 1
       },
       storeState: {
-        'items': [
+        items: [
           {
-            'href': '/events/1234'
+            href: '/events/1234'
           },
           {
-            'href': '/events/1236'
+            href: '/events/1236'
           }
         ],
-        'first': {
-          'href': '/camps/1/events'
+        first: {
+          href: '/camps/1/events'
         },
-        '_page': 0,
-        '_per_page': -1,
-        '_total': 2,
-        'page_count': 1,
-        '_meta': {
-          'self': '/camps/1/events'
+        _page: 0,
+        _per_page: -1,
+        _total: 2,
+        page_count: 1,
+        _meta: {
+          self: '/camps/1/events'
         }
       }
     }
@@ -188,8 +188,10 @@ describe('API store', () => {
     vm.api.get('/camps/1/events?page_size=2&page=1')
 
     // then
-    expect(vm.$store.state.api).toMatchObject({ ...collectionFirstPage.storeState,
-      '/camps/1/events?page=1&page_size=2': { _meta: { self: '/camps/1/events?page=1&page_size=2', loading: true } } })
+    expect(vm.$store.state.api).toMatchObject({
+      ...collectionFirstPage.storeState,
+      '/camps/1/events?page=1&page_size=2': { _meta: { self: '/camps/1/events?page=1&page_size=2', loading: true } }
+    })
     expect(vm.api.get('/camps/1/events?page_size=2&page=0').items.length).toEqual(2)
     await letNetworkRequestFinish()
     expect(vm.$store.state.api).toMatchObject({ ...collectionFirstPage.storeState, ...collectionPage1.storeState })
@@ -215,7 +217,7 @@ describe('API store', () => {
   it('allows using get with a loading object with known URI', async done => {
     // given
     axiosMock.onGet('http://localhost/camps/1').reply(200, embeddedSingleEntity.serverResponse)
-    let loadingObject = vm.api.get('/camps/1')
+    const loadingObject = vm.api.get('/camps/1')
 
     // when
     vm.api.get(loadingObject)
@@ -230,7 +232,7 @@ describe('API store', () => {
   it('allows using get with a loading object with unknown URI', async done => {
     // given
     axiosMock.onGet('http://localhost/camps/1').reply(200, embeddedSingleEntity.serverResponse)
-    let loadingObject = vm.api.get('/camps/1').camp_type()
+    const loadingObject = vm.api.get('/camps/1').camp_type()
 
     // when
     vm.api.get(loadingObject)
@@ -245,10 +247,10 @@ describe('API store', () => {
   it('allows accessing _meta in a loading object with unknown URI', async done => {
     // given
     axiosMock.onGet('http://localhost/camps/1').reply(200, embeddedSingleEntity.serverResponse)
-    let loadingObject = vm.api.get('/camps/1').camp_type()
+    const loadingObject = vm.api.get('/camps/1').camp_type()
 
     // when
-    let meta = vm.api.get(loadingObject)._meta
+    const meta = vm.api.get(loadingObject)._meta
 
     // then
     expect(`${meta}`).toEqual('')

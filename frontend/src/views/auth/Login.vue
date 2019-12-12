@@ -127,7 +127,7 @@ export default {
         this.$auth.loginSuccess()
         this.redirect()
       }
-      let callbackUrl = window.location.origin + this.$router.resolve({ name: 'loginCallback' }).href
+      const callbackUrl = window.location.origin + this.$router.resolve({ name: 'loginCallback' }).href
       this.$auth.loginGoogle(callbackUrl)
     },
     redirect () {

@@ -165,7 +165,7 @@ export default {
     },
     searchResults () {
       if (this.search.length >= 3) {
-        let filterUsers = this.collaborators.filter(
+        const filterUsers = this.collaborators.filter(
           c => c.user !== undefined
         ).map(
           c => c.user().id

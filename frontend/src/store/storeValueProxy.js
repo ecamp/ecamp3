@@ -15,7 +15,7 @@ function isEntityReference (object) {
  * @returns boolean true if the object looks like a standalone collection, false otherwise
  */
 function isCollection (object) {
-  return !!(object && Array.isArray(object['items']))
+  return !!(object && Array.isArray(object.items))
 }
 
 /**
@@ -59,7 +59,7 @@ function loadingProxy (entityLoaded, uri = null) {
         return loadingProxy(nestedLoaded, uri)
       }
       // Normal property access: return a function that yields another loadingProxy and renders as empty string
-      let result = () => loadingProxy(nestedLoaded)
+      const result = () => loadingProxy(nestedLoaded)
       result.toString = () => ''
       return result
     }
@@ -142,7 +142,7 @@ export default function storeValueProxy (vm, data) {
   const meta = data._meta || {}
 
   if (meta.loading) {
-    let entityLoaded = meta.loaded.then(loadedData => createStoreValueProxy(vm, loadedData))
+    const entityLoaded = meta.loaded.then(loadedData => createStoreValueProxy(vm, loadedData))
     return loadingProxy(entityLoaded, meta.self)
   }
 
