@@ -1,10 +1,11 @@
-export function hasQueryParam (uri, paramName) {
-  let queryStart = uri.indexOf('?')
-  if (queryStart === -1) return false
-  let query = new URLSearchParams(uri.substring(queryStart + 1))
-  return [...query.keys()].includes(paramName)
-}
-
+/**
+ * Sorts the query parameters in a URI, keeping the values of duplicate keys in order.
+ * Example:
+ * sortQueryParams('localhost/api/camps?q=something&dup=true&alpha=0&dup=false')
+ * // 'localhost/api/camps?alpha=0&dup=true&dup=false&q=something'
+ * @param uri      to be processed
+ * @returns string URI with sorted query parameters
+ */
 function sortQueryParams (uri) {
   const queryStart = uri.indexOf('?')
   if (queryStart === -1) return uri
@@ -24,7 +25,26 @@ function sortQueryParams (uri) {
   return prefix
 }
 
-export function normalizeUri (uri, baseUrl = '') {
-  if (typeof uri !== 'string' || uri === '') return null
+/**
+ * Extracts the URI from an entity (or uses the passed URI if it is a string) and normalizes it for use in
+ * the Vuex store.
+ * @param uriOrEntity     entity or literal URI string
+ * @param baseUrl         common URI prefix to remove during normalization
+ * @returns {null|string} normalized URI, or null if the uriOrEntity argument was not understood
+ */
+export function normalizeEntityUri (uriOrEntity, baseUrl = '') {
+  if (uriOrEntity === undefined) return normalizeUri('', baseUrl)
+  if (typeof uriOrEntity === 'string') return normalizeUri(uriOrEntity, baseUrl)
+  return normalizeUri(((uriOrEntity || {})._meta || {}).self, baseUrl)
+}
+
+/**
+ * Normalize a URI by sorting the query parameters and removing a given prefix.
+ * @param uri             to be normalized
+ * @param baseUrl         prefix to remove from the beginning of the URI if present
+ * @returns {string|null} normalized URI, or null if uri is not a string
+ */
+function normalizeUri (uri, baseUrl) {
+  if (typeof uri !== 'string') return null
   return sortQueryParams(uri).replace(new RegExp(`^${baseUrl}`), '')
 }

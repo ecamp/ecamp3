@@ -1,4 +1,4 @@
-import { normalizeUri } from '../../src/store/uriUtils'
+import { normalizeEntityUri } from '../../src/store/uriUtils'
 
 describe('URI normalizing', () => {
   it('sorts query parameters correctly', () => {
@@ -28,10 +28,30 @@ describe('URI normalizing', () => {
 
     Object.entries(examples).forEach(([example, expected]) => {
       // when
-      const result = normalizeUri(example)
+      const result = normalizeEntityUri(example)
 
       // then
       expect(result).toEqual(expected)
     })
+  })
+
+  it('handles null', () => {
+    // given
+
+    // when
+    const result = normalizeEntityUri(null)
+
+    // then
+    expect(result).toEqual(null)
+  })
+
+  it('treats undefined as root URI, to enable this.api.get() without parameters to be the same as this.api.get(\'\')', () => {
+    // given
+
+    // when
+    const result = normalizeEntityUri(undefined)
+
+    // then
+    expect(result).toEqual('')
   })
 })
