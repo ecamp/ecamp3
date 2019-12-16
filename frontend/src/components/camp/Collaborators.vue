@@ -113,9 +113,17 @@ export default {
     return {
       editing: false,
       messages: [],
-      search: ''
+      search: '',
+
+      camp: {},
+      periods: []
     }
   },
+
+  // data_init: {
+  //   camp: this.campDetails(),
+  //   periods: this.campDetails().periods()
+  // },
   computed: {
     campDetails () {
       return this.api.get(this.campUri)
@@ -147,8 +155,14 @@ export default {
     }
   },
   methods: {
+    async initData() {
+      this.camp = (await this.campDetails().loaded).copy()
+
+    },
+
     changeStatus(collaborator, status) {
-      this.api.patch(collaborator, { status: status })
+      this.api.patch(collaborator, { status: status }).loaded.then(initData)
+
     },
     invite (user, role) {
       this.api.post('/camp-collaboration', {
