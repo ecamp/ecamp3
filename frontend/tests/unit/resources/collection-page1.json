@@ -6,13 +6,13 @@
     "page_count": 2,
     "_links": {
       "self": {
-        "href": "/camps/1/events?page=1"
+        "href": "/camps/1/events?page=1&page_size=2"
       },
       "first": {
-        "href": "/camps/1/events?page=0"
+        "href": "/camps/1/events?page=0&page_size=2"
       },
       "prev": {
-        "href": "/camps/1/events?page=0"
+        "href": "/camps/1/events?page=0&page_size=2"
       }
     },
     "_embedded": {
@@ -20,13 +20,15 @@
         {
           "id": 2402,
           "title": "TABS",
-          "type": {
-            "id": 8879,
-            "name": "LP",
-            "color": "#aaaa00",
-            "_links": {
-              "self": {
-                "href": "/eventTypes/8879"
+          "_embedded": {
+            "type": {
+              "id": 8879,
+              "name": "LP",
+              "color": "#aaaa00",
+              "_links": {
+                "self": {
+                  "href": "/eventTypes/8879"
+                }
               }
             }
           },
@@ -40,10 +42,21 @@
     }
   },
   "storeState": {
-    "/camps/1/events": {
+    "/camps/1/events?page=1&page_size=2": {
       "_meta": {
-        "self": "/camps/1/events?page=1"
+        "self": "/camps/1/events?page=1&page_size=2"
       },
+      "first": {
+        "href": "/camps/1/events?page=0&page_size=2"
+      },
+      "prev": {
+        "href": "/camps/1/events?page=0&page_size=2"
+      },
+      "items": [
+        {
+          "href": "/events/2402"
+        }
+      ],
       "_page": 1,
       "_per_page": 2,
       "_total": 3,
@@ -62,7 +75,10 @@
       "_meta": {
         "self": "/events/2402"
       },
-      "title": "TABS"
+      "title": "TABS",
+      "type": {
+        "href": "/eventTypes/8879"
+      }
     }
   }
 }
