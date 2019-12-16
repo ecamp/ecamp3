@@ -2,7 +2,7 @@ version: "3"
 
 services:
   frontend:
-    image: node:11.13.0-alpine
+    image: node:12.13.1-alpine
     container_name: 'ecamp3-frontend'
     ports:
       - '3000:3000'

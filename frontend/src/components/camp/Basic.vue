@@ -53,7 +53,7 @@ Displays details on a single camp and allows to edit them.
 export default {
   name: 'Basic',
   components: {
-    'ToggleableInput': () => import('@/components/form/ToggleableInput.vue')
+    ToggleableInput: () => import('@/components/form/ToggleableInput.vue')
   },
   props: {
     campUri: { type: String, required: true }
@@ -80,9 +80,9 @@ export default {
       try {
         // TODO replace this with this.api.patch(...) once it's implemented
         await this.axios.patch(this.campUri, this.campDetails)
-        this.messages = [ { type: 'success', text: 'Successfully saved' } ]
+        this.messages = [{ type: 'success', text: 'Successfully saved' }]
       } catch (error) {
-        this.messages = [ { type: 'danger', text: 'Could not save camp details. ' + error } ]
+        this.messages = [{ type: 'danger', text: 'Could not save camp details. ' + error }]
       }
     },
     toggleEdit () {

@@ -118,8 +118,8 @@ export default {
   },
   methods: {
     async register () {
-      let url = process.env.VUE_APP_ROOT_API + '/register'
-      let res = (await this.axios.post(url, this.formData))
+      const url = process.env.VUE_APP_ROOT_API + '/register'
+      const res = (await this.axios.post(url, this.formData))
 
       if (res.status === 200) {
         console.log(res.data)

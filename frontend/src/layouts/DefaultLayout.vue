@@ -2,12 +2,19 @@
   <div class="ecamp_layout">
     <header class="ecamp_header">
       <nav class="">
-        <b-navbar tag="section" class="ecamp_navbar_main mb-0 shadow-sm" type="dark" variant="dark" toggleable="md">
+        <b-navbar
+          tag="section"
+          class="ecamp_navbar_main mb-0 shadow-sm"
+          type="dark"
+          variant="dark"
+          toggleable="md">
           <b-navbar-brand :to="{ name: 'camps', params: { groupName: 'Pfadi Bewegung Schweiz' } }">
             <i>🏕</i>️ <span class="d-none d-sm-inline">eCamp</span><span class="d-none d-sm-inline d-md-none text-muted"> – </span><span class="d-md-none text-muted">Sola 2018</span>
           </b-navbar-brand>
-          <b-navbar-toggle target="#main_navigation"></b-navbar-toggle>
-          <b-collapse id="main_navigation" is-nav>
+          <b-navbar-toggle target="#main_navigation" />
+          <b-collapse
+            id="main_navigation"
+            is-nav>
             <b-navbar-nav class="mr-auto">
               <b-nav-item
                 :to="{ name: 'home' }">
@@ -34,11 +41,19 @@
           </b-collapse>
         </b-navbar>
 
-        <b-navbar tag="section" class="ecamp_navbar_second mb-0 shadow-sm" variant="white" toggleable="md">
-          <b-collapse id="second_navigation" is-nav>
+        <b-navbar
+          tag="section"
+          class="ecamp_navbar_second mb-0 shadow-sm"
+          variant="white"
+          toggleable="md">
+          <b-collapse
+            id="second_navigation"
+            is-nav>
             <b-navbar-brand>Sola 2019</b-navbar-brand>
             <b-navbar-nav class="flex-row mr-auto">
-              <b-nav-item href="#" class="flex-grow-1 text-center">
+              <b-nav-item
+                href="#"
+                class="flex-grow-1 text-center">
                 Test
               </b-nav-item>
             </b-navbar-nav>
@@ -47,14 +62,20 @@
       </nav>
     </header>
     <section class="ecamp_main">
-      <b-collapse visible tag="aside" class="ecamp_aside col-12 col-md-5 col-lg-4 width" id="aside">
+      <b-collapse
+        id="aside"
+        visible
+        tag="aside"
+        class="ecamp_aside col-12 col-md-5 col-lg-4 width">
         <div class="collapse-inner">
-          <router-view name="aside"/>
+          <router-view name="aside" />
         </div>
       </b-collapse>
-      <button v-b-toggle.aside class="ecamp_aside-hide d-none d-md-flex"></button>
+      <button
+        v-b-toggle.aside
+        class="ecamp_aside-hide d-none d-md-flex" />
       <main class="ecamp_content">
-        <router-view/>
+        <router-view />
       </main>
     </section>
     <footer class="ecamp_footer bg-light p-1">
@@ -64,31 +85,25 @@
 </template>
 
 <script>
-  import BCollapse from "bootstrap-vue/src/components/collapse/collapse";
-  import BNavbar from "bootstrap-vue/src/components/navbar/navbar";
-  import BNavbarBrand from "bootstrap-vue/src/components/navbar/navbar-brand";
-  import BNavbarToggle from "bootstrap-vue/src/components/navbar/navbar-toggle";
-  import BNavbarNav from "bootstrap-vue/src/components/navbar/navbar-nav";
-  import BNavItem from "bootstrap-vue/src/components/nav/nav-item";
-  import BCard from "bootstrap-vue/src/components/card/card";
+import { BCollapse, BNavbar, BNavbarBrand, BNavbarToggle, BNavbarNav, BNavItem } from 'bootstrap-vue'
 
-  export default {
-    components: {BNavbarNav, BNavbarToggle, BNavbar, BNavbarBrand, BCollapse, BNavItem, BCard},
-    data() {
-      return {
-        loggedIn: null
-      }
-    },
-    created() {
-      this.$auth.subscribe(this.checkLoginStatus)
-      this.checkLoginStatus()
-    },
-    methods: {
-      async checkLoginStatus() {
-        this.loggedIn = await this.$auth.isLoggedIn()
-      }
+export default {
+  components: { BNavbarNav, BNavbarToggle, BNavbar, BNavbarBrand, BCollapse, BNavItem },
+  data () {
+    return {
+      loggedIn: null
+    }
+  },
+  created () {
+    this.$auth.subscribe(this.checkLoginStatus)
+    this.checkLoginStatus()
+  },
+  methods: {
+    async checkLoginStatus () {
+      this.loggedIn = await this.$auth.isLoggedIn()
     }
   }
+}
 </script>
 
 <style lang="scss">
