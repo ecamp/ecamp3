@@ -27,8 +27,8 @@ Displays several tabs with details on a single camp.
             Periods
           </router-link>
           <router-link
-            :to="{ name: 'camp' }"
-            class="nav-item btn btn-sm btn-outline-secondary d-none d-sm-block disabled">
+            :to="{ name: 'camp/picasso' }"
+            class="nav-item btn btn-sm btn-outline-secondary">
             Picasso
           </router-link>
         </div>

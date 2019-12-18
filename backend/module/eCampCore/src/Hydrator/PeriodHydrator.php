@@ -5,6 +5,7 @@ namespace eCamp\Core\Hydrator;
 use eCamp\Core\Entity\Period;
 use eCamp\Lib\Hydrator\Util;
 use eCampApi\V1\Rest\Day\DayCollection;
+use eCampApi\V1\Rest\EventInstance\EventInstanceCollection;
 use Zend\Hydrator\HydratorInterface;
 
 class PeriodHydrator implements HydratorInterface {
@@ -21,7 +22,8 @@ class PeriodHydrator implements HydratorInterface {
             'start' => Util::extractDate($period->getStart()),
             'end' => Util::extractDate($period->getEnd()),
             'camp' => $period->getCamp(),
-            'days' => new DayCollection($period->getDays())
+            'days' => new DayCollection($period->getDays()),
+            'eventInstances' => new EventInstanceCollection($period->getEventInstances())
         ];
     }
 

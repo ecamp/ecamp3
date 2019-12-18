@@ -74,9 +74,24 @@ export default new Router({
           name: 'camp/periods',
           component: () => import(/* webpackChunkName: "campPeriods" */ './components/camp/Periods.vue'),
           props: true
+        },
+        {
+          path: 'picasso',
+          name: 'camp/picasso',
+          component: () => import(/* webpackChunkName: "campPicasso" */ './components/camp/Picasso.vue'),
+          props: true
         }
       ]
+    },
+    {
+      path: '/event/:eventUri',
+      name: 'event',
+      components: {
+        default: () => import(/* webpackChunkName: "camp" */ './views/Event.vue')
+      },
+      beforeEnter: requireAuth
     }
+
   ]
 })
 
