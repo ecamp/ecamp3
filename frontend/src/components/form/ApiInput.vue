@@ -7,55 +7,66 @@ You can two-way bind to the value using v-model.
   <span>
     <span v-if="!editing">{{ value }}</span>
     <span v-if="editing">
-      <div class="input-group">
-        <input
-          v-model="localValue"
-          v-bind="$attrs"
-          class="form-control"
-          :class="{ dirty: isDirty }">
+      <b-form
+        inline
+        class="mb-2">
 
-        <div class="input-group-append">
+        <b-form-group
+          id="api-input-group"
+          :label="label"
+          label-for="api-input"
 
-          <button
-            v-if="!autoSave"
-            class="btn btn-primary"
-            type="button"
-            @click="reset">
+          invalid-feedback="Dieses Feld kann nicht leer sein.">
 
-            Reset
-          </button>
+          <b-form-input
+            id="api-input"
+            v-model="$v.localValue.$model"
+            name="api-input"
+            class="mr-2 ml-2"
+            :state="required && $v.localValue.$dirty ? !$v.localValue.$error : null"
+            v-bind="$attrs" />
 
-          <button
-            class="btn btn-primary"
-            type="button"
-            :disabled="isSaving"
-            @click="save">
+        </b-form-group>
 
-            <span
-              v-if="isSaving"
-              class="spinner-border spinner-border-sm"
-              role="status"
-              aria-hidden="true" />
+        <b-button
+          v-if="!autoSave"
+          variant="primary"
+          @click="reset">
 
-            <i
-              v-if="showSuccessIcon"
-              class="zmdi zmdi-check" />
+          Reset
+        </b-button>
 
-            Save
-          </button>
+        <b-button
+          variant="primary"
+          :disabled="isSaving || (required && $v.localValue.$invalid)"
+          class="mr-2 ml-2"
+          @click="save">
 
-        </div>
-      </div>
+          <span
+            v-if="isSaving"
+            class="spinner-border spinner-border-sm"
+            role="status"
+            aria-hidden="true" />
 
+          <i
+            v-if="showSuccessIcon"
+            class="zmdi zmdi-check" />
+
+          Save
+        </b-button>
+      </b-form>
     </span>
   </span>
 </template>
 
 <script>
 import { debounce } from 'lodash'
+import { validationMixin } from 'vuelidate'
+import { required } from 'vuelidate/lib/validators'
 
 export default {
   name: 'ApiInput',
+  mixins: [validationMixin],
   inheritAttrs: false,
   props: {
     value: { type: String, required: true },
@@ -64,6 +75,9 @@ export default {
     fieldname: { type: String, required: true },
     uri: { type: String, required: true },
 
+    /* display label */
+    label: { type: String, default: '', required: false },
+
     /* overrideDirty=true will reset the input if 'value' changes, even if the input is dirty */
     overrideDirty: { type: Boolean, default: false, required: false },
 
@@ -71,13 +85,21 @@ export default {
     editing: { type: Boolean, default: true, required: false },
 
     /* enable/disable auto save */
-    autoSave: { type: Boolean, default: true, required: false }
+    autoSave: { type: Boolean, default: true, required: false },
+
+    /* Validation criteria */
+    required: { type: Boolean, default: false, required: false }
   },
   data () {
     return {
       localValue: this.value,
       isSaving: false,
       showSuccessIcon: false
+    }
+  },
+  validations: {
+    localValue: {
+      required
     }
   },
   computed: {
@@ -105,11 +127,18 @@ export default {
   methods: {
     reset: function (event) {
       this.localValue = this.value
+      this.$v.localValue.$reset()
     },
     save: function (event) {
+      this.$v.localValue.$touch()
+      if (this.required && this.$v.localValue.$anyError) {
+        return
+      }
+
       this.isSaving = true
       this.api.patch(this.uri, { [this.fieldname]: this.localValue }).then(() => {
         this.isSaving = false
+        this.$v.localValue.$reset()
 
         this.showSuccessIcon = true
         setTimeout(() => { this.showSuccessIcon = false }, 2000)

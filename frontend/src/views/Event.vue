@@ -10,11 +10,12 @@ Displays a single event
 
     <div v-else>
       <p class="event_title">
-        <label>Titel</label>
         <api-input
           :value="event.title"
+          :uri="event._meta.self"
           fieldname="title"
-          :uri="event._meta.self" />
+          label="Titel"
+          required />
       </p>
 
       <div>
