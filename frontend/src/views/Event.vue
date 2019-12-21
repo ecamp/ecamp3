@@ -4,20 +4,31 @@ Displays a single event
 
 <template>
   <div>
-    <div v-if="event.loading">
-      <b-spinner label="Loading..." />
+    <div
+      v-if="event.loading"
+      class="d-flex justify-content-center m-5">
+      <b-spinner
+        label="Loading..."
+        style="width: 3rem; height: 3rem;" />
     </div>
 
-    <div v-else>
-      <p class="event_title">
-        <api-input
-          :value="event.title"
-          :uri="event._meta.self"
-          fieldname="title"
-          label="Titel"
-          required />
-      </p>
-
+    <b-card
+      v-else
+      class="m-3">
+      <div
+        slot="header"
+        class="row">
+        <div class="col-sm-12">
+          <p class="event_title">
+            <api-input
+              :value="event.title"
+              :uri="event._meta.self"
+              fieldname="title"
+              label="Titel"
+              required />
+          </p>
+        </div>
+      </div>
       <div>
         <b>Kategorie:</b>
         <div
@@ -40,7 +51,7 @@ Displays a single event
           </li>
         </ul>
       </p>
-    </div>
+    </b-card>
   </div>
 </template>
 
