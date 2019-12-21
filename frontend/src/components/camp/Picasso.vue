@@ -19,11 +19,20 @@ Listing all event instances of a single camp.
         :key="period._meta.self">
         {{ period.description }} ({{ period.start }} - {{ period.end }})
 
-        <ul>
+        <div v-if="events.loading">
+          <b-spinner label="Loading..." />
+        </div>
+
+        <!-- wait for all events to be loaded => avoid each eventInstance to load separately -->
+        <ul v-if="!events.loading">
           <li
             v-for="eventInstance in period.eventInstances().items"
             :key="eventInstance._meta.self">
+            <div v-if="eventInstance.event().loading">
+              <b-spinner label="Loading..." />
+            </div>
             <router-link
+              v-if="!eventInstance.event().loading"
               :to="{ name: 'event', params: { eventUri: eventInstance.event()._meta.self } }">
               EventInstance {{ eventInstance.id }} {{ eventInstance.start_time }} {{ eventInstance.event().title }}
             </router-link>
@@ -54,6 +63,16 @@ export default {
     },
     buttonText () {
       return this.editing ? 'Speichern' : 'Bearbeiten'
+    },
+    events () {
+      return this.campDetails.events()
+    }
+  },
+
+  created: function () {
+    // force reloading of all events
+    if (this.campDetails.events()._meta.self) {
+      this.api.reload(this.campDetails.events()._meta.self)
     }
   }
 }
