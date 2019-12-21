@@ -26,7 +26,7 @@ Listing all event instances of a single camp.
         <!-- wait for all events to be loaded => avoid each eventInstance to load separately -->
         <ul v-if="!events.loading">
           <li
-            v-for="eventInstance in period.eventInstances().items"
+            v-for="eventInstance in period.event_instances().items"
             :key="eventInstance._meta.self">
             <div v-if="eventInstance.event().loading">
               <b-spinner label="Loading..." />
