@@ -7,40 +7,56 @@ You can two-way bind to the value using v-model.
   <span>
     <span v-if="!editing">{{ value }}</span>
     <span v-if="editing">
-      <input
-        id="input"
-        v-model="localValue"
-        class="form-control"
-        :class="{ dirty: isDirty }">
+      <div class="input-group">
+        <input
+          v-model="localValue"
+          v-bind="$attrs"
+          class="form-control"
+          :class="{ dirty: isDirty }">
 
-      <button
-        class="btn btn-primary"
-        type="button"
-        @click="reset">
+        <div class="input-group-append">
 
-        Reset
-      </button>
+          <button
+            v-if="!autoSave"
+            class="btn btn-primary"
+            type="button"
+            @click="reset">
 
-      <button
-        class="btn btn-primary"
-        type="button"
-        :disabled="isSaving"
-        @click="save">
-        <span
-          v-if="isSaving"
-          class="spinner-border spinner-border-sm"
-          role="status"
-          aria-hidden="true" />
-        Save
-      </button>
+            Reset
+          </button>
+
+          <button
+            class="btn btn-primary"
+            type="button"
+            :disabled="isSaving"
+            @click="save">
+
+            <span
+              v-if="isSaving"
+              class="spinner-border spinner-border-sm"
+              role="status"
+              aria-hidden="true" />
+
+            <i
+              v-if="showSuccessIcon"
+              class="zmdi zmdi-check" />
+
+            Save
+          </button>
+
+        </div>
+      </div>
 
     </span>
   </span>
 </template>
 
 <script>
+import { debounce } from 'lodash'
+
 export default {
   name: 'ApiInput',
+  inheritAttrs: false,
   props: {
     value: { type: String, required: true },
 
@@ -52,12 +68,16 @@ export default {
     overrideDirty: { type: Boolean, default: false, required: false },
 
     /* enable/disable edit mode */
-    editing: { type: Boolean, default: true, required: false }
+    editing: { type: Boolean, default: true, required: false },
+
+    /* enable/disable auto save */
+    autoSave: { type: Boolean, default: true, required: false }
   },
   data () {
     return {
       localValue: this.value,
-      isSaving: false
+      isSaving: false,
+      showSuccessIcon: false
     }
   },
   computed: {
@@ -71,7 +91,16 @@ export default {
       if (this.localValue === oldValue || this.overrideDirty) {
         this.localValue = newValue
       }
+    },
+    localValue: function (newValue, oldValue) {
+      if (this.autoSave) {
+        this.debouncedSave()
+      }
     }
+  },
+  created: function () {
+    // Create debounced save method (lodash debounce function)
+    this.debouncedSave = debounce(this.save, 500)
   },
   methods: {
     reset: function (event) {
@@ -81,6 +110,9 @@ export default {
       this.isSaving = true
       this.api.patch(this.uri, { [this.fieldname]: this.localValue }).then(() => {
         this.isSaving = false
+
+        this.showSuccessIcon = true
+        setTimeout(() => { this.showSuccessIcon = false }, 2000)
       })
     }
   }

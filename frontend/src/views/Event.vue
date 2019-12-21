@@ -9,13 +9,13 @@ Displays a single event
     </div>
 
     <div v-else>
-      <h3>
-        Title:
+      <p class="event_title">
+        <label>Titel</label>
         <api-input
           :value="event.title"
           fieldname="title"
           :uri="event._meta.self" />
-      </h3>
+      </p>
 
       <div>
         <b>Kategorie:</b>
@@ -67,7 +67,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
 .category_box{
   display:inline-block;
   position:relative;
@@ -76,5 +76,9 @@ export default {
   height:20px;
   width:20px;
   border:1px black solid;
+}
+
+.event_title input{
+  font-size:28px;
 }
 </style>
