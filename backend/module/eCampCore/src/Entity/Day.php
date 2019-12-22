@@ -21,7 +21,7 @@ class Day extends BaseEntity {
     /**
      * @var Period
      * @ORM\ManyToOne(targetEntity="Period")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=false, onDelete="cascade")
      */
     private $period;
 

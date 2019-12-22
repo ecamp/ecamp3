@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d5219165400b861597b60841337edf8a",
+    "content-hash": "0b9e07e6c287375adf48e9efd53de784",
     "packages": [
         {
             "name": "bshaffer/oauth2-server-php",
@@ -199,6 +199,7 @@
             ],
             "description": "Promoting the interoperability of container objects (DIC, SL, etc.)",
             "homepage": "https://github.com/container-interop/container-interop",
+            "abandoned": "psr/container",
             "time": "2017-02-14T19:40:03+00:00"
         },
         {

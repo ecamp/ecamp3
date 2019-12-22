@@ -68,32 +68,32 @@ class Camp extends BaseEntity {
 
     /**
      * @var ArrayCollection
-     * @ORM\OneToMany(targetEntity="CampCollaboration", mappedBy="camp")
+     * @ORM\OneToMany(targetEntity="CampCollaboration", mappedBy="camp", orphanRemoval=true)
      */
     protected $collaborations;
 
     /**
      * @var ArrayCollection
-     * @ORM\OneToMany(targetEntity="Job", mappedBy="camp")
+     * @ORM\OneToMany(targetEntity="Job", mappedBy="camp", orphanRemoval=true)
      */
     protected $jobs;
 
     /**
      * @var ArrayCollection
-     * @ORM\OneToMany(targetEntity="Period", mappedBy="camp")
+     * @ORM\OneToMany(targetEntity="Period", mappedBy="camp", orphanRemoval=true)
      * @ORM\OrderBy({"start" = "ASC"})
      */
     protected $periods;
 
     /**
      * @var ArrayCollection
-     * @ORM\OneToMany(targetEntity="EventCategory", mappedBy="camp")
+     * @ORM\OneToMany(targetEntity="EventCategory", mappedBy="camp", orphanRemoval=true)
      */
     protected $eventCategories;
 
     /**
      * @var ArrayCollection
-     * @ORM\OneToMany(targetEntity="Event", mappedBy="camp")
+     * @ORM\OneToMany(targetEntity="Event", mappedBy="camp", orphanRemoval=true)
      */
     protected $events;
 

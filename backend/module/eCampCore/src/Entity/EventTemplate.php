@@ -43,7 +43,7 @@ class EventTemplate extends BaseEntity {
 
     /**
      * @var
-     * @ORM\OneToMany(targetEntity="EventTemplateContainer", mappedBy="eventTemplate")
+     * @ORM\OneToMany(targetEntity="EventTemplateContainer", mappedBy="eventTemplate", orphanRemoval=true)
      */
     private $eventTemplateContainers;
 

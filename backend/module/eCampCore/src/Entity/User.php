@@ -42,14 +42,14 @@ class User extends AbstractCampOwner implements RoleInterface {
 
     /**
      * @var MailAddress
-     * @ORM\OneToOne(targetEntity="MailAddress", cascade={"persist"})
+     * @ORM\OneToOne(targetEntity="MailAddress", cascade={"all"}, orphanRemoval=true)
      * @ORM\JoinColumn(name="trusted_mailaddress_id", referencedColumnName="id")
      */
     private $trustedMailAddress;
 
     /**
      * @var MailAddress
-     * @ORM\OneToOne(targetEntity="MailAddress", cascade={"persist"})
+     * @ORM\OneToOne(targetEntity="MailAddress", cascade={"all"}, orphanRemoval=true)
      * @ORM\JoinColumn(name="untrusted_mailaddress_id", referencedColumnName="id")
      */
     private $untrustedMailAddress;
@@ -68,9 +68,15 @@ class User extends AbstractCampOwner implements RoleInterface {
 
     /**
      * @var Login
-     * @ORM\OneToOne(targetEntity="Login", mappedBy="user")
+     * @ORM\OneToOne(targetEntity="Login", mappedBy="user", cascade={"all"}, orphanRemoval=true)
      */
     private $login;
+
+    /**
+     * @var ArrayCollection
+     * @ORM\OneToMany(targetEntity="UserIdentity", mappedBy="user", orphanRemoval=true)
+     */
+    protected $userIdentities;
 
     /**
      * @var ArrayCollection
@@ -86,13 +92,13 @@ class User extends AbstractCampOwner implements RoleInterface {
 
     /**
      * @var ArrayCollection
-     * @ORM\OneToMany(targetEntity="GroupMembership", mappedBy="user", cascade={"all"}, orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="GroupMembership", mappedBy="user", orphanRemoval=true)
      */
     protected $memberships;
 
     /**
      * @var ArrayCollection
-     * @ORM\OneToMany(targetEntity="CampCollaboration", mappedBy="user")
+     * @ORM\OneToMany(targetEntity="CampCollaboration", mappedBy="user", orphanRemoval=true)
      */
     protected $collaborations;
 
@@ -303,5 +309,22 @@ class User extends AbstractCampOwner implements RoleInterface {
     public function removeCampCollaboration(CampCollaboration $collaboration) {
         $collaboration->setUser(null);
         $this->collaborations->removeElement($collaboration);
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getUserIdentities(): ArrayCollection {
+        return $this->userIdentities;
+    }
+
+    public function addUserIdentity(UserIdentity $userIdentity) {
+        $userIdentity->setUser($this);
+        $this->userIdentities->add($userIdentity);
+    }
+
+    public function removeUserIdentity(UserIdentity $userIdentity) {
+        $userIdentity->setUser(null);
+        $this->userIdentites->removeElement($userIdentity);
     }
 }
