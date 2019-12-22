@@ -27,5 +27,4 @@ class EventTypeService extends AbstractEntityService {
 
         return $q;
     }
-
 }

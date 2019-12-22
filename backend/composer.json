@@ -70,8 +70,8 @@
     }
   },
   "scripts": {
-    "cs-check": "php-cs-fixer fix --dry-run .",
-    "cs-fix": "php-cs-fixer fix .",
+    "cs-check": "php-cs-fixer fix --dry-run",
+    "cs-fix": "php-cs-fixer fix",
     "serve": "php -S 0.0.0.0:8080 -t public/ public/index.php",
     "test": "phpunit",
     "di-generate-aot": [
@@ -84,12 +84,10 @@
   "extra": {
     "hooks": {
         "pre-commit": [
-            "echo committing as $(git config user.name)",
-            "composer cs-fix"
+            "cd backend && composer cs-check"
         ],
         "pre-push": [
-            "composer cs-check",
-            "phpunit"
+            "cd backend && composer cs-check"
         ]
     }
 }

@@ -6,8 +6,7 @@ use eCamp\Lib\Acl\Acl;
 use eCamp\Lib\Acl\NoAccessException;
 use eCamp\LibTest\PHPUnit\AbstractTestCase;
 
-class AclTest extends AbstractTestCase
-{
+class AclTest extends AbstractTestCase {
     public function testIsAllowed() {
         /** @var Acl $acl */
         $acl = \eCampApp::GetService(Acl::class);

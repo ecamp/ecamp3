@@ -9,7 +9,6 @@ use eCamp\LibTest\PHPUnit\AbstractTestCase;
 
 class EventTemplateTest extends AbstractTestCase {
     public function testEventTemplate() {
-
         $eventType = new EventType();
         $eventType->setName('EventType Name');
         $eventType->setDefaultColor('#FF00FF');

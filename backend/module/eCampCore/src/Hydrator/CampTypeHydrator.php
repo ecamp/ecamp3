@@ -41,7 +41,6 @@ class CampTypeHydrator implements HydratorInterface {
                 ]
             ])
         ];
-
     }
 
     /**

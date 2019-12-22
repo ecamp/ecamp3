@@ -14,7 +14,6 @@ use eCamp\Lib\Entity\BaseEntity;
  * })
  */
 class EventTemplate extends BaseEntity {
-
     const MEDIUM_WEB = 'web';
     const MEDIUM_PRINT = 'print';
     const MEDIUM_MOBILE = 'mobile';
