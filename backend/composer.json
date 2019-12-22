@@ -69,13 +69,25 @@
     }
   },
   "scripts": {
-    "cs-check": "phpcs",
-    "cs-fix": "phpcbf",
+    "cs-check": "php-cs-fixer fix --dry-run .",
+    "cs-fix": "php-cs-fixer fix .",
     "serve": "php -S 0.0.0.0:8080 -t public/ public/index.php",
     "test": "phpunit",
     "di-generate-aot": [
       "rm -vfr module/eCampAoT/gen",
       "php bin/di-generate-aot.php"
-  ]
-  }
+    ]
+  },
+  "extra": {
+    "hooks": {
+        "pre-commit": [
+            "echo committing as $(git config user.name)",
+            "composer cs-fix" // fix style
+        ],
+        "pre-push": [
+            "composer cs-check", // check style
+            "phpunit"
+        ]
+    }
+}
 }
