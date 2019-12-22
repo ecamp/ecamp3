@@ -18,9 +18,6 @@ class EventTypeData extends AbstractFixture implements DependentFixtureInterface
     public function load(ObjectManager $manager) {
         $repository = $manager->getRepository(EventType::class);
 
-        $web = $this->getReference(MediumData::$WEB);
-
-
         $eventType = $repository->findOneBy(['name' => 'Lagersport']);
         if ($eventType == null) {
             $eventType = new EventType();
@@ -44,7 +41,7 @@ class EventTypeData extends AbstractFixture implements DependentFixtureInterface
             $manager->persist($eventTypeFactory);
 
             $eventTemplate = new EventTemplate();
-            $eventTemplate->setMedium($web);
+            $eventTemplate->setMedium(EventTemplate::MEDIUM_WEB);
             $eventTemplate->setFilename('ls_web');
             $eventType->addEventTemplate($eventTemplate);
             $manager->persist($eventTemplate);
@@ -98,6 +95,6 @@ class EventTypeData extends AbstractFixture implements DependentFixtureInterface
     }
 
     public function getDependencies() {
-        return [ PluginData::class, MediumData::class ];
+        return [ PluginData::class ];
     }
 }

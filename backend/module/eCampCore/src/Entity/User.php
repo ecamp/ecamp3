@@ -30,6 +30,7 @@ class User extends AbstractCampOwner implements RoleInterface {
         $this->relationshipFrom = new ArrayCollection();
         $this->memberships = new ArrayCollection();
         $this->collaborations = new ArrayCollection();
+        $this->userIdentities = new ArrayCollection();
     }
 
 
