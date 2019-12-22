@@ -26,8 +26,6 @@ class User extends AbstractCampOwner implements RoleInterface {
         $this->state = self::STATE_NONREGISTERED;
         $this->role = self::ROLE_GUEST;
 
-        $this->relationshipTo = new ArrayCollection();
-        $this->relationshipFrom = new ArrayCollection();
         $this->memberships = new ArrayCollection();
         $this->collaborations = new ArrayCollection();
         $this->userIdentities = new ArrayCollection();
@@ -78,18 +76,6 @@ class User extends AbstractCampOwner implements RoleInterface {
      * @ORM\OneToMany(targetEntity="UserIdentity", mappedBy="user", orphanRemoval=true)
      */
     protected $userIdentities;
-
-    /**
-     * @var ArrayCollection
-     * @ORM\OneToMany(targetEntity="UserRelationship", mappedBy="to", cascade={"all"}, orphanRemoval= true)
-     */
-    protected $relationshipTo;
-
-    /**
-     * @var ArrayCollection
-     * @ORM\OneToMany(targetEntity="UserRelationship", mappedBy="from", cascade={"all"}, orphanRemoval=true )
-     */
-    protected $relationshipFrom;
 
     /**
      * @var ArrayCollection
@@ -239,43 +225,6 @@ class User extends AbstractCampOwner implements RoleInterface {
     public function getLogin() {
         return $this->login;
     }
-
-
-    /**
-     * @return ArrayCollection
-     */
-    public function getRelationshipTo(): ArrayCollection {
-        return $this->relationshipTo;
-    }
-
-    public function addRelationshipTo(UserRelationship $rel) {
-        $rel->setTo($this);
-        $this->relationshipTo->add($rel);
-    }
-
-    public function removeRelationshipTo(UserRelationship $rel) {
-        $rel->setTo(null);
-        $this->relationshipTo->removeElement($rel);
-    }
-
-
-    /**
-     * @return ArrayCollection
-     */
-    public function getRelationshipFrom(): ArrayCollection {
-        return $this->relationshipFrom;
-    }
-
-    public function addRelationshipFrom(UserRelationship $rel) {
-        $rel->setFrom($this);
-        $this->relationshipFrom->add($rel);
-    }
-
-    public function removeRelationshipFrom(UserRelationship $rel) {
-        $rel->setFrom(null);
-        $this->relationshipFrom->removeElement($rel);
-    }
-
 
     /**
      * @return ArrayCollection
