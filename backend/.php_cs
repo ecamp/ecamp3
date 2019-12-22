@@ -1,6 +1,7 @@
 <?php
 
 $finder = PhpCsFixer\Finder::create()
+    ->exclude('gen')
     ->in('config')
     ->in('module')
     ->in('plugin')
