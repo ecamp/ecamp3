@@ -39,7 +39,8 @@
     "zendframework/zend-component-installer": "^2.1",
     "zendframework/zend-developer-tools": "^1.2",
     "zendframework/zend-code": "^3.3",
-    "zfcampus/zf-apigility-admin": "^1.8"
+    "zfcampus/zf-apigility-admin": "^1.8",
+    "brainmaestro/composer-git-hooks": "^2.8"
   },
   "autoload": {
     "psr-4": {
@@ -76,16 +77,18 @@
     "di-generate-aot": [
       "rm -vfr module/eCampAoT/gen",
       "php bin/di-generate-aot.php"
-    ]
+    ],
+    "post-install-cmd": "cghooks add --ignore-lock",
+    "post-update-cmd": "cghooks update"
   },
   "extra": {
     "hooks": {
         "pre-commit": [
             "echo committing as $(git config user.name)",
-            "composer cs-fix" // fix style
+            "composer cs-fix"
         ],
         "pre-push": [
-            "composer cs-check", // check style
+            "composer cs-check",
             "phpunit"
         ]
     }
