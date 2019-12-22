@@ -23,7 +23,7 @@ class EventTemplateTest extends AbstractTestCase {
 
         $this->assertEquals($eventType, $eventTemplate->getEventType());
         $this->assertEquals('file.twig', $eventTemplate->getFilename());
-        $this->assertEquals($medium, $eventTemplate->getMedium());
+        $this->assertEquals(EventTemplate::MEDIUM_WEB, $eventTemplate->getMedium());
     }
 
     public function testEventTemplateContainer() {
