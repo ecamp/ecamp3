@@ -87,7 +87,7 @@ export default new Router({
       path: '/event/:eventUri',
       name: 'event',
       components: {
-        default: () => import(/* webpackChunkName: "camp" */ './views/Event.vue')
+        default: () => import(/* webpackChunkName: "event" */ './views/Event.vue')
       },
       beforeEnter: requireAuth
     }

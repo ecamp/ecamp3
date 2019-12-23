@@ -24,7 +24,8 @@ You can two-way bind to the value using v-model.
             name="api-input"
             class="mr-2 ml-2"
             :state="required && $v.localValue.$dirty ? !$v.localValue.$error : null"
-            v-bind="$attrs" />
+            v-bind="$attrs"
+            @input="onInput" />
 
         </b-form-group>
 
@@ -79,13 +80,14 @@ export default {
     label: { type: String, default: '', required: false },
 
     /* overrideDirty=true will reset the input if 'value' changes, even if the input is dirty */
-    overrideDirty: { type: Boolean, default: false, required: false },
+    overrideDirty: { type: Boolean, default: true, required: false },
 
     /* enable/disable edit mode */
     editing: { type: Boolean, default: true, required: false },
 
     /* enable/disable auto save */
     autoSave: { type: Boolean, default: true, required: false },
+    autoSaveDelay: { type: Number, default: 800, required: false },
 
     /* Validation criteria */
     required: { type: Boolean, default: false, required: false }
@@ -94,7 +96,8 @@ export default {
     return {
       localValue: this.value,
       isSaving: false,
-      showSuccessIcon: false
+      showSuccessIcon: false,
+      dirty: false
     }
   },
   validations: {
@@ -110,21 +113,28 @@ export default {
   watch: {
     value: function (newValue, oldValue) {
       // override local value if it wasn't dirty
-      if (this.localValue === oldValue || this.overrideDirty) {
+      if (!this.dirty || this.overrideDirty) {
         this.localValue = newValue
       }
-    },
-    localValue: function (newValue, oldValue) {
-      if (this.autoSave) {
-        this.debouncedSave()
+
+      // clear dirty if outside value changes to same as local value (e.g. after save operation)
+      if (this.localValue === newValue) {
+        this.dirty = false
       }
     }
   },
   created: function () {
     // Create debounced save method (lodash debounce function)
-    this.debouncedSave = debounce(this.save, 500)
+    this.debouncedSave = debounce(this.save, this.autoSaveDelay)
   },
   methods: {
+    onInput: function () {
+      this.dirty = true
+
+      if (this.autoSave) {
+        this.debouncedSave()
+      }
+    },
     reset: function (event) {
       this.localValue = this.value
       this.$v.localValue.$reset()
