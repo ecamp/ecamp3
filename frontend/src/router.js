@@ -38,17 +38,23 @@ export default new Router({
     {
       path: '/',
       name: 'home',
-      component: () => import(/* webpackChunkName: "about" */ './views/Home.vue')
+      component: () => import(/* webpackChunkName: "about" */ './views/Home.vue'),
+      beforeEnter: requireAuth
     },
     {
       path: '/group/:groupName/camps',
       name: 'camps',
-      component: () => import(/* webpackChunkName: "camps" */ './views/Camps.vue'),
+      components: {
+        aside: () => import(/* webpackChunkName: "camps" */ './views/Camps.vue')
+      },
       beforeEnter: requireAuth
     },
     {
-      path: '/group/:groupName/camp/:campId',
-      component: () => import(/* webpackChunkName: "camp" */ './views/Camp.vue'),
+      path: '/group/:groupName/camp/:campUri',
+      components: {
+        default: () => import(/* webpackChunkName: "camp" */ './views/Camp.vue'),
+        aside: () => import(/* webpackChunkName: "camps" */ './views/Camps.vue')
+      },
       beforeEnter: requireAuth,
       children: [
         {
@@ -58,13 +64,34 @@ export default new Router({
           props: true
         },
         {
+          path: 'collaborators',
+          name: 'camp/collaborators',
+          component: () => import(/* webpackChunkName: "campCollaborators" */ './components/camp/Collaborators.vue'),
+          props: true
+        },
+        {
           path: 'periods',
           name: 'camp/periods',
           component: () => import(/* webpackChunkName: "campPeriods" */ './components/camp/Periods.vue'),
           props: true
+        },
+        {
+          path: 'picasso',
+          name: 'camp/picasso',
+          component: () => import(/* webpackChunkName: "campPicasso" */ './components/camp/Picasso.vue'),
+          props: true
         }
       ]
+    },
+    {
+      path: '/event/:eventUri',
+      name: 'event',
+      components: {
+        default: () => import(/* webpackChunkName: "event" */ './views/Event.vue')
+      },
+      beforeEnter: requireAuth
     }
+
   ]
 })
 

@@ -1,45 +1,44 @@
 <template>
-  <section class="container">
+  <div>
     <h3>Camps</h3>
     <ul>
       <li
-        v-for="campId in campIdList"
-        :key="campId">
+        v-for="camp in camps"
+        :key="camp.id">
         <router-link
-          :to="{ name: 'camp', params: { campId: campId } }">
-          {{ campId }}
+          :to="{ name: 'camp', params: { campUri: camp._meta.self } }">
+          {{ camp.name }} "{{ camp.title }}" - {{ camp.camp_type().organization().name }}
         </router-link>
+        <a
+          class="btn btn-danger"
+          @click.prevent="deleteCamp(camp, ...arguments)">[löschen]</a>
       </li>
     </ul>
-  </section>
+    <button
+      class="btn btn-primary"
+      @click="changeCampTitle">
+      Change camp #1 title in Vuex store
+    </button>
+  </div>
 </template>
 
 <script>
 export default {
   name: 'Camps',
-  data () {
-    return {
-      campIdList: []
-    }
-  },
   computed: {
-    apiUrl () {
-      return process.env.VUE_APP_ROOT_API + '/camp'
+    camps () {
+      return this.api.get('/camp').items
     }
-  },
-  created () {
-    this.fetchFromAPI()
   },
   methods: {
-    async fetchFromAPI () {
-      try {
-        this.campIdList = (await this.axios.get(this.apiUrl)).data._embedded.items.map(item => item.id)
-      } catch (error) {
-        this.messages = [{
-          type: 'danger',
-          text: 'Could not get camp list. ' + error
-        }]
-      }
+    changeCampTitle () {
+      if (this.camps.length < 1) return
+      const changedCamp = { ...this.camps[0] }
+      changedCamp.title = changedCamp.title + ' HELLO'
+      this.$store.commit('add', { [changedCamp._meta.self]: changedCamp })
+    },
+    deleteCamp (camp) {
+      this.api.del(camp)
     }
   }
 }

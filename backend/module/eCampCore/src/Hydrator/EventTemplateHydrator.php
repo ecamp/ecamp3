@@ -2,7 +2,6 @@
 
 namespace eCamp\Core\Hydrator;
 
-use eCamp\Api\Collection\EventTemplateContainerCollection;
 use eCamp\Core\Entity\EventTemplate;
 use Zend\Hydrator\HydratorInterface;
 
@@ -19,7 +18,7 @@ class EventTemplateHydrator implements HydratorInterface {
             'medium' => $eventTemplate->getMedium(),
             'event_type' => $eventTemplate->getEventType(),
             'filename' => $eventTemplate->getFilename(),
-            'containers' => new EventTemplateContainerCollection($eventTemplate->getEventTemplateContainers()),
+//            'containers' => new EventTemplateContainerCollection($eventTemplate->getEventTemplateContainers()),
         ];
     }
 

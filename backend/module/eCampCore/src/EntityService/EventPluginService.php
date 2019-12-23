@@ -3,6 +3,7 @@
 namespace eCamp\Core\EntityService;
 
 use Doctrine\ORM\ORMException;
+use eCamp\Core\Entity\Camp;
 use eCamp\Core\Entity\Event;
 use eCamp\Core\Entity\EventPlugin;
 use eCamp\Core\Entity\EventTypePlugin;
@@ -33,14 +34,23 @@ class EventPluginService extends AbstractEntityService
     }
 
 
-    protected function findCollectionQueryBuilder($className, $alias, $params = []) {
-        $q = parent::findCollectionQueryBuilder($className, $alias);
+    protected function fetchAllQueryBuilder($params = []) {
+        $q = parent::fetchAllQueryBuilder($params);
+        $q->join('row.event', 'e');
+        $q->andWhere($this->createFilter($q, Camp::class, 'e', 'camp'));
 
-        $eventId = $params['event_id'];
-        if ($eventId) {
+        if (isset($params['event_id'])) {
             $q->andWhere('row.event = :eventId');
-            $q->setParameter('eventId', $eventId);
+            $q->setParameter('eventId', $params['event_id']);
         }
+
+        return $q;
+    }
+
+    protected function fetchQueryBuilder($id) {
+        $q = parent::fetchQueryBuilder($id);
+        $q->join('row.event', 'e');
+        $q->andWhere($this->createFilter($q, Camp::class, 'e', 'camp'));
 
         return $q;
     }

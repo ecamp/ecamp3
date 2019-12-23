@@ -2,7 +2,6 @@
 
 namespace eCamp\Core\Hydrator;
 
-use eCamp\Core\Entity\User;
 use eCamp\Core\Entity\UserIdentity;
 use Zend\Hydrator\HydratorInterface;
 

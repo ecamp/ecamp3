@@ -3,6 +3,7 @@
 namespace eCamp\Core\EntityService;
 
 use Doctrine\ORM\ORMException;
+use Doctrine\ORM\Query\Expr;
 use eCamp\Core\Entity\User;
 use eCamp\Core\Hydrator\UserHydrator;
 use eCamp\Core\Repository\UserRepository;
@@ -35,6 +36,19 @@ class UserService extends AbstractEntityService {
         );
 
         $this->sendmailService = $sendmailService;
+    }
+
+    public function findCollectionQueryBuilder($className, $alias, $params) {
+        $q = parent::findCollectionQueryBuilder($className, $alias, $params);
+        if (isset($params['search'])) {
+            $expr = new Expr();
+            $q->andWhere($expr->orX(
+                $expr->like($expr->lower($alias . '.username'), ':search')
+            ));
+            $q->setParameter('search', '%' . strtolower($params['search']) . '%');
+        }
+
+        return $q;
     }
 
     public function findByMail($email) {

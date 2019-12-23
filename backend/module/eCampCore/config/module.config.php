@@ -110,11 +110,11 @@ return [
         'doctype'                  => 'HTML5',
 		'not_found_template'       => 'error/404',
 		'exception_template'       => 'error/index',
-        'layout'                   => 'layout/layout',
+        //'layout'                   => 'layout/layout',
         'template_map' => array(
-            'layout/layout'           => __DIR__ . '/../view/layout/layout.twig',
-			'error/404'               => __DIR__ . '/../view/error/404.twig',
-			'error/index'             => __DIR__ . '/../view/error/index.twig',
+            'layout/layout'           => __DIR__ . '/../view/layout/layout.phtml',
+			'error/404'               => __DIR__ . '/../view/error/404.phtml',
+			'error/index'             => __DIR__ . '/../view/error/index.phtml',
         ),
         'template_path_stack' => array(
             __DIR__ . '/../view',

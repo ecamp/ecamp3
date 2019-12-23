@@ -2,10 +2,8 @@
 
 namespace eCamp\Core\Hydrator;
 
-use eCamp\Api\Collection\EventTemplateCollection;
-use eCamp\Api\Collection\EventTypeFactoryCollection;
-use eCamp\Api\Collection\EventTypePluginCollection;
 use eCamp\Core\Entity\EventType;
+use eCampApi\V1\Rest\EventTypePlugin\EventTypePluginCollection;
 use Zend\Hydrator\HydratorInterface;
 
 class EventTypeHydrator implements HydratorInterface {
@@ -22,8 +20,8 @@ class EventTypeHydrator implements HydratorInterface {
             'default_color' => $eventType->getDefaultColor(),
             'default_numbering_style' => $eventType->getDefaultNumberingStyle(),
             'event_type_plugins' =>  new EventTypePluginCollection($eventType->getEventTypePlugins()),
-            'event_type_factories' => new EventTypeFactoryCollection($eventType->getEventTypeFactories()),
-            'event_templates' => new EventTemplateCollection($eventType->getEventTemplates()),
+//            'event_type_factories' => new EventTypeFactoryCollection($eventType->getEventTypeFactories()),
+//            'event_templates' => new EventTemplateCollection($eventType->getEventTemplates()),
         ];
     }
 

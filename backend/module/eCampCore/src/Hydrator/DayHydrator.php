@@ -23,7 +23,7 @@ class DayHydrator implements HydratorInterface {
             'camp' => Link::factory([
                 'rel' => 'camp',
                 'route' => [
-                    'name' => 'ecamp.api.camp',
+                    'name' => 'e-camp-api.rest.doctrine.camp',
                     'params' => [ 'camp_id' => $day->getCamp()->getId() ]
                 ]
             ]),

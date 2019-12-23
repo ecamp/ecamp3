@@ -18,7 +18,7 @@ return [
          *
          * @note: In release v.1.5 this parameter will be set to false
          */
-        'force_twig_strategy' => true,
+        'force_twig_strategy' => false,
 
         'helpers' => [
             'configs' => [

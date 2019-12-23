@@ -1,0 +1,30 @@
+{
+  "serverResponse": {
+    "_embedded": {
+      "campType": {
+        "_links": {
+          "self": {
+            "href": "/campTypes/20"
+          }
+        }
+      }
+    },
+    "id": 1,
+    "_links": {
+      "self": {
+        "href": "/camps/1"
+      }
+    }
+  },
+  "storeState": {
+    "/camps/1": {
+      "campType": {
+        "href": "/campTypes/20"
+      },
+      "id": 1,
+      "_meta": {
+        "self": "/camps/1"
+      }
+    }
+  }
+}

@@ -2,8 +2,8 @@
 
 namespace eCamp\Core\Hydrator;
 
-use eCamp\Api\Collection\EventInstanceCollection;
 use eCamp\Core\Entity\Event;
+use eCampApi\V1\Rest\EventInstance\EventInstanceCollection;
 use Zend\Hydrator\HydratorInterface;
 use ZF\Hal\Link\Link;
 
@@ -26,7 +26,7 @@ class EventHydrator implements HydratorInterface {
             'event_plugins' => Link::factory([
                 'rel' => 'event_plugins',
                 'route' => [
-                    'name' => 'ecamp.api.event_plugin',
+                    'name' => 'e-camp-api.rest.doctrine.event-plugin',
                     'options' => [ 'query' => [ 'event_id' => $event->getId() ] ]
                 ]
             ]),
