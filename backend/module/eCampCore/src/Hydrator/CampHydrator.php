@@ -8,6 +8,7 @@ use eCampApi\V1\Rest\CampCollaboration\CampCollaborationCollection;
 use eCampApi\V1\Rest\EventCategory\EventCategoryCollection;
 use eCampApi\V1\Rest\Period\PeriodCollection;
 use Zend\Hydrator\HydratorInterface;
+use ZF\Hal\Link\Link;
 
 class CampHydrator implements HydratorInterface {
 
@@ -32,6 +33,14 @@ class CampHydrator implements HydratorInterface {
 //            'jobs' => new JobCollection($camp->getJobs()),
             'periods' => new PeriodCollection($camp->getPeriods()),
             'event_categories' => new EventCategoryCollection($camp->getEventCategories()),
+
+            'events' => Link::factory([
+                'rel' => 'events',
+                'route' => [
+                    'name' => 'e-camp-api.rest.doctrine.event',
+                    'options' => ['query' => ['camp_id' => $camp->getId()]]
+                ]
+            ])
 
         ];
     }
