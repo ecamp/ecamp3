@@ -130,7 +130,7 @@ const get = function (vm, uriOrEntity, forceReload = false) {
     throw new Error(`Could not perform GET, "${uriOrEntity}" is not an entity or URI`)
   }
 
-  let storeData = load(vm, uri, forceReload)
+  const storeData = load(vm, uri, forceReload)
   return storeValueProxy(vm, storeData)
 }
 
