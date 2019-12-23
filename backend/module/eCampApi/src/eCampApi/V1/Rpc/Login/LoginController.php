@@ -146,7 +146,9 @@ class LoginController extends AbstractActionController
         $request = $this->getRequest();
         $externalCallback = $request->getQuery('callback');
 
-        $redirect = $this->url()->fromRoute('ecamp.api/login', [], ['query'=>['callback'=>$externalCallback]]);
+        $redirect = $this->url()->fromRoute('e-camp-api.rpc.login', [], [
+            'query'=>['callback'=>$externalCallback]
+        ]);
 
         return $this->redirect()->toRoute(
           'ecamp.auth/hitobito',

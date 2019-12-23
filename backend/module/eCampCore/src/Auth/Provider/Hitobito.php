@@ -11,7 +11,7 @@ final class Hitobito extends OAuth2 {
     /**
      * Defaults scope to requests
      */
-    protected $scope = 'email name with_roles api_access';
+    protected $scope = 'name';
 
     /**
      * Default Base URL to provider API
