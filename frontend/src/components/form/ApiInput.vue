@@ -79,8 +79,8 @@ export default {
     /* display label */
     label: { type: String, default: '', required: false },
 
-    /* overrideDirty=true will reset the input if 'value' changes, even if the input is dirty */
-    overrideDirty: { type: Boolean, default: true, required: false },
+    /* overrideDirty=true will reset the input if 'value' changes, even if the input is dirty. Use with caution. */
+    overrideDirty: { type: Boolean, default: false, required: false },
 
     /* enable/disable edit mode */
     editing: { type: Boolean, default: true, required: false },
