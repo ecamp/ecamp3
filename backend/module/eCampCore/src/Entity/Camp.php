@@ -174,6 +174,10 @@ class Camp extends BaseEntity {
     }
 
     public function setOwner($owner) {
+        if (! $owner instanceof User) {
+            throw new \Exception("Owner must be a user. Groups are not (yet) supported.");
+        }
+
         $this->owner = $owner;
     }
 

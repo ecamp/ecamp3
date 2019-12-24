@@ -42,7 +42,7 @@ export default new Router({
       beforeEnter: requireAuth
     },
     {
-      path: '/group/:groupName/camps',
+      path: '/camps',
       name: 'camps',
       components: {
         aside: () => import(/* webpackChunkName: "camps" */ './views/Camps.vue')
@@ -50,7 +50,7 @@ export default new Router({
       beforeEnter: requireAuth
     },
     {
-      path: '/group/:groupName/camp/:campUri',
+      path: '/camp/:campUri',
       components: {
         default: () => import(/* webpackChunkName: "camp" */ './views/Camp.vue'),
         aside: () => import(/* webpackChunkName: "camps" */ './views/Camps.vue')
