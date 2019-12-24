@@ -12,12 +12,10 @@ Displays a single event
         style="width: 3rem; height: 3rem;" />
     </div>
 
-    <b-card
+    <v-card
       v-else
       class="m-3">
-      <div
-        slot="header"
-        class="row">
+      <v-card-title>
         <div class="col-sm-12">
           <p class="event_title">
             <api-input
@@ -28,30 +26,32 @@ Displays a single event
               required />
           </p>
         </div>
-      </div>
-      <div>
-        <b>Kategorie:</b>
-        <div
-          class="category_box"
-          :style="{ backgroundColor: '#' + category.color }" />
-        {{ category.name }} ({{ category.short }})
-        <br>
-        <small><i>(EventType: {{ category.event_type().name }})</i><small /></small>
-      </div>
+      </v-card-title>
+      <v-card-text>
+        <div>
+          <b>Kategorie:</b>
+          <div
+            class="category_box"
+            :style="{ backgroundColor: '#' + category.color }" />
+          {{ category.name }} ({{ category.short }})
+          <br>
+          <small><i>(EventType: {{ category.event_type().name }})</i><small /></small>
+        </div>
 
-      <p />
+        <p />
 
-      <p>
-        Findet statt am:
-        <ul>
-          <li
-            v-for="eventInstance in event.event_instances().items"
-            :key="eventInstance._meta.self">
-            {{ eventInstance.start_time }} bis {{ eventInstance.end_time }}
-          </li>
-        </ul>
-      </p>
-    </b-card>
+        <p>
+          Findet statt am:
+          <ul>
+            <li
+              v-for="eventInstance in event.event_instances().items"
+              :key="eventInstance._meta.self">
+              {{ eventInstance.start_time }} bis {{ eventInstance.end_time }}
+            </li>
+          </ul>
+        </p>
+      </v-card-text>
+    </v-card>
   </div>
 </template>
 

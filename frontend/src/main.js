@@ -4,6 +4,7 @@ import '@/auth'
 import router from '@/router'
 import BootstrapVue from 'bootstrap-vue'
 import store from './store'
+import vuetify from './plugins/vuetify'
 
 Vue.use(BootstrapVue)
 
@@ -13,5 +14,6 @@ Vue.component('default-layout', () => import('./layouts/DefaultLayout'))
 new Vue({
   router,
   store,
+  vuetify,
   render: h => h(App)
 }).$mount('#app')
