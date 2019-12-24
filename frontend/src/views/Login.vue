@@ -11,8 +11,8 @@
     </button>
     <button
       class="btn btn-primary"
-      @click="loginHitobito">
-      Login with Hitobito
+      @click="loginMiData">
+      Login with PBS MiData
     </button>
     <p v-if="error">
       Error logging in.
@@ -48,7 +48,7 @@ export default {
       const callbackUrl = window.location.origin + this.$router.resolve({ name: 'loginCallback' }).href
       this.$auth.login(callbackUrl)
     },
-    loginHitobito () {
+    loginMiData () {
       // Make the login callback function available on global level, so the popup can call it
       window.loginSuccess = () => {
         this.$auth.loginSuccess()

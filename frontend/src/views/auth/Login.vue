@@ -75,7 +75,7 @@
         class="btn btn-link"
         style="width: 100%;"
         href="#"
-        @click="loginHitobito">
+        @click="loginMiData">
         <i
           class="zmdi"
           title="Via PBS MiData einloggen">
@@ -140,14 +140,14 @@ export default {
       const callbackUrl = window.location.origin + this.$router.resolve({ name: 'loginCallback' }).href
       this.$auth.loginGoogle(callbackUrl)
     },
-    loginHitobito () {
+    loginMiData () {
       // Make the login callback function available on global level, so the popup can call it
       window.loginSuccess = () => {
         this.$auth.loginSuccess()
         this.redirect()
       }
       const callbackUrl = window.location.origin + this.$router.resolve({ name: 'loginCallback' }).href
-      this.$auth.loginHitobito(callbackUrl)
+      this.$auth.loginMiData(callbackUrl)
     },
     redirect () {
       this.$router.replace(this.$route.query.redirect || '/')

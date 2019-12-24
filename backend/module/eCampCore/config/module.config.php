@@ -21,12 +21,12 @@ return [
                       ],
                     ],
                   ],
-                  'hitobito' => [
+                  'midata' => [
                     'type' => 'Segment',
                     'options' => [
-                      'route' => '/hitobito[/:action]',
+                      'route' => '/midata[/:action]',
                       'defaults' => [
-                        'controller' => \eCamp\Core\Controller\Auth\HitobitoController::class,
+                        'controller' => \eCamp\Core\Controller\Auth\MiDataController::class,
                         'action' => 'index'
                       ],
                     ],
@@ -77,7 +77,7 @@ return [
     'controllers' => [
         'factories' => [
             \eCamp\Core\Controller\Auth\GoogleController::class => \eCamp\Core\Controller\Auth\GoogleControllerFactory::class,
-            \eCamp\Core\Controller\Auth\HitobitoController::class => \eCamp\Core\Controller\Auth\HitobitoControllerFactory::class
+            \eCamp\Core\Controller\Auth\MiDataController::class => \eCamp\Core\Controller\Auth\MiDataControllerFactory::class
         ]
     ],
 

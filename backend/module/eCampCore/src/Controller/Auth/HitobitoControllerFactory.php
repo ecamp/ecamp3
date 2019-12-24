@@ -11,7 +11,11 @@ use Psr\Container\NotFoundExceptionInterface;
 use Zend\Authentication\AuthenticationService;
 use Zend\ServiceManager\Factory\FactoryInterface;
 
-class HitobitoControllerFactory implements FactoryInterface {
+abstract class HitobitoControllerFactory implements FactoryInterface {
+
+    /** @return string */
+    abstract protected function getControllerClass();
+
     /**
      * @param ContainerInterface $container
      * @param string $requestedName
@@ -36,7 +40,9 @@ class HitobitoControllerFactory implements FactoryInterface {
 
         $hybridAuthConfig = $container->get('config')['hybridauth'];
 
-        return new HitobitoController(
+        $controllerClass = $this->getControllerClass();
+
+        return new $controllerClass(
             $entityManager,
             $userIdentityService,
             $userService,

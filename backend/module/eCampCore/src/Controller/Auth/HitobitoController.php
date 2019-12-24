@@ -7,7 +7,11 @@ use eCamp\Core\EntityService\UserIdentityService;
 use eCamp\Core\EntityService\UserService;
 use Zend\Authentication\AuthenticationService;
 
-class HitobitoController extends BaseController {
+abstract class HitobitoController extends BaseController {
+
+    /** @return string */
+    abstract protected function getProviderName();
+
     public function __construct(
       EntityManager $entityManager,
       UserIdentityService $userIdentityService,
@@ -20,13 +24,8 @@ class HitobitoController extends BaseController {
           $userIdentityService,
           $userService,
           $zendAuthenticationService,
-          'Hitobito',
+          $this->getProviderName(),
           $hybridAuthConfig
         );
-    }
-
-    /** @return string */
-    protected function getCallbackRoute() {
-        return 'ecamp.auth/hitobito';
     }
 }

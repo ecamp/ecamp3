@@ -7,7 +7,7 @@ use Hybridauth\Data;
 use Hybridauth\Exception\UnexpectedApiResponseException;
 use Hybridauth\User;
 
-final class Hitobito extends OAuth2 {
+abstract class Hitobito extends OAuth2 {
 
     protected $scope = 'name';
 

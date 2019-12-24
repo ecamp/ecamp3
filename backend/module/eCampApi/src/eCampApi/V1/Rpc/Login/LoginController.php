@@ -77,11 +77,11 @@ class LoginController extends AbstractActionController
           ]
         ]);
 
-        $data['hitobito'] = Link::factory([
-          'rel' => 'hitobito',
+        $data['midata'] = Link::factory([
+          'rel' => 'midata',
           'route' => [
             'name' => 'e-camp-api.rpc.login',
-            'params' => [ 'action' => 'hitobito' ]
+            'params' => [ 'action' => 'midata' ]
           ]
         ]);
 
@@ -141,7 +141,7 @@ class LoginController extends AbstractActionController
     /**
      * @return Response
      */
-    public function hitobitoAction() {
+    public function midataAction() {
         /** @var Request $request */
         $request = $this->getRequest();
         $externalCallback = $request->getQuery('callback');
@@ -151,7 +151,7 @@ class LoginController extends AbstractActionController
         ]);
 
         return $this->redirect()->toRoute(
-          'ecamp.auth/hitobito',
+          'ecamp.auth/midata',
           [],
           ['query' => ['redirect' => $redirect]]
         );
