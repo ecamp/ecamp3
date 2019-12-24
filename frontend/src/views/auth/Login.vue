@@ -76,7 +76,11 @@
         style="width: 100%;"
         href="#"
         @click="loginHitobito">
-        <i class="zmdi zmdi-facebook" />
+        <i
+          class="zmdi"
+          title="Via PBS MiData einloggen">
+          <MiDataLogo />
+        </i>
       </a>
     </div>
 
@@ -94,8 +98,13 @@
 
 <script>
 import Vue from 'vue'
+import MiDataLogo from '../../../public/midata.svg'
+
 export default {
   name: 'Login',
+  components: {
+    MiDataLogo
+  },
   data () {
     return {
       username: '',
