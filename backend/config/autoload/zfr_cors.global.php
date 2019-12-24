@@ -7,7 +7,7 @@ return [
         /**
          * Set the list of allowed origins domain with protocol.
          */
-        'allowed_origins' => ['http://localhost:8888', 'http://ecamp3.dev', 'http://localhost:8080', 'http://localhost:3000', 'http://ecamp3.dev:8080', 'https://ecamp3-oauth.gloggi.ch'],
+        'allowed_origins' => ['http://localhost:8888', 'http://ecamp3.dev', 'http://localhost:8080', 'http://localhost:3000', 'http://ecamp3.dev:8080'],
         /**
          * Set the list of HTTP verbs.
          */

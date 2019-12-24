@@ -16,6 +16,11 @@ return [
             'keys' => [
               'id' => '2a955efdaaac73f665b29ec182cd9a114db01675ced710a464d33d10f58be600',
               'secret' => '00a23e48bcb776d453b255428ffe810643db7155a9f3d743d7edf52eac400580',
+            ],
+            'endpoints' => [
+                'authorize' => 'https://pbs.puzzle.ch/oauth/authorize',
+                'token' => 'https://pbs.puzzle.ch/oauth/token',
+                'profile' => 'https://pbs.puzzle.ch/de/oauth/profile',
             ]
           ],
             'facebook' => [

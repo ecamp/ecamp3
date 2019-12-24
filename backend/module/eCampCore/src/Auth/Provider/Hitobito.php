@@ -8,29 +8,20 @@ use Hybridauth\Exception\UnexpectedApiResponseException;
 use Hybridauth\User;
 
 final class Hitobito extends OAuth2 {
-    /**
-     * Defaults scope to requests
-     */
+
     protected $scope = 'name';
 
-    /**
-     * Default Base URL to provider API
-     */
-    protected $apiBaseUrl = 'https://pbs.puzzle.ch/de/oauth';
-
-    /**
-     * Default Authorization Endpoint
-     */
-    protected $authorizeUrl = 'https://pbs.puzzle.ch/oauth/authorize';
-
-    /**
-     * Default Access Token Endpoint
-     */
-    protected $accessTokenUrl = 'https://pbs.puzzle.ch/oauth/token';
+    protected function configure()
+    {
+        parent::configure();
+        $this->apiBaseUrl     = preg_replace('/\/(profile)?$/', '', $this->config->filter('endpoints')->get('profile'));
+        $this->authorizeUrl   = $this->config->filter('endpoints')->get('authorize');
+        $this->accessTokenUrl = $this->config->filter('endpoints')->get('token');
+    }
 
     function getUserProfile() {
         /* Send a signed http request to provider API to request user's profile */
-        $response = $this->apiRequest('profile', 'GET', [], ['X-Scope' => 'name']);
+        $response = $this->apiRequest('profile', 'GET', [], ['X-Scope' => $this->scope]);
         $data = new Data\Collection($response);
 
         if (! $data->exists('id')) {
@@ -46,14 +37,6 @@ final class Hitobito extends OAuth2 {
         $userProfile->email       = $data->get('email');
 
         return $userProfile;
-    }
-
-    protected function setCallback($callback) {
-        if ($callback === 'urn:ietf:wg:oauth:2.0:oob') {
-            $this->callback = $callback;
-        } else {
-            parent::setCallback($callback);
-        }
     }
 
 }
