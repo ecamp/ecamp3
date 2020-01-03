@@ -1,8 +1,34 @@
 <template>
   <v-app
     style="background: #90A4AE">
-    <!-- left side drawer -->
+    <!-- left side drawer (mobile) -->
     <v-navigation-drawer
+      v-if="$vuetify.breakpoint.smAndDown"
+      v-model="drawer"
+      app
+      clipped
+      temporary
+      color="grey lighten-2">
+      <v-list-item>
+        <v-list-item-title>context/sidebar</v-list-item-title>
+
+        <v-btn
+          icon
+          @click.stop="drawer = !drawer">
+          <v-icon>mdi-chevron-left</v-icon>
+        </v-btn>
+      </v-list-item>
+
+      <v-divider />
+
+      <router-view
+        name="aside" />
+    </v-navigation-drawer>
+
+    <!-- left side drawer (desktop)-->
+    <v-navigation-drawer
+      v-if="$vuetify.breakpoint.mdAndUp"
+      v-model="drawer"
       app
       clipped
       :mini-variant.sync="mini"
@@ -82,6 +108,13 @@
       app
       clipped-left
       color="white">
+      <v-btn
+        v-if="$vuetify.breakpoint.smAndDown"
+        icon
+        @click.stop="drawer = !drawer">
+        <v-icon>mdi-chevron-down</v-icon>
+      </v-btn>
+
       <v-toolbar-title class="pl-4 pr-4">
         SoLa 2019
       </v-toolbar-title>
@@ -116,6 +149,7 @@ export default {
   data () {
     return {
       loggedIn: null,
+      drawer: true,
       mini: true
     }
   },
@@ -132,5 +166,8 @@ export default {
 </script>
 
 <style lang="scss">
-
+  .v-navigation-drawer--temporary.v-navigation-drawer--clipped {
+    z-index: 5;
+    margin-top: 116px;
+}
 </style>
