@@ -7,26 +7,26 @@ Displays a single event
     <div
       v-if="event.loading"
       class="d-flex justify-content-center m-5">
-      <b-spinner
-        label="Loading..."
-        style="width: 3rem; height: 3rem;" />
+      <v-progress-circular
+        :size="50"
+        indeterminate
+        color="primary" />
     </div>
 
     <v-card
       v-else
       class="m-3">
-      <v-card-title>
+      <v-card-title class="event_title">
         <div class="col-sm-12">
-          <p class="event_title">
-            <api-input
-              :value="event.title"
-              :uri="event._meta.self"
-              fieldname="title"
-              label="Titel"
-              required />
-          </p>
+          <api-input
+            :value="event.title"
+            :uri="event._meta.self"
+            fieldname="title"
+            label="Titel"
+            required />
         </div>
       </v-card-title>
+      <v-divider />
       <v-card-text>
         <div>
           <b>Kategorie:</b>

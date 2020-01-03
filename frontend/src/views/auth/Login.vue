@@ -70,12 +70,14 @@
         href="#"
         @click="loginGoogle">
         <i class="zmdi zmdi-google" />
+        Google
       </a>
       <a
         class="btn btn-link"
         style="width: 100%;"
         href="">
         <i class="zmdi zmdi-facebook" />
+        Facebook
       </a>
     </div>
 

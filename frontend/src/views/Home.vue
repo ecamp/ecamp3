@@ -1,5 +1,5 @@
 <template>
-  <section class="container">
+  <v-card class="pa-3">
     <ul>
       <li>
         <router-link :to="{ name: 'home' }">
@@ -22,17 +22,17 @@
         </router-link>
       </li>
       <li>
-        <router-link :to="{ name: 'camp', params: { groupName: 'Pfadi Bewegung Schweiz', campId: '1fb176e0' } }">
+        <router-link :to="{ name: 'camp', params: { groupName: 'Pfadi Bewegung Schweiz', campUri: 'camp/1fb176e0' } }">
           [Hardcoded CampId, router demonstration only] Camp basic info
         </router-link>
       </li>
       <li>
-        <router-link :to="{ name: 'camp/periods', params: { groupName: 'Pfadi Bewegung Schweiz', campId: '1fb176e0' } }">
+        <router-link :to="{ name: 'camp/periods', params: { groupName: 'Pfadi Bewegung Schweiz', campUri: 'camp/1fb176e0' } }">
           [Hardcoded CampId, router demonstration only] Camp periods
         </router-link>
       </li>
     </ul>
-  </section>
+  </v-card>
 </template>
 
 <script>
