@@ -11,6 +11,10 @@ use eCamp\Core\Entity\User;
 
 class GroupMembershipData extends AbstractFixture implements DependentFixtureInterface {
     public function load(ObjectManager $manager) {
+
+        // disable group code
+        return;
+
         $repository = $manager->getRepository(GroupMembership::class);
         $groupRepository = $manager->getRepository(Group::class);
         $userRepository = $manager->getRepository(User::class);

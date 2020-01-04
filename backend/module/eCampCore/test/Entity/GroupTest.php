@@ -54,10 +54,15 @@ class GroupTest extends AbstractTestCase {
         $group = new Group();
 
         $this->assertEquals(0, $group->getOwnedCamps()->count());
+
+        // Groups as camp owners are not (yet) allowed
+        $this->expectException(\Exception::class);
         $group->addOwnedCamp($camp);
-        $this->assertContains($camp, $group->getOwnedCamps());
+
+        // Tests once Groups are allowed as camp owner
+        /* $this->assertContains($camp, $group->getOwnedCamps());
         $group->removeOwnedCamp($camp);
-        $this->assertEquals(0, $group->getOwnedCamps()->count());
+        $this->assertEquals(0, $group->getOwnedCamps()->count()); */
     }
 
     public function testMembership() {

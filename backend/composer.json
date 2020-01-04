@@ -16,9 +16,9 @@
     "zendframework/zend-router": "^3.0",
     "zendframework/zend-session": "^2.8",
     "zendframework/zend-test": "^3.0",
-    "doctrine/doctrine-orm-module" : "^1.1",
-    "doctrine/data-fixtures": "^1.3",
-    "doctrine/migrations": "^1.6",
+    "doctrine/doctrine-orm-module" : "^2.1.7",
+    "doctrine/data-fixtures": "^1.4",
+    "doctrine/migrations": "^2.2",
     "hybridauth/hybridauth": "^3.0-dev",
     "ocramius/proxy-manager": "^2.2",
     "oxcom/zend-twig": "^0.1",
@@ -39,7 +39,8 @@
     "zendframework/zend-component-installer": "^2.1",
     "zendframework/zend-developer-tools": "^1.2",
     "zendframework/zend-code": "^3.3",
-    "zfcampus/zf-apigility-admin": "^1.8"
+    "zfcampus/zf-apigility-admin": "^1.8",
+    "brainmaestro/composer-git-hooks": "^2.8"
   },
   "autoload": {
     "psr-4": {
@@ -69,13 +70,25 @@
     }
   },
   "scripts": {
-    "cs-check": "phpcs",
-    "cs-fix": "phpcbf",
+    "cs-check": "php-cs-fixer fix --dry-run",
+    "cs-fix": "php-cs-fixer fix",
     "serve": "php -S 0.0.0.0:8080 -t public/ public/index.php",
     "test": "phpunit",
     "di-generate-aot": [
       "rm -vfr module/eCampAoT/gen",
       "php bin/di-generate-aot.php"
-  ]
-  }
+    ],
+    "post-install-cmd": "cghooks add --ignore-lock",
+    "post-update-cmd": "cghooks update"
+  },
+  "extra": {
+    "hooks": {
+        "pre-commit": [
+            "cd backend && composer cs-check"
+        ],
+        "pre-push": [
+            "cd backend && composer cs-check"
+        ]
+    }
+}
 }

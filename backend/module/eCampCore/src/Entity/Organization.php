@@ -26,7 +26,7 @@ class Organization extends BaseEntity {
 
     /**
      * @var CampType[]
-     * @ORM\OneToMany(targetEntity="CampType", mappedBy="organization")
+     * @ORM\OneToMany(targetEntity="CampType", mappedBy="organization", orphanRemoval=true)
      */
     protected $campTypes;
 

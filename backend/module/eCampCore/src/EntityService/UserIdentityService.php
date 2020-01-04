@@ -72,7 +72,7 @@ class UserIdentityService extends AbstractEntityService {
                 'provider' => $provider,
                 'providerId' => $profile->identifier
             ]);
-            $existingIdentity->setUser($user);
+            $user->addUserIdentity($existingIdentity);
         }
         // Save to db and return results
         $this->getServiceUtils()->emFlush();

@@ -14,6 +14,9 @@ class GroupData extends AbstractFixture implements DependentFixtureInterface {
 
 
     public function load(ObjectManager $manager) {
+        // disable group code
+        return;
+        
         $repository = $manager->getRepository(Group::class);
 
         $pbs = $this->getReference(OrganizationData::$PBS);

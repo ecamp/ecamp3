@@ -17,8 +17,7 @@ abstract class BaseFilter implements EntityFilterInterface {
     protected $entityManager;
 
 
-    public function __construct(AuthUserProvider $authUserProvider, EntityManager $entityManager)
-    {
+    public function __construct(AuthUserProvider $authUserProvider, EntityManager $entityManager) {
         $this->authUserProvider = $authUserProvider;
         $this->entityManager = $entityManager;
     }

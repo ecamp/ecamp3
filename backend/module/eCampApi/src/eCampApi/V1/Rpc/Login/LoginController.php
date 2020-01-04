@@ -13,8 +13,7 @@ use ZF\Hal\Entity;
 use ZF\Hal\Link\Link;
 use ZF\Hal\View\HalJsonModel;
 
-class LoginController extends AbstractActionController
-{
+class LoginController extends AbstractActionController {
     /** @var AuthenticationService */
     private $authenticationService;
 
@@ -94,8 +93,7 @@ class LoginController extends AbstractActionController
     }
 
 
-    public function loginAction()
-    {
+    public function loginAction() {
         /** @var Request $request */
         $request = $this->getRequest();
         $content = $request->getContent();

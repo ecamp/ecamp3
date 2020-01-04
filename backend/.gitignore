@@ -6,3 +6,5 @@ build
 .idea/
 vendor/
 node_modules
+cghooks.lock
+

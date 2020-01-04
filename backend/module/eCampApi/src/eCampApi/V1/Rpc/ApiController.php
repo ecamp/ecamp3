@@ -11,11 +11,8 @@ use ZF\Hal\Plugin\Hal;
 use ZF\Hal\View\HalJsonModel;
 
 
-class ApiController extends AbstractActionController
-{
-
-    function onDispatch(MvcEvent $e)
-    {
+class ApiController extends AbstractActionController {
+    function onDispatch(MvcEvent $e) {
         try {
             $return = parent::onDispatch($e);
         } catch (\Exception $ex) {

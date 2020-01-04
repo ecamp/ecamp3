@@ -120,5 +120,4 @@ class CampService extends AbstractEntityService {
 
         return $this->getQueryResult($q);
     }
-
 }

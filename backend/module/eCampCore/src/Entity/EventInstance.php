@@ -20,14 +20,14 @@ class EventInstance extends BaseEntity {
     /**
      * @var Period
      * @ORM\ManyToOne(targetEntity="Period")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=false, onDelete="cascade")
      */
     private $period;
 
     /**
      * @var Event
      * @ORM\ManyToOne(targetEntity="Event")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=false, onDelete="cascade")
      */
     private $event;
 
