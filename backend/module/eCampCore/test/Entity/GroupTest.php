@@ -59,7 +59,7 @@ class GroupTest extends AbstractTestCase {
         $this->expectException(\Exception::class);
         $group->addOwnedCamp($camp);
 
-        // Tests once Groups are allowerd as camp owner
+        // Tests once Groups are allowed as camp owner
         /* $this->assertContains($camp, $group->getOwnedCamps());
         $group->removeOwnedCamp($camp);
         $this->assertEquals(0, $group->getOwnedCamps()->count()); */
