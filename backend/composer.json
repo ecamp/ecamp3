@@ -22,7 +22,6 @@
     "hybridauth/hybridauth": "^3.0-dev",
     "ocramius/proxy-manager": "^2.2",
     "oxcom/zend-twig": "^0.1",
-    "friendsofphp/php-cs-fixer": "^2.11",
     "ext-json": "*",
 
     "zfr/zfr-cors": "^1.5",
@@ -39,7 +38,8 @@
     "zendframework/zend-component-installer": "^2.1",
     "zendframework/zend-developer-tools": "^1.2",
     "zendframework/zend-code": "^3.3",
-    "zfcampus/zf-apigility-admin": "^1.8"
+    "zfcampus/zf-apigility-admin": "^1.8",
+    "friendsofphp/php-cs-fixer": "^2.16"
   },
   "autoload": {
     "psr-4": {

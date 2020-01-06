@@ -8,11 +8,9 @@ use Hybridauth\Exception\UnexpectedApiResponseException;
 use Hybridauth\User;
 
 abstract class Hitobito extends OAuth2 {
-
     protected $scope = 'name';
 
-    protected function configure()
-    {
+    protected function configure() {
         parent::configure();
         $this->apiBaseUrl     = preg_replace('/\/(profile)?$/', '', $this->config->filter('endpoints')->get('profile'));
         $this->authorizeUrl   = $this->config->filter('endpoints')->get('authorize');
@@ -38,5 +36,4 @@ abstract class Hitobito extends OAuth2 {
 
         return $userProfile;
     }
-
 }
