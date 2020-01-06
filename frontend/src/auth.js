@@ -39,8 +39,8 @@ export const auth = {
   loginGoogle (returnUrl) {
     window.open(process.env.VUE_APP_ROOT_API + '/login/google?callback=' + encodeURI(returnUrl), '', 'width=500px,height=600px')
   },
-  loginMiData (returnUrl) {
-    window.open(process.env.VUE_APP_ROOT_API + '/login/midata?callback=' + encodeURI(returnUrl), '', 'width=500px,height=600px')
+  loginPbsMiData (returnUrl) {
+    window.open(process.env.VUE_APP_ROOT_API + '/login/pbsmidata?callback=' + encodeURI(returnUrl), '', 'width=500px,height=600px')
   },
   loginSuccess () {
     window.localStorage.setItem(storageLocation, '1')

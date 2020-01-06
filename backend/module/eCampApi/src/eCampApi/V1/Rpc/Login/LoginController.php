@@ -77,11 +77,11 @@ class LoginController extends AbstractActionController
           ]
         ]);
 
-        $data['midata'] = Link::factory([
-          'rel' => 'midata',
+        $data['pbsmidata'] = Link::factory([
+          'rel' => 'pbsmidata',
           'route' => [
             'name' => 'e-camp-api.rpc.login',
-            'params' => [ 'action' => 'midata' ]
+            'params' => [ 'action' => 'pbsmidata' ]
           ]
         ]);
 
@@ -141,7 +141,7 @@ class LoginController extends AbstractActionController
     /**
      * @return Response
      */
-    public function midataAction() {
+    public function pbsMiDataAction() {
         /** @var Request $request */
         $request = $this->getRequest();
         $externalCallback = $request->getQuery('callback');
@@ -151,7 +151,7 @@ class LoginController extends AbstractActionController
         ]);
 
         return $this->redirect()->toRoute(
-          'ecamp.auth/midata',
+          'ecamp.auth/pbsmidata',
           [],
           ['query' => ['redirect' => $redirect]]
         );

@@ -21,12 +21,12 @@ return [
                       ],
                     ],
                   ],
-                  'midata' => [
+                  'pbsmidata' => [
                     'type' => 'Segment',
                     'options' => [
-                      'route' => '/midata[/:action]',
+                      'route' => '/pbsmidata[/:action]',
                       'defaults' => [
-                        'controller' => \eCamp\Core\Controller\Auth\MiDataController::class,
+                        'controller' => \eCamp\Core\Controller\Auth\PbsMiDataController::class,
                         'action' => 'index'
                       ],
                     ],
@@ -77,7 +77,7 @@ return [
     'controllers' => [
         'factories' => [
             \eCamp\Core\Controller\Auth\GoogleController::class => \eCamp\Core\Controller\Auth\GoogleControllerFactory::class,
-            \eCamp\Core\Controller\Auth\MiDataController::class => \eCamp\Core\Controller\Auth\MiDataControllerFactory::class
+            \eCamp\Core\Controller\Auth\PbsMiDataController::class => \eCamp\Core\Controller\Auth\PbsMiDataControllerFactory::class
         ]
     ],
 

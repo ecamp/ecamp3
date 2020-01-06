@@ -75,11 +75,11 @@
         class="btn btn-link"
         style="width: 100%;"
         href="#"
-        @click="loginMiData">
+        @click="loginPbsMiData">
         <i
           class="zmdi"
           title="Via PBS MiData einloggen">
-          <MiDataLogo />
+          <PbsMiDataLogo />
         </i>
       </a>
     </div>
@@ -98,12 +98,12 @@
 
 <script>
 import Vue from 'vue'
-import MiDataLogo from '../../../public/midata.svg'
+import PbsMiDataLogo from '../../../public/pbsmidata.svg'
 
 export default {
   name: 'Login',
   components: {
-    MiDataLogo
+    PbsMiDataLogo
   },
   data () {
     return {
@@ -140,14 +140,14 @@ export default {
       const callbackUrl = window.location.origin + this.$router.resolve({ name: 'loginCallback' }).href
       this.$auth.loginGoogle(callbackUrl)
     },
-    loginMiData () {
+    loginPbsMiData () {
       // Make the login callback function available on global level, so the popup can call it
       window.loginSuccess = () => {
         this.$auth.loginSuccess()
         this.redirect()
       }
       const callbackUrl = window.location.origin + this.$router.resolve({ name: 'loginCallback' }).href
-      this.$auth.loginMiData(callbackUrl)
+      this.$auth.loginPbsMiData(callbackUrl)
     },
     redirect () {
       this.$router.replace(this.$route.query.redirect || '/')

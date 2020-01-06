@@ -11,7 +11,7 @@
     </button>
     <button
       class="btn btn-primary"
-      @click="loginMiData">
+      @click="loginPbsMiData">
       Login with PBS MiData
     </button>
     <p v-if="error">
@@ -48,7 +48,7 @@ export default {
       const callbackUrl = window.location.origin + this.$router.resolve({ name: 'loginCallback' }).href
       this.$auth.login(callbackUrl)
     },
-    loginMiData () {
+    loginPbsMiData () {
       // Make the login callback function available on global level, so the popup can call it
       window.loginSuccess = () => {
         this.$auth.loginSuccess()
