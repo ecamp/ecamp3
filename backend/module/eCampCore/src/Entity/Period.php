@@ -19,7 +19,6 @@ class Period extends BaseEntity {
         $this->eventInstances = new ArrayCollection();
     }
 
-
     /**
      * @var Camp
      * @ORM\ManyToOne(targetEntity="Camp")
@@ -54,7 +53,7 @@ class Period extends BaseEntity {
 
     /**
      * @var ArrayCollection
-     * @ORM\OneToMany(targetEntity="EventInstance", mappedBy="period", cascade={"all"}, orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="EventInstance", mappedBy="period")
      */
     protected $eventInstances;
 

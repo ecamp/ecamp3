@@ -26,10 +26,9 @@ class User extends AbstractCampOwner implements RoleInterface {
         $this->state = self::STATE_NONREGISTERED;
         $this->role = self::ROLE_GUEST;
 
-        $this->relationshipTo = new ArrayCollection();
-        $this->relationshipFrom = new ArrayCollection();
         $this->memberships = new ArrayCollection();
         $this->collaborations = new ArrayCollection();
+        $this->userIdentities = new ArrayCollection();
     }
 
 
@@ -42,14 +41,14 @@ class User extends AbstractCampOwner implements RoleInterface {
 
     /**
      * @var MailAddress
-     * @ORM\OneToOne(targetEntity="MailAddress", cascade={"persist"})
+     * @ORM\OneToOne(targetEntity="MailAddress", cascade={"all"}, orphanRemoval=true)
      * @ORM\JoinColumn(name="trusted_mailaddress_id", referencedColumnName="id")
      */
     private $trustedMailAddress;
 
     /**
      * @var MailAddress
-     * @ORM\OneToOne(targetEntity="MailAddress", cascade={"persist"})
+     * @ORM\OneToOne(targetEntity="MailAddress", cascade={"all"}, orphanRemoval=true)
      * @ORM\JoinColumn(name="untrusted_mailaddress_id", referencedColumnName="id")
      */
     private $untrustedMailAddress;
@@ -68,31 +67,25 @@ class User extends AbstractCampOwner implements RoleInterface {
 
     /**
      * @var Login
-     * @ORM\OneToOne(targetEntity="Login", mappedBy="user")
+     * @ORM\OneToOne(targetEntity="Login", mappedBy="user", cascade={"all"}, orphanRemoval=true)
      */
     private $login;
 
     /**
      * @var ArrayCollection
-     * @ORM\OneToMany(targetEntity="UserRelationship", mappedBy="to", cascade={"all"}, orphanRemoval= true)
+     * @ORM\OneToMany(targetEntity="UserIdentity", mappedBy="user", orphanRemoval=true)
      */
-    protected $relationshipTo;
+    protected $userIdentities;
 
     /**
      * @var ArrayCollection
-     * @ORM\OneToMany(targetEntity="UserRelationship", mappedBy="from", cascade={"all"}, orphanRemoval=true )
-     */
-    protected $relationshipFrom;
-
-    /**
-     * @var ArrayCollection
-     * @ORM\OneToMany(targetEntity="GroupMembership", mappedBy="user", cascade={"all"}, orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="GroupMembership", mappedBy="user", orphanRemoval=true)
      */
     protected $memberships;
 
     /**
      * @var ArrayCollection
-     * @ORM\OneToMany(targetEntity="CampCollaboration", mappedBy="user")
+     * @ORM\OneToMany(targetEntity="CampCollaboration", mappedBy="user", orphanRemoval=true)
      */
     protected $collaborations;
 
@@ -233,43 +226,6 @@ class User extends AbstractCampOwner implements RoleInterface {
         return $this->login;
     }
 
-
-    /**
-     * @return ArrayCollection
-     */
-    public function getRelationshipTo(): ArrayCollection {
-        return $this->relationshipTo;
-    }
-
-    public function addRelationshipTo(UserRelationship $rel) {
-        $rel->setTo($this);
-        $this->relationshipTo->add($rel);
-    }
-
-    public function removeRelationshipTo(UserRelationship $rel) {
-        $rel->setTo(null);
-        $this->relationshipTo->removeElement($rel);
-    }
-
-
-    /**
-     * @return ArrayCollection
-     */
-    public function getRelationshipFrom(): ArrayCollection {
-        return $this->relationshipFrom;
-    }
-
-    public function addRelationshipFrom(UserRelationship $rel) {
-        $rel->setFrom($this);
-        $this->relationshipFrom->add($rel);
-    }
-
-    public function removeRelationshipFrom(UserRelationship $rel) {
-        $rel->setFrom(null);
-        $this->relationshipFrom->removeElement($rel);
-    }
-
-
     /**
      * @return ArrayCollection
      */
@@ -303,5 +259,22 @@ class User extends AbstractCampOwner implements RoleInterface {
     public function removeCampCollaboration(CampCollaboration $collaboration) {
         $collaboration->setUser(null);
         $this->collaborations->removeElement($collaboration);
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getUserIdentities(): ArrayCollection {
+        return $this->userIdentities;
+    }
+
+    public function addUserIdentity(UserIdentity $userIdentity) {
+        $userIdentity->setUser($this);
+        $this->userIdentities->add($userIdentity);
+    }
+
+    public function removeUserIdentity(UserIdentity $userIdentity) {
+        $userIdentity->setUser(null);
+        $this->userIdentites->removeElement($userIdentity);
     }
 }

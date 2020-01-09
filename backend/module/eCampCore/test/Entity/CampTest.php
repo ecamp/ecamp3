@@ -31,28 +31,24 @@ class CampTest extends AbstractTestCase {
         $campType->setIsCourse(true);
         $campType->setJsonConfig($config);
 
-        $group = new Group();
-        $group->setOrganization($organization);
-        $group->setName('GroupName');
-
         $camp = new Camp();
         $camp->setCampType($campType);
-        $camp->setOwner($group);
+        $camp->setOwner($user);
         $camp->setName('TestCamp');
         $camp->setTitle('TestTitle');
         $camp->setMotto('TestMotto');
         $camp->setCreator($user);
 
         $this->assertEquals($campType, $camp->getCampType());
-        $this->assertEquals($group, $camp->getOwner());
+        $this->assertEquals($user, $camp->getOwner());
         $this->assertEquals('TestCamp', $camp->getName());
         $this->assertEquals('TestTitle', $camp->getTitle());
         $this->assertEquals('TestMotto', $camp->getMotto());
         $this->assertEquals($user, $camp->getCreator());
         $this->assertEquals(3, $camp->getConfig('test'));
 
-        $this->assertTrue($camp->belongsToGroup());
-        $this->assertFalse($camp->belongsToUser());
+        $this->assertFalse($camp->belongsToGroup());
+        $this->assertTrue($camp->belongsToUser());
     }
 
     public function testPeriod() {

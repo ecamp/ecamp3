@@ -36,14 +36,14 @@ class JobResp extends BaseEntity {
     /**
      * @var Day
      * @ORM\ManyToOne(targetEntity="Day")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=false, onDelete="cascade")
      */
     private $day;
 
     /**
      * @var Job
      * @ORM\ManyToOne(targetEntity="Job")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=false, onDelete="cascade")
      */
     private $job;
 

@@ -39,5 +39,4 @@ class EventInstanceService extends AbstractEntityService {
 
         return $q;
     }
-
 }

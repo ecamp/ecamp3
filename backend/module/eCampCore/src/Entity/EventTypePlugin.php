@@ -19,7 +19,7 @@ class EventTypePlugin extends BaseEntity {
     /**
      * @var EventType
      * @ORM\ManyToOne(targetEntity="EventType")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=false, onDelete="cascade")
      */
     private $eventType;
 

@@ -73,5 +73,4 @@ abstract class AbstractService {
         $user = $this->getAuthUser();
         $this->serviceUtils->aclAssertAllowed($user, $resource, $privilege);
     }
-
 }

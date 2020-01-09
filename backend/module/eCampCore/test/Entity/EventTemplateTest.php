@@ -5,13 +5,10 @@ namespace eCamp\CoreTest\Entity;
 use eCamp\Core\Entity\EventTemplate;
 use eCamp\Core\Entity\EventTemplateContainer;
 use eCamp\Core\Entity\EventType;
-use eCamp\Core\Entity\Medium;
 use eCamp\LibTest\PHPUnit\AbstractTestCase;
 
 class EventTemplateTest extends AbstractTestCase {
     public function testEventTemplate() {
-        $medium = new Medium();
-
         $eventType = new EventType();
         $eventType->setName('EventType Name');
         $eventType->setDefaultColor('#FF00FF');
@@ -20,12 +17,12 @@ class EventTemplateTest extends AbstractTestCase {
         $eventTemplate = new EventTemplate();
         $eventTemplate->setEventType($eventType);
         $eventTemplate->setFilename('file.twig');
-        $eventTemplate->setMedium($medium);
+        $eventTemplate->setMedium(EventTemplate::MEDIUM_WEB);
 
 
         $this->assertEquals($eventType, $eventTemplate->getEventType());
         $this->assertEquals('file.twig', $eventTemplate->getFilename());
-        $this->assertEquals($medium, $eventTemplate->getMedium());
+        $this->assertEquals(EventTemplate::MEDIUM_WEB, $eventTemplate->getMedium());
     }
 
     public function testEventTemplateContainer() {

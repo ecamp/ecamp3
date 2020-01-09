@@ -9,10 +9,8 @@ use eCamp\Core\Repository\UserRepository;
 use eCamp\LibTest\PHPUnit\AbstractDatabaseTestCase;
 use Hybridauth\User\Profile;
 
-class UserRepositoryTest extends AbstractDatabaseTestCase
-{
-    public function testFindByUsername()
-    {
+class UserRepositoryTest extends AbstractDatabaseTestCase {
+    public function testFindByUsername() {
         /** @var UserService $userService */
         $userService = \eCampApp::GetService(UserService::class);
 
@@ -36,8 +34,7 @@ class UserRepositoryTest extends AbstractDatabaseTestCase
         $this->assertEmpty($user);
     }
 
-    public function testFindByMail()
-    {
+    public function testFindByMail() {
         /** @var UserService $userService */
         $userService = \eCampApp::GetService(UserService::class);
 
