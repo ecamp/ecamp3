@@ -9,6 +9,11 @@
       @click="loginGoogle">
       Login with Google
     </button>
+    <button
+      class="btn btn-primary"
+      @click="loginPbsMiData">
+      Login with PBS MiData
+    </button>
     <p v-if="error">
       Error logging in.
     </p>
@@ -35,6 +40,15 @@ export default {
   },
   methods: {
     loginGoogle () {
+      // Make the login callback function available on global level, so the popup can call it
+      window.loginSuccess = () => {
+        this.$auth.loginSuccess()
+        this.redirect()
+      }
+      const callbackUrl = window.location.origin + this.$router.resolve({ name: 'loginCallback' }).href
+      this.$auth.login(callbackUrl)
+    },
+    loginPbsMiData () {
       // Make the login callback function available on global level, so the popup can call it
       window.loginSuccess = () => {
         this.$auth.loginSuccess()
