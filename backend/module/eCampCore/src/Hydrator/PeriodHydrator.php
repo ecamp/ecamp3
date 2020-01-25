@@ -8,6 +8,18 @@ use eCampApi\V1\Rest\Day\DayCollection;
 use Zend\Hydrator\HydratorInterface;
 
 class PeriodHydrator implements HydratorInterface {
+
+    public static function HydrateInfo() {
+        return [
+            'camp' => Util::Entity(function (Period $p) {
+                return $p->getCamp();
+            }),
+            'days' => Util::Collection(function (Period $p) {
+                return new DayCollection($p->getDays());
+            }),
+        ];
+    }
+
     /**
      * @param object $object
      * @return array
@@ -20,8 +32,6 @@ class PeriodHydrator implements HydratorInterface {
             'description' => $period->getDescription(),
             'start' => Util::extractDate($period->getStart()),
             'end' => Util::extractDate($period->getEnd()),
-            'camp' => $period->getCamp(),
-            'days' => new DayCollection($period->getDays())
         ];
     }
 

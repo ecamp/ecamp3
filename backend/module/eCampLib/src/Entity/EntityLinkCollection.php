@@ -12,6 +12,9 @@ class EntityLinkCollection extends Paginator {
         if ($adapter instanceof Selectable) {
             $adapter = new SelectableAdapter($adapter);
         }
+        if ($adapter instanceof Paginator) {
+            $adapter = $adapter->getAdapter();
+        }
 
         parent::__construct($adapter);
     }

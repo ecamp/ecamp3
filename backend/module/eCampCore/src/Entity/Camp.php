@@ -268,7 +268,7 @@ class Camp extends BaseEntity {
     /**
      * @return ArrayCollection
      */
-    public function getEvents(): ArrayCollection {
+    public function getEvents() {
         return $this->events;
     }
 

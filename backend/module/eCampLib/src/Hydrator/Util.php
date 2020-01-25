@@ -2,7 +2,46 @@
 
 namespace eCamp\Lib\Hydrator;
 
+use eCamp\Lib\Hydrator\Resolver\CollectionLinkResolver;
+use eCamp\Lib\Hydrator\Resolver\CollectionResolver;
+use eCamp\Lib\Hydrator\Resolver\EntityResolver;
+use eCamp\Lib\Hydrator\Resolver\EntityLinkResolver;
+
 class Util {
+
+    /**
+     * @param $resolver
+     * @param array $selection
+     * @return EntityResolver
+     */
+    public static function Entity($resolver, $selection = []) {
+        return new EntityResolver($resolver, $selection);
+    }
+
+    /**
+     * @param $resolver
+     * @return EntityLinkResolver
+     */
+    public static function EntityLink($resolver) {
+        return new EntityLinkResolver($resolver);
+    }
+
+    /**
+     * @param $resolver
+     * @param array $selection
+     * @return CollectionResolver
+     */
+    public static function Collection($resolver, $selection = []) {
+        return new CollectionResolver($resolver, $selection);
+    }
+
+    public static function CollectionLink($resolver) {
+        return new CollectionLinkResolver($resolver);
+    }
+
+
+
+
     public static function extractDate(\DateTime $date) {
         return $date->format('Y-m-d');
     }

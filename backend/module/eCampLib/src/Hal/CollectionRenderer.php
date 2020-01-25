@@ -38,6 +38,7 @@ class CollectionRenderer extends AbstractListenerAggregate
     {
         $this->sharedListeners[] = $sharedEvents->attach('ZF\Hal\Plugin\Hal', 'renderEntity', [$this, 'renderEntity'], 100);
         $this->sharedListeners[] = $sharedEvents->attach('ZF\Hal\Plugin\Hal', 'renderEntity.post', [$this, 'renderEntityPost'], 100);
+        $this->sharedListeners[] = $sharedEvents->attach('ZF\Hal\Plugin\Hal', 'renderCollection', [$this, 'renderCollection'], 100);
     }
 
     public function detachShared(SharedEventManagerInterface $sharedEvents)
@@ -49,8 +50,7 @@ class CollectionRenderer extends AbstractListenerAggregate
     }
 
 
-    public function renderEntity(Event $e)
-    {
+    public function renderEntity(Event $e) {
         /** @var Hal $hal */
         $hal = $e->getTarget();
 
@@ -108,5 +108,11 @@ class CollectionRenderer extends AbstractListenerAggregate
 //        );
 
 
+    }
+
+    public function renderCollection(Event $e) {
+        /** @var Hal $hal */
+        $hal = $e->getTarget();
+        $halCollection = $e->getParam('collection');
     }
 }

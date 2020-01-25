@@ -3,9 +3,22 @@
 namespace eCamp\Core\Hydrator;
 
 use eCamp\Core\Entity\EventCategory;
+use eCamp\Lib\Hydrator\Util;
 use Zend\Hydrator\HydratorInterface;
 
 class EventCategoryHydrator implements HydratorInterface {
+
+    public static function HydrateInfo() {
+        return [
+            'camp' => Util::Entity(function (EventCategory $ec) {
+                return $ec->getCamp();
+            }),
+            'event_type' => Util::Entity(function (EventCategory $ec) {
+                return $ec->getEventType();
+            })
+        ];
+    }
+
     /**
      * @param object $object
      * @return array
@@ -15,8 +28,6 @@ class EventCategoryHydrator implements HydratorInterface {
         $eventCategory = $object;
         return [
             'id' => $eventCategory->getId(),
-            'camp' => $eventCategory->getCamp(),
-            'event_type' => $eventCategory->getEventType(),
             'short' => $eventCategory->getShort(),
             'name' => $eventCategory->getName(),
 

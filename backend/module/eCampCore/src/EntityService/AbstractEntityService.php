@@ -12,6 +12,7 @@ use eCamp\Lib\Acl\Acl;
 use eCamp\Lib\Acl\NoAccessException;
 use eCamp\Lib\Entity\BaseEntity;
 use eCamp\Lib\Service\ServiceUtils;
+use Exception;
 use Zend\Authentication\AuthenticationService;
 use Zend\Hydrator\HydratorInterface;
 use Zend\Paginator\Adapter\ArrayAdapter;
@@ -108,7 +109,7 @@ abstract class AbstractEntityService extends AbstractResourceListener {
     /**
      * @param null $resource
      * @param null $privilege
-     * @throws \eCamp\Lib\Acl\NoAccessException
+     * @throws NoAccessException
      */
     protected function assertAllowed($resource, $privilege = null) {
         $user = $this->getAuthUser();
@@ -125,7 +126,7 @@ abstract class AbstractEntityService extends AbstractResourceListener {
         $entity = null;
         try {
             $entity = new $className();
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return new ApiProblem(500, $e->getMessage());
         }
         return $entity;
@@ -193,19 +194,25 @@ abstract class AbstractEntityService extends AbstractResourceListener {
             return null;
         } catch (NoResultException $ex) {
             return null;
-        } catch (\Exception $ex) {
+        } catch (Exception $ex) {
             return new ApiProblem(500, $ex->getMessage());
         }
     }
 
+    /**
+     * @param QueryBuilder $q
+     * @return array|ApiProblem
+     * @throws NoAccessException
+     */
     protected function getQueryResult(QueryBuilder $q) {
+        $this->assertAllowed($this->entityClassname, Acl::REST_PRIVILEGE_FETCH_ALL);
         try {
             $rows = $q->getQuery()->getResult();
             $rows = array_filter($rows, function ($entity) {
                 return $this->isAllowed($entity, Acl::REST_PRIVILEGE_FETCH);
             });
             return $rows;
-        } catch (\Exception $ex) {
+        } catch (Exception $ex) {
             return new ApiProblem(500, $ex->getMessage());
         }
     }
@@ -244,7 +251,7 @@ abstract class AbstractEntityService extends AbstractResourceListener {
 
     /**
      * @param array $params
-     * @return Paginator
+     * @return array|ApiProblem
      * @throws NoAccessException
      */
     public function fetchAll($params = []) {
