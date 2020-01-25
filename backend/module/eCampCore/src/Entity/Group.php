@@ -38,13 +38,14 @@ class Group extends AbstractCampOwner {
 
     /**
      * @var Organization
-     * @ORM\ManyToOne(targetEntity="Organization", inversedBy="groups")
+     * @ORM\ManyToOne(targetEntity="Organization")
      */
     private $organization;
 
     /**
      * @var Group
      * @ORM\ManyToOne(targetEntity="Group", inversedBy="children")
+     * @ORM\JoinColumn(nullable=true, onDelete="cascade")
      */
     private $parent;
 
@@ -58,7 +59,7 @@ class Group extends AbstractCampOwner {
 
     /**
      * @var ArrayCollection
-     * @ORM\OneToMany(targetEntity="GroupMembership", mappedBy="group", cascade={"all"}, orphanRemoval=true )
+     * @ORM\OneToMany(targetEntity="GroupMembership", mappedBy="group", orphanRemoval=true )
      */
     protected $memberships;
 

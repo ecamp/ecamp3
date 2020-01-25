@@ -27,8 +27,8 @@ class eCampApp {
         return Application::init($config);
     }
 
-     /** @return Application */
-     public static function CreateAppWithoutDi() {
+    /** @return Application */
+    public static function CreateAppWithoutDi() {
         $config = self::GetAppConfig();
         unset( $config['modules'][ array_search('Zend\Di', $config['modules']) ] );
         return Application::init($config);

@@ -13,8 +13,7 @@ use ZF\Hal\Entity;
 use ZF\Hal\Link\Link;
 use ZF\Hal\View\HalJsonModel;
 
-class LoginController extends AbstractActionController
-{
+class LoginController extends AbstractActionController {
     /** @var AuthenticationService */
     private $authenticationService;
 
@@ -70,11 +69,19 @@ class LoginController extends AbstractActionController
         ]);
 
         $data['google'] = Link::factory([
-            'rel' => 'google',
-            'route' => [
-                'name' => 'e-camp-api.rpc.login',
-                'params' => [ 'action' => 'google' ]
-            ]
+          'rel' => 'google',
+          'route' => [
+            'name' => 'e-camp-api.rpc.login',
+            'params' => [ 'action' => 'google' ]
+          ]
+        ]);
+
+        $data['pbsmidata'] = Link::factory([
+          'rel' => 'pbsmidata',
+          'route' => [
+            'name' => 'e-camp-api.rpc.login',
+            'params' => [ 'action' => 'pbsmidata' ]
+          ]
         ]);
 
         if ($userId != null) {
@@ -94,8 +101,7 @@ class LoginController extends AbstractActionController
     }
 
 
-    public function loginAction()
-    {
+    public function loginAction() {
         /** @var Request $request */
         $request = $this->getRequest();
         $content = $request->getContent();
@@ -124,9 +130,28 @@ class LoginController extends AbstractActionController
         $redirect = $this->url()->fromRoute('e-camp-api.rpc.login', [], ['query'=>['callback'=>$externalCallback]]);
 
         return $this->redirect()->toRoute(
-            'ecamp.auth/google',
-            [],
-            ['query' => ['redirect' => $redirect]]
+          'ecamp.auth/google',
+          [],
+          ['query' => ['redirect' => $redirect]]
+        );
+    }
+
+    /**
+     * @return Response
+     */
+    public function pbsMiDataAction() {
+        /** @var Request $request */
+        $request = $this->getRequest();
+        $externalCallback = $request->getQuery('callback');
+
+        $redirect = $this->url()->fromRoute('e-camp-api.rpc.login', [], [
+            'query'=>['callback'=>$externalCallback]
+        ]);
+
+        return $this->redirect()->toRoute(
+          'ecamp.auth/pbsmidata',
+          [],
+          ['query' => ['redirect' => $redirect]]
         );
     }
 

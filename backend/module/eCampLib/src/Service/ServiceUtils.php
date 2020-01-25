@@ -15,8 +15,7 @@ use Zend\Hydrator\HydratorPluginManager;
 use Zend\Permissions\Acl\Resource\ResourceInterface;
 use Zend\Permissions\Acl\Role\RoleInterface;
 
-class ServiceUtils
-{
+class ServiceUtils {
     /** @var Acl */
     private $acl;
 
@@ -132,5 +131,4 @@ class ServiceUtils
     public function getHydrator($name, array $options = null) {
         return $this->hydratorPluginManager->get($name, $options);
     }
-
 }

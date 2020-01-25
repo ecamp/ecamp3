@@ -14,7 +14,6 @@ use Zend\Authentication\AuthenticationService;
 use ZF\ApiProblem\ApiProblem;
 
 class PeriodService extends AbstractEntityService {
-
     public function __construct(ServiceUtils $serviceUtils, AuthenticationService $authenticationService) {
         parent::__construct(
             $serviceUtils,

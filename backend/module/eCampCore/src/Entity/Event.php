@@ -22,6 +22,7 @@ class Event extends BaseEntity {
     /**
      * @var Camp
      * @ORM\ManyToOne(targetEntity="Camp")
+     * @ORM\JoinColumn(nullable=false, onDelete="cascade")
      */
     private $camp;
 
@@ -40,13 +41,13 @@ class Event extends BaseEntity {
 
     /**
      * @var ArrayCollection
-     * @ORM\OneToMany(targetEntity="EventPlugin", mappedBy="event", cascade={"all"}, orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="EventPlugin", mappedBy="event", orphanRemoval=true)
      */
     protected $eventPlugins;
 
     /**
      * @var ArrayCollection
-     * @ORM\OneToMany(targetEntity="EventInstance", mappedBy="event", cascade={"all"}, orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="EventInstance", mappedBy="event", orphanRemoval=true)
      */
     protected $eventInstances;
 

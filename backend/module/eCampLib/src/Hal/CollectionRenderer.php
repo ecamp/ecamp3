@@ -12,37 +12,32 @@ use ZF\Hal\Link\LinkCollection;
 use ZF\Hal\Metadata\Metadata;
 use ZF\Hal\Plugin\Hal;
 
-class CollectionRenderer extends AbstractListenerAggregate
-{
+class CollectionRenderer extends AbstractListenerAggregate {
     /**
      * @var callable[]
      */
     protected $sharedListeners = [];
 
 
-    public function attach(EventManagerInterface $events, $priority = 1)
-    {
+    public function attach(EventManagerInterface $events, $priority = 1) {
         $sharedEvents = $events->getSharedManager();
         $this->attachShared($sharedEvents);
     }
 
-    public function detach(EventManagerInterface $events)
-    {
+    public function detach(EventManagerInterface $events) {
         parent::detach($events);
 
         $sharedEvents = $events->getSharedManager();
         $this->detachShared($sharedEvents);
     }
 
-    public function attachShared(SharedEventManagerInterface $sharedEvents)
-    {
+    public function attachShared(SharedEventManagerInterface $sharedEvents) {
         $this->sharedListeners[] = $sharedEvents->attach('ZF\Hal\Plugin\Hal', 'renderEntity', [$this, 'renderEntity'], 100);
         $this->sharedListeners[] = $sharedEvents->attach('ZF\Hal\Plugin\Hal', 'renderEntity.post', [$this, 'renderEntityPost'], 100);
         $this->sharedListeners[] = $sharedEvents->attach('ZF\Hal\Plugin\Hal', 'renderCollection', [$this, 'renderCollection'], 100);
     }
 
-    public function detachShared(SharedEventManagerInterface $sharedEvents)
-    {
+    public function detachShared(SharedEventManagerInterface $sharedEvents) {
         foreach ($this->sharedListeners as $index => $callback) {
             $sharedEvents->detach($callback);
             unset($this->sharedListeners[$index]);
@@ -69,11 +64,9 @@ class CollectionRenderer extends AbstractListenerAggregate
             $halEntity->setLinks(new LinkCollection());
             $hal->injectSelfLink($halEntity, $route, $routeIdentifier);
         }
-
     }
 
-    public function renderEntityPost(Event $e)
-    {
+    public function renderEntityPost(Event $e) {
         /** @var Hal $hal */
         $hal = $e->getTarget();
 
@@ -106,8 +99,6 @@ class CollectionRenderer extends AbstractListenerAggregate
 //        $payload->exchangeArray(
 //            [ 'proxy' => ($halEntity->getEntity() instanceof EntityLink) ] + $payload->getArrayCopy()
 //        );
-
-
     }
 
     public function renderCollection(Event $e) {

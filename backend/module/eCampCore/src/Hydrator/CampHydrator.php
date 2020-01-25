@@ -46,6 +46,24 @@ class CampHydrator implements HydratorInterface {
             'name' => $camp->getName(),
             'title' => $camp->getTitle(),
             'motto' => $camp->getMotto(),
+//            'camp_type' => $camp->getCampType(),
+//            'owner' =>  $camp->getOwner(),
+//
+//            'creator' => EntityLink::Create($camp->getCreator()),
+//
+//            'camp_collaborations' => new CampCollaborationCollection($camp->getCampCollaborations()),
+//            'jobs' => new JobCollection($camp->getJobs()),
+//            'periods' => new PeriodCollection($camp->getPeriods()),
+//            'event_categories' => new EventCategoryCollection($camp->getEventCategories()),
+//
+//            'events' => Link::factory([
+//                'rel' => 'events',
+//                'route' => [
+//                    'name' => 'e-camp-api.rest.doctrine.event',
+//                    'options' => ['query' => ['camp_id' => $camp->getId()]]
+//                ]
+//            ])
+
         ];
     }
 

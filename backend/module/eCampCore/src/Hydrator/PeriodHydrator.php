@@ -32,6 +32,9 @@ class PeriodHydrator implements HydratorInterface {
             'description' => $period->getDescription(),
             'start' => Util::extractDate($period->getStart()),
             'end' => Util::extractDate($period->getEnd()),
+//            'camp' => $period->getCamp(),
+//            'days' => new DayCollection($period->getDays()),
+//            'event_instances' => new EventInstanceCollection($period->getEventInstances())
         ];
     }
 
