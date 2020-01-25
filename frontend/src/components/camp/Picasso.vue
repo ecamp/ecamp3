@@ -4,39 +4,47 @@ Listing all event instances of a single camp.
 
 <template>
   <div>
-    <v-alert
-      v-for="(message, index) in messages"
-      :key="index"
-      :type="message.type">
-      {{ message.text }}
-    </v-alert>
-
-    <ul>
-      <li
-        v-for="period in periods"
-        :key="period._meta.self">
-        {{ period.description }} ({{ period.start }} - {{ period.end }})
-
-        <div v-if="events.loading">
-          <v-progress-circular
-            indeterminate
-            color="primary" />
-        </div>
-
-        <!-- wait for all events to be loaded => avoid each eventInstance to load separately -->
-        <ul v-if="!events.loading">
-          <li
-            v-for="eventInstance in period.event_instances().items"
-            :key="eventInstance._meta.self">
-            <router-link
-              v-if="!eventInstance.event().loading"
-              :to="{ name: 'event', params: { eventUri: eventInstance.event()._meta.self } }">
-              EventInstance {{ eventInstance.id }} {{ eventInstance.start_time }} {{ eventInstance.event().title }}
-            </router-link>
-          </li>
-        </ul>
-      </li>
-    </ul>
+    <v-card v-for="period in periods"
+            :key="period.id">
+      <v-alert
+        v-for="(message, index) in messages"
+        :key="index"
+        :type="message.type">
+        {{ message.text }}
+      </v-alert>
+      <template v-if="events.loading">
+        <v-skeleton-loader
+          v-for="n in 3"
+          :key="n"
+          type="list-item-avatar-two-line"/>
+      </template>
+      <template v-else>
+        <v-calendar
+          ref="calendar"
+          :events="[
+            {
+              name: 'Event LS',
+              start: '2019-12-24 09:00',
+              end: '2019-12-24 09:15',
+              color: 'red',
+            },
+            {
+              name: 'Event LA',
+              start: '2019-12-25 12:30',
+              end: '2019-12-26 15:30',
+              color: 'green',
+            },
+          ]"
+          interval-height="42"
+          now="2019-12-24 00:00:00"
+          :start="periods[0].start + ' 00:00:00'"
+          :end="periods[0].end + ' 00:00:00'"
+          locale="de-ch"
+          type="week"
+          :weekdays="[1, 2, 3, 4, 5, 6, 0]"
+          color="primary"/>
+      </template>
+    </v-card>
   </div>
 </template>
 <script>
@@ -74,3 +82,9 @@ export default {
   }
 }
 </script>
+<style>
+  .v-calendar-daily_head-day-label .v-btn--fab {
+    height: 36px;
+    min-width: 36px;
+  }
+</style>
