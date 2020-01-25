@@ -8,7 +8,6 @@ use eCampApi\V1\Rest\EventTypePlugin\EventTypePluginCollection;
 use Zend\Hydrator\HydratorInterface;
 
 class EventTypeHydrator implements HydratorInterface {
-
     public static function HydrateInfo() {
         return [
         ];

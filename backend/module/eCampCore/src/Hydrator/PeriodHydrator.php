@@ -11,7 +11,6 @@ use eCampApi\V1\Rest\EventInstance\EventInstanceCollection;
 use Zend\Hydrator\HydratorInterface;
 
 class PeriodHydrator implements HydratorInterface {
-
     public static function HydrateInfo() {
         return [
             'days' => Util::Collection(function (Period $p) {

@@ -7,7 +7,6 @@ use eCamp\Lib\Entity\EntityLink;
 use Zend\Hydrator\HydratorInterface;
 
 class CampCollaborationHydrator implements HydratorInterface {
-
     public static function HydrateInfo() {
         return [
         ];

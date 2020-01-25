@@ -4,8 +4,7 @@ namespace eCamp\Lib\Hydrator\Resolver;
 
 use Closure;
 
-abstract class BaseResolver
-{
+abstract class BaseResolver {
     /** @var Closure */
     private $resolver;
     protected $selection;
@@ -22,5 +21,4 @@ abstract class BaseResolver
 
         return $value;
     }
-
 }

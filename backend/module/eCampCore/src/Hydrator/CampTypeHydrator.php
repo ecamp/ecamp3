@@ -14,7 +14,6 @@ use Zend\Hydrator\HydratorInterface;
 use ZF\Hal\Link\Link;
 
 class CampTypeHydrator implements HydratorInterface {
-
     public static function HydrateInfo() {
         return [
         ];

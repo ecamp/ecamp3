@@ -5,8 +5,7 @@ namespace eCampApi;
 use eCamp\Lib\Hydrator\Resolver\BaseResolver;
 use ZF\Hal\Extractor\EntityExtractor;
 
-class HalEntityExtractor extends EntityExtractor
-{
+class HalEntityExtractor extends EntityExtractor {
     public function extract($entity) {
         $data = parent::extract($entity);
 

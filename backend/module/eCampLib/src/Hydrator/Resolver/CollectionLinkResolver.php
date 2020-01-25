@@ -4,8 +4,7 @@ namespace eCamp\Lib\Hydrator\Resolver;
 
 use eCamp\Lib\Entity\EntityLinkCollection;
 
-class CollectionLinkResolver extends BaseResolver
-{
+class CollectionLinkResolver extends BaseResolver {
     public function resolve($object) {
         $collection = parent::resolve($object);
         $value = new EntityLinkCollection($collection);

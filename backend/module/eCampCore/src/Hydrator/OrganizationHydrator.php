@@ -8,7 +8,6 @@ use eCampApi\V1\Rest\CampType\CampTypeCollection;
 use Zend\Hydrator\HydratorInterface;
 
 class OrganizationHydrator implements HydratorInterface {
-
     public static function HydrateInfo() {
         return [
         ];

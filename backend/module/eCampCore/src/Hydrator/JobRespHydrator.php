@@ -6,7 +6,6 @@ use eCamp\Core\Entity\JobResp;
 use Zend\Hydrator\HydratorInterface;
 
 class JobRespHydrator implements HydratorInterface {
-
     public static function HydrateInfo() {
         return [
         ];

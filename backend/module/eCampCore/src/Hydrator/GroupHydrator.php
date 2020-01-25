@@ -8,7 +8,6 @@ use eCamp\Lib\Entity\EntityLinkCollection;
 use Zend\Hydrator\HydratorInterface;
 
 class GroupHydrator implements HydratorInterface {
-
     public static function HydrateInfo() {
         return [
         ];

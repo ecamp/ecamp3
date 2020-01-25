@@ -4,8 +4,7 @@ namespace eCampApi;
 
 use ZF\Hal\Collection;
 
-class HalCollection extends Collection
-{
+class HalCollection extends Collection {
     public $_hydrateInfo_;
 
     public function getCollection() {
@@ -17,5 +16,4 @@ class HalCollection extends Collection
 
         return $collection;
     }
-
 }

@@ -6,7 +6,6 @@ use eCamp\Core\Entity\EventTypePlugin;
 use Zend\Hydrator\HydratorInterface;
 
 class EventTypePluginHydrator implements HydratorInterface {
-
     public static function HydrateInfo() {
         return [
         ];

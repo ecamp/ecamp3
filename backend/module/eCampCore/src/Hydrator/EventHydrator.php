@@ -10,7 +10,6 @@ use eCampApi\V1\Rest\EventInstance\EventInstanceCollection;
 use Zend\Hydrator\HydratorInterface;
 
 class EventHydrator implements HydratorInterface {
-
     public static function HydrateInfo() {
         return [
             'event_category' => Util::Entity(function(Event $e) {

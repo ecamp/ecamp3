@@ -8,7 +8,6 @@ use eCamp\Lib\Hydrator\Util;
 use Zend\Hydrator\HydratorInterface;
 
 class EventInstanceHydrator implements HydratorInterface {
-
     public static function HydrateInfo() {
         return [
         ];

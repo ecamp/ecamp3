@@ -13,10 +13,9 @@ use eCampApi\V1\Rest\Period\PeriodCollection;
 use Zend\Hydrator\HydratorInterface;
 
 class CampHydrator implements HydratorInterface {
-
     public static function HydrateInfo() {
         return [
-            'camp_type' => Util::Entity(function (Camp $c){
+            'camp_type' => Util::Entity(function (Camp $c) {
                 return $c->getCampType();
             }),
             'periods' => Util::Collection(function (Camp $c) {

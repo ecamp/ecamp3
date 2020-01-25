@@ -8,7 +8,6 @@ use eCamp\Lib\Hydrator\Util;
 use Zend\Hydrator\HydratorInterface;
 
 class EventCategoryHydrator implements HydratorInterface {
-
     public static function HydrateInfo() {
         return [
             'event_type' => Util::Entity(function (EventCategory $ec) {

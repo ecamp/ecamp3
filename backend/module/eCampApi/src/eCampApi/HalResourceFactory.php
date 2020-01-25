@@ -9,8 +9,7 @@ use ZF\Hal\Entity;
 use ZF\Hal\Metadata\Metadata;
 use ZF\Hal\ResourceFactory;
 
-class HalResourceFactory extends ResourceFactory
-{
+class HalResourceFactory extends ResourceFactory {
     public function createEntityFromMetadata($object, Metadata $metadata, $renderEmbeddedEntities = true) {
         $halEntity = parent::createEntityFromMetadata($object, $metadata, $renderEmbeddedEntities);
 
@@ -53,5 +52,4 @@ class HalResourceFactory extends ResourceFactory
 
         return $halCollection;
     }
-
 }

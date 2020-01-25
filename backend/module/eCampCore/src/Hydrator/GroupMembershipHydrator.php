@@ -6,7 +6,6 @@ use eCamp\Core\Entity\GroupMembership;
 use Zend\Hydrator\HydratorInterface;
 
 class GroupMembershipHydrator implements HydratorInterface {
-
     public static function HydrateInfo() {
         return [
         ];
