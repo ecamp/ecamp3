@@ -4,38 +4,55 @@ Displays collaborators of a single camp.
 <template>
   <div>
     <h3>Mitarbeiter</h3>
-    <table width="100%">
-      <tr>
-        <th>User</th>
-        <th>Rolle</th>
-        <th>Option</th>
-      </tr>
-      <tr
-        v-for="collaborator in establishedCollaborators"
-        :key="collaborator.id">
-        <td>{{ collaborator.user().username }}</td>
-        <td>{{ collaborator.role }}</td>
-        <td width="150">
-          <div
-            class="btn-group"
-            role="group">
-            <button class="btn btn-sm btn-primary">
-              <i class="zmdi zmdi-edit" /> edit
-            </button>
-            <button
-              class="btn btn-sm btn-danger"
+
+    <v-simple-table width="100%">
+      <thead>
+        <tr>
+          <th>User</th>
+          <th>Rolle</th>
+          <th>Option</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          v-for="collaborator in establishedCollaborators"
+          :key="collaborator.id">
+          <td>{{ collaborator.user().username }}</td>
+          <td>{{ collaborator.role }}</td>
+          <td
+            width="150"
+            style="white-space: nowrap">
+            <v-btn
+              small
+              color="primary">
+              <v-icon
+                small
+                left>
+                mdi-pencil
+              </v-icon> edit
+            </v-btn>
+            <v-btn
+              small
+              color="warning"
               @click="api.del(collaborator)">
-              <i class="zmdi zmdi-close" /> delete
-            </button>
-          </div>
-        </td>
-      </tr>
-    </table>
-    <hr>
+              <v-icon
+                small
+                left>
+                mdi-close
+              </v-icon> delete
+            </v-btn>
+          </td>
+        </tr>
+      </tbody>
+    </v-simple-table>
+
+    <v-divider />
 
     <div v-if="requestedCollaborators.length > 0">
-      <h3>Offene Anfragen</h3>
-      <table width="100%">
+      <h3 class="mt-4">
+        Offene Anfragen
+      </h3>
+      <v-simple-table width="100%">
         <tr>
           <th>User</th>
           <th>Rolle</th>
@@ -46,92 +63,128 @@ Displays collaborators of a single camp.
           :key="collaborator.id">
           <td>{{ collaborator.user().username }}</td>
           <td>{{ collaborator.role }}</td>
-          <td width="150">
-            <div
-              class="btn-group"
-              role="group">
-              <button
-                class="btn btn-sm btn-success"
-                @click="changeStatus(collaborator, 'established')">
-                <i class="zmdi zmdi-check" /> accept
-              </button>
-              <button
-                class="btn btn-sm btn-danger"
-                @click="changeStatus(collaborator, 'unrelated')">
-                <i class="zmdi zmdi-close" /> deny
-              </button>
-            </div>
+          <td
+            width="150"
+            style="white-space: nowrap">
+            <v-btn
+              small
+              color="success"
+              @click="changeStatus(collaborator, 'established')">
+              <v-icon
+                small
+                left>
+                mdi-check
+              </v-icon> accept
+            </v-btn>
+            <v-btn
+              small
+              color="warning"
+              @click="changeStatus(collaborator, 'unrelated')">
+              <v-icon
+                small
+                left>
+                mdi-close
+              </v-icon> deny
+            </v-btn>
           </td>
         </tr>
-      </table>
-      <hr>
+      </v-simple-table>
+      <v-divider />
     </div>
 
     <div v-if="invitedCollaborators.length > 0">
-      <h3>Offene Einladungen</h3>
-      <table width="100%">
-        <tr>
-          <th>User</th>
-          <th>Rolle</th>
-          <th>Option</th>
-        </tr>
-        <tr
-          v-for="collaborator in invitedCollaborators"
-          :key="collaborator.id">
-          <td>{{ collaborator.user().username }}</td>
-          <td>{{ collaborator.role }}</td>
-          <td width="150">
-            <div
-              class="btn-group"
-              role="group">
-              <button class="btn btn-sm btn-primary">
-                <i class="zmdi zmdi-edit" /> edit
-              </button>
-              <button
-                class="btn btn-sm btn-danger"
+      <h3 class="mt-4">
+        Offene Einladungen
+      </h3>
+      <v-simple-table width="100%">
+        <thead>
+          <tr>
+            <th>User</th>
+            <th>Rolle</th>
+            <th>Option</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            v-for="collaborator in invitedCollaborators"
+            :key="collaborator.id">
+            <td>{{ collaborator.user().username }}</td>
+            <td>{{ collaborator.role }}</td>
+            <td
+              width="150"
+              style="white-space: nowrap">
+              <v-btn
+                small
+                color="primary">
+                <v-icon
+                  small
+                  left>
+                  mdi-pencil
+                </v-icon> edit
+              </v-btn>
+              <v-btn
+                small
+                color="warning"
                 @click="api.del(collaborator)">
-                <i class="zmdi zmdi-close" /> delete
-              </button>
-            </div>
-          </td>
-        </tr>
-      </table>
-      <hr>
+                <v-icon
+                  small
+                  left>
+                  mdi-close
+                </v-icon> delete
+              </v-btn>
+            </td>
+          </tr>
+        </tbody>
+      </v-simple-table>
+      <v-divider />
     </div>
 
-    <h3>Einladen</h3>
-    <table
-      width="100%"
-      cellpadding="3">
-      <tr>
-        <td colspan="2">
-          <input
-            v-model="search"
-            type="text"
-            class="form-control form-control-sm"
-            placeholder="Suchen">
-        </td>
-      </tr>
+    <h3 class="mt-4">
+      Einladen
+    </h3>
 
+    <v-text-field
+      v-model="search"
+      hide-details
+      prepend-icon="mdi-account-search"
+      single-line
+      placeholder="Suchen" />
+
+    <v-simple-table
+      width="100%"
+      class="mt-4">
       <tr
         v-for="result in searchResults"
         :key="result.id">
         <td>{{ result.username }}</td>
-        <td width="200">
-          <button
-            class="btn btn-sm btn-success"
-            style="margin-right: 4px"
+        <td
+          width="200"
+          style="white-space: nowrap">
+          <v-btn
+            small
+            color="success"
+            class="mr-1"
             @click="invite(result, 'member')">
-            <i class="zmdi zmdi-plus-circle-o" /> member
-          </button>
-          <button
-            class="btn btn-sm btn-success"
+            <v-icon
+              small
+              left>
+              mdi-plus-circle
+            </v-icon> member
+          </v-btn>
+
+          <v-btn
+            small
+            color="success"
             @click="invite(result, 'manager')">
-            <i class="zmdi zmdi-plus-circle-o" /> manager
-          </button>
+            <v-icon
+              small
+              left>
+              mdi-plus-circle
+            </v-icon> manager
+          </v-btn>
         </td>
       </tr>
-    </table>
+    </v-simple-table>
   </div>
 </template>
 <script>

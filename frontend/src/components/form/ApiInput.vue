@@ -7,55 +7,59 @@ You can two-way bind to the value using v-model.
   <span>
     <span v-if="!editing">{{ value }}</span>
     <span v-if="editing">
-      <b-form
+      <v-form
         inline
         class="mb-2">
 
-        <b-form-group
-          id="api-input-group"
+        <v-text-field
+          id="api-input"
+          v-model="localValue"
           :label="label"
-          label-for="api-input"
-
-          invalid-feedback="Dieses Feld kann nicht leer sein.">
-
-          <b-form-input
-            id="api-input"
-            v-model="$v.localValue.$model"
-            name="api-input"
-            class="mr-2 ml-2"
-            :state="required && $v.localValue.$dirty ? !$v.localValue.$error : null"
-            v-bind="$attrs"
-            @input="onInput" />
-
-        </b-form-group>
-
-        <b-button
-          v-if="!autoSave"
-          variant="primary"
-          @click="reset">
-
-          Reset
-        </b-button>
-
-        <b-button
-          variant="primary"
-          :disabled="isSaving || (required && $v.localValue.$invalid)"
+          name="api-input"
           class="mr-2 ml-2"
-          @click="save">
+          :error-messages="errorMessage"
+          :state="required && $v.localValue.$dirty ? !$v.localValue.$error : null"
+          v-bind="$attrs"
+          required
+          @input="onInput"
+          @blur="$v.localValue.$touch()">
 
-          <span
-            v-if="isSaving"
-            class="spinner-border spinner-border-sm"
-            role="status"
-            aria-hidden="true" />
+          <template slot="append-outer">
+            <v-btn
+              v-if="!autoSave"
+              small
+              color="warning"
+              class="mb-1"
+              @click="reset">
 
-          <i
-            v-if="showSuccessIcon"
-            class="zmdi zmdi-check" />
+              Reset
+            </v-btn>
 
-          Save
-        </b-button>
-      </b-form>
+            <v-btn
+              color="primary"
+              small
+              :disabled="isSaving || (required && $v.localValue.$invalid)"
+              class="mr-2 ml-2 mb-1"
+              @click="save">
+
+              <v-progress-circular
+                v-if="isSaving"
+                indeterminate
+                color="primary"
+                size="20"
+                class="mr-2" />
+
+              <v-icon
+                v-if="showSuccessIcon"
+                left>
+                mdi-check</v-icon>
+
+              Save
+            </v-btn>
+          </template>
+        </v-text-field>
+
+      </v-form>
     </span>
   </span>
 </template>
@@ -108,6 +112,12 @@ export default {
   computed: {
     isDirty: function () {
       return this.value !== this.localValue
+    },
+    errorMessage () {
+      const errors = []
+      if (!this.$v.localValue.$dirty) return errors
+      !this.$v.localValue.required && errors.push('Feld darf nicht leer sein.')
+      return errors
     }
   },
   watch: {
@@ -130,6 +140,7 @@ export default {
   methods: {
     onInput: function () {
       this.dirty = true
+      this.$v.localValue.$touch()
 
       if (this.autoSave) {
         this.debouncedSave()

@@ -7,51 +7,51 @@ Displays a single event
     <div
       v-if="event.loading"
       class="d-flex justify-content-center m-5">
-      <b-spinner
-        label="Loading..."
-        style="width: 3rem; height: 3rem;" />
+      <v-progress-circular
+        :size="50"
+        indeterminate
+        color="primary" />
     </div>
 
-    <b-card
+    <v-card
       v-else
       class="m-3">
-      <div
-        slot="header"
-        class="row">
+      <v-card-title class="event_title">
         <div class="col-sm-12">
-          <p class="event_title">
-            <api-input
-              :value="event.title"
-              :uri="event._meta.self"
-              fieldname="title"
-              label="Titel"
-              required />
-          </p>
+          <api-input
+            :value="event.title"
+            :uri="event._meta.self"
+            fieldname="title"
+            label="Titel"
+            required />
         </div>
-      </div>
-      <div>
-        <b>Kategorie:</b>
-        <div
-          class="category_box"
-          :style="{ backgroundColor: '#' + category.color }" />
-        {{ category.name }} ({{ category.short }})
-        <br>
-        <small><i>(EventType: {{ category.event_type().name }})</i><small /></small>
-      </div>
+      </v-card-title>
+      <v-divider />
+      <v-card-text>
+        <div>
+          <b>Kategorie:</b>
+          <div
+            class="category_box"
+            :style="{ backgroundColor: '#' + category.color }" />
+          {{ category.name }} ({{ category.short }})
+          <br>
+          <small><i>(EventType: {{ category.event_type().name }})</i><small /></small>
+        </div>
 
-      <p />
+        <p />
 
-      <p>
-        Findet statt am:
-        <ul>
-          <li
-            v-for="eventInstance in event.event_instances().items"
-            :key="eventInstance._meta.self">
-            {{ eventInstance.start_time }} bis {{ eventInstance.end_time }}
-          </li>
-        </ul>
-      </p>
-    </b-card>
+        <p>
+          Findet statt am:
+          <ul>
+            <li
+              v-for="eventInstance in event.event_instances().items"
+              :key="eventInstance._meta.self">
+              {{ eventInstance.start_time }} bis {{ eventInstance.end_time }}
+            </li>
+          </ul>
+        </p>
+      </v-card-text>
+    </v-card>
   </div>
 </template>
 

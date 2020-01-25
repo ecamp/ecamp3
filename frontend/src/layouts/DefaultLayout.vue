@@ -1,97 +1,156 @@
 <template>
-  <div class="ecamp_layout">
-    <header class="ecamp_header">
-      <nav class="">
-        <b-navbar
-          tag="section"
-          class="ecamp_navbar_main mb-0 shadow-sm"
-          type="dark"
-          variant="dark"
-          toggleable="md">
-          <b-navbar-brand :to="{ name: 'camps', params: { groupName: 'Pfadi Bewegung Schweiz' } }">
-            <i>🏕</i>️ <span class="d-none d-sm-inline">eCamp</span><span class="d-none d-sm-inline d-md-none text-muted"> – </span><span class="d-md-none text-muted">Sola 2018</span>
-          </b-navbar-brand>
-          <b-navbar-toggle target="#main_navigation" />
-          <b-collapse
-            id="main_navigation"
-            is-nav>
-            <b-navbar-nav class="mr-auto">
-              <b-nav-item
-                :to="{ name: 'home' }">
-                Home
-              </b-nav-item>
-              <b-nav-item
-                :to="{ name: 'camps', params: { groupName: 'Pfadi Bewegung Schweiz' } }">
-                Camps
-              </b-nav-item>
-            </b-navbar-nav>
+  <v-app
+    style="background: #90A4AE">
+    <!-- left side drawer (mobile) -->
+    <v-navigation-drawer
+      v-if="$vuetify.breakpoint.smAndDown"
+      v-model="drawer"
+      app
+      clipped
+      temporary
+      color="grey lighten-2">
+      <v-list-item>
+        <v-list-item-title>context/sidebar</v-list-item-title>
 
-            <b-navbar-nav>
-              <b-nav-item
-                v-if="loggedIn === false"
-                :to="{ name: 'login' }">
-                Log in
-              </b-nav-item>
-              <b-nav-item
-                v-else-if="loggedIn === true"
-                :to="{ name: 'logout' }">
-                Log out
-              </b-nav-item>
-            </b-navbar-nav>
-          </b-collapse>
-        </b-navbar>
+        <v-btn
+          icon
+          @click.stop="drawer = !drawer">
+          <v-icon>mdi-chevron-left</v-icon>
+        </v-btn>
+      </v-list-item>
 
-        <b-navbar
-          tag="section"
-          class="ecamp_navbar_second mb-0 shadow-sm"
-          variant="white"
-          toggleable="md">
-          <b-collapse
-            id="second_navigation"
-            is-nav>
-            <b-navbar-brand>Sola 2019</b-navbar-brand>
-            <b-navbar-nav class="flex-row mr-auto">
-              <b-nav-item
-                href="#"
-                class="flex-grow-1 text-center">
-                Test
-              </b-nav-item>
-            </b-navbar-nav>
-          </b-collapse>
-        </b-navbar>
-      </nav>
-    </header>
-    <section class="ecamp_main">
-      <b-collapse
-        id="aside"
-        visible
-        tag="aside"
-        class="ecamp_aside col-12 col-md-5 col-lg-4 width">
-        <div class="collapse-inner">
-          <router-view name="aside" />
-        </div>
-      </b-collapse>
-      <button
-        v-b-toggle.aside
-        class="ecamp_aside-hide d-none d-md-flex" />
-      <main class="ecamp_content">
+      <v-divider />
+
+      <router-view
+        name="aside" />
+    </v-navigation-drawer>
+
+    <!-- left side drawer (desktop)-->
+    <v-navigation-drawer
+      v-if="$vuetify.breakpoint.mdAndUp"
+      v-model="drawer"
+      app
+      clipped
+      :mini-variant.sync="mini"
+      mini-variant-width="40"
+      permanent
+      color="grey lighten-2">
+      <v-list-item>
+        <v-btn
+          v-if="mini"
+          icon>
+          <v-icon>mdi-chevron-right</v-icon>
+        </v-btn>
+
+        <v-list-item-title>context/sidebar</v-list-item-title>
+
+        <v-btn
+          icon
+          @click.stop="mini = !mini">
+          <v-icon>mdi-chevron-left</v-icon>
+        </v-btn>
+      </v-list-item>
+
+      <v-divider />
+
+      <router-view
+        v-if="!mini"
+        name="aside" />
+    </v-navigation-drawer>
+
+    <!-- main application menu/tool bar -->
+    <v-system-bar
+      app
+      color="blue-grey darken-4"
+      dark
+      height="60">
+      <v-toolbar-title class="pl-4 pr-4">
+        <i>🏕</i>️
+        eCamp
+      </v-toolbar-title>
+      <v-toolbar-items>
+        <v-btn
+          text
+          exact
+          :to="{ name: 'home'}">
+          Home
+        </v-btn>
+        <v-btn
+          text
+          :to="{ name: 'camps', params: { groupName: encodeURI('Pfadi Bewegung Schweiz') } }">
+          Camps
+        </v-btn>
+      </v-toolbar-items>
+
+      <v-spacer />
+
+      <v-btn
+        v-if="! loggedIn"
+        text
+        :to="{ name: 'login' }">
+        Log in
+      </v-btn>
+      <v-btn
+        v-if="loggedIn"
+        text
+        :to="{ name: 'logout' }">
+        Log out
+      </v-btn>
+      <v-btn icon>
+        <v-icon>
+          mdi-account
+        </v-icon>
+      </v-btn>
+    </v-system-bar>
+
+    <!-- second menu/tool bar -->
+    <v-app-bar
+      app
+      clipped-left
+      color="white">
+      <v-btn
+        v-if="$vuetify.breakpoint.smAndDown"
+        icon
+        @click.stop="drawer = !drawer">
+        <v-icon>mdi-chevron-down</v-icon>
+      </v-btn>
+
+      <v-toolbar-title class="pl-4 pr-4">
+        SoLa 2019
+      </v-toolbar-title>
+
+      <v-toolbar-items>
+        <v-btn text>
+          Test
+        </v-btn>
+      </v-toolbar-items>
+    </v-app-bar>
+
+    <!-- main content -->
+    <v-content>
+      <v-container
+        fluid>
         <router-view />
-      </main>
-    </section>
-    <footer class="ecamp_footer bg-light p-1">
+      </v-container>
+    </v-content>
+
+    <!-- footer -->
+    <v-footer
+      color="grey lighten-5"
+      app>
       v0.0.1
-    </footer>
-  </div>
+    </v-footer>
+  </v-app>
 </template>
 
 <script>
-import { BCollapse, BNavbar, BNavbarBrand, BNavbarToggle, BNavbarNav, BNavItem } from 'bootstrap-vue'
 
 export default {
-  components: { BNavbarNav, BNavbarToggle, BNavbar, BNavbarBrand, BCollapse, BNavItem },
   data () {
     return {
-      loggedIn: null
+      loggedIn: null,
+      drawer: true,
+      mini: true
     }
   },
   created () {
@@ -107,54 +166,8 @@ export default {
 </script>
 
 <style lang="scss">
-  .ecamp_layout {
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
-    background: #90A4AE;
-  }
-
-  .ecamp_navbar_main {
-    z-index: 110;
-  }
-
-  .ecamp_navbar_second {
-    z-index: 100;
-  }
-
-  .ecamp_main {
-    display: flex;
-    flex-wrap: wrap;
-    flex-grow: 1;
-  }
-
-  .ecamp_aside {
-    background: #dee3e8;
-  }
-
-  .ecamp_aside-hide {
-    margin: 0;
-
-    :before {
-      display: block;
-    }
-    &[aria-expanded="true"]:before {
-      content: '◀';
-    }
-
-    &[aria-expanded="false"]:before {
-      content: '▶️';
-    }
-  }
-
-  .ecamp_content {
-    flex: 1 1 0;
-  }
-
-  .collapsing.width {
-    transition-property: visibility, flex, max-width;
-    flex: 0 0 0;
-    max-width: 0;
-    height: auto;
-  }
+  .v-navigation-drawer--temporary.v-navigation-drawer--clipped {
+    z-index: 5;
+    margin-top: 116px;
+}
 </style>

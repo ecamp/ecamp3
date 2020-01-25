@@ -4,14 +4,12 @@ Listing all event instances of a single camp.
 
 <template>
   <div>
-    <div
+    <v-alert
       v-for="(message, index) in messages"
       :key="index"
-      :class="'alert-' + message.type"
-      role="alert"
-      class="alert">
+      :type="message.type">
       {{ message.text }}
-    </div>
+    </v-alert>
 
     <ul>
       <li
@@ -20,7 +18,9 @@ Listing all event instances of a single camp.
         {{ period.description }} ({{ period.start }} - {{ period.end }})
 
         <div v-if="events.loading">
-          <b-spinner label="Loading..." />
+          <v-progress-circular
+            indeterminate
+            color="primary" />
         </div>
 
         <!-- wait for all events to be loaded => avoid each eventInstance to load separately -->
@@ -28,9 +28,6 @@ Listing all event instances of a single camp.
           <li
             v-for="eventInstance in period.event_instances().items"
             :key="eventInstance._meta.self">
-            <div v-if="eventInstance.event().loading">
-              <b-spinner label="Loading..." />
-            </div>
             <router-link
               v-if="!eventInstance.event().loading"
               :to="{ name: 'event', params: { eventUri: eventInstance.event()._meta.self } }">

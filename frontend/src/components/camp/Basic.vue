@@ -4,21 +4,19 @@ Displays details on a single camp and allows to edit them.
 
 <template>
   <div>
-    <div
+    <v-alert
       v-for="(message, index) in messages"
       :key="index"
-      :class="'alert-' + message.type"
-      role="alert"
-      class="alert">
+      :type="message.type">
       {{ message.text }}
-    </div>
+    </v-alert>
     <form @submit.prevent="toggleEdit">
-      <button
-        :class="{ 'btn-primary': editing, 'btn-outline-primary': !editing }"
+      <v-btn
+        color="primary"
         type="submit"
-        class="btn btn-sm camp-detail-submit-button">
+        class="camp-detail-submit-button">
         {{ buttonText }}
-      </button>
+      </v-btn>
       Vue.js Infos zu genau einem Lager
       <ul>
         <li>Name: {{ campDetails.name }}</li>
@@ -82,7 +80,7 @@ export default {
         await this.axios.patch(this.campUri, this.campDetails)
         this.messages = [{ type: 'success', text: 'Successfully saved' }]
       } catch (error) {
-        this.messages = [{ type: 'danger', text: 'Could not save camp details. ' + error }]
+        this.messages = [{ type: 'error', text: 'Could not save camp details. ' + error }]
       }
     },
     toggleEdit () {

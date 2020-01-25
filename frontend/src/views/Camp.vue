@@ -3,39 +3,28 @@ Displays several tabs with details on a single camp.
 -->
 
 <template>
-  <b-card class="m-3">
-    <div
-      slot="header"
-      class="row">
-      <div class="col-sm-12">
-        <div
-          class="nav nav-justified btn-group btn-block"
-          role="group">
-          <router-link
-            :to="{ name: 'camp' }"
-            class="nav-item btn btn-sm btn-outline-secondary">
-            Info
-          </router-link>
-          <router-link
-            :to="{ name: 'camp/collaborators' }"
-            class="nav-item btn btn-sm btn-outline-secondary">
-            Collaborators
-          </router-link>
-          <router-link
-            :to="{ name: 'camp/periods' }"
-            class="nav-item btn btn-sm btn-outline-secondary">
-            Periods
-          </router-link>
-          <router-link
-            :to="{ name: 'camp/picasso' }"
-            class="nav-item btn btn-sm btn-outline-secondary">
-            Picasso
-          </router-link>
-        </div>
-      </div>
+  <v-card>
+    <v-tabs>
+      <v-tab
+        :to="{ name: 'camp' }"
+        exact>
+        Info
+      </v-tab>
+      <v-tab :to="{ name: 'camp/collaborators' }">
+        Collaborators
+      </v-tab>
+      <v-tab :to="{ name: 'camp/periods' }">
+        Periods
+      </v-tab>
+      <v-tab :to="{ name: 'camp/picasso' }">
+        Picasso
+      </v-tab>
+    </v-tabs>
+
+    <div class="pa-4">
+      <router-view :camp-uri="this.$route.params.campUri" />
     </div>
-    <router-view :camp-uri="this.$route.params.campUri" />
-  </b-card>
+  </v-card>
 </template>
 
 <script>

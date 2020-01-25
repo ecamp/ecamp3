@@ -7,9 +7,8 @@ You can two-way bind to the value using v-model.
   <span>
     <span v-if="!editing">{{ fieldname }}: {{ value }}</span>
     <span v-if="editing">{{ fieldname }}:
-      <input
-        v-model="valueModel"
-        class="form-control">
+      <v-text-field
+        v-model="valueModel" />
     </span>
   </span>
 </template>

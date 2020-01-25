@@ -1,5 +1,5 @@
 <template>
-  <section class="container">
+  <v-card class="pa-3">
     <ul>
       <li>
         <router-link :to="{ name: 'home' }">
@@ -32,7 +32,7 @@
         </router-link>
       </li>
     </ul>
-  </section>
+  </v-card>
 </template>
 
 <script>

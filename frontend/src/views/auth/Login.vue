@@ -70,17 +70,14 @@
         href="#"
         @click="loginGoogle">
         <i class="zmdi zmdi-google" />
+        Google
       </a>
       <a
         class="btn btn-link"
         style="width: 100%;"
-        href="#"
-        @click="loginPbsMiData">
-        <i
-          class="zmdi"
-          title="Via PBS MiData einloggen">
-          <PbsMiDataLogo />
-        </i>
+        href="">
+        <i class="zmdi zmdi-facebook" />
+        Facebook
       </a>
     </div>
 
