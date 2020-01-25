@@ -3,10 +3,17 @@
 namespace eCamp\Core\Hydrator;
 
 use eCamp\Core\Entity\EventType;
+use eCamp\Lib\Entity\EntityLink;
 use eCampApi\V1\Rest\EventTypePlugin\EventTypePluginCollection;
 use Zend\Hydrator\HydratorInterface;
 
 class EventTypeHydrator implements HydratorInterface {
+
+    public static function HydrateInfo() {
+        return [
+        ];
+    }
+
     /**
      * @param object $object
      * @return array
@@ -19,9 +26,10 @@ class EventTypeHydrator implements HydratorInterface {
             'name' => $eventType->getName(),
             'default_color' => $eventType->getDefaultColor(),
             'default_numbering_style' => $eventType->getDefaultNumberingStyle(),
-            'event_type_plugins' =>  new EventTypePluginCollection($eventType->getEventTypePlugins()),
+//            'event_type_plugins' =>  new EventTypePluginCollection($eventType->getEventTypePlugins()),
 //            'event_type_factories' => new EventTypeFactoryCollection($eventType->getEventTypeFactories()),
 //            'event_templates' => new EventTemplateCollection($eventType->getEventTemplates()),
+
         ];
     }
 

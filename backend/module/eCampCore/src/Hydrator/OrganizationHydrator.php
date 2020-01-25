@@ -3,10 +3,17 @@
 namespace eCamp\Core\Hydrator;
 
 use eCamp\Core\Entity\Organization;
+use eCamp\Lib\Entity\EntityLinkCollection;
 use eCampApi\V1\Rest\CampType\CampTypeCollection;
 use Zend\Hydrator\HydratorInterface;
 
 class OrganizationHydrator implements HydratorInterface {
+
+    public static function HydrateInfo() {
+        return [
+        ];
+    }
+
     /**
      * @param object $object
      * @return array
@@ -18,7 +25,7 @@ class OrganizationHydrator implements HydratorInterface {
             'id' => $organization->getId(),
             'name' => $organization->getName(),
 
-            'camp_types' => new CampTypeCollection($organization->getCampTypes())
+            'camp_types' => new EntityLinkCollection($organization->getCampTypes())
         ];
     }
 

@@ -6,6 +6,12 @@ use eCamp\Core\Entity\Plugin;
 use Zend\Hydrator\HydratorInterface;
 
 class PluginHydrator implements HydratorInterface {
+
+    public static function HydrateInfo() {
+        return [
+        ];
+    }
+
     /**
      * @param object $object
      * @return array

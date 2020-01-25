@@ -3,6 +3,7 @@
 namespace eCamp\Core\Hydrator;
 
 use eCamp\Core\Entity\EventCategory;
+use eCamp\Lib\Entity\EntityLink;
 use eCamp\Lib\Hydrator\Util;
 use Zend\Hydrator\HydratorInterface;
 
@@ -10,9 +11,6 @@ class EventCategoryHydrator implements HydratorInterface {
 
     public static function HydrateInfo() {
         return [
-            'camp' => Util::Entity(function (EventCategory $ec) {
-                return $ec->getCamp();
-            }),
             'event_type' => Util::Entity(function (EventCategory $ec) {
                 return $ec->getEventType();
             })
@@ -33,6 +31,9 @@ class EventCategoryHydrator implements HydratorInterface {
 
             'color' => $eventCategory->getColor(),
             'numbering_style' => $eventCategory->getNumberingStyle(),
+
+            'camp' => EntityLink::Create($eventCategory->getCamp()),
+            'event_type' => EntityLink::Create($eventCategory->getEventType())
         ];
     }
 

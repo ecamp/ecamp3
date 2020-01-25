@@ -95,12 +95,10 @@
 
 <script>
 import Vue from 'vue'
-import PbsMiDataLogo from '../../../public/pbsmidata.svg'
 
 export default {
   name: 'Login',
   components: {
-    PbsMiDataLogo
   },
   data () {
     return {

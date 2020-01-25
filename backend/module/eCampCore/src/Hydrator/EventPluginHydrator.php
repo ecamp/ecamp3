@@ -11,6 +11,12 @@ use Zend\Hydrator\HydratorInterface;
 use ZF\Hal\Link\Link;
 
 class EventPluginHydrator implements HydratorInterface {
+
+    public static function HydrateInfo() {
+        return [
+        ];
+    }
+
     /** @var  PluginStrategyProvider */
     private $pluginStrategyProvider;
 
@@ -35,15 +41,15 @@ class EventPluginHydrator implements HydratorInterface {
             'instance_name' => $eventPlugin->getInstanceName(),
             'plugin_name' => $plugin->getName(),
 
-            'event_type_plugin' => $eventPlugin->getEventTypePlugin(),
-            'plugin' => $plugin,
-            'event' => Link::factory([
-                'rel' => 'event',
-                'route' => [
-                    'name' => 'e-camp-api.rest.doctrine.event',
-                    'params' => [ 'event_id' => $eventPlugin->getEvent()->getId() ]
-                ]
-            ])
+//            'event_type_plugin' => $eventPlugin->getEventTypePlugin(),
+//            'plugin' => $plugin,
+//            'event' => Link::factory([
+//                'rel' => 'event',
+//                'route' => [
+//                    'name' => 'e-camp-api.rest.doctrine.event',
+//                    'params' => [ 'event_id' => $eventPlugin->getEvent()->getId() ]
+//                ]
+//            ])
         ];
 
         /** @var PluginStrategyInterface $strategy */
