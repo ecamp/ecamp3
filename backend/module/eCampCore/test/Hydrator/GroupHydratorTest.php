@@ -8,7 +8,6 @@ use eCamp\Core\Hydrator\GroupHydrator;
 use eCamp\LibTest\PHPUnit\AbstractTestCase;
 
 class GroupHydratorTest extends AbstractTestCase {
-
     public function testExtract() {
         // Disable Test
         $this->assertTrue(true);
