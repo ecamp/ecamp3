@@ -8,9 +8,15 @@ Displays collaborators of a single camp.
     <v-simple-table width="100%">
       <thead>
         <tr>
-          <th>User</th>
-          <th>Rolle</th>
-          <th>Option</th>
+          <th width="25%">
+            User
+          </th>
+          <th width="50%">
+            Rolle
+          </th>
+          <th width="25%">
+            Option
+          </th>
         </tr>
       </thead>
       <tbody>
@@ -18,19 +24,16 @@ Displays collaborators of a single camp.
           v-for="collaborator in establishedCollaborators"
           :key="collaborator.id">
           <td>{{ collaborator.user().username }}</td>
-          <td>{{ collaborator.role }}</td>
+          <td>
+            <api-single-select
+              :value="collaborator.role"
+              :uri="collaborator._meta.self"
+              fieldname="role"
+              required
+              dense />
+          </td>
           <td
-            width="150"
             style="white-space: nowrap">
-            <v-btn
-              small
-              color="primary">
-              <v-icon
-                small
-                left>
-                mdi-pencil
-              </v-icon> edit
-            </v-btn>
             <v-btn
               small
               color="warning"
@@ -46,82 +49,82 @@ Displays collaborators of a single camp.
       </tbody>
     </v-simple-table>
 
-    <v-divider />
-
     <div v-if="requestedCollaborators.length > 0">
+      <v-divider />
+
       <h3 class="mt-4">
         Offene Anfragen
       </h3>
       <v-simple-table width="100%">
-        <tr>
-          <th>User</th>
-          <th>Rolle</th>
-          <th>Option</th>
-        </tr>
-        <tr
-          v-for="collaborator in requestedCollaborators"
-          :key="collaborator.id">
-          <td>{{ collaborator.user().username }}</td>
-          <td>{{ collaborator.role }}</td>
-          <td
-            width="150"
-            style="white-space: nowrap">
-            <v-btn
-              small
-              color="success"
-              @click="changeStatus(collaborator, 'established')">
-              <v-icon
+        <tbody>
+          <tr
+            v-for="collaborator in requestedCollaborators"
+            :key="collaborator.id">
+            <td width="25%">
+              {{ collaborator.user().username }}
+            </td>
+            <td width="50%">
+              <api-single-select
+                :value="collaborator.role"
+                :uri="collaborator._meta.self"
+                fieldname="role"
+                required
+                dense />
+            </td>
+            <td
+              width="25%"
+              style="white-space: nowrap">
+              <v-btn
                 small
-                left>
-                mdi-check
-              </v-icon> accept
-            </v-btn>
-            <v-btn
-              small
-              color="warning"
-              @click="changeStatus(collaborator, 'unrelated')">
-              <v-icon
+                color="success"
+                @click="changeStatus(collaborator, 'established')">
+                <v-icon
+                  small
+                  left>
+                  mdi-check
+                </v-icon> accept
+              </v-btn>
+              <v-btn
                 small
-                left>
-                mdi-close
-              </v-icon> deny
-            </v-btn>
-          </td>
-        </tr>
+                color="warning"
+                @click="changeStatus(collaborator, 'unrelated')">
+                <v-icon
+                  small
+                  left>
+                  mdi-close
+                </v-icon> deny
+              </v-btn>
+            </td>
+          </tr>
+        </tbody>
       </v-simple-table>
-      <v-divider />
     </div>
 
     <div v-if="invitedCollaborators.length > 0">
+      <v-divider />
+
       <h3 class="mt-4">
         Offene Einladungen
       </h3>
       <v-simple-table width="100%">
-        <thead>
-          <tr>
-            <th>User</th>
-            <th>Rolle</th>
-            <th>Option</th>
-          </tr>
-        </thead>
         <tbody>
           <tr
             v-for="collaborator in invitedCollaborators"
             :key="collaborator.id">
-            <td>{{ collaborator.user().username }}</td>
-            <td>{{ collaborator.role }}</td>
+            <td width="25%">
+              {{ collaborator.user().username }}
+            </td>
+            <td width="50%">
+              <api-single-select
+                :value="collaborator.role"
+                :uri="collaborator._meta.self"
+                fieldname="role"
+                required
+                dense />
+            </td>
             <td
-              width="150"
+              width="25%"
               style="white-space: nowrap">
-              <v-btn
-                small
-                color="primary">
-                <v-icon
-                  small
-                  left>
-                  mdi-pencil
-                </v-icon> edit
-              </v-btn>
               <v-btn
                 small
                 color="warning"
@@ -136,9 +139,9 @@ Displays collaborators of a single camp.
           </tr>
         </tbody>
       </v-simple-table>
-      <v-divider />
     </div>
 
+    <v-divider />
     <h3 class="mt-4">
       Einladen
     </h3>
@@ -190,6 +193,9 @@ Displays collaborators of a single camp.
 <script>
 export default {
   name: 'Collaborators',
+  components: {
+    ApiSingleSelect: () => import('@/components/form/ApiSingleSelect.vue')
+  },
   props: {
     campUri: { type: String, required: true }
   },
@@ -239,7 +245,10 @@ export default {
         camp_id: this.campDetails.id,
         user_id: user.id,
         role: role
-      })
+      }).then(this.refreshCamp)
+    },
+    refreshCamp () {
+      this.api.reload(this.campUri)
     }
   }
 }

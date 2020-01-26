@@ -152,20 +152,24 @@ class CampCollaborationService extends AbstractEntityService {
         // TODO: ACL-Check can update Invitation
 
         if ($authUser === $campCollaboration->getUser()) {
-            if ($data->status == CampCollaboration::STATUS_UNRELATED) {
-                $this->delete($campCollaboration->getId());
-                $campCollaboration = null;
-            }
-            if ($data->status == CampCollaboration::STATUS_ESTABLISHED) {
-                $campCollaboration->setStatus(CampCollaboration::STATUS_ESTABLISHED);
+            if (isset($data->status)) {
+                if ($data->status == CampCollaboration::STATUS_UNRELATED) {
+                    $this->delete($campCollaboration->getId());
+                    $campCollaboration = null;
+                }
+                if ($data->status == CampCollaboration::STATUS_ESTABLISHED) {
+                    $campCollaboration->setStatus(CampCollaboration::STATUS_ESTABLISHED);
+                }
             }
         } else {
-            if ($data->status == CampCollaboration::STATUS_UNRELATED) {
-                $this->delete($campCollaboration->getId());
-                $campCollaboration = null;
-            }
             if (isset($data->role)) {
                 $campCollaboration->setRole($data->role);
+            }
+            if (isset($data->status)) {
+                if ($data->status == CampCollaboration::STATUS_UNRELATED) {
+                    $this->delete($campCollaboration->getId());
+                    $campCollaboration = null;
+                }
             }
         }
 
@@ -188,21 +192,25 @@ class CampCollaborationService extends AbstractEntityService {
             if (isset($data->role)) {
                 $campCollaboration->setRole($data->role);
             }
-            if ($data->status == CampCollaboration::STATUS_UNRELATED) {
-                $this->delete($campCollaboration->getId());
-                $campCollaboration = null;
+            if (isset($data->status)) {
+                if ($data->status == CampCollaboration::STATUS_UNRELATED) {
+                    $this->delete($campCollaboration->getId());
+                    $campCollaboration = null;
+                }
             }
         } else {
-            if ($data->status == CampCollaboration::STATUS_UNRELATED) {
-                $this->delete($campCollaboration->getId());
-                $campCollaboration = null;
-            }
-            if ($data->status == CampCollaboration::STATUS_ESTABLISHED) {
-                if (isset($data->role)) {
-                    $campCollaboration->setRole($data->role);
+            if (isset($data->status)) {
+                if ($data->status == CampCollaboration::STATUS_UNRELATED) {
+                    $this->delete($campCollaboration->getId());
+                    $campCollaboration = null;
                 }
-                $campCollaboration->setCollaborationAcceptedBy($authUser->getUsername());
-                $campCollaboration->setStatus(CampCollaboration::STATUS_ESTABLISHED);
+                if ($data->status == CampCollaboration::STATUS_ESTABLISHED) {
+                    if (isset($data->role)) {
+                        $campCollaboration->setRole($data->role);
+                    }
+                    $campCollaboration->setCollaborationAcceptedBy($authUser->getUsername());
+                    $campCollaboration->setStatus(CampCollaboration::STATUS_ESTABLISHED);
+                }
             }
         }
 
