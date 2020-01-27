@@ -3,49 +3,52 @@ Listing all event instances of a single camp.
 -->
 
 <template>
-  <div>
-    <v-card v-for="period in periods"
-            :key="period.id">
-      <v-alert
-        v-for="(message, index) in messages"
-        :key="index"
-        :type="message.type">
-        {{ message.text }}
-      </v-alert>
-      <template v-if="events.loading">
-        <v-skeleton-loader
-          v-for="n in 3"
-          :key="n"
-          type="list-item-avatar-two-line"/>
-      </template>
-      <template v-else>
+  <v-card>
+    <v-skeleton-loader
+      v-if="events.loading"
+      type="table-thead,table-row@6" />
+    <v-toolbar v-if="!events.loading" dense
+               class="mb-3" color="blue-grey lighten-5">
+      <v-icon left>
+        mdi-account-group
+      </v-icon>
+      <v-toolbar-title class="overflow-visible">
+        Picasso
+      </v-toolbar-title>
+      <v-tabs v-model="tab" right
+              center-active background-color="blue-grey lighten-5">
+        <v-tab v-for="period in periods"
+               :key="period.id">
+          {{ period.description }}
+        </v-tab>
+      </v-tabs>
+    </v-toolbar>
+    <v-tabs-items v-if="!events.loading" v-model="tab">
+      <v-tab-item v-for="period in periods"
+                  :key="period.id">
         <v-calendar
-          ref="calendar"
-          :events="[
-            {
-              name: 'Event LS',
-              start: '2019-12-24 09:00',
-              end: '2019-12-24 09:15',
-              color: 'red',
-            },
-            {
-              name: 'Event LA',
-              start: '2019-12-25 12:30',
-              end: '2019-12-26 15:30',
-              color: 'green',
-            },
-          ]"
+          class="ec-picasso"
+          :events="period.event_instances().items"
+          event-start="start_time"
+          event-end="end_time"
+          :event-name="getEventName"
+          :event-color="getEventColor"
           interval-height="42"
-          now="2019-12-24 00:00:00"
-          :start="periods[0].start + ' 00:00:00'"
-          :end="periods[0].end + ' 00:00:00'"
+          :interval-format="getIntervalFormat"
+          first-interval="5"
+          interval-count="19"
+          :start="period.start + ' 00:00:00'"
+          :end="period.end + ' 00:00:00'"
           locale="de-ch"
+          :day-format="dayFormat"
           type="week"
+          :weekday-format="weekdayFormat"
           :weekdays="[1, 2, 3, 4, 5, 6, 0]"
-          color="primary"/>
-      </template>
-    </v-card>
-  </div>
+          color="primary"
+          @click:event="showEvent" />
+      </v-tab-item>
+    </v-tabs-items>
+  </v-card>
 </template>
 <script>
 export default {
@@ -55,8 +58,10 @@ export default {
   },
   data () {
     return {
+      tab: null,
       editing: false,
-      messages: []
+      messages: [],
+      weekdayShort: ['Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa', 'So']
     }
   },
   computed: {
@@ -79,12 +84,73 @@ export default {
     if (this.campDetails.events()._meta.self) {
       this.api.reload(this.campDetails.events()._meta.self)
     }
+  },
+  methods: {
+    getEventName (event, timed) {
+      return '(' + event.input.number + ') ' + event.input.event().event_category().short + ': ' + event.input.event().title
+    },
+    getEventColor (event, timed) {
+      return event.event().event_category().color
+    },
+    getIntervalFormat (time) {
+      return time.time
+    },
+    showEvent ({ nativeEvent, event }) {
+      this.$router.push({ name: 'event', params: { eventUri: event.event()._meta.self } })
+    },
+    openEvent (event) {
+      this.$router.push({ name: 'event', params: { eventUri: event._meta.self } })
+    },
+    dayFormat (day) {
+      if (this.$vuetify.breakpoint.smAndDown) {
+        return this.weekdayShort[day.weekday] + ',\n' + day.day + '.' + day.month
+      } else {
+        return this.weekdayShort[day.weekday] + ', ' + day.day + '.' + day.month + '.' + day.year
+      }
+    },
+    weekdayFormat (day) {
+      return ''
+    }
   }
 }
 </script>
-<style>
-  .v-calendar-daily_head-day-label .v-btn--fab {
-    height: 36px;
-    min-width: 36px;
+<style lang="scss">
+  .ec-picasso {
+    .v-calendar-daily_head-day-label button.v-btn {
+      height: auto;
+      opacity: .75;
+      border-radius: 0;
+      padding: 2px;
+      white-space: pre;
+      min-width: auto;
+
+      .v-btn__content {
+        max-width: 100%;
+        white-space: normal;
+      }
+    }
+    .v-event-timed {
+      font-size: 11px !important;
+      white-space: normal;
+      line-height: 1.15;
+      .pl-1 {
+        padding-left: 2px!important;
+      }
+    }
+  }
+
+  @media #{map-get($display-breakpoints, 'xs-only')}{
+    .ec-picasso .v-calendar-daily_head-day-label button.v-btn {
+      font-size: 12px;
+    }
+  }
+</style>
+<style lang="scss" scoped>
+  .v-card {
+    overflow: hidden;
+  }
+
+  .v-calendar-daily {
+    border-top: 0;
   }
 </style>

@@ -9,7 +9,8 @@
     "test:unit:watch": "vue-cli-service test:unit --watch",
     "test:e2e": "vue-cli-service test:e2e",
     "test:e2e:ci": "vue-cli-service test:e2e --headless",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "start": "vue-cli-service serve"
   },
   "dependencies": {
     "@mdi/font": "^4.7.95",
@@ -63,6 +64,30 @@
         {
           "singleline": "never",
           "multiline": "never"
+        }
+      ],
+      "vue/max-attributes-per-line": [
+        "error",
+        {
+          "singleline": 3,
+          "multiline": {
+            "max": 2,
+            "allowFirstLine": true
+          }
+        }
+      ],
+      "vue/singleline-html-element-content-newline": [
+        "error",
+        {
+          "ignoreWhenEmpty": true,
+          "ignores": [
+            "v-chip",
+            "v-icon",
+            "v-btn",
+            "v-alert",
+            "span",
+            "pre"
+          ]
         }
       ]
     },

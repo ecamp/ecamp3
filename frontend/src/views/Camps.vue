@@ -1,30 +1,33 @@
 <template>
-  <div class="ma-1">
-    <h3>Camps</h3>
-    <ul>
-      <li
-        v-for="camp in camps"
-        :key="camp.id">
-        <router-link
-          :to="{ name: 'camp', params: { campUri: camp._meta.self } }">
-          {{ camp.name }} "{{ camp.title }}" - {{ camp.camp_type().organization().name }}
-        </router-link>
-        <v-btn
-          color="warning"
-          @click.prevent="deleteCamp(camp, ...arguments)">
-          <v-icon left>
-            mdi-delete
-          </v-icon> Löschen
-        </v-btn>
-      </li>
-    </ul>
-    <v-btn
-      color="primary"
-      class="mt-2"
-      @click="changeCampTitle">
-      Change camp #1 title
-    </v-btn>
-  </div>
+  <v-card>
+    <v-toolbar dense color="blue-grey lighten-5">
+      <v-toolbar-title>Camps</v-toolbar-title>
+    </v-toolbar>
+    <v-list class="py-0">
+      <v-skeleton-loader v-if="camps.loaded" type="list-item-two-line" />
+      <v-list-item
+        v-for="camp in camps.items"
+        :key="camp.id"
+        two-line
+        :to="{ name: 'camp', params: { campUri: camp._meta.self } }">
+        <v-list-item-content>
+          <v-list-item-title>{{ camp.title }}</v-list-item-title>
+          <v-list-item-subtitle>
+            {{ camp.name }} - {{ camp.camp_type().organization().name }}
+          </v-list-item-subtitle>
+        </v-list-item-content>
+        <v-list-item-action>
+          <v-btn
+            icon
+            @click.prevent="deleteCamp(camp, ...arguments)">
+            <v-icon left>
+              mdi-delete
+            </v-icon>
+          </v-btn>
+        </v-list-item-action>
+      </v-list-item>
+    </v-list>
+  </v-card>
 </template>
 
 <script>
@@ -32,7 +35,7 @@ export default {
   name: 'Camps',
   computed: {
     camps () {
-      return this.api.get('/camp').items
+      return this.api.get('/camp')
     }
   },
   methods: {

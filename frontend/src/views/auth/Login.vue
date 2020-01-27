@@ -1,100 +1,76 @@
 <template>
-  <form
-    class="form-signin"
-    method="post"
-    action=""
-    @submit.prevent="login">
-    <div class="text-center mb-4">
-      <i class="zmdi zmdi-hc-5x zmdi-labels" />
-    </div>
+  <v-content>
+    <v-toolbar absolute width="100%"
+               color="blue-grey darken-4" dark>
+      <v-toolbar-title>
+        <v-btn icon class="title">🏕</v-btn>
+        eCamp
+      </v-toolbar-title>
+    </v-toolbar>
+    <v-container class="fill-height justify-center align-center" fluid>
+      <v-col cols="12" sm="8" md="4">
+        <v-card class="elevation-12">
+          <v-toolbar color="green" dark elevation="1">
+            <v-toolbar-title>Login</v-toolbar-title>
+            <v-spacer />
+            <v-btn color="green darken-3" :to="{ name: 'register' }">Register</v-btn>
+          </v-toolbar>
+          <v-card-text>
+            <v-alert v-if="error" type="error">Login failed</v-alert>
+            <v-form @submit.prevent="login">
+              <v-text-field
+                id="inputUsername"
+                v-model="username"
+                label="Username"
+                name="username"
+                prepend-icon="mdi-account"
+                type="text" />
 
-    <div class="form-label-group">
-      <input
-        id="inputUsername"
-        v-model="username"
-        type="text"
-        name="username"
-        class="form-control"
-        placeholder="Username"
-        required
-        autofocus>
-      <label for="inputUsername">Username</label>
-    </div>
-
-    <div class="form-label-group">
-      <input
-        id="inputPassword"
-        v-model="password"
-        type="password"
-        name="password"
-        class="form-control"
-        placeholder="Password"
-        required>
-      <label for="inputPassword">Password</label>
-    </div>
-
-    <div
-      class="checkbox mb-3"
-      style="margin-left: 10px">
-      <label>
-        <input
-          type="checkbox"
-          value="remember-me"> Remember me
-      </label>
-    </div>
-
-    <div
-      v-if="error"
-      class="form-label-group">
-      <div style="color:red">
-        Login failed
-      </div>
-    </div>
-
-    <div class="form-label-group">
-      <button
-        class="btn btn-lg btn-primary btn-block"
-        type="submit">
-        Sign in
-      </button>
-    </div>
-
-    <hr>
-
-    <div
-      class="btn-group btn-block"
-      style="margin-top: 7px">
-      <a
-        class="btn btn-link"
-        style="width: 100%;"
-        href="#"
-        @click="loginGoogle">
-        <i class="zmdi zmdi-google" />
-        Google
-      </a>
-      <a
-        class="btn btn-link"
-        style="width: 100%;"
-        href="">
-        <i class="zmdi zmdi-facebook" />
-        Facebook
-      </a>
-    </div>
-
-    <hr style="margin-top: 22px">
-
-    <div class="form-label-group">
-      <router-link
-        :to="{ name: 'register' }"
-        class="btn btn-md btn-link btn-block">
-        Register
-      </router-link>
-    </div>
-  </form>
+              <v-text-field
+                id="inputPassword"
+                v-model="password"
+                label="Password"
+                name="password"
+                prepend-icon="mdi-lock"
+                type="password" />
+              <v-switch label="Remember me" />
+            </v-form>
+          </v-card-text>
+          <v-card-actions>
+            <v-spacer />
+            <v-menu offset-y>
+              <template v-slot:activator="{ on }">
+                <v-btn
+                  color="green"
+                  dark
+                  v-on="on">
+                  Hitobito
+                </v-btn>
+              </template>
+              <v-list>
+                <v-list-item
+                  @click="loginPbsMidata">
+                  <v-list-item-title>PBS MiData</v-list-item-title>
+                </v-list-item>
+                <v-list-item>
+                  <v-list-item-title>jubla.db</v-list-item-title>
+                </v-list-item>
+              </v-list>
+            </v-menu>
+            <v-btn color="red" dark @click="loginGoogle">Google</v-btn>
+            <v-btn color="primary" @click="login">
+              Login
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-col>
+    </v-container>
+  </v-content>
 </template>
 
 <script>
 import Vue from 'vue'
+
 export default {
   name: 'Login',
   data () {
@@ -132,6 +108,15 @@ export default {
       const callbackUrl = window.location.origin + this.$router.resolve({ name: 'loginCallback' }).href
       this.$auth.loginGoogle(callbackUrl)
     },
+    loginPbsMidata () {
+      // Make the login callback function available on global level, so the popup can call it
+      window.loginSuccess = () => {
+        this.$auth.loginSuccess()
+        this.redirect()
+      }
+      // const callbackUrl = window.location.origin + this.$router.resolve({ name: 'loginCallback' }).href
+      // this.$auth.loginGoogle(callbackUrl)
+    },
     redirect () {
       this.$router.replace(this.$route.query.redirect || '/')
     }
@@ -141,65 +126,4 @@ export default {
 
 <style>
 
-  :root {
-    --input-padding-x: .75rem;
-    --input-padding-y: .4rem;
-  }
-
-  #app {
-    width: 100%;
-    height: 100%;
-  }
-  .form-signin {
-    width: 100%;
-    max-width: 420px;
-    padding: 15px;
-    margin: 0 auto;
-  }
-  .form-label-group {
-    position: relative;
-    margin-bottom: 1rem;
-  }
-  .form-label-group > input,
-  .form-label-group > label {
-    padding: var(--input-padding-y) var(--input-padding-x);
-  }
-  .form-label-group > label {
-    position: absolute;
-    top: 0;
-    left: 0;
-    display: block;
-    width: 100%;
-    margin-bottom: 0; /* Override default `<label>` margin */
-    line-height: 1.5;
-    color: #495057;
-    border: 1px solid transparent;
-    border-radius: .25rem;
-    transition: all .1s ease-in-out;
-  }
-  .form-label-group input::-webkit-input-placeholder {
-    color: transparent;
-  }
-  .form-label-group input:-ms-input-placeholder {
-    color: transparent;
-  }
-  .form-label-group input::-ms-input-placeholder {
-    color: transparent;
-  }
-  .form-label-group input::-moz-placeholder {
-    color: transparent;
-  }
-  .form-label-group input::placeholder {
-    color: transparent;
-  }
-  .form-label-group input:not(:placeholder-shown) {
-    padding-top: calc(var(--input-padding-y) + var(--input-padding-y) * (2 / 3));
-    padding-bottom: calc(var(--input-padding-y) / 3);
-  }
-  .form-label-group input:not(:placeholder-shown) ~ label {
-    padding-top: calc(var(--input-padding-y) / 4);
-    padding-bottom: calc(var(--input-padding-y) / 4);
-    font-size: 10px;
-    color: #777;
-  }
 </style>
