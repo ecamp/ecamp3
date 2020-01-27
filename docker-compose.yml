@@ -33,7 +33,7 @@ services:
     image: composer:1.8
     container_name: 'ecamp3-composer'
     restart: 'no'
-    entrypoint: bash -c "composer install --ignore-platform-reqs --no-interaction --no-plugins --no-scripts --prefer-dist --no-suggest && cp -r vendor/* /vendor-copy-to-host && composer di-generate-aot"
+    entrypoint: bash -c "composer install --no-interaction --no-plugins --no-scripts --prefer-dist --no-suggest && cp -r vendor/* /vendor-copy-to-host && composer di-generate-aot"
     volumes:
       - ./backend:/app:delegated
       - vendor:/app/vendor:delegated

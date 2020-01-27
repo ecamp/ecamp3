@@ -46,7 +46,7 @@ class EventType extends BaseEntity {
 
     /**
      * @var ArrayCollection
-     * @ORM\OneToMany(targetEntity="EventTypePlugin", mappedBy="eventType")
+     * @ORM\OneToMany(targetEntity="EventTypePlugin", mappedBy="eventType", orphanRemoval=true)
      */
     protected $eventTypePlugins;
 
@@ -58,7 +58,7 @@ class EventType extends BaseEntity {
 
     /**
      * @var ArrayCollection
-     * @ORM\OneToMany(targetEntity="EventTemplate", mappedBy="eventType")
+     * @ORM\OneToMany(targetEntity="EventTemplate", mappedBy="eventType", orphanRemoval=true)
      */
     protected $eventTemplates;
 

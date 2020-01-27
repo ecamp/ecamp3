@@ -7,7 +7,6 @@ use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use eCamp\Core\Entity\Camp;
 use eCamp\Core\Entity\CampType;
-use eCamp\Core\Entity\Group;
 use eCamp\Core\Entity\User;
 
 class CampData extends AbstractFixture implements DependentFixtureInterface {
@@ -17,9 +16,6 @@ class CampData extends AbstractFixture implements DependentFixtureInterface {
     public function load(ObjectManager $manager) {
         $repository = $manager->getRepository(Camp::class);
 
-        /** @var Group $pbs */
-        $pbs = $this->getReference(GroupData::$PBS);
-
         /** @var User $user */
         $user = $this->getReference(UserData::$USER);
 
@@ -28,10 +24,10 @@ class CampData extends AbstractFixture implements DependentFixtureInterface {
         /** @var CampType $jsTeenCampType */
         $jsTeenCampType = $this->getReference(CampTypeData::$PBS_JS_TEEN);
 
-        $camp = $repository->findOneBy([ 'owner' => $pbs, 'name' => 'Camp1' ]);
+        $camp = $repository->findOneBy([ 'owner' => $user, 'name' => 'Camp1' ]);
         if ($camp == null) {
             $camp = new Camp();
-            $camp->setOwner($pbs);
+            $camp->setOwner($user);
             $camp->setCreator($user);
             $camp->setName('Camp1');
             $camp->setTitle('Camp1Title');
@@ -42,10 +38,10 @@ class CampData extends AbstractFixture implements DependentFixtureInterface {
         }
         $this->addReference(self::$CAMP_1, $camp);
 
-        $camp = $repository->findOneBy([ 'owner' => $pbs, 'name' => 'Camp2' ]);
+        $camp = $repository->findOneBy([ 'owner' => $user, 'name' => 'Camp2' ]);
         if ($camp == null) {
             $camp = new Camp();
-            $camp->setOwner($pbs);
+            $camp->setOwner($user);
             $camp->setCreator($user);
             $camp->setName('Camp2');
             $camp->setTitle('Camp2Title');
@@ -60,6 +56,6 @@ class CampData extends AbstractFixture implements DependentFixtureInterface {
     }
 
     public function getDependencies() {
-        return [ UserData::class, GroupData::class, CampTypeData::class ];
+        return [ UserData::class, CampTypeData::class ];
     }
 }

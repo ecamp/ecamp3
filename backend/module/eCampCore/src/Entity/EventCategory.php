@@ -18,7 +18,7 @@ class EventCategory extends BaseEntity {
     /**
      * @var Camp
      * @ORM\ManyToOne(targetEntity="Camp")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=false, onDelete="cascade")
      */
     private $camp;
 

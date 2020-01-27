@@ -35,7 +35,8 @@ jobs:
       script:
           - cd backend
           - mkdir -p build/logs
-          - vendor/bin/phpunit
+          - composer test
+          - composer cs-check
           - cd ..
 
       after_script:

@@ -34,14 +34,14 @@ class CampCollaboration extends BaseEntity {
     /**
      * @var User
      * @ORM\ManyToOne(targetEntity="User")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=false, onDelete="cascade")
      */
     private $user;
 
     /**
      * @var Camp
      * @ORM\ManyToOne(targetEntity="Camp")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=false, onDelete="cascade")
      */
     private $camp;
 

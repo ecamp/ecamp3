@@ -7,7 +7,6 @@ use DoctrineModule\Paginator\Adapter\Selectable as SelectableAdapter;
 use Zend\Paginator\Paginator;
 
 class EntityLinkCollection extends Paginator {
-
     public function __construct($adapter) {
         if ($adapter instanceof Selectable) {
             $adapter = new SelectableAdapter($adapter);

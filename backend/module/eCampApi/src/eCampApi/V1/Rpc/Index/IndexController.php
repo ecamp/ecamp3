@@ -9,8 +9,7 @@ use ZF\Hal\Entity;
 use ZF\Hal\Link\Link;
 use ZF\Hal\View\HalJsonModel;
 
-class IndexController extends AbstractActionController
-{
+class IndexController extends AbstractActionController {
     /** @var AuthenticationService */
     private $authenticationService;
 
@@ -26,8 +25,7 @@ class IndexController extends AbstractActionController
     }
 
 
-    public function indexAction()
-    {
+    public function indexAction() {
         $data = [];
         $data['title'] = 'eCamp V3 - API';
 
