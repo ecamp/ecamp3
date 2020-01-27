@@ -4,14 +4,12 @@ Displays periods of a single camp.
 
 <template>
   <div>
-    <div
+    <v-alert
       v-for="(message, index) in messages"
       :key="index"
-      :class="'alert-' + message.type"
-      role="alert"
-      class="alert">
+      :type="message.type">
       {{ message.text }}
-    </div>
+    </v-alert>
     Infos zu den Perioden eines Lagers der Organisation {{ organizationName }}
     <ul>
       <li

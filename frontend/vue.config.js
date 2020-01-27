@@ -9,6 +9,9 @@ module.exports = {
   configureWebpack: {
     devtool: 'source-map'
   },
+  transpileDependencies: [
+    'vuetify'
+  ],
   chainWebpack: (config) => {
     const svgRule = config.module.rule('svg');
 

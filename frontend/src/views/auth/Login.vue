@@ -70,6 +70,7 @@
         href="#"
         @click="loginGoogle">
         <i class="zmdi zmdi-google" />
+        Google
       </a>
       <a
         class="btn btn-link"
