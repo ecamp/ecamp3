@@ -49,8 +49,8 @@
               </template>
               <v-list>
                 <v-list-item
-                  @click="loginPbsMidata">
-                  <v-list-item-icon>
+                  @click="loginPbsMiData">
+                  <v-list-item-icon class="mr-3">
                     <PbsMiDataLogo />
                   </v-list-item-icon>
                   <v-list-item-title>PBS MiData</v-list-item-title>
