@@ -75,9 +75,13 @@
       <a
         class="btn btn-link"
         style="width: 100%;"
-        href="">
-        <i class="zmdi zmdi-facebook" />
-        Facebook
+        href="#"
+        @click="loginPbsMiData">
+        <i
+          class="zmdi"
+          title="Via PBS MiData einloggen">
+          <PbsMiDataLogo />
+        </i>
       </a>
     </div>
 
@@ -95,10 +99,12 @@
 
 <script>
 import Vue from 'vue'
+import PbsMiDataLogo from '../../../public/pbsmidata.svg'
 
 export default {
   name: 'Login',
   components: {
+    PbsMiDataLogo
   },
   data () {
     return {
