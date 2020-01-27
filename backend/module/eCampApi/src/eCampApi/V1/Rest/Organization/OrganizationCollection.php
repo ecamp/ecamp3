@@ -3,7 +3,5 @@ namespace eCampApi\V1\Rest\Organization;
 
 use eCamp\Lib\Entity\BaseCollection;
 
-class OrganizationCollection extends BaseCollection
-
-{
+class OrganizationCollection extends BaseCollection {
 }

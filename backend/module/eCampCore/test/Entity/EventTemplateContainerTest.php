@@ -6,14 +6,12 @@ use eCamp\Core\Entity\EventTemplate;
 use eCamp\Core\Entity\EventTemplateContainer;
 use eCamp\Core\Entity\EventType;
 use eCamp\Core\Entity\EventTypePlugin;
-use eCamp\Core\Entity\Medium;
 use eCamp\Core\Entity\Plugin;
 use eCamp\LibTest\PHPUnit\AbstractTestCase;
 
 class EventTemplateContainerTest extends AbstractTestCase {
     public function testEventTemplateContainer() {
         $plugin = new Plugin();
-        $medium = new Medium();
 
         $eventType = new EventType();
         $eventType->setName('EventType Name');
@@ -23,7 +21,7 @@ class EventTemplateContainerTest extends AbstractTestCase {
         $eventTemplate = new EventTemplate();
         $eventTemplate->setEventType($eventType);
         $eventTemplate->setFilename('file.twig');
-        $eventTemplate->setMedium($medium);
+        $eventTemplate->setMedium(EventTemplate::MEDIUM_WEB);
 
         $eventTypePlugin = new EventTypePlugin();
         $eventTypePlugin->setEventType($eventType);

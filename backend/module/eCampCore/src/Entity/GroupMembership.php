@@ -33,14 +33,14 @@ class GroupMembership extends BaseEntity {
     /**
      * @var User
      * @ORM\ManyToOne(targetEntity="User")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=false, onDelete="cascade")
      */
     private $user;
 
     /**
      * @var Group
      * @ORM\ManyToOne(targetEntity="Group")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=false, onDelete="cascade")
      */
     private $group;
 

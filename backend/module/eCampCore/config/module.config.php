@@ -11,16 +11,26 @@ return [
                 ],
 
                 'child_routes' => [
-                    'google' => [
-                        'type' => 'Segment',
-                        'options' => [
-                            'route' => '/google[/:action]',
-                            'defaults' => [
-                                'controller' => \eCamp\Core\Controller\Auth\GoogleController::class,
-                                'action' => 'index'
-                            ],
-                        ],
+                  'google' => [
+                    'type' => 'Segment',
+                    'options' => [
+                      'route' => '/google[/:action]',
+                      'defaults' => [
+                        'controller' => \eCamp\Core\Controller\Auth\GoogleController::class,
+                        'action' => 'index'
+                      ],
                     ],
+                  ],
+                  'pbsmidata' => [
+                    'type' => 'Segment',
+                    'options' => [
+                      'route' => '/pbsmidata[/:action]',
+                      'defaults' => [
+                        'controller' => \eCamp\Core\Controller\Auth\PbsMiDataController::class,
+                        'action' => 'index'
+                      ],
+                    ],
+                  ],
 
                     'facebook' => [
                         'type' => 'Segment',
@@ -66,7 +76,8 @@ return [
 
     'controllers' => [
         'factories' => [
-            \eCamp\Core\Controller\Auth\GoogleController::class => \eCamp\Core\Controller\Auth\GoogleControllerFactory::class
+            \eCamp\Core\Controller\Auth\GoogleController::class => \eCamp\Core\Controller\Auth\GoogleControllerFactory::class,
+            \eCamp\Core\Controller\Auth\PbsMiDataController::class => \eCamp\Core\Controller\Auth\PbsMiDataControllerFactory::class
         ]
     ],
 

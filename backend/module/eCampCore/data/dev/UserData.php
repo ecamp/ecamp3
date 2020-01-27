@@ -34,6 +34,6 @@ class UserData extends AbstractFixture implements DependentFixtureInterface {
     }
 
     public function getDependencies() {
-        return [ GroupData::class, CampTypeData::class ];
+        return [ CampTypeData::class ];
     }
 }

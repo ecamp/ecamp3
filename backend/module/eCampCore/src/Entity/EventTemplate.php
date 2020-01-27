@@ -14,12 +14,16 @@ use eCamp\Lib\Entity\BaseEntity;
  * })
  */
 class EventTemplate extends BaseEntity {
+    const MEDIUM_WEB = 'web';
+    const MEDIUM_PRINT = 'print';
+    const MEDIUM_MOBILE = 'mobile';
+
+
     public function __construct() {
         parent::__construct();
 
         $this->eventTemplateContainers = new ArrayCollection();
     }
-
 
     /**
      * @var EventType
@@ -29,9 +33,8 @@ class EventTemplate extends BaseEntity {
     private $eventType;
 
     /**
-     * @var Medium
-     * @ORM\ManyToOne(targetEntity="Medium")
-     * @ORM\JoinColumn(name="medium", referencedColumnName="name", nullable=false, onDelete="cascade")
+     * @var string
+     * @ORM\Column(type="string", length=20, nullable=false )
      */
     private $medium;
 
@@ -43,7 +46,7 @@ class EventTemplate extends BaseEntity {
 
     /**
      * @var
-     * @ORM\OneToMany(targetEntity="EventTemplateContainer", mappedBy="eventTemplate")
+     * @ORM\OneToMany(targetEntity="EventTemplateContainer", mappedBy="eventTemplate", orphanRemoval=true)
      */
     private $eventTemplateContainers;
 
@@ -63,11 +66,11 @@ class EventTemplate extends BaseEntity {
     /**
      * @return Medium
      */
-    public function getMedium(): Medium {
+    public function getMedium(): string {
         return $this->medium;
     }
 
-    public function setMedium(Medium $medium): void {
+    public function setMedium(string $medium): void {
         $this->medium = $medium;
     }
 

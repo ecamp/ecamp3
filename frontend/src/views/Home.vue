@@ -47,7 +47,7 @@
           </v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
-      <v-list-item :to="{ name: 'camp/periods', params: { campUri: '/camp/1fb176e0' }}">
+      <v-list-item :to="{ name: 'camp/periods', params: { campId: '1fb176e0' }}">
         <v-list-item-icon>
           <v-icon>mdi-calendar-text</v-icon>
         </v-list-item-icon>
@@ -60,7 +60,7 @@
           </v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
-      <v-list-item :to="{ name: 'camp/picasso', params: { campUri: '/camp/1fb176e0' }}">
+      <v-list-item :to="{ name: 'camp/picasso', params: { campId: '1fb176e0' }}">
         <v-list-item-icon>
           <v-icon>mdi-calendar-month</v-icon>
         </v-list-item-icon>

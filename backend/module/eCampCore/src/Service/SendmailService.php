@@ -15,8 +15,7 @@ use Zend\View\Model\ViewModel;
 use Zend\View\View;
 use ZendTwig\View\TwigModel;
 
-class SendmailService extends AbstractService
-{
+class SendmailService extends AbstractService {
     /** @var TransportInterface */
     private $mailTransport;
 
@@ -93,5 +92,4 @@ class SendmailService extends AbstractService
         $viewModel->setTemplate($template);
         return $viewModel;
     }
-
 }

@@ -7,13 +7,11 @@ use Zend\Http\Request;
 use Zend\Json\Json;
 use ZF\ApiProblem\ApiProblem;
 
-class RegisterController extends ApiController
-{
+class RegisterController extends ApiController {
     /** @var RegisterService */
     private $registerService;
 
-    public function __construct(RegisterService $registerService)
-    {
+    public function __construct(RegisterService $registerService) {
         $this->registerService = $registerService;
     }
 
@@ -25,13 +23,13 @@ class RegisterController extends ApiController
 
         $data = ($content != null) ? Json::decode($content) : [];
 
-        if(!isset($data->username)) {
+        if (!isset($data->username)) {
             return new ApiProblem(400, "No username provided");
         }
-        if(!isset($data->email)) {
+        if (!isset($data->email)) {
             return new ApiProblem(400, "No eMail provided");
         }
-        if(!isset($data->password)) {
+        if (!isset($data->password)) {
             return new ApiProblem(400, "No password provided");
         }
 
@@ -43,5 +41,4 @@ class RegisterController extends ApiController
 
         return $this->createHalEntity($user, 'e-camp-api.rest.doctrine.user', 'user_id');
     }
-
 }

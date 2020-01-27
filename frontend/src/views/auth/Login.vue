@@ -50,6 +50,9 @@
               <v-list>
                 <v-list-item
                   @click="loginPbsMidata">
+                  <v-list-item-icon>
+                    <PbsMiDataLogo />
+                  </v-list-item-icon>
                   <v-list-item-title>PBS MiData</v-list-item-title>
                 </v-list-item>
                 <v-list-item>
@@ -70,9 +73,13 @@
 
 <script>
 import Vue from 'vue'
+import PbsMiDataLogo from '../../../public/pbsmidata.svg'
 
 export default {
   name: 'Login',
+  components: {
+    PbsMiDataLogo
+  },
   data () {
     return {
       username: '',
@@ -108,14 +115,14 @@ export default {
       const callbackUrl = window.location.origin + this.$router.resolve({ name: 'loginCallback' }).href
       this.$auth.loginGoogle(callbackUrl)
     },
-    loginPbsMidata () {
+    loginPbsMiData () {
       // Make the login callback function available on global level, so the popup can call it
       window.loginSuccess = () => {
         this.$auth.loginSuccess()
         this.redirect()
       }
-      // const callbackUrl = window.location.origin + this.$router.resolve({ name: 'loginCallback' }).href
-      // this.$auth.loginGoogle(callbackUrl)
+      const callbackUrl = window.location.origin + this.$router.resolve({ name: 'loginCallback' }).href
+      this.$auth.loginPbsMiData(callbackUrl)
     },
     redirect () {
       this.$router.replace(this.$route.query.redirect || '/')
