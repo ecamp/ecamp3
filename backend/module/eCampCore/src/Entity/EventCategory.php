@@ -43,9 +43,9 @@ class EventCategory extends BaseEntity {
 
     /**
      * @var string
-     * @ORM\Column(type="string", length=8, nullable=false)
+     * @ORM\Column(type="string", length=8, nullable=false, default="")
      */
-    private $color;
+    private $color = '#1fa2df';
 
     /**
      * @var string
@@ -132,7 +132,7 @@ class EventCategory extends BaseEntity {
         $this->numberingStyle = $numberingStyle;
     }
 
-    
+
     /**
      * @param int $num
      * @return string

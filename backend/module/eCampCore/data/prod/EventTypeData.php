@@ -22,7 +22,7 @@ class EventTypeData extends AbstractFixture implements DependentFixtureInterface
         if ($eventType == null) {
             $eventType = new EventType();
             $eventType->setName('Lagersport');
-            $eventType->setDefaultColor('ff0000');
+            $eventType->setDefaultColor('#4CAF50');
             $eventType->setDefaultNumberingStyle('1');
             $manager->persist($eventType);
 
@@ -62,7 +62,7 @@ class EventTypeData extends AbstractFixture implements DependentFixtureInterface
         if ($eventType == null) {
             $eventType = new EventType();
             $eventType->setName('Lageraktivität');
-            $eventType->setDefaultColor('00ff00');
+            $eventType->setDefaultColor('#FF9800');
             $eventType->setDefaultNumberingStyle('A');
             $manager->persist($eventType);
 
