@@ -13,7 +13,7 @@ use eCamp\LibTest\PHPUnit\AbstractTestCase;
 class EventInstanceTest extends AbstractTestCase {
     public function testEventInstance() {
         $eventType = new EventType();
-        $eventType->setDefaultColor('#FF00FF');
+        $eventType->setDefaultColor('#1fa2df');
         $eventType->setDefaultNumberingStyle('i');
 
         $camp = new Camp();
@@ -70,6 +70,8 @@ class EventInstanceTest extends AbstractTestCase {
         $this->assertEquals('i', $eventInstance->getNumberingStyle());
         $this->assertEquals('1.ii', $eventInstance->getNumber());
 
+        $this->assertEquals('#1fa2df', $eventInstance->getColor());
+        $eventCategory->setColor('#FF00FF');
         $this->assertEquals('#FF00FF', $eventInstance->getColor());
 
         $duration = $eventInstance->getDuration();
