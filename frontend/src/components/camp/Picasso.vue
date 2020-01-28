@@ -4,11 +4,7 @@ Listing all event instances of a single camp.
 
 <template>
   <v-card>
-    <v-skeleton-loader
-      v-if="events.loading"
-      type="table-thead,table-row@6" />
-    <v-toolbar v-if="!events.loading" dense
-               class="mb-3" color="blue-grey lighten-5">
+    <v-toolbar dense class="mb-3" color="blue-grey lighten-5">
       <v-icon left>
         mdi-account-group
       </v-icon>
@@ -48,6 +44,8 @@ Listing all event instances of a single camp.
           @click:event="showEvent" />
       </v-tab-item>
     </v-tabs-items>
+    <v-skeleton-loader v-if="events.loading" class="ma-3"
+                       type="table-thead,table-row@6"/>
   </v-card>
 </template>
 <script>
@@ -129,12 +127,14 @@ export default {
         white-space: normal;
       }
     }
+
     .v-event-timed {
       font-size: 11px !important;
       white-space: normal;
       line-height: 1.15;
+
       .pl-1 {
-        padding-left: 2px!important;
+        padding-left: 2px !important;
       }
     }
   }
