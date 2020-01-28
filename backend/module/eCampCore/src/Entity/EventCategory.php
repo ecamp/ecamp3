@@ -45,7 +45,7 @@ class EventCategory extends BaseEntity {
      * @var string
      * @ORM\Column(type="string", length=8, nullable=false, default="")
      */
-    private $color = '#1fa2df';
+    private $color;
 
     /**
      * @var string
@@ -113,7 +113,12 @@ class EventCategory extends BaseEntity {
      * @return string
      */
     public function getColor() {
-        return $this->color;
+        if ( $this->color !== null ) {
+            return $this->color;
+        } else {
+            $eventType = $this->getEventType();
+            return $eventType !== null ? $eventType->getDefaultColor() : null;
+        }
     }
 
     public function setColor($color) {
