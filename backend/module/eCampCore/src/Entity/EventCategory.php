@@ -43,7 +43,7 @@ class EventCategory extends BaseEntity {
 
     /**
      * @var string
-     * @ORM\Column(type="string", length=8, nullable=false, default="")
+     * @ORM\Column(type="string", length=8, nullable=false)
      */
     private $color;
 
