@@ -35,7 +35,7 @@ export default {
   name: 'Camps',
   computed: {
     camps () {
-      return this.api.get('/camp')
+      return this.api.get().camps()
     }
   },
   methods: {

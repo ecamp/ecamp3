@@ -186,7 +186,7 @@ export default {
   },
   computed: {
     lastCamps () {
-      return this.api.get('/camp').items
+      return this.api.get().camps().items
     },
     currentCamp () {
       return this.api.get(this.$route.params.campUri)
