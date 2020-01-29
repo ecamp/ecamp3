@@ -36,7 +36,8 @@ function isCollection (object) {
  *                     returned loadingProxy will return it in calls to .self and ._meta.self
  * @returns object     a loadingProxy
  */
-function loadingProxy (entityLoaded, uri = null) {
+export function loadingProxy (entityLoaded = Promise.resolve(loadingProxy()), uri = null) {
+  // TODO find a way to use the default promise without stack overflow
   const handler = {
     get: function (target, prop, receiver) {
       if (prop === Symbol('isLoadingProxy')) {
@@ -139,7 +140,7 @@ function embeddedCollectionProxy (vm, items) {
  * @returns object            wrapped entity ready for use in a frontend component
  */
 export default function storeValueProxy (vm, data) {
-  const meta = data._meta || {}
+  const meta = data._meta || { loaded: Promise.resolve(loadingProxy()) }
 
   if (meta.loading) {
     const entityLoaded = meta.loaded.then(loadedData => createStoreValueProxy(vm, loadedData))
