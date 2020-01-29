@@ -19,8 +19,8 @@ Displays details on a single camp and allows to edit them.
         {{ buttonText }}
       </v-btn>
     </v-toolbar>
-    <v-skeleton-loader v-if="campDetails.loaded" type="article" />
-    <v-card-text v-if="!campDetails.loaded">
+    <v-skeleton-loader v-if="camp.loaded" type="article" />
+    <v-card-text v-if="!camp.loaded">
       <v-alert
         v-for="(message, index) in messages"
         :key="index"
@@ -29,15 +29,15 @@ Displays details on a single camp and allows to edit them.
       </v-alert>
       <v-form @submit.prevent="toggleEdit">
         <v-text-field
-          :value="campDetails.name"
+          :value="camp.name"
           readonly
           label="Name" />
         <v-text-field
-          :value="campDetails.title"
+          :value="camp.title"
           :readonly="editing"
           label="Titel" />
         <v-text-field
-          :value="campDetails.motto"
+          :value="camp.motto"
           :readonly="editing"
           label="Motto" />
         <v-list>
@@ -60,7 +60,7 @@ Displays details on a single camp and allows to edit them.
 export default {
   name: 'Basic',
   props: {
-    campUri: { type: String, required: true }
+    camp: { type: Object, required: true }
   },
   data () {
     return {
@@ -69,11 +69,8 @@ export default {
     }
   },
   computed: {
-    campDetails () {
-      return this.api.get(this.campUri)
-    },
     periods () {
-      return this.campDetails.periods().items
+      return this.camp.periods().items
     },
     buttonText () {
       return this.editing ? 'Speichern' : 'Bearbeiten'
@@ -83,7 +80,7 @@ export default {
     async saveToAPI () {
       try {
         // TODO replace this with this.api.patch(...) once it's implemented
-        await this.axios.patch(this.campUri, this.campDetails)
+        await this.axios.patch(this.campUri, this.camp)
         this.messages = [{ type: 'success', text: 'Successfully saved' }]
       } catch (error) {
         this.messages = [{ type: 'error', text: 'Could not save camp details. ' + error }]

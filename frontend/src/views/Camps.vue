@@ -9,7 +9,7 @@
         v-for="camp in camps.items"
         :key="camp.id"
         two-line
-        :to="{ name: 'camp', params: { campUri: camp._meta.self } }">
+        :to="campRoute(camp)">
         <v-list-item-content>
           <v-list-item-title>{{ camp.title }}</v-list-item-title>
           <v-list-item-subtitle>
@@ -31,6 +31,9 @@
 </template>
 
 <script>
+
+import { campRoute } from '@/router'
+
 export default {
   name: 'Camps',
   computed: {
@@ -47,7 +50,8 @@ export default {
     },
     deleteCamp (camp) {
       this.api.del(camp)
-    }
+    },
+    campRoute
   }
 }
 </script>

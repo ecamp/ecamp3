@@ -49,10 +49,12 @@ Listing all event instances of a single camp.
   </v-card>
 </template>
 <script>
+import { eventRoute } from '@/router'
+
 export default {
   name: 'Picassso',
   props: {
-    campUri: { type: String, required: true }
+    camp: { type: Object, required: true }
   },
   data () {
     return {
@@ -63,24 +65,21 @@ export default {
     }
   },
   computed: {
-    campDetails () {
-      return this.api.get(this.campUri)
-    },
     periods () {
-      return this.campDetails.periods().items
+      return this.camp.periods().items
     },
     buttonText () {
       return this.editing ? 'Speichern' : 'Bearbeiten'
     },
     events () {
-      return this.campDetails.events()
+      return this.camp.events()
     }
   },
 
   created: function () {
     // force reloading of all events
-    if (this.campDetails.events()._meta.self) {
-      this.api.reload(this.campDetails.events()._meta.self)
+    if (this.camp.events()._meta.self) {
+      this.api.reload(this.camp.events()._meta.self)
     }
   },
   methods: {
@@ -93,11 +92,8 @@ export default {
     getIntervalFormat (time) {
       return time.time
     },
-    showEvent ({ nativeEvent, event }) {
-      this.$router.push({ name: 'event', params: { eventUri: event.event()._meta.self } })
-    },
-    openEvent (event) {
-      this.$router.push({ name: 'event', params: { eventUri: event._meta.self } })
+    showEvent ({ event: eventInstance }) {
+      this.$router.push(eventRoute(this.camp, eventInstance))
     },
     dayFormat (day) {
       if (this.$vuetify.breakpoint.smAndDown) {

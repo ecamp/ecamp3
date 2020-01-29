@@ -237,7 +237,7 @@ export default {
     ApiSingleSelect: () => import('@/components/form/ApiSingleSelect.vue')
   },
   props: {
-    campUri: { type: String, required: true }
+    camp: { type: Object, required: true }
   },
   data () {
     return {
@@ -247,11 +247,8 @@ export default {
     }
   },
   computed: {
-    campDetails () {
-      return this.api.get(this.campUri)
-    },
     collaborators () {
-      return this.campDetails.camp_collaborations().items.filter(c => !c._meta.deleting)
+      return this.camp.camp_collaborations().items.filter(c => !c._meta.deleting)
     },
     establishedCollaborators () {
       return this.collaborators.filter(c => c.status === 'established')
@@ -282,7 +279,7 @@ export default {
     },
     invite (user, role) {
       this.api.post('/camp-collaboration', {
-        camp_id: this.campDetails.id,
+        camp_id: this.camp.id,
         user_id: user.id,
         role: role
       }).then(this.refreshCamp)

@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import slugify from 'slugify'
 
 Vue.use(Router)
 
@@ -50,7 +51,7 @@ export default new Router({
       beforeEnter: requireAuth
     },
     {
-      path: '/camp/:campUri',
+      path: '/camps/:campId/:campName?',
       components: {
         default: () => import(/* webpackChunkName: "camp" */ './views/Camp.vue'),
         aside: () => import(/* webpackChunkName: "camps" */ './views/Camps.vue')
@@ -84,7 +85,7 @@ export default new Router({
       ]
     },
     {
-      path: '/camp/:campUri/event/:eventUri',
+      path: '/camps/:campId/:campName?/events/:eventId/:eventName?',
       name: 'event',
       components: {
         default: () => import(/* webpackChunkName: "event" */ './views/Event.vue'),
@@ -105,4 +106,12 @@ function requireAuth (to, from, next) {
       next({ name: 'login', query: { redirect: to.fullPath } })
     }
   })
+}
+
+export function campRoute (camp) {
+  return { name: 'camp', params: { campId: camp.id, campName: slugify(camp.title) } }
+}
+
+export function eventRoute (camp, eventInstance) {
+  return { name: 'event', params: { campId: camp.id, campName: slugify(camp.title), eventId: eventInstance.event().id, eventName: slugify(eventInstance.event().title) } }
 }

@@ -23,7 +23,7 @@ Displays periods of a single camp.
           v-for="eventInstance in period.event_instances().items"
           :key="eventInstance._meta.self"
           two-line
-          :to="{ name: 'event', params: { eventUri: eventInstance.event()._meta.self, dayUri: period.days().items[eventInstance.day_number]._meta.self } }">
+          :to="eventRoute(eventInstance)">
           <v-chip class="mr-2" :color="eventInstance.event().event_category().color">{{ eventInstance.event().event_category().short }}</v-chip>
           <v-list-item-content>
             <v-list-item-title>{{ eventInstance.event().title }}</v-list-item-title>
@@ -37,10 +37,12 @@ Displays periods of a single camp.
   </v-card>
 </template>
 <script>
+import { eventRoute } from '@/router'
+
 export default {
   name: 'Periods',
   props: {
-    campUri: { type: String, required: true }
+    camp: { type: Object, required: true }
   },
   data () {
     return {
@@ -49,27 +51,19 @@ export default {
     }
   },
   computed: {
-    campDetails () {
-      return this.api.get(this.campUri)
-    },
     periods () {
-      return this.campDetails.periods().items
-    },
-    organizationName () {
-      return this.campDetails.camp_type().organization().name
+      return this.camp.periods().items
     },
     buttonText () {
       return this.editing ? 'Speichern' : 'Bearbeiten'
     },
     events () {
-      return this.campDetails.events()
+      return this.camp.events()
     }
   },
-
-  created: function () {
-    // force reloading of all events
-    if (this.campDetails.events()._meta.self) {
-      this.api.reload(this.campDetails.events()._meta.self)
+  methods: {
+    eventRoute (eventInstance) {
+      return eventRoute(this.camp, eventInstance)
     }
   }
 }

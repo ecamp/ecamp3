@@ -3,12 +3,15 @@ Displays several tabs with details on a single camp.
 -->
 
 <template>
-  <router-view :camp-uri="this.$route.params.campUri" />
+  <router-view v-if="camp" :camp="camp" />
 </template>
 
 <script>
+import campFromRoute from '@/mixins/campFromRoute'
+
 export default {
-  name: 'CampDetails'
+  name: 'CampDetails',
+  mixins: [campFromRoute]
 }
 </script>
 
