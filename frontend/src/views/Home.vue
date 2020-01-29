@@ -34,42 +34,29 @@
           </v-list-item-title>
         </v-list-item-content>
       </v-list-item>
-      <v-list-item :to="{ name: 'camp', params: { campUri: '/camp/1fb176e0' }}">
+      <v-list-item v-if="runningInDocker" href="http://localhost:3001/setup.php?dev-data" target="_blank">
         <v-list-item-icon>
-          <v-icon>mdi-information</v-icon>
+          <v-icon>mdi-database-plus</v-icon>
         </v-list-item-icon>
         <v-list-item-content>
           <v-list-item-title>
-            Camp basic info
+            Beispiel-Camps laden
           </v-list-item-title>
           <v-list-item-subtitle>
-            [Hardcoded CampId, router demonstration only]
+            Dev data
           </v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
-      <v-list-item :to="{ name: 'camp/periods', params: { campId: '1fb176e0' }}">
+      <v-list-item v-if="runningInDocker" href="http://localhost:3001/setup.php?prod-data" target="_blank">
         <v-list-item-icon>
-          <v-icon>mdi-calendar-text</v-icon>
+          <v-icon>mdi-database-plus</v-icon>
         </v-list-item-icon>
         <v-list-item-content>
           <v-list-item-title>
-            Camp periods
+            Beispiel-Camps laden
           </v-list-item-title>
           <v-list-item-subtitle>
-            [Hardcoded CampId, router demonstration only]
-          </v-list-item-subtitle>
-        </v-list-item-content>
-      </v-list-item>
-      <v-list-item :to="{ name: 'camp/picasso', params: { campId: '1fb176e0' }}">
-        <v-list-item-icon>
-          <v-icon>mdi-calendar-month</v-icon>
-        </v-list-item-icon>
-        <v-list-item-content>
-          <v-list-item-title>
-            Camp picasso
-          </v-list-item-title>
-          <v-list-item-subtitle>
-            [Hardcoded CampId, router demonstration only]
+            Prod data
           </v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
@@ -79,7 +66,12 @@
 
 <script>
 export default {
-  name: 'Home'
+  name: 'Home',
+  computed: {
+    runningInDocker () {
+      return process.env.VUE_APP_RUNNING_IN_DOCKER
+    }
+  }
 }
 </script>
 
