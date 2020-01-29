@@ -42,12 +42,6 @@ export default {
     }
   },
   methods: {
-    changeCampTitle () {
-      if (this.camps.length < 1) return
-      const changedCamp = { ...this.camps[0] }
-      changedCamp.title = changedCamp.title + ' HELLO'
-      this.$store.commit('add', { [changedCamp._meta.self]: changedCamp })
-    },
     deleteCamp (camp) {
       this.api.del(camp)
     },
