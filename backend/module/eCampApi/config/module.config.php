@@ -1623,11 +1623,7 @@ return array(
         ),
     ),
     'zf-apigility' => array(
-        'doctrine-connected' => array(
-//            \eCampApi\V1\Rest\Camp\CampResource::class => [
-//                'hydrator' => \eCamp\Core\Hydrator\CampHydrator2::class
-//            ]
-        ),
+        'doctrine-connected' => array(),
     ),
     'doctrine-hydrator' => array(),
 );

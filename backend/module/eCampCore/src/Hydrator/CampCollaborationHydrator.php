@@ -4,11 +4,18 @@ namespace eCamp\Core\Hydrator;
 
 use eCamp\Core\Entity\CampCollaboration;
 use eCamp\Lib\Entity\EntityLink;
+use eCamp\Lib\Hydrator\Util;
 use Zend\Hydrator\HydratorInterface;
 
 class CampCollaborationHydrator implements HydratorInterface {
     public static function HydrateInfo() {
         return [
+            'camp' => Util::Entity(function (CampCollaboration $cc) {
+                return $cc->getCamp();
+            }),
+            'user' => Util::Entity(function (CampCollaboration $cc) {
+                return $cc->getUser();
+            }),
         ];
     }
 
@@ -37,8 +44,6 @@ class CampCollaborationHydrator implements HydratorInterface {
     public function hydrate(array $data, $object) {
         /** @var CampCollaboration $campCollaboration */
         $campCollaboration = $object;
-
-
 
         return $campCollaboration;
     }
