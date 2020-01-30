@@ -14,14 +14,15 @@
       @click="loginPbsMiData">
       Login with PBS MiData
     </button>
-    <p v-if="error">
+    <v-alert v-if="error" type="error">
       Error logging in.
-    </p>
+    </v-alert>
   </section>
 </template>
 
 <script>
 import Vue from 'vue'
+
 export default {
   name: 'Login',
   data () {

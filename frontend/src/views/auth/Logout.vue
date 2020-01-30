@@ -1,13 +1,19 @@
 <template>
-  <section class="container">
-    <h3>Logout</h3>
-    <p v-if="!error">
-      Logging you out...
-    </p>
-    <p v-else>
-      Error logging out.
-    </p>
-  </section>
+  <v-card>
+    <v-toolbar dense color="blue-grey lighten-5">
+      <v-toolbar-title>
+        Logout
+      </v-toolbar-title>
+    </v-toolbar>
+    <v-card-text>
+      <p v-if="!error">
+        Logging you out...
+      </p>
+      <v-alert v-else type="error">
+        Error logging out.
+      </v-alert>
+    </v-card-text>
+  </v-card>
 </template>
 <script>
 export default {

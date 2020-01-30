@@ -3,56 +3,46 @@ Displays a single event
 -->
 
 <template>
-  <div>
-    <div
-      v-if="event.loading"
-      class="d-flex justify-content-center m-5">
-      <v-progress-circular
-        :size="50"
-        indeterminate
-        color="primary" />
-    </div>
-
-    <v-card
-      v-else
-      class="m-3">
-      <v-card-title class="event_title">
-        <div class="col-sm-12">
-          <api-input
-            :value="event.title"
-            :uri="event._meta.self"
-            fieldname="title"
-            label="Titel"
-            required />
-        </div>
-      </v-card-title>
-      <v-divider />
-      <v-card-text>
-        <div>
-          <b>Kategorie:</b>
-          <div
-            class="category_box"
-            :style="{ backgroundColor: '#' + category.color }" />
-          {{ category.name }} ({{ category.short }})
-          <br>
-          <small><i>(EventType: {{ category.event_type().name }})</i><small /></small>
-        </div>
-
-        <p />
-
-        <p>
-          Findet statt am:
-          <ul>
-            <li
-              v-for="eventInstance in event.event_instances().items"
-              :key="eventInstance._meta.self">
-              {{ eventInstance.start_time }} bis {{ eventInstance.end_time }}
-            </li>
-          </ul>
-        </p>
-      </v-card-text>
-    </v-card>
-  </div>
+  <v-card>
+    <v-toolbar dense>
+      <v-btn icon @click="$router.go(-1)">
+        <v-icon>mdi-arrow-left</v-icon>
+      </v-btn>
+      <v-toolbar-title class="pl-2">
+        1.1
+        <v-chip v-if="!category.loading" dark :color="category.color">{{ category.short }}</v-chip>
+        {{ event.title }}
+      </v-toolbar-title>
+    </v-toolbar>
+    <v-card-text>
+      <v-skeleton-loader v-if="event.loading" type="article" />
+      <api-input
+        :value="event.title"
+        :uri="event._meta.self"
+        fieldname="title"
+        :auto-save="false"
+        label="Titel"
+        required />
+      <api-input
+        :value="event.title"
+        :uri="event._meta.self"
+        fieldname="title"
+        :auto-save="true"
+        label="Titel"
+        required />
+      <v-list v-if="!event.loading">
+        <v-label>Instanzen</v-label>
+        <v-list-item
+          v-for="eventInstance in event.event_instances().items"
+          :key="eventInstance._meta.self"
+          two-line>
+          <v-list-item-content>
+            1. Montag<br> {{ eventInstance.start_time }} bis {{ eventInstance.end_time }}
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
+    </v-card-text>
+  </v-card>
 </template>
 
 <script>
@@ -79,18 +69,13 @@ export default {
 }
 </script>
 
-<style>
-.category_box{
-  display:inline-block;
-  position:relative;
-  margin-left:5px;
-  top:3px;
-  height:20px;
-  width:20px;
-  border:1px black solid;
-}
+<style scoped>
 
-.event_title input{
-  font-size:28px;
-}
+  .v-card .v-list-item {
+    padding-left: 0;
+  }
+
+  .event_title input {
+    font-size: 28px;
+  }
 </style>

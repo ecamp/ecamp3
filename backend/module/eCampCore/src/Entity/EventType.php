@@ -31,7 +31,7 @@ class EventType extends BaseEntity {
      * @var string
      * @ORM\Column(type="string", length=8, nullable=false)
      */
-    private $defaultColor;
+    private $defaultColor = '#1fa2df';
 
     /**
      * @var string
