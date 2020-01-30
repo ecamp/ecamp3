@@ -21,6 +21,5 @@ export default {
 </script>
 <style lang="scss">
   // consider replacing with CDN for production
-  @import '../node_modules/typeface-roboto/index.css';
   @import '../node_modules/@mdi/font/css/materialdesignicons.css';
 </style>

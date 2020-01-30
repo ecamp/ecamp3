@@ -12,7 +12,7 @@ class EventCategoryTest extends AbstractTestCase {
         $camp = new Camp();
 
         $eventType = new EventType();
-        $eventType->setDefaultColor('#FF00FF');
+        $eventType->setDefaultColor('#1fa2df');
         $eventType->setDefaultNumberingStyle('i');
 
         $eventCategory = new EventCategory();
@@ -25,6 +25,8 @@ class EventCategoryTest extends AbstractTestCase {
         $this->assertEquals($camp, $eventCategory->getCamp());
         $this->assertEquals('TestCategory', $eventCategory->getName());
         $this->assertEquals('TC', $eventCategory->getShort());
+        $this->assertEquals('#1fa2df', $eventCategory->getColor());
+        $eventCategory->setColor('#FF00FF');
         $this->assertEquals('#FF00FF', $eventCategory->getColor());
         $this->assertEquals('i', $eventCategory->getNumberingStyle());
     }

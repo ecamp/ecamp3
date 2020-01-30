@@ -30,6 +30,7 @@ class EventCategoryData extends AbstractFixture implements DependentFixtureInter
             $eventCategory->setEventType($eventType);
             $eventCategory->setName('Lagersport');
             $eventCategory->setShort('LS');
+            $eventCategory->setColor('#4CAF50');
 
             $manager->persist($eventCategory);
         }
@@ -44,6 +45,7 @@ class EventCategoryData extends AbstractFixture implements DependentFixtureInter
             $eventCategory->setEventType($eventType);
             $eventCategory->setName('Lageraktivität');
             $eventCategory->setShort('LA');
+            $eventCategory->setColor('#FF9800');
 
             $manager->persist($eventCategory);
         }
@@ -62,6 +64,7 @@ class EventCategoryData extends AbstractFixture implements DependentFixtureInter
             $eventCategory->setEventType($eventType);
             $eventCategory->setName('Lagersport');
             $eventCategory->setShort('LS');
+            $eventCategory->setColor('#4CAF50');
 
             $manager->persist($eventCategory);
         }
@@ -76,6 +79,7 @@ class EventCategoryData extends AbstractFixture implements DependentFixtureInter
             $eventCategory->setEventType($eventType);
             $eventCategory->setName('Lageraktivität');
             $eventCategory->setShort('LA');
+            $eventCategory->setColor('#FF9800');
 
             $manager->persist($eventCategory);
         }

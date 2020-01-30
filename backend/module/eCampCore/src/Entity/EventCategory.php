@@ -113,7 +113,12 @@ class EventCategory extends BaseEntity {
      * @return string
      */
     public function getColor() {
-        return $this->color;
+        if ( $this->color !== null ) {
+            return $this->color;
+        } else {
+            $eventType = $this->getEventType();
+            return $eventType !== null ? $eventType->getDefaultColor() : null;
+        }
     }
 
     public function setColor($color) {
@@ -132,7 +137,7 @@ class EventCategory extends BaseEntity {
         $this->numberingStyle = $numberingStyle;
     }
 
-    
+
     /**
      * @param int $num
      * @return string

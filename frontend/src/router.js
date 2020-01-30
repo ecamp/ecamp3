@@ -45,7 +45,7 @@ export default new Router({
       path: '/camps',
       name: 'camps',
       components: {
-        aside: () => import(/* webpackChunkName: "camps" */ './views/Camps.vue')
+        default: () => import(/* webpackChunkName: "camps" */ './views/Camps.vue')
       },
       beforeEnter: requireAuth
     },
@@ -84,12 +84,14 @@ export default new Router({
       ]
     },
     {
-      path: '/event/:eventUri',
+      path: '/camp/:campUri/event/:eventUri',
       name: 'event',
       components: {
-        default: () => import(/* webpackChunkName: "event" */ './views/Event.vue')
+        default: () => import(/* webpackChunkName: "event" */ './views/Event.vue'),
+        aside: () => import(/* webpackChunkName: "day" */ './views/Day.vue')
       },
-      beforeEnter: requireAuth
+      beforeEnter: requireAuth,
+      props: true
     }
 
   ]
