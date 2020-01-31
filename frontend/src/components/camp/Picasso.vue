@@ -19,7 +19,7 @@ Listing all event instances of a single camp.
         </v-tab>
       </v-tabs>
     </v-toolbar>
-    <v-tabs-items v-if="!events.loading" v-model="tab">
+    <v-tabs-items v-if="!events._meta.loading" v-model="tab">
       <v-tab-item v-for="period in periods"
                   :key="period.id">
         <v-calendar
@@ -44,7 +44,7 @@ Listing all event instances of a single camp.
           @click:event="showEvent" />
       </v-tab-item>
     </v-tabs-items>
-    <v-skeleton-loader v-if="events.loading" class="ma-3"
+    <v-skeleton-loader v-if="events._meta.loading" class="ma-3"
                        type="table-thead,table-row@6" />
   </v-card>
 </template>
@@ -83,7 +83,7 @@ export default {
       return time.time
     },
     showEvent ({ event: eventInstance }) {
-      this.$router.push(eventRoute(this.camp, eventInstance))
+      this.$router.push(eventRoute(this.camp(), eventInstance))
     },
     dayFormat (day) {
       if (this.$vuetify.breakpoint.smAndDown) {

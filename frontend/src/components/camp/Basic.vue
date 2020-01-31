@@ -12,12 +12,6 @@ Displays details on a single camp and allows to edit them.
         Einstellungen
       </v-toolbar-title>
       <v-spacer />
-      <v-btn
-        right
-        color="primary"
-        type="submit">
-        {{ buttonText }}
-      </v-btn>
     </v-toolbar>
     <v-skeleton-loader v-if="camp()._meta.loading" type="article" />
     <v-card-text v-else>

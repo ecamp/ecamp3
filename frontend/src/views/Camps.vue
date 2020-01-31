@@ -4,7 +4,7 @@
       <v-toolbar-title>Camps</v-toolbar-title>
     </v-toolbar>
     <v-list class="py-0">
-      <v-skeleton-loader v-if="camps.loaded" type="list-item-two-line" />
+      <v-skeleton-loader v-if="camps._meta.loading" type="list-item-two-line" />
       <v-list-item
         v-for="camp in camps.items"
         :key="camp.id"

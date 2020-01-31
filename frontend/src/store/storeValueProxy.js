@@ -36,8 +36,7 @@ function isCollection (object) {
  *                     returned loadingProxy will return it in calls to .self and ._meta.self
  * @returns object     a loadingProxy
  */
-export function loadingProxy (entityLoaded = Promise.resolve(loadingProxy()), uri = null) {
-  // TODO find a way to use the default promise without stack overflow
+export function loadingProxy (entityLoaded, uri = null) {
   const handler = {
     get: function (target, prop, receiver) {
       if (prop === Symbol('isLoadingProxy')) {
@@ -149,7 +148,7 @@ function embeddedCollectionProxy (vm, items, reloadUri, reloadProperty) {
 }
 
 /**
- * Takes data from the Vuex store and makes it more useable in frontend components. The data stored
+ * Takes data from the Vuex store and makes it more usable in frontend components. The data stored
  * in the Vuex store should always be JSON serializable according to
  * https://github.com/vuejs/vuex/issues/757#issuecomment-297668640. Therefore, we wrap the data into
  * a new object, and provide accessor methods for related entities. Such an accessor method fetches the
@@ -177,7 +176,7 @@ function embeddedCollectionProxy (vm, items, reloadUri, reloadProperty) {
  * @returns object            wrapped entity ready for use in a frontend component
  */
 export default function storeValueProxy (vm, data) {
-  const meta = data._meta || { loaded: Promise.resolve(loadingProxy()) }
+  const meta = data._meta || { loaded: Promise.resolve() }
 
   if (meta.loading) {
     const entityLoaded = meta.loaded.then(loadedData => createStoreValueProxy(vm, loadedData))

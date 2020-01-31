@@ -15,10 +15,10 @@ Displays periods of a single camp.
         </v-list-item-content>
       </v-list-item>
       <v-skeleton-loader
-        v-if="events.loading"
+        v-if="events._meta.loading"
         type="list-item-avatar-two-line@3" />
       <!-- wait for all events to be loaded => avoid each eventInstance to load separately -->
-      <v-list v-if="!events.loading" dense>
+      <v-list v-else dense>
         <v-list-item
           v-for="eventInstance in period.event_instances().items"
           :key="eventInstance._meta.self"

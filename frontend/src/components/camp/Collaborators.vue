@@ -30,9 +30,9 @@ Displays collaborators of a single camp.
         <tbody>
           <tr
             v-for="collaborator in establishedCollaborators"
-            :key="collaborator.id">
+            :key="collaborator._meta.self">
             <td>
-              <v-skeleton-loader v-if="collaborator.user().loaded" type="text" />
+              <v-skeleton-loader v-if="collaborator.user()._meta.loading" type="text" />
               {{ collaborator.user().username }}
             </td>
             <td>
