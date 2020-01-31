@@ -13,7 +13,7 @@ Listing all event instances of a single camp.
       </v-toolbar-title>
       <v-tabs v-model="tab" right
               center-active background-color="blue-grey lighten-5">
-        <v-tab v-for="period in periods"
+        <v-tab v-for="period in periods.items"
                :key="period.id">
           {{ period.description }}
         </v-tab>
@@ -54,7 +54,7 @@ import { eventRoute } from '@/router'
 export default {
   name: 'Picassso',
   props: {
-    camp: { type: Object, required: true }
+    camp: { type: Function, required: true }
   },
   data () {
     return {
@@ -66,20 +66,10 @@ export default {
   },
   computed: {
     periods () {
-      return this.camp.periods().items
-    },
-    buttonText () {
-      return this.editing ? 'Speichern' : 'Bearbeiten'
+      return this.camp().periods()
     },
     events () {
-      return this.camp.events()
-    }
-  },
-
-  created: function () {
-    // force reloading of all events
-    if (this.camp.events()._meta.self) {
-      this.api.reload(this.camp.events()._meta.self)
+      return this.camp().events()
     }
   },
   methods: {

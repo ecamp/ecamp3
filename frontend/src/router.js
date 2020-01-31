@@ -57,30 +57,33 @@ export default new Router({
         aside: () => import(/* webpackChunkName: "camps" */ './views/Camps.vue')
       },
       beforeEnter: requireAuth,
+      props: {
+        default: route => ({ camp: campFromRoute(route) })
+      },
       children: [
-        {
-          path: '',
-          name: 'camp',
-          component: () => import(/* webpackChunkName: "campDetails" */ './components/camp/Basic.vue'),
-          props: true
-        },
         {
           path: 'collaborators',
           name: 'camp/collaborators',
           component: () => import(/* webpackChunkName: "campCollaborators" */ './components/camp/Collaborators.vue'),
-          props: true
+          meta: { layout: 'camp' }
         },
         {
           path: 'periods',
           name: 'camp/periods',
           component: () => import(/* webpackChunkName: "campPeriods" */ './components/camp/Periods.vue'),
-          props: true
+          meta: { layout: 'camp' }
         },
         {
           path: 'picasso',
           name: 'camp/picasso',
           component: () => import(/* webpackChunkName: "campPicasso" */ './components/camp/Picasso.vue'),
-          props: true
+          meta: { layout: 'camp' }
+        },
+        {
+          path: '',
+          name: 'camp',
+          component: () => import(/* webpackChunkName: "campDetails" */ './components/camp/Basic.vue'),
+          meta: { layout: 'camp' }
         }
       ]
     },
@@ -92,7 +95,11 @@ export default new Router({
         aside: () => import(/* webpackChunkName: "day" */ './views/Day.vue')
       },
       beforeEnter: requireAuth,
-      props: true
+      meta: { layout: 'camp' },
+      props: {
+        default: route => ({ event: eventFromRoute(route) }),
+        aside: route => ({ camp: campFromRoute(route) })
+      }
     }
 
   ]
@@ -106,6 +113,19 @@ function requireAuth (to, from, next) {
       next({ name: 'login', query: { redirect: to.fullPath } })
     }
   })
+}
+
+export function campFromRoute (route) {
+  return function () {
+    return this.api.get().camps().items.find(camp => camp.id === route.params.campId)
+  }
+}
+
+function eventFromRoute (route) {
+  return function () {
+    const camp = (campFromRoute(route)).call(this)
+    return camp.events().items.find(event => event.id === route.params.eventId)
+  }
 }
 
 export function campRoute (camp) {

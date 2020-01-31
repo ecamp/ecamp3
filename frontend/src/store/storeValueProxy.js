@@ -46,26 +46,58 @@ export function loadingProxy (entityLoaded = Promise.resolve(loadingProxy()), ur
       if (prop === Symbol.toPrimitive) {
         return () => ''
       }
+      if (prop === 'then' || prop === 'toJSON') {
+        // This is necessary so that Vue's reactivity system understands that this loadingProxy
+        // is neither a Promise nor JSONable.
+        return undefined
+      }
       if (prop === 'loading') {
         return true
+      }
+      if (prop === 'loaded') {
+        return entityLoaded
       }
       if (prop === 'self') {
         return uri
       }
+      const propertyLoaded = entityLoaded.then(entity => entity[prop])
       if (prop === 'items') {
-        return []
+        return loadingArrayProxy(propertyLoaded)
       }
-      const nestedLoaded = entityLoaded.then(entity => entity[prop])
       if (prop === '_meta') {
-        return loadingProxy(nestedLoaded, uri)
+        return loadingProxy(propertyLoaded, uri)
       }
       // Normal property access: return a function that yields another loadingProxy and renders as empty string
-      const result = () => loadingProxy(nestedLoaded)
+      const result = () => loadingProxy(propertyLoaded.then(property => property()))
       result.toString = () => ''
       return result
     }
   }
   return new Proxy({}, handler)
+}
+
+/**
+ * Returns a placeholder for an array that has not yet finished loading from the API. The array placeholder
+ * will respond to functional calls (like .find(), .map(), etc.) with further loading array proxies or
+ * loading proxies.
+ */
+function loadingArrayProxy (arrayLoaded) {
+  const result = []
+  const singleResultFunctions = ['find']
+  const arrayResultFunctions = ['map', 'filter']
+  singleResultFunctions.forEach(func => {
+    result[func] = (...args) => {
+      const resultLoaded = arrayLoaded.then(array => array[func](...args))
+      return loadingProxy(resultLoaded)
+    }
+  })
+  arrayResultFunctions.forEach(func => {
+    result[func] = (...args) => {
+      const resultLoaded = arrayLoaded.then(array => array[func](...args))
+      return loadingArrayProxy(resultLoaded)
+    }
+  })
+  return result
 }
 
 /**

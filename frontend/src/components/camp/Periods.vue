@@ -5,7 +5,7 @@ Displays periods of a single camp.
 <template>
   <v-card>
     <div
-      v-for="period in periods" :key="period.id">
+      v-for="period in periods.items" :key="period.id">
       <v-list-item two-line>
         <v-list-item-content>
           <v-list-item-title class="headline">
@@ -42,7 +42,7 @@ import { eventRoute } from '@/router'
 export default {
   name: 'Periods',
   props: {
-    camp: { type: Object, required: true }
+    camp: { type: Function, required: true }
   },
   data () {
     return {
@@ -52,18 +52,15 @@ export default {
   },
   computed: {
     periods () {
-      return this.camp.periods().items
-    },
-    buttonText () {
-      return this.editing ? 'Speichern' : 'Bearbeiten'
+      return this.camp().periods()
     },
     events () {
-      return this.camp.events()
+      return this.camp().events()
     }
   },
   methods: {
     eventRoute (eventInstance) {
-      return eventRoute(this.camp, eventInstance)
+      return eventRoute(this.camp(), eventInstance)
     }
   }
 }
