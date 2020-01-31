@@ -59,19 +59,19 @@
       </v-overflow-btn>
 
       <v-toolbar-items>
-        <v-btn text :to="{name: 'camp/periods'}">
+        <v-btn text :to="campRoute(camp(), 'periods')">
           <v-icon :left="$vuetify.breakpoint.mdAndUp">mdi-calendar-text</v-icon>
           <span class="sr-only-sm-and-down">Events</span>
         </v-btn>
-        <v-btn text :to="{name: 'camp/picasso'}">
+        <v-btn text :to="campRoute(camp(), 'picasso')">
           <v-icon :left="$vuetify.breakpoint.mdAndUp">mdi-calendar-month</v-icon>
           <span class="sr-only-sm-and-down">Picasso</span>
         </v-btn>
-        <v-btn text :to="{name: 'camp/collaborators'}">
+        <v-btn text :to="campRoute(camp(), 'collaborators')">
           <v-icon :left="$vuetify.breakpoint.mdAndUp">mdi-account-group</v-icon>
           <span class="sr-only-sm-and-down">Team</span>
         </v-btn>
-        <v-btn text :to="{name: 'camp'}" exact>
+        <v-btn text :to="campRoute(camp())" exact>
           <v-icon :left="$vuetify.breakpoint.mdAndUp">mdi-information</v-icon>
           <span class="sr-only-sm-and-down">Admin</span>
         </v-btn>

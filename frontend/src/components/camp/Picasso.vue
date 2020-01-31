@@ -20,7 +20,7 @@ Listing all event instances of a single camp.
       </v-tabs>
     </v-toolbar>
     <v-tabs-items v-if="!events._meta.loading" v-model="tab">
-      <v-tab-item v-for="period in periods"
+      <v-tab-item v-for="period in periods.items"
                   :key="period.id">
         <v-calendar
           class="ec-picasso"

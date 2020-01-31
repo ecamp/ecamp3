@@ -51,7 +51,7 @@ export default new Router({
       beforeEnter: requireAuth
     },
     {
-      path: '/camps/:campId/:campName?',
+      path: '/camps/:campId/:campTitle?',
       components: {
         default: () => import(/* webpackChunkName: "camp" */ './views/Camp.vue'),
         aside: () => import(/* webpackChunkName: "camps" */ './views/Camps.vue')
@@ -88,7 +88,7 @@ export default new Router({
       ]
     },
     {
-      path: '/camps/:campId/:campName?/events/:eventId/:eventName?',
+      path: '/camps/:campId/:campTitle?/events/:eventId/:eventName?',
       name: 'event',
       components: {
         default: () => import(/* webpackChunkName: "event" */ './views/Event.vue'),
@@ -128,10 +128,13 @@ function eventFromRoute (route) {
   }
 }
 
-export function campRoute (camp) {
-  return { name: 'camp', params: { campId: camp.id, campName: slugify(camp.title) } }
+export function campRoute (camp, subroute) {
+  if (camp._meta.loading) return {}
+  const routeName = subroute ? 'camp/' + subroute : 'camp'
+  return { name: routeName, params: { campId: camp.id, campTitle: slugify(camp.title) } }
 }
 
 export function eventRoute (camp, eventInstance) {
-  return { name: 'event', params: { campId: camp.id, campName: slugify(camp.title), eventId: eventInstance.event().id, eventName: slugify(eventInstance.event().title) } }
+  if (camp._meta.loading || eventInstance._meta.loading || eventInstance.event()._meta.loading) return {}
+  return { name: 'event', params: { campId: camp.id, campTitle: slugify(camp.title), eventId: eventInstance.event().id, eventName: slugify(eventInstance.event().title) } }
 }
