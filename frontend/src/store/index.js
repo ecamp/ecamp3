@@ -120,7 +120,10 @@ const post = function (vm, uriOrCollection, data) {
  *                    system as soon as the API request finishes.
  */
 const get = function (vm, uriOrEntity, forceReload = false) {
-  const uri = normalizeEntityUri(uriOrEntity)
+  const forceReloadingEmbeddedCollection = forceReload && uriOrEntity._meta && uriOrEntity._meta.reload && uriOrEntity._meta.reload.uri
+  const uri = forceReloadingEmbeddedCollection
+    ? normalizeEntityUri(uriOrEntity._meta.reload.uri)
+    : normalizeEntityUri(uriOrEntity)
   if (uri === null) {
     if (uriOrEntity[Symbol('isLoadingProxy')]) {
       // A loadingProxy is safe to return without breaking the UI.
@@ -131,7 +134,9 @@ const get = function (vm, uriOrEntity, forceReload = false) {
   }
 
   const storeData = load(vm, uri, forceReload)
-  return storeValueProxy(vm, storeData)
+  return forceReloadingEmbeddedCollection
+    ? storeValueProxy(vm, storeData)[uriOrEntity._meta.reload.property]()
+    : storeValueProxy(vm, storeData)
 }
 
 /**

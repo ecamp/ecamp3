@@ -133,12 +133,17 @@ function addItemsGetter (vm, target, items) {
 /**
  * Imitates a full standalone collection with an items property, even if there is no separate URI (as it
  * is the case with embedded collections).
- * @param vm       Vue instance
- * @param items    array of items, which can be mixed primitive values and entity references
+ * Reloading an embedded collection requires special information. Since the embedded collection has no own
+ * URI, we need to reload the whole entity containing the embedded collection. Some extra info about the
+ * containing entity must therefore be passed to this function.
+ * @param vm             Vue instance
+ * @param items          array of items, which can be mixed primitive values and entity references
+ * @param reloadUri      URI of the entity containing the embedded collection (for reloading)
+ * @param reloadProperty property in the containing entity under which the embedded collection is saved
  * @returns object the imitated collection object
  */
-function embeddedCollectionProxy (vm, items) {
-  const result = addItemsGetter(vm, { _meta: {} }, items)
+function embeddedCollectionProxy (vm, items, reloadUri, reloadProperty) {
+  const result = addItemsGetter(vm, { _meta: { reload: { uri: reloadUri, property: reloadProperty } } }, items)
   result._meta.loaded = Promise.resolve(result)
   return result
 }
@@ -194,7 +199,7 @@ function createStoreValueProxy (vm, data) {
     if (key === 'items' && isCollection(data)) {
       addItemsGetter(vm, result, data[key])
     } else if (Array.isArray(value)) {
-      result[key] = () => embeddedCollectionProxy(vm, value)
+      result[key] = () => embeddedCollectionProxy(vm, value, data._meta.self, key)
     } else if (isEntityReference(value)) {
       result[key] = () => vm.api.get(value.href)
     } else {

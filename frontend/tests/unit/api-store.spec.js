@@ -388,6 +388,82 @@ describe('API store', () => {
     done()
   })
 
+  it('reloads an embedded collection from the store by reloading the superordinate object', async done => {
+    // given
+    const campData = {
+      serverResponse: {
+        id: 20,
+        _embedded: {
+          event_types: [
+            {
+              id: 123,
+              name: 'LS',
+              _links: {
+                self: {
+                  href: '/eventTypes/123'
+                }
+              }
+            },
+            {
+              id: 124,
+              name: 'LP',
+              _links: {
+                self: {
+                  href: '/eventTypes/124'
+                }
+              }
+            },
+          ]
+        },
+        _links: {
+          self: {
+            href: '/campTypes/20'
+          }
+        }
+      },
+      serverResponse2: {
+        id: 20,
+        _embedded: {
+          event_types: [
+            {
+              id: 123,
+              name: 'LS',
+              _links: {
+                self: {
+                  href: '/eventTypes/123'
+                }
+              }
+            }
+          ]
+        },
+        _links: {
+          self: {
+            href: '/campTypes/20'
+          }
+        }
+      },
+      storeState: [
+        {
+          href: '/eventTypes/123'
+        }
+      ]
+    }
+    axiosMock.onGet('http://localhost/camps/1').reply(200, campData.serverResponse)
+    axiosMock.onGet('http://localhost/camps/1').reply(200, campData.serverResponse2)
+    vm.api.get('/camps/1').event_types()
+    await letNetworkRequestFinish()
+    const embeddedCollection = vm.api.get('/camps/1').event_types()
+
+    // when
+    const result = vm.api.reload(embeddedCollection)
+
+    // then
+    expect(result._meta.self).toBeUndefined()
+    await letNetworkRequestFinish()
+    expect(vm.$store.state.api['/camps/1'].event_types).toMatchObject(campData.storeState)
+    done()
+  })
+
   it('deletes an URI from the store and reloads all entities referencing it', async done => {
     // given
     axiosMock.onGet('http://localhost/groups/99').replyOnce(200, multipleReferencesToUser)
