@@ -14,13 +14,23 @@ use Zend\Authentication\AuthenticationService;
 use ZF\ApiProblem\ApiProblem;
 
 class PeriodService extends AbstractEntityService {
-    public function __construct(ServiceUtils $serviceUtils, AuthenticationService $authenticationService) {
+
+    /** @var DayService */
+    protected $dayService;
+
+    public function __construct(
+        DayService $dayService,
+        ServiceUtils $serviceUtils,
+        AuthenticationService $authenticationService
+    ) {
         parent::__construct(
             $serviceUtils,
             Period::class,
             PeriodHydrator::class,
             $authenticationService
         );
+
+        $this->dayService = $dayService;
     }
 
 
@@ -58,10 +68,11 @@ class PeriodService extends AbstractEntityService {
         /** @var Period $period */
         $period = parent::create($data);
         $camp->addPeriod($period);
+        $this->getServiceUtils()->emFlush();
 
         $durationInDays = $period->getDurationInDays();
         for ($idx = 0; $idx < $durationInDays; $idx++) {
-            $this->getDayService()->create((object)[
+            $this->dayService->create((object)[
                 'period_id' => $period->getId(),
                 'day_offset' => $idx
             ]);
@@ -82,8 +93,8 @@ class PeriodService extends AbstractEntityService {
         $period = parent::update($id, $data);
         $this->updatePeriodDays($period);
 
-        $moveEvents = isset($data->move_events) ? $data->move_events : null;
-        $this->updateEventInstances($period, $moveEvents);
+        // $moveEvents = isset($data->move_events) ? $data->move_events : null;
+        // $this->updateEventInstances($period, $moveEvents);
 
         return $period;
     }
@@ -100,8 +111,8 @@ class PeriodService extends AbstractEntityService {
         $period = parent::patch($id, $data);
         $this->updatePeriodDays($period);
 
-        $moveEvents = isset($data->move_events) ? $data->move_events : null;
-        $this->updateEventInstances($period, $moveEvents);
+        // $moveEvents = isset($data->move_events) ? $data->move_events : null;
+        // $this->updateEventInstances($period, $moveEvents);
 
         return $period;
     }
@@ -122,7 +133,7 @@ class PeriodService extends AbstractEntityService {
 
         foreach ($daysToDelete as $day) {
             /** @var Day $day */
-            $this->getDayService()->delete($day->getId());
+            $this->dayService->delete($day->getId());
         }
 
         for ($idx = 0; $idx < $daysCountNew; $idx++) {
@@ -131,7 +142,7 @@ class PeriodService extends AbstractEntityService {
             });
 
             if ($day->isEmpty()) {
-                $this->getDayService()->create((object)[
+                $this->dayService->create((object)[
                     'period_id' => $period->getId(),
                     'day_offset' => $idx
                 ]);

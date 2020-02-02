@@ -45,7 +45,7 @@ Listing all event instances of a single camp.
       </v-tab-item>
     </v-tabs-items>
     <v-skeleton-loader v-if="events.loading" class="ma-3"
-                       type="table-thead,table-row@6"/>
+                       type="table-thead,table-row@6" />
   </v-card>
 </template>
 <script>
