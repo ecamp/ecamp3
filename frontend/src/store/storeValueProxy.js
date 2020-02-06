@@ -42,8 +42,8 @@ function isCollection (object) {
  */
 function loadingProxy (entityLoaded, uri = null) {
   const handler = {
-    get: function (target, prop, receiver) {
-      if (prop === Symbol('isLoadingProxy')) {
+    get: function (target, prop, _) {
+      if (prop === Symbol.for('isLoadingProxy')) {
         return true
       }
       if (prop === Symbol.toPrimitive) {

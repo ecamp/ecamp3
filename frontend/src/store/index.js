@@ -125,7 +125,7 @@ const get = function (vm, uriOrEntity, forceReload = false) {
     ? normalizeEntityUri(uriOrEntity._meta.reload.uri)
     : normalizeEntityUri(uriOrEntity)
   if (uri === null) {
-    if (uriOrEntity[Symbol('isLoadingProxy')]) {
+    if (uriOrEntity[Symbol.for('isLoadingProxy')]) {
       // A loadingProxy is safe to return without breaking the UI.
       return uriOrEntity
     }
