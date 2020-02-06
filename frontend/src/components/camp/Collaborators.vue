@@ -69,7 +69,6 @@ Displays collaborators of a single camp.
         </h3>
         <v-simple-table width="100%">
           <tr>
-          <tr>
             <th
               width="50%">
               User
@@ -131,7 +130,6 @@ Displays collaborators of a single camp.
         </h3>
         <v-simple-table width="100%">
           <thead>
-            <tr>
             <tr>
               <th
                 width="50%">

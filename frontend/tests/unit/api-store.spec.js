@@ -258,6 +258,42 @@ describe('API store', () => {
     done()
   })
 
+  it('returns the correct object when awaiting._meta.loading on a loadingProxy', async done => {
+    // given
+    axiosMock.onGet('http://localhost/camps/1').reply(200, embeddedSingleEntity.serverResponse)
+    const loadingProxy = vm.api.get('/camps/1')
+    expect(loadingProxy[Symbol.for('isLoadingProxy')]).toBe(true)
+
+    // when
+    loadingProxy._meta.loaded.then(loadedData => {
+
+      // then
+      expect(loadedData).toMatchObject({ id: 1, _meta: { self: '/camps/1' } })
+
+      done()
+    })
+
+    letNetworkRequestFinish()
+  })
+
+  it('returns the correct object when awaiting._meta.loading on a loaded object', async done => {
+    // given
+    axiosMock.onGet('http://localhost/camps/1').reply(200, embeddedSingleEntity.serverResponse)
+    vm.api.get('/camps/1')
+    letNetworkRequestFinish()
+    const loadingProxy = vm.api.get('/camps/1')
+    expect(loadingProxy[Symbol('isLoadingProxy')]).not.toBe(true)
+
+    // when
+    loadingProxy._meta.loaded.then(loadedData => {
+
+      // then
+      expect(loadedData).toMatchObject({ id: 1, _meta: { self: '/camps/1' } })
+
+      done()
+    })
+  })
+
   it('throws when trying to access _meta in an invalid object', () => {
     // given
 

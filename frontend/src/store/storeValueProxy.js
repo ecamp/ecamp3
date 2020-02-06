@@ -9,6 +9,10 @@ function isEntityReference (object) {
   return objectKeys.length === 1 && objectKeys[0] === 'href'
 }
 
+function containsLoadingEntityReference (vm, array) {
+  return array.some(entry => isEntityReference(entry) && vm.api.get(entry.href)._meta.loading)
+}
+
 /**
  * A standalone collection in the Vuex store has an items property that is an array.
  * @param object    to be examined
@@ -36,7 +40,7 @@ function isCollection (object) {
  *                     returned loadingProxy will return it in calls to .self and ._meta.self
  * @returns object     a loadingProxy
  */
-export function loadingProxy (entityLoaded, uri = null) {
+function loadingProxy (entityLoaded, uri = null) {
   const handler = {
     get: function (target, prop, receiver) {
       if (prop === Symbol('isLoadingProxy')) {
@@ -59,12 +63,12 @@ export function loadingProxy (entityLoaded, uri = null) {
       if (prop === 'self') {
         return uri
       }
+      if (prop === '_meta') {
+        return loadingProxy(entityLoaded, uri)
+      }
       const propertyLoaded = entityLoaded.then(entity => entity[prop])
       if (prop === 'items') {
         return loadingArrayProxy(propertyLoaded)
-      }
-      if (prop === '_meta') {
-        return loadingProxy(propertyLoaded, uri)
       }
       // Normal property access: return a function that yields another loadingProxy and renders as empty string
       const result = () => loadingProxy(propertyLoaded.then(property => property()))
@@ -78,41 +82,56 @@ export function loadingProxy (entityLoaded, uri = null) {
 /**
  * Returns a placeholder for an array that has not yet finished loading from the API. The array placeholder
  * will respond to functional calls (like .find(), .map(), etc.) with further loading array proxies or
- * loading proxies.
+ * loading proxies. If passed the existingContent argument, random access and .length will also work.
+ * @param arrayLoaded     Promise that resolves once the array has finished loading
+ * @param existingContent optionally set the elements that are already known, for random access
+ * @returns Array         a proxy that can act as a placeholder for an array that is still being loaded from the API
  */
-function loadingArrayProxy (arrayLoaded) {
-  const result = []
+function loadingArrayProxy (arrayLoaded, existingContent = []) {
   const singleResultFunctions = ['find']
   const arrayResultFunctions = ['map', 'filter']
   singleResultFunctions.forEach(func => {
-    result[func] = (...args) => {
+    existingContent[func] = (...args) => {
       const resultLoaded = arrayLoaded.then(array => array[func](...args))
       return loadingProxy(resultLoaded)
     }
   })
   arrayResultFunctions.forEach(func => {
-    result[func] = (...args) => {
+    existingContent[func] = (...args) => {
       const resultLoaded = arrayLoaded.then(array => array[func](...args))
       return loadingArrayProxy(resultLoaded)
     }
   })
-  return result
+  return existingContent
 }
 
 /**
  * Given an array, replaces any entity references in the array with the entity loaded from the Vuex store
- * (or from the API if necessary), and returns that as a new array.
+ * (or from the API if necessary), and returns that as a new array. In case some of the entity references in
+ * the array have not finished loading yet, returns a loadingArrayProxy instead.
  * @param vm      Vue instance
  * @param array   possibly mixed array of values and references
- * @returns array the new array with replaced items
+ * @returns array the new array with replaced items, or a loadingArrayProxy if any of the array elements
+ *                is still loading.
  */
 function mapArrayOfEntityReferences (vm, array) {
-  return array.map(entry => {
+  const arrayWithReplacedReferences = array.map(entry => {
     if (isEntityReference(entry)) {
       return vm.api.get(entry.href)
     }
     return entry
   })
+  if (containsLoadingEntityReference(vm, array)) {
+    const arrayCompletelyLoaded = Promise.all(array.map(entry => {
+      if (isEntityReference(entry)) {
+        return vm.api.get(entry.href)._meta.loaded
+      }
+      return Promise.resolve(entry)
+    }))
+    return loadingArrayProxy(arrayCompletelyLoaded, arrayWithReplacedReferences)
+  } else {
+    return arrayWithReplacedReferences
+  }
 }
 
 /**
