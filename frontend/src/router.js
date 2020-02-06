@@ -117,14 +117,13 @@ function requireAuth (to, from, next) {
 
 export function campFromRoute (route) {
   return function () {
-    return this.api.get().camps().items.find(camp => camp.id === route.params.campId)
+    return this.api.get('/camp/' + route.params.campId)
   }
 }
 
 function eventFromRoute (route) {
   return function () {
-    const camp = (campFromRoute(route)).call(this)
-    return camp.events().items.find(event => event.id === route.params.eventId)
+    return this.api.get('/event/' + route.params.eventId)
   }
 }
 
