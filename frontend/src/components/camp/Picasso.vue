@@ -77,7 +77,7 @@ export default {
       return '(' + event.input.number + ') ' + event.input.event().event_category().short + ': ' + event.input.event().title
     },
     getEventColor (event, timed) {
-      return event.event().event_category().color
+      return event.event().event_category().color.toString()
     },
     getIntervalFormat (time) {
       return time.time
