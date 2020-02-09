@@ -6,6 +6,11 @@ use eCamp\Core\Entity\UserIdentity;
 use Zend\Hydrator\HydratorInterface;
 
 class UserIdentityHydrator implements HydratorInterface {
+    public static function HydrateInfo() {
+        return [
+        ];
+    }
+
     /**
      * @param object $object
      * @return array

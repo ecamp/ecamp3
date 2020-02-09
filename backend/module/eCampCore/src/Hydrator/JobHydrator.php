@@ -6,6 +6,11 @@ use eCamp\Core\Entity\Job;
 use Zend\Hydrator\HydratorInterface;
 
 class JobHydrator implements HydratorInterface {
+    public static function HydrateInfo() {
+        return [
+        ];
+    }
+
     /**
      * @param object $object
      * @return array
@@ -15,7 +20,7 @@ class JobHydrator implements HydratorInterface {
         $job = $object;
         return [
             'id' => $job->getId(),
-            'camp' => $job->getCamp(),
+//            'camp' => $job->getCamp(),
             'name' => $job->getName(),
             // 'job_resps' =>  $job->getJobResps()
         ];

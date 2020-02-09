@@ -6,6 +6,11 @@ use eCamp\Core\Entity\User;
 use Zend\Hydrator\HydratorInterface;
 
 class UserHydrator implements HydratorInterface {
+    public static function HydrateInfo() {
+        return [
+        ];
+    }
+
     /**
      * @param object $object
      * @return array
@@ -15,7 +20,8 @@ class UserHydrator implements HydratorInterface {
         $user = $object;
         return [
             'id' => $user->getId(),
-            'username' => $user->getUsername()
+            'username' => $user->getUsername(),
+            'mail' => $user->getTrustedMailAddress()
         ];
     }
 

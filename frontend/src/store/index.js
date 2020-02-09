@@ -145,6 +145,7 @@ const get = function (vm, uriOrEntity, forceReload = false) {
  */
 function load (vm, uri, forceReload) {
   const existsInStore = (uri in vm.$store.state.api)
+
   const isLoading = existsInStore && (vm.$store.state.api[uri]._meta || {}).loading
   if (!existsInStore) {
     vm.$store.commit('addEmpty', uri)

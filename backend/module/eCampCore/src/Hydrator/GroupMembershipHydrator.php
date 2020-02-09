@@ -6,6 +6,11 @@ use eCamp\Core\Entity\GroupMembership;
 use Zend\Hydrator\HydratorInterface;
 
 class GroupMembershipHydrator implements HydratorInterface {
+    public static function HydrateInfo() {
+        return [
+        ];
+    }
+
     /**
      * @param object $object
      * @return array
@@ -15,8 +20,8 @@ class GroupMembershipHydrator implements HydratorInterface {
         $groupMembership = $object;
         return [
             'id' => $groupMembership->getId(),
-            'group' => $groupMembership->getGroup(),
-            'user' => $groupMembership->getUser(),
+//            'group' => $groupMembership->getGroup(),
+//            'user' => $groupMembership->getUser(),
             'role' => $groupMembership->getRole(),
             'status' => $groupMembership->getStatus(),
         ];

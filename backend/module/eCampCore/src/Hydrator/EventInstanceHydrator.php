@@ -3,10 +3,16 @@
 namespace eCamp\Core\Hydrator;
 
 use eCamp\Core\Entity\EventInstance;
+use eCamp\Lib\Entity\EntityLink;
 use eCamp\Lib\Hydrator\Util;
 use Zend\Hydrator\HydratorInterface;
 
 class EventInstanceHydrator implements HydratorInterface {
+    public static function HydrateInfo() {
+        return [
+        ];
+    }
+
     /**
      * @param object $object
      * @return array
@@ -16,10 +22,6 @@ class EventInstanceHydrator implements HydratorInterface {
         $eventInstance = $object;
         return [
             'id' => $eventInstance->getId(),
-            'event' => $eventInstance->getEvent(),
-
-            'camp' => $eventInstance->getCamp(),
-            'period' => $eventInstance->getPeriod(),
 
             'start' => $eventInstance->getStart(),
             'length' => $eventInstance->getLength(),
@@ -32,6 +34,9 @@ class EventInstanceHydrator implements HydratorInterface {
             'day_number' => $eventInstance->getDayNumber(),
             'event_instance_number' => $eventInstance->getEventInstanceNumber(),
             'number' => $eventInstance->getNumber(),
+
+            'event' => EntityLink::Create($eventInstance->getEvent()),
+            'period' => EntityLink::Create($eventInstance->getPeriod())
         ];
     }
 

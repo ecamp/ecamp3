@@ -13,9 +13,18 @@ Displays collaborators of a single camp.
       <v-simple-table width="100%">
         <thead>
           <tr>
-            <th>User</th>
-            <th>Rolle</th>
-            <th>Option</th>
+            <th
+              width="50%">
+              User
+            </th>
+            <th
+              width="25%">
+              Rolle
+            </th>
+            <th
+              width="25%">
+              Option
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -26,20 +35,16 @@ Displays collaborators of a single camp.
               <v-skeleton-loader v-if="collaborator.user().loaded" type="text" />
               {{ collaborator.user().username }}
             </td>
-            <td>{{ collaborator.role }}</td>
+            <td>
+              <api-single-select
+                :value="collaborator.role"
+                :uri="collaborator._meta.self"
+                fieldname="role"
+                required
+                dense />
+            </td>
             <td
-              width="150"
               style="white-space: nowrap">
-              <v-btn
-                small
-                color="primary">
-                <v-icon
-                  small
-                  left>
-                  mdi-pencil
-                </v-icon>
-                edit
-              </v-btn>
               <v-btn
                 small
                 color="warning"
@@ -64,17 +69,33 @@ Displays collaborators of a single camp.
         </h3>
         <v-simple-table width="100%">
           <tr>
-            <th>User</th>
-            <th>Rolle</th>
-            <th>Option</th>
+          <tr>
+            <th
+              width="50%">
+              User
+            </th>
+            <th
+              width="25%">
+              Rolle
+            </th>
+            <th
+              width="25%">
+              Option
+            </th>
           </tr>
           <tr
             v-for="collaborator in requestedCollaborators"
             :key="collaborator.id">
             <td>{{ collaborator.user().username }}</td>
-            <td>{{ collaborator.role }}</td>
+            <td>
+              <api-single-select
+                :value="collaborator.role"
+                :uri="collaborator._meta.self"
+                fieldname="role"
+                required
+                dense />
+            </td>
             <td
-              width="150"
               style="white-space: nowrap">
               <v-btn
                 small
@@ -104,16 +125,26 @@ Displays collaborators of a single camp.
         <v-divider />
       </div>
 
-      <div v-if="invitedCollaborators.loaded && invitedCollaborators.length > 0">
+      <div v-if="invitedCollaborators.length > 0">
         <h3 class="mt-4">
           Offene Einladungen
         </h3>
         <v-simple-table width="100%">
           <thead>
             <tr>
-              <th>User</th>
-              <th>Rolle</th>
-              <th>Option</th>
+            <tr>
+              <th
+                width="50%">
+                User
+              </th>
+              <th
+                width="25%">
+                Rolle
+              </th>
+              <th
+                width="25%">
+                Option
+              </th>
             </tr>
           </thead>
           <tbody>
@@ -121,20 +152,16 @@ Displays collaborators of a single camp.
               v-for="collaborator in invitedCollaborators"
               :key="collaborator.id">
               <td>{{ collaborator.user().username }}</td>
-              <td>{{ collaborator.role }}</td>
+              <td>
+                <api-single-select
+                  :value="collaborator.role"
+                  :uri="collaborator._meta.self"
+                  fieldname="role"
+                  required
+                  dense />
+              </td>
               <td
-                width="150"
                 style="white-space: nowrap">
-                <v-btn
-                  small
-                  color="primary">
-                  <v-icon
-                    small
-                    left>
-                    mdi-pencil
-                  </v-icon>
-                  edit
-                </v-btn>
                 <v-btn
                   small
                   color="warning"
@@ -172,7 +199,6 @@ Displays collaborators of a single camp.
           :key="result.id">
           <td>{{ result.username }}</td>
           <td
-            width="200"
             style="white-space: nowrap">
             <v-btn
               small
@@ -207,6 +233,9 @@ Displays collaborators of a single camp.
 <script>
 export default {
   name: 'Collaborators',
+  components: {
+    ApiSingleSelect: () => import('@/components/form/ApiSingleSelect.vue')
+  },
   props: {
     campUri: { type: String, required: true }
   },
@@ -256,7 +285,10 @@ export default {
         camp_id: this.campDetails.id,
         user_id: user.id,
         role: role
-      })
+      }).then(this.refreshCamp)
+    },
+    refreshCamp () {
+      this.api.reload(this.campUri)
     }
   }
 }

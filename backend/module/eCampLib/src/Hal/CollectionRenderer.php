@@ -34,6 +34,7 @@ class CollectionRenderer extends AbstractListenerAggregate {
     public function attachShared(SharedEventManagerInterface $sharedEvents) {
         $this->sharedListeners[] = $sharedEvents->attach('ZF\Hal\Plugin\Hal', 'renderEntity', [$this, 'renderEntity'], 100);
         $this->sharedListeners[] = $sharedEvents->attach('ZF\Hal\Plugin\Hal', 'renderEntity.post', [$this, 'renderEntityPost'], 100);
+        $this->sharedListeners[] = $sharedEvents->attach('ZF\Hal\Plugin\Hal', 'renderCollection', [$this, 'renderCollection'], 100);
     }
 
     public function detachShared(SharedEventManagerInterface $sharedEvents) {
@@ -98,5 +99,11 @@ class CollectionRenderer extends AbstractListenerAggregate {
 //        $payload->exchangeArray(
 //            [ 'proxy' => ($halEntity->getEntity() instanceof EntityLink) ] + $payload->getArrayCopy()
 //        );
+    }
+
+    public function renderCollection(Event $e) {
+        /** @var Hal $hal */
+        $hal = $e->getTarget();
+        $halCollection = $e->getParam('collection');
     }
 }

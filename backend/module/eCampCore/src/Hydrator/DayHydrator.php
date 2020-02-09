@@ -3,10 +3,16 @@
 namespace eCamp\Core\Hydrator;
 
 use eCamp\Core\Entity\Day;
+use eCamp\Lib\Entity\EntityLink;
+use eCamp\Lib\Hydrator\Util;
 use Zend\Hydrator\HydratorInterface;
-use ZF\Hal\Link\Link;
 
 class DayHydrator implements HydratorInterface {
+    public static function HydrateInfo() {
+        return [
+        ];
+    }
+
     /**
      * @param object $object
      * @return array
@@ -16,17 +22,10 @@ class DayHydrator implements HydratorInterface {
         $day = $object;
         return [
             'id' => $day->getId(),
-            'period' => $day->getPeriod(),
             'day_offset' => $day->getDayOffset(),
             'number' => $day->getDayNumber(),
 
-            'camp' => Link::factory([
-                'rel' => 'camp',
-                'route' => [
-                    'name' => 'e-camp-api.rest.doctrine.camp',
-                    'params' => [ 'camp_id' => $day->getCamp()->getId() ]
-                ]
-            ]),
+            'period' => EntityLink::Create($day->getPeriod())
         ];
     }
 

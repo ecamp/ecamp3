@@ -1,5 +1,7 @@
 <?php
 
+use Zend\Mvc\Application;
+
 class eCampApp {
     private static $instance;
 
@@ -19,20 +21,20 @@ class eCampApp {
         return $appConfig;
     }
 
-    /** @return \Zend\Mvc\Application */
+    /** @return Application */
     public static function CreateApp() {
         $config = self::GetAppConfig();
-        return \Zend\Mvc\Application::init($config);
+        return Application::init($config);
     }
 
-    /** @return \Zend\Mvc\Application */
+    /** @return Application */
     public static function CreateAppWithoutDi() {
         $config = self::GetAppConfig();
         unset( $config['modules'][ array_search('Zend\Di', $config['modules']) ] );
-        return \Zend\Mvc\Application::init($config);
+        return Application::init($config);
     }
 
-    /** @return \Zend\Mvc\Application */
+    /** @return Application */
     public static function App() {
         if (self::$instance == null) {
             self::$instance = self::CreateApp();
@@ -73,9 +75,9 @@ class eCampApp {
         return include $setupConfigFile;
     }
 
-    /** @return \Zend\Mvc\Application */
+    /** @return Application */
     public static function CreateSetup() {
         $config = self::GetSetupConfig();
-        return \Zend\Mvc\Application::init($config);
+        return Application::init($config);
     }
 }

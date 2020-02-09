@@ -3,18 +3,38 @@
 namespace eCamp\Core\Hydrator;
 
 use eCamp\Core\Entity\Camp;
+use eCamp\Core\Entity\Period;
 use eCamp\Lib\Entity\EntityLink;
-use eCampApi\V1\Rest\CampCollaboration\CampCollaborationCollection;
+use eCamp\Lib\Entity\EntityLinkCollection;
+use eCamp\Lib\Hydrator\Util;
+use eCampApi\V1\Rest\Day\DayCollection;
 use eCampApi\V1\Rest\EventCategory\EventCategoryCollection;
 use eCampApi\V1\Rest\Period\PeriodCollection;
 use Zend\Hydrator\HydratorInterface;
-use ZF\Hal\Link\Link;
 
 class CampHydrator implements HydratorInterface {
+    public static function HydrateInfo() {
+        return [
+            'camp_type' => Util::Entity(function (Camp $c) {
+                return $c->getCampType();
+            }),
+            'periods' => Util::Collection(function (Camp $c) {
+                return new PeriodCollection($c->getPeriods());
+            }, [
+                'days' => Util::Collection(function (Period $p) {
+                    return new DayCollection($p->getDays());
+                })
+            ]),
+            'eventCategories' => Util::Collection(function (Camp $c) {
+                return new EventCategoryCollection($c->getEventCategories());
+            }),
+        ];
+    }
 
     /**
      * @param object $object
      * @return array
+     * @throws \Exception
      */
     public function extract($object) {
         /** @var Camp $camp */
@@ -24,24 +44,17 @@ class CampHydrator implements HydratorInterface {
             'name' => $camp->getName(),
             'title' => $camp->getTitle(),
             'motto' => $camp->getMotto(),
-            'camp_type' => $camp->getCampType(),
-            'owner' =>  $camp->getOwner(),
 
+//            'owner' => EntityLink::Create($camp->getOwner()),
             'creator' => EntityLink::Create($camp->getCreator()),
+            'camp_type' => EntityLink::Create($camp->getCampType()),
 
-            'camp_collaborations' => new CampCollaborationCollection($camp->getCampCollaborations()),
-//            'jobs' => new JobCollection($camp->getJobs()),
-            'periods' => new PeriodCollection($camp->getPeriods()),
-            'event_categories' => new EventCategoryCollection($camp->getEventCategories()),
+            'camp_collaborations' => new EntityLinkCollection($camp->getCampCollaborations()),
 
-            'events' => Link::factory([
-                'rel' => 'events',
-                'route' => [
-                    'name' => 'e-camp-api.rest.doctrine.event',
-                    'options' => ['query' => ['camp_id' => $camp->getId()]]
-                ]
-            ])
+            'periods' => new EntityLinkCollection($camp->getPeriods()),
 
+            'event_categories' => new EntityLinkCollection($camp->getEventCategories()),
+            'events' => new EntityLinkCollection($camp->getEvents()),
         ];
     }
 

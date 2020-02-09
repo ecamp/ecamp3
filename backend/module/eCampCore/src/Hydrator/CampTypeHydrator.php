@@ -3,11 +3,22 @@
 namespace eCamp\Core\Hydrator;
 
 use eCamp\Core\Entity\CampType;
+use eCamp\Core\Entity\Period;
+use eCamp\Lib\Entity\EntityLink;
+use eCamp\Lib\Entity\EntityLinkCollection;
+use eCamp\Lib\Hydrator\Util;
+use eCampApi\V1\Rest\Day\DayCollection;
+use eCampApi\V1\Rest\EventInstance\EventInstanceCollection;
 use eCampApi\V1\Rest\EventType\EventTypeCollection;
 use Zend\Hydrator\HydratorInterface;
 use ZF\Hal\Link\Link;
 
 class CampTypeHydrator implements HydratorInterface {
+    public static function HydrateInfo() {
+        return [
+        ];
+    }
+
     /**
      * @param object $object
      * @return array
@@ -22,24 +33,8 @@ class CampTypeHydrator implements HydratorInterface {
             'is_js' => $campType->getIsJS(),
             'is_course' => $campType->getIsCourse(),
 
-//            'organization' => new EntityLink($campType->getOrganization()),
-            'organization' => Link::factory([
-                'rel' => 'organization',
-                'route' => [
-                    'name' => 'e-camp-api.rest.doctrine.organization',
-                    'params' => [ 'organization_id' => $campType->getOrganization()->getId() ]
-                ]
-            ]),
-
-            'event_types' => new EventTypeCollection($campType->getEventTypes()),
-
-            'event_types_link' => Link::factory([
-                'rel' => 'event_types_link',
-                'route' => [
-                    'name' => 'e-camp-api.rest.doctrine.event-type',
-                    'options' => ['query' => ['camp_type_id' => $campType->getId()]]
-                ]
-            ])
+            'organization' => EntityLink::Create($campType->getOrganization()),
+            'event_types' => new EntityLinkCollection($campType->getEventTypes()),
         ];
     }
 

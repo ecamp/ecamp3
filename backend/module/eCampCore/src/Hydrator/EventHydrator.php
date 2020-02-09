@@ -3,11 +3,24 @@
 namespace eCamp\Core\Hydrator;
 
 use eCamp\Core\Entity\Event;
+use eCamp\Lib\Entity\EntityLink;
+use eCamp\Lib\Entity\EntityLinkCollection;
+use eCamp\Lib\Hydrator\Util;
 use eCampApi\V1\Rest\EventInstance\EventInstanceCollection;
 use Zend\Hydrator\HydratorInterface;
-use ZF\Hal\Link\Link;
 
 class EventHydrator implements HydratorInterface {
+    public static function HydrateInfo() {
+        return [
+            'event_category' => Util::Entity(function(Event $e) {
+                return $e->getEventCategory();
+            }),
+            'event_instances' => Util::Collection(function (Event $e) {
+                return new EventInstanceCollection($e->getEventInstances());
+            })
+        ];
+    }
+
     /**
      * @param object $object
      * @return array
@@ -18,18 +31,19 @@ class EventHydrator implements HydratorInterface {
         return [
             'id' => $event->getId(),
             'title' => $event->getTitle(),
-            'camp' => $event->getCamp(),
 
-            'event_category' => $event->getEventCategory(),
-            'event_instances' => new EventInstanceCollection($event->getEventInstances()),
+            'camp' => new EntityLink($event->getCamp()),
+            'event_category' => EntityLink::Create($event->getEventCategory()),
 
-            'event_plugins' => Link::factory([
-                'rel' => 'event_plugins',
-                'route' => [
-                    'name' => 'e-camp-api.rest.doctrine.event-plugin',
-                    'options' => [ 'query' => [ 'event_id' => $event->getId() ] ]
-                ]
-            ]),
+            'event_instances' => new EntityLinkCollection($event->getEventInstances()),
+
+//            'event_plugins' => Link::factory([
+//                'rel' => 'event_plugins',
+//                'route' => [
+//                    'name' => 'e-camp-api.rest.doctrine.event-plugin',
+//                    'options' => [ 'query' => [ 'event_id' => $event->getId() ] ]
+//                ]
+//            ]),
         ];
     }
 
