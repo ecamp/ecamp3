@@ -14,26 +14,29 @@ Displays periods of a single camp.
           <v-list-item-subtitle>{{ period.start }} - {{ period.end }}</v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
-      <v-skeleton-loader
-        v-if="events._meta.loading"
-        type="list-item-avatar-two-line@3" />
-      <!-- wait for all events to be loaded => avoid each eventInstance to load separately -->
-      <v-list v-else dense>
-        <v-list-item
-          v-for="eventInstance in period.event_instances().items"
-          :key="eventInstance._meta.self"
-          two-line
-          :to="eventInstanceRoute(eventInstance)">
-          <v-chip class="mr-2" :color="eventInstance.event().event_category().color.toString()">{{ eventInstance.event().event_category().short }}</v-chip>
-          <v-list-item-content>
-            <v-list-item-title>{{ eventInstance.event().title }}</v-list-item-title>
-            <v-list-item-subtitle>{{ eventInstance.start_time }} - {{ eventInstance.end_time }}</v-list-item-subtitle>
-          </v-list-item-content>
-        </v-list-item>
+      <v-list dense>
+        <template v-for="eventInstance in period.event_instances().items">
+          <v-skeleton-loader
+            :key="eventInstance._meta.self"
+            v-if="eventInstance.event()._meta.loading"
+            type="list-item-avatar-two-line" height="60">
+          </v-skeleton-loader>
+          <v-list-item
+            v-else
+            :key="eventInstance._meta.self"
+            two-line
+            :to="eventInstanceRoute(eventInstance)">
+            <v-chip class="mr-2" :color="eventInstance.event().event_category().color.toString()">{{ eventInstance.event().event_category().short }}</v-chip>
+            <v-list-item-content>
+              <v-list-item-title>{{ eventInstance.event().title }}</v-list-item-title>
+              <v-list-item-subtitle>{{ eventInstance.start_time }} - {{ eventInstance.end_time }}</v-list-item-subtitle>
+            </v-list-item-content>
+          </v-list-item>
+        </template>
       </v-list>
-      <v-divider />
+      <v-divider/>
     </div>
-    <v-spacer />
+    <v-spacer/>
   </v-card>
 </template>
 <script>
