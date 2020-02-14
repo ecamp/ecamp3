@@ -17,10 +17,9 @@ Displays periods of a single camp.
       <v-list dense>
         <template v-for="eventInstance in period.event_instances().items">
           <v-skeleton-loader
-            :key="eventInstance._meta.self"
             v-if="eventInstance.event()._meta.loading"
-            type="list-item-avatar-two-line" height="60">
-          </v-skeleton-loader>
+            :key="eventInstance._meta.self"
+            type="list-item-avatar-two-line" height="60" />
           <v-list-item
             v-else
             :key="eventInstance._meta.self"
@@ -34,9 +33,9 @@ Displays periods of a single camp.
           </v-list-item>
         </template>
       </v-list>
-      <v-divider/>
+      <v-divider />
     </div>
-    <v-spacer/>
+    <v-spacer />
   </v-card>
 </template>
 <script>
