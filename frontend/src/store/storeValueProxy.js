@@ -1,3 +1,5 @@
+import { get } from './index'
+
 /**
  * An entity reference in the Vuex store looks like this: { href: '/some/uri' }
  * @param object    to be examined
@@ -9,8 +11,8 @@ function isEntityReference (object) {
   return objectKeys.length === 1 && objectKeys[0] === 'href'
 }
 
-function containsLoadingEntityReference (vm, array) {
-  return array.some(entry => isEntityReference(entry) && vm.api.get(entry.href)._meta.loading)
+function containsLoadingEntityReference (array) {
+  return array.some(entry => isEntityReference(entry) && get(entry.href)._meta.loading)
 }
 
 /**
@@ -111,22 +113,21 @@ function loadingArrayProxy (arrayLoaded, existingContent = []) {
  * Given an array, replaces any entity references in the array with the entity loaded from the Vuex store
  * (or from the API if necessary), and returns that as a new array. In case some of the entity references in
  * the array have not finished loading yet, returns a loadingArrayProxy instead.
- * @param vm      Vue instance
  * @param array   possibly mixed array of values and references
  * @returns array the new array with replaced items, or a loadingArrayProxy if any of the array elements
  *                is still loading.
  */
-function mapArrayOfEntityReferences (vm, array) {
+function mapArrayOfEntityReferences (array) {
   const arrayWithReplacedReferences = array.map(entry => {
     if (isEntityReference(entry)) {
-      return vm.api.get(entry.href)
+      return get(entry.href)
     }
     return entry
   })
-  if (containsLoadingEntityReference(vm, array)) {
+  if (containsLoadingEntityReference(array)) {
     const arrayCompletelyLoaded = Promise.all(array.map(entry => {
       if (isEntityReference(entry)) {
-        return vm.api.get(entry.href)._meta.loaded
+        return get(entry.href)._meta.loaded
       }
       return Promise.resolve(entry)
     }))
@@ -140,13 +141,12 @@ function mapArrayOfEntityReferences (vm, array) {
  * Defines a property getter for the items property of a given target object.
  * The items property should always be a getter, in order to make the call to mapArrayOfEntityReferences
  * lazy, since that potentially fetches a large number of entities from the API.
- * @param vm       Vue instance
  * @param target   object on which the items getter should be defined
  * @param items    array of items, which can be mixed primitive values and entity references
  * @returns object the target object with the added getter
  */
-function addItemsGetter (vm, target, items) {
-  Object.defineProperty(target, 'items', { get: () => mapArrayOfEntityReferences(vm, items) })
+function addItemsGetter (target, items) {
+  Object.defineProperty(target, 'items', { get: () => mapArrayOfEntityReferences(items) })
   return target
 }
 
@@ -156,14 +156,13 @@ function addItemsGetter (vm, target, items) {
  * Reloading an embedded collection requires special information. Since the embedded collection has no own
  * URI, we need to reload the whole entity containing the embedded collection. Some extra info about the
  * containing entity must therefore be passed to this function.
- * @param vm             Vue instance
  * @param items          array of items, which can be mixed primitive values and entity references
  * @param reloadUri      URI of the entity containing the embedded collection (for reloading)
  * @param reloadProperty property in the containing entity under which the embedded collection is saved
  * @returns object the imitated collection object
  */
-function embeddedCollectionProxy (vm, items, reloadUri, reloadProperty) {
-  const result = addItemsGetter(vm, { _meta: { reload: { uri: reloadUri, property: reloadProperty } } }, items)
+function embeddedCollectionProxy (items, reloadUri, reloadProperty) {
+  const result = addItemsGetter({ _meta: { reload: { uri: reloadUri, property: reloadProperty } } }, items)
   result._meta.loaded = Promise.resolve(result)
   return result
 }
@@ -188,40 +187,38 @@ function embeddedCollectionProxy (vm, items, reloadUri, reloadProperty) {
  *   }
  * }
  * // Apply storeValueProxy
- * let usable = storeValueProxy(vm, storeData)
+ * let usable = storeValueProxy(storeData)
  * // Now we can use accessor methods
  * usable.reference_to_other_entity() // returns the result of this.api.get('/uri/of/other/entity')
  *
- * @param vm                  Vue instance
  * @param data                entity data from the Vuex store
  * @returns object            wrapped entity ready for use in a frontend component
  */
-export default function storeValueProxy (vm, data) {
+export default function storeValueProxy (data) {
   const meta = data._meta || { loaded: Promise.resolve() }
 
   if (meta.loading) {
-    const entityLoaded = meta.loaded.then(loadedData => createStoreValueProxy(vm, loadedData))
+    const entityLoaded = meta.loaded.then(loadedData => createStoreValueProxy(loadedData))
     return loadingProxy(entityLoaded, meta.self)
   }
 
-  return createStoreValueProxy(vm, data)
+  return createStoreValueProxy(data)
 }
 
 /**
  * Creates an actual storeValueProxy, by wrapping the given Vuex store data. The data must not be loading.
- * @param vm   Vue instance
  * @param data fully loaded entity data from the Vuex store
  */
-function createStoreValueProxy (vm, data) {
+function createStoreValueProxy (data) {
   const result = {}
   Object.keys(data).forEach(key => {
     const value = data[key]
     if (key === 'items' && isCollection(data)) {
-      addItemsGetter(vm, result, data[key])
+      addItemsGetter(result, data[key])
     } else if (Array.isArray(value)) {
-      result[key] = () => embeddedCollectionProxy(vm, value, data._meta.self, key)
+      result[key] = () => embeddedCollectionProxy(value, data._meta.self, key)
     } else if (isEntityReference(value)) {
-      result[key] = () => vm.api.get(value.href)
+      result[key] = () => get(value.href)
     } else {
       result[key] = value
     }

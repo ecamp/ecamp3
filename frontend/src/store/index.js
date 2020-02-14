@@ -62,31 +62,43 @@ export const mutations = {
   }
 }
 
-export default new Vuex.Store({
+const store = new Vuex.Store({
   state,
   mutations,
   strict: process.env.NODE_ENV !== 'production'
 })
+export default store
 
 /**
  * Sends a POST request to the backend, in order to create a new entity.
- * @param vm              Vue instance
  * @param uriOrCollection URI (or instance) of a collection in which the entity should be created
  * @param data            Payload to be sent in the POST request
  * @returns Promise       resolves when the POST request has completed and the entity is available
  *                        in the Vuex store.
  */
-const post = function (vm, uriOrCollection, data) {
+const post = function (uriOrCollection, data) {
   const uri = normalizeEntityUri(uriOrCollection)
   if (uri === null) {
-    return Promise.reject(new Error(`Could not perform POST, "${uriOrCollection}" is not a standalone collection or URI`))
+    return Promise.reject(new Error(`Could not perform POST, "${uriOrCollection}" is not an entity or URI`))
   }
-  return vm.axios.post(API_ROOT + uri, data).then(({ data }) => {
+  return axios.post(API_ROOT + uri, data).then(({ data }) => {
     // Workaround because API adds page parameter even to first page when it was not requested that way
     // TODO fix backend API and remove the next line
     data._links.self.href = uri
-    storeHalJsonData(vm, data)
+    storeHalJsonData(data)
   })
+}
+
+/**
+ * Reloads an entity from the API.
+ *
+ * @param uriOrEntity URI (or instance) of an entity to reload from the API
+ * @returns entity    Entity from the store. Note that when fetching an object for the first time, a reactive
+ *                    dummy is returned, which will be replaced with the true data through Vue's reactivity
+ *                    system as soon as the API request finishes.
+ */
+const reload = function (uriOrEntity) {
+  return get(uriOrEntity, true)
 }
 
 /**
@@ -110,7 +122,6 @@ const post = function (vm, uriOrCollection, data) {
  *   })
  * }
  *
- * @param vm          Vue instance
  * @param uriOrEntity URI (or instance) of an entity to load from the store or API
  * @param forceReload If true, the entity will be fetched from the API even if it is already in the Vuex store.
  *                    Note that the function will still return the old value in this case, but you can
@@ -119,7 +130,7 @@ const post = function (vm, uriOrCollection, data) {
  *                    dummy is returned, which will be replaced with the true data through Vue's reactivity
  *                    system as soon as the API request finishes.
  */
-const get = function (vm, uriOrEntity, forceReload = false) {
+export const get = function (uriOrEntity, forceReload = false) {
   const forceReloadingEmbeddedCollection = forceReload && uriOrEntity._meta && uriOrEntity._meta.reload && uriOrEntity._meta.reload.uri
   const uri = forceReloadingEmbeddedCollection
     ? normalizeEntityUri(uriOrEntity._meta.reload.uri)
@@ -133,67 +144,65 @@ const get = function (vm, uriOrEntity, forceReload = false) {
     throw new Error(`Could not perform GET, "${uriOrEntity}" is not an entity or URI`)
   }
 
-  const storeData = load(vm, uri, forceReload)
+  const storeData = load(uri, forceReload)
   return forceReloadingEmbeddedCollection
-    ? storeValueProxy(vm, storeData)[uriOrEntity._meta.reload.property]()
-    : storeValueProxy(vm, storeData)
+    ? storeValueProxy(storeData)[uriOrEntity._meta.reload.property]()
+    : storeValueProxy(storeData)
 }
 
 /**
  * Loads the entity specified by the URI from the Vuex store, or from the API if necessary. If applicable,
  * sets the loaded promise on the entity in the Vuex store.
- * @param vm          Vue instance
  * @param uri         URI of the entity to load
  * @param forceReload If true, the entity will be fetched from the API even if it is already in the Vuex store.
  * @returns entity    the current entity data from the Vuex store. Note: This may be a reactive dummy if the
  *                    backend request is still ongoing.
  */
-function load (vm, uri, forceReload) {
-  const existsInStore = (uri in vm.$store.state.api)
-  const isLoading = existsInStore && (vm.$store.state.api[uri]._meta || {}).loading
+function load (uri, forceReload) {
+  const existsInStore = (uri in store.state.api)
+  const isLoading = existsInStore && (store.state.api[uri]._meta || {}).loading
 
   if (!existsInStore) {
-    vm.$store.commit('addEmpty', uri)
+    store.commit('addEmpty', uri)
   }
   if (isLoading && !forceReload) {
     // Reuse the loading entity and loaded promise that is already waiting for a pending API request
-    return vm.$store.state.api[uri]
+    return store.state.api[uri]
   }
 
-  let dataFinishedLoading = Promise.resolve(vm.$store.state.api[uri])
+  let dataFinishedLoading = Promise.resolve(store.state.api[uri])
   if (!existsInStore || forceReload) {
-    dataFinishedLoading = loadFromApi(vm, uri)
+    dataFinishedLoading = loadFromApi(uri)
   }
   // We mutate the store state here without telling Vuex about it, so it won't complain and won't make loaded reactive.
   // The promise is needed in the store for a special case when a loading entity is requested a second time with
   // this.api.get(...).
-  vm.$store.state.api[uri]._meta.loaded = dataFinishedLoading
+  store.state.api[uri]._meta.loaded = dataFinishedLoading
 
-  return vm.$store.state.api[uri]
+  return store.state.api[uri]
 }
 
 /**
  * Loads the entity specified by the URI from the API and stores it into the Vuex store. Returns a promise
  * that resolves to the raw data stored in the Vuex store (needs to be wrapped into a storeValueProxy before
  * being usable in Vue components).
- * @param vm        Vue instance
  * @param uri       URI of the entity to load from the API
  * @returns Promise resolves to the raw data stored in the Vuex store after the API request completes, or
  *                  rejects when the API request fails
  */
-function loadFromApi (vm, uri) {
+function loadFromApi (uri) {
   return new Promise((resolve, reject) => {
-    vm.axios.get(API_ROOT + uri).then(
+    axios.get(API_ROOT + uri).then(
       ({ data }) => {
         // Workaround because API adds page parameter even to first page when it was not requested that way
         // TODO fix backend API and remove the next line
         data._links.self.href = uri
-        storeHalJsonData(vm, data)
-        resolve(vm.$store.state.api[uri])
+        storeHalJsonData(data)
+        resolve(store.state.api[uri])
       },
       ({ response }) => {
         if (response.status === 404) {
-          return deleted(vm, uri)
+          return deleted(uri)
         }
         reject(response)
       }
@@ -203,25 +212,24 @@ function loadFromApi (vm, uri) {
 
 /**
  * Sends a PATCH request to the backend, in order to update some fields in an existing entity.
- * @param vm          Vue instance
  * @param uriOrEntity URI (or instance) of an entity which should be updated
  * @param data        Payload (fields to be updated) to be sent in the PATCH request
  * @returns Promise   resolves when the PATCH request has completed and the updated entity is available
  *                    in the Vuex store.
  */
-const patch = function (vm, uriOrEntity, data) {
+const patch = function (uriOrEntity, data) {
   const uri = normalizeEntityUri(uriOrEntity)
   if (uri === null) {
     return Promise.reject(new Error(`Could not perform PATCH, "${uriOrEntity}" is not an entity or URI`))
   }
-  return vm.axios.patch(API_ROOT + uri, data).then(({ data }) => {
+  return axios.patch(API_ROOT + uri, data).then(({ data }) => {
     // Workaround because API adds page parameter even to first page when it was not requested that way
     // TODO fix backend API and remove the next line
     data._links.self.href = uri
-    storeHalJsonData(vm, data)
+    storeHalJsonData(data)
   }, ({ response }) => {
     if (response.status === 404) {
-      return deleted(vm, uri)
+      return deleted(uri)
     }
   })
 }
@@ -230,16 +238,15 @@ const patch = function (vm, uriOrEntity, data) {
  * Removes a single entity from the Vuex store (but does not delete it using the API). Note that if the
  * entity is currently referenced and displayed through any other entity, the reactivity system will
  * immediately re-fetch the purged entity from the API in order to re-display it.
- * @param vm          Vue instance
  * @param uriOrEntity URI (or instance) of an entity which should be removed from the Vuex store
  */
-const purge = function (vm, uriOrEntity) {
+const purge = function (uriOrEntity) {
   const uri = normalizeEntityUri(uriOrEntity)
   if (uri === null) {
     // Can't purge an unknown URI, do nothing
     return
   }
-  vm.$store.commit('purge', uri)
+  store.commit('purge', uri)
 }
 
 /**
@@ -251,20 +258,19 @@ const purge = function (vm, uriOrEntity) {
  * 3. Finds all entities [...R] in the store that reference E (e.g. find the corresponding camp when
  *    deleting an event) and reloads them from the API
  * 4. Purges E from the Vuex store
- * @param vm          Vue instance
  * @param uriOrEntity URI (or instance) of an entity which should be deleted
  * @returns Promise   resolves when the DELETE request has completed and either all related entites have
  *                    been reloaded from the API, or the failed deletion has been cleaned up.
  */
-const del = function (vm, uriOrEntity) {
+const del = function (uriOrEntity) {
   const uri = normalizeEntityUri(uriOrEntity)
   if (uri === null) {
     // Can't delete an unknown URI, do nothing
     return Promise.reject(new Error(`Could not perform DELETE, "${uriOrEntity}" is not an entity or URI`))
   }
-  vm.$store.commit('deleting', uri)
-  return vm.axios.delete(API_ROOT + uri)
-    .then(() => deleted(vm, uri), ({ response }) => deletingFailed(vm, uri, response))
+  store.commit('deleting', uri)
+  return axios.delete(API_ROOT + uri)
+    .then(() => deleted(uri), ({ response }) => deletingFailed(uri, response))
 }
 
 function valueIsArrayWithReferenceTo (value, uri) {
@@ -276,8 +282,8 @@ function valueIsReferenceTo (value, uri) {
   return objectKeys.length === 1 && objectKeys[0] === 'href' && value.href === uri
 }
 
-function findEntitiesReferencing (vm, uri) {
-  return Object.values(vm.$store.state.api)
+function findEntitiesReferencing (uri) {
+  return Object.values(store.state.api)
     .filter((entity) => {
       return Object.values(entity).some(propertyValue =>
         valueIsReferenceTo(propertyValue, uri) || valueIsArrayWithReferenceTo(propertyValue, uri)
@@ -287,40 +293,37 @@ function findEntitiesReferencing (vm, uri) {
 
 /**
  * Cleans up the Vuex store after an entity is found to be deleted (HTTP status 204 or 404) from the backend.
- * @param vm        Vue instance
  * @param uri       URI of an entity which is not available (anymore) in the backend
  * @returns Promise resolves when the cleanup has completed and the Vuex store is up to date again
  */
-function deleted (vm, uri) {
-  return Promise.all(findEntitiesReferencing(vm, uri).map(outdatedEntity => vm.api.reload(outdatedEntity)._meta.loaded))
-    .then(() => vm.api.purge(uri))
+function deleted (uri) {
+  return Promise.all(findEntitiesReferencing(uri).map(outdatedEntity => reload(outdatedEntity)._meta.loaded))
+    .then(() => purge(uri))
 }
 
 /**
  * Unsets the ._meta.deleted flag when an entity failed to be deleted from the backend.
- * @param vm       Vue instance
  * @param uri      URI of an entity which failed to be deleted from backend
  * @param response HTTP response returned from the DELETE call to backend
  */
-function deletingFailed (vm, uri, response) {
+function deletingFailed (uri, response) {
   if (response.status !== 204) {
-    vm.$store.commit('deletingFailed', uri)
+    store.commit('deletingFailed', uri)
   }
 }
 
 /**
  * Normalizes raw data from the backend and stores it into the Vuex store.
- * @param vm   Vue instance
  * @param data HAL JSON data received from the backend
  */
-function storeHalJsonData (vm, data) {
+function storeHalJsonData (data) {
   const normalizedData = normalize(data, {
     camelizeKeys: false,
     metaKey: '_meta',
     normalizeUri: (uri) => normalizeEntityUri(uri, API_ROOT),
     filterReferences: true
   })
-  vm.$store.commit('add', normalizedData)
+  store.commit('add', normalizedData)
 }
 
 /**
@@ -335,15 +338,6 @@ function storeHalJsonData (vm, data) {
  */
 Object.defineProperties(Vue.prototype, {
   api: {
-    get () {
-      return {
-        post: (uriOrEntity, data) => post(this, uriOrEntity, data),
-        get: uriOrEntity => get(this, uriOrEntity),
-        reload: uriOrEntity => get(this, uriOrEntity, true),
-        del: uriOrEntity => del(this, uriOrEntity),
-        patch: (uriOrEntity, data) => patch(this, uriOrEntity, data),
-        purge: uriOrEntity => purge(this, uriOrEntity)
-      }
-    }
+    get () { return { post, get, reload, del, patch, purge } }
   }
 })
