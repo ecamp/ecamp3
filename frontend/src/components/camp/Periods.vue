@@ -23,7 +23,7 @@ Displays periods of a single camp.
           v-for="eventInstance in period.event_instances().items"
           :key="eventInstance._meta.self"
           two-line
-          :to="eventRoute(eventInstance)">
+          :to="eventInstanceRoute(eventInstance)">
           <v-chip class="mr-2" :color="eventInstance.event().event_category().color.toString()">{{ eventInstance.event().event_category().short }}</v-chip>
           <v-list-item-content>
             <v-list-item-title>{{ eventInstance.event().title }}</v-list-item-title>
@@ -37,7 +37,7 @@ Displays periods of a single camp.
   </v-card>
 </template>
 <script>
-import { eventRoute } from '@/router'
+import { eventInstanceRoute } from '@/router'
 
 export default {
   name: 'Periods',
@@ -59,8 +59,8 @@ export default {
     }
   },
   methods: {
-    eventRoute (eventInstance) {
-      return eventRoute(this.camp(), eventInstance)
+    eventInstanceRoute (eventInstance) {
+      return eventInstanceRoute(this.camp(), eventInstance)
     }
   }
 }

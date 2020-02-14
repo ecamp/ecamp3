@@ -266,7 +266,6 @@ describe('API store', () => {
 
     // when
     loadingProxy._meta.loaded.then(loadedData => {
-
       // then
       expect(loadedData).toMatchObject({ id: 1, _meta: { self: '/camps/1' } })
 
@@ -286,7 +285,6 @@ describe('API store', () => {
 
     // when
     loadingProxy._meta.loaded.then(loadedData => {
-
       // then
       expect(loadedData).toMatchObject({ id: 1, _meta: { self: '/camps/1' } })
 
@@ -448,7 +446,7 @@ describe('API store', () => {
                   href: '/eventTypes/124'
                 }
               }
-            },
+            }
           ]
         },
         _links: {

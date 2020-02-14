@@ -76,7 +76,7 @@ export default new Router({
         {
           path: 'picasso',
           name: 'camp/picasso',
-          component: () => import(/* webpackChunkName: "campPicasso" */ './components/camp/Picasso.vue'),
+          component: () => import(/* webpackChunkName: "campPicasso" */ './components/camp/CampPicasso.vue'),
           meta: { layout: 'camp' }
         },
         {
@@ -88,20 +88,19 @@ export default new Router({
       ]
     },
     {
-      path: '/camps/:campId/:campTitle?/events/:eventId/:eventName?',
+      path: '/camps/:campId/:campTitle?/events/:eventInstanceId/:eventName?',
       name: 'event',
       components: {
         default: () => import(/* webpackChunkName: "event" */ './views/Event.vue'),
-        aside: () => import(/* webpackChunkName: "day" */ './views/Day.vue')
+        aside: () => import(/* webpackChunkName: "day" */ './views/DayPicasso.vue')
       },
       beforeEnter: requireAuth,
       meta: { layout: 'camp' },
       props: {
-        default: route => ({ event: eventFromRoute(route) }),
-        aside: route => ({ camp: campFromRoute(route) })
+        default: route => ({ eventInstance: eventInstanceFromRoute(route) }),
+        aside: route => ({ day: dayFromEventInstanceInRoute(route) })
       }
     }
-
   ]
 })
 
@@ -121,9 +120,15 @@ export function campFromRoute (route) {
   }
 }
 
-function eventFromRoute (route) {
+function eventInstanceFromRoute (route) {
   return function () {
-    return this.api.get('/event/' + route.params.eventId)
+    return this.api.get('/event-instance/' + route.params.eventInstanceId)
+  }
+}
+
+function dayFromEventInstanceInRoute (route) {
+  return function () {
+    return this.api.get('/event-instance/' + route.params.eventInstanceId).day()
   }
 }
 
@@ -133,7 +138,7 @@ export function campRoute (camp, subroute) {
   return { name: routeName, params: { campId: camp.id, campTitle: slugify(camp.title) } }
 }
 
-export function eventRoute (camp, eventInstance) {
+export function eventInstanceRoute (camp, eventInstance) {
   if (camp._meta.loading || eventInstance._meta.loading || eventInstance.event()._meta.loading) return {}
-  return { name: 'event', params: { campId: camp.id, campTitle: slugify(camp.title), eventId: eventInstance.event().id, eventName: slugify(eventInstance.event().title) } }
+  return { name: 'event', params: { campId: camp.id, campTitle: slugify(camp.title), eventInstanceId: eventInstance.id, eventName: slugify(eventInstance.event().title) } }
 }

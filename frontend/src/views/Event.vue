@@ -9,24 +9,24 @@ Displays a single event
         <v-icon>mdi-arrow-left</v-icon>
       </v-btn>
       <v-toolbar-title class="pl-2">
-        1.1
+        {{ eventInstance().number }}
         <v-chip v-if="!category._meta.loading" dark :color="category.color">{{ category.short }}</v-chip>
-        {{ event().title }}
+        {{ event.title }}
       </v-toolbar-title>
     </v-toolbar>
     <v-card-text>
-      <v-skeleton-loader v-if="event()._meta.loading" type="article" />
+      <v-skeleton-loader v-if="event._meta.loading" type="article" />
       <template v-else>
         <api-input
-          :value="event().title"
-          :uri="event()._meta.self"
+          :value="event.title"
+          :uri="event._meta.self"
           fieldname="title"
           :auto-save="false"
           label="Titel"
           required />
         <api-input
-          :value="event().title"
-          :uri="event()._meta.self"
+          :value="event.title"
+          :uri="event._meta.self"
           fieldname="title"
           :auto-save="true"
           label="Titel"
@@ -54,20 +54,17 @@ export default {
     ApiInput: () => import('@/components/form/ApiInput.vue')
   },
   props: {
-    event: { type: Function, required: true }
-  },
-  data () {
-    return {
-      editing: false,
-      messages: []
-    }
+    eventInstance: { type: Function, required: true }
   },
   computed: {
+    event () {
+      return this.eventInstance().event()
+    },
     category () {
-      return this.event().event_category()
+      return this.event.event_category()
     },
     instances () {
-      return this.event().event_instances()
+      return this.event.event_instances()
     }
   }
 }

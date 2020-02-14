@@ -49,9 +49,9 @@ function loadingProxy (entityLoaded, uri = null) {
       if (prop === Symbol.toPrimitive) {
         return () => ''
       }
-      if (prop === 'then' || prop === 'toJSON') {
-        // This is necessary so that Vue's reactivity system understands that this loadingProxy
-        // is neither a Promise nor JSONable.
+      if (['then', 'toJSON', Symbol.toStringTag, 'state', 'getters', '$options', '_isVue', '__file', 'render', 'constructor'].includes(prop)) {
+        // This is necessary so that Vue's reactivity system understands to treat this loadingProxy
+        // like a normal object.
         return undefined
       }
       if (prop === 'loading') {
@@ -64,6 +64,8 @@ function loadingProxy (entityLoaded, uri = null) {
         return uri
       }
       if (prop === '_meta') {
+        // When _meta is requested on a loadingProxy, we keep on using the unmodified promise, because ._meta.loaded
+        // is supposed to resolve to the whole object, not just the ._meta part of it
         return loadingProxy(entityLoaded, uri)
       }
       const propertyLoaded = entityLoaded.then(entity => entity[prop])
@@ -89,7 +91,7 @@ function loadingProxy (entityLoaded, uri = null) {
  */
 function loadingArrayProxy (arrayLoaded, existingContent = []) {
   const singleResultFunctions = ['find']
-  const arrayResultFunctions = ['map', 'filter']
+  const arrayResultFunctions = ['map', 'flatMap', 'filter']
   singleResultFunctions.forEach(func => {
     existingContent[func] = (...args) => {
       const resultLoaded = arrayLoaded.then(array => array[func](...args))
