@@ -86,6 +86,7 @@ const post = function (uriOrCollection, data) {
     // TODO fix backend API and remove the next line
     data._links.self.href = uri
     storeHalJsonData(data)
+    return get(uri)
   })
 }
 
@@ -227,6 +228,7 @@ const patch = function (uriOrEntity, data) {
     // TODO fix backend API and remove the next line
     data._links.self.href = uri
     storeHalJsonData(data)
+    return get(uri)
   }, ({ response }) => {
     if (response.status === 404) {
       return deleted(uri)
@@ -247,6 +249,7 @@ const purge = function (uriOrEntity) {
     return
   }
   store.commit('purge', uri)
+  return uri
 }
 
 /**
