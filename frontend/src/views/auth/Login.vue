@@ -97,32 +97,18 @@ export default {
     })
   },
   methods: {
-    login () {
-      this.$auth.login(this.username, this.password).then(ok => {
-        if (ok) {
-          this.redirect()
-        } else {
-          this.error = true
-        }
-      })
+    async login () {
+      if (await this.$auth.login(this.username, this.password)) {
+        this.redirect()
+      } else {
+        this.error = true
+      }
     },
     loginGoogle () {
-      // Make the login callback function available on global level, so the popup can call it
-      window.loginSuccess = async () => {
-        await this.$auth.loginSuccess()
-        this.redirect()
-      }
-      const callbackUrl = window.location.origin + this.$router.resolve({ name: 'loginCallback' }).href
-      this.$auth.loginGoogle(callbackUrl)
+      this.$auth.loginGoogle(this.redirect)
     },
     loginPbsMiData () {
-      // Make the login callback function available on global level, so the popup can call it
-      window.loginSuccess = async () => {
-        await this.$auth.loginSuccess()
-        this.redirect()
-      }
-      const callbackUrl = window.location.origin + this.$router.resolve({ name: 'loginCallback' }).href
-      this.$auth.loginPbsMiData(callbackUrl)
+      this.$auth.loginPbsMiData(this.redirect)
     },
     redirect () {
       this.$router.replace(this.$route.query.redirect || '/')

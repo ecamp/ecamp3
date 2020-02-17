@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import axios from 'axios'
 import { get, reload, post, href } from '@/store'
+import router from '@/router'
 
 const STORAGE_LOCATION = 'loggedIn'
 const LOGGED_IN = '1'
@@ -34,26 +35,42 @@ async function isLoggedIn () {
   return loginStatus === LOGGED_IN
 }
 
-async function login (username, password) {
+async function login (username, password, callback) {
   const url = await href(get().login(), 'native')
   return post(url, { username: username, password: password })
     .then(async resp => {
       if (resp.user !== 'guest') {
-        await this.loginSuccess()
+        await loginSuccess()
+        callback && callback()
         return true
       } else {
+        callback && callback()
         return false
       }
     })
 }
 
-async function loginGoogle (returnUrl) {
+async function loginGoogle (callback) {
+  // Make the login callback function available on global level, so the popup can call it
+  window.loginSuccess = async () => {
+    await loginSuccess()
+    callback && callback()
+  }
+
+  const returnUrl = window.location.origin + router.resolve({ name: 'loginCallback' }).href
   // TODO use templated relations if #369 is implemented
   const url = (await href(get().login(), 'google')) + '?callback=' + encodeURI(returnUrl)
   window.open(url, '', 'width=500px,height=600px')
 }
 
-async function loginPbsMiData (returnUrl) {
+async function loginPbsMiData (callback) {
+  // Make the login callback function available on global level, so the popup can call it
+  window.loginSuccess = async () => {
+    await loginSuccess()
+    callback && callback()
+  }
+
+  const returnUrl = window.location.origin + router.resolve({ name: 'loginCallback' }).href
   // TODO use templated relations if #369 is implemented
   const url = (await href(get().login(), 'pbsmidata')) + '?callback=' + encodeURI(returnUrl)
   window.open(url, '', 'width=500px,height=600px')
@@ -72,9 +89,7 @@ async function logout (callback) {
   // refresh the available login options
   await reload(get().login())._meta.loaded
   notifySubscribers(false)
-  if (callback) {
-    callback()
-  }
+  callback && callback()
 }
 
 export const auth = { isLoggedIn, subscribe, login, loginGoogle, loginPbsMiData, loginSuccess, logout }
