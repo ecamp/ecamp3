@@ -76,7 +76,7 @@ export default store
  * @returns Promise       resolves when the POST request has completed and the entity is available
  *                        in the Vuex store.
  */
-const post = function (uriOrCollection, data) {
+export const post = function (uriOrCollection, data) {
   const uri = normalizeEntityUri(uriOrCollection, API_ROOT)
   if (uri === null) {
     return Promise.reject(new Error(`Could not perform POST, "${uriOrCollection}" is not an entity or URI`))
@@ -98,7 +98,7 @@ const post = function (uriOrCollection, data) {
  *                    dummy is returned, which will be replaced with the true data through Vue's reactivity
  *                    system as soon as the API request finishes.
  */
-const reload = function (uriOrEntity) {
+export const reload = function (uriOrEntity) {
   return get(uriOrEntity, true)
 }
 
@@ -209,6 +209,19 @@ function loadFromApi (uri) {
       }
     )
   })
+}
+
+/**
+ * Loads the URI of a related entity from the store, or the API in case it is not already fetched.
+ *
+ * @param uriOrEntity URI (or instance) of an entity from the API
+ * @param relation    the name of the relation for which the URI should be retrieved
+ * @returns Promise   resolves to the URI of the related entity.
+ */
+export const href = async function (uriOrEntity, relation) {
+  const self = normalizeEntityUri(await get(uriOrEntity)._meta.loaded, API_ROOT)
+  const href = (state.api[self][relation] || {}).href
+  return href ? API_ROOT + href : href
 }
 
 /**
@@ -341,6 +354,6 @@ function storeHalJsonData (data) {
  */
 Object.defineProperties(Vue.prototype, {
   api: {
-    get () { return { post, get, reload, del, patch, purge } }
+    get () { return { post, get, reload, del, patch, purge, href } }
   }
 })
