@@ -68,12 +68,20 @@ class LoginController extends AbstractActionController {
             'route' => [ 'name' => 'e-camp-api.rpc.index' ]
         ]);
 
+        $data['native'] = Link::factory([
+            'rel' => 'native',
+            'route' => [
+                'name' => 'e-camp-api.rpc.login',
+                'params' => [ 'action' => 'login' ]
+            ]
+        ]);
+
         $data['google'] = Link::factory([
-          'rel' => 'google',
-          'route' => [
-            'name' => 'e-camp-api.rpc.login',
-            'params' => [ 'action' => 'google' ]
-          ]
+            'rel' => 'google',
+            'route' => [
+                'name' => 'e-camp-api.rpc.login',
+                'params' => [ 'action' => 'google' ]
+            ]
         ]);
 
         $data['pbsmidata'] = Link::factory([
@@ -82,6 +90,11 @@ class LoginController extends AbstractActionController {
             'name' => 'e-camp-api.rpc.login',
             'params' => [ 'action' => 'pbsmidata' ]
           ]
+        ]);
+
+        $data['self'] = Link::factory([
+            'rel' => 'self',
+            'route' => 'e-camp-api.rpc.login'
         ]);
 
         if ($userId != null) {
