@@ -165,7 +165,7 @@ function load (uri, forceReload) {
   if (!existsInStore) {
     store.commit('addEmpty', uri)
   }
-  if (isLoading && !forceReload) {
+  if (isLoading) {
     // Reuse the loading entity and loaded promise that is already waiting for a pending API request
     return store.state.api[uri]
   }
