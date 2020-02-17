@@ -12,38 +12,31 @@ Displays details on a single camp and allows to edit them.
         Einstellungen
       </v-toolbar-title>
       <v-spacer />
-      <v-btn
-        right
-        color="primary"
-        type="submit">
-        {{ buttonText }}
-      </v-btn>
     </v-toolbar>
-    <v-skeleton-loader v-if="campDetails.loaded" type="article" />
-    <v-card-text v-if="!campDetails.loaded">
-      <v-alert
-        v-for="(message, index) in messages"
-        :key="index"
-        :type="message.type">
-        {{ message.text }}
-      </v-alert>
-      <v-form @submit.prevent="toggleEdit">
+    <v-skeleton-loader v-if="camp()._meta.loading" type="article" />
+    <v-card-text v-else>
+      <v-form>
         <v-text-field
-          :value="campDetails.name"
+          label="Name"
           readonly
-          label="Name" />
-        <v-text-field
-          :value="campDetails.title"
-          :readonly="editing"
-          label="Titel" />
-        <v-text-field
-          :value="campDetails.motto"
-          :readonly="editing"
-          label="Motto" />
+          :value="camp().name"
+          class="mr-2 ml-2" />
+        <api-input
+          :value="camp().title"
+          :uri="camp()._meta.self"
+          fieldname="title"
+          label="Titel"
+          required />
+        <api-input
+          :value="camp().motto"
+          :uri="camp()._meta.self"
+          fieldname="motto"
+          label="Motto"
+          required />
         <v-list>
           <v-label>Perioden</v-label>
           <v-list-item
-            v-for="period in periods"
+            v-for="period in periods.items"
             :key="period.id">
             <v-list-item-content>
               <v-list-item-title>{{ period.description }}</v-list-item-title>
@@ -57,43 +50,16 @@ Displays details on a single camp and allows to edit them.
 </template>
 
 <script>
+import ApiInput from '../form/ApiInput'
 export default {
   name: 'Basic',
+  components: { ApiInput },
   props: {
-    campUri: { type: String, required: true }
-  },
-  data () {
-    return {
-      editing: false,
-      messages: []
-    }
+    camp: { type: Function, required: true }
   },
   computed: {
-    campDetails () {
-      return this.api.get(this.campUri)
-    },
     periods () {
-      return this.campDetails.periods().items
-    },
-    buttonText () {
-      return this.editing ? 'Speichern' : 'Bearbeiten'
-    }
-  },
-  methods: {
-    async saveToAPI () {
-      try {
-        // TODO replace this with this.api.patch(...) once it's implemented
-        await this.axios.patch(this.campUri, this.campDetails)
-        this.messages = [{ type: 'success', text: 'Successfully saved' }]
-      } catch (error) {
-        this.messages = [{ type: 'error', text: 'Could not save camp details. ' + error }]
-      }
-    },
-    toggleEdit () {
-      if (this.editing) {
-        this.saveToAPI()
-      }
-      this.editing = !this.editing
+      return this.camp().periods()
     }
   }
 }

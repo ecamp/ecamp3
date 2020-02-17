@@ -13,9 +13,9 @@ module.exports = {
     'vuetify'
   ],
   chainWebpack: (config) => {
-    const svgRule = config.module.rule('svg');
+    const svgRule = config.module.rule('svg')
 
-    svgRule.uses.clear();
+    svgRule.uses.clear()
 
     svgRule
       .use('babel-loader')

@@ -2,6 +2,7 @@
 
 namespace eCamp\Core\Hydrator;
 
+use eCamp\Core\Entity\Day;
 use eCamp\Core\Entity\EventInstance;
 use eCamp\Lib\Entity\EntityLink;
 use eCamp\Lib\Hydrator\Util;
@@ -20,6 +21,13 @@ class EventInstanceHydrator implements HydratorInterface {
     public function extract($object) {
         /** @var EventInstance $eventInstance */
         $eventInstance = $object;
+
+        $dayNumber = $eventInstance->getDayNumber();
+        /** @var Day $day */
+        $day = $eventInstance->getPeriod()->getDays()->filter(function (Day $day) use ($dayNumber) {
+            return $day->getDayNumber() === $dayNumber;
+        })->first();
+
         return [
             'id' => $eventInstance->getId(),
 
@@ -36,7 +44,8 @@ class EventInstanceHydrator implements HydratorInterface {
             'number' => $eventInstance->getNumber(),
 
             'event' => EntityLink::Create($eventInstance->getEvent()),
-            'period' => EntityLink::Create($eventInstance->getPeriod())
+            'period' => EntityLink::Create($eventInstance->getPeriod()),
+            'day' => EntityLink::Create($day)
         ];
     }
 

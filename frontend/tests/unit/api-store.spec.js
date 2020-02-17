@@ -161,7 +161,8 @@ describe('API store', () => {
     expect(vm.$store.state.api).toMatchObject({ '/camps/1': { _meta: { self: '/camps/1', loading: true } } })
     await letNetworkRequestFinish()
     expect(vm.$store.state.api).toMatchObject(linkedCollection.storeState)
-    expect(vm.api.get('/camps/1').events().items).toEqual([])
+    expect(vm.api.get('/camps/1').events().items).toBeInstanceOf(Array)
+    expect(vm.api.get('/camps/1').events().items.length).toEqual(0)
     await letNetworkRequestFinish()
     expect(vm.$store.state.api['/camps/1/events']).toMatchObject(events.storeState)
     expect(vm.api.get('/camps/1').events().items.length).toEqual(2)
@@ -255,6 +256,40 @@ describe('API store', () => {
     // then
     expect(`${meta}`).toEqual('')
     done()
+  })
+
+  it('returns the correct object when awaiting._meta.loading on a loadingProxy', async done => {
+    // given
+    axiosMock.onGet('http://localhost/camps/1').reply(200, embeddedSingleEntity.serverResponse)
+    const loadingProxy = vm.api.get('/camps/1')
+    expect(loadingProxy[Symbol.for('isLoadingProxy')]).toBe(true)
+
+    // when
+    loadingProxy._meta.loaded.then(loadedData => {
+      // then
+      expect(loadedData).toMatchObject({ id: 1, _meta: { self: '/camps/1' } })
+
+      done()
+    })
+
+    letNetworkRequestFinish()
+  })
+
+  it('returns the correct object when awaiting._meta.loading on a loaded object', async done => {
+    // given
+    axiosMock.onGet('http://localhost/camps/1').reply(200, embeddedSingleEntity.serverResponse)
+    vm.api.get('/camps/1')
+    letNetworkRequestFinish()
+    const loadingProxy = vm.api.get('/camps/1')
+    expect(loadingProxy[Symbol('isLoadingProxy')]).not.toBe(true)
+
+    // when
+    loadingProxy._meta.loaded.then(loadedData => {
+      // then
+      expect(loadedData).toMatchObject({ id: 1, _meta: { self: '/camps/1' } })
+
+      done()
+    })
   })
 
   it('throws when trying to access _meta in an invalid object', () => {
@@ -384,6 +419,82 @@ describe('API store', () => {
     expect(vm.$store.state.api).toMatchObject(embeddedSingleEntity.storeState)
     await letNetworkRequestFinish()
     expect(vm.$store.state.api['/campTypes/20']).toEqual(campTypeData.storeState)
+    done()
+  })
+
+  it('reloads an embedded collection from the store by reloading the superordinate object', async done => {
+    // given
+    const campData = {
+      serverResponse: {
+        id: 20,
+        _embedded: {
+          event_types: [
+            {
+              id: 123,
+              name: 'LS',
+              _links: {
+                self: {
+                  href: '/eventTypes/123'
+                }
+              }
+            },
+            {
+              id: 124,
+              name: 'LP',
+              _links: {
+                self: {
+                  href: '/eventTypes/124'
+                }
+              }
+            }
+          ]
+        },
+        _links: {
+          self: {
+            href: '/campTypes/20'
+          }
+        }
+      },
+      serverResponse2: {
+        id: 20,
+        _embedded: {
+          event_types: [
+            {
+              id: 123,
+              name: 'LS',
+              _links: {
+                self: {
+                  href: '/eventTypes/123'
+                }
+              }
+            }
+          ]
+        },
+        _links: {
+          self: {
+            href: '/campTypes/20'
+          }
+        }
+      },
+      storeState: [
+        {
+          href: '/eventTypes/123'
+        }
+      ]
+    }
+    axiosMock.onGet('http://localhost/camps/1').reply(200, campData.serverResponse)
+    axiosMock.onGet('http://localhost/camps/1').reply(200, campData.serverResponse2)
+    vm.api.get('/camps/1').event_types()
+    await letNetworkRequestFinish()
+    const embeddedCollection = vm.api.get('/camps/1').event_types()
+
+    // when
+    const result = vm.api.reload(embeddedCollection)
+
+    // then
+    expect(result._meta.self).toBeUndefined()
+    await letNetworkRequestFinish()
+    expect(vm.$store.state.api['/camps/1'].event_types).toMatchObject(campData.storeState)
     done()
   })
 

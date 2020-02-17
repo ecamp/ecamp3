@@ -29,9 +29,9 @@ class CampData extends AbstractFixture implements DependentFixtureInterface {
             $camp = new Camp();
             $camp->setOwner($user);
             $camp->setCreator($user);
-            $camp->setName('Camp1');
-            $camp->setTitle('Camp1Title');
-            $camp->setMotto('Camp1Motto');
+            $camp->setName('Camp 1');
+            $camp->setTitle('Camp 1 Title');
+            $camp->setMotto('Camp 1 Motto');
             $camp->setCampType($jsKidsCampType);
 
             $manager->persist($camp);
@@ -43,9 +43,9 @@ class CampData extends AbstractFixture implements DependentFixtureInterface {
             $camp = new Camp();
             $camp->setOwner($user);
             $camp->setCreator($user);
-            $camp->setName('Camp2');
-            $camp->setTitle('Camp2Title');
-            $camp->setMotto('Camp2Motto');
+            $camp->setName('Camp 2');
+            $camp->setTitle('Camp 2 Title');
+            $camp->setMotto('Camp 2 Motto');
             $camp->setCampType($jsTeenCampType);
 
             $manager->persist($camp);

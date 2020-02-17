@@ -3,12 +3,15 @@ Displays several tabs with details on a single camp.
 -->
 
 <template>
-  <router-view :camp-uri="this.$route.params.campUri" />
+  <router-view :camp="camp" />
 </template>
 
 <script>
 export default {
-  name: 'CampDetails'
+  name: 'Camp',
+  props: {
+    camp: { type: Function, required: true }
+  }
 }
 </script>
 
