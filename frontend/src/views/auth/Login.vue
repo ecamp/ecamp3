@@ -108,8 +108,8 @@ export default {
     },
     loginGoogle () {
       // Make the login callback function available on global level, so the popup can call it
-      window.loginSuccess = () => {
-        this.$auth.loginSuccess()
+      window.loginSuccess = async () => {
+        await this.$auth.loginSuccess()
         this.redirect()
       }
       const callbackUrl = window.location.origin + this.$router.resolve({ name: 'loginCallback' }).href
@@ -117,8 +117,8 @@ export default {
     },
     loginPbsMiData () {
       // Make the login callback function available on global level, so the popup can call it
-      window.loginSuccess = () => {
-        this.$auth.loginSuccess()
+      window.loginSuccess = async () => {
+        await this.$auth.loginSuccess()
         this.redirect()
       }
       const callbackUrl = window.location.origin + this.$router.resolve({ name: 'loginCallback' }).href

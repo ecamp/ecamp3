@@ -1,71 +1,83 @@
 import Vue from 'vue'
 import axios from 'axios'
+import { get, reload, post, href } from '@/store'
 
 const STORAGE_LOCATION = 'loggedIn'
 const LOGGED_IN = '1'
 const LOGGED_OUT = '0'
 
-const subscribers = []
-
-const notifySubscribers = newLoginStatus => {
-  subscribers.forEach(subscriber => subscriber(newLoginStatus))
-}
-
-export const auth = {
-  async isLoggedIn () {
-    const savedStatus = window.localStorage.getItem(STORAGE_LOCATION)
-    if (savedStatus !== null) {
-      return savedStatus === LOGGED_IN
-    }
-    const response = await axios.get(process.env.VUE_APP_ROOT_API + '/login')
-    let loggedIn = LOGGED_OUT
-    if (response.data.user !== 'guest') {
-      loggedIn = LOGGED_IN
-    }
-    window.localStorage.setItem(STORAGE_LOCATION, loggedIn)
-    return loggedIn === LOGGED_IN
-  },
-  subscribe (onLoginStatusChange) {
-    subscribers.push(onLoginStatusChange)
-  },
-  login (username, password) {
-    return axios.post(process.env.VUE_APP_ROOT_API + '/login/login', { username: username, password: password })
-      .then(resp => {
-        if (resp.data.user !== 'guest') {
-          this.loginSuccess()
-          return true
-        } else {
-          return false
-        }
-      })
-  },
-  loginGoogle (returnUrl) {
-    window.open(process.env.VUE_APP_ROOT_API + '/login/google?callback=' + encodeURI(returnUrl), '', 'width=500px,height=600px')
-  },
-  loginPbsMiData (returnUrl) {
-    window.open(process.env.VUE_APP_ROOT_API + '/login/pbsmidata?callback=' + encodeURI(returnUrl), '', 'width=500px,height=600px')
-  },
-  loginSuccess () {
-    window.localStorage.setItem(STORAGE_LOCATION, LOGGED_IN)
-    notifySubscribers(true)
-  },
-  logout (callback) {
-    axios.get(process.env.VUE_APP_ROOT_API + '/login/logout').then(response => {
-      window.localStorage.setItem(STORAGE_LOCATION, LOGGED_OUT)
-      notifySubscribers(false)
-      if (callback) {
-        callback(response)
-      }
-    })
-  }
-}
-
 axios.interceptors.response.use(null, error => {
   if (error.status === 401) {
-    auth.logout()
+    logout()
   }
   return Promise.reject(error)
 })
+
+const subscribers = []
+
+function subscribe (onLoginStatusChange) {
+  subscribers.push(onLoginStatusChange)
+}
+
+function notifySubscribers (newLoginStatus) {
+  subscribers.forEach(subscriber => subscriber(newLoginStatus))
+}
+
+async function isLoggedIn () {
+  const savedStatus = window.localStorage.getItem(STORAGE_LOCATION)
+  if (savedStatus !== null) {
+    return savedStatus === LOGGED_IN
+  }
+  const response = await get()._meta.loaded
+  const loginStatus = (response.user.toString() !== 'guest') ? LOGGED_IN : LOGGED_OUT
+  window.localStorage.setItem(STORAGE_LOCATION, loginStatus)
+  return loginStatus === LOGGED_IN
+}
+
+async function login (username, password) {
+  const url = await href(get().login(), 'native')
+  return post(url, { username: username, password: password })
+    .then(async resp => {
+      if (resp.user !== 'guest') {
+        await this.loginSuccess()
+        return true
+      } else {
+        return false
+      }
+    })
+}
+
+async function loginGoogle (returnUrl) {
+  // TODO use templated relations if #369 is implemented
+  const url = (await href(get().login(), 'google')) + '?callback=' + encodeURI(returnUrl)
+  window.open(url, '', 'width=500px,height=600px')
+}
+
+async function loginPbsMiData (returnUrl) {
+  // TODO use templated relations if #369 is implemented
+  const url = (await href(get().login(), 'pbsmidata')) + '?callback=' + encodeURI(returnUrl)
+  window.open(url, '', 'width=500px,height=600px')
+}
+
+async function loginSuccess () {
+  window.localStorage.setItem(STORAGE_LOCATION, LOGGED_IN)
+  // refresh the available login options
+  await reload(get().login())._meta.loaded
+  notifySubscribers(true)
+}
+
+async function logout (callback) {
+  await get().login().logout()._meta.loaded
+  window.localStorage.setItem(STORAGE_LOCATION, LOGGED_OUT)
+  // refresh the available login options
+  await reload(get().login())._meta.loaded
+  notifySubscribers(false)
+  if (callback) {
+    callback()
+  }
+}
+
+export const auth = { isLoggedIn, subscribe, login, loginGoogle, loginPbsMiData, loginSuccess, logout }
 
 Vue.auth = auth
 Object.defineProperties(Vue.prototype, {

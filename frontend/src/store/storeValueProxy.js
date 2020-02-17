@@ -75,7 +75,7 @@ function loadingProxy (entityLoaded, uri = null) {
         return loadingArrayProxy(propertyLoaded)
       }
       // Normal property access: return a function that yields another loadingProxy and renders as empty string
-      const result = () => loadingProxy(propertyLoaded.then(property => property()))
+      const result = () => loadingProxy(propertyLoaded.then(property => property()._meta.loaded))
       result.toString = () => ''
       return result
     }

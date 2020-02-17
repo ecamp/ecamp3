@@ -6,23 +6,15 @@
       </v-toolbar-title>
     </v-toolbar>
     <v-card-text>
-      <p v-if="!error">
+      <p>
         Logging you out...
       </p>
-      <v-alert v-else type="error">
-        Error logging out.
-      </v-alert>
     </v-card-text>
   </v-card>
 </template>
 <script>
 export default {
   name: 'Logout',
-  data () {
-    return {
-      error: false
-    }
-  },
   beforeRouteEnter (to, from, next) {
     next(vm => vm.logout())
   },
@@ -31,7 +23,7 @@ export default {
       this.$auth.logout(this.redirect)
     },
     redirect () {
-      this.$router.replace(this.$route.query.redirect || '/')
+      this.$router.replace({ name: 'login' })
     }
   }
 }
