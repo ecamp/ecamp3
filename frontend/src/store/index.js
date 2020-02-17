@@ -10,7 +10,7 @@ Vue.use(Vuex)
 axios.defaults.withCredentials = true
 Vue.use(VueAxios, axios)
 
-const API_ROOT = process.env.VUE_APP_ROOT_API
+export const API_ROOT = process.env.VUE_APP_ROOT_API
 
 export const state = {
   api: {}
@@ -77,7 +77,7 @@ export default store
  *                        in the Vuex store.
  */
 const post = function (uriOrCollection, data) {
-  const uri = normalizeEntityUri(uriOrCollection)
+  const uri = normalizeEntityUri(uriOrCollection, API_ROOT)
   if (uri === null) {
     return Promise.reject(new Error(`Could not perform POST, "${uriOrCollection}" is not an entity or URI`))
   }
@@ -134,8 +134,8 @@ const reload = function (uriOrEntity) {
 export const get = function (uriOrEntity, forceReload = false) {
   const forceReloadingEmbeddedCollection = forceReload && uriOrEntity._meta && uriOrEntity._meta.reload && uriOrEntity._meta.reload.uri
   const uri = forceReloadingEmbeddedCollection
-    ? normalizeEntityUri(uriOrEntity._meta.reload.uri)
-    : normalizeEntityUri(uriOrEntity)
+    ? normalizeEntityUri(uriOrEntity._meta.reload.uri, API_ROOT)
+    : normalizeEntityUri(uriOrEntity, API_ROOT)
   if (uri === null) {
     if (uriOrEntity[Symbol.for('isLoadingProxy')]) {
       // A loadingProxy is safe to return without breaking the UI.
@@ -219,7 +219,7 @@ function loadFromApi (uri) {
  *                    in the Vuex store.
  */
 const patch = function (uriOrEntity, data) {
-  const uri = normalizeEntityUri(uriOrEntity)
+  const uri = normalizeEntityUri(uriOrEntity, API_ROOT)
   if (uri === null) {
     return Promise.reject(new Error(`Could not perform PATCH, "${uriOrEntity}" is not an entity or URI`))
   }
@@ -243,7 +243,7 @@ const patch = function (uriOrEntity, data) {
  * @param uriOrEntity URI (or instance) of an entity which should be removed from the Vuex store
  */
 const purge = function (uriOrEntity) {
-  const uri = normalizeEntityUri(uriOrEntity)
+  const uri = normalizeEntityUri(uriOrEntity, API_ROOT)
   if (uri === null) {
     // Can't purge an unknown URI, do nothing
     return
@@ -266,7 +266,7 @@ const purge = function (uriOrEntity) {
  *                    been reloaded from the API, or the failed deletion has been cleaned up.
  */
 const del = function (uriOrEntity) {
-  const uri = normalizeEntityUri(uriOrEntity)
+  const uri = normalizeEntityUri(uriOrEntity, API_ROOT)
   if (uri === null) {
     // Can't delete an unknown URI, do nothing
     return Promise.reject(new Error(`Could not perform DELETE, "${uriOrEntity}" is not an entity or URI`))

@@ -1,4 +1,4 @@
-import { get } from './index'
+import { get, API_ROOT } from './index'
 
 /**
  * An entity reference in the Vuex store looks like this: { href: '/some/uri' }
@@ -63,7 +63,7 @@ function loadingProxy (entityLoaded, uri = null) {
         return entityLoaded
       }
       if (prop === 'self') {
-        return uri
+        return uri !== null ? API_ROOT + uri : uri
       }
       if (prop === '_meta') {
         // When _meta is requested on a loadingProxy, we keep on using the unmodified promise, because ._meta.loaded
@@ -224,6 +224,6 @@ function createStoreValueProxy (data) {
     }
   })
   // Use a shallow clone of _meta, since we don't want to overwrite the ._meta.loaded promise in the Vuex store
-  result._meta = { ...data._meta, loaded: Promise.resolve(result) }
+  result._meta = { ...data._meta, loaded: Promise.resolve(result), self: API_ROOT + data._meta.self }
   return result
 }
