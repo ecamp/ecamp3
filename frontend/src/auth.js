@@ -31,46 +31,43 @@ async function isLoggedIn (ignoreLocalStorage = false) {
       return savedStatus === LOGGED_IN
     }
   }
-  const loginStatus = ((await reload(get().login())._meta.loaded).role === 'user') ? LOGGED_IN : LOGGED_OUT
-  window.localStorage.setItem(STORAGE_LOCATION, loginStatus)
-  return loginStatus === LOGGED_IN
+  const loginStatus = (await reload(get().login())._meta.loaded).role === 'user'
+  window.localStorage.setItem(STORAGE_LOCATION, loginStatus ? LOGGED_IN : LOGGED_OUT)
+  return loginStatus
 }
 
-async function login (username, password, callback) {
+async function login (username, password) {
   const url = await href(get().login(), 'native')
-  await post(url, { username: username, password: password })
-  await loginStatusChange(callback)
+  return post(url, { username: username, password: password }).then(() => loginStatusChange())
 }
 
-async function loginGoogle (callback) {
-  // Make the login callback function available on global level, so the popup can call it
-  window.loginSuccess = async () => loginStatusChange(callback)
-
-  const returnUrl = window.location.origin + router.resolve({ name: 'loginCallback' }).href
-  // TODO use templated relations once #369 is implemented
-  const url = (await href(get().login(), 'google')) + '?callback=' + encodeURI(returnUrl)
-  window.open(url, '', 'width=500px,height=600px')
+function loginInSeparateWindow (provider) {
+  return async resolve => {
+    // Make the promise resolve function available on global level, so the separate window can call it
+    window.afterLogin = resolve
+    const returnUrl = window.location.origin + router.resolve({ name: 'loginCallback' }).href
+    // TODO use templated relations once #369 is implemented
+    const url = (await href(get().login(), provider)) + '?callback=' + encodeURI(returnUrl)
+    window.open(url, '', 'width=500px,height=600px')
+  }
 }
 
-async function loginPbsMiData (callback) {
-  // Make the login callback function available on global level, so the popup can call it
-  window.loginSuccess = async () => loginStatusChange(callback)
-
-  const returnUrl = window.location.origin + router.resolve({ name: 'loginCallback' }).href
-  // TODO use templated relations once #369 is implemented
-  const url = (await href(get().login(), 'pbsmidata')) + '?callback=' + encodeURI(returnUrl)
-  window.open(url, '', 'width=500px,height=600px')
+async function loginGoogle () {
+  return new Promise(loginInSeparateWindow('google')).then(() => loginStatusChange())
 }
 
-async function logout (callback) {
-  await reload(get().login().logout())._meta.loaded
-  await loginStatusChange(callback)
+async function loginPbsMiData () {
+  return new Promise(loginInSeparateWindow('pbsmidata')).then(() => loginStatusChange())
 }
 
-async function loginStatusChange (callback) {
+async function logout () {
+  return reload(get().login().logout())._meta.loaded.then(() => loginStatusChange())
+}
+
+async function loginStatusChange () {
   const loginStatus = await isLoggedIn(true)
   notifySubscribers(loginStatus)
-  callback && callback(loginStatus)
+  return loginStatus
 }
 
 export const auth = { isLoggedIn, subscribe, login, loginGoogle, loginPbsMiData, logout }

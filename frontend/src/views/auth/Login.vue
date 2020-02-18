@@ -97,20 +97,20 @@ export default {
     })
   },
   methods: {
-    login () {
-      this.$auth.login(this.username, this.password, isLoggedIn => {
-        if (isLoggedIn) {
-          this.redirect()
-        } else {
-          this.error = true
-        }
-      })
+    async login () {
+      if (await this.$auth.login(this.username, this.password)) {
+        this.redirect()
+      } else {
+        this.error = true
+      }
     },
-    loginGoogle () {
-      this.$auth.loginGoogle(this.redirect)
+    async loginGoogle () {
+      await this.$auth.loginGoogle()
+      this.redirect()
     },
-    loginPbsMiData () {
-      this.$auth.loginPbsMiData(this.redirect)
+    async loginPbsMiData () {
+      await this.$auth.loginPbsMiData()
+      this.redirect()
     },
     redirect () {
       this.$router.replace(this.$route.query.redirect || '/')
@@ -118,7 +118,3 @@ export default {
   }
 }
 </script>
-
-<style>
-
-</style>

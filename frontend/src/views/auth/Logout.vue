@@ -19,10 +19,8 @@ export default {
     next(vm => vm.logout())
   },
   methods: {
-    logout () {
-      this.$auth.logout(this.redirect)
-    },
-    redirect () {
+    async logout () {
+      await this.$auth.logout()
       this.$router.replace({ name: 'login' })
     }
   }
