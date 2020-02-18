@@ -207,6 +207,8 @@ export default function storeValueProxy (data) {
 
 /**
  * Creates an actual storeValueProxy, by wrapping the given Vuex store data. The data must not be loading.
+ * If the data has been loaded into the store before but is currently reloading, the old data will be
+ * returned, along with a ._meta.loaded promise that resolves when the reload is complete.
  * @param data fully loaded entity data from the Vuex store
  */
 function createStoreValueProxy (data) {
@@ -223,7 +225,13 @@ function createStoreValueProxy (data) {
       result[key] = value
     }
   })
-  // Use a shallow clone of _meta, since we don't want to overwrite the ._meta.loaded promise in the Vuex store
-  result._meta = { ...data._meta, loaded: Promise.resolve(result), self: API_ROOT + data._meta.self }
+
+  // Use a trivial loaded promise to break endless recursion, except if we are currently reloading the data from the API
+  const loadedPromise = (data._meta.loaded && data._meta.loaded[Symbol.for('reloading')])
+    ? data._meta.loaded.then(reloadedData => storeValueProxy(reloadedData))
+    : Promise.resolve(result)
+
+  // Use a shallow clone of _meta, since we don't want to overwrite the ._meta.loaded promise or self link in the Vuex store
+  result._meta = { ...data._meta, loaded: loadedPromise, self: API_ROOT + data._meta.self }
   return result
 }

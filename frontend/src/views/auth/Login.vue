@@ -97,12 +97,14 @@ export default {
     })
   },
   methods: {
-    async login () {
-      if (await this.$auth.login(this.username, this.password)) {
-        this.redirect()
-      } else {
-        this.error = true
-      }
+    login () {
+      this.$auth.login(this.username, this.password, isLoggedIn => {
+        if (isLoggedIn) {
+          this.redirect()
+        } else {
+          this.error = true
+        }
+      })
     },
     loginGoogle () {
       this.$auth.loginGoogle(this.redirect)

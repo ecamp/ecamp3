@@ -24,75 +24,56 @@ function notifySubscribers (newLoginStatus) {
   subscribers.forEach(subscriber => subscriber(newLoginStatus))
 }
 
-async function isLoggedIn () {
-  const savedStatus = window.localStorage.getItem(STORAGE_LOCATION)
-  if (savedStatus !== null) {
-    return savedStatus === LOGGED_IN
+async function isLoggedIn (ignoreLocalStorage = false) {
+  if (!ignoreLocalStorage) {
+    const savedStatus = window.localStorage.getItem(STORAGE_LOCATION)
+    if (savedStatus !== null) {
+      return savedStatus === LOGGED_IN
+    }
   }
-  const response = await get()._meta.loaded
-  const loginStatus = (response.user.toString() !== 'guest') ? LOGGED_IN : LOGGED_OUT
+  const loginStatus = ((await reload(get().login())._meta.loaded).role === 'user') ? LOGGED_IN : LOGGED_OUT
   window.localStorage.setItem(STORAGE_LOCATION, loginStatus)
   return loginStatus === LOGGED_IN
 }
 
 async function login (username, password, callback) {
   const url = await href(get().login(), 'native')
-  return post(url, { username: username, password: password })
-    .then(async resp => {
-      if (resp.user !== 'guest') {
-        await loginSuccess()
-        callback && callback()
-        return true
-      } else {
-        callback && callback()
-        return false
-      }
-    })
+  await post(url, { username: username, password: password })
+  await loginStatusChange(callback)
 }
 
 async function loginGoogle (callback) {
   // Make the login callback function available on global level, so the popup can call it
-  window.loginSuccess = async () => {
-    await loginSuccess()
-    callback && callback()
-  }
+  window.loginSuccess = async () => loginStatusChange(callback)
 
   const returnUrl = window.location.origin + router.resolve({ name: 'loginCallback' }).href
-  // TODO use templated relations if #369 is implemented
+  // TODO use templated relations once #369 is implemented
   const url = (await href(get().login(), 'google')) + '?callback=' + encodeURI(returnUrl)
   window.open(url, '', 'width=500px,height=600px')
 }
 
 async function loginPbsMiData (callback) {
   // Make the login callback function available on global level, so the popup can call it
-  window.loginSuccess = async () => {
-    await loginSuccess()
-    callback && callback()
-  }
+  window.loginSuccess = async () => loginStatusChange(callback)
 
   const returnUrl = window.location.origin + router.resolve({ name: 'loginCallback' }).href
-  // TODO use templated relations if #369 is implemented
+  // TODO use templated relations once #369 is implemented
   const url = (await href(get().login(), 'pbsmidata')) + '?callback=' + encodeURI(returnUrl)
   window.open(url, '', 'width=500px,height=600px')
 }
 
-async function loginSuccess () {
-  window.localStorage.setItem(STORAGE_LOCATION, LOGGED_IN)
-  // refresh the available login options
-  await reload(get().login())._meta.loaded
-  notifySubscribers(true)
-}
-
 async function logout (callback) {
-  await get().login().logout()._meta.loaded
-  window.localStorage.setItem(STORAGE_LOCATION, LOGGED_OUT)
-  // refresh the available login options
-  await reload(get().login())._meta.loaded
-  notifySubscribers(false)
-  callback && callback()
+  await reload(get().login().logout())._meta.loaded
+  await loginStatusChange(callback)
 }
 
-export const auth = { isLoggedIn, subscribe, login, loginGoogle, loginPbsMiData, loginSuccess, logout }
+async function loginStatusChange (callback) {
+  const loginStatus = await isLoggedIn(true)
+  notifySubscribers(loginStatus)
+  callback && callback(loginStatus)
+}
+
+export const auth = { isLoggedIn, subscribe, login, loginGoogle, loginPbsMiData, logout }
 
 Vue.auth = auth
 Object.defineProperties(Vue.prototype, {

@@ -175,6 +175,7 @@ function load (uri, forceReload) {
   if (!existsInStore || forceReload) {
     dataFinishedLoading = loadFromApi(uri)
   }
+  dataFinishedLoading[Symbol.for('reloading')] = forceReload
   // We mutate the store state here without telling Vuex about it, so it won't complain and won't make loaded reactive.
   // The promise is needed in the store for a special case when a loading entity is requested a second time with
   // this.api.get(...).
