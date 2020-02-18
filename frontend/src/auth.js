@@ -31,13 +31,13 @@ async function isLoggedIn (ignoreLocalStorage = false) {
       return savedStatus === LOGGED_IN
     }
   }
-  const loginStatus = (await reload(get().login())._meta.loaded).role === 'user'
+  const loginStatus = (await reload(get().auth())._meta.loaded).role === 'user'
   window.localStorage.setItem(STORAGE_LOCATION, loginStatus ? LOGGED_IN : LOGGED_OUT)
   return loginStatus
 }
 
 async function login (username, password) {
-  const url = await href(get().login(), 'native')
+  const url = await href(get().auth(), 'login')
   return post(url, { username: username, password: password }).then(() => loginStatusChange())
 }
 
@@ -47,7 +47,7 @@ function loginInSeparateWindow (provider) {
     window.afterLogin = resolve
     const returnUrl = window.location.origin + router.resolve({ name: 'loginCallback' }).href
     // TODO use templated relations once #369 is implemented
-    const url = (await href(get().login(), provider)) + '?callback=' + encodeURI(returnUrl)
+    const url = (await href(get().auth(), provider)) + '?callback=' + encodeURI(returnUrl)
     window.open(url, '', 'width=500px,height=600px')
   }
 }
@@ -61,7 +61,7 @@ async function loginPbsMiData () {
 }
 
 async function logout () {
-  return reload(get().login().logout())._meta.loaded.then(() => loginStatusChange())
+  return reload(get().auth().logout())._meta.loaded.then(() => loginStatusChange())
 }
 
 async function loginStatusChange () {

@@ -111,12 +111,12 @@ return array(
                     ),
                 ),
             ),
-            'e-camp-api.rpc.login' => array(
+            'e-camp-api.rpc.auth' => array(
                 'type' => 'Segment',
                 'options' => array(
-                    'route' => '/api/login[/:action]',
+                    'route' => '/api/auth[/:action]',
                     'defaults' => array(
-                        'controller' => 'eCampApi\\V1\\Rpc\\Login\\Controller',
+                        'controller' => 'eCampApi\\V1\\Rpc\\Auth\\Controller',
                         'action' => 'index',
                     ),
                 ),
@@ -162,7 +162,7 @@ return array(
     ),
     'controllers' => array(
         'factories' => array(
-            'eCampApi\\V1\\Rpc\\Login\\Controller' => 'eCampApi\\V1\\Rpc\\Login\\LoginControllerFactory',
+            'eCampApi\\V1\\Rpc\\Auth\\Controller' => 'eCampApi\\V1\\Rpc\\Auth\\AuthControllerFactory',
             'eCampApi\\V1\\Rpc\\Index\\Controller' => 'eCampApi\\V1\\Rpc\\Index\\IndexControllerFactory',
             'eCampApi\\V1\\Rpc\\Register\\Controller' => 'eCampApi\\V1\\Rpc\\Register\\RegisterControllerFactory',
         ),
@@ -181,7 +181,7 @@ return array(
             9 => 'e-camp-api.rest.doctrine.user',
             10 => 'e-camp-api.rest.doctrine.camp-collaboration',
             12 => 'e-camp-api.rpc.index',
-            11 => 'e-camp-api.rpc.login',
+            11 => 'e-camp-api.rpc.auth',
             13 => 'e-camp-api.rpc.register',
             14 => 'e-camp-api.rest.doctrine.event-plugin',
             15 => 'e-camp-api.rest.doctrine.plugin',
@@ -554,7 +554,7 @@ return array(
             'eCampApi\\V1\\Rest\\User\\Controller' => 'HalJson',
             'eCampApi\\V1\\Rest\\CampCollaboration\\Controller' => 'HalJson',
             'eCampApi\\V1\\Rpc\\Index\\Controller' => 'HalJson',
-            'eCampApi\\V1\\Rpc\\Login\\Controller' => 'HalJson',
+            'eCampApi\\V1\\Rpc\\Auth\\Controller' => 'HalJson',
             'eCampApi\\V1\\Rpc\\Register\\Controller' => 'Json',
             'eCampApi\\V1\\Rest\\EventPlugin\\Controller' => 'HalJson',
             'eCampApi\\V1\\Rest\\Plugin\\Controller' => 'HalJson',
@@ -621,7 +621,7 @@ return array(
                 1 => 'application/json',
                 2 => 'application/*+json',
             ),
-            'eCampApi\\V1\\Rpc\\Login\\Controller' => array(
+            'eCampApi\\V1\\Rpc\\Auth\\Controller' => array(
                 0 => 'application/vnd.e-camp-api.v1+json',
                 1 => 'application/json',
                 2 => 'application/*+json',
@@ -696,7 +696,7 @@ return array(
                 0 => 'application/vnd.e-camp-api.v1+json',
                 1 => 'application/json',
             ),
-            'eCampApi\\V1\\Rpc\\Login\\Controller' => array(
+            'eCampApi\\V1\\Rpc\\Auth\\Controller' => array(
                 0 => 'application/vnd.e-camp-api.v1+json',
                 1 => 'application/json',
             ),
@@ -948,8 +948,8 @@ return array(
         'eCampApi\\V1\\Rest\\CampCollaboration\\Controller' => array(
             'input_filter' => 'eCampApi\\V1\\Rest\\CampCollaboration\\Validator',
         ),
-        'eCampApi\\V1\\Rpc\\Login\\Controller' => array(
-            'input_filter' => 'eCampApi\\V1\\Rpc\\Login\\Validator',
+        'eCampApi\\V1\\Rpc\\Auth\\Controller' => array(
+            'input_filter' => 'eCampApi\\V1\\Rpc\\Auth\\Validator',
         ),
         'eCampApi\\V1\\Rest\\EventPlugin\\Controller' => array(
             'input_filter' => 'eCampApi\\V1\\Rest\\EventPlugin\\Validator',
@@ -1446,7 +1446,7 @@ return array(
                 'validators' => array(),
             ),
         ),
-        'eCampApi\\V1\\Rpc\\Login\\Validator' => array(),
+        'eCampApi\\V1\\Rpc\\Auth\\Validator' => array(),
         'eCampApi\\V1\\Rest\\EventPlugin\\Validator' => array(
             0 => array(
                 'name' => 'instanceName',
@@ -1599,13 +1599,13 @@ return array(
         ),
     ),
     'zf-rpc' => array(
-        'eCampApi\\V1\\Rpc\\Login\\Controller' => array(
-            'service_name' => 'Login',
+        'eCampApi\\V1\\Rpc\\Auth\\Controller' => array(
+            'service_name' => 'Auth',
             'http_methods' => array(
                 0 => 'GET',
                 1 => 'POST',
             ),
-            'route_name' => 'e-camp-api.rpc.login',
+            'route_name' => 'e-camp-api.rpc.auth',
         ),
         'eCampApi\\V1\\Rpc\\Index\\Controller' => array(
             'service_name' => 'Index',
