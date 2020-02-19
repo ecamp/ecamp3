@@ -81,13 +81,13 @@ export const post = function (uriOrCollection, data) {
   if (uri === null) {
     return Promise.reject(new Error(`Could not perform POST, "${uriOrCollection}" is not an entity or URI`))
   }
-  return axios.post(API_ROOT + uri, data).then(({ data }) => {
+  return markAsDoneWhenResolved(axios.post(API_ROOT + uri, data).then(({ data }) => {
     // Workaround because API adds page parameter even to first page when it was not requested that way
     // TODO fix backend API and remove the next line
     data._links.self.href = uri
     storeHalJsonData(data)
     return get(uri)
-  })
+  }))
 }
 
 /**
@@ -174,12 +174,15 @@ function load (uri, forceReload) {
   let dataFinishedLoading = Promise.resolve(store.state.api[uri])
   if (!existsInStore || forceReload) {
     dataFinishedLoading = loadFromApi(uri)
+  } else if (store.state.api[uri]._meta.loaded) {
+    // reuse the existing promise from the store if possible
+    dataFinishedLoading = store.state.api[uri]._meta.loaded
   }
-  dataFinishedLoading[Symbol.for('reloading')] = forceReload
+
   // We mutate the store state here without telling Vuex about it, so it won't complain and won't make loaded reactive.
-  // The promise is needed in the store for a special case when a loading entity is requested a second time with
-  // this.api.get(...).
-  store.state.api[uri]._meta.loaded = dataFinishedLoading
+  // The promise is needed in the store for some special cases when a loading entity is requested a second time with
+  // this.api.get(...) or this.api.reload(...).
+  store.state.api[uri]._meta.loaded = markAsDoneWhenResolved(dataFinishedLoading)
 
   return store.state.api[uri]
 }
@@ -237,7 +240,7 @@ const patch = function (uriOrEntity, data) {
   if (uri === null) {
     return Promise.reject(new Error(`Could not perform PATCH, "${uriOrEntity}" is not an entity or URI`))
   }
-  return axios.patch(API_ROOT + uri, data).then(({ data }) => {
+  return markAsDoneWhenResolved(axios.patch(API_ROOT + uri, data).then(({ data }) => {
     // Workaround because API adds page parameter even to first page when it was not requested that way
     // TODO fix backend API and remove the next line
     data._links.self.href = uri
@@ -247,7 +250,7 @@ const patch = function (uriOrEntity, data) {
     if (response.status === 404) {
       return deleted(uri)
     }
-  })
+  }))
 }
 
 /**
@@ -286,8 +289,8 @@ const del = function (uriOrEntity) {
     return Promise.reject(new Error(`Could not perform DELETE, "${uriOrEntity}" is not an entity or URI`))
   }
   store.commit('deleting', uri)
-  return axios.delete(API_ROOT + uri)
-    .then(() => deleted(uri), ({ response }) => deletingFailed(uri, response))
+  return markAsDoneWhenResolved(axios.delete(API_ROOT + uri)
+    .then(() => deleted(uri), ({ response }) => deletingFailed(uri, response)))
 }
 
 function valueIsArrayWithReferenceTo (value, uri) {
@@ -341,6 +344,18 @@ function storeHalJsonData (data) {
     filterReferences: true
   })
   store.commit('add', normalizedData)
+}
+
+/**
+ * Sets a flag on the given promise after completion, so that users of the promise can tell whether it is still
+ * pending or not. This is needed so storeValueProxy can break infinite recursion.
+ * @param promise   to be marked as done once it completes
+ * @returns Promise the modified argument
+ */
+function markAsDoneWhenResolved (promise) {
+  // empty catch is important so that our then handler runs in all cases
+  promise.catch(() => {}).then(() => { promise[Symbol.for('done')] = true })
+  return promise
 }
 
 /**

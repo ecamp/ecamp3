@@ -227,7 +227,7 @@ function createStoreValueProxy (data) {
   })
 
   // Use a trivial loaded promise to break endless recursion, except if we are currently reloading the data from the API
-  const loadedPromise = (data._meta.loaded && data._meta.loaded[Symbol.for('reloading')])
+  const loadedPromise = data._meta.loaded && !data._meta.loaded[Symbol.for('done')]
     ? data._meta.loaded.then(reloadedData => storeValueProxy(reloadedData))
     : Promise.resolve(result)
 

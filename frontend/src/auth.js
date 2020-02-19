@@ -3,10 +3,6 @@ import axios from 'axios'
 import { get, reload, post, href } from '@/store'
 import router from '@/router'
 
-const STORAGE_LOCATION = 'loggedIn'
-const LOGGED_IN = '1'
-const LOGGED_OUT = '0'
-
 axios.interceptors.response.use(null, error => {
   if (error.status === 401) {
     logout()
@@ -24,16 +20,9 @@ function notifySubscribers (newLoginStatus) {
   subscribers.forEach(subscriber => subscriber(newLoginStatus))
 }
 
-async function isLoggedIn (ignoreLocalStorage = false) {
-  if (!ignoreLocalStorage) {
-    const savedStatus = window.localStorage.getItem(STORAGE_LOCATION)
-    if (savedStatus !== null) {
-      return savedStatus === LOGGED_IN
-    }
-  }
-  const loginStatus = (await reload(get().auth())._meta.loaded).role === 'user'
-  window.localStorage.setItem(STORAGE_LOCATION, loginStatus ? LOGGED_IN : LOGGED_OUT)
-  return loginStatus
+async function isLoggedIn (forceReload = false) {
+  if (forceReload) reload(get().auth())
+  return (await get().auth()._meta.loaded).role === 'user'
 }
 
 async function login (username, password) {
