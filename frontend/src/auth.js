@@ -14,7 +14,7 @@ function isLoggedIn () {
   return get().auth().role === 'user'
 }
 
-async function refreshLoginStatus (forceReload = true) {
+export async function refreshLoginStatus (forceReload = true) {
   if (forceReload) reload(get().auth())
   await get().auth()._meta.loaded
   return isLoggedIn()
@@ -52,7 +52,6 @@ async function logout () {
 
 export const auth = { isLoggedIn, refreshLoginStatus, login, loginGoogle, loginPbsMiData, logout }
 
-Vue.auth = auth
 Object.defineProperties(Vue.prototype, {
   $auth: {
     get () {

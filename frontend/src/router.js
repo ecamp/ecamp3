@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import slugify from 'slugify'
+import { refreshLoginStatus } from '@/auth'
 
 Vue.use(Router)
 
@@ -100,7 +101,7 @@ export default new Router({
 })
 
 function requireAuth (to, from, next) {
-  Vue.auth.refreshLoginStatus(false).then(loggedIn => {
+  refreshLoginStatus(false).then(loggedIn => {
     if (loggedIn) {
       next()
     } else {

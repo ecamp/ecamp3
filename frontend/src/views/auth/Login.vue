@@ -72,7 +72,7 @@
 </template>
 
 <script>
-import Vue from 'vue'
+import { refreshLoginStatus } from '@/auth'
 import PbsMiDataLogo from '../../../public/pbsmidata.svg'
 
 export default {
@@ -88,7 +88,7 @@ export default {
     }
   },
   beforeRouteEnter (to, from, next) {
-    Vue.auth.refreshLoginStatus(false).then(loggedIn => {
+    refreshLoginStatus(false).then(loggedIn => {
       if (loggedIn) {
         next(to.query.redirect || '/')
       } else {
