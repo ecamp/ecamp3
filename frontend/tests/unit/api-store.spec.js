@@ -258,7 +258,7 @@ describe('API store', () => {
     done()
   })
 
-  it('returns the correct object when awaiting._meta.loading on a loadingProxy', async done => {
+  it('returns the correct object when awaiting._meta.load on a loadingProxy', async done => {
     // given
     axiosMock.onGet('http://localhost/camps/1').reply(200, embeddedSingleEntity.serverResponse)
     const loadingProxy = vm.api.get('/camps/1')
@@ -275,21 +275,121 @@ describe('API store', () => {
     letNetworkRequestFinish()
   })
 
-  it('returns the correct object when awaiting._meta.loading on a loaded object', async done => {
+  it('returns the correct object when awaiting._meta.load on a loaded object', async done => {
     // given
     axiosMock.onGet('http://localhost/camps/1').reply(200, embeddedSingleEntity.serverResponse)
     vm.api.get('/camps/1')
-    letNetworkRequestFinish()
-    const loadingProxy = vm.api.get('/camps/1')
-    expect(loadingProxy[Symbol('isLoadingProxy')]).not.toBe(true)
+    await letNetworkRequestFinish()
+    const camp = vm.api.get('/camps/1')
+    expect(camp[Symbol('isLoadingProxy')]).not.toBe(true)
 
     // when
-    loadingProxy._meta.load.then(loadedData => {
+    camp._meta.load.then(loadedData => {
       // then
       expect(loadedData).toMatchObject({ id: 1, _meta: { self: 'http://localhost/camps/1' } })
 
       done()
     })
+  })
+
+  it('returns the correct load promise when reloading an object', async done => {
+    // given
+    axiosMock.onGet('http://localhost/camps/1').replyOnce(200, {
+      "id": 1,
+      "_links": {
+        "self": {
+          "href": "/camps/1"
+        }
+      }
+    })
+    axiosMock.onGet('http://localhost/camps/1').reply(200, {
+      "id": 2,
+      "_links": {
+        "self": {
+          "href": "/camps/1"
+        }
+      }
+    })
+    const camp = vm.api.get('/camps/1')
+    await letNetworkRequestFinish()
+
+    // when
+    const load = vm.api.reload(camp)._meta.load
+
+    // then
+    await letNetworkRequestFinish()
+    const result = await load
+    expect(result).toMatchObject({ id: 2, _meta: { self: 'http://localhost/camps/1' } })
+    done()
+  })
+
+  it('returns the correct load promise when prematurely reloading an object', async done => {
+    // given
+    axiosMock.onGet('http://localhost/camps/1').replyOnce(200, {
+      "id": 1,
+      "_links": {
+        "self": {
+          "href": "/camps/1"
+        }
+      }
+    })
+    axiosMock.onGet('http://localhost/camps/1').reply(200, {
+      "id": 2,
+      "_links": {
+        "self": {
+          "href": "/camps/1"
+        }
+      }
+    })
+
+    // when
+    const load = vm.api.reload(vm.api.get('/camps/1'))._meta.load
+
+    // then
+    await letNetworkRequestFinish()
+    const result = await load
+    expect(result).toMatchObject({ id: 1, _meta: { self: 'http://localhost/camps/1' } })
+    done()
+  })
+
+  it('returns the correct load promise when getting an object that is currently reloading', async done => {
+    // given
+    axiosMock.onGet('http://localhost/camps/1').replyOnce(200, {
+      "id": 1,
+      "_links": {
+        "self": {
+          "href": "/camps/1"
+        }
+      }
+    })
+    axiosMock.onGet('http://localhost/camps/1').replyOnce(200, {
+      "id": 2,
+      "_links": {
+        "self": {
+          "href": "/camps/1"
+        }
+      }
+    })
+    axiosMock.onGet('http://localhost/camps/1').replyOnce(200, {
+      "id": 3,
+      "_links": {
+        "self": {
+          "href": "/camps/1"
+        }
+      }
+    })
+    const loaded = vm.api.get('/camps/1')
+    await letNetworkRequestFinish()
+    vm.api.reload(loaded)
+
+    // when
+    const load = vm.api.get(loaded)._meta.load
+
+    // then
+    await letNetworkRequestFinish()
+    const result = await load
+    expect(result).toMatchObject({ id: 2, _meta: { self: 'http://localhost/camps/1' } })
+    done()
   })
 
   it('throws when trying to access _meta in an invalid object', () => {
