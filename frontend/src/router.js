@@ -32,11 +32,6 @@ export default new Router({
       component: () => import(/* webpackChunkName: "login" */ './views/auth/LoginCallback.vue')
     },
     {
-      path: '/logout',
-      name: 'logout',
-      component: () => import(/* webpackChunkName: "logout" */ './views/auth/Logout.vue')
-    },
-    {
       path: '/',
       name: 'home',
       component: () => import(/* webpackChunkName: "about" */ './views/Home.vue'),
@@ -105,7 +100,7 @@ export default new Router({
 })
 
 function requireAuth (to, from, next) {
-  Vue.auth.isLoggedIn().then(loggedIn => {
+  Vue.auth.refreshLoginStatus(false).then(loggedIn => {
     if (loggedIn) {
       next()
     } else {

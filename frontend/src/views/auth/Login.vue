@@ -88,7 +88,7 @@ export default {
     }
   },
   beforeRouteEnter (to, from, next) {
-    Vue.auth.isLoggedIn().then(loggedIn => {
+    Vue.auth.refreshLoginStatus(false).then(loggedIn => {
       if (loggedIn) {
         next(to.query.redirect || '/')
       } else {

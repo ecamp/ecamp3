@@ -77,15 +77,18 @@
         </v-btn>
       </v-toolbar-items>
       <v-spacer />
-      <v-btn v-if="! loggedIn" text
+      <v-btn v-if="loggedIn" text
+             @click="logout">
+        <v-icon v-if="logoutIcon" :left="$vuetify.breakpoint.mdAndUp">{{ logoutIcon }}</v-icon>
+        <v-progress-circular v-else indeterminate
+                             size="18"
+                             class="mr-2" />
+        <span class="sr-only-sm-and-down">Log out</span>
+      </v-btn>
+      <v-btn v-else text
              :to="{ name: 'login' }">
         <v-icon :left="$vuetify.breakpoint.mdAndUp">mdi-login</v-icon>
         <span class="sr-only-sm-and-down">Log in</span>
-      </v-btn>
-      <v-btn v-if="loggedIn" text
-             :to="{ name: 'logout' }">
-        <v-icon :left="$vuetify.breakpoint.mdAndUp">mdi-logout</v-icon>
-        <span class="sr-only-sm-and-down">Log out</span>
       </v-btn>
       <v-btn icon>
         <v-icon>mdi-account</v-icon>
@@ -137,13 +140,16 @@ import { campRoute, campFromRoute } from '@/router'
 export default {
   data () {
     return {
-      loggedIn: null,
       editableCampButton: false,
       drawer: false,
-      mini: !this.$vuetify.breakpoint.mdAndUp
+      mini: !this.$vuetify.breakpoint.mdAndUp,
+      logoutIcon: 'mdi-logout'
     }
   },
   computed: {
+    loggedIn () {
+      return this.$auth.isLoggedIn()
+    },
     lastCamps () {
       return this.api.get().camps().items
     },
@@ -153,12 +159,11 @@ export default {
   },
   created () {
     this.$vuetify.theme.themes.dark.grey = 'ffcc00'
-    this.$auth.subscribe(this.checkLoginStatus)
-    this.checkLoginStatus()
   },
   methods: {
-    async checkLoginStatus () {
-      this.loggedIn = await this.$auth.isLoggedIn()
+    logout () {
+      this.logoutIcon = ''
+      this.$auth.logout().then(() => this.$router.replace({ name: 'login' }))
     },
     changeCamp (selectedCamp) {
       this.$router.push(campRoute(selectedCamp))
