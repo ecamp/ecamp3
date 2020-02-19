@@ -1,0 +1,78 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ApiTextField.vue renders correctly 1`] = `
+<span>
+  <!---->
+   
+  <span>
+    <form
+      class="v-form mb-2"
+      inline=""
+      novalidate="novalidate"
+    >
+      <div
+        class="v-input mr-2 ml-2 v-input--is-label-active v-input--is-dirty theme--light v-text-field"
+      >
+        <div
+          class="v-input__control"
+        >
+          <div
+            class="v-input__slot"
+          >
+            <div
+              class="v-text-field__slot"
+            >
+              <label
+                class="v-label v-label--active theme--light"
+                for="api-text-field"
+                style="left: 0px; position: absolute;"
+              >
+                Test Field
+              </label>
+              <input
+                id="api-text-field"
+                name="api-text-field"
+                required="required"
+                type="text"
+              />
+            </div>
+          </div>
+          <div
+            class="v-text-field__details"
+          >
+            <div
+              class="v-messages theme--light"
+            >
+              <div
+                class="v-messages__wrapper"
+              />
+            </div>
+          </div>
+        </div>
+        <div
+          class="v-input__append-outer"
+        >
+          <!---->
+           
+          <button
+            class="mr-2 ml-2 mb-1 v-btn v-btn--contained theme--light v-size--small primary"
+            type="button"
+          >
+            <span
+              class="v-btn__content"
+            >
+              <!---->
+               
+              <!---->
+              
+
+            Save
+          
+            </span>
+          </button>
+        </div>
+      </div>
+    </form>
+  </span>
+</span>
+`;
