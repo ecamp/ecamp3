@@ -42,7 +42,7 @@
       <v-overflow-btn class="my-2 ec-campselect"
                       label="Camp lädt"
                       :editable="editableCampButton" single-line
-                      :items="lastCamps"
+                      :items="lastCamps.items"
                       item-text="title" item-value="id"
                       :value="camp().id"
                       hide-details return-object
@@ -151,7 +151,7 @@ export default {
       return this.$auth.isLoggedIn()
     },
     lastCamps () {
-      return this.api.get().camps().items
+      return this.api.get().camps()
     },
     camp () {
       return campFromRoute(this.$route)
