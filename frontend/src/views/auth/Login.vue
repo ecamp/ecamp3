@@ -44,6 +44,9 @@
                   color="green"
                   dark
                   v-on="on">
+                  <v-progress-circular v-if="hitobitoLoggingIn" indeterminate
+                                       size="14"
+                                       class="mr-2" />
                   Hitobito
                 </v-btn>
               </template>
@@ -60,8 +63,16 @@
                 </v-list-item>
               </v-list>
             </v-menu>
-            <v-btn color="red" dark @click="loginGoogle">Google</v-btn>
+            <v-btn color="red" dark @click="loginGoogle">
+              <v-progress-circular v-if="googleLoggingIn" indeterminate
+                                   size="14"
+                                   class="mr-2" />
+              Google
+            </v-btn>
             <v-btn color="primary" @click="login">
+              <v-progress-circular v-if="normalLoggingIn" indeterminate
+                                   size="14"
+                                   class="mr-2" />
               Login
             </v-btn>
           </v-card-actions>
@@ -84,7 +95,10 @@ export default {
     return {
       username: '',
       password: '',
-      error: false
+      error: false,
+      normalLoggingIn: false,
+      hitobitoLoggingIn: false,
+      googleLoggingIn: false
     }
   },
   beforeRouteEnter (to, from, next) {
@@ -98,17 +112,22 @@ export default {
   },
   methods: {
     async login () {
+      this.normalLoggingIn = true
+      this.error = false
       if (await this.$auth.login(this.username, this.password)) {
         this.redirect()
       } else {
+        this.normalLoggingIn = false
         this.error = true
       }
     },
     async loginGoogle () {
+      this.googleLoggingIn = true
       await this.$auth.loginGoogle()
       this.redirect()
     },
     async loginPbsMiData () {
+      this.hitobitoLoggingIn = true
       await this.$auth.loginPbsMiData()
       this.redirect()
     },
