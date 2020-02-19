@@ -118,7 +118,7 @@ export const reload = function (uriOrEntity) {
  *   user () { return this.api.get().profile() } // Root endpoint ('/') and navigate through self-discovery API
  * },
  * created () {
- *   this.oneSpecificCamp._meta.loaded.then(() => {
+ *   this.oneSpecificCamp._meta.load.then(() => {
  *     // do something now that the camp is loaded from the API
  *   })
  * }
@@ -126,7 +126,7 @@ export const reload = function (uriOrEntity) {
  * @param uriOrEntity URI (or instance) of an entity to load from the store or API
  * @param forceReload If true, the entity will be fetched from the API even if it is already in the Vuex store.
  *                    Note that the function will still return the old value in this case, but you can
- *                    wait for the new value using the ._meta.loaded promise.
+ *                    wait for the new value using the ._meta.load promise.
  * @returns entity    Entity from the store. Note that when fetching an object for the first time, a reactive
  *                    dummy is returned, which will be replaced with the true data through Vue's reactivity
  *                    system as soon as the API request finishes.
@@ -153,7 +153,7 @@ export const get = function (uriOrEntity, forceReload = false) {
 
 /**
  * Loads the entity specified by the URI from the Vuex store, or from the API if necessary. If applicable,
- * sets the loaded promise on the entity in the Vuex store.
+ * sets the load promise on the entity in the Vuex store.
  * @param uri         URI of the entity to load
  * @param forceReload If true, the entity will be fetched from the API even if it is already in the Vuex store.
  * @returns entity    the current entity data from the Vuex store. Note: This may be a reactive dummy if the
@@ -167,22 +167,22 @@ function load (uri, forceReload) {
     store.commit('addEmpty', uri)
   }
   if (isLoading) {
-    // Reuse the loading entity and loaded promise that is already waiting for a pending API request
+    // Reuse the loading entity and load promise that is already waiting for a pending API request
     return store.state.api[uri]
   }
 
   let dataFinishedLoading = Promise.resolve(store.state.api[uri])
   if (!existsInStore || forceReload) {
     dataFinishedLoading = loadFromApi(uri)
-  } else if (store.state.api[uri]._meta.loaded) {
+  } else if (store.state.api[uri]._meta.load) {
     // reuse the existing promise from the store if possible
-    dataFinishedLoading = store.state.api[uri]._meta.loaded
+    dataFinishedLoading = store.state.api[uri]._meta.load
   }
 
-  // We mutate the store state here without telling Vuex about it, so it won't complain and won't make loaded reactive.
+  // We mutate the store state here without telling Vuex about it, so it won't complain and won't make load reactive.
   // The promise is needed in the store for some special cases when a loading entity is requested a second time with
   // this.api.get(...) or this.api.reload(...).
-  store.state.api[uri]._meta.loaded = markAsDoneWhenResolved(dataFinishedLoading)
+  store.state.api[uri]._meta.load = markAsDoneWhenResolved(dataFinishedLoading)
 
   return store.state.api[uri]
 }
@@ -223,7 +223,7 @@ function loadFromApi (uri) {
  * @returns Promise   resolves to the URI of the related entity.
  */
 export const href = async function (uriOrEntity, relation) {
-  const self = normalizeEntityUri(await get(uriOrEntity)._meta.loaded, API_ROOT)
+  const self = normalizeEntityUri(await get(uriOrEntity)._meta.load, API_ROOT)
   const href = (state.api[self][relation] || {}).href
   return href ? API_ROOT + href : href
 }
@@ -317,7 +317,7 @@ function findEntitiesReferencing (uri) {
  * @returns Promise resolves when the cleanup has completed and the Vuex store is up to date again
  */
 function deleted (uri) {
-  return Promise.all(findEntitiesReferencing(uri).map(outdatedEntity => reload(outdatedEntity)._meta.loaded))
+  return Promise.all(findEntitiesReferencing(uri).map(outdatedEntity => reload(outdatedEntity)._meta.load))
     .then(() => purge(uri))
 }
 

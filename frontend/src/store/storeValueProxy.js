@@ -59,14 +59,14 @@ function loadingProxy (entityLoaded, uri = null) {
       if (prop === 'loading') {
         return true
       }
-      if (prop === 'loaded') {
+      if (prop === 'load') {
         return entityLoaded
       }
       if (prop === 'self') {
         return uri !== null ? API_ROOT + uri : uri
       }
       if (prop === '_meta') {
-        // When _meta is requested on a loadingProxy, we keep on using the unmodified promise, because ._meta.loaded
+        // When _meta is requested on a loadingProxy, we keep on using the unmodified promise, because ._meta.load
         // is supposed to resolve to the whole object, not just the ._meta part of it
         return loadingProxy(entityLoaded, uri)
       }
@@ -75,7 +75,7 @@ function loadingProxy (entityLoaded, uri = null) {
         return loadingArrayProxy(propertyLoaded)
       }
       // Normal property access: return a function that yields another loadingProxy and renders as empty string
-      const result = () => loadingProxy(propertyLoaded.then(property => property()._meta.loaded))
+      const result = () => loadingProxy(propertyLoaded.then(property => property()._meta.load))
       result.toString = () => ''
       return result
     }
@@ -127,7 +127,7 @@ function mapArrayOfEntityReferences (array) {
   if (containsLoadingEntityReference(array)) {
     const arrayCompletelyLoaded = Promise.all(array.map(entry => {
       if (isEntityReference(entry)) {
-        return get(entry.href)._meta.loaded
+        return get(entry.href)._meta.load
       }
       return Promise.resolve(entry)
     }))
@@ -163,7 +163,7 @@ function addItemsGetter (target, items) {
  */
 function embeddedCollectionProxy (items, reloadUri, reloadProperty) {
   const result = addItemsGetter({ _meta: { reload: { uri: reloadUri, property: reloadProperty } } }, items)
-  result._meta.loaded = Promise.resolve(result)
+  result._meta.load = Promise.resolve(result)
   return result
 }
 
@@ -195,10 +195,10 @@ function embeddedCollectionProxy (items, reloadUri, reloadProperty) {
  * @returns object            wrapped entity ready for use in a frontend component
  */
 export default function storeValueProxy (data) {
-  const meta = data._meta || { loaded: Promise.resolve() }
+  const meta = data._meta || { load: Promise.resolve() }
 
   if (meta.loading) {
-    const entityLoaded = meta.loaded.then(loadedData => createStoreValueProxy(loadedData))
+    const entityLoaded = meta.load.then(loadedData => createStoreValueProxy(loadedData))
     return loadingProxy(entityLoaded, meta.self)
   }
 
@@ -208,7 +208,7 @@ export default function storeValueProxy (data) {
 /**
  * Creates an actual storeValueProxy, by wrapping the given Vuex store data. The data must not be loading.
  * If the data has been loaded into the store before but is currently reloading, the old data will be
- * returned, along with a ._meta.loaded promise that resolves when the reload is complete.
+ * returned, along with a ._meta.load promise that resolves when the reload is complete.
  * @param data fully loaded entity data from the Vuex store
  */
 function createStoreValueProxy (data) {
@@ -226,12 +226,12 @@ function createStoreValueProxy (data) {
     }
   })
 
-  // Use a trivial loaded promise to break endless recursion, except if we are currently reloading the data from the API
-  const loadedPromise = data._meta.loaded && !data._meta.loaded[Symbol.for('done')]
-    ? data._meta.loaded.then(reloadedData => storeValueProxy(reloadedData))
+  // Use a trivial load promise to break endless recursion, except if we are currently reloading the data from the API
+  const loadedPromise = data._meta.load && !data._meta.load[Symbol.for('done')]
+    ? data._meta.load.then(reloadedData => storeValueProxy(reloadedData))
     : Promise.resolve(result)
 
-  // Use a shallow clone of _meta, since we don't want to overwrite the ._meta.loaded promise or self link in the Vuex store
-  result._meta = { ...data._meta, loaded: loadedPromise, self: API_ROOT + data._meta.self }
+  // Use a shallow clone of _meta, since we don't want to overwrite the ._meta.load promise or self link in the Vuex store
+  result._meta = { ...data._meta, load: loadedPromise, self: API_ROOT + data._meta.self }
   return result
 }

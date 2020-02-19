@@ -265,7 +265,7 @@ describe('API store', () => {
     expect(loadingProxy[Symbol.for('isLoadingProxy')]).toBe(true)
 
     // when
-    loadingProxy._meta.loaded.then(loadedData => {
+    loadingProxy._meta.load.then(loadedData => {
       // then
       expect(loadedData).toMatchObject({ id: 1, _meta: { self: '/camps/1' } })
 
@@ -284,7 +284,7 @@ describe('API store', () => {
     expect(loadingProxy[Symbol('isLoadingProxy')]).not.toBe(true)
 
     // when
-    loadingProxy._meta.loaded.then(loadedData => {
+    loadingProxy._meta.load.then(loadedData => {
       // then
       expect(loadedData).toMatchObject({ id: 1, _meta: { self: '/camps/1' } })
 

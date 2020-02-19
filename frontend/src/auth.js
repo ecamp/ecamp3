@@ -16,7 +16,7 @@ function isLoggedIn () {
 
 export async function refreshLoginStatus (forceReload = true) {
   if (forceReload) reload(get().auth())
-  await get().auth()._meta.loaded
+  await get().auth()._meta.load
   return isLoggedIn()
 }
 
@@ -47,7 +47,7 @@ async function loginPbsMiData () {
 }
 
 async function logout () {
-  return reload(get().auth().logout())._meta.loaded.then(() => refreshLoginStatus())
+  return reload(get().auth().logout())._meta.load.then(() => refreshLoginStatus())
 }
 
 export const auth = { isLoggedIn, refreshLoginStatus, login, loginGoogle, loginPbsMiData, logout }
