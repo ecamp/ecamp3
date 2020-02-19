@@ -76,6 +76,14 @@ class AuthController extends AbstractActionController {
             ]
         ]);
 
+        $data['register'] = Link::factory([
+            'rel' => 'register',
+            'route' => [
+                'name' => 'e-camp-api.rpc.register',
+                'params' => [ 'action' => 'register' ]
+            ]
+        ]);
+
         $data['google'] = Link::factory([
             'rel' => 'google',
             'route' => [

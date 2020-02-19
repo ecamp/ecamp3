@@ -25,6 +25,11 @@ async function login (username, password) {
   return post(url, { username: username, password: password }).then(() => refreshLoginStatus())
 }
 
+async function register ({ username, email, password }) {
+  const url = await href(get().auth(), 'register')
+  return post(url, { username, email, password }).then(() => refreshLoginStatus())
+}
+
 async function oAuthLoginInSeparateWindow (provider) {
   return new Promise(resolve => {
     // Make the promise resolve function available on global level, so the separate window can call it
@@ -50,7 +55,7 @@ async function logout () {
   return reload(get().auth().logout())._meta.load.then(() => refreshLoginStatus())
 }
 
-export const auth = { isLoggedIn, refreshLoginStatus, login, loginGoogle, loginPbsMiData, logout }
+export const auth = { isLoggedIn, refreshLoginStatus, login, register, loginGoogle, loginPbsMiData, logout }
 
 Object.defineProperties(Vue.prototype, {
   $auth: {
