@@ -238,7 +238,13 @@ const patch = function (uriOrEntity, data) {
   if (uri === null) {
     return Promise.reject(new Error(`Could not perform PATCH, "${uriOrEntity}" is not an entity or URI`))
   }
-  return markAsDoneWhenResolved(axios.patch(API_ROOT + uri, data).then(({ data }) => {
+  const existsInStore = (uri in store.state.api)
+
+  if (!existsInStore) {
+    store.commit('addEmpty', uri)
+  }
+
+  store.state.api[uri]._meta.load = markAsDoneWhenResolved(axios.patch(API_ROOT + uri, data).then(({ data }) => {
     // Workaround because API adds page parameter even to first page when it was not requested that way
     // TODO fix backend API and remove the next line
     data._links.self.href = uri
@@ -249,6 +255,8 @@ const patch = function (uriOrEntity, data) {
       return deleted(uri)
     }
   }))
+
+  return store.state.api[uri]._meta.load
 }
 
 /**
