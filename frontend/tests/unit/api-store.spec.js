@@ -1,9 +1,10 @@
 import { createLocalVue, mount } from '@vue/test-utils'
-import store, { api, state } from '@/store'
+import store from '@/store'
 import axios from 'axios'
 import MockAdapter from 'axios-mock-adapter'
 import VueAxios from 'vue-axios'
 import Vuex from 'vuex'
+import { cloneDeep } from 'lodash'
 import embeddedSingleEntity from './resources/embedded-single-entity'
 import referenceToSingleEntity from './resources/reference-to-single-entity'
 import embeddedCollection from './resources/embedded-collection'
@@ -23,16 +24,15 @@ describe('API store', () => {
   let localVue
   let axiosMock
   let vm
-  const stateCopy = JSON.parse(JSON.stringify(state))
+  const stateCopy = cloneDeep(store.state)
 
   beforeEach(() => {
     localVue = createLocalVue()
     localVue.use(Vuex)
     axiosMock = new MockAdapter(axios)
     localVue.use(VueAxios, axiosMock)
-    localVue.mixin({ api })
     // Restore the initial state before each test
-    store.replaceState(JSON.parse(JSON.stringify(stateCopy)))
+    store.replaceState(cloneDeep(stateCopy))
     vm = mount({ localVue, store, template: '<div></div>' }).vm
   })
 
@@ -408,7 +408,7 @@ describe('API store', () => {
     axiosMock.onGet('http://localhost/campTypes/20').reply(200, embeddedSingleEntity.serverResponse._embedded.camp_type)
     vm.api.get('/camps/1')
     await letNetworkRequestFinish()
-    const storeStateWithoutCampType = JSON.parse(JSON.stringify(embeddedSingleEntity.storeState))
+    const storeStateWithoutCampType = cloneDeep(embeddedSingleEntity.storeState)
     delete storeStateWithoutCampType['/campTypes/20']
 
     // when
@@ -429,7 +429,7 @@ describe('API store', () => {
     vm.api.get('/camps/1')
     await letNetworkRequestFinish()
     const campType = vm.api.get('/camps/1').camp_type()
-    const storeStateWithoutCampType = JSON.parse(JSON.stringify(embeddedSingleEntity.storeState))
+    const storeStateWithoutCampType = cloneDeep(embeddedSingleEntity.storeState)
     delete storeStateWithoutCampType['/campTypes/20']
 
     // when
