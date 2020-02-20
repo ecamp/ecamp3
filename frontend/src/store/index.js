@@ -222,7 +222,7 @@ function loadFromApi (uri) {
  */
 export const href = async function (uriOrEntity, relation) {
   const self = normalizeEntityUri(await get(uriOrEntity)._meta.load, API_ROOT)
-  const href = (state.api[self][relation] || {}).href
+  const href = (store.state.api[self][relation] || {}).href
   return href ? API_ROOT + href : href
 }
 
