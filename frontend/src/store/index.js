@@ -70,7 +70,8 @@ const store = new Vuex.Store({
 export default store
 
 /**
- * Sends a POST request to the backend, in order to create a new entity.
+ * Sends a POST request to the backend, in order to create a new entity. Note that this does not
+ * reload any collections that this new entity might be in, the caller has to do that on its own.
  * @param uriOrCollection URI (or instance) of a collection in which the entity should be created
  * @param data            Payload to be sent in the POST request
  * @returns Promise       resolves when the POST request has completed and the entity is available
@@ -82,11 +83,8 @@ export const post = function (uriOrCollection, data) {
     return Promise.reject(new Error(`Could not perform POST, "${uriOrCollection}" is not an entity or URI`))
   }
   return markAsDoneWhenResolved(axios.post(API_ROOT + uri, data).then(({ data }) => {
-    // Workaround because API adds page parameter even to first page when it was not requested that way
-    // TODO fix backend API and remove the next line
-    data._links.self.href = uri
     storeHalJsonData(data)
-    return get(uri)
+    return get(data._links.self.href)
   }))
 }
 
