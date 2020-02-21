@@ -4,6 +4,15 @@ import * as apiStore from '@/store'
 
 const store = apiStore.default
 
+expect.extend({
+  haveUri (actual, expectedUri) {
+      return {
+        pass: actual === expectedUri || actual._meta.self === expectedUri,
+        message: () => 'expected to have the URI \'' + expectedUri + '\'',
+      };
+  },
+});
+
 describe('authentication logic', () => {
 
   beforeEach(() => {
@@ -113,8 +122,8 @@ describe('authentication logic', () => {
       await auth.register({ username: 'foo', email: 'bar', password: 'baz' })
 
       // then
-      expect(apiStore.post.mock.calls.length).toEqual(1)
-      expect(apiStore.post.mock.calls[0]).toEqual(['http://localhost/auth/register', { username: 'foo', email: 'bar', password: 'baz' }])
+      expect(apiStore.post).toHaveBeenCalledTimes(1)
+      expect(apiStore.post).toHaveBeenCalledWith('http://localhost/auth/register', { username: 'foo', email: 'bar', password: 'baz' })
       done()
     })
   })
@@ -122,10 +131,13 @@ describe('authentication logic', () => {
   describe('login()', () => {
     it('resolves to true if the user successfully logs in', async done => {
       // given
-      store.replaceState(createState({role: 'guest'}))
-      jest.spyOn(apiStore, 'post').mockImplementation(async () => {})
+      let roleInBackend = 'guest'
+      store.replaceState(createState({ role: roleInBackend }))
+      jest.spyOn(apiStore, 'post').mockImplementation(async () => {
+        roleInBackend = 'user'
+      })
       jest.spyOn(apiStore, 'reload').mockImplementation(() => {
-        store.replaceState(createState({role: 'user'}))
+        store.replaceState(createState({ role: roleInBackend }))
       })
 
       // when
@@ -138,9 +150,14 @@ describe('authentication logic', () => {
 
     it('resolves to false if the login fails', async done => {
       // given
-      store.replaceState(createState({role: 'guest'}))
-      jest.spyOn(apiStore, 'post').mockImplementation(async () => {})
-      jest.spyOn(apiStore, 'reload').mockImplementation(() => {})
+      let roleInBackend = 'guest'
+      store.replaceState(createState({ role: roleInBackend }))
+      jest.spyOn(apiStore, 'post').mockImplementation(async () => {
+        // login fails, leave guest role as it is
+      })
+      jest.spyOn(apiStore, 'reload').mockImplementation(() => {
+        store.replaceState(createState({ role: roleInBackend }))
+      })
 
       // when
       const result = await auth.login('foo', 'barrrr')
@@ -154,10 +171,14 @@ describe('authentication logic', () => {
   describe('loginGoogle()', () => {
     it('resolves to true if the user successfully logs in', async done => {
       // given
-      store.replaceState(createState({role: 'guest'}))
-      jest.spyOn(window, 'open').mockImplementation(() => window.afterLogin())
+      let roleInBackend = 'guest'
+      store.replaceState(createState({ role: roleInBackend }))
+      jest.spyOn(window, 'open').mockImplementation(() => {
+        roleInBackend = 'user'
+        window.afterLogin()
+      })
       jest.spyOn(apiStore, 'reload').mockImplementation(() => {
-        store.replaceState(createState({role: 'user'}))
+        store.replaceState(createState({ role: roleInBackend }))
       })
 
       // when
@@ -165,6 +186,8 @@ describe('authentication logic', () => {
 
       // then
       expect(result).toBeTruthy()
+      expect(window.open).toHaveBeenCalledTimes(1)
+      expect(window.open).toHaveBeenCalledWith('http://localhost/auth/google?callback=http://localhost/loginCallback', expect.anything(), expect.anything())
       done()
     })
   })
@@ -172,10 +195,14 @@ describe('authentication logic', () => {
   describe('loginPbsMiData()', () => {
     it('resolves to true if the user successfully logs in', async done => {
       // given
-      store.replaceState(createState({role: 'guest'}))
-      jest.spyOn(window, 'open').mockImplementation(() => window.afterLogin())
+      let roleInBackend = 'guest'
+      store.replaceState(createState({ role: roleInBackend }))
+      jest.spyOn(window, 'open').mockImplementation(() => {
+        roleInBackend = 'user'
+        window.afterLogin()
+      })
       jest.spyOn(apiStore, 'reload').mockImplementation(() => {
-        store.replaceState(createState({role: 'user'}))
+        store.replaceState(createState({ role: roleInBackend }))
       })
 
       // when
@@ -183,6 +210,8 @@ describe('authentication logic', () => {
 
       // then
       expect(result).toBeTruthy()
+      expect(window.open).toHaveBeenCalledTimes(1)
+      expect(window.open).toHaveBeenCalledWith('http://localhost/auth/pbsmidata?callback=http://localhost/loginCallback', expect.anything(), expect.anything())
       done()
     })
   })
@@ -190,9 +219,11 @@ describe('authentication logic', () => {
   describe('logout()', () => {
     it('resolves to false if the user successfully logs out', async done => {
       // given
-      store.replaceState(createState({role: 'user'}))
-      jest.spyOn(apiStore, 'reload').mockImplementation(() => {
-        store.replaceState(createState({role: 'guest'}))
+      let roleInBackend = 'user'
+      store.replaceState(createState({ role: roleInBackend }))
+      jest.spyOn(apiStore, 'reload').mockImplementation(arg => {
+        if (arg._meta.self === 'http://localhost/auth/logout') roleInBackend = 'guest'
+        store.replaceState(createState({ role: roleInBackend }))
         return { _meta: { load: Promise.resolve() }}
       })
 
@@ -201,19 +232,24 @@ describe('authentication logic', () => {
 
       // then
       expect(result).toBeFalsy()
+      expect(apiStore.reload).toHaveBeenCalledWith(expect.haveUri('http://localhost/auth/logout'))
       done()
     })
 
     it('resolves to true if the logout fails', async done => {
       // given
       store.replaceState(createState({role: 'user'}))
-      jest.spyOn(apiStore, 'reload').mockImplementation(() => ({ _meta: { load: Promise.resolve() }}))
+      jest.spyOn(apiStore, 'reload').mockImplementation(() => {
+        // logout fails, leave user role as it is
+        return { _meta: { load: Promise.resolve() }}
+      })
 
       // when
       const result = await auth.logout()
 
       // then
       expect(result).toBeTruthy()
+      expect(apiStore.reload).toHaveBeenCalledWith(expect.haveUri('http://localhost/auth/logout'))
       done()
     })
   })
@@ -240,6 +276,12 @@ function createState(authState) {
         },
         register: {
           href: '/auth/register'
+        },
+        google: {
+          href: '/auth/google'
+        },
+        pbsmidata: {
+          href: '/auth/pbsmidata'
         },
         _meta: {
           self: '/auth'
