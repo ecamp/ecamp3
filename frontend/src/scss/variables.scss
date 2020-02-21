@@ -9,6 +9,101 @@
 // @include inter-ui.weight-600;
 @include inter-ui.all;
 $body-font-family: 'Inter', sans-serif, emoji;
+$heading-font-family: $body-font-family;
+$body-font-weight: 400;
+$font-weights: (
+  'light': 200,
+  'regular': 400,
+  'bold': 600
+);
+$headings: (
+  'h1': (
+    'size': 6rem,
+    'weight': 200,
+    'line-height': 1.428571429,
+    'letter-spacing': -.022em,
+    'font-family': $heading-font-family
+  ),
+  'h2': (
+    'size': 3.75rem,
+    'weight': 200,
+    'line-height': 1.428571429,
+    'letter-spacing': -.022em,
+    'font-family': $heading-font-family
+  ),
+  'h3': (
+    'size': 3rem,
+    'weight': 400,
+    'line-height': 1.428571429,
+    'letter-spacing': -.0215,
+    'font-family': $heading-font-family
+  ),
+  'h4': (
+    'size': 2.125rem,
+    'weight': 400,
+    'line-height': 1.428571429,
+    'letter-spacing': -.021em,
+    'font-family': $heading-font-family
+  ),
+  'h5': (
+    'size': 1.5rem,
+    'weight': 400,
+    'line-height': 1.428571429,
+    'letter-spacing': -.019em,
+    'font-family': $heading-font-family
+  ),
+  'h6': (
+    'size': 1.25rem,
+    'weight': 500,
+    'line-height': 1.428571429,
+    'letter-spacing': -.0125em,
+    'font-family': $heading-font-family
+  ),
+  'subtitle-1': (
+    'size': 1rem,
+    'weight': 400,
+    'line-height': 1.428571429,
+    'letter-spacing': -.017em,
+    'font-family': $body-font-family
+  ),
+  'subtitle-2': (
+    'size': .875rem,
+    'weight': 600,
+    'line-height': 1.375rem,
+    'letter-spacing': -.006em,
+    'font-family': $body-font-family
+  ),
+  'body-2': (
+    'size': .875rem,
+    'weight': 400,
+    'letter-spacing': -.006em,
+    'line-height': 1.428571429,
+    'font-family': $body-font-family
+  ),
+  'body-1': (
+    'size': 1rem,
+    'weight': 400,
+    'letter-spacing': -0.011em,
+    'line-height': 1.428571429,
+    'font-family': $body-font-family
+  ),
+  'caption': (
+    'size': .75rem,
+    'weight': 400,
+    'letter-spacing': 0em,
+    'line-height': 1.428571429,
+    'font-family': $body-font-family
+  ),
+  'overline': (
+    'size': .625rem,
+    'weight': 400,
+    'letter-spacing': 0.010em,
+    'line-height': 1.428571429,
+    'font-family': $body-font-family
+  )
+);
+body {font-feature-settings: "ss03", "calt", "rlig", "kern"}
+.v-toolbar__title {font-weight: 500;}
 $btn-letter-spacing: .25px;
 $bottom-nav-btn-min-width: 60px;
 $list-item-action-icon-margin: 20px;
