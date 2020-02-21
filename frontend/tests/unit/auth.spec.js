@@ -145,6 +145,8 @@ describe('authentication logic', () => {
 
       // then
       expect(result).toBeTruthy()
+      expect(apiStore.post).toHaveBeenCalledTimes(1)
+      expect(apiStore.post).toHaveBeenCalledWith('http://localhost/auth/login', { username: 'foo', password: 'bar' })
       done()
     })
 
@@ -164,6 +166,8 @@ describe('authentication logic', () => {
 
       // then
       expect(result).toBeFalsy()
+      expect(apiStore.post).toHaveBeenCalledTimes(1)
+      expect(apiStore.post).toHaveBeenCalledWith('http://localhost/auth/login', { username: 'foo', password: 'barrrr' })
       done()
     })
   })
