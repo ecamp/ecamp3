@@ -1,4 +1,14 @@
-$body-font-family: ui-system, -apple-system, Segoe UI, Roboto, Noto Sans, "Helvetica Neue", Fira Sans, Oxygen-Sans, Cantarell, sans-serif, emoji, Segoe UI Emoji;
+@use "~inter-ui/default" as inter-ui with (
+	$inter-font-path: "~inter-ui/Inter (web)"
+);
+// TODO: @manuelmeister remove unused charachters (50% savings)
+//  see https://github.com/filamentgroup/glyphhanger
+
+// @include inter-ui.weight-200;
+// @include inter-ui.weight-400;
+// @include inter-ui.weight-600;
+@include inter-ui.all;
+$body-font-family: 'Inter', sans-serif, emoji;
 $btn-letter-spacing: .25px;
 $bottom-nav-btn-min-width: 60px;
 $list-item-action-icon-margin: 20px;
