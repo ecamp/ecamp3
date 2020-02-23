@@ -1,5 +1,5 @@
 <?php
-namespace eCampApi\V1\Rpc\Login;
+namespace eCampApi\V1\Rpc\Auth;
 
 use eCamp\Core\Auth\Adapter\LoginPassword;
 use eCamp\Core\Entity\User;
@@ -13,7 +13,7 @@ use ZF\Hal\Entity;
 use ZF\Hal\Link\Link;
 use ZF\Hal\View\HalJsonModel;
 
-class LoginController extends AbstractActionController {
+class AuthController extends AbstractActionController {
     /** @var AuthenticationService */
     private $authenticationService;
 
@@ -68,27 +68,48 @@ class LoginController extends AbstractActionController {
             'route' => [ 'name' => 'e-camp-api.rpc.index' ]
         ]);
 
+        $data['login'] = Link::factory([
+            'rel' => 'login',
+            'route' => [
+                'name' => 'e-camp-api.rpc.auth',
+                'params' => [ 'action' => 'login' ]
+            ]
+        ]);
+
+        $data['register'] = Link::factory([
+            'rel' => 'register',
+            'route' => [
+                'name' => 'e-camp-api.rpc.register',
+                'params' => [ 'action' => 'register' ]
+            ]
+        ]);
+
         $data['google'] = Link::factory([
-          'rel' => 'google',
-          'route' => [
-            'name' => 'e-camp-api.rpc.login',
-            'params' => [ 'action' => 'google' ]
-          ]
+            'rel' => 'google',
+            'route' => [
+                'name' => 'e-camp-api.rpc.auth',
+                'params' => [ 'action' => 'google' ]
+            ]
         ]);
 
         $data['pbsmidata'] = Link::factory([
           'rel' => 'pbsmidata',
           'route' => [
-            'name' => 'e-camp-api.rpc.login',
+            'name' => 'e-camp-api.rpc.auth',
             'params' => [ 'action' => 'pbsmidata' ]
           ]
+        ]);
+
+        $data['self'] = Link::factory([
+            'rel' => 'self',
+            'route' => 'e-camp-api.rpc.auth'
         ]);
 
         if ($userId != null) {
             $data['logout'] = Link::factory([
                 'rel' => 'logout',
                 'route' => [
-                    'name' => 'e-camp-api.rpc.login',
+                    'name' => 'e-camp-api.rpc.auth',
                     'params' => [ 'action' => 'logout' ]
                 ]
             ]);
@@ -115,7 +136,7 @@ class LoginController extends AbstractActionController {
         $adapter = new LoginPassword($user, $password);
         $this->authenticationService->authenticate($adapter);
 
-        return $this->redirect()->toRoute('e-camp-api.rpc.login');
+        return $this->redirect()->toRoute('e-camp-api.rpc.auth');
     }
 
 
@@ -127,7 +148,7 @@ class LoginController extends AbstractActionController {
         $request = $this->getRequest();
         $externalCallback = $request->getQuery('callback');
 
-        $redirect = $this->url()->fromRoute('e-camp-api.rpc.login', [], ['query'=>['callback'=>$externalCallback]]);
+        $redirect = $this->url()->fromRoute('e-camp-api.rpc.auth', [], ['query'=>['callback'=>$externalCallback]]);
 
         return $this->redirect()->toRoute(
           'ecamp.auth/google',
@@ -144,7 +165,7 @@ class LoginController extends AbstractActionController {
         $request = $this->getRequest();
         $externalCallback = $request->getQuery('callback');
 
-        $redirect = $this->url()->fromRoute('e-camp-api.rpc.login', [], [
+        $redirect = $this->url()->fromRoute('e-camp-api.rpc.auth', [], [
             'query'=>['callback'=>$externalCallback]
         ]);
 
@@ -162,6 +183,6 @@ class LoginController extends AbstractActionController {
     public function logoutAction() {
         $this->authenticationService->clearIdentity();
 
-        return $this->redirect()->toRoute('e-camp-api.rpc.login');
+        return $this->redirect()->toRoute('e-camp-api.rpc.auth');
     }
 }

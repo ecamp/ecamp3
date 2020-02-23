@@ -9,38 +9,40 @@ Displays a single event
         <v-icon>mdi-arrow-left</v-icon>
       </v-btn>
       <v-toolbar-title class="pl-2">
-        1.1
-        <v-chip v-if="!category.loading" dark :color="category.color">{{ category.short }}</v-chip>
+        {{ eventInstance().number }}
+        <v-chip v-if="!category._meta.loading" dark :color="category.color">{{ category.short }}</v-chip>
         {{ event.title }}
       </v-toolbar-title>
     </v-toolbar>
     <v-card-text>
-      <v-skeleton-loader v-if="event.loading" type="article" />
-      <api-input
-        :value="event.title"
-        :uri="event._meta.self"
-        fieldname="title"
-        :auto-save="false"
-        label="Titel"
-        required />
-      <api-input
-        :value="event.title"
-        :uri="event._meta.self"
-        fieldname="title"
-        :auto-save="true"
-        label="Titel"
-        required />
-      <v-list v-if="!event.loading">
-        <v-label>Instanzen</v-label>
-        <v-list-item
-          v-for="eventInstance in event.event_instances().items"
-          :key="eventInstance._meta.self"
-          two-line>
-          <v-list-item-content>
-            1. Montag<br> {{ eventInstance.start_time }} bis {{ eventInstance.end_time }}
-          </v-list-item-content>
-        </v-list-item>
-      </v-list>
+      <v-skeleton-loader v-if="event._meta.loading" type="article" />
+      <template v-else>
+        <api-input
+          :value="event.title"
+          :uri="event._meta.self"
+          fieldname="title"
+          :auto-save="false"
+          label="Titel"
+          required />
+        <api-input
+          :value="event.title"
+          :uri="event._meta.self"
+          fieldname="title"
+          :auto-save="true"
+          label="Titel"
+          required />
+        <v-list>
+          <v-label>Instanzen</v-label>
+          <v-list-item
+            v-for="instance in instances.items"
+            :key="instance._meta.self"
+            two-line>
+            <v-list-item-content>
+              1. Montag<br> {{ instance.start_time }} bis {{ instance.end_time }}
+            </v-list-item-content>
+          </v-list-item>
+        </v-list>
+      </template>
     </v-card-text>
   </v-card>
 </template>
@@ -51,21 +53,20 @@ export default {
   components: {
     ApiInput: () => import('@/components/form/ApiInput.vue')
   },
-  data () {
-    return {
-      editing: false,
-      messages: []
-    }
+  props: {
+    eventInstance: { type: Function, required: true }
   },
   computed: {
     event () {
-      return this.api.get(this.$route.params.eventUri)
+      return this.eventInstance().event()
     },
     category () {
       return this.event.event_category()
+    },
+    instances () {
+      return this.event.event_instances()
     }
   }
-
 }
 </script>
 

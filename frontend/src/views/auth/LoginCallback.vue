@@ -15,7 +15,7 @@
 export default {
   name: 'LoginCallback',
   beforeRouteEnter (to, from, next) {
-    window.opener.loginSuccess()
+    window.opener.afterLogin()
     window.close()
   }
 }

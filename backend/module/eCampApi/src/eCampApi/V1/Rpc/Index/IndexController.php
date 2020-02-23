@@ -41,9 +41,9 @@ class IndexController extends AbstractActionController {
             $data['user'] = 'guest';
         }
 
-        $data['login'] = Link::factory([
-            'rel' => 'login',
-            'route' => 'e-camp-api.rpc.login'
+        $data['auth'] = Link::factory([
+            'rel' => 'auth',
+            'route' => 'e-camp-api.rpc.auth'
         ]);
 
         $data['self'] = Link::factory([
@@ -62,9 +62,10 @@ class IndexController extends AbstractActionController {
             'route' => 'zf-apigility/ui'
         ]);
 
-//        $camps = new Link('camps');
-//        $camps->setRoute('ecamp.api.camp');
-//        $data['camps'] = $camps;
+        $data['camps'] = Link::factory([
+            'rel' => 'camps',
+            'route' => 'e-camp-api.rest.doctrine.camp'
+        ]);
 
         $json = new HalJsonModel();
         $json->setPayload(new Entity($data));

@@ -7,6 +7,7 @@ import vuetify from './plugins/vuetify'
 
 Vue.component('empty-layout', () => import('./layouts/EmptyLayout'))
 Vue.component('default-layout', () => import('./layouts/DefaultLayout'))
+Vue.component('camp-layout', () => import('./layouts/CampLayout'))
 
 new Vue({
   router,

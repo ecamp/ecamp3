@@ -13,32 +13,26 @@ Displays details on a single camp and allows to edit them.
           Einstellungen
         </v-toolbar-title>
       </v-toolbar>
-      <v-card-text v-if="campDetails.loaded">
-        <v-skeleton-loader type="text" max-width="100" class="mt-2" />
-        <v-skeleton-loader type="heading" class="mb-2" />
-        <v-skeleton-loader type="text" max-width="100" class="mt-7" />
-        <v-skeleton-loader type="heading" class="mb-2" />
-        <v-skeleton-loader type="text" max-width="100" class="mt-7" />
-        <v-skeleton-loader type="heading" class="mb-5" />
-      </v-card-text>
-      <v-card-text v-if="!campDetails.loaded">
-        <v-alert
-          v-for="(message, index) in messages"
-          :key="index"
-          :type="message.type">
-          {{ message.text }}
-        </v-alert>
+      <v-skeleton-loader v-if="camp()._meta.loading" type="article" />
+      <v-card-text v-else>
         <v-form>
           <v-text-field
-            :value="campDetails.name"
+            label="Name"
             readonly
-            label="Name" />
-          <v-text-field
-            :value="campDetails.title"
-            label="Titel" />
-          <v-text-field
-            :value="campDetails.motto"
-            label="Motto" />
+            :value="camp().name"
+            class="mr-2 ml-2" />
+          <api-input
+            :value="camp().title"
+            :uri="camp()._meta.self"
+            fieldname="title"
+            label="Titel"
+            required />
+          <api-input
+            :value="camp().motto"
+            :uri="camp()._meta.self"
+            fieldname="motto"
+            label="Motto"
+            required />
         </v-form>
       </v-card-text>
     </v-card>
@@ -51,13 +45,11 @@ Displays details on a single camp and allows to edit them.
           Periods
         </v-toolbar-title>
       </v-toolbar>
-      <v-card-text v-if="campDetails.loaded">
-        <v-skeleton-loader type="article" />
-      </v-card-text>
-      <v-card-text v-if="!campDetails.loaded">
+      <v-skeleton-loader v-if="camp()._meta.loading" type="article" />
+      <v-card-text v-else>
         <v-list>
           <v-list-item
-            v-for="period in periods"
+            v-for="period in periods.items"
             :key="period.id">
             <v-list-item-content>
               <v-list-item-title>{{ period.description }}</v-list-item-title>
@@ -100,7 +92,7 @@ Displays details on a single camp and allows to edit them.
                 small
                 color="success"
                 class="mb-1"
-                @click="() => { createPeriodCamp=campDetails }">
+                @click="() => { createPeriodCamp=camp() }">
                 <i class="v-icon v-icon--left mdi mdi-plus" />
                 Create Period
               </v-btn>
@@ -119,14 +111,15 @@ Displays details on a single camp and allows to edit them.
 </template>
 
 <script>
+import ApiInput from '../form/ApiInput'
 import EditPeriodDialog from '../dialog/EditPeriodDialog'
 import CreatePeriodDialog from '../dialog/CreatePeriodDialog'
 import DeleteEntityDialog from '../dialog/DeleteEntityDialog'
 export default {
   name: 'Basic',
-  components: { DeleteEntityDialog, CreatePeriodDialog, EditPeriodDialog },
+  components: { ApiInput, DeleteEntityDialog, CreatePeriodDialog, EditPeriodDialog },
   props: {
-    campUri: { type: String, required: true }
+    camp: { type: Function, required: true }
   },
   data () {
     return {
@@ -137,11 +130,8 @@ export default {
     }
   },
   computed: {
-    campDetails () {
-      return this.api.get(this.campUri)
-    },
     periods () {
-      return this.campDetails.periods().items
+      return this.camp().periods()
     }
   }
 }

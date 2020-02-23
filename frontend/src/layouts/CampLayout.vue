@@ -29,17 +29,51 @@
                app
                clipped-left hide-on-scroll
                color="blue-grey darken-4" dark>
-      <v-toolbar-title class="pl-4 pr-4">
-        <i>🏕</i>️ eCamp
-      </v-toolbar-title>
       <v-toolbar-items>
-        <v-btn text
-               exact :to="{ name: 'home'}">
-          Home
+        <v-btn icon
+               large
+               exact
+               class="title"
+               :to="{name: 'home'}">
+          ⛺
         </v-btn>
-        <v-btn text
-               :to="{ name: 'camps', params: { groupName: encodeURI('Pfadi Bewegung Schweiz') } }">
-          Camps
+      </v-toolbar-items>
+
+      <v-overflow-btn class="my-2 ec-campselect"
+                      label="Camp lädt"
+                      :editable="editableCampButton" single-line
+                      :items="lastCamps.items"
+                      item-text="title" item-value="id"
+                      :value="camp().id"
+                      hide-details return-object
+                      readonly
+                      @change="changeCamp"
+                      @blur="editableCampButton = false"
+                      @click:append.capture="editableCampButton = !editableCampButton">
+        <template v-slot:selection="data">
+          <div class="v-select__selection v-select__selection--comma v-toolbar__title"
+               @mousedown="$router.push(campRoute(data.item))">
+            {{ data.item.title }}
+          </div>
+        </template>
+      </v-overflow-btn>
+
+      <v-toolbar-items>
+        <v-btn text :to="campRoute(camp(), 'periods')">
+          <v-icon :left="$vuetify.breakpoint.mdAndUp">mdi-calendar-text</v-icon>
+          <span class="sr-only-sm-and-down">Events</span>
+        </v-btn>
+        <v-btn text :to="campRoute(camp(), 'picasso')">
+          <v-icon :left="$vuetify.breakpoint.mdAndUp">mdi-calendar-month</v-icon>
+          <span class="sr-only-sm-and-down">Picasso</span>
+        </v-btn>
+        <v-btn text :to="campRoute(camp(), 'collaborators')">
+          <v-icon :left="$vuetify.breakpoint.mdAndUp">mdi-account-group</v-icon>
+          <span class="sr-only-sm-and-down">Team</span>
+        </v-btn>
+        <v-btn text :to="campRoute(camp())" exact>
+          <v-icon :left="$vuetify.breakpoint.mdAndUp">mdi-information</v-icon>
+          <span class="sr-only-sm-and-down">Admin</span>
         </v-btn>
       </v-toolbar-items>
       <v-spacer />
@@ -70,15 +104,23 @@
     </v-content>
 
     <v-bottom-navigation v-if="$vuetify.breakpoint.xs" fixed grow>
-      <v-btn :to="{name: 'home'}" exact>
-        <span>Home</span>
-        <v-icon>mdi-home</v-icon>
+      <v-btn :to="{name: 'camp'}" exact>
+        <span>{{ camp().name }}</span>
+        <v-icon>mdi-tent</v-icon>
       </v-btn>
-      <v-btn :to="{name: 'camps'}" exact>
-        <span>Camps</span>
-        <v-icon>mdi-format-list-bulleted-triangle</v-icon>
+      <v-btn :to="{name: 'camp/periods'}">
+        <span>Events</span>
+        <v-icon>mdi-calendar-text</v-icon>
       </v-btn>
-      <v-btn exact>
+      <v-btn :to="{name: 'camp/picasso'}">
+        <span>Picasso</span>
+        <v-icon>mdi-calendar-month</v-icon>
+      </v-btn>
+      <v-btn :to="{name: 'camp/collaborators'}" exact>
+        <span>Team</span>
+        <v-icon>mdi-account-group</v-icon>
+      </v-btn>
+      <v-btn :to="{name: 'home'}">
         <span>Profile</span>
         <v-icon>mdi-account</v-icon>
       </v-btn>
@@ -93,6 +135,8 @@
 </template>
 
 <script>
+import { campRoute, campFromRoute } from '@/router'
+
 export default {
   data () {
     return {
@@ -105,6 +149,12 @@ export default {
   computed: {
     loggedIn () {
       return this.$auth.isLoggedIn()
+    },
+    lastCamps () {
+      return this.api.get().camps()
+    },
+    camp () {
+      return campFromRoute(this.$route)
     }
   },
   created () {
@@ -115,12 +165,16 @@ export default {
       this.logoutIcon = ''
       this.$auth.logout().then(() => this.$router.replace({ name: 'login' }))
     },
+    changeCamp (selectedCamp) {
+      this.$router.push(campRoute(selectedCamp))
+    },
     prevent (event) {
       event.stopImmediatePropagation()
       event.preventDefault()
       event.cancelBubble = true
       return null
-    }
+    },
+    campRoute
   }
 }
 </script>
