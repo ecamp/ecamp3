@@ -1,70 +1,62 @@
 import Vue from 'vue'
 import axios from 'axios'
-const storageLocation = 'loggedIn'
-
-const subscribers = []
-
-const notifySubscribers = newLoginStatus => {
-  subscribers.forEach(subscriber => subscriber(newLoginStatus))
-}
-
-export const auth = {
-  async isLoggedIn () {
-    const savedStatus = window.localStorage.getItem(storageLocation)
-    if (savedStatus !== null) {
-      return savedStatus === '1'
-    }
-    const response = await axios.get(process.env.VUE_APP_ROOT_API + '/login')
-    let loggedIn = '0'
-    if (response.data.user !== 'guest') {
-      loggedIn = '1'
-    }
-    window.localStorage.setItem(storageLocation, loggedIn)
-    return loggedIn === '1'
-  },
-  subscribe (onLoginStatusChange) {
-    subscribers.push(onLoginStatusChange)
-  },
-  login (username, password) {
-    return axios.post(process.env.VUE_APP_ROOT_API + '/login/login', { username: username, password: password })
-      .then(resp => {
-        if (resp.data.user !== 'guest') {
-          this.loginSuccess()
-          return true
-        } else {
-          return false
-        }
-      })
-  },
-  loginGoogle (returnUrl) {
-    window.open(process.env.VUE_APP_ROOT_API + '/login/google?callback=' + encodeURI(returnUrl), '', 'width=500px,height=600px')
-  },
-  loginPbsMiData (returnUrl) {
-    window.open(process.env.VUE_APP_ROOT_API + '/login/pbsmidata?callback=' + encodeURI(returnUrl), '', 'width=500px,height=600px')
-  },
-  loginSuccess () {
-    window.localStorage.setItem(storageLocation, '1')
-    notifySubscribers(true)
-  },
-  logout (callback) {
-    axios.get(process.env.VUE_APP_ROOT_API + '/login/logout').then(response => {
-      window.localStorage.setItem(storageLocation, '0')
-      notifySubscribers(false)
-      if (callback) {
-        callback(response)
-      }
-    })
-  }
-}
+import { get, reload, post, href } from '@/store'
+import router from '@/router'
 
 axios.interceptors.response.use(null, error => {
   if (error.status === 401) {
-    auth.logout()
+    logout()
   }
   return Promise.reject(error)
 })
 
-Vue.auth = auth
+function isLoggedIn () {
+  return get().auth().role === 'user'
+}
+
+export async function refreshLoginStatus (forceReload = true) {
+  if (forceReload) reload(get().auth())
+  await get().auth()._meta.load
+  return isLoggedIn()
+}
+
+async function login (username, password) {
+  const url = await href(get().auth(), 'login')
+  return post(url, { username: username, password: password }).then(() => refreshLoginStatus())
+}
+
+async function register ({ username, email, password }) {
+  const url = await href(get().auth(), 'register')
+  return post(url, { username, email, password })
+}
+
+async function oAuthLoginInSeparateWindow (provider) {
+  return new Promise(resolve => {
+    // Make the promise resolve function available on global level, so the separate window can call it
+    window.afterLogin = resolve
+
+    href(get().auth(), provider).then(url => {
+      const returnUrl = window.location.origin + router.resolve({ name: 'loginCallback' }).href
+      // TODO use templated relations once #369 is implemented
+      window.open(url + '?callback=' + encodeURI(returnUrl), '', 'width=500px,height=600px')
+    })
+  })
+}
+
+async function loginGoogle () {
+  return oAuthLoginInSeparateWindow('google').then(() => refreshLoginStatus())
+}
+
+async function loginPbsMiData () {
+  return oAuthLoginInSeparateWindow('pbsmidata').then(() => refreshLoginStatus())
+}
+
+async function logout () {
+  return reload(get().auth().logout())._meta.load.then(() => refreshLoginStatus())
+}
+
+export const auth = { isLoggedIn, refreshLoginStatus, login, register, loginGoogle, loginPbsMiData, logout }
+
 Object.defineProperties(Vue.prototype, {
   $auth: {
     get () {

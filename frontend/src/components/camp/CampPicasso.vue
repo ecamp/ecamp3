@@ -13,14 +13,14 @@ Listing all event instances of a single period.
       </v-toolbar-title>
       <v-tabs v-model="tab" right
               center-active background-color="blue-grey lighten-5">
-        <v-tab v-for="period in periods().items"
+        <v-tab v-for="period in periods.items"
                :key="period.id">
           {{ period.description }}
         </v-tab>
       </v-tabs>
     </v-toolbar>
     <v-tabs-items v-model="tab">
-      <v-tab-item v-for="period in periods().items"
+      <v-tab-item v-for="period in periods.items"
                   :key="period.id">
         <picasso
           :camp="camp"
@@ -47,10 +47,10 @@ export default {
   },
   computed: {
     periods () {
-      return this.camp().periods
+      return this.camp().periods()
     },
     eventInstances () {
-      return this.periods().items.flatMap(period => period.event_instances())
+      return this.periods.items.flatMap(period => period.event_instances())
     }
   }
 }

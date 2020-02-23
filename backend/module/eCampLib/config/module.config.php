@@ -27,7 +27,7 @@ return [
                         \Interop\Container\ContainerInterface::class => Zend\ServiceManager\ServiceManager::class,
                     ],
                 ],
-            ],    
+            ],
         ],
     ],
 

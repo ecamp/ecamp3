@@ -3,7 +3,7 @@ return array(
     'eCampApi\\V1\\Rpc\\Index\\Controller' => array(
         'description' => 'Entrypoint',
     ),
-    'eCampApi\\V1\\Rpc\\Login\\Controller' => array(
+    'eCampApi\\V1\\Rpc\\Auth\\Controller' => array(
         'description' => '',
         'GET' => array(
             'description' => '/index  

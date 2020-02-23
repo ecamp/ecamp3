@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import slugify from 'slugify'
+import { refreshLoginStatus } from '@/auth'
 
 Vue.use(Router)
 
@@ -30,11 +31,6 @@ export default new Router({
       path: '/loginCallback',
       name: 'loginCallback',
       component: () => import(/* webpackChunkName: "login" */ './views/auth/LoginCallback.vue')
-    },
-    {
-      path: '/logout',
-      name: 'logout',
-      component: () => import(/* webpackChunkName: "logout" */ './views/auth/Logout.vue')
     },
     {
       path: '/',
@@ -105,11 +101,11 @@ export default new Router({
 })
 
 function requireAuth (to, from, next) {
-  Vue.auth.isLoggedIn().then(loggedIn => {
+  refreshLoginStatus(false).then(loggedIn => {
     if (loggedIn) {
       next()
     } else {
-      next({ name: 'login', query: { redirect: to.fullPath } })
+      next({ name: 'login', query: to.path === '/' ? {} : { redirect: to.fullPath } })
     }
   })
 }

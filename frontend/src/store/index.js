@@ -10,7 +10,7 @@ Vue.use(Vuex)
 axios.defaults.withCredentials = true
 Vue.use(VueAxios, axios)
 
-const API_ROOT = process.env.VUE_APP_ROOT_API
+export const API_ROOT = process.env.VUE_APP_ROOT_API
 
 export const state = {
   api: {}
@@ -70,23 +70,22 @@ const store = new Vuex.Store({
 export default store
 
 /**
- * Sends a POST request to the backend, in order to create a new entity.
+ * Sends a POST request to the backend, in order to create a new entity. Note that this does not
+ * reload any collections that this new entity might be in, the caller has to do that on its own.
  * @param uriOrCollection URI (or instance) of a collection in which the entity should be created
  * @param data            Payload to be sent in the POST request
  * @returns Promise       resolves when the POST request has completed and the entity is available
  *                        in the Vuex store.
  */
-const post = function (uriOrCollection, data) {
-  const uri = normalizeEntityUri(uriOrCollection)
+export const post = function (uriOrCollection, data) {
+  const uri = normalizeEntityUri(uriOrCollection, API_ROOT)
   if (uri === null) {
     return Promise.reject(new Error(`Could not perform POST, "${uriOrCollection}" is not an entity or URI`))
   }
-  return axios.post(API_ROOT + uri, data).then(({ data }) => {
-    // Workaround because API adds page parameter even to first page when it was not requested that way
-    // TODO fix backend API and remove the next line
-    data._links.self.href = uri
+  return markAsDoneWhenResolved(axios.post(API_ROOT + uri, data).then(({ data }) => {
     storeHalJsonData(data)
-  })
+    return get(data._links.self.href)
+  }))
 }
 
 /**
@@ -97,7 +96,7 @@ const post = function (uriOrCollection, data) {
  *                    dummy is returned, which will be replaced with the true data through Vue's reactivity
  *                    system as soon as the API request finishes.
  */
-const reload = function (uriOrEntity) {
+export const reload = function (uriOrEntity) {
   return get(uriOrEntity, true)
 }
 
@@ -117,7 +116,7 @@ const reload = function (uriOrEntity) {
  *   user () { return this.api.get().profile() } // Root endpoint ('/') and navigate through self-discovery API
  * },
  * created () {
- *   this.oneSpecificCamp._meta.loaded.then(() => {
+ *   this.oneSpecificCamp._meta.load.then(() => {
  *     // do something now that the camp is loaded from the API
  *   })
  * }
@@ -125,7 +124,7 @@ const reload = function (uriOrEntity) {
  * @param uriOrEntity URI (or instance) of an entity to load from the store or API
  * @param forceReload If true, the entity will be fetched from the API even if it is already in the Vuex store.
  *                    Note that the function will still return the old value in this case, but you can
- *                    wait for the new value using the ._meta.loaded promise.
+ *                    wait for the new value using the ._meta.load promise.
  * @returns entity    Entity from the store. Note that when fetching an object for the first time, a reactive
  *                    dummy is returned, which will be replaced with the true data through Vue's reactivity
  *                    system as soon as the API request finishes.
@@ -133,8 +132,8 @@ const reload = function (uriOrEntity) {
 export const get = function (uriOrEntity, forceReload = false) {
   const forceReloadingEmbeddedCollection = forceReload && uriOrEntity._meta && uriOrEntity._meta.reload && uriOrEntity._meta.reload.uri
   const uri = forceReloadingEmbeddedCollection
-    ? normalizeEntityUri(uriOrEntity._meta.reload.uri)
-    : normalizeEntityUri(uriOrEntity)
+    ? normalizeEntityUri(uriOrEntity._meta.reload.uri, API_ROOT)
+    : normalizeEntityUri(uriOrEntity, API_ROOT)
   if (uri === null) {
     if (uriOrEntity[Symbol.for('isLoadingProxy')]) {
       // A loadingProxy is safe to return without breaking the UI.
@@ -152,7 +151,7 @@ export const get = function (uriOrEntity, forceReload = false) {
 
 /**
  * Loads the entity specified by the URI from the Vuex store, or from the API if necessary. If applicable,
- * sets the loaded promise on the entity in the Vuex store.
+ * sets the load promise on the entity in the Vuex store.
  * @param uri         URI of the entity to load
  * @param forceReload If true, the entity will be fetched from the API even if it is already in the Vuex store.
  * @returns entity    the current entity data from the Vuex store. Note: This may be a reactive dummy if the
@@ -165,19 +164,23 @@ function load (uri, forceReload) {
   if (!existsInStore) {
     store.commit('addEmpty', uri)
   }
-  if (isLoading && !forceReload) {
-    // Reuse the loading entity and loaded promise that is already waiting for a pending API request
+  if (isLoading) {
+    // Reuse the loading entity and load promise that is already waiting for a pending API request
     return store.state.api[uri]
   }
 
   let dataFinishedLoading = Promise.resolve(store.state.api[uri])
   if (!existsInStore || forceReload) {
     dataFinishedLoading = loadFromApi(uri)
+  } else if (store.state.api[uri]._meta.load) {
+    // reuse the existing promise from the store if possible
+    dataFinishedLoading = store.state.api[uri]._meta.load
   }
-  // We mutate the store state here without telling Vuex about it, so it won't complain and won't make loaded reactive.
-  // The promise is needed in the store for a special case when a loading entity is requested a second time with
-  // this.api.get(...).
-  store.state.api[uri]._meta.loaded = dataFinishedLoading
+
+  // We mutate the store state here without telling Vuex about it, so it won't complain and won't make load reactive.
+  // The promise is needed in the store for some special cases when a loading entity is requested a second time with
+  // this.api.get(...) or this.api.reload(...).
+  store.state.api[uri]._meta.load = markAsDoneWhenResolved(dataFinishedLoading)
 
   return store.state.api[uri]
 }
@@ -211,6 +214,19 @@ function loadFromApi (uri) {
 }
 
 /**
+ * Loads the URI of a related entity from the store, or the API in case it is not already fetched.
+ *
+ * @param uriOrEntity URI (or instance) of an entity from the API
+ * @param relation    the name of the relation for which the URI should be retrieved
+ * @returns Promise   resolves to the URI of the related entity.
+ */
+export const href = async function (uriOrEntity, relation) {
+  const self = normalizeEntityUri(await get(uriOrEntity)._meta.load, API_ROOT)
+  const href = (store.state.api[self][relation] || {}).href
+  return href ? API_ROOT + href : href
+}
+
+/**
  * Sends a PATCH request to the backend, in order to update some fields in an existing entity.
  * @param uriOrEntity URI (or instance) of an entity which should be updated
  * @param data        Payload (fields to be updated) to be sent in the PATCH request
@@ -218,20 +234,29 @@ function loadFromApi (uri) {
  *                    in the Vuex store.
  */
 const patch = function (uriOrEntity, data) {
-  const uri = normalizeEntityUri(uriOrEntity)
+  const uri = normalizeEntityUri(uriOrEntity, API_ROOT)
   if (uri === null) {
     return Promise.reject(new Error(`Could not perform PATCH, "${uriOrEntity}" is not an entity or URI`))
   }
-  return axios.patch(API_ROOT + uri, data).then(({ data }) => {
+  const existsInStore = (uri in store.state.api)
+
+  if (!existsInStore) {
+    store.commit('addEmpty', uri)
+  }
+
+  store.state.api[uri]._meta.load = markAsDoneWhenResolved(axios.patch(API_ROOT + uri, data).then(({ data }) => {
     // Workaround because API adds page parameter even to first page when it was not requested that way
     // TODO fix backend API and remove the next line
     data._links.self.href = uri
     storeHalJsonData(data)
+    return get(uri)
   }, ({ response }) => {
     if (response.status === 404) {
       return deleted(uri)
     }
-  })
+  }))
+
+  return store.state.api[uri]._meta.load
 }
 
 /**
@@ -241,12 +266,13 @@ const patch = function (uriOrEntity, data) {
  * @param uriOrEntity URI (or instance) of an entity which should be removed from the Vuex store
  */
 const purge = function (uriOrEntity) {
-  const uri = normalizeEntityUri(uriOrEntity)
+  const uri = normalizeEntityUri(uriOrEntity, API_ROOT)
   if (uri === null) {
     // Can't purge an unknown URI, do nothing
     return
   }
   store.commit('purge', uri)
+  return uri
 }
 
 /**
@@ -263,14 +289,14 @@ const purge = function (uriOrEntity) {
  *                    been reloaded from the API, or the failed deletion has been cleaned up.
  */
 const del = function (uriOrEntity) {
-  const uri = normalizeEntityUri(uriOrEntity)
+  const uri = normalizeEntityUri(uriOrEntity, API_ROOT)
   if (uri === null) {
     // Can't delete an unknown URI, do nothing
     return Promise.reject(new Error(`Could not perform DELETE, "${uriOrEntity}" is not an entity or URI`))
   }
   store.commit('deleting', uri)
-  return axios.delete(API_ROOT + uri)
-    .then(() => deleted(uri), ({ response }) => deletingFailed(uri, response))
+  return markAsDoneWhenResolved(axios.delete(API_ROOT + uri)
+    .then(() => deleted(uri), ({ response }) => deletingFailed(uri, response)))
 }
 
 function valueIsArrayWithReferenceTo (value, uri) {
@@ -297,7 +323,7 @@ function findEntitiesReferencing (uri) {
  * @returns Promise resolves when the cleanup has completed and the Vuex store is up to date again
  */
 function deleted (uri) {
-  return Promise.all(findEntitiesReferencing(uri).map(outdatedEntity => reload(outdatedEntity)._meta.loaded))
+  return Promise.all(findEntitiesReferencing(uri).map(outdatedEntity => reload(outdatedEntity)._meta.load))
     .then(() => purge(uri))
 }
 
@@ -327,6 +353,18 @@ function storeHalJsonData (data) {
 }
 
 /**
+ * Sets a flag on the given promise after completion, so that users of the promise can tell whether it is still
+ * pending or not. This is needed so storeValueProxy can break infinite recursion.
+ * @param promise   to be marked as done once it completes
+ * @returns Promise the modified argument
+ */
+function markAsDoneWhenResolved (promise) {
+  // empty catch is important so that our then handler runs in all cases
+  promise.catch(() => {}).then(() => { promise[Symbol.for('done')] = true })
+  return promise
+}
+
+/**
  * Define the API store methods available in all Vue components. The methods can be called as follows:
  *
  * // In a computed or method or lifecycle hook
@@ -338,6 +376,6 @@ function storeHalJsonData (data) {
  */
 Object.defineProperties(Vue.prototype, {
   api: {
-    get () { return { post, get, reload, del, patch, purge } }
+    get () { return { post, get, reload, del, patch, purge, href } }
   }
 })

@@ -44,6 +44,9 @@
                   color="green"
                   dark
                   v-on="on">
+                  <v-progress-circular v-if="hitobitoLoggingIn" indeterminate
+                                       size="14"
+                                       class="mr-2" />
                   Hitobito
                 </v-btn>
               </template>
@@ -60,8 +63,16 @@
                 </v-list-item>
               </v-list>
             </v-menu>
-            <v-btn color="red" dark @click="loginGoogle">Google</v-btn>
+            <v-btn color="red" dark @click="loginGoogle">
+              <v-progress-circular v-if="googleLoggingIn" indeterminate
+                                   size="14"
+                                   class="mr-2" />
+              Google
+            </v-btn>
             <v-btn color="primary" @click="login">
+              <v-progress-circular v-if="normalLoggingIn" indeterminate
+                                   size="14"
+                                   class="mr-2" />
               Login
             </v-btn>
           </v-card-actions>
@@ -72,7 +83,7 @@
 </template>
 
 <script>
-import Vue from 'vue'
+import { refreshLoginStatus } from '@/auth'
 import PbsMiDataLogo from '../../../public/pbsmidata.svg'
 
 export default {
@@ -84,11 +95,14 @@ export default {
     return {
       username: '',
       password: '',
-      error: false
+      error: false,
+      normalLoggingIn: false,
+      hitobitoLoggingIn: false,
+      googleLoggingIn: false
     }
   },
   beforeRouteEnter (to, from, next) {
-    Vue.auth.isLoggedIn().then(loggedIn => {
+    refreshLoginStatus(false).then(loggedIn => {
       if (loggedIn) {
         next(to.query.redirect || '/')
       } else {
@@ -97,32 +111,25 @@ export default {
     })
   },
   methods: {
-    login () {
-      this.$auth.login(this.username, this.password).then(ok => {
-        if (ok) {
-          this.redirect()
-        } else {
-          this.error = true
-        }
-      })
-    },
-    loginGoogle () {
-      // Make the login callback function available on global level, so the popup can call it
-      window.loginSuccess = () => {
-        this.$auth.loginSuccess()
+    async login () {
+      this.normalLoggingIn = true
+      this.error = false
+      if (await this.$auth.login(this.username, this.password)) {
         this.redirect()
+      } else {
+        this.normalLoggingIn = false
+        this.error = true
       }
-      const callbackUrl = window.location.origin + this.$router.resolve({ name: 'loginCallback' }).href
-      this.$auth.loginGoogle(callbackUrl)
     },
-    loginPbsMiData () {
-      // Make the login callback function available on global level, so the popup can call it
-      window.loginSuccess = () => {
-        this.$auth.loginSuccess()
-        this.redirect()
-      }
-      const callbackUrl = window.location.origin + this.$router.resolve({ name: 'loginCallback' }).href
-      this.$auth.loginPbsMiData(callbackUrl)
+    async loginGoogle () {
+      this.googleLoggingIn = true
+      await this.$auth.loginGoogle()
+      this.redirect()
+    },
+    async loginPbsMiData () {
+      this.hitobitoLoggingIn = true
+      await this.$auth.loginPbsMiData()
+      this.redirect()
     },
     redirect () {
       this.$router.replace(this.$route.query.redirect || '/')
@@ -130,7 +137,3 @@ export default {
   }
 }
 </script>
-
-<style>
-
-</style>

@@ -15,7 +15,7 @@
           </v-toolbar>
           <v-card-text>
             <v-alert type="success">
-              Successful registered.
+              Successfully registered.
             </v-alert>
           </v-card-text>
           <v-card-actions>
