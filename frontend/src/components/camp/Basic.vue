@@ -35,11 +35,9 @@ Displays details on a single camp and allows to edit them.
             label="Name" />
           <v-text-field
             :value="campDetails.title"
-            :readonly="editing"
             label="Titel" />
           <v-text-field
             :value="campDetails.motto"
-            :readonly="editing"
             label="Motto" />
         </v-form>
       </v-card-text>
@@ -71,16 +69,26 @@ Displays details on a single camp and allows to edit them.
                   small
                   color="primary"
                   class="mr-1"
-                  @click="startEditPeriod(period)">
-                  <i class="v-icon v-icon--left mdi mdi-pencil" />
-                  Edit
+                  @click="editPeriodUri=period._meta.self">
+                  <span class="d-none d-sm-block">
+                    <i class="v-icon v-icon--left mdi mdi-pencil" />
+                    Edit
+                  </span>
+                  <span class="d-sm-none">
+                    <i class="v-icon mdi mdi-pencil" />
+                  </span>
                 </v-btn>
                 <v-btn
                   small
                   color="error"
-                  @click="periodDelete=period, showPeriodDelete=true">
-                  <i class="v-icon v-icon--left mdi mdi-delete" />
-                  Delete
+                  @click="deletePeriod=period">
+                  <span class="d-none d-sm-block">
+                    <i class="v-icon v-icon--left mdi mdi-delete" />
+                    Delete
+                  </span>
+                  <span class="d-sm-none">
+                    <i class="v-icon mdi mdi-delete" />
+                  </span>
                 </v-btn>
               </v-item-group>
             </v-list-item-action>
@@ -92,7 +100,7 @@ Displays details on a single camp and allows to edit them.
                 small
                 color="success"
                 class="mb-1"
-                @click="startCreatePeriod()">
+                @click="() => { createPeriodCamp=campDetails }">
                 <i class="v-icon v-icon--left mdi mdi-plus" />
                 Create Period
               </v-btn>
@@ -102,83 +110,29 @@ Displays details on a single camp and allows to edit them.
       </v-card-text>
     </v-card>
 
-    <v-dialog
-      v-model="showPeriodEdit"
-      max-width="600px">
-      <v-card v-if="periodEdit != null">
-        <v-card-title>
-          <span class="headline">User Profile</span>
-        </v-card-title>
-        <v-card-text>
-          <v-container>
-            <v-row>
-              <v-col cols="12">
-                <v-text-field
-                  v-model="periodEdit.description"
-                  label="Description"
-                  required />
-              </v-col>
-              <v-col cols="12">
-                <v-text-field
-                  v-model="periodEdit.start"
-                  label="Start"
-                  required />
-              </v-col>
-              <v-col cols="12">
-                <v-text-field
-                  v-model="periodEdit.end"
-                  label="End"
-                  required />
-              </v-col>
-            </v-row>
-          </v-container>
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer />
-          <v-btn color="secundary" @click="cancelEditPeriod()">Close</v-btn>
-          <v-btn v-if="periodEdit.id == null" color="success" @click="createPeriod">
-            <i class="v-icon mdi mdi-plus" />
-            Create
-          </v-btn>
-          <v-btn v-if="periodEdit.id != null" color="success" @click="updatePeriod">
-            <i class="v-icon mdi mdi-check" />
-            Save
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
-
-    <v-dialog v-model="showPeriodDelete" max-width="290">
-      <v-card>
-        <v-card-title class="headline">
-          Delete Period?
-        </v-card-title>
-        <v-card-text>
-          Are you sure?
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer />
-          <v-btn color="error" @click="deletePeriod(periodDelete)">Delete</v-btn>
-          <v-btn color="" @click="showPeriodDelete=false">Cancel</v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
+    <create-period-dialog v-model="createPeriodCamp" />
+    <edit-period-dialog v-model="editPeriodUri" />
+    <delete-entity-dialog v-model="deletePeriod">
+      the Period "{{ (deletePeriod || {}).description }}"
+    </delete-entity-dialog>
   </div>
 </template>
 
 <script>
+import EditPeriodDialog from '../dialog/EditPeriodDialog'
+import CreatePeriodDialog from '../dialog/CreatePeriodDialog'
+import DeleteEntityDialog from '../dialog/DeleteEntityDialog'
 export default {
   name: 'Basic',
+  components: { DeleteEntityDialog, CreatePeriodDialog, EditPeriodDialog },
   props: {
     campUri: { type: String, required: true }
   },
   data () {
     return {
-      periodEdit: null,
-      periodEditUri: null,
-      showPeriodEdit: false,
-      periodDelete: null,
-      showPeriodDelete: false,
+      editPeriodUri: '',
+      createPeriodCamp: null,
+      deletePeriod: null,
       messages: []
     }
   },
@@ -188,53 +142,6 @@ export default {
     },
     periods () {
       return this.campDetails.periods().items
-    }
-  },
-  methods: {
-    startCreatePeriod () {
-      this.periodEdit = {
-        id: null,
-        camp_id: this.campDetails.id,
-        description: '',
-        start: null,
-        end: null
-      }
-      this.periodEditUri = '/period'
-      this.showPeriodEdit = true
-    },
-    startEditPeriod (period) {
-      this.periodEdit = {
-        id: period.id,
-        camp_id: period.camp_id,
-        description: period.description,
-        start: period.start,
-        end: period.end
-      }
-      this.periodEditUri = period._meta.self
-      this.showPeriodEdit = true
-    },
-    async createPeriod () {
-      await this.api.post(this.periodEditUri, this.periodEdit)
-      this.cancelEditPeriod()
-      this.api.reload(this.campUri)
-    },
-    async updatePeriod () {
-      const data = {
-        description: this.periodEdit.description,
-        start: this.periodEdit.start,
-        end: this.periodEdit.end
-      }
-      await this.api.patch(this.periodEditUri, data)
-      this.cancelEditPeriod()
-    },
-    async deletePeriod (period) {
-      await this.api.del(period._meta.self)
-      this.showPeriodDelete = false
-    },
-    cancelEditPeriod () {
-      this.periodEdit = null
-      this.periodEditUri = null
-      this.showPeriodEdit = false
     }
   }
 }
