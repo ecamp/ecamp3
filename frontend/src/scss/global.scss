@@ -6,3 +6,21 @@
 @include inter-ui.weight-600;
 body {font-feature-settings: "ss03", "calt", "rlig", "kern"}
 .v-toolbar__title {font-weight: 500;}
+.v-skeleton-loader__actions,
+.v-skeleton-loader__article,
+.v-skeleton-loader__card-heading,
+.v-skeleton-loader__card-text,
+.v-skeleton-loader__date-picker,
+.v-skeleton-loader__list-item,
+.v-skeleton-loader__list-item-avatar,
+.v-skeleton-loader__list-item-text,
+.v-skeleton-loader__list-item-two-line,
+.v-skeleton-loader__list-item-avatar-two-line,
+.v-skeleton-loader__list-item-three-line,
+.v-skeleton-loader__list-item-avatar-three-line,
+.v-skeleton-loader__table-heading,
+.v-skeleton-loader__table-thead,
+.v-skeleton-loader__table-tbody,
+.v-skeleton-loader__table-tfoot {
+	background: none!important;
+}
