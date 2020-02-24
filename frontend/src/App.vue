@@ -1,4 +1,3 @@
-
 <template>
   <div id="app">
     <component :is="layout">
@@ -20,6 +19,7 @@ export default {
 }
 </script>
 <style lang="scss">
+  @import "src/scss/global";
   // consider replacing with CDN for production
   @import '../node_modules/@mdi/font/css/materialdesignicons.css';
 </style>

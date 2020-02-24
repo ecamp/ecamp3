@@ -1,9 +1,3 @@
-@use "~inter-ui/default" as inter-ui with (
-	$inter-font-path: "~inter-ui/Inter (web hinted latin)"
-);
-@include inter-ui.weight-200;
-@include inter-ui.weight-400;
-@include inter-ui.weight-600;
 $body-font-family: 'Inter', sans-serif, emoji;
 $heading-font-family: $body-font-family;
 $body-font-weight: 400;
@@ -98,8 +92,10 @@ $headings: (
     'font-family': $body-font-family
   )
 );
-body {font-feature-settings: "ss03", "calt", "rlig", "kern"}
-.v-toolbar__title {font-weight: 500;}
 $btn-letter-spacing: .25px;
+$btn-text-transform: inherit;
 $bottom-nav-btn-min-width: 60px;
 $list-item-action-icon-margin: 20px;
+$menu-content-border-radius: 0 0 4px 4px;
+$primary-transition: .1s ease-in-out !default;
+
