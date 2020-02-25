@@ -4,8 +4,9 @@
     icon="mdi-calendar-plus"
     title="Create Period"
     max-width="600px"
-    :create="createPeriod"
-    :cancel="cancel">
+    :submit-action="createPeriod"
+    submit-color="success"
+    :cancel-action="close">
     <v-row>
       <v-col cols="12">
         <v-text-field

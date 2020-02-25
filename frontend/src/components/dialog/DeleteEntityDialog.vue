@@ -4,8 +4,11 @@
     icon="mdi-delete"
     title="Delete"
     max-width="600px"
-    :del="del"
-    :cancel="cancel">
+    :submit-action="del"
+    submit-label="Delete"
+    submit-color="error"
+    submit-icon="mdi-delete"
+    :cancel-action="close">
     <v-row>
       <v-col cols="12">
         Do you really want do delete <slot>this</slot>?

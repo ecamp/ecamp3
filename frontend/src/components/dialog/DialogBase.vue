@@ -8,18 +8,13 @@ export default {
     return {
       entityProperties: [],
       entityData: {},
-      entityUri: '',
-      visible: false
+      entityUri: ''
     }
   },
-  watch: {
-    visible: function (visible) {
-      if (!visible) {
-        this.$emit('input', null)
-      }
-    },
-    value: function (id) {
-      this.visible = (!!id)
+  computed: {
+    visible: {
+      get () { return !!this.value },
+      set () { this.$emit('input', null) }
     }
   },
   methods: {
@@ -30,7 +25,7 @@ export default {
       this.clearEntityData()
       if (uri) {
         this.entityUri = uri
-        this.api.get(uri)._meta.loaded.then(this.setEntityData)
+        this.api.get(uri)._meta.load.then(this.setEntityData)
       }
     },
     setEntityData (data) {
@@ -40,15 +35,15 @@ export default {
       })
     },
     create () {
-      return this.api.post(this.entityUri, this.entityData).then(this.cancel)
+      return this.api.post(this.entityUri, this.entityData).then(this.close)
     },
     update () {
-      return this.api.patch(this.entityUri, this.entityData).then(this.cancel)
+      return this.api.patch(this.entityUri, this.entityData).then(this.close)
     },
     del () {
-      return this.api.del(this.entityUri).then(this.cancel)
+      return this.api.del(this.entityUri).then(this.close)
     },
-    cancel () {
+    close () {
       this.visible = false
     }
   }

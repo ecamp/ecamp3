@@ -4,8 +4,8 @@
     icon="mdi-calendar-edit"
     :title="entityData.description"
     max-width="600px"
-    :update="update"
-    :cancel="cancel">
+    :submit-action="update"
+    :cancel-action="close">
     <v-row>
       <v-col cols="12">
         <v-text-field

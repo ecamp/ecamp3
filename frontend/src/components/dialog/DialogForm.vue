@@ -2,68 +2,56 @@
   <v-dialog
     v-bind="$attrs"
     v-on="$listeners">
-    <v-card>
-      <v-toolbar dense color="blue-grey lighten-5">
-        <v-icon left>
-          {{ icon }}
-        </v-icon>
-        <v-toolbar-title>
-          {{ title }}
-        </v-toolbar-title>
-      </v-toolbar>
+    <v-form @submit.prevent="doSubmit">
+      <v-card>
+        <v-toolbar dense color="blue-grey lighten-5">
+          <v-icon left>
+            {{ icon }}
+          </v-icon>
+          <v-toolbar-title>
+            {{ title }}
+          </v-toolbar-title>
+        </v-toolbar>
 
-      <v-card-text>
-        <v-container>
-          <slot />
-        </v-container>
-      </v-card-text>
-      <v-card-actions>
-        <v-spacer />
-        <v-btn
-          v-if="create != null"
-          color="success"
-          @click="doCreate">
-          <v-progress-circular
-            v-if="isSaving"
-            indeterminate
-            color="white"
-            size="20"
-            class="mr-2" />
-          Create
-        </v-btn>
-        <v-btn
-          v-if="update != null"
-          color="success"
-          @click="doUpdate">
-          <v-progress-circular
-            v-if="isSaving"
-            indeterminate
-            color="white"
-            size="20"
-            class="mr-2" />
-          Save
-        </v-btn>
-        <v-btn
-          v-if="del != null"
-          color="error"
-          @click="doDel">
-          <v-progress-circular
-            v-if="isSaving"
-            indeterminate
-            color="white"
-            size="20"
-            class="mr-2" />
-          Delete
-        </v-btn>
-        <v-btn
-          v-if="cancel != null"
-          color="white"
-          @click="doCancel">
-          Cancel
-        </v-btn>
-        <slot name="actions" />
-      </v-card-actions>
-    </v-card>
+        <v-card-text>
+          <v-container>
+            <slot />
+          </v-container>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer />
+          <v-btn
+            v-if="cancelAction != null"
+            :color="cancelColor"
+            @click="doCancel">
+            <v-icon
+              left
+              v-if="!!cancelIcon">
+              {{ cancelIcon }}
+            </v-icon>
+            {{ cancelLabel }}
+          </v-btn>
+          <v-btn
+            v-if="submitAction != null"
+            :color="submitColor"
+            type="submit">
+            <v-progress-circular
+              v-if="isSaving"
+              indeterminate
+              color="white"
+              size="20"
+              class="mr-2" />
+            <v-icon
+              left
+              v-else-if="!!submitIcon">
+              {{ submitIcon }}
+            </v-icon>
+            {{ submitLabel }}
+          </v-btn>
+          <slot name="actions" />
+        </v-card-actions>
+      </v-card>
+    </v-form>
   </v-dialog>
 </template>
 
@@ -73,10 +61,16 @@ export default {
   props: {
     icon: { type: String, default: '', required: false },
     title: { type: String, default: '', required: false },
-    create: { type: Function, default: null, required: false },
-    update: { type: Function, default: null, required: false },
-    del: { type: Function, default: null, required: false },
-    cancel: { type: Function, default: null, required: false }
+
+    submitAction: { type: Function, default: null, required: false },
+    submitIcon: { type: String, default: 'mdi-check', required: false },
+    submitLabel: { type: String, default: 'Submit', required: false },
+    submitColor: { type: String, default: 'primary', required: false },
+
+    cancelAction: { type: Function, default: null, required: false },
+    cancelIcon: { type: String, default: 'mdi-window-close', required: false },
+    cancelLabel: { type: String, default: 'Cancel', required: false },
+    cancelColor: { type: String, default: 'secondary', required: false }
   },
   data () {
     return {
@@ -84,27 +78,14 @@ export default {
     }
   },
   methods: {
-    doCreate () {
+    async doSubmit () {
       this.isSaving = true
-      this.create().then(() => {
-        this.isSaving = false
-      })
-    },
-    doUpdate () {
-      this.isSaving = true
-      this.update().then(() => {
-        this.isSaving = false
-      })
-    },
-    doDel () {
-      this.isSaving = true
-      this.del().then(() => {
-        this.isSaving = false
-      })
+      await this.submitAction()
+      this.isSaving = false
     },
     doCancel () {
       this.isSaving = false
-      this.cancel()
+      this.cancelAction()
     }
   }
 }

@@ -92,7 +92,7 @@ Displays details on a single camp and allows to edit them.
                 small
                 color="success"
                 class="mb-1"
-                @click="() => { createPeriodCamp=camp() }">
+                @click="createPeriodCamp=camp()">
                 <i class="v-icon v-icon--left mdi mdi-plus" />
                 Create Period
               </v-btn>
