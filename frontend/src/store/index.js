@@ -347,7 +347,8 @@ function storeHalJsonData (data) {
     camelizeKeys: false,
     metaKey: '_meta',
     normalizeUri: (uri) => normalizeEntityUri(uri, API_ROOT),
-    filterReferences: true
+    filterReferences: true,
+    embeddedStandaloneCollectionKey: 'items'
   })
   store.commit('add', normalizedData)
 }
