@@ -22,7 +22,9 @@ Listing all event instances of a single period.
     <v-tabs-items v-model="tab">
       <v-tab-item v-for="period in periods.items"
                   :key="period.id">
-        <picasso
+        <v-skeleton-loader v-if="events._meta.loading" class="ma-3"
+                           type="table-thead,table-row@6" />
+        <picasso v-else
           :camp="camp"
           :event-instances="period.event_instances().items"
           :start="new Date(Date.parse(period.start))"
@@ -49,8 +51,8 @@ export default {
     periods () {
       return this.camp().periods()
     },
-    eventInstances () {
-      return this.periods.items.flatMap(period => period.event_instances())
+    events () {
+      return this.camp().events()
     }
   }
 }
