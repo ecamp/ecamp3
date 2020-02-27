@@ -2,11 +2,11 @@
   <v-skeleton-loader v-if="eventInstances.loading" class="ma-3"
                      type="list-item@6" />
   <picasso v-else
-    :camp="period.camp"
-    :event-instances="eventInstances.items"
-    :start="startOfDay"
-    :end="endOfDay"
-    type="day" />
+           :camp="period.camp"
+           :event-instances="eventInstances.items"
+           :start="startOfDay"
+           :end="endOfDay"
+           type="day" />
 </template>
 
 <script>

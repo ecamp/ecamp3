@@ -25,10 +25,10 @@ Listing all event instances of a single period.
         <v-skeleton-loader v-if="events._meta.loading" class="ma-3"
                            type="table-thead,table-row@6" />
         <picasso v-else
-          :camp="camp"
-          :event-instances="period.event_instances().items"
-          :start="new Date(Date.parse(period.start))"
-          :end="new Date(Date.parse(period.end))" />
+                 :camp="camp"
+                 :event-instances="period.event_instances().items"
+                 :start="new Date(Date.parse(period.start))"
+                 :end="new Date(Date.parse(period.end))" />
       </v-tab-item>
     </v-tabs-items>
   </v-card>
