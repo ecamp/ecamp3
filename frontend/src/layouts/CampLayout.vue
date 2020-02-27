@@ -1,5 +1,5 @@
 <template>
-  <v-app style="background: #90A4AE">
+  <v-app style="background: #F4F4F4">
     <!-- left side drawer (desktop)-->
     <v-navigation-drawer v-if="$vuetify.breakpoint.smAndUp"
                          v-model="drawer" app
@@ -10,7 +10,6 @@
       <v-btn v-if="mini" icon>
         <v-icon>mdi-format-list-bulleted-triangle</v-icon>
       </v-btn>
-      <v-spacer />
       <v-btn v-if="!mini" icon
              fixed
              class="ma-2"
@@ -18,8 +17,6 @@
              right @click.stop="mini = !mini">
         <v-icon>mdi-chevron-left</v-icon>
       </v-btn>
-
-      <v-divider />
 
       <router-view v-if="!mini" name="aside" />
     </v-navigation-drawer>
