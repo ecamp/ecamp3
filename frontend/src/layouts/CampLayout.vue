@@ -29,7 +29,6 @@
                app
                clipped-left
                color="blue-grey darken-4" dark>
-
       <v-toolbar-items>
         <v-btn text class="px-2"
                min-width="0" rounded
@@ -58,7 +57,7 @@
         </v-btn>
       </v-toolbar-items>
       <v-spacer />
-      <global-search/>
+      <global-search />
       <v-menu offset-y dark
               right content-class="ec-usermenu"
               transition="slide-y-transition"
@@ -68,7 +67,7 @@
             <v-btn right text
                    :class="{ 'v-btn--open': value }" v-on="on">
               <span v-if="loggedIn" class="sr-only-sm-and-down">
-              {{ username }}
+                {{ username }}
               </span>
               <v-icon class="ma-2">mdi-account</v-icon>
             </v-btn>

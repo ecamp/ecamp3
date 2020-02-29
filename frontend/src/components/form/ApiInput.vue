@@ -5,13 +5,13 @@ You can two-way bind to the value using v-model.
 
 <template>
   <div class="mb-4">
-    <v-text-field v-if="!editing" :label="label"
-                  hide-details="auto"
-                  v-model="value" readonly />
+    <v-text-field v-if="!editing" v-model="value"
+                  :label="label"
+                  hide-details="auto" readonly />
     <v-text-field
       v-if="editing"
-      class="api-input"
       v-model="localValue"
+      class="api-input"
       :label="label"
       name="api-input"
       hide-details="auto"
@@ -21,7 +21,6 @@ You can two-way bind to the value using v-model.
       required
       @input="onInput"
       @blur="$v.localValue.$touch()">
-
       <template slot="append-outer">
         <v-btn
           v-if="!autoSave"
@@ -29,7 +28,6 @@ You can two-way bind to the value using v-model.
           color="warning"
           class="mb-0"
           @click="reset">
-
           Reset
         </v-btn>
 
@@ -38,7 +36,6 @@ You can two-way bind to the value using v-model.
           :disabled="isSaving || (required && $v.localValue.$invalid)"
           class="mb-0"
           @click="save">
-
           <v-progress-circular
             v-if="isSaving"
             indeterminate

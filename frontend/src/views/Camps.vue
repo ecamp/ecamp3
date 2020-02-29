@@ -2,8 +2,8 @@
   <card-view title="Meine Camps" max-width="600">
     <v-list class="py-0">
       <template v-if="camps._meta.loading">
-        <v-skeleton-loader type="list-item-two-line" height="64"/>
-        <v-skeleton-loader type="list-item-two-line" height="64"/>
+        <v-skeleton-loader type="list-item-two-line" height="64" />
+        <v-skeleton-loader type="list-item-two-line" height="64" />
       </template>
       <v-list-item
         v-for="camp in camps.items"

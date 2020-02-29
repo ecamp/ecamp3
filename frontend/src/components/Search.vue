@@ -6,9 +6,8 @@
                   solo-inverted single-line
                   flat class="align-center px-2"
                   append-icon="mdi-magnify"
-                  @focus="searchFocused = true"
-                  @blur="searchFocused = false"
-                  color="white" dense />
+                  color="white" dense
+                  @focus="searchFocused = true" @blur="searchFocused = false" />
   </v-responsive>
 </template>
 

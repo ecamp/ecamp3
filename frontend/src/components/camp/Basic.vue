@@ -11,7 +11,7 @@ Displays details on a single camp and allows to edit them.
           label="Name"
           :editing="false"
           fieldname="name"
-          :value="camp().name"/>
+          :value="camp().name" />
         <api-input
           :value="camp().title"
           :uri="camp()._meta.self"
