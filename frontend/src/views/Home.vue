@@ -1,17 +1,20 @@
 <template>
-  <v-card>
-    <v-toolbar dense color="blue-grey lighten-5">
-      <v-toolbar-title>Home</v-toolbar-title>
-    </v-toolbar>
+  <card-view title="Herzlich willkommen bei eCamp" max-width="900">
     <v-list class="pt-0">
-      <v-list-item :to="{ name: 'camps' }">
+      <v-list-item v-if="loggedIn" :to="{ name: 'camps' }">
         <v-list-item-icon>
           <v-icon>mdi-format-list-bulleted-triangle</v-icon>
         </v-list-item-icon>
         <v-list-item-content>
-          <v-list-item-title>
-            Camp List
-          </v-list-item-title>
+          <v-list-item-title>Meine Camps</v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
+      <v-list-item v-if="!loggedIn" :to="{ name: 'login' }">
+        <v-list-item-icon>
+          <v-icon>mdi-login</v-icon>
+        </v-list-item-icon>
+        <v-list-item-content>
+          <v-list-item-title>Login</v-list-item-title>
         </v-list-item-content>
       </v-list-item>
       <v-list-item v-if="runningInDocker" href="http://localhost:3001/setup.php?dev-data" target="_blank">
@@ -41,13 +44,19 @@
         </v-list-item-content>
       </v-list-item>
     </v-list>
-  </v-card>
+  </card-view>
 </template>
 
 <script>
+import CardView from '../components/CardView'
+
 export default {
   name: 'Home',
+  components: { CardView },
   computed: {
+    loggedIn () {
+      return this.$auth.isLoggedIn()
+    },
     runningInDocker () {
       return process.env.VUE_APP_RUNNING_IN_DOCKER
     }
@@ -56,9 +65,4 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .v-application--is-ltr {
-    .v-list-item__action:first-child, .v-list-item__icon:first-child {
-      margin-right: 20px;
-    }
-  }
 </style>
