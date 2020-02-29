@@ -6,6 +6,9 @@
 @include inter-ui.weight-600;
 body {font-feature-settings: "ss03", "calt", "rlig", "kern"}
 .v-toolbar__title {font-weight: 500;}
+.theme--light.v-application {
+	background: #546E7A!important;
+}
 .v-skeleton-loader__actions,
 .v-skeleton-loader__article,
 .v-skeleton-loader__card-heading,
