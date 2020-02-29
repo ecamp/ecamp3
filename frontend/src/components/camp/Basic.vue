@@ -3,24 +3,15 @@ Displays details on a single camp and allows to edit them.
 -->
 
 <template>
-  <v-card>
-    <v-toolbar dense color="blue-grey lighten-5">
-      <v-icon left>
-        mdi-cogs
-      </v-icon>
-      <v-toolbar-title>
-        Einstellungen
-      </v-toolbar-title>
-      <v-spacer />
-    </v-toolbar>
+  <card-view title="Admin">
     <v-skeleton-loader v-if="camp()._meta.loading" type="article" />
     <v-card-text v-else>
       <v-form>
-        <v-text-field
+        <api-input
           label="Name"
-          readonly
-          :value="camp().name"
-          class="mr-2 ml-2" />
+          :editing="false"
+          fieldname="name"
+          :value="camp().name"/>
         <api-input
           :value="camp().title"
           :uri="camp()._meta.self"
@@ -46,14 +37,15 @@ Displays details on a single camp and allows to edit them.
         </v-list>
       </v-form>
     </v-card-text>
-  </v-card>
+  </card-view>
 </template>
 
 <script>
+import CardView from '../CardView'
 import ApiInput from '../form/ApiInput'
 export default {
   name: 'Basic',
-  components: { ApiInput },
+  components: { CardView, ApiInput },
   props: {
     camp: { type: Function, required: true }
   },
