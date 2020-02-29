@@ -37,6 +37,14 @@ class IndexController extends AbstractActionController {
         }
         if ($user != null) {
             $data['user'] = $user->getDisplayName();
+
+            $data['profile'] = Link::factory([
+                'rel' => 'profile',
+                'route' => [
+                    'name' => 'e-camp-api.rest.doctrine.user',
+                    'params' => [ 'user_id' => $userId ]
+                ]
+            ]);
         } else {
             $data['user'] = 'guest';
         }
