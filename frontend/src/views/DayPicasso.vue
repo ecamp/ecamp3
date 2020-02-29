@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import Picasso from '@/components/Picasso'
+import Picasso from '../components/Picasso'
 export default {
   name: 'DayPicasso',
   components: { Picasso },
