@@ -1,5 +1,6 @@
 <template>
   <dialog-form
+    v-model="showDialog"
     icon="mdi-delete"
     title="Delete"
     max-width="600px"
@@ -7,10 +8,11 @@
     submit-label="Delete"
     submit-color="error"
     submit-icon="mdi-delete"
-    :cancel-action="close"
-    :value="value"
-    v-bind="$attrs"
-    @input="$emit('input', $event)">
+    :cancel-action="close">
+    <template v-slot:activator="scope">
+      <slot name="activator" v-bind="scope" />
+    </template>
+
     <v-row>
       <v-col cols="12">
         Do you really want do delete <slot>this</slot>?

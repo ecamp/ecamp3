@@ -1,13 +1,15 @@
 <template>
   <dialog-form
+    v-model="showDialog"
     icon="mdi-calendar-edit"
     :title="entityData.description"
     max-width="600px"
     :submit-action="update"
-    :cancel-action="close"
-    :value="value"
-    v-bind="$attrs"
-    @input="$emit('input', $event)">
+    :cancel-action="close">
+    <template v-slot:activator="scope">
+      <slot name="activator" v-bind="scope" />
+    </template>
+
     <v-row>
       <v-col cols="12">
         <v-text-field
@@ -43,8 +45,8 @@ export default {
   },
   watch: {
     // copy data whenever dialog is opened
-    value: function (value) {
-      if (value) {
+    showDialog: function (showDialog) {
+      if (showDialog) {
         this.loadEntityData(this.period._meta.self)
       }
     }

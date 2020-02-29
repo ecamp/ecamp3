@@ -4,6 +4,10 @@
     :value="value"
     v-on="$listeners"
     @input="$emit('input', $event)">
+    <template v-slot:activator="scope">
+      <slot name="activator" v-bind="scope" />
+    </template>
+
     <v-form @submit.prevent="doSubmit">
       <v-card>
         <v-toolbar dense color="blue-grey lighten-5">

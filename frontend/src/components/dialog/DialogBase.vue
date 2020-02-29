@@ -1,14 +1,12 @@
 <script>
 export default {
   name: 'DialogBase',
-  props: {
-    value: { type: Boolean, default: false, required: true }
-  },
   data () {
     return {
       entityProperties: [],
       entityData: {},
-      entityUri: ''
+      entityUri: '',
+      showDialog: false
     }
   },
   methods: {
@@ -37,7 +35,7 @@ export default {
       return this.api.del(this.entityUri).then(this.close)
     },
     close () {
-      this.$emit('input', false)
+      this.showDialog = false
     }
   }
 }

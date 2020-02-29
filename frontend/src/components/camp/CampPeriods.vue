@@ -14,36 +14,33 @@ Displays details on a single camp and allows to edit them.
       <v-list-item>
         <v-list-item-content />
         <v-list-item-action>
-          <v-btn
-            small
-            color="success"
-            class="mb-1"
-            @click.stop="showCreateDialog = true">
-            <i class="v-icon v-icon--left mdi mdi-plus" />
-            Create Period
-          </v-btn>
+          <create-period-dialog :camp="camp()">
+            <template v-slot:activator="{ on }">
+              <button-add v-on="on">
+                Create Period
+              </button-add>
+            </template>
+          </create-period-dialog>
         </v-list-item-action>
       </v-list-item>
     </v-list>
-
-    <create-period-dialog v-model="showCreateDialog" :camp="camp()" />
   </content-card>
 </template>
 
 <script>
 import ContentCard from '@/components/base/ContentCard'
+import ButtonAdd from '@/components/base/ButtonAdd'
 import PeriodItem from '@/components/camp/CampPeriodsListItem'
 import CreatePeriodDialog from '../dialog/CreatePeriodDialog'
 
 export default {
   name: 'CampPeriods',
-  components: { ContentCard, PeriodItem, CreatePeriodDialog },
+  components: { ContentCard, ButtonAdd, PeriodItem, CreatePeriodDialog },
   props: {
     camp: { type: Function, required: true }
   },
   data () {
     return {
-      showCreateDialog: false
     }
   },
   computed: {
