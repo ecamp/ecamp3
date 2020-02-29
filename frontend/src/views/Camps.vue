@@ -1,10 +1,10 @@
 <template>
-  <v-card>
-    <v-toolbar dense color="blue-grey lighten-5">
-      <v-toolbar-title>Camps</v-toolbar-title>
-    </v-toolbar>
+  <card-view title="Meine Camps" max-width="600">
     <v-list class="py-0">
-      <v-skeleton-loader v-if="camps._meta.loading" type="list-item-two-line" />
+      <template v-if="camps._meta.loading">
+        <v-skeleton-loader type="list-item-two-line" height="64"/>
+        <v-skeleton-loader type="list-item-two-line" height="64"/>
+      </template>
       <v-list-item
         v-for="camp in camps.items"
         :key="camp.id"
@@ -27,15 +27,18 @@
         </v-list-item-action>
       </v-list-item>
     </v-list>
-  </v-card>
+  </card-view>
 </template>
 
 <script>
-
 import { campRoute } from '@/router'
+const CardView = () => import('../components/CardView.vue')
 
 export default {
   name: 'Camps',
+  components: {
+    CardView
+  },
   computed: {
     camps () {
       return this.api.get().camps()
