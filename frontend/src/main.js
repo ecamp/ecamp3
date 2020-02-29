@@ -8,6 +8,13 @@ import vuetify from './plugins/vuetify'
 Vue.component('empty-layout', () => import('./layouts/EmptyLayout'))
 Vue.component('default-layout', () => import('./layouts/DefaultLayout'))
 Vue.component('camp-layout', () => import('./layouts/CampLayout'))
+Vue.filter('loading', function (value, loadingState) {
+  if (typeof value === 'function' && value().loading) {
+    return loadingState
+  } else {
+    return value
+  }
+})
 
 new Vue({
   router,
