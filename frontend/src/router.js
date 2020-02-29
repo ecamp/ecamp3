@@ -39,6 +39,12 @@ export default new Router({
       beforeEnter: requireAuth
     },
     {
+      path: '/profile',
+      name: 'profile',
+      component: () => import(/* webpackChunkName: "about" */ './views/Profile.vue'),
+      beforeEnter: requireAuth
+    },
+    {
       path: '/camps',
       name: 'camps',
       components: {
@@ -50,11 +56,12 @@ export default new Router({
       path: '/camps/:campId/:campTitle?',
       components: {
         default: () => import(/* webpackChunkName: "camp" */ './views/Camp.vue'),
-        aside: () => import(/* webpackChunkName: "camps" */ './views/Camps.vue')
+        aside: () => import(/* webpackChunkName: "periods" */ './views/Periods.vue')
       },
       beforeEnter: requireAuth,
       props: {
-        default: route => ({ camp: campFromRoute(route) })
+        default: route => ({ camp: campFromRoute(route) }),
+        aside: route => ({ camp: campFromRoute(route) })
       },
       children: [
         {
@@ -64,20 +71,20 @@ export default new Router({
           meta: { layout: 'camp' }
         },
         {
-          path: 'periods',
-          name: 'camp/periods',
-          component: () => import(/* webpackChunkName: "campPeriods" */ './components/camp/Periods.vue'),
-          meta: { layout: 'camp' }
+          path: '',
+          name: 'camp',
+          redirect: { name: 'camp/picasso' }
         },
         {
           path: 'picasso',
           name: 'camp/picasso',
+          alias: '',
           component: () => import(/* webpackChunkName: "campPicasso" */ './components/camp/CampPicasso.vue'),
           meta: { layout: 'camp' }
         },
         {
-          path: '',
-          name: 'camp',
+          path: 'admin',
+          name: 'camp/admin',
           component: () => import(/* webpackChunkName: "campDetails" */ './components/camp/Basic.vue'),
           meta: { layout: 'camp' }
         }
