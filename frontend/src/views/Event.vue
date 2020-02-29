@@ -3,7 +3,7 @@ Displays a single event
 -->
 
 <template>
-  <v-card>
+  <card-view>
     <v-toolbar dense>
       <v-btn icon @click="$router.go(-1)">
         <v-icon>mdi-arrow-left</v-icon>
@@ -44,13 +44,16 @@ Displays a single event
         </v-list>
       </template>
     </v-card-text>
-  </v-card>
+  </card-view>
 </template>
 
 <script>
+import CardView from '../components/CardView'
+
 export default {
   name: 'Event',
   components: {
+    CardView,
     ApiInput: () => import('@/components/form/ApiInput.vue')
   },
   props: {
