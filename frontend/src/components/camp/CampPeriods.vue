@@ -18,7 +18,7 @@ Displays details on a single camp and allows to edit them.
             small
             color="success"
             class="mb-1"
-            @click="createPeriodCamp=camp()">
+            @click.stop="showCreateDialog = true">
             <i class="v-icon v-icon--left mdi mdi-plus" />
             Create Period
           </v-btn>
@@ -26,7 +26,7 @@ Displays details on a single camp and allows to edit them.
       </v-list-item>
     </v-list>
 
-    <create-period-dialog v-model="createPeriodCamp" />
+    <create-period-dialog v-model="showCreateDialog" :camp="camp()" />
   </content-card>
 </template>
 
@@ -43,7 +43,7 @@ export default {
   },
   data () {
     return {
-      createPeriodCamp: null
+      showCreateDialog: false
     }
   },
   computed: {

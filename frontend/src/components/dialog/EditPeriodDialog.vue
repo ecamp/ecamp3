@@ -1,11 +1,13 @@
 <template>
   <dialog-form
-    v-model="visible"
     icon="mdi-calendar-edit"
     :title="entityData.description"
     max-width="600px"
     :submit-action="update"
-    :cancel-action="close">
+    :cancel-action="close"
+    :value="value"
+    v-bind="$attrs"
+    @input="$emit('input', $event)">
     <v-row>
       <v-col cols="12">
         <v-text-field
@@ -36,9 +38,15 @@ export default {
   name: 'EditPeriodDialog',
   components: { DialogForm },
   extends: DialogBase,
+  props: {
+    period: { type: Object, required: true }
+  },
   watch: {
-    value: function (uri) {
-      this.loadEntityData(uri)
+    // copy data whenever dialog is opened
+    value: function (value) {
+      if (value) {
+        this.loadEntityData(this.period._meta.self)
+      }
     }
   },
   created () {

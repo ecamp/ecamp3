@@ -15,7 +15,7 @@ Displays details on a single camp and allows to edit them.
           small
           color="primary"
           class="mr-1"
-          @click="editPeriodUri=period._meta.self">
+          @click.stop="showEditDialog = true">
           <span class="d-none d-sm-block">
             <i class="v-icon v-icon--left mdi mdi-pencil" />
             Edit
@@ -27,7 +27,7 @@ Displays details on a single camp and allows to edit them.
         <v-btn
           small
           color="error"
-          @click="deletePeriod=period">
+          @click.stop="showDeleteDialog = true">
           <span class="d-none d-sm-block">
             <i class="v-icon v-icon--left mdi mdi-delete" />
             Delete
@@ -39,9 +39,9 @@ Displays details on a single camp and allows to edit them.
       </v-item-group>
     </v-list-item-action>
 
-    <edit-period-dialog v-model="editPeriodUri" />
-    <delete-entity-dialog v-model="deletePeriod">
-      the Period "{{ (deletePeriod || {}).description }}"
+    <edit-period-dialog v-model="showEditDialog" :period="period" />
+    <delete-entity-dialog v-model="showDeleteDialog" :entity="period">
+      the Period "{{ period.description }}"
     </delete-entity-dialog>
   </v-list-item>
 </template>
@@ -59,8 +59,8 @@ export default {
   },
   data () {
     return {
-      editPeriodUri: '',
-      deletePeriod: null
+      showEditDialog: false,
+      showDeleteDialog: false
     }
   }
 }

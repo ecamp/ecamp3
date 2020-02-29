@@ -1,12 +1,14 @@
 <template>
   <dialog-form
-    v-model="visible"
     icon="mdi-calendar-plus"
     title="Create Period"
     max-width="600px"
     :submit-action="createPeriod"
     submit-color="success"
-    :cancel-action="close">
+    :cancel-action="close"
+    :value="value"
+    v-bind="$attrs"
+    @input="$emit('input', $event)">
     <v-row>
       <v-col cols="12">
         <v-text-field
@@ -26,7 +28,6 @@
           label="End"
           required />
       </v-col>
-      <input type="hidden" name="camp_id" :value="entityData.camp_id">
     </v-row>
   </dialog-form>
 </template>
@@ -38,13 +39,15 @@ export default {
   name: 'CreatePeriodDialog',
   components: { DialogForm },
   extends: DialogBase,
+  props: {
+    camp: { type: Object, required: true }
+  },
   watch: {
-    value: function (camp) {
-      if (camp != null) {
-        this.entityUri = '/period'
-        this.setEntityData({ camp_id: camp.id })
+    value: function (value) {
+      if (value) {
+        this.setEntityData({ camp_id: this.camp.id })
       } else {
-        this.entityUri = ''
+      // clear form on exit
         this.clearEntityData()
       }
     }
@@ -56,12 +59,12 @@ export default {
       'start',
       'end'
     ]
+    this.entityUri = '/period'
   },
   methods: {
     createPeriod () {
-      const camp = this.value
       return this.create().then(() => {
-        this.api.reload(camp)
+        this.api.reload(this.camp)
       })
     }
   }

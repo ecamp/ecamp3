@@ -2,19 +2,13 @@
 export default {
   name: 'DialogBase',
   props: {
-    value: { default: null, required: true }
+    value: { type: Boolean, default: false, required: true }
   },
   data () {
     return {
       entityProperties: [],
       entityData: {},
       entityUri: ''
-    }
-  },
-  computed: {
-    visible: {
-      get () { return !!this.value },
-      set () { this.$emit('input', null) }
     }
   },
   methods: {
@@ -29,9 +23,8 @@ export default {
       }
     },
     setEntityData (data) {
-      this.entityData = {}
       this.entityProperties.forEach(key => {
-        this.entityData[key] = data[key]
+        this.$set(this.entityData, key, data[key])
       })
     },
     create () {
@@ -44,7 +37,7 @@ export default {
       return this.api.del(this.entityUri).then(this.close)
     },
     close () {
-      this.visible = false
+      this.$emit('input', false)
     }
   }
 }

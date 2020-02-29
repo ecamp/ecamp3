@@ -1,6 +1,5 @@
 <template>
   <dialog-form
-    v-model="visible"
     icon="mdi-delete"
     title="Delete"
     max-width="600px"
@@ -8,7 +7,10 @@
     submit-label="Delete"
     submit-color="error"
     submit-icon="mdi-delete"
-    :cancel-action="close">
+    :cancel-action="close"
+    :value="value"
+    v-bind="$attrs"
+    @input="$emit('input', $event)">
     <v-row>
       <v-col cols="12">
         Do you really want do delete <slot>this</slot>?
@@ -24,10 +26,11 @@ export default {
   name: 'DeleteEntityDialog',
   components: { DialogForm },
   extends: DialogBase,
-  watch: {
-    value: function (uri) {
-      this.loadEntityData(uri)
-    }
+  props: {
+    entity: { type: Object, required: true }
+  },
+  created () {
+    this.entityUri = this.entity._meta.self
   }
 }
 </script>

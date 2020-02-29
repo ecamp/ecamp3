@@ -1,7 +1,9 @@
 <template>
   <v-dialog
     v-bind="$attrs"
-    v-on="$listeners">
+    :value="value"
+    v-on="$listeners"
+    @input="$emit('input', $event)">
     <v-form @submit.prevent="doSubmit">
       <v-card>
         <v-toolbar dense color="blue-grey lighten-5">
@@ -25,8 +27,8 @@
             :color="cancelColor"
             @click="doCancel">
             <v-icon
-              left
-              v-if="!!cancelIcon">
+              v-if="!!cancelIcon"
+              left>
               {{ cancelIcon }}
             </v-icon>
             {{ cancelLabel }}
@@ -34,16 +36,11 @@
           <v-btn
             v-if="submitAction != null"
             :color="submitColor"
-            type="submit">
-            <v-progress-circular
-              v-if="isSaving"
-              indeterminate
-              color="white"
-              size="20"
-              class="mr-2" />
+            type="submit"
+            :loading="isSaving">
             <v-icon
-              left
-              v-else-if="!!submitIcon">
+              v-if="!!submitIcon"
+              left>
               {{ submitIcon }}
             </v-icon>
             {{ submitLabel }}
@@ -59,6 +56,8 @@
 export default {
   name: 'DialogForm',
   props: {
+    value: { type: Boolean, default: false, required: true },
+
     icon: { type: String, default: '', required: false },
     title: { type: String, default: '', required: false },
 
