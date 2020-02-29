@@ -3,33 +3,36 @@ Listing all given event instances in a calendar view.
 -->
 
 <template>
-  <v-skeleton-loader v-if="camp()._meta.loading && type === 'day'" class="ma-3"
-                     type="list-item@6" />
-  <v-skeleton-loader v-else-if="camp()._meta.loading" class="ma-3"
-                     type="table-thead,table-row@6" />
-  <v-calendar v-else
-              class="ec-picasso"
-              :events="eventInstances"
-              event-start="start_time"
-              event-end="end_time"
-              :event-name="getEventName"
-              :event-color="getEventColor"
-              interval-height="42"
-              :interval-format="getIntervalFormat"
-              first-interval="5"
-              interval-count="19"
-              :start="startDateString"
-              :end="endDateString"
-              locale="de-ch"
-              :day-format="dayFormat"
-              :type="type"
-              :weekday-format="weekdayFormat"
-              :weekdays="[1, 2, 3, 4, 5, 6, 0]"
-              color="primary"
-              @click:event="showEventInstance" />
+  <div>
+    <v-skeleton-loader v-if="camp()._meta.loading && type === 'day'" class="ma-3"
+                       type="list-item@6" />
+    <v-skeleton-loader v-else-if="camp()._meta.loading" class="ma-3"
+                       type="table-thead,table-row@6" />
+    <v-calendar v-else
+                class="ec-picasso"
+                :events="eventInstances"
+                event-start="start_time"
+                event-end="end_time"
+                :event-name="getEventName"
+                :event-color="getEventColor"
+                interval-height="42"
+                interval-width="46"
+                :interval-format="getIntervalFormat"
+                first-interval="5"
+                interval-count="19"
+                :start="startDateString"
+                :end="endDateString"
+                locale="de-ch"
+                :day-format="dayFormat"
+                :type="type"
+                :weekday-format="weekdayFormat"
+                :weekdays="[1, 2, 3, 4, 5, 6, 0]"
+                color="primary"
+                @click:event="showEventInstance" />
+  </div>
 </template>
 <script>
-import { eventInstanceRoute } from '@/router'
+import { eventInstanceRoute } from '../router'
 
 export default {
   name: 'Picasso',
@@ -55,9 +58,15 @@ export default {
   },
   methods: {
     getEventName (event, _) {
+      if (event.input.event()._meta.loading) {
+        return 'Lädt…'
+      }
       return '(' + event.input.number + ') ' + event.input.event().event_category().short + ': ' + event.input.event().title
     },
     getEventColor (event, _) {
+      if (event.event()._meta.loading) {
+        return 'grey lighten-2'
+      }
       return event.event().event_category().color.toString()
     },
     getIntervalFormat (time) {
@@ -89,12 +98,12 @@ export default {
       opacity: .75;
       border-radius: 0;
       padding: 2px;
-      white-space: pre;
+      white-space: normal;
       min-width: auto;
+      width: 100%;
 
       .v-btn__content {
-        max-width: 100%;
-        white-space: normal;
+        width: 100%;
       }
     }
 
