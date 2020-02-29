@@ -1,19 +1,19 @@
 <template>
-  <v-app style="background: #90A4AE">
+  <v-app>
     <!-- left side drawer (desktop)-->
     <v-navigation-drawer v-if="$vuetify.breakpoint.smAndUp"
                          v-model="drawer" app
                          clipped permanent
                          :mini-variant.sync="mini"
                          mini-variant-width="40"
-                         color="grey lighten-2">
+                         color="blue-grey lighten-4">
       <v-btn v-if="mini" icon>
         <v-icon>mdi-format-list-bulleted-triangle</v-icon>
       </v-btn>
       <v-spacer />
       <v-btn v-if="!mini" icon
              fixed
-             class="ma-2"
+             class="ec-drawer-collapse ma-2"
              style="z-index: 10;"
              right @click.stop="mini = !mini">
         <v-icon>mdi-chevron-left</v-icon>
@@ -27,72 +27,72 @@
     <!-- second menu/tool bar -->
     <v-app-bar v-if="$vuetify.breakpoint.smAndUp"
                app
-               clipped-left hide-on-scroll
+               clipped-left
                color="blue-grey darken-4" dark>
+
       <v-toolbar-items>
-        <v-btn icon
-               large
-               exact
-               class="title"
-               :to="{name: 'home'}">
-          ⛺
+        <v-btn text class="px-2"
+               min-width="0" rounded
+               exact :to="{ name: 'home'}">
+          <v-toolbar-title>
+            <i>🏕</i>️
+          </v-toolbar-title>
+        </v-btn>
+        <v-btn text class="justify-start px-2"
+               exact :to="campRoute(camp(), 'picasso')"
+               width="216">
+          <v-toolbar-title>
+            {{ camp().title | loading('Camp wird geladen…') }}
+          </v-toolbar-title>
         </v-btn>
       </v-toolbar-items>
 
-      <v-overflow-btn class="my-2 ec-campselect"
-                      label="Camp lädt"
-                      :editable="editableCampButton" single-line
-                      :items="lastCamps.items"
-                      item-text="title" item-value="id"
-                      :value="camp().id"
-                      hide-details return-object
-                      readonly
-                      @change="changeCamp"
-                      @blur="editableCampButton = false"
-                      @click:append.capture="editableCampButton = !editableCampButton">
-        <template v-slot:selection="data">
-          <div class="v-select__selection v-select__selection--comma v-toolbar__title"
-               @mousedown="$router.push(campRoute(data.item))">
-            {{ data.item.title }}
-          </div>
-        </template>
-      </v-overflow-btn>
-
       <v-toolbar-items>
-        <v-btn text :to="campRoute(camp(), 'periods')">
-          <v-icon :left="$vuetify.breakpoint.mdAndUp">mdi-calendar-text</v-icon>
-          <span class="sr-only-sm-and-down">Events</span>
-        </v-btn>
-        <v-btn text :to="campRoute(camp(), 'picasso')">
-          <v-icon :left="$vuetify.breakpoint.mdAndUp">mdi-calendar-month</v-icon>
-          <span class="sr-only-sm-and-down">Picasso</span>
-        </v-btn>
         <v-btn text :to="campRoute(camp(), 'collaborators')">
           <v-icon :left="$vuetify.breakpoint.mdAndUp">mdi-account-group</v-icon>
           <span class="sr-only-sm-and-down">Team</span>
         </v-btn>
-        <v-btn text :to="campRoute(camp())" exact>
-          <v-icon :left="$vuetify.breakpoint.mdAndUp">mdi-information</v-icon>
+        <v-btn text :to="campRoute(camp(), 'admin')" exact>
+          <v-icon :left="$vuetify.breakpoint.mdAndUp">mdi-cogs</v-icon>
           <span class="sr-only-sm-and-down">Admin</span>
         </v-btn>
       </v-toolbar-items>
       <v-spacer />
-      <v-btn v-if="loggedIn" text
-             @click="logout">
-        <v-icon v-if="logoutIcon" :left="$vuetify.breakpoint.mdAndUp">{{ logoutIcon }}</v-icon>
-        <v-progress-circular v-else indeterminate
-                             size="18"
-                             class="mr-2" />
-        <span class="sr-only-sm-and-down">Log out</span>
-      </v-btn>
-      <v-btn v-else text
-             :to="{ name: 'login' }">
-        <v-icon :left="$vuetify.breakpoint.mdAndUp">mdi-login</v-icon>
-        <span class="sr-only-sm-and-down">Log in</span>
-      </v-btn>
-      <v-btn icon>
-        <v-icon>mdi-account</v-icon>
-      </v-btn>
+      <global-search/>
+      <v-menu offset-y dark
+              right content-class="ec-usermenu"
+              transition="slide-y-transition"
+              z-index="5">
+        <template v-slot:activator="{ on,value }">
+          <v-toolbar-items>
+            <v-btn right text
+                   :class="{ 'v-btn--open': value }" v-on="on">
+              <span v-if="loggedIn" class="sr-only-sm-and-down">
+              {{ username }}
+              </span>
+              <v-icon class="ma-2">mdi-account</v-icon>
+            </v-btn>
+          </v-toolbar-items>
+        </template>
+        <v-list dense class="user-nav"
+                light color="blue-grey lighten-5">
+          <v-list-item block
+                       exact :to="{ name: 'camps', params: { groupName: encodeURI('Pfadi Bewegung Schweiz') } }">
+            <v-icon left>mdi-format-list-bulleted-triangle</v-icon>
+            <span>Meine Camps</span>
+          </v-list-item>
+          <v-list-item v-if="loggedIn" block @click="logout">
+            <v-icon v-if="logoutIcon" left>{{ logoutIcon }}</v-icon>
+            <v-progress-circular v-else indeterminate
+                                 size="18" class="mr-2" />
+            <span>Log out</span>
+          </v-list-item>
+          <v-list-item v-else :to="{ name: 'login' }" block>
+            <v-icon left>mdi-login</v-icon>
+            <span>Log in</span>
+          </v-list-item>
+        </v-list>
+      </v-menu>
     </v-app-bar>
 
     <!-- main content -->
@@ -104,25 +104,25 @@
     </v-content>
 
     <v-bottom-navigation v-if="$vuetify.breakpoint.xs" fixed grow>
-      <v-btn :to="{name: 'camp'}" exact>
-        <span>{{ camp().name }}</span>
-        <v-icon>mdi-tent</v-icon>
+      <v-btn>
+        <span>Material</span>
+        <v-icon>mdi-package-variant</v-icon>
       </v-btn>
-      <v-btn :to="{name: 'camp/periods'}">
-        <span>Events</span>
-        <v-icon>mdi-calendar-text</v-icon>
+      <v-btn>
+        <span>Tasks</span>
+        <v-icon>mdi-format-list-checks</v-icon>
       </v-btn>
       <v-btn :to="{name: 'camp/picasso'}">
-        <span>Picasso</span>
-        <v-icon>mdi-calendar-month</v-icon>
+        <span>Camp</span>
+        <v-icon large>mdi-tent</v-icon>
       </v-btn>
       <v-btn :to="{name: 'camp/collaborators'}" exact>
         <span>Team</span>
         <v-icon>mdi-account-group</v-icon>
       </v-btn>
-      <v-btn :to="{name: 'home'}">
-        <span>Profile</span>
-        <v-icon>mdi-account</v-icon>
+      <v-btn :to="{name: 'camp/admin'}">
+        <span>Admin</span>
+        <v-icon>mdi-cogs</v-icon>
       </v-btn>
     </v-bottom-navigation>
 
@@ -136,8 +136,10 @@
 
 <script>
 import { campRoute, campFromRoute } from '@/router'
+import GlobalSearch from '../components/Search'
 
 export default {
+  components: { GlobalSearch },
   data () {
     return {
       editableCampButton: false,
@@ -155,6 +157,9 @@ export default {
     },
     camp () {
       return campFromRoute(this.$route)
+    },
+    username () {
+      return this.$auth.username()
     }
   },
   created () {
@@ -185,17 +190,18 @@ export default {
     margin-top: 116px;
   }
 
-  .ec-campselect .v-select__slot input {
-    font-size: 1.25rem;
+  .v-btn.ec-drawer-collapse {
+    right: 0;
   }
 
-  .ec-campselect {
-    flex: 0 1 300px;
+  .v-content {
+    height: 100vh;
+    position: relative;
   }
 
-  .ec-campselect.v-overflow-btn .v-input__control::before, .ec-campselect.v-overflow-btn .v-input__slot::before {
-    border: none;
-    height: 0;
+  .v-content__wrap {
+    overflow: scroll;
+    position: static;
   }
 
   @media #{map-get($display-breakpoints, 'sm-and-down')}{
@@ -216,19 +222,6 @@ export default {
       white-space: nowrap;
       clip-path: inset(50%);
       border: 0;
-    }
-  }
-
-  .ec-menu-left {
-    left: 0 !important;
-    font-feature-settings: 'tnum';
-  }
-
-  .theme--dark.v-overflow-btn {
-    &:hover, &.v-input--is-focused, &.v-select--is-menu-active {
-      .v-input__slot {
-        background: map-get($blue-grey, 'darken-3')
-      }
     }
   }
 </style>

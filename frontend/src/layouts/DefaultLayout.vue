@@ -1,64 +1,54 @@
 <template>
-  <v-app style="background: #90A4AE">
-    <!-- left side drawer (desktop)-->
-    <v-navigation-drawer v-if="$vuetify.breakpoint.smAndUp"
-                         v-model="drawer" app
-                         clipped permanent
-                         :mini-variant.sync="mini"
-                         mini-variant-width="40"
-                         color="grey lighten-2">
-      <v-btn v-if="mini" icon>
-        <v-icon>mdi-format-list-bulleted-triangle</v-icon>
-      </v-btn>
-      <v-spacer />
-      <v-btn v-if="!mini" icon
-             fixed
-             class="ma-2"
-             style="z-index: 10;"
-             right @click.stop="mini = !mini">
-        <v-icon>mdi-chevron-left</v-icon>
-      </v-btn>
-
-      <v-divider />
-
-      <router-view v-if="!mini" name="aside" />
-    </v-navigation-drawer>
-
+  <v-app>
     <!-- second menu/tool bar -->
     <v-app-bar v-if="$vuetify.breakpoint.smAndUp"
                app
                clipped-left hide-on-scroll
                color="blue-grey darken-4" dark>
-      <v-toolbar-title class="pl-4 pr-4">
-        <i>🏕</i>️ eCamp
-      </v-toolbar-title>
       <v-toolbar-items>
-        <v-btn text
+        <v-btn text class="px-2"
                exact :to="{ name: 'home'}">
-          Home
-        </v-btn>
-        <v-btn text
-               :to="{ name: 'camps', params: { groupName: encodeURI('Pfadi Bewegung Schweiz') } }">
-          Camps
+          <v-toolbar-title>
+            <i>🏕</i>️<span class="ml-4 mr-2">eCamp<sup class="blue-grey--text">v3</sup></span>
+          </v-toolbar-title>
         </v-btn>
       </v-toolbar-items>
       <v-spacer />
-      <v-btn v-if="loggedIn" text
-             @click="logout">
-        <v-icon v-if="logoutIcon" :left="$vuetify.breakpoint.mdAndUp">{{ logoutIcon }}</v-icon>
-        <v-progress-circular v-else indeterminate
-                             size="18"
-                             class="mr-2" />
-        <span class="sr-only-sm-and-down">Log out</span>
-      </v-btn>
-      <v-btn v-else text
-             :to="{ name: 'login' }">
-        <v-icon :left="$vuetify.breakpoint.mdAndUp">mdi-login</v-icon>
-        <span class="sr-only-sm-and-down">Log in</span>
-      </v-btn>
-      <v-btn icon>
-        <v-icon>mdi-account</v-icon>
-      </v-btn>
+      <global-search />
+      <v-menu offset-y dark
+              right content-class="ec-usermenu"
+              transition="slide-y-transition"
+              z-index="5">
+        <template v-slot:activator="{ on,value }">
+          <v-toolbar-items>
+            <v-btn right text
+                   :class="{ 'v-btn--open': value }" v-on="on">
+              <span v-if="loggedIn" class="sr-only-sm-and-down">
+              {{ username }}
+              </span>
+              <v-icon class="ma-2">mdi-account</v-icon>
+            </v-btn>
+          </v-toolbar-items>
+        </template>
+        <v-list dense
+                light color="blue-grey lighten-5">
+          <v-list-item block
+                       exact :to="{ name: 'camps', params: { groupName: encodeURI('Pfadi Bewegung Schweiz') } }">
+            <v-icon left>mdi-format-list-bulleted-triangle</v-icon>
+            <span>Meine Camps</span>
+          </v-list-item>
+          <v-list-item v-if="loggedIn" block @click="logout">
+            <v-icon v-if="logoutIcon" left>{{ logoutIcon }}</v-icon>
+            <v-progress-circular v-else indeterminate
+                                 size="18" class="mr-2" />
+            <span>Log out</span>
+          </v-list-item>
+          <v-list-item v-else :to="{ name: 'login' }" block>
+            <v-icon left>mdi-login</v-icon>
+            <span>Log in</span>
+          </v-list-item>
+        </v-list>
+      </v-menu>
     </v-app-bar>
 
     <!-- main content -->
@@ -69,7 +59,7 @@
       </v-container>
     </v-content>
 
-    <v-bottom-navigation v-if="$vuetify.breakpoint.xs" fixed grow>
+    <v-bottom-navigation v-if="loggedIn && $vuetify.breakpoint.xs" fixed grow>
       <v-btn :to="{name: 'home'}" exact>
         <span>Home</span>
         <v-icon>mdi-home</v-icon>
@@ -78,7 +68,7 @@
         <span>Camps</span>
         <v-icon>mdi-format-list-bulleted-triangle</v-icon>
       </v-btn>
-      <v-btn exact>
+      <v-btn :to="{name: 'profile'}">
         <span>Profile</span>
         <v-icon>mdi-account</v-icon>
       </v-btn>
@@ -93,7 +83,10 @@
 </template>
 
 <script>
+import GlobalSearch from '../components/Search'
+
 export default {
+  components: { GlobalSearch },
   data () {
     return {
       editableCampButton: false,
@@ -105,6 +98,9 @@ export default {
   computed: {
     loggedIn () {
       return this.$auth.isLoggedIn()
+    },
+    username () {
+      return this.$auth.username()
     }
   },
   created () {
@@ -131,17 +127,43 @@ export default {
     margin-top: 116px;
   }
 
-  .ec-campselect .v-select__slot input {
-    font-size: 1.25rem;
+  .v-btn--open {
+    background: #B0BEC5 !important;
+    color: rgba(0, 0, 0, 0.87) !important;
   }
 
-  .ec-campselect {
-    flex: 0 1 300px;
+  .ec-usermenu {
+    border-top-left-radius: 0 !important;
+    border-top-right-radius: 0 !important;
+    right: 0;
+    left: inherit !important;
+    .v-list {
+      border-radius: 0;
+    }
   }
 
-  .ec-campselect.v-overflow-btn .v-input__control::before, .ec-campselect.v-overflow-btn .v-input__slot::before {
-    border: none;
-    height: 0;
+  .v-app-bar .v-toolbar__content {
+    padding-left: 0;
+    padding-right: 0;
+    width: 100%;
+  }
+
+  .v-navigation-drawer__content .v-card {
+    border-top-left-radius: 0!important;
+    border-top-right-radius: 0!important;
+  }
+
+  @media #{map-get($display-breakpoints, 'xs-only')}{
+    .v-content .container {
+      min-height: calc(100% - 56px);
+      display: flex;
+
+      .v-card {
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        flex: auto;
+      }
+    }
   }
 
   @media #{map-get($display-breakpoints, 'sm-and-down')}{
@@ -168,13 +190,5 @@ export default {
   .ec-menu-left {
     left: 0 !important;
     font-feature-settings: 'tnum';
-  }
-
-  .theme--dark.v-overflow-btn {
-    &:hover, &.v-input--is-focused, &.v-select--is-menu-active {
-      .v-input__slot {
-        background: map-get($blue-grey, 'darken-3')
-      }
-    }
   }
 </style>
