@@ -3,12 +3,7 @@ Listing all given event instances in a calendar view.
 -->
 
 <template>
-  <v-skeleton-loader v-if="camp()._meta.loading && type === 'day'" class="ma-3"
-                     type="list-item@6" />
-  <v-skeleton-loader v-else-if="camp()._meta.loading" class="ma-3"
-                     type="table-thead,table-row@6" />
-  <v-calendar v-else
-              class="ec-picasso"
+  <v-calendar class="ec-picasso"
               :events="eventInstances"
               event-start="start_time"
               event-end="end_time"

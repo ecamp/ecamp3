@@ -1,10 +1,12 @@
 <template>
-  <picasso
-    :camp="period.camp"
-    :event-instances="eventInstances.items"
-    :start="startOfDay"
-    :end="endOfDay"
-    type="day" />
+  <v-skeleton-loader v-if="eventInstances.loading" class="ma-3"
+                     type="list-item@6" />
+  <picasso v-else
+           :camp="period.camp"
+           :event-instances="eventInstances.items"
+           :start="startOfDay"
+           :end="endOfDay"
+           type="day" />
 </template>
 
 <script>
@@ -20,7 +22,7 @@ export default {
       return this.day().period()
     },
     eventInstances () {
-      // TODO add filtering when backend supports it
+      // TODO add filtering for the current day when backend supports it
       return this.period.event_instances()
     },
     periodStartDate () {
