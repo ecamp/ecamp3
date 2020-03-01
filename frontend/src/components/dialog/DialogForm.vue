@@ -2,8 +2,7 @@
   <v-dialog
     v-bind="$attrs"
     :value="value"
-    v-on="$listeners"
-    @input="$emit('input', $event)">
+    v-on="$listeners">
     <template v-slot:activator="scope">
       <slot name="activator" v-bind="scope" />
     </template>
@@ -60,7 +59,7 @@
 export default {
   name: 'DialogForm',
   props: {
-    value: { type: Boolean, default: false, required: true },
+    value: { type: Boolean, required: true },
 
     icon: { type: String, default: '', required: false },
     title: { type: String, default: '', required: false },

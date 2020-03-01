@@ -1,5 +1,5 @@
 <!--
-Displays details on a single camp and allows to edit them.
+Displays all periods of a single camp and allows to edit them & create new ones
 -->
 
 <template>
@@ -31,7 +31,7 @@ Displays details on a single camp and allows to edit them.
 import ContentCard from '@/components/base/ContentCard'
 import ButtonAdd from '@/components/base/ButtonAdd'
 import PeriodItem from '@/components/camp/CampPeriodsListItem'
-import CreatePeriodDialog from '../dialog/CreatePeriodDialog'
+import CreatePeriodDialog from '@/components/dialog/CreatePeriodDialog'
 
 export default {
   name: 'CampPeriods',

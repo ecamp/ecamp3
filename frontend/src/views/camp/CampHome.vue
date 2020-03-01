@@ -1,5 +1,5 @@
 <!--
-Displays details on a single camp and allows to edit them.
+Home screen of a camp: Displays details & perdios of a single camp and allows to edit them.
 -->
 
 <template>

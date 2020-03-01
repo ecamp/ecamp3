@@ -1,5 +1,5 @@
 <!--
-Displays details on a single camp and allows to edit them.
+Displays the content wrapped inside a card.
 -->
 
 <template>

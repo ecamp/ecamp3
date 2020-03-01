@@ -1,5 +1,5 @@
 <!--
-Displays details on a single camp and allows to edit them.
+Displays a single period as a list item including controls to edit and delete it.
 -->
 
 <template>
@@ -25,10 +25,6 @@ Displays details on a single camp and allows to edit them.
         </delete-entity-dialog>
       </v-item-group>
     </v-list-item-action>
-
-    <delete-entity-dialog v-model="showDeleteDialog" :entity="period">
-      the Period "{{ period.description }}"
-    </delete-entity-dialog>
   </v-list-item>
 </template>
 
