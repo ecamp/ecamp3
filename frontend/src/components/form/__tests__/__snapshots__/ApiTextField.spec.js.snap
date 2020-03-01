@@ -11,7 +11,7 @@ exports[`ApiTextField.vue renders correctly 1`] = `
       novalidate="novalidate"
     >
       <div
-        class="v-input mr-2 ml-2 v-input--is-label-active v-input--is-dirty theme--light v-text-field"
+        class="v-input v-input--is-label-active v-input--is-dirty theme--light v-text-field"
       >
         <div
           class="v-input__control"
@@ -24,17 +24,24 @@ exports[`ApiTextField.vue renders correctly 1`] = `
             >
               <label
                 class="v-label v-label--active theme--light"
-                for="api-text-field"
+                for="input-8"
                 style="left: 0px; position: absolute;"
               >
                 Test Field
               </label>
               <input
-                id="api-text-field"
-                name="api-text-field"
-                required="required"
+                id="input-8"
                 type="text"
               />
+            </div>
+            <div
+              class="v-input__append-inner"
+            >
+              <span>
+                <!---->
+                 
+                <!---->
+              </span>
             </div>
           </div>
           <div
@@ -49,29 +56,11 @@ exports[`ApiTextField.vue renders correctly 1`] = `
             </div>
           </div>
         </div>
-        <div
-          class="v-input__append-outer"
-        >
-          <!---->
-           
-          <button
-            class="mr-2 ml-2 mb-1 v-btn v-btn--contained theme--light v-size--small primary"
-            type="button"
-          >
-            <span
-              class="v-btn__content"
-            >
-              <!---->
-               
-              <!---->
-              
-
-            Save
-          
-            </span>
-          </button>
-        </div>
       </div>
+       
+      <!---->
+       
+      <!---->
     </form>
   </span>
 </span>

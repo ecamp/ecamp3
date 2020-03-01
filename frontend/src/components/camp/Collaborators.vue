@@ -40,6 +40,7 @@ Displays collaborators of a single camp.
                 :value="collaborator.role"
                 :uri="collaborator._meta.self"
                 fieldname="role"
+                :items="['member', 'manager']"
                 required
                 dense />
             </td>
@@ -91,6 +92,7 @@ Displays collaborators of a single camp.
                 :value="collaborator.role"
                 :uri="collaborator._meta.self"
                 fieldname="role"
+                :items="['member', 'manager']"
                 required
                 dense />
             </td>
@@ -155,6 +157,7 @@ Displays collaborators of a single camp.
                   :value="collaborator.role"
                   :uri="collaborator._meta.self"
                   fieldname="role"
+                  :items="['member', 'manager']"
                   required
                   dense />
               </td>
