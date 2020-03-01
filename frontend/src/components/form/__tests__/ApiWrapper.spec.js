@@ -1,53 +1,45 @@
 // Libraries
 import Vue from 'vue'
 import Vuetify from 'vuetify'
-
+import flushPromises from 'flush-promises'
 import { shallowMount } from '@vue/test-utils'
 import ApiWrapper from '../ApiWrapper.vue'
 
 jest.mock('lodash')
-
-Vue.use(Vuetify)
+const { cloneDeep } = jest.requireActual('lodash')
 
 jest.useFakeTimers()
 
-describe('Testing autoSave mode', () => {
-  let vuetify
-  let wrapper
-  let vm
+Vue.use(Vuetify)
+let vuetify
 
-  const props = {
+// config factory
+function createConfig (overrides) {
+  const mocks = {
+    // Vue Auth
+    api: {
+      patch: () => Promise.resolve()
+    }
+  }
+  const propsData = {
     value: 'Test Value',
     fieldname: 'test-field',
     uri: 'test-field/123'
   }
+  return cloneDeep(Object.assign({ mocks, propsData, vuetify }, overrides))
+}
 
-  const patchPromise = new Promise(resolve => {
-    process.nextTick(() => {
-      resolve()
-    })
-  })
-
-  const mockApi = {
-    patch: jest.fn(() => patchPromise)
-  }
-
+describe('Testing autoSave mode', () => {
   beforeEach(() => {
     vuetify = new Vuetify()
-
-    wrapper = shallowMount(ApiWrapper, {
-      vuetify,
-      propsData: props,
-      mocks: {
-        api: mockApi
-      }
-    })
-
-    vm = wrapper.vm
   })
 
   test('init correctly with default values', () => {
-    expect(vm.value).toBe(props.value)
+    const config = createConfig()
+    const wrapper = shallowMount(ApiWrapper, config)
+    const vm = wrapper.vm
+
+    expect(vm.value).toBe(config.propsData.value)
     expect(vm.dirty).toBe(false)
     expect(vm.isSaving).toBe(false)
     expect(vm.status).toBe('init')
@@ -59,12 +51,18 @@ describe('Testing autoSave mode', () => {
   })
 
   test('calls api.patch after onInput was triggered', async () => {
+    const config = createConfig()
+    const patchSpy = jest.spyOn(config.mocks.api, 'patch')
+
+    const wrapper = shallowMount(ApiWrapper, config)
+    const vm = wrapper.vm
+
     const newValue = 'new value'
 
-    await vm.onInput(newValue)
+    vm.onInput(newValue)
 
     // value (from outside) is still the same
-    expect(vm.value).toBe(props.value)
+    expect(vm.value).toBe(config.propsData.value)
 
     // local Value has changed and is dirty
     expect(vm.dirty).toBe(true)
@@ -75,12 +73,11 @@ describe('Testing autoSave mode', () => {
     expect(vm.status).toBe('saving')
 
     // API patch method called
-    expect(mockApi.patch).toBeCalledTimes(1)
-    expect(mockApi.patch).toBeCalledWith(props.uri, { [props.fieldname]: newValue })
+    expect(patchSpy).toBeCalledTimes(1)
+    expect(patchSpy).toBeCalledWith(config.propsData.uri, { [config.propsData.fieldname]: newValue })
 
     // watit for patch promise to resolve
-    await
-    jest.runAllTimers()
+    await flushPromises()
 
     // success state
     expect(vm.status).toBe('success')
@@ -94,28 +91,17 @@ describe('Testing autoSave mode', () => {
 })
 
 describe('Testing manual save mode', () => {
-  let vuetify
-
   beforeEach(() => {
     vuetify = new Vuetify()
   })
 
   test('init correctly with default values', () => {
-    const props = {
-      value: 'Test Value',
-      fieldname: 'test-field',
-      uri: 'test-field/123',
-      autoSave: false
-    }
-
-    const wrapper = shallowMount(ApiWrapper, {
-      vuetify,
-      propsData: props
-    })
-
+    const config = createConfig()
+    config.propsData.autoSave = false
+    const wrapper = shallowMount(ApiWrapper, config)
     const vm = wrapper.vm
 
-    expect(vm.value).toBe(props.value)
+    expect(vm.value).toBe(config.propsData.value)
     expect(vm.dirty).toBe(false)
     expect(vm.isSaving).toBe(false)
     expect(vm.status).toBe('init')

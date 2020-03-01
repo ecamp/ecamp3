@@ -1,62 +1,49 @@
 // Libraries
 import Vue from 'vue'
 import Vuetify from 'vuetify'
-// import flushPromises from 'flush-promises'
+import flushPromises from 'flush-promises'
 
 import { mount } from '@vue/test-utils'
 import ApiTextField from '../ApiTextField.vue'
 
-Vue.use(Vuetify)
-
 jest.useFakeTimers()
+Vue.use(Vuetify)
+let vuetify
 
-let url = ''
-let data = ''
-
-const mockApi = {
-  patch: jest.fn((_url, _data) => {
-    return new Promise((resolve, reject) => {
-      url = _url
-      data = _data
-      setTimeout(() => {
-        resolve()
-      }, 0)
-    })
-  })
-}
-
-describe('ApiTextField.vue', () => {
-  let vuetify
-
-  const props = {
+// config factory
+function createConfig (overrides) {
+  const mocks = {
+    // Vue Auth
+    api: {
+      patch: () => Promise.resolve()
+    }
+  }
+  const propsData = {
     value: 'Test Value',
     fieldname: 'test-field',
     uri: 'test-field/123',
     label: 'Test Field'
   }
+  return Object.assign({ mocks, propsData, vuetify }, overrides)
+}
 
+describe('ApiTextField.vue', () => {
   beforeEach(() => {
     vuetify = new Vuetify()
   })
 
   // keep this the first test --> otherwise elment IDs change constantly
   test('renders correctly', () => {
-    const wrapper = mount(ApiTextField, {
-      vuetify,
-      propsData: props
-    })
+    const config = createConfig()
+    const wrapper = mount(ApiTextField, config)
 
     expect(wrapper.element).toMatchSnapshot()
   })
 
   test('input change triggers api.patch call and status update', async () => {
-    const wrapper = mount(ApiTextField, {
-      vuetify,
-      propsData: props,
-      mocks: {
-        api: mockApi
-      }
-    })
+    const config = createConfig()
+    const patchSpy = jest.spyOn(config.mocks.api, 'patch')
+    const wrapper = mount(ApiTextField, config)
 
     const newValue = 'new value'
 
@@ -64,22 +51,21 @@ describe('ApiTextField.vue', () => {
     expect(wrapper.find({ name: 'VTextField' }).exists()).toBe(true)
 
     wrapper.find('input').setValue(newValue)
-    expect(mockApi.patch).toBeCalledTimes(1)
-    expect(mockApi.patch).toBeCalledWith(props.uri, { [props.fieldname]: newValue })
+    expect(patchSpy).toBeCalledTimes(1)
+    expect(patchSpy).toBeCalledWith(config.propsData.uri, { [config.propsData.fieldname]: newValue })
 
-    await wrapper.vm.$nextTick()
-    expect(wrapper.find({ name: 'StatusIcon' }).vm.status).toBe('saving')
+    const statusIcon = wrapper.find({ name: 'StatusIcon' }).vm
+    // expect(statusIcon.status).toBe('saving')
 
     // wait for patch Promise to resolve
-    jest.runAllTimers()
-    await wrapper.vm.$nextTick()
+    await flushPromises()
 
-    expect(wrapper.find({ name: 'StatusIcon' }).vm.status).toBe('success')
+    expect(statusIcon.status).toBe('success')
 
     // wait for success icon to vanish
     jest.runAllTimers()
     await wrapper.vm.$nextTick()
 
-    expect(wrapper.find({ name: 'StatusIcon' }).vm.status).toBe('init')
+    expect(statusIcon.status).toBe('init')
   })
 })
