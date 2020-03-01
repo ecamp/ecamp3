@@ -1,6 +1,5 @@
 <!--
-Displays a field as text or as an input field, depending on the editing prop.
-You can two-way bind to the value using v-model.
+Displays a field as a v-text-field + write access via API wrapper
 -->
 
 <template>
@@ -10,7 +9,6 @@ You can two-way bind to the value using v-model.
       <v-text-field
         :value="wrapper.localValue"
         v-bind="$attrs"
-        :label="label"
         :error-messages="wrapper.errorMessage"
         @input="wrapper.on.input"
         @blur="wrapper.on.touch">

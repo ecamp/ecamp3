@@ -2,14 +2,11 @@ export const apiPropsMixin = {
   inheritAttrs: false,
 
   props: {
-    value: { type: String, required: true },
+    value: { required: true },
 
     /* field name and URI for saving back to API */
     fieldname: { type: String, required: true },
     uri: { type: String, required: true },
-
-    /* display label */
-    label: { type: String, default: '', required: false },
 
     /* overrideDirty=true will reset the input if 'value' changes, even if the input is dirty. Use with caution. */
     overrideDirty: { type: Boolean, default: false, required: false },

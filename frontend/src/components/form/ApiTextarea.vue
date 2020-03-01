@@ -1,19 +1,19 @@
 <!--
-Displays a field as a v-select + write access via API wrapper
+Displays a field as a v-textarea + write access via API wrapper
 -->
 
 <template>
   <api-wrapper
     v-bind="$props">
     <template slot-scope="wrapper">
-      <v-select
-        v-model="wrapper.localValue"
+      <v-textarea
+        :value="wrapper.localValue"
         v-bind="$attrs"
         :error-messages="wrapper.errorMessage"
         @input="wrapper.on.input"
         @blur="wrapper.on.touch">
         <status-icon slot="append" :status="wrapper.status" />
-      </v-select>
+      </v-textarea>
     </template>
   </api-wrapper>
 </template>
@@ -24,16 +24,12 @@ import ApiWrapper from './ApiWrapper'
 import StatusIcon from './StatusIcon'
 
 export default {
-  name: 'ApiSingleSelect',
+  name: 'ApiTextarea',
   components: { ApiWrapper, StatusIcon },
   mixins: [apiPropsMixin],
-  props: {
-    // disable delay per default
-    autoSaveDelay: { type: Number, default: 0, required: false }
-  },
+
   data () {
-    return {
-    }
+    return {}
   }
 }
 </script>

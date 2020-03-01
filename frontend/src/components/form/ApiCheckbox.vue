@@ -1,19 +1,18 @@
 <!--
-Displays a field as a v-select + write access via API wrapper
+Displays a field as a v-checkbox + write access via API wrapper
 -->
 
 <template>
   <api-wrapper
     v-bind="$props">
     <template slot-scope="wrapper">
-      <v-select
-        v-model="wrapper.localValue"
+      <v-checkbox
+        :value="wrapper.localValue"
         v-bind="$attrs"
         :error-messages="wrapper.errorMessage"
-        @input="wrapper.on.input"
-        @blur="wrapper.on.touch">
+        @click="wrapper.on.input">
         <status-icon slot="append" :status="wrapper.status" />
-      </v-select>
+      </v-checkbox>
     </template>
   </api-wrapper>
 </template>
@@ -24,7 +23,7 @@ import ApiWrapper from './ApiWrapper'
 import StatusIcon from './StatusIcon'
 
 export default {
-  name: 'ApiSingleSelect',
+  name: 'ApiCheckbox',
   components: { ApiWrapper, StatusIcon },
   mixins: [apiPropsMixin],
   props: {
@@ -32,8 +31,7 @@ export default {
     autoSaveDelay: { type: Number, default: 0, required: false }
   },
   data () {
-    return {
-    }
+    return {}
   }
 }
 </script>
