@@ -2,11 +2,8 @@
 import Vue from 'vue'
 import Vuetify from 'vuetify'
 
-import { mount, createLocalVue } from '@vue/test-utils'
+import { mount } from '@vue/test-utils'
 import ApiSingleSelect from '../ApiSingleSelect.vue'
-
-// const localVue = createLocalVue()
-// localVue.use(Vuetify)
 
 Vue.use(Vuetify)
 
@@ -17,6 +14,7 @@ describe('ApiTextField.vue', () => {
     vuetify = new Vuetify()
   })
 
+  // keep this the first test --> otherwise elment IDs change constantly
   test('renders correctly', () => {
     const props = {
       value: 'Test Value',

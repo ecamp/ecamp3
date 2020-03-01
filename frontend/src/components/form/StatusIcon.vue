@@ -19,7 +19,7 @@
 
 <script>
 export default {
-  name: 'ApiTextField',
+  name: 'StatusIcon',
   props: {
     status: {
       type: String,
