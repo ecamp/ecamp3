@@ -3,10 +3,10 @@
 namespace eCamp\Lib\Hal;
 
 use eCamp\Lib\Entity\EntityLink;
-use Zend\EventManager\AbstractListenerAggregate;
-use Zend\EventManager\Event;
-use Zend\EventManager\EventManagerInterface;
-use Zend\EventManager\SharedEventManagerInterface;
+use Laminas\EventManager\AbstractListenerAggregate;
+use Laminas\EventManager\Event;
+use Laminas\EventManager\EventManagerInterface;
+use Laminas\EventManager\SharedEventManagerInterface;
 use ZF\Hal\Entity;
 use ZF\Hal\Link\LinkCollection;
 use ZF\Hal\Metadata\Metadata;

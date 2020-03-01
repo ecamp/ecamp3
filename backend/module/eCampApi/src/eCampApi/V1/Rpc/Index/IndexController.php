@@ -41,9 +41,9 @@ class IndexController extends AbstractActionController {
             $data['user'] = 'guest';
         }
 
-        $data['login'] = Link::factory([
-            'rel' => 'login',
-            'route' => 'e-camp-api.rpc.login'
+        $data['auth'] = Link::factory([
+            'rel' => 'auth',
+            'route' => 'e-camp-api.rpc.auth'
         ]);
 
         $data['self'] = Link::factory([

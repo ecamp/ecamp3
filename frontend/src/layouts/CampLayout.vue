@@ -1,5 +1,5 @@
 <template>
-  <v-app style="background: #90A4AE">
+  <v-app style="background: #F4F4F4">
     <!-- left side drawer (desktop)-->
     <v-navigation-drawer v-if="$vuetify.breakpoint.smAndUp"
                          v-model="drawer" app
@@ -10,7 +10,6 @@
       <v-btn v-if="mini" icon>
         <v-icon>mdi-format-list-bulleted-triangle</v-icon>
       </v-btn>
-      <v-spacer />
       <v-btn v-if="!mini" icon
              fixed
              class="ma-2"
@@ -18,8 +17,6 @@
              right @click.stop="mini = !mini">
         <v-icon>mdi-chevron-left</v-icon>
       </v-btn>
-
-      <v-divider />
 
       <router-view v-if="!mini" name="aside" />
     </v-navigation-drawer>
@@ -42,7 +39,7 @@
       <v-overflow-btn class="my-2 ec-campselect"
                       label="Camp lädt"
                       :editable="editableCampButton" single-line
-                      :items="lastCamps"
+                      :items="lastCamps.items"
                       item-text="title" item-value="id"
                       :value="camp().id"
                       hide-details return-object
@@ -77,15 +74,18 @@
         </v-btn>
       </v-toolbar-items>
       <v-spacer />
-      <v-btn v-if="! loggedIn" text
+      <v-btn v-if="loggedIn" text
+             @click="logout">
+        <v-icon v-if="logoutIcon" :left="$vuetify.breakpoint.mdAndUp">{{ logoutIcon }}</v-icon>
+        <v-progress-circular v-else indeterminate
+                             size="18"
+                             class="mr-2" />
+        <span class="sr-only-sm-and-down">Log out</span>
+      </v-btn>
+      <v-btn v-else text
              :to="{ name: 'login' }">
         <v-icon :left="$vuetify.breakpoint.mdAndUp">mdi-login</v-icon>
         <span class="sr-only-sm-and-down">Log in</span>
-      </v-btn>
-      <v-btn v-if="loggedIn" text
-             :to="{ name: 'logout' }">
-        <v-icon :left="$vuetify.breakpoint.mdAndUp">mdi-logout</v-icon>
-        <span class="sr-only-sm-and-down">Log out</span>
       </v-btn>
       <v-btn icon>
         <v-icon>mdi-account</v-icon>
@@ -137,15 +137,18 @@ import { campRoute, campFromRoute } from '@/router'
 export default {
   data () {
     return {
-      loggedIn: null,
       editableCampButton: false,
       drawer: false,
-      mini: !this.$vuetify.breakpoint.mdAndUp
+      mini: !this.$vuetify.breakpoint.mdAndUp,
+      logoutIcon: 'mdi-logout'
     }
   },
   computed: {
+    loggedIn () {
+      return this.$auth.isLoggedIn()
+    },
     lastCamps () {
-      return this.api.get().camps().items
+      return this.api.get().camps()
     },
     camp () {
       return campFromRoute(this.$route)
@@ -153,12 +156,11 @@ export default {
   },
   created () {
     this.$vuetify.theme.themes.dark.grey = 'ffcc00'
-    this.$auth.subscribe(this.checkLoginStatus)
-    this.checkLoginStatus()
   },
   methods: {
-    async checkLoginStatus () {
-      this.loggedIn = await this.$auth.isLoggedIn()
+    logout () {
+      this.logoutIcon = ''
+      this.$auth.logout().then(() => this.$router.replace({ name: 'login' }))
     },
     changeCamp (selectedCamp) {
       this.$router.push(campRoute(selectedCamp))

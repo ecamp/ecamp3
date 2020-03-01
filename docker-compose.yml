@@ -2,12 +2,10 @@ version: "3"
 
 services:
   frontend:
-    image: node:12.13.1-alpine
+    build: ./frontend
     container_name: 'ecamp3-frontend'
     ports:
       - '3000:3000'
-    working_dir: /app
-    entrypoint: ./docker-entrypoint.sh
     volumes:
       - ./frontend:/app:delegated
       - node_modules:/app/node_modules

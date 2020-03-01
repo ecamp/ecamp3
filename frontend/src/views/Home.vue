@@ -4,26 +4,6 @@
       <v-toolbar-title>Home</v-toolbar-title>
     </v-toolbar>
     <v-list class="pt-0">
-      <v-list-item :to="{ name: 'login' }">
-        <v-list-item-icon>
-          <v-icon>mdi-login</v-icon>
-        </v-list-item-icon>
-        <v-list-item-content>
-          <v-list-item-title>
-            Login
-          </v-list-item-title>
-        </v-list-item-content>
-      </v-list-item>
-      <v-list-item :to="{ name: 'logout' }">
-        <v-list-item-icon>
-          <v-icon>mdi-logout</v-icon>
-        </v-list-item-icon>
-        <v-list-item-content>
-          <v-list-item-title>
-            Logout
-          </v-list-item-title>
-        </v-list-item-content>
-      </v-list-item>
       <v-list-item :to="{ name: 'camps' }">
         <v-list-item-icon>
           <v-icon>mdi-format-list-bulleted-triangle</v-icon>
