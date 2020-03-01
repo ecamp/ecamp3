@@ -37,7 +37,7 @@ exports[`ApiTextField.vue renders correctly 1`] = `
                 class="v-select__selections"
               >
                 <input
-                  aria-readonly="true"
+                  aria-readonly="false"
                   autocomplete="off"
                   id="input-8"
                   readonly="readonly"
@@ -61,10 +61,7 @@ exports[`ApiTextField.vue renders correctly 1`] = `
             <div
               class="v-menu"
             >
-              <div
-                class="v-menu__content theme--light "
-                style="max-height: 304px; min-width: 0px; max-width: auto; top: 12px; left: 0px; transform-origin: top left; z-index: 0; display: none;"
-              />
+              <!---->
             </div>
           </div>
           <div

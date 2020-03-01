@@ -120,11 +120,6 @@ export default {
     this.debouncedSave = debounce(this.save, this.autoSaveDelay)
   },
   methods: {
-
-    log: function (title, event) {
-      console.log(title)
-      console.log(event)
-    },
     touch: function () {
       this.$v.localValue.$touch()
     },
