@@ -6,11 +6,12 @@ Listing all event instances of a single period.
   <card-view>
     <div v-for="period in periods.items"
          :key="period.id">
-      <v-app-bar v-if="$vuetify.breakpoint.xs"
-                 dense fixed
-                 color="white"
-                 style="z-index: 300"
-                 :tile="false" class="ma-2 px-3">
+      <v-app-bar
+        v-if="$vuetify.breakpoint.xs"
+        dense fixed
+        color="white"
+        style="z-index: 300"
+        :tile="false" class="ma-2 px-3">
         <v-btn v-if="searchOpen" icon @click="searchOpen = false">
           <v-icon>mdi-chevron-left</v-icon>
         </v-btn>
@@ -99,8 +100,8 @@ export default {
     periods () {
       return this.camp().periods()
     },
-    eventInstances () {
-      return this.periods.items.flatMap(period => period.event_instances())
+    events () {
+      return this.camp().events()
     }
   }
 }

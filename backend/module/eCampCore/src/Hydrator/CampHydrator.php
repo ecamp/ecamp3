@@ -11,6 +11,7 @@ use eCampApi\V1\Rest\Day\DayCollection;
 use eCampApi\V1\Rest\EventCategory\EventCategoryCollection;
 use eCampApi\V1\Rest\Period\PeriodCollection;
 use Zend\Hydrator\HydratorInterface;
+use ZF\Hal\Link\Link;
 
 class CampHydrator implements HydratorInterface {
     public static function HydrateInfo() {
@@ -18,16 +19,19 @@ class CampHydrator implements HydratorInterface {
             'camp_type' => Util::Entity(function (Camp $c) {
                 return $c->getCampType();
             }),
-            'periods' => Util::Collection(function (Camp $c) {
-                return new PeriodCollection($c->getPeriods());
-            }, [
-                'days' => Util::Collection(function (Period $p) {
-                    return new DayCollection($p->getDays());
-                })
-            ]),
+            'periods' => Util::Collection(
+                function (Camp $c) {
+                    return new PeriodCollection($c->getPeriods());
+                },
+                [
+                    'days' => Util::Collection(function (Period $p) {
+                        return new DayCollection($p->getDays());
+                    })
+                ]
+            ),
             'eventCategories' => Util::Collection(function (Camp $c) {
                 return new EventCategoryCollection($c->getEventCategories());
-            }),
+            })
         ];
     }
 
@@ -54,7 +58,13 @@ class CampHydrator implements HydratorInterface {
             'periods' => new EntityLinkCollection($camp->getPeriods()),
 
             'event_categories' => new EntityLinkCollection($camp->getEventCategories()),
-            'events' => new EntityLinkCollection($camp->getEvents()),
+            'events' => Link::factory([
+                'rel' => 'events',
+                'route' => [
+                    'name' => 'e-camp-api.rest.doctrine.event',
+                    'options' => ['query' => ['camp_id' => $camp->getId()]]
+                ]
+            ])
         ];
     }
 

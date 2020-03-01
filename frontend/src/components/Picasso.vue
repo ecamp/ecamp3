@@ -3,33 +3,27 @@ Listing all given event instances in a calendar view.
 -->
 
 <template>
-  <div>
-    <v-skeleton-loader v-if="camp()._meta.loading && type === 'day'" class="ma-3"
-                       type="list-item@6" />
-    <v-skeleton-loader v-else-if="camp()._meta.loading" class="ma-3"
-                       type="table-thead,table-row@6" />
-    <v-calendar v-else
-                class="ec-picasso"
-                :events="eventInstances"
-                event-start="start_time"
-                event-end="end_time"
-                :event-name="getEventName"
-                :event-color="getEventColor"
-                interval-height="42"
-                interval-width="46"
-                :interval-format="getIntervalFormat"
-                first-interval="5"
-                interval-count="19"
-                :start="startDateString"
-                :end="endDateString"
-                locale="de-ch"
-                :day-format="dayFormat"
-                :type="type"
-                :weekday-format="weekdayFormat"
-                :weekdays="[1, 2, 3, 4, 5, 6, 0]"
-                color="primary"
-                @click:event="showEventInstance" />
-  </div>
+  <v-calendar
+    class="ec-picasso"
+    :events="eventInstances"
+    event-start="start_time"
+    event-end="end_time"
+    :event-name="getEventName"
+    :event-color="getEventColor"
+    interval-height="42"
+    interval-width="46"
+    :interval-format="getIntervalFormat"
+    first-interval="5"
+    interval-count="19"
+    :start="startDateString"
+    :end="endDateString"
+    locale="de-ch"
+    :day-format="dayFormat"
+    :type="type"
+    :weekday-format="weekdayFormat"
+    :weekdays="[1, 2, 3, 4, 5, 6, 0]"
+    color="primary"
+    @click:event="showEventInstance" />
 </template>
 <script>
 import { eventInstanceRoute } from '../router'
@@ -55,6 +49,9 @@ export default {
     endDateString () {
       return this.formatDateForProp(this.end)
     }
+  },
+  mounted () {
+    this.camp().events()
   },
   methods: {
     getEventName (event, _) {
