@@ -3,7 +3,7 @@ import Vuex from 'vuex'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 import normalize from 'hal-json-normalizer'
-import urlTemplate from 'url-template'
+import urltemplate from 'url-template'
 import { normalizeEntityUri } from '@/store/uriUtils'
 import storeValueProxy from '@/store/storeValueProxy'
 
@@ -227,7 +227,7 @@ export const href = async function (uriOrEntity, relation, templateParams = {}) 
   const rel = store.state.api[self][relation]
   if (!rel || !rel.href) return undefined
   if (rel.templated) {
-    return API_ROOT + urlTemplate.parse(rel.href).expand(templateParams)
+    return API_ROOT + urltemplate.parse(rel.href).expand(templateParams)
   }
   return API_ROOT + rel.href
 }
