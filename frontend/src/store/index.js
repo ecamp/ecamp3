@@ -323,8 +323,11 @@ function findEntitiesReferencing (uri) {
  * @returns Promise resolves when the cleanup has completed and the Vuex store is up to date again
  */
 function deleted (uri) {
-  return Promise.all(findEntitiesReferencing(uri).map(outdatedEntity => reload(outdatedEntity)._meta.load))
-    .then(() => purge(uri))
+  return Promise.all(findEntitiesReferencing(uri)
+    // don't reload entities that are already being deleted, to break circular dependencies
+    .filter(outdatedEntity => !outdatedEntity._meta.deleting)
+    .map(outdatedEntity => reload(outdatedEntity)._meta.load)
+  ).then(() => purge(uri))
 }
 
 /**
