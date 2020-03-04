@@ -668,7 +668,7 @@ describe('API store', () => {
     done()
   })
 
-  it('breaks circular dependencies when reloading entities referencing a deleted entity', async done => {
+  it('breaks circular dependencies when deleting an entity in the reference circle', async done => {
     // given
     axiosMock.onDelete('http://localhost/periods/1').replyOnce(204)
     axiosMock.onGet('http://localhost/periods/1').replyOnce(200, circularReference.serverResponse)
@@ -685,6 +685,29 @@ describe('API store', () => {
     // then
     await letNetworkRequestFinish()
     expect(axiosMock.history.get.length).toBe(2)
+    done()
+  })
+
+  it('breaks circular dependencies when deleting an entity outside the reference circle', async done => {
+    // given
+    axiosMock.onGet('http://localhost/camps/3').replyOnce(200, circularReference.campServerResponse)
+    axiosMock.onGet('http://localhost/periods/1').replyOnce(200, circularReference.serverResponse)
+    axiosMock.onDelete('http://localhost/camps/3').replyOnce(204)
+    axiosMock.onGet('http://localhost/periods/1').replyOnce(200, circularReference.serverResponse)
+    axiosMock.onGet('http://localhost/periods/1').networkError()
+    axiosMock.onGet('http://localhost/days/2').reply(404)
+    const load = vm.api.get('/camps/3')._meta.load
+    vm.api.get('/periods/1')._meta.load
+    await letNetworkRequestFinish()
+    const camp = await load
+    expect(vm.$store.state.api).toMatchObject(circularReference.storeState)
+
+    // when
+    vm.api.del(camp)
+
+    // then
+    await letNetworkRequestFinish()
+    expect(axiosMock.history.get.length).toBe(3)
     done()
   })
 
