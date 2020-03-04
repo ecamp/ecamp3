@@ -1,4 +1,19 @@
-import { get, API_ROOT } from './index'
+import urltemplate from 'url-template'
+import { API_ROOT, get } from './index'
+
+function isEqualIgnoringOrder (array, other) {
+  return array.length === other.length && array.every(elem => other.includes(elem))
+}
+
+/**
+ * A templated link in the Vuex store looks like this: { href: '/some/uri{/something}', templated: true }
+ * @param object         to be examined
+ * @returns boolean      true if the object looks like a templated link, false otherwise
+ */
+function isTemplatedLink (object) {
+  if (!object) return false
+  return isEqualIgnoringOrder(Object.keys(object), ['href', 'templated']) && (object.templated === true)
+}
 
 /**
  * An entity reference in the Vuex store looks like this: { href: '/some/uri' }
@@ -7,8 +22,7 @@ import { get, API_ROOT } from './index'
  */
 function isEntityReference (object) {
   if (!object) return false
-  const objectKeys = Object.keys(object)
-  return objectKeys.length === 1 && objectKeys[0] === 'href'
+  return isEqualIgnoringOrder(Object.keys(object), ['href'])
 }
 
 function containsLoadingEntityReference (array) {
@@ -75,7 +89,7 @@ function loadingProxy (entityLoaded, uri = null) {
         return loadingArrayProxy(propertyLoaded)
       }
       // Normal property access: return a function that yields another loadingProxy and renders as empty string
-      const result = () => loadingProxy(propertyLoaded.then(property => property()._meta.load))
+      const result = templateParams => loadingProxy(propertyLoaded.then(property => property(templateParams)._meta.load))
       result.toString = () => ''
       return result
     }
@@ -221,6 +235,8 @@ function createStoreValueProxy (data) {
       result[key] = () => embeddedCollectionProxy(value, data._meta.self, key)
     } else if (isEntityReference(value)) {
       result[key] = () => get(value.href)
+    } else if (isTemplatedLink(value)) {
+      result[key] = templateParams => get(urltemplate.parse(value.href).expand(templateParams))
     } else {
       result[key] = value
     }

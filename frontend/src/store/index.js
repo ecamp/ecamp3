@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 import normalize from 'hal-json-normalizer'
+import urlTemplate from 'url-template'
 import { normalizeEntityUri } from '@/store/uriUtils'
 import storeValueProxy from '@/store/storeValueProxy'
 
@@ -216,14 +217,19 @@ function loadFromApi (uri) {
 /**
  * Loads the URI of a related entity from the store, or the API in case it is not already fetched.
  *
- * @param uriOrEntity URI (or instance) of an entity from the API
- * @param relation    the name of the relation for which the URI should be retrieved
- * @returns Promise   resolves to the URI of the related entity.
+ * @param uriOrEntity    URI (or instance) of an entity from the API
+ * @param relation       the name of the relation for which the URI should be retrieved
+ * @param templateParams in case the relation is a templated link, the template parameters that should be filled in
+ * @returns Promise      resolves to the URI of the related entity.
  */
-export const href = async function (uriOrEntity, relation) {
+export const href = async function (uriOrEntity, relation, templateParams = {}) {
   const self = normalizeEntityUri(await get(uriOrEntity)._meta.load, API_ROOT)
-  const href = (store.state.api[self][relation] || {}).href
-  return href ? API_ROOT + href : href
+  const rel = store.state.api[self][relation]
+  if (!rel || !rel.href) return undefined
+  if (rel.templated) {
+    return API_ROOT + urlTemplate.parse(rel.href).expand(templateParams)
+  }
+  return API_ROOT + rel.href
 }
 
 /**
