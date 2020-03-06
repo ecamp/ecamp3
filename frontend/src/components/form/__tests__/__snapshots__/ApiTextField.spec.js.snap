@@ -5,63 +5,30 @@ exports[`ApiTextField.vue renders correctly 1`] = `
   <!---->
    
   <span>
-    <form
-      class="v-form mb-2"
+    <v-form-stub
+      class="mb-2"
       inline=""
-      novalidate="novalidate"
     >
-      <div
-        class="v-input v-input--is-label-active v-input--is-dirty theme--light v-text-field"
-      >
-        <div
-          class="v-input__control"
-        >
-          <div
-            class="v-input__slot"
-          >
-            <div
-              class="v-text-field__slot"
-            >
-              <label
-                class="v-label v-label--active theme--light"
-                for="input-8"
-                style="left: 0px; position: absolute;"
-              >
-                Test Field
-              </label>
-              <input
-                id="input-8"
-                type="text"
-              />
-            </div>
-            <div
-              class="v-input__append-inner"
-            >
-              <span>
-                <!---->
-                 
-                <!---->
-              </span>
-            </div>
-          </div>
-          <div
-            class="v-text-field__details"
-          >
-            <div
-              class="v-messages theme--light"
-            >
-              <div
-                class="v-messages__wrapper"
-              />
-            </div>
-          </div>
-        </div>
-      </div>
+      <v-text-field-stub
+        backgroundcolor=""
+        clearicon="$clear"
+        errorcount="1"
+        errormessages=""
+        hidedetails="auto"
+        label="Test Field"
+        loaderheight="2"
+        messages=""
+        outlined="true"
+        rules=""
+        successmessages=""
+        type="text"
+        value="Test Value"
+      />
        
       <!---->
        
       <!---->
-    </form>
+    </v-form-stub>
   </span>
 </span>
 `;

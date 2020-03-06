@@ -10,10 +10,11 @@ Displays a field as a v-text-field + write access via API wrapper
         :value="wrapper.localValue"
         v-bind="$attrs"
         :error-messages="wrapper.errorMessage"
+        :loading="wrapper.isSaving"
+        hide-details="auto"
+        outlined
         @input="wrapper.on.input"
-        @blur="wrapper.on.touch">
-        <status-icon slot="append" :status="wrapper.status" />
-      </v-text-field>
+        @blur="wrapper.on.touch" />
     </template>
   </api-wrapper>
 </template>
@@ -21,11 +22,10 @@ Displays a field as a v-text-field + write access via API wrapper
 <script>
 import { apiPropsMixin } from '@/mixins/apiPropsMixin'
 import ApiWrapper from './ApiWrapper'
-import StatusIcon from './StatusIcon'
 
 export default {
   name: 'ApiTextField',
-  components: { ApiWrapper, StatusIcon },
+  components: { ApiWrapper },
   mixins: [apiPropsMixin],
 
   data () {

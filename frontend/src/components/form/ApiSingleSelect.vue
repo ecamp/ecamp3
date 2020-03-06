@@ -10,6 +10,8 @@ Displays a field as a v-select + write access via API wrapper
         v-model="wrapper.localValue"
         v-bind="$attrs"
         :error-messages="wrapper.errorMessage"
+        hide-details="auto"
+        outlined
         @input="wrapper.on.input"
         @blur="wrapper.on.touch">
         <status-icon slot="append" :status="wrapper.status" />

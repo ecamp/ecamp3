@@ -10,6 +10,7 @@ Displays a field as a v-checkbox + write access via API wrapper
         :value="wrapper.localValue"
         v-bind="$attrs"
         :error-messages="wrapper.errorMessage"
+        hide-details="auto"
         @click="wrapper.on.input">
         <status-icon slot="append" :status="wrapper.status" />
       </v-checkbox>

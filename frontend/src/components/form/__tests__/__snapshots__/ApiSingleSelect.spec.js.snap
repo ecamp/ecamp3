@@ -11,7 +11,7 @@ exports[`ApiTextField.vue renders correctly 1`] = `
       novalidate="novalidate"
     >
       <div
-        class="v-input theme--light v-text-field v-select"
+        class="v-input v-input--hide-details theme--light v-text-field v-text-field--enclosed v-text-field--outlined v-select"
       >
         <div
           class="v-input__control"
@@ -23,6 +23,17 @@ exports[`ApiTextField.vue renders correctly 1`] = `
             class="v-input__slot"
             role="button"
           >
+            <fieldset
+              aria-hidden="true"
+            >
+              <legend
+                style="width: 0px;"
+              >
+                <span>
+                  ​
+                </span>
+              </legend>
+            </fieldset>
             <div
               class="v-select__slot"
             >
@@ -62,17 +73,6 @@ exports[`ApiTextField.vue renders correctly 1`] = `
               class="v-menu"
             >
               <!---->
-            </div>
-          </div>
-          <div
-            class="v-text-field__details"
-          >
-            <div
-              class="v-messages theme--light"
-            >
-              <div
-                class="v-messages__wrapper"
-              />
             </div>
           </div>
         </div>
