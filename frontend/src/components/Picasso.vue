@@ -8,8 +8,8 @@ Listing all given event instances in a calendar view.
     :events="eventInstances"
     event-start="start_time"
     event-end="end_time"
-    :event-name="getEventName"
-    :event-color="getEventColor"
+    :event-name="getEventName | loading('Lädt…', ({ input }) => input.event()._meta.loading)"
+    :event-color="getEventColor | loading('grey lighten-2', eventInstance => eventInstance.event()._meta.loading)"
     interval-height="42"
     interval-width="46"
     :interval-format="getIntervalFormat"
@@ -55,15 +55,9 @@ export default {
   },
   methods: {
     getEventName (event, _) {
-      if (event.input.event()._meta.loading) {
-        return 'Lädt…'
-      }
       return '(' + event.input.number + ') ' + event.input.event().event_category().short + ': ' + event.input.event().title
     },
     getEventColor (event, _) {
-      if (event.event()._meta.loading) {
-        return 'grey lighten-2'
-      }
       return event.event().event_category().color.toString()
     },
     getIntervalFormat (time) {
