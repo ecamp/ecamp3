@@ -1,0 +1,52 @@
+{
+  "campServerResponse": {
+    "_links": {
+      "self": {
+        "href": "http://localhost/camps/3"
+      }
+    }
+  },
+  "serverResponse": {
+    "_embedded": {
+      "lastUsedDay": {
+        "_links": {
+          "self": {
+            "href": "http://localhost/days/2"
+          },
+          "owner": {
+            "href": "http://localhost/periods/1"
+          }
+        }
+      }
+    },
+    "_links": {
+      "self": {
+        "href": "http://localhost/periods/1"
+      },
+      "camp": {
+        "href": "http://localhost/camps/3"
+      }
+    }
+  },
+  "storeState": {
+    "/periods/1": {
+      "camp": {
+        "href": "/camps/3"
+      },
+      "lastUsedDay": {
+        "href": "/days/2"
+      },
+      "_meta": {
+        "self": "/periods/1"
+      }
+    },
+    "/days/2": {
+      "owner": {
+        "href": "/periods/1"
+      },
+      "_meta": {
+        "self": "/days/2"
+      }
+    }
+  }
+}

@@ -50,7 +50,7 @@ export const mutations = {
    * @param uri   URI of the entity that is currently being deleted
    */
   deleting (state, uri) {
-    Vue.set(state.api[uri]._meta, 'deleting', true)
+    if (state.api[uri]) Vue.set(state.api[uri]._meta, 'deleting', true)
   },
   /**
    * Marks a single entity in the Vuex store as normal again, after it has been marked as deleting before.
@@ -58,7 +58,7 @@ export const mutations = {
    * @param uri   URI of the entity that failed to be deleted
    */
   deletingFailed (state, uri) {
-    Vue.set(state.api[uri]._meta, 'deleting', false)
+    if (state.api[uri]) Vue.set(state.api[uri]._meta, 'deleting', false)
   }
 }
 
@@ -205,6 +205,7 @@ function loadFromApi (uri) {
       },
       ({ response }) => {
         if (response.status === 404) {
+          store.commit('deleting', uri)
           return deleted(uri)
         }
         reject(response)
@@ -252,6 +253,7 @@ const patch = function (uriOrEntity, data) {
     return get(uri)
   }, ({ response }) => {
     if (response.status === 404) {
+      store.commit('deleting', uri)
       return deleted(uri)
     }
   }))
@@ -323,8 +325,11 @@ function findEntitiesReferencing (uri) {
  * @returns Promise resolves when the cleanup has completed and the Vuex store is up to date again
  */
 function deleted (uri) {
-  return Promise.all(findEntitiesReferencing(uri).map(outdatedEntity => reload(outdatedEntity)._meta.load))
-    .then(() => purge(uri))
+  return Promise.all(findEntitiesReferencing(uri)
+    // don't reload entities that are already being deleted, to break circular dependencies
+    .filter(outdatedEntity => !outdatedEntity._meta.deleting)
+    .map(outdatedEntity => reload(outdatedEntity)._meta.load)
+  ).then(() => purge(uri))
 }
 
 /**
