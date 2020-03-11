@@ -26,7 +26,7 @@ import ApiWrapper from './ApiWrapper'
 import StatusIcon from './StatusIcon'
 
 export default {
-  name: 'ApiSingleSelect',
+  name: 'ApiSelect',
   components: { ApiWrapper, StatusIcon },
   mixins: [apiPropsMixin],
   props: {

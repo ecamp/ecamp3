@@ -3,7 +3,7 @@ import Vue from 'vue'
 import Vuetify from 'vuetify'
 
 import { mount } from '@vue/test-utils'
-import ApiSingleSelect from '../ApiSingleSelect.vue'
+import ApiSelect from '../ApiSelect.vue'
 
 Vue.use(Vuetify)
 
@@ -39,7 +39,7 @@ describe('ApiTextField.vue', () => {
       required: true
     }
 
-    const wrapper = mount(ApiSingleSelect, {
+    const wrapper = mount(ApiSelect, {
       // localVue,
       vuetify,
       propsData: props
