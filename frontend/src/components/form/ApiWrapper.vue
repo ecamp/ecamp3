@@ -1,56 +1,51 @@
 <!--
-Displays a field as text or as an input field, depending on the editing prop.
-You can two-way bind to the value using v-model.
+Wrapper component for form components to save data back to API
 -->
 
 <template>
-  <span>
-    <span v-if="!editing">{{ value }}</span>
-    <span v-if="editing">
-      <v-form
-        inline
-        class="mb-2">
-        <slot :editing="editing"
-              :localValue="localValue"
-              :errorMessage="errorMessage"
-              :isSaving="isSaving"
-              :status="status"
-              :on="eventHandlers" />
+  <v-form
+    inline
+    class="mb-2">
+    <slot
+      :localValue="localValue"
+      :errorMessage="errorMessage"
+      :isSaving="isSaving"
+      :status="status"
+      :on="eventHandlers" />
 
-        <v-btn
-          v-if="!autoSave"
-          small
-          color="warning"
-          class="mb-1"
-          @click="reset">
-          Reset
-        </v-btn>
+    <v-btn
+      v-if="!autoSave && !readonly"
+      :disabled="disabled"
+      small
+      color="warning"
+      class="mb-1"
+      @click="reset">
+      Reset
+    </v-btn>
 
-        <v-btn
-          v-if="!autoSave"
-          color="primary"
-          small
-          :disabled="isSaving || (required && $v.localValue.$invalid)"
-          class="mr-2 ml-2 mb-1"
-          @click="save">
-          <v-progress-circular
-            v-if="isSaving"
-            indeterminate
-            color="primary"
-            size="20"
-            class="mr-2" />
+    <v-btn
+      v-if="!autoSave && !readonly"
+      color="primary"
+      small
+      :disabled="disabled || isSaving || (required && $v.localValue.$invalid)"
+      class="mr-2 ml-2 mb-1"
+      @click="save">
+      <v-progress-circular
+        v-if="isSaving"
+        indeterminate
+        color="primary"
+        size="20"
+        class="mr-2" />
 
-          <v-icon
-            v-if="showSuccessIcon"
-            left>
-            mdi-check
-          </v-icon>
+      <v-icon
+        v-if="showSuccessIcon"
+        left>
+        mdi-check
+      </v-icon>
 
-          Save
-        </v-btn>
-      </v-form>
-    </span>
-  </span>
+      Save
+    </v-btn>
+  </v-form>
 </template>
 
 <script>
@@ -137,6 +132,13 @@ export default {
       this.$v.localValue.$reset()
     },
     save: function (event) {
+      // abort saving if component is in readonly or disabled state
+      // this is here for safety reasons, should not be triggered if the wrapped component behaves normally
+      if (this.readonly || this.disabled) {
+        return
+      }
+
+      // abort saving in case of validation errors
       this.$v.localValue.$touch()
       if (this.required && this.$v.localValue.$anyError) {
         return

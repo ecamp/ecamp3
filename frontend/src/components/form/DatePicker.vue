@@ -6,6 +6,7 @@ Displays a field as a date picker (can be used with v-model)
   <base-picker
     icon="mdi-calendar"
     :value="value"
+    v-bind="$attrs"
     @input="$emit('input', $event)">
     <template slot-scope="picker">
       <v-date-picker

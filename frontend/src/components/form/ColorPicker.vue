@@ -6,6 +6,7 @@ Displays a field as a color picker (can be used with v-model)
     icon="mdi-palette"
     :icon-color="value"
     :value="value"
+    v-bind="$attrs"
     @input="$emit('input', $event)">
     <template slot-scope="picker">
       <v-card>

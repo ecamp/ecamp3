@@ -44,7 +44,6 @@ describe('Testing autoSave mode', () => {
     expect(vm.isSaving).toBe(false)
     expect(vm.status).toBe('init')
     expect(vm.autoSave).toBe(true)
-    expect(vm.editing).toBe(true)
 
     // no buttons expected in AutoSave Mode (which is default)
     expect(wrapper.findAll({ name: 'VBtn' })).toHaveLength(0)
@@ -106,7 +105,6 @@ describe('Testing manual save mode', () => {
     expect(vm.isSaving).toBe(false)
     expect(vm.status).toBe('init')
     expect(vm.autoSave).toBe(false)
-    expect(vm.editing).toBe(true)
 
     // expecting both a reset button & a save button in manual mode
     expect(wrapper.findAll({ name: 'VBtn' })).toHaveLength(2)

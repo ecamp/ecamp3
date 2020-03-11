@@ -9,6 +9,8 @@ Displays a field as a v-select + write access via API wrapper
       <v-select
         v-model="wrapper.localValue"
         v-bind="$attrs"
+        :readonly="readonly"
+        :disabled="disabled"
         :error-messages="wrapper.errorMessage"
         hide-details="auto"
         outlined

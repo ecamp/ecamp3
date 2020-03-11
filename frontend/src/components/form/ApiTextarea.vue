@@ -9,6 +9,8 @@ Displays a field as a v-textarea + write access via API wrapper
       <v-textarea
         :value="wrapper.localValue"
         v-bind="$attrs"
+        :readonly="readonly"
+        :disabled="disabled"
         :error-messages="wrapper.errorMessage"
         hide-details="auto"
         outlined

@@ -7,6 +7,7 @@ Allows 15min steps only
   <base-picker
     icon="mdi-clock-outline"
     :value="value"
+    v-bind="$attrs"
     @input="$emit('input', $event)">
     <template slot-scope="picker">
       <v-time-picker

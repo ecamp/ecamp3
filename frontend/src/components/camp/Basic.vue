@@ -26,12 +26,16 @@ Displays details on a single camp and allows to edit them.
           :uri="camp()._meta.self"
           fieldname="title"
           label="Titel"
+          :auto-save="false"
+          readonly
           required />
         <api-textarea
           :value="camp().motto"
           :uri="camp()._meta.self"
           fieldname="motto"
           label="Motto"
+          :auto-save="false"
+          disabled
           required />
 
         <api-checkbox
@@ -39,6 +43,7 @@ Displays details on a single camp and allows to edit them.
           :uri="camp()._meta.self"
           fieldname="check"
           label="Checkbox example"
+          readonly
           required />
 
         <api-time-picker
@@ -46,6 +51,7 @@ Displays details on a single camp and allows to edit them.
           :uri="camp()._meta.self"
           fieldname="time"
           label="Startzeit"
+          disabled
           required />
 
         <api-color-picker
@@ -53,6 +59,7 @@ Displays details on a single camp and allows to edit them.
           :uri="camp()._meta.self"
           fieldname="color"
           label="Color Example"
+          readonly
           required />
 
         <v-list>
@@ -69,6 +76,7 @@ Displays details on a single camp and allows to edit them.
                 :uri="period._meta.self"
                 fieldname="start"
                 label="Starttermin"
+                disabled
                 required />
             </v-list-item-content>
           </v-list-item>

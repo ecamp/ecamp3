@@ -12,7 +12,8 @@ export const apiPropsMixin = {
     overrideDirty: { type: Boolean, default: false, required: false },
 
     /* enable/disable edit mode */
-    editing: { type: Boolean, default: true, required: false },
+    readonly: { type: Boolean, required: false, default: false },
+    disabled: { type: Boolean, required: false, default: false },
 
     /* enable/disable auto save */
     autoSave: { type: Boolean, default: true, required: false },

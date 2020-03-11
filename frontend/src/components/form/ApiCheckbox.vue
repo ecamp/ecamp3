@@ -7,11 +7,13 @@ Displays a field as a v-checkbox + write access via API wrapper
     v-bind="$props">
     <template slot-scope="wrapper">
       <v-checkbox
-        :value="wrapper.localValue"
+        :input-value="wrapper.localValue"
         v-bind="$attrs"
+        :readonly="readonly"
+        :disabled="disabled"
         :error-messages="wrapper.errorMessage"
         hide-details="auto"
-        @click="wrapper.on.input">
+        @change="wrapper.on.input">
         <status-icon slot="append" :status="wrapper.status" />
       </v-checkbox>
     </template>

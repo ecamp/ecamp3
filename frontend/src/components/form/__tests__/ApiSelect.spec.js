@@ -29,9 +29,6 @@ describe('ApiTextField.vue', () => {
       /* overrideDirty=true will reset the input if 'value' changes, even if the input is dirty. Use with caution. */
       overrideDirty: false,
 
-      /* enable/disable edit mode */
-      editing: true,
-
       /* enable/disable auto save */
       autoSave: true,
 

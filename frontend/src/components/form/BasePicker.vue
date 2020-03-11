@@ -6,6 +6,7 @@ Displays a field as a date picker (can be used with v-model)
   <v-menu
     ref="menu"
     v-model="showPicker"
+    :disabled="disabled || readonly"
     :close-on-content-click="false"
     transition="scale-transition"
     offset-y
@@ -17,6 +18,7 @@ Displays a field as a date picker (can be used with v-model)
         v-model="localValue"
         v-bind="$attrs"
         readonly
+        :disabled="disabled"
         hide-details="auto"
         outlined
         v-on="on">
@@ -46,7 +48,9 @@ export default {
   props: {
     value: { type: String, required: true },
     icon: { type: String, required: false, default: null },
-    iconColor: { type: String, required: false, default: null }
+    iconColor: { type: String, required: false, default: null },
+    readonly: { type: Boolean, required: false, default: false },
+    disabled: { type: Boolean, required: false, default: false }
   },
   data () {
     return {

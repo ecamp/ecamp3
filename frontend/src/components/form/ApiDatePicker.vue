@@ -9,6 +9,8 @@ Displays a field as a date picker + write access via API wrapper
       <date-picker
         :value="wrapper.localValue"
         v-bind="$attrs"
+        :readonly="readonly"
+        :disabled="disabled"
         :error-messages="wrapper.errorMessage"
         @input="wrapper.on.input">
         <status-icon slot="append" :status="wrapper.status" />
