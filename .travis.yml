@@ -1,3 +1,5 @@
+language: generic
+
 notifications:
   webhooks: https://coveralls.io/webhook
   
@@ -44,9 +46,7 @@ jobs:
           - cd ..
 
       after_script:
-          - cd backend
-          - vendor/bin/php-coveralls -v --root_dir ..
-          - cd ..
+          - backend/vendor/bin/php-coveralls -v --root_dir ./backend
     
     - stage: test
       name: "Frontend tests"
@@ -67,6 +67,6 @@ jobs:
         - npm run test:e2e:ci
 
       after_script:
-        - cat ./data/coverage/lcov.info | coveralls -v ..
+        - cat ./data/coverage/lcov.info | coveralls ..
 
 
