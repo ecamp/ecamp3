@@ -46,7 +46,7 @@ jobs:
           - cd ..
 
       after_script:
-          - backend/vendor/bin/php-coveralls -v --root_dir ./backend
+          - backend/vendor/bin/php-coveralls -v
     
     - stage: test
       name: "Frontend tests"
