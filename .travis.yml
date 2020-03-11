@@ -46,7 +46,7 @@ jobs:
           - cd ..
 
       after_script:
-          - backend/vendor/bin/php-coveralls -v
+          - backend/vendor/bin/php-coveralls -v --coverage_clover ./backend/build/logs/clover.xml --json_path ./backend/build/logs/coveralls-upload.json
     
     - stage: test
       name: "Frontend tests"
