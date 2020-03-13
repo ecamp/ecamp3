@@ -212,7 +212,7 @@ Displays collaborators of a single camp.
   </card-view>
 </template>
 <script>
-import CardView from '../CardView'
+import CardView from '../base/CardView'
 
 export default {
   name: 'Collaborators',

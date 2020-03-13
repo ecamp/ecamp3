@@ -10,7 +10,7 @@ Listing all given event instances in a calendar view.
     event-end="end_time"
     :event-name="getEventName | loading('Lädt…', ({ input }) => input.event()._meta.loading)"
     :event-color="getEventColor | loading('grey lighten-2', eventInstance => eventInstance.event()._meta.loading)"
-    interval-height="42"
+    :interval-height="intervalHeight"
     interval-width="46"
     :interval-format="getIntervalFormat"
     first-interval="5"
@@ -35,7 +35,8 @@ export default {
     eventInstances: { type: Array, required: true },
     start: { type: Date, required: true },
     end: { type: Date, required: true },
-    type: { type: String, required: false, default: 'week' }
+    type: { type: String, required: false, default: 'week' },
+    intervalHeight: { type: Number, required: false, default: 42 }
   },
   data () {
     return {

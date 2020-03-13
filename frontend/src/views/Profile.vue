@@ -1,24 +1,33 @@
 <template>
-  <card-view :title="'Profil: ' + profile.username" max-width="900">
-    <v-col>
-      <api-input
-        label="Email"
-        :uri="profile._meta.self"
-        fieldname="mail"
-        :value="profile.mail"
-        :editing="false"
-        required />
-    </v-col>
-  </card-view>
+  <v-container fluid>
+    <card-view max-width="600">
+      <template v-slot:title>
+        <v-card-title>
+          <back-button />
+          {{ 'Profil: ' + profile.username }}
+        </v-card-title>
+      </template>
+      <v-col>
+        <api-input
+          label="Email"
+          :uri="profile._meta.self"
+          fieldname="mail"
+          :value="profile.mail"
+          :editing="false"
+          required />
+      </v-col>
+    </card-view>
+  </v-container>
 </template>
 
 <script>
-import ApiInput from '../components/form/ApiInput'
-
-const CardView = () => import('../components/CardView')
 export default {
   name: 'Home',
-  components: { ApiInput, CardView },
+  components: {
+    ApiInput: () => import('@/components/form/ApiInput'),
+    CardView: () => import('@/components/base/CardView'),
+    BackButton: () => import('@/components/base/BackButton')
+  },
   computed: {
     profile () {
       return this.api.get().profile()

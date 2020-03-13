@@ -41,7 +41,7 @@ Displays details on a single camp and allows to edit them.
 </template>
 
 <script>
-import CardView from '../CardView'
+import CardView from '../base/CardView'
 import ApiInput from '../form/ApiInput'
 export default {
   name: 'Basic',

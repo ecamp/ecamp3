@@ -81,7 +81,7 @@ Listing all event instances of a single period.
   </card-view>
 </template>
 <script>
-import CardView from '../CardView'
+import CardView from '../base/CardView'
 
 export default {
   name: 'CampPicassso',

@@ -1,19 +1,27 @@
 <template>
-  <v-skeleton-loader v-if="eventInstances.loading" class="ma-3"
-                     type="list-item@6" />
-  <picasso v-else
-           :camp="period.camp"
-           :event-instances="eventInstances.items"
-           :start="startOfDay"
-           :end="endOfDay"
-           type="day" />
+  <side-bar>
+    <card-view title="Tagesübersicht">
+      <v-skeleton-loader v-if="eventInstances.loading" class="ma-3"
+                         type="list-item@6" />
+      <picasso v-else
+               :camp="period.camp"
+               :event-instances="eventInstances.items"
+               :start="startOfDay"
+               interval-height="36"
+               :end="endOfDay"
+               type="day" />
+    </card-view>
+  </side-bar>
 </template>
 
 <script>
-import Picasso from '../components/Picasso'
+import Picasso from '@/components/Picasso'
+import SideBar from '@/views/camp/SideBar'
+import CardView from '@/components/base/CardView'
+
 export default {
   name: 'DayPicasso',
-  components: { Picasso },
+  components: { CardView, SideBar, Picasso },
   props: {
     day: { type: Function, required: true }
   },

@@ -1,8 +1,11 @@
 <template>
   <v-card :max-width="maxWidth" class="mx-auto">
-    <v-card-title v-if="title">
-      {{ title }}
-    </v-card-title>
+    <slot name="title">
+      <v-card-title v-if="title">
+        <v-icon v-if="icon" left>{{ icon }}</v-icon>
+        {{ title }}
+      </v-card-title>
+    </slot>
     <v-skeleton-loader v-if="!loaded" type="article" />
     <slot v-else />
   </v-card>

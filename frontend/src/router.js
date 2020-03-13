@@ -12,51 +12,72 @@ export default new Router({
     {
       path: '/register',
       name: 'register',
-      meta: { layout: 'empty' },
-      component: () => import(/* webpackChunkName: "register" */ './views/auth/Register.vue')
+      components: {
+        topbar: () => import(/* webpackChunkName: "register" */ './views/auth/TopBar'),
+        default: () => import(/* webpackChunkName: "register" */ './views/auth/Register')
+      }
     },
     {
       path: '/register-done',
       name: 'register-done',
-      meta: { layout: 'empty' },
-      component: () => import(/* webpackChunkName: "register" */ './views/auth/RegisterDone.vue')
+      components: {
+        topbar: () => import(/* webpackChunkName: "register" */ './views/auth/TopBar'),
+        default: () => import(/* webpackChunkName: "register" */ './views/auth/RegisterDone')
+      }
     },
     {
       path: '/login',
       name: 'login',
-      meta: { layout: 'empty' },
-      component: () => import(/* webpackChunkName: "login" */ './views/auth/Login.vue')
+      components: {
+        topbar: () => import(/* webpackChunkName: "register" */ './views/auth/TopBar'),
+        default: () => import(/* webpackChunkName: "login" */ './views/auth/Login')
+      }
     },
     {
       path: '/loginCallback',
       name: 'loginCallback',
-      component: () => import(/* webpackChunkName: "login" */ './views/auth/LoginCallback.vue')
+      components: {
+        topbar: () => import(/* webpackChunkName: "register" */ './views/auth/TopBar'),
+        default: () => import(/* webpackChunkName: "login" */ './views/auth/LoginCallback')
+      }
     },
     {
       path: '/',
       name: 'home',
-      component: () => import(/* webpackChunkName: "about" */ './views/Home.vue'),
+      components: {
+        topbar: () => import(/* webpackChunkName: "register" */ './views/TopBar'),
+        default: () => import(/* webpackChunkName: "about" */ './views/Home'),
+        bottombar: () => import(/* webpackChunkName: "register" */ './views/BottomBar')
+      },
       beforeEnter: requireAuth
     },
     {
       path: '/profile',
       name: 'profile',
-      component: () => import(/* webpackChunkName: "about" */ './views/Profile.vue'),
+      components: {
+        topbar: () => import(/* webpackChunkName: "register" */ './views/TopBar'),
+        default: () => import(/* webpackChunkName: "about" */ './views/Profile'),
+        bottombar: () => import(/* webpackChunkName: "register" */ './views/BottomBar')
+      },
       beforeEnter: requireAuth
     },
     {
       path: '/camps',
       name: 'camps',
       components: {
-        default: () => import(/* webpackChunkName: "camps" */ './views/Camps.vue')
+        topbar: () => import(/* webpackChunkName: "register" */ './views/TopBar'),
+        default: () => import(/* webpackChunkName: "camps" */ './views/Camps'),
+        bottombar: () => import(/* webpackChunkName: "register" */ './views/BottomBar')
       },
       beforeEnter: requireAuth
     },
     {
       path: '/camps/:campId/:campTitle?',
       components: {
-        default: () => import(/* webpackChunkName: "camp" */ './views/Camp.vue'),
-        aside: () => import(/* webpackChunkName: "periods" */ './views/Periods.vue')
+        topbar: () => import(/* webpackChunkName: "register" */ './views/camp/TopBar'),
+        default: () => import(/* webpackChunkName: "camp" */ './views/camp/Camp'),
+        aside: () => import(/* webpackChunkName: "periods" */ './views/camp/Periods'),
+        bottombar: () => import(/* webpackChunkName: "register" */ './views/camp/BottomBar')
       },
       beforeEnter: requireAuth,
       props: {
@@ -67,8 +88,7 @@ export default new Router({
         {
           path: 'collaborators',
           name: 'camp/collaborators',
-          component: () => import(/* webpackChunkName: "campCollaborators" */ './components/camp/Collaborators.vue'),
-          meta: { layout: 'camp' }
+          component: () => import(/* webpackChunkName: "campCollaborators" */ './components/camp/Collaborators.vue')
         },
         {
           path: '',
@@ -79,26 +99,25 @@ export default new Router({
           path: 'picasso',
           name: 'camp/picasso',
           alias: '',
-          component: () => import(/* webpackChunkName: "campPicasso" */ './components/camp/CampPicasso.vue'),
-          meta: { layout: 'camp' }
+          component: () => import(/* webpackChunkName: "campPicasso" */ './components/camp/CampPicasso.vue')
         },
         {
           path: 'admin',
           name: 'camp/admin',
-          component: () => import(/* webpackChunkName: "campDetails" */ './components/camp/Basic.vue'),
-          meta: { layout: 'camp' }
+          component: () => import(/* webpackChunkName: "campDetails" */ './components/camp/Basic.vue')
         }
       ]
     },
     {
-      path: '/camps/:campId/:campTitle?/events/:eventInstanceId/:eventName?',
+      path: '/camps/:campId/:campTitle/events/:eventInstanceId/:eventName?',
       name: 'event',
       components: {
-        default: () => import(/* webpackChunkName: "event" */ './views/Event.vue'),
-        aside: () => import(/* webpackChunkName: "day" */ './views/DayPicasso.vue')
+        topbar: () => import(/* webpackChunkName: "register" */ './views/camp/TopBar'),
+        default: () => import(/* webpackChunkName: "event" */ './views/event/Event'),
+        aside: () => import(/* webpackChunkName: "day" */ './views/event/DayPicasso'),
+        bottombar: () => import(/* webpackChunkName: "register" */ './views/camp/BottomBar')
       },
       beforeEnter: requireAuth,
-      meta: { layout: 'camp' },
       props: {
         default: route => ({ eventInstance: eventInstanceFromRoute(route) }),
         aside: route => ({ day: dayFromEventInstanceInRoute(route) })
@@ -143,5 +162,8 @@ export function campRoute (camp, subroute) {
 
 export function eventInstanceRoute (camp, eventInstance) {
   if (camp._meta.loading || eventInstance._meta.loading || eventInstance.event()._meta.loading) return {}
-  return { name: 'event', params: { campId: camp.id, campTitle: slugify(camp.title), eventInstanceId: eventInstance.id, eventName: slugify(eventInstance.event().title) } }
+  return {
+    name: 'event',
+    params: { campId: camp.id, campTitle: slugify(camp.title), eventInstanceId: eventInstance.id, eventName: slugify(eventInstance.event().title) }
+  }
 }
