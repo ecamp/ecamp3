@@ -17,7 +17,7 @@
 <script>
 import Picasso from '@/components/Picasso'
 import SideBar from '@/views/camp/SideBar'
-import CardView from '@/components/base/CardView'
+import CardView from '@/components/base/ContentCard'
 
 export default {
   name: 'DayPicasso',

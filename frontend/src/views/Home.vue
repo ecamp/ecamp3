@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <card-view title="Herzlich willkommen bei eCamp" max-width="600">
+    <content-card title="Herzlich willkommen bei eCamp" max-width="600">
       <v-list class="pt-0">
         <v-list-item v-if="loggedIn" :to="{ name: 'camps' }">
           <v-list-item-icon>
@@ -45,16 +45,16 @@
           </v-list-item-content>
         </v-list-item>
       </v-list>
-    </card-view>
+    </content-card>
   </v-container>
 </template>
 
 <script>
-import CardView from '../components/base/CardView'
+import ContentCard from '@/components/base/ContentCard'
 
 export default {
   name: 'Home',
-  components: { CardView },
+  components: { ContentCard },
   computed: {
     loggedIn () {
       return this.$auth.isLoggedIn()

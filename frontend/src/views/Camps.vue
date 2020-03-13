@@ -1,6 +1,6 @@
 <template>
   <v-container fluid>
-    <card-view title="Meine Camps" max-width="600">
+    <content-card title="Meine Camps" max-width="600">
       <v-list class="py-0">
         <template v-if="camps._meta.loading">
           <v-skeleton-loader type="list-item-two-line" height="64" />
@@ -28,19 +28,17 @@
           </v-list-item-action>
         </v-list-item>
       </v-list>
-    </card-view>
+    </content-card>
   </v-container>
 </template>
 
 <script>
 import { campRoute } from '@/router'
 
-const CardView = () => import('../components/base/CardView.vue')
-
 export default {
   name: 'Camps',
   components: {
-    CardView
+    ContentCard: () => import('@/components/base/ContentCard')
   },
   computed: {
     camps () {

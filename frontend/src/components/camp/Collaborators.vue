@@ -2,7 +2,7 @@
 Displays collaborators of a single camp.
 -->
 <template>
-  <card-view title="Team">
+  <content-card title="Team">
     <v-simple-table width="100%">
       <thead>
         <tr>
@@ -209,15 +209,15 @@ Displays collaborators of a single camp.
         </tr>
       </v-simple-table>
     </v-card-text>
-  </card-view>
+  </content-card>
 </template>
 <script>
-import CardView from '../base/CardView'
+import ContentCard from '@/components/base/ContentCard'
 
 export default {
   name: 'Collaborators',
   components: {
-    CardView,
+    ContentCard,
     ApiSingleSelect: () => import('@/components/form/ApiSingleSelect.vue')
   },
   props: {

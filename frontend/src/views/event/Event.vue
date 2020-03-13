@@ -52,8 +52,8 @@ Displays a single event
 export default {
   name: 'Event',
   components: {
-    BackButton: () => import('@/components/global/BackButton'),
-    CardView: () => import('@/components/base/CardView'),
+    BackButton: () => import('@/components/base/BackButton'),
+    CardView: () => import('@/components/base/ContentCard'),
     ApiInput: () => import('@/components/form/ApiInput.vue')
   },
   props: {

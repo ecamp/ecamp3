@@ -1,6 +1,6 @@
 <template>
   <v-container fluid>
-    <card-view max-width="600">
+    <content-card max-width="600">
       <template v-slot:title>
         <v-card-title>
           <back-button />
@@ -16,7 +16,7 @@
           :editing="false"
           required />
       </v-col>
-    </card-view>
+    </content-card>
   </v-container>
 </template>
 
@@ -25,7 +25,7 @@ export default {
   name: 'Home',
   components: {
     ApiInput: () => import('@/components/form/ApiInput'),
-    CardView: () => import('@/components/base/CardView'),
+    ContentCard: () => import('@/components/base/ContentCard'),
     BackButton: () => import('@/components/base/BackButton')
   },
   computed: {

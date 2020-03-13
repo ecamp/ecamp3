@@ -3,7 +3,7 @@ Displays details on a single camp and allows to edit them.
 -->
 
 <template>
-  <card-view title="Admin">
+  <content-card title="Admin">
     <v-skeleton-loader v-if="camp()._meta.loading" type="article" />
     <v-card-text v-else>
       <v-form>
@@ -37,15 +37,15 @@ Displays details on a single camp and allows to edit them.
         </v-list>
       </v-form>
     </v-card-text>
-  </card-view>
+  </content-card>
 </template>
 
 <script>
-import CardView from '../base/CardView'
 import ApiInput from '../form/ApiInput'
+import ContentCard from '@/components/base/ContentCard'
 export default {
   name: 'Basic',
-  components: { CardView, ApiInput },
+  components: { ContentCard, ApiInput },
   props: {
     camp: { type: Function, required: true }
   },

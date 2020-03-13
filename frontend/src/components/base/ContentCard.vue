@@ -13,7 +13,7 @@
 
 <script>
 export default {
-  name: 'CardView',
+  name: 'ContentCard',
   props: {
     loaded: { type: Boolean, required: false, default: true },
     title: { type: String, required: false, default: '' },

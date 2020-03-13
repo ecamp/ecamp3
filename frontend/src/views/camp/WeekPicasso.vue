@@ -3,7 +3,7 @@ Listing all event instances of a single period.
 -->
 
 <template>
-  <card-view>
+  <content-card>
     <div v-for="period in periods.items"
          :key="period.id">
       <v-app-bar
@@ -78,14 +78,14 @@ Listing all event instances of a single period.
         </v-btn>
       </v-sheet>
     </div>
-  </card-view>
+  </content-card>
 </template>
 <script>
-import CardView from '../base/CardView'
+import ContentCard from '@/components/base/ContentCard'
 
 export default {
   name: 'CampPicassso',
-  components: { CardView, Picasso: () => import('../Picasso'), EventList: () => import('../EventList') },
+  components: { ContentCard, Picasso: () => import('@/components/Picasso'), EventList: () => import('@/components/EventList') },
   props: {
     camp: { type: Function, required: true }
   },
