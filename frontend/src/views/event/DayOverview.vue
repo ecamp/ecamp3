@@ -23,7 +23,7 @@ import SideBar from '@/views/camp/SideBar'
 import CardView from '@/components/base/ContentCard'
 
 export default {
-  name: 'DayPicasso',
+  name: 'DayOverview',
   components: { CardView, SideBar, Picasso },
   props: {
     day: { type: Function, required: true }

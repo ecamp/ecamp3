@@ -99,7 +99,7 @@ export default new Router({
           path: 'picasso',
           name: 'camp/picasso',
           alias: '',
-          component: () => import(/* webpackChunkName: "campPicasso" */ './views/camp/WeekPicasso')
+          component: () => import(/* webpackChunkName: "campPicasso" */ './views/camp/CampOverview')
         },
         {
           path: 'admin',
@@ -114,7 +114,7 @@ export default new Router({
       components: {
         topbar: () => import(/* webpackChunkName: "register" */ './views/camp/TopBar'),
         default: () => import(/* webpackChunkName: "event" */ './views/event/Event'),
-        aside: () => import(/* webpackChunkName: "day" */ './views/event/DayPicasso'),
+        aside: () => import(/* webpackChunkName: "day" */ './views/event/DayOverview'),
         bottombar: () => import(/* webpackChunkName: "register" */ './views/camp/BottomBar')
       },
       beforeEnter: requireAuth,
