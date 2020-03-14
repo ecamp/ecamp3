@@ -23,7 +23,6 @@ Displays periods of a single camp.
   </side-bar>
 </template>
 <script>
-import { eventInstanceRoute } from '@/router'
 import SideBar from '@/views/camp/SideBar'
 
 export default {
@@ -44,11 +43,6 @@ export default {
     },
     events () {
       return this.camp().events()
-    }
-  },
-  methods: {
-    eventInstanceRoute (eventInstance) {
-      return eventInstanceRoute(this.camp(), eventInstance)
     }
   }
 }
