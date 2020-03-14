@@ -77,9 +77,6 @@ export default {
     }
   },
   computed: {
-    isLoggedIn () {
-      return this.$auth.isLoggedIn()
-    },
     camp () {
       return campFromRoute(this.$route)
     },

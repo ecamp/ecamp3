@@ -2,20 +2,12 @@
   <v-container>
     <content-card title="Herzlich willkommen bei eCamp" max-width="600">
       <v-list class="pt-0">
-        <v-list-item v-if="loggedIn" :to="{ name: 'camps' }">
+        <v-list-item :to="{ name: 'camps' }">
           <v-list-item-icon>
             <v-icon>mdi-format-list-bulleted-triangle</v-icon>
           </v-list-item-icon>
           <v-list-item-content>
             <v-list-item-title>Meine Camps</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-        <v-list-item v-if="!loggedIn" :to="{ name: 'login' }">
-          <v-list-item-icon>
-            <v-icon>mdi-login</v-icon>
-          </v-list-item-icon>
-          <v-list-item-content>
-            <v-list-item-title>Login</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
         <v-list-item v-if="runningInDocker" href="http://localhost:3001/setup.php?dev-data" target="_blank">
@@ -56,9 +48,6 @@ export default {
   name: 'Home',
   components: { ContentCard },
   computed: {
-    loggedIn () {
-      return this.$auth.isLoggedIn()
-    },
     runningInDocker () {
       return process.env.VUE_APP_RUNNING_IN_DOCKER
     }
