@@ -11,32 +11,31 @@
       <slot name="activator" v-bind="scope" />
     </template>
 
-    <v-row>
-      <v-col cols="12">
-        <v-text-field
-          v-model="entityData.description"
-          label="Description"
-          required />
-      </v-col>
-      <v-col cols="12">
-        <v-text-field
-          v-model="entityData.start"
-          label="Start"
-          required />
-      </v-col>
-      <v-col cols="12">
-        <v-text-field
-          v-model="entityData.end"
-          label="End"
-          required />
-      </v-col>
-    </v-row>
+    <v-text-field
+      hide-details="auto" outlined
+      class="mb-4"
+      v-model="entityData.description"
+      label="Description"
+      required />
+    <v-text-field
+      hide-details="auto" outlined
+      class="mb-4"
+      v-model="entityData.start"
+      label="Start"
+      required />
+    <v-text-field
+      hide-details="auto" outlined
+      class="mb-4"
+      v-model="entityData.end"
+      label="End"
+      required />
   </dialog-form>
 </template>
 
 <script>
 import DialogForm from './DialogForm'
 import DialogBase from './DialogBase'
+
 export default {
   name: 'DialogPeriodCreate',
   components: { DialogForm },
@@ -60,7 +59,7 @@ export default {
       if (showDialog) {
         this.setEntityData({ camp_id: this.camp.id })
       } else {
-      // clear form on exit
+        // clear form on exit
         this.clearEntityData()
       }
     }

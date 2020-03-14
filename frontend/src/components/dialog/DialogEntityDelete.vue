@@ -12,18 +12,14 @@
     <template v-slot:activator="scope">
       <slot name="activator" v-bind="scope" />
     </template>
-
-    <v-row>
-      <v-col cols="12">
-        Do you really want do delete <slot>this</slot>?
-      </v-col>
-    </v-row>
+    Do you really want do delete <slot>this</slot>?
   </dialog-form>
 </template>
 
 <script>
 import DialogForm from './DialogForm'
 import DialogBase from './DialogBase'
+
 export default {
   name: 'DialogEntityDelete',
   components: { DialogForm },
