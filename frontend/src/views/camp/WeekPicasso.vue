@@ -4,42 +4,8 @@ Listing all event instances of a single period.
 
 <template>
   <content-card>
-    <v-app-bar
-      v-if="$vuetify.breakpoint.xs"
-      dense fixed
-      color="white"
-      style="z-index: 300"
-      :tile="false" class="ma-2 px-3">
-      <v-btn v-if="searchOpen" icon @click="searchOpen = false">
-        <v-icon>mdi-chevron-left</v-icon>
-      </v-btn>
-      <v-text-field
-        hide-details
-        :label="searchOpen ? 'Suchen' : 'Events & Camps suchen'"
-        single-line
-        @click="searchOpen = !searchOpen" />
-      <router-link :to="{name: 'profile'}">
-        <v-avatar size="32" class="ml-4">
-          <img
-            alt="Avatar"
-            src="https://avatars0.githubusercontent.com/u/9064066?v=4&s=460">
-        </v-avatar>
-      </router-link>
-    </v-app-bar>
-    <v-dialog
-      v-model="searchOpen"
-      style="z-index: 4"
-      overlay-color="white" hide-overlay
-      fullscreen transition="dialog-top-transition">
-      <v-card>
-        <v-sheet v-if="$vuetify.breakpoint.xs" height="70" />
-        <v-card-text>
-          <v-skeleton-loader class="mx-4" boilerplate type="list-item-two-line@3" />
-        </v-card-text>
-      </v-card>
-    </v-dialog>
-    <v-sheet v-if="$vuetify.breakpoint.xs" height="56" />
     <v-sheet>
+      <mobile-search />
       <v-btn
         :fixed="$vuetify.breakpoint.xs"
         :absolute="!$vuetify.breakpoint.xs"
@@ -82,13 +48,17 @@ import ContentCard from '@/components/base/ContentCard'
 
 export default {
   name: 'WeekPicasso',
-  components: { ContentCard, Picasso: () => import('@/components/camp/Picasso'), EventList: () => import('@/components/camp/EventList') },
+  components: {
+    ContentCard,
+    MobileSearch: () => import('@/components/base/MobileSearch'),
+    Picasso: () => import('@/components/camp/Picasso'),
+    EventList: () => import('@/components/camp/EventList')
+  },
   props: {
     camp: { type: Function, required: true }
   },
   data () {
     return {
-      searchOpen: false,
       picassoFormat: true,
       tab: null
     }

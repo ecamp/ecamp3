@@ -23,7 +23,7 @@
       </v-btn>
     </v-toolbar-items>
     <v-spacer />
-    <global-search />
+    <desktop-search />
     <v-menu offset-y dark
             right content-class="ec-usermenu"
             transition="slide-y-transition"
@@ -63,13 +63,13 @@
 
 <script>
 import { campFromRoute, campRoute } from '@/router'
-import GlobalSearch from '@/components/Search'
+import DesktopSearch from '@/components/base/DesktopSearch'
 
 export default {
   name: 'TopBar',
   components: {
-    GlobalSearch,
-    Logo: () => import('@/components/global/Logo')
+    DesktopSearch,
+    Logo: () => import('@/components/base/Logo')
   },
   data () {
     return {

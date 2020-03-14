@@ -13,7 +13,7 @@
 
 <script>
 export default {
-  name: 'GlobalSearch',
+  name: 'DesktopSearch',
   data () {
     return {
       searchFocused: false

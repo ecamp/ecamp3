@@ -12,7 +12,7 @@
 export default {
   name: 'TopBar',
   components: {
-    Logo: () => import('@/components/global/Logo')
+    Logo: () => import('@/components/base/Logo')
   }
 }
 </script>
