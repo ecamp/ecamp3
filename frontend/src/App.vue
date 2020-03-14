@@ -93,7 +93,7 @@ export default {
 
   @media #{map-get($display-breakpoints, 'xs-only')}{
     .v-content .container {
-      height: 100%;
+      min-height: 100%;
       display: flex;
 
       .v-card {

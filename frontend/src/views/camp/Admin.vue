@@ -3,12 +3,14 @@ Admin screen of a camp: Displays details & periods of a single camp and allows t
 -->
 
 <template>
-  <content-card>
-    <camp-settings :camp="camp" />
+  <content-card title="Admin">
+    <v-card-text>
+      <camp-settings :camp="camp" />
 
-    <camp-periods :camp="camp" />
+      <camp-periods :camp="camp" />
 
-    <api-demo :camp="camp" />
+      <api-demo :camp="camp" />
+    </v-card-text>
   </content-card>
 </template>
 
@@ -25,8 +27,7 @@ export default {
     camp: { type: Function, required: true }
   },
   data () {
-    return {
-    }
+    return {}
   }
 }
 </script>

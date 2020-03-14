@@ -3,14 +3,15 @@ Displays details on a single camp and allows to edit them.
 -->
 
 <template>
-  <content-card icon="mdi-cogs" title="Api Demo">
+  <content-group title="Api Demo">
     <v-skeleton-loader v-if="camp()._meta.loading" type="article" />
     <v-form v-else>
       <v-text-field
         label="Name"
+        outlined hide-details="auto"
         readonly
         :value="camp().name"
-        class="mr-2 ml-2" />
+        class="my-4" />
       <api-text-field
         :value="camp().title"
         :uri="camp()._meta.self"
@@ -72,7 +73,7 @@ Displays details on a single camp and allows to edit them.
         </v-list-item>
       </v-list>
     </v-form>
-  </content-card>
+  </content-group>
 </template>
 
 <script>
@@ -83,11 +84,11 @@ import ApiTimePicker from '../form/ApiTimePicker'
 import ApiCheckbox from '../form/ApiCheckbox'
 import ApiColorPicker from '../form/ApiColorPicker'
 
-import ContentCard from '@/components/base/ContentCard'
+import ContentGroup from '@/components/base/ContentGroup'
 
 export default {
   name: 'ApiDemo',
-  components: { ContentCard, ApiTextField, ApiTextarea, ApiCheckbox, ApiDatePicker, ApiTimePicker, ApiColorPicker },
+  components: { ContentGroup, ApiTextField, ApiTextarea, ApiCheckbox, ApiDatePicker, ApiTimePicker, ApiColorPicker },
   props: {
     camp: { type: Function, required: true }
   },
