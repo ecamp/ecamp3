@@ -32,12 +32,6 @@ export default {
     camp: { type: Function, required: true },
     eventInstances: { type: Array, required: true }
   },
-  data () {
-    return {
-    }
-  },
-  computed: {
-  },
   methods: {
     eventInstanceLink (eventInstance) {
       return eventInstanceRoute(this.camp(), eventInstance)
