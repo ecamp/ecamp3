@@ -1,5 +1,5 @@
 <template>
-  <v-sheet v-if="$vuetify.breakpoint.xs" height="56">
+  <v-sheet v-if="$vuetify.breakpoint.xs" min-height="56">
     <v-app-bar
       v-if="$vuetify.breakpoint.xs"
       dense fixed
