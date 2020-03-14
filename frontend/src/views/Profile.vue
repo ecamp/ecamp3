@@ -8,7 +8,7 @@
         </v-card-title>
       </template>
       <v-col>
-        <api-input
+        <api-text-field
           label="Email"
           :uri="profile._meta.self"
           fieldname="mail"
@@ -24,7 +24,7 @@
 export default {
   name: 'Home',
   components: {
-    ApiInput: () => import('@/components/form/ApiInput'),
+    ApiTextField: () => import('@/components/form/ApiTextField'),
     ContentCard: () => import('@/components/base/ContentCard'),
     BackButton: () => import('@/components/base/BackButton')
   },
