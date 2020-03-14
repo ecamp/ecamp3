@@ -14,6 +14,7 @@ import collectionFirstPage from './resources/collection-firstPage'
 import collectionPage1 from './resources/collection-page1'
 import circularReference from './resources/circular-reference'
 import multipleReferencesToUser from './resources/multiple-references-to-user'
+import templatedLink from './resources/templated-link'
 
 async function letNetworkRequestFinish () {
   await new Promise(resolve => {
@@ -839,6 +840,57 @@ describe('API store', () => {
     // then
     await letNetworkRequestFinish()
     expect(await load).toEqual('http://localhost/users/83')
+    done()
+  })
+
+  it('gets the href of a templated linked entity without fetching the entity itself', async done => {
+    // given
+    axiosMock.onGet('http://localhost/camps/1').replyOnce(200, templatedLink.linkingServerResponse)
+    axiosMock.onGet('http://localhost/users/83').networkError()
+
+    // when
+    const load = vm.api.href('/camps/1', 'users', { id: 83 })
+
+    // then
+    await letNetworkRequestFinish()
+    expect(await load).toEqual('http://localhost/camps/1/users/83')
+    expect(vm.$store.state.api).toMatchObject(templatedLink.storeStateBeforeLinkedLoaded)
+    done()
+  })
+
+  it('imports templated link to single entity when linking entity is still loading', async done => {
+    // given
+    axiosMock.onGet('http://localhost/camps/1').reply(200, templatedLink.linkingServerResponse)
+    axiosMock.onGet('http://localhost/camps/1/users/83').reply(200, templatedLink.linkedServerResponse)
+    const loadingCamp = vm.api.get('/camps/1')
+
+    // when
+    const load = loadingCamp.users({ id: 83 })._meta.load
+
+    // then
+    await letNetworkRequestFinish()
+    expect(vm.$store.state.api).toMatchObject(templatedLink.storeStateAfterLinkedLoaded)
+    expect(await load).toMatchObject({ id: 83, name: 'Pflock', _meta: { self: 'http://localhost/camps/1/users/83' } })
+    done()
+  })
+
+  it('imports templated link to single entity when linking entity is already loaded', async done => {
+    // given
+    axiosMock.onGet('http://localhost/camps/1').reply(200, templatedLink.linkingServerResponse)
+    axiosMock.onGet('http://localhost/camps/1/users/83').reply(200, templatedLink.linkedServerResponse)
+    vm.api.get('/camps/1')
+    await letNetworkRequestFinish()
+    const camp = vm.api.get('/camps/1')
+
+    // when
+    const load = camp.users({ id: 83 })._meta.load
+
+    // then
+    expect(vm.$store.state.api).toMatchObject(templatedLink.storeStateBeforeLinkedLoaded)
+    expect(vm.$store.state.api).not.toMatchObject(templatedLink.storeStateAfterLinkedLoaded)
+    await letNetworkRequestFinish()
+    expect(vm.$store.state.api).toMatchObject(templatedLink.storeStateAfterLinkedLoaded)
+    expect(await load).toMatchObject({ id: 83, name: 'Pflock', _meta: { self: 'http://localhost/camps/1/users/83' } })
     done()
   })
 })
