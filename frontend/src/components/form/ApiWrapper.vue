@@ -60,7 +60,7 @@ export default {
   mixins: [apiPropsMixin, validationMixin],
   data () {
     return {
-      localValue: this.value,
+      localValue: null,
       isSaving: false,
       showSuccessIcon: false,
       dirty: false,
@@ -79,7 +79,7 @@ export default {
   },
   computed: {
     isDirty: function () {
-      return this.value !== this.localValue
+      return this.apiValue !== this.localValue
     },
     errorMessages () {
       const errors = []
@@ -98,10 +98,14 @@ export default {
     },
     debouncedSave () {
       return debounce(this.save, this.autoSaveDelay)
+    },
+    apiValue () {
+      // return value from API unless `value` is set explicitly
+      return this.value || this.api.get(this.uri)[this.fieldname]
     }
   },
   watch: {
-    value: function (newValue, oldValue) {
+    apiValue: function (newValue, oldValue) {
       // override local value if it wasn't dirty
       if (!this.dirty || this.overrideDirty) {
         this.localValue = newValue
@@ -112,6 +116,10 @@ export default {
         this.dirty = false
       }
     }
+  },
+  created () {
+    // initial data load from API
+    this.localValue = this.apiValue
   },
   methods: {
     touch: function () {
@@ -127,7 +135,7 @@ export default {
       }
     },
     reset: function (event) {
-      this.localValue = this.value
+      this.localValue = this.apiValue
       this.$v.localValue.$reset()
     },
     save: function (event) {

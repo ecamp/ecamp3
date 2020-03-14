@@ -11,18 +11,16 @@ Displays details on a single camp and allows to edit them.
         readonly
         :value="camp().name"
         class="mr-2 ml-2" />
-      <api-text-field
-        :value="camp().title"
-        :uri="camp()._meta.self"
-        fieldname="title"
-        label="Titel"
-        required />
-      <api-text-field
-        :value="camp().motto"
-        :uri="camp()._meta.self"
-        fieldname="motto"
-        label="Motto"
-        required />
+      <api-form :entity="camp()">
+        <api-text-field
+          fieldname="title"
+          label="Titel"
+          required />
+        <api-text-field
+          fieldname="motto"
+          label="Motto"
+          required />
+      </api-form>
     </v-form>
   </content-card>
 </template>
@@ -30,10 +28,11 @@ Displays details on a single camp and allows to edit them.
 <script>
 import ContentCard from '@/components/base/ContentCard'
 import ApiTextField from '@/components/form/ApiTextField'
+import ApiForm from '@/components/form/ApiForm'
 
 export default {
   name: 'CampSettings',
-  components: { ApiTextField, ContentCard },
+  components: { ApiTextField, ApiForm, ContentCard },
   props: {
     camp: { type: Function, required: true }
   },

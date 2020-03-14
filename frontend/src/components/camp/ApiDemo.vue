@@ -5,52 +5,46 @@ Displays details on a single camp and allows to edit them.
 <template>
   <content-card icon="mdi-cogs" title="Api Demo">
     <v-skeleton-loader v-if="camp()._meta.loading" type="article" />
+
     <v-form v-else>
       <v-text-field
         label="Name"
         readonly
         :value="camp().name"
         class="mr-2 ml-2" />
-      <api-text-field
-        :value="camp().title"
-        :uri="camp()._meta.self"
-        fieldname="title"
-        label="Titel"
-        :auto-save="false"
-        readonly
-        required />
-      <api-textarea
-        :value="camp().motto"
-        :uri="camp()._meta.self"
-        fieldname="motto"
-        label="Motto"
-        :auto-save="false"
-        disabled
-        required />
 
-      <api-checkbox
-        :value="checkbox"
-        :uri="camp()._meta.self"
-        fieldname="check"
-        label="Checkbox example"
-        readonly
-        required />
+      <api-form :entity="camp()">
+        <api-text-field
+          fieldname="title"
+          label="Titel"
+          required />
 
-      <api-time-picker
-        :value="time"
-        :uri="camp()._meta.self"
-        fieldname="time"
-        label="Startzeit"
-        disabled
-        required />
+        <api-textarea
+          fieldname="motto"
+          label="Motto"
+          :auto-save="false"
+          disabled
+          required />
 
-      <api-color-picker
-        :value="color"
-        :uri="camp()._meta.self"
-        fieldname="color"
-        label="Color Example"
-        readonly
-        required />
+        <api-checkbox
+          :value="checkbox"
+          fieldname="check"
+          label="Checkbox example"
+          required />
+
+        <api-time-picker
+          :value="time"
+          fieldname="time"
+          label="Startzeit"
+          required />
+
+        <api-color-picker
+          :value="color"
+          fieldname="color"
+          label="Color Example"
+          readonly
+          required />
+      </api-form>
 
       <v-list>
         <v-label>Perioden</v-label>
@@ -62,7 +56,6 @@ Displays details on a single camp and allows to edit them.
             <v-list-item-subtitle>{{ period.start }} - {{ period.end }}</v-list-item-subtitle>
 
             <api-date-picker
-              :value="period.start"
               :uri="period._meta.self"
               fieldname="start"
               label="Starttermin"
@@ -83,11 +76,13 @@ import ApiTimePicker from '../form/ApiTimePicker'
 import ApiCheckbox from '../form/ApiCheckbox'
 import ApiColorPicker from '../form/ApiColorPicker'
 
+import ApiForm from '@/components/form/ApiForm'
+
 import ContentCard from '@/components/base/ContentCard'
 
 export default {
   name: 'ApiDemo',
-  components: { ContentCard, ApiTextField, ApiTextarea, ApiCheckbox, ApiDatePicker, ApiTimePicker, ApiColorPicker },
+  components: { ContentCard, ApiForm, ApiTextField, ApiTextarea, ApiCheckbox, ApiDatePicker, ApiTimePicker, ApiColorPicker },
   props: {
     camp: { type: Function, required: true }
   },
