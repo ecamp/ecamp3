@@ -26,7 +26,7 @@ Listing all given event instances in a calendar view.
     @click:event="showEventInstance" />
 </template>
 <script>
-import { eventInstanceRoute } from '../router'
+import { eventInstanceRoute } from '@/router'
 
 export default {
   name: 'Picasso',
@@ -50,9 +50,6 @@ export default {
     endDateString () {
       return this.formatDateForProp(this.end)
     }
-  },
-  mounted () {
-    this.camp().events()
   },
   methods: {
     getEventName (event, _) {

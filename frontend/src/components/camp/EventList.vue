@@ -24,7 +24,7 @@ Listing all given event instances in a calendar view.
   </v-list>
 </template>
 <script>
-import { eventInstanceRoute } from '../router'
+import { eventInstanceRoute } from '@/router'
 
 export default {
   name: 'EventList',

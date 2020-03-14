@@ -99,12 +99,12 @@ export default new Router({
           path: 'picasso',
           name: 'camp/picasso',
           alias: '',
-          component: () => import(/* webpackChunkName: "campPicasso" */ './components/camp/CampPicasso.vue')
+          component: () => import(/* webpackChunkName: "campPicasso" */ './views/camp/WeekPicasso')
         },
         {
           path: 'admin',
           name: 'camp/admin',
-          component: () => import(/* webpackChunkName: "campDetails" */ './components/camp/Basic.vue')
+          component: () => import(/* webpackChunkName: "campDetails" */ './components/camp/Basic')
         }
       ]
     },

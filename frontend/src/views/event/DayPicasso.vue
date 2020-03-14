@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import Picasso from '@/components/Picasso'
+import Picasso from '@/components/camp/Picasso'
 import SideBar from '@/views/camp/SideBar'
 import CardView from '@/components/base/ContentCard'
 
