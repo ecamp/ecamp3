@@ -21,6 +21,8 @@ async function letNetworkRequestFinish () {
   })
 }
 
+jest.unmock('lodash')
+
 describe('API store', () => {
   let localVue
   let axiosMock
