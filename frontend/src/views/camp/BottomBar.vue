@@ -9,7 +9,7 @@
       <span>Tasks</span>
       <v-icon>mdi-format-list-checks</v-icon>
     </v-btn>
-    <v-btn :to="{name: 'camp/picasso'}">
+    <v-btn :to="{name: 'camp/overview'}">
       <span>Camp</span>
       <v-icon large>mdi-tent</v-icon>
     </v-btn>

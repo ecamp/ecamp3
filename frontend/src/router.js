@@ -91,8 +91,8 @@ export default new Router({
           component: () => import(/* webpackChunkName: "campCollaborators" */ './components/camp/Collaborators.vue')
         },
         {
-          path: 'picasso',
-          name: 'camp/picasso',
+          path: 'overview',
+          name: 'camp/overview',
           component: () => import(/* webpackChunkName: "campPicasso" */ './views/camp/CampOverview'),
           beforeEnter: parseBooleanInQuery
         },
