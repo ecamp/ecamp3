@@ -78,7 +78,7 @@ export default new Router({
         {
           path: '',
           name: 'camp',
-          component: () => import(/* webpackChunkName: "campDetails" */ './components/camp/Basic.vue'),
+          component: () => import(/* webpackChunkName: "campHome" */ './views/camp/CampHome.vue'),
           meta: { layout: 'camp' }
         }
       ]
