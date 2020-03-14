@@ -11,7 +11,7 @@ Displays a field as a v-text-field + write access via API wrapper
         v-bind="$attrs"
         :readonly="readonly"
         :disabled="disabled"
-        :error-messages="wrapper.errorMessage"
+        :error-messages="wrapper.errorMessages"
         :loading="wrapper.isSaving"
         hide-details="auto"
         outlined

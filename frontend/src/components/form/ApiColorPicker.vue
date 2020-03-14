@@ -1,5 +1,5 @@
 <!--
-Displays a field as a date picker + write access via API wrapper
+Displays a field as a color picker + write access via API wrapper
 -->
 
 <template>
@@ -11,7 +11,7 @@ Displays a field as a date picker + write access via API wrapper
         v-bind="$attrs"
         :readonly="readonly"
         :disabled="disabled"
-        :error-messages="wrapper.errorMessage"
+        :error-messages="wrapper.errorMessages"
         @input="wrapper.on.input">
         <status-icon slot="append" :status="wrapper.status" />
       </color-picker>

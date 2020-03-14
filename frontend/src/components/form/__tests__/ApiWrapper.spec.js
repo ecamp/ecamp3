@@ -16,7 +16,6 @@ let vuetify
 // config factory
 function createConfig (overrides) {
   const mocks = {
-    // Vue Auth
     api: {
       patch: () => Promise.resolve()
     }
@@ -57,6 +56,7 @@ describe('Testing autoSave mode', () => {
     const vm = wrapper.vm
 
     const newValue = 'new value'
+    const newValueFromApi = 'NEW VALUE'
 
     vm.onInput(newValue)
 
@@ -67,16 +67,25 @@ describe('Testing autoSave mode', () => {
     expect(vm.dirty).toBe(true)
     expect(vm.localValue).toBe(newValue)
 
+    // resolve lodash debounced
+    jest.runAllTimers()
+
     // saving started
     expect(vm.isSaving).toBe(true)
+    expect(vm.dirty).toBe(false)
     expect(vm.status).toBe('saving')
 
     // API patch method called
     expect(patchSpy).toBeCalledTimes(1)
     expect(patchSpy).toBeCalledWith(config.propsData.uri, { [config.propsData.fieldname]: newValue })
 
-    // watit for patch promise to resolve
+    // wait for patch promise to resolve
     await flushPromises()
+
+    // feedback changed return value from API & make sure it's taken over to localValue
+    wrapper.setProps({ value: newValueFromApi })
+    await wrapper.vm.$nextTick()
+    expect(vm.localValue).toBe(newValueFromApi)
 
     // success state
     expect(vm.status).toBe('success')

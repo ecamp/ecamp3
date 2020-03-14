@@ -7,11 +7,11 @@ Displays a field as a v-select + write access via API wrapper
     v-bind="$props">
     <template slot-scope="wrapper">
       <v-select
-        v-model="wrapper.localValue"
+        :value="wrapper.localValue"
         v-bind="$attrs"
         :readonly="readonly"
         :disabled="disabled"
-        :error-messages="wrapper.errorMessage"
+        :error-messages="wrapper.errorMessages"
         hide-details="auto"
         outlined
         @input="wrapper.on.input"

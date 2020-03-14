@@ -11,7 +11,7 @@ Displays a field as a v-checkbox + write access via API wrapper
         v-bind="$attrs"
         :readonly="readonly"
         :disabled="disabled"
-        :error-messages="wrapper.errorMessage"
+        :error-messages="wrapper.errorMessages"
         hide-details="auto"
         @change="wrapper.on.input">
         <status-icon slot="append" :status="wrapper.status" />

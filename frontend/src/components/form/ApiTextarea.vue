@@ -11,7 +11,7 @@ Displays a field as a v-textarea + write access via API wrapper
         v-bind="$attrs"
         :readonly="readonly"
         :disabled="disabled"
-        :error-messages="wrapper.errorMessage"
+        :error-messages="wrapper.errorMessages"
         hide-details="auto"
         outlined
         @input="wrapper.on.input"

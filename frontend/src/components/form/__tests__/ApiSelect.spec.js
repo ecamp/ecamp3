@@ -14,7 +14,7 @@ describe('ApiTextField.vue', () => {
     vuetify = new Vuetify()
   })
 
-  // keep this the first test --> otherwise elment IDs change constantly
+  // keep this the first test --> otherwise element IDs change constantly
   test('renders correctly', () => {
     const props = {
       value: 'Test Value',
@@ -37,7 +37,6 @@ describe('ApiTextField.vue', () => {
     }
 
     const wrapper = mount(ApiSelect, {
-      // localVue,
       vuetify,
       propsData: props
     })

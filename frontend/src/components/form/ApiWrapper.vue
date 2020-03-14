@@ -8,7 +8,7 @@ Wrapper component for form components to save data back to API
     class="mb-2">
     <slot
       :localValue="localValue"
-      :errorMessage="errorMessage"
+      :errorMessages="errorMessages"
       :isSaving="isSaving"
       :status="status"
       :on="eventHandlers" />
@@ -81,7 +81,7 @@ export default {
     isDirty: function () {
       return this.value !== this.localValue
     },
-    errorMessage () {
+    errorMessages () {
       const errors = []
       if (!this.$v.localValue.$dirty) return errors
       !this.$v.localValue.required && errors.push('Feld darf nicht leer sein.')
@@ -95,6 +95,9 @@ export default {
       } else {
         return 'init'
       }
+    },
+    debouncedSave () {
+      return debounce(this.save, this.autoSaveDelay)
     }
   },
   watch: {
@@ -110,10 +113,6 @@ export default {
       }
     }
   },
-  created: function () {
-    // Create debounced save method (lodash debounce function)
-    this.debouncedSave = debounce(this.save, this.autoSaveDelay)
-  },
   methods: {
     touch: function () {
       this.$v.localValue.$touch()
@@ -121,7 +120,7 @@ export default {
     onInput: function (newValue) {
       this.localValue = newValue
       this.dirty = true
-      this.$v.localValue.$touch()
+      this.touch()
 
       if (this.autoSave) {
         this.debouncedSave()
@@ -139,16 +138,18 @@ export default {
       }
 
       // abort saving in case of validation errors
-      this.$v.localValue.$touch()
-      if (this.required && this.$v.localValue.$anyError) {
+      this.touch()
+      if (this.$v.localValue.$anyError) {
         return
       }
 
+      // reset all dirty flags and start saving
+      this.dirty = false
+      this.$v.localValue.$reset()
       this.isSaving = true
+
       this.api.patch(this.uri, { [this.fieldname]: this.localValue }).then(() => {
         this.isSaving = false
-        this.$v.localValue.$reset()
-
         this.showSuccessIcon = true
         setTimeout(() => { this.showSuccessIcon = false }, 2000)
       }, (e, a) => {

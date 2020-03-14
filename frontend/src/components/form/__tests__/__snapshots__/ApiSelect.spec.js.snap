@@ -54,11 +54,7 @@ exports[`ApiTextField.vue renders correctly 1`] = `
           <div
             class="v-input__append-inner"
           >
-            <span>
-              <!---->
-               
-              <!---->
-            </span>
+            <!---->
           </div>
           <input
             type="hidden"

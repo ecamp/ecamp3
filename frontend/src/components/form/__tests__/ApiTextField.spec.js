@@ -17,7 +17,6 @@ let vuetify
 // config factory
 function createConfig (overrides) {
   const mocks = {
-    // Vue Auth
     api: {
       patch: () => Promise.resolve()
     }
@@ -36,7 +35,7 @@ describe('ApiTextField.vue', () => {
     vuetify = new Vuetify()
   })
 
-  // keep this the first test --> otherwise elment IDs change constantly
+  // keep this the first test --> otherwise element IDs change constantly
   test('renders correctly', () => {
     const config = createConfig()
     config.stubs = { ApiWrapper: ApiWrapper }
@@ -56,6 +55,10 @@ describe('ApiTextField.vue', () => {
     expect(wrapper.find({ name: 'VTextField' }).exists()).toBe(true)
 
     wrapper.find('input').setValue(newValue)
+
+    // resolve lodash debounced
+    jest.runAllTimers()
+
     expect(patchSpy).toBeCalledTimes(1)
     expect(patchSpy).toBeCalledWith(config.propsData.uri, { [config.propsData.fieldname]: newValue })
 
