@@ -99,7 +99,7 @@ export default new Router({
         {
           path: 'admin',
           name: 'camp/admin',
-          component: () => import(/* webpackChunkName: "campDetails" */ './views/camp/CampHome')
+          component: () => import(/* webpackChunkName: "campAdmin" */ './views/camp/Admin')
         }
       ]
     },
