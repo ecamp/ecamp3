@@ -162,7 +162,7 @@ function dayFromEventInstanceInRoute (route) {
 
 export function campRoute (camp, subroute) {
   if (camp._meta.loading) return {}
-  const routeName = subroute ? 'camp/' + subroute : 'camp'
+  const routeName = subroute ? 'camp/' + subroute : 'camp/overview'
   return { name: routeName, params: { campId: camp.id, campTitle: slugify(camp.title) } }
 }
 
