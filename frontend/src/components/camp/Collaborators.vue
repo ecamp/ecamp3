@@ -36,10 +36,11 @@ Displays collaborators of a single camp.
               {{ collaborator.user().username }}
             </td>
             <td>
-              <api-single-select
+              <api-select
                 :value="collaborator.role"
                 :uri="collaborator._meta.self"
                 fieldname="role"
+                :items="['member', 'manager']"
                 required
                 dense />
             </td>
@@ -87,10 +88,11 @@ Displays collaborators of a single camp.
             :key="collaborator.id">
             <td>{{ collaborator.user().username }}</td>
             <td>
-              <api-single-select
+              <api-select
                 :value="collaborator.role"
                 :uri="collaborator._meta.self"
                 fieldname="role"
+                :items="['member', 'manager']"
                 required
                 dense />
             </td>
@@ -151,10 +153,11 @@ Displays collaborators of a single camp.
               :key="collaborator.id">
               <td>{{ collaborator.user().username }}</td>
               <td>
-                <api-single-select
+                <api-select
                   :value="collaborator.role"
                   :uri="collaborator._meta.self"
                   fieldname="role"
+                  :items="['member', 'manager']"
                   required
                   dense />
               </td>
@@ -232,7 +235,7 @@ Displays collaborators of a single camp.
 export default {
   name: 'Collaborators',
   components: {
-    ApiSingleSelect: () => import('@/components/form/ApiSingleSelect.vue')
+    ApiSelect: () => import('@/components/form/ApiSelect.vue')
   },
   props: {
     camp: { type: Function, required: true }

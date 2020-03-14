@@ -17,14 +17,14 @@ Displays a single event
     <v-card-text>
       <v-skeleton-loader v-if="event._meta.loading" type="article" />
       <template v-else>
-        <api-input
+        <api-text-field
           :value="event.title"
           :uri="event._meta.self"
           fieldname="title"
           :auto-save="false"
           label="Titel"
           required />
-        <api-input
+        <api-text-field
           :value="event.title"
           :uri="event._meta.self"
           fieldname="title"
@@ -51,7 +51,7 @@ Displays a single event
 export default {
   name: 'Event',
   components: {
-    ApiInput: () => import('@/components/form/ApiInput.vue')
+    ApiTextField: () => import('@/components/form/ApiTextField.vue')
   },
   props: {
     eventInstance: { type: Function, required: true }

@@ -12,6 +12,7 @@ import linkedSingleEntity from './resources/linked-single-entity'
 import linkedCollection from './resources/linked-collection'
 import collectionFirstPage from './resources/collection-firstPage'
 import collectionPage1 from './resources/collection-page1'
+import circularReference from './resources/circular-reference'
 import multipleReferencesToUser from './resources/multiple-references-to-user'
 
 async function letNetworkRequestFinish () {
@@ -19,6 +20,8 @@ async function letNetworkRequestFinish () {
     setTimeout(() => resolve())
   })
 }
+
+jest.unmock('lodash')
 
 describe('API store', () => {
   let localVue
@@ -295,18 +298,18 @@ describe('API store', () => {
   it('returns the correct load promise when reloading an object', async done => {
     // given
     axiosMock.onGet('http://localhost/camps/1').replyOnce(200, {
-      "id": 1,
-      "_links": {
-        "self": {
-          "href": "/camps/1"
+      id: 1,
+      _links: {
+        self: {
+          href: '/camps/1'
         }
       }
     })
     axiosMock.onGet('http://localhost/camps/1').reply(200, {
-      "id": 2,
-      "_links": {
-        "self": {
-          "href": "/camps/1"
+      id: 2,
+      _links: {
+        self: {
+          href: '/camps/1'
         }
       }
     })
@@ -326,18 +329,18 @@ describe('API store', () => {
   it('returns the correct load promise when prematurely reloading an object', async done => {
     // given
     axiosMock.onGet('http://localhost/camps/1').replyOnce(200, {
-      "id": 1,
-      "_links": {
-        "self": {
-          "href": "/camps/1"
+      id: 1,
+      _links: {
+        self: {
+          href: '/camps/1'
         }
       }
     })
     axiosMock.onGet('http://localhost/camps/1').reply(200, {
-      "id": 2,
-      "_links": {
-        "self": {
-          "href": "/camps/1"
+      id: 2,
+      _links: {
+        self: {
+          href: '/camps/1'
         }
       }
     })
@@ -355,26 +358,26 @@ describe('API store', () => {
   it('returns the correct load promise when getting an object that is currently reloading', async done => {
     // given
     axiosMock.onGet('http://localhost/camps/1').replyOnce(200, {
-      "id": 1,
-      "_links": {
-        "self": {
-          "href": "/camps/1"
+      id: 1,
+      _links: {
+        self: {
+          href: '/camps/1'
         }
       }
     })
     axiosMock.onGet('http://localhost/camps/1').replyOnce(200, {
-      "id": 2,
-      "_links": {
-        "self": {
-          "href": "/camps/1"
+      id: 2,
+      _links: {
+        self: {
+          href: '/camps/1'
         }
       }
     })
     axiosMock.onGet('http://localhost/camps/1').replyOnce(200, {
-      "id": 3,
-      "_links": {
-        "self": {
-          "href": "/camps/1"
+      id: 3,
+      _links: {
+        self: {
+          href: '/camps/1'
         }
       }
     })
@@ -667,84 +670,127 @@ describe('API store', () => {
     done()
   })
 
+  it('breaks circular dependencies when deleting an entity in the reference circle', async done => {
+    // given
+    axiosMock.onDelete('http://localhost/periods/1').replyOnce(204)
+    axiosMock.onGet('http://localhost/periods/1').replyOnce(200, circularReference.serverResponse)
+    axiosMock.onGet('http://localhost/periods/1').networkError()
+    axiosMock.onGet('http://localhost/days/2').reply(404)
+    const load = vm.api.get('/periods/1')._meta.load
+    await letNetworkRequestFinish()
+    const period = await load
+    expect(vm.$store.state.api).toMatchObject(circularReference.storeState)
+
+    // when
+    vm.api.del(period)
+
+    // then
+    await letNetworkRequestFinish()
+    expect(axiosMock.history.get.length).toBe(2)
+    done()
+  })
+
+  it('breaks circular dependencies when deleting an entity outside the reference circle', async done => {
+    // given
+    axiosMock.onGet('http://localhost/camps/3').replyOnce(200, circularReference.campServerResponse)
+    axiosMock.onGet('http://localhost/periods/1').replyOnce(200, circularReference.serverResponse)
+    axiosMock.onDelete('http://localhost/camps/3').replyOnce(204)
+    axiosMock.onGet('http://localhost/periods/1').replyOnce(200, circularReference.serverResponse)
+    axiosMock.onGet('http://localhost/periods/1').networkError()
+    axiosMock.onGet('http://localhost/days/2').reply(404)
+    const load = vm.api.get('/camps/3')._meta.load
+    vm.api.get('/periods/1')._meta.load
+    await letNetworkRequestFinish()
+    const camp = await load
+    expect(vm.$store.state.api).toMatchObject(circularReference.storeState)
+
+    // when
+    vm.api.del(camp)
+
+    // then
+    await letNetworkRequestFinish()
+    expect(axiosMock.history.get.length).toBe(3)
+    done()
+  })
+
   it('patches entity and stores the response into the store', async done => {
     // given
     const after = {
-      "_embedded": {
-        "camp_type": {
-          "id": 20,
-          "name": "course",
-          "js": false,
-          "targetGroup": "Kids",
-          "_links": {
-            "self": {
-              "href": "/campTypes/20"
+      _embedded: {
+        camp_type: {
+          id: 20,
+          name: 'course',
+          js: false,
+          targetGroup: 'Kids',
+          _links: {
+            self: {
+              href: '/campTypes/20'
             }
           }
         }
       },
-      "id": 2,
-      "_links": {
-        "self": {
-          "href": "/camps/1"
+      id: 2,
+      _links: {
+        self: {
+          href: '/camps/1'
         }
       }
     }
     axiosMock.onPatch('http://localhost/camps/1').reply(200, after)
 
     // when
-    const load = vm.api.patch('/camps/1', { 'some': 'thing' })
+    const load = vm.api.patch('/camps/1', { some: 'thing' })
 
     // then
     expect(vm.$store.state.api['/camps/1']._meta.loading).toBe(true)
     await letNetworkRequestFinish()
     expect(await load).toMatchObject({ id: 2, _meta: { self: 'http://localhost/camps/1' } })
     expect(vm.api.get('/camps/1')).toMatchObject({ id: 2, _meta: { self: 'http://localhost/camps/1' } })
-    expect(vm.api.get('/campTypes/20')).toMatchObject({ id: 20, name: 'course', js: false, targetGroup: 'Kids',  _meta: { self: 'http://localhost/campTypes/20' } })
+    expect(vm.api.get('/campTypes/20')).toMatchObject({ id: 20, name: 'course', js: false, targetGroup: 'Kids', _meta: { self: 'http://localhost/campTypes/20' } })
     done()
   })
 
   it('still returns old instance from store while patch is in progress', async done => {
     // given
     const before = {
-      "_embedded": {
-        "camp_type": {
-          "id": 20,
-          "name": "camp",
-          "js": true,
-          "targetGroup": "Kids",
-          "_links": {
-            "self": {
-              "href": "/campTypes/20"
+      _embedded: {
+        camp_type: {
+          id: 20,
+          name: 'camp',
+          js: true,
+          targetGroup: 'Kids',
+          _links: {
+            self: {
+              href: '/campTypes/20'
             }
           }
         }
       },
-      "id": 1,
-      "_links": {
-        "self": {
-          "href": "/camps/1"
+      id: 1,
+      _links: {
+        self: {
+          href: '/camps/1'
         }
       }
     }
     const after = {
-      "_embedded": {
-        "camp_type": {
-          "id": 20,
-          "name": "course",
-          "js": false,
-          "targetGroup": "Kids",
-          "_links": {
-            "self": {
-              "href": "/campTypes/20"
+      _embedded: {
+        camp_type: {
+          id: 20,
+          name: 'course',
+          js: false,
+          targetGroup: 'Kids',
+          _links: {
+            self: {
+              href: '/campTypes/20'
             }
           }
         }
       },
-      "id": 2,
-      "_links": {
-        "self": {
-          "href": "/camps/1"
+      id: 2,
+      _links: {
+        self: {
+          href: '/camps/1'
         }
       }
     }
@@ -755,7 +801,7 @@ describe('API store', () => {
     await letNetworkRequestFinish()
 
     // when
-    const load = vm.api.patch('/camps/1', { 'some': 'thing' })
+    const load = vm.api.patch('/camps/1', { some: 'thing' })
 
     // then
     expect(vm.$store.state.api['/camps/1']).toMatchObject({ id: 1, _meta: { self: '/camps/1' } })
@@ -763,7 +809,7 @@ describe('API store', () => {
     await letNetworkRequestFinish()
     expect(await load).toMatchObject({ id: 2, _meta: { self: 'http://localhost/camps/1' } })
     expect(vm.api.get('/camps/1')).toMatchObject({ id: 2, _meta: { self: 'http://localhost/camps/1' } })
-    expect(vm.api.get('/campTypes/20')).toMatchObject({ id: 20, name: 'course', js: false, targetGroup: 'Kids',  _meta: { self: 'http://localhost/campTypes/20' } })
+    expect(vm.api.get('/campTypes/20')).toMatchObject({ id: 20, name: 'course', js: false, targetGroup: 'Kids', _meta: { self: 'http://localhost/campTypes/20' } })
     done()
   })
 
@@ -772,13 +818,13 @@ describe('API store', () => {
     axiosMock.onPost('http://localhost/camps').reply(200, embeddedSingleEntity.serverResponse)
 
     // when
-    const load = vm.api.post('/camps', { 'some': 'thing' })
+    const load = vm.api.post('/camps', { some: 'thing' })
 
     // then
     await letNetworkRequestFinish()
     expect(await load).toMatchObject({ id: 1, _meta: { self: 'http://localhost/camps/1' } })
     expect(vm.api.get('/camps/1')).toMatchObject({ id: 1, _meta: { self: 'http://localhost/camps/1' } })
-    expect(vm.api.get('/campTypes/20')).toMatchObject({ id: 20, name: 'camp', js: true, targetGroup: 'Kids',  _meta: { self: 'http://localhost/campTypes/20' } })
+    expect(vm.api.get('/campTypes/20')).toMatchObject({ id: 20, name: 'camp', js: true, targetGroup: 'Kids', _meta: { self: 'http://localhost/campTypes/20' } })
     done()
   })
 

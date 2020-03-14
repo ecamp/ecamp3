@@ -11,13 +11,13 @@ Displays details on a single camp and allows to edit them.
         readonly
         :value="camp().name"
         class="mr-2 ml-2" />
-      <api-input
+      <api-text-field
         :value="camp().title"
         :uri="camp()._meta.self"
         fieldname="title"
         label="Titel"
         required />
-      <api-input
+      <api-text-field
         :value="camp().motto"
         :uri="camp()._meta.self"
         fieldname="motto"
@@ -29,11 +29,11 @@ Displays details on a single camp and allows to edit them.
 
 <script>
 import ContentCard from '@/components/base/ContentCard'
-import ApiInput from '@/components/form/ApiInput'
+import ApiTextField from '@/components/form/ApiTextField'
 
 export default {
   name: 'CampSettings',
-  components: { ApiInput, ContentCard },
+  components: { ApiTextField, ContentCard },
   props: {
     camp: { type: Function, required: true }
   },
