@@ -4,7 +4,7 @@
              color="blue-grey darken-4" dark>
     <logo>
       <v-btn text class="justify-start px-2"
-             exact :to="campRoute(camp(), 'picasso')"
+             exact :to="campRoute(camp(), 'overview')"
              width="216">
         <v-toolbar-title>
           {{ camp().title | loading('Camp wird geladen…') }}
@@ -81,7 +81,7 @@ export default {
       return campFromRoute(this.$route)
     },
     username () {
-      return this.$auth.username()
+      return this.api.get().profile().username
     }
   },
   methods: {

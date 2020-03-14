@@ -64,7 +64,7 @@ export default {
       return campFromRoute(this.$route)
     },
     username () {
-      return this.$auth.username()
+      return this.api.get().profile().username
     }
   },
   methods: {
