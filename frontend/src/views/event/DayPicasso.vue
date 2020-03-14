@@ -1,6 +1,9 @@
 <template>
   <side-bar>
-    <card-view title="Tagesübersicht">
+    <card-view>
+      <v-subheader class="text-uppercase subtitle-2">
+        Tagesübersicht
+      </v-subheader>
       <v-skeleton-loader v-if="eventInstances.loading" class="ma-3"
                          type="list-item@6" />
       <picasso v-else
