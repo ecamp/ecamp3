@@ -14,7 +14,7 @@
         <v-toolbar-items>
           <v-btn right text
                  :class="{ 'v-btn--open': value }" v-on="on">
-              <span v-if="$auth.isLoggedIn()" class="sr-only-sm-and-down">
+              <span class="sr-only-sm-and-down">
                 {{ username }}
               </span>
             <v-icon class="ma-2">mdi-account</v-icon>
