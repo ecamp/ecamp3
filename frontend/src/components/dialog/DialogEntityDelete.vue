@@ -25,7 +25,7 @@
 import DialogForm from './DialogForm'
 import DialogBase from './DialogBase'
 export default {
-  name: 'DeleteEntityDialog',
+  name: 'DialogEntityDelete',
   components: { DialogForm },
   extends: DialogBase,
   props: {

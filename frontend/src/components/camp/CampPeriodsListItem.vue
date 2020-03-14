@@ -11,18 +11,18 @@ Displays a single period as a list item including controls to edit and delete it
 
     <v-list-item-action style="display: inline">
       <v-item-group>
-        <edit-period-dialog :period="period">
+        <dialog-period-edit :period="period">
           <template v-slot:activator="{ on }">
             <button-edit class="mr-1" v-on="on" />
           </template>
-        </edit-period-dialog>
+        </dialog-period-edit>
 
-        <delete-entity-dialog v-model="showDeleteDialog" :entity="period">
+        <dialog-entity-delete :entity="period">
           <template v-slot:activator="{ on }">
             <button-delete v-on="on" />
           </template>
           the Period "{{ period.description }}"
-        </delete-entity-dialog>
+        </dialog-entity-delete>
       </v-item-group>
     </v-list-item-action>
   </v-list-item>
@@ -30,21 +30,16 @@ Displays a single period as a list item including controls to edit and delete it
 
 <script>
 
-import EditPeriodDialog from '@/components/dialog/EditPeriodDialog'
-import DeleteEntityDialog from '@/components/dialog/DeleteEntityDialog'
+import DialogPeriodEdit from '@/components/dialog/DialogPeriodEdit'
+import DialogEntityDelete from '@/components/dialog/DialogEntityDelete'
 import ButtonEdit from '@/components/base/ButtonEdit'
 import ButtonDelete from '@/components/base/ButtonDelete'
 
 export default {
   name: 'CampPeriods',
-  components: { DeleteEntityDialog, EditPeriodDialog, ButtonEdit, ButtonDelete },
+  components: { DialogEntityDelete, DialogPeriodEdit, ButtonEdit, ButtonDelete },
   props: {
     period: { type: Object, required: true }
-  },
-  data () {
-    return {
-      showDeleteDialog: false
-    }
   }
 }
 </script>

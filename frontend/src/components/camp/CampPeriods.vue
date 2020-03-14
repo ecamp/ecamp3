@@ -14,13 +14,13 @@ Displays all periods of a single camp and allows to edit them & create new ones
       <v-list-item>
         <v-list-item-content />
         <v-list-item-action>
-          <create-period-dialog :camp="camp()">
+          <dialog-period-create :camp="camp()">
             <template v-slot:activator="{ on }">
               <button-add v-on="on">
                 Create Period
               </button-add>
             </template>
-          </create-period-dialog>
+          </dialog-period-create>
         </v-list-item-action>
       </v-list-item>
     </v-list>
@@ -31,11 +31,11 @@ Displays all periods of a single camp and allows to edit them & create new ones
 import ContentCard from '@/components/base/ContentCard'
 import ButtonAdd from '@/components/base/ButtonAdd'
 import PeriodItem from '@/components/camp/CampPeriodsListItem'
-import CreatePeriodDialog from '@/components/dialog/CreatePeriodDialog'
+import DialogPeriodCreate from '@/components/dialog/DialogPeriodCreate'
 
 export default {
   name: 'CampPeriods',
-  components: { ContentCard, ButtonAdd, PeriodItem, CreatePeriodDialog },
+  components: { ContentCard, ButtonAdd, PeriodItem, DialogPeriodCreate },
   props: {
     camp: { type: Function, required: true }
   },

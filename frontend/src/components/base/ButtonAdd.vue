@@ -3,18 +3,16 @@
     small
     color="success"
     v-on="$listeners">
-    <i class="v-icon v-icon--left mdi mdi-plus" />
-    <slot>Add</slot>
+    <v-icon :left="$vuetify.breakpoint.smAndUp" size="150%">mdi-plus</v-icon>
+    <span class="d-none d-sm-block">
+      <slot>Add</slot>
+    </span>
   </v-btn>
 </template>
 
 <script>
 export default {
-  name: 'ButtonAdd',
-  data () {
-    return {
-    }
-  }
+  name: 'ButtonAdd'
 }
 </script>
 

@@ -38,11 +38,22 @@
 import DialogForm from './DialogForm'
 import DialogBase from './DialogBase'
 export default {
-  name: 'CreatePeriodDialog',
+  name: 'DialogPeriodCreate',
   components: { DialogForm },
   extends: DialogBase,
   props: {
     camp: { type: Object, required: true }
+  },
+  data () {
+    return {
+      entityProperties: [
+        'camp_id',
+        'description',
+        'start',
+        'end'
+      ],
+      entityUri: '/period'
+    }
   },
   watch: {
     showDialog: function (showDialog) {
@@ -53,15 +64,6 @@ export default {
         this.clearEntityData()
       }
     }
-  },
-  created () {
-    this.entityProperties = [
-      'camp_id',
-      'description',
-      'start',
-      'end'
-    ]
-    this.entityUri = '/period'
   },
   methods: {
     createPeriod () {

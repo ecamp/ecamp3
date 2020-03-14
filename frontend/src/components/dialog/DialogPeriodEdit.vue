@@ -2,7 +2,7 @@
   <dialog-form
     v-model="showDialog"
     icon="mdi-calendar-edit"
-    :title="entityData.description"
+    :title="period.description"
     max-width="600px"
     :submit-action="update"
     :cancel-action="close">
@@ -37,11 +37,20 @@
 import DialogBase from './DialogBase'
 import DialogForm from './DialogForm'
 export default {
-  name: 'EditPeriodDialog',
+  name: 'DialogPeriodEdit',
   components: { DialogForm },
   extends: DialogBase,
   props: {
     period: { type: Object, required: true }
+  },
+  data () {
+    return {
+      entityProperties: [
+        'description',
+        'start',
+        'end'
+      ]
+    }
   },
   watch: {
     // copy data whenever dialog is opened
@@ -50,13 +59,6 @@ export default {
         this.loadEntityData(this.period._meta.self)
       }
     }
-  },
-  created () {
-    this.entityProperties = [
-      'description',
-      'start',
-      'end'
-    ]
   }
 }
 </script>
