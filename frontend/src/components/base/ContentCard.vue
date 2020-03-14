@@ -1,3 +1,7 @@
+<!--
+Displays the content wrapped inside a card.
+-->
+
 <template>
   <v-card :max-width="maxWidth" class="mx-auto">
     <slot name="title">

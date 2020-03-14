@@ -1,3 +1,8 @@
+language: generic
+
+notifications:
+  webhooks: https://coveralls.io/webhook
+  
 jobs:
   include:
     - stage: test
@@ -13,6 +18,7 @@ jobs:
       # optionally specify a list of environments, for example to test different RDBMS
       env:
         - DB=sqlite env=test
+        - COVERALLS_PARALLEL=true
 
       cache:
         directories:
@@ -40,9 +46,7 @@ jobs:
           - cd ..
 
       after_script:
-          - cd backend
-          - vendor/bin/php-coveralls
-          - cd ..
+          - backend/vendor/bin/php-coveralls -v --coverage_clover ./backend/build/logs/clover.xml --json_path ./backend/build/logs/coveralls-upload.json
     
     - stage: test
       name: "Frontend tests"
@@ -50,6 +54,7 @@ jobs:
       node_js: '10'
       env:
         - NODE_ENV=development
+        - COVERALLS_PARALLEL=true
       cache: npm
       before_install:
         - cd frontend/
@@ -62,6 +67,6 @@ jobs:
         - npm run test:e2e:ci
 
       after_script:
-        - cat ./data/coverage/lcov.info | coveralls
+        - cat ./data/coverage/lcov.info | coveralls ..
 
 
