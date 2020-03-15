@@ -2,7 +2,7 @@
 Displays collaborators of a single camp.
 -->
 <template>
-  <content-card title="Team" class="ec-camp-collaborators">
+  <content-card title="Team">
     <v-card-text>
       <content-group title="Mitglieder">
         <v-list>
