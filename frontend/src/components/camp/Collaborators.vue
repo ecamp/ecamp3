@@ -5,159 +5,27 @@ Displays collaborators of a single camp.
   <content-card title="Team">
     <v-card-text>
       <content-group title="Mitglieder">
-        <v-simple-table width="100%">
-          <thead>
-          <tr>
-            <th width="50%">
-              User
-            </th>
-            <th width="25%">
-              Rolle
-            </th>
-            <th width="25%">
-              Option
-            </th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr
+        <v-list>
+          <collaborator-list-item
             v-for="collaborator in establishedCollaborators"
-            :key="collaborator._meta.self">
-            <td>
-              <v-skeleton-loader v-if="collaborator.user()._meta.loading" type="text" />
-              {{ collaborator.user().username }}
-            </td>
-            <td>
-              <api-select
-                :value="collaborator.role"
-                :uri="collaborator._meta.self"
-                fieldname="role"
-                :items="['member', 'manager']"
-                required
-                dense />
-            </td>
-            <td
-              style="white-space: nowrap">
-              <v-btn
-                small
-                color="warning"
-                @click="api.del(collaborator)">
-                <v-icon
-                  small
-                  left>
-                  mdi-close
-                </v-icon>
-                delete
-              </v-btn>
-            </td>
-          </tr>
-          </tbody>
-        </v-simple-table>
+            :key="collaborator._meta.self" :collaborator="collaborator" />
+        </v-list>
       </content-group>
 
-      <content-group title="Offene Anfragen" v-if="requestedCollaborators.length > 0">
-        <v-simple-table width="100%">
-          <tr>
-            <th width="50%">
-              User
-            </th>
-            <th width="25%">
-              Rolle
-            </th>
-            <th width="25%">
-              Option
-            </th>
-          </tr>
-          <tr
+      <content-group v-if="requestedCollaborators.length > 0" title="Offene Anfragen">
+        <v-list>
+          <collaborator-list-item
             v-for="collaborator in requestedCollaborators"
-            :key="collaborator.id">
-            <td>{{ collaborator.user().username }}</td>
-            <td>
-              <api-select
-                :value="collaborator.role"
-                :uri="collaborator._meta.self"
-                fieldname="role"
-                :items="['member', 'manager']"
-                required
-                dense />
-            </td>
-            <td
-              style="white-space: nowrap">
-              <v-btn
-                small
-                color="success"
-                @click="changeStatus(collaborator, 'established')">
-                <v-icon
-                  small
-                  left>
-                  mdi-check
-                </v-icon>
-                accept
-              </v-btn>
-              <v-btn
-                small
-                color="warning"
-                @click="changeStatus(collaborator, 'unrelated')">
-                <v-icon
-                  small
-                  left>
-                  mdi-close
-                </v-icon>
-                deny
-              </v-btn>
-            </td>
-          </tr>
-        </v-simple-table>
-        <v-divider />
+            :key="collaborator._meta.self" :collaborator="collaborator" />
+        </v-list>
       </content-group>
 
-      <content-group title="Offene Einladungen" v-if="invitedCollaborators.length > 0">
-        <v-simple-table width="100%">
-          <thead>
-          <tr>
-            <th width="50%">
-              User
-            </th>
-            <th width="25%">
-              Rolle
-            </th>
-            <th width="25%">
-              Option
-            </th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr
+      <content-group v-if="invitedCollaborators.length > 0" title="Offene Einladungen">
+        <v-list>
+          <collaborator-list-item
             v-for="collaborator in invitedCollaborators"
-            :key="collaborator.id">
-            <td>{{ collaborator.user().username }}</td>
-            <td>
-              <api-select
-                :value="collaborator.role"
-                :uri="collaborator._meta.self"
-                fieldname="role"
-                :items="['member', 'manager']"
-                required
-                dense />
-            </td>
-            <td
-              style="white-space: nowrap">
-              <v-btn
-                small
-                color="warning"
-                @click="api.del(collaborator)">
-                <v-icon
-                  small
-                  left>
-                  mdi-close
-                </v-icon>
-                delete
-              </v-btn>
-            </td>
-          </tr>
-          </tbody>
-        </v-simple-table>
-        <v-divider />
+            :key="collaborator._meta.self" :collaborator="collaborator" />
+        </v-list>
       </content-group>
 
       <content-group title="Einladen">
@@ -168,15 +36,17 @@ Displays collaborators of a single camp.
           single-line
           placeholder="Suchen" />
 
-        <v-simple-table
-          width="100%"
-          class="mt-4">
-          <tr
-            v-for="result in searchResults"
-            :key="result.id">
-            <td>{{ result.username }}</td>
-            <td
-              style="white-space: nowrap">
+        <v-list>
+          <v-list-item v-for="result in searchResults" :key="result.id"
+                       class="px-0" two-line>
+            <v-list-item-avatar>
+              <v-img src="https://i.pravatar.cc/300" />
+            </v-list-item-avatar>
+            <v-list-item-content>
+              <v-list-item-title>{{ result.username }}</v-list-item-title>
+              <v-list-item-subtitle>{{ result.mail }}</v-list-item-subtitle>
+            </v-list-item-content>
+            <v-list-item-action>
               <v-btn
                 small
                 color="success"
@@ -189,7 +59,8 @@ Displays collaborators of a single camp.
                 </v-icon>
                 member
               </v-btn>
-
+            </v-list-item-action>
+            <v-list-item-action>
               <v-btn
                 small
                 color="success"
@@ -201,9 +72,9 @@ Displays collaborators of a single camp.
                 </v-icon>
                 manager
               </v-btn>
-            </td>
-          </tr>
-        </v-simple-table>
+            </v-list-item-action>
+          </v-list-item>
+        </v-list>
       </content-group>
     </v-card-text>
   </content-card>
@@ -211,13 +82,14 @@ Displays collaborators of a single camp.
 <script>
 import ContentCard from '@/components/base/ContentCard'
 import ContentGroup from '@/components/base/ContentGroup'
+import CollaboratorListItem from '@/components/camp/CollaboratorListItem'
 
 export default {
   name: 'Collaborators',
   components: {
+    CollaboratorListItem,
     ContentGroup,
-    ContentCard,
-    ApiSelect: () => import('@/components/form/ApiSelect.vue')
+    ContentCard
   },
   props: {
     camp: { type: Function, required: true }
