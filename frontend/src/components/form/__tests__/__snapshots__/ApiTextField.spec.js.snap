@@ -20,9 +20,9 @@ exports[`ApiTextField.vue renders correctly 1`] = `
     type="text"
     value="Test Value"
   />
-
+   
   <!---->
-
+   
   <!---->
 </v-form-stub>
 `;
