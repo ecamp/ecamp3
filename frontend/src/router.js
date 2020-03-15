@@ -88,7 +88,7 @@ export default new Router({
         {
           path: 'collaborators',
           name: 'camp/collaborators',
-          component: () => import(/* webpackChunkName: "campCollaborators" */ './components/camp/Collaborators.vue')
+          component: () => import(/* webpackChunkName: "campCollaborators" */ './views/camp/Collaborators.vue')
         },
         {
           path: 'overview',
