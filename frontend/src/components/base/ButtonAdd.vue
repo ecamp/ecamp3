@@ -1,9 +1,10 @@
 <template>
   <v-btn
-    small
+    class="px-3 px-sm-4"
+    min-width="0"
     color="success"
     v-on="$listeners">
-    <v-icon :left="$vuetify.breakpoint.smAndUp" size="150%">mdi-plus</v-icon>
+    <v-icon :left="$vuetify.breakpoint.smAndUp" size="150%">{{ icon }}</v-icon>
     <span class="d-none d-sm-block">
       <slot>Add</slot>
     </span>
@@ -12,7 +13,10 @@
 
 <script>
 export default {
-  name: 'ButtonAdd'
+  name: 'ButtonAdd',
+  props: {
+    icon: { type: String, default: 'mdi-plus' }
+  }
 }
 </script>
 

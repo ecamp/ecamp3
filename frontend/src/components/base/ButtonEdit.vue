@@ -1,9 +1,9 @@
 <template>
   <v-btn
-    small
+    class="px-3 px-sm-4"
     color="primary"
     v-on="$listeners">
-    <v-icon :left="$vuetify.breakpoint.smAndUp" size="150%">mdi-pencil</v-icon>
+    <v-icon :left="$vuetify.breakpoint.smAndUp" size="150%">{{ icon }}</v-icon>
     <span class="d-none d-sm-block">
       <slot>Edit</slot>
     </span>
@@ -12,7 +12,10 @@
 
 <script>
 export default {
-  name: 'ButtonEdit'
+  name: 'ButtonEdit',
+  props: {
+    icon: { type: String, default: 'mdi-pencil' }
+  }
 }
 </script>
 
