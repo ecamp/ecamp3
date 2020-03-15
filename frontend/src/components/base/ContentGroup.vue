@@ -5,7 +5,7 @@ Displays the content wrapped inside a card.
 <template>
   <v-sheet class="ec-content-group mb-8">
     <slot name="title">
-      <div v-if="title" class="ec-content-group__title mb-4 py-1 subtitle-1">
+      <div v-if="title" class="ec-content-group__title py-1 subtitle-1">
         <v-icon v-if="icon" left>{{ icon }}</v-icon>
         {{ title }}
       </div>

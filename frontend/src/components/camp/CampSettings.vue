@@ -12,12 +12,13 @@ Displays details on a single camp and allows to edit them.
         readonly
         hide-details="auto"
         :value="camp().name"
-        class="mb-4" />
+        class="my-4" />
       <api-text-field
         :value="camp().title"
         :uri="camp()._meta.self"
         fieldname="title"
         label="Titel"
+        class="mb-4"
         required />
       <api-text-field
         :value="camp().motto"

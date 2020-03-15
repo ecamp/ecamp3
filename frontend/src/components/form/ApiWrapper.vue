@@ -5,8 +5,7 @@ Wrapper component for form components to save data back to API
 <template>
   <v-form
     inline
-    v-bind:class="{'d-flex api-wrapper--savable':!autoSave && !readonly}"
-    class="my-4">
+    :class="{'d-flex api-wrapper--savable':!autoSave && !readonly}">
     <slot
       :localValue="localValue"
       :errorMessages="errorMessages"
