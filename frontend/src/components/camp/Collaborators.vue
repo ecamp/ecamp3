@@ -2,10 +2,11 @@
 Displays collaborators of a single camp.
 -->
 <template>
-  <content-card title="Team">
+  <content-card title="Team" class="ec-camp-collaborators">
     <v-card-text>
       <content-group title="Mitglieder">
         <v-list>
+          <v-skeleton-loader v-if="collaborators.length <= 0" type="list-item-avatar-two-line@3" class="px-0"/>
           <collaborator-list-item
             v-for="collaborator in establishedCollaborators"
             :key="collaborator._meta.self" :collaborator="collaborator" />
@@ -34,9 +35,12 @@ Displays collaborators of a single camp.
           hide-details
           prepend-icon="mdi-account-search"
           single-line
+          @focus="loadingResults = true"
+          @blur="loadingResults = false"
           placeholder="Suchen" />
 
         <v-list>
+          <v-skeleton-loader v-if="loadingResults && searchResults.length < 1" type="list-item-avatar-two-line@3" class="px-0"/>
           <v-list-item v-for="result in searchResults" :key="result.id"
                        class="px-0" two-line>
             <v-list-item-avatar>
@@ -97,6 +101,7 @@ export default {
   data () {
     return {
       editing: false,
+      loadingResults: false,
       messages: [],
       search: ''
     }
@@ -128,10 +133,10 @@ export default {
       return []
     }
   },
+  created () {
+    return this.camp().camp_collaborations()
+  },
   methods: {
-    changeStatus (collaborator, status) {
-      this.api.patch(collaborator, { status: status })
-    },
     invite (user, role) {
       this.api.post('/camp-collaboration', {
         camp_id: this.camp().id,
@@ -140,8 +145,16 @@ export default {
       }).then(this.refreshCamp)
     },
     refreshCamp () {
-      this.api.reload(this.campUri)
+      this.api.reload(this.camp()._meta.self)
     }
   }
 }
 </script>
+
+<style lang="scss" scoped>
+  ::v-deep .v-skeleton-loader__list-item-avatar-two-line {
+    height: 72px;
+    padding-left: 0!important;
+    padding-right: 0!important;
+  }
+</style>
