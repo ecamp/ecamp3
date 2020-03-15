@@ -22,6 +22,7 @@ Displays a single event
             fieldname="title"
             :auto-save="false"
             label="Titel"
+            class="my-4"
             required />
           <api-text-field
             :value="event.title"
@@ -29,6 +30,7 @@ Displays a single event
             fieldname="title"
             :auto-save="true"
             label="Titel"
+            class="my-4"
             required />
           <v-list>
             <v-label>Instanzen</v-label>
