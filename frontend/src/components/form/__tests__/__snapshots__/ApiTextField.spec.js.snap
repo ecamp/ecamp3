@@ -2,7 +2,7 @@
 
 exports[`ApiTextField.vue renders correctly 1`] = `
 <v-form-stub
-  class="mb-2"
+  class=""
   inline=""
 >
   <v-text-field-stub
@@ -20,9 +20,9 @@ exports[`ApiTextField.vue renders correctly 1`] = `
     type="text"
     value="Test Value"
   />
-   
+
   <!---->
-   
+
   <!---->
 </v-form-stub>
 `;
