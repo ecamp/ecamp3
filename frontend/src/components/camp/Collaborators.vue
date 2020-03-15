@@ -35,9 +35,9 @@ Displays collaborators of a single camp.
           hide-details
           prepend-icon="mdi-account-search"
           single-line
+          placeholder="Suchen"
           @focus="loadingResults = true"
-          @blur="loadingResults = false"
-          placeholder="Suchen" />
+          @blur="loadingResults = false" />
 
         <v-list>
           <v-skeleton-loader v-if="loadingResults && searchResults.length < 1" type="list-item-avatar-two-line@3" class="px-0"/>
@@ -51,31 +51,14 @@ Displays collaborators of a single camp.
               <v-list-item-subtitle>{{ result.mail }}</v-list-item-subtitle>
             </v-list-item-content>
             <v-list-item-action>
-              <v-btn
-                small
-                color="success"
-                class="mr-1"
-                @click="invite(result, 'member')">
-                <v-icon
-                  small
-                  left>
-                  mdi-plus-circle
-                </v-icon>
-                member
-              </v-btn>
+              <button-add icon="mdi-account-plus" @click="invite(result, 'member')">
+                Member
+              </button-add>
             </v-list-item-action>
-            <v-list-item-action>
-              <v-btn
-                small
-                color="success"
-                @click="invite(result, 'manager')">
-                <v-icon
-                  small
-                  left>
-                  mdi-plus-circle
-                </v-icon>
-                manager
-              </v-btn>
+            <v-list-item-action class="ml-1">
+              <button-add icon="mdi-account-star" @click="invite(result, 'manager')">
+                Manager
+              </button-add>
             </v-list-item-action>
           </v-list-item>
         </v-list>
@@ -87,10 +70,12 @@ Displays collaborators of a single camp.
 import ContentCard from '@/components/base/ContentCard'
 import ContentGroup from '@/components/base/ContentGroup'
 import CollaboratorListItem from '@/components/camp/CollaboratorListItem'
+import ButtonAdd from '@/components/base/ButtonAdd'
 
 export default {
   name: 'Collaborators',
   components: {
+    ButtonAdd,
     CollaboratorListItem,
     ContentGroup,
     ContentCard
@@ -154,7 +139,11 @@ export default {
 <style lang="scss" scoped>
   ::v-deep .v-skeleton-loader__list-item-avatar-two-line {
     height: 72px;
-    padding-left: 0!important;
-    padding-right: 0!important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+
+  ::v-deep .v-select__selections input {
+    width: 20px;
   }
 </style>

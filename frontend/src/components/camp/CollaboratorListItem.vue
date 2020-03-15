@@ -12,30 +12,23 @@
       :uri="collaborator._meta.self"
       fieldname="role"
       :items="['member', 'manager']"
-      required
-      dense />
-    <v-list-item-action>
-      <v-btn
-        small
-        color="warning"
-        @click="api.del(collaborator)">
-        <v-icon
-          small
-          left>
-          mdi-close
-        </v-icon>
-        delete
-      </v-btn>
+      dense
+      required/>
+    <v-list-item-action class="ml-2">
+      <button-delete @click="api.del(collaborator)">
+        Remove
+      </button-delete>
     </v-list-item-action>
   </v-list-item>
 </template>
 
 <script>
 import ApiSelect from '@/components/form/ApiSelect'
+import ButtonDelete from '@/components/base/ButtonDelete'
 
 export default {
   name: 'CollaboratorListItem',
-  components: { ApiSelect },
+  components: { ButtonDelete, ApiSelect },
   props: {
     collaborator: { type: Object, required: true }
   }
