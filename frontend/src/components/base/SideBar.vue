@@ -28,8 +28,12 @@ export default {
   name: 'SideBar',
   data () {
     return {
-      drawer: false,
-      mini: !this.$vuetify.breakpoint.mdAndUp
+      drawer: false
+    }
+  },
+  computed: {
+    mini () {
+      return !this.$vuetify.breakpoint.mdAndUp
     }
   }
 }
