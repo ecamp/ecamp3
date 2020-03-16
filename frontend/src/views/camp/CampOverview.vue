@@ -1,11 +1,11 @@
 <!--
-Listing all event instances of a single period.
+Show all event instances of a single period.
 -->
 
 <template>
   <content-card>
     <v-sheet>
-      <mobile-search />
+      <mobile-search v-if="$vuetify.breakpoint.xs" />
       <v-btn
         :fixed="$vuetify.breakpoint.xs"
         :absolute="!$vuetify.breakpoint.xs"

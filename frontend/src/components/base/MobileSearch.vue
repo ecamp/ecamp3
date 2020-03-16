@@ -1,7 +1,6 @@
 <template>
-  <v-sheet v-if="$vuetify.breakpoint.xs" min-height="56">
+  <v-sheet min-height="56">
     <v-app-bar
-      v-if="$vuetify.breakpoint.xs"
       dense fixed
       color="white"
       style="z-index: 300"
@@ -28,7 +27,7 @@
       overlay-color="white" hide-overlay
       fullscreen transition="dialog-top-transition">
       <v-card>
-        <v-sheet v-if="$vuetify.breakpoint.xs" height="70" />
+        <v-sheet height="70" />
         <v-card-text>
           <v-skeleton-loader class="mx-4" boilerplate type="list-item-two-line@3" />
         </v-card-text>
