@@ -76,7 +76,7 @@ export default new Router({
       components: {
         topbar: () => import(/* webpackChunkName: "navigation" */ './views/camp/TopBar'),
         default: () => import(/* webpackChunkName: "camp" */ './views/camp/Camp'),
-        aside: () => import(/* webpackChunkName: "periods" */ './views/camp/Periods'),
+        aside: () => import(/* webpackChunkName: "periods" */ './views/camp/SideBarPeriods'),
         bottombar: () => import(/* webpackChunkName: "navigation" */ './views/camp/BottomBar')
       },
       beforeEnter: requireAuth,
@@ -88,7 +88,7 @@ export default new Router({
         {
           path: 'collaborators',
           name: 'camp/collaborators',
-          component: () => import(/* webpackChunkName: "campCollaborators" */ './views/camp/Collaborators.vue')
+          component: () => import(/* webpackChunkName: "campCollaborators" */ './views/camp/Collaborators')
         },
         {
           path: 'overview',

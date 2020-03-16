@@ -26,7 +26,7 @@ Displays periods of a single camp.
 import SideBar from '@/components/base/SideBar'
 
 export default {
-  name: 'CampPeriods',
+  name: 'SideBarPeriods',
   components: { SideBar },
   props: {
     camp: { type: Function, required: true }
