@@ -32,9 +32,11 @@
           <v-icon left>mdi-format-list-bulleted-triangle</v-icon>
           <span>Meine Camps</span>
         </v-list-item>
-        <v-list-item :to="{ name: 'login' }" block>
-          <v-icon left>mdi-login</v-icon>
-          <span>Log in</span>
+        <v-list-item block @click="logout">
+          <v-icon v-if="logoutIcon" left>{{ logoutIcon }}</v-icon>
+          <v-progress-circular v-else indeterminate
+                               size="18" class="mr-2" />
+          <span>Log out</span>
         </v-list-item>
       </v-list>
     </v-menu>
