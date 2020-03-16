@@ -26,7 +26,7 @@
 
 <script>
 export default {
-  name: 'BottomBar'
+  name: 'NavMobile'
 }
 </script>
 

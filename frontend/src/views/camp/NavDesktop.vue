@@ -30,11 +30,11 @@
 
 <script>
 import { campFromRoute, campRoute } from '@/router'
-import DesktopSearch from '@/components/base/DesktopSearch'
-import TopBarUserMenu from '@/components/base/TopBarUserMenu'
+import DesktopSearch from '@/components/base/NavDesktopSearch'
+import TopBarUserMenu from '@/components/base/NavDesktopUserMenu'
 
 export default {
-  name: 'TopBar',
+  name: 'NavDesktop',
   components: {
     TopBarUserMenu,
     DesktopSearch,

@@ -10,7 +10,7 @@
 <script>
 
 export default {
-  name: 'TopBar',
+  name: 'NavDesktop',
   components: {
     Logo: () => import('@/components/base/Logo')
   }

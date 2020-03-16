@@ -38,7 +38,7 @@
 <script>
 
 export default {
-  name: 'TopBarUserMenu',
+  name: 'NavDesktopUserMenu',
   data () {
     return {
       logoutIcon: 'mdi-logout'
