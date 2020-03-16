@@ -700,6 +700,7 @@ describe('API store', () => {
     axiosMock.onGet('http://localhost/periods/1').networkError()
     axiosMock.onGet('http://localhost/days/2').reply(404)
     const load = vm.api.get('/camps/3')._meta.load
+    const period = vm.api.get('/periods/1')._meta.load
     await letNetworkRequestFinish()
     const camp = await load
     expect(vm.$store.state.api).toMatchObject(circularReference.storeState)
@@ -710,6 +711,7 @@ describe('API store', () => {
     // then
     await letNetworkRequestFinish()
     expect(axiosMock.history.get.length).toBe(3)
+    await period
     done()
   })
 
