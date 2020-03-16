@@ -1,5 +1,5 @@
 <!--
-Listing all given event instances in a calendar view.
+Lists all event instances in a list view.
 -->
 
 <template>
