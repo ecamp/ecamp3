@@ -19,7 +19,7 @@
 
     <v-divider />
 
-    <slot v-if="!mini"/>
+    <slot v-if="!mini" />
   </v-navigation-drawer>
 </template>
 

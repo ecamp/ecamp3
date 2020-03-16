@@ -7,7 +7,7 @@
         <i>🏕</i>️<span v-if="text" class="ml-4 mr-2">eCamp</span>
       </v-toolbar-title>
     </v-btn>
-    <slot/>
+    <slot />
   </v-toolbar-items>
 </template>
 

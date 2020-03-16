@@ -6,7 +6,7 @@ Displays collaborators of a single camp.
     <v-card-text>
       <content-group title="Mitglieder">
         <v-list>
-          <v-skeleton-loader v-if="collaborators.length <= 0" type="list-item-avatar-two-line@3" class="px-0"/>
+          <v-skeleton-loader v-if="collaborators.length <= 0" type="list-item-avatar-two-line@3" class="px-0" />
           <collaborator-list-item
             v-for="collaborator in establishedCollaborators"
             :key="collaborator._meta.self" :collaborator="collaborator" />
@@ -40,7 +40,7 @@ Displays collaborators of a single camp.
           @blur="loadingResults = false" />
 
         <v-list>
-          <v-skeleton-loader v-if="loadingResults && searchResults.length < 1" type="list-item-avatar-two-line@3" class="px-0"/>
+          <v-skeleton-loader v-if="loadingResults && searchResults.length < 1" type="list-item-avatar-two-line@3" class="px-0" />
           <v-list-item v-for="result in searchResults" :key="result.id"
                        class="px-0" two-line>
             <v-list-item-avatar>

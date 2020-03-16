@@ -700,7 +700,6 @@ describe('API store', () => {
     axiosMock.onGet('http://localhost/periods/1').networkError()
     axiosMock.onGet('http://localhost/days/2').reply(404)
     const load = vm.api.get('/camps/3')._meta.load
-    vm.api.get('/periods/1')._meta.load
     await letNetworkRequestFinish()
     const camp = await load
     expect(vm.$store.state.api).toMatchObject(circularReference.storeState)

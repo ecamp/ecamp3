@@ -3,7 +3,7 @@
     v-if="$vuetify.breakpoint.smAndUp"
     app clipped-left
     color="blue-grey darken-4" dark>
-    <logo text/>
+    <logo text />
     <v-spacer />
     <desktop-search />
     <v-menu offset-y dark
@@ -14,9 +14,9 @@
         <v-toolbar-items>
           <v-btn right text
                  :class="{ 'v-btn--open': value }" v-on="on">
-              <span class="sr-only-sm-and-down">
-                {{ username }}
-              </span>
+            <span class="sr-only-sm-and-down">
+              {{ username }}
+            </span>
             <v-icon class="ma-2">mdi-account</v-icon>
           </v-btn>
         </v-toolbar-items>

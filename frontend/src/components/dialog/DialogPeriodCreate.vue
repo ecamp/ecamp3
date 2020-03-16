@@ -12,21 +12,21 @@
     </template>
 
     <v-text-field
-      hide-details="auto" outlined
+      v-model="entityData.description" hide-details="auto"
+      outlined
       class="mb-4"
-      v-model="entityData.description"
       label="Description"
       required />
     <v-text-field
-      hide-details="auto" outlined
+      v-model="entityData.start" hide-details="auto"
+      outlined
       class="mb-4"
-      v-model="entityData.start"
       label="Start"
       required />
     <v-text-field
-      hide-details="auto" outlined
+      v-model="entityData.end" hide-details="auto"
+      outlined
       class="mb-4"
-      v-model="entityData.end"
       label="End"
       required />
   </dialog-form>

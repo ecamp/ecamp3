@@ -2,7 +2,7 @@
   <v-app-bar v-if="$vuetify.breakpoint.smAndUp" app
              clipped-left
              color="blue-grey darken-4" dark>
-    <logo text/>
+    <logo text />
     <v-spacer />
   </v-app-bar>
 </template>

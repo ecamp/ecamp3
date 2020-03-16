@@ -13,7 +13,7 @@
       fieldname="role"
       :items="['member', 'manager']"
       dense
-      required/>
+      required />
     <v-list-item-action class="ml-2">
       <button-delete @click="api.del(collaborator)">
         Remove
