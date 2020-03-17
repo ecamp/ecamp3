@@ -5,6 +5,7 @@ import { refreshLoginStatus } from '@/auth'
 
 Vue.use(Router)
 
+/* istanbul ignore next */
 export default new Router({
   mode: 'history',
   base: process.env.BASE_URL,
