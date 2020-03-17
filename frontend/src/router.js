@@ -91,15 +91,18 @@ export default new Router({
           component: () => import(/* webpackChunkName: "campCollaborators" */ './views/camp/Collaborators')
         },
         {
-          path: 'overview',
-          name: 'camp/overview',
-          component: () => import(/* webpackChunkName: "campPicasso" */ './views/camp/CampOverview'),
-          beforeEnter: parseBooleanInQuery
-        },
-        {
           path: 'admin',
           name: 'camp/admin',
           component: () => import(/* webpackChunkName: "campAdmin" */ './views/camp/Admin')
+        },
+        {
+          path: 'overview',
+          name: 'camp/overview',
+          component: () => import(/* webpackChunkName: "campPicasso" */ './views/camp/CampOverview')
+        },
+        {
+          path: '',
+          redirect: { name: 'camp/overview' }
         }
       ]
     },
@@ -129,17 +132,6 @@ function requireAuth (to, from, next) {
       next({ name: 'login', query: to.path === '/' ? {} : { redirect: to.fullPath } })
     }
   })
-}
-
-function parseBooleanInQuery (to, from, next) {
-  for (const [key, val] of Object.entries(to.query)) {
-    if (val === null || val === 'true') {
-      to.query[key] = true
-    } else if (val === 'false') {
-      to.query[key] = false
-    }
-  }
-  next()
 }
 
 export function campFromRoute (route) {

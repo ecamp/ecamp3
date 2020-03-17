@@ -15,7 +15,7 @@ Show all event instances of a single period.
         top right
         :class="{'float-right':!$vuetify.breakpoint.xs}"
         color="white"
-        :to="{ query: { ...$route.query, list: !listFormat } }">
+        :to="{ query: { ...$route.query, list: !listFormat || undefined } }">
         <v-icon v-if="listFormat">mdi-calendar-month</v-icon>
         <v-icon v-else>mdi-menu</v-icon>
       </v-btn>
