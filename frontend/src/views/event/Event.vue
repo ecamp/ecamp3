@@ -4,7 +4,7 @@ Displays a single event
 
 <template>
   <v-container fluid>
-    <card-view>
+    <content-card>
       <v-toolbar dense>
         <back-button />
         <v-toolbar-title class="pl-2">
@@ -43,17 +43,18 @@ Displays a single event
           </v-list>
         </template>
       </v-card-text>
-    </card-view>
+    </content-card>
   </v-container>
 </template>
 
 <script>
+import ContentCard from '@/components/base/ContentCard'
 
 export default {
   name: 'Event',
   components: {
     BackButton: () => import('@/components/base/BackButton'),
-    CardView: () => import('@/components/base/ContentCard'),
+    ContentCard,
     ApiTextField: () => import('@/components/form/ApiTextField')
   },
   props: {
