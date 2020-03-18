@@ -12,6 +12,7 @@
       :uri="collaborator._meta.self"
       fieldname="role"
       :items="['member', 'manager']"
+      no-margin
       dense
       required />
     <v-list-item-action class="ml-2">

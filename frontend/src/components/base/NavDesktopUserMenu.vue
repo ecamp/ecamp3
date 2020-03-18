@@ -44,6 +44,11 @@ export default {
       logoutIcon: 'mdi-logout'
     }
   },
+  computed: {
+    username () {
+      return this.api.get().profile().username
+    }
+  },
   methods: {
     logout () {
       this.logoutIcon = ''

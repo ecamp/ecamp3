@@ -18,7 +18,6 @@ Displays details on a single camp and allows to edit them.
         :uri="camp()._meta.self"
         fieldname="title"
         label="Titel"
-        class="mb-4"
         required />
       <api-text-field
         :value="camp().motto"
