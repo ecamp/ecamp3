@@ -1,6 +1,6 @@
 <template>
   <side-bar>
-    <card-view>
+    <content-card>
       <v-subheader class="text-uppercase subtitle-2">
         Tagesübersicht
       </v-subheader>
@@ -13,18 +13,18 @@
                interval-height="36"
                :end="endOfDay"
                type="day" />
-    </card-view>
+    </content-card>
   </side-bar>
 </template>
 
 <script>
 import Picasso from '@/components/camp/Picasso'
 import SideBar from '@/components/base/SideBar'
-import CardView from '@/components/base/ContentCard'
+import ContentCard from '@/components/base/ContentCard'
 
 export default {
   name: 'DayOverview',
-  components: { CardView, SideBar, Picasso },
+  components: { ContentCard, SideBar, Picasso },
   props: {
     day: { type: Function, required: true }
   },

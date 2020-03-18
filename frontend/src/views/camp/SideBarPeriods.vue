@@ -4,7 +4,7 @@ Displays periods of a single camp.
 
 <template>
   <side-bar>
-    <v-card>
+    <content-card>
       <v-subheader class="text-uppercase subtitle-2">
         Periods
       </v-subheader>
@@ -19,15 +19,16 @@ Displays periods of a single camp.
           </v-list-item-content>
         </v-list-item>
       </v-list>
-    </v-card>
+    </content-card>
   </side-bar>
 </template>
 <script>
 import SideBar from '@/components/base/SideBar'
+import ContentCard from '@/components/base/ContentCard'
 
 export default {
   name: 'SideBarPeriods',
-  components: { SideBar },
+  components: { ContentCard, SideBar },
   props: {
     camp: { type: Function, required: true }
   },
