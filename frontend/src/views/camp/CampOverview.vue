@@ -19,16 +19,22 @@ Show all event instances of a single period.
         <v-icon v-if="listFormat">mdi-calendar-month</v-icon>
         <v-icon v-else>mdi-menu</v-icon>
       </v-btn>
-      <event-list
-        v-if="listFormat"
-        :camp="camp" :event-instances="firstPeriod.event_instances().items" />
-      <picasso
-        v-else
-        :camp="camp"
-        class="mx-2 ma-sm-0 pa-sm-2"
-        :event-instances="firstPeriod.event_instances().items"
-        :start="new Date(Date.parse(firstPeriod.start))"
-        :end="new Date(Date.parse(firstPeriod.end))" />
+      <template v-if="!firstPeriodLoaded">
+        <v-skeleton-loader v-if="listFormat" type="list-item-avatar-two-line@2" class="py-2" />
+        <v-skeleton-loader v-else type="table" />
+      </template>
+      <template v-if="firstPeriod">
+        <event-list
+          v-if="listFormat"
+          :camp="camp" :event-instances="firstPeriod.event_instances().items" />
+        <picasso
+          v-else
+          :camp="camp"
+          class="mx-2 ma-sm-0 pa-sm-2"
+          :event-instances="firstPeriod.event_instances().items"
+          :start="new Date(Date.parse(firstPeriod.start))"
+          :end="new Date(Date.parse(firstPeriod.end))" />
+      </template>
       <v-btn
         :fixed="$vuetify.breakpoint.xs"
         :absolute="!$vuetify.breakpoint.xs"
@@ -72,6 +78,9 @@ export default {
     },
     firstPeriod () {
       return this.periods.items[0]
+    },
+    firstPeriodLoaded () {
+      return this.firstPeriod && !this.firstPeriod._meta.loading
     }
   },
   mounted () {
@@ -95,5 +104,11 @@ export default {
     @media #{map-get($display-breakpoints, 'sm-and-up')}{
       top: 16px + 65px !important;
     }
+  }
+</style>
+
+<style lang="scss" scoped>
+  ::v-deep .v-skeleton-loader__list-item-avatar-two-line {
+    height: 60px;
   }
 </style>
