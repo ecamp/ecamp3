@@ -894,4 +894,12 @@ describe('API store', () => {
     expect(await load).toMatchObject({ id: 83, name: 'Pflock', _meta: { self: 'http://localhost/camps/1/users/83' } })
     done()
   })
+
+  it('sets property loading on LoadingProxy to true', async done => {
+    // given
+    axiosMock.onGet('http://localhost/camps/1').reply(200, embeddedSingleEntity.serverResponse)
+    const loadingProxy = vm.api.get('/camps/1')
+    expect(loadingProxy.loading).toBe(true)
+    done()
+  })
 })
