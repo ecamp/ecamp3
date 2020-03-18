@@ -4,7 +4,7 @@
              color="blue-grey darken-4" dark>
     <logo>
       <v-btn text class="justify-start px-2"
-             :to="campRoute(camp(), 'overview')"
+             :to="campRoute(camp(), 'program')"
              width="216">
         <v-toolbar-title>
           {{ camp().title | loading('Camp wird geladen…') }}

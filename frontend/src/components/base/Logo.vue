@@ -21,7 +21,7 @@ export default {
   },
   computed: {
     campHome () {
-      return this.camp ? campRoute(this.camp, 'overview') : false
+      return this.camp ? campRoute(this.camp, 'program') : false
     }
   }
 }

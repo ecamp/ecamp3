@@ -54,7 +54,7 @@ Show all event instances of a single period.
 import ContentCard from '@/components/base/ContentCard'
 
 export default {
-  name: 'CampOverview',
+  name: 'CampProgram',
   components: {
     ContentCard,
     MobileSearch: () => import('@/components/base/MobileSearch'),

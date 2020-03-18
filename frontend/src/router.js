@@ -97,13 +97,13 @@ export default new Router({
           component: () => import(/* webpackChunkName: "campAdmin" */ './views/camp/Admin')
         },
         {
-          path: 'overview',
-          name: 'camp/overview',
-          component: () => import(/* webpackChunkName: "campPicasso" */ './views/camp/CampOverview')
+          path: 'program',
+          name: 'camp/program',
+          component: () => import(/* webpackChunkName: "campProgram" */ './views/camp/CampProgram')
         },
         {
           path: '',
-          redirect: { name: 'camp/overview' }
+          redirect: { name: 'camp/program' }
         }
       ]
     },
@@ -113,7 +113,7 @@ export default new Router({
       components: {
         topbar: () => import(/* webpackChunkName: "navigation" */ './views/camp/NavDesktop'),
         default: () => import(/* webpackChunkName: "event" */ './views/event/Event'),
-        aside: () => import(/* webpackChunkName: "day" */ './views/event/SideBarOverview'),
+        aside: () => import(/* webpackChunkName: "day" */ './views/event/SideBarProgram'),
         bottombar: () => import(/* webpackChunkName: "navigation" */ './views/camp/NavMobile')
       },
       beforeEnter: requireAuth,
@@ -155,7 +155,7 @@ function dayFromEventInstanceInRoute (route) {
 
 export function campRoute (camp, subroute) {
   if (camp._meta.loading) return {}
-  const routeName = subroute ? 'camp/' + subroute : 'camp/overview'
+  const routeName = subroute ? 'camp/' + subroute : 'camp/program'
   return { name: routeName, params: { campId: camp.id, campTitle: slugify(camp.title) } }
 }
 
