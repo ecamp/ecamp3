@@ -28,12 +28,5 @@ export default {
 </script>
 
 <style scoped>
-  .v-toolbar {
-    border-bottom: 1px solid;
-  }
   .v-card__title {font-weight: 600;}
-
-  .static {
-    position: static;
-  }
 </style>
