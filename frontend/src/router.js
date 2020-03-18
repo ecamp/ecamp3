@@ -113,7 +113,7 @@ export default new Router({
       components: {
         topbar: () => import(/* webpackChunkName: "navigation" */ './views/camp/NavDesktop'),
         default: () => import(/* webpackChunkName: "event" */ './views/event/Event'),
-        aside: () => import(/* webpackChunkName: "day" */ './views/event/DayOverview'),
+        aside: () => import(/* webpackChunkName: "day" */ './views/event/SideBarOverview'),
         bottombar: () => import(/* webpackChunkName: "navigation" */ './views/camp/NavMobile')
       },
       beforeEnter: requireAuth,

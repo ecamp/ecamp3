@@ -23,7 +23,7 @@ import SideBar from '@/components/base/SideBar'
 import ContentCard from '@/components/base/ContentCard'
 
 export default {
-  name: 'DayOverview',
+  name: 'SideBarOverview',
   components: { ContentCard, SideBar, Picasso },
   props: {
     day: { type: Function, required: true }
