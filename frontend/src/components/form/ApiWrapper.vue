@@ -5,7 +5,7 @@ Wrapper component for form components to save data back to API
 <template>
   <v-form
     inline
-    class="mb-2">
+    :class="{'d-flex api-wrapper--savable':!autoSave && !readonly,'my-4':!noMargin}">
     <slot
       :localValue="localValue"
       :errorMessages="errorMessages"
@@ -16,9 +16,10 @@ Wrapper component for form components to save data back to API
     <v-btn
       v-if="!autoSave && !readonly"
       :disabled="disabled"
-      small
-      color="warning"
-      class="mb-1"
+      small elevation="0"
+      color="warning" tile
+      class="mb-0"
+      height="auto"
       @click="reset">
       Reset
     </v-btn>
@@ -26,9 +27,10 @@ Wrapper component for form components to save data back to API
     <v-btn
       v-if="!autoSave && !readonly"
       color="primary"
-      small
+      small elevation="0"
       :disabled="disabled || isSaving || (required && $v.localValue.$invalid)"
-      class="mr-2 ml-2 mb-1"
+      class="mb-0 v-btn--last-instance"
+      height="auto"
       @click="save">
       <v-progress-circular
         v-if="isSaving"
@@ -151,7 +153,9 @@ export default {
       this.api.patch(this.uri, { [this.fieldname]: this.localValue }).then(() => {
         this.isSaving = false
         this.showSuccessIcon = true
-        setTimeout(() => { this.showSuccessIcon = false }, 2000)
+        setTimeout(() => {
+          this.showSuccessIcon = false
+        }, 2000)
       }, (e, a) => {
         console.log('error')
       })
@@ -161,5 +165,16 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+  .v-btn--last-instance {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+</style>
+
+<style lang="scss" >
+  .api-wrapper--savable .v-text-field {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
 </style>

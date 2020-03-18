@@ -3,25 +3,27 @@ Listing all given event instances in a calendar view.
 -->
 
 <template>
-  <v-calendar class="ec-picasso"
-              :events="eventInstances"
-              event-start="start_time"
-              event-end="end_time"
-              :event-name="getEventName"
-              :event-color="getEventColor"
-              interval-height="42"
-              :interval-format="getIntervalFormat"
-              first-interval="5"
-              interval-count="19"
-              :start="startDateString"
-              :end="endDateString"
-              locale="de-ch"
-              :day-format="dayFormat"
-              :type="type"
-              :weekday-format="weekdayFormat"
-              :weekdays="[1, 2, 3, 4, 5, 6, 0]"
-              color="primary"
-              @click:event="showEventInstance" />
+  <v-calendar
+    class="ec-picasso"
+    :events="eventInstances"
+    event-start="start_time"
+    event-end="end_time"
+    :event-name="getEventName | loading('Lädt…', ({ input }) => input.event()._meta.loading)"
+    :event-color="getEventColor | loading('grey lighten-2', eventInstance => eventInstance.event()._meta.loading)"
+    :interval-height="intervalHeight"
+    interval-width="46"
+    :interval-format="getIntervalFormat"
+    first-interval="5"
+    interval-count="19"
+    :start="startDateString"
+    :end="endDateString"
+    locale="de-ch"
+    :day-format="dayFormat"
+    :type="type"
+    :weekday-format="weekdayFormat"
+    :weekdays="[1, 2, 3, 4, 5, 6, 0]"
+    color="primary"
+    @click:event="showEventInstance" />
 </template>
 <script>
 import { eventInstanceRoute } from '@/router'
@@ -33,7 +35,8 @@ export default {
     eventInstances: { type: Array, required: true },
     start: { type: Date, required: true },
     end: { type: Date, required: true },
-    type: { type: String, required: false, default: 'week' }
+    type: { type: String, required: false, default: 'week' },
+    intervalHeight: { type: Number, required: false, default: 42 }
   },
   data () {
     return {
@@ -84,12 +87,12 @@ export default {
       opacity: .75;
       border-radius: 0;
       padding: 2px;
-      white-space: pre;
+      white-space: normal;
       min-width: auto;
+      width: 100%;
 
       .v-btn__content {
-        max-width: 100%;
-        white-space: normal;
+        width: 100%;
       }
     }
 

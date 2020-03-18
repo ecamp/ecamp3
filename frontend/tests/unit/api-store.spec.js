@@ -700,7 +700,7 @@ describe('API store', () => {
     axiosMock.onGet('http://localhost/periods/1').networkError()
     axiosMock.onGet('http://localhost/days/2').reply(404)
     const load = vm.api.get('/camps/3')._meta.load
-    vm.api.get('/periods/1')._meta.load
+    const period = vm.api.get('/periods/1')._meta.load
     await letNetworkRequestFinish()
     const camp = await load
     expect(vm.$store.state.api).toMatchObject(circularReference.storeState)
@@ -711,6 +711,7 @@ describe('API store', () => {
     // then
     await letNetworkRequestFinish()
     expect(axiosMock.history.get.length).toBe(3)
+    await period
     done()
   })
 
@@ -891,6 +892,14 @@ describe('API store', () => {
     await letNetworkRequestFinish()
     expect(vm.$store.state.api).toMatchObject(templatedLink.storeStateAfterLinkedLoaded)
     expect(await load).toMatchObject({ id: 83, name: 'Pflock', _meta: { self: 'http://localhost/camps/1/users/83' } })
+    done()
+  })
+
+  it('sets property loading on LoadingProxy to true', async done => {
+    // given
+    axiosMock.onGet('http://localhost/camps/1').reply(200, embeddedSingleEntity.serverResponse)
+    const loadingProxy = vm.api.get('/camps/1')
+    expect(loadingProxy.loading).toBe(true)
     done()
   })
 })

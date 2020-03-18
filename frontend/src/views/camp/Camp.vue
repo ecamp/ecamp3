@@ -3,7 +3,9 @@ Displays several tabs with details on a single camp.
 -->
 
 <template>
-  <router-view :camp="camp" />
+  <v-container fluid>
+    <router-view :camp="camp" />
+  </v-container>
 </template>
 
 <script>

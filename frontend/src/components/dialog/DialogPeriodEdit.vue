@@ -10,32 +10,31 @@
       <slot name="activator" v-bind="scope" />
     </template>
 
-    <v-row>
-      <v-col cols="12">
-        <v-text-field
-          v-model="entityData.description"
-          label="Description"
-          required />
-      </v-col>
-      <v-col cols="12">
-        <v-text-field
-          v-model="entityData.start"
-          label="Start"
-          required />
-      </v-col>
-      <v-col cols="12">
-        <v-text-field
-          v-model="entityData.end"
-          label="End"
-          required />
-      </v-col>
-    </v-row>
+    <v-text-field
+      v-model="entityData.description" hide-details="auto"
+      outlined
+      class="mb-4"
+      label="Description"
+      required />
+    <v-text-field
+      v-model="entityData.start" hide-details="auto"
+      outlined
+      class="mb-4"
+      label="Start"
+      required />
+    <v-text-field
+      v-model="entityData.end" hide-details="auto"
+      outlined
+      class="mb-4"
+      label="End"
+      required />
   </dialog-form>
 </template>
 
 <script>
 import DialogBase from './DialogBase'
 import DialogForm from './DialogForm'
+
 export default {
   name: 'DialogPeriodEdit',
   components: { DialogForm },

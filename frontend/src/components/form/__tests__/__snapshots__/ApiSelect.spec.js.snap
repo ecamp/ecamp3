@@ -2,7 +2,7 @@
 
 exports[`ApiTextField.vue renders correctly 1`] = `
 <form
-  class="v-form mb-2"
+  class="v-form my-4"
   inline=""
   novalidate="novalidate"
 >

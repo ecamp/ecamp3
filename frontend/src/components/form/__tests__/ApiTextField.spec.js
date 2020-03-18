@@ -62,9 +62,6 @@ describe('ApiTextField.vue', () => {
     expect(patchSpy).toBeCalledTimes(1)
     expect(patchSpy).toBeCalledWith(config.propsData.uri, { [config.propsData.fieldname]: newValue })
 
-    const statusIcon = wrapper.find({ name: 'StatusIcon' }).vm
-    // expect(statusIcon.status).toBe('saving')
-
     // wait for patch Promise to resolve
     await flushPromises()
 

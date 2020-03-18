@@ -19,9 +19,7 @@
         </v-toolbar>
 
         <v-card-text>
-          <v-container>
-            <slot />
-          </v-container>
+          <slot />
         </v-card-text>
         <v-card-actions>
           <v-spacer />

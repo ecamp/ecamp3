@@ -1,0 +1,31 @@
+@use "~inter-ui/default" as inter-ui with (
+    $inter-font-path: "~inter-ui/Inter (web hinted latin)"
+  );
+@include inter-ui.weight-200;
+@include inter-ui.weight-400;
+@include inter-ui.weight-500;
+@include inter-ui.weight-600;
+body {font-feature-settings: "ss03", "calt", "rlig", "kern", "cv05", "cv07", "cv08"}
+.v-toolbar__title {font-weight: 500;}
+.theme--light.v-application {
+	background: #546E7A!important;
+}
+.v-calendar-daily,
+.v-skeleton-loader__actions,
+.v-skeleton-loader__article,
+.v-skeleton-loader__card-heading,
+.v-skeleton-loader__card-text,
+.v-skeleton-loader__date-picker,
+.v-skeleton-loader__list-item,
+.v-skeleton-loader__list-item-avatar,
+.v-skeleton-loader__list-item-text,
+.v-skeleton-loader__list-item-two-line,
+.v-skeleton-loader__list-item-avatar-two-line,
+.v-skeleton-loader__list-item-three-line,
+.v-skeleton-loader__list-item-avatar-three-line,
+.v-skeleton-loader__table-heading,
+.v-skeleton-loader__table-thead,
+.v-skeleton-loader__table-tbody,
+.v-skeleton-loader__table-tfoot {
+	background: none!important;
+}

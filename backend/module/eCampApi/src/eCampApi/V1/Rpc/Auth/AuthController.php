@@ -57,9 +57,11 @@ class AuthController extends AbstractActionController {
         }
         if ($user != null) {
             $data['user'] = $user->getDisplayName();
+            $data['username'] = $user->getUsername();
             $data['role'] = $user->getRole();
         } else {
             $data['user'] = 'guest';
+            $data['username'] = 'guest';
             $data['role'] = 'guest';
         }
 

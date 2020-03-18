@@ -3,21 +3,21 @@ Displays the content wrapped inside a card.
 -->
 
 <template>
-  <v-card :max-width="maxWidth" class="mx-auto">
+  <v-sheet class="ec-content-group mb-8">
     <slot name="title">
-      <v-card-title v-if="title">
+      <div v-if="title" class="ec-content-group__title py-1 subtitle-1">
         <v-icon v-if="icon" left>{{ icon }}</v-icon>
         {{ title }}
-      </v-card-title>
+      </div>
     </slot>
     <v-skeleton-loader v-if="!loaded" type="article" />
     <slot v-else />
-  </v-card>
+  </v-sheet>
 </template>
 
 <script>
 export default {
-  name: 'ContentCard',
+  name: 'ContentGroup',
   props: {
     loaded: { type: Boolean, required: false, default: true },
     title: { type: String, required: false, default: '' },
@@ -27,6 +27,8 @@ export default {
 }
 </script>
 
-<style scoped>
-  .v-card__title {font-weight: 600;}
+<style lang="scss" scoped>
+  .ec-content-group__title {
+    border-bottom: 1px solid map-get($blue-grey, 'lighten-4');
+  }
 </style>

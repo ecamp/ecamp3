@@ -3,14 +3,16 @@ Displays details on a single camp and allows to edit them.
 -->
 
 <template>
-  <content-card icon="mdi-cogs" title="Einstellungen">
+  <content-group title="Einstellungen">
     <v-skeleton-loader v-if="camp()._meta.loading" type="article" />
     <v-form v-else>
       <v-text-field
         label="Name"
+        outlined
         readonly
+        hide-details="auto"
         :value="camp().name"
-        class="mr-2 ml-2" />
+        class="my-4" />
       <api-text-field
         :value="camp().title"
         :uri="camp()._meta.self"
@@ -24,16 +26,16 @@ Displays details on a single camp and allows to edit them.
         label="Motto"
         required />
     </v-form>
-  </content-card>
+  </content-group>
 </template>
 
 <script>
-import ContentCard from '@/components/base/ContentCard'
 import ApiTextField from '@/components/form/ApiTextField'
+import ContentGroup from '@/components/base/ContentGroup'
 
 export default {
   name: 'CampSettings',
-  components: { ApiTextField, ContentCard },
+  components: { ContentGroup, ApiTextField },
   props: {
     camp: { type: Function, required: true }
   },
