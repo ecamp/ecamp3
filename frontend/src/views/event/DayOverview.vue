@@ -10,7 +10,7 @@
                :camp="period.camp"
                :event-instances="eventInstances.items"
                :start="startOfDay"
-               interval-height="36"
+               :interval-height="36"
                :end="endOfDay"
                type="day" />
     </content-card>
