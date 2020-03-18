@@ -24,19 +24,19 @@
     </v-toolbar-items>
     <v-spacer />
     <desktop-search />
-    <top-bar-user-menu />
+    <nav-desktop-user-menu />
   </v-app-bar>
 </template>
 
 <script>
 import { campFromRoute, campRoute } from '@/router'
 import DesktopSearch from '@/components/base/NavDesktopSearch'
-import TopBarUserMenu from '@/components/base/NavDesktopUserMenu'
+import NavDesktopUserMenu from '@/components/base/NavDesktopUserMenu'
 
 export default {
   name: 'NavDesktop',
   components: {
-    TopBarUserMenu,
+    NavDesktopUserMenu,
     DesktopSearch,
     Logo: () => import('@/components/base/Logo')
   },
