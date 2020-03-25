@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <router-view name="topbar" />
+    <router-view name="navigation" />
 
     <router-view name="aside" />
 
@@ -8,8 +8,6 @@
     <v-content>
       <router-view />
     </v-content>
-
-    <router-view name="bottombar" />
 
     <!-- footer -->
     <v-footer v-if="$vuetify.breakpoint.mdAndUp"
@@ -28,11 +26,6 @@ export default {
   @import "src/scss/global";
   // consider replacing with CDN for production
   @import '../node_modules/@mdi/font/css/materialdesignicons.css';
-
-  .v-navigation-drawer--temporary.v-navigation-drawer--clipped {
-    z-index: 5;
-    margin-top: 116px;
-  }
 
   .v-btn.ec-drawer-collapse {
     right: 0;
@@ -60,8 +53,7 @@ export default {
   }
 
   .v-navigation-drawer--temporary.v-navigation-drawer--clipped {
-    z-index: 5;
-    margin-top: 116px;
+    margin-top: 56px;
   }
 
   .v-btn--open {

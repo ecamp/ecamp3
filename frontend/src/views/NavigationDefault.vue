@@ -1,26 +1,36 @@
 <template>
-  <v-app-bar
-    v-if="$vuetify.breakpoint.smAndUp"
-    app clipped-left
-    color="blue-grey darken-4" dark>
-    <logo text />
-    <v-spacer />
-    <desktop-search />
-    <nav-desktop-user-menu />
-  </v-app-bar>
+  <div>
+    <v-app-bar
+      app
+      clipped-left color="blue-grey darken-4"
+      dark v-if="$vuetify.breakpoint.smAndUp">
+      <logo text />
+      <v-spacer />
+      <desktop-search />
+      <nav-desktop-user-menu />
+    </v-app-bar>
+    <v-bottom-navigation app fixed
+                         grow v-else>
+      <v-btn :to="{name: 'camps'}">
+        <span>Meine Camps</span>
+        <v-icon>mdi-format-list-bulleted-triangle</v-icon>
+      </v-btn>
+    </v-bottom-navigation>
+  </div>
 </template>
 
 <script>
 import { campFromRoute, campRoute } from '@/router'
 import DesktopSearch from '@/components/base/NavDesktopSearch'
 import NavDesktopUserMenu from '@/components/base/NavDesktopUserMenu'
+import Logo from '@/components/base/Logo'
 
 export default {
-  name: 'NavDesktop',
+  name: 'NavigationDefault',
   components: {
     NavDesktopUserMenu,
     DesktopSearch,
-    Logo: () => import('@/components/base/Logo')
+    Logo
   },
   data () {
     return {

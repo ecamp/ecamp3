@@ -2,10 +2,11 @@
   <v-navigation-drawer v-if="$vuetify.breakpoint.smAndUp"
                        v-model="drawer" app
                        clipped permanent
+                       :temporary="!mini && !this.$vuetify.breakpoint.mdAndUp"
                        :mini-variant.sync="mini"
                        mini-variant-width="40"
                        color="blue-grey lighten-4">
-    <v-btn v-if="mini" icon>
+    <v-btn @click.stop="mini = !mini" icon v-if="mini">
       <v-icon>mdi-format-list-bulleted-triangle</v-icon>
     </v-btn>
     <v-spacer />
@@ -28,12 +29,24 @@ export default {
   name: 'SideBar',
   data () {
     return {
-      drawer: false
+      drawer: false,
+      dirty: false,
+      minimized: false
     }
   },
   computed: {
-    mini () {
-      return !this.$vuetify.breakpoint.mdAndUp
+    mini: {
+      get: function () {
+        if (this.dirty) {
+          return this.minimized
+        } else {
+          return !this.$vuetify.breakpoint.mdAndUp
+        }
+      },
+      set: function (value) {
+        this.dirty = true
+        this.minimized = value
+      }
     }
   }
 }
