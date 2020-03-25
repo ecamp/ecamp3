@@ -1,12 +1,12 @@
 <!--
-Displays a field as a date picker + write access via API wrapper
+Displays a field as a time picker + write access via API wrapper
 -->
 
 <template>
   <api-wrapper
     v-bind="$props">
     <template slot-scope="wrapper">
-      <date-picker
+      <time-picker
         :value="wrapper.localValue"
         v-bind="$attrs"
         :readonly="readonly"
@@ -14,7 +14,7 @@ Displays a field as a date picker + write access via API wrapper
         :error-messages="wrapper.errorMessages"
         @input="wrapper.on.input">
         <status-icon slot="append" :status="wrapper.status" />
-      </date-picker>
+      </time-picker>
     </template>
   </api-wrapper>
 </template>
@@ -22,12 +22,12 @@ Displays a field as a date picker + write access via API wrapper
 <script>
 import { apiPropsMixin } from '@/mixins/apiPropsMixin'
 import ApiWrapper from './ApiWrapper'
-import StatusIcon from './StatusIcon'
-import DatePicker from './DatePicker'
+import StatusIcon from '../base/StatusIcon'
+import TimePicker from '../base/TimePicker'
 
 export default {
-  name: 'ApiDatePicker',
-  components: { ApiWrapper, StatusIcon, DatePicker },
+  name: 'ApiTimePicker',
+  components: { ApiWrapper, StatusIcon, TimePicker },
   mixins: [apiPropsMixin],
   props: {
     // disable delay per default

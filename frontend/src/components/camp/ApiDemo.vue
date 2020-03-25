@@ -81,12 +81,12 @@ Displays details on a single camp and allows to edit them.
 </template>
 
 <script>
-import ApiTextField from '../form/ApiTextField'
-import ApiTextarea from '../form/ApiTextarea'
-import ApiDatePicker from '../form/ApiDatePicker'
-import ApiTimePicker from '../form/ApiTimePicker'
-import ApiCheckbox from '../form/ApiCheckbox'
-import ApiColorPicker from '../form/ApiColorPicker'
+import ApiTextField from '../form/api/ApiTextField'
+import ApiTextarea from '../form/api/ApiTextarea'
+import ApiDatePicker from '../form/api/ApiDatePicker'
+import ApiTimePicker from '../form/api/ApiTimePicker'
+import ApiCheckbox from '../form/api/ApiCheckbox'
+import ApiColorPicker from '../form/api/ApiColorPicker'
 
 import ContentGroup from '@/components/layout/ContentGroup'
 

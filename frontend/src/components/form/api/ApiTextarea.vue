@@ -25,7 +25,7 @@ Displays a field as a v-textarea + write access via API wrapper
 <script>
 import { apiPropsMixin } from '@/mixins/apiPropsMixin'
 import ApiWrapper from './ApiWrapper'
-import StatusIcon from './StatusIcon'
+import StatusIcon from '../base/StatusIcon'
 
 export default {
   name: 'ApiTextarea',

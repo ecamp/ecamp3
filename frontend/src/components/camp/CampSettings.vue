@@ -30,7 +30,7 @@ Displays details on a single camp and allows to edit them.
 </template>
 
 <script>
-import ApiTextField from '@/components/form/ApiTextField'
+import ApiTextField from '@/components/form/api/ApiTextField'
 import ContentGroup from '@/components/layout/ContentGroup'
 
 export default {

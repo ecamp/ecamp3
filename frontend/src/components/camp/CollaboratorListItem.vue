@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import ApiSelect from '@/components/form/ApiSelect'
+import ApiSelect from '@/components/form/api/ApiSelect'
 import ButtonDelete from '@/components/buttons/ButtonDelete'
 
 export default {

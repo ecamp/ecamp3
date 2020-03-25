@@ -1,21 +1,20 @@
 <!--
-Displays a field as a v-checkbox + write access via API wrapper
+Displays a field as a color picker + write access via API wrapper
 -->
 
 <template>
   <api-wrapper
     v-bind="$props">
     <template slot-scope="wrapper">
-      <v-checkbox
-        :input-value="wrapper.localValue"
+      <color-picker
+        :value="wrapper.localValue"
         v-bind="$attrs"
         :readonly="readonly"
         :disabled="disabled"
         :error-messages="wrapper.errorMessages"
-        hide-details="auto"
-        @change="wrapper.on.input">
+        @input="wrapper.on.input">
         <status-icon slot="append" :status="wrapper.status" />
-      </v-checkbox>
+      </color-picker>
     </template>
   </api-wrapper>
 </template>
@@ -23,18 +22,20 @@ Displays a field as a v-checkbox + write access via API wrapper
 <script>
 import { apiPropsMixin } from '@/mixins/apiPropsMixin'
 import ApiWrapper from './ApiWrapper'
-import StatusIcon from './StatusIcon'
+import StatusIcon from '../base/StatusIcon'
+import ColorPicker from '../base/ColorPicker'
 
 export default {
-  name: 'ApiCheckbox',
-  components: { ApiWrapper, StatusIcon },
+  name: 'ApiColorPicker',
+  components: { ApiWrapper, StatusIcon, ColorPicker },
   mixins: [apiPropsMixin],
   props: {
     // disable delay per default
     autoSaveDelay: { type: Number, default: 0, required: false }
   },
   data () {
-    return {}
+    return {
+    }
   }
 }
 </script>

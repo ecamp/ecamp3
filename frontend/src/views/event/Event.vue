@@ -55,7 +55,7 @@ export default {
   components: {
     BackButton: () => import('@/components/buttons/ButtonBack'),
     ContentCard,
-    ApiTextField: () => import('@/components/form/ApiTextField')
+    ApiTextField: () => import('@/components/form/api/ApiTextField')
   },
   props: {
     eventInstance: { type: Function, required: true }

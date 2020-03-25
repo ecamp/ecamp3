@@ -1,23 +1,20 @@
 <!--
-Displays a field as a v-select + write access via API wrapper
+Displays a field as a date picker + write access via API wrapper
 -->
 
 <template>
   <api-wrapper
     v-bind="$props">
     <template slot-scope="wrapper">
-      <v-select
+      <date-picker
         :value="wrapper.localValue"
         v-bind="$attrs"
         :readonly="readonly"
         :disabled="disabled"
         :error-messages="wrapper.errorMessages"
-        hide-details="auto"
-        outlined
-        @input="wrapper.on.input"
-        @blur="wrapper.on.touch">
+        @input="wrapper.on.input">
         <status-icon slot="append" :status="wrapper.status" />
-      </v-select>
+      </date-picker>
     </template>
   </api-wrapper>
 </template>
@@ -25,11 +22,12 @@ Displays a field as a v-select + write access via API wrapper
 <script>
 import { apiPropsMixin } from '@/mixins/apiPropsMixin'
 import ApiWrapper from './ApiWrapper'
-import StatusIcon from './StatusIcon'
+import StatusIcon from '../base/StatusIcon'
+import DatePicker from '../base/DatePicker'
 
 export default {
-  name: 'ApiSelect',
-  components: { ApiWrapper, StatusIcon },
+  name: 'ApiDatePicker',
+  components: { ApiWrapper, StatusIcon, DatePicker },
   mixins: [apiPropsMixin],
   props: {
     // disable delay per default

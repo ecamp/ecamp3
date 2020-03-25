@@ -1,20 +1,23 @@
 <!--
-Displays a field as a color picker + write access via API wrapper
+Displays a field as a v-select + write access via API wrapper
 -->
 
 <template>
   <api-wrapper
     v-bind="$props">
     <template slot-scope="wrapper">
-      <color-picker
+      <v-select
         :value="wrapper.localValue"
         v-bind="$attrs"
         :readonly="readonly"
         :disabled="disabled"
         :error-messages="wrapper.errorMessages"
-        @input="wrapper.on.input">
+        hide-details="auto"
+        outlined
+        @input="wrapper.on.input"
+        @blur="wrapper.on.touch">
         <status-icon slot="append" :status="wrapper.status" />
-      </color-picker>
+      </v-select>
     </template>
   </api-wrapper>
 </template>
@@ -22,12 +25,11 @@ Displays a field as a color picker + write access via API wrapper
 <script>
 import { apiPropsMixin } from '@/mixins/apiPropsMixin'
 import ApiWrapper from './ApiWrapper'
-import StatusIcon from './StatusIcon'
-import ColorPicker from './ColorPicker'
+import StatusIcon from '../base/StatusIcon'
 
 export default {
-  name: 'ApiColorPicker',
-  components: { ApiWrapper, StatusIcon, ColorPicker },
+  name: 'ApiSelect',
+  components: { ApiWrapper, StatusIcon },
   mixins: [apiPropsMixin],
   props: {
     // disable delay per default
