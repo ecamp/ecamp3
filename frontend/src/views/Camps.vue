@@ -34,11 +34,12 @@
 
 <script>
 import { campRoute } from '@/router'
+import ContentCard from '@/components/layout/ContentCard'
 
 export default {
   name: 'Camps',
   components: {
-    ContentCard: () => import('@/components/layout/ContentCard')
+    ContentCard
   },
   computed: {
     camps () {

@@ -3,7 +3,7 @@
     <content-card max-width="600">
       <template v-slot:title>
         <v-card-title>
-          <back-button />
+          <button-back />
           {{ 'Profil: ' + profile.username }}
         </v-card-title>
       </template>
@@ -21,12 +21,16 @@
 </template>
 
 <script>
+import ApiTextField from '@/components/form/api/ApiTextField'
+import ContentCard from '@/components/layout/ContentCard'
+import ButtonBack from '@/components/buttons/ButtonBack'
+
 export default {
   name: 'Home',
   components: {
-    ApiTextField: () => import('@/components/form/api/ApiTextField'),
-    ContentCard: () => import('@/components/layout/ContentCard'),
-    BackButton: () => import('@/components/buttons/ButtonBack')
+    ApiTextField,
+    ContentCard,
+    ButtonBack
   },
   computed: {
     profile () {

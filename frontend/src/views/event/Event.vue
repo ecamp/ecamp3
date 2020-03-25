@@ -6,7 +6,7 @@ Displays a single event
   <v-container fluid>
     <content-card>
       <v-toolbar dense>
-        <back-button />
+        <button-back />
         <v-toolbar-title class="pl-2">
           {{ eventInstance().number }}
           <v-chip v-if="!category._meta.loading" dark :color="category.color">{{ category.short }}</v-chip>
@@ -48,14 +48,16 @@ Displays a single event
 </template>
 
 <script>
+import ButtonBack from '@/components/buttons/ButtonBack'
 import ContentCard from '@/components/layout/ContentCard'
+import ApiTextField from '@/components/form/api/ApiTextField'
 
 export default {
   name: 'Event',
   components: {
-    BackButton: () => import('@/components/buttons/ButtonBack'),
+    ButtonBack,
     ContentCard,
-    ApiTextField: () => import('@/components/form/api/ApiTextField')
+    ApiTextField
   },
   props: {
     eventInstance: { type: Function, required: true }

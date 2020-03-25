@@ -52,14 +52,17 @@ Show all event instances of a single period.
 </template>
 <script>
 import ContentCard from '@/components/layout/ContentCard'
+import MobileSearch from '@/components/navigation/MobileSearch'
+import Picasso from '@/components/camp/Picasso'
+import EventList from '@/components/camp/EventList'
 
 export default {
   name: 'CampProgram',
   components: {
     ContentCard,
-    MobileSearch: () => import('@/components/navigation/MobileSearch'),
-    Picasso: () => import('@/components/camp/Picasso'),
-    EventList: () => import('@/components/camp/EventList')
+    MobileSearch,
+    Picasso,
+    EventList
   },
   props: {
     camp: { type: Function, required: true }

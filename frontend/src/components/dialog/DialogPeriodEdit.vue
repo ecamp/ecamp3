@@ -32,8 +32,8 @@
 </template>
 
 <script>
-import DialogBase from './DialogBase'
-import DialogForm from './DialogForm'
+import DialogBase from '@/components/dialog/DialogBase'
+import DialogForm from '@/components/dialog/DialogForm'
 
 export default {
   name: 'DialogPeriodEdit',
