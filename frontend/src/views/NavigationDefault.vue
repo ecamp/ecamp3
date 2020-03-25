@@ -1,16 +1,16 @@
 <template>
   <div>
     <v-app-bar
-      app
-      clipped-left color="blue-grey darken-4"
-      dark v-if="$vuetify.breakpoint.smAndUp">
+      v-if="$vuetify.breakpoint.smAndUp"
+      app clipped-left
+      color="blue-grey darken-4" dark>
       <logo text />
       <v-spacer />
       <desktop-search />
       <nav-desktop-user-menu />
     </v-app-bar>
-    <v-bottom-navigation app fixed
-                         grow v-else>
+    <v-bottom-navigation v-else app
+                         fixed grow>
       <v-btn :to="{name: 'camps'}">
         <span>Meine Camps</span>
         <v-icon>mdi-format-list-bulleted-triangle</v-icon>

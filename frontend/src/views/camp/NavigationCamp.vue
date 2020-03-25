@@ -1,8 +1,8 @@
 <template>
   <div>
-    <v-app-bar app clipped-left
-               color="blue-grey darken-4"
-               dark v-if="$vuetify.breakpoint.smAndUp">
+    <v-app-bar v-if="$vuetify.breakpoint.smAndUp" app
+               clipped-left
+               color="blue-grey darken-4" dark>
       <logo>
         <v-btn :to="campRoute(camp(), 'program')" class="justify-start px-2"
                text
@@ -27,8 +27,8 @@
       <desktop-search />
       <nav-desktop-user-menu />
     </v-app-bar>
-    <v-bottom-navigation app fixed
-                         grow v-else>
+    <v-bottom-navigation v-else app
+                         fixed grow>
       <v-btn>
         <span>Material</span>
         <v-icon>mdi-package-variant</v-icon>

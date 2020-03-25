@@ -6,7 +6,7 @@
                        :mini-variant.sync="mini"
                        mini-variant-width="40"
                        color="blue-grey lighten-4">
-    <v-btn @click.stop="mini = !mini" icon v-if="mini">
+    <v-btn v-if="mini" icon @click.stop="mini = !mini">
       <v-icon>mdi-format-list-bulleted-triangle</v-icon>
     </v-btn>
     <v-spacer />
