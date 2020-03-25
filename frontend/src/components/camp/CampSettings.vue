@@ -13,18 +13,16 @@ Displays details on a single camp and allows to edit them.
         hide-details="auto"
         :value="camp().name"
         class="my-4" />
-      <api-text-field
-        :value="camp().title"
-        :uri="camp()._meta.self"
-        fieldname="title"
-        label="Titel"
-        required />
-      <api-text-field
-        :value="camp().motto"
-        :uri="camp()._meta.self"
-        fieldname="motto"
-        label="Motto"
-        required />
+      <api-form :entity="camp()">
+        <api-text-field
+          fieldname="title"
+          label="Titel"
+          required />
+        <api-text-field
+          fieldname="motto"
+          label="Motto"
+          required />
+      </api-form>
     </v-form>
   </content-group>
 </template>
@@ -32,16 +30,19 @@ Displays details on a single camp and allows to edit them.
 <script>
 import ApiTextField from '@/components/form/api/ApiTextField'
 import ContentGroup from '@/components/layout/ContentGroup'
+import ApiForm from '@/components/form/ApiForm'
 
 export default {
   name: 'CampSettings',
-  components: { ContentGroup, ApiTextField },
+  components: { ContentGroup, ApiTextField, ApiForm },
   props: {
-    camp: { type: Function, required: true }
+    camp: {
+      type: Function,
+      required: true
+    }
   },
   data () {
-    return {
-    }
+    return {}
   }
 }
 </script>
