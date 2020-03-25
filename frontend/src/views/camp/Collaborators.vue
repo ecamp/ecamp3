@@ -70,7 +70,7 @@ Displays collaborators of a single camp.
 import ContentCard from '@/components/base/ContentCard'
 import ContentGroup from '@/components/base/ContentGroup'
 import CollaboratorListItem from '@/components/camp/CollaboratorListItem'
-import ButtonAdd from '@/components/base/ButtonAdd'
+import ButtonAdd from '@/components/buttons/ButtonAdd'
 
 export default {
   name: 'Collaborators',

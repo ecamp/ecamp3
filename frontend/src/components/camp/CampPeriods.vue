@@ -28,7 +28,7 @@ Displays all periods of a single camp and allows to edit them & create new ones
 </template>
 
 <script>
-import ButtonAdd from '@/components/base/ButtonAdd'
+import ButtonAdd from '@/components/buttons/ButtonAdd'
 import PeriodItem from '@/components/camp/CampPeriodsListItem'
 import DialogPeriodCreate from '@/components/dialog/DialogPeriodCreate'
 import ContentGroup from '@/components/base/ContentGroup'
