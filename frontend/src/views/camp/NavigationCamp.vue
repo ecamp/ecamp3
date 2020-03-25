@@ -18,7 +18,7 @@
           <v-icon :left="$vuetify.breakpoint.mdAndUp">mdi-account-group</v-icon>
           <span class="sr-only-sm-and-down">Team</span>
         </v-btn>
-        <v-btn :to="campRoute(camp(), 'admin')" exact text>
+        <v-btn :to="campRoute(camp(), 'admin')" text>
           <v-icon :left="$vuetify.breakpoint.mdAndUp">mdi-cogs</v-icon>
           <span class="sr-only-sm-and-down">Admin</span>
         </v-btn>
