@@ -32,7 +32,7 @@ return array(
             'e-camp-api.rest.doctrine.camp' => array(
                 'type' => 'Segment',
                 'options' => array(
-                    'route' => '/api/camp[/:camp_id]',
+                    'route' => '/api/camp[/[:camp_id]]',
                     'defaults' => array(
                         'controller' => 'eCampApi\\V1\\Rest\\Camp\\Controller',
                     ),

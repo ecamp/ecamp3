@@ -3,10 +3,10 @@ namespace eCampApi\V1\Rpc\Index;
 
 use eCamp\Core\Entity\User;
 use eCamp\Core\EntityService\UserService;
+use eCamp\Lib\Hal\Link;
 use Zend\Authentication\AuthenticationService;
 use Zend\Mvc\Controller\AbstractActionController;
 use ZF\Hal\Entity;
-use ZF\Hal\Link\Link;
 use ZF\Hal\View\HalJsonModel;
 
 class IndexController extends AbstractActionController {
@@ -70,10 +70,33 @@ class IndexController extends AbstractActionController {
             'route' => 'zf-apigility/ui'
         ]);
 
+        $data['camp_list'] = Link::factory([
+            'rel' => 'camp_list',
+            'route' =>  'e-camp-api.rest.doctrine.camp',
+        ]);
+
         $data['camps'] = Link::factory([
             'rel' => 'camps',
-            'route' => 'e-camp-api.rest.doctrine.camp'
+            'route' => [
+                'name' => 'e-camp-api.rest.doctrine.camp',
+                'params' => [ 'camp_id' => Link::tplParam('{id}') ],
+            ]
         ]);
+
+        $data['camps_query'] = Link::factory([
+            'rel' => 'camps_query_not_working',
+            'route' => [
+                'name' => 'e-camp-api.rest.doctrine.camp',
+                'params' => [ 'camp_id' => Link::tplParam('{id}') ],
+                'options' => [
+                    'query' => [
+                        'a' => 'b'
+                    ]
+                ]
+            ]
+        ]);
+
+
 
         $json = new HalJsonModel();
         $json->setPayload(new Entity($data));
