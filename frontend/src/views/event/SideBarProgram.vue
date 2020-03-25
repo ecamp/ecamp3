@@ -19,7 +19,7 @@
 
 <script>
 import Picasso from '@/components/camp/Picasso'
-import SideBar from '@/components/base/SideBar'
+import SideBar from '@/components/navigation/SideBar'
 import ContentCard from '@/components/layout/ContentCard'
 
 export default {

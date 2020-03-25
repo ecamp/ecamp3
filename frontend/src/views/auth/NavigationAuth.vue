@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import Logo from '@/components/base/Logo'
+import Logo from '@/components/navigation/Logo'
 
 export default {
   name: 'NavigationAuth',

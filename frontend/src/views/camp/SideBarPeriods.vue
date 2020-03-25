@@ -23,7 +23,7 @@ Displays periods of a single camp.
   </side-bar>
 </template>
 <script>
-import SideBar from '@/components/base/SideBar'
+import SideBar from '@/components/navigation/SideBar'
 import ContentCard from '@/components/layout/ContentCard'
 
 export default {

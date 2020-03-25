@@ -57,7 +57,7 @@ export default {
   name: 'CampProgram',
   components: {
     ContentCard,
-    MobileSearch: () => import('@/components/base/MobileSearch'),
+    MobileSearch: () => import('@/components/navigation/MobileSearch'),
     Picasso: () => import('@/components/camp/Picasso'),
     EventList: () => import('@/components/camp/EventList')
   },

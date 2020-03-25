@@ -21,9 +21,9 @@
 
 <script>
 import { campFromRoute, campRoute } from '@/router'
-import DesktopSearch from '@/components/base/NavDesktopSearch'
-import NavDesktopUserMenu from '@/components/base/NavDesktopUserMenu'
-import Logo from '@/components/base/Logo'
+import DesktopSearch from '@/components/navigation/NavDesktopSearch'
+import NavDesktopUserMenu from '@/components/navigation/NavDesktopUserMenu'
+import Logo from '@/components/navigation/Logo'
 
 export default {
   name: 'NavigationDefault',
