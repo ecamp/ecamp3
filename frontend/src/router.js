@@ -5,9 +5,9 @@ import { refreshLoginStatus } from '@/auth/auth'
 
 Vue.use(Router)
 
-const NavigationAuth = () => import(/* webpackChunkName: "navigation" */ './views/auth/NavigationAuth')
-const NavigationDefault = () => import(/* webpackChunkName: "navigation" */ './views/NavigationDefault')
-const NavigationCamp = () => import(/* webpackChunkName: "navigation" */ './views/camp/NavigationCamp')
+const NavigationAuth = () => import(/* webpackChunkName: "navigationAuth" */ './views/auth/NavigationAuth')
+const NavigationDefault = () => import(/* webpackChunkName: "navigationDefault" */ './views/NavigationDefault')
+const NavigationCamp = () => import(/* webpackChunkName: "navigationCamp" */ './views/camp/NavigationCamp')
 
 /* istanbul ignore next */
 export default new Router({
