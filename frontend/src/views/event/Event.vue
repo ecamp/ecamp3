@@ -53,7 +53,7 @@ import ContentCard from '@/components/base/ContentCard'
 export default {
   name: 'Event',
   components: {
-    BackButton: () => import('@/components/base/BackButton'),
+    BackButton: () => import('@/components/base/ButtonBack'),
     ContentCard,
     ApiTextField: () => import('@/components/form/ApiTextField')
   },

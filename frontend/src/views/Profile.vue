@@ -26,7 +26,7 @@ export default {
   components: {
     ApiTextField: () => import('@/components/form/ApiTextField'),
     ContentCard: () => import('@/components/base/ContentCard'),
-    BackButton: () => import('@/components/base/BackButton')
+    BackButton: () => import('@/components/base/ButtonBack')
   },
   computed: {
     profile () {

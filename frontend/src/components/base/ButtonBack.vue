@@ -7,7 +7,7 @@
 
 <script>
 export default {
-  name: 'BackButton'
+  name: 'ButtonBack'
 }
 </script>
 
