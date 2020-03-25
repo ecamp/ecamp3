@@ -23,7 +23,7 @@ Displays a field as a v-checkbox + write access via API wrapper
 <script>
 import { apiPropsMixin } from '@/mixins/apiPropsMixin'
 import ApiWrapper from './ApiWrapper'
-import StatusIcon from '../base/StatusIcon'
+import StatusIcon from './StatusIcon'
 
 export default {
   name: 'ApiCheckbox',

@@ -30,7 +30,7 @@ Displays details on a single camp and allows to edit them.
 <script>
 import ApiTextField from '@/components/form/api/ApiTextField'
 import ContentGroup from '@/components/layout/ContentGroup'
-import ApiForm from '@/components/form/ApiForm'
+import ApiForm from '@/components/form/api/ApiForm'
 
 export default {
   name: 'CampSettings',

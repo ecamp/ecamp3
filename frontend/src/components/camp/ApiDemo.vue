@@ -82,7 +82,7 @@ import ApiTimePicker from '../form/api/ApiTimePicker'
 import ApiCheckbox from '../form/api/ApiCheckbox'
 import ApiColorPicker from '../form/api/ApiColorPicker'
 
-import ApiForm from '@/components/form/ApiForm'
+import ApiForm from '@/components/form/api/ApiForm'
 
 import ContentGroup from '@/components/layout/ContentGroup'
 

@@ -22,7 +22,7 @@ Displays a field as a color picker + write access via API wrapper
 <script>
 import { apiPropsMixin } from '@/mixins/apiPropsMixin'
 import ApiWrapper from './ApiWrapper'
-import StatusIcon from '../base/StatusIcon'
+import StatusIcon from './StatusIcon'
 import ColorPicker from '../base/ColorPicker'
 
 export default {
