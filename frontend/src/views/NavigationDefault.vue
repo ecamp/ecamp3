@@ -6,8 +6,8 @@
       color="blue-grey darken-4" dark>
       <logo text />
       <v-spacer />
-      <desktop-search />
-      <nav-desktop-user-menu />
+      <search-desktop />
+      <user-meta />
     </v-app-bar>
     <v-bottom-navigation v-else app
                          fixed grow>
@@ -21,15 +21,15 @@
 
 <script>
 import { campFromRoute, campRoute } from '@/router'
-import DesktopSearch from '@/components/navigation/NavDesktopSearch'
-import NavDesktopUserMenu from '@/components/navigation/NavDesktopUserMenu'
+import SearchDesktop from '@/components/navigation/SearchDesktop'
+import UserMeta from '@/components/navigation/UserMeta'
 import Logo from '@/components/navigation/Logo'
 
 export default {
   name: 'NavigationDefault',
   components: {
-    NavDesktopUserMenu,
-    DesktopSearch,
+    UserMeta,
+    SearchDesktop,
     Logo
   },
   data () {

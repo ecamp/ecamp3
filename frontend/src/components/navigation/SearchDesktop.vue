@@ -13,7 +13,7 @@
 
 <script>
 export default {
-  name: 'NavDesktopSearch',
+  name: 'SearchDesktop',
   data () {
     return {
       searchFocused: false
