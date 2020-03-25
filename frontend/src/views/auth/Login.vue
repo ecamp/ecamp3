@@ -74,7 +74,7 @@
 </template>
 
 <script>
-import { refreshLoginStatus } from '@/auth'
+import { refreshLoginStatus } from '@/auth/auth'
 import PbsMiDataLogo from '../../../public/pbsmidata.svg'
 
 export default {

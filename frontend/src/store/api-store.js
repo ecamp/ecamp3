@@ -4,7 +4,7 @@ import axios from 'axios'
 import VueAxios from 'vue-axios'
 import normalize from 'hal-json-normalizer'
 import urltemplate from 'url-template'
-import { normalizeEntityUri } from '@/store/uriUtils'
+import { normalizeEntityUri } from '@/store/normalizeUri'
 import storeValueProxy from '@/store/storeValueProxy'
 
 Vue.use(Vuex)

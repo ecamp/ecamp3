@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import axios from 'axios'
-import { get, reload, post, href } from '@/store'
+import { get, reload, post, href } from '@/store/api-store'
 import router from '@/router'
 
 axios.interceptors.response.use(null, error => {

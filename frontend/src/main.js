@@ -1,8 +1,8 @@
 import Vue from 'vue'
 import App from './App.vue'
-import '@/auth'
+import '@/auth/auth'
 import router from '@/router'
-import store from './store'
+import store from './store/api-store'
 import vuetify from './plugins/vuetify'
 
 Vue.filter('loading', function (value, loadingState, isLoading = v => typeof v === 'function' && v.loading) {

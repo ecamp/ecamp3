@@ -1,6 +1,6 @@
-import { auth } from '@/auth'
+import { auth } from '@/auth/auth'
 
-import * as apiStore from '@/store'
+import * as apiStore from '@/store/api-store'
 
 const store = apiStore.default
 
