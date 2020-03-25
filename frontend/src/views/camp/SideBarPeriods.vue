@@ -24,7 +24,7 @@ Displays periods of a single camp.
 </template>
 <script>
 import SideBar from '@/components/base/SideBar'
-import ContentCard from '@/components/base/ContentCard'
+import ContentCard from '@/components/layout/ContentCard'
 
 export default {
   name: 'SideBarPeriods',

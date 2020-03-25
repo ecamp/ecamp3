@@ -20,7 +20,7 @@
 <script>
 import Picasso from '@/components/camp/Picasso'
 import SideBar from '@/components/base/SideBar'
-import ContentCard from '@/components/base/ContentCard'
+import ContentCard from '@/components/layout/ContentCard'
 
 export default {
   name: 'SideBarProgram',

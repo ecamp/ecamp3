@@ -18,7 +18,7 @@ Admin screen of a camp: Displays details & periods of a single camp and allows t
 import CampSettings from '@/components/camp/CampSettings'
 import CampPeriods from '@/components/camp/CampPeriods'
 import ApiDemo from '@/components/camp/ApiDemo'
-import ContentCard from '@/components/base/ContentCard'
+import ContentCard from '@/components/layout/ContentCard'
 
 export default {
   name: 'Admin',

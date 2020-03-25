@@ -51,7 +51,7 @@ Show all event instances of a single period.
   </content-card>
 </template>
 <script>
-import ContentCard from '@/components/base/ContentCard'
+import ContentCard from '@/components/layout/ContentCard'
 
 export default {
   name: 'CampProgram',

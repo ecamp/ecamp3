@@ -67,8 +67,8 @@ Displays collaborators of a single camp.
   </content-card>
 </template>
 <script>
-import ContentCard from '@/components/base/ContentCard'
-import ContentGroup from '@/components/base/ContentGroup'
+import ContentCard from '@/components/layout/ContentCard'
+import ContentGroup from '@/components/layout/ContentGroup'
 import CollaboratorListItem from '@/components/camp/CollaboratorListItem'
 import ButtonAdd from '@/components/buttons/ButtonAdd'
 

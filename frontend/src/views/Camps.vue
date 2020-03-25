@@ -38,7 +38,7 @@ import { campRoute } from '@/router'
 export default {
   name: 'Camps',
   components: {
-    ContentCard: () => import('@/components/base/ContentCard')
+    ContentCard: () => import('@/components/layout/ContentCard')
   },
   computed: {
     camps () {

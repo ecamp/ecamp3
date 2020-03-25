@@ -48,7 +48,7 @@ Displays a single event
 </template>
 
 <script>
-import ContentCard from '@/components/base/ContentCard'
+import ContentCard from '@/components/layout/ContentCard'
 
 export default {
   name: 'Event',

@@ -31,7 +31,7 @@ Displays all periods of a single camp and allows to edit them & create new ones
 import ButtonAdd from '@/components/buttons/ButtonAdd'
 import PeriodItem from '@/components/camp/CampPeriodsListItem'
 import DialogPeriodCreate from '@/components/dialog/DialogPeriodCreate'
-import ContentGroup from '@/components/base/ContentGroup'
+import ContentGroup from '@/components/layout/ContentGroup'
 
 export default {
   name: 'CampPeriods',

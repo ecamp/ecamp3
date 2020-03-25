@@ -25,7 +25,7 @@ export default {
   name: 'Home',
   components: {
     ApiTextField: () => import('@/components/form/ApiTextField'),
-    ContentCard: () => import('@/components/base/ContentCard'),
+    ContentCard: () => import('@/components/layout/ContentCard'),
     BackButton: () => import('@/components/buttons/ButtonBack')
   },
   computed: {

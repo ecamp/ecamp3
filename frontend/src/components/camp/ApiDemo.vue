@@ -88,7 +88,7 @@ import ApiTimePicker from '../form/ApiTimePicker'
 import ApiCheckbox from '../form/ApiCheckbox'
 import ApiColorPicker from '../form/ApiColorPicker'
 
-import ContentGroup from '@/components/base/ContentGroup'
+import ContentGroup from '@/components/layout/ContentGroup'
 
 export default {
   name: 'ApiDemo',
