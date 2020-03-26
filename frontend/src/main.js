@@ -1,15 +1,15 @@
 import Vue from 'vue'
 import App from './App.vue'
 import router from '@/router'
-import { vuetify, auth, store, filterLoading } from '@/plugins'
+import { Vuetify, Auth, Store, FilterLoading } from '@/plugins'
 
-Vue.use(auth)
-Vue.use(store)
-Vue.use(filterLoading)
+Vue.use(Auth)
+Vue.use(Store)
+Vue.use(FilterLoading)
 
 new Vue({
   router,
-  store,
-  vuetify,
+  Store,
+  Vuetify,
   render: h => h(App)
 }).$mount('#app')
