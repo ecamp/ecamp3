@@ -1,5 +1,5 @@
 import urltemplate from 'url-template'
-import { API_ROOT, get } from './api-store'
+import { API_ROOT, get } from '@/plugins/store'
 
 function isEqualIgnoringOrder (array, other) {
   return array.length === other.length && array.every(elem => other.includes(elem))

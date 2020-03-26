@@ -1,6 +1,5 @@
-import Vue from 'vue'
 import axios from 'axios'
-import { get, reload, post, href } from '@/store/api-store'
+import { get, reload, post, href } from '@/plugins/store'
 import router from '@/router'
 
 axios.interceptors.response.use(null, error => {
@@ -57,10 +56,16 @@ async function logout () {
 
 export const auth = { isLoggedIn, refreshLoginStatus, login, register, loginGoogle, loginPbsMiData, logout }
 
-Object.defineProperties(Vue.prototype, {
-  $auth: {
-    get () {
-      return auth
-    }
+class AuthPlugin {
+  install (Vue, options) {
+    Object.defineProperties(Vue.prototype, {
+      $auth: {
+        get () {
+          return auth
+        }
+      }
+    })
   }
-})
+}
+
+export default new AuthPlugin()

@@ -4,8 +4,8 @@ import axios from 'axios'
 import VueAxios from 'vue-axios'
 import normalize from 'hal-json-normalizer'
 import urltemplate from 'url-template'
-import { normalizeEntityUri } from '@/store/normalizeUri'
-import storeValueProxy from '@/store/storeValueProxy'
+import { normalizeEntityUri } from '@/plugins/store/normalizeUri'
+import storeValueProxy from '@/plugins/store/storeValueProxy'
 
 Vue.use(Vuex)
 axios.defaults.withCredentials = true
@@ -68,7 +68,7 @@ const store = new Vuex.Store({
   mutations,
   strict: process.env.NODE_ENV !== 'production'
 })
-export default store
+export { store }
 
 /**
  * Sends a POST request to the backend, in order to create a new entity. Note that this does not
@@ -386,8 +386,14 @@ function markAsDoneWhenResolved (promise) {
  * // In the <template> part of a Vue component
  * <li v-for="camp in api.get('/all/my/camps').items" key="camp._meta.self">...</li>
  */
-Object.defineProperties(Vue.prototype, {
-  api: {
-    get () { return { post, get, reload, del, patch, purge, href } }
+class ApiStorePlugin {
+  install (Vue, options) {
+    Object.defineProperties(Vue.prototype, {
+      api: {
+        get () { return { post, get, reload, del, patch, purge, href } }
+      }
+    })
   }
-})
+}
+
+export default new ApiStorePlugin()

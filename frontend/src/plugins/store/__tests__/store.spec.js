@@ -1,5 +1,5 @@
 import { createLocalVue, mount } from '@vue/test-utils'
-import store from '@/store/api-store'
+import ApiStorePlugin, { store } from '@/plugins/store'
 import axios from 'axios'
 import MockAdapter from 'axios-mock-adapter'
 import VueAxios from 'vue-axios'
@@ -32,12 +32,14 @@ describe('API store', () => {
 
   beforeEach(() => {
     localVue = createLocalVue()
+    localVue.use(ApiStorePlugin)
     localVue.use(Vuex)
     axiosMock = new MockAdapter(axios)
     localVue.use(VueAxios, axiosMock)
     // Restore the initial state before each test
     store.replaceState(cloneDeep(stateCopy))
     vm = mount({ localVue, store, template: '<div></div>' }).vm
+    vm.api = localVue.prototype.api
   })
 
   it('imports embedded single entity', async done => {
