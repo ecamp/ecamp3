@@ -6,7 +6,7 @@
                        :mini-variant.sync="mini"
                        mini-variant-width="40"
                        color="blue-grey lighten-4">
-    <v-btn v-if="mini" icon @click.stop="mini = !mini">
+    <v-btn v-if="mini" icon @click.stop="overrideExpanded = true">
       <v-icon>mdi-format-list-bulleted-triangle</v-icon>
     </v-btn>
     <v-spacer />
@@ -14,7 +14,7 @@
            fixed
            class="ec-drawer-collapse ma-2"
            style="z-index: 10;"
-           right @click.stop="mini = !mini">
+           right @click.stop="overrideExpanded = false">
       <v-icon>mdi-chevron-left</v-icon>
     </v-btn>
 
@@ -30,23 +30,12 @@ export default {
   data () {
     return {
       drawer: false,
-      dirty: false,
-      minimized: false
+      overrideExpanded: null
     }
   },
   computed: {
-    mini: {
-      get: function () {
-        if (this.dirty) {
-          return this.minimized
-        } else {
-          return !this.$vuetify.breakpoint.mdAndUp
-        }
-      },
-      set: function (value) {
-        this.dirty = true
-        this.minimized = value
-      }
+    mini () {
+      return this.overrideExpanded !== null ? !this.overrideExpanded : !this.$vuetify.breakpoint.mdAndUp
     }
   }
 }
