@@ -1,22 +1,20 @@
 <template>
-  <div>
-    <v-app-bar
-      v-if="$vuetify.breakpoint.smAndUp"
-      app clipped-left
-      color="blue-grey darken-4" dark>
-      <logo text />
-      <v-spacer />
-      <search-desktop />
-      <user-meta />
-    </v-app-bar>
-    <v-bottom-navigation v-else app
-                         fixed grow>
-      <v-btn :to="{name: 'camps'}">
-        <span>Meine Camps</span>
-        <v-icon>mdi-format-list-bulleted-triangle</v-icon>
-      </v-btn>
-    </v-bottom-navigation>
-  </div>
+  <v-app-bar
+    v-if="$vuetify.breakpoint.smAndUp"
+    app clipped-left
+    color="blue-grey darken-4" dark>
+    <logo text />
+    <v-spacer />
+    <search-desktop />
+    <user-meta />
+  </v-app-bar>
+  <v-bottom-navigation v-else app
+                       fixed grow>
+    <v-btn :to="{name: 'camps'}">
+      <span>Meine Camps</span>
+      <v-icon>mdi-format-list-bulleted-triangle</v-icon>
+    </v-btn>
+  </v-bottom-navigation>
 </template>
 
 <script>
