@@ -24,8 +24,8 @@
 </template>
 
 <script>
-import ApiSelect from '@/components/form/ApiSelect'
-import ButtonDelete from '@/components/base/ButtonDelete'
+import ApiSelect from '@/components/form/api/ApiSelect'
+import ButtonDelete from '@/components/buttons/ButtonDelete'
 
 export default {
   name: 'CollaboratorListItem',

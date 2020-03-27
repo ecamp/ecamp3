@@ -23,7 +23,7 @@ Displays a field as a time picker + write access via API wrapper
 import { apiPropsMixin } from '@/mixins/apiPropsMixin'
 import ApiWrapper from './ApiWrapper'
 import StatusIcon from './StatusIcon'
-import TimePicker from './TimePicker'
+import TimePicker from '../base/TimePicker'
 
 export default {
   name: 'ApiTimePicker',

@@ -32,8 +32,8 @@ Displays a single period as a list item including controls to edit and delete it
 
 import DialogPeriodEdit from '@/components/dialog/DialogPeriodEdit'
 import DialogEntityDelete from '@/components/dialog/DialogEntityDelete'
-import ButtonEdit from '@/components/base/ButtonEdit'
-import ButtonDelete from '@/components/base/ButtonDelete'
+import ButtonEdit from '@/components/buttons/ButtonEdit'
+import ButtonDelete from '@/components/buttons/ButtonDelete'
 
 export default {
   name: 'CampPeriods',

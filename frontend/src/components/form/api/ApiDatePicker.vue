@@ -23,7 +23,7 @@ Displays a field as a date picker + write access via API wrapper
 import { apiPropsMixin } from '@/mixins/apiPropsMixin'
 import ApiWrapper from './ApiWrapper'
 import StatusIcon from './StatusIcon'
-import DatePicker from './DatePicker'
+import DatePicker from '../base/DatePicker'
 
 export default {
   name: 'ApiDatePicker',

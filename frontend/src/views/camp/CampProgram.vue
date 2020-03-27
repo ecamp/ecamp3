@@ -5,7 +5,7 @@ Show all event instances of a single period.
 <template>
   <content-card>
     <v-sheet>
-      <mobile-search v-if="$vuetify.breakpoint.xs" />
+      <search-mobile v-if="$vuetify.breakpoint.xs" />
       <v-btn
         :fixed="$vuetify.breakpoint.xs"
         :absolute="!$vuetify.breakpoint.xs"
@@ -51,15 +51,18 @@ Show all event instances of a single period.
   </content-card>
 </template>
 <script>
-import ContentCard from '@/components/base/ContentCard'
+import ContentCard from '@/components/layout/ContentCard'
+import SearchMobile from '@/components/navigation/SearchMobile'
+import Picasso from '@/components/camp/Picasso'
+import EventList from '@/components/camp/EventList'
 
 export default {
   name: 'CampProgram',
   components: {
     ContentCard,
-    MobileSearch: () => import('@/components/base/MobileSearch'),
-    Picasso: () => import('@/components/camp/Picasso'),
-    EventList: () => import('@/components/camp/EventList')
+    SearchMobile,
+    Picasso,
+    EventList
   },
   props: {
     camp: { type: Function, required: true }

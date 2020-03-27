@@ -1,8 +1,8 @@
-import { auth } from '@/auth'
+import { auth } from '@/plugins/auth'
 
-import * as apiStore from '@/store'
+import * as apiStore from '@/plugins/store'
 
-const store = apiStore.default
+const store = apiStore.store
 
 expect.extend({
   haveUri (actual, expectedUri) {

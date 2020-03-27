@@ -38,7 +38,7 @@
 
 <script>
 export default {
-  name: 'MobileSearch',
+  name: 'SearchMobile',
   data () {
     return {
       searchOpen: false

@@ -8,11 +8,12 @@
 </template>
 
 <script>
+import Logo from '@/components/navigation/Logo'
 
 export default {
-  name: 'NavDesktop',
+  name: 'NavigationAuth',
   components: {
-    Logo: () => import('@/components/base/Logo')
+    Logo
   }
 }
 </script>

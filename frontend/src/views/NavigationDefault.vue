@@ -5,22 +5,30 @@
     color="blue-grey darken-4" dark>
     <logo text />
     <v-spacer />
-    <desktop-search />
-    <nav-desktop-user-menu />
+    <search-desktop />
+    <user-meta />
   </v-app-bar>
+  <v-bottom-navigation v-else app
+                       fixed grow>
+    <v-btn :to="{name: 'camps'}">
+      <span>Meine Camps</span>
+      <v-icon>mdi-format-list-bulleted-triangle</v-icon>
+    </v-btn>
+  </v-bottom-navigation>
 </template>
 
 <script>
 import { campFromRoute, campRoute } from '@/router'
-import DesktopSearch from '@/components/base/NavDesktopSearch'
-import NavDesktopUserMenu from '@/components/base/NavDesktopUserMenu'
+import SearchDesktop from '@/components/navigation/SearchDesktop'
+import UserMeta from '@/components/navigation/UserMeta'
+import Logo from '@/components/navigation/Logo'
 
 export default {
-  name: 'NavDesktop',
+  name: 'NavigationDefault',
   components: {
-    NavDesktopUserMenu,
-    DesktopSearch,
-    Logo: () => import('@/components/base/Logo')
+    UserMeta,
+    SearchDesktop,
+    Logo
   },
   data () {
     return {

@@ -1,9 +1,13 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import slugify from 'slugify'
-import { refreshLoginStatus } from '@/auth'
+import { refreshLoginStatus } from '@/plugins/auth'
 
 Vue.use(Router)
+
+const NavigationAuth = () => import(/* webpackChunkName: "navigationAuth" */ './views/auth/NavigationAuth')
+const NavigationDefault = () => import(/* webpackChunkName: "navigationDefault" */ './views/NavigationDefault')
+const NavigationCamp = () => import(/* webpackChunkName: "navigationCamp" */ './views/camp/NavigationCamp')
 
 /* istanbul ignore next */
 export default new Router({
@@ -14,7 +18,7 @@ export default new Router({
       path: '/register',
       name: 'register',
       components: {
-        topbar: () => import(/* webpackChunkName: "navigation" */ './views/auth/NavDesktop'),
+        navigation: NavigationAuth,
         default: () => import(/* webpackChunkName: "register" */ './views/auth/Register')
       }
     },
@@ -22,7 +26,7 @@ export default new Router({
       path: '/register-done',
       name: 'register-done',
       components: {
-        topbar: () => import(/* webpackChunkName: "navigation" */ './views/auth/NavDesktop'),
+        navigation: NavigationAuth,
         default: () => import(/* webpackChunkName: "register" */ './views/auth/RegisterDone')
       }
     },
@@ -30,7 +34,7 @@ export default new Router({
       path: '/login',
       name: 'login',
       components: {
-        topbar: () => import(/* webpackChunkName: "navigation" */ './views/auth/NavDesktop'),
+        navigation: NavigationAuth,
         default: () => import(/* webpackChunkName: "login" */ './views/auth/Login')
       }
     },
@@ -38,7 +42,7 @@ export default new Router({
       path: '/loginCallback',
       name: 'loginCallback',
       components: {
-        topbar: () => import(/* webpackChunkName: "navigation" */ './views/auth/NavDesktop'),
+        navigation: NavigationAuth,
         default: () => import(/* webpackChunkName: "login" */ './views/auth/LoginCallback')
       }
     },
@@ -46,9 +50,8 @@ export default new Router({
       path: '/',
       name: 'home',
       components: {
-        topbar: () => import(/* webpackChunkName: "navigation" */ './views/NavDesktop'),
-        default: () => import(/* webpackChunkName: "about" */ './views/Home'),
-        bottombar: () => import(/* webpackChunkName: "navigation" */ './views/NavMobile')
+        navigation: NavigationDefault,
+        default: () => import(/* webpackChunkName: "about" */ './views/Home')
       },
       beforeEnter: requireAuth
     },
@@ -56,9 +59,8 @@ export default new Router({
       path: '/profile',
       name: 'profile',
       components: {
-        topbar: () => import(/* webpackChunkName: "navigation" */ './views/NavDesktop'),
-        default: () => import(/* webpackChunkName: "about" */ './views/Profile'),
-        bottombar: () => import(/* webpackChunkName: "navigation" */ './views/NavMobile')
+        navigation: NavigationDefault,
+        default: () => import(/* webpackChunkName: "about" */ './views/Profile')
       },
       beforeEnter: requireAuth
     },
@@ -66,19 +68,17 @@ export default new Router({
       path: '/camps',
       name: 'camps',
       components: {
-        topbar: () => import(/* webpackChunkName: "navigation" */ './views/NavDesktop'),
-        default: () => import(/* webpackChunkName: "camps" */ './views/Camps'),
-        bottombar: () => import(/* webpackChunkName: "navigation" */ './views/NavMobile')
+        navigation: NavigationDefault,
+        default: () => import(/* webpackChunkName: "camps" */ './views/Camps')
       },
       beforeEnter: requireAuth
     },
     {
       path: '/camps/:campId/:campTitle?',
       components: {
-        topbar: () => import(/* webpackChunkName: "navigation" */ './views/camp/NavDesktop'),
+        navigation: NavigationCamp,
         default: () => import(/* webpackChunkName: "camp" */ './views/camp/Camp'),
-        aside: () => import(/* webpackChunkName: "periods" */ './views/camp/SideBarPeriods'),
-        bottombar: () => import(/* webpackChunkName: "navigation" */ './views/camp/NavMobile')
+        aside: () => import(/* webpackChunkName: "periods" */ './views/camp/SideBarPeriods')
       },
       beforeEnter: requireAuth,
       props: {
@@ -111,10 +111,9 @@ export default new Router({
       path: '/camps/:campId/:campTitle/events/:eventInstanceId/:eventName?',
       name: 'event',
       components: {
-        topbar: () => import(/* webpackChunkName: "navigation" */ './views/camp/NavDesktop'),
+        navigation: NavigationCamp,
         default: () => import(/* webpackChunkName: "event" */ './views/event/Event'),
-        aside: () => import(/* webpackChunkName: "day" */ './views/event/SideBarProgram'),
-        bottombar: () => import(/* webpackChunkName: "navigation" */ './views/camp/NavMobile')
+        aside: () => import(/* webpackChunkName: "day" */ './views/event/SideBarProgram')
       },
       beforeEnter: requireAuth,
       props: {
