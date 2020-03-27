@@ -2,6 +2,45 @@
 return array(
     'router' => array(
         'routes' => array(
+            'e-camp-api.rpc.index' => array(
+                'type' => 'Segment',
+                'options' => array(
+                    'route' => '/[:action]',
+                    'defaults' => array(
+                        'controller' => 'eCampApi\\V1\\Rpc\\Index\\Controller',
+                        'action' => 'index',
+                    ),
+                ),
+            ),'e-camp-api.rpc.api' => array(
+                'type' => 'Segment',
+                'options' => array(
+                    'route' => '/api',
+                    'defaults' => array(
+                        'controller' => 'eCampApi\\V1\\Rpc\\Index\\Controller',
+                        'action' => 'api',
+                    ),
+                ),
+            ),
+            'e-camp-api.rpc.auth' => array(
+                'type' => 'Segment',
+                'options' => array(
+                    'route' => '/api/auth[/:action]',
+                    'defaults' => array(
+                        'controller' => 'eCampApi\\V1\\Rpc\\Auth\\Controller',
+                        'action' => 'index',
+                    ),
+                ),
+            ),
+            'e-camp-api.rpc.register' => array(
+                'type' => 'Segment',
+                'options' => array(
+                    'route' => '/api/register[/:action]',
+                    'defaults' => array(
+                        'controller' => 'eCampApi\\V1\\Rpc\\Register\\Controller',
+                        'action' => 'register',
+                    ),
+                ),
+            ),
             'e-camp-api.rest.doctrine.camp-type' => array(
                 'type' => 'Segment',
                 'options' => array(
@@ -98,36 +137,6 @@ return array(
                     'route' => '/api/camp-collaboration[/:camp_collaboration_id]',
                     'defaults' => array(
                         'controller' => 'eCampApi\\V1\\Rest\\CampCollaboration\\Controller',
-                    ),
-                ),
-            ),
-            'e-camp-api.rpc.index' => array(
-                'type' => 'Segment',
-                'options' => array(
-                    'route' => '/api',
-                    'defaults' => array(
-                        'controller' => 'eCampApi\\V1\\Rpc\\Index\\Controller',
-                        'action' => 'index',
-                    ),
-                ),
-            ),
-            'e-camp-api.rpc.auth' => array(
-                'type' => 'Segment',
-                'options' => array(
-                    'route' => '/api/auth[/:action]',
-                    'defaults' => array(
-                        'controller' => 'eCampApi\\V1\\Rpc\\Auth\\Controller',
-                        'action' => 'index',
-                    ),
-                ),
-            ),
-            'e-camp-api.rpc.register' => array(
-                'type' => 'Segment',
-                'options' => array(
-                    'route' => '/api/register[/:action]',
-                    'defaults' => array(
-                        'controller' => 'eCampApi\\V1\\Rpc\\Register\\Controller',
-                        'action' => 'register',
                     ),
                 ),
             ),

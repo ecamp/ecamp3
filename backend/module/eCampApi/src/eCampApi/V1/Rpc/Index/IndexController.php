@@ -24,8 +24,48 @@ class IndexController extends AbstractActionController {
         $this->userService = $userService;
     }
 
-
     public function indexAction() {
+        $data = [];
+        $data['title'] = 'eCamp V3';
+
+        $data['self'] = Link::factory([
+            'rel' => 'self',
+            'route' => 'e-camp-api.rpc.index'
+        ]);
+
+        $data['api'] = Link::factory([
+            'rel' => 'api',
+            'route' => 'e-camp-api.rpc.api'
+        ]);
+
+        $data['setup'] = Link::factory([
+            'rel' => 'setup',
+            'route' => [
+                'name' => 'e-camp-api.rpc.index',
+                'params' => [
+                    'action' => 'setup.php'
+                ]
+            ]
+        ]);
+
+        $data['php-info'] = Link::factory([
+            'rel' => 'php-info',
+            'route' => [
+                'name' => 'e-camp-api.rpc.index',
+                'params' => [
+                    'action' => 'info.php'
+                ]
+            ]
+        ]);
+
+
+        $json = new HalJsonModel();
+        $json->setPayload(new Entity($data));
+
+        return $json;
+    }
+
+    public function apiAction() {
         $data = [];
         $data['title'] = 'eCamp V3 - API';
 
@@ -49,16 +89,15 @@ class IndexController extends AbstractActionController {
             $data['user'] = 'guest';
         }
 
+        $data['self'] = Link::factory([
+            'rel' => 'self',
+            'route' => 'e-camp-api.rpc.api'
+        ]);
+
         $data['auth'] = Link::factory([
             'rel' => 'auth',
             'route' => 'e-camp-api.rpc.auth'
         ]);
-
-        $data['self'] = Link::factory([
-            'rel' => 'self',
-            'route' => 'e-camp-api.rpc.index'
-        ]);
-
 
         $data['docu'] = Link::factory([
             'rel' => 'docu',

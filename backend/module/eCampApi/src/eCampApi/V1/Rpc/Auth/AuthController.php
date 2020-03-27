@@ -65,17 +65,14 @@ class AuthController extends AbstractActionController {
             $data['role'] = 'guest';
         }
 
-        $data['home'] = Link::factory([
-            'rel' => 'home',
-            'route' => [ 'name' => 'e-camp-api.rpc.index' ]
+        $data['api'] = Link::factory([
+            'rel' => 'api',
+            'route' => [ 'name' => 'e-camp-api.rpc.api' ]
         ]);
 
-        $data['login'] = Link::factory([
-            'rel' => 'login',
-            'route' => [
-                'name' => 'e-camp-api.rpc.auth',
-                'params' => [ 'action' => 'login' ]
-            ]
+        $data['self'] = Link::factory([
+            'rel' => 'self',
+            'route' => 'e-camp-api.rpc.auth'
         ]);
 
         $data['register'] = Link::factory([
@@ -83,6 +80,14 @@ class AuthController extends AbstractActionController {
             'route' => [
                 'name' => 'e-camp-api.rpc.register',
                 'params' => [ 'action' => 'register' ]
+            ]
+        ]);
+
+        $data['login'] = Link::factory([
+            'rel' => 'login',
+            'route' => [
+                'name' => 'e-camp-api.rpc.auth',
+                'params' => [ 'action' => 'login' ]
             ]
         ]);
 
@@ -100,11 +105,6 @@ class AuthController extends AbstractActionController {
             'name' => 'e-camp-api.rpc.auth',
             'params' => [ 'action' => 'pbsmidata' ]
           ]
-        ]);
-
-        $data['self'] = Link::factory([
-            'rel' => 'self',
-            'route' => 'e-camp-api.rpc.auth'
         ]);
 
         if ($userId != null) {
