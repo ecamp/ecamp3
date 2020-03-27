@@ -3,7 +3,7 @@ Displays the content wrapped inside a card.
 -->
 
 <template>
-  <v-card :max-width="maxWidth" class="mx-auto">
+  <v-card :max-width="maxWidth" :tile="$vuetify.breakpoint.smAndDown" class="mx-auto">
     <slot name="title">
       <v-card-title v-if="title">
         <v-icon v-if="icon" left>{{ icon }}</v-icon>
