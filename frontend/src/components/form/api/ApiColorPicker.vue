@@ -4,18 +4,17 @@ Displays a field as a color picker + write access via API wrapper
 
 <template>
   <api-wrapper
+    v-slot="wrapper"
     v-bind="$props">
-    <template slot-scope="wrapper">
-      <color-picker
-        :value="wrapper.localValue"
-        v-bind="$attrs"
-        :readonly="readonly"
-        :disabled="disabled"
-        :error-messages="wrapper.errorMessages"
-        @input="wrapper.on.input">
-        <status-icon slot="append" :status="wrapper.status" />
-      </color-picker>
-    </template>
+    <color-picker
+      :value="wrapper.localValue"
+      v-bind="$attrs"
+      :readonly="readonly"
+      :disabled="disabled"
+      :error-messages="wrapper.errorMessages"
+      @input="wrapper.on.input">
+      <status-icon v-slot:append :status="wrapper.status" />
+    </color-picker>
   </api-wrapper>
 </template>
 

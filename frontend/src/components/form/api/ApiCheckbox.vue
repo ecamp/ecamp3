@@ -4,19 +4,18 @@ Displays a field as a v-checkbox + write access via API wrapper
 
 <template>
   <api-wrapper
+    v-slot="wrapper"
     v-bind="$props">
-    <template slot-scope="wrapper">
-      <v-checkbox
-        :input-value="wrapper.localValue"
-        v-bind="$attrs"
-        :readonly="readonly"
-        :disabled="disabled"
-        :error-messages="wrapper.errorMessages"
-        hide-details="auto"
-        @change="wrapper.on.input">
-        <status-icon slot="append" :status="wrapper.status" />
-      </v-checkbox>
-    </template>
+    <v-checkbox
+      :input-value="wrapper.localValue"
+      v-bind="$attrs"
+      :readonly="readonly"
+      :disabled="disabled"
+      :error-messages="wrapper.errorMessages"
+      hide-details="auto"
+      @change="wrapper.on.input">
+      <status-icon v-slot:append :status="wrapper.status" />
+    </v-checkbox>
   </api-wrapper>
 </template>
 

@@ -4,21 +4,20 @@ Displays a field as a v-textarea + write access via API wrapper
 
 <template>
   <api-wrapper
+    v-slot="wrapper"
     v-bind="$props">
-    <template slot-scope="wrapper">
-      <v-textarea
-        :value="wrapper.localValue"
-        v-bind="$attrs"
-        :readonly="readonly"
-        :disabled="disabled"
-        :error-messages="wrapper.errorMessages"
-        hide-details="auto"
-        outlined
-        @input="wrapper.on.input"
-        @blur="wrapper.on.touch">
-        <status-icon slot="append" :status="wrapper.status" />
-      </v-textarea>
-    </template>
+    <v-textarea
+      :value="wrapper.localValue"
+      v-bind="$attrs"
+      :readonly="readonly"
+      :disabled="disabled"
+      :error-messages="wrapper.errorMessages"
+      hide-details="auto"
+      outlined
+      @input="wrapper.on.input"
+      @blur="wrapper.on.touch">
+      <status-icon v-slot:append :status="wrapper.status" />
+    </v-textarea>
   </api-wrapper>
 </template>
 

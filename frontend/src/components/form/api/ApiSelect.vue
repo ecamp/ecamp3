@@ -4,21 +4,23 @@ Displays a field as a v-select + write access via API wrapper
 
 <template>
   <api-wrapper
+    v-slot="wrapper"
     v-bind="$props">
-    <template slot-scope="wrapper">
-      <v-select
-        :value="wrapper.localValue"
-        v-bind="$attrs"
-        :readonly="readonly"
-        :disabled="disabled"
-        :error-messages="wrapper.errorMessages"
-        hide-details="auto"
-        outlined
-        @input="wrapper.on.input"
-        @blur="wrapper.on.touch">
-        <status-icon slot="append" :status="wrapper.status" />
-      </v-select>
-    </template>
+    <v-select
+      :value="wrapper.localValue"
+      v-bind="$attrs"
+      :readonly="readonly"
+      :disabled="disabled"
+      :error-messages="wrapper.errorMessages"
+      hide-details="auto"
+      outlined
+      @input="wrapper.on.input"
+      @blur="wrapper.on.touch">
+      <template v-slot:append>
+        <status-icon :status="wrapper.status" />
+        <v-icon>mdi-menu-down</v-icon>
+      </template>
+    </v-select>
   </api-wrapper>
 </template>
 
