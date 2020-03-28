@@ -3,10 +3,11 @@ namespace eCampApi\V1\Rpc\Index;
 
 use eCamp\Core\Entity\User;
 use eCamp\Core\EntityService\UserService;
-use eCamp\Lib\Hal\Link;
+use eCamp\Lib\Hal\TemplatedLink;
 use Zend\Authentication\AuthenticationService;
 use Zend\Mvc\Controller\AbstractActionController;
 use ZF\Hal\Entity;
+use ZF\Hal\Link\Link;
 use ZF\Hal\View\HalJsonModel;
 
 class IndexController extends AbstractActionController {
@@ -114,19 +115,15 @@ class IndexController extends AbstractActionController {
             'route' =>  'e-camp-api.rest.doctrine.camp',
         ]);
 
-        $data['camps'] = Link::factory([
+        $data['camps'] = TemplatedLink::factory([
             'rel' => 'camps',
-            'route' => [
-                'name' => 'e-camp-api.rest.doctrine.camp',
-                'params' => [ 'camp_id' => Link::tplParam('{id}') ],
-            ]
+            'route' => 'e-camp-api.rest.doctrine.camp',
         ]);
 
-        $data['camps_query'] = Link::factory([
+        $data['camps_query'] = TemplatedLink::factory([
             'rel' => 'camps_query_not_working',
             'route' => [
                 'name' => 'e-camp-api.rest.doctrine.camp',
-                'params' => [ 'camp_id' => Link::tplParam('{id}') ],
                 'options' => [
                     'query' => [
                         'a' => 'b'
