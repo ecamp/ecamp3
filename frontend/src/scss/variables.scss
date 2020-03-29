@@ -25,7 +25,7 @@ $headings: (
     'size': 3rem,
     'weight': 400,
     'line-height': 1.428571429,
-    'letter-spacing': -.0215,
+    'letter-spacing': -.0215em,
     'font-family': $heading-font-family
   ),
   'h4': (
@@ -66,29 +66,29 @@ $headings: (
   'body-2': (
     'size': .875rem,
     'weight': 400,
-    'letter-spacing': -.006em,
     'line-height': 1.428571429,
+    'letter-spacing': -.006em,
     'font-family': $body-font-family
   ),
   'body-1': (
     'size': 1rem,
     'weight': 400,
-    'letter-spacing': -0.011em,
     'line-height': 1.428571429,
+    'letter-spacing': -0.011em,
     'font-family': $body-font-family
   ),
   'caption': (
     'size': .75rem,
     'weight': 400,
-    'letter-spacing': 0em,
     'line-height': 1.428571429,
+    'letter-spacing': 0em,
     'font-family': $body-font-family
   ),
   'overline': (
     'size': .625rem,
     'weight': 400,
-    'letter-spacing': 0.010em,
     'line-height': 1.428571429,
+    'letter-spacing': 0.010em,
     'font-family': $body-font-family
   )
 );

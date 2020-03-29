@@ -1,29 +1,36 @@
 <template>
-  <v-container class="fill-height justify-center align-center" fluid>
-    <v-col cols="12" sm="8" md="4">
-      <v-card class="elevation-12">
-        <v-toolbar dense color="blue-grey lighten-5">
-          <v-toolbar-title>Registering</v-toolbar-title>
-        </v-toolbar>
-        <v-card-text>
-          <v-alert type="success">
-            Successfully registered.
-          </v-alert>
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer />
-          <v-btn color="primary" :to="{name: 'login'}">
-            Login
-          </v-btn>
-        </v-card-actions>
-      </v-card>
+  <v-container class="sso--container fill-height justify-center align-center" fluid>
+    <v-col cols="12" sm="8"
+           md="5" lg="4"
+           class="pa-0 pa-sm-4"
+           :class="{'fill-height': $vuetify.breakpoint.xsOnly}">
+      <content-card class="pa-8"
+                    :class="{'fill-min-height': $vuetify.breakpoint.xsOnly}">
+        <h1 class="display-1">Konto erstellen…</h1>
+        <v-alert type="success" class="my-4 text--green text--darken-2">
+          Successfully registered.
+        </v-alert>
+        <v-spacer />
+        <v-btn color="primary" :to="{name: 'login'}"
+               x-large
+               class="my-4" block>
+          Login
+        </v-btn>
+      </content-card>
     </v-col>
+    <photo-credit href="https://liveit.ch/author/manuel-lopez/">
+      Photo by Manuel Lopez / Inox
+    </photo-credit>
   </v-container>
 </template>
 
 <script>
+import ContentCard from '@/components/layout/ContentCard'
+import PhotoCredit from '@/components/layout/PhotoCredit'
+
 export default {
-  name: 'RegisterDone'
+  name: 'RegisterDone',
+  components: { PhotoCredit, ContentCard }
 }
 </script>
 

@@ -29,3 +29,14 @@ body {font-feature-settings: "ss03", "calt", "rlig", "kern", "cv05", "cv07", "cv
 .v-skeleton-loader__table-tfoot {
 	background: none!important;
 }
+input:-internal-autofill-selected {
+	background-color: transparent!important;
+}
+.sso--container {
+	//background-image: url("~@/assets/080720_lotos_7896_small.jpg");
+	background-image: url("~@/assets/140801151550_LOM_small.jpg");
+	background-size: cover;
+}
+.fill-min-height{
+	min-height: 100%;
+}
