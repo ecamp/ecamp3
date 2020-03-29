@@ -6,15 +6,17 @@ Displays a field as a color picker + write access via API wrapper
   <api-wrapper
     v-slot="wrapper"
     v-bind="$props">
-    <color-picker
+    <e-color-picker
       :value="wrapper.localValue"
       v-bind="$attrs"
       :readonly="readonly"
       :disabled="disabled"
+      outlined
+      :filled="false"
       :error-messages="wrapper.errorMessages"
       @input="wrapper.on.input">
       <status-icon v-slot:append :status="wrapper.status" />
-    </color-picker>
+    </e-color-picker>
   </api-wrapper>
 </template>
 
@@ -22,11 +24,10 @@ Displays a field as a color picker + write access via API wrapper
 import { apiPropsMixin } from '@/mixins/apiPropsMixin'
 import ApiWrapper from './ApiWrapper'
 import StatusIcon from './StatusIcon'
-import ColorPicker from '../base/ColorPicker'
 
 export default {
   name: 'ApiColorPicker',
-  components: { ApiWrapper, StatusIcon, ColorPicker },
+  components: { ApiWrapper, StatusIcon },
   mixins: [apiPropsMixin],
   props: {
     // disable delay per default

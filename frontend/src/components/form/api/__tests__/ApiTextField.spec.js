@@ -3,6 +3,8 @@ import Vue from 'vue'
 import Vuetify from 'vuetify'
 import flushPromises from 'flush-promises'
 
+import { formBaseComponents } from '@/plugins'
+
 import { shallowMount, mount } from '@vue/test-utils'
 import ApiTextField from '../ApiTextField.vue'
 import ApiWrapper from '../ApiWrapper'
@@ -12,6 +14,8 @@ const { cloneDeep } = jest.requireActual('lodash')
 
 jest.useFakeTimers()
 Vue.use(Vuetify)
+Vue.use(formBaseComponents)
+
 let vuetify
 
 // config factory
@@ -27,7 +31,10 @@ function createConfig (overrides) {
     uri: 'test-field/123',
     label: 'Test Field'
   }
-  return cloneDeep(Object.assign({ mocks, propsData, vuetify }, overrides))
+  const stubs = {
+    ApiWrapper
+  }
+  return cloneDeep(Object.assign({ mocks, propsData, stubs, vuetify }, overrides))
 }
 
 describe('ApiTextField.vue', () => {
@@ -38,7 +45,6 @@ describe('ApiTextField.vue', () => {
   // keep this the first test --> otherwise element IDs change constantly
   test('renders correctly', () => {
     const config = createConfig()
-    config.stubs = { ApiWrapper: ApiWrapper }
     const wrapper = shallowMount(ApiTextField, config)
 
     expect(wrapper.element).toMatchSnapshot()
@@ -51,8 +57,8 @@ describe('ApiTextField.vue', () => {
 
     const newValue = 'new value'
 
-    // contains 1 v-text-field
-    expect(wrapper.find({ name: 'VTextField' }).exists()).toBe(true)
+    // contains 1 e-text-field
+    expect(wrapper.find({ name: 'ETextField' }).exists()).toBe(true)
 
     wrapper.find('input').setValue(newValue)
 

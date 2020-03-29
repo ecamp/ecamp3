@@ -38,6 +38,7 @@
     "@vue/test-utils": "^1.0.0-beta.32",
     "axios-mock-adapter": "^1.18.1",
     "babel-eslint": "^10.1.0",
+    "babel-plugin-require-context-hook": "^1.0.0",
     "coveralls": "^3.0.11",
     "eslint": "^6.8.0",
     "eslint-plugin-import": "^2.20.1",
@@ -112,6 +113,9 @@
     "not ie <= 8"
   ],
   "jest": {
+    "setupFiles": [
+      "<rootDir>/.jest/register-context.js"
+    ],
     "moduleFileExtensions": [
       "js",
       "jsx",
@@ -123,6 +127,9 @@
       ".+\\.(css|styl|less|sass|scss|svg|png|jpg|ttf|woff|woff2)$": "jest-transform-stub",
       "^.+\\.jsx?$": "babel-jest"
     },
+    "transformIgnorePatterns": [
+      "node_modules/(?!(vuetify)).+\\.js$"
+    ],
     "moduleNameMapper": {
       "^@/(.*)$": "<rootDir>/src/$1"
     },

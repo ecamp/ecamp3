@@ -11,22 +11,16 @@
       <slot name="activator" v-bind="scope" />
     </template>
 
-    <v-text-field
+    <e-text-field
       v-model="entityData.description" hide-details="auto"
-      outlined
-      class="mb-4"
       label="Description"
       required />
-    <v-text-field
+    <e-text-field
       v-model="entityData.start" hide-details="auto"
-      outlined
-      class="mb-4"
       label="Start"
       required />
-    <v-text-field
+    <e-text-field
       v-model="entityData.end" hide-details="auto"
-      outlined
-      class="mb-4"
       label="End"
       required />
   </dialog-form>

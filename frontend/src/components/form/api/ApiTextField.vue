@@ -1,20 +1,20 @@
 <!--
-Displays a field as a v-text-field + write access via API wrapper
+Displays a field as a e-text-field + write access via API wrapper
 -->
 
 <template>
   <api-wrapper
     v-slot="wrapper"
     v-bind="$props">
-    <v-text-field
+    <e-text-field
       :value="wrapper.localValue"
       v-bind="$attrs"
       :readonly="readonly"
       :disabled="disabled"
       :error-messages="wrapper.errorMessages"
       :loading="wrapper.isSaving"
-      hide-details="auto"
       outlined
+      :filled="false"
       @input="wrapper.on.input"
       @blur="wrapper.on.touch" />
   </api-wrapper>

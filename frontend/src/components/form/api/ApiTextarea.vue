@@ -1,23 +1,23 @@
 <!--
-Displays a field as a v-textarea + write access via API wrapper
+Displays a field as a e-textarea + write access via API wrapper
 -->
 
 <template>
   <api-wrapper
     v-slot="wrapper"
     v-bind="$props">
-    <v-textarea
+    <e-textarea
       :value="wrapper.localValue"
       v-bind="$attrs"
       :readonly="readonly"
       :disabled="disabled"
       :error-messages="wrapper.errorMessages"
-      hide-details="auto"
       outlined
+      :filled="false"
       @input="wrapper.on.input"
       @blur="wrapper.on.touch">
       <status-icon v-slot:append :status="wrapper.status" />
-    </v-textarea>
+    </e-textarea>
   </api-wrapper>
 </template>
 

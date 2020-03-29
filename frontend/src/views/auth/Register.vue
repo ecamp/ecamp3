@@ -9,7 +9,7 @@
         </v-toolbar>
         <v-card-text>
           <v-form @submit.prevent="register">
-            <v-text-field
+            <e-text-field
               id="inputUsername"
               v-model="username"
               label="Username"
@@ -17,7 +17,7 @@
               prepend-icon="mdi-account"
               type="text" />
 
-            <v-text-field
+            <e-text-field
               id="inputEmail"
               v-model="email"
               label="eMail"
@@ -25,7 +25,7 @@
               prepend-icon="mdi-email"
               type="text" />
 
-            <v-text-field
+            <e-text-field
               id="inputPassword1"
               v-model="pw1"
               label="Password"
@@ -35,7 +35,7 @@
               prepend-icon="mdi-lock"
               type="password" />
 
-            <v-text-field
+            <e-text-field
               id="inputPassword2"
               v-model="pw2"
               label="Password erneut eingeben"

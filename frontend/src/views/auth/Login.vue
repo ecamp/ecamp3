@@ -10,7 +10,7 @@
         <v-card-text>
           <v-alert v-if="error" type="error">Login failed</v-alert>
           <v-form @submit.prevent="login">
-            <v-text-field
+            <e-text-field
               id="inputUsername"
               v-model="username"
               label="Username"
@@ -18,7 +18,7 @@
               prepend-icon="mdi-account"
               type="text" />
 
-            <v-text-field
+            <e-text-field
               id="inputPassword"
               v-model="password"
               label="Password"

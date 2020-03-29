@@ -7,18 +7,15 @@ Displays details on a single camp and allows to edit them.
     <v-skeleton-loader v-if="camp()._meta.loading" type="article" />
 
     <v-form v-else>
-      <v-text-field
+      <e-text-field
         label="Name"
-        outlined hide-details="auto"
         readonly
-        :value="camp().name"
-        class="my-4" />
+        :value="camp().name" />
 
       <api-form :entity="camp()">
         <api-text-field
           fieldname="title"
           label="Titel"
-          class="my-4"
           required />
 
         <api-textarea
@@ -26,21 +23,18 @@ Displays details on a single camp and allows to edit them.
           label="Motto"
           :auto-save="false"
           disabled
-          class="my-4"
           required />
 
         <api-checkbox
           :value="checkbox"
           fieldname="check"
           label="Checkbox example"
-          class="mb-4"
           required />
 
         <api-time-picker
           :value="time"
           fieldname="time"
           label="Startzeit"
-          class="mb-4"
           disabled
           required />
 
@@ -49,7 +43,6 @@ Displays details on a single camp and allows to edit them.
           fieldname="color"
           label="Color Example"
           readonly
-          class="mb-4"
           required />
       </api-form>
 

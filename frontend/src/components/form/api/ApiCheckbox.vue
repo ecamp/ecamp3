@@ -1,21 +1,20 @@
 <!--
-Displays a field as a v-checkbox + write access via API wrapper
+Displays a field as a e-checkbox + write access via API wrapper
 -->
 
 <template>
   <api-wrapper
     v-slot="wrapper"
     v-bind="$props">
-    <v-checkbox
+    <e-checkbox
       :input-value="wrapper.localValue"
       v-bind="$attrs"
       :readonly="readonly"
       :disabled="disabled"
       :error-messages="wrapper.errorMessages"
-      hide-details="auto"
       @change="wrapper.on.input">
       <status-icon v-slot:append :status="wrapper.status" />
-    </v-checkbox>
+    </e-checkbox>
   </api-wrapper>
 </template>
 

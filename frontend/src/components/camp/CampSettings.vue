@@ -6,13 +6,11 @@ Displays details on a single camp and allows to edit them.
   <content-group title="Einstellungen">
     <v-skeleton-loader v-if="camp()._meta.loading" type="article" />
     <v-form v-else>
-      <v-text-field
+      <e-text-field
         label="Name"
-        outlined
         readonly
         hide-details="auto"
-        :value="camp().name"
-        class="my-4" />
+        :value="camp().name" />
       <api-form :entity="camp()">
         <api-text-field
           fieldname="title"
