@@ -12,21 +12,26 @@ Displays a field as a e-text-field + write access via API wrapper
       :readonly="readonly"
       :disabled="disabled"
       :error-messages="wrapper.errorMessages"
-      :loading="wrapper.isSaving"
+      :loading="wrapper.isSaving ? 'secondary' : false"
       outlined
       :filled="false"
       @input="wrapper.on.input"
-      @blur="wrapper.on.touch" />
+      @blur="wrapper.on.touch">
+      <template #append>
+        <success-icon :visible="wrapper.status === 'success'" />
+      </template>
+    </e-text-field>
   </api-wrapper>
 </template>
 
 <script>
 import { apiPropsMixin } from '@/mixins/apiPropsMixin'
 import ApiWrapper from './ApiWrapper'
+import SuccessIcon from './SuccessIcon'
 
 export default {
   name: 'ApiTextField',
-  components: { ApiWrapper },
+  components: { ApiWrapper, SuccessIcon },
   mixins: [apiPropsMixin],
 
   data () {

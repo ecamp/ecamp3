@@ -12,11 +12,14 @@ Displays a field as a e-textarea + write access via API wrapper
       :readonly="readonly"
       :disabled="disabled"
       :error-messages="wrapper.errorMessages"
+      :loading="wrapper.isSaving ? 'secondary' : false"
       outlined
       :filled="false"
       @input="wrapper.on.input"
       @blur="wrapper.on.touch">
-      <status-icon v-slot:append :status="wrapper.status" />
+      <template #append>
+        <success-icon :visible="wrapper.status === 'success'" />
+      </template>
     </e-textarea>
   </api-wrapper>
 </template>
@@ -24,11 +27,11 @@ Displays a field as a e-textarea + write access via API wrapper
 <script>
 import { apiPropsMixin } from '@/mixins/apiPropsMixin'
 import ApiWrapper from './ApiWrapper'
-import StatusIcon from './StatusIcon'
+import SuccessIcon from './SuccessIcon'
 
 export default {
   name: 'ApiTextarea',
-  components: { ApiWrapper, StatusIcon },
+  components: { ApiWrapper, SuccessIcon },
   mixins: [apiPropsMixin],
 
   data () {
