@@ -110,29 +110,10 @@ class IndexController extends AbstractActionController {
             'route' => 'zf-apigility/ui'
         ]);
 
-        $data['camp_list'] = Link::factory([
-            'rel' => 'camp_list',
-            'route' =>  'e-camp-api.rest.doctrine.camp',
-        ]);
-
         $data['camps'] = TemplatedLink::factory([
             'rel' => 'camps',
-            'route' => 'e-camp-api.rest.doctrine.camp',
+            'route' =>  'e-camp-api.rest.doctrine.camp',
         ]);
-
-        $data['camps_query'] = TemplatedLink::factory([
-            'rel' => 'camps_query_not_working',
-            'route' => [
-                'name' => 'e-camp-api.rest.doctrine.camp',
-                'options' => [
-                    'query' => [
-                        'a' => 'b'
-                    ]
-                ]
-            ]
-        ]);
-
-
 
         $json = new HalJsonModel();
         $json->setPayload(new Entity($data));

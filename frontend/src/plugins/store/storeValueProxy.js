@@ -237,7 +237,7 @@ function createStoreValueProxy (data) {
     } else if (isEntityReference(value)) {
       result[key] = () => get(value.href)
     } else if (isTemplatedLink(value)) {
-      result[key] = templateParams => get(urltemplate.parse(value.href).expand(templateParams))
+      result[key] = templateParams => get(urltemplate.parse(value.href).expand(templateParams || {}))
     } else {
       result[key] = value
     }
