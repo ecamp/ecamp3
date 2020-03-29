@@ -93,7 +93,7 @@
           Register
         </v-btn>
         <p class="mt-8 mb-0 text--secondary text-center">
-          Du hast bereits einen Account?<br />
+          Du hast bereits einen Account?<br>
           <router-link :to="{ name: 'login' }">Anmelden</router-link>
         </p>
       </content-card>

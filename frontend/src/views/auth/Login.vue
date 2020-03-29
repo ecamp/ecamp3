@@ -57,7 +57,8 @@
           <span class="text--secondary">Anmelden mit MiData</span>
           <v-spacer />
           <v-icon
-            :x-large="$vuetify.breakpoint.smAndUp">$vuetify.icons.pbs
+            :x-large="$vuetify.breakpoint.smAndUp">
+            $vuetify.icons.pbs
           </v-icon>
           <v-progress-circular v-if="hitobitoLoggingIn" indeterminate
                                size="14"
@@ -78,7 +79,7 @@
                                class="mr-2" />
         </v-btn>
         <p class="mt-8 mb-0 text--secondary text-center">
-          Hast du noch keinen Account?<br />
+          Hast du noch keinen Account?<br>
           <router-link :to="{ name: 'register' }">Jetzt registrieren</router-link>
         </p>
       </content-card>
