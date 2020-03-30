@@ -5,8 +5,8 @@
            class="pa-0 pa-sm-4"
            :class="{'fill-height': $vuetify.breakpoint.xsOnly}">
       <v-card class="pa-8"
-                    :tile="$vuetify.breakpoint.xsOnly"
-                    :class="{'fill-min-height': $vuetify.breakpoint.xsOnly}">
+              :tile="$vuetify.breakpoint.xsOnly"
+              :class="{'fill-min-height': $vuetify.breakpoint.xsOnly}">
         <h1 class="display-1">Konto erstellen…</h1>
         <v-alert type="success" class="my-4 text--green text--darken-2">
           Successfully registered.
