@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "54682e487f328727b19f9d5fe1f36009",
+    "content-hash": "6d1f0748dceebf6caf4cde76f0eb28fc",
     "packages": [
         {
             "name": "bshaffer/oauth2-server-php",
@@ -7666,16 +7666,16 @@
         },
         {
             "name": "php-coveralls/php-coveralls",
-            "version": "v2.2.0",
+            "version": "dev-2.2-parallel",
             "source": {
                 "type": "git",
-                "url": "https://github.com/php-coveralls/php-coveralls.git",
-                "reference": "3e6420fa666ef7bae5e750ddeac903153e193bae"
+                "url": "https://github.com/usu/php-coveralls.git",
+                "reference": "fc3e0f02713f3b2be76dfed6d04b7763187df89e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-coveralls/php-coveralls/zipball/3e6420fa666ef7bae5e750ddeac903153e193bae",
-                "reference": "3e6420fa666ef7bae5e750ddeac903153e193bae",
+                "url": "https://api.github.com/repos/usu/php-coveralls/zipball/fc3e0f02713f3b2be76dfed6d04b7763187df89e",
+                "reference": "fc3e0f02713f3b2be76dfed6d04b7763187df89e",
                 "shasum": ""
             },
             "require": {
@@ -7709,7 +7709,20 @@
                     "PhpCoveralls\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
+            "autoload-dev": {
+                "psr-4": {
+                    "PhpCoveralls\\Tests\\": "tests/"
+                }
+            },
+            "scripts": {
+                "install-dev-tools": [
+                    "cd dev-tools && composer update --no-interaction"
+                ],
+                "sca": [
+                    "php dev-tools/vendor/bin/php-cs-fixer fix --dry-run -vv",
+                    "php dev-tools/vendor/bin/phpmd src text build/config/phpmd.xml"
+                ]
+            },
             "license": [
                 "MIT"
             ],
@@ -7745,7 +7758,10 @@
                 "github",
                 "test"
             ],
-            "time": "2019-11-20T16:29:20+00:00"
+            "support": {
+                "source": "https://github.com/usu/php-coveralls/tree/dev-parallel"
+            },
+            "time": "2020-01-08T05:17:23+00:00"
         },
         {
             "name": "php-cs-fixer/diff",
@@ -8692,7 +8708,6 @@
                 "framework",
                 "zf2"
             ],
-            "abandoned": "laminas-api-tools/api-tools-admin",
             "time": "2019-04-04T14:32:43+00:00"
         },
         {
@@ -8751,7 +8766,8 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "hybridauth/hybridauth": 20
+        "hybridauth/hybridauth": 20,
+        "php-coveralls/php-coveralls": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
@@ -8762,5 +8778,6 @@
     "platform-dev": [],
     "platform-overrides": {
         "php": "7.2"
-    }
+    },
+    "plugin-api-version": "1.1.0"
 }
