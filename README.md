@@ -1,5 +1,5 @@
 [![Build Status](https://travis-ci.com/ecamp/ecamp3.svg?branch=devel)](https://travis-ci.com/ecamp/ecamp3)
-[![Coveralls Status](https://img.shields.io/coveralls/github/ecamp/ecamp3/devel.svg)](https://coveralls.io/github/ecamp/ecamp3?branch=devel)
+[![Coverage Status](https://coveralls.io/repos/github/ecamp/ecamp3/badge.svg?branch=devel)](https://coveralls.io/github/ecamp/ecamp3?branch=devel)
 
 # eCamp3
 
