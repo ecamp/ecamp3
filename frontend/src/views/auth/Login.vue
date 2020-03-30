@@ -4,8 +4,9 @@
            md="5" lg="4"
            class="pa-0 pa-sm-4"
            :class="{'fill-height': $vuetify.breakpoint.xsOnly}">
-      <content-card class="pa-8"
-                    :class="{'fill-height': $vuetify.breakpoint.xsOnly}">
+      <v-card class="pa-8"
+              :tile="$vuetify.breakpoint.xsOnly"
+              :class="{'fill-height': $vuetify.breakpoint.xsOnly}">
         <h1 class="display-1 text-center">Anmelden</h1>
         <v-alert v-if="error" type="error">Login failed</v-alert>
         <v-form @submit.prevent="login">
@@ -82,7 +83,7 @@
           Hast du noch keinen Account?<br>
           <router-link :to="{ name: 'register' }">Jetzt registrieren</router-link>
         </p>
-      </content-card>
+      </v-card>
     </v-col>
     <photo-credit>
       Photo by Markus Rohner / Lotos
@@ -92,12 +93,13 @@
 
 <script>
 import { refreshLoginStatus } from '@/plugins/auth'
-import ContentCard from '@/components/layout/ContentCard'
 import PhotoCredit from '@/components/layout/PhotoCredit'
 
 export default {
   name: 'Login',
-  components: { PhotoCredit, ContentCard },
+  components: {
+    PhotoCredit
+  },
   data () {
     return {
       username: '',

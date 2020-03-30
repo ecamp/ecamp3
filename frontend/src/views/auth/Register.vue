@@ -4,7 +4,8 @@
            md="5" lg="4"
            class="pa-0 pa-sm-4"
            :class="{'fill-height': $vuetify.breakpoint.xsOnly}">
-      <content-card class="pa-8"
+      <v-card class="pa-8"
+                    :tile="$vuetify.breakpoint.xsOnly"
                     :class="{'fill-min-height': $vuetify.breakpoint.xsOnly}">
         <h1 class="display-1 text-center">Konto erstellen</h1>
         <v-form @submit.prevent="register">
@@ -96,7 +97,7 @@
           Du hast bereits einen Account?<br>
           <router-link :to="{ name: 'login' }">Anmelden</router-link>
         </p>
-      </content-card>
+      </v-card>
     </v-col>
     <photo-credit>
       Photo by Markus Rohner / Lotos
@@ -105,12 +106,11 @@
 </template>
 
 <script>
-import ContentCard from '@/components/layout/ContentCard'
 import PhotoCredit from '@/components/layout/PhotoCredit'
 
 export default {
   name: 'Register',
-  components: { PhotoCredit, ContentCard },
+  components: { PhotoCredit },
   data () {
     return {
       username: '',

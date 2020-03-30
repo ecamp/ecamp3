@@ -4,7 +4,8 @@
            md="5" lg="4"
            class="pa-0 pa-sm-4"
            :class="{'fill-height': $vuetify.breakpoint.xsOnly}">
-      <content-card class="pa-8"
+      <v-card class="pa-8"
+                    :tile="$vuetify.breakpoint.xsOnly"
                     :class="{'fill-min-height': $vuetify.breakpoint.xsOnly}">
         <h1 class="display-1">Konto erstellen…</h1>
         <v-alert type="success" class="my-4 text--green text--darken-2">
@@ -16,7 +17,7 @@
                class="my-4" block>
           Login
         </v-btn>
-      </content-card>
+      </v-card>
     </v-col>
     <photo-credit>
       Photo by Markus Rohner / Lotos
@@ -25,12 +26,11 @@
 </template>
 
 <script>
-import ContentCard from '@/components/layout/ContentCard'
 import PhotoCredit from '@/components/layout/PhotoCredit'
 
 export default {
   name: 'RegisterDone',
-  components: { PhotoCredit, ContentCard }
+  components: { PhotoCredit }
 }
 </script>
 
