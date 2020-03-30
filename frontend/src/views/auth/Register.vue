@@ -5,8 +5,8 @@
            class="pa-0 pa-sm-4"
            :class="{'fill-height': $vuetify.breakpoint.xsOnly}">
       <v-card class="pa-8"
-                    :tile="$vuetify.breakpoint.xsOnly"
-                    :class="{'fill-min-height': $vuetify.breakpoint.xsOnly}">
+              :tile="$vuetify.breakpoint.xsOnly"
+              :class="{'fill-min-height': $vuetify.breakpoint.xsOnly}">
         <h1 class="display-1 text-center">Konto erstellen</h1>
         <v-form @submit.prevent="register">
           <v-text-field
@@ -14,10 +14,10 @@
             label="Username"
             name="username"
             prefix="@"
-            append-icon="mdi-account"
+            append-icon="mdi-at"
             filled
             hide-details="auto"
-            class="my-4"
+            class="my-2 my-sm-4"
             :dense="$vuetify.breakpoint.xsOnly"
             type="text" />
 
@@ -25,10 +25,10 @@
             v-model="fullname"
             label="Voller Name"
             name="fullname"
-            append-icon="mdi-account"
+            append-icon="mdi-account-outline"
             filled
             hide-details="auto"
-            class="my-4"
+            class="my-2 my-sm-4"
             :dense="$vuetify.breakpoint.xsOnly"
             type="text" />
 
@@ -38,8 +38,8 @@
             name="email"
             hide-details="auto"
             filled
-            append-icon="mdi-email"
-            class="my-4"
+            append-icon="mdi-email-outline"
+            class="my-2 my-sm-4"
             :dense="$vuetify.breakpoint.xsOnly"
             type="text" />
 
@@ -50,9 +50,9 @@
             filled
             :rules="pw1Rules"
             validate-on-blur
-            append-icon="mdi-lock"
+            append-icon="mdi-lock-outline"
             hide-details="auto"
-            class="my-4"
+            class="my-2 my-sm-4"
             :dense="$vuetify.breakpoint.xsOnly"
             type="password" />
 
@@ -64,17 +64,18 @@
             :rules="pw2Rules"
             validate-on-blur
             hide-details="auto"
-            class="my-4"
+            class="my-2 my-sm-4"
             :dense="$vuetify.breakpoint.xsOnly"
-            append-icon="mdi-lock"
+            append-icon="mdi-lock-outline"
             type="password" />
 
           <v-checkbox
             v-model="tos"
+            required
             hide-details="auto"
-            class="my-4">
+            class="my-2 my-sm-4 align-center">
             <template v-slot:label>
-              <span>
+              <span :class="{'body-2':$vuetify.breakpoint.xsOnly}">
                 Die Nutzungs&shy;bedingungen akzeptieren
               </span>
             </template>
@@ -87,12 +88,12 @@
               </v-btn>
             </template>
           </v-checkbox>
+          <v-btn color="primary" :disabled="!formComplete"
+                 block x-large
+                 @click="register">
+            Register
+          </v-btn>
         </v-form>
-        <v-btn color="primary" :disabled="!formComplete"
-               block x-large
-               @click="register">
-          Register
-        </v-btn>
         <p class="mt-8 mb-0 text--secondary text-center">
           Du hast bereits einen Account?<br>
           <router-link :to="{ name: 'login' }">Anmelden</router-link>

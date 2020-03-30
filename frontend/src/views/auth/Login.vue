@@ -16,7 +16,7 @@
             label="Benutzername"
             name="username"
             hide-details="auto"
-            append-icon="mdi-account"
+            append-icon="mdi-account-outline"
             filled
             class="my-4"
             :dense="$vuetify.breakpoint.xsOnly"
@@ -27,25 +27,25 @@
             v-model="password"
             label="Passwort"
             name="password"
-            append-icon="mdi-lock"
+            append-icon="mdi-lock-outline"
             filled
             hide-details="auto"
             class="my-4"
             :dense="$vuetify.breakpoint.xsOnly"
             type="password" />
-        </v-form>
 
-        <v-btn color="primary" block
-               :disabled="!(username && password)"
-               :x-large="$vuetify.breakpoint.smAndUp"
-               class="my-4"
-               @click="login">
-          <v-progress-circular v-if="normalLoggingIn" indeterminate
-                               size="14"
-                               class="mr-2" />
-          <span>Anmelden</span>
-          <v-spacer />
-        </v-btn>
+          <v-btn color="primary" block
+                 :disabled="!(username && password)"
+                 :x-large="$vuetify.breakpoint.smAndUp"
+                 class="my-4"
+                 @click="login">
+            <v-progress-circular v-if="normalLoggingIn" indeterminate
+                                 size="14"
+                                 class="mr-2" />
+            <span>Anmelden</span>
+            <v-spacer />
+          </v-btn>
+        </v-form>
         <hr class="">
         <v-btn
           dark
@@ -57,13 +57,10 @@
           v-on="on" @click="loginPbsMiData">
           <span class="text--secondary">Anmelden mit MiData</span>
           <v-spacer />
-          <v-icon
-            :x-large="$vuetify.breakpoint.smAndUp">
+          <v-progress-circular v-if="hitobitoLoggingIn" indeterminate size="24" />
+          <v-icon v-else :x-large="$vuetify.breakpoint.smAndUp">
             $vuetify.icons.pbs
           </v-icon>
-          <v-progress-circular v-if="hitobitoLoggingIn" indeterminate
-                               size="14"
-                               class="mr-2" />
         </v-btn>
         <v-btn dark
                color="blue-grey lighten-3"
@@ -74,10 +71,8 @@
                @click="loginGoogle">
           <span class="text--secondary">Anmelden mit Google</span>
           <v-spacer />
-          <v-icon>$vuetify.icons.google</v-icon>
-          <v-progress-circular v-if="googleLoggingIn" indeterminate
-                               size="14"
-                               class="mr-2" />
+          <v-progress-circular v-if="googleLoggingIn" indeterminate size="24" />
+          <v-icon v-else>$vuetify.icons.google</v-icon>
         </v-btn>
         <p class="mt-8 mb-0 text--secondary text-center">
           Hast du noch keinen Account?<br>
