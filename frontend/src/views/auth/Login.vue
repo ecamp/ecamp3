@@ -1,97 +1,85 @@
 <template>
-  <v-container class="sso--container fill-height justify-center align-center" fluid>
-    <v-col cols="12" sm="8"
-           md="5" lg="4"
-           class="pa-0 pa-sm-4"
-           :class="{'fill-height': $vuetify.breakpoint.xsOnly}">
-      <v-card class="pa-8"
-              :tile="$vuetify.breakpoint.xsOnly"
-              :class="{'fill-height': $vuetify.breakpoint.xsOnly}">
-        <h1 class="display-1 text-center">Anmelden</h1>
-        <v-alert v-if="error" type="error">Login failed</v-alert>
-        <v-form @submit.prevent="login">
-          <v-text-field
-            id="inputUsername"
-            v-model="username"
-            label="Benutzername"
-            name="username"
-            hide-details="auto"
-            append-icon="mdi-account-outline"
-            filled
-            class="my-4"
-            :dense="$vuetify.breakpoint.xsOnly"
-            type="text" />
+  <auth-card>
+    <h1 class="display-1 text-center">Anmelden</h1>
+    <v-alert v-if="error" type="error">Login failed</v-alert>
+    <v-form @submit.prevent="login">
+      <v-text-field
+        id="inputUsername"
+        v-model="username"
+        label="Benutzername"
+        name="username"
+        hide-details="auto"
+        append-icon="mdi-account-outline"
+        filled
+        class="my-4"
+        :dense="$vuetify.breakpoint.xsOnly"
+        type="text" />
 
-          <v-text-field
-            id="inputPassword"
-            v-model="password"
-            label="Passwort"
-            name="password"
-            append-icon="mdi-lock-outline"
-            filled
-            hide-details="auto"
-            class="my-4"
-            :dense="$vuetify.breakpoint.xsOnly"
-            type="password" />
+      <v-text-field
+        id="inputPassword"
+        v-model="password"
+        label="Passwort"
+        name="password"
+        append-icon="mdi-lock-outline"
+        filled
+        hide-details="auto"
+        class="my-4"
+        :dense="$vuetify.breakpoint.xsOnly"
+        type="password" />
 
-          <v-btn color="primary" block
-                 :disabled="!(username && password)"
-                 :x-large="$vuetify.breakpoint.smAndUp"
-                 class="my-4"
-                 @click="login">
-            <span>Anmelden</span>
-            <v-spacer />
-            <v-progress-circular v-if="normalLoggingIn" indeterminate size="24" />
-          </v-btn>
-        </v-form>
-        <hr class="">
-        <v-btn
-          dark
-          :x-large="$vuetify.breakpoint.smAndUp"
-          color="green"
-          outlined
-          block
-          class="my-4"
-          @click="loginPbsMiData">
-          <span class="text--secondary">Anmelden mit MiData</span>
-          <v-spacer />
-          <v-progress-circular v-if="hitobitoLoggingIn" indeterminate size="24" />
-          <v-icon v-else :x-large="$vuetify.breakpoint.smAndUp">
-            $vuetify.icons.pbs
-          </v-icon>
-        </v-btn>
-        <v-btn dark
-               color="blue-grey lighten-3"
-               :x-large="$vuetify.breakpoint.smAndUp"
-               block
-               outlined
-               class="my-4 text--secondary"
-               @click="loginGoogle">
-          <span class="text--secondary">Anmelden mit Google</span>
-          <v-spacer />
-          <v-progress-circular v-if="googleLoggingIn" indeterminate size="24" />
-          <v-icon v-else>$vuetify.icons.google</v-icon>
-        </v-btn>
-        <p class="mt-8 mb-0 text--secondary text-center">
-          Hast du noch keinen Account?<br>
-          <router-link :to="{ name: 'register' }">Jetzt registrieren</router-link>
-        </p>
-      </v-card>
-    </v-col>
-    <photo-credit>
-      Photo by Markus Rohner / Lotos
-    </photo-credit>
-  </v-container>
+      <v-btn color="primary" block
+             :disabled="!(username && password)"
+             :x-large="$vuetify.breakpoint.smAndUp"
+             class="my-4"
+             @click="login">
+        <span>Anmelden</span>
+        <v-spacer />
+        <v-progress-circular v-if="normalLoggingIn" indeterminate size="24" />
+      </v-btn>
+    </v-form>
+    <hr class="">
+    <v-btn
+      dark
+      :x-large="$vuetify.breakpoint.smAndUp"
+      color="green"
+      outlined
+      block
+      class="my-4"
+      @click="loginPbsMiData">
+      <span class="text--secondary">Anmelden mit MiData</span>
+      <v-spacer />
+      <v-progress-circular v-if="hitobitoLoggingIn" indeterminate size="24" />
+      <v-icon v-else :x-large="$vuetify.breakpoint.smAndUp">
+        $vuetify.icons.pbs
+      </v-icon>
+    </v-btn>
+    <v-btn dark
+           color="blue-grey lighten-3"
+           :x-large="$vuetify.breakpoint.smAndUp"
+           block
+           outlined
+           class="my-4 text--secondary"
+           @click="loginGoogle">
+      <span class="text--secondary">Anmelden mit Google</span>
+      <v-spacer />
+      <v-progress-circular v-if="googleLoggingIn" indeterminate size="24" />
+      <v-icon v-else>$vuetify.icons.google</v-icon>
+    </v-btn>
+    <p class="mt-8 mb-0 text--secondary text-center">
+      Hast du noch keinen Account?<br>
+      <router-link :to="{ name: 'register' }">Jetzt registrieren</router-link>
+    </p>
+  </auth-card>
 </template>
 
 <script>
 import { refreshLoginStatus } from '@/plugins/auth'
-import PhotoCredit from '@/components/layout/PhotoCredit'
+import AuthCard from '@/components/layout/AuthCard'
 
 export default {
   name: 'Login',
   components: {
-    PhotoCredit
+    AuthCard
   },
   data () {
     return {
