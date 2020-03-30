@@ -29,3 +29,9 @@ body {font-feature-settings: "ss03", "calt", "rlig", "kern", "cv05", "cv07", "cv
 .v-skeleton-loader__table-tfoot {
 	background: none!important;
 }
+.v-btn--outlined:before {
+	opacity: .08!important;
+}
+.theme--dark.v-btn.v-btn--outlined:hover::before {
+	opacity: .16!important;
+}

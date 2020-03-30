@@ -29,6 +29,7 @@
 
       <v-btn color="primary" block
              :disabled="!(username && password)"
+             :outlined="!(username && password)"
              :x-large="$vuetify.breakpoint.smAndUp"
              class="my-4"
              @click="login">
@@ -128,3 +129,9 @@ export default {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+  .btn--login {
+    border: 1px solid;
+  }
+</style>
