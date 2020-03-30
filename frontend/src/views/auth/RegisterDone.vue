@@ -18,8 +18,8 @@
         </v-btn>
       </content-card>
     </v-col>
-    <photo-credit href="https://liveit.ch/author/manuel-lopez/">
-      Photo by Manuel Lopez / Inox
+    <photo-credit>
+      Photo by Markus Rohner / Lotos
     </photo-credit>
   </v-container>
 </template>
