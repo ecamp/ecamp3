@@ -39,11 +39,9 @@
                  :x-large="$vuetify.breakpoint.smAndUp"
                  class="my-4"
                  @click="login">
-            <v-progress-circular v-if="normalLoggingIn" indeterminate
-                                 size="14"
-                                 class="mr-2" />
             <span>Anmelden</span>
             <v-spacer />
+            <v-progress-circular v-if="normalLoggingIn" indeterminate size="24" />
           </v-btn>
         </v-form>
         <hr class="">
