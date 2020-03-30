@@ -52,7 +52,7 @@
           outlined
           block
           class="my-4"
-          v-on="on" @click="loginPbsMiData">
+          @click="loginPbsMiData">
           <span class="text--secondary">Anmelden mit MiData</span>
           <v-spacer />
           <v-progress-circular v-if="hitobitoLoggingIn" indeterminate size="24" />
