@@ -101,20 +101,6 @@ export default {
       }
     })
   },
-  computed: {
-    width () {
-      switch (this.$vuetify.breakpoint.name) {
-        case 'xs':
-          return '100%'
-        case 'sm':
-          return '420px'
-        case 'md':
-          return '450px'
-        default:
-          return '500px'
-      }
-    }
-  },
   methods: {
     async login () {
       this.normalLoggingIn = true
