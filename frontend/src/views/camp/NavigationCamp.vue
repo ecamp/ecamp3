@@ -3,7 +3,7 @@
              clipped-left
              color="blue-grey darken-4" dark>
     <logo>
-      <v-btn :to="campRoute(camp(), 'program')" class="justify-start px-2"
+      <v-btn :to="campRoute(camp(), 'program')" class="justify-start px-2 camp--name"
              text
              width="216">
         <v-toolbar-title>
@@ -75,6 +75,8 @@ export default {
 }
 </script>
 
-<style lang="scss">
-
+<style lang="scss" scoped>
+  .camp--name::v-deep .v-btn__content {
+    width: 100%;
+  }
 </style>
