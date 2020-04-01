@@ -38,7 +38,7 @@
         <v-progress-circular v-if="normalLoggingIn" indeterminate size="24" />
       </v-btn>
     </v-form>
-    <hr class="">
+    <horizontal-rule label="oder" />
     <v-btn
       dark
       :x-large="$vuetify.breakpoint.smAndUp"
@@ -76,10 +76,12 @@
 <script>
 import { refreshLoginStatus } from '@/plugins/auth'
 import AuthCard from '@/components/layout/AuthCard'
+import HorizontalRule from '@/components/layout/HorizontalRule'
 
 export default {
   name: 'Login',
   components: {
+    HorizontalRule,
     AuthCard
   },
   data () {
