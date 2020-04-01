@@ -1,5 +1,5 @@
 <template>
-  <auth-card>
+  <auth-container>
     <h1 class="display-1 text-center">Konto erstellen</h1>
     <v-form @submit.prevent="register">
       <v-text-field
@@ -91,16 +91,16 @@
       Du hast bereits einen Account?<br>
       <router-link :to="{ name: 'login' }">Anmelden</router-link>
     </p>
-  </auth-card>
+  </auth-container>
 </template>
 
 <script>
-import AuthCard from '@/components/layout/AuthCard'
+import AuthContainer from '@/components/layout/AuthContainer'
 
 export default {
   name: 'Register',
   components: {
-    AuthCard
+    AuthContainer
   },
   data () {
     return {

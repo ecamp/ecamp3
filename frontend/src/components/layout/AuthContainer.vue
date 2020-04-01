@@ -18,7 +18,7 @@
 
 <script>
 export default {
-  name: 'AuthCard'
+  name: 'AuthContainer'
 }
 </script>
 

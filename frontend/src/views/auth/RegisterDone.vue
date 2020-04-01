@@ -1,5 +1,5 @@
 <template>
-  <auth-card>
+  <auth-container>
     <h1 class="display-1">Konto erstellen…</h1>
     <v-alert type="success" class="my-4 text--green text--darken-2">
       Successfully registered.
@@ -10,15 +10,15 @@
            class="my-4" block>
       Login
     </v-btn>
-  </auth-card>
+  </auth-container>
 </template>
 
 <script>
-import AuthCard from '@/components/layout/AuthCard'
+import AuthContainer from '@/components/layout/AuthContainer'
 
 export default {
   name: 'RegisterDone',
-  components: { AuthCard }
+  components: { AuthContainer }
 }
 </script>
 

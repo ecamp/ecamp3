@@ -1,5 +1,5 @@
 <template>
-  <auth-card>
+  <auth-container>
     <h1 class="display-1 text-center">Anmelden</h1>
     <v-alert v-if="error" type="error">Login failed</v-alert>
     <v-form @submit.prevent="login">
@@ -75,12 +75,12 @@
       Hast du noch keinen Account?<br>
       <router-link :to="{ name: 'register' }">Jetzt registrieren</router-link>
     </p>
-  </auth-card>
+  </auth-container>
 </template>
 
 <script>
 import { refreshLoginStatus } from '@/plugins/auth'
-import AuthCard from '@/components/layout/AuthCard'
+import AuthContainer from '@/components/layout/AuthContainer'
 import HorizontalRule from '@/components/layout/HorizontalRule'
 import IconSpacer from '@/components/layout/IconSpacer'
 
@@ -89,7 +89,7 @@ export default {
   components: {
     IconSpacer,
     HorizontalRule,
-    AuthCard
+    AuthContainer
   },
   data () {
     return {
