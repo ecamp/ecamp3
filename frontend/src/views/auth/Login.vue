@@ -27,15 +27,18 @@
         :dense="$vuetify.breakpoint.xsOnly"
         type="password" />
 
-      <v-btn color="primary" block
+      <v-btn :color="username && password ? 'blue darken-2' : 'blue lighten-4'" block
              :disabled="!(username && password)"
-             :outlined="!(username && password)"
+             outlined
              :x-large="$vuetify.breakpoint.smAndUp"
              class="my-4"
              @click="login">
-        <span>Anmelden</span>
-        <v-spacer />
         <v-progress-circular v-if="normalLoggingIn" indeterminate size="24" />
+        <v-icon v-else>$vuetify.icons.ecamp</v-icon>
+        <v-spacer />
+        <span>Anmelden mit eCamp</span>
+        <v-spacer />
+        <icon-spacer />
       </v-btn>
     </v-form>
     <horizontal-rule label="oder" />
@@ -47,12 +50,12 @@
       block
       class="my-4"
       @click="loginPbsMiData">
+      <v-progress-circular v-if="hitobitoLoggingIn" indeterminate size="24" />
+      <v-icon v-else :x-large="$vuetify.breakpoint.smAndUp">$vuetify.icons.pbs</v-icon>
+      <v-spacer />
       <span class="text--secondary">Anmelden mit MiData</span>
       <v-spacer />
-      <v-progress-circular v-if="hitobitoLoggingIn" indeterminate size="24" />
-      <v-icon v-else :x-large="$vuetify.breakpoint.smAndUp">
-        $vuetify.icons.pbs
-      </v-icon>
+      <icon-spacer />
     </v-btn>
     <v-btn dark
            color="blue-grey lighten-3"
@@ -61,10 +64,12 @@
            outlined
            class="my-4 text--secondary"
            @click="loginGoogle">
-      <span class="text--secondary">Anmelden mit Google</span>
-      <v-spacer />
       <v-progress-circular v-if="googleLoggingIn" indeterminate size="24" />
       <v-icon v-else>$vuetify.icons.google</v-icon>
+      <v-spacer />
+      <span class="text--secondary">Anmelden mit Google</span>
+      <v-spacer />
+      <icon-spacer />
     </v-btn>
     <p class="mt-8 mb-0 text--secondary text-center">
       Hast du noch keinen Account?<br>
@@ -77,10 +82,12 @@
 import { refreshLoginStatus } from '@/plugins/auth'
 import AuthCard from '@/components/layout/AuthCard'
 import HorizontalRule from '@/components/layout/HorizontalRule'
+import IconSpacer from '@/components/layout/IconSpacer'
 
 export default {
   name: 'Login',
   components: {
+    IconSpacer,
     HorizontalRule,
     AuthCard
   },
@@ -133,7 +140,4 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .btn--login {
-    border: 1px solid;
-  }
 </style>
