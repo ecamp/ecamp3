@@ -68,8 +68,8 @@
         hide-details="auto"
         class="my-2 my-sm-4 align-center">
         <template v-slot:label>
-          <span :class="{'body-2':$vuetify.breakpoint.xsOnly}">
-            Die Nutzungs&shy;bedingungen akzeptieren
+          <span style="hyphens: auto" :class="{'body-2':$vuetify.breakpoint.xsOnly}">
+            Die Nutzungsbedingungen akzeptieren
           </span>
         </template>
         <template v-slot:append>
