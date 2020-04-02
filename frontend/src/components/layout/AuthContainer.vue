@@ -10,7 +10,7 @@
         <slot />
       </v-card>
     </v-col>
-    <span v-if="$vuetify.breakpoint.smAndUp" class="photo_credits">
+    <span v-if="$vuetify.breakpoint.smAndUp" class="photo_credits ma-3 pa-1">
       Photo by Markus Rohner / Lotos
     </span>
   </v-container>
@@ -24,13 +24,13 @@ export default {
 
 <style lang="scss" scoped>
   .photo_credits {
-    position: fixed;
-    bottom: 10px;
-    right: 10px;
+    position: absolute;
+    bottom: 0;
+    right: 0;
     background: #000;
     color: #fff;
     font-size: 10px;
-    padding: 4px;
+    max-width: calc(34vw / 2);
     text-decoration: none;
   }
   .sso--container {
