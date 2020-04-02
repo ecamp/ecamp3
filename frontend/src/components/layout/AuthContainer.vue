@@ -22,9 +22,9 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
   .photo_credits {
-    position: absolute;
+    position: fixed;
     bottom: 10px;
     right: 10px;
     background: #000;
@@ -36,7 +36,7 @@ export default {
   .sso--container {
     background-image: url("~@/assets/080720_lotos_7896_small.jpg");
     background-size: cover;
-    overflow: scroll;
+    overflow: auto;
   }
   .sso--card {
     z-index: 3;
