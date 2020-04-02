@@ -5,7 +5,8 @@ Wrapper component for form components to save data back to API
 <template>
   <v-form
     inline
-    :class="{'d-flex api-wrapper--savable':!autoSave && !readonly}">
+    :class="{'d-flex api-wrapper--savable':!autoSave && !readonly}"
+    @submit.prevent="onEnter">
     <slot
       :localValue="localValue"
       :errorMessages="errorMessages"
@@ -124,7 +125,7 @@ export default {
     this.localValue = this.apiValue
   },
   methods: {
-    touch: function () {
+    touch () {
       this.$v.localValue.$touch()
     },
     onInput: function (newValue) {
@@ -136,11 +137,16 @@ export default {
         this.debouncedSave()
       }
     },
-    reset: function (event) {
+    reset () {
       this.localValue = this.apiValue
       this.$v.localValue.$reset()
     },
-    save: function (event) {
+    onEnter () {
+      if (!this.autoSave) {
+        this.save()
+      }
+    },
+    save () {
       // abort saving if component is in readonly or disabled state
       // this is here for safety reasons, should not be triggered if the wrapped component behaves normally
       if (this.readonly || this.disabled) {
