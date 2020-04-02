@@ -1,86 +1,95 @@
 <template>
-  <v-container class="fill-height justify-center align-center" fluid>
-    <v-col cols="12" sm="8" md="4">
-      <v-card class="elevation-12">
-        <v-toolbar color="green" dark elevation="1">
-          <v-toolbar-title>Login</v-toolbar-title>
-          <v-spacer />
-          <v-btn color="green darken-3" :to="{ name: 'register' }">Register</v-btn>
-        </v-toolbar>
-        <v-card-text>
-          <v-alert v-if="error" type="error">Login failed</v-alert>
-          <v-form @submit.prevent="login">
-            <v-text-field
-              id="inputUsername"
-              v-model="username"
-              label="Username"
-              name="username"
-              prepend-icon="mdi-account"
-              type="text" />
+  <auth-container>
+    <h1 class="display-1 text-center">Anmelden</h1>
+    <v-alert v-if="error" type="error">Login failed</v-alert>
+    <v-form @submit.prevent="login">
+      <v-text-field
+        id="inputUsername"
+        v-model="username"
+        label="Benutzername"
+        name="username"
+        hide-details="auto"
+        append-icon="mdi-account-outline"
+        filled
+        class="my-4"
+        :dense="$vuetify.breakpoint.xsOnly"
+        type="text" />
 
-            <v-text-field
-              id="inputPassword"
-              v-model="password"
-              label="Password"
-              name="password"
-              prepend-icon="mdi-lock"
-              type="password" />
-            <v-switch label="Remember me" />
-          </v-form>
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer />
-          <v-menu offset-y>
-            <template v-slot:activator="{ on }">
-              <v-btn
-                color="green"
-                dark
-                v-on="on">
-                <v-progress-circular v-if="hitobitoLoggingIn" indeterminate
-                                     size="14"
-                                     class="mr-2" />
-                Hitobito
-              </v-btn>
-            </template>
-            <v-list>
-              <v-list-item
-                @click="loginPbsMiData">
-                <v-list-item-icon class="mr-3">
-                  <PbsMiDataLogo />
-                </v-list-item-icon>
-                <v-list-item-title>PBS MiData</v-list-item-title>
-              </v-list-item>
-              <v-list-item>
-                <v-list-item-title>jubla.db</v-list-item-title>
-              </v-list-item>
-            </v-list>
-          </v-menu>
-          <v-btn color="red" dark @click="loginGoogle">
-            <v-progress-circular v-if="googleLoggingIn" indeterminate
-                                 size="14"
-                                 class="mr-2" />
-            Google
-          </v-btn>
-          <v-btn color="primary" @click="login">
-            <v-progress-circular v-if="normalLoggingIn" indeterminate
-                                 size="14"
-                                 class="mr-2" />
-            Login
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-col>
-  </v-container>
+      <v-text-field
+        id="inputPassword"
+        v-model="password"
+        label="Passwort"
+        name="password"
+        append-icon="mdi-lock-outline"
+        filled
+        hide-details="auto"
+        class="my-4"
+        :dense="$vuetify.breakpoint.xsOnly"
+        type="password" />
+
+      <v-btn :color="username && password ? 'blue darken-2' : 'blue lighten-4'" block
+             :disabled="!(username && password)"
+             outlined
+             :x-large="$vuetify.breakpoint.smAndUp"
+             class="my-4"
+             @click="login">
+        <v-progress-circular v-if="normalLoggingIn" indeterminate size="24" />
+        <v-icon v-else>$vuetify.icons.ecamp</v-icon>
+        <v-spacer />
+        <span>Anmelden mit eCamp</span>
+        <v-spacer />
+        <icon-spacer />
+      </v-btn>
+    </v-form>
+    <horizontal-rule label="oder" />
+    <v-btn
+      dark
+      :x-large="$vuetify.breakpoint.smAndUp"
+      color="green"
+      outlined
+      block
+      class="my-4"
+      @click="loginPbsMiData">
+      <v-progress-circular v-if="hitobitoLoggingIn" indeterminate size="24" />
+      <v-icon v-else :x-large="$vuetify.breakpoint.smAndUp">$vuetify.icons.pbs</v-icon>
+      <v-spacer />
+      <span class="text--secondary">Anmelden mit MiData</span>
+      <v-spacer />
+      <icon-spacer />
+    </v-btn>
+    <v-btn dark
+           color="blue-grey lighten-3"
+           :x-large="$vuetify.breakpoint.smAndUp"
+           block
+           outlined
+           class="my-4 text--secondary"
+           @click="loginGoogle">
+      <v-progress-circular v-if="googleLoggingIn" indeterminate size="24" />
+      <v-icon v-else>$vuetify.icons.google</v-icon>
+      <v-spacer />
+      <span class="text--secondary">Anmelden mit Google</span>
+      <v-spacer />
+      <icon-spacer />
+    </v-btn>
+    <p class="mt-8 mb-0 text--secondary text-center">
+      Hast du noch keinen Account?<br>
+      <router-link :to="{ name: 'register' }">Jetzt registrieren</router-link>
+    </p>
+  </auth-container>
 </template>
 
 <script>
 import { refreshLoginStatus } from '@/plugins/auth'
-import PbsMiDataLogo from '../../../public/pbsmidata.svg'
+import AuthContainer from '@/components/layout/AuthContainer'
+import HorizontalRule from '@/components/layout/HorizontalRule'
+import IconSpacer from '@/components/layout/IconSpacer'
 
 export default {
   name: 'Login',
   components: {
-    PbsMiDataLogo
+    IconSpacer,
+    HorizontalRule,
+    AuthContainer
   },
   data () {
     return {
@@ -89,6 +98,7 @@ export default {
       error: false,
       normalLoggingIn: false,
       hitobitoLoggingIn: false,
+      showCredits: true,
       googleLoggingIn: false
     }
   },
@@ -128,3 +138,6 @@ export default {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+</style>

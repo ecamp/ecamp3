@@ -31,12 +31,32 @@ import { eventInstanceRoute } from '@/router'
 export default {
   name: 'Picasso',
   props: {
-    camp: { type: Function, required: true },
-    eventInstances: { type: Array, required: true },
-    start: { type: Date, required: true },
-    end: { type: Date, required: true },
-    type: { type: String, required: false, default: 'week' },
-    intervalHeight: { type: Number, required: false, default: 42 }
+    camp: {
+      type: Function,
+      required: true
+    },
+    eventInstances: {
+      type: Array,
+      required: true
+    },
+    start: {
+      type: Date,
+      required: true
+    },
+    end: {
+      type: Date,
+      required: true
+    },
+    type: {
+      type: String,
+      required: false,
+      default: 'week'
+    },
+    intervalHeight: {
+      type: Number,
+      required: false,
+      default: 42
+    }
   },
   data () {
     return {
@@ -116,6 +136,10 @@ export default {
 <style lang="scss" scoped>
   .v-card {
     overflow: hidden;
+  }
+
+  ::v-deep .v-calendar-daily__scroll-area {
+    overflow-y: auto;
   }
 
   .v-calendar-daily {

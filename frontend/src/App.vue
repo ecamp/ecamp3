@@ -43,7 +43,7 @@ export default {
   }
 
   .v-content__wrap {
-    overflow: scroll;
+    overflow: auto;
     position: static;
   }
 
