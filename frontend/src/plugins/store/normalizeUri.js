@@ -7,10 +7,6 @@
  * @returns string URI with sorted query parameters
  */
 function sortQueryParams (uri) {
-  // no query-sorting for templated URI with query-template
-  if (uri.indexOf('{?') >= 0) return uri
-  if (uri.indexOf('{&') >= 0) return uri
-
   const queryStart = uri.indexOf('?')
   if (queryStart === -1) return uri
 
