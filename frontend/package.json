@@ -93,6 +93,8 @@
             "v-btn",
             "v-alert",
             "span",
+            "router-link",
+            "h1",
             "pre"
           ]
         }
