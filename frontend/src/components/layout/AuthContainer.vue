@@ -2,9 +2,9 @@
   <v-container class="sso--container fill-height justify-center align-center" fluid>
     <v-col cols="12" sm="8"
            md="5" lg="4"
-           class="pa-0 pa-sm-4"
+           class="pa-0 pa-sm-4 pb-sm-12"
            :class="{'fill-height': $vuetify.breakpoint.xsOnly}">
-      <v-card class="pa-8"
+      <v-card class="pa-8 sso--card"
               :tile="$vuetify.breakpoint.xsOnly"
               :class="{'fill-min-height': $vuetify.breakpoint.xsOnly}">
         <slot />
@@ -36,6 +36,10 @@ export default {
   .sso--container {
     background-image: url("~@/assets/080720_lotos_7896_small.jpg");
     background-size: cover;
+    overflow: scroll;
+  }
+  .sso--card {
+    z-index: 3;
   }
   .fill-min-height{
     min-height: 100%;
