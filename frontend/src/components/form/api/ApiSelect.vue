@@ -18,8 +18,8 @@ Displays a field as a e-select + write access via API wrapper
       @input="wrapper.on.input"
       @blur="wrapper.on.touch">
       <template #append>
-        <success-icon :visible="wrapper.status === 'success'" />
         <v-icon>mdi-menu-down</v-icon>
+        <success-icon :visible="wrapper.status === 'success'" />
       </template>
     </e-select>
   </api-wrapper>

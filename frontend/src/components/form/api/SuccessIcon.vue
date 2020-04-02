@@ -1,10 +1,20 @@
 <template>
-  <transition name="fade">
-    <v-icon v-if="visible"
-            color="green">
-      mdi-check
-    </v-icon>
-  </transition>
+  <div
+    class="out-of-flow-parent">
+    <transition name="fade">
+      <v-avatar
+        v-if="visible"
+        color="white"
+        class="out-of-flow-child"
+        size="32">
+        <v-icon
+          color="green"
+          size="24">
+          mdi-check
+        </v-icon>
+      </v-avatar>
+    </transition>
+  </div>
 </template>
 
 <script>
@@ -21,9 +31,21 @@ export default {
 
 <style scoped>
 .fade-enter-active, .fade-leave-active {
-  transition: opacity .5s;
+  transition: opacity 1s;
 }
 .fade-enter, .fade-leave-to {
   opacity: 0;
+}
+
+.out-of-flow-parent{
+  position: relative;
+  top:-4px;
+  left:-28px;
+  width:0px;
+  height:0px;
+}
+
+.out-of-flow-child{
+  position: absolute;
 }
 </style>
