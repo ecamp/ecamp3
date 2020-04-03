@@ -1,9 +1,9 @@
 <template>
-  <div
-    class="out-of-flow-parent">
-    <transition name="fade">
+  <transition name="fade">
+    <div
+      v-if="visible"
+      class="out-of-flow-parent">
       <v-avatar
-        v-if="visible"
         color="white"
         class="out-of-flow-child"
         size="32">
@@ -13,8 +13,8 @@
           mdi-check
         </v-icon>
       </v-avatar>
-    </transition>
-  </div>
+    </div>
+  </transition>
 </template>
 
 <script>

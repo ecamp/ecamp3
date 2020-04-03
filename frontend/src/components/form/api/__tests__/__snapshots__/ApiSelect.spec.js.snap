@@ -54,12 +54,12 @@ exports[`ApiTextField.vue renders correctly 1`] = `
           <div
             class="v-input__append-inner"
           >
-            <!---->
-             
             <i
               aria-hidden="true"
               class="v-icon notranslate mdi mdi-menu-down theme--light"
             />
+             
+            <!---->
           </div>
           <input
             type="hidden"
