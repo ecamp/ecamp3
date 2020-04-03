@@ -2,12 +2,11 @@
 
 exports[`ApiTextField.vue renders correctly 1`] = `
 <form
-  class="v-form"
-  inline=""
+  class="v-form my-4"
   novalidate="novalidate"
 >
   <div
-    class="v-input v-input--hide-details theme--light v-text-field v-text-field--enclosed v-text-field--outlined v-select my-4"
+    class="v-input v-input--hide-details theme--light v-text-field v-text-field--enclosed v-text-field--outlined v-select"
   >
     <div
       class="v-input__control"
@@ -74,8 +73,6 @@ exports[`ApiTextField.vue renders correctly 1`] = `
       </div>
     </div>
   </div>
-   
-  <!---->
    
   <!---->
 </form>

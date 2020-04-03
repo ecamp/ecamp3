@@ -19,7 +19,7 @@
 
 <script>
 export default {
-  name: 'SuccessIcon',
+  name: 'IconSuccess',
   props: {
     visible: {
       type: Boolean,
@@ -30,9 +30,14 @@ export default {
 </script>
 
 <style scoped>
-.fade-enter-active, .fade-leave-active {
-  transition: opacity 1s;
+.fade-enter-active {
+  transition: opacity 250ms;
 }
+
+.fade-leave-active {
+  transition: opacity 5s ease-in;
+}
+
 .fade-enter, .fade-leave-to {
   opacity: 0;
 }

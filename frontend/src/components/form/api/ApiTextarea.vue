@@ -5,7 +5,8 @@ Displays a field as a e-textarea + write access via API wrapper
 <template>
   <api-wrapper
     v-slot="wrapper"
-    v-bind="$props">
+    v-bind="$props"
+    separate-buttons>
     <e-textarea
       :value="wrapper.localValue"
       v-bind="$attrs"
@@ -14,11 +15,12 @@ Displays a field as a e-textarea + write access via API wrapper
       :error-messages="wrapper.errorMessages"
       :loading="wrapper.isSaving ? 'secondary' : false"
       outlined
+      no-margin
       :filled="false"
       @input="wrapper.on.input"
       @blur="wrapper.on.touch">
       <template #append>
-        <success-icon :visible="wrapper.status === 'success'" />
+        <icon-success :visible="wrapper.status === 'success'" />
       </template>
     </e-textarea>
   </api-wrapper>
@@ -27,11 +29,11 @@ Displays a field as a e-textarea + write access via API wrapper
 <script>
 import { apiPropsMixin } from '@/mixins/apiPropsMixin'
 import ApiWrapper from './ApiWrapper'
-import SuccessIcon from './SuccessIcon'
+import IconSuccess from './IconSuccess'
 
 export default {
   name: 'ApiTextarea',
-  components: { ApiWrapper, SuccessIcon },
+  components: { ApiWrapper, IconSuccess },
   mixins: [apiPropsMixin],
 
   data () {

@@ -7,7 +7,8 @@ Displays a field as a e-checkbox + write access via API wrapper
 <template>
   <api-wrapper
     v-slot="wrapper"
-    v-bind="$props">
+    v-bind="$props"
+    separate-buttons>
     <e-checkbox
       :input-value="wrapper.localValue"
       v-bind="$attrs"
@@ -15,9 +16,10 @@ Displays a field as a e-checkbox + write access via API wrapper
       :disabled="disabled"
       :error-messages="wrapper.errorMessages"
       :loading="wrapper.isSaving"
+      no-margin
       @change="wrapper.on.input">
       <template #append>
-        <success-icon :visible="wrapper.status === 'success'" />
+        <icon-success :visible="wrapper.status === 'success'" />
       </template>
     </e-checkbox>
   </api-wrapper>
@@ -26,11 +28,11 @@ Displays a field as a e-checkbox + write access via API wrapper
 <script>
 import { apiPropsMixin } from '@/mixins/apiPropsMixin'
 import ApiWrapper from './ApiWrapper'
-import SuccessIcon from './SuccessIcon'
+import IconSuccess from './IconSuccess'
 
 export default {
   name: 'ApiCheckbox',
-  components: { ApiWrapper, SuccessIcon },
+  components: { ApiWrapper, IconSuccess },
   mixins: [apiPropsMixin],
   props: {
     // disable delay per default

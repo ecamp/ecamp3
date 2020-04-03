@@ -16,29 +16,34 @@ Displays details on a single camp and allows to edit them.
         <api-text-field
           fieldname="title"
           label="Titel"
+          :auto-save="false"
           required />
 
         <api-textarea
           fieldname="motto"
           label="Motto"
+          :auto-save="false"
           required />
 
         <api-checkbox
           :value="checkbox"
           fieldname="check"
           label="Checkbox example"
+          :auto-save="false"
           required />
 
         <api-time-picker
           :value="time"
           fieldname="time"
           label="Startzeit"
+          :auto-save="false"
           required />
 
         <api-color-picker
           :value="color"
           fieldname="color"
           label="Color Example"
+          :auto-save="false"
           required />
       </api-form>
 
@@ -55,6 +60,7 @@ Displays details on a single camp and allows to edit them.
             :uri="period._meta.self"
             fieldname="start"
             label="Starttermin"
+            :auto-save="false"
             required />
         </v-list-item>
       </v-list>

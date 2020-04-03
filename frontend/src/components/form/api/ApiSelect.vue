@@ -14,12 +14,13 @@ Displays a field as a e-select + write access via API wrapper
       :error-messages="wrapper.errorMessages"
       :loading="wrapper.isSaving ? 'secondary' : false"
       outlined
+      no-margin
       :filled="false"
       @input="wrapper.on.input"
       @blur="wrapper.on.touch">
       <template #append>
         <v-icon>mdi-menu-down</v-icon>
-        <success-icon :visible="wrapper.status === 'success'" />
+        <icon-success :visible="wrapper.status === 'success'" />
       </template>
     </e-select>
   </api-wrapper>
@@ -28,11 +29,11 @@ Displays a field as a e-select + write access via API wrapper
 <script>
 import { apiPropsMixin } from '@/mixins/apiPropsMixin'
 import ApiWrapper from './ApiWrapper'
-import SuccessIcon from './SuccessIcon'
+import IconSuccess from './IconSuccess'
 
 export default {
   name: 'ApiSelect',
-  components: { ApiWrapper, SuccessIcon },
+  components: { ApiWrapper, IconSuccess },
   mixins: [apiPropsMixin],
   props: {
     // disable delay per default

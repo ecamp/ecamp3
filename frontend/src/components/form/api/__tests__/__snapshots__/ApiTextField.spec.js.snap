@@ -2,8 +2,7 @@
 
 exports[`ApiTextField.vue renders correctly 1`] = `
 <v-form-stub
-  class=""
-  inline=""
+  class="my-4"
 >
   <e-text-field-stub
     backgroundcolor=""
@@ -14,14 +13,13 @@ exports[`ApiTextField.vue renders correctly 1`] = `
     label="Test Field"
     loaderheight="2"
     messages=""
+    nomargin="true"
     outlined="true"
     rules=""
     successmessages=""
     type="text"
     value="Test Value"
   />
-   
-  <!---->
    
   <!---->
 </v-form-stub>
