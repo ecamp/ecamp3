@@ -51,7 +51,8 @@ Displays details on a single camp and allows to edit them.
         <v-label>Perioden</v-label>
         <v-list-item
           v-for="period in periods.items"
-          :key="period.id">
+          :key="period.id"
+          class="px-0">
           <v-list-item-content>
             <v-list-item-title>{{ period.description }}</v-list-item-title>
             <v-list-item-subtitle>{{ period.start }} - {{ period.end }}</v-list-item-subtitle>
