@@ -22,7 +22,8 @@ export default {
     classes () {
       return {
         ...VTextarea.options.computed.classes.call(this),
-        'my-4': !this.noMargin
+        'my-4': !this.noMargin,
+        'w-100': this.noMargin
       }
     }
   }

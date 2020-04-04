@@ -18,7 +18,8 @@ export default {
     classes () {
       return {
         ...VCheckbox.options.computed.classes.call(this),
-        'my-4': !this.noMargin
+        'my-4': !this.noMargin,
+        'mt-0': this.noMargin
       }
     }
   }

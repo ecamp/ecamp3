@@ -2,7 +2,7 @@
 
 exports[`ApiTextField.vue renders correctly 1`] = `
 <v-form-stub
-  class="my-4"
+  class="d-flex flex-wrap my-4"
 >
   <e-text-field-stub
     backgroundcolor=""

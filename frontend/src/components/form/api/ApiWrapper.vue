@@ -4,7 +4,7 @@ Wrapper component for form components to save data back to API
 
 <template>
   <v-form
-    :class="{'d-flex api-wrapper--inline':!autoSave && !readonly && !separateButtons, 'my-4':!noMargin}"
+    :class="['d-flex','flex-wrap',{'api-wrapper--inline':!autoSave && !readonly && !separateButtons, 'my-4':!noMargin}]"
     @submit.prevent="onEnter">
     <slot
       :localValue="localValue"
@@ -15,7 +15,7 @@ Wrapper component for form components to save data back to API
 
     <div
       v-if="!autoSave && !readonly"
-      :class="['d-flex', {'my-1': separateButtons}]">
+      :class="['d-flex', {'my-1 ml-auto': separateButtons}]">
       <v-btn
         :disabled="disabled"
         small
