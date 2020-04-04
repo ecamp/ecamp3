@@ -20,7 +20,6 @@ Wrapper component for form components to save data back to API
         :disabled="disabled"
         small
         elevation="0"
-        color="warning"
         :class="{'mr-1': separateButtons}"
         :tile="!separateButtons"
         :height="separateButtons ? '' : 'auto'"
@@ -181,6 +180,10 @@ export default {
   .api-wrapper--inline .v-btn--last-instance {
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
+  }
+  .api-wrapper--inline .v-btn {
+    border-top: 1px solid rgba(0, 0, 0, 0.38);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.38);
   }
 </style>
 
