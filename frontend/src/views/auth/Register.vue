@@ -2,71 +2,55 @@
   <auth-container>
     <h1 class="display-1 text-center">Konto erstellen</h1>
     <v-form @submit.prevent="register">
-      <v-text-field
+      <e-text-field
         v-model="username"
         label="Username"
         name="username"
         prefix="@"
         append-icon="mdi-at"
-        filled
-        hide-details="auto"
-        class="my-2 my-sm-4"
         :dense="$vuetify.breakpoint.xsOnly"
         type="text" />
 
-      <v-text-field
+      <e-text-field
         v-model="fullname"
         label="Voller Name"
         name="fullname"
         append-icon="mdi-account-outline"
-        filled
-        hide-details="auto"
-        class="my-2 my-sm-4"
         :dense="$vuetify.breakpoint.xsOnly"
         type="text" />
 
-      <v-text-field
+      <e-text-field
         v-model="email"
         label="eMail"
         name="email"
-        hide-details="auto"
-        filled
         append-icon="mdi-email-outline"
-        class="my-2 my-sm-4"
         :dense="$vuetify.breakpoint.xsOnly"
         type="text" />
 
-      <v-text-field
+      <e-text-field
         v-model="pw1"
         label="Password"
         name="password"
-        filled
         :rules="pw1Rules"
         validate-on-blur
         append-icon="mdi-lock-outline"
-        hide-details="auto"
-        class="my-2 my-sm-4"
         :dense="$vuetify.breakpoint.xsOnly"
         type="password" />
 
-      <v-text-field
+      <e-text-field
         v-model="pw2"
         label="Password erneut eingeben"
         name="password"
-        filled
         :rules="pw2Rules"
         validate-on-blur
-        hide-details="auto"
-        class="my-2 my-sm-4"
         :dense="$vuetify.breakpoint.xsOnly"
         append-icon="mdi-lock-outline"
         type="password" />
 
-      <v-checkbox
+      <e-checkbox
         v-model="tos"
         required
-        hide-details="auto"
-        class="my-2 my-sm-4 align-center">
+        class="align-center">
         <template v-slot:label>
           <span style="hyphens: auto" :class="{'body-2':$vuetify.breakpoint.xsOnly}">
             Die Nutzungsbedingungen akzeptieren
@@ -80,7 +64,7 @@
             <v-icon small>mdi-open-in-new</v-icon>
           </v-btn>
         </template>
-      </v-checkbox>
+      </e-checkbox>
       <v-btn color="primary" :disabled="!formComplete"
              block x-large
              @click="register">

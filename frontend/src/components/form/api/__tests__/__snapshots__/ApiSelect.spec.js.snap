@@ -2,8 +2,7 @@
 
 exports[`ApiTextField.vue renders correctly 1`] = `
 <form
-  class="v-form my-4"
-  inline=""
+  class="v-form d-flex flex-wrap my-4"
   novalidate="novalidate"
 >
   <div
@@ -15,7 +14,7 @@ exports[`ApiTextField.vue renders correctly 1`] = `
       <div
         aria-expanded="false"
         aria-haspopup="listbox"
-        aria-owns="list-8"
+        aria-owns="list-10"
         class="v-input__slot"
         role="button"
       >
@@ -35,7 +34,7 @@ exports[`ApiTextField.vue renders correctly 1`] = `
         >
           <label
             class="v-label theme--light"
-            for="input-8"
+            for="input-10"
             style="left: 0px; position: absolute;"
           >
             Test Field
@@ -46,7 +45,7 @@ exports[`ApiTextField.vue renders correctly 1`] = `
             <input
               aria-readonly="false"
               autocomplete="off"
-              id="input-8"
+              id="input-10"
               readonly="readonly"
               type="text"
             />
@@ -54,6 +53,11 @@ exports[`ApiTextField.vue renders correctly 1`] = `
           <div
             class="v-input__append-inner"
           >
+            <i
+              aria-hidden="true"
+              class="v-icon notranslate mdi mdi-menu-down theme--light"
+            />
+             
             <!---->
           </div>
           <input
@@ -69,8 +73,6 @@ exports[`ApiTextField.vue renders correctly 1`] = `
       </div>
     </div>
   </div>
-   
-  <!---->
    
   <!---->
 </form>

@@ -4,8 +4,8 @@ Wrapper component for form components to save data back to API
 
 <template>
   <v-form
-    inline
-    :class="{'d-flex api-wrapper--savable':!autoSave && !readonly,'my-4':!noMargin}">
+    :class="['d-flex','flex-wrap',{'api-wrapper--inline':!autoSave && !readonly && !separateButtons, 'my-4':!noMargin}]"
+    @submit.prevent="onEnter">
     <slot
       :localValue="localValue"
       :errorMessages="errorMessages"
@@ -13,40 +13,32 @@ Wrapper component for form components to save data back to API
       :status="status"
       :on="eventHandlers" />
 
-    <v-btn
+    <div
       v-if="!autoSave && !readonly"
-      :disabled="disabled"
-      small elevation="0"
-      color="warning" tile
-      class="mb-0"
-      height="auto"
-      @click="reset">
-      Reset
-    </v-btn>
+      :class="['d-flex', {'my-1 ml-auto': separateButtons}]">
+      <v-btn
+        :disabled="disabled"
+        small
+        elevation="0"
+        :class="{'mr-1': separateButtons}"
+        :tile="!separateButtons"
+        :height="separateButtons ? '' : 'auto'"
+        @click="reset">
+        Reset
+      </v-btn>
 
-    <v-btn
-      v-if="!autoSave && !readonly"
-      color="primary"
-      small elevation="0"
-      :disabled="disabled || isSaving || (required && $v.localValue.$invalid)"
-      class="mb-0 v-btn--last-instance"
-      height="auto"
-      @click="save">
-      <v-progress-circular
-        v-if="isSaving"
-        indeterminate
+      <v-btn
         color="primary"
-        size="20"
-        class="mr-2" />
-
-      <v-icon
-        v-if="showSuccessIcon"
-        left>
-        mdi-check
-      </v-icon>
-
-      Save
-    </v-btn>
+        small
+        elevation="0"
+        :disabled="disabled || (required && $v.localValue.$invalid)"
+        class="v-btn--last-instance"
+        :height="separateButtons ? '' : 'auto'"
+        :loading="isSaving"
+        @click="save">
+        Save
+      </v-btn>
+    </div>
   </v-form>
 </template>
 
@@ -60,11 +52,17 @@ import { apiPropsMixin } from '@/mixins/apiPropsMixin'
 export default {
   name: 'ApiWrapper',
   mixins: [apiPropsMixin, validationMixin],
+  props: {
+    separateButtons: {
+      type: Boolean,
+      default: false
+    }
+  },
   data () {
     return {
       localValue: null,
       isSaving: false,
-      showSuccessIcon: false,
+      showIconSuccess: false,
       dirty: false,
       eventHandlers: {
         save: this.save,
@@ -92,7 +90,7 @@ export default {
     status: function () {
       if (this.isSaving) {
         return 'saving'
-      } else if (this.showSuccessIcon) {
+      } else if (this.showIconSuccess) {
         return 'success'
       } else {
         return 'init'
@@ -124,7 +122,7 @@ export default {
     this.localValue = this.apiValue
   },
   methods: {
-    touch: function () {
+    touch () {
       this.$v.localValue.$touch()
     },
     onInput: function (newValue) {
@@ -136,11 +134,16 @@ export default {
         this.debouncedSave()
       }
     },
-    reset: function (event) {
+    reset () {
       this.localValue = this.apiValue
       this.$v.localValue.$reset()
     },
-    save: function (event) {
+    onEnter () {
+      if (!this.autoSave) {
+        this.save()
+      }
+    },
+    save () {
       // abort saving if component is in readonly or disabled state
       // this is here for safety reasons, should not be triggered if the wrapped component behaves normally
       if (this.readonly || this.disabled) {
@@ -160,9 +163,9 @@ export default {
 
       this.api.patch(this.uri, { [this.fieldname]: this.localValue }).then(() => {
         this.isSaving = false
-        this.showSuccessIcon = true
+        this.showIconSuccess = true
         setTimeout(() => {
-          this.showSuccessIcon = false
+          this.showIconSuccess = false
         }, 2000)
       }, (e, a) => {
         console.log('error')
@@ -174,14 +177,18 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .v-btn--last-instance {
+  .api-wrapper--inline .v-btn--last-instance {
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
+  }
+  .api-wrapper--inline .v-btn {
+    border-top: 1px solid rgba(0, 0, 0, 0.38);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.38);
   }
 </style>
 
 <style lang="scss" >
-  .api-wrapper--savable .v-text-field {
+  .api-wrapper--inline .v-text-field {
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
   }

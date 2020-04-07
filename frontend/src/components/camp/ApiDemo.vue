@@ -6,50 +6,44 @@ Displays details on a single camp and allows to edit them.
   <content-group title="Api Demo">
     <v-skeleton-loader v-if="camp()._meta.loading" type="article" />
 
-    <v-form v-else>
-      <v-text-field
+    <div v-else>
+      <e-text-field
         label="Name"
-        outlined hide-details="auto"
         readonly
-        :value="camp().name"
-        class="my-4" />
+        :value="camp().name" />
 
       <api-form :entity="camp()">
         <api-text-field
           fieldname="title"
           label="Titel"
-          class="my-4"
+          :auto-save="false"
           required />
 
         <api-textarea
           fieldname="motto"
           label="Motto"
           :auto-save="false"
-          disabled
-          class="my-4"
           required />
 
         <api-checkbox
           :value="checkbox"
           fieldname="check"
           label="Checkbox example"
-          class="mb-4"
+          :auto-save="false"
           required />
 
         <api-time-picker
           :value="time"
           fieldname="time"
           label="Startzeit"
-          class="mb-4"
-          disabled
+          :auto-save="false"
           required />
 
         <api-color-picker
           :value="color"
           fieldname="color"
           label="Color Example"
-          readonly
-          class="mb-4"
+          :auto-save="false"
           required />
       </api-form>
 
@@ -57,7 +51,8 @@ Displays details on a single camp and allows to edit them.
         <v-label>Perioden</v-label>
         <v-list-item
           v-for="period in periods.items"
-          :key="period.id">
+          :key="period.id"
+          class="px-0">
           <v-list-item-content>
             <v-list-item-title>{{ period.description }}</v-list-item-title>
             <v-list-item-subtitle>{{ period.start }} - {{ period.end }}</v-list-item-subtitle>
@@ -66,11 +61,11 @@ Displays details on a single camp and allows to edit them.
             :uri="period._meta.self"
             fieldname="start"
             label="Starttermin"
-            disabled
+            :auto-save="false"
             required />
         </v-list-item>
       </v-list>
-    </v-form>
+    </div>
   </content-group>
 </template>
 

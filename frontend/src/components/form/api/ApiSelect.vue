@@ -1,35 +1,39 @@
 <!--
-Displays a field as a v-select + write access via API wrapper
+Displays a field as a e-select + write access via API wrapper
 -->
 
 <template>
   <api-wrapper
+    v-slot="wrapper"
     v-bind="$props">
-    <template slot-scope="wrapper">
-      <v-select
-        :value="wrapper.localValue"
-        v-bind="$attrs"
-        :readonly="readonly"
-        :disabled="disabled"
-        :error-messages="wrapper.errorMessages"
-        hide-details="auto"
-        outlined
-        @input="wrapper.on.input"
-        @blur="wrapper.on.touch">
-        <status-icon slot="append" :status="wrapper.status" />
-      </v-select>
-    </template>
+    <e-select
+      :value="wrapper.localValue"
+      v-bind="$attrs"
+      :readonly="readonly"
+      :disabled="disabled"
+      :error-messages="wrapper.errorMessages"
+      :loading="wrapper.isSaving ? 'secondary' : false"
+      outlined
+      no-margin
+      :filled="false"
+      @input="wrapper.on.input"
+      @blur="wrapper.on.touch">
+      <template #append>
+        <v-icon>mdi-menu-down</v-icon>
+        <icon-success :visible="wrapper.status === 'success'" />
+      </template>
+    </e-select>
   </api-wrapper>
 </template>
 
 <script>
 import { apiPropsMixin } from '@/mixins/apiPropsMixin'
 import ApiWrapper from './ApiWrapper'
-import StatusIcon from './StatusIcon'
+import IconSuccess from './IconSuccess'
 
 export default {
   name: 'ApiSelect',
-  components: { ApiWrapper, StatusIcon },
+  components: { ApiWrapper, IconSuccess },
   mixins: [apiPropsMixin],
   props: {
     // disable delay per default

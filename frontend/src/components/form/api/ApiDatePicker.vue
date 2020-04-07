@@ -4,30 +4,34 @@ Displays a field as a date picker + write access via API wrapper
 
 <template>
   <api-wrapper
+    v-slot="wrapper"
     v-bind="$props">
-    <template slot-scope="wrapper">
-      <date-picker
-        :value="wrapper.localValue"
-        v-bind="$attrs"
-        :readonly="readonly"
-        :disabled="disabled"
-        :error-messages="wrapper.errorMessages"
-        @input="wrapper.on.input">
-        <status-icon slot="append" :status="wrapper.status" />
-      </date-picker>
-    </template>
+    <e-date-picker
+      :value="wrapper.localValue"
+      v-bind="$attrs"
+      :readonly="readonly"
+      :disabled="disabled"
+      :loading="wrapper.isSaving ? 'secondary' : false"
+      outlined
+      no-margin
+      :filled="false"
+      :error-messages="wrapper.errorMessages"
+      @input="wrapper.on.input">
+      <template #append>
+        <icon-success :visible="wrapper.status === 'success'" />
+      </template>
+    </e-date-picker>
   </api-wrapper>
 </template>
 
 <script>
 import { apiPropsMixin } from '@/mixins/apiPropsMixin'
 import ApiWrapper from './ApiWrapper'
-import StatusIcon from './StatusIcon'
-import DatePicker from '../base/DatePicker'
+import IconSuccess from './IconSuccess'
 
 export default {
   name: 'ApiDatePicker',
-  components: { ApiWrapper, StatusIcon, DatePicker },
+  components: { ApiWrapper, IconSuccess },
   mixins: [apiPropsMixin],
   props: {
     // disable delay per default

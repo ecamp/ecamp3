@@ -9,9 +9,10 @@ Displays all periods of a single camp and allows to edit them & create new ones
       <period-item
         v-for="period in periods.items"
         :key="period.id"
+        class="px-0"
         :period="period" />
 
-      <v-list-item>
+      <v-list-item class="px-0">
         <v-list-item-content />
         <v-list-item-action>
           <dialog-period-create :camp="camp()">
@@ -52,7 +53,4 @@ export default {
 </script>
 
 <style scoped>
-  .v-list-item {
-    padding-left: 0;
-  }
 </style>

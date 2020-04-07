@@ -2,10 +2,13 @@
 import Vue from 'vue'
 import Vuetify from 'vuetify'
 
+import { formBaseComponents } from '@/plugins'
+
 import { mount } from '@vue/test-utils'
 import ApiSelect from '../ApiSelect.vue'
 
 Vue.use(Vuetify)
+Vue.use(formBaseComponents)
 
 describe('ApiTextField.vue', () => {
   let vuetify

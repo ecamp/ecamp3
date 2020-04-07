@@ -14,13 +14,13 @@ Displays a field as a date picker (can be used with v-model)
     min-width="290px"
     max-width="290px">
     <template v-slot:activator="{on}">
-      <v-text-field
+      <e-text-field
         v-model="localValue"
         v-bind="$attrs"
         readonly
         :disabled="disabled"
-        hide-details="auto"
         outlined
+        :filled="false"
         v-on="on">
         <template v-if="icon" v-slot:prepend>
           <v-icon :color="iconColor" @click="on.click">
@@ -32,7 +32,7 @@ Displays a field as a date picker (can be used with v-model)
         <template v-slot:append>
           <slot name="append" />
         </template>
-      </v-text-field>
+      </e-text-field>
     </template>
     <slot :localValue="localValue"
           :showPicker="showPicker"

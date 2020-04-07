@@ -3,27 +3,21 @@
     <h1 class="display-1 text-center">Anmelden</h1>
     <v-alert v-if="error" type="error">Login failed</v-alert>
     <v-form @submit.prevent="login">
-      <v-text-field
+      <e-text-field
         id="inputUsername"
         v-model="username"
         label="Benutzername"
         name="username"
-        hide-details="auto"
         append-icon="mdi-account-outline"
-        filled
-        class="my-4"
         :dense="$vuetify.breakpoint.xsOnly"
         type="text" />
 
-      <v-text-field
+      <e-text-field
         id="inputPassword"
         v-model="password"
         label="Passwort"
         name="password"
         append-icon="mdi-lock-outline"
-        filled
-        hide-details="auto"
-        class="my-4"
         :dense="$vuetify.breakpoint.xsOnly"
         type="password" />
 

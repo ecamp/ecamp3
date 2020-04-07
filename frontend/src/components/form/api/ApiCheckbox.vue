@@ -1,33 +1,38 @@
 <!--
-Displays a field as a v-checkbox + write access via API wrapper
+Displays a field as a e-checkbox + write access via API wrapper
+
+:loading doesn't work yet: https://github.com/vuetifyjs/vuetify/issues/7843
 -->
 
 <template>
   <api-wrapper
-    v-bind="$props">
-    <template slot-scope="wrapper">
-      <v-checkbox
-        :input-value="wrapper.localValue"
-        v-bind="$attrs"
-        :readonly="readonly"
-        :disabled="disabled"
-        :error-messages="wrapper.errorMessages"
-        hide-details="auto"
-        @change="wrapper.on.input">
-        <status-icon slot="append" :status="wrapper.status" />
-      </v-checkbox>
-    </template>
+    v-slot="wrapper"
+    v-bind="$props"
+    separate-buttons>
+    <e-checkbox
+      :input-value="wrapper.localValue"
+      v-bind="$attrs"
+      :readonly="readonly"
+      :disabled="disabled"
+      :error-messages="wrapper.errorMessages"
+      :loading="wrapper.isSaving"
+      no-margin
+      @change="wrapper.on.input">
+      <template #append>
+        <icon-success :visible="wrapper.status === 'success'" />
+      </template>
+    </e-checkbox>
   </api-wrapper>
 </template>
 
 <script>
 import { apiPropsMixin } from '@/mixins/apiPropsMixin'
 import ApiWrapper from './ApiWrapper'
-import StatusIcon from './StatusIcon'
+import IconSuccess from './IconSuccess'
 
 export default {
   name: 'ApiCheckbox',
-  components: { ApiWrapper, StatusIcon },
+  components: { ApiWrapper, IconSuccess },
   mixins: [apiPropsMixin],
   props: {
     // disable delay per default

@@ -1,35 +1,39 @@
 <!--
-Displays a field as a v-textarea + write access via API wrapper
+Displays a field as a e-textarea + write access via API wrapper
 -->
 
 <template>
   <api-wrapper
-    v-bind="$props">
-    <template slot-scope="wrapper">
-      <v-textarea
-        :value="wrapper.localValue"
-        v-bind="$attrs"
-        :readonly="readonly"
-        :disabled="disabled"
-        :error-messages="wrapper.errorMessages"
-        hide-details="auto"
-        outlined
-        @input="wrapper.on.input"
-        @blur="wrapper.on.touch">
-        <status-icon slot="append" :status="wrapper.status" />
-      </v-textarea>
-    </template>
+    v-slot="wrapper"
+    v-bind="$props"
+    separate-buttons>
+    <e-textarea
+      :value="wrapper.localValue"
+      v-bind="$attrs"
+      :readonly="readonly"
+      :disabled="disabled"
+      :error-messages="wrapper.errorMessages"
+      :loading="wrapper.isSaving ? 'secondary' : false"
+      outlined
+      no-margin
+      :filled="false"
+      @input="wrapper.on.input"
+      @blur="wrapper.on.touch">
+      <template #append>
+        <icon-success :visible="wrapper.status === 'success'" />
+      </template>
+    </e-textarea>
   </api-wrapper>
 </template>
 
 <script>
 import { apiPropsMixin } from '@/mixins/apiPropsMixin'
 import ApiWrapper from './ApiWrapper'
-import StatusIcon from './StatusIcon'
+import IconSuccess from './IconSuccess'
 
 export default {
   name: 'ApiTextarea',
-  components: { ApiWrapper, StatusIcon },
+  components: { ApiWrapper, IconSuccess },
   mixins: [apiPropsMixin],
 
   data () {
