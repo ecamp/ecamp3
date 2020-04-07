@@ -5,7 +5,7 @@ return array(
             'e-camp-api.rpc.index' => array(
                 'type' => 'Segment',
                 'options' => array(
-                    'route' => '/[:action]',
+                    'route' => '/',
                     'defaults' => array(
                         'controller' => 'eCampApi\\V1\\Rpc\\Index\\Controller',
                         'action' => 'index',
