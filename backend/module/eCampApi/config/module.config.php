@@ -1137,7 +1137,7 @@ return array(
                     0 => array(
                         'name' => 'Zend\\Validator\\StringLength',
                         'options' => array(
-                            'min' => 1,
+                            'min' => 10,
                             'max' => 64,
                         ),
                     ),

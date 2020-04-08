@@ -64,6 +64,8 @@ export default {
       isSaving: false,
       showIconSuccess: false,
       dirty: false,
+      serverError: false,
+      serverErrorMessage: null,
       eventHandlers: {
         save: this.save,
         reset: this.reset,
@@ -78,13 +80,19 @@ export default {
     }
   },
   computed: {
+    /*
     isDirty: function () {
       return this.apiValue !== this.localValue
-    },
+    }, */
     errorMessages () {
       const errors = []
-      if (!this.$v.localValue.$dirty) return errors
-      !this.$v.localValue.required && errors.push('Feld darf nicht leer sein.')
+
+      // Frontent validation is 1st priority
+      if (this.$v.localValue.$dirty) !this.$v.localValue.required && errors.push('Feld darf nicht leer sein.')
+
+      // Server error is 2nd priority: not displayed in case of frontend validation error
+      if (this.serverError) errors.push(this.serverErrorMessage)
+
       return errors
     },
     status: function () {
@@ -136,7 +144,13 @@ export default {
     },
     reset () {
       this.localValue = this.apiValue
+      this.resetErrors()
+    },
+    resetErrors () {
+      this.dirty = false
       this.$v.localValue.$reset()
+      this.serverError = false
+      this.serverErrorMessage = null
     },
     onEnter () {
       if (!this.autoSave) {
@@ -157,18 +171,43 @@ export default {
       }
 
       // reset all dirty flags and start saving
-      this.dirty = false
-      this.$v.localValue.$reset()
+      this.resetErrors()
       this.isSaving = true
 
       this.api.patch(this.uri, { [this.fieldname]: this.localValue }).then(() => {
         this.isSaving = false
         this.showIconSuccess = true
-        setTimeout(() => {
-          this.showIconSuccess = false
-        }, 2000)
-      }, (e, a) => {
-        console.log('error')
+        setTimeout(() => { this.showIconSuccess = false }, 2000)
+      }, (error) => {
+        this.isSaving = false
+
+        if (error.serverResponse) {
+          const response = error.serverResponse
+
+          // API Problem
+          if (response.headers['content-type'] === 'application/problem+json') {
+          // 422 validation error
+            if (response.status === 422) {
+              this.serverErrorMessage = 'Validation error: '
+              const validationMessages = response.data.validation_messages[this.fieldname]
+              Object.keys(validationMessages).forEach((key) => {
+                this.serverErrorMessage = this.serverErrorMessage + validationMessages[key] + '. '
+              })
+
+              // other API problem
+            } else {
+              this.serverErrorMessage = 'Server-Error ' + response.status + ' (' + response.data.detail + ')'
+            }
+            // other unknown server error (not of type application/problem+json)
+          } else {
+            this.serverErrorMessage = 'Server-Error ' + response.status + ' (' + response.statusText + ')'
+          }
+        // another error (most probably connection timeout)
+        } else {
+          this.serverErrorMessage = error.message
+        }
+
+        this.serverError = true
       })
     }
   }

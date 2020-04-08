@@ -71,6 +71,19 @@ const store = new Vuex.Store({
 export { store }
 
 /**
+ * Constructor for server exception
+ */
+function ServerException (serverResponse) {
+  const error = new Error('Server error')
+
+  error.code = 'SERVER_EXCEPTION'
+  error.serverResponse = serverResponse
+  return error
+}
+
+ServerException.prototype = Object.create(Error.prototype)
+
+/**
  * Sends a POST request to the backend, in order to create a new entity. Note that this does not
  * reload any collections that this new entity might be in, the caller has to do that on its own.
  * @param uriOrCollection URI (or instance) of a collection in which the entity should be created
@@ -257,10 +270,18 @@ const patch = function (uriOrEntity, data) {
     data._links.self.href = uri
     storeHalJsonData(data)
     return get(uri)
-  }, ({ response }) => {
-    if (response.status === 404) {
-      store.commit('deleting', uri)
-      return deleted(uri)
+  }, (error) => {
+    // Server Error (response received but with error code)
+    if (error.response) {
+      if (error.response.status === 404) {
+        store.commit('deleting', uri)
+        return deleted(uri)
+      } else {
+        throw new ServerException(error.response)
+      }
+    // Connection error (no response received)
+    } else {
+      throw error
     }
   }))
 
