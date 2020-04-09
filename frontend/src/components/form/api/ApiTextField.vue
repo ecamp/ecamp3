@@ -19,6 +19,7 @@ Displays a field as a e-text-field + write access via API wrapper
       @input="wrapper.on.input"
       @blur="wrapper.on.touch">
       <template #append>
+        <button-retry v-if="wrapper.hasServerError" @click="wrapper.on.save" />
         <icon-success :visible="wrapper.status === 'success'" />
       </template>
     </e-text-field>
@@ -29,10 +30,11 @@ Displays a field as a e-text-field + write access via API wrapper
 import { apiPropsMixin } from '@/mixins/apiPropsMixin'
 import ApiWrapper from './ApiWrapper'
 import IconSuccess from './IconSuccess'
+import ButtonRetry from './ButtonRetry'
 
 export default {
   name: 'ApiTextField',
-  components: { ApiWrapper, IconSuccess },
+  components: { ApiWrapper, IconSuccess, ButtonRetry },
   mixins: [apiPropsMixin],
 
   data () {

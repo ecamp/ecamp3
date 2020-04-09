@@ -8,6 +8,7 @@ Wrapper component for form components to save data back to API
     @submit.prevent="onEnter">
     <slot
       :localValue="localValue"
+      :hasServerError="hasServerError"
       :errorMessages="errorMessages"
       :isSaving="isSaving"
       :status="status"
@@ -64,7 +65,7 @@ export default {
       isSaving: false,
       showIconSuccess: false,
       dirty: false,
-      serverError: false,
+      hasServerError: false,
       serverErrorMessage: null,
       eventHandlers: {
         save: this.save,
@@ -91,7 +92,7 @@ export default {
       if (this.$v.localValue.$dirty) !this.$v.localValue.required && errors.push('Feld darf nicht leer sein.')
 
       // Server error is 2nd priority: not displayed in case of frontend validation error
-      if (this.serverError) errors.push(this.serverErrorMessage)
+      if (this.hasServerError) errors.push(this.serverErrorMessage)
 
       return errors
     },
@@ -149,7 +150,7 @@ export default {
     resetErrors () {
       this.dirty = false
       this.$v.localValue.$reset()
-      this.serverError = false
+      this.hasServerError = false
       this.serverErrorMessage = null
     },
     onEnter () {
@@ -207,7 +208,7 @@ export default {
           this.serverErrorMessage = error.message
         }
 
-        this.serverError = true
+        this.hasServerError = true
       })
     }
   }
