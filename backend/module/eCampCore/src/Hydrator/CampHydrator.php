@@ -23,15 +23,26 @@ class CampHydrator implements HydratorInterface {
                 function (Camp $c) {
                     return new PeriodCollection($c->getPeriods());
                 },
+                function (Camp $c) {
+                    return [
+                        Link::factory([
+                            'rel' => 'camp_collaborations',
+                            'route' => [
+                                'name' => 'e-camp-api.rest.doctrine.camp-collaboration',
+                                'options' => ['query' => ['camp_id' => $c->getId()]]
+                            ]
+                        ])
+                    ];
+                },
                 [
                     'days' => Util::Collection(function (Period $p) {
                         return new DayCollection($p->getDays());
-                    })
+                    }, null)
                 ]
             ),
             'eventCategories' => Util::Collection(function (Camp $c) {
                 return new EventCategoryCollection($c->getEventCategories());
-            })
+            }, null)
         ];
     }
 

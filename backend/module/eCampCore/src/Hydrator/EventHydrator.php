@@ -17,7 +17,7 @@ class EventHydrator implements HydratorInterface {
             }),
             'event_instances' => Util::Collection(function (Event $e) {
                 return new EventInstanceCollection($e->getEventInstances());
-            })
+            }, null)
         ];
     }
 
