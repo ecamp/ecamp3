@@ -110,6 +110,11 @@ class IndexController extends AbstractActionController {
             'route' => 'zf-apigility/ui'
         ]);
 
+        $data['users'] = TemplatedLink::factory([
+            'rel' => 'users',
+            'route' =>  'e-camp-api.rest.doctrine.user',
+        ]);
+
         $data['camps'] = TemplatedLink::factory([
             'rel' => 'camps',
             'route' =>  'e-camp-api.rest.doctrine.camp',

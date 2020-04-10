@@ -111,7 +111,7 @@ export default {
         ).map(
           c => c.user().id
         )
-        return this.api.get('/users?search=' + this.search).items.filter(
+        return this.api.get().users({ search: this.search }).items.filter(
           u => !filterUsers.includes(u.id)
         )
       }
