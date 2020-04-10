@@ -24,7 +24,7 @@ class CampData extends AbstractFixture implements DependentFixtureInterface {
         /** @var CampType $jsTeenCampType */
         $jsTeenCampType = $this->getReference(CampTypeData::$PBS_JS_TEEN);
 
-        $camp = $repository->findOneBy([ 'owner' => $user, 'name' => 'Camp1' ]);
+        $camp = $repository->findOneBy([ 'owner' => $user, 'name' => 'Camp 1' ]);
         if ($camp == null) {
             $camp = new Camp();
             $camp->setOwner($user);
@@ -38,7 +38,7 @@ class CampData extends AbstractFixture implements DependentFixtureInterface {
         }
         $this->addReference(self::$CAMP_1, $camp);
 
-        $camp = $repository->findOneBy([ 'owner' => $user, 'name' => 'Camp2' ]);
+        $camp = $repository->findOneBy([ 'owner' => $user, 'name' => 'Camp 2' ]);
         if ($camp == null) {
             $camp = new Camp();
             $camp->setOwner($user);
