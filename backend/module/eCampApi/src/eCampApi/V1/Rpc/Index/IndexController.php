@@ -36,7 +36,12 @@ class IndexController extends AbstractActionController {
 
         $data['api'] = Link::factory([
             'rel' => 'api',
-            'route' => 'e-camp-api.rpc.api'
+            'route' => [
+                'name' => 'e-camp-api.rpc.index',
+                'params' => [
+                    'action' => 'api'
+                ]
+            ]
         ]);
 
         $data['setup'] = Link::factory([
@@ -92,7 +97,12 @@ class IndexController extends AbstractActionController {
 
         $data['self'] = Link::factory([
             'rel' => 'self',
-            'route' => 'e-camp-api.rpc.api'
+            'route' => [
+                'name' => 'e-camp-api.rpc.index',
+                'params' => [
+                    'action' => 'api'
+                ]
+            ]
         ]);
 
         $data['auth'] = Link::factory([
