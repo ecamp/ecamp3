@@ -80,8 +80,26 @@ function ServerException (serverResponse) {
   error.serverResponse = serverResponse
   return error
 }
-
 ServerException.prototype = Object.create(Error.prototype)
+
+function handleAxiosError (uri, error) {
+  // Server Error (response received but with error code)
+  if (error.response) {
+    if (error.response.status === 404) {
+      store.commit('deleting', uri)
+
+      // no need to wait for delete operation to finish
+      deleted(uri)
+
+      return new Error(`Could not perform operation, "${uri}" has been deleted`)
+    } else {
+      return new ServerException(error.response)
+    }
+  // Connection error (no response received)
+  } else {
+    return error
+  }
+}
 
 /**
  * Sends a POST request to the backend, in order to create a new entity. Note that this does not
@@ -217,12 +235,8 @@ function loadFromApi (uri) {
         storeHalJsonData(data)
         resolve(store.state.api[uri])
       },
-      ({ response }) => {
-        if (response.status === 404) {
-          store.commit('deleting', uri)
-          return deleted(uri)
-        }
-        reject(response)
+      (error) => {
+        reject(handleAxiosError(uri, error))
       }
     )
   })
@@ -271,18 +285,7 @@ const patch = function (uriOrEntity, data) {
     storeHalJsonData(data)
     return get(uri)
   }, (error) => {
-    // Server Error (response received but with error code)
-    if (error.response) {
-      if (error.response.status === 404) {
-        store.commit('deleting', uri)
-        return deleted(uri)
-      } else {
-        throw new ServerException(error.response)
-      }
-    // Connection error (no response received)
-    } else {
-      throw error
-    }
+    throw handleAxiosError(uri, error)
   }))
 
   return store.state.api[uri]._meta.load

@@ -17,7 +17,14 @@ let vuetify
 function createConfig (overrides) {
   const mocks = {
     api: {
-      patch: () => Promise.resolve()
+      patch: () => Promise.resolve(),
+      get: () => {
+        return {
+          _meta: {
+            load: Promise.resolve()
+          }
+        }
+      }
     }
   }
   const propsData = {

@@ -9,10 +9,10 @@ Displays a field as a e-text-field + write access via API wrapper
     <e-text-field
       :value="wrapper.localValue"
       v-bind="$attrs"
-      :readonly="readonly"
+      :readonly="readonly || wrapper.readonly"
       :disabled="disabled"
       :error-messages="wrapper.errorMessages"
-      :loading="wrapper.isSaving ? 'secondary' : false"
+      :loading="wrapper.isSaving || wrapper.isLoading ? 'secondary' : false"
       no-margin
       outlined
       :filled="false"
@@ -20,6 +20,7 @@ Displays a field as a e-text-field + write access via API wrapper
       @blur="wrapper.on.touch">
       <template #append>
         <button-retry v-if="wrapper.hasServerError" @click="wrapper.on.save" />
+        <button-retry v-if="wrapper.hasLoadingError" @click="wrapper.on.reload" />
         <icon-success :visible="wrapper.status === 'success'" />
       </template>
     </e-text-field>

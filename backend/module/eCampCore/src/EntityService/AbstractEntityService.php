@@ -193,7 +193,7 @@ abstract class AbstractEntityService extends AbstractResourceListener {
             }
             return null;
         } catch (NoResultException $ex) {
-            return null;
+            return new ApiProblem(404, $ex->getMessage());
         } catch (Exception $ex) {
             return new ApiProblem(500, $ex->getMessage());
         }
