@@ -222,28 +222,13 @@ export default {
       }, (error) => {
         this.isSaving = false
 
-        if (error.serverResponse) {
-          const response = error.serverResponse
-
-          // API Problem
-          if (response.headers['content-type'] === 'application/problem+json') {
-          // 422 validation error
-            if (response.status === 422) {
-              this.serverErrorMessage = 'Validation error: '
-              const validationMessages = response.data.validation_messages[this.fieldname]
-              Object.keys(validationMessages).forEach((key) => {
-                this.serverErrorMessage = this.serverErrorMessage + validationMessages[key] + '. '
-              })
-
-              // other API problem
-            } else {
-              this.serverErrorMessage = 'Server-Error ' + response.status + ' (' + response.data.detail + ')'
-            }
-            // other unknown server error (not of type application/problem+json)
-          } else {
-            this.serverErrorMessage = 'Server-Error ' + response.status + ' (' + response.statusText + ')'
-          }
-        // another error (most probably connection timeout)
+        // 422 validation error
+        if (error.name === 'ServerException' && error.response && error.response.status === 422) {
+          this.serverErrorMessage = 'Validation error: '
+          const validationMessages = error.response.data.validation_messages[this.fieldname]
+          Object.keys(validationMessages).forEach((key) => {
+            this.serverErrorMessage = this.serverErrorMessage + validationMessages[key] + '. '
+          })
         } else {
           this.serverErrorMessage = error.message
         }

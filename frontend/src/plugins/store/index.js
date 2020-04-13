@@ -71,33 +71,54 @@ const store = new Vuex.Store({
 export { store }
 
 /**
- * Constructor for server exception
+ * Error object for return server exceptions (attaches response object to error)
+ * @param response        Axios response object
+ * @param ...params       Any other parameters from default Error constructor (message, etc.)
  */
-function ServerException (serverResponse) {
-  const error = new Error('Server error')
+export class ServerException extends Error {
+  constructor (response, ...params) {
+    super(...params)
 
-  error.code = 'SERVER_EXCEPTION'
-  error.serverResponse = serverResponse
-  return error
+    if (!this.message) {
+      this.message = 'Server-Error ' + response.status + ' (' + response.statusText + ')'
+    }
+    this.name = 'ServerException'
+    this.response = response
+  }
 }
-ServerException.prototype = Object.create(Error.prototype)
 
+/**
+ * Processes error object received from Axios for further usage. Triggers delete chain as side effect.
+ * @param uri             Requested URI that triggered the error
+ * @param error           Raw error object received from Axios
+ * @returns Error         Return new error object with human understandable error message
+ */
 function handleAxiosError (uri, error) {
   // Server Error (response received but with error code)
   if (error.response) {
-    if (error.response.status === 404) {
+    const response = error.response
+
+    // 404 Entity not found error
+    if (response.status === 404) {
       store.commit('deleting', uri)
+      deleted(uri) // no need to wait for delete operation to finish
+      return new ServerException(response, `Could not perform operation, "${uri}" has been deleted`)
 
-      // no need to wait for delete operation to finish
-      deleted(uri)
+    // 403 Permission error
+    } else if (response.status === 403) {
+      return new ServerException(response, 'No permission to perform operation')
 
-      return new Error(`Could not perform operation, "${uri}" has been deleted`)
+    // API Problem
+    } else if (response.headers['content-type'] === 'application/problem+json') {
+      return new ServerException(response, 'Server-Error ' + response.status + ' (' + response.data.detail + ')')
+
+    // other unknown server error (not of type application/problem+json)
     } else {
-      return new ServerException(error.response)
+      return new ServerException(response)
     }
-  // Connection error (no response received)
+  // another error (most probably connection timeout; no response received)
   } else {
-    return error
+    return new Error('Could not connect to server. Check your internet connection and try again.')
   }
 }
 
