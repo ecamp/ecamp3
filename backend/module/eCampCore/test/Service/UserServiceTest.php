@@ -5,6 +5,7 @@ namespace eCamp\CoreTest\Service;
 use eCamp\Core\Entity\User;
 use eCamp\Core\EntityService\UserService;
 use eCamp\LibTest\PHPUnit\AbstractDatabaseTestCase;
+use ZF\ApiProblem\ApiProblem;
 
 class UserServiceTest extends AbstractDatabaseTestCase {
     public function testCreateUser() {
@@ -37,6 +38,6 @@ class UserServiceTest extends AbstractDatabaseTestCase {
         $this->assertEquals($user, $user2);
 
         $user3 = $userService->fetch(-1);
-        $this->assertNull($user3);
+        $this->assertInstanceOf(ApiProblem::class, $user3);
     }
 }
