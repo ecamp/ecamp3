@@ -71,7 +71,7 @@ const store = new Vuex.Store({
 export { store }
 
 /**
- * Error object for return server exceptions (attaches response object to error)
+ * Error class for returning server exceptions (attaches response object to error)
  * @param response        Axios response object
  * @param ...params       Any other parameters from default Error constructor (message, etc.)
  */

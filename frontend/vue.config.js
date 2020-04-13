@@ -1,5 +1,6 @@
 module.exports = {
   devServer: {
+    useLocalIp: false,
     allowedHosts: [
       'ecamp3',
       'localhost',

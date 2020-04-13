@@ -12,14 +12,14 @@ Displays a field as a e-checkbox + write access via API wrapper
     <e-checkbox
       :input-value="wrapper.localValue"
       v-bind="$attrs"
-      :readonly="readonly"
+      :readonly="readonly || wrapper.readonly"
       :disabled="disabled"
       :error-messages="wrapper.errorMessages"
       :loading="wrapper.isSaving"
       no-margin
       @change="wrapper.on.input">
       <template #append>
-        <icon-success :visible="wrapper.status === 'success'" />
+        <api-wrapper-append :wrapper="wrapper" />
       </template>
     </e-checkbox>
   </api-wrapper>
@@ -28,11 +28,11 @@ Displays a field as a e-checkbox + write access via API wrapper
 <script>
 import { apiPropsMixin } from '@/mixins/apiPropsMixin'
 import ApiWrapper from './ApiWrapper'
-import IconSuccess from './IconSuccess'
+import ApiWrapperAppend from './ApiWrapperAppend'
 
 export default {
   name: 'ApiCheckbox',
-  components: { ApiWrapper, IconSuccess },
+  components: { ApiWrapper, ApiWrapperAppend },
   mixins: [apiPropsMixin],
   props: {
     // disable delay per default

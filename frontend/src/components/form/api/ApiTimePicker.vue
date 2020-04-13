@@ -9,16 +9,16 @@ Displays a field as a time picker + write access via API wrapper
     <e-time-picker
       :value="wrapper.localValue"
       v-bind="$attrs"
-      :readonly="readonly"
+      :readonly="readonly || wrapper.readonly"
       :disabled="disabled"
-      :loading="wrapper.isSaving ? 'secondary' : false"
+      :loading="wrapper.isSaving || wrapper.isLoading ? 'secondary' : false"
       outlined
       no-margin
       :filled="false"
       :error-messages="wrapper.errorMessages"
       @input="wrapper.on.input">
       <template #append>
-        <icon-success :visible="wrapper.status === 'success'" />
+        <api-wrapper-append :wrapper="wrapper" />
       </template>
     </e-time-picker>
   </api-wrapper>
@@ -27,11 +27,11 @@ Displays a field as a time picker + write access via API wrapper
 <script>
 import { apiPropsMixin } from '@/mixins/apiPropsMixin'
 import ApiWrapper from './ApiWrapper'
-import IconSuccess from './IconSuccess'
+import ApiWrapperAppend from './ApiWrapperAppend'
 
 export default {
   name: 'ApiTimePicker',
-  components: { ApiWrapper, IconSuccess },
+  components: { ApiWrapper, ApiWrapperAppend },
   mixins: [apiPropsMixin],
   props: {
     // disable delay per default

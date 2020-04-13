@@ -14,6 +14,7 @@ Wrapper component for form components to save data back to API
       :errorMessages="errorMessages"
       :isSaving="isSaving"
       :isLoading="isLoading"
+      :autoSave="autoSave"
       :readonly="readonly || !hasFinishedLoading"
       :status="status"
       :on="eventHandlers" />
@@ -33,7 +34,7 @@ Wrapper component for form components to save data back to API
       </v-btn>
 
       <v-btn
-        color="primary"
+        :color="hasServerError ? 'error' : 'primary'"
         small
         elevation="0"
         :disabled="disabled || !hasFinishedLoading || hasValidationError"
@@ -41,7 +42,7 @@ Wrapper component for form components to save data back to API
         :height="separateButtons ? '' : 'auto'"
         :loading="isSaving"
         @click="save">
-        Save
+        {{ hasServerError ? 'Retry' : 'Save' }}
       </v-btn>
     </div>
   </v-form>
@@ -67,7 +68,7 @@ export default {
     return {
       localValue: null,
       isSaving: false,
-      isLoading: true,
+      isLoading: false,
       showIconSuccess: false,
       dirty: false,
       hasServerError: false,

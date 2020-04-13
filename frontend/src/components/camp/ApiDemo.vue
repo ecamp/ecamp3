@@ -16,7 +16,6 @@ Displays details on a single camp and allows to edit them.
         <api-text-field
           fieldname="title"
           label="Titel"
-          :auto-save="false"
           required />
 
         <api-textarea
@@ -29,7 +28,6 @@ Displays details on a single camp and allows to edit them.
           :value="checkbox"
           fieldname="check"
           label="Checkbox example"
-          :auto-save="false"
           required />
 
         <api-time-picker
