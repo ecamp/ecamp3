@@ -904,4 +904,63 @@ describe('API store', () => {
     expect(loadingProxy.loading).toBe(true)
     done()
   })
+
+  it('`get` throws error when server request failed', async done => {
+    expect.assertions(4)
+
+    // given
+    axiosMock.onGet('http://localhost/camps/1').networkError()
+    axiosMock.onGet('http://localhost/camps/2').timeoutOnce()
+    axiosMock.onGet('http://localhost/camps/3').replyOnce(404)
+    axiosMock.onGet('http://localhost/camps/4').replyOnce(403)
+
+    // when
+    const campLoader1 = vm.api.get('/camps/1')._meta.load
+    const campLoader2 = vm.api.get('/camps/2')._meta.load
+    const campLoader3 = vm.api.get('/camps/3')._meta.load
+    const campLoader4 = vm.api.get('/camps/4')._meta.load
+
+    // then
+    await expect(campLoader1).rejects.toThrow('Could not connect to server')
+    await expect(campLoader2).rejects.toThrow('Could not connect to server')
+    await expect(campLoader3).rejects.toThrow('"/camps/3" has been deleted')
+    await expect(campLoader4).rejects.toThrow('No permission')
+
+    done()
+  })
+
+  it('`patch` throws error when server request failed', async done => {
+    expect.assertions(5)
+
+    // given
+    axiosMock.onPatch('http://localhost/camps/1').networkError()
+    axiosMock.onPatch('http://localhost/camps/2').timeoutOnce()
+    axiosMock.onPatch('http://localhost/camps/3').replyOnce(404)
+    axiosMock.onPatch('http://localhost/camps/4').replyOnce(403)
+    axiosMock.onPatch('http://localhost/camps/5').replyOnce(422, {
+      validation_messages: { title: { stringLengthTooShort: 'The input is less than 10 characters long' } },
+      type: 'http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html',
+      title: 'Unprocessable Entity',
+      status: 422,
+      detail: 'Failed Validation'
+    }, {
+      'content-type': 'application/problem+json'
+    })
+
+    // when
+    const campPatcher1 = vm.api.patch('/camps/1', {})
+    const campPatcher2 = vm.api.patch('/camps/2', {})
+    const campPatcher3 = vm.api.patch('/camps/3', {})
+    const campPatcher4 = vm.api.patch('/camps/4', {})
+    const campPatcher5 = vm.api.patch('/camps/5', {})
+
+    // then
+    await expect(campPatcher1).rejects.toThrow('Could not connect to server')
+    await expect(campPatcher2).rejects.toThrow('Could not connect to server')
+    await expect(campPatcher3).rejects.toThrow('"/camps/3" has been deleted')
+    await expect(campPatcher4).rejects.toThrow('No permission')
+    await expect(campPatcher5).rejects.toThrow('Failed Validation')
+
+    done()
+  })
 })

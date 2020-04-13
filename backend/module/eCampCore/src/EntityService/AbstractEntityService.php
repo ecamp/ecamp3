@@ -125,8 +125,7 @@ abstract class AbstractEntityService extends AbstractResourceListener {
      * @param  ResourceEvent $event
      * @return mixed
      */
-    public function dispatch(ResourceEvent $event)
-    {
+    public function dispatch(ResourceEvent $event) {
         try {
             return parent::dispatch($event);
         } catch (NoAccessException $e) {

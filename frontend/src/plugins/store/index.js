@@ -102,7 +102,8 @@ function handleAxiosError (uri, error) {
     if (response.status === 404) {
       store.commit('deleting', uri)
       deleted(uri) // no need to wait for delete operation to finish
-      return new ServerException(response, `Could not perform operation, "${uri}" has been deleted`)
+      // return new ServerException(response, `Could not perform operation, "${uri}" has been deleted`)
+      return new Error(`Could not perform operation, "${uri}" has been deleted`)
 
     // 403 Permission error
     } else if (response.status === 403) {
@@ -138,6 +139,8 @@ export const post = function (uriOrCollection, data) {
   return markAsDoneWhenResolved(axios.post(API_ROOT + uri, data).then(({ data }) => {
     storeHalJsonData(data)
     return get(data._links.self.href)
+  }, (error) => {
+    throw handleAxiosError(uri, error)
   }))
 }
 
@@ -348,8 +351,15 @@ const del = function (uriOrEntity) {
     return Promise.reject(new Error(`Could not perform DELETE, "${uriOrEntity}" is not an entity or URI`))
   }
   store.commit('deleting', uri)
-  return markAsDoneWhenResolved(axios.delete(API_ROOT + uri)
-    .then(() => deleted(uri), ({ response }) => deletingFailed(uri, response)))
+  return markAsDoneWhenResolved(axios.delete(API_ROOT + uri).then(
+    () => deleted(uri),
+    (error) => {
+      if (error.response && error.response.status === 204) return
+
+      store.commit('deletingFailed', uri)
+      throw handleAxiosError(uri, error)
+    }
+  ))
 }
 
 function valueIsArrayWithReferenceTo (value, uri) {
@@ -381,17 +391,6 @@ function deleted (uri) {
     .filter(outdatedEntity => !outdatedEntity._meta.deleting)
     .map(outdatedEntity => reload(outdatedEntity)._meta.load)
   ).then(() => purge(uri))
-}
-
-/**
- * Unsets the ._meta.deleted flag when an entity failed to be deleted from the backend.
- * @param uri      URI of an entity which failed to be deleted from backend
- * @param response HTTP response returned from the DELETE call to backend
- */
-function deletingFailed (uri, response) {
-  if (response.status !== 204) {
-    store.commit('deletingFailed', uri)
-  }
 }
 
 /**

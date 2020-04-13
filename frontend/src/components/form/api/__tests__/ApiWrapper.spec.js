@@ -103,6 +103,26 @@ describe('Testing autoSave mode', () => {
     // again in init state
     expect(vm.status).toBe('init')
   })
+
+  test('shows server error if api.patch failed', async () => {
+    const config = createConfig()
+    const patchSpy = jest.spyOn(config.mocks.api, 'patch')
+
+    // given
+    patchSpy.mockRejectedValueOnce(new Error('server error'))
+
+    const wrapper = shallowMount(ApiWrapper, config)
+    const vm = wrapper.vm
+
+    // when
+    vm.onInput('new value') // Trigger patch
+    jest.runAllTimers() // resolve lodash debounced
+    await flushPromises() // wait for patch promise to resolve
+
+    // then
+    expect(vm.hasServerError).toBe(true)
+    expect(vm.errorMessages).toContain('server error')
+  })
 })
 
 describe('Testing manual save mode', () => {
