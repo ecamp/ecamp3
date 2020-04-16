@@ -354,8 +354,6 @@ const del = function (uriOrEntity) {
   return markAsDoneWhenResolved(axios.delete(API_ROOT + uri).then(
     () => deleted(uri),
     (error) => {
-      if (error.response && error.response.status === 204) return
-
       store.commit('deletingFailed', uri)
       throw handleAxiosError(uri, error)
     }

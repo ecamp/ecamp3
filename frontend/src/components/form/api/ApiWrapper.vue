@@ -151,7 +151,7 @@ export default {
     }
   },
   created () {
-    // initially data load
+    // initial data load from API
     if (!this.value) this.reload()
 
     this.localValue = this.apiValue

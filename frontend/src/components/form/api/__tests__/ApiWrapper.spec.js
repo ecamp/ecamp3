@@ -61,7 +61,7 @@ describe('Testing ApiWrapper [autoSave=true;  manual external value]', () => {
     expect(vm.value).toBe(config.propsData.value)
     expect(vm.dirty).toBe(false)
     expect(vm.isSaving).toBe(false)
-    expect(vm.isSaving).toBe(false)
+    expect(vm.isLoading).toBe(false)
     expect(vm.status).toBe('init')
     expect(vm.autoSave).toBe(true)
 
@@ -178,12 +178,10 @@ describe('Testing ApiWrapper [autoSave=true; value from API]', () => {
     apiPatch = jest.spyOn(config.mocks.api, 'patch')
     apiGet = jest.spyOn(config.mocks.api, 'get')
 
-    // const apiGetLoader = jest.fn().mockResolvedValue({})
-    const apiGetLoader = Promise.resolve({})
     apiGet.mockReturnValue({
       [config.propsData.fieldname]: 'api value',
       _meta: {
-        load: apiGetLoader
+        load: Promise.resolve()
       }
     })
 
@@ -192,11 +190,9 @@ describe('Testing ApiWrapper [autoSave=true; value from API]', () => {
   })
 
   test('loads value from API', async () => {
-    // expect(vm.isLoading).toBe(true)
-    // expect(vm.hasFinishedLoading).toBe(false)
-
     await flushPromises() // wait for load promise to resolve
 
+    expect(vm.hasFinishedLoading).toBe(true)
     expect(vm.isLoading).toBe(false)
     expect(vm.localValue).toBe('api value')
   })

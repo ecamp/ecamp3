@@ -12,7 +12,7 @@ Displays a field as a e-checkbox + write access via API wrapper
     <e-checkbox
       :input-value="wrapper.localValue"
       v-bind="$attrs"
-      :readonly="readonly || wrapper.readonly"
+      :readonly="wrapper.readonly"
       :disabled="disabled"
       :error-messages="wrapper.errorMessages"
       :loading="wrapper.isSaving"

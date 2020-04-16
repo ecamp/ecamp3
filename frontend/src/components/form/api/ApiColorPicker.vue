@@ -9,7 +9,7 @@ Displays a field as a color picker + write access via API wrapper
     <e-color-picker
       :value="wrapper.localValue"
       v-bind="$attrs"
-      :readonly="readonly || wrapper.readonly"
+      :readonly="wrapper.readonly"
       :disabled="disabled"
       :loading="wrapper.isSaving || wrapper.isLoading ? 'secondary' : false"
       outlined

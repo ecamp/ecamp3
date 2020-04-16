@@ -1,6 +1,6 @@
 <template>
   <div class="d-flex">
-    <!-- Retry/Cancel button is saving failed -->
+    <!-- Retry/Cancel button if saving failed -->
     <template v-if="wrapper.autoSave && wrapper.hasServerError">
       <button-retry @click="wrapper.on.save" />
 

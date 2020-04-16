@@ -13,10 +13,3 @@ export default {
   name: 'ButtonRetry'
 }
 </script>
-
-<style scoped>
-.v-btn {
-    position:relative;
-    top:-5px;
-}
-</style>

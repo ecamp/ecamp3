@@ -905,39 +905,97 @@ describe('API store', () => {
     done()
   })
 
-  it('`get` throws error when server request failed', async done => {
-    expect.assertions(4)
-
+  it('returns error when `get` encounters network error', () => {
     // given
     axiosMock.onGet('http://localhost/camps/1').networkError()
-    axiosMock.onGet('http://localhost/camps/2').timeoutOnce()
-    axiosMock.onGet('http://localhost/camps/3').replyOnce(404)
-    axiosMock.onGet('http://localhost/camps/4').replyOnce(403)
-
     // when
-    const campLoader1 = vm.api.get('/camps/1')._meta.load
-    const campLoader2 = vm.api.get('/camps/2')._meta.load
-    const campLoader3 = vm.api.get('/camps/3')._meta.load
-    const campLoader4 = vm.api.get('/camps/4')._meta.load
-
+    const load = vm.api.get('/camps/1')._meta.load
     // then
-    await expect(campLoader1).rejects.toThrow('Could not connect to server')
-    await expect(campLoader2).rejects.toThrow('Could not connect to server')
-    await expect(campLoader3).rejects.toThrow('"/camps/3" has been deleted')
-    await expect(campLoader4).rejects.toThrow('No permission')
-
-    done()
+    return expect(load).rejects.toThrow('Could not connect to server')
   })
 
-  it('`patch` throws error when server request failed', async done => {
-    expect.assertions(5)
+  it('returns error when `get` encounters network timeout', () => {
+    // given
+    axiosMock.onGet('http://localhost/camps/1').timeoutOnce()
+    // when
+    const load = vm.api.get('/camps/1')._meta.load
+    // then
+    return expect(load).rejects.toThrow('Could not connect to server')
+  })
 
+  it('returns error when `get` encounters 404 Not Found', async () => {
+    // given
+    axiosMock.onGet('http://localhost/camps/1').replyOnce(200, { id: 1, _links: { self: { href: '/camps/1' } } })
+    axiosMock.onGet('http://localhost/camps/1').replyOnce(404)
+
+    // when
+    await vm.api.get('/camps/1')._meta.load
+    // then
+    expect(vm.$store.state.api['/camps/1']).toMatchObject({ id: 1, _meta: { self: '/camps/1' } })
+
+    // when
+    const load = vm.api.reload('/camps/1')._meta.load
+    // then
+    await expect(load).rejects.toThrow('"/camps/1" has been deleted')
+    expect(vm.$store.state.api['/camps/1']).toBeUndefined()
+  })
+
+  it('returns error when `get` encounters 403 Forbidden', () => {
+    // given
+    axiosMock.onGet('http://localhost/camps/1').replyOnce(403)
+    // when
+    const load = vm.api.get('/camps/1')._meta.load
+    // then
+    return expect(load).rejects.toThrow('No permission')
+  })
+
+  it('returns error when `patch` encounters network error', () => {
     // given
     axiosMock.onPatch('http://localhost/camps/1').networkError()
-    axiosMock.onPatch('http://localhost/camps/2').timeoutOnce()
-    axiosMock.onPatch('http://localhost/camps/3').replyOnce(404)
-    axiosMock.onPatch('http://localhost/camps/4').replyOnce(403)
-    axiosMock.onPatch('http://localhost/camps/5').replyOnce(422, {
+    // when
+    const load = vm.api.patch('/camps/1', {})
+    // then
+    return expect(load).rejects.toThrow('Could not connect to server')
+  })
+
+  it('returns error when `patch` encounters network timeout', () => {
+    // given
+    axiosMock.onPatch('http://localhost/camps/1').timeoutOnce()
+    // when
+    const load = vm.api.patch('/camps/1', {})
+    // then
+    return expect(load).rejects.toThrow('Could not connect to server')
+  })
+
+  it('returns error when `patch` encounters 404 Not Found', async () => {
+    // given
+    axiosMock.onGet('http://localhost/camps/1').replyOnce(200, { id: 1, _links: { self: { href: '/camps/1' } } })
+    axiosMock.onPatch('http://localhost/camps/1').replyOnce(404)
+
+    // when
+    await vm.api.get('/camps/1')._meta.load
+    // then
+    expect(vm.$store.state.api['/camps/1']).toMatchObject({ id: 1, _meta: { self: '/camps/1' } })
+
+    // when
+    const load = vm.api.patch('/camps/1', {})
+    // then
+    await expect(load).rejects.toThrow('"/camps/1" has been deleted')
+    expect(vm.$store.state.api['/camps/1']).toBeUndefined()
+  })
+
+  it('returns error when `patch` encounters 403 Forbidden', () => {
+    // given
+    axiosMock.onPatch('http://localhost/camps/1').replyOnce(403)
+    // when
+    const load = vm.api.patch('/camps/1', {})
+    // then
+    return expect(load).rejects.toThrow('No permission')
+  })
+
+  it('returns error when `patch` encounters 422 Unprocessable Entity (Validation error)', () => {
+    // given
+    axiosMock.onPatch('http://localhost/camps/1').replyOnce(422, {
       validation_messages: { title: { stringLengthTooShort: 'The input is less than 10 characters long' } },
       type: 'http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html',
       title: 'Unprocessable Entity',
@@ -948,19 +1006,9 @@ describe('API store', () => {
     })
 
     // when
-    const campPatcher1 = vm.api.patch('/camps/1', {})
-    const campPatcher2 = vm.api.patch('/camps/2', {})
-    const campPatcher3 = vm.api.patch('/camps/3', {})
-    const campPatcher4 = vm.api.patch('/camps/4', {})
-    const campPatcher5 = vm.api.patch('/camps/5', {})
+    const load = vm.api.patch('/camps/1', {})
 
     // then
-    await expect(campPatcher1).rejects.toThrow('Could not connect to server')
-    await expect(campPatcher2).rejects.toThrow('Could not connect to server')
-    await expect(campPatcher3).rejects.toThrow('"/camps/3" has been deleted')
-    await expect(campPatcher4).rejects.toThrow('No permission')
-    await expect(campPatcher5).rejects.toThrow('Failed Validation')
-
-    done()
+    return expect(load).rejects.toThrow('Failed Validation')
   })
 })

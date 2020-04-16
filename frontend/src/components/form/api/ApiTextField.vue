@@ -9,7 +9,7 @@ Displays a field as a e-text-field + write access via API wrapper
     <e-text-field
       :value="wrapper.localValue"
       v-bind="$attrs"
-      :readonly="readonly || wrapper.readonly"
+      :readonly="wrapper.readonly"
       :disabled="disabled"
       :error-messages="wrapper.errorMessages"
       :loading="wrapper.isSaving || wrapper.isLoading ? 'secondary' : false"
