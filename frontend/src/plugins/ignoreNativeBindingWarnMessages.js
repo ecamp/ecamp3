@@ -1,4 +1,10 @@
-class IgnoreAnnoyingWarnMessagesPlugin {
+/**
+ * Disables display of console warn messages related to .native event bindings
+ *
+ * See also here https://github.com/vuejs/vue/issues/10939
+ * and here https://github.com/vuetifyjs/vuetify/issues/9999
+ */
+class IgnoreNativeBindingWarnMessagesPlugin {
   install (Vue, options) {
     const ignoreWarnMessage = 'The .native modifier for v-on is only valid on components but it was used on'
     Vue.config.warnHandler = function (msg, vm, trace) {
@@ -12,4 +18,4 @@ class IgnoreAnnoyingWarnMessagesPlugin {
   }
 }
 
-export default new IgnoreAnnoyingWarnMessagesPlugin()
+export default new IgnoreNativeBindingWarnMessagesPlugin()
