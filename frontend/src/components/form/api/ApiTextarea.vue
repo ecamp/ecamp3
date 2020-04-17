@@ -9,6 +9,7 @@ Displays a field as a e-textarea + write access via API wrapper
     separate-buttons>
     <e-textarea
       :value="wrapper.localValue"
+      :label="wrapper.label"
       v-bind="$attrs"
       :readonly="wrapper.readonly"
       :disabled="disabled"
@@ -17,8 +18,7 @@ Displays a field as a e-textarea + write access via API wrapper
       outlined
       no-margin
       :filled="false"
-      @input="wrapper.on.input"
-      @blur="wrapper.on.touch">
+      @input="wrapper.on.input">
       <template #append>
         <api-wrapper-append :wrapper="wrapper" />
       </template>

@@ -8,6 +8,7 @@ Displays a field as a e-text-field + write access via API wrapper
     v-bind="$props">
     <e-text-field
       :value="wrapper.localValue"
+      :label="wrapper.label"
       v-bind="$attrs"
       :readonly="wrapper.readonly"
       :disabled="disabled"
@@ -16,8 +17,7 @@ Displays a field as a e-text-field + write access via API wrapper
       no-margin
       outlined
       :filled="false"
-      @input="wrapper.on.input"
-      @blur="wrapper.on.touch">
+      @input="wrapper.on.input">
       <template #append>
         <api-wrapper-append :wrapper="wrapper" />
       </template>

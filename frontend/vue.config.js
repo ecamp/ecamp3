@@ -7,13 +7,17 @@ module.exports = {
       '127.0.0.1'
     ]
   },
+
   configureWebpack: {
     devtool: 'source-map'
   },
+
   transpileDependencies: [
     'vuetify'
   ],
+
   chainWebpack: (config) => {
+    // install vue-svg-loader
     const svgRule = config.module.rule('svg')
 
     svgRule.uses.clear()
