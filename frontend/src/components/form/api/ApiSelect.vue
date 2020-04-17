@@ -8,6 +8,7 @@ Displays a field as a e-select + write access via API wrapper
     v-bind="$props">
     <e-select
       :value="wrapper.localValue"
+      :label="wrapper.label"
       v-bind="$attrs"
       :readonly="wrapper.readonly"
       :disabled="disabled"
@@ -16,8 +17,7 @@ Displays a field as a e-select + write access via API wrapper
       outlined
       no-margin
       :filled="false"
-      @input="wrapper.on.input"
-      @blur="wrapper.on.touch">
+      @input="wrapper.on.input">
       <template #append>
         <v-icon>mdi-menu-down</v-icon>
         <api-wrapper-append :wrapper="wrapper" />

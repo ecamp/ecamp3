@@ -7,6 +7,9 @@ export const apiPropsMixin = {
     /* value is not required; by default value is read directly from api */
     value: { required: false, default: null },
 
+    /* displayed label (also used in error messages) */
+    label: { type: String, required: false },
+
     /* field name and URI for saving back to API */
     fieldname: { type: String, required: true },
 
@@ -35,6 +38,13 @@ export const apiPropsMixin = {
 
     /* Validation criteria */
     required: { type: Boolean, default: false, required: false },
+
+    /* Validation criteria (Vee-validate rule string) */
+    validation: {
+      type: String,
+      required: false,
+      default: null
+    },
 
     /* Removes the margin (for inline fields) */
     noMargin: { type: Boolean, default: false, required: false }

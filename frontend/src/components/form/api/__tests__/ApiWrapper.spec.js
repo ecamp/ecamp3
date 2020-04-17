@@ -150,7 +150,7 @@ describe('Testing ApiWrapper [autoSave=true;  manual external value]', () => {
     wrapper.setProps({ required: true })
 
     // when
-    vm.onInput('')
+    await vm.onInput('')
 
     // then
     expect(vm.hasValidationError).toBe(true)

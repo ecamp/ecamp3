@@ -8,6 +8,7 @@ Displays a field as a color picker + write access via API wrapper
     v-bind="$props">
     <e-color-picker
       :value="wrapper.localValue"
+      :label="wrapper.label"
       v-bind="$attrs"
       :readonly="wrapper.readonly"
       :disabled="disabled"

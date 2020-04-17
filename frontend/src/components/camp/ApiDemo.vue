@@ -22,6 +22,7 @@ Displays details on a single camp and allows to edit them.
           fieldname="motto"
           label="Motto"
           :auto-save="false"
+          validation="required|min:3|min10"
           required />
 
         <api-checkbox
@@ -67,6 +68,21 @@ Displays details on a single camp and allows to edit them.
   </content-group>
 </template>
 
+<i18n>
+{
+  "en": {
+    "validation": {
+      "min10": "This field {_field_} must be at least 10 characters long"
+    }
+  },
+  "de": {
+    "validation": {
+      "min10": "Das Feld {_field_} muss mindest 10 Zeichen lang sein"
+    }
+  }
+}
+</i18n>
+
 <script>
 import ApiTextField from '../form/api/ApiTextField'
 import ApiTextarea from '../form/api/ApiTextarea'
@@ -74,10 +90,9 @@ import ApiDatePicker from '../form/api/ApiDatePicker'
 import ApiTimePicker from '../form/api/ApiTimePicker'
 import ApiCheckbox from '../form/api/ApiCheckbox'
 import ApiColorPicker from '../form/api/ApiColorPicker'
-
 import ApiForm from '@/components/form/api/ApiForm'
-
 import ContentGroup from '@/components/layout/ContentGroup'
+import { extend } from 'vee-validate'
 
 export default {
   name: 'ApiDemo',
@@ -108,6 +123,15 @@ export default {
     periods () {
       return this.camp().periods()
     }
+  },
+  created () {
+    /* Defining a component specific custom rule */
+    extend('min10', {
+      validate: value => {
+        return value.length >= 10
+      },
+      message: (_, values) => this.$t('validation.min10', values)
+    })
   }
 }
 </script>

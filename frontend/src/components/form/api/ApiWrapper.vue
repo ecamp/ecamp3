@@ -8,6 +8,7 @@ Wrapper component for form components to save data back to API
     @submit.prevent="onEnter">
     <slot
       :localValue="localValue"
+      :label="label"
       :hasServerError="hasServerError"
       :hasLoadingError="hasLoadingError"
       :hasValidationError="hasValidationError"
@@ -51,13 +52,12 @@ Wrapper component for form components to save data back to API
 <script>
 
 import { debounce } from 'lodash'
-import { validationMixin } from 'vuelidate'
-import { required } from 'vuelidate/lib/validators'
 import { apiPropsMixin } from '@/mixins/apiPropsMixin'
+import { validate } from 'vee-validate'
 
 export default {
   name: 'ApiWrapper',
-  mixins: [apiPropsMixin, validationMixin],
+  mixins: [apiPropsMixin],
   props: {
     separateButtons: {
       type: Boolean,
@@ -71,30 +71,23 @@ export default {
       isLoading: false,
       showIconSuccess: false,
       dirty: false,
+      hasValidationError: false,
       hasServerError: false,
       hasLoadingError: false,
       serverErrorMessage: null,
       loadingErrorMessage: null,
+      validationErrorMessages: null,
       eventHandlers: {
         save: this.save,
         reset: this.reset,
         reload: this.reload,
-        input: this.onInput,
-        touch: this.touch
+        input: this.onInput
       }
-    }
-  },
-  validations: {
-    localValue: {
-      required
     }
   },
   computed: {
     hasFinishedLoading () {
       return !this.isLoading && !this.hasLoadingError
-    },
-    hasValidationError () {
-      return this.$v.localValue.$invalid
     },
     errorMessages () {
       const errors = []
@@ -103,7 +96,7 @@ export default {
       if (this.hasLoadingError) errors.push(this.loadingErrorMessage)
 
       // 2nd priority: Frontent validation
-      if (this.$v.localValue.$dirty) !this.$v.localValue.required && errors.push('Feld darf nicht leer sein.')
+      if (this.hasValidationError) this.validationErrorMessages.forEach(err => errors.push(err))
 
       // 3rd priority: Server error (not displayed in case of frontend validation error)
       if (this.hasServerError) errors.push(this.serverErrorMessage)
@@ -157,13 +150,22 @@ export default {
     this.localValue = this.apiValue
   },
   methods: {
-    touch () {
-      this.$v.localValue.$touch()
-    },
-    onInput: function (newValue) {
+    async onInput (newValue) {
       this.localValue = newValue
       this.dirty = true
-      this.touch()
+
+      if (this.required || this.validation) {
+        const rules = []
+        if (this.required) rules.push('required')
+        if (this.validation) rules.push(this.validation)
+
+        const result = await validate(newValue, rules.join('|'), {
+          name: this.label
+        })
+
+        this.hasValidationError = !result.valid
+        this.validationErrorMessages = result.errors
+      }
 
       if (this.autoSave) {
         this.debouncedSave()
@@ -172,7 +174,6 @@ export default {
     // reload data from API (doesn't force loading from server if available locally)
     reload () {
       this.isLoading = true
-      this.hasLoadingError = false
       this.resetErrors()
 
       // initial data load from API
@@ -190,7 +191,8 @@ export default {
     },
     resetErrors () {
       this.dirty = false
-      this.$v.localValue.$reset()
+      this.hasLoadingError = false
+      this.hasValidationError = false
       this.hasServerError = false
       this.serverErrorMessage = null
     },
@@ -207,8 +209,7 @@ export default {
       }
 
       // abort saving in case of validation errors
-      this.touch()
-      if (this.$v.localValue.$anyError) {
+      if (this.hasValidationError) {
         return
       }
 
