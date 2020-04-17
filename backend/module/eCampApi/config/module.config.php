@@ -5,7 +5,7 @@ return array(
             'e-camp-api.rpc.index' => array(
                 'type' => 'Segment',
                 'options' => array(
-                    'route' => '/[:action]',
+                    'route' => '/',
                     'defaults' => array(
                         'controller' => 'eCampApi\\V1\\Rpc\\Index\\Controller',
                         'action' => 'index',
@@ -177,6 +177,7 @@ return array(
         ),
     ),
     'zf-versioning' => array(
+        /*
         'uri' => array(
             0 => 'e-camp-api.rest.doctrine.camp-type',
             1 => 'e-camp-api.rest.doctrine.event-type',
@@ -196,6 +197,7 @@ return array(
             15 => 'e-camp-api.rest.doctrine.plugin',
             16 => 'e-camp-api.rest.doctrine.event-type-plugin',
         ),
+        */
     ),
     'zf-rest' => array(
         'eCampApi\\V1\\Rest\\CampType\\Controller' => array(

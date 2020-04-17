@@ -3,6 +3,7 @@ namespace eCampApi\V1\Rpc\Index;
 
 use eCamp\Core\Entity\User;
 use eCamp\Core\EntityService\UserService;
+use eCamp\Lib\Hal\TemplatedLink;
 use Zend\Authentication\AuthenticationService;
 use Zend\Mvc\Controller\AbstractActionController;
 use ZF\Hal\Entity;
@@ -109,9 +110,9 @@ class IndexController extends AbstractActionController {
             'route' => 'zf-apigility/ui'
         ]);
 
-        $data['camps'] = Link::factory([
+        $data['camps'] = TemplatedLink::factory([
             'rel' => 'camps',
-            'route' => 'e-camp-api.rest.doctrine.camp'
+            'route' =>  'e-camp-api.rest.doctrine.camp',
         ]);
 
         $json = new HalJsonModel();

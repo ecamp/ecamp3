@@ -34,6 +34,7 @@ return [
     'service_manager' => [
         'factories' => [
             \Zend\Mail\Transport\TransportInterface::class => \eCamp\Lib\Mail\TransportFactory::class,
+            \ZF\Hal\Extractor\LinkExtractor::class => \eCamp\Lib\Hal\Factory\LinkExtractorFactory::class,
             \eCamp\Lib\Twig\TwigExtensions::class => \ZendTwig\Service\TwigExtensionFactory::class,
             \eCamp\Lib\ServiceManager\EntityFilterManager::class => \eCamp\Lib\ServiceManager\EntityFilterManagerFactory::class,
         ],

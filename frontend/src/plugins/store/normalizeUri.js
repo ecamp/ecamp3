@@ -9,6 +9,7 @@
 function sortQueryParams (uri) {
   const queryStart = uri.indexOf('?')
   if (queryStart === -1) return uri
+
   const prefix = uri.substring(0, queryStart)
   const query = new URLSearchParams(uri.substring(queryStart + 1))
   const modifiedQuery = new URLSearchParams();
