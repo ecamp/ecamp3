@@ -6,6 +6,7 @@ import { shallowMount } from '@vue/test-utils'
 import { ServerException } from '@/plugins/store/index.js'
 import veeValidatePlugin from '@/plugins/veeValidate.js'
 import ApiWrapper from '../ApiWrapper.vue'
+import { VForm, VBtn } from 'vuetify/lib'
 
 jest.mock('lodash')
 const { cloneDeep } = jest.requireActual('lodash')
@@ -38,13 +39,24 @@ function createConfig (overrides) {
       }
     }
   }
+
   const propsData = {
     value: 'Test Value',
     fieldname: 'testField',
     uri: 'testEntity/123',
     label: 'Test Field'
   }
-  return cloneDeep(Object.assign({ mocks, propsData, vuetify }, overrides))
+
+  const stubs = {
+    VForm,
+    VBtn
+  }
+
+  const scopedSlots = {
+    default: '<input type="text" name="dummyField" id="dummyField" :value="props.localValue" />'
+  }
+
+  return cloneDeep(Object.assign({ mocks, propsData, vuetify, stubs, scopedSlots }, overrides))
 }
 
 /**
@@ -126,6 +138,21 @@ describe('Testing ApiWrapper [autoSave=true;  manual external value]', () => {
     expect(vm.status).toBe('init')
   })
 
+  test('avoid double triggering of save for enter key', async done => {
+    // given
+    const input = wrapper.find('input')
+
+    // when
+    vm.onInput('new value')
+    input.trigger('submit') // trigger submit evenet (simluates enter key)
+    jest.runAllTimers() // resolve lodash debounced
+
+    // then
+    expect(apiPatch).toHaveBeenCalledTimes(1)
+
+    done()
+  })
+
   test('shows server error if api.patch failed', async () => {
     // given
     apiPatch.mockRejectedValueOnce(new Error('server error'))
@@ -173,7 +200,7 @@ describe('Testing ApiWrapper [autoSave=true;  manual external value]', () => {
     done()
   })
 
-  test('shows error if arbitrary validation fails', async done => {
+  test('shows error if arbitrary validation fails & aborts save', async done => {
     // given
     wrapper.setProps({ validation: 'min:3|myOwnValidationRule' })
     validate.mockResolvedValue({ valid: false, errors: ['Validation failed'] })
@@ -185,6 +212,12 @@ describe('Testing ApiWrapper [autoSave=true;  manual external value]', () => {
     expect(validate).toHaveBeenCalledWith('any value', 'min:3|myOwnValidationRule', { name: 'Test Field' })
     expect(vm.hasValidationError).toBe(true)
     expect(vm.errorMessages[0]).toMatch('Validation failed')
+
+    // when
+    vm.save()
+
+    // then
+    expect(apiPatch).not.toHaveBeenCalled()
 
     done()
   })
@@ -249,11 +282,49 @@ describe('Testing ApiWrapper [autoSave=true; value from API]', () => {
   })
 
   test('loads value from API', async () => {
+    // given
+    apiGet.mockReturnValue({
+      [config.propsData.fieldname]: 'api value',
+      _meta: {
+        load: Promise.resolve()
+      }
+    })
+
+    // when
+    wrapper = shallowMount(ApiWrapper, config)
+    vm = wrapper.vm
+
+    // then
+    expect(vm.isLoading).toBe(true)
+
+    // when
     await flushPromises() // wait for load promise to resolve
 
+    // then
     expect(vm.hasFinishedLoading).toBe(true)
     expect(vm.isLoading).toBe(false)
     expect(vm.localValue).toBe('api value')
+  })
+
+  test('shows error when loading value from API fails', async () => {
+    // given
+    apiGet.mockReturnValue({
+      [config.propsData.fieldname]: 'api value',
+      _meta: {
+        load: Promise.reject(new Error('loading error'))
+      }
+    })
+    wrapper = shallowMount(ApiWrapper, config)
+    vm = wrapper.vm
+
+    // when
+    await flushPromises() // wait for load promise to resolve
+
+    // then
+    expect(vm.hasFinishedLoading).toBe(false)
+    expect(vm.isLoading).toBe(false)
+    expect(vm.hasLoadingError).toBe(true)
+    expect(vm.errorMessages[0]).toMatch('loading error')
   })
 })
 
@@ -300,12 +371,64 @@ describe('Testing ApiWrapper [autoSave=false]', () => {
 
     // local change to same value as external value
     vm.onInput('new external value #1')
-    await wrapper.vm.$nextTick() // needed for watcher to trigger
+    await vm.$nextTick() // needed for watcher to trigger
     expect(vm.dirty).toBe(false)
 
     // new value from external --> local value will be changed
     wrapper.setProps({ value: 'new external value #2' })
-    await wrapper.vm.$nextTick() // needed for watcher to trigger
+    await vm.$nextTick() // needed for watcher to trigger
     expect(vm.localValue).toBe('new external value #2')
+  })
+
+  test('resets value and errors when `reset` is called', async () => {
+    // when
+    vm.onInput('new local value')
+    vm.hasValidationError = true
+
+    // then
+    expect(vm.dirty).toBe(true)
+    expect(vm.localValue).toBe('new local value')
+
+    // when
+    vm.reset()
+
+    // then
+    expect(vm.dirty).toBe(false)
+    expect(vm.localValue).toBe('Test Value')
+    expect(vm.hasValidationError).toBe(false)
+  })
+
+  test('trigger save with enter key', async () => {
+    // given
+    const input = wrapper.find('input')
+
+    // when
+    input.trigger('submit')
+    await vm.$nextTick()
+
+    // then
+    expect(apiPatch).toHaveBeenCalled()
+  })
+
+  test('abort save in readonly mode', () => {
+    // given
+    wrapper.setProps({ readonly: true })
+
+    // when
+    vm.save()
+
+    // then
+    expect(apiPatch).not.toHaveBeenCalled()
+  })
+
+  test('abort save in disabled mode', () => {
+    // given
+    wrapper.setProps({ disabled: true })
+
+    // when
+    vm.save()
+
+    // then
+    expect(apiPatch).not.toHaveBeenCalled()
   })
 })
