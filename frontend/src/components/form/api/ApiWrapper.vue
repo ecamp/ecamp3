@@ -35,6 +35,7 @@ Wrapper component for form components to save data back to API
       </v-btn>
 
       <v-btn
+        type="submit"
         :color="hasServerError ? 'error' : 'primary'"
         small
         elevation="0"
