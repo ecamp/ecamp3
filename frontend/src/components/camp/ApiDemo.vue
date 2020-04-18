@@ -15,7 +15,6 @@ Displays details on a single camp and allows to edit them.
       <api-form :entity="camp()">
         <api-text-field
           fieldname="title"
-          label="Titel"
           required />
 
         <api-textarea

@@ -74,9 +74,9 @@ export default {
       hasValidationError: false,
       hasServerError: false,
       hasLoadingError: false,
-      serverErrorMessage: null,
-      loadingErrorMessage: null,
-      validationErrorMessages: null,
+      serverErrorMessage: '',
+      loadingErrorMessage: '',
+      validationErrorMessages: [],
       eventHandlers: {
         save: this.save,
         reset: this.reset,
