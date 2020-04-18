@@ -3,16 +3,25 @@ import Vue from 'vue'
 import Vuetify from 'vuetify'
 import flushPromises from 'flush-promises'
 import { shallowMount } from '@vue/test-utils'
+import { ServerException } from '@/plugins/store/index.js'
+import veeValidatePlugin from '@/plugins/veeValidate.js'
 import ApiWrapper from '../ApiWrapper.vue'
-
-import { ServerException } from '../../../../plugins/store/index.js'
 
 jest.mock('lodash')
 const { cloneDeep } = jest.requireActual('lodash')
 
+/*
+jest.mock('vee-validate', () => ({
+  validate: jest.fn().mockResolvedValue({
+    valid: true,
+    errors: []
+  })
+})) */
+
 jest.useFakeTimers()
 
 Vue.use(Vuetify)
+Vue.use(veeValidatePlugin)
 let vuetify
 
 // config factory
@@ -32,7 +41,8 @@ function createConfig (overrides) {
   const propsData = {
     value: 'Test Value',
     fieldname: 'testField',
-    uri: 'testEntity/123'
+    uri: 'testEntity/123',
+    label: 'Test Field'
   }
   return cloneDeep(Object.assign({ mocks, propsData, vuetify }, overrides))
 }
@@ -46,6 +56,7 @@ describe('Testing ApiWrapper [autoSave=true;  manual external value]', () => {
   let vm
   let config
   let apiPatch
+  let validate
 
   beforeEach(() => {
     vuetify = new Vuetify()
@@ -55,6 +66,9 @@ describe('Testing ApiWrapper [autoSave=true;  manual external value]', () => {
     vm = wrapper.vm
 
     apiPatch = jest.spyOn(config.mocks.api, 'patch')
+
+    const veeValidate = require('vee-validate')
+    validate = jest.spyOn(veeValidate, 'validate')
   })
 
   test('init correctly with default values', () => {
@@ -145,7 +159,7 @@ describe('Testing ApiWrapper [autoSave=true;  manual external value]', () => {
     expect(vm.errorMessages).toContain('Validation error: ' + validationMsg + '. ')
   })
 
-  test('shows error if `required` validation fails', async () => {
+  test('shows error if `required` validation fails', async done => {
     // given
     wrapper.setProps({ required: true })
 
@@ -154,7 +168,52 @@ describe('Testing ApiWrapper [autoSave=true;  manual external value]', () => {
 
     // then
     expect(vm.hasValidationError).toBe(true)
-    expect(vm.errorMessages).toContain('Feld darf nicht leer sein.')
+    expect(vm.errorMessages[0]).toMatch('is required')
+
+    done()
+  })
+
+  test('shows error if arbitrary validation fails', async done => {
+    // given
+    wrapper.setProps({ validation: 'min:3|myOwnValidationRule' })
+    validate.mockResolvedValue({ valid: false, errors: ['Validation failed'] })
+
+    // when
+    await vm.onInput('any value')
+
+    // then
+    expect(validate).toHaveBeenCalledWith('any value', 'min:3|myOwnValidationRule', { name: 'Test Field' })
+    expect(vm.hasValidationError).toBe(true)
+    expect(vm.errorMessages[0]).toMatch('Validation failed')
+
+    done()
+  })
+
+  test('properly combines `required` and `validation` properties', () => {
+    // given
+    wrapper.setProps({ required: true, validation: 'min:3|myOwnValidationRule' })
+
+    // when
+    vm.onInput('any value')
+
+    // then
+    expect(validate).toHaveBeenCalledWith('any value', 'required|min:3|myOwnValidationRule', { name: 'Test Field' })
+  })
+
+  test('clears error if arbitrary validation succedes', async done => {
+    // given
+    wrapper.setProps({ validation: 'required' })
+    wrapper.vm.hasValidationError = true
+    validate.mockResolvedValue({ valid: true, errors: [] })
+
+    // when
+    await vm.onInput('any value')
+
+    // then
+    expect(vm.hasValidationError).toBe(false)
+    expect(vm.errorMessages).toHaveLength(0)
+
+    done()
   })
 })
 
