@@ -3,9 +3,10 @@
           right content-class="ec-usermenu"
           transition="slide-y-transition"
           z-index="5">
-    <template v-slot:activator="{ on,value }">
+    <template v-slot:activator="{ on,value,attrs }">
       <v-toolbar-items>
         <v-btn right text
+               v-bind="attrs"
                :class="{ 'v-btn--open': value }" v-on="on">
           <span class="sr-only-sm-and-down">
             {{ username }}
@@ -15,17 +16,19 @@
       </v-toolbar-items>
     </template>
     <v-list dense class="user-nav"
+            tag="ul"
             light color="blue-grey lighten-5">
-      <v-list-item block :to="{ name: 'profile' }">
+      <v-list-item tag="li" block :to="{ name: 'profile' }">
         <v-icon left>mdi-account</v-icon>
-        <span>Profil</span>
+        <span>{{$t('profile')}}</span>
       </v-list-item>
-      <v-list-item block
+      <v-list-item block tag="li"
                    exact :to="{ name: 'camps', params: { groupName: encodeURI('Pfadi Bewegung Schweiz') } }">
         <v-icon left>mdi-format-list-bulleted-triangle</v-icon>
-        <span>Meine Camps</span>
+        <span>{{$tc('myCamps', api.get().camps().items.length)}}</span>
       </v-list-item>
-      <v-list-item block @click="logout">
+      <v-list-item block tag="li"
+                   @click="logout">
         <v-icon v-if="logoutIcon" left>{{ logoutIcon }}</v-icon>
         <v-progress-circular v-else indeterminate
                              size="18" class="mr-2" />
