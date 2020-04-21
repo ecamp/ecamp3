@@ -12,6 +12,7 @@ use eCamp\Lib\Acl\Acl;
 use eCamp\Lib\Acl\NoAccessException;
 use eCamp\Lib\Entity\BaseEntity;
 use eCamp\Lib\Service\ServiceUtils;
+use eCamp\Lib\Service\EntityNotFoundException;
 use Exception;
 use Zend\Authentication\AuthenticationService;
 use Zend\Hydrator\HydratorInterface;
@@ -19,6 +20,7 @@ use Zend\Paginator\Adapter\ArrayAdapter;
 use Zend\Paginator\Paginator;
 use ZF\ApiProblem\ApiProblem;
 use ZF\Rest\AbstractResourceListener;
+use ZF\Rest\ResourceEvent;
 
 abstract class AbstractEntityService extends AbstractResourceListener {
 
@@ -116,7 +118,24 @@ abstract class AbstractEntityService extends AbstractResourceListener {
         $this->serviceUtils->aclAssertAllowed($user, $resource, $privilege);
     }
 
-
+    /**
+     * Dispatch an incoming event to the appropriate method
+     * Catches exceptions and returns ApiProblem
+     *
+     * @param  ResourceEvent $event
+     * @return mixed
+     */
+    public function dispatch(ResourceEvent $event) {
+        try {
+            return parent::dispatch($event);
+        } catch (NoAccessException $e) {
+            return new ApiProblem(403, $e->getMessage());
+        } catch (EntityNotFoundException $ex) {
+            return new ApiProblem(404, $ex->getMessage());
+        } catch (Exception $e) {
+            return new ApiProblem(500, $e->getMessage());
+        }
+    }
 
     /**
      * @param string $className
@@ -124,11 +143,7 @@ abstract class AbstractEntityService extends AbstractResourceListener {
      */
     protected function createEntity($className) {
         $entity = null;
-        try {
-            $entity = new $className();
-        } catch (Exception $e) {
-            return new ApiProblem(500, $e->getMessage());
-        }
+        $entity = new $className();
         return $entity;
     }
 
@@ -193,9 +208,7 @@ abstract class AbstractEntityService extends AbstractResourceListener {
             }
             return null;
         } catch (NoResultException $ex) {
-            return null;
-        } catch (Exception $ex) {
-            return new ApiProblem(500, $ex->getMessage());
+            throw new EntityNotFoundException("Entity not found", 0, $ex);
         }
     }
 
@@ -206,19 +219,16 @@ abstract class AbstractEntityService extends AbstractResourceListener {
      */
     protected function getQueryResult(QueryBuilder $q) {
         $this->assertAllowed($this->entityClassname, Acl::REST_PRIVILEGE_FETCH_ALL);
-        try {
-            $rows = $q->getQuery()->getResult();
-            $rows = array_filter($rows, function ($entity) {
-                return $this->isAllowed($entity, Acl::REST_PRIVILEGE_FETCH);
-            });
-            return $rows;
-        } catch (Exception $ex) {
-            return new ApiProblem(500, $ex->getMessage());
-        }
+
+        $rows = $q->getQuery()->getResult();
+        $rows = array_filter($rows, function ($entity) {
+            return $this->isAllowed($entity, Acl::REST_PRIVILEGE_FETCH);
+        });
+        return $rows;
     }
 
     protected function fetchQueryBuilder($id) {
-        $q =  $this->findEntityQueryBuilder($this->entityClassname, 'row', $id);
+        $q = $this->findEntityQueryBuilder($this->entityClassname, 'row', $id);
         return $q;
     }
 
@@ -258,9 +268,7 @@ abstract class AbstractEntityService extends AbstractResourceListener {
         $this->assertAllowed($this->entityClassname, __FUNCTION__);
         $q = $this->fetchAllQueryBuilder($params);
         $list = $this->getQueryResult($q);
-        if ($list instanceof ApiProblem) {
-            return $list;
-        }
+
         $collectionClass = $this->getCollectionClass() ?: Paginator::class;
         $adapter = new ArrayAdapter($list);
         return new $collectionClass($adapter);
@@ -275,9 +283,6 @@ abstract class AbstractEntityService extends AbstractResourceListener {
     public function create($data) {
         $this->assertAllowed($this->entityClassname, __FUNCTION__);
         $entity = $this->createEntity($this->entityClassname);
-        if ($entity instanceof ApiProblem) {
-            return $entity;
-        }
         $this->getHydrator()->hydrate((array) $data, $entity);
         $this->serviceUtils->emPersist($entity);
         return $entity;
@@ -292,9 +297,6 @@ abstract class AbstractEntityService extends AbstractResourceListener {
     public function patch($id, $data) {
         $q = $this->fetchQueryBuilder($id);
         $entity = $this->getQuerySingleResult($q);
-        if ($entity instanceof ApiProblem) {
-            return $entity;
-        }
         $this->assertAllowed($entity, __FUNCTION__);
         $allData = $this->getHydrator()->extract($entity);
         $data = array_merge($allData, (array) $data);
@@ -321,9 +323,6 @@ abstract class AbstractEntityService extends AbstractResourceListener {
     public function update($id, $data) {
         $q = $this->fetchQueryBuilder($id);
         $entity = $this->getQuerySingleResult($q);
-        if ($entity instanceof ApiProblem) {
-            return $entity;
-        }
         $this->assertAllowed($entity, __FUNCTION__);
         $this->getHydrator()->hydrate((array)$data, $entity);
         return $entity;
@@ -348,9 +347,6 @@ abstract class AbstractEntityService extends AbstractResourceListener {
     public function delete($id) {
         $q = $this->fetchQueryBuilder($id);
         $entity = $this->getQuerySingleResult($q);
-        if ($entity instanceof ApiProblem) {
-            return $entity;
-        }
         $this->assertAllowed($entity, __FUNCTION__);
         if ($entity !== null) {
             $this->serviceUtils->emRemove($entity);

@@ -7,6 +7,7 @@ use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use eCamp\Core\Entity\MailAddress;
 use eCamp\Core\Entity\User;
+use eCamp\Core\Entity\Login;
 
 class UserData extends AbstractFixture implements DependentFixtureInterface {
     public static $USER = User::class . ':USER';
@@ -25,7 +26,10 @@ class UserData extends AbstractFixture implements DependentFixtureInterface {
             $user->setTrustedMailAddress($mail);
             $user->setState(User::STATE_ACTIVATED);
 
+            $login = new Login($user, 'test');
+            
             $manager->persist($user);
+            $manager->persist($login);
         }
         $this->addReference(self::$USER, $user);
 

@@ -5,6 +5,8 @@ namespace eCamp\CoreTest\Service;
 use eCamp\Core\Entity\User;
 use eCamp\Core\EntityService\UserService;
 use eCamp\LibTest\PHPUnit\AbstractDatabaseTestCase;
+use ZF\ApiProblem\ApiProblem;
+use eCamp\Lib\Service\EntityNotFoundException;
 
 class UserServiceTest extends AbstractDatabaseTestCase {
     public function testCreateUser() {
@@ -36,7 +38,7 @@ class UserServiceTest extends AbstractDatabaseTestCase {
         $user2 = $userService->fetch($userId);
         $this->assertEquals($user, $user2);
 
+        $this->expectException(EntityNotFoundException::class);
         $user3 = $userService->fetch(-1);
-        $this->assertNull($user3);
     }
 }

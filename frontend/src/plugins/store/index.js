@@ -71,6 +71,59 @@ const store = new Vuex.Store({
 export { store }
 
 /**
+ * Error class for returning server exceptions (attaches response object to error)
+ * @param response        Axios response object
+ * @param ...params       Any other parameters from default Error constructor (message, etc.)
+ */
+export class ServerException extends Error {
+  constructor (response, ...params) {
+    super(...params)
+
+    if (!this.message) {
+      this.message = 'Server-Error ' + response.status + ' (' + response.statusText + ')'
+    }
+    this.name = 'ServerException'
+    this.response = response
+  }
+}
+
+/**
+ * Processes error object received from Axios for further usage. Triggers delete chain as side effect.
+ * @param uri             Requested URI that triggered the error
+ * @param error           Raw error object received from Axios
+ * @returns Error         Return new error object with human understandable error message
+ */
+function handleAxiosError (uri, error) {
+  // Server Error (response received but with error code)
+  if (error.response) {
+    const response = error.response
+
+    // 404 Entity not found error
+    if (response.status === 404) {
+      store.commit('deleting', uri)
+      deleted(uri) // no need to wait for delete operation to finish
+      // return new ServerException(response, `Could not perform operation, "${uri}" has been deleted`)
+      return new Error(`Could not perform operation, "${uri}" has been deleted`)
+
+    // 403 Permission error
+    } else if (response.status === 403) {
+      return new ServerException(response, 'No permission to perform operation')
+
+    // API Problem
+    } else if (response.headers['content-type'] === 'application/problem+json') {
+      return new ServerException(response, 'Server-Error ' + response.status + ' (' + response.data.detail + ')')
+
+    // other unknown server error (not of type application/problem+json)
+    } else {
+      return new ServerException(response)
+    }
+  // another error (most probably connection timeout; no response received)
+  } else {
+    return new Error('Could not connect to server. Check your internet connection and try again.')
+  }
+}
+
+/**
  * Sends a POST request to the backend, in order to create a new entity. Note that this does not
  * reload any collections that this new entity might be in, the caller has to do that on its own.
  * @param uriOrCollection URI (or instance) of a collection in which the entity should be created
@@ -86,6 +139,8 @@ export const post = function (uriOrCollection, data) {
   return markAsDoneWhenResolved(axios.post(API_ROOT + uri, data).then(({ data }) => {
     storeHalJsonData(data)
     return get(data._links.self.href)
+  }, (error) => {
+    throw handleAxiosError(uri, error)
   }))
 }
 
@@ -204,12 +259,8 @@ function loadFromApi (uri) {
         storeHalJsonData(data)
         resolve(store.state.api[uri])
       },
-      ({ response }) => {
-        if (response.status === 404) {
-          store.commit('deleting', uri)
-          return deleted(uri)
-        }
-        reject(response)
+      (error) => {
+        reject(handleAxiosError(uri, error))
       }
     )
   })
@@ -257,11 +308,8 @@ const patch = function (uriOrEntity, data) {
     data._links.self.href = uri
     storeHalJsonData(data)
     return get(uri)
-  }, ({ response }) => {
-    if (response.status === 404) {
-      store.commit('deleting', uri)
-      return deleted(uri)
-    }
+  }, (error) => {
+    throw handleAxiosError(uri, error)
   }))
 
   return store.state.api[uri]._meta.load
@@ -303,8 +351,13 @@ const del = function (uriOrEntity) {
     return Promise.reject(new Error(`Could not perform DELETE, "${uriOrEntity}" is not an entity or URI`))
   }
   store.commit('deleting', uri)
-  return markAsDoneWhenResolved(axios.delete(API_ROOT + uri)
-    .then(() => deleted(uri), ({ response }) => deletingFailed(uri, response)))
+  return markAsDoneWhenResolved(axios.delete(API_ROOT + uri).then(
+    () => deleted(uri),
+    (error) => {
+      store.commit('deletingFailed', uri)
+      throw handleAxiosError(uri, error)
+    }
+  ))
 }
 
 function valueIsArrayWithReferenceTo (value, uri) {
@@ -336,17 +389,6 @@ function deleted (uri) {
     .filter(outdatedEntity => !outdatedEntity._meta.deleting)
     .map(outdatedEntity => reload(outdatedEntity)._meta.load)
   ).then(() => purge(uri))
-}
-
-/**
- * Unsets the ._meta.deleted flag when an entity failed to be deleted from the backend.
- * @param uri      URI of an entity which failed to be deleted from backend
- * @param response HTTP response returned from the DELETE call to backend
- */
-function deletingFailed (uri, response) {
-  if (response.status !== 204) {
-    store.commit('deletingFailed', uri)
-  }
 }
 
 /**
