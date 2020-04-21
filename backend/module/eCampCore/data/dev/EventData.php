@@ -8,6 +8,7 @@ use Doctrine\Common\Persistence\ObjectManager;
 use eCamp\Core\Entity\Camp;
 use eCamp\Core\Entity\Event;
 use eCamp\Core\Entity\EventCategory;
+use eCamp\Core\Entity\EventPlugin;
 
 class EventData extends AbstractFixture implements DependentFixtureInterface {
     public static $EVENT_1_LS = Event::class . ':EVENT_1_LS';

@@ -41,7 +41,7 @@ class Event extends BaseEntity {
 
     /**
      * @var ArrayCollection
-     * @ORM\OneToMany(targetEntity="EventPlugin", mappedBy="event", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="EventPlugin", mappedBy="event", cascade={"all"}, orphanRemoval=true)
      */
     protected $eventPlugins;
 

@@ -16,8 +16,8 @@ class TextareaHydrator implements HydratorInterface {
 
         return [
             'id' => $textarea->getId(),
-            'text' => $textarea->getText(),
-            'event_plugin' => $textarea->getEventPlugin()
+            'text' => $textarea->getText()
+            //'event_plugin' => $textarea->getEventPlugin()
         ];
     }
 

@@ -37,7 +37,7 @@ class EventCategoryData extends AbstractFixture implements DependentFixtureInter
         $this->addReference(self::$EVENTCATEGORY_1_LS, $eventCategory);
 
         /** @var EventType $eventType */
-        $eventType = $this->getReference(EventTypeData::$LAGERSPORT);
+        $eventType = $this->getReference(EventTypeData::$LAGERAKTIVITAET);
         $eventCategory = $repository->findOneBy(['camp' => $camp, 'name' => 'Lageraktivität']);
         if ($eventCategory == null) {
             $eventCategory = new EventCategory();
@@ -71,7 +71,7 @@ class EventCategoryData extends AbstractFixture implements DependentFixtureInter
         $this->addReference(self::$EVENTCATEGORY_2_LS, $eventCategory);
 
         /** @var EventType $eventType */
-        $eventType = $this->getReference(EventTypeData::$LAGERSPORT);
+        $eventType = $this->getReference(EventTypeData::$LAGERAKTIVITAET);
         $eventCategory = $repository->findOneBy(['camp' => $camp, 'name' => 'Lageraktivität']);
         if ($eventCategory == null) {
             $eventCategory = new EventCategory();

@@ -29,7 +29,7 @@ class EventTypeData extends AbstractFixture implements DependentFixtureInterface
             $plugin = $this->getReference(PluginData::$TEXTAREA);
             $eventTypePlugin = new EventTypePlugin();
             $eventTypePlugin->setPlugin($plugin);
-            $eventTypePlugin->setMinNumberPluginInstances(0);
+            $eventTypePlugin->setMinNumberPluginInstances(1);
             $eventTypePlugin->setMaxNumberPluginInstances(3);
             $eventType->addEventTypePlugin($eventTypePlugin);
             $manager->persist($eventTypePlugin);
@@ -69,7 +69,7 @@ class EventTypeData extends AbstractFixture implements DependentFixtureInterface
             $plugin = $this->getReference(PluginData::$TEXTAREA);
             $eventTypePlugin = new EventTypePlugin();
             $eventTypePlugin->setPlugin($plugin);
-            $eventTypePlugin->setMinNumberPluginInstances(0);
+            $eventTypePlugin->setMinNumberPluginInstances(1);
             $eventTypePlugin->setMaxNumberPluginInstances(100);
             $eventType->addEventTypePlugin($eventTypePlugin);
             $manager->persist($eventTypePlugin);

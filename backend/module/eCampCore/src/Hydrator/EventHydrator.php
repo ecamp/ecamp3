@@ -7,6 +7,7 @@ use eCamp\Lib\Entity\EntityLink;
 use eCamp\Lib\Entity\EntityLinkCollection;
 use eCamp\Lib\Hydrator\Util;
 use eCampApi\V1\Rest\EventInstance\EventInstanceCollection;
+use eCampApi\V1\Rest\EventPlugin\EventPluginCollection;
 use Zend\Hydrator\HydratorInterface;
 
 class EventHydrator implements HydratorInterface {
@@ -17,7 +18,10 @@ class EventHydrator implements HydratorInterface {
             }),
             'event_instances' => Util::Collection(function (Event $e) {
                 return new EventInstanceCollection($e->getEventInstances());
-            }, null)
+            }, null),
+            'event_plugins' => Util::Collection(function (Event $e) {
+                return new EventPluginCollection($e->getEventPlugins());
+            })
         ];
     }
 
@@ -36,6 +40,8 @@ class EventHydrator implements HydratorInterface {
             'event_category' => EntityLink::Create($event->getEventCategory()),
 
             'event_instances' => new EntityLinkCollection($event->getEventInstances()),
+
+            'event_plugins' => new EntityLinkCollection($event->getEventPlugins())
 
 //            'event_plugins' => Link::factory([
 //                'rel' => 'event_plugins',

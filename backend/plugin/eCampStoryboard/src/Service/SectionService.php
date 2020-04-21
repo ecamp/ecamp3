@@ -6,12 +6,16 @@ use Doctrine\Common\Collections\ArrayCollection;
 use eCamp\Core\Plugin\BasePluginService;
 use eCamp\Plugin\Storyboard\Entity\Section;
 use eCamp\Plugin\Storyboard\Hydrator\SectionHydrator;
+use eCamp\Lib\Service\ServiceUtils;
+use Zend\Authentication\AuthenticationService;
 
 class SectionService extends BasePluginService {
-    public function __construct($eventPluginId) {
+    public function __construct(ServiceUtils $serviceUtils, AuthenticationService $authenticationService, $eventPluginId) {
         parent::__construct(
+            $serviceUtils,
             Section::class,
             SectionHydrator::class,
+            $authenticationService,
             $eventPluginId
         );
     }

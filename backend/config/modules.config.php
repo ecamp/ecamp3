@@ -30,6 +30,8 @@ return array(
     'eCamp\\Core',
     'eCamp\\AoT',
     'eCampApi',
+    'eCamp\\Plugin\\Textarea',
+    'eCamp\\Plugin\\Storyboard',
     'AssetManager',
     'ZendDeveloperTools',
     'ZF\\Versioning',

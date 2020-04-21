@@ -1,11 +1,13 @@
 <?php
 
 return [
+
     'router' => [
         'routes' => [
-            'ecamp.api.event_plugin' => [
+            'e-camp-api.rest.doctrine.event-plugin' => [
+                'may_terminate' => true,
                 'child_routes' => [
-                    'ecamp.section' => [
+                    'section' => [
                         'type' => 'Segment',
                         'options' => [
                             'route' => '/section[/:section_id]',
@@ -48,7 +50,7 @@ return [
         \eCamp\Plugin\Storyboard\Controller\SectionController::class => [
             'listener' => \eCamp\Plugin\Storyboard\Service\SectionService::class,
             'controller_class' => \eCamp\Plugin\Storyboard\Controller\SectionController::class,
-            'route_name' => 'ecamp.api.event_plugin/ecamp.section',
+            'route_name' => 'e-camp-api.rest.doctrine.event-plugin/section',
             'route_identifier_name' => 'section_id',
             'entity_identifier_name' => 'id',
             //'collection_name' => 'items',
@@ -75,13 +77,18 @@ return [
             \eCamp\Plugin\Storyboard\Entity\Section::class => [
                 'route_identifier_name' => 'section_id',
                 'entity_identifier_name' => 'id',
-                'route_name' => 'ecamp.api.event_plugin/ecamp.section',
+                'route_name' => 'e-camp-api.rest.doctrine.event-plugin/section',
+                'route_params' => [
+                    'event_plugin_id' => function($object) {
+                        return $object->getEventPlugin()->getId();
+                    }
+                ],
                 'hydrator' => eCamp\Plugin\Storyboard\Hydrator\SectionHydrator::class,
                 'max_depth' => 2
             ],
             \eCamp\Plugin\Storyboard\Entity\SectionCollection::class => [
                 'entity_identifier_name' => 'id',
-                'route_name' => 'ecamp.api.event_plugin/ecamp.section',
+                'route_name' => 'e-camp-api.rest.doctrine.event-plugin/section',
                 'is_collection' => true,
                 'max_depth' => 0
             ],

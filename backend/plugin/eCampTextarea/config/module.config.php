@@ -1,11 +1,13 @@
 <?php
 
 return [
+
     'router' => [
         'routes' => [
-            'ecamp.api.event_plugin' => [
+            'e-camp-api.rest.doctrine.event-plugin' => [
+                'may_terminate' => true,
                 'child_routes' => [
-                    'ecamp.textarea' => [
+                    'textarea' => [
                         'type' => 'Segment',
                         'options' => [
                             'route' => '/textarea[/:textarea_id]',
@@ -13,8 +15,8 @@ return [
                                 'controller' => \eCamp\Plugin\Textarea\Controller\TextareaController::class
                             ],
                         ],
-                    ]
-                ]
+                    ],
+                ],
             ]
         ]
     ],
@@ -30,7 +32,7 @@ return [
         \eCamp\Plugin\Textarea\Controller\TextareaController::class => [
             'listener' => \eCamp\Plugin\Textarea\Service\TextareaService::class,
             'controller_class' => \eCamp\Plugin\Textarea\Controller\TextareaController::class,
-            'route_name' => 'ecamp.api.event_plugin/ecamp.textarea',
+            'route_name' => 'e-camp-api.rest.doctrine.event-plugin/textarea',
             'route_identifier_name' => 'textarea_id',
             'entity_identifier_name' => 'id',
             //'collection_name' => 'items',
@@ -54,13 +56,18 @@ return [
             \eCamp\Plugin\Textarea\Entity\Textarea::class => [
                 'route_identifier_name' => 'textarea_id',
                 'entity_identifier_name' => 'id',
-                'route_name' => 'ecamp.api.event_plugin/ecamp.textarea',
+                'route_name' => 'e-camp-api.rest.doctrine.event-plugin/textarea',
+                'route_params' => [
+                    'event_plugin_id' => function($object) {
+                        return $object->getEventPlugin()->getId();
+                    }
+                ],
                 'hydrator' => eCamp\Plugin\Textarea\Hydrator\TextareaHydrator::class,
                 'max_depth' => 2
             ],
             \eCamp\Plugin\Textarea\Entity\TextareaCollection::class => [
                 'entity_identifier_name' => 'id',
-                'route_name' => 'ecamp.api.event_plugin/ecamp.textarea',
+                'route_name' => 'e-camp-api.rest.doctrine.event-plugin/textarea',
                 'is_collection' => true,
                 'max_depth' => 0
             ],
