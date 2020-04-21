@@ -3,11 +3,13 @@
 namespace eCamp\Lib\Hal;
 
 use eCamp\Lib\Entity\EntityLink;
+use eCamp\Lib\Hydrator\Resolver\BaseResolver;
 use Laminas\EventManager\AbstractListenerAggregate;
 use Laminas\EventManager\Event;
 use Laminas\EventManager\EventManagerInterface;
 use Laminas\EventManager\SharedEventManagerInterface;
 use ZF\Hal\Entity;
+use ZF\Hal\Link\Link;
 use ZF\Hal\Link\LinkCollection;
 use ZF\Hal\Metadata\Metadata;
 use ZF\Hal\Plugin\Hal;
@@ -63,6 +65,16 @@ class CollectionRenderer extends AbstractListenerAggregate {
 
             $halEntity->setLinks(new LinkCollection());
             $hal->injectSelfLink($halEntity, $route, $routeIdentifier);
+        }
+
+        if (isset($entity->_hydrateInfo_)) {
+            foreach ($entity->_hydrateInfo_ as $item) {
+                /** @var $item BaseResolver */
+                $links = $item->getLinks($entity);
+                foreach ($links as $link) {
+                    $halEntity->getLinks()->add($link);
+                }
+            }
         }
     }
 

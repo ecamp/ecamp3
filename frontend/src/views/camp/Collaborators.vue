@@ -111,7 +111,7 @@ export default {
         ).map(
           c => c.user().id
         )
-        return this.api.get('/user?search=' + this.search).items.filter(
+        return this.api.get().users({ search: this.search }).items.filter(
           u => !filterUsers.includes(u.id)
         )
       }
@@ -123,7 +123,7 @@ export default {
   },
   methods: {
     invite (user, role) {
-      this.api.post('/camp-collaboration', {
+      this.api.post('/camp-collaborations', {
         camp_id: this.camp().id,
         user_id: user.id,
         role: role
