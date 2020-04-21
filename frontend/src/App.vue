@@ -13,7 +13,7 @@
     <v-footer v-if="$vuetify.breakpoint.smAndUp"
               app color="grey lighten-5">
       <small>eCamp v0.1.0</small>
-      <v-spacer/>
+      <v-spacer />
       <language-switcher />
     </v-footer>
   </v-app>

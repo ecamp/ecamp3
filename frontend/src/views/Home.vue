@@ -3,7 +3,7 @@
     <content-card :title="$t('home')" max-width="600">
       <p class="mx-4">
         <v-skeleton-loader type="text" :loading="api.get()._meta.loading">
-        {{ $t('welcome', { user: api.get().user }) }}
+          {{ $t('welcome', { user: api.get().user }) }}
         </v-skeleton-loader>
       </p>
       <v-list class="pt-0">
@@ -63,13 +63,13 @@ import ContentCard from '@/components/layout/ContentCard'
 export default {
   name: 'Home',
   components: { ContentCard },
-  mounted () {
-    this.api.get().profile()
-  },
   computed: {
     runningInDocker () {
       return process.env.VUE_APP_RUNNING_IN_DOCKER
     }
+  },
+  mounted () {
+    this.api.get().profile()
   }
 }
 </script>

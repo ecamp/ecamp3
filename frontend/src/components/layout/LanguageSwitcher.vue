@@ -2,8 +2,8 @@
   <v-menu offset-y>
     <template v-slot:activator="{ on, attrs }">
       <v-btn
-        text small
-        id="languageSwitcher"
+        id="languageSwitcher" text
+        small
         :aria-label="$t('changeLanguage')"
         v-bind="attrs"
         v-on="on">
@@ -14,9 +14,9 @@
     <v-list dense tag="ul"
             aria-labelledby="languageSwitcher">
       <v-list-item
-        tag="li"
         v-for="item in $root.$i18n.availableLocales"
         :key="item"
+        tag="li"
         :lang="item"
         @click="changeLang(item)">
         <v-list-item-title>{{ i18nLocales[item] }}</v-list-item-title>
