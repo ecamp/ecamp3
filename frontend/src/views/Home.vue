@@ -52,7 +52,7 @@
       "welcome": "Hallo {user}. Herzlich willkommen auf eCamp"
     },
     "en": {
-      "welcome": "Hey {user}. Welcome in eCamp"
+      "welcome": "Hey {user}. Welcome to eCamp"
     }
   }
 </i18n>
