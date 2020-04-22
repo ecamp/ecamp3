@@ -4,13 +4,10 @@ return [
 
     'router' => [
         'routes' => [
-            'e-camp-api.rest.doctrine.event-plugin' => [
-                'may_terminate' => true,
-                'child_routes' => [
-                    'section' => [
+            'e-camp-api.rest.doctrine.event-plugin.storyboard' => [
                         'type' => 'Segment',
                         'options' => [
-                            'route' => '/section[/:section_id]',
+                            'route' => '/api/plugin/storyboard[/:section_id]',
                             'defaults' => [
                                 'controller' => \eCamp\Plugin\Storyboard\Controller\SectionController::class,
                             ],
@@ -27,8 +24,6 @@ return [
                                 ],
                             ]
                         ]
-                    ]
-                ]
             ]
         ]
     ],
@@ -50,7 +45,7 @@ return [
         \eCamp\Plugin\Storyboard\Controller\SectionController::class => [
             'listener' => \eCamp\Plugin\Storyboard\Service\SectionService::class,
             'controller_class' => \eCamp\Plugin\Storyboard\Controller\SectionController::class,
-            'route_name' => 'e-camp-api.rest.doctrine.event-plugin/section',
+            'route_name' => 'e-camp-api.rest.doctrine.event-plugin.storyboard',
             'route_identifier_name' => 'section_id',
             'entity_identifier_name' => 'id',
             //'collection_name' => 'items',
@@ -77,7 +72,7 @@ return [
             \eCamp\Plugin\Storyboard\Entity\Section::class => [
                 'route_identifier_name' => 'section_id',
                 'entity_identifier_name' => 'id',
-                'route_name' => 'e-camp-api.rest.doctrine.event-plugin/section',
+                'route_name' => 'e-camp-api.rest.doctrine.event-plugin.storyboard',
                 'route_params' => [
                     'event_plugin_id' => function($object) {
                         return $object->getEventPlugin()->getId();
@@ -88,7 +83,7 @@ return [
             ],
             \eCamp\Plugin\Storyboard\Entity\SectionCollection::class => [
                 'entity_identifier_name' => 'id',
-                'route_name' => 'e-camp-api.rest.doctrine.event-plugin/section',
+                'route_name' => 'e-camp-api.rest.doctrine.event-plugin.storyboard',
                 'is_collection' => true,
                 'max_depth' => 0
             ],

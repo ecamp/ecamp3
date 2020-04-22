@@ -4,21 +4,16 @@ return [
 
     'router' => [
         'routes' => [
-            'e-camp-api.rest.doctrine.event-plugin' => [
-                'may_terminate' => true,
-                'child_routes' => [
-                    'textarea' => [
+            'e-camp-api.rest.doctrine.event-plugin.textarea' => [
                         'type' => 'Segment',
                         'options' => [
-                            'route' => '/textarea[/:textarea_id]',
+                    'route' => '/api/plugin/textarea[/:textarea_id]',
                             'defaults' => [
                                 'controller' => \eCamp\Plugin\Textarea\Controller\TextareaController::class
                             ],
                         ],
                     ],
                 ],
-            ]
-        ]
     ],
 
     'service_manager' => [
@@ -32,7 +27,7 @@ return [
         \eCamp\Plugin\Textarea\Controller\TextareaController::class => [
             'listener' => \eCamp\Plugin\Textarea\Service\TextareaService::class,
             'controller_class' => \eCamp\Plugin\Textarea\Controller\TextareaController::class,
-            'route_name' => 'e-camp-api.rest.doctrine.event-plugin/textarea',
+            'route_name' => 'e-camp-api.rest.doctrine.event-plugin.textarea',
             'route_identifier_name' => 'textarea_id',
             'entity_identifier_name' => 'id',
             //'collection_name' => 'items',
@@ -56,7 +51,7 @@ return [
             \eCamp\Plugin\Textarea\Entity\Textarea::class => [
                 'route_identifier_name' => 'textarea_id',
                 'entity_identifier_name' => 'id',
-                'route_name' => 'e-camp-api.rest.doctrine.event-plugin/textarea',
+                'route_name' => 'e-camp-api.rest.doctrine.event-plugin.textarea',
                 'route_params' => [
                     'event_plugin_id' => function($object) {
                         return $object->getEventPlugin()->getId();

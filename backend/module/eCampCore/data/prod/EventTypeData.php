@@ -34,6 +34,14 @@ class EventTypeData extends AbstractFixture implements DependentFixtureInterface
             $eventType->addEventTypePlugin($eventTypePlugin);
             $manager->persist($eventTypePlugin);
 
+            $plugin = $this->getReference(PluginData::$STORYBOARD);
+            $eventTypePlugin = new EventTypePlugin();
+            $eventTypePlugin->setPlugin($plugin);
+            $eventTypePlugin->setMinNumberPluginInstances(1);
+            $eventTypePlugin->setMaxNumberPluginInstances(3);
+            $eventType->addEventTypePlugin($eventTypePlugin);
+            $manager->persist($eventTypePlugin);
+
             $eventTypeFactory = new EventTypeFactory();
             $eventTypeFactory->setName('Wanderung');
             $eventTypeFactory->setFactoryName('');
@@ -54,10 +62,9 @@ class EventTypeData extends AbstractFixture implements DependentFixtureInterface
             $manager->persist($eventTemplateCont);
         }
 
-
         $this->addReference(self::$LAGERSPORT, $eventType);
 
-
+        
         $eventType = $repository->findOneBy(['name' => 'Lageraktivität']);
         if ($eventType == null) {
             $eventType = new EventType();

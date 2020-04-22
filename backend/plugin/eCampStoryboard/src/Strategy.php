@@ -17,7 +17,6 @@ class Strategy extends PluginStrategyBase {
         $this->sectionService = $sectionService;
     }
 
-
     /**
      * @param EventPlugin $eventPlugin
      * @return array
@@ -27,11 +26,8 @@ class Strategy extends PluginStrategyBase {
             'section' => Link::factory([
                 'rel' => 'section',
                 'route' => [
-                    'name' => 'ecamp.api.event_plugin/ecamp.section',
-                    'params' => [
-                        'event_plugin_id' => $eventPlugin->getId(),
-                        'section_id' => null
-                    ]
+                    'name' => 'e-camp-api.rest.doctrine.event-plugin.storyboard',
+                    'options' => ['query' => ['event_plugin_id' => $eventPlugin->getId()]]
                 ]
             ])
         ];

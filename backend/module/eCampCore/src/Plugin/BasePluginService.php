@@ -23,7 +23,7 @@ abstract class BasePluginService extends AbstractEntityService {
         string $entityClassname,
         string $hydratorClassname,
         AuthenticationService $authenticationService,
-        string $eventPluginId
+        ? string $eventPluginId
     ) {
         parent::__construct($serviceUtils, $entityClassname, $hydratorClassname, $authenticationService);
 
@@ -44,6 +44,26 @@ abstract class BasePluginService extends AbstractEntityService {
             }
         }
         return $this->eventPlugin;
+    }
+
+    /**
+     * Returns a single plugin entity attached to $eventPluginId (1:1 connection)
+     * @param mixed $eventPluginid
+     * @return BaseEntity
+     */
+    public function fetchFromEventPlugin($eventPluginId) {
+        return $this->fetchAllFromEventPlugin($eventPluginId)[0];
+    }
+
+    /**
+     * Returns all plugin entities attached to $eventPluginId (1:n connection)
+     * @param string $eventPluginId
+     * @return array
+     */
+    public function fetchAllFromEventPlugin($eventPluginId) {
+        $q = $this->fetchAllQueryBuilder(['event_plugin_id' => $eventPluginId]);
+        $list = $this->getQueryResult($q);
+        return $list;
     }
 
 
@@ -87,6 +107,11 @@ abstract class BasePluginService extends AbstractEntityService {
                 $q->andWhere('row.eventPlugin = :eventPluginId');
                 $q->setParameter('eventPluginId', $this->eventPluginId);
             }
+        }
+
+        if (isset($params['event_plugin_id'])) {
+            $q->andWhere('row.eventPlugin = :eventPlugin_id');
+            $q->setParameter('eventPlugin_id', $params['event_plugin_id']);
         }
 
         return $q;
