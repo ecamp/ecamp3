@@ -37,7 +37,7 @@ class RegisterService extends AbstractService {
             $this->getServiceUtils()->emPersist($login);
         }
 
-        $this->getServiceUtils()->emFlush();
+        $this->getServiceUtils()->emFlush(); //why?
 
         return $user;
     }

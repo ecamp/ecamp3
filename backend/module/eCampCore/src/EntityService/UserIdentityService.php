@@ -75,7 +75,7 @@ class UserIdentityService extends AbstractEntityService {
             $user->addUserIdentity($existingIdentity);
         }
         // Save to db and return results
-        $this->getServiceUtils()->emFlush();
+        $this->getServiceUtils()->emFlush(); // why?
         return $user;
     }
 }

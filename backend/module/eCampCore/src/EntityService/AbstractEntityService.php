@@ -245,7 +245,13 @@ abstract class AbstractEntityService extends AbstractResourceListener {
 
     protected function findEntity($className, $id) {
         $q = $this->findEntityQueryBuilder($className, 'row', $id);
-        $entity = $this->getQuerySingleResult($q);
+
+        try {
+            $entity = $this->getQuerySingleResult($q);
+        } catch (EntityNotFoundException $e) {
+            throw new EntityNotFoundException("Entity $className with id $id not found", 0, $e);
+        }
+
         return $entity;
     }
 
@@ -280,11 +286,13 @@ abstract class AbstractEntityService extends AbstractResourceListener {
      * @throws NoAccessException
      * @throws ORMException
      */
-    public function create($data) {
+    public function create($data, bool $persist = true) {
         $this->assertAllowed($this->entityClassname, __FUNCTION__);
         $entity = $this->createEntity($this->entityClassname);
         $this->getHydrator()->hydrate((array) $data, $entity);
-        $this->serviceUtils->emPersist($entity);
+        if ($persist) {
+            $this->serviceUtils->emPersist($entity);
+        }
         return $entity;
     }
 

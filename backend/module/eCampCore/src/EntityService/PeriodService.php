@@ -68,7 +68,7 @@ class PeriodService extends AbstractEntityService {
         /** @var Period $period */
         $period = parent::create($data);
         $camp->addPeriod($period);
-        $this->getServiceUtils()->emFlush();
+        $this->getServiceUtils()->emFlush(); //why?
 
         $durationInDays = $period->getDurationInDays();
         for ($idx = 0; $idx < $durationInDays; $idx++) {

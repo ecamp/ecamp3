@@ -135,6 +135,8 @@ abstract class BasePluginService extends AbstractEntityService {
             $entity->setEventPlugin($eventPlugin);
         }
 
+        $em = $this->getServiceUtils()->emFlush();
+
         return $entity;
     }
 }

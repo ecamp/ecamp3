@@ -2,9 +2,12 @@
 
 namespace eCamp\Core;
 
-use Doctrine\ORM\EntityManager;
-use Zend\Mvc\Application;
+use Doctrine\DBAL\Logging\EchoSQLLogger;
 use Zend\Mvc\MvcEvent;
+use Zend\Mvc\Application;
+use Doctrine\ORM\EntityManager;
+use ZF\ApiProblem\ApiProblemResponse;
+use eCamp\Core\Plugin\PluginStrategyProviderInjector;
 
 class Module {
     public function getConfig() {
@@ -15,24 +18,34 @@ class Module {
         /** @var Application $app */
         $app = $e->getApplication();
         $events = $app->getEventManager();
+        $sm = $app->getServiceManager();
+        
         /** @var EntityManager $em */
-        $em = $app->getServiceManager()->get('doctrine.entitymanager.orm_default');
+        $em = $sm->get('doctrine.entitymanager.orm_default');
 
+        // Enable next line for Doctrine debug output
+        // $em->getConfiguration()->setSQLLogger(new EchoSQLLogger());
+        
+        $em->beginTransaction();
+       
         $events->attach(MvcEvent::EVENT_DISPATCH, function (MvcEvent $e) use ($em) {
-            $em->beginTransaction();
+            ;
         });
 
         $events->attach(MvcEvent::EVENT_FINISH, function (MvcEvent $e) use ($em) {
-            if ($e->getError()) {
+            if ($e->getError() || $e->getResponse() instanceof ApiProblemResponse) {
                 if ($em->getConnection()->isTransactionActive()) {
-                    $em->rollback();
+                    $em->getConnection()->rollback();
                 }
             } else {
                 $em->flush();
                 if ($em->getConnection()->isTransactionActive()) {
-                    $em->commit();
+                    $em->getConnection()->commit();
                 }
             }
         });
+
+        // inject PluginStrategyProvider into Doctrine entities (mainly EventPlugin entity)
+        $em->getEventManager()->addEventListener(array(\Doctrine\ORM\Events::postLoad), $sm->get(PluginStrategyProviderInjector::class));
     }
 }

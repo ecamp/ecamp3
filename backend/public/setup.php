@@ -1,4 +1,8 @@
 <?php
+
+use Zend\Di;
+use Zend\Di\Container;
+
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
@@ -44,8 +48,7 @@ if (file_exists(__DIR__ . '/../vendor/autoload.php')) {
     echo "<a href='https://getcomposer.org/'>https://getcomposer.org/</a>";
 }
 
-
-
+// Bootstrap application
 $app = eCampApp::CreateSetup();
 
 $sm = $app->getServiceManager();
@@ -126,8 +129,26 @@ try {
     die();
 }
 
-
 echo "<br />";
+echo "<br />";
+echo "<br />";
+echo "<a href='?drop-data'>Drop database & recreate schema</a>";
+
+if (array_key_exists('drop-data', $_GET)) {
+    try {
+        $schemaTool->dropDatabase();
+        $schemaTool->createSchema($allMetadata);
+
+        echo "<br />";
+        echo "OK";
+    } catch (\Exception $e) {
+        echo "<br />";
+        echo "<br />";
+        echo $e->getMessage();
+        die();
+    }
+}
+
 echo "<br />";
 echo "<br />";
 echo "<a href='?prod-data'>Load Prod-Data</a>";

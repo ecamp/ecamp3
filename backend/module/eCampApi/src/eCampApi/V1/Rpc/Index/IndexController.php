@@ -79,6 +79,7 @@ class IndexController extends AbstractActionController {
         $user = null;
         $userId = $this->authenticationService->getIdentity();
         if ($userId != null) {
+            // BUG: throws error is $userId is not found
             $user = $this->userService->fetch($userId);
         }
         if ($user != null) {

@@ -1451,8 +1451,8 @@ return array(
         'eCampApi\\V1\\Rpc\\Auth\\Validator' => array(),
         'eCampApi\\V1\\Rest\\EventPlugin\\Validator' => array(
             0 => array(
-                'name' => 'instanceName',
-                'required' => true,
+                'name' => 'instance_name',
+                'required' => false,
                 'filters' => array(
                     0 => array(
                         'name' => 'Zend\\Filter\\StringTrim',
@@ -1461,27 +1461,6 @@ return array(
                         'name' => 'Zend\\Filter\\StripTags',
                     ),
                 ),
-                'validators' => array(
-                    0 => array(
-                        'name' => 'Zend\\Validator\\StringLength',
-                        'options' => array(
-                            'min' => 1,
-                            'max' => 64,
-                        ),
-                    ),
-                ),
-            ),
-            1 => array(
-                'name' => 'createTime',
-                'required' => true,
-                'filters' => array(),
-                'validators' => array(),
-            ),
-            2 => array(
-                'name' => 'updateTime',
-                'required' => true,
-                'filters' => array(),
-                'validators' => array(),
             ),
         ),
         'eCampApi\\V1\\Rest\\Plugin\\Validator' => array(
@@ -1533,18 +1512,6 @@ return array(
                     ),
                 ),
             ),
-            3 => array(
-                'name' => 'createTime',
-                'required' => true,
-                'filters' => array(),
-                'validators' => array(),
-            ),
-            4 => array(
-                'name' => 'updateTime',
-                'required' => true,
-                'filters' => array(),
-                'validators' => array(),
-            ),
         ),
         'eCampApi\\V1\\Rest\\EventTypePlugin\\Validator' => array(
             0 => array(
@@ -1584,18 +1551,6 @@ return array(
                         'name' => 'Zend\\Filter\\StripTags',
                     ),
                 ),
-                'validators' => array(),
-            ),
-            3 => array(
-                'name' => 'createTime',
-                'required' => true,
-                'filters' => array(),
-                'validators' => array(),
-            ),
-            4 => array(
-                'name' => 'updateTime',
-                'required' => true,
-                'filters' => array(),
                 'validators' => array(),
             ),
         ),

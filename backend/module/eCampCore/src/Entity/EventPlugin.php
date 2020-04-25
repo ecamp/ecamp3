@@ -3,14 +3,19 @@
 namespace eCamp\Core\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use eCamp\Core\Hydrator\EventTypePluginHydrator;
 use eCamp\Lib\Entity\BaseEntity;
+use eCamp\Core\Plugin\PluginStrategyInterface;
+use eCamp\Core\Plugin\PluginStrategyProviderAware;
+use eCamp\Core\Plugin\PluginStrategyProviderTrait;
 
 /**
  * @ORM\Entity()
+ * @ORM\HasLifecycleCallbacks
  * @ORM\Table(name="event_plugins")
  */
-class EventPlugin extends BaseEntity {
+class EventPlugin extends BaseEntity implements PluginStrategyProviderAware {
+    use PluginStrategyProviderTrait;
+
     public function __construct() {
         parent::__construct();
     }
@@ -31,7 +36,7 @@ class EventPlugin extends BaseEntity {
 
     /**
      * @var string
-     * @ORM\Column(type="string", length=64, nullable=false)
+     * @ORM\Column(type="string", length=64, nullable=true)
      */
     private $instanceName;
 
@@ -74,8 +79,24 @@ class EventPlugin extends BaseEntity {
     public function getInstanceName() {
         return $this->instanceName;
     }
-
+    
     public function setInstanceName($instanceName): void {
         $this->instanceName = $instanceName;
+    }
+
+    /**
+     * Returns the strategy class of the plugin
+     * @return PluginStrategyInterface
+     */
+    public function getPluginStrategy() {
+        return $this->getPluginStrategyProvider()->get($this->getPlugin());
+    }
+
+    /** @ORM\PostPersist */
+    public function PostPersist() {
+        // parent::PrePersist();
+
+        // call plugin created hook
+        $this->getPluginStrategy()->eventPluginCreated($this);
     }
 }

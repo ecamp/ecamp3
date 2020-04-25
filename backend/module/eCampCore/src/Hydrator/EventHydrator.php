@@ -13,7 +13,7 @@ use Zend\Hydrator\HydratorInterface;
 class EventHydrator implements HydratorInterface {
     public static function HydrateInfo() {
         return [
-            'event_category' => Util::Entity(function(Event $e) {
+            'event_category' => Util::Entity(function (Event $e) {
                 return $e->getEventCategory();
             }),
             'event_instances' => Util::Collection(function (Event $e) {
@@ -21,7 +21,7 @@ class EventHydrator implements HydratorInterface {
             }, null),
             'event_plugins' => Util::Collection(function (Event $e) {
                 return new EventPluginCollection($e->getEventPlugins());
-            })
+            }, null)
         ];
     }
 
