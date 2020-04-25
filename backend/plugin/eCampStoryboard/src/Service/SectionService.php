@@ -10,13 +10,12 @@ use eCamp\Lib\Service\ServiceUtils;
 use Zend\Authentication\AuthenticationService;
 
 class SectionService extends BasePluginService {
-    public function __construct(ServiceUtils $serviceUtils, AuthenticationService $authenticationService, $eventPluginId) {
+    public function __construct(ServiceUtils $serviceUtils, AuthenticationService $authenticationService) {
         parent::__construct(
             $serviceUtils,
             Section::class,
             SectionHydrator::class,
-            $authenticationService,
-            $eventPluginId
+            $authenticationService
         );
     }
 

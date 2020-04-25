@@ -43,5 +43,6 @@ class Module {
 
         // inject PluginStrategyProvider into Doctrine entities (mainly EventPlugin entity)
         $em->getEventManager()->addEventListener(array(\Doctrine\ORM\Events::postLoad), $sm->get(PluginStrategyProviderInjector::class));
+        $em->getEventManager()->addEventListener(array(\Doctrine\ORM\Events::prePersist), $sm->get(PluginStrategyProviderInjector::class));
     }
 }

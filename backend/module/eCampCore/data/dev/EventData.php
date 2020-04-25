@@ -2,15 +2,21 @@
 
 namespace eCamp\CoreData;
 
-use Doctrine\Common\DataFixtures\AbstractFixture;
-use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-use Doctrine\Common\Persistence\ObjectManager;
 use eCamp\Core\Entity\Camp;
 use eCamp\Core\Entity\Event;
-use eCamp\Core\Entity\EventCategory;
 use eCamp\Core\Entity\EventPlugin;
+use eCamp\Core\Entity\EventCategory;
+use eCamp\Core\Plugin\PluginStrategyProvider;
+use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Common\DataFixtures\AbstractFixture;
+use eCamp\Core\Plugin\PluginStrategyProviderTrait;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
+use eCamp\Lib\Fixture\ContainerAwareInterface;
+use eCamp\Lib\Fixture\ContainerAwareTrait;
 
-class EventData extends AbstractFixture implements DependentFixtureInterface {
+class EventData extends AbstractFixture implements DependentFixtureInterface, ContainerAwareInterface {
+    use ContainerAwareTrait;
+
     public static $EVENT_1_LS = Event::class . ':EVENT_1_LS';
     public static $EVENT_1_LA = Event::class . ':EVENT_1_LA';
     public static $EVENT_2_LS = Event::class . ':EVENT_2_LS';
@@ -18,6 +24,8 @@ class EventData extends AbstractFixture implements DependentFixtureInterface {
 
     public function load(ObjectManager $manager) {
         $repository = $manager->getRepository(Event::class);
+
+        $pluginStrategyProvider = $this->getContainer()->get(PluginStrategyProvider::class);
 
         /** @var Camp $camp */
         $camp = $this->getReference(CampData::$CAMP_1);
@@ -32,6 +40,7 @@ class EventData extends AbstractFixture implements DependentFixtureInterface {
             $event->setCamp($camp);
             $event->setTitle('Event LS');
             $event->setEventCategory($eventCategoryLs);
+            $event->createDefaultEventPlugins($pluginStrategyProvider);
 
             $manager->persist($event);
         }
@@ -43,6 +52,7 @@ class EventData extends AbstractFixture implements DependentFixtureInterface {
             $event->setCamp($camp);
             $event->setTitle('Event LA');
             $event->setEventCategory($eventCategoryLa);
+            $event->createDefaultEventPlugins($pluginStrategyProvider);
 
             $manager->persist($event);
         }
@@ -62,6 +72,7 @@ class EventData extends AbstractFixture implements DependentFixtureInterface {
             $event->setCamp($camp);
             $event->setTitle('Event LS');
             $event->setEventCategory($eventCategoryLs);
+            $event->createDefaultEventPlugins($pluginStrategyProvider);
 
             $manager->persist($event);
         }
@@ -73,6 +84,7 @@ class EventData extends AbstractFixture implements DependentFixtureInterface {
             $event->setCamp($camp);
             $event->setTitle('Event LA');
             $event->setEventCategory($eventCategoryLa);
+            $event->createDefaultEventPlugins($pluginStrategyProvider);
 
             $manager->persist($event);
         }

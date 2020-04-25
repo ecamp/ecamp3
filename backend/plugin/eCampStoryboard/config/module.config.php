@@ -36,8 +36,7 @@ return [
 
     'service_manager' => [
         'factories' => [
-            \eCamp\Plugin\Storyboard\Strategy::class => \eCamp\Plugin\Storyboard\StrategyFactory::class,
-            \eCamp\Plugin\Storyboard\Service\SectionService::class => \eCamp\Core\Plugin\DefaultPluginServiceFactory::class
+            \eCamp\Plugin\Storyboard\Strategy::class => \eCamp\Plugin\Storyboard\StrategyFactory::class
         ]
     ],
 

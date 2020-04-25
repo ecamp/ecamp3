@@ -11,39 +11,13 @@ use Zend\Authentication\AuthenticationService;
 use ZF\ApiProblem\ApiProblem;
 
 abstract class BasePluginService extends AbstractEntityService {
-
-    /** @var string */
-    private $eventPluginId;
-
-    /** @var EventPlugin */
-    private $eventPlugin;
-
     public function __construct(
         ServiceUtils $serviceUtils,
         string $entityClassname,
         string $hydratorClassname,
-        AuthenticationService $authenticationService,
-        ? string $eventPluginId
+        AuthenticationService $authenticationService
     ) {
         parent::__construct($serviceUtils, $entityClassname, $hydratorClassname, $authenticationService);
-
-        $this->eventPluginId = $eventPluginId;
-    }
-
-
-    /** @return string */
-    protected function getEventPluginId() {
-        return $this->eventPluginId;
-    }
-
-    /** @return EventPlugin */
-    protected function getEventPlugin() {
-        if ($this->eventPlugin == null) {
-            if ($this->eventPluginId != null) {
-                $this->eventPlugin = $this->findEntity(EventPlugin::class, $this->eventPluginId);
-            }
-        }
-        return $this->eventPlugin;
     }
 
     /**
@@ -74,14 +48,6 @@ abstract class BasePluginService extends AbstractEntityService {
     protected function createEntity($className) {
         /** @var BasePluginEntity $entity */
         $entity = parent::createEntity($className);
-
-        if ($entity instanceof ApiProblem) {
-            return $entity;
-        }
-
-        if ($this->getEventPlugin() != null) {
-            $entity->setEventPlugin($this->getEventPlugin());
-        }
 
         return $entity;
     }
@@ -118,29 +84,32 @@ abstract class BasePluginService extends AbstractEntityService {
     }
 
 
-
     /**
-     * @param mixed $data
+     * @param array $data
      * @return BasePluginEntity|ApiProblem
      * @throws ORMException
      * @throws NoAccessException
      */
-    public function create($data, ?EventPlugin $eventPlugin) {
+    public function create($data, bool $persist = true) {
         /** @var BasePluginEntity $entity */
-        $entity = parent::create($data);
+        $entity = parent::create($data, $persist);
 
-        if ($eventPlugin) {
-            $entity->setEventPlugin($eventPlugin);
-        } elseif ($data->event_plugin_id) {
+        if (isset($data['event_plugin_id'])) {
             /** @var EventPlugin $eventPlugin */
-            $eventPlugin = $this->findEntity(EventPlugin::class, $data->event_plugin_id);
+            $eventPlugin = $this->findEntity(EventPlugin::class, $data['event_plugin_id']);
             $entity->setEventPlugin($eventPlugin);
-        } else {
-            throw new \Error("Cannot create plugin data without defining EventPlugin");
         }
 
-        $em = $this->getServiceUtils()->entityManager;
-        // $this->getServiceUtils()->emFlush();
+        return $entity;
+    }
+
+    public function createWithEventPlugin(array $data, EventPlugin $eventPlugin) {
+
+        /** @var BasePluginEntity $entity */
+        $entity = $this->create($data, false);
+        $entity->setEventPlugin($eventPlugin);
+
+        $this->getServiceUtils()->emPersist($entity);
 
         return $entity;
     }

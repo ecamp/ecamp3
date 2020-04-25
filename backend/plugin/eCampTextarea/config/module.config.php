@@ -18,8 +18,7 @@ return [
 
     'service_manager' => [
         'factories' => [
-            \eCamp\Plugin\Textarea\Strategy::class => \eCamp\Plugin\Textarea\StrategyFactory::class,
-            \eCamp\Plugin\Textarea\Service\TextareaService::class => \eCamp\Core\Plugin\DefaultPluginServiceFactory::class
+            \eCamp\Plugin\Textarea\Strategy::class => \eCamp\Plugin\Textarea\StrategyFactory::class
         ]
     ],
 

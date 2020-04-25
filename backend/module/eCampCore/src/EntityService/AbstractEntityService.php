@@ -142,7 +142,6 @@ abstract class AbstractEntityService extends AbstractResourceListener {
      * @return BaseEntity|ApiProblem
      */
     protected function createEntity($className) {
-        $entity = null;
         $entity = new $className();
         return $entity;
     }

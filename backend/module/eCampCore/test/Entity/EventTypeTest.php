@@ -80,7 +80,7 @@ class EventTypeTest extends AbstractTestCase {
         $event = new Event();
         $event->setEventCategory($eventCategory);
 
-        $eventType->createDefaultEventPlugins($event);
+        $event->createDefaultEventPlugins();
 
         $this->assertCount(2, $event->getEventPlugins());
     }

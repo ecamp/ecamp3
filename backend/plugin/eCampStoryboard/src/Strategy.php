@@ -39,8 +39,6 @@ class Strategy extends PluginStrategyBase {
      * @throws ORMException
      */
     public function eventPluginCreated(EventPlugin $eventPlugin) : void {
-        $this->sectionService->create((object)[
-            'pos' => 0
-        ], $eventPlugin);
+        $this->sectionService->createWithEventPlugin(['pos' => 0], $eventPlugin);
     }
 }

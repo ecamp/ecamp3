@@ -1,10 +1,9 @@
 <?php
 
-use Zend\Di;
-use Zend\Di\Container;
-
-error_reporting(E_ALL);
+error_reporting(E_ALL & ~E_DEPRECATED & ~E_NOTICE);
 ini_set('display_errors', 1);
+
+use eCamp\Lib\Fixture\FixtureLoader;
 
 
 if (PHP_SAPI == 'cli') {
@@ -155,7 +154,7 @@ echo "<a href='?prod-data'>Load Prod-Data</a>";
 
 if (array_key_exists('prod-data', $_GET)) {
     try {
-        $loader = new \Doctrine\Common\DataFixtures\Loader();
+        $loader = $sm->get(FixtureLoader::class);
         $paths = \Zend\Stdlib\Glob::glob(__DIR__ . "/../module/*/data/prod/*.php");
 
         foreach ($paths as $path) {
@@ -185,7 +184,7 @@ echo "<a href='?dev-data'>Load Dev-Data</a>";
 
 if (array_key_exists('dev-data', $_GET)) {
     try {
-        $loader = new \Doctrine\Common\DataFixtures\Loader();
+        $loader = $sm->get(FixtureLoader::class);
 
         $paths = \Zend\Stdlib\Glob::glob(__DIR__ . "/../module/*/data/prod/*.php");
         foreach ($paths as $path) {
@@ -216,6 +215,7 @@ if (array_key_exists('dev-data', $_GET)) {
     }
 }
 
+$conn->commit();
 
 echo "<br />";
 echo "<br />";

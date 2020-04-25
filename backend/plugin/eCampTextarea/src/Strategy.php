@@ -48,6 +48,6 @@ class Strategy extends PluginStrategyBase {
      * @throws ORMException
      */
     public function eventPluginCreated(EventPlugin $eventPlugin) : void {
-        $this->textareaService->create((object)[], $eventPlugin);
+        $this->textareaService->createWithEventPlugin([], $eventPlugin);
     }
 }

@@ -2,9 +2,10 @@
 
 namespace eCamp\Core\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use eCamp\Lib\Entity\BaseEntity;
+use eCamp\Core\Plugin\PluginStrategyProvider;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity()
@@ -131,15 +132,38 @@ class Event extends BaseEntity {
         $this->eventInstances->removeElement($eventInstance);
     }
 
-
-
     /** @ORM\PrePersist */
     public function PrePersist() {
         parent::PrePersist();
 
-        $eventType = $this->getEventType();
-        if ($eventType !== null && $this->getEventPlugins()->isEmpty()) {
-            $eventType->createDefaultEventPlugins($this);
+        if ($this->getEventType() !== null && $this->getEventPlugins()->isEmpty()) {
+            $this->createDefaultEventPlugins();
+        }
+    }
+
+    /**
+     * Replicates the default plugin structure given by the EventType
+     */
+    public function createDefaultEventPlugins(PluginStrategyProvider $pluginStrategyProvider = null) {
+        foreach ($this->getEventType()->getEventTypePlugins() as $eventTypePlugin) {
+
+            // TO DO: getMinNumberPluginInstances probably not ideal, beneath min & max there should also be a default value
+            for ($idx = 0; $idx < $eventTypePlugin->getMinNumberPluginInstances(); $idx++) {
+                /** @var Plugin $plugin */
+                $plugin = $eventTypePlugin->getPlugin();
+                $pluginName = $plugin->getName() . ' ';
+                $pluginName .= str_pad($idx + 1, 2, '0');
+
+                $eventPlugin = new EventPlugin();
+                $eventPlugin->setEventTypePlugin($eventTypePlugin);
+                $eventPlugin->setInstanceName($pluginName);
+
+                if ($pluginStrategyProvider) {
+                    $eventPlugin->setPluginStrategyProvider($pluginStrategyProvider);
+                }
+
+                $this->addEventPlugin($eventPlugin);
+            }
         }
     }
 }

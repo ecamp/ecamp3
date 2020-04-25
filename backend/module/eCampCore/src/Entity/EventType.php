@@ -151,23 +151,4 @@ class EventType extends BaseEntity {
         $eventTemplateContainer->setEventType(null);
         $this->eventTemplates->removeElement($eventTemplateContainer);
     }
-
-
-
-    public function createDefaultEventPlugins(Event $event) {
-        foreach ($this->getEventTypePlugins() as $eventTypePlugin) {
-            for ($idx = 0; $idx < $eventTypePlugin->getMinNumberPluginInstances(); $idx++) {
-                /** @var Plugin $plugin */
-                $plugin = $eventTypePlugin->getPlugin();
-                $pluginName = $plugin->getName() . ' ';
-                $pluginName .= str_pad($idx + 1, 2, '0');
-
-                $eventPlugin = new EventPlugin();
-                $eventPlugin->setEventTypePlugin($eventTypePlugin);
-                $eventPlugin->setInstanceName($pluginName);
-
-                $event->addEventPlugin($eventPlugin);
-            }
-        }
-    }
 }
