@@ -7,6 +7,10 @@ use eCamp\Core\Entity\Period;
 use eCamp\Core\Hydrator\PeriodHydrator;
 use eCamp\LibTest\PHPUnit\AbstractTestCase;
 
+/**
+ * @internal
+ * @coversNothing
+ */
 class PeriodHydratorTest extends AbstractTestCase {
     public function testExtract() {
         $camp = new Camp();
@@ -37,7 +41,7 @@ class PeriodHydratorTest extends AbstractTestCase {
         $data = [
             'description' => 'desc',
             'start' => '2000-01-01',
-            'end' => '2000-01-03'
+            'end' => '2000-01-03',
         ];
 
         $hydrator = new PeriodHydrator();

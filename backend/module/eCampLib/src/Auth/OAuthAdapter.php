@@ -19,6 +19,7 @@ class OAuthAdapter implements AdapterInterface {
         if ($this->identity) {
             return new Result(Result::SUCCESS, $this->identity);
         }
+
         return new Result(Result::FAILURE_UNCATEGORIZED, null);
     }
 }

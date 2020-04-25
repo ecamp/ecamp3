@@ -8,19 +8,20 @@ use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 
 class PluginStrategyProvider {
-    /** @var  ContainerInterface */
+    /** @var ContainerInterface */
     private $container;
 
     public function __construct(ContainerInterface $container) {
         $this->container = $container;
     }
 
-
     /**
      * @param $pluginOrStrategyClass
-     * @return PluginStrategyInterface
+     *
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
+     *
+     * @return PluginStrategyInterface
      */
     public function get($pluginOrStrategyClass) {
         $strategyClass = $pluginOrStrategyClass;

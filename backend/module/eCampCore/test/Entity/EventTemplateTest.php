@@ -7,6 +7,10 @@ use eCamp\Core\Entity\EventTemplateContainer;
 use eCamp\Core\Entity\EventType;
 use eCamp\LibTest\PHPUnit\AbstractTestCase;
 
+/**
+ * @internal
+ * @coversNothing
+ */
 class EventTemplateTest extends AbstractTestCase {
     public function testEventTemplate() {
         $eventType = new EventType();
@@ -18,7 +22,6 @@ class EventTemplateTest extends AbstractTestCase {
         $eventTemplate->setEventType($eventType);
         $eventTemplate->setFilename('file.twig');
         $eventTemplate->setMedium(EventTemplate::MEDIUM_WEB);
-
 
         $this->assertEquals($eventType, $eventTemplate->getEventType());
         $this->assertEquals('file.twig', $eventTemplate->getFilename());

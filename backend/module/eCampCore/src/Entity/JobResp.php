@@ -28,11 +28,6 @@ use eCamp\Lib\Entity\BaseEntity;
  * @ORM\Table(name="job_resps")
  */
 class JobResp extends BaseEntity {
-    public function __construct() {
-        parent::__construct();
-    }
-
-
     /**
      * @var Day
      * @ORM\ManyToOne(targetEntity="Day")
@@ -54,6 +49,9 @@ class JobResp extends BaseEntity {
      */
     private $campCollaboration;
 
+    public function __construct() {
+        parent::__construct();
+    }
 
     /** @return Day */
     public function getDay() {
@@ -74,7 +72,6 @@ class JobResp extends BaseEntity {
         return $this->day->getCamp();
     }
 
-
     /** @return Job */
     public function getJob() {
         return $this->job;
@@ -84,7 +81,6 @@ class JobResp extends BaseEntity {
         $this->job = $job;
     }
 
-
     /** @return CampCollaboration */
     public function getCampCollaboration() {
         return $this->campCollaboration;
@@ -93,7 +89,6 @@ class JobResp extends BaseEntity {
     public function setCampCollaboration(CampCollaboration $collaboration) {
         $this->campCollaboration = $collaboration;
     }
-
 
     /** @return User */
     public function getUser() {

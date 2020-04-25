@@ -6,6 +6,10 @@ use eCamp\Core\Entity\EventType;
 use eCamp\Core\Hydrator\EventTypeHydrator;
 use eCamp\LibTest\PHPUnit\AbstractTestCase;
 
+/**
+ * @internal
+ * @coversNothing
+ */
 class EventTypeHydratorTest extends AbstractTestCase {
     public function testExtract() {
         $eventType = new EventType();
@@ -26,8 +30,7 @@ class EventTypeHydratorTest extends AbstractTestCase {
         $data = [
             'name' => 'name',
             'default_color' => '#00ff00',
-            'default_numbering_style' => 'a'
-
+            'default_numbering_style' => 'a',
         ];
 
         $hydrator = new EventTypeHydrator();

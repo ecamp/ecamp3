@@ -1,4 +1,5 @@
 <?php
+
 namespace eCampApi\V1\Rest\CampType;
 
 use eCamp\Lib\Entity\BaseCollection;

@@ -12,12 +12,17 @@ use eCamp\Lib\Entity\BaseEntity;
  * @ORM\Table(name="events")
  */
 class Event extends BaseEntity {
-    public function __construct() {
-        parent::__construct();
+    /**
+     * @var ArrayCollection
+     * @ORM\OneToMany(targetEntity="EventPlugin", mappedBy="event", orphanRemoval=true)
+     */
+    protected $eventPlugins;
 
-        $this->eventPlugins = new ArrayCollection();
-        $this->eventInstances = new ArrayCollection();
-    }
+    /**
+     * @var ArrayCollection
+     * @ORM\OneToMany(targetEntity="EventInstance", mappedBy="event", orphanRemoval=true)
+     */
+    protected $eventInstances;
 
     /**
      * @var Camp
@@ -39,18 +44,12 @@ class Event extends BaseEntity {
      */
     private $title;
 
-    /**
-     * @var ArrayCollection
-     * @ORM\OneToMany(targetEntity="EventPlugin", mappedBy="event", orphanRemoval=true)
-     */
-    protected $eventPlugins;
+    public function __construct() {
+        parent::__construct();
 
-    /**
-     * @var ArrayCollection
-     * @ORM\OneToMany(targetEntity="EventInstance", mappedBy="event", orphanRemoval=true)
-     */
-    protected $eventInstances;
-
+        $this->eventPlugins = new ArrayCollection();
+        $this->eventInstances = new ArrayCollection();
+    }
 
     /**
      * @return Camp
@@ -63,7 +62,6 @@ class Event extends BaseEntity {
         $this->camp = $camp;
     }
 
-
     /**
      * @return EventCategory
      */
@@ -75,14 +73,12 @@ class Event extends BaseEntity {
         $this->eventCategory = $eventCategory;
     }
 
-
     /**
      * @return EventType
      */
     public function getEventType() {
-        return ($this->eventCategory !== null) ? $this->eventCategory->getEventType() : null;
+        return (null !== $this->eventCategory) ? $this->eventCategory->getEventType() : null;
     }
-
 
     /**
      * @return string
@@ -94,7 +90,6 @@ class Event extends BaseEntity {
     public function setTitle(string $title): void {
         $this->title = $title;
     }
-
 
     /**
      * @return ArrayCollection
@@ -113,7 +108,6 @@ class Event extends BaseEntity {
         $this->eventPlugins->removeElement($eventPlugin);
     }
 
-
     /**
      * @return ArrayCollection
      */
@@ -131,14 +125,12 @@ class Event extends BaseEntity {
         $this->eventInstances->removeElement($eventInstance);
     }
 
-
-
     /** @ORM\PrePersist */
     public function PrePersist() {
         parent::PrePersist();
 
         $eventType = $this->getEventType();
-        if ($eventType !== null && $this->getEventPlugins()->isEmpty()) {
+        if (null !== $eventType && $this->getEventPlugins()->isEmpty()) {
             $eventType->createDefaultEventPlugins($this);
         }
     }

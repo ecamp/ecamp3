@@ -7,12 +7,16 @@ use eCamp\Core\Entity\Organization;
 use eCamp\Core\Hydrator\GroupHydrator;
 use eCamp\LibTest\PHPUnit\AbstractTestCase;
 
+/**
+ * @internal
+ * @coversNothing
+ */
 class GroupHydratorTest extends AbstractTestCase {
     public function testExtract() {
         // Disable Test
         $this->assertTrue(true);
-        return;
 
+        return;
         $organization = new Organization();
         $parent = new Group();
         $parent->setOrganization($organization);
@@ -36,12 +40,12 @@ class GroupHydratorTest extends AbstractTestCase {
     public function testHydrate() {
         // Disable Test
         $this->assertTrue(true);
-        return;
 
+        return;
         $group = new Group();
         $data = [
             'name' => 'name',
-            'description' => 'desc'
+            'description' => 'desc',
         ];
 
         $hydrator = new GroupHydrator();

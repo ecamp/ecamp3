@@ -16,13 +16,11 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\HasLifecycleCallbacks
  */
 class Group extends AbstractCampOwner {
-    public function __construct() {
-        parent::__construct();
-
-        $this->children = new ArrayCollection();
-        $this->memberships = new ArrayCollection();
-    }
-
+    /**
+     * @var ArrayCollection
+     * @ORM\OneToMany(targetEntity="GroupMembership", mappedBy="group", orphanRemoval=true)
+     */
+    protected $memberships;
 
     /**
      * @var string
@@ -56,13 +54,12 @@ class Group extends AbstractCampOwner {
      */
     private $children;
 
+    public function __construct() {
+        parent::__construct();
 
-    /**
-     * @var ArrayCollection
-     * @ORM\OneToMany(targetEntity="GroupMembership", mappedBy="group", orphanRemoval=true)
-     */
-    protected $memberships;
-
+        $this->children = new ArrayCollection();
+        $this->memberships = new ArrayCollection();
+    }
 
     /**
      * @return string
@@ -75,14 +72,12 @@ class Group extends AbstractCampOwner {
         $this->name = $name;
     }
 
-
     /**
      * @return string
      */
     public function getDisplayName() {
         return $this->name;
     }
-
 
     /**
      * @return string
@@ -95,7 +90,6 @@ class Group extends AbstractCampOwner {
         $this->description = $description;
     }
 
-
     /**
      * @return Organization
      */
@@ -107,7 +101,6 @@ class Group extends AbstractCampOwner {
         $this->organization = $organization;
     }
 
-
     /**
      * @return Group
      */
@@ -116,20 +109,18 @@ class Group extends AbstractCampOwner {
     }
 
     public function setParent(Group $parent = null): void {
-        if ($parent != null) {
+        if (null != $parent) {
             $this->organization = $parent->getOrganization();
         }
         $this->parent = $parent;
     }
 
-
     public function pathAsArray() {
-        $path = ($this->parent != null) ? $this->parent->pathAsArray() : [];
+        $path = (null != $this->parent) ? $this->parent->pathAsArray() : [];
         $path[] = $this;
 
         return $path;
     }
-
 
     /**
      * @return ArrayCollection
@@ -147,7 +138,6 @@ class Group extends AbstractCampOwner {
         $child->setParent(null);
         $this->children->removeElement($child);
     }
-
 
     /**
      * @return ArrayCollection

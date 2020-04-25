@@ -1,4 +1,5 @@
 <?php
+
 namespace eCampApi\V1\Rest\EventTypePlugin;
 
 use eCamp\Lib\Entity\BaseCollection;

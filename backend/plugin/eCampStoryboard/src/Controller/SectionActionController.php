@@ -13,7 +13,6 @@ class SectionActionController extends AbstractActionController {
         $this->sectionService = $sectionService;
     }
 
-
     public function moveUpAction() {
         $sectionId = $this->params()->fromRoute('section_id');
 

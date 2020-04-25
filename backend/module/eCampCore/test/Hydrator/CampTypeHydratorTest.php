@@ -7,6 +7,10 @@ use eCamp\Core\Entity\Organization;
 use eCamp\Core\Hydrator\CampTypeHydrator;
 use eCamp\LibTest\PHPUnit\AbstractTestCase;
 
+/**
+ * @internal
+ * @coversNothing
+ */
 class CampTypeHydratorTest extends AbstractTestCase {
     public function testExtract() {
         $organization = new Organization();

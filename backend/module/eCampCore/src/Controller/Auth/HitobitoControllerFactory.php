@@ -12,20 +12,15 @@ use Zend\Authentication\AuthenticationService;
 use Zend\ServiceManager\Factory\FactoryInterface;
 
 abstract class HitobitoControllerFactory implements FactoryInterface {
-
-    /** @return string */
-    abstract protected function getControllerClass();
-
     /**
-     * @param ContainerInterface $container
      * @param string $requestedName
-     * @param array|null $options
-     * @return HitobitoController
+     *
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
+     *
+     * @return HitobitoController
      */
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null) {
-
         /** @var EntityManager $entityManager */
         $entityManager = $container->get('doctrine.entitymanager.orm_default');
 
@@ -50,4 +45,7 @@ abstract class HitobitoControllerFactory implements FactoryInterface {
             $hybridAuthConfig
         );
     }
+
+    /** @return string */
+    abstract protected function getControllerClass();
 }

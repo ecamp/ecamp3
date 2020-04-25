@@ -11,10 +11,8 @@ use eCamp\Core\Entity\User;
 
 class GroupMembershipData extends AbstractFixture implements DependentFixtureInterface {
     public function load(ObjectManager $manager) {
-
         // disable group code
         return;
-
         $repository = $manager->getRepository(GroupMembership::class);
         $groupRepository = $manager->getRepository(Group::class);
         $userRepository = $manager->getRepository(User::class);
@@ -26,7 +24,7 @@ class GroupMembershipData extends AbstractFixture implements DependentFixtureInt
             foreach ($users as $user) {
                 /** @var GroupMembership $membership */
                 $membership = $repository->findOneBy(['group' => $group, 'user' => $user]);
-                if ($membership == null) {
+                if (null == $membership) {
                     $membership = new GroupMembership();
                     $membership->setGroup($group);
                     $membership->setUser($user);
@@ -42,6 +40,6 @@ class GroupMembershipData extends AbstractFixture implements DependentFixtureInt
     }
 
     public function getDependencies() {
-        return [ GroupData::class, UserData::class ];
+        return [GroupData::class, UserData::class];
     }
 }

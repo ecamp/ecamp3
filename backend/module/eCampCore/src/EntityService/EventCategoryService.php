@@ -22,6 +22,28 @@ class EventCategoryService extends AbstractEntityService {
         );
     }
 
+    /**
+     * @param mixed $data
+     *
+     * @throws ORMException
+     * @throws NoAccessException
+     *
+     * @return ApiProblem|EventCategory
+     */
+    public function create($data) {
+        /** @var EventCategory $eventCategory */
+        $eventCategory = parent::create($data);
+
+        /** @var EventType $eventType */
+        $eventType = $this->findEntity(EventType::class, $data->event_type_id);
+        $eventCategory->setEventType($eventType);
+
+        /** @var Camp $camp */
+        $camp = $this->findEntity(Camp::class, $data->camp_id);
+        $camp->addEventCategory($eventCategory);
+
+        return $eventCategory;
+    }
 
     protected function fetchAllQueryBuilder($params = []) {
         $q = parent::fetchAllQueryBuilder($params);
@@ -40,27 +62,5 @@ class EventCategoryService extends AbstractEntityService {
         $q->andWhere($this->createFilter($q, Camp::class, 'row', 'camp'));
 
         return $q;
-    }
-
-
-    /**
-     * @param mixed $data
-     * @return EventCategory|ApiProblem
-     * @throws ORMException
-     * @throws NoAccessException
-     */
-    public function create($data) {
-        /** @var EventCategory $eventCategory */
-        $eventCategory = parent::create($data);
-
-        /** @var EventType $eventType */
-        $eventType = $this->findEntity(EventType::class, $data->event_type_id);
-        $eventCategory->setEventType($eventType);
-
-        /** @var Camp $camp */
-        $camp = $this->findEntity(Camp::class, $data->camp_id);
-        $camp->addEventCategory($eventCategory);
-
-        return $eventCategory;
     }
 }

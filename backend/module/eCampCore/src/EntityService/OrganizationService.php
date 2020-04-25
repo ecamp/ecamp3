@@ -2,8 +2,8 @@
 
 namespace eCamp\Core\EntityService;
 
-use eCamp\Core\Hydrator\OrganizationHydrator;
 use eCamp\Core\Entity\Organization;
+use eCamp\Core\Hydrator\OrganizationHydrator;
 use eCamp\Lib\Service\ServiceUtils;
 use Zend\Authentication\AuthenticationService;
 

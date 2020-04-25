@@ -17,12 +17,10 @@ class Strategy extends PluginStrategyBase {
         $this->sectionService = $sectionService;
     }
 
-
     /**
-     * @param EventPlugin $eventPlugin
      * @return array
      */
-    public function eventPluginExtract(EventPlugin $eventPlugin) : array {
+    public function eventPluginExtract(EventPlugin $eventPlugin): array {
         return [
             'section' => Link::factory([
                 'rel' => 'section',
@@ -30,22 +28,21 @@ class Strategy extends PluginStrategyBase {
                     'name' => 'ecamp.api.event_plugin/ecamp.section',
                     'params' => [
                         'event_plugin_id' => $eventPlugin->getId(),
-                        'section_id' => null
-                    ]
-                ]
-            ])
+                        'section_id' => null,
+                    ],
+                ],
+            ]),
         ];
     }
 
     /**
-     * @param EventPlugin $eventPlugin
      * @throws NoAccessException
      * @throws ORMException
      */
-    public function eventPluginCreated(EventPlugin $eventPlugin) : void {
-        $this->sectionService->create((object)[
+    public function eventPluginCreated(EventPlugin $eventPlugin): void {
+        $this->sectionService->create((object) [
             'event_plugin_id' => $eventPlugin->getId(),
-            'pos' => 0
+            'pos' => 0,
         ]);
     }
 }

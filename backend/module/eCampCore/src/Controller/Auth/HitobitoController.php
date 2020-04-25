@@ -8,10 +8,6 @@ use eCamp\Core\EntityService\UserService;
 use Zend\Authentication\AuthenticationService;
 
 abstract class HitobitoController extends BaseController {
-
-    /** @return string */
-    abstract protected function getProviderName();
-
     public function __construct(
         EntityManager $entityManager,
         UserIdentityService $userIdentityService,
@@ -28,4 +24,7 @@ abstract class HitobitoController extends BaseController {
             $hybridAuthConfig
         );
     }
+
+    /** @return string */
+    abstract protected function getProviderName();
 }

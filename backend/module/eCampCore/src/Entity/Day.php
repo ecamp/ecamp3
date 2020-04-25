@@ -13,11 +13,6 @@ use eCamp\Lib\Entity\BaseEntity;
  * @ORM\HasLifecycleCallbacks
  */
 class Day extends BaseEntity {
-    public function __construct() {
-        parent::__construct();
-    }
-
-
     /**
      * @var Period
      * @ORM\ManyToOne(targetEntity="Period")
@@ -31,6 +26,9 @@ class Day extends BaseEntity {
      */
     private $dayOffset;
 
+    public function __construct() {
+        parent::__construct();
+    }
 
     /**
      * @return Period
@@ -43,14 +41,12 @@ class Day extends BaseEntity {
         $this->period = $period;
     }
 
-
     /**
      * @return Camp
      */
     public function getCamp() {
-        return ($this->period != null) ? $this->period->getCamp() : null;
+        return (null != $this->period) ? $this->period->getCamp() : null;
     }
-
 
     /**
      * @return int
@@ -64,6 +60,6 @@ class Day extends BaseEntity {
     }
 
     public function getDayNumber() {
-        return ($this->dayOffset + 1);
+        return $this->dayOffset + 1;
     }
 }

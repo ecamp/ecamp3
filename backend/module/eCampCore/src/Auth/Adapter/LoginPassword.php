@@ -4,7 +4,6 @@ namespace eCamp\Core\Auth\Adapter;
 
 use eCamp\Core\Entity\Login;
 use eCamp\Core\Entity\User;
-use eCamp\Core\EntityService\UserService;
 use Zend\Authentication\Adapter\AdapterInterface;
 use Zend\Authentication\Result;
 
@@ -15,34 +14,33 @@ class LoginPassword implements AdapterInterface {
     const UNKNOWN_FAILURE = 'Unknown error!';
 
     /**
-     * @var User $user
+     * @var User
      */
     private $user;
 
     /**
-     * @var Login $login
+     * @var Login
      */
     private $login;
 
     /**
-     * @var string $password
+     * @var string
      */
     private $password;
 
-
     /**
      * LoginPassword constructor.
+     *
      * @param User $user
      * @param $password
      */
     public function __construct(User $user = null, $password) {
-        $this->login = ($user !== null) ? $user->getLogin() : null;
+        $this->login = (null !== $user) ? $user->getLogin() : null;
         $this->password = $password;
     }
 
     /**
-     * Performs an authentication attempt
-     *
+     * Performs an authentication attempt.
      */
     public function authenticate() {
         // User Not Found:
@@ -52,10 +50,10 @@ class LoginPassword implements AdapterInterface {
                 self::NOT_FOUND_MESSAGE
             );
         }
-        /** @var $user User */
+        // @var $user User
         $this->user = $this->login->getUser();
         // User Not Activated:
-        if ($this->user->getState() != User::STATE_ACTIVATED) {
+        if (User::STATE_ACTIVATED != $this->user->getState()) {
             return $this->authResult(
                 Result::FAILURE_IDENTITY_AMBIGUOUS,
                 self::NOT_ACTIVATED_MESSAGE
@@ -73,17 +71,21 @@ class LoginPassword implements AdapterInterface {
     }
 
     /**
-     * Factory for Result
+     * Factory for Result.
      *
-     * @param integer    The Result code, see Zend_Auth_Result
+     * @param int    The Result code, see Zend_Auth_Result
      * @param mixed      The Message, can be a string or array
+     * @param mixed $code
+     * @param mixed $messages
+     *
      * @return \Zend\Authentication\Result
      */
-    private function authResult($code, $messages = array()) {
+    private function authResult($code, $messages = []) {
         if (!is_array($messages)) {
-            $messages = array($messages);
+            $messages = [$messages];
         }
-        $userId = ($this->user != null) ? $this->user->getId() : null;
+        $userId = (null != $this->user) ? $this->user->getId() : null;
+
         return new Result($code, $userId, $messages);
     }
 }

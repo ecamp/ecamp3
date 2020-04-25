@@ -5,6 +5,10 @@ namespace eCamp\LibTest\Hydrator;
 use eCamp\Lib\Hydrator\Util;
 use eCamp\LibTest\PHPUnit\AbstractTestCase;
 
+/**
+ * @internal
+ * @coversNothing
+ */
 class UtilTest extends AbstractTestCase {
     public function testDate() {
         $date = Util::parseDate('2000-01-01');

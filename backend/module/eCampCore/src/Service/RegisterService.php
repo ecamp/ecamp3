@@ -9,7 +9,6 @@ use eCamp\Lib\Service\ServiceUtils;
 use Zend\Authentication\AuthenticationService;
 
 class RegisterService extends AbstractService {
-
     /** @var UserService */
     protected $userService;
 
@@ -23,12 +22,11 @@ class RegisterService extends AbstractService {
         $this->userService = $userService;
     }
 
-
     public function register($username, $mail, $password) {
-        $user = $this->userService->create((object)[
+        $user = $this->userService->create((object) [
             'username' => $username,
             'mailAddress' => $mail,
-            'state' => User::STATE_REGISTERED
+            'state' => User::STATE_REGISTERED,
         ]);
 
         if ($user instanceof User) {

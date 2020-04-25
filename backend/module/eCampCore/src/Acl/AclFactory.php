@@ -37,7 +37,6 @@ class AclFactory implements FactoryInterface {
         $acl->addRole(User::ROLE_USER, User::ROLE_GUEST);
         $acl->addRole(User::ROLE_ADMIN, User::ROLE_USER);
 
-
         $acl->addResource(BaseEntity::class);
 
         $acl->addResource(Organization::class, BaseEntity::class);
@@ -60,18 +59,14 @@ class AclFactory implements FactoryInterface {
         $acl->addResource(EventTemplate::class, BaseEntity::class);
         $acl->addResource(EventTemplateContainer::class, BaseEntity::class);
 
-
         $acl->addResource(User::class, BaseEntity::class);
         $acl->addResource(UserIdentity::class, BaseEntity::class);
-
 
         $acl->addResource(Camp::class, BaseEntity::class);
         $acl->addResource(Period::class, BaseEntity::class);
         $acl->addResource(Day::class, BaseEntity::class);
 
         $acl->addResource(CampCollaboration::class, BaseEntity::class);
-
-
 
         $acl->allow(
             Guest::class,
@@ -93,7 +88,7 @@ class AclFactory implements FactoryInterface {
             ],
             [
                 Acl::REST_PRIVILEGE_FETCH,
-                Acl::REST_PRIVILEGE_FETCH_ALL
+                Acl::REST_PRIVILEGE_FETCH_ALL,
             ]
         );
 
@@ -106,7 +101,6 @@ class AclFactory implements FactoryInterface {
 
         // DEBUG:
         $acl->allow(Guest::class, BaseEntity::class);
-
 
         return $acl;
     }

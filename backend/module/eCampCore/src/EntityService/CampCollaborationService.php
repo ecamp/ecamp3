@@ -21,29 +21,13 @@ class CampCollaborationService extends AbstractEntityService {
         );
     }
 
-
-    protected function fetchAllQueryBuilder($params = []) {
-        $q = parent::fetchAllQueryBuilder($params);
-        $q->andWhere($this->createFilter($q, Camp::class, 'row', 'camp'));
-
-        if (isset($params['camp_id'])) {
-            $q->andWhere('row.camp = :campId');
-            $q->setParameter('campId', $params['camp_id']);
-        }
-
-        if (isset($params['user_id'])) {
-            $q->andWhere('row.user = :userId');
-            $q->setParameter('userId', $params['user_id']);
-        }
-
-        return $q;
-    }
-
     /**
      * @param mixed $data
-     * @return CampCollaboration|ApiProblem
+     *
      * @throws ORMException
      * @throws \Exception
+     *
+     * @return ApiProblem|CampCollaboration
      */
     public function create($data) {
         $authUser = $this->getAuthUser();
@@ -99,8 +83,10 @@ class CampCollaborationService extends AbstractEntityService {
     /**
      * @param mixed $id
      * @param mixed $data
-     * @return CampCollaboration|ApiProblem
+     *
      * @throws \Exception
+     *
+     * @return ApiProblem|CampCollaboration
      */
     public function update($id, $data) {
         /** @var CampCollaboration $campCollaboration */
@@ -117,12 +103,33 @@ class CampCollaborationService extends AbstractEntityService {
         return $campCollaboration;
     }
 
+    public function delete($id) {
+        return parent::delete($id);
+    }
+
+    protected function fetchAllQueryBuilder($params = []) {
+        $q = parent::fetchAllQueryBuilder($params);
+        $q->andWhere($this->createFilter($q, Camp::class, 'row', 'camp'));
+
+        if (isset($params['camp_id'])) {
+            $q->andWhere('row.camp = :campId');
+            $q->setParameter('campId', $params['camp_id']);
+        }
+
+        if (isset($params['user_id'])) {
+            $q->andWhere('row.user = :userId');
+            $q->setParameter('userId', $params['user_id']);
+        }
+
+        return $q;
+    }
 
     /**
-     * @param CampCollaboration $campCollaboration
      * @param $data
-     * @return CampCollaboration
+     *
      * @throws \Exception
+     *
+     * @return CampCollaboration
      */
     private function updateCollaboration(CampCollaboration $campCollaboration, $data) {
         // TODO: ACL-Check can update Collaboration
@@ -131,7 +138,7 @@ class CampCollaborationService extends AbstractEntityService {
             $campCollaboration->setRole($data->role);
         }
 
-        if (isset($data->status) && $data->status == CampCollaboration::STATUS_UNRELATED) {
+        if (isset($data->status) && CampCollaboration::STATUS_UNRELATED == $data->status) {
             $this->delete($campCollaboration->getId());
             $campCollaboration = null;
         }
@@ -139,12 +146,12 @@ class CampCollaborationService extends AbstractEntityService {
         return $campCollaboration;
     }
 
-
     /**
-     * @param CampCollaboration $campCollaboration
      * @param $data
-     * @return CampCollaboration
+     *
      * @throws \Exception
+     *
+     * @return CampCollaboration
      */
     private function updateInvitation(CampCollaboration $campCollaboration, $data) {
         $authUser = $this->getAuthUser();
@@ -153,11 +160,11 @@ class CampCollaborationService extends AbstractEntityService {
 
         if ($authUser === $campCollaboration->getUser()) {
             if (isset($data->status)) {
-                if ($data->status == CampCollaboration::STATUS_UNRELATED) {
+                if (CampCollaboration::STATUS_UNRELATED == $data->status) {
                     $this->delete($campCollaboration->getId());
                     $campCollaboration = null;
                 }
-                if ($data->status == CampCollaboration::STATUS_ESTABLISHED) {
+                if (CampCollaboration::STATUS_ESTABLISHED == $data->status) {
                     $campCollaboration->setStatus(CampCollaboration::STATUS_ESTABLISHED);
                 }
             }
@@ -166,7 +173,7 @@ class CampCollaborationService extends AbstractEntityService {
                 $campCollaboration->setRole($data->role);
             }
             if (isset($data->status)) {
-                if ($data->status == CampCollaboration::STATUS_UNRELATED) {
+                if (CampCollaboration::STATUS_UNRELATED == $data->status) {
                     $this->delete($campCollaboration->getId());
                     $campCollaboration = null;
                 }
@@ -177,11 +184,12 @@ class CampCollaborationService extends AbstractEntityService {
     }
 
     /**
-     * @param CampCollaboration $campCollaboration
      * @param $data
-     * @return CampCollaboration
+     *
      * @throws ORMException
      * @throws \Exception
+     *
+     * @return CampCollaboration
      */
     private function updateRequest(CampCollaboration $campCollaboration, $data) {
         $authUser = $this->getAuthUser();
@@ -193,18 +201,18 @@ class CampCollaborationService extends AbstractEntityService {
                 $campCollaboration->setRole($data->role);
             }
             if (isset($data->status)) {
-                if ($data->status == CampCollaboration::STATUS_UNRELATED) {
+                if (CampCollaboration::STATUS_UNRELATED == $data->status) {
                     $this->delete($campCollaboration->getId());
                     $campCollaboration = null;
                 }
             }
         } else {
             if (isset($data->status)) {
-                if ($data->status == CampCollaboration::STATUS_UNRELATED) {
+                if (CampCollaboration::STATUS_UNRELATED == $data->status) {
                     $this->delete($campCollaboration->getId());
                     $campCollaboration = null;
                 }
-                if ($data->status == CampCollaboration::STATUS_ESTABLISHED) {
+                if (CampCollaboration::STATUS_ESTABLISHED == $data->status) {
                     if (isset($data->role)) {
                         $campCollaboration->setRole($data->role);
                     }
@@ -215,9 +223,5 @@ class CampCollaborationService extends AbstractEntityService {
         }
 
         return $campCollaboration;
-    }
-
-    public function delete($id) {
-        return parent::delete($id);
     }
 }

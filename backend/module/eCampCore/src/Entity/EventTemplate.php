@@ -7,7 +7,8 @@ use Doctrine\ORM\Mapping as ORM;
 use eCamp\Lib\Entity\BaseEntity;
 
 /**
- * EventTemplate
+ * EventTemplate.
+ *
  * @ORM\Entity
  * @ORM\Table(name="event_templates", uniqueConstraints={
  * 	 @ORM\UniqueConstraint(name="eventtype_medium_unique", columns={"eventType_id", "medium"})
@@ -17,13 +18,6 @@ class EventTemplate extends BaseEntity {
     const MEDIUM_WEB = 'web';
     const MEDIUM_PRINT = 'print';
     const MEDIUM_MOBILE = 'mobile';
-
-
-    public function __construct() {
-        parent::__construct();
-
-        $this->eventTemplateContainers = new ArrayCollection();
-    }
 
     /**
      * @var EventType
@@ -50,6 +44,11 @@ class EventTemplate extends BaseEntity {
      */
     private $eventTemplateContainers;
 
+    public function __construct() {
+        parent::__construct();
+
+        $this->eventTemplateContainers = new ArrayCollection();
+    }
 
     /**
      * @return EventType
@@ -62,7 +61,6 @@ class EventTemplate extends BaseEntity {
         $this->eventType = $eventType;
     }
 
-
     /**
      * @return Medium
      */
@@ -74,7 +72,6 @@ class EventTemplate extends BaseEntity {
         $this->medium = $medium;
     }
 
-
     /**
      * @return string
      */
@@ -85,7 +82,6 @@ class EventTemplate extends BaseEntity {
     public function setFilename(string $filename): void {
         $this->filename = $filename;
     }
-
 
     /**
      * @return ArrayCollection

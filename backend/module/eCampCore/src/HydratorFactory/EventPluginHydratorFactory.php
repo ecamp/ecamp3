@@ -11,12 +11,12 @@ use Zend\ServiceManager\Factory\FactoryInterface;
 
 class EventPluginHydratorFactory implements FactoryInterface {
     /**
-     * @param ContainerInterface $container
      * @param string $requestedName
-     * @param array|null $options
-     * @return EventPluginHydrator
+     *
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
+     *
+     * @return EventPluginHydrator
      */
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null) {
         /** @var PluginStrategyProvider $pluginStrategyProvider */

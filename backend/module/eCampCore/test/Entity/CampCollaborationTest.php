@@ -7,6 +7,10 @@ use eCamp\Core\Entity\CampCollaboration;
 use eCamp\Core\Entity\User;
 use eCamp\LibTest\PHPUnit\AbstractTestCase;
 
+/**
+ * @internal
+ * @coversNothing
+ */
 class CampCollaborationTest extends AbstractTestCase {
     public function testCampCollaboration() {
         $camp = new Camp();
@@ -37,7 +41,6 @@ class CampCollaborationTest extends AbstractTestCase {
         $collaboration->setStatus(CampCollaboration::STATUS_ESTABLISHED);
         $this->assertTrue($collaboration->isEstablished());
 
-
         $this->expectException('Exception');
         $collaboration->setStatus('test');
     }
@@ -52,7 +55,6 @@ class CampCollaborationTest extends AbstractTestCase {
 
         $collaboration->setRole(CampCollaboration::ROLE_MANAGER);
         $this->assertTrue($collaboration->isManager());
-
 
         $this->expectException('Exception');
         $collaboration->setRole('test');

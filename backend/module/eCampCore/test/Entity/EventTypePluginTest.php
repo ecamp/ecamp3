@@ -8,6 +8,10 @@ use eCamp\Core\Entity\Plugin;
 use eCamp\LibTest\PHPUnit\AbstractTestCase;
 use Zend\Json\Json;
 
+/**
+ * @internal
+ * @coversNothing
+ */
 class EventTypePluginTest extends AbstractTestCase {
     public function testEventTypePlugin() {
         $eventType = new EventType();

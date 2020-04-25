@@ -8,7 +8,6 @@ use eCamp\Lib\Service\ServiceUtils;
 use Zend\Authentication\AuthenticationService;
 
 abstract class AbstractService {
-
     /** @var ServiceUtils */
     private $serviceUtils;
 
@@ -32,6 +31,7 @@ abstract class AbstractService {
 
     /**
      * @param BaseEntity $entity
+     *
      * @return array
      */
     protected function getOrigEntityData($entity) {
@@ -57,16 +57,19 @@ abstract class AbstractService {
     /**
      * @param null $resource
      * @param null $privilege
+     *
      * @return bool
      */
     protected function isAllowed($resource, $privilege = null) {
         $user = $this->getAuthUser();
+
         return $this->serviceUtils->aclIsAllowed($user, $resource, $privilege);
     }
 
     /**
      * @param null $resource
      * @param null $privilege
+     *
      * @throws \eCamp\Lib\Acl\NoAccessException
      */
     protected function assertAllowed($resource, $privilege = null) {

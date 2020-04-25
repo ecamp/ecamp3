@@ -6,6 +6,10 @@ use eCamp\Core\Entity\Camp;
 use eCamp\Core\Hydrator\CampHydrator;
 use eCamp\LibTest\PHPUnit\AbstractTestCase;
 
+/**
+ * @internal
+ * @coversNothing
+ */
 class CampHydratorTest extends AbstractTestCase {
     public function testExtract() {
         $camp = new Camp();
@@ -26,7 +30,7 @@ class CampHydratorTest extends AbstractTestCase {
         $data = [
             'name' => 'name',
             'title' => 'title',
-            'motto' => 'motto'
+            'motto' => 'motto',
         ];
 
         $hydrator = new CampHydrator();

@@ -10,10 +10,10 @@ use eCamp\Core\Entity\Event;
 use eCamp\Core\Entity\EventCategory;
 
 class EventData extends AbstractFixture implements DependentFixtureInterface {
-    public static $EVENT_1_LS = Event::class . ':EVENT_1_LS';
-    public static $EVENT_1_LA = Event::class . ':EVENT_1_LA';
-    public static $EVENT_2_LS = Event::class . ':EVENT_2_LS';
-    public static $EVENT_2_LA = Event::class . ':EVENT_2_LA';
+    public static $EVENT_1_LS = Event::class.':EVENT_1_LS';
+    public static $EVENT_1_LA = Event::class.':EVENT_1_LA';
+    public static $EVENT_2_LS = Event::class.':EVENT_2_LS';
+    public static $EVENT_2_LA = Event::class.':EVENT_2_LA';
 
     public function load(ObjectManager $manager) {
         $repository = $manager->getRepository(Event::class);
@@ -26,7 +26,7 @@ class EventData extends AbstractFixture implements DependentFixtureInterface {
         $eventCategoryLa = $this->getReference(EventCategoryData::$EVENTCATEGORY_1_LA);
 
         $event = $repository->findOneBy(['camp' => $camp, 'title' => 'Event LS']);
-        if ($event == null) {
+        if (null == $event) {
             $event = new Event();
             $event->setCamp($camp);
             $event->setTitle('Event LS');
@@ -37,7 +37,7 @@ class EventData extends AbstractFixture implements DependentFixtureInterface {
         $this->addReference(self::$EVENT_1_LS, $event);
 
         $event = $repository->findOneBy(['camp' => $camp, 'title' => 'Event LA']);
-        if ($event == null) {
+        if (null == $event) {
             $event = new Event();
             $event->setCamp($camp);
             $event->setTitle('Event LA');
@@ -47,7 +47,6 @@ class EventData extends AbstractFixture implements DependentFixtureInterface {
         }
         $this->addReference(self::$EVENT_1_LA, $event);
 
-
         /** @var Camp $camp */
         $camp = $this->getReference(CampData::$CAMP_2);
         /** @var EventCategory $eventCategoryLs */
@@ -56,7 +55,7 @@ class EventData extends AbstractFixture implements DependentFixtureInterface {
         $eventCategoryLa = $this->getReference(EventCategoryData::$EVENTCATEGORY_2_LA);
 
         $event = $repository->findOneBy(['camp' => $camp, 'title' => 'Event LS']);
-        if ($event == null) {
+        if (null == $event) {
             $event = new Event();
             $event->setCamp($camp);
             $event->setTitle('Event LS');
@@ -67,7 +66,7 @@ class EventData extends AbstractFixture implements DependentFixtureInterface {
         $this->addReference(self::$EVENT_2_LS, $event);
 
         $event = $repository->findOneBy(['camp' => $camp, 'title' => 'Event LA']);
-        if ($event == null) {
+        if (null == $event) {
             $event = new Event();
             $event->setCamp($camp);
             $event->setTitle('Event LA');
@@ -81,6 +80,6 @@ class EventData extends AbstractFixture implements DependentFixtureInterface {
     }
 
     public function getDependencies() {
-        return [ CampData::class, EventCategoryData::class ];
+        return [CampData::class, EventCategoryData::class];
     }
 }

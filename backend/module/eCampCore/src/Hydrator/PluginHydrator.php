@@ -13,11 +13,13 @@ class PluginHydrator implements HydratorInterface {
 
     /**
      * @param object $object
+     *
      * @return array
      */
     public function extract($object) {
         /** @var Plugin $plugin */
         $plugin = $object;
+
         return [
             'id' => $plugin->getId(),
             'name' => $plugin->getName(),
@@ -26,8 +28,8 @@ class PluginHydrator implements HydratorInterface {
     }
 
     /**
-     * @param array $data
      * @param object $object
+     *
      * @return object
      */
     public function hydrate(array $data, $object) {

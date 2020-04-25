@@ -11,12 +11,12 @@ use Zend\ServiceManager\Factory\FactoryInterface;
 
 class AuthUserProviderFactory implements FactoryInterface {
     /**
-     * @param ContainerInterface $container
      * @param string $requestedName
-     * @param array|null $options
-     * @return AuthUserProvider
+     *
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
+     *
+     * @return AuthUserProvider
      */
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null) {
         /** @var EntityManager $entityManager */

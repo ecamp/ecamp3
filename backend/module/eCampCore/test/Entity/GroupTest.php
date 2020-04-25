@@ -8,6 +8,10 @@ use eCamp\Core\Entity\GroupMembership;
 use eCamp\Core\Entity\Organization;
 use eCamp\LibTest\PHPUnit\AbstractTestCase;
 
+/**
+ * @internal
+ * @coversNothing
+ */
 class GroupTest extends AbstractTestCase {
     public function testGroup() {
         $organization = new Organization();
@@ -38,7 +42,6 @@ class GroupTest extends AbstractTestCase {
         $path = $group2->pathAsArray();
         $this->assertContains($group1, $path);
         $this->assertContains($group2, $path);
-
 
         $group3 = new Group();
 

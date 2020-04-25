@@ -28,7 +28,6 @@ class ServiceUtils {
     /** @var HydratorPluginManager */
     private $hydratorPluginManager;
 
-
     public function __construct(
         Acl $acl,
         EntityManager $entityManager,
@@ -41,11 +40,11 @@ class ServiceUtils {
         $this->hydratorPluginManager = $hydratorPluginManager;
     }
 
-
     /**
-     * @param RoleInterface|string $role
+     * @param RoleInterface|string     $role
      * @param ResourceInterface|string $resource
-     * @param string $privilege
+     * @param string                   $privilege
+     *
      * @return bool
      */
     public function aclIsAllowed($role = null, $resource = null, $privilege = null) {
@@ -53,16 +52,15 @@ class ServiceUtils {
     }
 
     /**
-     * @param RoleInterface|string $role
+     * @param RoleInterface|string     $role
      * @param ResourceInterface|string $resource
-     * @param string $privilege
+     * @param string                   $privilege
+     *
      * @throws NoAccessException
      */
     public function aclAssertAllowed($role = null, $resource = null, $privilege = null) {
         $this->acl->assertAllowed($role, $resource, $privilege);
     }
-
-
 
     /**
      * @return QueryBuilder
@@ -73,6 +71,7 @@ class ServiceUtils {
 
     /**
      * @param $entityName
+     *
      * @return \Doctrine\ORM\EntityRepository
      */
     public function emGetRepository($entityName) {
@@ -81,15 +80,16 @@ class ServiceUtils {
 
     /**
      * @param BaseEntity $entity
+     *
      * @return array
      */
     public function emGetOrigEntityData($entity) {
         $uow = $this->entityManager->getUnitOfWork();
+
         return $uow->getOriginalEntityData($entity);
     }
 
     /**
-     * @param BaseEntity $entity
      * @throws ORMException
      */
     public function emPersist(BaseEntity $entity) {
@@ -97,7 +97,6 @@ class ServiceUtils {
     }
 
     /**
-     * @param BaseEntity $entity
      * @throws ORMException
      */
     public function emRemove(BaseEntity $entity) {
@@ -112,20 +111,18 @@ class ServiceUtils {
         $this->entityManager->flush();
     }
 
-
     /**
      * @param $className
+     *
      * @return EntityFilterInterface
      */
     public function getEntityFilter($className) {
         return $this->entityFilterManager->getByEntityClass($className);
     }
 
-
-
     /**
      * @param $name
-     * @param array|null $options
+     *
      * @return HydratorInterface
      */
     public function getHydrator($name, array $options = null) {

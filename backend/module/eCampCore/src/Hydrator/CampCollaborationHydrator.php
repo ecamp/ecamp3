@@ -21,11 +21,13 @@ class CampCollaborationHydrator implements HydratorInterface {
 
     /**
      * @param object $object
+     *
      * @return array
      */
     public function extract($object) {
         /** @var CampCollaboration $campCollaboration */
         $campCollaboration = $object;
+
         return [
             'id' => $campCollaboration->getId(),
             'role' => $campCollaboration->getRole(),
@@ -37,14 +39,12 @@ class CampCollaborationHydrator implements HydratorInterface {
     }
 
     /**
-     * @param array $data
      * @param object $object
+     *
      * @return object
      */
     public function hydrate(array $data, $object) {
         /** @var CampCollaboration $campCollaboration */
-        $campCollaboration = $object;
-
-        return $campCollaboration;
+        return $object;
     }
 }

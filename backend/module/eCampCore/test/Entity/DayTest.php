@@ -7,6 +7,10 @@ use eCamp\Core\Entity\Day;
 use eCamp\Core\Entity\Period;
 use eCamp\LibTest\PHPUnit\AbstractTestCase;
 
+/**
+ * @internal
+ * @coversNothing
+ */
 class DayTest extends AbstractTestCase {
     public function testDay() {
         $camp = new Camp();

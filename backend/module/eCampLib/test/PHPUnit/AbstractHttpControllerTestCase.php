@@ -16,7 +16,7 @@ abstract class AbstractHttpControllerTestCase extends ZendAbstractHttpController
     public function setUp() {
         parent::setUp();
 
-        $data = include __DIR__ . '/../../../../config/application.config.php';
+        $data = include __DIR__.'/../../../../config/application.config.php';
         $this->setApplicationConfig($data);
 
         $em = $this->getEntityManager();
@@ -25,7 +25,7 @@ abstract class AbstractHttpControllerTestCase extends ZendAbstractHttpController
 
     protected function getEntityManager($name = null) {
         $name = $name ?: 'orm_default';
-        $name = 'doctrine.entitymanager.' . $name;
+        $name = 'doctrine.entitymanager.'.$name;
 
         return $this->getApplicationServiceLocator()->get($name);
     }

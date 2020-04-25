@@ -18,17 +18,19 @@ class PeriodHydrator implements HydratorInterface {
             }, null),
             'event_instances' => Util::Collection(function (Period $p) {
                 return new EventInstanceCollection($p->getEventInstances());
-            }, null)
+            }, null),
         ];
     }
 
     /**
      * @param object $object
+     *
      * @return array
      */
     public function extract($object) {
         /** @var Period $period */
         $period = $object;
+
         return [
             'id' => $period->getId(),
             'description' => $period->getDescription(),
@@ -37,13 +39,13 @@ class PeriodHydrator implements HydratorInterface {
 
             'camp' => EntityLink::Create($period->getCamp()),
             'days' => new EntityLinkCollection($period->getDays()),
-            'event_instances' => new EntityLinkCollection($period->getEventInstances())
+            'event_instances' => new EntityLinkCollection($period->getEventInstances()),
         ];
     }
 
     /**
-     * @param array $data
      * @param object $object
+     *
      * @return object
      */
     public function hydrate(array $data, $object) {

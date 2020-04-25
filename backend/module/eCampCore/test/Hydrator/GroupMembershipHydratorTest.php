@@ -8,12 +8,16 @@ use eCamp\Core\Entity\User;
 use eCamp\Core\Hydrator\GroupMembershipHydrator;
 use eCamp\LibTest\PHPUnit\AbstractTestCase;
 
+/**
+ * @internal
+ * @coversNothing
+ */
 class GroupMembershipHydratorTest extends AbstractTestCase {
     public function testExtract() {
         // Disable Test
         $this->assertTrue(true);
-        return;
 
+        return;
         $group = new Group();
         $user = new User();
 
@@ -36,8 +40,8 @@ class GroupMembershipHydratorTest extends AbstractTestCase {
     public function testHydrate() {
         // Disable Test
         $this->assertTrue(true);
-        return;
 
+        return;
         $group = new Group();
         $user = new User();
 
@@ -47,7 +51,7 @@ class GroupMembershipHydratorTest extends AbstractTestCase {
             'group' => $group,
             'user' => $user,
             'role' => GroupMembership::ROLE_MEMBER,
-            'status' => GroupMembership::STATUS_ESTABLISHED
+            'status' => GroupMembership::STATUS_ESTABLISHED,
         ];
 
         $hydrator = new GroupMembershipHydrator();

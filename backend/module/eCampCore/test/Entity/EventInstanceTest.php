@@ -10,6 +10,10 @@ use eCamp\Core\Entity\EventType;
 use eCamp\Core\Entity\Period;
 use eCamp\LibTest\PHPUnit\AbstractTestCase;
 
+/**
+ * @internal
+ * @coversNothing
+ */
 class EventInstanceTest extends AbstractTestCase {
     public function testEventInstance() {
         $eventType = new EventType();
@@ -28,7 +32,6 @@ class EventInstanceTest extends AbstractTestCase {
         $period->setStart($start);
         $period->setEnd($end);
 
-
         $eventCategory = new EventCategory();
         $eventCategory->setEventType($eventType);
 
@@ -36,7 +39,6 @@ class EventInstanceTest extends AbstractTestCase {
         $event->setCamp($camp);
         $event->setTitle('EventTitle');
         $event->setEventCategory($eventCategory);
-
 
         $eventInstance = new EventInstance();
         $eventInstance->setPeriod($period);
@@ -55,7 +57,6 @@ class EventInstanceTest extends AbstractTestCase {
         $eventInstance->setLeft(0);
         $eventInstance->setWidth(1);
         $period->addEventInstance($eventInstance);
-
 
         $this->assertEquals($camp, $eventInstance->getCamp());
         $this->assertEquals($period, $eventInstance->getPeriod());

@@ -9,7 +9,6 @@ use Laminas\EventManager\Event;
 use Laminas\EventManager\EventManagerInterface;
 use Laminas\EventManager\SharedEventManagerInterface;
 use ZF\Hal\Entity;
-use ZF\Hal\Link\Link;
 use ZF\Hal\Link\LinkCollection;
 use ZF\Hal\Metadata\Metadata;
 use ZF\Hal\Plugin\Hal;
@@ -19,7 +18,6 @@ class CollectionRenderer extends AbstractListenerAggregate {
      * @var callable[]
      */
     protected $sharedListeners = [];
-
 
     public function attach(EventManagerInterface $events, $priority = 1) {
         $sharedEvents = $events->getSharedManager();
@@ -46,7 +44,6 @@ class CollectionRenderer extends AbstractListenerAggregate {
         }
     }
 
-
     public function renderEntity(Event $e) {
         /** @var Hal $hal */
         $hal = $e->getTarget();
@@ -69,7 +66,7 @@ class CollectionRenderer extends AbstractListenerAggregate {
 
         if (isset($entity->_hydrateInfo_)) {
             foreach ($entity->_hydrateInfo_ as $item) {
-                /** @var $item BaseResolver */
+                /** @var BaseResolver $item */
                 $links = $item->getLinks($entity);
                 foreach ($links as $link) {
                     $halEntity->getLinks()->add($link);
@@ -87,7 +84,6 @@ class CollectionRenderer extends AbstractListenerAggregate {
         /** @var \ArrayObject $payload */
         $payload = $e->getParam('payload');
 
-
         //  V1: ID = URL
         // ==============
 //        $self = $halEntity->getLinks()->get('self');
@@ -98,13 +94,11 @@ class CollectionRenderer extends AbstractListenerAggregate {
 //            $payload->offsetUnset('_links');
 //        }
 
-
         //  V2: Proxy ohne ID
         // ===================
         if ($halEntity->getEntity() instanceof EntityLink) {
             $payload->offsetUnset('id');
         }
-
 
         //  V3: Proxy declaration
         // =======================

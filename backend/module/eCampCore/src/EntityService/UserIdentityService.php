@@ -9,7 +9,6 @@ use eCamp\Lib\Service\ServiceUtils;
 use Zend\Authentication\AuthenticationService;
 
 class UserIdentityService extends AbstractEntityService {
-
     /** @var UserService */
     protected $userService;
 
@@ -31,20 +30,23 @@ class UserIdentityService extends AbstractEntityService {
     /**
      * @param $provider
      * @param $identifier
-     * @return UserIdentity|null|object
+     *
+     * @return null|object|UserIdentity
      */
     public function find($provider, $identifier) {
         return $this->getRepository()->findOneBy([
             'provider' => $provider,
-            'providerId' => $identifier
+            'providerId' => $identifier,
         ]);
     }
 
     /**
      * @param $provider
      * @param $profile
+     *
      * @throws \Doctrine\ORM\ORMException
      * @throws \eCamp\Lib\Acl\NoAccessException
+     *
      * @return User
      */
     public function findOrCreateUser($provider, $profile) {
@@ -60,22 +62,23 @@ class UserIdentityService extends AbstractEntityService {
             $user = $this->userService->findByMail($profile->email);
         }
         // Create user if he doesn't exist yet
-        if ($user == null) {
+        if (null == $user) {
             $user = $this->userService->create($profile);
         } else {
             $user = $this->userService->update($user, $profile);
         }
         // Create identity if it doesn't exist yet
-        if ($existingIdentity == null) {
+        if (null == $existingIdentity) {
             /** @var UserIdentity $existingIdentity */
             $existingIdentity = $this->create([
                 'provider' => $provider,
-                'providerId' => $profile->identifier
+                'providerId' => $profile->identifier,
             ]);
             $user->addUserIdentity($existingIdentity);
         }
         // Save to db and return results
         $this->getServiceUtils()->emFlush();
+
         return $user;
     }
 }

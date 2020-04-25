@@ -7,7 +7,6 @@ use eCamp\Core\Entity\CampCollaboration;
 use eCamp\Core\Entity\CampType;
 use eCamp\Core\Entity\Event;
 use eCamp\Core\Entity\EventCategory;
-use eCamp\Core\Entity\Group;
 use eCamp\Core\Entity\Job;
 use eCamp\Core\Entity\Organization;
 use eCamp\Core\Entity\Period;
@@ -15,6 +14,10 @@ use eCamp\Core\Entity\User;
 use eCamp\LibTest\PHPUnit\AbstractTestCase;
 use Zend\Json\Json;
 
+/**
+ * @internal
+ * @coversNothing
+ */
 class CampTest extends AbstractTestCase {
     public function testCamp() {
         $user = new User();

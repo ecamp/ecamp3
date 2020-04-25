@@ -10,10 +10,6 @@ use eCamp\Lib\Entity\BaseEntity;
  * @ORM\Table(name="plugins")
  */
 class Plugin extends BaseEntity {
-    public function __construct() {
-        parent::__construct();
-    }
-
     /**
      * @var string
      * @ORM\Column(type="string", length=64, nullable=false)
@@ -32,6 +28,9 @@ class Plugin extends BaseEntity {
      */
     private $strategyClass;
 
+    public function __construct() {
+        parent::__construct();
+    }
 
     /**
      * @return string
@@ -44,7 +43,6 @@ class Plugin extends BaseEntity {
         $this->name = $name;
     }
 
-
     /**
      * @return bool
      */
@@ -55,7 +53,6 @@ class Plugin extends BaseEntity {
     public function setActive(bool $active): void {
         $this->active = $active;
     }
-
 
     /**
      * @return string
