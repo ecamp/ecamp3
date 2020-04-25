@@ -6,7 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use eCamp\Lib\Entity\BaseEntity;
 
 /**
- * @ORM\Entity()
+ * @ORM\Entity
  * @ORM\Table(name="days", uniqueConstraints={
  *     @ORM\UniqueConstraint(name="offset_period_idx", columns={"period_id", "dayOffset"})
  * })

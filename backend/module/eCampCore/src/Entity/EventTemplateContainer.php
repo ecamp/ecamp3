@@ -7,7 +7,7 @@ use eCamp\Lib\Entity\BaseEntity;
 
 /**
  * EventTemplate
- * @ORM\Entity()
+ * @ORM\Entity
  * @ORM\Table(name="event_template_containers", uniqueConstraints={
  * 	@ORM\UniqueConstraint(
  * 		name="eventTemplate_containerName_unique",
@@ -36,13 +36,13 @@ class EventTemplateContainer extends BaseEntity {
 
     /**
      * @var string
-     * @ORM\Column(type="string", length=128, nullable=false )
+     * @ORM\Column(type="string", length=128, nullable=false)
      */
     private $containerName;
 
     /**
      * @var string
-     * @ORM\Column(type="string", length=128, nullable=false )
+     * @ORM\Column(type="string", length=128, nullable=false)
      */
     private $filename;
 

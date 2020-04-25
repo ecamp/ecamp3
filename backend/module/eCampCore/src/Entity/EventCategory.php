@@ -7,7 +7,7 @@ use eCamp\Lib\Entity\BaseEntity;
 
 /**
  * EventCategory
- * @ORM\Entity()
+ * @ORM\Entity
  * @ORM\Table(name="event_categories")
  */
 class EventCategory extends BaseEntity {

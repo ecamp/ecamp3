@@ -8,7 +8,7 @@ use eCamp\Lib\Entity\BaseEntity;
 
 /**
  * EventTemplate
- * @ORM\Entity()
+ * @ORM\Entity
  * @ORM\Table(name="event_templates", uniqueConstraints={
  * 	 @ORM\UniqueConstraint(name="eventtype_medium_unique", columns={"eventType_id", "medium"})
  * })
@@ -34,13 +34,13 @@ class EventTemplate extends BaseEntity {
 
     /**
      * @var string
-     * @ORM\Column(type="string", length=20, nullable=false )
+     * @ORM\Column(type="string", length=20, nullable=false)
      */
     private $medium;
 
     /**
      * @var string
-     * @ORM\Column(type="string", length=128, nullable=false )
+     * @ORM\Column(type="string", length=128, nullable=false)
      */
     private $filename;
 

@@ -7,7 +7,7 @@ use eCamp\Core\Hydrator\EventTypePluginHydrator;
 use eCamp\Lib\Entity\BaseEntity;
 
 /**
- * @ORM\Entity()
+ * @ORM\Entity
  * @ORM\Table(name="event_plugins")
  */
 class EventPlugin extends BaseEntity {

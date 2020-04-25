@@ -6,10 +6,10 @@ use Doctrine\ORM\Mapping as ORM;
 use eCamp\Lib\Entity\BaseEntity;
 
 /**
- * @ORM\Entity()
+ * @ORM\Entity
  * @ORM\HasLifecycleCallbacks
  * @ORM\Table(name="camp_collaborations", uniqueConstraints={
- *   @ORM\UniqueConstraint(name="user_camp_unique", columns={"user_id","camp_id"})
+ *     @ORM\UniqueConstraint(name="user_camp_unique", columns={"user_id", "camp_id"})
  * })
  */
 class CampCollaboration extends BaseEntity {

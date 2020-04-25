@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 use eCamp\Lib\Entity\BaseEntity;
 
 /**
- * @ORM\Entity()
+ * @ORM\Entity
  * @ORM\HasLifecycleCallbacks
  * @ORM\Table(name="periods")
  */
@@ -28,26 +28,26 @@ class Period extends BaseEntity {
 
     /**
      * @var \DateTime
-     * @ORM\Column(type="date", nullable=false )
+     * @ORM\Column(type="date", nullable=false)
      */
     private $start;
 
     /**
      * @var \DateTime
-     * @ORM\Column(type="date", nullable=false )
+     * @ORM\Column(type="date", nullable=false)
      */
     private $end;
 
     /**
      * @var string
-     * @ORM\Column(type="string", length=128, nullable=true )
+     * @ORM\Column(type="string", length=128, nullable=true)
      */
     private $description;
 
     /**
      * @var Day[]
      * @ORM\OneToMany(targetEntity="Day", mappedBy="period", orphanRemoval=true)
-     * @ORM\OrderBy({"dayOffset" = "ASC"})
+     * @ORM\OrderBy({"dayOffset": "ASC"})
      */
     protected $days;
 

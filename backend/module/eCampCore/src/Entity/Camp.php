@@ -11,7 +11,7 @@ use eCamp\Lib\Entity\BaseEntity;
  * @ORM\Entity(repositoryClass="eCamp\Core\Repository\CampRepository")
  * @ORM\HasLifecycleCallbacks
  * @ORM\Table(name="camps", uniqueConstraints={
- *   @ORM\UniqueConstraint(name="owner_name_unique", columns={"owner_id", "name"})
+ *     @ORM\UniqueConstraint(name="owner_name_unique", columns={"owner_id", "name"})
  * })
  * @EntityFilter(filterClass="eCamp\Core\EntityFilter\CampFilter")
  */
@@ -81,7 +81,7 @@ class Camp extends BaseEntity {
     /**
      * @var ArrayCollection
      * @ORM\OneToMany(targetEntity="Period", mappedBy="camp", orphanRemoval=true)
-     * @ORM\OrderBy({"start" = "ASC"})
+     * @ORM\OrderBy({"start": "ASC"})
      */
     protected $periods;
 

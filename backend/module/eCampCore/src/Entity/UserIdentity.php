@@ -7,7 +7,7 @@ use eCamp\Lib\Entity\BaseEntity;
 
 /**
  * @ORM\Table(name="user_identity", uniqueConstraints={
- *   @ORM\UniqueConstraint(name="identity",columns={"provider", "provider_id"}),
+ *     @ORM\UniqueConstraint(name="identity", columns={"provider", "provider_id"}),
  * })
  * @ORM\Entity
  */

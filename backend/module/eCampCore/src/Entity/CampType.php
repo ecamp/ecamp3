@@ -58,8 +58,8 @@ class CampType extends BaseEntity {
      * @var ArrayCollection
      * @ORM\ManyToMany(targetEntity="EventType")
      * @ORM\JoinTable(name="camp_type_event_type",
-     *      joinColumns={@ORM\JoinColumn(name="camptype_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="eventtype_id", referencedColumnName="id")}
+     *     joinColumns={@ORM\JoinColumn(name="camptype_id", referencedColumnName="id")},
+     *     inverseJoinColumns={@ORM\JoinColumn(name="eventtype_id", referencedColumnName="id")}
      * )
      */
     private $eventTypes;

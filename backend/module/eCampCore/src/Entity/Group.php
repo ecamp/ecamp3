@@ -8,10 +8,10 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity(repositoryClass="eCamp\Core\Repository\GroupRepository")
  * @ORM\Table(name="groups",
- *   indexes={@ORM\Index(name="group_name_idx", columns={"name"})},
- *   uniqueConstraints={@ORM\UniqueConstraint(
- *     name="group_parent_name_unique",columns={"parent_id","name"}
- *   )}
+ *     indexes={@ORM\Index(name="group_name_idx", columns={"name"})},
+ *     uniqueConstraints={@ORM\UniqueConstraint(
+ *         name="group_parent_name_unique", columns={"parent_id", "name"}
+ *     )}
  * )
  * @ORM\HasLifecycleCallbacks
  */
@@ -26,7 +26,7 @@ class Group extends AbstractCampOwner {
 
     /**
      * @var string
-     * @ORM\Column(type="string", length=32, nullable=false )
+     * @ORM\Column(type="string", length=32, nullable=false)
      */
     private $name;
 
@@ -52,14 +52,14 @@ class Group extends AbstractCampOwner {
     /**
      * @var ArrayCollection
      * @ORM\OneToMany(targetEntity="Group", mappedBy="parent")
-     * @ORM\OrderBy({"name" = "ASC"})
+     * @ORM\OrderBy({"name": "ASC"})
      */
     private $children;
 
 
     /**
      * @var ArrayCollection
-     * @ORM\OneToMany(targetEntity="GroupMembership", mappedBy="group", orphanRemoval=true )
+     * @ORM\OneToMany(targetEntity="GroupMembership", mappedBy="group", orphanRemoval=true)
      */
     protected $memberships;
 

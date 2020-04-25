@@ -8,7 +8,7 @@ use eCamp\Lib\Entity\BaseEntity;
 
 /**
  * EventType
- * @ORM\Entity()
+ * @ORM\Entity
  * @ORM\Table(name="event_types")
  */
 class EventType extends BaseEntity {
