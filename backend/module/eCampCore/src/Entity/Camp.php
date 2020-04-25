@@ -214,6 +214,21 @@ class Camp extends BaseEntity {
         $this->collaborations->removeElement($collaboration);
     }
 
+    public function getRole($userId) {
+        $campCollaborations = $this->collaborations->filter(function(CampCollaboration $cc) use ($userId) {
+            return $cc->getUser()->getId() == $userId;
+        });
+
+        if ($campCollaborations->count() == 1) {
+            /** @var CampCollaboration $campCollaboration */
+            $campCollaboration = $campCollaborations->first();
+            if ($campCollaboration->isEstablished()) {
+                return $campCollaboration->getRole();
+            }
+        }
+
+        return CampCollaboration::ROLE_GUEST;
+    }
 
     /**
      * @return ArrayCollection
