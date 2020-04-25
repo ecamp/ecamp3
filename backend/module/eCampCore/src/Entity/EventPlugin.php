@@ -3,14 +3,13 @@
 namespace eCamp\Core\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use eCamp\Core\Hydrator\EventTypePluginHydrator;
 use eCamp\Lib\Entity\BaseEntity;
 
 /**
  * @ORM\Entity()
  * @ORM\Table(name="event_plugins")
  */
-class EventPlugin extends BaseEntity {
+class EventPlugin extends BaseEntity implements BelongsToCampInterface {
     public function __construct() {
         parent::__construct();
     }
@@ -45,6 +44,10 @@ class EventPlugin extends BaseEntity {
 
     public function setEvent($event) {
         $this->event = $event;
+    }
+
+    public function getCamp() {
+        return ($this->event != null) ? $this->event->getCamp() : null;
     }
 
 

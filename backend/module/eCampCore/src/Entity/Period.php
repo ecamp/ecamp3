@@ -11,7 +11,7 @@ use eCamp\Lib\Entity\BaseEntity;
  * @ORM\HasLifecycleCallbacks
  * @ORM\Table(name="periods")
  */
-class Period extends BaseEntity {
+class Period extends BaseEntity implements BelongsToCampInterface {
     public function __construct() {
         parent::__construct();
 

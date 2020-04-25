@@ -78,6 +78,8 @@ class EventPluginService extends AbstractEntityService
         $eventPlugin->setEvent($event);
         $eventPlugin->setEventTypePlugin($eventTypePlugin);
 
+        $this->assertAllowed($eventPlugin, Acl::REST_PRIVILEGE_CREATE);
+
         /** @var PluginStrategyInterface $strategy */
         $strategy = $this->getPluginStrategyProvider()->get($eventTypePlugin->getPlugin());
         if ($strategy != null) {

@@ -11,7 +11,7 @@ use eCamp\Lib\Entity\BaseEntity;
  * @ORM\Table(name="event_instances")
  * @ORM\HasLifecycleCallbacks
  */
-class EventInstance extends BaseEntity {
+class EventInstance extends BaseEntity implements BelongsToCampInterface {
     public function __construct() {
         parent::__construct();
     }
@@ -65,7 +65,7 @@ class EventInstance extends BaseEntity {
         $this->period = $period;
     }
 
-    public function getCamp(): Camp {
+    public function getCamp() {
         return ($this->period !== null) ? $this->period->getCamp() : null;
     }
 

@@ -11,7 +11,7 @@ use eCamp\Lib\Entity\BaseEntity;
  * @ORM\HasLifecycleCallbacks
  * @ORM\Table(name="events")
  */
-class Event extends BaseEntity {
+class Event extends BaseEntity implements BelongsToCampInterface {
     public function __construct() {
         parent::__construct();
 

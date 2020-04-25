@@ -24,7 +24,6 @@ class Acl extends ZendAcl {
         if ($role == null) {
             $role = new Guest();
         }
-
         return parent::isAllowed($role, $resource, $privilege);
     }
 

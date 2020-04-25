@@ -8,6 +8,7 @@ use eCamp\Core\Entity\EventInstance;
 use eCamp\Core\Hydrator\PeriodHydrator;
 use eCamp\Core\Entity\Camp;
 use eCamp\Core\Entity\Period;
+use eCamp\Lib\Acl\Acl;
 use eCamp\Lib\Acl\NoAccessException;
 use eCamp\Lib\Service\ServiceUtils;
 use Zend\Authentication\AuthenticationService;
@@ -68,6 +69,8 @@ class PeriodService extends AbstractEntityService {
         /** @var Period $period */
         $period = parent::create($data);
         $camp->addPeriod($period);
+
+        $this->assertAllowed($period, Acl::REST_PRIVILEGE_CREATE);
         $this->getServiceUtils()->emFlush();
 
         $durationInDays = $period->getDurationInDays();

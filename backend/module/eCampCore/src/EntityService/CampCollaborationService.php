@@ -7,6 +7,7 @@ use eCamp\Core\Entity\Camp;
 use eCamp\Core\Entity\CampCollaboration;
 use eCamp\Core\Entity\User;
 use eCamp\Core\Hydrator\CampCollaborationHydrator;
+use eCamp\Lib\Acl\Acl;
 use eCamp\Lib\Service\ServiceUtils;
 use Zend\Authentication\AuthenticationService;
 use ZF\ApiProblem\ApiProblem;
@@ -65,6 +66,8 @@ class CampCollaborationService extends AbstractEntityService {
         $campCollaboration->setCamp($camp);
         $campCollaboration->setUser($user);
         $campCollaboration->setRole($data->role);
+
+        $this->assertAllowed($campCollaboration, Acl::REST_PRIVILEGE_CREATE);
 
         if ($data->user_id === $authUser->getId()) {
             // Create CampCollaboration for AuthUser

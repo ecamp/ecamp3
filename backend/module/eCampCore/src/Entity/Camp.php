@@ -13,9 +13,8 @@ use eCamp\Lib\Entity\BaseEntity;
  * @ORM\Table(name="camps", uniqueConstraints={
  *   @ORM\UniqueConstraint(name="owner_name_unique", columns={"owner_id", "name"})
  * })
- * @EntityFilter(filterClass="eCamp\Core\EntityFilter\CampFilter")
  */
-class Camp extends BaseEntity {
+class Camp extends BaseEntity implements BelongsToCampInterface {
     public function __construct() {
         parent::__construct();
 
@@ -299,5 +298,12 @@ class Camp extends BaseEntity {
     public function removeEvent(Event $event): void {
         $event->setCamp(null);
         $this->events->removeElement($event);
+    }
+
+    /**
+     * @return Camp
+     */
+    function getCamp() {
+        return $this;
     }
 }

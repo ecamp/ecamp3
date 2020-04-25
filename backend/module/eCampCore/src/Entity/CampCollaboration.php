@@ -12,7 +12,7 @@ use eCamp\Lib\Entity\BaseEntity;
  *   @ORM\UniqueConstraint(name="user_camp_unique", columns={"user_id","camp_id"})
  * })
  */
-class CampCollaboration extends BaseEntity {
+class CampCollaboration extends BaseEntity implements BelongsToCampInterface {
     const ROLE_GUEST   = 'guest';
     const ROLE_MEMBER  = 'member';
     const ROLE_MANAGER = 'manager';

@@ -28,7 +28,7 @@ use eCamp\Lib\Entity\BaseEntity;
  * @ORM\Entity()
  * @ORM\Table(name="jobs")
  */
-class Job extends BaseEntity {
+class Job extends BaseEntity implements BelongsToCampInterface {
     public function __construct() {
         parent::__construct();
 

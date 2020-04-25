@@ -7,6 +7,7 @@ use eCamp\Core\Hydrator\GroupMembershipHydrator;
 use eCamp\Core\Entity\Group;
 use eCamp\Core\Entity\GroupMembership;
 use eCamp\Core\Entity\User;
+use eCamp\Lib\Acl\Acl;
 use eCamp\Lib\Service\ServiceUtils;
 use Zend\Authentication\AuthenticationService;
 use ZF\ApiProblem\ApiProblem;
@@ -64,6 +65,8 @@ class GroupMembershipService extends AbstractEntityService {
         $groupMembership->setGroup($group);
         $groupMembership->setUser($user);
         $groupMembership->setRole($data->role);
+
+        $this->assertAllowed($groupMembership, Acl::REST_PRIVILEGE_CREATE);
 
         if ($data->user_id === $authUser->getId()) {
             // Create GroupMembership for AuthUser

@@ -10,7 +10,7 @@ use eCamp\Lib\Entity\BaseEntity;
  * @ORM\Entity()
  * @ORM\Table(name="event_categories")
  */
-class EventCategory extends BaseEntity {
+class EventCategory extends BaseEntity implements BelongsToCampInterface {
     public function __construct() {
         parent::__construct();
     }

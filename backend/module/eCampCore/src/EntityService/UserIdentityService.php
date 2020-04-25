@@ -63,7 +63,8 @@ class UserIdentityService extends AbstractEntityService {
         if ($user == null) {
             $user = $this->userService->create($profile);
         } else {
-            $user = $this->userService->update($user, $profile);
+            $userHydrator = $this->userService->getHydrator();
+            $user = $userHydrator->hydrate(['username' => $profile->displayName], $user);
         }
         // Create identity if it doesn't exist yet
         if ($existingIdentity == null) {
