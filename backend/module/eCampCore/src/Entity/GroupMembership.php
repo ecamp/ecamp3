@@ -61,9 +61,6 @@ class GroupMembership extends BaseEntity {
         $this->role = self::ROLE_GUEST;
     }
 
-    /**
-     * @return User
-     */
     public function getUser(): User {
         return $this->user;
     }
@@ -83,9 +80,6 @@ class GroupMembership extends BaseEntity {
         $this->group = $group;
     }
 
-    /**
-     * @return string
-     */
     public function getStatus(): string {
         return $this->status;
     }
@@ -112,9 +106,6 @@ class GroupMembership extends BaseEntity {
         return self::STATUS_INVITED === $this->status;
     }
 
-    /**
-     * @return string
-     */
     public function getRole(): string {
         return $this->role;
     }

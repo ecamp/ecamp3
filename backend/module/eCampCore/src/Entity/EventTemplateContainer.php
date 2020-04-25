@@ -58,9 +58,6 @@ class EventTemplateContainer extends BaseEntity {
         $this->eventTemplate = $eventTemplate;
     }
 
-    /**
-     * @return EventTypePlugin
-     */
     public function getEventTypePlugin(): EventTypePlugin {
         return $this->eventTypePlugin;
     }
@@ -69,9 +66,6 @@ class EventTemplateContainer extends BaseEntity {
         $this->eventTypePlugin = $eventTypePlugin;
     }
 
-    /**
-     * @return string
-     */
     public function getContainerName(): string {
         return $this->containerName;
     }
@@ -80,9 +74,6 @@ class EventTemplateContainer extends BaseEntity {
         $this->containerName = $containerName;
     }
 
-    /**
-     * @return string
-     */
     public function getFilename(): string {
         return $this->filename;
     }

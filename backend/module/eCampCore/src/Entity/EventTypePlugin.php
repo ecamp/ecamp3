@@ -60,9 +60,6 @@ class EventTypePlugin extends BaseEntity {
         $this->eventType = $eventType;
     }
 
-    /**
-     * @return Plugin
-     */
     public function getPlugin(): Plugin {
         return $this->plugin;
     }
@@ -71,9 +68,6 @@ class EventTypePlugin extends BaseEntity {
         $this->plugin = $plugin;
     }
 
-    /**
-     * @return int
-     */
     public function getMinNumberPluginInstances(): int {
         return $this->minNumberPluginInstances;
     }
@@ -82,9 +76,6 @@ class EventTypePlugin extends BaseEntity {
         $this->minNumberPluginInstances = $minNumberPluginInstances;
     }
 
-    /**
-     * @return int
-     */
     public function getMaxNumberPluginInstances(): int {
         return $this->maxNumberPluginInstances;
     }
@@ -93,9 +84,6 @@ class EventTypePlugin extends BaseEntity {
         $this->maxNumberPluginInstances = $maxNumberPluginInstances;
     }
 
-    /**
-     * @return string
-     */
     public function getJsonConfig(): string {
         return $this->jsonConfig;
     }

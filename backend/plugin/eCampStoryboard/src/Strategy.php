@@ -17,9 +17,6 @@ class Strategy extends PluginStrategyBase {
         $this->sectionService = $sectionService;
     }
 
-    /**
-     * @return array
-     */
     public function eventPluginExtract(EventPlugin $eventPlugin): array {
         return [
             'section' => Link::factory([

@@ -57,9 +57,6 @@ class MailAddress extends BaseEntity {
         $this->mail = $mail;
     }
 
-    /**
-     * @return string
-     */
     public function createVerificationCode(): string {
         $hash = hash('sha256', mt_rand());
         $this->verificationCode = md5($hash);
@@ -71,8 +68,6 @@ class MailAddress extends BaseEntity {
      * @param $hash
      *
      * @throws \Exception
-     *
-     * @return bool
      */
     public function verify($hash): bool {
         if (self::STATE_TRUSTED === $this->state) {

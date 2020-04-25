@@ -78,34 +78,22 @@ class EventInstance extends BaseEntity {
         $this->event = $event;
     }
 
-    /**
-     * @return EventCategory
-     */
     public function getEventCategory(): EventCategory {
         return (null !== $this->event) ? $this->event->getEventCategory() : null;
     }
 
-    /**
-     * @return string
-     */
     public function getNumberingStyle(): string {
         $eventCategory = $this->getEventCategory();
 
         return (null !== $eventCategory) ? $eventCategory->getNumberingStyle() : null;
     }
 
-    /**
-     * @return string
-     */
     public function getColor(): string {
         $eventCategory = $this->getEventCategory();
 
         return (null !== $eventCategory) ? $eventCategory->getColor() : null;
     }
 
-    /**
-     * @return int
-     */
     public function getStart(): int {
         return $this->start;
     }
@@ -114,9 +102,6 @@ class EventInstance extends BaseEntity {
         $this->start = $start;
     }
 
-    /**
-     * @return int
-     */
     public function getLength(): int {
         return $this->length;
     }

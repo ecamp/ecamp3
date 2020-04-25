@@ -62,9 +62,6 @@ class Event extends BaseEntity {
         $this->camp = $camp;
     }
 
-    /**
-     * @return EventCategory
-     */
     public function getEventCategory(): EventCategory {
         return $this->eventCategory;
     }
@@ -80,9 +77,6 @@ class Event extends BaseEntity {
         return (null !== $this->eventCategory) ? $this->eventCategory->getEventType() : null;
     }
 
-    /**
-     * @return string
-     */
     public function getTitle(): string {
         return $this->title;
     }

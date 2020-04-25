@@ -35,7 +35,7 @@ class EventTemplateHydrator implements HydratorInterface {
      * @return object
      */
     public function hydrate(array $data, $object) {
-        /** @var EventTemplate $eventTemplate */
+        // @var EventTemplate $eventTemplate
         return $object;
     }
 }

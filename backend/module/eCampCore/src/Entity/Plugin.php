@@ -32,9 +32,6 @@ class Plugin extends BaseEntity {
         parent::__construct();
     }
 
-    /**
-     * @return string
-     */
     public function getName(): string {
         return $this->name;
     }
@@ -43,9 +40,6 @@ class Plugin extends BaseEntity {
         $this->name = $name;
     }
 
-    /**
-     * @return bool
-     */
     public function getActive(): bool {
         return $this->active;
     }
@@ -54,9 +48,6 @@ class Plugin extends BaseEntity {
         $this->active = $active;
     }
 
-    /**
-     * @return string
-     */
     public function getStrategyClass(): string {
         return $this->strategyClass;
     }

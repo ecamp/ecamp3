@@ -31,13 +31,13 @@ class CampType extends BaseEntity {
     private $organization;
 
     /**
-     * @var boolean
+     * @var bool
      * @ORM\Column(type="boolean", nullable=false)
      */
     private $isJS;
 
     /**
-     * @var boolean
+     * @var bool
      * @ORM\Column(type="boolean", nullable=false)
      */
     private $isCourse;

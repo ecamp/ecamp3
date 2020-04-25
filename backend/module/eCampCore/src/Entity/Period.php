@@ -104,9 +104,6 @@ class Period extends BaseEntity {
         }
     }
 
-    /**
-     * @return int
-     */
     public function getDurationInDays(): int {
         $start = $this->getStart();
         $end = $this->getEnd();

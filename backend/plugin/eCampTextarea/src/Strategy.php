@@ -17,9 +17,6 @@ class Strategy extends PluginStrategyBase {
         $this->textareaService = $textareaService;
     }
 
-    /**
-     * @return array
-     */
     public function eventPluginExtract(EventPlugin $eventPlugin): array {
         return [
             'textarea' => Link::factory([

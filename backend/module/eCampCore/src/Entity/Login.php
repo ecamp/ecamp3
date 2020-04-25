@@ -38,7 +38,7 @@ class Login extends BaseEntity {
     private $user;
 
     /**
-     * @var integer
+     * @var int
      * @ORM\Column(type="integer", nullable=false)
      */
     private $hashVersion;
@@ -218,6 +218,4 @@ class Login extends BaseEntity {
     private function addSalt_v1($password) {
         return $this->salt.$password;
     }
-
-    //
 }
