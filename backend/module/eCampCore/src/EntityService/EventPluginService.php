@@ -66,6 +66,8 @@ class EventPluginService extends AbstractEntityService {
      * @throws NoAccessException
      */
     public function create($data) {
+        $em = $this->getServiceUtils()->entityManager;
+
         /** @var EventPlugin $eventPlugin */
         $eventPlugin = parent::create($data, false);
 
@@ -88,6 +90,8 @@ class EventPluginService extends AbstractEntityService {
 
         // manual persist necessary because parent::create was called with $persist=false
         $this->getServiceUtils()->emPersist($eventPlugin);
+
+        // triggers EventPlugin PostPersist
         $this->getServiceUtils()->emFlush();
 
         /** @var PluginStrategyInterface $strategy */

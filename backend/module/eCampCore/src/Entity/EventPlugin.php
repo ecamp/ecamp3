@@ -92,9 +92,9 @@ class EventPlugin extends BaseEntity implements PluginStrategyProviderAware {
         return $this->getPluginStrategyProvider()->get($this->getPlugin());
     }
 
-    /** @ORM\PostPersist */
-    public function PostPersist() {
-        // parent::PrePersist();
+    /** @ORM\PrePersist */
+    public function PrePersist() {
+        parent::PrePersist();
 
         // call plugin created hook
         $this->getPluginStrategy()->eventPluginCreated($this);

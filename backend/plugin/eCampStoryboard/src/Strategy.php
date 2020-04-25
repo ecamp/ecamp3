@@ -40,8 +40,7 @@ class Strategy extends PluginStrategyBase {
      */
     public function eventPluginCreated(EventPlugin $eventPlugin) : void {
         $this->sectionService->create((object)[
-            'event_plugin_id' => $eventPlugin->getId(),
             'pos' => 0
-        ]);
+        ], $eventPlugin);
     }
 }

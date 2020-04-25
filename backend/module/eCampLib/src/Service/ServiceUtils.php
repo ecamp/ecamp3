@@ -20,7 +20,7 @@ class ServiceUtils {
     private $acl;
 
     /** @var EntityManager */
-    private $entityManager;
+    public $entityManager;
 
     /** @var EntityFilterManager */
     private $entityFilterManager;

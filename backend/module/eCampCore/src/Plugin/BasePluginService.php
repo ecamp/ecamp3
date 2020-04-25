@@ -125,17 +125,22 @@ abstract class BasePluginService extends AbstractEntityService {
      * @throws ORMException
      * @throws NoAccessException
      */
-    public function create($data) {
+    public function create($data, ?EventPlugin $eventPlugin) {
         /** @var BasePluginEntity $entity */
         $entity = parent::create($data);
 
-        if ($entity->getEventPlugin() == null) {
+        if ($eventPlugin) {
+            $entity->setEventPlugin($eventPlugin);
+        } elseif ($data->event_plugin_id) {
             /** @var EventPlugin $eventPlugin */
             $eventPlugin = $this->findEntity(EventPlugin::class, $data->event_plugin_id);
             $entity->setEventPlugin($eventPlugin);
+        } else {
+            throw new \Error("Cannot create plugin data without defining EventPlugin");
         }
 
-        $em = $this->getServiceUtils()->emFlush();
+        $em = $this->getServiceUtils()->entityManager;
+        // $this->getServiceUtils()->emFlush();
 
         return $entity;
     }

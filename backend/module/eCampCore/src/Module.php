@@ -28,10 +28,6 @@ class Module {
         
         $em->beginTransaction();
        
-        $events->attach(MvcEvent::EVENT_DISPATCH, function (MvcEvent $e) use ($em) {
-            ;
-        });
-
         $events->attach(MvcEvent::EVENT_FINISH, function (MvcEvent $e) use ($em) {
             if ($e->getError() || $e->getResponse() instanceof ApiProblemResponse) {
                 if ($em->getConnection()->isTransactionActive()) {

@@ -2,10 +2,10 @@
 
 $finder = PhpCsFixer\Finder::create()
     ->exclude('gen')
-    ->in('config')
-    ->in('module')
-    ->in('plugin')
-    ->in('public')
+    ->in(__DIR__.'/config')
+    ->in(__DIR__.'/module')
+    ->in(__DIR__.'/plugin')
+    ->in(__DIR__.'/public')
 ;
 
 return PhpCsFixer\Config::create()
