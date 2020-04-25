@@ -8,7 +8,6 @@ use eCamp\Core\EntityService\UserService;
 use eCamp\Lib\Service\ServiceUtils;
 use Zend\Authentication\AuthenticationService;
 
-
 class RegisterService extends AbstractService {
 
     /** @var UserService */

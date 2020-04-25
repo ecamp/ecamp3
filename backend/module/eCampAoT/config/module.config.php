@@ -11,7 +11,7 @@ return [
     ],
 
     'service_manager' => [
-        'factories' => 
+        'factories' =>
             file_exists(__DIR__ . '/../gen/factories.php') ? include __DIR__ . '/../gen/factories.php' : []
         ,
         'delegators' => [

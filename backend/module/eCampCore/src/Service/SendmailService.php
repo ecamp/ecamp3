@@ -2,7 +2,6 @@
 
 namespace eCamp\Core\Service;
 
-
 use eCamp\Core\Entity\User;
 use eCamp\Lib\Service\ServiceUtils;
 use Zend\Authentication\AuthenticationService;

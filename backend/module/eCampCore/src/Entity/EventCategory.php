@@ -113,7 +113,7 @@ class EventCategory extends BaseEntity {
      * @return string
      */
     public function getColor() {
-        if ( $this->color !== null ) {
+        if ($this->color !== null) {
             return $this->color;
         } else {
             $eventType = $this->getEventType();

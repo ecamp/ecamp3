@@ -144,7 +144,8 @@ if (array_key_exists('prod-data', $_GET)) {
         }
 
         $executor = new \Doctrine\Common\DataFixtures\Executor\ORMExecutor(
-            $em, new \Doctrine\Common\DataFixtures\Purger\ORMPurger()
+            $em,
+            new \Doctrine\Common\DataFixtures\Purger\ORMPurger()
         );
         $executor->execute($loader->getFixtures(), true);
 
@@ -181,7 +182,8 @@ if (array_key_exists('dev-data', $_GET)) {
         }
 
         $executor = new \Doctrine\Common\DataFixtures\Executor\ORMExecutor(
-            $em, new \Doctrine\Common\DataFixtures\Purger\ORMPurger()
+            $em,
+            new \Doctrine\Common\DataFixtures\Purger\ORMPurger()
         );
         $executor->execute($loader->getFixtures(), true);
 
@@ -201,4 +203,3 @@ echo "<br />";
 echo "<br />";
 echo "Back to Index: ";
 echo "<a href='.'>Index</a>";
-

@@ -124,7 +124,7 @@ class LinkExtractor extends HalLinkExtractor {
      * @return array
      * @throws \ReflectionException
      */
-    function extractTemplatedLink(TemplatedLink $object) {
+    public function extractTemplatedLink(TemplatedLink $object) {
         if (! $object->isComplete()) {
             throw new DomainException(sprintf(
                 'Link from resource provided to %s was incomplete; must contain a URL or a route',

@@ -15,7 +15,7 @@ use ZF\Hal\Link\LinkUrlBuilder;
 class LinkExtractorTest extends AbstractTestCase {
     private $linkExtractor;
 
-    function setUp() {
+    public function setUp() {
         parent::setUp();
 
         $router = TreeRouteStack::factory([
@@ -60,7 +60,7 @@ class LinkExtractorTest extends AbstractTestCase {
         $this->linkExtractor->setRouter($router);
     }
 
-    function testFixSegmentLink() {
+    public function testFixSegmentLink() {
         /** @var Link $link */
         $link = Link::factory([
             'rel' => 'self',
@@ -72,7 +72,7 @@ class LinkExtractorTest extends AbstractTestCase {
         $this->assertEquals('https://ecamp3.ch/lit/fix', $res['href']);
     }
 
-    function testEntityCollectionLink() {
+    public function testEntityCollectionLink() {
         /** @var Link $link */
         $link = Link::factory([
             'rel' => 'col',
@@ -84,7 +84,7 @@ class LinkExtractorTest extends AbstractTestCase {
         $this->assertEquals('https://ecamp3.ch/lit/entity', $res['href']);
     }
 
-    function testEntityLink() {
+    public function testEntityLink() {
         /** @var Link $link */
         $link = Link::factory([
             'rel' => 'col',
@@ -101,7 +101,7 @@ class LinkExtractorTest extends AbstractTestCase {
         $this->assertEquals('https://ecamp3.ch/lit/entity/123', $res['href']);
     }
 
-    function testTemplatedLink() {
+    public function testTemplatedLink() {
         $link = TemplatedLink::factory([
             'rel' => 'col',
             'route' => 'lit/entity',

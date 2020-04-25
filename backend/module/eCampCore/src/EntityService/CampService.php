@@ -21,8 +21,8 @@ class CampService extends AbstractEntityService {
     /** @var EventCategoryService */
     protected $eventCategoryService;
 
-    public function __construct
-    (   EventCategoryService $eventCategoryService,
+    public function __construct(
+        EventCategoryService $eventCategoryService,
         PeriodService $periodService,
         ServiceUtils $serviceUtils,
         AuthenticationService $authenticationService

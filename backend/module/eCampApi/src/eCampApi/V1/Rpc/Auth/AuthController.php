@@ -158,9 +158,9 @@ class AuthController extends AbstractActionController {
         $redirect = $this->url()->fromRoute('e-camp-api.rpc.auth', [], ['query'=>['callback'=>$externalCallback]]);
 
         return $this->redirect()->toRoute(
-          'ecamp.auth/google',
-          [],
-          ['query' => ['redirect' => $redirect]]
+            'ecamp.auth/google',
+            [],
+            ['query' => ['redirect' => $redirect]]
         );
     }
 
@@ -177,9 +177,9 @@ class AuthController extends AbstractActionController {
         ]);
 
         return $this->redirect()->toRoute(
-          'ecamp.auth/pbsmidata',
-          [],
-          ['query' => ['redirect' => $redirect]]
+            'ecamp.auth/pbsmidata',
+            [],
+            ['query' => ['redirect' => $redirect]]
         );
     }
 

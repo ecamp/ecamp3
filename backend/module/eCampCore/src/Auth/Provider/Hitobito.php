@@ -17,7 +17,7 @@ abstract class Hitobito extends OAuth2 {
         $this->accessTokenUrl = $this->config->filter('endpoints')->get('token');
     }
 
-    function getUserProfile() {
+    public function getUserProfile() {
         /* Send a signed http request to provider API to request user's profile */
         $response = $this->apiRequest('profile', 'GET', [], ['X-Scope' => $this->scope]);
         $data = new Data\Collection($response);

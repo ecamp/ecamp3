@@ -29,11 +29,11 @@ class ServiceUtils {
     private $hydratorPluginManager;
 
 
-    public function __construct
-    (   Acl $acl
-    ,   EntityManager $entityManager
-    ,   EntityFilterManager $entityFilterManager
-    ,   HydratorPluginManager $hydratorPluginManager
+    public function __construct(
+        Acl $acl,
+        EntityManager $entityManager,
+        EntityFilterManager $entityFilterManager,
+        HydratorPluginManager $hydratorPluginManager
     ) {
         $this->acl = $acl;
         $this->entityManager = $entityManager;

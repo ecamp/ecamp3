@@ -19,8 +19,7 @@ use Psr\Container\NotFoundExceptionInterface;
 use Zend\Authentication\AuthenticationService;
 use ZF\ApiProblem\ApiProblem;
 
-class EventPluginService extends AbstractEntityService
-    implements PluginStrategyProviderAware {
+class EventPluginService extends AbstractEntityService implements PluginStrategyProviderAware {
     use PluginStrategyProviderTrait;
 
 

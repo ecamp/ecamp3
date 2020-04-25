@@ -13,19 +13,19 @@ abstract class HitobitoController extends BaseController {
     abstract protected function getProviderName();
 
     public function __construct(
-      EntityManager $entityManager,
-      UserIdentityService $userIdentityService,
-      UserService $userService,
-      AuthenticationService $zendAuthenticationService,
-      array $hybridAuthConfig
+        EntityManager $entityManager,
+        UserIdentityService $userIdentityService,
+        UserService $userService,
+        AuthenticationService $zendAuthenticationService,
+        array $hybridAuthConfig
     ) {
         parent::__construct(
-          $entityManager,
-          $userIdentityService,
-          $userService,
-          $zendAuthenticationService,
-          $this->getProviderName(),
-          $hybridAuthConfig
+            $entityManager,
+            $userIdentityService,
+            $userService,
+            $zendAuthenticationService,
+            $this->getProviderName(),
+            $hybridAuthConfig
         );
     }
 }
