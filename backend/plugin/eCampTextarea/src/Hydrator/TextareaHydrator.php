@@ -2,8 +2,10 @@
 
 namespace eCamp\Plugin\Textarea\Hydrator;
 
-use eCamp\Plugin\Textarea\Entity\Textarea;
+use ZF\Hal\Link\Link;
+use eCamp\Lib\Entity\EntityLink;
 use Zend\Hydrator\HydratorInterface;
+use eCamp\Plugin\Textarea\Entity\Textarea;
 
 class TextareaHydrator implements HydratorInterface {
     /**
@@ -16,8 +18,15 @@ class TextareaHydrator implements HydratorInterface {
 
         return [
             'id' => $textarea->getId(),
-            'text' => $textarea->getText()
-            //'event_plugin' => $textarea->getEventPlugin()
+            'text' => $textarea->getText(),
+
+            'event_plugin' => Link::factory([
+                'rel' => 'event_plugin',
+                'route' => [
+                    'name' => 'e-camp-api.rest.doctrine.event-plugin',
+                    'params' => [ 'event_plugin_id' => $textarea->getEventPlugin()->getId() ]
+                ]
+            ]),
         ];
     }
 

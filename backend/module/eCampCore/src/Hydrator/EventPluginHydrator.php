@@ -2,13 +2,14 @@
 
 namespace eCamp\Core\Hydrator;
 
-use eCamp\Core\Entity\EventPlugin;
-use eCamp\Core\Plugin\PluginStrategyInterface;
-use eCamp\Core\Plugin\PluginStrategyProvider;
-use Psr\Container\ContainerExceptionInterface;
-use Psr\Container\NotFoundExceptionInterface;
-use Zend\Hydrator\HydratorInterface;
 use ZF\Hal\Link\Link;
+use eCamp\Lib\Entity\EntityLink;
+use eCamp\Core\Entity\EventPlugin;
+use Zend\Hydrator\HydratorInterface;
+use eCamp\Core\Plugin\PluginStrategyProvider;
+use Psr\Container\NotFoundExceptionInterface;
+use eCamp\Core\Plugin\PluginStrategyInterface;
+use Psr\Container\ContainerExceptionInterface;
 
 class EventPluginHydrator implements HydratorInterface {
     public static function HydrateInfo() {
@@ -40,15 +41,15 @@ class EventPluginHydrator implements HydratorInterface {
             'instance_name' => $eventPlugin->getInstanceName(),
             'plugin_name' => $plugin->getName(),
 
-//            'event_type_plugin' => $eventPlugin->getEventTypePlugin(),
-//            'plugin' => $plugin,
-//            'event' => Link::factory([
-//                'rel' => 'event',
-//                'route' => [
-//                    'name' => 'e-camp-api.rest.doctrine.event',
-//                    'params' => [ 'event_id' => $eventPlugin->getEvent()->getId() ]
-//                ]
-//            ])
+            'event_type_plugin' => new EntityLink($eventPlugin->getEventTypePlugin()),
+
+            'event' => Link::factory([
+                'rel' => 'event',
+                'route' => [
+                    'name' => 'e-camp-api.rest.doctrine.event',
+                    'params' => [ 'event_id' => $eventPlugin->getEvent()->getId() ]
+                ]
+            ])
         ];
 
         /** @var PluginStrategyInterface $strategy */

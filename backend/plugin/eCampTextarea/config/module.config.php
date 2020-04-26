@@ -7,7 +7,7 @@ return [
             'e-camp-api.rest.doctrine.event-plugin.textarea' => [
                         'type' => 'Segment',
                         'options' => [
-                    'route' => '/api/plugin/textarea[/:textarea_id]',
+                    'route' => '/api/plugin/textareas[/:textarea_id]',
                             'defaults' => [
                                 'controller' => \eCamp\Plugin\Textarea\Controller\TextareaController::class
                             ],
@@ -23,16 +23,22 @@ return [
             'route_name' => 'e-camp-api.rest.doctrine.event-plugin.textarea',
             'route_identifier_name' => 'textarea_id',
             'entity_identifier_name' => 'id',
-            //'collection_name' => 'items',
+            'collection_name' => 'items',
             'entity_http_methods' => [
                 0 => 'GET',
+                1 => 'PATCH',
+                2 => 'PUT',
+                // 3 => 'DELETE' // disallow deleting directly. Single entities should always be deleted via EventPlugin.
             ],
             'collection_http_methods' => [
                 0 => 'GET',
+                // 1 => 'POST', // disallow posting directly. Single entities should always be created via EventPlugin.
             ],
-            'collection_query_whitelist' => [],
-            //'page_size' => 25,
-            //'page_size_param' => null,
+            'collection_query_whitelist' => [
+                1 => 'page_size',
+            ],
+            'page_size' => -1,
+            'page_size_param' => 'page_size',
             'entity_class' => \eCamp\Plugin\Textarea\Entity\Textarea::class,
             'collection_class' => \eCamp\Plugin\Textarea\Entity\TextareaCollection::class,
             'service_name' => 'Textarea',

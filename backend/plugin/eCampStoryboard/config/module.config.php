@@ -7,7 +7,7 @@ return [
             'e-camp-api.rest.doctrine.event-plugin.storyboard' => [
                         'type' => 'Segment',
                         'options' => [
-                            'route' => '/api/plugin/storyboard[/:section_id]',
+                            'route' => '/api/plugin/storyboards[/:section_id]',
                             'defaults' => [
                                 'controller' => \eCamp\Plugin\Storyboard\Controller\SectionController::class,
                             ],
@@ -35,7 +35,7 @@ return [
             'route_name' => 'e-camp-api.rest.doctrine.event-plugin.storyboard',
             'route_identifier_name' => 'section_id',
             'entity_identifier_name' => 'id',
-            //'collection_name' => 'items',
+            'collection_name' => 'items',
             'entity_http_methods' => [
                 0 => 'GET',
                 1 => 'PATCH',
@@ -44,10 +44,14 @@ return [
             ],
             'collection_http_methods' => [
                 0 => 'GET',
+                1 => 'POST',
             ],
-            'collection_query_whitelist' => [],
-            //'page_size' => 25,
-            //'page_size_param' => null,
+            'collection_query_whitelist' => [
+                0 => 'evemt_plugin_id',
+                1 => 'page_size',
+            ],
+            'page_size' => -1,
+            'page_size_param' => 'page_size',
             'entity_class' => \eCamp\Plugin\Storyboard\Entity\Section::class,
             'collection_class' => \eCamp\Plugin\Storyboard\Entity\SectionCollection::class,
             'service_name' => 'Section',
