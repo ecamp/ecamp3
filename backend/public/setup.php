@@ -30,6 +30,7 @@ if ($env !== 'dev') {
 if (file_exists(__DIR__ . '/../vendor/autoload.php')) {
     echo "<br />";
     echo "(01) Composer: OK";
+    echo "<br />";
 
     include_once __DIR__ . '/../vendor/autoload.php';
 } else {
@@ -100,14 +101,34 @@ try {
     die();
 }
 
+$schemaTool = new \Doctrine\ORM\Tools\SchemaTool($em);
+$allMetadata = $em->getMetadataFactory()->getAllMetadata();
+
+//  Drop & recreate database
+// =========================
+
+echo "<br />";
+echo "<a href='?drop-data'>Drop database & recreate schema</a>";
+echo "<br />";
+
+if (array_key_exists('drop-data', $_GET)) {
+    try {
+        $schemaTool->dropDatabase();
+        $schemaTool->createSchema($allMetadata);
+
+        echo "OK";
+        echo "<br />";
+    } catch (\Exception $e) {
+        echo "<br />";
+        echo "<br />";
+        echo $e->getMessage();
+        die();
+    }
+}
 
 //  Schema-Validation:
 // ====================
-
 try {
-    $schemaTool = new \Doctrine\ORM\Tools\SchemaTool($em);
-    $allMetadata = $em->getMetadataFactory()->getAllMetadata();
-
     $updateSqls = $schemaTool->getUpdateSchemaSql($allMetadata, true);
     if (count($updateSqls) !== 0) {
         $msg = "Some tables are out of sync. ";
@@ -126,26 +147,6 @@ try {
     echo "<br />";
     echo $e->getMessage();
     die();
-}
-
-echo "<br />";
-echo "<br />";
-echo "<br />";
-echo "<a href='?drop-data'>Drop database & recreate schema</a>";
-
-if (array_key_exists('drop-data', $_GET)) {
-    try {
-        $schemaTool->dropDatabase();
-        $schemaTool->createSchema($allMetadata);
-
-        echo "<br />";
-        echo "OK";
-    } catch (\Exception $e) {
-        echo "<br />";
-        echo "<br />";
-        echo $e->getMessage();
-        die();
-    }
 }
 
 echo "<br />";
