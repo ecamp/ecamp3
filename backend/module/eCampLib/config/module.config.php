@@ -19,7 +19,8 @@ return [
     'dependencies' => [
         'auto' => [
             'preferences' => [
-                \Doctrine\ORM\EntityManager::class => 'doctrine.entitymanager.orm_default'
+                \Doctrine\ORM\EntityManager::class => 'doctrine.entitymanager.orm_default',
+                \Interop\Container\ContainerInterface::class => Zend\ServiceManager\ServiceManager::class,
             ],
             'types' => [
                 \ZendTwig\Extension\Extension::class => [

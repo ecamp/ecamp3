@@ -2,7 +2,6 @@
 
 namespace eCamp\Lib\Fixture;
 
-use Zend\ServiceManager\ServiceManager;
 use Interop\Container\ContainerInterface;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\DataFixtures\Loader as BaseLoader;
@@ -14,7 +13,7 @@ class FixtureLoader extends BaseLoader {
      */
     protected $container;
 
-    public function __construct(ServiceManager $container) {
+    public function __construct(ContainerInterface $container) {
         $this->container = $container;
     }
 

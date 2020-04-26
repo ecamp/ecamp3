@@ -28,18 +28,6 @@ return [
         ]
     ],
 
-    'controllers' => [
-        'factories' => [
-            \eCamp\Plugin\Storyboard\Controller\SectionActionController::class => \eCamp\Plugin\Storyboard\Controller\SectionActionControllerFactory::class
-        ]
-    ],
-
-    'service_manager' => [
-        'factories' => [
-            \eCamp\Plugin\Storyboard\Strategy::class => \eCamp\Plugin\Storyboard\StrategyFactory::class
-        ]
-    ],
-
     'zf-rest' => [
         \eCamp\Plugin\Storyboard\Controller\SectionController::class => [
             'listener' => \eCamp\Plugin\Storyboard\Service\SectionService::class,

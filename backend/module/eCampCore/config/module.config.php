@@ -55,8 +55,6 @@ return [
             \eCamp\Lib\Acl\Acl::class => \eCamp\Core\Acl\AclFactory::class,
 
             \eCamp\Core\Auth\AuthUserProvider::class => \eCamp\Core\Auth\AuthUserProviderFactory::class,
-
-            \eCamp\Core\Plugin\PluginStrategyProvider::class =>\eCamp\Core\Plugin\PluginStrategyProviderFactory::class,
         ],
 
         /**
@@ -83,7 +81,7 @@ return [
 
     'hydrators' => [
         'factories' => [
-            \eCamp\Core\Hydrator\EventPluginHydrator::class => \eCamp\Core\HydratorFactory\EventPluginHydratorFactory::class
+            \eCamp\Core\Hydrator\EventPluginHydrator::class => \Zend\Di\Container\ServiceManager\AutowireFactory::class
         ]
     ],
 

@@ -16,12 +16,6 @@ return [
                 ],
     ],
 
-    'service_manager' => [
-        'factories' => [
-            \eCamp\Plugin\Textarea\Strategy::class => \eCamp\Plugin\Textarea\StrategyFactory::class
-        ]
-    ],
-
     'zf-rest' => [
         \eCamp\Plugin\Textarea\Controller\TextareaController::class => [
             'listener' => \eCamp\Plugin\Textarea\Service\TextareaService::class,
