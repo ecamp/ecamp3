@@ -15,10 +15,10 @@ class PeriodHydrator implements HydratorInterface {
         return [
             'days' => Util::Collection(function (Period $p) {
                 return new DayCollection($p->getDays());
-            }),
+            }, null),
             'event_instances' => Util::Collection(function (Period $p) {
                 return new EventInstanceCollection($p->getEventInstances());
-            })
+            }, null)
         ];
     }
 

@@ -904,4 +904,111 @@ describe('API store', () => {
     expect(loadingProxy.loading).toBe(true)
     done()
   })
+
+  it('returns error when `get` encounters network error', () => {
+    // given
+    axiosMock.onGet('http://localhost/camps/1').networkError()
+    // when
+    const load = vm.api.get('/camps/1')._meta.load
+    // then
+    return expect(load).rejects.toThrow('Could not connect to server')
+  })
+
+  it('returns error when `get` encounters network timeout', () => {
+    // given
+    axiosMock.onGet('http://localhost/camps/1').timeoutOnce()
+    // when
+    const load = vm.api.get('/camps/1')._meta.load
+    // then
+    return expect(load).rejects.toThrow('Could not connect to server')
+  })
+
+  it('returns error when `get` encounters 404 Not Found', async () => {
+    // given
+    axiosMock.onGet('http://localhost/camps/1').replyOnce(200, { id: 1, _links: { self: { href: '/camps/1' } } })
+    axiosMock.onGet('http://localhost/camps/1').replyOnce(404)
+
+    // when
+    await vm.api.get('/camps/1')._meta.load
+    // then
+    expect(vm.$store.state.api['/camps/1']).toMatchObject({ id: 1, _meta: { self: '/camps/1' } })
+
+    // when
+    const load = vm.api.reload('/camps/1')._meta.load
+    // then
+    await expect(load).rejects.toThrow('"/camps/1" has been deleted')
+    expect(vm.$store.state.api['/camps/1']).toBeUndefined()
+  })
+
+  it('returns error when `get` encounters 403 Forbidden', () => {
+    // given
+    axiosMock.onGet('http://localhost/camps/1').replyOnce(403)
+    // when
+    const load = vm.api.get('/camps/1')._meta.load
+    // then
+    return expect(load).rejects.toThrow('No permission')
+  })
+
+  it('returns error when `patch` encounters network error', () => {
+    // given
+    axiosMock.onPatch('http://localhost/camps/1').networkError()
+    // when
+    const load = vm.api.patch('/camps/1', {})
+    // then
+    return expect(load).rejects.toThrow('Could not connect to server')
+  })
+
+  it('returns error when `patch` encounters network timeout', () => {
+    // given
+    axiosMock.onPatch('http://localhost/camps/1').timeoutOnce()
+    // when
+    const load = vm.api.patch('/camps/1', {})
+    // then
+    return expect(load).rejects.toThrow('Could not connect to server')
+  })
+
+  it('returns error when `patch` encounters 404 Not Found', async () => {
+    // given
+    axiosMock.onGet('http://localhost/camps/1').replyOnce(200, { id: 1, _links: { self: { href: '/camps/1' } } })
+    axiosMock.onPatch('http://localhost/camps/1').replyOnce(404)
+
+    // when
+    await vm.api.get('/camps/1')._meta.load
+    // then
+    expect(vm.$store.state.api['/camps/1']).toMatchObject({ id: 1, _meta: { self: '/camps/1' } })
+
+    // when
+    const load = vm.api.patch('/camps/1', {})
+    // then
+    await expect(load).rejects.toThrow('"/camps/1" has been deleted')
+    expect(vm.$store.state.api['/camps/1']).toBeUndefined()
+  })
+
+  it('returns error when `patch` encounters 403 Forbidden', () => {
+    // given
+    axiosMock.onPatch('http://localhost/camps/1').replyOnce(403)
+    // when
+    const load = vm.api.patch('/camps/1', {})
+    // then
+    return expect(load).rejects.toThrow('No permission')
+  })
+
+  it('returns error when `patch` encounters 422 Unprocessable Entity (Validation error)', () => {
+    // given
+    axiosMock.onPatch('http://localhost/camps/1').replyOnce(422, {
+      validation_messages: { title: { stringLengthTooShort: 'The input is less than 10 characters long' } },
+      type: 'http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html',
+      title: 'Unprocessable Entity',
+      status: 422,
+      detail: 'Failed Validation'
+    }, {
+      'content-type': 'application/problem+json'
+    })
+
+    // when
+    const load = vm.api.patch('/camps/1', {})
+
+    // then
+    return expect(load).rejects.toThrow('Failed Validation')
+  })
 })

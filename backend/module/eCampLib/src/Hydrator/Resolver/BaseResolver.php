@@ -7,10 +7,12 @@ use Closure;
 abstract class BaseResolver {
     /** @var Closure */
     private $resolver;
+    private $linkResolver;
     protected $selection;
 
-    public function __construct($resolver, $selection = []) {
+    public function __construct($resolver, $linkResolver, $selection = []) {
         $this->resolver = $resolver;
+        $this->linkResolver = $linkResolver;
         $this->selection = $selection;
     }
 
@@ -20,5 +22,13 @@ abstract class BaseResolver {
         $value->_hydrateInfo_ = $this->selection;
 
         return $value;
+    }
+
+    public function getLinks($object) {
+        if ($this->linkResolver != null) {
+            $linkResolver = $this->linkResolver;
+            return $linkResolver($object);
+        }
+        return [];
     }
 }

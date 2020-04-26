@@ -5,19 +5,10 @@ return array(
             'e-camp-api.rpc.index' => array(
                 'type' => 'Segment',
                 'options' => array(
-                    'route' => '/',
+                    'route' => '/[:action]',
                     'defaults' => array(
                         'controller' => 'eCampApi\\V1\\Rpc\\Index\\Controller',
                         'action' => 'index',
-                    ),
-                ),
-            ),'e-camp-api.rpc.api' => array(
-                'type' => 'Segment',
-                'options' => array(
-                    'route' => '/api',
-                    'defaults' => array(
-                        'controller' => 'eCampApi\\V1\\Rpc\\Index\\Controller',
-                        'action' => 'api',
                     ),
                 ),
             ),
@@ -44,7 +35,7 @@ return array(
             'e-camp-api.rest.doctrine.camp-type' => array(
                 'type' => 'Segment',
                 'options' => array(
-                    'route' => '/api/camp-type[/:camp_type_id]',
+                    'route' => '/api/camp-types[/:camp_type_id]',
                     'defaults' => array(
                         'controller' => 'eCampApi\\V1\\Rest\\CampType\\Controller',
                     ),
@@ -53,7 +44,7 @@ return array(
             'e-camp-api.rest.doctrine.event-type' => array(
                 'type' => 'Segment',
                 'options' => array(
-                    'route' => '/api/event-type[/:event_type_id]',
+                    'route' => '/api/event-types[/:event_type_id]',
                     'defaults' => array(
                         'controller' => 'eCampApi\\V1\\Rest\\EventType\\Controller',
                     ),
@@ -62,7 +53,7 @@ return array(
             'e-camp-api.rest.doctrine.organization' => array(
                 'type' => 'Segment',
                 'options' => array(
-                    'route' => '/api/organization[/:organization_id]',
+                    'route' => '/api/organizations[/:organization_id]',
                     'defaults' => array(
                         'controller' => 'eCampApi\\V1\\Rest\\Organization\\Controller',
                     ),
@@ -71,7 +62,7 @@ return array(
             'e-camp-api.rest.doctrine.camp' => array(
                 'type' => 'Segment',
                 'options' => array(
-                    'route' => '/api/camp[/:camp_id]',
+                    'route' => '/api/camps[/:camp_id]',
                     'defaults' => array(
                         'controller' => 'eCampApi\\V1\\Rest\\Camp\\Controller',
                     ),
@@ -80,7 +71,7 @@ return array(
             'e-camp-api.rest.doctrine.period' => array(
                 'type' => 'Segment',
                 'options' => array(
-                    'route' => '/api/period[/:period_id]',
+                    'route' => '/api/periods[/:period_id]',
                     'defaults' => array(
                         'controller' => 'eCampApi\\V1\\Rest\\Period\\Controller',
                     ),
@@ -89,7 +80,7 @@ return array(
             'e-camp-api.rest.doctrine.day' => array(
                 'type' => 'Segment',
                 'options' => array(
-                    'route' => '/api/day[/:day_id]',
+                    'route' => '/api/days[/:day_id]',
                     'defaults' => array(
                         'controller' => 'eCampApi\\V1\\Rest\\Day\\Controller',
                     ),
@@ -98,7 +89,7 @@ return array(
             'e-camp-api.rest.doctrine.event' => array(
                 'type' => 'Segment',
                 'options' => array(
-                    'route' => '/api/event[/:event_id]',
+                    'route' => '/api/events[/:event_id]',
                     'defaults' => array(
                         'controller' => 'eCampApi\\V1\\Rest\\Event\\Controller',
                     ),
@@ -107,7 +98,7 @@ return array(
             'e-camp-api.rest.doctrine.event-category' => array(
                 'type' => 'Segment',
                 'options' => array(
-                    'route' => '/api/event-category[/:event_category_id]',
+                    'route' => '/api/event-categories[/:event_category_id]',
                     'defaults' => array(
                         'controller' => 'eCampApi\\V1\\Rest\\EventCategory\\Controller',
                     ),
@@ -116,7 +107,7 @@ return array(
             'e-camp-api.rest.doctrine.event-instance' => array(
                 'type' => 'Segment',
                 'options' => array(
-                    'route' => '/api/event-instance[/:event_instance_id]',
+                    'route' => '/api/event-instances[/:event_instance_id]',
                     'defaults' => array(
                         'controller' => 'eCampApi\\V1\\Rest\\EventInstance\\Controller',
                     ),
@@ -125,7 +116,7 @@ return array(
             'e-camp-api.rest.doctrine.user' => array(
                 'type' => 'Segment',
                 'options' => array(
-                    'route' => '/api/user[/:user_id]',
+                    'route' => '/api/users[/:user_id]',
                     'defaults' => array(
                         'controller' => 'eCampApi\\V1\\Rest\\User\\Controller',
                     ),
@@ -134,7 +125,7 @@ return array(
             'e-camp-api.rest.doctrine.camp-collaboration' => array(
                 'type' => 'Segment',
                 'options' => array(
-                    'route' => '/api/camp-collaboration[/:camp_collaboration_id]',
+                    'route' => '/api/camp-collaborations[/:camp_collaboration_id]',
                     'defaults' => array(
                         'controller' => 'eCampApi\\V1\\Rest\\CampCollaboration\\Controller',
                     ),
@@ -143,7 +134,7 @@ return array(
             'e-camp-api.rest.doctrine.event-plugin' => array(
                 'type' => 'Segment',
                 'options' => array(
-                    'route' => '/api/event-plugin[/:event_plugin_id]',
+                    'route' => '/api/event-plugins[/:event_plugin_id]',
                     'defaults' => array(
                         'controller' => 'eCampApi\\V1\\Rest\\EventPlugin\\Controller',
                     ),
@@ -152,7 +143,7 @@ return array(
             'e-camp-api.rest.doctrine.plugin' => array(
                 'type' => 'Segment',
                 'options' => array(
-                    'route' => '/api/plugin[/:plugin_id]',
+                    'route' => '/api/plugins[/:plugin_id]',
                     'defaults' => array(
                         'controller' => 'eCampApi\\V1\\Rest\\Plugin\\Controller',
                     ),
@@ -161,7 +152,7 @@ return array(
             'e-camp-api.rest.doctrine.event-type-plugin' => array(
                 'type' => 'Segment',
                 'options' => array(
-                    'route' => '/api/event-type-plugin[/:event_type_plugin_id]',
+                    'route' => '/api/event-type-plugins[/:event_type_plugin_id]',
                     'defaults' => array(
                         'controller' => 'eCampApi\\V1\\Rest\\EventTypePlugin\\Controller',
                     ),
@@ -1139,7 +1130,7 @@ return array(
                     0 => array(
                         'name' => 'Zend\\Validator\\StringLength',
                         'options' => array(
-                            'min' => 1,
+                            'min' => 10,
                             'max' => 64,
                         ),
                     ),

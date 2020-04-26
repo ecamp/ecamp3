@@ -58,7 +58,15 @@ exports[`ApiTextField.vue renders correctly 1`] = `
               class="v-icon notranslate mdi mdi-menu-down theme--light"
             />
              
-            <!---->
+            <div
+              class="d-flex"
+            >
+              <!---->
+               
+              <!---->
+               
+              <!---->
+            </div>
           </div>
           <input
             type="hidden"
