@@ -1,6 +1,8 @@
 <?php
 
 use Zend\Mvc\Application;
+use Zend\ServiceManager\ServiceManager;
+use Zend\Mvc\Service\ServiceManagerConfig;
 
 class eCampApp {
     private static $instance;
@@ -32,6 +34,30 @@ class eCampApp {
         $config = self::GetAppConfig();
         unset( $config['modules'][ array_search('Zend\Di', $config['modules']) ] );
         return Application::init($config);
+    }
+
+    /** @return ServiceManager */
+    public static function CreateServiceManagerWithoutDi() {
+        // remove 'Zend\Di' config
+        $configuration = self::GetAppConfig();
+        unset( $configuration['modules'][ array_search('Zend\Di', $configuration['modules']) ] );
+
+        // Prepare the service manager
+        $smConfig = isset($configuration['service_manager']) ? $configuration['service_manager'] : [];
+        $smConfig = new ServiceManagerConfig($smConfig);
+
+        $serviceManager = new ServiceManager();
+        $smConfig->configureServiceManager($serviceManager);
+        $serviceManager->setService('ApplicationConfig', $configuration);
+
+        // Remove 'eCamp\AoT' module and load rest of the modules
+        $mm = $serviceManager->get('ModuleManager');
+        $modules = $mm->getModules();
+        unset($modules[array_search('eCamp\AoT', $modules)]);
+        $mm->setModules($modules);
+        $mm->loadModules();
+
+        return $serviceManager;
     }
 
     /** @return Application */

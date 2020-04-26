@@ -20,6 +20,8 @@ function getClassNames(ContainerInterface $container): iterable {
         __DIR__ . '/../module/eCampLib/src',
         __DIR__ . '/../module/eCampCore/src',
         __DIR__ . '/../module/eCampApi/src',
+        __DIR__ . '/../plugin/eCampStoryboard/src',
+        __DIR__ . '/../plugin/eCampTextarea/src',
     ];
 
     $scanner = new DirectoryScanner($directories);
@@ -34,7 +36,7 @@ function getClassNames(ContainerInterface $container): iterable {
          * - have no constructor
          * - have a constructor with 0 arguments
          */
-        if(!$container->has($class->getName()) && $class->isInstantiable() && $class->getMethod('__construct') && $class->getMethod('__construct')->getNumberOfParameters()>0){
+        if (!$container->has($class->getName()) && $class->isInstantiable() && $class->getMethod('__construct') && $class->getMethod('__construct')->getNumberOfParameters()>0) {
             printf("ADDING ".$class->getName()."\n");
             yield $class->getName();
         }
@@ -42,7 +44,7 @@ function getClassNames(ContainerInterface $container): iterable {
 }
 
 /* we need the App without DI to check which factories are missing... */
-$appWithoutDi = \eCampApp::CreateAppWithoutDi();
+$smWithoutDi = \eCampApp::CreateServiceManagerWithoutDi();
 
 /* ... but for generating the code, we need the full App with DI */
 $appWithDi = \eCampApp::CreateApp();
@@ -56,4 +58,4 @@ $resolver->setContainer($container);
 
 $generator = new InjectorGenerator($di_config, $resolver, __NAMESPACE__ . '\Generated');
 $generator->setOutputDirectory(__DIR__ . '/../module/eCampAoT/gen');
-$generator->generate(getClassNames($appWithoutDi->getServiceManager()));
+$generator->generate(getClassNames($smWithoutDi));
