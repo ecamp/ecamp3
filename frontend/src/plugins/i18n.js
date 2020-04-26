@@ -1,10 +1,10 @@
 import Vue from 'vue'
 import VueI18n from 'vue-i18n'
 
-Vue.use(VueI18n)
-
 import en from '@/locales/en.json'
 import de from '@/locales/de.json'
+
+Vue.use(VueI18n)
 
 function loadLocaleMessages () {
   return { en, de }
