@@ -7,7 +7,6 @@ use eCamp\LibTest\PHPUnit\AbstractTestCase;
 
 /**
  * @internal
- * @coversNothing
  */
 class PluginTest extends AbstractTestCase {
     public function testPlugin() {

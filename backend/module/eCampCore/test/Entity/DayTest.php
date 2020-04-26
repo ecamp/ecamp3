@@ -9,7 +9,6 @@ use eCamp\LibTest\PHPUnit\AbstractTestCase;
 
 /**
  * @internal
- * @coversNothing
  */
 class DayTest extends AbstractTestCase {
     public function testDay() {

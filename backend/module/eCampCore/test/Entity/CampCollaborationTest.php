@@ -9,7 +9,6 @@ use eCamp\LibTest\PHPUnit\AbstractTestCase;
 
 /**
  * @internal
- * @coversNothing
  */
 class CampCollaborationTest extends AbstractTestCase {
     public function testCampCollaboration() {

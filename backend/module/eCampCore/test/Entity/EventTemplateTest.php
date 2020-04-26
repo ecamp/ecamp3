@@ -9,7 +9,6 @@ use eCamp\LibTest\PHPUnit\AbstractTestCase;
 
 /**
  * @internal
- * @coversNothing
  */
 class EventTemplateTest extends AbstractTestCase {
     public function testEventTemplate() {

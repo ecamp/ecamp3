@@ -8,7 +8,6 @@ use eCamp\LibTest\PHPUnit\AbstractTestCase;
 
 /**
  * @internal
- * @coversNothing
  */
 class AclTest extends AbstractTestCase {
     public function testIsAllowed() {

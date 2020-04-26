@@ -10,7 +10,6 @@ use Zend\Json\Json;
 
 /**
  * @internal
- * @coversNothing
  */
 class CampTypeTest extends AbstractTestCase {
     public function testCampType() {

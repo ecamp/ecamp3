@@ -10,7 +10,6 @@ use eCamp\LibTest\PHPUnit\AbstractTestCase;
 
 /**
  * @internal
- * @coversNothing
  */
 class PeriodTest extends AbstractTestCase {
     public function testCamp() {

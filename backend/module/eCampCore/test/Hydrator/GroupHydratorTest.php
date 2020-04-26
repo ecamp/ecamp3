@@ -9,7 +9,6 @@ use eCamp\LibTest\PHPUnit\AbstractTestCase;
 
 /**
  * @internal
- * @coversNothing
  */
 class GroupHydratorTest extends AbstractTestCase {
     public function testExtract() {

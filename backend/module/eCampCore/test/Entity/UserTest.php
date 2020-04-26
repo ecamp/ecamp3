@@ -7,7 +7,6 @@ use eCamp\LibTest\PHPUnit\AbstractTestCase;
 
 /**
  * @internal
- * @coversNothing
  */
 class UserTest extends AbstractTestCase {
     public function testUserNonRegistered() {

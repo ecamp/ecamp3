@@ -16,7 +16,6 @@ use Zend\Json\Json;
 
 /**
  * @internal
- * @coversNothing
  */
 class CampTest extends AbstractTestCase {
     public function testCamp() {

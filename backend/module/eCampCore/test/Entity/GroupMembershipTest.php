@@ -9,7 +9,6 @@ use eCamp\LibTest\PHPUnit\AbstractTestCase;
 
 /**
  * @internal
- * @coversNothing
  */
 class GroupMembershipTest extends AbstractTestCase {
     public function testGroupMembership() {

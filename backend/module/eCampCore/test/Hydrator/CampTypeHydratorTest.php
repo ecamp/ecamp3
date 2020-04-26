@@ -9,7 +9,6 @@ use eCamp\LibTest\PHPUnit\AbstractTestCase;
 
 /**
  * @internal
- * @coversNothing
  */
 class CampTypeHydratorTest extends AbstractTestCase {
     public function testExtract() {

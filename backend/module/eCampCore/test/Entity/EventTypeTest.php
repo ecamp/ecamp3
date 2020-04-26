@@ -13,7 +13,6 @@ use eCamp\LibTest\PHPUnit\AbstractTestCase;
 
 /**
  * @internal
- * @coversNothing
  */
 class EventTypeTest extends AbstractTestCase {
     public function testEventType() {

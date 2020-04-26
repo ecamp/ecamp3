@@ -10,7 +10,6 @@ use eCamp\LibTest\PHPUnit\AbstractTestCase;
 
 /**
  * @internal
- * @coversNothing
  */
 class GroupTest extends AbstractTestCase {
     public function testGroup() {

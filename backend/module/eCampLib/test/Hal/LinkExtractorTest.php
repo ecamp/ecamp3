@@ -13,7 +13,6 @@ use ZF\Hal\Link\LinkUrlBuilder;
 
 /**
  * @internal
- * @coversNothing
  */
 class LinkExtractorTest extends AbstractTestCase {
     private $linkExtractor;

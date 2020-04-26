@@ -10,7 +10,6 @@ use eCamp\LibTest\PHPUnit\AbstractTestCase;
 
 /**
  * @internal
- * @coversNothing
  */
 class DayHydratorTest extends AbstractTestCase {
     public function testExtract() {

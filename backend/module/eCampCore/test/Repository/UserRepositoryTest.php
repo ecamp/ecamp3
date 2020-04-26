@@ -11,7 +11,6 @@ use Hybridauth\User\Profile;
 
 /**
  * @internal
- * @coversNothing
  */
 class UserRepositoryTest extends AbstractDatabaseTestCase {
     public function testFindByUsername() {

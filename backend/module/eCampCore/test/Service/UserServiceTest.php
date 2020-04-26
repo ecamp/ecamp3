@@ -9,7 +9,6 @@ use eCamp\LibTest\PHPUnit\AbstractDatabaseTestCase;
 
 /**
  * @internal
- * @coversNothing
  */
 class UserServiceTest extends AbstractDatabaseTestCase {
     public function testCreateUser() {

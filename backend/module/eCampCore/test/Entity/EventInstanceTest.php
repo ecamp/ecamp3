@@ -12,7 +12,6 @@ use eCamp\LibTest\PHPUnit\AbstractTestCase;
 
 /**
  * @internal
- * @coversNothing
  */
 class EventInstanceTest extends AbstractTestCase {
     public function testEventInstance() {

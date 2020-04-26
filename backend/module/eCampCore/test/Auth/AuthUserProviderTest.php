@@ -9,7 +9,6 @@ use Zend\Authentication\AuthenticationService;
 
 /**
  * @internal
- * @coversNothing
  */
 class AuthUserProviderTest extends AbstractDatabaseTestCase {
     public function testAuthUser() {

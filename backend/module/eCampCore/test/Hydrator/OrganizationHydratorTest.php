@@ -8,7 +8,6 @@ use eCamp\LibTest\PHPUnit\AbstractTestCase;
 
 /**
  * @internal
- * @coversNothing
  */
 class OrganizationHydratorTest extends AbstractTestCase {
     public function testExtract() {

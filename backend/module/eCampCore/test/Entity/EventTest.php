@@ -14,7 +14,6 @@ use eCamp\LibTest\PHPUnit\AbstractTestCase;
 
 /**
  * @internal
- * @coversNothing
  */
 class EventTest extends AbstractTestCase {
     public function testEventCategory() {

@@ -8,7 +8,6 @@ use eCamp\LibTest\PHPUnit\AbstractTestCase;
 
 /**
  * @internal
- * @coversNothing
  */
 class OrganizationTest extends AbstractTestCase {
     public function testOrganization() {

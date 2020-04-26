@@ -9,7 +9,6 @@ use eCamp\LibTest\PHPUnit\AbstractTestCase;
 
 /**
  * @internal
- * @coversNothing
  */
 class PeriodHydratorTest extends AbstractTestCase {
     public function testExtract() {

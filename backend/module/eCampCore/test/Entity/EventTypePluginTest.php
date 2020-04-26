@@ -10,7 +10,6 @@ use Zend\Json\Json;
 
 /**
  * @internal
- * @coversNothing
  */
 class EventTypePluginTest extends AbstractTestCase {
     public function testEventTypePlugin() {

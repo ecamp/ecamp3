@@ -6,7 +6,6 @@ use eCamp\LibTest\PHPUnit\AbstractHttpControllerTestCase;
 
 /**
  * @internal
- * @coversNothing
  */
 class SectionTest extends AbstractHttpControllerTestCase {
     public function testSectionMoveUp() {

@@ -7,7 +7,6 @@ use eCamp\LibTest\PHPUnit\AbstractTestCase;
 
 /**
  * @internal
- * @coversNothing
  */
 class UtilTest extends AbstractTestCase {
     public function testDate() {

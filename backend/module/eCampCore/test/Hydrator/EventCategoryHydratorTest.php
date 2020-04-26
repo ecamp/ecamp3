@@ -10,7 +10,6 @@ use eCamp\LibTest\PHPUnit\AbstractTestCase;
 
 /**
  * @internal
- * @coversNothing
  */
 class EventCategoryHydratorTest extends AbstractTestCase {
     public function testExtract() {
