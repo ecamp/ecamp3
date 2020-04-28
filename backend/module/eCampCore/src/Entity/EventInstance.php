@@ -78,9 +78,6 @@ class EventInstance extends BaseEntity {
         $this->event = $event;
     }
 
-    /**
-     * @return EventCategory
-     */
     public function getEventCategory(): EventCategory {
         return (null !== $this->event) ? $this->event->getEventCategory() : null;
     }
@@ -105,9 +102,6 @@ class EventInstance extends BaseEntity {
         $this->start = $start;
     }
 
-    /**
-     * @return int
-     */
     public function getLength(): int {
         return $this->length;
     }

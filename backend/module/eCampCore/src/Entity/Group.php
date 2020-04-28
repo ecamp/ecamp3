@@ -76,9 +76,6 @@ class Group extends AbstractCampOwner {
         return $this->name;
     }
 
-    /**
-     * @return string
-     */
     public function getDescription(): string {
         return $this->description;
     }
@@ -87,9 +84,6 @@ class Group extends AbstractCampOwner {
         $this->description = $description;
     }
 
-    /**
-     * @return Organization
-     */
     public function getOrganization(): Organization {
         return $this->organization;
     }
@@ -136,9 +130,6 @@ class Group extends AbstractCampOwner {
         $this->children->removeElement($child);
     }
 
-    /**
-     * @return ArrayCollection
-     */
     public function getGroupMemberships(): ArrayCollection {
         return $this->memberships;
     }

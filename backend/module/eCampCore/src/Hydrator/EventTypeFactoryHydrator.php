@@ -34,7 +34,7 @@ class EventTypeFactoryHydrator implements HydratorInterface {
      * @return object
      */
     public function hydrate(array $data, $object) {
-        /** @var EventTypeFactory $eventTypeFactory */
+        // @var EventTypeFactory $eventTypeFactory
         return $object;
     }
 }

@@ -85,7 +85,7 @@ abstract class BasePluginService extends AbstractEntityService {
      * @return ApiProblem|BasePluginEntity
      */
     protected function createEntity($className) {
-        /** @var BasePluginEntity $entity */
+        // @var BasePluginEntity $entity
         return parent::createEntity($className);
     }
 

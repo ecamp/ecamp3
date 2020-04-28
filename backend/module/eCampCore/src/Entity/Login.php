@@ -218,6 +218,4 @@ class Login extends BaseEntity {
     private function addSalt_v1($password) {
         return $this->salt.$password;
     }
-
-    //
 }

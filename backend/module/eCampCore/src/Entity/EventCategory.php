@@ -132,9 +132,6 @@ class EventCategory extends BaseEntity {
         $this->numberingStyle = $numberingStyle;
     }
 
-    /**
-     * @return string
-     */
     public function getStyledNumber(int $num): string {
         switch ($this->numberingStyle) {
             case 'a':

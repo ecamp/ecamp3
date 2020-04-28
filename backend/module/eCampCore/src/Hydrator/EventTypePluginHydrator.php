@@ -36,7 +36,7 @@ class EventTypePluginHydrator implements HydratorInterface {
      * @return object
      */
     public function hydrate(array $data, $object) {
-        /** @var EventTypePlugin $eventTypePlugin */
+        // @var EventTypePlugin $eventTypePlugin
         return $object;
     }
 }

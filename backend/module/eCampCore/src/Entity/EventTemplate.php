@@ -72,9 +72,6 @@ class EventTemplate extends BaseEntity {
         $this->medium = $medium;
     }
 
-    /**
-     * @return string
-     */
     public function getFilename(): string {
         return $this->filename;
     }

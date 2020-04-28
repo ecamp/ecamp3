@@ -39,7 +39,7 @@ class AnnotationsReader {
      * @return EntityFilter
      */
     public static function getEntityFilterAnnotation($class) {
-        /** @var EntityFilter $entityFilter */
+        // @var EntityFilter $entityFilter
         return self::getClassAnnotation($class, EntityFilter::class);
     }
 

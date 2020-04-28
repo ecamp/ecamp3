@@ -80,9 +80,6 @@ class CampCollaboration extends BaseEntity {
         $this->camp = $camp;
     }
 
-    /**
-     * @return string
-     */
     public function getStatus(): string {
         return $this->status;
     }
@@ -109,9 +106,6 @@ class CampCollaboration extends BaseEntity {
         return self::STATUS_INVITED === $this->status;
     }
 
-    /**
-     * @return string
-     */
     public function getRole(): string {
         return $this->role;
     }

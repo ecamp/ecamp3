@@ -45,9 +45,6 @@ class EventTypeFactory extends BaseEntity {
         $this->name = $name;
     }
 
-    /**
-     * @return string
-     */
     public function getFactoryName(): string {
         return $this->factoryName;
     }

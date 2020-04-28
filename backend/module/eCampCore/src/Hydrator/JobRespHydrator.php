@@ -33,7 +33,7 @@ class JobRespHydrator implements HydratorInterface {
      * @return object
      */
     public function hydrate(array $data, $object) {
-        /** @var JobResp $jobResp */
+        // @var JobResp $jobResp
         return $object;
     }
 }
