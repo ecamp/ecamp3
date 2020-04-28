@@ -32,9 +32,6 @@ class Plugin extends BaseEntity {
         parent::__construct();
     }
 
-    /**
-     * @return string
-     */
     public function getName(): string {
         return $this->name;
     }

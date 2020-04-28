@@ -37,9 +37,6 @@ class EventTypeFactory extends BaseEntity {
         parent::__construct();
     }
 
-    /**
-     * @return string
-     */
     public function getName(): string {
         return $this->name;
     }

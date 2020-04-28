@@ -38,7 +38,7 @@ class Login extends BaseEntity {
     private $user;
 
     /**
-     * @var integer
+     * @var int
      * @ORM\Column(type="integer", nullable=false)
      */
     private $hashVersion;

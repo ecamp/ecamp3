@@ -61,9 +61,6 @@ class CampCollaboration extends BaseEntity {
         $this->role = self::ROLE_GUEST;
     }
 
-    /**
-     * @return User
-     */
     public function getUser(): User {
         return $this->user;
     }

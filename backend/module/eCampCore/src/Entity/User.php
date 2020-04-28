@@ -133,9 +133,6 @@ class User extends AbstractCampOwner implements RoleInterface {
         $this->trustedMailAddress->setMail($mail);
     }
 
-    /**
-     * @return string
-     */
     public function getUntrustedMailAddress(): string {
         if (null === $this->untrustedMailAddress) {
             return '';
@@ -221,9 +218,6 @@ class User extends AbstractCampOwner implements RoleInterface {
         return $this->login;
     }
 
-    /**
-     * @return ArrayCollection
-     */
     public function getGroupMemberships(): ArrayCollection {
         return $this->memberships;
     }
@@ -255,9 +249,6 @@ class User extends AbstractCampOwner implements RoleInterface {
         $this->collaborations->removeElement($collaboration);
     }
 
-    /**
-     * @return ArrayCollection
-     */
     public function getUserIdentities(): ArrayCollection {
         return $this->userIdentities;
     }

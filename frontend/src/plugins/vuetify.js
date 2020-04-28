@@ -6,10 +6,14 @@ import Vuetify from 'vuetify/lib'
 import PbsLogo from '@/assets/PbsLogo.svg'
 import GoogleLogo from '@/assets/GoogleLogo.svg'
 import eCampLogo from '@/assets/eCampLogo.svg'
+import i18n from '@/plugins/i18n'
 
 Vue.use(Vuetify)
 
 const opts = {
+  lang: {
+    t: (key, ...params) => i18n.t(key, params)
+  },
   icons: {
     values: {
       pbs: { component: PbsLogo },

@@ -61,9 +61,6 @@ class Group extends AbstractCampOwner {
         $this->memberships = new ArrayCollection();
     }
 
-    /**
-     * @return string
-     */
     public function getName(): string {
         return $this->name;
     }

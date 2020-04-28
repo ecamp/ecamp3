@@ -85,27 +85,18 @@ class EventInstance extends BaseEntity {
         return (null !== $this->event) ? $this->event->getEventCategory() : null;
     }
 
-    /**
-     * @return string
-     */
     public function getNumberingStyle(): string {
         $eventCategory = $this->getEventCategory();
 
         return (null !== $eventCategory) ? $eventCategory->getNumberingStyle() : null;
     }
 
-    /**
-     * @return string
-     */
     public function getColor(): string {
         $eventCategory = $this->getEventCategory();
 
         return (null !== $eventCategory) ? $eventCategory->getColor() : null;
     }
 
-    /**
-     * @return int
-     */
     public function getStart(): int {
         return $this->start;
     }
