@@ -3,8 +3,8 @@
 namespace eCamp\Core\EntityService;
 
 use eCamp\Core\Entity\Camp;
-use eCamp\Core\Hydrator\EventHydrator;
 use eCamp\Core\Entity\Event;
+use eCamp\Core\Hydrator\EventHydrator;
 use eCamp\Lib\Service\ServiceUtils;
 use Zend\Authentication\AuthenticationService;
 
@@ -17,7 +17,6 @@ class EventService extends AbstractEntityService {
             $authenticationService
         );
     }
-
 
     protected function fetchAllQueryBuilder($params = []) {
         $q = parent::fetchAllQueryBuilder($params);

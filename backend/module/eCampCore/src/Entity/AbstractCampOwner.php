@@ -2,29 +2,28 @@
 
 namespace eCamp\Core\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Mapping as ORM;
 use eCamp\Lib\Entity\BaseEntity;
 
 /**
- * @ORM\Entity()
+ * @ORM\Entity
  * @ORM\Table(name="abstractCampOwner")
  * @ORM\InheritanceType("JOINED")
  * @ORM\DiscriminatorColumn(name="entityType", type="string")
  */
 abstract class AbstractCampOwner extends BaseEntity {
-    public function __construct() {
-        parent::__construct();
-
-        $this->ownedCamps = new ArrayCollection();
-    }
-
     /**
      * @var Camp[]
      * @ORM\OneToMany(targetEntity="Camp", mappedBy="owner")
      */
     private $ownedCamps;
 
+    public function __construct() {
+        parent::__construct();
+
+        $this->ownedCamps = new ArrayCollection();
+    }
 
     /**
      * @return ArrayCollection
@@ -42,7 +41,6 @@ abstract class AbstractCampOwner extends BaseEntity {
         $camp->setOwner(null);
         $this->ownedCamps->removeElement($camp);
     }
-
 
     /**
      * @return string

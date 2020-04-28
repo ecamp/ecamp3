@@ -21,17 +21,19 @@ class EventHydrator implements HydratorInterface {
             }, null),
             'event_plugins' => Util::Collection(function (Event $e) {
                 return new EventPluginCollection($e->getEventPlugins());
-            }, null)
+            }, null),
         ];
     }
 
     /**
      * @param object $object
+     *
      * @return array
      */
     public function extract($object) {
         /** @var Event $event */
         $event = $object;
+
         return [
             'id' => $event->getId(),
             'title' => $event->getTitle(),
@@ -41,21 +43,21 @@ class EventHydrator implements HydratorInterface {
 
             'event_instances' => new EntityLinkCollection($event->getEventInstances()),
 
-            'event_plugins' => new EntityLinkCollection($event->getEventPlugins())
+            'event_plugins' => new EntityLinkCollection($event->getEventPlugins()),
 
-//            'event_plugins' => Link::factory([
-//                'rel' => 'event_plugins',
-//                'route' => [
-//                    'name' => 'e-camp-api.rest.doctrine.event-plugin',
-//                    'options' => [ 'query' => [ 'event_id' => $event->getId() ] ]
-//                ]
-//            ]),
+            //            'event_plugins' => Link::factory([
+            //                'rel' => 'event_plugins',
+            //                'route' => [
+            //                    'name' => 'e-camp-api.rest.doctrine.event-plugin',
+            //                    'options' => [ 'query' => [ 'event_id' => $event->getId() ] ]
+            //                ]
+            //            ]),
         ];
     }
 
     /**
-     * @param array $data
      * @param object $object
+     *
      * @return object
      */
     public function hydrate(array $data, $object) {

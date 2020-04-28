@@ -7,19 +7,21 @@ use eCamp\Core\EntityService\UserService;
 use eCamp\LibTest\PHPUnit\AbstractDatabaseTestCase;
 use Zend\Authentication\AuthenticationService;
 
+/**
+ * @internal
+ */
 class AuthUserProviderTest extends AbstractDatabaseTestCase {
     public function testAuthUser() {
         /** @var UserService $userService */
         $userService = \eCampApp::GetService(UserService::class);
 
-        $user = $userService->create((object)[
+        $user = $userService->create((object) [
             'username' => 'username',
-            'mailAddress' => 'test@eCamp3.ch'
+            'mailAddress' => 'test@eCamp3.ch',
         ]);
 
         $authenticationService = new AuthenticationService();
         $authenticationService->getStorage()->write($user->getId());
-
 
         /** @var AuthUserProvider $authUserProvider */
         $authUserProvider = \eCampApp::GetService(AuthUserProvider::class);

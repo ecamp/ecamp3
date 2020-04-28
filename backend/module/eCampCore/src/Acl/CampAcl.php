@@ -20,7 +20,6 @@ class CampAcl implements AssertionInterface {
         switch ($privilege) {
             case eCampAcl::REST_PRIVILEGE_FETCH_ALL:
                 return true;
-
             case eCampAcl::REST_PRIVILEGE_FETCH:
                 return false
                     || ($camp->getOwner() === $user)

@@ -2,10 +2,10 @@
 
 namespace eCamp\Core\EntityService;
 
+use eCamp\Core\Entity\Group;
 use eCamp\Core\Entity\GroupMembership;
 use eCamp\Core\Entity\User;
 use eCamp\Core\Hydrator\GroupHydrator;
-use eCamp\Core\Entity\Group;
 use eCamp\Lib\Service\ServiceUtils;
 use Zend\Authentication\AuthenticationService;
 
@@ -19,10 +19,9 @@ class GroupService extends AbstractEntityService {
         );
     }
 
-
     public function fetchByParentGroup(Group $group = null) {
         $q = $this->findCollectionQueryBuilder(Group::class, 'g');
-        if ($group == null) {
+        if (null == $group) {
             $q->where($q->expr()->isNull('g.parent'));
         } else {
             $q->where('g.parent = :group');

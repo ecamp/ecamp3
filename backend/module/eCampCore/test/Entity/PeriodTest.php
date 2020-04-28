@@ -8,6 +8,9 @@ use eCamp\Core\Entity\EventInstance;
 use eCamp\Core\Entity\Period;
 use eCamp\LibTest\PHPUnit\AbstractTestCase;
 
+/**
+ * @internal
+ */
 class PeriodTest extends AbstractTestCase {
     public function testCamp() {
         $camp = new Camp();
@@ -84,7 +87,6 @@ class PeriodTest extends AbstractTestCase {
         $period->removeEventInstance($eventInstance);
         $this->assertEquals(0, $period->getEventInstances()->count());
     }
-
 
     public function testLifecycle() {
         $period = new Period();

@@ -21,8 +21,11 @@ abstract class BasePluginService extends AbstractEntityService {
     }
 
     /**
-     * Returns a single plugin entity attached to $eventPluginId (1:1 connection)
+     * Returns a single plugin entity attached to $eventPluginId (1:1 connection).
+     *
      * @param mixed $eventPluginid
+     * @param mixed $eventPluginId
+     *
      * @return BaseEntity
      */
     public function fetchFromEventPlugin($eventPluginId) {
@@ -30,65 +33,25 @@ abstract class BasePluginService extends AbstractEntityService {
     }
 
     /**
-     * Returns all plugin entities attached to $eventPluginId (1:n connection)
+     * Returns all plugin entities attached to $eventPluginId (1:n connection).
+     *
      * @param string $eventPluginId
+     *
      * @return array
      */
     public function fetchAllFromEventPlugin($eventPluginId) {
         $q = $this->fetchAllQueryBuilder(['event_plugin_id' => $eventPluginId]);
-        $list = $this->getQueryResult($q);
-        return $list;
+
+        return $this->getQueryResult($q);
     }
-
-
-    /**
-     * @param string $className
-     * @return BasePluginEntity|ApiProblem
-     */
-    protected function createEntity($className) {
-        /** @var BasePluginEntity $entity */
-        $entity = parent::createEntity($className);
-
-        return $entity;
-    }
-
-    protected function fetchQueryBuilder($id) {
-        $q = parent::fetchQueryBuilder($id);
-
-        if (is_subclass_of($this->entityClass, BasePluginEntity::class)) {
-            if ($this->eventPluginId !== null) {
-                $q->andWhere('row.eventPlugin = :eventPluginId');
-                $q->setParameter('eventPluginId', $this->eventPluginId);
-            }
-        }
-
-        return $q;
-    }
-
-    protected function fetchAllQueryBuilder($params = []) {
-        $q = parent::fetchAllQueryBuilder($params);
-
-        if (is_subclass_of($this->entityClass, BasePluginEntity::class)) {
-            if ($this->eventPluginId !== null) {
-                $q->andWhere('row.eventPlugin = :eventPluginId');
-                $q->setParameter('eventPluginId', $this->eventPluginId);
-            }
-        }
-
-        if (isset($params['event_plugin_id'])) {
-            $q->andWhere('row.eventPlugin = :eventPlugin_id');
-            $q->setParameter('eventPlugin_id', $params['event_plugin_id']);
-        }
-
-        return $q;
-    }
-
 
     /**
      * @param array $data
-     * @return BasePluginEntity|ApiProblem
+     *
      * @throws ORMException
      * @throws NoAccessException
+     *
+     * @return ApiProblem|BasePluginEntity
      */
     public function createWithoutPersist($data) {
         /** @var BasePluginEntity $entity */
@@ -104,10 +67,9 @@ abstract class BasePluginService extends AbstractEntityService {
     }
 
     /**
-     * Can be used instead of create if EventPlugin object is available but not it's id (e.g. during creation process)
+     * Can be used instead of create if EventPlugin object is available but not it's id (e.g. during creation process).
      */
     public function createWithEventPlugin(array $data, EventPlugin $eventPlugin) {
-
         /** @var BasePluginEntity $entity */
         $entity = $this->createWithoutPersist($data);
         $entity->setEventPlugin($eventPlugin);
@@ -115,5 +77,46 @@ abstract class BasePluginService extends AbstractEntityService {
         $this->getServiceUtils()->emPersist($entity);
 
         return $entity;
+    }
+
+    /**
+     * @param string $className
+     *
+     * @return ApiProblem|BasePluginEntity
+     */
+    protected function createEntity($className) {
+        /** @var BasePluginEntity $entity */
+        return parent::createEntity($className);
+    }
+
+    protected function fetchQueryBuilder($id) {
+        $q = parent::fetchQueryBuilder($id);
+
+        if (is_subclass_of($this->entityClass, BasePluginEntity::class)) {
+            if (null !== $this->eventPluginId) {
+                $q->andWhere('row.eventPlugin = :eventPluginId');
+                $q->setParameter('eventPluginId', $this->eventPluginId);
+            }
+        }
+
+        return $q;
+    }
+
+    protected function fetchAllQueryBuilder($params = []) {
+        $q = parent::fetchAllQueryBuilder($params);
+
+        if (is_subclass_of($this->entityClass, BasePluginEntity::class)) {
+            if (null !== $this->eventPluginId) {
+                $q->andWhere('row.eventPlugin = :eventPluginId');
+                $q->setParameter('eventPluginId', $this->eventPluginId);
+            }
+        }
+
+        if (isset($params['event_plugin_id'])) {
+            $q->andWhere('row.eventPlugin = :eventPlugin_id');
+            $q->setParameter('eventPlugin_id', $params['event_plugin_id']);
+        }
+
+        return $q;
     }
 }

@@ -7,6 +7,9 @@ use eCamp\Core\Entity\EventCategory;
 use eCamp\Core\Entity\EventType;
 use eCamp\LibTest\PHPUnit\AbstractTestCase;
 
+/**
+ * @internal
+ */
 class EventCategoryTest extends AbstractTestCase {
     public function testEventCategory() {
         $camp = new Camp();

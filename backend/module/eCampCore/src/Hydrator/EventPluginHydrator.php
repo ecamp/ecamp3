@@ -2,34 +2,35 @@
 
 namespace eCamp\Core\Hydrator;
 
-use ZF\Hal\Link\Link;
-use eCamp\Lib\Entity\EntityLink;
 use eCamp\Core\Entity\EventPlugin;
-use Zend\Hydrator\HydratorInterface;
-use eCamp\Core\Plugin\PluginStrategyProvider;
-use Psr\Container\NotFoundExceptionInterface;
 use eCamp\Core\Plugin\PluginStrategyInterface;
+use eCamp\Core\Plugin\PluginStrategyProvider;
+use eCamp\Lib\Entity\EntityLink;
 use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
+use Zend\Hydrator\HydratorInterface;
+use ZF\Hal\Link\Link;
 
 class EventPluginHydrator implements HydratorInterface {
-    public static function HydrateInfo() {
-        return [
-        ];
-    }
-
-    /** @var  PluginStrategyProvider */
+    /** @var PluginStrategyProvider */
     private $pluginStrategyProvider;
 
     public function __construct(PluginStrategyProvider $pluginStrategyProvider) {
         $this->pluginStrategyProvider = $pluginStrategyProvider;
     }
 
+    public static function HydrateInfo() {
+        return [
+        ];
+    }
 
     /**
      * @param object $object
-     * @return array
+     *
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
+     *
+     * @return array
      */
     public function extract($object) {
         /** @var EventPlugin $eventPlugin */
@@ -47,15 +48,15 @@ class EventPluginHydrator implements HydratorInterface {
                 'rel' => 'event',
                 'route' => [
                     'name' => 'e-camp-api.rest.doctrine.event',
-                    'params' => [ 'event_id' => $eventPlugin->getEvent()->getId() ]
-                ]
-            ])
+                    'params' => ['event_id' => $eventPlugin->getEvent()->getId()],
+                ],
+            ]),
         ];
 
         /** @var PluginStrategyInterface $strategy */
         $strategy = $this->pluginStrategyProvider->get($plugin);
 
-        if ($strategy != null) {
+        if (null != $strategy) {
             $links = $strategy->eventPluginExtract($eventPlugin);
             $data = array_merge($data, $links);
         }
@@ -64,8 +65,8 @@ class EventPluginHydrator implements HydratorInterface {
     }
 
     /**
-     * @param array $data
      * @param object $object
+     *
      * @return object
      */
     public function hydrate(array $data, $object) {

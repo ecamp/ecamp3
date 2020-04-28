@@ -2,19 +2,16 @@
 
 namespace eCamp\Core\Plugin;
 
-use eCamp\Core\Plugin\PluginStrategyProvider;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
-use eCamp\Core\Plugin\PluginStrategyProviderAware;
 
 class PluginStrategyProviderInjector {
-
     /** @var PluginStrategyProvider */
     protected $pluginStrategyProvider;
 
     public function __construct(PluginStrategyProvider $pluginStrategyProvider) {
         $this->pluginStrategyProvider = $pluginStrategyProvider;
     }
- 
+
     public function postLoad(LifecycleEventArgs $eventArgs) {
         $this->inject($eventArgs);
     }

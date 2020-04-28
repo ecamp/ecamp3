@@ -1,4 +1,5 @@
 <?php
+
 namespace eCampApi\V1\Rpc\Auth;
 
 use eCamp\Core\EntityService\UserService;

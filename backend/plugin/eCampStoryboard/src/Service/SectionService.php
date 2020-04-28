@@ -4,9 +4,9 @@ namespace eCamp\Plugin\Storyboard\Service;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use eCamp\Core\Plugin\BasePluginService;
+use eCamp\Lib\Service\ServiceUtils;
 use eCamp\Plugin\Storyboard\Entity\Section;
 use eCamp\Plugin\Storyboard\Hydrator\SectionHydrator;
-use eCamp\Lib\Service\ServiceUtils;
 use Zend\Authentication\AuthenticationService;
 
 class SectionService extends BasePluginService {
@@ -17,13 +17,6 @@ class SectionService extends BasePluginService {
             SectionHydrator::class,
             $authenticationService
         );
-    }
-
-    protected function fetchAllQueryBuilder($params = []) {
-        $q = parent::fetchAllQueryBuilder($params);
-        $q->orderBy('row.pos');
-
-        return $q;
     }
 
     public function moveUp($id) {
@@ -78,5 +71,12 @@ class SectionService extends BasePluginService {
             $section1->setPos($pos2);
             $section2->setPos($pos1);
         }
+    }
+
+    protected function fetchAllQueryBuilder($params = []) {
+        $q = parent::fetchAllQueryBuilder($params);
+        $q->orderBy('row.pos');
+
+        return $q;
     }
 }

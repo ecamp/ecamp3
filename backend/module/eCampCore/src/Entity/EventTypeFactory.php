@@ -6,17 +6,14 @@ use Doctrine\ORM\Mapping as ORM;
 use eCamp\Lib\Entity\BaseEntity;
 
 /**
- * EventTypeFactory
- * @ORM\Entity()
+ * EventTypeFactory.
+ *
+ * @ORM\Entity
  * @ORM\Table(name="event_type_factories", uniqueConstraints={
- *   @ORM\UniqueConstraint(name="eventtype_name_unique", columns={"eventType_id", "name"})
+ *     @ORM\UniqueConstraint(name="eventtype_name_unique", columns={"eventType_id", "name"})
  * })
  */
 class EventTypeFactory extends BaseEntity {
-    public function __construct() {
-        parent::__construct();
-    }
-
     /**
      * @var string
      * @ORM\Column(type="string", length=64, nullable=false)
@@ -36,6 +33,9 @@ class EventTypeFactory extends BaseEntity {
      */
     private $eventType;
 
+    public function __construct() {
+        parent::__construct();
+    }
 
     /**
      * @return string
@@ -48,7 +48,6 @@ class EventTypeFactory extends BaseEntity {
         $this->name = $name;
     }
 
-
     /**
      * @return string
      */
@@ -59,7 +58,6 @@ class EventTypeFactory extends BaseEntity {
     public function setFactoryName(string $factoryName): void {
         $this->factoryName = $factoryName;
     }
-
 
     /**
      * @return EventType

@@ -1,31 +1,30 @@
 <?php
 
 return [
-
     'router' => [
         'routes' => [
             'e-camp-api.rest.doctrine.event-plugin.storyboard' => [
+                'type' => 'Segment',
+                'options' => [
+                    'route' => '/api/plugin/storyboards[/:section_id]',
+                    'defaults' => [
+                        'controller' => \eCamp\Plugin\Storyboard\Controller\SectionController::class,
+                    ],
+                ],
+                'may_terminate' => true,
+                'child_routes' => [
+                    'move' => [
                         'type' => 'Segment',
                         'options' => [
-                            'route' => '/api/plugin/storyboards[/:section_id]',
+                            'route' => '/:action',
                             'defaults' => [
-                                'controller' => \eCamp\Plugin\Storyboard\Controller\SectionController::class,
+                                'controller' => \eCamp\Plugin\Storyboard\Controller\SectionActionController::class,
                             ],
                         ],
-                        'may_terminate' => true,
-                        'child_routes' => [
-                            'move' => [
-                                'type' => 'Segment',
-                                'options' => [
-                                    'route' => '/:action',
-                                    'defaults' => [
-                                        'controller' => \eCamp\Plugin\Storyboard\Controller\SectionActionController::class,
-                                    ],
-                                ],
-                            ]
-                        ]
-            ]
-        ]
+                    ],
+                ],
+            ],
+        ],
     ],
 
     'zf-rest' => [
@@ -40,7 +39,7 @@ return [
                 0 => 'GET',
                 1 => 'PATCH',
                 2 => 'PUT',
-                3 => 'DELETE'
+                3 => 'DELETE',
             ],
             'collection_http_methods' => [
                 0 => 'GET',
@@ -65,18 +64,18 @@ return [
                 'entity_identifier_name' => 'id',
                 'route_name' => 'e-camp-api.rest.doctrine.event-plugin.storyboard',
                 'route_params' => [
-                    'event_plugin_id' => function($object) {
+                    'event_plugin_id' => function ($object) {
                         return $object->getEventPlugin()->getId();
-                    }
+                    },
                 ],
                 'hydrator' => eCamp\Plugin\Storyboard\Hydrator\SectionHydrator::class,
-                'max_depth' => 2
+                'max_depth' => 2,
             ],
             \eCamp\Plugin\Storyboard\Entity\SectionCollection::class => [
                 'entity_identifier_name' => 'id',
                 'route_name' => 'e-camp-api.rest.doctrine.event-plugin.storyboard',
                 'is_collection' => true,
-                'max_depth' => 0
+                'max_depth' => 0,
             ],
         ],
     ],
@@ -86,15 +85,14 @@ return [
             'ecamp_plugin_storyboard_entities' => [
                 'class' => 'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
                 'cache' => 'array',
-                'paths' => [__DIR__ . '/../src/Entity']
+                'paths' => [__DIR__.'/../src/Entity'],
             ],
 
             'orm_default' => [
                 'drivers' => [
-                    'eCamp\Plugin\Storyboard\Entity' => 'ecamp_plugin_storyboard_entities'
-                ]
+                    'eCamp\Plugin\Storyboard\Entity' => 'ecamp_plugin_storyboard_entities',
+                ],
             ],
         ],
     ],
-
 ];

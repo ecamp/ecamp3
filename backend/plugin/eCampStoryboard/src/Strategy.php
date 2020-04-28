@@ -18,27 +18,25 @@ class Strategy extends PluginStrategyBase {
     }
 
     /**
-     * @param EventPlugin $eventPlugin
      * @return array
      */
-    public function eventPluginExtract(EventPlugin $eventPlugin) : array {
+    public function eventPluginExtract(EventPlugin $eventPlugin): array {
         return [
             'section' => Link::factory([
                 'rel' => 'section',
                 'route' => [
                     'name' => 'e-camp-api.rest.doctrine.event-plugin.storyboard',
-                    'options' => ['query' => ['event_plugin_id' => $eventPlugin->getId()]]
-                ]
-            ])
+                    'options' => ['query' => ['event_plugin_id' => $eventPlugin->getId()]],
+                ],
+            ]),
         ];
     }
 
     /**
-     * @param EventPlugin $eventPlugin
      * @throws NoAccessException
      * @throws ORMException
      */
-    public function eventPluginCreated(EventPlugin $eventPlugin) : void {
+    public function eventPluginCreated(EventPlugin $eventPlugin): void {
         $this->sectionService->createWithEventPlugin(['pos' => 0], $eventPlugin);
     }
 }

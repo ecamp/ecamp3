@@ -7,17 +7,23 @@ use Doctrine\ORM\Mapping as ORM;
 use eCamp\Lib\Entity\BaseEntity;
 
 /**
- * @ORM\Entity()
+ * @ORM\Entity
  * @ORM\HasLifecycleCallbacks
  * @ORM\Table(name="periods")
  */
 class Period extends BaseEntity {
-    public function __construct() {
-        parent::__construct();
+    /**
+     * @var Day[]
+     * @ORM\OneToMany(targetEntity="Day", mappedBy="period", orphanRemoval=true)
+     * @ORM\OrderBy({"dayOffset": "ASC"})
+     */
+    protected $days;
 
-        $this->days = new ArrayCollection();
-        $this->eventInstances = new ArrayCollection();
-    }
+    /**
+     * @var ArrayCollection
+     * @ORM\OneToMany(targetEntity="EventInstance", mappedBy="period")
+     */
+    protected $eventInstances;
 
     /**
      * @var Camp
@@ -28,35 +34,28 @@ class Period extends BaseEntity {
 
     /**
      * @var \DateTime
-     * @ORM\Column(type="date", nullable=false )
+     * @ORM\Column(type="date", nullable=false)
      */
     private $start;
 
     /**
      * @var \DateTime
-     * @ORM\Column(type="date", nullable=false )
+     * @ORM\Column(type="date", nullable=false)
      */
     private $end;
 
     /**
      * @var string
-     * @ORM\Column(type="string", length=128, nullable=true )
+     * @ORM\Column(type="string", length=128, nullable=true)
      */
     private $description;
 
-    /**
-     * @var Day[]
-     * @ORM\OneToMany(targetEntity="Day", mappedBy="period", orphanRemoval=true)
-     * @ORM\OrderBy({"dayOffset" = "ASC"})
-     */
-    protected $days;
+    public function __construct() {
+        parent::__construct();
 
-    /**
-     * @var ArrayCollection
-     * @ORM\OneToMany(targetEntity="EventInstance", mappedBy="period")
-     */
-    protected $eventInstances;
-
+        $this->days = new ArrayCollection();
+        $this->eventInstances = new ArrayCollection();
+    }
 
     /**
      * @return Camp
@@ -69,12 +68,11 @@ class Period extends BaseEntity {
         $this->camp = $camp;
     }
 
-
     /**
      * @return \DateTime
      */
     public function getStart() {
-        return ($this->start !== null) ? (clone $this->start) : null;
+        return (null !== $this->start) ? (clone $this->start) : null;
     }
 
     public function setStart(\DateTime $start): void {
@@ -83,17 +81,16 @@ class Period extends BaseEntity {
 
         $this->start = $start;
 
-        if ($this->end != null && $this->end < $start) {
+        if (null != $this->end && $this->end < $start) {
             $this->setEnd($start);
         }
     }
-
 
     /**
      * @return \DateTime
      */
     public function getEnd() {
-        return ($this->end !== null) ? (clone $this->end) : null;
+        return (null !== $this->end) ? (clone $this->end) : null;
     }
 
     public function setEnd(\DateTime $end): void {
@@ -102,11 +99,10 @@ class Period extends BaseEntity {
 
         $this->end = $end;
 
-        if ($this->start != null && $this->start > $end) {
+        if (null != $this->start && $this->start > $end) {
             $this->setStart($end);
         }
     }
-
 
     /**
      * @return int
@@ -115,13 +111,14 @@ class Period extends BaseEntity {
         $start = $this->getStart();
         $end = $this->getEnd();
 
-        if ($start !== null && $end !== null) {
+        if (null !== $start && null !== $end) {
             $diff = $end->getTimestamp() - $start->getTimestamp();
+
             return ceil($diff / 86400);
         }
+
         return 0;
     }
-
 
     /**
      * @return string
@@ -133,7 +130,6 @@ class Period extends BaseEntity {
     public function setDescription($description): void {
         $this->description = $description;
     }
-
 
     /**
      * @return ArrayCollection
@@ -152,7 +148,6 @@ class Period extends BaseEntity {
         $this->days->removeElement($day);
     }
 
-
     /**
      * @return ArrayCollection
      */
@@ -169,8 +164,6 @@ class Period extends BaseEntity {
         $eventInstance->setPeriod(null);
         $this->eventInstances->removeElement($eventInstance);
     }
-
-
 
     /** @ORM\PrePersist */
     public function PrePersist() {

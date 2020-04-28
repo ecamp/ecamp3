@@ -10,16 +10,15 @@ use eCamp\Core\Entity\EventInstance;
 use eCamp\Core\Entity\Period;
 
 class EventInstanceData extends AbstractFixture implements DependentFixtureInterface {
-    public static $EVENT_INSTANCE_1_LS_1 = Event::class . ':EVENT_INSTANCE_1_LS_1';
-    public static $EVENT_INSTANCE_1_LS_2 = Event::class . ':EVENT_INSTANCE_1_LS_2';
-    public static $EVENT_INSTANCE_1_LA_1 = Event::class . ':EVENT_INSTANCE_1_LA_1';
-    public static $EVENT_INSTANCE_1_LA_2 = Event::class . ':EVENT_INSTANCE_1_LA_2';
-    public static $EVENT_INSTANCE_2_LS = Event::class . ':EVENT_INSTANCE_2_LS';
-    public static $EVENT_INSTANCE_2_LA = Event::class . ':EVENT_INSTANCE_2_LA';
+    public static $EVENT_INSTANCE_1_LS_1 = Event::class.':EVENT_INSTANCE_1_LS_1';
+    public static $EVENT_INSTANCE_1_LS_2 = Event::class.':EVENT_INSTANCE_1_LS_2';
+    public static $EVENT_INSTANCE_1_LA_1 = Event::class.':EVENT_INSTANCE_1_LA_1';
+    public static $EVENT_INSTANCE_1_LA_2 = Event::class.':EVENT_INSTANCE_1_LA_2';
+    public static $EVENT_INSTANCE_2_LS = Event::class.':EVENT_INSTANCE_2_LS';
+    public static $EVENT_INSTANCE_2_LA = Event::class.':EVENT_INSTANCE_2_LA';
 
     public function load(ObjectManager $manager) {
         $repository = $manager->getRepository(EventInstance::class);
-
 
         /** @var Period $period */
         $period = $this->getReference(PeriodData::$PERIOD_1);
@@ -29,7 +28,7 @@ class EventInstanceData extends AbstractFixture implements DependentFixtureInter
 
         $eventInstances = $repository->findBy(['period' => $period, 'event' => $event]);
         $eventInstance = array_shift($eventInstances);
-        if ($eventInstance == null) {
+        if (null == $eventInstance) {
             $eventInstance = new EventInstance();
             $eventInstance->setPeriod($period);
             $eventInstance->setEvent($event);
@@ -43,7 +42,7 @@ class EventInstanceData extends AbstractFixture implements DependentFixtureInter
         $this->addReference(self::$EVENT_INSTANCE_1_LS_1, $eventInstance);
 
         $eventInstance = array_shift($eventInstances);
-        if ($eventInstance == null) {
+        if (null == $eventInstance) {
             $eventInstance = new EventInstance();
             $eventInstance->setPeriod($period);
             $eventInstance->setEvent($event);
@@ -56,13 +55,12 @@ class EventInstanceData extends AbstractFixture implements DependentFixtureInter
         }
         $this->addReference(self::$EVENT_INSTANCE_1_LS_2, $eventInstance);
 
-
         /** @var Event $event */
         $event = $this->getReference(EventData::$EVENT_1_LA);
 
         $eventInstances = $repository->findBy(['period' => $period, 'event' => $event]);
         $eventInstance = array_shift($eventInstances);
-        if ($eventInstance == null) {
+        if (null == $eventInstance) {
             $eventInstance = new EventInstance();
             $eventInstance->setPeriod($period);
             $eventInstance->setEvent($event);
@@ -76,7 +74,7 @@ class EventInstanceData extends AbstractFixture implements DependentFixtureInter
         $this->addReference(self::$EVENT_INSTANCE_1_LA_1, $eventInstance);
 
         $eventInstance = array_shift($eventInstances);
-        if ($eventInstance == null) {
+        if (null == $eventInstance) {
             $eventInstance = new EventInstance();
             $eventInstance->setPeriod($period);
             $eventInstance->setEvent($event);
@@ -89,9 +87,6 @@ class EventInstanceData extends AbstractFixture implements DependentFixtureInter
         }
         $this->addReference(self::$EVENT_INSTANCE_1_LA_2, $eventInstance);
 
-
-
-
         /** @var Period $period */
         $period = $this->getReference(PeriodData::$PERIOD_2);
 
@@ -100,7 +95,7 @@ class EventInstanceData extends AbstractFixture implements DependentFixtureInter
 
         $eventInstances = $repository->findBy(['period' => $period, 'event' => $event]);
         $eventInstance = array_shift($eventInstances);
-        if ($eventInstance == null) {
+        if (null == $eventInstance) {
             $eventInstance = new EventInstance();
             $eventInstance->setPeriod($period);
             $eventInstance->setEvent($event);
@@ -113,13 +108,12 @@ class EventInstanceData extends AbstractFixture implements DependentFixtureInter
         }
         $this->addReference(self::$EVENT_INSTANCE_2_LS, $eventInstance);
 
-
         /** @var Event $event */
         $event = $this->getReference(EventData::$EVENT_2_LA);
 
         $eventInstances = $repository->findBy(['period' => $period, 'event' => $event]);
         $eventInstance = array_shift($eventInstances);
-        if ($eventInstance == null) {
+        if (null == $eventInstance) {
             $eventInstance = new EventInstance();
             $eventInstance->setPeriod($period);
             $eventInstance->setEvent($event);
@@ -132,12 +126,10 @@ class EventInstanceData extends AbstractFixture implements DependentFixtureInter
         }
         $this->addReference(self::$EVENT_INSTANCE_2_LA, $eventInstance);
 
-
-
         $manager->flush();
     }
 
     public function getDependencies() {
-        return [ PeriodData::class, EventData::class ];
+        return [PeriodData::class, EventData::class];
     }
 }

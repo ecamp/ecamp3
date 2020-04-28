@@ -3,10 +3,10 @@
 namespace eCamp\Core\EntityService;
 
 use Doctrine\ORM\ORMException;
-use eCamp\Core\Hydrator\GroupMembershipHydrator;
 use eCamp\Core\Entity\Group;
 use eCamp\Core\Entity\GroupMembership;
 use eCamp\Core\Entity\User;
+use eCamp\Core\Hydrator\GroupMembershipHydrator;
 use eCamp\Lib\Service\ServiceUtils;
 use Zend\Authentication\AuthenticationService;
 use ZF\ApiProblem\ApiProblem;
@@ -20,7 +20,6 @@ class GroupMembershipService extends AbstractEntityService {
             $authenticationService
         );
     }
-
 
     public function fetchAllQueryBuilder($params = []) {
         $q = parent::fetchAllQueryBuilder($params);
@@ -37,12 +36,13 @@ class GroupMembershipService extends AbstractEntityService {
         return $q;
     }
 
-
     /**
      * @param mixed $data
-     * @return GroupMembership|ApiProblem
+     *
      * @throws \Doctrine\ORM\ORMException
      * @throws \Exception
+     *
+     * @return ApiProblem|GroupMembership
      */
     public function create($data) {
         $authUser = $this->getAuthUser();
@@ -82,12 +82,13 @@ class GroupMembershipService extends AbstractEntityService {
     /**
      * @param mixed $id
      * @param mixed $data
-     * @return GroupMembership|ApiProblem
+     *
      * @throws ORMException
      * @throws \Exception
+     *
+     * @return ApiProblem|GroupMembership
      */
     public function update($id, $data) {
-
         /** @var GroupMembership $groupMembership */
         $groupMembership = parent::update($id, $data);
 
@@ -103,8 +104,8 @@ class GroupMembershipService extends AbstractEntityService {
     }
 
     /**
-     * @param GroupMembership $groupMembership
      * @param $data
+     *
      * @throws \Exception
      */
     private function updateMembership(GroupMembership $groupMembership, $data) {
@@ -114,14 +115,14 @@ class GroupMembershipService extends AbstractEntityService {
             $groupMembership->setRole($data->role);
         }
 
-        if (isset($data->status) && $data->status == GroupMembership::STATUS_UNRELATED) {
+        if (isset($data->status) && GroupMembership::STATUS_UNRELATED == $data->status) {
             $this->delete($groupMembership->getId());
         }
     }
 
     /**
-     * @param GroupMembership $groupMembership
      * @param $data
+     *
      * @throws \Doctrine\ORM\ORMException
      * @throws \Exception
      */
@@ -131,14 +132,14 @@ class GroupMembershipService extends AbstractEntityService {
         // TODO: ACL-Check can update Invitation
 
         if ($authUser === $groupMembership->getUser()) {
-            if ($data->status == GroupMembership::STATUS_UNRELATED) {
+            if (GroupMembership::STATUS_UNRELATED == $data->status) {
                 $this->delete($groupMembership->getId());
             }
-            if ($data->status == GroupMembership::STATUS_ESTABLISHED) {
+            if (GroupMembership::STATUS_ESTABLISHED == $data->status) {
                 $groupMembership->setStatus(GroupMembership::STATUS_ESTABLISHED);
             }
         } else {
-            if ($data->status == GroupMembership::STATUS_UNRELATED) {
+            if (GroupMembership::STATUS_UNRELATED == $data->status) {
                 $this->delete($groupMembership->getId());
             }
             if (isset($data->role)) {
@@ -148,8 +149,8 @@ class GroupMembershipService extends AbstractEntityService {
     }
 
     /**
-     * @param GroupMembership $groupMembership
      * @param $data
+     *
      * @throws \Doctrine\ORM\ORMException
      * @throws \Exception
      */
@@ -162,14 +163,14 @@ class GroupMembershipService extends AbstractEntityService {
             if (isset($data->role)) {
                 $groupMembership->setRole($data->role);
             }
-            if ($data->status == GroupMembership::STATUS_UNRELATED) {
+            if (GroupMembership::STATUS_UNRELATED == $data->status) {
                 $this->delete($groupMembership->getId());
             }
         } else {
-            if ($data->status == GroupMembership::STATUS_UNRELATED) {
+            if (GroupMembership::STATUS_UNRELATED == $data->status) {
                 $this->delete($groupMembership->getId());
             }
-            if ($data->status == GroupMembership::STATUS_ESTABLISHED) {
+            if (GroupMembership::STATUS_ESTABLISHED == $data->status) {
                 if (isset($data->role)) {
                     $groupMembership->setRole($data->role);
                 }

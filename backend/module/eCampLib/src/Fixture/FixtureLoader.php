@@ -2,10 +2,9 @@
 
 namespace eCamp\Lib\Fixture;
 
-use Interop\Container\ContainerInterface;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\DataFixtures\Loader as BaseLoader;
-
+use Interop\Container\ContainerInterface;
 
 class FixtureLoader extends BaseLoader {
     /**

@@ -6,15 +6,12 @@ use Doctrine\ORM\Mapping as ORM;
 use eCamp\Lib\Entity\BaseEntity;
 
 /**
- * EventCategory
- * @ORM\Entity()
+ * EventCategory.
+ *
+ * @ORM\Entity
  * @ORM\Table(name="event_categories")
  */
 class EventCategory extends BaseEntity {
-    public function __construct() {
-        parent::__construct();
-    }
-
     /**
      * @var Camp
      * @ORM\ManyToOne(targetEntity="Camp")
@@ -53,6 +50,9 @@ class EventCategory extends BaseEntity {
      */
     private $numberingStyle;
 
+    public function __construct() {
+        parent::__construct();
+    }
 
     /**
      * @return Camp
@@ -65,7 +65,6 @@ class EventCategory extends BaseEntity {
         $this->camp = $camp;
     }
 
-
     /**
      * @return EventType
      */
@@ -76,14 +75,13 @@ class EventCategory extends BaseEntity {
     public function setEventType(EventType $eventType) {
         $this->eventType = $eventType;
 
-        if ($this->getColor() == null) {
+        if (null == $this->getColor()) {
             $this->setColor($eventType->getDefaultColor());
         }
-        if ($this->getNumberingStyle() == null) {
+        if (null == $this->getNumberingStyle()) {
             $this->setNumberingStyle($eventType->getDefaultNumberingStyle());
         }
     }
-
 
     /**
      * @return string
@@ -96,7 +94,6 @@ class EventCategory extends BaseEntity {
         $this->short = $short;
     }
 
-
     /**
      * @return string
      */
@@ -108,23 +105,21 @@ class EventCategory extends BaseEntity {
         $this->name = $name;
     }
 
-
     /**
      * @return string
      */
     public function getColor() {
-        if ( $this->color !== null ) {
+        if (null !== $this->color) {
             return $this->color;
-        } else {
-            $eventType = $this->getEventType();
-            return $eventType !== null ? $eventType->getDefaultColor() : null;
         }
+        $eventType = $this->getEventType();
+
+        return null !== $eventType ? $eventType->getDefaultColor() : null;
     }
 
     public function setColor($color) {
         $this->color = $color;
     }
-
 
     /**
      * @return string
@@ -137,9 +132,7 @@ class EventCategory extends BaseEntity {
         $this->numberingStyle = $numberingStyle;
     }
 
-
     /**
-     * @param int $num
      * @return string
      */
     public function getStyledNumber(int $num): string {
@@ -158,7 +151,7 @@ class EventCategory extends BaseEntity {
     }
 
     private function getAlphaNum($num) {
-        $num--;
+        --$num;
         $alphaNum = '';
         if ($num >= 26) {
             $alphaNum .= $this->getAlphaNum(floor($num / 26));
@@ -170,10 +163,10 @@ class EventCategory extends BaseEntity {
 
     private function getRomanNum($num) {
         $table = [
-            'M'=>1000,  'CM'=>900,  'D'=>500,   'CD'=>400,
-            'C'=>100,   'XC'=>90,   'L'=>50,    'XL'=>40,
-            'X'=>10,    'IX'=>9,    'V'=>5,     'IV'=>4,
-            'I'=>1
+            'M' => 1000,  'CM' => 900,  'D' => 500,   'CD' => 400,
+            'C' => 100,   'XC' => 90,   'L' => 50,    'XL' => 40,
+            'X' => 10,    'IX' => 9,    'V' => 5,     'IV' => 4,
+            'I' => 1,
         ];
         $romanNum = '';
         while ($num > 0) {
@@ -181,6 +174,7 @@ class EventCategory extends BaseEntity {
                 if ($num >= $arb) {
                     $num -= $arb;
                     $romanNum .= $rom;
+
                     break;
                 }
             }

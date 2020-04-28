@@ -11,6 +11,9 @@ use eCamp\Core\Entity\EventTypePlugin;
 use eCamp\Core\Entity\Plugin;
 use eCamp\LibTest\PHPUnit\AbstractTestCase;
 
+/**
+ * @internal
+ */
 class EventTypeTest extends AbstractTestCase {
     public function testEventType() {
         $eventType = new EventType();

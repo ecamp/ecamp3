@@ -10,12 +10,10 @@ use eCamp\Core\Plugin\BasePluginEntity;
  * @ORM\Table(name="plugin_textarea_textareas")
  */
 class Textarea extends BasePluginEntity {
-
     /**
      * @ORM\Column(type="text", nullable=true)
      */
     private $text;
-
 
     /**
      * @return string

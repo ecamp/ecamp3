@@ -16,6 +16,7 @@ class EventInstanceHydrator implements HydratorInterface {
 
     /**
      * @param object $object
+     *
      * @return array
      */
     public function extract($object) {
@@ -45,13 +46,13 @@ class EventInstanceHydrator implements HydratorInterface {
 
             'event' => EntityLink::Create($eventInstance->getEvent()),
             'period' => EntityLink::Create($eventInstance->getPeriod()),
-            'day' => EntityLink::Create($day)
+            'day' => EntityLink::Create($day),
         ];
     }
 
     /**
-     * @param array $data
      * @param object $object
+     *
      * @return object
      */
     public function hydrate(array $data, $object) {

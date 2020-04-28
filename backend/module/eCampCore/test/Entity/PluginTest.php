@@ -5,6 +5,9 @@ namespace eCamp\CoreTest\Entity;
 use eCamp\Core\Entity\Plugin;
 use eCamp\LibTest\PHPUnit\AbstractTestCase;
 
+/**
+ * @internal
+ */
 class PluginTest extends AbstractTestCase {
     public function testPlugin() {
         $plugin = new Plugin();

@@ -11,21 +11,41 @@ use eCamp\Lib\Entity\BaseEntity;
  * @ORM\Entity(repositoryClass="eCamp\Core\Repository\CampRepository")
  * @ORM\HasLifecycleCallbacks
  * @ORM\Table(name="camps", uniqueConstraints={
- *   @ORM\UniqueConstraint(name="owner_name_unique", columns={"owner_id", "name"})
+ *     @ORM\UniqueConstraint(name="owner_name_unique", columns={"owner_id", "name"})
  * })
  * @EntityFilter(filterClass="eCamp\Core\EntityFilter\CampFilter")
  */
 class Camp extends BaseEntity {
-    public function __construct() {
-        parent::__construct();
+    /**
+     * @var ArrayCollection
+     * @ORM\OneToMany(targetEntity="CampCollaboration", mappedBy="camp", orphanRemoval=true)
+     */
+    protected $collaborations;
 
-        $this->collaborations = new ArrayCollection();
-        $this->jobs = new ArrayCollection();
-        $this->periods = new ArrayCollection();
-        $this->eventCategories = new ArrayCollection();
-        $this->events = new ArrayCollection();
-    }
+    /**
+     * @var ArrayCollection
+     * @ORM\OneToMany(targetEntity="Job", mappedBy="camp", orphanRemoval=true)
+     */
+    protected $jobs;
 
+    /**
+     * @var ArrayCollection
+     * @ORM\OneToMany(targetEntity="Period", mappedBy="camp", orphanRemoval=true)
+     * @ORM\OrderBy({"start": "ASC"})
+     */
+    protected $periods;
+
+    /**
+     * @var ArrayCollection
+     * @ORM\OneToMany(targetEntity="EventCategory", mappedBy="camp", orphanRemoval=true)
+     */
+    protected $eventCategories;
+
+    /**
+     * @var ArrayCollection
+     * @ORM\OneToMany(targetEntity="Event", mappedBy="camp", orphanRemoval=true)
+     */
+    protected $events;
 
     /**
      * @var CampType
@@ -66,37 +86,15 @@ class Camp extends BaseEntity {
      */
     private $owner;
 
-    /**
-     * @var ArrayCollection
-     * @ORM\OneToMany(targetEntity="CampCollaboration", mappedBy="camp", orphanRemoval=true)
-     */
-    protected $collaborations;
+    public function __construct() {
+        parent::__construct();
 
-    /**
-     * @var ArrayCollection
-     * @ORM\OneToMany(targetEntity="Job", mappedBy="camp", orphanRemoval=true)
-     */
-    protected $jobs;
-
-    /**
-     * @var ArrayCollection
-     * @ORM\OneToMany(targetEntity="Period", mappedBy="camp", orphanRemoval=true)
-     * @ORM\OrderBy({"start" = "ASC"})
-     */
-    protected $periods;
-
-    /**
-     * @var ArrayCollection
-     * @ORM\OneToMany(targetEntity="EventCategory", mappedBy="camp", orphanRemoval=true)
-     */
-    protected $eventCategories;
-
-    /**
-     * @var ArrayCollection
-     * @ORM\OneToMany(targetEntity="Event", mappedBy="camp", orphanRemoval=true)
-     */
-    protected $events;
-
+        $this->collaborations = new ArrayCollection();
+        $this->jobs = new ArrayCollection();
+        $this->periods = new ArrayCollection();
+        $this->eventCategories = new ArrayCollection();
+        $this->events = new ArrayCollection();
+    }
 
     /**
      * @return CampType
@@ -111,12 +109,12 @@ class Camp extends BaseEntity {
 
     /**
      * @param null $key
+     *
      * @return object
      */
     public function getConfig($key = null) {
-        return ($this->campType !== null) ? $this->campType->getConfig($key) : null;
+        return (null !== $this->campType) ? $this->campType->getConfig($key) : null;
     }
-
 
     /**
      * @return string
@@ -129,7 +127,6 @@ class Camp extends BaseEntity {
         $this->name = $name;
     }
 
-
     /**
      * @return string
      */
@@ -140,7 +137,6 @@ class Camp extends BaseEntity {
     public function setTitle(string $title) {
         $this->title = $title;
     }
-
 
     /**
      * @return string
@@ -153,7 +149,6 @@ class Camp extends BaseEntity {
         $this->motto = $motto;
     }
 
-
     /**
      * @return User
      */
@@ -165,7 +160,6 @@ class Camp extends BaseEntity {
         $this->creator = $creator;
     }
 
-
     /**
      * @return AbstractCampOwner
      */
@@ -174,13 +168,12 @@ class Camp extends BaseEntity {
     }
 
     public function setOwner($owner) {
-        if (! $owner instanceof User) {
-            throw new \Exception("Owner must be a user. Groups are not (yet) supported.");
+        if (!$owner instanceof User) {
+            throw new \Exception('Owner must be a user. Groups are not (yet) supported.');
         }
 
         $this->owner = $owner;
     }
-
 
     /**
      * @return bool
@@ -195,7 +188,6 @@ class Camp extends BaseEntity {
     public function belongsToGroup() {
         return $this->owner instanceof Group;
     }
-
 
     /**
      * @return ArrayCollection
@@ -214,7 +206,6 @@ class Camp extends BaseEntity {
         $this->collaborations->removeElement($collaboration);
     }
 
-
     /**
      * @return ArrayCollection
      */
@@ -231,7 +222,6 @@ class Camp extends BaseEntity {
         $job->setCamp(null);
         $this->jobs->removeElement($job);
     }
-
 
     /**
      * @return ArrayCollection
@@ -250,7 +240,6 @@ class Camp extends BaseEntity {
         $this->periods->removeElement($period);
     }
 
-
     /**
      * @return ArrayCollection
      */
@@ -267,7 +256,6 @@ class Camp extends BaseEntity {
         $eventCategory->setCamp(null);
         $this->eventCategories->removeElement($eventCategory);
     }
-
 
     /**
      * @return ArrayCollection

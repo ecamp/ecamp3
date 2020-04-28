@@ -10,8 +10,8 @@ use eCamp\Core\Entity\Day;
 use eCamp\Core\Entity\Period;
 
 class PeriodData extends AbstractFixture implements DependentFixtureInterface {
-    public static $PERIOD_1 = Period::class . ':PERIOD_1';
-    public static $PERIOD_2 = Period::class . ':PERIOD_2';
+    public static $PERIOD_1 = Period::class.':PERIOD_1';
+    public static $PERIOD_2 = Period::class.':PERIOD_2';
 
     public function load(ObjectManager $manager) {
         $repository = $manager->getRepository(Period::class);
@@ -19,8 +19,8 @@ class PeriodData extends AbstractFixture implements DependentFixtureInterface {
         /** @var Camp $camp */
         $camp = $this->getReference(CampData::$CAMP_1);
 
-        $period = $repository->findOneBy([ 'camp' => $camp, 'description' => 'Period of Camp1' ]);
-        if ($period == null) {
+        $period = $repository->findOneBy(['camp' => $camp, 'description' => 'Period of Camp1']);
+        if (null == $period) {
             $start = new \DateTime();
             $end = clone $start;
             $end->add(new \DateInterval('P7D'));
@@ -33,7 +33,7 @@ class PeriodData extends AbstractFixture implements DependentFixtureInterface {
             $manager->persist($period);
 
             $days = $period->getDurationInDays();
-            for ($idx = 0; $idx < $days; $idx++) {
+            for ($idx = 0; $idx < $days; ++$idx) {
                 $day = new Day();
                 $day->setPeriod($period);
                 $day->setDayOffset($idx);
@@ -43,12 +43,11 @@ class PeriodData extends AbstractFixture implements DependentFixtureInterface {
         }
         $this->addReference(self::$PERIOD_1, $period);
 
-
         /** @var Camp $camp */
         $camp = $this->getReference(CampData::$CAMP_2);
 
-        $period = $repository->findOneBy([ 'camp' => $camp, 'description' => 'Period of Camp2' ]);
-        if ($period == null) {
+        $period = $repository->findOneBy(['camp' => $camp, 'description' => 'Period of Camp2']);
+        if (null == $period) {
             $start = new \DateTime();
             $end = clone $start;
             $end->add(new \DateInterval('P5D'));
@@ -62,7 +61,7 @@ class PeriodData extends AbstractFixture implements DependentFixtureInterface {
             $manager->persist($period);
 
             $days = $period->getDurationInDays();
-            for ($idx = 0; $idx < $days; $idx++) {
+            for ($idx = 0; $idx < $days; ++$idx) {
                 $day = new Day();
                 $day->setPeriod($period);
                 $day->setDayOffset($idx);
@@ -72,11 +71,10 @@ class PeriodData extends AbstractFixture implements DependentFixtureInterface {
         }
         $this->addReference(self::$PERIOD_2, $period);
 
-
         $manager->flush();
     }
 
     public function getDependencies() {
-        return [ CampData::class ];
+        return [CampData::class];
     }
 }

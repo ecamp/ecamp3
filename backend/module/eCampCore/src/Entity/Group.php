@@ -8,25 +8,23 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity(repositoryClass="eCamp\Core\Repository\GroupRepository")
  * @ORM\Table(name="groups",
- *   indexes={@ORM\Index(name="group_name_idx", columns={"name"})},
- *   uniqueConstraints={@ORM\UniqueConstraint(
- *     name="group_parent_name_unique",columns={"parent_id","name"}
- *   )}
+ *     indexes={@ORM\Index(name="group_name_idx", columns={"name"})},
+ *     uniqueConstraints={@ORM\UniqueConstraint(
+ *         name="group_parent_name_unique", columns={"parent_id", "name"}
+ *     )}
  * )
  * @ORM\HasLifecycleCallbacks
  */
 class Group extends AbstractCampOwner {
-    public function __construct() {
-        parent::__construct();
-
-        $this->children = new ArrayCollection();
-        $this->memberships = new ArrayCollection();
-    }
-
+    /**
+     * @var ArrayCollection
+     * @ORM\OneToMany(targetEntity="GroupMembership", mappedBy="group", orphanRemoval=true)
+     */
+    protected $memberships;
 
     /**
      * @var string
-     * @ORM\Column(type="string", length=32, nullable=false )
+     * @ORM\Column(type="string", length=32, nullable=false)
      */
     private $name;
 
@@ -52,17 +50,16 @@ class Group extends AbstractCampOwner {
     /**
      * @var ArrayCollection
      * @ORM\OneToMany(targetEntity="Group", mappedBy="parent")
-     * @ORM\OrderBy({"name" = "ASC"})
+     * @ORM\OrderBy({"name": "ASC"})
      */
     private $children;
 
+    public function __construct() {
+        parent::__construct();
 
-    /**
-     * @var ArrayCollection
-     * @ORM\OneToMany(targetEntity="GroupMembership", mappedBy="group", orphanRemoval=true )
-     */
-    protected $memberships;
-
+        $this->children = new ArrayCollection();
+        $this->memberships = new ArrayCollection();
+    }
 
     /**
      * @return string
@@ -75,14 +72,12 @@ class Group extends AbstractCampOwner {
         $this->name = $name;
     }
 
-
     /**
      * @return string
      */
     public function getDisplayName() {
         return $this->name;
     }
-
 
     /**
      * @return string
@@ -95,7 +90,6 @@ class Group extends AbstractCampOwner {
         $this->description = $description;
     }
 
-
     /**
      * @return Organization
      */
@@ -107,7 +101,6 @@ class Group extends AbstractCampOwner {
         $this->organization = $organization;
     }
 
-
     /**
      * @return Group
      */
@@ -116,20 +109,18 @@ class Group extends AbstractCampOwner {
     }
 
     public function setParent(Group $parent = null): void {
-        if ($parent != null) {
+        if (null != $parent) {
             $this->organization = $parent->getOrganization();
         }
         $this->parent = $parent;
     }
 
-
     public function pathAsArray() {
-        $path = ($this->parent != null) ? $this->parent->pathAsArray() : [];
+        $path = (null != $this->parent) ? $this->parent->pathAsArray() : [];
         $path[] = $this;
 
         return $path;
     }
-
 
     /**
      * @return ArrayCollection
@@ -147,7 +138,6 @@ class Group extends AbstractCampOwner {
         $child->setParent(null);
         $this->children->removeElement($child);
     }
-
 
     /**
      * @return ArrayCollection

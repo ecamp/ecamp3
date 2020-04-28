@@ -1,4 +1,5 @@
 <?php
+
 namespace eCampApi\V1\Rpc\Index;
 
 use eCamp\Core\Entity\User;
@@ -31,7 +32,7 @@ class IndexController extends AbstractActionController {
 
         $data['self'] = Link::factory([
             'rel' => 'self',
-            'route' => 'e-camp-api.rpc.index'
+            'route' => 'e-camp-api.rpc.index',
         ]);
 
         $data['api'] = Link::factory([
@@ -39,9 +40,9 @@ class IndexController extends AbstractActionController {
             'route' => [
                 'name' => 'e-camp-api.rpc.index',
                 'params' => [
-                    'action' => 'api'
-                ]
-            ]
+                    'action' => 'api',
+                ],
+            ],
         ]);
 
         $data['setup'] = Link::factory([
@@ -49,9 +50,9 @@ class IndexController extends AbstractActionController {
             'route' => [
                 'name' => 'e-camp-api.rpc.index',
                 'params' => [
-                    'action' => 'setup.php'
-                ]
-            ]
+                    'action' => 'setup.php',
+                ],
+            ],
         ]);
 
         $data['php-info'] = Link::factory([
@@ -59,11 +60,10 @@ class IndexController extends AbstractActionController {
             'route' => [
                 'name' => 'e-camp-api.rpc.index',
                 'params' => [
-                    'action' => 'info.php'
-                ]
-            ]
+                    'action' => 'info.php',
+                ],
+            ],
         ]);
-
 
         $json = new HalJsonModel();
         $json->setPayload(new Entity($data));
@@ -78,19 +78,19 @@ class IndexController extends AbstractActionController {
         /** @var User $user */
         $user = null;
         $userId = $this->authenticationService->getIdentity();
-        if ($userId != null) {
+        if (null != $userId) {
             // BUG: throws error is $userId is not found
             $user = $this->userService->fetch($userId);
         }
-        if ($user != null) {
+        if (null != $user) {
             $data['user'] = $user->getDisplayName();
 
             $data['profile'] = Link::factory([
                 'rel' => 'profile',
                 'route' => [
                     'name' => 'e-camp-api.rest.doctrine.user',
-                    'params' => [ 'user_id' => $userId ]
-                ]
+                    'params' => ['user_id' => $userId],
+                ],
             ]);
         } else {
             $data['user'] = 'guest';
@@ -101,39 +101,39 @@ class IndexController extends AbstractActionController {
             'route' => [
                 'name' => 'e-camp-api.rpc.index',
                 'params' => [
-                    'action' => 'api'
-                ]
-            ]
+                    'action' => 'api',
+                ],
+            ],
         ]);
 
         $data['auth'] = Link::factory([
             'rel' => 'auth',
-            'route' => 'e-camp-api.rpc.auth'
+            'route' => 'e-camp-api.rpc.auth',
         ]);
 
         $data['docu'] = Link::factory([
             'rel' => 'docu',
-            'route' => 'zf-apigility/swagger'
+            'route' => 'zf-apigility/swagger',
         ]);
 
         $data['admin'] = Link::factory([
             'rel' => 'admin',
-            'route' => 'zf-apigility/ui'
+            'route' => 'zf-apigility/ui',
         ]);
 
         $data['users'] = TemplatedLink::factory([
             'rel' => 'users',
-            'route' =>  'e-camp-api.rest.doctrine.user',
+            'route' => 'e-camp-api.rest.doctrine.user',
         ]);
 
         $data['camps'] = TemplatedLink::factory([
             'rel' => 'camps',
-            'route' =>  'e-camp-api.rest.doctrine.camp',
+            'route' => 'e-camp-api.rest.doctrine.camp',
         ]);
 
         $data['eventInstances'] = TemplatedLink::factory([
             'rel' => 'eventInstances',
-            'route' =>  'e-camp-api.rest.doctrine.event-instance',
+            'route' => 'e-camp-api.rest.doctrine.event-instance',
         ]);
 
         $json = new HalJsonModel();

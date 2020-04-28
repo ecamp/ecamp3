@@ -9,6 +9,9 @@ use eCamp\Core\Entity\EventTypePlugin;
 use eCamp\Core\Entity\Plugin;
 use eCamp\LibTest\PHPUnit\AbstractTestCase;
 
+/**
+ * @internal
+ */
 class EventTemplateContainerTest extends AbstractTestCase {
     public function testEventTemplateContainer() {
         $plugin = new Plugin();
@@ -34,7 +37,6 @@ class EventTemplateContainerTest extends AbstractTestCase {
         $eventTemplateContainer->setEventTypePlugin($eventTypePlugin);
         $eventTemplateContainer->setFilename('container.twig');
         $eventTemplateContainer->setContainerName('containername');
-
 
         $this->assertEquals($eventTemplate, $eventTemplateContainer->getEventTemplate());
         $this->assertEquals($eventTypePlugin, $eventTemplateContainer->getEventTypePlugin());

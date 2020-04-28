@@ -25,16 +25,15 @@ use Doctrine\ORM\Mapping as ORM;
 use eCamp\Lib\Entity\BaseEntity;
 
 /**
- * @ORM\Entity()
+ * @ORM\Entity
  * @ORM\Table(name="jobs")
  */
 class Job extends BaseEntity {
-    public function __construct() {
-        parent::__construct();
-
-        $this->jobResps = new ArrayCollection();
-    }
-
+    /**
+     * @var ArrayCollection
+     * @ORM\OneToMany(targetEntity="JobResp", mappedBy="job")
+     */
+    protected $jobResps;
 
     /**
      * @var Camp
@@ -48,12 +47,11 @@ class Job extends BaseEntity {
      */
     private $name;
 
-    /**
-     * @var ArrayCollection
-     * @ORM\OneToMany(targetEntity="JobResp", mappedBy="job")
-     */
-    protected $jobResps;
+    public function __construct() {
+        parent::__construct();
 
+        $this->jobResps = new ArrayCollection();
+    }
 
     /**
      * @return Camp
@@ -78,7 +76,8 @@ class Job extends BaseEntity {
     }
 
     /**
-     * @param Period|Day|null $periodOrDay
+     * @param null|Day|Period $periodOrDay
+     *
      * @return ArrayCollection
      */
     public function getJobResps($periodOrDay = null) {
@@ -95,9 +94,10 @@ class Job extends BaseEntity {
             };
         }
 
-        if ($filter !== null) {
+        if (null !== $filter) {
             return $this->jobResps->filter($filter);
         }
+
         return $this->jobResps;
     }
 
@@ -111,10 +111,7 @@ class Job extends BaseEntity {
         $this->jobResps->removeElement($jobResp);
     }
 
-
     /**
-     * @param  Day  $day
-     * @param  User $user
      * @return bool
      */
     public function isUserResp(Day $day, User $user) {

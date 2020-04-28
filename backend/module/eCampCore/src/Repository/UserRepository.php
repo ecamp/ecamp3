@@ -9,6 +9,7 @@ use eCamp\Core\Entity\User;
 class UserRepository extends EntityRepository {
     /**
      * @param $username
+     *
      * @return mixed
      */
     public function findByUsername($username) {
@@ -18,6 +19,7 @@ class UserRepository extends EntityRepository {
 
         try {
             $q->setMaxResults(1);
+
             return $q->getQuery()->getOneOrNullResult();
         } catch (NonUniqueResultException $e) {
             // This shouldn't ever happen
@@ -27,6 +29,7 @@ class UserRepository extends EntityRepository {
 
     /**
      * @param string $mail
+     *
      * @return User
      */
     public function findByMail($mail) {
@@ -39,6 +42,7 @@ class UserRepository extends EntityRepository {
 
         try {
             $q->setMaxResults(1);
+
             return $q->getQuery()->getOneOrNullResult();
         } catch (NonUniqueResultException $e) {
             // This shouldn't ever happen

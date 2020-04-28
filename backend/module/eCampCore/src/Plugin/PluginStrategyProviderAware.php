@@ -8,8 +8,5 @@ interface PluginStrategyProviderAware {
      */
     public function getPluginStrategyProvider();
 
-    /**
-     * @param PluginStrategyProvider $pluginStrategyProvider
-     */
     public function setPluginStrategyProvider(PluginStrategyProvider $pluginStrategyProvider);
 }

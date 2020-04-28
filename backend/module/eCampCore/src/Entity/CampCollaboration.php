@@ -6,30 +6,21 @@ use Doctrine\ORM\Mapping as ORM;
 use eCamp\Lib\Entity\BaseEntity;
 
 /**
- * @ORM\Entity()
+ * @ORM\Entity
  * @ORM\HasLifecycleCallbacks
  * @ORM\Table(name="camp_collaborations", uniqueConstraints={
- *   @ORM\UniqueConstraint(name="user_camp_unique", columns={"user_id","camp_id"})
+ *     @ORM\UniqueConstraint(name="user_camp_unique", columns={"user_id", "camp_id"})
  * })
  */
 class CampCollaboration extends BaseEntity {
-    const ROLE_GUEST   = 'guest';
-    const ROLE_MEMBER  = 'member';
+    const ROLE_GUEST = 'guest';
+    const ROLE_MEMBER = 'member';
     const ROLE_MANAGER = 'manager';
 
-    const STATUS_UNRELATED      = 'unrelated';
-    const STATUS_REQUESTED 		= 'requested';
-    const STATUS_INVITED 		= 'invited';
-    const STATUS_ESTABLISHED 	= 'established';
-
-
-    public function __construct() {
-        parent::__construct();
-
-        $this->status = self::STATUS_UNRELATED;
-        $this->role = self::ROLE_GUEST;
-    }
-
+    const STATUS_UNRELATED = 'unrelated';
+    const STATUS_REQUESTED = 'requested';
+    const STATUS_INVITED = 'invited';
+    const STATUS_ESTABLISHED = 'established';
 
     /**
      * @var User
@@ -63,6 +54,12 @@ class CampCollaboration extends BaseEntity {
      */
     private $collaborationAcceptedBy;
 
+    public function __construct() {
+        parent::__construct();
+
+        $this->status = self::STATUS_UNRELATED;
+        $this->role = self::ROLE_GUEST;
+    }
 
     /**
      * @return User
@@ -75,7 +72,6 @@ class CampCollaboration extends BaseEntity {
         $this->user = $user;
     }
 
-
     /**
      * @return Camp
      */
@@ -87,36 +83,34 @@ class CampCollaboration extends BaseEntity {
         $this->camp = $camp;
     }
 
-
     /**
      * @return string
      */
     public function getStatus(): string {
         return $this->status;
     }
+
     /**
-     * @param string $status
      * @throws \Exception
      */
     public function setStatus(string $status): void {
         if (!in_array($status, [self::STATUS_UNRELATED, self::STATUS_INVITED, self::STATUS_REQUESTED, self::STATUS_ESTABLISHED])) {
-            throw new \Exception('Invalid status: ' . $status);
+            throw new \Exception('Invalid status: '.$status);
         }
         $this->status = $status;
     }
 
     public function isEstablished(): bool {
-        return ($this->status === self::STATUS_ESTABLISHED);
+        return self::STATUS_ESTABLISHED === $this->status;
     }
 
     public function isRequest(): bool {
-        return ($this->status === self::STATUS_REQUESTED);
+        return self::STATUS_REQUESTED === $this->status;
     }
 
     public function isInvitation(): bool {
-        return ($this->status === self::STATUS_INVITED);
+        return self::STATUS_INVITED === $this->status;
     }
-
 
     /**
      * @return string
@@ -124,29 +118,28 @@ class CampCollaboration extends BaseEntity {
     public function getRole(): string {
         return $this->role;
     }
+
     /**
-     * @param string $role
      * @throws \Exception
      */
     public function setRole(string $role): void {
         if (!in_array($role, [self::ROLE_GUEST, self::ROLE_MEMBER, self::ROLE_MANAGER])) {
-            throw new \Exception('Invalid role: ' . $role);
+            throw new \Exception('Invalid role: '.$role);
         }
         $this->role = $role;
     }
 
     public function isGuest(): bool {
-        return ($this->role === self::ROLE_GUEST);
+        return self::ROLE_GUEST === $this->role;
     }
 
     public function isMember(): bool {
-        return ($this->role === self::ROLE_MEMBER);
+        return self::ROLE_MEMBER === $this->role;
     }
 
     public function isManager(): bool {
-        return ($this->role === self::ROLE_MANAGER);
+        return self::ROLE_MANAGER === $this->role;
     }
-
 
     /**
      * @return string
@@ -159,9 +152,9 @@ class CampCollaboration extends BaseEntity {
         $this->collaborationAcceptedBy = $collaborationAcceptedBy;
     }
 
-
     /**
      * @ORM\PrePersist
+     *
      * @throws \Exception
      */
     public function PrePersist() {

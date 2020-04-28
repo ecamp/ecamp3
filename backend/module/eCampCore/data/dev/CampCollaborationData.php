@@ -22,7 +22,7 @@ class CampCollaborationData extends AbstractFixture implements DependentFixtureI
             foreach ($users as $user) {
                 /** @var CampCollaboration $collaboration */
                 $collaboration = $repository->findOneBy(['camp' => $camp, 'user' => $user]);
-                if ($collaboration == null) {
+                if (null == $collaboration) {
                     $collaboration = new CampCollaboration();
                     $collaboration->setCamp($camp);
                     $collaboration->setUser($user);
@@ -38,6 +38,6 @@ class CampCollaborationData extends AbstractFixture implements DependentFixtureI
     }
 
     public function getDependencies() {
-        return [ CampData::class, UserData::class ];
+        return [CampData::class, UserData::class];
     }
 }

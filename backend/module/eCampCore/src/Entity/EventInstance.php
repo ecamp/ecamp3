@@ -7,16 +7,11 @@ use Doctrine\ORM\Mapping as ORM;
 use eCamp\Lib\Entity\BaseEntity;
 
 /**
- * @ORM\Entity()
+ * @ORM\Entity
  * @ORM\Table(name="event_instances")
  * @ORM\HasLifecycleCallbacks
  */
 class EventInstance extends BaseEntity {
-    public function __construct() {
-        parent::__construct();
-    }
-
-
     /**
      * @var Period
      * @ORM\ManyToOne(targetEntity="Period")
@@ -53,6 +48,9 @@ class EventInstance extends BaseEntity {
      */
     private $width;
 
+    public function __construct() {
+        parent::__construct();
+    }
 
     /**
      * @return Period
@@ -66,9 +64,8 @@ class EventInstance extends BaseEntity {
     }
 
     public function getCamp(): Camp {
-        return ($this->period !== null) ? $this->period->getCamp() : null;
+        return (null !== $this->period) ? $this->period->getCamp() : null;
     }
-
 
     /**
      * @return Event
@@ -81,12 +78,11 @@ class EventInstance extends BaseEntity {
         $this->event = $event;
     }
 
-
     /**
      * @return EventCategory
      */
     public function getEventCategory(): EventCategory {
-        return ($this->event !== null) ? $this->event->getEventCategory() : null;
+        return (null !== $this->event) ? $this->event->getEventCategory() : null;
     }
 
     /**
@@ -94,7 +90,8 @@ class EventInstance extends BaseEntity {
      */
     public function getNumberingStyle(): string {
         $eventCategory = $this->getEventCategory();
-        return ($eventCategory !== null) ? $eventCategory->getNumberingStyle() : null;
+
+        return (null !== $eventCategory) ? $eventCategory->getNumberingStyle() : null;
     }
 
     /**
@@ -102,9 +99,9 @@ class EventInstance extends BaseEntity {
      */
     public function getColor(): string {
         $eventCategory = $this->getEventCategory();
-        return ($eventCategory !== null) ? $eventCategory->getColor() : null;
-    }
 
+        return (null !== $eventCategory) ? $eventCategory->getColor() : null;
+    }
 
     /**
      * @return int
@@ -117,7 +114,6 @@ class EventInstance extends BaseEntity {
         $this->start = $start;
     }
 
-
     /**
      * @return int
      */
@@ -128,7 +124,6 @@ class EventInstance extends BaseEntity {
     public function setLength(int $length): void {
         $this->length = $length;
     }
-
 
     /**
      * @return mixed
@@ -141,7 +136,6 @@ class EventInstance extends BaseEntity {
         $this->left = $left;
     }
 
-
     /**
      * @return mixed
      */
@@ -153,14 +147,13 @@ class EventInstance extends BaseEntity {
         $this->width = $width;
     }
 
-
     public function getDuration(): \DateInterval {
-        return new \DateInterval('PT' . $this->length . 'M');
+        return new \DateInterval('PT'.$this->length.'M');
     }
 
     public function getStartTime(): \DateTime {
         $start = $this->getPeriod()->getStart();
-        $start->add(new \DateInterval('PT' . $this->start . 'M'));
+        $start->add(new \DateInterval('PT'.$this->start.'M'));
 
         return $start;
     }
@@ -171,7 +164,6 @@ class EventInstance extends BaseEntity {
 
         return $end;
     }
-
 
     public function getDayNumber(): int {
         return 1 + floor($this->start / (24 * 60));
@@ -206,10 +198,11 @@ class EventInstance extends BaseEntity {
                     }
                 }
             }
+
             return false;
         })->count();
 
-        return ($eventNumber + 1);
+        return $eventNumber + 1;
     }
 
     public function getNumber(): string {
@@ -218,10 +211,10 @@ class EventInstance extends BaseEntity {
         $eventInstanceStyledNumber = $eventInstanceNumber;
 
         $category = $this->getEventCategory();
-        if ($category != null) {
+        if (null != $category) {
             $eventInstanceStyledNumber = $category->getStyledNumber($eventInstanceNumber);
         }
 
-        return $dayNumber . '.' . $eventInstanceStyledNumber;
+        return $dayNumber.'.'.$eventInstanceStyledNumber;
     }
 }

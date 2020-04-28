@@ -2,23 +2,28 @@
 
 namespace eCamp\Core\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
-use eCamp\Lib\Entity\BaseEntity;
-use eCamp\Core\Plugin\PluginStrategyProvider;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Mapping as ORM;
+use eCamp\Core\Plugin\PluginStrategyProvider;
+use eCamp\Lib\Entity\BaseEntity;
 
 /**
- * @ORM\Entity()
+ * @ORM\Entity
  * @ORM\HasLifecycleCallbacks
  * @ORM\Table(name="events")
  */
 class Event extends BaseEntity {
-    public function __construct() {
-        parent::__construct();
+    /**
+     * @var ArrayCollection
+     * @ORM\OneToMany(targetEntity="EventPlugin", mappedBy="event", cascade={"all"}, orphanRemoval=true)
+     */
+    protected $eventPlugins;
 
-        $this->eventPlugins = new ArrayCollection();
-        $this->eventInstances = new ArrayCollection();
-    }
+    /**
+     * @var ArrayCollection
+     * @ORM\OneToMany(targetEntity="EventInstance", mappedBy="event", orphanRemoval=true)
+     */
+    protected $eventInstances;
 
     /**
      * @var Camp
@@ -40,18 +45,12 @@ class Event extends BaseEntity {
      */
     private $title;
 
-    /**
-     * @var ArrayCollection
-     * @ORM\OneToMany(targetEntity="EventPlugin", mappedBy="event", cascade={"all"}, orphanRemoval=true)
-     */
-    protected $eventPlugins;
+    public function __construct() {
+        parent::__construct();
 
-    /**
-     * @var ArrayCollection
-     * @ORM\OneToMany(targetEntity="EventInstance", mappedBy="event", orphanRemoval=true)
-     */
-    protected $eventInstances;
-
+        $this->eventPlugins = new ArrayCollection();
+        $this->eventInstances = new ArrayCollection();
+    }
 
     /**
      * @return Camp
@@ -64,7 +63,6 @@ class Event extends BaseEntity {
         $this->camp = $camp;
     }
 
-
     /**
      * @return EventCategory
      */
@@ -76,14 +74,12 @@ class Event extends BaseEntity {
         $this->eventCategory = $eventCategory;
     }
 
-
     /**
      * @return EventType
      */
     public function getEventType() {
-        return ($this->eventCategory !== null) ? $this->eventCategory->getEventType() : null;
+        return (null !== $this->eventCategory) ? $this->eventCategory->getEventType() : null;
     }
-
 
     /**
      * @return string
@@ -95,7 +91,6 @@ class Event extends BaseEntity {
     public function setTitle(string $title): void {
         $this->title = $title;
     }
-
 
     /**
      * @return ArrayCollection
@@ -113,7 +108,6 @@ class Event extends BaseEntity {
         $eventPlugin->setEvent(null);
         $this->eventPlugins->removeElement($eventPlugin);
     }
-
 
     /**
      * @return ArrayCollection
@@ -136,22 +130,21 @@ class Event extends BaseEntity {
     public function PrePersist() {
         parent::PrePersist();
 
-        if ($this->getEventType() !== null && $this->getEventPlugins()->isEmpty()) {
+        if (null !== $this->getEventType() && $this->getEventPlugins()->isEmpty()) {
             $this->createDefaultEventPlugins();
         }
     }
 
     /**
-     * Replicates the default plugin structure given by the EventType
+     * Replicates the default plugin structure given by the EventType.
      */
     public function createDefaultEventPlugins(PluginStrategyProvider $pluginStrategyProvider = null) {
         foreach ($this->getEventType()->getEventTypePlugins() as $eventTypePlugin) {
-
             // TO DO: getMinNumberPluginInstances probably not ideal, beneath min & max there should also be a default value
-            for ($idx = 0; $idx < $eventTypePlugin->getMinNumberPluginInstances(); $idx++) {
+            for ($idx = 0; $idx < $eventTypePlugin->getMinNumberPluginInstances(); ++$idx) {
                 /** @var Plugin $plugin */
                 $plugin = $eventTypePlugin->getPlugin();
-                $pluginName = $plugin->getName() . ' ';
+                $pluginName = $plugin->getName().' ';
                 $pluginName .= str_pad($idx + 1, 2, '0');
 
                 $eventPlugin = new EventPlugin();

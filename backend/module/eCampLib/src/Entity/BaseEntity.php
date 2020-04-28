@@ -11,16 +11,6 @@ use Zend\Permissions\Acl\Resource\ResourceInterface;
  * @ORM\HasLifecycleCallbacks
  */
 abstract class BaseEntity implements ResourceInterface {
-    public function __construct() {
-        $this->id = base_convert(crc32(uniqid()), 10, 16);
-
-        $this->createTime = new \DateTime();
-        $this->createTime->setTimestamp(0);
-
-        $this->updateTime = new \DateTime();
-        $this->updateTime->setTimestamp(0);
-    }
-
     /**
      * @var string
      * @ORM\Id
@@ -40,11 +30,23 @@ abstract class BaseEntity implements ResourceInterface {
      */
     protected $updateTime;
 
+    public function __construct() {
+        $this->id = base_convert(crc32(uniqid()), 10, 16);
+
+        $this->createTime = new \DateTime();
+        $this->createTime->setTimestamp(0);
+
+        $this->updateTime = new \DateTime();
+        $this->updateTime->setTimestamp(0);
+    }
+
+    public function __toString() {
+        return '['.$this->getClassname().'::'.$this->getId().']';
+    }
 
     public function getResourceId() {
         return ClassUtils::getClass($this);
     }
-
 
     /**
      * @return string
@@ -66,10 +68,6 @@ abstract class BaseEntity implements ResourceInterface {
      */
     public function PreUpdate() {
         $this->updateTime = new \DateTime();
-    }
-
-    public function __toString() {
-        return "[" . $this->getClassname() . "::" . $this->getId() . "]";
     }
 
     private function getClassname() {

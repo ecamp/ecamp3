@@ -9,6 +9,7 @@ use ZF\Hal\Link\Link;
 class SectionHydrator implements HydratorInterface {
     /**
      * @param object $object
+     *
      * @return array
      */
     public function extract($object) {
@@ -19,13 +20,13 @@ class SectionHydrator implements HydratorInterface {
             'id' => $section->getId(),
             'pos' => $section->getPos(),
             'text' => $section->getText(),
-            
+
             'event_plugin' => Link::factory([
                 'rel' => 'event_plugin',
                 'route' => [
                     'name' => 'e-camp-api.rest.doctrine.event-plugin',
-                    'params' => [ 'event_plugin_id' => $section->getEventPlugin()->getId() ]
-                ]
+                    'params' => ['event_plugin_id' => $section->getEventPlugin()->getId()],
+                ],
             ]),
 
             'move_up' => Link::factory([
@@ -34,9 +35,9 @@ class SectionHydrator implements HydratorInterface {
                     'name' => 'e-camp-api.rest.doctrine.event-plugin.storyboard/move',
                     'params' => [
                         'section_id' => $section->getId(),
-                        'action' => 'move_up'
+                        'action' => 'move_up',
                     ],
-                ]
+                ],
             ]),
             'move_down' => Link::factory([
                 'rel' => 'move_down',
@@ -44,16 +45,16 @@ class SectionHydrator implements HydratorInterface {
                     'name' => 'e-camp-api.rest.doctrine.event-plugin.storyboard/move',
                     'params' => [
                         'section_id' => $section->getId(),
-                        'action' => 'move_down'
+                        'action' => 'move_down',
                     ],
-                ]
+                ],
             ]),
         ];
     }
 
     /**
-     * @param array $data
      * @param object $object
+     *
      * @return object
      */
     public function hydrate(array $data, $object) {

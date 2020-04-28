@@ -3,22 +3,18 @@
 namespace eCamp\Core\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use eCamp\Lib\Entity\BaseEntity;
 use eCamp\Core\Plugin\PluginStrategyInterface;
 use eCamp\Core\Plugin\PluginStrategyProviderAware;
 use eCamp\Core\Plugin\PluginStrategyProviderTrait;
+use eCamp\Lib\Entity\BaseEntity;
 
 /**
- * @ORM\Entity()
+ * @ORM\Entity
  * @ORM\HasLifecycleCallbacks
  * @ORM\Table(name="event_plugins")
  */
 class EventPlugin extends BaseEntity implements PluginStrategyProviderAware {
     use PluginStrategyProviderTrait;
-
-    public function __construct() {
-        parent::__construct();
-    }
 
     /**
      * @var Event
@@ -40,6 +36,9 @@ class EventPlugin extends BaseEntity implements PluginStrategyProviderAware {
      */
     private $instanceName;
 
+    public function __construct() {
+        parent::__construct();
+    }
 
     /**
      * @return Event
@@ -52,7 +51,6 @@ class EventPlugin extends BaseEntity implements PluginStrategyProviderAware {
         $this->event = $event;
     }
 
-
     /**
      * @return EventTypePlugin
      */
@@ -64,14 +62,12 @@ class EventPlugin extends BaseEntity implements PluginStrategyProviderAware {
         $this->eventTypePlugin = $eventTypePlugin;
     }
 
-
     /**
      * @return Plugin
      */
     public function getPlugin() {
-        return ($this->eventTypePlugin != null) ? $this->eventTypePlugin->getPlugin() : null;
+        return (null != $this->eventTypePlugin) ? $this->eventTypePlugin->getPlugin() : null;
     }
-
 
     /**
      * @return string
@@ -79,13 +75,14 @@ class EventPlugin extends BaseEntity implements PluginStrategyProviderAware {
     public function getInstanceName() {
         return $this->instanceName;
     }
-    
+
     public function setInstanceName($instanceName): void {
         $this->instanceName = $instanceName;
     }
 
     /**
-     * Returns the strategy class of the plugin
+     * Returns the strategy class of the plugin.
+     *
      * @return PluginStrategyInterface
      */
     public function getPluginStrategy() {

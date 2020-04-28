@@ -1,11 +1,12 @@
 <?php
-return array(
-    'eCampApi\\V1\\Rpc\\Index\\Controller' => array(
+
+return [
+    'eCampApi\\V1\\Rpc\\Index\\Controller' => [
         'description' => 'Entrypoint',
-    ),
-    'eCampApi\\V1\\Rpc\\Auth\\Controller' => array(
+    ],
+    'eCampApi\\V1\\Rpc\\Auth\\Controller' => [
         'description' => '',
-        'GET' => array(
+        'GET' => [
             'description' => '/index  
 displays information about current authenticated user
 
@@ -15,19 +16,19 @@ redirect to google authentication
 /logout  
 logout of current authenticated user',
             'response' => '',
-        ),
-        'POST' => array(
+        ],
+        'POST' => [
             'request' => '{
   "username": "john",
   "password": "my-password"
 }',
             'description' => '/login  
 allows login with username and password',
-        ),
-    ),
-    'eCampApi\\V1\\Rpc\\Register\\Controller' => array(
+        ],
+    ],
+    'eCampApi\\V1\\Rpc\\Register\\Controller' => [
         'description' => '',
-        'POST' => array(
+        'POST' => [
             'request' => '{
   "email": "john@example.com",
   "username": "john",
@@ -35,48 +36,48 @@ allows login with username and password',
 }',
             'description' => '/register  
 creates a new user account',
-        ),
-    ),
-    'eCampApi\\V1\\Rest\\CampType\\Controller' => array(
-        'collection' => array(
+        ],
+    ],
+    'eCampApi\\V1\\Rest\\CampType\\Controller' => [
+        'collection' => [
             'description' => '',
-            'GET' => array(
+            'GET' => [
                 'description' => 'List of all CampTypes',
-            ),
-        ),
-        'entity' => array(
-            'GET' => array(
+            ],
+        ],
+        'entity' => [
+            'GET' => [
                 'description' => 'Each Camp belongs to one CampType.  
 CampType defines some rules for e Camp.
 - is_js
 - is_course
 - event_types',
-            ),
-        ),
-    ),
-    'eCampApi\\V1\\Rest\\EventType\\Controller' => array(
-        'collection' => array(
-            'GET' => array(
+            ],
+        ],
+    ],
+    'eCampApi\\V1\\Rest\\EventType\\Controller' => [
+        'collection' => [
+            'GET' => [
                 'description' => 'List of all EventTypes',
-            ),
-        ),
-        'entity' => array(
-            'GET' => array(
+            ],
+        ],
+        'entity' => [
+            'GET' => [
                 'description' => 'Each EventCategory refers an EventType.  
 Each EventType possibly belongs to one or many CampTypes.  
 
 EventTypes define some initial values for new EventCategories.',
-            ),
-        ),
-    ),
-    'eCampApi\\V1\\Rest\\EventCategory\\Controller' => array(
-        'collection' => array(
-            'GET' => array(
+            ],
+        ],
+    ],
+    'eCampApi\\V1\\Rest\\EventCategory\\Controller' => [
+        'collection' => [
+            'GET' => [
                 'description' => 'List of all EventCategories  
 Filters:  
 - camp_id = [camp-id]',
-            ),
-            'POST' => array(
+            ],
+            'POST' => [
                 'description' => 'Add new EventCategory',
                 'request' => '{
    "camp_id": "camp-id",
@@ -86,46 +87,46 @@ Filters:
    "color": "22FF22",
    "numberingStyle": "i"
 }',
-            ),
-        ),
-        'entity' => array(
-            'GET' => array(
+            ],
+        ],
+        'entity' => [
+            'GET' => [
                 'description' => 'Each Event belongs to one EventCategory.  
 Each EventCategory belongs to one EventType.  
 EventCategory defines some rules for e Event.
 - event_type
 - color
 - numbering_style',
-            ),
-            'DELETE' => array(
+            ],
+            'DELETE' => [
                 'description' => 'Deletes an EventCategory',
-            ),
-        ),
-    ),
-    'eCampApi\\V1\\Rest\\Event\\Controller' => array(
-        'collection' => array(
-            'GET' => array(
+            ],
+        ],
+    ],
+    'eCampApi\\V1\\Rest\\Event\\Controller' => [
+        'collection' => [
+            'GET' => [
                 'description' => 'List of all Events  
 Filters:  
 - camp_id = [camp-id]',
-            ),
-            'POST' => array(
+            ],
+            'POST' => [
                 'description' => 'Add new Event',
                 'request' => '{
    "title": "Event-Title",
    "camp_id": "camp-id",
    "event_category_id": "event-category-id"
 }',
-            ),
-        ),
-        'entity' => array(
-            'GET' => array(
+            ],
+        ],
+        'entity' => [
+            'GET' => [
                 'description' => 'Each Event belongs to one Camp.  
 Each Event refers one EventCategory.',
-            ),
-            'DELETE' => array(
+            ],
+            'DELETE' => [
                 'description' => 'Deletes an Event',
-            ),
-        ),
-    ),
-);
+            ],
+        ],
+    ],
+];
