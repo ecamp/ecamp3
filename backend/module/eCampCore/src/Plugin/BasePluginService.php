@@ -47,34 +47,21 @@ abstract class BasePluginService extends AbstractEntityService {
 
     /**
      * @param array $data
+     * @param bool  $persist
      *
-     * @throws ORMException
      * @throws NoAccessException
+     * @throws ORMException
      *
      * @return ApiProblem|BasePluginEntity
      */
-    public function createWithoutPersist($data) {
+    public function create($data, $persist = true, EventPlugin $eventPlugin = null) {
         /** @var BasePluginEntity $entity */
-        $entity = parent::createWithoutPersist($data);
-
-        if (isset($data['event_plugin_id'])) {
-            /** @var EventPlugin $eventPlugin */
-            $eventPlugin = $this->findEntity(EventPlugin::class, $data['event_plugin_id']);
-            $entity->setEventPlugin($eventPlugin);
-        }
-
-        return $entity;
-    }
-
-    /**
-     * Can be used instead of create if EventPlugin object is available but not it's id (e.g. during creation process).
-     */
-    public function createWithEventPlugin(array $data, EventPlugin $eventPlugin) {
-        /** @var BasePluginEntity $entity */
-        $entity = $this->createWithoutPersist($data);
+        $entity = parent::create($data, false);
         $entity->setEventPlugin($eventPlugin);
 
-        $this->getServiceUtils()->emPersist($entity);
+        if ($persist) {
+            $this->getServiceUtils()->emPersist($entity);
+        }
 
         return $entity;
     }

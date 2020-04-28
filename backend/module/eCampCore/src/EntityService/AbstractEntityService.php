@@ -119,32 +119,21 @@ abstract class AbstractEntityService extends AbstractResourceListener {
 
     /**
      * @param mixed $data
+     * @param mixed $persist
      *
      * @throws NoAccessException
      * @throws ORMException
      *
      * @return ApiProblem|BaseEntity
      */
-    public function create($data) {
+    public function create($data, $persist = true) {
         $this->assertAllowed($this->entityClassname, __FUNCTION__);
-        $entity = $this->createWithoutPersist($data);
-        $this->serviceUtils->emPersist($entity);
-
-        return $entity;
-    }
-
-    /**
-     * @param mixed $data
-     *
-     * @throws NoAccessException
-     * @throws ORMException
-     *
-     * @return ApiProblem|BaseEntity
-     */
-    public function createWithoutPersist($data) {
-        // $this->assertAllowed($this->entityClassname, __FUNCTION__); // should this be protected by ACL?
         $entity = $this->createEntity($this->entityClassname);
         $this->getHydrator()->hydrate((array) $data, $entity);
+
+        if ($persist) {
+            $this->serviceUtils->emPersist($entity);
+        }
 
         return $entity;
     }
