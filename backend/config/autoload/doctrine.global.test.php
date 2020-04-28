@@ -1,14 +1,15 @@
 <?php
-return array(
-    'doctrine' => array(
-        'connection' => array(
-            'orm_default' => array(
+
+return [
+    'doctrine' => [
+        'connection' => [
+            'orm_default' => [
                 'driverClass' => 'Doctrine\DBAL\Driver\PDOSqlite\Driver',
-                'params' => array(
+                'params' => [
                     'user' => 'ecamp3',
-                    'memory' => true
-                ),
-            ),
-        ),
-    ),
-);
+                    'memory' => true,
+                ],
+            ],
+        ],
+    ],
+];

@@ -1,4 +1,5 @@
 <?php
+
 namespace eCampApi\V1\Rpc\Auth;
 
 use eCamp\Core\Auth\Adapter\LoginPassword;
@@ -29,7 +30,7 @@ class AuthController extends AbstractActionController {
     }
 
     /**
-     * @return Response|HalJsonModel
+     * @return HalJsonModel|Response
      */
     public function indexAction() {
         /** @var Request $request */
@@ -39,23 +40,21 @@ class AuthController extends AbstractActionController {
             return $this->loginAction();
         }
 
-
         $callback = $request->getQuery('callback');
         if ($callback) {
             // This request is made from an external client, redirect it to the requested url
             return $this->redirect()->toUrl($callback);
         }
 
-
         $data = [];
 
         /** @var User $user */
         $user = null;
         $userId = $this->authenticationService->getIdentity();
-        if ($userId != null) {
+        if (null != $userId) {
             $user = $this->userService->fetch($userId);
         }
-        if ($user != null) {
+        if (null != $user) {
             $data['user'] = $user->getDisplayName();
             $data['username'] = $user->getUsername();
             $data['role'] = $user->getRole();
@@ -70,55 +69,55 @@ class AuthController extends AbstractActionController {
             'route' => [
                 'name' => 'e-camp-api.rpc.index',
                 'params' => [
-                    'action' => 'api'
-                ]
-            ]
+                    'action' => 'api',
+                ],
+            ],
         ]);
 
         $data['self'] = Link::factory([
             'rel' => 'self',
-            'route' => 'e-camp-api.rpc.auth'
+            'route' => 'e-camp-api.rpc.auth',
         ]);
 
         $data['register'] = Link::factory([
             'rel' => 'register',
             'route' => [
                 'name' => 'e-camp-api.rpc.register',
-                'params' => [ 'action' => 'register' ]
-            ]
+                'params' => ['action' => 'register'],
+            ],
         ]);
 
         $data['login'] = Link::factory([
             'rel' => 'login',
             'route' => [
                 'name' => 'e-camp-api.rpc.auth',
-                'params' => [ 'action' => 'login' ]
-            ]
+                'params' => ['action' => 'login'],
+            ],
         ]);
 
         $data['google'] = Link::factory([
             'rel' => 'google',
             'route' => [
                 'name' => 'e-camp-api.rpc.auth',
-                'params' => [ 'action' => 'google' ]
-            ]
+                'params' => ['action' => 'google'],
+            ],
         ]);
 
         $data['pbsmidata'] = Link::factory([
-          'rel' => 'pbsmidata',
-          'route' => [
-            'name' => 'e-camp-api.rpc.auth',
-            'params' => [ 'action' => 'pbsmidata' ]
-          ]
+            'rel' => 'pbsmidata',
+            'route' => [
+                'name' => 'e-camp-api.rpc.auth',
+                'params' => ['action' => 'pbsmidata'],
+            ],
         ]);
 
-        if ($userId != null) {
+        if (null != $userId) {
             $data['logout'] = Link::factory([
                 'rel' => 'logout',
                 'route' => [
                     'name' => 'e-camp-api.rpc.auth',
-                    'params' => [ 'action' => 'logout' ]
-                ]
+                    'params' => ['action' => 'logout'],
+                ],
             ]);
         }
 
@@ -128,13 +127,12 @@ class AuthController extends AbstractActionController {
         return $json;
     }
 
-
     public function loginAction() {
         /** @var Request $request */
         $request = $this->getRequest();
         $content = $request->getContent();
 
-        $data = ($content != null) ? Json::decode($content) : [];
+        $data = (null != $content) ? Json::decode($content) : [];
         $username = isset($data->username) ? $data->username : '';
         $password = isset($data->password) ? $data->password : '';
 
@@ -146,7 +144,6 @@ class AuthController extends AbstractActionController {
         return $this->redirect()->toRoute('e-camp-api.rpc.auth');
     }
 
-
     /**
      * @return Response
      */
@@ -155,12 +152,12 @@ class AuthController extends AbstractActionController {
         $request = $this->getRequest();
         $externalCallback = $request->getQuery('callback');
 
-        $redirect = $this->url()->fromRoute('e-camp-api.rpc.auth', [], ['query'=>['callback'=>$externalCallback]]);
+        $redirect = $this->url()->fromRoute('e-camp-api.rpc.auth', [], ['query' => ['callback' => $externalCallback]]);
 
         return $this->redirect()->toRoute(
-          'ecamp.auth/google',
-          [],
-          ['query' => ['redirect' => $redirect]]
+            'ecamp.auth/google',
+            [],
+            ['query' => ['redirect' => $redirect]]
         );
     }
 
@@ -173,16 +170,15 @@ class AuthController extends AbstractActionController {
         $externalCallback = $request->getQuery('callback');
 
         $redirect = $this->url()->fromRoute('e-camp-api.rpc.auth', [], [
-            'query'=>['callback'=>$externalCallback]
+            'query' => ['callback' => $externalCallback],
         ]);
 
         return $this->redirect()->toRoute(
-          'ecamp.auth/pbsmidata',
-          [],
-          ['query' => ['redirect' => $redirect]]
+            'ecamp.auth/pbsmidata',
+            [],
+            ['query' => ['redirect' => $redirect]]
         );
     }
-
 
     /**
      * @return Response

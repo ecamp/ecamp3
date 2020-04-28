@@ -48,8 +48,7 @@
     "zendframework/zend-developer-tools": "^1.2",
     "zendframework/zend-code": "^3.3",
     "zfcampus/zf-apigility-admin": "^1.8",
-    "friendsofphp/php-cs-fixer": "^2.16",
-    "brainmaestro/composer-git-hooks": "^2.8"
+    "friendsofphp/php-cs-fixer": "^2.16"
   },
   "autoload": {
     "psr-4": {
@@ -86,18 +85,6 @@
     "di-generate-aot": [
       "rm -vfr module/eCampAoT/gen",
       "php bin/di-generate-aot.php"
-    ],
-    "post-install-cmd": "cghooks add --ignore-lock",
-    "post-update-cmd": "cghooks update"
-  },
-  "extra": {
-    "hooks": {
-        "pre-commit": [
-            "cd backend && composer cs-check"
-        ],
-        "pre-push": [
-            "cd backend && composer cs-check"
-        ]
-    }
-}
+    ]
+  }
 }

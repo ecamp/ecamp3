@@ -16,13 +16,6 @@ class SectionService extends BasePluginService {
         );
     }
 
-    protected function fetchAllQueryBuilder($params = []) {
-        $q = parent::fetchAllQueryBuilder($params);
-        $q->orderBy('row.pos');
-
-        return $q;
-    }
-
     public function moveUp($id) {
         /** @var Section $section2 */
         $section2 = $this->findEntity(Section::class, $id);
@@ -75,5 +68,12 @@ class SectionService extends BasePluginService {
             $section1->setPos($pos2);
             $section2->setPos($pos1);
         }
+    }
+
+    protected function fetchAllQueryBuilder($params = []) {
+        $q = parent::fetchAllQueryBuilder($params);
+        $q->orderBy('row.pos');
+
+        return $q;
     }
 }

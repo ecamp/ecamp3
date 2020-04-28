@@ -3,11 +3,10 @@
 namespace eCamp\Core\EntityService;
 
 use Doctrine\ORM\ORMException;
-use Doctrine\ORM\Query\Expr;
 use eCamp\Core\Entity\Camp;
-use eCamp\Core\Hydrator\DayHydrator;
 use eCamp\Core\Entity\Day;
 use eCamp\Core\Entity\Period;
+use eCamp\Core\Hydrator\DayHydrator;
 use eCamp\Lib\Acl\NoAccessException;
 use eCamp\Lib\Service\ServiceUtils;
 use Zend\Authentication\AuthenticationService;
@@ -23,6 +22,41 @@ class DayService extends AbstractEntityService {
         );
     }
 
+    /**
+     * @param mixed $data
+     *
+     * @throws ORMException
+     * @throws NoAccessException
+     *
+     * @return ApiProblem|Day
+     */
+    public function create($data) {
+        /** @var Period $period */
+        $period = $this->findEntity(Period::class, $data->period_id);
+
+        /** @var Day $day */
+        $day = parent::create($data);
+        $period->addDay($day);
+
+        return $day;
+    }
+
+    /**
+     * @param mixed $id
+     *
+     * @throws NoAccessException
+     * @throws ORMException
+     *
+     * @return null|ApiProblem|bool
+     */
+    public function delete($id) {
+        /** @var Day $day */
+        $day = $this->fetch($id);
+        $period = $day->getPeriod();
+        $period->removeDay($day);
+
+        return parent::delete($id);
+    }
 
     protected function fetchAllQueryBuilder($params = []) {
         $q = parent::fetchAllQueryBuilder($params);
@@ -50,39 +84,5 @@ class DayService extends AbstractEntityService {
         $q->andWhere($this->createFilter($q, Camp::class, 'p', 'camp'));
 
         return $q;
-    }
-
-
-    /**
-     * @param mixed $data
-     * @return Day|ApiProblem
-     * @throws ORMException
-     * @throws NoAccessException
-     */
-    public function create($data) {
-        /** @var Period $period */
-        $period = $this->findEntity(Period::class, $data->period_id);
-
-        /** @var Day $day */
-        $day = parent::create($data);
-        $period->addDay($day);
-
-        return $day;
-    }
-
-
-    /**
-     * @param mixed $id
-     * @return bool|null|ApiProblem
-     * @throws NoAccessException
-     * @throws ORMException
-     */
-    public function delete($id) {
-        /** @var Day $day */
-        $day = $this->fetch($id);
-        $period = $day->getPeriod();
-        $period->removeDay($day);
-
-        return parent::delete($id);
     }
 }

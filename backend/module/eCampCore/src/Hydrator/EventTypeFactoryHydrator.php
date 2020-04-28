@@ -13,28 +13,28 @@ class EventTypeFactoryHydrator implements HydratorInterface {
 
     /**
      * @param object $object
+     *
      * @return array
      */
     public function extract($object) {
         /** @var EventTypeFactory $eventTypeFactory */
         $eventTypeFactory = $object;
+
         return [
             'id' => $eventTypeFactory->getId(),
             'name' => $eventTypeFactory->getName(),
             'event_type' => $eventTypeFactory->getEventType(),
-            'factory_name' => $eventTypeFactory->getFactoryName()
+            'factory_name' => $eventTypeFactory->getFactoryName(),
         ];
     }
 
     /**
-     * @param array $data
      * @param object $object
+     *
      * @return object
      */
     public function hydrate(array $data, $object) {
-        /** @var EventTypeFactory $eventTypeFactory */
-        $eventTypeFactory = $object;
-
-        return $eventTypeFactory;
+        // @var EventTypeFactory $eventTypeFactory
+        return $object;
     }
 }

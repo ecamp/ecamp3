@@ -1,6 +1,5 @@
 <?php
 
-
 namespace eCamp\LibTest\Hal;
 
 use eCamp\Lib\Hal\Extractor\LinkExtractor;
@@ -12,36 +11,39 @@ use Zend\View\Helper\Url;
 use ZF\Hal\Link\Link;
 use ZF\Hal\Link\LinkUrlBuilder;
 
+/**
+ * @internal
+ */
 class LinkExtractorTest extends AbstractTestCase {
     private $linkExtractor;
 
-    function setUp() {
+    public function setUp() {
         parent::setUp();
 
         $router = TreeRouteStack::factory([
-            'routes' => array(
-                'lit' => array(
+            'routes' => [
+                'lit' => [
                     'type' => 'Literal',
-                    'options' => array(
+                    'options' => [
                         'route' => '/lit',
-                    ),
+                    ],
 
                     'child_routes' => [
-                        'fix' => array(
+                        'fix' => [
                             'type' => 'Segment',
-                            'options' => array(
+                            'options' => [
                                 'route' => '/fix',
-                            ),
-                        ),
-                        'entity' => array(
+                            ],
+                        ],
+                        'entity' => [
                             'type' => 'Segment',
-                            'options' => array(
+                            'options' => [
                                 'route' => '/entity[/:id]',
-                            ),
-                        ),
-                    ]
-                ),
-            )
+                            ],
+                        ],
+                    ],
+                ],
+            ],
         ]);
 
         $url = new Url();
@@ -60,11 +62,11 @@ class LinkExtractorTest extends AbstractTestCase {
         $this->linkExtractor->setRouter($router);
     }
 
-    function testFixSegmentLink() {
+    public function testFixSegmentLink() {
         /** @var Link $link */
         $link = Link::factory([
             'rel' => 'self',
-            'route' => 'lit/fix'
+            'route' => 'lit/fix',
         ]);
 
         $res = $this->linkExtractor->extract($link);
@@ -72,11 +74,11 @@ class LinkExtractorTest extends AbstractTestCase {
         $this->assertEquals('https://ecamp3.ch/lit/fix', $res['href']);
     }
 
-    function testEntityCollectionLink() {
+    public function testEntityCollectionLink() {
         /** @var Link $link */
         $link = Link::factory([
             'rel' => 'col',
-            'route' => 'lit/entity'
+            'route' => 'lit/entity',
         ]);
 
         $res = $this->linkExtractor->extract($link);
@@ -84,16 +86,16 @@ class LinkExtractorTest extends AbstractTestCase {
         $this->assertEquals('https://ecamp3.ch/lit/entity', $res['href']);
     }
 
-    function testEntityLink() {
+    public function testEntityLink() {
         /** @var Link $link */
         $link = Link::factory([
             'rel' => 'col',
             'route' => [
                 'name' => 'lit/entity',
                 'params' => [
-                    'id' => '123'
-                ]
-            ]
+                    'id' => '123',
+                ],
+            ],
         ]);
 
         $res = $this->linkExtractor->extract($link);
@@ -101,7 +103,7 @@ class LinkExtractorTest extends AbstractTestCase {
         $this->assertEquals('https://ecamp3.ch/lit/entity/123', $res['href']);
     }
 
-    function testTemplatedLink() {
+    public function testTemplatedLink() {
         $link = TemplatedLink::factory([
             'rel' => 'col',
             'route' => 'lit/entity',

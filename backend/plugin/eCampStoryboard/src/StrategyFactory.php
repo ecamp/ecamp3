@@ -10,12 +10,12 @@ use Zend\ServiceManager\Factory\FactoryInterface;
 
 class StrategyFactory implements FactoryInterface {
     /**
-     * @param ContainerInterface $container
      * @param string $requestedName
-     * @param array|null $options
-     * @return Strategy
+     *
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
+     *
+     * @return Strategy
      */
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null) {
         /** @var SectionService $sectionService */

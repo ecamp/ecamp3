@@ -12,22 +12,24 @@ use Zend\Hydrator\HydratorInterface;
 class EventHydrator implements HydratorInterface {
     public static function HydrateInfo() {
         return [
-            'event_category' => Util::Entity(function(Event $e) {
+            'event_category' => Util::Entity(function (Event $e) {
                 return $e->getEventCategory();
             }),
             'event_instances' => Util::Collection(function (Event $e) {
                 return new EventInstanceCollection($e->getEventInstances());
-            }, null)
+            }, null),
         ];
     }
 
     /**
      * @param object $object
+     *
      * @return array
      */
     public function extract($object) {
         /** @var Event $event */
         $event = $object;
+
         return [
             'id' => $event->getId(),
             'title' => $event->getTitle(),
@@ -37,19 +39,19 @@ class EventHydrator implements HydratorInterface {
 
             'event_instances' => new EntityLinkCollection($event->getEventInstances()),
 
-//            'event_plugins' => Link::factory([
-//                'rel' => 'event_plugins',
-//                'route' => [
-//                    'name' => 'e-camp-api.rest.doctrine.event-plugin',
-//                    'options' => [ 'query' => [ 'event_id' => $event->getId() ] ]
-//                ]
-//            ]),
+            //            'event_plugins' => Link::factory([
+            //                'rel' => 'event_plugins',
+            //                'route' => [
+            //                    'name' => 'e-camp-api.rest.doctrine.event-plugin',
+            //                    'options' => [ 'query' => [ 'event_id' => $event->getId() ] ]
+            //                ]
+            //            ]),
         ];
     }
 
     /**
-     * @param array $data
      * @param object $object
+     *
      * @return object
      */
     public function hydrate(array $data, $object) {

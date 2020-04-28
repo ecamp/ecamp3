@@ -17,7 +17,6 @@ use ZF\Hal\Extractor\LinkExtractor as HalLinkExtractor;
 use ZF\Hal\Link\Link;
 
 class LinkExtractor extends HalLinkExtractor {
-
     /** @var SimpleRouteStack */
     protected $router;
 
@@ -33,18 +32,17 @@ class LinkExtractor extends HalLinkExtractor {
     /** @var array */
     protected $zfRestConfig;
 
-
     /** @return SimpleRouteStack */
     public function getRouter() {
         return $this->router;
     }
 
     /**
-     * @param SimpleRouteStack $router
      * @return $this
      */
     public function setRouter(SimpleRouteStack $router) {
         $this->router = $router;
+
         return $this;
     }
 
@@ -55,10 +53,12 @@ class LinkExtractor extends HalLinkExtractor {
 
     /**
      * @param RouteMatch $routeMatch
+     *
      * @return $this
      */
     public function setRouteMatch(RouteMatch $routeMatch = null) {
         $this->routeMatch = $routeMatch;
+
         return $this;
     }
 
@@ -68,11 +68,11 @@ class LinkExtractor extends HalLinkExtractor {
     }
 
     /**
-     * @param ServerUrl $serverUrlHelper
      * @return $this
      */
     public function setServerUrl(ServerUrl $serverUrlHelper) {
         $this->serverUrlHelper = $serverUrlHelper;
+
         return $this;
     }
 
@@ -82,11 +82,11 @@ class LinkExtractor extends HalLinkExtractor {
     }
 
     /**
-     * @param Url $urlHelper
      * @return $this
      */
     public function setUrl(Url $urlHelper) {
         $this->urlHelper = $urlHelper;
+
         return $this;
     }
 
@@ -97,35 +97,35 @@ class LinkExtractor extends HalLinkExtractor {
 
     /**
      * @param array $zfRestConfig
+     *
      * @return $this
      */
     public function setZfRestConfig($zfRestConfig) {
         $this->zfRestConfig = $zfRestConfig;
+
         return $this;
     }
 
-
     /**
-     * @param Link $object
-     * @return array
      * @throws \ReflectionException
+     *
+     * @return array
      */
     public function extract(Link $object) {
         if ($object instanceof TemplatedLink) {
             return $this->extractTemplatedLink($object);
-        } else {
-            return parent::extract($object);
         }
+
+        return parent::extract($object);
     }
 
-
     /**
-     * @param TemplatedLink $object
-     * @return array
      * @throws \ReflectionException
+     *
+     * @return array
      */
-    function extractTemplatedLink(TemplatedLink $object) {
-        if (! $object->isComplete()) {
+    public function extractTemplatedLink(TemplatedLink $object) {
+        if (!$object->isComplete()) {
             throw new DomainException(sprintf(
                 'Link from resource provided to %s was incomplete; must contain a URL or a route',
                 __METHOD__
@@ -146,23 +146,25 @@ class LinkExtractor extends HalLinkExtractor {
             $options,
             $reuseMatchedParams
         );
-        $representation['templated'] =  true;
+        $representation['templated'] = true;
 
         return $representation;
     }
 
     /**
-     * Get an URI Template from a ZF2 route
+     * Get an URI Template from a ZF2 route.
      *
      * @param string $name
-     * @param array $params
-     * @param array $options
-     * @param bool $reUseMatchedParams
-     * @return string
+     * @param array  $params
+     * @param array  $options
+     * @param bool   $reUseMatchedParams
+     *
      * @throws \ReflectionException
+     *
+     * @return string
      */
     public function buildLinkUrl($name, $params = [], $options = [], $reUseMatchedParams = false) {
-        if ($reUseMatchedParams && $this->routeMatch !== null) {
+        if ($reUseMatchedParams && null !== $this->routeMatch) {
             $routeMatchParams = $this->routeMatch->getParams();
 
             if (isset($routeMatchParams[ModuleRouteListener::ORIGINAL_CONTROLLER])) {
@@ -178,19 +180,16 @@ class LinkExtractor extends HalLinkExtractor {
         }
 
         $uri = $this->assemble($this->getRouter(), $name, $params, $options);
-        $uri = call_user_func($this->serverUrlHelper, $uri);
 
-        return $uri;
+        return call_user_func($this->serverUrlHelper, $uri);
     }
 
     /**
-     * @param SimpleRouteStack $router
-     * @param string $name
-     * @param array $params
-     * @param array $options
      * @param string $uri
-     * @return string
+     *
      * @throws \ReflectionException
+     *
+     * @return string
      */
     protected function assemble(SimpleRouteStack $router, string $name, array $params, array $options, $uri = '') {
         $names = explode('/', $name, 2);
@@ -224,30 +223,26 @@ class LinkExtractor extends HalLinkExtractor {
         return $uri;
     }
 
-
     /**
-     * Get the URI template for a literal route
+     * Get the URI template for a literal route.
      *
-     * @param Literal $route
+     * @throws \ReflectionException
      *
      * @return mixed
-     * @throws \ReflectionException
      */
     protected function assembleLiteral(Literal $route) {
         $reflectionProp = new \ReflectionProperty(get_class($route), 'route');
         $reflectionProp->setAccessible(true);
+
         return $reflectionProp->getValue($route);
     }
 
     /**
-     * Get a URI template for a segment route
+     * Get a URI template for a segment route.
      *
-     * @param Segment $segment
-     *
-     * @param array $params
-     * @param array $options
-     * @return string
      * @throws \ReflectionException
+     *
+     * @return string
      */
     protected function assembleSegment(Segment $segment, array $params = [], array $options = []) {
         $reflectionProp = new \ReflectionProperty(get_class($segment), 'parts');
@@ -273,18 +268,19 @@ class LinkExtractor extends HalLinkExtractor {
      * @param array $mergedParams
      * @param $isOptional
      * @param $hasChild
-     * @param array $options
+     *
      * @return string
      */
     protected function buildPathSegment($parts, array $defaults, array $params, $isOptional, $hasChild, array $options) {
         $uri = '';
-        $skip      = true;
+        $skip = true;
         $skippable = false;
 
         foreach ($parts as $part) {
             switch ($part[0]) {
                 case 'literal':
                     $uri .= $part[1];
+
                     break;
                 case 'parameter':
                     $skippable = true;
@@ -298,10 +294,11 @@ class LinkExtractor extends HalLinkExtractor {
                     $skippable = true;
                     $optionalPart = $this->buildPathSegment($part[1], $defaults, $params, true, $hasChild, $options);
 
-                    if ($optionalPart !== '') {
+                    if ('' !== $optionalPart) {
                         $uri .= $optionalPart;
                         $skip = false;
                     }
+
                     break;
                 default:
                     throw new \InvalidArgumentException('Unsupported SegmentRoute-Part');
@@ -316,23 +313,22 @@ class LinkExtractor extends HalLinkExtractor {
     }
 
     /**
-     * Get the route from a part route
+     * Get the route from a part route.
      *
-     * @param Part $route
+     * @throws \ReflectionException
      *
      * @return mixed
-     * @throws \ReflectionException
      */
     protected function extractRouteFromPartRoute(Part $route) {
         $reflectionProp = new \ReflectionProperty(get_class($route), 'route');
         $reflectionProp->setAccessible(true);
+
         return $reflectionProp->getValue($route);
     }
 
     /**
-     * Add a Part-routes childroutes as routes
+     * Add a Part-routes childroutes as routes.
      *
-     * @param Part $route
      * @throws \ReflectionException
      */
     protected function addChildRoutes(Part $route) {
@@ -347,12 +343,11 @@ class LinkExtractor extends HalLinkExtractor {
     }
 
     /**
-     * Get ZF-Rest whitelisted queryparams for a route (based on the routes controller)
+     * Get ZF-Rest whitelisted queryparams for a route (based on the routes controller).
      *
-     * @param RouteInterface $childRouteRealRoute
+     * @throws \ReflectionException
      *
      * @return string an URI template for queryparams
-     * @throws \ReflectionException
      */
     protected function getZfRestQueryParamsAsUriTemplate(RouteInterface $childRouteRealRoute) {
         $refObj = new \ReflectionObject($childRouteRealRoute);

@@ -2,8 +2,8 @@
 
 namespace eCamp\Core\EntityService;
 
-use eCamp\Core\Hydrator\JobRespHydrator;
 use eCamp\Core\Entity\JobResp;
+use eCamp\Core\Hydrator\JobRespHydrator;
 use eCamp\Lib\Service\ServiceUtils;
 use Zend\Authentication\AuthenticationService;
 

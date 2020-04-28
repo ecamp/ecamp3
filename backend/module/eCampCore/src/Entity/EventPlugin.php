@@ -3,18 +3,13 @@
 namespace eCamp\Core\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use eCamp\Core\Hydrator\EventTypePluginHydrator;
 use eCamp\Lib\Entity\BaseEntity;
 
 /**
- * @ORM\Entity()
+ * @ORM\Entity
  * @ORM\Table(name="event_plugins")
  */
 class EventPlugin extends BaseEntity {
-    public function __construct() {
-        parent::__construct();
-    }
-
     /**
      * @var Event
      * @ORM\ManyToOne(targetEntity="Event")
@@ -35,6 +30,9 @@ class EventPlugin extends BaseEntity {
      */
     private $instanceName;
 
+    public function __construct() {
+        parent::__construct();
+    }
 
     /**
      * @return Event
@@ -47,7 +45,6 @@ class EventPlugin extends BaseEntity {
         $this->event = $event;
     }
 
-
     /**
      * @return EventTypePlugin
      */
@@ -59,14 +56,12 @@ class EventPlugin extends BaseEntity {
         $this->eventTypePlugin = $eventTypePlugin;
     }
 
-
     /**
      * @return Plugin
      */
     public function getPlugin() {
-        return ($this->eventTypePlugin != null) ? $this->eventTypePlugin->getPlugin() : null;
+        return (null != $this->eventTypePlugin) ? $this->eventTypePlugin->getPlugin() : null;
     }
-
 
     /**
      * @return string

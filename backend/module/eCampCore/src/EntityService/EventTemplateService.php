@@ -2,8 +2,8 @@
 
 namespace eCamp\Core\EntityService;
 
-use eCamp\Core\Hydrator\EventTemplateHydrator;
 use eCamp\Core\Entity\EventTemplate;
+use eCamp\Core\Hydrator\EventTemplateHydrator;
 use eCamp\Lib\Service\ServiceUtils;
 use Zend\Authentication\AuthenticationService;
 

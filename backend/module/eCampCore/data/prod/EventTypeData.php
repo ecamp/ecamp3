@@ -19,7 +19,7 @@ class EventTypeData extends AbstractFixture implements DependentFixtureInterface
         $repository = $manager->getRepository(EventType::class);
 
         $eventType = $repository->findOneBy(['name' => 'Lagersport']);
-        if ($eventType == null) {
+        if (null == $eventType) {
             $eventType = new EventType();
             $eventType->setName('Lagersport');
             $eventType->setDefaultColor('#4CAF50');
@@ -54,12 +54,10 @@ class EventTypeData extends AbstractFixture implements DependentFixtureInterface
             $manager->persist($eventTemplateCont);
         }
 
-
         $this->addReference(self::$LAGERSPORT, $eventType);
 
-
         $eventType = $repository->findOneBy(['name' => 'Lageraktivität']);
-        if ($eventType == null) {
+        if (null == $eventType) {
             $eventType = new EventType();
             $eventType->setName('Lageraktivität');
             $eventType->setDefaultColor('#FF9800');
@@ -90,11 +88,10 @@ class EventTypeData extends AbstractFixture implements DependentFixtureInterface
         }
         $this->addReference(self::$LAGERAKTIVITAET, $eventType);
 
-
         $manager->flush();
     }
 
     public function getDependencies() {
-        return [ PluginData::class ];
+        return [PluginData::class];
     }
 }

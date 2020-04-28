@@ -26,6 +26,7 @@ abstract class AbstractDatabaseTestCase extends TestCase {
 
     /**
      * @param string $name
+     *
      * @return EntityManager
      */
     protected function getEntityManager($name = 'orm_default') {
@@ -33,7 +34,6 @@ abstract class AbstractDatabaseTestCase extends TestCase {
     }
 
     /**
-     * @param EntityManager $em
      * @throws ToolsException
      */
     protected function createDatabaseSchema(EntityManager $em) {

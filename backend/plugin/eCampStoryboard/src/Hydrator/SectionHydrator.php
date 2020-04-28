@@ -9,6 +9,7 @@ use ZF\Hal\Link\Link;
 class SectionHydrator implements HydratorInterface {
     /**
      * @param object $object
+     *
      * @return array
      */
     public function extract($object) {
@@ -27,9 +28,9 @@ class SectionHydrator implements HydratorInterface {
                     'name' => 'ecamp.api.event_plugin/ecamp.section/move',
                     'params' => [
                         'section_id' => $section->getId(),
-                        'action' => 'move_up'
+                        'action' => 'move_up',
                     ],
-                ]
+                ],
             ]),
             'move_down' => Link::factory([
                 'rel' => 'move_down',
@@ -37,16 +38,16 @@ class SectionHydrator implements HydratorInterface {
                     'name' => 'ecamp.api.event_plugin/ecamp.section/move',
                     'params' => [
                         'section_id' => $section->getId(),
-                        'action' => 'move_down'
+                        'action' => 'move_down',
                     ],
-                ]
+                ],
             ]),
         ];
     }
 
     /**
-     * @param array $data
      * @param object $object
+     *
      * @return object
      */
     public function hydrate(array $data, $object) {

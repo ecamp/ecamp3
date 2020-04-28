@@ -27,6 +27,6 @@ class CampFilter extends BaseFilter {
         $q->setParameter('f_auth_user', $authUser);
         $q->setParameter('f_cc_established', $established);
 
-        return new Expr\Func($alias . '.' . $field . ' IN', (array)$campQ->getDQL());
+        return new Expr\Func($alias.'.'.$field.' IN', (array) $campQ->getDQL());
     }
 }

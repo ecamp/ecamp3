@@ -9,7 +9,7 @@ use ZendTwig\Extension\Extension;
 class TwigExtensions extends Extension {
     public function getFunctions() {
         return [
-            'class' => new TwigFunction('class', array($this, 'getClass'))
+            'class' => new TwigFunction('class', [$this, 'getClass']),
         ];
     }
 
@@ -17,15 +17,15 @@ class TwigExtensions extends Extension {
         return (new \ReflectionClass($object))->getShortName();
     }
 
-
     public function getTests() {
         return [
-            new TwigTest('instanceof', [$this, 'isInstanceOf'])
+            new TwigTest('instanceof', [$this, 'isInstanceOf']),
         ];
     }
 
     public function isInstanceOf($var, $instance) {
         $reflexionClass = new \ReflectionClass($instance);
+
         return $reflexionClass->isInstance($var);
     }
 }

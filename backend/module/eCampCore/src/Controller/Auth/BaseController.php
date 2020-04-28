@@ -22,7 +22,6 @@ use Zend\View\Model\ViewModel;
 abstract class BaseController extends AbstractActionController {
     public const SESSION_NAMESPACE = self::class;
 
-
     /** @var EntityManager */
     protected $entityManager;
 
@@ -41,14 +40,11 @@ abstract class BaseController extends AbstractActionController {
     /** @var array */
     protected $hybridAuthConfig;
 
-
     /** @var Container */
     private $sessionContainer;
 
     /** @var AdapterInterface */
     private $hybridAuthAdapter;
-
-
 
     public function __construct(
         EntityManager $entityManager,
@@ -66,12 +62,12 @@ abstract class BaseController extends AbstractActionController {
         $this->hybridAuthConfig = $hybridAuthConfig;
     }
 
-
     /**
-     * @return Response|ViewModel
      * @throws NoAccessException
      * @throws ORMException
      * @throws \Exception
+     *
+     * @return Response|ViewModel
      */
     public function indexAction() {
         /** @var Request $request */
@@ -89,14 +85,16 @@ abstract class BaseController extends AbstractActionController {
         /** @var Response $response */
         $response = $this->getResponse();
         $response->setStatusCode(401);
+
         return $response;
     }
 
     /**
-     * @return Response
      * @throws ORMException
      * @throws \Exception
      * @throws NoAccessException
+     *
+     * @return Response
      */
     public function callbackAction() {
         // Perform the second step of OAuth2 authentication
@@ -120,6 +118,7 @@ abstract class BaseController extends AbstractActionController {
         /** @var Response $response */
         $response = $this->getResponse();
         $response->setStatusCode(401);
+
         return $response;
     }
 
@@ -136,21 +135,20 @@ abstract class BaseController extends AbstractActionController {
         die('logout');
     }
 
-
     protected function getRedirect() {
-        if ($this->sessionContainer == null) {
+        if (null == $this->sessionContainer) {
             $this->sessionContainer = new Container(self::SESSION_NAMESPACE);
         }
+
         return $this->sessionContainer->redirect;
     }
 
     protected function setRedirect($redirect) {
-        if ($this->sessionContainer == null) {
+        if (null == $this->sessionContainer) {
             $this->sessionContainer = new Container(self::SESSION_NAMESPACE);
         }
         $this->sessionContainer->redirect = $redirect;
     }
-
 
     protected function getCallbackUri($route = null, $params = [], $options = []) {
         /** @var Request $request */
@@ -159,8 +157,8 @@ abstract class BaseController extends AbstractActionController {
         $uri = $request->getUri();
         $port = $uri->getPort();
         $callbackUri = sprintf('%s://%s', $uri->getScheme(), $uri->getHost());
-        if ($port !== null) {
-            $callbackUri .= (':' . $port);
+        if (null !== $port) {
+            $callbackUri .= (':'.$port);
         }
         $callbackUri .= $this->url()->fromRoute($route, $params, $options);
 
@@ -168,29 +166,33 @@ abstract class BaseController extends AbstractActionController {
     }
 
     /**
-     * @return AdapterInterface
      * @throws InvalidArgumentException
      * @throws UnexpectedValueException
+     *
+     * @return AdapterInterface
      */
     protected function getHybridAuthAdapter() {
-        if ($this->hybridAuthAdapter == null) {
+        if (null == $this->hybridAuthAdapter) {
             $this->hybridAuthAdapter = $this->createHybridAuthAdapter();
         }
+
         return $this->hybridAuthAdapter;
     }
 
     /**
-     * @return AdapterInterface
      * @throws InvalidArgumentException
      * @throws UnexpectedValueException
+     *
+     * @return AdapterInterface
      */
     protected function createHybridAuthAdapter() {
         $route = $this->getCallbackRoute();
-        $callback = $this->getCallbackUri($route, [ 'action' => 'callback' ]);
+        $callback = $this->getCallbackUri($route, ['action' => 'callback']);
         $config = ['provider' => $this->providerName, 'callback' => $callback];
 
         $hybridAuthConfig = $this->hybridAuthConfig + $config;
         $hybridAuth = new Hybridauth($hybridAuthConfig);
+
         return $hybridAuth->getAdapter($this->providerName);
     }
 

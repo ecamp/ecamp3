@@ -7,7 +7,7 @@ use eCamp\Lib\Entity\BaseEntity;
 
 /**
  * @ORM\Table(name="user_identity", uniqueConstraints={
- *   @ORM\UniqueConstraint(name="identity",columns={"provider", "provider_id"}),
+ *     @ORM\UniqueConstraint(name="identity", columns={"provider", "provider_id"}),
  * })
  * @ORM\Entity
  */
@@ -20,29 +20,31 @@ class UserIdentity extends BaseEntity {
     private $user;
 
     /**
-     * This is the identity provider (Facebook, Google, etc.)
+     * This is the identity provider (Facebook, Google, etc.).
+     *
      * @var string
      * @ORM\Column(name="provider", type="string", length=255, nullable=false)
      */
     private $provider;
 
     /**
-     * This is the ID given by the identity provider
+     * This is the ID given by the identity provider.
+     *
      * @var string
      * @ORM\Column(name="provider_id", type="string", length=255, nullable=false)
      */
     private $providerId;
 
     /**
-     * Set user
-     * @param User $user
+     * Set user.
      */
     public function setUser(User $user) {
         $this->user = $user;
     }
 
     /**
-     * Get user
+     * Get user.
+     *
      * @return User
      */
     public function getUser() {
@@ -50,7 +52,8 @@ class UserIdentity extends BaseEntity {
     }
 
     /**
-     * Set provider
+     * Set provider.
+     *
      * @param string $provider
      */
     public function setProvider($provider) {
@@ -58,7 +61,8 @@ class UserIdentity extends BaseEntity {
     }
 
     /**
-     * Get provider
+     * Get provider.
+     *
      * @return string
      */
     public function getProvider() {
@@ -66,7 +70,8 @@ class UserIdentity extends BaseEntity {
     }
 
     /**
-     * Set provider ID
+     * Set provider ID.
+     *
      * @param string $providerId
      */
     public function setProviderId($providerId) {
@@ -74,7 +79,8 @@ class UserIdentity extends BaseEntity {
     }
 
     /**
-     * Get provider Id
+     * Get provider Id.
+     *
      * @return string
      */
     public function getProviderId() {

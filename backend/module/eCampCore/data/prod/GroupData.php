@@ -8,24 +8,22 @@ use Doctrine\Common\Persistence\ObjectManager;
 use eCamp\Core\Entity\Group;
 
 class GroupData extends AbstractFixture implements DependentFixtureInterface {
-    public static $PBS = Group::class . ':PBS';
-    public static $PFADI_LUZERN = Group::class . ':PBS:PfadiLuzern';
-    public static $PFADI_BASEL = Group::class . ':PBS:PfadiBasel';
-
+    public static $PBS = Group::class.':PBS';
+    public static $PFADI_LUZERN = Group::class.':PBS:PfadiLuzern';
+    public static $PFADI_BASEL = Group::class.':PBS:PfadiBasel';
 
     public function load(ObjectManager $manager) {
         // disable group code
         return;
-        
         $repository = $manager->getRepository(Group::class);
 
         $pbs = $this->getReference(OrganizationData::$PBS);
 
-        $group =  $repository->findOneBy([
+        $group = $repository->findOneBy([
             'parent' => null,
-            'name' => 'Pfadi Bewegung Schweiz'
+            'name' => 'Pfadi Bewegung Schweiz',
         ]);
-        if ($group == null) {
+        if (null == $group) {
             $group = new Group();
             $group->setParent(null);
             $group->setName('Pfadi Bewegung Schweiz');
@@ -36,12 +34,11 @@ class GroupData extends AbstractFixture implements DependentFixtureInterface {
         }
         $this->addReference(self::$PBS, $group);
 
-
-        $group =  $repository->findOneBy([
+        $group = $repository->findOneBy([
             'parent' => $this->getReference(self::$PBS),
-            'name' => 'Pfadi Luzern'
+            'name' => 'Pfadi Luzern',
         ]);
-        if ($group == null) {
+        if (null == $group) {
             $group = new Group();
             $group->setParent($this->getReference(self::$PBS));
             $group->setName('Pfadi Luzern');
@@ -52,12 +49,11 @@ class GroupData extends AbstractFixture implements DependentFixtureInterface {
         }
         $this->addReference(self::$PFADI_LUZERN, $group);
 
-
-        $group =  $repository->findOneBy([
+        $group = $repository->findOneBy([
             'parent' => $this->getReference(self::$PBS),
-            'name' => 'Pfadi Region Basel'
+            'name' => 'Pfadi Region Basel',
         ]);
-        if ($group == null) {
+        if (null == $group) {
             $group = new Group();
             $group->setParent($this->getReference(self::$PBS));
             $group->setName('Pfadi Region Basel');
@@ -68,11 +64,10 @@ class GroupData extends AbstractFixture implements DependentFixtureInterface {
         }
         $this->addReference(self::$PFADI_BASEL, $group);
 
-
         $manager->flush();
     }
 
     public function getDependencies() {
-        return [ OrganizationData::class ];
+        return [OrganizationData::class];
     }
 }

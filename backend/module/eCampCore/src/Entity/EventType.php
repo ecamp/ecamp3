@@ -7,38 +7,12 @@ use Doctrine\ORM\Mapping as ORM;
 use eCamp\Lib\Entity\BaseEntity;
 
 /**
- * EventType
- * @ORM\Entity()
+ * EventType.
+ *
+ * @ORM\Entity
  * @ORM\Table(name="event_types")
  */
 class EventType extends BaseEntity {
-    public function __construct() {
-        parent::__construct();
-
-        $this->campTypes = new ArrayCollection();
-        $this->eventTypePlugins = new ArrayCollection();
-        $this->eventTypeFactories = new ArrayCollection();
-        $this->eventTemplates = new ArrayCollection();
-    }
-
-    /**
-     * @var string
-     * @ORM\Column(type="string", length=64, nullable=false)
-     */
-    private $name;
-
-    /**
-     * @var string
-     * @ORM\Column(type="string", length=8, nullable=false)
-     */
-    private $defaultColor = '#1fa2df';
-
-    /**
-     * @var string
-     * @ORM\Column(type="string", length=1, nullable=false)
-     */
-    private $defaultNumberingStyle;
-
     /**
      * @ORM\ManyToMany(targetEntity="CampType", mappedBy="eventTypes")
      */
@@ -62,6 +36,32 @@ class EventType extends BaseEntity {
      */
     protected $eventTemplates;
 
+    /**
+     * @var string
+     * @ORM\Column(type="string", length=64, nullable=false)
+     */
+    private $name;
+
+    /**
+     * @var string
+     * @ORM\Column(type="string", length=8, nullable=false)
+     */
+    private $defaultColor = '#1fa2df';
+
+    /**
+     * @var string
+     * @ORM\Column(type="string", length=1, nullable=false)
+     */
+    private $defaultNumberingStyle;
+
+    public function __construct() {
+        parent::__construct();
+
+        $this->campTypes = new ArrayCollection();
+        $this->eventTypePlugins = new ArrayCollection();
+        $this->eventTypeFactories = new ArrayCollection();
+        $this->eventTemplates = new ArrayCollection();
+    }
 
     /**
      * @return string
@@ -74,7 +74,6 @@ class EventType extends BaseEntity {
         $this->name = $name;
     }
 
-
     /**
      * @return string
      */
@@ -86,7 +85,6 @@ class EventType extends BaseEntity {
         $this->defaultColor = $defaultColor;
     }
 
-
     /**
      * @return string
      */
@@ -97,7 +95,6 @@ class EventType extends BaseEntity {
     public function setDefaultNumberingStyle($defaultNumberingStyle) {
         $this->defaultNumberingStyle = $defaultNumberingStyle;
     }
-
 
     /**
      * @return ArrayCollection
@@ -116,7 +113,6 @@ class EventType extends BaseEntity {
         $this->eventTypePlugins->removeElement($eventTypePlugin);
     }
 
-
     /**
      * @return ArrayCollection
      */
@@ -133,7 +129,6 @@ class EventType extends BaseEntity {
         $factory->setEventType(null);
         $this->eventTypeFactories->removeElement($factory);
     }
-
 
     /**
      * @return ArrayCollection
@@ -152,14 +147,12 @@ class EventType extends BaseEntity {
         $this->eventTemplates->removeElement($eventTemplateContainer);
     }
 
-
-
     public function createDefaultEventPlugins(Event $event) {
         foreach ($this->getEventTypePlugins() as $eventTypePlugin) {
-            for ($idx = 0; $idx < $eventTypePlugin->getMinNumberPluginInstances(); $idx++) {
+            for ($idx = 0; $idx < $eventTypePlugin->getMinNumberPluginInstances(); ++$idx) {
                 /** @var Plugin $plugin */
                 $plugin = $eventTypePlugin->getPlugin();
-                $pluginName = $plugin->getName() . ' ';
+                $pluginName = $plugin->getName().' ';
                 $pluginName .= str_pad($idx + 1, 2, '0');
 
                 $eventPlugin = new EventPlugin();

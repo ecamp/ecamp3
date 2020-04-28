@@ -11,7 +11,8 @@ use ZF\Hal\Link\LinkUrlBuilder;
 
 class LinkExtractorFactory {
     /**
-     * @param  \Interop\Container\ContainerInterface|\Zend\ServiceManager\ServiceLocatorInterface $container
+     * @param \Interop\Container\ContainerInterface|\Zend\ServiceManager\ServiceLocatorInterface $container
+     *
      * @return LinkExtractor
      */
     public function __invoke($container) {
@@ -31,7 +32,6 @@ class LinkExtractorFactory {
         $linkExtractor->setRouteMatch($routeMatch);
         $linkExtractor->setServerUrl($serverUrlHelper);
         $linkExtractor->setUrl($urlHelper);
-
 
         if (isset($container->get('Config')['zf-rest'])) {
             $linkExtractor->setZfRestConfig($container->get('Config')['zf-rest']);

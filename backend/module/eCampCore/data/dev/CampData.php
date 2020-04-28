@@ -10,8 +10,8 @@ use eCamp\Core\Entity\CampType;
 use eCamp\Core\Entity\User;
 
 class CampData extends AbstractFixture implements DependentFixtureInterface {
-    public static $CAMP_1 = Camp::class . ':CAMP_1';
-    public static $CAMP_2 = Camp::class . ':CAMP_2';
+    public static $CAMP_1 = Camp::class.':CAMP_1';
+    public static $CAMP_2 = Camp::class.':CAMP_2';
 
     public function load(ObjectManager $manager) {
         $repository = $manager->getRepository(Camp::class);
@@ -24,8 +24,8 @@ class CampData extends AbstractFixture implements DependentFixtureInterface {
         /** @var CampType $jsTeenCampType */
         $jsTeenCampType = $this->getReference(CampTypeData::$PBS_JS_TEEN);
 
-        $camp = $repository->findOneBy([ 'owner' => $user, 'name' => 'Camp 1' ]);
-        if ($camp == null) {
+        $camp = $repository->findOneBy(['owner' => $user, 'name' => 'Camp 1']);
+        if (null == $camp) {
             $camp = new Camp();
             $camp->setOwner($user);
             $camp->setCreator($user);
@@ -38,8 +38,8 @@ class CampData extends AbstractFixture implements DependentFixtureInterface {
         }
         $this->addReference(self::$CAMP_1, $camp);
 
-        $camp = $repository->findOneBy([ 'owner' => $user, 'name' => 'Camp 2' ]);
-        if ($camp == null) {
+        $camp = $repository->findOneBy(['owner' => $user, 'name' => 'Camp 2']);
+        if (null == $camp) {
             $camp = new Camp();
             $camp->setOwner($user);
             $camp->setCreator($user);
@@ -56,6 +56,6 @@ class CampData extends AbstractFixture implements DependentFixtureInterface {
     }
 
     public function getDependencies() {
-        return [ UserData::class, CampTypeData::class ];
+        return [UserData::class, CampTypeData::class];
     }
 }

@@ -24,9 +24,6 @@ abstract class BasePluginEntity extends BaseEntity {
         return $this->eventPlugin;
     }
 
-    /**
-     * @param EventPlugin $eventPlugin
-     */
     public function setEventPlugin(EventPlugin $eventPlugin) {
         $this->eventPlugin = $eventPlugin;
     }

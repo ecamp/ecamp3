@@ -6,7 +6,7 @@ use Zend\ModuleManager\ModuleManagerInterface;
 use Zend\Mvc\Service\AbstractPluginManagerFactory;
 
 class EntityFilterManagerFactory extends AbstractPluginManagerFactory {
-    const PLUGIN_MANAGER_CLASS =  EntityFilterManager::class;
+    const PLUGIN_MANAGER_CLASS = EntityFilterManager::class;
 
     const CONFIG_KEY = 'entity_filter';
     const CONFIG_METHOD = 'getEntityFilterConfig';

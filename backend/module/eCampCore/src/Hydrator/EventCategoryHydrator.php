@@ -12,17 +12,19 @@ class EventCategoryHydrator implements HydratorInterface {
         return [
             'event_type' => Util::Entity(function (EventCategory $ec) {
                 return $ec->getEventType();
-            })
+            }),
         ];
     }
 
     /**
      * @param object $object
+     *
      * @return array
      */
     public function extract($object) {
         /** @var EventCategory $eventCategory */
         $eventCategory = $object;
+
         return [
             'id' => $eventCategory->getId(),
             'short' => $eventCategory->getShort(),
@@ -32,13 +34,13 @@ class EventCategoryHydrator implements HydratorInterface {
             'numbering_style' => $eventCategory->getNumberingStyle(),
 
             'camp' => EntityLink::Create($eventCategory->getCamp()),
-            'event_type' => EntityLink::Create($eventCategory->getEventType())
+            'event_type' => EntityLink::Create($eventCategory->getEventType()),
         ];
     }
 
     /**
-     * @param array $data
      * @param object $object
+     *
      * @return object
      */
     public function hydrate(array $data, $object) {

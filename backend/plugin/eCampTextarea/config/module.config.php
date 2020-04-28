@@ -10,20 +10,20 @@ return [
                         'options' => [
                             'route' => '/textarea[/:textarea_id]',
                             'defaults' => [
-                                'controller' => \eCamp\Plugin\Textarea\Controller\TextareaController::class
+                                'controller' => \eCamp\Plugin\Textarea\Controller\TextareaController::class,
                             ],
                         ],
-                    ]
-                ]
-            ]
-        ]
+                    ],
+                ],
+            ],
+        ],
     ],
 
     'service_manager' => [
         'factories' => [
             \eCamp\Plugin\Textarea\Strategy::class => \eCamp\Plugin\Textarea\StrategyFactory::class,
-            \eCamp\Plugin\Textarea\Service\TextareaService::class => \eCamp\Core\Plugin\DefaultPluginServiceFactory::class
-        ]
+            \eCamp\Plugin\Textarea\Service\TextareaService::class => \eCamp\Core\Plugin\DefaultPluginServiceFactory::class,
+        ],
     ],
 
     'zf-rest' => [
@@ -56,13 +56,13 @@ return [
                 'entity_identifier_name' => 'id',
                 'route_name' => 'ecamp.api.event_plugin/ecamp.textarea',
                 'hydrator' => eCamp\Plugin\Textarea\Hydrator\TextareaHydrator::class,
-                'max_depth' => 2
+                'max_depth' => 2,
             ],
             \eCamp\Plugin\Textarea\Entity\TextareaCollection::class => [
                 'entity_identifier_name' => 'id',
                 'route_name' => 'ecamp.api.event_plugin/ecamp.textarea',
                 'is_collection' => true,
-                'max_depth' => 0
+                'max_depth' => 0,
             ],
         ],
     ],
@@ -72,15 +72,14 @@ return [
             'ecamp_plugin_textarea_entities' => [
                 'class' => 'Doctrine\ORM\Mapping\Driver\AnnotationDriver',
                 'cache' => 'array',
-                'paths' => [__DIR__ . '/../src/Entity']
+                'paths' => [__DIR__.'/../src/Entity'],
             ],
 
             'orm_default' => [
                 'drivers' => [
-                    'eCamp\Plugin\Textarea\Entity' => 'ecamp_plugin_textarea_entities'
-                ]
+                    'eCamp\Plugin\Textarea\Entity' => 'ecamp_plugin_textarea_entities',
+                ],
             ],
         ],
     ],
-
 ];

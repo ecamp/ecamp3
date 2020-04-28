@@ -11,7 +11,6 @@ use Zend\Authentication\AuthenticationService;
 use ZF\ApiProblem\ApiProblem;
 
 abstract class BasePluginService extends AbstractEntityService {
-
     /** @var string */
     private $eventPluginId;
 
@@ -30,6 +29,26 @@ abstract class BasePluginService extends AbstractEntityService {
         $this->eventPluginId = $eventPluginId;
     }
 
+    /**
+     * @param mixed $data
+     *
+     * @throws ORMException
+     * @throws NoAccessException
+     *
+     * @return ApiProblem|BasePluginEntity
+     */
+    public function create($data) {
+        /** @var BasePluginEntity $entity */
+        $entity = parent::create($data);
+
+        if (null == $entity->getEventPlugin()) {
+            /** @var EventPlugin $eventPlugin */
+            $eventPlugin = $this->findEntity(EventPlugin::class, $data->event_plugin_id);
+            $entity->setEventPlugin($eventPlugin);
+        }
+
+        return $entity;
+    }
 
     /** @return string */
     protected function getEventPluginId() {
@@ -38,18 +57,19 @@ abstract class BasePluginService extends AbstractEntityService {
 
     /** @return EventPlugin */
     protected function getEventPlugin() {
-        if ($this->eventPlugin == null) {
-            if ($this->eventPluginId != null) {
+        if (null == $this->eventPlugin) {
+            if (null != $this->eventPluginId) {
                 $this->eventPlugin = $this->findEntity(EventPlugin::class, $this->eventPluginId);
             }
         }
+
         return $this->eventPlugin;
     }
 
-
     /**
      * @param string $className
-     * @return BasePluginEntity|ApiProblem
+     *
+     * @return ApiProblem|BasePluginEntity
      */
     protected function createEntity($className) {
         /** @var BasePluginEntity $entity */
@@ -59,7 +79,7 @@ abstract class BasePluginService extends AbstractEntityService {
             return $entity;
         }
 
-        if ($this->getEventPlugin() != null) {
+        if (null != $this->getEventPlugin()) {
             $entity->setEventPlugin($this->getEventPlugin());
         }
 
@@ -70,7 +90,7 @@ abstract class BasePluginService extends AbstractEntityService {
         $q = parent::fetchQueryBuilder($id);
 
         if (is_subclass_of($this->entityClass, BasePluginEntity::class)) {
-            if ($this->eventPluginId !== null) {
+            if (null !== $this->eventPluginId) {
                 $q->andWhere('row.eventPlugin = :eventPluginId');
                 $q->setParameter('eventPluginId', $this->eventPluginId);
             }
@@ -83,33 +103,12 @@ abstract class BasePluginService extends AbstractEntityService {
         $q = parent::fetchAllQueryBuilder($params);
 
         if (is_subclass_of($this->entityClass, BasePluginEntity::class)) {
-            if ($this->eventPluginId !== null) {
+            if (null !== $this->eventPluginId) {
                 $q->andWhere('row.eventPlugin = :eventPluginId');
                 $q->setParameter('eventPluginId', $this->eventPluginId);
             }
         }
 
         return $q;
-    }
-
-
-
-    /**
-     * @param mixed $data
-     * @return BasePluginEntity|ApiProblem
-     * @throws ORMException
-     * @throws NoAccessException
-     */
-    public function create($data) {
-        /** @var BasePluginEntity $entity */
-        $entity = parent::create($data);
-
-        if ($entity->getEventPlugin() == null) {
-            /** @var EventPlugin $eventPlugin */
-            $eventPlugin = $this->findEntity(EventPlugin::class, $data->event_plugin_id);
-            $entity->setEventPlugin($eventPlugin);
-        }
-
-        return $entity;
     }
 }

@@ -3,20 +3,19 @@
 namespace eCamp\Core\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use eCamp\Lib\Entity\BaseEntity;
 
 /**
- * @ORM\Entity()
+ * @ORM\Entity
  * @ORM\Table(name="organizations")
  */
 class Organization extends BaseEntity {
-    public function __construct() {
-        parent::__construct();
-
-        $this->campTypes = new ArrayCollection();
-    }
+    /**
+     * @var CampType[]
+     * @ORM\OneToMany(targetEntity="CampType", mappedBy="organization", orphanRemoval=true)
+     */
+    protected $campTypes;
 
     /**
      * @var string
@@ -24,12 +23,11 @@ class Organization extends BaseEntity {
      */
     private $name;
 
-    /**
-     * @var CampType[]
-     * @ORM\OneToMany(targetEntity="CampType", mappedBy="organization", orphanRemoval=true)
-     */
-    protected $campTypes;
+    public function __construct() {
+        parent::__construct();
 
+        $this->campTypes = new ArrayCollection();
+    }
 
     public function getName() {
         return $this->name;
@@ -38,7 +36,6 @@ class Organization extends BaseEntity {
     public function setName(string $name) {
         $this->name = $name;
     }
-
 
     /**
      * @return ArrayCollection

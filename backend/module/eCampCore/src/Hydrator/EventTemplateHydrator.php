@@ -13,29 +13,29 @@ class EventTemplateHydrator implements HydratorInterface {
 
     /**
      * @param object $object
+     *
      * @return array
      */
     public function extract($object) {
         /** @var EventTemplate $eventTemplate */
         $eventTemplate = $object;
+
         return [
             'id' => $eventTemplate->getId(),
             'medium' => $eventTemplate->getMedium(),
             'event_type' => $eventTemplate->getEventType(),
             'filename' => $eventTemplate->getFilename(),
-//            'containers' => new EventTemplateContainerCollection($eventTemplate->getEventTemplateContainers()),
+            //            'containers' => new EventTemplateContainerCollection($eventTemplate->getEventTemplateContainers()),
         ];
     }
 
     /**
-     * @param array $data
      * @param object $object
+     *
      * @return object
      */
     public function hydrate(array $data, $object) {
-        /** @var EventTemplate $eventTemplate */
-        $eventTemplate = $object;
-
-        return $eventTemplate;
+        // @var EventTemplate $eventTemplate
+        return $object;
     }
 }

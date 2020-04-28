@@ -9,10 +9,10 @@ use Zend\Mvc\Application;
 
 abstract class BasePluginServiceFactory {
     /**
-     * @param ContainerInterface $container
-     * @return mixed
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
+     *
+     * @return mixed
      */
     protected function getEventPluginId(ContainerInterface $container) {
         /** @var Application $app */
