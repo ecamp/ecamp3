@@ -23,13 +23,14 @@ class CampCollaborationService extends AbstractEntityService {
 
     /**
      * @param mixed $data
+     * @param mixed $persist
      *
      * @throws ORMException
      * @throws \Exception
      *
      * @return ApiProblem|CampCollaboration
      */
-    public function create($data) {
+    public function create($data, $persist = true) {
         $authUser = $this->getAuthUser();
         if (!isset($data->user_id)) {
             $data->user_id = $authUser->getId();
@@ -45,7 +46,7 @@ class CampCollaborationService extends AbstractEntityService {
         }
 
         /** @var CampCollaboration $campCollaboration */
-        $campCollaboration = parent::create($data);
+        $campCollaboration = parent::create($data, $persist);
         $campCollaboration->setCamp($camp);
         $campCollaboration->setUser($user);
         $campCollaboration->setRole($data->role);

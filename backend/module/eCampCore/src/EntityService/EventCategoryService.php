@@ -24,15 +24,16 @@ class EventCategoryService extends AbstractEntityService {
 
     /**
      * @param mixed $data
+     * @param mixed $persist
      *
      * @throws ORMException
      * @throws NoAccessException
      *
      * @return ApiProblem|EventCategory
      */
-    public function create($data) {
+    public function create($data, $persist = true) {
         /** @var EventCategory $eventCategory */
-        $eventCategory = parent::create($data);
+        $eventCategory = parent::create($data, $persist);
 
         /** @var EventType $eventType */
         $eventType = $this->findEntity(EventType::class, $data->event_type_id);

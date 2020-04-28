@@ -34,6 +34,7 @@ class EventPluginService extends AbstractEntityService {
 
     /**
      * @param mixed $data
+     * @param mixed $persist
      *
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
@@ -42,7 +43,7 @@ class EventPluginService extends AbstractEntityService {
      *
      * @return ApiProblem|EventPlugin
      */
-    public function create($data) {
+    public function create($data, $persist = true) {
         $em = $this->getServiceUtils()->entityManager;
 
         /** @var EventPlugin $eventPlugin */
@@ -66,7 +67,9 @@ class EventPluginService extends AbstractEntityService {
         $eventPlugin->setPluginStrategyProvider($this->getPluginStrategyProvider());
 
         // manual persist necessary because parent::create was called with $persist=false
-        $this->getServiceUtils()->emPersist($eventPlugin);
+        if ($persist) {
+            $this->getServiceUtils()->emPersist($eventPlugin);
+        }
 
         return $eventPlugin;
     }

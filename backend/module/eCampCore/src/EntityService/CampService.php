@@ -39,13 +39,14 @@ class CampService extends AbstractEntityService {
 
     /**
      * @param mixed $data
+     * @param mixed $persist
      *
      * @throws ORMException
      * @throws NoAccessException
      *
      * @return ApiProblem|Camp
      */
-    public function create($data) {
+    public function create($data, $persist = true) {
         $this->assertAllowed(Camp::class, __FUNCTION__);
 
         /** @var CampType $campType */
@@ -58,7 +59,7 @@ class CampService extends AbstractEntityService {
         $creator = $this->getAuthUser();
 
         /** @var Camp $camp */
-        $camp = parent::create($data);
+        $camp = parent::create($data, $persist);
         $camp->setCampType($campType);
         $camp->setCreator($creator);
         $owner->addOwnedCamp($camp);

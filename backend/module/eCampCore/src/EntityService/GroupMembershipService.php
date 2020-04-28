@@ -38,13 +38,14 @@ class GroupMembershipService extends AbstractEntityService {
 
     /**
      * @param mixed $data
+     * @param mixed $persist
      *
      * @throws \Doctrine\ORM\ORMException
      * @throws \Exception
      *
      * @return ApiProblem|GroupMembership
      */
-    public function create($data) {
+    public function create($data, $persist = true) {
         $authUser = $this->getAuthUser();
         if (!isset($data->user_id)) {
             $data->user_id = $authUser->getId();
@@ -60,7 +61,7 @@ class GroupMembershipService extends AbstractEntityService {
         }
 
         /** @var GroupMembership $groupMembership */
-        $groupMembership = parent::create($data);
+        $groupMembership = parent::create($data, $persist);
         $groupMembership->setGroup($group);
         $groupMembership->setUser($user);
         $groupMembership->setRole($data->role);
