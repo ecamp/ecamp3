@@ -5,17 +5,13 @@ notifications:
   
 jobs:
   include:
-    - stage: test
-      name: "Backend tests"
+    - name: "Backend tests"
+      stage: test
       language: php
 
-      # list any PHP version you want to test against
       php:
-        # using major version aliases
-        # aliased to 5.3.10
         - 7.2
 
-      # optionally specify a list of environments, for example to test different RDBMS
       env:
         - DB=sqlite env=test
         - COVERALLS_PARALLEL=true
@@ -23,14 +19,6 @@ jobs:
       cache:
         directories:
           - vendor
-
-      # execute any number of scripts before the test run, custom env's are available as variables
-      # before_script:
-      #  - if [[ "$DB" == "mysql" ]]; then mysql -e "create database IF NOT EXISTS eCamp3dev_UnitTest;" -uroot; fi
-
-      # omitting "script:" will default to phpunit
-      # use the $DB env variable to determine the phpunit.xml to use
-      # script: phpunit --configuration phpunit_$DB.xml --coverage-text
 
       before_script:
           - cd backend
@@ -48,8 +36,8 @@ jobs:
       after_script:
           - backend/vendor/bin/php-coveralls -v --coverage_clover ./backend/build/logs/clover.xml --json_path ./backend/build/logs/coveralls-upload.json
     
-    - stage: test
-      name: "Frontend tests"
+    - name: "Frontend tests"
+      stage: test
       language: node_js
       node_js: '10'
       env:
@@ -69,4 +57,17 @@ jobs:
       after_script:
         - cat ./data/coverage/lcov.info | coveralls ..
 
+    - name: "Push images to Docker Hub"
+      stage: "push-images"
+      script: skip
+      deploy:
+        provider: script
+        script: bash .docker-hub/push.sh
+        on:
+          branch: devel
+
+stages:
+  - name: test
+  - name: "push-images"
+    if: branch = devel AND type = push
 
