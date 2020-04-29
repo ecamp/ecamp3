@@ -130,6 +130,7 @@ class AclFactory implements FactoryInterface {
                 Event::class,
                 EventCategory::class,
                 EventInstance::class,
+                EventPlugin::class,
             ],
             [
                 Acl::REST_PRIVILEGE_FETCH_ALL,
@@ -144,6 +145,7 @@ class AclFactory implements FactoryInterface {
                 Event::class,
                 EventCategory::class,
                 EventInstance::class,
+                EventPlugin::class,
             ],
             [
                 Acl::REST_PRIVILEGE_CREATE,
