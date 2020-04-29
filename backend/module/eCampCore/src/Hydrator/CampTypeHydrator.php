@@ -3,15 +3,9 @@
 namespace eCamp\Core\Hydrator;
 
 use eCamp\Core\Entity\CampType;
-use eCamp\Core\Entity\Period;
 use eCamp\Lib\Entity\EntityLink;
 use eCamp\Lib\Entity\EntityLinkCollection;
-use eCamp\Lib\Hydrator\Util;
-use eCampApi\V1\Rest\Day\DayCollection;
-use eCampApi\V1\Rest\EventInstance\EventInstanceCollection;
-use eCampApi\V1\Rest\EventType\EventTypeCollection;
 use Zend\Hydrator\HydratorInterface;
-use ZF\Hal\Link\Link;
 
 class CampTypeHydrator implements HydratorInterface {
     public static function HydrateInfo() {
@@ -21,6 +15,7 @@ class CampTypeHydrator implements HydratorInterface {
 
     /**
      * @param object $object
+     *
      * @return array
      */
     public function extract($object) {
@@ -39,8 +34,8 @@ class CampTypeHydrator implements HydratorInterface {
     }
 
     /**
-     * @param array $data
      * @param object $object
+     *
      * @return object
      */
     public function hydrate(array $data, $object) {

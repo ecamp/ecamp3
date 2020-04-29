@@ -2,14 +2,13 @@
 
 namespace eCamp\Core\Service;
 
-
 use eCamp\Core\Entity\User;
 use eCamp\Lib\Service\ServiceUtils;
 use Zend\Authentication\AuthenticationService;
 use Zend\Mail\Message;
 use Zend\Mail\Transport\TransportInterface;
-use Zend\Mime\Mime;
 use Zend\Mime\Message as MimeMessage;
+use Zend\Mime\Mime;
 use Zend\Mime\Part as MimePart;
 use Zend\View\Model\ViewModel;
 use Zend\View\View;
@@ -22,7 +21,6 @@ class SendmailService extends AbstractService {
     /** @var View */
     private $view;
 
-
     public function __construct(
         ServiceUtils $serviceUtils,
         AuthenticationService $authenticationService,
@@ -34,7 +32,6 @@ class SendmailService extends AbstractService {
         $this->mailTransport = $mailTransport;
         $this->view = $view;
     }
-
 
     public function sendRegisterMail(User $user, $key) {
         $url = '';
@@ -56,14 +53,13 @@ class SendmailService extends AbstractService {
         $this->mailTransport->send($mail);
     }
 
-
-
     protected function createMail(...$parts) {
         $bodyPart = $this->createMultipart($parts);
         $mimeMessage = new MimeMessage();
         $mimeMessage->addPart($bodyPart);
         $mail = new Message();
         $mail->setBody($mimeMessage);
+
         return $mail;
     }
 
@@ -73,6 +69,7 @@ class SendmailService extends AbstractService {
         $contentPart = new MimePart($partsMessage->generateMessage());
         $contentPart->type = Mime::MULTIPART_ALTERNATIVE;
         $contentPart->boundary = $partsMessage->getMime()->boundary();
+
         return $contentPart;
     }
 
@@ -83,6 +80,7 @@ class SendmailService extends AbstractService {
         $part->encoding = Mime::ENCODING_8BIT;
         $part->type = $type;
         $part->charset = 'utf-8';
+
         return $part;
     }
 
@@ -90,6 +88,7 @@ class SendmailService extends AbstractService {
         $viewModel = new TwigModel();
         $viewModel->setOption('has_parent', true);
         $viewModel->setTemplate($template);
+
         return $viewModel;
     }
 }

@@ -13,15 +13,14 @@ use Zend\ServiceManager\Factory\FactoryInterface;
 
 class GoogleControllerFactory implements FactoryInterface {
     /**
-     * @param ContainerInterface $container
      * @param string $requestedName
-     * @param array|null $options
-     * @return GoogleController
+     *
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
+     *
+     * @return GoogleController
      */
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null) {
-
         /** @var EntityManager $entityManager */
         $entityManager = $container->get('doctrine.entitymanager.orm_default');
 

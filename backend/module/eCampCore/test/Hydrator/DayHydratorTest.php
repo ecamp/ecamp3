@@ -8,6 +8,9 @@ use eCamp\Core\Entity\Period;
 use eCamp\Core\Hydrator\DayHydrator;
 use eCamp\LibTest\PHPUnit\AbstractTestCase;
 
+/**
+ * @internal
+ */
 class DayHydratorTest extends AbstractTestCase {
     public function testExtract() {
         $camp = new Camp();
@@ -42,7 +45,7 @@ class DayHydratorTest extends AbstractTestCase {
         $day->setPeriod($period);
 
         $data = [
-            'day_offset' => 0
+            'day_offset' => 0,
         ];
 
         $hydrator = new DayHydrator();

@@ -3,25 +3,19 @@
 namespace eCamp\Core\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
 use eCamp\Lib\Entity\BaseEntity;
 use Zend\Json\Json;
 
 /**
- * CampType
+ * CampType.
+ *
  * @ORM\Entity
  * @ORM\Table(name="camp_types")
  */
 class CampType extends BaseEntity {
-    const CNF_EVENT_CATEGORIES  = 'event_categories';
-    const CNF_JOBS              = 'jobs';
-
-    public function __construct() {
-        parent::__construct();
-
-        $this->eventTypes = new ArrayCollection();
-    }
+    const CNF_EVENT_CATEGORIES = 'event_categories';
+    const CNF_JOBS = 'jobs';
 
     /**
      * @var string
@@ -37,13 +31,13 @@ class CampType extends BaseEntity {
     private $organization;
 
     /**
-     * @var boolean
+     * @var bool
      * @ORM\Column(type="boolean", nullable=false)
      */
     private $isJS;
 
     /**
-     * @var boolean
+     * @var bool
      * @ORM\Column(type="boolean", nullable=false)
      */
     private $isCourse;
@@ -58,12 +52,17 @@ class CampType extends BaseEntity {
      * @var ArrayCollection
      * @ORM\ManyToMany(targetEntity="EventType")
      * @ORM\JoinTable(name="camp_type_event_type",
-     *      joinColumns={@ORM\JoinColumn(name="camptype_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="eventtype_id", referencedColumnName="id")}
+     *     joinColumns={@ORM\JoinColumn(name="camptype_id", referencedColumnName="id")},
+     *     inverseJoinColumns={@ORM\JoinColumn(name="eventtype_id", referencedColumnName="id")}
      * )
      */
     private $eventTypes;
 
+    public function __construct() {
+        parent::__construct();
+
+        $this->eventTypes = new ArrayCollection();
+    }
 
     /**
      * @return string
@@ -76,7 +75,6 @@ class CampType extends BaseEntity {
         $this->name = $name;
     }
 
-
     /**
      * @return Organization
      */
@@ -87,7 +85,6 @@ class CampType extends BaseEntity {
     public function setOrganization($organization) {
         $this->organization = $organization;
     }
-
 
     /**
      * @return bool
@@ -100,7 +97,6 @@ class CampType extends BaseEntity {
         $this->isJS = $isJS;
     }
 
-
     /**
      * @return bool
      */
@@ -111,7 +107,6 @@ class CampType extends BaseEntity {
     public function setIsCourse(bool $isCourse) {
         $this->isCourse = $isCourse;
     }
-
 
     /**
      * @return string
@@ -126,19 +121,20 @@ class CampType extends BaseEntity {
 
     /**
      * @param string $key
+     *
      * @return object
      */
     public function getConfig($key = null) {
         $config = null;
-        if ($this->jsonConfig != null) {
+        if (null != $this->jsonConfig) {
             $config = Json::decode($this->jsonConfig);
-            if ($key != null) {
+            if (null != $key) {
                 $config = $config->{$key};
             }
         }
+
         return $config;
     }
-
 
     /**
      * @return ArrayCollection

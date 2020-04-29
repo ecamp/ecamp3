@@ -5,6 +5,9 @@ namespace eCamp\CoreTest\Entity;
 use eCamp\Core\Entity\User;
 use eCamp\LibTest\PHPUnit\AbstractTestCase;
 
+/**
+ * @internal
+ */
 class UserTest extends AbstractTestCase {
     public function testUserNonRegistered() {
         $user = new User();

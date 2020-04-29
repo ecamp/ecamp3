@@ -28,8 +28,8 @@ class HalResourceFactory extends ResourceFactory {
     }
 
     /**
-     * @param array|Traversable|Paginator $object
-     * @param Metadata $metadata
+     * @param array|Paginator|Traversable $object
+     *
      * @return Collection
      */
     public function createCollectionFromMetadata($object, Metadata $metadata) {

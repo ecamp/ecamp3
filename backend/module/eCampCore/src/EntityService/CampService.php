@@ -3,11 +3,11 @@
 namespace eCamp\Core\EntityService;
 
 use Doctrine\ORM\ORMException;
-use eCamp\Core\Hydrator\CampHydrator;
 use eCamp\Core\Entity\AbstractCampOwner;
 use eCamp\Core\Entity\Camp;
 use eCamp\Core\Entity\CampType;
 use eCamp\Core\Entity\User;
+use eCamp\Core\Hydrator\CampHydrator;
 use eCamp\Lib\Acl\Acl;
 use eCamp\Lib\Acl\NoAccessException;
 use eCamp\Lib\Service\ServiceUtils;
@@ -15,15 +15,14 @@ use Zend\Authentication\AuthenticationService;
 use ZF\ApiProblem\ApiProblem;
 
 class CampService extends AbstractEntityService {
-
     /** @var PeriodService */
     protected $periodService;
 
     /** @var EventCategoryService */
     protected $eventCategoryService;
 
-    public function __construct
-    (   EventCategoryService $eventCategoryService,
+    public function __construct(
+        EventCategoryService $eventCategoryService,
         PeriodService $periodService,
         ServiceUtils $serviceUtils,
         AuthenticationService $authenticationService
@@ -39,25 +38,13 @@ class CampService extends AbstractEntityService {
         $this->eventCategoryService = $eventCategoryService;
     }
 
-
-    protected function fetchAllQueryBuilder($params = []) {
-        $q = parent::fetchAllQueryBuilder($params);
-
-        if (isset($params['group'])) {
-            $q->andWhere('row.owner = :group');
-            $q->setParameter('group', $params['group']);
-        }
-
-        return $q;
-    }
-
-
-
     /**
      * @param mixed $data
-     * @return Camp|ApiProblem
+     *
      * @throws ORMException
      * @throws NoAccessException
+     *
+     * @return ApiProblem|Camp
      */
     public function create($data) {
         $this->assertAllowed(Camp::class, __FUNCTION__);
@@ -93,28 +80,26 @@ class CampService extends AbstractEntityService {
             $this->getEventCategoryService()->create($ecConfig);
         }
 
-        /** Create Periods: */
+        // Create Periods:
         if (isset($data->periods)) {
             foreach ($data->periods as $period) {
                 $period->camp_id = $camp->getId();
                 $this->getPeriodService()->create($period);
             }
         } elseif (isset($data->start, $data->end)) {
-            $this->getPeriodService()->create((object)[
+            $this->getPeriodService()->create((object) [
                 'camp_id' => $camp->getId(),
                 'description' => 'Main',
                 'start' => $data->start,
-                'end' => $data->end
+                'end' => $data->end,
             ]);
         }
 
         return $camp;
     }
 
-
     /**
-     * @param AbstractCampOwner $owner
-     * @return array|ApiProblem
+     * @return ApiProblem|array
      */
     public function fetchByOwner(AbstractCampOwner $owner) {
         $q = parent::findCollectionQueryBuilder(Camp::class, 'row');
@@ -122,5 +107,16 @@ class CampService extends AbstractEntityService {
         $q->setParameter('owner', $owner);
 
         return $this->getQueryResult($q);
+    }
+
+    protected function fetchAllQueryBuilder($params = []) {
+        $q = parent::fetchAllQueryBuilder($params);
+
+        if (isset($params['group'])) {
+            $q->andWhere('row.owner = :group');
+            $q->setParameter('group', $params['group']);
+        }
+
+        return $q;
     }
 }

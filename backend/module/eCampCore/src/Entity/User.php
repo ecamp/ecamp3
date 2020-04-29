@@ -11,31 +11,38 @@ use Zend\Permissions\Acl\Role\RoleInterface;
  * @ORM\Table(name="users")
  */
 class User extends AbstractCampOwner implements RoleInterface {
-    const STATE_NONREGISTERED 	= "non-registered";
-    const STATE_REGISTERED 		= "registered";
-    const STATE_ACTIVATED  		= "activated";
-    const STATE_DELETED			= "deleted";
+    const STATE_NONREGISTERED = 'non-registered';
+    const STATE_REGISTERED = 'registered';
+    const STATE_ACTIVATED = 'activated';
+    const STATE_DELETED = 'deleted';
 
-    const ROLE_GUEST			= "guest";
-    const ROLE_USER				= "user";
-    const ROLE_ADMIN			= "admin";
-
-    public function __construct() {
-        parent::__construct();
-
-        $this->state = self::STATE_NONREGISTERED;
-        $this->role = self::ROLE_GUEST;
-
-        $this->memberships = new ArrayCollection();
-        $this->collaborations = new ArrayCollection();
-        $this->userIdentities = new ArrayCollection();
-    }
-
+    const ROLE_GUEST = 'guest';
+    const ROLE_USER = 'user';
+    const ROLE_ADMIN = 'admin';
 
     /**
-     * Unique username, lower alphanumeric symbols and underscores only
+     * @var ArrayCollection
+     * @ORM\OneToMany(targetEntity="UserIdentity", mappedBy="user", orphanRemoval=true)
+     */
+    protected $userIdentities;
+
+    /**
+     * @var ArrayCollection
+     * @ORM\OneToMany(targetEntity="GroupMembership", mappedBy="user", orphanRemoval=true)
+     */
+    protected $memberships;
+
+    /**
+     * @var ArrayCollection
+     * @ORM\OneToMany(targetEntity="CampCollaboration", mappedBy="user", orphanRemoval=true)
+     */
+    protected $collaborations;
+
+    /**
+     * Unique username, lower alphanumeric symbols and underscores only.
+     *
      * @var string
-     * @ORM\Column(type="string", length=32, nullable=true, unique=true )
+     * @ORM\Column(type="string", length=32, nullable=true, unique=true)
      */
     private $username;
 
@@ -71,24 +78,16 @@ class User extends AbstractCampOwner implements RoleInterface {
      */
     private $login;
 
-    /**
-     * @var ArrayCollection
-     * @ORM\OneToMany(targetEntity="UserIdentity", mappedBy="user", orphanRemoval=true)
-     */
-    protected $userIdentities;
+    public function __construct() {
+        parent::__construct();
 
-    /**
-     * @var ArrayCollection
-     * @ORM\OneToMany(targetEntity="GroupMembership", mappedBy="user", orphanRemoval=true)
-     */
-    protected $memberships;
+        $this->state = self::STATE_NONREGISTERED;
+        $this->role = self::ROLE_GUEST;
 
-    /**
-     * @var ArrayCollection
-     * @ORM\OneToMany(targetEntity="CampCollaboration", mappedBy="user", orphanRemoval=true)
-     */
-    protected $collaborations;
-
+        $this->memberships = new ArrayCollection();
+        $this->collaborations = new ArrayCollection();
+        $this->userIdentities = new ArrayCollection();
+    }
 
     /**
      * @return string
@@ -97,10 +96,6 @@ class User extends AbstractCampOwner implements RoleInterface {
         return $this->role ?: self::ROLE_GUEST;
     }
 
-
-    /**
-     * @return string
-     */
     public function getUsername(): string {
         return $this->username;
     }
@@ -109,7 +104,6 @@ class User extends AbstractCampOwner implements RoleInterface {
         $this->username = $username;
     }
 
-
     /**
      * @return string
      */
@@ -117,73 +111,63 @@ class User extends AbstractCampOwner implements RoleInterface {
         return $this->username;
     }
 
-
-    /**
-     * @return string
-     */
     public function getTrustedMailAddress(): string {
-        if ($this->trustedMailAddress === null) {
-            return "";
+        if (null === $this->trustedMailAddress) {
+            return '';
         }
+
         return $this->trustedMailAddress->getMail();
     }
 
     public function setTrustedMailAddress(string $mail) {
-        if ($this->trustedMailAddress == null) {
+        if (null == $this->trustedMailAddress) {
             $this->trustedMailAddress = new MailAddress();
         }
         $this->untrustedMailAddress = null;
         $this->trustedMailAddress->setMail($mail);
     }
 
-    /**
-     * @return string
-     */
     public function getUntrustedMailAddress(): string {
-        if ($this->untrustedMailAddress === null) {
-            return "";
+        if (null === $this->untrustedMailAddress) {
+            return '';
         }
+
         return $this->untrustedMailAddress->getMail();
     }
 
-    /**
-     * @param string $mailAddress
-     * @return string
-     */
     public function setMailAddress(string $mailAddress): string {
         if ($this->getTrustedMailAddress() !== $mailAddress) {
-            if ($this->untrustedMailAddress === null) {
+            if (null === $this->untrustedMailAddress) {
                 $this->untrustedMailAddress = new MailAddress();
             }
             $this->untrustedMailAddress->setMail($mailAddress);
+
             return $this->untrustedMailAddress->createVerificationCode();
-        } else {
-            $this->untrustedMailAddress = null;
-            return "";
         }
+        $this->untrustedMailAddress = null;
+
+        return '';
     }
 
     /**
-     * @param string $hash
-     * @return bool
      * @throws \Exception
      */
     public function verifyMailAddress(string $hash): bool {
-        if ($this->state === self::STATE_NONREGISTERED) {
-            throw new \Exception("Verification failed.");
+        if (self::STATE_NONREGISTERED === $this->state) {
+            throw new \Exception('Verification failed.');
         }
-        if ($this->state === self::STATE_DELETED) {
-            throw new \Exception("Verification failed.");
+        if (self::STATE_DELETED === $this->state) {
+            throw new \Exception('Verification failed.');
         }
 
-        if ($this->untrustedMailAddress === null) {
-            throw new \Exception("Verification failed.");
+        if (null === $this->untrustedMailAddress) {
+            throw new \Exception('Verification failed.');
         }
 
         $verified = $this->untrustedMailAddress->verify($hash);
 
         if ($verified) {
-            if ($this->state === self::STATE_REGISTERED) {
+            if (self::STATE_REGISTERED === $this->state) {
                 $this->state = self::STATE_ACTIVATED;
             }
 
@@ -194,10 +178,6 @@ class User extends AbstractCampOwner implements RoleInterface {
         return $verified;
     }
 
-
-    /**
-     * @return string
-     */
     public function getState(): string {
         return $this->state;
     }
@@ -206,10 +186,6 @@ class User extends AbstractCampOwner implements RoleInterface {
         $this->state = $state;
     }
 
-
-    /**
-     * @return string
-     */
     public function getRole(): string {
         return $this->role;
     }
@@ -218,7 +194,6 @@ class User extends AbstractCampOwner implements RoleInterface {
         $this->role = $role;
     }
 
-
     /**
      * @return Login
      */
@@ -226,9 +201,6 @@ class User extends AbstractCampOwner implements RoleInterface {
         return $this->login;
     }
 
-    /**
-     * @return ArrayCollection
-     */
     public function getGroupMemberships(): ArrayCollection {
         return $this->memberships;
     }
@@ -243,10 +215,6 @@ class User extends AbstractCampOwner implements RoleInterface {
         $this->memberships->removeElement($membership);
     }
 
-
-    /**
-     * @return ArrayCollection
-     */
     public function getCampCollaborations(): ArrayCollection {
         return $this->collaborations;
     }
@@ -261,9 +229,6 @@ class User extends AbstractCampOwner implements RoleInterface {
         $this->collaborations->removeElement($collaboration);
     }
 
-    /**
-     * @return ArrayCollection
-     */
     public function getUserIdentities(): ArrayCollection {
         return $this->userIdentities;
     }

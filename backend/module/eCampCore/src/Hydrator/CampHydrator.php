@@ -30,34 +30,36 @@ class CampHydrator implements HydratorInterface {
                             'rel' => 'camp_collaborations',
                             'route' => [
                                 'name' => 'e-camp-api.rest.doctrine.camp-collaboration',
-                                'options' => ['query' => ['camp_id' => $c->getId()]]
-                            ]
-                        ])
+                                'options' => ['query' => ['camp_id' => $c->getId()]],
+                            ],
+                        ]),
                     ];
                 },
                 [
                     'days' => Util::Collection(function (Period $p) {
                         return new DayCollection($p->getDays());
-                    }, null)
+                    }, null),
                 ]
             ),
             'eventCategories' => Util::Collection(function (Camp $c) {
                 return new EventCategoryCollection($c->getEventCategories());
-            }, null)
+            }, null),
         ];
     }
 
     /**
      * @param object $object
-     * @return array
+     *
      * @throws \Exception
+     *
+     * @return array
      */
     public function extract($object) {
         $auth = new AuthenticationService();
 
-
         /** @var Camp $camp */
         $camp = $object;
+
         return [
             'id' => $camp->getId(),
             'name' => $camp->getName(),
@@ -65,7 +67,7 @@ class CampHydrator implements HydratorInterface {
             'motto' => $camp->getMotto(),
             'role' => $camp->getRole($auth->getIdentity()),
 
-//            'owner' => EntityLink::Create($camp->getOwner()),
+            //            'owner' => EntityLink::Create($camp->getOwner()),
             'creator' => EntityLink::Create($camp->getCreator()),
             'camp_type' => EntityLink::Create($camp->getCampType()),
 
@@ -78,15 +80,15 @@ class CampHydrator implements HydratorInterface {
                 'rel' => 'events',
                 'route' => [
                     'name' => 'e-camp-api.rest.doctrine.event',
-                    'options' => ['query' => ['camp_id' => $camp->getId()]]
-                ]
-            ])
+                    'options' => ['query' => ['camp_id' => $camp->getId()]],
+                ],
+            ]),
         ];
     }
 
     /**
-     * @param array $data
      * @param object $object
+     *
      * @return object
      */
     public function hydrate(array $data, $object) {

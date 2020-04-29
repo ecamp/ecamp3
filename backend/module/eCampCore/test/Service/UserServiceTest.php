@@ -4,24 +4,25 @@ namespace eCamp\CoreTest\Service;
 
 use eCamp\Core\Entity\User;
 use eCamp\Core\EntityService\UserService;
+use eCamp\Lib\Service\EntityNotFoundException;
 use eCamp\LibTest\PHPUnit\AbstractDatabaseTestCase;
 use Zend\Authentication\AuthenticationService;
-use ZF\ApiProblem\ApiProblem;
-use eCamp\Lib\Service\EntityNotFoundException;
 
+/**
+ * @internal
+ */
 class UserServiceTest extends AbstractDatabaseTestCase {
     public function testCreateUser() {
         /** @var UserService $userService */
         $userService = \eCampApp::GetService(UserService::class);
 
-        $user = $userService->create((object)[
+        $user = $userService->create((object) [
             'username' => 'username',
-            'mailAddress' => 'test@eCamp3.ch'
+            'mailAddress' => 'test@eCamp3.ch',
         ]);
 
         $this->assertEquals(User::STATE_NONREGISTERED, $user->getState());
     }
-
 
     public function testGetUser() {
         /** @var UserService $userService */
@@ -29,9 +30,9 @@ class UserServiceTest extends AbstractDatabaseTestCase {
         /** @var AuthenticationService $auth */
         $auth = \eCampApp::GetService(AuthenticationService::class);
 
-        $user = $userService->create((object)[
+        $user = $userService->create((object) [
             'username' => 'username2',
-            'mailAddress' => 'test2@eCamp3.ch'
+            'mailAddress' => 'test2@eCamp3.ch',
         ]);
 
         $this->getEntityManager()->flush();

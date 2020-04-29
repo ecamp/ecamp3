@@ -5,18 +5,18 @@ namespace eCamp\CoreData;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
+use eCamp\Core\Entity\Login;
 use eCamp\Core\Entity\MailAddress;
 use eCamp\Core\Entity\User;
-use eCamp\Core\Entity\Login;
 
 class UserData extends AbstractFixture implements DependentFixtureInterface {
-    public static $USER = User::class . ':USER';
+    public static $USER = User::class.':USER';
 
     public function load(ObjectManager $manager) {
         $repository = $manager->getRepository(User::class);
 
-        $user = $repository->findOneBy([ 'username' => 'test-user' ]);
-        if ($user == null) {
+        $user = $repository->findOneBy(['username' => 'test-user']);
+        if (null == $user) {
             $mail = new MailAddress();
             $mail->setMail('test@ecamp3.dev');
 
@@ -27,17 +27,16 @@ class UserData extends AbstractFixture implements DependentFixtureInterface {
             $user->setState(User::STATE_ACTIVATED);
 
             $login = new Login($user, 'test');
-            
+
             $manager->persist($user);
             $manager->persist($login);
         }
         $this->addReference(self::$USER, $user);
 
-
         $manager->flush();
     }
 
     public function getDependencies() {
-        return [ CampTypeData::class ];
+        return [CampTypeData::class];
     }
 }

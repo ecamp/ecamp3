@@ -6,5 +6,5 @@ interface BelongsToCampInterface {
     /**
      * @return Camp
      */
-    function getCamp();
+    public function getCamp();
 }

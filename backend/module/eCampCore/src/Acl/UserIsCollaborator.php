@@ -39,7 +39,7 @@ class UserIsCollaborator implements AssertionInterface {
             }
         }
 
-        if ($privilege == \eCamp\Lib\Acl\Acl::REST_PRIVILEGE_CREATE) {
+        if (\eCamp\Lib\Acl\Acl::REST_PRIVILEGE_CREATE == $privilege) {
             return true;
         }
 

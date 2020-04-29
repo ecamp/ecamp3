@@ -6,6 +6,9 @@ use eCamp\Core\Entity\CampType;
 use eCamp\Core\Entity\Organization;
 use eCamp\LibTest\PHPUnit\AbstractTestCase;
 
+/**
+ * @internal
+ */
 class OrganizationTest extends AbstractTestCase {
     public function testOrganization() {
         $organization = new Organization();

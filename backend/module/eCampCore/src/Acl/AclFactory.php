@@ -39,7 +39,6 @@ class AclFactory implements FactoryInterface {
         $acl->addRole(User::ROLE_USER, User::ROLE_GUEST);
         $acl->addRole(User::ROLE_ADMIN, User::ROLE_USER);
 
-
         //  Resources:
         // ------------
         $acl->addResource(BaseEntity::class);
@@ -64,17 +63,14 @@ class AclFactory implements FactoryInterface {
         $acl->addResource(EventTemplate::class, BaseEntity::class);
         $acl->addResource(EventTemplateContainer::class, BaseEntity::class);
 
-
         $acl->addResource(User::class, BaseEntity::class);
         $acl->addResource(UserIdentity::class, BaseEntity::class);
-
 
         $acl->addResource(Camp::class, BaseEntity::class);
         $acl->addResource(Period::class, BaseEntity::class);
         $acl->addResource(Day::class, BaseEntity::class);
 
         $acl->addResource(CampCollaboration::class, BaseEntity::class);
-
 
         //  ACL-Configuration:
         // --------------------
@@ -90,21 +86,22 @@ class AclFactory implements FactoryInterface {
                 EventTypeFactory::class,
                 EventTypePlugin::class,
                 Plugin::class,
-            ], [
+            ],
+            [
                 Acl::REST_PRIVILEGE_FETCH,
-                Acl::REST_PRIVILEGE_FETCH_ALL
+                Acl::REST_PRIVILEGE_FETCH_ALL,
             ]
         );
         $acl->allow(
             Guest::class,
             [
                 UserIdentity::class,
-                User::class
-            ], [
-                ACL::REST_PRIVILEGE_CREATE
+                User::class,
+            ],
+            [
+                ACL::REST_PRIVILEGE_CREATE,
             ]
         );
-
 
         $acl->allow(User::ROLE_USER, [User::class], [ACL::REST_PRIVILEGE_FETCH_ALL, ACL::REST_PRIVILEGE_FETCH]);
         $acl->allow(User::ROLE_USER, [Camp::class], [ACL::REST_PRIVILEGE_CREATE, ACL::REST_PRIVILEGE_FETCH_ALL]);
@@ -114,7 +111,7 @@ class AclFactory implements FactoryInterface {
             [
                 Acl::REST_PRIVILEGE_FETCH,
                 Acl::REST_PRIVILEGE_PATCH,
-                Acl::REST_PRIVILEGE_UPDATE
+                Acl::REST_PRIVILEGE_UPDATE,
             ],
             new UserIsCollaborator([CampCollaboration::ROLE_MEMBER, CampCollaboration::ROLE_MANAGER])
         );
@@ -132,8 +129,9 @@ class AclFactory implements FactoryInterface {
                 Day::class,
                 Event::class,
                 EventCategory::class,
-                EventInstance::class
-            ], [
+                EventInstance::class,
+            ],
+            [
                 Acl::REST_PRIVILEGE_FETCH_ALL,
             ]
         );
@@ -145,13 +143,14 @@ class AclFactory implements FactoryInterface {
                 Day::class,
                 Event::class,
                 EventCategory::class,
-                EventInstance::class
-            ], [
+                EventInstance::class,
+            ],
+            [
                 Acl::REST_PRIVILEGE_CREATE,
                 Acl::REST_PRIVILEGE_FETCH,
                 Acl::REST_PRIVILEGE_DELETE,
                 Acl::REST_PRIVILEGE_PATCH,
-                Acl::REST_PRIVILEGE_UPDATE
+                Acl::REST_PRIVILEGE_UPDATE,
             ],
             new UserIsCollaborator([CampCollaboration::ROLE_MEMBER, CampCollaboration::ROLE_MANAGER])
         );

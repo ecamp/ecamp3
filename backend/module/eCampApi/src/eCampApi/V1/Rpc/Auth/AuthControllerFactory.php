@@ -9,6 +9,7 @@ use Zend\Authentication\AuthenticationService;
 class AuthControllerFactory {
     /**
      * @param ContainerInterface $controllers
+     *
      * @return AuthController
      */
     public function __invoke($controllers) {

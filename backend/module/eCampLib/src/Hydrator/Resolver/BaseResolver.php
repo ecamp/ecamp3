@@ -5,10 +5,10 @@ namespace eCamp\Lib\Hydrator\Resolver;
 use Closure;
 
 abstract class BaseResolver {
+    protected $selection;
     /** @var Closure */
     private $resolver;
     private $linkResolver;
-    protected $selection;
 
     public function __construct($resolver, $linkResolver, $selection = []) {
         $this->resolver = $resolver;
@@ -25,10 +25,12 @@ abstract class BaseResolver {
     }
 
     public function getLinks($object) {
-        if ($this->linkResolver != null) {
+        if (null != $this->linkResolver) {
             $linkResolver = $this->linkResolver;
+
             return $linkResolver($object);
         }
+
         return [];
     }
 }

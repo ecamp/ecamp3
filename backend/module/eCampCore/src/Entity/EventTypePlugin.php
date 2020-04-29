@@ -7,15 +7,12 @@ use eCamp\Lib\Entity\BaseEntity;
 use Zend\Json\Json;
 
 /**
- * EventTypePlugin
+ * EventTypePlugin.
+ *
  * @ORM\Entity
  * @ORM\Table(name="event_type_plugins")
  */
 class EventTypePlugin extends BaseEntity {
-    public function __construct() {
-        parent::__construct();
-    }
-
     /**
      * @var EventType
      * @ORM\ManyToOne(targetEntity="EventType")
@@ -48,6 +45,9 @@ class EventTypePlugin extends BaseEntity {
      */
     private $jsonConfig;
 
+    public function __construct() {
+        parent::__construct();
+    }
 
     /**
      * @return EventType
@@ -60,10 +60,6 @@ class EventTypePlugin extends BaseEntity {
         $this->eventType = $eventType;
     }
 
-
-    /**
-     * @return Plugin
-     */
     public function getPlugin(): Plugin {
         return $this->plugin;
     }
@@ -72,10 +68,6 @@ class EventTypePlugin extends BaseEntity {
         $this->plugin = $plugin;
     }
 
-
-    /**
-     * @return int
-     */
     public function getMinNumberPluginInstances(): int {
         return $this->minNumberPluginInstances;
     }
@@ -84,10 +76,6 @@ class EventTypePlugin extends BaseEntity {
         $this->minNumberPluginInstances = $minNumberPluginInstances;
     }
 
-
-    /**
-     * @return int
-     */
     public function getMaxNumberPluginInstances(): int {
         return $this->maxNumberPluginInstances;
     }
@@ -96,10 +84,6 @@ class EventTypePlugin extends BaseEntity {
         $this->maxNumberPluginInstances = $maxNumberPluginInstances;
     }
 
-
-    /**
-     * @return string
-     */
     public function getJsonConfig(): string {
         return $this->jsonConfig;
     }
@@ -108,19 +92,20 @@ class EventTypePlugin extends BaseEntity {
         $this->jsonConfig = $jsonConfig;
     }
 
-
     /**
      * @param string $key
+     *
      * @return mixed
      */
     public function getConfig($key = null) {
         $config = null;
-        if ($this->jsonConfig != null) {
+        if (null != $this->jsonConfig) {
             $config = Json::decode($this->jsonConfig);
-            if ($key != null) {
+            if (null != $key) {
                 $config = $config->{$key};
             }
         }
+
         return $config;
     }
 }

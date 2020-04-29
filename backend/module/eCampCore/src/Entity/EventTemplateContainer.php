@@ -6,8 +6,9 @@ use Doctrine\ORM\Mapping as ORM;
 use eCamp\Lib\Entity\BaseEntity;
 
 /**
- * EventTemplate
- * @ORM\Entity()
+ * EventTemplate.
+ *
+ * @ORM\Entity
  * @ORM\Table(name="event_template_containers", uniqueConstraints={
  * 	@ORM\UniqueConstraint(
  * 		name="eventTemplate_containerName_unique",
@@ -16,10 +17,6 @@ use eCamp\Lib\Entity\BaseEntity;
  * })
  */
 class EventTemplateContainer extends BaseEntity {
-    public function __construct() {
-        parent::__construct();
-    }
-
     /**
      * @var EventTemplate
      * @ORM\ManyToOne(targetEntity="EventTemplate")
@@ -36,16 +33,19 @@ class EventTemplateContainer extends BaseEntity {
 
     /**
      * @var string
-     * @ORM\Column(type="string", length=128, nullable=false )
+     * @ORM\Column(type="string", length=128, nullable=false)
      */
     private $containerName;
 
     /**
      * @var string
-     * @ORM\Column(type="string", length=128, nullable=false )
+     * @ORM\Column(type="string", length=128, nullable=false)
      */
     private $filename;
 
+    public function __construct() {
+        parent::__construct();
+    }
 
     /**
      * @return EventTemplate
@@ -58,10 +58,6 @@ class EventTemplateContainer extends BaseEntity {
         $this->eventTemplate = $eventTemplate;
     }
 
-
-    /**
-     * @return EventTypePlugin
-     */
     public function getEventTypePlugin(): EventTypePlugin {
         return $this->eventTypePlugin;
     }
@@ -70,10 +66,6 @@ class EventTemplateContainer extends BaseEntity {
         $this->eventTypePlugin = $eventTypePlugin;
     }
 
-
-    /**
-     * @return string
-     */
     public function getContainerName(): string {
         return $this->containerName;
     }
@@ -82,10 +74,6 @@ class EventTemplateContainer extends BaseEntity {
         $this->containerName = $containerName;
     }
 
-
-    /**
-     * @return string
-     */
     public function getFilename(): string {
         return $this->filename;
     }

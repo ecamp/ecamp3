@@ -20,7 +20,6 @@ class Section extends BasePluginEntity {
      */
     private $text;
 
-
     /** @return int */
     public function getPos() {
         return $this->pos;

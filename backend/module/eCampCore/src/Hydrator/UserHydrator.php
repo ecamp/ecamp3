@@ -13,22 +13,24 @@ class UserHydrator implements HydratorInterface {
 
     /**
      * @param object $object
+     *
      * @return array
      */
     public function extract($object) {
         /** @var User $user */
         $user = $object;
+
         return [
             'id' => $user->getId(),
             'username' => $user->getUsername(),
             'mail' => $user->getTrustedMailAddress(),
-            'role' => $user->getRole()
+            'role' => $user->getRole(),
         ];
     }
 
     /**
-     * @param array $data
      * @param object $object
+     *
      * @return object
      */
     public function hydrate(array $data, $object) {

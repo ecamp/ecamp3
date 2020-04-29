@@ -1,4 +1,5 @@
 <?php
+
 namespace eCampApi\V1\Rpc\Register;
 
 use eCamp\Core\Service\RegisterService;

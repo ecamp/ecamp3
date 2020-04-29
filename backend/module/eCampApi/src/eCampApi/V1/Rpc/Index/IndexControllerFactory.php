@@ -1,4 +1,5 @@
 <?php
+
 namespace eCampApi\V1\Rpc\Index;
 
 use eCamp\Core\EntityService\UserService;

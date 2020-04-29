@@ -10,9 +10,8 @@ use ZF\Hal\Entity;
 use ZF\Hal\Plugin\Hal;
 use ZF\Hal\View\HalJsonModel;
 
-
 class ApiController extends AbstractActionController {
-    function onDispatch(MvcEvent $e) {
+    public function onDispatch(MvcEvent $e) {
         try {
             $return = parent::onDispatch($e);
         } catch (\Exception $ex) {
@@ -23,6 +22,7 @@ class ApiController extends AbstractActionController {
             $problem = new ApiProblemResponse($return);
 
             $e->setResult($problem);
+
             return $problem;
         }
 
@@ -31,16 +31,17 @@ class ApiController extends AbstractActionController {
             $json->setPayload($return);
 
             $e->setResult($json);
+
             return $json;
         }
 
         return $return;
     }
 
-
     protected function createHalEntity($entity, $route, $routeIdentifierName) {
         /** @var Hal $plugin */
         $plugin = $this->plugin('Hal');
+
         return $plugin->createEntity($entity, $route, $routeIdentifierName);
     }
 }

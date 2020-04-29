@@ -11,6 +11,7 @@ use Doctrine\Common\Annotations\Annotation;
 class EntityFilter {
     /**
      * @Required
+     *
      * @var string
      */
     public $filterClass;

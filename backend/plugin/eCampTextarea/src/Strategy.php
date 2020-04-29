@@ -17,12 +17,7 @@ class Strategy extends PluginStrategyBase {
         $this->textareaService = $textareaService;
     }
 
-
-    /**
-     * @param EventPlugin $eventPlugin
-     * @return array
-     */
-    public function eventPluginExtract(EventPlugin $eventPlugin) : array {
+    public function eventPluginExtract(EventPlugin $eventPlugin): array {
         return [
             'textarea' => Link::factory([
                 'rel' => 'textarea',
@@ -30,21 +25,20 @@ class Strategy extends PluginStrategyBase {
                     'name' => 'ecamp.api.event_plugin/ecamp.textarea',
                     'params' => [
                         'event_plugin_id' => $eventPlugin->getId(),
-                        'textarea_id' => null
-                    ]
-                ]
-            ])
+                        'textarea_id' => null,
+                    ],
+                ],
+            ]),
         ];
     }
 
     /**
-     * @param EventPlugin $eventPlugin
      * @throws NoAccessException
      * @throws ORMException
      */
-    public function eventPluginCreated(EventPlugin $eventPlugin) : void {
-        $this->textareaService->create((object)[
-            'event_plugin_id' => $eventPlugin->getId()
+    public function eventPluginCreated(EventPlugin $eventPlugin): void {
+        $this->textareaService->create((object) [
+            'event_plugin_id' => $eventPlugin->getId(),
         ]);
     }
 }

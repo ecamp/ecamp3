@@ -6,14 +6,10 @@ use Doctrine\ORM\Mapping as ORM;
 use eCamp\Lib\Entity\BaseEntity;
 
 /**
- * @ORM\Entity()
+ * @ORM\Entity
  * @ORM\Table(name="event_plugins")
  */
 class EventPlugin extends BaseEntity implements BelongsToCampInterface {
-    public function __construct() {
-        parent::__construct();
-    }
-
     /**
      * @var Event
      * @ORM\ManyToOne(targetEntity="Event")
@@ -34,6 +30,9 @@ class EventPlugin extends BaseEntity implements BelongsToCampInterface {
      */
     private $instanceName;
 
+    public function __construct() {
+        parent::__construct();
+    }
 
     /**
      * @return Event
@@ -47,9 +46,8 @@ class EventPlugin extends BaseEntity implements BelongsToCampInterface {
     }
 
     public function getCamp() {
-        return ($this->event != null) ? $this->event->getCamp() : null;
+        return (null != $this->event) ? $this->event->getCamp() : null;
     }
-
 
     /**
      * @return EventTypePlugin
@@ -62,14 +60,12 @@ class EventPlugin extends BaseEntity implements BelongsToCampInterface {
         $this->eventTypePlugin = $eventTypePlugin;
     }
 
-
     /**
      * @return Plugin
      */
     public function getPlugin() {
-        return ($this->eventTypePlugin != null) ? $this->eventTypePlugin->getPlugin() : null;
+        return (null != $this->eventTypePlugin) ? $this->eventTypePlugin->getPlugin() : null;
     }
-
 
     /**
      * @return string

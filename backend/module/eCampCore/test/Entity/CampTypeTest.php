@@ -8,6 +8,9 @@ use eCamp\Core\Entity\Organization;
 use eCamp\LibTest\PHPUnit\AbstractTestCase;
 use Zend\Json\Json;
 
+/**
+ * @internal
+ */
 class CampTypeTest extends AbstractTestCase {
     public function testCampType() {
         $organization = new Organization();

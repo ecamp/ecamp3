@@ -8,6 +8,7 @@ use Zend\Hydrator\HydratorInterface;
 class TextareaHydrator implements HydratorInterface {
     /**
      * @param object $object
+     *
      * @return array
      */
     public function extract($object) {
@@ -17,19 +18,17 @@ class TextareaHydrator implements HydratorInterface {
         return [
             'id' => $textarea->getId(),
             'text' => $textarea->getText(),
-            'event_plugin' => $textarea->getEventPlugin()
+            'event_plugin' => $textarea->getEventPlugin(),
         ];
     }
 
     /**
-     * @param array $data
      * @param object $object
+     *
      * @return object
      */
     public function hydrate(array $data, $object) {
-        /** @var Textarea $textarea */
-        $textarea = $object;
-
-        return $textarea;
+        // @var Textarea $textarea
+        return $object;
     }
 }

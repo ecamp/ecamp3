@@ -7,6 +7,9 @@ use eCamp\Core\Entity\GroupMembership;
 use eCamp\Core\Entity\User;
 use eCamp\LibTest\PHPUnit\AbstractTestCase;
 
+/**
+ * @internal
+ */
 class GroupMembershipTest extends AbstractTestCase {
     public function testGroupMembership() {
         $group = new Group();
@@ -37,7 +40,6 @@ class GroupMembershipTest extends AbstractTestCase {
         $membership->setStatus(GroupMembership::STATUS_ESTABLISHED);
         $this->assertTrue($membership->isEstablished());
 
-
         $this->expectException('Exception');
         $membership->setStatus('test');
     }
@@ -52,7 +54,6 @@ class GroupMembershipTest extends AbstractTestCase {
 
         $membership->setRole(GroupMembership::ROLE_MANAGER);
         $this->assertTrue($membership->isManager());
-
 
         $this->expectException('Exception');
         $membership->setRole('test');

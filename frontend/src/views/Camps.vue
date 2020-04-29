@@ -1,6 +1,6 @@
 <template>
   <v-container fluid>
-    <content-card title="Meine Camps" max-width="600">
+    <content-card :title="$tc('myCamps', camps.items.length)" max-width="600">
       <v-list class="py-0">
         <template v-if="camps._meta.loading">
           <v-skeleton-loader type="list-item-two-line" height="64" />

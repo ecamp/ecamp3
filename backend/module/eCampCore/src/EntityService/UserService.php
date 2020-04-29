@@ -15,7 +15,7 @@ use Zend\Authentication\AuthenticationService;
 use ZF\ApiProblem\ApiProblem;
 
 /**
- * Class UserService
+ * Class UserService.
  */
 class UserService extends AbstractEntityService {
     /**
@@ -43,9 +43,9 @@ class UserService extends AbstractEntityService {
         if (isset($params['search'])) {
             $expr = new Expr();
             $q->andWhere($expr->orX(
-                $expr->like($expr->lower($alias . '.username'), ':search')
+                $expr->like($expr->lower($alias.'.username'), ':search')
             ));
-            $q->setParameter('search', '%' . strtolower($params['search']) . '%');
+            $q->setParameter('search', '%'.strtolower($params['search']).'%');
         }
 
         return $q;
@@ -59,17 +59,19 @@ class UserService extends AbstractEntityService {
 
     /**
      * @param mixed $data
-     * @return User|mixed|ApiProblem
+     *
      * @throws NoAccessException
      * @throws ORMException
      * @throws \Exception
+     *
+     * @return ApiProblem|mixed|User
      */
     public function create($data) {
         /** @var Profile $profile */
         $profile = $data;
 
         if ($profile instanceof Profile) {
-            $data = (object)[
+            $data = (object) [
                 'username' => $profile->displayName,
                 'mailAddress' => $profile->email,
                 'state' => User::STATE_REGISTERED,
@@ -78,7 +80,7 @@ class UserService extends AbstractEntityService {
 
         $state = isset($data->state) ? $data->state : User::STATE_NONREGISTERED;
         if (!in_array($state, [User::STATE_NONREGISTERED, User::STATE_REGISTERED])) {
-            return new ApiProblem(400, 'Invalid state: ' . $state);
+            return new ApiProblem(400, 'Invalid state: '.$state);
         }
 
         /** @var User $user */
@@ -94,15 +96,13 @@ class UserService extends AbstractEntityService {
             // Send Activtion Mail:
             $this->sendmailService->sendRegisterMail($user, $key);
 
-
             // TODO: Remove Dev-Code
             // Dev: Registrierte Benutzer sofort freischalten
             //      Keine Aktivierung mit Mail notwendig
-            if ($user->getState() == User::STATE_REGISTERED) {
+            if (User::STATE_REGISTERED == $user->getState()) {
                 $user->verifyMailAddress($key);
             }
         }
-
 
         return $user;
     }
@@ -110,6 +110,7 @@ class UserService extends AbstractEntityService {
     public function findByUsername($username) {
         /** @var UserRepository $userRepository */
         $userRepository = $this->getRepository();
+
         return $userRepository->findByUsername($username);
     }
 }

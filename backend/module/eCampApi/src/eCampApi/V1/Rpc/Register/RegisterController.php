@@ -1,4 +1,5 @@
 <?php
+
 namespace eCampApi\V1\Rpc\Register;
 
 use eCamp\Core\Service\RegisterService;
@@ -15,22 +16,21 @@ class RegisterController extends ApiController {
         $this->registerService = $registerService;
     }
 
-
     public function registerAction() {
         /** @var Request $request */
         $request = $this->getRequest();
         $content = $request->getContent();
 
-        $data = ($content != null) ? Json::decode($content) : [];
+        $data = (null != $content) ? Json::decode($content) : [];
 
         if (!isset($data->username)) {
-            return new ApiProblem(400, "No username provided");
+            return new ApiProblem(400, 'No username provided');
         }
         if (!isset($data->email)) {
-            return new ApiProblem(400, "No eMail provided");
+            return new ApiProblem(400, 'No eMail provided');
         }
         if (!isset($data->password)) {
-            return new ApiProblem(400, "No password provided");
+            return new ApiProblem(400, 'No password provided');
         }
 
         $user = $this->registerService->register($data->username, $data->email, $data->password);

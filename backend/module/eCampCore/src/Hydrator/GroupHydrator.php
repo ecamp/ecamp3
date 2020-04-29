@@ -15,11 +15,13 @@ class GroupHydrator implements HydratorInterface {
 
     /**
      * @param object $object
+     *
      * @return array
      */
     public function extract($object) {
         /** @var Group $group */
         $group = $object;
+
         return [
             'id' => $group->getId(),
             'name' => $group->getName(),
@@ -33,8 +35,8 @@ class GroupHydrator implements HydratorInterface {
     }
 
     /**
-     * @param array $data
      * @param object $object
+     *
      * @return object
      */
     public function hydrate(array $data, $object) {

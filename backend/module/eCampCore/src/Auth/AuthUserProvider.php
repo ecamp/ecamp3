@@ -23,10 +23,8 @@ class AuthUserProvider {
         if ($this->authenticationService->hasIdentity()) {
             $userId = $this->authenticationService->getIdentity();
 
-            /** @var User $user */
-            $user = $this->userRepository->find($userId);
-
-            return $user;
+            // @var User $user
+            return $this->userRepository->find($userId);
         }
 
         return null;
