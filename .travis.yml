@@ -9,7 +9,7 @@ jobs:
       stage: test
       language: php
       php:
-        - 7.2
+        - 7.4.2
       env:
         - DB=sqlite env=test
         - COVERALLS_PARALLEL=true

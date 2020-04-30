@@ -27,7 +27,7 @@ Apache-WebServer und einen MySql-Server. Diese beiden werden wir benötigen.
 
 Du kannst XAMPP hier herunterladen:
 [https://www.apachefriends.org/](https://www.apachefriends.org/)
-(Linux-Variante - mindestens Verison 7.2)
+(Linux-Variante - mindestens Verison 7.4.2)
 
 Die Installation startest du am einfachsten aus dem Terminal.
 ```

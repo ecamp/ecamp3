@@ -8,11 +8,11 @@ COPY backend .
 RUN composer di-generate-aot
 
 # production stage
-FROM php:7.2.15-apache AS production-stage
+FROM php:7.4.2-apache AS production-stage
 WORKDIR /var/www/ecamp3
 ENV env=prod
-RUN apt-get -y update && apt-get -y upgrade && apt-get -y install libxml2-dev curl unzip iproute2
-RUN docker-php-ext-install pdo pdo_mysql mbstring xml
+RUN apt-get -y update && apt-get -y upgrade && apt-get -y install libxml2-dev curl unzip iproute2 libonig-dev
+RUN docker-php-ext-install pdo pdo_mysql xml
 COPY --from=composer-stage /var/www/ecamp3/vendor /var/www/ecamp3/vendor
 COPY backend .
 RUN chmod -R a+rw data
