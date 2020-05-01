@@ -47,14 +47,26 @@ class EventCategoryHydrator implements HydratorInterface {
         /** @var EventCategory $eventCategory */
         $eventCategory = $object;
 
-        if( isset($data['camp']) ) $eventCategory->setCamp($data['camp']);
-        if( isset($data['event_type']) ) $eventCategory->setEventType($data['event_type']);
+        if (isset($data['camp'])) {
+            $eventCategory->setCamp($data['camp']);
+        }
+        if (isset($data['event_type'])) {
+            $eventCategory->setEventType($data['event_type']);
+        }
 
-        if( isset($data['short']) ) $eventCategory->setShort($data['short']);
-        if( isset($data['name']) ) $eventCategory->setName($data['name']);
+        if (isset($data['short'])) {
+            $eventCategory->setShort($data['short']);
+        }
+        if (isset($data['name'])) {
+            $eventCategory->setName($data['name']);
+        }
 
-        if( isset($data['color']) ) $eventCategory->setColor($data['color']);
-        if( isset($data['numbering_style']) ) $eventCategory->setNumberingStyle($data['numbering_style']);
+        if (isset($data['color'])) {
+            $eventCategory->setColor($data['color']);
+        }
+        if (isset($data['numbering_style'])) {
+            $eventCategory->setNumberingStyle($data['numbering_style']);
+        }
 
         return $eventCategory;
     }

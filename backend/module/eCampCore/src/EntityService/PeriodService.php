@@ -41,7 +41,7 @@ class PeriodService extends AbstractEntityService {
      *
      * @return ApiProblem|Period
      */
-    public  function create($data, bool $persist = true) {
+    public function create($data, bool $persist = true) {
         /** @var Camp $camp */
         $camp = $this->findEntity(Camp::class, $data->camp_id);
 

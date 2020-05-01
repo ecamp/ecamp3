@@ -91,8 +91,12 @@ class CampHydrator implements HydratorInterface {
         /** @var Camp $camp */
         $camp = $object;
 
-        if( isset($data['title']) ) $camp->setTitle($data['title']);
-        if( isset($data['motto']) ) $camp->setMotto($data['motto']);
+        if (isset($data['title'])) {
+            $camp->setTitle($data['title']);
+        }
+        if (isset($data['motto'])) {
+            $camp->setMotto($data['motto']);
+        }
 
         return $camp;
     }

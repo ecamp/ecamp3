@@ -34,8 +34,12 @@ class UserIdentityHydrator implements HydratorInterface {
         /** @var UserIdentity $userIdentity */
         $userIdentity = $object;
 
-        if (isset($data['provider'])) $userIdentity->setProvider($data['provider']);
-        if (isset($data['providerId'])) $userIdentity->setProviderId($data['providerId']);
+        if (isset($data['provider'])) {
+            $userIdentity->setProvider($data['provider']);
+        }
+        if (isset($data['providerId'])) {
+            $userIdentity->setProviderId($data['providerId']);
+        }
 
         return $userIdentity;
     }

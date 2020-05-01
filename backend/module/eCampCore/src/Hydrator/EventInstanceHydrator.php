@@ -59,10 +59,18 @@ class EventInstanceHydrator implements HydratorInterface {
         /** @var EventInstance $eventInstance */
         $eventInstance = $object;
 
-        if( isset($data['start']) ) $eventInstance->setStart($data['start']);
-        if( isset($data['length']) ) $eventInstance->setLength($data['length']);
-        if( isset($data['left']) ) $eventInstance->setLeft($data['left']);
-        if( isset($data['width']) ) $eventInstance->setWidth($data['width']);
+        if (isset($data['start'])) {
+            $eventInstance->setStart($data['start']);
+        }
+        if (isset($data['length'])) {
+            $eventInstance->setLength($data['length']);
+        }
+        if (isset($data['left'])) {
+            $eventInstance->setLeft($data['left']);
+        }
+        if (isset($data['width'])) {
+            $eventInstance->setWidth($data['width']);
+        }
 
         return $eventInstance;
     }

@@ -43,7 +43,7 @@ class EventPluginService extends AbstractEntityService {
      *
      * @return ApiProblem|EventPlugin
      */
-    public  function create($data, bool $persist = true) {
+    public function create($data, bool $persist = true) {
         /** @var EventPlugin $eventPlugin */
         $eventPlugin = parent::create($data, false);
 

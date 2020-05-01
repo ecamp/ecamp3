@@ -43,8 +43,12 @@ class GroupHydrator implements HydratorInterface {
         /** @var Group $group */
         $group = $object;
 
-        if( isset($data['name']) ) $group->setName($data['name']);
-        if( isset($data['description']) ) $group->setDescription($data['description']);
+        if (isset($data['name'])) {
+            $group->setName($data['name']);
+        }
+        if (isset($data['description'])) {
+            $group->setDescription($data['description']);
+        }
 
         return $group;
     }

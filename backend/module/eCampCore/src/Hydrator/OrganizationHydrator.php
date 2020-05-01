@@ -38,7 +38,9 @@ class OrganizationHydrator implements HydratorInterface {
         /** @var Organization $organization */
         $organization = $object;
 
-        if( isset($data['name']) ) $organization->setName($data['name']);
+        if (isset($data['name'])) {
+            $organization->setName($data['name']);
+        }
 
         return $organization;
     }

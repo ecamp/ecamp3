@@ -31,7 +31,7 @@ class DayService extends AbstractEntityService {
      *
      * @return ApiProblem|Day
      */
-    public  function create($data, bool $persist = true) {
+    public function create($data, bool $persist = true) {
         /** @var Period $period */
         $period = $this->findEntity(Period::class, $data->period_id);
 

@@ -61,8 +61,12 @@ class SectionHydrator implements HydratorInterface {
         /** @var Section $section */
         $section = $object;
 
-        if( isset($data['pos']) ) $section->setPos($data['pos']);
-        if( isset($data['text']) ) $section->setText($data['text']);
+        if (isset($data['pos'])) {
+            $section->setPos($data['pos']);
+        }
+        if (isset($data['text'])) {
+            $section->setText($data['text']);
+        }
 
         return $section;
     }

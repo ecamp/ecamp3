@@ -67,7 +67,7 @@ class UserService extends AbstractEntityService {
      *
      * @return ApiProblem|mixed|User
      */
-    public  function create($data, bool $persist = true) {
+    public function create($data, bool $persist = true) {
         /** @var Profile $profile */
         $profile = $data;
 

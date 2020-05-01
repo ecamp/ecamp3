@@ -38,10 +38,18 @@ class GroupMembershipHydrator implements HydratorInterface {
         /** @var GroupMembership $groupMembership */
         $groupMembership = $object;
 
-        if( isset($data['group']) ) $groupMembership->setGroup($data['group']);
-        if( isset($data['user']) ) $groupMembership->setUser($data['user']);
-        if( isset($data['role']) ) $groupMembership->setRole($data['role']);
-        if( isset($data['status']) ) $groupMembership->setStatus($data['status']);
+        if (isset($data['group'])) {
+            $groupMembership->setGroup($data['group']);
+        }
+        if (isset($data['user'])) {
+            $groupMembership->setUser($data['user']);
+        }
+        if (isset($data['role'])) {
+            $groupMembership->setRole($data['role']);
+        }
+        if (isset($data['status'])) {
+            $groupMembership->setStatus($data['status']);
+        }
 
         return $groupMembership;
     }

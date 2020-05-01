@@ -39,7 +39,7 @@ return [
             \ZF\Hal\Extractor\LinkExtractor::class => \eCamp\Lib\Hal\Factory\LinkExtractorFactory::class,
             \eCamp\Lib\Twig\TwigExtensions::class => \ZendTwig\Service\TwigExtensionFactory::class,
             \eCamp\Lib\ServiceManager\EntityFilterManager::class => \eCamp\Lib\ServiceManager\EntityFilterManagerFactory::class,
-            Zend\Hydrator\HydratorPluginManager::class => Zend\Hydrator\HydratorPluginManagerFactory::class
+            Zend\Hydrator\HydratorPluginManager::class => Zend\Hydrator\HydratorPluginManagerFactory::class,
         ],
     ],
     'entity_filter' => [

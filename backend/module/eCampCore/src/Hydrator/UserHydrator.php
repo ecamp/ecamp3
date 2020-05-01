@@ -36,7 +36,9 @@ class UserHydrator implements HydratorInterface {
         /** @var User $user */
         $user = $object;
 
-        if (isset($data['username'])) $user->setUsername($data['username']);
+        if (isset($data['username'])) {
+            $user->setUsername($data['username']);
+        }
 
         return $user;
     }

@@ -37,7 +37,9 @@ class JobHydrator implements HydratorInterface {
         /** @var Job $job */
         $job = $object;
 
-        if( isset($data['name']) ) $job->setName($data['name']);
+        if (isset($data['name'])) {
+            $job->setName($data['name']);
+        }
 
         return $job;
     }

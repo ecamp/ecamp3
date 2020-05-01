@@ -46,7 +46,7 @@ class CampService extends AbstractEntityService {
      *
      * @return ApiProblem|Camp
      */
-    public  function create($data, bool $persist = true) {
+    public function create($data, bool $persist = true) {
         $this->assertAllowed(Camp::class, __FUNCTION__);
 
         /** @var CampType $campType */

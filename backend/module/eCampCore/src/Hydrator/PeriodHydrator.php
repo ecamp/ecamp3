@@ -62,9 +62,10 @@ class PeriodHydrator implements HydratorInterface {
             $period->setEnd($end);
         }
 
-        if (isset($data['description'])) $period->setDescription($data['description']);
-        
-    
+        if (isset($data['description'])) {
+            $period->setDescription($data['description']);
+        }
+
         return $period;
     }
 }
