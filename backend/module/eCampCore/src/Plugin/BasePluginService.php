@@ -85,25 +85,11 @@ abstract class BasePluginService extends AbstractEntityService {
     protected function fetchQueryBuilder($id) {
         $q = parent::fetchQueryBuilder($id);
 
-        if (is_subclass_of($this->entityClass, BasePluginEntity::class)) {
-            if (null !== $this->eventPluginId) {
-                $q->andWhere('row.eventPlugin = :eventPluginId');
-                $q->setParameter('eventPluginId', $this->eventPluginId);
-            }
-        }
-
         return $q;
     }
 
     protected function fetchAllQueryBuilder($params = []) {
         $q = parent::fetchAllQueryBuilder($params);
-
-        if (is_subclass_of($this->entityClass, BasePluginEntity::class)) {
-            if (null !== $this->eventPluginId) {
-                $q->andWhere('row.eventPlugin = :eventPluginId');
-                $q->setParameter('eventPluginId', $this->eventPluginId);
-            }
-        }
 
         if (isset($params['event_plugin_id'])) {
             $q->andWhere('row.eventPlugin = :eventPlugin_id');

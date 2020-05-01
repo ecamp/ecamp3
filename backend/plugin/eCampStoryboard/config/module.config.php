@@ -46,7 +46,7 @@ return [
                 1 => 'POST',
             ],
             'collection_query_whitelist' => [
-                0 => 'evemt_plugin_id',
+                0 => 'event_plugin_id',
                 1 => 'page_size',
             ],
             'page_size' => -1,

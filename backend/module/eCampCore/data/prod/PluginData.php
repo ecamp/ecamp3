@@ -19,7 +19,7 @@ class PluginData extends AbstractFixture {
         $plugin = $repository->findOneBy(['name' => 'TextArea']);
         if (null == $plugin) {
             $plugin = new Plugin();
-            $plugin->setName('TextArea');
+            $plugin->setName('Textarea');
             $plugin->setActive(true);
             $plugin->setStrategyClass(TextareaStrategy::class);
             $manager->persist($plugin);
@@ -29,7 +29,7 @@ class PluginData extends AbstractFixture {
         $plugin = $repository->findOneBy(['name' => 'RichText']);
         if (null == $plugin) {
             $plugin = new Plugin();
-            $plugin->setName('RichText');
+            $plugin->setName('Richtext');
             $plugin->setActive(true);
             $plugin->setStrategyClass(TextareaStrategy::class);
             $manager->persist($plugin);
@@ -39,7 +39,7 @@ class PluginData extends AbstractFixture {
         $plugin = $repository->findOneBy(['name' => 'storyboard']);
         if (null == $plugin) {
             $plugin = new Plugin();
-            $plugin->setName('storyboard');
+            $plugin->setName('Storyboard');
             $plugin->setActive(true);
             $plugin->setStrategyClass(StoryboardStrategy::class);
             $manager->persist($plugin);

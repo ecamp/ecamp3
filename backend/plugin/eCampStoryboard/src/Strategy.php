@@ -19,8 +19,8 @@ class Strategy extends PluginStrategyBase {
 
     public function eventPluginExtract(EventPlugin $eventPlugin): array {
         return [
-            'section' => Link::factory([
-                'rel' => 'section',
+            'sections' => Link::factory([
+                'rel' => 'sections',
                 'route' => [
                     'name' => 'e-camp-api.rest.doctrine.event-plugin.storyboard',
                     'options' => ['query' => ['event_plugin_id' => $eventPlugin->getId()]],

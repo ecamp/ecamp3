@@ -41,6 +41,20 @@ Displays a single event
               </v-list-item-content>
             </v-list-item>
           </v-list>
+
+          <v-list>
+            <v-label>Plugins</v-label>
+            <v-list-item
+              v-for="event_type_plugin in event_type_plugins.items"
+              :key="event_type_plugin._meta.self"
+              two-line>
+              <v-list-item-content>
+                <event-type-plugin
+                  :event-type-plugin="event_type_plugin"
+                  :event-plugins="getEventPluginsByType(event_type_plugin)" />
+              </v-list-item-content>
+            </v-list-item>
+          </v-list>
         </template>
       </v-card-text>
     </content-card>
@@ -51,13 +65,15 @@ Displays a single event
 import ButtonBack from '@/components/buttons/ButtonBack'
 import ContentCard from '@/components/layout/ContentCard'
 import ApiTextField from '@/components/form/api/ApiTextField'
+import EventTypePlugin from '@/components/event/EventTypePlugin'
 
 export default {
   name: 'Event',
   components: {
     ButtonBack,
     ContentCard,
-    ApiTextField
+    ApiTextField,
+    EventTypePlugin
   },
   props: {
     eventInstance: { type: Function, required: true }
@@ -71,6 +87,17 @@ export default {
     },
     instances () {
       return this.event.event_instances()
+    },
+    event_type () {
+      return this.category.event_type()
+    },
+    event_type_plugins () {
+      return this.event_type.event_type_plugins()
+    }
+  },
+  methods: {
+    getEventPluginsByType (eventPluginType) {
+      return this.event.event_plugins().items.filter(ep => ep.event_type_plugin().id === eventPluginType.id)
     }
   }
 }
