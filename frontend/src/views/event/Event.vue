@@ -51,7 +51,7 @@ Displays a single event
               <v-list-item-content>
                 <event-type-plugin
                   :event-type-plugin="event_type_plugin"
-                  :event-plugins="getEventPluginsByType(event_type_plugin)" />
+                  :event="event" />
               </v-list-item-content>
             </v-list-item>
           </v-list>
@@ -93,11 +93,6 @@ export default {
     },
     event_type_plugins () {
       return this.event_type.event_type_plugins()
-    }
-  },
-  methods: {
-    getEventPluginsByType (eventPluginType) {
-      return this.event.event_plugins().items.filter(ep => ep.event_type_plugin().id === eventPluginType.id)
     }
   }
 }

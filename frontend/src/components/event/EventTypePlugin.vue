@@ -5,36 +5,61 @@
     <br><br>
 
     <div v-for="eventPlugin in eventPlugins" :key="eventPlugin._meta.self">
-      I'm one specific instance of the {{ eventPlugin.plugin_name }} plugin...
-      <component :is="eventPlugin.plugin_name" :event-plugin="eventPlugin" />
+      <event-plugin :event-plugin="eventPlugin" />
       <br>
     </div>
+
+    <v-btn color="primary" :loading="isAdding"
+           block
+           @click="addEventPlugin">
+      + Add another {{ eventTypePlugin.plugin().name }}
+    </v-btn>
   </div>
 </template>
 
 <script>
 
-import Textarea from '@/components/event/plugins/Textarea'
-import Storyboard from '@/components/event/plugins/Storyboard'
-import Richtext from '@/components/event/plugins/Richtext'
+import EventPlugin from './EventPlugin'
 
 export default {
   name: 'EventTypePlugin',
   components: {
-    Textarea,
-    Storyboard,
-    Richtext
+    EventPlugin
   },
   props: {
-    eventTypePlugin: { type: Function, required: true },
-    eventPlugins: { type: Array, required: true }
+    eventTypePlugin: { type: Object, required: true },
+    event: { type: Object, required: true }
+  },
+  data () {
+    return {
+      isAdding: false
+    }
+  },
+  computed: {
+    eventPlugins () {
+      return this.event.event_plugins().items.filter(ep => ep.event_type_plugin().id === this.eventTypePlugin.id)
+    }
+  },
+  methods: {
+    async addEventPlugin () {
+      this.isAdding = true
+      await this.api.post('/event-plugins', {
+        event_id: this.event.id,
+        event_type_plugin_id: this.eventTypePlugin.id
+      })
+      await this.refreshEvent()
+      this.isAdding = false
+    },
+    async refreshEvent () {
+      await this.api.reload(this.event._meta.self)
+    }
   }
 }
 </script>
 
 <style scoped>
   .plugin-container {
-    border: 2px grey dashed;
     padding:5px;
+    background-color: grey;
   }
 </style>
