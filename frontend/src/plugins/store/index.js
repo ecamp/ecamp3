@@ -148,12 +148,11 @@ export const post = function (uriOrCollection, data) {
  * Reloads an entity from the API.
  *
  * @param uriOrEntity URI (or instance) of an entity to reload from the API
- * @returns entity    Entity from the store. Note that when fetching an object for the first time, a reactive
- *                    dummy is returned, which will be replaced with the true data through Vue's reactivity
- *                    system as soon as the API request finishes.
+ * @returns Promise   Resolves when the GET request has completed and the updated entity is available
+ *                    in the Vuex store.
  */
 export const reload = function (uriOrEntity) {
-  return get(uriOrEntity, true)
+  return get(uriOrEntity, true)._meta.load
 }
 
 /**
@@ -365,6 +364,8 @@ function valueIsArrayWithReferenceTo (value, uri) {
 }
 
 function valueIsReferenceTo (value, uri) {
+  if (value === null) return false
+
   const objectKeys = Object.keys(value)
   return objectKeys.length === 1 && objectKeys[0] === 'href' && value.href === uri
 }
@@ -387,7 +388,7 @@ function deleted (uri) {
   return Promise.all(findEntitiesReferencing(uri)
     // don't reload entities that are already being deleted, to break circular dependencies
     .filter(outdatedEntity => !outdatedEntity._meta.deleting)
-    .map(outdatedEntity => reload(outdatedEntity)._meta.load)
+    .map(outdatedEntity => reload(outdatedEntity))
   ).then(() => purge(uri))
 }
 

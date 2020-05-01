@@ -52,7 +52,7 @@ export default {
       this.isAdding = false
     },
     async refreshEvent () {
-      await this.api.reload(this.event._meta.self)._meta.load
+      await this.api.reload(this.event._meta.self)
     }
   }
 }

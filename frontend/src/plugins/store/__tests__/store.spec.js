@@ -320,7 +320,7 @@ describe('API store', () => {
     await letNetworkRequestFinish()
 
     // when
-    const load = vm.api.reload(camp)._meta.load
+    const load = vm.api.reload(camp)
 
     // then
     await letNetworkRequestFinish()
@@ -349,7 +349,7 @@ describe('API store', () => {
     })
 
     // when
-    const load = vm.api.reload(vm.api.get('/camps/1'))._meta.load
+    const load = vm.api.reload(vm.api.get('/camps/1'))
 
     // then
     await letNetworkRequestFinish()
@@ -595,10 +595,10 @@ describe('API store', () => {
     const embeddedCollection = vm.api.get('/camps/1').event_types()
 
     // when
-    const result = vm.api.reload(embeddedCollection)
+    vm.api.reload(embeddedCollection)
 
     // then
-    expect(result._meta.self).toBeUndefined()
+    expect(embeddedCollection._meta.self).toBeUndefined()
     await letNetworkRequestFinish()
     expect(vm.$store.state.api['/camps/1'].event_types).toMatchObject(campData.storeState)
     done()
@@ -934,7 +934,7 @@ describe('API store', () => {
     expect(vm.$store.state.api['/camps/1']).toMatchObject({ id: 1, _meta: { self: '/camps/1' } })
 
     // when
-    const load = vm.api.reload('/camps/1')._meta.load
+    const load = vm.api.reload('/camps/1')
     // then
     await expect(load).rejects.toThrow('"/camps/1" has been deleted')
     expect(vm.$store.state.api['/camps/1']).toBeUndefined()
