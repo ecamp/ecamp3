@@ -64,7 +64,7 @@ class EventHydrator implements HydratorInterface {
         /** @var Event $event */
         $event = $object;
 
-        $event->setTitle($data['title']);
+        if( isset($data['title']) ) $event->setTitle($data['title']);
 
         return $event;
     }

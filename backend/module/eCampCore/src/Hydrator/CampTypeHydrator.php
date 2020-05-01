@@ -42,10 +42,10 @@ class CampTypeHydrator implements HydratorInterface {
         /** @var CampType $campType */
         $campType = $object;
 
-        $campType->setName($data['name']);
-        $campType->setIsJS($data['is_js']);
-        $campType->setIsCourse($data['is_course']);
-        $campType->setOrganization($data['organization']);
+        if( isset($data['name']) ) $campType->setName($data['name']);
+        if( isset($data['is_js']) ) $campType->setIsJS($data['is_js']);
+        if( isset($data['is_course']) ) $campType->setIsCourse($data['is_course']);
+        if( isset($data['organization']) ) $campType->setOrganization($data['organization']);
 
         return $campType;
     }

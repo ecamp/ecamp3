@@ -52,13 +52,19 @@ class PeriodHydrator implements HydratorInterface {
         /** @var Period $period */
         $period = $object;
 
-        $start = Util::parseDate($data['start']);
-        $end = Util::parseDate($data['end']);
+        if (isset($data['start'])) {
+            $start = Util::parseDate($data['start']);
+            $period->setStart($start);
+        }
 
-        $period->setDescription($data['description']);
-        $period->setStart($start);
-        $period->setEnd($end);
+        if (isset($data['end'])) {
+            $end = Util::parseDate($data['end']);
+            $period->setEnd($end);
+        }
 
+        if (isset($data['description'])) $period->setDescription($data['description']);
+        
+    
         return $period;
     }
 }

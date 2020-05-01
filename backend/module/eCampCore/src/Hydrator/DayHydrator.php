@@ -39,7 +39,7 @@ class DayHydrator implements HydratorInterface {
         /** @var Day $day */
         $day = $object;
 
-        $day->setDayOffset($data['day_offset']);
+        if( isset($data['day_offset']) ) $day->setDayOffset($data['day_offset']);
 
         return $day;
     }

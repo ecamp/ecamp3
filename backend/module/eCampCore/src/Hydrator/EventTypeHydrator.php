@@ -41,9 +41,9 @@ class EventTypeHydrator implements HydratorInterface {
         /** @var EventType $eventType */
         $eventType = $object;
 
-        $eventType->setName($data['name']);
-        $eventType->setDefaultColor($data['default_color']);
-        $eventType->setDefaultNumberingStyle($data['default_numbering_style']);
+        if( isset($data['name']) ) $eventType->setName($data['name']);
+        if( isset($data['default_color']) ) $eventType->setDefaultColor($data['default_color']);
+        if( isset($data['default_numbering_style']) ) $eventType->setDefaultNumberingStyle($data['default_numbering_style']);
 
         return $eventType;
     }
