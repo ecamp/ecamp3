@@ -83,9 +83,7 @@ abstract class BasePluginService extends AbstractEntityService {
     }
 
     protected function fetchQueryBuilder($id) {
-        $q = parent::fetchQueryBuilder($id);
-
-        return $q;
+        return parent::fetchQueryBuilder($id);
     }
 
     protected function fetchAllQueryBuilder($params = []) {
