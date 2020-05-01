@@ -29,7 +29,7 @@ abstract class BasePluginService extends AbstractEntityService {
      * @return BaseEntity
      */
     public function fetchFromEventPlugin($eventPluginId) {
-        return $this->fetchAllFromEventPlugin($eventPluginId)[0];
+        return $this->fetchAllFromEventPlugin($eventPluginId)[0] ?? null;
     }
 
     /**
@@ -47,17 +47,23 @@ abstract class BasePluginService extends AbstractEntityService {
 
     /**
      * @param array $data
-     * @param bool  $persist
      *
      * @throws NoAccessException
      * @throws ORMException
      *
      * @return ApiProblem|BasePluginEntity
      */
-    public function create($data, $persist = true, EventPlugin $eventPlugin = null) {
+    public function create($data, bool $persist = true, ?EventPlugin $eventPlugin = null) {
         /** @var BasePluginEntity $entity */
         $entity = parent::create($data, false);
-        $entity->setEventPlugin($eventPlugin);
+
+        if (isset($data['event_plugin_id'])) {
+            /** @var EventPlugin $eventPlugin */
+            $eventPlugin = $this->findEntity(EventPlugin::class, $data['event_plugin_id']);
+            $entity->setEventPlugin($eventPlugin);
+        } elseif ($eventPlugin) {
+            $entity->setEventPlugin($eventPlugin);
+        }
 
         if ($persist) {
             $this->getServiceUtils()->emPersist($entity);

@@ -43,7 +43,7 @@ class EventPluginService extends AbstractEntityService {
      *
      * @return ApiProblem|EventPlugin
      */
-    public function create($data, $persist = true) {
+    public  function create($data, bool $persist = true) {
         $em = $this->getServiceUtils()->entityManager;
 
         /** @var EventPlugin $eventPlugin */

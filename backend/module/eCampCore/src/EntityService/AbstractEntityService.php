@@ -126,7 +126,7 @@ abstract class AbstractEntityService extends AbstractResourceListener {
      *
      * @return ApiProblem|BaseEntity
      */
-    public function create($data, $persist = true) {
+    public  function create($data, bool $persist = true) {
         $this->assertAllowed($this->entityClassname, __FUNCTION__);
         $entity = $this->createEntity($this->entityClassname);
         $this->getHydrator()->hydrate((array) $data, $entity);

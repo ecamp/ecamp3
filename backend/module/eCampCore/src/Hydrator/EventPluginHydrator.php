@@ -73,7 +73,7 @@ class EventPluginHydrator implements HydratorInterface {
         /** @var EventPlugin $eventPlugin */
         $eventPlugin = $object;
 
-        $eventPlugin->setInstanceName($data['instance_name']);
+        if( isset($data['instance_name']) ) $eventPlugin->setInstanceName($data['instance_name']);
 
         return $eventPlugin;
     }

@@ -45,7 +45,7 @@ class GroupMembershipService extends AbstractEntityService {
      *
      * @return ApiProblem|GroupMembership
      */
-    public function create($data, $persist = true) {
+    public  function create($data, bool $persist = true) {
         $authUser = $this->getAuthUser();
         if (!isset($data->user_id)) {
             $data->user_id = $authUser->getId();

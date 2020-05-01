@@ -31,7 +31,7 @@ class EventCategoryService extends AbstractEntityService {
      *
      * @return ApiProblem|EventCategory
      */
-    public function create($data, $persist = true) {
+    public  function create($data, bool $persist = true) {
         /** @var EventCategory $eventCategory */
         $eventCategory = parent::create($data, $persist);
 
