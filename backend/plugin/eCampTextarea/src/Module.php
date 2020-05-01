@@ -25,7 +25,10 @@ class Module {
             [
                 Acl::REST_PRIVILEGE_FETCH,
                 Acl::REST_PRIVILEGE_FETCH_ALL,
-                Acl::REST_PRIVILEGE_CREATE,
+                // Acl::REST_PRIVILEGE_CREATE, // // disallow posting directly. Single entities should always be created via EventPlugin.
+                Acl::REST_PRIVILEGE_PATCH,
+                Acl::REST_PRIVILEGE_UPDATE,
+                // Acl::REST_PRIVILEGE_DELETE, // disallow deleting directly. Single entities should always be deleted via EventPlugin.
             ]
         );
     }
