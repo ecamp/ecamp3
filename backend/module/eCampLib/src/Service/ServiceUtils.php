@@ -17,7 +17,8 @@ use Zend\Permissions\Acl\Role\RoleInterface;
 
 class ServiceUtils {
     /** @var EntityManager */
-    public $entityManager;
+    private $entityManager;
+    
     /** @var Acl */
     private $acl;
 
