@@ -3,7 +3,6 @@
     <v-btn
       color="error"
       class="float-right"
-      :loading="isDeleting"
       @click="removeEventPlugin">
       Remove this plugin
     </v-btn>
@@ -36,20 +35,9 @@ export default {
       isDeleting: false
     }
   },
-  computed: {
-    eventPlugins () {
-      return this.event.event_plugins().items.filter(ep => ep.event_type_plugin().id === this.eventTypePlugin.id)
-    }
-  },
   methods: {
     async removeEventPlugin () {
-      this.isDeleting = true
       this.api.del(this.eventPlugin)
-      this.refreshEvent()
-      this.isDeleting = false
-    },
-    async refreshEvent () {
-      await this.api.reload(this.eventPlugin.event()._meta.self)
     }
   }
 }

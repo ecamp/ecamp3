@@ -33,6 +33,24 @@ class UserData extends AbstractFixture implements DependentFixtureInterface {
         }
         $this->addReference(self::$USER, $user);
 
+        // add a second user
+        $user = $repository->findOneBy(['username' => 'mogli']);
+        if (null == $user) {
+            $mail = new MailAddress();
+            $mail->setMail('mogli@ecamp3.dev');
+
+            $user = new User();
+            $user->setUsername('mogli');
+            $user->setRole(User::ROLE_USER);
+            $user->setTrustedMailAddress($mail);
+            $user->setState(User::STATE_ACTIVATED);
+
+            $login = new Login($user, 'test');
+
+            $manager->persist($user);
+            $manager->persist($login);
+        }
+
         $manager->flush();
     }
 
