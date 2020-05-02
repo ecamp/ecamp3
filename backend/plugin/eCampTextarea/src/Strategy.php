@@ -6,6 +6,7 @@ use Doctrine\ORM\ORMException;
 use eCamp\Core\Entity\EventPlugin;
 use eCamp\Core\Plugin\PluginStrategyBase;
 use eCamp\Lib\Acl\NoAccessException;
+use eCamp\Lib\Service\ServiceUtils;
 use eCamp\Plugin\Textarea\Service\TextareaService;
 use ZF\Hal\Link\Link;
 
@@ -13,7 +14,9 @@ class Strategy extends PluginStrategyBase {
     /** @var TextareaService */
     private $textareaService;
 
-    public function __construct(TextareaService $textareaService) {
+    public function __construct(TextareaService $textareaService, ServiceUtils $serviceUtils) {
+        parent::__construct($serviceUtils);
+
         $this->textareaService = $textareaService;
     }
 
@@ -43,6 +46,7 @@ class Strategy extends PluginStrategyBase {
      * @throws ORMException
      */
     public function eventPluginCreated(EventPlugin $eventPlugin): void {
-        $this->textareaService->create([], true, $eventPlugin);
+        $textarea = $this->textareaService->createEntity([], $eventPlugin);
+        $this->getServiceUtils()->emPersist($textarea);
     }
 }

@@ -53,9 +53,9 @@ abstract class BasePluginService extends AbstractEntityService {
      *
      * @return ApiProblem|BasePluginEntity
      */
-    public function create($data, bool $persist = true, ?EventPlugin $eventPlugin = null) {
+    public function createEntity($data, ?EventPlugin $eventPlugin = null) {
         /** @var BasePluginEntity $entity */
-        $entity = parent::create($data, false);
+        $entity = parent::createEntity($data);
 
         if (isset($data['event_plugin_id'])) {
             /** @var EventPlugin $eventPlugin */
@@ -65,25 +65,7 @@ abstract class BasePluginService extends AbstractEntityService {
             $entity->setEventPlugin($eventPlugin);
         }
 
-        if ($persist) {
-            $this->getServiceUtils()->emPersist($entity);
-        }
-
         return $entity;
-    }
-
-    /**
-     * @param string $className
-     *
-     * @return ApiProblem|BasePluginEntity
-     */
-    protected function createEntity($className) {
-        // @var BasePluginEntity $entity
-        return parent::createEntity($className);
-    }
-
-    protected function fetchQueryBuilder($id) {
-        return parent::fetchQueryBuilder($id);
     }
 
     protected function fetchAllQueryBuilder($params = []) {

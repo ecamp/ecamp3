@@ -118,22 +118,39 @@ abstract class AbstractEntityService extends AbstractResourceListener {
     }
 
     /**
+     * Calls createEntity + is responsible for permission check and persistance.
+     *
      * @param mixed $data
      * @param mixed $persist
      *
      * @throws NoAccessException
      * @throws ORMException
      *
-     * @return ApiProblem|BaseEntity
+     * @return BaseEntity
      */
     public function create($data, bool $persist = true) {
         $this->assertAllowed($this->entityClassname, __FUNCTION__);
-        $entity = $this->createEntity($this->entityClassname);
-        $this->getHydrator()->hydrate((array) $data, $entity);
+
+        $entity = $this->createEntity($data);
 
         if ($persist) {
             $this->serviceUtils->emPersist($entity);
         }
+
+        return $entity;
+    }
+
+    /**
+     * Responsible for creation of entity + hydration of data. Should be overriden by subclass for specific
+     * additional business logic during create process.
+     *
+     * @param mixed $data
+     *
+     * @return BaseEntity Instantiated but non-persisted entity
+     */
+    public function createEntity($data) {
+        $entity = new $this->entityClassname();
+        $this->getHydrator()->hydrate((array) $data, $entity);
 
         return $entity;
     }
@@ -299,15 +316,6 @@ abstract class AbstractEntityService extends AbstractResourceListener {
     }
 
     /**
-     * @param string $className
-     *
-     * @return ApiProblem|BaseEntity
-     */
-    protected function createEntity($className) {
-        return new $className();
-    }
-
-    /**
      * @param $className
      * @param string $alias
      * @param string $field
@@ -371,11 +379,10 @@ abstract class AbstractEntityService extends AbstractResourceListener {
         $this->assertAllowed($this->entityClassname, Acl::REST_PRIVILEGE_FETCH_ALL);
 
         $rows = $q->getQuery()->getResult();
-        $rows = array_filter($rows, function ($entity) {
+
+        return array_filter($rows, function ($entity) {
             return $this->isAllowed($entity, Acl::REST_PRIVILEGE_FETCH);
         });
-
-        return $rows;
     }
 
     protected function fetchQueryBuilder($id) {
