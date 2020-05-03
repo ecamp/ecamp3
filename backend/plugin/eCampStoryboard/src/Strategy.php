@@ -22,6 +22,8 @@ class Strategy extends PluginStrategyBase {
 
     public function eventPluginExtract(EventPlugin $eventPlugin): array {
         return [
+            // Cannot include full content in EventPlugin
+            // otherwise HydrateInfo also needs to be populated
             'sections' => Link::factory([
                 'rel' => 'sections',
                 'route' => [

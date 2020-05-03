@@ -57,8 +57,8 @@ class EventPluginHydrator implements HydratorInterface {
         $strategy = $this->pluginStrategyProvider->get($plugin);
 
         if (null != $strategy) {
-            $links = $strategy->eventPluginExtract($eventPlugin);
-            $data = array_merge($data, $links);
+            $strategyData = $strategy->eventPluginExtract($eventPlugin);
+            $data = array_merge($data, $strategyData);
         }
 
         return $data;

@@ -28,6 +28,10 @@ class Strategy extends PluginStrategyBase {
         }
 
         return [
+            'textarea' => $textarea,
+            /*
+            // Alternatively send link only
+
             'textarea' => Link::factory([
                 'rel' => 'textarea',
                 'route' => [
@@ -37,7 +41,7 @@ class Strategy extends PluginStrategyBase {
                         'textarea_id' => $textarea->getId(),
                     ],
                 ],
-            ]),
+            ]),*/
         ];
     }
 

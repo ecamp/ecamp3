@@ -3,14 +3,26 @@
 namespace eCamp\Core\Hydrator;
 
 use eCamp\Core\Entity\Day;
+use eCamp\Core\Entity\Event;
 use eCamp\Core\Entity\EventInstance;
 use eCamp\Lib\Entity\EntityLink;
 use eCamp\Lib\Hydrator\Util;
+use eCampApi\V1\Rest\EventPlugin\EventPluginCollection;
 use Zend\Hydrator\HydratorInterface;
 
 class EventInstanceHydrator implements HydratorInterface {
     public static function HydrateInfo() {
         return [
+            'event' => Util::Entity(
+                function (EventInstance $ei) {
+                    return $ei->getEvent();
+                },
+                [
+                    'event_plugins' => Util::Collection(function (Event $e) {
+                        return new EventPluginCollection($e->getEventPlugins());
+                    }, null),
+                ]
+            ),
         ];
     }
 

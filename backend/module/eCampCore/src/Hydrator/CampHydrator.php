@@ -23,6 +23,9 @@ class CampHydrator implements HydratorInterface {
                 function (Camp $c) {
                     return new PeriodCollection($c->getPeriods());
                 },
+                null,
+                // TODO: kann das weg? war nur Democode, oder?
+                /*
                 function (Camp $c) {
                     return [
                         Link::factory([
@@ -33,7 +36,7 @@ class CampHydrator implements HydratorInterface {
                             ],
                         ]),
                     ];
-                },
+                },*/
                 [
                     'days' => Util::Collection(function (Period $p) {
                         return new DayCollection($p->getDays());
