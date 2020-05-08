@@ -120,7 +120,8 @@
   ],
   "jest": {
     "setupFiles": [
-      "<rootDir>/.jest/register-context.js"
+      "<rootDir>/.jest/register-context.js",
+      "<rootDir>/.jest/environment.js"
     ],
     "moduleFileExtensions": [
       "js",

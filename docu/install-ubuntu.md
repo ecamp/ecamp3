@@ -27,7 +27,7 @@ Apache-WebServer und einen MySql-Server. Diese beiden werden wir benötigen.
 
 Du kannst XAMPP hier herunterladen:
 [https://www.apachefriends.org/](https://www.apachefriends.org/)
-(Linux-Variante - mindestens Verison 7.2)
+(Linux-Variante - mindestens Verison 7.4.2)
 
 Die Installation startest du am einfachsten aus dem Terminal.
 ```
@@ -299,11 +299,11 @@ cd /var/www/ecamp3/frontend
 npm install
 ```
 
-Ähnlich wie wir dem Backend mit doctrine.local.dev.php sagen mussten, wie es die Datenbank erreichen kann, müssen wir jetzt dem Frontend mit .env.local noch sagen, wo das Backend ist.
-Kopiere dazu die vorgefertigte .env.local-Beispieldatei:
+Ähnlich wie wir dem Backend mit doctrine.local.dev.php sagen mussten, wie es die Datenbank erreichen kann, müssen wir jetzt dem Frontend noch sagen, wo das Backend ist.
+Kopiere dazu die vorgefertigte environment-Beispieldatei:
 
 ```
-cp .env.local.dist .env.local
+cp public/environment.dist public/environment.js
 ```
 
 Schliesslich musst du nur noch das Frontend starten:

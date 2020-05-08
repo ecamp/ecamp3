@@ -11,7 +11,7 @@ Vue.use(Vuex)
 axios.defaults.withCredentials = true
 Vue.use(VueAxios, axios)
 
-export const API_ROOT = process.env.VUE_APP_ROOT_API
+export const API_ROOT = window.environment.API_ROOT_URL
 
 export const state = {
   api: {}
