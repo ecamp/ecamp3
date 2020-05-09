@@ -3,12 +3,11 @@
     <v-btn
       color="error"
       class="float-right"
+      small
       @click="removeEventPlugin">
-      Remove this plugin
+      Remove this {{ eventPlugin.pluginName }}
     </v-btn>
-
-    {{ $options.name }} //
-    I'm one specific instance of the {{ eventPlugin.pluginName }} plugin...
+    <h3> {{ eventPlugin.instanceName || eventPlugin.pluginName }}</h3>
     <component :is="eventPlugin.pluginName" :event-plugin="eventPlugin" />
     <br>
   </div>

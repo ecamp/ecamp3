@@ -24,6 +24,7 @@ class EventTypeHydrator implements HydratorInterface {
         return [
             'id' => $eventType->getId(),
             'name' => $eventType->getName(),
+            'template' => $eventType->getTemplate(),
             'defaultColor' => $eventType->getDefaultColor(),
             'defaultNumberingStyle' => $eventType->getDefaultNumberingStyle(),
             'eventTypePlugins' => new EventTypePluginCollection($eventType->getEventTypePlugins()),

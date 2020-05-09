@@ -1,10 +1,6 @@
 <template>
   <div>
-    {{ $options.name }} //
-    I'm a Storboard content component:
     <div v-for="section in eventPlugin.sections().items" :key="section._meta.self">
-      {{ section.id }} {{ section.text }}
-
       <api-form :entity="section">
         <api-text-field
           fieldname="text"

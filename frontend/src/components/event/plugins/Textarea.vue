@@ -1,8 +1,5 @@
 <template>
   <div>
-    {{ $options.name }} //
-    I'm a TextArea content component: {{ eventPlugin.textarea().id }} {{ eventPlugin.textarea().text }}
-
     <api-form :entity="eventPlugin.textarea()">
       <api-text-field
         fieldname="text"

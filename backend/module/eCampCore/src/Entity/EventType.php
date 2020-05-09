@@ -78,11 +78,11 @@ class EventType extends BaseEntity {
      * @return string
      */
     public function getTemplate() {
-        return $this->name;
+        return $this->template;
     }
 
-    public function setTemplate($name) {
-        $this->name = $name;
+    public function setTemplate($template) {
+        $this->template = $template;
     }
 
     /**

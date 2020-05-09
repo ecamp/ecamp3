@@ -1,8 +1,5 @@
 <template>
   <div>
-    {{ $options.name }} //
-    I'm a RichText content component (but Textarea in the backend): {{ eventPlugin.textarea().id }} {{ eventPlugin.textarea().text }}
-
     <api-form :entity="eventPlugin.textarea()">
       <api-text-field
         fieldname="text"

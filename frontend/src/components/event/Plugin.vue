@@ -1,9 +1,5 @@
 <template>
-  <div class="plugin-container">
-    {{ $options.name }} //
-    I'm the {{ eventTypePlugin.plugin().name }} plugin. I exist once per event.
-    <br><br>
-
+  <div v-if="eventTypePlugin" class="plugin-container">
     <div v-for="eventPlugin in eventPlugins" :key="eventPlugin._meta.self">
       <event-plugin :event-plugin="eventPlugin" />
       <br>
@@ -12,7 +8,7 @@
     <v-btn color="primary" :loading="isAdding"
            block
            @click="addEventPlugin">
-      + Add another {{ eventTypePlugin.plugin().name }}
+      + Add another {{ pluginName }}
     </v-btn>
   </div>
 </template>
@@ -22,12 +18,12 @@
 import EventPlugin from './EventPlugin'
 
 export default {
-  name: 'EventTypePlugin',
+  name: 'Plugin',
   components: {
     EventPlugin
   },
   props: {
-    eventTypePlugin: { type: Object, required: true },
+    pluginName: { type: String, required: true },
     event: { type: Object, required: true }
   },
   data () {
@@ -38,7 +34,15 @@ export default {
   computed: {
     eventPlugins () {
       // TODO: should we add the deleting-filter already to the store?
-      return this.event.eventPlugins().items.filter(ep => !ep._meta.deleting && ep.plugin().id === this.eventTypePlugin.plugin().id)
+      return this.event.eventPlugins().items.filter(ep => !ep._meta.deleting && ep.pluginName === this.pluginName)
+    },
+    plugin () {
+      return this.eventTypePlugin.plugin()
+    },
+    // try to find the EventTypePlugin of given name `pluginName`
+    // otherwise returns undefined and this component should not be shown
+    eventTypePlugin () {
+      return this.event.eventCategory().eventType().eventTypePlugins().items.find(etp => etp.plugin().name === this.pluginName)
     }
   },
   methods: {

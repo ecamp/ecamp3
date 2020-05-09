@@ -37,24 +37,12 @@ Displays a single event
               :key="instance._meta.self"
               two-line>
               <v-list-item-content>
-                1. Montag<br> {{ instance.startTime }} bis {{ instance.endTime }}
+                {{ instance.startTime }} bis {{ instance.endTime }}
               </v-list-item-content>
             </v-list-item>
           </v-list>
 
-          <v-list>
-            <v-label>Plugins</v-label>
-            <v-list-item
-              v-for="eventTypePlugin in eventTypePlugins.items"
-              :key="eventTypePlugin._meta.self"
-              two-line>
-              <v-list-item-content>
-                <event-type-plugin
-                  :event-type-plugin="eventTypePlugin"
-                  :event="event" />
-              </v-list-item-content>
-            </v-list-item>
-          </v-list>
+          <component :is="'EventLayout' + eventType.template" v-if="!eventType._meta.loading" :event="event" />
         </template>
       </v-card-text>
     </content-card>
@@ -65,7 +53,8 @@ Displays a single event
 import ButtonBack from '@/components/buttons/ButtonBack'
 import ContentCard from '@/components/layout/ContentCard'
 import ApiTextField from '@/components/form/api/ApiTextField'
-import EventTypePlugin from '@/components/event/EventTypePlugin'
+
+import EventLayoutGeneral from '@/components/event/layouts/General'
 
 export default {
   name: 'Event',
@@ -73,7 +62,7 @@ export default {
     ButtonBack,
     ContentCard,
     ApiTextField,
-    EventTypePlugin
+    EventLayoutGeneral
   },
   props: {
     eventInstance: { type: Function, required: true }
@@ -90,9 +79,6 @@ export default {
     },
     eventType () {
       return this.category.eventType()
-    },
-    eventTypePlugins () {
-      return this.eventType.eventTypePlugins()
     }
   }
 }
