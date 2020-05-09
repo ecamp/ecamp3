@@ -104,7 +104,7 @@ abstract class AbstractEntityService extends AbstractResourceListener {
      *
      * @throws NoAccessException
      *
-     * @return ApiProblem|array
+     * @return ApiProblem|Paginator
      */
     public function fetchAll($params = []) {
         $this->assertAllowed($this->entityClassname, __FUNCTION__);
@@ -135,6 +135,7 @@ abstract class AbstractEntityService extends AbstractResourceListener {
 
         if ($persist) {
             $this->serviceUtils->emPersist($entity);
+            $this->serviceUtils->emFlush();
         }
 
         return $entity;
@@ -171,6 +172,8 @@ abstract class AbstractEntityService extends AbstractResourceListener {
         $data = array_merge($allData, (array) $data);
         $this->getHydrator()->hydrate($data, $entity);
 
+        $this->serviceUtils->emFlush();
+
         return $entity;
     }
 
@@ -200,6 +203,7 @@ abstract class AbstractEntityService extends AbstractResourceListener {
         $entity = $this->getQuerySingleResult($q);
         $this->assertAllowed($entity, __FUNCTION__);
         $this->getHydrator()->hydrate((array) $data, $entity);
+        $this->serviceUtils->emFlush();
 
         return $entity;
     }
@@ -231,6 +235,7 @@ abstract class AbstractEntityService extends AbstractResourceListener {
         $this->assertAllowed($entity, __FUNCTION__);
         if (null !== $entity) {
             $this->serviceUtils->emRemove($entity);
+            $this->serviceUtils->emFlush();
 
             return true;
         }

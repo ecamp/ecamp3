@@ -8,6 +8,7 @@ use eCamp\Core\EntityService\AbstractEntityService;
 use eCamp\Lib\Acl\NoAccessException;
 use eCamp\Lib\Service\ServiceUtils;
 use Zend\Authentication\AuthenticationService;
+use Zend\Paginator\Paginator;
 use ZF\ApiProblem\ApiProblem;
 
 abstract class BasePluginService extends AbstractEntityService {
@@ -28,8 +29,8 @@ abstract class BasePluginService extends AbstractEntityService {
      *
      * @return BaseEntity
      */
-    public function fetchFromEventPlugin($eventPluginId) {
-        return $this->fetchAllFromEventPlugin($eventPluginId)[0] ?? null;
+    public function findOneByEventPlugin($eventPluginId) {
+        return $this->getRepository()->findOneBy(['eventPlugin' => $eventPluginId]);
     }
 
     /**
@@ -37,12 +38,10 @@ abstract class BasePluginService extends AbstractEntityService {
      *
      * @param string $eventPluginId
      *
-     * @return array
+     * @return Paginator
      */
-    public function fetchAllFromEventPlugin($eventPluginId) {
-        $q = $this->fetchAllQueryBuilder(['eventPluginId' => $eventPluginId]);
-
-        return $this->getQueryResult($q);
+    public function fetchAllByEventPlugin($eventPluginId) {
+        return $this->fetchAll(['eventPluginId' => $eventPluginId]);
     }
 
     /**

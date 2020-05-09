@@ -67,6 +67,7 @@ class EventPluginService extends AbstractEntityService {
         // manual persist necessary because parent::create was called with $persist=false
         if ($persist) {
             $this->getServiceUtils()->emPersist($eventPlugin);
+            $this->getServiceUtils()->emFlush();
         }
 
         return $eventPlugin;

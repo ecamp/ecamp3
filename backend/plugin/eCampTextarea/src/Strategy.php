@@ -21,7 +21,7 @@ class Strategy extends PluginStrategyBase {
     }
 
     public function eventPluginExtract(EventPlugin $eventPlugin): array {
-        $textarea = $this->textareaService->fetchFromEventPlugin($eventPlugin->getId());
+        $textarea = $this->textareaService->findOneByEventPlugin($eventPlugin->getId());
 
         if (!$textarea) {
             return [];
@@ -29,9 +29,9 @@ class Strategy extends PluginStrategyBase {
 
         return [
             'textarea' => $textarea,
+
             /*
             // Alternatively send link only
-
             'textarea' => Link::factory([
                 'rel' => 'textarea',
                 'route' => [
