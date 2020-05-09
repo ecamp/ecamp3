@@ -121,22 +121,19 @@ abstract class AbstractEntityService extends AbstractResourceListener {
      * Calls createEntity + is responsible for permission check and persistance.
      *
      * @param mixed $data
-     * @param mixed $persist
      *
      * @throws NoAccessException
      * @throws ORMException
      *
      * @return BaseEntity
      */
-    public function create($data, bool $persist = true) {
+    public function create($data) {
         $this->assertAllowed($this->entityClassname, __FUNCTION__);
 
         $entity = $this->createEntity($data);
 
-        if ($persist) {
-            $this->serviceUtils->emPersist($entity);
-            $this->serviceUtils->emFlush();
-        }
+        $this->serviceUtils->emPersist($entity);
+        $this->serviceUtils->emFlush();
 
         return $entity;
     }

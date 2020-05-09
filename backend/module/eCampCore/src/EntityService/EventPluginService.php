@@ -10,7 +10,6 @@ use eCamp\Core\Entity\EventTypePlugin;
 use eCamp\Core\Hydrator\EventPluginHydrator;
 use eCamp\Core\Plugin\PluginStrategyProvider;
 use eCamp\Core\Plugin\PluginStrategyProviderTrait;
-use eCamp\Lib\Acl\Acl;
 use eCamp\Lib\Acl\NoAccessException;
 use eCamp\Lib\Service\ServiceUtils;
 use Psr\Container\ContainerExceptionInterface;
@@ -34,7 +33,6 @@ class EventPluginService extends AbstractEntityService {
 
     /**
      * @param mixed $data
-     * @param mixed $persist
      *
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
@@ -43,9 +41,9 @@ class EventPluginService extends AbstractEntityService {
      *
      * @return ApiProblem|EventPlugin
      */
-    public function create($data, bool $persist = true) {
+    public function createEntity($data) {
         /** @var EventPlugin $eventPlugin */
-        $eventPlugin = parent::create($data, false);
+        $eventPlugin = parent::createEntity($data);
 
         /** @var Event $event */
         $event = $this->findEntity(Event::class, $data->eventId);
@@ -58,17 +56,9 @@ class EventPluginService extends AbstractEntityService {
             throw new \Error("EventType of Event and EventTypePlugin don't match");
         }
 
-        $this->assertAllowed($event, Acl::REST_PRIVILEGE_UPDATE);
-
         $eventPlugin->setEvent($event);
         $eventPlugin->setPlugin($eventTypePlugin->getPlugin());
         $eventPlugin->setPluginStrategyProvider($this->getPluginStrategyProvider());
-
-        // manual persist necessary because parent::create was called with $persist=false
-        if ($persist) {
-            $this->getServiceUtils()->emPersist($eventPlugin);
-            $this->getServiceUtils()->emFlush();
-        }
 
         return $eventPlugin;
     }

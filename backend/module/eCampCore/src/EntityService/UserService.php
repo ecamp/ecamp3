@@ -59,7 +59,6 @@ class UserService extends AbstractEntityService {
 
     /**
      * @param mixed $data
-     * @param mixed $persist
      *
      * @throws NoAccessException
      * @throws ORMException
@@ -67,7 +66,7 @@ class UserService extends AbstractEntityService {
      *
      * @return ApiProblem|mixed|User
      */
-    public function create($data, bool $persist = true) {
+    public function create($data) {
         /** @var Profile $profile */
         $profile = $data;
 
@@ -85,7 +84,7 @@ class UserService extends AbstractEntityService {
         }
 
         /** @var User $user */
-        $user = parent::create($data, $persist);
+        $user = parent::create($data);
         $user->setState($state);
         $user->setRole(User::ROLE_USER);
 

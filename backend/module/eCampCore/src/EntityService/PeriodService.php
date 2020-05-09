@@ -34,19 +34,18 @@ class PeriodService extends AbstractEntityService {
 
     /**
      * @param mixed $data
-     * @param mixed $persist
      *
      * @throws ORMException
      * @throws NoAccessException
      *
      * @return ApiProblem|Period
      */
-    public function create($data, bool $persist = true) {
+    public function create($data) {
         /** @var Camp $camp */
         $camp = $this->findEntity(Camp::class, $data->campId);
 
         /** @var Period $period */
-        $period = parent::create($data, $persist);
+        $period = parent::create($data);
         $camp->addPeriod($period);
         $this->getServiceUtils()->emFlush();
 

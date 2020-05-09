@@ -24,19 +24,18 @@ class DayService extends AbstractEntityService {
 
     /**
      * @param mixed $data
-     * @param mixed $persist
      *
      * @throws ORMException
      * @throws NoAccessException
      *
      * @return ApiProblem|Day
      */
-    public function create($data, bool $persist = true) {
+    public function create($data) {
         /** @var Period $period */
         $period = $this->findEntity(Period::class, $data->periodId);
 
         /** @var Day $day */
-        $day = parent::create($data, $persist);
+        $day = parent::create($data);
         $period->addDay($day);
 
         return $day;
