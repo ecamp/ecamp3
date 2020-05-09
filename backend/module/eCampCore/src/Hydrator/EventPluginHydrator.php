@@ -42,7 +42,7 @@ class EventPluginHydrator implements HydratorInterface {
             'instance_name' => $eventPlugin->getInstanceName(),
             'plugin_name' => $plugin->getName(),
 
-            'event_type_plugin' => new EntityLink($eventPlugin->getEventTypePlugin()),
+            'plugin' => new EntityLink($eventPlugin->getPlugin()),
 
             'event' => Link::factory([
                 'rel' => 'event',

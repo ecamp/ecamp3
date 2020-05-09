@@ -24,11 +24,11 @@ class EventPlugin extends BaseEntity implements PluginStrategyProviderAware {
     public $event;
 
     /**
-     * @var EventTypePlugin
-     * @ORM\ManyToOne(targetEntity="EventTypePlugin")
+     * @var Plugin
+     * @ORM\ManyToOne(targetEntity="Plugin")
      * @ORM\JoinColumn(nullable=false)
      */
-    protected $eventTypePlugin;
+    protected $plugin;
 
     /**
      * @var string
@@ -52,22 +52,23 @@ class EventPlugin extends BaseEntity implements PluginStrategyProviderAware {
     }
 
     /**
-     * @return EventTypePlugin
-     */
-    public function getEventTypePlugin() {
-        return $this->eventTypePlugin;
-    }
-
-    public function setEventTypePlugin(EventTypePlugin $eventTypePlugin): void {
-        $this->eventTypePlugin = $eventTypePlugin;
-    }
-
-    /**
      * @return Plugin
      */
     public function getPlugin() {
-        return (null != $this->eventTypePlugin) ? $this->eventTypePlugin->getPlugin() : null;
+        return $this->plugin;
     }
+
+    public function setPlugin(Plugin $plugin): void {
+        $this->plugin = $plugin;
+    }
+
+    /**
+     * @return EventTypePlugin
+     */
+    /*
+    public function getEventTypePlugin() {
+        return (null != $this->plugin) ? $this->eventTypePlugin->getPlugin() : null;
+    }*/
 
     /**
      * @return string

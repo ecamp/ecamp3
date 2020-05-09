@@ -35,11 +35,11 @@ class EventPluginTest extends AbstractTestCase {
 
         $eventPlugin = new EventPlugin();
         $eventPlugin->setEvent($event);
-        $eventPlugin->setEventTypePlugin($eventTypePlugin);
+        $eventPlugin->setPlugin($plugin);
         $eventPlugin->setInstanceName('EventPluginName');
 
         $this->assertEquals($event, $eventPlugin->getEvent());
-        $this->assertEquals($eventTypePlugin, $eventPlugin->getEventTypePlugin());
+        $this->assertEquals($plugin, $eventPlugin->getPlugin());
         $this->assertEquals('EventPluginName', $eventPlugin->getInstanceName());
         $this->assertEquals($plugin, $eventPlugin->getPlugin());
     }

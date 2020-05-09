@@ -142,7 +142,7 @@ class Event extends BaseEntity {
                 $pluginName .= str_pad($idx + 1, 2, '0');
 
                 $eventPlugin = new EventPlugin();
-                $eventPlugin->setEventTypePlugin($eventTypePlugin);
+                $eventPlugin->setPlugin($plugin);
                 $eventPlugin->setInstanceName($pluginName);
 
                 if ($pluginStrategyProvider) {

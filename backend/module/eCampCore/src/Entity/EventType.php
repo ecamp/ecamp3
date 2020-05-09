@@ -13,6 +13,8 @@ use eCamp\Lib\Entity\BaseEntity;
  * @ORM\Table(name="event_types")
  */
 class EventType extends BaseEntity {
+    const TEMPLATE_GENERAL = 'General';
+
     /**
      * @ORM\ManyToMany(targetEntity="CampType", mappedBy="eventTypes")
      */
@@ -44,6 +46,12 @@ class EventType extends BaseEntity {
 
     /**
      * @var string
+     * @ORM\Column(type="string", length=64, nullable=false)
+     */
+    private $template = self::TEMPLATE_GENERAL;
+
+    /**
+     * @var string
      * @ORM\Column(type="string", length=8, nullable=false)
      */
     private $defaultColor = '#1fa2df';
@@ -71,6 +79,17 @@ class EventType extends BaseEntity {
     }
 
     public function setName($name) {
+        $this->name = $name;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTemplate() {
+        return $this->name;
+    }
+
+    public function setTemplate($name) {
         $this->name = $name;
     }
 

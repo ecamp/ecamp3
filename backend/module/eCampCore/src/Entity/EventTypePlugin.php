@@ -29,13 +29,13 @@ class EventTypePlugin extends BaseEntity {
 
     /**
      * @var int
-     * @ORM\Column(type="integer", nullable=false)
+     * @ORM\Column(type="integer", nullable=true)
      */
     private $minNumberPluginInstances;
 
     /**
      * @var int
-     * @ORM\Column(type="integer", nullable=false)
+     * @ORM\Column(type="integer", nullable=true)
      */
     private $maxNumberPluginInstances;
 

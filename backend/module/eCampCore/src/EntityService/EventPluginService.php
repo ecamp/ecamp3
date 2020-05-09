@@ -51,7 +51,7 @@ class EventPluginService extends AbstractEntityService {
         $event = $this->findEntity(Event::class, $data->event_id);
 
         /** @var EventTypePlugin $eventTypePlugin */
-        $eventTypePlugin = $this->findEntity(EventTypePlugin::class, $data->event_type_plugin_id);
+        $eventTypePlugin = $this->findEntity(EventTypePlugin::class, $data->event_type_plugin_id); // POSSIBLE ALTERNATIVE: accept plugin_id instead of event_type_plugin_id
 
         // verify EventTypePlugin matches EventType of event
         if ($event->getEventType() !== $eventTypePlugin->getEventType()) {
@@ -61,7 +61,7 @@ class EventPluginService extends AbstractEntityService {
         $this->assertAllowed($event, Acl::REST_PRIVILEGE_UPDATE);
 
         $eventPlugin->setEvent($event);
-        $eventPlugin->setEventTypePlugin($eventTypePlugin);
+        $eventPlugin->setPlugin($eventTypePlugin->getPlugin());
         $eventPlugin->setPluginStrategyProvider($this->getPluginStrategyProvider());
 
         // manual persist necessary because parent::create was called with $persist=false
