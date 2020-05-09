@@ -28,7 +28,6 @@ class EventTypeHydrator implements HydratorInterface {
             'default_numbering_style' => $eventType->getDefaultNumberingStyle(),
             'event_type_plugins' => new EventTypePluginCollection($eventType->getEventTypePlugins()),
             //            'event_type_factories' => new EventTypeFactoryCollection($eventType->getEventTypeFactories()),
-            //            'event_templates' => new EventTemplateCollection($eventType->getEventTemplates()),
         ];
     }
 

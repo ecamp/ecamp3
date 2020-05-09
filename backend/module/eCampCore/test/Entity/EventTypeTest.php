@@ -4,7 +4,6 @@ namespace eCamp\CoreTest\Entity;
 
 use eCamp\Core\Entity\Event;
 use eCamp\Core\Entity\EventCategory;
-use eCamp\Core\Entity\EventTemplate;
 use eCamp\Core\Entity\EventType;
 use eCamp\Core\Entity\EventTypeFactory;
 use eCamp\Core\Entity\EventTypePlugin;
@@ -39,17 +38,6 @@ class EventTypeTest extends AbstractTestCase {
         $this->assertContains($eventTypeFactory, $eventType->getEventTypeFactories());
         $eventType->removeEventTypeFactory($eventTypeFactory);
         $this->assertEquals(0, $eventType->getEventTypeFactories()->count());
-    }
-
-    public function testEventTemplate() {
-        $eventType = new EventType();
-        $eventTemplate = new EventTemplate();
-
-        $this->assertEquals(0, $eventType->getEventTemplates()->count());
-        $eventType->addEventTemplate($eventTemplate);
-        $this->assertContains($eventTemplate, $eventType->getEventTemplates());
-        $eventType->removeEventTemplate($eventTemplate);
-        $this->assertEquals(0, $eventType->getEventTemplates()->count());
     }
 
     public function testEventTypePlugin() {

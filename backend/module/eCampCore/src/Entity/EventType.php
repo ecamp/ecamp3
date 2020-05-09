@@ -33,12 +33,6 @@ class EventType extends BaseEntity {
     protected $eventTypeFactories;
 
     /**
-     * @var ArrayCollection
-     * @ORM\OneToMany(targetEntity="EventTemplate", mappedBy="eventType", orphanRemoval=true)
-     */
-    protected $eventTemplates;
-
-    /**
      * @var string
      * @ORM\Column(type="string", length=64, nullable=false)
      */
@@ -68,7 +62,6 @@ class EventType extends BaseEntity {
         $this->campTypes = new ArrayCollection();
         $this->eventTypePlugins = new ArrayCollection();
         $this->eventTypeFactories = new ArrayCollection();
-        $this->eventTemplates = new ArrayCollection();
     }
 
     /**
@@ -147,22 +140,5 @@ class EventType extends BaseEntity {
     public function removeEventTypeFactory(EventTypeFactory $factory) {
         $factory->setEventType(null);
         $this->eventTypeFactories->removeElement($factory);
-    }
-
-    /**
-     * @return ArrayCollection
-     */
-    public function getEventTemplates() {
-        return $this->eventTemplates;
-    }
-
-    public function addEventTemplate(EventTemplate $eventTemplate) {
-        $eventTemplate->setEventType($this);
-        $this->eventTemplates->add($eventTemplate);
-    }
-
-    public function removeEventTemplate(EventTemplate $eventTemplateContainer) {
-        $eventTemplateContainer->setEventType(null);
-        $this->eventTemplates->removeElement($eventTemplateContainer);
     }
 }

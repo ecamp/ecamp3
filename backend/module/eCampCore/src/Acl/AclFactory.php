@@ -10,8 +10,6 @@ use eCamp\Core\Entity\Event;
 use eCamp\Core\Entity\EventCategory;
 use eCamp\Core\Entity\EventInstance;
 use eCamp\Core\Entity\EventPlugin;
-use eCamp\Core\Entity\EventTemplate;
-use eCamp\Core\Entity\EventTemplateContainer;
 use eCamp\Core\Entity\EventType;
 use eCamp\Core\Entity\EventTypeFactory;
 use eCamp\Core\Entity\EventTypePlugin;
@@ -56,9 +54,6 @@ class AclFactory implements FactoryInterface {
 
         $acl->addResource(EventInstance::class, BaseEntity::class);
 
-        $acl->addResource(EventTemplate::class, BaseEntity::class);
-        $acl->addResource(EventTemplateContainer::class, BaseEntity::class);
-
         $acl->addResource(User::class, BaseEntity::class);
         $acl->addResource(UserIdentity::class, BaseEntity::class);
 
@@ -78,8 +73,6 @@ class AclFactory implements FactoryInterface {
                 EventCategory::class,
                 EventType::class,
                 EventInstance::class,
-                EventTemplate::class,
-                EventTemplateContainer::class,
                 EventTypeFactory::class,
                 EventTypePlugin::class,
                 Plugin::class,

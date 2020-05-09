@@ -5,8 +5,6 @@ namespace eCamp\CoreData;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-use eCamp\Core\Entity\EventTemplate;
-use eCamp\Core\Entity\EventTemplateContainer;
 use eCamp\Core\Entity\EventType;
 use eCamp\Core\Entity\EventTypeFactory;
 use eCamp\Core\Entity\EventTypePlugin;
@@ -47,19 +45,6 @@ class EventTypeData extends AbstractFixture implements DependentFixtureInterface
             $eventTypeFactory->setFactoryName('');
             $eventType->addEventTypeFactory($eventTypeFactory);
             $manager->persist($eventTypeFactory);
-
-            $eventTemplate = new EventTemplate();
-            $eventTemplate->setMedium(EventTemplate::MEDIUM_WEB);
-            $eventTemplate->setFilename('ls_web');
-            $eventType->addEventTemplate($eventTemplate);
-            $manager->persist($eventTemplate);
-
-            $eventTemplateCont = new EventTemplateContainer();
-            $eventTemplateCont->setContainerName('a');
-            $eventTemplateCont->setFilename('a.html');
-            $eventTemplateCont->setEventTypePlugin($eventTypePlugin);
-            $eventTemplate->addEventTemplateContainer($eventTemplateCont);
-            $manager->persist($eventTemplateCont);
         }
 
         $this->addReference(self::$LAGERSPORT, $eventType);

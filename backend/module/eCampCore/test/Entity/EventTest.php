@@ -37,7 +37,7 @@ class EventTest extends AbstractTestCase {
         $this->assertEquals($eventType, $event->getEventType());
     }
 
-    public function testEventTemplate() {
+    public function testEventPlugin() {
         $event = new Event();
         $eventPlugin = new EventPlugin();
 
