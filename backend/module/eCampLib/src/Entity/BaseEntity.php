@@ -20,13 +20,13 @@ abstract class BaseEntity implements ResourceInterface {
 
     /**
      * @var \DateTime
-     * @ORM\Column(name="create_time", type="datetime")
+     * @ORM\Column(type="datetime")
      */
     protected $createTime;
 
     /**
      * @var \DateTime
-     * @ORM\Column(name="update_time", type="datetime")
+     * @ORM\Column(type="datetime")
      */
     protected $updateTime;
 

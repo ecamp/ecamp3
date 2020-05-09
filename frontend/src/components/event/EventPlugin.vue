@@ -21,7 +21,7 @@ import Storyboard from '@/components/event/plugins/Storyboard'
 import Richtext from '@/components/event/plugins/Richtext'
 
 export default {
-  name: 'EventTypePlugin',
+  name: 'EventPlugin',
   components: {
     Textarea,
     Storyboard,
