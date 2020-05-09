@@ -20,9 +20,9 @@ class EventTypePluginService extends AbstractEntityService {
     protected function fetchAllQueryBuilder($params = []) {
         $q = parent::fetchAllQueryBuilder($params);
 
-        if (isset($params['event_type_id'])) {
+        if (isset($params['eventTypeId'])) {
             $q->andWhere('row.eventType = :eventTypeId');
-            $q->setParameter('eventTypeId', $params['event_type_id']);
+            $q->setParameter('eventTypeId', $params['eventTypeId']);
         }
 
         return $q;

@@ -32,7 +32,7 @@ class CampHydrator implements HydratorInterface {
                             'rel' => 'camp_collaborations',
                             'route' => [
                                 'name' => 'e-camp-api.rest.doctrine.camp-collaboration',
-                                'options' => ['query' => ['camp_id' => $c->getId()]],
+                                'options' => ['query' => ['campId' => $c->getId()]],
                             ],
                         ]),
                     ];
@@ -79,7 +79,7 @@ class CampHydrator implements HydratorInterface {
                 'rel' => 'events',
                 'route' => [
                     'name' => 'e-camp-api.rest.doctrine.event',
-                    'options' => ['query' => ['camp_id' => $camp->getId()]],
+                    'options' => ['query' => ['campId' => $camp->getId()]],
                 ],
             ]),
         ];

@@ -40,7 +40,7 @@ abstract class BasePluginService extends AbstractEntityService {
      * @return array
      */
     public function fetchAllFromEventPlugin($eventPluginId) {
-        $q = $this->fetchAllQueryBuilder(['event_plugin_id' => $eventPluginId]);
+        $q = $this->fetchAllQueryBuilder(['eventPluginId' => $eventPluginId]);
 
         return $this->getQueryResult($q);
     }
@@ -57,9 +57,9 @@ abstract class BasePluginService extends AbstractEntityService {
         /** @var BasePluginEntity $entity */
         $entity = parent::createEntity($data);
 
-        if (isset($data['event_plugin_id'])) {
+        if (isset($data['eventPluginId'])) {
             /** @var EventPlugin $eventPlugin */
-            $eventPlugin = $this->findEntity(EventPlugin::class, $data['event_plugin_id']);
+            $eventPlugin = $this->findEntity(EventPlugin::class, $data['eventPluginId']);
             $entity->setEventPlugin($eventPlugin);
         } elseif ($eventPlugin) {
             $entity->setEventPlugin($eventPlugin);
@@ -71,9 +71,9 @@ abstract class BasePluginService extends AbstractEntityService {
     protected function fetchAllQueryBuilder($params = []) {
         $q = parent::fetchAllQueryBuilder($params);
 
-        if (isset($params['event_plugin_id'])) {
-            $q->andWhere('row.eventPlugin = :eventPlugin_id');
-            $q->setParameter('eventPlugin_id', $params['event_plugin_id']);
+        if (isset($params['eventPluginId'])) {
+            $q->andWhere('row.eventPlugin = :eventpluginId');
+            $q->setParameter('eventpluginId', $params['eventPluginId']);
         }
 
         return $q;

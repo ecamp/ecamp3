@@ -75,13 +75,13 @@ EventTypes define some initial values for new EventCategories.',
             'GET' => [
                 'description' => 'List of all EventCategories  
 Filters:  
-- camp_id = [camp-id]',
+- campId = [camp-id]',
             ],
             'POST' => [
                 'description' => 'Add new EventCategory',
                 'request' => '{
-   "camp_id": "camp-id",
-   "event_type_id": "event-type-id",
+   "campId": "camp-id",
+   "eventTypeId": "event-type-id",
    "short": "LS",
    "name": "Lagersport",
    "color": "22FF22",
@@ -108,14 +108,14 @@ EventCategory defines some rules for e Event.
             'GET' => [
                 'description' => 'List of all Events  
 Filters:  
-- camp_id = [camp-id]',
+- campId = [camp-id]',
             ],
             'POST' => [
                 'description' => 'Add new Event',
                 'request' => '{
    "title": "Event-Title",
-   "camp_id": "camp-id",
-   "event_category_id": "event-category-id"
+   "campId": "camp-id",
+   "eventCategoryId": "event-category-id"
 }',
             ],
         ],

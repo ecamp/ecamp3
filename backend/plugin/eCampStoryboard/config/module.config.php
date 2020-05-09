@@ -6,7 +6,7 @@ return [
             'e-camp-api.rest.doctrine.event-plugin.storyboard' => [
                 'type' => 'Segment',
                 'options' => [
-                    'route' => '/api/plugin/storyboards[/:section_id]',
+                    'route' => '/api/plugin/storyboards[/:sectionId]',
                     'defaults' => [
                         'controller' => \eCamp\Plugin\Storyboard\Controller\SectionController::class,
                     ],
@@ -32,7 +32,7 @@ return [
             'listener' => \eCamp\Plugin\Storyboard\Service\SectionService::class,
             'controller_class' => \eCamp\Plugin\Storyboard\Controller\SectionController::class,
             'route_name' => 'e-camp-api.rest.doctrine.event-plugin.storyboard',
-            'route_identifier_name' => 'section_id',
+            'route_identifier_name' => 'sectionId',
             'entity_identifier_name' => 'id',
             'collection_name' => 'items',
             'entity_http_methods' => [
@@ -46,7 +46,7 @@ return [
                 1 => 'POST',
             ],
             'collection_query_whitelist' => [
-                0 => 'event_plugin_id',
+                0 => 'eventPluginId',
                 1 => 'page_size',
             ],
             'page_size' => -1,
@@ -60,11 +60,11 @@ return [
     'zf-hal' => [
         'metadata_map' => [
             \eCamp\Plugin\Storyboard\Entity\Section::class => [
-                'route_identifier_name' => 'section_id',
+                'route_identifier_name' => 'sectionId',
                 'entity_identifier_name' => 'id',
                 'route_name' => 'e-camp-api.rest.doctrine.event-plugin.storyboard',
                 'route_params' => [
-                    'event_plugin_id' => function ($object) {
+                    'eventPluginId' => function ($object) {
                         return $object->getEventPlugin()->getId();
                     },
                 ],

@@ -340,8 +340,8 @@ abstract class AbstractEntityService extends AbstractResourceListener {
      */
     protected function findEntityQueryBuilder($className, $alias, $id) {
         $q = $this->createQueryBuilder($className, $alias);
-        $q->andWhere($alias.'.id = :entity_id');
-        $q->setParameter('entity_id', $id);
+        $q->andWhere($alias.'.id = :entityId');
+        $q->setParameter('entityId', $id);
 
         return $q;
     }

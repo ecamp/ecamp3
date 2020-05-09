@@ -40,7 +40,7 @@ export default {
   data () {
     return {
       entityProperties: [
-        'camp_id',
+        'campId',
         'description',
         'start',
         'end'
@@ -51,7 +51,7 @@ export default {
   watch: {
     showDialog: function (showDialog) {
       if (showDialog) {
-        this.setEntityData({ camp_id: this.camp.id })
+        this.setEntityData({ campId: this.camp.id })
       } else {
         // clear form on exit
         this.clearEntityData()

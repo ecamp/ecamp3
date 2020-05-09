@@ -48,7 +48,7 @@ class EventPluginHydrator implements HydratorInterface {
                 'rel' => 'event',
                 'route' => [
                     'name' => 'e-camp-api.rest.doctrine.event',
-                    'params' => ['event_id' => $eventPlugin->getEvent()->getId()],
+                    'params' => ['eventId' => $eventPlugin->getEvent()->getId()],
                 ],
             ]),
         ];

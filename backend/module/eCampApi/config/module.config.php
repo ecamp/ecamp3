@@ -36,7 +36,7 @@ return [
             'e-camp-api.rest.doctrine.camp-type' => [
                 'type' => 'Segment',
                 'options' => [
-                    'route' => '/api/camp-types[/:camp_type_id]',
+                    'route' => '/api/camp-types[/:campTypeId]',
                     'defaults' => [
                         'controller' => 'eCampApi\\V1\\Rest\\CampType\\Controller',
                     ],
@@ -45,7 +45,7 @@ return [
             'e-camp-api.rest.doctrine.event-type' => [
                 'type' => 'Segment',
                 'options' => [
-                    'route' => '/api/event-types[/:event_type_id]',
+                    'route' => '/api/event-types[/:eventTypeId]',
                     'defaults' => [
                         'controller' => 'eCampApi\\V1\\Rest\\EventType\\Controller',
                     ],
@@ -54,7 +54,7 @@ return [
             'e-camp-api.rest.doctrine.organization' => [
                 'type' => 'Segment',
                 'options' => [
-                    'route' => '/api/organizations[/:organization_id]',
+                    'route' => '/api/organizations[/:organizationId]',
                     'defaults' => [
                         'controller' => 'eCampApi\\V1\\Rest\\Organization\\Controller',
                     ],
@@ -63,7 +63,7 @@ return [
             'e-camp-api.rest.doctrine.camp' => [
                 'type' => 'Segment',
                 'options' => [
-                    'route' => '/api/camps[/:camp_id]',
+                    'route' => '/api/camps[/:campId]',
                     'defaults' => [
                         'controller' => 'eCampApi\\V1\\Rest\\Camp\\Controller',
                     ],
@@ -72,7 +72,7 @@ return [
             'e-camp-api.rest.doctrine.period' => [
                 'type' => 'Segment',
                 'options' => [
-                    'route' => '/api/periods[/:period_id]',
+                    'route' => '/api/periods[/:periodId]',
                     'defaults' => [
                         'controller' => 'eCampApi\\V1\\Rest\\Period\\Controller',
                     ],
@@ -81,7 +81,7 @@ return [
             'e-camp-api.rest.doctrine.day' => [
                 'type' => 'Segment',
                 'options' => [
-                    'route' => '/api/days[/:day_id]',
+                    'route' => '/api/days[/:dayId]',
                     'defaults' => [
                         'controller' => 'eCampApi\\V1\\Rest\\Day\\Controller',
                     ],
@@ -90,7 +90,7 @@ return [
             'e-camp-api.rest.doctrine.event' => [
                 'type' => 'Segment',
                 'options' => [
-                    'route' => '/api/events[/:event_id]',
+                    'route' => '/api/events[/:eventId]',
                     'defaults' => [
                         'controller' => 'eCampApi\\V1\\Rest\\Event\\Controller',
                     ],
@@ -99,7 +99,7 @@ return [
             'e-camp-api.rest.doctrine.event-category' => [
                 'type' => 'Segment',
                 'options' => [
-                    'route' => '/api/event-categories[/:event_category_id]',
+                    'route' => '/api/event-categories[/:eventCategoryId]',
                     'defaults' => [
                         'controller' => 'eCampApi\\V1\\Rest\\EventCategory\\Controller',
                     ],
@@ -108,7 +108,7 @@ return [
             'e-camp-api.rest.doctrine.event-instance' => [
                 'type' => 'Segment',
                 'options' => [
-                    'route' => '/api/event-instances[/:event_instance_id]',
+                    'route' => '/api/event-instances[/:eventInstanceId]',
                     'defaults' => [
                         'controller' => 'eCampApi\\V1\\Rest\\EventInstance\\Controller',
                     ],
@@ -117,7 +117,7 @@ return [
             'e-camp-api.rest.doctrine.user' => [
                 'type' => 'Segment',
                 'options' => [
-                    'route' => '/api/users[/:user_id]',
+                    'route' => '/api/users[/:userId]',
                     'defaults' => [
                         'controller' => 'eCampApi\\V1\\Rest\\User\\Controller',
                     ],
@@ -126,7 +126,7 @@ return [
             'e-camp-api.rest.doctrine.camp-collaboration' => [
                 'type' => 'Segment',
                 'options' => [
-                    'route' => '/api/camp-collaborations[/:camp_collaboration_id]',
+                    'route' => '/api/camp-collaborations[/:campCollaborationId]',
                     'defaults' => [
                         'controller' => 'eCampApi\\V1\\Rest\\CampCollaboration\\Controller',
                     ],
@@ -135,7 +135,7 @@ return [
             'e-camp-api.rest.doctrine.event-plugin' => [
                 'type' => 'Segment',
                 'options' => [
-                    'route' => '/api/event-plugins[/:event_plugin_id]',
+                    'route' => '/api/event-plugins[/:eventPluginId]',
                     'defaults' => [
                         'controller' => 'eCampApi\\V1\\Rest\\EventPlugin\\Controller',
                     ],
@@ -144,7 +144,7 @@ return [
             'e-camp-api.rest.doctrine.plugin' => [
                 'type' => 'Segment',
                 'options' => [
-                    'route' => '/api/plugins[/:plugin_id]',
+                    'route' => '/api/plugins[/:pluginId]',
                     'defaults' => [
                         'controller' => 'eCampApi\\V1\\Rest\\Plugin\\Controller',
                     ],
@@ -153,7 +153,7 @@ return [
             'e-camp-api.rest.doctrine.event-type-plugin' => [
                 'type' => 'Segment',
                 'options' => [
-                    'route' => '/api/event-type-plugins[/:event_type_plugin_id]',
+                    'route' => '/api/event-type-plugins[/:event_type_pluginId]',
                     'defaults' => [
                         'controller' => 'eCampApi\\V1\\Rest\\EventTypePlugin\\Controller',
                     ],
@@ -195,7 +195,7 @@ return [
         'eCampApi\\V1\\Rest\\CampType\\Controller' => [
             'listener' => 'eCamp\\Core\\EntityService\\CampTypeService',
             'route_name' => 'e-camp-api.rest.doctrine.camp-type',
-            'route_identifier_name' => 'camp_type_id',
+            'route_identifier_name' => 'campTypeId',
             'entity_identifier_name' => 'id',
             'collection_name' => 'items',
             'entity_http_methods' => [
@@ -216,7 +216,7 @@ return [
         'eCampApi\\V1\\Rest\\EventType\\Controller' => [
             'listener' => 'eCamp\\Core\\EntityService\\EventTypeService',
             'route_name' => 'e-camp-api.rest.doctrine.event-type',
-            'route_identifier_name' => 'event_type_id',
+            'route_identifier_name' => 'eventTypeId',
             'entity_identifier_name' => 'id',
             'collection_name' => 'items',
             'entity_http_methods' => [
@@ -226,7 +226,7 @@ return [
                 0 => 'GET',
             ],
             'collection_query_whitelist' => [
-                0 => 'camp_type_id',
+                0 => 'campTypeId',
                 1 => 'page_size',
             ],
             'page_size' => -1,
@@ -238,7 +238,7 @@ return [
         'eCampApi\\V1\\Rest\\Organization\\Controller' => [
             'listener' => 'eCamp\\Core\\EntityService\\OrganizationService',
             'route_name' => 'e-camp-api.rest.doctrine.organization',
-            'route_identifier_name' => 'organization_id',
+            'route_identifier_name' => 'organizationId',
             'entity_identifier_name' => 'id',
             'collection_name' => 'items',
             'entity_http_methods' => [
@@ -263,7 +263,7 @@ return [
         'eCampApi\\V1\\Rest\\Camp\\Controller' => [
             'listener' => 'eCamp\\Core\\EntityService\\CampService',
             'route_name' => 'e-camp-api.rest.doctrine.camp',
-            'route_identifier_name' => 'camp_id',
+            'route_identifier_name' => 'campId',
             'entity_identifier_name' => 'id',
             'collection_name' => 'items',
             'entity_http_methods' => [
@@ -288,7 +288,7 @@ return [
         'eCampApi\\V1\\Rest\\Period\\Controller' => [
             'listener' => 'eCamp\\Core\\EntityService\\PeriodService',
             'route_name' => 'e-camp-api.rest.doctrine.period',
-            'route_identifier_name' => 'period_id',
+            'route_identifier_name' => 'periodId',
             'entity_identifier_name' => 'id',
             'collection_name' => 'items',
             'entity_http_methods' => [
@@ -302,7 +302,7 @@ return [
                 1 => 'POST',
             ],
             'collection_query_whitelist' => [
-                0 => 'camp_id',
+                0 => 'campId',
                 1 => 'page_size',
             ],
             'page_size' => -1,
@@ -314,7 +314,7 @@ return [
         'eCampApi\\V1\\Rest\\Day\\Controller' => [
             'listener' => 'eCamp\\Core\\EntityService\\DayService',
             'route_name' => 'e-camp-api.rest.doctrine.day',
-            'route_identifier_name' => 'day_id',
+            'route_identifier_name' => 'dayId',
             'entity_identifier_name' => 'id',
             'collection_name' => 'items',
             'entity_http_methods' => [
@@ -328,8 +328,8 @@ return [
                 1 => 'POST',
             ],
             'collection_query_whitelist' => [
-                0 => 'camp_id',
-                1 => 'period_id',
+                0 => 'campId',
+                1 => 'periodId',
                 2 => 'page_size',
             ],
             'page_size' => -1,
@@ -341,7 +341,7 @@ return [
         'eCampApi\\V1\\Rest\\Event\\Controller' => [
             'listener' => 'eCamp\\Core\\EntityService\\EventService',
             'route_name' => 'e-camp-api.rest.doctrine.event',
-            'route_identifier_name' => 'event_id',
+            'route_identifier_name' => 'eventId',
             'entity_identifier_name' => 'id',
             'collection_name' => 'items',
             'entity_http_methods' => [
@@ -355,7 +355,7 @@ return [
                 1 => 'POST',
             ],
             'collection_query_whitelist' => [
-                0 => 'camp_id',
+                0 => 'campId',
                 1 => 'page_size',
             ],
             'page_size' => -1,
@@ -367,7 +367,7 @@ return [
         'eCampApi\\V1\\Rest\\EventCategory\\Controller' => [
             'listener' => 'eCamp\\Core\\EntityService\\EventCategoryService',
             'route_name' => 'e-camp-api.rest.doctrine.event-category',
-            'route_identifier_name' => 'event_category_id',
+            'route_identifier_name' => 'eventCategoryId',
             'entity_identifier_name' => 'id',
             'collection_name' => 'items',
             'entity_http_methods' => [
@@ -381,7 +381,7 @@ return [
                 1 => 'POST',
             ],
             'collection_query_whitelist' => [
-                0 => 'camp_id',
+                0 => 'campId',
                 1 => 'page_size',
             ],
             'page_size' => -1,
@@ -393,7 +393,7 @@ return [
         'eCampApi\\V1\\Rest\\EventInstance\\Controller' => [
             'listener' => 'eCamp\\Core\\EntityService\\EventInstanceService',
             'route_name' => 'e-camp-api.rest.doctrine.event-instance',
-            'route_identifier_name' => 'event_instance_id',
+            'route_identifier_name' => 'eventInstanceId',
             'entity_identifier_name' => 'id',
             'collection_name' => 'items',
             'entity_http_methods' => [
@@ -407,7 +407,7 @@ return [
                 1 => 'POST',
             ],
             'collection_query_whitelist' => [
-                0 => 'event_id',
+                0 => 'eventId',
                 1 => 'page_size',
             ],
             'page_size' => -1,
@@ -419,7 +419,7 @@ return [
         'eCampApi\\V1\\Rest\\User\\Controller' => [
             'listener' => 'eCamp\\Core\\EntityService\\UserService',
             'route_name' => 'e-camp-api.rest.doctrine.user',
-            'route_identifier_name' => 'user_id',
+            'route_identifier_name' => 'userId',
             'entity_identifier_name' => 'id',
             'collection_name' => 'items',
             'entity_http_methods' => [
@@ -445,7 +445,7 @@ return [
         'eCampApi\\V1\\Rest\\CampCollaboration\\Controller' => [
             'listener' => 'eCamp\\Core\\EntityService\\CampCollaborationService',
             'route_name' => 'e-camp-api.rest.doctrine.camp-collaboration',
-            'route_identifier_name' => 'camp_collaboration_id',
+            'route_identifier_name' => 'campCollaborationId',
             'entity_identifier_name' => 'id',
             'collection_name' => 'items',
             'entity_http_methods' => [
@@ -459,8 +459,8 @@ return [
                 1 => 'POST',
             ],
             'collection_query_whitelist' => [
-                0 => 'camp_id',
-                1 => 'user_id',
+                0 => 'campId',
+                1 => 'userId',
                 2 => 'page_size',
             ],
             'page_size' => -1,
@@ -472,7 +472,7 @@ return [
         'eCampApi\\V1\\Rest\\EventPlugin\\Controller' => [
             'listener' => 'eCamp\\Core\\EntityService\\EventPluginService',
             'route_name' => 'e-camp-api.rest.doctrine.event-plugin',
-            'route_identifier_name' => 'event_plugin_id',
+            'route_identifier_name' => 'eventPluginId',
             'entity_identifier_name' => 'id',
             'collection_name' => 'items',
             'entity_http_methods' => [
@@ -486,7 +486,7 @@ return [
                 1 => 'POST',
             ],
             'collection_query_whitelist' => [
-                0 => 'event_id',
+                0 => 'eventId',
                 1 => 'page_size',
             ],
             'page_size' => -1,
@@ -498,7 +498,7 @@ return [
         'eCampApi\\V1\\Rest\\Plugin\\Controller' => [
             'listener' => 'eCamp\\Core\\EntityService\\PluginService',
             'route_name' => 'e-camp-api.rest.doctrine.plugin',
-            'route_identifier_name' => 'plugin_id',
+            'route_identifier_name' => 'pluginId',
             'entity_identifier_name' => 'id',
             'collection_name' => 'items',
             'entity_http_methods' => [
@@ -519,7 +519,7 @@ return [
         'eCampApi\\V1\\Rest\\EventTypePlugin\\Controller' => [
             'listener' => 'eCamp\\Core\\EntityService\\EventTypePluginService',
             'route_name' => 'e-camp-api.rest.doctrine.event-type-plugin',
-            'route_identifier_name' => 'event_type_plugin_id',
+            'route_identifier_name' => 'event_type_pluginId',
             'entity_identifier_name' => 'id',
             'collection_name' => 'items',
             'entity_http_methods' => [
@@ -533,7 +533,7 @@ return [
                 1 => 'POST',
             ],
             'collection_query_whitelist' => [
-                0 => 'event_type_id',
+                0 => 'eventTypeId',
                 1 => 'page_size',
             ],
             'page_size' => -1,
@@ -740,7 +740,7 @@ return [
             //            ),
 
             'eCamp\\Core\\Entity\\CampType' => [
-                'route_identifier_name' => 'camp_type_id',
+                'route_identifier_name' => 'campTypeId',
                 'entity_identifier_name' => 'id',
                 'route_name' => 'e-camp-api.rest.doctrine.camp-type',
                 'hydrator' => 'eCamp\\Core\\Hydrator\\CampTypeHydrator',
@@ -753,7 +753,7 @@ return [
                 'max_depth' => 20,
             ],
             'eCamp\\Core\\Entity\\EventType' => [
-                'route_identifier_name' => 'event_type_id',
+                'route_identifier_name' => 'eventTypeId',
                 'entity_identifier_name' => 'id',
                 'route_name' => 'e-camp-api.rest.doctrine.event-type',
                 'hydrator' => 'eCamp\\Core\\Hydrator\\EventTypeHydrator',
@@ -766,7 +766,7 @@ return [
                 'max_depth' => 20,
             ],
             'eCamp\\Core\\Entity\\Organization' => [
-                'route_identifier_name' => 'organization_id',
+                'route_identifier_name' => 'organizationId',
                 'entity_identifier_name' => 'id',
                 'route_name' => 'e-camp-api.rest.doctrine.organization',
                 'hydrator' => 'eCamp\\Core\\Hydrator\\OrganizationHydrator',
@@ -779,7 +779,7 @@ return [
                 'max_depth' => 20,
             ],
             'eCamp\\Core\\Entity\\Camp' => [
-                'route_identifier_name' => 'camp_id',
+                'route_identifier_name' => 'campId',
                 'entity_identifier_name' => 'id',
                 'route_name' => 'e-camp-api.rest.doctrine.camp',
                 'hydrator' => 'eCamp\\Core\\Hydrator\\CampHydrator',
@@ -792,7 +792,7 @@ return [
                 'max_depth' => 20,
             ],
             'eCamp\\Core\\Entity\\Period' => [
-                'route_identifier_name' => 'period_id',
+                'route_identifier_name' => 'periodId',
                 'entity_identifier_name' => 'id',
                 'route_name' => 'e-camp-api.rest.doctrine.period',
                 'hydrator' => 'eCamp\\Core\\Hydrator\\PeriodHydrator',
@@ -805,7 +805,7 @@ return [
                 'max_depth' => 20,
             ],
             'eCamp\\Core\\Entity\\Day' => [
-                'route_identifier_name' => 'day_id',
+                'route_identifier_name' => 'dayId',
                 'entity_identifier_name' => 'id',
                 'route_name' => 'e-camp-api.rest.doctrine.day',
                 'hydrator' => 'eCamp\\Core\\Hydrator\\DayHydrator',
@@ -818,7 +818,7 @@ return [
                 'max_depth' => 20,
             ],
             'eCamp\\Core\\Entity\\Event' => [
-                'route_identifier_name' => 'event_id',
+                'route_identifier_name' => 'eventId',
                 'entity_identifier_name' => 'id',
                 'route_name' => 'e-camp-api.rest.doctrine.event',
                 'hydrator' => 'eCamp\\Core\\Hydrator\\EventHydrator',
@@ -831,7 +831,7 @@ return [
                 'max_depth' => 20,
             ],
             'eCamp\\Core\\Entity\\EventCategory' => [
-                'route_identifier_name' => 'event_category_id',
+                'route_identifier_name' => 'eventCategoryId',
                 'entity_identifier_name' => 'id',
                 'route_name' => 'e-camp-api.rest.doctrine.event-category',
                 'hydrator' => 'eCamp\\Core\\Hydrator\\EventCategoryHydrator',
@@ -844,7 +844,7 @@ return [
                 'max_depth' => 20,
             ],
             'eCamp\\Core\\Entity\\EventInstance' => [
-                'route_identifier_name' => 'event_instance_id',
+                'route_identifier_name' => 'eventInstanceId',
                 'entity_identifier_name' => 'id',
                 'route_name' => 'e-camp-api.rest.doctrine.event-instance',
                 'hydrator' => 'eCamp\\Core\\Hydrator\\EventInstanceHydrator',
@@ -857,7 +857,7 @@ return [
                 'max_depth' => 20,
             ],
             'eCamp\\Core\\Entity\\User' => [
-                'route_identifier_name' => 'user_id',
+                'route_identifier_name' => 'userId',
                 'entity_identifier_name' => 'id',
                 'route_name' => 'e-camp-api.rest.doctrine.user',
                 'hydrator' => 'eCamp\\Core\\Hydrator\\UserHydrator',
@@ -870,7 +870,7 @@ return [
                 'max_depth' => 20,
             ],
             'eCamp\\Core\\Entity\\CampCollaboration' => [
-                'route_identifier_name' => 'camp_collaboration_id',
+                'route_identifier_name' => 'campCollaborationId',
                 'entity_identifier_name' => 'id',
                 'route_name' => 'e-camp-api.rest.doctrine.camp-collaboration',
                 'hydrator' => 'eCamp\\Core\\Hydrator\\CampCollaborationHydrator',
@@ -883,7 +883,7 @@ return [
                 'max_depth' => 20,
             ],
             'eCamp\\Core\\Entity\\EventPlugin' => [
-                'route_identifier_name' => 'event_plugin_id',
+                'route_identifier_name' => 'eventPluginId',
                 'entity_identifier_name' => 'id',
                 'route_name' => 'e-camp-api.rest.doctrine.event-plugin',
                 'hydrator' => 'eCamp\\Core\\Hydrator\\EventPluginHydrator',
@@ -894,7 +894,7 @@ return [
                 'is_collection' => true,
             ],
             'eCamp\\Core\\Entity\\Plugin' => [
-                'route_identifier_name' => 'plugin_id',
+                'route_identifier_name' => 'pluginId',
                 'entity_identifier_name' => 'id',
                 'route_name' => 'e-camp-api.rest.doctrine.plugin',
                 'hydrator' => 'eCamp\\Core\\Hydrator\\PluginHydrator',
@@ -905,7 +905,7 @@ return [
                 'is_collection' => true,
             ],
             'eCamp\\Core\\Entity\\EventTypePlugin' => [
-                'route_identifier_name' => 'event_type_plugin_id',
+                'route_identifier_name' => 'event_type_pluginId',
                 'entity_identifier_name' => 'id',
                 'route_name' => 'e-camp-api.rest.doctrine.event-type-plugin',
                 'hydrator' => 'eCamp\\Core\\Hydrator\\EventTypePluginHydrator',

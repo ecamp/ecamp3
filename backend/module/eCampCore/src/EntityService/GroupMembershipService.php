@@ -47,14 +47,14 @@ class GroupMembershipService extends AbstractEntityService {
      */
     public function create($data, bool $persist = true) {
         $authUser = $this->getAuthUser();
-        if (!isset($data->user_id)) {
-            $data->user_id = $authUser->getId();
+        if (!isset($data->userId)) {
+            $data->userId = $authUser->getId();
         }
 
         /** @var Group $group */
-        $group = $this->findEntity(Group::class, $data->group_id);
+        $group = $this->findEntity(Group::class, $data->groupId);
         /** @var User $user */
-        $user = $this->findEntity(User::class, $data->user_id);
+        $user = $this->findEntity(User::class, $data->userId);
 
         if (!isset($data->role)) {
             $data->role = GroupMembership::ROLE_MEMBER;
@@ -66,7 +66,7 @@ class GroupMembershipService extends AbstractEntityService {
         $groupMembership->setUser($user);
         $groupMembership->setRole($data->role);
 
-        if ($data->user_id === $authUser->getId()) {
+        if ($data->userId === $authUser->getId()) {
             // Create GroupMembership for AuthUser
             $groupMembership->setStatus(GroupMembership::STATUS_REQUESTED);
         } else {

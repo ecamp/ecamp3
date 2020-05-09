@@ -36,11 +36,11 @@ class EventCategoryService extends AbstractEntityService {
         $eventCategory = parent::create($data, $persist);
 
         /** @var EventType $eventType */
-        $eventType = $this->findEntity(EventType::class, $data->event_type_id);
+        $eventType = $this->findEntity(EventType::class, $data->eventTypeId);
         $eventCategory->setEventType($eventType);
 
         /** @var Camp $camp */
-        $camp = $this->findEntity(Camp::class, $data->camp_id);
+        $camp = $this->findEntity(Camp::class, $data->campId);
         $camp->addEventCategory($eventCategory);
 
         return $eventCategory;
@@ -50,9 +50,9 @@ class EventCategoryService extends AbstractEntityService {
         $q = parent::fetchAllQueryBuilder($params);
         $q->andWhere($this->createFilter($q, Camp::class, 'row', 'camp'));
 
-        if (isset($params['camp_id'])) {
+        if (isset($params['campId'])) {
             $q->andWhere('row.camp = :campId');
-            $q->setParameter('campId', $params['camp_id']);
+            $q->setParameter('campId', $params['campId']);
         }
 
         return $q;

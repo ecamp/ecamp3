@@ -25,7 +25,7 @@ class SectionHydrator implements HydratorInterface {
                 'rel' => 'event_plugin',
                 'route' => [
                     'name' => 'e-camp-api.rest.doctrine.event-plugin',
-                    'params' => ['event_plugin_id' => $section->getEventPlugin()->getId()],
+                    'params' => ['eventPluginId' => $section->getEventPlugin()->getId()],
                 ],
             ]),
 
@@ -34,7 +34,7 @@ class SectionHydrator implements HydratorInterface {
                 'route' => [
                     'name' => 'e-camp-api.rest.doctrine.event-plugin.storyboard/move',
                     'params' => [
-                        'section_id' => $section->getId(),
+                        'sectionId' => $section->getId(),
                         'action' => 'move_up',
                     ],
                 ],
@@ -44,7 +44,7 @@ class SectionHydrator implements HydratorInterface {
                 'route' => [
                     'name' => 'e-camp-api.rest.doctrine.event-plugin.storyboard/move',
                     'params' => [
-                        'section_id' => $section->getId(),
+                        'sectionId' => $section->getId(),
                         'action' => 'move_down',
                     ],
                 ],

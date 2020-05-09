@@ -45,8 +45,8 @@ export default {
     async addEventPlugin () {
       this.isAdding = true
       await this.api.post('/event-plugins', {
-        event_id: this.event.id,
-        event_type_plugin_id: this.eventTypePlugin.id // POSSIBLE ALTERNATIVE: post with plugin_id of event_type_plugin_id
+        eventId: this.event.id,
+        event_type_pluginId: this.eventTypePlugin.id // POSSIBLE ALTERNATIVE: post with pluginId of event_type_pluginId
       })
       await this.refreshEvent()
       this.isAdding = false

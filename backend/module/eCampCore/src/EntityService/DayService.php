@@ -33,7 +33,7 @@ class DayService extends AbstractEntityService {
      */
     public function create($data, bool $persist = true) {
         /** @var Period $period */
-        $period = $this->findEntity(Period::class, $data->period_id);
+        $period = $this->findEntity(Period::class, $data->periodId);
 
         /** @var Day $day */
         $day = parent::create($data, $persist);
@@ -64,14 +64,14 @@ class DayService extends AbstractEntityService {
         $q->join('row.period', 'p');
         $q->andWhere($this->createFilter($q, Camp::class, 'p', 'camp'));
 
-        if (isset($params['camp_id'])) {
+        if (isset($params['campId'])) {
             $q->andWhere('p.camp = :campId');
-            $q->setParameter('campId', $params['camp_id']);
+            $q->setParameter('campId', $params['campId']);
         }
 
-        if (isset($params['period_id'])) {
+        if (isset($params['periodId'])) {
             $q->andWhere('row.period = :periodId');
-            $q->setParameter('periodId', $params['period_id']);
+            $q->setParameter('periodId', $params['periodId']);
         }
 
         $q->orderBy('row.period, row.dayOffset');

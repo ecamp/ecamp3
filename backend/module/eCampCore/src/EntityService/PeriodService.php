@@ -43,7 +43,7 @@ class PeriodService extends AbstractEntityService {
      */
     public function create($data, bool $persist = true) {
         /** @var Camp $camp */
-        $camp = $this->findEntity(Camp::class, $data->camp_id);
+        $camp = $this->findEntity(Camp::class, $data->campId);
 
         /** @var Period $period */
         $period = parent::create($data, $persist);
@@ -53,7 +53,7 @@ class PeriodService extends AbstractEntityService {
         $durationInDays = $period->getDurationInDays();
         for ($idx = 0; $idx < $durationInDays; ++$idx) {
             $this->dayService->create((object) [
-                'period_id' => $period->getId(),
+                'periodId' => $period->getId(),
                 'day_offset' => $idx,
             ]);
         }
@@ -105,9 +105,9 @@ class PeriodService extends AbstractEntityService {
         $q = parent::fetchAllQueryBuilder($params);
         $q->andWhere($this->createFilter($q, Camp::class, 'row', 'camp'));
 
-        if (isset($params['camp_id'])) {
+        if (isset($params['campId'])) {
             $q->andWhere('row.camp = :campId');
-            $q->setParameter('campId', $params['camp_id']);
+            $q->setParameter('campId', $params['campId']);
         }
 
         return $q;
@@ -144,7 +144,7 @@ class PeriodService extends AbstractEntityService {
 
             if ($day->isEmpty()) {
                 $this->dayService->create((object) [
-                    'period_id' => $period->getId(),
+                    'periodId' => $period->getId(),
                     'day_offset' => $idx,
                 ]);
             }

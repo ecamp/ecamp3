@@ -20,9 +20,9 @@ class EventTypeService extends AbstractEntityService {
     protected function fetchAllQueryBuilder($params = []) {
         $q = parent::fetchAllQueryBuilder($params);
 
-        if (isset($params['camp_type_id'])) {
+        if (isset($params['campTypeId'])) {
             $q->andWhere(':campTypeId MEMBER OF row.campTypes');
-            $q->setParameter('campTypeId', $params['camp_type_id']);
+            $q->setParameter('campTypeId', $params['campTypeId']);
         }
 
         return $q;

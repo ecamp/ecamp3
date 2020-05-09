@@ -21,6 +21,6 @@ abstract class BasePluginServiceFactory {
         $mvcEvent = $app->getMvcEvent();
         $routeMatch = $mvcEvent->getRouteMatch();
 
-        return $routeMatch->getParam('event_plugin_id');
+        return $routeMatch->getParam('eventPluginId');
     }
 }

@@ -14,24 +14,24 @@ class SectionActionController extends AbstractActionController {
     }
 
     public function moveUpAction() {
-        $sectionId = $this->params()->fromRoute('section_id');
+        $sectionId = $this->params()->fromRoute('sectionId');
 
         $this->sectionService->moveUp($sectionId);
 
         return $this->forward()->dispatch(
             SectionController::class,
-            ['action' => null, 'section_id' => $sectionId]
+            ['action' => null, 'sectionId' => $sectionId]
         );
     }
 
     public function moveDownAction() {
-        $sectionId = $this->params()->fromRoute('section_id');
+        $sectionId = $this->params()->fromRoute('sectionId');
 
         $this->sectionService->moveDown($sectionId);
 
         return $this->forward()->dispatch(
             SectionController::class,
-            ['action' => null, 'section_id' => $sectionId]
+            ['action' => null, 'sectionId' => $sectionId]
         );
     }
 }

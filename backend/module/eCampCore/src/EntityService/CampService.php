@@ -50,10 +50,10 @@ class CampService extends AbstractEntityService {
         $this->assertAllowed(Camp::class, __FUNCTION__);
 
         /** @var CampType $campType */
-        $campType = $this->findEntity(CampType::class, $data->camp_type_id);
+        $campType = $this->findEntity(CampType::class, $data->campTypeId);
 
         /** @var AbstractCampOwner $owner */
-        $owner = $this->findEntity(AbstractCampOwner::class, $data->owner_id);
+        $owner = $this->findEntity(AbstractCampOwner::class, $data->ownerId);
 
         /** @var User $creator */
         $creator = $this->getAuthUser();
@@ -67,26 +67,26 @@ class CampService extends AbstractEntityService {
         /** Create default Jobs */
         $jobConfigs = $campType->getConfig(CampType::CNF_JOBS) ?: [];
         foreach ($jobConfigs as $jobConfig) {
-            $jobConfig->camp_id = $camp->getId();
+            $jobConfig->campId = $camp->getId();
             $this->getJobService()->create($jobConfig);
         }
 
         /** Create default EventCategories: */
         $ecConfigs = $campType->getConfig(CampType::CNF_EVENT_CATEGORIES) ?: [];
         foreach ($ecConfigs as $ecConfig) {
-            $ecConfig->camp_id = $camp->getId();
+            $ecConfig->campId = $camp->getId();
             $this->getEventCategoryService()->create($ecConfig);
         }
 
         // Create Periods:
         if (isset($data->periods)) {
             foreach ($data->periods as $period) {
-                $period->camp_id = $camp->getId();
+                $period->campId = $camp->getId();
                 $this->getPeriodService()->create($period);
             }
         } elseif (isset($data->start, $data->end)) {
             $this->getPeriodService()->create((object) [
-                'camp_id' => $camp->getId(),
+                'campId' => $camp->getId(),
                 'description' => 'Main',
                 'start' => $data->start,
                 'end' => $data->end,

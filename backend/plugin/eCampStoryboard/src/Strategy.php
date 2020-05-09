@@ -28,7 +28,7 @@ class Strategy extends PluginStrategyBase {
                 'rel' => 'sections',
                 'route' => [
                     'name' => 'e-camp-api.rest.doctrine.event-plugin.storyboard',
-                    'options' => ['query' => ['event_plugin_id' => $eventPlugin->getId()]],
+                    'options' => ['query' => ['eventPluginId' => $eventPlugin->getId()]],
                 ],
             ]),
         ];

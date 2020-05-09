@@ -37,8 +37,8 @@ class Strategy extends PluginStrategyBase {
                 'route' => [
                     'name' => 'e-camp-api.rest.doctrine.event-plugin.textarea',
                     'params' => [
-                        'event_plugin_id' => $eventPlugin->getId(),
-                        'textarea_id' => $textarea->getId(),
+                        'eventPluginId' => $eventPlugin->getId(),
+                        'textareaId' => $textarea->getId(),
                     ],
                 ],
             ]),*/

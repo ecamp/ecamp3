@@ -24,7 +24,7 @@ class TextareaHydrator implements HydratorInterface {
                 'rel' => 'event_plugin',
                 'route' => [
                     'name' => 'e-camp-api.rest.doctrine.event-plugin',
-                    'params' => ['event_plugin_id' => $textarea->getEventPlugin()->getId()],
+                    'params' => ['eventPluginId' => $textarea->getEventPlugin()->getId()],
                 ],
             ]),
         ];

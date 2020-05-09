@@ -48,10 +48,10 @@ class EventPluginService extends AbstractEntityService {
         $eventPlugin = parent::create($data, false);
 
         /** @var Event $event */
-        $event = $this->findEntity(Event::class, $data->event_id);
+        $event = $this->findEntity(Event::class, $data->eventId);
 
         /** @var EventTypePlugin $eventTypePlugin */
-        $eventTypePlugin = $this->findEntity(EventTypePlugin::class, $data->event_type_plugin_id); // POSSIBLE ALTERNATIVE: accept plugin_id instead of event_type_plugin_id
+        $eventTypePlugin = $this->findEntity(EventTypePlugin::class, $data->event_type_pluginId); // POSSIBLE ALTERNATIVE: accept pluginId instead of event_type_pluginId
 
         // verify EventTypePlugin matches EventType of event
         if ($event->getEventType() !== $eventTypePlugin->getEventType()) {
@@ -77,9 +77,9 @@ class EventPluginService extends AbstractEntityService {
         $q->join('row.event', 'e');
         $q->andWhere($this->createFilter($q, Camp::class, 'e', 'camp'));
 
-        if (isset($params['event_id'])) {
+        if (isset($params['eventId'])) {
             $q->andWhere('row.event = :eventId');
-            $q->setParameter('eventId', $params['event_id']);
+            $q->setParameter('eventId', $params['eventId']);
         }
 
         return $q;

@@ -124,8 +124,8 @@ export default {
   methods: {
     invite (user, role) {
       this.api.post('/camp-collaborations', {
-        camp_id: this.camp().id,
-        user_id: user.id,
+        campId: this.camp().id,
+        userId: user.id,
         role: role
       }).then(this.refreshCamp)
     },

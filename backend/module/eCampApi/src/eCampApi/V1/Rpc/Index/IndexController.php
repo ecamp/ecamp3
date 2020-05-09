@@ -89,7 +89,7 @@ class IndexController extends AbstractActionController {
                 'rel' => 'profile',
                 'route' => [
                     'name' => 'e-camp-api.rest.doctrine.user',
-                    'params' => ['user_id' => $userId],
+                    'params' => ['userId' => $userId],
                 ],
             ]);
         } else {

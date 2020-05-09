@@ -136,19 +136,19 @@ function requireAuth (to, from, next) {
 
 export function campFromRoute (route) {
   return function () {
-    return this.api.get().camps({ camp_id: route.params.campId })
+    return this.api.get().camps({ campId: route.params.campId })
   }
 }
 
 function eventInstanceFromRoute (route) {
   return function () {
-    return this.api.get().eventInstances({ event_instance_id: route.params.eventInstanceId })
+    return this.api.get().eventInstances({ eventInstanceId: route.params.eventInstanceId })
   }
 }
 
 function dayFromEventInstanceInRoute (route) {
   return function () {
-    return this.api.get().eventInstances({ event_instance_id: route.params.eventInstanceId }).day()
+    return this.api.get().eventInstances({ eventInstanceId: route.params.eventInstanceId }).day()
   }
 }
 

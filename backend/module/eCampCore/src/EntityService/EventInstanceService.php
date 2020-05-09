@@ -23,9 +23,9 @@ class EventInstanceService extends AbstractEntityService {
         $q->join('row.event', 'e');
         $q->andWhere($this->createFilter($q, Camp::class, 'e', 'camp'));
 
-        if (isset($params['event_id'])) {
+        if (isset($params['eventId'])) {
             $q->andWhere('row.event = :eventId');
-            $q->setParameter('eventId', $params['event_id']);
+            $q->setParameter('eventId', $params['eventId']);
         }
 
         return $q;

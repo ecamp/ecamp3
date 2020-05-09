@@ -39,6 +39,6 @@ class RegisterController extends ApiController {
             return $user;
         }
 
-        return $this->createHalEntity($user, 'e-camp-api.rest.doctrine.user', 'user_id');
+        return $this->createHalEntity($user, 'e-camp-api.rest.doctrine.user', 'userId');
     }
 }
