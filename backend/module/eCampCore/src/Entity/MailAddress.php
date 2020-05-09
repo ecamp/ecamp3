@@ -9,7 +9,6 @@ use eCamp\Lib\Entity\BaseEntity;
  * MailAddress.
  *
  * @ORM\Entity
- * @ORM\Table(name="mail_address")
  */
 class MailAddress extends BaseEntity {
     const STATE_TRUSTED = 'trusted';

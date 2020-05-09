@@ -8,7 +8,6 @@ use Zend\Permissions\Acl\Role\RoleInterface;
 
 /**
  * @ORM\Entity(repositoryClass="eCamp\Core\Repository\UserRepository")
- * @ORM\Table(name="users")
  */
 class User extends AbstractCampOwner implements RoleInterface {
     const STATE_NONREGISTERED = 'non-registered';
@@ -49,14 +48,14 @@ class User extends AbstractCampOwner implements RoleInterface {
     /**
      * @var MailAddress
      * @ORM\OneToOne(targetEntity="MailAddress", cascade={"all"}, orphanRemoval=true)
-     * @ORM\JoinColumn(name="trusted_mailaddress_id", referencedColumnName="id")
+     * @ORM\JoinColumn
      */
     private $trustedMailAddress;
 
     /**
      * @var MailAddress
      * @ORM\OneToOne(targetEntity="MailAddress", cascade={"all"}, orphanRemoval=true)
-     * @ORM\JoinColumn(name="untrusted_mailaddress_id", referencedColumnName="id")
+     * @ORM\JoinColumn
      */
     private $untrustedMailAddress;
 

@@ -7,7 +7,6 @@ use eCamp\Lib\Entity\BaseEntity;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="plugins")
  */
 class Plugin extends BaseEntity {
     /**

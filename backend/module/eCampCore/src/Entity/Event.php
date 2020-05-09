@@ -10,7 +10,6 @@ use eCamp\Lib\Entity\BaseEntity;
 /**
  * @ORM\Entity
  * @ORM\HasLifecycleCallbacks
- * @ORM\Table(name="events")
  */
 class Event extends BaseEntity {
     /**

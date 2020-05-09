@@ -8,7 +8,6 @@ use eCamp\Lib\Entity\BaseEntity;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="abstractCampOwner")
  * @ORM\InheritanceType("JOINED")
  * @ORM\DiscriminatorColumn(name="entityType", type="string")
  */

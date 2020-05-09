@@ -7,7 +7,7 @@ use eCamp\Core\Plugin\BasePluginEntity;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="plugin_storyboard_sections")
+ * @ORM\Table(name="plugin_storyboard_section")
  */
 class Section extends BasePluginEntity {
     /**

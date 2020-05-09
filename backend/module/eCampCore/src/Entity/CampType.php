@@ -11,7 +11,6 @@ use Zend\Json\Json;
  * CampType.
  *
  * @ORM\Entity
- * @ORM\Table(name="camp_types")
  */
 class CampType extends BaseEntity {
     const CNF_EVENT_CATEGORIES = 'event_categories';
@@ -51,10 +50,6 @@ class CampType extends BaseEntity {
     /**
      * @var ArrayCollection
      * @ORM\ManyToMany(targetEntity="EventType")
-     * @ORM\JoinTable(name="camp_type_event_type",
-     *     joinColumns={@ORM\JoinColumn(name="camptype_id", referencedColumnName="id")},
-     *     inverseJoinColumns={@ORM\JoinColumn(name="eventtype_id", referencedColumnName="id")}
-     * )
      */
     private $eventTypes;
 

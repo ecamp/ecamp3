@@ -14,7 +14,7 @@ abstract class BaseEntity implements ResourceInterface {
     /**
      * @var string
      * @ORM\Id
-     * @ORM\Column(name="id", type="string", nullable=false)
+     * @ORM\Column(type="string", nullable=false)
      */
     protected $id;
 

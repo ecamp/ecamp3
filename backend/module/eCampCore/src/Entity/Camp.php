@@ -10,8 +10,8 @@ use eCamp\Lib\Entity\BaseEntity;
 /**
  * @ORM\Entity(repositoryClass="eCamp\Core\Repository\CampRepository")
  * @ORM\HasLifecycleCallbacks
- * @ORM\Table(name="camps", uniqueConstraints={
- *     @ORM\UniqueConstraint(name="owner_name_unique", columns={"owner_id", "name"})
+ * @ORM\Table(uniqueConstraints={
+ *     @ORM\UniqueConstraint(name="owner_name_unique", columns={"ownerId", "name"})
  * })
  * @EntityFilter(filterClass="eCamp\Core\EntityFilter\CampFilter")
  */
@@ -75,14 +75,14 @@ class Camp extends BaseEntity {
     /**
      * @var User
      * @ORM\ManyToOne(targetEntity="User")
-     * @ORM\JoinColumn(name="creator_id", referencedColumnName="id", nullable=false)
+     * @ORM\JoinColumn(nullable=false)
      */
     private $creator;
 
     /**
      * @var AbstractCampOwner
      * @ORM\ManyToOne(targetEntity="AbstractCampOwner", inversedBy="ownedCamps")
-     * @ORM\JoinColumn(name="owner_id", referencedColumnName="id", nullable=false)
+     * @ORM\JoinColumn(nullable=false)
      */
     private $owner;
 

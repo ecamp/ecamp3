@@ -11,7 +11,6 @@ use eCamp\Lib\Entity\BaseEntity;
 /**
  * @ORM\Entity
  * @ORM\HasLifecycleCallbacks
- * @ORM\Table(name="event_plugins")
  */
 class EventPlugin extends BaseEntity implements PluginStrategyProviderAware {
     use PluginStrategyProviderTrait;

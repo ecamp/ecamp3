@@ -8,7 +8,6 @@ use eCamp\Lib\Entity\BaseEntity;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="event_instances")
  * @ORM\HasLifecycleCallbacks
  */
 class EventInstance extends BaseEntity {
@@ -40,6 +39,7 @@ class EventInstance extends BaseEntity {
 
     /**
      * @ORM\Column(name="`left`", type="float", nullable=true)
+     * --> left is a MariaDB keyword, therefore escaping for column name necessary
      */
     private $left;
 

@@ -9,8 +9,8 @@ use eCamp\Lib\Entity\BaseEntity;
  * EventTypeFactory.
  *
  * @ORM\Entity
- * @ORM\Table(name="event_type_factories", uniqueConstraints={
- *     @ORM\UniqueConstraint(name="eventtype_name_unique", columns={"eventType_id", "name"})
+ * @ORM\Table(uniqueConstraints={
+ *     @ORM\UniqueConstraint(name="eventtype_name_unique", columns={"eventTypeId", "name"})
  * })
  */
 class EventTypeFactory extends BaseEntity {

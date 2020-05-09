@@ -10,7 +10,6 @@ use Zend\Json\Json;
  * EventTypePlugin.
  *
  * @ORM\Entity
- * @ORM\Table(name="event_type_plugins")
  */
 class EventTypePlugin extends BaseEntity {
     /**

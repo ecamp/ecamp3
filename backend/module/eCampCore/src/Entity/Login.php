@@ -7,7 +7,6 @@ use eCamp\Lib\Entity\BaseEntity;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="logins")
  */
 class Login extends BaseEntity {
     const CURRENT_HASH_VERSION = 0;
@@ -33,7 +32,7 @@ class Login extends BaseEntity {
     /**
      * @var User
      * @ORM\OneToOne(targetEntity="User", mappedBy="login")
-     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     * @ORM\JoinColumn(nullable=false)
      */
     private $user;
 

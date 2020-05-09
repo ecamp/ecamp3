@@ -9,7 +9,6 @@ use eCamp\Lib\Entity\BaseEntity;
 /**
  * @ORM\Entity
  * @ORM\HasLifecycleCallbacks
- * @ORM\Table(name="periods")
  */
 class Period extends BaseEntity {
     /**

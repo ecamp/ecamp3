@@ -7,7 +7,7 @@ use eCamp\Core\Plugin\BasePluginEntity;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="plugin_textarea_textareas")
+ * @ORM\Table(name="plugin_textarea_textarea")
  */
 class Textarea extends BasePluginEntity {
     /**

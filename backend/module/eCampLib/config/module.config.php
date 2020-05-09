@@ -15,6 +15,11 @@ return [
                 ],
             ],
         ],
+        'configuration' => [
+            'orm_default' => [
+                'naming_strategy' => eCamp\Lib\Entity\CamelPascalNamingStrategy::class,
+            ],
+        ],
     ],
 
     'dependencies' => [
