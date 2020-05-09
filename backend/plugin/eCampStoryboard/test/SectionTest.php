@@ -14,7 +14,7 @@ class SectionTest extends AbstractHttpControllerTestCase {
         $headers->addHeaderLine('Content-Type', 'application/json');
 
         $req = $this->getRequest();
-        $this->dispatch('/api/event_plugin/b6612b43/section/b6612b41/move_up', 'GET');
+        $this->dispatch('/api/event-plugin/b6612b43/section/b6612b41/move_up', 'GET');
 
         $req = $this->getRequest();
         $resp = $this->getResponse();

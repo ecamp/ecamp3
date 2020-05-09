@@ -16,7 +16,7 @@ class PeriodHydrator implements HydratorInterface {
             'days' => Util::Collection(function (Period $p) {
                 return new DayCollection($p->getDays());
             }, null),
-            'event_instances' => Util::Collection(function (Period $p) {
+            'eventInstances' => Util::Collection(function (Period $p) {
                 return new EventInstanceCollection($p->getEventInstances());
             }, null),
         ];
@@ -39,7 +39,7 @@ class PeriodHydrator implements HydratorInterface {
 
             'camp' => EntityLink::Create($period->getCamp()),
             'days' => new EntityLinkCollection($period->getDays()),
-            'event_instances' => new EntityLinkCollection($period->getEventInstances()),
+            'eventInstances' => new EntityLinkCollection($period->getEventInstances()),
         ];
     }
 

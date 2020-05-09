@@ -167,7 +167,7 @@ export const reload = function (uriOrEntity) {
  *   allCamps () { return this.api.get('/camp').items }
  *   oneSpecificCamp () { return this.api.get(`/camp/${this.campId}`) }
  *   campUri () { return this.oneSpecificCamp._meta.self }
- *   eventTypes () { return this.oneSpecificCamp.event_types() }
+ *   eventTypes () { return this.oneSpecificCamp.eventTypes() }
  *   user () { return this.api.get().profile() } // Root endpoint ('/') and navigate through self-discovery API
  * },
  * created () {

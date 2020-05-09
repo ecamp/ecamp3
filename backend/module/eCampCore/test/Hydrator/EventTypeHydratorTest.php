@@ -20,16 +20,16 @@ class EventTypeHydratorTest extends AbstractTestCase {
         $data = $hydrator->extract($eventType);
 
         $this->assertEquals('name', $data['name']);
-        $this->assertEquals('#ff0000', $data['default_color']);
-        $this->assertEquals('i', $data['default_numbering_style']);
+        $this->assertEquals('#ff0000', $data['defaultColor']);
+        $this->assertEquals('i', $data['defaultNumberingStyle']);
     }
 
     public function testHydrate() {
         $eventType = new EventType();
         $data = [
             'name' => 'name',
-            'default_color' => '#00ff00',
-            'default_numbering_style' => 'a',
+            'defaultColor' => '#00ff00',
+            'defaultNumberingStyle' => 'a',
         ];
 
         $hydrator = new EventTypeHydrator();

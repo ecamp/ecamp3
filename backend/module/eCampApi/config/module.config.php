@@ -153,7 +153,7 @@ return [
             'e-camp-api.rest.doctrine.event-type-plugin' => [
                 'type' => 'Segment',
                 'options' => [
-                    'route' => '/api/event-type-plugins[/:event_type_pluginId]',
+                    'route' => '/api/event-type-plugins[/:eventTypePluginId]',
                     'defaults' => [
                         'controller' => 'eCampApi\\V1\\Rest\\EventTypePlugin\\Controller',
                     ],
@@ -519,7 +519,7 @@ return [
         'eCampApi\\V1\\Rest\\EventTypePlugin\\Controller' => [
             'listener' => 'eCamp\\Core\\EntityService\\EventTypePluginService',
             'route_name' => 'e-camp-api.rest.doctrine.event-type-plugin',
-            'route_identifier_name' => 'event_type_pluginId',
+            'route_identifier_name' => 'eventTypePluginId',
             'entity_identifier_name' => 'id',
             'collection_name' => 'items',
             'entity_http_methods' => [
@@ -905,7 +905,7 @@ return [
                 'is_collection' => true,
             ],
             'eCamp\\Core\\Entity\\EventTypePlugin' => [
-                'route_identifier_name' => 'event_type_pluginId',
+                'route_identifier_name' => 'eventTypePluginId',
                 'entity_identifier_name' => 'id',
                 'route_name' => 'e-camp-api.rest.doctrine.event-type-plugin',
                 'hydrator' => 'eCamp\\Core\\Hydrator\\EventTypePluginHydrator',
@@ -1452,7 +1452,7 @@ return [
         'eCampApi\\V1\\Rpc\\Auth\\Validator' => [],
         'eCampApi\\V1\\Rest\\EventPlugin\\Validator' => [
             0 => [
-                'name' => 'instance_name',
+                'name' => 'instanceName',
                 'required' => false,
                 'filters' => [
                     0 => [

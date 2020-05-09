@@ -25,11 +25,11 @@ class CampTypeHydrator implements HydratorInterface {
         return [
             'id' => $campType->getId(),
             'name' => $campType->getName(),
-            'is_js' => $campType->getIsJS(),
-            'is_course' => $campType->getIsCourse(),
+            'isJS' => $campType->getIsJS(),
+            'isCourse' => $campType->getIsCourse(),
 
             'organization' => EntityLink::Create($campType->getOrganization()),
-            'event_types' => new EntityLinkCollection($campType->getEventTypes()),
+            'eventTypes' => new EntityLinkCollection($campType->getEventTypes()),
         ];
     }
 
@@ -45,11 +45,11 @@ class CampTypeHydrator implements HydratorInterface {
         if (isset($data['name'])) {
             $campType->setName($data['name']);
         }
-        if (isset($data['is_js'])) {
-            $campType->setIsJS($data['is_js']);
+        if (isset($data['isJS'])) {
+            $campType->setIsJS($data['isJS']);
         }
-        if (isset($data['is_course'])) {
-            $campType->setIsCourse($data['is_course']);
+        if (isset($data['isCourse'])) {
+            $campType->setIsCourse($data['isCourse']);
         }
         if (isset($data['organization'])) {
             $campType->setOrganization($data['organization']);

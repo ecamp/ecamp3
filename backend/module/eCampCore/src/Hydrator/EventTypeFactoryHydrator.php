@@ -23,8 +23,8 @@ class EventTypeFactoryHydrator implements HydratorInterface {
         return [
             'id' => $eventTypeFactory->getId(),
             'name' => $eventTypeFactory->getName(),
-            'event_type' => $eventTypeFactory->getEventType(),
-            'factory_name' => $eventTypeFactory->getFactoryName(),
+            'eventType' => $eventTypeFactory->getEventType(),
+            'factoryName' => $eventTypeFactory->getFactoryName(),
         ];
     }
 

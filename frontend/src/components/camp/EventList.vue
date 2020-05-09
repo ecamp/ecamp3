@@ -14,10 +14,10 @@ Lists all event instances in a list view.
         :key="eventInstance._meta.self"
         two-line
         :to="eventInstanceLink(eventInstance)">
-        <v-chip class="mr-2" :color="eventInstance.event().event_category().color.toString()">{{ eventInstance.event().event_category().short }}</v-chip>
+        <v-chip class="mr-2" :color="eventInstance.event().eventCategory().color.toString()">{{ eventInstance.event().eventCategory().short }}</v-chip>
         <v-list-item-content>
           <v-list-item-title>{{ eventInstance.event().title }}</v-list-item-title>
-          <v-list-item-subtitle>{{ eventInstance.start_time }} - {{ eventInstance.end_time }}</v-list-item-subtitle>
+          <v-list-item-subtitle>{{ eventInstance.startTime }} - {{ eventInstance.endTime }}</v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
     </template>

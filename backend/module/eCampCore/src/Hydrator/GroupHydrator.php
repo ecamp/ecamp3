@@ -26,7 +26,7 @@ class GroupHydrator implements HydratorInterface {
             'id' => $group->getId(),
             'name' => $group->getName(),
             'description' => $group->getDescription(),
-            'display_name' => $group->getDisplayName(),
+            'displayName' => $group->getDisplayName(),
 
             'organization' => EntityLink::Create($group->getOrganization()),
             'parent' => EntityLink::Create($group->getParent()),

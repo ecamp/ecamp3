@@ -21,8 +21,8 @@ class SectionHydrator implements HydratorInterface {
             'pos' => $section->getPos(),
             'text' => $section->getText(),
 
-            'event_plugin' => Link::factory([
-                'rel' => 'event_plugin',
+            'eventPlugin' => Link::factory([
+                'rel' => 'eventPlugin',
                 'route' => [
                     'name' => 'e-camp-api.rest.doctrine.event-plugin',
                     'params' => ['eventPluginId' => $section->getEventPlugin()->getId()],

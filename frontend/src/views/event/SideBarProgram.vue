@@ -34,13 +34,13 @@ export default {
     },
     eventInstances () {
       // TODO add filtering for the current day when backend supports it
-      return this.period.event_instances()
+      return this.period.eventInstances()
     },
     periodStartDate () {
       return new Date(Date.parse(this.period.start))
     },
     startOfDay () {
-      return this.addDays(this.periodStartDate, this.day().day_offset)
+      return this.addDays(this.periodStartDate, this.day().dayOffset)
     },
     endOfDay () {
       return this.addDays(this.startOfDay, 1)

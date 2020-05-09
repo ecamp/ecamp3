@@ -18,7 +18,7 @@ class EventInstanceHydrator implements HydratorInterface {
                     return $ei->getEvent();
                 },
                 [
-                    'event_plugins' => Util::Collection(function (Event $e) {
+                    'eventPlugins' => Util::Collection(function (Event $e) {
                         return new EventPluginCollection($e->getEventPlugins());
                     }, null),
                 ]
@@ -49,11 +49,11 @@ class EventInstanceHydrator implements HydratorInterface {
             'left' => $eventInstance->getLeft(),
             'width' => $eventInstance->getWidth(),
 
-            'start_time' => Util::extractDateTime($eventInstance->getStartTime()),
-            'end_time' => Util::extractDateTime($eventInstance->getEndTime()),
+            'startTime' => Util::extractDateTime($eventInstance->getStartTime()),
+            'endTime' => Util::extractDateTime($eventInstance->getEndTime()),
 
-            'day_number' => $eventInstance->getDayNumber(),
-            'event_instance_number' => $eventInstance->getEventInstanceNumber(),
+            'dayNumber' => $eventInstance->getDayNumber(),
+            'eventInstanceNumber' => $eventInstance->getEventInstanceNumber(),
             'number' => $eventInstance->getNumber(),
 
             'event' => EntityLink::Create($eventInstance->getEvent()),

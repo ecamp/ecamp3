@@ -8,8 +8,8 @@
     </v-btn>
 
     {{ $options.name }} //
-    I'm one specific instance of the {{ eventPlugin.plugin_name }} plugin...
-    <component :is="eventPlugin.plugin_name" :event-plugin="eventPlugin" />
+    I'm one specific instance of the {{ eventPlugin.pluginName }} plugin...
+    <component :is="eventPlugin.pluginName" :event-plugin="eventPlugin" />
     <br>
   </div>
 </template>

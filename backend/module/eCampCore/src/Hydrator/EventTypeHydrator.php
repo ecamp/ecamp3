@@ -24,10 +24,10 @@ class EventTypeHydrator implements HydratorInterface {
         return [
             'id' => $eventType->getId(),
             'name' => $eventType->getName(),
-            'default_color' => $eventType->getDefaultColor(),
-            'default_numbering_style' => $eventType->getDefaultNumberingStyle(),
-            'event_type_plugins' => new EventTypePluginCollection($eventType->getEventTypePlugins()),
-            //            'event_type_factories' => new EventTypeFactoryCollection($eventType->getEventTypeFactories()),
+            'defaultColor' => $eventType->getDefaultColor(),
+            'defaultNumberingStyle' => $eventType->getDefaultNumberingStyle(),
+            'eventTypePlugins' => new EventTypePluginCollection($eventType->getEventTypePlugins()),
+            //            'eventTypeFactories' => new EventTypeFactoryCollection($eventType->getEventTypeFactories()),
         ];
     }
 
@@ -43,11 +43,11 @@ class EventTypeHydrator implements HydratorInterface {
         if (isset($data['name'])) {
             $eventType->setName($data['name']);
         }
-        if (isset($data['default_color'])) {
-            $eventType->setDefaultColor($data['default_color']);
+        if (isset($data['defaultColor'])) {
+            $eventType->setDefaultColor($data['defaultColor']);
         }
-        if (isset($data['default_numbering_style'])) {
-            $eventType->setDefaultNumberingStyle($data['default_numbering_style']);
+        if (isset($data['defaultNumberingStyle'])) {
+            $eventType->setDefaultNumberingStyle($data['defaultNumberingStyle']);
         }
 
         return $eventType;

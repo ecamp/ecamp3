@@ -23,7 +23,7 @@ class DayHydrator implements HydratorInterface {
 
         return [
             'id' => $day->getId(),
-            'day_offset' => $day->getDayOffset(),
+            'dayOffset' => $day->getDayOffset(),
             'number' => $day->getDayNumber(),
 
             'period' => EntityLink::Create($day->getPeriod()),
@@ -39,8 +39,8 @@ class DayHydrator implements HydratorInterface {
         /** @var Day $day */
         $day = $object;
 
-        if (isset($data['day_offset'])) {
-            $day->setDayOffset($data['day_offset']);
+        if (isset($data['dayOffset'])) {
+            $day->setDayOffset($data['dayOffset']);
         }
 
         return $day;

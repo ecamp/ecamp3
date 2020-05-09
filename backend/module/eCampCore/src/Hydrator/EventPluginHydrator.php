@@ -39,8 +39,8 @@ class EventPluginHydrator implements HydratorInterface {
 
         $data = [
             'id' => $eventPlugin->getId(),
-            'instance_name' => $eventPlugin->getInstanceName(),
-            'plugin_name' => $plugin->getName(),
+            'instanceName' => $eventPlugin->getInstanceName(),
+            'pluginName' => $plugin->getName(),
 
             'plugin' => new EntityLink($eventPlugin->getPlugin()),
 
@@ -73,8 +73,8 @@ class EventPluginHydrator implements HydratorInterface {
         /** @var EventPlugin $eventPlugin */
         $eventPlugin = $object;
 
-        if (isset($data['instance_name'])) {
-            $eventPlugin->setInstanceName($data['instance_name']);
+        if (isset($data['instanceName'])) {
+            $eventPlugin->setInstanceName($data['instanceName']);
         }
 
         return $eventPlugin;

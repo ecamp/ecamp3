@@ -6,8 +6,8 @@ Listing all given event instances in a calendar view.
   <v-calendar
     class="ec-picasso"
     :events="eventInstances"
-    event-start="start_time"
-    event-end="end_time"
+    event-start="startTime"
+    event-end="endTime"
     :event-name="getEventName | loading('Lädt…', ({ input }) => input.event()._meta.loading)"
     :event-color="getEventColor | loading('grey lighten-2', eventInstance => eventInstance.event()._meta.loading)"
     :interval-height="intervalHeight"
@@ -73,10 +73,10 @@ export default {
   },
   methods: {
     getEventName (event, _) {
-      return '(' + event.input.number + ') ' + event.input.event().event_category().short + ': ' + event.input.event().title
+      return '(' + event.input.number + ') ' + event.input.event().eventCategory().short + ': ' + event.input.event().title
     },
     getEventColor (event, _) {
-      return event.event().event_category().color.toString()
+      return event.event().eventCategory().color.toString()
     },
     getIntervalFormat (time) {
       return time.time

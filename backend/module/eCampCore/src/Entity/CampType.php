@@ -13,7 +13,7 @@ use Zend\Json\Json;
  * @ORM\Entity
  */
 class CampType extends BaseEntity {
-    const CNF_EVENT_CATEGORIES = 'event_categories';
+    const CNF_EVENT_CATEGORIES = 'eventCategories';
     const CNF_JOBS = 'jobs';
 
     /**

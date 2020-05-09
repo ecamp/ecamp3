@@ -23,10 +23,10 @@ class EventTypePluginHydrator implements HydratorInterface {
 
         return [
             'id' => $eventTypePlugin->getId(),
-            'event_type' => new EntityLink($eventTypePlugin->getEventType()),
+            'eventType' => new EntityLink($eventTypePlugin->getEventType()),
             'plugin' => $eventTypePlugin->getPlugin(),
-            'min_number_plugin_instances' => $eventTypePlugin->getMinNumberPluginInstances(),
-            'max_number_plugin_instances' => $eventTypePlugin->getMaxNumberPluginInstances(),
+            'minNumberPluginInstances' => $eventTypePlugin->getMinNumberPluginInstances(),
+            'maxNumberPluginInstances' => $eventTypePlugin->getMaxNumberPluginInstances(),
         ];
     }
 

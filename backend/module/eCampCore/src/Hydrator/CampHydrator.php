@@ -16,7 +16,7 @@ use ZF\Hal\Link\Link;
 class CampHydrator implements HydratorInterface {
     public static function HydrateInfo() {
         return [
-            'camp_type' => Util::Entity(function (Camp $c) {
+            'campType' => Util::Entity(function (Camp $c) {
                 return $c->getCampType();
             }),
             'periods' => Util::Collection(
@@ -29,7 +29,7 @@ class CampHydrator implements HydratorInterface {
                 function (Camp $c) {
                     return [
                         Link::factory([
-                            'rel' => 'camp_collaborations',
+                            'rel' => 'campCollaborations',
                             'route' => [
                                 'name' => 'e-camp-api.rest.doctrine.camp-collaboration',
                                 'options' => ['query' => ['campId' => $c->getId()]],
@@ -43,7 +43,7 @@ class CampHydrator implements HydratorInterface {
                     }, null),
                 ]
             ),
-            'event_categories' => Util::Collection(function (Camp $c) {
+            'eventCategories' => Util::Collection(function (Camp $c) {
                 return new EventCategoryCollection($c->getEventCategories());
             }, null),
         ];
@@ -68,13 +68,13 @@ class CampHydrator implements HydratorInterface {
 
             //            'owner' => EntityLink::Create($camp->getOwner()),
             'creator' => EntityLink::Create($camp->getCreator()),
-            'camp_type' => EntityLink::Create($camp->getCampType()),
+            'campType' => EntityLink::Create($camp->getCampType()),
 
-            'camp_collaborations' => new EntityLinkCollection($camp->getCampCollaborations()),
+            'campCollaborations' => new EntityLinkCollection($camp->getCampCollaborations()),
 
             'periods' => new EntityLinkCollection($camp->getPeriods()),
 
-            'event_categories' => new EntityLinkCollection($camp->getEventCategories()),
+            'eventCategories' => new EntityLinkCollection($camp->getEventCategories()),
             'events' => Link::factory([
                 'rel' => 'events',
                 'route' => [

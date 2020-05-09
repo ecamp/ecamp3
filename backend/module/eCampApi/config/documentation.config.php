@@ -49,9 +49,9 @@ creates a new user account',
             'GET' => [
                 'description' => 'Each Camp belongs to one CampType.  
 CampType defines some rules for e Camp.
-- is_js
-- is_course
-- event_types',
+- isJS
+- isCourse
+- eventTypes',
             ],
         ],
     ],
@@ -94,9 +94,9 @@ Filters:
                 'description' => 'Each Event belongs to one EventCategory.  
 Each EventCategory belongs to one EventType.  
 EventCategory defines some rules for e Event.
-- event_type
+- eventType
 - color
-- numbering_style',
+- numberingStyle',
             ],
             'DELETE' => [
                 'description' => 'Deletes an EventCategory',

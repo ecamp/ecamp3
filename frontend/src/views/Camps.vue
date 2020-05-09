@@ -14,7 +14,7 @@
           <v-list-item-content>
             <v-list-item-title>{{ camp.title }}</v-list-item-title>
             <v-list-item-subtitle>
-              {{ camp.name }} - {{ camp.camp_type().organization().name }}
+              {{ camp.name }} - {{ camp.campType().organization().name }}
             </v-list-item-subtitle>
           </v-list-item-content>
           <v-list-item-action>

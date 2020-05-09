@@ -38,7 +38,7 @@ export default {
   computed: {
     eventPlugins () {
       // TODO: should we add the deleting-filter already to the store?
-      return this.event.event_plugins().items.filter(ep => !ep._meta.deleting && ep.plugin().id === this.eventTypePlugin.plugin().id)
+      return this.event.eventPlugins().items.filter(ep => !ep._meta.deleting && ep.plugin().id === this.eventTypePlugin.plugin().id)
     }
   },
   methods: {
@@ -46,7 +46,7 @@ export default {
       this.isAdding = true
       await this.api.post('/event-plugins', {
         eventId: this.event.id,
-        event_type_pluginId: this.eventTypePlugin.id // POSSIBLE ALTERNATIVE: post with pluginId of event_type_pluginId
+        eventTypePluginId: this.eventTypePlugin.id // POSSIBLE ALTERNATIVE: post with pluginId of eventTypePluginId
       })
       await this.refreshEvent()
       this.isAdding = false

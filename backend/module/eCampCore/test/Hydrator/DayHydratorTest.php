@@ -31,7 +31,7 @@ class DayHydratorTest extends AbstractTestCase {
         $hydrator = new DayHydrator();
         $data = $hydrator->extract($day);
 
-        $this->assertEquals(0, $data['day_offset']);
+        $this->assertEquals(0, $data['dayOffset']);
         $this->assertEquals(1, $data['number']);
     }
 
@@ -45,7 +45,7 @@ class DayHydratorTest extends AbstractTestCase {
         $day->setPeriod($period);
 
         $data = [
-            'day_offset' => 0,
+            'dayOffset' => 0,
         ];
 
         $hydrator = new DayHydrator();

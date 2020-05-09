@@ -54,7 +54,7 @@ class PeriodService extends AbstractEntityService {
         for ($idx = 0; $idx < $durationInDays; ++$idx) {
             $this->dayService->create((object) [
                 'periodId' => $period->getId(),
-                'day_offset' => $idx,
+                'dayOffset' => $idx,
             ]);
         }
 
@@ -145,7 +145,7 @@ class PeriodService extends AbstractEntityService {
             if ($day->isEmpty()) {
                 $this->dayService->create((object) [
                     'periodId' => $period->getId(),
-                    'day_offset' => $idx,
+                    'dayOffset' => $idx,
                 ]);
             }
         }

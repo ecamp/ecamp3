@@ -26,12 +26,12 @@ Show all event instances of a single period.
       <template v-if="firstPeriod">
         <event-list
           v-if="listFormat"
-          :camp="camp" :event-instances="firstPeriod.event_instances().items" />
+          :camp="camp" :event-instances="firstPeriod.eventInstances().items" />
         <picasso
           v-else
           :camp="camp"
           class="mx-2 ma-sm-0 pa-sm-2"
-          :event-instances="firstPeriod.event_instances().items"
+          :event-instances="firstPeriod.eventInstances().items"
           :start="new Date(Date.parse(firstPeriod.start))"
           :end="new Date(Date.parse(firstPeriod.end))" />
       </template>

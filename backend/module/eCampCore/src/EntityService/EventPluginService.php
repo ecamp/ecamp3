@@ -51,7 +51,7 @@ class EventPluginService extends AbstractEntityService {
         $event = $this->findEntity(Event::class, $data->eventId);
 
         /** @var EventTypePlugin $eventTypePlugin */
-        $eventTypePlugin = $this->findEntity(EventTypePlugin::class, $data->event_type_pluginId); // POSSIBLE ALTERNATIVE: accept pluginId instead of event_type_pluginId
+        $eventTypePlugin = $this->findEntity(EventTypePlugin::class, $data->eventTypePluginId); // POSSIBLE ALTERNATIVE: accept pluginId instead of eventTypePluginId
 
         // verify EventTypePlugin matches EventType of event
         if ($event->getEventType() !== $eventTypePlugin->getEventType()) {

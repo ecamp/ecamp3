@@ -25,7 +25,7 @@ class OrganizationHydrator implements HydratorInterface {
             'id' => $organization->getId(),
             'name' => $organization->getName(),
 
-            'camp_types' => new EntityLinkCollection($organization->getCampTypes()),
+            'campTypes' => new EntityLinkCollection($organization->getCampTypes()),
         ];
     }
 

@@ -10,7 +10,7 @@ use Zend\Hydrator\HydratorInterface;
 class EventCategoryHydrator implements HydratorInterface {
     public static function HydrateInfo() {
         return [
-            'event_type' => Util::Entity(function (EventCategory $ec) {
+            'eventType' => Util::Entity(function (EventCategory $ec) {
                 return $ec->getEventType();
             }),
         ];
@@ -31,10 +31,10 @@ class EventCategoryHydrator implements HydratorInterface {
             'name' => $eventCategory->getName(),
 
             'color' => $eventCategory->getColor(),
-            'numbering_style' => $eventCategory->getNumberingStyle(),
+            'numberingStyle' => $eventCategory->getNumberingStyle(),
 
             'camp' => EntityLink::Create($eventCategory->getCamp()),
-            'event_type' => EntityLink::Create($eventCategory->getEventType()),
+            'eventType' => EntityLink::Create($eventCategory->getEventType()),
         ];
     }
 
@@ -50,8 +50,8 @@ class EventCategoryHydrator implements HydratorInterface {
         if (isset($data['camp'])) {
             $eventCategory->setCamp($data['camp']);
         }
-        if (isset($data['event_type'])) {
-            $eventCategory->setEventType($data['event_type']);
+        if (isset($data['eventType'])) {
+            $eventCategory->setEventType($data['eventType']);
         }
 
         if (isset($data['short'])) {
@@ -64,8 +64,8 @@ class EventCategoryHydrator implements HydratorInterface {
         if (isset($data['color'])) {
             $eventCategory->setColor($data['color']);
         }
-        if (isset($data['numbering_style'])) {
-            $eventCategory->setNumberingStyle($data['numbering_style']);
+        if (isset($data['numberingStyle'])) {
+            $eventCategory->setNumberingStyle($data['numberingStyle']);
         }
 
         return $eventCategory;

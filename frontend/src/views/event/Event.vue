@@ -37,7 +37,7 @@ Displays a single event
               :key="instance._meta.self"
               two-line>
               <v-list-item-content>
-                1. Montag<br> {{ instance.start_time }} bis {{ instance.end_time }}
+                1. Montag<br> {{ instance.startTime }} bis {{ instance.endTime }}
               </v-list-item-content>
             </v-list-item>
           </v-list>
@@ -45,12 +45,12 @@ Displays a single event
           <v-list>
             <v-label>Plugins</v-label>
             <v-list-item
-              v-for="event_type_plugin in event_type_plugins.items"
-              :key="event_type_plugin._meta.self"
+              v-for="eventTypePlugin in eventTypePlugins.items"
+              :key="eventTypePlugin._meta.self"
               two-line>
               <v-list-item-content>
                 <event-type-plugin
-                  :event-type-plugin="event_type_plugin"
+                  :event-type-plugin="eventTypePlugin"
                   :event="event" />
               </v-list-item-content>
             </v-list-item>
@@ -83,16 +83,16 @@ export default {
       return this.eventInstance().event()
     },
     category () {
-      return this.event.event_category()
+      return this.event.eventCategory()
     },
     instances () {
-      return this.event.event_instances()
+      return this.event.eventInstances()
     },
-    event_type () {
-      return this.category.event_type()
+    eventType () {
+      return this.category.eventType()
     },
-    event_type_plugins () {
-      return this.event_type.event_type_plugins()
+    eventTypePlugins () {
+      return this.eventType.eventTypePlugins()
     }
   }
 }

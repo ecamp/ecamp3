@@ -54,7 +54,7 @@ describe('API store', () => {
     await letNetworkRequestFinish()
     expect(vm.$store.state.api).toMatchObject(embeddedSingleEntity.storeState)
     expect(vm.api.get('/camps/1')._meta.self).toEqual('http://localhost/camps/1')
-    expect(vm.api.get('/camps/1').camp_type()._meta.self).toEqual('http://localhost/campTypes/20')
+    expect(vm.api.get('/camps/1').campType()._meta.self).toEqual('http://localhost/campTypes/20')
     expect(vm.api.get('/campTypes/20')._meta.self).toEqual('http://localhost/campTypes/20')
     done()
   })
@@ -239,7 +239,7 @@ describe('API store', () => {
   it('allows using get with a loading object with unknown URI', async done => {
     // given
     axiosMock.onGet('http://localhost/camps/1').reply(200, embeddedSingleEntity.serverResponse)
-    const loadingObject = vm.api.get('/camps/1').camp_type()
+    const loadingObject = vm.api.get('/camps/1').campType()
 
     // when
     vm.api.get(loadingObject)
@@ -254,7 +254,7 @@ describe('API store', () => {
   it('allows accessing _meta in a loading object with unknown URI', async done => {
     // given
     axiosMock.onGet('http://localhost/camps/1').reply(200, embeddedSingleEntity.serverResponse)
-    const loadingObject = vm.api.get('/camps/1').camp_type()
+    const loadingObject = vm.api.get('/camps/1').campType()
 
     // when
     const meta = vm.api.get(loadingObject)._meta
@@ -411,7 +411,7 @@ describe('API store', () => {
   it('purges and later re-fetches a URI from the store', async done => {
     // given
     axiosMock.onGet('http://localhost/camps/1').reply(200, embeddedSingleEntity.serverResponse)
-    axiosMock.onGet('http://localhost/campTypes/20').reply(200, embeddedSingleEntity.serverResponse._embedded.camp_type)
+    axiosMock.onGet('http://localhost/campTypes/20').reply(200, embeddedSingleEntity.serverResponse._embedded.campType)
     vm.api.get('/camps/1')
     await letNetworkRequestFinish()
     const storeStateWithoutCampType = cloneDeep(embeddedSingleEntity.storeState)
@@ -422,7 +422,7 @@ describe('API store', () => {
 
     // then
     expect(vm.$store.state.api).toMatchObject(storeStateWithoutCampType)
-    expect(vm.api.get('/camps/1').camp_type()._meta.loading).toEqual(true)
+    expect(vm.api.get('/camps/1').campType()._meta.loading).toEqual(true)
     await letNetworkRequestFinish()
     expect(vm.$store.state.api).toMatchObject(embeddedSingleEntity.storeState)
     done()
@@ -431,10 +431,10 @@ describe('API store', () => {
   it('purges and later re-fetches an object from the store', async done => {
     // given
     axiosMock.onGet('http://localhost/camps/1').reply(200, embeddedSingleEntity.serverResponse)
-    axiosMock.onGet('http://localhost/campTypes/20').reply(200, embeddedSingleEntity.serverResponse._embedded.camp_type)
+    axiosMock.onGet('http://localhost/campTypes/20').reply(200, embeddedSingleEntity.serverResponse._embedded.campType)
     vm.api.get('/camps/1')
     await letNetworkRequestFinish()
-    const campType = vm.api.get('/camps/1').camp_type()
+    const campType = vm.api.get('/camps/1').campType()
     const storeStateWithoutCampType = cloneDeep(embeddedSingleEntity.storeState)
     delete storeStateWithoutCampType['/campTypes/20']
 
@@ -443,7 +443,7 @@ describe('API store', () => {
 
     // then
     expect(vm.$store.state.api).toMatchObject(storeStateWithoutCampType)
-    expect(vm.api.get('/camps/1').camp_type()._meta.loading).toEqual(true)
+    expect(vm.api.get('/camps/1').campType()._meta.loading).toEqual(true)
     await letNetworkRequestFinish()
     expect(vm.$store.state.api).toMatchObject(embeddedSingleEntity.storeState)
     done()
@@ -514,9 +514,9 @@ describe('API store', () => {
       }
     }
     axiosMock.onGet('http://localhost/campTypes/20').reply(200, campTypeData.serverResponse)
-    vm.api.get('/camps/1').camp_type()
+    vm.api.get('/camps/1').campType()
     await letNetworkRequestFinish()
-    const campType = vm.api.get('/camps/1').camp_type()
+    const campType = vm.api.get('/camps/1').campType()
 
     // when
     vm.api.reload(campType)
@@ -534,7 +534,7 @@ describe('API store', () => {
       serverResponse: {
         id: 20,
         _embedded: {
-          event_types: [
+          eventTypes: [
             {
               id: 123,
               name: 'LS',
@@ -564,7 +564,7 @@ describe('API store', () => {
       serverResponse2: {
         id: 20,
         _embedded: {
-          event_types: [
+          eventTypes: [
             {
               id: 123,
               name: 'LS',
@@ -590,9 +590,9 @@ describe('API store', () => {
     }
     axiosMock.onGet('http://localhost/camps/1').reply(200, campData.serverResponse)
     axiosMock.onGet('http://localhost/camps/1').reply(200, campData.serverResponse2)
-    vm.api.get('/camps/1').event_types()
+    vm.api.get('/camps/1').eventTypes()
     await letNetworkRequestFinish()
-    const embeddedCollection = vm.api.get('/camps/1').event_types()
+    const embeddedCollection = vm.api.get('/camps/1').eventTypes()
 
     // when
     vm.api.reload(embeddedCollection)
@@ -600,7 +600,7 @@ describe('API store', () => {
     // then
     expect(embeddedCollection._meta.self).toBeUndefined()
     await letNetworkRequestFinish()
-    expect(vm.$store.state.api['/camps/1'].event_types).toMatchObject(campData.storeState)
+    expect(vm.$store.state.api['/camps/1'].eventTypes).toMatchObject(campData.storeState)
     done()
   })
 
@@ -721,7 +721,7 @@ describe('API store', () => {
     // given
     const after = {
       _embedded: {
-        camp_type: {
+        campType: {
           id: 20,
           name: 'course',
           js: false,
@@ -758,7 +758,7 @@ describe('API store', () => {
     // given
     const before = {
       _embedded: {
-        camp_type: {
+        campType: {
           id: 20,
           name: 'camp',
           js: true,
@@ -779,7 +779,7 @@ describe('API store', () => {
     }
     const after = {
       _embedded: {
-        camp_type: {
+        campType: {
           id: 20,
           name: 'course',
           js: false,

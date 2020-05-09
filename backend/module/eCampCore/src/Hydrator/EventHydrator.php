@@ -12,10 +12,10 @@ use Zend\Hydrator\HydratorInterface;
 class EventHydrator implements HydratorInterface {
     public static function HydrateInfo() {
         return [
-            'event_category' => Util::Entity(function (Event $e) {
+            'eventCategory' => Util::Entity(function (Event $e) {
                 return $e->getEventCategory();
             }),
-            'event_instances' => Util::Collection(function (Event $e) {
+            'eventInstances' => Util::Collection(function (Event $e) {
                 return new EventInstanceCollection($e->getEventInstances());
             }, null),
         ];
@@ -35,14 +35,14 @@ class EventHydrator implements HydratorInterface {
             'title' => $event->getTitle(),
 
             'camp' => new EntityLink($event->getCamp()),
-            'event_category' => EntityLink::Create($event->getEventCategory()),
+            'eventCategory' => EntityLink::Create($event->getEventCategory()),
 
-            'event_instances' => new EntityLinkCollection($event->getEventInstances()),
+            'eventInstances' => new EntityLinkCollection($event->getEventInstances()),
 
-            'event_plugins' => new EntityLinkCollection($event->getEventPlugins()),
+            'eventPlugins' => new EntityLinkCollection($event->getEventPlugins()),
 
-            //            'event_plugins' => Link::factory([
-            //                'rel' => 'event_plugins',
+            //            'eventPlugins' => Link::factory([
+            //                'rel' => 'eventPlugins',
             //                'route' => [
             //                    'name' => 'e-camp-api.rest.doctrine.event-plugin',
             //                    'options' => [ 'query' => [ 'eventId' => $event->getId() ] ]

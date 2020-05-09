@@ -93,7 +93,7 @@ export default {
   },
   computed: {
     collaborators () {
-      return this.camp().camp_collaborations().items.filter(c => !c._meta.deleting)
+      return this.camp().campCollaborations().items.filter(c => !c._meta.deleting)
     },
     establishedCollaborators () {
       return this.collaborators.filter(c => c.status === 'established')
@@ -119,7 +119,7 @@ export default {
     }
   },
   created () {
-    return this.camp().camp_collaborations()
+    return this.camp().campCollaborations()
   },
   methods: {
     invite (user, role) {
