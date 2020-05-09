@@ -221,6 +221,24 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
     }
 
     /**
+     * @param string $userId
+     *
+     * @return bool
+     */
+    public function isCollaborator($userId) {
+        if ($this->getCreator()->getId() == $userId) {
+            return true;
+        }
+        if ($this->getOwner()->getId() == $userId) {
+            return true;
+        }
+
+        return $this->getCampCollaborations()->exists(function ($idx, CampCollaboration $cc) use ($userId) {
+            return $cc->isEstablished() && ($cc->getUser()->getId() == $userId);
+        });
+    }
+
+    /**
      * @return ArrayCollection
      */
     public function getJobs() {

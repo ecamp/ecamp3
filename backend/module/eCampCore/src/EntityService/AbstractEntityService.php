@@ -370,11 +370,10 @@ abstract class AbstractEntityService extends AbstractResourceListener {
         $this->assertAllowed($this->entityClassname, Acl::REST_PRIVILEGE_FETCH_ALL);
 
         $rows = $q->getQuery()->getResult();
-        $rows = array_filter($rows, function ($entity) {
+
+        return array_filter($rows, function ($entity) {
             return $this->isAllowed($entity, Acl::REST_PRIVILEGE_FETCH);
         });
-
-        return $rows;
     }
 
     protected function fetchQueryBuilder($id) {
