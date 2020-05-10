@@ -133,6 +133,8 @@ abstract class AbstractEntityService extends AbstractResourceListener {
 
         $entity = $this->createEntity($data);
 
+        $this->assertAllowed($entity, __FUNCTION__);
+
         $this->serviceUtils->emPersist($entity);
         $this->serviceUtils->emFlush();
 
@@ -142,6 +144,8 @@ abstract class AbstractEntityService extends AbstractResourceListener {
     /**
      * Responsible for creation of entity + hydration of data. Should be overriden by subclass for specific
      * additional business logic during create process.
+     *
+     * ATTENTION: Does not check for proper permission and does not persist any data
      *
      * @param mixed $data
      *
