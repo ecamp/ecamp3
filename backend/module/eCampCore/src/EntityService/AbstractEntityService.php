@@ -9,6 +9,7 @@ use Doctrine\ORM\Query\Expr;
 use Doctrine\ORM\QueryBuilder;
 use eCamp\Core\Entity\User;
 use eCamp\Lib\Acl\Acl;
+use eCamp\Lib\Acl\Guest;
 use eCamp\Lib\Acl\NoAccessException;
 use eCamp\Lib\Entity\BaseEntity;
 use eCamp\Lib\Service\EntityNotFoundException;
@@ -283,7 +284,7 @@ abstract class AbstractEntityService extends AbstractResourceListener {
      */
     protected function getAuthUser() {
         /** @var User $user */
-        $user = null;
+        $user = new Guest();
 
         if ($this->authenticationService->hasIdentity()) {
             $userRepository = $this->serviceUtils->emGetRepository(User::class);

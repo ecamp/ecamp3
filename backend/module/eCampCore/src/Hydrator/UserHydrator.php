@@ -3,6 +3,7 @@
 namespace eCamp\Core\Hydrator;
 
 use eCamp\Core\Entity\User;
+use Zend\Authentication\AuthenticationService;
 use Zend\Hydrator\HydratorInterface;
 
 class UserHydrator implements HydratorInterface {
@@ -17,13 +18,19 @@ class UserHydrator implements HydratorInterface {
      * @return array
      */
     public function extract($object) {
+        $auth = new AuthenticationService();
         /** @var User $user */
         $user = $object;
+
+        $relation = $user->getRelation($auth->getIdentity());
+        $showDetails = (User::RELATION_UNRELATED != $relation);
 
         return [
             'id' => $user->getId(),
             'username' => $user->getUsername(),
-            'mail' => $user->getTrustedMailAddress(),
+            'mail' => $showDetails ? $user->getTrustedMailAddress() : '***',
+            'relation' => $relation,
+            'role' => $user->getRole(),
         ];
     }
 

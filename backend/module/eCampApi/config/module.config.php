@@ -8,7 +8,7 @@ return [
                 'options' => [
                     'route' => '/[:action]',
                     'defaults' => [
-                        'controller' => 'eCampApi\\V1\\Rpc\\Index\\Controller',
+                        'controller' => 'eCampApi\\V1\\Rpc\\Index\\IndexController',
                         'action' => 'index',
                     ],
                 ],
@@ -18,7 +18,7 @@ return [
                 'options' => [
                     'route' => '/api/auth[/:action]',
                     'defaults' => [
-                        'controller' => 'eCampApi\\V1\\Rpc\\Auth\\Controller',
+                        'controller' => 'eCampApi\\V1\\Rpc\\Auth\\AuthController',
                         'action' => 'index',
                     ],
                 ],
@@ -28,7 +28,7 @@ return [
                 'options' => [
                     'route' => '/api/register[/:action]',
                     'defaults' => [
-                        'controller' => 'eCampApi\\V1\\Rpc\\Register\\Controller',
+                        'controller' => 'eCampApi\\V1\\Rpc\\Register\\RegisterController',
                         'action' => 'register',
                     ],
                 ],
@@ -163,9 +163,9 @@ return [
     ],
     'controllers' => [
         'factories' => [
-            'eCampApi\\V1\\Rpc\\Auth\\Controller' => 'eCampApi\\V1\\Rpc\\Auth\\AuthControllerFactory',
-            'eCampApi\\V1\\Rpc\\Index\\Controller' => 'eCampApi\\V1\\Rpc\\Index\\IndexControllerFactory',
-            'eCampApi\\V1\\Rpc\\Register\\Controller' => 'eCampApi\\V1\\Rpc\\Register\\RegisterControllerFactory',
+            'eCampApi\\V1\\Rpc\\Auth\\AuthController' => \Zend\Di\Container\ServiceManager\AutowireFactory::class,
+            'eCampApi\\V1\\Rpc\\Index\\IndexController' => \Zend\Di\Container\ServiceManager\AutowireFactory::class,
+            'eCampApi\\V1\\Rpc\\Register\\RegisterController' => \Zend\Di\Container\ServiceManager\AutowireFactory::class,
         ],
     ],
     'zf-versioning' => [
@@ -556,9 +556,9 @@ return [
             'eCampApi\\V1\\Rest\\EventInstance\\Controller' => 'HalJson',
             'eCampApi\\V1\\Rest\\User\\Controller' => 'HalJson',
             'eCampApi\\V1\\Rest\\CampCollaboration\\Controller' => 'HalJson',
-            'eCampApi\\V1\\Rpc\\Index\\Controller' => 'HalJson',
-            'eCampApi\\V1\\Rpc\\Auth\\Controller' => 'HalJson',
-            'eCampApi\\V1\\Rpc\\Register\\Controller' => 'Json',
+            'eCampApi\\V1\\Rpc\\Index\\IndexController' => 'HalJson',
+            'eCampApi\\V1\\Rpc\\Auth\\AuthController' => 'HalJson',
+            'eCampApi\\V1\\Rpc\\Register\\RegisterController' => 'Json',
             'eCampApi\\V1\\Rest\\EventPlugin\\Controller' => 'HalJson',
             'eCampApi\\V1\\Rest\\Plugin\\Controller' => 'HalJson',
             'eCampApi\\V1\\Rest\\EventTypePlugin\\Controller' => 'HalJson',
@@ -619,17 +619,17 @@ return [
                 1 => 'application/hal+json',
                 2 => 'application/json',
             ],
-            'eCampApi\\V1\\Rpc\\Index\\Controller' => [
+            'eCampApi\\V1\\Rpc\\Index\\IndexController' => [
                 0 => 'application/vnd.e-camp-api.v1+json',
                 1 => 'application/json',
                 2 => 'application/*+json',
             ],
-            'eCampApi\\V1\\Rpc\\Auth\\Controller' => [
+            'eCampApi\\V1\\Rpc\\Auth\\AuthController' => [
                 0 => 'application/vnd.e-camp-api.v1+json',
                 1 => 'application/json',
                 2 => 'application/*+json',
             ],
-            'eCampApi\\V1\\Rpc\\Register\\Controller' => [
+            'eCampApi\\V1\\Rpc\\Register\\RegisterController' => [
                 0 => 'application/vnd.e-camp-api.v1+json',
                 1 => 'application/json',
                 2 => 'application/*+json',
@@ -695,15 +695,15 @@ return [
                 0 => 'application/vnd.e-camp-api.v1+json',
                 1 => 'application/json',
             ],
-            'eCampApi\\V1\\Rpc\\Index\\Controller' => [
+            'eCampApi\\V1\\Rpc\\Index\\IndexController' => [
                 0 => 'application/vnd.e-camp-api.v1+json',
                 1 => 'application/json',
             ],
-            'eCampApi\\V1\\Rpc\\Auth\\Controller' => [
+            'eCampApi\\V1\\Rpc\\Auth\\AuthController' => [
                 0 => 'application/vnd.e-camp-api.v1+json',
                 1 => 'application/json',
             ],
-            'eCampApi\\V1\\Rpc\\Register\\Controller' => [
+            'eCampApi\\V1\\Rpc\\Register\\RegisterController' => [
                 0 => 'application/vnd.e-camp-api.v1+json',
                 1 => 'application/json',
             ],
@@ -951,7 +951,7 @@ return [
         'eCampApi\\V1\\Rest\\CampCollaboration\\Controller' => [
             'input_filter' => 'eCampApi\\V1\\Rest\\CampCollaboration\\Validator',
         ],
-        'eCampApi\\V1\\Rpc\\Auth\\Controller' => [
+        'eCampApi\\V1\\Rpc\\Auth\\AuthController' => [
             'input_filter' => 'eCampApi\\V1\\Rpc\\Auth\\Validator',
         ],
         'eCampApi\\V1\\Rest\\EventPlugin\\Controller' => [
@@ -1557,7 +1557,7 @@ return [
         ],
     ],
     'zf-rpc' => [
-        'eCampApi\\V1\\Rpc\\Auth\\Controller' => [
+        'eCampApi\\V1\\Rpc\\Auth\\AuthController' => [
             'service_name' => 'Auth',
             'http_methods' => [
                 0 => 'GET',
@@ -1565,14 +1565,14 @@ return [
             ],
             'route_name' => 'e-camp-api.rpc.auth',
         ],
-        'eCampApi\\V1\\Rpc\\Index\\Controller' => [
+        'eCampApi\\V1\\Rpc\\Index\\IndexController' => [
             'service_name' => 'Index',
             'http_methods' => [
                 0 => 'GET',
             ],
             'route_name' => 'e-camp-api.rpc.index',
         ],
-        'eCampApi\\V1\\Rpc\\Register\\Controller' => [
+        'eCampApi\\V1\\Rpc\\Register\\RegisterController' => [
             'service_name' => 'Register',
             'http_methods' => [
                 0 => 'POST',

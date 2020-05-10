@@ -12,7 +12,7 @@ use eCamp\Lib\Entity\BaseEntity;
  * @ORM\Entity
  * @ORM\HasLifecycleCallbacks
  */
-class EventPlugin extends BaseEntity implements PluginStrategyProviderAware {
+class EventPlugin extends BaseEntity implements PluginStrategyProviderAware, BelongsToCampInterface {
     use PluginStrategyProviderTrait;
 
     /**
@@ -48,6 +48,10 @@ class EventPlugin extends BaseEntity implements PluginStrategyProviderAware {
 
     public function setEvent($event) {
         $this->event = $event;
+    }
+
+    public function getCamp() {
+        return (null != $this->event) ? $this->event->getCamp() : null;
     }
 
     /**

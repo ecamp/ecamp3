@@ -19,6 +19,10 @@ class User extends AbstractCampOwner implements RoleInterface {
     const ROLE_USER = 'user';
     const ROLE_ADMIN = 'admin';
 
+    const RELATION_ME = 'me';
+    const RELATION_KNOWN = 'known';
+    const RELATION_UNRELATED = 'unrelated';
+
     /**
      * @var ArrayCollection
      * @ORM\OneToMany(targetEntity="UserIdentity", mappedBy="user", orphanRemoval=true)
@@ -108,6 +112,40 @@ class User extends AbstractCampOwner implements RoleInterface {
      */
     public function getDisplayName() {
         return $this->username;
+    }
+
+    /**
+     * @param $userId
+     *
+     * @return string
+     */
+    public function getRelation($userId) {
+        if ($userId == $this->id) {
+            return self::RELATION_ME;
+        }
+
+        $known = false;
+        if (!$known) {
+            $camps = $this->getOwnedCamps();
+            $known |= $camps->exists(function ($idx, Camp $c) use ($userId) {
+                return $c->isCollaborator($userId);
+            });
+        }
+        if (!$known) {
+            $camps = $this->getCampCollaborations()->filter(function (CampCollaboration $cc) {
+                return $cc->isEstablished();
+            })->map(function (CampCollaboration $cc) {
+                return $cc->getCamp();
+            });
+            $known |= $camps->exists(function ($idx, Camp $c) use ($userId) {
+                return $c->isCollaborator($userId);
+            });
+        }
+        if ($known) {
+            return self::RELATION_KNOWN;
+        }
+
+        return self::RELATION_UNRELATED;
     }
 
     public function getTrustedMailAddress(): string {
@@ -214,7 +252,7 @@ class User extends AbstractCampOwner implements RoleInterface {
         $this->memberships->removeElement($membership);
     }
 
-    public function getCampCollaborations(): ArrayCollection {
+    public function getCampCollaborations() {
         return $this->collaborations;
     }
 
@@ -239,6 +277,6 @@ class User extends AbstractCampOwner implements RoleInterface {
 
     public function removeUserIdentity(UserIdentity $userIdentity) {
         $userIdentity->setUser(null);
-        $this->userIdentites->removeElement($userIdentity);
+        $this->userIdentities->removeElement($userIdentity);
     }
 }

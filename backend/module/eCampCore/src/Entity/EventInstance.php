@@ -10,7 +10,7 @@ use eCamp\Lib\Entity\BaseEntity;
  * @ORM\Entity
  * @ORM\HasLifecycleCallbacks
  */
-class EventInstance extends BaseEntity {
+class EventInstance extends BaseEntity implements BelongsToCampInterface {
     /**
      * @var Period
      * @ORM\ManyToOne(targetEntity="Period")
@@ -63,7 +63,7 @@ class EventInstance extends BaseEntity {
         $this->period = $period;
     }
 
-    public function getCamp(): Camp {
+    public function getCamp() {
         return (null !== $this->period) ? $this->period->getCamp() : null;
     }
 

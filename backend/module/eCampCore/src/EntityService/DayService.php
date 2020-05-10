@@ -7,6 +7,7 @@ use eCamp\Core\Entity\Camp;
 use eCamp\Core\Entity\Day;
 use eCamp\Core\Entity\Period;
 use eCamp\Core\Hydrator\DayHydrator;
+use eCamp\Lib\Acl\Acl;
 use eCamp\Lib\Acl\NoAccessException;
 use eCamp\Lib\Service\ServiceUtils;
 use Zend\Authentication\AuthenticationService;
@@ -37,6 +38,8 @@ class DayService extends AbstractEntityService {
         /** @var Day $day */
         $day = parent::create($data);
         $period->addDay($day);
+
+        $this->assertAllowed($day, Acl::REST_PRIVILEGE_CREATE);
 
         return $day;
     }

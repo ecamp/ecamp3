@@ -4,7 +4,6 @@ namespace eCamp\Core\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-use eCamp\Lib\Annotation\EntityFilter;
 use eCamp\Lib\Entity\BaseEntity;
 
 /**
@@ -13,9 +12,8 @@ use eCamp\Lib\Entity\BaseEntity;
  * @ORM\Table(uniqueConstraints={
  *     @ORM\UniqueConstraint(name="owner_name_unique", columns={"ownerId", "name"})
  * })
- * @EntityFilter(filterClass="eCamp\Core\EntityFilter\CampFilter")
  */
-class Camp extends BaseEntity {
+class Camp extends BaseEntity implements BelongsToCampInterface {
     /**
      * @var ArrayCollection
      * @ORM\OneToMany(targetEntity="CampCollaboration", mappedBy="camp", orphanRemoval=true)
@@ -206,6 +204,40 @@ class Camp extends BaseEntity {
         $this->collaborations->removeElement($collaboration);
     }
 
+    public function getRole($userId) {
+        $campCollaborations = $this->collaborations->filter(function (CampCollaboration $cc) use ($userId) {
+            return $cc->getUser()->getId() == $userId;
+        });
+
+        if (1 == $campCollaborations->count()) {
+            /** @var CampCollaboration $campCollaboration */
+            $campCollaboration = $campCollaborations->first();
+            if ($campCollaboration->isEstablished()) {
+                return $campCollaboration->getRole();
+            }
+        }
+
+        return CampCollaboration::ROLE_GUEST;
+    }
+
+    /**
+     * @param string $userId
+     *
+     * @return bool
+     */
+    public function isCollaborator($userId) {
+        if ($this->getCreator()->getId() == $userId) {
+            return true;
+        }
+        if ($this->getOwner()->getId() == $userId) {
+            return true;
+        }
+
+        return $this->getCampCollaborations()->exists(function ($idx, CampCollaboration $cc) use ($userId) {
+            return $cc->isEstablished() && ($cc->getUser()->getId() == $userId);
+        });
+    }
+
     /**
      * @return ArrayCollection
      */
@@ -272,5 +304,12 @@ class Camp extends BaseEntity {
     public function removeEvent(Event $event): void {
         $event->setCamp(null);
         $this->events->removeElement($event);
+    }
+
+    /**
+     * @return Camp
+     */
+    public function getCamp() {
+        return $this;
     }
 }

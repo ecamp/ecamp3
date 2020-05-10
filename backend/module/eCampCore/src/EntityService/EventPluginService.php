@@ -60,6 +60,9 @@ class EventPluginService extends AbstractEntityService {
         $eventPlugin->setPlugin($eventTypePlugin->getPlugin());
         $eventPlugin->setPluginStrategyProvider($this->getPluginStrategyProvider());
 
+        // TODO: shouldn't be in createEntity --> move to base class?
+        // $this->assertAllowed($eventPlugin, Acl::REST_PRIVILEGE_CREATE);
+
         return $eventPlugin;
     }
 

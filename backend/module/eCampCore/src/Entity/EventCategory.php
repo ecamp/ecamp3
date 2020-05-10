@@ -10,7 +10,7 @@ use eCamp\Lib\Entity\BaseEntity;
  *
  * @ORM\Entity
  */
-class EventCategory extends BaseEntity {
+class EventCategory extends BaseEntity implements BelongsToCampInterface {
     /**
      * @var Camp
      * @ORM\ManyToOne(targetEntity="Camp")

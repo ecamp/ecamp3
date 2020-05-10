@@ -10,6 +10,7 @@ use eCamp\Lib\Hydrator\Util;
 use eCampApi\V1\Rest\Day\DayCollection;
 use eCampApi\V1\Rest\EventCategory\EventCategoryCollection;
 use eCampApi\V1\Rest\Period\PeriodCollection;
+use Zend\Authentication\AuthenticationService;
 use Zend\Hydrator\HydratorInterface;
 use ZF\Hal\Link\Link;
 
@@ -57,6 +58,8 @@ class CampHydrator implements HydratorInterface {
      * @return array
      */
     public function extract($object) {
+        $auth = new AuthenticationService();
+
         /** @var Camp $camp */
         $camp = $object;
 
@@ -65,6 +68,7 @@ class CampHydrator implements HydratorInterface {
             'name' => $camp->getName(),
             'title' => $camp->getTitle(),
             'motto' => $camp->getMotto(),
+            'role' => $camp->getRole($auth->getIdentity()),
 
             //            'owner' => EntityLink::Create($camp->getOwner()),
             'creator' => EntityLink::Create($camp->getCreator()),

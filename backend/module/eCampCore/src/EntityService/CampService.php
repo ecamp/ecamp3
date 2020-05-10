@@ -8,6 +8,7 @@ use eCamp\Core\Entity\Camp;
 use eCamp\Core\Entity\CampType;
 use eCamp\Core\Entity\User;
 use eCamp\Core\Hydrator\CampHydrator;
+use eCamp\Lib\Acl\Acl;
 use eCamp\Lib\Acl\NoAccessException;
 use eCamp\Lib\Service\ServiceUtils;
 use Zend\Authentication\AuthenticationService;
@@ -62,6 +63,8 @@ class CampService extends AbstractEntityService {
         $camp->setCampType($campType);
         $camp->setCreator($creator);
         $owner->addOwnedCamp($camp);
+
+        $this->assertAllowed($camp, Acl::REST_PRIVILEGE_CREATE);
 
         /** Create default Jobs */
         $jobConfigs = $campType->getConfig(CampType::CNF_JOBS) ?: [];

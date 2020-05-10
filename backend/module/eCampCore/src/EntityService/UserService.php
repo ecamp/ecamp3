@@ -107,24 +107,6 @@ class UserService extends AbstractEntityService {
         return $user;
     }
 
-    /**
-     * @param mixed $id
-     * @param mixed $data
-     *
-     * @throws NoAccessException
-     *
-     * @return ApiProblem|User
-     */
-    public function update($id, $data) {
-        if ($data instanceof Profile) {
-            /** @var Profile $profile */
-            $profile = $data;
-            $data = (object) ['username' => $profile->displayName];
-        }
-
-        return parent::update($id, $data);
-    }
-
     public function findByUsername($username) {
         /** @var UserRepository $userRepository */
         $userRepository = $this->getRepository();

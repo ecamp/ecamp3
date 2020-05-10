@@ -6,7 +6,7 @@
   "config": {
     "process-timeout": 5000,
     "platform": {
-      "php": "7.2"
+      "php": "7.4.2"
     }
   },
   "repositories": [
@@ -16,7 +16,7 @@
     }
   ],
   "require": {
-    "php": "^7.2",
+    "php": "^7.4.2",
     "zfcampus/zf-hal": "^1.5",
     "zfcampus/zf-rest": "^1.5",
     "zendframework/zend-di": "^3.0",

@@ -12,7 +12,7 @@ use eCamp\Lib\Entity\BaseEntity;
  * })
  * @ORM\HasLifecycleCallbacks
  */
-class Day extends BaseEntity {
+class Day extends BaseEntity implements BelongsToCampInterface {
     /**
      * @var Period
      * @ORM\ManyToOne(targetEntity="Period")

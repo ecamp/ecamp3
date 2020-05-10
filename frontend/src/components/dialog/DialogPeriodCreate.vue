@@ -45,7 +45,7 @@ export default {
         'start',
         'end'
       ],
-      entityUri: '/period'
+      entityUri: '/periods'
     }
   },
   watch: {

@@ -11,7 +11,7 @@ use eCamp\Lib\Entity\BaseEntity;
  * @ORM\Entity
  * @ORM\HasLifecycleCallbacks
  */
-class Event extends BaseEntity {
+class Event extends BaseEntity implements BelongsToCampInterface {
     /**
      * @var ArrayCollection
      * @ORM\OneToMany(targetEntity="EventPlugin", mappedBy="event", cascade={"all"}, orphanRemoval=true)

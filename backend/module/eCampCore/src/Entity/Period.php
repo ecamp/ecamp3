@@ -10,7 +10,7 @@ use eCamp\Lib\Entity\BaseEntity;
  * @ORM\Entity
  * @ORM\HasLifecycleCallbacks
  */
-class Period extends BaseEntity {
+class Period extends BaseEntity implements BelongsToCampInterface {
     /**
      * @var Day[]
      * @ORM\OneToMany(targetEntity="Day", mappedBy="period", orphanRemoval=true)

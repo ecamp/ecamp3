@@ -27,7 +27,7 @@ use eCamp\Lib\Entity\BaseEntity;
 /**
  * @ORM\Entity
  */
-class Job extends BaseEntity {
+class Job extends BaseEntity implements BelongsToCampInterface {
     /**
      * @var ArrayCollection
      * @ORM\OneToMany(targetEntity="JobResp", mappedBy="job")
