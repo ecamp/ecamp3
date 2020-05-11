@@ -29,7 +29,7 @@ class CampTypeHydrator implements HydratorInterface {
             'isCourse' => $campType->getIsCourse(),
 
             'organization' => EntityLink::Create($campType->getOrganization()),
-            'eventTypes' => new EntityLinkCollection($campType->getEventTypes()),
+            'activityTypes' => new EntityLinkCollection($campType->getActivityTypes()),
         ];
     }
 

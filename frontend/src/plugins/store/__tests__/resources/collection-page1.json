@@ -6,13 +6,13 @@
     "page_count": 2,
     "_links": {
       "self": {
-        "href": "/camps/1/events?page=1&page_size=2"
+        "href": "/camps/1/activities?page=1&page_size=2"
       },
       "first": {
-        "href": "/camps/1/events?page=0&page_size=2"
+        "href": "/camps/1/activities?page=0&page_size=2"
       },
       "prev": {
-        "href": "/camps/1/events?page=0&page_size=2"
+        "href": "/camps/1/activities?page=0&page_size=2"
       }
     },
     "_embedded": {
@@ -27,14 +27,14 @@
               "color": "#aaaa00",
               "_links": {
                 "self": {
-                  "href": "/eventTypes/8879"
+                  "href": "/activityTypes/8879"
                 }
               }
             }
           },
           "_links": {
             "self": {
-              "href": "/events/2402"
+              "href": "/activities/2402"
             }
           }
         }
@@ -42,19 +42,19 @@
     }
   },
   "storeState": {
-    "/camps/1/events?page=1&page_size=2": {
+    "/camps/1/activities?page=1&page_size=2": {
       "_meta": {
-        "self": "/camps/1/events?page=1&page_size=2"
+        "self": "/camps/1/activities?page=1&page_size=2"
       },
       "first": {
-        "href": "/camps/1/events?page=0&page_size=2"
+        "href": "/camps/1/activities?page=0&page_size=2"
       },
       "prev": {
-        "href": "/camps/1/events?page=0&page_size=2"
+        "href": "/camps/1/activities?page=0&page_size=2"
       },
       "items": [
         {
-          "href": "/events/2402"
+          "href": "/activities/2402"
         }
       ],
       "_page": 1,
@@ -62,22 +62,22 @@
       "_total": 3,
       "page_count": 2
     },
-    "/eventTypes/8879": {
+    "/activityTypes/8879": {
       "id": 8879,
       "color": "#aaaa00",
       "name": "LP",
       "_meta": {
-        "self": "/eventTypes/8879"
+        "self": "/activityTypes/8879"
       }
     },
-    "/events/2402": {
+    "/activities/2402": {
       "id": 2402,
       "_meta": {
-        "self": "/events/2402"
+        "self": "/activities/2402"
       },
       "title": "TABS",
       "type": {
-        "href": "/eventTypes/8879"
+        "href": "/activityTypes/8879"
       }
     }
   }

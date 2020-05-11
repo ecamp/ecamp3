@@ -2,22 +2,22 @@
 
 namespace eCamp\Core\Acl;
 
+use eCamp\Core\Entity\Activity;
+use eCamp\Core\Entity\ActivityCategory;
+use eCamp\Core\Entity\ActivityContent;
+use eCamp\Core\Entity\ActivityType;
+use eCamp\Core\Entity\ActivityTypeContentType;
+use eCamp\Core\Entity\ActivityTypeFactory;
 use eCamp\Core\Entity\Camp;
 use eCamp\Core\Entity\CampCollaboration;
 use eCamp\Core\Entity\CampType;
+use eCamp\Core\Entity\ContentType;
 use eCamp\Core\Entity\Day;
-use eCamp\Core\Entity\Event;
-use eCamp\Core\Entity\EventCategory;
-use eCamp\Core\Entity\EventInstance;
-use eCamp\Core\Entity\EventPlugin;
-use eCamp\Core\Entity\EventType;
-use eCamp\Core\Entity\EventTypeFactory;
-use eCamp\Core\Entity\EventTypePlugin;
 use eCamp\Core\Entity\Group;
 use eCamp\Core\Entity\GroupMembership;
 use eCamp\Core\Entity\Organization;
 use eCamp\Core\Entity\Period;
-use eCamp\Core\Entity\Plugin;
+use eCamp\Core\Entity\ScheduleEntry;
 use eCamp\Core\Entity\User;
 use eCamp\Core\Entity\UserIdentity;
 use eCamp\Lib\Acl\Acl;
@@ -46,17 +46,17 @@ class AclFactory implements FactoryInterface {
         $acl->addResource(GroupMembership::class, BaseEntity::class);
 
         $acl->addResource(CampType::class, BaseEntity::class);
-        $acl->addResource(EventType::class, BaseEntity::class);
-        $acl->addResource(EventTypeFactory::class, BaseEntity::class);
+        $acl->addResource(ActivityType::class, BaseEntity::class);
+        $acl->addResource(ActivityTypeFactory::class, BaseEntity::class);
 
-        $acl->addResource(Plugin::class, BaseEntity::class);
-        $acl->addResource(EventTypePlugin::class, BaseEntity::class);
+        $acl->addResource(ContentType::class, BaseEntity::class);
+        $acl->addResource(ActivityTypeContentType::class, BaseEntity::class);
 
-        $acl->addResource(Event::class, BaseEntity::class);
-        $acl->addResource(EventCategory::class, BaseEntity::class);
-        $acl->addResource(EventPlugin::class, BaseEntity::class);
+        $acl->addResource(Activity::class, BaseEntity::class);
+        $acl->addResource(ActivityCategory::class, BaseEntity::class);
+        $acl->addResource(ActivityContent::class, BaseEntity::class);
 
-        $acl->addResource(EventInstance::class, BaseEntity::class);
+        $acl->addResource(ScheduleEntry::class, BaseEntity::class);
 
         $acl->addResource(User::class, BaseEntity::class);
         $acl->addResource(UserIdentity::class, BaseEntity::class);
@@ -75,10 +75,10 @@ class AclFactory implements FactoryInterface {
                 Organization::class,
                 Group::class,
                 CampType::class,
-                EventType::class,
-                EventTypeFactory::class,
-                EventTypePlugin::class,
-                Plugin::class,
+                ActivityType::class,
+                ActivityTypeFactory::class,
+                ActivityTypeContentType::class,
+                ContentType::class,
             ],
             [
                 Acl::REST_PRIVILEGE_FETCH,
@@ -120,10 +120,10 @@ class AclFactory implements FactoryInterface {
                 CampCollaboration::class,
                 Period::class,
                 Day::class,
-                Event::class,
-                EventCategory::class,
-                EventInstance::class,
-                EventPlugin::class,
+                Activity::class,
+                ActivityCategory::class,
+                ScheduleEntry::class,
+                ActivityContent::class,
             ],
             [
                 Acl::REST_PRIVILEGE_FETCH_ALL,
@@ -135,10 +135,10 @@ class AclFactory implements FactoryInterface {
                 CampCollaboration::class,
                 Period::class,
                 Day::class,
-                Event::class,
-                EventCategory::class,
-                EventInstance::class,
-                EventPlugin::class,
+                Activity::class,
+                ActivityCategory::class,
+                ScheduleEntry::class,
+                ActivityContent::class,
             ],
             [
                 Acl::REST_PRIVILEGE_CREATE,

@@ -6,13 +6,13 @@
     "page_count": 2,
     "_links": {
       "self": {
-        "href": "/camps/1/events"
+        "href": "/camps/1/activities"
       },
       "first": {
-        "href": "/camps/1/events?page=0&page_size=2"
+        "href": "/camps/1/activities?page=0&page_size=2"
       },
       "next": {
-        "href": "/camps/1/events?page=1&page_size=2"
+        "href": "/camps/1/activities?page=1&page_size=2"
       }
     },
     "_embedded": {
@@ -27,14 +27,14 @@
               "color": "#00aa00",
               "_links": {
                 "self": {
-                  "href": "/eventTypes/8877"
+                  "href": "/activityTypes/8877"
                 }
               }
             }
           },
           "_links": {
             "self": {
-              "href": "/events/2394"
+              "href": "/activities/2394"
             }
           }
         },
@@ -48,14 +48,14 @@
               "color": "#aaaa00",
               "_links": {
                 "self": {
-                  "href": "/eventTypes/8879"
+                  "href": "/activityTypes/8879"
                 }
               }
             }
           },
           "_links": {
             "self": {
-              "href": "/events/2362"
+              "href": "/activities/2362"
             }
           }
         }
@@ -63,62 +63,62 @@
     }
   },
   "storeState": {
-    "/camps/1/events?page=0&page_size=2": {
+    "/camps/1/activities?page=0&page_size=2": {
       "_meta": {
-        "self": "/camps/1/events?page=0&page_size=2"
+        "self": "/camps/1/activities?page=0&page_size=2"
       },
       "_page": 0,
       "_per_page": 2,
       "_total": 3,
       "page_count": 2,
       "first": {
-        "href": "/camps/1/events?page=0&page_size=2"
+        "href": "/camps/1/activities?page=0&page_size=2"
       },
       "next": {
-        "href": "/camps/1/events?page=1&page_size=2"
+        "href": "/camps/1/activities?page=1&page_size=2"
       },
       "items": [
         {
-          "href": "/events/2394"
+          "href": "/activities/2394"
         },
         {
-          "href": "/events/2362"
+          "href": "/activities/2362"
         }
       ]
     },
-    "/eventTypes/8877": {
+    "/activityTypes/8877": {
       "id": 8877,
       "color": "#00aa00",
       "name": "LS",
       "_meta": {
-        "self": "/eventTypes/8877"
+        "self": "/activityTypes/8877"
       }
     },
-    "/eventTypes/8879": {
+    "/activityTypes/8879": {
       "id": 8879,
       "color": "#aaaa00",
       "name": "LP",
       "_meta": {
-        "self": "/eventTypes/8879"
+        "self": "/activityTypes/8879"
       }
     },
-    "/events/2362": {
+    "/activities/2362": {
       "id": 2362,
       "type": {
-        "href": "/eventTypes/8879"
+        "href": "/activityTypes/8879"
       },
       "_meta": {
-        "self": "/events/2362"
+        "self": "/activities/2362"
       },
       "title": "Geländespiel"
     },
-    "/events/2394": {
+    "/activities/2394": {
       "id": 2394,
       "type": {
-        "href": "/eventTypes/8877"
+        "href": "/activityTypes/8877"
       },
       "_meta": {
-        "self": "/events/2394"
+        "self": "/activities/2394"
       },
       "title": "Volleyball"
     }

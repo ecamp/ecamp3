@@ -2,11 +2,11 @@
 
 namespace eCamp\CoreTest\Entity;
 
+use eCamp\Core\Entity\Activity;
+use eCamp\Core\Entity\ActivityCategory;
 use eCamp\Core\Entity\Camp;
 use eCamp\Core\Entity\CampCollaboration;
 use eCamp\Core\Entity\CampType;
-use eCamp\Core\Entity\Event;
-use eCamp\Core\Entity\EventCategory;
 use eCamp\Core\Entity\Job;
 use eCamp\Core\Entity\Organization;
 use eCamp\Core\Entity\Period;
@@ -86,25 +86,25 @@ class CampTest extends AbstractTestCase {
         $this->assertEquals(0, $camp->getJobs()->count());
     }
 
-    public function testEventCategory() {
+    public function testActivityCategory() {
         $camp = new Camp();
-        $category = new EventCategory();
+        $category = new ActivityCategory();
 
-        $this->assertEquals(0, $camp->getEventCategories()->count());
-        $camp->addEventCategory($category);
-        $this->assertContains($category, $camp->getEventCategories());
-        $camp->removeEventCategory($category);
-        $this->assertEquals(0, $camp->getEventCategories()->count());
+        $this->assertEquals(0, $camp->getActivityCategories()->count());
+        $camp->addActivityCategory($category);
+        $this->assertContains($category, $camp->getActivityCategories());
+        $camp->removeActivityCategory($category);
+        $this->assertEquals(0, $camp->getActivityCategories()->count());
     }
 
-    public function testEvent() {
+    public function testActivity() {
         $camp = new Camp();
-        $event = new Event();
+        $activity = new Activity();
 
-        $this->assertEquals(0, $camp->getEvents()->count());
-        $camp->addEvent($event);
-        $this->assertContains($event, $camp->getEvents());
-        $camp->removeEvent($event);
-        $this->assertEquals(0, $camp->getEvents()->count());
+        $this->assertEquals(0, $camp->getActivities()->count());
+        $camp->addActivity($activity);
+        $this->assertContains($activity, $camp->getActivities());
+        $camp->removeActivity($activity);
+        $this->assertEquals(0, $camp->getActivities()->count());
     }
 }

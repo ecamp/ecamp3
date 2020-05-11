@@ -58,8 +58,8 @@
 
       "eCampApi\\": "module/eCampApi/src/eCampApi/",
 
-      "eCamp\\Plugin\\Textarea\\": "plugin/eCampTextarea/src/",
-      "eCamp\\Plugin\\Storyboard\\": "plugin/eCampStoryboard/src/"
+      "eCamp\\ContentType\\Textarea\\": "content-type/eCampTextarea/src/",
+      "eCamp\\ContentType\\Storyboard\\": "content-type/eCampStoryboard/src/"
     },
     "files": [
       "module/eCampApp.php"
@@ -72,8 +72,8 @@
 
       "eCampApiTest\\" : "module/eCampApi/test",
 
-      "eCamp\\Plugin\\TextareaTest\\": "plugin/eCampTextarea/test/",
-      "eCamp\\Plugin\\StoryboardTest\\": "plugin/eCampStoryboard/test/"
+      "eCamp\\ContentType\\TextareaTest\\": "content-type/eCampTextarea/test/",
+      "eCamp\\ContentType\\StoryboardTest\\": "content-type/eCampStoryboard/test/"
     }
   },
   "scripts": {

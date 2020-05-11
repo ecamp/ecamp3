@@ -4,7 +4,7 @@ namespace eCamp\Core;
 
 use Doctrine\DBAL\Logging\EchoSQLLogger;
 use Doctrine\ORM\EntityManager;
-use eCamp\Core\Plugin\PluginStrategyProviderInjector;
+use eCamp\Core\ContentType\ContentTypeStrategyProviderInjector;
 use Zend\Mvc\Application;
 use Zend\Mvc\MvcEvent;
 use ZF\ApiProblem\ApiProblemResponse;
@@ -41,8 +41,8 @@ class Module {
             }
         });
 
-        // inject PluginStrategyProvider into Doctrine entities (mainly EventPlugin entity)
-        $em->getEventManager()->addEventListener([\Doctrine\ORM\Events::postLoad], $sm->get(PluginStrategyProviderInjector::class));
-        $em->getEventManager()->addEventListener([\Doctrine\ORM\Events::prePersist], $sm->get(PluginStrategyProviderInjector::class));
+        // inject ContentTypeStrategyProvider into Doctrine entities (mainly ActivityContent entity)
+        $em->getEventManager()->addEventListener([\Doctrine\ORM\Events::postLoad], $sm->get(ContentTypeStrategyProviderInjector::class));
+        $em->getEventManager()->addEventListener([\Doctrine\ORM\Events::prePersist], $sm->get(ContentTypeStrategyProviderInjector::class));
     }
 }

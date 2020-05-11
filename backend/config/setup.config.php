@@ -13,8 +13,8 @@ return [
         'eCamp\\Lib',
         'eCamp\\Core',
         'eCamp\\AoT',
-        'eCamp\\Plugin\\Textarea',
-        'eCamp\\Plugin\\Storyboard',
+        'eCamp\\ContentType\\Textarea',
+        'eCamp\\ContentType\\Storyboard',
     ],
     // This should be an array of paths in which modules reside.
     // If a string key is provided, the listener will consider that a module
@@ -23,7 +23,7 @@ return [
     'module_listener_options' => [
         'module_paths' => [
             './module',
-            './plugin',
+            './content-type',
             './vendor',
         ],
         // Using __DIR__ to ensure cross-platform compatibility. Some platforms --

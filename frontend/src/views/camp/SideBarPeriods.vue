@@ -42,8 +42,8 @@ export default {
     periods () {
       return this.camp().periods()
     },
-    events () {
-      return this.camp().events()
+    activities () {
+      return this.camp().activities()
     }
   }
 }

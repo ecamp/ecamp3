@@ -12,7 +12,7 @@ return [
     'module_listener_options' => [
         'module_paths' => [
             './module',
-            './plugin',
+            './content-type',
             './vendor',
         ],
         // Using __DIR__ to ensure cross-platform compatibility. Some platforms --

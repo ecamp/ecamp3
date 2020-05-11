@@ -108,17 +108,17 @@ export default new Router({
       ]
     },
     {
-      path: '/camps/:campId/:campTitle/events/:eventInstanceId/:eventName?',
-      name: 'event',
+      path: '/camps/:campId/:campTitle/activities/:scheduleEntryId/:activityName?',
+      name: 'activity',
       components: {
         navigation: NavigationCamp,
-        default: () => import(/* webpackChunkName: "event" */ './views/event/Event'),
-        aside: () => import(/* webpackChunkName: "day" */ './views/event/SideBarProgram')
+        default: () => import(/* webpackChunkName: "activity" */ './views/activity/Activity'),
+        aside: () => import(/* webpackChunkName: "day" */ './views/activity/SideBarProgram')
       },
       beforeEnter: requireAuth,
       props: {
-        default: route => ({ eventInstance: eventInstanceFromRoute(route) }),
-        aside: route => ({ day: dayFromEventInstanceInRoute(route) })
+        default: route => ({ scheduleEntry: scheduleEntryFromRoute(route) }),
+        aside: route => ({ day: dayFromScheduleEntryInRoute(route) })
       }
     }
   ]
@@ -140,15 +140,15 @@ export function campFromRoute (route) {
   }
 }
 
-function eventInstanceFromRoute (route) {
+function scheduleEntryFromRoute (route) {
   return function () {
-    return this.api.get().eventInstances({ eventInstanceId: route.params.eventInstanceId })
+    return this.api.get().scheduleEntries({ scheduleEntryId: route.params.scheduleEntryId })
   }
 }
 
-function dayFromEventInstanceInRoute (route) {
+function dayFromScheduleEntryInRoute (route) {
   return function () {
-    return this.api.get().eventInstances({ eventInstanceId: route.params.eventInstanceId }).day()
+    return this.api.get().scheduleEntries({ scheduleEntryId: route.params.scheduleEntryId }).day()
   }
 }
 
@@ -158,10 +158,10 @@ export function campRoute (camp, subroute) {
   return { name: routeName, params: { campId: camp.id, campTitle: slugify(camp.title) } }
 }
 
-export function eventInstanceRoute (camp, eventInstance) {
-  if (camp._meta.loading || eventInstance._meta.loading || eventInstance.event()._meta.loading) return {}
+export function scheduleEntryRoute (camp, scheduleEntry) {
+  if (camp._meta.loading || scheduleEntry._meta.loading || scheduleEntry.activity()._meta.loading) return {}
   return {
-    name: 'event',
-    params: { campId: camp.id, campTitle: slugify(camp.title), eventInstanceId: eventInstance.id, eventName: slugify(eventInstance.event().title) }
+    name: 'activity',
+    params: { campId: camp.id, campTitle: slugify(camp.title), scheduleEntryId: scheduleEntry.id, activityName: slugify(scheduleEntry.activity().title) }
   }
 }

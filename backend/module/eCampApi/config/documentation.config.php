@@ -51,37 +51,37 @@ creates a new user account',
 CampType defines some rules for e Camp.
 - isJS
 - isCourse
-- eventTypes',
+- activityTypes',
             ],
         ],
     ],
-    'eCampApi\\V1\\Rest\\EventType\\Controller' => [
+    'eCampApi\\V1\\Rest\\ActivityType\\Controller' => [
         'collection' => [
             'GET' => [
-                'description' => 'List of all EventTypes',
+                'description' => 'List of all ActivityTypes',
             ],
         ],
         'entity' => [
             'GET' => [
-                'description' => 'Each EventCategory refers an EventType.  
-Each EventType possibly belongs to one or many CampTypes.  
+                'description' => 'Each ActivityCategory refers an ActivityType.  
+Each ActivityType possibly belongs to one or many CampTypes.  
 
-EventTypes define some initial values for new EventCategories.',
+ActivityTypes define some initial values for new ActivityCategories.',
             ],
         ],
     ],
-    'eCampApi\\V1\\Rest\\EventCategory\\Controller' => [
+    'eCampApi\\V1\\Rest\\ActivityCategory\\Controller' => [
         'collection' => [
             'GET' => [
-                'description' => 'List of all EventCategories  
+                'description' => 'List of all ActivityCategories  
 Filters:  
 - campId = [camp-id]',
             ],
             'POST' => [
-                'description' => 'Add new EventCategory',
+                'description' => 'Add new ActivityCategory',
                 'request' => '{
    "campId": "camp-id",
-   "eventTypeId": "event-type-id",
+   "activityTypeId": "activity-type-id",
    "short": "LS",
    "name": "Lagersport",
    "color": "22FF22",
@@ -91,41 +91,41 @@ Filters:
         ],
         'entity' => [
             'GET' => [
-                'description' => 'Each Event belongs to one EventCategory.  
-Each EventCategory belongs to one EventType.  
-EventCategory defines some rules for e Event.
-- eventType
+                'description' => 'Each Activity belongs to one ActivityCategory.  
+Each ActivityCategory belongs to one ActivityType.  
+ActivityCategory defines some rules for e Activity.
+- activityType
 - color
 - numberingStyle',
             ],
             'DELETE' => [
-                'description' => 'Deletes an EventCategory',
+                'description' => 'Deletes an ActivityCategory',
             ],
         ],
     ],
-    'eCampApi\\V1\\Rest\\Event\\Controller' => [
+    'eCampApi\\V1\\Rest\\Activity\\Controller' => [
         'collection' => [
             'GET' => [
-                'description' => 'List of all Events  
+                'description' => 'List of all Activities  
 Filters:  
 - campId = [camp-id]',
             ],
             'POST' => [
-                'description' => 'Add new Event',
+                'description' => 'Add new Activity',
                 'request' => '{
-   "title": "Event-Title",
+   "title": "Activity-Title",
    "campId": "camp-id",
-   "eventCategoryId": "event-category-id"
+   "activityCategoryId": "activity-category-id"
 }',
             ],
         ],
         'entity' => [
             'GET' => [
-                'description' => 'Each Event belongs to one Camp.  
-Each Event refers one EventCategory.',
+                'description' => 'Each Activity belongs to one Camp.  
+Each Activity refers one ActivityCategory.',
             ],
             'DELETE' => [
-                'description' => 'Deletes an Event',
+                'description' => 'Deletes an Activity',
             ],
         ],
     ],

@@ -1,9 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:noNamespaceSchemaLocation="phpunit.xsd"
-    verbose="true"
->
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="phpunit.xsd" verbose="true">
     <php>
         <env name="env" value="test"/>
         <const name="PHPUNIT_TESTSUITE" value="true"/>
@@ -21,11 +17,11 @@
             <directory suffix="Test.php">module/eCampApi/test</directory>
         </testsuite>
 
-        <testsuite name="eCamp.Plugin.Storyboard">
-            <directory suffix="Test.php">plugin/eCampStoryboard/test</directory>
+        <testsuite name="eCamp.ContentType.Storyboard">
+            <directory suffix="Test.php">content-type/eCampStoryboard/test</directory>
         </testsuite>
-        <testsuite name="eCamp.Plugin.Textarea">
-            <directory suffix="Test.php">plugin/eCampTextarea/test</directory>
+        <testsuite name="eCamp.ContentType.Textarea">
+            <directory suffix="Test.php">content-type/eCampTextarea/test</directory>
         </testsuite>
     </testsuites>
 
@@ -35,16 +31,14 @@
             <directory suffix=".php">module/eCampLib/src</directory>
             <directory suffix=".php">module/eCampCore/src</directory>
             <directory suffix=".php">module/eCampApi/src</directory>
-            <directory suffix=".php">plugin/eCampStoryboard/src</directory>
-            <directory suffix=".php">plugin/eCampTextarea/src</directory>
+            <directory suffix=".php">content-type/eCampStoryboard/src</directory>
+            <directory suffix=".php">content-type/eCampTextarea/src</directory>
         </whitelist>
     </filter>
 
 
     <logging>
-        <log type="coverage-html" target="./data/codeCoverage" charset="UTF-8"
-             yui="true" highlight="true" lowUpperBound="50" highLowerBound="80"
-             showUncoveredFiles="false" />
+        <log type="coverage-html" target="./data/codeCoverage" charset="UTF-8" yui="true" highlight="true" lowUpperBound="50" highLowerBound="80" showUncoveredFiles="false" />
         <log type="coverage-clover" target="build/logs/clover.xml"/>
     </logging>
 

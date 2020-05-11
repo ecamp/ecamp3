@@ -167,7 +167,7 @@ export const reload = function (uriOrEntity) {
  *   allCamps () { return this.api.get('/camp').items }
  *   oneSpecificCamp () { return this.api.get(`/camp/${this.campId}`) }
  *   campUri () { return this.oneSpecificCamp._meta.self }
- *   eventTypes () { return this.oneSpecificCamp.eventTypes() }
+ *   activityTypes () { return this.oneSpecificCamp.activityTypes() }
  *   user () { return this.api.get().profile() } // Root endpoint ('/') and navigate through self-discovery API
  * },
  * created () {
@@ -337,7 +337,7 @@ const purge = function (uriOrEntity) {
  * 2. Sends a DELETE request to the API in order to delete E from the backend (in case of failure, the
  *    deleted flag is reset and the operation is aborted)
  * 3. Finds all entities [...R] in the store that reference E (e.g. find the corresponding camp when
- *    deleting an event) and reloads them from the API
+ *    deleting an activity) and reloads them from the API
  * 4. Purges E from the Vuex store
  * @param uriOrEntity URI (or instance) of an entity which should be deleted
  * @returns Promise   resolves when the DELETE request has completed and either all related entites have

@@ -20,8 +20,8 @@ function getClassNames(ContainerInterface $container): iterable {
         __DIR__ . '/../module/eCampLib/src',
         __DIR__ . '/../module/eCampCore/src',
         __DIR__ . '/../module/eCampApi/src',
-        __DIR__ . '/../plugin/eCampStoryboard/src',
-        __DIR__ . '/../plugin/eCampTextarea/src',
+        __DIR__ . '/../content-type/eCampStoryboard/src',
+        __DIR__ . '/../content-type/eCampTextarea/src',
     ];
 
     $scanner = new DirectoryScanner($directories);

@@ -7,8 +7,8 @@ use eCamp\Core\Entity\Period;
 use eCamp\Lib\Entity\EntityLink;
 use eCamp\Lib\Entity\EntityLinkCollection;
 use eCamp\Lib\Hydrator\Util;
+use eCampApi\V1\Rest\ActivityCategory\ActivityCategoryCollection;
 use eCampApi\V1\Rest\Day\DayCollection;
-use eCampApi\V1\Rest\EventCategory\EventCategoryCollection;
 use eCampApi\V1\Rest\Period\PeriodCollection;
 use Zend\Authentication\AuthenticationService;
 use Zend\Hydrator\HydratorInterface;
@@ -44,8 +44,8 @@ class CampHydrator implements HydratorInterface {
                     }, null),
                 ]
             ),
-            'eventCategories' => Util::Collection(function (Camp $c) {
-                return new EventCategoryCollection($c->getEventCategories());
+            'activityCategories' => Util::Collection(function (Camp $c) {
+                return new ActivityCategoryCollection($c->getActivityCategories());
             }, null),
         ];
     }
@@ -78,11 +78,11 @@ class CampHydrator implements HydratorInterface {
 
             'periods' => new EntityLinkCollection($camp->getPeriods()),
 
-            'eventCategories' => new EntityLinkCollection($camp->getEventCategories()),
-            'events' => Link::factory([
-                'rel' => 'events',
+            'activityCategories' => new EntityLinkCollection($camp->getActivityCategories()),
+            'activities' => Link::factory([
+                'rel' => 'activities',
                 'route' => [
-                    'name' => 'e-camp-api.rest.doctrine.event',
+                    'name' => 'e-camp-api.rest.doctrine.activity',
                     'options' => ['query' => ['campId' => $camp->getId()]],
                 ],
             ]),

@@ -7,7 +7,7 @@ use eCamp\Lib\Entity\EntityLink;
 use eCamp\Lib\Entity\EntityLinkCollection;
 use eCamp\Lib\Hydrator\Util;
 use eCampApi\V1\Rest\Day\DayCollection;
-use eCampApi\V1\Rest\EventInstance\EventInstanceCollection;
+use eCampApi\V1\Rest\ScheduleEntry\ScheduleEntryCollection;
 use Zend\Hydrator\HydratorInterface;
 
 class PeriodHydrator implements HydratorInterface {
@@ -16,8 +16,8 @@ class PeriodHydrator implements HydratorInterface {
             'days' => Util::Collection(function (Period $p) {
                 return new DayCollection($p->getDays());
             }, null),
-            'eventInstances' => Util::Collection(function (Period $p) {
-                return new EventInstanceCollection($p->getEventInstances());
+            'scheduleEntries' => Util::Collection(function (Period $p) {
+                return new ScheduleEntryCollection($p->getScheduleEntries());
             }, null),
         ];
     }
@@ -39,7 +39,7 @@ class PeriodHydrator implements HydratorInterface {
 
             'camp' => EntityLink::Create($period->getCamp()),
             'days' => new EntityLinkCollection($period->getDays()),
-            'eventInstances' => new EntityLinkCollection($period->getEventInstances()),
+            'scheduleEntries' => new EntityLinkCollection($period->getScheduleEntries()),
         ];
     }
 

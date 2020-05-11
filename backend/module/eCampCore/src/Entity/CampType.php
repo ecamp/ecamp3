@@ -13,7 +13,7 @@ use Zend\Json\Json;
  * @ORM\Entity
  */
 class CampType extends BaseEntity {
-    const CNF_EVENT_CATEGORIES = 'eventCategories';
+    const CNF_EVENT_CATEGORIES = 'activityCategories';
     const CNF_JOBS = 'jobs';
 
     /**
@@ -49,14 +49,14 @@ class CampType extends BaseEntity {
 
     /**
      * @var ArrayCollection
-     * @ORM\ManyToMany(targetEntity="EventType")
+     * @ORM\ManyToMany(targetEntity="ActivityType")
      */
-    private $eventTypes;
+    private $activityTypes;
 
     public function __construct() {
         parent::__construct();
 
-        $this->eventTypes = new ArrayCollection();
+        $this->activityTypes = new ArrayCollection();
     }
 
     /**
@@ -134,15 +134,15 @@ class CampType extends BaseEntity {
     /**
      * @return ArrayCollection
      */
-    public function getEventTypes() {
-        return $this->eventTypes;
+    public function getActivityTypes() {
+        return $this->activityTypes;
     }
 
-    public function addEventType(EventType $eventType) {
-        $this->eventTypes->add($eventType);
+    public function addActivityType(ActivityType $activityType) {
+        $this->activityTypes->add($activityType);
     }
 
-    public function removeEventType(EventType $eventType) {
-        $this->eventTypes->removeElement($eventType);
+    public function removeActivityType(ActivityType $activityType) {
+        $this->activityTypes->removeElement($activityType);
     }
 }

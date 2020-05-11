@@ -20,9 +20,9 @@ class Period extends BaseEntity implements BelongsToCampInterface {
 
     /**
      * @var ArrayCollection
-     * @ORM\OneToMany(targetEntity="EventInstance", mappedBy="period")
+     * @ORM\OneToMany(targetEntity="ScheduleEntry", mappedBy="period")
      */
-    protected $eventInstances;
+    protected $scheduleEntries;
 
     /**
      * @var Camp
@@ -53,7 +53,7 @@ class Period extends BaseEntity implements BelongsToCampInterface {
         parent::__construct();
 
         $this->days = new ArrayCollection();
-        $this->eventInstances = new ArrayCollection();
+        $this->scheduleEntries = new ArrayCollection();
     }
 
     /**
@@ -147,18 +147,18 @@ class Period extends BaseEntity implements BelongsToCampInterface {
     /**
      * @return ArrayCollection
      */
-    public function getEventInstances() {
-        return $this->eventInstances;
+    public function getScheduleEntries() {
+        return $this->scheduleEntries;
     }
 
-    public function addEventInstance(EventInstance $eventInstance) {
-        $eventInstance->setPeriod($this);
-        $this->eventInstances->add($eventInstance);
+    public function addScheduleEntry(ScheduleEntry $scheduleEntry) {
+        $scheduleEntry->setPeriod($this);
+        $this->scheduleEntries->add($scheduleEntry);
     }
 
-    public function removeEventInstance(EventInstance $eventInstance) {
-        $eventInstance->setPeriod(null);
-        $this->eventInstances->removeElement($eventInstance);
+    public function removeScheduleEntry(ScheduleEntry $scheduleEntry) {
+        $scheduleEntry->setPeriod(null);
+        $this->scheduleEntries->removeElement($scheduleEntry);
     }
 
     /** @ORM\PrePersist */

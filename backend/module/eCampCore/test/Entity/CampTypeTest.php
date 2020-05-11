@@ -2,8 +2,8 @@
 
 namespace eCamp\CoreTest\Entity;
 
+use eCamp\Core\Entity\ActivityType;
 use eCamp\Core\Entity\CampType;
-use eCamp\Core\Entity\EventType;
 use eCamp\Core\Entity\Organization;
 use eCamp\LibTest\PHPUnit\AbstractTestCase;
 use Zend\Json\Json;
@@ -32,17 +32,17 @@ class CampTypeTest extends AbstractTestCase {
         $this->assertEquals($config, $campType->getJsonConfig());
         $this->assertEquals(3, $campType->getConfig('test'));
 
-        $this->assertInstanceOf('Doctrine\Common\Collections\ArrayCollection', $campType->getEventTypes());
+        $this->assertInstanceOf('Doctrine\Common\Collections\ArrayCollection', $campType->getActivityTypes());
     }
 
-    public function testEventType() {
+    public function testActivityType() {
         $campType = new CampType();
-        $eventType = new EventType();
+        $activityType = new ActivityType();
 
-        $this->assertEquals(0, $campType->getEventTypes()->count());
-        $campType->addEventType($eventType);
-        $this->assertContains($eventType, $campType->getEventTypes());
-        $campType->removeEventType($eventType);
-        $this->assertEquals(0, $campType->getEventTypes()->count());
+        $this->assertEquals(0, $campType->getActivityTypes()->count());
+        $campType->addActivityType($activityType);
+        $this->assertContains($activityType, $campType->getActivityTypes());
+        $campType->removeActivityType($activityType);
+        $this->assertEquals(0, $campType->getActivityTypes()->count());
     }
 }

@@ -59,11 +59,11 @@ return [
         // Use lazy services (service proxies) for expensive constructors or in case circular dependencies are needed
         'lazy_services' => [
             'class_map' => [
-                \eCamp\Core\EntityService\EventCategoryService::class => \eCamp\Core\EntityService\EventCategoryService::class,
+                \eCamp\Core\EntityService\ActivityCategoryService::class => \eCamp\Core\EntityService\ActivityCategoryService::class,
             ],
         ],
         'delegators' => [
-            \eCamp\Core\EntityService\EventCategoryService::class => [
+            \eCamp\Core\EntityService\ActivityCategoryService::class => [
                 Zend\ServiceManager\Proxy\LazyServiceFactory::class,
             ],
         ],
@@ -78,7 +78,7 @@ return [
 
     'hydrators' => [
         'factories' => [
-            \eCamp\Core\Hydrator\EventPluginHydrator::class => \Zend\Di\Container\ServiceManager\AutowireFactory::class,
+            \eCamp\Core\Hydrator\ActivityContentHydrator::class => \Zend\Di\Container\ServiceManager\AutowireFactory::class,
         ],
     ],
 
