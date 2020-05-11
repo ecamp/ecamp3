@@ -3,18 +3,18 @@
 namespace eCamp\Lib\Hal\Extractor;
 
 use eCamp\Lib\Hal\TemplatedLink;
-use Zend\Mvc\ModuleRouteListener;
-use Zend\Router\Http\Literal;
-use Zend\Router\Http\Part;
-use Zend\Router\Http\RouteInterface;
-use Zend\Router\Http\Segment;
-use Zend\Router\RouteMatch;
-use Zend\Router\SimpleRouteStack;
-use Zend\View\Helper\ServerUrl;
-use Zend\View\Helper\Url;
-use ZF\ApiProblem\Exception\DomainException;
-use ZF\Hal\Extractor\LinkExtractor as HalLinkExtractor;
-use ZF\Hal\Link\Link;
+use Laminas\ApiTools\ApiProblem\Exception\DomainException;
+use Laminas\ApiTools\Hal\Extractor\LinkExtractor as HalLinkExtractor;
+use Laminas\ApiTools\Hal\Link\Link;
+use Laminas\Mvc\ModuleRouteListener;
+use Laminas\Router\Http\Literal;
+use Laminas\Router\Http\Part;
+use Laminas\Router\Http\RouteInterface;
+use Laminas\Router\Http\Segment;
+use Laminas\Router\RouteMatch;
+use Laminas\Router\SimpleRouteStack;
+use Laminas\View\Helper\ServerUrl;
+use Laminas\View\Helper\Url;
 
 class LinkExtractor extends HalLinkExtractor {
     /** @var SimpleRouteStack */

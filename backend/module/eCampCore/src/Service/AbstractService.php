@@ -5,7 +5,7 @@ namespace eCamp\Core\Service;
 use eCamp\Core\Entity\User;
 use eCamp\Lib\Entity\BaseEntity;
 use eCamp\Lib\Service\ServiceUtils;
-use Zend\Authentication\AuthenticationService;
+use Laminas\Authentication\AuthenticationService;
 
 abstract class AbstractService {
     /** @var ServiceUtils */

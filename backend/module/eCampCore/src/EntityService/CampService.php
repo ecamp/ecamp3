@@ -11,8 +11,8 @@ use eCamp\Core\Hydrator\CampHydrator;
 use eCamp\Lib\Acl\Acl;
 use eCamp\Lib\Acl\NoAccessException;
 use eCamp\Lib\Service\ServiceUtils;
-use Zend\Authentication\AuthenticationService;
-use ZF\ApiProblem\ApiProblem;
+use Laminas\ApiTools\ApiProblem\ApiProblem;
+use Laminas\Authentication\AuthenticationService;
 
 class CampService extends AbstractEntityService {
     /** @var PeriodService */

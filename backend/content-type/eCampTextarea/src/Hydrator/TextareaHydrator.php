@@ -3,8 +3,8 @@
 namespace eCamp\ContentType\Textarea\Hydrator;
 
 use eCamp\ContentType\Textarea\Entity\Textarea;
-use Zend\Hydrator\HydratorInterface;
-use ZF\Hal\Link\Link;
+use Laminas\ApiTools\Hal\Link\Link;
+use Laminas\Hydrator\HydratorInterface;
 
 class TextareaHydrator implements HydratorInterface {
     /**

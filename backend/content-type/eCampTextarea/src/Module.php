@@ -5,8 +5,8 @@ namespace eCamp\ContentType\Textarea;
 use eCamp\ContentType\Textarea\Entity\Textarea;
 use eCamp\Lib\Acl\Acl;
 use eCamp\Lib\Acl\Guest;
-use Zend\Mvc\MvcEvent;
-use Zend\Permissions\Acl\AclInterface;
+use Laminas\Mvc\MvcEvent;
+use Laminas\Permissions\Acl\AclInterface;
 
 class Module {
     public function getConfig() {

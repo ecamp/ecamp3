@@ -3,7 +3,7 @@
 namespace eCamp\Core\ContentType;
 
 use Interop\Container\ContainerInterface;
-use Zend\ServiceManager\Factory\FactoryInterface;
+use Laminas\ServiceManager\Factory\FactoryInterface;
 
 class ContentTypeStrategyProviderFactory implements FactoryInterface {
     /**

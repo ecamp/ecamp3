@@ -4,7 +4,7 @@ namespace eCamp\Lib\Entity;
 
 use Doctrine\Common\Util\ClassUtils;
 use Doctrine\ORM\Mapping as ORM;
-use Zend\Permissions\Acl\Resource\ResourceInterface;
+use Laminas\Permissions\Acl\Resource\ResourceInterface;
 
 /**
  * @ORM\MappedSuperclass

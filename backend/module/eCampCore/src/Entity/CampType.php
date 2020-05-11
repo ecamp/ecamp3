@@ -5,7 +5,7 @@ namespace eCamp\Core\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use eCamp\Lib\Entity\BaseEntity;
-use Zend\Json\Json;
+use Laminas\Json\Json;
 
 /**
  * CampType.

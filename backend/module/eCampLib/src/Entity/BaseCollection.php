@@ -5,7 +5,7 @@ namespace eCamp\Lib\Entity;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\Common\Collections\Selectable;
 use DoctrineModule\Paginator\Adapter\Selectable as SelectableAdapter;
-use Zend\Paginator\Paginator;
+use Laminas\Paginator\Paginator;
 
 abstract class BaseCollection extends Paginator {
     public function __construct($adapter, Criteria $criteria = null) {

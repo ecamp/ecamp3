@@ -4,9 +4,9 @@ namespace eCamp\ContentType\Textarea;
 
 use eCamp\ContentType\Textarea\Service\TextareaService;
 use Interop\Container\ContainerInterface;
+use Laminas\ServiceManager\Factory\FactoryInterface;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
-use Zend\ServiceManager\Factory\FactoryInterface;
 
 class StrategyFactory implements FactoryInterface {
     /**

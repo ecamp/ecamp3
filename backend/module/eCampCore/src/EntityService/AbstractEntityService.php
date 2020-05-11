@@ -15,13 +15,13 @@ use eCamp\Lib\Entity\BaseEntity;
 use eCamp\Lib\Service\EntityNotFoundException;
 use eCamp\Lib\Service\ServiceUtils;
 use Exception;
-use Zend\Authentication\AuthenticationService;
-use Zend\Hydrator\HydratorInterface;
-use Zend\Paginator\Adapter\ArrayAdapter;
-use Zend\Paginator\Paginator;
-use ZF\ApiProblem\ApiProblem;
-use ZF\Rest\AbstractResourceListener;
-use ZF\Rest\ResourceEvent;
+use Laminas\ApiTools\ApiProblem\ApiProblem;
+use Laminas\ApiTools\Rest\AbstractResourceListener;
+use Laminas\ApiTools\Rest\ResourceEvent;
+use Laminas\Authentication\AuthenticationService;
+use Laminas\Hydrator\HydratorInterface;
+use Laminas\Paginator\Adapter\ArrayAdapter;
+use Laminas\Paginator\Paginator;
 
 abstract class AbstractEntityService extends AbstractResourceListener {
     /** @var ServiceUtils */

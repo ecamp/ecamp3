@@ -5,11 +5,11 @@ namespace eCampApi\V1\Rpc\Index;
 use eCamp\Core\Entity\User;
 use eCamp\Core\EntityService\UserService;
 use eCamp\Lib\Hal\TemplatedLink;
-use Zend\Authentication\AuthenticationService;
-use Zend\Mvc\Controller\AbstractActionController;
-use ZF\Hal\Entity;
-use ZF\Hal\Link\Link;
-use ZF\Hal\View\HalJsonModel;
+use Laminas\ApiTools\Hal\Entity;
+use Laminas\ApiTools\Hal\Link\Link;
+use Laminas\ApiTools\Hal\View\HalJsonModel;
+use Laminas\Authentication\AuthenticationService;
+use Laminas\Mvc\Controller\AbstractActionController;
 
 class IndexController extends AbstractActionController {
     /** @var AuthenticationService */
@@ -113,12 +113,12 @@ class IndexController extends AbstractActionController {
 
         $data['docu'] = Link::factory([
             'rel' => 'docu',
-            'route' => 'zf-apigility/swagger',
+            'route' => 'api-tools/swagger',
         ]);
 
         $data['admin'] = Link::factory([
             'rel' => 'admin',
-            'route' => 'zf-apigility/ui',
+            'route' => 'api-tools/ui',
         ]);
 
         $data['users'] = TemplatedLink::factory([

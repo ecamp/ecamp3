@@ -1,8 +1,8 @@
 <?php
 
-use Zend\Mvc\Application;
-use Zend\Mvc\Service\ServiceManagerConfig;
-use Zend\ServiceManager\ServiceManager;
+use Laminas\Mvc\Application;
+use Laminas\Mvc\Service\ServiceManagerConfig;
+use Laminas\ServiceManager\ServiceManager;
 
 class eCampApp {
     private static $instance;
@@ -17,16 +17,16 @@ class eCampApp {
     /** @return Application */
     public static function CreateAppWithoutDi() {
         $config = self::GetAppConfig();
-        unset($config['modules'][array_search('Zend\Di', $config['modules'])]);
+        unset($config['modules'][array_search('Laminas\Di', $config['modules'])]);
 
         return Application::init($config);
     }
 
     /** @return ServiceManager */
     public static function CreateServiceManagerWithoutDi() {
-        // remove 'Zend\Di' config
+        // remove 'Laminas\Di' config
         $configuration = self::GetAppConfig();
-        unset($configuration['modules'][array_search('Zend\Di', $configuration['modules'])]);
+        unset($configuration['modules'][array_search('Laminas\Di', $configuration['modules'])]);
 
         // Prepare the service manager
         $smConfig = isset($configuration['service_manager']) ? $configuration['service_manager'] : [];
@@ -97,7 +97,7 @@ class eCampApp {
         if (file_exists($devConfigFile)) {
             /** @noinspection PhpIncludeInspection */
             $devConfig = include $devConfigFile;
-            $appConfig = \Zend\Stdlib\ArrayUtils::merge($appConfig, $devConfig);
+            $appConfig = \Laminas\Stdlib\ArrayUtils::merge($appConfig, $devConfig);
         }
 
         return $appConfig;

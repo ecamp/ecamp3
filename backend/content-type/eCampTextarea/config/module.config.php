@@ -15,7 +15,7 @@ return [
         ],
     ],
 
-    'zf-rest' => [
+    'api-tools-rest' => [
         \eCamp\ContentType\Textarea\Controller\TextareaController::class => [
             'listener' => \eCamp\ContentType\Textarea\Service\TextareaService::class,
             'controller_class' => \eCamp\ContentType\Textarea\Controller\TextareaController::class,
@@ -44,7 +44,7 @@ return [
         ],
     ],
 
-    'zf-hal' => [
+    'api-tools-hal' => [
         'metadata_map' => [
             \eCamp\ContentType\Textarea\Entity\Textarea::class => [
                 'route_identifier_name' => 'textareaId',

@@ -6,7 +6,7 @@ use eCamp\ContentType\Textarea\Entity\Textarea;
 use eCamp\ContentType\Textarea\Hydrator\TextareaHydrator;
 use eCamp\Core\ContentType\BaseContentTypeService;
 use eCamp\Lib\Service\ServiceUtils;
-use Zend\Authentication\AuthenticationService;
+use Laminas\Authentication\AuthenticationService;
 
 class TextareaService extends BaseContentTypeService {
     public function __construct(ServiceUtils $serviceUtils, AuthenticationService $authenticationService) {

@@ -6,10 +6,10 @@ use eCamp\Core\ContentType\ContentTypeStrategyInterface;
 use eCamp\Core\ContentType\ContentTypeStrategyProvider;
 use eCamp\Core\Entity\ActivityContent;
 use eCamp\Lib\Entity\EntityLink;
+use Laminas\ApiTools\Hal\Link\Link;
+use Laminas\Hydrator\HydratorInterface;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
-use Zend\Hydrator\HydratorInterface;
-use ZF\Hal\Link\Link;
 
 class ActivityContentHydrator implements HydratorInterface {
     /** @var ContentTypeStrategyProvider */

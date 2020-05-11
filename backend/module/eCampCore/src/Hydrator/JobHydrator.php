@@ -3,7 +3,7 @@
 namespace eCamp\Core\Hydrator;
 
 use eCamp\Core\Entity\Job;
-use Zend\Hydrator\HydratorInterface;
+use Laminas\Hydrator\HydratorInterface;
 
 class JobHydrator implements HydratorInterface {
     public static function HydrateInfo() {

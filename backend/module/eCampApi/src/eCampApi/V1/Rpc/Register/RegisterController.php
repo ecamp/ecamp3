@@ -4,9 +4,9 @@ namespace eCampApi\V1\Rpc\Register;
 
 use eCamp\Core\Service\RegisterService;
 use eCampApi\V1\Rpc\ApiController;
-use Zend\Http\Request;
-use Zend\Json\Json;
-use ZF\ApiProblem\ApiProblem;
+use Laminas\ApiTools\ApiProblem\ApiProblem;
+use Laminas\Http\Request;
+use Laminas\Json\Json;
 
 class RegisterController extends ApiController {
     /** @var RegisterService */

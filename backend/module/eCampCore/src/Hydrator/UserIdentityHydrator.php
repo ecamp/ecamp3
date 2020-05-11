@@ -3,7 +3,7 @@
 namespace eCamp\Core\Hydrator;
 
 use eCamp\Core\Entity\UserIdentity;
-use Zend\Hydrator\HydratorInterface;
+use Laminas\Hydrator\HydratorInterface;
 
 class UserIdentityHydrator implements HydratorInterface {
     public static function HydrateInfo() {

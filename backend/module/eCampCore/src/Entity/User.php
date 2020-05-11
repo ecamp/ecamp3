@@ -4,7 +4,7 @@ namespace eCamp\Core\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-use Zend\Permissions\Acl\Role\RoleInterface;
+use Laminas\Permissions\Acl\Role\RoleInterface;
 
 /**
  * @ORM\Entity(repositoryClass="eCamp\Core\Repository\UserRepository")

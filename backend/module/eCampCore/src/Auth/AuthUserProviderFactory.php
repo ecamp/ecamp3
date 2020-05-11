@@ -6,8 +6,8 @@ use Doctrine\ORM\EntityManager;
 use eCamp\Core\Entity\User;
 use eCamp\Core\Repository\UserRepository;
 use Interop\Container\ContainerInterface;
-use Zend\Authentication\AuthenticationService;
-use Zend\ServiceManager\Factory\FactoryInterface;
+use Laminas\Authentication\AuthenticationService;
+use Laminas\ServiceManager\Factory\FactoryInterface;
 
 class AuthUserProviderFactory implements FactoryInterface {
     /**

@@ -6,7 +6,7 @@ use eCamp\Core\Entity\User;
 use eCamp\Core\Entity\UserIdentity;
 use eCamp\Core\Hydrator\UserIdentityHydrator;
 use eCamp\Lib\Service\ServiceUtils;
-use Zend\Authentication\AuthenticationService;
+use Laminas\Authentication\AuthenticationService;
 
 class UserIdentityService extends AbstractEntityService {
     /** @var UserService */

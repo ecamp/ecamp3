@@ -3,14 +3,14 @@
 namespace eCamp\Lib\Mail;
 
 use Interop\Container\ContainerInterface;
-use Zend\Mail\Transport\Factory;
-use Zend\ServiceManager\Factory\FactoryInterface;
+use Laminas\Mail\Transport\Factory;
+use Laminas\ServiceManager\Factory\FactoryInterface;
 
 class TransportFactory implements FactoryInterface {
     /**
      * @param string $requestedName
      *
-     * @return \Zend\Mail\Transport\TransportInterface
+     * @return \Laminas\Mail\Transport\TransportInterface
      */
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null) {
         $config = $container->get('Config');

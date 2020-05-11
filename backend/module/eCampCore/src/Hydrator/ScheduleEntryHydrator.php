@@ -8,7 +8,7 @@ use eCamp\Core\Entity\ScheduleEntry;
 use eCamp\Lib\Entity\EntityLink;
 use eCamp\Lib\Hydrator\Util;
 use eCampApi\V1\Rest\ActivityContent\ActivityContentCollection;
-use Zend\Hydrator\HydratorInterface;
+use Laminas\Hydrator\HydratorInterface;
 
 class ScheduleEntryHydrator implements HydratorInterface {
     public static function HydrateInfo() {

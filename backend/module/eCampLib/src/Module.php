@@ -4,11 +4,11 @@ namespace eCamp\Lib;
 
 use eCamp\Lib\Hal\CollectionRenderer;
 use eCamp\Lib\ServiceManager\EntityFilterManagerFactory;
-use Zend\EventManager\EventManager;
-use Zend\ModuleManager\Feature\InitProviderInterface;
-use Zend\ModuleManager\ModuleManagerInterface;
-use Zend\Mvc\Application;
-use Zend\Mvc\MvcEvent;
+use Laminas\EventManager\EventManager;
+use Laminas\ModuleManager\Feature\InitProviderInterface;
+use Laminas\ModuleManager\ModuleManagerInterface;
+use Laminas\Mvc\Application;
+use Laminas\Mvc\MvcEvent;
 
 class Module implements InitProviderInterface {
     public function getConfig() {

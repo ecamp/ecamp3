@@ -5,9 +5,9 @@ namespace eCamp\Core;
 use Doctrine\DBAL\Logging\EchoSQLLogger;
 use Doctrine\ORM\EntityManager;
 use eCamp\Core\ContentType\ContentTypeStrategyProviderInjector;
-use Zend\Mvc\Application;
-use Zend\Mvc\MvcEvent;
-use ZF\ApiProblem\ApiProblemResponse;
+use Laminas\ApiTools\ApiProblem\ApiProblemResponse;
+use Laminas\Mvc\Application;
+use Laminas\Mvc\MvcEvent;
 
 class Module {
     public function getConfig() {

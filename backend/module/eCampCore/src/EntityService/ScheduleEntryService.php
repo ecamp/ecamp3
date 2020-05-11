@@ -6,7 +6,7 @@ use eCamp\Core\Entity\Camp;
 use eCamp\Core\Entity\ScheduleEntry;
 use eCamp\Core\Hydrator\ScheduleEntryHydrator;
 use eCamp\Lib\Service\ServiceUtils;
-use Zend\Authentication\AuthenticationService;
+use Laminas\Authentication\AuthenticationService;
 
 class ScheduleEntryService extends AbstractEntityService {
     public function __construct(ServiceUtils $serviceUtils, AuthenticationService $authenticationService) {

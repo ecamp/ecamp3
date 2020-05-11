@@ -69,7 +69,7 @@ try {
     echo PHP_EOL;
 
     $loader = new \Doctrine\Common\DataFixtures\Loader();
-    $paths = \Zend\Stdlib\Glob::glob(__DIR__ . "/module/*/data/prod/*.php");
+    $paths = \Laminas\Stdlib\Glob::glob(__DIR__ . "/module/*/data/prod/*.php");
 
     foreach ($paths as $path) {
         echo "    # " . $path . PHP_EOL;
@@ -102,7 +102,7 @@ if (in_array('dev', $argv)) {
         echo PHP_EOL;
 
         $loader = new \Doctrine\Common\DataFixtures\Loader();
-        $paths = \Zend\Stdlib\Glob::glob(__DIR__ . "/module/*/data/dev/*.php");
+        $paths = \Laminas\Stdlib\Glob::glob(__DIR__ . "/module/*/data/dev/*.php");
 
         foreach ($paths as $path) {
             echo "    # " . $path . PHP_EOL;

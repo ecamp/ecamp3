@@ -5,7 +5,7 @@ namespace eCamp\Core\EntityService;
 use eCamp\Core\Entity\ActivityType;
 use eCamp\Core\Hydrator\ActivityTypeHydrator;
 use eCamp\Lib\Service\ServiceUtils;
-use Zend\Authentication\AuthenticationService;
+use Laminas\Authentication\AuthenticationService;
 
 class ActivityTypeService extends AbstractEntityService {
     public function __construct(ServiceUtils $serviceUtils, AuthenticationService $authenticationService) {

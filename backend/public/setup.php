@@ -153,7 +153,7 @@ echo "<a href='?prod-data'>Load Prod-Data</a>";
 if (array_key_exists('prod-data', $_GET)) {
     try {
         $loader = $sm->get(FixtureLoader::class);
-        $paths = \Zend\Stdlib\Glob::glob(__DIR__.'/../module/*/data/prod/*.php');
+        $paths = \Laminas\Stdlib\Glob::glob(__DIR__.'/../module/*/data/prod/*.php');
 
         foreach ($paths as $path) {
             echo '<br />';
@@ -185,14 +185,14 @@ if (array_key_exists('dev-data', $_GET)) {
     try {
         $loader = $sm->get(FixtureLoader::class);
 
-        $paths = \Zend\Stdlib\Glob::glob(__DIR__.'/../module/*/data/prod/*.php');
+        $paths = \Laminas\Stdlib\Glob::glob(__DIR__.'/../module/*/data/prod/*.php');
         foreach ($paths as $path) {
             echo '<br />';
             echo $path;
             $loader->loadFromFile($path);
         }
 
-        $paths = \Zend\Stdlib\Glob::glob(__DIR__.'/../module/*/data/dev/*.php');
+        $paths = \Laminas\Stdlib\Glob::glob(__DIR__.'/../module/*/data/dev/*.php');
         foreach ($paths as $path) {
             echo '<br />';
             echo $path;

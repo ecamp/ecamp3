@@ -3,12 +3,12 @@
 namespace eCamp\AoT;
 
 use Psr\Container\ContainerInterface;
-use Zend\Code\Scanner\DirectoryScanner;
-use Zend\Di\CodeGenerator\InjectorGenerator;
-use Zend\Di\Config;
-use Zend\Di\ConfigInterface;
-use Zend\Di\Definition\RuntimeDefinition;
-use Zend\Di\Resolver\DependencyResolver;
+use Laminas\Code\Scanner\DirectoryScanner;
+use Laminas\Di\CodeGenerator\InjectorGenerator;
+use Laminas\Di\Config;
+use Laminas\Di\ConfigInterface;
+use Laminas\Di\Definition\RuntimeDefinition;
+use Laminas\Di\Resolver\DependencyResolver;
 
 //require __DIR__ . '/../vendor/autoload.php';
 require_once __DIR__ . '/../autoload.php';
@@ -26,7 +26,7 @@ function getClassNames(ContainerInterface $container): iterable {
 
     $scanner = new DirectoryScanner($directories);
 
-    /** @var \Zend\Code\Scanner\ClassScanner $class */
+    /** @var \Laminas\Code\Scanner\ClassScanner $class */
     foreach ($scanner->getClasses() as $class) {
 
         /**

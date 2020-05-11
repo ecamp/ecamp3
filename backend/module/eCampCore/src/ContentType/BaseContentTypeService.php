@@ -7,9 +7,9 @@ use eCamp\Core\Entity\ActivityContent;
 use eCamp\Core\EntityService\AbstractEntityService;
 use eCamp\Lib\Acl\NoAccessException;
 use eCamp\Lib\Service\ServiceUtils;
-use Zend\Authentication\AuthenticationService;
-use Zend\Paginator\Paginator;
-use ZF\ApiProblem\ApiProblem;
+use Laminas\ApiTools\ApiProblem\ApiProblem;
+use Laminas\Authentication\AuthenticationService;
+use Laminas\Paginator\Paginator;
 
 abstract class BaseContentTypeService extends AbstractEntityService {
     public function __construct(

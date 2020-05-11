@@ -163,12 +163,12 @@ return [
     ],
     'controllers' => [
         'factories' => [
-            'eCampApi\\V1\\Rpc\\Auth\\AuthController' => \Zend\Di\Container\ServiceManager\AutowireFactory::class,
-            'eCampApi\\V1\\Rpc\\Index\\IndexController' => \Zend\Di\Container\ServiceManager\AutowireFactory::class,
-            'eCampApi\\V1\\Rpc\\Register\\RegisterController' => \Zend\Di\Container\ServiceManager\AutowireFactory::class,
+            'eCampApi\\V1\\Rpc\\Auth\\AuthController' => \Laminas\Di\Container\ServiceManager\AutowireFactory::class,
+            'eCampApi\\V1\\Rpc\\Index\\IndexController' => \Laminas\Di\Container\ServiceManager\AutowireFactory::class,
+            'eCampApi\\V1\\Rpc\\Register\\RegisterController' => \Laminas\Di\Container\ServiceManager\AutowireFactory::class,
         ],
     ],
-    'zf-versioning' => [
+    'api-tools-versioning' => [
         /*
         'uri' => array(
             0 => 'e-camp-api.rest.doctrine.camp-type',
@@ -191,7 +191,7 @@ return [
         ),
         */
     ],
-    'zf-rest' => [
+    'api-tools-rest' => [
         'eCampApi\\V1\\Rest\\CampType\\Controller' => [
             'listener' => 'eCamp\\Core\\EntityService\\CampTypeService',
             'route_name' => 'e-camp-api.rest.doctrine.camp-type',
@@ -543,7 +543,7 @@ return [
             'service_name' => 'ActivityTypeContentType',
         ],
     ],
-    'zf-content-negotiation' => [
+    'api-tools-content-negotiation' => [
         'controllers' => [
             'eCampApi\\V1\\Rest\\CampType\\Controller' => 'HalJson',
             'eCampApi\\V1\\Rest\\ActivityType\\Controller' => 'HalJson',
@@ -721,7 +721,7 @@ return [
             ],
         ],
     ],
-    'zf-hal' => [
+    'api-tools-hal' => [
         'metadata_map' => [
             \eCamp\Lib\Entity\EntityLink::class => [
                 'route_identifier_name' => 'id',
@@ -917,7 +917,7 @@ return [
             ],
         ],
     ],
-    'zf-content-validation' => [
+    'api-tools-content-validation' => [
         'eCampApi\\V1\\Rest\\CampType\\Controller' => [
             'input_filter' => 'eCampApi\\V1\\Rest\\CampType\\Validator',
         ],
@@ -971,15 +971,15 @@ return [
                 'required' => true,
                 'filters' => [
                     0 => [
-                        'name' => 'Zend\\Filter\\StringTrim',
+                        'name' => 'Laminas\\Filter\\StringTrim',
                     ],
                     1 => [
-                        'name' => 'Zend\\Filter\\StripTags',
+                        'name' => 'Laminas\\Filter\\StripTags',
                     ],
                 ],
                 'validators' => [
                     0 => [
-                        'name' => 'Zend\\Validator\\StringLength',
+                        'name' => 'Laminas\\Validator\\StringLength',
                         'options' => [
                             'min' => 1,
                             'max' => 64,
@@ -1012,15 +1012,15 @@ return [
                 'required' => true,
                 'filters' => [
                     0 => [
-                        'name' => 'Zend\\Filter\\StringTrim',
+                        'name' => 'Laminas\\Filter\\StringTrim',
                     ],
                     1 => [
-                        'name' => 'Zend\\Filter\\StripTags',
+                        'name' => 'Laminas\\Filter\\StripTags',
                     ],
                 ],
                 'validators' => [
                     0 => [
-                        'name' => 'Zend\\Validator\\StringLength',
+                        'name' => 'Laminas\\Validator\\StringLength',
                         'options' => [
                             'min' => 1,
                             'max' => 64,
@@ -1033,15 +1033,15 @@ return [
                 'required' => true,
                 'filters' => [
                     0 => [
-                        'name' => 'Zend\\Filter\\StringTrim',
+                        'name' => 'Laminas\\Filter\\StringTrim',
                     ],
                     1 => [
-                        'name' => 'Zend\\Filter\\StripTags',
+                        'name' => 'Laminas\\Filter\\StripTags',
                     ],
                 ],
                 'validators' => [
                     0 => [
-                        'name' => 'Zend\\Validator\\StringLength',
+                        'name' => 'Laminas\\Validator\\StringLength',
                         'options' => [
                             'min' => 1,
                             'max' => 8,
@@ -1054,15 +1054,15 @@ return [
                 'required' => true,
                 'filters' => [
                     0 => [
-                        'name' => 'Zend\\Filter\\StringTrim',
+                        'name' => 'Laminas\\Filter\\StringTrim',
                     ],
                     1 => [
-                        'name' => 'Zend\\Filter\\StripTags',
+                        'name' => 'Laminas\\Filter\\StripTags',
                     ],
                 ],
                 'validators' => [
                     0 => [
-                        'name' => 'Zend\\Validator\\StringLength',
+                        'name' => 'Laminas\\Validator\\StringLength',
                         'options' => [
                             'min' => 1,
                             'max' => 1,
@@ -1077,15 +1077,15 @@ return [
                 'required' => true,
                 'filters' => [
                     0 => [
-                        'name' => 'Zend\\Filter\\StringTrim',
+                        'name' => 'Laminas\\Filter\\StringTrim',
                     ],
                     1 => [
-                        'name' => 'Zend\\Filter\\StripTags',
+                        'name' => 'Laminas\\Filter\\StripTags',
                     ],
                 ],
                 'validators' => [
                     0 => [
-                        'name' => 'Zend\\Validator\\StringLength',
+                        'name' => 'Laminas\\Validator\\StringLength',
                         'options' => [
                             'min' => 1,
                             'max' => 64,
@@ -1100,15 +1100,15 @@ return [
                 'required' => true,
                 'filters' => [
                     0 => [
-                        'name' => 'Zend\\Filter\\StringTrim',
+                        'name' => 'Laminas\\Filter\\StringTrim',
                     ],
                     1 => [
-                        'name' => 'Zend\\Filter\\StripTags',
+                        'name' => 'Laminas\\Filter\\StripTags',
                     ],
                 ],
                 'validators' => [
                     0 => [
-                        'name' => 'Zend\\Validator\\StringLength',
+                        'name' => 'Laminas\\Validator\\StringLength',
                         'options' => [
                             'min' => 1,
                             'max' => 32,
@@ -1121,15 +1121,15 @@ return [
                 'required' => true,
                 'filters' => [
                     0 => [
-                        'name' => 'Zend\\Filter\\StringTrim',
+                        'name' => 'Laminas\\Filter\\StringTrim',
                     ],
                     1 => [
-                        'name' => 'Zend\\Filter\\StripTags',
+                        'name' => 'Laminas\\Filter\\StripTags',
                     ],
                 ],
                 'validators' => [
                     0 => [
-                        'name' => 'Zend\\Validator\\StringLength',
+                        'name' => 'Laminas\\Validator\\StringLength',
                         'options' => [
                             'min' => 10,
                             'max' => 64,
@@ -1142,15 +1142,15 @@ return [
                 'required' => true,
                 'filters' => [
                     0 => [
-                        'name' => 'Zend\\Filter\\StringTrim',
+                        'name' => 'Laminas\\Filter\\StringTrim',
                     ],
                     1 => [
-                        'name' => 'Zend\\Filter\\StripTags',
+                        'name' => 'Laminas\\Filter\\StripTags',
                     ],
                 ],
                 'validators' => [
                     0 => [
-                        'name' => 'Zend\\Validator\\StringLength',
+                        'name' => 'Laminas\\Validator\\StringLength',
                         'options' => [
                             'min' => 1,
                             'max' => 128,
@@ -1177,15 +1177,15 @@ return [
                 'required' => false,
                 'filters' => [
                     0 => [
-                        'name' => 'Zend\\Filter\\StringTrim',
+                        'name' => 'Laminas\\Filter\\StringTrim',
                     ],
                     1 => [
-                        'name' => 'Zend\\Filter\\StripTags',
+                        'name' => 'Laminas\\Filter\\StripTags',
                     ],
                 ],
                 'validators' => [
                     0 => [
-                        'name' => 'Zend\\Validator\\StringLength',
+                        'name' => 'Laminas\\Validator\\StringLength',
                         'options' => [
                             'min' => 1,
                             'max' => 128,
@@ -1200,10 +1200,10 @@ return [
                 'required' => true,
                 'filters' => [
                     0 => [
-                        'name' => 'Zend\\Filter\\StripTags',
+                        'name' => 'Laminas\\Filter\\StripTags',
                     ],
                     1 => [
-                        'name' => 'Zend\\Filter\\Digits',
+                        'name' => 'Laminas\\Filter\\Digits',
                     ],
                 ],
                 'validators' => [],
@@ -1223,15 +1223,15 @@ return [
                 'required' => true,
                 'filters' => [
                     0 => [
-                        'name' => 'Zend\\Filter\\StringTrim',
+                        'name' => 'Laminas\\Filter\\StringTrim',
                     ],
                     1 => [
-                        'name' => 'Zend\\Filter\\StripTags',
+                        'name' => 'Laminas\\Filter\\StripTags',
                     ],
                 ],
                 'validators' => [
                     0 => [
-                        'name' => 'Zend\\Validator\\StringLength',
+                        'name' => 'Laminas\\Validator\\StringLength',
                         'options' => [
                             'min' => 1,
                             'max' => 16,
@@ -1244,15 +1244,15 @@ return [
                 'required' => true,
                 'filters' => [
                     0 => [
-                        'name' => 'Zend\\Filter\\StringTrim',
+                        'name' => 'Laminas\\Filter\\StringTrim',
                     ],
                     1 => [
-                        'name' => 'Zend\\Filter\\StripTags',
+                        'name' => 'Laminas\\Filter\\StripTags',
                     ],
                 ],
                 'validators' => [
                     0 => [
-                        'name' => 'Zend\\Validator\\StringLength',
+                        'name' => 'Laminas\\Validator\\StringLength',
                         'options' => [
                             'min' => 1,
                             'max' => 64,
@@ -1265,15 +1265,15 @@ return [
                 'required' => true,
                 'filters' => [
                     0 => [
-                        'name' => 'Zend\\Filter\\StringTrim',
+                        'name' => 'Laminas\\Filter\\StringTrim',
                     ],
                     1 => [
-                        'name' => 'Zend\\Filter\\StripTags',
+                        'name' => 'Laminas\\Filter\\StripTags',
                     ],
                 ],
                 'validators' => [
                     0 => [
-                        'name' => 'Zend\\Validator\\StringLength',
+                        'name' => 'Laminas\\Validator\\StringLength',
                         'options' => [
                             'min' => 1,
                             'max' => 8,
@@ -1286,15 +1286,15 @@ return [
                 'required' => true,
                 'filters' => [
                     0 => [
-                        'name' => 'Zend\\Filter\\StringTrim',
+                        'name' => 'Laminas\\Filter\\StringTrim',
                     ],
                     1 => [
-                        'name' => 'Zend\\Filter\\StripTags',
+                        'name' => 'Laminas\\Filter\\StripTags',
                     ],
                 ],
                 'validators' => [
                     0 => [
-                        'name' => 'Zend\\Validator\\StringLength',
+                        'name' => 'Laminas\\Validator\\StringLength',
                         'options' => [
                             'min' => 1,
                             'max' => 1,
@@ -1309,10 +1309,10 @@ return [
                 'required' => true,
                 'filters' => [
                     0 => [
-                        'name' => 'Zend\\Filter\\StripTags',
+                        'name' => 'Laminas\\Filter\\StripTags',
                     ],
                     1 => [
-                        'name' => 'Zend\\Filter\\Digits',
+                        'name' => 'Laminas\\Filter\\Digits',
                     ],
                 ],
                 'validators' => [],
@@ -1322,10 +1322,10 @@ return [
                 'required' => true,
                 'filters' => [
                     0 => [
-                        'name' => 'Zend\\Filter\\StripTags',
+                        'name' => 'Laminas\\Filter\\StripTags',
                     ],
                     1 => [
-                        'name' => 'Zend\\Filter\\Digits',
+                        'name' => 'Laminas\\Filter\\Digits',
                     ],
                 ],
                 'validators' => [],
@@ -1349,15 +1349,15 @@ return [
                 'required' => false,
                 'filters' => [
                     0 => [
-                        'name' => 'Zend\\Filter\\StringTrim',
+                        'name' => 'Laminas\\Filter\\StringTrim',
                     ],
                     1 => [
-                        'name' => 'Zend\\Filter\\StripTags',
+                        'name' => 'Laminas\\Filter\\StripTags',
                     ],
                 ],
                 'validators' => [
                     0 => [
-                        'name' => 'Zend\\Validator\\StringLength',
+                        'name' => 'Laminas\\Validator\\StringLength',
                         'options' => [
                             'min' => 1,
                             'max' => 32,
@@ -1370,15 +1370,15 @@ return [
                 'required' => true,
                 'filters' => [
                     0 => [
-                        'name' => 'Zend\\Filter\\StringTrim',
+                        'name' => 'Laminas\\Filter\\StringTrim',
                     ],
                     1 => [
-                        'name' => 'Zend\\Filter\\StripTags',
+                        'name' => 'Laminas\\Filter\\StripTags',
                     ],
                 ],
                 'validators' => [
                     0 => [
-                        'name' => 'Zend\\Validator\\StringLength',
+                        'name' => 'Laminas\\Validator\\StringLength',
                         'options' => [
                             'min' => 1,
                             'max' => 16,
@@ -1391,15 +1391,15 @@ return [
                 'required' => true,
                 'filters' => [
                     0 => [
-                        'name' => 'Zend\\Filter\\StringTrim',
+                        'name' => 'Laminas\\Filter\\StringTrim',
                     ],
                     1 => [
-                        'name' => 'Zend\\Filter\\StripTags',
+                        'name' => 'Laminas\\Filter\\StripTags',
                     ],
                 ],
                 'validators' => [
                     0 => [
-                        'name' => 'Zend\\Validator\\StringLength',
+                        'name' => 'Laminas\\Validator\\StringLength',
                         'options' => [
                             'min' => 1,
                             'max' => 16,
@@ -1414,10 +1414,10 @@ return [
                 'required' => false,
                 'filters' => [
                     0 => [
-                        'name' => 'Zend\\Filter\\StringTrim',
+                        'name' => 'Laminas\\Filter\\StringTrim',
                     ],
                     1 => [
-                        'name' => 'Zend\\Filter\\StripTags',
+                        'name' => 'Laminas\\Filter\\StripTags',
                     ],
                 ],
                 'validators' => [],
@@ -1427,10 +1427,10 @@ return [
                 'required' => true,
                 'filters' => [
                     0 => [
-                        'name' => 'Zend\\Filter\\StringTrim',
+                        'name' => 'Laminas\\Filter\\StringTrim',
                     ],
                     1 => [
-                        'name' => 'Zend\\Filter\\StripTags',
+                        'name' => 'Laminas\\Filter\\StripTags',
                     ],
                 ],
                 'validators' => [],
@@ -1440,10 +1440,10 @@ return [
                 'required' => false,
                 'filters' => [
                     0 => [
-                        'name' => 'Zend\\Filter\\StringTrim',
+                        'name' => 'Laminas\\Filter\\StringTrim',
                     ],
                     1 => [
-                        'name' => 'Zend\\Filter\\StripTags',
+                        'name' => 'Laminas\\Filter\\StripTags',
                     ],
                 ],
                 'validators' => [],
@@ -1456,10 +1456,10 @@ return [
                 'required' => false,
                 'filters' => [
                     0 => [
-                        'name' => 'Zend\\Filter\\StringTrim',
+                        'name' => 'Laminas\\Filter\\StringTrim',
                     ],
                     1 => [
-                        'name' => 'Zend\\Filter\\StripTags',
+                        'name' => 'Laminas\\Filter\\StripTags',
                     ],
                 ],
             ],
@@ -1470,15 +1470,15 @@ return [
                 'required' => true,
                 'filters' => [
                     0 => [
-                        'name' => 'Zend\\Filter\\StringTrim',
+                        'name' => 'Laminas\\Filter\\StringTrim',
                     ],
                     1 => [
-                        'name' => 'Zend\\Filter\\StripTags',
+                        'name' => 'Laminas\\Filter\\StripTags',
                     ],
                 ],
                 'validators' => [
                     0 => [
-                        'name' => 'Zend\\Validator\\StringLength',
+                        'name' => 'Laminas\\Validator\\StringLength',
                         'options' => [
                             'min' => 1,
                             'max' => 64,
@@ -1497,15 +1497,15 @@ return [
                 'required' => true,
                 'filters' => [
                     0 => [
-                        'name' => 'Zend\\Filter\\StringTrim',
+                        'name' => 'Laminas\\Filter\\StringTrim',
                     ],
                     1 => [
-                        'name' => 'Zend\\Filter\\StripTags',
+                        'name' => 'Laminas\\Filter\\StripTags',
                     ],
                 ],
                 'validators' => [
                     0 => [
-                        'name' => 'Zend\\Validator\\StringLength',
+                        'name' => 'Laminas\\Validator\\StringLength',
                         'options' => [
                             'min' => 1,
                             'max' => 128,
@@ -1520,10 +1520,10 @@ return [
                 'required' => true,
                 'filters' => [
                     0 => [
-                        'name' => 'Zend\\Filter\\StripTags',
+                        'name' => 'Laminas\\Filter\\StripTags',
                     ],
                     1 => [
-                        'name' => 'Zend\\Filter\\Digits',
+                        'name' => 'Laminas\\Filter\\Digits',
                     ],
                 ],
                 'validators' => [],
@@ -1533,10 +1533,10 @@ return [
                 'required' => true,
                 'filters' => [
                     0 => [
-                        'name' => 'Zend\\Filter\\StripTags',
+                        'name' => 'Laminas\\Filter\\StripTags',
                     ],
                     1 => [
-                        'name' => 'Zend\\Filter\\Digits',
+                        'name' => 'Laminas\\Filter\\Digits',
                     ],
                 ],
                 'validators' => [],
@@ -1546,17 +1546,17 @@ return [
                 'required' => false,
                 'filters' => [
                     0 => [
-                        'name' => 'Zend\\Filter\\StringTrim',
+                        'name' => 'Laminas\\Filter\\StringTrim',
                     ],
                     1 => [
-                        'name' => 'Zend\\Filter\\StripTags',
+                        'name' => 'Laminas\\Filter\\StripTags',
                     ],
                 ],
                 'validators' => [],
             ],
         ],
     ],
-    'zf-rpc' => [
+    'api-tools-rpc' => [
         'eCampApi\\V1\\Rpc\\Auth\\AuthController' => [
             'service_name' => 'Auth',
             'http_methods' => [
@@ -1580,7 +1580,7 @@ return [
             'route_name' => 'e-camp-api.rpc.register',
         ],
     ],
-    'zf-apigility' => [
+    'api-tools' => [
         'doctrine-connected' => [],
     ],
     'doctrine-hydrator' => [],

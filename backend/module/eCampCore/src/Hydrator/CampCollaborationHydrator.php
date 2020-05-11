@@ -5,7 +5,7 @@ namespace eCamp\Core\Hydrator;
 use eCamp\Core\Entity\CampCollaboration;
 use eCamp\Lib\Entity\EntityLink;
 use eCamp\Lib\Hydrator\Util;
-use Zend\Hydrator\HydratorInterface;
+use Laminas\Hydrator\HydratorInterface;
 
 class CampCollaborationHydrator implements HydratorInterface {
     public static function HydrateInfo() {

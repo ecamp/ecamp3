@@ -11,8 +11,8 @@ use eCamp\Core\Service\SendmailService;
 use eCamp\Lib\Acl\NoAccessException;
 use eCamp\Lib\Service\ServiceUtils;
 use Hybridauth\User\Profile;
-use Zend\Authentication\AuthenticationService;
-use ZF\ApiProblem\ApiProblem;
+use Laminas\ApiTools\ApiProblem\ApiProblem;
+use Laminas\Authentication\AuthenticationService;
 
 /**
  * Class UserService.

@@ -6,7 +6,7 @@ use eCamp\Core\Entity\User;
 use eCamp\Core\EntityService\UserService;
 use eCamp\Lib\Service\EntityNotFoundException;
 use eCamp\LibTest\PHPUnit\AbstractDatabaseTestCase;
-use Zend\Authentication\AuthenticationService;
+use Laminas\Authentication\AuthenticationService;
 
 /**
  * @internal

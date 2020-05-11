@@ -12,7 +12,7 @@ use eCamp\Core\Entity\Organization;
 use eCamp\Core\Entity\Period;
 use eCamp\Core\Entity\User;
 use eCamp\LibTest\PHPUnit\AbstractTestCase;
-use Zend\Json\Json;
+use Laminas\Json\Json;
 
 /**
  * @internal

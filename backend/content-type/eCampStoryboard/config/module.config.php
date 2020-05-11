@@ -27,7 +27,7 @@ return [
         ],
     ],
 
-    'zf-rest' => [
+    'api-tools-rest' => [
         \eCamp\ContentType\Storyboard\Controller\SectionController::class => [
             'listener' => \eCamp\ContentType\Storyboard\Service\SectionService::class,
             'controller_class' => \eCamp\ContentType\Storyboard\Controller\SectionController::class,
@@ -57,7 +57,7 @@ return [
         ],
     ],
 
-    'zf-hal' => [
+    'api-tools-hal' => [
         'metadata_map' => [
             \eCamp\ContentType\Storyboard\Entity\Section::class => [
                 'route_identifier_name' => 'sectionId',

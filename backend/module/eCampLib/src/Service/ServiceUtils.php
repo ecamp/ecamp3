@@ -10,10 +10,10 @@ use eCamp\Lib\Acl\NoAccessException;
 use eCamp\Lib\Entity\BaseEntity;
 use eCamp\Lib\EntityFilter\EntityFilterInterface;
 use eCamp\Lib\ServiceManager\EntityFilterManager;
-use Zend\Hydrator\HydratorInterface;
-use Zend\Hydrator\HydratorPluginManager;
-use Zend\Permissions\Acl\Resource\ResourceInterface;
-use Zend\Permissions\Acl\Role\RoleInterface;
+use Laminas\Hydrator\HydratorInterface;
+use Laminas\Hydrator\HydratorPluginManager;
+use Laminas\Permissions\Acl\Resource\ResourceInterface;
+use Laminas\Permissions\Acl\Role\RoleInterface;
 
 class ServiceUtils {
     /** @var EntityManager */

@@ -7,7 +7,7 @@ use eCamp\Core\Entity\GroupMembership;
 use eCamp\Core\Entity\User;
 use eCamp\Core\Hydrator\GroupHydrator;
 use eCamp\Lib\Service\ServiceUtils;
-use Zend\Authentication\AuthenticationService;
+use Laminas\Authentication\AuthenticationService;
 
 class GroupService extends AbstractEntityService {
     public function __construct(ServiceUtils $serviceUtils, AuthenticationService $authenticationService) {

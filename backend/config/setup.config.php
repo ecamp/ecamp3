@@ -5,8 +5,8 @@ $env = getenv('env') ?: 'dev';
 return [
     // Retrieve the list of modules for this application.
     'modules' => [
-        'Zend\\Router',
-        'Zend\\Di',
+        'Laminas\\Router',
+        'Laminas\\Di',
         'DoctrineModule',
         'DoctrineORMModule',
 

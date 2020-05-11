@@ -4,7 +4,7 @@ namespace eCamp\Core\Hydrator;
 
 use eCamp\Core\Entity\ActivityType;
 use eCampApi\V1\Rest\ActivityTypeContentType\ActivityTypeContentTypeCollection;
-use Zend\Hydrator\HydratorInterface;
+use Laminas\Hydrator\HydratorInterface;
 
 class ActivityTypeHydrator implements HydratorInterface {
     public static function HydrateInfo() {

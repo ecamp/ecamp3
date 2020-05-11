@@ -4,9 +4,9 @@ namespace eCamp\ContentType\Storyboard\Controller;
 
 use eCamp\ContentType\Storyboard\Service\SectionService;
 use Interop\Container\ContainerInterface;
+use Laminas\ServiceManager\Factory\FactoryInterface;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
-use Zend\ServiceManager\Factory\FactoryInterface;
 
 class SectionActionControllerFactory implements FactoryInterface {
     /**

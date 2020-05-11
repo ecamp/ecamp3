@@ -4,8 +4,8 @@ namespace eCamp\Core\Auth\Adapter;
 
 use eCamp\Core\Entity\Login;
 use eCamp\Core\Entity\User;
-use Zend\Authentication\Adapter\AdapterInterface;
-use Zend\Authentication\Result;
+use Laminas\Authentication\Adapter\AdapterInterface;
+use Laminas\Authentication\Result;
 
 class LoginPassword implements AdapterInterface {
     const NOT_FOUND_MESSAGE = 'Unknown login!';
@@ -78,7 +78,7 @@ class LoginPassword implements AdapterInterface {
      * @param mixed $code
      * @param mixed $messages
      *
-     * @return \Zend\Authentication\Result
+     * @return \Laminas\Authentication\Result
      */
     private function authResult($code, $messages = []) {
         if (!is_array($messages)) {

@@ -3,9 +3,9 @@
 namespace eCamp\Core\ContentType;
 
 use Interop\Container\ContainerInterface;
+use Laminas\Mvc\Application;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
-use Zend\Mvc\Application;
 
 abstract class BaseContentTypeServiceFactory {
     /**

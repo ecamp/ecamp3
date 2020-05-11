@@ -12,12 +12,12 @@ use Hybridauth\Adapter\AdapterInterface;
 use Hybridauth\Exception\InvalidArgumentException;
 use Hybridauth\Exception\UnexpectedValueException;
 use Hybridauth\Hybridauth;
-use Zend\Authentication\AuthenticationService;
-use Zend\Http\Request;
-use Zend\Http\Response;
-use Zend\Mvc\Controller\AbstractActionController;
-use Zend\Session\Container;
-use Zend\View\Model\ViewModel;
+use Laminas\Authentication\AuthenticationService;
+use Laminas\Http\Request;
+use Laminas\Http\Response;
+use Laminas\Mvc\Controller\AbstractActionController;
+use Laminas\Session\Container;
+use Laminas\View\Model\ViewModel;
 
 abstract class BaseController extends AbstractActionController {
     public const SESSION_NAMESPACE = self::class;

@@ -48,7 +48,7 @@ return [
 
     'service_manager' => [
         'aliases' => [
-            \Zend\Permissions\Acl\AclInterface::class => \eCamp\Lib\Acl\Acl::class,
+            \Laminas\Permissions\Acl\AclInterface::class => \eCamp\Lib\Acl\Acl::class,
         ],
         'factories' => [
             \eCamp\Lib\Acl\Acl::class => \eCamp\Core\Acl\AclFactory::class,
@@ -64,7 +64,7 @@ return [
         ],
         'delegators' => [
             \eCamp\Core\EntityService\ActivityCategoryService::class => [
-                Zend\ServiceManager\Proxy\LazyServiceFactory::class,
+                Laminas\ServiceManager\Proxy\LazyServiceFactory::class,
             ],
         ],
     ],
@@ -78,7 +78,7 @@ return [
 
     'hydrators' => [
         'factories' => [
-            \eCamp\Core\Hydrator\ActivityContentHydrator::class => \Zend\Di\Container\ServiceManager\AutowireFactory::class,
+            \eCamp\Core\Hydrator\ActivityContentHydrator::class => \Laminas\Di\Container\ServiceManager\AutowireFactory::class,
         ],
     ],
 

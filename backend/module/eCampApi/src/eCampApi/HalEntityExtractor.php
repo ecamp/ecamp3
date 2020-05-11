@@ -3,7 +3,7 @@
 namespace eCampApi;
 
 use eCamp\Lib\Hydrator\Resolver\BaseResolver;
-use ZF\Hal\Extractor\EntityExtractor;
+use Laminas\ApiTools\Hal\Extractor\EntityExtractor;
 
 class HalEntityExtractor extends EntityExtractor {
     public function extract($entity) {

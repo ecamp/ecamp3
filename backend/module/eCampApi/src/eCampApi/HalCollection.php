@@ -2,7 +2,7 @@
 
 namespace eCampApi;
 
-use ZF\Hal\Collection;
+use Laminas\ApiTools\Hal\Collection;
 
 class HalCollection extends Collection {
     public $_hydrateInfo_;

@@ -5,10 +5,10 @@ namespace eCamp\Core\Acl;
 use eCamp\Core\Entity\BelongsToCampInterface;
 use eCamp\Core\Entity\CampCollaboration;
 use eCamp\Core\Entity\User;
-use Zend\Permissions\Acl\Acl;
-use Zend\Permissions\Acl\Assertion\AssertionInterface;
-use Zend\Permissions\Acl\Resource\ResourceInterface;
-use Zend\Permissions\Acl\Role\RoleInterface;
+use Laminas\Permissions\Acl\Acl;
+use Laminas\Permissions\Acl\Assertion\AssertionInterface;
+use Laminas\Permissions\Acl\Resource\ResourceInterface;
+use Laminas\Permissions\Acl\Role\RoleInterface;
 
 class UserIsCollaborator implements AssertionInterface {
     private $collaborationRoles;

@@ -9,7 +9,7 @@ use eCamp\Core\ContentType\ContentTypeStrategyBase;
 use eCamp\Core\Entity\ActivityContent;
 use eCamp\Lib\Acl\NoAccessException;
 use eCamp\Lib\Service\ServiceUtils;
-use ZF\Hal\Link\Link;
+use Laminas\ApiTools\Hal\Link\Link;
 
 class Strategy extends ContentTypeStrategyBase {
     /** @var SectionService */

@@ -2,18 +2,18 @@
 
 namespace eCampApi;
 
-use Zend\Mvc\Application;
-use Zend\Mvc\MvcEvent;
-use ZF\Apigility\Provider\ApigilityProviderInterface;
+use Laminas\ApiTools\Provider\ApiToolsProviderInterface;
+use Laminas\Mvc\Application;
+use Laminas\Mvc\MvcEvent;
 
-class Module implements ApigilityProviderInterface {
+class Module implements ApiToolsProviderInterface {
     public function getConfig() {
         return include __DIR__.'/../../config/module.config.php';
     }
 
     public function getAutoloaderConfig() {
         return [
-            'ZF\Apigility\Autoloader' => [
+            'Laminas\ApiTools\Autoloader' => [
                 'namespaces' => [
                     __NAMESPACE__ => __DIR__,
                 ],
@@ -26,7 +26,7 @@ class Module implements ApigilityProviderInterface {
         $app = $e->getApplication();
 
         $helpers = $app->getServiceManager()->get('ViewHelperManager');
-        /** @var \ZF\Hal\Plugin\Hal $hal */
+        /** @var \Laminas\ApiTools\Hal\Plugin\Hal $hal */
         $hal = $helpers->get('Hal');
 
         $entityExtractor = new HalEntityExtractor($hal->getEntityHydratorManager());

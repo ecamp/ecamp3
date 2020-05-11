@@ -6,7 +6,7 @@ use eCamp\Core\Entity\ActivityType;
 use eCamp\Core\Entity\ActivityTypeContentType;
 use eCamp\Core\Entity\ContentType;
 use eCamp\LibTest\PHPUnit\AbstractTestCase;
-use Zend\Json\Json;
+use Laminas\Json\Json;
 
 /**
  * @internal

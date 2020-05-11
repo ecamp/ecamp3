@@ -5,9 +5,9 @@ namespace eCamp\Core\HydratorFactory;
 use eCamp\Core\ContentType\ContentTypeStrategyProvider;
 use eCamp\Core\Hydrator\ActivityContentHydrator;
 use Interop\Container\ContainerInterface;
+use Laminas\ServiceManager\Factory\FactoryInterface;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
-use Zend\ServiceManager\Factory\FactoryInterface;
 
 class ActivityContentHydratorFactory implements FactoryInterface {
     /**

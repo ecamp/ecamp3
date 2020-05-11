@@ -5,7 +5,7 @@ namespace eCamp\Core\EntityService;
 use eCamp\Core\Entity\JobResp;
 use eCamp\Core\Hydrator\JobRespHydrator;
 use eCamp\Lib\Service\ServiceUtils;
-use Zend\Authentication\AuthenticationService;
+use Laminas\Authentication\AuthenticationService;
 
 class JobRespService extends AbstractEntityService {
     public function __construct(ServiceUtils $serviceUtils, AuthenticationService $authenticationService) {

@@ -5,7 +5,7 @@ namespace eCamp\LibTest\PHPUnit;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Tools\SchemaTool;
 use Doctrine\ORM\Tools\ToolsException;
-use Zend\Test\PHPUnit\Controller\AbstractHttpControllerTestCase as ZendAbstractHttpControllerTestCase;
+use Laminas\Test\PHPUnit\Controller\AbstractHttpControllerTestCase as ZendAbstractHttpControllerTestCase;
 
 abstract class AbstractHttpControllerTestCase extends ZendAbstractHttpControllerTestCase {
     /**

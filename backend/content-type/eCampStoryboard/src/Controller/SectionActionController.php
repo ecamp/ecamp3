@@ -3,7 +3,7 @@
 namespace eCamp\ContentType\Storyboard\Controller;
 
 use eCamp\ContentType\Storyboard\Service\SectionService;
-use Zend\Mvc\Controller\AbstractActionController;
+use Laminas\Mvc\Controller\AbstractActionController;
 
 class SectionActionController extends AbstractActionController {
     /** @var SectionService */

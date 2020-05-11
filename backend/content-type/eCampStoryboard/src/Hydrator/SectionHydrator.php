@@ -3,8 +3,8 @@
 namespace eCamp\ContentType\Storyboard\Hydrator;
 
 use eCamp\ContentType\Storyboard\Entity\Section;
-use Zend\Hydrator\HydratorInterface;
-use ZF\Hal\Link\Link;
+use Laminas\ApiTools\Hal\Link\Link;
+use Laminas\Hydrator\HydratorInterface;
 
 class SectionHydrator implements HydratorInterface {
     /**

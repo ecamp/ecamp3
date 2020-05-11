@@ -10,9 +10,9 @@ use eCamp\Lib\Hydrator\Util;
 use eCampApi\V1\Rest\ActivityCategory\ActivityCategoryCollection;
 use eCampApi\V1\Rest\Day\DayCollection;
 use eCampApi\V1\Rest\Period\PeriodCollection;
-use Zend\Authentication\AuthenticationService;
-use Zend\Hydrator\HydratorInterface;
-use ZF\Hal\Link\Link;
+use Laminas\ApiTools\Hal\Link\Link;
+use Laminas\Authentication\AuthenticationService;
+use Laminas\Hydrator\HydratorInterface;
 
 class CampHydrator implements HydratorInterface {
     public static function HydrateInfo() {

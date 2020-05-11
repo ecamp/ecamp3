@@ -12,10 +12,10 @@ use eCamp\Core\Entity\Camp;
 use eCamp\Core\Hydrator\ActivityContentHydrator;
 use eCamp\Lib\Acl\NoAccessException;
 use eCamp\Lib\Service\ServiceUtils;
+use Laminas\ApiTools\ApiProblem\ApiProblem;
+use Laminas\Authentication\AuthenticationService;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
-use Zend\Authentication\AuthenticationService;
-use ZF\ApiProblem\ApiProblem;
 
 class ActivityContentService extends AbstractEntityService {
     use ContentTypeStrategyProviderTrait;

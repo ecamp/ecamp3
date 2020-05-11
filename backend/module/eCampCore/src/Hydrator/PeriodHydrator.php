@@ -8,7 +8,7 @@ use eCamp\Lib\Entity\EntityLinkCollection;
 use eCamp\Lib\Hydrator\Util;
 use eCampApi\V1\Rest\Day\DayCollection;
 use eCampApi\V1\Rest\ScheduleEntry\ScheduleEntryCollection;
-use Zend\Hydrator\HydratorInterface;
+use Laminas\Hydrator\HydratorInterface;
 
 class PeriodHydrator implements HydratorInterface {
     public static function HydrateInfo() {

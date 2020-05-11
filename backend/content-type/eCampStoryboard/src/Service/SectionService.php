@@ -7,7 +7,7 @@ use eCamp\ContentType\Storyboard\Entity\Section;
 use eCamp\ContentType\Storyboard\Hydrator\SectionHydrator;
 use eCamp\Core\ContentType\BaseContentTypeService;
 use eCamp\Lib\Service\ServiceUtils;
-use Zend\Authentication\AuthenticationService;
+use Laminas\Authentication\AuthenticationService;
 
 class SectionService extends BaseContentTypeService {
     public function __construct(ServiceUtils $serviceUtils, AuthenticationService $authenticationService) {
