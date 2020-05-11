@@ -58,7 +58,7 @@ describe('ApiTextField.vue', () => {
     const newValue = 'new value'
 
     // contains 1 e-text-field
-    expect(wrapper.find({ name: 'ETextField' }).exists()).toBe(true)
+    expect(wrapper.findComponent({ name: 'ETextField' }).exists()).toBe(true)
 
     wrapper.find('input').setValue(newValue)
 
