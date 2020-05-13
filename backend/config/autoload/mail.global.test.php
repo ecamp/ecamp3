@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'zend_mail' => [
+    'laminas_mail' => [
         'transport' => [
             'type' => 'file',
             'options' => [

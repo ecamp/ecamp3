@@ -14,7 +14,7 @@ class TransportFactory implements FactoryInterface {
      */
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null) {
         $config = $container->get('Config');
-        $transportConfig = $config['zend_mail']['transport'] ?: [];
+        $transportConfig = $config['laminas_mail']['transport'] ?: [];
 
         return Factory::create($transportConfig);
     }

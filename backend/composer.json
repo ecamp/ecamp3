@@ -24,7 +24,6 @@
         "laminas/laminas-mail": "^2.10",
         "laminas/laminas-router": "^3.0",
         "laminas/laminas-session": "^2.8",
-        "laminas/laminas-test": "^3.0",
         "doctrine/doctrine-orm-module": "^2.1.7",
         "doctrine/data-fixtures": "^1.4",
         "doctrine/migrations": "^2.2",
@@ -47,6 +46,7 @@
         "laminas/laminas-component-installer": "^2.1",
         "laminas/laminas-developer-tools": "^1.2",
         "laminas/laminas-code": "^3.3",
+        "laminas/laminas-test": "^3.0",
         "laminas-api-tools/api-tools-admin": "^1.8",
         "friendsofphp/php-cs-fixer": "^2.16"
     },
