@@ -48,25 +48,23 @@ return [
 
     'service_manager' => [
         'aliases' => [
-            \Zend\Permissions\Acl\AclInterface::class => \eCamp\Lib\Acl\Acl::class,
+            \Laminas\Permissions\Acl\AclInterface::class => \eCamp\Lib\Acl\Acl::class,
         ],
         'factories' => [
             \eCamp\Lib\Acl\Acl::class => \eCamp\Core\Acl\AclFactory::class,
 
             \eCamp\Core\Auth\AuthUserProvider::class => \eCamp\Core\Auth\AuthUserProviderFactory::class,
-
-            \eCamp\Core\Plugin\PluginStrategyProvider::class => \eCamp\Core\Plugin\PluginStrategyProviderFactory::class,
         ],
 
         // Use lazy services (service proxies) for expensive constructors or in case circular dependencies are needed
         'lazy_services' => [
             'class_map' => [
-                \eCamp\Core\EntityService\EventCategoryService::class => \eCamp\Core\EntityService\EventCategoryService::class,
+                \eCamp\Core\EntityService\ActivityCategoryService::class => \eCamp\Core\EntityService\ActivityCategoryService::class,
             ],
         ],
         'delegators' => [
-            \eCamp\Core\EntityService\EventCategoryService::class => [
-                Zend\ServiceManager\Proxy\LazyServiceFactory::class,
+            \eCamp\Core\EntityService\ActivityCategoryService::class => [
+                Laminas\ServiceManager\Proxy\LazyServiceFactory::class,
             ],
         ],
     ],
@@ -80,7 +78,7 @@ return [
 
     'hydrators' => [
         'factories' => [
-            \eCamp\Core\Hydrator\EventPluginHydrator::class => \eCamp\Core\HydratorFactory\EventPluginHydratorFactory::class,
+            \eCamp\Core\Hydrator\ActivityContentHydrator::class => \Laminas\Di\Container\ServiceManager\AutowireFactory::class,
         ],
     ],
 

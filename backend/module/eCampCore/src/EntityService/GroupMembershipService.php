@@ -7,9 +7,10 @@ use eCamp\Core\Entity\Group;
 use eCamp\Core\Entity\GroupMembership;
 use eCamp\Core\Entity\User;
 use eCamp\Core\Hydrator\GroupMembershipHydrator;
+use eCamp\Lib\Acl\Acl;
 use eCamp\Lib\Service\ServiceUtils;
-use Zend\Authentication\AuthenticationService;
-use ZF\ApiProblem\ApiProblem;
+use Laminas\ApiTools\ApiProblem\ApiProblem;
+use Laminas\Authentication\AuthenticationService;
 
 class GroupMembershipService extends AbstractEntityService {
     public function __construct(ServiceUtils $serviceUtils, AuthenticationService $authenticationService) {
@@ -46,14 +47,14 @@ class GroupMembershipService extends AbstractEntityService {
      */
     public function create($data) {
         $authUser = $this->getAuthUser();
-        if (!isset($data->user_id)) {
-            $data->user_id = $authUser->getId();
+        if (!isset($data->userId)) {
+            $data->userId = $authUser->getId();
         }
 
         /** @var Group $group */
-        $group = $this->findEntity(Group::class, $data->group_id);
+        $group = $this->findEntity(Group::class, $data->groupId);
         /** @var User $user */
-        $user = $this->findEntity(User::class, $data->user_id);
+        $user = $this->findEntity(User::class, $data->userId);
 
         if (!isset($data->role)) {
             $data->role = GroupMembership::ROLE_MEMBER;
@@ -65,7 +66,9 @@ class GroupMembershipService extends AbstractEntityService {
         $groupMembership->setUser($user);
         $groupMembership->setRole($data->role);
 
-        if ($data->user_id === $authUser->getId()) {
+        $this->assertAllowed($groupMembership, Acl::REST_PRIVILEGE_CREATE);
+
+        if ($data->userId === $authUser->getId()) {
             // Create GroupMembership for AuthUser
             $groupMembership->setStatus(GroupMembership::STATUS_REQUESTED);
         } else {

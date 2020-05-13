@@ -2,12 +2,12 @@
 
 namespace eCampApi;
 
+use Laminas\ApiTools\Hal\Collection;
+use Laminas\ApiTools\Hal\Entity;
+use Laminas\ApiTools\Hal\Metadata\Metadata;
+use Laminas\ApiTools\Hal\ResourceFactory;
+use Laminas\Paginator\Paginator;
 use Traversable;
-use Zend\Paginator\Paginator;
-use ZF\Hal\Collection;
-use ZF\Hal\Entity;
-use ZF\Hal\Metadata\Metadata;
-use ZF\Hal\ResourceFactory;
 
 class HalResourceFactory extends ResourceFactory {
     public function createEntityFromMetadata($object, Metadata $metadata, $renderEmbeddedEntities = true) {

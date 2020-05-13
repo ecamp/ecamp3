@@ -4,14 +4,14 @@ namespace eCamp\Lib\Hal;
 
 use eCamp\Lib\Entity\EntityLink;
 use eCamp\Lib\Hydrator\Resolver\BaseResolver;
+use Laminas\ApiTools\Hal\Entity;
+use Laminas\ApiTools\Hal\Link\LinkCollection;
+use Laminas\ApiTools\Hal\Metadata\Metadata;
+use Laminas\ApiTools\Hal\Plugin\Hal;
 use Laminas\EventManager\AbstractListenerAggregate;
 use Laminas\EventManager\Event;
 use Laminas\EventManager\EventManagerInterface;
 use Laminas\EventManager\SharedEventManagerInterface;
-use ZF\Hal\Entity;
-use ZF\Hal\Link\LinkCollection;
-use ZF\Hal\Metadata\Metadata;
-use ZF\Hal\Plugin\Hal;
 
 class CollectionRenderer extends AbstractListenerAggregate {
     /**
@@ -32,9 +32,9 @@ class CollectionRenderer extends AbstractListenerAggregate {
     }
 
     public function attachShared(SharedEventManagerInterface $sharedEvents) {
-        $this->sharedListeners[] = $sharedEvents->attach('ZF\Hal\Plugin\Hal', 'renderEntity', [$this, 'renderEntity'], 100);
-        $this->sharedListeners[] = $sharedEvents->attach('ZF\Hal\Plugin\Hal', 'renderEntity.post', [$this, 'renderEntityPost'], 100);
-        $this->sharedListeners[] = $sharedEvents->attach('ZF\Hal\Plugin\Hal', 'renderCollection', [$this, 'renderCollection'], 100);
+        $this->sharedListeners[] = $sharedEvents->attach('Laminas\ApiTools\Hal\Plugin\Hal', 'renderEntity', [$this, 'renderEntity'], 100);
+        $this->sharedListeners[] = $sharedEvents->attach('Laminas\ApiTools\Hal\Plugin\Hal', 'renderEntity.post', [$this, 'renderEntityPost'], 100);
+        $this->sharedListeners[] = $sharedEvents->attach('Laminas\ApiTools\Hal\Plugin\Hal', 'renderCollection', [$this, 'renderCollection'], 100);
     }
 
     public function detachShared(SharedEventManagerInterface $sharedEvents) {

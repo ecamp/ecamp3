@@ -6,16 +6,16 @@ use Doctrine\ORM\Mapping as ORM;
 use eCamp\Lib\Entity\BaseEntity;
 
 /**
- * @ORM\Table(name="user_identity", uniqueConstraints={
- *     @ORM\UniqueConstraint(name="identity", columns={"provider", "provider_id"}),
- * })
  * @ORM\Entity
+ * @ORM\Table(uniqueConstraints={
+ *     @ORM\UniqueConstraint(name="identity", columns={"provider", "providerId"}),
+ * })
  */
 class UserIdentity extends BaseEntity {
     /**
      * @var User
      * @ORM\ManyToOne(targetEntity="User")
-     * @ORM\JoinColumn(name="user_id", nullable=false, onDelete="CASCADE")
+     * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
      */
     private $user;
 
@@ -23,7 +23,7 @@ class UserIdentity extends BaseEntity {
      * This is the identity provider (Facebook, Google, etc.).
      *
      * @var string
-     * @ORM\Column(name="provider", type="string", length=255, nullable=false)
+     * @ORM\Column(type="string", length=255, nullable=false)
      */
     private $provider;
 
@@ -31,7 +31,7 @@ class UserIdentity extends BaseEntity {
      * This is the ID given by the identity provider.
      *
      * @var string
-     * @ORM\Column(name="provider_id", type="string", length=255, nullable=false)
+     * @ORM\Column(type="string", length=255, nullable=false)
      */
     private $providerId;
 

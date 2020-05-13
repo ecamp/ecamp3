@@ -1,15 +1,15 @@
 <!--
-Listing all given event instances in a calendar view.
+Listing all given activity schedule entries in a calendar view.
 -->
 
 <template>
   <v-calendar
     class="ec-picasso"
-    :events="eventInstances"
-    event-start="start_time"
-    event-end="end_time"
-    :event-name="getEventName | loading('Lädt…', ({ input }) => input.event()._meta.loading)"
-    :event-color="getEventColor | loading('grey lighten-2', eventInstance => eventInstance.event()._meta.loading)"
+    :events="scheduleEntries"
+    event-start="startTime"
+    event-end="endTime"
+    :event-name="getActivityName | loading('Lädt…', ({ input }) => input.activity()._meta.loading)"
+    :event-color="getActivityColor | loading('grey lighten-2', scheduleEntry => scheduleEntry.activity()._meta.loading)"
     :interval-height="intervalHeight"
     interval-width="46"
     :interval-format="getIntervalFormat"
@@ -23,10 +23,10 @@ Listing all given event instances in a calendar view.
     :weekday-format="weekdayFormat"
     :weekdays="[1, 2, 3, 4, 5, 6, 0]"
     color="primary"
-    @click:event="showEventInstance" />
+    @click:event="showScheduleEntry" />
 </template>
 <script>
-import { eventInstanceRoute } from '@/router'
+import { scheduleEntryRoute } from '@/router'
 
 export default {
   name: 'Picasso',
@@ -35,7 +35,7 @@ export default {
       type: Function,
       required: true
     },
-    eventInstances: {
+    scheduleEntries: {
       type: Array,
       required: true
     },
@@ -72,17 +72,17 @@ export default {
     }
   },
   methods: {
-    getEventName (event, _) {
-      return '(' + event.input.number + ') ' + event.input.event().event_category().short + ': ' + event.input.event().title
+    getActivityName (event, _) {
+      return '(' + event.input.number + ') ' + event.input.activity().activityCategory().short + ': ' + event.input.activity().title
     },
-    getEventColor (event, _) {
-      return event.event().event_category().color.toString()
+    getActivityColor (event, _) {
+      return event.activity().activityCategory().color.toString()
     },
     getIntervalFormat (time) {
       return time.time
     },
-    showEventInstance ({ event: eventInstance }) {
-      this.$router.push(eventInstanceRoute(this.camp(), eventInstance))
+    showScheduleEntry ({ event: scheduleEntry }) {
+      this.$router.push(scheduleEntryRoute(this.camp(), scheduleEntry))
     },
     dayFormat (day) {
       if (this.$vuetify.breakpoint.smAndDown) {

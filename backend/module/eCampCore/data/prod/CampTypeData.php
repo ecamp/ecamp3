@@ -14,8 +14,8 @@ class CampTypeData extends AbstractFixture implements DependentFixtureInterface 
     public function load(ObjectManager $manager) {
         $repository = $manager->getRepository(CampType::class);
 
-        $lagersport = $this->getReference(EventTypeData::$LAGERSPORT);
-        $lageraktivitaet = $this->getReference(EventTypeData::$LAGERAKTIVITAET);
+        $lagersport = $this->getReference(ActivityTypeData::$LAGERSPORT);
+        $lageraktivitaet = $this->getReference(ActivityTypeData::$LAGERAKTIVITAET);
 
         $pbs = $this->getReference(OrganizationData::$PBS);
 
@@ -29,11 +29,11 @@ class CampTypeData extends AbstractFixture implements DependentFixtureInterface 
 
             $manager->persist($campType);
         }
-        if (!$campType->getEventTypes()->contains($lagersport)) {
-            $campType->addEventType($lagersport);
+        if (!$campType->getActivityTypes()->contains($lagersport)) {
+            $campType->addActivityType($lagersport);
         }
-        if (!$campType->getEventTypes()->contains($lageraktivitaet)) {
-            $campType->addEventType($lageraktivitaet);
+        if (!$campType->getActivityTypes()->contains($lageraktivitaet)) {
+            $campType->addActivityType($lageraktivitaet);
         }
         $this->addReference(self::$PBS_JS_KIDS, $campType);
 
@@ -47,11 +47,11 @@ class CampTypeData extends AbstractFixture implements DependentFixtureInterface 
 
             $manager->persist($campType);
         }
-        if (!$campType->getEventTypes()->contains($lagersport)) {
-            $campType->addEventType($lagersport);
+        if (!$campType->getActivityTypes()->contains($lagersport)) {
+            $campType->addActivityType($lagersport);
         }
-        if (!$campType->getEventTypes()->contains($lageraktivitaet)) {
-            $campType->addEventType($lageraktivitaet);
+        if (!$campType->getActivityTypes()->contains($lageraktivitaet)) {
+            $campType->addActivityType($lageraktivitaet);
         }
         $this->addReference(self::$PBS_JS_TEEN, $campType);
 
@@ -59,6 +59,6 @@ class CampTypeData extends AbstractFixture implements DependentFixtureInterface 
     }
 
     public function getDependencies() {
-        return [OrganizationData::class, EventTypeData::class];
+        return [OrganizationData::class, ActivityTypeData::class];
     }
 }

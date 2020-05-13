@@ -13,6 +13,8 @@ class IgnoreNativeBindingWarnMessagesPlugin {
         msg = null
         vm = null
         trace = null
+      } else {
+        console.error(`[Vue warn]: ${msg}${trace}`)
       }
     }
   }

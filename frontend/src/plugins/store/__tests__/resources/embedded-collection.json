@@ -14,8 +14,8 @@
             "camp": {
               "href": "/camps/1"
             },
-            "events": {
-              "href": "/periods/104/events"
+            "activities": {
+              "href": "/periods/104/activities"
             }
           }
         },
@@ -30,8 +30,8 @@
             "camp": {
               "href": "/camps/1"
             },
-            "events": {
-              "href": "/periods/128/events"
+            "activities": {
+              "href": "/periods/128/activities"
             }
           }
         }
@@ -51,8 +51,8 @@
       "camp": {
         "href": "/camps/1"
       },
-      "events": {
-        "href": "/periods/104/events"
+      "activities": {
+        "href": "/periods/104/activities"
       },
       "_meta": {
         "self": "/periods/104"
@@ -65,8 +65,8 @@
       "camp": {
         "href": "/camps/1"
       },
-      "events": {
-        "href": "/periods/128/events"
+      "activities": {
+        "href": "/periods/128/activities"
       },
       "_meta": {
         "self": "/periods/128"

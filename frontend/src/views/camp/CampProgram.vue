@@ -1,5 +1,5 @@
 <!--
-Show all event instances of a single period.
+Show all activity schedule entries of a single period.
 -->
 
 <template>
@@ -24,14 +24,14 @@ Show all event instances of a single period.
         <v-skeleton-loader v-else type="table" />
       </template>
       <template v-if="firstPeriod">
-        <event-list
+        <activity-list
           v-if="listFormat"
-          :camp="camp" :event-instances="firstPeriod.event_instances().items" />
+          :camp="camp" :schedule-entries="firstPeriod.scheduleEntries().items" />
         <picasso
           v-else
           :camp="camp"
           class="mx-2 ma-sm-0 pa-sm-2"
-          :event-instances="firstPeriod.event_instances().items"
+          :schedule-entries="firstPeriod.scheduleEntries().items"
           :start="new Date(Date.parse(firstPeriod.start))"
           :end="new Date(Date.parse(firstPeriod.end))" />
       </template>
@@ -54,7 +54,7 @@ Show all event instances of a single period.
 import ContentCard from '@/components/layout/ContentCard'
 import SearchMobile from '@/components/navigation/SearchMobile'
 import Picasso from '@/components/camp/Picasso'
-import EventList from '@/components/camp/EventList'
+import ActivityList from '@/components/camp/ActivityList'
 
 export default {
   name: 'CampProgram',
@@ -62,7 +62,7 @@ export default {
     ContentCard,
     SearchMobile,
     Picasso,
-    EventList
+    ActivityList
   },
   props: {
     camp: { type: Function, required: true }
@@ -87,7 +87,7 @@ export default {
     }
   },
   mounted () {
-    this.camp().events()
+    this.camp().activities()
   }
 }
 </script>

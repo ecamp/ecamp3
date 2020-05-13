@@ -3,15 +3,15 @@
 namespace eCamp\Lib\Hal\Factory;
 
 use eCamp\Lib\Hal\Extractor\LinkExtractor;
-use Zend\Mvc\Application;
-use Zend\Router\RouteMatch;
-use Zend\View\Helper\ServerUrl;
-use Zend\View\Helper\Url;
-use ZF\Hal\Link\LinkUrlBuilder;
+use Laminas\ApiTools\Hal\Link\LinkUrlBuilder;
+use Laminas\Mvc\Application;
+use Laminas\Router\RouteMatch;
+use Laminas\View\Helper\ServerUrl;
+use Laminas\View\Helper\Url;
 
 class LinkExtractorFactory {
     /**
-     * @param \Interop\Container\ContainerInterface|\Zend\ServiceManager\ServiceLocatorInterface $container
+     * @param \Interop\Container\ContainerInterface|\Laminas\ServiceManager\ServiceLocatorInterface $container
      *
      * @return LinkExtractor
      */
@@ -33,8 +33,8 @@ class LinkExtractorFactory {
         $linkExtractor->setServerUrl($serverUrlHelper);
         $linkExtractor->setUrl($urlHelper);
 
-        if (isset($container->get('Config')['zf-rest'])) {
-            $linkExtractor->setZfRestConfig($container->get('Config')['zf-rest']);
+        if (isset($container->get('Config')['api-tools-rest'])) {
+            $linkExtractor->setZfRestConfig($container->get('Config')['api-tools-rest']);
         }
 
         return $linkExtractor;

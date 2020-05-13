@@ -4,8 +4,8 @@ namespace eCamp\CoreTest\Entity;
 
 use eCamp\Core\Entity\Camp;
 use eCamp\Core\Entity\Day;
-use eCamp\Core\Entity\EventInstance;
 use eCamp\Core\Entity\Period;
+use eCamp\Core\Entity\ScheduleEntry;
 use eCamp\LibTest\PHPUnit\AbstractTestCase;
 
 /**
@@ -77,15 +77,15 @@ class PeriodTest extends AbstractTestCase {
         $this->assertEquals(0, $period->getDays()->count());
     }
 
-    public function testEventInstance() {
+    public function testScheduleEntry() {
         $period = new Period();
-        $eventInstance = new EventInstance();
+        $scheduleEntry = new ScheduleEntry();
 
-        $this->assertEquals(0, $period->getEventInstances()->count());
-        $period->addEventInstance($eventInstance);
-        $this->assertContains($eventInstance, $period->getEventInstances());
-        $period->removeEventInstance($eventInstance);
-        $this->assertEquals(0, $period->getEventInstances()->count());
+        $this->assertEquals(0, $period->getScheduleEntries()->count());
+        $period->addScheduleEntry($scheduleEntry);
+        $this->assertContains($scheduleEntry, $period->getScheduleEntries());
+        $period->removeScheduleEntry($scheduleEntry);
+        $this->assertEquals(0, $period->getScheduleEntries()->count());
     }
 
     public function testLifecycle() {

@@ -44,8 +44,8 @@ abstract class BaseFilter implements EntityFilterInterface {
      */
     protected function findEntityQueryBuilder($className, $alias, $id) {
         $q = $this->createQueryBuilder($className, $alias);
-        $q->where($alias.'.id = :entity_id');
-        $q->setParameter('entity_id', $id);
+        $q->where($alias.'.id = :entityId');
+        $q->setParameter('entityId', $id);
 
         return $q;
     }

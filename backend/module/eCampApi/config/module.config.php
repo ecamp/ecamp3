@@ -8,7 +8,7 @@ return [
                 'options' => [
                     'route' => '/[:action]',
                     'defaults' => [
-                        'controller' => 'eCampApi\\V1\\Rpc\\Index\\Controller',
+                        'controller' => 'eCampApi\\V1\\Rpc\\Index\\IndexController',
                         'action' => 'index',
                     ],
                 ],
@@ -18,7 +18,7 @@ return [
                 'options' => [
                     'route' => '/api/auth[/:action]',
                     'defaults' => [
-                        'controller' => 'eCampApi\\V1\\Rpc\\Auth\\Controller',
+                        'controller' => 'eCampApi\\V1\\Rpc\\Auth\\AuthController',
                         'action' => 'index',
                     ],
                 ],
@@ -28,7 +28,7 @@ return [
                 'options' => [
                     'route' => '/api/register[/:action]',
                     'defaults' => [
-                        'controller' => 'eCampApi\\V1\\Rpc\\Register\\Controller',
+                        'controller' => 'eCampApi\\V1\\Rpc\\Register\\RegisterController',
                         'action' => 'register',
                     ],
                 ],
@@ -36,25 +36,25 @@ return [
             'e-camp-api.rest.doctrine.camp-type' => [
                 'type' => 'Segment',
                 'options' => [
-                    'route' => '/api/camp-types[/:camp_type_id]',
+                    'route' => '/api/camp-types[/:campTypeId]',
                     'defaults' => [
                         'controller' => 'eCampApi\\V1\\Rest\\CampType\\Controller',
                     ],
                 ],
             ],
-            'e-camp-api.rest.doctrine.event-type' => [
+            'e-camp-api.rest.doctrine.activity-type' => [
                 'type' => 'Segment',
                 'options' => [
-                    'route' => '/api/event-types[/:event_type_id]',
+                    'route' => '/api/activity-types[/:activityTypeId]',
                     'defaults' => [
-                        'controller' => 'eCampApi\\V1\\Rest\\EventType\\Controller',
+                        'controller' => 'eCampApi\\V1\\Rest\\ActivityType\\Controller',
                     ],
                 ],
             ],
             'e-camp-api.rest.doctrine.organization' => [
                 'type' => 'Segment',
                 'options' => [
-                    'route' => '/api/organizations[/:organization_id]',
+                    'route' => '/api/organizations[/:organizationId]',
                     'defaults' => [
                         'controller' => 'eCampApi\\V1\\Rest\\Organization\\Controller',
                     ],
@@ -63,7 +63,7 @@ return [
             'e-camp-api.rest.doctrine.camp' => [
                 'type' => 'Segment',
                 'options' => [
-                    'route' => '/api/camps[/:camp_id]',
+                    'route' => '/api/camps[/:campId]',
                     'defaults' => [
                         'controller' => 'eCampApi\\V1\\Rest\\Camp\\Controller',
                     ],
@@ -72,7 +72,7 @@ return [
             'e-camp-api.rest.doctrine.period' => [
                 'type' => 'Segment',
                 'options' => [
-                    'route' => '/api/periods[/:period_id]',
+                    'route' => '/api/periods[/:periodId]',
                     'defaults' => [
                         'controller' => 'eCampApi\\V1\\Rest\\Period\\Controller',
                     ],
@@ -81,43 +81,43 @@ return [
             'e-camp-api.rest.doctrine.day' => [
                 'type' => 'Segment',
                 'options' => [
-                    'route' => '/api/days[/:day_id]',
+                    'route' => '/api/days[/:dayId]',
                     'defaults' => [
                         'controller' => 'eCampApi\\V1\\Rest\\Day\\Controller',
                     ],
                 ],
             ],
-            'e-camp-api.rest.doctrine.event' => [
+            'e-camp-api.rest.doctrine.activity' => [
                 'type' => 'Segment',
                 'options' => [
-                    'route' => '/api/events[/:event_id]',
+                    'route' => '/api/activities[/:activityId]',
                     'defaults' => [
-                        'controller' => 'eCampApi\\V1\\Rest\\Event\\Controller',
+                        'controller' => 'eCampApi\\V1\\Rest\\Activity\\Controller',
                     ],
                 ],
             ],
-            'e-camp-api.rest.doctrine.event-category' => [
+            'e-camp-api.rest.doctrine.activity-category' => [
                 'type' => 'Segment',
                 'options' => [
-                    'route' => '/api/event-categories[/:event_category_id]',
+                    'route' => '/api/activity-categories[/:activityCategoryId]',
                     'defaults' => [
-                        'controller' => 'eCampApi\\V1\\Rest\\EventCategory\\Controller',
+                        'controller' => 'eCampApi\\V1\\Rest\\ActivityCategory\\Controller',
                     ],
                 ],
             ],
-            'e-camp-api.rest.doctrine.event-instance' => [
+            'e-camp-api.rest.doctrine.schedule-entry' => [
                 'type' => 'Segment',
                 'options' => [
-                    'route' => '/api/event-instances[/:event_instance_id]',
+                    'route' => '/api/schedule-entries[/:scheduleEntryId]',
                     'defaults' => [
-                        'controller' => 'eCampApi\\V1\\Rest\\EventInstance\\Controller',
+                        'controller' => 'eCampApi\\V1\\Rest\\ScheduleEntry\\Controller',
                     ],
                 ],
             ],
             'e-camp-api.rest.doctrine.user' => [
                 'type' => 'Segment',
                 'options' => [
-                    'route' => '/api/users[/:user_id]',
+                    'route' => '/api/users[/:userId]',
                     'defaults' => [
                         'controller' => 'eCampApi\\V1\\Rest\\User\\Controller',
                     ],
@@ -126,36 +126,36 @@ return [
             'e-camp-api.rest.doctrine.camp-collaboration' => [
                 'type' => 'Segment',
                 'options' => [
-                    'route' => '/api/camp-collaborations[/:camp_collaboration_id]',
+                    'route' => '/api/camp-collaborations[/:campCollaborationId]',
                     'defaults' => [
                         'controller' => 'eCampApi\\V1\\Rest\\CampCollaboration\\Controller',
                     ],
                 ],
             ],
-            'e-camp-api.rest.doctrine.event-plugin' => [
+            'e-camp-api.rest.doctrine.activity-content' => [
                 'type' => 'Segment',
                 'options' => [
-                    'route' => '/api/event-plugins[/:event_plugin_id]',
+                    'route' => '/api/activity-contents[/:activityContentId]',
                     'defaults' => [
-                        'controller' => 'eCampApi\\V1\\Rest\\EventPlugin\\Controller',
+                        'controller' => 'eCampApi\\V1\\Rest\\ActivityContent\\Controller',
                     ],
                 ],
             ],
-            'e-camp-api.rest.doctrine.plugin' => [
+            'e-camp-api.rest.doctrine.content-type' => [
                 'type' => 'Segment',
                 'options' => [
-                    'route' => '/api/plugins[/:plugin_id]',
+                    'route' => '/api/content-types[/:contentTypeId]',
                     'defaults' => [
-                        'controller' => 'eCampApi\\V1\\Rest\\Plugin\\Controller',
+                        'controller' => 'eCampApi\\V1\\Rest\\ContentType\\Controller',
                     ],
                 ],
             ],
-            'e-camp-api.rest.doctrine.event-type-plugin' => [
+            'e-camp-api.rest.doctrine.activity-type-content-type' => [
                 'type' => 'Segment',
                 'options' => [
-                    'route' => '/api/event-type-plugins[/:event_type_plugin_id]',
+                    'route' => '/api/activity-type-content-types[/:activityTypeContentTypeId]',
                     'defaults' => [
-                        'controller' => 'eCampApi\\V1\\Rest\\EventTypePlugin\\Controller',
+                        'controller' => 'eCampApi\\V1\\Rest\\ActivityTypeContentType\\Controller',
                     ],
                 ],
             ],
@@ -163,39 +163,39 @@ return [
     ],
     'controllers' => [
         'factories' => [
-            'eCampApi\\V1\\Rpc\\Auth\\Controller' => 'eCampApi\\V1\\Rpc\\Auth\\AuthControllerFactory',
-            'eCampApi\\V1\\Rpc\\Index\\Controller' => 'eCampApi\\V1\\Rpc\\Index\\IndexControllerFactory',
-            'eCampApi\\V1\\Rpc\\Register\\Controller' => 'eCampApi\\V1\\Rpc\\Register\\RegisterControllerFactory',
+            'eCampApi\\V1\\Rpc\\Auth\\AuthController' => \Laminas\Di\Container\ServiceManager\AutowireFactory::class,
+            'eCampApi\\V1\\Rpc\\Index\\IndexController' => \Laminas\Di\Container\ServiceManager\AutowireFactory::class,
+            'eCampApi\\V1\\Rpc\\Register\\RegisterController' => \Laminas\Di\Container\ServiceManager\AutowireFactory::class,
         ],
     ],
-    'zf-versioning' => [
+    'api-tools-versioning' => [
         /*
         'uri' => array(
             0 => 'e-camp-api.rest.doctrine.camp-type',
-            1 => 'e-camp-api.rest.doctrine.event-type',
+            1 => 'e-camp-api.rest.doctrine.activity-type',
             2 => 'e-camp-api.rest.doctrine.organization',
             3 => 'e-camp-api.rest.doctrine.camp',
             4 => 'e-camp-api.rest.doctrine.period',
             5 => 'e-camp-api.rest.doctrine.day',
-            6 => 'e-camp-api.rest.doctrine.event',
-            7 => 'e-camp-api.rest.doctrine.event-category',
-            8 => 'e-camp-api.rest.doctrine.event-instance',
+            6 => 'e-camp-api.rest.doctrine.activity',
+            7 => 'e-camp-api.rest.doctrine.activity-category',
+            8 => 'e-camp-api.rest.doctrine.schedule-entry',
             9 => 'e-camp-api.rest.doctrine.user',
             10 => 'e-camp-api.rest.doctrine.camp-collaboration',
             12 => 'e-camp-api.rpc.index',
             11 => 'e-camp-api.rpc.auth',
             13 => 'e-camp-api.rpc.register',
-            14 => 'e-camp-api.rest.doctrine.event-plugin',
-            15 => 'e-camp-api.rest.doctrine.plugin',
-            16 => 'e-camp-api.rest.doctrine.event-type-plugin',
+            14 => 'e-camp-api.rest.doctrine.activity-content',
+            15 => 'e-camp-api.rest.doctrine.content-type',
+            16 => 'e-camp-api.rest.doctrine.activity-type-content-type',
         ),
         */
     ],
-    'zf-rest' => [
+    'api-tools-rest' => [
         'eCampApi\\V1\\Rest\\CampType\\Controller' => [
             'listener' => 'eCamp\\Core\\EntityService\\CampTypeService',
             'route_name' => 'e-camp-api.rest.doctrine.camp-type',
-            'route_identifier_name' => 'camp_type_id',
+            'route_identifier_name' => 'campTypeId',
             'entity_identifier_name' => 'id',
             'collection_name' => 'items',
             'entity_http_methods' => [
@@ -213,10 +213,10 @@ return [
             'collection_class' => 'eCampApi\\V1\\Rest\\CampType\\CampTypeCollection',
             'service_name' => 'CampType',
         ],
-        'eCampApi\\V1\\Rest\\EventType\\Controller' => [
-            'listener' => 'eCamp\\Core\\EntityService\\EventTypeService',
-            'route_name' => 'e-camp-api.rest.doctrine.event-type',
-            'route_identifier_name' => 'event_type_id',
+        'eCampApi\\V1\\Rest\\ActivityType\\Controller' => [
+            'listener' => 'eCamp\\Core\\EntityService\\ActivityTypeService',
+            'route_name' => 'e-camp-api.rest.doctrine.activity-type',
+            'route_identifier_name' => 'activityTypeId',
             'entity_identifier_name' => 'id',
             'collection_name' => 'items',
             'entity_http_methods' => [
@@ -226,19 +226,19 @@ return [
                 0 => 'GET',
             ],
             'collection_query_whitelist' => [
-                0 => 'camp_type_id',
+                0 => 'campTypeId',
                 1 => 'page_size',
             ],
             'page_size' => -1,
             'page_size_param' => 'page_size',
-            'entity_class' => 'eCamp\\Core\\Entity\\EventType',
-            'collection_class' => 'eCampApi\\V1\\Rest\\EventType\\EventTypeCollection',
-            'service_name' => 'EventType',
+            'entity_class' => 'eCamp\\Core\\Entity\\ActivityType',
+            'collection_class' => 'eCampApi\\V1\\Rest\\ActivityType\\ActivityTypeCollection',
+            'service_name' => 'ActivityType',
         ],
         'eCampApi\\V1\\Rest\\Organization\\Controller' => [
             'listener' => 'eCamp\\Core\\EntityService\\OrganizationService',
             'route_name' => 'e-camp-api.rest.doctrine.organization',
-            'route_identifier_name' => 'organization_id',
+            'route_identifier_name' => 'organizationId',
             'entity_identifier_name' => 'id',
             'collection_name' => 'items',
             'entity_http_methods' => [
@@ -263,7 +263,7 @@ return [
         'eCampApi\\V1\\Rest\\Camp\\Controller' => [
             'listener' => 'eCamp\\Core\\EntityService\\CampService',
             'route_name' => 'e-camp-api.rest.doctrine.camp',
-            'route_identifier_name' => 'camp_id',
+            'route_identifier_name' => 'campId',
             'entity_identifier_name' => 'id',
             'collection_name' => 'items',
             'entity_http_methods' => [
@@ -288,7 +288,7 @@ return [
         'eCampApi\\V1\\Rest\\Period\\Controller' => [
             'listener' => 'eCamp\\Core\\EntityService\\PeriodService',
             'route_name' => 'e-camp-api.rest.doctrine.period',
-            'route_identifier_name' => 'period_id',
+            'route_identifier_name' => 'periodId',
             'entity_identifier_name' => 'id',
             'collection_name' => 'items',
             'entity_http_methods' => [
@@ -302,7 +302,7 @@ return [
                 1 => 'POST',
             ],
             'collection_query_whitelist' => [
-                0 => 'camp_id',
+                0 => 'campId',
                 1 => 'page_size',
             ],
             'page_size' => -1,
@@ -314,7 +314,7 @@ return [
         'eCampApi\\V1\\Rest\\Day\\Controller' => [
             'listener' => 'eCamp\\Core\\EntityService\\DayService',
             'route_name' => 'e-camp-api.rest.doctrine.day',
-            'route_identifier_name' => 'day_id',
+            'route_identifier_name' => 'dayId',
             'entity_identifier_name' => 'id',
             'collection_name' => 'items',
             'entity_http_methods' => [
@@ -328,8 +328,8 @@ return [
                 1 => 'POST',
             ],
             'collection_query_whitelist' => [
-                0 => 'camp_id',
-                1 => 'period_id',
+                0 => 'campId',
+                1 => 'periodId',
                 2 => 'page_size',
             ],
             'page_size' => -1,
@@ -338,10 +338,10 @@ return [
             'collection_class' => 'eCampApi\\V1\\Rest\\Day\\DayCollection',
             'service_name' => 'Day',
         ],
-        'eCampApi\\V1\\Rest\\Event\\Controller' => [
-            'listener' => 'eCamp\\Core\\EntityService\\EventService',
-            'route_name' => 'e-camp-api.rest.doctrine.event',
-            'route_identifier_name' => 'event_id',
+        'eCampApi\\V1\\Rest\\Activity\\Controller' => [
+            'listener' => 'eCamp\\Core\\EntityService\\ActivityService',
+            'route_name' => 'e-camp-api.rest.doctrine.activity',
+            'route_identifier_name' => 'activityId',
             'entity_identifier_name' => 'id',
             'collection_name' => 'items',
             'entity_http_methods' => [
@@ -355,19 +355,19 @@ return [
                 1 => 'POST',
             ],
             'collection_query_whitelist' => [
-                0 => 'camp_id',
+                0 => 'campId',
                 1 => 'page_size',
             ],
             'page_size' => -1,
             'page_size_param' => 'page_size',
-            'entity_class' => 'eCamp\\Core\\Entity\\Event',
-            'collection_class' => 'eCampApi\\V1\\Rest\\Event\\EventCollection',
-            'service_name' => 'Event',
+            'entity_class' => 'eCamp\\Core\\Entity\\Activity',
+            'collection_class' => 'eCampApi\\V1\\Rest\\Activity\\ActivityCollection',
+            'service_name' => 'Activity',
         ],
-        'eCampApi\\V1\\Rest\\EventCategory\\Controller' => [
-            'listener' => 'eCamp\\Core\\EntityService\\EventCategoryService',
-            'route_name' => 'e-camp-api.rest.doctrine.event-category',
-            'route_identifier_name' => 'event_category_id',
+        'eCampApi\\V1\\Rest\\ActivityCategory\\Controller' => [
+            'listener' => 'eCamp\\Core\\EntityService\\ActivityCategoryService',
+            'route_name' => 'e-camp-api.rest.doctrine.activity-category',
+            'route_identifier_name' => 'activityCategoryId',
             'entity_identifier_name' => 'id',
             'collection_name' => 'items',
             'entity_http_methods' => [
@@ -381,19 +381,19 @@ return [
                 1 => 'POST',
             ],
             'collection_query_whitelist' => [
-                0 => 'camp_id',
+                0 => 'campId',
                 1 => 'page_size',
             ],
             'page_size' => -1,
             'page_size_param' => 'page_size',
-            'entity_class' => 'eCamp\\Core\\Entity\\EventCategory',
-            'collection_class' => 'eCampApi\\V1\\Rest\\EventCategory\\EventCategoryCollection',
-            'service_name' => 'EventCategory',
+            'entity_class' => 'eCamp\\Core\\Entity\\ActivityCategory',
+            'collection_class' => 'eCampApi\\V1\\Rest\\ActivityCategory\\ActivityCategoryCollection',
+            'service_name' => 'ActivityCategory',
         ],
-        'eCampApi\\V1\\Rest\\EventInstance\\Controller' => [
-            'listener' => 'eCamp\\Core\\EntityService\\EventInstanceService',
-            'route_name' => 'e-camp-api.rest.doctrine.event-instance',
-            'route_identifier_name' => 'event_instance_id',
+        'eCampApi\\V1\\Rest\\ScheduleEntry\\Controller' => [
+            'listener' => 'eCamp\\Core\\EntityService\\ScheduleEntryService',
+            'route_name' => 'e-camp-api.rest.doctrine.schedule-entry',
+            'route_identifier_name' => 'scheduleEntryId',
             'entity_identifier_name' => 'id',
             'collection_name' => 'items',
             'entity_http_methods' => [
@@ -407,19 +407,19 @@ return [
                 1 => 'POST',
             ],
             'collection_query_whitelist' => [
-                0 => 'event_id',
+                0 => 'activityId',
                 1 => 'page_size',
             ],
             'page_size' => -1,
             'page_size_param' => 'page_size',
-            'entity_class' => 'eCamp\\Core\\Entity\\EventInstance',
-            'collection_class' => 'eCampApi\\V1\\Rest\\EventInstance\\EventInstanceCollection',
-            'service_name' => 'EventInstance',
+            'entity_class' => 'eCamp\\Core\\Entity\\ScheduleEntry',
+            'collection_class' => 'eCampApi\\V1\\Rest\\ScheduleEntry\\ScheduleEntryCollection',
+            'service_name' => 'ScheduleEntry',
         ],
         'eCampApi\\V1\\Rest\\User\\Controller' => [
             'listener' => 'eCamp\\Core\\EntityService\\UserService',
             'route_name' => 'e-camp-api.rest.doctrine.user',
-            'route_identifier_name' => 'user_id',
+            'route_identifier_name' => 'userId',
             'entity_identifier_name' => 'id',
             'collection_name' => 'items',
             'entity_http_methods' => [
@@ -445,7 +445,7 @@ return [
         'eCampApi\\V1\\Rest\\CampCollaboration\\Controller' => [
             'listener' => 'eCamp\\Core\\EntityService\\CampCollaborationService',
             'route_name' => 'e-camp-api.rest.doctrine.camp-collaboration',
-            'route_identifier_name' => 'camp_collaboration_id',
+            'route_identifier_name' => 'campCollaborationId',
             'entity_identifier_name' => 'id',
             'collection_name' => 'items',
             'entity_http_methods' => [
@@ -459,8 +459,8 @@ return [
                 1 => 'POST',
             ],
             'collection_query_whitelist' => [
-                0 => 'camp_id',
-                1 => 'user_id',
+                0 => 'campId',
+                1 => 'userId',
                 2 => 'page_size',
             ],
             'page_size' => -1,
@@ -469,10 +469,10 @@ return [
             'collection_class' => 'eCampApi\\V1\\Rest\\CampCollaboration\\CampCollaborationCollection',
             'service_name' => 'CampCollaboration',
         ],
-        'eCampApi\\V1\\Rest\\EventPlugin\\Controller' => [
-            'listener' => 'eCamp\\Core\\EntityService\\EventPluginService',
-            'route_name' => 'e-camp-api.rest.doctrine.event-plugin',
-            'route_identifier_name' => 'event_plugin_id',
+        'eCampApi\\V1\\Rest\\ActivityContent\\Controller' => [
+            'listener' => 'eCamp\\Core\\EntityService\\ActivityContentService',
+            'route_name' => 'e-camp-api.rest.doctrine.activity-content',
+            'route_identifier_name' => 'activityContentId',
             'entity_identifier_name' => 'id',
             'collection_name' => 'items',
             'entity_http_methods' => [
@@ -486,19 +486,19 @@ return [
                 1 => 'POST',
             ],
             'collection_query_whitelist' => [
-                0 => 'event_id',
+                0 => 'activityId',
                 1 => 'page_size',
             ],
             'page_size' => -1,
             'page_size_param' => 'page_size',
-            'entity_class' => 'eCamp\\Core\\Entity\\EventPlugin',
-            'collection_class' => 'eCampApi\\V1\\Rest\\EventPlugin\\EventPluginCollection',
-            'service_name' => 'EventPlugin',
+            'entity_class' => 'eCamp\\Core\\Entity\\ActivityContent',
+            'collection_class' => 'eCampApi\\V1\\Rest\\ActivityContent\\ActivityContentCollection',
+            'service_name' => 'ActivityContent',
         ],
-        'eCampApi\\V1\\Rest\\Plugin\\Controller' => [
-            'listener' => 'eCamp\\Core\\EntityService\\PluginService',
-            'route_name' => 'e-camp-api.rest.doctrine.plugin',
-            'route_identifier_name' => 'plugin_id',
+        'eCampApi\\V1\\Rest\\ContentType\\Controller' => [
+            'listener' => 'eCamp\\Core\\EntityService\\ContentTypeService',
+            'route_name' => 'e-camp-api.rest.doctrine.content-type',
+            'route_identifier_name' => 'contentTypeId',
             'entity_identifier_name' => 'id',
             'collection_name' => 'items',
             'entity_http_methods' => [
@@ -512,14 +512,14 @@ return [
             ],
             'page_size' => -1,
             'page_size_param' => 'page_size',
-            'entity_class' => 'eCamp\\Core\\Entity\\Plugin',
-            'collection_class' => 'eCampApi\\V1\\Rest\\Plugin\\PluginCollection',
-            'service_name' => 'Plugin',
+            'entity_class' => 'eCamp\\Core\\Entity\\ContentType',
+            'collection_class' => 'eCampApi\\V1\\Rest\\ContentType\\ContentTypeCollection',
+            'service_name' => 'ContentType',
         ],
-        'eCampApi\\V1\\Rest\\EventTypePlugin\\Controller' => [
-            'listener' => 'eCamp\\Core\\EntityService\\EventTypePluginService',
-            'route_name' => 'e-camp-api.rest.doctrine.event-type-plugin',
-            'route_identifier_name' => 'event_type_plugin_id',
+        'eCampApi\\V1\\Rest\\ActivityTypeContentType\\Controller' => [
+            'listener' => 'eCamp\\Core\\EntityService\\ActivityTypeContentTypeService',
+            'route_name' => 'e-camp-api.rest.doctrine.activity-type-content-type',
+            'route_identifier_name' => 'activityTypeContentTypeId',
             'entity_identifier_name' => 'id',
             'collection_name' => 'items',
             'entity_http_methods' => [
@@ -533,35 +533,35 @@ return [
                 1 => 'POST',
             ],
             'collection_query_whitelist' => [
-                0 => 'event_type_id',
+                0 => 'activityTypeId',
                 1 => 'page_size',
             ],
             'page_size' => -1,
             'page_size_param' => 'page_size',
-            'entity_class' => 'eCamp\\Core\\Entity\\EventTypePlugin',
-            'collection_class' => 'eCampApi\\V1\\Rest\\EventTypePlugin\\EventTypePluginCollection',
-            'service_name' => 'EventTypePlugin',
+            'entity_class' => 'eCamp\\Core\\Entity\\ActivityTypeContentType',
+            'collection_class' => 'eCampApi\\V1\\Rest\\ActivityTypeContentType\\ActivityTypeContentTypeCollection',
+            'service_name' => 'ActivityTypeContentType',
         ],
     ],
-    'zf-content-negotiation' => [
+    'api-tools-content-negotiation' => [
         'controllers' => [
             'eCampApi\\V1\\Rest\\CampType\\Controller' => 'HalJson',
-            'eCampApi\\V1\\Rest\\EventType\\Controller' => 'HalJson',
+            'eCampApi\\V1\\Rest\\ActivityType\\Controller' => 'HalJson',
             'eCampApi\\V1\\Rest\\Organization\\Controller' => 'HalJson',
             'eCampApi\\V1\\Rest\\Camp\\Controller' => 'HalJson',
             'eCampApi\\V1\\Rest\\Period\\Controller' => 'HalJson',
             'eCampApi\\V1\\Rest\\Day\\Controller' => 'HalJson',
-            'eCampApi\\V1\\Rest\\Event\\Controller' => 'HalJson',
-            'eCampApi\\V1\\Rest\\EventCategory\\Controller' => 'HalJson',
-            'eCampApi\\V1\\Rest\\EventInstance\\Controller' => 'HalJson',
+            'eCampApi\\V1\\Rest\\Activity\\Controller' => 'HalJson',
+            'eCampApi\\V1\\Rest\\ActivityCategory\\Controller' => 'HalJson',
+            'eCampApi\\V1\\Rest\\ScheduleEntry\\Controller' => 'HalJson',
             'eCampApi\\V1\\Rest\\User\\Controller' => 'HalJson',
             'eCampApi\\V1\\Rest\\CampCollaboration\\Controller' => 'HalJson',
-            'eCampApi\\V1\\Rpc\\Index\\Controller' => 'HalJson',
-            'eCampApi\\V1\\Rpc\\Auth\\Controller' => 'HalJson',
-            'eCampApi\\V1\\Rpc\\Register\\Controller' => 'Json',
-            'eCampApi\\V1\\Rest\\EventPlugin\\Controller' => 'HalJson',
-            'eCampApi\\V1\\Rest\\Plugin\\Controller' => 'HalJson',
-            'eCampApi\\V1\\Rest\\EventTypePlugin\\Controller' => 'HalJson',
+            'eCampApi\\V1\\Rpc\\Index\\IndexController' => 'HalJson',
+            'eCampApi\\V1\\Rpc\\Auth\\AuthController' => 'HalJson',
+            'eCampApi\\V1\\Rpc\\Register\\RegisterController' => 'Json',
+            'eCampApi\\V1\\Rest\\ActivityContent\\Controller' => 'HalJson',
+            'eCampApi\\V1\\Rest\\ContentType\\Controller' => 'HalJson',
+            'eCampApi\\V1\\Rest\\ActivityTypeContentType\\Controller' => 'HalJson',
         ],
         'accept_whitelist' => [
             'eCampApi\\V1\\Rest\\CampType\\Controller' => [
@@ -569,7 +569,7 @@ return [
                 1 => 'application/hal+json',
                 2 => 'application/json',
             ],
-            'eCampApi\\V1\\Rest\\EventType\\Controller' => [
+            'eCampApi\\V1\\Rest\\ActivityType\\Controller' => [
                 0 => 'application/vnd.e-camp-api.v1+json',
                 1 => 'application/hal+json',
                 2 => 'application/json',
@@ -594,17 +594,17 @@ return [
                 1 => 'application/hal+json',
                 2 => 'application/json',
             ],
-            'eCampApi\\V1\\Rest\\Event\\Controller' => [
+            'eCampApi\\V1\\Rest\\Activity\\Controller' => [
                 0 => 'application/vnd.e-camp-api.v1+json',
                 1 => 'application/hal+json',
                 2 => 'application/json',
             ],
-            'eCampApi\\V1\\Rest\\EventCategory\\Controller' => [
+            'eCampApi\\V1\\Rest\\ActivityCategory\\Controller' => [
                 0 => 'application/vnd.e-camp-api.v1+json',
                 1 => 'application/hal+json',
                 2 => 'application/json',
             ],
-            'eCampApi\\V1\\Rest\\EventInstance\\Controller' => [
+            'eCampApi\\V1\\Rest\\ScheduleEntry\\Controller' => [
                 0 => 'application/vnd.e-camp-api.v1+json',
                 1 => 'application/hal+json',
                 2 => 'application/json',
@@ -619,32 +619,32 @@ return [
                 1 => 'application/hal+json',
                 2 => 'application/json',
             ],
-            'eCampApi\\V1\\Rpc\\Index\\Controller' => [
+            'eCampApi\\V1\\Rpc\\Index\\IndexController' => [
                 0 => 'application/vnd.e-camp-api.v1+json',
                 1 => 'application/json',
                 2 => 'application/*+json',
             ],
-            'eCampApi\\V1\\Rpc\\Auth\\Controller' => [
+            'eCampApi\\V1\\Rpc\\Auth\\AuthController' => [
                 0 => 'application/vnd.e-camp-api.v1+json',
                 1 => 'application/json',
                 2 => 'application/*+json',
             ],
-            'eCampApi\\V1\\Rpc\\Register\\Controller' => [
+            'eCampApi\\V1\\Rpc\\Register\\RegisterController' => [
                 0 => 'application/vnd.e-camp-api.v1+json',
                 1 => 'application/json',
                 2 => 'application/*+json',
             ],
-            'eCampApi\\V1\\Rest\\EventPlugin\\Controller' => [
+            'eCampApi\\V1\\Rest\\ActivityContent\\Controller' => [
                 0 => 'application/vnd.e-camp-api.v1+json',
                 1 => 'application/hal+json',
                 2 => 'application/json',
             ],
-            'eCampApi\\V1\\Rest\\Plugin\\Controller' => [
+            'eCampApi\\V1\\Rest\\ContentType\\Controller' => [
                 0 => 'application/vnd.e-camp-api.v1+json',
                 1 => 'application/hal+json',
                 2 => 'application/json',
             ],
-            'eCampApi\\V1\\Rest\\EventTypePlugin\\Controller' => [
+            'eCampApi\\V1\\Rest\\ActivityTypeContentType\\Controller' => [
                 0 => 'application/vnd.e-camp-api.v1+json',
                 1 => 'application/hal+json',
                 2 => 'application/json',
@@ -655,7 +655,7 @@ return [
                 0 => 'application/vnd.e-camp-api.v1+json',
                 1 => 'application/json',
             ],
-            'eCampApi\\V1\\Rest\\EventType\\Controller' => [
+            'eCampApi\\V1\\Rest\\ActivityType\\Controller' => [
                 0 => 'application/vnd.e-camp-api.v1+json',
                 1 => 'application/json',
             ],
@@ -675,15 +675,15 @@ return [
                 0 => 'application/vnd.e-camp-api.v1+json',
                 1 => 'application/json',
             ],
-            'eCampApi\\V1\\Rest\\Event\\Controller' => [
+            'eCampApi\\V1\\Rest\\Activity\\Controller' => [
                 0 => 'application/vnd.e-camp-api.v1+json',
                 1 => 'application/json',
             ],
-            'eCampApi\\V1\\Rest\\EventCategory\\Controller' => [
+            'eCampApi\\V1\\Rest\\ActivityCategory\\Controller' => [
                 0 => 'application/vnd.e-camp-api.v1+json',
                 1 => 'application/json',
             ],
-            'eCampApi\\V1\\Rest\\EventInstance\\Controller' => [
+            'eCampApi\\V1\\Rest\\ScheduleEntry\\Controller' => [
                 0 => 'application/vnd.e-camp-api.v1+json',
                 1 => 'application/json',
             ],
@@ -695,33 +695,33 @@ return [
                 0 => 'application/vnd.e-camp-api.v1+json',
                 1 => 'application/json',
             ],
-            'eCampApi\\V1\\Rpc\\Index\\Controller' => [
+            'eCampApi\\V1\\Rpc\\Index\\IndexController' => [
                 0 => 'application/vnd.e-camp-api.v1+json',
                 1 => 'application/json',
             ],
-            'eCampApi\\V1\\Rpc\\Auth\\Controller' => [
+            'eCampApi\\V1\\Rpc\\Auth\\AuthController' => [
                 0 => 'application/vnd.e-camp-api.v1+json',
                 1 => 'application/json',
             ],
-            'eCampApi\\V1\\Rpc\\Register\\Controller' => [
+            'eCampApi\\V1\\Rpc\\Register\\RegisterController' => [
                 0 => 'application/vnd.e-camp-api.v1+json',
                 1 => 'application/json',
             ],
-            'eCampApi\\V1\\Rest\\EventPlugin\\Controller' => [
+            'eCampApi\\V1\\Rest\\ActivityContent\\Controller' => [
                 0 => 'application/vnd.e-camp-api.v1+json',
                 1 => 'application/json',
             ],
-            'eCampApi\\V1\\Rest\\Plugin\\Controller' => [
+            'eCampApi\\V1\\Rest\\ContentType\\Controller' => [
                 0 => 'application/vnd.e-camp-api.v1+json',
                 1 => 'application/json',
             ],
-            'eCampApi\\V1\\Rest\\EventTypePlugin\\Controller' => [
+            'eCampApi\\V1\\Rest\\ActivityTypeContentType\\Controller' => [
                 0 => 'application/vnd.e-camp-api.v1+json',
                 1 => 'application/json',
             ],
         ],
     ],
-    'zf-hal' => [
+    'api-tools-hal' => [
         'metadata_map' => [
             \eCamp\Lib\Entity\EntityLink::class => [
                 'route_identifier_name' => 'id',
@@ -740,7 +740,7 @@ return [
             //            ),
 
             'eCamp\\Core\\Entity\\CampType' => [
-                'route_identifier_name' => 'camp_type_id',
+                'route_identifier_name' => 'campTypeId',
                 'entity_identifier_name' => 'id',
                 'route_name' => 'e-camp-api.rest.doctrine.camp-type',
                 'hydrator' => 'eCamp\\Core\\Hydrator\\CampTypeHydrator',
@@ -752,21 +752,21 @@ return [
                 'is_collection' => true,
                 'max_depth' => 20,
             ],
-            'eCamp\\Core\\Entity\\EventType' => [
-                'route_identifier_name' => 'event_type_id',
+            'eCamp\\Core\\Entity\\ActivityType' => [
+                'route_identifier_name' => 'activityTypeId',
                 'entity_identifier_name' => 'id',
-                'route_name' => 'e-camp-api.rest.doctrine.event-type',
-                'hydrator' => 'eCamp\\Core\\Hydrator\\EventTypeHydrator',
+                'route_name' => 'e-camp-api.rest.doctrine.activity-type',
+                'hydrator' => 'eCamp\\Core\\Hydrator\\ActivityTypeHydrator',
                 'max_depth' => 20,
             ],
-            'eCampApi\\V1\\Rest\\EventType\\EventTypeCollection' => [
+            'eCampApi\\V1\\Rest\\ActivityType\\ActivityTypeCollection' => [
                 'entity_identifier_name' => 'id',
-                'route_name' => 'e-camp-api.rest.doctrine.event-type',
+                'route_name' => 'e-camp-api.rest.doctrine.activity-type',
                 'is_collection' => true,
                 'max_depth' => 20,
             ],
             'eCamp\\Core\\Entity\\Organization' => [
-                'route_identifier_name' => 'organization_id',
+                'route_identifier_name' => 'organizationId',
                 'entity_identifier_name' => 'id',
                 'route_name' => 'e-camp-api.rest.doctrine.organization',
                 'hydrator' => 'eCamp\\Core\\Hydrator\\OrganizationHydrator',
@@ -779,7 +779,7 @@ return [
                 'max_depth' => 20,
             ],
             'eCamp\\Core\\Entity\\Camp' => [
-                'route_identifier_name' => 'camp_id',
+                'route_identifier_name' => 'campId',
                 'entity_identifier_name' => 'id',
                 'route_name' => 'e-camp-api.rest.doctrine.camp',
                 'hydrator' => 'eCamp\\Core\\Hydrator\\CampHydrator',
@@ -792,7 +792,7 @@ return [
                 'max_depth' => 20,
             ],
             'eCamp\\Core\\Entity\\Period' => [
-                'route_identifier_name' => 'period_id',
+                'route_identifier_name' => 'periodId',
                 'entity_identifier_name' => 'id',
                 'route_name' => 'e-camp-api.rest.doctrine.period',
                 'hydrator' => 'eCamp\\Core\\Hydrator\\PeriodHydrator',
@@ -805,7 +805,7 @@ return [
                 'max_depth' => 20,
             ],
             'eCamp\\Core\\Entity\\Day' => [
-                'route_identifier_name' => 'day_id',
+                'route_identifier_name' => 'dayId',
                 'entity_identifier_name' => 'id',
                 'route_name' => 'e-camp-api.rest.doctrine.day',
                 'hydrator' => 'eCamp\\Core\\Hydrator\\DayHydrator',
@@ -817,47 +817,47 @@ return [
                 'is_collection' => true,
                 'max_depth' => 20,
             ],
-            'eCamp\\Core\\Entity\\Event' => [
-                'route_identifier_name' => 'event_id',
+            'eCamp\\Core\\Entity\\Activity' => [
+                'route_identifier_name' => 'activityId',
                 'entity_identifier_name' => 'id',
-                'route_name' => 'e-camp-api.rest.doctrine.event',
-                'hydrator' => 'eCamp\\Core\\Hydrator\\EventHydrator',
+                'route_name' => 'e-camp-api.rest.doctrine.activity',
+                'hydrator' => 'eCamp\\Core\\Hydrator\\ActivityHydrator',
                 'max_depth' => 20,
             ],
-            'eCampApi\\V1\\Rest\\Event\\EventCollection' => [
+            'eCampApi\\V1\\Rest\\Activity\\ActivityCollection' => [
                 'entity_identifier_name' => 'id',
-                'route_name' => 'e-camp-api.rest.doctrine.event',
+                'route_name' => 'e-camp-api.rest.doctrine.activity',
                 'is_collection' => true,
                 'max_depth' => 20,
             ],
-            'eCamp\\Core\\Entity\\EventCategory' => [
-                'route_identifier_name' => 'event_category_id',
+            'eCamp\\Core\\Entity\\ActivityCategory' => [
+                'route_identifier_name' => 'activityCategoryId',
                 'entity_identifier_name' => 'id',
-                'route_name' => 'e-camp-api.rest.doctrine.event-category',
-                'hydrator' => 'eCamp\\Core\\Hydrator\\EventCategoryHydrator',
+                'route_name' => 'e-camp-api.rest.doctrine.activity-category',
+                'hydrator' => 'eCamp\\Core\\Hydrator\\ActivityCategoryHydrator',
                 'max_depth' => 20,
             ],
-            'eCampApi\\V1\\Rest\\EventCategory\\EventCategoryCollection' => [
+            'eCampApi\\V1\\Rest\\ActivityCategory\\ActivityCategoryCollection' => [
                 'entity_identifier_name' => 'id',
-                'route_name' => 'e-camp-api.rest.doctrine.event-category',
+                'route_name' => 'e-camp-api.rest.doctrine.activity-category',
                 'is_collection' => true,
                 'max_depth' => 20,
             ],
-            'eCamp\\Core\\Entity\\EventInstance' => [
-                'route_identifier_name' => 'event_instance_id',
+            'eCamp\\Core\\Entity\\ScheduleEntry' => [
+                'route_identifier_name' => 'scheduleEntryId',
                 'entity_identifier_name' => 'id',
-                'route_name' => 'e-camp-api.rest.doctrine.event-instance',
-                'hydrator' => 'eCamp\\Core\\Hydrator\\EventInstanceHydrator',
+                'route_name' => 'e-camp-api.rest.doctrine.schedule-entry',
+                'hydrator' => 'eCamp\\Core\\Hydrator\\ScheduleEntryHydrator',
                 'max_depth' => 20,
             ],
-            'eCampApi\\V1\\Rest\\EventInstance\\EventInstanceCollection' => [
+            'eCampApi\\V1\\Rest\\ScheduleEntry\\ScheduleEntryCollection' => [
                 'entity_identifier_name' => 'id',
-                'route_name' => 'e-camp-api.rest.doctrine.event-instance',
+                'route_name' => 'e-camp-api.rest.doctrine.schedule-entry',
                 'is_collection' => true,
                 'max_depth' => 20,
             ],
             'eCamp\\Core\\Entity\\User' => [
-                'route_identifier_name' => 'user_id',
+                'route_identifier_name' => 'userId',
                 'entity_identifier_name' => 'id',
                 'route_name' => 'e-camp-api.rest.doctrine.user',
                 'hydrator' => 'eCamp\\Core\\Hydrator\\UserHydrator',
@@ -870,7 +870,7 @@ return [
                 'max_depth' => 20,
             ],
             'eCamp\\Core\\Entity\\CampCollaboration' => [
-                'route_identifier_name' => 'camp_collaboration_id',
+                'route_identifier_name' => 'campCollaborationId',
                 'entity_identifier_name' => 'id',
                 'route_name' => 'e-camp-api.rest.doctrine.camp-collaboration',
                 'hydrator' => 'eCamp\\Core\\Hydrator\\CampCollaborationHydrator',
@@ -882,47 +882,47 @@ return [
                 'is_collection' => true,
                 'max_depth' => 20,
             ],
-            'eCamp\\Core\\Entity\\EventPlugin' => [
-                'route_identifier_name' => 'event_plugin_id',
+            'eCamp\\Core\\Entity\\ActivityContent' => [
+                'route_identifier_name' => 'activityContentId',
                 'entity_identifier_name' => 'id',
-                'route_name' => 'e-camp-api.rest.doctrine.event-plugin',
-                'hydrator' => 'eCamp\\Core\\Hydrator\\EventPluginHydrator',
+                'route_name' => 'e-camp-api.rest.doctrine.activity-content',
+                'hydrator' => 'eCamp\\Core\\Hydrator\\ActivityContentHydrator',
             ],
-            'eCampApi\\V1\\Rest\\EventPlugin\\EventPluginCollection' => [
+            'eCampApi\\V1\\Rest\\ActivityContent\\ActivityContentCollection' => [
                 'entity_identifier_name' => 'id',
-                'route_name' => 'e-camp-api.rest.doctrine.event-plugin',
+                'route_name' => 'e-camp-api.rest.doctrine.activity-content',
                 'is_collection' => true,
             ],
-            'eCamp\\Core\\Entity\\Plugin' => [
-                'route_identifier_name' => 'plugin_id',
+            'eCamp\\Core\\Entity\\ContentType' => [
+                'route_identifier_name' => 'contentTypeId',
                 'entity_identifier_name' => 'id',
-                'route_name' => 'e-camp-api.rest.doctrine.plugin',
-                'hydrator' => 'eCamp\\Core\\Hydrator\\PluginHydrator',
+                'route_name' => 'e-camp-api.rest.doctrine.content-type',
+                'hydrator' => 'eCamp\\Core\\Hydrator\\ContentTypeHydrator',
             ],
-            'eCampApi\\V1\\Rest\\Plugin\\PluginCollection' => [
+            'eCampApi\\V1\\Rest\\ContentType\\ContentTypeCollection' => [
                 'entity_identifier_name' => 'id',
-                'route_name' => 'e-camp-api.rest.doctrine.plugin',
+                'route_name' => 'e-camp-api.rest.doctrine.content-type',
                 'is_collection' => true,
             ],
-            'eCamp\\Core\\Entity\\EventTypePlugin' => [
-                'route_identifier_name' => 'event_type_plugin_id',
+            'eCamp\\Core\\Entity\\ActivityTypeContentType' => [
+                'route_identifier_name' => 'activityTypeContentTypeId',
                 'entity_identifier_name' => 'id',
-                'route_name' => 'e-camp-api.rest.doctrine.event-type-plugin',
-                'hydrator' => 'eCamp\\Core\\Hydrator\\EventTypePluginHydrator',
+                'route_name' => 'e-camp-api.rest.doctrine.activity-type-content-type',
+                'hydrator' => 'eCamp\\Core\\Hydrator\\ActivityTypeContentTypeHydrator',
             ],
-            'eCampApi\\V1\\Rest\\EventTypePlugin\\EventTypePluginCollection' => [
+            'eCampApi\\V1\\Rest\\ActivityTypeContentType\\ActivityTypeContentTypeCollection' => [
                 'entity_identifier_name' => 'id',
-                'route_name' => 'e-camp-api.rest.doctrine.event-type-plugin',
+                'route_name' => 'e-camp-api.rest.doctrine.activity-type-content-type',
                 'is_collection' => true,
             ],
         ],
     ],
-    'zf-content-validation' => [
+    'api-tools-content-validation' => [
         'eCampApi\\V1\\Rest\\CampType\\Controller' => [
             'input_filter' => 'eCampApi\\V1\\Rest\\CampType\\Validator',
         ],
-        'eCampApi\\V1\\Rest\\EventType\\Controller' => [
-            'input_filter' => 'eCampApi\\V1\\Rest\\EventType\\Validator',
+        'eCampApi\\V1\\Rest\\ActivityType\\Controller' => [
+            'input_filter' => 'eCampApi\\V1\\Rest\\ActivityType\\Validator',
         ],
         'eCampApi\\V1\\Rest\\Organization\\Controller' => [
             'input_filter' => 'eCampApi\\V1\\Rest\\Organization\\Validator',
@@ -936,14 +936,14 @@ return [
         'eCampApi\\V1\\Rest\\Day\\Controller' => [
             'input_filter' => 'eCampApi\\V1\\Rest\\Day\\Validator',
         ],
-        'eCampApi\\V1\\Rest\\Event\\Controller' => [
-            'input_filter' => 'eCampApi\\V1\\Rest\\Event\\Validator',
+        'eCampApi\\V1\\Rest\\Activity\\Controller' => [
+            'input_filter' => 'eCampApi\\V1\\Rest\\Activity\\Validator',
         ],
-        'eCampApi\\V1\\Rest\\EventCategory\\Controller' => [
-            'input_filter' => 'eCampApi\\V1\\Rest\\EventCategory\\Validator',
+        'eCampApi\\V1\\Rest\\ActivityCategory\\Controller' => [
+            'input_filter' => 'eCampApi\\V1\\Rest\\ActivityCategory\\Validator',
         ],
-        'eCampApi\\V1\\Rest\\EventInstance\\Controller' => [
-            'input_filter' => 'eCampApi\\V1\\Rest\\EventInstance\\Validator',
+        'eCampApi\\V1\\Rest\\ScheduleEntry\\Controller' => [
+            'input_filter' => 'eCampApi\\V1\\Rest\\ScheduleEntry\\Validator',
         ],
         'eCampApi\\V1\\Rest\\User\\Controller' => [
             'input_filter' => 'eCampApi\\V1\\Rest\\User\\Validator',
@@ -951,17 +951,17 @@ return [
         'eCampApi\\V1\\Rest\\CampCollaboration\\Controller' => [
             'input_filter' => 'eCampApi\\V1\\Rest\\CampCollaboration\\Validator',
         ],
-        'eCampApi\\V1\\Rpc\\Auth\\Controller' => [
+        'eCampApi\\V1\\Rpc\\Auth\\AuthController' => [
             'input_filter' => 'eCampApi\\V1\\Rpc\\Auth\\Validator',
         ],
-        'eCampApi\\V1\\Rest\\EventPlugin\\Controller' => [
-            'input_filter' => 'eCampApi\\V1\\Rest\\EventPlugin\\Validator',
+        'eCampApi\\V1\\Rest\\ActivityContent\\Controller' => [
+            'input_filter' => 'eCampApi\\V1\\Rest\\ActivityContent\\Validator',
         ],
-        'eCampApi\\V1\\Rest\\Plugin\\Controller' => [
-            'input_filter' => 'eCampApi\\V1\\Rest\\Plugin\\Validator',
+        'eCampApi\\V1\\Rest\\ContentType\\Controller' => [
+            'input_filter' => 'eCampApi\\V1\\Rest\\ContentType\\Validator',
         ],
-        'eCampApi\\V1\\Rest\\EventTypePlugin\\Controller' => [
-            'input_filter' => 'eCampApi\\V1\\Rest\\EventTypePlugin\\Validator',
+        'eCampApi\\V1\\Rest\\ActivityTypeContentType\\Controller' => [
+            'input_filter' => 'eCampApi\\V1\\Rest\\ActivityTypeContentType\\Validator',
         ],
     ],
     'input_filter_specs' => [
@@ -971,15 +971,15 @@ return [
                 'required' => true,
                 'filters' => [
                     0 => [
-                        'name' => 'Zend\\Filter\\StringTrim',
+                        'name' => 'Laminas\\Filter\\StringTrim',
                     ],
                     1 => [
-                        'name' => 'Zend\\Filter\\StripTags',
+                        'name' => 'Laminas\\Filter\\StripTags',
                     ],
                 ],
                 'validators' => [
                     0 => [
-                        'name' => 'Zend\\Validator\\StringLength',
+                        'name' => 'Laminas\\Validator\\StringLength',
                         'options' => [
                             'min' => 1,
                             'max' => 64,
@@ -1006,21 +1006,21 @@ return [
                 'validators' => [],
             ],
         ],
-        'eCampApi\\V1\\Rest\\EventType\\Validator' => [
+        'eCampApi\\V1\\Rest\\ActivityType\\Validator' => [
             0 => [
                 'name' => 'name',
                 'required' => true,
                 'filters' => [
                     0 => [
-                        'name' => 'Zend\\Filter\\StringTrim',
+                        'name' => 'Laminas\\Filter\\StringTrim',
                     ],
                     1 => [
-                        'name' => 'Zend\\Filter\\StripTags',
+                        'name' => 'Laminas\\Filter\\StripTags',
                     ],
                 ],
                 'validators' => [
                     0 => [
-                        'name' => 'Zend\\Validator\\StringLength',
+                        'name' => 'Laminas\\Validator\\StringLength',
                         'options' => [
                             'min' => 1,
                             'max' => 64,
@@ -1033,15 +1033,15 @@ return [
                 'required' => true,
                 'filters' => [
                     0 => [
-                        'name' => 'Zend\\Filter\\StringTrim',
+                        'name' => 'Laminas\\Filter\\StringTrim',
                     ],
                     1 => [
-                        'name' => 'Zend\\Filter\\StripTags',
+                        'name' => 'Laminas\\Filter\\StripTags',
                     ],
                 ],
                 'validators' => [
                     0 => [
-                        'name' => 'Zend\\Validator\\StringLength',
+                        'name' => 'Laminas\\Validator\\StringLength',
                         'options' => [
                             'min' => 1,
                             'max' => 8,
@@ -1054,15 +1054,15 @@ return [
                 'required' => true,
                 'filters' => [
                     0 => [
-                        'name' => 'Zend\\Filter\\StringTrim',
+                        'name' => 'Laminas\\Filter\\StringTrim',
                     ],
                     1 => [
-                        'name' => 'Zend\\Filter\\StripTags',
+                        'name' => 'Laminas\\Filter\\StripTags',
                     ],
                 ],
                 'validators' => [
                     0 => [
-                        'name' => 'Zend\\Validator\\StringLength',
+                        'name' => 'Laminas\\Validator\\StringLength',
                         'options' => [
                             'min' => 1,
                             'max' => 1,
@@ -1077,15 +1077,15 @@ return [
                 'required' => true,
                 'filters' => [
                     0 => [
-                        'name' => 'Zend\\Filter\\StringTrim',
+                        'name' => 'Laminas\\Filter\\StringTrim',
                     ],
                     1 => [
-                        'name' => 'Zend\\Filter\\StripTags',
+                        'name' => 'Laminas\\Filter\\StripTags',
                     ],
                 ],
                 'validators' => [
                     0 => [
-                        'name' => 'Zend\\Validator\\StringLength',
+                        'name' => 'Laminas\\Validator\\StringLength',
                         'options' => [
                             'min' => 1,
                             'max' => 64,
@@ -1100,15 +1100,15 @@ return [
                 'required' => true,
                 'filters' => [
                     0 => [
-                        'name' => 'Zend\\Filter\\StringTrim',
+                        'name' => 'Laminas\\Filter\\StringTrim',
                     ],
                     1 => [
-                        'name' => 'Zend\\Filter\\StripTags',
+                        'name' => 'Laminas\\Filter\\StripTags',
                     ],
                 ],
                 'validators' => [
                     0 => [
-                        'name' => 'Zend\\Validator\\StringLength',
+                        'name' => 'Laminas\\Validator\\StringLength',
                         'options' => [
                             'min' => 1,
                             'max' => 32,
@@ -1121,15 +1121,15 @@ return [
                 'required' => true,
                 'filters' => [
                     0 => [
-                        'name' => 'Zend\\Filter\\StringTrim',
+                        'name' => 'Laminas\\Filter\\StringTrim',
                     ],
                     1 => [
-                        'name' => 'Zend\\Filter\\StripTags',
+                        'name' => 'Laminas\\Filter\\StripTags',
                     ],
                 ],
                 'validators' => [
                     0 => [
-                        'name' => 'Zend\\Validator\\StringLength',
+                        'name' => 'Laminas\\Validator\\StringLength',
                         'options' => [
                             'min' => 10,
                             'max' => 64,
@@ -1142,15 +1142,15 @@ return [
                 'required' => true,
                 'filters' => [
                     0 => [
-                        'name' => 'Zend\\Filter\\StringTrim',
+                        'name' => 'Laminas\\Filter\\StringTrim',
                     ],
                     1 => [
-                        'name' => 'Zend\\Filter\\StripTags',
+                        'name' => 'Laminas\\Filter\\StripTags',
                     ],
                 ],
                 'validators' => [
                     0 => [
-                        'name' => 'Zend\\Validator\\StringLength',
+                        'name' => 'Laminas\\Validator\\StringLength',
                         'options' => [
                             'min' => 1,
                             'max' => 128,
@@ -1177,15 +1177,15 @@ return [
                 'required' => false,
                 'filters' => [
                     0 => [
-                        'name' => 'Zend\\Filter\\StringTrim',
+                        'name' => 'Laminas\\Filter\\StringTrim',
                     ],
                     1 => [
-                        'name' => 'Zend\\Filter\\StripTags',
+                        'name' => 'Laminas\\Filter\\StripTags',
                     ],
                 ],
                 'validators' => [
                     0 => [
-                        'name' => 'Zend\\Validator\\StringLength',
+                        'name' => 'Laminas\\Validator\\StringLength',
                         'options' => [
                             'min' => 1,
                             'max' => 128,
@@ -1200,16 +1200,16 @@ return [
                 'required' => true,
                 'filters' => [
                     0 => [
-                        'name' => 'Zend\\Filter\\StripTags',
+                        'name' => 'Laminas\\Filter\\StripTags',
                     ],
                     1 => [
-                        'name' => 'Zend\\Filter\\Digits',
+                        'name' => 'Laminas\\Filter\\Digits',
                     ],
                 ],
                 'validators' => [],
             ],
         ],
-        'eCampApi\\V1\\Rest\\Event\\Validator' => [
+        'eCampApi\\V1\\Rest\\Activity\\Validator' => [
             0 => [
                 'name' => 'title',
                 'required' => true,
@@ -1217,21 +1217,21 @@ return [
                 'validators' => [],
             ],
         ],
-        'eCampApi\\V1\\Rest\\EventCategory\\Validator' => [
+        'eCampApi\\V1\\Rest\\ActivityCategory\\Validator' => [
             0 => [
                 'name' => 'short',
                 'required' => true,
                 'filters' => [
                     0 => [
-                        'name' => 'Zend\\Filter\\StringTrim',
+                        'name' => 'Laminas\\Filter\\StringTrim',
                     ],
                     1 => [
-                        'name' => 'Zend\\Filter\\StripTags',
+                        'name' => 'Laminas\\Filter\\StripTags',
                     ],
                 ],
                 'validators' => [
                     0 => [
-                        'name' => 'Zend\\Validator\\StringLength',
+                        'name' => 'Laminas\\Validator\\StringLength',
                         'options' => [
                             'min' => 1,
                             'max' => 16,
@@ -1244,15 +1244,15 @@ return [
                 'required' => true,
                 'filters' => [
                     0 => [
-                        'name' => 'Zend\\Filter\\StringTrim',
+                        'name' => 'Laminas\\Filter\\StringTrim',
                     ],
                     1 => [
-                        'name' => 'Zend\\Filter\\StripTags',
+                        'name' => 'Laminas\\Filter\\StripTags',
                     ],
                 ],
                 'validators' => [
                     0 => [
-                        'name' => 'Zend\\Validator\\StringLength',
+                        'name' => 'Laminas\\Validator\\StringLength',
                         'options' => [
                             'min' => 1,
                             'max' => 64,
@@ -1265,15 +1265,15 @@ return [
                 'required' => true,
                 'filters' => [
                     0 => [
-                        'name' => 'Zend\\Filter\\StringTrim',
+                        'name' => 'Laminas\\Filter\\StringTrim',
                     ],
                     1 => [
-                        'name' => 'Zend\\Filter\\StripTags',
+                        'name' => 'Laminas\\Filter\\StripTags',
                     ],
                 ],
                 'validators' => [
                     0 => [
-                        'name' => 'Zend\\Validator\\StringLength',
+                        'name' => 'Laminas\\Validator\\StringLength',
                         'options' => [
                             'min' => 1,
                             'max' => 8,
@@ -1286,15 +1286,15 @@ return [
                 'required' => true,
                 'filters' => [
                     0 => [
-                        'name' => 'Zend\\Filter\\StringTrim',
+                        'name' => 'Laminas\\Filter\\StringTrim',
                     ],
                     1 => [
-                        'name' => 'Zend\\Filter\\StripTags',
+                        'name' => 'Laminas\\Filter\\StripTags',
                     ],
                 ],
                 'validators' => [
                     0 => [
-                        'name' => 'Zend\\Validator\\StringLength',
+                        'name' => 'Laminas\\Validator\\StringLength',
                         'options' => [
                             'min' => 1,
                             'max' => 1,
@@ -1303,16 +1303,16 @@ return [
                 ],
             ],
         ],
-        'eCampApi\\V1\\Rest\\EventInstance\\Validator' => [
+        'eCampApi\\V1\\Rest\\ScheduleEntry\\Validator' => [
             0 => [
                 'name' => 'start',
                 'required' => true,
                 'filters' => [
                     0 => [
-                        'name' => 'Zend\\Filter\\StripTags',
+                        'name' => 'Laminas\\Filter\\StripTags',
                     ],
                     1 => [
-                        'name' => 'Zend\\Filter\\Digits',
+                        'name' => 'Laminas\\Filter\\Digits',
                     ],
                 ],
                 'validators' => [],
@@ -1322,10 +1322,10 @@ return [
                 'required' => true,
                 'filters' => [
                     0 => [
-                        'name' => 'Zend\\Filter\\StripTags',
+                        'name' => 'Laminas\\Filter\\StripTags',
                     ],
                     1 => [
-                        'name' => 'Zend\\Filter\\Digits',
+                        'name' => 'Laminas\\Filter\\Digits',
                     ],
                 ],
                 'validators' => [],
@@ -1349,15 +1349,15 @@ return [
                 'required' => false,
                 'filters' => [
                     0 => [
-                        'name' => 'Zend\\Filter\\StringTrim',
+                        'name' => 'Laminas\\Filter\\StringTrim',
                     ],
                     1 => [
-                        'name' => 'Zend\\Filter\\StripTags',
+                        'name' => 'Laminas\\Filter\\StripTags',
                     ],
                 ],
                 'validators' => [
                     0 => [
-                        'name' => 'Zend\\Validator\\StringLength',
+                        'name' => 'Laminas\\Validator\\StringLength',
                         'options' => [
                             'min' => 1,
                             'max' => 32,
@@ -1370,15 +1370,15 @@ return [
                 'required' => true,
                 'filters' => [
                     0 => [
-                        'name' => 'Zend\\Filter\\StringTrim',
+                        'name' => 'Laminas\\Filter\\StringTrim',
                     ],
                     1 => [
-                        'name' => 'Zend\\Filter\\StripTags',
+                        'name' => 'Laminas\\Filter\\StripTags',
                     ],
                 ],
                 'validators' => [
                     0 => [
-                        'name' => 'Zend\\Validator\\StringLength',
+                        'name' => 'Laminas\\Validator\\StringLength',
                         'options' => [
                             'min' => 1,
                             'max' => 16,
@@ -1391,15 +1391,15 @@ return [
                 'required' => true,
                 'filters' => [
                     0 => [
-                        'name' => 'Zend\\Filter\\StringTrim',
+                        'name' => 'Laminas\\Filter\\StringTrim',
                     ],
                     1 => [
-                        'name' => 'Zend\\Filter\\StripTags',
+                        'name' => 'Laminas\\Filter\\StripTags',
                     ],
                 ],
                 'validators' => [
                     0 => [
-                        'name' => 'Zend\\Validator\\StringLength',
+                        'name' => 'Laminas\\Validator\\StringLength',
                         'options' => [
                             'min' => 1,
                             'max' => 16,
@@ -1414,10 +1414,10 @@ return [
                 'required' => false,
                 'filters' => [
                     0 => [
-                        'name' => 'Zend\\Filter\\StringTrim',
+                        'name' => 'Laminas\\Filter\\StringTrim',
                     ],
                     1 => [
-                        'name' => 'Zend\\Filter\\StripTags',
+                        'name' => 'Laminas\\Filter\\StripTags',
                     ],
                 ],
                 'validators' => [],
@@ -1427,10 +1427,10 @@ return [
                 'required' => true,
                 'filters' => [
                     0 => [
-                        'name' => 'Zend\\Filter\\StringTrim',
+                        'name' => 'Laminas\\Filter\\StringTrim',
                     ],
                     1 => [
-                        'name' => 'Zend\\Filter\\StripTags',
+                        'name' => 'Laminas\\Filter\\StripTags',
                     ],
                 ],
                 'validators' => [],
@@ -1440,66 +1440,45 @@ return [
                 'required' => false,
                 'filters' => [
                     0 => [
-                        'name' => 'Zend\\Filter\\StringTrim',
+                        'name' => 'Laminas\\Filter\\StringTrim',
                     ],
                     1 => [
-                        'name' => 'Zend\\Filter\\StripTags',
+                        'name' => 'Laminas\\Filter\\StripTags',
                     ],
                 ],
                 'validators' => [],
             ],
         ],
         'eCampApi\\V1\\Rpc\\Auth\\Validator' => [],
-        'eCampApi\\V1\\Rest\\EventPlugin\\Validator' => [
+        'eCampApi\\V1\\Rest\\ActivityContent\\Validator' => [
             0 => [
                 'name' => 'instanceName',
-                'required' => true,
+                'required' => false,
                 'filters' => [
                     0 => [
-                        'name' => 'Zend\\Filter\\StringTrim',
+                        'name' => 'Laminas\\Filter\\StringTrim',
                     ],
                     1 => [
-                        'name' => 'Zend\\Filter\\StripTags',
+                        'name' => 'Laminas\\Filter\\StripTags',
                     ],
                 ],
-                'validators' => [
-                    0 => [
-                        'name' => 'Zend\\Validator\\StringLength',
-                        'options' => [
-                            'min' => 1,
-                            'max' => 64,
-                        ],
-                    ],
-                ],
-            ],
-            1 => [
-                'name' => 'createTime',
-                'required' => true,
-                'filters' => [],
-                'validators' => [],
-            ],
-            2 => [
-                'name' => 'updateTime',
-                'required' => true,
-                'filters' => [],
-                'validators' => [],
             ],
         ],
-        'eCampApi\\V1\\Rest\\Plugin\\Validator' => [
+        'eCampApi\\V1\\Rest\\ContentType\\Validator' => [
             0 => [
                 'name' => 'name',
                 'required' => true,
                 'filters' => [
                     0 => [
-                        'name' => 'Zend\\Filter\\StringTrim',
+                        'name' => 'Laminas\\Filter\\StringTrim',
                     ],
                     1 => [
-                        'name' => 'Zend\\Filter\\StripTags',
+                        'name' => 'Laminas\\Filter\\StripTags',
                     ],
                 ],
                 'validators' => [
                     0 => [
-                        'name' => 'Zend\\Validator\\StringLength',
+                        'name' => 'Laminas\\Validator\\StringLength',
                         'options' => [
                             'min' => 1,
                             'max' => 64,
@@ -1518,15 +1497,15 @@ return [
                 'required' => true,
                 'filters' => [
                     0 => [
-                        'name' => 'Zend\\Filter\\StringTrim',
+                        'name' => 'Laminas\\Filter\\StringTrim',
                     ],
                     1 => [
-                        'name' => 'Zend\\Filter\\StripTags',
+                        'name' => 'Laminas\\Filter\\StripTags',
                     ],
                 ],
                 'validators' => [
                     0 => [
-                        'name' => 'Zend\\Validator\\StringLength',
+                        'name' => 'Laminas\\Validator\\StringLength',
                         'options' => [
                             'min' => 1,
                             'max' => 128,
@@ -1534,42 +1513,30 @@ return [
                     ],
                 ],
             ],
-            3 => [
-                'name' => 'createTime',
-                'required' => true,
-                'filters' => [],
-                'validators' => [],
-            ],
-            4 => [
-                'name' => 'updateTime',
-                'required' => true,
-                'filters' => [],
-                'validators' => [],
-            ],
         ],
-        'eCampApi\\V1\\Rest\\EventTypePlugin\\Validator' => [
+        'eCampApi\\V1\\Rest\\ActivityTypeContentType\\Validator' => [
             0 => [
-                'name' => 'minNumberPluginInstances',
+                'name' => 'minNumberContentTypeInstances',
                 'required' => true,
                 'filters' => [
                     0 => [
-                        'name' => 'Zend\\Filter\\StripTags',
+                        'name' => 'Laminas\\Filter\\StripTags',
                     ],
                     1 => [
-                        'name' => 'Zend\\Filter\\Digits',
+                        'name' => 'Laminas\\Filter\\Digits',
                     ],
                 ],
                 'validators' => [],
             ],
             1 => [
-                'name' => 'maxNumberPluginInstances',
+                'name' => 'maxNumberContentTypeInstances',
                 'required' => true,
                 'filters' => [
                     0 => [
-                        'name' => 'Zend\\Filter\\StripTags',
+                        'name' => 'Laminas\\Filter\\StripTags',
                     ],
                     1 => [
-                        'name' => 'Zend\\Filter\\Digits',
+                        'name' => 'Laminas\\Filter\\Digits',
                     ],
                 ],
                 'validators' => [],
@@ -1579,30 +1546,18 @@ return [
                 'required' => false,
                 'filters' => [
                     0 => [
-                        'name' => 'Zend\\Filter\\StringTrim',
+                        'name' => 'Laminas\\Filter\\StringTrim',
                     ],
                     1 => [
-                        'name' => 'Zend\\Filter\\StripTags',
+                        'name' => 'Laminas\\Filter\\StripTags',
                     ],
                 ],
                 'validators' => [],
             ],
-            3 => [
-                'name' => 'createTime',
-                'required' => true,
-                'filters' => [],
-                'validators' => [],
-            ],
-            4 => [
-                'name' => 'updateTime',
-                'required' => true,
-                'filters' => [],
-                'validators' => [],
-            ],
         ],
     ],
-    'zf-rpc' => [
-        'eCampApi\\V1\\Rpc\\Auth\\Controller' => [
+    'api-tools-rpc' => [
+        'eCampApi\\V1\\Rpc\\Auth\\AuthController' => [
             'service_name' => 'Auth',
             'http_methods' => [
                 0 => 'GET',
@@ -1610,14 +1565,14 @@ return [
             ],
             'route_name' => 'e-camp-api.rpc.auth',
         ],
-        'eCampApi\\V1\\Rpc\\Index\\Controller' => [
+        'eCampApi\\V1\\Rpc\\Index\\IndexController' => [
             'service_name' => 'Index',
             'http_methods' => [
                 0 => 'GET',
             ],
             'route_name' => 'e-camp-api.rpc.index',
         ],
-        'eCampApi\\V1\\Rpc\\Register\\Controller' => [
+        'eCampApi\\V1\\Rpc\\Register\\RegisterController' => [
             'service_name' => 'Register',
             'http_methods' => [
                 0 => 'POST',
@@ -1625,7 +1580,7 @@ return [
             'route_name' => 'e-camp-api.rpc.register',
         ],
     ],
-    'zf-apigility' => [
+    'api-tools' => [
         'doctrine-connected' => [],
     ],
     'doctrine-hydrator' => [],

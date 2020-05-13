@@ -3,12 +3,12 @@
 namespace eCamp\AoT;
 
 use Psr\Container\ContainerInterface;
-use Zend\Code\Scanner\DirectoryScanner;
-use Zend\Di\CodeGenerator\InjectorGenerator;
-use Zend\Di\Config;
-use Zend\Di\ConfigInterface;
-use Zend\Di\Definition\RuntimeDefinition;
-use Zend\Di\Resolver\DependencyResolver;
+use Laminas\Code\Scanner\DirectoryScanner;
+use Laminas\Di\CodeGenerator\InjectorGenerator;
+use Laminas\Di\Config;
+use Laminas\Di\ConfigInterface;
+use Laminas\Di\Definition\RuntimeDefinition;
+use Laminas\Di\Resolver\DependencyResolver;
 
 //require __DIR__ . '/../vendor/autoload.php';
 require_once __DIR__ . '/../autoload.php';
@@ -20,11 +20,13 @@ function getClassNames(ContainerInterface $container): iterable {
         __DIR__ . '/../module/eCampLib/src',
         __DIR__ . '/../module/eCampCore/src',
         __DIR__ . '/../module/eCampApi/src',
+        __DIR__ . '/../content-type/eCampStoryboard/src',
+        __DIR__ . '/../content-type/eCampTextarea/src',
     ];
 
     $scanner = new DirectoryScanner($directories);
 
-    /** @var \Zend\Code\Scanner\ClassScanner $class */
+    /** @var \Laminas\Code\Scanner\ClassScanner $class */
     foreach ($scanner->getClasses() as $class) {
 
         /**
@@ -34,7 +36,7 @@ function getClassNames(ContainerInterface $container): iterable {
          * - have no constructor
          * - have a constructor with 0 arguments
          */
-        if(!$container->has($class->getName()) && $class->isInstantiable() && $class->getMethod('__construct') && $class->getMethod('__construct')->getNumberOfParameters()>0){
+        if (!$container->has($class->getName()) && $class->isInstantiable() && $class->getMethod('__construct') && $class->getMethod('__construct')->getNumberOfParameters()>0) {
             printf("ADDING ".$class->getName()."\n");
             yield $class->getName();
         }
@@ -42,7 +44,7 @@ function getClassNames(ContainerInterface $container): iterable {
 }
 
 /* we need the App without DI to check which factories are missing... */
-$appWithoutDi = \eCampApp::CreateAppWithoutDi();
+$smWithoutDi = \eCampApp::CreateServiceManagerWithoutDi();
 
 /* ... but for generating the code, we need the full App with DI */
 $appWithDi = \eCampApp::CreateApp();
@@ -56,4 +58,4 @@ $resolver->setContainer($container);
 
 $generator = new InjectorGenerator($di_config, $resolver, __NAMESPACE__ . '\Generated');
 $generator->setOutputDirectory(__DIR__ . '/../module/eCampAoT/gen');
-$generator->generate(getClassNames($appWithoutDi->getServiceManager()));
+$generator->generate(getClassNames($smWithoutDi));

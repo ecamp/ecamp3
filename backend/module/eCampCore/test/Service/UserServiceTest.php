@@ -6,6 +6,7 @@ use eCamp\Core\Entity\User;
 use eCamp\Core\EntityService\UserService;
 use eCamp\Lib\Service\EntityNotFoundException;
 use eCamp\LibTest\PHPUnit\AbstractDatabaseTestCase;
+use Laminas\Authentication\AuthenticationService;
 
 /**
  * @internal
@@ -26,6 +27,8 @@ class UserServiceTest extends AbstractDatabaseTestCase {
     public function testGetUser() {
         /** @var UserService $userService */
         $userService = \eCampApp::GetService(UserService::class);
+        /** @var AuthenticationService $auth */
+        $auth = \eCampApp::GetService(AuthenticationService::class);
 
         $user = $userService->create((object) [
             'username' => 'username2',
@@ -33,9 +36,9 @@ class UserServiceTest extends AbstractDatabaseTestCase {
         ]);
 
         $this->getEntityManager()->flush();
+        $auth->getStorage()->write($user->getId());
 
         $userId = $user->getId();
-
         $user2 = $userService->fetch($userId);
         $this->assertEquals($user, $user2);
 

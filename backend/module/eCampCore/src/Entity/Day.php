@@ -7,12 +7,12 @@ use eCamp\Lib\Entity\BaseEntity;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="days", uniqueConstraints={
- *     @ORM\UniqueConstraint(name="offset_period_idx", columns={"period_id", "dayOffset"})
+ * @ORM\Table(uniqueConstraints={
+ *     @ORM\UniqueConstraint(name="offset_period_idx", columns={"periodId", "dayOffset"})
  * })
  * @ORM\HasLifecycleCallbacks
  */
-class Day extends BaseEntity {
+class Day extends BaseEntity implements BelongsToCampInterface {
     /**
      * @var Period
      * @ORM\ManyToOne(targetEntity="Period")

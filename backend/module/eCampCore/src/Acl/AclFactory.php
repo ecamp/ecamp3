@@ -2,41 +2,43 @@
 
 namespace eCamp\Core\Acl;
 
+use eCamp\Core\Entity\Activity;
+use eCamp\Core\Entity\ActivityCategory;
+use eCamp\Core\Entity\ActivityContent;
+use eCamp\Core\Entity\ActivityType;
+use eCamp\Core\Entity\ActivityTypeContentType;
+use eCamp\Core\Entity\ActivityTypeFactory;
 use eCamp\Core\Entity\Camp;
 use eCamp\Core\Entity\CampCollaboration;
 use eCamp\Core\Entity\CampType;
+use eCamp\Core\Entity\ContentType;
 use eCamp\Core\Entity\Day;
-use eCamp\Core\Entity\Event;
-use eCamp\Core\Entity\EventCategory;
-use eCamp\Core\Entity\EventInstance;
-use eCamp\Core\Entity\EventPlugin;
-use eCamp\Core\Entity\EventTemplate;
-use eCamp\Core\Entity\EventTemplateContainer;
-use eCamp\Core\Entity\EventType;
-use eCamp\Core\Entity\EventTypeFactory;
-use eCamp\Core\Entity\EventTypePlugin;
 use eCamp\Core\Entity\Group;
 use eCamp\Core\Entity\GroupMembership;
 use eCamp\Core\Entity\Organization;
 use eCamp\Core\Entity\Period;
-use eCamp\Core\Entity\Plugin;
+use eCamp\Core\Entity\ScheduleEntry;
 use eCamp\Core\Entity\User;
 use eCamp\Core\Entity\UserIdentity;
 use eCamp\Lib\Acl\Acl;
 use eCamp\Lib\Acl\Guest;
 use eCamp\Lib\Entity\BaseEntity;
 use Interop\Container\ContainerInterface;
-use Zend\ServiceManager\Factory\FactoryInterface;
+use Laminas\ServiceManager\Factory\FactoryInterface;
 
 class AclFactory implements FactoryInterface {
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null) {
         $acl = new Acl();
 
+        //  Roles:
+        // --------
         $acl->addRole(Guest::class);
         $acl->addRole(User::ROLE_GUEST, Guest::class);
         $acl->addRole(User::ROLE_USER, User::ROLE_GUEST);
         $acl->addRole(User::ROLE_ADMIN, User::ROLE_USER);
 
+        //  Resources:
+        // ------------
         $acl->addResource(BaseEntity::class);
 
         $acl->addResource(Organization::class, BaseEntity::class);
@@ -44,20 +46,17 @@ class AclFactory implements FactoryInterface {
         $acl->addResource(GroupMembership::class, BaseEntity::class);
 
         $acl->addResource(CampType::class, BaseEntity::class);
-        $acl->addResource(EventType::class, BaseEntity::class);
-        $acl->addResource(EventTypeFactory::class, BaseEntity::class);
+        $acl->addResource(ActivityType::class, BaseEntity::class);
+        $acl->addResource(ActivityTypeFactory::class, BaseEntity::class);
 
-        $acl->addResource(Plugin::class, BaseEntity::class);
-        $acl->addResource(EventTypePlugin::class, BaseEntity::class);
+        $acl->addResource(ContentType::class, BaseEntity::class);
+        $acl->addResource(ActivityTypeContentType::class, BaseEntity::class);
 
-        $acl->addResource(Event::class, BaseEntity::class);
-        $acl->addResource(EventCategory::class, BaseEntity::class);
-        $acl->addResource(EventPlugin::class, BaseEntity::class);
+        $acl->addResource(Activity::class, BaseEntity::class);
+        $acl->addResource(ActivityCategory::class, BaseEntity::class);
+        $acl->addResource(ActivityContent::class, BaseEntity::class);
 
-        $acl->addResource(EventInstance::class, BaseEntity::class);
-
-        $acl->addResource(EventTemplate::class, BaseEntity::class);
-        $acl->addResource(EventTemplateContainer::class, BaseEntity::class);
+        $acl->addResource(ScheduleEntry::class, BaseEntity::class);
 
         $acl->addResource(User::class, BaseEntity::class);
         $acl->addResource(UserIdentity::class, BaseEntity::class);
@@ -68,39 +67,88 @@ class AclFactory implements FactoryInterface {
 
         $acl->addResource(CampCollaboration::class, BaseEntity::class);
 
+        //  ACL-Configuration:
+        // --------------------
         $acl->allow(
             Guest::class,
             [
                 Organization::class,
                 Group::class,
-                GroupMembership::class,
                 CampType::class,
-                EventCategory::class,
-                EventType::class,
-                EventInstance::class,
-                EventTemplate::class,
-                EventTemplateContainer::class,
-                EventTypeFactory::class,
-                EventTypePlugin::class,
-                Plugin::class,
-
-                CampCollaboration::class,
+                ActivityType::class,
+                ActivityTypeFactory::class,
+                ActivityTypeContentType::class,
+                ContentType::class,
             ],
             [
                 Acl::REST_PRIVILEGE_FETCH,
                 Acl::REST_PRIVILEGE_FETCH_ALL,
             ]
         );
+        $acl->allow(
+            Guest::class,
+            [
+                UserIdentity::class,
+                User::class,
+            ],
+            [
+                ACL::REST_PRIVILEGE_CREATE,
+            ]
+        );
 
-        $acl->allow(Guest::class, User::class, ACL::REST_PRIVILEGE_CREATE);
-        $acl->allow(User::ROLE_USER, User::class, [ACL::REST_PRIVILEGE_FETCH, ACL::REST_PRIVILEGE_FETCH_ALL]);
-
-        $campAcl = new CampAcl();
-        $acl->allow(User::ROLE_USER, Camp::class, Acl::REST_PRIVILEGE_FETCH_ALL, $campAcl);
-        $acl->allow(User::ROLE_USER, Camp::class, Acl::REST_PRIVILEGE_FETCH, $campAcl);
-
-        // DEBUG:
-        $acl->allow(Guest::class, BaseEntity::class);
+        $acl->allow(User::ROLE_USER, [User::class], [ACL::REST_PRIVILEGE_FETCH_ALL, ACL::REST_PRIVILEGE_FETCH]);
+        $acl->allow(User::ROLE_USER, [Camp::class], [ACL::REST_PRIVILEGE_CREATE, ACL::REST_PRIVILEGE_FETCH_ALL]);
+        $acl->allow(
+            User::ROLE_USER,
+            Camp::class,
+            [
+                Acl::REST_PRIVILEGE_FETCH,
+                Acl::REST_PRIVILEGE_PATCH,
+                Acl::REST_PRIVILEGE_UPDATE,
+            ],
+            new UserIsCollaborator([CampCollaboration::ROLE_MEMBER, CampCollaboration::ROLE_MANAGER])
+        );
+        $acl->allow(
+            User::ROLE_USER,
+            Camp::class,
+            Acl::REST_PRIVILEGE_DELETE,
+            new UserIsCollaborator([CampCollaboration::ROLE_MANAGER])
+        );
+        $acl->allow(
+            User::ROLE_USER,
+            [
+                CampCollaboration::class,
+                Period::class,
+                Day::class,
+                Activity::class,
+                ActivityCategory::class,
+                ScheduleEntry::class,
+                ActivityContent::class,
+            ],
+            [
+                Acl::REST_PRIVILEGE_FETCH_ALL,
+            ]
+        );
+        $acl->allow(
+            User::ROLE_USER,
+            [
+                CampCollaboration::class,
+                Period::class,
+                Day::class,
+                Activity::class,
+                ActivityCategory::class,
+                ScheduleEntry::class,
+                ActivityContent::class,
+            ],
+            [
+                Acl::REST_PRIVILEGE_CREATE,
+                Acl::REST_PRIVILEGE_FETCH,
+                Acl::REST_PRIVILEGE_DELETE,
+                Acl::REST_PRIVILEGE_PATCH,
+                Acl::REST_PRIVILEGE_UPDATE,
+            ],
+            new UserIsCollaborator([CampCollaboration::ROLE_MEMBER, CampCollaboration::ROLE_MANAGER])
+        );
 
         return $acl;
     }

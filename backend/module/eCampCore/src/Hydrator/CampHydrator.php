@@ -7,41 +7,45 @@ use eCamp\Core\Entity\Period;
 use eCamp\Lib\Entity\EntityLink;
 use eCamp\Lib\Entity\EntityLinkCollection;
 use eCamp\Lib\Hydrator\Util;
+use eCampApi\V1\Rest\ActivityCategory\ActivityCategoryCollection;
 use eCampApi\V1\Rest\Day\DayCollection;
-use eCampApi\V1\Rest\EventCategory\EventCategoryCollection;
 use eCampApi\V1\Rest\Period\PeriodCollection;
-use Zend\Hydrator\HydratorInterface;
-use ZF\Hal\Link\Link;
+use Laminas\ApiTools\Hal\Link\Link;
+use Laminas\Authentication\AuthenticationService;
+use Laminas\Hydrator\HydratorInterface;
 
 class CampHydrator implements HydratorInterface {
     public static function HydrateInfo() {
         return [
-            'camp_type' => Util::Entity(function (Camp $c) {
+            'campType' => Util::Entity(function (Camp $c) {
                 return $c->getCampType();
             }),
             'periods' => Util::Collection(
                 function (Camp $c) {
                     return new PeriodCollection($c->getPeriods());
                 },
+                null,
+                // TODO: kann das weg? war nur Democode, oder?
+                /*
                 function (Camp $c) {
                     return [
                         Link::factory([
-                            'rel' => 'camp_collaborations',
+                            'rel' => 'campCollaborations',
                             'route' => [
                                 'name' => 'e-camp-api.rest.doctrine.camp-collaboration',
-                                'options' => ['query' => ['camp_id' => $c->getId()]],
+                                'options' => ['query' => ['campId' => $c->getId()]],
                             ],
                         ]),
                     ];
-                },
+                },*/
                 [
                     'days' => Util::Collection(function (Period $p) {
                         return new DayCollection($p->getDays());
                     }, null),
                 ]
             ),
-            'eventCategories' => Util::Collection(function (Camp $c) {
-                return new EventCategoryCollection($c->getEventCategories());
+            'activityCategories' => Util::Collection(function (Camp $c) {
+                return new ActivityCategoryCollection($c->getActivityCategories());
             }, null),
         ];
     }
@@ -54,6 +58,8 @@ class CampHydrator implements HydratorInterface {
      * @return array
      */
     public function extract($object) {
+        $auth = new AuthenticationService();
+
         /** @var Camp $camp */
         $camp = $object;
 
@@ -62,21 +68,22 @@ class CampHydrator implements HydratorInterface {
             'name' => $camp->getName(),
             'title' => $camp->getTitle(),
             'motto' => $camp->getMotto(),
+            'role' => $camp->getRole($auth->getIdentity()),
 
             //            'owner' => EntityLink::Create($camp->getOwner()),
             'creator' => EntityLink::Create($camp->getCreator()),
-            'camp_type' => EntityLink::Create($camp->getCampType()),
+            'campType' => EntityLink::Create($camp->getCampType()),
 
-            'camp_collaborations' => new EntityLinkCollection($camp->getCampCollaborations()),
+            'campCollaborations' => new EntityLinkCollection($camp->getCampCollaborations()),
 
             'periods' => new EntityLinkCollection($camp->getPeriods()),
 
-            'event_categories' => new EntityLinkCollection($camp->getEventCategories()),
-            'events' => Link::factory([
-                'rel' => 'events',
+            'activityCategories' => new EntityLinkCollection($camp->getActivityCategories()),
+            'activities' => Link::factory([
+                'rel' => 'activities',
                 'route' => [
-                    'name' => 'e-camp-api.rest.doctrine.event',
-                    'options' => ['query' => ['camp_id' => $camp->getId()]],
+                    'name' => 'e-camp-api.rest.doctrine.activity',
+                    'options' => ['query' => ['campId' => $camp->getId()]],
                 ],
             ]),
         ];
@@ -91,8 +98,12 @@ class CampHydrator implements HydratorInterface {
         /** @var Camp $camp */
         $camp = $object;
 
-        $camp->setTitle($data['title']);
-        $camp->setMotto($data['motto']);
+        if (isset($data['title'])) {
+            $camp->setTitle($data['title']);
+        }
+        if (isset($data['motto'])) {
+            $camp->setMotto($data['motto']);
+        }
 
         return $camp;
     }

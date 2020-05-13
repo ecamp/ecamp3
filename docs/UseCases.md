@@ -129,7 +129,7 @@ Hier kann Titel, Kategorie und den ganzen restlichen Inhalt erfasst werden.
 ---
 #### ```UC 09``` Event-Inhalt bearbeiten.
  _(Prio 8)_  
- Block-Kopfdaten bearbeiten (Name und Category), Plugin-Instanz hinzufügen (z.B. wenn auf dem Lager definiert ist dass ein LS mehrere SiKos haben kann, Winter, Berg, Wasser), Plugin-Instanz bearbeiten, Plugin-Instanz entfernen.
+ Block-Kopfdaten bearbeiten (Name und Category), ContentType-Instanz hinzufügen (z.B. wenn auf dem Lager definiert ist dass ein LS mehrere SiKos haben kann, Winter, Berg, Wasser), ContentType-Instanz bearbeiten, ContentType-Instanz entfernen.
  
   
 ---

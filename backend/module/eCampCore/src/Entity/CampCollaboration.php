@@ -8,11 +8,11 @@ use eCamp\Lib\Entity\BaseEntity;
 /**
  * @ORM\Entity
  * @ORM\HasLifecycleCallbacks
- * @ORM\Table(name="camp_collaborations", uniqueConstraints={
- *     @ORM\UniqueConstraint(name="user_camp_unique", columns={"user_id", "camp_id"})
+ * @ORM\Table(uniqueConstraints={
+ *     @ORM\UniqueConstraint(name="user_camp_unique", columns={"userId", "campId"})
  * })
  */
-class CampCollaboration extends BaseEntity {
+class CampCollaboration extends BaseEntity implements BelongsToCampInterface {
     const ROLE_GUEST = 'guest';
     const ROLE_MEMBER = 'member';
     const ROLE_MANAGER = 'manager';

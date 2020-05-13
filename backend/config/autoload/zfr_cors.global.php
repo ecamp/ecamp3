@@ -5,7 +5,7 @@
 return [
     'zfr_cors' => [
         // Set the list of allowed origins domain with protocol.
-        'allowed_origins' => ['http://localhost:8888', 'http://ecamp3.dev', 'http://localhost:8080', 'http://localhost:3000', 'http://ecamp3.dev:8080'],
+        'allowed_origins' => ['*'],
         // Set the list of HTTP verbs.
         'allowed_methods' => ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
         /*

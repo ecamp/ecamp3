@@ -4,18 +4,16 @@ namespace eCamp\Core\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-use eCamp\Lib\Annotation\EntityFilter;
 use eCamp\Lib\Entity\BaseEntity;
 
 /**
  * @ORM\Entity(repositoryClass="eCamp\Core\Repository\CampRepository")
  * @ORM\HasLifecycleCallbacks
- * @ORM\Table(name="camps", uniqueConstraints={
- *     @ORM\UniqueConstraint(name="owner_name_unique", columns={"owner_id", "name"})
+ * @ORM\Table(uniqueConstraints={
+ *     @ORM\UniqueConstraint(name="owner_name_unique", columns={"ownerId", "name"})
  * })
- * @EntityFilter(filterClass="eCamp\Core\EntityFilter\CampFilter")
  */
-class Camp extends BaseEntity {
+class Camp extends BaseEntity implements BelongsToCampInterface {
     /**
      * @var ArrayCollection
      * @ORM\OneToMany(targetEntity="CampCollaboration", mappedBy="camp", orphanRemoval=true)
@@ -37,15 +35,15 @@ class Camp extends BaseEntity {
 
     /**
      * @var ArrayCollection
-     * @ORM\OneToMany(targetEntity="EventCategory", mappedBy="camp", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="ActivityCategory", mappedBy="camp", orphanRemoval=true)
      */
-    protected $eventCategories;
+    protected $activityCategories;
 
     /**
      * @var ArrayCollection
-     * @ORM\OneToMany(targetEntity="Event", mappedBy="camp", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="Activity", mappedBy="camp", orphanRemoval=true)
      */
-    protected $events;
+    protected $activities;
 
     /**
      * @var CampType
@@ -75,14 +73,14 @@ class Camp extends BaseEntity {
     /**
      * @var User
      * @ORM\ManyToOne(targetEntity="User")
-     * @ORM\JoinColumn(name="creator_id", referencedColumnName="id", nullable=false)
+     * @ORM\JoinColumn(nullable=false)
      */
     private $creator;
 
     /**
      * @var AbstractCampOwner
      * @ORM\ManyToOne(targetEntity="AbstractCampOwner", inversedBy="ownedCamps")
-     * @ORM\JoinColumn(name="owner_id", referencedColumnName="id", nullable=false)
+     * @ORM\JoinColumn(nullable=false)
      */
     private $owner;
 
@@ -92,8 +90,8 @@ class Camp extends BaseEntity {
         $this->collaborations = new ArrayCollection();
         $this->jobs = new ArrayCollection();
         $this->periods = new ArrayCollection();
-        $this->eventCategories = new ArrayCollection();
-        $this->events = new ArrayCollection();
+        $this->activityCategories = new ArrayCollection();
+        $this->activities = new ArrayCollection();
     }
 
     /**
@@ -206,6 +204,40 @@ class Camp extends BaseEntity {
         $this->collaborations->removeElement($collaboration);
     }
 
+    public function getRole($userId) {
+        $campCollaborations = $this->collaborations->filter(function (CampCollaboration $cc) use ($userId) {
+            return $cc->getUser()->getId() == $userId;
+        });
+
+        if (1 == $campCollaborations->count()) {
+            /** @var CampCollaboration $campCollaboration */
+            $campCollaboration = $campCollaborations->first();
+            if ($campCollaboration->isEstablished()) {
+                return $campCollaboration->getRole();
+            }
+        }
+
+        return CampCollaboration::ROLE_GUEST;
+    }
+
+    /**
+     * @param string $userId
+     *
+     * @return bool
+     */
+    public function isCollaborator($userId) {
+        if ($this->getCreator()->getId() == $userId) {
+            return true;
+        }
+        if ($this->getOwner()->getId() == $userId) {
+            return true;
+        }
+
+        return $this->getCampCollaborations()->exists(function ($idx, CampCollaboration $cc) use ($userId) {
+            return $cc->isEstablished() && ($cc->getUser()->getId() == $userId);
+        });
+    }
+
     /**
      * @return ArrayCollection
      */
@@ -243,34 +275,41 @@ class Camp extends BaseEntity {
     /**
      * @return ArrayCollection
      */
-    public function getEventCategories() {
-        return $this->eventCategories;
+    public function getActivityCategories() {
+        return $this->activityCategories;
     }
 
-    public function addEventCategory(EventCategory $eventCategory): void {
-        $eventCategory->setCamp($this);
-        $this->eventCategories->add($eventCategory);
+    public function addActivityCategory(ActivityCategory $activityCategory): void {
+        $activityCategory->setCamp($this);
+        $this->activityCategories->add($activityCategory);
     }
 
-    public function removeEventCategory(EventCategory $eventCategory): void {
-        $eventCategory->setCamp(null);
-        $this->eventCategories->removeElement($eventCategory);
+    public function removeActivityCategory(ActivityCategory $activityCategory): void {
+        $activityCategory->setCamp(null);
+        $this->activityCategories->removeElement($activityCategory);
     }
 
     /**
      * @return ArrayCollection
      */
-    public function getEvents() {
-        return $this->events;
+    public function getActivities() {
+        return $this->activities;
     }
 
-    public function addEvent(Event $event): void {
-        $event->setCamp($this);
-        $this->events->add($event);
+    public function addActivity(Activity $activity): void {
+        $activity->setCamp($this);
+        $this->activities->add($activity);
     }
 
-    public function removeEvent(Event $event): void {
-        $event->setCamp(null);
-        $this->events->removeElement($event);
+    public function removeActivity(Activity $activity): void {
+        $activity->setCamp(null);
+        $this->activities->removeElement($activity);
+    }
+
+    /**
+     * @return Camp
+     */
+    public function getCamp() {
+        return $this;
     }
 }

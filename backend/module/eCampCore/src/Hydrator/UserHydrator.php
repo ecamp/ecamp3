@@ -3,7 +3,8 @@
 namespace eCamp\Core\Hydrator;
 
 use eCamp\Core\Entity\User;
-use Zend\Hydrator\HydratorInterface;
+use Laminas\Authentication\AuthenticationService;
+use Laminas\Hydrator\HydratorInterface;
 
 class UserHydrator implements HydratorInterface {
     public static function HydrateInfo() {
@@ -17,13 +18,19 @@ class UserHydrator implements HydratorInterface {
      * @return array
      */
     public function extract($object) {
+        $auth = new AuthenticationService();
         /** @var User $user */
         $user = $object;
+
+        $relation = $user->getRelation($auth->getIdentity());
+        $showDetails = (User::RELATION_UNRELATED != $relation);
 
         return [
             'id' => $user->getId(),
             'username' => $user->getUsername(),
-            'mail' => $user->getTrustedMailAddress(),
+            'mail' => $showDetails ? $user->getTrustedMailAddress() : '***',
+            'relation' => $relation,
+            'role' => $user->getRole(),
         ];
     }
 
@@ -36,7 +43,9 @@ class UserHydrator implements HydratorInterface {
         /** @var User $user */
         $user = $object;
 
-        $user->setUsername($data['username']);
+        if (isset($data['username'])) {
+            $user->setUsername($data['username']);
+        }
 
         return $user;
     }

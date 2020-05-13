@@ -12,12 +12,12 @@ use Hybridauth\Adapter\AdapterInterface;
 use Hybridauth\Exception\InvalidArgumentException;
 use Hybridauth\Exception\UnexpectedValueException;
 use Hybridauth\Hybridauth;
-use Zend\Authentication\AuthenticationService;
-use Zend\Http\Request;
-use Zend\Http\Response;
-use Zend\Mvc\Controller\AbstractActionController;
-use Zend\Session\Container;
-use Zend\View\Model\ViewModel;
+use Laminas\Authentication\AuthenticationService;
+use Laminas\Http\Request;
+use Laminas\Http\Response;
+use Laminas\Mvc\Controller\AbstractActionController;
+use Laminas\Session\Container;
+use Laminas\View\Model\ViewModel;
 
 abstract class BaseController extends AbstractActionController {
     public const SESSION_NAMESPACE = self::class;
@@ -32,7 +32,7 @@ abstract class BaseController extends AbstractActionController {
     protected $userService;
 
     /** @var AuthenticationService */
-    protected $zendAuthenticationService;
+    protected $laminasAuthenticationService;
 
     /** @var string */
     protected $providerName;
@@ -50,14 +50,14 @@ abstract class BaseController extends AbstractActionController {
         EntityManager $entityManager,
         UserIdentityService $userIdentityService,
         UserService $userService,
-        AuthenticationService $zendAuthenticationService,
+        AuthenticationService $laminasAuthenticationService,
         string $providerName,
         array $hybridAuthConfig
     ) {
         $this->entityManager = $entityManager;
         $this->userIdentityService = $userIdentityService;
         $this->userService = $userService;
-        $this->zendAuthenticationService = $zendAuthenticationService;
+        $this->laminasAuthenticationService = $laminasAuthenticationService;
         $this->providerName = $providerName;
         $this->hybridAuthConfig = $hybridAuthConfig;
     }
@@ -105,7 +105,7 @@ abstract class BaseController extends AbstractActionController {
 
         $user = $this->userIdentityService->findOrCreateUser($this->providerName, $profile);
 
-        $result = $this->zendAuthenticationService->authenticate(new OAuthAdapter($user->getId()));
+        $result = $this->laminasAuthenticationService->authenticate(new OAuthAdapter($user->getId()));
 
         if ($result->isValid()) {
             $redirect = $this->getRedirect();
@@ -127,7 +127,7 @@ abstract class BaseController extends AbstractActionController {
      * @throws UnexpectedValueException
      */
     public function logoutAction() {
-        $this->zendAuthenticationService->clearIdentity();
+        $this->laminasAuthenticationService->clearIdentity();
         $this->getHybridAuthAdapter()->disconnect();
 
         // TODO: Redirect

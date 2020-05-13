@@ -5,16 +5,15 @@ namespace eCamp\Core\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use eCamp\Lib\Entity\BaseEntity;
-use Zend\Json\Json;
+use Laminas\Json\Json;
 
 /**
  * CampType.
  *
  * @ORM\Entity
- * @ORM\Table(name="camp_types")
  */
 class CampType extends BaseEntity {
-    const CNF_EVENT_CATEGORIES = 'event_categories';
+    const CNF_EVENT_CATEGORIES = 'activityCategories';
     const CNF_JOBS = 'jobs';
 
     /**
@@ -50,18 +49,14 @@ class CampType extends BaseEntity {
 
     /**
      * @var ArrayCollection
-     * @ORM\ManyToMany(targetEntity="EventType")
-     * @ORM\JoinTable(name="camp_type_event_type",
-     *     joinColumns={@ORM\JoinColumn(name="camptype_id", referencedColumnName="id")},
-     *     inverseJoinColumns={@ORM\JoinColumn(name="eventtype_id", referencedColumnName="id")}
-     * )
+     * @ORM\ManyToMany(targetEntity="ActivityType")
      */
-    private $eventTypes;
+    private $activityTypes;
 
     public function __construct() {
         parent::__construct();
 
-        $this->eventTypes = new ArrayCollection();
+        $this->activityTypes = new ArrayCollection();
     }
 
     /**
@@ -139,15 +134,15 @@ class CampType extends BaseEntity {
     /**
      * @return ArrayCollection
      */
-    public function getEventTypes() {
-        return $this->eventTypes;
+    public function getActivityTypes() {
+        return $this->activityTypes;
     }
 
-    public function addEventType(EventType $eventType) {
-        $this->eventTypes->add($eventType);
+    public function addActivityType(ActivityType $activityType) {
+        $this->activityTypes->add($activityType);
     }
 
-    public function removeEventType(EventType $eventType) {
-        $this->eventTypes->removeElement($eventType);
+    public function removeActivityType(ActivityType $activityType) {
+        $this->activityTypes->removeElement($activityType);
     }
 }

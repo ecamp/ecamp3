@@ -2,8 +2,8 @@
 
 namespace eCamp\Lib\ServiceManager;
 
-use Zend\ModuleManager\ModuleManagerInterface;
-use Zend\Mvc\Service\AbstractPluginManagerFactory;
+use Laminas\ModuleManager\ModuleManagerInterface;
+use Laminas\Mvc\Service\AbstractPluginManagerFactory;
 
 class EntityFilterManagerFactory extends AbstractPluginManagerFactory {
     const PLUGIN_MANAGER_CLASS = EntityFilterManager::class;
@@ -12,9 +12,9 @@ class EntityFilterManagerFactory extends AbstractPluginManagerFactory {
     const CONFIG_METHOD = 'getEntityFilterConfig';
 
     public static function initModule(ModuleManagerInterface $manager) {
-        /** @var \Zend\ModuleManager\ModuleManager $manager */
+        /** @var \Laminas\ModuleManager\ModuleManager $manager */
         $sm = $manager->getEvent()->getParam('ServiceManager');
-        /** @var \Zend\ModuleManager\Listener\ServiceListener $serviceListener */
+        /** @var \Laminas\ModuleManager\Listener\ServiceListener $serviceListener */
         $serviceListener = $sm->get('ServiceListener');
 
         $serviceListener->addServiceManager(

@@ -44,7 +44,7 @@ function isCollection (object) {
  * string and Vue's reactivity system will replace it with the real data once that is available.
  *
  * Accessing nested functions in a loadingProxy yields another loadingProxy:
- * loadingProxy(...).camp_type().organization() // gives another loadingProxy
+ * loadingProxy(...).campType().organization() // gives another loadingProxy
  *
  * Using a loadingProxy or a property of a loadingProxy in a view renders to empty strings:
  * let user = loadingProxy(...)

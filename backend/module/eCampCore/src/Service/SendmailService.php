@@ -4,14 +4,14 @@ namespace eCamp\Core\Service;
 
 use eCamp\Core\Entity\User;
 use eCamp\Lib\Service\ServiceUtils;
-use Zend\Authentication\AuthenticationService;
-use Zend\Mail\Message;
-use Zend\Mail\Transport\TransportInterface;
-use Zend\Mime\Message as MimeMessage;
-use Zend\Mime\Mime;
-use Zend\Mime\Part as MimePart;
-use Zend\View\Model\ViewModel;
-use Zend\View\View;
+use Laminas\Authentication\AuthenticationService;
+use Laminas\Mail\Message;
+use Laminas\Mail\Transport\TransportInterface;
+use Laminas\Mime\Message as MimeMessage;
+use Laminas\Mime\Mime;
+use Laminas\Mime\Part as MimePart;
+use Laminas\View\Model\ViewModel;
+use Laminas\View\View;
 use ZendTwig\View\TwigModel;
 
 class SendmailService extends AbstractService {

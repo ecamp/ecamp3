@@ -66,7 +66,7 @@ describe('Testing ApiWrapper [autoSave=true;  manual external value]', () => {
     expect(vm.autoSave).toBe(true)
 
     // no buttons expected in AutoSave Mode (which is default)
-    expect(wrapper.findAll({ name: 'VBtn' })).toHaveLength(0)
+    expect(wrapper.findAllComponents({ name: 'VBtn' })).toHaveLength(0)
   })
 
   test('calls api.patch after onInput was triggered', async () => {
@@ -227,7 +227,7 @@ describe('Testing ApiWrapper [autoSave=false]', () => {
     expect(vm.autoSave).toBe(false)
 
     // expecting both a reset button & a save button in manual mode
-    expect(wrapper.findAll({ name: 'VBtn' })).toHaveLength(2)
+    expect(wrapper.findAllComponents({ name: 'VBtn' })).toHaveLength(2)
   })
 
   test('clears dirty flag when local value matches external value', async () => {

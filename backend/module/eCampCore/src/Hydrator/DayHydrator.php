@@ -4,7 +4,7 @@ namespace eCamp\Core\Hydrator;
 
 use eCamp\Core\Entity\Day;
 use eCamp\Lib\Entity\EntityLink;
-use Zend\Hydrator\HydratorInterface;
+use Laminas\Hydrator\HydratorInterface;
 
 class DayHydrator implements HydratorInterface {
     public static function HydrateInfo() {
@@ -23,7 +23,7 @@ class DayHydrator implements HydratorInterface {
 
         return [
             'id' => $day->getId(),
-            'day_offset' => $day->getDayOffset(),
+            'dayOffset' => $day->getDayOffset(),
             'number' => $day->getDayNumber(),
 
             'period' => EntityLink::Create($day->getPeriod()),
@@ -39,7 +39,9 @@ class DayHydrator implements HydratorInterface {
         /** @var Day $day */
         $day = $object;
 
-        $day->setDayOffset($data['day_offset']);
+        if (isset($data['dayOffset'])) {
+            $day->setDayOffset($data['dayOffset']);
+        }
 
         return $day;
     }

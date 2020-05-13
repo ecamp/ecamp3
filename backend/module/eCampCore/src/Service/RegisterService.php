@@ -6,7 +6,7 @@ use eCamp\Core\Entity\Login;
 use eCamp\Core\Entity\User;
 use eCamp\Core\EntityService\UserService;
 use eCamp\Lib\Service\ServiceUtils;
-use Zend\Authentication\AuthenticationService;
+use Laminas\Authentication\AuthenticationService;
 
 class RegisterService extends AbstractService {
     /** @var UserService */

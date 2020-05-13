@@ -9,18 +9,19 @@ use Doctrine\ORM\Query\Expr;
 use Doctrine\ORM\QueryBuilder;
 use eCamp\Core\Entity\User;
 use eCamp\Lib\Acl\Acl;
+use eCamp\Lib\Acl\Guest;
 use eCamp\Lib\Acl\NoAccessException;
 use eCamp\Lib\Entity\BaseEntity;
 use eCamp\Lib\Service\EntityNotFoundException;
 use eCamp\Lib\Service\ServiceUtils;
 use Exception;
-use Zend\Authentication\AuthenticationService;
-use Zend\Hydrator\HydratorInterface;
-use Zend\Paginator\Adapter\ArrayAdapter;
-use Zend\Paginator\Paginator;
-use ZF\ApiProblem\ApiProblem;
-use ZF\Rest\AbstractResourceListener;
-use ZF\Rest\ResourceEvent;
+use Laminas\ApiTools\ApiProblem\ApiProblem;
+use Laminas\ApiTools\Rest\AbstractResourceListener;
+use Laminas\ApiTools\Rest\ResourceEvent;
+use Laminas\Authentication\AuthenticationService;
+use Laminas\Hydrator\HydratorInterface;
+use Laminas\Paginator\Adapter\ArrayAdapter;
+use Laminas\Paginator\Paginator;
 
 abstract class AbstractEntityService extends AbstractResourceListener {
     /** @var ServiceUtils */
@@ -104,7 +105,7 @@ abstract class AbstractEntityService extends AbstractResourceListener {
      *
      * @throws NoAccessException
      *
-     * @return ApiProblem|array
+     * @return ApiProblem|Paginator
      */
     public function fetchAll($params = []) {
         $this->assertAllowed($this->entityClassname, __FUNCTION__);
@@ -118,18 +119,41 @@ abstract class AbstractEntityService extends AbstractResourceListener {
     }
 
     /**
+     * Calls createEntity + is responsible for permission check and persistance.
+     *
      * @param mixed $data
      *
      * @throws NoAccessException
      * @throws ORMException
      *
-     * @return ApiProblem|BaseEntity
+     * @return BaseEntity
      */
     public function create($data) {
         $this->assertAllowed($this->entityClassname, __FUNCTION__);
-        $entity = $this->createEntity($this->entityClassname);
-        $this->getHydrator()->hydrate((array) $data, $entity);
+
+        $entity = $this->createEntity($data);
+
+        $this->assertAllowed($entity, __FUNCTION__);
+
         $this->serviceUtils->emPersist($entity);
+        $this->serviceUtils->emFlush();
+
+        return $entity;
+    }
+
+    /**
+     * Responsible for creation of entity + hydration of data. Should be overriden by subclass for specific
+     * additional business logic during create process.
+     *
+     * ATTENTION: Does not check for proper permission and does not persist any data
+     *
+     * @param mixed $data
+     *
+     * @return BaseEntity Instantiated but non-persisted entity
+     */
+    public function createEntity($data) {
+        $entity = new $this->entityClassname();
+        $this->getHydrator()->hydrate((array) $data, $entity);
 
         return $entity;
     }
@@ -149,6 +173,8 @@ abstract class AbstractEntityService extends AbstractResourceListener {
         $allData = $this->getHydrator()->extract($entity);
         $data = array_merge($allData, (array) $data);
         $this->getHydrator()->hydrate($data, $entity);
+
+        $this->serviceUtils->emFlush();
 
         return $entity;
     }
@@ -179,6 +205,7 @@ abstract class AbstractEntityService extends AbstractResourceListener {
         $entity = $this->getQuerySingleResult($q);
         $this->assertAllowed($entity, __FUNCTION__);
         $this->getHydrator()->hydrate((array) $data, $entity);
+        $this->serviceUtils->emFlush();
 
         return $entity;
     }
@@ -210,6 +237,7 @@ abstract class AbstractEntityService extends AbstractResourceListener {
         $this->assertAllowed($entity, __FUNCTION__);
         if (null !== $entity) {
             $this->serviceUtils->emRemove($entity);
+            $this->serviceUtils->emFlush();
 
             return true;
         }
@@ -260,7 +288,7 @@ abstract class AbstractEntityService extends AbstractResourceListener {
      */
     protected function getAuthUser() {
         /** @var User $user */
-        $user = null;
+        $user = new Guest();
 
         if ($this->authenticationService->hasIdentity()) {
             $userRepository = $this->serviceUtils->emGetRepository(User::class);
@@ -295,17 +323,6 @@ abstract class AbstractEntityService extends AbstractResourceListener {
     }
 
     /**
-     * @param string $className
-     *
-     * @return ApiProblem|BaseEntity
-     */
-    protected function createEntity($className) {
-        $entity = null;
-
-        return new $className();
-    }
-
-    /**
      * @param $className
      * @param string $alias
      * @param string $field
@@ -330,8 +347,8 @@ abstract class AbstractEntityService extends AbstractResourceListener {
      */
     protected function findEntityQueryBuilder($className, $alias, $id) {
         $q = $this->createQueryBuilder($className, $alias);
-        $q->andWhere($alias.'.id = :entity_id');
-        $q->setParameter('entity_id', $id);
+        $q->andWhere($alias.'.id = :entityId');
+        $q->setParameter('entityId', $id);
 
         return $q;
     }
@@ -350,11 +367,9 @@ abstract class AbstractEntityService extends AbstractResourceListener {
     protected function getQuerySingleResult(QueryBuilder $q) {
         try {
             $row = $q->getQuery()->getSingleResult();
-            if ($this->isAllowed($row, Acl::REST_PRIVILEGE_FETCH)) {
-                return $row;
-            }
+            $this->assertAllowed($row, Acl::REST_PRIVILEGE_FETCH);
 
-            return null;
+            return $row;
         } catch (NoResultException $ex) {
             throw new EntityNotFoundException('Entity not found', 0, $ex);
         }
@@ -369,11 +384,10 @@ abstract class AbstractEntityService extends AbstractResourceListener {
         $this->assertAllowed($this->entityClassname, Acl::REST_PRIVILEGE_FETCH_ALL);
 
         $rows = $q->getQuery()->getResult();
-        $rows = array_filter($rows, function ($entity) {
+
+        return array_filter($rows, function ($entity) {
             return $this->isAllowed($entity, Acl::REST_PRIVILEGE_FETCH);
         });
-
-        return $rows;
     }
 
     protected function fetchQueryBuilder($id) {
@@ -395,6 +409,12 @@ abstract class AbstractEntityService extends AbstractResourceListener {
     protected function findEntity($className, $id) {
         $q = $this->findEntityQueryBuilder($className, 'row', $id);
 
-        return $this->getQuerySingleResult($q);
+        try {
+            $entity = $this->getQuerySingleResult($q);
+        } catch (EntityNotFoundException $e) {
+            throw new EntityNotFoundException("Entity {$className} with id {$id} not found", 0, $e);
+        }
+
+        return $entity;
     }
 }

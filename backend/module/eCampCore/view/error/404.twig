@@ -2,15 +2,15 @@
 <h2>{{ message }}</h2>
 
 {% if reason is not empty %}
-    {% if reason == constant('Zend\\Mvc\\Application::ERROR_CONTROLLER_CANNOT_DISPATCH') %}
+    {% if reason == constant('Laminas\\Mvc\\Application::ERROR_CONTROLLER_CANNOT_DISPATCH') %}
         The requested controller was unable to dispatch the request.
-    {% elseif reason == constant('Zend\\Mvc\\Application::ERROR_MIDDLEWARE_CANNOT_DISPATCH') %}
+    {% elseif reason == constant('Laminas\\Mvc\\Application::ERROR_MIDDLEWARE_CANNOT_DISPATCH') %}
         The requested middleware was unable to dispatch the request.
-    {% elseif reason == constant('Zend\\Mvc\\Application::ERROR_CONTROLLER_NOT_FOUND') %}
+    {% elseif reason == constant('Laminas\\Mvc\\Application::ERROR_CONTROLLER_NOT_FOUND') %}
         The requested controller could not be mapped to an existing controller class.
-    {% elseif reason == constant('Zend\\Mvc\\Application::ERROR_CONTROLLER_INVALID') %}
+    {% elseif reason == constant('Laminas\\Mvc\\Application::ERROR_CONTROLLER_INVALID') %}
         The requested controller was not dispatchable.
-    {% elseif reason == constant('Zend\\Mvc\\Application::ERROR_ROUTER_NO_MATCH') %}
+    {% elseif reason == constant('Laminas\\Mvc\\Application::ERROR_ROUTER_NO_MATCH') %}
         The requested URL could not be matched by routing.
     {% else %}
         We cannot determine at this time why a 404 was generated.

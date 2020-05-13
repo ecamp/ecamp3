@@ -8,8 +8,8 @@ use eCamp\Lib\Entity\BaseEntity;
 /**
  * @ORM\Entity
  * @ORM\HasLifecycleCallbacks
- * @ORM\Table(name="group_memberships", uniqueConstraints={
- *     @ORM\UniqueConstraint(name="user_group_unique", columns={"user_id", "group_id"})
+ * @ORM\Table(uniqueConstraints={
+ *     @ORM\UniqueConstraint(name="user_group_unique", columns={"userId", "groupId"})
  * })
  */
 class GroupMembership extends BaseEntity {

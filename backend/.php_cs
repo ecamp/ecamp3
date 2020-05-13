@@ -4,7 +4,7 @@ $finder = PhpCsFixer\Finder::create()
     ->exclude('gen')
     ->in(__DIR__.'/config')
     ->in(__DIR__.'/module')
-    ->in(__DIR__.'/plugin')
+    ->in(__DIR__.'/content-type')
     ->in(__DIR__.'/public')
 ;
 

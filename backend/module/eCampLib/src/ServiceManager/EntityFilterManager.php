@@ -4,7 +4,7 @@ namespace eCamp\Lib\ServiceManager;
 
 use eCamp\Lib\Annotation\AnnotationsReader;
 use eCamp\Lib\EntityFilter\EntityFilterInterface;
-use Zend\ServiceManager\AbstractPluginManager;
+use Laminas\ServiceManager\AbstractPluginManager;
 
 class EntityFilterManager extends AbstractPluginManager {
     /**

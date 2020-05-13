@@ -5,14 +5,14 @@ namespace eCampApi\V1\Rpc\Auth;
 use eCamp\Core\Auth\Adapter\LoginPassword;
 use eCamp\Core\Entity\User;
 use eCamp\Core\EntityService\UserService;
-use Zend\Authentication\AuthenticationService;
-use Zend\Http\Request;
-use Zend\Http\Response;
-use Zend\Json\Json;
-use Zend\Mvc\Controller\AbstractActionController;
-use ZF\Hal\Entity;
-use ZF\Hal\Link\Link;
-use ZF\Hal\View\HalJsonModel;
+use Laminas\ApiTools\Hal\Entity;
+use Laminas\ApiTools\Hal\Link\Link;
+use Laminas\ApiTools\Hal\View\HalJsonModel;
+use Laminas\Authentication\AuthenticationService;
+use Laminas\Http\Request;
+use Laminas\Http\Response;
+use Laminas\Json\Json;
+use Laminas\Mvc\Controller\AbstractActionController;
 
 class AuthController extends AbstractActionController {
     /** @var AuthenticationService */

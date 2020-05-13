@@ -7,9 +7,10 @@ use eCamp\Core\Entity\Camp;
 use eCamp\Core\Entity\CampCollaboration;
 use eCamp\Core\Entity\User;
 use eCamp\Core\Hydrator\CampCollaborationHydrator;
+use eCamp\Lib\Acl\Acl;
 use eCamp\Lib\Service\ServiceUtils;
-use Zend\Authentication\AuthenticationService;
-use ZF\ApiProblem\ApiProblem;
+use Laminas\ApiTools\ApiProblem\ApiProblem;
+use Laminas\Authentication\AuthenticationService;
 
 class CampCollaborationService extends AbstractEntityService {
     public function __construct(ServiceUtils $serviceUtils, AuthenticationService $authenticationService) {
@@ -31,14 +32,14 @@ class CampCollaborationService extends AbstractEntityService {
      */
     public function create($data) {
         $authUser = $this->getAuthUser();
-        if (!isset($data->user_id)) {
-            $data->user_id = $authUser->getId();
+        if (!isset($data->userId)) {
+            $data->userId = $authUser->getId();
         }
 
         /** @var Camp $camp */
-        $camp = $this->findEntity(Camp::class, $data->camp_id);
+        $camp = $this->findEntity(Camp::class, $data->campId);
         /** @var User $user */
-        $user = $this->findEntity(User::class, $data->user_id);
+        $user = $this->findEntity(User::class, $data->userId);
 
         if (!isset($data->role)) {
             $data->role = CampCollaboration::ROLE_MEMBER;
@@ -50,7 +51,9 @@ class CampCollaborationService extends AbstractEntityService {
         $campCollaboration->setUser($user);
         $campCollaboration->setRole($data->role);
 
-        if ($data->user_id === $authUser->getId()) {
+        $this->assertAllowed($campCollaboration, Acl::REST_PRIVILEGE_CREATE);
+
+        if ($data->userId === $authUser->getId()) {
             // Create CampCollaboration for AuthUser
             $campCollaboration->setStatus(CampCollaboration::STATUS_REQUESTED);
         } else {
@@ -111,14 +114,14 @@ class CampCollaborationService extends AbstractEntityService {
         $q = parent::fetchAllQueryBuilder($params);
         $q->andWhere($this->createFilter($q, Camp::class, 'row', 'camp'));
 
-        if (isset($params['camp_id'])) {
+        if (isset($params['campId'])) {
             $q->andWhere('row.camp = :campId');
-            $q->setParameter('campId', $params['camp_id']);
+            $q->setParameter('campId', $params['campId']);
         }
 
-        if (isset($params['user_id'])) {
+        if (isset($params['userId'])) {
             $q->andWhere('row.user = :userId');
-            $q->setParameter('userId', $params['user_id']);
+            $q->setParameter('userId', $params['userId']);
         }
 
         return $q;

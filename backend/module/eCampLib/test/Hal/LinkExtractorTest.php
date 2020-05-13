@@ -5,11 +5,11 @@ namespace eCamp\LibTest\Hal;
 use eCamp\Lib\Hal\Extractor\LinkExtractor;
 use eCamp\Lib\Hal\TemplatedLink;
 use eCamp\LibTest\PHPUnit\AbstractTestCase;
-use Zend\Router\Http\TreeRouteStack;
-use Zend\View\Helper\ServerUrl;
-use Zend\View\Helper\Url;
-use ZF\Hal\Link\Link;
-use ZF\Hal\Link\LinkUrlBuilder;
+use Laminas\ApiTools\Hal\Link\Link;
+use Laminas\ApiTools\Hal\Link\LinkUrlBuilder;
+use Laminas\Router\Http\TreeRouteStack;
+use Laminas\View\Helper\ServerUrl;
+use Laminas\View\Helper\Url;
 
 /**
  * @internal

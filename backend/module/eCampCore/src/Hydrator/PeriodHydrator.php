@@ -7,8 +7,8 @@ use eCamp\Lib\Entity\EntityLink;
 use eCamp\Lib\Entity\EntityLinkCollection;
 use eCamp\Lib\Hydrator\Util;
 use eCampApi\V1\Rest\Day\DayCollection;
-use eCampApi\V1\Rest\EventInstance\EventInstanceCollection;
-use Zend\Hydrator\HydratorInterface;
+use eCampApi\V1\Rest\ScheduleEntry\ScheduleEntryCollection;
+use Laminas\Hydrator\HydratorInterface;
 
 class PeriodHydrator implements HydratorInterface {
     public static function HydrateInfo() {
@@ -16,8 +16,8 @@ class PeriodHydrator implements HydratorInterface {
             'days' => Util::Collection(function (Period $p) {
                 return new DayCollection($p->getDays());
             }, null),
-            'event_instances' => Util::Collection(function (Period $p) {
-                return new EventInstanceCollection($p->getEventInstances());
+            'scheduleEntries' => Util::Collection(function (Period $p) {
+                return new ScheduleEntryCollection($p->getScheduleEntries());
             }, null),
         ];
     }
@@ -39,7 +39,7 @@ class PeriodHydrator implements HydratorInterface {
 
             'camp' => EntityLink::Create($period->getCamp()),
             'days' => new EntityLinkCollection($period->getDays()),
-            'event_instances' => new EntityLinkCollection($period->getEventInstances()),
+            'scheduleEntries' => new EntityLinkCollection($period->getScheduleEntries()),
         ];
     }
 
@@ -52,12 +52,19 @@ class PeriodHydrator implements HydratorInterface {
         /** @var Period $period */
         $period = $object;
 
-        $start = Util::parseDate($data['start']);
-        $end = Util::parseDate($data['end']);
+        if (isset($data['start'])) {
+            $start = Util::parseDate($data['start']);
+            $period->setStart($start);
+        }
 
-        $period->setDescription($data['description']);
-        $period->setStart($start);
-        $period->setEnd($end);
+        if (isset($data['end'])) {
+            $end = Util::parseDate($data['end']);
+            $period->setEnd($end);
+        }
+
+        if (isset($data['description'])) {
+            $period->setDescription($data['description']);
+        }
 
         return $period;
     }

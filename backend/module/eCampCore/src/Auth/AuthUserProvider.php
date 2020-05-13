@@ -4,7 +4,7 @@ namespace eCamp\Core\Auth;
 
 use eCamp\Core\Entity\User;
 use eCamp\Core\Repository\UserRepository;
-use Zend\Authentication\AuthenticationService;
+use Laminas\Authentication\AuthenticationService;
 
 class AuthUserProvider {
     /** @var UserRepository */

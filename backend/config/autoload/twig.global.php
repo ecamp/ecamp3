@@ -22,9 +22,9 @@ return [
             'configs' => [
                 /*
                  * Here can be declared configuration classes for service manager:
-                 *  \Zend\Form\View\HelperConfig::class,
-                 *  \Zend\I18n\View\HelperConfig::class,
-                 *  \Zend\Navigation\View\HelperConfig::class,
+                 *  \Laminas\Form\View\HelperConfig::class,
+                 *  \Laminas\I18n\View\HelperConfig::class,
+                 *  \Laminas\Navigation\View\HelperConfig::class,
                  */
             ],
         ],

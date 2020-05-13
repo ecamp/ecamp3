@@ -5,7 +5,7 @@ namespace eCamp\Core\Hydrator;
 use eCamp\Core\Entity\Group;
 use eCamp\Lib\Entity\EntityLink;
 use eCamp\Lib\Entity\EntityLinkCollection;
-use Zend\Hydrator\HydratorInterface;
+use Laminas\Hydrator\HydratorInterface;
 
 class GroupHydrator implements HydratorInterface {
     public static function HydrateInfo() {
@@ -26,7 +26,7 @@ class GroupHydrator implements HydratorInterface {
             'id' => $group->getId(),
             'name' => $group->getName(),
             'description' => $group->getDescription(),
-            'display_name' => $group->getDisplayName(),
+            'displayName' => $group->getDisplayName(),
 
             'organization' => EntityLink::Create($group->getOrganization()),
             'parent' => EntityLink::Create($group->getParent()),
@@ -43,8 +43,12 @@ class GroupHydrator implements HydratorInterface {
         /** @var Group $group */
         $group = $object;
 
-        $group->setName($data['name']);
-        $group->setDescription($data['description']);
+        if (isset($data['name'])) {
+            $group->setName($data['name']);
+        }
+        if (isset($data['description'])) {
+            $group->setDescription($data['description']);
+        }
 
         return $group;
     }

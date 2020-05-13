@@ -23,8 +23,8 @@ class CampTypeHydratorTest extends AbstractTestCase {
         $data = $hydrator->extract($campType);
 
         $this->assertEquals('name', $data['name']);
-        $this->assertTrue($data['is_js']);
-        $this->assertTrue($data['is_course']);
+        $this->assertTrue($data['isJS']);
+        $this->assertTrue($data['isCourse']);
 
         // Wie muss das korrekt verglichen werden?
         // ($data['organization'] ist ein LinkEntity
@@ -36,8 +36,8 @@ class CampTypeHydratorTest extends AbstractTestCase {
         $campType = new CampType();
         $data = [
             'name' => 'name',
-            'is_js' => true,
-            'is_course' => true,
+            'isJS' => true,
+            'isCourse' => true,
             'organization' => $organization,
         ];
 

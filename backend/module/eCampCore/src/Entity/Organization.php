@@ -8,7 +8,6 @@ use eCamp\Lib\Entity\BaseEntity;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="organizations")
  */
 class Organization extends BaseEntity {
     /**

@@ -2,13 +2,13 @@
 
 namespace eCampApi\V1\Rpc;
 
-use Zend\Mvc\Controller\AbstractActionController;
-use Zend\Mvc\MvcEvent;
-use ZF\ApiProblem\ApiProblem;
-use ZF\ApiProblem\ApiProblemResponse;
-use ZF\Hal\Entity;
-use ZF\Hal\Plugin\Hal;
-use ZF\Hal\View\HalJsonModel;
+use Laminas\ApiTools\ApiProblem\ApiProblem;
+use Laminas\ApiTools\ApiProblem\ApiProblemResponse;
+use Laminas\ApiTools\Hal\Entity;
+use Laminas\ApiTools\Hal\Plugin\Hal;
+use Laminas\ApiTools\Hal\View\HalJsonModel;
+use Laminas\Mvc\Controller\AbstractActionController;
+use Laminas\Mvc\MvcEvent;
 
 class ApiController extends AbstractActionController {
     public function onDispatch(MvcEvent $e) {
@@ -39,7 +39,7 @@ class ApiController extends AbstractActionController {
     }
 
     protected function createHalEntity($entity, $route, $routeIdentifierName) {
-        /** @var Hal $plugin */
+        /** @var Hal $contentType */
         $plugin = $this->plugin('Hal');
 
         return $plugin->createEntity($entity, $route, $routeIdentifierName);

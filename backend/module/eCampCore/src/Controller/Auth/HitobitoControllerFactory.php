@@ -6,10 +6,10 @@ use Doctrine\ORM\EntityManager;
 use eCamp\Core\EntityService\UserIdentityService;
 use eCamp\Core\EntityService\UserService;
 use Interop\Container\ContainerInterface;
+use Laminas\Authentication\AuthenticationService;
+use Laminas\ServiceManager\Factory\FactoryInterface;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
-use Zend\Authentication\AuthenticationService;
-use Zend\ServiceManager\Factory\FactoryInterface;
 
 abstract class HitobitoControllerFactory implements FactoryInterface {
     /**

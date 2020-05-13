@@ -2,9 +2,12 @@
 
 namespace eCamp\Core;
 
+use Doctrine\DBAL\Logging\EchoSQLLogger;
 use Doctrine\ORM\EntityManager;
-use Zend\Mvc\Application;
-use Zend\Mvc\MvcEvent;
+use eCamp\Core\ContentType\ContentTypeStrategyProviderInjector;
+use Laminas\ApiTools\ApiProblem\ApiProblemResponse;
+use Laminas\Mvc\Application;
+use Laminas\Mvc\MvcEvent;
 
 class Module {
     public function getConfig() {
@@ -15,24 +18,31 @@ class Module {
         /** @var Application $app */
         $app = $e->getApplication();
         $events = $app->getEventManager();
-        /** @var EntityManager $em */
-        $em = $app->getServiceManager()->get('doctrine.entitymanager.orm_default');
+        $sm = $app->getServiceManager();
 
-        $events->attach(MvcEvent::EVENT_DISPATCH, function (MvcEvent $e) use ($em) {
-            $em->beginTransaction();
-        });
+        /** @var EntityManager $em */
+        $em = $sm->get('doctrine.entitymanager.orm_default');
+
+        // Enable next line for Doctrine debug output
+        // $em->getConfiguration()->setSQLLogger(new EchoSQLLogger());
+
+        $em->beginTransaction();
 
         $events->attach(MvcEvent::EVENT_FINISH, function (MvcEvent $e) use ($em) {
-            if ($e->getError()) {
+            if ($e->getError() || $e->getResponse() instanceof ApiProblemResponse) {
                 if ($em->getConnection()->isTransactionActive()) {
-                    $em->rollback();
+                    $em->getConnection()->rollback();
                 }
             } else {
                 $em->flush();
                 if ($em->getConnection()->isTransactionActive()) {
-                    $em->commit();
+                    $em->getConnection()->commit();
                 }
             }
         });
+
+        // inject ContentTypeStrategyProvider into Doctrine entities (mainly ActivityContent entity)
+        $em->getEventManager()->addEventListener([\Doctrine\ORM\Events::postLoad], $sm->get(ContentTypeStrategyProviderInjector::class));
+        $em->getEventManager()->addEventListener([\Doctrine\ORM\Events::prePersist], $sm->get(ContentTypeStrategyProviderInjector::class));
     }
 }

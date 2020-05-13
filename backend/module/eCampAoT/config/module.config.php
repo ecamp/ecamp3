@@ -2,7 +2,7 @@
 
 namespace eCamp\AoT;
 
-use Zend\Di\InjectorInterface;
+use Laminas\Di\InjectorInterface;
 
 return [
     'controllers' => [

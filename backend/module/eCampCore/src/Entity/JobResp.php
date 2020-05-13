@@ -25,9 +25,8 @@ use eCamp\Lib\Entity\BaseEntity;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="job_resps")
  */
-class JobResp extends BaseEntity {
+class JobResp extends BaseEntity implements BelongsToCampInterface {
     /**
      * @var Day
      * @ORM\ManyToOne(targetEntity="Day")

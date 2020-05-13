@@ -3,6 +3,8 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
+use eCamp\Lib\Fixture\FixtureLoader;
+
 if (PHP_SAPI == 'cli') {
     echo PHP_EOL;
     echo '  Run Setup in a Browser!';
@@ -26,6 +28,7 @@ if ('dev' !== $env) {
 if (file_exists(__DIR__.'/../vendor/autoload.php')) {
     echo '<br />';
     echo '(01) Composer: OK';
+    echo '<br />';
 
     include_once __DIR__.'/../vendor/autoload.php';
 } else {
@@ -43,6 +46,7 @@ if (file_exists(__DIR__.'/../vendor/autoload.php')) {
     echo "<a href='https://getcomposer.org/'>https://getcomposer.org/</a>";
 }
 
+// Bootstrap application
 $app = eCampApp::CreateSetup();
 
 $sm = $app->getServiceManager();
@@ -93,13 +97,34 @@ try {
     die();
 }
 
+$schemaTool = new \Doctrine\ORM\Tools\SchemaTool($em);
+$allMetadata = $em->getMetadataFactory()->getAllMetadata();
+
+//  Drop & recreate database
+// =========================
+
+echo '<br />';
+echo "<a href='?drop-data'>Drop database & recreate schema</a>";
+echo '<br />';
+
+if (array_key_exists('drop-data', $_GET)) {
+    try {
+        $schemaTool->dropDatabase();
+        $schemaTool->createSchema($allMetadata);
+
+        echo 'OK';
+        echo '<br />';
+    } catch (\Exception $e) {
+        echo '<br />';
+        echo '<br />';
+        echo $e->getMessage();
+        die();
+    }
+}
+
 //  Schema-Validation:
 // ====================
-
 try {
-    $schemaTool = new \Doctrine\ORM\Tools\SchemaTool($em);
-    $allMetadata = $em->getMetadataFactory()->getAllMetadata();
-
     $updateSqls = $schemaTool->getUpdateSchemaSql($allMetadata, true);
     if (0 !== count($updateSqls)) {
         $msg = 'Some tables are out of sync. ';
@@ -123,13 +148,12 @@ try {
 
 echo '<br />';
 echo '<br />';
-echo '<br />';
 echo "<a href='?prod-data'>Load Prod-Data</a>";
 
 if (array_key_exists('prod-data', $_GET)) {
     try {
-        $loader = new \Doctrine\Common\DataFixtures\Loader();
-        $paths = \Zend\Stdlib\Glob::glob(__DIR__.'/../module/*/data/prod/*.php');
+        $loader = $sm->get(FixtureLoader::class);
+        $paths = \Laminas\Stdlib\Glob::glob(__DIR__.'/../module/*/data/prod/*.php');
 
         foreach ($paths as $path) {
             echo '<br />';
@@ -159,16 +183,16 @@ echo "<a href='?dev-data'>Load Dev-Data</a>";
 
 if (array_key_exists('dev-data', $_GET)) {
     try {
-        $loader = new \Doctrine\Common\DataFixtures\Loader();
+        $loader = $sm->get(FixtureLoader::class);
 
-        $paths = \Zend\Stdlib\Glob::glob(__DIR__.'/../module/*/data/prod/*.php');
+        $paths = \Laminas\Stdlib\Glob::glob(__DIR__.'/../module/*/data/prod/*.php');
         foreach ($paths as $path) {
             echo '<br />';
             echo $path;
             $loader->loadFromFile($path);
         }
 
-        $paths = \Zend\Stdlib\Glob::glob(__DIR__.'/../module/*/data/dev/*.php');
+        $paths = \Laminas\Stdlib\Glob::glob(__DIR__.'/../module/*/data/dev/*.php');
         foreach ($paths as $path) {
             echo '<br />';
             echo $path;
@@ -190,6 +214,8 @@ if (array_key_exists('dev-data', $_GET)) {
         die();
     }
 }
+
+$conn->commit();
 
 echo '<br />';
 echo '<br />';

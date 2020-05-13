@@ -50,7 +50,7 @@ Für UnitTests mit Datenbank wird die Klasse
 ```\eCamp\LibTest\PHPUnit\AbstractDatabaseTestCase``` verwendet.
 
 Dabei dient die statische Klasse ```\eCampApp``` als Container für die 
-```\Zend\Mvc\Application```. So können ```Services``` oder 
+```\Laminas\Mvc\Application```. So können ```Services``` oder 
 ```Repositories``` geladen werden.
 
 Beispiel:

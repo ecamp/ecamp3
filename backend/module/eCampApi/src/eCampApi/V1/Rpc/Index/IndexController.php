@@ -5,11 +5,11 @@ namespace eCampApi\V1\Rpc\Index;
 use eCamp\Core\Entity\User;
 use eCamp\Core\EntityService\UserService;
 use eCamp\Lib\Hal\TemplatedLink;
-use Zend\Authentication\AuthenticationService;
-use Zend\Mvc\Controller\AbstractActionController;
-use ZF\Hal\Entity;
-use ZF\Hal\Link\Link;
-use ZF\Hal\View\HalJsonModel;
+use Laminas\ApiTools\Hal\Entity;
+use Laminas\ApiTools\Hal\Link\Link;
+use Laminas\ApiTools\Hal\View\HalJsonModel;
+use Laminas\Authentication\AuthenticationService;
+use Laminas\Mvc\Controller\AbstractActionController;
 
 class IndexController extends AbstractActionController {
     /** @var AuthenticationService */
@@ -79,6 +79,7 @@ class IndexController extends AbstractActionController {
         $user = null;
         $userId = $this->authenticationService->getIdentity();
         if (null != $userId) {
+            // BUG: throws error is $userId is not found
             $user = $this->userService->fetch($userId);
         }
         if (null != $user) {
@@ -88,7 +89,7 @@ class IndexController extends AbstractActionController {
                 'rel' => 'profile',
                 'route' => [
                     'name' => 'e-camp-api.rest.doctrine.user',
-                    'params' => ['user_id' => $userId],
+                    'params' => ['userId' => $userId],
                 ],
             ]);
         } else {
@@ -112,12 +113,12 @@ class IndexController extends AbstractActionController {
 
         $data['docu'] = Link::factory([
             'rel' => 'docu',
-            'route' => 'zf-apigility/swagger',
+            'route' => 'api-tools/swagger',
         ]);
 
         $data['admin'] = Link::factory([
             'rel' => 'admin',
-            'route' => 'zf-apigility/ui',
+            'route' => 'api-tools/ui',
         ]);
 
         $data['users'] = TemplatedLink::factory([
@@ -130,9 +131,9 @@ class IndexController extends AbstractActionController {
             'route' => 'e-camp-api.rest.doctrine.camp',
         ]);
 
-        $data['eventInstances'] = TemplatedLink::factory([
-            'rel' => 'eventInstances',
-            'route' => 'e-camp-api.rest.doctrine.event-instance',
+        $data['scheduleEntries'] = TemplatedLink::factory([
+            'rel' => 'scheduleEntries',
+            'route' => 'e-camp-api.rest.doctrine.schedule-entry',
         ]);
 
         $json = new HalJsonModel();

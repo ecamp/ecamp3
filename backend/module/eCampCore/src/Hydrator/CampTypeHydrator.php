@@ -5,7 +5,7 @@ namespace eCamp\Core\Hydrator;
 use eCamp\Core\Entity\CampType;
 use eCamp\Lib\Entity\EntityLink;
 use eCamp\Lib\Entity\EntityLinkCollection;
-use Zend\Hydrator\HydratorInterface;
+use Laminas\Hydrator\HydratorInterface;
 
 class CampTypeHydrator implements HydratorInterface {
     public static function HydrateInfo() {
@@ -25,11 +25,11 @@ class CampTypeHydrator implements HydratorInterface {
         return [
             'id' => $campType->getId(),
             'name' => $campType->getName(),
-            'is_js' => $campType->getIsJS(),
-            'is_course' => $campType->getIsCourse(),
+            'isJS' => $campType->getIsJS(),
+            'isCourse' => $campType->getIsCourse(),
 
             'organization' => EntityLink::Create($campType->getOrganization()),
-            'event_types' => new EntityLinkCollection($campType->getEventTypes()),
+            'activityTypes' => new EntityLinkCollection($campType->getActivityTypes()),
         ];
     }
 
@@ -42,10 +42,18 @@ class CampTypeHydrator implements HydratorInterface {
         /** @var CampType $campType */
         $campType = $object;
 
-        $campType->setName($data['name']);
-        $campType->setIsJS($data['is_js']);
-        $campType->setIsCourse($data['is_course']);
-        $campType->setOrganization($data['organization']);
+        if (isset($data['name'])) {
+            $campType->setName($data['name']);
+        }
+        if (isset($data['isJS'])) {
+            $campType->setIsJS($data['isJS']);
+        }
+        if (isset($data['isCourse'])) {
+            $campType->setIsCourse($data['isCourse']);
+        }
+        if (isset($data['organization'])) {
+            $campType->setOrganization($data['organization']);
+        }
 
         return $campType;
     }

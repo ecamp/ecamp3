@@ -5,13 +5,16 @@ $env = getenv('env') ?: 'dev';
 return [
     // Retrieve the list of modules for this application.
     'modules' => [
-        'Zend\\Router',
+        'Laminas\\Router',
+        'Laminas\\Di',
         'DoctrineModule',
         'DoctrineORMModule',
 
         'eCamp\\Lib',
         'eCamp\\Core',
         'eCamp\\AoT',
+        'eCamp\\ContentType\\Textarea',
+        'eCamp\\ContentType\\Storyboard',
     ],
     // This should be an array of paths in which modules reside.
     // If a string key is provided, the listener will consider that a module
@@ -20,7 +23,7 @@ return [
     'module_listener_options' => [
         'module_paths' => [
             './module',
-            './plugin',
+            './content-type',
             './vendor',
         ],
         // Using __DIR__ to ensure cross-platform compatibility. Some platforms --

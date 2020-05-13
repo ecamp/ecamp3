@@ -4,7 +4,7 @@ namespace eCamp\Lib\Entity;
 
 use Doctrine\Common\Util\ClassUtils;
 use Doctrine\ORM\Mapping as ORM;
-use Zend\Permissions\Acl\Resource\ResourceInterface;
+use Laminas\Permissions\Acl\Resource\ResourceInterface;
 
 /**
  * @ORM\MappedSuperclass
@@ -14,19 +14,19 @@ abstract class BaseEntity implements ResourceInterface {
     /**
      * @var string
      * @ORM\Id
-     * @ORM\Column(name="id", type="string", nullable=false)
+     * @ORM\Column(type="string", nullable=false)
      */
     protected $id;
 
     /**
      * @var \DateTime
-     * @ORM\Column(name="create_time", type="datetime")
+     * @ORM\Column(type="datetime")
      */
     protected $createTime;
 
     /**
      * @var \DateTime
-     * @ORM\Column(name="update_time", type="datetime")
+     * @ORM\Column(type="datetime")
      */
     protected $updateTime;
 

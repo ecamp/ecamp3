@@ -148,12 +148,11 @@ export const post = function (uriOrCollection, data) {
  * Reloads an entity from the API.
  *
  * @param uriOrEntity URI (or instance) of an entity to reload from the API
- * @returns entity    Entity from the store. Note that when fetching an object for the first time, a reactive
- *                    dummy is returned, which will be replaced with the true data through Vue's reactivity
- *                    system as soon as the API request finishes.
+ * @returns Promise   Resolves when the GET request has completed and the updated entity is available
+ *                    in the Vuex store.
  */
 export const reload = function (uriOrEntity) {
-  return get(uriOrEntity, true)
+  return get(uriOrEntity, true)._meta.load
 }
 
 /**
@@ -168,7 +167,7 @@ export const reload = function (uriOrEntity) {
  *   allCamps () { return this.api.get('/camp').items }
  *   oneSpecificCamp () { return this.api.get(`/camp/${this.campId}`) }
  *   campUri () { return this.oneSpecificCamp._meta.self }
- *   eventTypes () { return this.oneSpecificCamp.event_types() }
+ *   activityTypes () { return this.oneSpecificCamp.activityTypes() }
  *   user () { return this.api.get().profile() } // Root endpoint ('/') and navigate through self-discovery API
  * },
  * created () {
@@ -338,7 +337,7 @@ const purge = function (uriOrEntity) {
  * 2. Sends a DELETE request to the API in order to delete E from the backend (in case of failure, the
  *    deleted flag is reset and the operation is aborted)
  * 3. Finds all entities [...R] in the store that reference E (e.g. find the corresponding camp when
- *    deleting an event) and reloads them from the API
+ *    deleting an activity) and reloads them from the API
  * 4. Purges E from the Vuex store
  * @param uriOrEntity URI (or instance) of an entity which should be deleted
  * @returns Promise   resolves when the DELETE request has completed and either all related entites have
@@ -365,6 +364,8 @@ function valueIsArrayWithReferenceTo (value, uri) {
 }
 
 function valueIsReferenceTo (value, uri) {
+  if (value === null) return false
+
   const objectKeys = Object.keys(value)
   return objectKeys.length === 1 && objectKeys[0] === 'href' && value.href === uri
 }
@@ -387,7 +388,7 @@ function deleted (uri) {
   return Promise.all(findEntitiesReferencing(uri)
     // don't reload entities that are already being deleted, to break circular dependencies
     .filter(outdatedEntity => !outdatedEntity._meta.deleting)
-    .map(outdatedEntity => reload(outdatedEntity)._meta.load)
+    .map(outdatedEntity => reload(outdatedEntity))
   ).then(() => purge(uri))
 }
 

@@ -4,7 +4,7 @@ namespace eCamp\AoT;
 
 use eCamp\AoT\Generated\GeneratedInjector;
 use Interop\Container\ContainerInterface;
-use Zend\ServiceManager\Factory\DelegatorFactoryInterface;
+use Laminas\ServiceManager\Factory\DelegatorFactoryInterface;
 
 class InjectorDecoratorFactory implements DelegatorFactoryInterface {
     public function __invoke(ContainerInterface $container, $name, callable $callback, array $options = null) {

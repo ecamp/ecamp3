@@ -5,7 +5,7 @@ namespace eCamp\CoreTest\Auth;
 use eCamp\Core\Auth\AuthUserProvider;
 use eCamp\Core\EntityService\UserService;
 use eCamp\LibTest\PHPUnit\AbstractDatabaseTestCase;
-use Zend\Authentication\AuthenticationService;
+use Laminas\Authentication\AuthenticationService;
 
 /**
  * @internal

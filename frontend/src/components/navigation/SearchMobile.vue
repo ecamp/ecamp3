@@ -10,7 +10,7 @@
       </v-btn>
       <v-text-field
         hide-details
-        :label="searchOpen ? 'Suchen' : 'Events & Camps suchen'"
+        :label="searchOpen ? 'Suchen' : 'Aktivitäten & Camps suchen'"
         single-line
         @click="searchOpen = !searchOpen" />
       <router-link :to="{name: 'profile'}">

@@ -7,10 +7,11 @@ use eCamp\Core\Entity\Camp;
 use eCamp\Core\Entity\Day;
 use eCamp\Core\Entity\Period;
 use eCamp\Core\Hydrator\DayHydrator;
+use eCamp\Lib\Acl\Acl;
 use eCamp\Lib\Acl\NoAccessException;
 use eCamp\Lib\Service\ServiceUtils;
-use Zend\Authentication\AuthenticationService;
-use ZF\ApiProblem\ApiProblem;
+use Laminas\ApiTools\ApiProblem\ApiProblem;
+use Laminas\Authentication\AuthenticationService;
 
 class DayService extends AbstractEntityService {
     public function __construct(ServiceUtils $serviceUtils, AuthenticationService $authenticationService) {
@@ -32,11 +33,13 @@ class DayService extends AbstractEntityService {
      */
     public function create($data) {
         /** @var Period $period */
-        $period = $this->findEntity(Period::class, $data->period_id);
+        $period = $this->findEntity(Period::class, $data->periodId);
 
         /** @var Day $day */
         $day = parent::create($data);
         $period->addDay($day);
+
+        $this->assertAllowed($day, Acl::REST_PRIVILEGE_CREATE);
 
         return $day;
     }
@@ -63,14 +66,14 @@ class DayService extends AbstractEntityService {
         $q->join('row.period', 'p');
         $q->andWhere($this->createFilter($q, Camp::class, 'p', 'camp'));
 
-        if (isset($params['camp_id'])) {
+        if (isset($params['campId'])) {
             $q->andWhere('p.camp = :campId');
-            $q->setParameter('campId', $params['camp_id']);
+            $q->setParameter('campId', $params['campId']);
         }
 
-        if (isset($params['period_id'])) {
+        if (isset($params['periodId'])) {
             $q->andWhere('row.period = :periodId');
-            $q->setParameter('periodId', $params['period_id']);
+            $q->setParameter('periodId', $params['periodId']);
         }
 
         $q->orderBy('row.period, row.dayOffset');

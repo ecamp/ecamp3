@@ -2,11 +2,11 @@
 
 namespace eCamp\Lib\Acl;
 
-use Zend\Permissions\Acl\Acl as ZendAcl;
-use Zend\Permissions\Acl\Resource\ResourceInterface;
-use Zend\Permissions\Acl\Role\RoleInterface;
+use Laminas\Permissions\Acl\Acl as LaminasAcl;
+use Laminas\Permissions\Acl\Resource\ResourceInterface;
+use Laminas\Permissions\Acl\Role\RoleInterface;
 
-class Acl extends ZendAcl {
+class Acl extends LaminasAcl {
     public const REST_PRIVILEGE_FETCH = 'fetch';
     public const REST_PRIVILEGE_FETCH_ALL = 'fetchAll';
     public const REST_PRIVILEGE_CREATE = 'create';

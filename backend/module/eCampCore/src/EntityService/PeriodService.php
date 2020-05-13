@@ -5,13 +5,14 @@ namespace eCamp\Core\EntityService;
 use Doctrine\ORM\ORMException;
 use eCamp\Core\Entity\Camp;
 use eCamp\Core\Entity\Day;
-use eCamp\Core\Entity\EventInstance;
 use eCamp\Core\Entity\Period;
+use eCamp\Core\Entity\ScheduleEntry;
 use eCamp\Core\Hydrator\PeriodHydrator;
+use eCamp\Lib\Acl\Acl;
 use eCamp\Lib\Acl\NoAccessException;
 use eCamp\Lib\Service\ServiceUtils;
-use Zend\Authentication\AuthenticationService;
-use ZF\ApiProblem\ApiProblem;
+use Laminas\ApiTools\ApiProblem\ApiProblem;
+use Laminas\Authentication\AuthenticationService;
 
 class PeriodService extends AbstractEntityService {
     /** @var DayService */
@@ -42,18 +43,20 @@ class PeriodService extends AbstractEntityService {
      */
     public function create($data) {
         /** @var Camp $camp */
-        $camp = $this->findEntity(Camp::class, $data->camp_id);
+        $camp = $this->findEntity(Camp::class, $data->campId);
 
         /** @var Period $period */
         $period = parent::create($data);
         $camp->addPeriod($period);
+
+        $this->assertAllowed($period, Acl::REST_PRIVILEGE_CREATE);
         $this->getServiceUtils()->emFlush();
 
         $durationInDays = $period->getDurationInDays();
         for ($idx = 0; $idx < $durationInDays; ++$idx) {
             $this->dayService->create((object) [
-                'period_id' => $period->getId(),
-                'day_offset' => $idx,
+                'periodId' => $period->getId(),
+                'dayOffset' => $idx,
             ]);
         }
 
@@ -74,8 +77,8 @@ class PeriodService extends AbstractEntityService {
         $period = parent::update($id, $data);
         $this->updatePeriodDays($period);
 
-        // $moveEvents = isset($data->move_events) ? $data->move_events : null;
-        // $this->updateEventInstances($period, $moveEvents);
+        // $moveActivities = isset($data->move_activities) ? $data->move_activities : null;
+        // $this->updateScheduleEntries($period, $moveActivities);
 
         return $period;
     }
@@ -94,8 +97,8 @@ class PeriodService extends AbstractEntityService {
         $period = parent::patch($id, $data);
         $this->updatePeriodDays($period);
 
-        // $moveEvents = isset($data->move_events) ? $data->move_events : null;
-        // $this->updateEventInstances($period, $moveEvents);
+        // $moveActivities = isset($data->move_activities) ? $data->move_activities : null;
+        // $this->updateScheduleEntries($period, $moveActivities);
 
         return $period;
     }
@@ -104,9 +107,9 @@ class PeriodService extends AbstractEntityService {
         $q = parent::fetchAllQueryBuilder($params);
         $q->andWhere($this->createFilter($q, Camp::class, 'row', 'camp'));
 
-        if (isset($params['camp_id'])) {
+        if (isset($params['campId'])) {
             $q->andWhere('row.camp = :campId');
-            $q->setParameter('campId', $params['camp_id']);
+            $q->setParameter('campId', $params['campId']);
         }
 
         return $q;
@@ -143,24 +146,24 @@ class PeriodService extends AbstractEntityService {
 
             if ($day->isEmpty()) {
                 $this->dayService->create((object) [
-                    'period_id' => $period->getId(),
-                    'day_offset' => $idx,
+                    'periodId' => $period->getId(),
+                    'dayOffset' => $idx,
                 ]);
             }
         }
     }
 
     /**
-     * @param bool $moveEvents
+     * @param bool $moveActivities
      *
      * @throws NoAccessException
      */
-    private function updateEventInstances(Period $period, $moveEvents = null) {
-        if (is_null($moveEvents)) {
-            $moveEvents = true;
+    private function updateScheduleEntries(Period $period, $moveActivities = null) {
+        if (is_null($moveActivities)) {
+            $moveActivities = true;
         }
 
-        if (!$moveEvents) {
+        if (!$moveActivities) {
             $start = $period->getStart();
 
             $origData = $this->getOrigEntityData($period);
@@ -171,11 +174,11 @@ class PeriodService extends AbstractEntityService {
             $delta = $period->getStart()->getTimestamp() - $start->getTimestamp();
             $delta = $delta / 60;
 
-            $eventInstances = $period->getEventInstances();
-            foreach ($eventInstances as $eventInstance) {
-                // @var EventInstance $eventInstance
-                $this->getEventInstanceService()->patch($eventInstance->getId(), (object) [
-                    'start' => $eventInstance->getStart() - $delta,
+            $scheduleEntries = $period->getScheduleEntries();
+            foreach ($scheduleEntries as $scheduleEntry) {
+                // @var ScheduleEntry $scheduleEntry
+                $this->getScheduleEntryService()->patch($scheduleEntry->getId(), (object) [
+                    'start' => $scheduleEntry->getStart() - $delta,
                 ]);
             }
         }
