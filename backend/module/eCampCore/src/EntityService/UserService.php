@@ -8,10 +8,8 @@ use eCamp\Core\Entity\User;
 use eCamp\Core\Hydrator\UserHydrator;
 use eCamp\Core\Repository\UserRepository;
 use eCamp\Core\Service\SendmailService;
-use eCamp\Lib\Acl\NoAccessException;
 use eCamp\Lib\Service\ServiceUtils;
 use Hybridauth\User\Profile;
-use Laminas\ApiTools\ApiProblem\ApiProblem;
 use Laminas\Authentication\AuthenticationService;
 
 /**
@@ -60,13 +58,12 @@ class UserService extends AbstractEntityService {
     /**
      * @param mixed $data
      *
-     * @throws NoAccessException
      * @throws ORMException
      * @throws \Exception
      *
-     * @return ApiProblem|mixed|User
+     * @return User
      */
-    public function create($data) {
+    public function createEntity($data) {
         /** @var Profile $profile */
         $profile = $data;
 
@@ -80,11 +77,11 @@ class UserService extends AbstractEntityService {
 
         $state = isset($data->state) ? $data->state : User::STATE_NONREGISTERED;
         if (!in_array($state, [User::STATE_NONREGISTERED, User::STATE_REGISTERED])) {
-            return new ApiProblem(400, 'Invalid state: '.$state);
+            throw new \Exception('Invalid state: '.$state);
         }
 
         /** @var User $user */
-        $user = parent::create($data);
+        $user = parent::createEntity($data);
         $user->setState($state);
         $user->setRole(User::ROLE_USER);
 

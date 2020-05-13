@@ -367,11 +367,9 @@ abstract class AbstractEntityService extends AbstractResourceListener {
     protected function getQuerySingleResult(QueryBuilder $q) {
         try {
             $row = $q->getQuery()->getSingleResult();
-            if ($this->isAllowed($row, Acl::REST_PRIVILEGE_FETCH)) {
-                return $row;
-            }
+            $this->assertAllowed($row, Acl::REST_PRIVILEGE_FETCH);
 
-            return null;
+            return $row;
         } catch (NoResultException $ex) {
             throw new EntityNotFoundException('Entity not found', 0, $ex);
         }

@@ -53,6 +53,7 @@ class UserIdentityService extends AbstractEntityService {
         $identifier = $profile->identifier;
         // Look for existing identity in database
         $existingIdentity = $this->find($provider, $identifier);
+
         // Look for existing user in database
         /** @var User $user */
         $user = null;
@@ -61,25 +62,47 @@ class UserIdentityService extends AbstractEntityService {
         } else {
             $user = $this->userService->findByMail($profile->email);
         }
+
         // Create user if he doesn't exist yet
-        if (null == $user) {
+        if (null === $user) {
             $user = $this->userService->create($profile);
         } else {
             $userHydrator = $this->userService->getHydrator();
             $user = $userHydrator->hydrate(['username' => $profile->displayName], $user);
         }
+
         // Create identity if it doesn't exist yet
-        if (null == $existingIdentity) {
-            /** @var UserIdentity $existingIdentity */
-            $existingIdentity = $this->create([
+        if (null === $existingIdentity) {
+            /** @var UserIdentity $identity */
+            $identity = $this->create([
                 'provider' => $provider,
                 'providerId' => $profile->identifier,
+                'userId' => $user->getId(),
             ]);
-            $user->addUserIdentity($existingIdentity);
         }
-        // Save to db and return results
-        $this->getServiceUtils()->emFlush();
 
         return $user;
+    }
+
+    /**
+     * @param array $data
+     * @param User  $user
+     *
+     * @return UserIdentity
+     */
+    public function createEntity($data, ?User $user = null) {
+        /** @var UserIdentity $identity */
+        $identity = parent::createEntity($data);
+
+        if (is_null($user) && isset($data['userId'])) {
+            /** @var User $user */
+            $user = $this->getServiceUtils()->emGetRepository(User::class)->find($data['userId']); // reading directly from Repo --> bypassing ACL here
+        }
+
+        if (!is_null($user)) {
+            $user->addUserIdentity($identity);
+        }
+
+        return $identity;
     }
 }
