@@ -6,56 +6,62 @@
     <template v-slot:activator="scope">
       <slot name="activator" v-bind="scope" />
     </template>
-
-    <v-form @submit.prevent="doSubmit">
-      <v-card>
-        <v-toolbar dense color="blue-grey lighten-5">
-          <v-icon left>
-            {{ icon }}
-          </v-icon>
-          <v-toolbar-title>
-            {{ title }}
-          </v-toolbar-title>
-        </v-toolbar>
-
-        <v-card-text>
-          <slot />
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer />
-          <v-btn
-            v-if="cancelAction != null"
-            :color="cancelColor"
-            @click="doCancel">
-            <v-icon
-              v-if="!!cancelIcon"
-              left>
-              {{ cancelIcon }}
+    <ValidationObserver v-if="value" v-slot="{ handleSubmit }">
+      <!-- ValidationObserver/handleSubmit ensures that doSubmit is only called if there are no validation errors -->
+      <v-form @submit.prevent="handleSubmit(doSubmit)">
+        <v-card>
+          <v-toolbar dense color="blue-grey lighten-5">
+            <v-icon left>
+              {{ icon }}
             </v-icon>
-            {{ cancelLabel }}
-          </v-btn>
-          <v-btn
-            v-if="submitAction != null"
-            :color="submitColor"
-            type="submit"
-            :loading="isSaving">
-            <v-icon
-              v-if="!!submitIcon"
-              left>
-              {{ submitIcon }}
-            </v-icon>
-            {{ submitLabel }}
-          </v-btn>
-          <slot name="actions" />
-        </v-card-actions>
-      </v-card>
-    </v-form>
+            <v-toolbar-title>
+              {{ title }}
+            </v-toolbar-title>
+          </v-toolbar>
+
+          <v-card-text>
+            <slot />
+          </v-card-text>
+          <v-card-actions>
+            <v-spacer />
+            <v-btn
+              v-if="cancelAction != null"
+              :color="cancelColor"
+              @click="doCancel">
+              <v-icon
+                v-if="!!cancelIcon"
+                left>
+                {{ cancelIcon }}
+              </v-icon>
+              {{ cancelLabel }}
+            </v-btn>
+            <v-btn
+              v-if="submitAction != null"
+              :color="submitColor"
+              type="submit"
+              :loading="isSaving">
+              <v-icon
+                v-if="!!submitIcon"
+                left>
+                {{ submitIcon }}
+              </v-icon>
+              {{ submitLabel }}
+            </v-btn>
+            <slot name="actions" />
+          </v-card-actions>
+        </v-card>
+      </v-form>
+    </ValidationObserver>
   </v-dialog>
 </template>
 
 <script>
+
+import { ValidationObserver } from 'vee-validate'
+
 export default {
   name: 'DialogForm',
+  components: { ValidationObserver },
   props: {
     value: { type: Boolean, required: true },
 

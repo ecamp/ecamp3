@@ -258,7 +258,7 @@ describe('Testing ApiWrapper [autoSave=true; value from API]', () => {
   let wrapper
   let vm
   let config
-  let apiPatch
+  // let apiPatch
   let apiGet
 
   beforeEach(() => {
@@ -267,7 +267,7 @@ describe('Testing ApiWrapper [autoSave=true; value from API]', () => {
     config = createConfig()
     delete config.propsData.value
 
-    apiPatch = jest.spyOn(config.mocks.api, 'patch')
+    // apiPatch = jest.spyOn(config.mocks.api, 'patch')
     apiGet = jest.spyOn(config.mocks.api, 'get')
 
     apiGet.mockReturnValue({

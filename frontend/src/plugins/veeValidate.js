@@ -1,6 +1,6 @@
 import { extend, configure } from 'vee-validate'
 import * as rules from 'vee-validate/dist/rules'
-import i18n from '@/i18n'
+import i18n from '@/plugins/i18n'
 
 class VeeValidatePlugin {
   install (Vue, options) {
