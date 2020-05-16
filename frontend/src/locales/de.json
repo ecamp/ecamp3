@@ -2,5 +2,8 @@
   "home": "Home",
   "myCamps": "Mein Lager | Meine Lager",
   "profile": "Profil",
-  "search": "Suchen"
+  "search": "Suchen",
+  "validation": {
+    "minDate": "Das {_field_} muss gleich oder grösser sein als {min}"
+  }
 }

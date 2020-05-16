@@ -33,9 +33,6 @@
 <i18n>
 {
   "en": {
-    "validation": {
-      "minDate": "The {_field_} must be equal or larger than {min}"
-    },
     "fields": {
       "description": {
         "name": "description",
@@ -46,9 +43,6 @@
     }
   },
   "de": {
-    "validation": {
-      "minDate": "Das {_field_} muss gleich oder grösser sein als {min}"
-    },
     "fields": {
       "description": {
         "name": "Beschreibung",
@@ -64,7 +58,6 @@
 <script>
 import DialogForm from './DialogForm'
 import DialogBase from './DialogBase'
-import { extend } from 'vee-validate'
 
 export default {
   name: 'DialogPeriodCreate',
@@ -98,16 +91,6 @@ export default {
         this.clearEntityData()
       }
     }
-  },
-  created () {
-    /* Defining a component specific custom rule */
-    extend('minDate', {
-      params: ['min'],
-      validate: (value, { min }) => {
-        return new Date(value) >= new Date(min)
-      },
-      message: (field, values) => this.$t('validation.minDate', values)
-    })
   },
   methods: {
     createPeriod () {

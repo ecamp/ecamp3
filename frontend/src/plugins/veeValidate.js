@@ -18,6 +18,19 @@ class VeeValidatePlugin {
         ...rules[rule] // copies rule configuration
       })
     })
+
+    /**
+     * define custom rules
+     */
+
+    // check if date (value) is equal or larger than another date (min)
+    extend('minDate', {
+      params: ['min'],
+      validate: (value, { min }) => {
+        return new Date(value) >= new Date(min)
+      },
+      message: (field, values) => i18n.t('validation.minDate', values)
+    })
   }
 }
 

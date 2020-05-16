@@ -17,6 +17,7 @@
   "dependencies": {
     "@mdi/font": "^4.9.95",
     "axios": "^0.19.2",
+    "deepmerge": "^4.2.2",
     "hal-json-normalizer": "^3.0.1",
     "inter-ui": "^3.13.1",
     "lodash": "^4.17.15",
@@ -71,8 +72,13 @@
     ],
     "rules": {
       "vue/component-tags-order": [
-        "error", {
-          "order": ["template", "script", "style"]
+        "error",
+        {
+          "order": [
+            "template",
+            "script",
+            "style"
+          ]
         }
       ],
       "vue/html-closing-bracket-newline": [
