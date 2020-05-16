@@ -11,33 +11,22 @@
       <slot name="activator" v-bind="scope" />
     </template>
 
-    <ValidationProvider v-slot="{ errors }" :name="$t('fields.description')" rules="required">
-      <e-text-field
-        v-model="entityData.description" hide-details="auto"
-        :label="$t('fields.description')"
-        :error-messages="errors"
-        required />
-    </ValidationProvider>
+    <e-text-field
+      v-model="entityData.description"
+      :name="$t('fields.description.name')"
+      :label="$t('fields.description.label')"
+      vee-rules="required" />
 
-    <ValidationProvider v-slot="{ errors }" :name="$t('fields.start')"
-                        vid="start"
-                        rules="required">
-      <e-date-picker
-        v-model="entityData.start"
-        hide-details="auto"
-        :error-messages="errors"
-        :label="$t('fields.start')"
-        required />
-    </ValidationProvider>
+    <e-date-picker
+      v-model="entityData.start"
+      :name="$t('fields.start')"
+      vee-id="start"
+      vee-rules="required" />
 
-    <ValidationProvider v-slot="{ errors }" :name="$t('fields.end')" rules="required|minDate:@start">
-      <e-date-picker
-        v-model="entityData.end"
-        hide-details="auto"
-        :error-messages="errors"
-        :label="$t('fields.end')"
-        required />
-    </ValidationProvider>
+    <e-date-picker
+      v-model="entityData.end"
+      :name="$t('fields.end')"
+      vee-rules="required|minDate:@start" />
   </dialog-form>
 </template>
 
@@ -48,7 +37,10 @@
       "minDate": "The {_field_} must be equal or larger than {min}"
     },
     "fields": {
-      "description": "description",
+      "description": {
+        "name": "description",
+        "label": "description"
+      },
       "start": "start date",
       "end": "end date"
     }
@@ -58,7 +50,10 @@
       "minDate": "Das {_field_} muss gleich oder grösser sein als {min}"
     },
     "fields": {
-      "description": "Beschreibung",
+      "description": {
+        "name": "Beschreibung",
+        "label": "Beschreibung (Name des Teillagers)"
+      },
       "start": "Startdatum",
       "end": "Enddatum"
     }
@@ -69,11 +64,11 @@
 <script>
 import DialogForm from './DialogForm'
 import DialogBase from './DialogBase'
-import { extend, ValidationProvider } from 'vee-validate'
+import { extend } from 'vee-validate'
 
 export default {
   name: 'DialogPeriodCreate',
-  components: { DialogForm, ValidationProvider },
+  components: { DialogForm },
   extends: DialogBase,
   props: {
     camp: { type: Object, required: true }
