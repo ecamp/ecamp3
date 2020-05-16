@@ -8,7 +8,6 @@ Displays a field as a e-text-field + write access via API wrapper
     v-bind="$props">
     <e-text-field
       :value="wrapper.localValue"
-      :label="wrapper.label"
       v-bind="$attrs"
       :readonly="wrapper.readonly"
       :disabled="disabled"

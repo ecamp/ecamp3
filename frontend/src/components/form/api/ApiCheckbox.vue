@@ -11,7 +11,6 @@ Displays a field as a e-checkbox + write access via API wrapper
     separate-buttons>
     <e-checkbox
       :input-value="wrapper.localValue"
-      :label="wrapper.label"
       v-bind="$attrs"
       :readonly="wrapper.readonly"
       :disabled="disabled"

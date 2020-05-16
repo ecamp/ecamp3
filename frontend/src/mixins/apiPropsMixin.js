@@ -7,9 +7,6 @@ export const apiPropsMixin = {
     /* value is not required; by default value is read directly from api */
     value: { required: false, default: null },
 
-    /* displayed label (also used in error messages) */
-    label: { type: String, required: false, default: '' },
-
     /* field name and URI for saving back to API */
     fieldname: { type: String, required: true },
 
@@ -36,18 +33,12 @@ export const apiPropsMixin = {
     autoSave: { type: Boolean, default: true, required: false },
     autoSaveDelay: { type: Number, default: 800, required: false },
 
-    /* Validation criteria (Vee-validate rule string) */
-    validation: {
-      type: String,
-      required: false,
-      default: null
-    },
-
-    /* Validation criteria (shortcut for Vee-validate `required` rule) */
-    required: { type: Boolean, default: false, required: false },
-
-    /* Removes the margin (for inline fields) */
-    noMargin: { type: Boolean, default: false, required: false }
+    /* vertical margin */
+    my: {
+      type: Number,
+      default: 4,
+      required: false
+    }
   }
 
 }

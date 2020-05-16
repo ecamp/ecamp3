@@ -9,7 +9,6 @@ Displays a field as a e-textarea + write access via API wrapper
     separate-buttons>
     <e-textarea
       :value="wrapper.localValue"
-      :label="wrapper.label"
       v-bind="$attrs"
       :readonly="wrapper.readonly"
       :disabled="disabled"

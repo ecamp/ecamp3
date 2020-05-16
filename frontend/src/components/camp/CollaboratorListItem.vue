@@ -14,7 +14,7 @@
       :items="['member', 'manager']"
       :my="0"
       dense
-      required />
+      vee-rules="required" />
     <v-list-item-action class="ml-2">
       <button-delete @click="api.del(collaborator)">
         Remove

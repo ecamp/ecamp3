@@ -8,41 +8,42 @@ Displays details on a single camp and allows to edit them.
 
     <div v-else>
       <e-text-field
-        label="Name"
+        name="Name"
         readonly
         :value="camp().name" />
 
       <api-form :entity="camp()">
         <api-text-field
           fieldname="title"
-          required />
+          name="Title"
+          vee-rules="required|min:3" />
 
         <api-textarea
           fieldname="motto"
-          label="Motto"
+          name="Motto"
+          label="Motto (roter Faden)"
           :auto-save="false"
-          validation="required|min:3|min10"
-          required />
+          vee-rules="required|min:3" />
 
         <api-checkbox
           :value="checkbox"
           fieldname="check"
-          label="Checkbox example"
-          required />
+          name="Checkbox example"
+          vee-rules="required" />
 
         <api-time-picker
           :value="time"
           fieldname="time"
-          label="Startzeit"
+          name="Startzeit"
           :auto-save="false"
-          required />
+          vee-rules="required" />
 
         <api-color-picker
           :value="color"
           fieldname="color"
-          label="Color Example"
+          name="Color Example"
           :auto-save="false"
-          required />
+          vee-rules="required" />
       </api-form>
 
       <v-list>
@@ -58,9 +59,9 @@ Displays details on a single camp and allows to edit them.
           <api-date-picker
             :uri="period._meta.self"
             fieldname="start"
-            label="Starttermin"
+            name="Starttermin"
             :auto-save="false"
-            required />
+            vee-rules="required" />
         </v-list-item>
       </v-list>
     </div>
