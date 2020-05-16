@@ -81,6 +81,12 @@ class User extends AbstractCampOwner implements RoleInterface {
      */
     private $login;
 
+    /**
+     * @var string
+     * @ORM\Column(type="string", length=16, nullable=true)
+     */
+    private $language;
+
     public function __construct() {
         parent::__construct();
 
@@ -236,6 +242,14 @@ class User extends AbstractCampOwner implements RoleInterface {
      */
     public function getLogin() {
         return $this->login;
+    }
+
+    public function getLanguage() {
+        return $this->language;
+    }
+
+    public function setLanguage($language) {
+        $this->language = $language;
     }
 
     public function getGroupMemberships(): ArrayCollection {
