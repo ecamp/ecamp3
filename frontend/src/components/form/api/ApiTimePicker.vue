@@ -14,7 +14,7 @@ Displays a field as a time picker + write access via API wrapper
       :disabled="disabled"
       :loading="wrapper.isSaving || wrapper.isLoading ? 'secondary' : false"
       outlined
-      no-margin
+      :my="0"
       :filled="false"
       :error-messages="wrapper.errorMessages"
       @input="wrapper.on.input">

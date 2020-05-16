@@ -10,28 +10,18 @@
       <slot name="activator" v-bind="scope" />
     </template>
 
-    <e-text-field
-      v-model="entityData.description"
-      label="Description"
-      required />
-    <e-text-field
-      v-model="entityData.start"
-      label="Start"
-      required />
-    <e-text-field
-      v-model="entityData.end"
-      label="End"
-      required />
+    <dialog-period-form v-if="!loading" :period="entityData" />
   </dialog-form>
 </template>
 
 <script>
 import DialogBase from '@/components/dialog/DialogBase'
 import DialogForm from '@/components/dialog/DialogForm'
+import DialogPeriodForm from './DialogPeriodForm'
 
 export default {
   name: 'DialogPeriodEdit',
-  components: { DialogForm },
+  components: { DialogForm, DialogPeriodForm },
   extends: DialogBase,
   props: {
     period: { type: Object, required: true }

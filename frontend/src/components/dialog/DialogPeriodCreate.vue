@@ -11,57 +11,18 @@
       <slot name="activator" v-bind="scope" />
     </template>
 
-    <e-text-field
-      v-model="entityData.description"
-      :name="$t('fields.description.name')"
-      :label="$t('fields.description.label')"
-      vee-rules="required" />
-
-    <e-date-picker
-      v-model="entityData.start"
-      :name="$t('fields.start')"
-      vee-id="start"
-      vee-rules="required" />
-
-    <e-date-picker
-      v-model="entityData.end"
-      :name="$t('fields.end')"
-      vee-rules="required|minDate:@start" />
+    <dialog-period-form v-if="!loading" :period="entityData" />
   </dialog-form>
 </template>
-
-<i18n>
-{
-  "en": {
-    "fields": {
-      "description": {
-        "name": "description",
-        "label": "description"
-      },
-      "start": "start date",
-      "end": "end date"
-    }
-  },
-  "de": {
-    "fields": {
-      "description": {
-        "name": "Beschreibung",
-        "label": "Beschreibung (Name des Teillagers)"
-      },
-      "start": "Startdatum",
-      "end": "Enddatum"
-    }
-  }
-}
-</i18n>
 
 <script>
 import DialogForm from './DialogForm'
 import DialogBase from './DialogBase'
+import DialogPeriodForm from './DialogPeriodForm'
 
 export default {
   name: 'DialogPeriodCreate',
-  components: { DialogForm },
+  components: { DialogForm, DialogPeriodForm },
   extends: DialogBase,
   props: {
     camp: { type: Object, required: true }
