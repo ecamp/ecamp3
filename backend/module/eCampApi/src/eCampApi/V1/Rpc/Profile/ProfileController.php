@@ -4,6 +4,8 @@ namespace eCampApi\V1\Rpc\Profile;
 
 use eCamp\Core\Entity\User;
 use eCamp\Core\EntityService\UserService;
+use Laminas\ApiTools\ApiProblem\ApiProblem;
+use Laminas\ApiTools\ApiProblem\View\ApiProblemModel;
 use Laminas\ApiTools\Hal\Entity;
 use Laminas\ApiTools\Hal\Link\Link;
 use Laminas\ApiTools\Hal\View\HalJsonModel;
@@ -28,8 +30,6 @@ class ProfileController extends AbstractActionController {
     }
 
     public function indexAction() {
-        $data = [];
-
         if ($this->authenticationService->hasIdentity()) {
             /** @var Request $request */
             $request = $this->getRequest();
@@ -40,15 +40,14 @@ class ProfileController extends AbstractActionController {
             $user = $this->userService->fetch($userId);
 
             $data = call_user_func([$this, $method], $user);
+
+            return new HalJsonModel(['payload' => new Entity($data)]);
         }
 
-        $json = new HalJsonModel();
-        $json->setPayload(new Entity($data));
-
-        return $json;
+        return new ApiProblemModel(new ApiProblem(403, null));
     }
 
-    public function getAction(User $user) {
+    private function getAction(User $user) {
         return [
             'self' => Link::factory([
                 'rel' => 'self',
@@ -62,7 +61,7 @@ class ProfileController extends AbstractActionController {
         ];
     }
 
-    public function patchAction(User $user) {
+    private function patchAction(User $user) {
         /** @var Request $request */
         $request = $this->getRequest();
         $content = $request->getContent();
