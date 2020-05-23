@@ -7,10 +7,9 @@ use eCamp\Core\Entity\ActivityCategory;
 use eCamp\Core\Entity\ActivityType;
 use eCamp\Core\Entity\Camp;
 use eCamp\Core\Hydrator\ActivityCategoryHydrator;
-use eCamp\Lib\Acl\Acl;
 use eCamp\Lib\Acl\NoAccessException;
+use eCamp\Lib\Service\EntityNotFoundException;
 use eCamp\Lib\Service\ServiceUtils;
-use Laminas\ApiTools\ApiProblem\ApiProblem;
 use Laminas\Authentication\AuthenticationService;
 
 class ActivityCategoryService extends AbstractEntityService {
@@ -26,14 +25,15 @@ class ActivityCategoryService extends AbstractEntityService {
     /**
      * @param mixed $data
      *
+     * @throws EntityNotFoundException
      * @throws ORMException
      * @throws NoAccessException
      *
-     * @return ActivityCategory|ApiProblem
+     * @return ActivityCategory
      */
-    public function create($data) {
+    protected function createEntity($data) {
         /** @var ActivityCategory $activityCategory */
-        $activityCategory = parent::create($data);
+        $activityCategory = parent::createEntity($data);
 
         /** @var ActivityType $activityType */
         $activityType = $this->findEntity(ActivityType::class, $data->activityTypeId);
@@ -42,8 +42,6 @@ class ActivityCategoryService extends AbstractEntityService {
         /** @var Camp $camp */
         $camp = $this->findEntity(Camp::class, $data->campId);
         $camp->addActivityCategory($activityCategory);
-
-        $this->assertAllowed($activityCategory, Acl::REST_PRIVILEGE_CREATE);
 
         return $activityCategory;
     }

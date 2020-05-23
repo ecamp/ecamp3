@@ -4,6 +4,7 @@ namespace eCamp\Core\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use eCamp\Lib\Annotation\EntityFilter;
 use eCamp\Lib\Entity\BaseEntity;
 
 /**
@@ -12,6 +13,7 @@ use eCamp\Lib\Entity\BaseEntity;
  * @ORM\Table(uniqueConstraints={
  *     @ORM\UniqueConstraint(name="owner_name_unique", columns={"ownerId", "name"})
  * })
+ * @EntityFilter(filterClass="eCamp\Core\EntityFilter\CampFilter")
  */
 class Camp extends BaseEntity implements BelongsToCampInterface {
     /**

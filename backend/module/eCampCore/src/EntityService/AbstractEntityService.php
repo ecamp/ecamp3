@@ -3,7 +3,9 @@
 namespace eCamp\Core\EntityService;
 
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
+use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Doctrine\ORM\Query\Expr;
 use Doctrine\ORM\QueryBuilder;
@@ -24,23 +26,17 @@ use Laminas\Paginator\Adapter\ArrayAdapter;
 use Laminas\Paginator\Paginator;
 
 abstract class AbstractEntityService extends AbstractResourceListener {
-    /** @var ServiceUtils */
-    private $serviceUtils;
+    private ServiceUtils $serviceUtils;
 
-    /** @var string */
-    private $entityClassname;
+    private string $entityClassname;
 
-    /** @var string */
-    private $hydratorClassname;
+    private string $hydratorClassname;
 
-    /** @var AuthenticationService */
-    private $authenticationService;
+    private AuthenticationService $authenticationService;
 
-    /** @var EntityRepository */
-    private $repository;
+    private ?EntityRepository $repository = null;
 
-    /** @var HydratorInterface */
-    private $hydrator;
+    private HydratorInterface $hydrator;
 
     public function __construct(
         ServiceUtils $serviceUtils,
@@ -52,6 +48,9 @@ abstract class AbstractEntityService extends AbstractResourceListener {
         $this->entityClassname = $entityClassname;
         $this->hydratorClassname = $hydratorClassname;
         $this->authenticationService = $authenticationService;
+
+        $this->repository = $serviceUtils->emGetRepository($entityClassname);
+        $this->hydrator = $serviceUtils->getHydrator($hydratorClassname);
     }
 
     /**
@@ -92,9 +91,13 @@ abstract class AbstractEntityService extends AbstractResourceListener {
     /**
      * @param mixed $id
      *
-     * @return ApiProblem|BaseEntity
+     * @throws EntityNotFoundException
+     * @throws NonUniqueResultException
+     * @throws NoAccessException
+     *
+     * @return BaseEntity
      */
-    public function fetch($id) {
+    final public function fetch($id) {
         $q = $this->fetchQueryBuilder($id);
 
         return $this->getQuerySingleResult($q);
@@ -107,7 +110,7 @@ abstract class AbstractEntityService extends AbstractResourceListener {
      *
      * @return ApiProblem|Paginator
      */
-    public function fetchAll($params = []) {
+    final public function fetchAll($params = []) {
         $this->assertAllowed($this->entityClassname, __FUNCTION__);
         $q = $this->fetchAllQueryBuilder($params);
         $list = $this->getQueryResult($q);
@@ -128,30 +131,91 @@ abstract class AbstractEntityService extends AbstractResourceListener {
      *
      * @return BaseEntity
      */
-    public function create($data) {
-        $this->assertAllowed($this->entityClassname, __FUNCTION__);
-
+    final public function create($data) {
         $entity = $this->createEntity($data);
-
         $this->assertAllowed($entity, __FUNCTION__);
 
         $this->serviceUtils->emPersist($entity);
+        $this->serviceUtils->emFlush();
+
+        return $this->createEntityPost($entity, $data);
+    }
+
+    /**
+     * @param string $id
+     * @param mixed  $data
+     *
+     * @throws ORMException
+     * @throws OptimisticLockException
+     * @throws NoAccessException
+     * @throws EntityNotFoundException
+     *
+     * @return BaseEntity
+     */
+    final public function patch($id, $data) {
+        $entity = $this->fetch($id);
+        $this->assertAllowed($entity, __FUNCTION__);
+
+        $this->patchEntity($entity, $data);
         $this->serviceUtils->emFlush();
 
         return $entity;
     }
 
     /**
-     * Responsible for creation of entity + hydration of data. Should be overriden by subclass for specific
-     * additional business logic during create process.
+     * @param mixed $id
+     * @param mixed $data
      *
-     * ATTENTION: Does not check for proper permission and does not persist any data
+     * @throws ORMException
+     * @throws OptimisticLockException
+     * @throws EntityNotFoundException
+     * @throws NoAccessException
+     *
+     * @return BaseEntity
+     */
+    final public function update($id, $data) {
+        $entity = $this->fetch($id);
+        $this->assertAllowed($entity, __FUNCTION__);
+
+        $this->updateEntity($entity, $data);
+        $this->serviceUtils->emFlush();
+
+        return $entity;
+    }
+
+    /**
+     * @param mixed $id
+     *
+     * @throws ORMException
+     * @throws NoAccessException
+     *
+     * @return null|ApiProblem|bool
+     */
+    final public function delete($id) {
+        try {
+            $entity = $this->fetch($id);
+            $this->assertAllowed($entity, __FUNCTION__);
+
+            $this->deleteEntity($entity);
+            $this->serviceUtils->emRemove($entity);
+            $this->serviceUtils->emFlush();
+
+            return true;
+        } catch (EntityNotFoundException $ex) {
+            // Entity not in Database.
+            return true;
+        }
+    }
+
+    /**
+     * Responsible for creation of entity + hydration of data.
+     * Should be overriden by subclass for specific additional business logic during create process.
      *
      * @param mixed $data
      *
      * @return BaseEntity Instantiated but non-persisted entity
      */
-    public function createEntity($data) {
+    protected function createEntity($data) {
         $entity = new $this->entityClassname();
         $this->getHydrator()->hydrate((array) $data, $entity);
 
@@ -159,103 +223,47 @@ abstract class AbstractEntityService extends AbstractResourceListener {
     }
 
     /**
-     * @param mixed $id
      * @param mixed $data
      *
-     * @throws NoAccessException
-     *
-     * @return ApiProblem|BaseEntity
+     * @return BaseEntity
      */
-    public function patch($id, $data) {
-        $q = $this->fetchQueryBuilder($id);
-        $entity = $this->getQuerySingleResult($q);
-        $this->assertAllowed($entity, __FUNCTION__);
+    protected function createEntityPost(BaseEntity $entity, $data) {
+        return $entity;
+    }
+
+    /**
+     * @param $entity
+     * @param $data
+     *
+     * @return BaseEntity
+     */
+    protected function patchEntity(BaseEntity $entity, $data) {
         $allData = $this->getHydrator()->extract($entity);
         $data = array_merge($allData, (array) $data);
         $this->getHydrator()->hydrate($data, $entity);
 
-        $this->serviceUtils->emFlush();
-
         return $entity;
     }
 
     /**
-     * @param mixed $data
+     * @param $entity
+     * @param $data
      *
-     * @throws NoAccessException
-     *
-     * @return ApiProblem|mixed
+     * @return BaseEntity
      */
-    public function patchList($data) {
-        $this->assertAllowed($this->entityClassname, __FUNCTION__);
-
-        return parent::patchList($data);
-    }
-
-    /**
-     * @param mixed $id
-     * @param mixed $data
-     *
-     * @throws NoAccessException
-     *
-     * @return ApiProblem|BaseEntity
-     */
-    public function update($id, $data) {
-        $q = $this->fetchQueryBuilder($id);
-        $entity = $this->getQuerySingleResult($q);
-        $this->assertAllowed($entity, __FUNCTION__);
+    protected function updateEntity(BaseEntity $entity, $data) {
         $this->getHydrator()->hydrate((array) $data, $entity);
-        $this->serviceUtils->emFlush();
 
         return $entity;
     }
 
     /**
-     * @param mixed $data
+     * @param $entity
      *
-     * @throws NoAccessException
-     *
-     * @return ApiProblem|mixed
+     * @return BaseEntity
      */
-    public function replaceList($data) {
-        $this->assertAllowed($this->entityClassname, __FUNCTION__);
-
-        return parent::replaceList($data);
-    }
-
-    /**
-     * @param mixed $id
-     *
-     * @throws NoAccessException
-     * @throws ORMException
-     *
-     * @return null|ApiProblem|bool
-     */
-    public function delete($id) {
-        $q = $this->fetchQueryBuilder($id);
-        $entity = $this->getQuerySingleResult($q);
-        $this->assertAllowed($entity, __FUNCTION__);
-        if (null !== $entity) {
-            $this->serviceUtils->emRemove($entity);
-            $this->serviceUtils->emFlush();
-
-            return true;
-        }
-
-        return null;
-    }
-
-    /**
-     * @param mixed $data
-     *
-     * @throws NoAccessException
-     *
-     * @return ApiProblem|mixed
-     */
-    public function deleteList($data) {
-        $this->assertAllowed($this->entityClassname, __FUNCTION__);
-
-        return parent::deleteList($data);
+    protected function deleteEntity(BaseEntity $entity) {
+        return $entity;
     }
 
     /**
@@ -265,21 +273,17 @@ abstract class AbstractEntityService extends AbstractResourceListener {
         return $this->serviceUtils;
     }
 
-    /** @return EntityRepository */
+    /**
+     * @return EntityRepository
+     */
     protected function getRepository() {
-        if (null == $this->repository) {
-            $this->repository = $this->serviceUtils->emGetRepository($this->entityClassname);
-        }
-
         return $this->repository;
     }
 
-    /** @return HydratorInterface */
+    /**
+     * @return HydratorInterface
+     */
     protected function getHydrator() {
-        if (null == $this->hydrator) {
-            $this->hydrator = $this->serviceUtils->getHydrator($this->hydratorClassname);
-        }
-
         return $this->hydrator;
     }
 
@@ -364,6 +368,13 @@ abstract class AbstractEntityService extends AbstractResourceListener {
         return $this->createQueryBuilder($className, $alias);
     }
 
+    /**
+     * @throws EntityNotFoundException
+     * @throws NoAccessException
+     * @throws NonUniqueResultException
+     *
+     * @return mixed
+     */
     protected function getQuerySingleResult(QueryBuilder $q) {
         try {
             $row = $q->getQuery()->getSingleResult();
@@ -406,6 +417,16 @@ abstract class AbstractEntityService extends AbstractResourceListener {
         return $q;
     }
 
+    /**
+     * @param $className
+     * @param $id
+     *
+     * @throws EntityNotFoundException
+     * @throws NoAccessException
+     * @throws NonUniqueResultException
+     *
+     * @return mixed
+     */
     protected function findEntity($className, $id) {
         $q = $this->findEntityQueryBuilder($className, 'row', $id);
 

@@ -8,6 +8,7 @@ use eCamp\Core\Entity\GroupMembership;
 use eCamp\Core\Entity\User;
 use eCamp\Core\Hydrator\GroupMembershipHydrator;
 use eCamp\Lib\Acl\Acl;
+use eCamp\Lib\Entity\BaseEntity;
 use eCamp\Lib\Service\ServiceUtils;
 use Laminas\ApiTools\ApiProblem\ApiProblem;
 use Laminas\Authentication\AuthenticationService;
@@ -45,7 +46,7 @@ class GroupMembershipService extends AbstractEntityService {
      *
      * @return ApiProblem|GroupMembership
      */
-    public function create($data) {
+    protected function createEntity($data) {
         $authUser = $this->getAuthUser();
         if (!isset($data->userId)) {
             $data->userId = $authUser->getId();
@@ -66,8 +67,6 @@ class GroupMembershipService extends AbstractEntityService {
         $groupMembership->setUser($user);
         $groupMembership->setRole($data->role);
 
-        $this->assertAllowed($groupMembership, Acl::REST_PRIVILEGE_CREATE);
-
         if ($data->userId === $authUser->getId()) {
             // Create GroupMembership for AuthUser
             $groupMembership->setStatus(GroupMembership::STATUS_REQUESTED);
@@ -83,7 +82,6 @@ class GroupMembershipService extends AbstractEntityService {
     }
 
     /**
-     * @param mixed $id
      * @param mixed $data
      *
      * @throws ORMException
@@ -91,9 +89,9 @@ class GroupMembershipService extends AbstractEntityService {
      *
      * @return ApiProblem|GroupMembership
      */
-    public function update($id, $data) {
+    protected function uupdateEntity(BaseEntity $entity, $data) {
         /** @var GroupMembership $groupMembership */
-        $groupMembership = parent::update($id, $data);
+        $groupMembership = parent::updateEntity($entity, $data);
 
         if ($groupMembership->isEstablished()) {
             $this->updateMembership($groupMembership, $data);
