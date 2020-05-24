@@ -4,7 +4,7 @@
       <template v-slot:title>
         <v-card-title>
           <button-back />
-          {{ 'Profil: ' + profile.username }}
+          {{ $t('profile') + ': ' + profile.displayName }}
         </v-card-title>
       </template>
       <v-col>
@@ -12,9 +12,27 @@
           label="Email"
           :uri="profile._meta.self"
           fieldname="mail"
-          :value="profile.mail"
           :editing="false"
           required />
+      </v-col>
+      <v-col>
+        <api-text-field
+          :label="$t('user.firstname')"
+          :uri="profile._meta.self"
+          fieldname="firstname" />
+        <api-text-field
+          :label="$t('user.surname')"
+          :uri="profile._meta.self"
+          fieldname="surname" />
+        <api-text-field
+          :label="$t('user.scoutname')"
+          :uri="profile._meta.self"
+          fieldname="scoutname" />
+        <api-select
+          :label="$t('user.language')"
+          :uri="profile._meta.self"
+          fieldname="language"
+          :items="availableLocales" />
       </v-col>
     </content-card>
   </v-container>
@@ -24,10 +42,13 @@
 import ApiTextField from '@/components/form/api/ApiTextField'
 import ContentCard from '@/components/layout/ContentCard'
 import ButtonBack from '@/components/buttons/ButtonBack'
+import ApiSelect from '@/components/form/api/ApiSelect'
+import VueI18n from '@/plugins/i18n'
 
 export default {
   name: 'Home',
   components: {
+    ApiSelect,
     ApiTextField,
     ContentCard,
     ButtonBack
@@ -35,6 +56,21 @@ export default {
   computed: {
     profile () {
       return this.api.get().profile()
+    },
+    availableLocales () {
+      return VueI18n.availableLocales.map(function (l) {
+        return {
+          value: l,
+          text: this.$i18n.t('language', l)
+        }
+      }.bind(this))
+    }
+  },
+  watch: {
+    profile () {
+      if (VueI18n.availableLocales.includes(this.profile.language)) {
+        VueI18n.locale = this.profile.language
+      }
     }
   }
 }
