@@ -87,10 +87,7 @@ class IndexController extends AbstractActionController {
 
             $data['profile'] = Link::factory([
                 'rel' => 'profile',
-                'route' => [
-                    'name' => 'e-camp-api.rest.doctrine.user',
-                    'params' => ['userId' => $userId],
-                ],
+                'route' => 'e-camp-api.rpc.profile',
             ]);
         } else {
             $data['user'] = 'guest';
