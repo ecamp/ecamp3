@@ -50,6 +50,30 @@ class User extends AbstractCampOwner implements RoleInterface {
     private $username;
 
     /**
+     * Users firstname.
+     *
+     * @var string
+     * @ORM\Column(type="string", length=32, nullable=true)
+     */
+    private $firstname;
+
+    /**
+     * Users surname.
+     *
+     * @var string
+     * @ORM\Column(type="string", length=32, nullable=true)
+     */
+    private $surname;
+
+    /**
+     * Users scoutname.
+     *
+     * @var string
+     * @ORM\Column(type="string", length=32, nullable=true)
+     */
+    private $scoutname;
+
+    /**
      * @var MailAddress
      * @ORM\OneToOne(targetEntity="MailAddress", cascade={"all"}, orphanRemoval=true)
      * @ORM\JoinColumn
@@ -113,10 +137,45 @@ class User extends AbstractCampOwner implements RoleInterface {
         $this->username = $username;
     }
 
+    public function getFirstname(): ?string {
+        return $this->firstname;
+    }
+
+    public function setFirstname(?string $firstname) {
+        $this->firstname = $firstname;
+    }
+
+    public function getSurname(): ?string {
+        return $this->surname;
+    }
+
+    public function setSurname(?string $surname) {
+        $this->surname = $surname;
+    }
+
+    public function getScoutname(): ?string {
+        return $this->scoutname;
+    }
+
+    public function setScoutname(?string $scoutname) {
+        $this->scoutname = $scoutname;
+    }
+
     /**
      * @return string
      */
     public function getDisplayName() {
+        if (!empty($this->scoutname)) {
+            return $this->scoutname;
+        }
+        if (!empty($this->firstname)) {
+            if (!empty($this->surname)) {
+                return $this->firstname.' '.$this->surname;
+            }
+
+            return $this->firstname;
+        }
+
         return $this->username;
     }
 
