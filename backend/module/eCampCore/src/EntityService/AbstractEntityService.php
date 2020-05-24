@@ -288,7 +288,7 @@ abstract class AbstractEntityService extends AbstractResourceListener {
     }
 
     /**
-     * @return null|User
+     * @return Guest|User
      */
     protected function getAuthUser() {
         /** @var User $user */
