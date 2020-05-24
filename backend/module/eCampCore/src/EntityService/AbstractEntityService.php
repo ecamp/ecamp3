@@ -34,7 +34,7 @@ abstract class AbstractEntityService extends AbstractResourceListener {
 
     private AuthenticationService $authenticationService;
 
-    private ?EntityRepository $repository = null;
+    private EntityRepository $repository;
 
     private HydratorInterface $hydrator;
 
