@@ -97,6 +97,17 @@ class AclFactory implements FactoryInterface {
         );
 
         $acl->allow(User::ROLE_USER, [User::class], [ACL::REST_PRIVILEGE_FETCH_ALL, ACL::REST_PRIVILEGE_FETCH]);
+        $acl->allow(
+            User::ROLE_USER,
+            User::class,
+            [
+                Acl::REST_PRIVILEGE_PATCH,
+                Acl::REST_PRIVILEGE_UPDATE,
+                Acl::REST_PRIVILEGE_DELETE,
+            ],
+            new UserIsAuthenticatedUser()
+        );
+
         $acl->allow(User::ROLE_USER, [Camp::class], [ACL::REST_PRIVILEGE_CREATE, ACL::REST_PRIVILEGE_FETCH_ALL]);
         $acl->allow(
             User::ROLE_USER,
