@@ -3,14 +3,21 @@
 namespace eCamp\Core\Acl;
 
 use eCamp\Core\Entity\User;
-use Laminas\Authentication\AuthenticationService;
+use Laminas\Authentication\AuthenticationServiceInterface;
 use Laminas\Permissions\Acl\Acl;
 use Laminas\Permissions\Acl\Assertion\AssertionInterface;
 use Laminas\Permissions\Acl\Resource\ResourceInterface;
 use Laminas\Permissions\Acl\Role\RoleInterface;
 
 class UserIsAuthenticatedUser implements AssertionInterface {
-    private $authUserId;
+    /**
+     * @var AuthenticationServiceInterface
+     */
+    private $authenticationService;
+
+    public function __construct(AuthenticationServiceInterface $authenticationService) {
+        $this->authenticationService = $authenticationService;
+    }
 
     public function assert(
         Acl $acl,
@@ -19,12 +26,9 @@ class UserIsAuthenticatedUser implements AssertionInterface {
         $privilege = null
     ) {
         if ($resource instanceof User) {
-            if (null == $this->authUserId) {
-                $authService = new AuthenticationService();
-                $this->authUserId = $authService->getIdentity();
-            }
+            $authUserId = $this->authenticationService->getIdentity();
 
-            return $resource->getId() == $this->authUserId;
+            return $resource->getId() == $authUserId;
         }
 
         return false;

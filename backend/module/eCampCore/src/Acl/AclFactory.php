@@ -24,10 +24,13 @@ use eCamp\Lib\Acl\Acl;
 use eCamp\Lib\Acl\Guest;
 use eCamp\Lib\Entity\BaseEntity;
 use Interop\Container\ContainerInterface;
+use Laminas\Authentication\AuthenticationService;
 use Laminas\ServiceManager\Factory\FactoryInterface;
 
 class AclFactory implements FactoryInterface {
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null) {
+        $authenticationService = $container->get(AuthenticationService::class);
+
         $acl = new Acl();
 
         //  Roles:
@@ -105,7 +108,7 @@ class AclFactory implements FactoryInterface {
                 Acl::REST_PRIVILEGE_UPDATE,
                 Acl::REST_PRIVILEGE_DELETE,
             ],
-            new UserIsAuthenticatedUser()
+            new UserIsAuthenticatedUser($authenticationService)
         );
 
         $acl->allow(User::ROLE_USER, [Camp::class], [ACL::REST_PRIVILEGE_CREATE, ACL::REST_PRIVILEGE_FETCH_ALL]);
