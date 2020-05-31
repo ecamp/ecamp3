@@ -24,7 +24,20 @@
           <e-select
             v-model="camp.campTypeId"
             :label="$t('camp.campType')"
-            :items="campTypes" />
+            :items="campTypes">
+            <template v-slot:item="data">
+              <v-list-item v-bind="data.attrs" v-on="data.on">
+                <v-list-item-content>
+                  {{ data.item.text }}
+                </v-list-item-content>
+                <v-list-item-action-text>
+                  <v-icon v-if="data.item.object.isCourse" left>
+                    mdi-school
+                  </v-icon>
+                </v-list-item-action-text>
+              </v-list-item>
+            </template>
+          </e-select>
           <v-list>
             <v-list-item>
               <v-list-item-title>
@@ -119,7 +132,8 @@ export default {
       return this.api.get().campTypes().items.map(function (ct) {
         return {
           value: ct.id,
-          text: this.$i18n.t(ct.name)
+          text: this.$i18n.t(ct.name),
+          object: ct
         }
       }.bind(this))
     },
