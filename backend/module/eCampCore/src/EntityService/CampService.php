@@ -104,8 +104,9 @@ class CampService extends AbstractEntityService {
         // Create Periods:
         if (isset($data->periods)) {
             foreach ($data->periods as $period) {
+                $period = (object) $period;
                 $period->campId = $camp->getId();
-                $this->getPeriodService()->create($period);
+                $this->periodService->create($period);
             }
         } elseif (isset($data->start, $data->end)) {
             $this->getPeriodService()->create((object) [

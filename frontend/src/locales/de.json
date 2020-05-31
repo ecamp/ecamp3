@@ -15,6 +15,13 @@
     "name": "Name",
     "title": "Titel",
     "motto": "Motto",
-    "campType": "Lager-Typ"
+    "campType": "Lager-Typ",
+    "periods": "Lagerabschnitte"
+  },
+  "period": {
+    "start": "Von",
+    "end": "Bis",
+    "description": "Beschreibung",
+    "defaultDescription": "Hauptlager"
   }
 }

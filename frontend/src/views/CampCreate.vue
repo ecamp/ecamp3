@@ -25,6 +25,45 @@
             v-model="camp.campTypeId"
             :label="$t('camp.campType')"
             :items="campTypes" />
+          <v-list>
+            <v-list-item>
+              <v-list-item-title>
+                {{ $t('camp.periods') }}
+              </v-list-item-title>
+              <v-list-item-action>
+                <v-btn @click="addPeriod">
+                  <v-icon>mdi-plus</v-icon>
+                </v-btn>
+              </v-list-item-action>
+            </v-list-item>
+            <div v-for="(period, i) in camp.periods" :key="period">
+              <v-list-item>
+                <v-list-item-content>
+                  <e-text-field
+                    v-model="period.description"
+                    :label="$t('period.description')"
+                    required />
+                </v-list-item-content>
+                <v-list-item-action>
+                  <v-btn :disabled="!periodDeletable" @click="deletePeriod(i)">
+                    <v-icon>mdi-delete</v-icon>
+                  </v-btn>
+                </v-list-item-action>
+              </v-list-item>
+              <v-list-item>
+                <v-list-item-content>
+                  <e-date-picker
+                    v-model="period.start"
+                    :label="$t('period.start')"
+                    required />
+                  <e-date-picker
+                    v-model="period.end"
+                    :label="$t('period.end')"
+                    required />
+                </v-list-item-content>
+              </v-list-item>
+            </div>
+          </v-list>
           <div class="text-right">
             <ButtonAdd type="submit">
               {{ $t('camp.create') }}
@@ -40,6 +79,7 @@
 import ButtonAdd from '@/components/buttons/ButtonAdd'
 import ButtonBack from '@/components/buttons/ButtonBack'
 import ContentCard from '@/components/layout/ContentCard'
+import EDatePicker from '@/components/form/base/EDatePicker'
 import ETextField from '@/components/form/base/ETextField'
 import ESelect from '@/components/form/base/ESelect'
 import { campRoute } from '@/router'
@@ -47,11 +87,12 @@ import { campRoute } from '@/router'
 export default {
   name: 'Camps',
   components: {
-    ESelect,
     ButtonBack,
     ButtonAdd,
     ContentCard,
-    ETextField
+    EDatePicker,
+    ETextField,
+    ESelect
   },
   data () {
     return {
@@ -59,7 +100,14 @@ export default {
         name: '',
         title: '',
         motto: '',
-        campTypeId: null
+        campTypeId: null,
+        periods: [
+          {
+            start: null,
+            end: null,
+            description: this.$i18n.t('period.defaultDescription')
+          }
+        ]
       }
     }
   },
@@ -71,6 +119,9 @@ export default {
           text: this.$i18n.t(ct.name)
         }
       }.bind(this))
+    },
+    periodDeletable () {
+      return this.camp.periods.length > 1
     }
   },
   created () {
@@ -81,6 +132,16 @@ export default {
         this.$router.push(campRoute(c, 'admin'))
         this.api.get('/camps', true)
       }.bind(this))
+    },
+    addPeriod: function () {
+      this.camp.periods.push({
+        start: null,
+        end: null,
+        description: ''
+      })
+    },
+    deletePeriod: function (idx) {
+      this.camp.periods.splice(idx, 1)
     }
   }
 }

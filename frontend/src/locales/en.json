@@ -15,6 +15,13 @@
     "name": "Name",
     "title": "Title",
     "motto": "Motto",
-    "campType": "Camp-Type"
+    "campType": "Camp-Type",
+    "periods": "Periods"
+  },
+  "period": {
+    "start": "Start",
+    "end": "End",
+    "description": "Description",
+    "defaultDescription": "Main"
   }
 }
