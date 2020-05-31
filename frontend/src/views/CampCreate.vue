@@ -36,7 +36,7 @@
                 </v-btn>
               </v-list-item-action>
             </v-list-item>
-            <div v-for="(period, i) in camp.periods" :key="period">
+            <div v-for="(period, i) in camp.periods" :key="period.key">
               <v-list-item>
                 <v-list-item-content>
                   <e-text-field
@@ -103,17 +103,19 @@ export default {
         campTypeId: null,
         periods: [
           {
-            start: null,
-            end: null,
+            key: 0,
+            start: '',
+            end: '',
             description: this.$i18n.t('period.defaultDescription')
           }
         ]
-      }
+      },
+      periodKey: 0
     }
   },
   computed: {
     campTypes () {
-      return this.api.get('/camp-types').items.map(function (ct) {
+      return this.api.get().campTypes().items.map(function (ct) {
         return {
           value: ct.id,
           text: this.$i18n.t(ct.name)
@@ -122,21 +124,25 @@ export default {
     },
     periodDeletable () {
       return this.camp.periods.length > 1
+    },
+    campsUrl () {
+      return this.api.get().camps()._meta.self
     }
   },
   created () {
   },
   methods: {
     createCamp: function () {
-      this.api.post('/camps', this.camp).then(function (c) {
+      this.api.post(this.campsUrl, this.camp).then(function (c) {
         this.$router.push(campRoute(c, 'admin'))
-        this.api.get('/camps', true)
+        this.api.get(this.campsUrl, true)
       }.bind(this))
     },
     addPeriod: function () {
       this.camp.periods.push({
-        start: null,
-        end: null,
+        key: ++this.periodKey,
+        start: '',
+        end: '',
         description: ''
       })
     },
