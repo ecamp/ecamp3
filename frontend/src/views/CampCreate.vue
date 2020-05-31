@@ -12,7 +12,8 @@
           <e-text-field
             v-model="camp.name"
             :label="$t('camp.name')"
-            required />
+            required
+            autofocus />
           <e-text-field
             v-model="camp.title"
             :label="$t('camp.title')"
