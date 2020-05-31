@@ -64,13 +64,17 @@ class CampService extends AbstractEntityService {
         $campType = $this->findEntity(CampType::class, $data->campTypeId);
 
         /** @var AbstractCampOwner $owner */
-        $owner = $this->findEntity(AbstractCampOwner::class, $data->ownerId);
+        $owner = $this->getAuthUser();
+        if (isset($data->ownerId)) {
+            $owner = $this->findEntity(AbstractCampOwner::class, $data->ownerId);
+        }
 
         /** @var User $creator */
         $creator = $this->getAuthUser();
 
         /** @var Camp $camp */
-        $camp = parent::create($data);
+        $camp = parent::createEntity($data);
+        $camp->setName($data->name);
         $camp->setCampType($campType);
         $camp->setCreator($creator);
         $owner->addOwnedCamp($camp);
