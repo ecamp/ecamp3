@@ -62,6 +62,7 @@
                     required />
                 </v-list-item-content>
               </v-list-item>
+              <v-divider />
             </div>
           </v-list>
           <div class="text-right">
