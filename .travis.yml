@@ -19,7 +19,6 @@ jobs:
       before_script:
           - cd backend
           - composer install --no-interaction
-          - composer di-generate-aot
           - cd ..
       script:
           - cd backend

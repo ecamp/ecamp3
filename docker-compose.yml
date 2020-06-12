@@ -21,17 +21,17 @@ services:
     links:
       - db
     volumes:
-      - ./backend:/var/www/ecamp3:delegated
-      - data:/var/www/ecamp3/data
-      - ./backend/data/mail:/var/www/ecamp3/data/mail:delegated
-      - temp:/var/www/ecamp3/temp
-      - vendor:/var/www/ecamp3/vendor
+      - ./backend:/app:delegated
+      - data:/app/data
+      - ./backend/data/mail:/app/data/mail:delegated
+      - temp:/app/temp
+      - vendor:/app/vendor
 
   composer:
     image: composer:1.8
     container_name: 'ecamp3-composer'
     restart: 'no'
-    entrypoint: bash -c "composer install --no-interaction --no-plugins --no-scripts --prefer-dist --no-suggest && cp -r vendor/* /vendor-copy-to-host && composer di-generate-aot"
+    entrypoint: bash -c "composer install --no-interaction --no-plugins --no-scripts --prefer-dist --no-suggest && cp -r vendor/* /vendor-copy-to-host"
     volumes:
       - ./backend:/app:delegated
       - vendor:/app/vendor:delegated
