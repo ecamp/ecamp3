@@ -29,7 +29,6 @@
         "doctrine/migrations": "^2.2",
         "hybridauth/hybridauth": "^3.0-dev",
         "ocramius/proxy-manager": "^2.2",
-        "oxcom/zend-twig": "^0.1",
         "ext-json": "*",
         "zfr/zfr-cors": "^1.5",
         "laminas-api-tools/api-tools": "^1.4",

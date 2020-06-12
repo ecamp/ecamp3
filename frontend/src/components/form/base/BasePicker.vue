@@ -15,7 +15,7 @@ Displays a field as a date picker (can be used with v-model)
     max-width="290px">
     <template v-slot:activator="{on}">
       <e-text-field
-        v-model="localValue"
+        v-model="localValueFormatted"
         v-bind="$attrs"
         readonly
         :disabled="disabled"
@@ -48,7 +48,9 @@ export default {
     icon: { type: String, required: false, default: null },
     iconColor: { type: String, required: false, default: null },
     readonly: { type: Boolean, required: false, default: false },
-    disabled: { type: Boolean, required: false, default: false }
+    disabled: { type: Boolean, required: false, default: false },
+    format: { type: Function, required: false, default: null },
+    parse: { type: Function, required: false, default: null }
   },
   data () {
     return {
@@ -61,8 +63,25 @@ export default {
       }
     }
   },
-  watch:
-  {
+  computed: {
+    localValueFormatted: {
+      get () {
+        if (this.format != null) {
+          return this.format(this.localValue)
+        } else {
+          return this.localValue
+        }
+      },
+      set (val) {
+        if (this.parse != null) {
+          this.localValue = this.parse(val)
+        } else {
+          this.localValue = val
+        }
+      }
+    }
+  },
+  watch: {
     value () {
       this.localValue = this.value
     },

@@ -2,10 +2,13 @@
 
 namespace eCamp\Core\EntityService;
 
+use Doctrine\ORM\ORMException;
 use eCamp\Core\Entity\User;
 use eCamp\Core\Entity\UserIdentity;
 use eCamp\Core\Hydrator\UserIdentityHydrator;
+use eCamp\Lib\Acl\NoAccessException;
 use eCamp\Lib\Service\ServiceUtils;
+use Hybridauth\User\Profile;
 use Laminas\Authentication\AuthenticationService;
 
 class UserIdentityService extends AbstractEntityService {
@@ -28,28 +31,14 @@ class UserIdentityService extends AbstractEntityService {
     }
 
     /**
-     * @param $provider
-     * @param $identifier
+     * @param string $provider
      *
-     * @return null|object|UserIdentity
-     */
-    public function find($provider, $identifier) {
-        return $this->getRepository()->findOneBy([
-            'provider' => $provider,
-            'providerId' => $identifier,
-        ]);
-    }
-
-    /**
-     * @param $provider
-     * @param $profile
-     *
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \eCamp\Lib\Acl\NoAccessException
+     * @throws NoAccessException
+     * @throws ORMException
      *
      * @return User
      */
-    public function findOrCreateUser($provider, $profile) {
+    public function findOrCreateUser($provider, Profile $profile) {
         $identifier = $profile->identifier;
         // Look for existing identity in database
         $existingIdentity = $this->find($provider, $identifier);
@@ -60,28 +49,46 @@ class UserIdentityService extends AbstractEntityService {
         if ($existingIdentity) {
             $user = $existingIdentity->getUser();
         } else {
-            $user = $this->userService->findByMail($profile->email);
+            $user = $this->userService->findByMail($profile->emailVerified);
         }
 
-        // Create user if he doesn't exist yet
         if (null === $user) {
+            // Create user if he doesn't exist yet
             $user = $this->userService->create($profile);
         } else {
+            // Update user
+            // Is this necessary?
             $userHydrator = $this->userService->getHydrator();
-            $user = $userHydrator->hydrate(['username' => $profile->displayName], $user);
+            $user = $userHydrator->hydrate([
+                'firstname' => $profile->firstName,
+                'surname' => $profile->lastName,
+                'username' => $profile->displayName,
+            ], $user);
         }
 
         // Create identity if it doesn't exist yet
         if (null === $existingIdentity) {
-            /** @var UserIdentity $identity */
-            $identity = $this->create([
+            $this->create([
                 'provider' => $provider,
                 'providerId' => $profile->identifier,
-                'userId' => $user->getId(),
+                'user' => $user,
             ]);
         }
 
         return $user;
+    }
+
+    /**
+     * @param $provider
+     * @param $identifier
+     *
+     * @return null|object|UserIdentity
+     */
+    protected function find($provider, $identifier) {
+        return $this->getRepository()->findOneBy([
+            'provider' => $provider,
+            'providerId' => $identifier,
+        ]);
     }
 
     /**
@@ -90,18 +97,13 @@ class UserIdentityService extends AbstractEntityService {
      *
      * @return UserIdentity
      */
-    public function createEntity($data, ?User $user = null) {
+    protected function createEntity($data) {
         /** @var UserIdentity $identity */
         $identity = parent::createEntity($data);
 
-        if (is_null($user) && isset($data['userId'])) {
-            /** @var User $user */
-            $user = $this->getServiceUtils()->emGetRepository(User::class)->find($data['userId']); // reading directly from Repo --> bypassing ACL here
-        }
-
-        if (!is_null($user)) {
-            $user->addUserIdentity($identity);
-        }
+        /** @var User $user */
+        $user = $data['user'];
+        $user->addUserIdentity($identity);
 
         return $identity;
     }

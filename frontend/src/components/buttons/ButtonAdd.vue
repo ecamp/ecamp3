@@ -3,6 +3,7 @@
     class="px-3 px-sm-4"
     min-width="0"
     color="success"
+    v-bind="$attrs"
     v-on="$listeners">
     <v-icon :left="$vuetify.breakpoint.smAndUp" size="150%">{{ icon }}</v-icon>
     <span class="d-none d-sm-block">

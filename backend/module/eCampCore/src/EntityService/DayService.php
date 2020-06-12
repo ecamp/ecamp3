@@ -7,10 +7,10 @@ use eCamp\Core\Entity\Camp;
 use eCamp\Core\Entity\Day;
 use eCamp\Core\Entity\Period;
 use eCamp\Core\Hydrator\DayHydrator;
-use eCamp\Lib\Acl\Acl;
 use eCamp\Lib\Acl\NoAccessException;
+use eCamp\Lib\Entity\BaseEntity;
+use eCamp\Lib\Service\EntityNotFoundException;
 use eCamp\Lib\Service\ServiceUtils;
-use Laminas\ApiTools\ApiProblem\ApiProblem;
 use Laminas\Authentication\AuthenticationService;
 
 class DayService extends AbstractEntityService {
@@ -26,39 +26,32 @@ class DayService extends AbstractEntityService {
     /**
      * @param mixed $data
      *
-     * @throws ORMException
      * @throws NoAccessException
+     * @throws EntityNotFoundException
+     * @throws ORMException
      *
-     * @return ApiProblem|Day
+     * @return Day
      */
-    public function create($data) {
+    protected function createEntity($data) {
         /** @var Period $period */
         $period = $this->findEntity(Period::class, $data->periodId);
 
         /** @var Day $day */
-        $day = parent::create($data);
+        $day = parent::createEntity($data);
         $period->addDay($day);
-
-        $this->assertAllowed($day, Acl::REST_PRIVILEGE_CREATE);
 
         return $day;
     }
 
     /**
-     * @param mixed $id
-     *
-     * @throws NoAccessException
-     * @throws ORMException
-     *
-     * @return null|ApiProblem|bool
+     * @return Day
      */
-    public function delete($id) {
+    protected function deleteEntity(BaseEntity $entity) {
         /** @var Day $day */
-        $day = $this->fetch($id);
-        $period = $day->getPeriod();
-        $period->removeDay($day);
+        $day = parent::deleteEntity($entity);
+        $day->getPeriod()->removeDay($day);
 
-        return parent::delete($id);
+        return $day;
     }
 
     protected function fetchAllQueryBuilder($params = []) {

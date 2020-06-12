@@ -33,6 +33,16 @@ return [
                     ],
                 ],
             ],
+            'e-camp-api.rpc.profile' => [
+                'type' => 'Segment',
+                'options' => [
+                    'route' => '/api/profile',
+                    'defaults' => [
+                        'controller' => 'eCampApi\\V1\\Rpc\\Profile\\ProfileController',
+                        'action' => 'index',
+                    ],
+                ],
+            ],
             'e-camp-api.rest.doctrine.camp-type' => [
                 'type' => 'Segment',
                 'options' => [
@@ -166,6 +176,7 @@ return [
             'eCampApi\\V1\\Rpc\\Auth\\AuthController' => \Laminas\Di\Container\ServiceManager\AutowireFactory::class,
             'eCampApi\\V1\\Rpc\\Index\\IndexController' => \Laminas\Di\Container\ServiceManager\AutowireFactory::class,
             'eCampApi\\V1\\Rpc\\Register\\RegisterController' => \Laminas\Di\Container\ServiceManager\AutowireFactory::class,
+            'eCampApi\\V1\\Rpc\\Profile\\ProfileController' => \Laminas\Di\Container\ServiceManager\AutowireFactory::class,
         ],
     ],
     'api-tools-versioning' => [
@@ -545,6 +556,10 @@ return [
     ],
     'api-tools-content-negotiation' => [
         'controllers' => [
+            'eCampApi\\V1\\Rpc\\Index\\IndexController' => 'HalJson',
+            'eCampApi\\V1\\Rpc\\Auth\\AuthController' => 'HalJson',
+            'eCampApi\\V1\\Rpc\\Register\\RegisterController' => 'HalJson',
+            'eCampApi\\V1\\Rpc\\Profile\\ProfileController' => 'HalJson',
             'eCampApi\\V1\\Rest\\CampType\\Controller' => 'HalJson',
             'eCampApi\\V1\\Rest\\ActivityType\\Controller' => 'HalJson',
             'eCampApi\\V1\\Rest\\Organization\\Controller' => 'HalJson',
@@ -556,14 +571,31 @@ return [
             'eCampApi\\V1\\Rest\\ScheduleEntry\\Controller' => 'HalJson',
             'eCampApi\\V1\\Rest\\User\\Controller' => 'HalJson',
             'eCampApi\\V1\\Rest\\CampCollaboration\\Controller' => 'HalJson',
-            'eCampApi\\V1\\Rpc\\Index\\IndexController' => 'HalJson',
-            'eCampApi\\V1\\Rpc\\Auth\\AuthController' => 'HalJson',
-            'eCampApi\\V1\\Rpc\\Register\\RegisterController' => 'Json',
             'eCampApi\\V1\\Rest\\ActivityContent\\Controller' => 'HalJson',
             'eCampApi\\V1\\Rest\\ContentType\\Controller' => 'HalJson',
             'eCampApi\\V1\\Rest\\ActivityTypeContentType\\Controller' => 'HalJson',
         ],
         'accept_whitelist' => [
+            'eCampApi\\V1\\Rpc\\Index\\IndexController' => [
+                0 => 'application/vnd.e-camp-api.v1+json',
+                1 => 'application/json',
+                2 => 'application/*+json',
+            ],
+            'eCampApi\\V1\\Rpc\\Auth\\AuthController' => [
+                0 => 'application/vnd.e-camp-api.v1+json',
+                1 => 'application/json',
+                2 => 'application/*+json',
+            ],
+            'eCampApi\\V1\\Rpc\\Register\\RegisterController' => [
+                0 => 'application/vnd.e-camp-api.v1+json',
+                1 => 'application/json',
+                2 => 'application/*+json',
+            ],
+            'eCampApi\\V1\\Rpc\\Profile\\ProfileController' => [
+                0 => 'application/vnd.e-camp-api.v1+json',
+                1 => 'application/json',
+                2 => 'application/*+json',
+            ],
             'eCampApi\\V1\\Rest\\CampType\\Controller' => [
                 0 => 'application/vnd.e-camp-api.v1+json',
                 1 => 'application/hal+json',
@@ -618,21 +650,6 @@ return [
                 0 => 'application/vnd.e-camp-api.v1+json',
                 1 => 'application/hal+json',
                 2 => 'application/json',
-            ],
-            'eCampApi\\V1\\Rpc\\Index\\IndexController' => [
-                0 => 'application/vnd.e-camp-api.v1+json',
-                1 => 'application/json',
-                2 => 'application/*+json',
-            ],
-            'eCampApi\\V1\\Rpc\\Auth\\AuthController' => [
-                0 => 'application/vnd.e-camp-api.v1+json',
-                1 => 'application/json',
-                2 => 'application/*+json',
-            ],
-            'eCampApi\\V1\\Rpc\\Register\\RegisterController' => [
-                0 => 'application/vnd.e-camp-api.v1+json',
-                1 => 'application/json',
-                2 => 'application/*+json',
             ],
             'eCampApi\\V1\\Rest\\ActivityContent\\Controller' => [
                 0 => 'application/vnd.e-camp-api.v1+json',
@@ -651,6 +668,22 @@ return [
             ],
         ],
         'content_type_whitelist' => [
+            'eCampApi\\V1\\Rpc\\Index\\IndexController' => [
+                0 => 'application/vnd.e-camp-api.v1+json',
+                1 => 'application/json',
+            ],
+            'eCampApi\\V1\\Rpc\\Auth\\AuthController' => [
+                0 => 'application/vnd.e-camp-api.v1+json',
+                1 => 'application/json',
+            ],
+            'eCampApi\\V1\\Rpc\\Register\\RegisterController' => [
+                0 => 'application/vnd.e-camp-api.v1+json',
+                1 => 'application/json',
+            ],
+            'eCampApi\\V1\\Rpc\\Profile\\ProfileController' => [
+                0 => 'application/vnd.e-camp-api.v1+json',
+                1 => 'application/json',
+            ],
             'eCampApi\\V1\\Rest\\CampType\\Controller' => [
                 0 => 'application/vnd.e-camp-api.v1+json',
                 1 => 'application/json',
@@ -692,18 +725,6 @@ return [
                 1 => 'application/json',
             ],
             'eCampApi\\V1\\Rest\\CampCollaboration\\Controller' => [
-                0 => 'application/vnd.e-camp-api.v1+json',
-                1 => 'application/json',
-            ],
-            'eCampApi\\V1\\Rpc\\Index\\IndexController' => [
-                0 => 'application/vnd.e-camp-api.v1+json',
-                1 => 'application/json',
-            ],
-            'eCampApi\\V1\\Rpc\\Auth\\AuthController' => [
-                0 => 'application/vnd.e-camp-api.v1+json',
-                1 => 'application/json',
-            ],
-            'eCampApi\\V1\\Rpc\\Register\\RegisterController' => [
                 0 => 'application/vnd.e-camp-api.v1+json',
                 1 => 'application/json',
             ],
@@ -918,6 +939,9 @@ return [
         ],
     ],
     'api-tools-content-validation' => [
+        'eCampApi\\V1\\Rpc\\Auth\\AuthController' => [
+            'input_filter' => 'eCampApi\\V1\\Rpc\\Auth\\Validator',
+        ],
         'eCampApi\\V1\\Rest\\CampType\\Controller' => [
             'input_filter' => 'eCampApi\\V1\\Rest\\CampType\\Validator',
         ],
@@ -951,9 +975,6 @@ return [
         'eCampApi\\V1\\Rest\\CampCollaboration\\Controller' => [
             'input_filter' => 'eCampApi\\V1\\Rest\\CampCollaboration\\Validator',
         ],
-        'eCampApi\\V1\\Rpc\\Auth\\AuthController' => [
-            'input_filter' => 'eCampApi\\V1\\Rpc\\Auth\\Validator',
-        ],
         'eCampApi\\V1\\Rest\\ActivityContent\\Controller' => [
             'input_filter' => 'eCampApi\\V1\\Rest\\ActivityContent\\Validator',
         ],
@@ -965,6 +986,7 @@ return [
         ],
     ],
     'input_filter_specs' => [
+        'eCampApi\\V1\\Rpc\\Auth\\Validator' => [],
         'eCampApi\\V1\\Rest\\CampType\\Validator' => [
             0 => [
                 'name' => 'name',
@@ -1449,7 +1471,6 @@ return [
                 'validators' => [],
             ],
         ],
-        'eCampApi\\V1\\Rpc\\Auth\\Validator' => [],
         'eCampApi\\V1\\Rest\\ActivityContent\\Validator' => [
             0 => [
                 'name' => 'instanceName',
@@ -1578,6 +1599,14 @@ return [
                 0 => 'POST',
             ],
             'route_name' => 'e-camp-api.rpc.register',
+        ],
+        'eCampApi\\V1\\Rpc\\Profile\\ProfileController' => [
+            'service_name' => 'Profile',
+            'http_methods' => [
+                0 => 'GET',
+                1 => 'PATCH',
+            ],
+            'route_name' => 'e-camp-api.rpc.profile',
         ],
     ],
     'api-tools' => [

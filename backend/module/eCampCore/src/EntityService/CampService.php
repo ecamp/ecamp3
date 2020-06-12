@@ -8,8 +8,9 @@ use eCamp\Core\Entity\Camp;
 use eCamp\Core\Entity\CampType;
 use eCamp\Core\Entity\User;
 use eCamp\Core\Hydrator\CampHydrator;
-use eCamp\Lib\Acl\Acl;
 use eCamp\Lib\Acl\NoAccessException;
+use eCamp\Lib\Entity\BaseEntity;
+use eCamp\Lib\Service\EntityNotFoundException;
 use eCamp\Lib\Service\ServiceUtils;
 use Laminas\ApiTools\ApiProblem\ApiProblem;
 use Laminas\Authentication\AuthenticationService;
@@ -39,32 +40,52 @@ class CampService extends AbstractEntityService {
     }
 
     /**
+     * @return ApiProblem|array
+     */
+    public function fetchByOwner(AbstractCampOwner $owner) {
+        $q = parent::findCollectionQueryBuilder(Camp::class, 'row');
+        $q->where('row.owner = :owner');
+        $q->setParameter('owner', $owner);
+
+        return $this->getQueryResult($q);
+    }
+
+    /**
      * @param mixed $data
      *
-     * @throws ORMException
      * @throws NoAccessException
+     * @throws EntityNotFoundException
+     * @throws ORMException
      *
-     * @return ApiProblem|Camp
+     * @return Camp
      */
-    public function create($data) {
-        $this->assertAllowed(Camp::class, __FUNCTION__);
-
+    protected function createEntity($data) {
         /** @var CampType $campType */
         $campType = $this->findEntity(CampType::class, $data->campTypeId);
 
         /** @var AbstractCampOwner $owner */
-        $owner = $this->findEntity(AbstractCampOwner::class, $data->ownerId);
+        $owner = $this->getAuthUser();
+        if (isset($data->ownerId)) {
+            $owner = $this->findEntity(AbstractCampOwner::class, $data->ownerId);
+        }
 
         /** @var User $creator */
         $creator = $this->getAuthUser();
 
         /** @var Camp $camp */
-        $camp = parent::create($data);
+        $camp = parent::createEntity($data);
+        $camp->setName($data->name);
         $camp->setCampType($campType);
         $camp->setCreator($creator);
         $owner->addOwnedCamp($camp);
 
-        $this->assertAllowed($camp, Acl::REST_PRIVILEGE_CREATE);
+        return $camp;
+    }
+
+    protected function createEntityPost(BaseEntity $entity, $data) {
+        /** @var Camp $camp */
+        $camp = $entity;
+        $campType = $camp->getCampType();
 
         /** Create default Jobs */
         $jobConfigs = $campType->getConfig(CampType::CNF_JOBS) ?: [];
@@ -83,8 +104,9 @@ class CampService extends AbstractEntityService {
         // Create Periods:
         if (isset($data->periods)) {
             foreach ($data->periods as $period) {
+                $period = (object) $period;
                 $period->campId = $camp->getId();
-                $this->getPeriodService()->create($period);
+                $this->periodService->create($period);
             }
         } elseif (isset($data->start, $data->end)) {
             $this->getPeriodService()->create((object) [
@@ -96,17 +118,6 @@ class CampService extends AbstractEntityService {
         }
 
         return $camp;
-    }
-
-    /**
-     * @return ApiProblem|array
-     */
-    public function fetchByOwner(AbstractCampOwner $owner) {
-        $q = parent::findCollectionQueryBuilder(Camp::class, 'row');
-        $q->where('row.owner = :owner');
-        $q->setParameter('owner', $owner);
-
-        return $this->getQueryResult($q);
     }
 
     protected function fetchAllQueryBuilder($params = []) {

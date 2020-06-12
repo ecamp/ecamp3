@@ -36,23 +36,29 @@ class UserService extends AbstractEntityService {
         $this->sendmailService = $sendmailService;
     }
 
-    public function findCollectionQueryBuilder($className, $alias, $params) {
-        $q = parent::findCollectionQueryBuilder($className, $alias, $params);
-        if (isset($params['search'])) {
-            $expr = new Expr();
-            $q->andWhere($expr->orX(
-                $expr->like($expr->lower($alias.'.username'), ':search')
-            ));
-            $q->setParameter('search', '%'.strtolower($params['search']).'%');
+    /**
+     * @return null|User
+     */
+    public function findAuthenticatedUser() {
+        $user = $this->getAuthUser();
+        if ($user instanceof User) {
+            return $user;
         }
 
-        return $q;
+        return null;
     }
 
     public function findByMail($email) {
         /** @var UserRepository $repository */
         $repository = $this->getRepository();
         $repository->findByMail($email);
+    }
+
+    public function findByUsername($username) {
+        /** @var UserRepository $userRepository */
+        $userRepository = $this->getRepository();
+
+        return $userRepository->findByUsername($username);
     }
 
     /**
@@ -63,7 +69,7 @@ class UserService extends AbstractEntityService {
      *
      * @return User
      */
-    public function createEntity($data) {
+    protected function createEntity($data) {
         /** @var Profile $profile */
         $profile = $data;
 
@@ -104,10 +110,16 @@ class UserService extends AbstractEntityService {
         return $user;
     }
 
-    public function findByUsername($username) {
-        /** @var UserRepository $userRepository */
-        $userRepository = $this->getRepository();
+    protected function findCollectionQueryBuilder($className, $alias, $params) {
+        $q = parent::findCollectionQueryBuilder($className, $alias, $params);
+        if (isset($params['search'])) {
+            $expr = new Expr();
+            $q->andWhere($expr->orX(
+                $expr->like($expr->lower($alias.'.username'), ':search')
+            ));
+            $q->setParameter('search', '%'.strtolower($params['search']).'%');
+        }
 
-        return $userRepository->findByUsername($username);
+        return $q;
     }
 }

@@ -26,6 +26,7 @@ abstract class Hitobito extends OAuth2 {
         $userProfile->lastName = $data->get('last_name');
         $userProfile->displayName = $data->get('nickname');
         $userProfile->email = $data->get('email');
+        $userProfile->emailVerified = $data->get('email');
 
         return $userProfile;
     }

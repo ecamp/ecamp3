@@ -49,11 +49,7 @@ class AuthController extends AbstractActionController {
         $data = [];
 
         /** @var User $user */
-        $user = null;
-        $userId = $this->authenticationService->getIdentity();
-        if (null != $userId) {
-            $user = $this->userService->fetch($userId);
-        }
+        $user = $this->userService->findAuthenticatedUser();
         if (null != $user) {
             $data['user'] = $user->getDisplayName();
             $data['username'] = $user->getUsername();
@@ -111,7 +107,7 @@ class AuthController extends AbstractActionController {
             ],
         ]);
 
-        if (null != $userId) {
+        if (null != $user) {
             $data['logout'] = Link::factory([
                 'rel' => 'logout',
                 'route' => [
