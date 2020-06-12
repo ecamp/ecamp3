@@ -58,12 +58,10 @@ export default {
       return this.api.get().profile()
     },
     availableLocales () {
-      return VueI18n.availableLocales.map(function (l) {
-        return {
-          value: l,
-          text: this.$i18n.t('language', l)
-        }
-      }.bind(this))
+      return VueI18n.availableLocales.map(l => ({
+        value: l,
+        text: this.$i18n.t('language', l)
+      }))
     }
   },
   watch: {

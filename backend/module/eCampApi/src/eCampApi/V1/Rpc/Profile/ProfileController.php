@@ -14,6 +14,11 @@ use Laminas\Http\Request;
 use Laminas\Json\Json;
 use Laminas\Mvc\Controller\AbstractActionController;
 
+/**
+ * ProfileController
+ * API Profile-Endpoint.
+ * Detial-Information about authenticated User.
+ */
 class ProfileController extends AbstractActionController {
     /** @var AuthenticationService */
     private $authenticationService;
