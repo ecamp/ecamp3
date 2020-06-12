@@ -130,13 +130,11 @@ export default {
   },
   computed: {
     campTypes () {
-      return this.api.get().campTypes().items.map(function (ct) {
-        return {
-          value: ct.id,
-          text: this.$i18n.t(ct.name),
-          object: ct
-        }
-      }.bind(this))
+      return this.api.get().campTypes().items.map(ct => ({
+        value: ct.id,
+        text: this.$i18n.t(ct.name),
+        object: ct
+      }))
     },
     periodDeletable () {
       return this.camp.periods.length > 1
@@ -149,10 +147,10 @@ export default {
   },
   methods: {
     createCamp: function () {
-      this.api.post(this.campsUrl, this.camp).then(function (c) {
+      this.api.post(this.campsUrl, this.camp).then(c => {
         this.$router.push(campRoute(c, 'admin'))
-        this.api.get(this.campsUrl, true)
-      }.bind(this))
+        this.api.reload(this.campsUrl)
+      })
     },
     addPeriod: function () {
       this.camp.periods.push({
