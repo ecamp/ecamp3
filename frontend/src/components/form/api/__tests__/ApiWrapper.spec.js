@@ -3,16 +3,26 @@ import Vue from 'vue'
 import Vuetify from 'vuetify'
 import flushPromises from 'flush-promises'
 import { shallowMount } from '@vue/test-utils'
+import { ServerException } from '@/plugins/store/index.js'
+import veeValidatePlugin from '@/plugins/veeValidate.js'
 import ApiWrapper from '../ApiWrapper.vue'
-
-import { ServerException } from '../../../../plugins/store/index.js'
+import { VForm, VBtn } from 'vuetify/lib'
 
 jest.mock('lodash')
 const { cloneDeep } = jest.requireActual('lodash')
 
+/*
+jest.mock('vee-validate', () => ({
+  validate: jest.fn().mockResolvedValue({
+    valid: true,
+    errors: []
+  })
+})) */
+
 jest.useFakeTimers()
 
 Vue.use(Vuetify)
+Vue.use(veeValidatePlugin)
 let vuetify
 
 // config factory
@@ -29,12 +39,24 @@ function createConfig (overrides) {
       }
     }
   }
+
   const propsData = {
     value: 'Test Value',
     fieldname: 'testField',
-    uri: 'testEntity/123'
+    uri: 'testEntity/123',
+    label: 'Test Field'
   }
-  return cloneDeep(Object.assign({ mocks, propsData, vuetify }, overrides))
+
+  const stubs = {
+    VForm,
+    VBtn
+  }
+
+  const scopedSlots = {
+    default: '<input type="text" name="dummyField" id="dummyField" :value="props.localValue" />'
+  }
+
+  return cloneDeep(Object.assign({ mocks, propsData, vuetify, stubs, scopedSlots }, overrides))
 }
 
 /**
@@ -46,6 +68,7 @@ describe('Testing ApiWrapper [autoSave=true;  manual external value]', () => {
   let vm
   let config
   let apiPatch
+  let validate
 
   beforeEach(() => {
     vuetify = new Vuetify()
@@ -55,6 +78,9 @@ describe('Testing ApiWrapper [autoSave=true;  manual external value]', () => {
     vm = wrapper.vm
 
     apiPatch = jest.spyOn(config.mocks.api, 'patch')
+
+    const veeValidate = require('vee-validate')
+    validate = jest.spyOn(veeValidate, 'validate')
   })
 
   test('init correctly with default values', () => {
@@ -112,6 +138,21 @@ describe('Testing ApiWrapper [autoSave=true;  manual external value]', () => {
     expect(vm.status).toBe('init')
   })
 
+  test('avoid double triggering of save for enter key', async done => {
+    // given
+    const input = wrapper.find('input')
+
+    // when
+    vm.onInput('new value')
+    input.trigger('submit') // trigger submit evenet (simluates enter key)
+    jest.runAllTimers() // resolve lodash debounced
+
+    // then
+    expect(apiPatch).toHaveBeenCalledTimes(1)
+
+    done()
+  })
+
   test('shows server error if api.patch failed', async () => {
     // given
     apiPatch.mockRejectedValueOnce(new Error('server error'))
@@ -145,16 +186,67 @@ describe('Testing ApiWrapper [autoSave=true;  manual external value]', () => {
     expect(vm.errorMessages).toContain('Validation error: ' + validationMsg + '. ')
   })
 
-  test('shows error if `required` validation fails', async () => {
+  test('shows error if `required` validation fails', async done => {
     // given
     wrapper.setProps({ required: true })
 
     // when
-    vm.onInput('')
+    await vm.onInput('')
 
     // then
     expect(vm.hasValidationError).toBe(true)
-    expect(vm.errorMessages).toContain('Feld darf nicht leer sein.')
+    expect(vm.errorMessages[0]).toMatch('is required')
+
+    done()
+  })
+
+  test('shows error if arbitrary validation fails & aborts save', async done => {
+    // given
+    wrapper.setProps({ validation: 'min:3|myOwnValidationRule' })
+    validate.mockResolvedValue({ valid: false, errors: ['Validation failed'] })
+
+    // when
+    await vm.onInput('any value')
+
+    // then
+    expect(validate).toHaveBeenCalledWith('any value', 'min:3|myOwnValidationRule', { name: 'Test Field' })
+    expect(vm.hasValidationError).toBe(true)
+    expect(vm.errorMessages[0]).toMatch('Validation failed')
+
+    // when
+    vm.save()
+
+    // then
+    expect(apiPatch).not.toHaveBeenCalled()
+
+    done()
+  })
+
+  test('properly combines `required` and `validation` properties', () => {
+    // given
+    wrapper.setProps({ required: true, validation: 'min:3|myOwnValidationRule' })
+
+    // when
+    vm.onInput('any value')
+
+    // then
+    expect(validate).toHaveBeenCalledWith('any value', 'required|min:3|myOwnValidationRule', { name: 'Test Field' })
+  })
+
+  test('clears error if arbitrary validation succedes', async done => {
+    // given
+    wrapper.setProps({ validation: 'required' })
+    wrapper.vm.hasValidationError = true
+    validate.mockResolvedValue({ valid: true, errors: [] })
+
+    // when
+    await vm.onInput('any value')
+
+    // then
+    expect(vm.hasValidationError).toBe(false)
+    expect(vm.errorMessages).toHaveLength(0)
+
+    done()
   })
 })
 
@@ -166,7 +258,7 @@ describe('Testing ApiWrapper [autoSave=true; value from API]', () => {
   let wrapper
   let vm
   let config
-  let apiPatch
+  // let apiPatch
   let apiGet
 
   beforeEach(() => {
@@ -175,7 +267,7 @@ describe('Testing ApiWrapper [autoSave=true; value from API]', () => {
     config = createConfig()
     delete config.propsData.value
 
-    apiPatch = jest.spyOn(config.mocks.api, 'patch')
+    // apiPatch = jest.spyOn(config.mocks.api, 'patch')
     apiGet = jest.spyOn(config.mocks.api, 'get')
 
     apiGet.mockReturnValue({
@@ -190,11 +282,49 @@ describe('Testing ApiWrapper [autoSave=true; value from API]', () => {
   })
 
   test('loads value from API', async () => {
+    // given
+    apiGet.mockReturnValue({
+      [config.propsData.fieldname]: 'api value',
+      _meta: {
+        load: Promise.resolve()
+      }
+    })
+
+    // when
+    wrapper = shallowMount(ApiWrapper, config)
+    vm = wrapper.vm
+
+    // then
+    expect(vm.isLoading).toBe(true)
+
+    // when
     await flushPromises() // wait for load promise to resolve
 
+    // then
     expect(vm.hasFinishedLoading).toBe(true)
     expect(vm.isLoading).toBe(false)
     expect(vm.localValue).toBe('api value')
+  })
+
+  test('shows error when loading value from API fails', async () => {
+    // given
+    apiGet.mockReturnValue({
+      [config.propsData.fieldname]: 'api value',
+      _meta: {
+        load: Promise.reject(new Error('loading error'))
+      }
+    })
+    wrapper = shallowMount(ApiWrapper, config)
+    vm = wrapper.vm
+
+    // when
+    await flushPromises() // wait for load promise to resolve
+
+    // then
+    expect(vm.hasFinishedLoading).toBe(false)
+    expect(vm.isLoading).toBe(false)
+    expect(vm.hasLoadingError).toBe(true)
+    expect(vm.errorMessages[0]).toMatch('loading error')
   })
 })
 
@@ -241,12 +371,64 @@ describe('Testing ApiWrapper [autoSave=false]', () => {
 
     // local change to same value as external value
     vm.onInput('new external value #1')
-    await wrapper.vm.$nextTick() // needed for watcher to trigger
+    await vm.$nextTick() // needed for watcher to trigger
     expect(vm.dirty).toBe(false)
 
     // new value from external --> local value will be changed
     wrapper.setProps({ value: 'new external value #2' })
-    await wrapper.vm.$nextTick() // needed for watcher to trigger
+    await vm.$nextTick() // needed for watcher to trigger
     expect(vm.localValue).toBe('new external value #2')
+  })
+
+  test('resets value and errors when `reset` is called', async () => {
+    // when
+    vm.onInput('new local value')
+    vm.hasValidationError = true
+
+    // then
+    expect(vm.dirty).toBe(true)
+    expect(vm.localValue).toBe('new local value')
+
+    // when
+    vm.reset()
+
+    // then
+    expect(vm.dirty).toBe(false)
+    expect(vm.localValue).toBe('Test Value')
+    expect(vm.hasValidationError).toBe(false)
+  })
+
+  test('trigger save with enter key', async () => {
+    // given
+    const input = wrapper.find('input')
+
+    // when
+    input.trigger('submit')
+    await vm.$nextTick()
+
+    // then
+    expect(apiPatch).toHaveBeenCalled()
+  })
+
+  test('abort save in readonly mode', () => {
+    // given
+    wrapper.setProps({ readonly: true })
+
+    // when
+    vm.save()
+
+    // then
+    expect(apiPatch).not.toHaveBeenCalled()
+  })
+
+  test('abort save in disabled mode', () => {
+    // given
+    wrapper.setProps({ disabled: true })
+
+    // when
+    vm.save()
+
+    // then
+    expect(apiPatch).not.toHaveBeenCalled()
   })
 })

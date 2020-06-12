@@ -3,61 +3,64 @@ Wrapper component for form components to save data back to API
 -->
 
 <template>
-  <v-form
-    :class="['d-flex','flex-wrap',{'api-wrapper--inline':!autoSave && !readonly && !separateButtons, 'my-4':!noMargin}]"
-    @submit.prevent="onEnter">
-    <slot
-      :localValue="localValue"
-      :hasServerError="hasServerError"
-      :hasLoadingError="hasLoadingError"
-      :hasValidationError="hasValidationError"
-      :errorMessages="errorMessages"
-      :isSaving="isSaving"
-      :isLoading="isLoading"
-      :autoSave="autoSave"
-      :readonly="readonly || !hasFinishedLoading"
-      :status="status"
-      :on="eventHandlers" />
+  <ValidationObserver ref="validationObserver" v-slot="validationObserver">
+    <v-form
+      :class="['my-' + my, {'api-wrapper--inline':!autoSave && !readonly && !separateButtons}]"
+      @submit.prevent="onEnter">
+      <slot
+        :localValue="localValue"
+        :hasServerError="hasServerError"
+        :hasLoadingError="hasLoadingError"
+        :hasValidationError="validationObserver.invalid"
+        :errorMessages="errorMessages"
+        :isSaving="isSaving"
+        :isLoading="isLoading"
+        :autoSave="autoSave"
+        :readonly="readonly || !hasFinishedLoading"
+        :status="status"
+        :on="eventHandlers" />
 
-    <div
-      v-if="!autoSave && !readonly"
-      :class="['d-flex', {'my-1 ml-auto': separateButtons}]">
-      <v-btn
-        :disabled="disabled || !hasFinishedLoading"
-        small
-        elevation="0"
-        :class="{'mr-1': separateButtons}"
-        :tile="!separateButtons"
-        :height="separateButtons ? '' : 'auto'"
-        @click="reset">
-        Reset
-      </v-btn>
+      <div
+        v-if="!autoSave && !readonly"
+        :class="['d-flex', {'my-1': separateButtons}]">
+        <v-btn
+          :disabled="disabled || !hasFinishedLoading"
+          small
+          elevation="0"
+          :class="{'ml-auto mr-1': separateButtons}"
+          :tile="!separateButtons"
+          :height="separateButtons ? '' : 'auto'"
+          @click="reset">
+          Reset
+        </v-btn>
 
-      <v-btn
-        :color="hasServerError ? 'error' : 'primary'"
-        small
-        elevation="0"
-        :disabled="disabled || !hasFinishedLoading || hasValidationError"
-        class="v-btn--last-instance"
-        :height="separateButtons ? '' : 'auto'"
-        :loading="isSaving"
-        @click="save">
-        {{ hasServerError ? 'Retry' : 'Save' }}
-      </v-btn>
-    </div>
-  </v-form>
+        <v-btn
+          type="submit"
+          :color="hasServerError ? 'error' : 'primary'"
+          small
+          elevation="0"
+          :disabled="disabled || !hasFinishedLoading || validationObserver.invalid"
+          class="v-btn--last-instance"
+          :height="separateButtons ? '' : 'auto'"
+          :loading="isSaving"
+          @click="save">
+          {{ hasServerError ? 'Retry' : 'Save' }}
+        </v-btn>
+      </div>
+    </v-form>
+  </ValidationObserver>
 </template>
 
 <script>
 
 import { debounce } from 'lodash'
-import { validationMixin } from 'vuelidate'
-import { required } from 'vuelidate/lib/validators'
 import { apiPropsMixin } from '@/mixins/apiPropsMixin'
+import { ValidationObserver } from 'vee-validate'
 
 export default {
   name: 'ApiWrapper',
-  mixins: [apiPropsMixin, validationMixin],
+  components: { ValidationObserver },
+  mixins: [apiPropsMixin],
   props: {
     separateButtons: {
       type: Boolean,
@@ -69,45 +72,30 @@ export default {
       localValue: null,
       isSaving: false,
       isLoading: false,
+      isMounted: false,
       showIconSuccess: false,
       dirty: false,
       hasServerError: false,
       hasLoadingError: false,
-      serverErrorMessage: null,
-      loadingErrorMessage: null,
+      serverErrorMessage: '',
+      loadingErrorMessage: '',
+      validationErrorMessages: [],
       eventHandlers: {
         save: this.save,
         reset: this.reset,
         reload: this.reload,
-        input: this.onInput,
-        touch: this.touch
+        input: this.onInput
       }
-    }
-  },
-  validations: {
-    localValue: {
-      required
     }
   },
   computed: {
     hasFinishedLoading () {
       return !this.isLoading && !this.hasLoadingError
     },
-    hasValidationError () {
-      return this.$v.localValue.$invalid
-    },
     errorMessages () {
       const errors = []
-
-      // 1st priority: Loading error
       if (this.hasLoadingError) errors.push(this.loadingErrorMessage)
-
-      // 2nd priority: Frontent validation
-      if (this.$v.localValue.$dirty) !this.$v.localValue.required && errors.push('Feld darf nicht leer sein.')
-
-      // 3rd priority: Server error (not displayed in case of frontend validation error)
       if (this.hasServerError) errors.push(this.serverErrorMessage)
-
       return errors
     },
     status: function () {
@@ -156,14 +144,13 @@ export default {
 
     this.localValue = this.apiValue
   },
+  mounted () {
+    this.isMounted = true
+  },
   methods: {
-    touch () {
-      this.$v.localValue.$touch()
-    },
-    onInput: function (newValue) {
+    async onInput (newValue) {
       this.localValue = newValue
       this.dirty = true
-      this.touch()
 
       if (this.autoSave) {
         this.debouncedSave()
@@ -172,7 +159,6 @@ export default {
     // reload data from API (doesn't force loading from server if available locally)
     reload () {
       this.isLoading = true
-      this.hasLoadingError = false
       this.resetErrors()
 
       // initial data load from API
@@ -190,16 +176,17 @@ export default {
     },
     resetErrors () {
       this.dirty = false
-      this.$v.localValue.$reset()
+      this.hasLoadingError = false
       this.hasServerError = false
       this.serverErrorMessage = null
+      if (this.isMounted) { this.$refs.validationObserver.reset() }
     },
     onEnter () {
       if (!this.autoSave) {
         this.save()
       }
     },
-    save () {
+    async save () {
       // abort saving if component is in readonly or disabled state
       // this is here for safety reasons, should not be triggered if the wrapped component behaves normally
       if (this.readonly || this.disabled) {
@@ -207,8 +194,8 @@ export default {
       }
 
       // abort saving in case of validation errors
-      this.touch()
-      if (this.$v.localValue.$anyError) {
+      const isValid = await this.$refs.validationObserver.validate()
+      if (!isValid) {
         return
       }
 

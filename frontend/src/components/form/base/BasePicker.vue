@@ -19,8 +19,6 @@ Displays a field as a date picker (can be used with v-model)
         v-bind="$attrs"
         readonly
         :disabled="disabled"
-        outlined
-        :filled="false"
         v-on="on">
         <template v-if="icon" v-slot:prepend>
           <v-icon :color="iconColor" @click="on.click">

@@ -11,28 +11,18 @@
       <slot name="activator" v-bind="scope" />
     </template>
 
-    <e-text-field
-      v-model="entityData.description" hide-details="auto"
-      label="Description"
-      required />
-    <e-text-field
-      v-model="entityData.start" hide-details="auto"
-      label="Start"
-      required />
-    <e-text-field
-      v-model="entityData.end" hide-details="auto"
-      label="End"
-      required />
+    <dialog-period-form v-if="!loading" :period="entityData" />
   </dialog-form>
 </template>
 
 <script>
 import DialogForm from './DialogForm'
 import DialogBase from './DialogBase'
+import DialogPeriodForm from './DialogPeriodForm'
 
 export default {
   name: 'DialogPeriodCreate',
-  components: { DialogForm },
+  components: { DialogForm, DialogPeriodForm },
   extends: DialogBase,
   props: {
     camp: { type: Object, required: true }
@@ -51,7 +41,12 @@ export default {
   watch: {
     showDialog: function (showDialog) {
       if (showDialog) {
-        this.setEntityData({ campId: this.camp.id })
+        this.setEntityData({
+          campId: this.camp.id,
+          description: '',
+          start: '',
+          end: ''
+        })
       } else {
         // clear form on exit
         this.clearEntityData()
