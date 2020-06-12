@@ -7,7 +7,7 @@
   "user": {
     "firstname": "Firstname",
     "surname": "Surname",
-    "scoutname": "Scoutname",
+    "nickname": "Nickname",
     "language": "Language"
   },
   "camp": {

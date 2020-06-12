@@ -66,12 +66,12 @@ class User extends AbstractCampOwner implements RoleInterface {
     private $surname;
 
     /**
-     * Users scoutname.
+     * Users nickname.
      *
      * @var string
      * @ORM\Column(type="string", length=32, nullable=true)
      */
-    private $scoutname;
+    private $nickname;
 
     /**
      * @var MailAddress
@@ -153,20 +153,20 @@ class User extends AbstractCampOwner implements RoleInterface {
         $this->surname = $surname;
     }
 
-    public function getScoutname(): ?string {
-        return $this->scoutname;
+    public function getNickname(): ?string {
+        return $this->nickname;
     }
 
-    public function setScoutname(?string $scoutname) {
-        $this->scoutname = $scoutname;
+    public function setNickname(?string $nickname) {
+        $this->nickname = $nickname;
     }
 
     /**
      * @return string
      */
     public function getDisplayName() {
-        if (!empty($this->scoutname)) {
-            return $this->scoutname;
+        if (!empty($this->nickname)) {
+            return $this->nickname;
         }
         if (!empty($this->firstname)) {
             if (!empty($this->surname)) {

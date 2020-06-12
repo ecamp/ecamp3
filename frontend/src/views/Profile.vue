@@ -25,9 +25,9 @@
           :uri="profile._meta.self"
           fieldname="surname" />
         <api-text-field
-          :label="$t('user.scoutname')"
+          :label="$t('user.nickname')"
           :uri="profile._meta.self"
-          fieldname="scoutname" />
+          fieldname="nickname" />
         <api-select
           :label="$t('user.language')"
           :uri="profile._meta.self"
