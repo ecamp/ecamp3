@@ -9,17 +9,16 @@ Displays details on a single camp and allows to edit them.
       <e-text-field
         label="Name"
         readonly
-        hide-details="auto"
         :value="camp().name" />
       <api-form :entity="camp()">
         <api-text-field
           fieldname="title"
-          label="Titel"
-          required />
+          name="Titel"
+          vee-rules="required" />
         <api-text-field
           fieldname="motto"
-          label="Motto"
-          required />
+          name="Motto"
+          vee-rules="required" />
       </api-form>
     </div>
   </content-group>

@@ -2,7 +2,7 @@
   <div class="d-flex">
     <!-- Retry/Cancel button if saving failed -->
     <template v-if="wrapper.autoSave && wrapper.hasServerError">
-      <button-retry @click="wrapper.on.save" />
+      <button-retry type="submit" @click="wrapper.on.save" />
 
       <v-tooltip bottom class="ml-auto">
         <template v-slot:activator="{ on }">
@@ -19,7 +19,7 @@
     </template>
 
     <!-- Retry button if loading failed -->
-    <button-retry v-if="wrapper.hasLoadingError" @click="wrapper.on.reload" />
+    <button-retry v-if="wrapper.hasLoadingError" type="submit" @click="wrapper.on.reload" />
 
     <!-- Success icon after saving -->
     <icon-success :visible="wrapper.status === 'success'" />

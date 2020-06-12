@@ -8,41 +8,42 @@ Displays details on a single camp and allows to edit them.
 
     <div v-else>
       <e-text-field
-        label="Name"
+        name="Name"
         readonly
         :value="camp().name" />
 
       <api-form :entity="camp()">
         <api-text-field
           fieldname="title"
-          label="Titel"
-          required />
+          name="Title"
+          vee-rules="required|min:3" />
 
         <api-textarea
           fieldname="motto"
-          label="Motto"
+          name="Motto"
+          label="Motto (roter Faden)"
           :auto-save="false"
-          required />
+          vee-rules="required|min:3" />
 
         <api-checkbox
           :value="checkbox"
           fieldname="check"
-          label="Checkbox example"
-          required />
+          name="Checkbox example"
+          vee-rules="required" />
 
         <api-time-picker
           :value="time"
           fieldname="time"
-          label="Startzeit"
+          name="Startzeit"
           :auto-save="false"
-          required />
+          vee-rules="required" />
 
         <api-color-picker
           :value="color"
           fieldname="color"
-          label="Color Example"
+          name="Color Example"
           :auto-save="false"
-          required />
+          vee-rules="required" />
       </api-form>
 
       <v-list>
@@ -58,14 +59,29 @@ Displays details on a single camp and allows to edit them.
           <api-date-picker
             :uri="period._meta.self"
             fieldname="start"
-            label="Starttermin"
+            name="Starttermin"
             :auto-save="false"
-            required />
+            vee-rules="required" />
         </v-list-item>
       </v-list>
     </div>
   </content-group>
 </template>
+
+<i18n>
+{
+  "en": {
+    "validation": {
+      "min10": "This field {_field_} must be at least 10 characters long"
+    }
+  },
+  "de": {
+    "validation": {
+      "min10": "Das Feld {_field_} muss mindest 10 Zeichen lang sein"
+    }
+  }
+}
+</i18n>
 
 <script>
 import ApiTextField from '../form/api/ApiTextField'
@@ -74,10 +90,9 @@ import ApiDatePicker from '../form/api/ApiDatePicker'
 import ApiTimePicker from '../form/api/ApiTimePicker'
 import ApiCheckbox from '../form/api/ApiCheckbox'
 import ApiColorPicker from '../form/api/ApiColorPicker'
-
 import ApiForm from '@/components/form/api/ApiForm'
-
 import ContentGroup from '@/components/layout/ContentGroup'
+import { extend } from 'vee-validate'
 
 export default {
   name: 'ApiDemo',
@@ -108,6 +123,15 @@ export default {
     periods () {
       return this.camp().periods()
     }
+  },
+  created () {
+    /* Defining a component specific custom rule */
+    extend('min10', {
+      validate: value => {
+        return value.length >= 10
+      },
+      message: (_, values) => this.$t('validation.min10', values)
+    })
   }
 }
 </script>

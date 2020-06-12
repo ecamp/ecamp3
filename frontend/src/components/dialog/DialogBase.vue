@@ -6,12 +6,16 @@ export default {
       entityProperties: [],
       entityData: {},
       entityUri: '',
-      showDialog: false
+      showDialog: false,
+      loading: true
     }
   },
   methods: {
     clearEntityData () {
-      this.setEntityData({})
+      this.loading = true
+      this.entityProperties.forEach(key => {
+        this.$set(this.entityData, key, null)
+      })
     },
     loadEntityData (uri) {
       this.clearEntityData()
@@ -24,6 +28,7 @@ export default {
       this.entityProperties.forEach(key => {
         this.$set(this.entityData, key, data[key])
       })
+      this.loading = false
     },
     create () {
       return this.api.post(this.entityUri, this.entityData).then(this.close)
