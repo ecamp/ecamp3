@@ -1,6 +1,13 @@
 {
+  "language": "Deutsch",
   "home": "Home",
   "myCamps": "Mein Lager | Meine Lager",
   "profile": "Profil",
-  "search": "Suchen"
+  "search": "Suchen",
+  "user": {
+    "firstname": "Vorname",
+    "surname": "Nachname",
+    "scoutname": "Pfadiname",
+    "language": "Sprache"
+  }
 }

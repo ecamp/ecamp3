@@ -124,26 +124,50 @@ if (array_key_exists('drop-data', $_GET)) {
 
 //  Schema-Validation:
 // ====================
-try {
-    $updateSqls = $schemaTool->getUpdateSchemaSql($allMetadata, true);
-    if (0 !== count($updateSqls)) {
-        $msg = 'Some tables are out of sync. ';
-        $msg .= '<br />';
-        $msg .= 'Schema-Update required. ';
-        $msg .= '<br />';
-        $msg .= 'Run: vendor/bin/doctrine ';
+$schemaValidation = function () use ($schemaTool, $allMetadata) {
+    try {
+        $updateSqls = $schemaTool->getUpdateSchemaSql($allMetadata, true);
+        if (0 !== count($updateSqls)) {
+            $msg = 'Some tables are out of sync. ';
+            $msg .= '<br />';
+            $msg .= 'Schema-Update required. ';
+            $msg .= '<br />';
+            $msg .= 'Run: vendor/bin/doctrine ';
 
-        throw new Exception($msg);
+            throw new Exception($msg);
+        }
+        echo '<br />';
+        echo '(03) Schema-Validation: OK';
+    } catch (\Exception $e) {
+        echo '<br />';
+        echo '(03) Schema-Validation: ERROR';
+        echo '<br />';
+        echo $e->getMessage();
+        echo '<br />';
+//    die();
     }
+};
+
+if (array_key_exists('update-schema', $_GET)) {
+    try {
+        $schemaTool->updateSchema($allMetadata);
+        $schemaValidation();
+
+        echo '<br />';
+        echo "<a href='?update-schema'>Update database schema</a>";
+        echo '<br />';
+        echo 'OK';
+        echo '<br />';
+    } catch (\Exception $e) {
+        echo '<br />';
+        echo '<br />';
+        echo $e->getMessage();
+    }
+} else {
+    $schemaValidation();
     echo '<br />';
-    echo '(03) Schema-Validation: OK';
-} catch (\Exception $e) {
+    echo "<a href='?update-schema'>Update database schema</a>";
     echo '<br />';
-    echo '(03) Schema-Validation: ERROR';
-    echo '<br />';
-    echo '<br />';
-    echo $e->getMessage();
-    die();
 }
 
 echo '<br />';
@@ -222,3 +246,7 @@ echo '<br />';
 echo '<br />';
 echo 'Back to Index: ';
 echo "<a href='.'>Index</a>";
+
+echo '<script>';
+echo 'window.history.replaceState({}, document.title, "/setup.php");';
+echo '</script>';

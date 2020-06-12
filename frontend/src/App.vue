@@ -21,15 +21,18 @@
 
 <script>
 import LanguageSwitcher from '@/components/layout/LanguageSwitcher'
+import VueI18n from '@/plugins/i18n'
+
 export default {
   name: 'App',
   components: { LanguageSwitcher },
   mounted () {
-    this.api.get()
-    const lang = 'de' // TODO save this value to database?
-    this.$root.$i18n.locale = lang
-    this.axios.defaults.headers.common['Accept-Language'] = lang
-    document.querySelector('html').setAttribute('lang', lang)
+    this.api.get().profile()._meta.load.then(function (profile) {
+      if (VueI18n.availableLocales.includes(profile.language)) {
+        VueI18n.locale = profile.language
+      }
+    })
+    VueI18n.locale = 'de'
   }
 }
 </script>
