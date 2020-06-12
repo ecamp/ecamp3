@@ -40,7 +40,7 @@
     "accountless": "Don't you have an account yet?",
     "registernow": "Register now",
     "beta":{
-      "notice": "This is the site of the new eCamp.<br>IMPORTANT: This website is under construction.  This means that all data is public and will be deleted periodically!"
+      "notice": "This is the site of the new eCamp.<br>IMPORTANT: This website is under construction. This means that all data is public and will be deleted periodically!"
     }
   }
 }
