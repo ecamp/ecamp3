@@ -14,10 +14,9 @@ Displays a field as a e-select + write access via API wrapper
       :error-messages="wrapper.errorMessages"
       :loading="wrapper.isSaving || wrapper.isLoading ? 'secondary' : false"
       outlined
-      no-margin
+      :my="0"
       :filled="false"
-      @input="wrapper.on.input"
-      @blur="wrapper.on.touch">
+      @input="wrapper.on.input">
       <template #append>
         <v-icon>mdi-menu-down</v-icon>
         <api-wrapper-append :wrapper="wrapper" />

@@ -1,26 +1,21 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`ApiTextField.vue renders correctly 1`] = `
-<v-form-stub
-  class="d-flex flex-wrap my-4"
->
-  <e-text-field-stub
-    backgroundcolor=""
-    clearicon="$clear"
-    errorcount="1"
-    errormessages=""
-    hidedetails="auto"
-    label="Test Field"
-    loaderheight="2"
-    messages=""
-    nomargin="true"
-    outlined="true"
-    rules=""
-    successmessages=""
-    type="text"
-    value="Test Value"
-  />
-   
-  <!---->
-</v-form-stub>
+<span>
+  <v-form-stub
+    class="my-4"
+  >
+    <e-text-field-stub
+      errormessages=""
+      hidedetails="auto"
+      label="Test Field"
+      my="0"
+      outlined=""
+      value="Test Value"
+      veerules=""
+    />
+     
+    <!---->
+  </v-form-stub>
+</span>
 `;

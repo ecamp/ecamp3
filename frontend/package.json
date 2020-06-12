@@ -5,23 +5,25 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "test:unit": "vue-cli-service test:unit",
-    "test:unit:watch": "vue-cli-service test:unit --watch",
-    "test:unit:debug": "node --inspect-brk ./node_modules/@vue/cli-service/bin/vue-cli-service.js test:unit --no-cache --runInBand",
-    "test:e2e": "vue-cli-service test:e2e",
-    "i18n:report": "vue-cli-service i18n:report --src './src/**/*.?(js|vue)' --locales './src/locales/**/*.json'",
-    "test:e2e:ci": "vue-cli-service test:e2e --headless",
     "lint": "vue-cli-service lint",
-    "start": "vue-cli-service serve"
+    "start": "vue-cli-service serve",
+    "i18n:report": "vue-cli-service i18n:report --src './src/**/*.?(js|vue)' --locales './src/locales/**/*.json'",
+    "test:unit": "vue-cli-service test:unit",
+    "test:e2e": "vue-cli-service test:e2e",
+    "test:e2e:ci": "vue-cli-service test:e2e --headless",
+    "test:unit:debug": "node --inspect-brk ./node_modules/@vue/cli-service/bin/vue-cli-service.js test:unit --no-cache --runInBand",
+    "test:unit:watch": "vue-cli-service test:unit --watch"
   },
   "dependencies": {
     "@mdi/font": "^4.9.95",
     "axios": "^0.19.2",
+    "deepmerge": "^4.2.2",
     "hal-json-normalizer": "^3.0.1",
     "inter-ui": "^3.13.1",
     "lodash": "^4.17.15",
     "slugify": "^1.4.0",
     "url-template": "^2.0.8",
+    "vee-validate": "^3.2.5",
     "vue": "^2.6.11",
     "vue-axios": "^2.1.5",
     "vue-i18n": "^8.18.2",
@@ -71,6 +73,16 @@
       "@vue/standard"
     ],
     "rules": {
+      "vue/component-tags-order": [
+        "error",
+        {
+          "order": [
+            "template",
+            "script",
+            "style"
+          ]
+        }
+      ],
       "vue/html-closing-bracket-newline": [
         "error",
         {
@@ -136,7 +148,7 @@
       "^.+\\.jsx?$": "babel-jest"
     },
     "transformIgnorePatterns": [
-      "node_modules/(?!(vuetify)).+\\.js$"
+      "node_modules/(?!(vuetify|vee-validate))"
     ],
     "moduleNameMapper": {
       "^@/(.*)$": "<rootDir>/src/$1"

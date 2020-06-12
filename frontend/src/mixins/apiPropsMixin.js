@@ -33,11 +33,12 @@ export const apiPropsMixin = {
     autoSave: { type: Boolean, default: true, required: false },
     autoSaveDelay: { type: Number, default: 800, required: false },
 
-    /* Validation criteria */
-    required: { type: Boolean, default: false, required: false },
-
-    /* Removes the margin (for inline fields) */
-    noMargin: { type: Boolean, default: false, required: false }
+    /* vertical margin */
+    my: {
+      type: Number,
+      default: 4,
+      required: false
+    }
   }
 
 }

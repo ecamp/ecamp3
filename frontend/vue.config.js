@@ -17,6 +17,7 @@ module.exports = {
   ],
 
   chainWebpack: (config) => {
+    // install vue-svg-loader
     const svgRule = config.module.rule('svg')
 
     svgRule.uses.clear()

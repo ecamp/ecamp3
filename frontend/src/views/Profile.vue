@@ -25,9 +25,9 @@
           :uri="profile._meta.self"
           fieldname="surname" />
         <api-text-field
-          :label="$t('user.scoutname')"
+          :label="$t('user.nickname')"
           :uri="profile._meta.self"
-          fieldname="scoutname" />
+          fieldname="nickname" />
         <api-select
           :label="$t('user.language')"
           :uri="profile._meta.self"
@@ -58,12 +58,10 @@ export default {
       return this.api.get().profile()
     },
     availableLocales () {
-      return VueI18n.availableLocales.map(function (l) {
-        return {
-          value: l,
-          text: this.$i18n.t('language', l)
-        }
-      }.bind(this))
+      return VueI18n.availableLocales.map(l => ({
+        value: l,
+        text: this.$i18n.t('language', l)
+      }))
     }
   },
   watch: {

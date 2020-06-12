@@ -4,10 +4,13 @@
   "myCamps": "Mein Lager | Meine Lager",
   "profile": "Profil",
   "search": "Suchen",
+  "validation": {
+    "minDate": "Das {_field_} muss gleich oder grösser sein als {min}"
+  },
   "user": {
     "firstname": "Vorname",
     "surname": "Nachname",
-    "scoutname": "Pfadiname",
+    "nickname": "Spitzname",
     "language": "Sprache"
   },
   "camp": {
