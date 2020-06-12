@@ -8,10 +8,10 @@ use eCamp\Core\Entity\Day;
 use eCamp\Core\Entity\Period;
 use eCamp\Core\Entity\ScheduleEntry;
 use eCamp\Core\Hydrator\PeriodHydrator;
-use eCamp\Lib\Acl\Acl;
 use eCamp\Lib\Acl\NoAccessException;
+use eCamp\Lib\Entity\BaseEntity;
+use eCamp\Lib\Service\EntityNotFoundException;
 use eCamp\Lib\Service\ServiceUtils;
-use Laminas\ApiTools\ApiProblem\ApiProblem;
 use Laminas\Authentication\AuthenticationService;
 
 class PeriodService extends AbstractEntityService {
@@ -37,11 +37,12 @@ class PeriodService extends AbstractEntityService {
      * @param mixed $data
      *
      * @throws ORMException
+     * @throws EntityNotFoundException
      * @throws NoAccessException
      *
-     * @return ApiProblem|Period
+     * @return Period
      */
-    public function create($data) {
+    protected function createEntity($data) {
         /** @var Camp $camp */
         $camp = $this->findEntity(Camp::class, $data->campId);
 
@@ -49,8 +50,20 @@ class PeriodService extends AbstractEntityService {
         $period = parent::create($data);
         $camp->addPeriod($period);
 
-        $this->assertAllowed($period, Acl::REST_PRIVILEGE_CREATE);
-        $this->getServiceUtils()->emFlush();
+        return $period;
+    }
+
+    /**
+     * @param $data
+     *
+     * @throws NoAccessException
+     * @throws ORMException
+     *
+     * @return Period
+     */
+    protected function createEntityPost(BaseEntity $entity, $data) {
+        /** @var Period $period */
+        $period = $entity;
 
         $durationInDays = $period->getDurationInDays();
         for ($idx = 0; $idx < $durationInDays; ++$idx) {
@@ -64,17 +77,16 @@ class PeriodService extends AbstractEntityService {
     }
 
     /**
-     * @param mixed $id
      * @param mixed $data
      *
      * @throws NoAccessException
      * @throws ORMException
      *
-     * @return ApiProblem|Period
+     * @return Period
      */
-    public function update($id, $data) {
+    protected function patchEntity(BaseEntity $entity, $data) {
         /** @var Period $period */
-        $period = parent::update($id, $data);
+        $period = parent::patchEntity($entity, $data);
         $this->updatePeriodDays($period);
 
         // $moveActivities = isset($data->move_activities) ? $data->move_activities : null;
@@ -87,18 +99,29 @@ class PeriodService extends AbstractEntityService {
      * @param mixed $id
      * @param mixed $data
      *
-     * @throws NoAccessException
      * @throws ORMException
+     * @throws NoAccessException
      *
-     * @return ApiProblem|Period
+     * @return Period
      */
-    public function patch($id, $data) {
+    protected function updateEntity($id, $data) {
         /** @var Period $period */
-        $period = parent::patch($id, $data);
+        $period = parent::updateEntity($id, $data);
         $this->updatePeriodDays($period);
 
         // $moveActivities = isset($data->move_activities) ? $data->move_activities : null;
         // $this->updateScheduleEntries($period, $moveActivities);
+
+        return $period;
+    }
+
+    /**
+     * @return Period
+     */
+    protected function deleteEntity(BaseEntity $entity) {
+        /** @var Period $period */
+        $period = parent::deleteEntity($entity);
+        $period->getCamp()->removePeriod($period);
 
         return $period;
     }

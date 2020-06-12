@@ -8,21 +8,15 @@ use eCamp\Lib\Hal\TemplatedLink;
 use Laminas\ApiTools\Hal\Entity;
 use Laminas\ApiTools\Hal\Link\Link;
 use Laminas\ApiTools\Hal\View\HalJsonModel;
-use Laminas\Authentication\AuthenticationService;
 use Laminas\Mvc\Controller\AbstractActionController;
 
 class IndexController extends AbstractActionController {
-    /** @var AuthenticationService */
-    private $authenticationService;
-
     /** @var UserService */
     private $userService;
 
     public function __construct(
-        AuthenticationService $authenticationService,
         UserService $userService
     ) {
-        $this->authenticationService = $authenticationService;
         $this->userService = $userService;
     }
 
@@ -76,12 +70,8 @@ class IndexController extends AbstractActionController {
         $data['title'] = 'eCamp V3 - API';
 
         /** @var User $user */
-        $user = null;
-        $userId = $this->authenticationService->getIdentity();
-        if (null != $userId) {
-            // BUG: throws error is $userId is not found
-            $user = $this->userService->fetch($userId);
-        }
+        $user = $this->userService->findAuthenticatedUser();
+
         if (null != $user) {
             $data['user'] = $user->getDisplayName();
 

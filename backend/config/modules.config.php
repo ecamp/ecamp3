@@ -21,7 +21,6 @@ return [
     'Laminas\\ApiTools\\ApiProblem',
     'Laminas\\ApiTools\\ContentNegotiation',
     'Laminas\\ApiTools\\MvcAuth',
-    'ZendTwig',
     'ZfrCors',
     'DoctrineModule',
     'DoctrineORMModule',

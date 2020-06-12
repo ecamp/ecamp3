@@ -8,6 +8,7 @@ use eCamp\Core\Entity\CampCollaboration;
 use eCamp\Core\Entity\User;
 use eCamp\Core\Hydrator\CampCollaborationHydrator;
 use eCamp\Lib\Acl\Acl;
+use eCamp\Lib\Entity\BaseEntity;
 use eCamp\Lib\Service\ServiceUtils;
 use Laminas\ApiTools\ApiProblem\ApiProblem;
 use Laminas\Authentication\AuthenticationService;
@@ -30,7 +31,7 @@ class CampCollaborationService extends AbstractEntityService {
      *
      * @return ApiProblem|CampCollaboration
      */
-    public function create($data) {
+    protected function createEntity($data) {
         $authUser = $this->getAuthUser();
         if (!isset($data->userId)) {
             $data->userId = $authUser->getId();
@@ -68,9 +69,16 @@ class CampCollaborationService extends AbstractEntityService {
         return $campCollaboration;
     }
 
-    public function patch($id, $data) {
+    /**
+     * @param $data
+     *
+     * @throws ORMException
+     *
+     * @return CampCollaboration
+     */
+    protected function patchEntity(BaseEntity $entity, $data) {
         /** @var CampCollaboration $campCollaboration */
-        $campCollaboration = parent::patch($id, $data);
+        $campCollaboration = parent::patchEntity($entity, $data);
 
         if ($campCollaboration->isEstablished()) {
             $campCollaboration = $this->updateCollaboration($campCollaboration, $data);
@@ -84,16 +92,15 @@ class CampCollaborationService extends AbstractEntityService {
     }
 
     /**
-     * @param mixed $id
      * @param mixed $data
      *
-     * @throws \Exception
+     * @throws ORMException
      *
-     * @return ApiProblem|CampCollaboration
+     * @return CampCollaboration
      */
-    public function update($id, $data) {
+    protected function updateEntity(BaseEntity $entity, $data) {
         /** @var CampCollaboration $campCollaboration */
-        $campCollaboration = parent::update($id, $data);
+        $campCollaboration = parent::updateEntity($entity, $data);
 
         if ($campCollaboration->isEstablished()) {
             $campCollaboration = $this->updateCollaboration($campCollaboration, $data);
@@ -104,10 +111,6 @@ class CampCollaborationService extends AbstractEntityService {
         }
 
         return $campCollaboration;
-    }
-
-    public function delete($id) {
-        return parent::delete($id);
     }
 
     protected function fetchAllQueryBuilder($params = []) {

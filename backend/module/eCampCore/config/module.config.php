@@ -104,7 +104,7 @@ return [
         'doctype' => 'HTML5',
         'not_found_template' => 'error/404',
         'exception_template' => 'error/index',
-        //'layout'                   => 'layout/layout',
+        'layout' => 'layout/layout',
         'template_map' => [
             'layout/layout' => __DIR__.'/../view/layout/layout.phtml',
             'error/404' => __DIR__.'/../view/error/404.phtml',

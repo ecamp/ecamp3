@@ -42,7 +42,6 @@ return [
         'factories' => [
             \Laminas\Mail\Transport\TransportInterface::class => \eCamp\Lib\Mail\TransportFactory::class,
             \Laminas\ApiTools\Hal\Extractor\LinkExtractor::class => \eCamp\Lib\Hal\Factory\LinkExtractorFactory::class,
-            \eCamp\Lib\Twig\TwigExtensions::class => \ZendTwig\Service\TwigExtensionFactory::class,
             \eCamp\Lib\ServiceManager\EntityFilterManager::class => \eCamp\Lib\ServiceManager\EntityFilterManagerFactory::class,
             Laminas\Hydrator\HydratorPluginManager::class => Laminas\Hydrator\HydratorPluginManagerFactory::class,
         ],
@@ -50,11 +49,6 @@ return [
     'entity_filter' => [
         'abstract_factories' => [
             \Laminas\Di\Container\ServiceManager\AutowireFactory::class,
-        ],
-    ],
-    'zend_twig' => [
-        'extensions' => [
-            \eCamp\Lib\Twig\TwigExtensions::class,
         ],
     ],
 ];

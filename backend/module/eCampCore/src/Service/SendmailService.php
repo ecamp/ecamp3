@@ -12,7 +12,6 @@ use Laminas\Mime\Mime;
 use Laminas\Mime\Part as MimePart;
 use Laminas\View\Model\ViewModel;
 use Laminas\View\View;
-use ZendTwig\View\TwigModel;
 
 class SendmailService extends AbstractService {
     /** @var TransportInterface */
@@ -85,7 +84,7 @@ class SendmailService extends AbstractService {
     }
 
     protected function createViewModel($template) {
-        $viewModel = new TwigModel();
+        $viewModel = new ViewModel();
         $viewModel->setOption('has_parent', true);
         $viewModel->setTemplate($template);
 
