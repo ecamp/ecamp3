@@ -8,6 +8,7 @@ import { formBaseComponents } from '@/plugins'
 import { shallowMount, mount } from '@vue/test-utils'
 import ApiTextField from '../ApiTextField.vue'
 import ApiWrapper from '../ApiWrapper'
+import { ValidationObserver } from 'vee-validate'
 
 jest.mock('lodash')
 const { cloneDeep } = jest.requireActual('lodash')
@@ -32,7 +33,8 @@ function createConfig (overrides) {
     label: 'Test Field'
   }
   const stubs = {
-    ApiWrapper
+    ApiWrapper,
+    ValidationObserver
   }
   return cloneDeep(Object.assign({ mocks, propsData, stubs, vuetify }, overrides))
 }
@@ -65,18 +67,10 @@ describe('ApiTextField.vue', () => {
     // resolve lodash debounced
     jest.runAllTimers()
 
-    expect(patchSpy).toBeCalledTimes(1)
-    expect(patchSpy).toBeCalledWith(config.propsData.uri, { [config.propsData.fieldname]: newValue })
-
-    // wait for patch Promise to resolve
+    // await validation Promise & api.patch Promise
     await flushPromises()
 
-    // expect(statusIcon.status).toBe('success')
-
-    // wait for success icon to vanish
-    jest.runAllTimers()
-    await wrapper.vm.$nextTick()
-
-    // expect(statusIcon.status).toBe('init')
+    expect(patchSpy).toBeCalledTimes(1)
+    expect(patchSpy).toBeCalledWith(config.propsData.uri, { [config.propsData.fieldname]: newValue })
   })
 })
