@@ -23,5 +23,21 @@
     "end": "End",
     "description": "Description",
     "defaultDescription": "Main"
+  },
+  "login": {
+    "title":  "Login",
+    "username": "Username or Email",
+    "password": "Password",
+    "or": "or",
+    "provider": {
+      "ecamp": "Login mit eCamp",
+      "midata": "Login mit MiData",
+      "google": "Login mit Google"
+    },
+    "accountless": "Don't you have an account yet?",
+    "registernow": "Register now",
+    "beta":{
+      "notice": "This is the site of the new eCamp.<br>IMPORTANT: This website is under construction.  This means that all data is public and will be deleted periodically!"
+    }
   }
 }

@@ -1,12 +1,20 @@
 <template>
   <auth-container>
-    <h1 class="display-1 text-center">Anmelden</h1>
+    <h1 class="display-1 text-center">{{$t('login.title')}}</h1>
+
+    <v-alert
+      text
+      dense
+      border="left"
+      color="warning">
+        <div v-html="$t('login.beta.notice')"></div>
+    </v-alert>
     <v-alert v-if="error" type="error">Login failed</v-alert>
     <v-form @submit.prevent="login">
       <e-text-field
         id="inputUsername"
         v-model="username"
-        label="Benutzername"
+        :label="$t('login.username')"
         name="username"
         append-icon="mdi-account-outline"
         :dense="$vuetify.breakpoint.xsOnly"
@@ -15,7 +23,7 @@
       <e-text-field
         id="inputPassword"
         v-model="password"
-        label="Passwort"
+        :label="$t('password')"
         name="password"
         append-icon="mdi-lock-outline"
         :dense="$vuetify.breakpoint.xsOnly"
@@ -30,12 +38,12 @@
         <v-progress-circular v-if="normalLoggingIn" indeterminate size="24" />
         <v-icon v-else>$vuetify.icons.ecamp</v-icon>
         <v-spacer />
-        <span>Anmelden mit eCamp</span>
+        <span>{{$t('login.provider.ecamp')}}</span>
         <v-spacer />
         <icon-spacer />
       </v-btn>
     </v-form>
-    <horizontal-rule label="oder" />
+    <horizontal-rule :label="$t('login.or')" />
     <v-btn
       dark
       :x-large="$vuetify.breakpoint.smAndUp"
@@ -47,7 +55,7 @@
       <v-progress-circular v-if="hitobitoLoggingIn" indeterminate size="24" />
       <v-icon v-else :x-large="$vuetify.breakpoint.smAndUp">$vuetify.icons.pbs</v-icon>
       <v-spacer />
-      <span class="text--secondary">Anmelden mit MiData</span>
+      <span class="text--secondary">{{$t('login.provider.midata')}}</span>
       <v-spacer />
       <icon-spacer />
     </v-btn>
@@ -61,13 +69,13 @@
       <v-progress-circular v-if="googleLoggingIn" indeterminate size="24" />
       <v-icon v-else>$vuetify.icons.google</v-icon>
       <v-spacer />
-      <span class="text--secondary">Anmelden mit Google</span>
+      <span class="text--secondary">{{$t('login.provider.google')}}</span>
       <v-spacer />
       <icon-spacer />
     </v-btn>
     <p class="mt-8 mb-0 text--secondary text-center">
-      Hast du noch keinen Account?<br>
-      <router-link :to="{ name: 'register' }">Jetzt registrieren</router-link>
+      {{$t('login.accountless')}}<br>
+      <router-link :to="{ name: 'register' }">{{$t('login.registernow')}}</router-link>
     </p>
   </auth-container>
 </template>
