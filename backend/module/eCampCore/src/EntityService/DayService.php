@@ -37,7 +37,7 @@ class DayService extends AbstractEntityService {
         $period = $this->findEntity(Period::class, $data->periodId);
 
         /** @var Day $day */
-        $day = parent::create($data);
+        $day = parent::createEntity($data);
         $period->addDay($day);
 
         return $day;

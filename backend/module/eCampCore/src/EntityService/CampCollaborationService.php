@@ -47,7 +47,7 @@ class CampCollaborationService extends AbstractEntityService {
         }
 
         /** @var CampCollaboration $campCollaboration */
-        $campCollaboration = parent::create($data);
+        $campCollaboration = parent::createEntity($data);
         $campCollaboration->setCamp($camp);
         $campCollaboration->setUser($user);
         $campCollaboration->setRole($data->role);

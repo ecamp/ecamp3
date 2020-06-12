@@ -62,7 +62,7 @@ class GroupMembershipService extends AbstractEntityService {
         }
 
         /** @var GroupMembership $groupMembership */
-        $groupMembership = parent::create($data);
+        $groupMembership = parent::createEntity($data);
         $groupMembership->setGroup($group);
         $groupMembership->setUser($user);
         $groupMembership->setRole($data->role);

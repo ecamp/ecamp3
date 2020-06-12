@@ -9,5 +9,19 @@
     "surname": "Surname",
     "scoutname": "Scoutname",
     "language": "Language"
+  },
+  "camp": {
+    "create": "Create camp",
+    "name": "Name",
+    "title": "Title",
+    "motto": "Motto",
+    "campType": "Camp-Type",
+    "periods": "Periods"
+  },
+  "period": {
+    "start": "Start",
+    "end": "End",
+    "description": "Description",
+    "defaultDescription": "Main"
   }
 }

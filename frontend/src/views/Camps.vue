@@ -1,6 +1,6 @@
 <template>
   <v-container fluid>
-    <content-card :title="$tc('myCamps', camps.items.length)" max-width="600">
+    <content-card :title="$tc('myCamps', camps.items.length)" max-width="800">
       <v-list class="py-0">
         <template v-if="camps._meta.loading">
           <v-skeleton-loader type="list-item-two-line" height="64" />
@@ -27,6 +27,17 @@
             </v-btn>
           </v-list-item-action>
         </v-list-item>
+        <v-divider />
+        <v-list-item>
+          <v-list-item-content />
+          <v-list-item-action>
+            <button-add
+              icon="mdi-plus"
+              :to="{ name: 'camps/create' }">
+              {{ $t('camp.create') }}
+            </button-add>
+          </v-list-item-action>
+        </v-list-item>
       </v-list>
     </content-card>
   </v-container>
@@ -35,11 +46,13 @@
 <script>
 import { campRoute } from '@/router'
 import ContentCard from '@/components/layout/ContentCard'
+import ButtonAdd from '@/components/buttons/ButtonAdd'
 
 export default {
   name: 'Camps',
   components: {
-    ContentCard
+    ContentCard,
+    ButtonAdd
   },
   computed: {
     camps () {

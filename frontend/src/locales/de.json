@@ -9,5 +9,19 @@
     "surname": "Nachname",
     "scoutname": "Pfadiname",
     "language": "Sprache"
+  },
+  "camp": {
+    "create": "Lager erstellen",
+    "name": "Name",
+    "title": "Titel",
+    "motto": "Motto",
+    "campType": "Lager-Typ",
+    "periods": "Lagerabschnitte"
+  },
+  "period": {
+    "start": "Von",
+    "end": "Bis",
+    "description": "Beschreibung",
+    "defaultDescription": "Hauptlager"
   }
 }

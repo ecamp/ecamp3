@@ -74,6 +74,15 @@ export default new Router({
       beforeEnter: requireAuth
     },
     {
+      path: '/camps/create',
+      name: 'camps/create',
+      components: {
+        navigation: NavigationDefault,
+        default: () => import(/* webpackChunkName: "camps" */ './views/CampCreate')
+      },
+      beforeEnter: requireAuth
+    },
+    {
       path: '/camps/:campId/:campTitle?',
       components: {
         navigation: NavigationCamp,

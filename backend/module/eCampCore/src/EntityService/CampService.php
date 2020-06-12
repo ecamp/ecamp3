@@ -64,13 +64,17 @@ class CampService extends AbstractEntityService {
         $campType = $this->findEntity(CampType::class, $data->campTypeId);
 
         /** @var AbstractCampOwner $owner */
-        $owner = $this->findEntity(AbstractCampOwner::class, $data->ownerId);
+        $owner = $this->getAuthUser();
+        if (isset($data->ownerId)) {
+            $owner = $this->findEntity(AbstractCampOwner::class, $data->ownerId);
+        }
 
         /** @var User $creator */
         $creator = $this->getAuthUser();
 
         /** @var Camp $camp */
-        $camp = parent::create($data);
+        $camp = parent::createEntity($data);
+        $camp->setName($data->name);
         $camp->setCampType($campType);
         $camp->setCreator($creator);
         $owner->addOwnedCamp($camp);
@@ -100,8 +104,9 @@ class CampService extends AbstractEntityService {
         // Create Periods:
         if (isset($data->periods)) {
             foreach ($data->periods as $period) {
+                $period = (object) $period;
                 $period->campId = $camp->getId();
-                $this->getPeriodService()->create($period);
+                $this->periodService->create($period);
             }
         } elseif (isset($data->start, $data->end)) {
             $this->getPeriodService()->create((object) [
