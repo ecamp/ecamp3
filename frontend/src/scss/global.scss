@@ -5,7 +5,6 @@
 @include inter-ui.weight-400;
 @include inter-ui.weight-500;
 @include inter-ui.weight-600;
-html {overflow: hidden!important;}
 body {font-feature-settings: "ss03", "calt", "rlig", "kern", "cv05", "cv07", "cv08"}
 .v-toolbar__title {font-weight: 500;}
 .theme--light.v-application {
