@@ -14,6 +14,11 @@ use Laminas\Http\Request;
 use Laminas\Json\Json;
 use Laminas\Mvc\Controller\AbstractActionController;
 
+/**
+ * ProfileController
+ * API Profile-Endpoint.
+ * Detial-Information about authenticated User.
+ */
 class ProfileController extends AbstractActionController {
     /** @var AuthenticationService */
     private $authenticationService;
@@ -56,7 +61,7 @@ class ProfileController extends AbstractActionController {
             'username' => $user->getUsername(),
             'firstname' => $user->getFirstname(),
             'surname' => $user->getSurname(),
-            'scoutname' => $user->getScoutname(),
+            'nickname' => $user->getNickname(),
             'displayName' => $user->getDisplayName(),
             'mail' => $user->getTrustedMailAddress(),
             'role' => $user->getRole(),
@@ -77,8 +82,8 @@ class ProfileController extends AbstractActionController {
         if (isset($data->surname)) {
             $user->setSurname($data->surname);
         }
-        if (isset($data->scoutname)) {
-            $user->setScoutname($data->scoutname);
+        if (isset($data->nickname)) {
+            $user->setNickname($data->nickname);
         }
         if (isset($data->language)) {
             $user->setLanguage($data->language);
