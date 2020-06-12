@@ -1,6 +1,6 @@
 FROM php:7.4.2-apache
 
-WORKDIR /var/www/ecamp3
+WORKDIR /app
 
 RUN apt-get -y update && apt-get -y upgrade && apt-get -y install libxml2-dev curl unzip iproute2 libonig-dev
 
