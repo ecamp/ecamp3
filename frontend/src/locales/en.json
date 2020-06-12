@@ -33,9 +33,9 @@
     "password": "Password",
     "or": "or",
     "provider": {
-      "ecamp": "Login mit eCamp",
-      "midata": "Login mit MiData",
-      "google": "Login mit Google"
+      "ecamp": "Login with eCamp",
+      "midata": "Login with MiData",
+      "google": "Login with Google"
     },
     "accountless": "Don't you have an account yet?",
     "registernow": "Register now",
