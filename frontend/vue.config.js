@@ -29,6 +29,7 @@ module.exports = {
       .use('vue-svg-loader')
       .loader('vue-svg-loader')
   },
+
   pluginOptions: {
     i18n: {
       locale: 'de',
@@ -36,5 +37,9 @@ module.exports = {
       localeDir: 'locales',
       enableInSFC: true
     }
+  },
+
+  css: {
+    sourceMap: true
   }
 }

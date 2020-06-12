@@ -26,5 +26,21 @@
     "end": "Bis",
     "description": "Beschreibung",
     "defaultDescription": "Hauptlager"
+  },
+  "login": {
+    "title":  "Anmelden",
+    "username": "Username oder E-Mail",
+    "password": "Passwort",
+    "or": "oder",
+    "provider": {
+      "ecamp": "Anmelden mit eCamp",
+      "midata": "Anmelden mit MiData",
+      "google": "Anmelden mit Google"
+    },
+    "accountless": "Hast du noch keinen Account?",
+    "registernow": "Jetzt registrieren",
+    "beta":{
+      "notice": "Hier entsteht das neue eCamp.<br>WICHTIG: Diese Webseite befindet sich im Aufbau. Das heisst, dass alle Daten öffentlich sind und periodisch gelöscht werden!"
+    }
   }
 }
