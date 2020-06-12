@@ -7,12 +7,15 @@ module.exports = {
       '127.0.0.1'
     ]
   },
+
   configureWebpack: {
     devtool: 'source-map'
   },
+
   transpileDependencies: [
     'vuetify'
   ],
+
   chainWebpack: (config) => {
     const svgRule = config.module.rule('svg')
 
@@ -25,6 +28,7 @@ module.exports = {
       .use('vue-svg-loader')
       .loader('vue-svg-loader')
   },
+
   pluginOptions: {
     i18n: {
       locale: 'de',
@@ -32,5 +36,9 @@ module.exports = {
       localeDir: 'locales',
       enableInSFC: true
     }
+  },
+
+  css: {
+    sourceMap: true
   }
 }
