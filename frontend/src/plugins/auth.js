@@ -51,7 +51,7 @@ async function loginPbsMiData () {
 }
 
 async function logout () {
-  return reload(get().auth().logout())._meta.load.then(() => refreshLoginStatus())
+  return reload(get().auth().logout()).then(() => refreshLoginStatus())
 }
 
 export const auth = { isLoggedIn, refreshLoginStatus, login, register, loginGoogle, loginPbsMiData, logout }
