@@ -72,11 +72,11 @@ class SectionHydrator implements HydratorInterface {
         }
 
         if (isset($data['column2'])) {
-            $section->setColumn1($data['column2']);
+            $section->setColumn2($data['column2']);
         }
 
-        if (isset($data['column2'])) {
-            $section->setColumn1($data['column2']);
+        if (isset($data['column3'])) {
+            $section->setColumn3($data['column3']);
         }
 
         return $section;

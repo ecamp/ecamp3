@@ -14,6 +14,19 @@
         <v-col cols="1" />
       </v-row>
       <div v-for="section in activityContent.sections().items" :key="section._meta.self">
+        <!-- add before -->
+        <v-row no-gutters class="row-inter" justify="center">
+          <v-col cols="1">
+            <v-btn icon
+                   small
+                   class="button-add"
+                   color="success"
+                   @click="addSection">
+              <v-icon>mdi-plus</v-icon>
+            </v-btn>
+          </v-col>
+        </v-row>
+
         <api-form :entity="section">
           <v-row dense>
             <v-col cols="2">
@@ -36,21 +49,37 @@
             </v-col>
             <v-col cols="1">
               <div class="float-right section-buttons">
-                <v-btn icon class="float-right"><v-icon>mdi-arrow-up-bold</v-icon></v-btn>
+                <v-btn icon small class="float-right"><v-icon>mdi-arrow-up-bold</v-icon></v-btn>
                 <dialog-entity-delete :entity="section">
                   <template v-slot:activator="{ on }">
-                    <button-delete icon-only
-                                   class="float-right"
-                                   v-on="on" />
+                    <v-btn icon
+                           small
+                           color="error"
+                           class="float-right"
+                           v-on="on">
+                      <v-icon>mdi-delete</v-icon>
+                    </v-btn>
                   </template>
                 </dialog-entity-delete>
-                <v-btn icon class="float-right" color="success"><v-icon>mdi-plus</v-icon></v-btn>
-                <v-btn icon class="float-right"><v-icon>mdi-arrow-down-bold</v-icon></v-btn>
+                <v-btn icon small class="float-right"><v-icon>mdi-arrow-down-bold</v-icon></v-btn>
               </div>
             </v-col>
           </v-row>
         </api-form>
       </div>
+
+      <!-- add at end position -->
+      <v-row no-gutters class="row-inter" justify="center">
+        <v-col cols="1">
+          <v-btn icon
+                 small
+                 class="button-add"
+                 color="success"
+                 @click="addSection">
+            <v-icon>mdi-plus</v-icon>
+          </v-btn>
+        </v-col>
+      </v-row>
     </v-container>
   </div>
 </template>
@@ -74,18 +103,30 @@
 import ApiTextarea from '@/components/form/api/ApiTextarea'
 import ApiForm from '@/components/form/api/ApiForm'
 import DialogEntityDelete from '@/components/dialog/DialogEntityDelete'
-import ButtonDelete from '@/components/buttons/ButtonDelete'
 
 export default {
   name: 'Storyboard',
   components: {
     ApiForm,
     ApiTextarea,
-    DialogEntityDelete,
-    ButtonDelete
+    DialogEntityDelete
   },
   props: {
     activityContent: { type: Object, required: true }
+  },
+  methods: {
+    async addSection () {
+      // this.isAdding = true
+      await this.api.post('/content-type/storyboards', {
+        activityContentId: this.activityContent.id,
+        pos: 100
+      })
+      await this.refreshContent()
+      // this.isAdding = false
+    },
+    async refreshContent () {
+      await this.api.reload(this.activityContent)
+    }
   }
 }
 </script>
@@ -93,5 +134,14 @@ export default {
 <style scoped>
 .section-buttons{
   width:40px;
+  margin-top:10px;
+}
+
+.row-inter{
+ height:0px;
+}
+
+.button-add{
+  top:-17px;
 }
 </style>
