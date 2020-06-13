@@ -25,8 +25,7 @@ class ActivityTypeContentTypeHydrator implements HydratorInterface {
             'id' => $activityTypeContentType->getId(),
             'activityType' => new EntityLink($activityTypeContentType->getActivityType()),
             'contentType' => $activityTypeContentType->getContentType(),
-            'minNumberContentTypeInstances' => $activityTypeContentType->getMinNumberContentTypeInstances(),
-            'maxNumberContentTypeInstances' => $activityTypeContentType->getMaxNumberContentTypeInstances(),
+            'defaultInstances' => $activityTypeContentType->getDefaultInstances(),
         ];
     }
 

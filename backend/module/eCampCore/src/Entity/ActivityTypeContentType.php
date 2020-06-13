@@ -27,16 +27,12 @@ class ActivityTypeContentType extends BaseEntity {
     private $contentType;
 
     /**
+     * Number of activity content instances that are created by default with each activity.
+     *
      * @var int
      * @ORM\Column(type="integer", nullable=true)
      */
-    private $minNumberContentTypeInstances;
-
-    /**
-     * @var int
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    private $maxNumberContentTypeInstances;
+    private $defaultInstances = 0;
 
     /**
      * @var string
@@ -67,20 +63,12 @@ class ActivityTypeContentType extends BaseEntity {
         $this->contentType = $contentType;
     }
 
-    public function getMinNumberContentTypeInstances(): int {
-        return $this->minNumberContentTypeInstances;
+    public function getDefaultInstances(): int {
+        return $this->defaultInstances;
     }
 
-    public function setMinNumberContentTypeInstances(int $minNumberContentTypeInstances): void {
-        $this->minNumberContentTypeInstances = $minNumberContentTypeInstances;
-    }
-
-    public function getMaxNumberContentTypeInstances(): int {
-        return $this->maxNumberContentTypeInstances;
-    }
-
-    public function setMaxNumberContentTypeInstances(int $maxNumberContentTypeInstances): void {
-        $this->maxNumberContentTypeInstances = $maxNumberContentTypeInstances;
+    public function setDefaultInstances(int $defaultInstances): void {
+        $this->defaultInstances = $defaultInstances;
     }
 
     public function getJsonConfig(): string {

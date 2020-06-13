@@ -15,16 +15,14 @@
 
 <script>
 
-import Textarea from '@/components/activity/content/Textarea'
+import Storycontext from '@/components/activity/content/Storycontext'
 import Storyboard from '@/components/activity/content/Storyboard'
-import Richtext from '@/components/activity/content/Richtext'
 
 export default {
   name: 'ActivityContent',
   components: {
-    Textarea,
-    Storyboard,
-    Richtext
+    Storycontext,
+    Storyboard
   },
   props: {
     activityContent: { type: Object, required: true }
