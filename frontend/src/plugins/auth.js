@@ -10,12 +10,12 @@ axios.interceptors.response.use(null, error => {
 })
 
 function isLoggedIn () {
-  return get().auth().role === 'user'
+  return get().authenticated
 }
 
 export async function refreshLoginStatus (forceReload = true) {
-  if (forceReload) reload(get().auth())
-  await get().auth()._meta.load
+  if (forceReload) reload(get())
+  await get()._meta.load
   return isLoggedIn()
 }
 
