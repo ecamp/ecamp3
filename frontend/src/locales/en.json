@@ -4,6 +4,14 @@
   "myCamps": "My Camp | My Camps",
   "profile": "Profile",
   "search": "Search",
+  "button": {
+    "add": "Add",
+    "back": "Back",
+    "delete": "Delete",
+    "edit": "Edit",
+    "submit": "Submit",
+    "cancel": "Cancel"
+  },
   "validation": {
     "minDate": "The {_field_} must be equal or larger than {min}"
   },
@@ -20,6 +28,22 @@
     "motto": "Motto",
     "campType": "Camp-Type",
     "periods": "Periods"
+  },
+  "activityCategory": {
+    "title": "Activity Categories",
+    "create": "Create Activity Category",
+    "short": "Short",
+    "name": "Name",
+    "color": "Color",
+    "numberingStyle": "Numbering style",
+    "activityType": "Type",
+    "1": "1, 2, 3 - numbers",
+    "a": "a, b, c - lower letters",
+    "A": "A, B, C - upper letters",
+    "i": "i, ii, iii - lower roman numbers",
+    "I": "I, II, III - grosse roman numbers",
+    "deleteActivityCategoryQuestion": "Do you realy want do delete the ActivityCategory",
+    "deleteActivityCategoryNotPossibleInUse": "ActivityCategory can not be deleted. It is used by:"
   },
   "period": {
     "start": "Start",

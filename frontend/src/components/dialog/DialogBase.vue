@@ -4,6 +4,7 @@ export default {
   data () {
     return {
       entityProperties: [],
+      embeddedEntities: [],
       entityData: {},
       entityUri: '',
       showDialog: false,
@@ -13,9 +14,7 @@ export default {
   methods: {
     clearEntityData () {
       this.loading = true
-      this.entityProperties.forEach(key => {
-        this.$set(this.entityData, key, null)
-      })
+      this.entityData = {}
     },
     loadEntityData (uri) {
       this.clearEntityData()
@@ -27,6 +26,9 @@ export default {
     setEntityData (data) {
       this.entityProperties.forEach(key => {
         this.$set(this.entityData, key, data[key])
+      })
+      this.embeddedEntities.forEach(key => {
+        data[key]()._meta.load.then(obj => this.$set(this.entityData, key + 'Id', obj.id))
       })
       this.loading = false
     },

@@ -47,13 +47,6 @@ class ActivityCategoryHydrator implements HydratorInterface {
         /** @var ActivityCategory $activityCategory */
         $activityCategory = $object;
 
-        if (isset($data['camp'])) {
-            $activityCategory->setCamp($data['camp']);
-        }
-        if (isset($data['activityType'])) {
-            $activityCategory->setActivityType($data['activityType']);
-        }
-
         if (isset($data['short'])) {
             $activityCategory->setShort($data['short']);
         }
