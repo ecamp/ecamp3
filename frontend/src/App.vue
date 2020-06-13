@@ -31,15 +31,16 @@ export default {
       return this.api.get().profile()
     }
   },
+  created () {
+    this.$store.commit('setLanguage', this.$store.state.language)
+  },
   async mounted () {
     if (await this.$auth.refreshLoginStatus()) {
       this.profile._meta.load.then(profile => {
         if (VueI18n.availableLocales.includes(profile.language)) {
-          VueI18n.locale = profile.language
+          this.$store.commit('setLanguage', profile.language)
         }
       })
-    } else {
-      VueI18n.locale = navigator.language
     }
   }
 }

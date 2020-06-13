@@ -74,7 +74,7 @@ export const mutations = {
    * @param state Vuex state
    * @param lang Language string
    */
-  onLangChanged (state, lang) {
+  setLanguage (state, lang) {
     window.localStorage.setItem(LANG_KEY, lang)
     VueI18n.locale = lang
     state.language = lang
@@ -83,16 +83,9 @@ export const mutations = {
   }
 }
 
-const actions = {
-  changeLanguage ({ commit }, payload) {
-    commit('onLangChanged', payload)
-  }
-}
-
 const store = new Vuex.Store({
   state,
   mutations,
-  actions,
   strict: process.env.NODE_ENV !== 'production'
 })
 export { store }
