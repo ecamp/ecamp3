@@ -51,7 +51,8 @@ async function loginPbsMiData () {
 }
 
 async function logout () {
-  return reload(get().auth().logout()).then(() => refreshLoginStatus())
+  get().auth().logout()
+  location.reload() // TODO: Should be implemented in the store, for mobile use
 }
 
 export const auth = { isLoggedIn, refreshLoginStatus, login, register, loginGoogle, loginPbsMiData, logout }
