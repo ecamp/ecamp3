@@ -47,7 +47,7 @@ export default {
   name: 'LanguageSwitcher',
   methods: {
     changeLang (lang) {
-      this.$store.dispatch('changeLanguage', { lang: lang, instance: this })
+      this.$store.dispatch('changeLanguage', lang)
     }
   }
 }

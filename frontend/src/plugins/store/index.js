@@ -6,6 +6,7 @@ import normalize from 'hal-json-normalizer'
 import urltemplate from 'url-template'
 import { normalizeEntityUri } from '@/plugins/store/normalizeUri'
 import storeValueProxy from '@/plugins/store/storeValueProxy'
+import VueI18n from '@/plugins/i18n'
 
 Vue.use(Vuex)
 axios.defaults.withCredentials = true
@@ -16,8 +17,7 @@ export const API_ROOT = window.environment.API_ROOT_URL
 const LANG_KEY = 'language'
 
 const initLang = (() => {
-  const lang = window.localStorage.getItem(LANG_KEY) || window.navigator.language
-  return lang || 'en'
+  return window.localStorage.getItem(LANG_KEY) || window.navigator.language || 'en'
 })()
 
 export const state = {
@@ -74,12 +74,12 @@ export const mutations = {
    * @param state Vuex state
    * @param lang Language string
    */
-  onLangChanged (state, payload) {
-    window.localStorage.setItem(LANG_KEY, payload.lang)
-    payload.instance.$root.$i18n.locale = payload.lang
-    state.language = payload.lang
-    payload.instance.axios.defaults.headers.common['Accept-Language'] = payload.lang
-    document.querySelector('html').setAttribute('lang', payload.lang)
+  onLangChanged (state, lang) {
+    window.localStorage.setItem(LANG_KEY, lang)
+    VueI18n.locale = lang
+    state.language = lang
+    axios.defaults.headers.common['Accept-Language'] = lang
+    document.querySelector('html').setAttribute('lang', lang)
   }
 }
 
