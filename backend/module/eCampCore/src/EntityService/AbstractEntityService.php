@@ -2,6 +2,7 @@
 
 namespace eCamp\Core\EntityService;
 
+use Doctrine\DBAL\Exception\ForeignKeyConstraintViolationException;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
@@ -64,8 +65,10 @@ abstract class AbstractEntityService extends AbstractResourceListener {
             return parent::dispatch($event);
         } catch (NoAccessException $e) {
             return new ApiProblem(403, $e->getMessage());
-        } catch (EntityNotFoundException $ex) {
-            return new ApiProblem(404, $ex->getMessage());
+        } catch (EntityNotFoundException $e) {
+            return new ApiProblem(404, $e->getMessage());
+        } catch (ForeignKeyConstraintViolationException $e) {
+            return new ApiProblem(409, $e->getMessage());
         } catch (Exception $e) {
             return new ApiProblem(500, $e->getMessage());
         }
