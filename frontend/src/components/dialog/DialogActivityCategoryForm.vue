@@ -38,12 +38,16 @@
 export default {
   name: 'DialogActivityCategoryForm',
   props: {
+    camp: { type: Object, required: true },
+    isNew: { type: Boolean, required: true },
     activityCategory: { type: Object, required: true }
   },
-  data: () => ({}),
+  data: () => ({
+    updateColorAndNumberingStyle: true
+  }),
   computed: {
     activityTypes () {
-      return this.api.get().activityTypes().items.map(ct => ({
+      return this.camp.campType().activityTypes().items.map(ct => ({
         value: ct.id,
         text: this.$i18n.t(ct.name),
         object: ct
@@ -58,9 +62,12 @@ export default {
   },
   watch: {
     'activityCategory.activityTypeId': function (activityTypeId) {
-      const activityType = this.api.get().activityTypes({ activityTypeId: activityTypeId })
-      this.activityCategory.color = activityType.defaultColor
-      this.activityCategory.numberingStyle = activityType.defaultNumberingStyle
+      if (this.isNew && this.updateColorAndNumberingStyle) {
+        this.updateColorAndNumberingStyle = false
+        const activityType = this.api.get().activityTypes({ activityTypeId: activityTypeId })
+        this.activityCategory.color = activityType.defaultColor
+        this.activityCategory.numberingStyle = activityType.defaultNumberingStyle
+      }
     }
   }
 }

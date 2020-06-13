@@ -10,7 +10,11 @@
       <slot name="activator" v-bind="scope" />
     </template>
 
-    <dialog-activity-category-form v-if="!loading" :activity-category="entityData" />
+    <dialog-activity-category-form
+      v-if="!loading"
+      :camp="camp"
+      :is-new="false"
+      :activity-category="entityData" />
   </dialog-form>
 </template>
 
@@ -27,6 +31,7 @@ export default {
   },
   extends: DialogBase,
   props: {
+    camp: { type: Object, required: true },
     activityCategory: { type: Object, required: true }
   },
   data () {
@@ -37,7 +42,7 @@ export default {
         'color',
         'numberingStyle'
       ],
-      entityEmbeddeds: [
+      embeddedEntities: [
         'activityType'
       ]
     }

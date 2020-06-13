@@ -11,7 +11,11 @@
       <slot name="activator" v-bind="scope" />
     </template>
 
-    <dialog-activity-category-form v-if="!loading" :activity-category="entityData" />
+    <dialog-activity-category-form
+      v-if="!loading"
+      :camp="camp"
+      :is-new="true"
+      :activity-category="entityData" />
   </dialog-form>
 </template>
 
@@ -36,7 +40,6 @@ export default {
         'campId',
         'short',
         'name',
-        'activityType',
         'color',
         'numberingStyle'
       ],

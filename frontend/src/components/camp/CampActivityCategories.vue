@@ -21,7 +21,7 @@ Displays all periods of a single camp and allows to edit them & create new ones
 
         <v-list-item-action style="display: inline">
           <v-item-group>
-            <dialog-activity-category-edit :activity-category="activityCategory">
+            <dialog-activity-category-edit :camp="camp()" :activity-category="activityCategory">
               <template v-slot:activator="{ on }">
                 <button-edit class="mr-1" v-on="on" />
               </template>
