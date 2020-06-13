@@ -47,7 +47,7 @@ export default {
   },
   data () {
     return {
-      panel: [1, 2, 3]
+      panel: [0, 1, 2]
     }
   },
   computed: {

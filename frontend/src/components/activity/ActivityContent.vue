@@ -1,18 +1,24 @@
 <template>
   <v-card
     outlined>
-    <v-btn
-      color="error"
-      class="float-right"
+    <dialog-entity-delete :entity="activityContent">
+      <template v-slot:activator="{ on }">
+        <v-btn
+          color="error"
+          class="float-right delete-button"
+          icon
+          v-on="on">
+          <v-icon>mdi-delete</v-icon>
+        </v-btn>
+      </template>
+    </dialog-entity-delete>
 
-      icon
-      @click="removeActivityContent">
-      <v-icon>mdi-delete</v-icon>
-    </v-btn>
-    <v-card-title>
-      {{ activityContent.instanceName || $t('activity.content.' + activityContent.contentTypeName + '.name') }}
+    <v-card-title class="card-title">
+      <div class="overline mb-4">
+        {{ activityContent.instanceName || $t('activity.content.' + activityContent.contentTypeName + '.name') }}
+      </div>
     </v-card-title>
-    <v-card-text>
+    <v-card-text class="card-content">
       <component :is="activityContent.contentTypeName" :activity-content="activityContent" />
     </v-card-text>
   </v-card>
@@ -22,12 +28,16 @@
 
 import Storycontext from '@/components/activity/content/Storycontext'
 import Storyboard from '@/components/activity/content/Storyboard'
+import DialogEntityDelete from '@/components/dialog/DialogEntityDelete'
+import ButtonDelete from '@/components/buttons/ButtonDelete'
 
 export default {
   name: 'ActivityContent',
   components: {
     Storycontext,
-    Storyboard
+    Storyboard,
+    DialogEntityDelete,
+    ButtonDelete
   },
   props: {
     activityContent: { type: Object, required: true }
@@ -46,9 +56,16 @@ export default {
 </script>
 
 <style scoped>
-  .activity-content-container {
-    border: 1px grey dashed;
-    padding:5px;
-    background-color:lightgrey;
+  .card-title {
+    padding-bottom:4px;
+  }
+
+  .card-content {
+    padding-bottom:4px;
+  }
+
+  .delete-button {
+    margin-right:5px;
+    margin-top:5px;
   }
 </style>

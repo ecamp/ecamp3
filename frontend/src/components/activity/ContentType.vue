@@ -1,5 +1,5 @@
 <template>
-  <div v-if="allowed" class="contentType-container">
+  <div v-if="allowed">
     <div v-for="activityContent in activityContents" :key="activityContent._meta.self">
       <activity-content :activity-content="activityContent" />
       <br>
@@ -94,7 +94,4 @@ export default {
 </script>
 
 <style scoped>
-  .contentType-container {
-
-  }
 </style>
