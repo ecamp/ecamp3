@@ -26,15 +26,35 @@ Vue.use(Vuetify)
 Vue.use(veeValidatePlugin)
 let vuetify
 
+// creates a mock Promise which resolves within 100ms with value
+function mockPromiseResolving (value) {
+  return new Promise((resolve, reject) => {
+    const timer = setTimeout(() => {
+      clearTimeout(timer)
+      resolve(value)
+    }, 100)
+  })
+}
+
+// createa a mock Promise which rejects within 100ms with value
+function mockPromiseRejecting (value) {
+  return new Promise((resolve, reject) => {
+    const timer = setTimeout(() => {
+      clearTimeout(timer)
+      reject(value)
+    }, 100)
+  })
+}
+
 // config factory
 function createConfig (overrides) {
   const mocks = {
     api: {
-      patch: () => Promise.resolve(),
+      patch: () => mockPromiseResolving({}),
       get: () => {
         return {
           _meta: {
-            load: Promise.resolve()
+            load: () => mockPromiseResolving({})
           }
         }
       }
@@ -70,7 +90,7 @@ describe('Testing ApiWrapper [autoSave=true;  manual external value]', () => {
   let vm
   let config
   let apiPatch
-  // let validate
+  let validate
 
   beforeEach(() => {
     vuetify = new Vuetify()
@@ -81,8 +101,9 @@ describe('Testing ApiWrapper [autoSave=true;  manual external value]', () => {
 
     apiPatch = jest.spyOn(config.mocks.api, 'patch')
 
-    // const veeValidate = require('vee-validate')
-    // validate = jest.spyOn(veeValidate, 'validate')
+    // mock validation Promise
+    validate = jest.spyOn(vm.$refs.validationObserver, 'validate')
+    validate.mockImplementation(() => mockPromiseResolving(true))
   })
 
   test('init correctly with default values', () => {
@@ -111,23 +132,25 @@ describe('Testing ApiWrapper [autoSave=true;  manual external value]', () => {
     expect(vm.localValue).toBe(newValue)
 
     // resolve lodash debounced
-    jest.runAllTimers()
-
-    // await validation Promise & api.patch Promise
+    jest.advanceTimersByTime(100)
     await flushPromises()
-    // jest.runAllTimers()
+
+    // await validation Promise
+    jest.advanceTimersByTime(100)
+    await flushPromises()
 
     // saving started
-    // expect(vm.isSaving).toBe(true)
-    // expect(vm.dirty).toBe(false)
-    // expect(vm.status).toBe('saving')
+    expect(vm.isSaving).toBe(true)
+    expect(vm.dirty).toBe(false)
+    expect(vm.status).toBe('saving')
 
     // API patch method called
     expect(apiPatch).toBeCalledTimes(1)
     expect(apiPatch).toBeCalledWith(config.propsData.uri, { [config.propsData.fieldname]: newValue })
 
     // wait for patch promise to resolve
-    // await flushPromises()
+    jest.advanceTimersByTime(100)
+    await flushPromises()
 
     // feedback changed return value from API & make sure it's taken over to localValue
     wrapper.setProps({ value: newValueFromApi })
@@ -137,8 +160,9 @@ describe('Testing ApiWrapper [autoSave=true;  manual external value]', () => {
     // success state
     expect(vm.status).toBe('success')
 
-    // wait for timer
-    jest.runAllTimers()
+    // wait for success icon timer to finish
+    jest.advanceTimersByTime(2000)
+    await flushPromises()
 
     // again in init state
     expect(vm.status).toBe('init')

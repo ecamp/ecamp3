@@ -4,6 +4,17 @@
   "myCamps": "Mein Lager | Meine Lager",
   "profile": "Profil",
   "search": "Suchen",
+  "button": {
+    "add": "Hinzufügen",
+    "back": "Zurück",
+    "delete": "Löschen",
+    "edit": "Bearbeiten",
+    "submit": "Abschicken",
+    "cancel": "Abbrechen"
+  },
+  "serverError": {
+    "409": "Uuuups... Diese Aktion hat zu einem Fehler auf dem Server geführt."
+  },
   "validation": {
     "minDate": "Das {_field_} muss gleich oder grösser sein als {min}"
   },
@@ -20,6 +31,22 @@
     "motto": "Motto",
     "campType": "Lager-Typ",
     "periods": "Lagerabschnitte"
+  },
+  "activityCategory": {
+    "title": "Block Kategorien",
+    "create": "Block Kategorie erstellen",
+    "short": "Kürzel",
+    "name": "Name",
+    "color": "Farbe",
+    "numberingStyle": "Nummerierung",
+    "activityType": "Typ",
+    "1": "1, 2, 3 - Zahlen",
+    "a": "a, b, c - kleine Buchstaben",
+    "A": "A, B, C - grosse Buchstaben",
+    "i": "i, ii, iii - kleine römische Zahlen",
+    "I": "I, II, III - grosse römische Zahlen",
+    "deleteActivityCategoryQuestion": "Möchtest du die Block Kategorie wirklich löschen?",
+    "deleteActivityCategoryNotPossibleInUse": "Block Kategorie kann nicht gelöscht werden. Sie wird noch verwendet:"
   },
   "period": {
     "start": "Von",
