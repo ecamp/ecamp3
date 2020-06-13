@@ -5,7 +5,7 @@
     title="Delete"
     max-width="600px"
     :submit-action="del"
-    submit-label="Delete"
+    submit-label="button.delete"
     submit-color="error"
     submit-icon="mdi-delete"
     :cancel-action="close">

@@ -1324,6 +1324,9 @@ return [
                     ],
                 ],
             ],
+            4 => [
+                'name' => 'activityTypeId',
+            ],
         ],
         'eCampApi\\V1\\Rest\\ScheduleEntry\\Validator' => [
             0 => [

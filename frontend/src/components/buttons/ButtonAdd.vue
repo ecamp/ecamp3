@@ -7,7 +7,7 @@
     v-on="$listeners">
     <v-icon :left="$vuetify.breakpoint.smAndUp" size="150%">{{ icon }}</v-icon>
     <span class="d-none d-sm-block">
-      <slot>Add</slot>
+      <slot>{{ $t('button.add') }}</slot>
     </span>
   </v-btn>
 </template>

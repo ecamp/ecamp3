@@ -33,7 +33,7 @@
                 left>
                 {{ cancelIcon }}
               </v-icon>
-              {{ cancelLabel }}
+              {{ $t(cancelLabel) }}
             </v-btn>
             <v-btn
               v-if="submitAction != null"
@@ -45,7 +45,7 @@
                 left>
                 {{ submitIcon }}
               </v-icon>
-              {{ submitLabel }}
+              {{ $t(submitLabel) }}
             </v-btn>
             <slot name="actions" />
           </v-card-actions>
@@ -70,12 +70,12 @@ export default {
 
     submitAction: { type: Function, default: null, required: false },
     submitIcon: { type: String, default: 'mdi-check', required: false },
-    submitLabel: { type: String, default: 'Submit', required: false },
+    submitLabel: { type: String, default: 'button.submit', required: false },
     submitColor: { type: String, default: 'primary', required: false },
 
     cancelAction: { type: Function, default: null, required: false },
     cancelIcon: { type: String, default: 'mdi-window-close', required: false },
-    cancelLabel: { type: String, default: 'Cancel', required: false },
+    cancelLabel: { type: String, default: 'button.cancel', required: false },
     cancelColor: { type: String, default: 'secondary', required: false }
   },
   data () {
