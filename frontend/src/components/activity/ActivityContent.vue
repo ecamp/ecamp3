@@ -1,16 +1,21 @@
 <template>
-  <div class="activity-content-container">
+  <v-card
+    outlined>
     <v-btn
       color="error"
       class="float-right"
-      small
+
+      icon
       @click="removeActivityContent">
-      Remove this {{ activityContent.contentTypeName }}
+      <v-icon>mdi-delete</v-icon>
     </v-btn>
-    <h3> {{ activityContent.instanceName || activityContent.contentTypeName }}</h3>
-    <component :is="activityContent.contentTypeName" :activity-content="activityContent" />
-    <br>
-  </div>
+    <v-card-title>
+      {{ activityContent.instanceName || $t('activity.content.' + activityContent.contentTypeName + '.name') }}
+    </v-card-title>
+    <v-card-text>
+      <component :is="activityContent.contentTypeName" :activity-content="activityContent" />
+    </v-card-text>
+  </v-card>
 </template>
 
 <script>

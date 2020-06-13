@@ -27,6 +27,16 @@
     "description": "Description",
     "defaultDescription": "Main"
   },
+  "activity": {
+    "content": {
+      "Storyboard": {
+        "name" : "Story board"
+      },
+      "Storycontext": {
+        "name": "Story context"
+      }
+    }
+  },
   "login": {
     "title":  "Login",
     "username": "Username or Email",

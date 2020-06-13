@@ -23,13 +23,6 @@ Displays a single activity
             :auto-save="false"
             label="Titel"
             required />
-          <api-text-field
-            :value="activity.title"
-            :uri="activity._meta.self"
-            fieldname="title"
-            :auto-save="true"
-            label="Titel"
-            required />
           <v-list>
             <v-label>Instanzen</v-label>
             <v-list-item
