@@ -8,7 +8,15 @@ export default {
       entityData: {},
       entityUri: '',
       showDialog: false,
-      loading: true
+      loading: true,
+      error: null
+    }
+  },
+  watch: {
+    showDialog (visible) {
+      if (visible) {
+        this.error = null
+      }
     }
   },
   methods: {
@@ -33,16 +41,27 @@ export default {
       this.loading = false
     },
     create () {
-      return this.api.post(this.entityUri, this.entityData).then(this.close)
+      this.error = null
+      return this.api.post(this.entityUri, this.entityData).then(this.close, this.onError)
     },
     update () {
-      return this.api.patch(this.entityUri, this.entityData).then(this.close)
+      this.error = null
+      return this.api.patch(this.entityUri, this.entityData).then(this.close, this.onError)
     },
     del () {
-      return this.api.del(this.entityUri).then(this.close)
+      this.error = null
+      return this.api.del(this.entityUri).then(this.close, this.onError)
     },
     close () {
       this.showDialog = false
+    },
+    onError (e) {
+      this.error = e.message
+      if (e.response) {
+        if (e.response.status === 409 /* Conflict */) {
+          this.error = this.$i18n.t('serverError.409')
+        }
+      }
     }
   }
 }

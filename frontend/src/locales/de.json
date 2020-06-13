@@ -12,6 +12,9 @@
     "submit": "Abschicken",
     "cancel": "Abbrechen"
   },
+  "serverError": {
+    "409": "Uuuups... Diese Aktion hat zu einem Fehler auf dem Server geführt."
+  },
   "validation": {
     "minDate": "Das {_field_} muss gleich oder grösser sein als {min}"
   },

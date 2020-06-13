@@ -12,6 +12,9 @@
     "submit": "Submit",
     "cancel": "Cancel"
   },
+  "serverError": {
+    "409": "Uuuups... This action caused an server-side error."
+  },
   "validation": {
     "minDate": "The {_field_} must be equal or larger than {min}"
   },
