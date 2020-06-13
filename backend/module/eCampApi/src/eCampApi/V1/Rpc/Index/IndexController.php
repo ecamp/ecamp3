@@ -74,14 +74,16 @@ class IndexController extends AbstractActionController {
 
         if (null != $user) {
             $data['user'] = $user->getDisplayName();
-
-            $data['profile'] = Link::factory([
-                'rel' => 'profile',
-                'route' => 'e-camp-api.rpc.profile',
-            ]);
+            $data['authenticated'] = true;
         } else {
             $data['user'] = 'guest';
+            $data['authenticated'] = false;
         }
+
+        $data['profile'] = Link::factory([
+            'rel' => 'profile',
+            'route' => 'e-camp-api.rpc.profile',
+        ]);
 
         $data['self'] = Link::factory([
             'rel' => 'self',
