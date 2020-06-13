@@ -234,25 +234,7 @@ describe('authentication logic', () => {
       const result = await auth.logout()
 
       // then
-      expect(result).toBeFalsy()
-      expect(apiStore.reload).toHaveBeenCalledWith(expect.haveUri('http://localhost/auth/logout'))
-      done()
-    })
-
-    it('resolves to true if the logout fails', async done => {
-      // given
-      store.replaceState(createState({ role: 'user' }))
-      jest.spyOn(apiStore, 'reload').mockImplementation(() => {
-        // logout fails, leave user role as it is
-        return { _meta: { load: Promise.resolve() } }
-      })
-
-      // when
-      const result = await auth.logout()
-
-      // then
-      expect(result).toBeTruthy()
-      expect(apiStore.reload).toHaveBeenCalledWith(expect.haveUri('http://localhost/auth/logout'))
+      expect(result).toBeUndefined()
       done()
     })
   })

@@ -13,8 +13,16 @@ Vue.use(VueAxios, axios)
 
 export const API_ROOT = window.environment.API_ROOT_URL
 
+const LANG_KEY = 'language'
+
+const initLang = (() => {
+  const lang = window.localStorage.getItem(LANG_KEY) || window.navigator.language
+  return lang || 'en'
+})()
+
 export const state = {
-  api: {}
+  api: {},
+  language: initLang
 }
 
 export const mutations = {
@@ -60,12 +68,31 @@ export const mutations = {
    */
   deletingFailed (state, uri) {
     if (state.api[uri]) Vue.set(state.api[uri]._meta, 'deleting', false)
+  },
+  /**
+   * Changes language
+   * @param state Vuex state
+   * @param lang Language string
+   */
+  onLangChanged (state, payload) {
+    window.localStorage.setItem(LANG_KEY, payload.lang)
+    payload.instance.$root.$i18n.locale = payload.lang
+    state.language = payload.lang
+    payload.instance.axios.defaults.headers.common['Accept-Language'] = payload.lang
+    document.querySelector('html').setAttribute('lang', payload.lang)
+  }
+}
+
+const actions = {
+  changeLanguage ({ commit }, payload) {
+    commit('onLangChanged', payload)
   }
 }
 
 const store = new Vuex.Store({
   state,
   mutations,
+  actions,
   strict: process.env.NODE_ENV !== 'production'
 })
 export { store }
