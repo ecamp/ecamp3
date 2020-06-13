@@ -1,5 +1,6 @@
 import { createLocalVue, mount } from '@vue/test-utils'
-import ApiStorePlugin, { store } from '@/plugins/store'
+import ApiStorePlugin from '@/plugins/store/apiPlugin'
+import store from '@/plugins/store'
 import axios from 'axios'
 import MockAdapter from 'axios-mock-adapter'
 import VueAxios from 'vue-axios'

@@ -1,8 +1,7 @@
 import Vue from 'vue'
 import App from './App.vue'
 import router from '@/router'
-import { vuetify, auth, apiStore, filterLoading, formBaseComponents, ignoreNativeBindingWarnMessages, i18n, veeValidate } from '@/plugins'
-import { store } from '@/plugins/store'
+import { vuetify, auth, apiStore, store, filterLoading, formBaseComponents, ignoreNativeBindingWarnMessages, i18n, veeValidate } from '@/plugins'
 
 Vue.use(auth)
 Vue.use(apiStore)
