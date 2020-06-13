@@ -19,7 +19,9 @@ class SectionHydrator implements HydratorInterface {
         return [
             'id' => $section->getId(),
             'pos' => $section->getPos(),
-            'text' => $section->getText(),
+            'column1' => $section->getColumn1(),
+            'column2' => $section->getColumn2(),
+            'column3' => $section->getColumn3(),
 
             'activityContent' => Link::factory([
                 'rel' => 'activityContent',
@@ -64,8 +66,17 @@ class SectionHydrator implements HydratorInterface {
         if (isset($data['pos'])) {
             $section->setPos($data['pos']);
         }
-        if (isset($data['text'])) {
-            $section->setText($data['text']);
+
+        if (isset($data['column1'])) {
+            $section->setColumn1($data['column1']);
+        }
+
+        if (isset($data['column2'])) {
+            $section->setColumn1($data['column2']);
+        }
+
+        if (isset($data['column2'])) {
+            $section->setColumn1($data['column2']);
         }
 
         return $section;
