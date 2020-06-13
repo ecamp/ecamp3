@@ -31,13 +31,11 @@ export default {
       return this.api.get().profile()
     }
   },
-  mounted () {
-    if (this.api.authenticated) {
+  async mounted () {
+    if (await this.$auth.refreshLoginStatus()) {
       this.profile._meta.load.then(profile => {
-        if (typeof profile === 'function') {
-          if (VueI18n.availableLocales.includes(profile.language)) {
-            VueI18n.locale = profile.language
-          }
+        if (VueI18n.availableLocales.includes(profile.language)) {
+          VueI18n.locale = profile.language
         }
       })
     } else {
