@@ -22,12 +22,20 @@
           <v-card-text>
             <slot />
           </v-card-text>
+
+          <v-card-text v-if="$slots.error">
+            <v-alert color="red">
+              <slot name="error"></slot>
+            </v-alert>
+          </v-card-text>
+
           <v-card-actions>
             <v-spacer />
             <v-btn
               v-if="cancelAction != null"
               :color="cancelColor"
-              @click="doCancel">
+              @click="doCancel"
+              :disabled="!cancelEnabled">
               <v-icon
                 v-if="!!cancelIcon"
                 left>
@@ -39,7 +47,8 @@
               v-if="submitAction != null"
               :color="submitColor"
               type="submit"
-              :loading="isSaving">
+              :loading="isSaving"
+              :disabled="!submitEnabled">
               <v-icon
                 v-if="!!submitIcon"
                 left>
@@ -72,11 +81,15 @@ export default {
     submitIcon: { type: String, default: 'mdi-check', required: false },
     submitLabel: { type: String, default: 'button.submit', required: false },
     submitColor: { type: String, default: 'primary', required: false },
+    submitEnabled: { type: Boolean, default: true, required: false },
 
     cancelAction: { type: Function, default: null, required: false },
     cancelIcon: { type: String, default: 'mdi-window-close', required: false },
     cancelLabel: { type: String, default: 'button.cancel', required: false },
-    cancelColor: { type: String, default: 'secondary', required: false }
+    cancelColor: { type: String, default: 'secondary', required: false },
+    cancelEnabled: { type: Boolean, default: true, required: false },
+
+    error: { type: String, default: '', required: false }
   },
   data () {
     return {

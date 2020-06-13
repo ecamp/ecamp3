@@ -28,10 +28,30 @@ Displays all periods of a single camp and allows to edit them & create new ones
             </dialog-activity-category-edit>
 
             <dialog-entity-delete :entity="activityCategory">
+              {{ $t('activityCategory.deleteActivityCategoryQuestion')}}
+              <ul>
+                <li>
+                  {{ activityCategory.short }}: {{ activityCategory.name }}
+                </li>
+              </ul>
               <template v-slot:activator="{ on }">
                 <button-delete v-on="on" />
               </template>
-              the ActivityCategory "{{ activityCategory.short }}: {{ activityCategory.name }}"
+              <template v-slot:error v-if="findActivities(activityCategory).length > 0">
+                {{ $t('activityCategory.deleteActivityCategoryNotPossibleInUse')}}
+                <ul>
+                  <li v-for="activity in findActivities(activityCategory)" :key="activity.id">
+                    {{ activity.title }}
+                    <ul>
+                        <li v-for="scheduleEntry in activity.scheduleEntries().items" :key="scheduleEntry.id">
+                        <router-link :to="{ name: 'activity', params: { campId: camp().id, scheduleEntryId: scheduleEntry.id } }">
+                          {{ scheduleEntry.startTime }} - {{ scheduleEntry.endTime }}
+                        </router-link>
+                      </li>
+                    </ul>
+                  </li>
+                </ul>
+              </template>
             </dialog-entity-delete>
           </v-item-group>
         </v-list-item-action>
@@ -83,6 +103,12 @@ export default {
   computed: {
     activityCategories () {
       return this.camp().activityCategories()
+    }
+  },
+  methods: {
+    findActivities (activityCategory) {
+      const activities = this.camp().activities()
+      return activities.items.filter(a => a.activityCategory().id === activityCategory.id)
     }
   }
 }

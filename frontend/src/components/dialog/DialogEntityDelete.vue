@@ -5,6 +5,7 @@
     title="Delete"
     max-width="600px"
     :submit-action="del"
+    :submit-enabled="!$slots.error"
     submit-label="button.delete"
     submit-color="error"
     submit-icon="mdi-delete"
@@ -12,7 +13,12 @@
     <template v-slot:activator="scope">
       <slot name="activator" v-bind="scope" />
     </template>
-    Do you really want do delete <slot>this</slot>?
+    <slot />
+    <template v-slot:error v-if="$slots.error">
+      <slot name="error">
+        {{ error }}
+      </slot>
+    </template>
   </dialog-form>
 </template>
 

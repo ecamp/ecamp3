@@ -14,7 +14,7 @@
 
     <e-select
       v-model="activityCategory.activityTypeId"
-      :items="activityTypes"
+      :items="activityTypeOptions"
       :name="$t('activityCategory.activityType')"
       :label="$t('activityCategory.activityType')"
       vee-rules="required" />
@@ -47,7 +47,10 @@ export default {
   }),
   computed: {
     activityTypes () {
-      return this.camp.campType().activityTypes().items.map(ct => ({
+      return this.camp.campType().activityTypes().items
+    },
+    activityTypeOptions () {
+      return this.activityTypes.map(ct => ({
         value: ct.id,
         text: this.$i18n.t(ct.name),
         object: ct
@@ -64,7 +67,7 @@ export default {
     'activityCategory.activityTypeId': function (activityTypeId) {
       if (this.isNew && this.updateColorAndNumberingStyle) {
         this.updateColorAndNumberingStyle = false
-        const activityType = this.api.get().activityTypes({ activityTypeId: activityTypeId })
+        const activityType = this.activityTypes.filter(a => a.id === activityTypeId)[0]
         this.activityCategory.color = activityType.defaultColor
         this.activityCategory.numberingStyle = activityType.defaultNumberingStyle
       }

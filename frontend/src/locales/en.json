@@ -41,7 +41,9 @@
     "a": "a, b, c - lower letters",
     "A": "A, B, C - upper letters",
     "i": "i, ii, iii - lower roman numbers",
-    "I": "I, II, III - grosse roman numbers"
+    "I": "I, II, III - grosse roman numbers",
+    "deleteActivityCategoryQuestion": "Do you realy want do delete the ActivityCategory",
+    "deleteActivityCategoryNotPossibleInUse": "ActivityCategory can not be deleted. It is used by:"
   },
   "period": {
     "start": "Start",
