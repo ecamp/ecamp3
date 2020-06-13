@@ -8,7 +8,7 @@
         v-bind="attrs"
         v-on="on">
         <v-icon left small>mdi-translate</v-icon>
-        {{ i18nLocales[$root.$i18n.locale] }}
+        {{ $i18n.t('language', $i18n.locale) }}
       </v-btn>
     </template>
     <v-list dense tag="ul"
@@ -19,7 +19,7 @@
         tag="li"
         :lang="item"
         @click="changeLang(item)">
-        <v-list-item-title>{{ i18nLocales[item] }}</v-list-item-title>
+        <v-list-item-title>{{ $i18n.t('language', item) }}</v-list-item-title>
       </v-list-item>
     </v-list>
   </v-menu>
@@ -45,16 +45,6 @@
 <script>
 export default {
   name: 'LanguageSwitcher',
-  data () {
-    return {
-      i18nLocales: {
-        de: 'Deutsch',
-        en: 'English',
-        fr: 'Français',
-        it: 'Italiano'
-      }
-    }
-  },
   methods: {
     changeLang (lang) {
       this.$root.$i18n.locale = lang
