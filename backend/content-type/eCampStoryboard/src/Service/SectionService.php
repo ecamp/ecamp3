@@ -2,12 +2,16 @@
 
 namespace eCamp\ContentType\Storyboard\Service;
 
+use Laminas\Stdlib\Parameters;
+use eCamp\Lib\Service\ServiceUtils;
+use eCamp\Core\Entity\ActivityContent;
+use Laminas\ApiTools\Rest\ResourceEvent;
 use Doctrine\Common\Collections\ArrayCollection;
 use eCamp\ContentType\Storyboard\Entity\Section;
-use eCamp\ContentType\Storyboard\Hydrator\SectionHydrator;
-use eCamp\Core\ContentType\BaseContentTypeService;
-use eCamp\Lib\Service\ServiceUtils;
+use Laminas\ApiTools\ContentNegotiation\Request;
 use Laminas\Authentication\AuthenticationService;
+use eCamp\Core\ContentType\BaseContentTypeService;
+use eCamp\ContentType\Storyboard\Hydrator\SectionHydrator;
 
 class SectionService extends BaseContentTypeService {
     public function __construct(ServiceUtils $serviceUtils, AuthenticationService $authenticationService) {
@@ -71,6 +75,21 @@ class SectionService extends BaseContentTypeService {
             $section1->setPos($pos2);
             $section2->setPos($pos1);
         }
+    }
+
+    /**
+     * @param ArrayObject $data
+     */
+    public function patchList($data) {
+        $queryParams = $this->getEvent()->getRequest()->getQuery();
+        // $this->getEvent()->setQueryParams(new Parameters(['activityContentId' => $queryParams['activityContentId']]));
+
+        /** @var ActivityContent $activityContent */
+        $activityContent = $this->findEntity(ActivityContent::class, $queryParams['activityContentId']);
+
+        $items = $data['items'];
+
+        return $this->fetchAll(['activityContentId' => $queryParams['activityContentId']]);
     }
 
     protected function fetchAllQueryBuilder($params = []) {
