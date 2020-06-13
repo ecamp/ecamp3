@@ -1,5 +1,5 @@
 <template>
-  <v-alert v-if="serverError" class="background-color: red">
+  <v-alert v-if="serverError" color="red">
     <div v-if="serverError.name === 'ServerException' && serverError.response && serverError.response.status === 422">
       <div class="title">Validation error:</div>
       <div v-for="(validation_messages, name) in serverError.response.data.validation_messages" :key="name">
