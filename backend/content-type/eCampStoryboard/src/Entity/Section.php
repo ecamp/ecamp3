@@ -18,7 +18,17 @@ class Section extends BaseContentTypeEntity {
     /**
      * @ORM\Column(type="text", nullable=true)
      */
-    private $text;
+    private $column1;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $column2;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $column3;
 
     /** @return int */
     public function getPos() {
@@ -31,12 +41,32 @@ class Section extends BaseContentTypeEntity {
     }
 
     /** @return string */
-    public function getText() {
-        return $this->text;
+    public function getColumn1() {
+        return $this->column1;
     }
 
     /** @param string $text */
-    public function setText($text) {
-        $this->text = $text;
+    public function setColumn1($text) {
+        $this->column1 = $text;
+    }
+
+    /** @return string */
+    public function getColumn2() {
+        return $this->column2;
+    }
+
+    /** @param string $text */
+    public function setColumn2($text) {
+        $this->column2 = $text;
+    }
+
+    /** @return string */
+    public function getColumn3() {
+        return $this->column3;
+    }
+
+    /** @param string $text */
+    public function setColumn3($text) {
+        $this->column3 = $text;
     }
 }

@@ -1,22 +1,25 @@
 <template>
   <div>
     <api-form :entity="activityContent.textarea()">
-      <api-text-field
+      <api-textarea
         fieldname="text"
-        label="Very rich text" />
+        :label="$t('activity.content.Storycontext.name')"
+        rows="2"
+        auto-grow />
     </api-form>
   </div>
 </template>
 
 <script>
-import ApiTextField from '@/components/form/api/ApiTextField'
+
+import ApiTextarea from '@/components/form/api/ApiTextarea'
 import ApiForm from '@/components/form/api/ApiForm'
 
 export default {
-  name: 'Richtext',
+  name: 'Storycontext',
   components: {
     ApiForm,
-    ApiTextField
+    ApiTextarea
   },
   props: {
     activityContent: { type: Object, required: true }

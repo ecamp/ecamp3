@@ -12,39 +12,32 @@ class ContentTypeData extends AbstractFixture {
     public static $TEXTAREA = ContentType::class.':TEXTAREA';
     public static $RICHTEXT = ContentType::class.':RICHTEXT';
     public static $STORYBOARD = ContentType::class.':STORYBOARD';
+    public static $STORYCONTEXT = ContentType::class.':STORYCONTEXT';
 
     public function load(ObjectManager $manager) {
         $repository = $manager->getRepository(ContentType::class);
 
-        $contentType = $repository->findOneBy(['name' => 'TextArea']);
-        if (null == $contentType) {
-            $contentType = new ContentType();
-            $contentType->setName('Textarea');
-            $contentType->setActive(true);
-            $contentType->setStrategyClass(TextareaStrategy::class);
-            $manager->persist($contentType);
-        }
-        $this->addReference(self::$TEXTAREA, $contentType);
-
-        $contentType = $repository->findOneBy(['name' => 'RichText']);
-        if (null == $contentType) {
-            $contentType = new ContentType();
-            $contentType->setName('Richtext');
-            $contentType->setActive(true);
-            $contentType->setStrategyClass(TextareaStrategy::class);
-            $manager->persist($contentType);
-        }
-        $this->addReference(self::$RICHTEXT, $contentType);
-
+        // Story board (Programmablauf)
         $contentType = $repository->findOneBy(['name' => 'storyboard']);
         if (null == $contentType) {
             $contentType = new ContentType();
             $contentType->setName('Storyboard');
-            $contentType->setActive(true);
+            $contentType->setAllowMultiple(true);
             $contentType->setStrategyClass(StoryboardStrategy::class);
             $manager->persist($contentType);
         }
         $this->addReference(self::$STORYBOARD, $contentType);
+
+        // Story context (Roter Faden, Einkleidung, ...)
+        // implemented with a simple text field
+        $contentType = $repository->findOneBy(['name' => 'StoryContext']);
+        if (null == $contentType) {
+            $contentType = new ContentType();
+            $contentType->setName('Storycontext');
+            $contentType->setStrategyClass(TextareaStrategy::class);
+            $manager->persist($contentType);
+        }
+        $this->addReference(self::$STORYCONTEXT, $contentType);
 
         $manager->flush();
     }

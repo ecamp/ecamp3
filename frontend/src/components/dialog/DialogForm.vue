@@ -25,7 +25,7 @@
 
           <v-card-text v-if="$slots.error">
             <v-alert color="red">
-              <slot name="error"></slot>
+              <slot name="error" />
             </v-alert>
           </v-card-text>
 
@@ -34,8 +34,8 @@
             <v-btn
               v-if="cancelAction != null"
               :color="cancelColor"
-              @click="doCancel"
-              :disabled="!cancelEnabled">
+              :disabled="!cancelEnabled"
+              @click="doCancel">
               <v-icon
                 v-if="!!cancelIcon"
                 left>

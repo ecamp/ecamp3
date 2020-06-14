@@ -28,7 +28,7 @@ Displays all periods of a single camp and allows to edit them & create new ones
             </dialog-activity-category-edit>
 
             <dialog-entity-delete :entity="activityCategory">
-              {{ $t('activityCategory.deleteActivityCategoryQuestion')}}
+              {{ $t('activityCategory.deleteActivityCategoryQuestion') }}
               <ul>
                 <li>
                   {{ activityCategory.short }}: {{ activityCategory.name }}
@@ -37,13 +37,13 @@ Displays all periods of a single camp and allows to edit them & create new ones
               <template v-slot:activator="{ on }">
                 <button-delete v-on="on" />
               </template>
-              <template v-slot:error v-if="findActivities(activityCategory).length > 0">
-                {{ $t('activityCategory.deleteActivityCategoryNotPossibleInUse')}}
+              <template v-if="findActivities(activityCategory).length > 0" v-slot:error>
+                {{ $t('activityCategory.deleteActivityCategoryNotPossibleInUse') }}
                 <ul>
                   <li v-for="activity in findActivities(activityCategory)" :key="activity.id">
                     {{ activity.title }}
                     <ul>
-                        <li v-for="scheduleEntry in activity.scheduleEntries().items" :key="scheduleEntry.id">
+                      <li v-for="scheduleEntry in activity.scheduleEntries().items" :key="scheduleEntry.id">
                         <router-link :to="{ name: 'activity', params: { campId: camp().id, scheduleEntryId: scheduleEntry.id } }">
                           {{ scheduleEntry.startTime }} - {{ scheduleEntry.endTime }}
                         </router-link>

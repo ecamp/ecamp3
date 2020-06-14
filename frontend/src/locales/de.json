@@ -54,6 +54,16 @@
     "description": "Beschreibung",
     "defaultDescription": "Hauptlager"
   },
+  "activity": {
+    "content": {
+      "Storyboard": {
+        "name" : "Programmabschnitt"
+      },
+      "Storycontext": {
+        "name": "Roter Faden"
+      }
+    }
+  },
   "login": {
     "title":  "Anmelden",
     "username": "Username oder E-Mail",
