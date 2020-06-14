@@ -3,8 +3,8 @@ import Vue from 'vue'
 import Vuetify from 'vuetify'
 import flushPromises from 'flush-promises'
 import { shallowMount } from '@vue/test-utils'
-import { ServerException } from '@/plugins/store/index.js'
-import veeValidatePlugin from '@/plugins/veeValidate.js'
+import { ServerException } from '@/plugins/store/apiPlugin'
+import veeValidatePlugin from '@/plugins/veeValidate'
 import ApiWrapper from '../ApiWrapper.vue'
 import { VForm, VBtn } from 'vuetify/lib'
 import { ValidationObserver } from 'vee-validate'
@@ -37,6 +37,7 @@ function mockPromiseResolving (value) {
 }
 
 // createa a mock Promise which rejects within 100ms with value
+/*
 function mockPromiseRejecting (value) {
   return new Promise((resolve, reject) => {
     const timer = setTimeout(() => {
@@ -44,7 +45,7 @@ function mockPromiseRejecting (value) {
       reject(value)
     }, 100)
   })
-}
+} */
 
 // config factory
 function createConfig (overrides) {

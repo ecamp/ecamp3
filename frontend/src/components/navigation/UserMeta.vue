@@ -1,7 +1,9 @@
 <template>
-  <v-menu offset-y dark
+  <v-menu v-model="open"
+          offset-y dark
           right content-class="ec-usermenu"
           transition="slide-y-transition"
+          :close-on-content-click="false"
           z-index="5">
     <template v-slot:activator="{ on,value,attrs }">
       <v-toolbar-items>
@@ -18,12 +20,15 @@
     <v-list dense class="user-nav"
             tag="ul"
             light color="blue-grey lighten-5">
-      <v-list-item tag="li" block :to="{ name: 'profile' }">
+      <v-list-item tag="li" block
+                   :to="{ name: 'profile' }"
+                   @click="open = false">
         <v-icon left>mdi-account</v-icon>
         <span>{{ $t('components.navigation.profile') }}</span>
       </v-list-item>
       <v-list-item block tag="li"
-                   exact :to="{ name: 'camps', params: { groupName: encodeURI('Pfadi Bewegung Schweiz') } }">
+                   exact :to="{ name: 'camps', params: { groupName: encodeURI('Pfadi Bewegung Schweiz') } }"
+                   @click="open = false">
         <v-icon left>mdi-format-list-bulleted-triangle</v-icon>
         <span>{{ $tc('components.navigation.myCamps', api.get().camps().items.length) }}</span>
       </v-list-item>
@@ -44,7 +49,8 @@ export default {
   name: 'UserMeta',
   data () {
     return {
-      logoutIcon: 'mdi-logout'
+      logoutIcon: 'mdi-logout',
+      open: false
     }
   },
   computed: {
@@ -55,7 +61,7 @@ export default {
   methods: {
     logout () {
       this.logoutIcon = ''
-      this.$auth.logout().then(() => this.$router.replace({ name: 'login' }))
+      this.$auth.logout()
     },
     prevent (event) {
       event.stopImmediatePropagation()

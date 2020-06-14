@@ -2,7 +2,7 @@
   <dialog-form
     v-model="showDialog"
     icon="mdi-delete"
-    title="Delete"
+    :title="$t('title')"
     max-width="600px"
     :submit-action="del"
     :submit-enabled="!$slots.error"
@@ -13,14 +13,27 @@
     <template v-slot:activator="scope">
       <slot name="activator" v-bind="scope" />
     </template>
-    <slot />
-    <template v-slot:error v-if="$slots.error || error">
+    <slot>{{ $t('warningText') }}</slot>
+    <template v-if="$slots.error || error" v-slot:error>
       <slot name="error">
         {{ error }}
       </slot>
     </template>
   </dialog-form>
 </template>
+
+<i18n>
+{
+  "en": {
+    "title": "Delete",
+    "warningText": "Do you really want to delete this?"
+  },
+  "de": {
+    "title": "Löschen",
+    "warningText": "Willst du diesen Inhalt wirklich löschen?"
+  }
+}
+</i18n>
 
 <script>
 import DialogForm from './DialogForm'

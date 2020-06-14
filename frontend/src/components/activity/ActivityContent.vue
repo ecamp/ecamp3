@@ -1,30 +1,43 @@
 <template>
-  <div class="activity-content-container">
-    <v-btn
-      color="error"
-      class="float-right"
-      small
-      @click="removeActivityContent">
-      Remove this {{ activityContent.contentTypeName }}
-    </v-btn>
-    <h3> {{ activityContent.instanceName || activityContent.contentTypeName }}</h3>
-    <component :is="activityContent.contentTypeName" :activity-content="activityContent" />
-    <br>
-  </div>
+  <v-card
+    outlined>
+    <dialog-entity-delete :entity="activityContent">
+      <template v-slot:activator="{ on }">
+        <v-btn
+          color="error"
+          class="float-right delete-button"
+          icon
+          v-on="on">
+          <v-icon>mdi-delete</v-icon>
+        </v-btn>
+      </template>
+    </dialog-entity-delete>
+
+    <v-card-title class="card-title">
+      <div class="overline mb-4">
+        {{ activityContent.instanceName || $t('activity.content.' + activityContent.contentTypeName + '.name') }}
+      </div>
+    </v-card-title>
+    <v-card-text class="card-content">
+      <component :is="activityContent.contentTypeName" :activity-content="activityContent" />
+    </v-card-text>
+  </v-card>
 </template>
 
 <script>
 
-import Textarea from '@/components/activity/content/Textarea'
+import Storycontext from '@/components/activity/content/Storycontext'
 import Storyboard from '@/components/activity/content/Storyboard'
-import Richtext from '@/components/activity/content/Richtext'
+import DialogEntityDelete from '@/components/dialog/DialogEntityDelete'
+import ButtonDelete from '@/components/buttons/ButtonDelete'
 
 export default {
   name: 'ActivityContent',
   components: {
-    Textarea,
+    Storycontext,
     Storyboard,
-    Richtext
+    DialogEntityDelete,
+    ButtonDelete
   },
   props: {
     activityContent: { type: Object, required: true }
@@ -43,9 +56,16 @@ export default {
 </script>
 
 <style scoped>
-  .activity-content-container {
-    border: 1px grey dashed;
-    padding:5px;
-    background-color:lightgrey;
+  .card-title {
+    padding-bottom:4px;
+  }
+
+  .card-content {
+    padding-bottom:4px;
+  }
+
+  .delete-button {
+    margin-right:5px;
+    margin-top:5px;
   }
 </style>

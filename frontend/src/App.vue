@@ -5,9 +5,9 @@
     <router-view name="aside" />
 
     <!-- main content -->
-    <v-content>
+    <v-main>
       <router-view />
-    </v-content>
+    </v-main>
 
     <!-- footer -->
     <v-footer v-if="$vuetify.breakpoint.smAndUp"
@@ -26,13 +26,22 @@ import VueI18n from '@/plugins/i18n'
 export default {
   name: 'App',
   components: { LanguageSwitcher },
-  mounted () {
-    this.api.get().profile()._meta.load.then(function (profile) {
-      if (VueI18n.availableLocales.includes(profile.language)) {
-        VueI18n.locale = profile.language
-      }
-    })
-    VueI18n.locale = 'de'
+  computed: {
+    profile () {
+      return this.api.get().profile()
+    }
+  },
+  created () {
+    this.$store.commit('setLanguage', this.$store.state.language)
+  },
+  async mounted () {
+    if (await this.$auth.refreshLoginStatus()) {
+      this.profile._meta.load.then(profile => {
+        if (VueI18n.availableLocales.includes(profile.language)) {
+          this.$store.commit('setLanguage', profile.language)
+        }
+      })
+    }
   }
 }
 </script>
@@ -62,8 +71,8 @@ export default {
   }
 
   .user-nav {
-    border-top-left-radius: 0!important;
-    border-top-right-radius: 0!important;
+    border-top-left-radius: 0 !important;
+    border-top-right-radius: 0 !important;
   }
 
   .v-navigation-drawer--temporary.v-navigation-drawer--clipped {

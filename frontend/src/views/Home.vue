@@ -3,7 +3,7 @@
     <content-card :title="$t('views.home.home')" max-width="600">
       <p class="mx-4">
         <v-skeleton-loader type="text" :loading="api.get()._meta.loading">
-          {{ $t('views.home.welcome', { user: api.get().user }) }}
+          {{ $t('views.home.welcome', { user: api.get().profile().displayName }) }}
         </v-skeleton-loader>
       </p>
       <v-list class="pt-0">

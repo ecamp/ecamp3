@@ -31,6 +31,11 @@ export default {
   name: 'BaseComponent',
   components: { ValidationProvider, VTextField },
   mixins: [formComponentPropsMixin],
-  props: ['inputComponent']
+  props: {
+    inputComponent: {
+      type: String,
+      required: true
+    }
+  }
 }
 </script>

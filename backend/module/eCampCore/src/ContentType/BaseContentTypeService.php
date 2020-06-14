@@ -45,7 +45,7 @@ abstract class BaseContentTypeService extends AbstractEntityService {
     }
 
     /**
-     * @param array $data
+     * @param mixed $data
      *
      * @throws NoAccessException
      * @throws ORMException
@@ -56,9 +56,9 @@ abstract class BaseContentTypeService extends AbstractEntityService {
         /** @var BaseContentTypeEntity $entity */
         $entity = parent::createEntity($data);
 
-        if (isset($data['activityContentId'])) {
+        if (isset($data->activityContentId)) {
             /** @var ActivityContent $activityContent */
-            $activityContent = $this->findEntity(ActivityContent::class, $data['activityContentId']);
+            $activityContent = $this->findEntity(ActivityContent::class, $data->activityContentId);
             $entity->setActivityContent($activityContent);
         } elseif ($activityContent) {
             $entity->setActivityContent($activityContent);

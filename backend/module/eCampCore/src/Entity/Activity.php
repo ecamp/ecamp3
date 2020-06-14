@@ -133,8 +133,7 @@ class Activity extends BaseEntity implements BelongsToCampInterface {
      */
     public function createDefaultActivityContents(ContentTypeStrategyProvider $contentTypeStrategyProvider = null) {
         foreach ($this->getActivityType()->getActivityTypeContentTypes() as $activityTypeContentType) {
-            // TO DO: getMinNumberContentTypeInstances probably not ideal, beneath min & max there should also be a default value
-            for ($idx = 0; $idx < $activityTypeContentType->getMinNumberContentTypeInstances(); ++$idx) {
+            for ($idx = 0; $idx < $activityTypeContentType->getDefaultInstances(); ++$idx) {
                 /** @var ContentType $contentType */
                 $contentType = $activityTypeContentType->getContentType();
                 $contentTypeName = $contentType->getName().' ';
