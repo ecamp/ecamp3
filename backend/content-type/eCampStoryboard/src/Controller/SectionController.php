@@ -3,6 +3,7 @@
 namespace eCamp\ContentType\Storyboard\Controller;
 
 use Laminas\Stdlib\Parameters;
+use Laminas\ApiTools\Hal\Collection;
 use eCamp\Core\ContentType\ContentTypeRestController;
 
 class SectionController extends ContentTypeRestController {
@@ -28,6 +29,9 @@ class SectionController extends ContentTypeRestController {
         $collection = parent::patchList($data);
 
         // logic copied from RestControllerFactory.php / collection_query_whitelist / getList.post
+        if (! $collection instanceof Collection) {
+            return $collection;
+        }
         $params = $resource->getQueryParams()->getArrayCopy();
         $collection->setCollectionRouteOptions([
             'query' => $params,

@@ -82,12 +82,16 @@ class SectionService extends BaseContentTypeService {
      */
     public function patchList($data) {
         $queryParams = $this->getEvent()->getRequest()->getQuery();
-        // $this->getEvent()->setQueryParams(new Parameters(['activityContentId' => $queryParams['activityContentId']]));
 
         /** @var ActivityContent $activityContent */
         $activityContent = $this->findEntity(ActivityContent::class, $queryParams['activityContentId']);
 
-        $items = $data['items'];
+        // update sort index 'pos'
+        foreach($data as $key => $value){
+            $section = $activityContent = $this->findEntity(Section::class, $value['id']);
+            $section->setPos($key);
+        }
+        $this->getServiceUtils()->emFlush();
 
         return $this->fetchAll(['activityContentId' => $queryParams['activityContentId']]);
     }
