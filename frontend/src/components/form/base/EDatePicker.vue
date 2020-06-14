@@ -8,7 +8,6 @@ Displays a field as a date picker (can be used with v-model)
     :value="value"
     :format="format"
     :parse="parse"
-    :filled="filled"
     v-bind="$attrs"
     @input="$emit('input', $event)">
     <template slot-scope="picker">
@@ -41,8 +40,7 @@ export default {
   components: { BasePicker },
   props: {
     value: { type: String, required: true },
-    icon: { type: String, required: false, default: 'mdi-calendar' },
-    filled: { type: Boolean, required: false, default: true }
+    icon: { type: String, required: false, default: 'mdi-calendar' }
   },
   methods: {
     format (val) {
