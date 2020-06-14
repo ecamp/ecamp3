@@ -6,20 +6,15 @@ class ConfigFactory {
   
     /**
      * params String $name Content type name is PascalCase
+     * params Bollean $multiple false=single entitity per activityContent; true=multiple entities per activityContent
      */
-    public static function createConfig(String $name, ?String $namePlural = null) {
+    public static function createConfig(String $name, bool $multiple = false, ?String $entityName=null, ?String $namePlural = null) {
 
         // used in class namespace (PascalCase)
         $namespace = $name;
 
-        // name of entity
-        $entity = $namespace;
-
         // used in folder structure (Prefix + PascalCase)
         $folder = "eCamp".$name;
-
-        // property prefix (camelCase)
-        $propertyPrefix = lcfirst($name);
 
         // route name
         $route = strtolower($name);
@@ -27,7 +22,13 @@ class ConfigFactory {
         // URI (lower case) + plural
         $apiEndpoint = ! is_null($namePlural) ? strtolower($namePlural) : strtolower($name)."s";
 
+        // name of entity ($namespace s fallback)
+        $entity = !is_null($entityName) ? $entityName : $namespace;
 
+        // property prefix (camelCase)
+        $propertyPrefix = lcfirst($entity);
+
+        
         $config =  [
             'router' => [
                 'routes' => [
@@ -55,14 +56,15 @@ class ConfigFactory {
                         0 => 'GET',
                         1 => 'PATCH',
                         2 => 'PUT',
-                        // 3 => 'DELETE' // disallow deleting directly. Single entities should always be deleted via ActivityContent.
+                        3 => 'DELETE' // TODO: disallow deleting directly. Single entities should always be deleted via ActivityContent.
                     ],
                     'collection_http_methods' => [
                         0 => 'GET',
-                        // 1 => 'POST', // disallow posting directly. Single entities should always be created via ActivityContent.
+                        1 => 'POST', // TODO: disallow posting directly. Single entities should always be created via ActivityContent.
                     ],
                     'collection_query_whitelist' => [
-                        1 => 'page_size',
+                        0 => 'page_size',
+                        1 => 'activityContentId', // TO DO: not needed for sigle entities
                     ],
                     'page_size' => -1,
                     'page_size_param' => 'page_size',
