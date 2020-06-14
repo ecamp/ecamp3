@@ -274,6 +274,13 @@ const purge = function (uriOrEntity) {
 }
 
 /**
+ * Removes all stored entities from the Vuex store (but does not delete them using the API).
+ */
+export const purgeAll = function () {
+  store.commit('purgeAll')
+}
+
+/**
  * Attempts to permanently delete a single entity using a DELETE request to the API.
  * This function performs the following operations when given the URI of an entity E:
  * 1. Marks E in the Vuex store with the ._meta.deleting flag

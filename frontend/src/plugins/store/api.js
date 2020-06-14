@@ -18,7 +18,7 @@ export const mutations = {
    * @param data  An object mapping URIs to entities that should be merged into the Vuex state.
    */
   add (state, data) {
-    Object.keys(data).forEach((uri) => {
+    Object.keys(data).forEach(uri => {
       Vue.set(state, uri, data[uri])
     })
   },
@@ -29,6 +29,16 @@ export const mutations = {
    */
   purge (state, uri) {
     Vue.delete(state, uri)
+  },
+  /**
+   * Removes a single entity from the Vuex store.
+   * @param state Vuex state
+   * @param uri   URI of the entity to be removed
+   */
+  purgeAll (state, uri) {
+    Object.keys(state).forEach(uri => {
+      Vue.delete(state, uri)
+    })
   },
   /**
    * Marks a single entity in the Vuex store as deleting, meaning the process of deletion is currently ongoing.
