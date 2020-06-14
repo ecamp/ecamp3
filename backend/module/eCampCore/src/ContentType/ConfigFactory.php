@@ -4,8 +4,10 @@ namespace eCamp\Core\ContentType;
 
 class ConfigFactory {
     /**
-     * params String $name Content type name is PascalCase
-     * params Bollean $multiple false=single entitity per activityContent; true=multiple entities per activityContent.
+     * params String $name         Content type name is PascalCase
+     * params bool $multiple       false=single entitity per activityContent; true=multiple entities per activityContent.
+     * params String $entityName   Specify entity name if it deviates from main name
+     * params String $namePlural   Specify non-standard plural names.
      */
     public static function createConfig(string $name, bool $multiple = false, ?String $entityName = null, ?String $namePlural = null) {
         // used in class namespace (PascalCase)
