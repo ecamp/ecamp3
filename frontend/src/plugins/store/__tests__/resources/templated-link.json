@@ -6,7 +6,7 @@
         "href": "/camps/1"
       },
       "users": {
-        "href": "/camps/1/users{/id}",
+        "href": "http://localhost/camps/1/users{/id}",
         "templated": true
       }
     }
@@ -24,7 +24,7 @@
     "/camps/1": {
       "id": 1,
       "users": {
-        "href": "/camps/1/users{/id}",
+        "href": "http://localhost/camps/1/users{/id}",
         "templated": true
       },
       "_meta": {
@@ -36,7 +36,7 @@
     "/camps/1": {
       "id": 1,
       "users": {
-        "href": "/camps/1/users{/id}",
+        "href": "http://localhost/camps/1/users{/id}",
         "templated": true
       },
       "_meta": {

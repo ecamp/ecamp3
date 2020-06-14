@@ -34,10 +34,9 @@ async function oAuthLoginInSeparateWindow (provider) {
     // Make the promise resolve function available on global level, so the separate window can call it
     window.afterLogin = resolve
 
-    href(get().auth(), provider).then(url => {
-      const returnUrl = window.location.origin + router.resolve({ name: 'loginCallback' }).href
-      // TODO use templated relations once #369 is implemented
-      window.open(url + '?callback=' + encodeURI(returnUrl), '', 'width=500px,height=600px')
+    const returnUrl = window.location.origin + router.resolve({ name: 'loginCallback' }).href
+    href(get().auth(), provider, { callback: encodeURI(returnUrl) }).then(url => {
+      window.open(url, '', 'width=500px,height=600px')
     })
   })
 }

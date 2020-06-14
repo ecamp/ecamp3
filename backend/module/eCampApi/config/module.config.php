@@ -23,6 +23,26 @@ return [
                     ],
                 ],
             ],
+            'e-camp-api.rpc.auth.google' => [
+                'type' => 'Segment',
+                'options' => [
+                    'route' => '/api/auth/google',
+                    'defaults' => [
+                        'controller' => 'eCampApi\\V1\\Rpc\\Auth\\AuthController',
+                        'action' => 'google',
+                    ],
+                ],
+            ],
+            'e-camp-api.rpc.auth.pbsmidata' => [
+                'type' => 'Segment',
+                'options' => [
+                    'route' => '/api/auth/pbsmidata',
+                    'defaults' => [
+                        'controller' => 'eCampApi\\V1\\Rpc\\Auth\\AuthController',
+                        'action' => 'pbsmidata',
+                    ],
+                ],
+            ],
             'e-camp-api.rpc.register' => [
                 'type' => 'Segment',
                 'options' => [
@@ -1588,6 +1608,9 @@ return [
                 1 => 'POST',
             ],
             'route_name' => 'e-camp-api.rpc.auth',
+            'collection_query_whitelist' => [
+                'callback',
+            ],
         ],
         'eCampApi\\V1\\Rpc\\Index\\IndexController' => [
             'service_name' => 'Index',

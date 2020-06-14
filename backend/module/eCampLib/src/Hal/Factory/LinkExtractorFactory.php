@@ -36,6 +36,9 @@ class LinkExtractorFactory {
         if (isset($container->get('Config')['api-tools-rest'])) {
             $linkExtractor->setZfRestConfig($container->get('Config')['api-tools-rest']);
         }
+        if (isset($container->get('Config')['api-tools-rpc'])) {
+            $linkExtractor->setRpcConfig($container->get('Config')['api-tools-rpc']);
+        }
 
         return $linkExtractor;
     }
