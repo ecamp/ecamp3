@@ -40,13 +40,14 @@ class ActivityCategoryHydratorTest extends AbstractTestCase {
 
         $activityCategory = new ActivityCategory();
         $data = [
-            'activityType' => $activityType,
-            'camp' => $camp,
             'short' => 'sh',
             'name' => 'name',
             'color' => '#00ff00',
             'numberingStyle' => 'a',
         ];
+
+        $activityCategory->setCamp($camp);
+        $activityCategory->setActivityType($activityType);
 
         $hydrator = new ActivityCategoryHydrator();
         $hydrator->hydrate($data, $activityCategory);

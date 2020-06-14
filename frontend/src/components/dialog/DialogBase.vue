@@ -4,18 +4,25 @@ export default {
   data () {
     return {
       entityProperties: [],
+      embeddedEntities: [],
       entityData: {},
       entityUri: '',
       showDialog: false,
-      loading: true
+      loading: true,
+      error: null
+    }
+  },
+  watch: {
+    showDialog (visible) {
+      if (visible) {
+        this.error = null
+      }
     }
   },
   methods: {
     clearEntityData () {
       this.loading = true
-      this.entityProperties.forEach(key => {
-        this.$set(this.entityData, key, null)
-      })
+      this.entityData = {}
     },
     loadEntityData (uri) {
       this.clearEntityData()
@@ -28,19 +35,33 @@ export default {
       this.entityProperties.forEach(key => {
         this.$set(this.entityData, key, data[key])
       })
+      this.embeddedEntities.forEach(key => {
+        data[key]()._meta.load.then(obj => this.$set(this.entityData, key + 'Id', obj.id))
+      })
       this.loading = false
     },
     create () {
-      return this.api.post(this.entityUri, this.entityData).then(this.close)
+      this.error = null
+      return this.api.post(this.entityUri, this.entityData).then(this.close, this.onError)
     },
     update () {
-      return this.api.patch(this.entityUri, this.entityData).then(this.close)
+      this.error = null
+      return this.api.patch(this.entityUri, this.entityData).then(this.close, this.onError)
     },
     del () {
-      return this.api.del(this.entityUri).then(this.close)
+      this.error = null
+      return this.api.del(this.entityUri).then(this.close, this.onError)
     },
     close () {
       this.showDialog = false
+    },
+    onError (e) {
+      this.error = e.message
+      if (e.response) {
+        if (e.response.status === 409 /* Conflict */) {
+          this.error = this.$i18n.t('serverError.409')
+        }
+      }
     }
   }
 }
