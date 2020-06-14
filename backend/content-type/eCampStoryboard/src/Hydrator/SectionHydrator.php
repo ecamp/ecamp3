@@ -31,6 +31,7 @@ class SectionHydrator implements HydratorInterface {
                 ],
             ]),
 
+            /*
             'move_up' => Link::factory([
                 'rel' => 'move_up',
                 'route' => [
@@ -50,7 +51,7 @@ class SectionHydrator implements HydratorInterface {
                         'action' => 'move_down',
                     ],
                 ],
-            ]),
+            ]),*/
         ];
     }
 
