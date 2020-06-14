@@ -17,6 +17,7 @@ Displays a field as a date picker (can be used with v-model)
       <e-text-field
         v-model="localValueFormatted"
         v-bind="$attrs"
+        :filled="filled"
         readonly
         :disabled="disabled"
         v-on="on">
@@ -50,6 +51,7 @@ export default {
     readonly: { type: Boolean, required: false, default: false },
     disabled: { type: Boolean, required: false, default: false },
     format: { type: Function, required: false, default: null },
+    filled: { type: Boolean, required: false, default: true },
     parse: { type: Function, required: false, default: null }
   },
   data () {

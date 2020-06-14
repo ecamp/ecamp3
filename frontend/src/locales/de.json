@@ -113,7 +113,11 @@
       }
     },
     "campCreate": {
-      "create": "Lager erstellen"
+      "create": "Lager erstellen",
+      "period": {
+        "add": "Weiterer Lagerabschnitt hinzufügen",
+        "remove": "Dieser Lagerabschnitt entfernen"
+      }
     },
     "camps": {
       "create": "Lager erstellen"
