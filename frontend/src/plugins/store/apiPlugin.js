@@ -6,7 +6,6 @@ import urltemplate from 'url-template'
 import { normalizeEntityUri } from './normalizeUri'
 import storeValueProxy from './storeValueProxy'
 import store from './index'
-import { state } from './api'
 
 axios.defaults.withCredentials = true
 Vue.use(VueAxios, axios)
@@ -156,31 +155,31 @@ export const get = function (uriOrEntity, forceReload = false) {
  *                    backend request is still ongoing.
  */
 function load (uri, forceReload) {
-  const existsInStore = (uri in state)
-  const isLoading = existsInStore && (state[uri]._meta || {}).loading
+  const existsInStore = (uri in store.state.api)
+  const isLoading = existsInStore && (store.state.api[uri]._meta || {}).loading
 
   if (!existsInStore) {
     store.commit('addEmpty', uri)
   }
   if (isLoading) {
     // Reuse the loading entity and load promise that is already waiting for a pending API request
-    return state[uri]
+    return store.state.api[uri]
   }
 
-  let dataFinishedLoading = Promise.resolve(state[uri])
+  let dataFinishedLoading = Promise.resolve(store.state.api[uri])
   if (!existsInStore || forceReload) {
     dataFinishedLoading = loadFromApi(uri)
-  } else if (state[uri]._meta.load) {
+  } else if (store.state.api[uri]._meta.load) {
     // reuse the existing promise from the store if possible
-    dataFinishedLoading = state[uri]._meta.load
+    dataFinishedLoading = store.state.api[uri]._meta.load
   }
 
   // We mutate the store state here without telling Vuex about it, so it won't complain and won't make load reactive.
   // The promise is needed in the store for some special cases when a loading entity is requested a second time with
   // this.api.get(...) or this.api.reload(...).
-  state[uri]._meta.load = markAsDoneWhenResolved(dataFinishedLoading)
+  store.state.api[uri]._meta.load = markAsDoneWhenResolved(dataFinishedLoading)
 
-  return state[uri]
+  return store.state.api[uri]
 }
 
 /**
@@ -199,7 +198,7 @@ function loadFromApi (uri) {
         // TODO fix backend API and remove the next line
         data._links.self.href = uri
         storeHalJsonData(data)
-        resolve(state[uri])
+        resolve(store.state.api[uri])
       },
       (error) => {
         reject(handleAxiosError(uri, error))
@@ -218,7 +217,7 @@ function loadFromApi (uri) {
  */
 export const href = async function (uriOrEntity, relation, templateParams = {}) {
   const self = normalizeEntityUri(await get(uriOrEntity)._meta.load, API_ROOT)
-  const rel = state[self][relation]
+  const rel = store.state.api[self][relation]
   if (!rel || !rel.href) return undefined
   if (rel.templated) {
     return API_ROOT + urltemplate.parse(rel.href).expand(templateParams)
@@ -238,13 +237,13 @@ const patch = function (uriOrEntity, data) {
   if (uri === null) {
     return Promise.reject(new Error(`Could not perform PATCH, "${uriOrEntity}" is not an entity or URI`))
   }
-  const existsInStore = (uri in state)
+  const existsInStore = (uri in store.state.api)
 
   if (!existsInStore) {
     store.commit('addEmpty', uri)
   }
 
-  state[uri]._meta.load = markAsDoneWhenResolved(axios.patch(API_ROOT + uri, data).then(({ data }) => {
+  store.state.api[uri]._meta.load = markAsDoneWhenResolved(axios.patch(API_ROOT + uri, data).then(({ data }) => {
     // Workaround because API adds page parameter even to first page when it was not requested that way
     // TODO fix backend API and remove the next line
     data._links.self.href = uri
@@ -254,7 +253,7 @@ const patch = function (uriOrEntity, data) {
     throw handleAxiosError(uri, error)
   }))
 
-  return state[uri]._meta.load
+  return store.state.api[uri]._meta.load
 }
 
 /**
@@ -321,7 +320,7 @@ function valueIsReferenceTo (value, uri) {
 }
 
 function findEntitiesReferencing (uri) {
-  return Object.values(state)
+  return Object.values(store.state.api)
     .filter((entity) => {
       return Object.values(entity).some(propertyValue =>
         valueIsReferenceTo(propertyValue, uri) || valueIsArrayWithReferenceTo(propertyValue, uri)
