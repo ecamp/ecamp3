@@ -220,7 +220,7 @@ export const href = async function (uriOrEntity, relation, templateParams = {}) 
   const rel = store.state.api[self][relation]
   if (!rel || !rel.href) return undefined
   if (rel.templated) {
-    return API_ROOT + urltemplate.parse(rel.href).expand(templateParams)
+    return urltemplate.parse(rel.href).expand(templateParams)
   }
   return API_ROOT + rel.href
 }

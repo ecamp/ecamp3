@@ -5,6 +5,7 @@ namespace eCampApi\V1\Rpc\Auth;
 use eCamp\Core\Auth\Adapter\LoginPassword;
 use eCamp\Core\Entity\User;
 use eCamp\Core\EntityService\UserService;
+use eCamp\Lib\Hal\TemplatedLink;
 use Laminas\ApiTools\Hal\Entity;
 use Laminas\ApiTools\Hal\Link\Link;
 use Laminas\ApiTools\Hal\View\HalJsonModel;
@@ -91,19 +92,17 @@ class AuthController extends AbstractActionController {
             ],
         ]);
 
-        $data['google'] = Link::factory([
+        $data['google'] = TemplatedLink::factory([
             'rel' => 'google',
             'route' => [
-                'name' => 'e-camp-api.rpc.auth',
-                'params' => ['action' => 'google'],
+                'name' => 'e-camp-api.rpc.auth.google',
             ],
         ]);
 
-        $data['pbsmidata'] = Link::factory([
+        $data['pbsmidata'] = TemplatedLink::factory([
             'rel' => 'pbsmidata',
             'route' => [
-                'name' => 'e-camp-api.rpc.auth',
-                'params' => ['action' => 'pbsmidata'],
+                'name' => 'e-camp-api.rpc.auth.pbsmidata',
             ],
         ]);
 

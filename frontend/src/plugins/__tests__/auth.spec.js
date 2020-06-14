@@ -189,7 +189,7 @@ describe('authentication logic', () => {
       // then
       expect(result).toBeTruthy()
       expect(window.open).toHaveBeenCalledTimes(1)
-      expect(window.open).toHaveBeenCalledWith('http://localhost/auth/google?callback=http://localhost/loginCallback', expect.anything(), expect.anything())
+      expect(window.open).toHaveBeenCalledWith('http://localhost/auth/google?callback=http%3A%2F%2Flocalhost%2FloginCallback', expect.anything(), expect.anything())
       done()
     })
   })
@@ -213,7 +213,7 @@ describe('authentication logic', () => {
       // then
       expect(result).toBeTruthy()
       expect(window.open).toHaveBeenCalledTimes(1)
-      expect(window.open).toHaveBeenCalledWith('http://localhost/auth/pbsmidata?callback=http://localhost/loginCallback', expect.anything(), expect.anything())
+      expect(window.open).toHaveBeenCalledWith('http://localhost/auth/pbsmidata?callback=http%3A%2F%2Flocalhost%2FloginCallback', expect.anything(), expect.anything())
       done()
     })
   })
@@ -262,10 +262,12 @@ function createState (authState) {
           href: '/auth/register'
         },
         google: {
-          href: '/auth/google'
+          href: 'http://localhost/auth/google{?callback}',
+          templated: true
         },
         pbsmidata: {
-          href: '/auth/pbsmidata'
+          href: 'http://localhost/auth/pbsmidata{?callback}',
+          templated: true
         },
         _meta: {
           self: '/auth'

@@ -32,6 +32,9 @@ class LinkExtractor extends HalLinkExtractor {
     /** @var array */
     protected $zfRestConfig;
 
+    /** @var array */
+    protected $rpcConfig;
+
     /** @return SimpleRouteStack */
     public function getRouter() {
         return $this->router;
@@ -102,6 +105,22 @@ class LinkExtractor extends HalLinkExtractor {
      */
     public function setZfRestConfig($zfRestConfig) {
         $this->zfRestConfig = $zfRestConfig;
+
+        return $this;
+    }
+
+    /** @return array */
+    public function getRpcConfig() {
+        return $this->rpcConfig;
+    }
+
+    /**
+     * @param array $rpcConfig
+     *
+     * @return $this
+     */
+    public function setRpcConfig($rpcConfig) {
+        $this->rpcConfig = $rpcConfig;
 
         return $this;
     }
@@ -364,12 +383,20 @@ class LinkExtractor extends HalLinkExtractor {
         }
 
         $zfRestConfig = $this->getZfRestConfig();
+        $rpcConfig = $this->getRpcConfig();
         $controller = $defaults['controller'];
 
-        if (!isset($zfRestConfig[$controller]['collection_query_whitelist'])) {
+        $config = [];
+        if (isset($zfRestConfig[$controller])) {
+            $config = $zfRestConfig[$controller];
+        }
+        if (isset($rpcConfig[$controller])) {
+            $config = $rpcConfig[$controller];
+        }
+        if (!isset($config['collection_query_whitelist'])) {
             return '';
         }
-        $queryWhiteList = $zfRestConfig[$controller]['collection_query_whitelist'];
+        $queryWhiteList = $config['collection_query_whitelist'];
 
         return sprintf('{?%s}', implode(',', $queryWhiteList));
     }
