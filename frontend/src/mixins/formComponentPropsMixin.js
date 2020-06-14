@@ -20,7 +20,7 @@ export const formComponentPropsMixin = {
       required: false
     },
 
-    // vertical margin
+    // set classes on input
     inputClass: {
       type: String,
       default: '',
