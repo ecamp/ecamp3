@@ -3,6 +3,7 @@
 namespace eCamp\ContentType\Textarea;
 
 use eCamp\ContentType\Textarea\Entity\Textarea;
+use eCamp\Core\ContentType\ConfigFactory;
 use eCamp\Lib\Acl\Acl;
 use eCamp\Lib\Acl\Guest;
 use Laminas\Mvc\MvcEvent;
@@ -10,7 +11,7 @@ use Laminas\Permissions\Acl\AclInterface;
 
 class Module {
     public function getConfig() {
-        return include __DIR__.'/../config/module.config.php';
+        return ConfigFactory::createConfig('Textarea');
     }
 
     public function onBootstrap(MvcEvent $e) {

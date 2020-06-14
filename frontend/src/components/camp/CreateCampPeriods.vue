@@ -7,7 +7,7 @@
       <v-row no-gutters>
         <v-col>
           <legend class="pa-2">
-            {{ $t('camp.period.name') }}
+            {{ $t('entity.period.name') }}
           </legend>
         </v-col>
         <v-col cols="auto">
@@ -24,9 +24,9 @@
         <v-col>
           <e-text-field
             v-model="period.description"
-            :label="$t('period.description')"
+            :label="$t('entity.period.fields.description')"
             single-line
-            :name="$t('period.description')"
+            :name="$t('entity.period.fields.description')"
             :filled="false"
             vee-rules="required"
             :my="false"
@@ -38,8 +38,8 @@
         <v-col>
           <e-date-picker
             v-model="period.start"
-            :label="$t('period.start')"
-            :name="$t('period.start')"
+            :label="$t('entity.period.fields.start')"
+            :name="$t('entity.period.fields.start')"
             vee-rules="required"
             :my="2"
             :filled="false"
@@ -49,8 +49,8 @@
           <e-date-picker
             v-model="period.end"
             input-class="ml-2"
-            :label="$t('period.end')"
-            :name="$t('period.end')"
+            :label="$t('entity.period.fields.end')"
+            :name="$t('entity.period.fields.end')"
             vee-rules="required"
             :my="2"
             :filled="false"
@@ -64,7 +64,7 @@
            height="auto" class="pa-4"
            @click="addPeriod">
       <v-icon>mdi-plus</v-icon>
-      {{ $t('camp.period.add') }}
+      {{ $t('views.campCreate.period.add') }}
     </v-btn>
   </div>
 </template>

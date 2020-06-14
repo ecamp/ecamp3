@@ -3,7 +3,7 @@
     <api-form :entity="activityContent.textarea()">
       <api-textarea
         fieldname="text"
-        :label="$t('activity.content.Storycontext.name')"
+        :label="$t('activityContent.storycontext.name')"
         rows="2"
         auto-grow />
     </api-form>

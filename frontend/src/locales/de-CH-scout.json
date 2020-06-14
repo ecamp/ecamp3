@@ -1,6 +1,16 @@
 {
-  "language": "Deutsch (Pfadi)",
-  "user": {
-    "nickname": "Pfadiname"
+  "global": {
+    "language": "Deutsch (Pfadi)"
+  },
+  "entity": {
+    "user": {
+      "fields": {
+        "nickname": "Pfadiname"
+      }
+    }
+  },
+  "components": {
+  },
+  "views": {
   }
 }

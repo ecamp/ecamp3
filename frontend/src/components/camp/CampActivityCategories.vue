@@ -3,7 +3,7 @@ Displays all periods of a single camp and allows to edit them & create new ones
 -->
 
 <template>
-  <content-group :title="$t('activityCategory.title')">
+  <content-group :title="$t('components.camp.campActivityCategories.title')">
     <v-skeleton-loader v-if="camp()._meta.loading" type="article" />
     <v-list>
       <v-list-item
@@ -28,7 +28,7 @@ Displays all periods of a single camp and allows to edit them & create new ones
             </dialog-activity-category-edit>
 
             <dialog-entity-delete :entity="activityCategory">
-              {{ $t('activityCategory.deleteActivityCategoryQuestion') }}
+              {{ $t('components.camp.campActivityCategories.deleteActivityCategoryQuestion') }}
               <ul>
                 <li>
                   {{ activityCategory.short }}: {{ activityCategory.name }}
@@ -38,7 +38,7 @@ Displays all periods of a single camp and allows to edit them & create new ones
                 <button-delete v-on="on" />
               </template>
               <template v-if="findActivities(activityCategory).length > 0" v-slot:error>
-                {{ $t('activityCategory.deleteActivityCategoryNotPossibleInUse') }}
+                {{ $t('components.camp.campActivityCategories.deleteActivityCategoryNotPossibleInUse') }}
                 <ul>
                   <li v-for="activity in findActivities(activityCategory)" :key="activity.id">
                     {{ activity.title }}
@@ -63,7 +63,7 @@ Displays all periods of a single camp and allows to edit them & create new ones
           <dialog-activity-category-create :camp="camp()">
             <template v-slot:activator="{ on }">
               <button-add v-on="on">
-                {{ $t('activityCategory.create') }}
+                {{ $t('components.camp.campActivityCategories.create') }}
               </button-add>
             </template>
           </dialog-activity-category-create>

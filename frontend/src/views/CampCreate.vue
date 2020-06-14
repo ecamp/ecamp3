@@ -13,27 +13,27 @@
             <server-error :server-error="serverError" />
             <e-text-field
               v-model="camp.name"
-              :label="$t('camp.name')"
-              :name="$t('camp.name')"
+              :label="$t('entity.camp.fields.name')"
+              :name="$t('entity.camp.fields.name')"
               vee-rules="required"
               required
               autofocus />
             <e-text-field
               v-model="camp.title"
-              :label="$t('camp.title')"
-              :name="$t('camp.title')"
+              :label="$t('entity.camp.fields.title')"
+              :name="$t('entity.camp.fields.title')"
               vee-rules="required"
               required />
             <e-text-field
               v-model="camp.motto"
-              :label="$t('camp.motto')"
-              :name="$t('camp.motto')"
+              :label="$t('entity.camp.fields.motto')"
+              :name="$t('entity.camp.fields.motto')"
               vee-rules="required"
               required />
             <e-select
               v-model="camp.campTypeId"
-              :label="$t('camp.campType')"
-              :name="$t('camp.campType')"
+              :label="$t('entity.camp.fields.campType')"
+              :name="$t('entity.camp.fields.campType')"
               vee-rules="required"
               :items="campTypes">
               <template v-slot:item="data">
@@ -55,7 +55,7 @@
           <v-divider />
           <v-card-text class="text-right">
             <ButtonAdd type="submit">
-              {{ $t('camp.create') }}
+              {{ $t('views.campCreate.create') }}
             </ButtonAdd>
           </v-card-text>
         </v-form>
@@ -99,7 +99,7 @@ export default {
             key: 0,
             start: '',
             end: '',
-            description: this.$i18n.t('period.defaultDescription')
+            description: this.$i18n.t('entity.period.defaultDescription')
           }
         ]
       },
@@ -147,3 +147,7 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+
+</style>
