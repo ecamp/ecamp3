@@ -7,10 +7,12 @@ use eCamp\Lib\Acl\Acl;
 use eCamp\Lib\Acl\Guest;
 use Laminas\Mvc\MvcEvent;
 use Laminas\Permissions\Acl\AclInterface;
+use eCamp\Core\ContentType\ConfigFactory;
 
 class Module {
     public function getConfig() {
-        return include __DIR__.'/../config/module.config.php';
+        $config = ConfigFactory::createConfig("Textarea");
+        return $config;
     }
 
     public function onBootstrap(MvcEvent $e) {
@@ -32,4 +34,5 @@ class Module {
             ]
         );
     }
+
 }
