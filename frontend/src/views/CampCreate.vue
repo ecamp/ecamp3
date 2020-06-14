@@ -13,27 +13,27 @@
             <server-error :server-error="serverError" />
             <e-text-field
               v-model="camp.name"
-              :label="$t('camp.name')"
-              :name="$t('camp.name')"
+              :label="$t('entity.camp.fields.name')"
+              :name="$t('entity.camp.fields.name')"
               vee-rules="required"
               required
               autofocus />
             <e-text-field
               v-model="camp.title"
-              :label="$t('camp.title')"
-              :name="$t('camp.title')"
+              :label="$t('entity.camp.fields.title')"
+              :name="$t('entity.camp.fields.title')"
               vee-rules="required"
               required />
             <e-text-field
               v-model="camp.motto"
-              :label="$t('camp.motto')"
-              :name="$t('camp.motto')"
+              :label="$t('entity.camp.fields.motto')"
+              :name="$t('entity.camp.fields.motto')"
               vee-rules="required"
               required />
             <e-select
               v-model="camp.campTypeId"
-              :label="$t('camp.campType')"
-              :name="$t('camp.campType')"
+              :label="$t('entity.camp.fields.campType')"
+              :name="$t('entity.camp.fields.campType')"
               vee-rules="required"
               :items="campTypes">
               <template v-slot:item="data">
@@ -52,7 +52,7 @@
             <v-list>
               <v-list-item>
                 <v-list-item-title>
-                  {{ $t('camp.periods') }}
+                  {{ $t('entity.camp.fields.periods') }}
                 </v-list-item-title>
                 <v-list-item-action>
                   <v-btn @click="addPeriod">
@@ -65,8 +65,8 @@
                   <v-list-item-content>
                     <e-text-field
                       v-model="period.description"
-                      :label="$t('period.description')"
-                      :name="$t('period.description')"
+                      :label="$t('entity.period.fields.description')"
+                      :name="$t('entity.period.fields.description')"
                       vee-rules="required"
                       required />
                   </v-list-item-content>
@@ -80,14 +80,14 @@
                   <v-list-item-content>
                     <e-date-picker
                       v-model="period.start"
-                      :label="$t('period.start')"
-                      :name="$t('period.start')"
+                      :label="$t('entity.period.fields.start')"
+                      :name="$t('entity.period.fields.start')"
                       vee-rules="required"
                       required />
                     <e-date-picker
                       v-model="period.end"
-                      :label="$t('period.end')"
-                      :name="$t('period.end')"
+                      :label="$t('entity.period.fields.end')"
+                      :name="$t('entity.period.fields.end')"
                       vee-rules="required"
                       required />
                   </v-list-item-content>
@@ -97,7 +97,7 @@
             </v-list>
             <div class="text-right">
               <ButtonAdd type="submit">
-                {{ $t('camp.create') }}
+                {{ $t('views.campCreate.create') }}
               </ButtonAdd>
             </div>
           </v-form>
@@ -142,7 +142,7 @@ export default {
             key: 0,
             start: '',
             end: '',
-            description: this.$i18n.t('period.defaultDescription')
+            description: this.$i18n.t('entity.period.defaultDescription')
           }
         ]
       },

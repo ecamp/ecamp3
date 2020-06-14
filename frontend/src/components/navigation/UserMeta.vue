@@ -20,12 +20,12 @@
             light color="blue-grey lighten-5">
       <v-list-item tag="li" block :to="{ name: 'profile' }">
         <v-icon left>mdi-account</v-icon>
-        <span>{{ $t('profile') }}</span>
+        <span>{{ $t('components.navigation.profile') }}</span>
       </v-list-item>
       <v-list-item block tag="li"
                    exact :to="{ name: 'camps', params: { groupName: encodeURI('Pfadi Bewegung Schweiz') } }">
         <v-icon left>mdi-format-list-bulleted-triangle</v-icon>
-        <span>{{ $tc('myCamps', api.get().camps().items.length) }}</span>
+        <span>{{ $tc('components.navigation.myCamps', api.get().camps().items.length) }}</span>
       </v-list-item>
       <v-list-item block tag="li"
                    @click="logout">
