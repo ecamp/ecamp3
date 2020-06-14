@@ -63,6 +63,16 @@
       }
     }
   },
+  "activityContent": {
+    "Storyboard": {
+      "name": "Storyboard",
+      "entity": { }
+    },
+    "Storycontext": {
+      "name": "Storycontext",
+      "entity": { }
+    }
+  },
   "components": {
     "camp": {
       "campActivityCategories": {

@@ -63,6 +63,16 @@
       }
     }
   },
+  "activityContent": {
+    "Storyboard": {
+      "name": "Programmabschnitt",
+      "entity": { }
+    },
+    "Storycontext": {
+      "name": "Roter Faden",
+      "entity": { }
+    }
+  },
   "components": {
     "camp": {
       "campActivityCategories": {

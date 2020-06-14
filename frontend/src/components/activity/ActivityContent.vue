@@ -15,7 +15,7 @@
 
     <v-card-title class="card-title">
       <div class="overline mb-4">
-        {{ activityContent.instanceName || $t('activity.content.' + activityContent.contentTypeName + '.name') }}
+        {{ activityContent.instanceName || $t('activityContent.' + activityContent.contentTypeName + '.name') }}
       </div>
     </v-card-title>
     <v-card-text class="card-content">
