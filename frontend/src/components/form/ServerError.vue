@@ -4,10 +4,10 @@
       <div class="title">Validation error:</div>
       <div v-for="(validation_messages, name) in serverError.response.data.validation_messages" :key="name">
         <div>
-        <b>{{ name }}</b>:
-        <span v-for="(message, idx) in validation_messages" :key="idx">
-          {{ message }}<span v-if="idx === validation_messages.length">, </span>
-        </span>
+          <b>{{ name }}</b>:
+          <span v-for="(message, idx) in validation_messages" :key="idx">
+            {{ message }}<span v-if="idx === validation_messages.length">, </span>
+          </span>
         </div>
       </div>
     </div>

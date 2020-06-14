@@ -37,6 +37,7 @@ function mockPromiseResolving (value) {
 }
 
 // createa a mock Promise which rejects within 100ms with value
+/*
 function mockPromiseRejecting (value) {
   return new Promise((resolve, reject) => {
     const timer = setTimeout(() => {
@@ -44,7 +45,7 @@ function mockPromiseRejecting (value) {
       reject(value)
     }, 100)
   })
-}
+} */
 
 // config factory
 function createConfig (overrides) {
