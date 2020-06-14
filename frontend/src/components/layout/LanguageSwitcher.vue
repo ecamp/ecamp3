@@ -47,9 +47,7 @@ export default {
   name: 'LanguageSwitcher',
   methods: {
     changeLang (lang) {
-      this.$root.$i18n.locale = lang
-      this.axios.defaults.headers.common['Accept-Language'] = lang
-      document.querySelector('html').setAttribute('lang', lang)
+      this.$store.commit('setLanguage', lang)
     }
   }
 }

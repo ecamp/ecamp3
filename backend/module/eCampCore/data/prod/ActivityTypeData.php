@@ -8,12 +8,17 @@ use Doctrine\Common\Persistence\ObjectManager;
 use eCamp\Core\Entity\ActivityType;
 use eCamp\Core\Entity\ActivityTypeContentType;
 use eCamp\Core\Entity\ActivityTypeFactory;
+use eCamp\Core\Entity\ContentType;
 
 class ActivityTypeData extends AbstractFixture implements DependentFixtureInterface {
     public static $LAGERSPORT = 'LAGERSPORT';
     public static $LAGERAKTIVITAET = 'LAGERAKTIVITAET';
 
+    private ObjectManager $manager;
+
     public function load(ObjectManager $manager) {
+        $this->manager = $manager;
+
         $repository = $manager->getRepository(ActivityType::class);
 
         $activityType = $repository->findOneBy(['name' => 'Lagersport']);
@@ -24,21 +29,9 @@ class ActivityTypeData extends AbstractFixture implements DependentFixtureInterf
             $activityType->setDefaultNumberingStyle('1');
             $manager->persist($activityType);
 
-            $contentType = $this->getReference(ContentTypeData::$TEXTAREA);
-            $activityTypeContentType = new ActivityTypeContentType();
-            $activityTypeContentType->setContentType($contentType);
-            $activityTypeContentType->setMinNumberContentTypeInstances(1);
-            $activityTypeContentType->setMaxNumberContentTypeInstances(3);
-            $activityType->addActivityTypeContentType($activityTypeContentType);
-            $manager->persist($activityTypeContentType);
-
-            $contentType = $this->getReference(ContentTypeData::$STORYBOARD);
-            $activityTypeContentType = new ActivityTypeContentType();
-            $activityTypeContentType->setContentType($contentType);
-            $activityTypeContentType->setMinNumberContentTypeInstances(1);
-            $activityTypeContentType->setMaxNumberContentTypeInstances(3);
-            $activityType->addActivityTypeContentType($activityTypeContentType);
-            $manager->persist($activityTypeContentType);
+            // add allowed content types
+            $this->addContentType($activityType, $this->getReference(ContentTypeData::$STORYBOARD));
+            $this->addContentType($activityType, $this->getReference(ContentTypeData::$STORYCONTEXT));
 
             $activityTypeFactory = new ActivityTypeFactory();
             $activityTypeFactory->setName('Wanderung');
@@ -57,21 +50,9 @@ class ActivityTypeData extends AbstractFixture implements DependentFixtureInterf
             $activityType->setDefaultNumberingStyle('A');
             $manager->persist($activityType);
 
-            $contentType = $this->getReference(ContentTypeData::$TEXTAREA);
-            $activityTypeContentType = new ActivityTypeContentType();
-            $activityTypeContentType->setContentType($contentType);
-            $activityTypeContentType->setMinNumberContentTypeInstances(1);
-            $activityTypeContentType->setMaxNumberContentTypeInstances(100);
-            $activityType->addActivityTypeContentType($activityTypeContentType);
-            $manager->persist($activityTypeContentType);
-
-            $contentType = $this->getReference(ContentTypeData::$RICHTEXT);
-            $activityTypeContentType = new ActivityTypeContentType();
-            $activityTypeContentType->setContentType($contentType);
-            $activityTypeContentType->setMinNumberContentTypeInstances(3);
-            $activityTypeContentType->setMaxNumberContentTypeInstances(3);
-            $activityType->addActivityTypeContentType($activityTypeContentType);
-            $manager->persist($activityTypeContentType);
+            // add allowed content types
+            //$this->addContentType($activityType, $this->getReference(ContentTypeData::$STORYBOARD));
+            $this->addContentType($activityType, $this->getReference(ContentTypeData::$STORYCONTEXT));
 
             $activityTypeFactory = new ActivityTypeFactory();
             $activityTypeFactory->setName('TABS');
@@ -86,5 +67,14 @@ class ActivityTypeData extends AbstractFixture implements DependentFixtureInterf
 
     public function getDependencies() {
         return [ContentTypeData::class];
+    }
+
+    private function addContentType(ActivityType $activityType, ContentType $contentType) {
+        $activityTypeContentType = new ActivityTypeContentType();
+        $activityTypeContentType->setContentType($contentType);
+        $activityType->addActivityTypeContentType($activityTypeContentType);
+        $this->manager->persist($activityTypeContentType);
+
+        return $activityTypeContentType;
     }
 }

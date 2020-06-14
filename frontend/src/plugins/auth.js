@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { get, reload, post, href } from '@/plugins/store'
+import { get, reload, post, href, purgeAll } from '@/plugins/store/apiPlugin'
 import router from '@/router'
 
 axios.interceptors.response.use(null, error => {
@@ -10,12 +10,12 @@ axios.interceptors.response.use(null, error => {
 })
 
 function isLoggedIn () {
-  return get().auth().role === 'user'
+  return get().authenticated
 }
 
 export async function refreshLoginStatus (forceReload = true) {
-  if (forceReload) reload(get().auth())
-  await get().auth()._meta.load
+  if (forceReload) reload(get())
+  await get()._meta.load
   return isLoggedIn()
 }
 
@@ -50,9 +50,11 @@ async function loginPbsMiData () {
   return oAuthLoginInSeparateWindow('pbsmidata').then(() => refreshLoginStatus())
 }
 
-async function logout () {
-  get().auth().logout()
-  location.reload() // TODO: Should be implemented in the store, for mobile use
+export async function logout () {
+  return reload(get().auth().logout())
+    .then(() => refreshLoginStatus())
+    .then(() => router.push({ name: 'login' }))
+    .then(() => purgeAll())
 }
 
 export const auth = { isLoggedIn, refreshLoginStatus, login, register, loginGoogle, loginPbsMiData, logout }

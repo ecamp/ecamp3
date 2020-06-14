@@ -1,20 +1,36 @@
 <template>
-  <div v-if="activityTypeContentType" class="contentType-container">
+  <div v-if="allowed">
     <div v-for="activityContent in activityContents" :key="activityContent._meta.self">
       <activity-content :activity-content="activityContent" />
       <br>
     </div>
 
-    <v-btn color="primary" :loading="isAdding"
-           block
-           @click="addActivityContent">
-      + Add another {{ contentTypeName }}
+    <v-btn
+      v-if="empty || contentType.allowMultiple"
+      color="primary"
+      outlined
+      :loading="isAdding"
+      block
+      @click="addActivityContent">
+      <v-icon :left="$vuetify.breakpoint.smAndUp" size="150%">mdi-plus</v-icon>
+
+      {{ $tc('addButton', 1, { contentType: $t('activity.content.' + contentTypeName + '.name') }) }}
     </v-btn>
   </div>
 </template>
 
-<script>
+<i18n>
+{
+  "en": {
+    "addButton": "Add {contentType} | Add another {contentType}"
+  },
+  "de": {
+    "addButton": "{contentType} hinzufügen"
+  }
+}
+</i18n>
 
+<script>
 import ActivityContent from './ActivityContent'
 
 export default {
@@ -43,6 +59,21 @@ export default {
     // otherwise returns undefined and this component should not be shown
     activityTypeContentType () {
       return this.activity.activityCategory().activityType().activityTypeContentTypes().items.find(etp => etp.contentType().name === this.contentTypeName)
+    },
+
+    // number of content instances
+    numberOfContents () {
+      return this.activityContents.length
+    },
+
+    // true if content instance exists
+    empty () {
+      return this.numberOfContents === 0
+    },
+
+    // true if content type is allowed on this activity type
+    allowed () {
+      return this.activityTypeContentType !== null
     }
   },
   methods: {
@@ -63,8 +94,4 @@ export default {
 </script>
 
 <style scoped>
-  .contentType-container {
-    padding:5px;
-    background-color: grey;
-  }
 </style>

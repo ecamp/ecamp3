@@ -24,6 +24,7 @@ class ContentTypeHydrator implements HydratorInterface {
             'id' => $contentType->getId(),
             'name' => $contentType->getName(),
             'active' => $contentType->getActive(),
+            'allowMultiple' => $contentType->getAllowMultiple(),
         ];
     }
 
@@ -41,6 +42,9 @@ class ContentTypeHydrator implements HydratorInterface {
         }
         if (isset($data['active'])) {
             $contentType->setActive($data['active']);
+        }
+        if (isset($data['allowMultiple'])) {
+            $contentType->setActive($data['allowMultiple']);
         }
 
         return $contentType;

@@ -20,14 +20,12 @@ class ActivityTypeContentTypeTest extends AbstractTestCase {
         $activityTypeContentType = new ActivityTypeContentType();
         $activityTypeContentType->setActivityType($activityType);
         $activityTypeContentType->setContentType($contentType);
-        $activityTypeContentType->setMinNumberContentTypeInstances(1);
-        $activityTypeContentType->setMaxNumberContentTypeInstances(3);
+        $activityTypeContentType->setDefaultInstances(1);
         $activityTypeContentType->setJsonConfig($config);
 
         $this->assertEquals($activityType, $activityTypeContentType->getActivityType());
         $this->assertEquals($contentType, $activityTypeContentType->getContentType());
-        $this->assertEquals(1, $activityTypeContentType->getMinNumberContentTypeInstances());
-        $this->assertEquals(3, $activityTypeContentType->getMaxNumberContentTypeInstances());
+        $this->assertEquals(1, $activityTypeContentType->getDefaultInstances());
         $this->assertEquals($config, $activityTypeContentType->getJsonConfig());
 
         $this->assertEquals(4, $activityTypeContentType->getConfig('test'));

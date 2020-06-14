@@ -62,7 +62,7 @@ class ActivityTypeTest extends AbstractTestCase {
 
         $activityTypeContentType = new ActivityTypeContentType();
         $activityTypeContentType->setContentType($contentType);
-        $activityTypeContentType->setMinNumberContentTypeInstances(2);
+        $activityTypeContentType->setDefaultInstances(2);
         $activityType->addActivityTypeContentType($activityTypeContentType);
 
         $activityCategory = new ActivityCategory();

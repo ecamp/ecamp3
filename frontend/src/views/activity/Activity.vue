@@ -16,20 +16,14 @@ Displays a single activity
       <v-card-text>
         <v-skeleton-loader v-if="activity._meta.loading" type="article" />
         <template v-else>
+          <!--
           <api-text-field
             :value="activity.title"
             :uri="activity._meta.self"
             fieldname="title"
             :auto-save="false"
             label="Titel"
-            required />
-          <api-text-field
-            :value="activity.title"
-            :uri="activity._meta.self"
-            fieldname="title"
-            :auto-save="true"
-            label="Titel"
-            required />
+            required /> -->
           <v-list>
             <v-label>Instanzen</v-label>
             <v-list-item
