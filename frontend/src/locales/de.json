@@ -23,12 +23,11 @@
         "name": "Name",
         "title": "Titel",
         "motto": "Motto",
-        "campType": "Lager-Typ",
-        "periods": "Lagerabschnitte"
+        "campType": "Lager-Typ"
       }
     },
     "period": {
-      "name": "Lagerabschnitt",
+      "name": "Lagerabschnitt | Lagerabschnitte",
       "fields": {
         "start": "Von",
         "end": "Bis",
@@ -64,11 +63,11 @@
     }
   },
   "activityContent": {
-    "Storyboard": {
+    "storyboard": {
       "name": "Programmabschnitt",
       "entity": { }
     },
-    "Storycontext": {
+    "storycontext": {
       "name": "Roter Faden",
       "entity": { }
     }
@@ -120,11 +119,11 @@
       }
     },
     "camps": {
+      "myCamps": "Mein Lager | Meine Lager",
       "create": "Lager erstellen"
     },
     "home": {
       "home": "Home",
-      "myCamps": "Mein Lager | Meine Lager",
       "welcome": "Hallo {user}. Herzlich willkommen auf eCamp"
     },
     "profile": {

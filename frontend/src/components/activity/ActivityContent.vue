@@ -15,7 +15,7 @@
 
     <v-card-title class="card-title">
       <div class="overline mb-4">
-        {{ activityContent.instanceName || $t('activityContent.' + activityContent.contentTypeName + '.name') }}
+        {{ instanceName }}
       </div>
     </v-card-title>
     <v-card-text class="card-content">
@@ -45,6 +45,19 @@ export default {
   data () {
     return {
       isDeleting: false
+    }
+  },
+  computed: {
+    instanceName () {
+      if (this.activityContent.instanceName) {
+        return this.activityContent.instanceName
+      }
+      return this.$i18n.t(
+        'activityContent.' +
+        this.activityContent.contentTypeName.charAt(0).toLowerCase() +
+        this.activityContent.contentTypeName.slice(1) +
+        '.name'
+      )
     }
   },
   methods: {

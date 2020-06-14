@@ -4,7 +4,7 @@
       <v-toolbar>
         <v-toolbar-title>
           <ButtonBack />
-          {{ $t('camp.create') }}
+          {{ $t('views.campCreate.create') }}
         </v-toolbar-title>
       </v-toolbar>
       <ValidationObserver v-slot="{ handleSubmit }">

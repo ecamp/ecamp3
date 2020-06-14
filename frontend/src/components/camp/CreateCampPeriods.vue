@@ -7,7 +7,7 @@
       <v-row no-gutters>
         <v-col>
           <legend class="pa-2">
-            {{ $t('entity.period.name') }}
+            {{ $tc('entity.period.name') }}
           </legend>
         </v-col>
         <v-col cols="auto">

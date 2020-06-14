@@ -23,12 +23,11 @@
         "name": "Name",
         "title": "Title",
         "motto": "Motto",
-        "campType": "Camp-Type",
-        "periods": "Periods"
+        "campType": "Camp-Type"
       }
     },
     "period": {
-      "name": "Lagerabschnitt",
+      "name": "Period | Periods",
       "fields": {
         "start": "Start",
         "end": "End",
@@ -64,11 +63,11 @@
     }
   },
   "activityContent": {
-    "Storyboard": {
+    "storyboard": {
       "name": "Storyboard",
       "entity": { }
     },
-    "Storycontext": {
+    "storycontext": {
       "name": "Storycontext",
       "entity": { }
     }
@@ -111,14 +110,18 @@
       }
     },
     "campCreate": {
-      "create": "Create camp"
+      "create": "Create camp",
+      "period": {
+        "add": "Add an other period",
+        "remove": "Remove period"
+      }
     },
     "camps": {
+      "myCamps": "My Camp | My Camps",
       "create": "Create camp"
     },
     "home": {
       "home": "Home",
-      "myCamps": "My Camp | My Camps",
       "welcome": "Hey {user}. Welcome to eCamp"
     },
     "profile": {

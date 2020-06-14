@@ -12,7 +12,7 @@
             <v-icon>mdi-format-list-bulleted-triangle</v-icon>
           </v-list-item-icon>
           <v-list-item-content>
-            <v-list-item-title>{{ $tc('views.home.myCamps', api.get().camps().items.length) }}</v-list-item-title>
+            <v-list-item-title>{{ $tc('views.camps.myCamps', api.get().camps().items.length) }}</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
       </v-list>

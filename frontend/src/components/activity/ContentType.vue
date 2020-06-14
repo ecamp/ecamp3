@@ -14,7 +14,7 @@
       @click="addActivityContent">
       <v-icon :left="$vuetify.breakpoint.smAndUp" size="150%">mdi-plus</v-icon>
 
-      {{ $tc('addButton', 1, { contentType: $t('activityContent.' + contentTypeName + '.name') }) }}
+      {{ $tc('addButton', 1, { contentType: $t(activityTypeNameKey) }) }}
     </v-btn>
   </div>
 </template>
@@ -48,6 +48,9 @@ export default {
     }
   },
   computed: {
+    activityTypeNameKey () {
+      return 'activityContent.' + this.contentTypeName.charAt(0).toLowerCase() + this.contentTypeName.slice(1) + '.name'
+    },
     activityContents () {
       // TODO: should we add the deleting-filter already to the store?
       return this.activity.activityContents().items.filter(ep => !ep._meta.deleting && ep.contentTypeName === this.contentTypeName)
