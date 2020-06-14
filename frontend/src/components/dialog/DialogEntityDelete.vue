@@ -6,7 +6,7 @@
     max-width="600px"
     :submit-action="del"
     :submit-enabled="!$slots.error"
-    submit-label="button.delete"
+    submit-label="global.button.delete"
     submit-color="error"
     submit-icon="mdi-delete"
     :cancel-action="close">

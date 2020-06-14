@@ -1,83 +1,130 @@
 {
-  "language": "Deutsch",
-  "home": "Home",
-  "myCamps": "Mein Lager | Meine Lager",
-  "profile": "Profil",
-  "search": "Suchen",
-  "button": {
-    "add": "Hinzufügen",
-    "back": "Zurück",
-    "delete": "Löschen",
-    "edit": "Bearbeiten",
-    "submit": "Abschicken",
-    "cancel": "Abbrechen"
+  "global": {
+    "language": "Deutsch",
+    "button": {
+      "add": "Hinzufügen",
+      "back": "Zurück",
+      "delete": "Löschen",
+      "edit": "Bearbeiten",
+      "submit": "Abschicken",
+      "cancel": "Abbrechen"
+    },
+    "serverError": {
+      "409": "Uuuups... Diese Aktion hat zu einem Fehler auf dem Server geführt."
+    },
+    "validation": {
+      "minDate": "Das {_field_} muss gleich oder grösser sein als {min}"
+    }
   },
-  "serverError": {
-    "409": "Uuuups... Diese Aktion hat zu einem Fehler auf dem Server geführt."
-  },
-  "validation": {
-    "minDate": "Das {_field_} muss gleich oder grösser sein als {min}"
-  },
-  "user": {
-    "firstname": "Vorname",
-    "surname": "Nachname",
-    "nickname": "Spitzname",
-    "language": "Sprache"
-  },
-  "camp": {
-    "create": "Lager erstellen",
-    "name": "Name",
-    "title": "Titel",
-    "motto": "Motto",
-    "campType": "Lager-Typ",
-    "periods": "Lagerabschnitte"
-  },
-  "activityCategory": {
-    "title": "Block Kategorien",
-    "create": "Block Kategorie erstellen",
-    "short": "Kürzel",
-    "name": "Name",
-    "color": "Farbe",
-    "numberingStyle": "Nummerierung",
-    "activityType": "Typ",
-    "1": "1, 2, 3 - Zahlen",
-    "a": "a, b, c - kleine Buchstaben",
-    "A": "A, B, C - grosse Buchstaben",
-    "i": "i, ii, iii - kleine römische Zahlen",
-    "I": "I, II, III - grosse römische Zahlen",
-    "deleteActivityCategoryQuestion": "Möchtest du die Block Kategorie wirklich löschen?",
-    "deleteActivityCategoryNotPossibleInUse": "Block Kategorie kann nicht gelöscht werden. Sie wird noch verwendet:"
-  },
-  "period": {
-    "start": "Von",
-    "end": "Bis",
-    "description": "Beschreibung",
-    "defaultDescription": "Hauptlager"
-  },
-  "activity": {
-    "content": {
-      "Storyboard": {
-        "name" : "Programmabschnitt"
+  "entity": {
+    "camp": {
+      "name": "Lager",
+      "fields": {
+        "name": "Name",
+        "title": "Titel",
+        "motto": "Motto",
+        "campType": "Lager-Typ",
+        "periods": "Lagerabschnitte"
+      }
+    },
+    "period": {
+      "name": "Lagerabschnitt",
+      "fields": {
+        "start": "Von",
+        "end": "Bis",
+        "description": "Beschreibung"
       },
-      "Storycontext": {
-        "name": "Roter Faden"
+      "defaultDescription": "Hauptlager"
+    },
+    "user": {
+      "name": "User",
+      "fields": {
+        "firstname": "Vorname",
+        "surname": "Nachname",
+        "nickname": "Spitzname",
+        "language": "Sprache"
+      }
+    },
+    "activityCategory": {
+      "name": "Block Kategorien",
+      "fields": {
+        "short": "Kürzel",
+        "name": "Name",
+        "color": "Farbe",
+        "numberingStyle": "Nummerierung",
+        "activityType": "Typ"
+      },
+      "numberingStyles": {
+        "1": "1, 2, 3 - Zahlen",
+        "a": "a, b, c - kleine Buchstaben",
+        "A": "A, B, C - grosse Buchstaben",
+        "i": "i, ii, iii - kleine römische Zahlen",
+        "I": "I, II, III - grosse römische Zahlen"
       }
     }
   },
-  "login": {
-    "title":  "Anmelden",
-    "username": "Username oder E-Mail",
-    "password": "Passwort",
-    "or": "oder",
-    "provider": {
-      "ecamp": "Anmelden mit eCamp",
-      "midata": "Anmelden mit MiData",
-      "google": "Anmelden mit Google"
+  "activityContent": {
+    "Storyboard": {
+      "name": "Programmabschnitt",
+      "entity": { }
     },
-    "accountless": "Hast du noch keinen Account?",
-    "registernow": "Jetzt registrieren",
-    "beta":{
-      "notice": "Hier entsteht das neue eCamp.<br>WICHTIG: Diese Webseite befindet sich im Aufbau. Das heisst, dass alle Daten öffentlich sind und periodisch gelöscht werden!"
+    "Storycontext": {
+      "name": "Roter Faden",
+      "entity": { }
+    }
+  },
+  "components": {
+    "camp": {
+      "campActivityCategories": {
+        "title": "Block Kategorien",
+        "create": "Block Kategorie erstellen",
+        "deleteActivityCategoryQuestion": "Möchtest du die Block Kategorie wirklich löschen?",
+        "deleteActivityCategoryNotPossibleInUse": "Block Kategorie kann nicht gelöscht werden. Sie wird noch verwendet:"
+      }
+    },
+    "dialog": {
+      "dialogActivityCategoryCreate": {
+        "title": "Block Kategorie erstellen"
+      }
+    },
+    "navigation": {
+      "search": "Suchen",
+      "myCamps": "Mein Lager | Meine Lager",
+      "profile": "Profil"
+    }
+  },
+  "views": {
+    "auth": {
+      "login": {
+        "title":  "Anmelden",
+        "username": "Username oder E-Mail",
+        "password": "Passwort",
+        "or": "oder",
+        "provider": {
+          "ecamp": "Anmelden mit eCamp",
+          "midata": "Anmelden mit MiData",
+          "google": "Anmelden mit Google"
+        },
+        "accountless": "Hast du noch keinen Account?",
+        "registernow": "Jetzt registrieren",
+        "beta":{
+          "notice": "Hier entsteht das neue eCamp.<br>WICHTIG: Diese Webseite befindet sich im Aufbau. Das heisst, dass alle Daten öffentlich sind und periodisch gelöscht werden!"
+        }
+      }
+    },
+    "campCreate": {
+      "create": "Lager erstellen"
+    },
+    "camps": {
+      "create": "Lager erstellen"
+    },
+    "home": {
+      "home": "Home",
+      "myCamps": "Mein Lager | Meine Lager",
+      "welcome": "Hallo {user}. Herzlich willkommen auf eCamp"
+    },
+    "profile": {
+      "profile": "Profil"
     }
   }
 }

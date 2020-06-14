@@ -3,7 +3,7 @@
     <v-text-field rounded
                   type="search"
                   hide-details solo
-                  dark :label="$t('search')"
+                  dark :label="$t('components.navigation.search')"
                   solo-inverted single-line
                   flat class="align-center px-2"
                   append-icon="mdi-magnify"

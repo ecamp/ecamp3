@@ -14,7 +14,7 @@
       @click="addActivityContent">
       <v-icon :left="$vuetify.breakpoint.smAndUp" size="150%">mdi-plus</v-icon>
 
-      {{ $tc('addButton', 1, { contentType: $t('activity.content.' + contentTypeName + '.name') }) }}
+      {{ $tc('addButton', 1, { contentType: $t('activityContent.' + contentTypeName + '.name') }) }}
     </v-btn>
   </div>
 </template>

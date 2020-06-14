@@ -1,83 +1,128 @@
 {
-  "language": "English",
-  "home": "Home",
-  "myCamps": "My Camp | My Camps",
-  "profile": "Profile",
-  "search": "Search",
-  "button": {
-    "add": "Add",
-    "back": "Back",
-    "delete": "Delete",
-    "edit": "Edit",
-    "submit": "Submit",
-    "cancel": "Cancel"
+  "global": {
+    "language": "English",
+    "button": {
+      "add": "Add",
+      "back": "Back",
+      "delete": "Delete",
+      "edit": "Edit",
+      "submit": "Submit",
+      "cancel": "Cancel"
+    },
+    "serverError": {
+      "409": "Uuuups... This action caused an server-side error."
+    },
+    "validation": {
+      "minDate": "The {_field_} must be equal or larger than {min}"
+    }
   },
-  "serverError": {
-    "409": "Uuuups... This action caused an server-side error."
-  },
-  "validation": {
-    "minDate": "The {_field_} must be equal or larger than {min}"
-  },
-  "user": {
-    "firstname": "Firstname",
-    "surname": "Surname",
-    "nickname": "Nickname",
-    "language": "Language"
-  },
-  "camp": {
-    "create": "Create camp",
-    "name": "Name",
-    "title": "Title",
-    "motto": "Motto",
-    "campType": "Camp-Type",
-    "periods": "Periods"
-  },
-  "activityCategory": {
-    "title": "Activity Categories",
-    "create": "Create Activity Category",
-    "short": "Short",
-    "name": "Name",
-    "color": "Color",
-    "numberingStyle": "Numbering style",
-    "activityType": "Type",
-    "1": "1, 2, 3 - numbers",
-    "a": "a, b, c - lower letters",
-    "A": "A, B, C - upper letters",
-    "i": "i, ii, iii - lower roman numbers",
-    "I": "I, II, III - grosse roman numbers",
-    "deleteActivityCategoryQuestion": "Do you realy want do delete the ActivityCategory",
-    "deleteActivityCategoryNotPossibleInUse": "ActivityCategory can not be deleted. It is used by:"
-  },
-  "period": {
-    "start": "Start",
-    "end": "End",
-    "description": "Description",
-    "defaultDescription": "Main"
-  },
-  "activity": {
-    "content": {
-      "Storyboard": {
-        "name" : "Story board"
+  "entity": {
+    "camp": {
+      "name": "Camp",
+      "fields": {
+        "name": "Name",
+        "title": "Title",
+        "motto": "Motto",
+        "campType": "Camp-Type",
+        "periods": "Periods"
+      }
+    },
+    "period": {
+      "name": "Lagerabschnitt",
+      "fields": {
+        "start": "Start",
+        "end": "End",
+        "description": "Description"
       },
-      "Storycontext": {
-        "name": "Story context"
+      "defaultDescription": "Main"
+    },
+    "user": {
+      "name": "User",
+      "fields": {
+        "firstname": "Firstname",
+        "surname": "Surname",
+        "nickname": "Nickname",
+        "language": "Language"
+      }
+    },
+    "activityCategory": {
+      "name": "Activity Categories",
+      "fields": {
+        "short": "Short",
+        "name": "Name",
+        "color": "Color",
+        "numberingStyle": "Numbering style",
+        "activityType": "Type"
+      },
+      "numberingStyles": {
+        "1": "1, 2, 3 - numbers",
+        "a": "a, b, c - lower letters",
+        "A": "A, B, C - upper letters",
+        "i": "i, ii, iii - lower roman numbers",
+        "I": "I, II, III - grosse roman numbers"
       }
     }
   },
-  "login": {
-    "title":  "Login",
-    "username": "Username or Email",
-    "password": "Password",
-    "or": "or",
-    "provider": {
-      "ecamp": "Login with eCamp",
-      "midata": "Login with MiData",
-      "google": "Login with Google"
+  "activityContent": {
+    "Storyboard": {
+      "name": "Storyboard",
+      "entity": { }
     },
-    "accountless": "Don't you have an account yet?",
-    "registernow": "Register now",
-    "beta":{
-      "notice": "This is the site of the new eCamp.<br>IMPORTANT: This website is under construction. This means that all data is public and will be deleted periodically!"
+    "Storycontext": {
+      "name": "Storycontext",
+      "entity": { }
+    }
+  },
+  "components": {
+    "camp": {
+      "campActivityCategories": {
+        "title": "Activity Categories",
+        "create": "Create Activity Category",
+        "deleteActivityCategoryQuestion": "Do you realy want do delete the ActivityCategory",
+        "deleteActivityCategoryNotPossibleInUse": "ActivityCategory can not be deleted. It is used by:"
+      }
+    },
+    "dialog": {
+      "dialogActivityCategoryCreate": {
+        "title": "Create Activity Category"
+      }
+    },
+    "navigation": {
+      "search": "Search"
+    }
+  },
+  "views": {
+    "auth": {
+      "login": {
+        "title":  "Login",
+        "username": "Username or Email",
+        "password": "Password",
+        "or": "or",
+        "provider": {
+          "ecamp": "Login with eCamp",
+          "midata": "Login with MiData",
+          "google": "Login with Google"
+        },
+        "accountless": "Don't you have an account yet?",
+        "registernow": "Register now",
+        "beta":{
+          "notice": "This is the site of the new eCamp.<br>IMPORTANT: This website is under construction. This means that all data is public and will be deleted periodically!"
+        }
+      }
+    },
+    "campCreate": {
+      "create": "Create camp"
+    },
+    "camps": {
+      "create": "Create camp"
+    },
+    "home": {
+      "home": "Home",
+      "myCamps": "My Camp | My Camps",
+      "welcome": "Hey {user}. Welcome to eCamp"
+    },
+    "profile": {
+      "profile": "Profile"
     }
   }
 }

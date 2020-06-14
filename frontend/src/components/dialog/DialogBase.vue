@@ -59,7 +59,7 @@ export default {
       this.error = e.message
       if (e.response) {
         if (e.response.status === 409 /* Conflict */) {
-          this.error = this.$i18n.t('serverError.409')
+          this.error = this.$i18n.t('global.serverError.409')
         }
       }
     }

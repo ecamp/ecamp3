@@ -29,7 +29,7 @@ class VeeValidatePlugin {
       validate: (value, { min }) => {
         return new Date(value) >= new Date(min)
       },
-      message: (field, values) => i18n.t('validation.minDate', values)
+      message: (field, values) => i18n.t('global.validation.minDate', values)
     })
   }
 }
