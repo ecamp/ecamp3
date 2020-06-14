@@ -1609,8 +1609,8 @@ return [
             ],
             'route_name' => 'e-camp-api.rpc.auth',
             'collection_query_whitelist' => [
-                'callback'
-            ]
+                'callback',
+            ],
         ],
         'eCampApi\\V1\\Rpc\\Index\\IndexController' => [
             'service_name' => 'Index',
