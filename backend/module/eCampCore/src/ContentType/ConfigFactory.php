@@ -3,24 +3,22 @@
 namespace eCamp\Core\ContentType;
 
 class ConfigFactory {
-  
     /**
      * params String $name Content type name is PascalCase
-     * params Bollean $multiple false=single entitity per activityContent; true=multiple entities per activityContent
+     * params Bollean $multiple false=single entitity per activityContent; true=multiple entities per activityContent.
      */
-    public static function createConfig(String $name, bool $multiple = false, ?String $entityName=null, ?String $namePlural = null) {
-
+    public static function createConfig(string $name, bool $multiple = false, ?String $entityName = null, ?String $namePlural = null) {
         // used in class namespace (PascalCase)
         $namespace = $name;
 
         // used in folder structure (Prefix + PascalCase)
-        $folder = "eCamp".$name;
+        $folder = 'eCamp'.$name;
 
         // route name
         $route = strtolower($name);
 
         // URI (lower case) + plural
-        $apiEndpoint = ! is_null($namePlural) ? strtolower($namePlural) : strtolower($name)."s";
+        $apiEndpoint = !is_null($namePlural) ? strtolower($namePlural) : strtolower($name).'s';
 
         // name of entity ($namespace s fallback)
         $entity = !is_null($entityName) ? $entityName : $namespace;
@@ -28,8 +26,7 @@ class ConfigFactory {
         // property prefix (camelCase)
         $propertyPrefix = lcfirst($entity);
 
-        
-        $config =  [
+        $config = [
             'router' => [
                 'routes' => [
                     "e-camp-api.rest.doctrine.activity-content.{$route}" => [
@@ -43,12 +40,12 @@ class ConfigFactory {
                     ],
                 ],
             ],
-        
+
             'api-tools-rest' => [
                 "eCamp\\ContentType\\{$namespace}\\Controller\\{$entity}Controller" => [
                     'listener' => "eCamp\\ContentType\\{$namespace}\\Service\\{$entity}Service",
                     'controller_class' => "eCamp\\ContentType\\{$namespace}\\Controller\\{$entity}Controller",
-                    'route_name' => "e-camp-api.rest.doctrine.activity-content.${route}",
+                    'route_name' => "e-camp-api.rest.doctrine.activity-content.{$route}",
                     'route_identifier_name' => "{$propertyPrefix}Id",
                     'entity_identifier_name' => 'id',
                     'collection_name' => 'items',
@@ -56,7 +53,7 @@ class ConfigFactory {
                         0 => 'GET',
                         1 => 'PATCH',
                         2 => 'PUT',
-                        3 => 'DELETE' // TODO: disallow deleting directly. Single entities should always be deleted via ActivityContent.
+                        3 => 'DELETE', // TODO: disallow deleting directly. Single entities should always be deleted via ActivityContent.
                     ],
                     'collection_http_methods' => [
                         0 => 'GET',
@@ -73,7 +70,7 @@ class ConfigFactory {
                     'service_name' => $entity,
                 ],
             ],
-        
+
             'api-tools-hal' => [
                 'metadata_map' => [
                     "eCamp\\ContentType\\{$namespace}\\Entity\\{$entity}" => [
@@ -96,7 +93,7 @@ class ConfigFactory {
                     ],
                 ],
             ],
-        
+
             'doctrine' => [
                 'driver' => [
                     "ecamp_contenttype_{$route}_entities" => [
@@ -104,7 +101,7 @@ class ConfigFactory {
                         'cache' => 'array',
                         'paths' => [__DIR__."/../../../../content-type/{$folder}/src/Entity"],
                     ],
-        
+
                     'orm_default' => [
                         'drivers' => [
                             "eCamp\\ContentType\\{$namespace}\\Entity" => "ecamp_contenttype_{$route}_entities",
@@ -115,6 +112,5 @@ class ConfigFactory {
         ];
 
         return $config;
-
     }
 }

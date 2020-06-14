@@ -2,17 +2,16 @@
 
 namespace eCamp\ContentType\Storyboard;
 
+use eCamp\ContentType\Storyboard\Entity\Section;
+use eCamp\Core\ContentType\ConfigFactory;
 use eCamp\Lib\Acl\Acl;
 use eCamp\Lib\Acl\Guest;
 use Laminas\Mvc\MvcEvent;
-use eCamp\Core\ContentType\ConfigFactory;
 use Laminas\Permissions\Acl\AclInterface;
-use eCamp\ContentType\Storyboard\Entity\Section;
 
 class Module {
     public function getConfig() {
-        $config = ConfigFactory::createConfig("Storyboard", true, "Section");
-        return $config;
+        return ConfigFactory::createConfig('Storyboard', true, 'Section');
     }
 
     public function onBootstrap(MvcEvent $e) {
