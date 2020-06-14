@@ -3,13 +3,21 @@
     <h1 class="display-1 text-center">{{ $t('login.title') }}</h1>
 
     <v-alert
+      class="mt-2 text-justify"
       text
       dense
       border="left"
+      style="hypens:auto"
       color="warning">
       <div v-html="$t('login.beta.notice')" />
     </v-alert>
-    <v-alert v-if="error" type="error">Login failed</v-alert>
+    <v-alert v-if="error"
+             outlined
+             text
+             border="left"
+             type="error">
+      Login failed
+    </v-alert>
     <v-form @submit.prevent="login">
       <e-text-field
         id="inputUsername"
@@ -23,7 +31,7 @@
       <e-text-field
         id="inputPassword"
         v-model="password"
-        :label="$t('password')"
+        :label="$t('login.password')"
         name="password"
         append-icon="mdi-lock-outline"
         :dense="$vuetify.breakpoint.xsOnly"
@@ -53,7 +61,7 @@
       class="my-4"
       @click="loginPbsMiData">
       <v-progress-circular v-if="hitobitoLoggingIn" indeterminate size="24" />
-      <v-icon v-else :x-large="$vuetify.breakpoint.smAndUp">$vuetify.icons.pbs</v-icon>
+      <v-icon v-else>$vuetify.icons.pbs</v-icon>
       <v-spacer />
       <span class="text--secondary">{{ $t('login.provider.midata') }}</span>
       <v-spacer />

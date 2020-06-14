@@ -107,15 +107,13 @@ class AuthController extends AbstractActionController {
             ],
         ]);
 
-        if (null != $user) {
-            $data['logout'] = Link::factory([
-                'rel' => 'logout',
-                'route' => [
-                    'name' => 'e-camp-api.rpc.auth',
-                    'params' => ['action' => 'logout'],
-                ],
-            ]);
-        }
+        $data['logout'] = Link::factory([
+            'rel' => 'logout',
+            'route' => [
+                'name' => 'e-camp-api.rpc.auth',
+                'params' => ['action' => 'logout'],
+            ],
+        ]);
 
         $json = new HalJsonModel();
         $json->setPayload(new Entity($data));

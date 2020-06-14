@@ -49,7 +49,7 @@ class ProfileController extends AbstractActionController {
             return new HalJsonModel(['payload' => new Entity($data)]);
         }
 
-        return new ApiProblemModel(new ApiProblem(403, null));
+        return new ApiProblemModel(new ApiProblem(401, null));
     }
 
     private function getAction(User $user) {
