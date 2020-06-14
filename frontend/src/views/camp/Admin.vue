@@ -10,7 +10,6 @@ Admin screen of a camp: Displays details & periods of a single camp and allows t
       <camp-periods :camp="camp" />
 
       <camp-activity-categories :camp="camp" />
-
     </v-card-text>
   </content-card>
 </template>

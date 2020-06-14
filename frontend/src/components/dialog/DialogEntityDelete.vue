@@ -14,7 +14,7 @@
       <slot name="activator" v-bind="scope" />
     </template>
     <slot />
-    <template v-slot:error v-if="$slots.error || error">
+    <template v-if="$slots.error || error" v-slot:error>
       <slot name="error">
         {{ error }}
       </slot>
