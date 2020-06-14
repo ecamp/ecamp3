@@ -30,7 +30,12 @@
     "title": "Titel",
     "motto": "Motto",
     "campType": "Lager-Typ",
-    "periods": "Lagerabschnitte"
+    "periods": "Lagerabschnitte",
+    "period": {
+      "name": "Lagerabschnitt",
+      "add": "Weiterer Lagerabschnitt hinzufügen",
+      "remove": "Dieser Lagerabschnitt entfernen"
+    }
   },
   "activityCategory": {
     "title": "Block Kategorien",
