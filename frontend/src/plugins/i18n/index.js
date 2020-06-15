@@ -2,6 +2,8 @@ import Vue from 'vue'
 import VueI18n from 'vue-i18n'
 import deepmerge from 'deepmerge'
 
+import availableLocales from './availableLocales'
+
 import en from '@/locales/en.json'
 import de from '@/locales/de.json'
 import deCHScout from '@/locales/de-CH-scout.json'
@@ -23,5 +25,5 @@ export default new VueI18n({
     }
   }),
   silentTranslationWarn: true,
-  availableLocales: ['de', 'de-CH-scout', 'en', 'fr', 'it']
+  availableLocales
 })
