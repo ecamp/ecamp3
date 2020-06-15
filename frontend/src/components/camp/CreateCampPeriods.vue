@@ -79,13 +79,22 @@ export default {
     ETextField
   },
   props: {
-    addPeriod: {},
-    periods: {},
+    addPeriod: {
+      type: Function,
+      required: true
+    },
+    periods: {
+      type: Array,
+      required: true
+    },
     deletePeriod: {
       type: Function,
       required: true
     },
-    periodDeletable: {}
+    periodDeletable: {
+      type: Boolean,
+      required: true
+    }
   }
 }
 </script>
