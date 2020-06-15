@@ -16,14 +16,14 @@ Vue.use(VueI18n)
 export default new VueI18n({
   locale: 'de',
   fallbackLocale: 'en',
-  messages: deepmerge({ en, de, 'de-CH-scout': deCHScout }, {
+  messages: deepmerge({
     de: {
       validation: validationDe.messages
     },
     en: {
       validation: validationEn.messages
     }
-  }),
+  }, { en, de, 'de-CH-scout': deCHScout }),
   silentTranslationWarn: true,
   availableLocales
 })
