@@ -11,6 +11,11 @@
       "submit": "Abschicken",
       "cancel": "Abbrechen"
     },
+    "moment": {
+      "dateLong": "dd L",
+      "dateShort": "dd D.M.",
+      "hourShort": "HH:mm"
+    },
     "serverError": {
       "409": "Uuuups... Diese Aktion hat zu einem Fehler auf dem Server geführt."
     },

@@ -11,6 +11,11 @@
       "submit": "Submit",
       "cancel": "Cancel"
     },
+    "moment": {
+      "dateLong": "dd L",
+      "dateShort": "dd M/D",
+      "hourShort": "h A"
+    },
     "serverError": {
       "409": "Uuuups... This action caused an server-side error."
     },
