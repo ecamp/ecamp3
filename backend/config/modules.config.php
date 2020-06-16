@@ -29,6 +29,7 @@ return [
     'eCamp\\AoT',
     'eCampApi',
     'eCamp\\ContentType\\Textarea',
+    'eCamp\\ContentType\\Richtext',
     'eCamp\\ContentType\\Storyboard',
     'AssetManager',
     'Laminas\DeveloperTools',

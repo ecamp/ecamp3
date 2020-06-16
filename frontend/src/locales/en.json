@@ -63,6 +63,10 @@
     }
   },
   "activityContent": {
+    "siKo": {
+      "name": "SiKo",
+      "entity": { }
+    },
     "storyboard": {
       "name": "Storyboard",
       "entity": { }

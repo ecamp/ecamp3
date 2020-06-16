@@ -4,7 +4,7 @@ namespace eCamp\CoreData;
 
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 use eCamp\Core\Entity\ActivityType;
 use eCamp\Core\Entity\ActivityTypeContentType;
 use eCamp\Core\Entity\ActivityTypeFactory;
@@ -32,6 +32,7 @@ class ActivityTypeData extends AbstractFixture implements DependentFixtureInterf
             // add allowed content types
             $this->addContentType($activityType, $this->getReference(ContentTypeData::$STORYBOARD));
             $this->addContentType($activityType, $this->getReference(ContentTypeData::$STORYCONTEXT));
+            $this->addContentType($activityType, $this->getReference(ContentTypeData::$SIKO));
 
             $activityTypeFactory = new ActivityTypeFactory();
             $activityTypeFactory->setName('Wanderung');

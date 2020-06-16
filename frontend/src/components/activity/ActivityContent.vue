@@ -26,6 +26,7 @@
 
 <script>
 
+import SiKo from '@/components/activity/content/SiKo'
 import Storycontext from '@/components/activity/content/Storycontext'
 import Storyboard from '@/components/activity/content/Storyboard'
 import DialogEntityDelete from '@/components/dialog/DialogEntityDelete'
@@ -34,6 +35,7 @@ import ButtonDelete from '@/components/buttons/ButtonDelete'
 export default {
   name: 'ActivityContent',
   components: {
+    SiKo,
     Storycontext,
     Storyboard,
     DialogEntityDelete,

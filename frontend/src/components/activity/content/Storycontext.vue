@@ -5,6 +5,7 @@
         fieldname="text"
         :label="$t('activityContent.storycontext.name')"
         rows="2"
+        vee-rules="required"
         auto-grow />
     </api-form>
   </div>

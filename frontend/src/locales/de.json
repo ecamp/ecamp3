@@ -63,6 +63,10 @@
     }
   },
   "activityContent": {
+    "siKo": {
+      "name": "Sicherheits-Konzept",
+      "entity": { }
+    },
     "storyboard": {
       "name": "Programmabschnitt",
       "entity": { }
