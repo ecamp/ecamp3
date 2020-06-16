@@ -7,7 +7,7 @@
       <v-row no-gutters>
         <v-col>
           <legend class="pa-2">
-            {{ $t('entity.period.name') }}
+            {{ $tc('entity.period.name') }}
           </legend>
         </v-col>
         <v-col cols="auto">
@@ -38,7 +38,6 @@
         <v-col>
           <e-date-picker
             v-model="period.start"
-            :label="$t('entity.period.fields.start')"
             :name="$t('entity.period.fields.start')"
             vee-rules="required"
             :my="2"
@@ -49,7 +48,6 @@
           <e-date-picker
             v-model="period.end"
             input-class="ml-2"
-            :label="$t('entity.period.fields.end')"
             :name="$t('entity.period.fields.end')"
             vee-rules="required"
             :my="2"

@@ -1,8 +1,10 @@
 {
   "global": {
+    "changeLanguage": "Change language",
     "language": "English",
     "button": {
       "add": "Add",
+      "addEntity": "Add {entity} | Add another {entity}",
       "back": "Back",
       "delete": "Delete",
       "edit": "Edit",
@@ -13,7 +15,7 @@
       "409": "Uuuups... This action caused an server-side error."
     },
     "validation": {
-      "minDate": "The {_field_} must be equal or larger than {min}"
+      "minDate": "{_field_} may not be earlier than {min}"
     }
   },
   "entity": {
@@ -23,12 +25,11 @@
         "name": "Name",
         "title": "Title",
         "motto": "Motto",
-        "campType": "Camp-Type",
-        "periods": "Periods"
+        "campType": "Camp type"
       }
     },
     "period": {
-      "name": "Lagerabschnitt",
+      "name": "Period | Periods",
       "fields": {
         "start": "Start",
         "end": "End",
@@ -39,14 +40,15 @@
     "user": {
       "name": "User",
       "fields": {
-        "firstname": "Firstname",
-        "surname": "Surname",
+        "email": "Email address",
+        "firstname": "First name",
+        "surname": "Last name",
         "nickname": "Nickname",
         "language": "Language"
       }
     },
     "activityCategory": {
-      "name": "Activity Categories",
+      "name": "Activity categories",
       "fields": {
         "short": "Short",
         "name": "Name",
@@ -56,39 +58,55 @@
       },
       "numberingStyles": {
         "1": "1, 2, 3 - numbers",
-        "a": "a, b, c - lower letters",
-        "A": "A, B, C - upper letters",
-        "i": "i, ii, iii - lower roman numbers",
-        "I": "I, II, III - grosse roman numbers"
+        "a": "a, b, c - lowercase letters",
+        "A": "A, B, C - uppercase letters",
+        "i": "i, ii, iii - lowercase roman numerals",
+        "I": "I, II, III - uppercase roman numerals"
       }
     }
   },
   "activityContent": {
-    "Storyboard": {
+    "storyboard": {
       "name": "Storyboard",
-      "entity": { }
+      "entity": {
+        "section": {
+          "name": "Section | Sections",
+          "fields": {
+            "column1": "Time",
+            "column2": "Program",
+            "column3": "Responsible"
+          }
+        }
+      }
     },
-    "Storycontext": {
-      "name": "Storycontext",
+    "storycontext": {
+      "name": "Story context",
       "entity": { }
     }
   },
   "components": {
     "camp": {
       "campActivityCategories": {
-        "title": "Activity Categories",
-        "create": "Create Activity Category",
-        "deleteActivityCategoryQuestion": "Do you realy want do delete the ActivityCategory",
+        "title": "Activity categories",
+        "create": "Create activity category",
+        "deleteActivityCategoryQuestion": "Do you really want do delete the ActivityCategory",
         "deleteActivityCategoryNotPossibleInUse": "ActivityCategory can not be deleted. It is used by:"
       }
     },
     "dialog": {
       "dialogActivityCategoryCreate": {
-        "title": "Create Activity Category"
+        "title": "Create activity category"
+      },
+      "dialogEntityDelete": {
+        "title": "Really delete?",
+        "warningText": "Do you really want to delete this?"
       }
     },
     "navigation": {
-      "search": "Search"
+      "searchActivitiesAndCamps": "Seach activities and camps",
+      "search": "Search",
+      "myCamps": "My camp | My camps",
+      "profile": "Profile"
     }
   },
   "views": {
@@ -103,22 +121,33 @@
           "midata": "Login with MiData",
           "google": "Login with Google"
         },
-        "accountless": "Don't you have an account yet?",
+        "accountless": "Don't have an account yet?",
         "registernow": "Register now",
         "beta":{
           "notice": "This is the site of the new eCamp.<br>IMPORTANT: This website is under construction. This means that all data is public and will be deleted periodically!"
         }
       }
     },
+    "activity": {
+      "sideBarProgram": {
+        "title": "Overview"
+      }
+    },
     "campCreate": {
-      "create": "Create camp"
+      "create": "Create camp",
+      "period": {
+        "add": "Add a period",
+        "remove": "Remove this period"
+      },
+      "title": "Create camp"
     },
     "camps": {
-      "create": "Create camp"
+      "create": "Create camp",
+      "title": "My camp | My camps"
     },
     "home": {
       "home": "Home",
-      "myCamps": "My Camp | My Camps",
+      "myCamps": "My camp | My camps",
       "welcome": "Hey {user}. Welcome to eCamp"
     },
     "profile": {

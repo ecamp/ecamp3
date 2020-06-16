@@ -18,10 +18,14 @@ export default new VueI18n({
   fallbackLocale: 'en',
   messages: deepmerge({
     de: {
-      validation: validationDe.messages
+      global: {
+        validation: validationDe.messages
+      }
     },
     en: {
-      validation: validationEn.messages
+      global: {
+        validation: validationEn.messages
+      }
     }
   }, { en, de, 'de-CH-scout': deCHScout }),
   silentTranslationWarn: true,

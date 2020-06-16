@@ -6,9 +6,9 @@ class VeeValidatePlugin {
   install (Vue, options) {
     // translate default error messages
     configure({
-    // this will be used to generate messages.
+      // this will be used to generate messages.
       defaultMessage: (field, values) => {
-        return i18n.t(`validation.${values._rule_}`, values)
+        return i18n.t(`global.validation.${values._rule_}`, values)
       }
     })
 

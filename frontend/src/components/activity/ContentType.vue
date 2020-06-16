@@ -14,21 +14,10 @@
       @click="addActivityContent">
       <v-icon :left="$vuetify.breakpoint.smAndUp" size="150%">mdi-plus</v-icon>
 
-      {{ $tc('addButton', 1, { contentType: $t('activityContent.' + contentTypeName + '.name') }) }}
+      {{ $tc('global.button.addEntity', activityContents.length + 1, { entity: $t('activityContent.' + contentTypeName + '.name') }) }}
     </v-btn>
   </div>
 </template>
-
-<i18n>
-{
-  "en": {
-    "addButton": "Add {contentType} | Add another {contentType}"
-  },
-  "de": {
-    "addButton": "{contentType} hinzufügen"
-  }
-}
-</i18n>
 
 <script>
 import ActivityContent from './ActivityContent'
