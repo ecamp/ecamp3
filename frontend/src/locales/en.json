@@ -142,7 +142,7 @@
       "create": "Create camp",
       "period": {
         "add": "Add a period",
-        "remove": "Remove this period"
+        "remove": "Remove period"
       },
       "title": "Create camp"
     },

@@ -14,13 +14,14 @@
       @click="addActivityContent">
       <v-icon :left="$vuetify.breakpoint.smAndUp" size="150%">mdi-plus</v-icon>
 
-      {{ $tc('global.button.addEntity', activityContents.length + 1, { entity: $t('activityContent.' + contentTypeName + '.name') }) }}
+      {{ $tc('global.button.addEntity', activityContents.length + 1, { entity: $t(activityContentTypeNameKey) }) }}
     </v-btn>
   </div>
 </template>
 
 <script>
 import ActivityContent from './ActivityContent'
+import { camelCase } from 'lodash'
 
 export default {
   name: 'ContentType',
@@ -37,6 +38,9 @@ export default {
     }
   },
   computed: {
+    activityContentTypeNameKey () {
+      return `activityContent.${camelCase(this.contentTypeName)}.name`
+    },
     activityContents () {
       // TODO: should we add the deleting-filter already to the store?
       return this.activity.activityContents().items.filter(ep => !ep._meta.deleting && ep.contentTypeName === this.contentTypeName)
