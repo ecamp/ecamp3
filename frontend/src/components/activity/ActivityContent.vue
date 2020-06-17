@@ -31,6 +31,7 @@ import Storycontext from '@/components/activity/content/Storycontext'
 import Storyboard from '@/components/activity/content/Storyboard'
 import DialogEntityDelete from '@/components/dialog/DialogEntityDelete'
 import ButtonDelete from '@/components/buttons/ButtonDelete'
+import camelCase from 'lodash/camelCase'
 
 export default {
   name: 'ActivityContent',
@@ -54,12 +55,7 @@ export default {
       if (this.activityContent.instanceName) {
         return this.activityContent.instanceName
       }
-      return this.$i18n.t(
-        'activityContent.' +
-        this.activityContent.contentTypeName.charAt(0).toLowerCase() +
-        this.activityContent.contentTypeName.slice(1) +
-        '.name'
-      )
+      return this.$t(`activityContent.${camelCase(this.activityContent.contentTypeName)}.name`)
     }
   },
   methods: {

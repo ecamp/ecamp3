@@ -12,12 +12,12 @@ Listing all given activity schedule entries in a calendar view.
     :event-color="getActivityColor | loading('grey lighten-2', scheduleEntry => scheduleEntry.activity()._meta.loading)"
     :interval-height="intervalHeight"
     interval-width="46"
-    :interval-format="getIntervalFormat"
+    :interval-format="intervalFormat"
     first-interval="5"
     interval-count="19"
-    :start="startDateString"
-    :end="endDateString"
-    locale="de-ch"
+    :start="start"
+    :end="end"
+    :locale="$i18n.locale"
     :day-format="dayFormat"
     :type="type"
     :weekday-format="weekdayFormat"
@@ -63,14 +63,6 @@ export default {
       weekdayShort: ['Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa', 'So']
     }
   },
-  computed: {
-    startDateString () {
-      return this.formatDateForProp(this.start)
-    },
-    endDateString () {
-      return this.formatDateForProp(this.end)
-    }
-  },
   methods: {
     getActivityName (event, _) {
       return '(' + event.input.number + ') ' + event.input.activity().activityCategory().short + ': ' + event.input.activity().title
@@ -78,24 +70,21 @@ export default {
     getActivityColor (event, _) {
       return event.activity().activityCategory().color.toString()
     },
-    getIntervalFormat (time) {
-      return time.time
+    intervalFormat (time) {
+      return this.$moment(time.date + ' ' + time.time).format(this.$t('global.moment.hourShort'))
     },
     showScheduleEntry ({ event: scheduleEntry }) {
       this.$router.push(scheduleEntryRoute(this.camp(), scheduleEntry))
     },
     dayFormat (day) {
       if (this.$vuetify.breakpoint.smAndDown) {
-        return this.weekdayShort[day.weekday] + ',\n' + day.day + '.' + day.month
+        return this.$moment(day.date).format(this.$t('global.moment.dateShort'))
       } else {
-        return this.weekdayShort[day.weekday] + ', ' + day.day + '.' + day.month + '.' + day.year
+        return this.$moment(day.date).format(this.$t('global.moment.dateLong'))
       }
     },
     weekdayFormat (day) {
       return ''
-    },
-    formatDateForProp (date) {
-      return '' + date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate()
     }
   }
 }

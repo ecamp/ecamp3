@@ -38,7 +38,6 @@
         <v-col>
           <e-date-picker
             v-model="period.start"
-            :label="$t('entity.period.fields.start')"
             :name="$t('entity.period.fields.start')"
             vee-rules="required"
             :my="2"
@@ -49,7 +48,6 @@
           <e-date-picker
             v-model="period.end"
             input-class="ml-2"
-            :label="$t('entity.period.fields.end')"
             :name="$t('entity.period.fields.end')"
             vee-rules="required"
             :my="2"
@@ -79,13 +77,22 @@ export default {
     ETextField
   },
   props: {
-    addPeriod: {},
-    periods: {},
+    addPeriod: {
+      type: Function,
+      required: true
+    },
+    periods: {
+      type: Array,
+      required: true
+    },
     deletePeriod: {
       type: Function,
       required: true
     },
-    periodDeletable: {}
+    periodDeletable: {
+      type: Boolean,
+      required: true
+    }
   }
 }
 </script>

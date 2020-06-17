@@ -9,7 +9,7 @@
       </template>
       <v-col>
         <api-text-field
-          label="Email"
+          :name="$t('entity.user.fields.email')"
           :uri="profile._meta.self"
           fieldname="mail"
           :editing="false"
@@ -17,19 +17,19 @@
       </v-col>
       <v-col>
         <api-text-field
-          :label="$t('entity.user.fields.firstname')"
+          :name="$t('entity.user.fields.firstname')"
           :uri="profile._meta.self"
           fieldname="firstname" />
         <api-text-field
-          :label="$t('entity.user.fields.surname')"
+          :name="$t('entity.user.fields.surname')"
           :uri="profile._meta.self"
           fieldname="surname" />
         <api-text-field
-          :label="$t('entity.user.fields.nickname')"
+          :name="$t('entity.user.fields.nickname')"
           :uri="profile._meta.self"
           fieldname="nickname" />
         <api-select
-          :label="$t('entity.user.fields.language')"
+          :name="$t('entity.user.fields.language')"
           :uri="profile._meta.self"
           fieldname="language"
           :items="availableLocales" />
@@ -60,7 +60,7 @@ export default {
     availableLocales () {
       return VueI18n.availableLocales.map(l => ({
         value: l,
-        text: this.$i18n.t('global.language', l)
+        text: this.$t('global.language', l)
       }))
     }
   },

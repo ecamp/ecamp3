@@ -9,6 +9,7 @@
       border="left"
       style="hypens:auto"
       color="warning">
+      <!-- eslint-disable-next-line vue/no-v-html -->
       <div v-html="$t('views.auth.login.beta.notice')" />
     </v-alert>
     <v-alert v-if="error"

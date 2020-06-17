@@ -2,7 +2,7 @@
   <v-container>
     <content-card :title="$t('views.home.home')" max-width="600">
       <p class="mx-4">
-        <v-skeleton-loader type="text" :loading="api.get()._meta.loading">
+        <v-skeleton-loader type="text" :loading="api.get().profile()._meta.loading">
           {{ $t('views.home.welcome', { user: api.get().profile().displayName }) }}
         </v-skeleton-loader>
       </p>
@@ -12,7 +12,7 @@
             <v-icon>mdi-format-list-bulleted-triangle</v-icon>
           </v-list-item-icon>
           <v-list-item-content>
-            <v-list-item-title>{{ $tc('views.camps.myCamps', api.get().camps().items.length) }}</v-list-item-title>
+            <v-list-item-title>{{ $tc('views.home.myCamps', api.get().camps().items.length) }}</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
       </v-list>

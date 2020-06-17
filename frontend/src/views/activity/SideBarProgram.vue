@@ -2,7 +2,7 @@
   <side-bar>
     <content-card>
       <v-subheader class="text-uppercase subtitle-2">
-        Tagesübersicht
+        {{ $t('views.activity.sideBarProgram.title') }}
       </v-subheader>
       <v-skeleton-loader v-if="scheduleEntries.loading" class="ma-3"
                          type="list-item@6" />
