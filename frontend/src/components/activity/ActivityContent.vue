@@ -15,7 +15,7 @@
 
     <v-card-title class="card-title">
       <div class="overline mb-4">
-        {{ activityContent.instanceName || $t('activityContent.' + activityContent.contentTypeName + '.name') }}
+        {{ instanceName }}
       </div>
     </v-card-title>
     <v-card-text class="card-content">
@@ -30,6 +30,7 @@ import Storycontext from '@/components/activity/content/Storycontext'
 import Storyboard from '@/components/activity/content/Storyboard'
 import DialogEntityDelete from '@/components/dialog/DialogEntityDelete'
 import ButtonDelete from '@/components/buttons/ButtonDelete'
+import camelCase from 'lodash/camelCase'
 
 export default {
   name: 'ActivityContent',
@@ -45,6 +46,14 @@ export default {
   data () {
     return {
       isDeleting: false
+    }
+  },
+  computed: {
+    instanceName () {
+      if (this.activityContent.instanceName) {
+        return this.activityContent.instanceName
+      }
+      return this.$t(`activityContent.${camelCase(this.activityContent.contentTypeName)}.name`)
     }
   },
   methods: {

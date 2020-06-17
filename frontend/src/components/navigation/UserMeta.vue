@@ -27,7 +27,7 @@
         <span>{{ $t('components.navigation.profile') }}</span>
       </v-list-item>
       <v-list-item block tag="li"
-                   exact :to="{ name: 'camps', params: { groupName: encodeURI('Pfadi Bewegung Schweiz') } }"
+                   exact :to="{ name: 'camps' }"
                    @click="open = false">
         <v-icon left>mdi-format-list-bulleted-triangle</v-icon>
         <span>{{ $tc('components.navigation.myCamps', api.get().camps().items.length) }}</span>

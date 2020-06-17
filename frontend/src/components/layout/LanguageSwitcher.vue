@@ -4,11 +4,11 @@
       <v-btn
         id="languageSwitcher" text
         small
-        :aria-label="$t('changeLanguage')"
+        :aria-label="$t('global.changeLanguage')"
         v-bind="attrs"
         v-on="on">
         <v-icon left small>mdi-translate</v-icon>
-        {{ $i18n.t('language', $i18n.locale) }}
+        {{ $t('global.language') }}
       </v-btn>
     </template>
     <v-list dense tag="ul"
@@ -19,28 +19,11 @@
         tag="li"
         :lang="item"
         @click="changeLang(item)">
-        <v-list-item-title>{{ $i18n.t('language', item) }}</v-list-item-title>
+        <v-list-item-title>{{ $t('global.language', item) }}</v-list-item-title>
       </v-list-item>
     </v-list>
   </v-menu>
 </template>
-
-<i18n>
-  {
-    "de": {
-      "changeLanguage": "Sprache ändern"
-    },
-    "en": {
-      "changeLanguage": "Change language"
-    },
-    "fr": {
-      "changeLanguage": "Changer la langue"
-    },
-    "it": {
-      "changeLanguage": "Cambia lingua"
-    }
-  }
-</i18n>
 
 <script>
 export default {

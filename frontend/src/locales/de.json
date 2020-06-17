@@ -1,5 +1,6 @@
 {
   "global": {
+    "changeLanguage": "Sprache ändern",
     "language": "Deutsch",
     "button": {
       "add": "Hinzufügen",
@@ -9,11 +10,16 @@
       "submit": "Abschicken",
       "cancel": "Abbrechen"
     },
+    "moment": {
+      "dateLong": "dd L",
+      "dateShort": "dd D.M.",
+      "hourShort": "HH:mm"
+    },
     "serverError": {
       "409": "Uuuups... Diese Aktion hat zu einem Fehler auf dem Server geführt."
     },
     "validation": {
-      "minDate": "Das {_field_} muss gleich oder grösser sein als {min}"
+      "minDate": "{_field_} darf nicht vor {min} liegen"
     }
   },
   "entity": {
@@ -23,22 +29,22 @@
         "name": "Name",
         "title": "Titel",
         "motto": "Motto",
-        "campType": "Lager-Typ",
-        "periods": "Lagerabschnitte"
+        "campType": "Lager-Typ"
       }
     },
     "period": {
-      "name": "Lagerabschnitt",
+      "name": "Lagerabschnitt | Lagerabschnitte",
       "fields": {
-        "start": "Von",
+        "description": "Beschreibung",
         "end": "Bis",
-        "description": "Beschreibung"
+        "start": "Von"
       },
       "defaultDescription": "Hauptlager"
     },
     "user": {
       "name": "User",
       "fields": {
+        "email": "E-Mail-Adresse",
         "firstname": "Vorname",
         "surname": "Nachname",
         "nickname": "Spitzname",
@@ -64,11 +70,22 @@
     }
   },
   "activityContent": {
-    "Storyboard": {
+    "storyboard": {
+      "add": "Programmabschnitt hinzufügen",
       "name": "Programmabschnitt",
-      "entity": { }
+      "entity": {
+        "section": {
+          "name": "Programmpunkt | Programmpunkte",
+          "fields": {
+            "column1": "Zeit",
+            "column2": "Programm",
+            "column3": "Verantwortlich"
+          }
+        }
+      }
     },
-    "Storycontext": {
+    "storycontext": {
+      "add": "Roten Faden hinzufügen",
       "name": "Roter Faden",
       "entity": { }
     }
@@ -76,18 +93,23 @@
   "components": {
     "camp": {
       "campActivityCategories": {
-        "title": "Block Kategorien",
-        "create": "Block Kategorie erstellen",
-        "deleteActivityCategoryQuestion": "Möchtest du die Block Kategorie wirklich löschen?",
-        "deleteActivityCategoryNotPossibleInUse": "Block Kategorie kann nicht gelöscht werden. Sie wird noch verwendet:"
+        "title": "Block-Kategorien",
+        "create": "Block-Kategorie erstellen",
+        "deleteActivityCategoryQuestion": "Möchtest du diese Block-Kategorie wirklich löschen?",
+        "deleteActivityCategoryNotPossibleInUse": "Block-Kategorie kann nicht gelöscht werden. Sie wird noch verwendet:"
       }
     },
     "dialog": {
       "dialogActivityCategoryCreate": {
-        "title": "Block Kategorie erstellen"
+        "title": "Block-Kategorie erstellen"
+      },
+      "dialogEntityDelete": {
+        "title": "Wirklich löschen?",
+        "warningText": "Möchtest du das wirklich löschen?"
       }
     },
     "navigation": {
+      "searchActivitiesAndCamps": "Aktivitäten und Camps suchen",
       "search": "Suchen",
       "myCamps": "Mein Lager | Meine Lager",
       "profile": "Profil"
@@ -112,15 +134,22 @@
         }
       }
     },
+    "activity": {
+      "sideBarProgram": {
+        "title": "Tagesübersicht"
+      }
+    },
     "campCreate": {
       "create": "Lager erstellen",
       "period": {
-        "add": "Weiterer Lagerabschnitt hinzufügen",
-        "remove": "Dieser Lagerabschnitt entfernen"
-      }
+        "add": "Weiteren Lagerabschnitt hinzufügen",
+        "remove": "Diesen Lagerabschnitt entfernen"
+      },
+      "title": "Lager erstellen"
     },
     "camps": {
-      "create": "Lager erstellen"
+      "create": "Lager erstellen",
+      "title": "Mein Lager | Meine Lager"
     },
     "home": {
       "home": "Home",

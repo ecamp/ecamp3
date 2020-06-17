@@ -33,7 +33,6 @@ Displays a field as a date picker (can be used with v-model)
 
 <script>
 import BasePicker from './BasePicker'
-import moment from 'moment'
 
 export default {
   name: 'DatePicker',
@@ -45,13 +44,13 @@ export default {
   methods: {
     format (val) {
       if (val) {
-        return moment(val, moment.HTML5_FMT.DATE).locale(this.$i18n.locale).format('L')
+        return this.$moment(val, this.$moment.HTML5_FMT.DATE, this.$i18n.locale).format('L')
       }
       return ''
     },
     parse (val) {
       if (val) {
-        return moment(val, 'L', this.$i18n.locale).format(moment.HTML5_FMT.DATE)
+        return this.$moment(val, 'L').format(this.$moment.HTML5_FMT.DATE)
       }
       return ''
     }

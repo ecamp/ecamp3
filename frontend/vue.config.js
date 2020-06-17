@@ -1,3 +1,6 @@
+const MomentLocalesPlugin = require('moment-locales-webpack-plugin')
+const availableLocales  = require('./src/plugins/i18n/availableLocales')
+
 module.exports = {
   devServer: {
     useLocalIp: false,
@@ -9,7 +12,12 @@ module.exports = {
   },
 
   configureWebpack: {
-    devtool: 'source-map'
+    devtool: 'source-map',
+    plugins: [
+      new MomentLocalesPlugin({
+        localesToKeep: availableLocales,
+      }),
+    ]
   },
 
   transpileDependencies: [

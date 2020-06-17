@@ -4,7 +4,7 @@
       <v-toolbar>
         <v-toolbar-title>
           <ButtonBack />
-          {{ $t('camp.create') }}
+          {{ $t('views.campCreate.title') }}
         </v-toolbar-title>
       </v-toolbar>
       <ValidationObserver v-slot="{ handleSubmit }">
@@ -13,26 +13,22 @@
             <server-error :server-error="serverError" />
             <e-text-field
               v-model="camp.name"
-              :label="$t('entity.camp.fields.name')"
               :name="$t('entity.camp.fields.name')"
               vee-rules="required"
               required
               autofocus />
             <e-text-field
               v-model="camp.title"
-              :label="$t('entity.camp.fields.title')"
               :name="$t('entity.camp.fields.title')"
               vee-rules="required"
               required />
             <e-text-field
               v-model="camp.motto"
-              :label="$t('entity.camp.fields.motto')"
               :name="$t('entity.camp.fields.motto')"
               vee-rules="required"
               required />
             <e-select
               v-model="camp.campTypeId"
-              :label="$t('entity.camp.fields.campType')"
               :name="$t('entity.camp.fields.campType')"
               vee-rules="required"
               :items="campTypes">
@@ -99,7 +95,7 @@ export default {
             key: 0,
             start: '',
             end: '',
-            description: this.$i18n.t('entity.period.defaultDescription')
+            description: this.$t('entity.period.defaultDescription')
           }
         ]
       },
@@ -111,7 +107,7 @@ export default {
     campTypes () {
       return this.api.get().campTypes().items.map(ct => ({
         value: ct.id,
-        text: this.$i18n.t(ct.name),
+        text: this.$t(ct.name),
         object: ct
       }))
     },

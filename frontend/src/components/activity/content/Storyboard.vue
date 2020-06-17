@@ -3,13 +3,13 @@
     <v-container fluid>
       <v-row no-gutters class="text-subtitle-2">
         <v-col cols="2">
-          {{ $t('column1') }}
+          {{ $t('activityContent.storyboard.entity.section.fields.column1') }}
         </v-col>
         <v-col cols="7">
-          {{ $t('column2') }}
+          {{ $t('activityContent.storyboard.entity.section.fields.column2') }}
         </v-col>
         <v-col cols="2">
-          {{ $t('column3') }}
+          {{ $t('activityContent.storyboard.entity.section.fields.column3') }}
         </v-col>
         <v-col cols="1" />
       </v-row>
@@ -83,21 +83,6 @@
     </v-container>
   </div>
 </template>
-
-<i18n>
-{
-  "en": {
-    "column1": "When",
-    "column2": "What",
-    "column3": "Who"
-  },
-  "de": {
-    "column1": "Zeit",
-    "column2": "Programm / Ablauf",
-    "column3": "Verantwortlich"
-  }
-}
-</i18n>
 
 <script>
 import ApiTextarea from '@/components/form/api/ApiTextarea'
