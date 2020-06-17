@@ -4,7 +4,6 @@
     "language": "English",
     "button": {
       "add": "Add",
-      "addEntity": "Add {entity} | Add another {entity}",
       "back": "Back",
       "delete": "Delete",
       "edit": "Edit",
@@ -72,6 +71,7 @@
   },
   "activityContent": {
     "storyboard": {
+      "add": "Add a storyboard | Add another storyboard",
       "name": "Storyboard",
       "entity": {
         "section": {
@@ -85,6 +85,7 @@
       }
     },
     "storycontext": {
+      "add": "Add story context",
       "name": "Story context",
       "entity": { }
     }

@@ -4,7 +4,6 @@
     "language": "Deutsch",
     "button": {
       "add": "Hinzufügen",
-      "addEntity": "{entity} hinzufügen",
       "back": "Zurück",
       "delete": "Löschen",
       "edit": "Bearbeiten",
@@ -72,6 +71,7 @@
   },
   "activityContent": {
     "storyboard": {
+      "add": "Programmabschnitt hinzufügen",
       "name": "Programmabschnitt",
       "entity": {
         "section": {
@@ -85,6 +85,7 @@
       }
     },
     "storycontext": {
+      "add": "Roten Faden hinzufügen",
       "name": "Roter Faden",
       "entity": { }
     }
