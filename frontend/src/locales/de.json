@@ -71,6 +71,7 @@
   },
   "activityContent": {
     "siKo": {
+      "add": "Sicherheits-Konzept hinzufügen",
       "name": "Sicherheits-Konzept",
       "entity": { }
     },

@@ -71,6 +71,7 @@
   },
   "activityContent": {
     "siKo": {
+      "add": "Add a security concept | Add another security concept",
       "name": "SiKo",
       "entity": { }
     },
