@@ -6,14 +6,6 @@
         :label="$t('activityContent.siKo.name')"
         rows="2" />
     </api-form>
-    <!--
-    <api-form :entity="activityContent.richtext()">
-      <api-textarea
-        fieldname="text"
-        :label="$t('activityContent.siKo.name')"
-        rows="2"
-        auto-grow />
-    -->
   </div>
 </template>
 

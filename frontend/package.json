@@ -25,6 +25,7 @@
     "slugify": "^1.4.0",
     "tiptap": "^1.27.1",
     "tiptap-extensions": "^1.29.1",
+    "tiptap-vuetify": "^2.23.0",
     "url-template": "^2.0.8",
     "vee-validate": "^3.3.3",
     "vue": "^2.6.11",

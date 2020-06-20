@@ -51,7 +51,7 @@ export default {
     // try to find the ActivityTypeContentType of given name `contentTypeName`
     // otherwise returns undefined and this component should not be shown
     activityTypeContentType () {
-      return this.activity.activityCategory().activityType().activityTypeContentTypes().items.find(etp => etp.contentType().name === this.contentTypeName)
+      return this.activity.activityCategory().activityType().activityTypeContentTypes().items.find(atct => atct.contentType().name === this.contentTypeName)
     },
 
     // number of content instances
