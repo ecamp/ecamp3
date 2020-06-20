@@ -135,6 +135,7 @@ abstract class AbstractEntityService extends AbstractResourceListener {
      * @return BaseEntity
      */
     final public function create($data) {
+        $data = $this->prepareData($data);
         $entity = $this->createEntity($data);
         $this->assertAllowed($entity, __FUNCTION__);
 
@@ -159,6 +160,7 @@ abstract class AbstractEntityService extends AbstractResourceListener {
         $entity = $this->fetch($id);
         $this->assertAllowed($entity, __FUNCTION__);
 
+        $data = $this->prepareData($data);
         $this->patchEntity($entity, $data);
         $this->serviceUtils->emFlush();
 
@@ -180,6 +182,7 @@ abstract class AbstractEntityService extends AbstractResourceListener {
         $entity = $this->fetch($id);
         $this->assertAllowed($entity, __FUNCTION__);
 
+        $data = $this->prepareData($data);
         $this->updateEntity($entity, $data);
         $this->serviceUtils->emFlush();
 
@@ -267,6 +270,15 @@ abstract class AbstractEntityService extends AbstractResourceListener {
      */
     protected function deleteEntity(BaseEntity $entity) {
         return $entity;
+    }
+
+    /**
+     * @param $data
+     *
+     * @return mixed
+     */
+    protected function prepareData($data) {
+        return $data;
     }
 
     /**
