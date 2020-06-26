@@ -14,10 +14,47 @@ services:
     command: npm run serve
     environment:
       NODE_ENV: development
+  
+  backend:
+    build: ./backend
+    container_name: 'ecamp3-backend'
+    ports:
+      - '3001:80'
+    links:
+        - db
+    volumes:
+      - ./backend:/app:delegated
+
+  composer:
+    image: composer:1.10
+    container_name: 'ecamp3-composer'
+    restart: 'no'
+    command: bash -c "composer install --no-interaction --no-plugins --no-scripts --prefer-dist --no-suggest"
+    volumes:
+      - ./backend:/app:delegated
+      - composer-cache:/tmp/cache
+
+  db:
+    image: mariadb:10.5
+    container_name: 'ecamp3-db'
+    environment:
+      - MYSQL_DATABASE=ecamp3dev
+      - MYSQL_ROOT_PASSWORD=will-be-randomized-and-output-on-the-console
+      - MYSQL_RANDOM_ROOT_PASSWORD=yes
+      - MYSQL_USER=ecamp3
+      - MYSQL_PASSWORD=ecamp3
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: 'ecamp3-phpmyadmin'
+    ports:
+      - '3002:80'
+    links:
+      - db
 
 volumes:
   npm-cache:
-    external: false
   cypress-cache:
-    external: false
+  composer-cache:
+
   
