@@ -10,6 +10,7 @@ services:
       - ./frontend:/app:delegated
       - npm-cache:/root/.npm
       - cypress-cache:/root/.cache/Cypress
+      - node-modules-cache:/app/node_modules/.cache
     working_dir: /app
     command: npm run serve
     environment:
@@ -56,5 +57,6 @@ volumes:
   npm-cache:
   cypress-cache:
   composer-cache:
+  node-modules-cache:
 
   
