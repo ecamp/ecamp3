@@ -24,6 +24,19 @@ services:
         - db
     volumes:
       - ./backend:/app:delegated
+      
+  print:
+    image: node:12.18
+    container_name: 'ecamp3-print'
+    ports:
+      - '3003:3000'
+    volumes:
+      - ./print:/app:delegated
+      - npm-cache:/root/.npm
+    working_dir: /app
+    command: npm run dev
+    environment:
+      - HOST=0.0.0.0
 
   composer:
     image: composer:1.10

@@ -3,6 +3,9 @@ setup:
 	./frontend/setup.sh
 	docker-compose run --rm frontend npm ci
 
+	# install print dependencies with npm
+	docker-compose run --rm print npm ci
+
 	# install backend dependencies with composer
 	docker-compose run --rm composer
 
@@ -13,11 +16,12 @@ setup:
 
 install:
 	docker-compose run --rm frontend npm i
+	docker-compose run --rm print npm i
 	docker-compose run --rm composer
 
 docker-build:
 	docker-compose build
 
 run:
-	docker-compose up -d frontend backend db phpmyadmin
+	docker-compose up -d frontend backend print db phpmyadmin
 	docker-compose logs -f frontend
