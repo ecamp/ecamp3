@@ -65,6 +65,15 @@ services:
     links:
       - db
 
+  worker-print-puppeteer:
+    image: buildkite/puppeteer
+    container_name: 'ecamp3-worker-print-puppeteer'
+    volumes:
+      - ./workers/print-puppeteer:/app:delegated
+      - npm-cache:/root/.npm
+    working_dir: /app
+    command: npm run print
+
 volumes:
   npm-cache:
   cypress-cache:

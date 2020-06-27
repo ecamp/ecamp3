@@ -1,3 +1,5 @@
+.PHONY: setup install run print
+
 setup:
 	# install frontend dependencies with npm
 	./frontend/setup.sh
@@ -25,3 +27,6 @@ docker-build:
 run:
 	docker-compose up -d frontend backend print db phpmyadmin
 	docker-compose logs -f frontend
+
+print:
+	docker-compose run --rm worker-print-puppeteer
