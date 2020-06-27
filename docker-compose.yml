@@ -74,6 +74,14 @@ services:
     working_dir: /app
     command: npm run print
 
+  worker-print-weasy:
+      build: ./workers/print-weasy
+      container_name: 'ecamp3-worker-print-weasy'
+      volumes:
+        - ./workers/print-weasy:/app:delegated
+      working_dir: /app
+      command: python print.py
+
 volumes:
   npm-cache:
   cypress-cache:

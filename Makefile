@@ -30,3 +30,4 @@ run:
 
 print:
 	docker-compose run --rm worker-print-puppeteer
+	docker-compose run --rm worker-print-weasy
