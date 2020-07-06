@@ -42,8 +42,7 @@ export default {
       return `activityContent.${camelCase(this.contentTypeName)}.add`
     },
     activityContents () {
-      // TODO: should we add the deleting-filter already to the store?
-      return this.activity.activityContents().items.filter(ep => !ep._meta.deleting && ep.contentTypeName === this.contentTypeName)
+      return this.activity.activityContents().items.filter(ep => ep.contentTypeName === this.contentTypeName)
     },
     contentType () {
       return this.activityTypeContentType.contentType()

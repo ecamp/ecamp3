@@ -93,7 +93,7 @@ export default {
   },
   computed: {
     collaborators () {
-      return this.camp().campCollaborations().items.filter(c => !c._meta.deleting)
+      return this.camp().campCollaborations().items
     },
     establishedCollaborators () {
       return this.collaborators.filter(c => c.status === 'established')
