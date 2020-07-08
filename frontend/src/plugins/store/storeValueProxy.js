@@ -85,7 +85,7 @@ function loadingProxy (entityLoaded, uri = null) {
         return loadingProxy(entityLoaded, uri)
       }
       const propertyLoaded = entityLoaded.then(entity => entity[prop])
-      if (prop === 'items') {
+      if (['items', 'allItems'].includes(prop)) {
         return loadingArrayProxy(propertyLoaded)
       }
       // Normal property access: return a function that yields another loadingProxy and renders as empty string
@@ -122,6 +122,10 @@ function loadingArrayProxy (arrayLoaded, existingContent = []) {
     }
   })
   return existingContent
+}
+
+function filterDeleting (array) {
+  return array.filter(entry => !entry._meta.deleting)
 }
 
 /**
@@ -161,7 +165,8 @@ function mapArrayOfEntityReferences (array) {
  * @returns object the target object with the added getter
  */
 function addItemsGetter (target, items) {
-  Object.defineProperty(target, 'items', { get: () => mapArrayOfEntityReferences(items) })
+  Object.defineProperty(target, 'items', { get: () => filterDeleting(mapArrayOfEntityReferences(items)) })
+  Object.defineProperty(target, 'allItems', { get: () => mapArrayOfEntityReferences(items) })
   return target
 }
 
@@ -230,6 +235,7 @@ function createStoreValueProxy (data) {
   const result = {}
   Object.keys(data).forEach(key => {
     const value = data[key]
+    if (key === 'allItems' && isCollection(data)) return
     if (key === 'items' && isCollection(data)) {
       addItemsGetter(result, data[key])
     } else if (Array.isArray(value)) {
