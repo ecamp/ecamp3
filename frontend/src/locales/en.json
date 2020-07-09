@@ -70,6 +70,11 @@
     }
   },
   "activityContent": {
+    "siKo": {
+      "add": "Add a siko",
+      "name": "SiKo",
+      "entity": { }
+    },
     "storyboard": {
       "add": "Add a storyboard | Add another storyboard",
       "name": "Storyboard",
