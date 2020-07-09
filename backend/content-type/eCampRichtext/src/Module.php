@@ -24,8 +24,8 @@ class Module {
                     'name' => 'text',
                     'required' => true,
                     'filters' => [
-                        0 => ['name' => 'Laminas\\Filter\\StringTrim'],
-                        1 => ['name' => \eCamp\Lib\InputFilter\HtmlPurify::class],
+                        0 => ['name' => \eCamp\Lib\InputFilter\HtmlPurify::class],
+                        1 => ['name' => 'Laminas\\Filter\\StringTrim'],
                     ],
                 ],
             ],

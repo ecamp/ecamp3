@@ -9,8 +9,17 @@ class HtmlPurify extends AbstractFilter {
     /** @var HTMLPurifier */
     private $htmlPurifier;
 
-    public function __construct(HTMLPurifier $htmlPurifier = null) {
-        $this->htmlPurifier = $htmlPurifier ?: new HTMLPurifier();
+    public function __construct($options = null) {
+        $this->options = $options;
+    }
+
+    public function getHtmlPurifier() {
+        if ($this->htmlPurifier instanceof HTMLPurifier) {
+            return $this->htmlPurifier;
+        }
+        $this->htmlPurifier = new HTMLPurifier($this->options);
+
+        return $this->htmlPurifier;
     }
 
     /**
@@ -19,6 +28,6 @@ class HtmlPurify extends AbstractFilter {
      * @return mixed
      */
     public function filter($value) {
-        return $this->htmlPurifier->purify($value);
+        return $this->getHtmlPurifier()->purify($value);
     }
 }
