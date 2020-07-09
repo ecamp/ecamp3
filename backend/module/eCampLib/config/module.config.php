@@ -46,6 +46,11 @@ return [
             Laminas\Hydrator\HydratorPluginManager::class => Laminas\Hydrator\HydratorPluginManagerFactory::class,
         ],
     ],
+    'input_filters' => [
+        'factories' => [
+            \eCamp\Lib\InputFilter\HtmlPurify::class => \Laminas\Di\Container\ServiceManager\AutowireFactory::class,
+        ],
+    ],
     'entity_filter' => [
         'abstract_factories' => [
             \Laminas\Di\Container\ServiceManager\AutowireFactory::class,

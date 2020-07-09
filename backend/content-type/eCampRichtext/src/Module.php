@@ -11,7 +11,27 @@ use Laminas\Permissions\Acl\AclInterface;
 
 class Module {
     public function getConfig() {
-        return ConfigFactory::createConfig('Richtext');
+        $config = ConfigFactory::createConfig('Richtext');
+        $config['api-tools-content-validation'] = [
+            'eCamp\\ContentType\\Richtext\\Controller\\RichtextController' => [
+                'input_filter' => 'eCamp\\ContentType\\Richtext\\Entity\\Richtext\\Validator',
+                'use_raw_data' => false,
+            ],
+        ];
+        $config['input_filter_specs'] = [
+            'eCamp\\ContentType\\Richtext\\Entity\\Richtext\\Validator' => [
+                0 => [
+                    'name' => 'text',
+                    'required' => true,
+                    'filters' => [
+                        0 => ['name' => 'Laminas\\Filter\\StringTrim'],
+                        1 => ['name' => \eCamp\Lib\InputFilter\HtmlPurify::class],
+                    ],
+                ],
+            ],
+        ];
+
+        return $config;
     }
 
     public function onBootstrap(MvcEvent $e) {
@@ -26,10 +46,12 @@ class Module {
             [
                 Acl::REST_PRIVILEGE_FETCH,
                 Acl::REST_PRIVILEGE_FETCH_ALL,
-                // Acl::REST_PRIVILEGE_CREATE, // // disallow posting directly. Single entities should always be created via ActivityContent.
+                // Acl::REST_PRIVILEGE_CREATE,
+                // disallow posting directly. Single entities should always be created via ActivityContent.
                 Acl::REST_PRIVILEGE_PATCH,
                 Acl::REST_PRIVILEGE_UPDATE,
-                // Acl::REST_PRIVILEGE_DELETE, // disallow deleting directly. Single entities should always be deleted via ActivityContent.
+                // Acl::REST_PRIVILEGE_DELETE,
+                // disallow deleting directly. Single entities should always be deleted via ActivityContent.
             ]
         );
     }
