@@ -52,7 +52,12 @@ export default {
         onUpdate: this.onUpdate,
         onFocus: this.onFocus,
         onBlur: this.onBlur
-      })
+      }),
+      regex: {
+        emptyParagraph: new RegExp('<p></p>'),
+        lineBreak1: new RegExp('<br>', 'g'),
+        lineBreak2: new RegExp('<br/>', 'g')
+      }
     }
   },
   watch: {
@@ -69,13 +74,14 @@ export default {
       this.editor.focus()
     },
     onUpdate (info) {
-      this.emitAfterOnUpdate = true
       let output = info.getHTML()
 
-      if (output === '<p></p>') {
-        output = null
-      }
+      // Replace some Tags, to be compatible with backend HTMLPurifier
+      output = output.replace(this.regex.emptyParagraph, '')
+      output = output.replace(this.regex.lineBreak1, '<br />')
+      output = output.replace(this.regex.lineBreak1, '<br />')
 
+      this.emitAfterOnUpdate = true
       this.$emit('input', output, info)
     },
     onFocus (e) {
@@ -213,7 +219,10 @@ div.editor >>> .editor__content .ProseMirror :first-child {
   margin-top: 0;
 }
 div.editor >>> .editor__content .ProseMirror li p {
-  margin-bottom: 1px;
+  margin-bottom: 3px;
+}
+div.editor >>> .editor__content .ProseMirror li p:not(:last-child) {
+  margin-bottom: 0;
 }
 
 div.editor >>> .menububble {

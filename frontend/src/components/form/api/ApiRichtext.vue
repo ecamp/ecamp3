@@ -33,11 +33,7 @@ import ApiWrapperAppend from './ApiWrapperAppend'
 export default {
   name: 'ApiRichtext',
   components: { ApiWrapper, ApiWrapperAppend },
-  mixins: [apiPropsMixin],
-
-  data () {
-    return {}
-  }
+  mixins: [apiPropsMixin]
 }
 </script>
 
