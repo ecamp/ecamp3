@@ -4,7 +4,7 @@
     :name="name"
     :vid="veeId"
     :rules="veeRules">
-    <VTiptapEditor
+    <v-tiptap-editor
       v-bind="$attrs"
       :filled="filled"
       :hide-details="hideDetails"
@@ -17,7 +17,7 @@
       <template v-for="(_, name) in $scopedSlots" :slot="name" slot-scope="slotData">
         <slot :name="name" v-bind="slotData" />
       </template>
-    </VTiptapEditor>
+    </v-tiptap-editor>
   </ValidationProvider>
 </template>
 
