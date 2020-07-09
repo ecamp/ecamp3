@@ -71,8 +71,8 @@
   },
   "activityContent": {
     "siKo": {
-      "add": "Add a siko",
-      "name": "SiKo",
+      "add": "Add a safety concept",
+      "name": "Safety concept",
       "entity": { }
     },
     "storyboard": {
