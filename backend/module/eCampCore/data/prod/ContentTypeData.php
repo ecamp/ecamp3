@@ -14,7 +14,7 @@ class ContentTypeData extends AbstractFixture {
     public static $RICHTEXT = ContentType::class.':RICHTEXT';
     public static $STORYBOARD = ContentType::class.':STORYBOARD';
     public static $STORYCONTEXT = ContentType::class.':STORYCONTEXT';
-    public static $SIKO = ContentType::class.':SIKO';
+    public static $SAFETYCONCEPT = ContentType::class.':SAFETYCONCEPT';
 
     public function load(ObjectManager $manager) {
         $repository = $manager->getRepository(ContentType::class);
@@ -41,15 +41,15 @@ class ContentTypeData extends AbstractFixture {
         }
         $this->addReference(self::$STORYCONTEXT, $contentType);
 
-        // SiKo
-        $contentType = $repository->findOneBy(['name' => 'SiKo']);
+        // SafetyConcept
+        $contentType = $repository->findOneBy(['name' => 'SafetyConcept']);
         if (null == $contentType) {
             $contentType = new ContentType();
-            $contentType->setName('SiKo');
+            $contentType->setName('SafetyConcept');
             $contentType->setStrategyClass(RichtextStrategy::class);
             $manager->persist($contentType);
         }
-        $this->addReference(self::$SIKO, $contentType);
+        $this->addReference(self::$SAFETYCONCEPT, $contentType);
 
         $manager->flush();
     }

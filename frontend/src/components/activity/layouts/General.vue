@@ -29,7 +29,7 @@ Displays a single activity
         <v-expansion-panel-header>Footer</v-expansion-panel-header>
         <v-expansion-panel-content>
           <content-type
-            content-type-name="SiKo"
+            content-type-name="SafetyConcept"
             :activity="activity" />
         </v-expansion-panel-content>
       </v-expansion-panel>

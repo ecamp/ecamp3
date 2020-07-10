@@ -70,7 +70,7 @@
     }
   },
   "activityContent": {
-    "siKo": {
+    "safetyConcept": {
       "add": "Add a safety concept",
       "name": "Safety concept",
       "entity": { }

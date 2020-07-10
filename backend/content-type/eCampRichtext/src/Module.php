@@ -4,8 +4,8 @@ namespace eCamp\ContentType\Richtext;
 
 use eCamp\ContentType\Richtext\Entity\Richtext;
 use eCamp\Core\ContentType\ConfigFactory;
+use eCamp\Core\Entity\User;
 use eCamp\Lib\Acl\Acl;
-use eCamp\Lib\Acl\Guest;
 use Laminas\Mvc\MvcEvent;
 use Laminas\Permissions\Acl\AclInterface;
 
@@ -41,7 +41,7 @@ class Module {
         $acl->addResource(Richtext::class);
 
         $acl->allow(
-            Guest::class,
+            User::ROLE_USER,
             Richtext::class,
             [
                 Acl::REST_PRIVILEGE_FETCH,

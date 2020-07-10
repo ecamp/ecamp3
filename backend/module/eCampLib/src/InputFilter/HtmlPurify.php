@@ -14,10 +14,9 @@ class HtmlPurify extends AbstractFilter {
     }
 
     public function getHtmlPurifier() {
-        if ($this->htmlPurifier instanceof HTMLPurifier) {
-            return $this->htmlPurifier;
+        if (null == $this->htmlPurifier) {
+            $this->htmlPurifier = new HTMLPurifier($this->options);
         }
-        $this->htmlPurifier = new HTMLPurifier($this->options);
 
         return $this->htmlPurifier;
     }

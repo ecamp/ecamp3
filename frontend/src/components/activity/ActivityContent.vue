@@ -26,7 +26,7 @@
 
 <script>
 
-import SiKo from '@/components/activity/content/SiKo'
+import SafetyConcept from '@/components/activity/content/SafetyConcept'
 import Storycontext from '@/components/activity/content/Storycontext'
 import Storyboard from '@/components/activity/content/Storyboard'
 import DialogEntityDelete from '@/components/dialog/DialogEntityDelete'
@@ -36,7 +36,7 @@ import camelCase from 'lodash/camelCase'
 export default {
   name: 'ActivityContent',
   components: {
-    SiKo,
+    SafetyConcept,
     Storycontext,
     Storyboard,
     DialogEntityDelete,
