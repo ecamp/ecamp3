@@ -3,8 +3,11 @@
 use Laminas\Mvc\Application;
 use Laminas\Mvc\Service\ServiceManagerConfig;
 use Laminas\ServiceManager\ServiceManager;
+use Whoops\Handler\PrettyPageHandler;
+use Whoops\Run;
 
 class eCampApp {
+    /** @var Application */
     private static $instance;
 
     /** @return Application */
@@ -85,6 +88,23 @@ class eCampApp {
         $config = self::GetSetupConfig();
 
         return Application::init($config);
+    }
+
+    public static function RegisterErrorHandler() {
+        // if sentry-configuration available, use sentry
+        $sentryConfig = __DIR__.'/../config/sentry.config.php';
+
+        if (file_exists($sentryConfig)) {
+            Sentry\init(include $sentryConfig);
+        } else {
+            eCampApp::RegisterWhoops();
+        }
+    }
+
+    public static function RegisterWhoops($handler = PrettyPageHandler::class) {
+        $whoops = new Run();
+        $whoops->pushHandler(new $handler());
+        $whoops->register();
     }
 
     private static function GetAppConfig() {
