@@ -14,7 +14,8 @@ Displays a field as a e-text-field + write access via API wrapper
       :error-messages="wrapper.errorMessages"
       :loading="wrapper.isSaving || wrapper.isLoading ? 'secondary' : false"
       :my="0"
-      outlined
+      :outlined="outlined"
+      :dense="dense"
       :filled="false"
       @input="wrapper.on.input">
       <template #append>
@@ -33,6 +34,17 @@ export default {
   name: 'ApiTextField',
   components: { ApiWrapper, ApiWrapperAppend },
   mixins: [apiPropsMixin],
+
+  props: {
+    dense: {
+      type: Boolean,
+      default: false
+    },
+    outlined: {
+      type: Boolean,
+      default: true
+    }
+  },
 
   data () {
     return {}
