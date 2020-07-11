@@ -1,8 +1,8 @@
 <template>
   <v-expansion-panel>
-    <v-expansion-panel-header class="pl-0 pt-0 pb-0">
+    <v-expansion-panel-header class="pa-0 pr-sm-2" expand-icon="">
       <v-toolbar dense flat>
-        <v-icon class="mr-2">
+        <v-icon class="mr-2 drag-handle">
           {{ mdiIcon }}
         </v-icon>
         <div
@@ -22,21 +22,57 @@
           </v-toolbar-title>
         </div>
 
-        <v-btn class="float-right" icon @click.stop="toggleEditInstanceName">
-          <v-icon v-if="editInstanceName" color="success">mdi-pencil</v-icon>
-          <v-icon v-else>mdi-pencil</v-icon>
-        </v-btn>
-        <dialog-entity-delete :entity="activityContent">
-          <template v-slot:activator="{ on }">
-            <v-btn
-              class="float-right delete-button"
-              icon
-              v-on="on">
-              <v-icon>mdi-delete</v-icon>
+        <v-icon class="drag-handle ml-4 mr-2 hidden-xs-only">
+          mdi-drag-horizontal-variant
+        </v-icon>
+
+        <v-menu bottom
+                left
+                offset-y>
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn icon v-bind="attrs" v-on="on">
+              <v-icon>mdi-dots-vertical</v-icon>
             </v-btn>
           </template>
-        </dialog-entity-delete>
+          <v-list>
+            <v-list-item @click="toggleEditInstanceName">
+              <v-list-item-icon>
+                <v-icon>mdi-pencil</v-icon>
+              </v-list-item-icon>
+              <v-list-item-title>
+                Edit Name
+              </v-list-item-title>
+            </v-list-item>
+            <v-divider />
+            <v-list-item @click="() => $emit('move-up')">
+              <v-list-item-icon>
+                <v-icon>mdi-arrow-up-drop-circle-outline</v-icon>
+              </v-list-item-icon>
+              <v-list-item-title>
+                Move up
+              </v-list-item-title>
+            </v-list-item>
+            <v-list-item @click="() => $emit('move-down')">
+              <v-list-item-icon>
+                <v-icon>mdi-arrow-down-drop-circle-outline</v-icon>
+              </v-list-item-icon>
+              <v-list-item-title>
+                Move down
+              </v-list-item-title>
+            </v-list-item>
+            <v-divider />
+            <v-list-item @click="showDeleteActivityContentDialog">
+              <v-list-item-icon>
+                <v-icon>mdi-delete</v-icon>
+              </v-list-item-icon>
+              <v-list-item-title>
+                Delete
+              </v-list-item-title>
+            </v-list-item>
+          </v-list>
+        </v-menu>
       </v-toolbar>
+      <dialog-entity-delete ref="deleteActivityContentDialog" :entity="activityContent" />
     </v-expansion-panel-header>
     <v-expansion-panel-content>
       <component :is="activityContent.contentTypeName" :activity-content="activityContent" />
@@ -69,7 +105,7 @@ export default {
   },
   data () {
     return {
-      isDeleting: false,
+      deleteDialogIsShown: false,
       editInstanceName: false
     }
   },
@@ -85,11 +121,11 @@ export default {
     }
   },
   methods: {
-    async removeActivityContent () {
-      this.api.del(this.activityContent)
-    },
     toggleEditInstanceName (e) {
       this.editInstanceName = !this.editInstanceName
+    },
+    showDeleteActivityContentDialog (e) {
+      this.$refs.deleteActivityContentDialog.showDialog = true
     }
   }
 }
