@@ -14,6 +14,16 @@ export default new Router({
   mode: 'history',
   base: window.environment.BASE_URL || '/',
   routes: [
+    // Dev-Pages:
+    {
+      path: '/controls',
+      name: 'controls',
+      components: {
+        navigation: NavigationDefault,
+        default: () => import(/* webpackChunkName: "register" */ './views/dev/Controls')
+      }
+    },
+    // Prod-Pages:
     {
       path: '/register',
       name: 'register',
