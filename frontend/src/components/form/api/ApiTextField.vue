@@ -13,9 +13,9 @@ Displays a field as a e-text-field + write access via API wrapper
       :disabled="disabled"
       :error-messages="wrapper.errorMessages"
       :loading="wrapper.isSaving || wrapper.isLoading ? 'secondary' : false"
-      :my="0"
-      outlined
-      :filled="false"
+      :my="my"
+      :outlined="outlined"
+      :filled="filled"
       @input="wrapper.on.input">
       <template #append>
         <api-wrapper-append :wrapper="wrapper" />

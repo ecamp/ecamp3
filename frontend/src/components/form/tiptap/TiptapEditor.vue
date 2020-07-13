@@ -11,7 +11,8 @@ import {
   Italic,
   Strike,
   Underline,
-  History
+  History,
+  Placeholder
 } from 'tiptap-extensions'
 import { VBtn, VIcon, VItemGroup, VSpacer, VToolbar } from 'vuetify/lib'
 
@@ -30,6 +31,10 @@ export default {
     value: {
       type: String,
       default: ''
+    },
+    placeholder: {
+      type: String,
+      default: ''
     }
   },
   data () {
@@ -46,7 +51,14 @@ export default {
           new BulletList(),
           new OrderedList(),
           new Heading({ levels: [1, 2, 3] }),
-          new HardBreak()
+          new HardBreak(),
+          new Placeholder({
+            emptyEditorClass: 'is-editor-empty',
+            emptyNodeClass: 'is-empty',
+            emptyNodeText: this.placeholder,
+            showOnlyWhenEditable: true,
+            showOnlyCurrent: true
+          })
         ],
         content: this.value,
         onUpdate: this.onUpdate,
@@ -57,7 +69,8 @@ export default {
         emptyParagraph: new RegExp('<p></p>'),
         lineBreak1: new RegExp('<br>', 'g'),
         lineBreak2: new RegExp('<br/>', 'g')
-      }
+      },
+      lastSelection: null
     }
   },
   watch: {
@@ -66,7 +79,11 @@ export default {
         this.emitAfterOnUpdate = false
         return
       }
+      this.lastSelection = null
       this.editor.setContent(val)
+    },
+    placeholder (val) {
+      this.editor.extensions.options.placeholder.emptyNodeText = val
     }
   },
   methods: {
@@ -86,9 +103,33 @@ export default {
     },
     onFocus (e) {
       this.$emit('focus', e)
+
+      const sel = document.getSelection()
+      if (sel.rangeCount === 1) {
+        const range = sel.getRangeAt(0)
+        if (this.lastSelection === null) {
+          const div = this.editor.view.dom
+          range.setStart(div, div.childElementCount)
+          range.setEnd(div, div.childElementCount)
+        } else {
+          range.setStart(this.lastSelection.startContainer, this.lastSelection.startOffset)
+          range.setEnd(this.lastSelection.endContainer, this.lastSelection.endOffset)
+        }
+      }
     },
     onBlur (e) {
       this.$emit('blur', e)
+
+      const sel = document.getSelection()
+      if (sel.rangeCount === 1) {
+        const range = sel.getRangeAt(0)
+        this.lastSelection = {
+          startContainer: range.startContainer,
+          startOffset: range.startOffset,
+          endContainer: range.endContainer,
+          endOffset: range.endOffset
+        }
+      }
     },
     getContent () {
       return [
@@ -169,15 +210,19 @@ export default {
 
 <style scoped>
 
-.v-text-field--filled:not(.v-text-field--single-line) div.editor {
-  margin-top: 10px;
+div.editor >>> p.is-editor-empty:first-child::before {
+  content: attr(data-empty-text);
+  float: left;
+  color: #8B8B8B;
+  pointer-events: none;
+  height: 0;
 }
 
 div.editor {
   -webkit-box-flex: 1;
   -ms-flex: 1 1 auto;
   flex: 1 1 auto;
-  padding: 8px 0 8px;
+  padding-top: 4px;
   max-width: 100%;
   min-width: 0;
   width: 100%;
@@ -187,7 +232,6 @@ div.editor >>> .editor__content {
   -webkit-box-flex: 1;
   -ms-flex: 1 1 auto;
   flex: 1 1 auto;
-  padding: 10px 0 0 0;
 }
 
 div.editor >>> .editor__content .ProseMirror {

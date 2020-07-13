@@ -105,7 +105,7 @@
               <v-textarea
                 v-model="textareaValue"
                 :placeholder="placeholder"
-                :rows="2"
+                :rows="3"
                 auto-grow
                 v-bind="config" />
             </v-col>
@@ -113,7 +113,7 @@
               <e-textarea
                 v-model="textareaValue"
                 :placeholder="placeholder"
-                :rows="2"
+                :rows="3"
                 auto-grow
                 v-bind="config" />
             </v-col>
@@ -123,7 +123,7 @@
                 :uri="profileUri"
                 fieldname="nickname"
                 :placeholder="placeholder"
-                :rows="2"
+                :rows="3"
                 auto-grow
                 v-bind="config" />
             </v-col>

@@ -17,7 +17,8 @@ export default {
           id: this.computedId
         },
         props: {
-          value: this.value
+          value: this.value,
+          placeholder: this.placeholder
         },
         on: Object.assign(listeners, {
           blur: this.onBlur,
@@ -55,3 +56,22 @@ export default {
 }
 
 </script>
+
+<style scoped>
+
+div.v-text-field--solo div.v-input__slot {
+  align-items: normal;
+}
+
+div.v-text-field__slot {
+  align-items: normal;
+}
+
+.v-text-field.v-text-field--box.v-text-field--single-line:not(.v-input--dense) .editor,
+.v-text-field.v-text-field--box.v-text-field--outlined:not(.v-input--dense) .editor,
+.v-text-field.v-text-field--enclosed.v-text-field--single-line:not(.v-input--dense) .editor,
+.v-text-field.v-text-field--enclosed.v-text-field--outlined:not(.v-input--dense) .editor {
+  margin-top: 10px;
+}
+
+</style>

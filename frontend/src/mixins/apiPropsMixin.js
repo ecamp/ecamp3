@@ -35,8 +35,20 @@ export const apiPropsMixin = {
 
     /* vertical margin */
     my: {
-      type: Number,
+      type: [Boolean, Number],
       default: 4,
+      required: false
+    },
+
+    /* control style */
+    filled: {
+      type: Boolean,
+      default: false,
+      required: false
+    },
+    outlined: {
+      type: Boolean,
+      default: true,
       required: false
     }
   }
