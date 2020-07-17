@@ -12,7 +12,7 @@ Displays a field as a date picker (can be used with v-model)
     @input="$emit('input', $event)">
     <template slot-scope="picker">
       <v-date-picker
-        :value="picker.localValue"
+        :value="picker.value || ''"
         :locale="$i18n.locale"
         first-day-of-week="1"
         no-title
@@ -43,16 +43,22 @@ export default {
   },
   methods: {
     format (val) {
-      if (val) {
+      if (val !== '') {
         return this.$moment(val, this.$moment.HTML5_FMT.DATE, this.$i18n.locale).format('L')
       }
       return ''
     },
     parse (val) {
       if (val) {
-        return this.$moment(val, 'L').format(this.$moment.HTML5_FMT.DATE)
+        const m = this.$moment(val, 'L')
+        if (m.isValid()) {
+          return Promise.resolve(m.format(this.$moment.HTML5_FMT.DATE))
+        } else {
+          return Promise.reject(new Error('invalid format'))
+        }
+      } else {
+        return Promise.resolve('')
       }
-      return ''
     }
   }
 }

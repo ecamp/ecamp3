@@ -221,6 +221,62 @@
                 v-bind="config" />
             </v-col>
           </v-row>
+          <v-row dense no-glutters justify="space-around">
+            <v-col>
+              Date
+            </v-col>
+            <v-col>
+              E-Date-Picker
+            </v-col>
+            <v-col>
+              Api-Date-Picker
+            </v-col>
+          </v-row>
+          <v-row dense no-glutters justify="space-around">
+            <v-col>
+              {{ dateValue }}
+            </v-col>
+            <v-col>
+              <e-date-picker
+                v-model="dateValue"
+                v-bind="config" />
+            </v-col>
+            <v-col>
+              <api-date-picker
+                v-if="profileUri !== null"
+                :uri="profileUri"
+                fieldname="birthday"
+                v-bind="config" />
+            </v-col>
+          </v-row>
+          <v-row dense no-glutters justify="space-around">
+            <v-col>
+              Time
+            </v-col>
+            <v-col>
+              E-Time-Picker
+            </v-col>
+            <v-col>
+              Api-Time-Picker
+            </v-col>
+          </v-row>
+          <v-row dense no-glutters justify="space-around">
+            <v-col>
+              {{ timeValue }}
+            </v-col>
+            <v-col>
+              <e-time-picker
+                v-model="timeValue"
+                v-bind="config" />
+            </v-col>
+            <v-col>
+              <api-time-picker
+                v-if="profileUri !== null"
+                :uri="profileUri"
+                fieldname="nickname"
+                v-bind="config" />
+            </v-col>
+          </v-row>
         </v-container>
       </v-card-text>
     </content-card>
@@ -236,11 +292,15 @@ import ETextarea from '@/components/form/base/ETextarea'
 import ERichtext from '@/components/form/base/ERichtext'
 import ECheckbox from '@/components/form/base/ECheckbox'
 import ESelect from '@/components/form/base/ESelect'
+import EDatePicker from '@/components/form/base/EDatePicker'
+import ETimePicker from '@/components/form/base/ETimePicker'
 import ApiTextField from '@/components/form/api/ApiTextField'
 import ApiTextarea from '@/components/form/api/ApiTextarea'
 import ApiRichtext from '@/components/form/api/ApiRichtext'
 import ApiCheckbox from '@/components/form/api/ApiCheckbox'
 import ApiSelect from '@/components/form/api/ApiSelect'
+import ApiDatePicker from '@/components/form/api/ApiDatePicker'
+import ApiTimePicker from '@/components/form/api/ApiTimePicker'
 import VueI18n from '@/plugins/i18n'
 
 export default {
@@ -253,11 +313,15 @@ export default {
     ERichtext,
     ECheckbox,
     ESelect,
+    EDatePicker,
+    ETimePicker,
     ApiTextField,
     ApiTextarea,
     ApiRichtext,
     ApiCheckbox,
-    ApiSelect
+    ApiSelect,
+    ApiDatePicker,
+    ApiTimePicker
   },
   data: () => ({
     stdConfig: true,
@@ -274,7 +338,9 @@ export default {
     richtextValue: '<p>FFFFFFFFFF</p>',
     checkboxValue: false,
     colorValue: '#FFFFFF',
-    selectValue: null
+    selectValue: null,
+    dateValue: '2020-01-01',
+    timeValue: '14:45'
   }),
   computed: {
     profileUri () {
