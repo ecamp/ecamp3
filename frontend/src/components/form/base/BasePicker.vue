@@ -17,6 +17,7 @@ Displays a field as a date picker (can be used with v-model)
       <e-text-field
         v-model="stringValue"
         v-bind="$attrs"
+        :error-messages="combinedErrorMessages"
         :filled="filled"
         :disabled="disabled"
         @focus="textFieldIsActive = true"
@@ -52,7 +53,8 @@ export default {
     disabled: { type: Boolean, required: false, default: false },
     filled: { type: Boolean, required: false, default: true },
     format: { type: Function, required: false, default: null },
-    parse: { type: Function, required: false, default: null }
+    parse: { type: Function, required: false, default: null },
+    errorMessages: { type: Array, required: false, default: () => [] }
   },
   data () {
     return {
@@ -60,6 +62,7 @@ export default {
       stringValue: '',
       showPicker: false,
       textFieldIsActive: false,
+      parseError: null,
       eventHandlers: {
         save: this.save,
         close: this.close,
@@ -74,12 +77,18 @@ export default {
       } else {
         return this.value
       }
+    },
+    combinedErrorMessages () {
+      if (this.parseError == null) {
+        return this.errorMessages
+      }
+      return [...this.errorMessages, this.parseError.message]
     }
   },
   watch: {
     stringValue (val) {
       if (this.parse != null) {
-        this.parse(val).then(this.setValue, this.setError)
+        this.parse(val).then(this.setValue, this.setParseError)
       } else {
         this.setValue(val)
       }
@@ -109,9 +118,10 @@ export default {
         this.$emit('input', val)
         this.pickerValue = val
       }
+      this.parseError = null
     },
-    setError (err) {
-      console.log(err)
+    setParseError (err) {
+      this.parseError = err
     },
     close () {
       this.showPicker = false
