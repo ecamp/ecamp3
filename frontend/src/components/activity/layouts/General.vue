@@ -26,6 +26,15 @@ Displays a single activity
       </v-expansion-panel>
 
       <v-expansion-panel>
+        <v-expansion-panel-header>Aside</v-expansion-panel-header>
+        <v-expansion-panel-content>
+          <content-type
+            content-type-name="Notes"
+            :activity="activity" />
+        </v-expansion-panel-content>
+      </v-expansion-panel>
+
+      <v-expansion-panel>
         <v-expansion-panel-header>Footer</v-expansion-panel-header>
         <v-expansion-panel-content />
       </v-expansion-panel>
