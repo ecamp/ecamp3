@@ -13,6 +13,7 @@ class ContentTypeData extends AbstractFixture {
     public static $RICHTEXT = ContentType::class.':RICHTEXT';
     public static $STORYBOARD = ContentType::class.':STORYBOARD';
     public static $STORYCONTEXT = ContentType::class.':STORYCONTEXT';
+    public static $NOTES = ContentType::class.':NOTES';
 
     public function load(ObjectManager $manager) {
         $repository = $manager->getRepository(ContentType::class);
@@ -38,6 +39,16 @@ class ContentTypeData extends AbstractFixture {
             $manager->persist($contentType);
         }
         $this->addReference(self::$STORYCONTEXT, $contentType);
+
+        // Notes (Notizen)
+        $contentType = $repository->findOneBy(['name' => 'Notes']);
+        if (null == $contentType) {
+            $contentType = new ContentType();
+            $contentType->setName('Notes');
+            $contentType->setStrategyClass(TextareaStrategy::class);
+            $manager->persist($contentType);
+        }
+        $this->addReference(self::$NOTES, $contentType);
 
         $manager->flush();
     }

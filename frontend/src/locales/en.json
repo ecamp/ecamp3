@@ -88,6 +88,11 @@
       "add": "Add story context",
       "name": "Story context",
       "entity": { }
+    },
+    "notes": {
+      "name": "Notes",
+      "add": "Add notes",
+      "entity": { }
     }
   },
   "components": {
