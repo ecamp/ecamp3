@@ -11,7 +11,7 @@ exports[`ApiTextField.vue renders correctly 1`] = `
       inputclass=""
       label="Test Field"
       my="0"
-      outlined=""
+      outlined="true"
       value="Test Value"
       veerules=""
     />

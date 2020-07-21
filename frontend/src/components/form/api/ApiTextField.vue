@@ -34,6 +34,17 @@ export default {
   components: { ApiWrapper, ApiWrapperAppend },
   mixins: [apiPropsMixin],
 
+  props: {
+    dense: {
+      type: Boolean,
+      default: false
+    },
+    outlined: {
+      type: Boolean,
+      default: true
+    }
+  },
+
   data () {
     return {}
   }
