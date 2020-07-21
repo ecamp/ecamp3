@@ -115,6 +115,10 @@ export default {
       if (this.value) {
         return this.value
 
+      // while loading, value is null
+      } else if (this.isLoading) {
+        return null
+
       // avoid infinite reloading if loading from API has failed
       } else if (this.hasLoadingError) {
         return null
