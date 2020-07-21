@@ -28,6 +28,7 @@
 
 import Storycontext from '@/components/activity/content/Storycontext'
 import Storyboard from '@/components/activity/content/Storyboard'
+import Notes from '@/components/activity/content/Notes'
 import DialogEntityDelete from '@/components/dialog/DialogEntityDelete'
 import ButtonDelete from '@/components/buttons/ButtonDelete'
 import camelCase from 'lodash/camelCase'
@@ -37,6 +38,7 @@ export default {
   components: {
     Storycontext,
     Storyboard,
+    Notes,
     DialogEntityDelete,
     ButtonDelete
   },

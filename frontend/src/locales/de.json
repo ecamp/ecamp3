@@ -88,6 +88,11 @@
       "add": "Roten Faden hinzufügen",
       "name": "Roter Faden",
       "entity": { }
+    },
+    "notes": {
+      "name": "Notizen",
+      "add": "Notizen hinzufügen",
+      "entity": { }
     }
   },
   "components": {
