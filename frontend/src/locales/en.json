@@ -99,6 +99,12 @@
       "icon": "mdi-book-open-page-variant",
       "sort": "1",
       "entity": { }
+    },
+    "notes": {
+      "name": "Notes",
+      "icon": "mdi-pen",
+      "add": "Add notes",
+      "entity": { }
     }
   },
   "components": {
@@ -147,7 +153,7 @@
     },
     "activity": {
       "sideBarProgram": {
-        "title": "Overview"
+        "title": "Daily overview"
       }
     },
     "campCreate": {

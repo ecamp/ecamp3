@@ -12,6 +12,9 @@ Displays a single activity
     <content-type
       content-type-name="SafetyConcept"
       :activity="activity" />
+    <content-type
+      content-type-name="Notes"
+      :activity="activity" />
   </div>
 </template>
 
