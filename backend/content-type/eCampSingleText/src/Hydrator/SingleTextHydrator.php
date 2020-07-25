@@ -1,30 +1,30 @@
 <?php
 
-namespace eCamp\ContentType\Richtext\Hydrator;
+namespace eCamp\ContentType\SingleText\Hydrator;
 
-use eCamp\ContentType\Richtext\Entity\Richtext;
+use eCamp\ContentType\SingleText\Entity\SingleText;
 use Laminas\ApiTools\Hal\Link\Link;
 use Laminas\Hydrator\HydratorInterface;
 
-class RichtextHydrator implements HydratorInterface {
+class SingleTextHydrator implements HydratorInterface {
     /**
      * @param object $object
      *
      * @return array
      */
     public function extract($object) {
-        /** @var Richtext $richtext */
-        $richtext = $object;
+        /** @var SingleText $singleText */
+        $singleText = $object;
 
         return [
-            'id' => $richtext->getId(),
-            'text' => $richtext->getText(),
+            'id' => $singleText->getId(),
+            'text' => $singleText->getText(),
 
             'activityContent' => Link::factory([
                 'rel' => 'activityContent',
                 'route' => [
                     'name' => 'e-camp-api.rest.doctrine.activity-content',
-                    'params' => ['activityContentId' => $richtext->getActivityContent()->getId()],
+                    'params' => ['activityContentId' => $singleText->getActivityContent()->getId()],
                 ],
             ]),
         ];
@@ -36,13 +36,13 @@ class RichtextHydrator implements HydratorInterface {
      * @return object
      */
     public function hydrate(array $data, $object) {
-        /** @var Richtext $richtext */
-        $richtext = $object;
+        /** @var SingleText $singleText */
+        $singleText = $object;
 
         if (isset($data['text'])) {
-            $richtext->setText($data['text']);
+            $singleText->setText($data['text']);
         }
 
-        return $richtext;
+        return $singleText;
     }
 }

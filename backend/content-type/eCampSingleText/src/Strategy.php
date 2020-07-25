@@ -1,33 +1,33 @@
 <?php
 
-namespace eCamp\ContentType\Richtext;
+namespace eCamp\ContentType\SingleText;
 
 use Doctrine\ORM\ORMException;
-use eCamp\ContentType\Richtext\Service\RichtextService;
+use eCamp\ContentType\SingleText\Service\SingleTextService;
 use eCamp\Core\ContentType\ContentTypeStrategyBase;
 use eCamp\Core\Entity\ActivityContent;
 use eCamp\Lib\Acl\NoAccessException;
 use eCamp\Lib\Service\ServiceUtils;
 
 class Strategy extends ContentTypeStrategyBase {
-    /** @var RichtextService */
-    private $richtextService;
+    /** @var SingleTextService */
+    private $singleTextService;
 
-    public function __construct(RichtextService $richtextService, ServiceUtils $serviceUtils) {
+    public function __construct(SingleTextService $singleTextService, ServiceUtils $serviceUtils) {
         parent::__construct($serviceUtils);
 
-        $this->richtextService = $richtextService;
+        $this->singleTextService = $singleTextService;
     }
 
     public function activityContentExtract(ActivityContent $activityContent): array {
-        $richtext = $this->richtextService->findOneByActivityContent($activityContent->getId());
+        $singleText = $this->singleTextService->findOneByActivityContent($activityContent->getId());
 
-        if (!$richtext) {
+        if (!$singleText) {
             return [];
         }
 
         return [
-            'richtext' => $richtext,
+            'singleText' => $singleText,
         ];
     }
 
@@ -36,7 +36,7 @@ class Strategy extends ContentTypeStrategyBase {
      * @throws ORMException
      */
     public function activityContentCreated(ActivityContent $activityContent): void {
-        $richtext = $this->richtextService->createEntity([], $activityContent);
+        $richtext = $this->singleTextService->createEntity([], $activityContent);
         $this->getServiceUtils()->emPersist($richtext);
     }
 }

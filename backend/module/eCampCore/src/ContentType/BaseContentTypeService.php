@@ -4,8 +4,11 @@ namespace eCamp\Core\ContentType;
 
 use Doctrine\ORM\ORMException;
 use eCamp\Core\Entity\ActivityContent;
+use eCamp\Core\Entity\Camp;
 use eCamp\Core\EntityService\AbstractEntityService;
 use eCamp\Lib\Acl\NoAccessException;
+use eCamp\Lib\Entity\BaseEntity;
+use eCamp\Lib\Service\EntityNotFoundException;
 use eCamp\Lib\Service\ServiceUtils;
 use Laminas\ApiTools\ApiProblem\ApiProblem;
 use Laminas\Authentication\AuthenticationService;
@@ -24,7 +27,6 @@ abstract class BaseContentTypeService extends AbstractEntityService {
     /**
      * Returns a single contentType entity attached to $activityContentId (1:1 connection).
      *
-     * @param mixed $activityContentid
      * @param mixed $activityContentId
      *
      * @return BaseEntity
@@ -38,6 +40,8 @@ abstract class BaseContentTypeService extends AbstractEntityService {
      *
      * @param string $activityContentId
      *
+     * @throws NoAccessException
+     *
      * @return Paginator
      */
     public function fetchAllByActivityContent($activityContentId) {
@@ -48,6 +52,7 @@ abstract class BaseContentTypeService extends AbstractEntityService {
      * @param mixed $data
      *
      * @throws NoAccessException
+     * @throws EntityNotFoundException
      * @throws ORMException
      *
      * @return ApiProblem|BaseContentTypeEntity
@@ -70,9 +75,27 @@ abstract class BaseContentTypeService extends AbstractEntityService {
     protected function fetchAllQueryBuilder($params = []) {
         $q = parent::fetchAllQueryBuilder($params);
 
-        if (isset($params['activityContentId'])) {
-            $q->andWhere('row.activityContent = :activitycontentTypeId');
-            $q->setParameter('activitycontentTypeId', $params['activityContentId']);
+        if (is_subclass_of($this->entityClass, BaseContentTypeEntity::class)) {
+            $q->join('row.activityContent', 'ac');
+            $q->join('ac.activity', 'a');
+            $q->andWhere($this->createFilter($q, Camp::class, 'a', 'camp'));
+
+            if (isset($params['activityContentId'])) {
+                $q->andWhere('row.activityContent = :activitycontentTypeId');
+                $q->setParameter('activitycontentTypeId', $params['activityContentId']);
+            }
+        }
+
+        return $q;
+    }
+
+    protected function fetchQueryBuilder($id) {
+        $q = parent::fetchQueryBuilder($id);
+
+        if (is_subclass_of($this->entityClass, BaseContentTypeEntity::class)) {
+            $q->join('row.activityContent', 'ac');
+            $q->join('ac.activity', 'a');
+            $q->andWhere($this->createFilter($q, Camp::class, 'a', 'camp'));
         }
 
         return $q;

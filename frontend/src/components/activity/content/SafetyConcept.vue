@@ -1,6 +1,6 @@
 <template>
   <div class="mb-3">
-    <api-form :entity="activityContent.richtext()">
+    <api-form :entity="activityContent.singleText()">
       <api-richtext
         fieldname="text"
         :placeholder="$t('activityContent.safetyConcept.name')"

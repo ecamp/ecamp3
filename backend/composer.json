@@ -57,8 +57,7 @@
             "eCamp\\AoT\\": "module/eCampAoT/src/",
             "eCamp\\AoT\\Generated\\": "module/eCampAoT/gen/",
             "eCampApi\\": "module/eCampApi/src/eCampApi/",
-            "eCamp\\ContentType\\Textarea\\": "content-type/eCampTextarea/src/",
-            "eCamp\\ContentType\\Richtext\\": "content-type/eCampRichtext/src/",
+            "eCamp\\ContentType\\SingleText\\": "content-type/eCampSingleText/src/",
             "eCamp\\ContentType\\Storyboard\\": "content-type/eCampStoryboard/src/"
         },
         "files": [

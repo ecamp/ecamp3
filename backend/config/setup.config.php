@@ -13,8 +13,7 @@ return [
         'eCamp\\Lib',
         'eCamp\\Core',
         'eCamp\\AoT',
-        'eCamp\\ContentType\\Textarea',
-        'eCamp\\ContentType\\Richtext',
+        'eCamp\\ContentType\\SingleText',
         'eCamp\\ContentType\\Storyboard',
     ],
     // This should be an array of paths in which modules reside.

@@ -1,30 +1,31 @@
 <?php
 
-namespace eCamp\ContentType\Richtext;
+namespace eCamp\ContentType\SingleText;
 
-use eCamp\ContentType\Richtext\Entity\Richtext;
+use eCamp\ContentType\SingleText\Entity\SingleText;
 use eCamp\Core\ContentType\ConfigFactory;
 use eCamp\Core\Entity\User;
 use eCamp\Lib\Acl\Acl;
+use eCamp\Lib\InputFilter\HtmlPurify;
 use Laminas\Mvc\MvcEvent;
 use Laminas\Permissions\Acl\AclInterface;
 
 class Module {
     public function getConfig() {
-        $config = ConfigFactory::createConfig('Richtext');
+        $config = ConfigFactory::createConfig('SingleText');
         $config['api-tools-content-validation'] = [
-            'eCamp\\ContentType\\Richtext\\Controller\\RichtextController' => [
-                'input_filter' => 'eCamp\\ContentType\\Richtext\\Entity\\Richtext\\Validator',
+            'eCamp\\ContentType\\SingleText\\Controller\\SingleTextController' => [
+                'input_filter' => 'eCamp\\ContentType\\SingleText\\Entity\\SingleText\\Validator',
                 'use_raw_data' => false,
             ],
         ];
         $config['input_filter_specs'] = [
-            'eCamp\\ContentType\\Richtext\\Entity\\Richtext\\Validator' => [
+            'eCamp\\ContentType\\SingleText\\Entity\\SingleText\\Validator' => [
                 0 => [
                     'name' => 'text',
-                    'required' => true,
+                    'required' => false,
                     'filters' => [
-                        0 => ['name' => \eCamp\Lib\InputFilter\HtmlPurify::class],
+                        0 => ['name' => HtmlPurify::class],
                         1 => ['name' => 'Laminas\\Filter\\StringTrim'],
                     ],
                 ],
@@ -38,11 +39,11 @@ class Module {
         /** @var Acl $acl */
         $acl = $e->getApplication()->getServiceManager()->get(AclInterface::class);
 
-        $acl->addResource(Richtext::class);
+        $acl->addResource(SingleText::class);
 
         $acl->allow(
             User::ROLE_USER,
-            Richtext::class,
+            SingleText::class,
             [
                 Acl::REST_PRIVILEGE_FETCH,
                 Acl::REST_PRIVILEGE_FETCH_ALL,

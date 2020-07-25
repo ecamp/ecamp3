@@ -4,14 +4,11 @@ namespace eCamp\CoreData;
 
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Persistence\ObjectManager;
-use eCamp\ContentType\Richtext\Strategy as RichtextStrategy;
+use eCamp\ContentType\SingleText\Strategy as SingleTextStrategy;
 use eCamp\ContentType\Storyboard\Strategy as StoryboardStrategy;
-use eCamp\ContentType\Textarea\Strategy as TextareaStrategy;
 use eCamp\Core\Entity\ContentType;
 
 class ContentTypeData extends AbstractFixture {
-    public static $TEXTAREA = ContentType::class.':TEXTAREA';
-    public static $RICHTEXT = ContentType::class.':RICHTEXT';
     public static $STORYBOARD = ContentType::class.':STORYBOARD';
     public static $STORYCONTEXT = ContentType::class.':STORYCONTEXT';
     public static $SAFETYCONCEPT = ContentType::class.':SAFETYCONCEPT';
@@ -36,7 +33,7 @@ class ContentTypeData extends AbstractFixture {
         if (null == $contentType) {
             $contentType = new ContentType();
             $contentType->setName('Storycontext');
-            $contentType->setStrategyClass(TextareaStrategy::class);
+            $contentType->setStrategyClass(SingleTextStrategy::class);
             $manager->persist($contentType);
         }
         $this->addReference(self::$STORYCONTEXT, $contentType);
@@ -46,7 +43,7 @@ class ContentTypeData extends AbstractFixture {
         if (null == $contentType) {
             $contentType = new ContentType();
             $contentType->setName('SafetyConcept');
-            $contentType->setStrategyClass(RichtextStrategy::class);
+            $contentType->setStrategyClass(SingleTextStrategy::class);
             $manager->persist($contentType);
         }
         $this->addReference(self::$SAFETYCONCEPT, $contentType);
