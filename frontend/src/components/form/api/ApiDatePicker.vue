@@ -12,7 +12,6 @@ Displays a field as a date picker + write access via API wrapper
       :readonly="wrapper.readonly"
       :disabled="disabled"
       :loading="wrapper.isSaving || wrapper.isLoading ? 'secondary' : false"
-      :my="my"
       :outlined="outlined"
       :filled="filled"
       :error-messages="wrapper.errorMessages"

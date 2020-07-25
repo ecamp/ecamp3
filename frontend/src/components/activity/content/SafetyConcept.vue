@@ -1,9 +1,9 @@
 <template>
-  <div>
+  <div class="mb-3">
     <api-form :entity="activityContent.richtext()">
       <api-richtext
         fieldname="text"
-        :label="$t('activityContent.safetyConcept.name')"
+        :placeholder="$t('activityContent.safetyConcept.name')"
         rows="2" />
     </api-form>
   </div>

@@ -17,27 +17,6 @@
               <v-checkbox v-model="solo" label="solo" hide-details="true" />
             </v-col>
           </v-row>
-          <v-radio-group
-            v-model="myConfig"
-            row
-            class="mt-0"
-            hide-details="true">
-            <v-col>
-              <v-radio label="default" value="null" />
-            </v-col>
-            <v-col>
-              <v-radio label="my-0" value="0" />
-            </v-col>
-            <v-col>
-              <v-radio label="my-1" value="1" />
-            </v-col>
-            <v-col>
-              <v-radio label="my-4" value="4" />
-            </v-col>
-            <v-col>
-              <v-radio label="my-8" value="8" />
-            </v-col>
-          </v-radio-group>
           <v-row dense no-glutters justify="space-around">
             <v-col>
               <v-text-field v-model="placeholder" label="Placeholder" />
@@ -72,13 +51,13 @@
               <v-text-field
                 v-model="textfieldValue"
                 :placeholder="placeholder"
-                v-bind="vconfig" />
+                v-bind="config" />
             </v-col>
             <v-col>
               <e-text-field
                 v-model="textfieldValue"
                 :placeholder="placeholder"
-                v-bind="econfig" />
+                v-bind="config" />
             </v-col>
             <v-col>
               <api-text-field
@@ -86,7 +65,7 @@
                 :uri="profileUri"
                 fieldname="nickname"
                 :placeholder="placeholder"
-                v-bind="econfig" />
+                v-bind="config" />
             </v-col>
           </v-row>
           <v-row dense no-glutters justify="space-around">
@@ -328,7 +307,6 @@ export default {
     filled: null,
     outlined: null,
     solo: null,
-    myConfig: 'null',
     placeholder: 'Dummy placeholder',
     persistentHint: false,
     hint: 'Dummy hint',
@@ -352,7 +330,7 @@ export default {
         text: this.$t('global.language', l)
       }))
     },
-    vconfig () {
+    config () {
       const c = {
         hint: this.hint,
         'persistent-hint': this.persistentHint
@@ -365,18 +343,6 @@ export default {
         c.outlined = this.outlined
       }
       return c
-    },
-    econfig () {
-      const c = this.vconfig
-      if (this.myConfig === 'null') {
-        delete c.my
-      } else {
-        c.my = parseInt(this.myConfig)
-      }
-      return c
-    },
-    config () {
-      return this.econfig
     }
   }
 }

@@ -13,7 +13,6 @@ Displays a field as a color picker + write access via API wrapper
       :disabled="disabled"
       :loading="wrapper.isSaving || wrapper.isLoading ? 'secondary' : false"
       outlined
-      :my="0"
       :filled="false"
       :error-messages="wrapper.errorMessages"
       @input="wrapper.on.input">

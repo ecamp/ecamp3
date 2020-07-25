@@ -13,9 +13,9 @@ Displays a field as a e-text-field + write access via API wrapper
       :disabled="disabled"
       :error-messages="wrapper.errorMessages"
       :loading="wrapper.isSaving || wrapper.isLoading ? 'secondary' : false"
-      :my="my"
       :outlined="outlined"
       :filled="filled"
+      :dense="dense"
       @input="wrapper.on.input">
       <template #append>
         <api-wrapper-append :wrapper="wrapper" />
@@ -35,10 +35,6 @@ export default {
   mixins: [apiPropsMixin],
 
   props: {
-    dense: {
-      type: Boolean,
-      default: false
-    },
     outlined: {
       type: Boolean,
       default: true

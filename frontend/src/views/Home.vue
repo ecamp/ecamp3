@@ -1,6 +1,6 @@
 <template>
-  <v-container>
-    <content-card :title="$t('views.home.home')" max-width="600">
+  <v-container fluid>
+    <content-card :title="$t('views.home.home')" max-width="800">
       <p class="mx-4">
         <v-skeleton-loader type="text" :loading="api.get().profile()._meta.loading">
           {{ $t('views.home.welcome', { user: api.get().profile().displayName }) }}

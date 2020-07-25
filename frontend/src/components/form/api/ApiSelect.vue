@@ -13,7 +13,6 @@ Displays a field as a e-select + write access via API wrapper
       :disabled="disabled"
       :error-messages="wrapper.errorMessages"
       :loading="wrapper.isSaving || wrapper.isLoading ? 'secondary' : false"
-      :my="my"
       :outlined="outlined"
       :filled="filled"
       @input="wrapper.on.input">

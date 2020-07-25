@@ -3,41 +3,43 @@ Displays a field as a date picker (can be used with v-model)
 -->
 
 <template>
-  <v-menu
-    ref="menu"
-    v-model="showPicker"
-    :disabled="disabled || readonly"
-    :close-on-content-click="false"
-    transition="scale-transition"
-    offset-y
-    offset-overflow
-    min-width="290px"
-    max-width="290px">
-    <template v-slot:activator="{on}">
-      <e-text-field
-        v-model="stringValue"
-        v-bind="$attrs"
-        :error-messages="combinedErrorMessages"
-        :filled="filled"
-        :disabled="disabled"
-        @focus="textFieldIsActive = true"
-        @blur="textFieldIsActive = false">
-        <template v-if="icon" v-slot:prepend>
-          <v-icon :color="iconColor" @click="on.click">
-            {{ icon }}
-          </v-icon>
-        </template>
+  <div class="e-form-container">
+    <v-menu
+      ref="menu"
+      v-model="showPicker"
+      :disabled="disabled || readonly"
+      :close-on-content-click="false"
+      transition="scale-transition"
+      offset-y
+      offset-overflow
+      min-width="290px"
+      max-width="290px">
+      <template v-slot:activator="{on}">
+        <e-text-field
+          v-model="stringValue"
+          v-bind="$attrs"
+          :error-messages="combinedErrorMessages"
+          :filled="filled"
+          :disabled="disabled"
+          @focus="textFieldIsActive = true"
+          @blur="textFieldIsActive = false">
+          <template v-if="icon" v-slot:prepend>
+            <v-icon :color="iconColor" @click="on.click">
+              {{ icon }}
+            </v-icon>
+          </template>
 
-        <!-- passing the append slot through -->
-        <template v-slot:append>
-          <slot name="append" />
-        </template>
-      </e-text-field>
-    </template>
-    <slot :value="pickerValue"
-          :showPicker="showPicker"
-          :on="eventHandlers" />
-  </v-menu>
+          <!-- passing the append slot through -->
+          <template v-slot:append>
+            <slot name="append" />
+          </template>
+        </e-text-field>
+      </template>
+      <slot :value="pickerValue"
+            :showPicker="showPicker"
+            :on="eventHandlers" />
+    </v-menu>
+  </div>
 </template>
 
 <script>

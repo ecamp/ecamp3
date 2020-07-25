@@ -2,9 +2,31 @@
   <v-expansion-panel>
     <v-expansion-panel-header class="pa-0 pr-sm-2" expand-icon="">
       <v-toolbar dense flat>
-        <v-icon class="mr-2 drag-handle">
-          {{ mdiIcon }}
-        </v-icon>
+        <v-menu bottom
+                right
+                offset-y>
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn icon v-bind="attrs" v-on="on">
+              <v-icon class="drag-handle">
+                {{ currentIcon }}
+              </v-icon>
+            </v-btn>
+          </template>
+          <v-container class="grey lighten-5">
+            <v-row v-for="(row, idx) in allowedIcons" :key="idx" no-gutters>
+              <v-col v-for="(col, jdx) in row" :key="jdx">
+                <v-btn icon
+                       tile
+                       :outlined="currentIcon === col"
+                       class="ma-1"
+                       @click="currentIcon = col">
+                  <v-icon>{{ col }}</v-icon>
+                </v-btn>
+              </v-col>
+            </v-row>
+          </v-container>
+        </v-menu>
+
         <div
           v-if="editInstanceName"
           style="flex: 1;"
@@ -22,7 +44,7 @@
           </v-toolbar-title>
         </div>
 
-        <v-icon class="drag-handle ml-4 mr-2 hidden-xs-only">
+        <v-icon v-if="dragDropEnabled" class="drag-handle ml-4 mr-2 hidden-xs-only">
           mdi-drag-horizontal-variant
         </v-icon>
 
@@ -101,12 +123,31 @@ export default {
     ButtonDelete
   },
   props: {
-    activityContent: { type: Object, required: true }
+    activityContent: { type: Object, required: true },
+    dragDropEnabled: { type: Boolean, required: true }
   },
   data () {
     return {
       deleteDialogIsShown: false,
-      editInstanceName: false
+      editInstanceName: false,
+      allowedIcons: [
+        [
+          'mdi-book-open-page-variant'
+        ],
+        [
+          'mdi-script-text-outline',
+          'mdi-timeline-text-outline',
+          'mdi-weather-sunny',
+          'mdi-weather-lightning-rainy',
+          'mdi-gender-female',
+          'mdi-gender-male'
+        ],
+        [
+          'mdi-security',
+          'mdi-hospital-box-outline'
+        ]
+      ],
+      currentIcon: ''
     }
   },
   computed: {
@@ -115,10 +156,10 @@ export default {
         return this.activityContent.instanceName
       }
       return this.$t(`activityContent.${camelCase(this.activityContent.contentTypeName)}.name`)
-    },
-    mdiIcon () {
-      return this.$t(`activityContent.${camelCase(this.activityContent.contentTypeName)}.icon`)
     }
+  },
+  mounted () {
+    this.currentIcon = this.$t(`activityContent.${camelCase(this.activityContent.contentTypeName)}.icon`)
   },
   methods: {
     toggleEditInstanceName (e) {

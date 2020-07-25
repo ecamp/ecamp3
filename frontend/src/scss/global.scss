@@ -41,3 +41,7 @@ body {font-feature-settings: "ss03", "calt", "rlig", "kern", "cv05", "cv07", "cv
 .v-application ul.v-list {
 	padding-left: 0;
 }
+
+.e-form-container + .e-form-container {
+	margin-top: 12px;
+}

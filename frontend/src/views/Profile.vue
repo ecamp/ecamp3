@@ -1,6 +1,6 @@
 <template>
   <v-container fluid>
-    <content-card max-width="600">
+    <content-card max-width="800">
       <template v-slot:title>
         <v-card-title>
           <button-back />
@@ -28,6 +28,10 @@
           :name="$t('entity.user.fields.nickname')"
           :uri="profile._meta.self"
           fieldname="nickname" />
+        <api-date-picker
+          :name="$t('entity.user.fields.birthday')"
+          :uri="profile._meta.self"
+          fieldname="birthday" />
         <api-select
           :name="$t('entity.user.fields.language')"
           :uri="profile._meta.self"
@@ -39,10 +43,11 @@
 </template>
 
 <script>
+import ApiSelect from '@/components/form/api/ApiSelect'
 import ApiTextField from '@/components/form/api/ApiTextField'
+import ApiDatePicker from '@/components/form/api/ApiDatePicker'
 import ContentCard from '@/components/layout/ContentCard'
 import ButtonBack from '@/components/buttons/ButtonBack'
-import ApiSelect from '@/components/form/api/ApiSelect'
 import VueI18n from '@/plugins/i18n'
 
 export default {
@@ -50,6 +55,7 @@ export default {
   components: {
     ApiSelect,
     ApiTextField,
+    ApiDatePicker,
     ContentCard,
     ButtonBack
   },

@@ -36,6 +36,13 @@ class TextareaHydrator implements HydratorInterface {
      * @return object
      */
     public function hydrate(array $data, $object) {
+        /** @var Textarea $textarea */
+        $textarea = $object;
+
+        if (isset($data['text'])) {
+            $textarea->setText($data['text']);
+        }
+
         // @var Textarea $textarea
         return $object;
     }

@@ -1,9 +1,9 @@
 <template>
-  <div>
+  <div class="mb-3">
     <api-form :entity="activityContent.textarea()">
       <api-textarea
         fieldname="text"
-        :label="$t('activityContent.storycontext.name')"
+        :placeholder="$t('activityContent.storycontext.name')"
         rows="2"
         auto-grow />
     </api-form>

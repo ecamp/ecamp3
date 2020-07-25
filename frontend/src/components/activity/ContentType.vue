@@ -5,10 +5,12 @@
         <draggable
           v-model="sortedActivityContentHrefs"
           :component-data="{ attrs: { class: 'drag-container' } }"
+          :disabled="!(sortedActivityContents.length > 1)"
           handle=".drag-handle">
           <activity-content v-for="activityContent in sortedActivityContents"
                             :key="activityContent._meta.self"
                             :activity-content="activityContent"
+                            :drag-drop-enabled="sortedActivityContents.length > 1"
                             @move-up="() => moveUp(activityContent)"
                             @move-down="() => moveDown(activityContent)" />
         </draggable>
@@ -46,6 +48,14 @@ export default {
     }
   },
   watch: {
+    activity () {
+      if (this.activity !== null) {
+        this.activity._meta.load.then(() => {
+          this.refreshSortedActivityContentHrefs()
+          this.openPanels = [0]
+        })
+      }
+    },
     activityContents () {
       this.refreshSortedActivityContentHrefs()
     }
@@ -73,18 +83,19 @@ export default {
     refreshSortedActivityContentHrefs () {
       const activityContentHrefs = this.activityContents.map(ac => ac._meta.self)
 
-      // remove unknown Ids:
-      for (let i = this.sortedActivityContentHrefs.length - 1; i >= 0; i--) {
-        const href = this.sortedActivityContentHrefs[i]
-        if (!activityContentHrefs.includes(href)) {
-          this.sortedActivityContentHrefs.splice(i, 1)
-        }
-      }
       // append new Ids:
       for (let i = activityContentHrefs.length - 1; i >= 0; i--) {
         const href = activityContentHrefs[i]
         if (!this.sortedActivityContentHrefs.includes(href)) {
           this.sortedActivityContentHrefs.push(href)
+        }
+      }
+
+      // remove unknown Ids:
+      for (let i = this.sortedActivityContentHrefs.length - 1; i >= 0; i--) {
+        const href = this.sortedActivityContentHrefs[i]
+        if (!activityContentHrefs.includes(href)) {
+          this.sortedActivityContentHrefs.splice(i, 1)
         }
       }
     }
