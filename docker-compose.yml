@@ -6,13 +6,15 @@ services:
     container_name: 'ecamp3-frontend'
     ports:
       - '3000:3000'
+    stdin_open: true
+    tty: true
     volumes:
       - ./frontend:/app:delegated
       - npm-cache:/root/.npm
       - cypress-cache:/root/.cache/Cypress
       - node-modules-cache:/app/node_modules/.cache
     working_dir: /app
-    command: npm run serve
+    command: ./docker-setup.sh
     environment:
       NODE_ENV: development
   
@@ -21,10 +23,9 @@ services:
     container_name: 'ecamp3-backend'
     ports:
       - '3001:80'
-    links:
-        - db
     volumes:
       - ./backend:/app:delegated
+    entrypoint: ./docker-setup.sh
 
   composer:
     image: composer:1.10
@@ -44,19 +45,20 @@ services:
       - MYSQL_RANDOM_ROOT_PASSWORD=yes
       - MYSQL_USER=ecamp3
       - MYSQL_PASSWORD=ecamp3
+    volumes:
+      - db-data:/var/lib/mysql
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     container_name: 'ecamp3-phpmyadmin'
     ports:
       - '3002:80'
-    links:
-      - db
 
 volumes:
   npm-cache:
   cypress-cache:
   composer-cache:
   node-modules-cache:
+  db-data:
 
   

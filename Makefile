@@ -1,15 +1,5 @@
 setup:
-	# install frontend dependencies with npm
-	./frontend/setup.sh
-	docker-compose run --rm frontend npm ci
-
-	# install backend dependencies with composer
-	docker-compose run --rm composer
-
-	# setup database & load PROD + DEV fixtures
-	docker-compose up -d db
-	docker-compose run --rm --entrypoint ./setup.sh backend 
-	docker-compose stop
+	docker-compose up
 
 install:
 	docker-compose run --rm frontend npm i
@@ -19,5 +9,6 @@ docker-build:
 	docker-compose build
 
 run:
-	docker-compose up -d frontend backend db phpmyadmin
-	docker-compose logs -f frontend
+	docker-compose up -d db phpmyadmin
+	docker-compose run -d --name ecamp3-backend-lean  --service-ports --entrypoint "./docker-run.sh" backend 
+	docker-compose run    --name ecamp3-frontend-lean --service-ports frontend npm run serve
