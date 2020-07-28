@@ -49,8 +49,7 @@ jobs:
     - name: "E2E tests"
       stage: test
       install:
-        - make setup
-        - docker-compose up -d --build backend frontend db
+        - docker-compose up -d --build composer backend frontend db
         - bash wait-for-container-startup.sh
       before_script:
         - cd frontend/
