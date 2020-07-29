@@ -29,18 +29,36 @@
 
         <div
           v-if="editInstanceName"
-          style="flex: 1;"
-          @click.stop
-          @keyup.prevent>
-          <api-text-field
-            dense
-            autofocus
-            :uri="activityContent._meta.self"
-            fieldname="instanceName" />
+          style="display: flex; flex: 1; align-items: center"
+          @click.stop>
+          <div
+            style="flex: 1"
+            @keyup.prevent>
+            <e-text-field
+              v-model="instanceName"
+              :placeholder="contentTypeName"
+              :filled="false"
+              :loading="editInstanceNameSaving"
+              autofocus />
+          </div>
+          <v-btn
+            color="success"
+            style="flex: 0 0 30px"
+            class="ml-2"
+            @click.stop="saveEditInstanceName">
+            <v-icon>mdi-check</v-icon>
+          </v-btn>
+          <v-btn
+            color="error"
+            style="flex: 0 0 30px"
+            class="mx-2"
+            @click.stop="cancelEditInstanceName">
+            <v-icon>mdi-window-close</v-icon>
+          </v-btn>
         </div>
         <div v-else style="flex: 1;">
           <v-toolbar-title>
-            {{ instanceName }}
+            {{ instanceNameDisp }}
           </v-toolbar-title>
         </div>
 
@@ -111,12 +129,12 @@ import Notes from '@/components/activity/content/Notes'
 import DialogEntityDelete from '@/components/dialog/DialogEntityDelete'
 import ButtonDelete from '@/components/buttons/ButtonDelete'
 import camelCase from 'lodash/camelCase'
-import ApiTextField from '../form/api/ApiTextField'
+import ETextField from '../form/base/ETextField'
 
 export default {
   name: 'ActivityContent',
   components: {
-    ApiTextField,
+    ETextField,
     SafetyConcept,
     Storycontext,
     Storyboard,
@@ -131,7 +149,9 @@ export default {
   data () {
     return {
       deleteDialogIsShown: false,
+      instanceName: '',
       editInstanceName: false,
+      editInstanceNameSaving: false,
       allowedIcons: [
         [
           'mdi-book-open-page-variant'
@@ -153,30 +173,39 @@ export default {
     }
   },
   computed: {
-    instanceName () {
+    contentTypeName () {
+      return this.$tc(`activityContent.${camelCase(this.activityContent.contentTypeName)}.name`)
+    },
+    instanceNameDisp () {
       if (this.activityContent.instanceName) {
         return this.activityContent.instanceName
       }
-      return this.$tc(`activityContent.${camelCase(this.activityContent.contentTypeName)}.name`)
+      return this.contentTypeName
     }
   },
   mounted () {
     this.currentIcon = this.$tc(`activityContent.${camelCase(this.activityContent.contentTypeName)}.icon`)
   },
   methods: {
-    toggleEditInstanceName (e) {
+    toggleEditInstanceName () {
       this.editInstanceName = !this.editInstanceName
+      this.instanceName = this.activityContent.instanceName
     },
-    showDeleteActivityContentDialog (e) {
+    showDeleteActivityContentDialog () {
       this.$refs.deleteActivityContentDialog.showDialog = true
+    },
+    saveEditInstanceName () {
+      this.editInstanceNameSaving = true
+      this.api.patch(this.activityContent._meta.self, { instanceName: this.instanceName }).then(() => {
+        this.editInstanceNameSaving = false
+        this.editInstanceName = false
+      }, () => {
+        this.editInstanceNameSaving = false
+      })
+    },
+    cancelEditInstanceName () {
+      this.editInstanceName = false
     }
   }
 }
 </script>
-
-<style scoped>
-  .delete-button:hover,
-  .delete-button:focus {
-    color: red;
-  }
-</style>
