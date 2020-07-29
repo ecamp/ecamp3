@@ -2,10 +2,12 @@
 
 namespace eCamp\Lib\Hydrator;
 
+use DateTime;
 use eCamp\Lib\Hydrator\Resolver\CollectionLinkResolver;
 use eCamp\Lib\Hydrator\Resolver\CollectionResolver;
 use eCamp\Lib\Hydrator\Resolver\EntityLinkResolver;
 use eCamp\Lib\Hydrator\Resolver\EntityResolver;
+use Exception;
 
 class Util {
     /**
@@ -42,23 +44,38 @@ class Util {
         return new CollectionLinkResolver($resolver, $linkResolver);
     }
 
-    public static function extractDate(\DateTime $date) {
+    public static function extractDate(?DateTime $date) {
+        if (null == $date) {
+            return null;
+        }
+
         return $date->format('Y-m-d');
     }
 
-    public static function extractDateTime(\DateTime $date) {
+    public static function extractDateTime(?DateTime $date) {
+        if (null == $date) {
+            return null;
+        }
+
         return $date->format('Y-m-d H:i:s');
     }
 
+    /**
+     * @param $date
+     *
+     * @throws Exception
+     *
+     * @return null|DateTime
+     */
     public static function parseDate($date) {
         $result = null;
 
-        if ($date instanceof \DateTime) {
+        if ($date instanceof DateTime) {
             $result = $date;
         }
 
-        if (is_string($date)) {
-            $result = new \DateTime($date);
+        if (is_string($date) && strlen($date) > 0) {
+            $result = new DateTime($date);
         }
 
         return $result;

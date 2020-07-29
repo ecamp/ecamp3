@@ -3,9 +3,10 @@ Wrapper component for form components to save data back to API
 -->
 
 <template>
-  <ValidationObserver ref="validationObserver" v-slot="validationObserver">
+  <ValidationObserver ref="validationObserver" v-slot="validationObserver" slim>
     <v-form
-      :class="['my-' + my, {'api-wrapper--inline':!autoSave && !readonly && !separateButtons}]"
+      :class="[{'api-wrapper--inline':!autoSave && !readonly && !separateButtons}]"
+      class="e-form-container"
       @submit.prevent="onEnter">
       <slot
         :localValue="localValue"
@@ -114,6 +115,10 @@ export default {
       // return value from props if set explicitly
       if (this.value) {
         return this.value
+
+      // while loading, value is null
+      } else if (this.isLoading) {
+        return null
 
       // avoid infinite reloading if loading from API has failed
       } else if (this.hasLoadingError) {

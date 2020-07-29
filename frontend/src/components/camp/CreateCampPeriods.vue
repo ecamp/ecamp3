@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="e-form-container">
     <v-card v-for="(period, i) in periods"
             :key="period.key"
             outlined

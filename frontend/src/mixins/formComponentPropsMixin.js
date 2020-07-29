@@ -13,13 +13,6 @@ export const formComponentPropsMixin = {
       default: 'auto'
     },
 
-    // vertical margin
-    my: {
-      type: [Number, Boolean],
-      default: 4,
-      required: false
-    },
-
     // set classes on input
     inputClass: {
       type: String,

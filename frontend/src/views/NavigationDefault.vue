@@ -8,11 +8,22 @@
     <search-desktop />
     <user-meta />
   </v-app-bar>
-  <v-bottom-navigation v-else app
-                       fixed grow>
+  <v-bottom-navigation
+    v-else app
+    fixed grow>
+    <v-btn :to="{name: 'home'}">
+      <span>Home</span>
+      <span>
+        <v-icon>$vuetify.icons.ecamp</v-icon>️
+      </span>
+    </v-btn>
     <v-btn :to="{name: 'camps'}">
       <span>Meine Camps</span>
       <v-icon>mdi-format-list-bulleted-triangle</v-icon>
+    </v-btn>
+    <v-btn :to="{name: 'profile'}">
+      <span>Profile</span>
+      <v-icon>mdi-account</v-icon>
     </v-btn>
   </v-bottom-navigation>
 </template>

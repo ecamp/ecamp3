@@ -11,7 +11,7 @@ Allows 15min steps only
     @input="$emit('input', $event)">
     <template slot-scope="picker">
       <v-time-picker
-        :value="picker.localValue"
+        :value="picker.value || ''"
         :allowed-minutes="allowedStep"
         format="24hr"
         scrollable

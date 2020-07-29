@@ -3,23 +3,22 @@
 namespace eCamp\CoreData;
 
 use Doctrine\Common\DataFixtures\AbstractFixture;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
+use eCamp\ContentType\SingleText\Strategy as SingleTextStrategy;
 use eCamp\ContentType\Storyboard\Strategy as StoryboardStrategy;
-use eCamp\ContentType\Textarea\Strategy as TextareaStrategy;
 use eCamp\Core\Entity\ContentType;
 
 class ContentTypeData extends AbstractFixture {
-    public static $TEXTAREA = ContentType::class.':TEXTAREA';
-    public static $RICHTEXT = ContentType::class.':RICHTEXT';
     public static $STORYBOARD = ContentType::class.':STORYBOARD';
     public static $STORYCONTEXT = ContentType::class.':STORYCONTEXT';
+    public static $SAFETYCONCEPT = ContentType::class.':SAFETYCONCEPT';
     public static $NOTES = ContentType::class.':NOTES';
 
     public function load(ObjectManager $manager) {
         $repository = $manager->getRepository(ContentType::class);
 
         // Story board (Programmablauf)
-        $contentType = $repository->findOneBy(['name' => 'storyboard']);
+        $contentType = $repository->findOneBy(['name' => 'Storyboard']);
         if (null == $contentType) {
             $contentType = new ContentType();
             $contentType->setName('Storyboard');
@@ -35,17 +34,27 @@ class ContentTypeData extends AbstractFixture {
         if (null == $contentType) {
             $contentType = new ContentType();
             $contentType->setName('Storycontext');
-            $contentType->setStrategyClass(TextareaStrategy::class);
+            $contentType->setStrategyClass(SingleTextStrategy::class);
             $manager->persist($contentType);
         }
         $this->addReference(self::$STORYCONTEXT, $contentType);
+
+        // SafetyConcept
+        $contentType = $repository->findOneBy(['name' => 'SafetyConcept']);
+        if (null == $contentType) {
+            $contentType = new ContentType();
+            $contentType->setName('SafetyConcept');
+            $contentType->setStrategyClass(SingleTextStrategy::class);
+            $manager->persist($contentType);
+        }
+        $this->addReference(self::$SAFETYCONCEPT, $contentType);
 
         // Notes (Notizen)
         $contentType = $repository->findOneBy(['name' => 'Notes']);
         if (null == $contentType) {
             $contentType = new ContentType();
             $contentType->setName('Notes');
-            $contentType->setStrategyClass(TextareaStrategy::class);
+            $contentType->setStrategyClass(SingleTextStrategy::class);
             $manager->persist($contentType);
         }
         $this->addReference(self::$NOTES, $contentType);

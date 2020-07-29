@@ -1,100 +1,99 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`ApiTextField.vue renders correctly 1`] = `
-<span>
-  <form
-    class="v-form my-4"
-    novalidate="novalidate"
+<form
+  class="v-form e-form-container"
+  novalidate="novalidate"
+>
+  <div
+    class="e-form-container"
+    outlined="true"
+    required="required"
+    value="Test Value"
   >
-    <span
-      outlined=""
-      required="required"
-      value="Test Value"
+    <div
+      class="v-input v-input--hide-details theme--light v-text-field v-text-field--enclosed v-text-field--outlined v-select"
     >
       <div
-        class="v-input v-input--hide-details theme--light v-text-field v-text-field--enclosed v-text-field--outlined v-select my-0"
+        class="v-input__control"
       >
         <div
-          class="v-input__control"
+          aria-expanded="false"
+          aria-haspopup="listbox"
+          aria-owns="list-12"
+          class="v-input__slot"
+          role="button"
         >
-          <div
-            aria-expanded="false"
-            aria-haspopup="listbox"
-            aria-owns="list-12"
-            class="v-input__slot"
-            role="button"
+          <fieldset
+            aria-hidden="true"
           >
-            <fieldset
-              aria-hidden="true"
+            <legend
+              style="width: 0px;"
             >
-              <legend
-                style="width: 0px;"
-              >
-                <span>
-                  ​
-                </span>
-              </legend>
-            </fieldset>
+              <span>
+                ​
+              </span>
+            </legend>
+          </fieldset>
+          <div
+            class="v-select__slot"
+          >
+            <label
+              class="v-label theme--light"
+              for="input-12"
+              style="left: 0px; position: absolute;"
+            >
+              Test Field
+            </label>
             <div
-              class="v-select__slot"
+              class="v-select__selections"
             >
-              <label
-                class="v-label theme--light"
-                for="input-12"
-                style="left: 0px; position: absolute;"
-              >
-                Test Field
-              </label>
-              <div
-                class="v-select__selections"
-              >
-                <input
-                  aria-readonly="false"
-                  autocomplete="off"
-                  id="input-12"
-                  readonly="readonly"
-                  required="required"
-                  type="text"
-                />
-              </div>
-              <div
-                class="v-input__append-inner"
-              >
-                <i
-                  aria-hidden="true"
-                  class="v-icon notranslate mdi mdi-menu-down theme--light"
-                />
-                 
-                <div
-                  class="d-flex"
-                >
-                  <!---->
-                   
-                  <!---->
-                   
-                  <transition-stub
-                    name="fade"
-                  >
-                    <!---->
-                  </transition-stub>
-                </div>
-              </div>
               <input
-                type="hidden"
-                value="Test Value"
+                aria-readonly="false"
+                autocomplete="off"
+                id="input-12"
+                readonly="readonly"
+                required="required"
+                type="text"
               />
             </div>
             <div
-              class="v-menu"
+              class="v-input__append-inner"
             >
-              <!---->
+              <i
+                aria-hidden="true"
+                class="v-icon notranslate mdi mdi-menu-down theme--light"
+              />
+               
+              <div
+                class="d-flex"
+              >
+                <!---->
+                 
+                <!---->
+                 
+                <transition-stub
+                  name="fade"
+                >
+                  <!---->
+                </transition-stub>
+              </div>
             </div>
+            <input
+              type="hidden"
+              value="Test Value"
+            />
+          </div>
+          <div
+            class="v-menu"
+          >
+            <!---->
           </div>
         </div>
       </div>
-    </span>
-     
-    <!---->
-  </form>
-</span>
+    </div>
+  </div>
+   
+  <!---->
+</form>
 `;

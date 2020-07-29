@@ -70,9 +70,18 @@
     }
   },
   "activityContent": {
+    "safetyConcept": {
+      "add": "Add a safety concept",
+      "name": "Safety concept",
+      "icon": "mdi-security",
+      "sort": "3",
+      "entity": { }
+    },
     "storyboard": {
       "add": "Add a storyboard | Add another storyboard",
       "name": "Storyboard",
+      "icon": "mdi-script-text-outline",
+      "sort": "2",
       "entity": {
         "section": {
           "name": "Section | Sections",
@@ -87,10 +96,13 @@
     "storycontext": {
       "add": "Add story context",
       "name": "Story context",
+      "icon": "mdi-book-open-page-variant",
+      "sort": "1",
       "entity": { }
     },
     "notes": {
       "name": "Notes",
+      "icon": "mdi-pen",
       "add": "Add notes",
       "entity": { }
     }

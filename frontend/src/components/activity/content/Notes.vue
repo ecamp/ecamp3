@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <api-form :entity="activityContent.textarea()">
+  <div class="mb-3">
+    <api-form :entity="activityContent.singleText()">
       <api-textarea
         fieldname="text"
         :label="$t('activityContent.notes.name')"

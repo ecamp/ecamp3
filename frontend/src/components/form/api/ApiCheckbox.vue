@@ -16,7 +16,6 @@ Displays a field as a e-checkbox + write access via API wrapper
       :disabled="disabled"
       :error-messages="wrapper.errorMessages"
       :loading="wrapper.isSaving"
-      :my="0"
       @change="wrapper.on.input">
       <template #append>
         <api-wrapper-append :wrapper="wrapper" />
