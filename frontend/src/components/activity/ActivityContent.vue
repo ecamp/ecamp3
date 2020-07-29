@@ -157,11 +157,11 @@ export default {
       if (this.activityContent.instanceName) {
         return this.activityContent.instanceName
       }
-      return this.$t(`activityContent.${camelCase(this.activityContent.contentTypeName)}.name`)
+      return this.$tc(`activityContent.${camelCase(this.activityContent.contentTypeName)}.name`)
     }
   },
   mounted () {
-    this.currentIcon = this.$t(`activityContent.${camelCase(this.activityContent.contentTypeName)}.icon`)
+    this.currentIcon = this.$tc(`activityContent.${camelCase(this.activityContent.contentTypeName)}.icon`)
   },
   methods: {
     toggleEditInstanceName (e) {

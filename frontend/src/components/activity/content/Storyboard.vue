@@ -3,13 +3,13 @@
     <v-container fluid>
       <v-row no-gutters class="text-subtitle-2">
         <v-col cols="2">
-          {{ $t('activityContent.storyboard.entity.section.fields.column1') }}
+          {{ $tc('activityContent.storyboard.entity.section.fields.column1') }}
         </v-col>
         <v-col cols="7">
-          {{ $t('activityContent.storyboard.entity.section.fields.column2') }}
+          {{ $tc('activityContent.storyboard.entity.section.fields.column2') }}
         </v-col>
         <v-col cols="2">
-          {{ $t('activityContent.storyboard.entity.section.fields.column3') }}
+          {{ $tc('activityContent.storyboard.entity.section.fields.column3') }}
         </v-col>
         <v-col cols="1" />
       </v-row>

@@ -4,7 +4,7 @@
       <v-toolbar>
         <v-toolbar-title>
           <ButtonBack />
-          {{ $t('views.campCreate.title') }}
+          {{ $tc('views.campCreate.title') }}
         </v-toolbar-title>
       </v-toolbar>
       <ValidationObserver v-slot="{ handleSubmit }">
@@ -13,23 +13,23 @@
             <server-error :server-error="serverError" />
             <e-text-field
               v-model="camp.name"
-              :name="$t('entity.camp.fields.name')"
+              :name="$tc('entity.camp.fields.name')"
               vee-rules="required"
               required
               autofocus />
             <e-text-field
               v-model="camp.title"
-              :name="$t('entity.camp.fields.title')"
+              :name="$tc('entity.camp.fields.title')"
               vee-rules="required"
               required />
             <e-text-field
               v-model="camp.motto"
-              :name="$t('entity.camp.fields.motto')"
+              :name="$tc('entity.camp.fields.motto')"
               vee-rules="required"
               required />
             <e-select
               v-model="camp.campTypeId"
-              :name="$t('entity.camp.fields.campType')"
+              :name="$tc('entity.camp.fields.campType')"
               vee-rules="required"
               :items="campTypes">
               <template v-slot:item="data">
@@ -51,7 +51,7 @@
           <v-divider />
           <v-card-text class="text-right">
             <ButtonAdd type="submit">
-              {{ $t('views.campCreate.create') }}
+              {{ $tc('views.campCreate.create') }}
             </ButtonAdd>
           </v-card-text>
         </v-form>
@@ -95,7 +95,7 @@ export default {
             key: 0,
             start: '',
             end: '',
-            description: this.$t('entity.period.defaultDescription')
+            description: this.$tc('entity.period.defaultDescription')
           }
         ]
       },
@@ -107,7 +107,7 @@ export default {
     campTypes () {
       return this.api.get().campTypes().items.map(ct => ({
         value: ct.id,
-        text: this.$t(ct.name),
+        text: this.$tc(ct.name),
         object: ct
       }))
     },

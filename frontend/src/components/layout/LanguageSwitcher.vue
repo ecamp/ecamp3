@@ -4,11 +4,11 @@
       <v-btn
         id="languageSwitcher" text
         small
-        :aria-label="$t('global.changeLanguage')"
+        :aria-label="$tc('global.changeLanguage')"
         v-bind="attrs"
         v-on="on">
         <v-icon left small>mdi-translate</v-icon>
-        {{ $t('global.language') }}
+        {{ $tc('global.language') }}
       </v-btn>
     </template>
     <v-list dense tag="ul"
@@ -19,7 +19,7 @@
         tag="li"
         :lang="item"
         @click="changeLang(item)">
-        <v-list-item-title>{{ $t('global.language', item) }}</v-list-item-title>
+        <v-list-item-title>{{ $tc('global.language', item) }}</v-list-item-title>
       </v-list-item>
     </v-list>
   </v-menu>
