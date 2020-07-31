@@ -13,7 +13,8 @@
     "moment": {
       "dateLong": "dd L",
       "dateShort": "dd D.M.",
-      "hourShort": "HH:mm"
+      "hourShort": "H:mm",
+      "hourLong": "HH:mm"
     },
     "serverError": {
       "409": "Uuuups... Diese Aktion hat zu einem Fehler auf dem Server geführt."
@@ -50,6 +51,9 @@
         "nickname": "Spitzname",
         "language": "Sprache"
       }
+    },
+    "activity": {
+      "add": "Neue Aktivität"
     },
     "activityCategory": {
       "name": "Block Kategorien",
