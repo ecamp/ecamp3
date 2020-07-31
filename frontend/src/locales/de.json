@@ -53,7 +53,7 @@
       }
     },
     "activity": {
-      "add": "Neue Aktivität"
+      "new": "Neue Aktivität"
     },
     "activityCategory": {
       "name": "Block Kategorien",
