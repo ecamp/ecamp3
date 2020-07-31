@@ -10,7 +10,7 @@
     <v-icon v-else :left="$vuetify.breakpoint.smAndUp" size="150%">{{ icon }}</v-icon>
 
     <span v-if="!iconOnly" class="d-none d-sm-block">
-      <slot>{{ $t('global.button.delete') }}</slot>
+      <slot>{{ $tc('global.button.delete') }}</slot>
     </span>
   </v-btn>
 </template>

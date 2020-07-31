@@ -105,7 +105,7 @@ export default {
         contentType: atct.contentType(),
         contentTypeNameKey: 'activityContent.' + camelCase(atct.contentType().name) + '.name',
         contentTypeIconKey: 'activityContent.' + camelCase(atct.contentType().name) + '.icon',
-        contentTypeSort: parseInt(this.$t('activityContent.' + camelCase(atct.contentType().name) + '.sort')),
+        contentTypeSort: parseInt(this.$tc('activityContent.' + camelCase(atct.contentType().name) + '.sort')),
         enabled: atct.contentType().allowMultiple || this.countActivityContents(atct.contentType()) === 0
       })).sort((a, b) => a.contentTypeSort - b.contentTypeSort)
     }

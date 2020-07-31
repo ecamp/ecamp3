@@ -4,12 +4,12 @@
       <template v-slot:title>
         <v-card-title>
           <button-back />
-          {{ $t('views.profile.profile') + ': ' + profile.displayName }}
+          {{ $tc('views.profile.profile') + ': ' + profile.displayName }}
         </v-card-title>
       </template>
       <v-col>
         <api-text-field
-          :name="$t('entity.user.fields.email')"
+          :name="$tc('entity.user.fields.email')"
           :uri="profile._meta.self"
           fieldname="mail"
           :editing="false"
@@ -17,23 +17,23 @@
       </v-col>
       <v-col>
         <api-text-field
-          :name="$t('entity.user.fields.firstname')"
+          :name="$tc('entity.user.fields.firstname')"
           :uri="profile._meta.self"
           fieldname="firstname" />
         <api-text-field
-          :name="$t('entity.user.fields.surname')"
+          :name="$tc('entity.user.fields.surname')"
           :uri="profile._meta.self"
           fieldname="surname" />
         <api-text-field
-          :name="$t('entity.user.fields.nickname')"
+          :name="$tc('entity.user.fields.nickname')"
           :uri="profile._meta.self"
           fieldname="nickname" />
         <api-date-picker
-          :name="$t('entity.user.fields.birthday')"
+          :name="$tc('entity.user.fields.birthday')"
           :uri="profile._meta.self"
           fieldname="birthday" />
         <api-select
-          :name="$t('entity.user.fields.language')"
+          :name="$tc('entity.user.fields.language')"
           :uri="profile._meta.self"
           fieldname="language"
           :items="availableLocales" />
@@ -66,7 +66,7 @@ export default {
     availableLocales () {
       return VueI18n.availableLocales.map(l => ({
         value: l,
-        text: this.$t('global.language', l)
+        text: this.$tc('global.language', 1, l)
       }))
     }
   },

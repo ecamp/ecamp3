@@ -41,7 +41,7 @@
                 left>
                 {{ cancelIcon }}
               </v-icon>
-              {{ $t(cancelLabel) }}
+              {{ $tc(cancelLabel) }}
             </v-btn>
             <v-btn
               v-if="submitAction != null"
@@ -54,7 +54,7 @@
                 left>
                 {{ submitIcon }}
               </v-icon>
-              {{ $t(submitLabel) }}
+              {{ $tc(submitLabel) }}
             </v-btn>
             <slot name="actions" />
           </v-card-actions>
