@@ -16,4 +16,4 @@ RUN touch /var/log/xdebug.log && chmod a+rw /var/log/xdebug.log
 ENV XDEBUG_CONFIG="remote_enable=1 remote_autostart=1 remote_connect_back=0 remote_host=host.docker.internal remote_port=9000 remote_log=/var/log/xdebug.log"
 
 
-ENTRYPOINT bash docker-entrypoint.sh
+ENTRYPOINT bash docker-run.sh
