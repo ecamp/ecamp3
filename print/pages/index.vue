@@ -91,5 +91,21 @@ export default {
     Logo,
     VuetifyLogo,
   },
+  asyncData(context) {
+    return {
+      query: context.query,
+    }
+  },
+  head() {
+    if (this.query.pagedjs === 'true') {
+      return {
+        script: [
+          {
+            src: 'https://unpkg.com/pagedjs/dist/paged.polyfill.js',
+          },
+        ],
+      }
+    }
+  },
 }
 </script>
