@@ -35,8 +35,9 @@ services:
     volumes:
       - ./print:/app:delegated
       - npm-cache:/root/.npm
+      - print-node-modules-cache:/app/node_modules/.cache
     working_dir: /app
-    command: npm run dev
+    command: ./docker-setup.sh
     environment:
       - HOST=0.0.0.0
 
@@ -89,6 +90,7 @@ volumes:
   cypress-cache:
   composer-cache:
   node-modules-cache:
+  print-node-modules-cache:
   db-data:
 
   

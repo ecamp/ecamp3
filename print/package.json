@@ -15,7 +15,8 @@
   },
   "dependencies": {
     "@nuxtjs/axios": "^5.11.0",
-    "nuxt": "^2.13.0"
+    "nuxt": "^2.13.0",
+    "pagedjs": "^0.1.42"
   },
   "devDependencies": {
     "@nuxtjs/eslint-config": "^3.0.0",
