@@ -26,6 +26,7 @@ Listing all given activity schedule entries in a calendar view.
       :event-ripple="false"
       @change="getEvents"
       @mousedown:event="entryMouseDown"
+      @mouseup:event="entryMouseUp"
       @mousedown:time="timeMouseDown"
       @mousemove:time="timeMouseMove"
       @mouseup:time="timeMouseUp"
@@ -39,9 +40,13 @@ Listing all given activity schedule entries in a calendar view.
       </template>
     </v-calendar>
     <v-menu
+      :value="showEntryInfo"
+      :activator="selectedElement"
       :close-on-content-click="false"
       offset-x>
-      Test
+      <v-card>
+        <h1>test</h1>
+      </v-card>
     </v-menu>
   </div>
 </template>
@@ -82,31 +87,34 @@ export default {
     return {
       tempScheduleEntry: null,
       weekdayShort: ['Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa', 'So'],
+      localScheduleEntries: [],
       value: '',
       draggedEntry: null,
       currentEntry: null,
       draggedStartTime: null,
       currentStartTime: null,
-      extendOriginal: null
+      extendOriginal: null,
+      selectedElement: null,
+      isNewEntry: false,
+      showEntryInfo: false
     }
   },
   computed: {
     events () {
       if (this.tempScheduleEntry) {
-        return this.normedScheduleEntries.concat(this.tempScheduleEntry)
+        return this.localScheduleEntries.concat(this.tempScheduleEntry)
       } else {
-        return this.normedScheduleEntries
+        return this.localScheduleEntries
       }
-    },
-    normedScheduleEntries () {
-      return this.scheduleEntries.map(function (entry) {
-        return Object.assign(entry, {
-          start: new Date(entry.startTime).getTime(),
-          end: new Date(entry.endTime).getTime(),
-          timed: true
-        })
-      })
     }
+  },
+  mounted () {
+    this.localScheduleEntries = this.scheduleEntries.map((entry) => {
+      entry.start = new Date(entry.startTime).getTime()
+      entry.end = new Date(entry.endTime).getTime()
+      entry.timed = true
+      return entry
+    })
   },
   methods: {
     getActivityName (event, _) {
@@ -149,7 +157,7 @@ export default {
     getEvents ({ start, end }) {
       // change period or view
     },
-    entryMouseDown ({ event, timed }) {
+    entryMouseDown ({ event, timed, nativeEvent }) {
       console.log('entryMouseDown')
       if (event && timed) {
         this.draggedEntry = event
@@ -204,6 +212,20 @@ export default {
 
         this.currentEntry.start = min
         this.currentEntry.end = max
+      }
+    },
+    entryMouseUp ({ nativeEvent }) {
+      console.log('entryMouseUp')
+      const open = () => {
+        this.selectedElement = nativeEvent.target
+        setTimeout(() => { this.showEntryInfo = true }, 10)
+      }
+
+      if (this.showEntryInfo) {
+        this.showEntryInfo = false
+        setTimeout(open, 10)
+      } else {
+        open()
       }
     },
     timeMouseUp (tms) {
