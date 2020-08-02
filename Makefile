@@ -13,9 +13,9 @@ docker-build:
 
 run:
 	docker-compose up -d db phpmyadmin
-	docker-compose run -d --name ecamp3-backend-lean  --service-ports --entrypoint "./docker-run.sh" backend 
-	docker-compose run -d --name ecamp3-print-lean    --service-ports print npm run dev
-	docker-compose run    --name ecamp3-frontend-lean --service-ports frontend npm run serve
+	docker-compose run -d --name backend  --service-ports --entrypoint "./docker-run.sh" backend 
+	docker-compose run -d --name print    --service-ports print npm run dev
+	docker-compose run    --name frontend --service-ports frontend npm run serve
 
 
 print:
