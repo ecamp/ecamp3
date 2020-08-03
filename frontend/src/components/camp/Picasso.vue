@@ -165,24 +165,26 @@ export default {
         this.extendOriginal = null
       }
     },
+    createNewEntry: function (mouse) {
+      this.currentStartTime = this.roundTime(mouse)
+      this.currentEntry = {
+        name: this.$tc('entity.activity.new'),
+        start: this.currentStartTime,
+        end: this.currentStartTime,
+        timed: true,
+        tmpEvent: true
+      }
+      this.tempScheduleEntry = this.currentEntry
+    },
     timeMouseDown (tms) {
       console.log('timeMouseDown')
       const mouse = this.toTime(tms)
 
       if (this.draggedEntry && this.draggedStartTime === null) {
         const start = this.draggedEntry.start
-
         this.draggedStartTime = mouse - start
       } else {
-        this.currentStartTime = this.roundTime(mouse)
-        this.currentEntry = {
-          name: this.$tc('entity.activity.new'),
-          start: this.currentStartTime,
-          end: this.currentStartTime,
-          timed: true,
-          tmpEvent: true
-        }
-        this.tempScheduleEntry = this.currentEntry
+        this.createNewEntry(mouse)
       }
     },
     extendBottom (event) {
