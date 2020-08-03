@@ -193,6 +193,14 @@ export default {
       this.currentStartTime = event.start
       this.extendOriginal = event.end
     },
+    changeEntryTime: function (mouse) {
+      const mouseRounded = this.roundTime(mouse, false)
+      const min = Math.min(mouseRounded, this.currentStartTime)
+      const max = Math.max(mouseRounded, this.currentStartTime)
+
+      this.currentEntry.start = min
+      this.currentEntry.end = max
+    },
     timeMouseMove (tms) {
       console.log('timeMouseMove')
       const mouse = this.toTime(tms)
@@ -208,12 +216,7 @@ export default {
         this.draggedEntry.start = newStart
         this.draggedEntry.end = newEnd
       } else if (this.currentEntry && this.currentStartTime !== null) {
-        const mouseRounded = this.roundTime(mouse, false)
-        const min = Math.min(mouseRounded, this.currentStartTime)
-        const max = Math.max(mouseRounded, this.currentStartTime)
-
-        this.currentEntry.start = min
-        this.currentEntry.end = max
+        this.changeEntryTime(mouse)
       }
     },
     entryMouseUp ({ nativeEvent }) {
