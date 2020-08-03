@@ -201,20 +201,23 @@ export default {
       this.currentEntry.start = min
       this.currentEntry.end = max
     },
+    moveEntry: function (mouse) {
+      const start = this.draggedEntry.start
+      const end = this.draggedEntry.end
+      const duration = end - start
+      const newStartTime = mouse - this.draggedStartTime
+      const newStart = this.roundTime(newStartTime)
+      const newEnd = newStart + duration
+
+      this.draggedEntry.start = newStart
+      this.draggedEntry.end = newEnd
+    },
     timeMouseMove (tms) {
       console.log('timeMouseMove')
       const mouse = this.toTime(tms)
 
       if (this.draggedEntry && this.draggedStartTime !== null) {
-        const start = this.draggedEntry.start
-        const end = this.draggedEntry.end
-        const duration = end - start
-        const newStartTime = mouse - this.draggedStartTime
-        const newStart = this.roundTime(newStartTime)
-        const newEnd = newStart + duration
-
-        this.draggedEntry.start = newStart
-        this.draggedEntry.end = newEnd
+        this.moveEntry(mouse)
       } else if (this.currentEntry && this.currentStartTime !== null) {
         this.changeEntryTime(mouse)
       }
