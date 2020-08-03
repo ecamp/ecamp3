@@ -250,14 +250,20 @@ export default {
         open()
       }
     },
-    timeMouseUp (tms) {
-      console.log('timeMouseUp')
-      this.isDirty = true
-      this.draggedStartTime = null
-      this.draggedEntry = null
+    clearCurrentEntry () {
       this.currentEntry = null
       this.currentStartTime = null
       this.extendOriginal = null
+    },
+    clearDraggedEntry () {
+      this.draggedStartTime = null
+      this.draggedEntry = null
+    },
+    timeMouseUp (tms) {
+      console.log('timeMouseUp')
+      this.isDirty = true
+      this.clearCurrentEntry()
+      this.clearDraggedEntry()
     },
     nativeMouseUp () {
       console.log('nativeMouseUp')
@@ -267,10 +273,8 @@ export default {
         }
       }
 
-      this.currentEntry = null
-      this.currentStartTime = null
-      this.draggedStartTime = null
-      this.draggedEntry = null
+      this.clearCurrentEntry()
+      this.clearDraggedEntry()
     },
     roundTime (time, down = true) {
       const roundTo = 15 // minutes
