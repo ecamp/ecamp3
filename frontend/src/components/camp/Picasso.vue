@@ -56,10 +56,6 @@ import { scheduleEntryRoute } from '@/router'
 export default {
   name: 'Picasso',
   props: {
-    camp: {
-      type: Function,
-      required: true
-    },
     scheduleEntries: {
       type: Array,
       required: true
@@ -88,6 +84,7 @@ export default {
       tempScheduleEntry: null,
       weekdayShort: ['Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa', 'So'],
       localScheduleEntries: [],
+      parsedScheduleEntries: [],
       value: '',
       draggedEntry: null,
       currentEntry: null,
@@ -96,25 +93,40 @@ export default {
       extendOriginal: null,
       selectedElement: null,
       isNewEntry: false,
+      isDirty: false,
       showEntryInfo: false
     }
   },
   computed: {
     events () {
       if (this.tempScheduleEntry) {
-        return this.localScheduleEntries.concat(this.tempScheduleEntry)
+        return this.parsedScheduleEntries.concat(this.tempScheduleEntry)
       } else {
-        return this.localScheduleEntries
+        return this.parsedScheduleEntries
       }
     }
   },
-  mounted () {
-    this.localScheduleEntries = this.scheduleEntries.map((entry) => {
+  watch: {
+    scheduleEntries: function (newValue, oldValue) {
+      if (!this.isDirty && this.localScheduleEntries === oldValue) {
+        this.parsedScheduleEntries = newValue.map((entry) => {
+          entry.start = new Date(entry.startTime).getTime()
+          entry.end = new Date(entry.endTime).getTime()
+          entry.timed = true
+          return entry
+        })
+        this.localScheduleEntries = newValue
+      }
+    }
+  },
+  created () {
+    this.parsedScheduleEntries = this.scheduleEntries.map((entry) => {
       entry.start = new Date(entry.startTime).getTime()
       entry.end = new Date(entry.endTime).getTime()
       entry.timed = true
       return entry
     })
+    this.localScheduleEntries = this.scheduleEntries
   },
   methods: {
     getActivityName (event, _) {
@@ -226,7 +238,9 @@ export default {
       console.log('entryMouseUp')
       const open = () => {
         this.selectedElement = nativeEvent.target
-        setTimeout(() => { this.showEntryInfo = true }, 10)
+        setTimeout(() => {
+          this.showEntryInfo = true
+        }, 10)
       }
 
       if (this.showEntryInfo) {
@@ -238,6 +252,7 @@ export default {
     },
     timeMouseUp (tms) {
       console.log('timeMouseUp')
+      this.isDirty = true
       this.draggedStartTime = null
       this.draggedEntry = null
       this.currentEntry = null
