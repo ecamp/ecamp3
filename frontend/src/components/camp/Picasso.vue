@@ -201,7 +201,7 @@ export default {
       this.currentEntry.start = min
       this.currentEntry.end = max
     },
-    moveEntry: function (mouse) {
+    moveEntryTime: function (mouse) {
       const start = this.draggedEntry.start
       const end = this.draggedEntry.end
       const duration = end - start
@@ -217,7 +217,7 @@ export default {
       const mouse = this.toTime(tms)
 
       if (this.draggedEntry && this.draggedStartTime !== null) {
-        this.moveEntry(mouse)
+        this.moveEntryTime(mouse)
       } else if (this.currentEntry && this.currentStartTime !== null) {
         this.changeEntryTime(mouse)
       }
