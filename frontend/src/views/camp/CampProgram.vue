@@ -24,16 +24,15 @@ Show all activity schedule entries of a single period.
         <v-skeleton-loader v-else type="table" />
       </template>
       <template v-if="firstPeriod">
-        <activity-list
-          v-if="listFormat"
-          :camp="camp" :schedule-entries="firstPeriod.scheduleEntries().items" />
         <picasso
-          v-else
-          :camp="camp"
+          v-show="!listFormat"
           class="mx-2 ma-sm-0 pa-sm-2"
           :schedule-entries="firstPeriod.scheduleEntries().items"
           :start="new Date(Date.parse(firstPeriod.start))"
           :end="new Date(Date.parse(firstPeriod.end))" />
+        <activity-list
+          v-show="listFormat"
+          :camp="camp" :schedule-entries="firstPeriod.scheduleEntries().items" />
       </template>
       <v-btn
         :fixed="$vuetify.breakpoint.xs"
