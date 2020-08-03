@@ -92,6 +92,7 @@ export default {
       currentStartTime: null,
       extendOriginal: null,
       selectedElement: null,
+      selectedEntry: null,
       isNewEntry: false,
       isDirty: false,
       showEntryInfo: false
@@ -171,6 +172,7 @@ export default {
     },
     entryMouseDown ({ event, timed, nativeEvent }) {
       console.log('entryMouseDown')
+      this.isNewEntry = false
       if (event && timed) {
         this.draggedEntry = event
         this.draggedStartTime = null
@@ -186,6 +188,7 @@ export default {
         timed: true,
         tmpEvent: true
       }
+      this.isNewEntry = true
       this.tempScheduleEntry = this.currentEntry
     },
     timeMouseDown (tms) {
@@ -236,8 +239,21 @@ export default {
     },
     entryMouseUp ({ nativeEvent }) {
       console.log('entryMouseUp')
+      this.selectedElement = nativeEvent.target
+    },
+    clearCurrentEntry () {
+      this.currentEntry = null
+      this.currentStartTime = null
+      this.extendOriginal = null
+    },
+    clearDraggedEntry () {
+      this.draggedStartTime = null
+      this.draggedEntry = null
+    },
+    showEntryInfoDialog (entry) {
+      this.selectedEntry = entry
+
       const open = () => {
-        this.selectedElement = nativeEvent.target
         setTimeout(() => {
           this.showEntryInfo = true
         }, 10)
@@ -250,18 +266,19 @@ export default {
         open()
       }
     },
-    clearCurrentEntry () {
-      this.currentEntry = null
-      this.currentStartTime = null
-      this.extendOriginal = null
-    },
-    clearDraggedEntry () {
-      this.draggedStartTime = null
-      this.draggedEntry = null
-    },
     timeMouseUp (tms) {
       console.log('timeMouseUp')
       this.isDirty = true
+
+      if (this.draggedEntry && this.draggedStartTime === null) {
+        const end = this.toTime(tms) - this.draggedEntry.start
+        if ((end - this.draggedStartTime) > 60) {
+          this.showEntryInfoDialog(this.draggedEntry)
+        }
+      } else if (this.isNewEntry) {
+        this.showEntryInfoDialog(this.currentEntry)
+      }
+
       this.clearCurrentEntry()
       this.clearDraggedEntry()
     },
