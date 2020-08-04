@@ -47,7 +47,7 @@ Listing all given activity schedule entries in a calendar view.
       offset-x>
       <v-card v-if="selectedEntry">
         <v-card-text>
-          <e-text-field no-label v-model="selectedEntry.name"
+          <e-text-field v-model="selectedEntry.name" no-label
                         class="font-weight-bold" placeholder="Aktivitätsname"
                         hide-details="auto" />
           <e-select v-model="selectedEntry.type" label="Aktivitätstyp"
@@ -84,7 +84,11 @@ Listing all given activity schedule entries in a calendar view.
                     :items="[{text:'Leitende1'},{text:'Leitende2'}]" />
         </v-card-text>
         <v-card-actions>
-          <v-btn text color="secondary" class="ml-auto">Abbrechen</v-btn>
+          <v-btn text color="secondary"
+                 class="ml-auto"
+                 @click="cancelEntryInfoPopup()">
+            Abbrechen
+          </v-btn>
           <v-btn color="success">{{ isNewEntry ? 'Erstellen' : 'Speichern' }}</v-btn>
         </v-card-actions>
       </v-card>
@@ -320,6 +324,14 @@ export default {
     clearDraggedEntry () {
       this.draggedStartTime = null
       this.draggedEntry = null
+    },
+    cancelEntryInfoPopup () {
+      this.showEntryInfo = false
+      this.selectedEntry = null
+      this.selectedElement = null
+      this.tempScheduleEntry = null
+      this.clearCurrentEntry()
+      this.clearDraggedEntry()
     },
     showEntryInfoPopup (entry) {
       this.selectedEntry = entry
