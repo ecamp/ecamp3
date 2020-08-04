@@ -5,7 +5,7 @@ Allows 15min steps only
 
 <template>
   <base-picker
-    icon="mdi-clock-outline"
+    :icon="icon"
     :value="value"
     v-bind="$attrs"
     @input="$emit('input', $event)">
@@ -36,6 +36,7 @@ export default {
   name: 'TimePicker',
   components: { BasePicker },
   props: {
+    icon: { type: String, required: false, default: 'mdi-clock-outline' },
     value: { type: String, required: true }
   },
   methods: {

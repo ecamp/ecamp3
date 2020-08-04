@@ -43,18 +43,67 @@ Listing all given activity schedule entries in a calendar view.
       :value="showEntryInfo"
       :activator="selectedElement"
       :close-on-content-click="false"
+      :close-on-click="false"
       offset-x>
-      <v-card>
-        <h1>test</h1>
+      <v-card v-if="selectedEntry">
+        <v-card-text>
+          <e-text-field no-label v-model="selectedEntry.name"
+                        class="font-weight-bold" placeholder="Aktivitätsname"
+                        hide-details="auto" />
+          <e-select v-model="selectedEntry.type" label="Aktivitätstyp"
+                    :items="activityTypes">
+            <template #item="{item, on, attrs}">
+              <v-list-item :key="item.short" v-bind="attrs" v-on="on">
+                <v-list-item-avatar>
+                  <v-chip :color="item.color">{{ item.short }}</v-chip>
+                </v-list-item-avatar>
+                <v-list-item-content>
+                  {{ item.text }}
+                </v-list-item-content>
+              </v-list-item>
+            </template>
+            <template #selection="{item}">
+              <div class="v-select__selection">
+                <span class="black--text">
+                  {{ item.text }}
+                </span>
+                <v-chip x-small :color="item.color">{{ item.short }}</v-chip>
+              </div>
+            </template>
+          </e-select>
+          <v-row no-gutters class="my-4">
+            <e-time-picker label="Start"
+                           :icon="null" class="flex-full"
+                           :value="toTimeString(selectedEntry.start)" />
+            <e-time-picker width="100" label="Ende"
+                           :icon="null" class="flex-full mt-0"
+                           :value="toTimeString(selectedEntry.end)" />
+          </v-row>
+          <e-select label="Verantwortliche" multiple
+                    chips
+                    :items="[{text:'Leitende1'},{text:'Leitende2'}]" />
+        </v-card-text>
+        <v-card-actions>
+          <v-btn text color="secondary" class="ml-auto">Abbrechen</v-btn>
+          <v-btn color="success">{{ isNewEntry ? 'Erstellen' : 'Speichern' }}</v-btn>
+        </v-card-actions>
       </v-card>
     </v-menu>
   </div>
 </template>
 <script>
 import { scheduleEntryRoute } from '@/router'
+import ESelect from '@/components/form/base/ESelect'
+import ETextField from '@/components/form/base/ETextField'
+import ETimePicker from '@/components/form/base/ETimePicker'
 
 export default {
   name: 'Picasso',
+  components: {
+    ETextField,
+    ETimePicker,
+    ESelect
+  },
   props: {
     scheduleEntries: {
       type: Array,
@@ -83,6 +132,19 @@ export default {
     return {
       tempScheduleEntry: null,
       weekdayShort: ['Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa', 'So'],
+      activityTypes: [{
+        value: 'ls',
+        disabled: false,
+        text: 'Lagersport',
+        short: 'LS',
+        color: 'green'
+      }, {
+        value: 'la',
+        disabled: false,
+        text: 'Lageraktivität',
+        short: 'LA',
+        color: 'orange'
+      }],
       localScheduleEntries: [],
       parsedScheduleEntries: [],
       value: '',
@@ -111,8 +173,9 @@ export default {
     scheduleEntries: function (newValue, oldValue) {
       if (!this.isDirty && this.localScheduleEntries === oldValue) {
         this.parsedScheduleEntries = newValue.map((entry) => {
-          entry.start = new Date(entry.startTime).getTime()
-          entry.end = new Date(entry.endTime).getTime()
+          entry.name = entry.activity().title
+          entry.start = new Date(entry.startTime)
+          entry.end = new Date(entry.endTime)
           entry.timed = true
           return entry
         })
@@ -122,8 +185,8 @@ export default {
   },
   created () {
     this.parsedScheduleEntries = this.scheduleEntries.map((entry) => {
-      entry.start = new Date(entry.startTime).getTime()
-      entry.end = new Date(entry.endTime).getTime()
+      entry.start = new Date(entry.startTime)
+      entry.end = new Date(entry.endTime)
       entry.timed = true
       return entry
     })
@@ -132,14 +195,18 @@ export default {
   methods: {
     getActivityName (event, _) {
       if (event.tmpEvent) {
-        return event.name
+        return (event.type ? this.getActivityType(event.type).short + ': ' : '') + event.name
       } else {
         return '(' + event.number + ') ' + event.activity().activityCategory().short + ': ' + event.activity().title
       }
     },
     getActivityColor (event, _) {
       if (event.tmpEvent) {
-        return 'grey'
+        if (event.type) {
+          return this.getActivityType(event.type).color
+        } else {
+          return 'grey'
+        }
       } else {
         return event.activity().activityCategory().color.toString()
       }
@@ -150,6 +217,9 @@ export default {
       } else {
         return scheduleEntry.activity()._meta.loading
       }
+    },
+    getActivityType (value) {
+      return this.activityTypes.find(type => type.value === value)
     },
     intervalFormat (time) {
       return this.$moment(time.date + ' ' + time.time).format(this.$t('global.moment.hourLong'))
@@ -183,8 +253,9 @@ export default {
       this.currentStartTime = this.roundTime(mouse)
       this.currentEntry = {
         name: this.$tc('entity.activity.new'),
-        start: this.currentStartTime,
-        end: this.currentStartTime,
+        start: new Date(this.currentStartTime),
+        end: new Date(this.currentStartTime),
+        type: null,
         timed: true,
         tmpEvent: true
       }
@@ -213,8 +284,8 @@ export default {
       const min = Math.min(mouseRounded, this.currentStartTime)
       const max = Math.max(mouseRounded, this.currentStartTime)
 
-      this.currentEntry.start = min
-      this.currentEntry.end = max
+      this.currentEntry.start = new Date(min)
+      this.currentEntry.end = new Date(max)
     },
     moveEntryTime: function (mouse) {
       const start = this.draggedEntry.start
@@ -224,8 +295,8 @@ export default {
       const newStart = this.roundTime(newStartTime)
       const newEnd = newStart + duration
 
-      this.draggedEntry.start = newStart
-      this.draggedEntry.end = newEnd
+      this.draggedEntry.start = new Date(newStart)
+      this.draggedEntry.end = new Date(newEnd)
     },
     timeMouseMove (tms) {
       console.log('timeMouseMove')
@@ -250,7 +321,7 @@ export default {
       this.draggedStartTime = null
       this.draggedEntry = null
     },
-    showEntryInfoDialog (entry) {
+    showEntryInfoPopup (entry) {
       this.selectedEntry = entry
 
       const open = () => {
@@ -273,10 +344,10 @@ export default {
       if (this.draggedEntry && this.draggedStartTime === null) {
         const end = this.toTime(tms) - this.draggedEntry.start
         if ((end - this.draggedStartTime) > 60) {
-          this.showEntryInfoDialog(this.draggedEntry)
+          this.showEntryInfoPopup(this.draggedEntry)
         }
       } else if (this.isNewEntry) {
-        this.showEntryInfoDialog(this.currentEntry)
+        this.showEntryInfoPopup(this.currentEntry)
       }
 
       this.clearCurrentEntry()
@@ -303,6 +374,9 @@ export default {
     },
     toTime (tms) {
       return new Date(tms.year, tms.month - 1, tms.day, tms.hour, tms.minute).getTime()
+    },
+    toTimeString (date) {
+      return this.$moment(date).format(this.$tc('global.moment.hourLong'))
     },
     rnd (a, b) {
       return Math.floor((b - a + 1) * Math.random()) + a
