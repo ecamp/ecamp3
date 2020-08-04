@@ -45,27 +45,29 @@ Listing all given activity schedule entries in a calendar view.
       :close-on-content-click="false"
       :close-on-click="false"
       offset-x>
-      <v-card v-if="selectedEntry">
+      <v-card v-if="tempScheduleEntry">
         <v-card-text>
-          <e-text-field v-model="selectedEntry.name" no-label
+          <e-text-field v-model="tempScheduleEntry.name" no-label
                         class="font-weight-bold" placeholder="Aktivitätsname"
                         hide-details="auto" />
-          <e-select v-model="selectedEntry.type" label="Aktivitätstyp"
-                    :items="activityTypes">
+          <e-select v-model="tempScheduleEntry.type" label="Aktivitätstyp"
+                    :items="activityCategories" item-value="id"
+                    :return-object="true"
+                    item-text="name">
             <template #item="{item, on, attrs}">
-              <v-list-item :key="item.short" v-bind="attrs" v-on="on">
+              <v-list-item :key="item.id" v-bind="attrs" v-on="on">
                 <v-list-item-avatar>
                   <v-chip :color="item.color">{{ item.short }}</v-chip>
                 </v-list-item-avatar>
                 <v-list-item-content>
-                  {{ item.text }}
+                  {{ item.name }}
                 </v-list-item-content>
               </v-list-item>
             </template>
             <template #selection="{item}">
               <div class="v-select__selection">
                 <span class="black--text">
-                  {{ item.text }}
+                  {{ item.name }}
                 </span>
                 <v-chip x-small :color="item.color">{{ item.short }}</v-chip>
               </div>
@@ -74,16 +76,19 @@ Listing all given activity schedule entries in a calendar view.
           <v-row no-gutters class="my-4">
             <e-time-picker label="Start"
                            :icon="null" class="flex-full"
-                           :value="toTimeString(selectedEntry.start)" />
+                           :value="toTimeString(tempScheduleEntry.start)" />
             <e-time-picker width="100" label="Ende"
                            :icon="null" class="flex-full mt-0"
-                           :value="toTimeString(selectedEntry.end)" />
+                           :value="toTimeString(tempScheduleEntry.end)" />
           </v-row>
-          <e-select label="Verantwortliche" multiple
-                    chips
+          <e-select label="Verantwortliche Leitende" multiple
+                    chips deletable-chips
                     :items="[{text:'Leitende1'},{text:'Leitende2'}]" />
         </v-card-text>
         <v-card-actions>
+          <v-btn text icon @click="deleteEntry()">
+            <v-icon>mdi-delete</v-icon>
+          </v-btn>
           <v-btn text color="secondary"
                  class="ml-auto"
                  @click="cancelEntryInfoPopup()">
@@ -109,6 +114,10 @@ export default {
     ESelect
   },
   props: {
+    camp: {
+      type: Function,
+      required: true
+    },
     scheduleEntries: {
       type: Array,
       required: true
@@ -136,29 +145,17 @@ export default {
     return {
       tempScheduleEntry: null,
       weekdayShort: ['Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa', 'So'],
-      activityTypes: [{
-        value: 'ls',
-        disabled: false,
-        text: 'Lagersport',
-        short: 'LS',
-        color: 'green'
-      }, {
-        value: 'la',
-        disabled: false,
-        text: 'Lageraktivität',
-        short: 'LA',
-        color: 'orange'
-      }],
       localScheduleEntries: [],
       parsedScheduleEntries: [],
       value: '',
       draggedEntry: null,
       currentEntry: null,
+      mouseStartTime: null,
       draggedStartTime: null,
       currentStartTime: null,
       extendOriginal: null,
       selectedElement: null,
-      selectedEntry: null,
+      originalScheduleEntry: null,
       isNewEntry: false,
       isDirty: false,
       showEntryInfo: false
@@ -171,12 +168,16 @@ export default {
       } else {
         return this.parsedScheduleEntries
       }
+    },
+    activityCategories () {
+      return this.camp().activityCategories().items
     }
   },
   watch: {
     scheduleEntries: function (newValue, oldValue) {
       if (!this.isDirty && this.localScheduleEntries === oldValue) {
         this.parsedScheduleEntries = newValue.map((entry) => {
+          entry.type = entry.activity().activityCategory()
           entry.name = entry.activity().title
           entry.start = new Date(entry.startTime)
           entry.end = new Date(entry.endTime)
@@ -189,6 +190,8 @@ export default {
   },
   created () {
     this.parsedScheduleEntries = this.scheduleEntries.map((entry) => {
+      entry.type = entry.activity().activityCategory()
+      entry.name = entry.activity().title
       entry.start = new Date(entry.startTime)
       entry.end = new Date(entry.endTime)
       entry.timed = true
@@ -199,20 +202,20 @@ export default {
   methods: {
     getActivityName (event, _) {
       if (event.tmpEvent) {
-        return (event.type ? this.getActivityType(event.type).short + ': ' : '') + event.name
+        return (event.type ? event.type.short + ': ' : '') + event.name
       } else {
-        return '(' + event.number + ') ' + event.activity().activityCategory().short + ': ' + event.activity().title
+        return '(' + event.number + ') ' + event.type.short + ': ' + event.name
       }
     },
     getActivityColor (event, _) {
       if (event.tmpEvent) {
         if (event.type) {
-          return this.getActivityType(event.type).color
+          return event.type.color
         } else {
           return 'grey'
         }
       } else {
-        return event.activity().activityCategory().color.toString()
+        return event.type.color
       }
     },
     isActivityLoading (scheduleEntry) {
@@ -222,8 +225,8 @@ export default {
         return scheduleEntry.activity()._meta.loading
       }
     },
-    getActivityType (value) {
-      return this.activityTypes.find(type => type.value === value)
+    getActivityCategoryId (value) {
+      return value.id
     },
     intervalFormat (time) {
       return this.$moment(time.date + ' ' + time.time).format(this.$t('global.moment.hourLong'))
@@ -245,7 +248,6 @@ export default {
       // change period or view
     },
     entryMouseDown ({ event, timed, nativeEvent }) {
-      console.log('entryMouseDown')
       this.isNewEntry = false
       if (event && timed) {
         this.draggedEntry = event
@@ -267,8 +269,11 @@ export default {
       this.tempScheduleEntry = this.currentEntry
     },
     timeMouseDown (tms) {
-      console.log('timeMouseDown')
       const mouse = this.toTime(tms)
+
+      if (this.mouseStartTime === null) {
+        this.mouseStartTime = mouse
+      }
 
       if (this.draggedEntry && this.draggedStartTime === null) {
         const start = this.draggedEntry.start
@@ -278,7 +283,6 @@ export default {
       }
     },
     extendBottom (event) {
-      console.log('extendBottom')
       this.currentEntry = event
       this.currentStartTime = event.start
       this.extendOriginal = event.end
@@ -303,7 +307,6 @@ export default {
       this.draggedEntry.end = new Date(newEnd)
     },
     timeMouseMove (tms) {
-      console.log('timeMouseMove')
       const mouse = this.toTime(tms)
 
       if (this.draggedEntry && this.draggedStartTime !== null) {
@@ -313,7 +316,6 @@ export default {
       }
     },
     entryMouseUp ({ nativeEvent }) {
-      console.log('entryMouseUp')
       this.selectedElement = nativeEvent.target
     },
     clearCurrentEntry () {
@@ -327,14 +329,27 @@ export default {
     },
     cancelEntryInfoPopup () {
       this.showEntryInfo = false
-      this.selectedEntry = null
       this.selectedElement = null
-      this.tempScheduleEntry = null
+      if (this.isNewEntry) {
+        this.tempScheduleEntry = this.originalScheduleEntry
+      } else {
+        this.tempScheduleEntry = null
+        this.parsedScheduleEntries.push(this.originalScheduleEntry)
+      }
       this.clearCurrentEntry()
       this.clearDraggedEntry()
     },
+    deleteEntry () {
+      this.showEntryInfo = false
+      if (this.isNewEntry) {
+        this.tempScheduleEntry = null
+        this.originalScheduleEntry = null
+      } else {
+        // delete from database
+      }
+    },
     showEntryInfoPopup (entry) {
-      this.selectedEntry = entry
+      this.tempScheduleEntry = entry
 
       const open = () => {
         setTimeout(() => {
@@ -350,23 +365,33 @@ export default {
       }
     },
     timeMouseUp (tms) {
-      console.log('timeMouseUp')
       this.isDirty = true
 
-      if (this.draggedEntry && this.draggedStartTime === null) {
-        const end = this.toTime(tms) - this.draggedEntry.start
-        if ((end - this.draggedStartTime) > 60) {
+      if (this.draggedEntry && this.draggedStartTime !== null) {
+        const minuteThreshold = 15
+        const threshold = minuteThreshold * 60 * 1000
+        const now = this.toTime(tms)
+        if (Math.abs(now - this.mouseStartTime) < threshold) {
+          const index = this.parsedScheduleEntries.indexOf(this.draggedEntry)
+          if (index !== -1) {
+            this.parsedScheduleEntries.splice(index, 1)
+          } else {
+            this.tempScheduleEntry = null
+          }
+          this.originalScheduleEntry = Object.assign({}, this.draggedEntry)
           this.showEntryInfoPopup(this.draggedEntry)
         }
       } else if (this.isNewEntry) {
+        this.originalScheduleEntry = Object.assign({}, this.currentEntry)
         this.showEntryInfoPopup(this.currentEntry)
+      } else {
+        this.clearCurrentEntry()
+        this.clearDraggedEntry()
       }
 
-      this.clearCurrentEntry()
-      this.clearDraggedEntry()
+      this.mouseStartTime = null
     },
     nativeMouseUp () {
-      console.log('nativeMouseUp')
       if (this.currentEntry) {
         if (this.extendOriginal) {
           this.currentEntry.end = this.extendOriginal
