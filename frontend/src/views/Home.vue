@@ -1,9 +1,9 @@
 <template>
   <v-container fluid>
-    <content-card :title="$t('views.home.home')" max-width="800">
+    <content-card :title="$tc('views.home.home')" max-width="800">
       <p class="mx-4">
         <v-skeleton-loader type="text" :loading="api.get().profile()._meta.loading">
-          {{ $t('views.home.welcome', { user: api.get().profile().displayName }) }}
+          {{ $tc('views.home.welcome', { user: api.get().profile().displayName }) }}
         </v-skeleton-loader>
       </p>
       <v-list class="pt-0">

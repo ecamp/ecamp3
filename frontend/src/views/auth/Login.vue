@@ -1,6 +1,6 @@
 <template>
   <auth-container>
-    <h1 class="display-1 text-center">{{ $t('views.auth.login.title') }}</h1>
+    <h1 class="display-1 text-center">{{ $tc('views.auth.login.title') }}</h1>
 
     <v-alert
       class="mt-2 text-justify"
@@ -10,7 +10,7 @@
       style="hypens:auto"
       color="warning">
       <!-- eslint-disable-next-line vue/no-v-html -->
-      <div v-html="$t('views.auth.login.beta.notice')" />
+      <div v-html="$tc('views.auth.login.beta.notice')" />
     </v-alert>
     <v-alert v-if="error"
              outlined
@@ -23,7 +23,7 @@
       <e-text-field
         id="inputUsername"
         v-model="username"
-        :label="$t('views.auth.login.username')"
+        :label="$tc('views.auth.login.username')"
         name="username"
         append-icon="mdi-account-outline"
         :dense="$vuetify.breakpoint.xsOnly"
@@ -32,7 +32,7 @@
       <e-text-field
         id="inputPassword"
         v-model="password"
-        :label="$t('views.auth.login.password')"
+        :label="$tc('views.auth.login.password')"
         name="password"
         append-icon="mdi-lock-outline"
         :dense="$vuetify.breakpoint.xsOnly"
@@ -47,12 +47,12 @@
         <v-progress-circular v-if="normalLoggingIn" indeterminate size="24" />
         <v-icon v-else>$vuetify.icons.ecamp</v-icon>
         <v-spacer />
-        <span>{{ $t('views.auth.login.provider.ecamp') }}</span>
+        <span>{{ $tc('views.auth.login.provider.ecamp') }}</span>
         <v-spacer />
         <icon-spacer />
       </v-btn>
     </v-form>
-    <horizontal-rule :label="$t('views.auth.login.or')" />
+    <horizontal-rule :label="$tc('views.auth.login.or')" />
     <v-btn
       dark
       :x-large="$vuetify.breakpoint.smAndUp"
@@ -64,7 +64,7 @@
       <v-progress-circular v-if="hitobitoLoggingIn" indeterminate size="24" />
       <v-icon v-else>$vuetify.icons.pbs</v-icon>
       <v-spacer />
-      <span class="text--secondary">{{ $t('views.auth.login.provider.midata') }}</span>
+      <span class="text--secondary">{{ $tc('views.auth.login.provider.midata') }}</span>
       <v-spacer />
       <icon-spacer />
     </v-btn>
@@ -78,13 +78,13 @@
       <v-progress-circular v-if="googleLoggingIn" indeterminate size="24" />
       <v-icon v-else>$vuetify.icons.google</v-icon>
       <v-spacer />
-      <span class="text--secondary">{{ $t('views.auth.login.provider.google') }}</span>
+      <span class="text--secondary">{{ $tc('views.auth.login.provider.google') }}</span>
       <v-spacer />
       <icon-spacer />
     </v-btn>
     <p class="mt-8 mb-0 text--secondary text-center">
-      {{ $t('views.auth.login.accountless') }}<br>
-      <router-link :to="{ name: 'register' }">{{ $t('views.auth.login.registernow') }}</router-link>
+      {{ $tc('views.auth.login.accountless') }}<br>
+      <router-link :to="{ name: 'register' }">{{ $tc('views.auth.login.registernow') }}</router-link>
     </p>
   </auth-container>
 </template>

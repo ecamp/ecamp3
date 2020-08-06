@@ -48,6 +48,7 @@
         "firstname": "First name",
         "surname": "Last name",
         "nickname": "Nickname",
+        "birthday": "Birthday",
         "language": "Language"
       }
     },

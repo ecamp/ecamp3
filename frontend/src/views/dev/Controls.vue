@@ -327,7 +327,7 @@ export default {
     availableLocales () {
       return VueI18n.availableLocales.map(l => ({
         value: l,
-        text: this.$t('global.language', l)
+        text: this.$tc('global.language', l)
       }))
     },
     config () {

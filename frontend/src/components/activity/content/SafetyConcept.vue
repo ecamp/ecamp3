@@ -3,7 +3,7 @@
     <api-form :entity="activityContent.singleText()">
       <api-richtext
         fieldname="text"
-        :placeholder="$t('activityContent.safetyConcept.name')"
+        :placeholder="$tc('activityContent.safetyConcept.name')"
         rows="2" />
     </api-form>
   </div>

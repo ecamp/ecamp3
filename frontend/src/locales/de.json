@@ -49,6 +49,7 @@
         "firstname": "Vorname",
         "surname": "Nachname",
         "nickname": "Spitzname",
+        "birthday": "Geburtstag",
         "language": "Sprache"
       }
     },

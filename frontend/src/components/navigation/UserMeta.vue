@@ -24,7 +24,7 @@
                    :to="{ name: 'profile' }"
                    @click="open = false">
         <v-icon left>mdi-account</v-icon>
-        <span>{{ $t('components.navigation.profile') }}</span>
+        <span>{{ $tc('components.navigation.profile') }}</span>
       </v-list-item>
       <v-list-item block tag="li"
                    exact :to="{ name: 'camps' }"
