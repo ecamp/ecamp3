@@ -24,7 +24,6 @@ Listing all given activity schedule entries in a calendar view.
       :weekdays="[1, 2, 3, 4, 5, 6, 0]"
       color="primary"
       :event-ripple="false"
-      @change="getEvents"
       @mousedown:event="entryMouseDown"
       @mouseup:event="entryMouseUp"
       @mousedown:time="timeMouseDown"
@@ -168,8 +167,6 @@ export default {
       nativeTarget: null,
       selectedElement: null,
       originalScheduleEntry: null,
-      isNewEntry: false,
-      isDirty: false,
       showEntryInfo: false
     }
   },
@@ -187,7 +184,7 @@ export default {
   },
   watch: {
     scheduleEntries: function (newValue, oldValue) {
-      if (!this.isDirty && this.localScheduleEntries === oldValue) {
+      if (this.localScheduleEntries === oldValue) {
         this.parsedScheduleEntries = newValue.map((entry) => {
           entry.type = entry.activity().activityCategory()
           entry.name = entry.activity().title
@@ -239,19 +236,8 @@ export default {
         return scheduleEntry.activity()._meta.loading
       }
     },
-    getActivityCategoryId (value) {
-      return value.id
-    },
     intervalFormat (time) {
       return this.$moment(time.date + ' ' + time.time).format(this.$tc('global.moment.hourLong'))
-    },
-    showScheduleEntry (entry) {
-      this.$router.push(scheduleEntryRoute(this.camp(), entry))
-    },
-    scheduleEntryRoute,
-    showScheduleEntryInNewTab (entry) {
-      const routeData = this.$router.resolve(scheduleEntryRoute(this.camp(), entry))
-      window.open(routeData.href, '_blank')
     },
     dayFormat (day) {
       if (this.$vuetify.breakpoint.smAndDown) {
@@ -260,16 +246,23 @@ export default {
         return this.$moment(day.date).format(this.$tc('global.moment.dateLong'))
       }
     },
-    weekdayFormat (day) {
-      return ''
+    scheduleEntryRoute,
+    showScheduleEntry (entry) {
+      this.$router.push(scheduleEntryRoute(this.camp(), entry))
     },
-    getEvents ({ start, end }) {
-      // change period or view
+    showScheduleEntryInNewTab (entry) {
+      const routeData = this.$router.resolve(scheduleEntryRoute(this.camp(), entry))
+      window.open(routeData.href, '_blank')
+    },
+    weekdayFormat () {
+      return ''
     },
     entryMouseDown ({ event: entry, timed, nativeEvent }) {
       if (!entry.tmpEvent && nativeEvent.detail === 2) {
+        // Doubleclick opens activity
         this.showScheduleEntry(entry)
       } else if (!entry.tmpEvent && (nativeEvent.button === 1 || nativeEvent.metaKey || nativeEvent.ctrlKey)) {
+        // Click with middle mouse button, or click while holding cmd/ctrl opens new tab
         this.showScheduleEntryInNewTab(entry)
         this.openEntry = true
       } else {
@@ -297,12 +290,24 @@ export default {
         this.openEntry = false
       } else {
         if (this.showEntryInfo) {
-          this.revertScheduleEntry()
           this.showEntryInfo = false
+          this.revertScheduleEntry()
         } else {
           this.createNewEntry(mouse)
         }
       }
+    },
+    createNewEntry: function (mouse) {
+      this.currentStartTime = this.roundTimeDown(mouse)
+      this.currentEntry = {
+        name: this.$tc('entity.activity.new'),
+        start: this.currentStartTime,
+        end: this.currentStartTime,
+        type: null,
+        timed: true,
+        tmpEvent: true
+      }
+      this.tempScheduleEntry = this.currentEntry
     },
     timeMouseMove (tms) {
       const mouse = this.toTime(tms)
@@ -312,6 +317,25 @@ export default {
       } else if (this.currentEntry && this.currentStartTime !== null) {
         this.changeEntryTime(mouse)
       }
+    },
+    changeEntryTime: function (mouse) {
+      const mouseRounded = this.roundTimeUp(mouse)
+      const min = Math.min(mouseRounded, this.currentStartTime)
+      const max = Math.max(mouseRounded, this.currentStartTime)
+
+      this.currentEntry.start = min
+      this.currentEntry.end = max
+    },
+    moveEntryTime: function (mouse) {
+      const start = this.draggedEntry.start
+      const end = this.draggedEntry.end
+      const duration = end - start
+      const newStartTime = mouse - this.draggedStartTime
+      const newStart = this.roundTimeDown(newStartTime)
+      const newEnd = newStart + duration
+
+      this.draggedEntry.start = newStart
+      this.draggedEntry.end = newEnd
     },
     entryMouseUp ({ nativeEvent }) {
       if ((this.draggedEntry && this.draggedStartTime !== null) || (this.currentEntry && this.currentStartTime !== null)) {
@@ -346,18 +370,6 @@ export default {
       this.clearDraggedEntry()
       this.clearCurrentEntry()
     },
-    createNewEntry: function (mouse) {
-      this.currentStartTime = this.roundTimeDown(mouse)
-      this.currentEntry = {
-        name: this.$tc('entity.activity.new'),
-        start: this.currentStartTime,
-        end: this.currentStartTime,
-        type: null,
-        timed: true,
-        tmpEvent: true
-      }
-      this.tempScheduleEntry = this.currentEntry
-    },
     extendBottom (event) {
       if (this.tempScheduleEntry !== event) {
         this.cancelEntryInfoPopup()
@@ -365,25 +377,6 @@ export default {
       this.currentEntry = event
       this.currentStartTime = event.start
       this.extendOriginal = event.end
-    },
-    changeEntryTime: function (mouse) {
-      const mouseRounded = this.roundTimeUp(mouse)
-      const min = Math.min(mouseRounded, this.currentStartTime)
-      const max = Math.max(mouseRounded, this.currentStartTime)
-
-      this.currentEntry.start = min
-      this.currentEntry.end = max
-    },
-    moveEntryTime: function (mouse) {
-      const start = this.draggedEntry.start
-      const end = this.draggedEntry.end
-      const duration = end - start
-      const newStartTime = mouse - this.draggedStartTime
-      const newStart = this.roundTimeDown(newStartTime)
-      const newEnd = newStart + duration
-
-      this.draggedEntry.start = newStart
-      this.draggedEntry.end = newEnd
     },
     clearCurrentEntry () {
       this.currentEntry = null
@@ -432,15 +425,6 @@ export default {
       this.originalScheduleEntry = null
       this.clearCurrentEntry()
       this.clearDraggedEntry()
-    },
-    deleteScheduleEntry () {
-      this.showEntryInfo = false
-      if (this.tempScheduleEntry.tmpEvent) {
-        this.tempScheduleEntry = null
-        this.originalScheduleEntry = null
-      } else {
-        // delete from database
-      }
     },
     showEntryInfoPopup (entry) {
       const index = this.parsedScheduleEntries.indexOf(entry)
