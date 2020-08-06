@@ -267,7 +267,7 @@ export default {
     entryMouseDown ({ event: entry, timed, nativeEvent }) {
       if (!entry.tmpEvent && nativeEvent.detail === 2) {
         this.showScheduleEntry(entry)
-      } else if (!entry.tmpEvent && nativeEvent.button === 1) {
+      } else if (!entry.tmpEvent && (nativeEvent.button === 1 || nativeEvent.metaKey || nativeEvent.ctrlKey)) {
         this.showScheduleEntryInNewTab(entry)
         this.openEntry = true
       } else {
@@ -345,7 +345,7 @@ export default {
       this.clearCurrentEntry()
     },
     createNewEntry: function (mouse) {
-      this.currentStartTime = this.roundTime(mouse)
+      this.currentStartTime = this.roundTimeDown(mouse)
       this.currentEntry = {
         name: this.$tc('entity.activity.new'),
         start: this.currentStartTime,
@@ -365,7 +365,7 @@ export default {
       this.extendOriginal = event.end
     },
     changeEntryTime: function (mouse) {
-      const mouseRounded = this.roundTime(mouse, false)
+      const mouseRounded = this.roundTimeUp(mouse)
       const min = Math.min(mouseRounded, this.currentStartTime)
       const max = Math.max(mouseRounded, this.currentStartTime)
 
@@ -377,7 +377,7 @@ export default {
       const end = this.draggedEntry.end
       const duration = end - start
       const newStartTime = mouse - this.draggedStartTime
-      const newStart = this.roundTime(newStartTime)
+      const newStart = this.roundTimeDown(newStartTime)
       const newEnd = newStart + duration
 
       this.draggedEntry.start = newStart
@@ -454,13 +454,17 @@ export default {
         this.showEntryInfo = true
       })
     },
-    roundTime (time, down = true) {
+    roundTimeDown (time) {
       const roundTo = 15 // minutes
       const roundDownTime = roundTo * 60 * 1000
 
-      return down
-        ? time - time % roundDownTime
-        : time + (roundDownTime - (time % roundDownTime))
+      return time - time % roundDownTime
+    },
+    roundTimeUp (time) {
+      const roundTo = 15 // minutes
+      const roundDownTime = roundTo * 60 * 1000
+
+      return time + (roundDownTime - (time % roundDownTime))
     },
     toTime (tms) {
       return new Date(tms.year, tms.month - 1, tms.day, tms.hour, tms.minute).getTime()
