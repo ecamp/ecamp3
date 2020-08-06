@@ -94,9 +94,10 @@ Listing all given activity schedule entries in a calendar view.
                     chips deletable-chips
                     :items="[{text:'Leitende1'},{text:'Leitende2'}]" />
         </v-card-text>
-        <v-card-actions>
-          <v-btn text icon @click="deleteScheduleEntry()">
-            <v-icon>mdi-delete</v-icon>
+        <v-card-actions class="px-4 pb-4">
+          <v-btn v-if="!tempScheduleEntry.tmpEvent"
+                 color="primary" :to="scheduleEntryRoute(camp(), tempScheduleEntry)">
+            Öffnen
           </v-btn>
           <v-btn text color="secondary"
                  class="ml-auto"
@@ -247,6 +248,7 @@ export default {
     showScheduleEntry (entry) {
       this.$router.push(scheduleEntryRoute(this.camp(), entry))
     },
+    scheduleEntryRoute,
     showScheduleEntryInNewTab (entry) {
       const routeData = this.$router.resolve(scheduleEntryRoute(this.camp(), entry))
       window.open(routeData.href, '_blank')
