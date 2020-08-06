@@ -32,6 +32,14 @@ Listing all given activity schedule entries in a calendar view.
       @mouseup:time="timeMouseUp"
       @mouseleave.native="nativeMouseUp">
       <template #event="{event, eventParsed, timed}">
+        <v-btn v-if="!event.tmpEvent" absolute
+               top
+               right x-small
+               dark text
+               class="ec-event--btn rounded-sm"
+               @click.stop="showEntryInfoPopup(event)">
+          <v-icon x-small>mdi-pencil</v-icon>
+        </v-btn>
         <h4>{{ getActivityName(event) }}</h4>
         <div
           v-if="timed"
@@ -40,10 +48,11 @@ Listing all given activity schedule entries in a calendar view.
       </template>
     </v-calendar>
     <v-menu
-      :value="showEntryInfo"
+      v-model="showEntryInfo"
       :activator="selectedElement"
-      :close-on-content-click="false"
+      :open-on-click="false"
       :close-on-click="false"
+      :close-on-content-click="false"
       offset-x>
       <v-card v-if="tempScheduleEntry">
         <v-card-text>
@@ -51,7 +60,7 @@ Listing all given activity schedule entries in a calendar view.
                         class="font-weight-bold" placeholder="Aktivitätsname"
                         hide-details="auto" />
           <e-select v-model="tempScheduleEntry.type" label="Aktivitätstyp"
-                    :items="activityCategories" item-value="id"
+                    :items="activityCategories.items" item-value="id"
                     :return-object="true"
                     item-text="name">
             <template #item="{item, on, attrs}">
@@ -86,7 +95,7 @@ Listing all given activity schedule entries in a calendar view.
                     :items="[{text:'Leitende1'},{text:'Leitende2'}]" />
         </v-card-text>
         <v-card-actions>
-          <v-btn text icon @click="deleteEntry()">
+          <v-btn text icon @click="deleteScheduleEntry()">
             <v-icon>mdi-delete</v-icon>
           </v-btn>
           <v-btn text color="secondary"
@@ -94,7 +103,8 @@ Listing all given activity schedule entries in a calendar view.
                  @click="cancelEntryInfoPopup()">
             Abbrechen
           </v-btn>
-          <v-btn color="success">{{ isNewEntry ? 'Erstellen' : 'Speichern' }}</v-btn>
+          <v-btn v-if="tempScheduleEntry.tmpEvent" color="success" @click="createActivity">Erstellen</v-btn>
+          <v-btn v-else color="success" @click="saveScheduleEntry">Speichern</v-btn>
         </v-card-actions>
       </v-card>
     </v-menu>
@@ -154,6 +164,7 @@ export default {
       draggedStartTime: null,
       currentStartTime: null,
       extendOriginal: null,
+      nativeTarget: null,
       selectedElement: null,
       originalScheduleEntry: null,
       isNewEntry: false,
@@ -170,7 +181,7 @@ export default {
       }
     },
     activityCategories () {
-      return this.camp().activityCategories().items
+      return this.camp().activityCategories()
     }
   },
   watch: {
@@ -182,6 +193,7 @@ export default {
           entry.start = new Date(entry.startTime)
           entry.end = new Date(entry.endTime)
           entry.timed = true
+          entry.tmpEvent = false
           return entry
         })
         this.localScheduleEntries = newValue
@@ -195,6 +207,7 @@ export default {
       entry.start = new Date(entry.startTime)
       entry.end = new Date(entry.endTime)
       entry.timed = true
+      entry.tmpEvent = false
       return entry
     })
     this.localScheduleEntries = this.scheduleEntries
@@ -248,11 +261,72 @@ export default {
       // change period or view
     },
     entryMouseDown ({ event, timed, nativeEvent }) {
-      this.isNewEntry = false
       if (event && timed) {
         this.draggedEntry = event
         this.draggedStartTime = null
         this.extendOriginal = null
+      }
+    },
+    timeMouseDown (tms) {
+      const mouse = this.toTime(tms)
+
+      if (this.mouseStartTime === null) {
+        this.mouseStartTime = mouse
+      }
+
+      if (this.draggedEntry && this.draggedStartTime === null) {
+        if (this.draggedEntry !== this.tempScheduleEntry) {
+          this.revertScheduleEntry()
+        }
+        const start = this.draggedEntry.start
+        this.draggedStartTime = mouse - start
+      } else {
+        if (this.showEntryInfo) {
+          this.revertScheduleEntry()
+          this.showEntryInfo = false
+        } else {
+          this.createNewEntry(mouse)
+        }
+      }
+    },
+    timeMouseMove (tms) {
+      const mouse = this.toTime(tms)
+
+      if (this.draggedEntry && this.draggedStartTime !== null) {
+        this.moveEntryTime(mouse)
+      } else if (this.currentEntry && this.currentStartTime !== null) {
+        this.changeEntryTime(mouse)
+      }
+    },
+    entryMouseUp ({ nativeEvent }) {
+      if ((this.draggedEntry && this.draggedStartTime !== null) || (this.currentEntry && this.currentStartTime !== null)) {
+        this.nativeTarget = nativeEvent.target
+      }
+    },
+    timeMouseUp (tms) {
+      if (this.draggedEntry && this.draggedStartTime !== null) {
+        const minuteThreshold = 15
+        const threshold = minuteThreshold * 60 * 1000
+        const now = this.toTime(tms)
+        if (Math.abs(now - this.mouseStartTime) < threshold) {
+          this.showEntryInfoPopup(this.draggedEntry)
+        } else {
+          // TODO: Persist time change in API
+        }
+        this.clearDraggedEntry()
+      } else if (this.currentEntry && this.currentStartTime !== null) {
+        if (this.currentEntry.tmpEvent && !this.extendOriginal) {
+          this.showEntryInfoPopup(this.currentEntry)
+        }
+        this.clearCurrentEntry()
+      }
+      this.mouseStartTime = null
+    },
+    nativeMouseUp () {
+      if (this.currentEntry) {
+        if (this.extendOriginal) {
+          this.currentEntry.end = this.extendOriginal
+        }
       }
     },
     createNewEntry: function (mouse) {
@@ -265,24 +339,12 @@ export default {
         timed: true,
         tmpEvent: true
       }
-      this.isNewEntry = true
       this.tempScheduleEntry = this.currentEntry
     },
-    timeMouseDown (tms) {
-      const mouse = this.toTime(tms)
-
-      if (this.mouseStartTime === null) {
-        this.mouseStartTime = mouse
-      }
-
-      if (this.draggedEntry && this.draggedStartTime === null) {
-        const start = this.draggedEntry.start
-        this.draggedStartTime = mouse - start
-      } else {
-        this.createNewEntry(mouse)
-      }
-    },
     extendBottom (event) {
+      if (this.tempScheduleEntry !== event) {
+        this.cancelEntryInfoPopup()
+      }
       this.currentEntry = event
       this.currentStartTime = event.start
       this.extendOriginal = event.end
@@ -306,18 +368,6 @@ export default {
       this.draggedEntry.start = new Date(newStart)
       this.draggedEntry.end = new Date(newEnd)
     },
-    timeMouseMove (tms) {
-      const mouse = this.toTime(tms)
-
-      if (this.draggedEntry && this.draggedStartTime !== null) {
-        this.moveEntryTime(mouse)
-      } else if (this.currentEntry && this.currentStartTime !== null) {
-        this.changeEntryTime(mouse)
-      }
-    },
-    entryMouseUp ({ nativeEvent }) {
-      this.selectedElement = nativeEvent.target
-    },
     clearCurrentEntry () {
       this.currentEntry = null
       this.currentStartTime = null
@@ -327,21 +377,48 @@ export default {
       this.draggedStartTime = null
       this.draggedEntry = null
     },
-    cancelEntryInfoPopup () {
-      this.showEntryInfo = false
-      this.selectedElement = null
-      if (this.isNewEntry) {
-        this.tempScheduleEntry = this.originalScheduleEntry
-      } else {
-        this.tempScheduleEntry = null
-        this.parsedScheduleEntries.push(this.originalScheduleEntry)
+    revertScheduleEntry: function () {
+      if (this.originalScheduleEntry) {
+        if (this.tempScheduleEntry.tmpEvent) {
+          this.tempScheduleEntry = this.originalScheduleEntry
+        } else {
+          this.parsedScheduleEntries.push(this.originalScheduleEntry)
+          this.tempScheduleEntry = null
+        }
+        this.originalScheduleEntry = null
       }
+    },
+    cancelEntryInfoPopup () {
+      if (this.showEntryInfo) {
+        this.showEntryInfo = false
+        this.selectedElement = null
+        this.nativeTarget = null
+        this.revertScheduleEntry()
+        this.clearCurrentEntry()
+        this.clearDraggedEntry()
+      }
+    },
+    saveScheduleEntry () {
+      this.showEntryInfo = false
+      this.parsedScheduleEntries.push(this.tempScheduleEntry)
+      this.tempScheduleEntry = null
+      // TODO: api push
+      this.originalScheduleEntry = null
       this.clearCurrentEntry()
       this.clearDraggedEntry()
     },
-    deleteEntry () {
+    createActivity () {
       this.showEntryInfo = false
-      if (this.isNewEntry) {
+      this.parsedScheduleEntries.push(this.tempScheduleEntry)
+      this.tempScheduleEntry = null
+      // TODO: api push
+      this.originalScheduleEntry = null
+      this.clearCurrentEntry()
+      this.clearDraggedEntry()
+    },
+    deleteScheduleEntry () {
+      this.showEntryInfo = false
+      if (this.tempScheduleEntry.tmpEvent) {
         this.tempScheduleEntry = null
         this.originalScheduleEntry = null
       } else {
@@ -349,57 +426,18 @@ export default {
       }
     },
     showEntryInfoPopup (entry) {
+      const index = this.parsedScheduleEntries.indexOf(entry)
+      if (index !== -1) {
+        this.originalScheduleEntry = Object.assign({}, entry)
+        this.parsedScheduleEntries.splice(index, 1)
+      } else {
+        this.originalScheduleEntry = Object.assign({}, entry)
+      }
       this.tempScheduleEntry = entry
-
-      const open = () => {
-        setTimeout(() => {
-          this.showEntryInfo = true
-        }, 10)
-      }
-
-      if (this.showEntryInfo) {
-        this.showEntryInfo = false
-        setTimeout(open, 10)
-      } else {
-        open()
-      }
-    },
-    timeMouseUp (tms) {
-      this.isDirty = true
-
-      if (this.draggedEntry && this.draggedStartTime !== null) {
-        const minuteThreshold = 15
-        const threshold = minuteThreshold * 60 * 1000
-        const now = this.toTime(tms)
-        if (Math.abs(now - this.mouseStartTime) < threshold) {
-          const index = this.parsedScheduleEntries.indexOf(this.draggedEntry)
-          if (index !== -1) {
-            this.parsedScheduleEntries.splice(index, 1)
-          } else {
-            this.tempScheduleEntry = null
-          }
-          this.originalScheduleEntry = Object.assign({}, this.draggedEntry)
-          this.showEntryInfoPopup(this.draggedEntry)
-        }
-      } else if (this.isNewEntry) {
-        this.originalScheduleEntry = Object.assign({}, this.currentEntry)
-        this.showEntryInfoPopup(this.currentEntry)
-      } else {
-        this.clearCurrentEntry()
-        this.clearDraggedEntry()
-      }
-
-      this.mouseStartTime = null
-    },
-    nativeMouseUp () {
-      if (this.currentEntry) {
-        if (this.extendOriginal) {
-          this.currentEntry.end = this.extendOriginal
-        }
-      }
-
-      this.clearCurrentEntry()
-      this.clearDraggedEntry()
+      this.selectedElement = this.nativeTarget
+      this.$nextTick().then(() => {
+        this.showEntryInfo = true
+      })
     },
     roundTime (time, down = true) {
       const roundTo = 15 // minutes
@@ -438,9 +476,12 @@ export default {
     }
 
     .v-event-timed {
+      padding: 1px;
       font-size: 11px !important;
       white-space: normal;
       line-height: 1.15;
+      user-select: none;
+      -webkit-user-select: none;
 
       .pl-1 {
         padding-left: 2px !important;
@@ -452,6 +493,20 @@ export default {
     .ec-picasso .v-calendar-daily_head-day-label button.v-btn {
       font-size: 12px;
     }
+  }
+
+  .v-event-timed:hover {
+    .ec-event--btn {
+      opacity: 1;
+    }
+  }
+
+  .ec-event--btn {
+    padding: 0 !important;
+    min-width: 20px !important;
+    top: 0 !important;
+    right: 0 !important;
+    opacity: 0;
   }
 </style>
 <style lang="scss" scoped>
@@ -468,9 +523,6 @@ export default {
   }
 
   .v-event-timed {
-    user-select: none;
-    -webkit-user-select: none;
-
     &:hover .v-event-drag-bottom::after {
       display: block;
     }
