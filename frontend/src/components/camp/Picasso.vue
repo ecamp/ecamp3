@@ -242,7 +242,7 @@ export default {
       return value.id
     },
     intervalFormat (time) {
-      return this.$moment(time.date + ' ' + time.time).format(this.$t('global.moment.hourLong'))
+      return this.$moment(time.date + ' ' + time.time).format(this.$tc('global.moment.hourLong'))
     },
     showScheduleEntry (entry) {
       this.$router.push(scheduleEntryRoute(this.camp(), entry))
@@ -253,9 +253,9 @@ export default {
     },
     dayFormat (day) {
       if (this.$vuetify.breakpoint.smAndDown) {
-        return this.$moment(day.date).format(this.$t('global.moment.dateShort'))
+        return this.$moment(day.date).format(this.$tc('global.moment.dateShort'))
       } else {
-        return this.$moment(day.date).format(this.$t('global.moment.dateLong'))
+        return this.$moment(day.date).format(this.$tc('global.moment.dateLong'))
       }
     },
     weekdayFormat (day) {
