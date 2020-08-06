@@ -244,8 +244,12 @@ export default {
     intervalFormat (time) {
       return this.$moment(time.date + ' ' + time.time).format(this.$t('global.moment.hourLong'))
     },
-    showScheduleEntry ({ event: scheduleEntry }) {
-      this.$router.push(scheduleEntryRoute(this.camp(), scheduleEntry))
+    showScheduleEntry (entry) {
+      this.$router.push(scheduleEntryRoute(this.camp(), entry))
+    },
+    showScheduleEntryInNewTab (entry) {
+      const routeData = this.$router.resolve(scheduleEntryRoute(this.camp(), entry))
+      window.open(routeData.href, '_blank')
     },
     dayFormat (day) {
       if (this.$vuetify.breakpoint.smAndDown) {
@@ -260,11 +264,18 @@ export default {
     getEvents ({ start, end }) {
       // change period or view
     },
-    entryMouseDown ({ event, timed, nativeEvent }) {
-      if (event && timed) {
-        this.draggedEntry = event
-        this.draggedStartTime = null
-        this.extendOriginal = null
+    entryMouseDown ({ event: entry, timed, nativeEvent }) {
+      if (!entry.tmpEvent && nativeEvent.detail === 2) {
+        this.showScheduleEntry(entry)
+      } else if (!entry.tmpEvent && nativeEvent.button === 1) {
+        this.showScheduleEntryInNewTab(entry)
+        this.openEntry = true
+      } else {
+        if (entry && timed) {
+          this.draggedEntry = entry
+          this.draggedStartTime = null
+          this.extendOriginal = null
+        }
       }
     },
     timeMouseDown (tms) {
@@ -280,6 +291,8 @@ export default {
         }
         const start = this.draggedEntry.start
         this.draggedStartTime = mouse - start
+      } else if (this.openEntry) {
+        this.openEntry = false
       } else {
         if (this.showEntryInfo) {
           this.revertScheduleEntry()
@@ -328,13 +341,15 @@ export default {
           this.currentEntry.end = this.extendOriginal
         }
       }
+      this.clearDraggedEntry()
+      this.clearCurrentEntry()
     },
     createNewEntry: function (mouse) {
       this.currentStartTime = this.roundTime(mouse)
       this.currentEntry = {
         name: this.$tc('entity.activity.new'),
-        start: new Date(this.currentStartTime),
-        end: new Date(this.currentStartTime),
+        start: this.currentStartTime,
+        end: this.currentStartTime,
         type: null,
         timed: true,
         tmpEvent: true
@@ -354,8 +369,8 @@ export default {
       const min = Math.min(mouseRounded, this.currentStartTime)
       const max = Math.max(mouseRounded, this.currentStartTime)
 
-      this.currentEntry.start = new Date(min)
-      this.currentEntry.end = new Date(max)
+      this.currentEntry.start = min
+      this.currentEntry.end = max
     },
     moveEntryTime: function (mouse) {
       const start = this.draggedEntry.start
@@ -365,8 +380,8 @@ export default {
       const newStart = this.roundTime(newStartTime)
       const newEnd = newStart + duration
 
-      this.draggedEntry.start = new Date(newStart)
-      this.draggedEntry.end = new Date(newEnd)
+      this.draggedEntry.start = newStart
+      this.draggedEntry.end = newEnd
     },
     clearCurrentEntry () {
       this.currentEntry = null
