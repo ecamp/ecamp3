@@ -6,12 +6,12 @@ require_once __DIR__ . '/../vendor/autoload.php';
 
 $connected = false;
 while (!$connected) {
-    $app = \eCampApp::CreateSetup();
-    $sm = $app->getServiceManager();
-    /** @var \Doctrine\ORM\EntityManager $em */
-    $em = $sm->get('doctrine.entitymanager.orm_default');
-    $conn = $em->getConnection();
     try {
+        $app = \eCampApp::CreateSetup();
+        $sm = $app->getServiceManager();
+        /** @var \Doctrine\ORM\EntityManager $em */
+        $em = $sm->get('doctrine.entitymanager.orm_default');
+        $conn = $em->getConnection();
         $conn->connect();
         $connected = true;
         echo "DB is online\n";

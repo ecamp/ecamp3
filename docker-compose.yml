@@ -2,43 +2,42 @@ version: "3"
 
 services:
   frontend:
-    build: ./frontend
+    image: node:12.18
     container_name: 'ecamp3-frontend'
     ports:
       - '3000:3000'
+    stdin_open: true
+    tty: true
     volumes:
       - ./frontend:/app:delegated
-      - node_modules:/app/node_modules
-      - ./frontend/node_modules:/node_modules-copy-to-host
+      - npm-cache:/root/.npm
+      - cypress-cache:/root/.cache/Cypress
+      - node-modules-cache:/app/node_modules/.cache
+    working_dir: /app
+    command: ./docker-setup.sh
     environment:
       NODE_ENV: development
-
+  
   backend:
     build: ./backend
     container_name: 'ecamp3-backend'
     ports:
       - '3001:80'
-    links:
-      - db
     volumes:
       - ./backend:/app:delegated
-      - data:/app/data
-      - ./backend/data/mail:/app/data/mail:delegated
-      - temp:/app/temp
-      - vendor:/app/vendor
+    entrypoint: ./docker-setup.sh
 
   composer:
-    image: composer:1.8
+    image: composer:1.10
     container_name: 'ecamp3-composer'
     restart: 'no'
-    entrypoint: bash -c "composer install --no-interaction --no-plugins --no-scripts --prefer-dist --no-suggest && cp -r vendor/* /vendor-copy-to-host"
+    command: bash -c "composer install --no-interaction --no-plugins --no-scripts --prefer-dist --no-suggest"
     volumes:
       - ./backend:/app:delegated
-      - vendor:/app/vendor:delegated
-      - ./backend/vendor:/vendor-copy-to-host
+      - composer-cache:/tmp/cache
 
   db:
-    image: mariadb:10.3
+    image: mariadb:10.5
     container_name: 'ecamp3-db'
     environment:
       - MYSQL_DATABASE=ecamp3dev
@@ -46,17 +45,20 @@ services:
       - MYSQL_RANDOM_ROOT_PASSWORD=yes
       - MYSQL_USER=ecamp3
       - MYSQL_PASSWORD=ecamp3
+    volumes:
+      - db-data:/var/lib/mysql
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     container_name: 'ecamp3-phpmyadmin'
     ports:
       - '3002:80'
-    links:
-      - db
 
 volumes:
-  vendor:
-  data:
-  temp:
-  node_modules:
+  npm-cache:
+  cypress-cache:
+  composer-cache:
+  node-modules-cache:
+  db-data:
+
+  
