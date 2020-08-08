@@ -41,6 +41,10 @@ Listing all given activity schedule entries in a calendar view.
           {{ $moment(time.date).format($tc('components.camp.picasso.moment.date', widthPluralization)) }}
         </div>
       </template>
+      <template #day-body="{ date }">
+        <div v-if="$refs.calendar.times.now.date === date"
+          class="v-current-time" :style="{ top: nowY }" />
+      </template>
       <template #event="{event, eventParsed, timed}">
         <v-btn v-if="!event.tmpEvent" absolute
                top
@@ -202,6 +206,12 @@ export default {
       } else {
         return 2
       }
+    },
+    now () {
+      return this.$refs.calendar.times.now
+    },
+    nowY () {
+      return this.$refs.calendar ? this.$refs.calendar.timeToY(this.now) + 'px' : '-10px'
     }
   },
   watch: {
@@ -231,11 +241,15 @@ export default {
       return entry
     })
     this.localScheduleEntries = this.scheduleEntries
+    this.updateTime()
   },
   methods: {
     resize () {
       const widthIntervals = 46
       this.entryWidth = Math.max((this.$refs.calendar.$el.offsetWidth - widthIntervals) / this.$refs.calendar.days.length, 80)
+    },
+    updateTime () {
+      setInterval(() => this.$refs.calendar.updateTimes(), 60 * 1000)
     },
     getActivityName (event, _) {
       if (event.tmpEvent) {
@@ -512,6 +526,26 @@ export default {
     }
   }
 
+  .v-current-time {
+    height: 2px;
+    background-color: #ea4335;
+    position: absolute;
+    left: -1px;
+    right: 0;
+    pointer-events: none;
+
+    &::before {
+      content: '';
+      position: absolute;
+      background-color: #ea4335;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      margin-top: -5px;
+      margin-left: -6.5px;
+    }
+  }
+
   .v-calendar .v-event-timed-container {
     margin-right: 5px;
   }
@@ -541,6 +575,10 @@ export default {
 <style lang="scss" scoped>
   .v-card {
     overflow: hidden;
+  }
+
+  ::v-deep .v-calendar-daily__day.v-past .v-event-timed {
+    opacity: .8;
   }
 
   ::v-deep .v-calendar-daily__pane {
