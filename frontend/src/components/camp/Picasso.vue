@@ -5,7 +5,9 @@ Listing all given activity schedule entries in a calendar view.
 <template>
   <div>
     <v-calendar
+      ref="calendar"
       v-model="value"
+      v-resize="resize"
       class="ec-picasso"
       :events="events"
       :event-name="getActivityName | loading('Lädt…', ({ input }) => isActivityLoading(input))"
@@ -20,6 +22,7 @@ Listing all given activity schedule entries in a calendar view.
       :locale="$i18n.locale"
       :day-format="dayFormat"
       :type="type"
+      :max-days="maxDays"
       :weekday-format="weekdayFormat"
       :weekdays="[1, 2, 3, 4, 5, 6, 0]"
       color="primary"
@@ -30,6 +33,14 @@ Listing all given activity schedule entries in a calendar view.
       @mousemove:time="timeMouseMove"
       @mouseup:time="timeMouseUp"
       @mouseleave.native="nativeMouseUp">
+      <template #day-label-header="time">
+        <div class="ec-daily_head-day-label">
+          <span v-if="widthPluralization > 0" class="d-block">
+            {{ $moment(time.date).format('dddd') }}
+          </span>
+          {{ $moment(time.date).format($tc('components.camp.picasso.moment.date', widthPluralization)) }}
+        </div>
+      </template>
       <template #event="{event, eventParsed, timed}">
         <v-btn v-if="!event.tmpEvent" absolute
                top
@@ -143,7 +154,7 @@ export default {
     type: {
       type: String,
       required: false,
-      default: 'week'
+      default: 'custom-daily'
     },
     intervalHeight: {
       type: Number,
@@ -155,6 +166,8 @@ export default {
     return {
       tempScheduleEntry: null,
       weekdayShort: ['Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa', 'So'],
+      maxDays: 100,
+      entryWidth: 80,
       localScheduleEntries: [],
       parsedScheduleEntries: [],
       value: '',
@@ -180,6 +193,15 @@ export default {
     },
     activityCategories () {
       return this.camp().activityCategories()
+    },
+    widthPluralization () {
+      if (this.entryWidth < 81) {
+        return 0
+      } else if (this.entryWidth < 85) {
+        return 1
+      } else {
+        return 2
+      }
     }
   },
   watch: {
@@ -211,6 +233,10 @@ export default {
     this.localScheduleEntries = this.scheduleEntries
   },
   methods: {
+    resize () {
+      const widthIntervals = 46
+      this.entryWidth = Math.max((this.$refs.calendar.$el.offsetWidth - widthIntervals) / this.$refs.calendar.days.length, 80)
+    },
     getActivityName (event, _) {
       if (event.tmpEvent) {
         return (event.type ? event.type.short + ': ' : '') + event.name
@@ -466,18 +492,10 @@ export default {
 </script>
 <style lang="scss">
   .ec-picasso {
-    .v-calendar-daily_head-day-label button.v-btn {
-      height: auto;
-      opacity: .75;
-      border-radius: 0;
-      padding: 2px;
-      white-space: normal;
-      min-width: auto;
-      width: 100%;
 
-      .v-btn__content {
-        width: 100%;
-      }
+    .v-calendar-daily_head-day,
+    .v-calendar-daily__day {
+      min-width: 80px;
     }
 
     .v-event-timed {
@@ -494,16 +512,8 @@ export default {
     }
   }
 
-  @media #{map-get($display-breakpoints, 'xs-only')}{
-    .ec-picasso .v-calendar-daily_head-day-label button.v-btn {
-      font-size: 12px;
-    }
-  }
-
-  .v-event-timed:hover {
-    .ec-event--btn {
-      opacity: 1;
-    }
+  .v-calendar .v-event-timed-container {
+    margin-right: 5px;
   }
 
   .ec-event--btn {
@@ -513,18 +523,42 @@ export default {
     right: 0 !important;
     opacity: 0;
   }
+
+  .ec-daily_head-day-label {
+    font-size: 11px;
+    font-feature-settings: "tnum";
+    letter-spacing: -.1px;
+    white-space: break-spaces;
+
+    .elipsis {
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+      display: block;
+    }
+  }
 </style>
 <style lang="scss" scoped>
   .v-card {
     overflow: hidden;
   }
 
-  ::v-deep .v-calendar-daily__scroll-area {
-    overflow-y: auto;
+  ::v-deep .v-calendar-daily__pane {
+    overflow-y: visible;
   }
 
-  .v-calendar-daily {
+  ::v-deep .v-calendar-daily__scroll-area {
+    overflow-y: visible;
+  }
+
+  ::v-deep .v-calendar-daily {
     border-top: 0;
+    border-left: 0;
+    overflow-x: scroll;
+  }
+
+  ::v-deep .v-calendar-daily__body {
+    overflow: visible;
   }
 
   .v-event-timed {

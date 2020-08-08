@@ -112,6 +112,11 @@
         "create": "Block-Kategorie erstellen",
         "deleteActivityCategoryQuestion": "Möchtest du diese Block-Kategorie wirklich löschen?",
         "deleteActivityCategoryNotPossibleInUse": "Block-Kategorie kann nicht gelöscht werden. Sie wird noch verwendet:"
+      },
+      "picasso": {
+        "moment": {
+          "date": "dd. D.MM | D. MMM | DD. MMM YYYY"
+        }
       }
     },
     "dialog": {
