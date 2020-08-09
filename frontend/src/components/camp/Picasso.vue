@@ -37,13 +37,12 @@ Listing all given activity schedule entries in a calendar view.
         <div class="ec-daily_head-day-label">
           <span v-if="widthPluralization > 0" class="d-block">
             {{ $moment(time.date).format('dddd') }}
-          </span>
-          {{ $moment(time.date).format($tc('components.camp.picasso.moment.date', widthPluralization)) }}
+          </span> {{ $moment(time.date).format($tc('components.camp.picasso.moment.date', widthPluralization)) }}
         </div>
       </template>
       <template #day-body="{ date }">
-        <div v-if="$refs.calendar.times.now.date === date"
-          class="v-current-time" :style="{ top: nowY }" />
+        <div v-if="dateNow === date"
+             class="v-current-time" :style="{ top: nowY }" />
       </template>
       <template #event="{event, eventParsed, timed}">
         <v-btn v-if="!event.tmpEvent" absolute
@@ -67,7 +66,7 @@ Listing all given activity schedule entries in a calendar view.
       :open-on-click="false"
       :close-on-click="false"
       :close-on-content-click="false"
-      offset-x>
+      offset-y>
       <v-card v-if="tempScheduleEntry">
         <v-card-text>
           <e-text-field v-model="tempScheduleEntry.name" no-label
@@ -130,6 +129,7 @@ import { scheduleEntryRoute } from '@/router'
 import ESelect from '@/components/form/base/ESelect'
 import ETextField from '@/components/form/base/ETextField'
 import ETimePicker from '@/components/form/base/ETimePicker'
+import { isCssColor } from 'vuetify/lib/util/colorUtils'
 
 export default {
   name: 'Picasso',
@@ -208,7 +208,10 @@ export default {
       }
     },
     now () {
-      return this.$refs.calendar.times.now
+      return this.$refs.calendar ? this.$refs.calendar.times.now : null
+    },
+    dateNow () {
+      return this.$refs.calendar ? this.$refs.calendar.times.now.date : null
     },
     nowY () {
       return this.$refs.calendar ? this.$refs.calendar.timeToY(this.now) + 'px' : '-10px'
@@ -261,9 +264,9 @@ export default {
     getActivityColor (event, _) {
       if (event.tmpEvent) {
         if (event.type) {
-          return event.type.color
+          return isCssColor(event.type.color) ? event.type.color : event.type.color + ' elevation-4 v-event--temporary'
         } else {
-          return 'grey'
+          return 'grey elevation-4 v-event--temporary'
         }
       } else {
         return event.type.color
@@ -578,7 +581,7 @@ export default {
   }
 
   ::v-deep .v-calendar-daily__day.v-past .v-event-timed {
-    opacity: .8;
+    filter: brightness(1.25) saturate(0.4);
   }
 
   ::v-deep .v-calendar-daily__pane {
@@ -597,6 +600,11 @@ export default {
 
   ::v-deep .v-calendar-daily__body {
     overflow: visible;
+  }
+
+  ::v-deep .v-event-timed.v-event--temporary {
+    border-style: dashed !important;
+    opacity: .8;
   }
 
   .v-event-timed {
