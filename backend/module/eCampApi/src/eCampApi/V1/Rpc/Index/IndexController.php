@@ -130,6 +130,11 @@ class IndexController extends AbstractActionController {
             'route' => 'e-camp-api.rest.doctrine.schedule-entry',
         ]);
 
+        $data['periods'] = TemplatedLink::factory([
+            'rel' => 'periods',
+            'route' => 'e-camp-api.rest.doctrine.period',
+        ]);
+
         $json = new HalJsonModel();
         $json->setPayload(new Entity($data));
 

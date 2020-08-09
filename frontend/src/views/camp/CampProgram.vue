@@ -19,21 +19,21 @@ Show all activity schedule entries of a single period.
         <v-icon v-if="listFormat">mdi-calendar-month</v-icon>
         <v-icon v-else>mdi-menu</v-icon>
       </v-btn>
-      <template v-if="!firstPeriodLoaded">
+      <template v-if="!(period() && !period()._meta.loading)">
         <v-skeleton-loader v-if="listFormat" type="list-item-avatar-two-line@2" class="py-2" />
         <v-skeleton-loader v-else type="table" />
       </template>
-      <template v-if="firstPeriod">
+      <template v-if="firstPeriodLoaded">
         <picasso
           v-show="!listFormat"
           class="mx-2 ma-sm-0 pa-sm-2"
           :camp="camp"
-          :schedule-entries="firstPeriod.scheduleEntries().items"
-          :start="new Date(Date.parse(firstPeriod.start))"
-          :end="new Date(Date.parse(firstPeriod.end))" />
+          :schedule-entries="period().scheduleEntries().items"
+          :start="new Date(Date.parse(period().start))"
+          :end="new Date(Date.parse(period().end))" />
         <activity-list
           v-show="listFormat"
-          :camp="camp" :schedule-entries="firstPeriod.scheduleEntries().items" />
+          :camp="camp" :schedule-entries="period().scheduleEntries().items" />
       </template>
       <v-btn
         :fixed="$vuetify.breakpoint.xs"
@@ -65,7 +65,8 @@ export default {
     ActivityList
   },
   props: {
-    camp: { type: Function, required: true }
+    camp: { type: Function, required: true },
+    period: { type: Function, required: true }
   },
   data () {
     return {
@@ -79,11 +80,8 @@ export default {
     periods () {
       return this.camp().periods()
     },
-    firstPeriod () {
-      return this.periods.items[0]
-    },
     firstPeriodLoaded () {
-      return this.firstPeriod && !this.firstPeriod._meta.loading
+      return this.period() && !this.period()._meta.loading
     }
   },
   mounted () {

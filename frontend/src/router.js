@@ -93,7 +93,7 @@ export default new Router({
       beforeEnter: requireAuth
     },
     {
-      path: '/camps/:campId/:campTitle?',
+      path: '/camps/:campId/:campTitle?/period/:periodId/:periodTitle?',
       components: {
         navigation: NavigationCamp,
         default: () => import(/* webpackChunkName: "camp" */ './views/camp/Camp'),
@@ -101,8 +101,8 @@ export default new Router({
       },
       beforeEnter: requireAuth,
       props: {
-        default: route => ({ camp: campFromRoute(route) }),
-        aside: route => ({ camp: campFromRoute(route) })
+        default: route => ({ camp: campFromRoute(route), period: periodFromRoute(route) }),
+        aside: route => ({ camp: campFromRoute(route), period: periodFromRoute(route) })
       },
       children: [
         {
@@ -156,6 +156,12 @@ function requireAuth (to, from, next) {
 export function campFromRoute (route) {
   return function () {
     return this.api.get().camps({ campId: route.params.campId })
+  }
+}
+
+export function periodFromRoute (route) {
+  return function () {
+    return this.api.get().periods({ periodId: route.params.periodId })
   }
 }
 

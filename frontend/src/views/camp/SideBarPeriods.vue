@@ -10,12 +10,12 @@ Displays periods of a single camp.
       </v-subheader>
       <v-list>
         <v-list-item
-          v-for="period in periods.items"
-          :key="period._meta.self"
+          v-for="listperiod in periods.items"
+          :key="listperiod._meta.self"
           two-line>
           <v-list-item-content>
-            <v-list-item-title>{{ period.description }}</v-list-item-title>
-            <v-list-item-subtitle>{{ period.start }} - {{ period.end }}</v-list-item-subtitle>
+            <v-list-item-title>{{ listperiod.description }}</v-list-item-title>
+            <v-list-item-subtitle>{{ listperiod.start }} - {{ listperiod.end }}</v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
       </v-list>
@@ -30,7 +30,8 @@ export default {
   name: 'SideBarPeriods',
   components: { ContentCard, SideBar },
   props: {
-    camp: { type: Function, required: true }
+    camp: { type: Function, required: true },
+    period: { type: Function, required: true }
   },
   data () {
     return {
