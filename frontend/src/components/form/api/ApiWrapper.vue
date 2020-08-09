@@ -151,6 +151,8 @@ export default {
     reset () {
       this.localValue = this.apiValue
       this.resetErrors()
+      this.$emit('reseted')
+      this.$emit('finished')
     },
     resetErrors () {
       this.dirty = false
@@ -184,6 +186,8 @@ export default {
       this.api.patch(this.uri, { [this.fieldname]: this.localValue }).then(() => {
         this.isSaving = false
         this.showIconSuccess = true
+        this.$emit('saved')
+        this.$emit('finished')
         setTimeout(() => { this.showIconSuccess = false }, 2000)
       }, (error) => {
         this.isSaving = false
