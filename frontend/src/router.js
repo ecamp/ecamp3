@@ -126,8 +126,8 @@ export default new Router({
           name: 'camp/program',
           async beforeEnter (to, from, next) {
             const period = await firstFuturePeriod(to)
-            const camp = await period.camp()._meta.load
-            next(periodRoute(camp, period))
+            await period.camp()._meta.load
+            next(periodRoute(period))
           }
         }
       ]
@@ -189,7 +189,8 @@ export function campRoute (camp, subroute) {
   return { name: routeName, params: { campId: camp.id, campTitle: slugify(camp.title) } }
 }
 
-export function periodRoute (camp, period) {
+export function periodRoute (period) {
+  const camp = period.camp()
   if (camp._meta.loading || period._meta.loading) return {}
   return {
     name: 'camp/period',
