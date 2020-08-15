@@ -35,31 +35,41 @@ export default {
     placeholder: {
       type: String,
       default: ''
+    },
+    withExtensions: {
+      type: Boolean,
+      default: false
     }
   },
   data () {
+    const extensions = [
+      new Placeholder({
+        emptyEditorClass: 'is-editor-empty',
+        emptyNodeClass: 'is-empty',
+        emptyNodeText: '',
+        showOnlyWhenEditable: true,
+        showOnlyCurrent: true
+      })
+    ]
+    if (this.withExtensions) {
+      extensions.push(...[
+        new History(),
+        new Bold(),
+        new Italic(),
+        new Underline(),
+        new Strike(),
+        new ListItem(),
+        new BulletList(),
+        new OrderedList(),
+        new Heading({ levels: [1, 2, 3] }),
+        new HardBreak()
+      ])
+    }
+
     return {
       emitAfterOnUpdate: false,
       editor: new Editor({
-        extensions: [
-          new History(),
-          new Bold(),
-          new Italic(),
-          new Underline(),
-          new Strike(),
-          new ListItem(),
-          new BulletList(),
-          new OrderedList(),
-          new Heading({ levels: [1, 2, 3] }),
-          new HardBreak(),
-          new Placeholder({
-            emptyEditorClass: 'is-editor-empty',
-            emptyNodeClass: 'is-empty',
-            emptyNodeText: this.placeholder,
-            showOnlyWhenEditable: true,
-            showOnlyCurrent: true
-          })
-        ],
+        extensions: extensions,
         content: this.value,
         onUpdate: this.onUpdate,
         onFocus: this.onFocus,
@@ -82,8 +92,11 @@ export default {
       this.lastSelection = null
       this.editor.setContent(val)
     },
-    placeholder (val) {
-      this.editor.extensions.options.placeholder.emptyNodeText = val
+    placeholder: {
+      immediate: true,
+      handler (val) {
+        this.editor.extensions.options.placeholder.emptyNodeText = val
+      }
     }
   },
   methods: {
@@ -132,10 +145,16 @@ export default {
       }
     },
     getContent () {
-      return [
-        this.genToolbar(),
-        this.genEditorContent()
-      ]
+      if (this.withExtensions) {
+        return [
+          this.genToolbar(),
+          this.genEditorContent()
+        ]
+      } else {
+        return [
+          this.genEditorContent()
+        ]
+      }
     },
     genToolbar () {
       return this.$createElement(EditorMenuBubble, {

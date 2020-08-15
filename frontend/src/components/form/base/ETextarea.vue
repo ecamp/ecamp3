@@ -6,8 +6,9 @@
     :vid="veeId"
     :rules="veeRules"
     class="e-form-container">
-    <v-textarea
+    <v-tiptap-editor
       v-bind="$attrs"
+      :with-extensions="false"
       :filled="filled"
       :hide-details="hideDetails"
       :error-messages="veeErrors.concat(errorMessages)"
@@ -19,17 +20,18 @@
       <template v-for="(_, name) in $scopedSlots" :slot="name" slot-scope="slotData">
         <slot :name="name" v-bind="slotData" />
       </template>
-    </v-textarea>
+    </v-tiptap-editor>
   </ValidationProvider>
 </template>
 
 <script>
 import { ValidationProvider } from 'vee-validate'
 import { formComponentPropsMixin } from '@/mixins/formComponentPropsMixin'
+import VTiptapEditor from '@/components/form/tiptap/VTiptapEditor'
 
 export default {
   name: 'ETextarea',
-  components: { ValidationProvider },
+  components: { VTiptapEditor, ValidationProvider },
   mixins: [formComponentPropsMixin]
 }
 </script>
