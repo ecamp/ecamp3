@@ -68,6 +68,21 @@
         "i": "i, ii, iii - lowercase roman numerals",
         "I": "I, II, III - uppercase roman numerals"
       }
+    },
+    "activity": {
+      "name": "Activity",
+      "fields": {
+        "title": "Title",
+        "location": "Location",
+        "progress": "Progress"
+      }
+    },
+    "scheduleEntry": {
+      "name": "Schedule Entry",
+      "fields": {
+        "nr": "Nr",
+        "time": "Time"
+      }
     }
   },
   "activityContent": {

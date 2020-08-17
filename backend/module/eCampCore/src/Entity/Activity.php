@@ -44,11 +44,24 @@ class Activity extends BaseEntity implements BelongsToCampInterface {
      */
     private $title;
 
+    /**
+     * @var string
+     * @ORM\Column(type="text")
+     */
+    private $location;
+
+    /**
+     * @var int
+     * @ORM\Column(type="integer")
+     */
+    private $progress;
+
     public function __construct() {
         parent::__construct();
 
         $this->activityContents = new ArrayCollection();
         $this->scheduleEntries = new ArrayCollection();
+        $this->progress = 0;
     }
 
     /**
@@ -83,6 +96,22 @@ class Activity extends BaseEntity implements BelongsToCampInterface {
 
     public function setTitle(string $title): void {
         $this->title = $title;
+    }
+
+    public function getLocation(): string {
+        return $this->location;
+    }
+
+    public function setLocation(string $location): void {
+        $this->location = $location;
+    }
+
+    public function getProgress(): int {
+        return $this->progress;
+    }
+
+    public function setProgress(int $progress): void {
+        $this->progress = $progress;
     }
 
     /**
