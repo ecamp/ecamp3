@@ -10,6 +10,8 @@
         </p>
       </div>
 
+      <picasso />
+
       <div
         v-for="activity in activities"
         :key="'activity_' + activity.id"
