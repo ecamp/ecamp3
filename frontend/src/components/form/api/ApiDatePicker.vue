@@ -7,14 +7,13 @@ Displays a field as a date picker + write access via API wrapper
     v-slot="wrapper"
     v-bind="$props">
     <e-date-picker
-      :value="wrapper.localValue"
+      :value="wrapper.localValue || ''"
       v-bind="$attrs"
       :readonly="wrapper.readonly"
       :disabled="disabled"
       :loading="wrapper.isSaving || wrapper.isLoading ? 'secondary' : false"
-      outlined
-      :my="0"
-      :filled="false"
+      :outlined="outlined"
+      :filled="filled"
       :error-messages="wrapper.errorMessages"
       @input="wrapper.on.input">
       <template #append>
@@ -33,10 +32,6 @@ export default {
   name: 'ApiDatePicker',
   components: { ApiWrapper, ApiWrapperAppend },
   mixins: [apiPropsMixin],
-  props: {
-    // disable delay per default
-    autoSaveDelay: { type: Number, default: 0, required: false }
-  },
   data () {
     return {
     }

@@ -48,6 +48,7 @@
         "firstname": "Vorname",
         "surname": "Nachname",
         "nickname": "Spitzname",
+        "birthday": "Geburtstag",
         "language": "Sprache"
       }
     },
@@ -70,6 +71,11 @@
     }
   },
   "activityContent": {
+    "safetyConcept": {
+      "add": "Sicherheits-Konzept hinzufügen",
+      "name": "Sicherheits-Konzept",
+      "entity": { }
+    },
     "storyboard": {
       "add": "Programmabschnitt hinzufügen",
       "name": "Programmabschnitt",
@@ -87,6 +93,11 @@
     "storycontext": {
       "add": "Roten Faden hinzufügen",
       "name": "Roter Faden",
+      "entity": { }
+    },
+    "notes": {
+      "name": "Notizen",
+      "add": "Notizen hinzufügen",
       "entity": { }
     }
   },

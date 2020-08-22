@@ -718,6 +718,48 @@ describe('API store', () => {
     done()
   })
 
+  it('automatically filters deleting items from standalone collection', async done => {
+    // given
+    axiosMock.onGet('http://localhost/camps/1/activities').reply(200, collectionFirstPage.serverResponse)
+    axiosMock.onDelete('http://localhost/activities/2394').replyOnce(204)
+    vm.api.get('/camps/1/activities')
+    await letNetworkRequestFinish()
+    const activity = vm.api.get('/activities/2394')
+
+    // when
+    vm.api.del(activity)
+
+    // then
+    expect(vm.api.get('/activities/2394')._meta.deleting).toBeTruthy()
+    const standaloneCollection = vm.api.get('/camps/1/activities')
+    expect(standaloneCollection.items.some(item => item._meta.deleting)).toBeFalsy()
+    expect(standaloneCollection.items.length).toEqual(1)
+    expect(standaloneCollection.allItems.some(item => item._meta.deleting)).toBeTruthy()
+    expect(standaloneCollection.allItems.length).toEqual(2)
+    done()
+  })
+
+  it('automatically filters deleting items from embedded collection', async done => {
+    // given
+    axiosMock.onGet('http://localhost/camps/1').reply(200, embeddedCollection.serverResponse)
+    axiosMock.onDelete('http://localhost/periods/104').replyOnce(204)
+    vm.api.get('/camps/1')
+    await letNetworkRequestFinish()
+    const period = vm.api.get('/periods/104')
+
+    // when
+    vm.api.del(period)
+
+    // then
+    expect(vm.api.get('/periods/104')._meta.deleting).toBeTruthy()
+    const embCollection = vm.api.get('/camps/1').periods()
+    expect(embCollection.items.some(item => item._meta.deleting)).toBeFalsy()
+    expect(embCollection.items.length).toEqual(1)
+    expect(embCollection.allItems.some(item => item._meta.deleting)).toBeTruthy()
+    expect(embCollection.allItems.length).toEqual(2)
+    done()
+  })
+
   it('patches entity and stores the response into the store', async done => {
     // given
     const after = {

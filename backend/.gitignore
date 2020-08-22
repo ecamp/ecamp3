@@ -5,6 +5,7 @@ build
 .vagrant/
 .idea/
 vendor/
+config/sentry.config.php
 node_modules
 cghooks.lock
 

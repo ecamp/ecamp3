@@ -3,13 +3,13 @@
     <v-container fluid>
       <v-row no-gutters class="text-subtitle-2">
         <v-col cols="2">
-          {{ $t('activityContent.storyboard.entity.section.fields.column1') }}
+          {{ $tc('activityContent.storyboard.entity.section.fields.column1') }}
         </v-col>
         <v-col cols="7">
-          {{ $t('activityContent.storyboard.entity.section.fields.column2') }}
+          {{ $tc('activityContent.storyboard.entity.section.fields.column2') }}
         </v-col>
         <v-col cols="2">
-          {{ $t('activityContent.storyboard.entity.section.fields.column3') }}
+          {{ $tc('activityContent.storyboard.entity.section.fields.column3') }}
         </v-col>
         <v-col cols="1" />
       </v-row>
@@ -69,7 +69,7 @@
       </div>
 
       <!-- add at end position -->
-      <v-row no-gutters class="row-inter" justify="center">
+      <v-row no-gutters justify="center">
         <v-col cols="1">
           <v-btn icon
                  small
@@ -122,11 +122,28 @@ export default {
   margin-top:10px;
 }
 
-.row-inter{
- height:0px;
+.row-inter {
+  height: 4px;
+  transition: 0s height;
+  transition-duration: 0.5s;
+}
+.row-inter:hover {
+  height: 30px;
+  background-color: #EEEEEE;
+  transition-delay: 0.3s;
 }
 
-.button-add{
-  top:-17px;
+.row-inter .button-add {
+  opacity: 0;
+  height: 0;
+  transition: 0s height, opacity;
+  transition-duration: 0.5s;
 }
+
+.row-inter:hover .button-add {
+  opacity: 1;
+  height: 30px;
+  transition-delay: 0.3s;
+}
+
 </style>

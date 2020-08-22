@@ -1,32 +1,33 @@
 <template>
-  <div v-if="allowed">
-    <div v-for="activityContent in activityContents" :key="activityContent._meta.self">
-      <activity-content :activity-content="activityContent" />
-      <br>
-    </div>
-
-    <v-btn
-      v-if="empty || contentType.allowMultiple"
-      color="primary"
-      outlined
-      :loading="isAdding"
-      block
-      @click="addActivityContent">
-      <v-icon :left="$vuetify.breakpoint.smAndUp" size="150%">mdi-plus</v-icon>
-
-      {{ $tc(addContentKey, activityContents.length + 1) }}
-    </v-btn>
+  <div v-if="activityContents.length > 0">
+    <v-card outlined class="mt-3">
+      <v-expansion-panels v-model="openPanels" multiple flat>
+        <draggable
+          v-model="sortedActivityContentHrefs"
+          :component-data="{ attrs: { class: 'drag-container' } }"
+          :disabled="!(sortedActivityContents.length > 1)"
+          handle=".drag-handle">
+          <activity-content v-for="activityContent in sortedActivityContents"
+                            :key="activityContent._meta.self"
+                            :activity-content="activityContent"
+                            :drag-drop-enabled="sortedActivityContents.length > 1"
+                            @move-up="() => moveUp(activityContent)"
+                            @move-down="() => moveDown(activityContent)" />
+        </draggable>
+      </v-expansion-panels>
+    </v-card>
   </div>
 </template>
 
 <script>
 import ActivityContent from './ActivityContent'
-import camelCase from 'lodash/camelCase'
+import Draggable from 'vuedraggable'
 
 export default {
   name: 'ContentType',
   components: {
-    ActivityContent
+    ActivityContent,
+    Draggable
   },
   props: {
     contentTypeName: { type: String, required: true },
@@ -34,57 +35,114 @@ export default {
   },
   data () {
     return {
-      isAdding: false
+      openPanels: [0],
+      sortedActivityContentHrefs: []
     }
   },
   computed: {
-    addContentKey () {
-      return `activityContent.${camelCase(this.contentTypeName)}.add`
-    },
     activityContents () {
-      // TODO: should we add the deleting-filter already to the store?
-      return this.activity.activityContents().items.filter(ep => !ep._meta.deleting && ep.contentTypeName === this.contentTypeName)
+      return this.activity.activityContents().items.filter(ep => ep.contentTypeName === this.contentTypeName)
     },
-    contentType () {
-      return this.activityTypeContentType.contentType()
-    },
-    // try to find the ActivityTypeContentType of given name `contentTypeName`
-    // otherwise returns undefined and this component should not be shown
-    activityTypeContentType () {
-      return this.activity.activityCategory().activityType().activityTypeContentTypes().items.find(etp => etp.contentType().name === this.contentTypeName)
-    },
-
-    // number of content instances
-    numberOfContents () {
-      return this.activityContents.length
-    },
-
-    // true if content instance exists
-    empty () {
-      return this.numberOfContents === 0
-    },
-
-    // true if content type is allowed on this activity type
-    allowed () {
-      return this.activityTypeContentType !== null
+    sortedActivityContents () {
+      return this.sortedActivityContentHrefs.map(href => this.api.get(href))
     }
   },
-  methods: {
-    async addActivityContent () {
-      this.isAdding = true
-      await this.api.post('/activity-contents', {
-        activityId: this.activity.id,
-        activityTypeContentTypeId: this.activityTypeContentType.id // POSSIBLE ALTERNATIVE: post with contentTypeId of activityTypeContentTypeId
-      })
-      await this.refreshActivity()
-      this.isAdding = false
+  watch: {
+    activity () {
+      if (this.activity !== null) {
+        this.activity._meta.load.then(() => {
+          this.refreshSortedActivityContentHrefs()
+          this.openPanels = [0]
+        })
+      }
     },
-    async refreshActivity () {
-      await this.api.reload(this.activity._meta.self)
+    activityContents () {
+      this.refreshSortedActivityContentHrefs()
+    }
+  },
+  mounted () {
+    this.refreshSortedActivityContentHrefs()
+  },
+  methods: {
+    moveUp (ac) {
+      const href = ac._meta.self
+      const idx = this.sortedActivityContentHrefs.indexOf(href)
+      if (idx > 0) {
+        this.sortedActivityContentHrefs.splice(idx, 1)
+        this.sortedActivityContentHrefs.splice(idx - 1, 0, href)
+      }
+    },
+    moveDown (ac) {
+      const href = ac._meta.self
+      const idx = this.sortedActivityContentHrefs.indexOf(href)
+      if (idx < this.sortedActivityContentHrefs.length - 1) {
+        this.sortedActivityContentHrefs.splice(idx, 1)
+        this.sortedActivityContentHrefs.splice(idx + 1, 0, href)
+      }
+    },
+    refreshSortedActivityContentHrefs () {
+      const activityContentHrefs = this.activityContents.map(ac => ac._meta.self)
+
+      // append new Ids:
+      for (let i = activityContentHrefs.length - 1; i >= 0; i--) {
+        const href = activityContentHrefs[i]
+        if (!this.sortedActivityContentHrefs.includes(href)) {
+          this.sortedActivityContentHrefs.push(href)
+        }
+      }
+
+      // remove unknown Ids:
+      for (let i = this.sortedActivityContentHrefs.length - 1; i >= 0; i--) {
+        const href = this.sortedActivityContentHrefs[i]
+        if (!activityContentHrefs.includes(href)) {
+          this.sortedActivityContentHrefs.splice(i, 1)
+        }
+      }
     }
   }
 }
 </script>
 
 <style scoped>
+
+div.drag-container {
+  flex: 1;
+}
+
+div.v-expansion-panel {
+  margin-top: 0;
+  padding-top: 0;
+  border-radius: 0;
+}
+
+div.v-expansion-panel:first-child {
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+}
+
+div.v-expansion-panel:last-child {
+  border-bottom-left-radius: 4px;
+  border-bottom-right-radius: 4px;
+}
+
+div.v-expansion-panel:not(:first-child) {
+  border-top: solid 1px lightgray;
+}
+
+div.v-expansion-panel:not(:first-child)::after {
+  border: none;
+}
+
+div.v-expansion-panel >>> .v-expansion-panel-header {
+  min-height: 48px;
+}
+
+div.v-expansion-panel >>> .v-expansion-panel-header > header {
+  border-radius: 6px;
+}
+
+div.v-expansion-panel >>> .v-expansion-panel-content .v-expansion-panel-content__wrap {
+  padding: 0 16px;
+}
+
 </style>

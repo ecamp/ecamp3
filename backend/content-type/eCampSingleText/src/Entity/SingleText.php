@@ -1,15 +1,15 @@
 <?php
 
-namespace eCamp\ContentType\Textarea\Entity;
+namespace eCamp\ContentType\SingleText\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use eCamp\Core\ContentType\BaseContentTypeEntity;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="content_type_textarea_textarea")
+ * @ORM\Table(name="content_type_singletext")
  */
-class Textarea extends BaseContentTypeEntity {
+class SingleText extends BaseContentTypeEntity {
     /**
      * @ORM\Column(type="text", nullable=true)
      */

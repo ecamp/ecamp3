@@ -1,16 +1,18 @@
 <template>
   <ValidationProvider
     v-slot="{ errors: veeErrors }"
+    tag="div"
     :name="name"
     :vid="veeId"
-    :rules="veeRules">
+    :rules="veeRules"
+    class="e-form-container">
     <v-textarea
       v-bind="$attrs"
       :filled="filled"
       :hide-details="hideDetails"
       :error-messages="veeErrors.concat(errorMessages)"
       :label="label || name"
-      :class="[my === false ? '' :'my-' + my, inputClass]"
+      :class="[inputClass]"
       v-on="$listeners">
       <!-- passing through all slots -->
       <slot v-for="(_, name) in $slots" :slot="name" :name="name" />

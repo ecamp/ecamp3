@@ -17,7 +17,7 @@ while (!$connected) {
         echo "DB is online\n";
         $conn->close();
     } catch (\Exception $e) {
-        echo "Waiting for DB to come online...\n";
+        echo "Could not yet connect to DB...\n";
         echo $e->getMessage();
         echo "\n";
         sleep(5);

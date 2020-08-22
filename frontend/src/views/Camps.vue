@@ -34,7 +34,7 @@
             <button-add
               icon="mdi-plus"
               :to="{ name: 'camps/create' }">
-              {{ $t('views.camps.create') }}
+              {{ $tc('views.camps.create') }}
             </button-add>
           </v-list-item-action>
         </v-list-item>
