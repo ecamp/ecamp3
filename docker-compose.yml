@@ -68,6 +68,12 @@ services:
     ports:
       - '3002:80'
 
+  rabbitmq:
+    image: rabbitmq:3.8-management
+    container_name: 'ecamp3-rabbitmq'
+    ports:
+      - '3004:15672'
+
   worker-print-puppeteer:
     image: buildkite/puppeteer
     container_name: 'ecamp3-worker-print-puppeteer'

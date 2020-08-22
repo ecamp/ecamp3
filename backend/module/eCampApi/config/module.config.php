@@ -63,6 +63,16 @@ return [
                     ],
                 ],
             ],
+            'e-camp-api.rpc.printer' => [
+                'type' => 'Segment',
+                'options' => [
+                    'route' => '/api/printer',
+                    'defaults' => [
+                        'controller' => 'eCampApi\\V1\\Rpc\\Printer\\PrinterController',
+                        'action' => 'index',
+                    ],
+                ],
+            ],
             'e-camp-api.rest.doctrine.camp-type' => [
                 'type' => 'Segment',
                 'options' => [
@@ -197,6 +207,7 @@ return [
             'eCampApi\\V1\\Rpc\\Index\\IndexController' => \Laminas\Di\Container\ServiceManager\AutowireFactory::class,
             'eCampApi\\V1\\Rpc\\Register\\RegisterController' => \Laminas\Di\Container\ServiceManager\AutowireFactory::class,
             'eCampApi\\V1\\Rpc\\Profile\\ProfileController' => \Laminas\Di\Container\ServiceManager\AutowireFactory::class,
+            'eCampApi\\V1\\Rpc\\Printer\\PrinterController' => \Laminas\Di\Container\ServiceManager\AutowireFactory::class,
         ],
     ],
     'api-tools-versioning' => [
@@ -580,6 +591,7 @@ return [
             'eCampApi\\V1\\Rpc\\Auth\\AuthController' => 'HalJson',
             'eCampApi\\V1\\Rpc\\Register\\RegisterController' => 'HalJson',
             'eCampApi\\V1\\Rpc\\Profile\\ProfileController' => 'HalJson',
+            'eCampApi\\V1\\Rpc\\Printer\\PrinterController' => 'HalJson',
             'eCampApi\\V1\\Rest\\CampType\\Controller' => 'HalJson',
             'eCampApi\\V1\\Rest\\ActivityType\\Controller' => 'HalJson',
             'eCampApi\\V1\\Rest\\Organization\\Controller' => 'HalJson',
@@ -612,6 +624,11 @@ return [
                 2 => 'application/*+json',
             ],
             'eCampApi\\V1\\Rpc\\Profile\\ProfileController' => [
+                0 => 'application/vnd.e-camp-api.v1+json',
+                1 => 'application/json',
+                2 => 'application/*+json',
+            ],
+            'eCampApi\\V1\\Rpc\\Printer\\PrinterController' => [
                 0 => 'application/vnd.e-camp-api.v1+json',
                 1 => 'application/json',
                 2 => 'application/*+json',
@@ -701,6 +718,10 @@ return [
                 1 => 'application/json',
             ],
             'eCampApi\\V1\\Rpc\\Profile\\ProfileController' => [
+                0 => 'application/vnd.e-camp-api.v1+json',
+                1 => 'application/json',
+            ],
+            'eCampApi\\V1\\Rpc\\Printer\\PrinterController' => [
                 0 => 'application/vnd.e-camp-api.v1+json',
                 1 => 'application/json',
             ],
@@ -1633,6 +1654,13 @@ return [
                 1 => 'PATCH',
             ],
             'route_name' => 'e-camp-api.rpc.profile',
+        ],
+        'eCampApi\\V1\\Rpc\\Printer\\PrinterController' => [
+            'service_name' => 'Printer',
+            'http_methods' => [
+                0 => 'GET'
+            ],
+            'route_name' => 'e-camp-api.rpc.printer',
         ],
     ],
     'api-tools' => [

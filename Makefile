@@ -12,12 +12,12 @@ docker-build:
 	docker-compose build
 
 run:
-	docker-compose up -d db phpmyadmin
+	docker-compose up -d db phpmyadmin rabbitmq
 	docker-compose run -d --name backend  --service-ports --entrypoint "./docker-run.sh" backend 
 	docker-compose run -d --name print    --service-ports print npm run dev
 	docker-compose run    --name frontend --service-ports frontend npm run serve
 
 
 print:
-	docker-compose run --rm worker-print-puppeteer
-	docker-compose run --rm worker-print-weasy
+	docker-compose up -d worker-print-puppeteer
+	# docker-compose run --rm worker-print-weasy
