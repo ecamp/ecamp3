@@ -1,26 +1,17 @@
 <template>
   <v-row no-gutters>
     <v-col cols="12">
-      <div class="TOC">
-        <h1>Table of content</h1>
-        <p v-for="activity in activities" :key="'toc_' + activity.id">
-          <a class="link" :href="'#activity_' + activity.id">
-            {{ activity.title }}
-          </a>
-        </p>
-      </div>
+      <front-page :camp="camp" />
+
+      <toc :activities="activities" />
 
       <picasso />
 
-      <div
+      <activity
         v-for="activity in activities"
         :key="'activity_' + activity.id"
-        class="event"
-      >
-        <h2 :id="'activity_' + activity.id">
-          {{ activity.title }}
-        </h2>
-      </div>
+        :activity="activity"
+      />
     </v-col>
   </v-row>
 </template>
@@ -28,11 +19,15 @@
 <script>
 export default {
   async asyncData({ query, $axios }) {
-    const { data } = await $axios.get(`/activities?campId=${query.camp}`)
+    const [campData, activityData] = await Promise.allSettled([
+      $axios.$get(`/camps/${query.camp}`),
+      $axios.$get(`/activities?campId=${query.camp}`),
+    ])
 
     return {
       query,
-      activities: data._embedded.items,
+      camp: campData.value,
+      activities: activityData.value._embedded.items,
     }
   },
   head() {
@@ -57,18 +52,6 @@ export default {
 
 <style lang="scss" scoped>
 @media print {
-  .TOC {
-    page-break-after: always;
-  }
-
-  .link::after {
-    content: ', page ' target-counter(attr(href url), page);
-  }
-
-  .event {
-    page-break-after: always;
-  }
-
   @page {
     size: a4 portrait;
 
