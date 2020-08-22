@@ -1,17 +1,10 @@
 <template>
   <v-app>
-    <v-app-bar :clipped-left="clipped" fixed app>
-      <v-toolbar-title v-text="title" />
-      <v-spacer />
-    </v-app-bar>
-    <v-content>
-      <v-container>
+    <v-main>
+      <v-container class="container">
         <nuxt />
       </v-container>
-    </v-content>
-    <v-footer :absolute="!fixed" app>
-      <span>&copy; {{ new Date().getFullYear() }}</span>
-    </v-footer>
+    </v-main>
   </v-app>
 </template>
 
@@ -42,3 +35,10 @@ export default {
   },
 }
 </script>
+
+<style lang="scss" scoped>
+.container {
+  margin: 0;
+  padding: 0;
+}
+</style>
