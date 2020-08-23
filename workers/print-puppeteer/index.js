@@ -47,9 +47,9 @@ amqp.connect('amqp://rabbitmq', function(error0, connection) {
 
         var queue = 'printer-puppeteer';
 
-        /*channel.assertQueue(queue, {
+        channel.assertQueue(queue, {
             durable: true
-        });*/
+        });
 
         console.log(" [*] Waiting for messages in %s. To exit press CTRL+C", queue);
 

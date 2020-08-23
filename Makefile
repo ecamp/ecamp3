@@ -18,6 +18,6 @@ run:
 	docker-compose run    --name frontend --service-ports frontend npm run serve
 
 
-print:
+run-printer:
 	docker-compose up -d worker-print-puppeteer
-	# docker-compose run --rm worker-print-weasy
+	docker-compose up -d worker-print-weasy

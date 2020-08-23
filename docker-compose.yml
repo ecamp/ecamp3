@@ -89,7 +89,7 @@ services:
       volumes:
         - ./workers/print-weasy:/app:delegated
       working_dir: /app
-      command: python print.py
+      command: python -u print.py
 
 volumes:
   npm-cache:
