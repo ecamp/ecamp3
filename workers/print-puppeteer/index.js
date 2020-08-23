@@ -13,21 +13,23 @@ async function closeBrowser(browser) {
 
 async function html2pdf(url, filename, sessionId) {
     const {browser, page} = await startBrowser();
+
     const cookies = [
         {
-            "domain": "localhost",
+            "domain": "print",
             "hostOnly": true,
             "httpOnly": false,
             "name": "PHPSESSID",
             "path": "/",
-            "sameSite": "no_restriction",
+            "sameSite": "unspecified",
             "secure": false,
             "session": true,
-            "storeId": "0",
+            "storeId": "1",
             "value": sessionId,
             "id": 1
         }
     ]
+
     await page.setCookie(...cookies)
     await page.goto(url);
     await page.emulateMedia('screen');
@@ -51,14 +53,11 @@ amqp.connect('amqp://rabbitmq', function(error0, connection) {
 
         console.log(" [*] Waiting for messages in %s. To exit press CTRL+C", queue);
 
-        channel.consume(queue, function(msg) {
+        channel.consume(queue, async function(msg) {
             console.log(" [x] Received %s", msg.content.toString());
             const message= JSON.parse(msg.content.toString());
-
-            (async () => {
-                await html2pdf(`http://print:3000/?camp=${message.campId}&pagedjs=true`, message.filename, message.PHPSESSID);
-                //process.exit(0);
-            })();
+            
+            await html2pdf(`http://print:3000/?camp=${message.campId}&pagedjs=true`, message.filename, message.PHPSESSID);
 
         }, {
             noAck: true
