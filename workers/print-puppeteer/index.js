@@ -31,8 +31,12 @@ async function html2pdf(url, filename, sessionId) {
     ]
 
     await page.setCookie(...cookies)
+    // page.setCacheEnabled(false)
     await page.goto(url);
-    await page.emulateMedia('screen');
+
+    await page.waitFor(500);
+    await page.waitForSelector(".pagedjs_pages", {timeout:2000});
+
     await page.pdf({path: `data/${filename}.pdf`});
 }
 
