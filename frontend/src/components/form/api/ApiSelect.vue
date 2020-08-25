@@ -5,7 +5,8 @@ Displays a field as a e-select + write access via API wrapper
 <template>
   <api-wrapper
     v-slot="wrapper"
-    v-bind="$props">
+    v-bind="$props"
+    v-on="$listeners">
     <e-select
       :value="wrapper.localValue"
       v-bind="$attrs"
