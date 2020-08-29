@@ -50,12 +50,6 @@ class Activity extends BaseEntity implements BelongsToCampInterface {
      */
     private $location;
 
-    /**
-     * @var int
-     * @ORM\Column(type="integer")
-     */
-    private $progress;
-
     public function __construct() {
         parent::__construct();
 
@@ -104,14 +98,6 @@ class Activity extends BaseEntity implements BelongsToCampInterface {
 
     public function setLocation(string $location): void {
         $this->location = $location;
-    }
-
-    public function getProgress(): int {
-        return $this->progress;
-    }
-
-    public function setProgress(int $progress): void {
-        $this->progress = $progress;
     }
 
     /**

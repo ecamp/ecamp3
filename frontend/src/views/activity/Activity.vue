@@ -83,20 +83,12 @@ Displays a single activity
                   </v-col>
                   <v-col class="col col-sm-6 col-12">
                     <v-row dense>
-                      <v-col class="col col-lg-8 col-md-7 col-8">
+                      <v-col>
                         <api-text-field
                           :name="$tc('entity.activity.fields.location')"
                           :uri="activity._meta.self"
                           fieldname="location"
                           dense />
-                      </v-col>
-                      <v-col class="col col-lg-4 col-md-5 col-4">
-                        <api-select
-                          :name="$tc('entity.activity.fields.progress')"
-                          :uri="activity._meta.self"
-                          fieldname="progress"
-                          dense
-                          :items="progressItems" />
                       </v-col>
                     </v-row>
                     <v-row dense>
@@ -106,6 +98,9 @@ Displays a single activity
                           outlined
                           dense
                           multiple
+                          chips
+                          deletable-chips
+                          small-chips
                           :hide-details="true"
                           :items="['User A', 'User B']" />
                       </v-col>

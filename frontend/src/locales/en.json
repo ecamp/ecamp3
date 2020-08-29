@@ -73,8 +73,7 @@
       "name": "Activity",
       "fields": {
         "title": "Title",
-        "location": "Location",
-        "progress": "Progress"
+        "location": "Location"
       }
     },
     "scheduleEntry": {
