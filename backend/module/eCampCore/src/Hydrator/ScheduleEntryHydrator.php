@@ -23,6 +23,11 @@ class ScheduleEntryHydrator implements HydratorInterface {
                     }, null),
                 ]
             ),
+            'period' => Util::Entity(
+                function (ScheduleEntry $ei) {
+                    return $ei->getPeriod();
+                },
+            ),
         ];
     }
 

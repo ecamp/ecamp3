@@ -98,7 +98,7 @@ class CampService extends AbstractEntityService {
         $ecConfigs = $campType->getConfig(CampType::CNF_EVENT_CATEGORIES) ?: [];
         foreach ($ecConfigs as $ecConfig) {
             $ecConfig->campId = $camp->getId();
-            $this->getActivityCategoryService()->create($ecConfig);
+            $this->activityCategoryService->create($ecConfig);
         }
 
         // Create Periods:
@@ -109,7 +109,7 @@ class CampService extends AbstractEntityService {
                 $this->periodService->create($period);
             }
         } elseif (isset($data->start, $data->end)) {
-            $this->getPeriodService()->create((object) [
+            $this->periodService->create((object) [
                 'campId' => $camp->getId(),
                 'description' => 'Main',
                 'start' => $data->start,

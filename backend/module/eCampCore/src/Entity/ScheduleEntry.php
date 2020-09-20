@@ -12,30 +12,30 @@ use eCamp\Lib\Entity\BaseEntity;
  */
 class ScheduleEntry extends BaseEntity implements BelongsToCampInterface {
     /**
-     * @var Period
      * @ORM\ManyToOne(targetEntity="Period")
      * @ORM\JoinColumn(nullable=false, onDelete="cascade")
      */
-    private $period;
+    private Period $period;
 
     /**
-     * @var Activity
      * @ORM\ManyToOne(targetEntity="Activity")
      * @ORM\JoinColumn(nullable=false, onDelete="cascade")
      */
-    private $activity;
+    private Activity $activity;
 
     /**
-     * @var int
+     * Minutes since period start.
+     *
      * @ORM\Column(type="integer", nullable=false)
      */
-    private $start;
+    private int $start;
 
     /**
-     * @var int
+     * Length in Minutes.
+     *
      * @ORM\Column(type="integer", nullable=false)
      */
-    private $length;
+    private int $length;
 
     /**
      * @ORM\Column(name="`left`", type="float", nullable=true)
@@ -78,17 +78,17 @@ class ScheduleEntry extends BaseEntity implements BelongsToCampInterface {
         $this->activity = $activity;
     }
 
-    public function getActivityCategory(): ActivityCategory {
+    public function getActivityCategory(): ?ActivityCategory {
         return (null !== $this->activity) ? $this->activity->getActivityCategory() : null;
     }
 
-    public function getNumberingStyle(): string {
+    public function getNumberingStyle(): ?string {
         $activityCategory = $this->getActivityCategory();
 
         return (null !== $activityCategory) ? $activityCategory->getNumberingStyle() : null;
     }
 
-    public function getColor(): string {
+    public function getColor(): ?string {
         $activityCategory = $this->getActivityCategory();
 
         return (null !== $activityCategory) ? $activityCategory->getColor() : null;
@@ -98,6 +98,11 @@ class ScheduleEntry extends BaseEntity implements BelongsToCampInterface {
         return $this->start;
     }
 
+    /**
+     * Minutes since period start.
+     *
+     * @param int $start Minutes
+     */
     public function setStart(int $start): void {
         $this->start = $start;
     }
@@ -106,6 +111,11 @@ class ScheduleEntry extends BaseEntity implements BelongsToCampInterface {
         return $this->length;
     }
 
+    /**
+     * Length in minutes.
+     *
+     * @param int $length Minutes
+     */
     public function setLength(int $length): void {
         $this->length = $length;
     }

@@ -29,6 +29,7 @@ Show all activity schedule entries of a single period.
           class="mx-2 ma-sm-0 pa-sm-2"
           :camp="camp"
           :schedule-entries="period().scheduleEntries().items"
+          :period="period"
           :start="new Date(Date.parse(period().start))"
           :end="new Date(Date.parse(period().end))" />
         <activity-list

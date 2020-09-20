@@ -13,7 +13,8 @@
     "moment": {
       "dateLong": "dd L",
       "dateShort": "dd M/D",
-      "hourShort": "h A"
+      "hourShort": "h A",
+      "hourLong": "HH:mm"
     },
     "serverError": {
       "409": "Uuuups... This action caused an server-side error."
@@ -115,6 +116,11 @@
         "create": "Create activity category",
         "deleteActivityCategoryQuestion": "Do you really want do delete the ActivityCategory",
         "deleteActivityCategoryNotPossibleInUse": "ActivityCategory can not be deleted. It is used by:"
+      },
+      "picasso": {
+        "moment": {
+          "date": "dd. D.MM | D. MMM | DD. MMM YYYY"
+        }
       }
     },
     "dialog": {

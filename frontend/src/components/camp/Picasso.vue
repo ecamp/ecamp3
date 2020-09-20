@@ -12,6 +12,8 @@ Listing all given activity schedule entries in a calendar view.
       :events="events"
       :event-name="getActivityName | loading('Lädt…', ({ input }) => isActivityLoading(input))"
       :event-color="getActivityColor | loading('grey lighten-2', (entry) => isActivityLoading(entry))"
+      event-start="start"
+      event-end="end"
       :interval-height="intervalHeight"
       interval-width="46"
       :interval-format="intervalFormat"
@@ -68,58 +70,60 @@ Listing all given activity schedule entries in a calendar view.
       :close-on-content-click="false"
       offset-y>
       <v-card v-if="tempScheduleEntry">
-        <v-card-text>
-          <e-text-field v-model="tempScheduleEntry.name" no-label
-                        class="font-weight-bold" placeholder="Aktivitätsname"
-                        hide-details="auto" />
-          <e-select v-model="tempScheduleEntry.type" label="Aktivitätstyp"
-                    :items="activityCategories.items" item-value="id"
-                    :return-object="true"
-                    item-text="name">
-            <template #item="{item, on, attrs}">
-              <v-list-item :key="item.id" v-bind="attrs" v-on="on">
-                <v-list-item-avatar>
-                  <v-chip :color="item.color">{{ item.short }}</v-chip>
-                </v-list-item-avatar>
-                <v-list-item-content>
-                  {{ item.name }}
-                </v-list-item-content>
-              </v-list-item>
-            </template>
-            <template #selection="{item}">
-              <div class="v-select__selection">
+        <v-form>
+          <v-card-text>
+            <e-text-field v-model="tempScheduleEntry.title" no-label
+                          class="font-weight-bold" placeholder="Aktivitätsname"
+                          hide-details="auto" />
+            <e-select v-model="tempScheduleEntry.activityCategory" label="Aktivitätstyp"
+                      :items="activityCategories.items" item-value="id"
+                      :return-object="true" required
+                      item-text="name">
+              <template #item="{item, on, attrs}">
+                <v-list-item :key="item.id" v-bind="attrs" v-on="on">
+                  <v-list-item-avatar>
+                    <v-chip :color="item.color">{{ item.short }}</v-chip>
+                  </v-list-item-avatar>
+                  <v-list-item-content>
+                    {{ item.name }}
+                  </v-list-item-content>
+                </v-list-item>
+              </template>
+              <template #selection="{item}">
+                <div class="v-select__selection">
                 <span class="black--text">
                   {{ item.name }}
                 </span>
-                <v-chip x-small :color="item.color">{{ item.short }}</v-chip>
-              </div>
-            </template>
-          </e-select>
-          <v-row no-gutters class="my-4">
-            <e-time-picker label="Start"
-                           :icon="null" class="flex-full"
-                           :value="toTimeString(tempScheduleEntry.start)" />
-            <e-time-picker width="100" label="Ende"
-                           :icon="null" class="flex-full mt-0"
-                           :value="toTimeString(tempScheduleEntry.end)" />
-          </v-row>
-          <e-select label="Verantwortliche Leitende" multiple
-                    chips deletable-chips
-                    :items="[{text:'Leitende1'},{text:'Leitende2'}]" />
-        </v-card-text>
-        <v-card-actions class="px-4 pb-4">
-          <v-btn v-if="!tempScheduleEntry.tmpEvent"
-                 color="primary" :to="scheduleEntryRoute(camp(), tempScheduleEntry)">
-            Öffnen
-          </v-btn>
-          <v-btn text color="secondary"
-                 class="ml-auto"
-                 @click="cancelEntryInfoPopup()">
-            Abbrechen
-          </v-btn>
-          <v-btn v-if="tempScheduleEntry.tmpEvent" color="success" @click="createActivity">Erstellen</v-btn>
-          <v-btn v-else color="success" @click="saveScheduleEntry">Speichern</v-btn>
-        </v-card-actions>
+                  <v-chip x-small :color="item.color">{{ item.short }}</v-chip>
+                </div>
+              </template>
+            </e-select>
+            <v-row no-gutters class="my-4">
+              <e-time-picker label="Start"
+                             :icon="null" class="flex-full"
+                             :value="toTimeString(tempScheduleEntry.start)" />
+              <e-time-picker width="100" label="Ende"
+                             :icon="null" class="flex-full mt-0"
+                             :value="toTimeString(tempScheduleEntry.end)" />
+            </v-row>
+            <e-select label="Verantwortliche Leitende" multiple
+                      chips deletable-chips
+                      :items="[{text:'Leitende1'},{text:'Leitende2'}]" />
+          </v-card-text>
+          <v-card-actions class="px-4 pb-4">
+            <v-btn v-if="!tempScheduleEntry.tmpEvent"
+                   color="primary" :to="scheduleEntryRoute(camp(), tempScheduleEntry)">
+              Öffnen
+            </v-btn>
+            <v-btn text color="secondary"
+                   class="ml-auto"
+                   @click="cancelEntryInfoPopup()">
+              Abbrechen
+            </v-btn>
+            <v-btn v-if="tempScheduleEntry.tmpEvent" color="success" @click="createActivity">Erstellen</v-btn>
+            <v-btn v-else color="success" @click="saveScheduleEntry">Speichern</v-btn>
+          </v-card-actions>
+        </v-form>
       </v-card>
     </v-menu>
   </div>
@@ -145,6 +149,10 @@ export default {
     },
     scheduleEntries: {
       type: Array,
+      required: true
+    },
+    period: {
+      type: Function,
       required: true
     },
     start: {
@@ -215,14 +223,17 @@ export default {
     },
     nowY () {
       return this.$refs.calendar ? this.$refs.calendar.timeToY(this.now) + 'px' : '-10px'
+    },
+    activitesUrl () {
+      return this.api.get().activities()._meta.self
     }
   },
   watch: {
     scheduleEntries: function (newValue, oldValue) {
       if (this.localScheduleEntries === oldValue) {
         this.parsedScheduleEntries = newValue.map((entry) => {
-          entry.type = entry.activity().activityCategory()
-          entry.name = entry.activity().title
+          entry.activityCategory = entry.activity().activityCategory()
+          entry.title = entry.activity().title
           entry.start = new Date(entry.startTime)
           entry.end = new Date(entry.endTime)
           entry.timed = true
@@ -235,8 +246,8 @@ export default {
   },
   created () {
     this.parsedScheduleEntries = this.scheduleEntries.map((entry) => {
-      entry.type = entry.activity().activityCategory()
-      entry.name = entry.activity().title
+      entry.activityCategory = entry.activity().activityCategory()
+      entry.title = entry.activity().title
       entry.start = new Date(entry.startTime)
       entry.end = new Date(entry.endTime)
       entry.timed = true
@@ -256,20 +267,20 @@ export default {
     },
     getActivityName (event, _) {
       if (event.tmpEvent) {
-        return (event.type ? event.type.short + ': ' : '') + event.name
+        return (event.activityCategory ? event.activityCategory.short + ': ' : '') + event.title
       } else {
-        return '(' + event.number + ') ' + event.type.short + ': ' + event.name
+        return '(' + event.number + ') ' + event.activityCategory.short + ': ' + event.title
       }
     },
     getActivityColor (event, _) {
       if (event.tmpEvent) {
-        if (event.type) {
-          return isCssColor(event.type.color) ? event.type.color : event.type.color + ' elevation-4 v-event--temporary'
+        if (event.activityCategory) {
+          return isCssColor(event.activityCategory.color) ? event.activityCategory.color : event.activityCategory.color + ' elevation-4 v-event--temporary'
         } else {
           return 'grey elevation-4 v-event--temporary'
         }
       } else {
-        return event.type.color
+        return event.activityCategory.color
       }
     },
     isActivityLoading (scheduleEntry) {
@@ -343,10 +354,10 @@ export default {
     createNewEntry: function (mouse) {
       this.currentStartTime = this.roundTimeDown(mouse)
       this.currentEntry = {
-        name: this.$tc('entity.activity.new'),
+        title: this.$tc('entity.activity.new'),
         start: this.currentStartTime,
         end: this.currentStartTime,
-        type: null,
+        activityCategory: null,
         timed: true,
         tmpEvent: true
       }
@@ -463,8 +474,23 @@ export default {
     createActivity () {
       this.showEntryInfo = false
       this.parsedScheduleEntries.push(this.tempScheduleEntry)
+
+      const periodStart = new Date(this.period().start)
+      const newScheduleEntry = {
+        periodId: this.period().id,
+        start: this.convertToMiliseconds(this.tempScheduleEntry.start - periodStart.getTime()),
+        length: this.convertToMiliseconds(this.tempScheduleEntry.end - this.tempScheduleEntry.start)
+      }
+      const newActivity = {
+        title: this.tempScheduleEntry.title,
+        campId: this.camp().id,
+        activityCategoryId: this.tempScheduleEntry.activityCategory.id,
+        scheduleEntries: [newScheduleEntry]
+      }
+      this.api.post(this.activitesUrl, newActivity).then(activity => {
+        this.api.reload(this.activitesUrl)
+      })
       this.tempScheduleEntry = null
-      // TODO: api push
       this.originalScheduleEntry = null
       this.clearCurrentEntry()
       this.clearDraggedEntry()
@@ -497,6 +523,10 @@ export default {
     },
     toTime (tms) {
       return new Date(tms.year, tms.month - 1, tms.day, tms.hour, tms.minute).getTime()
+    },
+    convertToMiliseconds (time) {
+      const milisecondsInAMinute = 60000
+      return time / milisecondsInAMinute
     },
     toTimeString (date) {
       return this.$moment(date).format(this.$tc('global.moment.hourLong'))
@@ -578,10 +608,6 @@ export default {
 <style lang="scss" scoped>
   .v-card {
     overflow: hidden;
-  }
-
-  ::v-deep .v-calendar-daily__day.v-past .v-event-timed {
-    filter: brightness(1.25) saturate(0.4);
   }
 
   ::v-deep .v-calendar-daily__pane {
