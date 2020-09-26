@@ -72,15 +72,15 @@
   },
   "activityContent": {
     "safetyConcept": {
-      "add": "Ajouter",
-      "name": "Safety concept",
+      "add": "Ajouter un concept de sécurité",
+      "name": "Concept de sécurité",
       "icon": "mdi-security",
       "sort": "3",
       "entity": { }
     },
     "storyboard": {
-      "add": "Add a storyboard | Add another storyboard",
-      "name": "Storyboard",
+      "add": "Ajout d'un scénarimage | Add another storyboard",
+      "name": "Scénarimage",
       "icon": "mdi-script-text-outline",
       "sort": "2",
       "entity": {
