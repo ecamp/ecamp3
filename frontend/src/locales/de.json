@@ -35,9 +35,9 @@
     "period": {
       "name": "Lagerabschnitt | Lagerabschnitte",
       "fields": {
-        "description": "Beschreibung",
+        "start": "Von",
         "end": "Bis",
-        "start": "Von"
+        "description": "Beschreibung"
       },
       "defaultDescription": "Hauptlager"
     },
@@ -74,11 +74,15 @@
     "safetyConcept": {
       "add": "Sicherheits-Konzept hinzufügen",
       "name": "Sicherheits-Konzept",
-      "entity": { }
+      "icon": "mdi-security",
+      "sort": "3",
+      "entity": {}
     },
     "storyboard": {
-      "add": "Programmabschnitt hinzufügen",
+      "add": "Programmabschnitt hinzufügen | Weiteren Programmabschnitt hinzufügen",
       "name": "Programmabschnitt",
+      "icon": "mdi-script-text-outline",
+      "sort": "2",
       "entity": {
         "section": {
           "name": "Programmpunkt | Programmpunkte",
@@ -93,12 +97,15 @@
     "storycontext": {
       "add": "Roten Faden hinzufügen",
       "name": "Roter Faden",
-      "entity": { }
+      "icon": "mdi-book-open-page-variant",
+      "sort": "1",
+      "entity": {}
     },
     "notes": {
       "name": "Notizen",
+      "icon": "mdi-pen",
       "add": "Notizen hinzufügen",
-      "entity": { }
+      "entity": {}
     }
   },
   "components": {
@@ -107,7 +114,7 @@
         "title": "Block-Kategorien",
         "create": "Block-Kategorie erstellen",
         "deleteActivityCategoryQuestion": "Möchtest du diese Block-Kategorie wirklich löschen?",
-        "deleteActivityCategoryNotPossibleInUse": "Block-Kategorie kann nicht gelöscht werden. Sie wird noch verwendet:"
+        "deleteActivityCategoryNotPossibleInUse": "Block-Kategorie kann nicht gelöscht werden. Sie wird noch verwendet von:"
       }
     },
     "dialog": {
@@ -129,7 +136,7 @@
   "views": {
     "auth": {
       "login": {
-        "title":  "Anmelden",
+        "title": "Anmelden",
         "username": "Username oder E-Mail",
         "password": "Passwort",
         "or": "oder",
@@ -140,8 +147,8 @@
         },
         "accountless": "Hast du noch keinen Account?",
         "registernow": "Jetzt registrieren",
-        "beta":{
-          "notice": "Hier entsteht das neue eCamp.<br>WICHTIG: Diese Webseite befindet sich im Aufbau. Das heisst, dass alle Daten öffentlich sind und periodisch gelöscht werden!"
+        "beta": {
+          "notice": "Das ist die Seite vom neuen eCamp.<br>WICHTIG: Diese Webseite befindet sich im Aufbau. Das heisst, dass alle Daten öffentlich sind und periodisch gelöscht werden!"
         }
       }
     },
