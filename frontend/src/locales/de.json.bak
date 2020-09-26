@@ -35,9 +35,9 @@
     "period": {
       "name": "Lagerabschnitt | Lagerabschnitte",
       "fields": {
-        "start": "Von",
-	"end": "Bis",
         "description": "Beschreibung",
+        "end": "Bis",
+        "start": "Von"
       },
       "defaultDescription": "Hauptlager"
     },
@@ -74,15 +74,11 @@
     "safetyConcept": {
       "add": "Sicherheits-Konzept hinzufügen",
       "name": "Sicherheits-Konzept",
-      "icon": "mdi-security",
-      "sort": "3",
       "entity": { }
     },
     "storyboard": {
-      "add": "Programmabschnitt hinzufügen | Weiteren Programmabschnitt hinzufügen",
+      "add": "Programmabschnitt hinzufügen",
       "name": "Programmabschnitt",
-      "icon": "mdi-script-text-outline",
-      "sort": "2",
       "entity": {
         "section": {
           "name": "Programmpunkt | Programmpunkte",
@@ -97,13 +93,10 @@
     "storycontext": {
       "add": "Roten Faden hinzufügen",
       "name": "Roter Faden",
-      "icon": "mdi-book-open-page-variant",
-      "sort": "1",
       "entity": { }
     },
     "notes": {
       "name": "Notizen",
-      "icon": "mdi-pen",
       "add": "Notizen hinzufügen",
       "entity": { }
     }
@@ -114,7 +107,7 @@
         "title": "Block-Kategorien",
         "create": "Block-Kategorie erstellen",
         "deleteActivityCategoryQuestion": "Möchtest du diese Block-Kategorie wirklich löschen?",
-        "deleteActivityCategoryNotPossibleInUse": "Block-Kategorie kann nicht gelöscht werden. Sie wird noch verwendet von:"
+        "deleteActivityCategoryNotPossibleInUse": "Block-Kategorie kann nicht gelöscht werden. Sie wird noch verwendet:"
       }
     },
     "dialog": {
@@ -148,7 +141,7 @@
         "accountless": "Hast du noch keinen Account?",
         "registernow": "Jetzt registrieren",
         "beta":{
-          "notice": "Das ist die Seite vom neuen eCamp.<br>WICHTIG: Diese Webseite befindet sich im Aufbau. Das heisst, dass alle Daten öffentlich sind und periodisch gelöscht werden!"
+          "notice": "Hier entsteht das neue eCamp.<br>WICHTIG: Diese Webseite befindet sich im Aufbau. Das heisst, dass alle Daten öffentlich sind und periodisch gelöscht werden!"
         }
       }
     },

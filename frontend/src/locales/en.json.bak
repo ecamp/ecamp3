@@ -113,8 +113,8 @@
       "campActivityCategories": {
         "title": "Activity categories",
         "create": "Create activity category",
-        "deleteActivityCategoryQuestion": "Do you really want do delete the ActivityCategory?",
-        "deleteActivityCategoryNotPossibleInUse": "ActivityCategory can't be deleted. It is used by:"
+        "deleteActivityCategoryQuestion": "Do you really want do delete the ActivityCategory",
+        "deleteActivityCategoryNotPossibleInUse": "ActivityCategory can not be deleted. It is used by:"
       }
     },
     "dialog": {
