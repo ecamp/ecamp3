@@ -13,7 +13,7 @@ abstract class AbstractDatabaseTestCase extends TestCase {
      */
     public function setUp() {
         parent::setUp();
-
+        putenv('env=test');
         $em = $this->getEntityManager();
         $this->createDatabaseSchema($em);
     }

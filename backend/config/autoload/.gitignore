@@ -1,3 +1,4 @@
 local.php
 *.local.php
 *.local.*.php
+!doctrine.local.test.php
