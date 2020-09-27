@@ -1,11 +1,11 @@
 {
   "global": {
-    "language": "Italiano (Scout)"
+    "language": "English (Scout)"
   },
   "entity": {
     "user": {
       "fields": {
-        "nickname": "Nome del Scout"
+        "nickname": "Scout name"
       }
     }
   },
