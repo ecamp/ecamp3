@@ -137,7 +137,7 @@
     "auth": {
       "login": {
         "title": "Anmelden",
-        "username": "Username oder E-Mail",
+        "username": "Benutzername oder E-Mail",
         "password": "Passwort",
         "or": "oder",
         "provider": {

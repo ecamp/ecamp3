@@ -137,16 +137,16 @@
     "auth": {
       "login": {
         "title":  "Login",
-        "username": "Username or Email",
-        "password": "Password",
-        "or": "or",
+        "username": "Nom d'utilisateur ou courriel",
+        "password": "Mot de passe",
+        "or": "ou",
         "provider": {
           "ecamp": "Login avec eCamp",
           "midata": "Login avec MiData",
           "google": "Login avec Google"
         },
         "accountless": "Vous n'avez pas encore de compte ?",
-        "registernow": "inscrivez-vous maintenant",
+        "registernow": "Inscrivez-vous maintenant",
         "beta":{
           "notice": "Voici le site du nouveau eCamp.<br>IMPORTANT: Ce site est en construction. Cela signifie que toutes les données sont publiques et seront supprimées périodiquement!"
         }
