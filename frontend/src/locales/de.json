@@ -36,8 +36,8 @@
       "name": "Lagerabschnitt | Lagerabschnitte",
       "fields": {
         "start": "Von",
-	"end": "Bis",
-        "description": "Beschreibung",
+        "end": "Bis",
+        "description": "Beschreibung"
       },
       "defaultDescription": "Hauptlager"
     },
@@ -76,7 +76,7 @@
       "name": "Sicherheits-Konzept",
       "icon": "mdi-security",
       "sort": "3",
-      "entity": { }
+      "entity": {}
     },
     "storyboard": {
       "add": "Programmabschnitt hinzufügen | Weiteren Programmabschnitt hinzufügen",
@@ -99,13 +99,13 @@
       "name": "Roter Faden",
       "icon": "mdi-book-open-page-variant",
       "sort": "1",
-      "entity": { }
+      "entity": {}
     },
     "notes": {
       "name": "Notizen",
       "icon": "mdi-pen",
       "add": "Notizen hinzufügen",
-      "entity": { }
+      "entity": {}
     }
   },
   "components": {
@@ -136,7 +136,7 @@
   "views": {
     "auth": {
       "login": {
-        "title":  "Anmelden",
+        "title": "Anmelden",
         "username": "Username oder E-Mail",
         "password": "Passwort",
         "or": "oder",
@@ -147,7 +147,7 @@
         },
         "accountless": "Hast du noch keinen Account?",
         "registernow": "Jetzt registrieren",
-        "beta":{
+        "beta": {
           "notice": "Das ist die Seite vom neuen eCamp.<br>WICHTIG: Diese Webseite befindet sich im Aufbau. Das heisst, dass alle Daten öffentlich sind und periodisch gelöscht werden!"
         }
       }
@@ -172,7 +172,7 @@
     "home": {
       "home": "Home",
       "myCamps": "Mein Lager | Meine Lager",
-      "welcome": "Hallo {user}. Herzlich willkommen auf eCamp"
+      "welcome": "Hallo {user}. Herzlich Willkommen auf eCamp"
     },
     "profile": {
       "profile": "Profil"

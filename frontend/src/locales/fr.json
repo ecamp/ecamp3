@@ -72,65 +72,65 @@
   },
   "activityContent": {
     "safetyConcept": {
-      "add": "Add a safety concept",
-      "name": "Safety concept",
+      "add": "Ajouter un concept de sécurité",
+      "name": "Concept de sécurité",
       "icon": "mdi-security",
       "sort": "3",
       "entity": { }
     },
     "storyboard": {
-      "add": "Add a storyboard | Add another storyboard",
-      "name": "Storyboard",
+      "add": "Ajout d'un scénarimage | Add another storyboard",
+      "name": "Scénarimage",
       "icon": "mdi-script-text-outline",
       "sort": "2",
       "entity": {
         "section": {
           "name": "Section | Sections",
           "fields": {
-            "column1": "Time",
-            "column2": "Program",
-            "column3": "Responsible"
+            "column1": "Heure",
+            "column2": "Programme",
+            "column3": "Ajouter le contexte de l'histoire"
           }
         }
       }
     },
     "storycontext": {
-      "add": "Add story context",
-      "name": "Story context",
+      "add": "Ajouter le contexte de l'histoire",
+      "name": "Contexte de l'histoire",
       "icon": "mdi-book-open-page-variant",
       "sort": "1",
       "entity": { }
     },
     "notes": {
-      "name": "Notes",
+      "name": "Remarques",
       "icon": "mdi-pen",
-      "add": "Add notes",
+      "add": "Ajouter des remarques",
       "entity": { }
     }
   },
   "components": {
     "camp": {
       "campActivityCategories": {
-        "title": "Activity categories",
-        "create": "Create activity category",
-        "deleteActivityCategoryQuestion": "Do you really want do delete the ActivityCategory?",
-        "deleteActivityCategoryNotPossibleInUse": "ActivityCategory can't be deleted. It is used by:"
+        "title": "Catégories d'activités",
+        "create": "Créer une catégorie d'activité",
+        "deleteActivityCategoryQuestion": "voulez-vous vraiment effacer la catégorie d'activité?",
+        "deleteActivityCategoryNotPossibleInUse": "La catégorie d'activité ne peut pas être effacée. Elle est utilisée par:"
       }
     },
     "dialog": {
       "dialogActivityCategoryCreate": {
-        "title": "Create activity category"
+        "title": "Créer une catégorie d'activité"
       },
       "dialogEntityDelete": {
-        "title": "Really delete?",
-        "warningText": "Do you really want to delete this?"
+        "title": "vraiment effacer?",
+        "warningText": "voulez-vous vraiment le effacer ?"
       }
     },
     "navigation": {
-      "searchActivitiesAndCamps": "Seach activities and camps",
-      "search": "Search",
-      "myCamps": "My camp | My camps",
-      "profile": "Profile"
+      "searchActivitiesAndCamps": "Recherche d'activités et de camps",
+      "search": "Chercher",
+      "myCamps": "Mon camp | Mes camps",
+      "profile": "Profil"
     }
   },
   "views": {
@@ -141,41 +141,41 @@
         "password": "Password",
         "or": "or",
         "provider": {
-          "ecamp": "Login with eCamp",
-          "midata": "Login with MiData",
-          "google": "Login with Google"
+          "ecamp": "Login avec eCamp",
+          "midata": "Login avec MiData",
+          "google": "Login avec Google"
         },
-        "accountless": "Don't have an account yet?",
-        "registernow": "Register now",
+        "accountless": "Vous n'avez pas encore de compte ?",
+        "registernow": "inscrivez-vous maintenant",
         "beta":{
-          "notice": "This is the site of the new eCamp.<br>IMPORTANT: This website is under construction. This means that all data is public and will be deleted periodically!"
+          "notice": "Voici le site du nouveau eCamp.<br>IMPORTANT: Ce site est en construction. Cela signifie que toutes les données sont publiques et seront supprimées périodiquement!"
         }
       }
     },
     "activity": {
       "sideBarProgram": {
-        "title": "Daily overview"
+        "title": "Ajouter une période"
       }
     },
     "campCreate": {
-      "create": "Create camp",
+      "create": "Créer un camp",
       "period": {
-        "add": "Add a period",
-        "remove": "Remove period"
+        "add": "Ajouter une période",
+        "remove": "Effacer cette période"
       },
-      "title": "Create camp"
+      "title": "Créer un camp"
     },
     "camps": {
-      "create": "Create camp",
-      "title": "My camp | My camps"
+      "create": "Créer un camp",
+      "title": "Mon camp | Mes camps"
     },
     "home": {
       "home": "Home",
-      "myCamps": "My camp | My camps",
-      "welcome": "Hey {user}. Welcome to eCamp"
+      "myCamps": "Mon camp | Mes camps",
+      "welcome": "Hey {user}. Bienvenue au eCamp"
     },
     "profile": {
-      "profile": "Profile"
+      "profile": "Profil"
     }
   }
 }
