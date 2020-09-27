@@ -141,11 +141,11 @@
         "password": "Mot de passe",
         "or": "ou",
         "provider": {
-          "ecamp": "Login avec eCamp",
-          "midata": "Login avec MiData",
-          "google": "Login avec Google"
+          "ecamp": "Connectez-vous avec eCamp",
+          "midata": "Connectez-vous avec MiData",
+          "google": "Connectez-vous avec Google"
         },
-        "accountless": "Vous n'avez pas encore de compte ?",
+        "accountless": "Vous n'avez pas encore de compte?",
         "registernow": "Inscrivez-vous maintenant",
         "beta":{
           "notice": "Voici le site du nouveau eCamp.<br>IMPORTANT: Ce site est en construction. Cela signifie que toutes les données sont publiques et seront supprimées périodiquement!"
