@@ -131,7 +131,8 @@
       "searchActivitiesAndCamps": "Cerca attività e campi",
       "search": "Cerca",
       "myCamps": "Il mio campo | I miei campi",
-      "profile": "Profilo"
+      "profile": "Profilo",
+      "logout": "Disconnettersi"
     }
   },
   "views": {

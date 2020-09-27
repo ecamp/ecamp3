@@ -130,7 +130,8 @@
       "searchActivitiesAndCamps": "Search activities and camps",
       "search": "Search",
       "myCamps": "My camp | My camps",
-      "profile": "Profile"
+      "profile": "Profile",
+      "logout": "Log out"
     }
   },
   "views": {

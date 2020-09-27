@@ -130,7 +130,8 @@
       "searchActivitiesAndCamps": "Aktivitäten und Camps suchen",
       "search": "Suchen",
       "myCamps": "Mein Lager | Meine Lager",
-      "profile": "Profil"
+      "profile": "Profil",
+      "logout": "Ausloggen"
     }
   },
   "views": {
