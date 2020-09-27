@@ -116,7 +116,12 @@
         "deleteActivityCategoryQuestion": "Möchtest du diese Block-Kategorie wirklich löschen?",
         "deleteActivityCategoryNotPossibleInUse": "Block-Kategorie kann nicht gelöscht werden. Sie wird noch verwendet von:"
       }
-    },
+    "form":{
+        "server_error":{
+        "validation_errors":"Das ist eine Fehlermeldung",
+        "entity": {}
+      }
+     },
     "dialog": {
       "dialogActivityCategoryCreate": {
         "title": "Block-Kategorie erstellen"
@@ -131,7 +136,7 @@
       "search": "Suchen",
       "myCamps": "Mein Lager | Meine Lager",
       "profile": "Profil",
-      "logout": "Ausloggen"
+      "logout": "Abmelden"
     }
   },
   "views": {
