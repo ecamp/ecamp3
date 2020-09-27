@@ -1,7 +1,7 @@
 {
   "global": {
     "changeLanguage": "Changer la langue",
-    "language": "Francais",
+    "language": "Français",
     "button": {
       "add": "Ajouter",
       "back": "Retour",
@@ -24,7 +24,7 @@
   },
   "entity": {
     "camp": {
-      "name": "Campement",
+      "name": "Camp",
       "fields": {
         "name": "Nom",
         "title": "Titre",
@@ -58,8 +58,8 @@
         "short": "Court",
         "name": "Nom",
         "color": "Coleur",
-        "numberingStyle": "Numbering style",
-        "activityType": "style de numérotation"
+        "numberingStyle": "style de numérotation",
+        "activityType": "Type"
       },
       "numberingStyles": {
         "1": "1, 2, 3 - numéros",
@@ -79,7 +79,7 @@
       "entity": { }
     },
     "storyboard": {
-      "add": "Ajout d'un scénarimage | Add another storyboard",
+      "add": "Ajouter d'un scénarimage | Ajouter d'un autre scénarimage",
       "name": "Scénarimage",
       "icon": "mdi-script-text-outline",
       "sort": "2",
@@ -123,7 +123,7 @@
       },
       "dialogEntityDelete": {
         "title": "vraiment effacer?",
-        "warningText": "voulez-vous vraiment le effacer ?"
+        "warningText": "voulez-vous vraiment le effacer?"
       }
     },
     "navigation": {
@@ -148,7 +148,7 @@
         "accountless": "Vous n'avez pas encore de compte?",
         "registernow": "Inscrivez-vous maintenant",
         "beta":{
-          "notice": "Voici le site du nouveau eCamp.<br>IMPORTANT: Ce site est en construction. Cela signifie que toutes les données sont publiques et seront supprimées périodiquement!"
+          "notice": "Voici le site du nouveau eCamp.<br>IMPORTANT: Ce site est en construction. Cela signifie que toutes les données sont publiques et seront effacées périodiquement!"
         }
       }
     },

@@ -1,3 +1,4 @@
+
 {
   "global": {
     "changeLanguage": "Cambia la lingua",
@@ -7,8 +8,8 @@
       "back": "Indietro",
       "delete": "Cancellare",
       "edit": "Modificare",
-      "submit": "Soumettre",
-      "cancel": "Inviare"
+      "submit": "Inviare",
+      "cancel": "Annullare"
     },
     "moment": {
       "dateLong": "dd L",
@@ -42,31 +43,31 @@
       "defaultDescription": "Campo principale"
     },
     "user": {
-      "name": "Utilisateur",
+      "name": "Utene",
       "fields": {
-        "email": "Adresse de courriel",
+        "email": "indirizzo e-mail",
         "firstname": "prénom",
-        "surname": "nom de famille",
-        "nickname": "surnom",
-        "birthday": "anniversaire",
-        "language": "Langue"
+        "surname": "nome di famiglia",
+        "nickname": "soprannome",
+        "birthday": "compleanno",
+        "language": "Lingua"
       }
     },
     "activityCategory": {
-      "name": "Catégories d'activités",
+      "name": "Categorie di attività",
       "fields": {
-        "short": "Court",
-        "name": "Nom",
-        "color": "Coleur",
-        "numberingStyle": "Numbering style",
-        "activityType": "style de numérotation"
+        "short": "Corte",
+        "name": "Nome",
+        "color": "Colore",
+        "numberingStyle": "stile della numerazione",
+        "activityType": "Stile"
       },
       "numberingStyles": {
-        "1": "1, 2, 3 - numéros",
-        "a": "a, b, c - lettres minuscules",
-        "A": "A, B, C - lettres majuscules",
-        "i": "i, ii, iii - chiffres romains minuscules",
-        "I": "I, II, III - chiffres romains majuscules"
+        "1": "1, 2, 3 - numeri",
+        "a": "a, b, c - lettres minuscole",
+        "A": "A, B, C - maiuscole di blocco",
+        "i": "i, ii, iii - numeri romani minuscoli",
+        "I": "I, II, III - numeri romani maiuscoli"
       }
     }
   },
@@ -79,7 +80,7 @@
       "entity": { }
     },
     "storyboard": {
-      "add": "Aggiungi uno storyboard | aggiungi un altro storyboard",
+      "add": "Aggiungere uno storyboard | aggiungere un altro storyboard",
       "name": "Storyboard",
       "icon": "mdi-script-text-outline",
       "sort": "2",
