@@ -38,7 +38,7 @@ We use a triangular git workflow. This means that all changes are first pushed t
 
 Once this is set up, you can start coding, and all `git pull` commands should pull from the central repository by default, while all `git push` commands will push to your fork of the project.
 
-We use cs-fixer to ensure a common code style. To make cs-fixer run before every commit, create a script <your>/<local>/<repository>/ecamp3/.git/hooks/pre-commit with the following content and make it executable (for Windows, use equivalent commands):
+We use cs-fixer to ensure a common PHP code style. To make cs-fixer run before every commit, create a script <your>/<local>/<repository>/ecamp3/.git/hooks/pre-commit with the following content and make it executable (for Windows, use equivalent commands):
 ```
 #!/usr/bin/env bash
 
@@ -70,6 +70,7 @@ echo "php-cs-fixer pre commit hook finish"
 ## Before submitting pull requests
 
 * Did cs-fixer run on all changed or new PHP files?
+* Did eslint run on all changed or new JS / Vue files?
 * Are all variables, classes, functions, comments etc. named or written in English?
 * Did the test coverage stay the same or get higher across the project?
 * Are all passwords, credentials and local configuration removed from the code changes?
@@ -116,7 +117,7 @@ Wir wenden einen triangulären Git-Workflow an. Das bedeutet, dass alle Code-Än
 
 Wenn dies eingerichtet ist kannst du loslegen, und alle `git pull`-Befehle sollten standardmässig den Code vom zentralen Repository holen und `git push`-Befehle sollten auf deinen eigenen Fork des Projekts senden.
 
-Wir verwenden cs-fixer um einen gemeinsamen Code Style zu etablieren. Um cs-fixer automatisch vor jedem Commit auszuführen, erstelle ein neues Skript <your>/<local>/<repository>/ecamp3/.git/hooks/pre-commit mit dem folgenden Inhalt (muss für Windows ev. leicht angepasst werden):
+Wir verwenden cs-fixer um einen gemeinsamen PHP Code Style zu etablieren. Um cs-fixer automatisch vor jedem Commit auszuführen, erstelle ein neues Skript <your>/<local>/<repository>/ecamp3/.git/hooks/pre-commit mit dem folgenden Inhalt (muss für Windows ev. leicht angepasst werden):
 ```
 #!/usr/bin/env bash
 
@@ -148,6 +149,7 @@ echo "php-cs-fixer pre commit hook finish"
 ## Vor dem Einreichen eines Pull Requests
 
 * Wurden alle geänderten oder neuen PHP-Dateien von cs-fixer verarbeitet?
+* Wurden alle geänderten oder neuen JS/Vue-Dateien von eslint bereinigt?
 * Sind alle Variabeln, Klassen, Funktionen, Kommentare, etc. auf englisch?
 * Ist die Testabdeckung gleich hoch oder höher als vor den Änderungen?
 * Wurden alle Passwörter, Zugangsdaten und lokale Konfiguration aus den Code-Änderungen entfernt?
