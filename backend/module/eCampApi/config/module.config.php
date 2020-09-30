@@ -1258,6 +1258,18 @@ return [
                 'filters' => [],
                 'validators' => [],
             ],
+            1 => [
+                'name' => 'location',
+                'required' => false,
+                'filters' => [],
+                'validators' => [],
+            ],
+            2 => [
+                'name' => 'progress',
+                'required' => false,
+                'filters' => [],
+                'validators' => [],
+            ],
         ],
         'eCampApi\\V1\\Rest\\ActivityCategory\\Validator' => [
             0 => [

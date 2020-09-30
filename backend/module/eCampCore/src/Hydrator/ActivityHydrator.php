@@ -33,6 +33,7 @@ class ActivityHydrator implements HydratorInterface {
         return [
             'id' => $activity->getId(),
             'title' => $activity->getTitle(),
+            'location' => $activity->getLocation(),
 
             'camp' => new EntityLink($activity->getCamp()),
             'activityCategory' => EntityLink::Create($activity->getActivityCategory()),
@@ -62,6 +63,9 @@ class ActivityHydrator implements HydratorInterface {
 
         if (isset($data['title'])) {
             $activity->setTitle($data['title']);
+        }
+        if (isset($data['location'])) {
+            $activity->setLocation($data['location']);
         }
 
         return $activity;
