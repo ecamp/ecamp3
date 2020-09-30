@@ -1658,7 +1658,7 @@ return [
         'eCampApi\\V1\\Rpc\\Printer\\PrinterController' => [
             'service_name' => 'Printer',
             'http_methods' => [
-                0 => 'GET'
+                0 => 'POST'
             ],
             'route_name' => 'e-camp-api.rpc.printer',
         ],

@@ -15,7 +15,7 @@ class AmqpServiceFactory implements FactoryInterface {
      */
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null) {
         $config = $container->get('Config');
-        $amqpConfig = $config['amqp']['connection'] ?: [];
+        $amqpConfig = $config['amqp']['connection'] ?? [];
 
         $factory = new AmqpConnectionFactory([
             'host' => $amqpConfig['host'] ?? 'rabbitmq',

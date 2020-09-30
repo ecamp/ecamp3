@@ -21,11 +21,12 @@ use Interop\Amqp\AmqpQueue;
 use Interop\Amqp\Impl\AmqpBind;
 use Enqueue\ConnectionFactoryFactory;
 use eCamp\Lib\Amqp\AmqpService;
+use eCampApi\V1\Rpc\ApiController;
 
 /**
  * PrinterController
  */
-class PrinterController extends AbstractActionController {
+class PrinterController extends ApiController {
     /** @var AuthenticationService */
     private $authenticationService;
 
@@ -50,6 +51,16 @@ class PrinterController extends AbstractActionController {
         if (! $this->authenticationService->hasIdentity())
             return new ApiProblemModel(new ApiProblem(401, null));
 
+        /** @var Request $request */
+        $request = $this->getRequest();
+        $content = $request->getContent();
+
+        $data = (null != $content) ? Json::decode($content) : [];
+
+        if (!isset($data->campId)) {
+            return new ApiProblem(400, 'No campId provided');
+        }
+       
         // TODO: check if user has permission to print given camp
     
         $userId = $this->authenticationService->getIdentity();
@@ -60,9 +71,11 @@ class PrinterController extends AbstractActionController {
         $weasyQueue = $this->amqpService->createQueue('printer-weasy', $printTopic);
         $puppeteerQueue = $this->amqpService->createQueue('printer-puppeteer', $printTopic);
         
+        $filename = uniqid();
+
         $messageArray = [
-            'campId' => '4f885733', 
-            'filename' => uniqid(),
+            'campId' => $data->campId, 
+            'filename' => $filename,
             'PHPSESSID' => session_id()
         ];
 
@@ -74,6 +87,8 @@ class PrinterController extends AbstractActionController {
             'rel' => 'self',
             'route' => 'e-camp-api.rpc.printer',
         ]);
+
+        $data['filename'] = $filename;
 
         $json = new HalJsonModel();
         $json->setPayload(new Entity($data));
