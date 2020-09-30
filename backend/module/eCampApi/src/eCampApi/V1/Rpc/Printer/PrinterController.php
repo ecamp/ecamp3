@@ -20,6 +20,7 @@ use Interop\Amqp\AmqpTopic;
 use Interop\Amqp\AmqpQueue;
 use Interop\Amqp\Impl\AmqpBind;
 use Enqueue\ConnectionFactoryFactory;
+use eCamp\Lib\Amqp\AmqpService;
 
 /**
  * PrinterController
@@ -31,59 +32,42 @@ class PrinterController extends AbstractActionController {
     /** @var UserService */
     private $userService;
 
+    /** @var AmqpService */
+    private $amqpService;
+
     public function __construct(
         AuthenticationService $authenticationService,
-        UserService $userService
+        UserService $userService,
+        AmqpService $amqpService
     ) {
         $this->authenticationService = $authenticationService;
         $this->userService = $userService;
+        $this->amqpService = $amqpService;
     }
 
     public function indexAction() {
         /* make sure user is logged in */
         if (! $this->authenticationService->hasIdentity())
             return new ApiProblemModel(new ApiProblem(401, null));
+
+        // TODO: check if user has permission to print given camp
     
         $userId = $this->authenticationService->getIdentity();
         /** @var User $user */
         $user = $this->userService->fetch($userId);
         
-        // connect to AMQP broker at example.com
-        $factory = new AmqpConnectionFactory([
-            'host' => 'rabbitmq',
-            'port' => 5672,
-            'vhost' => '/',
-            'user' => 'guest',
-            'pass' => 'guest',
-            'persisted' => false,
-        ]);
-        $context = $factory->createContext();
-
-        $printTopic = $context->createTopic('print');
-        $printTopic->setType(AmqpTopic::TYPE_FANOUT);
-        $context->declareTopic($printTopic);
+        $printTopic = $this->amqpService->createTopic('print');
+        $weasyQueue = $this->amqpService->createQueue('printer-weasy', $printTopic);
+        $puppeteerQueue = $this->amqpService->createQueue('printer-puppeteer', $printTopic);
         
-        $weasyQueue = $context->createQueue('printer-weasy');
-        $weasyQueue->addFlag(AmqpQueue::FLAG_DURABLE);
-        $context->declareQueue($weasyQueue);
-
-        $puppeteerQueue = $context->createQueue('printer-puppeteer');
-        $puppeteerQueue->addFlag(AmqpQueue::FLAG_DURABLE);
-        $context->declareQueue($puppeteerQueue);
-
-        $context->bind(new AmqpBind($printTopic, $weasyQueue));
-        $context->bind(new AmqpBind($printTopic, $puppeteerQueue));
-
         $messageArray = [
             'campId' => '4f885733', 
             'filename' => uniqid(),
             'PHPSESSID' => session_id()
         ];
-        
-        $message = $context->createMessage(json_encode($messageArray));
-        $context->createProducer()->send($printTopic, $message);
 
-
+        $this->amqpService->sendAsJson($printTopic, $messageArray);
+    
         $data = [];
 
         $data['self'] = Link::factory([
