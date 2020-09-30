@@ -404,6 +404,12 @@ export default {
         if (Math.abs(now - this.mouseStartTime) < threshold) {
           this.showEntryInfoPopup(this.draggedEntry)
         } else {
+          const periodStart = new Date(this.period().start)
+          const patchedScheduleEntry = {
+            start: this.convertToMiliseconds(this.draggedEntry.start - periodStart.getTime()),
+            length: this.convertToMiliseconds(this.draggedEntry.end - this.draggedEntry.start)
+          }
+          this.api.patch(this.draggedEntry._meta.self, patchedScheduleEntry).then(scheduleEntry => this.scheduleEntries.push(scheduleEntry))
           // TODO: Persist time change in API
         }
         this.clearDraggedEntry()
@@ -411,6 +417,12 @@ export default {
         if (this.currentEntry.tmpEvent && !this.extendOriginal) {
           this.showEntryInfoPopup(this.currentEntry)
         }
+        const periodStart = new Date(this.period().start)
+        const patchedScheduleEntry = {
+          start: this.convertToMiliseconds(this.currentEntry.start - periodStart.getTime()),
+          length: this.convertToMiliseconds(this.currentEntry.end - this.currentEntry.start)
+        }
+        this.api.patch(this.currentEntry._meta.self, patchedScheduleEntry)
         this.clearCurrentEntry()
       }
       this.mouseStartTime = null
@@ -488,7 +500,12 @@ export default {
         scheduleEntries: [newScheduleEntry]
       }
       this.api.post(this.activitesUrl, newActivity).then(activity => {
-        this.api.reload(this.activitesUrl)
+        // TODO: This is ugly and and bad
+        this.api.reload(activity).then(
+          activity => activity.scheduleEntries().items.forEach(scheduleEntry => {
+            this.$set(this.scheduleEntries, this.scheduleEntries.length, scheduleEntry)
+          })
+        )
       })
       this.tempScheduleEntry = null
       this.originalScheduleEntry = null
