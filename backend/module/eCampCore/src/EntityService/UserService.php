@@ -51,7 +51,8 @@ class UserService extends AbstractEntityService {
     public function findByMail($email) {
         /** @var UserRepository $repository */
         $repository = $this->getRepository();
-        $repository->findByMail($email);
+
+        return $repository->findByMail($email);
     }
 
     public function findByUsername($username) {
