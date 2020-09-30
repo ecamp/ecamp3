@@ -21,6 +21,10 @@
         <v-icon :left="$vuetify.breakpoint.mdAndUp">mdi-cogs</v-icon>
         <span class="sr-only-sm-and-down">Admin</span>
       </v-btn>
+       <v-btn :to="campRoute(camp(), 'print')" text>
+        <v-icon :left="$vuetify.breakpoint.mdAndUp">mdi-printer</v-icon>
+        <span class="sr-only-sm-and-down">Print</span>
+      </v-btn>
     </v-toolbar-items>
     <v-spacer />
     <search-desktop />
