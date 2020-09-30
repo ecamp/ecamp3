@@ -65,9 +65,10 @@
           </v-btn>
         </template>
       </e-checkbox>
-      <v-btn color="primary" :disabled="!formComplete"
-             block x-large
-             @click="register">
+      <v-btn type="submit"
+             color="primary"
+             :disabled="!formComplete"
+             block x-large>
         Register
       </v-btn>
     </v-form>
