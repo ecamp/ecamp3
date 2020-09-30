@@ -117,7 +117,7 @@
         "deleteActivityCategoryNotPossibleInUse": "Block-Kategorie kann nicht gelöscht werden. Sie wird noch verwendet von:"
       }
     "form":{
-        "server_error":{
+        "serverError":{
         "validation_errors":"Das ist eine Fehlermeldung",
         "entity": {}
       }
