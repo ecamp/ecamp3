@@ -38,7 +38,7 @@ def worker_callback(ch, method, properties, body):
     filename = message['filename']
     PHPSESSID = message['PHPSESSID']
 
-    HTML(f'http://print:3000/?camp={campId}', url_fetcher=url_fetcher_factory(PHPSESSID)).write_pdf(f'./data/{filename}.pdf')
+    HTML(f'http://print:3000/?camp={campId}', url_fetcher=url_fetcher_factory(PHPSESSID)).write_pdf(f'./data/{filename}-weasy.pdf')
 
 
 # main (starting up worker and listen to RabbitMQ queue)

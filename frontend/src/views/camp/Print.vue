@@ -6,7 +6,6 @@ Admin screen of a camp: Displays details & periods of a single camp and allows t
   <content-card title="Print">
     <v-card-text>
       <camp-print :camp="camp" />
-
     </v-card-text>
   </content-card>
 </template>

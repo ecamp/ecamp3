@@ -4,7 +4,8 @@ namespace eCampApi\V1\Rpc\Printer;
 
 use eCamp\Core\Entity\User;
 use eCamp\Core\EntityService\UserService;
-use eCamp\Lib\Hydrator\Util;
+use eCamp\Lib\Amqp\AmqpService;
+use eCampApi\V1\Rpc\ApiController;
 use Laminas\ApiTools\ApiProblem\ApiProblem;
 use Laminas\ApiTools\ApiProblem\View\ApiProblemModel;
 use Laminas\ApiTools\Hal\Entity;
@@ -13,20 +14,12 @@ use Laminas\ApiTools\Hal\View\HalJsonModel;
 use Laminas\Authentication\AuthenticationService;
 use Laminas\Http\Request;
 use Laminas\Json\Json;
-use Laminas\Mvc\Controller\AbstractActionController;
-
-use Enqueue\AmqpBunny\AmqpConnectionFactory;
-use Interop\Amqp\AmqpTopic;
-use Interop\Amqp\AmqpQueue;
-use Interop\Amqp\Impl\AmqpBind;
-use Enqueue\ConnectionFactoryFactory;
-use eCamp\Lib\Amqp\AmqpService;
-use eCampApi\V1\Rpc\ApiController;
 
 /**
- * PrinterController
+ * PrinterController.
  */
-class PrinterController extends ApiController {
+class PrinterController extends ApiController
+{
     /** @var AuthenticationService */
     private $authenticationService;
 
@@ -46,11 +39,12 @@ class PrinterController extends ApiController {
         $this->amqpService = $amqpService;
     }
 
-    public function indexAction() {
-        /* make sure user is logged in */
-        if (! $this->authenticationService->hasIdentity())
+    public function indexAction()
+    {
+        // make sure user is logged in
+        if (!$this->authenticationService->hasIdentity()) {
             return new ApiProblemModel(new ApiProblem(401, null));
-
+        }
         /** @var Request $request */
         $request = $this->getRequest();
         $content = $request->getContent();
@@ -60,27 +54,27 @@ class PrinterController extends ApiController {
         if (!isset($data->campId)) {
             return new ApiProblem(400, 'No campId provided');
         }
-       
+
         // TODO: check if user has permission to print given camp
-    
+
         $userId = $this->authenticationService->getIdentity();
         /** @var User $user */
         $user = $this->userService->fetch($userId);
-        
+
         $printTopic = $this->amqpService->createTopic('print');
         $weasyQueue = $this->amqpService->createQueue('printer-weasy', $printTopic);
         $puppeteerQueue = $this->amqpService->createQueue('printer-puppeteer', $printTopic);
-        
-        $filename = uniqid();
+
+        $filename = bin2hex(random_bytes(16));
 
         $messageArray = [
-            'campId' => $data->campId, 
+            'campId' => $data->campId,
             'filename' => $filename,
-            'PHPSESSID' => session_id()
+            'PHPSESSID' => session_id(),
         ];
 
         $this->amqpService->sendAsJson($printTopic, $messageArray);
-    
+
         $data = [];
 
         $data['self'] = Link::factory([
@@ -95,7 +89,4 @@ class PrinterController extends ApiController {
 
         return $json;
     }
-
-
-   
 }

@@ -37,7 +37,7 @@ async function html2pdf(url, filename, sessionId) {
     await page.waitFor(500);
     await page.waitForSelector(".pagedjs_pages", {timeout:2000});
 
-    await page.pdf({path: `data/${filename}.pdf`});
+    await page.pdf({path: `data/${filename}-puppeteer.pdf`});
 }
 
 amqp.connect('amqp://rabbitmq', function(error0, connection) {

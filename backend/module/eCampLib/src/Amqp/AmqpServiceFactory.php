@@ -3,7 +3,6 @@
 namespace eCamp\Lib\Amqp;
 
 use Enqueue\AmqpBunny\AmqpConnectionFactory;
-
 use Interop\Container\ContainerInterface;
 use Laminas\ServiceManager\Factory\FactoryInterface;
 
@@ -26,6 +25,6 @@ class AmqpServiceFactory implements FactoryInterface {
             'persisted' => $amqpConfig['persisted'] ?? false,
         ]);
 
-        return new AmqpService( $factory->createContext() );
+        return new AmqpService($factory->createContext());
     }
 }

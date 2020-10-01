@@ -1,22 +1,33 @@
 <template>
-  <content-group title="Print">
+  <div>
     <v-skeleton-loader v-if="camp()._meta.loading" type="article" />
     <div v-else>
-      <e-text-field
-        label="Name"
-        readonly
-        :value="camp().name" />
-      <v-btn color="primary" class="mt-5" @click="print">Print now</v-btn>
+      <v-btn color="primary" class="mt-5"
+             :href="previewUrl"
+             target="_blank">
+        Open print preview
+      </v-btn>
+      <v-btn color="primary" class="mt-5 ml-5"
+             :loading="printing"
+             @click="print">
+        Print now
+      </v-btn>
+
+      <print-downloader
+        v-for="result in results"
+        :key="result.filename"
+        :filename="result.filename"
+        :title="result.title"
+        class="mt-2" />
     </div>
-  </content-group>
+  </div>
 </template>
 
 <script>
-import ContentGroup from '@/components/layout/ContentGroup'
-
+import PrintDownloader from '@/components/camp/CampPrintDownloader'
 export default {
   name: 'CampPrint',
-  components: { ContentGroup },
+  components: { PrintDownloader },
   props: {
     camp: {
       type: Function,
@@ -24,14 +35,25 @@ export default {
     }
   },
   data () {
-    return {}
+    return {
+      printing: false,
+      results: []
+    }
+  },
+  computed: {
+    previewUrl () {
+      return `http://localhost:3003/?camp=${this.camp().id}&pagedjs=true`
+    }
   },
   methods: {
     async print () {
+      this.printing = true
       const result = await this.api.post('/printer', {
         campId: this.camp().id
       })
-      console.log(result)
+      this.printing = false
+      this.results.push({ filename: `http://localhost:3005/${result.filename}-weasy.pdf`, title: 'ecamp3-weasy.pdf' })
+      this.results.push({ filename: `http://localhost:3005/${result.filename}-puppeteer.pdf`, title: 'ecamp3-puppeteer.pdf' })
     }
   }
 }
