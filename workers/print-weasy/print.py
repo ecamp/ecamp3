@@ -40,6 +40,8 @@ def worker_callback(ch, method, properties, body):
 
     HTML(f'http://print:3000/?camp={campId}', url_fetcher=url_fetcher_factory(PHPSESSID)).write_pdf(f'./data/{filename}-weasy.pdf')
 
+    channel.basic_ack(delivery_tag=method.delivery_tag)
+
 
 # main (starting up worker and listen to RabbitMQ queue)
 print('Starting up')
@@ -51,7 +53,7 @@ channel = connection.channel()
 channel.queue_declare(queue='printer-weasy', durable=True)
 
 channel.basic_consume(
-    queue='printer-weasy', on_message_callback=worker_callback, auto_ack=True)
+    queue='printer-weasy', on_message_callback=worker_callback, auto_ack=False)
 
 print(' [*] Waiting for messages. To exit press CTRL+C')
 channel.start_consuming()

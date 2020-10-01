@@ -63,8 +63,9 @@ amqp.connect('amqp://rabbitmq', function(error0, connection) {
             
             await html2pdf(`http://print:3000/?camp=${message.campId}&pagedjs=true`, message.filename, message.PHPSESSID);
 
+            channel.ack(msg)
         }, {
-            noAck: true
+            noAck: false
         });
     });
 });
