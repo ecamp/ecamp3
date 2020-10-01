@@ -18,8 +18,7 @@ use Laminas\Json\Json;
 /**
  * PrinterController.
  */
-class PrinterController extends ApiController
-{
+class PrinterController extends ApiController {
     /** @var AuthenticationService */
     private $authenticationService;
 
@@ -39,8 +38,7 @@ class PrinterController extends ApiController
         $this->amqpService = $amqpService;
     }
 
-    public function indexAction()
-    {
+    public function indexAction() {
         // make sure user is logged in
         if (!$this->authenticationService->hasIdentity()) {
             return new ApiProblemModel(new ApiProblem(401, null));
