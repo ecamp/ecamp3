@@ -212,4 +212,9 @@ class ScheduleEntry extends BaseEntity implements BelongsToCampInterface {
 
         return $dayNumber.'.'.$scheduleEntryStyledNumber;
     }
+
+    public function setTime(\DateTime $startTime, \DateTime $endTime) {
+        $this->setStart($this->period->getStart()->diff($startTime)->i);
+        $this->setLength($startTime->diff($endTime)->i);
+    }
 }

@@ -76,6 +76,9 @@ class ScheduleEntryHydrator implements HydratorInterface {
         /** @var ScheduleEntry $scheduleEntry */
         $scheduleEntry = $object;
 
+        if (isset($data['startTime'], $data['endTime'])) {
+            $scheduleEntry->setTime(Util::parseDate($data['startTime']), Util::parseDate($data['endTime']));
+        }
         if (isset($data['start'])) {
             $scheduleEntry->setStart($data['start']);
         }
