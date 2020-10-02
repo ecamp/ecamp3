@@ -143,11 +143,6 @@ export default {
     ESelect
   },
   props: {
-    // TODO: Replace by period
-    camp: {
-      type: Function,
-      required: true
-    },
     period: {
       type: Function,
       required: true
@@ -229,6 +224,9 @@ export default {
         entry.tmpEvent = false
         return entry
       })
+    },
+    camp () {
+      return this.period().camp
     },
     activitesUrl () {
       return this.api.get().activities()._meta.self

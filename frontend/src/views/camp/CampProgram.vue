@@ -27,7 +27,6 @@ Show all activity schedule entries of a single period.
         <picasso
           v-show="!listFormat"
           class="mx-2 ma-sm-0 pa-sm-2"
-          :camp="camp"
           :period="period"
           :start="new Date(Date.parse(period().start))"
           :end="new Date(Date.parse(period().end))" />
