@@ -32,7 +32,7 @@ Show all activity schedule entries of a single period.
           :end="new Date(Date.parse(period().end))" />
         <activity-list
           v-show="listFormat"
-          :camp="camp" :schedule-entries="period().scheduleEntries().items" />
+          :period="period" />
       </template>
       <v-btn
         :fixed="$vuetify.breakpoint.xs"
@@ -64,7 +64,6 @@ export default {
     ActivityList
   },
   props: {
-    camp: { type: Function, required: true },
     period: { type: Function, required: true }
   },
   data () {
@@ -76,15 +75,12 @@ export default {
     listFormat () {
       return this.$route.query.list
     },
-    periods () {
-      return this.camp().periods()
+    camp () {
+      return this.period().camp()
     },
     firstPeriodLoaded () {
       return this.period() && !this.period()._meta.loading
     }
-  },
-  mounted () {
-    this.camp().activities()
   }
 }
 </script>

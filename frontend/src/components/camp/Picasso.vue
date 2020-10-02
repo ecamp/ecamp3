@@ -112,7 +112,7 @@ Listing all given activity schedule entries in a calendar view.
           </v-card-text>
           <v-card-actions class="px-4 pb-4">
             <v-btn v-if="!tempScheduleEntry.tmpEvent"
-                   color="primary" :to="scheduleEntryRoute(camp(), tempScheduleEntry)">
+                   color="primary" :to="scheduleEntryRoute(camp, tempScheduleEntry)">
               Öffnen
             </v-btn>
             <v-btn text color="secondary"
@@ -194,7 +194,7 @@ export default {
       }
     },
     activityCategories () {
-      return this.camp().activityCategories()
+      return this.camp.activityCategories()
     },
     widthPluralization () {
       if (this.entryWidth < 81) {
@@ -226,7 +226,7 @@ export default {
       })
     },
     camp () {
-      return this.period().camp
+      return this.period().camp()
     },
     activitesUrl () {
       return this.api.get().activities()._meta.self
@@ -274,10 +274,10 @@ export default {
     },
     scheduleEntryRoute,
     showScheduleEntry (entry) {
-      this.$router.push(scheduleEntryRoute(this.camp(), entry))
+      this.$router.push(scheduleEntryRoute(this.camp, entry))
     },
     showScheduleEntryInNewTab (entry) {
-      const routeData = this.$router.resolve(scheduleEntryRoute(this.camp(), entry))
+      const routeData = this.$router.resolve(scheduleEntryRoute(this.camp, entry))
       window.open(routeData.href, '_blank')
     },
     weekdayFormat () {
@@ -467,7 +467,7 @@ export default {
       }
       const newActivity = {
         title: this.tempScheduleEntry.title,
-        campId: this.camp().id,
+        campId: this.camp.id,
         activityCategoryId: this.tempScheduleEntry.activityCategory.id,
         scheduleEntries: [newScheduleEntry]
       }

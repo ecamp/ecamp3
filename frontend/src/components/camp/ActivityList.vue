@@ -4,7 +4,7 @@ Lists all activity instances in a list view.
 
 <template>
   <v-list dense>
-    <template v-for="scheduleEntry in scheduleEntries">
+    <template v-for="scheduleEntry in scheduleEntries.items">
       <v-skeleton-loader
         v-if="scheduleEntry.activity()._meta.loading"
         :key="scheduleEntry._meta.self"
@@ -29,12 +29,19 @@ import { scheduleEntryRoute } from '@/router'
 export default {
   name: 'ActivityList',
   props: {
-    camp: { type: Function, required: true },
-    scheduleEntries: { type: Array, required: true }
+    period: { type: Function, required: true }
+  },
+  computed: {
+    camp () {
+      return this.period().camp()
+    },
+    scheduleEntries () {
+      return this.period().scheduleEntries()
+    }
   },
   methods: {
     scheduleEntryLink (scheduleEntry) {
-      return scheduleEntryRoute(this.camp(), scheduleEntry)
+      return scheduleEntryRoute(this.camp, scheduleEntry)
     }
   }
 }
