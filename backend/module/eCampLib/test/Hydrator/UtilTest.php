@@ -9,19 +9,11 @@ use eCamp\LibTest\PHPUnit\AbstractTestCase;
  * @internal
  */
 class UtilTest extends AbstractTestCase {
-    public function testDate() {
-        $date = Util::parseDate('2000-01-01');
+    public function testTimestamp() {
+        $date = Util::parseDate(949449600000);
         $date = Util::parseDate($date);
-        $dateStr = Util::extractDate($date);
+        $dateStr = Util::extractTimestamp($date);
 
-        $this->assertEquals('2000-01-01', $dateStr);
-    }
-
-    public function testDateTime() {
-        $date = Util::parseDate('2000-01-01 14:01:02');
-        $date = Util::parseDate($date);
-        $dateStr = Util::extractDateTime($date);
-
-        $this->assertEquals('2000-01-01 14:01:02', $dateStr);
+        $this->assertEquals(949449600000, $dateStr);
     }
 }

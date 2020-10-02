@@ -34,8 +34,8 @@ class PeriodHydrator implements HydratorInterface {
         return [
             'id' => $period->getId(),
             'description' => $period->getDescription(),
-            'start' => Util::extractDateTime($period->getStart()),
-            'end' => Util::extractDateTime($period->getEnd()),
+            'start' => Util::extractTimestamp($period->getStart()),
+            'end' => Util::extractTimestamp($period->getEnd()),
 
             'camp' => EntityLink::Create($period->getCamp()),
             'days' => new EntityLinkCollection($period->getDays()),

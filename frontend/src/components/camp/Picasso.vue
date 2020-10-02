@@ -148,11 +148,11 @@ export default {
       required: true
     },
     start: {
-      type: Date,
+      type: Number,
       required: true
     },
     end: {
-      type: Date,
+      type: Number,
       required: true
     },
     type: {
@@ -218,8 +218,8 @@ export default {
       return this.period().scheduleEntries().items.map((entry) => {
         entry.activityCategory = entry.activity().activityCategory()
         entry.title = entry.activity().title
-        entry.start = new Date(entry.startTime)
-        entry.end = new Date(entry.endTime)
+        entry.start = entry.startTime
+        entry.end = entry.endTime
         entry.timed = true
         entry.tmpEvent = false
         return entry

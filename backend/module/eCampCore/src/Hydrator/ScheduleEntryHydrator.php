@@ -54,8 +54,8 @@ class ScheduleEntryHydrator implements HydratorInterface {
             'left' => $scheduleEntry->getLeft(),
             'width' => $scheduleEntry->getWidth(),
 
-            'startTime' => Util::extractDateTime($scheduleEntry->getStartTime()),
-            'endTime' => Util::extractDateTime($scheduleEntry->getEndTime()),
+            'startTime' => Util::extractTimestamp($scheduleEntry->getStartTime()),
+            'endTime' => Util::extractTimestamp($scheduleEntry->getEndTime()),
 
             'dayNumber' => $scheduleEntry->getDayNumber(),
             'scheduleEntryNumber' => $scheduleEntry->getScheduleEntryNumber(),

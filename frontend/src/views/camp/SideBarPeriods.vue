@@ -16,7 +16,7 @@ Displays periods of a single camp.
           two-line>
           <v-list-item-content>
             <v-list-item-title>{{ item.description }}</v-list-item-title>
-            <v-list-item-subtitle>{{ item.start }} - {{ item.end }}</v-list-item-subtitle>
+            <v-list-item-subtitle>{{ new Date(item.start) }} - {{ new Date(item.end) }}</v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
       </v-list>

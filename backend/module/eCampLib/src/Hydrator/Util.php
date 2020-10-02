@@ -10,6 +10,8 @@ use eCamp\Lib\Hydrator\Resolver\EntityResolver;
 use Exception;
 
 class Util {
+    const MillisecondsInASecond = 1000;
+
     /**
      * @param $resolver
      * @param array $selection
@@ -44,24 +46,22 @@ class Util {
         return new CollectionLinkResolver($resolver, $linkResolver);
     }
 
-    public static function extractDate(?DateTime $date) {
+    /**
+     * @return int Milliseconds since 1970-01-01T00:00:00 UTC
+     */
+    public static function extractTimestamp(?DateTime $date) {
         if (null == $date) {
             return null;
         }
 
-        return $date->format('Y-m-d');
-    }
-
-    public static function extractDateTime(?DateTime $date) {
-        if (null == $date) {
-            return null;
-        }
-
-        return $date->format('Y-m-d H:i:s');
+        return $date->getTimestamp() * self::MillisecondsInASecond;
     }
 
     /**
-     * @param $date
+     * @param $date string|int|DateTime
+     * String in DateTime Format {@link https://php.net/manual/en/datetime.formats.php Date and Time Formats}
+     * Int in Milliseconds Timestamp
+     * DateTime
      *
      * @throws Exception
      *
@@ -76,6 +76,10 @@ class Util {
 
         if (is_string($date) && strlen($date) > 0) {
             $result = new DateTime($date);
+        }
+
+        if (is_int($date) && $date >= 0) {
+            $result = new DateTime('@'.($date / self::MillisecondsInASecond));
         }
 
         return $result;
