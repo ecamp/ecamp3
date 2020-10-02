@@ -27,8 +27,8 @@ class PeriodHydratorTest extends AbstractTestCase {
         $data = $hydrator->extract($period);
 
         $this->assertEquals('desc', $data['description']);
-        $this->assertEquals('2000-01-01', $data['start']);
-        $this->assertEquals('2000-01-03', $data['end']);
+        $this->assertEquals(946684800000, $data['start']);
+        $this->assertEquals(946943999000, $data['end']);
     }
 
     public function testHydrate() {
