@@ -143,12 +143,9 @@ export default {
     ESelect
   },
   props: {
+    // TODO: Replace by period
     camp: {
       type: Function,
-      required: true
-    },
-    scheduleEntries: {
-      type: Array,
       required: true
     },
     period: {
@@ -180,8 +177,6 @@ export default {
       weekdayShort: ['Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa', 'So'],
       maxDays: 100,
       entryWidth: 80,
-      localScheduleEntries: [],
-      parsedScheduleEntries: [],
       value: '',
       draggedEntry: null,
       currentEntry: null,
@@ -224,46 +219,25 @@ export default {
     nowY () {
       return this.$refs.calendar ? this.$refs.calendar.timeToY(this.now) + 'px' : '-10px'
     },
+    parsedScheduleEntries () {
+      return this.period().scheduleEntries().items.map((entry) => {
+        entry.activityCategory = entry.activity().activityCategory()
+        entry.title = entry.activity().title
+        entry.start = new Date(entry.startTime)
+        entry.end = new Date(entry.endTime)
+        entry.timed = true
+        entry.tmpEvent = false
+        return entry
+      })
+    },
     activitesUrl () {
       return this.api.get().activities()._meta.self
     }
-  },
-  watch: {
-    scheduleEntries: function (newValue, oldValue) {
-      if (this.localScheduleEntries === oldValue) {
-        this.parsedScheduleEntries = newValue.map((entry) => {
-          entry.activityCategory = entry.activity().activityCategory()
-          entry.title = entry.activity().title
-          entry.start = new Date(entry.startTime)
-          entry.end = new Date(entry.endTime)
-          entry.timed = true
-          entry.tmpEvent = false
-          return entry
-        })
-        this.localScheduleEntries = newValue
-      }
-    }
-  },
-  created () {
-    this.parsedScheduleEntries = this.scheduleEntries.map((entry) => {
-      entry.activityCategory = entry.activity().activityCategory()
-      entry.title = entry.activity().title
-      entry.start = new Date(entry.startTime)
-      entry.end = new Date(entry.endTime)
-      entry.timed = true
-      entry.tmpEvent = false
-      return entry
-    })
-    this.localScheduleEntries = this.scheduleEntries
-    this.updateTime()
   },
   methods: {
     resize () {
       const widthIntervals = 46
       this.entryWidth = Math.max((this.$refs.calendar.$el.offsetWidth - widthIntervals) / this.$refs.calendar.days.length, 80)
-    },
-    updateTime () {
-      setInterval(() => this.$refs.calendar.updateTimes(), 60 * 1000)
     },
     getActivityName (event, _) {
       if (event.tmpEvent) {
