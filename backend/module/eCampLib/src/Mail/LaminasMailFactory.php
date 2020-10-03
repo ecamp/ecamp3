@@ -5,7 +5,6 @@ namespace eCamp\Lib\Mail;
 use Interop\Container\ContainerInterface;
 use Laminas\Mail\Transport\TransportInterface;
 use Laminas\ServiceManager\Factory\FactoryInterface;
-use Laminas\Mime\Mime;
 use Laminas\View\View;
 
 class LaminasMailFactory implements FactoryInterface {

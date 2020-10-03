@@ -3,9 +3,9 @@
 namespace eCamp\Core\Service;
 
 use eCamp\Core\Entity\User;
-use eCamp\Lib\Service\ServiceUtils;
 use eCamp\Lib\Mail\MessageData;
 use eCamp\Lib\Mail\ProviderInterface;
+use eCamp\Lib\Service\ServiceUtils;
 use Laminas\Authentication\AuthenticationService;
 
 class SendmailService extends AbstractService {
@@ -24,13 +24,13 @@ class SendmailService extends AbstractService {
 
     public function sendRegisterMail(User $user, $key) {
         $data = new MessageData();
-        $data->from = "a@b.c";
+        $data->from = 'a@b.c';
         $data->to = $user->getUntrustedMailAddress();
-        $data->subject = "Registered";
-        $data->template = "register";
+        $data->subject = 'Registered';
+        $data->template = 'register';
         $data->data = [
             'user_name' => $user->getDisplayName(),
-            'url' => ''
+            'url' => '',
         ];
 
         $this->mailProvider->sendMail($data);

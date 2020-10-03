@@ -32,10 +32,10 @@ class LaminasMail implements ProviderInterface {
         $mail->setFrom($message->from);
         $mail->setTo($message->to);
 
-        if ($message->cc != null) {
+        if (null != $message->cc) {
             $mail->setCc($message->cc);
         }
-        if ($message->bcc != null) {
+        if (null != $message->bcc) {
             $mail->setBcc($message->bcc);
         }
 
@@ -47,7 +47,7 @@ class LaminasMail implements ProviderInterface {
 
     private function createBody(MessageData $data) {
         if (!array_key_exists($data->template, $this->templateConfig)) {
-            throw new Exception("Config for template '" . $data->template . "' is missing");
+            throw new Exception("Config for template '".$data->template."' is missing");
         }
 
         $config = $this->templateConfig[$data->template];
@@ -62,16 +62,14 @@ class LaminasMail implements ProviderInterface {
     private function create(MessageData $data, array $config) {
         $type = $config['type'];
 
-        switch($type) {
+        switch ($type) {
             case Mime::MULTIPART_ALTERNATIVE:
                 return $this->createMultipart($data, $config);
-
             case Mime::TYPE_TEXT:
             case Mime::TYPE_HTML:
                 return $this->createPart($data, $config);
-
             default:
-                throw new Exception("Type not implemented: " . $type);
+                throw new Exception('Type not implemented: '.$type);
         }
     }
 
@@ -101,9 +99,8 @@ class LaminasMail implements ProviderInterface {
         $part = new \Laminas\Mime\Part($content);
         $part->encoding = $config['encoding'];
         $part->type = $config['type'];
-        $part->charset = $config['charset'] ;
+        $part->charset = $config['charset'];
 
         return $part;
     }
-
 }

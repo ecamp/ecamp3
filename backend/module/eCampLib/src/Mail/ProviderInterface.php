@@ -3,5 +3,5 @@
 namespace eCamp\Lib\Mail;
 
 interface ProviderInterface {
-    function sendMail(MessageData $message);
+    public function sendMail(MessageData $message);
 }

@@ -3,7 +3,6 @@
 namespace eCamp\Lib\Mail;
 
 class MessageData {
-
     public $from;
 
     public $to;
@@ -17,5 +16,4 @@ class MessageData {
     public $template;
 
     public $data;
-
 }

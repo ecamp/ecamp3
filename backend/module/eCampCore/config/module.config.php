@@ -124,16 +124,16 @@ return [
                         'type' => \Laminas\Mime\Mime::TYPE_TEXT,
                         'template' => 'mail/register-text',
                         'encoding' => \Laminas\Mime\Mime::ENCODING_8BIT,
-                        'charset' => 'utf-8'
+                        'charset' => 'utf-8',
                     ],
                     [
                         'type' => \Laminas\Mime\Mime::TYPE_HTML,
                         'template' => 'mail/register-html',
                         'encoding' => \Laminas\Mime\Mime::ENCODING_8BIT,
-                        'charset' => 'utf-8'
-                    ]
-                ]
-            ]
-        ]
-    ]
+                        'charset' => 'utf-8',
+                    ],
+                ],
+            ],
+        ],
+    ],
 ];

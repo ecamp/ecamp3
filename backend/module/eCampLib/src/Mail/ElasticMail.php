@@ -2,28 +2,26 @@
 
 namespace eCamp\Lib\Mail;
 
-use eCamp\Lib\Mail\ProviderInterface;
-use SlmMail\Mail\Message\ElasticEmail;
 use Laminas\Mail\Transport\TransportInterface;
+use SlmMail\Mail\Message\ElasticEmail;
 
 class ElasticMail implements ProviderInterface {
     /** @var TransportInterface */
     private $mailTransport;
-    
+
     public function __construct(TransportInterface $mailTransport) {
         $this->mailTransport = $mailTransport;
     }
 
     public function sendMail(MessageData $data) {
-
         $mail = new ElasticEmail();
         $mail->setFrom($data->from);
         $mail->setTo($data->to);
 
-        if ($data->cc != null) {
+        if (null != $data->cc) {
             $mail->setCc($data->cc);
         }
-        if ($data->bcc != null) {
+        if (null != $data->bcc) {
             $mail->setBcc($data->bcc);
         }
 
