@@ -114,4 +114,26 @@ return [
             __DIR__.'/../view',
         ],
     ],
+
+    'ecamp' => [
+        'laminas_mail' => [
+            'register' => [
+                'type' => \Laminas\Mime\Mime::MULTIPART_ALTERNATIVE,
+                'parts' => [
+                    [
+                        'type' => \Laminas\Mime\Mime::TYPE_TEXT,
+                        'template' => 'mail/register-text',
+                        'encoding' => \Laminas\Mime\Mime::ENCODING_8BIT,
+                        'charset' => 'utf-8'
+                    ],
+                    [
+                        'type' => \Laminas\Mime\Mime::TYPE_HTML,
+                        'template' => 'mail/register-html',
+                        'encoding' => \Laminas\Mime\Mime::ENCODING_8BIT,
+                        'charset' => 'utf-8'
+                    ]
+                ]
+            ]
+        ]
+    ]
 ];
