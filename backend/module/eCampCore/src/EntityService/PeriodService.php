@@ -11,6 +11,7 @@ use eCamp\Core\Hydrator\PeriodHydrator;
 use eCamp\Lib\Acl\NoAccessException;
 use eCamp\Lib\Entity\BaseEntity;
 use eCamp\Lib\Service\EntityNotFoundException;
+use eCamp\Lib\Service\EntityValidationException;
 use eCamp\Lib\Service\ServiceUtils;
 use Laminas\Authentication\AuthenticationService;
 
@@ -124,6 +125,34 @@ class PeriodService extends AbstractEntityService {
         $period->getCamp()->removePeriod($period);
 
         return $period;
+    }
+
+    /**
+     * @param $entity
+     */
+    protected function validateEntity(BaseEntity $entity) {
+        /** @var Period $period */
+        $period = $entity;
+
+        // Chcek for other overlapping Period
+        $qb = $this->findCollectionQueryBuilder(Period::class, 'p', null)
+            ->where('p.camp = :camp')
+            ->andWhere('p.id != :id')
+            ->andWhere('p.start < :end')
+            ->andWhere('p.end > :start')
+            ->setParameter('camp', $period->getCamp()->getId())
+            ->setParameter('id', $period->getId())
+            ->setParameter('start', $period->getStart())
+            ->setParameter('end', $period->getEnd())
+        ;
+        $rows = $qb->getQuery()->getResult();
+
+        if (count($rows) > 0) {
+            $ex = new EntityValidationException();
+            $ex->setMessages(['start' => ['noOverlap' => 'Periods may not overlap']]);
+
+            throw $ex;
+        }
     }
 
     protected function fetchAllQueryBuilder($params = []) {
