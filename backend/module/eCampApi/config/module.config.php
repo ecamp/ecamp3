@@ -135,6 +135,15 @@ return [
                     ],
                 ],
             ],
+            'e-camp-api.rest.doctrine.activity-responsible' => [
+                'type' => 'Segment',
+                'options' => [
+                    'route' => '/api/activity-responsibles[/:activityResponsibleId]',
+                    'defaults' => [
+                        'controller' => 'eCampApi\\V1\\Rest\\ActivityResponsible\\Controller',
+                    ],
+                ],
+            ],
             'e-camp-api.rest.doctrine.schedule-entry' => [
                 'type' => 'Segment',
                 'options' => [
@@ -421,6 +430,32 @@ return [
             'collection_class' => 'eCampApi\\V1\\Rest\\ActivityCategory\\ActivityCategoryCollection',
             'service_name' => 'ActivityCategory',
         ],
+        'eCampApi\\V1\\Rest\\ActivityResponsible\\Controller' => [
+            'listener' => 'eCamp\\Core\\EntityService\\ActivityResponsibleService',
+            'route_name' => 'e-camp-api.rest.doctrine.activity-responsible',
+            'route_identifier_name' => 'activityResponsibleId',
+            'entity_identifier_name' => 'id',
+            'collection_name' => 'items',
+            'entity_http_methods' => [
+                0 => 'GET',
+                1 => 'PATCH',
+                2 => 'PUT',
+                3 => 'DELETE',
+            ],
+            'collection_http_methods' => [
+                0 => 'GET',
+                1 => 'POST',
+            ],
+            'collection_query_whitelist' => [
+                0 => 'campId',
+                1 => 'page_size',
+            ],
+            'page_size' => -1,
+            'page_size_param' => 'page_size',
+            'entity_class' => 'eCamp\\Core\\Entity\\ActivityResponsible',
+            'collection_class' => 'eCampApi\\V1\\Rest\\ActivityResponsible\\ActivityResponsibleCollection',
+            'service_name' => 'ActivityResponsible',
+        ],
         'eCampApi\\V1\\Rest\\ScheduleEntry\\Controller' => [
             'listener' => 'eCamp\\Core\\EntityService\\ScheduleEntryService',
             'route_name' => 'e-camp-api.rest.doctrine.schedule-entry',
@@ -588,6 +623,7 @@ return [
             'eCampApi\\V1\\Rest\\Day\\Controller' => 'HalJson',
             'eCampApi\\V1\\Rest\\Activity\\Controller' => 'HalJson',
             'eCampApi\\V1\\Rest\\ActivityCategory\\Controller' => 'HalJson',
+            'eCampApi\\V1\\Rest\\ActivityResponsible\\Controller' => 'HalJson',
             'eCampApi\\V1\\Rest\\ScheduleEntry\\Controller' => 'HalJson',
             'eCampApi\\V1\\Rest\\User\\Controller' => 'HalJson',
             'eCampApi\\V1\\Rest\\CampCollaboration\\Controller' => 'HalJson',
@@ -652,6 +688,11 @@ return [
                 2 => 'application/json',
             ],
             'eCampApi\\V1\\Rest\\ActivityCategory\\Controller' => [
+                0 => 'application/vnd.e-camp-api.v1+json',
+                1 => 'application/hal+json',
+                2 => 'application/json',
+            ],
+            'eCampApi\\V1\\Rest\\ActivityResponsible\\Controller' => [
                 0 => 'application/vnd.e-camp-api.v1+json',
                 1 => 'application/hal+json',
                 2 => 'application/json',
@@ -733,6 +774,10 @@ return [
                 1 => 'application/json',
             ],
             'eCampApi\\V1\\Rest\\ActivityCategory\\Controller' => [
+                0 => 'application/vnd.e-camp-api.v1+json',
+                1 => 'application/json',
+            ],
+            'eCampApi\\V1\\Rest\\ActivityResponsible\\Controller' => [
                 0 => 'application/vnd.e-camp-api.v1+json',
                 1 => 'application/json',
             ],
@@ -884,6 +929,19 @@ return [
                 'is_collection' => true,
                 'max_depth' => 20,
             ],
+            'eCamp\\Core\\Entity\\ActivityResponsible' => [
+                'route_identifier_name' => 'activityResponsibleId',
+                'entity_identifier_name' => 'id',
+                'route_name' => 'e-camp-api.rest.doctrine.activity-responsible',
+                'hydrator' => 'eCamp\\Core\\Hydrator\\ActivityResponsibleHydrator',
+                'max_depth' => 20,
+            ],
+            'eCampApi\\V1\\Rest\\ActivityResponsible\\ActivityResponsibleCollection' => [
+                'entity_identifier_name' => 'id',
+                'route_name' => 'e-camp-api.rest.doctrine.activity-responsible',
+                'is_collection' => true,
+                'max_depth' => 20,
+            ],
             'eCamp\\Core\\Entity\\ScheduleEntry' => [
                 'route_identifier_name' => 'scheduleEntryId',
                 'entity_identifier_name' => 'id',
@@ -985,6 +1043,9 @@ return [
         ],
         'eCampApi\\V1\\Rest\\ActivityCategory\\Controller' => [
             'input_filter' => 'eCampApi\\V1\\Rest\\ActivityCategory\\Validator',
+        ],
+        'eCampApi\\V1\\Rest\\ActivityResponsible\\Controller' => [
+            'input_filter' => 'eCampApi\\V1\\Rest\\ActivityResponsible\\Validator',
         ],
         'eCampApi\\V1\\Rest\\ScheduleEntry\\Controller' => [
             'input_filter' => 'eCampApi\\V1\\Rest\\ScheduleEntry\\Validator',
@@ -1359,6 +1420,8 @@ return [
             4 => [
                 'name' => 'activityTypeId',
             ],
+        ],
+        'eCampApi\\V1\\Rest\\ActivityResponsible\\Validator' => [
         ],
         'eCampApi\\V1\\Rest\\ScheduleEntry\\Validator' => [
             0 => [
