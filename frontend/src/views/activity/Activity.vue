@@ -94,6 +94,7 @@ Displays a single activity
                     <v-row dense>
                       <v-col>
                         <v-select
+                          v-model="activityResponsibles"
                           :label="'Responsible'"
                           outlined
                           dense
@@ -102,7 +103,8 @@ Displays a single activity
                           deletable-chips
                           small-chips
                           :hide-details="true"
-                          :items="['User A', 'User B']" />
+                          :items="availableActivityResponsibles" />
+                          {{ activityResponsibles }}
                       </v-col>
                     </v-row>
                   </v-col>
@@ -140,13 +142,21 @@ export default {
   },
   data () {
     return {
-      progressItems: [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100].map(p => ({
-        value: p,
-        text: p + '%'
-      }))
+      activityResponsibles: []
     }
   },
   computed: {
+    availableActivityResponsibles () {
+      return this.campCollaborations.map(cc => {
+        return {
+          value: cc.id,
+          text: cc.user().username
+        }
+      })
+    },
+    campCollaborations () {
+      return this.activity.camp().campCollaborations().items
+    },
     activity () {
       return this.scheduleEntry().activity()
     },
