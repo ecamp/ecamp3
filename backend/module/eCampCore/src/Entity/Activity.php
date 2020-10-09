@@ -58,6 +58,11 @@ class Activity extends BaseEntity implements BelongsToCampInterface {
         return $this->camp;
     }
 
+    /**
+     * @internal Do not set the {@link Camp} directly on the Activity. Instead use {@see Camp::addActivity()}
+     *
+     * @param $camp
+     */
     public function setCamp($camp) {
         $this->camp = $camp;
     }
