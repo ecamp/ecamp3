@@ -12,6 +12,7 @@ use eCamp\Lib\Acl\NoAccessException;
 use eCamp\Lib\Entity\BaseEntity;
 use eCamp\Lib\Service\EntityNotFoundException;
 use eCamp\Lib\Service\ServiceUtils;
+use eCamp\Lib\Service\UnattachedEntityException;
 use Laminas\Authentication\AuthenticationService;
 
 class ActivityService extends AbstractEntityService {
@@ -52,13 +53,16 @@ class ActivityService extends AbstractEntityService {
      * @throws EntityNotFoundException
      * @throws ORMException
      * @throws NoAccessException
+     * @throws UnattachedEntityException
      *
      * @return Activity
      */
     protected function createEntity($data) {
-        // @var Camp $camp
         if (isset($data->campId)) {
+            /** @var Camp $camp */
             $camp = $this->findEntity(Camp::class, $data->campId);
+        } else {
+            throw new UnattachedEntityException($data);
         }
 
         // @var ActivityCategory $category
@@ -68,12 +72,20 @@ class ActivityService extends AbstractEntityService {
 
         /** @var Activity $activity */
         $activity = parent::createEntity($data);
-        $activity->setCamp($camp);
         $activity->setActivityCategory($category);
+        $camp->addActivity($activity);
 
         return $activity;
     }
 
+    /**
+     * @param mixed $data
+     *
+     * @throws NoAccessException
+     * @throws ORMException
+     *
+     * @return Activity
+     */
     protected function createEntityPost(BaseEntity $entity, $data) {
         /** @var Activity $activity */
         $activity = $entity;

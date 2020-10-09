@@ -11,6 +11,7 @@ use eCamp\Core\Hydrator\ScheduleEntryHydrator;
 use eCamp\Lib\Acl\NoAccessException;
 use eCamp\Lib\Service\EntityNotFoundException;
 use eCamp\Lib\Service\ServiceUtils;
+use eCamp\Lib\Service\UnattachedEntityException;
 use Laminas\Authentication\AuthenticationService;
 
 class ScheduleEntryService extends AbstractEntityService {
@@ -47,9 +48,10 @@ class ScheduleEntryService extends AbstractEntityService {
     /**
      * @param mixed $data
      *
-     * @throws EntityNotFoundException
      * @throws ORMException
      * @throws NoAccessException
+     * @throws UnattachedEntityException
+     * @throws EntityNotFoundException
      *
      * @return ScheduleEntry
      */
@@ -57,17 +59,21 @@ class ScheduleEntryService extends AbstractEntityService {
         // @var Period $period
         if (isset($data->periodId)) {
             $period = $this->findEntity(Period::class, $data->periodId);
+        } else {
+            throw new UnattachedEntityException($data);
         }
 
         // @var Activity $activity
         if (isset($data->activityId)) {
             $activity = $this->findEntity(Activity::class, $data->activityId);
+        } else {
+            throw new UnattachedEntityException($data);
         }
 
         /** @var ScheduleEntry $scheduleEntry */
         $scheduleEntry = parent::createEntity($data);
-        $scheduleEntry->setPeriod($period);
-        $scheduleEntry->setActivity($activity);
+        $period->addScheduleEntry($scheduleEntry);
+        $activity->addScheduleEntry($scheduleEntry);
 
         return $scheduleEntry;
     }
