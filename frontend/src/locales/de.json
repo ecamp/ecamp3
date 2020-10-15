@@ -54,7 +54,12 @@
       }
     },
     "activity": {
-      "new": "Neue Aktivität"
+      "name": "Aktivität",
+      "new": "Neue Aktivität",
+      "fields": {
+        "title": "Titel",
+        "location": "Ort"
+      }
     },
     "activityCategory": {
       "name": "Block Kategorien",
@@ -71,13 +76,6 @@
         "A": "A, B, C - grosse Buchstaben",
         "i": "i, ii, iii - kleine römische Zahlen",
         "I": "I, II, III - grosse römische Zahlen"
-      }
-    },
-    "activity": {
-      "name": "Aktivität",
-      "fields": {
-        "title": "Titel",
-        "location": "Ort"
       }
     },
     "scheduleEntry": {

@@ -72,6 +72,7 @@
     },
     "activity": {
       "name": "Activity",
+      "new": "New Activity",
       "fields": {
         "title": "Title",
         "location": "Location"
