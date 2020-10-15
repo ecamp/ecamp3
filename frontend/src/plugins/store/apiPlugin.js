@@ -78,7 +78,7 @@ export const post = function (uriOrCollection, data) {
   if (uri === null) {
     return Promise.reject(new Error(`Could not perform POST, "${uriOrCollection}" is not an entity or URI`))
   }
-  return markAsDoneWhenResolved(axios.post(API_ROOT + uri, data).then(({ data }) => {
+  return markAsDoneWhenResolved(axios.post(API_ROOT + uri, preparePostData(data)).then(({ data }) => {
     storeHalJsonData(data)
     return get(data._links.self.href)
   }, (error) => {
@@ -366,6 +366,38 @@ function markAsDoneWhenResolved (promise) {
   // empty catch is important so that our then handler runs in all cases
   promise.catch(() => {}).then(() => { promise[Symbol.for('done')] = true })
   return promise
+}
+
+/**
+ * Replace store items with {itemnameId: id}
+ * @param data to be processed
+ * @param name is the name of the entities
+ * @returns cleaned data
+ */
+function preparePostData (data, name = null) {
+  return Array.isArray(data)
+    ? data.map(value => {
+      if (value !== null && typeof value === 'object') {
+        if (value._meta && value._meta.self) {
+          return name ? { [name.replace(/ies/, 'y') + 'Id']: value.id } : { id: value.id }
+        } else {
+          return preparePostData(value, name)
+        }
+      } else {
+        return value
+      }
+    })
+    : Object.fromEntries(Object.entries(data).map(([prop, value]) => {
+      if (value !== null && typeof value === 'object') {
+        if (value._meta && value._meta.self) {
+          return [prop + 'Id', value.id]
+        } else {
+          return [prop, preparePostData(value, prop)]
+        }
+      } else {
+        return [prop, value]
+      }
+    }))
 }
 
 /**
