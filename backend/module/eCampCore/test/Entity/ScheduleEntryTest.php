@@ -42,7 +42,7 @@ class ScheduleEntryTest extends AbstractTestCase {
         $scheduleEntry = new ScheduleEntry();
         $scheduleEntry->setPeriod($period);
         $scheduleEntry->setActivity($activity);
-        $scheduleEntry->setStart(600);
+        $scheduleEntry->setPeriodOffset(600);
         $scheduleEntry->setLength(120);
         $scheduleEntry->setLeft(0);
         $scheduleEntry->setWidth(1);
@@ -51,7 +51,7 @@ class ScheduleEntryTest extends AbstractTestCase {
         $scheduleEntry = new ScheduleEntry();
         $scheduleEntry->setPeriod($period);
         $scheduleEntry->setActivity($activity);
-        $scheduleEntry->setStart(900);
+        $scheduleEntry->setPeriodOffset(900);
         $scheduleEntry->setLength(120);
         $scheduleEntry->setLeft(0);
         $scheduleEntry->setWidth(1);
@@ -61,7 +61,7 @@ class ScheduleEntryTest extends AbstractTestCase {
         $this->assertEquals($period, $scheduleEntry->getPeriod());
         $this->assertEquals($activity, $scheduleEntry->getActivity());
         $this->assertEquals($activityCategory, $scheduleEntry->getActivityCategory());
-        $this->assertEquals(900, $scheduleEntry->getStart());
+        $this->assertEquals(900, $scheduleEntry->getPeriodOffset());
         $this->assertEquals(120, $scheduleEntry->getLength());
         $this->assertEquals(0, $scheduleEntry->getLeft());
         $this->assertEquals(1, $scheduleEntry->getWidth());

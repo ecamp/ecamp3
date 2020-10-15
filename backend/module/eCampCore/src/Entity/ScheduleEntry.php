@@ -28,7 +28,7 @@ class ScheduleEntry extends BaseEntity implements BelongsToCampInterface {
      *
      * @ORM\Column(type="integer", nullable=false)
      */
-    private int $start;
+    private int $periodOffset;
 
     /**
      * Length in Minutes.
@@ -104,17 +104,17 @@ class ScheduleEntry extends BaseEntity implements BelongsToCampInterface {
         return (null !== $activityCategory) ? $activityCategory->getColor() : null;
     }
 
-    public function getStart(): int {
-        return $this->start;
+    public function getPeriodOffset(): int {
+        return $this->periodOffset;
     }
 
     /**
      * Minutes since period start.
      *
-     * @param int $start Minutes
+     * @param int $periodOffset Minutes
      */
-    public function setStart(int $start): void {
-        $this->start = $start;
+    public function setPeriodOffset(int $periodOffset): void {
+        $this->periodOffset = $periodOffset;
     }
 
     public function getLength(): int {
@@ -156,49 +156,35 @@ class ScheduleEntry extends BaseEntity implements BelongsToCampInterface {
         return new \DateInterval('PT'.$this->length.'M');
     }
 
-    public function getStartTime(): \DateTime {
-        $start = $this->getPeriod()->getStart();
-        $start->add(new \DateInterval('PT'.$this->start.'M'));
-
-        return $start;
-    }
-
-    public function getEndTime(): \DateTime {
-        $end = $this->getStartTime();
-        $end->add($this->getDuration());
-
-        return $end;
-    }
-
     public function getDayNumber(): int {
-        return 1 + floor($this->start / (24 * 60));
+        return 1 + floor($this->periodOffset / (24 * 60));
     }
 
     public function getScheduleEntryNumber(): int {
-        $dayOffset = floor($this->start / (24 * 60)) * 24 * 60;
+        $dayOffset = floor($this->periodOffset / (24 * 60)) * 24 * 60;
 
         $expr = Criteria::expr();
         $crit = Criteria::create();
         $crit->where($expr->andX(
-            $expr->gte('start', $dayOffset),
-            $expr->lte('start', $this->start)
+            $expr->gte('periodOffset', $dayOffset),
+            $expr->lte('periodOffset', $this->periodOffset)
         ));
 
         $scheduleEntries = $this->period->getScheduleEntries()->matching($crit);
-        $activityNumber = $scheduleEntries->filter(function (ScheduleEntry $ei) {
-            if ($ei->getNumberingStyle() === $this->getNumberingStyle()) {
-                if ($ei->start < $this->start) {
+        $activityNumber = $scheduleEntries->filter(function (ScheduleEntry $scheduleEntry) {
+            if ($scheduleEntry->getNumberingStyle() === $this->getNumberingStyle()) {
+                if ($scheduleEntry->periodOffset < $this->periodOffset) {
                     return true;
                 }
 
-                $eiLeft = $ei->left ?: 0;
+                $eiLeft = $scheduleEntry->left ?: 0;
                 $thisLeft = $this->left ?: 0;
 
                 if ($eiLeft < $thisLeft) {
                     return true;
                 }
                 if ($eiLeft === $thisLeft) {
-                    if ($ei->createTime < $this->createTime) {
+                    if ($scheduleEntry->createTime < $this->createTime) {
                         return true;
                     }
                 }
@@ -221,10 +207,5 @@ class ScheduleEntry extends BaseEntity implements BelongsToCampInterface {
         }
 
         return $dayNumber.'.'.$scheduleEntryStyledNumber;
-    }
-
-    public function setTime(\DateTime $startTime, \DateTime $endTime) {
-        $this->setStart($this->period->getStart()->diff($startTime)->i);
-        $this->setLength($startTime->diff($endTime)->i);
     }
 }

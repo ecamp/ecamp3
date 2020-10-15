@@ -6,13 +6,11 @@ use Doctrine\ORM\ORMException;
 use eCamp\Core\Entity\Activity;
 use eCamp\Core\Entity\ActivityCategory;
 use eCamp\Core\Entity\Camp;
-use eCamp\Core\Entity\ScheduleEntry;
 use eCamp\Core\Hydrator\ActivityHydrator;
 use eCamp\Lib\Acl\NoAccessException;
 use eCamp\Lib\Entity\BaseEntity;
 use eCamp\Lib\Service\EntityNotFoundException;
 use eCamp\Lib\Service\ServiceUtils;
-use eCamp\Lib\Service\UnattachedEntityException;
 use Laminas\Authentication\AuthenticationService;
 
 class ActivityService extends AbstractEntityService {
@@ -53,50 +51,50 @@ class ActivityService extends AbstractEntityService {
      * @throws EntityNotFoundException
      * @throws ORMException
      * @throws NoAccessException
-     * @throws UnattachedEntityException
      *
      * @return Activity
      */
     protected function createEntity($data) {
+        /** @var Activity $activity */
+        $activity = parent::createEntity($data);
+
         if (isset($data->campId)) {
             /** @var Camp $camp */
             $camp = $this->findEntity(Camp::class, $data->campId);
-        } else {
-            throw new UnattachedEntityException($data);
+            $camp->addActivity($activity);
         }
 
-        // @var ActivityCategory $category
         if (isset($data->activityCategoryId)) {
+            /** @var ActivityCategory $category */
             $category = $this->findEntity(ActivityCategory::class, $data->activityCategoryId);
+            $activity->setActivityCategory($category);
         }
-
-        /** @var Activity $activity */
-        $activity = parent::createEntity($data);
-        $activity->setActivityCategory($category);
-        $camp->addActivity($activity);
 
         return $activity;
     }
 
     /**
-     * @param mixed $data
+     * @param Activity|BaseEntity $activity
+     * @param mixed               $data
      *
+     * @throws EntityNotFoundException
      * @throws NoAccessException
      * @throws ORMException
+     * @throws \Doctrine\ORM\NonUniqueResultException
      *
-     * @return Activity
+     * @return Activity|BaseEntity
      */
-    protected function createEntityPost(BaseEntity $entity, $data) {
-        /** @var Activity $activity */
-        $activity = $entity;
-
+    protected function createEntityPost(BaseEntity $activity, $data) {
         // Create Periods:
         if (isset($data->scheduleEntries)) {
             foreach ($data->scheduleEntries as $scheduleEntry) {
-                /** @var ScheduleEntry $scheduleEntry */
                 $scheduleEntry = (object) $scheduleEntry;
-                $scheduleEntry->activityId = $activity->getId();
-                $this->scheduleEntryService->create($scheduleEntry);
+                if (isset($scheduleEntry->id)) {
+                    $activity->addScheduleEntry($this->findEntity(ActivityCategory::class, $scheduleEntry->id));
+                } else {
+                    $scheduleEntry->activityId = $activity->getId();
+                    $this->scheduleEntryService->create($scheduleEntry);
+                }
             }
         }
 

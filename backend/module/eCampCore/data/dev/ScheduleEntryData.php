@@ -32,7 +32,7 @@ class ScheduleEntryData extends AbstractFixture implements DependentFixtureInter
             $scheduleEntry = new ScheduleEntry();
             $scheduleEntry->setPeriod($period);
             $scheduleEntry->setActivity($activity);
-            $scheduleEntry->setStart(600);
+            $scheduleEntry->setPeriodOffset(600);
             $scheduleEntry->setLength(120);
             $scheduleEntry->setLeft(0);
             $scheduleEntry->setWidth(1);
@@ -46,7 +46,7 @@ class ScheduleEntryData extends AbstractFixture implements DependentFixtureInter
             $scheduleEntry = new ScheduleEntry();
             $scheduleEntry->setPeriod($period);
             $scheduleEntry->setActivity($activity);
-            $scheduleEntry->setStart(2040);
+            $scheduleEntry->setPeriodOffset(2040);
             $scheduleEntry->setLength(180);
             $scheduleEntry->setLeft(0);
             $scheduleEntry->setWidth(1);
@@ -64,7 +64,7 @@ class ScheduleEntryData extends AbstractFixture implements DependentFixtureInter
             $scheduleEntry = new ScheduleEntry();
             $scheduleEntry->setPeriod($period);
             $scheduleEntry->setActivity($activity);
-            $scheduleEntry->setStart(900);
+            $scheduleEntry->setPeriodOffset(900);
             $scheduleEntry->setLength(150);
             $scheduleEntry->setLeft(0);
             $scheduleEntry->setWidth(1);
@@ -78,7 +78,7 @@ class ScheduleEntryData extends AbstractFixture implements DependentFixtureInter
             $scheduleEntry = new ScheduleEntry();
             $scheduleEntry->setPeriod($period);
             $scheduleEntry->setActivity($activity);
-            $scheduleEntry->setStart(2340);
+            $scheduleEntry->setPeriodOffset(2340);
             $scheduleEntry->setLength(120);
             $scheduleEntry->setLeft(0);
             $scheduleEntry->setWidth(1);
@@ -99,7 +99,7 @@ class ScheduleEntryData extends AbstractFixture implements DependentFixtureInter
             $scheduleEntry = new ScheduleEntry();
             $scheduleEntry->setPeriod($period);
             $scheduleEntry->setActivity($activity);
-            $scheduleEntry->setStart(600);
+            $scheduleEntry->setPeriodOffset(600);
             $scheduleEntry->setLength(120);
             $scheduleEntry->setLeft(0);
             $scheduleEntry->setWidth(1);
@@ -117,7 +117,7 @@ class ScheduleEntryData extends AbstractFixture implements DependentFixtureInter
             $scheduleEntry = new ScheduleEntry();
             $scheduleEntry->setPeriod($period);
             $scheduleEntry->setActivity($activity);
-            $scheduleEntry->setStart(900);
+            $scheduleEntry->setPeriodOffset(900);
             $scheduleEntry->setLength(90);
             $scheduleEntry->setLeft(0);
             $scheduleEntry->setWidth(1);
