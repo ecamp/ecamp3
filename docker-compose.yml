@@ -25,7 +25,21 @@ services:
       - '3001:80'
     volumes:
       - ./backend:/app:delegated
-    entrypoint: ./docker-setup.sh
+    entrypoint: ./docker-setup.sh  
+
+  print:
+    image: node:12.18
+    container_name: 'ecamp3-print'
+    ports:
+      - '3003:3000'
+    volumes:
+      - ./print:/app:delegated
+      - npm-cache:/root/.npm
+      - print-node-modules-cache:/app/node_modules/.cache
+    working_dir: /app
+    command: ./docker-setup.sh
+    environment:
+      - HOST=0.0.0.0
 
   composer:
     image: composer:1.10
@@ -56,10 +70,28 @@ services:
     ports:
       - '3002:80'
 
+  worker-print-puppeteer:
+    image: buildkite/puppeteer
+    container_name: 'ecamp3-worker-print-puppeteer'
+    volumes:
+      - ./workers/print-puppeteer:/app:delegated
+      - npm-cache:/root/.npm
+    working_dir: /app
+    command: npm run print
+
+  worker-print-weasy:
+      build: ./workers/print-weasy
+      container_name: 'ecamp3-worker-print-weasy'
+      volumes:
+        - ./workers/print-weasy:/app:delegated
+      working_dir: /app
+      command: python print.py
+
 volumes:
   npm-cache:
   cypress-cache:
   composer-cache:
   node-modules-cache:
+  print-node-modules-cache:
   db-data:
 

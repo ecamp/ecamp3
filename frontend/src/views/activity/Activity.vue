@@ -22,8 +22,8 @@ Displays a single activity
                    outlined
                    v-bind="attrs"
                    v-on="on">
-              <v-icon left>mdi-plus-circle-outline</v-icon>
-              Add Content
+              <v-icon left>mdi-plus-circle-outline</v-icon> Add
+              <div v-if="$vuetify.breakpoint.smAndUp">Content</div>
             </v-btn>
           </template>
           <v-list>
@@ -44,17 +44,72 @@ Displays a single activity
       <v-card-text>
         <v-skeleton-loader v-if="activity._meta.loading" type="article" />
         <template v-else>
-          <v-list>
-            <v-label>Instanzen</v-label>
-            <v-list-item
-              v-for="scheduleEntry in scheduleEntries"
-              :key="scheduleEntry._meta.self"
-              two-line>
-              <v-list-item-content>
-                {{ $moment(scheduleEntry.startTime) }} bis {{ $moment(scheduleEntry.endTime) }}
-              </v-list-item-content>
-            </v-list-item>
-          </v-list>
+          <!-- Header -->
+          <v-card outlined>
+            <div class="v-item-group v-expansion-panels">
+              <div class="v-expansion-panel px-4 py-1">
+                <v-row dense>
+                  <v-col class="col col-sm-6 col-12">
+                    <v-row v-if="$vuetify.breakpoint.smAndUp" dense>
+                      <v-col cols="2">
+                        {{ $tc('entity.scheduleEntry.fields.nr') }}
+                      </v-col>
+                      <v-col cols="10">
+                        {{ $tc('entity.scheduleEntry.fields.time') }}
+                      </v-col>
+                    </v-row>
+                    <v-row
+                      v-for="scheduleEntryItem in scheduleEntries"
+                      :key="scheduleEntryItem._meta.self" dense>
+                      <v-col cols="2">
+                        ({{ scheduleEntryItem.number }})
+                      </v-col>
+                      <v-col cols="10">
+                        {{ $moment(scheduleEntryItem.startTime).format($tc('global.moment.dateShort')) }}
+                        <b>
+                          {{ $moment(scheduleEntryItem.startTime).format($tc('global.moment.hourShort')) }}
+                        </b>
+                        -
+                        {{
+                          $moment(scheduleEntryItem.startTime).format($tc('global.moment.dateShort')) == $moment(scheduleEntryItem.endTime).format($tc('global.moment.dateShort'))
+                            ? ''
+                            : $moment(scheduleEntryItem.endTime).format($tc('global.moment.dateShort'))
+                        }}
+                        <b>
+                          {{ $moment(scheduleEntryItem.endTime).format($tc('global.moment.hourShort')) }}
+                        </b>
+                      </v-col>
+                    </v-row>
+                  </v-col>
+                  <v-col class="col col-sm-6 col-12">
+                    <v-row dense>
+                      <v-col>
+                        <api-text-field
+                          :name="$tc('entity.activity.fields.location')"
+                          :uri="activity._meta.self"
+                          fieldname="location"
+                          dense />
+                      </v-col>
+                    </v-row>
+                    <v-row dense>
+                      <v-col>
+                        <v-select
+                          :label="'Responsible'"
+                          outlined
+                          dense
+                          multiple
+                          chips
+                          deletable-chips
+                          small-chips
+                          :hide-details="true"
+                          :items="['User A', 'User B']" />
+                      </v-col>
+                    </v-row>
+                  </v-col>
+                </v-row>
+              </div>
+            </div>
+          </v-card>
           <component :is="'ActivityLayout' + activityType.template" v-if="!activityType._meta.loading" :activity="activity" />
         </template>
       </v-card-text>
@@ -66,6 +121,7 @@ Displays a single activity
 import ButtonBack from '@/components/buttons/ButtonBack'
 import ContentCard from '@/components/layout/ContentCard'
 import ApiTextField from '@/components/form/api/ApiTextField'
+import ApiSelect from '@/components/form/api/ApiSelect'
 
 import ActivityLayoutGeneral from '@/components/activity/layouts/General'
 import camelCase from 'lodash/camelCase'
@@ -76,12 +132,21 @@ export default {
     ButtonBack,
     ContentCard,
     ApiTextField,
+    ApiSelect,
     ActivityLayoutGeneral
   },
   props: {
     scheduleEntry: {
       type: Function,
       required: true
+    }
+  },
+  data () {
+    return {
+      progressItems: [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100].map(p => ({
+        value: p,
+        text: p + '%'
+      }))
     }
   },
   computed: {

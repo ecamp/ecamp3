@@ -13,7 +13,5 @@ exports[`ApiTextField.vue renders correctly 1`] = `
     value="Test Value"
     veerules=""
   />
-   
-  <!---->
 </v-form-stub>
 `;

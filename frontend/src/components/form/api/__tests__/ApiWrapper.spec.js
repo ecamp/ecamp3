@@ -378,9 +378,6 @@ describe('Testing ApiWrapper [autoSave=false]', () => {
     expect(vm.isSaving).toBe(false)
     expect(vm.status).toBe('init')
     expect(vm.autoSave).toBe(false)
-
-    // expecting both a reset button & a save button in manual mode
-    expect(wrapper.findAllComponents({ name: 'VBtn' })).toHaveLength(2)
   })
 
   test('clears dirty flag when local value matches external value', async () => {

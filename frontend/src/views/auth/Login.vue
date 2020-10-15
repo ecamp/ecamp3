@@ -38,12 +38,12 @@
         :dense="$vuetify.breakpoint.xsOnly"
         type="password" />
 
-      <v-btn :color="username && password ? 'blue darken-2' : 'blue lighten-4'" block
+      <v-btn type="submit"
+             :color="username && password ? 'blue darken-2' : 'blue lighten-4'" block
              :disabled="!(username && password)"
              outlined
              :x-large="$vuetify.breakpoint.smAndUp"
-             class="my-4"
-             @click="login">
+             class="my-4">
         <v-progress-circular v-if="normalLoggingIn" indeterminate size="24" />
         <v-icon v-else>$vuetify.icons.ecamp</v-icon>
         <v-spacer />

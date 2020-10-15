@@ -67,16 +67,20 @@ exports[`ApiTextField.vue renders correctly 1`] = `
                
               <div
                 class="d-flex"
+                style="margin-top: -5px;"
               >
-                <!---->
-                 
-                <!---->
-                 
-                <transition-stub
-                  name="fade"
+                <div
+                  class="checkIconContainer"
                 >
-                  <!---->
-                </transition-stub>
+                  <i
+                    aria-hidden="true"
+                    class="v-icon notranslate checkIcon mdi mdi-content-save theme--light green--text"
+                  />
+                </div>
+                 
+                <!---->
+                 
+                <!---->
               </div>
             </div>
             <input
@@ -93,7 +97,5 @@ exports[`ApiTextField.vue renders correctly 1`] = `
       </div>
     </div>
   </div>
-   
-  <!---->
 </form>
 `;

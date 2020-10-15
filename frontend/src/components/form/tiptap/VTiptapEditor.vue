@@ -8,6 +8,12 @@ export default {
     TiptapEditor
   },
   extends: VTextField,
+  props: {
+    withExtensions: {
+      type: Boolean,
+      default: false
+    }
+  },
   methods: {
     genInput () {
       const listeners = Object.assign({}, this.listeners$)
@@ -18,7 +24,8 @@ export default {
         },
         props: {
           value: this.value,
-          placeholder: this.placeholder
+          placeholder: this.placeholder,
+          withExtensions: this.withExtensions
         },
         on: Object.assign(listeners, {
           blur: this.onBlur,

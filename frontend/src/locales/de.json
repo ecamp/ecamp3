@@ -72,6 +72,20 @@
         "i": "i, ii, iii - kleine römische Zahlen",
         "I": "I, II, III - grosse römische Zahlen"
       }
+    },
+    "activity": {
+      "name": "Aktivität",
+      "fields": {
+        "title": "Titel",
+        "location": "Ort"
+      }
+    },
+    "scheduleEntry": {
+      "name": "Aktivität Durchführung",
+      "fields": {
+        "nr": "Nr",
+        "time": "Zeitpunkt"
+      }
     }
   },
   "activityContent": {
