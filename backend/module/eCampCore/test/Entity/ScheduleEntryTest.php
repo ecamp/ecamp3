@@ -76,11 +76,5 @@ class ScheduleEntryTest extends AbstractTestCase {
 
         $duration = $scheduleEntry->getDuration();
         $this->assertEquals('120', $duration->format('%i'));
-
-        $start = $scheduleEntry->getStartTime();
-        $this->assertEquals($period->getStart()->setTime(15, 0, 0), $start);
-
-        $end = $scheduleEntry->getEndTime();
-        $this->assertEquals($period->getStart()->setTime(17, 0, 0), $end);
     }
 }

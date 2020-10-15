@@ -12,30 +12,30 @@ use eCamp\Lib\Entity\BaseEntity;
  */
 class ScheduleEntry extends BaseEntity implements BelongsToCampInterface {
     /**
+     * @var Period
      * @ORM\ManyToOne(targetEntity="Period")
      * @ORM\JoinColumn(nullable=false, onDelete="cascade")
      */
-    private Period $period;
+    private $period;
 
     /**
+     * @var Activity
      * @ORM\ManyToOne(targetEntity="Activity")
      * @ORM\JoinColumn(nullable=false, onDelete="cascade")
      */
-    private Activity $activity;
+    private $activity;
 
     /**
-     * Minutes since period start.
-     *
+     * @var int minutes since period start
      * @ORM\Column(type="integer", nullable=false)
      */
-    private int $periodOffset;
+    private $periodOffset;
 
     /**
-     * Length in Minutes.
-     *
+     * @var int minutes
      * @ORM\Column(type="integer", nullable=false)
      */
-    private int $length;
+    private $length;
 
     /**
      * @ORM\Column(name="`left`", type="float", nullable=true)
