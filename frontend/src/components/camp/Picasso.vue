@@ -12,8 +12,8 @@ Listing all given activity schedule entries in a calendar view.
       :events="events"
       :event-name="getActivityName | loading('Lädt…', ({ input }) => isActivityLoading(input))"
       :event-color="getActivityColor | loading('grey lighten-2', (entry) => isActivityLoading(entry))"
-      event-start="start"
-      event-end="end"
+      event-start="startTime"
+      event-end="endTime"
       :interval-height="intervalHeight"
       interval-width="46"
       :interval-format="intervalFormat"
@@ -72,10 +72,10 @@ Listing all given activity schedule entries in a calendar view.
       <v-card v-if="tempScheduleEntry">
         <v-form>
           <v-card-text>
-            <e-text-field v-model="tempScheduleEntry.title" no-label
+            <e-text-field v-model="getActivity(tempScheduleEntry).title" no-label
                           class="font-weight-bold" placeholder="Aktivitätsname"
                           hide-details="auto" />
-            <e-select v-model="tempScheduleEntry.activityCategory" label="Aktivitätstyp"
+            <e-select v-model="getActivity(tempScheduleEntry).activityCategory" label="Aktivitätstyp"
                       :items="activityCategories.items" item-value="id"
                       :return-object="true" required
                       item-text="name">
@@ -91,9 +91,9 @@ Listing all given activity schedule entries in a calendar view.
               </template>
               <template #selection="{item}">
                 <div class="v-select__selection">
-                <span class="black--text">
-                  {{ item.name }}
-                </span>
+                  <span class="black--text">
+                    {{ item.name }}
+                  </span>
                   <v-chip x-small :color="item.color">{{ item.short }}</v-chip>
                 </div>
               </template>
@@ -101,10 +101,10 @@ Listing all given activity schedule entries in a calendar view.
             <v-row no-gutters class="my-4">
               <e-time-picker label="Start"
                              :icon="null" class="flex-full"
-                             :value="toTimeString(tempScheduleEntry.start)" />
+                             :value="toTimeString(tempScheduleEntry.startTime)" />
               <e-time-picker width="100" label="Ende"
                              :icon="null" class="flex-full mt-0"
-                             :value="toTimeString(tempScheduleEntry.end)" />
+                             :value="toTimeString(tempScheduleEntry.endTime)" />
             </v-row>
             <e-select label="Verantwortliche Leitende" multiple
                       chips deletable-chips
@@ -188,9 +188,9 @@ export default {
   computed: {
     events () {
       if (this.tempScheduleEntry) {
-        return this.parsedScheduleEntries.concat(this.tempScheduleEntry)
+        return this.scheduleEntries.concat(this.tempScheduleEntry)
       } else {
-        return this.parsedScheduleEntries
+        return this.scheduleEntries
       }
     },
     activityCategories () {
@@ -214,22 +214,31 @@ export default {
     nowY () {
       return this.$refs.calendar ? this.$refs.calendar.timeToY(this.now) + 'px' : '-10px'
     },
-    parsedScheduleEntries () {
+    scheduleEntries () {
       return this.period().scheduleEntries().items.map((entry) => {
-        entry.activityCategory = entry.activity().activityCategory()
-        entry.title = entry.activity().title
-        entry.start = entry.startTime
-        entry.end = entry.endTime
-        entry.timed = true
-        entry.tmpEvent = false
-        return entry
+        return {
+          ...entry,
+          timed: true,
+          get startTime () {
+            return this.period().start + (this.periodOffset * 60000)
+          },
+          set startTime (value) {
+            this.periodOffset = (value - this.period().start) / 60000
+          },
+          get endTime () {
+            return this.startTime + (this.length * 60000)
+          },
+          set endTime (value) {
+            this.length = (value - this.startTime) / 60000
+          }
+        }
       })
     },
     camp () {
       return this.period().camp()
     },
-    activitesUrl () {
-      return this.api.get().activities()._meta.self
+    scheduleEntriesUrl () {
+      return this.api.get().scheduleEntries()._meta.self
     }
   },
   methods: {
@@ -237,30 +246,21 @@ export default {
       const widthIntervals = 46
       this.entryWidth = Math.max((this.$refs.calendar.$el.offsetWidth - widthIntervals) / this.$refs.calendar.days.length, 80)
     },
-    getActivityName (event, _) {
-      if (event.tmpEvent) {
-        return (event.activityCategory ? event.activityCategory.short + ': ' : '') + event.title
-      } else {
-        return '(' + event.number + ') ' + event.activityCategory.short + ': ' + event.title
-      }
+    getActivity (scheduleEntry, _) {
+      return scheduleEntry.tmpEvent ? scheduleEntry.activity : scheduleEntry.activity()
     },
-    getActivityColor (event, _) {
-      if (event.tmpEvent) {
-        if (event.activityCategory) {
-          return isCssColor(event.activityCategory.color) ? event.activityCategory.color : event.activityCategory.color + ' elevation-4 v-event--temporary'
-        } else {
-          return 'grey elevation-4 v-event--temporary'
-        }
-      } else {
-        return event.activityCategory.color
-      }
+    getActivityCategory (scheduleEntry, _) {
+      return scheduleEntry.tmpEvent ? this.getActivity(scheduleEntry).activityCategory : this.getActivity(scheduleEntry).activityCategory()
+    },
+    getActivityName (scheduleEntry, _) {
+      return (scheduleEntry.number ? '(' + scheduleEntry.number + ') ' : '') + (this.getActivityCategory(scheduleEntry).short ? this.getActivityCategory(scheduleEntry).short + ': ' : '') + this.getActivity(scheduleEntry).title
+    },
+    getActivityColor (scheduleEntry, _) {
+      const color = this.getActivityCategory(scheduleEntry).color
+      return isCssColor(color) ? color : color + ' elevation-4 v-event--temporary'
     },
     isActivityLoading (scheduleEntry) {
-      if (scheduleEntry.tmpEvent) {
-        return false
-      } else {
-        return scheduleEntry.activity()._meta.loading
-      }
+      return this.getActivity(scheduleEntry)._meta ? this.getActivity(scheduleEntry)._meta.loading : false
     },
     intervalFormat (time) {
       return this.$moment(time.date + ' ' + time.time).format(this.$tc('global.moment.hourLong'))
@@ -310,7 +310,7 @@ export default {
         if (this.draggedEntry !== this.tempScheduleEntry) {
           this.revertScheduleEntry()
         }
-        const start = this.draggedEntry.start
+        const start = this.draggedEntry.startTime
         this.draggedStartTime = mouse - start
       } else if (this.openEntry) {
         this.openEntry = false
@@ -326,13 +326,36 @@ export default {
     createNewEntry: function (mouse) {
       this.currentStartTime = this.roundTimeDown(mouse)
       this.currentEntry = {
-        title: this.$tc('entity.activity.new'),
-        start: this.currentStartTime,
-        end: this.currentStartTime,
-        activityCategory: null,
+        number: null,
+        period: (this.period)(),
+        periodOffset: 0,
+        length: 0,
+        get startTime () {
+          return this.period.start + (this.periodOffset * 60000)
+        },
+        set startTime (value) {
+          this.periodOffset = (value - this.period.start) / 60000
+        },
+        get endTime () {
+          return this.startTime + (this.length * 60000)
+        },
+        set endTime (value) {
+          this.length = (value - this.startTime) / 60000
+        },
+        activity: {
+          title: this.$tc('entity.activity.new'),
+          camp: this.camp,
+          activityCategory: {
+            id: null,
+            short: null,
+            color: 'grey elevation-4 v-event--temporary'
+          }
+        },
         timed: true,
         tmpEvent: true
       }
+      this.currentEntry.startTime = this.currentStartTime
+      this.currentEntry.endTime = this.currentStartTime
       this.tempScheduleEntry = this.currentEntry
     },
     timeMouseMove (tms) {
@@ -349,19 +372,19 @@ export default {
       const min = Math.min(mouseRounded, this.currentStartTime)
       const max = Math.max(mouseRounded, this.currentStartTime)
 
-      this.currentEntry.start = min
-      this.currentEntry.end = max
+      this.currentEntry.startTime = min
+      this.currentEntry.endTime = max
     },
     moveEntryTime: function (mouse) {
-      const start = this.draggedEntry.start
-      const end = this.draggedEntry.end
+      const start = this.draggedEntry.startTime
+      const end = this.draggedEntry.endTime
       const duration = end - start
       const newStartTime = mouse - this.draggedStartTime
       const newStart = this.roundTimeDown(newStartTime)
       const newEnd = newStart + duration
 
-      this.draggedEntry.start = newStart
-      this.draggedEntry.end = newEnd
+      this.draggedEntry.startTime = newStart
+      this.draggedEntry.endTime = newEnd
     },
     entryMouseUp ({ nativeEvent }) {
       if ((this.draggedEntry && this.draggedStartTime !== null) || (this.currentEntry && this.currentStartTime !== null)) {
@@ -373,28 +396,27 @@ export default {
         const minuteThreshold = 15
         const threshold = minuteThreshold * 60 * 1000
         const now = this.toTime(tms)
-        if (Math.abs(now - this.mouseStartTime) < threshold) {
-          this.showEntryInfoPopup(this.draggedEntry)
-        } else {
-          const periodStart = new Date(this.period().start)
+        if (Math.abs(now - this.mouseStartTime) >= threshold) {
           const patchedScheduleEntry = {
-            start: this.convertToMiliseconds(this.draggedEntry.start - periodStart.getTime()),
-            length: this.convertToMiliseconds(this.draggedEntry.end - this.draggedEntry.start)
+            startTime: this.draggedEntry.startTime,
+            endTime: this.draggedEntry.endTime
           }
-          this.api.patch(this.draggedEntry._meta.self, patchedScheduleEntry).then(scheduleEntry => this.scheduleEntries.push(scheduleEntry))
+          this.api.patch(this.draggedEntry._meta.self, patchedScheduleEntry).then(scheduleEntry => this.scheduleEntries.items.push(scheduleEntry))
           // TODO: Persist time change in API
         }
         this.clearDraggedEntry()
       } else if (this.currentEntry && this.currentStartTime !== null) {
-        if (this.currentEntry.tmpEvent && !this.extendOriginal) {
-          this.showEntryInfoPopup(this.currentEntry)
+        if (this.currentEntry.tmpEvent) {
+          if (!this.extendOriginal) {
+            this.showEntryInfoPopup(this.currentEntry)
+          }
+        } else {
+          const patchedScheduleEntry = {
+            periodOffset: this.currentEntry.periodOffset,
+            length: this.currentEntry.length
+          }
+          this.api.patch(this.currentEntry._meta.self, patchedScheduleEntry)
         }
-        const periodStart = new Date(this.period().start)
-        const patchedScheduleEntry = {
-          start: this.convertToMiliseconds(this.currentEntry.start - periodStart.getTime()),
-          length: this.convertToMiliseconds(this.currentEntry.end - this.currentEntry.start)
-        }
-        this.api.patch(this.currentEntry._meta.self, patchedScheduleEntry)
         this.clearCurrentEntry()
       }
       this.mouseStartTime = null
@@ -402,7 +424,7 @@ export default {
     nativeMouseUp () {
       if (this.currentEntry) {
         if (this.extendOriginal) {
-          this.currentEntry.end = this.extendOriginal
+          this.currentEntry.endTime = this.extendOriginal
         }
       }
       this.clearDraggedEntry()
@@ -413,8 +435,8 @@ export default {
         this.cancelEntryInfoPopup()
       }
       this.currentEntry = event
-      this.currentStartTime = event.start
-      this.extendOriginal = event.end
+      this.currentStartTime = event.startTime
+      this.extendOriginal = event.endTime
     },
     clearCurrentEntry () {
       this.currentEntry = null
@@ -430,7 +452,7 @@ export default {
         if (this.tempScheduleEntry.tmpEvent) {
           this.tempScheduleEntry = this.originalScheduleEntry
         } else {
-          this.parsedScheduleEntries.push(this.originalScheduleEntry)
+          this.events.push(this.originalScheduleEntry)
           this.tempScheduleEntry = null
         }
         this.originalScheduleEntry = null
@@ -448,7 +470,7 @@ export default {
     },
     saveScheduleEntry () {
       this.showEntryInfo = false
-      this.parsedScheduleEntries.push(this.tempScheduleEntry)
+      this.events.push(this.tempScheduleEntry)
       this.tempScheduleEntry = null
       // TODO: api push
       this.originalScheduleEntry = null
@@ -456,39 +478,20 @@ export default {
       this.clearDraggedEntry()
     },
     createActivity () {
-      this.showEntryInfo = false
-      this.parsedScheduleEntries.push(this.tempScheduleEntry)
-
-      const periodStart = new Date(this.period().start)
-      const newScheduleEntry = {
-        periodId: this.period().id,
-        start: this.convertToMiliseconds(this.tempScheduleEntry.start - periodStart.getTime()),
-        length: this.convertToMiliseconds(this.tempScheduleEntry.end - this.tempScheduleEntry.start)
-      }
-      const newActivity = {
-        title: this.tempScheduleEntry.title,
-        campId: this.camp.id,
-        activityCategoryId: this.tempScheduleEntry.activityCategory.id,
-        scheduleEntries: [newScheduleEntry]
-      }
-      this.api.post(this.activitesUrl, newActivity).then(activity => {
-        // TODO: This is ugly and and bad
-        this.api.reload(activity).then(
-          activity => activity.scheduleEntries().items.forEach(scheduleEntry => {
-            this.$set(this.scheduleEntries, this.scheduleEntries.length, scheduleEntry)
-          })
-        )
+      this.events.push(this.tempScheduleEntry)
+      this.api.post(this.scheduleEntriesUrl, this.tempScheduleEntry).then(() => {
+        this.showEntryInfo = false
+        this.tempScheduleEntry = null
+        this.originalScheduleEntry = null
+        this.clearCurrentEntry()
+        this.clearDraggedEntry()
       })
-      this.tempScheduleEntry = null
-      this.originalScheduleEntry = null
-      this.clearCurrentEntry()
-      this.clearDraggedEntry()
     },
     showEntryInfoPopup (entry) {
-      const index = this.parsedScheduleEntries.indexOf(entry)
+      const index = this.events.indexOf(entry)
       if (index !== -1) {
         this.originalScheduleEntry = Object.assign({}, entry)
-        this.parsedScheduleEntries.splice(index, 1)
+        this.events.splice(index, 1)
       } else {
         this.originalScheduleEntry = Object.assign({}, entry)
       }
@@ -513,7 +516,7 @@ export default {
     toTime (tms) {
       return new Date(tms.year, tms.month - 1, tms.day, tms.hour, tms.minute).getTime()
     },
-    convertToMiliseconds (time) {
+    convertToMinutes (time) {
       const milisecondsInAMinute = 60000
       return time / milisecondsInAMinute
     },
@@ -527,126 +530,126 @@ export default {
 }
 </script>
 <style lang="scss">
-  .ec-picasso {
+.ec-picasso {
 
-    .v-calendar-daily_head-day,
-    .v-calendar-daily__day {
-      min-width: 80px;
-    }
-
-    .v-event-timed {
-      padding: 1px;
-      font-size: 11px !important;
-      white-space: normal;
-      line-height: 1.15;
-      user-select: none;
-      -webkit-user-select: none;
-
-      .pl-1 {
-        padding-left: 2px !important;
-      }
-    }
-  }
-
-  .v-current-time {
-    height: 2px;
-    background-color: #ea4335;
-    position: absolute;
-    left: -1px;
-    right: 0;
-    pointer-events: none;
-
-    &::before {
-      content: '';
-      position: absolute;
-      background-color: #ea4335;
-      width: 12px;
-      height: 12px;
-      border-radius: 50%;
-      margin-top: -5px;
-      margin-left: -6.5px;
-    }
-  }
-
-  .v-calendar .v-event-timed-container {
-    margin-right: 5px;
-  }
-
-  .ec-event--btn {
-    padding: 0 !important;
-    min-width: 20px !important;
-    top: 0 !important;
-    right: 0 !important;
-    opacity: 0;
-  }
-
-  .ec-daily_head-day-label {
-    font-size: 11px;
-    font-feature-settings: "tnum";
-    letter-spacing: -.1px;
-    white-space: break-spaces;
-
-    .elipsis {
-      text-overflow: ellipsis;
-      overflow: hidden;
-      white-space: nowrap;
-      display: block;
-    }
-  }
-</style>
-<style lang="scss" scoped>
-  .v-card {
-    overflow: hidden;
-  }
-
-  ::v-deep .v-calendar-daily__pane {
-    overflow-y: visible;
-  }
-
-  ::v-deep .v-calendar-daily__scroll-area {
-    overflow-y: visible;
-  }
-
-  ::v-deep .v-calendar-daily {
-    border-top: 0;
-    border-left: 0;
-    overflow-x: scroll;
-  }
-
-  ::v-deep .v-calendar-daily__body {
-    overflow: visible;
-  }
-
-  ::v-deep .v-event-timed.v-event--temporary {
-    border-style: dashed !important;
-    opacity: .8;
+  .v-calendar-daily_head-day,
+  .v-calendar-daily__day {
+    min-width: 80px;
   }
 
   .v-event-timed {
-    &:hover .v-event-drag-bottom::after {
-      display: block;
+    padding: 1px;
+    font-size: 11px !important;
+    white-space: normal;
+    line-height: 1.15;
+    user-select: none;
+    -webkit-user-select: none;
+
+    .pl-1 {
+      padding-left: 2px !important;
     }
   }
+}
 
-  .v-event-drag-bottom {
+.v-current-time {
+  height: 2px;
+  background-color: #ea4335;
+  position: absolute;
+  left: -1px;
+  right: 0;
+  pointer-events: none;
+
+  &::before {
+    content: '';
     position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 4px;
-    height: 4px;
-    cursor: ns-resize;
-
-    &::after {
-      display: none;
-      position: absolute;
-      left: 50%;
-      height: 4px;
-      border-top: 1px solid white;
-      border-bottom: 1px solid white;
-      width: 16px;
-      margin-left: -8px;
-      opacity: 0.8;
-      content: '';
-    }
+    background-color: #ea4335;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    margin-top: -5px;
+    margin-left: -6.5px;
   }
+}
+
+.v-calendar .v-event-timed-container {
+  margin-right: 5px;
+}
+
+.ec-event--btn {
+  padding: 0 !important;
+  min-width: 20px !important;
+  top: 0 !important;
+  right: 0 !important;
+  opacity: 0;
+}
+
+.ec-daily_head-day-label {
+  font-size: 11px;
+  font-feature-settings: "tnum";
+  letter-spacing: -.1px;
+  white-space: break-spaces;
+
+  .elipsis {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    display: block;
+  }
+}
+</style>
+<style lang="scss" scoped>
+.v-card {
+  overflow: hidden;
+}
+
+::v-deep .v-calendar-daily__pane {
+  overflow-y: visible;
+}
+
+::v-deep .v-calendar-daily__scroll-area {
+  overflow-y: visible;
+}
+
+::v-deep .v-calendar-daily {
+  border-top: 0;
+  border-left: 0;
+  overflow-x: scroll;
+}
+
+::v-deep .v-calendar-daily__body {
+  overflow: visible;
+}
+
+::v-deep .v-event-timed.v-event--temporary {
+  border-style: dashed !important;
+  opacity: .8;
+}
+
+.v-event-timed {
+  &:hover .v-event-drag-bottom::after {
+    display: block;
+  }
+}
+
+.v-event-drag-bottom {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 4px;
+  height: 4px;
+  cursor: ns-resize;
+
+  &::after {
+    display: none;
+    position: absolute;
+    left: 50%;
+    height: 4px;
+    border-top: 1px solid white;
+    border-bottom: 1px solid white;
+    width: 16px;
+    margin-left: -8px;
+    opacity: 0.8;
+    content: '';
+  }
+}
 </style>

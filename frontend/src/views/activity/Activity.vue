@@ -22,7 +22,8 @@ Displays a single activity
                    outlined
                    v-bind="attrs"
                    v-on="on">
-              <v-icon left>mdi-plus-circle-outline</v-icon> Add Content
+              <v-icon left>mdi-plus-circle-outline</v-icon>
+              Add Content
             </v-btn>
           </template>
           <v-list>
@@ -46,11 +47,11 @@ Displays a single activity
           <v-list>
             <v-label>Instanzen</v-label>
             <v-list-item
-              v-for="instance in instances.items"
-              :key="instance._meta.self"
+              v-for="scheduleEntry in scheduleEntries"
+              :key="scheduleEntry._meta.self"
               two-line>
               <v-list-item-content>
-                {{ instance.startTime }} bis {{ instance.endTime }}
+                {{ $moment(scheduleEntry.startTime) }} bis {{ $moment(scheduleEntry.endTime) }}
               </v-list-item-content>
             </v-list-item>
           </v-list>
@@ -78,7 +79,10 @@ export default {
     ActivityLayoutGeneral
   },
   props: {
-    scheduleEntry: { type: Function, required: true }
+    scheduleEntry: {
+      type: Function,
+      required: true
+    }
   },
   computed: {
     activity () {
@@ -87,8 +91,25 @@ export default {
     category () {
       return this.activity.activityCategory()
     },
-    instances () {
-      return this.activity.scheduleEntries()
+    scheduleEntries () {
+      return this.activity.scheduleEntries().items.map((entry) => {
+        return {
+          ...entry,
+          get startTime () {
+            return this.period().start + (this.periodOffset * 60000)
+          },
+          set startTime (value) {
+            this.periodOffset = (value - this.period().start) / 60000
+          },
+          get endTime () {
+            return this.startTime + (this.length * 60000)
+          },
+          set endTime (value) {
+            this.length = (value - this.startTime) / 60000
+          }
+        }
+      }
+      )
     },
     activityType () {
       return this.category.activityType()
@@ -112,7 +133,9 @@ export default {
   },
   methods: {
     countActivityContents (contentType) {
-      return this.activityContents.items.filter(ac => { return ac.contentType().id === contentType.id }).length
+      return this.activityContents.items.filter(ac => {
+        return ac.contentType().id === contentType.id
+      }).length
     },
     async addActivityContent (atctId) {
       await this.api.post('/activity-contents', {
@@ -129,11 +152,11 @@ export default {
 </script>
 
 <style scoped>
-  .v-card .v-list-item {
-    padding-left: 0;
-  }
+.v-card .v-list-item {
+  padding-left: 0;
+}
 
-  .activity_title input {
-    font-size: 28px;
-  }
+.activity_title input {
+  font-size: 28px;
+}
 </style>
