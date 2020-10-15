@@ -5,9 +5,12 @@
     "button": {
       "add": "Hinzufügen",
       "back": "Zurück",
+      "create": "Erstellen",
       "delete": "Löschen",
       "edit": "Bearbeiten",
+      "open": "Öffnen",
       "submit": "Abschicken",
+      "tryagain": "Erneut versuchen",
       "cancel": "Abbrechen"
     },
     "moment": {

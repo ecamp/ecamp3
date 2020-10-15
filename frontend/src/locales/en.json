@@ -5,9 +5,12 @@
     "button": {
       "add": "Add",
       "back": "Back",
+      "create": "Create",
       "delete": "Delete",
       "edit": "Edit",
+      "open": "Open",
       "submit": "Submit",
+      "tryagain": "Try again",
       "cancel": "Cancel"
     },
     "moment": {

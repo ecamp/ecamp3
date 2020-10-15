@@ -115,17 +115,29 @@ Listing all given activity schedule entries in a calendar view.
                       chips deletable-chips
                       :items="[{text:'Leitende1'},{text:'Leitende2'}]" />
           </v-card-text>
-          <v-card-actions class="px-4 pb-4">
+          <v-card-actions class="px-4 pb-4 flex-wrap">
+            <v-alert
+              v-if="createdError"
+              dense
+              class="w-100"
+              border="left"
+              outlined
+              type="error">
+              {{ createdError }}
+            </v-alert>
             <v-btn v-if="!tempScheduleEntry.tmpEvent"
                    color="primary" :to="scheduleEntryRoute(camp, tempScheduleEntry)">
-              Öffnen
+              {{ $tc('global.button.open') }}
             </v-btn>
             <v-btn text color="secondary"
                    class="ml-auto"
                    @click="cancelEntryInfoPopup()">
-              Abbrechen
+              {{ $tc('global.button.cancel') }}
             </v-btn>
-            <v-btn v-if="tempScheduleEntry.tmpEvent" color="success" @click="createActivity">Erstellen</v-btn>
+            <v-btn v-if="tempScheduleEntry.tmpEvent" color="success" @click="createActivity">
+              <v-icon v-if="isPersisting" class="mdi-spin">mdi-loading</v-icon>
+              <span v-else>{{ createdError ? $tc('global.button.tryagain') : $tc('global.button.create') }}</span>
+            </v-btn>
             <v-btn v-else color="success" @click="saveScheduleEntry">Speichern</v-btn>
           </v-card-actions>
         </v-form>
@@ -174,7 +186,8 @@ export default {
   data () {
     return {
       tempScheduleEntry: null,
-      weekdayShort: ['Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa', 'So'],
+      isPersisting: false,
+      createdError: '',
       maxDays: 100,
       entryWidth: 80,
       value: '',
@@ -484,13 +497,19 @@ export default {
       this.clearDraggedEntry()
     },
     createActivity () {
+      this.isPersisting = true
       this.events.push(this.tempScheduleEntry)
       this.api.post(this.scheduleEntriesUrl, this.tempScheduleEntry).then(() => {
+        this.isPersisting = false
+        this.createdError = ''
         this.showEntryInfo = false
         this.tempScheduleEntry = null
         this.originalScheduleEntry = null
         this.clearCurrentEntry()
         this.clearDraggedEntry()
+      }).catch((error) => {
+        this.isPersisting = false
+        this.createdError = error
       })
     },
     showEntryInfoPopup (entry) {
