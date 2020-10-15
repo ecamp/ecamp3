@@ -1350,7 +1350,7 @@ return [
         ],
         'eCampApi\\V1\\Rest\\ScheduleEntry\\Validator' => [
             0 => [
-                'name' => 'start',
+                'name' => 'periodOffset',
                 'required' => true,
                 'filters' => [
                     0 => [
