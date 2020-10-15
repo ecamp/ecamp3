@@ -55,6 +55,8 @@ class ActivityService extends AbstractEntityService {
      * @return Activity
      */
     protected function createEntity($data) {
+        $data = (object) $data;
+
         /** @var Activity $activity */
         $activity = parent::createEntity($data);
 
