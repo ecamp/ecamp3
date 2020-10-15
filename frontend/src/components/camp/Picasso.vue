@@ -75,29 +75,6 @@ Listing all given activity schedule entries in a calendar view.
             <e-text-field v-model="getActivity(tempScheduleEntry).title" no-label
                           class="font-weight-bold" placeholder="Aktivitätsname"
                           hide-details="auto" />
-            <e-select v-model="getActivity(tempScheduleEntry).activityCategory" label="Aktivitätstyp"
-                      :items="activityCategories.items" item-value="id"
-                      :return-object="true" required
-                      item-text="name">
-              <template #item="{item, on, attrs}">
-                <v-list-item :key="item.id" v-bind="attrs" v-on="on">
-                  <v-list-item-avatar>
-                    <v-chip :color="item.color">{{ item.short }}</v-chip>
-                  </v-list-item-avatar>
-                  <v-list-item-content>
-                    {{ item.name }}
-                  </v-list-item-content>
-                </v-list-item>
-              </template>
-              <template #selection="{item}">
-                <div class="v-select__selection">
-                  <span class="black--text">
-                    {{ item.name }}
-                  </span>
-                  <v-chip x-small :color="item.color">{{ item.short }}</v-chip>
-                </div>
-              </template>
-            </e-select>
             <v-row no-gutters class="my-4">
               <e-time-picker label="Start"
                              :icon="null" class="flex-full"
@@ -105,6 +82,34 @@ Listing all given activity schedule entries in a calendar view.
               <e-time-picker width="100" label="Ende"
                              :icon="null" class="flex-full mt-0"
                              :value="toTimeString(tempScheduleEntry.endTime)" />
+            </v-row>
+            <v-row no-gutters class="my-4" style="gap: 12px">
+              <e-select v-model="getActivity(tempScheduleEntry).activityCategory" label="Aktivitätstyp"
+                        :items="activityCategories.items" item-value="id"
+                        :return-object="true" required
+                        item-text="name">
+                <template #item="{item, on, attrs}">
+                  <v-list-item :key="item.id" v-bind="attrs" v-on="on">
+                    <v-list-item-avatar>
+                      <v-chip :color="item.color">{{ item.short }}</v-chip>
+                    </v-list-item-avatar>
+                    <v-list-item-content>
+                      {{ item.name }}
+                    </v-list-item-content>
+                  </v-list-item>
+                </template>
+                <template #selection="{item}">
+                  <div class="v-select__selection">
+                    <span class="black--text">
+                      {{ item.name }}
+                    </span>
+                    <v-chip x-small :color="item.color">{{ item.short }}</v-chip>
+                  </div>
+                </template>
+              </e-select>
+              <e-text-field v-model="getActivity(tempScheduleEntry).location" :label="$tc('entity.activity.fields.location')"
+                            hide-details="auto"
+                            class="mt-0" />
             </v-row>
             <e-select label="Verantwortliche Leitende" multiple
                       chips deletable-chips
@@ -344,6 +349,7 @@ export default {
         },
         activity: {
           title: this.$tc('entity.activity.new'),
+          location: '',
           camp: this.camp,
           activityCategory: {
             id: null,
