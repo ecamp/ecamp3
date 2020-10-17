@@ -35,9 +35,9 @@
     "period": {
       "name": "Period | Periods",
       "fields": {
-        "start": "Start",
+        "description": "Description",
         "end": "End",
-        "description": "Description"
+        "start": "Start"
       },
       "defaultDescription": "Main"
     },
@@ -45,14 +45,15 @@
       "name": "User",
       "fields": {
         "email": "Email address",
-        "firstname": "First name",
-        "surname": "Last name",
+        "firstname": "Firstname",
+        "surname": "Lastname",
         "nickname": "Nickname",
         "birthday": "Birthday",
         "language": "Language"
       }
     },
     "activityCategory": {
+      "activityType": {
       "name": "Activity categories",
       "fields": {
         "short": "Short",
@@ -77,29 +78,25 @@
       }
     },
     "scheduleEntry": {
-      "name": "Schedule Entry",
+      "name": "Activity scheduled",
       "fields": {
-        "nr": "Nr",
+        "nr": "No.",
         "time": "Time"
       }
     }
   },
-  "activityContent": {
+  "activityContent":{
     "safetyConcept": {
-      "add": "Add a safety concept",
-      "name": "Safety concept",
-      "icon": "mdi-security",
-      "sort": "3",
+      "add": "Add safety concept",
+      "name": "safety concept",
       "entity": { }
     },
     "storyboard": {
-      "add": "Add a storyboard | Add another storyboard",
-      "name": "Storyboard",
-      "icon": "mdi-script-text-outline",
-      "sort": "2",
-      "entity": {
-        "section": {
-          "name": "Section | Sections",
+      "add": "Add a storyboard",
+      "name":"storyboard",
+			"entity": {
+				"section": {
+          "name":"Storyboard | Storyboards",
           "fields": {
             "column1": "Time",
             "column2": "Program",
@@ -110,86 +107,84 @@
     },
     "storycontext": {
       "add": "Add story context",
-      "name": "Story context",
-      "icon": "mdi-book-open-page-variant",
-      "sort": "1",
-      "entity": { }
+      "name":"story concept",
+      "entity":{ }
     },
     "notes": {
-      "name": "Notes",
-      "icon": "mdi-pen",
       "add": "Add notes",
-      "entity": { }
+      "name": "Notes",
+      "entity":{ }
     }
   },
-  "components": {
-    "camp": {
-      "campActivityCategories": {
-        "title": "Activity categories",
-        "create": "Create activity category",
-        "deleteActivityCategoryQuestion": "Do you really want do delete the ActivityCategory",
-        "deleteActivityCategoryNotPossibleInUse": "ActivityCategory can not be deleted. It is used by:"
-      }
-    },
-    "dialog": {
-      "dialogActivityCategoryCreate": {
-        "title": "Create activity category"
+    "components": {
+      "camp": {
+        "campActivityCategories": {
+          "title":"Activity categories",
+          "create": "Create activity category",
+          "deleteActivityCategoryQuestion": "Do you really want do delete the Activity category?",
+          "deleteActivityCategoryNotPossibleInUse": "Activity category can't be deleted. It is used by:"
+        }
       },
-      "dialogEntityDelete": {
-        "title": "Really delete?",
-        "warningText": "Do you really want to delete this?"
+      "dialog": {
+        "dialogActivityCategoryCreate": {
+          "title": "Create activity category"
+        },
+        "dialogEntityDelete": {
+          "title": "Really delete?",
+          "warningText": "Do you wish to cancel this?"
       }
     },
     "navigation": {
-      "searchActivitiesAndCamps": "Seach activities and camps",
+      "searchActivitiesAndCamps": "Search activity and camps",
       "search": "Search",
       "myCamps": "My camp | My camps",
       "profile": "Profile"
     }
   },
-  "views": {
+  "views":{
     "auth": {
       "login": {
-        "title":  "Login",
+        "title": "Login",
         "username": "Username or Email",
         "password": "Password",
         "or": "or",
         "provider": {
           "ecamp": "Login with eCamp",
-          "midata": "Login with MiData",
-          "google": "Login with Google"
+          "google": "Login with Google",
+          "midata": "Login with MiData"
         },
         "accountless": "Don't have an account yet?",
         "registernow": "Register now",
-        "beta":{
+        "beta": {
           "notice": "This is the site of the new eCamp.<br>IMPORTANT: This website is under construction. This means that all data is public and will be deleted periodically!"
         }
       }
     },
-    "activity": {
-      "sideBarProgram": {
-        "title": "Daily overview"
+    "activity":{
+      "sidebarProgram": {
+        "name": "daily overview"
       }
     },
     "campCreate": {
-      "create": "Create camp",
+      "create": "Create the Camp",
       "period": {
         "add": "Add a period",
-        "remove": "Remove period"
+        "remove": "Remove a period"
       },
-      "title": "Create camp"
+      "title": "Create the Camp"
     },
     "camps": {
-      "create": "Create camp",
-      "title": "My camp | My camps"
+      "create": "Create the camp",
+      "title": "My Camp | My Camps"
     },
-    "home": {
-      "home": "Home",
-      "myCamps": "My camp | My camps",
-      "welcome": "Hey {user}. Welcome to eCamp"
+    "home":{
+      "home":"Home",
+      "myCamps": "My Camp | My Camps",
+      "welcome": "Hello {user}. Warmly Welcome on eCamp"
     },
-    "profile": {
-      "profile": "Profile"
+    "profile":{
+      "profile":"Profile"
     }
   }
+}
 }

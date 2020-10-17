@@ -53,6 +53,7 @@
       }
     },
     "activityCategory": {
+      "activityType": {
       "name": "Block Kategorien",
       "fields": {
         "short": "Kürzel",
@@ -88,7 +89,7 @@
     "safetyConcept": {
       "add": "Sicherheits-Konzept hinzufügen",
       "name": "Sicherheits-Konzept",
-      "entity": { }
+      "entity": {}
     },
     "storyboard": {
       "add": "Programmabschnitt hinzufügen",
@@ -107,12 +108,12 @@
     "storycontext": {
       "add": "Roten Faden hinzufügen",
       "name": "Roter Faden",
-      "entity": { }
+      "entity": {}
     },
     "notes": {
       "name": "Notizen",
       "add": "Notizen hinzufügen",
-      "entity": { }
+      "entity": {}
     }
   },
   "components": {
@@ -143,7 +144,7 @@
   "views": {
     "auth": {
       "login": {
-        "title":  "Anmelden",
+        "title": "Anmelden",
         "username": "Username oder E-Mail",
         "password": "Passwort",
         "or": "oder",
@@ -154,7 +155,7 @@
         },
         "accountless": "Hast du noch keinen Account?",
         "registernow": "Jetzt registrieren",
-        "beta":{
+        "beta": {
           "notice": "Hier entsteht das neue eCamp.<br>WICHTIG: Diese Webseite befindet sich im Aufbau. Das heisst, dass alle Daten öffentlich sind und periodisch gelöscht werden!"
         }
       }
@@ -185,4 +186,5 @@
       "profile": "Profil"
     }
   }
+}
 }
