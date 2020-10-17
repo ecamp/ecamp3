@@ -33,7 +33,7 @@ Allows 15min steps only
 import BasePicker from './BasePicker'
 
 export default {
-  name: 'TimePicker',
+  name: 'ETimePicker',
   components: { BasePicker },
   props: {
     icon: { type: String, required: false, default: 'mdi-clock-outline' },
