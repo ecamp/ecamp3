@@ -1,6 +1,15 @@
 const puppeteer = require('puppeteer');
 const amqp = require('amqplib/callback_api');
 
+const PRINT_SERVER = process.env.PRINT_SERVER || "http://print:3000";
+
+const AMQP_HOST = process.env.AMQP_HOST || 'rabbitmq';
+const AMQP_PORT = process.env.AMQP_PORT || '5672';
+const AMQP_VHOST= process.env.AMQP_VHOST || '/';
+const AMQP_USER = process.env.AMQP_USER || 'guest';
+const AMQP_PASS = process.env.AMQP_PASS || 'guest';
+
+
 async function startBrowser() {
     const browser = await puppeteer.launch({headless: true, args:['--no-sandbox']});
     const page = await browser.newPage();
@@ -40,32 +49,41 @@ async function html2pdf(url, filename, sessionId) {
     await page.pdf({path: `data/${filename}-puppeteer.pdf`});
 }
 
-amqp.connect('amqp://rabbitmq', function(error0, connection) {
-    if (error0) {
-        throw error0;
-    }
-    connection.createChannel(function(error1, channel) {
-        if (error1) {
-            throw error1;
+function start() {
+    amqp.connect(`amqp://${AMQP_USER}:${AMQP_PASS}@${AMQP_HOST}:${AMQP_PORT}${AMQP_VHOST}`, function(error0, connection) {
+        if (error0) {
+            console.error("[AMQP] Connection error", error0.message);
+            return setTimeout(start, 1000);
         }
+        connection.createChannel(function(error1, channel) {
+            if (error1) {
+                throw error1;
+            }
 
-        var queue = 'printer-puppeteer';
+            var queue = 'printer-puppeteer';
 
-        channel.assertQueue(queue, {
-            durable: true
-        });
+            channel.assertQueue(queue, {
+                durable: true
+            });
 
-        console.log(" [*] Waiting for messages in %s. To exit press CTRL+C", queue);
+            console.log(" [*] Waiting for messages in %s. To exit press CTRL+C", queue);
 
-        channel.consume(queue, async function(msg) {
-            console.log(" [x] Received %s", msg.content.toString());
-            const message= JSON.parse(msg.content.toString());
-            
-            await html2pdf(`http://print:3000/?camp=${message.campId}&pagedjs=true`, message.filename, message.PHPSESSID);
+            channel.consume(queue, async function(msg) {
+                console.log(" [x] Received %s", msg.content.toString());
+                const message= JSON.parse(msg.content.toString());
 
-            channel.ack(msg)
-        }, {
-            noAck: false
+                try{
+                    await html2pdf(`${PRINT_SERVER}?camp=${message.campId}&pagedjs=true`, message.filename, message.PHPSESSID);
+                } catch(e){
+                    console.log("Error while processing", e)
+                }
+
+                channel.ack(msg)
+            }, {
+                noAck: false
+            });
         });
     });
-});
+}
+
+start();

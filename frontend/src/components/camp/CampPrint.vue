@@ -7,9 +7,11 @@
              target="_blank">
         Open print preview
       </v-btn>
-      <v-btn color="primary" class="mt-5 ml-5"
-             :loading="printing"
-             @click="print">
+      <v-btn
+        color="primary"
+        class="mt-5 ml-5"
+        :loading="printing"
+        @click="print">
         Print now
       </v-btn>
 
@@ -25,6 +27,10 @@
 
 <script>
 import PrintDownloader from '@/components/camp/CampPrintDownloader'
+
+const PRINT_SERVER = window.environment.PRINT_SERVER
+const PRINT_FILE_SERVER = window.environment.PRINT_FILE_SERVER
+
 export default {
   name: 'CampPrint',
   components: { PrintDownloader },
@@ -42,7 +48,7 @@ export default {
   },
   computed: {
     previewUrl () {
-      return `http://localhost:3003/?camp=${this.camp().id}&pagedjs=true`
+      return `${PRINT_SERVER}/?camp=${this.camp().id}&pagedjs=true`
     }
   },
   methods: {
@@ -52,8 +58,14 @@ export default {
         campId: this.camp().id
       })
       this.printing = false
-      this.results.push({ filename: `http://localhost:3005/${result.filename}-weasy.pdf`, title: 'ecamp3-weasy.pdf' })
-      this.results.push({ filename: `http://localhost:3005/${result.filename}-puppeteer.pdf`, title: 'ecamp3-puppeteer.pdf' })
+      this.results.push({
+        filename: `${PRINT_FILE_SERVER}/${result.filename}-weasy.pdf`,
+        title: 'ecamp3-weasy.pdf'
+      })
+      this.results.push({
+        filename: `${PRINT_FILE_SERVER}/${result.filename}-puppeteer.pdf`,
+        title: 'ecamp3-puppeteer.pdf'
+      })
     }
   }
 }
