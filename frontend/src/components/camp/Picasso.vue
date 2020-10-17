@@ -422,6 +422,8 @@ export default {
           }
           this.api.patch(this.draggedEntry._meta.self, patchedScheduleEntry).then(scheduleEntry => this.scheduleEntries.items.push(scheduleEntry))
           // TODO: Persist time change in API
+        } else {
+          this.showEntryInfoPopup(this.draggedEntry)
         }
         this.clearDraggedEntry()
       } else if (this.currentEntry && this.currentStartTime !== null) {
