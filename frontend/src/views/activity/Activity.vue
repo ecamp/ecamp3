@@ -93,18 +93,16 @@ Displays a single activity
                     </v-row>
                     <v-row dense>
                       <v-col>
-                        <v-select
-                          v-model="activityResponsibles"
-                          :label="'Responsible'"
-                          outlined
+                        <api-select
+                          :name="'Responsible'"
                           dense
                           multiple
                           chips
                           deletable-chips
                           small-chips
-                          :hide-details="true"
-                          :items="availableActivityResponsibles" />
-                          {{ activityResponsibles }}
+                          :uri="activity._meta.self"
+                          fieldname="campCollaborations"
+                          :items="availableCampCollaborations" />
                       </v-col>
                     </v-row>
                   </v-col>
@@ -140,16 +138,11 @@ export default {
   props: {
     scheduleEntry: { type: Function, required: true }
   },
-  data () {
-    return {
-      activityResponsibles: []
-    }
-  },
   computed: {
-    availableActivityResponsibles () {
+    availableCampCollaborations () {
       return this.campCollaborations.map(cc => {
         return {
-          value: cc.id,
+          value: cc,
           text: cc.user().username
         }
       })

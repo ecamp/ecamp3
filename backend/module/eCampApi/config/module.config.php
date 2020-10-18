@@ -1331,6 +1331,12 @@ return [
                 'filters' => [],
                 'validators' => [],
             ],
+            3 => [
+                'name' => 'campCollaborations',
+                'required' => false,
+                'filters' => [],
+                'validators' => [],
+            ],
         ],
         'eCampApi\\V1\\Rest\\ActivityCategory\\Validator' => [
             0 => [
