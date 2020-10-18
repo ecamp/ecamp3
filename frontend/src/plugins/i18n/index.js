@@ -4,6 +4,8 @@ import deepmerge from 'deepmerge'
 
 import availableLocales from './availableLocales'
 
+import it from '@/locales/it.json'
+import fr from '@/locales/fr.json'
 import en from '@/locales/en.json'
 import de from '@/locales/de.json'
 import deCHScout from '@/locales/de-CH-scout.json'
@@ -27,7 +29,7 @@ export default new VueI18n({
         validation: validationEn.messages
       }
     }
-  }, { en, de, 'de-CH-scout': deCHScout }),
+  }, { it, fr, en, de, 'de-CH-scout': deCHScout }),
   silentTranslationWarn: true,
   availableLocales
 })
