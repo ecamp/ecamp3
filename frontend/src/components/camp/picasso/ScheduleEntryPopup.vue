@@ -37,9 +37,9 @@
               </template>
               <template #selection="{item}">
                 <div class="v-select__selection">
-                    <span class="black--text">
-                      {{ item.name }}
-                    </span>
+                  <span class="black--text">
+                    {{ item.name }}
+                  </span>
                   <v-chip x-small :color="item.color">{{ item.short }}</v-chip>
                 </div>
               </template>
