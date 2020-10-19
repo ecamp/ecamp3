@@ -121,6 +121,7 @@ export default {
   data () {
     return {
       isPersisting: false,
+      patchableField: ['length', 'periodOffset', 'activity'],
       createdError: ''
     }
   },
@@ -130,6 +131,9 @@ export default {
     },
     activityCategories () {
       return this.scheduleEntry.activity().camp().activityCategories()
+    },
+    updatedContent () {
+      return Object.fromEntries(Object.entries(this.scheduleEntry).filter(([prop, value]) => this.patchableField.includes(prop)))
     }
   },
   methods: {
@@ -148,7 +152,7 @@ export default {
       this.$emit('cancel')
     },
     save () {
-      this.api.patch(this.scheduleEntry._meta.self, this.scheduleEntry).then(() => {
+      this.api.patch(this.scheduleEntry._meta.self, this.updatedContent).then(() => {
         this.isPersisting = false
         this.createdError = ''
         this.$emit('close')
