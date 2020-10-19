@@ -124,7 +124,7 @@ export default {
   },
   computed: {
     events () {
-      if (this.tempScheduleEntry) {
+      if (this.tempScheduleEntry && this.tempScheduleEntry.tmpEvent) {
         return this.scheduleEntries.concat(this.tempScheduleEntry)
       } else {
         return this.scheduleEntries
@@ -277,20 +277,16 @@ export default {
         set endTime (value) {
           this.length = (value - this.startTime) / 60000
         },
-        activity: () => {
-          return {
-            title: this.$tc('entity.activity.new'),
-            location: '',
-            camp: this.camp,
-            activityCategory: () => {
-              return {
-                id: null,
-                short: null,
-                color: 'grey elevation-4 v-event--temporary'
-              }
-            }
-          }
-        },
+        activity: () => ({
+          title: this.$tc('entity.activity.new'),
+          location: '',
+          camp: this.period().camp,
+          activityCategory: () => ({
+            id: null,
+            short: null,
+            color: 'grey elevation-4 v-event--temporary'
+          })
+        }),
         timed: true,
         tmpEvent: true
       }
@@ -336,15 +332,14 @@ export default {
         const minuteThreshold = 15
         const threshold = minuteThreshold * 60 * 1000
         const now = this.toTime(tms)
-        if (Math.abs(now - this.mouseStartTime) >= threshold) {
+        if (Math.abs(now - this.mouseStartTime) < threshold) {
+          this.showEntryInfoPopup(this.draggedEntry)
+        } else if (!this.draggedEntry.tmpEvent) {
           const patchedScheduleEntry = {
             startTime: this.draggedEntry.startTime,
             endTime: this.draggedEntry.endTime
           }
           this.api.patch(this.draggedEntry._meta.self, patchedScheduleEntry).then(scheduleEntry => this.scheduleEntries.items.push(scheduleEntry))
-          // TODO: Persist time change in API
-        } else {
-          this.showEntryInfoPopup(this.draggedEntry)
         }
         this.clearDraggedEntry()
       } else if (this.currentEntry && this.currentStartTime !== null) {
@@ -420,13 +415,6 @@ export default {
       }
     },
     showEntryInfoPopup (entry) {
-      const index = this.events.indexOf(entry)
-      if (index !== -1) {
-        this.originalScheduleEntry = Object.assign({}, entry)
-        this.events.splice(index, 1)
-      } else {
-        this.originalScheduleEntry = Object.assign({}, entry)
-      }
       this.tempScheduleEntry = entry
       this.selectedElement = this.nativeTarget
       this.$nextTick().then(() => {
