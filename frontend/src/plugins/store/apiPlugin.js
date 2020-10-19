@@ -388,6 +388,10 @@ function preparePostData (data, name = null) {
       }
     })
     : Object.fromEntries(Object.entries(data).map(([prop, value]) => {
+      const type = Object.prototype.toString.call(value)
+      if (type.includes('Function')) {
+        value = value()
+      }
       if (value !== null && typeof value === 'object') {
         if (value._meta && value._meta.self) {
           return [prop + 'Id', value.id]
