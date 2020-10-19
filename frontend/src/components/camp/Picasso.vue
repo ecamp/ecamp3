@@ -280,8 +280,8 @@ export default {
         activity: () => ({
           title: this.$tc('entity.activity.new'),
           location: '',
-          camp: this.period().camp,
-          activityCategory: () => ({
+          camp: (this.period)().camp,
+          activityCategory: () => ({ // FIXME: This doesn't work, sadly (because it's a oneway binding)
             id: null,
             short: null,
             color: 'grey elevation-4 v-event--temporary'
