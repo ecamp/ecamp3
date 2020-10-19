@@ -62,102 +62,22 @@ Listing all given activity schedule entries in a calendar view.
           @mousedown.stop="extendBottom(event)" />
       </template>
     </v-calendar>
-    <v-menu
-      v-model="showEntryInfo"
-      :activator="selectedElement"
-      :open-on-click="false"
-      :close-on-click="false"
-      :close-on-content-click="false"
-      offset-y>
-      <v-card v-if="tempScheduleEntry">
-        <v-form>
-          <v-card-text>
-            <e-text-field v-model="getActivity(tempScheduleEntry).title" no-label
-                          class="font-weight-bold" placeholder="Aktivitätsname"
-                          hide-details="auto" />
-            <v-row no-gutters class="my-4">
-              <e-time-picker label="Start"
-                             :icon="null" class="flex-full"
-                             :value="toTimeString(tempScheduleEntry.startTime)" />
-              <e-time-picker width="100" label="Ende"
-                             :icon="null" class="flex-full mt-0"
-                             :value="toTimeString(tempScheduleEntry.endTime)" />
-            </v-row>
-            <v-row no-gutters class="my-4" style="gap: 12px">
-              <e-select v-model="getActivity(tempScheduleEntry).activityCategory" label="Aktivitätstyp"
-                        :items="activityCategories.items" item-value="id"
-                        :return-object="true" required
-                        item-text="name">
-                <template #item="{item, on, attrs}">
-                  <v-list-item :key="item.id" v-bind="attrs" v-on="on">
-                    <v-list-item-avatar>
-                      <v-chip :color="item.color">{{ item.short }}</v-chip>
-                    </v-list-item-avatar>
-                    <v-list-item-content>
-                      {{ item.name }}
-                    </v-list-item-content>
-                  </v-list-item>
-                </template>
-                <template #selection="{item}">
-                  <div class="v-select__selection">
-                    <span class="black--text">
-                      {{ item.name }}
-                    </span>
-                    <v-chip x-small :color="item.color">{{ item.short }}</v-chip>
-                  </div>
-                </template>
-              </e-select>
-              <e-text-field v-model="getActivity(tempScheduleEntry).location" :label="$tc('entity.activity.fields.location')"
-                            hide-details="auto"
-                            class="mt-0" />
-            </v-row>
-            <e-select label="Verantwortliche Leitende" multiple
-                      chips deletable-chips
-                      :items="[{text:'Leitende1'},{text:'Leitende2'}]" />
-          </v-card-text>
-          <v-card-actions class="px-4 pb-4 flex-wrap">
-            <v-alert
-              v-if="createdError"
-              dense
-              class="w-100"
-              border="left"
-              outlined
-              type="error">
-              {{ createdError }}
-            </v-alert>
-            <v-btn v-if="!tempScheduleEntry.tmpEvent"
-                   color="primary" :to="scheduleEntryRoute(camp, tempScheduleEntry)">
-              {{ $tc('global.button.open') }}
-            </v-btn>
-            <v-btn text color="secondary"
-                   class="ml-auto"
-                   @click="cancelEntryInfoPopup()">
-              {{ $tc('global.button.cancel') }}
-            </v-btn>
-            <v-btn v-if="tempScheduleEntry.tmpEvent" color="success" @click="createActivity">
-              <v-icon v-if="isPersisting" class="mdi-spin">mdi-loading</v-icon>
-              <span v-else>{{ createdError ? $tc('global.button.tryagain') : $tc('global.button.create') }}</span>
-            </v-btn>
-            <v-btn v-else color="success" @click="saveScheduleEntry">Speichern</v-btn>
-          </v-card-actions>
-        </v-form>
-      </v-card>
-    </v-menu>
+    <schedule-entry-popup :schedule-entry="tempScheduleEntry" :show-entry-info="showEntryInfo"
+                          :selected-element="selectedElement"
+                          :clear="clearEntry" :revert="revertScheduleEntry"
+                          @cancel="cancelScheduleEntryPopup"
+                          @close="closeScheduleEntryPopup" />
   </div>
 </template>
 <script>
 import { scheduleEntryRoute } from '@/router'
-import ESelect from '@/components/form/base/ESelect'
-import ETextField from '@/components/form/base/ETextField'
-import ETimePicker from '@/components/form/base/ETimePicker'
 import { isCssColor } from 'vuetify/lib/util/colorUtils'
+import ScheduleEntryPopup from '@/components/camp/picasso/ScheduleEntryPopup'
 
 export default {
   name: 'Picasso',
   components: {
-    ETextField,
-    ETimePicker,
-    ESelect
+    ScheduleEntryPopup
   },
   props: {
     period: {
@@ -186,7 +106,6 @@ export default {
   data () {
     return {
       tempScheduleEntry: null,
-      isPersisting: false,
       createdError: '',
       maxDays: 100,
       entryWidth: 80,
@@ -254,9 +173,6 @@ export default {
     },
     camp () {
       return this.period().camp()
-    },
-    scheduleEntriesUrl () {
-      return this.api.get().scheduleEntries()._meta.self
     }
   },
   methods: {
@@ -264,21 +180,18 @@ export default {
       const widthIntervals = 46
       this.entryWidth = Math.max((this.$refs.calendar.$el.offsetWidth - widthIntervals) / this.$refs.calendar.days.length, 80)
     },
-    getActivity (scheduleEntry, _) {
-      return scheduleEntry.tmpEvent ? scheduleEntry.activity : scheduleEntry.activity()
-    },
     getActivityCategory (scheduleEntry, _) {
-      return scheduleEntry.tmpEvent ? this.getActivity(scheduleEntry).activityCategory : this.getActivity(scheduleEntry).activityCategory()
+      return scheduleEntry.activity().activityCategory()
     },
     getActivityName (scheduleEntry, _) {
-      return (scheduleEntry.number ? '(' + scheduleEntry.number + ') ' : '') + (this.getActivityCategory(scheduleEntry).short ? this.getActivityCategory(scheduleEntry).short + ': ' : '') + this.getActivity(scheduleEntry).title
+      return (scheduleEntry.number ? '(' + scheduleEntry.number + ') ' : '') + (scheduleEntry.activity().activityCategory().short ? scheduleEntry.activity().activityCategory().short + ': ' : '') + scheduleEntry.activity().title
     },
     getActivityColor (scheduleEntry, _) {
-      const color = this.getActivityCategory(scheduleEntry).color
+      const color = scheduleEntry.activity().activityCategory().color
       return isCssColor(color) ? color : color + ' elevation-4 v-event--temporary'
     },
     isActivityLoading (scheduleEntry) {
-      return this.getActivity(scheduleEntry)._meta ? this.getActivity(scheduleEntry)._meta.loading : false
+      return scheduleEntry.activity()._meta ? scheduleEntry.activity()._meta.loading : false
     },
     intervalFormat (time) {
       return this.$moment(time.date + ' ' + time.time).format(this.$tc('global.moment.hourLong'))
@@ -309,6 +222,8 @@ export default {
         // Click with middle mouse button, or click while holding cmd/ctrl opens new tab
         this.showScheduleEntryInNewTab(entry)
         this.openEntry = true
+      } else if (this.openEntry) {
+
       } else {
         if (entry && timed) {
           this.draggedEntry = entry
@@ -360,14 +275,18 @@ export default {
         set endTime (value) {
           this.length = (value - this.startTime) / 60000
         },
-        activity: {
-          title: this.$tc('entity.activity.new'),
-          location: '',
-          camp: this.camp,
-          activityCategory: {
-            id: null,
-            short: null,
-            color: 'grey elevation-4 v-event--temporary'
+        activity: () => {
+          return {
+            title: this.$tc('entity.activity.new'),
+            location: '',
+            camp: this.camp,
+            activityCategory: () => {
+              return {
+                id: null,
+                short: null,
+                color: 'grey elevation-4 v-event--temporary'
+              }
+            }
           }
         },
         timed: true,
@@ -468,6 +387,25 @@ export default {
       this.draggedStartTime = null
       this.draggedEntry = null
     },
+    clearEntry () {
+      this.clearCurrentEntry()
+      this.clearDraggedEntry()
+    },
+    closeScheduleEntryPopup: function () {
+      this.tempScheduleEntry = null
+      this.originalScheduleEntry = null
+      this.clearEntry()
+      this.showEntryInfo = false
+    },
+    cancelScheduleEntryPopup: function () {
+      if (this.showEntryInfo) {
+        this.showEntryInfo = false
+        this.selectedElement = null
+        this.nativeTarget = null
+        this.revertScheduleEntry()
+        this.clearEntry()
+      }
+    },
     revertScheduleEntry: function () {
       if (this.originalScheduleEntry) {
         if (this.tempScheduleEntry.tmpEvent) {
@@ -478,41 +416,6 @@ export default {
         }
         this.originalScheduleEntry = null
       }
-    },
-    cancelEntryInfoPopup () {
-      if (this.showEntryInfo) {
-        this.showEntryInfo = false
-        this.selectedElement = null
-        this.nativeTarget = null
-        this.revertScheduleEntry()
-        this.clearCurrentEntry()
-        this.clearDraggedEntry()
-      }
-    },
-    saveScheduleEntry () {
-      this.showEntryInfo = false
-      this.events.push(this.tempScheduleEntry)
-      this.tempScheduleEntry = null
-      // TODO: api push
-      this.originalScheduleEntry = null
-      this.clearCurrentEntry()
-      this.clearDraggedEntry()
-    },
-    createActivity () {
-      this.isPersisting = true
-      this.events.push(this.tempScheduleEntry)
-      this.api.post(this.scheduleEntriesUrl, this.tempScheduleEntry).then(() => {
-        this.isPersisting = false
-        this.createdError = ''
-        this.showEntryInfo = false
-        this.tempScheduleEntry = null
-        this.originalScheduleEntry = null
-        this.clearCurrentEntry()
-        this.clearDraggedEntry()
-      }).catch((error) => {
-        this.isPersisting = false
-        this.createdError = error
-      })
     },
     showEntryInfoPopup (entry) {
       const index = this.events.indexOf(entry)
