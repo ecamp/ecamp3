@@ -148,8 +148,14 @@ export default {
       this.$emit('cancel')
     },
     save () {
-      // TODO: api push
-      this.$emit('close')
+      this.api.patch(this.scheduleEntry._meta.self, this.scheduleEntry).then(() => {
+        this.isPersisting = false
+        this.createdError = ''
+        this.$emit('close')
+      }).catch(error => {
+        this.isPersisting = false
+        this.createdError = error
+      })
     },
     toTimeString (date) {
       return this.$moment(date).format(this.$tc('global.moment.hourLong'))
