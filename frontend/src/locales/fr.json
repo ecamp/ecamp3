@@ -53,7 +53,6 @@
 		}
 	  },
 	  "activityCategory": {
-		"activityType": {
 		"name": "Catégories d'activités",
 		"fields": {
 			"activityType": "Type",
@@ -162,7 +161,7 @@
 		},
 		  "activity": {
 			"sideBarProgram": {
-			  "title": "Daily overview"
+			  "title": "journeé quotidien"
 			}
 		  },
 		  "campCreate": {
@@ -187,4 +186,3 @@
 		  }
 		}
 	  }
-	}

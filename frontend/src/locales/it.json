@@ -53,8 +53,7 @@
 		}
 	},
 "activityCategory": {
-		"activityType": {
-		"name": "Categorie di attività",
+	"name": "Categorie di attività",
 		"fields": {
 			"activityType": "Stile",
 			"color": "Colore",
@@ -187,4 +186,3 @@
 		  }
 		}
 	  }
-	}

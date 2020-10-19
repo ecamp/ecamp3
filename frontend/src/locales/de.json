@@ -53,7 +53,6 @@
       }
     },
     "activityCategory": {
-      "activityType": {
       "name": "Block Kategorien",
       "fields": {
         "short": "Kürzel",
@@ -186,5 +185,4 @@
       "profile": "Profil"
     }
   }
-}
 }
