@@ -184,7 +184,9 @@ export default {
       return scheduleEntry.activity().activityCategory()
     },
     getActivityName (scheduleEntry, _) {
-      return (scheduleEntry.number ? '(' + scheduleEntry.number + ') ' : '') + (scheduleEntry.activity().activityCategory().short ? scheduleEntry.activity().activityCategory().short + ': ' : '') + scheduleEntry.activity().title
+      return (scheduleEntry.number ? '(' + scheduleEntry.number + ') ' : '') +
+        (scheduleEntry.activity().activityCategory().short ? scheduleEntry.activity().activityCategory().short + ': ' : '') +
+        scheduleEntry.activity().title
     },
     getActivityColor (scheduleEntry, _) {
       const color = scheduleEntry.activity().activityCategory().color
