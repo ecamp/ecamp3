@@ -9,7 +9,7 @@
     <template v-slot:activator="scope">
       <slot name="activator" v-bind="scope" />
     </template>
-
+    <server-error :server-error="error" />
     <dialog-period-form v-if="!loading" :period="entityData" />
   </dialog-form>
 </template>
@@ -18,10 +18,11 @@
 import DialogBase from '@/components/dialog/DialogBase'
 import DialogForm from '@/components/dialog/DialogForm'
 import DialogPeriodForm from './DialogPeriodForm'
+import ServerError from '@/components/form/ServerError'
 
 export default {
   name: 'DialogPeriodEdit',
-  components: { DialogForm, DialogPeriodForm },
+  components: { DialogForm, DialogPeriodForm, ServerError },
   extends: DialogBase,
   props: {
     period: { type: Object, required: true }
