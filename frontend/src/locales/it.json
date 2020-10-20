@@ -155,11 +155,12 @@
 			}
 		},
 		"navigation": {
+			"adminTitle": "Admin",
+			"logOut": "Disconnettiti",
+			"myCamps": "Il mio campo | I miei campi",
 			"searchActivitiesAndCamps": "Recherche d'activités et de camps",
 			"search": "Cerca",
-			"myCamps": "Il mio campo | I miei campi",
 			"profile": "Profil",
-			"adminTitle": "Admin",
 			"teamTitle": "Team"
 		}
 	},

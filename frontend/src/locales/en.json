@@ -155,11 +155,13 @@
       }
     },
     "navigation": {
-      "searchActivitiesAndCamps": "Search activity and camps",
-      "search": "Search",
+      "adminTitle": "Admin",
+      "logOut": "Log out",
       "myCamps": "My camp | My camps",
       "profile": "Profile",
-      "adminTitle": "Admin",
+      "searchActivitiesAndCamps": "Search activity and camps",
+      "search": "Search",
+    
       "teamTitle": "Team"
     }
   },

@@ -155,11 +155,12 @@
 			}
 		  },
 		  "navigation": {
+			"adminTitle": "Admin",
+			"logOut": "Se déconnecter",
 			"searchActivitiesAndCamps": "Recherche d'activités et de camps",
 			"search": "Chercher",
 			"myCamps": "Mon camp | Mes camps",
 			"profile": "Profil",
-			"adminTitle": "Admin",
 			"teamTitle": "Team"
 		  }
 		},
