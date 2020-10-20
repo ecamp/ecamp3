@@ -22,9 +22,11 @@ Displays a single period as a list item including controls to edit and delete it
             <button-delete v-on="on" />
           </template>
           {{ $tc('components.dialog.dialogEntityDelete.warningText') }} <br>
-          <ul><li>
-          {{ period.description }}
-          </li></ul>
+          <ul>
+            <li>
+              {{ period.description }}
+            </li>
+          </ul>
         </dialog-entity-delete>
       </v-item-group>
     </v-list-item-action>
