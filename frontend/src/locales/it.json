@@ -122,6 +122,24 @@
 				"create": "Creare categoria di attività",
 				"deleteActivityCategoryQuestion": "Vuoi davvero cancellare la categoria Attività?",
 				"deleteActivityCategoryNotPossibleInUse": "La categoria di attività non può essere cancellata. è utilizzata da:"
+			},
+			"periods" :{
+				"title": "Periodo | Periodi",
+				"addPeriod" : "Periodo"
+			},
+        "settings":{
+          "title": "Impostazioni",
+          "fields":{
+            "motto": "motto",
+            "name": "nome",
+            "title": "titolo"
+          }
+        },
+        "members":{
+          "title": "Membri"
+        },
+        "invitations":{
+          "title": "Invitare"
 			}
 		},
 		"dialog": {
@@ -131,13 +149,18 @@
 			"dialogEntityDelete": {
 				"title": "Davvero cancellare?",
 				"warningText": "Vuoi davvero cancellare questo?"
+			},
+			"dialogPeriodAdd":{
+				"title": "Creare il periodo"
 			}
 		},
 		"navigation": {
 			"searchActivitiesAndCamps": "Recherche d'activités et de camps",
 			"search": "Cerca",
 			"myCamps": "Il mio campo | I miei campi",
-			"profile": "Profil"
+			"profile": "Profil",
+			"adminTitle": "Admin",
+			"teamTitle": "Team"
 		}
 	},
 	"views": {

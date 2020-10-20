@@ -122,6 +122,24 @@
           "create": "Create activity category",
           "deleteActivityCategoryQuestion": "Do you really want do delete the Activity category?",
           "deleteActivityCategoryNotPossibleInUse": "Activity category can't be deleted. It is used by:"
+        },
+        "periods" :{
+          "title": "Period | Periods",
+          "addPeriod" : "Period"
+        },
+        "settings":{
+          "title": "Settings",
+          "fields":{
+            "motto": "motto",
+            "name": "name",
+            "title": "title"
+          }
+        },
+        "members":{
+          "title": "Members"
+        },
+        "invitations":{
+          "title": "Invite"
         }
       },
       "dialog": {
@@ -131,13 +149,18 @@
         "dialogEntityDelete": {
           "title": "Really delete?",
           "warningText": "Do you wish to cancel this?"
+      },
+      "dialogPeriodAdd":{
+        "title": "Create Period"
       }
     },
     "navigation": {
       "searchActivitiesAndCamps": "Search activity and camps",
       "search": "Search",
       "myCamps": "My camp | My camps",
-      "profile": "Profile"
+      "profile": "Profile",
+      "adminTitle": "Admin",
+      "teamTitle": "Team"
     }
   },
   "views":{

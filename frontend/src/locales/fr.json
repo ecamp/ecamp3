@@ -119,9 +119,27 @@
 		  "camp": {
 			"campActivityCategories": {
 				"title": "Catégories d'activités",
-				"create": "Create activity category",
-			  "deleteActivityCategoryQuestion": "Do you really want do delete the ActivityCategory",
-			  "deleteActivityCategoryNotPossibleInUse": "ActivityCategory can not be deleted. It is used by:"
+				"create": "Créer une catégorie d'activité",
+			  "deleteActivityCategoryQuestion": "Voulez-vous vraiment supprimer la catégorie d'activité?",
+			  "deleteActivityCategoryNotPossibleInUse": "ActivityCategory ne peut pas être supprimé. Elle est utilisée par :"
+			  },
+        "periods" :{
+          "title": "Période | Périodes",
+          "addPeriod" : "Période"
+        },
+        "settings":{
+          "title": "Paramètres",
+          "fields":{
+            "motto": "devise",
+            "name": "nom",
+            "title": "titre"
+          }
+        },
+        "members":{
+          "title": "Membres"
+        },
+        "invitations":{
+          "title": "Inviter"
 			}
 		},
 		  "dialog": {
@@ -131,13 +149,18 @@
 			"dialogEntityDelete": {
 			  "title": "Vraiment effacer?",
 			  "warningText": "Souhaitez-vous l'annuler ?"
+			},
+			"dialogPeriodAdd":{
+				"title": "Creér le periode"
 			}
 		  },
 		  "navigation": {
 			"searchActivitiesAndCamps": "Recherche d'activités et de camps",
 			"search": "Chercher",
 			"myCamps": "Mon camp | Mes camps",
-			"profile": "Profil"
+			"profile": "Profil",
+			"adminTitle": "Admin",
+			"teamTitle": "Team"
 		  }
 		},
 		"views": {
