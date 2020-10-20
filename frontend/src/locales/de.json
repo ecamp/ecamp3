@@ -128,7 +128,12 @@
         "addPeriod" : "Lagerabschnitt"
       },
       "settings":{
-        "title" : "Einstellungen"
+        "title" : "Einstellungen",
+        "fields":{
+          "motto":"Motto",
+          "name": "Name",
+          "title": "Titel"
+        }
       },
       "members":{
         "title": "Mitglieder"
