@@ -5,11 +5,16 @@ import deepmerge from 'deepmerge'
 import availableLocales from './availableLocales'
 
 import it from '@/locales/it.json'
+import itCHScout from '@/locales/it-CH-scout.json'
 import fr from '@/locales/fr.json'
+import frCHScout from '@/locales/fr-CH-scout.json'
 import en from '@/locales/en.json'
+import enCHScout from '@/locales/en-CH-scout.json'
 import de from '@/locales/de.json'
 import deCHScout from '@/locales/de-CH-scout.json'
 
+import validationIt from 'vee-validate/dist/locale/it.json'
+import validationFr from 'vee-validate/dist/locale/fr.json'
 import validationEn from 'vee-validate/dist/locale/en.json'
 import validationDe from 'vee-validate/dist/locale/de.json'
 
@@ -19,17 +24,27 @@ export default new VueI18n({
   locale: 'de',
   fallbackLocale: 'en',
   messages: deepmerge({
-    de: {
+    it: {
       global: {
-        validation: validationDe.messages
+        validation: validationIt.messages
+      }
+    },
+    fr: {
+      global: {
+        validation: validationFr.messages
       }
     },
     en: {
       global: {
         validation: validationEn.messages
       }
+    },
+    de: {
+      global: {
+        validation: validationDe.messages
+      }
     }
-  }, { it, fr, en, de, 'de-CH-scout': deCHScout }),
+  }, { it, 'it-CH-scout': itCHScout, fr, 'fr-CH-scout': frCHScout, en, 'en-CH-scout': enCHScout, de, 'de-CH-scout': deCHScout }),
   silentTranslationWarn: true,
   availableLocales
 })
