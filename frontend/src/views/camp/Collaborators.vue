@@ -2,9 +2,9 @@
 Displays collaborators of a single camp.
 -->
 <template>
-  <content-card title="Team">
+  <content-card :title="$tc('components.navigation.teamTitle')">
     <v-card-text>
-      <content-group title="Mitglieder">
+      <content-group :title="$tc('components.camp.members.title')">
         <v-list>
           <v-skeleton-loader v-if="collaborators.length <= 0" type="list-item-avatar-two-line@3" class="px-0" />
           <collaborator-list-item
@@ -13,7 +13,7 @@ Displays collaborators of a single camp.
         </v-list>
       </content-group>
 
-      <content-group v-if="requestedCollaborators.length > 0" title="Offene Anfragen">
+      <content-group v-if="requestedCollaborators.length > 0" :title="$tc('components.navigation.teamTitle')">
         <v-list>
           <collaborator-list-item
             v-for="collaborator in requestedCollaborators"
@@ -29,13 +29,13 @@ Displays collaborators of a single camp.
         </v-list>
       </content-group>
 
-      <content-group title="Einladen">
+      <content-group :title="$tc('components.camp.invitations.title')">
         <v-text-field
           v-model="search"
           hide-details
           prepend-icon="mdi-account-search"
           single-line
-          placeholder="Suchen"
+          :placeholder="$tc('components.navigation.search')"
           @focus="loadingResults = true"
           @blur="loadingResults = false" />
 

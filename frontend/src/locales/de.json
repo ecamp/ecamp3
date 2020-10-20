@@ -123,12 +123,18 @@
         "deleteActivityCategoryQuestion": "Möchtest du diese Block-Kategorie wirklich löschen?",
         "deleteActivityCategoryNotPossibleInUse": "Block-Kategorie kann nicht gelöscht werden. Sie wird noch verwendet:"
       },
-      "campPeriods":{
+      "periods":{
         "title" : "Lagerabschnitt | Lagerabschnitte",
         "addPeriod" : "Lagerabschnitt"
       },
-      "campSettings":{
+      "settings":{
         "title" : "Einstellungen"
+      },
+      "members":{
+        "title": "Mitglieder"
+      },
+      "invitations":{
+        "title":"Einladen"
       }
     },
     "dialog": {
@@ -149,7 +155,7 @@
       "myCamps": "Mein Lager | Meine Lager",
       "profile": "Profil",
       "adminTitle": "Admin",
-      "teamTitle": "Admin"
+      "teamTitle": "Team"
     }
   },
   "views": {
