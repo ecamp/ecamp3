@@ -28,7 +28,7 @@ class ActivityService extends AbstractEntityService {
         $this->activityResponsibleService = $activityResponsibleService;
     }
 
-    protected function craeteEntityPost(BaseEntity $entity, $data) {
+    protected function createEntityPost(BaseEntity $entity, $data) {
         $this->updateActivityResponsibles($entity, $data);
 
         return $entity;
