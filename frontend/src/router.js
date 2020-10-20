@@ -121,6 +121,11 @@ export default new Router({
           component: () => import(/* webpackChunkName: "campProgram" */ './views/camp/CampProgram')
         },
         {
+          path: 'print',
+          name: 'camp/print',
+          component: () => import(/* webpackChunkName: "campPrint" */ './views/camp/Print')
+        },
+        {
           path: '',
           redirect: { name: 'camp/program' }
         }

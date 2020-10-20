@@ -44,6 +44,7 @@ return [
             \Laminas\ApiTools\Hal\Extractor\LinkExtractor::class => \eCamp\Lib\Hal\Factory\LinkExtractorFactory::class,
             \eCamp\Lib\ServiceManager\EntityFilterManager::class => \eCamp\Lib\ServiceManager\EntityFilterManagerFactory::class,
             Laminas\Hydrator\HydratorPluginManager::class => Laminas\Hydrator\HydratorPluginManagerFactory::class,
+            \eCamp\Lib\Amqp\AmqpService::class => \eCamp\Lib\Amqp\AmqpServiceFactory::class,
         ],
     ],
     'entity_filter' => [
