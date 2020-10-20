@@ -3,7 +3,7 @@ Displays all periods of a single camp and allows to edit them & create new ones
 -->
 
 <template>
-  <content-group title="Periods">
+  <content-group :title="$tc('components.camp.campPeriods.title', api.get().camps().items.length)">
     <v-skeleton-loader v-if="camp()._meta.loading" type="article" />
     <v-list>
       <period-item
@@ -18,7 +18,7 @@ Displays all periods of a single camp and allows to edit them & create new ones
           <dialog-period-create :camp="camp()">
             <template v-slot:activator="{ on }">
               <button-add v-on="on">
-                Create Period
+                {{ $tc('components.dialog.dialogPeriodAdd.title') }}
               </button-add>
             </template>
           </dialog-period-create>

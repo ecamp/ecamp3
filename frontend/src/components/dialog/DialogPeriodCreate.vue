@@ -2,7 +2,7 @@
   <dialog-form
     v-model="showDialog"
     icon="mdi-calendar-plus"
-    title="Create Period"
+    :title="this.$tc('components.dialog.dialogPeriodAdd.title')"
     max-width="600px"
     :submit-action="createPeriod"
     submit-color="success"

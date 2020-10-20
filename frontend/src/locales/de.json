@@ -122,6 +122,10 @@
         "create": "Block-Kategorie erstellen",
         "deleteActivityCategoryQuestion": "Möchtest du diese Block-Kategorie wirklich löschen?",
         "deleteActivityCategoryNotPossibleInUse": "Block-Kategorie kann nicht gelöscht werden. Sie wird noch verwendet:"
+      },
+      "campPeriods":{
+        "title" : "Lagerabschnitt | Lagerabschnitte",
+        "addPeriod" : "Lagerabschnitt"
       }
     },
     "dialog": {
@@ -131,6 +135,9 @@
       "dialogEntityDelete": {
         "title": "Wirklich löschen?",
         "warningText": "Möchtest du das wirklich löschen?"
+      },
+      "dialogPeriodAdd":{
+        "title" : "Lagerabschnitt erstellen"
       }
     },
     "navigation": {
