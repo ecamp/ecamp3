@@ -123,11 +123,11 @@
 				"deleteActivityCategoryQuestion": "Vuoi davvero cancellare la categoria Attività?",
 				"deleteActivityCategoryNotPossibleInUse": "La categoria di attività non può essere cancellata. è utilizzata da:"
 			},
-			"periods" :{
+			"campPeriods" :{
 				"title": "Periodo | Periodi",
 				"addPeriod" : "Periodo"
 			},
-        "settings":{
+        "campSettings":{
           "title": "Impostazioni",
           "fields":{
             "motto": "motto",
@@ -135,10 +135,10 @@
             "title": "titolo"
           }
         },
-        "members":{
+        "campMembers":{
           "title": "Membri"
         },
-        "invitations":{
+        "campInvitations":{
           "title": "Invitare"
 			}
 		},

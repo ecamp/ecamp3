@@ -135,10 +135,10 @@
           "title": "Titel"
         }
       },
-      "members":{
+      "campMembers":{
         "title": "Mitglieder"
       },
-      "invitations":{
+      "campInvitations":{
         "title":"Einladen"
       }
     },
