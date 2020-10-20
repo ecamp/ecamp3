@@ -126,6 +126,9 @@
       "campPeriods":{
         "title" : "Lagerabschnitt | Lagerabschnitte",
         "addPeriod" : "Lagerabschnitt"
+      },
+      "campSettings":{
+        "title" : "Einstellungen"
       }
     },
     "dialog": {
@@ -144,7 +147,9 @@
       "searchActivitiesAndCamps": "Aktivitäten und Camps suchen",
       "search": "Suchen",
       "myCamps": "Mein Lager | Meine Lager",
-      "profile": "Profil"
+      "profile": "Profil",
+      "adminTitle": "Admin",
+      "teamTitle": "Admin"
     }
   },
   "views": {

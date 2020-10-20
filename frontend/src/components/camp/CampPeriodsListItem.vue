@@ -21,7 +21,7 @@ Displays a single period as a list item including controls to edit and delete it
           <template v-slot:activator="{ on }">
             <button-delete v-on="on" />
           </template>
-          the Period "{{ period.description }}"
+          "{{ period.description }}"
         </dialog-entity-delete>
       </v-item-group>
     </v-list-item-action>

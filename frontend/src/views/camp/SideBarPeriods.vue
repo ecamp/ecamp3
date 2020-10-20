@@ -6,7 +6,7 @@ Displays periods of a single camp.
   <side-bar>
     <content-card>
       <v-subheader class="text-uppercase subtitle-2">
-        {{ $tc('global.button.add') }}
+        {{ $tc('components.camp.campPeriods.title') }}
       </v-subheader>
       <v-list>
         <v-list-item
