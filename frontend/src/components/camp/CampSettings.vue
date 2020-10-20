@@ -3,21 +3,21 @@ Displays details on a single camp and allows to edit them.
 -->
 
 <template>
-  <content-group :title="this.$tc('components.camp.settings.title')">
+  <content-group :title="this.$tc('components.camp.campSettings.title')">
     <v-skeleton-loader v-if="camp()._meta.loading" type="article" />
     <div v-else>
       <e-text-field
-        :label="this.$tc('components.camp.settings.fields.name')"
+        :label="this.$tc('components.camp.campSettings.fields.name')"
         readonly
         :value="camp().name" />
       <api-form :entity="camp()">
         <api-text-field
           fieldname="title"
-          :name="this.$tc('components.camp.settings.fields.title')"
+          :name="this.$tc('components.camp.campSettings.fields.title')"
           vee-rules="required" />
         <api-text-field
           fieldname="motto"
-          :name="this.$tc('components.camp.settings.fields.motto')"
+          :name="this.$tc('components.camp.campSettings.fields.motto')"
           vee-rules="required" />
       </api-form>
     </div>
