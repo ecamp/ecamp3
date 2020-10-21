@@ -44,19 +44,22 @@ import ContentCard from '@/components/layout/ContentCard'
 import ButtonAdd from '@/components/buttons/ButtonAdd'
 import ButtonDelete from '@/components/buttons/ButtonDelete'
 import { CATEGORIES } from '../../../consts';
+import { mapState, mapActions } from 'vuex';
 
 export default {
   name: 'Camps',
+   data () {
+ return {
+ categories: CATEGORIES
+ };
+ },
+ 
   components: {
     ContentCard,
     ButtonAdd,
     ButtonDelete
   },
-  computed: {
-    camps () {
-      return this.api.get().camps()
-    }
-  },
+ 
   methods: {
         campRoute,
     deleteCamp (camp) {
@@ -67,6 +70,11 @@ confirmDeleteCamp (camp)
             if (confirm(`Are you shure you want to delete?`)){
               this.api.del(camp);
             }
+    }
+  },
+   computed: {
+    camps () {
+      return this.api.get().camps()
     }
   }
 }
