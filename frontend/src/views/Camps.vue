@@ -18,13 +18,7 @@
             </v-list-item-subtitle>
           </v-list-item-content>
           <v-list-item-action>
-            <v-btn
-              icon
-              @click.prevent="deleteCamp(camp, ...arguments)">
-              <v-icon left>
-                mdi-delete
-              </v-icon>
-            </v-btn>
+            <button-delete @click="api.del(camp)" />
           </v-list-item-action>
         </v-list-item>
         <v-divider />
@@ -44,15 +38,18 @@
 </template>
 
 <script>
+
 import { campRoute } from '@/router'
 import ContentCard from '@/components/layout/ContentCard'
 import ButtonAdd from '@/components/buttons/ButtonAdd'
+import ButtonDelete from '@/components/buttons/ButtonDelete'
 
 export default {
   name: 'Camps',
   components: {
     ContentCard,
-    ButtonAdd
+    ButtonAdd,
+    ButtonDelete
   },
   computed: {
     camps () {
