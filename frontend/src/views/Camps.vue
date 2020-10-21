@@ -1,4 +1,4 @@
-<template>
+$<template>
   <v-container fluid>
     <content-card :title="$tc('views.camps.title', camps.items.length)" max-width="800">
       <v-list class="py-0">
@@ -18,7 +18,7 @@
             </v-list-item-subtitle>
           </v-list-item-content>
           <v-list-item-action>
-            <button-delete @click="api.del(camp)" />
+            <button-delete @click="confirmDeleteCamp(camp)" />
           </v-list-item-action>
         </v-list-item>
         <v-divider />
@@ -43,6 +43,7 @@ import { campRoute } from '@/router'
 import ContentCard from '@/components/layout/ContentCard'
 import ButtonAdd from '@/components/buttons/ButtonAdd'
 import ButtonDelete from '@/components/buttons/ButtonDelete'
+import { CATEGORIES } from '../../../consts';
 
 export default {
   name: 'Camps',
@@ -57,14 +58,16 @@ export default {
     }
   },
   methods: {
+        campRoute,
     deleteCamp (camp) {
       this.api.del(camp)
-    },
-    campRoute
+
+confirmDeleteCamp (camp) 
+{
+            if (confirm(`Are you shure you want to delete?`)){
+              this.api.del(camp);
+            }
+    }
   }
 }
 </script>
-
-<style scoped>
-
-</style>
