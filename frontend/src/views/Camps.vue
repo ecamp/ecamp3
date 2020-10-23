@@ -10,7 +10,7 @@
           v-for="camp in camps.items"
           :key="camp.id"
           two-line>
-          <v-list-item-content @click="goToCamp">
+          <v-list-item-content @click.prevent="goToCamp(camp)">
             <v-list-item-title>{{ camp.title }}</v-list-item-title>
             <v-list-item-subtitle>
               {{ camp.name }} - {{ camp.campType().organization().name }}
@@ -21,7 +21,10 @@
               <template v-slot:activator="{ on }">
                 <button-delete v-on="on" />
               </template>
-              Do yo want to delete the camp "{{ camp.id }}"
+              {{ $tc('components.dialog.dialogEntityDelete.warningText') }}
+              <ul>
+                <li>{{ camp.title }}"</li>
+              </ul>
             </dialog-entity-delete>
           </v-list-item-action>
         </v-list-item>
@@ -42,7 +45,7 @@
 </template>
 
 <script>
-import { campRoute } from '@/router'
+import router, { campRoute } from '@/router'
 import ContentCard from '@/components/layout/ContentCard'
 import ButtonAdd from '@/components/buttons/ButtonAdd'
 import ButtonDelete from '@/components/buttons/ButtonDelete'
@@ -67,6 +70,7 @@ export default {
     },
     campRoute,
     goToCamp (camp) {
+      router.push(campRoute(camp))
     }
   }
 }
