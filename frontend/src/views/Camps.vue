@@ -9,22 +9,20 @@
         <v-list-item
           v-for="camp in camps.items"
           :key="camp.id"
-          two-line
-          :to="campRoute(camp)">
-          <v-list-item-content>
+          two-line>
+          <v-list-item-content @click="goToCamp">
             <v-list-item-title>{{ camp.title }}</v-list-item-title>
             <v-list-item-subtitle>
               {{ camp.name }} - {{ camp.campType().organization().name }}
             </v-list-item-subtitle>
           </v-list-item-content>
           <v-list-item-action>
-            <v-btn
-              icon
-              @click.prevent="deleteCamp(camp, ...arguments)">
-              <v-icon left>
-                mdi-delete
-              </v-icon>
-            </v-btn>
+            <dialog-entity-delete :entity="camp">
+              <template v-slot:activator="{ on }">
+                <button-delete v-on="on" />
+              </template>
+              Do yo want to delete the camp "{{ camp.id }}"
+            </dialog-entity-delete>
           </v-list-item-action>
         </v-list-item>
         <v-divider />
@@ -47,12 +45,16 @@
 import { campRoute } from '@/router'
 import ContentCard from '@/components/layout/ContentCard'
 import ButtonAdd from '@/components/buttons/ButtonAdd'
+import ButtonDelete from '@/components/buttons/ButtonDelete'
+import DialogEntityDelete from '@/components/dialog/DialogEntityDelete'
 
 export default {
   name: 'Camps',
   components: {
     ContentCard,
-    ButtonAdd
+    ButtonAdd,
+    ButtonDelete,
+    DialogEntityDelete
   },
   computed: {
     camps () {
@@ -63,7 +65,9 @@ export default {
     deleteCamp (camp) {
       this.api.del(camp)
     },
-    campRoute
+    campRoute,
+    goToCamp (camp) {
+    }
   }
 }
 </script>
