@@ -1,212 +1,226 @@
 {
-	"global": {
-		"changeLanguage": "Cambia la lingua",
-		"language": "Italiano",
-		"button": {
-			"add": "Aggiungere",
-			"back": "Indietro",
-			"cancel": "Annullare",
-			"delete": "Cancellare",
-			"edit": "Modificare",
-			"submit": "Inviare"
-		},
-		"moment": {
-			"dateLong": "dd L",
-			"dateShort": "dd M/D",
-			"hourShort": "h A"
-		},
-		"serverError": {
-			"409": "Uuuuups... Questa azione ha causato un errore sul lato server."
-		},
-		"validation": {
-			"minDate": "{_field_} non può essere prima che {min}"
-		}
-	},
-	"entity":{
-		"camp": {
-		"name": "Campo",
-		"fields": {
-			"campType": "Tipo di campo",
-			"name": "Nome",
-			"title": "Titolo",
-			"motto": "Motto"
-		}
-	},
-	"period": {
-		"name": "Périodo | Périodi",
-		"fields": {
-			"description": "Descrizione",
-			"end": "Fine",
-			"start": "Inizia"
-		},
-		"defaultDescription": "Campo principale"
-	},
-	"user": {
-		"name": "Utente",
-		"fields": {
-			"birthday": "Compleanno",
-			"email": "Indirizzo e-mail",
-			"firstname": "Nome",
-			"language": "Lingua",
-			"nickname": "Soprannome",
-			"surname": "Nome di famiglia"
-		}
-	},
-"activityCategory": {
-	"name": "Categorie di attività",
-		"fields": {
-			"activityType": "Stile",
-			"color": "Colore",
-			"name": "Nome",
-			"numberingStyle": "Stile della numerazione",
-			"short": "Corte"
-		},
-		"numberingStyles": {
-			"1": "1, 2, 3 - numeri",
-			"A": "A, B, C - maiuscole di blocco",
-			"I": "I, II, III - numeri romani maiuscoli",
-			"a": "a, b, c - lettres minuscole",
-			"i": "i, ii, iii - numeri romani minuscoli"
-		}
-	},
-	"activity": {
-		"name": "Attività",
-		"fields": {
-			"title": "Titolo",
-			"location": "Posto"
-		}
-	},
-	"scheduleEntry": {
-		"name": "Implementazione delle attività",
-		"fields": {
-		  "nr": "No",
-		  "time": "Tempi"
-	  }
+  "activityContent": {
+    "notes": {
+      "add": "Aggiungi gli noti",
+      "entity": {},
+      "name": "Noti"
+    },
+    "safetyConcept": {
+      "add": "Aggiungere un concetto di sicurezza",
+      "entity": {},
+      "name": "concetto di sicurezza"
+    },
+    "storyboard": {
+      "add": "Aggiungere uno storyboard | aggiungere un altro storyboard",
+      "entity": {
+        "section": {
+          "fields": {
+            "column1": "Tempo",
+            "column2": "Programma",
+            "column3": "Responsabile"
+          },
+          "name": "Sezione | Sezioni"
+        }
+      },
+      "name": "Storyboard"
+    },
+    "storycontext": {
+      "add": "Aggiungi contenuto della storia",
+      "entity": {},
+      "name": "Contesto della storia"
+    }
+  },
+  "components": {
+    "camp": {
+      "campActivityCategories": {
+        "create": "Creare categoria di attività",
+        "deleteActivityCategoryNotPossibleInUse": "La categoria di attività non può essere cancellata. è utilizzata da:",
+        "deleteActivityCategoryQuestion": "Vuoi davvero cancellare la categoria Attività?",
+        "title": "Categori di attività"
+      },
+      "campInvitations": {
+        "title": "Invitare"
+      },
+      "campMembers": {
+        "title": "Membri"
+      },
+      "campPeriods": {
+        "createPeriod": "Creare il periodo",
+        "title": "Periodo | Periodi"
+      },
+      "campPeriodsListItem": {
+        "deleteWarning": ""
+      },
+      "campSettings": {
+        "fields": {
+          "motto": "motto",
+          "name": "nome",
+          "title": "titolo"
+        },
+        "title": "Impostazioni"
+      }
+    },
+    "dialog": {
+      "dialogActivityCategoryCreate": {
+        "title": "Creare categoria di attività"
+      },
+      "dialogEntityDelete": {
+        "title": "Davvero cancellare?",
+        "warningText": "Vuoi davvero cancellare questo?"
+      },
+      "dialogPeriodCreate": {
+        "title": "Creare il periodo"
+      }
+    },
+    "navigation": {
+      "search": "Cerca",
+      "searchActivitiesAndCamps": "Recherche d'activités et de camps",
+      "userMeta": {
+        "logOut": "Disconnettiti",
+        "myCamps": "Il mio campo | I miei campi",
+        "profile": "Profil"
+      }
+    }
+  },
+  "entity": {
+    "activity": {
+      "fields": {
+        "location": "Posto",
+        "title": "Titolo"
+      },
+      "name": "Attività"
+    },
+    "activityCategory": {
+      "fields": {
+        "activityType": "Stile",
+        "color": "Colore",
+        "name": "Nome",
+        "numberingStyle": "Stile della numerazione",
+        "short": "Corte"
+      },
+      "name": "Categorie di attività",
+      "numberingStyles": {
+        "1": "1, 2, 3 - numeri",
+        "A": "A, B, C - maiuscole di blocco",
+        "I": "I, II, III - numeri romani maiuscoli",
+        "a": "a, b, c - lettres minuscole",
+        "i": "i, ii, iii - numeri romani minuscoli"
+      }
+    },
+    "camp": {
+      "fields": {
+        "campType": "Tipo di campo",
+        "motto": "Motto",
+        "name": "Nome",
+        "title": "Titolo"
+      },
+      "name": "Campo"
+    },
+    "period": {
+      "defaultDescription": "Campo principale",
+      "fields": {
+        "description": "Descrizione",
+        "end": "Fine",
+        "start": "Inizia"
+      },
+      "name": "Périodo | Périodi"
+    },
+    "scheduleEntry": {
+      "fields": {
+        "nr": "No",
+        "time": "Tempi"
+      },
+      "name": "Implementazione delle attività"
+    },
+    "user": {
+      "fields": {
+        "birthday": "Compleanno",
+        "email": "Indirizzo e-mail",
+        "firstname": "Nome",
+        "language": "Lingua",
+        "nickname": "Soprannome",
+        "surname": "Nome di famiglia"
+      },
+      "name": "Utente"
+    }
+  },
+  "global": {
+    "button": {
+      "add": "Aggiungere",
+      "back": "Indietro",
+      "cancel": "Annullare",
+      "delete": "Cancellare",
+      "edit": "Modificare",
+      "submit": "Inviare"
+    },
+    "changeLanguage": "Cambia la lingua",
+    "language": "Italiano",
+    "moment": {
+      "dateLong": "dd L",
+      "dateShort": "dd M/D",
+      "hourShort": "h A"
+    },
+    "serverError": {
+      "409": "Uuuuups... Questa azione ha causato un errore sul lato server."
+    },
+    "validation": {
+      "minDate": "{_field_} non può essere prima che {min}"
+    }
+  },
+  "views": {
+    "activity": {
+      "sideBarProgram": {
+        "title": "panoramica giornaliera"
+      }
+    },
+    "auth": {
+      "login": {
+        "accountless": "Non hanno ancora un conto?",
+        "beta": {
+          "notice": "questo è il sito del nuovo eCamp.<br>IMPORTANTE: Questo sito web è in costruzione. Ciò significa che tutti i dati sono pubblici e saranno periodicamente cancellati!"
+        },
+        "or": "oppure",
+        "password": "Parola d'ordine",
+        "provider": {
+          "ecamp": "Accedi con eCamp",
+          "google": "Accedi con Google",
+          "midata": "Accedi con MiData"
+        },
+        "registernow": "Iscriviti ora",
+        "title": "Accedi",
+        "username": "Nome utente o indirizzo e-mail"
+      }
+    },
+    "camp": {
+      "admin": {
+        "title": "Admin"
+      },
+      "collaborators": {
+        "title": "Team"
+      },
+      "sideBarPeriods": {
+        "title": "Periodi"
+      }
+    },
+    "campCreate": {
+      "create": "Creare il campo",
+      "period": {
+        "add": "Aggiungere un periodo",
+        "remove": "Cancellare un periodo"
+      },
+      "title": "Creare il campo"
+    },
+    "camps": {
+      "create": "Creare il campo",
+      "title": "Il mio campo | I miei campi"
+    },
+    "home": {
+      "home": "Home",
+      "myCamps": "Il mio campo | I miei campi",
+      "welcome": "Ehi {user}. Bienvenuti al eCamp"
+    },
+    "profile": {
+      "profile": "Profilo"
+    }
   }
-},
-	"activityContent": {
-		"safetyConcept": {
-			"add": "Aggiungere un concetto di sicurezza",
-			"name": "concetto di sicurezza",
-			"entity":{ }
-		},
-		"storyboard": {
-			"add": "Aggiungere uno storyboard | aggiungere un altro storyboard",
-			"name": "Storyboard",
-			"entity": {
-				"section": {
-					"name": "Sezione | Sezioni",
-					"fields": {
-						"column1": "Tempo",
-						"column2": "Programma",
-						"column3": "Responsabile"
-					}
-				}
-			}
-		},
-		"storycontext": {
-			"add": "Aggiungi contenuto della storia",
-			"name": "Contesto della storia",
-			"entity": { }
-		},
-		"notes": {
-			"add": "Aggiungi gli noti",
-			"name": "Noti",
-			"entity": {}
-			}
-		  },
-	"components": {
-		"camp": {
-			"campActivityCategories": {
-				"title": "Categori di attività",
-				"create": "Creare categoria di attività",
-				"deleteActivityCategoryQuestion": "Vuoi davvero cancellare la categoria Attività?",
-				"deleteActivityCategoryNotPossibleInUse": "La categoria di attività non può essere cancellata. è utilizzata da:"
-			},
-			"campPeriods" :{
-				"title": "Periodo | Periodi",
-				"addPeriod" : "Periodo"
-			},
-        "campSettings":{
-          "title": "Impostazioni",
-          "fields":{
-            "motto": "motto",
-            "name": "nome",
-            "title": "titolo"
-          }
-        },
-        "campMembers":{
-          "title": "Membri"
-        },
-        "campInvitations":{
-          "title": "Invitare"
-			}
-		},
-		"dialog": {
-			"dialogActivityCategoryCreate": {
-				"title": "Creare categoria di attività"
-			},
-			"dialogEntityDelete": {
-				"title": "Davvero cancellare?",
-				"warningText": "Vuoi davvero cancellare questo?"
-			},
-			"dialogPeriodAdd":{
-				"title": "Creare il periodo"
-			}
-		},
-		"navigation": {
-			"adminTitle": "Admin",
-			"logOut": "Disconnettiti",
-			"myCamps": "Il mio campo | I miei campi",
-			"searchActivitiesAndCamps": "Recherche d'activités et de camps",
-			"search": "Cerca",
-			"profile": "Profil",
-			"teamTitle": "Team"
-		}
-	},
-	"views": {
-		"auth": {
-			"login": {
-				"title": "Accedi",
-				"username": "Nome utente o indirizzo e-mail",
-				"password": "Parola d'ordine",
-				"or": "oppure",
-				"provider": {
-					"ecamp": "Accedi con eCamp",
-					"google": "Accedi con Google",
-					"midata": "Accedi con MiData"
-				},
-				"accountless": "Non hanno ancora un conto?",
-				"registernow": "Iscriviti ora",
-				"beta": {
-					"notice": "questo è il sito del nuovo eCamp.<br>IMPORTANTE: Questo sito web è in costruzione. Ciò significa che tutti i dati sono pubblici e saranno periodicamente cancellati!"
-				}
-			}
-		},
-		"activity": {
-			"sideBarProgram": {
-			  "title": "panoramica giornaliera"
-			}
-		},
-	"campCreate": {
-		"create": "Creare il campo",
-		"period": {
-			"add": "Aggiungere un periodo",
-			"remove": "Cancellare un periodo"
-		},
-		"title": "Creare il campo"
-	},
-		"camps": {
-			"create": "Creare il campo",
-			"title": "Il mio campo | I miei campi"
-		},
-		"home": {
-			"home": "Home",
-			"myCamps": "Il mio campo | I miei campi",
-			"welcome": "Ehi {user}. Bienvenuti al eCamp"
-		  },
-		  "profile": {
-			"profile": "Profilo"
-		  }
-		}
-	  }
+}

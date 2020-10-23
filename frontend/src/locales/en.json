@@ -1,15 +1,154 @@
 {
+  "activityContent": {
+    "notes": {
+      "add": "Add notes",
+      "entity": {},
+      "name": "Notes"
+    },
+    "safetyConcept": {
+      "add": "Add safety concept",
+      "entity": {},
+      "name": "safety concept"
+    },
+    "storyboard": {
+      "add": "Add a storyboard",
+      "entity": {
+        "section": {
+          "fields": {
+            "column1": "Time",
+            "column2": "Program",
+            "column3": "Responsible"
+          },
+          "name": "Storyboard | Storyboards"
+        }
+      },
+      "name": "storyboard"
+    },
+    "storycontext": {
+      "add": "Add story context",
+      "entity": {},
+      "name": "story concept"
+    }
+  },
+  "components": {
+    "camp": {
+      "campActivityCategories": {
+        "create": "Create activity category",
+        "deleteActivityCategoryNotPossibleInUse": "Activity category can't be deleted. It is used by:",
+        "deleteActivityCategoryQuestion": "Do you really want do delete the Activity category?",
+        "title": "Activity categories"
+      },
+      "campPeriods": {
+        "createPeriod": "Create period",
+        "title": "Period | Periods"
+      },
+      "campPeriodsListItem": {
+        "deleteWarning": ""
+      },
+      "campSettings": {
+        "fields": {
+          "motto": "motto",
+          "name": "name",
+          "title": "title"
+        },
+        "title": "Settings"
+      }
+    },
+    "dialog": {
+      "dialogActivityCategoryCreate": {
+        "title": "Create activity category"
+      },
+      "dialogEntityDelete": {
+        "title": "Really delete?",
+        "warningText": "Do you wish to cancel this?"
+      },
+      "dialogPeriodCreate": {
+        "title": "Create period"
+      }
+    },
+    "navigation": {
+      "search": "Search",
+      "searchActivitiesAndCamps": "Search activity and camps",
+      "userMeta": {
+        "logOut": "Log out",
+        "myCamps": "My camp | My camps",
+        "profile": "Profile"
+      }
+    }
+  },
+  "entity": {
+    "activity": {
+      "fields": {
+        "location": "Location",
+        "title": "Title"
+      },
+      "name": "Activity"
+    },
+    "activityCategory": {
+      "fields": {
+        "activityType": "Type",
+        "color": "Color",
+        "name": "Name",
+        "numberingStyle": "Numbering style",
+        "short": "Short"
+      },
+      "name": "Activity categories",
+      "numberingStyles": {
+        "1": "1, 2, 3 - numbers",
+        "A": "A, B, C - uppercase letters",
+        "I": "I, II, III - uppercase roman numerals",
+        "a": "a, b, c - lowercase letters",
+        "i": "i, ii, iii - lowercase roman numerals"
+      }
+    },
+    "camp": {
+      "fields": {
+        "campType": "Camp type",
+        "motto": "Motto",
+        "name": "Name",
+        "title": "Title"
+      },
+      "name": "Camp"
+    },
+    "period": {
+      "defaultDescription": "Main",
+      "fields": {
+        "description": "Description",
+        "end": "End",
+        "start": "Start"
+      },
+      "name": "Period | Periods"
+    },
+    "scheduleEntry": {
+      "fields": {
+        "nr": "No.",
+        "time": "Time"
+      },
+      "name": "Activity scheduled"
+    },
+    "user": {
+      "fields": {
+        "birthday": "Birthday",
+        "email": "Email address",
+        "firstname": "Firstname",
+        "language": "Language",
+        "nickname": "Nickname",
+        "surname": "Lastname"
+      },
+      "name": "User"
+    }
+  },
   "global": {
-    "changeLanguage": "Change language",
-    "language": "English",
     "button": {
       "add": "Add",
       "back": "Back",
+      "cancel": "Cancel",
       "delete": "Delete",
       "edit": "Edit",
-      "submit": "Submit",
-      "cancel": "Cancel"
+      "submit": "Submit"
     },
+    "changeLanguage": "Change language",
+    "language": "English",
     "moment": {
       "dateLong": "dd L",
       "dateShort": "dd M/D",
@@ -22,171 +161,44 @@
       "minDate": "{_field_} may not be earlier than {min}"
     }
   },
-  "entity": {
-    "camp": {
-      "name": "Camp",
-      "fields": {
-        "name": "Name",
-        "title": "Title",
-        "motto": "Motto",
-        "campType": "Camp type"
-      }
-    },
-    "period": {
-      "name": "Period | Periods",
-      "fields": {
-        "description": "Description",
-        "end": "End",
-        "start": "Start"
-      },
-      "defaultDescription": "Main"
-    },
-    "user": {
-      "name": "User",
-      "fields": {
-        "email": "Email address",
-        "firstname": "Firstname",
-        "surname": "Lastname",
-        "nickname": "Nickname",
-        "birthday": "Birthday",
-        "language": "Language"
-      }
-    },
-    "activityCategory": {
-      "name": "Activity categories",
-      "fields": {
-        "short": "Short",
-        "name": "Name",
-        "color": "Color",
-        "numberingStyle": "Numbering style",
-        "activityType": "Type"
-      },
-      "numberingStyles": {
-        "1": "1, 2, 3 - numbers",
-        "a": "a, b, c - lowercase letters",
-        "A": "A, B, C - uppercase letters",
-        "i": "i, ii, iii - lowercase roman numerals",
-        "I": "I, II, III - uppercase roman numerals"
-      }
-    },
+  "views": {
     "activity": {
-      "name": "Activity",
-      "fields": {
-        "title": "Title",
-        "location": "Location"
+      "sidebarProgram": {
+        "name": "daily overview"
       }
     },
-    "scheduleEntry": {
-      "name": "Activity scheduled",
-      "fields": {
-        "nr": "No.",
-        "time": "Time"
-      }
-    }
-  },
-  "activityContent":{
-    "safetyConcept": {
-      "add": "Add safety concept",
-      "name": "safety concept",
-      "entity": { }
-    },
-    "storyboard": {
-      "add": "Add a storyboard",
-      "name":"storyboard",
-			"entity": {
-				"section": {
-          "name":"Storyboard | Storyboards",
-          "fields": {
-            "column1": "Time",
-            "column2": "Program",
-            "column3": "Responsible"
-          }
-        }
-      }
-    },
-    "storycontext": {
-      "add": "Add story context",
-      "name":"story concept",
-      "entity":{ }
-    },
-    "notes": {
-      "add": "Add notes",
-      "name": "Notes",
-      "entity":{ }
-    }
-  },
-    "components": {
-      "camp": {
-        "campActivityCategories": {
-          "title":"Activity categories",
-          "create": "Create activity category",
-          "deleteActivityCategoryQuestion": "Do you really want do delete the Activity category?",
-          "deleteActivityCategoryNotPossibleInUse": "Activity category can't be deleted. It is used by:"
-        },
-        "campPeriods" :{
-          "title": "Period | Periods",
-          "addPeriod" : "Period"
-        },
-        "campSettings":{
-          "title": "Settings",
-          "fields":{
-            "motto": "motto",
-            "name": "name",
-            "title": "title"
-          }
-        },
-        "campMembers":{
-          "title": "Members"
-        },
-        "campInvitations":{
-          "title": "Invite"
-        }
-      },
-      "dialog": {
-        "dialogActivityCategoryCreate": {
-          "title": "Create activity category"
-        },
-        "dialogEntityDelete": {
-          "title": "Really delete?",
-          "warningText": "Do you wish to cancel this?"
-      },
-      "dialogPeriodAdd":{
-        "title": "Create Period"
-      }
-    },
-    "navigation": {
-      "adminTitle": "Admin",
-      "logOut": "Log out",
-      "myCamps": "My camp | My camps",
-      "profile": "Profile",
-      "searchActivitiesAndCamps": "Search activity and camps",
-      "search": "Search",
-    
-      "teamTitle": "Team"
-    }
-  },
-  "views":{
     "auth": {
       "login": {
-        "title": "Login",
-        "username": "Username or Email",
-        "password": "Password",
+        "accountless": "Don't have an account yet?",
+        "beta": {
+          "notice": "This is the site of the new eCamp.<br>IMPORTANT: This website is under construction. This means that all data is public and will be deleted periodically!"
+        },
         "or": "or",
+        "password": "Password",
         "provider": {
           "ecamp": "Login with eCamp",
           "google": "Login with Google",
           "midata": "Login with MiData"
         },
-        "accountless": "Don't have an account yet?",
         "registernow": "Register now",
-        "beta": {
-          "notice": "This is the site of the new eCamp.<br>IMPORTANT: This website is under construction. This means that all data is public and will be deleted periodically!"
-        }
+        "title": "Login",
+        "username": "Username or Email"
       }
     },
-    "activity":{
-      "sidebarProgram": {
-        "name": "daily overview"
+    "camp": {
+      "admin": {
+        "title": "Admin"
+      },
+      "collaborators": {
+        "invite": "Invite",
+        "members": "Members",
+        "openInvitations": "Open invitations",
+        "openRequests": "Open requests",
+        "search": "Search...",
+        "title": "Team"
+      },
+      "sideBarPeriods": {
+        "title": "Periods"
       }
     },
     "campCreate": {
@@ -201,13 +213,13 @@
       "create": "Create the camp",
       "title": "My Camp | My Camps"
     },
-    "home":{
-      "home":"Home",
+    "home": {
+      "home": "Home",
       "myCamps": "My Camp | My Camps",
       "welcome": "Hello {user}. Warmly Welcome on eCamp"
     },
-    "profile":{
-      "profile":"Profile"
+    "profile": {
+      "profile": "Profile"
     }
   }
 }

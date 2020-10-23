@@ -21,7 +21,7 @@ Displays a single period as a list item including controls to edit and delete it
           <template v-slot:activator="{ on }">
             <button-delete v-on="on" />
           </template>
-          {{ $tc('components.dialog.dialogEntityDelete.warningText') }} <br>
+          {{ $tc('components.camp.campPeriodsListItem.deleteWarning') }} <br>
           <ul>
             <li>
               {{ period.description }}

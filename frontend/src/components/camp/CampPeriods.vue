@@ -18,7 +18,7 @@ Displays all periods of a single camp and allows to edit them & create new ones
           <dialog-period-create :camp="camp()">
             <template v-slot:activator="{ on }">
               <button-add v-on="on">
-                {{ $tc('components.dialog.dialogPeriodAdd.title') }}
+                {{ $tc('components.camp.campPeriods.createPeriod') }}
               </button-add>
             </template>
           </dialog-period-create>
