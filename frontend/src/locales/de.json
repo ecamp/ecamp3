@@ -145,6 +145,7 @@
     },
     "changeLanguage": "Sprache ändern",
     "language": "Deutsch",
+    "lokaliseMessage": "Übersetzungen unterstützt durch lokalise.com",
     "moment": {
       "dateLong": "dd L",
       "dateShort": "dd D.M.",
