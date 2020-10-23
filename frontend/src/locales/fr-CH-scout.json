@@ -1,16 +1,12 @@
 {
-    "global": {
-      "language": "Français (Scout)"
-    },
-    "entity": {
-      "user": {
-        "fields": {
-          "nickname": "Nom de Scout"
-        }
+  "entity": {
+    "user": {
+      "fields": {
+        "nickname": "Nom de Scout"
       }
-    },
-    "components": {
-    },
-    "views": {
     }
+  },
+  "global": {
+    "language": "Français (Scout)"
   }
+}

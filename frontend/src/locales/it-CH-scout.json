@@ -1,7 +1,4 @@
 {
-  "global": {
-    "language": "Italiano (Scout)"
-  },
   "entity": {
     "user": {
       "fields": {
@@ -9,8 +6,7 @@
       }
     }
   },
-  "components": {
-  },
-  "views": {
+  "global": {
+    "language": "Italiano (Scout)"
   }
 }
