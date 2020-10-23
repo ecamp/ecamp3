@@ -1,7 +1,4 @@
 {
-  "global": {
-    "language": "Deutsch (Pfadi)"
-  },
   "entity": {
     "user": {
       "fields": {
@@ -9,8 +6,7 @@
       }
     }
   },
-  "components": {
-  },
-  "views": {
+  "global": {
+    "language": "Deutsch (Pfadi)"
   }
 }
