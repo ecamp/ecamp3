@@ -1,0 +1,12 @@
+{
+  "entity": {
+    "user": {
+      "fields": {
+        "nickname": "Scout Name"
+      }
+    }
+  },
+  "global": {
+    "language": "English (cout)"
+  }
+}
