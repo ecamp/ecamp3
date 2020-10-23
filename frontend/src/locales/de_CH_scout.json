@@ -1,0 +1,12 @@
+{
+  "entity": {
+    "user": {
+      "fields": {
+        "nickname": "Pfadiname"
+      }
+    }
+  },
+  "global": {
+    "language": "Deutsch (Pfadi)"
+  }
+}
