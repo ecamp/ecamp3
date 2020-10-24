@@ -19,7 +19,7 @@
           <v-list-item-action>
             <dialog-entity-delete :entity="camp">
               <template v-slot:activator="{ on }">
-                <button-delete v-on="on" />
+                <button-delete @click.prevent="on.click" />
               </template>
               {{ $tc('components.dialog.dialogEntityDelete.warningText') }}
               <ul>
