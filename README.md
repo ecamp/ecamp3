@@ -17,7 +17,7 @@ eCamp3 ist eine Neu-Entwicklung von eCamp. Dabei werden
 folgende Ziele verfolgt:
 
 - Verwendung von Standard-Produkten
-  - Zend-Framework fürs Backend
+  - Laminas-Framework fürs Backend
   - Doctrine ORM für Datenspeicherung
   - Vue.js fürs Frontend
 - Funktionalität von eCamp2 nachbauen
