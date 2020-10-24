@@ -23,7 +23,7 @@
               </template>
               {{ $tc('components.dialog.dialogEntityDelete.warningText') }}
               <ul>
-                <li>{{ camp.title }}"</li>
+                <li>{{ camp.title }}</li>
               </ul>
             </dialog-entity-delete>
           </v-list-item-action>
