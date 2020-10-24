@@ -65,9 +65,6 @@ export default {
     }
   },
   methods: {
-    deleteCamp (camp) {
-      this.api.del(camp)
-    },
     campRoute,
     goToCamp (camp) {
       router.push(campRoute(camp))
