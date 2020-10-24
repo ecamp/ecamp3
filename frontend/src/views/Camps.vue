@@ -45,7 +45,7 @@
 </template>
 
 <script>
-import router, { campRoute } from '@/router'
+import { campRoute } from '@/router'
 import ContentCard from '@/components/layout/ContentCard'
 import ButtonAdd from '@/components/buttons/ButtonAdd'
 import ButtonDelete from '@/components/buttons/ButtonDelete'
