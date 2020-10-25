@@ -1270,6 +1270,9 @@ return [
                 'filters' => [],
                 'validators' => [],
             ],
+            3 => [
+                'name' => 'activityCategoryId',
+            ],
         ],
         'eCampApi\\V1\\Rest\\ActivityCategory\\Validator' => [
             0 => [

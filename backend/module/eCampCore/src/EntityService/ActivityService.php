@@ -76,6 +76,34 @@ class ActivityService extends AbstractEntityService {
     }
 
     /**
+     * @param mixed $data
+     *
+     * @throws EntityNotFoundException
+     * @throws NoAccessException
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     *
+     * @return Activity
+     */
+    protected function patchEntity(BaseEntity $entity, $data) {
+        /** @var Activity $activity */
+        $activity = parent::patchEntity($entity, $data);
+
+        if (isset($data->campId)) {
+            /** @var Camp $camp */
+            $camp = $this->findEntity(Camp::class, $data->campId);
+            $camp->addActivity($activity);
+        }
+
+        if (isset($data->activityCategoryId)) {
+            /** @var ActivityCategory $category */
+            $category = $this->findEntity(ActivityCategory::class, $data->activityCategoryId);
+            $activity->setActivityCategory($category);
+        }
+
+        return $activity;
+    }
+
+    /**
      * @param Activity|BaseEntity $activity
      * @param mixed               $data
      *
@@ -87,7 +115,7 @@ class ActivityService extends AbstractEntityService {
      * @return Activity|BaseEntity
      */
     protected function createEntityPost(BaseEntity $activity, $data) {
-        // Create Periods:
+        // Create ScheduleEntries
         if (isset($data->scheduleEntries)) {
             foreach ($data->scheduleEntries as $scheduleEntry) {
                 $scheduleEntry = (object) $scheduleEntry;
