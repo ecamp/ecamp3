@@ -49,14 +49,10 @@ return [
         'lazy_services' => [
             'class_map' => [
                 \eCamp\Core\EntityService\ActivityCategoryService::class => \eCamp\Core\EntityService\ActivityCategoryService::class,
-                \eCamp\Core\EntityService\ScheduleEntryService::class => \eCamp\Core\EntityService\ScheduleEntryService::class,
             ],
         ],
         'delegators' => [
             \eCamp\Core\EntityService\ActivityCategoryService::class => [
-                Laminas\ServiceManager\Proxy\LazyServiceFactory::class,
-            ],
-            \eCamp\Core\EntityService\ScheduleEntryService::class => [
                 Laminas\ServiceManager\Proxy\LazyServiceFactory::class,
             ],
         ],

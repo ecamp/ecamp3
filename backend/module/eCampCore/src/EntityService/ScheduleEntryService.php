@@ -57,12 +57,6 @@ class ScheduleEntryService extends AbstractEntityService {
      * @return ScheduleEntry
      */
     protected function createEntity($data) {
-        $data = (object) $data;
-
-        if (isset($data->activity)) {
-            $data->activityId = $this->activityService->create($data->activity)->getId();
-        }
-
         /** @var ScheduleEntry $scheduleEntry */
         $scheduleEntry = parent::createEntity($data);
 
