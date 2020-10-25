@@ -26,7 +26,8 @@
         }
       },
       "icon": "mdi-script-text-outline",
-      "name": "Storyboard"
+      "name": "Storyboard",
+      "sort": "2"
     },
     "storycontext": {
       "add": "Add story context",
@@ -94,8 +95,8 @@
         "location": "Location",
         "title": "Title"
       },
-      "new": "New Activity",
-      "name": "Activity"
+      "name": "Activity",
+      "new": "New Activity"
     },
     "activityCategory": {
       "fields": {
@@ -170,8 +171,8 @@
     "moment": {
       "dateLong": "dd L",
       "dateShort": "dd M/D",
-      "hourShort": "h A",
-      "hourLong": "HH:mm"
+      "hourLong": "HH:mm",
+      "hourShort": "h A"
     },
     "serverError": {
       "409": "Uuuups... This action caused an server-side error."
@@ -221,12 +222,12 @@
       }
     },
     "campCreate": {
-      "create": "Create a Camp",
+      "create": "Create the Camp",
       "period": {
         "add": "Add a period",
         "remove": "Remove period"
       },
-      "title": "Create the Camp"
+      "title": "Create a Camp"
     },
     "camps": {
       "create": "Create a camp",

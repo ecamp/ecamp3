@@ -90,6 +90,7 @@
   "entity": {
     "activity": {
       "fields": {
+        "activityCategory": "Block Kategorie",
         "location": "Ort",
         "title": "Titel"
       },
@@ -156,21 +157,21 @@
     "button": {
       "add": "Hinzufügen",
       "back": "Zurück",
+      "cancel": "Abbrechen",
       "create": "Erstellen",
       "delete": "Löschen",
       "edit": "Bearbeiten",
       "open": "Öffnen",
       "submit": "Abschicken",
-      "tryagain": "Erneut versuchen",
-      "cancel": "Abbrechen"
+      "tryagain": "Erneut versuchen"
     },
     "changeLanguage": "Sprache ändern",
     "language": "Deutsch",
     "moment": {
       "dateLong": "dd L",
       "dateShort": "dd D.M.",
-      "hourShort": "H:mm",
-      "hourLong": "HH:mm"
+      "hourLong": "HH:mm",
+      "hourShort": "H:mm"
     },
     "serverError": {
       "409": "Uuuups... Diese Aktion hat zu einem Fehler auf dem Server geführt."

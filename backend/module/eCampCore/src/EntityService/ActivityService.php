@@ -37,17 +37,17 @@ class ActivityService extends AbstractEntityService {
     }
 
     /**
-     * @param BaseEntity $entity
      * @param mixed $data
      *
-     * @return BaseEntity
      * @throws EntityNotFoundException
      * @throws NoAccessException
      * @throws ORMException
      * @throws \Doctrine\ORM\NonUniqueResultException
+     *
+     * @return BaseEntity
      */
     protected function createEntityPost(BaseEntity $entity, $data) {
-        /** @var Activity $entity */
+        // @var Activity $entity
         $this->updateActivityResponsibles($entity, $data);
 
         // Create ScheduleEntries
@@ -67,13 +67,13 @@ class ActivityService extends AbstractEntityService {
     }
 
     /**
-     * @param BaseEntity $entity
      * @param $data
      *
-     * @return BaseEntity
      * @throws EntityNotFoundException
      * @throws NoAccessException
      * @throws \Doctrine\ORM\NonUniqueResultException
+     *
+     * @return BaseEntity
      */
     protected function patchEntity(BaseEntity $entity, $data) {
         /** @var Activity $activity */
@@ -121,33 +121,6 @@ class ActivityService extends AbstractEntityService {
         return $q;
     }
 
-    private function updateActivityResponsibles(Activity $activity, $data) {
-        if (isset($data->campCollaborations)) {
-            $ccIds = array_map(function ($cc) {
-                return $cc['id'];
-            }, $data->campCollaborations);
-
-            foreach ($activity->getActivityResponsibles() as $activityResponsible) {
-                $campCollaboration = $activityResponsible->getCampCollaboration();
-                if (!in_array($campCollaboration->getId(), $ccIds)) {
-                    $this->activityResponsibleService->delete($activityResponsible->getId());
-                }
-            }
-
-            foreach ($ccIds as $ccId) {
-                $ccExists = $activity->getActivityResponsibles()->exists(function ($key, $ar) use ($ccId) {
-                    return $ar->getCampCollaboration()->getId() == $ccId;
-                });
-                if (!$ccExists) {
-                    $this->activityResponsibleService->create((object) [
-                        'activityId' => $activity->getId(),
-                        'campCollaborationId' => $ccId,
-                    ]);
-                }
-            }
-        }
-    }
-
     /**
      * @param mixed $data
      *
@@ -176,5 +149,32 @@ class ActivityService extends AbstractEntityService {
         }
 
         return $activity;
+    }
+
+    private function updateActivityResponsibles(Activity $activity, $data) {
+        if (isset($data->campCollaborations)) {
+            $ccIds = array_map(function ($cc) {
+                return $cc['id'];
+            }, $data->campCollaborations);
+
+            foreach ($activity->getActivityResponsibles() as $activityResponsible) {
+                $campCollaboration = $activityResponsible->getCampCollaboration();
+                if (!in_array($campCollaboration->getId(), $ccIds)) {
+                    $this->activityResponsibleService->delete($activityResponsible->getId());
+                }
+            }
+
+            foreach ($ccIds as $ccId) {
+                $ccExists = $activity->getActivityResponsibles()->exists(function ($key, $ar) use ($ccId) {
+                    return $ar->getCampCollaboration()->getId() == $ccId;
+                });
+                if (!$ccExists) {
+                    $this->activityResponsibleService->create((object) [
+                        'activityId' => $activity->getId(),
+                        'campCollaborationId' => $ccId,
+                    ]);
+                }
+            }
+        }
     }
 }
