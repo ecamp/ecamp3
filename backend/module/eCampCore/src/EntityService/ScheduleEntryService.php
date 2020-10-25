@@ -14,16 +14,13 @@ use eCamp\Lib\Service\ServiceUtils;
 use Laminas\Authentication\AuthenticationService;
 
 class ScheduleEntryService extends AbstractEntityService {
-    private ActivityService $activityService;
-
-    public function __construct(ServiceUtils $serviceUtils, AuthenticationService $authenticationService, ActivityService $activityService) {
+    public function __construct(ServiceUtils $serviceUtils, AuthenticationService $authenticationService) {
         parent::__construct(
             $serviceUtils,
             ScheduleEntry::class,
             ScheduleEntryHydrator::class,
             $authenticationService
         );
-        $this->activityService = $activityService;
     }
 
     protected function fetchAllQueryBuilder($params = []) {
