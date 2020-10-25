@@ -2,10 +2,10 @@
   <div>
     <e-text-field
       v-model="activity.title"
-      :name="$tc('entity.period.fields.description')"
+      :name="$tc('entity.activity.fields.title')"
       vee-rules="required" />
 
-    <e-select v-model="activity.activityCategoryId" label="Aktivitätstyp"
+    <e-select v-model="activity.activityCategoryId" :label="$tc('entity.activity.fields.activityCategory')"
               :items="activityCategories.items"
               item-value="id"
               item-text="name"

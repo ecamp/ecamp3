@@ -61,6 +61,7 @@
       "new": "Neue Aktivität",
       "fields": {
         "title": "Titel",
+        "activityCategory": "Block Kategorie",
         "location": "Ort"
       }
     },
@@ -82,9 +83,11 @@
       }
     },
     "scheduleEntry": {
-      "name": "Aktivität Durchführung",
+      "name": "Zeitplaneintrag",
       "fields": {
+        "length": "Dauer in Minuten",
         "nr": "Nr",
+        "periodOffset": "Minuten seit Lagerabschnittbeginn",
         "time": "Zeitpunkt"
       }
     }

@@ -78,13 +78,16 @@
       "new": "New Activity",
       "fields": {
         "title": "Title",
+        "activityCategory": "Activity category",
         "location": "Location"
       }
     },
     "scheduleEntry": {
       "name": "Schedule Entry",
       "fields": {
+        "length": "Length in Minutes",
         "nr": "Nr",
+        "periodOffset": "Period Offset",
         "time": "Time"
       }
     }
