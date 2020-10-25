@@ -63,6 +63,16 @@ return [
                     ],
                 ],
             ],
+            'e-camp-api.rpc.printer' => [
+                'type' => 'Segment',
+                'options' => [
+                    'route' => '/api/printer',
+                    'defaults' => [
+                        'controller' => 'eCampApi\\V1\\Rpc\\Printer\\PrinterController',
+                        'action' => 'index',
+                    ],
+                ],
+            ],
             'e-camp-api.rest.doctrine.camp-type' => [
                 'type' => 'Segment',
                 'options' => [
@@ -135,6 +145,15 @@ return [
                     ],
                 ],
             ],
+            'e-camp-api.rest.doctrine.activity-responsible' => [
+                'type' => 'Segment',
+                'options' => [
+                    'route' => '/api/activity-responsibles[/:activityResponsibleId]',
+                    'defaults' => [
+                        'controller' => 'eCampApi\\V1\\Rest\\ActivityResponsible\\Controller',
+                    ],
+                ],
+            ],
             'e-camp-api.rest.doctrine.schedule-entry' => [
                 'type' => 'Segment',
                 'options' => [
@@ -197,6 +216,7 @@ return [
             'eCampApi\\V1\\Rpc\\Index\\IndexController' => \Laminas\Di\Container\ServiceManager\AutowireFactory::class,
             'eCampApi\\V1\\Rpc\\Register\\RegisterController' => \Laminas\Di\Container\ServiceManager\AutowireFactory::class,
             'eCampApi\\V1\\Rpc\\Profile\\ProfileController' => \Laminas\Di\Container\ServiceManager\AutowireFactory::class,
+            'eCampApi\\V1\\Rpc\\Printer\\PrinterController' => \Laminas\Di\Container\ServiceManager\AutowireFactory::class,
         ],
     ],
     'api-tools-versioning' => [
@@ -421,6 +441,32 @@ return [
             'collection_class' => 'eCampApi\\V1\\Rest\\ActivityCategory\\ActivityCategoryCollection',
             'service_name' => 'ActivityCategory',
         ],
+        'eCampApi\\V1\\Rest\\ActivityResponsible\\Controller' => [
+            'listener' => 'eCamp\\Core\\EntityService\\ActivityResponsibleService',
+            'route_name' => 'e-camp-api.rest.doctrine.activity-responsible',
+            'route_identifier_name' => 'activityResponsibleId',
+            'entity_identifier_name' => 'id',
+            'collection_name' => 'items',
+            'entity_http_methods' => [
+                0 => 'GET',
+                1 => 'PATCH',
+                2 => 'PUT',
+                3 => 'DELETE',
+            ],
+            'collection_http_methods' => [
+                0 => 'GET',
+                1 => 'POST',
+            ],
+            'collection_query_whitelist' => [
+                0 => 'campId',
+                1 => 'page_size',
+            ],
+            'page_size' => -1,
+            'page_size_param' => 'page_size',
+            'entity_class' => 'eCamp\\Core\\Entity\\ActivityResponsible',
+            'collection_class' => 'eCampApi\\V1\\Rest\\ActivityResponsible\\ActivityResponsibleCollection',
+            'service_name' => 'ActivityResponsible',
+        ],
         'eCampApi\\V1\\Rest\\ScheduleEntry\\Controller' => [
             'listener' => 'eCamp\\Core\\EntityService\\ScheduleEntryService',
             'route_name' => 'e-camp-api.rest.doctrine.schedule-entry',
@@ -580,6 +626,7 @@ return [
             'eCampApi\\V1\\Rpc\\Auth\\AuthController' => 'HalJson',
             'eCampApi\\V1\\Rpc\\Register\\RegisterController' => 'HalJson',
             'eCampApi\\V1\\Rpc\\Profile\\ProfileController' => 'HalJson',
+            'eCampApi\\V1\\Rpc\\Printer\\PrinterController' => 'HalJson',
             'eCampApi\\V1\\Rest\\CampType\\Controller' => 'HalJson',
             'eCampApi\\V1\\Rest\\ActivityType\\Controller' => 'HalJson',
             'eCampApi\\V1\\Rest\\Organization\\Controller' => 'HalJson',
@@ -588,6 +635,7 @@ return [
             'eCampApi\\V1\\Rest\\Day\\Controller' => 'HalJson',
             'eCampApi\\V1\\Rest\\Activity\\Controller' => 'HalJson',
             'eCampApi\\V1\\Rest\\ActivityCategory\\Controller' => 'HalJson',
+            'eCampApi\\V1\\Rest\\ActivityResponsible\\Controller' => 'HalJson',
             'eCampApi\\V1\\Rest\\ScheduleEntry\\Controller' => 'HalJson',
             'eCampApi\\V1\\Rest\\User\\Controller' => 'HalJson',
             'eCampApi\\V1\\Rest\\CampCollaboration\\Controller' => 'HalJson',
@@ -612,6 +660,11 @@ return [
                 2 => 'application/*+json',
             ],
             'eCampApi\\V1\\Rpc\\Profile\\ProfileController' => [
+                0 => 'application/vnd.e-camp-api.v1+json',
+                1 => 'application/json',
+                2 => 'application/*+json',
+            ],
+            'eCampApi\\V1\\Rpc\\Printer\\PrinterController' => [
                 0 => 'application/vnd.e-camp-api.v1+json',
                 1 => 'application/json',
                 2 => 'application/*+json',
@@ -652,6 +705,11 @@ return [
                 2 => 'application/json',
             ],
             'eCampApi\\V1\\Rest\\ActivityCategory\\Controller' => [
+                0 => 'application/vnd.e-camp-api.v1+json',
+                1 => 'application/hal+json',
+                2 => 'application/json',
+            ],
+            'eCampApi\\V1\\Rest\\ActivityResponsible\\Controller' => [
                 0 => 'application/vnd.e-camp-api.v1+json',
                 1 => 'application/hal+json',
                 2 => 'application/json',
@@ -704,6 +762,10 @@ return [
                 0 => 'application/vnd.e-camp-api.v1+json',
                 1 => 'application/json',
             ],
+            'eCampApi\\V1\\Rpc\\Printer\\PrinterController' => [
+                0 => 'application/vnd.e-camp-api.v1+json',
+                1 => 'application/json',
+            ],
             'eCampApi\\V1\\Rest\\CampType\\Controller' => [
                 0 => 'application/vnd.e-camp-api.v1+json',
                 1 => 'application/json',
@@ -733,6 +795,10 @@ return [
                 1 => 'application/json',
             ],
             'eCampApi\\V1\\Rest\\ActivityCategory\\Controller' => [
+                0 => 'application/vnd.e-camp-api.v1+json',
+                1 => 'application/json',
+            ],
+            'eCampApi\\V1\\Rest\\ActivityResponsible\\Controller' => [
                 0 => 'application/vnd.e-camp-api.v1+json',
                 1 => 'application/json',
             ],
@@ -884,6 +950,19 @@ return [
                 'is_collection' => true,
                 'max_depth' => 20,
             ],
+            'eCamp\\Core\\Entity\\ActivityResponsible' => [
+                'route_identifier_name' => 'activityResponsibleId',
+                'entity_identifier_name' => 'id',
+                'route_name' => 'e-camp-api.rest.doctrine.activity-responsible',
+                'hydrator' => 'eCamp\\Core\\Hydrator\\ActivityResponsibleHydrator',
+                'max_depth' => 20,
+            ],
+            'eCampApi\\V1\\Rest\\ActivityResponsible\\ActivityResponsibleCollection' => [
+                'entity_identifier_name' => 'id',
+                'route_name' => 'e-camp-api.rest.doctrine.activity-responsible',
+                'is_collection' => true,
+                'max_depth' => 20,
+            ],
             'eCamp\\Core\\Entity\\ScheduleEntry' => [
                 'route_identifier_name' => 'scheduleEntryId',
                 'entity_identifier_name' => 'id',
@@ -985,6 +1064,9 @@ return [
         ],
         'eCampApi\\V1\\Rest\\ActivityCategory\\Controller' => [
             'input_filter' => 'eCampApi\\V1\\Rest\\ActivityCategory\\Validator',
+        ],
+        'eCampApi\\V1\\Rest\\ActivityResponsible\\Controller' => [
+            'input_filter' => 'eCampApi\\V1\\Rest\\ActivityResponsible\\Validator',
         ],
         'eCampApi\\V1\\Rest\\ScheduleEntry\\Controller' => [
             'input_filter' => 'eCampApi\\V1\\Rest\\ScheduleEntry\\Validator',
@@ -1271,6 +1353,12 @@ return [
                 'validators' => [],
             ],
             3 => [
+                'name' => 'campCollaborations',
+                'required' => false,
+                'filters' => [],
+                'validators' => [],
+            ],
+            3 => [
                 'name' => 'activityCategoryId',
             ],
         ],
@@ -1362,6 +1450,8 @@ return [
             4 => [
                 'name' => 'activityTypeId',
             ],
+        ],
+        'eCampApi\\V1\\Rest\\ActivityResponsible\\Validator' => [
         ],
         'eCampApi\\V1\\Rest\\ScheduleEntry\\Validator' => [
             0 => [
@@ -1648,6 +1738,13 @@ return [
                 1 => 'PATCH',
             ],
             'route_name' => 'e-camp-api.rpc.profile',
+        ],
+        'eCampApi\\V1\\Rpc\\Printer\\PrinterController' => [
+            'service_name' => 'Printer',
+            'http_methods' => [
+                0 => 'POST',
+            ],
+            'route_name' => 'e-camp-api.rpc.printer',
         ],
     ],
     'api-tools' => [

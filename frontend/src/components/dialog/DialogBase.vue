@@ -61,6 +61,9 @@ export default {
         if (e.response.status === 409 /* Conflict */) {
           this.error = this.$tc('global.serverError.409')
         }
+        if (e.response.status === 422 /* Validation Error */) {
+          this.error = e
+        }
       }
     }
   }

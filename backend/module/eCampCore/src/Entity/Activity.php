@@ -25,6 +25,12 @@ class Activity extends BaseEntity implements BelongsToCampInterface {
     protected $scheduleEntries;
 
     /**
+     * @var ArrayCollection
+     * @ORM\OneToMany(targetEntity="ActivityResponsible", mappedBy="activity", orphanRemoval=true)
+     */
+    protected $activityResponsibles;
+
+    /**
      * @var Camp
      * @ORM\ManyToOne(targetEntity="Camp")
      * @ORM\JoinColumn(nullable=false, onDelete="cascade")
@@ -55,6 +61,7 @@ class Activity extends BaseEntity implements BelongsToCampInterface {
 
         $this->activityContents = new ArrayCollection();
         $this->scheduleEntries = new ArrayCollection();
+        $this->activityResponsibles = new ArrayCollection();
         $this->progress = 0;
     }
 
@@ -137,6 +144,23 @@ class Activity extends BaseEntity implements BelongsToCampInterface {
     public function removeScheduleEntry(ScheduleEntry $scheduleEntry) {
         $scheduleEntry->setActivity(null);
         $this->scheduleEntries->removeElement($scheduleEntry);
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getActivityResponsibles() {
+        return $this->activityResponsibles;
+    }
+
+    public function addActivityResponsible(ActivityResponsible $activityResponsible) {
+        $activityResponsible->setActivity($this);
+        $this->activityResponsibles->add($activityResponsible);
+    }
+
+    public function removeActivityResponsible(ActivityResponsible $activityResponsible) {
+        $activityResponsible->setActivity(null);
+        $this->activityResponsibles->removeElement($activityResponsible);
     }
 
     /** @ORM\PrePersist */

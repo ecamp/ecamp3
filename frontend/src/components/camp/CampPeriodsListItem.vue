@@ -6,7 +6,10 @@ Displays a single period as a list item including controls to edit and delete it
   <v-list-item>
     <v-list-item-content class="pt-0 pb-2">
       <v-list-item-title>{{ period.description }}</v-list-item-title>
-      <v-list-item-subtitle>{{ period.start }} - {{ period.end }}</v-list-item-subtitle>
+      <v-list-item-subtitle>
+        {{ $moment(period.start).format($tc('global.moment.dateLong')) }} -
+        {{ $moment(period.end).format($tc('global.moment.dateLong')) }}
+      </v-list-item-subtitle>
     </v-list-item-content>
 
     <v-list-item-action style="display: inline">
@@ -21,7 +24,12 @@ Displays a single period as a list item including controls to edit and delete it
           <template v-slot:activator="{ on }">
             <button-delete v-on="on" />
           </template>
-          the Period "{{ period.description }}"
+          {{ $tc('components.camp.campPeriodsListItem.deleteWarning') }} <br>
+          <ul>
+            <li>
+              {{ period.description }}
+            </li>
+          </ul>
         </dialog-entity-delete>
       </v-item-group>
     </v-list-item-action>

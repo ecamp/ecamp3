@@ -70,22 +70,39 @@ services:
     ports:
       - '3002:80'
 
+  rabbitmq:
+    image: rabbitmq:3.8-management
+    container_name: 'ecamp3-rabbitmq'
+    ports:
+      - '3004:15672'
+
   worker-print-puppeteer:
     image: buildkite/puppeteer
     container_name: 'ecamp3-worker-print-puppeteer'
     volumes:
       - ./workers/print-puppeteer:/app:delegated
       - npm-cache:/root/.npm
+      - print-output:/app/data
     working_dir: /app
     command: npm run print
 
   worker-print-weasy:
-      build: ./workers/print-weasy
-      container_name: 'ecamp3-worker-print-weasy'
-      volumes:
-        - ./workers/print-weasy:/app:delegated
-      working_dir: /app
-      command: python print.py
+    build: ./workers/print-weasy
+    container_name: 'ecamp3-worker-print-weasy'
+    volumes:
+      - ./workers/print-weasy:/app:delegated
+      - print-output:/app/data
+    working_dir: /app
+    command: python -u print.py
+
+  print-file-server:
+    image: halverneus/static-file-server
+    volumes:
+      - print-output:/web
+    ports:
+      - '3005:8080'
+    environment:
+      - CORS=true
 
 volumes:
   npm-cache:
@@ -94,4 +111,5 @@ volumes:
   node-modules-cache:
   print-node-modules-cache:
   db-data:
+  print-output:
 

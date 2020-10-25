@@ -16,8 +16,8 @@ use eCamp\Lib\Acl\Guest;
 use eCamp\Lib\Acl\NoAccessException;
 use eCamp\Lib\Entity\BaseEntity;
 use eCamp\Lib\Service\EntityNotFoundException;
+use eCamp\Lib\Service\EntityValidationException;
 use eCamp\Lib\Service\ServiceUtils;
-use Exception;
 use Laminas\ApiTools\ApiProblem\ApiProblem;
 use Laminas\ApiTools\Rest\AbstractResourceListener;
 use Laminas\ApiTools\Rest\ResourceEvent;
@@ -69,7 +69,9 @@ abstract class AbstractEntityService extends AbstractResourceListener {
             return new ApiProblem(404, $e->getMessage());
         } catch (ForeignKeyConstraintViolationException $e) {
             return new ApiProblem(409, $e->getMessage());
-        } catch (Exception $e) {
+        } catch (EntityValidationException $e) {
+            return new ApiProblem(422, 'Failed Validation', null, null, ['validation_messages' => $e->getMessages()]);
+        } catch (\Exception $e) {
             return new ApiProblem(500, $e->getMessage());
         }
     }
@@ -137,6 +139,7 @@ abstract class AbstractEntityService extends AbstractResourceListener {
     final public function create($data) {
         $entity = $this->createEntity($data);
         $this->assertAllowed($entity, __FUNCTION__);
+        $this->validateEntity($entity);
 
         $this->serviceUtils->emPersist($entity);
         $this->serviceUtils->emFlush();
@@ -160,6 +163,7 @@ abstract class AbstractEntityService extends AbstractResourceListener {
         $this->assertAllowed($entity, __FUNCTION__);
 
         $this->patchEntity($entity, $data);
+        $this->validateEntity($entity);
         $this->serviceUtils->emFlush();
 
         return $entity;
@@ -181,6 +185,7 @@ abstract class AbstractEntityService extends AbstractResourceListener {
         $this->assertAllowed($entity, __FUNCTION__);
 
         $this->updateEntity($entity, $data);
+        $this->validateEntity($entity);
         $this->serviceUtils->emFlush();
 
         return $entity;
@@ -267,6 +272,12 @@ abstract class AbstractEntityService extends AbstractResourceListener {
      */
     protected function deleteEntity(BaseEntity $entity) {
         return $entity;
+    }
+
+    /**
+     * @param $entity
+     */
+    protected function validateEntity(BaseEntity $entity) {
     }
 
     /**

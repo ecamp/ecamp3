@@ -35,6 +35,9 @@ export default {
       return {
         script: [
           {
+            src: 'pagedConfig.js',
+          },
+          {
             src: 'https://unpkg.com/pagedjs/dist/paged.polyfill.js',
           },
         ],

@@ -1,0 +1,17 @@
+{
+    "global": {
+      "language": "English (cout)"
+    },
+    "entity": {
+      "user": {
+        "fields": {
+          "nickname": "Scout Name"
+        }
+      }
+    },
+    "components": {
+    },
+    "views": {
+    }
+  }
+  

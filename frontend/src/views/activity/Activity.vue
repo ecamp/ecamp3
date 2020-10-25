@@ -93,16 +93,16 @@ Displays a single activity
                     </v-row>
                     <v-row dense>
                       <v-col>
-                        <v-select
-                          :label="'Responsible'"
-                          outlined
+                        <api-select
+                          :name="'Responsible'"
                           dense
                           multiple
                           chips
                           deletable-chips
                           small-chips
-                          :hide-details="true"
-                          :items="['User A', 'User B']" />
+                          :uri="activity._meta.self"
+                          fieldname="campCollaborations"
+                          :items="availableCampCollaborations" />
                       </v-col>
                     </v-row>
                   </v-col>
@@ -141,15 +141,18 @@ export default {
       required: true
     }
   },
-  data () {
-    return {
-      progressItems: [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100].map(p => ({
-        value: p,
-        text: p + '%'
-      }))
-    }
-  },
   computed: {
+    availableCampCollaborations () {
+      return this.campCollaborations.map(cc => {
+        return {
+          value: cc,
+          text: cc.user().username
+        }
+      })
+    },
+    campCollaborations () {
+      return this.activity.camp().campCollaborations().items
+    },
     activity () {
       return this.scheduleEntry().activity()
     },
