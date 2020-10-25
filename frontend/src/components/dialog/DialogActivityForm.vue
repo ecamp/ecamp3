@@ -34,7 +34,7 @@
       v-model="activity.location"
       :name="$tc('entity.activity.fields.location')" />
 
-    <create-activity-schedule-entries :schedule-entries="scheduleEntries.items" />
+    <create-activity-schedule-entries :schedule-entries="scheduleEntries" />
   </div>
 </template>
 
@@ -59,7 +59,7 @@ export default {
       return this.activity.camp().activityCategories()
     },
     scheduleEntries () {
-      return this.activity.scheduleEntries()
+      return typeof this.activity.scheduleEntries === 'function' ? this.activity.scheduleEntries().items : this.activity.scheduleEntries
     }
   }
 }

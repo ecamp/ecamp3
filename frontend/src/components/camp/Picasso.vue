@@ -65,7 +65,7 @@ Listing all given activity schedule entries in a calendar view.
 
     <dialog-activity-create
       ref="dialogActivityCreate"
-      :schedule-entry="popupEntry" />
+      :schedule-entry="popupEntry" @activityCreated="tempScheduleEntry = null" />
     <dialog-activity-edit
       ref="dialogActivityEdit"
       :schedule-entry="popupEntry" />

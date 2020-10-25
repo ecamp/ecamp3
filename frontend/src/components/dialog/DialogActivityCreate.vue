@@ -37,27 +37,29 @@ export default {
     return {
       entityProperties: [
         'title',
-        'activityCategory',
+        'activityCategoryId',
         'scheduleEntries',
         'location',
         'camp'
       ],
-      entityUri: '/activity'
+      entityUri: '/activities'
     }
   },
   watch: {
     showDialog: function (showDialog) {
       if (showDialog) {
+        const newScheduleEntry = {
+          periodOffset: this.scheduleEntry.periodOffset,
+          length: this.scheduleEntry.length,
+          period: this.scheduleEntry.period
+        }
         this.setEntityData({
           camp: this.scheduleEntry.activity().camp,
           title: this.$tc('entity.activity.new'),
           location: '',
-          activityCategory: this.scheduleEntry.activity().activityCategory,
-          scheduleEntries: () => ({
-            items: [
-              this.scheduleEntry
-            ]
-          })
+          scheduleEntries: [
+            newScheduleEntry
+          ]
         })
       } else {
         // clear form on exit
@@ -68,7 +70,9 @@ export default {
   methods: {
     createActivity () {
       return this.create().then(() => {
-        this.api.reload(this.scheduleEntry)
+        this.api.reload(this.scheduleEntry.period.scheduleEntries()).then(
+          this.$emit('activityCreated')
+        )
       })
     }
   }
