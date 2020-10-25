@@ -1,0 +1,54 @@
+<template>
+  <dialog-form
+    v-model="showDialog"
+    icon="mdi-calendar-plus"
+    max-width="600px"
+    :submit-action="update"
+    submit-color="success"
+    :cancel-action="close">
+    <template v-slot:activator="scope">
+      <slot name="activator" v-bind="scope" />
+    </template>
+
+    <dialog-activity-form v-if="!loading" :activity="entityData" />
+  </dialog-form>
+</template>
+
+<script>
+import DialogForm from './DialogForm'
+import DialogBase from './DialogBase'
+import DialogActivityForm from './DialogActivityForm'
+
+export default {
+  name: 'DialogActivityEdit',
+  components: { DialogForm, DialogActivityForm },
+  extends: DialogBase,
+  props: {
+    scheduleEntry: { type: Object, required: true }
+  },
+  data () {
+    return {
+      entityProperties: [
+        'title',
+        'location',
+        'camp',
+        'scheduleEntries'
+      ],
+      embeddedEntities: [
+        'activityCategory'
+      ]
+    }
+  },
+  watch: {
+    showDialog: function (showDialog) {
+      if (showDialog) {
+        this.loadEntityData(this.scheduleEntry.activity()._meta.self)
+      }
+    }
+  }
+}
+</script>
+
+<style scoped>
+
+</style>

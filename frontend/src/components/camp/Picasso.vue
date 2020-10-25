@@ -62,22 +62,26 @@ Listing all given activity schedule entries in a calendar view.
           @mousedown.stop="extendBottom(event)" />
       </template>
     </v-calendar>
-    <schedule-entry-popup :schedule-entry="tempScheduleEntry" :show-entry-info="showEntryInfo"
-                          :selected-element="selectedElement"
-                          :clear="clearEntry" :revert="revertScheduleEntry"
-                          @cancel="cancelScheduleEntryPopup"
-                          @close="closeScheduleEntryPopup" />
+
+    <dialog-activity-create
+      ref="dialogActivityCreate"
+      :schedule-entry="popupEntry" />
+    <dialog-activity-edit
+      ref="dialogActivityEdit"
+      :schedule-entry="popupEntry" />
   </div>
 </template>
 <script>
 import { scheduleEntryRoute } from '@/router'
 import { isCssColor } from 'vuetify/lib/util/colorUtils'
-import ScheduleEntryPopup from '@/components/camp/picasso/ScheduleEntryPopup'
+import DialogActivityCreate from '@/components/dialog/DialogActivityCreate'
+import DialogActivityEdit from '@/components/dialog/DialogActivityEdit'
 
 export default {
   name: 'Picasso',
   components: {
-    ScheduleEntryPopup
+    DialogActivityCreate,
+    DialogActivityEdit
   },
   props: {
     period: {
@@ -105,8 +109,8 @@ export default {
   },
   data () {
     return {
-      tempScheduleEntry: null,
-      createdError: '',
+      tempScheduleEntry: {},
+      popupEntry: {},
       maxDays: 100,
       entryWidth: 80,
       value: '',
@@ -116,10 +120,7 @@ export default {
       draggedStartTime: null,
       currentStartTime: null,
       extendOriginal: null,
-      nativeTarget: null,
-      selectedElement: null,
-      originalScheduleEntry: null,
-      showEntryInfo: false
+      nativeTarget: null
     }
   },
   computed: {
@@ -242,20 +243,10 @@ export default {
       }
 
       if (this.draggedEntry && this.draggedStartTime === null) {
-        if (this.draggedEntry !== this.tempScheduleEntry) {
-          this.revertScheduleEntry()
-        }
         const start = this.draggedEntry.startTime
         this.draggedStartTime = mouse - start
-      } else if (this.openEntry) {
-        this.openEntry = false
       } else {
-        if (this.showEntryInfo) {
-          this.showEntryInfo = false
-          this.revertScheduleEntry()
-        } else {
-          this.createNewEntry(mouse)
-        }
+        this.createNewEntry(mouse)
       }
     },
     createNewEntry: function (mouse) {
@@ -281,7 +272,7 @@ export default {
           title: this.$tc('entity.activity.new'),
           location: '',
           camp: (this.period)().camp,
-          activityCategory: () => ({ // FIXME: This doesn't work, sadly (because it's a oneway binding)
+          activityCategory: () => ({
             id: null,
             short: null,
             color: 'grey elevation-4 v-event--temporary'
@@ -368,9 +359,6 @@ export default {
       this.clearCurrentEntry()
     },
     extendBottom (event) {
-      if (this.tempScheduleEntry !== event) {
-        this.cancelEntryInfoPopup()
-      }
       this.currentEntry = event
       this.currentStartTime = event.startTime
       this.extendOriginal = event.endTime
@@ -388,37 +376,14 @@ export default {
       this.clearCurrentEntry()
       this.clearDraggedEntry()
     },
-    closeScheduleEntryPopup: function () {
-      this.tempScheduleEntry = null
-      this.originalScheduleEntry = null
-      this.clearEntry()
-      this.showEntryInfo = false
-    },
-    cancelScheduleEntryPopup: function () {
-      if (this.showEntryInfo) {
-        this.showEntryInfo = false
-        this.selectedElement = null
-        this.nativeTarget = null
-        this.revertScheduleEntry()
-        this.clearEntry()
-      }
-    },
-    revertScheduleEntry: function () {
-      if (this.originalScheduleEntry) {
-        if (this.tempScheduleEntry.tmpEvent) {
-          this.tempScheduleEntry = this.originalScheduleEntry
-        } else {
-          this.events.push(this.originalScheduleEntry)
-          this.tempScheduleEntry = null
-        }
-        this.originalScheduleEntry = null
-      }
-    },
     showEntryInfoPopup (entry) {
-      this.tempScheduleEntry = entry
-      this.selectedElement = this.nativeTarget
+      this.popupEntry = entry
       this.$nextTick().then(() => {
-        this.showEntryInfo = true
+        if (entry._meta) {
+          this.$refs.dialogActivityEdit.showDialog = true
+        } else {
+          this.$refs.dialogActivityCreate.showDialog = true
+        }
       })
     },
     roundTimeDown (time) {
@@ -435,10 +400,6 @@ export default {
     },
     toTime (tms) {
       return new Date(tms.year, tms.month - 1, tms.day, tms.hour, tms.minute).getTime()
-    },
-    convertToMinutes (time) {
-      const milisecondsInAMinute = 60000
-      return time / milisecondsInAMinute
     },
     toTimeString (date) {
       return this.$moment(date).format(this.$tc('global.moment.hourLong'))
