@@ -9,8 +9,9 @@
         <v-list-item
           v-for="camp in camps.items"
           :key="camp.id"
-          two-line>
-          <v-list-item-content @click.prevent="goToCamp(camp)">
+          two-line
+          :to="campRoute(camp)">
+          <v-list-item-content>
             <v-list-item-title>{{ camp.title }}</v-list-item-title>
             <v-list-item-subtitle>
               {{ camp.name }} - {{ camp.campType().organization().name }}
@@ -65,10 +66,7 @@ export default {
     }
   },
   methods: {
-    campRoute,
-    goToCamp (camp) {
-      router.push(campRoute(camp))
-    }
+    campRoute
   }
 }
 </script>
