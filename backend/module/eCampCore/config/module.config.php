@@ -54,6 +54,7 @@ return [
             \eCamp\Lib\Acl\Acl::class => \eCamp\Core\Acl\AclFactory::class,
 
             \eCamp\Core\Auth\AuthUserProvider::class => \eCamp\Core\Auth\AuthUserProviderFactory::class,
+            \eCamp\Core\Service\SendmailService::class => \eCamp\Core\Service\SendmailServiceFactory::class,
         ],
 
         // Use lazy services (service proxies) for expensive constructors or in case circular dependencies are needed
@@ -116,6 +117,9 @@ return [
     ],
 
     'ecamp' => [
+        'mail' => [
+            'from' => 'info@ecamp3.ch',
+        ],
         'laminas_mail' => [
             'register' => [
                 'type' => \Laminas\Mime\Mime::MULTIPART_ALTERNATIVE,

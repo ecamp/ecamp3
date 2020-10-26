@@ -11,20 +11,24 @@ use Laminas\Authentication\AuthenticationService;
 class SendmailService extends AbstractService {
     /** @var ProviderInterface */
     private $mailProvider;
+    /** @var string */
+    private $from;
 
     public function __construct(
         ServiceUtils $serviceUtils,
         AuthenticationService $authenticationService,
-        ProviderInterface $mailProvider
+        ProviderInterface $mailProvider,
+        $from
     ) {
         parent::__construct($serviceUtils, $authenticationService);
 
         $this->mailProvider = $mailProvider;
+        $this->from = $from;
     }
 
     public function sendRegisterMail(User $user, $key) {
         $data = new MessageData();
-        $data->from = 'a@b.c';
+        $data->from = $this->from;
         $data->to = $user->getUntrustedMailAddress();
         $data->subject = 'Registered';
         $data->template = 'register';
