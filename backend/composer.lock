@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "276aea3a63aa26c316a22960185a8673",
+    "content-hash": "7b7a3a525e52aa351545161746f77663",
     "packages": [
         {
             "name": "brick/varexporter",
@@ -12147,8 +12147,8 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "hybridauth/hybridauth": 20,
         "laminas/laminas-dependency-plugin": 20,
+        "hybridauth/hybridauth": 20,
         "php-coveralls/php-coveralls": 20
     },
     "prefer-stable": false,
