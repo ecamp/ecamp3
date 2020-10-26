@@ -207,7 +207,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
     }
 
     public function getRole($userId) {
-        if ($this->getOwner()->getId() === $userId) {
+        if ($this->getOwner() && $this->getOwner()->getId() === $userId) {
             return CampCollaboration::ROLE_MANAGER;
         }
 
@@ -232,10 +232,10 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
      * @return bool
      */
     public function isCollaborator($userId) {
-        if ($this->getCreator()->getId() == $userId) {
+        if ($this->getCreator() && $this->getCreator()->getId() == $userId) {
             return true;
         }
-        if ($this->getOwner()->getId() == $userId) {
+        if ($this->getOwner() && $this->getOwner()->getId() == $userId) {
             return true;
         }
 
