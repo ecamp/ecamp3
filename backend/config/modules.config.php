@@ -5,6 +5,7 @@
  * The previous config file has been stored in ./config/modules.config.old
  */
 return [
+    'SlmMail',
     'Laminas\\Session',
     'Laminas\\Cache',
     'Laminas\\Form',
