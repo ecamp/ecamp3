@@ -99,7 +99,14 @@ export default {
 
       // return value from API unless `value` is set explicitly
       } else {
-        return this.api.get(this.uri)[this.fieldname]
+        let val = this.api.get(this.uri)[this.fieldname]
+        if (val instanceof Function) {
+          val = val()
+          if ('items' in val) {
+            val = val.items
+          }
+        }
+        return val
       }
     }
   },

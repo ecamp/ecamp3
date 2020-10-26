@@ -16,5 +16,9 @@ WORKDIR /app
 
 RUN pip install WeasyPrint
 
-CMD python print.py
+RUN pip install pika
+
+RUN pip install requests
+
+CMD python -u print.py
 

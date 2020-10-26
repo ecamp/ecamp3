@@ -2,6 +2,7 @@
 
 namespace eCamp\Core\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use eCamp\Lib\Entity\BaseEntity;
 
@@ -21,6 +22,12 @@ class CampCollaboration extends BaseEntity implements BelongsToCampInterface {
     const STATUS_REQUESTED = 'requested';
     const STATUS_INVITED = 'invited';
     const STATUS_ESTABLISHED = 'established';
+
+    /**
+     * @var ArrayCollection
+     * @ORM\OneToMany(targetEntity="ActivityResponsible", mappedBy="campCollaboration", orphanRemoval=true)
+     */
+    protected $activityResponsibles;
 
     /**
      * @var User
@@ -57,6 +64,7 @@ class CampCollaboration extends BaseEntity implements BelongsToCampInterface {
     public function __construct() {
         parent::__construct();
 
+        $this->activityResponsibles = new ArrayCollection();
         $this->status = self::STATUS_UNRELATED;
         $this->role = self::ROLE_GUEST;
     }
@@ -141,6 +149,23 @@ class CampCollaboration extends BaseEntity implements BelongsToCampInterface {
 
     public function setCollaborationAcceptedBy($collaborationAcceptedBy) {
         $this->collaborationAcceptedBy = $collaborationAcceptedBy;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getActivityResponsibles() {
+        return $this->activityResponsibles;
+    }
+
+    public function addActivityResponsible(ActivityResponsible $activityResponsible) {
+        $activityResponsible->setCampCollaboration($this);
+        $this->activityResponsibles->add($activityResponsible);
+    }
+
+    public function removeActivityResponsible(ActivityResponsible $activityResponsible) {
+        $activityResponsible->setCampCollaboration(null);
+        $this->activityResponsibles->removeElement($activityResponsible);
     }
 
     /**
