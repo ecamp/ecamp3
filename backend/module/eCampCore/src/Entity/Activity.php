@@ -54,7 +54,7 @@ class Activity extends BaseEntity implements BelongsToCampInterface {
      * @var string
      * @ORM\Column(type="text")
      */
-    private $location;
+    private $location = "";
 
     public function __construct() {
         parent::__construct();
