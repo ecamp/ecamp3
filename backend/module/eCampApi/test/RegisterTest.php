@@ -9,7 +9,7 @@ use eCamp\LibTest\PHPUnit\AbstractApiControllerTestCase;
  */
 class RegisterTest extends AbstractApiControllerTestCase {
     public function testRegisterWithoutUsername() {
-        $this->setRequestContent(array('username' => ''));
+        $this->setRequestContent(['username' => '']);
         $this->dispatch('/api/register', 'POST');
 
         $this->assertResponseStatusCode(400);
@@ -17,10 +17,10 @@ class RegisterTest extends AbstractApiControllerTestCase {
     }
 
     public function testRegisterWithoutEmail() {
-        $this->setRequestContent(array(
+        $this->setRequestContent([
             'username' => 'test',
             'email' => '',
-            'password' => ''));
+            'password' => '', ]);
         $this->dispatch('/api/register', 'POST');
 
         $this->assertResponseStatusCode(400);
@@ -28,10 +28,10 @@ class RegisterTest extends AbstractApiControllerTestCase {
     }
 
     public function testRegisterWithoutPassword() {
-        $this->setRequestContent(array(
+        $this->setRequestContent([
             'username' => 'test',
             'email' => 'test@test.com',
-            'password' => ''));
+            'password' => '', ]);
         $this->dispatch('/api/register', 'POST');
 
         $this->assertResponseStatusCode(400);
@@ -39,10 +39,10 @@ class RegisterTest extends AbstractApiControllerTestCase {
     }
 
     public function testRegisterSuccess() {
-        $this->setRequestContent(array(
+        $this->setRequestContent([
             'username' => 'test',
             'email' => 'test@test.com',
-            'password' => '12345'));
+            'password' => '12345', ]);
         $this->dispatch('/api/register', 'POST');
 
         $this->assertResponseStatusCode(200);
@@ -52,4 +52,3 @@ class RegisterTest extends AbstractApiControllerTestCase {
         $this->assertEquals($response->role, 'user');
     }
 }
-

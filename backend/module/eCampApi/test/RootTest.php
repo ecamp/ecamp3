@@ -11,7 +11,7 @@ class RootTest extends AbstractApiControllerTestCase {
     public function testRootResponse() {
         $this->dispatch('/api', 'GET');
 
-        $host = "";
+        $host = '';
         $expectedResponse = <<<JSON
         {
             "title": "eCamp V3 - API",
@@ -19,34 +19,34 @@ class RootTest extends AbstractApiControllerTestCase {
             "authenticated": false,
             "_links": {
                 "profile": {
-                    "href": "http://$host/api/profile"
+                    "href": "http://{$host}/api/profile"
                 },
                 "self": {
-                    "href": "http://$host/api"
+                    "href": "http://{$host}/api"
                 },
                 "auth": {
-                    "href": "http://$host/api/auth"
+                    "href": "http://{$host}/api/auth"
                 },
                 "docu": {
-                    "href": "http://$host/api-tools/swagger"
+                    "href": "http://{$host}/api-tools/swagger"
                 },
                 "admin": {
-                    "href": "http://$host/api-tools/ui"
+                    "href": "http://{$host}/api-tools/ui"
                 },
                 "users": {
-                    "href": "http://$host/api/users{/userId}{?search,page_size}",
+                    "href": "http://{$host}/api/users{/userId}{?search,page_size}",
                     "templated": true
                 },
                 "campTypes": {
-                    "href": "http://$host/api/camp-types{/campTypeId}{?page_size}",
+                    "href": "http://{$host}/api/camp-types{/campTypeId}{?page_size}",
                     "templated": true
                 },
                 "camps": {
-                    "href": "http://$host/api/camps{/campId}{?page_size}",
+                    "href": "http://{$host}/api/camps{/campId}{?page_size}",
                     "templated": true
                 },
                 "scheduleEntries": {
-                    "href": "http://$host/api/schedule-entries{/scheduleEntryId}{?activityId,page_size}",
+                    "href": "http://{$host}/api/schedule-entries{/scheduleEntryId}{?activityId,page_size}",
                     "templated": true
                 }
             }
@@ -54,6 +54,5 @@ class RootTest extends AbstractApiControllerTestCase {
 JSON;
 
         $this->assertEquals(json_decode($expectedResponse), $this->getResponseContent());
-        
     }
 }

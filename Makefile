@@ -24,4 +24,7 @@ run-printer:
 
 
 test:
-	docker exec -it backend ./vendor/phpunit/phpunit/phpunit
+	docker exec -it backend ./vendor/bin/phpunit
+
+lint:
+	docker exec -it backend ./vendor/bin/php-cs-fixer fix

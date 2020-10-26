@@ -44,20 +44,20 @@ abstract class AbstractApiControllerTestCase extends ZendAbstractHttpControllerT
     }
 
     /**
-     * Set request content encoded as JSON
+     * Set request content encoded as JSON.
      *
-     * @param  mixed $content
+     * @param mixed $content
      */
-    protected function setRequestContent($content){
+    protected function setRequestContent($content) {
         $this->getRequest()->setContent(json_encode($content));
     }
 
     /**
-     * Get response content decoded from JSON
+     * Get response content decoded from JSON.
      *
      * @return mixed
      */
-    protected function getResponseContent(){
+    protected function getResponseContent() {
         return json_decode($this->getResponse()->getContent());
     }
 }
