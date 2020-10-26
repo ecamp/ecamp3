@@ -40,7 +40,8 @@
         "rwoverdijk/assetmanager": "^1.8",
         "ezyang/htmlpurifier": "^4.12",
         "sentry/sdk": "2.1.0",
-        "enqueue/amqp-bunny": "^0.10.1"
+        "enqueue/amqp-bunny": "^0.10.1",
+        "slm/mail": "^3.3"
     },
     "require-dev": {
         "phpunit/phpunit": "^6.5",
