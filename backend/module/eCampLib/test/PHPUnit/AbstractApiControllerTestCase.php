@@ -7,7 +7,7 @@ use Doctrine\ORM\Tools\SchemaTool;
 use Doctrine\ORM\Tools\ToolsException;
 use Laminas\Test\PHPUnit\Controller\AbstractHttpControllerTestCase as ZendAbstractHttpControllerTestCase;
 
-abstract class AbstractHttpControllerTestCase extends ZendAbstractHttpControllerTestCase {
+abstract class AbstractApiControllerTestCase extends ZendAbstractHttpControllerTestCase {
     /**
      * @throws ToolsException
      * @throws \Psr\Container\ContainerExceptionInterface
@@ -21,6 +21,10 @@ abstract class AbstractHttpControllerTestCase extends ZendAbstractHttpController
 
         $em = $this->getEntityManager();
         $this->createDatabaseSchema($em);
+
+        $headers = $this->getRequest()->getHeaders();
+        $headers->addHeaderLine('Accept', 'application/json');
+        $headers->addHeaderLine('Content-Type', 'application/json');
     }
 
     protected function getEntityManager($name = null) {
@@ -37,5 +41,23 @@ abstract class AbstractHttpControllerTestCase extends ZendAbstractHttpController
         $schemaTool = new SchemaTool($em);
         $schemaTool->dropDatabase();
         $schemaTool->createSchema($metadatas);
+    }
+
+    /**
+     * Set request content encoded as JSON
+     *
+     * @param  mixed $content
+     */
+    protected function setRequestContent($content){
+        $this->getRequest()->setContent(json_encode($content));
+    }
+
+    /**
+     * Get response content decoded from JSON
+     *
+     * @return mixed
+     */
+    protected function getResponseContent(){
+        return json_decode($this->getResponse()->getContent());
     }
 }

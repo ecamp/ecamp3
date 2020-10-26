@@ -2,27 +2,16 @@
 
 namespace eCamp\ApiTest;
 
-use eCamp\LibTest\PHPUnit\AbstractHttpControllerTestCase;
+use eCamp\LibTest\PHPUnit\AbstractApiControllerTestCase;
 
 /**
  * @internal
  */
-class RootTest extends AbstractHttpControllerTestCase {
+class RootTest extends AbstractApiControllerTestCase {
     public function testRootResponse() {
-        $headers = $this->getRequest()->getHeaders();
-        $headers->addHeaderLine('Accept', 'application/json');
-        $headers->addHeaderLine('Content-Type', 'application/json');
-
         $this->dispatch('/api', 'GET');
 
-        //$req = $this->getRequest();
-        $resp = $this->getResponse();
-
-        //$baseUrl = $req->getBaseUrl();
-        //$basePath = $req->getBasePath();
-
         $host = "";
-
         $expectedResponse = <<<JSON
         {
             "title": "eCamp V3 - API",
@@ -64,7 +53,7 @@ class RootTest extends AbstractHttpControllerTestCase {
         }
 JSON;
 
-        $this->assertEquals(json_decode($expectedResponse), json_decode($resp->getContent()));
+        $this->assertEquals(json_decode($expectedResponse), $this->getResponseContent());
         
     }
 }

@@ -23,13 +23,13 @@ class RegisterController extends ApiController {
 
         $data = (null != $content) ? Json::decode($content) : [];
 
-        if (!isset($data->username)) {
+        if (!isset($data->username) || empty($data->username)) {
             return new ApiProblem(400, 'No username provided');
         }
-        if (!isset($data->email)) {
+        if (!isset($data->email) || empty($data->email)) {
             return new ApiProblem(400, 'No eMail provided');
         }
-        if (!isset($data->password)) {
+        if (!isset($data->password) || empty($data->password)) {
             return new ApiProblem(400, 'No password provided');
         }
 
