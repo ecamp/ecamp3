@@ -21,3 +21,7 @@ run:
 run-printer:
 	docker-compose up -d worker-print-puppeteer
 	docker-compose up -d worker-print-weasy
+
+
+test:
+	docker exec -it backend ./vendor/phpunit/phpunit/phpunit
