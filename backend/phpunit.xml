@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="phpunit.xsd" verbose="true">
+<phpunit
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="phpunit.xsd"
+    bootstrap="autoload.php"
+    verbose="true"
+>
     <php>
         <env name="env" value="test"/>
         <const name="PHPUNIT_TESTSUITE" value="true"/>
     </php>
-
 
     <testsuites>
         <testsuite name="eCamp.Lib">
@@ -25,7 +29,6 @@
         </testsuite>
     </testsuites>
 
-
     <filter>
         <whitelist processUncoveredFilesFromWhitelist="true">
             <directory suffix=".php">module/eCampLib/src</directory>
@@ -35,7 +38,6 @@
             <directory suffix=".php">content-type/eCampTextarea/src</directory>
         </whitelist>
     </filter>
-
 
     <logging>
         <log type="coverage-html" target="./data/codeCoverage" charset="UTF-8" yui="true" highlight="true" lowUpperBound="50" highLowerBound="80" showUncoveredFiles="false" />
