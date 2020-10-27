@@ -32,12 +32,31 @@ class UserRepository extends EntityRepository {
      *
      * @return User
      */
-    public function findByMail($mail) {
+    public function findByTrustedMail($mail) {
         $q = $this->createQueryBuilder('u');
-        $q->leftJoin('u.trustedMailAddress', 'tm');
-        $q->leftJoin('u.untrustedMailAddress', 'utm');
-        $q->where($q->expr()->orX('tm.mail = :mail', 'utm.mail = :mail'));
+        $q->join('u.trustedMailAddress', 'tm');
+        $q->where('tm.mail = :mail');
+        $q->setParameter('mail', $mail);
 
+        try {
+            $q->setMaxResults(1);
+
+            return $q->getQuery()->getOneOrNullResult();
+        } catch (NonUniqueResultException $e) {
+            // This shouldn't ever happen
+            return null;
+        }
+    }
+
+    /**
+     * @param string $mail
+     *
+     * @return User
+     */
+    public function findByUntrustedMail($mail) {
+        $q = $this->createQueryBuilder('u');
+        $q->join('u.untrustedMailAddress', 'utm');
+        $q->where('utm.mail = :mail');
         $q->setParameter('mail', $mail);
 
         try {

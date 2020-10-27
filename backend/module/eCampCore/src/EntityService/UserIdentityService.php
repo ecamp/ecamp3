@@ -5,6 +5,7 @@ namespace eCamp\Core\EntityService;
 use Doctrine\ORM\ORMException;
 use eCamp\Core\Entity\User;
 use eCamp\Core\Entity\UserIdentity;
+use eCamp\Core\Hydrator\UserHydrator;
 use eCamp\Core\Hydrator\UserIdentityHydrator;
 use eCamp\Lib\Acl\NoAccessException;
 use eCamp\Lib\Service\ServiceUtils;
@@ -49,7 +50,7 @@ class UserIdentityService extends AbstractEntityService {
         if ($existingIdentity) {
             $user = $existingIdentity->getUser();
         } else {
-            $user = $this->userService->findByMail($profile->emailVerified);
+            $user = $this->userService->findByTrustedMail($profile->emailVerified);
         }
 
         if (null === $user) {
@@ -58,7 +59,7 @@ class UserIdentityService extends AbstractEntityService {
         } else {
             // Update user
             // Is this necessary?
-            $userHydrator = $this->userService->getHydrator();
+            $userHydrator = new UserHydrator();
             $user = $userHydrator->hydrate([
                 'firstname' => $profile->firstName,
                 'surname' => $profile->lastName,
