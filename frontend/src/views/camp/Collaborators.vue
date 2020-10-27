@@ -106,13 +106,13 @@ export default {
     },
     searchResults () {
       if (this.search.length >= 3) {
-        const filterUsers = this.collaborators.filter(
-          c => c.user !== undefined
-        ).map(
-          c => c.user().id
-        )
+        const filterUserIds = [
+          ...this.establishedCollaborators,
+          ...this.requestedCollaborators,
+          ...this.invitedCollaborators
+        ].map(c => c.user().id)
         return this.api.get().users({ search: this.search }).items.filter(
-          u => !filterUsers.includes(u.id)
+          u => !filterUserIds.includes(u.id)
         )
       }
       return []

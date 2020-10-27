@@ -140,10 +140,15 @@ export default {
   },
   computed: {
     availableCampCollaborations () {
-      return this.campCollaborations.map(cc => {
+      const currentCampCollaborationIds = this.activity.campCollaborations().items.map(cc => cc.id)
+      return this.campCollaborations.filter(cc => {
+        return (cc.status === 'established') || (currentCampCollaborationIds.includes(cc.id))
+      }).map(value => {
+        const leaved = value.status !== 'established'
+        const text = value.user().username + (leaved ? ' (Lager verlassen)' : '')
         return {
-          value: cc,
-          text: cc.user().username
+          value,
+          text
         }
       })
     },

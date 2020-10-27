@@ -48,10 +48,10 @@ class DayService extends AbstractEntityService {
      */
     protected function deleteEntity(BaseEntity $entity) {
         /** @var Day $day */
-        $day = parent::deleteEntity($entity);
+        $day = $entity;
         $day->getPeriod()->removeDay($day);
 
-        return $day;
+        return true;
     }
 
     protected function fetchAllQueryBuilder($params = []) {
