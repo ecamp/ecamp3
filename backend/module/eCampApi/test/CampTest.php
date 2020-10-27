@@ -3,50 +3,65 @@
 namespace eCamp\ApiTest;
 
 use eCamp\Core\Entity\Camp;
+use eCamp\Core\Entity\CampCollaboration;
 use eCamp\Core\Entity\CampType;
 use eCamp\Core\Entity\Organization;
 use eCamp\Core\Entity\User;
-use eCamp\Core\EntityService\UserService;
 use eCamp\LibTest\PHPUnit\AbstractApiControllerTestCase;
-use Laminas\Authentication\AuthenticationService;
 
 /**
  * @internal
  */
 class CampTest extends AbstractApiControllerTestCase {
-    public function testCampFetch() {
-        $user = $this->createAndAuthenticateUser();
+    /** @var Camp */
+    protected $camp;
 
-        $organization = new Organization();
-        $organization->setName('Organization');
+    /** @var User */
+    protected $user;
 
-        $campType = new CampType();
-        $campType->setName('CampType');
-        $campType->setIsJS(false);
-        $campType->setIsCourse(false);
-        $campType->setOrganization($organization);
+    /** @var Organization */
+    protected $organization;
 
-        $camp = new Camp();
-        $camp->setName('CampName');
-        $camp->setTitle('CampTitle');
-        $camp->setMotto('CampMotto');
-        $camp->setCampType($campType);
-        $camp->setCreator($user);
-        $camp->setOwner($user);
+    /** @var CampType */
+    protected $campType;
 
-        $this->getEntityManager()->persist($camp);
-        $this->getEntityManager()->persist($campType);
-        $this->getEntityManager()->persist($organization);
+    public function setUp() {
+        parent::setUp();
+
+        $this->user = $this->createAndAuthenticateUser();
+
+        $this->organization = new Organization();
+        $this->organization->setName('Organization');
+
+        $this->campType = new CampType();
+        $this->campType->setName('CampType');
+        $this->campType->setIsJS(false);
+        $this->campType->setIsCourse(false);
+        $this->campType->setOrganization($this->organization);
+
+        $this->camp = new Camp();
+        $this->camp->setName('CampName');
+        $this->camp->setTitle('CampTitle');
+        $this->camp->setMotto('CampMotto');
+        $this->camp->setCampType($this->campType);
+        $this->camp->setCreator($this->user);
+        $this->camp->setOwner($this->user);
+
+        $this->getEntityManager()->persist($this->camp);
+        $this->getEntityManager()->persist($this->campType);
+        $this->getEntityManager()->persist($this->organization);
         $this->getEntityManager()->flush();
+    }
 
-        $this->dispatch("/api/camps/{$camp->getId()}", 'GET');
+    public function testCampFetch() {
+        $this->dispatch("/api/camps/{$this->camp->getId()}", 'GET');
 
         $this->assertResponseStatusCode(200);
 
         $host = '';
         $expectedResponse = <<<JSON
             {
-                "id": "{$camp->getId()}",
+                "id": "{$this->camp->getId()}",
                 "name": "CampName",
                 "title": "CampTitle",
                 "motto": "CampMotto",
@@ -55,12 +70,12 @@ class CampTest extends AbstractApiControllerTestCase {
                     "creator": {
                         "_links": {
                             "self": {
-                                "href": "http://{$host}/api/users/{$user->getId()}"
+                                "href": "http://{$host}/api/users/{$this->user->getId()}"
                             }
                         }
                     },
                     "campType": {
-                        "id": "{$campType->getId()}",
+                        "id": "{$this->campType->getId()}",
                         "name": "CampType",
                         "isJS": false,
                         "isCourse": false,
@@ -68,7 +83,7 @@ class CampTest extends AbstractApiControllerTestCase {
                             "organization": {
                                 "_links": {
                                     "self": {
-                                        "href": "http://{$host}/api/organizations/{$organization->getId()}"
+                                        "href": "http://{$host}/api/organizations/{$this->organization->getId()}"
                                     }
                                 }
                             },
@@ -76,7 +91,7 @@ class CampTest extends AbstractApiControllerTestCase {
                         },
                         "_links": {
                             "self": {
-                                "href": "http://{$host}/api/camp-types/{$campType->getId()}"
+                                "href": "http://{$host}/api/camp-types/{$this->campType->getId()}"
                             }
                         }
                     },
@@ -86,10 +101,10 @@ class CampTest extends AbstractApiControllerTestCase {
                 },
                 "_links": {
                     "self": {
-                        "href": "http://{$host}/api/camps/{$camp->getId()}"
+                        "href": "http://{$host}/api/camps/{$this->camp->getId()}"
                     },
                     "activities": {
-                        "href": "http://{$host}/api/activities?campId={$camp->getId()}"
+                        "href": "http://{$host}/api/activities?campId={$this->camp->getId()}"
                     }
                 }
             }
@@ -98,34 +113,46 @@ JSON;
         $this->assertEquals(json_decode($expectedResponse), $this->getResponseContent());
     }
 
-    protected function createAndAuthenticateUser() {
-        $user = new User();
-        $user->setRole(User::ROLE_USER);
-        $user->setState(User::STATE_ACTIVATED);
+    public function testCampCreateWithoutName() {
+        $this->setRequestContent([
+            'name' => '', ]);
 
-        $this->getEntityManager()->persist($user);
+        $this->dispatch('/api/camps', 'POST');
 
-        /** @var AuthenticationService $auth */
-        $auth = $this->getApplicationServiceLocator()->get(AuthenticationService::class);
-        $auth->getStorage()->write($user->getId());
-
-        return $user;
+        $this->assertResponseStatusCode(422);
+        $this->assertObjectHasAttribute('isEmpty', $this->getResponseContent()->validation_messages->name);
+        $this->assertObjectHasAttribute('isEmpty', $this->getResponseContent()->validation_messages->title);
+        $this->assertObjectHasAttribute('isEmpty', $this->getResponseContent()->validation_messages->motto);
     }
 
-    // protected function createAndAuthenticateUser() {
-    //     /** @var UserService $userService */
-    //     $userService = $this->getApplicationServiceLocator()->get(UserService::class);
+    public function testCampCreateSuccess() {
+        $this->setRequestContent([
+            'name' => 'CampName2',
+            'title' => 'CampTitle',
+            'motto' => 'CampMotto',
+            'campTypeId' => $this->campType->getId(), ]);
 
-    //     /** @var AuthenticationService $auth */
-    //     $auth = $this->getApplicationServiceLocator()->get(AuthenticationService::class);
+        $this->dispatch('/api/camps', 'POST');
 
-    //     $user = $userService->create((object) [
-    //         'username' => 'test',
-    //         'mailAddress' => 'test@ecamp3.ch',
-    //     ]);
+        $this->assertResponseStatusCode(201);
+        $this->assertEquals('CampName2', $this->getResponseContent()->name);
+        $this->assertEquals(CampCollaboration::ROLE_MANAGER, $this->getResponseContent()->role);
+    }
 
-    //     $auth->getStorage()->write($user->getId());
+    public function testCampUpdateSuccess() {
+        $this->setRequestContent([
+            'name' => 'CampName3',
+            'title' => 'CampTitle3',
+            'motto' => 'CampMotto3', ]);
 
-    //     return $user;
-    // }
+        $this->dispatch("/api/camps/{$this->camp->getId()}", 'PATCH');
+
+        $this->assertResponseStatusCode(200);
+
+        $this->assertEquals('CampName', $this->getResponseContent()->name); // camp name not changeable
+
+        $this->assertEquals('CampTitle3', $this->getResponseContent()->title);
+        $this->assertEquals('CampMotto3', $this->getResponseContent()->motto);
+        $this->assertEquals('CampTitle3', $this->camp->getTitle());
+    }
 }

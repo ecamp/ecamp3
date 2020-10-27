@@ -5,6 +5,8 @@ namespace eCamp\LibTest\PHPUnit;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Tools\SchemaTool;
 use Doctrine\ORM\Tools\ToolsException;
+use eCamp\Core\Entity\User;
+use Laminas\Authentication\AuthenticationService;
 use Laminas\Test\PHPUnit\Controller\AbstractHttpControllerTestCase as ZendAbstractHttpControllerTestCase;
 
 abstract class AbstractApiControllerTestCase extends ZendAbstractHttpControllerTestCase {
@@ -59,5 +61,25 @@ abstract class AbstractApiControllerTestCase extends ZendAbstractHttpControllerT
      */
     protected function getResponseContent() {
         return json_decode($this->getResponse()->getContent());
+    }
+
+    /**
+     * Creates a new user and authenticates it as the current user.
+     *
+     * @return User
+     */
+    protected function createAndAuthenticateUser() {
+        $user = new User();
+        $user->setRole(User::ROLE_USER);
+        $user->setState(User::STATE_ACTIVATED);
+
+        $this->getEntityManager()->persist($user);
+        $this->getEntityManager()->flush();
+
+        /** @var AuthenticationService $auth */
+        $auth = $this->getApplicationServiceLocator()->get(AuthenticationService::class);
+        $auth->getStorage()->write($user->getId());
+
+        return $user;
     }
 }
