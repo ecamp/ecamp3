@@ -327,8 +327,8 @@ export default {
           this.showEntryInfoPopup(this.draggedEntry)
         } else if (!this.draggedEntry.tmpEvent) {
           const patchedScheduleEntry = {
-            startTime: this.draggedEntry.startTime,
-            endTime: this.draggedEntry.endTime
+            periodOffset: this.draggedEntry.periodOffset,
+            length: this.draggedEntry.length
           }
           this.api.patch(this.draggedEntry._meta.self, patchedScheduleEntry).then(scheduleEntry => this.scheduleEntries.items.push(scheduleEntry))
         }
