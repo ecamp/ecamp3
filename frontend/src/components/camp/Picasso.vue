@@ -63,6 +63,17 @@ Listing all given activity schedule entries in a calendar view.
       </template>
     </v-calendar>
 
+    <v-snackbar v-model="isSaving" light>
+      <template v-if="patchError">
+        <v-icon>mdi-alert</v-icon>
+        {{ patchError }}
+      </template>
+      <template v-else>
+        <v-icon class="mdi-spin">mdi-loading</v-icon>
+        {{ $tc('global.button.saving') }}
+      </template>
+    </v-snackbar>
+
     <dialog-activity-create
       ref="dialogActivityCreate"
       :schedule-entry="popupEntry" @activityCreated="tempScheduleEntry = null" />
@@ -114,6 +125,8 @@ export default {
       maxDays: 100,
       entryWidth: 80,
       value: '',
+      isSaving: false,
+      patchError: false,
       draggedEntry: null,
       currentEntry: null,
       mouseStartTime: null,
@@ -330,7 +343,13 @@ export default {
             periodOffset: this.draggedEntry.periodOffset,
             length: this.draggedEntry.length
           }
-          this.api.patch(this.draggedEntry._meta.self, patchedScheduleEntry)
+          this.isSaving = true
+          this.api.patch(this.draggedEntry._meta.self, patchedScheduleEntry).then(() => {
+            this.patchError = false
+            this.isSaving = false
+          }).catch((error) => {
+            this.patchError = error
+          })
         }
         this.clearDraggedEntry()
       } else if (this.currentEntry && this.currentStartTime !== null) {
@@ -343,7 +362,13 @@ export default {
             periodOffset: this.currentEntry.periodOffset,
             length: this.currentEntry.length
           }
-          this.api.patch(this.currentEntry._meta.self, patchedScheduleEntry)
+          this.isSaving = true
+          this.api.patch(this.currentEntry._meta.self, patchedScheduleEntry).then(() => {
+            this.patchError = false
+            this.isSaving = false
+          }).catch((error) => {
+            this.patchError = error
+          })
         }
         this.clearCurrentEntry()
       }
