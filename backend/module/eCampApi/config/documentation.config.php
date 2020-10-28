@@ -1,5 +1,7 @@
 <?php
 
+error_reporting(E_ALL & ~E_DEPRECATED);
+
 return [
     'eCampApi\\V1\\Rpc\\Index\\Controller' => [
         'description' => 'Entrypoint',
