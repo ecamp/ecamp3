@@ -29,7 +29,7 @@ async function register ({ username, email, password }) {
   return post(url, { username, email, password })
 }
 
-async function oAuthLoginInSeparateWindow (provider) {
+async function redirectToOAuthLogin (provider) {
   let returnUrl = window.location.origin + router.resolve({ name: 'loginCallback' }).href
 
   const params = new URLSearchParams(window.location.search)
@@ -43,11 +43,11 @@ async function oAuthLoginInSeparateWindow (provider) {
 }
 
 async function loginGoogle () {
-  return oAuthLoginInSeparateWindow('google')
+  return redirectToOAuthLogin('google')
 }
 
 async function loginPbsMiData () {
-  return oAuthLoginInSeparateWindow('pbsmidata')
+  return redirectToOAuthLogin('pbsmidata')
 }
 
 export async function logout () {
