@@ -3,11 +3,13 @@
     "notes": {
       "add": "Add notes",
       "entity": {},
+      "icon": "mdi-comment-text-outline", 
       "name": "Notes"
     },
     "safetyConcept": {
       "add": "Add safety concept",
       "entity": {},
+      "icon": "mdi-security",
       "name": "safety concept"
     },
     "storyboard": {
@@ -22,11 +24,13 @@
           "name": "Storyboard | Storyboards"
         }
       },
+      "icon": "mdi-book-open-page-variant",
       "name": "storyboard"
     },
     "storycontext": {
       "add": "Add story context",
       "entity": {},
+      "icon": "mdi-script-text-outline",
       "name": "story concept"
     }
   },
