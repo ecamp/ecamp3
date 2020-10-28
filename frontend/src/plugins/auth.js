@@ -37,17 +37,17 @@ async function oAuthLoginInSeparateWindow (provider) {
     returnUrl += '?redirect=' + params.get('redirect')
   }
 
-  href(get().auth(), provider, { callback: encodeURI(returnUrl) }).then(url => {
+  return href(get().auth(), provider, { callback: encodeURI(returnUrl) }).then(url => {
     window.location.href = url
   })
 }
 
 async function loginGoogle () {
-  oAuthLoginInSeparateWindow('google')
+  return oAuthLoginInSeparateWindow('google')
 }
 
 async function loginPbsMiData () {
-  oAuthLoginInSeparateWindow('pbsmidata')
+  return oAuthLoginInSeparateWindow('pbsmidata')
 }
 
 export async function logout () {
