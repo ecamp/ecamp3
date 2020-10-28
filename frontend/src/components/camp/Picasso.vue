@@ -330,7 +330,7 @@ export default {
             periodOffset: this.draggedEntry.periodOffset,
             length: this.draggedEntry.length
           }
-          this.api.patch(this.draggedEntry._meta.self, patchedScheduleEntry).then(scheduleEntry => this.scheduleEntries.items.push(scheduleEntry))
+          this.api.patch(this.draggedEntry._meta.self, patchedScheduleEntry)
         }
         this.clearDraggedEntry()
       } else if (this.currentEntry && this.currentStartTime !== null) {
