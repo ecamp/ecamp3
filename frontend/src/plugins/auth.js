@@ -30,23 +30,24 @@ async function register ({ username, email, password }) {
 }
 
 async function oAuthLoginInSeparateWindow (provider) {
-  return new Promise(resolve => {
-    // Make the promise resolve function available on global level, so the separate window can call it
-    window.afterLogin = resolve
+  let returnUrl = window.location.origin + router.resolve({ name: 'loginCallback' }).href
 
-    const returnUrl = window.location.origin + router.resolve({ name: 'loginCallback' }).href
-    href(get().auth(), provider, { callback: encodeURI(returnUrl) }).then(url => {
-      window.open(url, '', 'width=500px,height=600px')
-    })
+  const params = new URLSearchParams(window.location.search)
+  if (params.has('redirect')) {
+    returnUrl += '?redirect=' + params.get('redirect')
+  }
+
+  href(get().auth(), provider, { callback: encodeURI(returnUrl) }).then(url => {
+    window.location.href = url
   })
 }
 
 async function loginGoogle () {
-  return oAuthLoginInSeparateWindow('google').then(() => refreshLoginStatus())
+  oAuthLoginInSeparateWindow('google')
 }
 
 async function loginPbsMiData () {
-  return oAuthLoginInSeparateWindow('pbsmidata').then(() => refreshLoginStatus())
+  oAuthLoginInSeparateWindow('pbsmidata')
 }
 
 export async function logout () {
