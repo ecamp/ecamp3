@@ -68,6 +68,7 @@ class ProfileController extends AbstractActionController {
             'role' => $user->getRole(),
             'language' => $user->getLanguage(),
             'birthday' => Util::extractDate($user->getBirthday()),
+            'lastCampId' => $user->getLastCampId(),
         ];
     }
 
@@ -92,6 +93,9 @@ class ProfileController extends AbstractActionController {
         }
         if (isset($data->birthday)) {
             $user->setBirthday(Util::parseDate($data->birthday));
+        }
+        if (isset($data->lastCampId)) {
+            $user->setLastCampId($data->lastCampId);
         }
 
         return $this->getAction($user);

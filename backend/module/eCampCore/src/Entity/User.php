@@ -118,6 +118,12 @@ class User extends AbstractCampOwner implements RoleInterface {
      */
     private $birthday;
 
+    /**
+     * @var string
+     * @ORM\Column(type="string", length=16, nullable=true)
+     */
+    private $lastCampId;
+
     public function __construct() {
         parent::__construct();
 
@@ -328,6 +334,14 @@ class User extends AbstractCampOwner implements RoleInterface {
             $birthday->setTime(0, 0, 0);
         }
         $this->birthday = $birthday;
+    }
+
+    public function getLastCampId() {
+        return $this->lastCampId;
+    }
+
+    public function setLastCampId($lastCampId) {
+        $this->lastCampId = $lastCampId;
     }
 
     public function getGroupMemberships(): ArrayCollection {

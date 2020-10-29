@@ -11,12 +11,29 @@
 </template>
 <script>
 import { refreshLoginStatus } from '@/plugins/auth'
+import { get } from '@/plugins/store/apiPlugin'
 
 export default {
   name: 'LoginCallback',
   beforeRouteEnter (to, from, next) {
-    refreshLoginStatus()
-    next(decodeURI(to.query.redirect || '/'))
+    const redirect = to.query.redirect
+    if (refreshLoginStatus()) {
+      if (redirect) {
+        // Redirect is set, go to this page
+        next(decodeURI(redirect))
+      } else {
+        // If lastCampId is set, goto camp
+        get().profile()._meta.load.then(p => {
+          if (p.lastCampId) {
+            next({ name: 'camp/program', params: { campId: p.lastCampId } })
+          } else {
+            next('/')
+          }
+        })
+      }
+    } else {
+      next({ name: 'login', query: { redirect } })
+    }
   }
 }
 </script>
