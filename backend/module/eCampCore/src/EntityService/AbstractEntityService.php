@@ -302,13 +302,29 @@ abstract class AbstractEntityService extends AbstractResourceListener {
     }
 
     /**
+     * @return true if User is authenticated
+     */
+    protected function isAuthenticated() {
+        return $this->authenticationService->hasIdentity();
+    }
+
+    /**
+     * @throws NoAccessException if no user is authenticated
+     */
+    protected function assertAuthenticated() {
+        if (!$this->isAuthenticated()) {
+            throw new NoAccessException();
+        }
+    }
+
+    /**
      * @return Guest|User
      */
     protected function getAuthUser() {
         /** @var User $user */
         $user = new Guest();
 
-        if ($this->authenticationService->hasIdentity()) {
+        if ($this->isAuthenticated()) {
             $userRepository = $this->serviceUtils->emGetRepository(User::class);
             $userId = $this->authenticationService->getIdentity();
             $user = $userRepository->find($userId);

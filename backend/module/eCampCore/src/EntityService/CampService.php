@@ -60,6 +60,8 @@ class CampService extends AbstractEntityService {
      * @return Camp
      */
     protected function createEntity($data) {
+        $this->assertAuthenticated();
+
         /** @var CampType $campType */
         $campType = $this->findEntity(CampType::class, $data->campTypeId);
 
