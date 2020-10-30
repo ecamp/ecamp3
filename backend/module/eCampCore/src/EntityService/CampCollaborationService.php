@@ -32,6 +32,8 @@ class CampCollaborationService extends AbstractEntityService {
      * @return ApiProblem|CampCollaboration
      */
     protected function createEntity($data) {
+        $this->assertAuthenticated();
+
         $authUser = $this->getAuthUser();
         if (!isset($data->userId)) {
             $data->userId = $authUser->getId();
