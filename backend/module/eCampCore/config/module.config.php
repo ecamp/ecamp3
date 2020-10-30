@@ -60,13 +60,13 @@ return [
         // Use lazy services (service proxies) for expensive constructors or in case circular dependencies are needed
         'lazy_services' => [
             'class_map' => [
-                \eCamp\Core\EntityService\ActivityCategoryService::class => \eCamp\Core\EntityService\ActivityCategoryService::class,
+                //\eCamp\Core\EntityService\ActivityCategoryService::class => \eCamp\Core\EntityService\ActivityCategoryService::class,
             ],
         ],
         'delegators' => [
-            \eCamp\Core\EntityService\ActivityCategoryService::class => [
-                Laminas\ServiceManager\Proxy\LazyServiceFactory::class,
-            ],
+            //\eCamp\Core\EntityService\ActivityCategoryService::class => [
+            //    Laminas\ServiceManager\Proxy\LazyServiceFactory::class,
+            //],
         ],
     ],
 

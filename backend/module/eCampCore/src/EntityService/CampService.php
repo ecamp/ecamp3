@@ -88,17 +88,19 @@ class CampService extends AbstractEntityService {
         $campType = $camp->getCampType();
 
         /** Create default Jobs */
+        /*
         $jobConfigs = $campType->getConfig(CampType::CNF_JOBS) ?: [];
         foreach ($jobConfigs as $jobConfig) {
             $jobConfig->campId = $camp->getId();
             $this->getJobService()->create($jobConfig);
         }
+        */
 
         /** Create default ActivityCategories: */
-        $ecConfigs = $campType->getConfig(CampType::CNF_EVENT_CATEGORIES) ?: [];
-        foreach ($ecConfigs as $ecConfig) {
-            $ecConfig->campId = $camp->getId();
-            $this->getActivityCategoryService()->create($ecConfig);
+        $acConfigs = $campType->getConfig(CampType::CNF_ACTIVITY_CATEGORIES) ?: [];
+        foreach ($acConfigs as $acConfig) {
+            $acConfig->campId = $camp->getId();
+            $this->activityCategoryService->create($acConfig);
         }
 
         // Create Periods:
@@ -108,13 +110,6 @@ class CampService extends AbstractEntityService {
                 $period->campId = $camp->getId();
                 $this->periodService->create($period);
             }
-        } elseif (isset($data->start, $data->end)) {
-            $this->getPeriodService()->create((object) [
-                'campId' => $camp->getId(),
-                'description' => 'Main',
-                'start' => $data->start,
-                'end' => $data->end,
-            ]);
         }
 
         return $camp;

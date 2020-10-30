@@ -26,6 +26,7 @@ class CampTypeData extends AbstractFixture implements DependentFixtureInterface 
             $campType->setOrganization($pbs);
             $campType->setIsJS(true);
             $campType->setIsCourse(false);
+            $campType->setJsonConfig($this->getJsonConfig());
 
             $manager->persist($campType);
         }
@@ -44,6 +45,7 @@ class CampTypeData extends AbstractFixture implements DependentFixtureInterface 
             $campType->setOrganization($pbs);
             $campType->setIsJS(true);
             $campType->setIsCourse(false);
+            $campType->setJsonConfig($this->getJsonConfig());
 
             $manager->persist($campType);
         }
@@ -60,5 +62,28 @@ class CampTypeData extends AbstractFixture implements DependentFixtureInterface 
 
     public function getDependencies() {
         return [OrganizationData::class, ActivityTypeData::class];
+    }
+
+    private function getJsonConfig() {
+        $lagersport = $this->getReference(ActivityTypeData::$LAGERSPORT);
+        $lageraktivitaet = $this->getReference(ActivityTypeData::$LAGERAKTIVITAET);
+
+        return json_encode([
+            CampType::CNF_ACTIVITY_CATEGORIES => [
+                [
+                    'activityTypeId' => $lagersport->getId(),
+                    'short' => 'LS',
+                    'name' => $lagersport->getName(),
+                    'color' => $lagersport->getDefaultColor(),
+                    'numberingStyle' => $lagersport->getDefaultNumberingStyle(),
+                ], [
+                    'activityTypeId' => $lageraktivitaet->getId(),
+                    'short' => 'LA',
+                    'name' => $lageraktivitaet->getName(),
+                    'color' => $lageraktivitaet->getDefaultColor(),
+                    'numberingStyle' => $lageraktivitaet->getDefaultNumberingStyle(),
+                ],
+            ],
+        ]);
     }
 }
