@@ -8,22 +8,16 @@ class ConfigFactory {
      * params String $namePlural   Specify non-standard plural names.
      * params String $entityName   Specify entity name if it deviates from main name.
      */
-    public static function createConfig(string $name, ?String $namePlural = null, ?String $entityName = null) {
-        // used in class namespace (PascalCase)
-        $namespace = $name;
-
-        // used in folder structure (Prefix + PascalCase)
-        $folder = 'eCamp'.$name;
-
+    public static function createConfig(string $name, ?String $namePlural = null) {
         // route name
         $route = 'e-camp-api.rest.doctrine.'.self::pascalToKebabCase($name);
 
-        // URI (lower case) + plural
+        // URI (kebab case) + plural
         $apiEndpoint = !is_null($namePlural) ? $namePlural : $name.'s';
         $apiEndpoint = self::pascalToKebabCase($apiEndpoint);
 
-        // name of entity ($namespace s fallback)
-        $entity = !is_null($entityName) ? $entityName : $namespace;
+        // name of entity
+        $entity = $name;
 
         // property prefix (camelCase)
         $propertyPrefix = lcfirst($entity);
