@@ -1,12 +1,11 @@
 # composer stage
-FROM composer:1.8 AS composer-stage
+FROM composer:2 AS composer-stage
 WORKDIR /app
 ENV env=prod
 COPY backend/composer.* ./
 RUN composer install --no-interaction --no-plugins --no-scripts --prefer-dist --no-suggest
 COPY backend .
-# Deactivated for now because it doesn't work and isn't needed right now
-#RUN docker-php-ext-install pdo_mysql && composer di-generate-aot
+RUN docker-php-ext-install pdo_mysql && composer di-generate-aot
 
 # production stage
 FROM php:7.4.2-apache AS production-stage
