@@ -144,8 +144,8 @@ export default {
       return this.campCollaborations.filter(cc => {
         return (cc.status === 'established') || (currentCampCollaborationIds.includes(cc.id))
       }).map(value => {
-        const leaved = value.status !== 'established'
-        const text = value.user().username + (leaved ? ' (Lager verlassen)' : '')
+        const left = value.status === 'left'
+        const text = value.user().username + (left ? (' (' + this.$tc('entity.campCollaboration.campLeft')) + ')' : '')
         return {
           value,
           text

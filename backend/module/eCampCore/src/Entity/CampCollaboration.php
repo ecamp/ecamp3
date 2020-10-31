@@ -22,7 +22,7 @@ class CampCollaboration extends BaseEntity implements BelongsToCampInterface {
     const STATUS_REQUESTED = 'requested';
     const STATUS_INVITED = 'invited';
     const STATUS_ESTABLISHED = 'established';
-    const STATUS_LEFT = 'leaved';
+    const STATUS_LEFT = 'left';
 
     const VALID_STATUS = [
         self::STATUS_INVITED,
