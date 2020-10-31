@@ -76,7 +76,7 @@ Listing all given activity schedule entries in a calendar view.
 
     <dialog-activity-create
       ref="dialogActivityCreate"
-      :schedule-entry="popupEntry" @activityCreated="tempScheduleEntry = null" />
+      :schedule-entry="popupEntry" @activityCreated="afterCreateActivity($event)" />
     <dialog-activity-edit
       ref="dialogActivityEdit"
       :schedule-entry="popupEntry" />
@@ -175,24 +175,7 @@ export default {
   },
   watch: {
     apiScheduleEntries (value) {
-      this.scheduleEntries = value.items.map((entry) => {
-        return {
-          ...entry,
-          timed: true,
-          get startTime () {
-            return this.period().start + (this.periodOffset * 60000)
-          },
-          set startTime (value) {
-            this.periodOffset = (value - this.period().start) / 60000
-          },
-          get endTime () {
-            return this.startTime + (this.length * 60000)
-          },
-          set endTime (value) {
-            this.length = (value - this.startTime) / 60000
-          }
-        }
-      })
+      this.scheduleEntries = value.items.map(entry => mapScheduleEntries(entry))
     }
   },
   methods: {
@@ -270,23 +253,11 @@ export default {
     },
     createNewEntry: function (mouse) {
       this.currentStartTime = this.roundTimeDown(mouse)
-      this.currentEntry = {
+      this.currentEntry = mapScheduleEntries({
         number: null,
         period: (this.period)(),
         periodOffset: 0,
         length: 0,
-        get startTime () {
-          return this.period.start + (this.periodOffset * 60000)
-        },
-        set startTime (value) {
-          this.periodOffset = (value - this.period.start) / 60000
-        },
-        get endTime () {
-          return this.startTime + (this.length * 60000)
-        },
-        set endTime (value) {
-          this.length = (value - this.startTime) / 60000
-        },
         activity: () => ({
           title: this.$tc('entity.activity.new'),
           location: '',
@@ -297,9 +268,8 @@ export default {
             color: 'grey elevation-4 v-event--temporary'
           })
         }),
-        timed: true,
         tmpEvent: true
-      }
+      })
       this.currentEntry.startTime = this.currentStartTime
       this.currentEntry.endTime = this.currentStartTime
       this.tempScheduleEntry = this.currentEntry
@@ -417,6 +387,11 @@ export default {
         }
       })
     },
+    afterCreateActivity (data) {
+      this.api.reload(this.period().scheduleEntries())
+      this.scheduleEntries.push(...data.scheduleEntries().items.map(entry => mapScheduleEntries(entry)))
+      this.tempScheduleEntry = null
+    },
     roundTimeDown (time) {
       const roundTo = 15 // minutes
       const roundDownTime = roundTo * 60 * 1000
@@ -437,6 +412,25 @@ export default {
     },
     rnd (a, b) {
       return Math.floor((b - a + 1) * Math.random()) + a
+    }
+  }
+}
+
+function mapScheduleEntries (entry) {
+  return {
+    ...entry,
+    timed: true,
+    get startTime () {
+      return this.period().start + (this.periodOffset * 60000)
+    },
+    set startTime (value) {
+      this.periodOffset = (value - this.period().start) / 60000
+    },
+    get endTime () {
+      return this.startTime + (this.length * 60000)
+    },
+    set endTime (value) {
+      this.length = (value - this.startTime) / 60000
     }
   }
 }

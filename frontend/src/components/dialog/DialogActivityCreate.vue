@@ -69,10 +69,16 @@ export default {
   },
   methods: {
     createActivity () {
-      return this.create().then(() => {
-        this.api.reload(this.scheduleEntry.period.scheduleEntries()).then(
-          this.$emit('activityCreated')
-        )
+      return this.create()
+    },
+    create () {
+      this.error = null
+      return this.api.post(this.entityUri, this.entityData).then(this.createSuccessful, this.onError)
+    },
+    createSuccessful (data) {
+      data.scheduleEntries()._meta.load.then(() => {
+        this.close()
+        this.$emit('activityCreated', data)
       })
     }
   }
