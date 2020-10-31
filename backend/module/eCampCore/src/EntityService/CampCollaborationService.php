@@ -141,8 +141,6 @@ class CampCollaborationService extends AbstractEntityService {
         } elseif ($campCollaboration->isRequest()) {
             $campCollaboration = $this->updateRequest($campCollaboration, $data);
         }
-
-        return false;
     }
 
     protected function fetchAllQueryBuilder($params = []) {
