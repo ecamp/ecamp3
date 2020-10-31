@@ -5,7 +5,7 @@ ENV env=prod
 COPY backend/composer.* ./
 RUN composer install --no-interaction --no-plugins --no-scripts --prefer-dist --no-suggest
 COPY backend .
-RUN docker-php-ext-install pdo_mysql && composer di-generate-aot
+RUN composer di-generate-aot
 
 # production stage
 FROM php:7.4.2-apache AS production-stage

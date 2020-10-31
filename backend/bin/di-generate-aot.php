@@ -4,13 +4,9 @@ namespace eCamp\AoT;
 
 use Laminas\Code\Scanner\DirectoryScanner;
 use Laminas\Di\CodeGenerator\InjectorGenerator;
-use Laminas\Di\Config;
-use Laminas\Di\Definition\RuntimeDefinition;
-use Laminas\Di\Resolver\DependencyResolver;
 use Psr\Container\ContainerInterface;
 
-//require __DIR__ . '/../vendor/autoload.php';
-require_once __DIR__.'/../autoload.php';
+require __DIR__.'/../vendor/autoload.php';
 
 function getClassNames(ContainerInterface $container): iterable {
     // Define the source directories to scan for classes to generate
@@ -47,13 +43,7 @@ $smWithoutDi = \eCampApp::CreateServiceManagerWithoutDi();
 // ... but for generating the code, we need the full App with DI
 $appWithDi = \eCampApp::CreateApp();
 
+/** @var ContainerInterface $container */
 $container = $appWithDi->getServiceManager();
-$config = $container->get('configuration');
-$di_config = new Config($config['dependencies']['auto']);
-
-$resolver = new DependencyResolver(new RuntimeDefinition(), $di_config);
-$resolver->setContainer($container);
-
-$generator = new InjectorGenerator($di_config, $resolver, __NAMESPACE__.'\Generated');
-$generator->setOutputDirectory(__DIR__.'/../module/eCampAoT/gen');
+$generator = $container->get(InjectorGenerator::class);
 $generator->generate(getClassNames($smWithoutDi));
