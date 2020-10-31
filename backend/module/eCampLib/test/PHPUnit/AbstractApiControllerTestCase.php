@@ -82,4 +82,23 @@ abstract class AbstractApiControllerTestCase extends ZendAbstractHttpControllerT
 
         return $user;
     }
+
+    /**
+     * Verifies HAL response.
+     */
+    protected function verifyHalResourceResponse(string $rootAsJson, string $linksAsJson, array $embeddedObjectList) {
+        $response = $this->getResponseContent();
+
+        // verify correctness of links
+        $this->assertEquals(json_decode($linksAsJson), $response->_links);
+
+        // verify existence of embedded objects
+        foreach ($embeddedObjectList as $embeddedObject) {
+            $this->assertObjectHasAttribute($embeddedObject, $response->_embedded);
+        }
+
+        // verify root content
+        unset($response->_links, $response->_embedded);
+        $this->assertEquals(json_decode($rootAsJson), $response);
+    }
 }

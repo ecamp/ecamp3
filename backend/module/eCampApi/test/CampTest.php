@@ -58,59 +58,30 @@ class CampTest extends AbstractApiControllerTestCase {
 
         $this->assertResponseStatusCode(200);
 
-        $host = '';
-        $expectedResponse = <<<JSON
+        $expectedBody = <<<JSON
             {
                 "id": "{$this->camp->getId()}",
                 "name": "CampName",
                 "title": "CampTitle",
                 "motto": "CampMotto",
-                "role": "manager",
-                "_embedded": {
-                    "creator": {
-                        "_links": {
-                            "self": {
-                                "href": "http://{$host}/api/users/{$this->user->getId()}"
-                            }
-                        }
-                    },
-                    "campType": {
-                        "id": "{$this->campType->getId()}",
-                        "name": "CampType",
-                        "isJS": false,
-                        "isCourse": false,
-                        "_embedded": {
-                            "organization": {
-                                "_links": {
-                                    "self": {
-                                        "href": "http://{$host}/api/organizations/{$this->organization->getId()}"
-                                    }
-                                }
-                            },
-                            "activityTypes": []
-                        },
-                        "_links": {
-                            "self": {
-                                "href": "http://{$host}/api/camp-types/{$this->campType->getId()}"
-                            }
-                        }
-                    },
-                    "campCollaborations": [],
-                    "periods": [],
-                    "activityCategories": []
-                },
-                "_links": {
-                    "self": {
-                        "href": "http://{$host}/api/camps/{$this->camp->getId()}"
-                    },
-                    "activities": {
-                        "href": "http://{$host}/api/activities?campId={$this->camp->getId()}"
-                    }
-                }
+                "role": "manager"
             }
 JSON;
 
-        $this->assertEquals(json_decode($expectedResponse), $this->getResponseContent());
+        $host = '';
+        $expectedLinks = <<<JSON
+            {
+                "self": {
+                    "href": "http://{$host}/api/camps/{$this->camp->getId()}"
+                },
+                "activities": {
+                    "href": "http://{$host}/api/activities?campId={$this->camp->getId()}"
+                }
+            }
+JSON;
+        $expectedEmbeddedObjects = ['creator', 'campType', 'campCollaborations', 'periods', 'activityCategories'];
+
+        $this->verifyHalResourceResponse($expectedBody, $expectedLinks, $expectedEmbeddedObjects);
     }
 
     public function testCampCreateWithoutName() {
