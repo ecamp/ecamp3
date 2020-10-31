@@ -120,6 +120,7 @@ export default {
   },
   data () {
     return {
+      scheduleEntries: [],
       tempScheduleEntry: {},
       popupEntry: {},
       maxDays: 100,
@@ -165,8 +166,16 @@ export default {
     nowY () {
       return this.$refs.calendar ? this.$refs.calendar.timeToY(this.now) + 'px' : '-10px'
     },
-    scheduleEntries () {
-      return this.period().scheduleEntries().items.map((entry) => {
+    apiScheduleEntries () {
+      return this.period().scheduleEntries()
+    },
+    camp () {
+      return this.period().camp()
+    }
+  },
+  watch: {
+    apiScheduleEntries (value) {
+      this.scheduleEntries = value.items.map((entry) => {
         return {
           ...entry,
           timed: true,
@@ -184,9 +193,6 @@ export default {
           }
         }
       })
-    },
-    camp () {
-      return this.period().camp()
     }
   },
   methods: {
