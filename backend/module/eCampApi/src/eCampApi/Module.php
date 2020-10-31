@@ -3,12 +3,16 @@
 namespace eCampApi;
 
 use Laminas\ApiTools\Provider\ApiToolsProviderInterface;
+use Laminas\Config\Factory as ConfigFactory;
 use Laminas\Mvc\Application;
 use Laminas\Mvc\MvcEvent;
 
 class Module implements ApiToolsProviderInterface {
     public function getConfig() {
-        return include __DIR__.'/../../config/module.config.php';
+        return ConfigFactory::fromFiles([
+            __DIR__.'/../../config/module.config.php',
+            __DIR__.'/../../config/Rest/camp.config.php',
+        ]);
     }
 
     public function getAutoloaderConfig() {
