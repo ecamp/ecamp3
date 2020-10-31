@@ -5,6 +5,7 @@ namespace eCamp\Core\EntityService;
 use Doctrine\ORM\ORMException;
 use eCamp\Core\Entity\AbstractCampOwner;
 use eCamp\Core\Entity\Camp;
+use eCamp\Core\Entity\CampCollaboration;
 use eCamp\Core\Entity\CampType;
 use eCamp\Core\Entity\User;
 use eCamp\Core\Hydrator\CampHydrator;
@@ -22,11 +23,15 @@ class CampService extends AbstractEntityService {
     /** @var ActivityCategoryService */
     protected $activityCategoryService;
 
+    /** @var CampCollaborationService */
+    protected $campCollaboratorService;
+
     public function __construct(
         ActivityCategoryService $activityCategoryService,
         PeriodService $periodService,
         ServiceUtils $serviceUtils,
-        AuthenticationService $authenticationService
+        AuthenticationService $authenticationService,
+        CampCollaborationService $campCollaboratorService
     ) {
         parent::__construct(
             $serviceUtils,
@@ -37,6 +42,7 @@ class CampService extends AbstractEntityService {
 
         $this->periodService = $periodService;
         $this->activityCategoryService = $activityCategoryService;
+        $this->campCollaboratorService = $campCollaboratorService;
     }
 
     /**
@@ -87,6 +93,12 @@ class CampService extends AbstractEntityService {
         $camp = $entity;
         $campType = $camp->getCampType();
 
+        // Create CampCollaboration for Creator
+        $this->campCollaboratorService->create((object) [
+            'campId' => $camp->getId(),
+            'role' => CampCollaboration::ROLE_MANAGER,
+        ]);
+
         /** Create default Jobs */
         /*
         $jobConfigs = $campType->getConfig(CampType::CNF_JOBS) ?: [];
@@ -96,7 +108,7 @@ class CampService extends AbstractEntityService {
         }
         */
 
-        /** Create default ActivityCategories: */
+        // Create default ActivityCategories
         $acConfigs = $campType->getConfig(CampType::CNF_ACTIVITY_CATEGORIES) ?: [];
         foreach ($acConfigs as $acConfig) {
             $acConfig->campId = $camp->getId();
