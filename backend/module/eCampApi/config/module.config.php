@@ -145,15 +145,6 @@ return [
                     ],
                 ],
             ],
-            'e-camp-api.rest.doctrine.schedule-entry' => [
-                'type' => 'Segment',
-                'options' => [
-                    'route' => '/api/schedule-entries[/:scheduleEntryId]',
-                    'defaults' => [
-                        'controller' => 'eCampApi\\V1\\Rest\\ScheduleEntry\\Controller',
-                    ],
-                ],
-            ],
             'e-camp-api.rest.doctrine.user' => [
                 'type' => 'Segment',
                 'options' => [
@@ -433,32 +424,6 @@ return [
             'collection_class' => 'eCampApi\\V1\\Rest\\ActivityResponsible\\ActivityResponsibleCollection',
             'service_name' => 'ActivityResponsible',
         ],
-        'eCampApi\\V1\\Rest\\ScheduleEntry\\Controller' => [
-            'listener' => 'eCamp\\Core\\EntityService\\ScheduleEntryService',
-            'route_name' => 'e-camp-api.rest.doctrine.schedule-entry',
-            'route_identifier_name' => 'scheduleEntryId',
-            'entity_identifier_name' => 'id',
-            'collection_name' => 'items',
-            'entity_http_methods' => [
-                0 => 'GET',
-                1 => 'PATCH',
-                2 => 'PUT',
-                3 => 'DELETE',
-            ],
-            'collection_http_methods' => [
-                0 => 'GET',
-                1 => 'POST',
-            ],
-            'collection_query_whitelist' => [
-                0 => 'activityId',
-                1 => 'page_size',
-            ],
-            'page_size' => -1,
-            'page_size_param' => 'page_size',
-            'entity_class' => 'eCamp\\Core\\Entity\\ScheduleEntry',
-            'collection_class' => 'eCampApi\\V1\\Rest\\ScheduleEntry\\ScheduleEntryCollection',
-            'service_name' => 'ScheduleEntry',
-        ],
         'eCampApi\\V1\\Rest\\User\\Controller' => [
             'listener' => 'eCamp\\Core\\EntityService\\UserService',
             'route_name' => 'e-camp-api.rest.doctrine.user',
@@ -601,7 +566,6 @@ return [
             'eCampApi\\V1\\Rest\\Activity\\Controller' => 'HalJson',
             'eCampApi\\V1\\Rest\\ActivityCategory\\Controller' => 'HalJson',
             'eCampApi\\V1\\Rest\\ActivityResponsible\\Controller' => 'HalJson',
-            'eCampApi\\V1\\Rest\\ScheduleEntry\\Controller' => 'HalJson',
             'eCampApi\\V1\\Rest\\User\\Controller' => 'HalJson',
             'eCampApi\\V1\\Rest\\CampCollaboration\\Controller' => 'HalJson',
             'eCampApi\\V1\\Rest\\ActivityContent\\Controller' => 'HalJson',
@@ -670,11 +634,6 @@ return [
                 2 => 'application/json',
             ],
             'eCampApi\\V1\\Rest\\ActivityResponsible\\Controller' => [
-                0 => 'application/vnd.e-camp-api.v1+json',
-                1 => 'application/hal+json',
-                2 => 'application/json',
-            ],
-            'eCampApi\\V1\\Rest\\ScheduleEntry\\Controller' => [
                 0 => 'application/vnd.e-camp-api.v1+json',
                 1 => 'application/hal+json',
                 2 => 'application/json',
@@ -755,10 +714,6 @@ return [
                 1 => 'application/json',
             ],
             'eCampApi\\V1\\Rest\\ActivityResponsible\\Controller' => [
-                0 => 'application/vnd.e-camp-api.v1+json',
-                1 => 'application/json',
-            ],
-            'eCampApi\\V1\\Rest\\ScheduleEntry\\Controller' => [
                 0 => 'application/vnd.e-camp-api.v1+json',
                 1 => 'application/json',
             ],
@@ -906,19 +861,6 @@ return [
                 'is_collection' => true,
                 'max_depth' => 20,
             ],
-            'eCamp\\Core\\Entity\\ScheduleEntry' => [
-                'route_identifier_name' => 'scheduleEntryId',
-                'entity_identifier_name' => 'id',
-                'route_name' => 'e-camp-api.rest.doctrine.schedule-entry',
-                'hydrator' => 'eCamp\\Core\\Hydrator\\ScheduleEntryHydrator',
-                'max_depth' => 20,
-            ],
-            'eCampApi\\V1\\Rest\\ScheduleEntry\\ScheduleEntryCollection' => [
-                'entity_identifier_name' => 'id',
-                'route_name' => 'e-camp-api.rest.doctrine.schedule-entry',
-                'is_collection' => true,
-                'max_depth' => 20,
-            ],
             'eCamp\\Core\\Entity\\User' => [
                 'route_identifier_name' => 'userId',
                 'entity_identifier_name' => 'id',
@@ -1007,9 +949,6 @@ return [
         ],
         'eCampApi\\V1\\Rest\\ActivityResponsible\\Controller' => [
             'input_filter' => 'eCampApi\\V1\\Rest\\ActivityResponsible\\Validator',
-        ],
-        'eCampApi\\V1\\Rest\\ScheduleEntry\\Controller' => [
-            'input_filter' => 'eCampApi\\V1\\Rest\\ScheduleEntry\\Validator',
         ],
         'eCampApi\\V1\\Rest\\User\\Controller' => [
             'input_filter' => 'eCampApi\\V1\\Rest\\User\\Validator',
@@ -1324,46 +1263,6 @@ return [
             ],
         ],
         'eCampApi\\V1\\Rest\\ActivityResponsible\\Validator' => [
-        ],
-        'eCampApi\\V1\\Rest\\ScheduleEntry\\Validator' => [
-            0 => [
-                'name' => 'start',
-                'required' => true,
-                'filters' => [
-                    0 => [
-                        'name' => 'Laminas\\Filter\\StripTags',
-                    ],
-                    1 => [
-                        'name' => 'Laminas\\Filter\\Digits',
-                    ],
-                ],
-                'validators' => [],
-            ],
-            1 => [
-                'name' => 'length',
-                'required' => true,
-                'filters' => [
-                    0 => [
-                        'name' => 'Laminas\\Filter\\StripTags',
-                    ],
-                    1 => [
-                        'name' => 'Laminas\\Filter\\Digits',
-                    ],
-                ],
-                'validators' => [],
-            ],
-            2 => [
-                'name' => 'left',
-                'required' => false,
-                'filters' => [],
-                'validators' => [],
-            ],
-            3 => [
-                'name' => 'width',
-                'required' => false,
-                'filters' => [],
-                'validators' => [],
-            ],
         ],
         'eCampApi\\V1\\Rest\\User\\Validator' => [
             0 => [

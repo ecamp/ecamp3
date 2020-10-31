@@ -19,7 +19,8 @@ class ConfigFactory {
         $route = 'e-camp-api.rest.doctrine.'.strtolower($name);
 
         // URI (lower case) + plural
-        $apiEndpoint = !is_null($namePlural) ? strtolower($namePlural) : strtolower($name).'s';
+        $apiEndpoint = !is_null($namePlural) ? $namePlural : $name.'s';
+        $apiEndpoint = self::pascalToKebabCase($apiEndpoint);
 
         // name of entity ($namespace s fallback)
         $entity = !is_null($entityName) ? $entityName : $namespace;
@@ -104,5 +105,14 @@ class ConfigFactory {
                 ],
             ],
         ];
+    }
+
+    /**
+     * Returns Pascal in kebab-case.
+     *
+     * @param mixed $pascal
+     */
+    private static function pascalToKebabCase($pascal) {
+        return ltrim(strtolower(preg_replace('/[A-Z]([A-Z](?![a-z]))*/', '-$0', $pascal)), '-');
     }
 }
