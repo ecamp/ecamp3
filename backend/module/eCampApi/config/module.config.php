@@ -154,20 +154,7 @@ return [
                 'route_name' => '',
                 'is_collection' => true,
             ],
-            //            \eCamp\Lib\Entity\CollectionLink::class => array(
-            //                'route_identifier_name' => 'id',
-            //                'entity_identifier_name' => 'id',
-            //                'route_name' => '',
-            //            ),
         ],
-    ],
-    'api-tools-content-validation' => [
-        'eCampApi\\V1\\Rpc\\Auth\\AuthController' => [
-            'input_filter' => 'eCampApi\\V1\\Rpc\\Auth\\Validator',
-        ],
-    ],
-    'input_filter_specs' => [
-        'eCampApi\\V1\\Rpc\\Auth\\Validator' => [],
     ],
     'api-tools-rpc' => [
         'eCampApi\\V1\\Rpc\\Auth\\AuthController' => [
@@ -211,8 +198,4 @@ return [
             'route_name' => 'e-camp-api.rpc.printer',
         ],
     ],
-    'api-tools' => [
-        'doctrine-connected' => [],
-    ],
-    'doctrine-hydrator' => [],
 ];
