@@ -16,7 +16,7 @@ class ConfigFactory {
         $folder = 'eCamp'.$name;
 
         // route name
-        $route = 'e-camp-api.rest.doctrine.'.strtolower($name);
+        $route = 'e-camp-api.rest.doctrine.'.self::pascalToKebabCase($name);
 
         // URI (lower case) + plural
         $apiEndpoint = !is_null($namePlural) ? $namePlural : $name.'s';
