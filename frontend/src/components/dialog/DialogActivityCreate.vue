@@ -6,7 +6,7 @@
     max-width="600px"
     :submit-action="createActivity"
     submit-color="success"
-    :cancel-action="close">
+    :cancel-action="cancelCreate">
     <template v-slot:activator="scope">
       <slot name="activator" v-bind="scope" />
     </template>
@@ -48,17 +48,12 @@ export default {
   watch: {
     showDialog: function (showDialog) {
       if (showDialog) {
-        const newScheduleEntry = {
-          periodOffset: this.scheduleEntry.periodOffset,
-          length: this.scheduleEntry.length,
-          period: this.scheduleEntry.period
-        }
         this.setEntityData({
           camp: this.scheduleEntry.activity().camp,
           title: this.$tc('entity.activity.new'),
           location: '',
           scheduleEntries: [
-            newScheduleEntry
+            this.scheduleEntry
           ]
         })
       } else {
@@ -70,6 +65,10 @@ export default {
   methods: {
     createActivity () {
       return this.create()
+    },
+    cancelCreate () {
+      this.close()
+      this.$emit('creationCanceled')
     },
     create () {
       this.error = null

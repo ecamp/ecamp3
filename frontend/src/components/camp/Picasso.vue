@@ -76,7 +76,9 @@ Listing all given activity schedule entries in a calendar view.
 
     <dialog-activity-create
       ref="dialogActivityCreate"
-      :schedule-entry="popupEntry" @activityCreated="afterCreateActivity($event)" />
+      :schedule-entry="popupEntry"
+      @activityCreated="afterCreateActivity($event)"
+      @creationCanceled="cancelNewActivity" />
     <dialog-activity-edit
       ref="dialogActivityEdit"
       :schedule-entry="popupEntry" />
@@ -391,6 +393,9 @@ export default {
     afterCreateActivity (data) {
       this.api.reload(this.period().scheduleEntries())
       this.scheduleEntries.push(...data.scheduleEntries().items.map(entry => defineHelpers(entry, true)))
+      this.tempScheduleEntry = null
+    },
+    cancelNewActivity () {
       this.tempScheduleEntry = null
     },
     roundTimeDown (time) {
