@@ -31,11 +31,13 @@ export default {
       entityProperties: [
         'title',
         'location',
-        'camp',
-        'scheduleEntries'
+        'camp'
       ],
       embeddedEntities: [
         'activityCategory'
+      ],
+      embeddedCollections: [
+        'scheduleEntries'
       ]
     }
   },
