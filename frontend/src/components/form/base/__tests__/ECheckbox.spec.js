@@ -44,4 +44,21 @@ describe('An ECheckbox', () => {
     await wrapper.setProps({ vModel: false })
     expect(wrapper.find('input[type=checkbox]').element.getAttribute('vmodel')).toBeNull()
   })
+
+  test('updates vModel when user clicks on checkbox', async () => {
+    const wrapper = mount()
+    const input = wrapper.find('input')
+
+    const change = jest.fn()
+    wrapper.vm.$on('input', (event) => change(event))
+
+    await input.trigger('click')
+    expect(change).toBeCalledTimes(1)
+    expect(change).toBeCalledWith(true)
+
+    jest.resetAllMocks()
+    await input.trigger('click')
+    expect(change).toBeCalledTimes(1)
+    expect(change).toBeCalledWith(false)
+  })
 })

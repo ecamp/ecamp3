@@ -10,6 +10,8 @@
       :error-messages="veeErrors.concat(errorMessages)"
       :label="label || name"
       :class="[inputClass]"
+      :input-value="value"
+      @change="$emit('input', $event)"
       v-on="$listeners">
       <!-- passing through all slots -->
       <slot v-for="(_, name) in $slots" :slot="name" :name="name" />
@@ -27,6 +29,9 @@ import { formComponentPropsMixin } from '@/mixins/formComponentPropsMixin'
 export default {
   name: 'ECheckbox',
   components: { ValidationProvider },
-  mixins: [formComponentPropsMixin]
+  mixins: [formComponentPropsMixin],
+  props: {
+    value: { type: Boolean, required: false }
+  }
 }
 </script>
