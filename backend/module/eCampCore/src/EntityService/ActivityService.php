@@ -6,6 +6,7 @@ use Doctrine\ORM\ORMException;
 use eCamp\Core\Entity\Activity;
 use eCamp\Core\Entity\ActivityCategory;
 use eCamp\Core\Entity\Camp;
+use eCamp\Core\Entity\ScheduleEntry;
 use eCamp\Core\Hydrator\ActivityHydrator;
 use eCamp\Lib\Acl\NoAccessException;
 use eCamp\Lib\Entity\BaseEntity;
@@ -47,21 +48,12 @@ class ActivityService extends AbstractEntityService {
      * @return BaseEntity
      */
     protected function createEntityPost(BaseEntity $entity, $data) {
-        // @var Activity $entity
-        $this->updateActivityResponsibles($entity, $data);
+        /** @var Activity $activity */
+        $activity = $entity;
 
-        // Create ScheduleEntries
-        if (isset($data->scheduleEntries)) {
-            foreach ($data->scheduleEntries as $scheduleEntry) {
-                $scheduleEntry = (object) $scheduleEntry;
-                if (isset($scheduleEntry->id)) {
-                    $entity->addScheduleEntry($this->findEntity(ActivityCategory::class, $scheduleEntry->id));
-                } else {
-                    $scheduleEntry->activityId = $entity->getId();
-                    $this->scheduleEntryService->create($scheduleEntry);
-                }
-            }
-        }
+        $this->updateActivityResponsibles($activity, $data);
+
+        $this->updateScheduleEntries($activity, $data);
 
         return $entity;
     }
@@ -79,6 +71,7 @@ class ActivityService extends AbstractEntityService {
         /** @var Activity $activity */
         $activity = parent::patchEntity($entity, $data);
         $this->updateActivityResponsibles($activity, $data);
+        $this->updateScheduleEntries($activity, $data);
 
         if (isset($data->campId)) {
             /** @var Camp $camp */
@@ -98,6 +91,7 @@ class ActivityService extends AbstractEntityService {
     protected function updateEntity(BaseEntity $entity, $data) {
         $entity = parent::updateEntity($entity, $data);
         $this->updateActivityResponsibles($entity, $data);
+        $this->updateScheduleEntries($entity, $data);
 
         return $entity;
     }
@@ -173,6 +167,36 @@ class ActivityService extends AbstractEntityService {
                         'activityId' => $activity->getId(),
                         'campCollaborationId' => $ccId,
                     ]);
+                }
+            }
+        }
+    }
+
+    private function updateScheduleEntries(Activity $activity, $data) {
+        if (isset($data->scheduleEntries) && is_array($data->scheduleEntries)) {
+            $scheduleEntryIds = array_reduce($data->scheduleEntries, function ($result, $entry) {
+                if (isset($entry['id'])) {
+                    $result[] = $entry['id'];
+                }
+
+                return $result;
+            }, []);
+
+            foreach ($activity->getScheduleEntries() as $scheduleEntryInDb) {
+                /** @var ScheduleEntry $scheduleEntryInDb */
+                if (!in_array($scheduleEntryInDb->getId(), $scheduleEntryIds)) {
+                    $this->scheduleEntryService->delete($scheduleEntryInDb->getId());
+                }
+            }
+
+            foreach ($data->scheduleEntries as $data) {
+                $data = (object) $data;
+                if (isset($data->id)) {
+                    $scheduleEntry = $this->findEntity(ScheduleEntry::class, $data->id);
+                    $this->scheduleEntryService->patch($scheduleEntry->getId(), $data);
+                } else {
+                    $data->activityId = $activity->getId();
+                    $this->scheduleEntryService->create($data);
                 }
             }
         }
