@@ -11,6 +11,7 @@ use eCamp\Core\Entity\Period;
 
 class PeriodTestData extends AbstractFixture implements DependentFixtureInterface {
     public static $PERIOD1 = Period::class.':PERIOD1';
+    public static $DAY1 = Day::class.':DAY1';
 
     public function load(ObjectManager $manager) {
         /** @var Camp $ccamp */
@@ -27,6 +28,10 @@ class PeriodTestData extends AbstractFixture implements DependentFixtureInterfac
             $day = new Day();
             $day->setPeriod($period);
             $day->setDayOffset($idx);
+
+            if (0 === $idx) {
+                $this->addReference(self::$DAY1, $day);
+            }
 
             $manager->persist($day);
         }

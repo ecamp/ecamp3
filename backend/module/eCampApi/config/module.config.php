@@ -372,11 +372,9 @@ return [
                 0 => 'GET',
                 1 => 'PATCH',
                 2 => 'PUT',
-                3 => 'DELETE',
             ],
             'collection_http_methods' => [
                 0 => 'GET',
-                1 => 'POST',
             ],
             'collection_query_whitelist' => [
                 0 => 'campId',
@@ -1318,20 +1316,9 @@ return [
                 ],
             ],
         ],
+
         'eCampApi\\V1\\Rest\\Day\\Validator' => [
-            0 => [
-                'name' => 'dayOffset',
-                'required' => true,
-                'filters' => [
-                    0 => [
-                        'name' => 'Laminas\\Filter\\StripTags',
-                    ],
-                    1 => [
-                        'name' => 'Laminas\\Filter\\Digits',
-                    ],
-                ],
-                'validators' => [],
-            ],
+            // empty = no values chan be changed so far
         ],
         'eCampApi\\V1\\Rest\\Activity\\Validator' => [
             0 => [
