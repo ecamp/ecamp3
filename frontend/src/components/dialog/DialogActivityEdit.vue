@@ -47,6 +47,21 @@ export default {
         this.loadEntityData(this.scheduleEntry.activity()._meta.self)
       }
     }
+  },
+  methods: {
+    updateActivity () {
+      return this.update()
+    },
+    update () {
+      this.error = null
+      return this.api.patch(this.entityUri, this.entityData).then(this.updatedSuccessful, this.onError)
+    },
+    updatedSuccessful (data) {
+      this.api.reload(this.scheduleEntry).then(() => {
+        this.close()
+        this.$emit('scheduleEntryUpdated', data)
+      })
+    }
   }
 }
 </script>
