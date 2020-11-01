@@ -294,13 +294,9 @@ return [
             'collection_name' => 'items',
             'entity_http_methods' => [
                 0 => 'GET',
-                1 => 'PATCH',
-                2 => 'PUT',
-                3 => 'DELETE',
             ],
             'collection_http_methods' => [
                 0 => 'GET',
-                1 => 'POST',
             ],
             'collection_query_whitelist' => [
                 0 => 'page_size',
@@ -599,13 +595,9 @@ return [
             'collection_name' => 'items',
             'entity_http_methods' => [
                 0 => 'GET',
-                1 => 'PATCH',
-                2 => 'PUT',
-                3 => 'DELETE',
             ],
             'collection_http_methods' => [
                 0 => 'GET',
-                1 => 'POST',
             ],
             'collection_query_whitelist' => [
                 0 => 'activityTypeId',
