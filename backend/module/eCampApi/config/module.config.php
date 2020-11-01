@@ -443,8 +443,6 @@ return [
             'collection_name' => 'items',
             'entity_http_methods' => [
                 0 => 'GET',
-                1 => 'PATCH',
-                2 => 'PUT',
                 3 => 'DELETE',
             ],
             'collection_http_methods' => [
@@ -452,8 +450,9 @@ return [
                 1 => 'POST',
             ],
             'collection_query_whitelist' => [
-                0 => 'campId',
-                1 => 'page_size',
+                0 => 'activityId',
+                1 => 'campCollaborationId',
+                2 => 'page_size',
             ],
             'page_size' => -1,
             'page_size_param' => 'page_size',
