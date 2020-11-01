@@ -82,7 +82,7 @@ JSON;
         $this->setRequestContent([
             'title' => '', ]);
 
-        $this->dispatch('{$this->apiEndpoint}', 'POST');
+        $this->dispatch("{$this->apiEndpoint}", 'POST');
 
         $this->assertResponseStatusCode(422);
         $this->assertObjectHasAttribute('isEmpty', $this->getResponseContent()->validation_messages->title);
