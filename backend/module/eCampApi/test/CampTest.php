@@ -68,20 +68,30 @@ class CampTest extends AbstractApiControllerTestCase {
             }
 JSON;
 
-        $host = '';
         $expectedLinks = <<<JSON
             {
                 "self": {
-                    "href": "http://{$host}/api/camps/{$this->camp->getId()}"
+                    "href": "http://{$this->host}/api/camps/{$this->camp->getId()}"
                 },
                 "activities": {
-                    "href": "http://{$host}/api/activities?campId={$this->camp->getId()}"
+                    "href": "http://{$this->host}/api/activities?campId={$this->camp->getId()}"
                 }
             }
 JSON;
         $expectedEmbeddedObjects = ['creator', 'campType', 'campCollaborations', 'periods', 'activityCategories'];
 
         $this->verifyHalResourceResponse($expectedBody, $expectedLinks, $expectedEmbeddedObjects);
+    }
+
+    public function testCampFetchAll() {
+        $this->dispatch('/api/camps?page_size=10', 'GET');
+
+        $this->assertResponseStatusCode(200);
+
+        $this->assertEquals(1, $this->getResponseContent()->total_items);
+        $this->assertEquals(10, $this->getResponseContent()->page_size);
+        $this->assertEquals("http://{$this->host}/api/camps?page_size=10&page=1", $this->getResponseContent()->_links->self->href);
+        $this->assertEquals($this->camp->getId(), $this->getResponseContent()->_embedded->items[0]->id);
     }
 
     public function testCampCreateWithoutName() {
@@ -100,7 +110,7 @@ JSON;
         $this->setRequestContent([
             'name' => 'CampName2',
             'title' => 'CampTitle',
-            'motto' => 'CampMotto',
+            'motto' => 'CampMotto', // TODO for discussion: Should motto really be mandatory?
             'campTypeId' => $this->campType->getId(), ]);
 
         $this->dispatch('/api/camps', 'POST');

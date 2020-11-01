@@ -11,6 +11,13 @@ use Laminas\Test\PHPUnit\Controller\AbstractHttpControllerTestCase as ZendAbstra
 
 abstract class AbstractApiControllerTestCase extends ZendAbstractHttpControllerTestCase {
     /**
+     * Host name in URIs returned by API.
+     *
+     * @var string
+     */
+    protected $host = '';
+
+    /**
      * @throws ToolsException
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
