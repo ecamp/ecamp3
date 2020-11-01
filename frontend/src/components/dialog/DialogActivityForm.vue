@@ -34,20 +34,16 @@
       v-model="activity.location"
       :name="$tc('entity.activity.fields.location')" />
 
-    <create-activity-schedule-entries :schedule-entries="scheduleEntries" />
+    <create-schedule-entries v-if="activity.scheduleEntries" :schedule-entries="activity.scheduleEntries" />
   </div>
 </template>
 
 <script>
-import ETextField from '@/components/form/base/ETextField'
-import CreateActivityScheduleEntries from '@/components/activity/CreateActivityScheduleEntries'
+import CreateScheduleEntries from '@/components/activity/CreateScheduleEntries'
 
 export default {
   name: 'DialogActivityForm',
-  components: {
-    CreateActivityScheduleEntries,
-    ETextField
-  },
+  components: { CreateScheduleEntries },
   props: {
     activity: {
       type: Object,
@@ -57,9 +53,6 @@ export default {
   computed: {
     activityCategories () {
       return this.activity.camp().activityCategories()
-    },
-    scheduleEntries () {
-      return typeof this.activity.scheduleEntries === 'function' ? this.activity.scheduleEntries().items : this.activity.scheduleEntries
     }
   }
 }
