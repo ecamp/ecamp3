@@ -37,7 +37,7 @@ class CampTest extends AbstractApiControllerTestCase {
         $this->authenticateUser($this->user);
     }
 
-    public function testCampFetch() {
+    public function testFetch() {
         $this->dispatch("/api/camps/{$this->camp->getId()}", 'GET');
 
         $this->assertResponseStatusCode(200);
@@ -67,7 +67,7 @@ JSON;
         $this->verifyHalResourceResponse($expectedBody, $expectedLinks, $expectedEmbeddedObjects);
     }
 
-    public function testCampFetchAll() {
+    public function testFetchAll() {
         $this->dispatch('/api/camps?page_size=10', 'GET');
 
         $this->assertResponseStatusCode(200);
@@ -78,7 +78,7 @@ JSON;
         $this->assertEquals($this->camp->getId(), $this->getResponseContent()->_embedded->items[0]->id);
     }
 
-    public function testCampCreateWithoutName() {
+    public function testCreateWithoutName() {
         $this->setRequestContent([
             'name' => '', ]);
 
@@ -90,7 +90,7 @@ JSON;
         $this->assertObjectHasAttribute('isEmpty', $this->getResponseContent()->validation_messages->motto);
     }
 
-    public function testCampCreateSuccess() {
+    public function testCreateSuccess() {
         $this->setRequestContent([
             'name' => 'CampName2',
             'title' => 'CampTitle',
@@ -104,7 +104,7 @@ JSON;
         $this->assertEquals(CampCollaboration::ROLE_MANAGER, $this->getResponseContent()->role);
     }
 
-    public function testCampUpdateSuccess() {
+    public function testUpdateSuccess() {
         $this->setRequestContent([
             'name' => 'CampName3',
             'title' => 'CampTitle3',
@@ -119,5 +119,14 @@ JSON;
         $this->assertEquals('CampTitle3', $this->getResponseContent()->title);
         $this->assertEquals('CampMotto3', $this->getResponseContent()->motto);
         $this->assertEquals('CampTitle3', $this->camp->getTitle());
+    }
+
+    public function testDelete() {
+        $this->dispatch("/api/camps/{$this->camp->getId()}", 'DELETE');
+
+        $this->assertResponseStatusCode(204);
+
+        $result = $this->getEntityManager()->find(Camp::class, $this->camp->getId());
+        $this->assertNull($result);
     }
 }

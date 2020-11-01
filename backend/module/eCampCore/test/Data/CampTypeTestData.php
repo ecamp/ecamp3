@@ -11,8 +11,6 @@ class CampTypeTestData extends AbstractFixture implements DependentFixtureInterf
     public static $TYPE1 = CampType::class.':Type1';
 
     public function load(ObjectManager $manager) {
-        $repository = $manager->getRepository(CampType::class);
-
         $org1 = $this->getReference(OrganizationTestData::$ORG1);
 
         $campType = new CampType();

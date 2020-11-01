@@ -4,7 +4,7 @@
 // error_reporting(E_ALL & ~E_DEPRECATED & ~E_STRICT & ~E_USER_DEPRECATED);
 
 // development
-error_reporting(E_ALL);
+error_reporting(E_ALL & ~E_NOTICE);
 
 ini_set('display_errors', 1);
 

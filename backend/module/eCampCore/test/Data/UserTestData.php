@@ -12,8 +12,6 @@ class UserTestData extends AbstractFixture {
     public static $USER1 = User::class.':USER1';
 
     public function load(ObjectManager $manager) {
-        $repository = $manager->getRepository(User::class);
-
         $mail = new MailAddress();
         $mail->setMail('test@ecamp3.dev');
 

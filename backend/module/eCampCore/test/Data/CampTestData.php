@@ -13,8 +13,6 @@ class CampTestData extends AbstractFixture implements DependentFixtureInterface 
     public static $CAMP1 = Camp::class.':CAMP1';
 
     public function load(ObjectManager $manager) {
-        $repository = $manager->getRepository(Camp::class);
-
         /** @var User $user */
         $user1 = $this->getReference(UserTestData::$USER1);
 

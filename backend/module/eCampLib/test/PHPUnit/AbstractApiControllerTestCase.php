@@ -39,6 +39,11 @@ abstract class AbstractApiControllerTestCase extends ZendAbstractHttpControllerT
         $headers->addHeaderLine('Content-Type', 'application/json');
     }
 
+    /**
+     * @param null|mixed $name
+     *
+     * @return EntityManager
+     */
     protected function getEntityManager($name = null) {
         $name = $name ?: 'orm_default';
         $name = 'doctrine.entitymanager.'.$name;
