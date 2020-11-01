@@ -71,9 +71,11 @@ abstract class AbstractEntityService extends AbstractResourceListener {
             return new ApiProblem(409, $e->getMessage());
         } catch (EntityValidationException $e) {
             return new ApiProblem(422, 'Failed Validation', null, null, ['validation_messages' => $e->getMessages()]);
-        } catch (\Exception $e) {
-            return new ApiProblem(500, $e->getMessage());
         }
+
+        /*catch (\Exception $e) {
+            return new ApiProblem(500, $e->getMessage());
+        }*/
     }
 
     /**
