@@ -38,6 +38,15 @@
     }
   },
   "components": {
+    "activity": {
+      "createScheduleEntries": {
+        "fields": {
+          "endTime": "End",
+          "startTime": "Start"
+        },
+        "name": "Scheduled"
+      }
+    },
     "camp": {
       "campActivityCategories": {
         "create": "Create activity category",

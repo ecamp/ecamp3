@@ -31,6 +31,15 @@
     }
   },
   "components": {
+    "activity": {
+      "createScheduleEntries": {
+        "fields": {
+          "endTime": "Ende",
+          "startTime": "Start"
+        },
+        "name": "Geplante Termine"
+      }
+    },
     "camp": {
       "campActivityCategories": {
         "create": "Block-Kategorie erstellen",
