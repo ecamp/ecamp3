@@ -2,11 +2,12 @@
 
 namespace eCamp\ApiTest;
 
+use Doctrine\Common\DataFixtures\Loader;
 use eCamp\Core\Entity\Camp;
 use eCamp\Core\Entity\CampCollaboration;
-use eCamp\Core\Entity\CampType;
-use eCamp\Core\Entity\Organization;
 use eCamp\Core\Entity\User;
+use eCamp\CoreTest\Data\CampTestData;
+use eCamp\CoreTest\Data\UserTestData;
 use eCamp\LibTest\PHPUnit\AbstractApiControllerTestCase;
 
 /**
@@ -19,38 +20,21 @@ class CampTest extends AbstractApiControllerTestCase {
     /** @var User */
     protected $user;
 
-    /** @var Organization */
-    protected $organization;
-
-    /** @var CampType */
-    protected $campType;
-
     public function setUp() {
         parent::setUp();
 
-        $this->user = $this->createAndAuthenticateUser();
+        $userLoader = new UserTestData();
+        $campLoader = new CampTestData();
 
-        $this->organization = new Organization();
-        $this->organization->setName('Organization');
+        $loader = new Loader();
+        $loader->addFixture($userLoader);
+        $loader->addFixture($campLoader);
+        $this->loadFixtures($loader);
 
-        $this->campType = new CampType();
-        $this->campType->setName('CampType');
-        $this->campType->setIsJS(false);
-        $this->campType->setIsCourse(false);
-        $this->campType->setOrganization($this->organization);
+        $this->user = $userLoader->getReference(UserTestData::$USER1);
+        $this->camp = $campLoader->getReference(CampTestData::$CAMP1);
 
-        $this->camp = new Camp();
-        $this->camp->setName('CampName');
-        $this->camp->setTitle('CampTitle');
-        $this->camp->setMotto('CampMotto');
-        $this->camp->setCampType($this->campType);
-        $this->camp->setCreator($this->user);
-        $this->camp->setOwner($this->user);
-
-        $this->getEntityManager()->persist($this->camp);
-        $this->getEntityManager()->persist($this->campType);
-        $this->getEntityManager()->persist($this->organization);
-        $this->getEntityManager()->flush();
+        $this->authenticateUser($this->user);
     }
 
     public function testCampFetch() {
@@ -111,7 +95,7 @@ JSON;
             'name' => 'CampName2',
             'title' => 'CampTitle',
             'motto' => 'CampMotto', // TODO for discussion: Should motto really be mandatory?
-            'campTypeId' => $this->campType->getId(), ]);
+            'campTypeId' => $this->camp->getCampType()->getId(), ]);
 
         $this->dispatch('/api/camps', 'POST');
 

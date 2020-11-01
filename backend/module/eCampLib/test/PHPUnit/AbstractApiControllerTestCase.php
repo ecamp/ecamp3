@@ -2,6 +2,9 @@
 
 namespace eCamp\LibTest\PHPUnit;
 
+use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
+use Doctrine\Common\DataFixtures\Loader;
+use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Tools\SchemaTool;
 use Doctrine\ORM\Tools\ToolsException;
@@ -83,11 +86,18 @@ abstract class AbstractApiControllerTestCase extends ZendAbstractHttpControllerT
         $this->getEntityManager()->persist($user);
         $this->getEntityManager()->flush();
 
+        $this->authenticateUser($user);
+
+        return $user;
+    }
+
+    /**
+     * Authenticates a given $user.
+     */
+    protected function authenticateUser(User $user) {
         /** @var AuthenticationService $auth */
         $auth = $this->getApplicationServiceLocator()->get(AuthenticationService::class);
         $auth->getStorage()->write($user->getId());
-
-        return $user;
     }
 
     /**
@@ -107,5 +117,14 @@ abstract class AbstractApiControllerTestCase extends ZendAbstractHttpControllerT
         // verify root content
         unset($response->_links, $response->_embedded);
         $this->assertEquals(json_decode($rootAsJson), $response);
+    }
+
+    /**
+     * loads data from Fixtures into ORM.
+     */
+    protected function loadFixtures(Loader $loader) {
+        $purger = new ORMPurger();
+        $executor = new ORMExecutor($this->getEntityManager(), $purger);
+        $executor->execute($loader->getFixtures());
     }
 }
