@@ -53,8 +53,6 @@ class ScheduleEntryService extends AbstractEntityService {
      * @return ScheduleEntry
      */
     protected function createEntity($data) {
-        //throw new \Error('test');
-
         /** @var ScheduleEntry $scheduleEntry */
         $scheduleEntry = parent::createEntity($data);
 

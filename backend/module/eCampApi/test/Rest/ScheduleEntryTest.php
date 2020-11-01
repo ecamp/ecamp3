@@ -8,7 +8,6 @@ use eCamp\Core\Entity\User;
 use eCamp\CoreTest\Data\ScheduleEntryTestData;
 use eCamp\CoreTest\Data\UserTestData;
 use eCamp\LibTest\PHPUnit\AbstractApiControllerTestCase;
-use Laminas\ApiTools\ApiProblem\ApiProblemResponse;
 
 /**
  * @internal
@@ -100,11 +99,6 @@ JSON;
             'length' => 180, ]);
 
         $this->dispatch("{$this->apiEndpoint}", 'POST');
-
-        /** @var ApiProblemResponse $resp */
-        $resp = $this->getResponse();
-        $resp->getApiProblem()->setDetailIncludesStackTrace(true);
-        fwrite(STDERR, print_r($this->getResponse()->getContent(), true));
 
         $this->assertResponseStatusCode(422);
         $this->assertObjectHasAttribute('notFound', $this->getResponseContent()->validation_messages->periodId);
