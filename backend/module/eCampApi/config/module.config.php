@@ -1358,8 +1358,11 @@ return [
                 'filters' => [],
                 'validators' => [],
             ],
-            3 => [
+            4 => [
                 'name' => 'activityCategoryId',
+            ],
+            5 => [
+                'name' => 'scheduleEntries',
             ],
         ],
         'eCampApi\\V1\\Rest\\ActivityCategory\\Validator' => [
