@@ -87,6 +87,7 @@ import { scheduleEntryRoute } from '@/router'
 import { isCssColor } from 'vuetify/lib/util/colorUtils'
 import DialogActivityCreate from '@/components/dialog/DialogActivityCreate'
 import DialogActivityEdit from '@/components/dialog/DialogActivityEdit'
+import { defineHelpers } from '@/plugins/scheduleEntries'
 
 export default {
   name: 'Picasso',
@@ -175,7 +176,7 @@ export default {
   },
   watch: {
     apiScheduleEntries (value) {
-      this.scheduleEntries = value.items.map(entry => mapScheduleEntries(entry))
+      this.scheduleEntries = value.items.map(entry => defineHelpers(entry, true))
     }
   },
   methods: {
@@ -253,9 +254,9 @@ export default {
     },
     createNewEntry: function (mouse) {
       this.currentStartTime = this.roundTimeDown(mouse)
-      this.currentEntry = mapScheduleEntries({
+      this.currentEntry = defineHelpers({
         number: null,
-        period: (this.period)(),
+        period: () => (this.period)(),
         periodOffset: 0,
         length: 0,
         activity: () => ({
@@ -269,7 +270,7 @@ export default {
           })
         }),
         tmpEvent: true
-      })
+      }, true)
       this.currentEntry.startTime = this.currentStartTime
       this.currentEntry.endTime = this.currentStartTime
       this.tempScheduleEntry = this.currentEntry
@@ -389,7 +390,7 @@ export default {
     },
     afterCreateActivity (data) {
       this.api.reload(this.period().scheduleEntries())
-      this.scheduleEntries.push(...data.scheduleEntries().items.map(entry => mapScheduleEntries(entry)))
+      this.scheduleEntries.push(...data.scheduleEntries().items.map(entry => defineHelpers(entry, true)))
       this.tempScheduleEntry = null
     },
     roundTimeDown (time) {
@@ -412,26 +413,8 @@ export default {
     },
     rnd (a, b) {
       return Math.floor((b - a + 1) * Math.random()) + a
-    }
-  }
-}
-
-function mapScheduleEntries (entry) {
-  return {
-    ...entry,
-    timed: true,
-    get startTime () {
-      return this.period().start + (this.periodOffset * 60000)
     },
-    set startTime (value) {
-      this.periodOffset = (value - this.period().start) / 60000
-    },
-    get endTime () {
-      return this.startTime + (this.length * 60000)
-    },
-    set endTime (value) {
-      this.length = (value - this.startTime) / 60000
-    }
+    defineHelpers
   }
 }
 </script>
