@@ -5,6 +5,8 @@
     :title="$tc('entity.activity.new')"
     max-width="600px"
     :submit-action="createActivity"
+    submit-label="global.button.create"
+    submit-icon="mdi-plus"
     submit-color="success"
     :cancel-action="cancelCreate">
     <template v-slot:activator="scope">

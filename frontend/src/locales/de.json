@@ -172,9 +172,11 @@
       "delete": "Löschen",
       "edit": "Bearbeiten",
       "open": "Öffnen",
+      "save": "Speichern",
       "saving": "Speichert",
       "submit": "Abschicken",
-      "tryagain": "Erneut versuchen"
+      "tryagain": "Erneut versuchen",
+      "update": "Aktualisieren"
     },
     "changeLanguage": "Sprache ändern",
     "language": "Deutsch",
