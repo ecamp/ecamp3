@@ -47,7 +47,7 @@
         append-icon="mdi-lock-outline"
         type="password" />
 
-      <e-checkbox
+      <v-checkbox
         v-model="tos"
         required
         class="align-center">
@@ -64,7 +64,7 @@
             <v-icon small>mdi-open-in-new</v-icon>
           </v-btn>
         </template>
-      </e-checkbox>
+      </v-checkbox>
       <v-btn type="submit"
              color="primary"
              :disabled="!formComplete"
