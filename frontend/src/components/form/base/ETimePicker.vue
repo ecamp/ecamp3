@@ -8,7 +8,9 @@ Allows 15min steps only
     :icon="icon"
     :value="value"
     :format="format"
+    :format-picker="formatPicker"
     :parse="parse"
+    :parse-picker="parsePicker"
     v-bind="$attrs"
     @input="$emit('input', $event)">
     <template slot-scope="picker">
@@ -32,37 +34,54 @@ Allows 15min steps only
 </template>
 
 <script>
-import BasePicker from './BasePicker'
 
 export default {
   name: 'ETimePicker',
-  components: { BasePicker },
   props: {
     icon: { type: String, required: false, default: 'mdi-clock-outline' },
-    value: { type: String, required: true }
+    value: { type: [Number, String], required: true },
+    valueFormat: { type: [String, Array], default: 'x' }
+  },
+  data () {
+    return {
+      dateTime: null
+    }
   },
   methods: {
     allowedStep: m => m % 15 === 0,
     format (val) {
       if (val !== '') {
-        return this.$moment(val, this.$moment.HTML5_FMT.TIME, this.$i18n.locale).format('LT')
+        this.dateTime = this.$moment(val, this.valueFormat)
+        return this.dateTime.format('LT')
+      }
+      return ''
+    },
+    formatPicker (val) {
+      if (val !== '') {
+        return this.$moment(val, this.valueFormat).toDate()
       }
       return ''
     },
     parse (val) {
       if (val) {
-        const m = this.$moment(val, [this.$moment.HTML5_FMT.TIME, 'LT'])
+        const m = this.$moment(val, 'LT')
+        this.dateTime.hours(m.hours()).minutes(m.minutes()).seconds(m.seconds()).milliseconds(m.milliseconds())
         if (m.isValid()) {
-          return Promise.resolve(m.format(this.$moment.HTML5_FMT.TIME))
+          return Promise.resolve(this.dateTime.format(this.valueFormat))
         } else {
-          switch (m.parsingFlags().overflow) {
-            case 0: // Year
-              return Promise.reject(new Error('invalid year'))
-            case 1: // Month
-              return Promise.reject(new Error('invalid month'))
-            case 2: // Day
-              return Promise.reject(new Error('invalid day'))
-          }
+          return Promise.reject(new Error('invalid format'))
+        }
+      } else {
+        return Promise.resolve('')
+      }
+    },
+    parsePicker (val) {
+      if (val) {
+        const m = this.$moment(val, ['LT', 'LTS'])
+        this.dateTime.hours(m.hours()).minutes(m.minutes()).seconds(m.seconds()).milliseconds(m.milliseconds())
+        if (m.isValid()) {
+          return Promise.resolve(this.dateTime.format(this.valueFormat))
+        } else {
           return Promise.reject(new Error('invalid format'))
         }
       } else {
