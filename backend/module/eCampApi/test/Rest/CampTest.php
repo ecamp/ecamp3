@@ -1,6 +1,6 @@
 <?php
 
-namespace eCamp\ApiTest;
+namespace eCamp\ApiTest\Rest;
 
 use Doctrine\Common\DataFixtures\Loader;
 use eCamp\Core\Entity\Camp;

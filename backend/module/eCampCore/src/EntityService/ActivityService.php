@@ -3,9 +3,12 @@
 namespace eCamp\Core\EntityService;
 
 use eCamp\Core\Entity\Activity;
+use eCamp\Core\Entity\ActivityCategory;
 use eCamp\Core\Entity\Camp;
 use eCamp\Core\Hydrator\ActivityHydrator;
 use eCamp\Lib\Entity\BaseEntity;
+use eCamp\Lib\Service\EntityNotFoundException;
+use eCamp\Lib\Service\EntityValidationException;
 use eCamp\Lib\Service\ServiceUtils;
 use Laminas\Authentication\AuthenticationService;
 
@@ -65,6 +68,36 @@ class ActivityService extends AbstractEntityService {
         $q->andWhere($this->createFilter($q, Camp::class, 'row', 'camp'));
 
         return $q;
+    }
+
+    /**
+     * @param mixed $data
+     *
+     * @throws EntityNotFoundException
+     * @throws ORMException
+     * @throws NoAccessException
+     *
+     * @return Activity
+     */
+    protected function createEntity($data) {
+        $data = (object) $data;
+
+        /** @var Activity $activity */
+        $activity = parent::createEntity($data);
+
+        try {
+            /** @var ActivityCategory $category */
+            $category = $this->findEntity(ActivityCategory::class, $data->activityCategoryId);
+            $activity->setActivityCategory($category);
+            $activity->setCamp($category->getCamp()); // TODO meeting discus: Why do we actually need camp on activity? Redundant relationship
+        } catch (EntityNotFoundException $e) {
+            $ex = new EntityValidationException();
+            $ex->setMessages(['activityCategoryId' => ['notFound' => "Provided activityCategory with id '{$data->activityCategoryId}' was not found"]]);
+
+            throw $ex;
+        }
+
+        return $activity;
     }
 
     private function updateActivityResponsibles(Activity $activity, $data) {

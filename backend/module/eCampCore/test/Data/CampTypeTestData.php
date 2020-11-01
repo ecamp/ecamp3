@@ -12,12 +12,14 @@ class CampTypeTestData extends AbstractFixture implements DependentFixtureInterf
 
     public function load(ObjectManager $manager) {
         $org1 = $this->getReference(OrganizationTestData::$ORG1);
+        $activityType = $this->getReference(ActivityTypeTestData::$TYPE1);
 
         $campType = new CampType();
         $campType->setName('CampType1');
         $campType->setOrganization($org1);
         $campType->setIsJS(false);
         $campType->setIsCourse(false);
+        $campType->addActivityType($activityType);
 
         $manager->persist($campType);
         $manager->flush();
@@ -26,6 +28,6 @@ class CampTypeTestData extends AbstractFixture implements DependentFixtureInterf
     }
 
     public function getDependencies() {
-        return [OrganizationTestData::class];
+        return [OrganizationTestData::class, ActivityTypeTestData::class];
     }
 }

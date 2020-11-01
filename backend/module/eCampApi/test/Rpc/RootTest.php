@@ -1,6 +1,6 @@
 <?php
 
-namespace eCamp\ApiTest;
+namespace eCamp\ApiTest\Rpc;
 
 use eCamp\LibTest\PHPUnit\AbstractApiControllerTestCase;
 
