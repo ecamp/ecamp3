@@ -34,6 +34,7 @@
     "activity": {
       "createScheduleEntries": {
         "fields": {
+          "duration": "Länge",
           "endTime": "Ende",
           "startTime": "Start"
         },
