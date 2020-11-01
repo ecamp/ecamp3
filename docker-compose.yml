@@ -21,7 +21,7 @@ services:
   backend:
     build: ./backend
     container_name: 'ecamp3-backend'
-    user: ${CURRENT_UID}
+    # user: ${CURRENT_UID}
     ports:
       - '3001:80'
     volumes:
@@ -46,7 +46,7 @@ services:
     image: composer:2
     container_name: 'ecamp3-composer'
     restart: 'no'
-    user: ${CURRENT_UID}
+    # user: ${CURRENT_UID}
     command: bash -c "composer install --no-interaction --no-plugins --no-scripts --prefer-dist --no-suggest"
     volumes:
       - ./backend:/app:delegated

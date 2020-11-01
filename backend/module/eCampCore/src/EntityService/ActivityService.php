@@ -8,7 +8,6 @@ use eCamp\Core\Entity\Camp;
 use eCamp\Core\Hydrator\ActivityHydrator;
 use eCamp\Lib\Entity\BaseEntity;
 use eCamp\Lib\Service\EntityNotFoundException;
-use eCamp\Lib\Service\EntityValidationException;
 use eCamp\Lib\Service\ServiceUtils;
 use Laminas\Authentication\AuthenticationService;
 
@@ -85,17 +84,11 @@ class ActivityService extends AbstractEntityService {
         /** @var Activity $activity */
         $activity = parent::createEntity($data);
 
-        try {
-            /** @var ActivityCategory $category */
-            $category = $this->findEntity(ActivityCategory::class, $data->activityCategoryId);
-            $activity->setActivityCategory($category);
-            $activity->setCamp($category->getCamp()); // TODO meeting discus: Why do we actually need camp on activity? Redundant relationship
-        } catch (EntityNotFoundException $e) {
-            $ex = new EntityValidationException();
-            $ex->setMessages(['activityCategoryId' => ['notFound' => "Provided activityCategory with id '{$data->activityCategoryId}' was not found"]]);
+        /** @var ActivityCategory $category */
+        $category = $this->findRelatedEntity(ActivityCategory::class, $data, 'activityCategoryId');
 
-            throw $ex;
-        }
+        $activity->setActivityCategory($category);
+        $activity->setCamp($category->getCamp()); // TODO meeting discus: Why do we actually need camp on activity? Redundant relationship
 
         return $activity;
     }

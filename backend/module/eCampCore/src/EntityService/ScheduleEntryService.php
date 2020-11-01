@@ -56,36 +56,19 @@ class ScheduleEntryService extends AbstractEntityService {
         /** @var ScheduleEntry $scheduleEntry */
         $scheduleEntry = parent::createEntity($data);
 
-        try {
-            /** @var Period $period */
-            $period = $this->findEntity(Period::class, $data->periodId);
-            $period->addScheduleEntry($scheduleEntry);
-        } catch (EntityNotFoundException $e) {
-            $ex = new EntityValidationException();
-            $ex->setMessages(['periodId' => ['notFound' => "Provided period with id '{$data->periodId}' was not found"]]);
+        /** @var Period $period */
+        $period = $this->findRelatedEntity(Period::class, $data, 'periodId');
+        $period->addScheduleEntry($scheduleEntry);
 
-            throw $ex;
-        }
-
-        try {
-            /** @var Activity $activity */
-            $activity = $this->findEntity(Activity::class, $data->activityId);
-            $activity->addScheduleEntry($scheduleEntry);
-        } catch (EntityNotFoundException $e) {
-            $ex = new EntityValidationException();
-            $ex->setMessages(['activityId' => ['notFound' => "Provided activity with id '{$data->activityId}' was not found"]]);
-
-            throw $ex;
-        }
+        /** @var Activity $activity */
+        $activity = $this->findRelatedEntity(Activity::class, $data, 'activityId');
+        $activity->addScheduleEntry($scheduleEntry);
 
         if ($activity->getCamp()->getId() !== $period->getCamp()->getId()) {
-            $ex = new EntityValidationException();
-            $ex->setMessages([
+            throw (new EntityValidationException())->setMessages([
                 'activityId' => ['campMismatch' => 'Provided activity is not part of the same camp as provided period'],
                 'periodId' => ['campMismatch' => 'Provided activity is not part of the same camp as provided period'],
             ]);
-
-            throw $ex;
         }
 
         return $scheduleEntry;

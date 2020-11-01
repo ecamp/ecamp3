@@ -91,7 +91,8 @@ JSON;
 
     public function testCreateWithoutCategory() {
         $this->setRequestContent([
-            'title' => 'Activity2', ]);
+            'title' => 'Activity2',
+            'activityCategoryId' => 'xxx', ]);
 
         $this->dispatch("{$this->apiEndpoint}", 'POST');
 

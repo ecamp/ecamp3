@@ -96,7 +96,8 @@ JSON;
     public function testCreateWithoutActivity() {
         $this->setRequestContent([
             'start' => 900,
-            'length' => 180, ]);
+            'length' => 180,
+            'periodId' => 'xxx', ]);
 
         $this->dispatch("{$this->apiEndpoint}", 'POST');
 

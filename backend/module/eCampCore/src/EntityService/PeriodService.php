@@ -44,18 +44,12 @@ class PeriodService extends AbstractEntityService {
      * @return Period
      */
     protected function createEntity($data) {
-        try {
-            /** @var Camp $camp */
-            $camp = $this->findEntity(Camp::class, $data->campId);
-        } catch (EntityNotFoundException $e) {
-            $ex = new EntityValidationException();
-            $ex->setMessages(['campId' => ['notFound' => "Provided camp with id '{$data->campId}' was not found"]]);
-
-            throw $ex;
-        }
+        /** @var Camp $camp */
+        $camp = $this->findRelatedEntity(Camp::class, $data, 'campId');
 
         /** @var Period $period */
         $period = parent::createEntity($data);
+
         $camp->addPeriod($period);
 
         return $period;

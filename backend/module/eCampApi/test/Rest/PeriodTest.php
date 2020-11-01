@@ -89,7 +89,8 @@ JSON;
         $this->setRequestContent([
             'description' => '',
             'start' => '2000-07-05',
-            'end' => '2000-07-08', ]);
+            'end' => '2000-07-08',
+            'campId' => 'xxx', ]);
 
         $this->dispatch('/api/periods', 'POST');
 
