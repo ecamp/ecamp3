@@ -463,7 +463,7 @@ abstract class AbstractEntityService extends AbstractResourceListener {
      */
     protected function findRelatedEntity(string $className, $data, string $key) {
         // check if foreign key exists
-        if (!isset($data->{$key})) {
+        if (empty($data->{$key})) {
             throw (new EntityValidationException())->setMessages([$key => ['isEmpty' => "Value is required and can't be empty"]]);
         }
 
