@@ -34,7 +34,7 @@ class RootTest extends AbstractApiControllerTestCase {
                     "href": "http://{$host}/api-tools/ui"
                 },
                 "users": {
-                    "href": "http://{$host}/api/users{/userId}{?search,page_size}",
+                    "href": "http://{$host}/api/users{/userId}{?page_size,search}",
                     "templated": true
                 },
                 "campTypes": {
@@ -46,7 +46,7 @@ class RootTest extends AbstractApiControllerTestCase {
                     "templated": true
                 },
                 "scheduleEntries": {
-                    "href": "http://{$host}/api/schedule-entries{/scheduleEntryId}{?activityId,page_size}",
+                    "href": "http://{$host}/api/schedule-entries{/scheduleEntryId}{?page_size,activityId}",
                     "templated": true
                 }
             }

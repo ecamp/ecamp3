@@ -59,27 +59,6 @@ $config['input_filter_specs'] = [
                 ],
             ],
         ],
-        2 => [
-            'name' => 'role',
-            'required' => true,
-            'filters' => [
-                0 => [
-                    'name' => 'Laminas\\Filter\\StringTrim',
-                ],
-                1 => [
-                    'name' => 'Laminas\\Filter\\StripTags',
-                ],
-            ],
-            'validators' => [
-                0 => [
-                    'name' => 'Laminas\\Validator\\StringLength',
-                    'options' => [
-                        'min' => 1,
-                        'max' => 16,
-                    ],
-                ],
-            ],
-        ],
     ],
 ];
 

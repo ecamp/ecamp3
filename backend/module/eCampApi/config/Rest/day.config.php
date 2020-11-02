@@ -2,7 +2,12 @@
 
 use eCampApi\ConfigFactory;
 
-$config = ConfigFactory::createConfig('Day');
+$entity = 'Day';
+$config = ConfigFactory::createConfig($entity);
+
+// disallow removal and creation of days directly via endpoint (should only be possible via period endpoint)
+$config['api-tools-rest']["eCampApi\\V1\\Rest\\{$entity}\\Controller"]['entity_http_methods'] = ['GET', 'PATCH', 'PUT'];
+$config['api-tools-rest']["eCampApi\\V1\\Rest\\{$entity}\\Controller"]['collection_http_methods'] = ['GET'];
 
 array_push(
     $config['api-tools-rest']['eCampApi\\V1\\Rest\\Day\\Controller']['collection_query_whitelist'],
@@ -18,19 +23,7 @@ $config['api-tools-content-validation'] = [
 
 $config['input_filter_specs'] = [
     'eCampApi\\V1\\Rest\\Day\\Validator' => [
-        0 => [
-            'name' => 'dayOffset',
-            'required' => true,
-            'filters' => [
-                0 => [
-                    'name' => 'Laminas\\Filter\\StripTags',
-                ],
-                1 => [
-                    'name' => 'Laminas\\Filter\\Digits',
-                ],
-            ],
-            'validators' => [],
-        ],
+        // empty = no values chan be changed so far
     ],
 ];
 

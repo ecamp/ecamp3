@@ -2,7 +2,12 @@
 
 use eCampApi\ConfigFactory;
 
-$config = ConfigFactory::createConfig('Organization');
+$entity = 'Organization';
+$config = ConfigFactory::createConfig($entity);
+
+// read-only endpoint
+$config['api-tools-rest']["eCampApi\\V1\\Rest\\{$entity}\\Controller"]['entity_http_methods'] = ['GET'];
+$config['api-tools-rest']["eCampApi\\V1\\Rest\\{$entity}\\Controller"]['collection_http_methods'] = ['GET'];
 
 $config['api-tools-content-validation'] = [
     'eCampApi\\V1\\Rest\\Organization\\Controller' => [

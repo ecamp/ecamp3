@@ -2,11 +2,16 @@
 
 use eCampApi\ConfigFactory;
 
-$config = ConfigFactory::createConfig('ActivityResponsible');
+$entity = 'ActivityResponsible';
+$config = ConfigFactory::createConfig($entity);
+
+// no changes possible (only create/delete/get)
+$config['api-tools-rest']["eCampApi\\V1\\Rest\\{$entity}\\Controller"]['entity_http_methods'] = ['GET', 'DELETE'];
 
 array_push(
     $config['api-tools-rest']['eCampApi\\V1\\Rest\\ActivityResponsible\\Controller']['collection_query_whitelist'],
-    'campId'
+    'activityId',
+    'campCollaborationId'
 );
 
 $config['api-tools-content-validation'] = [

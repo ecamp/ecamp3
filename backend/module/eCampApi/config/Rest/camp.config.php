@@ -48,7 +48,7 @@ $config['input_filter_specs'] = [
                 0 => [
                     'name' => 'Laminas\\Validator\\StringLength',
                     'options' => [
-                        'min' => 10,
+                        'min' => 1,
                         'max' => 64,
                     ],
                 ],
