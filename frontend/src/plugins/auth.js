@@ -24,9 +24,9 @@ async function login (username, password) {
   return post(url, { username: username, password: password }).then(() => refreshLoginStatus())
 }
 
-async function register ({ username, email, password }) {
+async function register (data) {
   const url = await href(get().auth(), 'register')
-  return post(url, { username, email, password })
+  return post(url, data)
 }
 
 async function oAuthLoginInSeparateWindow (provider) {

@@ -53,7 +53,7 @@ class UserRepositoryTest extends AbstractDatabaseTestCase {
 
         $profile = new Profile();
         $profile->displayName = 'username2';
-        $profile->email = 'test2@eCamp3.ch';
+        $profile->emailVerified = 'test2@eCamp3.ch';
         $userService->create($profile);
 
         $entityManager->flush();
