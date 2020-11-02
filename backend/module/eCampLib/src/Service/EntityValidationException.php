@@ -8,6 +8,8 @@ class EntityValidationException extends \Exception {
 
     public function setMessages(array $messages) {
         $this->messages = $messages;
+
+        return $this;
     }
 
     public function getMessages() {

@@ -11,6 +11,7 @@ use eCamp\Core\Hydrator\ActivityCategoryHydrator;
 use eCamp\Lib\Acl\NoAccessException;
 use eCamp\Lib\Entity\BaseEntity;
 use eCamp\Lib\Service\EntityNotFoundException;
+use eCamp\Lib\Service\EntityValidationException;
 use eCamp\Lib\Service\ServiceUtils;
 use Laminas\Authentication\AuthenticationService;
 
@@ -38,12 +39,19 @@ class ActivityCategoryService extends AbstractEntityService {
         $activityCategory = parent::createEntity($data);
 
         /** @var ActivityType $activityType */
-        $activityType = $this->findEntity(ActivityType::class, $data->activityTypeId);
+        $activityType = $this->findRelatedEntity(ActivityType::class, $data, 'activityTypeId');
         $activityCategory->setActivityType($activityType);
 
         /** @var Camp $camp */
-        $camp = $this->findEntity(Camp::class, $data->campId);
+        $camp = $this->findRelatedEntity(Camp::class, $data, 'campId');
         $camp->addActivityCategory($activityCategory);
+
+        if (!$camp->getCampType()->getActivityTypes()->contains($activityType)) {
+            throw (new EntityValidationException())->setMessages([
+                'campId' => ['activityTypeMismatch' => 'Selected activityType is not allowed in this camp'],
+                'activityTypeId' => ['activityTypeMismatch' => 'Selected activityType is not allowed in this camp'],
+            ]);
+        }
 
         return $activityCategory;
     }

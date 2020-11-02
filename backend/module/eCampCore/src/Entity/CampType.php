@@ -121,10 +121,14 @@ class CampType extends BaseEntity {
      */
     public function getConfig($key = null) {
         $config = null;
-        if (null != $this->jsonConfig) {
+        if (null !== $this->jsonConfig) {
             $config = Json::decode($this->jsonConfig);
-            if (null != $key) {
-                $config = $config->{$key};
+            if (null !== $key) {
+                if (property_exists($config, $key)) {
+                    $config = $config->{$key};
+                } else {
+                    $config = null;
+                }
             }
         }
 

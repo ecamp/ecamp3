@@ -8,6 +8,9 @@ use eCamp\Lib\Entity\BaseEntity;
 /**
  * @ORM\Entity
  * @ORM\HasLifecycleCallbacks
+ * @ORM\Table(uniqueConstraints={
+ *     @ORM\UniqueConstraint(name="activity_campCollaboration_unique", columns={"activityId", "campCollaborationId"})
+ * })
  */
 class ActivityResponsible extends BaseEntity implements BelongsToCampInterface {
     /**

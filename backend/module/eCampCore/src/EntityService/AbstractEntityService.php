@@ -71,9 +71,10 @@ abstract class AbstractEntityService extends AbstractResourceListener {
             return new ApiProblem(409, $e->getMessage());
         } catch (EntityValidationException $e) {
             return new ApiProblem(422, 'Failed Validation', null, null, ['validation_messages' => $e->getMessages()]);
-        } catch (\Exception $e) {
-            return new ApiProblem(500, $e->getMessage());
         }
+        /* catch (\Exception $e) {
+            return new ApiProblem(500, $e->getMessage());
+        }*/
     }
 
     /**
@@ -448,6 +449,29 @@ abstract class AbstractEntityService extends AbstractResourceListener {
             $entity = $this->getQuerySingleResult($q);
         } catch (EntityNotFoundException $e) {
             throw new EntityNotFoundException("Entity {$className} with id {$id} not found", 0, $e);
+        }
+
+        return $entity;
+    }
+
+    /**
+     * @param mixed $data
+     *
+     * @throws EntityValidationException
+     *
+     * @return mixed
+     */
+    protected function findRelatedEntity(string $className, $data, string $key) {
+        // check if foreign key exists
+        if (empty($data->{$key})) {
+            throw (new EntityValidationException())->setMessages([$key => ['isEmpty' => "Value is required and can't be empty"]]);
+        }
+
+        // try to find Entity
+        try {
+            $entity = $this->findEntity($className, $data->{$key});
+        } catch (EntityNotFoundException $e) {
+            throw (new EntityValidationException())->setMessages([$key => ['notFound' => "Entity {$className} with id {$data->{$key}} not found or not accessible"]]);
         }
 
         return $entity;
