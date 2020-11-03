@@ -32,8 +32,8 @@ class RegisterController extends ApiController {
         if (empty($data->password)) {
             return new ApiProblem(400, 'No password provided');
         }
-
-        $user = $this->registerService->register($data->username, $data->email, $data->password);
+        $data->mailAddress = $data->email;
+        $user = $this->registerService->register($data);
 
         if ($user instanceof ApiProblem) {
             return $user;
