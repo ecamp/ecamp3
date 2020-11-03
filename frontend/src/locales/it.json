@@ -2,12 +2,10 @@
   "activityContent": {
     "notes": {
       "add": "Aggiungi gli noti",
-      "entity": {},
       "name": "Noti"
     },
     "safetyConcept": {
       "add": "Aggiungere un concetto di sicurezza",
-      "entity": {},
       "name": "concetto di sicurezza"
     },
     "storyboard": {
@@ -26,7 +24,6 @@
     },
     "storycontext": {
       "add": "Aggiungi contenuto della storia",
-      "entity": {},
       "name": "Contesto della storia"
     }
   },
@@ -38,18 +35,9 @@
         "deleteActivityCategoryQuestion": "Vuoi davvero cancellare la categoria Attività?",
         "title": "Categori di attività"
       },
-      "campInvitations": {
-        "title": "Invitare"
-      },
-      "campMembers": {
-        "title": "Membri"
-      },
       "campPeriods": {
         "createPeriod": "Creare il periodo",
         "title": "Periodo | Periodi"
-      },
-      "campPeriodsListItem": {
-        "deleteWarning": ""
       },
       "campSettings": {
         "fields": {
@@ -101,10 +89,10 @@
       "name": "Categorie di attività",
       "numberingStyles": {
         "1": "1, 2, 3 - numeri",
-        "A": "A, B, C - maiuscole di blocco",
-        "I": "I, II, III - numeri romani maiuscoli",
         "a": "a, b, c - lettres minuscole",
-        "i": "i, ii, iii - numeri romani minuscoli"
+        "A": "A, B, C - maiuscole di blocco",
+        "i": "i, ii, iii - numeri romani minuscoli",
+        "I": "I, II, III - numeri romani maiuscoli"
       }
     },
     "camp": {
@@ -157,7 +145,7 @@
     "language": "Italiano",
     "moment": {
       "dateLong": "dd L",
-      "dateShort": "dd M/D",
+      "dateShort": "dd M\/D",
       "hourShort": "h A"
     },
     "serverError": {
@@ -170,7 +158,7 @@
   "views": {
     "activity": {
       "sideBarProgram": {
-        "title": "panoramica giornaliera"
+        "title": "Attività in questo giorno"
       }
     },
     "auth": {

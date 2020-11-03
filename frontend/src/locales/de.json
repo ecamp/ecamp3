@@ -2,12 +2,10 @@
   "activityContent": {
     "notes": {
       "add": "Notizen hinzufügen",
-      "entity": {},
       "name": "Notizen"
     },
     "safetyConcept": {
       "add": "Sicherheits-Konzept hinzufügen",
-      "entity": {},
       "name": "Sicherheits-Konzept"
     },
     "storyboard": {
@@ -26,7 +24,6 @@
     },
     "storycontext": {
       "add": "Roten Faden hinzufügen",
-      "entity": {},
       "name": "Roter Faden"
     }
   },
@@ -38,18 +35,9 @@
         "deleteActivityCategoryQuestion": "Möchtest du diese Block-Kategorie wirklich löschen?",
         "title": "Block-Kategorien"
       },
-      "campInvitations": {
-        "title": "Einladen"
-      },
-      "campMembers": {
-        "title": "Mitglieder"
-      },
       "campPeriods": {
         "createPeriod": "Lagerabschnitt erstellen",
         "title": "Lagerabschnitt | Lagerabschnitte"
-      },
-      "campPeriodsListItem": {
-        "deleteWarning": "Möchtest du diese Periode wirklich löschen?"
       },
       "campSettings": {
         "fields": {
@@ -73,6 +61,8 @@
       }
     },
     "navigation": {
+      "myCamps": "Mein Lager | Meine Lager",
+      "profile": "Profil",
       "search": "Suchen",
       "searchActivitiesAndCamps": "Aktivitäten und Camps suchen",
       "userMeta": {
@@ -101,10 +91,10 @@
       "name": "Block Kategorien",
       "numberingStyles": {
         "1": "1, 2, 3 - Zahlen",
-        "A": "A, B, C - grosse Buchstaben",
-        "I": "I, II, III - grosse römische Zahlen",
         "a": "a, b, c - kleine Buchstaben",
-        "i": "i, ii, iii - kleine römische Zahlen"
+        "A": "A, B, C - grosse Buchstaben",
+        "i": "i, ii, iii - kleine römische Zahlen",
+        "I": "I, II, III - grosse römische Zahlen"
       }
     },
     "camp": {
@@ -155,6 +145,7 @@
     },
     "changeLanguage": "Sprache ändern",
     "language": "Deutsch",
+    "lokaliseMessage": "Übersetzungen unterstützt durch lokalise.com",
     "moment": {
       "dateLong": "dd L",
       "dateShort": "dd D.M.",
