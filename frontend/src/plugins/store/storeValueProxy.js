@@ -252,9 +252,19 @@ function createStoreValueProxy (data) {
   // Use a trivial load promise to break endless recursion, except if we are currently reloading the data from the API
   const loadedPromise = data._meta.load && !data._meta.load[Symbol.for('done')]
     ? data._meta.load.then(reloadedData => storeValueProxy(reloadedData))
-    : Promise.resolve(result)
+    : createResolvedPromise(result)
 
   // Use a shallow clone of _meta, since we don't want to overwrite the ._meta.load promise or self link in the Vuex store
   result._meta = { ...data._meta, load: loadedPromise, self: API_ROOT + data._meta.self }
   return result
+}
+
+/**
+ * Creates a resolved Promise; sets the Done-Flag
+ * @param value Promise return value
+ */
+function createResolvedPromise (value) {
+  const promise = Promise.resolve(value)
+  promise[Symbol.for('done')] = true
+  return promise
 }
