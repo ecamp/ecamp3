@@ -3,7 +3,9 @@
 namespace eCamp\ContentType\SingleText;
 
 use eCamp\ContentType\SingleText\Entity\SingleText;
+use eCamp\Core\Acl\UserIsCollaborator;
 use eCamp\Core\ContentType\ConfigFactory;
+use eCamp\Core\Entity\CampCollaboration;
 use eCamp\Core\Entity\User;
 use eCamp\Lib\Acl\Acl;
 use eCamp\Lib\InputFilter\HtmlPurify;
@@ -44,16 +46,19 @@ class Module {
         $acl->allow(
             User::ROLE_USER,
             SingleText::class,
+            [Acl::REST_PRIVILEGE_FETCH_ALL]
+        );
+        $acl->allow(
+            User::ROLE_USER,
+            SingleText::class,
             [
+                Acl::REST_PRIVILEGE_CREATE,
                 Acl::REST_PRIVILEGE_FETCH,
-                Acl::REST_PRIVILEGE_FETCH_ALL,
-                // Acl::REST_PRIVILEGE_CREATE,
-                // disallow posting directly. Single entities should always be created via ActivityContent.
                 Acl::REST_PRIVILEGE_PATCH,
                 Acl::REST_PRIVILEGE_UPDATE,
-                // Acl::REST_PRIVILEGE_DELETE,
-                // disallow deleting directly. Single entities should always be deleted via ActivityContent.
-            ]
+                Acl::REST_PRIVILEGE_DELETE,
+            ],
+            new UserIsCollaborator([CampCollaboration::ROLE_MEMBER, CampCollaboration::ROLE_MANAGER])
         );
     }
 }
