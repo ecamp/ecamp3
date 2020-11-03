@@ -38,33 +38,51 @@ class CampCollaborationService extends AbstractEntityService {
         }
 
         /** @var Camp $camp */
-        $camp = $this->findEntity(Camp::class, $data->campId);
+        $camp = $this->findRelatedEntity(Camp::class, $data, 'campId');
+
         /** @var User $user */
-        $user = $this->findEntity(User::class, $data->userId);
+        $user = $this->findRelatedEntity(User::class, $data, 'userId');
 
         if (!isset($data->role)) {
             $data->role = CampCollaboration::ROLE_MEMBER;
         }
 
-        /** @var CampCollaboration $campCollaboration */
-        $campCollaboration = parent::createEntity($data);
-        $campCollaboration->setCamp($camp);
-        $campCollaboration->setUser($user);
+        $q = $this->fetchAllQueryBuilder();
+        $q->andWhere('row.camp = :campId');
+        $q->andWhere('row.user = :userId');
+        $q->andWhere('row.status = :status');
+        $q->setParameter('campId', $camp->getId());
+        $q->setParameter('userId', $user->getId());
+        $q->setParameter('status', CampCollaboration::STATUS_LEFT);
+        $result = $q->getQuery()->getResult();
+
+        if (count($result) > 0) {
+            /** @var CampCollaboration $campCollaboration */
+            $campCollaboration = $result[0];
+        } else {
+            /** @var CampCollaboration $campCollaboration */
+            $campCollaboration = parent::createEntity($data);
+            $camp->addCampCollaboration($campCollaboration);
+            $user->addCampCollaboration($campCollaboration);
+        }
         $campCollaboration->setRole($data->role);
 
         $this->assertAllowed($campCollaboration, Acl::REST_PRIVILEGE_CREATE);
 
         if ($data->userId === $authUser->getId()) {
-            // Create CampCollaboration for AuthUser
-            $campCollaboration->setStatus(CampCollaboration::STATUS_REQUESTED);
+            if ($data->userId === $camp->getCreator()->getId()) {
+                // Create CampCollaboration for Creator
+                $campCollaboration->setStatus(CampCollaboration::STATUS_ESTABLISHED);
+                $campCollaboration->setCollaborationAcceptedBy($authUser->getUsername());
+            } else {
+                // Create CampCollaboration for AuthUser
+                $campCollaboration->setStatus(CampCollaboration::STATUS_REQUESTED);
+            }
         } else {
             // Create CampCollaboration for other User
             $campCollaboration->setStatus(CampCollaboration::STATUS_INVITED);
             $campCollaboration->setCollaborationAcceptedBy($authUser->getUsername());
         }
-
-        $camp->addCampCollaboration($campCollaboration);
-        $user->addCampCollaboration($campCollaboration);
 
         return $campCollaboration;
     }
@@ -78,7 +96,7 @@ class CampCollaborationService extends AbstractEntityService {
      */
     protected function patchEntity(BaseEntity $entity, $data) {
         /** @var CampCollaboration $campCollaboration */
-        $campCollaboration = parent::patchEntity($entity, $data);
+        $campCollaboration = $entity;
 
         if ($campCollaboration->isEstablished()) {
             $campCollaboration = $this->updateCollaboration($campCollaboration, $data);
@@ -113,6 +131,25 @@ class CampCollaborationService extends AbstractEntityService {
         return $campCollaboration;
     }
 
+    /**
+     * @throws ORMException
+     *
+     * @return bool
+     */
+    protected function deleteEntity(BaseEntity $entity) {
+        /** @var CampCollaboration $campCollaboration */
+        $campCollaboration = $entity;
+        $data = (object) ['status' => CampCollaboration::STATUS_LEFT];
+
+        if ($campCollaboration->isEstablished()) {
+            $campCollaboration = $this->updateCollaboration($campCollaboration, $data);
+        } elseif ($campCollaboration->isInvitation()) {
+            $campCollaboration = $this->updateInvitation($campCollaboration, $data);
+        } elseif ($campCollaboration->isRequest()) {
+            $campCollaboration = $this->updateRequest($campCollaboration, $data);
+        }
+    }
+
     protected function fetchAllQueryBuilder($params = []) {
         $q = parent::fetchAllQueryBuilder($params);
         $q->andWhere($this->createFilter($q, Camp::class, 'row', 'camp'));
@@ -144,9 +181,10 @@ class CampCollaborationService extends AbstractEntityService {
             $campCollaboration->setRole($data->role);
         }
 
-        if (isset($data->status) && CampCollaboration::STATUS_UNRELATED == $data->status) {
-            $this->delete($campCollaboration->getId());
-            $campCollaboration = null;
+        if (isset($data->status)) {
+            if (CampCollaboration::STATUS_LEFT == $data->status) {
+                $campCollaboration->setStatus(CampCollaboration::STATUS_LEFT);
+            }
         }
 
         return $campCollaboration;
@@ -166,12 +204,16 @@ class CampCollaborationService extends AbstractEntityService {
 
         if ($authUser === $campCollaboration->getUser()) {
             if (isset($data->status)) {
-                if (CampCollaboration::STATUS_UNRELATED == $data->status) {
-                    $this->delete($campCollaboration->getId());
-                    $campCollaboration = null;
-                }
-                if (CampCollaboration::STATUS_ESTABLISHED == $data->status) {
-                    $campCollaboration->setStatus(CampCollaboration::STATUS_ESTABLISHED);
+                switch ($data->status) {
+                    case CampCollaboration::STATUS_LEFT:
+                    case CampCollaboration::STATUS_UNRELATED:
+                        $campCollaboration->setStatus(CampCollaboration::STATUS_LEFT);
+
+                    break;
+                    case CampCollaboration::STATUS_ESTABLISHED:
+                        $campCollaboration->setStatus(CampCollaboration::STATUS_ESTABLISHED);
+
+                    break;
                 }
             }
         } else {
@@ -179,9 +221,12 @@ class CampCollaborationService extends AbstractEntityService {
                 $campCollaboration->setRole($data->role);
             }
             if (isset($data->status)) {
-                if (CampCollaboration::STATUS_UNRELATED == $data->status) {
-                    $this->delete($campCollaboration->getId());
-                    $campCollaboration = null;
+                switch ($data->status) {
+                    case CampCollaboration::STATUS_LEFT:
+                    case CampCollaboration::STATUS_UNRELATED:
+                        $campCollaboration->setStatus(CampCollaboration::STATUS_LEFT);
+
+                    break;
                 }
             }
         }
@@ -207,23 +252,30 @@ class CampCollaborationService extends AbstractEntityService {
                 $campCollaboration->setRole($data->role);
             }
             if (isset($data->status)) {
-                if (CampCollaboration::STATUS_UNRELATED == $data->status) {
-                    $this->delete($campCollaboration->getId());
-                    $campCollaboration = null;
+                switch ($data->status) {
+                    case CampCollaboration::STATUS_LEFT:
+                    case CampCollaboration::STATUS_UNRELATED:
+                        $campCollaboration->setStatus(CampCollaboration::STATUS_LEFT);
+
+                    break;
                 }
             }
         } else {
             if (isset($data->status)) {
-                if (CampCollaboration::STATUS_UNRELATED == $data->status) {
-                    $this->delete($campCollaboration->getId());
-                    $campCollaboration = null;
-                }
-                if (CampCollaboration::STATUS_ESTABLISHED == $data->status) {
-                    if (isset($data->role)) {
-                        $campCollaboration->setRole($data->role);
-                    }
-                    $campCollaboration->setCollaborationAcceptedBy($authUser->getUsername());
-                    $campCollaboration->setStatus(CampCollaboration::STATUS_ESTABLISHED);
+                switch ($data->status) {
+                    case CampCollaboration::STATUS_LEFT:
+                    case CampCollaboration::STATUS_UNRELATED:
+                        $campCollaboration->setStatus(CampCollaboration::STATUS_LEFT);
+
+                    break;
+                    case CampCollaboration::STATUS_ESTABLISHED:
+                        if (isset($data->role)) {
+                            $campCollaboration->setRole($data->role);
+                        }
+                        $campCollaboration->setCollaborationAcceptedBy($authUser->getUsername());
+                        $campCollaboration->setStatus(CampCollaboration::STATUS_ESTABLISHED);
+
+                    break;
                 }
             }
         }

@@ -22,6 +22,14 @@ class CampCollaboration extends BaseEntity implements BelongsToCampInterface {
     const STATUS_REQUESTED = 'requested';
     const STATUS_INVITED = 'invited';
     const STATUS_ESTABLISHED = 'established';
+    const STATUS_LEFT = 'left';
+
+    const VALID_STATUS = [
+        self::STATUS_INVITED,
+        self::STATUS_REQUESTED,
+        self::STATUS_ESTABLISHED,
+        self::STATUS_LEFT,
+    ];
 
     /**
      * @var ArrayCollection
@@ -96,7 +104,7 @@ class CampCollaboration extends BaseEntity implements BelongsToCampInterface {
      * @throws \Exception
      */
     public function setStatus(string $status): void {
-        if (!in_array($status, [self::STATUS_UNRELATED, self::STATUS_INVITED, self::STATUS_REQUESTED, self::STATUS_ESTABLISHED])) {
+        if (!in_array($status, self::VALID_STATUS)) {
             throw new \Exception('Invalid status: '.$status);
         }
         $this->status = $status;

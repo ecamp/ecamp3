@@ -86,7 +86,7 @@ class UserServiceTest extends AbstractDatabaseTestCase
 ## UnitTests mit Http-Requests
 
 Für UnitTests mit HTTP-Request wird die Klasse 
-```\eCamp\LibTest\PHPUnit\AbstractHttpControllerTestCase``` verwendet.
+```\eCamp\LibTest\PHPUnit\AbstractApiControllerTestCase``` verwendet.
 
 Mit ```$this->dispatch( ~URL~ )``` kann ein HTTP-Request abgesetzt werden.
 Unter ```$this->getRequest()``` und ```$this->getResponse()``` kann Request 
@@ -98,14 +98,12 @@ Beispiel:
 
 namespace eCamp\ApiTest;
 
-use eCamp\LibTest\PHPUnit\AbstractHttpControllerTestCase;
+use eCamp\LibTest\PHPUnit\AbstractApiControllerTestCase;
 
-class OrganizationApiTest extends AbstractHttpControllerTestCase
+class OrganizationApiTest extends AbstractApiControllerTestCase
 {
 
     public function testOrganizationFetch() {
-        $headers = $this->getRequest()->getHeaders();
-        $headers->addHeaderLine('Accept', 'application/json');
 
         $this->dispatch("/api/organization");
         $req  = $this->getRequest();

@@ -48,11 +48,18 @@ class UserService extends AbstractEntityService {
         return null;
     }
 
-    public function findByMail($email) {
+    public function findByTrustedMail($email) {
         /** @var UserRepository $repository */
         $repository = $this->getRepository();
 
-        return $repository->findByMail($email);
+        return $repository->findByTrustedMail($email);
+    }
+
+    public function findByUntrustedMail($email) {
+        /** @var UserRepository $repository */
+        $repository = $this->getRepository();
+
+        return $repository->findByUntrustedMail($email);
     }
 
     public function findByUsername($username) {

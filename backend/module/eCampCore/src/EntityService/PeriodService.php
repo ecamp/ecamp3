@@ -45,10 +45,11 @@ class PeriodService extends AbstractEntityService {
      */
     protected function createEntity($data) {
         /** @var Camp $camp */
-        $camp = $this->findEntity(Camp::class, $data->campId);
+        $camp = $this->findRelatedEntity(Camp::class, $data, 'campId');
 
         /** @var Period $period */
         $period = parent::createEntity($data);
+
         $camp->addPeriod($period);
 
         return $period;
@@ -120,11 +121,11 @@ class PeriodService extends AbstractEntityService {
      * @return Period
      */
     protected function deleteEntity(BaseEntity $entity) {
-        /** @var Period $period */
-        $period = parent::deleteEntity($entity);
-        $period->getCamp()->removePeriod($period);
+        parent::deleteEntity($entity);
 
-        return $period;
+        /** @var Period $period */
+        $period = $entity;
+        $period->getCamp()->removePeriod($period);
     }
 
     /**

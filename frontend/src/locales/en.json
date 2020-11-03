@@ -2,13 +2,14 @@
   "activityContent": {
     "notes": {
       "add": "Add notes",
-      "entity": {},
+      "icon": "mdi-pen",
       "name": "Notes"
     },
     "safetyConcept": {
       "add": "Add safety concept",
-      "entity": {},
-      "name": "safety concept"
+      "icon": "mdi-security",
+      "name": "safety concept",
+      "sort": "3"
     },
     "storyboard": {
       "add": "Add a storyboard",
@@ -22,12 +23,15 @@
           "name": "Storyboard | Storyboards"
         }
       },
-      "name": "storyboard"
+      "icon": "mdi-script-text-outline",
+      "name": "storyboard",
+      "sort": "2"
     },
     "storycontext": {
       "add": "Add story context",
-      "entity": {},
-      "name": "story concept"
+      "icon": "mdi-book-open-page-variant",
+      "name": "story concept",
+      "sort": "1"
     }
   },
   "components": {
@@ -41,9 +45,6 @@
       "campPeriods": {
         "createPeriod": "Create period",
         "title": "Period | Periods"
-      },
-      "campPeriodsListItem": {
-        "deleteWarning": ""
       },
       "campSettings": {
         "fields": {
@@ -67,6 +68,8 @@
       }
     },
     "navigation": {
+      "myCamps": "My camp | My camps",
+      "profile": "Profile",
       "search": "Search",
       "searchActivitiesAndCamps": "Search activity and camps",
       "userMeta": {
@@ -95,10 +98,10 @@
       "name": "Activity categories",
       "numberingStyles": {
         "1": "1, 2, 3 - numbers",
-        "A": "A, B, C - uppercase letters",
-        "I": "I, II, III - uppercase roman numerals",
         "a": "a, b, c - lowercase letters",
-        "i": "i, ii, iii - lowercase roman numerals"
+        "A": "A, B, C - uppercase letters",
+        "i": "i, ii, iii - lowercase roman numerals",
+        "I": "I, II, III - uppercase roman numerals"
       }
     },
     "camp": {
@@ -109,6 +112,9 @@
         "title": "Title"
       },
       "name": "Camp"
+    },
+    "campCollaboration": {
+      "campLeft": "left camp"
     },
     "period": {
       "defaultDescription": "Main",
@@ -149,9 +155,10 @@
     },
     "changeLanguage": "Change language",
     "language": "English",
+    "lokaliseMessage": "Language switching powered by lokalise.com",
     "moment": {
       "dateLong": "dd L",
-      "dateShort": "dd M/D",
+      "dateShort": "dd M\/D",
       "hourShort": "h A"
     },
     "serverError": {
@@ -163,8 +170,8 @@
   },
   "views": {
     "activity": {
-      "sidebarProgram": {
-        "name": "daily overview"
+      "sideBarProgram": {
+        "title": "Activities on this day"
       }
     },
     "auth": {

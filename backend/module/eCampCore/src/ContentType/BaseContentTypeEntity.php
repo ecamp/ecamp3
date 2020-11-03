@@ -4,12 +4,13 @@ namespace eCamp\Core\ContentType;
 
 use Doctrine\ORM\Mapping as ORM;
 use eCamp\Core\Entity\ActivityContent;
+use eCamp\Core\Entity\BelongsToActivityContentInterface;
 use eCamp\Lib\Entity\BaseEntity;
 
 /**
  * @ORM\MappedSuperclass
  */
-abstract class BaseContentTypeEntity extends BaseEntity {
+abstract class BaseContentTypeEntity extends BaseEntity implements BelongsToActivityContentInterface {
     /**
      * @var ActivityContent
      * @ORM\ManyToOne(targetEntity="eCamp\Core\Entity\ActivityContent")
