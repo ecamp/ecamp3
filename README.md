@@ -17,10 +17,9 @@ eCamp3 ist eine Neu-Entwicklung von eCamp. Dabei werden
 folgende Ziele verfolgt:
 
 - Verwendung von Standard-Produkten
-  - Zend-Framework
-  - Twig-Templates
-  - Doctrine ORM
-  - Vue.js
+  - Laminas-Framework fürs Backend
+  - Doctrine ORM für Datenspeicherung
+  - Vue.js fürs Frontend
 - Funktionalität von eCamp2 nachbauen
 - Responsive
 - Mehrsprachigkeit mit [Lokalise](https://lokalise.com)
@@ -29,6 +28,10 @@ folgende Ziele verfolgt:
 #### Entwickler
 
 Du möchtest mithelfen?
+- Folge einer der Installationsanleitungen:
+  - [Installation mit docker](docu/install-docker.md)
+  - [Getting started on Windows](https://github.com/ecamp/ecamp3/wiki/Getting-started-on-Windows) (Docker + WSL2 + VS Code)
+  - [Installation ohne docker](docu/install-ubuntu.md) (nicht empfohlen)
 - Lies [Contributing](CONTRIBUTING.md)
 - Studier das [WIKI](https://github.com/ecamp/ecamp3/wiki)
 
@@ -49,10 +52,9 @@ eCamp3 is a new development of eCamp. The following
 objectives are followed:
 
 - Use of standard products
-  - Zend-Framework
-  - Twig-Templates
-  - Doctrine ORM
-  - Vue.js
+  - Laminas-Framework for backend
+  - Doctrine ORM for persistence
+  - Vue.js for frontend
 - Rebuild the functionality of eCamp2
 - Responsive
 - Multilingualism powered by [Lokalise](https://lokalise.com)
@@ -60,6 +62,10 @@ objectives are followed:
 #### Developer
 
 You want to help?
+- Follow one of the getting started guides:
+  - [Getting started with docker](docu/install-docker.md) (German only)
+  - [Getting started on Windows](https://github.com/ecamp/ecamp3/wiki/Getting-started-on-Windows) (Docker + WSL2 + VS Code)
+  - [Getting started without docker](docu/install-ubuntu.md) (German only; not recommended)
 - Read [Contributing](CONTRIBUTING.md)
 - Study the [WIKI](https://github.com/ecamp/ecamp3/wiki)
 

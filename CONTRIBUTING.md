@@ -18,15 +18,15 @@ We use a triangular git workflow. This means that all changes are first pushed t
 2. Clone your fork to your local computer:
 
     ```
-    git clone https://github.com/your-username/ecamp3.git
+    git clone https://github.com/ecamp/ecamp3.git
     cd ecamp3
     ```
 
 3. Add the master repository as a remote and name the remotes in a sensible way:
 
     ```
-    git remote add ecamp3 https://github.com/ecamp/ecamp3.git
-    git remote rename origin mine
+    git remote add mine https://github.com/your-username/ecamp3.git
+    git remote rename origin ecamp3
     ```
 
 4. Configure the central repo for pulling the current state and your own repo for pushing new changes:
@@ -38,34 +38,14 @@ We use a triangular git workflow. This means that all changes are first pushed t
 
 Once this is set up, you can start coding, and all `git pull` commands should pull from the central repository by default, while all `git push` commands will push to your fork of the project.
 
-We use cs-fixer to ensure a common PHP code style. To make cs-fixer run before every commit, create a script <your>/<local>/<repository>/ecamp3/.git/hooks/pre-commit with the following content and make it executable (for Windows, use equivalent commands):
-```
-#!/usr/bin/env bash
+## Code formatting
+We use cs-fixer for PHP and eslint for Javascript to ensure a common code style. Make sure your code is auto-formatted before comitting and pushing to the repository, either by
 
-echo "php-cs-fixer pre commit hook start"
+We recommend to configure your IDE sucht that your code is auto-formatted on save.
 
-PHP_CS_FIXER="vendor/bin/php-cs-fixer"
-HAS_PHP_CS_FIXER=false
-
-if [ -x vendor/bin/php-cs-fixer ]; then
-    HAS_PHP_CS_FIXER=true
-fi
-
-if $HAS_PHP_CS_FIXER; then
-    git status --porcelain | grep -e '^[AM]\(.*\).php$' | cut -c 3- | while read line; do
-        $PHP_CS_FIXER fix --config=.php_cs --verbose "$line";
-        git add "$line";
-    done
-else
-    echo ""
-    echo "Please install php-cs-fixer, e.g.:"
-    echo ""
-    echo "  composer require --dev fabpot/php-cs-fixer:dev-master"
-    echo ""
-fi
-
-echo "php-cs-fixer pre commit hook finish"
-```
+Alternatively you can
+* run php-cs-fixer and eslint manually before each commit
+* set-up a git pre-commit hook to run php-cs-fixer and eslint automatically before each commit
 
 ## Before submitting pull requests
 
@@ -97,15 +77,15 @@ Wir wenden einen triangulären Git-Workflow an. Das bedeutet, dass alle Code-Än
 2. Klone den Fork auf deinen lokalen Computer:
 
     ```
-    git clone https://github.com/dein-username/ecamp3.git
+    git clone https://github.com/ecamp/ecamp3.git
     cd ecamp3
     ```
 
 3. Füge das zentrale Repository als Remote hinzu und benenne deinen Fork sinnvoll:
 
     ```
-    git remote add ecamp3 https://github.com/ecamp/ecamp3.git
-    git remote rename origin mine
+    git remote add mine https://github.com/dein-username/ecamp3.git
+    git remote rename origin ecamp3
     ```
 
 4. Konfiguriere Git, sodass es als aktuellen, offiziellen Code-Stand das zentrale Repository und fürs Veröffentlichen neuer Änderungen den Fork verwendet:
@@ -117,34 +97,15 @@ Wir wenden einen triangulären Git-Workflow an. Das bedeutet, dass alle Code-Än
 
 Wenn dies eingerichtet ist kannst du loslegen, und alle `git pull`-Befehle sollten standardmässig den Code vom zentralen Repository holen und `git push`-Befehle sollten auf deinen eigenen Fork des Projekts senden.
 
-Wir verwenden cs-fixer um einen gemeinsamen PHP Code Style zu etablieren. Um cs-fixer automatisch vor jedem Commit auszuführen, erstelle ein neues Skript <your>/<local>/<repository>/ecamp3/.git/hooks/pre-commit mit dem folgenden Inhalt (muss für Windows ev. leicht angepasst werden):
-```
-#!/usr/bin/env bash
+## Quellcode Formattierung
+Wir verwenden php-cs-fixer für PHP und eslint für JS um einen gemeinsamen Code Style zu etablieren. Bitte stelle sicher, dass dein Code automatisch richtig formattiert wird, bevor du diesen ins Git repo committest.
 
-echo "php-cs-fixer pre commit hook start"
+Wir empfehlen deine IDE so zu konfigurieren, dass dein Code beim Speichern automatisch richtig formattiert wird.
 
-PHP_CS_FIXER="vendor/bin/php-cs-fixer"
-HAS_PHP_CS_FIXER=false
+Alternativ kannst du 
+* php-cs-fixer und eslint vor jedem commit manuell laufen lassen
+* einen git pre-commit hook einrichten, der php-cs-fixer und eslint vor jedem commit triggert
 
-if [ -x vendor/bin/php-cs-fixer ]; then
-    HAS_PHP_CS_FIXER=true
-fi
-
-if $HAS_PHP_CS_FIXER; then
-    git status --porcelain | grep -e '^[AM]\(.*\).php$' | cut -c 3- | while read line; do
-        $PHP_CS_FIXER fix --config=.php_cs --verbose "$line";
-        git add "$line";
-    done
-else
-    echo ""
-    echo "Please install php-cs-fixer, e.g.:"
-    echo ""
-    echo "  composer require --dev fabpot/php-cs-fixer:dev-master"
-    echo ""
-fi
-
-echo "php-cs-fixer pre commit hook finish"
-```
 
 ## Vor dem Einreichen eines Pull Requests
 
