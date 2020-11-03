@@ -58,6 +58,7 @@ return [
         ],
 
         // Use lazy services (service proxies) for expensive constructors or in case circular dependencies are needed
+        // #572 please remember if we want to use lazy services we need to remove the final methods from AbstractEntityService
         'lazy_services' => [
             'class_map' => [
                 //\eCamp\Core\EntityService\ActivityCategoryService::class => \eCamp\Core\EntityService\ActivityCategoryService::class,
