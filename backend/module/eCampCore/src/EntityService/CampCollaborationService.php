@@ -38,9 +38,10 @@ class CampCollaborationService extends AbstractEntityService {
         }
 
         /** @var Camp $camp */
-        $camp = $this->findEntity(Camp::class, $data->campId);
+        $camp = $this->findRelatedEntity(Camp::class, $data, 'campId');
+
         /** @var User $user */
-        $user = $this->findEntity(User::class, $data->userId);
+        $user = $this->findRelatedEntity(User::class, $data, 'userId');
 
         if (!isset($data->role)) {
             $data->role = CampCollaboration::ROLE_MEMBER;
@@ -78,7 +79,7 @@ class CampCollaborationService extends AbstractEntityService {
      */
     protected function patchEntity(BaseEntity $entity, $data) {
         /** @var CampCollaboration $campCollaboration */
-        $campCollaboration = parent::patchEntity($entity, $data);
+        $campCollaboration = $entity;
 
         if ($campCollaboration->isEstablished()) {
             $campCollaboration = $this->updateCollaboration($campCollaboration, $data);

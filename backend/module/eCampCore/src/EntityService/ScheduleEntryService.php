@@ -2,9 +2,13 @@
 
 namespace eCamp\Core\EntityService;
 
+use eCamp\Core\Entity\Activity;
 use eCamp\Core\Entity\Camp;
+use eCamp\Core\Entity\Period;
 use eCamp\Core\Entity\ScheduleEntry;
 use eCamp\Core\Hydrator\ScheduleEntryHydrator;
+use eCamp\Lib\Service\EntityNotFoundException;
+use eCamp\Lib\Service\EntityValidationException;
 use eCamp\Lib\Service\ServiceUtils;
 use Laminas\Authentication\AuthenticationService;
 
@@ -37,5 +41,36 @@ class ScheduleEntryService extends AbstractEntityService {
         $q->andWhere($this->createFilter($q, Camp::class, 'e', 'camp'));
 
         return $q;
+    }
+
+    /**
+     * @param mixed $data
+     *
+     * @throws ORMException
+     * @throws NoAccessException
+     * @throws EntityNotFoundException
+     *
+     * @return ScheduleEntry
+     */
+    protected function createEntity($data) {
+        /** @var ScheduleEntry $scheduleEntry */
+        $scheduleEntry = parent::createEntity($data);
+
+        /** @var Period $period */
+        $period = $this->findRelatedEntity(Period::class, $data, 'periodId');
+        $period->addScheduleEntry($scheduleEntry);
+
+        /** @var Activity $activity */
+        $activity = $this->findRelatedEntity(Activity::class, $data, 'activityId');
+        $activity->addScheduleEntry($scheduleEntry);
+
+        if ($activity->getCamp()->getId() !== $period->getCamp()->getId()) {
+            throw (new EntityValidationException())->setMessages([
+                'activityId' => ['campMismatch' => 'Provided activity is not part of the same camp as provided period'],
+                'periodId' => ['campMismatch' => 'Provided activity is not part of the same camp as provided period'],
+            ]);
+        }
+
+        return $scheduleEntry;
     }
 }

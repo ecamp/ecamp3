@@ -45,10 +45,11 @@ class PeriodService extends AbstractEntityService {
      */
     protected function createEntity($data) {
         /** @var Camp $camp */
-        $camp = $this->findEntity(Camp::class, $data->campId);
+        $camp = $this->findRelatedEntity(Camp::class, $data, 'campId');
 
         /** @var Period $period */
         $period = parent::createEntity($data);
+
         $camp->addPeriod($period);
 
         return $period;
