@@ -132,7 +132,7 @@ class AuthController extends AbstractActionController {
         $user = $this->userService->findByUsername($usernameOrEmail);
 
         if (is_null($user)) {
-            $user = $this->userService->findByMail($usernameOrEmail);
+            $user = $this->userService->findByTrustedMail($usernameOrEmail);
         }
 
         $adapter = new LoginPassword($user, $password);
