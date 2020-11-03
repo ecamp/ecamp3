@@ -1,0 +1,72 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`An ECheckbox looks like a checkbox: checked 1`] = `
+<span>
+  <div
+    class="v-input v-input--hide-details theme--light v-input--selection-controls v-input--checkbox"
+  >
+    <div
+      class="v-input__control"
+    >
+      <div
+        class="v-input__slot"
+      >
+        <div
+          class="v-input--selection-controls__input"
+        >
+          <i
+            aria-hidden="true"
+            class="v-icon notranslate mdi mdi-checkbox-blank-outline theme--light"
+          />
+          <input
+            aria-checked="false"
+            id="input-8"
+            role="checkbox"
+            type="checkbox"
+            value=""
+            vmodel="true"
+          />
+          <div
+            class="v-input--selection-controls__ripple"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</span>
+`;
+
+exports[`An ECheckbox looks like a checkbox: unchecked 1`] = `
+<span>
+  <div
+    class="v-input v-input--hide-details theme--light v-input--selection-controls v-input--checkbox"
+  >
+    <div
+      class="v-input__control"
+    >
+      <div
+        class="v-input__slot"
+      >
+        <div
+          class="v-input--selection-controls__input"
+        >
+          <i
+            aria-hidden="true"
+            class="v-icon notranslate mdi mdi-checkbox-blank-outline theme--light"
+          />
+          <input
+            aria-checked="false"
+            id="input-8"
+            role="checkbox"
+            type="checkbox"
+            value=""
+          />
+          <div
+            class="v-input--selection-controls__ripple"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</span>
+`;
