@@ -206,7 +206,7 @@ abstract class AbstractEntityService extends AbstractResourceListener {
             $this->assertAllowed($entity, __FUNCTION__);
 
             $this->deleteEntity($entity);
-            $this->serviceUtils->emRemove($entity);
+
             $this->serviceUtils->emFlush();
 
             return true;
@@ -268,11 +268,9 @@ abstract class AbstractEntityService extends AbstractResourceListener {
 
     /**
      * @param $entity
-     *
-     * @return BaseEntity
      */
     protected function deleteEntity(BaseEntity $entity) {
-        return $entity;
+        $this->serviceUtils->emRemove($entity);
     }
 
     /**

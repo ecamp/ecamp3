@@ -113,6 +113,9 @@
       },
       "name": "Camp"
     },
+    "campCollaboration": {
+      "campLeft": "left camp"
+    },
     "period": {
       "defaultDescription": "Main",
       "fields": {

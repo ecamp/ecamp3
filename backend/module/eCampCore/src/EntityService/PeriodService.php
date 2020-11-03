@@ -121,11 +121,11 @@ class PeriodService extends AbstractEntityService {
      * @return Period
      */
     protected function deleteEntity(BaseEntity $entity) {
-        /** @var Period $period */
-        $period = parent::deleteEntity($entity);
-        $period->getCamp()->removePeriod($period);
+        parent::deleteEntity($entity);
 
-        return $period;
+        /** @var Period $period */
+        $period = $entity;
+        $period->getCamp()->removePeriod($period);
     }
 
     /**

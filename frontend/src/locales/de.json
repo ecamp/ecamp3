@@ -106,6 +106,9 @@
       },
       "name": "Lager"
     },
+    "campCollaboration": {
+      "campLeft": "Lager verlassen"
+    },
     "period": {
       "defaultDescription": "Hauptlager",
       "fields": {
