@@ -13,7 +13,7 @@ use Laminas\Json\Json;
  * @ORM\Entity
  */
 class CampType extends BaseEntity {
-    const CNF_EVENT_CATEGORIES = 'activityCategories';
+    const CNF_ACTIVITY_CATEGORIES = 'activityCategories';
     const CNF_JOBS = 'jobs';
 
     /**

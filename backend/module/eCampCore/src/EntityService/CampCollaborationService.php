@@ -70,8 +70,14 @@ class CampCollaborationService extends AbstractEntityService {
         $this->assertAllowed($campCollaboration, Acl::REST_PRIVILEGE_CREATE);
 
         if ($data->userId === $authUser->getId()) {
-            // Create CampCollaboration for AuthUser
-            $campCollaboration->setStatus(CampCollaboration::STATUS_REQUESTED);
+            if ($data->userId === $camp->getCreator()->getId()) {
+                // Create CampCollaboration for Creator
+                $campCollaboration->setStatus(CampCollaboration::STATUS_ESTABLISHED);
+                $campCollaboration->setCollaborationAcceptedBy($authUser->getUsername());
+            } else {
+                // Create CampCollaboration for AuthUser
+                $campCollaboration->setStatus(CampCollaboration::STATUS_REQUESTED);
+            }
         } else {
             // Create CampCollaboration for other User
             $campCollaboration->setStatus(CampCollaboration::STATUS_INVITED);

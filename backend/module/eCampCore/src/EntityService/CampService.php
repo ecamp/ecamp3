@@ -5,6 +5,7 @@ namespace eCamp\Core\EntityService;
 use Doctrine\ORM\ORMException;
 use eCamp\Core\Entity\AbstractCampOwner;
 use eCamp\Core\Entity\Camp;
+use eCamp\Core\Entity\CampCollaboration;
 use eCamp\Core\Entity\CampType;
 use eCamp\Core\Entity\User;
 use eCamp\Core\Hydrator\CampHydrator;
@@ -22,11 +23,15 @@ class CampService extends AbstractEntityService {
     /** @var ActivityCategoryService */
     protected $activityCategoryService;
 
+    /** @var CampCollaborationService */
+    protected $campCollaboratorService;
+
     public function __construct(
         ActivityCategoryService $activityCategoryService,
         PeriodService $periodService,
         ServiceUtils $serviceUtils,
-        AuthenticationService $authenticationService
+        AuthenticationService $authenticationService,
+        CampCollaborationService $campCollaboratorService
     ) {
         parent::__construct(
             $serviceUtils,
@@ -37,6 +42,7 @@ class CampService extends AbstractEntityService {
 
         $this->periodService = $periodService;
         $this->activityCategoryService = $activityCategoryService;
+        $this->campCollaboratorService = $campCollaboratorService;
     }
 
     /**
@@ -87,18 +93,26 @@ class CampService extends AbstractEntityService {
         $camp = $entity;
         $campType = $camp->getCampType();
 
+        // Create CampCollaboration for Creator
+        $this->campCollaboratorService->create((object) [
+            'campId' => $camp->getId(),
+            'role' => CampCollaboration::ROLE_MANAGER,
+        ]);
+
         /** Create default Jobs */
+        /*
         $jobConfigs = $campType->getConfig(CampType::CNF_JOBS) ?: [];
         foreach ($jobConfigs as $jobConfig) {
             $jobConfig->campId = $camp->getId();
             $this->getJobService()->create($jobConfig);
         }
+        */
 
-        /** Create default ActivityCategories: */
-        $ecConfigs = $campType->getConfig(CampType::CNF_EVENT_CATEGORIES) ?: [];
-        foreach ($ecConfigs as $ecConfig) {
-            $ecConfig->campId = $camp->getId();
-            $this->getActivityCategoryService()->create($ecConfig);
+        // Create default ActivityCategories
+        $acConfigs = $campType->getConfig(CampType::CNF_ACTIVITY_CATEGORIES) ?: [];
+        foreach ($acConfigs as $acConfig) {
+            $acConfig->campId = $camp->getId();
+            $this->activityCategoryService->create($acConfig);
         }
 
         // Create Periods:
@@ -108,13 +122,6 @@ class CampService extends AbstractEntityService {
                 $period->campId = $camp->getId();
                 $this->periodService->create($period);
             }
-        } elseif (isset($data->start, $data->end)) {
-            $this->getPeriodService()->create((object) [
-                'campId' => $camp->getId(),
-                'description' => 'Main',
-                'start' => $data->start,
-                'end' => $data->end,
-            ]);
         }
 
         return $camp;
