@@ -14,6 +14,7 @@ use eCamp\Core\Entity\User;
 use eCamp\Lib\Acl\Acl;
 use eCamp\Lib\Acl\Guest;
 use eCamp\Lib\Acl\NoAccessException;
+use eCamp\Lib\Acl\NotAuthenticatedException;
 use eCamp\Lib\Entity\BaseEntity;
 use eCamp\Lib\Service\EntityNotFoundException;
 use eCamp\Lib\Service\EntityValidationException;
@@ -63,6 +64,8 @@ abstract class AbstractEntityService extends AbstractResourceListener {
     public function dispatch(ResourceEvent $event) {
         try {
             return parent::dispatch($event);
+        } catch (NotAuthenticatedException $e) {
+            return new ApiProblem(401, $e->getMessage());
         } catch (NoAccessException $e) {
             return new ApiProblem(403, $e->getMessage());
         } catch (EntityNotFoundException $e) {
@@ -309,11 +312,11 @@ abstract class AbstractEntityService extends AbstractResourceListener {
     }
 
     /**
-     * @throws NoAccessException if no user is authenticated
+     * @throws NotAuthenticatedException if no user is authenticated
      */
     protected function assertAuthenticated() {
         if (!$this->isAuthenticated()) {
-            throw new NoAccessException();
+            throw new NotAuthenticatedException();
         }
     }
 
