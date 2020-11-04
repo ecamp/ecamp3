@@ -146,8 +146,8 @@ JSON;
 
         $this->assertResponseStatusCode(204);
 
-        $result = $this->getEntityManager()->find(CampCollaboration::class, $this->campCollaboration->getId());
-        // TODO: this will break once PR #561 is merged
-        $this->assertNull($result);
+        /** @var CampCollaboration $cc */
+        $cc = $this->getEntityManager()->find(CampCollaboration::class, $this->campCollaboration->getId());
+        $this->assertEquals(CampCollaboration::STATUS_LEFT, $cc->getStatus());
     }
 }
