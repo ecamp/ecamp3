@@ -88,6 +88,7 @@
 
 <script>
 import { refreshLoginStatus } from '@/plugins/auth'
+import VueI18n from '@/plugins/i18n'
 import AuthContainer from '@/components/layout/AuthContainer'
 import HorizontalRule from '@/components/layout/HorizontalRule'
 import IconSpacer from '@/components/layout/IconSpacer'
@@ -116,6 +117,15 @@ export default {
         next()
       }
     })
+  },
+  mounted () {
+    const languages = navigator.languages || [navigator.language]
+    for (const language of languages) {
+      if (VueI18n.availableLocales.includes(language)) {
+        this.$store.commit('setLanguage', language)
+        break
+      }
+    }
   },
   methods: {
     async login () {
