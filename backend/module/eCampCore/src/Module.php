@@ -28,7 +28,7 @@ class Module {
 
         $events->attach(MvcEvent::EVENT_DISPATCH, function (MvcEvent $e) use ($em) {
             $em->beginTransaction();
-        });
+        }, 10);
 
         $events->attach(MvcEvent::EVENT_FINISH, function (MvcEvent $e) use ($em) {
             if ($e->getError() || $e->getResponse() instanceof ApiProblemResponse) {
@@ -41,7 +41,7 @@ class Module {
                     $em->getConnection()->commit();
                 }
             }
-        });
+        }, 10);
 
         // inject ContentTypeStrategyProvider into Doctrine entities (mainly ActivityContent entity)
         $em->getEventManager()->addEventListener([\Doctrine\ORM\Events::postLoad], $sm->get(ContentTypeStrategyProviderInjector::class));
