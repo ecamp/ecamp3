@@ -9,6 +9,33 @@ use eCamp\LibTest\PHPUnit\AbstractApiControllerTestCase;
  */
 class RootTest extends AbstractApiControllerTestCase {
     public function testRootResponse() {
+        $this->dispatch('/', 'GET');
+
+        $host = '';
+        $expectedResponse = <<<JSON
+        {
+            "title": "eCamp V3",
+            "_links": {
+                "self": {
+                    "href": "http://{$host}/"
+                },
+                "api": {
+                    "href": "http://{$host}/api"
+                },
+                "setup": {
+                    "href": "http://{$host}/setup.php"
+                },
+                "php-info": {
+                    "href": "http://{$host}/info.php"
+                }
+            }
+        }
+JSON;
+
+        $this->assertEquals(json_decode($expectedResponse), $this->getResponseContent());
+    }
+
+    public function testApiResponse() {
         $this->dispatch('/api', 'GET');
 
         $host = '';
