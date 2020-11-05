@@ -11,7 +11,7 @@ class InjectorDecoratorFactory implements DelegatorFactoryInterface {
         $injector = $callback();
 
         if (class_exists(GeneratedInjector::class)) {
-            return new GeneratedInjector($injector);
+            return new GeneratedInjector($injector, $container);
         }
 
         return $injector;
