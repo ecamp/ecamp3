@@ -106,6 +106,16 @@ abstract class AbstractApiControllerTestCase extends ZendAbstractHttpControllerT
     }
 
     /**
+     * Returns id of authenticated user.
+     */
+    protected function getAuthenticatedUserId() {
+        /** @var AuthenticationService $auth */
+        $auth = $this->getApplicationServiceLocator()->get(AuthenticationService::class);
+
+        return $auth->getStorage()->read();
+    }
+
+    /**
      * Verifies HAL response.
      */
     protected function verifyHalResourceResponse(string $rootAsJson, string $linksAsJson, array $embeddedObjectList) {
