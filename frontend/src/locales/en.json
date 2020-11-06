@@ -2,13 +2,11 @@
   "activityContent": {
     "notes": {
       "add": "Add notes",
-      "entity": {},
       "icon": "mdi-pen",
       "name": "Notes"
     },
     "safetyConcept": {
       "add": "Add safety concept",
-      "entity": {},
       "icon": "mdi-security",
       "name": "Safety concept",
       "sort": "3"
@@ -31,9 +29,8 @@
     },
     "storycontext": {
       "add": "Add story context",
-      "entity": {},
       "icon": "mdi-book-open-page-variant",
-      "name": "Story context",
+      "name": "Story concept",
       "sort": "1"
     }
   },
@@ -58,9 +55,6 @@
       "campPeriods": {
         "createPeriod": "Create period",
         "title": "Period | Periods"
-      },
-      "campPeriodsListItem": {
-        "deleteWarning": ""
       },
       "campSettings": {
         "fields": {
@@ -89,6 +83,8 @@
       }
     },
     "navigation": {
+      "myCamps": "My camp | My camps",
+      "profile": "Profile",
       "search": "Search",
       "searchActivitiesAndCamps": "Search activities and camps",
       "userMeta": {
@@ -119,10 +115,10 @@
       "name": "Activity categories",
       "numberingStyles": {
         "1": "1, 2, 3 - numbers",
-        "A": "A, B, C - uppercase letters",
-        "I": "I, II, III - uppercase roman numerals",
         "a": "a, b, c - lowercase letters",
-        "i": "i, ii, iii - lowercase roman numerals"
+        "A": "A, B, C - uppercase letters",
+        "i": "i, ii, iii - lowercase roman numerals",
+        "I": "I, II, III - uppercase roman numerals"
       }
     },
     "camp": {
@@ -133,6 +129,9 @@
         "title": "Title"
       },
       "name": "Camp"
+    },
+    "campCollaboration": {
+      "campLeft": "left camp"
     },
     "period": {
       "defaultDescription": "Main",
@@ -181,9 +180,10 @@
     },
     "changeLanguage": "Change language",
     "language": "English",
+    "lokaliseMessage": "Language switching powered by lokalise.com",
     "moment": {
       "dateLong": "dd L",
-      "dateShort": "dd M/D",
+      "dateShort": "dd M\/D",
       "hourLong": "HH:mm",
       "hourShort": "h A"
     },

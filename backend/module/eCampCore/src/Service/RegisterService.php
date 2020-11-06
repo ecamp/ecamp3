@@ -22,15 +22,12 @@ class RegisterService extends AbstractService {
         $this->userService = $userService;
     }
 
-    public function register($username, $mail, $password) {
-        $user = $this->userService->create((object) [
-            'username' => $username,
-            'mailAddress' => $mail,
-            'state' => User::STATE_REGISTERED,
-        ]);
+    public function register($data) {
+        $data->state = User::STATE_REGISTERED;
+        $user = $this->userService->create($data);
 
         if ($user instanceof User) {
-            $login = new Login($user, $password);
+            $login = new Login($user, $data->password);
             $this->getServiceUtils()->emPersist($login);
         }
 

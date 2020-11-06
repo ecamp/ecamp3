@@ -33,7 +33,7 @@
           :uri="profile._meta.self"
           fieldname="birthday" />
         <api-select
-          :name="$tc('entity.user.fields.language')"
+          :name="$tc('entity.user.fields.language') + ' (' + $tc('global.lokaliseMessage') + ')'"
           :uri="profile._meta.self"
           fieldname="language"
           :items="availableLocales" />

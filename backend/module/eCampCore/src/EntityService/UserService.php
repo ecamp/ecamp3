@@ -48,11 +48,18 @@ class UserService extends AbstractEntityService {
         return null;
     }
 
-    public function findByMail($email) {
+    public function findByTrustedMail($email) {
         /** @var UserRepository $repository */
         $repository = $this->getRepository();
 
-        return $repository->findByMail($email);
+        return $repository->findByTrustedMail($email);
+    }
+
+    public function findByUntrustedMail($email) {
+        /** @var UserRepository $repository */
+        $repository = $this->getRepository();
+
+        return $repository->findByUntrustedMail($email);
     }
 
     public function findByUsername($username) {
@@ -77,9 +84,16 @@ class UserService extends AbstractEntityService {
         if ($profile instanceof Profile) {
             $data = (object) [
                 'username' => $profile->displayName,
-                'mailAddress' => $profile->email,
+                'firstname' => $profile->firstName,
+                'surname' => $profile->lastName,
+                'mailAddress' => $profile->emailVerified,
+                'language' => $profile->language,
                 'state' => User::STATE_REGISTERED,
             ];
+
+            if (isset($profile->birthDay, $profile->birthMonth, $profile->birthYear)) {
+                $data['birthday'] = $profile->birthYear.'-'.$profile->birthMonth.'-'.$profile->birthDay;
+            }
         }
 
         $state = isset($data->state) ? $data->state : User::STATE_NONREGISTERED;

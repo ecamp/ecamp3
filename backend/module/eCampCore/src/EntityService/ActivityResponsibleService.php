@@ -22,10 +22,10 @@ class ActivityResponsibleService extends AbstractEntityService {
 
     protected function createEntity($data) {
         /** @var Activity $activity */
-        $activity = $this->findEntity(Activity::class, $data->activityId);
+        $activity = $this->findRelatedEntity(Activity::class, $data, 'activityId');
 
         /** @var CampCollaboration $campCollaboration */
-        $campCollaboration = $this->findEntity(CampCollaboration::class, $data->campCollaborationId);
+        $campCollaboration = $this->findRelatedEntity(CampCollaboration::class, $data, 'campCollaborationId');
 
         /** @var ActivityResponsible $activityResponsible */
         $activityResponsible = parent::createEntity($data);

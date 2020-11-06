@@ -22,7 +22,7 @@ folgende Ziele verfolgt:
   - Vue.js fürs Frontend
 - Funktionalität von eCamp2 nachbauen
 - Responsive
-- Mehrsprachigkeit
+- Mehrsprachigkeit mit [Lokalise](https://lokalise.com)
   
 
 #### Entwickler
@@ -57,7 +57,7 @@ objectives are followed:
   - Vue.js for frontend
 - Rebuild the functionality of eCamp2
 - Responsive
-- Multilingualism
+- Multilingualism powered by [Lokalise](https://lokalise.com)
 
 #### Developer
 

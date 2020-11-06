@@ -19,7 +19,7 @@
         "php": "^7.4.2",
         "laminas-api-tools/api-tools-hal": "^1.5",
         "laminas-api-tools/api-tools-rest": "^1.5",
-        "laminas/laminas-di": "^3.0",
+        "laminas/laminas-di": "^3.2",
         "laminas/laminas-mvc": "^3.1",
         "laminas/laminas-mail": "^2.10",
         "laminas/laminas-router": "^3.0",
@@ -81,7 +81,7 @@
         "cs-check": "php-cs-fixer fix --dry-run",
         "cs-fix": "php-cs-fixer fix",
         "serve": "php -S 0.0.0.0:8080 -t public/ public/index.php",
-        "test": "phpunit",
+        "test": "phpunit -d memory_limit=-1",
         "di-generate-aot": [
             "rm -vfr module/eCampAoT/gen",
             "php bin/di-generate-aot.php"

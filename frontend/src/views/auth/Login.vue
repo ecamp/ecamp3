@@ -53,16 +53,14 @@
       </v-btn>
     </v-form>
     <horizontal-rule :label="$tc('views.auth.login.or')" />
-    <v-btn
-      dark
-      :x-large="$vuetify.breakpoint.smAndUp"
-      color="green"
-      outlined
-      block
-      class="my-4"
-      @click="loginPbsMiData">
-      <v-progress-circular v-if="hitobitoLoggingIn" indeterminate size="24" />
-      <v-icon v-else>$vuetify.icons.pbs</v-icon>
+    <v-btn dark
+           color="green"
+           :x-large="$vuetify.breakpoint.smAndUp"
+           block
+           outlined
+           class="my-4"
+           @click="loginPbsMiData">
+      <v-icon>$vuetify.icons.pbs</v-icon>
       <v-spacer />
       <span class="text--secondary">{{ $tc('views.auth.login.provider.midata') }}</span>
       <v-spacer />
@@ -75,8 +73,7 @@
            outlined
            class="my-4 text--secondary"
            @click="loginGoogle">
-      <v-progress-circular v-if="googleLoggingIn" indeterminate size="24" />
-      <v-icon v-else>$vuetify.icons.google</v-icon>
+      <v-icon>$vuetify.icons.google</v-icon>
       <v-spacer />
       <span class="text--secondary">{{ $tc('views.auth.login.provider.google') }}</span>
       <v-spacer />
@@ -108,9 +105,7 @@ export default {
       password: '',
       error: false,
       normalLoggingIn: false,
-      hitobitoLoggingIn: false,
-      showCredits: true,
-      googleLoggingIn: false
+      showCredits: true
     }
   },
   beforeRouteEnter (to, from, next) {
@@ -127,24 +122,17 @@ export default {
       this.normalLoggingIn = true
       this.error = false
       if (await this.$auth.login(this.username, this.password)) {
-        this.redirect()
+        this.$router.replace(this.$route.query.redirect || '/')
       } else {
         this.normalLoggingIn = false
         this.error = true
       }
     },
     async loginGoogle () {
-      this.googleLoggingIn = true
       await this.$auth.loginGoogle()
-      this.redirect()
     },
     async loginPbsMiData () {
-      this.hitobitoLoggingIn = true
       await this.$auth.loginPbsMiData()
-      this.redirect()
-    },
-    redirect () {
-      this.$router.replace(this.$route.query.redirect || '/')
     }
   }
 }

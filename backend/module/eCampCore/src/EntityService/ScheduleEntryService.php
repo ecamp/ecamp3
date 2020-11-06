@@ -2,14 +2,12 @@
 
 namespace eCamp\Core\EntityService;
 
-use Doctrine\ORM\ORMException;
 use eCamp\Core\Entity\Activity;
 use eCamp\Core\Entity\Camp;
 use eCamp\Core\Entity\Period;
 use eCamp\Core\Entity\ScheduleEntry;
 use eCamp\Core\Hydrator\ScheduleEntryHydrator;
-use eCamp\Lib\Acl\NoAccessException;
-use eCamp\Lib\Service\EntityNotFoundException;
+use eCamp\Lib\Service\EntityValidationException;
 use eCamp\Lib\Service\ServiceUtils;
 use Laminas\Authentication\AuthenticationService;
 
@@ -47,9 +45,7 @@ class ScheduleEntryService extends AbstractEntityService {
     /**
      * @param mixed $data
      *
-     * @throws ORMException
-     * @throws NoAccessException
-     * @throws EntityNotFoundException
+     * @throws EntityValidationException
      *
      * @return ScheduleEntry
      */
@@ -57,16 +53,19 @@ class ScheduleEntryService extends AbstractEntityService {
         /** @var ScheduleEntry $scheduleEntry */
         $scheduleEntry = parent::createEntity($data);
 
-        if (isset($data->periodId)) {
-            /** @var Period $period */
-            $period = $this->findEntity(Period::class, $data->periodId);
-            $period->addScheduleEntry($scheduleEntry);
-        }
+        /** @var Period $period */
+        $period = $this->findRelatedEntity(Period::class, $data, 'periodId');
+        $period->addScheduleEntry($scheduleEntry);
 
-        if (isset($data->activityId)) {
-            /** @var Activity $activity */
-            $activity = $this->findEntity(Activity::class, $data->activityId);
-            $activity->addScheduleEntry($scheduleEntry);
+        /** @var Activity $activity */
+        $activity = $this->findRelatedEntity(Activity::class, $data, 'activityId');
+        $activity->addScheduleEntry($scheduleEntry);
+
+        if ($activity->getCamp()->getId() !== $period->getCamp()->getId()) {
+            throw (new EntityValidationException())->setMessages([
+                'activityId' => ['campMismatch' => 'Provided activity is not part of the same camp as provided period'],
+                'periodId' => ['campMismatch' => 'Provided activity is not part of the same camp as provided period'],
+            ]);
         }
 
         return $scheduleEntry;

@@ -73,17 +73,8 @@ class ActivityService extends AbstractEntityService {
         $this->updateActivityResponsibles($activity, $data);
         $this->updateScheduleEntries($activity, $data);
 
-        if (isset($data->campId)) {
-            /** @var Camp $camp */
-            $camp = $this->findEntity(Camp::class, $data->campId);
-            $camp->addActivity($activity);
-        }
-
-        if (isset($data->activityCategoryId)) {
-            /** @var ActivityCategory $category */
-            $category = $this->findEntity(ActivityCategory::class, $data->activityCategoryId);
-            $activity->setActivityCategory($category);
-        }
+        $category = $this->findRelatedEntity(ActivityCategory::class, $data, 'activityCategoryId');
+        $activity->setActivityCategory($category);
 
         return $entity;
     }
@@ -130,17 +121,11 @@ class ActivityService extends AbstractEntityService {
         /** @var Activity $activity */
         $activity = parent::createEntity($data);
 
-        if (isset($data->campId)) {
-            /** @var Camp $camp */
-            $camp = $this->findEntity(Camp::class, $data->campId);
-            $camp->addActivity($activity);
-        }
+        /** @var ActivityCategory $category */
+        $category = $this->findRelatedEntity(ActivityCategory::class, $data, 'activityCategoryId');
 
-        if (isset($data->activityCategoryId)) {
-            /** @var ActivityCategory $category */
-            $category = $this->findEntity(ActivityCategory::class, $data->activityCategoryId);
-            $activity->setActivityCategory($category);
-        }
+        $activity->setActivityCategory($category);
+        $activity->setCamp($category->getCamp()); // TODO meeting discus: Why do we actually need camp on activity? Redundant relationship
 
         return $activity;
     }

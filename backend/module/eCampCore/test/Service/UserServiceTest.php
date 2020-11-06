@@ -20,6 +20,7 @@ class UserServiceTest extends AbstractDatabaseTestCase {
         /** @var UserService $userService */
         $userService = \eCampApp::GetService(UserService::class);
 
+        /** @var User $user */
         $user = $userService->create((object) [
             'username' => self::USERNAME,
             'mailAddress' => self::EMAIL,
@@ -59,7 +60,7 @@ class UserServiceTest extends AbstractDatabaseTestCase {
             'mailAddress' => self::EMAIL,
         ]);
 
-        $foundUser = $userService->findByMail(self::EMAIL);
+        $foundUser = $userService->findByUntrustedMail(self::EMAIL);
         $this->assertThat($foundUser, self::isSameUserAs($user));
     }
 

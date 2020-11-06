@@ -14,6 +14,7 @@ use eCamp\Core\Entity\User;
 use eCamp\Lib\Acl\Acl;
 use eCamp\Lib\Acl\Guest;
 use eCamp\Lib\Acl\NoAccessException;
+use eCamp\Lib\Acl\NotAuthenticatedException;
 use eCamp\Lib\Entity\BaseEntity;
 use eCamp\Lib\Service\EntityNotFoundException;
 use eCamp\Lib\Service\EntityValidationException;
@@ -63,6 +64,8 @@ abstract class AbstractEntityService extends AbstractResourceListener {
     public function dispatch(ResourceEvent $event) {
         try {
             return parent::dispatch($event);
+        } catch (NotAuthenticatedException $e) {
+            return new ApiProblem(401, $e->getMessage());
         } catch (NoAccessException $e) {
             return new ApiProblem(403, $e->getMessage());
         } catch (EntityNotFoundException $e) {
@@ -71,9 +74,10 @@ abstract class AbstractEntityService extends AbstractResourceListener {
             return new ApiProblem(409, $e->getMessage());
         } catch (EntityValidationException $e) {
             return new ApiProblem(422, 'Failed Validation', null, null, ['validation_messages' => $e->getMessages()]);
-        } catch (\Exception $e) {
-            return new ApiProblem(500, $e->getMessage());
         }
+        /* catch (\Exception $e) {
+            return new ApiProblem(500, $e->getMessage());
+        }*/
     }
 
     /**
@@ -205,7 +209,7 @@ abstract class AbstractEntityService extends AbstractResourceListener {
             $this->assertAllowed($entity, __FUNCTION__);
 
             $this->deleteEntity($entity);
-            $this->serviceUtils->emRemove($entity);
+
             $this->serviceUtils->emFlush();
 
             return true;
@@ -267,11 +271,9 @@ abstract class AbstractEntityService extends AbstractResourceListener {
 
     /**
      * @param $entity
-     *
-     * @return BaseEntity
      */
     protected function deleteEntity(BaseEntity $entity) {
-        return $entity;
+        $this->serviceUtils->emRemove($entity);
     }
 
     /**
@@ -302,13 +304,29 @@ abstract class AbstractEntityService extends AbstractResourceListener {
     }
 
     /**
+     * @return true if User is authenticated
+     */
+    protected function isAuthenticated() {
+        return $this->authenticationService->hasIdentity();
+    }
+
+    /**
+     * @throws NotAuthenticatedException if no user is authenticated
+     */
+    protected function assertAuthenticated() {
+        if (!$this->isAuthenticated()) {
+            throw new NotAuthenticatedException();
+        }
+    }
+
+    /**
      * @return Guest|User
      */
     protected function getAuthUser() {
         /** @var User $user */
         $user = new Guest();
 
-        if ($this->authenticationService->hasIdentity()) {
+        if ($this->isAuthenticated()) {
             $userRepository = $this->serviceUtils->emGetRepository(User::class);
             $userId = $this->authenticationService->getIdentity();
             $user = $userRepository->find($userId);
@@ -448,6 +466,29 @@ abstract class AbstractEntityService extends AbstractResourceListener {
             $entity = $this->getQuerySingleResult($q);
         } catch (EntityNotFoundException $e) {
             throw new EntityNotFoundException("Entity {$className} with id {$id} not found", 0, $e);
+        }
+
+        return $entity;
+    }
+
+    /**
+     * @param mixed $data
+     *
+     * @throws EntityValidationException
+     *
+     * @return mixed
+     */
+    protected function findRelatedEntity(string $className, $data, string $key) {
+        // check if foreign key exists
+        if (empty($data->{$key})) {
+            throw (new EntityValidationException())->setMessages([$key => ['isEmpty' => "Value is required and can't be empty"]]);
+        }
+
+        // try to find Entity
+        try {
+            $entity = $this->findEntity($className, $data->{$key});
+        } catch (EntityNotFoundException $e) {
+            throw (new EntityValidationException())->setMessages([$key => ['notFound' => "Entity {$className} with id {$data->{$key}} not found or not accessible"]]);
         }
 
         return $entity;
