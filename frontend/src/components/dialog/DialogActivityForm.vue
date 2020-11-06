@@ -48,11 +48,15 @@ export default {
     activity: {
       type: Object,
       required: true
+    },
+    camp: {
+      type: Function,
+      required: true
     }
   },
   computed: {
     activityCategories () {
-      return this.activity.camp().activityCategories()
+      return this.camp().activityCategories()
     }
   }
 }

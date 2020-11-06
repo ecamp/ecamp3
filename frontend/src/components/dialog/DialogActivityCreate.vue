@@ -13,7 +13,7 @@
       <slot name="activator" v-bind="scope" />
     </template>
 
-    <dialog-activity-form v-if="!loading" :activity="entityData" />
+    <dialog-activity-form v-if="!loading" :activity="entityData" :camp="scheduleEntry.period().camp" />
   </dialog-form>
 </template>
 
@@ -41,8 +41,7 @@ export default {
         'title',
         'activityCategoryId',
         'scheduleEntries',
-        'location',
-        'camp'
+        'location'
       ],
       entityUri: '/activities'
     }
@@ -51,7 +50,6 @@ export default {
     showDialog: function (showDialog) {
       if (showDialog) {
         this.setEntityData({
-          camp: this.scheduleEntry.activity().camp,
           title: this.$tc('entity.activity.new'),
           location: '',
           scheduleEntries: [

@@ -16,7 +16,7 @@
         {{ $tc('global.button.open') }}
       </v-btn>
     </template>
-    <dialog-activity-form v-if="!loading" :activity="entityData" />
+    <dialog-activity-form v-if="!loading" :activity="entityData" :camp="scheduleEntry.period().camp" />
   </dialog-form>
 </template>
 
@@ -37,8 +37,7 @@ export default {
     return {
       entityProperties: [
         'title',
-        'location',
-        'camp'
+        'location'
       ],
       embeddedEntities: [
         'activityCategory'
