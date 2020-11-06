@@ -120,7 +120,7 @@ JSON;
         $this->assertResponseStatusCode(200);
 
         $this->assertEquals('1999-12-15T00:00:00+00:00', $this->getResponseContent()->start);
-        $this->assertEquals('2000-01-03T00:00:00+00:00', $this->getResponseContent()->end);
+        $this->assertEquals('2000-01-03T23:59:59+00:00', $this->getResponseContent()->end);
     }
 
     public function testDelete() {

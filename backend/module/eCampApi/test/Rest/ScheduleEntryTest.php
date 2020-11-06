@@ -87,7 +87,7 @@ JSON;
         $this->dispatch("{$this->apiEndpoint}", 'POST');
 
         $this->assertResponseStatusCode(422);
-        $this->assertObjectHasAttribute('isEmpty', $this->getResponseContent()->validation_messages->start);
+        $this->assertObjectHasAttribute('isEmpty', $this->getResponseContent()->validation_messages->periodOffset);
         $this->assertObjectHasAttribute('isEmpty', $this->getResponseContent()->validation_messages->length);
     }
 

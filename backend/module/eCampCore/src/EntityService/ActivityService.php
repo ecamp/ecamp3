@@ -73,8 +73,10 @@ class ActivityService extends AbstractEntityService {
         $this->updateActivityResponsibles($activity, $data);
         $this->updateScheduleEntries($activity, $data);
 
-        $category = $this->findRelatedEntity(ActivityCategory::class, $data, 'activityCategoryId');
-        $activity->setActivityCategory($category);
+        if (!empty($data->activityCategorId)) {
+            $category = $this->findRelatedEntity(ActivityCategory::class, $data, 'activityCategoryId');
+            $activity->setActivityCategory($category);
+        }
 
         return $entity;
     }

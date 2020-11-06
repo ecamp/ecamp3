@@ -10,10 +10,8 @@ use eCamp\LibTest\PHPUnit\AbstractTestCase;
  */
 class UtilTest extends AbstractTestCase {
     public function testTimestamp() {
-        $date = Util::parseDate(949449600000);
-        $date = Util::parseDate($date);
-        $dateStr = Util::extractTimestamp($date);
-
-        $this->assertEquals(949449600000, $dateStr);
+        $date = Util::parseDate('2020-07-01');
+        $dateStr = Util::extractDateTime($date);
+        $this->assertEquals('2020-07-01T00:00:00+00:00', $dateStr);
     }
 }

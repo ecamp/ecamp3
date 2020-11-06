@@ -27,8 +27,10 @@ class PeriodHydratorTest extends AbstractTestCase {
         $data = $hydrator->extract($period);
 
         $this->assertEquals('desc', $data['description']);
-        $this->assertEquals(946684800000, $data['start']);
-        $this->assertEquals(946943999000, $data['end']);
+
+        // TODO: Top my opinion this should return a date and not a datetime
+        $this->assertEquals('2000-01-01T00:00:00+00:00', $data['start']);
+        $this->assertEquals('2000-01-03T23:59:59+00:00', $data['end']);
     }
 
     public function testHydrate() {
@@ -39,8 +41,8 @@ class PeriodHydratorTest extends AbstractTestCase {
 
         $data = [
             'description' => 'desc',
-            'start' => '2000-01-01',
-            'end' => '2000-01-03',
+            'start' => '2000-01-01T00:00:00+00:00',
+            'end' => '2000-01-03T23:59:59+00:00',
         ];
 
         $hydrator = new PeriodHydrator();
