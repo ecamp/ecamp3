@@ -68,20 +68,18 @@ class Util {
      * @return null|DateTime
      */
     public static function parseDate($date) {
-        $result = null;
-
         if ($date instanceof DateTime) {
-            $result = $date;
+            return $date;
+        }
+
+        if ((is_int($date) && $date >= 0) || (is_numeric($date) && intval($date) >= 0)) {
+            return new DateTime('@'.($date / self::MillisecondsInASecond));
         }
 
         if (is_string($date) && strlen($date) > 0) {
-            $result = new DateTime($date);
+            return new DateTime($date);
         }
 
-        if (is_int($date) && $date >= 0) {
-            $result = new DateTime('@'.($date / self::MillisecondsInASecond));
-        }
-
-        return $result;
+        return null;
     }
 }
