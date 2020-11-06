@@ -181,6 +181,9 @@ export default {
       this.scheduleEntries = value.items.map(entry => defineHelpers(entry, true))
     }
   },
+  beforeMount () {
+    this.scheduleEntries = this.apiScheduleEntries.items.map(entry => defineHelpers(entry, true))
+  },
   methods: {
     resize () {
       const widthIntervals = 46
