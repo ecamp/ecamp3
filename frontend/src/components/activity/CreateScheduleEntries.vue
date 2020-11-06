@@ -45,7 +45,7 @@
   </div>
 </template>
 <script>
-import { defineHelpers } from '@/plugins/scheduleEntries'
+import { defineHelpers } from '@/components/scheduleEntry/helper'
 
 export default {
   name: 'CreateActivityScheduleEntries',

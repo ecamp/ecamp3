@@ -89,7 +89,7 @@ import { scheduleEntryRoute } from '@/router'
 import { isCssColor } from 'vuetify/lib/util/colorUtils'
 import DialogActivityCreate from '@/components/dialog/DialogActivityCreate'
 import DialogActivityEdit from '@/components/dialog/DialogActivityEdit'
-import { defineHelpers } from '@/plugins/scheduleEntries'
+import { defineHelpers } from '@/components/scheduleEntry/helper'
 
 export default {
   name: 'Picasso',
