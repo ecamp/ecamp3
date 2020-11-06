@@ -28,8 +28,8 @@ Show all activity schedule entries of a single period.
           v-show="!listFormat"
           class="mx-2 ma-sm-0 pa-sm-2"
           :period="period"
-          :start="period().start"
-          :end="period().end" />
+          :start="Date.parse(period().start)"
+          :end="Date.parse(period().end)" />
         <activity-list
           v-show="listFormat"
           :period="period" />

@@ -67,7 +67,7 @@ class ProfileController extends AbstractActionController {
             'mail' => $user->getTrustedMailAddress(),
             'role' => $user->getRole(),
             'language' => $user->getLanguage(),
-            'birthday' => Util::extractTimestamp($user->getBirthday()),
+            'birthday' => Util::extractDate($user->getBirthday()),
         ];
     }
 

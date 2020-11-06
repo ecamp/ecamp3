@@ -9,12 +9,12 @@
       v-model="period.start"
       :name="$tc('entity.period.fields.start')"
       vee-id="start"
-      valueFormat="x"
+      :value-format="$moment.ISO_8601"
       vee-rules="required" />
 
     <e-date-picker
       v-model="period.end"
-      valueFormat="x"
+      :value-format="$moment.ISO_8601"
       :name="$tc('entity.period.fields.end')"
       vee-rules="required|minDate:@start" />
   </div>

@@ -3,10 +3,10 @@ function defineHelpers (scheduleEntry, timed = false) {
     Object.defineProperties(scheduleEntry, {
       startTime: {
         get () {
-          return this.period().start + (this.periodOffset * 60000)
+          return Date.parse(this.period().start) + (this.periodOffset * 60000)
         },
         set (value) {
-          this.periodOffset = (value - this.period().start) / 60000
+          this.periodOffset = (value - Date.parse(this.period().start)) / 60000
         }
       },
       endTime: {

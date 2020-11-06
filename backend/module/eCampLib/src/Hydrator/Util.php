@@ -10,8 +10,6 @@ use eCamp\Lib\Hydrator\Resolver\EntityResolver;
 use Exception;
 
 class Util {
-    const MillisecondsInASecond = 1000;
-
     /**
      * @param $resolver
      * @param array $selection
@@ -47,20 +45,30 @@ class Util {
     }
 
     /**
-     * @return int Milliseconds since 1970-01-01T00:00:00 UTC
+     * @return string in the ISO8601 format
      */
-    public static function extractTimestamp(?DateTime $date) {
+    public static function extractDate(?DateTime $date) {
         if (null == $date) {
             return null;
         }
 
-        return $date->getTimestamp() * self::MillisecondsInASecond;
+        return $date->format('Y-m-d');
+    }
+
+    /**
+     * @return string in the DATE_RFC3339 format
+     */
+    public static function extractDateTime(?DateTime $date) {
+        if (null == $date) {
+            return null;
+        }
+
+        return $date->format(DATE_RFC3339);
     }
 
     /**
      * @param $date string|int|DateTime
      * String in DateTime Format {@link https://php.net/manual/en/datetime.formats.php Date and Time Formats}
-     * Int in Milliseconds Timestamp
      * DateTime
      *
      * @throws Exception
@@ -72,12 +80,23 @@ class Util {
             return $date;
         }
 
-        if ((is_int($date) && $date >= 0) || (is_numeric($date) && intval($date) >= 0)) {
-            return new DateTime('@'.($date / self::MillisecondsInASecond));
-        }
-
         if (is_string($date) && strlen($date) > 0) {
             return new DateTime($date);
+        }
+
+        return null;
+    }
+
+    /**
+     * @param $date string|int|DateTime
+     * String in DateTime Format {@link https://php.net/manual/en/datetime.formats.php Date and Time Formats}
+     * DateTime
+     *
+     * @return null|DateTime
+     */
+    public static function parseDateTime($date) {
+        if (is_string($date) && strlen($date) > 0) {
+            return DateTime::createFromFormat(DATE_RFC3339, $date);
         }
 
         return null;
