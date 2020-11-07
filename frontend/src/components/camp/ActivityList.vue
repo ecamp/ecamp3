@@ -21,7 +21,7 @@ Lists all activity instances in a list view.
         </v-chip>
         <v-list-item-content>
           <v-list-item-title>{{ scheduleEntry.activity().title }}</v-list-item-title>
-          <v-list-item-subtitle>{{ $moment.utc(scheduleEntry.startTime, $moment.ISO_8601) }} - {{ $moment.utc(scheduleEntry.endTime, $moment.ISO_8601) }}</v-list-item-subtitle>
+          <v-list-item-subtitle>{{ $moment.utc(scheduleEntry.startTime) }} - {{ $moment.utc(scheduleEntry.endTime) }}</v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
     </template>
@@ -29,6 +29,7 @@ Lists all activity instances in a list view.
 </template>
 <script>
 import { scheduleEntryRoute } from '@/router'
+import { defineHelpers } from '@/components/scheduleEntry/dateHelperUTC'
 
 export default {
   name: 'ActivityList',
@@ -43,23 +44,7 @@ export default {
       return this.period().camp()
     },
     scheduleEntries () {
-      return this.period().scheduleEntries().items.map((entry) => {
-        return {
-          ...entry,
-          get startTime () {
-            return this.period().start + (this.periodOffset * 60000)
-          },
-          set startTime (value) {
-            this.periodOffset = (value - this.period().start) / 60000
-          },
-          get endTime () {
-            return this.startTime + (this.length * 60000)
-          },
-          set endTime (value) {
-            this.length = (value - this.startTime) / 60000
-          }
-        }
-      })
+      return this.period().scheduleEntries().items.map((entry) => defineHelpers(entry, false))
     }
   },
   methods: {
