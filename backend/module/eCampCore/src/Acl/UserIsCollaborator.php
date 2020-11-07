@@ -2,6 +2,7 @@
 
 namespace eCamp\Core\Acl;
 
+use eCamp\Core\Entity\BelongsToActivityContentInterface;
 use eCamp\Core\Entity\BelongsToCampInterface;
 use eCamp\Core\Entity\CampCollaboration;
 use eCamp\Core\Entity\User;
@@ -20,6 +21,10 @@ class UserIsCollaborator implements AssertionInterface {
     public function assert(Acl $acl, RoleInterface $role = null, ResourceInterface $resource = null, $privilege = null) {
         /** @var User $user */
         $user = $role;
+
+        if ($resource instanceof BelongsToActivityContentInterface) {
+            $resource = $resource->getActivityContent();
+        }
 
         if ($resource instanceof BelongsToCampInterface) {
             $camp = $resource->getCamp();

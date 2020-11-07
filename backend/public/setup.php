@@ -20,18 +20,13 @@ $env = getenv('env') ?: 'dev';
 if ('dev' !== $env) {
     echo "The environment must be 'dev' to run setup. ";
     echo 'Current environment: '.$env;
+    die();
 }
 
 //  COMPOSER:
 // ===========
 
-if (file_exists(__DIR__.'/../vendor/autoload.php')) {
-    echo '<br />';
-    echo '(01) Composer: OK';
-    echo '<br />';
-
-    include_once __DIR__.'/../vendor/autoload.php';
-} else {
+if (!file_exists(__DIR__.'/../vendor/autoload.php')) {
     echo '<br />';
     echo '(01) Composer: ERROR';
     echo '<br />';
@@ -44,11 +39,18 @@ if (file_exists(__DIR__.'/../vendor/autoload.php')) {
     echo 'If you have not installed composer:';
     echo '<br />';
     echo "<a href='https://getcomposer.org/'>https://getcomposer.org/</a>";
+    die();
 }
+
+include_once __DIR__.'/../vendor/autoload.php';
 
 // Bootstrap application
 eCampApp::RegisterWhoops();
 $app = eCampApp::CreateSetup();
+
+echo '<br />';
+echo '(01) Composer: OK';
+echo '<br />';
 
 $sm = $app->getServiceManager();
 /** @var \Doctrine\ORM\EntityManager $em */
@@ -239,8 +241,6 @@ if (array_key_exists('dev-data', $_GET)) {
         die();
     }
 }
-
-$conn->commit();
 
 echo '<br />';
 echo '<br />';

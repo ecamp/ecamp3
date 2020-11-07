@@ -71,16 +71,16 @@ export default {
       return event.activity().activityCategory().color.toString()
     },
     intervalFormat (time) {
-      return this.$moment(time.date + ' ' + time.time).format(this.$t('global.moment.hourShort'))
+      return this.$moment(time.date + ' ' + time.time).format(this.$tc('global.moment.hourShort'))
     },
     showScheduleEntry ({ event: scheduleEntry }) {
       this.$router.push(scheduleEntryRoute(this.camp(), scheduleEntry))
     },
     dayFormat (day) {
       if (this.$vuetify.breakpoint.smAndDown) {
-        return this.$moment(day.date).format(this.$t('global.moment.dateShort'))
+        return this.$moment(day.date).format(this.$tc('global.moment.dateShort'))
       } else {
-        return this.$moment(day.date).format(this.$t('global.moment.dateLong'))
+        return this.$moment(day.date).format(this.$tc('global.moment.dateLong'))
       }
     },
     weekdayFormat (day) {

@@ -2,29 +2,29 @@
   <div>
     <e-text-field
       v-model="activityCategory.short"
-      :name="$t('entity.activityCategory.fields.short')"
+      :name="$tc('entity.activityCategory.fields.short')"
       vee-rules="required" />
 
     <e-text-field
       v-model="activityCategory.name"
-      :name="$t('entity.activityCategory.fields.name')"
+      :name="$tc('entity.activityCategory.fields.name')"
       vee-rules="required" />
 
     <e-select
       v-model="activityCategory.activityTypeId"
       :items="activityTypeOptions"
-      :name="$t('entity.activityCategory.fields.activityType')"
+      :name="$tc('entity.activityCategory.fields.activityType')"
       vee-rules="required" />
 
     <e-color-picker
       v-model="activityCategory.color"
-      :name="$t('entity.activityCategory.fields.color')"
+      :name="$tc('entity.activityCategory.fields.color')"
       vee-rules="required" />
 
     <e-select
       v-model="activityCategory.numberingStyle"
       :items="numberingStyles"
-      :name="$t('entity.activityCategory.fields.numberingStyle')"
+      :name="$tc('entity.activityCategory.fields.numberingStyle')"
       vee-rules="required" />
   </div>
 </template>
@@ -47,14 +47,14 @@ export default {
     activityTypeOptions () {
       return this.activityTypes.map(ct => ({
         value: ct.id,
-        text: this.$t(ct.name),
+        text: this.$tc(ct.name),
         object: ct
       }))
     },
     numberingStyles () {
       return ['1', 'a', 'A', 'i', 'I'].map(i => ({
         value: i,
-        text: this.$t('entity.activityCategory.numberingStyles.' + i)
+        text: this.$tc('entity.activityCategory.numberingStyles.' + i)
       }))
     }
   },

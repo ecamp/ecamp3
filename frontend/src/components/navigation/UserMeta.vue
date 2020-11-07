@@ -24,20 +24,20 @@
                    :to="{ name: 'profile' }"
                    @click="open = false">
         <v-icon left>mdi-account</v-icon>
-        <span>{{ $t('components.navigation.profile') }}</span>
+        <span>{{ $tc('components.navigation.userMeta.profile') }}</span>
       </v-list-item>
       <v-list-item block tag="li"
                    exact :to="{ name: 'camps' }"
                    @click="open = false">
         <v-icon left>mdi-format-list-bulleted-triangle</v-icon>
-        <span>{{ $tc('components.navigation.myCamps', api.get().camps().items.length) }}</span>
+        <span>{{ $tc('components.navigation.userMeta.myCamps', api.get().camps().items.length) }}</span>
       </v-list-item>
       <v-list-item block tag="li"
                    @click="logout">
         <v-icon v-if="logoutIcon" left>{{ logoutIcon }}</v-icon>
         <v-progress-circular v-else indeterminate
                              size="18" class="mr-2" />
-        <span>Log out</span>
+        <span>{{ $tc('components.navigation.userMeta.logOut') }}</span>
       </v-list-item>
     </v-list>
   </v-menu>

@@ -1,5 +1,7 @@
 <?php
 
+use eCamp\Lib\Fixture\FixtureLoader;
+
 require_once __DIR__ . '/autoload.php';
 
 if (PHP_SAPI != 'cli') {
@@ -41,6 +43,8 @@ try {
 try {
     $schemaTool = new \Doctrine\ORM\Tools\SchemaTool($em);
     $allMetadata = $em->getMetadataFactory()->getAllMetadata();
+    
+    $schemaTool->updateSchema($allMetadata);
 
     $updateSqls = $schemaTool->getUpdateSchemaSql($allMetadata, true);
     if (count($updateSqls) !== 0) {
@@ -68,7 +72,7 @@ try {
     echo "3) Prod-Data-Loading:";
     echo PHP_EOL;
 
-    $loader = new \Doctrine\Common\DataFixtures\Loader();
+    $loader = $sm->get(FixtureLoader::class);
     $paths = \Laminas\Stdlib\Glob::glob(__DIR__ . "/module/*/data/prod/*.php");
 
     foreach ($paths as $path) {
@@ -101,7 +105,7 @@ if (in_array('dev', $argv)) {
         echo "4) Dev-Data-Loading:";
         echo PHP_EOL;
 
-        $loader = new \Doctrine\Common\DataFixtures\Loader();
+        $loader = $sm->get(FixtureLoader::class);
         $paths = \Laminas\Stdlib\Glob::glob(__DIR__ . "/module/*/data/dev/*.php");
 
         foreach ($paths as $path) {

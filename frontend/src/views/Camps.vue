@@ -18,13 +18,15 @@
             </v-list-item-subtitle>
           </v-list-item-content>
           <v-list-item-action>
-            <v-btn
-              icon
-              @click.prevent="deleteCamp(camp, ...arguments)">
-              <v-icon left>
-                mdi-delete
-              </v-icon>
-            </v-btn>
+            <dialog-entity-delete :entity="camp">
+              <template v-slot:activator="{ on }">
+                <button-delete @click.prevent="on.click" />
+              </template>
+              {{ $tc('components.dialog.dialogEntityDelete.warningText') }}
+              <ul>
+                <li>{{ camp.title }}</li>
+              </ul>
+            </dialog-entity-delete>
           </v-list-item-action>
         </v-list-item>
         <v-divider />
@@ -34,7 +36,7 @@
             <button-add
               icon="mdi-plus"
               :to="{ name: 'camps/create' }">
-              {{ $t('views.camps.create') }}
+              {{ $tc('views.camps.create') }}
             </button-add>
           </v-list-item-action>
         </v-list-item>
@@ -47,12 +49,16 @@
 import { campRoute } from '@/router'
 import ContentCard from '@/components/layout/ContentCard'
 import ButtonAdd from '@/components/buttons/ButtonAdd'
+import ButtonDelete from '@/components/buttons/ButtonDelete'
+import DialogEntityDelete from '@/components/dialog/DialogEntityDelete'
 
 export default {
   name: 'Camps',
   components: {
     ContentCard,
-    ButtonAdd
+    ButtonAdd,
+    ButtonDelete,
+    DialogEntityDelete
   },
   computed: {
     camps () {
@@ -60,9 +66,6 @@ export default {
     }
   },
   methods: {
-    deleteCamp (camp) {
-      this.api.del(camp)
-    },
     campRoute
   }
 }

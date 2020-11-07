@@ -2,14 +2,26 @@ FROM php:7.4.2-apache
 
 WORKDIR /app
 
-RUN apt-get -y update && apt-get -y upgrade && apt-get -y install libxml2-dev curl unzip iproute2 libonig-dev
+RUN apt update
+RUN apt install -y iproute2
 
-RUN yes | pecl install xdebug-2.9.5 && docker-php-ext-enable xdebug && touch /var/log/xdebug.log && chmod a+rw /var/log/xdebug.log
-ENV XDEBUG_CONFIG="remote_enable=1 remote_autostart=1 remote_connect_back=0 remote_host=host.docker.internal remote_port=9000 remote_log=/var/log/xdebug.log"
+# Copy development php.ini
+RUN mv "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
 
-RUN docker-php-ext-install pdo pdo_mysql xml
-
+# Apache site config
 RUN a2enmod rewrite
 COPY apache-vhost.conf /etc/apache2/sites-enabled/000-default.conf
 
-ENTRYPOINT bash docker-entrypoint.sh
+# MySQL driver
+RUN docker-php-ext-install pdo pdo_mysql
+
+# XDebug
+RUN pecl install xdebug-2.9.6
+RUN docker-php-ext-enable xdebug
+RUN touch /var/log/xdebug.log && chmod a+rw /var/log/xdebug.log
+ENV XDEBUG_CONFIG="remote_enable=1 remote_autostart=1 remote_connect_back=0 remote_host=host.docker.internal remote_port=9000 remote_log=/var/log/xdebug.log"
+
+# Install composer for PHP dependencies
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
+ENTRYPOINT bash docker-run.sh

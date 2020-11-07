@@ -11,13 +11,4 @@ if [[ ! `getent hosts host.docker.internal | cut -d' ' -f1` ]]; then
     fi
 fi
 
-DB_CONFIG_FILE="config/autoload/doctrine.local.dev.php"
-if [ ! -f "$DB_CONFIG_FILE" ]; then
-    cp config/autoload/doctrine.docker.dist "$DB_CONFIG_FILE"
-fi
-
-php bin/wait-for-composer-install.php
-php bin/wait-for-db.php
-vendor/bin/doctrine orm:schema-tool:update --force --complete
-
 apache2-foreground

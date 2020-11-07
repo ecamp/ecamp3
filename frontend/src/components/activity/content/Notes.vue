@@ -3,7 +3,7 @@
     <api-form :entity="activityContent.singleText()">
       <api-textarea
         fieldname="text"
-        :label="$t('activityContent.notes.name')"
+        :label="$tc('activityContent.notes.name')"
         rows="4"
         auto-grow />
     </api-form>

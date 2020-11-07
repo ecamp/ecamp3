@@ -22,7 +22,8 @@ Displays a single activity
                    outlined
                    v-bind="attrs"
                    v-on="on">
-              <v-icon left>mdi-plus-circle-outline</v-icon> Add Content
+              <v-icon left>mdi-plus-circle-outline</v-icon> Add
+              <div v-if="$vuetify.breakpoint.smAndUp">Content</div>
             </v-btn>
           </template>
           <v-list>
@@ -43,17 +44,72 @@ Displays a single activity
       <v-card-text>
         <v-skeleton-loader v-if="activity._meta.loading" type="article" />
         <template v-else>
-          <v-list>
-            <v-label>Instanzen</v-label>
-            <v-list-item
-              v-for="instance in instances.items"
-              :key="instance._meta.self"
-              two-line>
-              <v-list-item-content>
-                {{ instance.startTime }} bis {{ instance.endTime }}
-              </v-list-item-content>
-            </v-list-item>
-          </v-list>
+          <!-- Header -->
+          <v-card outlined>
+            <div class="v-item-group v-expansion-panels">
+              <div class="v-expansion-panel px-4 py-1">
+                <v-row dense>
+                  <v-col class="col col-sm-6 col-12">
+                    <v-row v-if="$vuetify.breakpoint.smAndUp" dense>
+                      <v-col cols="2">
+                        {{ $tc('entity.scheduleEntry.fields.nr') }}
+                      </v-col>
+                      <v-col cols="10">
+                        {{ $tc('entity.scheduleEntry.fields.time') }}
+                      </v-col>
+                    </v-row>
+                    <v-row
+                      v-for="scheduleEntryItem in scheduleEntries.items"
+                      :key="scheduleEntryItem._meta.self" dense>
+                      <v-col cols="2">
+                        ({{ scheduleEntryItem.number }})
+                      </v-col>
+                      <v-col cols="10">
+                        {{ $moment(scheduleEntryItem.startTime).format($tc('global.moment.dateShort')) }}
+                        <b>
+                          {{ $moment(scheduleEntryItem.startTime).format($tc('global.moment.hourShort')) }}
+                        </b>
+                        -
+                        {{
+                          $moment(scheduleEntryItem.startTime).format($tc('global.moment.dateShort')) == $moment(scheduleEntryItem.endTime).format($tc('global.moment.dateShort'))
+                            ? ''
+                            : $moment(scheduleEntryItem.endTime).format($tc('global.moment.dateShort'))
+                        }}
+                        <b>
+                          {{ $moment(scheduleEntryItem.endTime).format($tc('global.moment.hourShort')) }}
+                        </b>
+                      </v-col>
+                    </v-row>
+                  </v-col>
+                  <v-col class="col col-sm-6 col-12">
+                    <v-row dense>
+                      <v-col>
+                        <api-text-field
+                          :name="$tc('entity.activity.fields.location')"
+                          :uri="activity._meta.self"
+                          fieldname="location"
+                          dense />
+                      </v-col>
+                    </v-row>
+                    <v-row dense>
+                      <v-col>
+                        <api-select
+                          :name="'Responsible'"
+                          dense
+                          multiple
+                          chips
+                          deletable-chips
+                          small-chips
+                          :uri="activity._meta.self"
+                          fieldname="campCollaborations"
+                          :items="availableCampCollaborations" />
+                      </v-col>
+                    </v-row>
+                  </v-col>
+                </v-row>
+              </div>
+            </div>
+          </v-card>
           <component :is="'ActivityLayout' + activityType.template" v-if="!activityType._meta.loading" :activity="activity" />
         </template>
       </v-card-text>
@@ -65,6 +121,7 @@ Displays a single activity
 import ButtonBack from '@/components/buttons/ButtonBack'
 import ContentCard from '@/components/layout/ContentCard'
 import ApiTextField from '@/components/form/api/ApiTextField'
+import ApiSelect from '@/components/form/api/ApiSelect'
 
 import ActivityLayoutGeneral from '@/components/activity/layouts/General'
 import camelCase from 'lodash/camelCase'
@@ -75,19 +132,36 @@ export default {
     ButtonBack,
     ContentCard,
     ApiTextField,
+    ApiSelect,
     ActivityLayoutGeneral
   },
   props: {
     scheduleEntry: { type: Function, required: true }
   },
   computed: {
+    availableCampCollaborations () {
+      const currentCampCollaborationIds = this.activity.campCollaborations().items.map(cc => cc.id)
+      return this.campCollaborations.filter(cc => {
+        return (cc.status === 'established') || (currentCampCollaborationIds.includes(cc.id))
+      }).map(value => {
+        const left = value.status === 'left'
+        const text = value.user().username + (left ? (' (' + this.$tc('entity.campCollaboration.campLeft')) + ')' : '')
+        return {
+          value,
+          text
+        }
+      })
+    },
+    campCollaborations () {
+      return this.activity.camp().campCollaborations().items
+    },
     activity () {
       return this.scheduleEntry().activity()
     },
     category () {
       return this.activity.activityCategory()
     },
-    instances () {
+    scheduleEntries () {
       return this.activity.scheduleEntries()
     },
     activityType () {
@@ -105,7 +179,7 @@ export default {
         contentType: atct.contentType(),
         contentTypeNameKey: 'activityContent.' + camelCase(atct.contentType().name) + '.name',
         contentTypeIconKey: 'activityContent.' + camelCase(atct.contentType().name) + '.icon',
-        contentTypeSort: parseInt(this.$t('activityContent.' + camelCase(atct.contentType().name) + '.sort')),
+        contentTypeSort: parseInt(this.$tc('activityContent.' + camelCase(atct.contentType().name) + '.sort')),
         enabled: atct.contentType().allowMultiple || this.countActivityContents(atct.contentType()) === 0
       })).sort((a, b) => a.contentTypeSort - b.contentTypeSort)
     }

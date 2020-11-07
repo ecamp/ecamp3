@@ -53,18 +53,24 @@ class UserRepositoryTest extends AbstractDatabaseTestCase {
 
         $profile = new Profile();
         $profile->displayName = 'username2';
-        $profile->email = 'test2@eCamp3.ch';
+        $profile->emailVerified = 'test2@eCamp3.ch';
         $userService->create($profile);
 
         $entityManager->flush();
 
-        $user = $userRepository->findByMail('test1@eCamp3.ch');
+        $user = $userRepository->findByUntrustedMail('test1@eCamp3.ch');
+        $this->assertNotEmpty($user);
+        $user = $userRepository->findByTrustedMail('test1@eCamp3.ch');
+        $this->assertEmpty($user);
+
+        $user = $userRepository->findByUntrustedMail('test2@eCamp3.ch');
+        $this->assertEmpty($user);
+        $user = $userRepository->findByTrustedMail('test2@eCamp3.ch');
         $this->assertNotEmpty($user);
 
-        $user = $userRepository->findByMail('test2@eCamp3.ch');
-        $this->assertNotEmpty($user);
-
-        $user = $userRepository->findByMail('hjkdjhheug@eCamp3.ch');
+        $user = $userRepository->findByUntrustedMail('hjkdjhheug@eCamp3.ch');
+        $this->assertEmpty($user);
+        $user = $userRepository->findByTrustedMail('hjkdjhheug@eCamp3.ch');
         $this->assertEmpty($user);
     }
 }

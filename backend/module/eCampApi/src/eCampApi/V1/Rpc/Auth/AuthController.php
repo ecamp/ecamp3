@@ -126,10 +126,14 @@ class AuthController extends AbstractActionController {
         $content = $request->getContent();
 
         $data = (null != $content) ? Json::decode($content) : [];
-        $username = isset($data->username) ? $data->username : '';
+        $usernameOrEmail = isset($data->username) ? $data->username : '';
         $password = isset($data->password) ? $data->password : '';
 
-        $user = $this->userService->findByUsername($username);
+        $user = $this->userService->findByUsername($usernameOrEmail);
+
+        if (is_null($user)) {
+            $user = $this->userService->findByTrustedMail($usernameOrEmail);
+        }
 
         $adapter = new LoginPassword($user, $password);
         $this->authenticationService->authenticate($adapter);

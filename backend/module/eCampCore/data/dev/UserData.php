@@ -4,9 +4,8 @@ namespace eCamp\CoreData;
 
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 use eCamp\Core\Entity\Login;
-use eCamp\Core\Entity\MailAddress;
 use eCamp\Core\Entity\User;
 
 class UserData extends AbstractFixture implements DependentFixtureInterface {
@@ -17,13 +16,10 @@ class UserData extends AbstractFixture implements DependentFixtureInterface {
 
         $user = $repository->findOneBy(['username' => 'test-user']);
         if (null == $user) {
-            $mail = new MailAddress();
-            $mail->setMail('test@ecamp3.dev');
-
             $user = new User();
             $user->setUsername('test-user');
             $user->setRole(User::ROLE_USER);
-            $user->setTrustedMailAddress($mail);
+            $user->setTrustedMailAddress('test@ecamp3.dev');
             $user->setState(User::STATE_ACTIVATED);
 
             $login = new Login($user, 'test');
@@ -36,13 +32,10 @@ class UserData extends AbstractFixture implements DependentFixtureInterface {
         // add a second user
         $user = $repository->findOneBy(['username' => 'mogli']);
         if (null == $user) {
-            $mail = new MailAddress();
-            $mail->setMail('mogli@ecamp3.dev');
-
             $user = new User();
             $user->setUsername('mogli');
             $user->setRole(User::ROLE_USER);
-            $user->setTrustedMailAddress($mail);
+            $user->setTrustedMailAddress('mogli@ecamp3.dev');
             $user->setState(User::STATE_ACTIVATED);
 
             $login = new Login($user, 'test');

@@ -6,7 +6,8 @@ Displays a field as a e-textarea + write access via API wrapper
   <api-wrapper
     v-slot="wrapper"
     v-bind="$props"
-    separate-buttons>
+    separate-buttons
+    v-on="$listeners">
     <e-richtext
       :value="wrapper.localValue"
       v-bind="$attrs"

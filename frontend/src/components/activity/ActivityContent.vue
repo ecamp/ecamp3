@@ -1,6 +1,6 @@
 <template>
   <v-expansion-panel>
-    <v-expansion-panel-header class="pa-0 pr-sm-2" expand-icon="">
+    <v-expansion-panel-header hide-actions class="pa-0 pr-sm-2">
       <v-toolbar dense flat>
         <v-menu bottom
                 right
@@ -35,12 +35,14 @@
           <api-text-field
             dense
             autofocus
+            :auto-save="false"
             :uri="activityContent._meta.self"
-            fieldname="instanceName" />
+            fieldname="instanceName"
+            @finished="editInstanceName = false" />
         </div>
         <div v-else style="flex: 1;">
           <v-toolbar-title>
-            {{ instanceName }}
+            {{ instanceOrContentTypeName }}
           </v-toolbar-title>
         </div>
 
@@ -153,15 +155,15 @@ export default {
     }
   },
   computed: {
-    instanceName () {
+    instanceOrContentTypeName () {
       if (this.activityContent.instanceName) {
         return this.activityContent.instanceName
       }
-      return this.$t(`activityContent.${camelCase(this.activityContent.contentTypeName)}.name`)
+      return this.$tc(`activityContent.${camelCase(this.activityContent.contentTypeName)}.name`)
     }
   },
   mounted () {
-    this.currentIcon = this.$t(`activityContent.${camelCase(this.activityContent.contentTypeName)}.icon`)
+    this.currentIcon = this.$tc(`activityContent.${camelCase(this.activityContent.contentTypeName)}.icon`)
   },
   methods: {
     toggleEditInstanceName (e) {

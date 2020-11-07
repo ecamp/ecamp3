@@ -8,6 +8,7 @@
     class="e-form-container">
     <v-tiptap-editor
       v-bind="$attrs"
+      :with-extensions="true"
       :filled="filled"
       :hide-details="hideDetails"
       :error-messages="veeErrors.concat(errorMessages)"

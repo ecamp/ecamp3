@@ -1,15 +1,154 @@
 {
+  "activityContent": {
+    "notes": {
+      "add": "Notizen hinzufügen",
+      "name": "Notizen"
+    },
+    "safetyConcept": {
+      "add": "Sicherheits-Konzept hinzufügen",
+      "name": "Sicherheits-Konzept"
+    },
+    "storyboard": {
+      "add": "Programmabschnitt hinzufügen",
+      "entity": {
+        "section": {
+          "fields": {
+            "column1": "Zeit",
+            "column2": "Programm",
+            "column3": "Verantwortlich"
+          },
+          "name": "Programmpunkt | Programmpunkte"
+        }
+      },
+      "name": "Programmabschnitt"
+    },
+    "storycontext": {
+      "add": "Roten Faden hinzufügen",
+      "name": "Roter Faden"
+    }
+  },
+  "components": {
+    "camp": {
+      "campActivityCategories": {
+        "create": "Block-Kategorie erstellen",
+        "deleteActivityCategoryNotPossibleInUse": "Block-Kategorie kann nicht gelöscht werden. Sie wird noch verwendet:",
+        "deleteActivityCategoryQuestion": "Möchtest du diese Block-Kategorie wirklich löschen?",
+        "title": "Block-Kategorien"
+      },
+      "campPeriods": {
+        "createPeriod": "Lagerabschnitt erstellen",
+        "title": "Lagerabschnitt | Lagerabschnitte"
+      },
+      "campSettings": {
+        "fields": {
+          "motto": "Motto",
+          "name": "Name",
+          "title": "Titel"
+        },
+        "title": "Einstellungen"
+      }
+    },
+    "dialog": {
+      "dialogActivityCategoryCreate": {
+        "title": "Block-Kategorie erstellen"
+      },
+      "dialogEntityDelete": {
+        "title": "Wirklich löschen?",
+        "warningText": "Möchtest du das wirklich löschen?"
+      },
+      "dialogPeriodCreate": {
+        "title": "Lagerabschnitt erstellen"
+      }
+    },
+    "navigation": {
+      "myCamps": "Mein Lager | Meine Lager",
+      "profile": "Profil",
+      "search": "Suchen",
+      "searchActivitiesAndCamps": "Aktivitäten und Camps suchen",
+      "userMeta": {
+        "logOut": "Ausloggen",
+        "myCamps": "Mein Lager | Meine Lager",
+        "profile": "Profil"
+      }
+    }
+  },
+  "entity": {
+    "activity": {
+      "fields": {
+        "location": "Ort",
+        "title": "Titel"
+      },
+      "name": "Aktivität"
+    },
+    "activityCategory": {
+      "fields": {
+        "activityType": "Typ",
+        "color": "Farbe",
+        "name": "Name",
+        "numberingStyle": "Nummerierung",
+        "short": "Kürzel"
+      },
+      "name": "Block Kategorien",
+      "numberingStyles": {
+        "1": "1, 2, 3 - Zahlen",
+        "a": "a, b, c - kleine Buchstaben",
+        "A": "A, B, C - grosse Buchstaben",
+        "i": "i, ii, iii - kleine römische Zahlen",
+        "I": "I, II, III - grosse römische Zahlen"
+      }
+    },
+    "camp": {
+      "fields": {
+        "campType": "Lager-Typ",
+        "motto": "Motto",
+        "name": "Name",
+        "title": "Titel"
+      },
+      "name": "Lager"
+    },
+    "campCollaboration": {
+      "campLeft": "Lager verlassen"
+    },
+    "period": {
+      "defaultDescription": "Hauptlager",
+      "fields": {
+        "description": "Beschreibung",
+        "end": "Bis",
+        "start": "Von"
+      },
+      "name": "Lagerabschnitt | Lagerabschnitte"
+    },
+    "scheduleEntry": {
+      "fields": {
+        "nr": "Nr",
+        "time": "Zeitpunkt"
+      },
+      "name": "Aktivität Durchführung"
+    },
+    "user": {
+      "fields": {
+        "birthday": "Geburtstag",
+        "email": "E-Mail-Adresse",
+        "firstname": "Vorname",
+        "language": "Sprache",
+        "nickname": "Spitzname",
+        "surname": "Nachname"
+      },
+      "name": "User"
+    }
+  },
   "global": {
-    "changeLanguage": "Sprache ändern",
-    "language": "Deutsch",
     "button": {
       "add": "Hinzufügen",
       "back": "Zurück",
+      "cancel": "Abbrechen",
       "delete": "Löschen",
       "edit": "Bearbeiten",
-      "submit": "Abschicken",
-      "cancel": "Abbrechen"
+      "submit": "Abschicken"
     },
+    "changeLanguage": "Sprache ändern",
+    "language": "Deutsch",
+    "lokaliseMessage": "Übersetzungen unterstützt durch lokalise.com",
     "moment": {
       "dateLong": "dd L",
       "dateShort": "dd D.M.",
@@ -22,131 +161,44 @@
       "minDate": "{_field_} darf nicht vor {min} liegen"
     }
   },
-  "entity": {
-    "camp": {
-      "name": "Lager",
-      "fields": {
-        "name": "Name",
-        "title": "Titel",
-        "motto": "Motto",
-        "campType": "Lager-Typ"
-      }
-    },
-    "period": {
-      "name": "Lagerabschnitt | Lagerabschnitte",
-      "fields": {
-        "description": "Beschreibung",
-        "end": "Bis",
-        "start": "Von"
-      },
-      "defaultDescription": "Hauptlager"
-    },
-    "user": {
-      "name": "User",
-      "fields": {
-        "email": "E-Mail-Adresse",
-        "firstname": "Vorname",
-        "surname": "Nachname",
-        "nickname": "Spitzname",
-        "language": "Sprache"
-      }
-    },
-    "activityCategory": {
-      "name": "Block Kategorien",
-      "fields": {
-        "short": "Kürzel",
-        "name": "Name",
-        "color": "Farbe",
-        "numberingStyle": "Nummerierung",
-        "activityType": "Typ"
-      },
-      "numberingStyles": {
-        "1": "1, 2, 3 - Zahlen",
-        "a": "a, b, c - kleine Buchstaben",
-        "A": "A, B, C - grosse Buchstaben",
-        "i": "i, ii, iii - kleine römische Zahlen",
-        "I": "I, II, III - grosse römische Zahlen"
-      }
-    }
-  },
-  "activityContent": {
-    "safetyConcept": {
-      "add": "Sicherheits-Konzept hinzufügen",
-      "name": "Sicherheits-Konzept",
-      "entity": { }
-    },
-    "storyboard": {
-      "add": "Programmabschnitt hinzufügen",
-      "name": "Programmabschnitt",
-      "entity": {
-        "section": {
-          "name": "Programmpunkt | Programmpunkte",
-          "fields": {
-            "column1": "Zeit",
-            "column2": "Programm",
-            "column3": "Verantwortlich"
-          }
-        }
-      }
-    },
-    "storycontext": {
-      "add": "Roten Faden hinzufügen",
-      "name": "Roter Faden",
-      "entity": { }
-    },
-    "notes": {
-      "name": "Notizen",
-      "add": "Notizen hinzufügen",
-      "entity": { }
-    }
-  },
-  "components": {
-    "camp": {
-      "campActivityCategories": {
-        "title": "Block-Kategorien",
-        "create": "Block-Kategorie erstellen",
-        "deleteActivityCategoryQuestion": "Möchtest du diese Block-Kategorie wirklich löschen?",
-        "deleteActivityCategoryNotPossibleInUse": "Block-Kategorie kann nicht gelöscht werden. Sie wird noch verwendet:"
-      }
-    },
-    "dialog": {
-      "dialogActivityCategoryCreate": {
-        "title": "Block-Kategorie erstellen"
-      },
-      "dialogEntityDelete": {
-        "title": "Wirklich löschen?",
-        "warningText": "Möchtest du das wirklich löschen?"
-      }
-    },
-    "navigation": {
-      "searchActivitiesAndCamps": "Aktivitäten und Camps suchen",
-      "search": "Suchen",
-      "myCamps": "Mein Lager | Meine Lager",
-      "profile": "Profil"
-    }
-  },
   "views": {
-    "auth": {
-      "login": {
-        "title":  "Anmelden",
-        "username": "Username oder E-Mail",
-        "password": "Passwort",
-        "or": "oder",
-        "provider": {
-          "ecamp": "Anmelden mit eCamp",
-          "midata": "Anmelden mit MiData",
-          "google": "Anmelden mit Google"
-        },
-        "accountless": "Hast du noch keinen Account?",
-        "registernow": "Jetzt registrieren",
-        "beta":{
-          "notice": "Hier entsteht das neue eCamp.<br>WICHTIG: Diese Webseite befindet sich im Aufbau. Das heisst, dass alle Daten öffentlich sind und periodisch gelöscht werden!"
-        }
-      }
-    },
     "activity": {
       "sideBarProgram": {
         "title": "Tagesübersicht"
+      }
+    },
+    "auth": {
+      "login": {
+        "accountless": "Hast du noch keinen Account?",
+        "beta": {
+          "notice": "Hier entsteht das neue eCamp.<br>WICHTIG: Diese Webseite befindet sich im Aufbau. Das heisst, dass alle Daten öffentlich sind und periodisch gelöscht werden!"
+        },
+        "or": "oder",
+        "password": "Passwort",
+        "provider": {
+          "ecamp": "Anmelden mit eCamp",
+          "google": "Anmelden mit Google",
+          "midata": "Anmelden mit MiData"
+        },
+        "registernow": "Jetzt registrieren",
+        "title": "Anmelden",
+        "username": "Username oder E-Mail"
+      }
+    },
+    "camp": {
+      "admin": {
+        "title": "Admin"
+      },
+      "collaborators": {
+        "invite": "Einladen",
+        "members": "Mitarbeitende",
+        "openInvitations": "Offene Einladungen",
+        "openRequests": "Offene Anfragen",
+        "search": "Suchen...",
+        "title": "Team"
+      },
+      "sideBarPeriods": {
+        "title": "Lagerabschnitt"
       }
     },
     "campCreate": {

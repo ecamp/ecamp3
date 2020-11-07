@@ -6,7 +6,7 @@
     v-on="$listeners">
     <v-icon :left="$vuetify.breakpoint.smAndUp" size="150%">{{ icon }}</v-icon>
     <span class="d-none d-sm-block">
-      <slot>{{ $t('global.button.edit') }}</slot>
+      <slot>{{ $tc('global.button.edit') }}</slot>
     </span>
   </v-btn>
 </template>

@@ -19,35 +19,8 @@ Wrapper component for form components to save data back to API
         :autoSave="autoSave"
         :readonly="readonly || !hasFinishedLoading"
         :status="status"
+        :dirty="dirty"
         :on="eventHandlers" />
-
-      <div
-        v-if="!autoSave && !readonly"
-        :class="['d-flex', {'my-1': separateButtons}]">
-        <v-btn
-          :disabled="disabled || !hasFinishedLoading"
-          small
-          elevation="0"
-          :class="{'ml-auto mr-1': separateButtons}"
-          :tile="!separateButtons"
-          :height="separateButtons ? '' : 'auto'"
-          @click="reset">
-          Reset
-        </v-btn>
-
-        <v-btn
-          type="submit"
-          :color="hasServerError ? 'error' : 'primary'"
-          small
-          elevation="0"
-          :disabled="disabled || !hasFinishedLoading || validationObserver.invalid"
-          class="v-btn--last-instance"
-          :height="separateButtons ? '' : 'auto'"
-          :loading="isSaving"
-          @click="save">
-          {{ hasServerError ? 'Retry' : 'Save' }}
-        </v-btn>
-      </div>
     </v-form>
   </ValidationObserver>
 </template>
@@ -126,7 +99,14 @@ export default {
 
       // return value from API unless `value` is set explicitly
       } else {
-        return this.api.get(this.uri)[this.fieldname]
+        let val = this.api.get(this.uri)[this.fieldname]
+        if (val instanceof Function) {
+          val = val()
+          if ('items' in val) {
+            val = val.items
+          }
+        }
+        return val
       }
     }
   },
@@ -178,6 +158,8 @@ export default {
     reset () {
       this.localValue = this.apiValue
       this.resetErrors()
+      this.$emit('reseted')
+      this.$emit('finished')
     },
     resetErrors () {
       this.dirty = false
@@ -211,6 +193,8 @@ export default {
       this.api.patch(this.uri, { [this.fieldname]: this.localValue }).then(() => {
         this.isSaving = false
         this.showIconSuccess = true
+        this.$emit('saved')
+        this.$emit('finished')
         setTimeout(() => { this.showIconSuccess = false }, 2000)
       }, (error) => {
         this.isSaving = false

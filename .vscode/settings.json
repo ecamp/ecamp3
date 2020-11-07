@@ -1,0 +1,7 @@
+{
+    "php-cs-fixer.config": "./backend/.php_cs",
+    "javascript.format.enable": false,
+    "eslint.format.enable": true,
+    "phpunit.files": "backend/{module,content-type}/**/test/**/*Test.php",
+    "phpunit.args": [ "-cbackend/phpunit.xml" ],
+}

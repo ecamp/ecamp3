@@ -43,6 +43,9 @@
               E-Text-Field
             </v-col>
             <v-col>
+              Api-Text-Field autosave
+            </v-col>
+            <v-col>
               Api-Text-Field
             </v-col>
           </v-row>
@@ -67,6 +70,15 @@
                 :placeholder="placeholder"
                 v-bind="config" />
             </v-col>
+            <v-col>
+              <api-text-field
+                v-if="profileUri !== null"
+                :uri="profileUri"
+                fieldname="nickname"
+                :placeholder="placeholder"
+                :auto-save="false"
+                v-bind="config" />
+            </v-col>
           </v-row>
           <v-row dense no-glutters justify="space-around">
             <v-col>
@@ -74,6 +86,9 @@
             </v-col>
             <v-col>
               E-Textarea
+            </v-col>
+            <v-col>
+              Api-Textarea, autosave
             </v-col>
             <v-col>
               Api-Textarea
@@ -106,6 +121,17 @@
                 auto-grow
                 v-bind="config" />
             </v-col>
+            <v-col>
+              <api-textarea
+                v-if="profileUri !== null"
+                :uri="profileUri"
+                fieldname="nickname"
+                :placeholder="placeholder"
+                :auto-save="false"
+                :rows="3"
+                auto-grow
+                v-bind="config" />
+            </v-col>
           </v-row>
           <v-row dense no-glutters justify="space-around">
             <v-col>
@@ -113,6 +139,9 @@
             </v-col>
             <v-col>
               E-Richtext
+            </v-col>
+            <v-col>
+              Api-Richtext, autosave
             </v-col>
             <v-col>
               Api-Richtext
@@ -139,6 +168,15 @@
                 :placeholder="placeholder"
                 v-bind="config" />
             </v-col>
+            <v-col>
+              <api-richtext
+                v-if="profileUri !== null"
+                :uri="profileUri"
+                fieldname="nickname"
+                :placeholder="placeholder"
+                :auto-save="false"
+                v-bind="config" />
+            </v-col>
           </v-row>
           <v-row dense no-glutters justify="space-around">
             <v-col>
@@ -146,6 +184,9 @@
             </v-col>
             <v-col>
               E-Checkbox
+            </v-col>
+            <v-col>
+              Api-Checkbox, autosave
             </v-col>
             <v-col>
               Api-Checkbox
@@ -166,6 +207,13 @@
                 :uri="profileUri"
                 fieldname="nickname" />
             </v-col>
+            <v-col>
+              <api-checkbox
+                v-if="profileUri !== null"
+                :uri="profileUri"
+                fieldname="nickname"
+                :auto-save="false" />
+            </v-col>
           </v-row>
           <v-row dense no-glutters justify="space-around">
             <v-col>
@@ -173,6 +221,9 @@
             </v-col>
             <v-col>
               E-Select
+            </v-col>
+            <v-col>
+              Api-Select, autosave
             </v-col>
             <v-col>
               Api-Select
@@ -199,6 +250,15 @@
                 :items="availableLocales"
                 v-bind="config" />
             </v-col>
+            <v-col>
+              <api-select
+                v-if="profileUri !== null"
+                :uri="profileUri"
+                fieldname="language"
+                :auto-save="false"
+                :items="availableLocales"
+                v-bind="config" />
+            </v-col>
           </v-row>
           <v-row dense no-glutters justify="space-around">
             <v-col>
@@ -206,6 +266,9 @@
             </v-col>
             <v-col>
               E-Date-Picker
+            </v-col>
+            <v-col>
+              Api-Date-Picker, autosave
             </v-col>
             <v-col>
               Api-Date-Picker
@@ -227,6 +290,14 @@
                 fieldname="birthday"
                 v-bind="config" />
             </v-col>
+            <v-col>
+              <api-date-picker
+                v-if="profileUri !== null"
+                :uri="profileUri"
+                fieldname="birthday"
+                :auto-save="false"
+                v-bind="config" />
+            </v-col>
           </v-row>
           <v-row dense no-glutters justify="space-around">
             <v-col>
@@ -234,6 +305,9 @@
             </v-col>
             <v-col>
               E-Time-Picker
+            </v-col>
+            <v-col>
+              Api-Time-Picker, autosave
             </v-col>
             <v-col>
               Api-Time-Picker
@@ -253,6 +327,14 @@
                 v-if="profileUri !== null"
                 :uri="profileUri"
                 fieldname="nickname"
+                v-bind="config" />
+            </v-col>
+            <v-col>
+              <api-time-picker
+                v-if="profileUri !== null"
+                :uri="profileUri"
+                fieldname="nickname"
+                :auto-save="false"
                 v-bind="config" />
             </v-col>
           </v-row>
@@ -327,7 +409,7 @@ export default {
     availableLocales () {
       return VueI18n.availableLocales.map(l => ({
         value: l,
-        text: this.$t('global.language', l)
+        text: this.$tc('global.language', 1, l)
       }))
     },
     config () {

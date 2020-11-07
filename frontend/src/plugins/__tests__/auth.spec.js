@@ -171,49 +171,47 @@ describe('authentication logic', () => {
   })
 
   describe('loginGoogle()', () => {
-    it('resolves to true if the user successfully logs in', async done => {
-      // given
-      let isLoggedIn = false
-      store.replaceState(createState({ authenticated: isLoggedIn }))
-      jest.spyOn(window, 'open').mockImplementation(() => {
-        isLoggedIn = true
-        window.afterLogin()
-      })
-      jest.spyOn(apiStore, 'reload').mockImplementation(() => {
-        store.replaceState(createState({ authenticated: isLoggedIn }))
-      })
+    const { location } = window;
+    beforeEach(() => {
+      delete window.location;
+      window.location = {
+        origin: 'http://localhost',
+        href: 'http://localhost/login'
+      }
+    })
+    afterEach(() => {
+      window.location = location
+    })
 
+    it('forwards to google authentication endpoint', async done => {
       // when
-      const result = await auth.loginGoogle()
+      await auth.loginGoogle()
 
       // then
-      expect(result).toBeTruthy()
-      expect(window.open).toHaveBeenCalledTimes(1)
-      expect(window.open).toHaveBeenCalledWith('http://localhost/auth/google?callback=http%3A%2F%2Flocalhost%2FloginCallback', expect.anything(), expect.anything())
+      expect(window.location.href).toBe('http://localhost/auth/google?callback=http%3A%2F%2Flocalhost%2FloginCallback')
       done()
     })
   })
 
   describe('loginPbsMiData()', () => {
-    it('resolves to true if the user successfully logs in', async done => {
-      // given
-      let isLoggedIn = false
-      store.replaceState(createState({ authenticated: isLoggedIn }))
-      jest.spyOn(window, 'open').mockImplementation(() => {
-        isLoggedIn = true
-        window.afterLogin()
-      })
-      jest.spyOn(apiStore, 'reload').mockImplementation(() => {
-        store.replaceState(createState({ authenticated: isLoggedIn }))
-      })
-
+    const { location } = window;
+    beforeEach(() => {
+      delete window.location;
+      window.location = {
+        origin: 'http://localhost',
+        href: 'http://localhost/login'
+      }
+    })
+    afterEach(() => {
+      window.location = location
+    })
+    
+    it('forwards to pbsmidata authentication endpoint', async done => {
       // when
-      const result = await auth.loginPbsMiData()
+      await auth.loginPbsMiData()
 
       // then
-      expect(result).toBeTruthy()
-      expect(window.open).toHaveBeenCalledTimes(1)
-      expect(window.open).toHaveBeenCalledWith('http://localhost/auth/pbsmidata?callback=http%3A%2F%2Flocalhost%2FloginCallback', expect.anything(), expect.anything())
+      expect(window.location.href).toBe('http://localhost/auth/pbsmidata?callback=http%3A%2F%2Flocalhost%2FloginCallback')
       done()
     })
   })
