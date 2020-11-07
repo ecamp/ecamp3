@@ -75,6 +75,14 @@ JSON;
                 "scheduleEntries": {
                     "href": "http://{$host}/api/schedule-entries{/scheduleEntryId}{?page_size,activityId}",
                     "templated": true
+                },
+                "periods": {
+                    "href": "http://{$host}/api/periods{/periodId}{?page_size,campId}",
+                    "templated": true
+                },
+                "activities": {
+                    "href": "http://{$host}/api/activities{/activityId}{?page_size,campId}",
+                    "templated": true
                 }
             }
         }

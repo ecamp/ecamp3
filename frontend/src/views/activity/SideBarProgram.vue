@@ -7,8 +7,7 @@
       <v-skeleton-loader v-if="scheduleEntries.loading" class="ma-3"
                          type="list-item@6" />
       <picasso v-else
-               :camp="period.camp"
-               :schedule-entries="scheduleEntries.items"
+               :period="period"
                :start="startOfDay"
                :interval-height="36"
                :end="endOfDay"
@@ -30,17 +29,14 @@ export default {
   },
   computed: {
     period () {
-      return this.day().period()
+      return this.day().period
     },
     scheduleEntries () {
       // TODO add filtering for the current day when backend supports it
-      return this.period.scheduleEntries()
-    },
-    periodStartDate () {
-      return new Date(Date.parse(this.period.start))
+      return this.period().scheduleEntries()
     },
     startOfDay () {
-      return this.addDays(this.periodStartDate, this.day().dayOffset)
+      return this.addDays(this.period().start, this.day().dayOffset)
     },
     endOfDay () {
       return this.addDays(this.startOfDay, 1)
@@ -48,7 +44,7 @@ export default {
   },
   methods: {
     addDays (date, days) {
-      return new Date(date.getTime() + days * 24 * 60 * 60 * 1000)
+      return date + days * 24 * 60 * 60 * 1000
     }
   }
 }

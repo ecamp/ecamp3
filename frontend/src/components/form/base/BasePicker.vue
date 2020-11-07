@@ -48,36 +48,46 @@ export default {
   name: 'BasePicker',
   inheritAttr: false,
   props: {
-    value: { type: String, required: true },
+    value: { type: [Number, String], required: true },
     icon: { type: String, required: false, default: null },
     iconColor: { type: String, required: false, default: null },
     readonly: { type: Boolean, required: false, default: false },
     disabled: { type: Boolean, required: false, default: false },
     filled: { type: Boolean, required: false, default: true },
     format: { type: Function, required: false, default: null },
+    formatPicker: { type: Function, required: false, default: null },
     parse: { type: Function, required: false, default: null },
+    parsePicker: { type: Function, required: false, default: null },
     errorMessages: { type: Array, required: false, default: () => [] }
   },
   data () {
     return {
-      pickerValue: this.value,
+      localValue: this.value,
+      localPickerValue: this.value,
       stringValue: '',
       showPicker: false,
       textFieldIsActive: false,
       parseError: null,
       eventHandlers: {
-        save: this.save,
-        close: this.close,
-        input: this.input
+        save: this.savePicker,
+        close: this.closePicker,
+        input: this.inputPicker
       }
     }
   },
   computed: {
-    valueFormatted () {
+    fieldValue () {
       if (this.format != null) {
-        return this.format(this.value)
+        return this.format(this.localValue)
       } else {
-        return this.value
+        return this.localValue
+      }
+    },
+    pickerValue () {
+      if (this.formatPicker != null) {
+        return this.formatPicker(this.localValue)
+      } else {
+        return ''
       }
     },
     combinedErrorMessages () {
@@ -97,44 +107,54 @@ export default {
     },
     value (val) {
       if (this.showPicker === false) {
-        this.pickerValue = val
+        this.localValue = val
       }
     },
-    valueFormatted (val) {
+    fieldValue (val) {
       if (this.textFieldIsActive === false) {
         this.stringValue = val
       }
     },
     textFieldIsActive (val) {
       if (val === false) {
-        this.stringValue = this.valueFormatted
+        this.stringValue = this.fieldValue
       }
     }
   },
   mounted () {
-    this.stringValue = this.valueFormatted
+    this.stringValue = this.fieldValue
   },
   methods: {
     setValue (val) {
-      if (this.value !== val) {
+      if (this.localValue !== val) {
         this.$emit('input', val)
-        this.pickerValue = val
+        this.localValue = val
+      }
+      this.parseError = null
+    },
+    setValueOfPicker (val) {
+      if (this.localPickerValue !== val) {
+        this.localPickerValue = val
       }
       this.parseError = null
     },
     setParseError (err) {
       this.parseError = err
     },
-    close () {
+    closePicker () {
       this.showPicker = false
-      this.pickerValue = this.value
+      this.localPickerValue = this.localValue
     },
-    save () {
+    savePicker () {
       this.showPicker = false
-      this.setValue(this.pickerValue)
+      this.setValue(this.localPickerValue)
     },
-    input (val) {
-      this.pickerValue = val
+    inputPicker (val) {
+      if (this.parsePicker) {
+        this.parsePicker(val).then(this.setValueOfPicker, this.setParseError)
+      } else {
+        this.setValueOfPicker(val)
+      }
     }
   }
 }

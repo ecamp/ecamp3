@@ -14,10 +14,14 @@ Lists all activity instances in a list view.
         :key="scheduleEntry._meta.self"
         two-line
         :to="scheduleEntryLink(scheduleEntry)">
-        <v-chip class="mr-2" :color="scheduleEntry.activity().activityCategory().color.toString()">{{ scheduleEntry.activity().activityCategory().short }}</v-chip>
+        <v-chip class="mr-2" :color="scheduleEntry.activity().activityCategory().color.toString()">
+          {{
+            scheduleEntry.activity().activityCategory().short
+          }}
+        </v-chip>
         <v-list-item-content>
           <v-list-item-title>{{ scheduleEntry.activity().title }}</v-list-item-title>
-          <v-list-item-subtitle>{{ scheduleEntry.startTime }} - {{ scheduleEntry.endTime }}</v-list-item-subtitle>
+          <v-list-item-subtitle>{{ $moment(scheduleEntry.startTime, $moment.ISO_8601) }} - {{ $moment(scheduleEntry.endTime, $moment.ISO_8601) }}</v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
     </template>
@@ -29,12 +33,38 @@ import { scheduleEntryRoute } from '@/router'
 export default {
   name: 'ActivityList',
   props: {
-    camp: { type: Function, required: true },
-    scheduleEntries: { type: Array, required: true }
+    period: {
+      type: Function,
+      required: true
+    }
+  },
+  computed: {
+    camp () {
+      return this.period().camp()
+    },
+    scheduleEntries () {
+      return this.period().scheduleEntries().items.map((entry) => {
+        return {
+          ...entry,
+          get startTime () {
+            return this.period().start + (this.periodOffset * 60000)
+          },
+          set startTime (value) {
+            this.periodOffset = (value - this.period().start) / 60000
+          },
+          get endTime () {
+            return this.startTime + (this.length * 60000)
+          },
+          set endTime (value) {
+            this.length = (value - this.startTime) / 60000
+          }
+        }
+      })
+    }
   },
   methods: {
     scheduleEntryLink (scheduleEntry) {
-      return scheduleEntryRoute(this.camp(), scheduleEntry)
+      return scheduleEntryRoute(this.camp, scheduleEntry)
     }
   }
 }

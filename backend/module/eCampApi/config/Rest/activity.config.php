@@ -41,6 +41,18 @@ $config['input_filter_specs'] = [
             'filters' => [],
             'validators' => [],
         ],
+        4 => [
+            'name' => 'scheduleEntries',
+            'required' => false,
+            'filters' => [],
+            'validators' => [],
+        ],
+        5 => [
+            'name' => 'activityCategoryId',
+            'required' => false,
+            'filters' => [],
+            'validators' => [],
+        ],
     ],
 ];
 

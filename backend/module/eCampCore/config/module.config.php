@@ -30,17 +30,6 @@ return [
                             ],
                         ],
                     ],
-
-                    'facebook' => [
-                        'type' => 'Segment',
-                        'options' => [
-                            'route' => '/facebook[/:action]',
-                            //                            'defaults' => [
-                            //                                'controller' => \eCamp\Core\Controller\Auth\FacebookController::class,
-                            //                                'action' => 'index'
-                            //                            ],
-                        ],
-                    ],
                 ],
             ],
         ],

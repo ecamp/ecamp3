@@ -7,7 +7,6 @@ use eCamp\Core\Entity\Camp;
 use eCamp\Core\Entity\Period;
 use eCamp\Core\Entity\ScheduleEntry;
 use eCamp\Core\Hydrator\ScheduleEntryHydrator;
-use eCamp\Lib\Service\EntityNotFoundException;
 use eCamp\Lib\Service\EntityValidationException;
 use eCamp\Lib\Service\ServiceUtils;
 use Laminas\Authentication\AuthenticationService;
@@ -46,9 +45,7 @@ class ScheduleEntryService extends AbstractEntityService {
     /**
      * @param mixed $data
      *
-     * @throws ORMException
-     * @throws NoAccessException
-     * @throws EntityNotFoundException
+     * @throws EntityValidationException
      *
      * @return ScheduleEntry
      */

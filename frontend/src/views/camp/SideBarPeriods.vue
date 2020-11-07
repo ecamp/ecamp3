@@ -10,12 +10,13 @@ Displays periods of a single camp.
       </v-subheader>
       <v-list>
         <v-list-item
-          v-for="period in periods.items"
-          :key="period._meta.self"
+          v-for="item in periods.items"
+          :key="item._meta.self"
+          :to="periodRoute(item)"
           two-line>
           <v-list-item-content>
-            <v-list-item-title>{{ period.description }}</v-list-item-title>
-            <v-list-item-subtitle>{{ period.start }} - {{ period.end }}</v-list-item-subtitle>
+            <v-list-item-title>{{ item.description }}</v-list-item-title>
+            <v-list-item-subtitle>{{ new Date(item.start) }} - {{ new Date(item.end) }}</v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
       </v-list>
@@ -25,12 +26,14 @@ Displays periods of a single camp.
 <script>
 import SideBar from '@/components/navigation/SideBar'
 import ContentCard from '@/components/layout/ContentCard'
+import { periodRoute } from '@/router'
 
 export default {
   name: 'SideBarPeriods',
   components: { ContentCard, SideBar },
   props: {
-    camp: { type: Function, required: true }
+    camp: { type: Function, required: true },
+    period: { type: Function, required: true }
   },
   data () {
     return {
@@ -45,6 +48,9 @@ export default {
     activities () {
       return this.camp().activities()
     }
+  },
+  methods: {
+    periodRoute
   }
 }
 </script>

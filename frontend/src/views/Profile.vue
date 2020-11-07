@@ -31,6 +31,7 @@
         <api-date-picker
           :name="$tc('entity.user.fields.birthday')"
           :uri="profile._meta.self"
+          :value-format="$moment.HTML5_FMT.DATE"
           fieldname="birthday" />
         <api-select
           :name="$tc('entity.user.fields.language') + ' (' + $tc('global.lokaliseMessage') + ')'"

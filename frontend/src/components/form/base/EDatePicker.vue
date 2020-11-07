@@ -7,7 +7,9 @@ Displays a field as a date picker (can be used with v-model)
     :icon="icon"
     :value="value"
     :format="format"
+    :format-picker="formatPicker"
     :parse="parse"
+    :parse-picker="parsePicker"
     v-bind="$attrs"
     @input="$emit('input', $event)">
     <template slot-scope="picker">
@@ -38,13 +40,20 @@ export default {
   name: 'DatePicker',
   components: { BasePicker },
   props: {
-    value: { type: String, required: true },
-    icon: { type: String, required: false, default: 'mdi-calendar' }
+    value: { type: [String, Number], required: true },
+    icon: { type: String, required: false, default: 'mdi-calendar' },
+    valueFormat: { type: [String, Array], default: 'YYYY-MM-DD' }
   },
   methods: {
     format (val) {
       if (val !== '') {
-        return this.$moment(val, this.$moment.HTML5_FMT.DATE, this.$i18n.locale).format('L')
+        return this.$moment(val, this.valueFormat, this.$i18n.locale).format('L')
+      }
+      return ''
+    },
+    formatPicker (val) {
+      if (val !== '') {
+        return this.$moment(val, this.valueFormat).format(this.$moment.HTML5_FMT.DATE)
       }
       return ''
     },
@@ -52,7 +61,7 @@ export default {
       if (val) {
         const m = this.$moment(val, 'L')
         if (m.isValid()) {
-          return Promise.resolve(m.format(this.$moment.HTML5_FMT.DATE))
+          return Promise.resolve(m.format(this.valueFormat))
         } else {
           switch (m.parsingFlags().overflow) {
             case 0: // Year
@@ -62,6 +71,18 @@ export default {
             case 2: // Day
               return Promise.reject(new Error('invalid day'))
           }
+          return Promise.reject(new Error('invalid format'))
+        }
+      } else {
+        return Promise.resolve('')
+      }
+    },
+    parsePicker (val) {
+      if (val) {
+        const m = this.$moment(val, this.$moment.HTML5_FMT.DATE)
+        if (m.isValid()) {
+          return Promise.resolve(m.format(this.valueFormat))
+        } else {
           return Promise.reject(new Error('invalid format'))
         }
       } else {

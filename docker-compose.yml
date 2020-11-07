@@ -17,7 +17,7 @@ services:
     command: ./docker-setup.sh
     environment:
       NODE_ENV: development
-  
+
   backend:
     build: ./backend
     container_name: 'ecamp3-backend'
@@ -25,7 +25,7 @@ services:
       - '3001:80'
     volumes:
       - ./backend:/app:delegated
-    entrypoint: ./docker-setup.sh  
+    entrypoint: ./docker-setup.sh
 
   print:
     image: node:12.18
@@ -59,6 +59,8 @@ services:
       - MYSQL_RANDOM_ROOT_PASSWORD=yes
       - MYSQL_USER=ecamp3
       - MYSQL_PASSWORD=ecamp3
+    ports:
+      - '3006:3306'
     volumes:
       - db-data:/var/lib/mysql
 
@@ -110,5 +112,3 @@ volumes:
   print-node-modules-cache:
   db-data:
   print-output:
-
-  

@@ -23,6 +23,11 @@ class ScheduleEntryHydrator implements HydratorInterface {
                     }, null),
                 ]
             ),
+            'period' => Util::Entity(
+                function (ScheduleEntry $ei) {
+                    return $ei->getPeriod();
+                },
+            ),
         ];
     }
 
@@ -44,13 +49,10 @@ class ScheduleEntryHydrator implements HydratorInterface {
         return [
             'id' => $scheduleEntry->getId(),
 
-            'start' => $scheduleEntry->getStart(),
+            'periodOffset' => $scheduleEntry->getPeriodOffset(),
             'length' => $scheduleEntry->getLength(),
             'left' => $scheduleEntry->getLeft(),
             'width' => $scheduleEntry->getWidth(),
-
-            'startTime' => Util::extractDateTime($scheduleEntry->getStartTime()),
-            'endTime' => Util::extractDateTime($scheduleEntry->getEndTime()),
 
             'dayNumber' => $scheduleEntry->getDayNumber(),
             'scheduleEntryNumber' => $scheduleEntry->getScheduleEntryNumber(),
@@ -71,8 +73,8 @@ class ScheduleEntryHydrator implements HydratorInterface {
         /** @var ScheduleEntry $scheduleEntry */
         $scheduleEntry = $object;
 
-        if (isset($data['start'])) {
-            $scheduleEntry->setStart($data['start']);
+        if (isset($data['periodOffset'])) {
+            $scheduleEntry->setPeriodOffset($data['periodOffset']);
         }
         if (isset($data['length'])) {
             $scheduleEntry->setLength($data['length']);

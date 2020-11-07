@@ -45,3 +45,7 @@ body {font-feature-settings: "ss03", "calt", "rlig", "kern", "cv05", "cv07", "cv
 .e-form-container + .e-form-container {
 	margin-top: 12px;
 }
+
+.flex-full {
+	flex: 1 1 0;
+}

@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import slugify from 'slugify'
 import { refreshLoginStatus } from '@/plugins/auth'
+import { get } from '@/plugins/store/apiPlugin'
 
 Vue.use(Router)
 
@@ -101,8 +102,8 @@ export default new Router({
       },
       beforeEnter: requireAuth,
       props: {
-        default: route => ({ camp: campFromRoute(route) }),
-        aside: route => ({ camp: campFromRoute(route) })
+        default: route => ({ camp: campFromRoute(route), period: periodFromRoute(route) }),
+        aside: route => ({ camp: campFromRoute(route), period: periodFromRoute(route) })
       },
       children: [
         {
@@ -116,8 +117,8 @@ export default new Router({
           component: () => import(/* webpackChunkName: "campAdmin" */ './views/camp/Admin')
         },
         {
-          path: 'program',
-          name: 'camp/program',
+          path: 'period/:periodId/:periodTitle?',
+          name: 'camp/period',
           component: () => import(/* webpackChunkName: "campProgram" */ './views/camp/CampProgram')
         },
         {
@@ -127,7 +128,12 @@ export default new Router({
         },
         {
           path: '',
-          redirect: { name: 'camp/program' }
+          name: 'camp/program',
+          async beforeEnter (to, from, next) {
+            const period = await firstFuturePeriod(to)
+            await period.camp()._meta.load
+            next(periodRoute(period))
+          }
         }
       ]
     },
@@ -164,6 +170,12 @@ export function campFromRoute (route) {
   }
 }
 
+export function periodFromRoute (route) {
+  return function () {
+    return this.api.get().periods({ periodId: route.params.periodId })
+  }
+}
+
 function scheduleEntryFromRoute (route) {
   return function () {
     return this.api.get().scheduleEntries({ scheduleEntryId: route.params.scheduleEntryId })
@@ -182,10 +194,35 @@ export function campRoute (camp, subroute) {
   return { name: routeName, params: { campId: camp.id, campTitle: slugify(camp.title) } }
 }
 
+export function periodRoute (period) {
+  const camp = period.camp()
+  if (camp._meta.loading || period._meta.loading) return {}
+  return {
+    name: 'camp/period',
+    params: {
+      campId: camp.id,
+      campTitle: slugify(camp.title),
+      periodId: period.id,
+      periodTitle: slugify(period.description)
+    }
+  }
+}
+
 export function scheduleEntryRoute (camp, scheduleEntry) {
   if (camp._meta.loading || scheduleEntry._meta.loading || scheduleEntry.activity()._meta.loading) return {}
   return {
     name: 'activity',
-    params: { campId: camp.id, campTitle: slugify(camp.title), scheduleEntryId: scheduleEntry.id, activityName: slugify(scheduleEntry.activity().title) }
+    params: {
+      campId: camp.id,
+      campTitle: slugify(camp.title),
+      scheduleEntryId: scheduleEntry.id,
+      activityName: slugify(scheduleEntry.activity().title)
+    }
   }
+}
+
+async function firstFuturePeriod (route) {
+  const periods = await get().camps({ campId: route.params.campId }).periods()._meta.load
+  // Return the first period that hasn't ended, or if no such period exists, return the first period
+  return periods.items.find(period => new Date(period.end) >= new Date()) || periods.items.find(_ => true)
 }
