@@ -65,18 +65,18 @@ Displays a single activity
                         ({{ scheduleEntryItem.number }})
                       </v-col>
                       <v-col cols="10">
-                        {{ $moment(scheduleEntryItem.startTime).format($tc('global.moment.dateShort')) }}
+                        {{ $moment.utc(scheduleEntryItem.startTime).format($tc('global.moment.dateShort')) }}
                         <b>
-                          {{ $moment(scheduleEntryItem.startTime).format($tc('global.moment.hourShort')) }}
+                          {{ $moment.utc(scheduleEntryItem.startTime).format($tc('global.moment.hourShort')) }}
                         </b>
                         -
                         {{
-                          $moment(scheduleEntryItem.startTime).format($tc('global.moment.dateShort')) == $moment(scheduleEntryItem.endTime).format($tc('global.moment.dateShort'))
+                          $moment.utc(scheduleEntryItem.startTime).format($tc('global.moment.dateShort')) == $moment.utc(scheduleEntryItem.endTime).format($tc('global.moment.dateShort'))
                             ? ''
-                            : $moment(scheduleEntryItem.endTime).format($tc('global.moment.dateShort'))
+                            : $moment.utc(scheduleEntryItem.endTime).format($tc('global.moment.dateShort'))
                         }}
                         <b>
-                          {{ $moment(scheduleEntryItem.endTime).format($tc('global.moment.hourShort')) }}
+                          {{ $moment.utc(scheduleEntryItem.endTime).format($tc('global.moment.hourShort')) }}
                         </b>
                       </v-col>
                     </v-row>
@@ -169,7 +169,7 @@ export default {
         return {
           ...entry,
           get startTime () {
-            return this.period().start + (this.periodOffset * 60000)
+            return Date.parse(this.period().start) + (this.periodOffset * 60000)
           },
           set startTime (value) {
             this.periodOffset = (value - this.period().start) / 60000

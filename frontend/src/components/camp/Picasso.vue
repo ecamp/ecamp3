@@ -38,8 +38,8 @@ Listing all given activity schedule entries in a calendar view.
       <template #day-label-header="time">
         <div class="ec-daily_head-day-label">
           <span v-if="widthPluralization > 0" class="d-block">
-            {{ $moment(time.date).format('dddd') }}
-          </span> {{ $moment(time.date).format($tc('components.camp.picasso.moment.date', widthPluralization)) }}
+            {{ $moment.utc(time.date).format('dddd') }}
+          </span> {{ $moment.utc(time.date).format($tc('components.camp.picasso.moment.date', widthPluralization)) }}
         </div>
       </template>
       <template #day-body="{ date }">
@@ -89,7 +89,7 @@ import { scheduleEntryRoute } from '@/router'
 import { isCssColor } from 'vuetify/lib/util/colorUtils'
 import DialogActivityCreate from '@/components/dialog/DialogActivityCreate'
 import DialogActivityEdit from '@/components/dialog/DialogActivityEdit'
-import { defineHelpers } from '@/components/scheduleEntry/helper'
+import { defineHelpers } from '@/components/scheduleEntry/dateHelperLocal'
 
 export default {
   name: 'Picasso',
@@ -205,13 +205,13 @@ export default {
       return scheduleEntry.activity()._meta ? scheduleEntry.activity()._meta.loading : false
     },
     intervalFormat (time) {
-      return this.$moment(time.date + ' ' + time.time).format(this.$tc('global.moment.hourLong'))
+      return this.$moment.utc(time.date + ' ' + time.time).format(this.$tc('global.moment.hourLong'))
     },
     dayFormat (day) {
       if (this.$vuetify.breakpoint.smAndDown) {
-        return this.$moment(day.date).format(this.$tc('global.moment.dateShort'))
+        return this.$moment.utc(day.date).format(this.$tc('global.moment.dateShort'))
       } else {
-        return this.$moment(day.date).format(this.$tc('global.moment.dateLong'))
+        return this.$moment.utc(day.date).format(this.$tc('global.moment.dateLong'))
       }
     },
     scheduleEntryRoute,
@@ -417,7 +417,7 @@ export default {
       return new Date(tms.year, tms.month - 1, tms.day, tms.hour, tms.minute).getTime()
     },
     toTimeString (date) {
-      return this.$moment(date).format(this.$tc('global.moment.hourLong'))
+      return this.$moment.utc(date).format(this.$tc('global.moment.hourLong'))
     },
     rnd (a, b) {
       return Math.floor((b - a + 1) * Math.random()) + a

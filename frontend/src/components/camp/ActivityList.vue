@@ -21,7 +21,7 @@ Lists all activity instances in a list view.
         </v-chip>
         <v-list-item-content>
           <v-list-item-title>{{ scheduleEntry.activity().title }}</v-list-item-title>
-          <v-list-item-subtitle>{{ $moment(scheduleEntry.startTime, $moment.ISO_8601) }} - {{ $moment(scheduleEntry.endTime, $moment.ISO_8601) }}</v-list-item-subtitle>
+          <v-list-item-subtitle>{{ $moment.utc(scheduleEntry.startTime, $moment.ISO_8601) }} - {{ $moment.utc(scheduleEntry.endTime, $moment.ISO_8601) }}</v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
     </template>

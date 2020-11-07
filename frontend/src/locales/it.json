@@ -146,7 +146,7 @@
     "moment": {
       "dateLong": "dd L",
       "dateShort": "dd M\/D",
-      "hourShort": "h A"
+      "hourShort": "h:mm A"
     },
     "serverError": {
       "409": "Uuuuups... Questa azione ha causato un errore sul lato server."
