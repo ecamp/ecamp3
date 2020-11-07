@@ -52,7 +52,6 @@
             vee-rules="required"
             :my="2"
             :filled="false"
-            icon=""
             required />
         </v-col>
       </v-row>

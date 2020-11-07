@@ -3,10 +3,16 @@ function defineHelpers (scheduleEntry, timed = false) {
     Object.defineProperties(scheduleEntry, {
       startTime: {
         get () {
-          return Date.parse(this.period().start) + (this.periodOffset * 60000)
+          // need to cut-off UTC Timezone such that the date is interpreted in local timezone setting (because v-calendar has no timezone setting)
+          const [periodStart] = this.period().start.split('+')
+
+          return Date.parse(periodStart) + (this.periodOffset * 60000)
         },
         set (value) {
-          this.periodOffset = (value - Date.parse(this.period().start)) / 60000
+          // need to cut-off UTC Timezone such that the date is interpreted in local timezone setting (because v-calendar has no timezone setting)
+          const [periodStart] = this.period().start.split('+')
+
+          this.periodOffset = (value - Date.parse(periodStart)) / 60000
         }
       },
       endTime: {
