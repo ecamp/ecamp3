@@ -42,24 +42,24 @@ export default {
   props: {
     value: { type: [String, Number], required: true },
     icon: { type: String, required: false, default: 'mdi-calendar' },
-    valueFormat: { type: [String, Array], default: 'YYYY-MM-DD' }
+    valueFormat: { type: [String, Array], default: 'YYYY-MM-DDTHH:mm:ssZ' }
   },
   methods: {
     format (val) {
       if (val !== '') {
-        return this.$moment(val, this.valueFormat, this.$i18n.locale).format('L')
+        return this.$moment.utc(val, this.valueFormat, this.$i18n.locale).format('L')
       }
       return ''
     },
     formatPicker (val) {
       if (val !== '') {
-        return this.$moment(val, this.valueFormat).format(this.$moment.HTML5_FMT.DATE)
+        return this.$moment.utc(val, this.valueFormat).format(this.$moment.HTML5_FMT.DATE)
       }
       return ''
     },
     parse (val) {
       if (val) {
-        const m = this.$moment(val, 'L')
+        const m = this.$moment.utc(val, 'L')
         if (m.isValid()) {
           return Promise.resolve(m.format(this.valueFormat))
         } else {
@@ -79,7 +79,7 @@ export default {
     },
     parsePicker (val) {
       if (val) {
-        const m = this.$moment(val, this.$moment.HTML5_FMT.DATE)
+        const m = this.$moment.utc(val, this.$moment.HTML5_FMT.DATE)
         if (m.isValid()) {
           return Promise.resolve(m.format(this.valueFormat))
         } else {

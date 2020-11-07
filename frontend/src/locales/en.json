@@ -185,7 +185,7 @@
       "dateLong": "dd L",
       "dateShort": "dd M\/D",
       "hourLong": "HH:mm",
-      "hourShort": "h A"
+      "hourShort": "h:mm A"
     },
     "serverError": {
       "409": "Uuuups... This action caused an server-side error."
