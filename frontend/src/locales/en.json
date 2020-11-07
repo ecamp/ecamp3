@@ -8,11 +8,11 @@
     "safetyConcept": {
       "add": "Add safety concept",
       "icon": "mdi-security",
-      "name": "safety concept",
+      "name": "Safety concept",
       "sort": "3"
     },
     "storyboard": {
-      "add": "Add a storyboard",
+      "add": "Add a storyboard | Add another storyboard",
       "entity": {
         "section": {
           "fields": {
@@ -24,17 +24,27 @@
         }
       },
       "icon": "mdi-script-text-outline",
-      "name": "storyboard",
+      "name": "Storyboard",
       "sort": "2"
     },
     "storycontext": {
       "add": "Add story context",
       "icon": "mdi-book-open-page-variant",
-      "name": "story concept",
+      "name": "Story concept",
       "sort": "1"
     }
   },
   "components": {
+    "activity": {
+      "createScheduleEntries": {
+        "fields": {
+          "duration": "Duration",
+          "endTime": "End",
+          "startTime": "Start"
+        },
+        "name": "Scheduled"
+      }
+    },
     "camp": {
       "campActivityCategories": {
         "create": "Create activity category",
@@ -53,6 +63,11 @@
           "title": "title"
         },
         "title": "Settings"
+      },
+      "picasso": {
+        "moment": {
+          "date": "dd. D.MM | D. MMM | DD. MMM YYYY"
+        }
       }
     },
     "dialog": {
@@ -61,7 +76,7 @@
       },
       "dialogEntityDelete": {
         "title": "Really delete?",
-        "warningText": "Do you wish to cancel this?"
+        "warningText": "Do you really want to delete this?"
       },
       "dialogPeriodCreate": {
         "title": "Create period"
@@ -71,7 +86,7 @@
       "myCamps": "My camp | My camps",
       "profile": "Profile",
       "search": "Search",
-      "searchActivitiesAndCamps": "Search activity and camps",
+      "searchActivitiesAndCamps": "Search activities and camps",
       "userMeta": {
         "logOut": "Log out",
         "myCamps": "My camp | My camps",
@@ -82,10 +97,12 @@
   "entity": {
     "activity": {
       "fields": {
+        "activityCategory": "Activity category",
         "location": "Location",
         "title": "Title"
       },
-      "name": "Activity"
+      "name": "Activity",
+      "new": "New Activity"
     },
     "activityCategory": {
       "fields": {
@@ -127,7 +144,9 @@
     },
     "scheduleEntry": {
       "fields": {
-        "nr": "No.",
+        "length": "Length in Minutes",
+        "nr": "Nr",
+        "periodOffset": "Period Offset",
         "time": "Time"
       },
       "name": "Activity scheduled"
@@ -149,9 +168,15 @@
       "add": "Add",
       "back": "Back",
       "cancel": "Cancel",
+      "create": "Create",
       "delete": "Delete",
       "edit": "Edit",
-      "submit": "Submit"
+      "open": "Open",
+      "save": "Save",
+      "saving": "Saving",
+      "submit": "Submit",
+      "tryagain": "Try again",
+      "update": "Update"
     },
     "changeLanguage": "Change language",
     "language": "English",
@@ -159,6 +184,7 @@
     "moment": {
       "dateLong": "dd L",
       "dateShort": "dd M\/D",
+      "hourLong": "HH:mm",
       "hourShort": "h A"
     },
     "serverError": {
@@ -170,8 +196,8 @@
   },
   "views": {
     "activity": {
-      "sideBarProgram": {
-        "title": "Activities on this day"
+      "sidebarProgram": {
+        "name": "Daily overview"
       }
     },
     "auth": {
@@ -212,18 +238,18 @@
       "create": "Create the Camp",
       "period": {
         "add": "Add a period",
-        "remove": "Remove a period"
+        "remove": "Remove period"
       },
-      "title": "Create the Camp"
+      "title": "Create a Camp"
     },
     "camps": {
-      "create": "Create the camp",
+      "create": "Create a camp",
       "title": "My Camp | My Camps"
     },
     "home": {
       "home": "Home",
       "myCamps": "My Camp | My Camps",
-      "welcome": "Hello {user}. Warmly Welcome on eCamp"
+      "welcome": "Hello {user}. Welcome on eCamp"
     },
     "profile": {
       "profile": "Profile"

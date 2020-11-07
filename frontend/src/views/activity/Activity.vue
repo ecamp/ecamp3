@@ -59,7 +59,7 @@ Displays a single activity
                       </v-col>
                     </v-row>
                     <v-row
-                      v-for="scheduleEntryItem in scheduleEntries.items"
+                      v-for="scheduleEntryItem in scheduleEntries"
                       :key="scheduleEntryItem._meta.self" dense>
                       <v-col cols="2">
                         ({{ scheduleEntryItem.number }})
@@ -136,7 +136,10 @@ export default {
     ActivityLayoutGeneral
   },
   props: {
-    scheduleEntry: { type: Function, required: true }
+    scheduleEntry: {
+      type: Function,
+      required: true
+    }
   },
   computed: {
     availableCampCollaborations () {
@@ -162,7 +165,24 @@ export default {
       return this.activity.activityCategory()
     },
     scheduleEntries () {
-      return this.activity.scheduleEntries()
+      return this.activity.scheduleEntries().items.map((entry) => {
+        return {
+          ...entry,
+          get startTime () {
+            return this.period().start + (this.periodOffset * 60000)
+          },
+          set startTime (value) {
+            this.periodOffset = (value - this.period().start) / 60000
+          },
+          get endTime () {
+            return this.startTime + (this.length * 60000)
+          },
+          set endTime (value) {
+            this.length = (value - this.startTime) / 60000
+          }
+        }
+      }
+      )
     },
     activityType () {
       return this.category.activityType()
@@ -186,7 +206,9 @@ export default {
   },
   methods: {
     countActivityContents (contentType) {
-      return this.activityContents.items.filter(ac => { return ac.contentType().id === contentType.id }).length
+      return this.activityContents.items.filter(ac => {
+        return ac.contentType().id === contentType.id
+      }).length
     },
     async addActivityContent (atctId) {
       await this.api.post('/activity-contents', {
@@ -203,11 +225,11 @@ export default {
 </script>
 
 <style scoped>
-  .v-card .v-list-item {
-    padding-left: 0;
-  }
+.v-card .v-list-item {
+  padding-left: 0;
+}
 
-  .activity_title input {
-    font-size: 28px;
-  }
+.activity_title input {
+  font-size: 28px;
+}
 </style>

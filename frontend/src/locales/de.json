@@ -28,6 +28,16 @@
     }
   },
   "components": {
+    "activity": {
+      "createScheduleEntries": {
+        "fields": {
+          "duration": "Länge",
+          "endTime": "Ende",
+          "startTime": "Start"
+        },
+        "name": "Geplante Termine"
+      }
+    },
     "camp": {
       "campActivityCategories": {
         "create": "Block-Kategorie erstellen",
@@ -46,6 +56,11 @@
           "title": "Titel"
         },
         "title": "Einstellungen"
+      },
+      "picasso": {
+        "moment": {
+          "date": "dd. D.MM | D. MMM | DD. MMM YYYY"
+        }
       }
     },
     "dialog": {
@@ -75,10 +90,12 @@
   "entity": {
     "activity": {
       "fields": {
+        "activityCategory": "Block Kategorie",
         "location": "Ort",
         "title": "Titel"
       },
-      "name": "Aktivität"
+      "name": "Aktivität",
+      "new": "Neue Aktivität"
     },
     "activityCategory": {
       "fields": {
@@ -120,10 +137,12 @@
     },
     "scheduleEntry": {
       "fields": {
+        "length": "Dauer in Minuten",
         "nr": "Nr",
+        "periodOffset": "Minuten seit Lagerabschnittbeginn",
         "time": "Zeitpunkt"
       },
-      "name": "Aktivität Durchführung"
+      "name": "Zeitplaneintrag"
     },
     "user": {
       "fields": {
@@ -142,9 +161,15 @@
       "add": "Hinzufügen",
       "back": "Zurück",
       "cancel": "Abbrechen",
+      "create": "Erstellen",
       "delete": "Löschen",
       "edit": "Bearbeiten",
-      "submit": "Abschicken"
+      "open": "Öffnen",
+      "save": "Speichern",
+      "saving": "Speichert",
+      "submit": "Abschicken",
+      "tryagain": "Erneut versuchen",
+      "update": "Aktualisieren"
     },
     "changeLanguage": "Sprache ändern",
     "language": "Deutsch",
@@ -152,7 +177,8 @@
     "moment": {
       "dateLong": "dd L",
       "dateShort": "dd D.M.",
-      "hourShort": "HH:mm"
+      "hourLong": "HH:mm",
+      "hourShort": "H:mm"
     },
     "serverError": {
       "409": "Uuuups... Diese Aktion hat zu einem Fehler auf dem Server geführt."

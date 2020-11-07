@@ -44,6 +44,9 @@ class Util {
         return new CollectionLinkResolver($resolver, $linkResolver);
     }
 
+    /**
+     * @return string in the ISO8601 format
+     */
     public static function extractDate(?DateTime $date) {
         if (null == $date) {
             return null;
@@ -52,32 +55,50 @@ class Util {
         return $date->format('Y-m-d');
     }
 
+    /**
+     * @return string in the DATE_RFC3339 format
+     */
     public static function extractDateTime(?DateTime $date) {
         if (null == $date) {
             return null;
         }
 
-        return $date->format('Y-m-d H:i:s');
+        return $date->format(DATE_RFC3339);
     }
 
     /**
-     * @param $date
+     * @param $date string|int|DateTime
+     * String in DateTime Format {@link https://php.net/manual/en/datetime.formats.php Date and Time Formats}
+     * DateTime
      *
      * @throws Exception
      *
      * @return null|DateTime
      */
     public static function parseDate($date) {
-        $result = null;
-
         if ($date instanceof DateTime) {
-            $result = $date;
+            return $date;
         }
 
         if (is_string($date) && strlen($date) > 0) {
-            $result = new DateTime($date);
+            return new DateTime($date);
         }
 
-        return $result;
+        return null;
+    }
+
+    /**
+     * @param $date string|int|DateTime
+     * String in DateTime Format {@link https://php.net/manual/en/datetime.formats.php Date and Time Formats}
+     * DateTime
+     *
+     * @return null|DateTime
+     */
+    public static function parseDateTime($date) {
+        if (is_string($date) && strlen($date) > 0) {
+            return DateTime::createFromFormat(DATE_RFC3339, $date);
+        }
+
+        return null;
     }
 }

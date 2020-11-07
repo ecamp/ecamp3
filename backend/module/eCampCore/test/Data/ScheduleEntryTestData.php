@@ -22,7 +22,7 @@ class ScheduleEntryTestData extends AbstractFixture implements DependentFixtureI
         $scheduleEntry = new ScheduleEntry();
         $scheduleEntry->setActivity($activity);
         $scheduleEntry->setPeriod($period);
-        $scheduleEntry->setStart(600);
+        $scheduleEntry->setPeriodOffset(600);
         $scheduleEntry->setLength(120);
 
         $manager->persist($scheduleEntry);

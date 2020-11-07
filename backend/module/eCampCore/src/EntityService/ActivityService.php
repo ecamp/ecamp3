@@ -2,10 +2,13 @@
 
 namespace eCamp\Core\EntityService;
 
+use Doctrine\ORM\ORMException;
 use eCamp\Core\Entity\Activity;
 use eCamp\Core\Entity\ActivityCategory;
 use eCamp\Core\Entity\Camp;
+use eCamp\Core\Entity\ScheduleEntry;
 use eCamp\Core\Hydrator\ActivityHydrator;
+use eCamp\Lib\Acl\NoAccessException;
 use eCamp\Lib\Entity\BaseEntity;
 use eCamp\Lib\Service\EntityNotFoundException;
 use eCamp\Lib\Service\ServiceUtils;
@@ -15,10 +18,14 @@ class ActivityService extends AbstractEntityService {
     /** @var ActivityResponsibleService */
     protected $activityResponsibleService;
 
+    /** @var ScheduleEntryService */
+    protected $scheduleEntryService;
+
     public function __construct(
         ActivityResponsibleService $activityResponsibleService,
         ServiceUtils $serviceUtils,
-        AuthenticationService $authenticationService
+        AuthenticationService $authenticationService,
+        ScheduleEntryService $scheduleEntryService
     ) {
         parent::__construct(
             $serviceUtils,
@@ -26,19 +33,50 @@ class ActivityService extends AbstractEntityService {
             ActivityHydrator::class,
             $authenticationService
         );
-
+        $this->scheduleEntryService = $scheduleEntryService;
         $this->activityResponsibleService = $activityResponsibleService;
     }
 
+    /**
+     * @param mixed $data
+     *
+     * @throws EntityNotFoundException
+     * @throws NoAccessException
+     * @throws ORMException
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     *
+     * @return BaseEntity
+     */
     protected function createEntityPost(BaseEntity $entity, $data) {
-        $this->updateActivityResponsibles($entity, $data);
+        /** @var Activity $activity */
+        $activity = $entity;
+
+        $this->updateActivityResponsibles($activity, $data);
+
+        $this->updateScheduleEntries($activity, $data);
 
         return $entity;
     }
 
+    /**
+     * @param $data
+     *
+     * @throws EntityNotFoundException
+     * @throws NoAccessException
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     *
+     * @return BaseEntity
+     */
     protected function patchEntity(BaseEntity $entity, $data) {
-        $entity = parent::patchEntity($entity, $data);
-        $this->updateActivityResponsibles($entity, $data);
+        /** @var Activity $activity */
+        $activity = parent::patchEntity($entity, $data);
+        $this->updateActivityResponsibles($activity, $data);
+        $this->updateScheduleEntries($activity, $data);
+
+        if (!empty($data->activityCategorId)) {
+            $category = $this->findRelatedEntity(ActivityCategory::class, $data, 'activityCategoryId');
+            $activity->setActivityCategory($category);
+        }
 
         return $entity;
     }
@@ -46,6 +84,7 @@ class ActivityService extends AbstractEntityService {
     protected function updateEntity(BaseEntity $entity, $data) {
         $entity = parent::updateEntity($entity, $data);
         $this->updateActivityResponsibles($entity, $data);
+        $this->updateScheduleEntries($entity, $data);
 
         return $entity;
     }
@@ -115,6 +154,36 @@ class ActivityService extends AbstractEntityService {
                         'activityId' => $activity->getId(),
                         'campCollaborationId' => $ccId,
                     ]);
+                }
+            }
+        }
+    }
+
+    private function updateScheduleEntries(Activity $activity, $data) {
+        if (isset($data->scheduleEntries) && is_array($data->scheduleEntries)) {
+            $scheduleEntryIds = array_reduce($data->scheduleEntries, function ($result, $entry) {
+                if (isset($entry['id'])) {
+                    $result[] = $entry['id'];
+                }
+
+                return $result;
+            }, []);
+
+            foreach ($activity->getScheduleEntries() as $scheduleEntryInDb) {
+                /** @var ScheduleEntry $scheduleEntryInDb */
+                if (!in_array($scheduleEntryInDb->getId(), $scheduleEntryIds)) {
+                    $this->scheduleEntryService->delete($scheduleEntryInDb->getId());
+                }
+            }
+
+            foreach ($data->scheduleEntries as $data) {
+                $data = (object) $data;
+                if (isset($data->id)) {
+                    $scheduleEntry = $this->findEntity(ScheduleEntry::class, $data->id);
+                    $this->scheduleEntryService->patch($scheduleEntry->getId(), $data);
+                } else {
+                    $data->activityId = $activity->getId();
+                    $this->scheduleEntryService->create($data);
                 }
             }
         }

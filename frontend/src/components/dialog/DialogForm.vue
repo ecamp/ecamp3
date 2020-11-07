@@ -30,10 +30,12 @@
           </v-card-text>
 
           <v-card-actions>
+            <slot name="moreActions" />
             <v-spacer />
             <v-btn
               v-if="cancelAction != null"
               :color="cancelColor"
+              text
               :disabled="!cancelEnabled"
               @click="doCancel">
               <v-icon

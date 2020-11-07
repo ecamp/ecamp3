@@ -46,12 +46,10 @@ class ScheduleEntryTest extends AbstractApiControllerTestCase {
         $expectedBody = <<<JSON
             {
                 "id": "{$this->scheduleEntry->getId()}",
-                "start": 600,
+                "periodOffset": 600,
                 "length": 120,
                 "left": 0,
                 "width": 1,
-                "startTime": "2000-01-01 10:00:00",
-                "endTime": "2000-01-01 12:00:00",
                 "dayNumber": 1,
                 "scheduleEntryNumber": 1,
                 "number": "1.i"
@@ -84,18 +82,18 @@ JSON;
 
     public function testCreateWithoutStartAndLength() {
         $this->setRequestContent([
-            'start' => '', ]);
+            'periodOffset' => '', ]);
 
         $this->dispatch("{$this->apiEndpoint}", 'POST');
 
         $this->assertResponseStatusCode(422);
-        $this->assertObjectHasAttribute('isEmpty', $this->getResponseContent()->validation_messages->start);
+        $this->assertObjectHasAttribute('isEmpty', $this->getResponseContent()->validation_messages->periodOffset);
         $this->assertObjectHasAttribute('isEmpty', $this->getResponseContent()->validation_messages->length);
     }
 
     public function testCreateWithoutActivity() {
         $this->setRequestContent([
-            'start' => 900,
+            'periodOffset' => 900,
             'length' => 180,
             'periodId' => 'xxx', ]);
 
@@ -107,7 +105,7 @@ JSON;
 
     public function testCreateSuccess() {
         $this->setRequestContent([
-            'start' => 900,
+            'periodOffset' => 900,
             'length' => 180,
             'activityId' => $this->scheduleEntry->getActivity()->getId(),
             'periodId' => $this->scheduleEntry->getPeriod()->getId(), ]);
@@ -115,19 +113,18 @@ JSON;
         $this->dispatch("{$this->apiEndpoint}", 'POST');
 
         $this->assertResponseStatusCode(201);
-        $this->assertEquals(900, $this->getResponseContent()->start);
+        $this->assertEquals(900, $this->getResponseContent()->periodOffset);
     }
 
     public function testUpdateSuccess() {
         $this->setRequestContent([
-            'start' => 780, ]);
+            'periodOffset' => 780, ]);
 
         $this->dispatch("{$this->apiEndpoint}/{$this->scheduleEntry->getId()}", 'PATCH');
 
         $this->assertResponseStatusCode(200);
 
-        $this->assertEquals(780, $this->getResponseContent()->start);
-        $this->assertEquals('2000-01-01 13:00:00', $this->getResponseContent()->startTime);
+        $this->assertEquals(780, $this->getResponseContent()->periodOffset);
     }
 
     public function testDelete() {
