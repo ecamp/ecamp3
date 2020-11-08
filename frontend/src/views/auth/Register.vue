@@ -162,13 +162,7 @@ export default {
     }
   },
   mounted () {
-    const languages = navigator.languages || [navigator.language]
-    for (const language of languages) {
-      if (VueI18n.availableLocales.includes(language)) {
-        this.language = language
-        break
-      }
-    }
+    this.language = this.$i18n.browserPreferredLocale
   },
   methods: {
     async register () {

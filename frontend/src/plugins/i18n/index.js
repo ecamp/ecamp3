@@ -20,7 +20,7 @@ import validationDe from 'vee-validate/dist/locale/de.json'
 
 Vue.use(VueI18n)
 
-export default new VueI18n({
+const i18n = new VueI18n({
   locale: 'de',
   fallbackLocale: 'en',
   messages: deepmerge({
@@ -48,3 +48,17 @@ export default new VueI18n({
   silentTranslationWarn: true,
   availableLocales
 })
+
+Object.defineProperty(i18n, 'browserPreferredLocale', {
+  get: function () {
+    const languages = navigator.languages || [navigator.language]
+    for (const language of languages) {
+      if (this.availableLocales.includes(language)) {
+        return language
+      }
+    }
+    return undefined
+  }
+})
+
+export default i18n
