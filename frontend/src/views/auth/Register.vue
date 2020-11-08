@@ -1,10 +1,10 @@
 <template>
   <auth-container>
-    <h1 class="display-1 text-center">Konto erstellen</h1>
+    <h1 class="display-1 text-center">{{ $tc('views.auth.register.title') }}</h1>
     <v-form @submit.prevent="register">
       <e-text-field
         v-model="username"
-        label="Username"
+        :label="$tc('entity.user.fields.username')"
         name="username"
         append-icon="mdi-at"
         dense
@@ -13,7 +13,7 @@
 
       <e-text-field
         v-model="firstname"
-        label="Vorname"
+        :label="$tc('entity.user.fields.firstname')"
         name="firstname"
         append-icon="mdi-account-outline"
         dense
@@ -21,7 +21,7 @@
 
       <e-text-field
         v-model="surname"
-        label="Nachname"
+        :label="$tc('entity.user.fields.surname')"
         name="surname"
         append-icon="mdi-account-outline"
         dense
@@ -29,7 +29,7 @@
 
       <e-text-field
         v-model="email"
-        label="eMail"
+        :label="$tc('entity.user.fields.email')"
         name="email"
         append-icon="mdi-email-outline"
         dense
@@ -37,7 +37,7 @@
 
       <e-text-field
         v-model="pw1"
-        label="Password"
+        :label="$tc('entity.user.fields.password')"
         name="password"
         :rules="pw1Rules"
         validate-on-blur
@@ -47,7 +47,7 @@
 
       <e-text-field
         v-model="pw2"
-        label="Password erneut eingeben"
+        :label="$tc('views.auth.register.passwordConfirmation')"
         name="password"
         :rules="pw2Rules"
         validate-on-blur
@@ -68,12 +68,12 @@
         class="align-center">
         <template v-slot:label>
           <span style="hyphens: auto" :class="{'body-2':$vuetify.breakpoint.xsOnly}">
-            Die Nutzungsbedingungen akzeptieren
+            {{ $tc('views.auth.register.acceptTermsOfUse') }}
           </span>
         </template>
         <template v-slot:append>
           <v-btn text min-width="0"
-                 title="Öffnen"
+                 :title="$tc('views.auth.register.openTermsOfUse')"
                  target="_blank"
                  class="px-1"
                  to="#"
@@ -86,12 +86,12 @@
              color="primary"
              :disabled="!formComplete"
              block x-large>
-        Register
+        {{ $tc('views.auth.register.register') }}
       </v-btn>
     </v-form>
     <p class="mt-8 mb-0 text--secondary text-center">
-      Du hast bereits einen Account?<br>
-      <router-link :to="{ name: 'login' }">Anmelden</router-link>
+      {{ $tc('views.auth.register.alreadyHaveAnAccount') }}<br>
+      <router-link :to="{ name: 'login' }">{{ $tc('views.auth.register.login') }}</router-link>
     </p>
   </auth-container>
 </template>
