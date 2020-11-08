@@ -6,7 +6,8 @@
     },
     "safetyConcept": {
       "add": "Ajouter un concept de sécurité",
-      "name": "Concept de sécurité"
+      "name": "Concept de sécurité",
+      "sort": "3"
     },
     "storyboard": {
       "add": "Ajouter d'un scénarimage | Ajouter d'un autre scénarimage",
@@ -20,14 +21,26 @@
           "name": "Section | Sections"
         }
       },
-      "name": "Storyboard"
+      "name": "Storyboard",
+      "sort": "2"
     },
     "storycontext": {
       "add": "Ajouter le contexte de l'histoire",
-      "name": "Contexte de l'histoire"
+      "name": "Contexte de l'histoire",
+      "sort": "1"
     }
   },
   "components": {
+    "activity": {
+      "createScheduleEntries": {
+        "fields": {
+          "duration": "Durée",
+          "endTime": "Fin",
+          "startTime": "Début"
+        },
+        "name": "Prévu"
+      }
+    },
     "camp": {
       "campActivityCategories": {
         "create": "Créer une catégorie d'activité",
@@ -35,9 +48,18 @@
         "deleteActivityCategoryQuestion": "Voulez-vous vraiment supprimer la catégorie d'activité?",
         "title": "Catégories d'activités"
       },
+      "campInvitations": {
+        "title": "Inviter"
+      },
+      "campMembers": {
+        "title": "Membres"
+      },
       "campPeriods": {
-        "createPeriod": "Creér le periode",
+        "createPeriod": "Créer une période",
         "title": "Période | Périodes"
+      },
+      "campPeriodsListItem": {
+        "deleteWarning": "Voulez-vous vraiment supprimer cette période ?"
       },
       "campSettings": {
         "fields": {
@@ -46,6 +68,11 @@
           "title": "titre"
         },
         "title": "Paramètres"
+      },
+      "picasso": {
+        "moment": {
+          "date": "dd. D.MM | D. MMM | DD. MMM YYYY"
+        }
       }
     },
     "dialog": {
@@ -57,10 +84,12 @@
         "warningText": "Souhaitez-vous l'annuler ?"
       },
       "dialogPeriodCreate": {
-        "title": "Creér le periode"
+        "title": "Créer une période"
       }
     },
     "navigation": {
+      "myCamps": "Mon camp | Mes camps",
+      "profile": "Profil",
       "search": "Chercher",
       "searchActivitiesAndCamps": "Recherche d'activités et de camps",
       "userMeta": {
@@ -73,10 +102,12 @@
   "entity": {
     "activity": {
       "fields": {
+        "activityCategory": "Catégorie d'activité",
         "location": "Lieu",
         "title": "Titre"
       },
-      "name": "Activité"
+      "name": "Activité",
+      "new": "Nouvelle activité"
     },
     "activityCategory": {
       "fields": {
@@ -104,6 +135,9 @@
       },
       "name": "Camp"
     },
+    "campCollaboration": {
+      "campLeft": "quitter le camp"
+    },
     "period": {
       "defaultDescription": "Camp principal",
       "fields": {
@@ -115,7 +149,9 @@
     },
     "scheduleEntry": {
       "fields": {
+        "length": "Durée en minutes",
         "nr": "No",
+        "periodOffset": "Décalage de période",
         "time": "Temps"
       },
       "name": "mise en œuvre des activités"
@@ -127,7 +163,9 @@
         "firstname": "Prénom",
         "language": "Langue",
         "nickname": "Surnom",
-        "surname": "Nom de famille"
+        "password": "Mot de passe",
+        "surname": "Nom de famille",
+        "username": "Nom d'utilisateur"
       },
       "name": "Utilisateur"
     }
@@ -137,15 +175,23 @@
       "add": "Ajouter",
       "back": "Retour",
       "cancel": "Annuler",
+      "create": "Créer",
       "delete": "Effacer",
       "edit": "Modifier",
-      "submit": "Soumettre"
+      "open": "Ouvrez",
+      "save": "Sauvegarder",
+      "saving": "Sauvegarder",
+      "submit": "Soumettre",
+      "tryagain": "Réessayer",
+      "update": "Mise à jour"
     },
     "changeLanguage": "Changer la langue",
     "language": "Français",
+    "lokaliseMessage": "Changement de langue grâce à lokalise.com",
     "moment": {
       "dateLong": "dd L",
       "dateShort": "dd M\/D",
+      "hourLong": "HH:mm",
       "hourShort": "h:mm A"
     },
     "serverError": {
@@ -157,6 +203,9 @@
   },
   "views": {
     "activity": {
+      "sidebarProgram": {
+        "name": "Aperçu quotidien"
+      },
       "sideBarProgram": {
         "title": "Activités en ce jour"
       }
@@ -177,6 +226,15 @@
         "registernow": "Inscrivez-vous maintenant",
         "title": "Se connecter",
         "username": "Nom d'Utilisateur ou courriel"
+      },
+      "register": {
+        "acceptTermsOfUse": "Accepter les conditions d'utilisation",
+        "alreadyHaveAnAccount": "Vous avez déjà un compte ?",
+        "login": "Se connecter",
+        "openTermsOfUse": "Ouvrir",
+        "passwordConfirmation": "Entrez à nouveau votre mot de passe",
+        "register": "S'inscrire",
+        "title": "Créer un compte"
       }
     },
     "camp": {
@@ -184,6 +242,11 @@
         "title": "Admin"
       },
       "collaborators": {
+        "invite": "Inviter",
+        "members": "Membres",
+        "openInvitations": "Invitations ouvertes",
+        "openRequests": "Demandes ouvertes",
+        "search": "Chercher...",
         "title": "Team"
       },
       "sideBarPeriods": {
@@ -191,15 +254,15 @@
       }
     },
     "campCreate": {
-      "create": "Creér le camp",
+      "create": "Créer le camp",
       "period": {
         "add": "Ajouter une période",
         "remove": "Effacer une période"
       },
-      "title": "Creér le camp"
+      "title": "Créer un camp"
     },
     "camps": {
-      "create": "Creér le camp",
+      "create": "Créer un camp",
       "title": "Mon camp | Mes camps"
     },
     "home": {
