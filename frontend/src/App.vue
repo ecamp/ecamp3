@@ -12,7 +12,9 @@
     <!-- footer -->
     <v-footer v-if="$vuetify.breakpoint.smAndUp"
               app color="grey lighten-5">
-      <small>eCamp v0.1.0</small>
+      <small>eCamp <a v-if="version" :href="versionLink" target="_blank">
+        {{ version }}
+      </a></small>
       <v-spacer />
       <language-switcher />
     </v-footer>
@@ -22,6 +24,7 @@
 <script>
 import LanguageSwitcher from '@/components/layout/LanguageSwitcher'
 import VueI18n from '@/plugins/i18n'
+import urltemplate from 'url-template'
 
 export default {
   name: 'App',
@@ -29,6 +32,12 @@ export default {
   computed: {
     profile () {
       return this.api.get().profile()
+    },
+    version () {
+      return window.environment.VERSION || ''
+    },
+    versionLink () {
+      return urltemplate.parse(window.environment.VERSION_LINK_TEMPLATE).expand({ version: this.version }) || '#'
     }
   },
   created () {
