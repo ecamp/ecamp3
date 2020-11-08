@@ -131,8 +131,13 @@ export default new Router({
           name: 'camp/program',
           async beforeEnter (to, from, next) {
             const period = await firstFuturePeriod(to)
-            await period.camp()._meta.load
-            next(periodRoute(period))
+            if (period) {
+              await period.camp()._meta.load
+              next(periodRoute(period))
+            } else {
+              const camp = await get().camps({ campId: to.params.campId })
+              next(campRoute(camp, 'admin'))
+            }
           }
         }
       ]
