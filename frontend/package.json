@@ -19,6 +19,7 @@
     "axios": "^0.19.2",
     "deepmerge": "^4.2.2",
     "hal-json-normalizer": "^3.0.1",
+    "hal-json-vuex": "github:ecamp/hal-json-vuex#master",
     "inter-ui": "^3.13.1",
     "lodash": "^4.17.19",
     "moment-locales-webpack-plugin": "^1.2.0",

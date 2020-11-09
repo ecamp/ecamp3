@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import slugify from 'slugify'
 import { refreshLoginStatus } from '@/plugins/auth'
-import { get } from '@/plugins/store/apiPlugin'
+import { get } from '@/plugins/store'
 
 Vue.use(Router)
 

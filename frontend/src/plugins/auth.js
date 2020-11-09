@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { get, reload, post, href, purgeAll } from '@/plugins/store/apiPlugin'
+import { get, reload, post, href, purgeAll } from '@/plugins/store'
 import router from '@/router'
 
 axios.interceptors.response.use(null, error => {
