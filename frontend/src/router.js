@@ -102,6 +102,7 @@ export default new Router({
       },
       beforeEnter: all([requireAuth, requireCamp]),
       props: {
+        navigation: route => ({ camp: campFromRoute(route) }),
         default: route => ({ camp: campFromRoute(route), period: periodFromRoute(route) }),
         aside: route => ({ camp: campFromRoute(route), period: periodFromRoute(route) })
       },

@@ -56,7 +56,7 @@
 </template>
 
 <script>
-import { campFromRoute, campRoute } from '@/router'
+import { campRoute } from '@/router'
 import SearchDesktop from '@/components/navigation/SearchDesktop'
 import UserMeta from '@/components/navigation/UserMeta'
 import Logo from '@/components/navigation/Logo'
@@ -68,10 +68,8 @@ export default {
     SearchDesktop,
     Logo
   },
-  computed: {
-    camp () {
-      return campFromRoute(this.$route)
-    }
+  props: {
+    camp: { type: Function, required: true }
   },
   methods: {
     campRoute
