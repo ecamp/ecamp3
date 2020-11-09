@@ -15,8 +15,11 @@ Displays periods of a single camp.
           :to="periodRoute(item)"
           two-line>
           <v-list-item-content>
-            <v-list-item-title>{{ item.description }}</v-list-item-title>
-            <v-list-item-subtitle>{{ new Date(item.start) }} - {{ new Date(item.end) }}</v-list-item-subtitle>
+            <v-list-item-title>{{ item.description }</v-list-item-title>
+          <v-list-item-subtitle>
+        {{ $moment.utc(period.start).format($tc('global.moment.dateShort')) }} -
+        {{ $moment.utc(period.end).format($tc('global.moment.dateShort')) }}
+      </v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
       </v-list>
