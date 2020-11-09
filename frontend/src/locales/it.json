@@ -203,9 +203,6 @@
   },
   "views": {
     "activity": {
-      "sidebarProgram": {
-        "name": "Panoramica giornaliera"
-      },
       "sideBarProgram": {
         "title": "Attività in questo giorno"
       }

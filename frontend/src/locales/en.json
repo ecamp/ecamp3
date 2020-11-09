@@ -207,9 +207,6 @@
   },
   "views": {
     "activity": {
-      "sidebarProgram": {
-        "name": "Daily overview"
-      },
       "sideBarProgram": {
         "title": "Activities on this day"
       }
