@@ -15,8 +15,8 @@ Displays a field as a color picker (can be used with v-model)
                         flat
                         @input="picker.on.input" />
         <v-spacer />
-        <v-btn text color="primary" @click="picker.on.close">Cancel</v-btn>
-        <v-btn text color="primary" @click="picker.on.save">OK</v-btn>
+        <v-btn text color="primary" @click="picker.on.close">{{ $tc('global.button.cancel') }}</v-btn>
+        <v-btn text color="primary" @click="picker.on.save">{{ $tc('global.button.ok') }}</v-btn>
       </v-card>
     </template>
 
