@@ -55,7 +55,7 @@ function createConfig (overrides) {
   const propsData = {
     value: 'Test Value',
     fieldname: 'testField',
-    uri: 'testEntity/123',
+    uri: '/testEntity/123',
     label: 'Test Field'
   }
 
