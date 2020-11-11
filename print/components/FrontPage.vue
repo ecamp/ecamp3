@@ -14,7 +14,9 @@
 
 <script>
 export default {
-  props: ['camp'],
+  props: {
+    camp: { type: Object, required: true },
+  },
 }
 </script>
 

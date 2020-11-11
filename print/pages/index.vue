@@ -18,16 +18,16 @@
 
 <script>
 export default {
-  async asyncData({ query, $axios }) {
-    const [campData, activityData] = await Promise.allSettled([
-      $axios.$get(`/camps/${query.camp}`),
-      $axios.$get(`/activities?campId=${query.camp}`),
+  async asyncData({ query, $api }) {
+    const [campData, activityData] = await Promise.all([
+      $api.get().camps({ campId: query.camp })._meta.load,
+      $api.get().activities({ campId: query.camp })._meta.load,
     ])
 
     return {
       query,
-      camp: campData.value,
-      activities: activityData.value._embedded.items,
+      camp: campData,
+      activities: activityData.items,
     }
   },
   head() {
