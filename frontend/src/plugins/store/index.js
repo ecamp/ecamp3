@@ -15,9 +15,10 @@ const store = new Vuex.Store({
 })
 
 axios.defaults.withCredentials = true
+axios.defaults.baseURL = window.environment.API_ROOT_URL
 Vue.use(VueAxios, axios)
 
-const halJsonVuex = HalJsonVuex(store, axios, { apiRoot: window.environment.API_ROOT_URL, forceRequestedSelfLink: true })
+const halJsonVuex = HalJsonVuex(store, axios, { forceRequestedSelfLink: true })
 Vue.use(halJsonVuex)
 export const get = halJsonVuex.get
 export const reload = halJsonVuex.reload

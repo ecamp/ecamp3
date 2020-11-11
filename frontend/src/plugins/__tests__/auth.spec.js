@@ -1,7 +1,7 @@
 import { auth } from '@/plugins/auth'
 
 import store from '@/plugins/store'
-import * as apiStore from '@/plugins/store/apiPlugin'
+import * as apiStore from '@/plugins/store'
 
 expect.extend({
   haveUri (actual, expectedUri) {
@@ -205,7 +205,7 @@ describe('authentication logic', () => {
     afterEach(() => {
       window.location = location
     })
-    
+
     it('forwards to pbsmidata authentication endpoint', async done => {
       // when
       await auth.loginPbsMiData()

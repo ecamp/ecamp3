@@ -4,6 +4,7 @@ import Vuetify from 'vuetify'
 import flushPromises from 'flush-promises'
 
 import { formBaseComponents } from '@/plugins'
+import * as apiStore from '@/plugins/store'
 
 import { shallowMount, mount } from '@vue/test-utils'
 import ApiTextField from '../ApiTextField.vue'
@@ -21,11 +22,7 @@ let vuetify
 
 // config factory
 function createConfig (overrides) {
-  const mocks = {
-    api: {
-      patch: () => Promise.resolve()
-    }
-  }
+  const mocks = {}
   const propsData = {
     value: 'Test Value',
     fieldname: 'test-field',
@@ -54,7 +51,7 @@ describe('ApiTextField.vue', () => {
 
   test('input change triggers api.patch call and status update', async () => {
     const config = createConfig()
-    const patchSpy = jest.spyOn(config.mocks.api, 'patch')
+    const patchSpy = jest.spyOn(apiStore, 'patch').mockImplementation(() => null)
     const wrapper = mount(ApiTextField, config)
 
     const newValue = 'new value'

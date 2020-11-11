@@ -3,7 +3,8 @@ import Vue from 'vue'
 import Vuetify from 'vuetify'
 import flushPromises from 'flush-promises'
 import { shallowMount } from '@vue/test-utils'
-import { ServerException } from '@/plugins/store/apiPlugin'
+import { ServerException } from 'hal-json-vuex'
+import * as apiStore from '@/plugins/store'
 import veeValidatePlugin from '@/plugins/veeValidate'
 import ApiWrapper from '../ApiWrapper.vue'
 import { VForm, VBtn } from 'vuetify/lib'
@@ -49,18 +50,7 @@ function mockPromiseRejecting (value) {
 
 // config factory
 function createConfig (overrides) {
-  const mocks = {
-    api: {
-      patch: () => mockPromiseResolving({}),
-      get: () => {
-        return {
-          _meta: {
-            load: () => mockPromiseResolving({})
-          }
-        }
-      }
-    }
-  }
+  const mocks = {}
 
   const propsData = {
     value: 'Test Value',
@@ -100,7 +90,7 @@ describe('Testing ApiWrapper [autoSave=true;  manual external value]', () => {
     wrapper = shallowMount(ApiWrapper, config)
     vm = wrapper.vm
 
-    apiPatch = jest.spyOn(config.mocks.api, 'patch')
+    apiPatch = jest.spyOn(apiStore, 'patch')
 
     // mock validation Promise
     validate = jest.spyOn(vm.$refs.validationObserver, 'validate')
@@ -290,8 +280,8 @@ describe('Testing ApiWrapper [autoSave=true; value from API]', () => {
     config = createConfig()
     delete config.propsData.value
 
-    // apiPatch = jest.spyOn(config.mocks.api, 'patch')
-    apiGet = jest.spyOn(config.mocks.api, 'get')
+    // apiPatch = jest.spyOn(apiStore, 'patch')
+    apiGet = jest.spyOn(apiStore, 'get')
 
     apiGet.mockReturnValue({
       [config.propsData.fieldname]: 'api value',
@@ -369,7 +359,7 @@ describe('Testing ApiWrapper [autoSave=false]', () => {
     wrapper = shallowMount(ApiWrapper, config)
     vm = wrapper.vm
 
-    apiPatch = jest.spyOn(config.mocks.api, 'patch')
+    apiPatch = jest.spyOn(apiStore, 'patch')
   })
 
   test('init correctly with default values', () => {
