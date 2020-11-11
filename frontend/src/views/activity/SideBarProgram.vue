@@ -44,7 +44,7 @@ export default {
   },
   methods: {
     addDays (date, days) {
-      return date + days * 24 * 60 * 60 * 1000
+      return Date.parse(date) + days * 24 * 60 * 60 * 1000
     }
   }
 }
