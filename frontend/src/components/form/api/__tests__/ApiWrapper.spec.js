@@ -2,7 +2,7 @@
 import Vue from 'vue'
 import Vuetify from 'vuetify'
 import flushPromises from 'flush-promises'
-import { shallowMount } from '@vue/test-utils'
+import { createLocalVue, shallowMount } from '@vue/test-utils'
 import { ServerException } from 'hal-json-vuex'
 import * as apiStore from '@/plugins/store'
 import veeValidatePlugin from '@/plugins/veeValidate'
@@ -69,7 +69,17 @@ function createConfig (overrides) {
     default: '<input type="text" name="dummyField" id="dummyField" :value="props.localValue" />'
   }
 
-  return cloneDeep(Object.assign({ mocks, propsData, vuetify, stubs, scopedSlots }, overrides))
+  // Override the hal-json-vuex plugin
+  const localVue = createLocalVue()
+  Object.defineProperties(localVue.prototype, {
+    api: {
+      get () {
+        return apiStore
+      }
+    }
+  })
+
+  return cloneDeep(Object.assign({ mocks, propsData, vuetify, stubs, scopedSlots, localVue }, overrides))
 }
 
 /**
@@ -90,11 +100,15 @@ describe('Testing ApiWrapper [autoSave=true;  manual external value]', () => {
     wrapper = shallowMount(ApiWrapper, config)
     vm = wrapper.vm
 
-    apiPatch = jest.spyOn(apiStore, 'patch')
+    apiPatch = jest.spyOn(apiStore, 'patch').mockImplementation(() => mockPromiseResolving({}))
 
     // mock validation Promise
     validate = jest.spyOn(vm.$refs.validationObserver, 'validate')
     validate.mockImplementation(() => mockPromiseResolving(true))
+  })
+
+  afterEach(() => {
+    jest.restoreAllMocks()
   })
 
   test('init correctly with default values', () => {
@@ -359,7 +373,11 @@ describe('Testing ApiWrapper [autoSave=false]', () => {
     wrapper = shallowMount(ApiWrapper, config)
     vm = wrapper.vm
 
-    apiPatch = jest.spyOn(apiStore, 'patch')
+    apiPatch = jest.spyOn(apiStore, 'patch').mockImplementation(() => mockPromiseResolving({}))
+  })
+
+  afterEach(() => {
+    jest.restoreAllMocks()
   })
 
   test('init correctly with default values', () => {

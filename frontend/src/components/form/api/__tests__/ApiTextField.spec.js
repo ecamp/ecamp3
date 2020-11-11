@@ -6,7 +6,7 @@ import flushPromises from 'flush-promises'
 import { formBaseComponents } from '@/plugins'
 import * as apiStore from '@/plugins/store'
 
-import { shallowMount, mount } from '@vue/test-utils'
+import { shallowMount, mount, createLocalVue } from '@vue/test-utils'
 import ApiTextField from '../ApiTextField.vue'
 import ApiWrapper from '../ApiWrapper'
 import { ValidationObserver } from 'vee-validate'
@@ -26,19 +26,32 @@ function createConfig (overrides) {
   const propsData = {
     value: 'Test Value',
     fieldname: 'test-field',
-    uri: 'test-field/123',
+    uri: '/test-field/123',
     label: 'Test Field'
   }
   const stubs = {
     ApiWrapper,
     ValidationObserver
   }
-  return cloneDeep(Object.assign({ mocks, propsData, stubs, vuetify }, overrides))
+  const localVue = createLocalVue()
+  // Override the hal-json-vuex plugin with a mockable copy
+  Object.defineProperties(localVue.prototype, {
+    api: {
+      get () {
+        return apiStore
+      }
+    }
+  })
+  return cloneDeep(Object.assign({ mocks, propsData, stubs, vuetify, localVue }, overrides))
 }
 
 describe('ApiTextField.vue', () => {
   beforeEach(() => {
     vuetify = new Vuetify()
+  })
+
+  afterEach(() => {
+    jest.restoreAllMocks()
   })
 
   // keep this the first test --> otherwise element IDs change constantly
@@ -51,7 +64,7 @@ describe('ApiTextField.vue', () => {
 
   test('input change triggers api.patch call and status update', async () => {
     const config = createConfig()
-    const patchSpy = jest.spyOn(apiStore, 'patch').mockImplementation(() => null)
+    const patchSpy = jest.spyOn(apiStore, 'patch').mockImplementation(() => Promise.resolve())
     const wrapper = mount(ApiTextField, config)
 
     const newValue = 'new value'

@@ -13,7 +13,7 @@ expect.extend({
 })
 
 describe('authentication logic', () => {
-  beforeEach(() => {
+  afterEach(() => {
     jest.restoreAllMocks()
   })
 
