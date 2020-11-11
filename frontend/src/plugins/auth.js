@@ -1,32 +1,32 @@
 import axios from 'axios'
-import { get, reload, post, href, purgeAll } from '@/plugins/store'
+import { apiStore } from '@/plugins/store'
 import router from '@/router'
 
 axios.interceptors.response.use(null, error => {
   if (error.status === 401) {
-    logout()
+    logout().then(() => {})
   }
   return Promise.reject(error)
 })
 
 function isLoggedIn () {
-  return get().authenticated
+  return apiStore.get().authenticated
 }
 
 export async function refreshLoginStatus (forceReload = true) {
-  if (forceReload) reload(get())
-  await get()._meta.load
+  if (forceReload) apiStore.reload(apiStore.get())
+  await apiStore.get()._meta.load
   return isLoggedIn()
 }
 
 async function login (username, password) {
-  const url = await href(get().auth(), 'login')
-  return post(url, { username: username, password: password }).then(() => refreshLoginStatus())
+  const url = await apiStore.href(apiStore.get().auth(), 'login')
+  return apiStore.post(url, { username: username, password: password }).then(() => refreshLoginStatus())
 }
 
 async function register (data) {
-  const url = await href(get().auth(), 'register')
-  return post(url, data)
+  const url = await apiStore.href(apiStore.get().auth(), 'register')
+  return apiStore.post(url, data)
 }
 
 async function redirectToOAuthLogin (provider) {
@@ -37,7 +37,7 @@ async function redirectToOAuthLogin (provider) {
     returnUrl += '?redirect=' + params.get('redirect')
   }
 
-  return href(get().auth(), provider, { callback: encodeURI(returnUrl) }).then(url => {
+  return apiStore.href(apiStore.get().auth(), provider, { callback: encodeURI(returnUrl) }).then(url => {
     window.location.href = url
   })
 }
@@ -51,16 +51,16 @@ async function loginPbsMiData () {
 }
 
 export async function logout () {
-  return reload(get().auth().logout())
+  return apiStore.reload(apiStore.get().auth().logout())
     .then(() => refreshLoginStatus())
     .then(() => router.push({ name: 'login' }))
-    .then(() => purgeAll())
+    .then(() => apiStore.purgeAll())
 }
 
 export const auth = { isLoggedIn, refreshLoginStatus, login, register, loginGoogle, loginPbsMiData, logout }
 
 class AuthPlugin {
-  install (Vue, options) {
+  install (Vue) {
     Object.defineProperties(Vue.prototype, {
       $auth: {
         get () {

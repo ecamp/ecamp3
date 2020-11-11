@@ -18,13 +18,7 @@ axios.defaults.withCredentials = true
 axios.defaults.baseURL = window.environment.API_ROOT_URL
 Vue.use(VueAxios, axios)
 
-const halJsonVuex = HalJsonVuex(store, axios, { forceRequestedSelfLink: true })
-Vue.use(halJsonVuex)
-export const get = halJsonVuex.get
-export const reload = halJsonVuex.reload
-export const post = halJsonVuex.post
-export const patch = halJsonVuex.patch
-export const href = halJsonVuex.href
-export const purgeAll = halJsonVuex.purgeAll
+export const apiStore = HalJsonVuex(store, axios, { forceRequestedSelfLink: true })
+Vue.use(apiStore)
 
 export default store

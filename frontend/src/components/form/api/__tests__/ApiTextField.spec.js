@@ -4,7 +4,7 @@ import Vuetify from 'vuetify'
 import flushPromises from 'flush-promises'
 
 import { formBaseComponents } from '@/plugins'
-import * as apiStore from '@/plugins/store'
+import { apiStore } from '@/plugins/store'
 
 import { shallowMount, mount, createLocalVue } from '@vue/test-utils'
 import ApiTextField from '../ApiTextField.vue'
