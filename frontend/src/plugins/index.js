@@ -1,5 +1,5 @@
-export { default as vuetify } from './vuetify'
-export { default as store } from './store'
+export { default as vuetifyLoader } from './vuetify'
+export { default as storeLoader } from './store'
 export { default as auth } from './auth'
 export { default as filterLoading } from './filterLoading'
 export { default as formBaseComponents } from './formBaseComponents'

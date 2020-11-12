@@ -1,6 +1,8 @@
+import Vue from 'vue'
 import { auth } from '@/plugins/auth'
+import storeLoader, { store, apiStore } from '@/plugins/store'
 
-import store, { apiStore } from '@/plugins/store'
+Vue.use(storeLoader)
 
 expect.extend({
   haveUri (actual, expectedUri) {
@@ -170,9 +172,9 @@ describe('authentication logic', () => {
   })
 
   describe('loginGoogle()', () => {
-    const { location } = window;
+    const { location } = window
     beforeEach(() => {
-      delete window.location;
+      delete window.location
       window.location = {
         origin: 'http://localhost',
         href: 'http://localhost/login'
@@ -193,9 +195,9 @@ describe('authentication logic', () => {
   })
 
   describe('loginPbsMiData()', () => {
-    const { location } = window;
+    const { location } = window
     beforeEach(() => {
-      delete window.location;
+      delete window.location
       window.location = {
         origin: 'http://localhost',
         href: 'http://localhost/login'
