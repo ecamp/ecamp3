@@ -3,8 +3,7 @@ import Vue from 'vue'
 import Vuetify from 'vuetify'
 import flushPromises from 'flush-promises'
 
-import { formBaseComponents } from '@/plugins'
-import { apiStore } from '@/plugins/store'
+import formBaseComponents from '@/plugins/formBaseComponents'
 
 import { shallowMount, mount, createLocalVue } from '@vue/test-utils'
 import ApiTextField from '../ApiTextField.vue'
@@ -22,7 +21,11 @@ let vuetify
 
 // config factory
 function createConfig (overrides) {
-  const mocks = {}
+  const mocks = {
+    api: {
+      patch: () => Promise.resolve()
+    }
+  }
   const propsData = {
     value: 'Test Value',
     fieldname: 'test-field',
@@ -34,14 +37,7 @@ function createConfig (overrides) {
     ValidationObserver
   }
   const localVue = createLocalVue()
-  // Override the hal-json-vuex plugin with a mockable copy
-  Object.defineProperties(localVue.prototype, {
-    api: {
-      get () {
-        return apiStore
-      }
-    }
-  })
+
   return cloneDeep(Object.assign({ mocks, propsData, stubs, vuetify, localVue }, overrides))
 }
 
@@ -64,7 +60,7 @@ describe('ApiTextField.vue', () => {
 
   test('input change triggers api.patch call and status update', async () => {
     const config = createConfig()
-    const patchSpy = jest.spyOn(apiStore, 'patch').mockImplementation(() => Promise.resolve())
+    const patchSpy = jest.spyOn(config.mocks.api, 'patch')
     const wrapper = mount(ApiTextField, config)
 
     const newValue = 'new value'

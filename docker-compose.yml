@@ -6,6 +6,7 @@ services:
     container_name: 'ecamp3-frontend'
     ports:
       - '3000:3000'
+      - '9229:9229' # jest debug 
     stdin_open: true
     tty: true
     volumes:

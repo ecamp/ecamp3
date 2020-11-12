@@ -20,7 +20,7 @@ exports[`An ECheckbox looks like a checkbox: checked 1`] = `
           />
           <input
             aria-checked="false"
-            id="input-8"
+            id="input-4"
             role="checkbox"
             type="checkbox"
             value=""
@@ -56,7 +56,7 @@ exports[`An ECheckbox looks like a checkbox: unchecked 1`] = `
           />
           <input
             aria-checked="false"
-            id="input-8"
+            id="input-4"
             role="checkbox"
             type="checkbox"
             value=""

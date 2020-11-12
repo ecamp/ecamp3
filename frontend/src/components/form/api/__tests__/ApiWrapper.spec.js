@@ -4,7 +4,6 @@ import Vuetify from 'vuetify'
 import flushPromises from 'flush-promises'
 import { createLocalVue, shallowMount } from '@vue/test-utils'
 import { ServerException } from 'hal-json-vuex'
-import { apiStore } from '@/plugins/store'
 import veeValidatePlugin from '@/plugins/veeValidate'
 import ApiWrapper from '../ApiWrapper.vue'
 import { VForm, VBtn } from 'vuetify/lib'
@@ -50,7 +49,18 @@ function mockPromiseRejecting (value) {
 
 // config factory
 function createConfig (overrides) {
-  const mocks = {}
+  const mocks = {
+    api: {
+      patch: () => mockPromiseResolving({}),
+      get: () => {
+        return {
+          _meta: {
+            load: () => mockPromiseResolving({})
+          }
+        }
+      }
+    }
+  }
 
   const propsData = {
     value: 'Test Value',
@@ -69,15 +79,7 @@ function createConfig (overrides) {
     default: '<input type="text" name="dummyField" id="dummyField" :value="props.localValue" />'
   }
 
-  // Override the hal-json-vuex plugin
   const localVue = createLocalVue()
-  Object.defineProperties(localVue.prototype, {
-    api: {
-      get () {
-        return apiStore
-      }
-    }
-  })
 
   return cloneDeep(Object.assign({ mocks, propsData, vuetify, stubs, scopedSlots, localVue }, overrides))
 }
@@ -100,7 +102,7 @@ describe('Testing ApiWrapper [autoSave=true;  manual external value]', () => {
     wrapper = shallowMount(ApiWrapper, config)
     vm = wrapper.vm
 
-    apiPatch = jest.spyOn(apiStore, 'patch').mockImplementation(() => mockPromiseResolving({}))
+    apiPatch = jest.spyOn(config.mocks.api, 'patch')
 
     // mock validation Promise
     validate = jest.spyOn(vm.$refs.validationObserver, 'validate')
@@ -294,8 +296,8 @@ describe('Testing ApiWrapper [autoSave=true; value from API]', () => {
     config = createConfig()
     delete config.propsData.value
 
-    // apiPatch = jest.spyOn(apiStore, 'patch')
-    apiGet = jest.spyOn(apiStore, 'get')
+    // apiPatch = jest.spyOn(config.mocks.api, 'patch')
+    apiGet = jest.spyOn(config.mocks.api, 'get')
 
     apiGet.mockReturnValue({
       [config.propsData.fieldname]: 'api value',
@@ -373,11 +375,7 @@ describe('Testing ApiWrapper [autoSave=false]', () => {
     wrapper = shallowMount(ApiWrapper, config)
     vm = wrapper.vm
 
-    apiPatch = jest.spyOn(apiStore, 'patch').mockImplementation(() => mockPromiseResolving({}))
-  })
-
-  afterEach(() => {
-    jest.restoreAllMocks()
+    apiPatch = jest.spyOn(config.mocks.api, 'patch')
   })
 
   test('init correctly with default values', () => {
