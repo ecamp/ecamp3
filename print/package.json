@@ -15,6 +15,7 @@
   },
   "dependencies": {
     "@nuxtjs/axios": "^5.12.2",
+    "hal-json-vuex": "^1.1.0",
     "nuxt": "^2.13.0",
     "pagedjs": "^0.1.42"
   },

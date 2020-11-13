@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import slugify from 'slugify'
 import { refreshLoginStatus } from '@/plugins/auth'
-import { get } from '@/plugins/store/apiPlugin'
+import { apiStore } from '@/plugins/store'
 
 Vue.use(Router)
 
@@ -267,7 +267,7 @@ export function scheduleEntryRoute (camp, scheduleEntry) {
 }
 
 async function firstFuturePeriod (route) {
-  const periods = await get().camps({ campId: route.params.campId }).periods()._meta.load
+  const periods = await apiStore.get().camps({ campId: route.params.campId }).periods()._meta.load
   // Return the first period that hasn't ended, or if no such period exists, return the first period
   return periods.items.find(period => new Date(period.end) >= new Date()) || periods.items.find(_ => true)
 }

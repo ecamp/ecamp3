@@ -1,7 +1,8 @@
+import Vue from 'vue'
 import { auth } from '@/plugins/auth'
+import storeLoader, { store, apiStore } from '@/plugins/store'
 
-import store from '@/plugins/store'
-import * as apiStore from '@/plugins/store/apiPlugin'
+Vue.use(storeLoader)
 
 expect.extend({
   haveUri (actual, expectedUri) {
@@ -13,7 +14,7 @@ expect.extend({
 })
 
 describe('authentication logic', () => {
-  beforeEach(() => {
+  afterEach(() => {
     jest.restoreAllMocks()
   })
 
