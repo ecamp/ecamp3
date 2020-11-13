@@ -137,7 +137,7 @@ export default new Router({
               await period.camp()._meta.load
               next(periodRoute(period))
             } else {
-              const camp = await get().camps({ campId: to.params.campId })
+              const camp = await apiStore.get().camps({ campId: to.params.campId })
               next(campRoute(camp, 'admin'))
             }
           }
@@ -194,7 +194,7 @@ function requireAuth (to, from, next) {
 }
 
 async function requireCamp (to, from, next) {
-  await campFromRoute(to).call({ api: { get } })._meta.load.then(() => {
+  await campFromRoute(to).call({ api: { get: apiStore.get } })._meta.load.then(() => {
     next()
   }).catch(() => {
     next({ name: 'home' })
@@ -202,10 +202,10 @@ async function requireCamp (to, from, next) {
 }
 
 async function requirePeriod (to, from, next) {
-  await periodFromRoute(to).call({ api: { get } })._meta.load.then(() => {
+  await periodFromRoute(to).call({ api: { get: apiStore.get } })._meta.load.then(() => {
     next()
   }).catch(() => {
-    next(campRoute(campFromRoute(to).call({ api: { get } })))
+    next(campRoute(campFromRoute(to).call({ api: { get: apiStore.get } })))
   })
 }
 
