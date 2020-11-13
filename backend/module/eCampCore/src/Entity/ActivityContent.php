@@ -34,9 +34,17 @@ class ActivityContent extends BaseEntity implements ContentTypeStrategyProviderA
      * @ORM\Column(type="string", length=64, nullable=true)
      */
     private $instanceName;
+    
+    /**
+     * @var ArrayCollection
+     * @ORM\OneToMany(targetEntity="MaterialItem", mappedBy="period")
+     */
+    protected $materialItems;
 
     public function __construct() {
         parent::__construct();
+
+        $this->materialItems = new ArrayCollection();
     }
 
     /**
@@ -82,6 +90,23 @@ class ActivityContent extends BaseEntity implements ContentTypeStrategyProviderA
 
     public function setInstanceName($instanceName): void {
         $this->instanceName = $instanceName;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getMaterialItems() {
+        return $this->materialItems;
+    }
+
+    public function addMaterialItem(MaterialItem $materialItem) {
+        $materialItem->setActivityContent($this);
+        $this->materialItems->add($materialItem);
+    }
+
+    public function removeMaterialItem(MaterialItem $materialItem) {
+        $materialItem->setActivityContent(null);
+        $this->materialItems->removeElement($materialItem);
     }
 
     /**
