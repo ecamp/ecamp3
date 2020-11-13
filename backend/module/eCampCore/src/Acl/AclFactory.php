@@ -2,29 +2,31 @@
 
 namespace eCamp\Core\Acl;
 
-use eCamp\Core\Entity\Activity;
-use eCamp\Core\Entity\ActivityCategory;
-use eCamp\Core\Entity\ActivityContent;
-use eCamp\Core\Entity\ActivityResponsible;
-use eCamp\Core\Entity\ActivityType;
-use eCamp\Core\Entity\ActivityTypeContentType;
-use eCamp\Core\Entity\ActivityTypeFactory;
-use eCamp\Core\Entity\Camp;
-use eCamp\Core\Entity\CampCollaboration;
-use eCamp\Core\Entity\CampType;
-use eCamp\Core\Entity\ContentType;
-use eCamp\Core\Entity\Day;
-use eCamp\Core\Entity\Group;
-use eCamp\Core\Entity\GroupMembership;
-use eCamp\Core\Entity\Organization;
-use eCamp\Core\Entity\Period;
-use eCamp\Core\Entity\ScheduleEntry;
-use eCamp\Core\Entity\User;
-use eCamp\Core\Entity\UserIdentity;
 use eCamp\Lib\Acl\Acl;
 use eCamp\Lib\Acl\Guest;
+use eCamp\Core\Entity\Day;
+use eCamp\Core\Entity\Camp;
+use eCamp\Core\Entity\User;
+use eCamp\Core\Entity\Group;
+use eCamp\Core\Entity\Period;
+use eCamp\Core\Entity\Activity;
+use eCamp\Core\Entity\CampType;
 use eCamp\Lib\Entity\BaseEntity;
+use eCamp\Core\Entity\ContentType;
+use eCamp\Core\Entity\ActivityType;
+use eCamp\Core\Entity\MaterialItem;
+use eCamp\Core\Entity\MaterialList;
+use eCamp\Core\Entity\Organization;
+use eCamp\Core\Entity\UserIdentity;
+use eCamp\Core\Entity\ScheduleEntry;
+use eCamp\Core\Entity\ActivityContent;
+use eCamp\Core\Entity\GroupMembership;
+use eCamp\Core\Entity\ActivityCategory;
+use eCamp\Core\Entity\CampCollaboration;
 use Interop\Container\ContainerInterface;
+use eCamp\Core\Entity\ActivityResponsible;
+use eCamp\Core\Entity\ActivityTypeFactory;
+use eCamp\Core\Entity\ActivityTypeContentType;
 use Laminas\Authentication\AuthenticationService;
 use Laminas\ServiceManager\Factory\FactoryInterface;
 
@@ -62,6 +64,9 @@ class AclFactory implements FactoryInterface {
         $acl->addResource(ActivityResponsible::class, BaseEntity::class);
 
         $acl->addResource(ScheduleEntry::class, BaseEntity::class);
+
+        $acl->addResource(MaterialList::class, BaseEntity::class);
+        $acl->addResource(MaterialItem::class, BaseEntity::class);
 
         $acl->addResource(User::class, BaseEntity::class);
         $acl->addResource(UserIdentity::class, BaseEntity::class);
@@ -141,6 +146,8 @@ class AclFactory implements FactoryInterface {
                 ActivityResponsible::class,
                 ScheduleEntry::class,
                 ActivityContent::class,
+                MaterialList::class,
+                MaterialItem::class,
             ],
             [
                 Acl::REST_PRIVILEGE_FETCH_ALL,
@@ -157,6 +164,8 @@ class AclFactory implements FactoryInterface {
                 ActivityResponsible::class,
                 ScheduleEntry::class,
                 ActivityContent::class,
+                MaterialList::class,
+                MaterialItem::class,
             ],
             [
                 Acl::REST_PRIVILEGE_CREATE,

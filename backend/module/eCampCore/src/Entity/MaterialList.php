@@ -26,7 +26,7 @@ class MaterialList extends BaseEntity {
 
     /**
      * @var ArrayCollection
-     * @ORM\OneToMany(targetEntity="Materialitem", mappedBy="materialList")
+     * @ORM\OneToMany(targetEntity="MaterialItem", mappedBy="materialList")
      */
     protected $materialItems;
 
