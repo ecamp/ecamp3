@@ -29,7 +29,6 @@
 </template>
 
 <script>
-import { campFromRoute, campRoute } from '@/router'
 import SearchDesktop from '@/components/navigation/SearchDesktop'
 import UserMeta from '@/components/navigation/UserMeta'
 import Logo from '@/components/navigation/Logo'
@@ -50,9 +49,6 @@ export default {
     isLoggedIn () {
       return this.$auth.isLoggedIn()
     },
-    camp () {
-      return campFromRoute(this.$route)
-    },
     username () {
       return this.api.get().profile().username
     }
@@ -67,8 +63,7 @@ export default {
       event.preventDefault()
       event.cancelBubble = true
       return null
-    },
-    campRoute
+    }
   }
 }
 </script>

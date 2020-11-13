@@ -100,8 +100,9 @@ export default new Router({
         default: () => import(/* webpackChunkName: "camp" */ './views/camp/Camp'),
         aside: () => import(/* webpackChunkName: "periods" */ './views/camp/SideBarPeriods')
       },
-      beforeEnter: requireAuth,
+      beforeEnter: all([requireAuth, requireCamp]),
       props: {
+        navigation: route => ({ camp: campFromRoute(route) }),
         default: route => ({ camp: campFromRoute(route), period: periodFromRoute(route) }),
         aside: route => ({ camp: campFromRoute(route), period: periodFromRoute(route) })
       },
@@ -119,7 +120,8 @@ export default new Router({
         {
           path: 'period/:periodId/:periodTitle?',
           name: 'camp/period',
-          component: () => import(/* webpackChunkName: "campProgram" */ './views/camp/CampProgram')
+          component: () => import(/* webpackChunkName: "campProgram" */ './views/camp/CampProgram'),
+          beforeEnter: requirePeriod
         },
         {
           path: 'print',
@@ -159,6 +161,28 @@ export default new Router({
   ]
 })
 
+function evaluateGuards (guards, to, from, next) {
+  const guardsLeft = guards.slice(0)
+  const nextGuard = guardsLeft.shift()
+
+  if (nextGuard === undefined) {
+    next()
+    return
+  }
+
+  nextGuard(to, from, nextArg => {
+    if (nextArg === undefined) {
+      evaluateGuards(guardsLeft, to, from, next)
+      return
+    }
+    next(nextArg)
+  })
+}
+
+function all (guards) {
+  return (to, from, next) => evaluateGuards(guards, to, from, next)
+}
+
 function requireAuth (to, from, next) {
   refreshLoginStatus(false).then(loggedIn => {
     if (loggedIn) {
@@ -166,6 +190,22 @@ function requireAuth (to, from, next) {
     } else {
       next({ name: 'login', query: to.path === '/' ? {} : { redirect: to.fullPath } })
     }
+  })
+}
+
+async function requireCamp (to, from, next) {
+  await campFromRoute(to).call({ api: { get } })._meta.load.then(() => {
+    next()
+  }).catch(() => {
+    next({ name: 'home' })
+  })
+}
+
+async function requirePeriod (to, from, next) {
+  await periodFromRoute(to).call({ api: { get } })._meta.load.then(() => {
+    next()
+  }).catch(() => {
+    next(campRoute(campFromRoute(to).call({ api: { get } })))
   })
 }
 
