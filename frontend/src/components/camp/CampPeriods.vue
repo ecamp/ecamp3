@@ -3,7 +3,19 @@ Displays all periods of a single camp and allows to edit them & create new ones
 -->
 
 <template>
-  <content-group :title="$tc('components.camp.campPeriods.title', api.get().camps().items.length)">
+  <content-group>
+    <slot name="title">
+      <div class="ec-content-group__title py-1 subtitle-1">
+        {{ $tc('components.camp.campPeriods.title', api.get().camps().items.length) }}
+        <dialog-period-create :camp="camp()">
+          <template v-slot:activator="{ on }">
+            <button-add color="blue-grey" text v-on="on">
+              {{ $tc('components.camp.campPeriods.createPeriod') }}
+            </button-add>
+          </template>
+        </dialog-period-create>
+      </div>
+    </slot>
     <v-skeleton-loader v-if="camp()._meta.loading" type="article" />
     <v-list>
       <period-item
@@ -11,19 +23,6 @@ Displays all periods of a single camp and allows to edit them & create new ones
         :key="period.id"
         class="px-0"
         :period="period" />
-
-      <v-list-item class="px-0">
-        <v-list-item-content />
-        <v-list-item-action>
-          <dialog-period-create :camp="camp()">
-            <template v-slot:activator="{ on }">
-              <button-add v-on="on">
-                {{ $tc('components.camp.campPeriods.createPeriod') }}
-              </button-add>
-            </template>
-          </dialog-period-create>
-        </v-list-item-action>
-      </v-list-item>
     </v-list>
   </content-group>
 </template>

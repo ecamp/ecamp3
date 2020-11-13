@@ -2,7 +2,7 @@
   <v-btn
     class="px-3 px-sm-4"
     min-width="0"
-    color="success"
+    :color="color"
     v-bind="$attrs"
     v-on="$listeners">
     <v-icon :left="$vuetify.breakpoint.smAndUp" size="150%">{{ icon }}</v-icon>
@@ -16,7 +16,8 @@
 export default {
   name: 'ButtonAdd',
   props: {
-    icon: { type: String, default: 'mdi-plus' }
+    icon: { type: String, default: 'mdi-plus' },
+    color: { type: String, default: 'success' }
   }
 }
 </script>

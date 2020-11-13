@@ -3,7 +3,19 @@ Displays all periods of a single camp and allows to edit them & create new ones
 -->
 
 <template>
-  <content-group :title="$tc('components.camp.campActivityCategories.title')">
+  <content-group>
+    <slot name="title">
+      <div class="ec-content-group__title py-1 subtitle-1">
+        {{ $tc('components.camp.campActivityCategories.title') }}
+        <dialog-activity-category-create :camp="camp()">
+          <template v-slot:activator="{ on }">
+            <button-add color="blue-grey" text v-on="on">
+              {{ $tc('components.camp.campActivityCategories.create') }}
+            </button-add>
+          </template>
+        </dialog-activity-category-create>
+      </div>
+    </slot>
     <v-skeleton-loader v-if="camp()._meta.loading" type="article" />
     <v-list>
       <v-list-item
@@ -13,20 +25,13 @@ Displays all periods of a single camp and allows to edit them & create new ones
         <v-list-item-content class="pt-0 pb-2">
           <v-list-item-title>
             <v-chip dark :color="activityCategory.color">
-              (1.{{ activityCategory.numberingStyle }})
-              {{ activityCategory.short }}: {{ activityCategory.name }}
+              (1.{{ activityCategory.numberingStyle }}) {{ activityCategory.short }}: {{ activityCategory.name }}
             </v-chip>
           </v-list-item-title>
         </v-list-item-content>
 
         <v-list-item-action style="display: inline">
           <v-item-group>
-            <dialog-activity-category-edit :camp="camp()" :activity-category="activityCategory">
-              <template v-slot:activator="{ on }">
-                <button-edit class="mr-1" v-on="on" />
-              </template>
-            </dialog-activity-category-edit>
-
             <dialog-entity-delete :entity="activityCategory">
               {{ $tc('components.camp.campActivityCategories.deleteActivityCategoryQuestion') }}
               <ul>
@@ -53,20 +58,12 @@ Displays all periods of a single camp and allows to edit them & create new ones
                 </ul>
               </template>
             </dialog-entity-delete>
+            <dialog-activity-category-edit :camp="camp()" :activity-category="activityCategory">
+              <template v-slot:activator="{ on }">
+                <button-edit class="mr-1" v-on="on" />
+              </template>
+            </dialog-activity-category-edit>
           </v-item-group>
-        </v-list-item-action>
-      </v-list-item>
-
-      <v-list-item class="px-0">
-        <v-list-item-content />
-        <v-list-item-action>
-          <dialog-activity-category-create :camp="camp()">
-            <template v-slot:activator="{ on }">
-              <button-add v-on="on">
-                {{ $tc('components.camp.campActivityCategories.create') }}
-              </button-add>
-            </template>
-          </dialog-activity-category-create>
         </v-list-item-action>
       </v-list-item>
     </v-list>
@@ -97,8 +94,7 @@ export default {
     camp: { type: Function, required: true }
   },
   data () {
-    return {
-    }
+    return {}
   },
   computed: {
     activityCategories () {
