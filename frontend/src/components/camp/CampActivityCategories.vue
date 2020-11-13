@@ -9,7 +9,7 @@ Displays all periods of a single camp and allows to edit them & create new ones
         {{ $tc('components.camp.campActivityCategories.title') }}
         <dialog-activity-category-create :camp="camp()">
           <template v-slot:activator="{ on }">
-            <button-add color="blue-grey" text v-on="on">
+            <button-add color="secondary" text v-on="on">
               {{ $tc('components.camp.campActivityCategories.create') }}
             </button-add>
           </template>

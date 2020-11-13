@@ -21,7 +21,7 @@ export default {
   name: 'ButtonDelete',
   props: {
     icon: { type: String, default: 'mdi-delete' },
-    color: { type: String, default: 'secondary' },
+    color: { type: String, default: 'blue-grey' },
     iconOnly: { type: Boolean, default: false }
   }
 }
