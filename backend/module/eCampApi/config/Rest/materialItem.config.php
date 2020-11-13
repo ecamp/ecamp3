@@ -7,7 +7,8 @@ $config = ConfigFactory::createConfig($entity);
 
 array_push(
     $config['api-tools-rest']['eCampApi\\V1\\Rest\\MaterialItem\\Controller']['collection_query_whitelist'],
-    'campId'
+    'campId',
+    'materialListId'
 );
 
 $config['api-tools-content-validation'] = [

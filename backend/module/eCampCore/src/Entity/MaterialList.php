@@ -4,12 +4,13 @@ namespace eCamp\Core\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use eCamp\Core\Entity\BelongsToCampInterface;
 use eCamp\Lib\Entity\BaseEntity;
 
 /**
  * @ORM\Entity
  */
-class MaterialList extends BaseEntity {
+class MaterialList extends BaseEntity implements BelongsToCampInterface {
 
     /**
      * @var Camp

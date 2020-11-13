@@ -16,4 +16,24 @@ class MaterialListService extends AbstractEntityService {
             $authenticationService
         );
     }
+    
+    protected function fetchAllQueryBuilder($params = []) {
+        $q = parent::fetchAllQueryBuilder($params);
+        $q->andWhere($this->createFilter($q, Camp::class, 'row', 'camp'));
+
+        if (isset($params['campId'])) {
+            $q->andWhere('row.camp = :campId');
+            $q->setParameter('campId', $params['campId']);
+        }
+
+        return $q;
+    }
+
+    protected function fetchQueryBuilder($id) {
+        $q = parent::fetchQueryBuilder($id);
+        $q->andWhere($this->createFilter($q, Camp::class, 'row', 'camp'));
+
+        return $q;
+    }
+    
 }

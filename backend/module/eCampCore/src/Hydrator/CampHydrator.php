@@ -86,6 +86,13 @@ class CampHydrator implements HydratorInterface {
                     'options' => ['query' => ['campId' => $camp->getId()]],
                 ],
             ]),
+            'materialLists' => Link::factory([
+                'rel' => 'materialLists',
+                'route' => [
+                    'name' => 'e-camp-api.rest.doctrine.material-list',
+                    'options' => ['query' => ['campId' => $camp->getId()]],
+                ]
+            ])
         ];
     }
 

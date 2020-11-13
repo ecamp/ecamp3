@@ -4,26 +4,27 @@ namespace eCamp\Core\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use eCamp\Core\Entity\BelongsToCampInterface;
 use eCamp\Lib\Entity\BaseEntity;
 
 /**
  * @ORM\Entity
  */
-class MaterialItem extends BaseEntity {
+class MaterialItem extends BaseEntity implements BelongsToCampInterface {
 
     /**
      * @var MaterialList
      * @ORM\ManyToOne(targetEntity="MaterialList")
      * @ORM\JoinColumn(nullable=false, onDelete="cascade")
      */
-    private $materialList;
+    protected $materialList;
 
     /**
      * @var Period
      * @ORM\ManyToOne(targetEntity="Period")
      * @ORM\JoinColumn(nullable=true, onDelete="cascade")
      */
-    private $period;
+    protected $period;
 
     /**
      * @var ActivityContent
@@ -65,6 +66,13 @@ class MaterialItem extends BaseEntity {
 
     public function setMaterialList($materialList) {
         $this->materialList = $materialList;
+    }
+
+    /**
+     * @return Camp
+     */
+    public function getCamp() {
+        return $this->materialList->getCamp();
     }
 
     /**

@@ -3,11 +3,14 @@
 namespace eCamp\Core\Hydrator;
 
 use eCamp\Core\Entity\MaterialList;
+use eCamp\Lib\Entity\EntityLink;
+use Laminas\ApiTools\Hal\Link\Link;
 use Laminas\Hydrator\HydratorInterface;
 
 class MaterialListHydrator implements HydratorInterface {
     public static function HydrateInfo() {
         return [
+
         ];
     }
 
@@ -23,6 +26,15 @@ class MaterialListHydrator implements HydratorInterface {
         return [
             'id' => $materialList->getId(),
             'name' => $materialList->getName(),
+            'camp' => EntityLink::Create($materialList->getCamp()),
+            
+            'materialItems' => Link::factory([
+                'rel' => 'materialItems',
+                'route' => [
+                    'name' => 'e-camp-api.rest.doctrine.material-item',
+                    'options' => ['query' => ['materialListId' => $materialList->getId()]],
+                ]
+            ])
         ];
     }
 
