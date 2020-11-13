@@ -13,60 +13,70 @@
         </v-col>
         <v-col cols="1" />
       </v-row>
-      <div v-for="section in activityContent.sections().items" :key="section._meta.self">
-        <!-- add before -->
-        <v-row no-gutters class="row-inter" justify="center">
-          <v-col cols="1">
-            <v-btn icon
-                   small
-                   class="button-add"
-                   color="success"
-                   @click="addSection">
-              <v-icon>mdi-plus</v-icon>
-            </v-btn>
-          </v-col>
-        </v-row>
-
-        <api-form :entity="section">
-          <v-row dense>
-            <v-col cols="2">
-              <api-textarea
-                fieldname="column1"
-                auto-grow
-                rows="2" />
-            </v-col>
-            <v-col cols="7">
-              <api-textarea
-                fieldname="column2"
-                auto-grow
-                rows="4" />
-            </v-col>
-            <v-col cols="2">
-              <api-textarea
-                fieldname="column3"
-                auto-grow
-                rows="2" />
-            </v-col>
+      <transition-group name="flip-list" tag="div">
+        <div v-for="section in sections" :key="section._meta.self">
+          <!-- add before -->
+          <v-row no-gutters class="row-inter" justify="center">
             <v-col cols="1">
-              <div class="float-right section-buttons">
-                <v-btn icon small class="float-right"><v-icon>mdi-arrow-up-bold</v-icon></v-btn>
-                <dialog-entity-delete :entity="section">
-                  <template v-slot:activator="{ on }">
-                    <v-btn icon
-                           small
-                           color="error"
-                           class="float-right"
-                           v-on="on">
-                      <v-icon>mdi-delete</v-icon>
-                    </v-btn>
-                  </template>
-                </dialog-entity-delete>
-                <v-btn icon small class="float-right"><v-icon>mdi-arrow-down-bold</v-icon></v-btn>
-              </div>
+              <v-btn icon
+                     small
+                     class="button-add"
+                     color="success"
+                     @click="addSection">
+                <v-icon>mdi-plus</v-icon>
+              </v-btn>
             </v-col>
           </v-row>
-        </api-form>
-      </div>
+
+          <api-form :entity="section">
+            <v-row dense>
+              <v-col cols="2">
+                <api-textarea
+                  fieldname="column1"
+                  auto-grow
+                  rows="2" />
+              </v-col>
+              <v-col cols="7">
+                <api-textarea
+                  fieldname="column2"
+                  auto-grow
+                  rows="4" />
+              </v-col>
+              <v-col cols="2">
+                <api-textarea
+                  fieldname="column3"
+                  auto-grow
+                  rows="2" />
+              </v-col>
+              <v-col cols="1">
+                <div class="float-right section-buttons">
+                  <v-btn icon small
+                         class="float-right"
+                         @click="sectionUp(section)">
+                    <v-icon>mdi-arrow-up-bold</v-icon>
+                  </v-btn>
+                  <dialog-entity-delete :entity="section">
+                    <template v-slot:activator="{ on }">
+                      <v-btn icon
+                             small
+                             color="error"
+                             class="float-right"
+                             v-on="on">
+                        <v-icon>mdi-delete</v-icon>
+                      </v-btn>
+                    </template>
+                  </dialog-entity-delete>
+                  <v-btn icon small
+                         class="float-right"
+                         @click="sectionDown(section)">
+                    <v-icon>mdi-arrow-down-bold</v-icon>
+                  </v-btn>
+                </div>
+              </v-col>
+            </v-row>
+          </api-form>
+        </div>
+      </transition-group>
 
       <!-- add at end position -->
       <v-row no-gutters justify="center">
@@ -99,6 +109,11 @@ export default {
   props: {
     activityContent: { type: Object, required: true }
   },
+  computed: {
+    sections () {
+      return this.activityContent.sections().items // .sort((a, b) => a.pos - b.pos)
+    }
+  },
   methods: {
     async addSection () {
       // this.isAdding = true
@@ -111,6 +126,47 @@ export default {
     },
     async refreshContent () {
       await this.api.reload(this.activityContent)
+    },
+    async sectionUp (section) {
+      const list = this.$store.state.api[`/activity-contents/${this.activityContent.id}`].sections
+      const index = list.findIndex((item) => section._meta.self.includes(item.href))
+
+      // cannot move first entry up
+      if (index > 0) {
+        const previousItem = list[index - 1]
+        this.$set(list, index - 1, list[index])
+        this.$set(list, index, previousItem)
+      }
+
+      // Alternative: patch position property
+      // this.$store.commit('patch', { [`/content-type/storyboards/${section.id}`]: { pos: 90 } })
+      // this.$set(this.$store.state.api[`/content-type/storyboards/${section.id}`], 'pos', 90)
+
+      // Save back to API
+      /* await this.api.patch(section, {
+        pos: 90
+      }) */
+    },
+    async sectionDown (section) {
+      const list = this.$store.state.api[`/activity-contents/${this.activityContent.id}`].sections
+      const index = list.findIndex((item) => section._meta.self.includes(item.href))
+
+      // cannot move last entry down
+      if (index >= 0 && index < (list.length - 1)) {
+        const nextItem = list[index + 1]
+        this.$set(list, index + 1, list[index])
+        this.$set(list, index, nextItem)
+      }
+
+      // Alternative: patch position property
+      // this.$store.commit('patch', { [`/content-type/storyboards/${section.id}`]: { pos: 110 } })
+      // this.$set(this.$store.state.api[`/content-type/storyboards/${section.id}`], 'pos', 110)
+
+      // Save back to API
+      /*
+      await this.api.patch(section, {
+        pos: 110
+      }) */
     }
   }
 }
@@ -144,6 +200,10 @@ export default {
   opacity: 1;
   height: 30px;
   transition-delay: 0.3s;
+}
+
+.flip-list-move {
+  transition: transform 0.5s;
 }
 
 </style>
