@@ -5,15 +5,8 @@ from weasyprint import HTML
 import pika
 import json
 import requests
-import os
 
-PRINT_SERVER = os.getenv('PRINT_SERVER', 'http://print:3000/') 
-
-AMQP_HOST = os.getenv('AMQP_HOST', 'rabbitmq') 
-AMQP_PORT = os.getenv('AMQP_PORT', '5672') 
-AMQP_VHOST = os.getenv('AMQP_VHOST', '/') 
-AMQP_USER = os.getenv('AMQP_USER', 'guest') 
-AMQP_PASS = os.getenv('AMQP_PASS', 'guest') 
+from environment import *
 
 # create custom URL fetcher to include cookie
 def url_fetcher_factory(sessionId):

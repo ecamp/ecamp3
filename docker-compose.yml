@@ -31,7 +31,7 @@ services:
     image: node:12.18
     container_name: 'ecamp3-print'
     ports:
-      - '3003:3000'
+      - '3003:80'
     volumes:
       - ./print:/app:delegated
       - npm-cache:/root/.npm
@@ -40,6 +40,8 @@ services:
     command: ./docker-setup.sh
     environment:
       - HOST=0.0.0.0
+    env_file:
+      - ./print/print.env
 
   composer:
     image: composer:2
@@ -77,7 +79,7 @@ services:
       - '3004:15672'
 
   worker-print-puppeteer:
-    image: buildkite/puppeteer
+    build: ./workers/print-puppeteer
     container_name: 'ecamp3-worker-print-puppeteer'
     volumes:
       - ./workers/print-puppeteer:/app:delegated

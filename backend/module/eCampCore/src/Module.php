@@ -20,6 +20,10 @@ class Module {
         $events = $app->getEventManager();
         $sm = $app->getServiceManager();
 
+        // Force loading the session config, in order to force using our custom config
+        // See https://github.com/laminas/laminas-session/issues/15#issuecomment-569998935
+        $sm->get(\Laminas\Session\ManagerInterface::class);
+
         /** @var EntityManager $em */
         $em = $sm->get('doctrine.entitymanager.orm_default');
 

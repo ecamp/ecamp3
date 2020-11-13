@@ -14,3 +14,21 @@ services:
       context: ..
       dockerfile: .docker-hub/backend/Dockerfile
     image: ecamp/ecamp3-backend:latest
+
+  print:
+    build:
+      context: ..
+      dockerfile: .docker-hub/print/Dockerfile
+    image: ecamp/ecamp3-print:latest
+
+  worker-print-puppeteer:
+    build:
+      context: ..
+      dockerfile: .docker-hub/worker-print-puppeteer/Dockerfile
+    image: ecamp/ecamp3-worker-print-puppeteer:latest
+
+  worker-print-weasy:
+    build:
+      context: ..
+      dockerfile: .docker-hub/worker-print-weasy/Dockerfile
+    image: ecamp/ecamp3-worker-print-weasy:latest

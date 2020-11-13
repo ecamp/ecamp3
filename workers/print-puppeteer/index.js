@@ -1,14 +1,7 @@
 const puppeteer = require('puppeteer');
 const amqp = require('amqplib/callback_api');
 
-const PRINT_SERVER = process.env.PRINT_SERVER || "http://print:3000";
-
-const AMQP_HOST = process.env.AMQP_HOST || 'rabbitmq';
-const AMQP_PORT = process.env.AMQP_PORT || '5672';
-const AMQP_VHOST= process.env.AMQP_VHOST || '/';
-const AMQP_USER = process.env.AMQP_USER || 'guest';
-const AMQP_PASS = process.env.AMQP_PASS || 'guest';
-
+const { PRINT_SERVER, SESSION_COOKIE_DOMAIN, AMQP_HOST, AMQP_PORT, AMQP_VHOST, AMQP_USER, AMQP_PASS } = require('./environment.js');
 
 async function startBrowser() {
     const browser = await puppeteer.launch({headless: true, args:['--no-sandbox']});
@@ -25,17 +18,9 @@ async function html2pdf(url, filename, sessionId) {
 
     const cookies = [
         {
-            "domain": "print",
-            "hostOnly": true,
-            "httpOnly": false,
+            "domain": SESSION_COOKIE_DOMAIN,
             "name": "PHPSESSID",
-            "path": "/",
-            "sameSite": "unspecified",
-            "secure": false,
-            "session": true,
-            "storeId": "1",
             "value": sessionId,
-            "id": 1
         }
     ]
 
@@ -44,7 +29,7 @@ async function html2pdf(url, filename, sessionId) {
     await page.goto(url);
 
     await page.waitFor(500);
-    await page.waitForSelector(".pagedjs_pages", {timeout:2000});
+    await page.waitForSelector(".pagedjs_pages", {timeout:10000});
 
     await page.pdf({path: `data/${filename}-puppeteer.pdf`});
 }
@@ -60,7 +45,7 @@ function start() {
                 throw error1;
             }
 
-            var queue = 'printer-puppeteer';
+            const queue = 'printer-puppeteer';
 
             channel.assertQueue(queue, {
                 durable: true

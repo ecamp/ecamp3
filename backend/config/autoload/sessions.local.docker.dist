@@ -1,0 +1,7 @@
+<?php
+
+return [
+    'session_config' => [
+      'cookie_domain' => '',
+    ],
+];
