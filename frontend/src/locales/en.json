@@ -52,9 +52,18 @@
         "deleteActivityCategoryQuestion": "Do you really want do delete the Activity category?",
         "title": "Activity categories"
       },
+      "campInvitations": {
+        "title": "Invite"
+      },
+      "campMembers": {
+        "title": "Members"
+      },
       "campPeriods": {
         "createPeriod": "Create period",
         "title": "Period | Periods"
+      },
+      "campPeriodsListItem": {
+        "deleteWarning": "Do you really want to delete this period?"
       },
       "campSettings": {
         "fields": {
@@ -198,8 +207,8 @@
   },
   "views": {
     "activity": {
-      "sidebarProgram": {
-        "name": "Daily overview"
+      "sideBarProgram": {
+        "title": "Activities on this day"
       }
     },
     "auth": {

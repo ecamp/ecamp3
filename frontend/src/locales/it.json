@@ -6,7 +6,8 @@
     },
     "safetyConcept": {
       "add": "Aggiungere un concetto di sicurezza",
-      "name": "concetto di sicurezza"
+      "name": "concetto di sicurezza",
+      "sort": "3"
     },
     "storyboard": {
       "add": "Aggiungere uno storyboard | aggiungere un altro storyboard",
@@ -20,14 +21,26 @@
           "name": "Sezione | Sezioni"
         }
       },
-      "name": "Storyboard"
+      "name": "Storyboard",
+      "sort": "2"
     },
     "storycontext": {
       "add": "Aggiungi contenuto della storia",
-      "name": "Contesto della storia"
+      "name": "Contesto della storia",
+      "sort": "1"
     }
   },
   "components": {
+    "activity": {
+      "createScheduleEntries": {
+        "fields": {
+          "duration": "Durata",
+          "endTime": "Fine",
+          "startTime": "Inizio"
+        },
+        "name": "Programmato"
+      }
+    },
     "camp": {
       "campActivityCategories": {
         "create": "Creare categoria di attività",
@@ -35,9 +48,18 @@
         "deleteActivityCategoryQuestion": "Vuoi davvero cancellare la categoria Attività?",
         "title": "Categori di attività"
       },
+      "campInvitations": {
+        "title": "Invitare"
+      },
+      "campMembers": {
+        "title": "Membri"
+      },
       "campPeriods": {
         "createPeriod": "Creare il periodo",
         "title": "Periodo | Periodi"
+      },
+      "campPeriodsListItem": {
+        "deleteWarning": "Volete davvero cancellare questo periodo?"
       },
       "campSettings": {
         "fields": {
@@ -46,6 +68,11 @@
           "title": "titolo"
         },
         "title": "Impostazioni"
+      },
+      "picasso": {
+        "moment": {
+          "date": "dd. D.MM | D. MMM | DD. MMM YYYY"
+        }
       }
     },
     "dialog": {
@@ -61,6 +88,8 @@
       }
     },
     "navigation": {
+      "myCamps": "Il mio campo | I miei campi",
+      "profile": "Profilo",
       "search": "Cerca",
       "searchActivitiesAndCamps": "Recherche d'activités et de camps",
       "userMeta": {
@@ -73,10 +102,12 @@
   "entity": {
     "activity": {
       "fields": {
+        "activityCategory": "Categoria di attività",
         "location": "Posto",
         "title": "Titolo"
       },
-      "name": "Attività"
+      "name": "Attività",
+      "new": "Nuova attività"
     },
     "activityCategory": {
       "fields": {
@@ -104,6 +135,9 @@
       },
       "name": "Campo"
     },
+    "campCollaboration": {
+      "campLeft": "lasciato il campo"
+    },
     "period": {
       "defaultDescription": "Campo principale",
       "fields": {
@@ -115,7 +149,9 @@
     },
     "scheduleEntry": {
       "fields": {
+        "length": "Lunghezza in minuti",
         "nr": "No",
+        "periodOffset": "Periodo Offset",
         "time": "Tempi"
       },
       "name": "Implementazione delle attività"
@@ -127,7 +163,9 @@
         "firstname": "Nome",
         "language": "Lingua",
         "nickname": "Soprannome",
-        "surname": "Nome di famiglia"
+        "password": "Parola d'ordine",
+        "surname": "Nome di famiglia",
+        "username": "Nome utente"
       },
       "name": "Utente"
     }
@@ -137,15 +175,23 @@
       "add": "Aggiungere",
       "back": "Indietro",
       "cancel": "Annullare",
+      "create": "Creare",
       "delete": "Cancellare",
       "edit": "Modificare",
-      "submit": "Inviare"
+      "open": "Aprire",
+      "save": "Salvare",
+      "saving": "Salvataggio",
+      "submit": "Inviare",
+      "tryagain": "Riprovare",
+      "update": "Aggiorna"
     },
     "changeLanguage": "Cambia la lingua",
     "language": "Italiano",
+    "lokaliseMessage": "Commutazione della lingua con lokalise.com",
     "moment": {
       "dateLong": "dd L",
       "dateShort": "dd M\/D",
+      "hourLong": "HH:mm",
       "hourShort": "h:mm A"
     },
     "serverError": {
@@ -177,6 +223,15 @@
         "registernow": "Iscriviti ora",
         "title": "Accedi",
         "username": "Nome utente o indirizzo e-mail"
+      },
+      "register": {
+        "acceptTermsOfUse": "Accettare le condizioni di utilizzo",
+        "alreadyHaveAnAccount": "Hai già un conto?",
+        "login": "Accedi",
+        "openTermsOfUse": "Aprire",
+        "passwordConfirmation": "Inserisci di nuovo la password",
+        "register": "Registrati",
+        "title": "Crea un conto"
       }
     },
     "camp": {
@@ -184,6 +239,11 @@
         "title": "Admin"
       },
       "collaborators": {
+        "invite": "Invitare",
+        "members": "Membri",
+        "openInvitations": "Inviti aperti",
+        "openRequests": "Richieste aperte",
+        "search": "Cerca...",
         "title": "Team"
       },
       "sideBarPeriods": {

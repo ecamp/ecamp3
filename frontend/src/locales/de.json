@@ -6,7 +6,8 @@
     },
     "safetyConcept": {
       "add": "Sicherheits-Konzept hinzufügen",
-      "name": "Sicherheits-Konzept"
+      "name": "Sicherheits-Konzept",
+      "sort": "3"
     },
     "storyboard": {
       "add": "Programmabschnitt hinzufügen",
@@ -20,11 +21,13 @@
           "name": "Programmpunkt | Programmpunkte"
         }
       },
-      "name": "Programmabschnitt"
+      "name": "Programmabschnitt",
+      "sort": "2"
     },
     "storycontext": {
       "add": "Roten Faden hinzufügen",
-      "name": "Roter Faden"
+      "name": "Roter Faden",
+      "sort": "1"
     }
   },
   "components": {
@@ -45,9 +48,18 @@
         "deleteActivityCategoryQuestion": "Möchtest du diese Block-Kategorie wirklich löschen?",
         "title": "Block-Kategorien"
       },
+      "campInvitations": {
+        "title": "Einladen"
+      },
+      "campMembers": {
+        "title": "Mitglieder"
+      },
       "campPeriods": {
         "createPeriod": "Lagerabschnitt erstellen",
         "title": "Lagerabschnitt | Lagerabschnitte"
+      },
+      "campPeriodsListItem": {
+        "deleteWarning": "Möchtest du diese Periode wirklich löschen?"
       },
       "campSettings": {
         "fields": {
@@ -151,7 +163,9 @@
         "firstname": "Vorname",
         "language": "Sprache",
         "nickname": "Spitzname",
-        "surname": "Nachname"
+        "password": "Kennwort",
+        "surname": "Nachname",
+        "username": "Benutzername"
       },
       "name": "User"
     }
@@ -209,6 +223,15 @@
         "registernow": "Jetzt registrieren",
         "title": "Anmelden",
         "username": "Username oder E-Mail"
+      },
+      "register": {
+        "acceptTermsOfUse": "Akzeptieren Sie die Nutzungsbedingungen",
+        "alreadyHaveAnAccount": "Haben Sie bereits ein Konto?",
+        "login": "Anmelden",
+        "openTermsOfUse": "Öffnen",
+        "passwordConfirmation": "Passwort erneut eingeben",
+        "register": "Registrieren",
+        "title": "Ein Konto erstellen"
       }
     },
     "camp": {
