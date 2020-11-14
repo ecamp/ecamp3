@@ -5,6 +5,9 @@ from weasyprint import HTML
 import pika
 import json
 import requests
+import sys
+
+from urllib.parse import urlencode
 
 from environment import *
 
@@ -40,10 +43,12 @@ def worker_callback(ch, method, properties, body):
         filename = message['filename']
         PHPSESSID = message['PHPSESSID']
 
-        HTML(f'{PRINT_SERVER}?camp={campId}', url_fetcher=url_fetcher_factory(PHPSESSID)).write_pdf(f'./data/{filename}-weasy.pdf')
+        queryString = urlencode(message['config'])
+
+        HTML(f'{PRINT_SERVER}?camp={campId}&{queryString}', url_fetcher=url_fetcher_factory(PHPSESSID)).write_pdf(f'./data/{filename}-weasy.pdf')
 
     except:
-        print(" Unexpected error while processing message")
+        print(" Unexpected error while processing message", sys.exc_info())
 
     channel.basic_ack(delivery_tag=method.delivery_tag)
 

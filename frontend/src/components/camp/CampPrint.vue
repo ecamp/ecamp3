@@ -72,7 +72,8 @@ export default {
     async print () {
       this.printing = true
       const result = await this.api.post('/printer', {
-        campId: this.camp().id
+        campId: this.camp().id,
+        config: this.config
       })
       this.printing = false
       this.results.push({
