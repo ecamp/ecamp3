@@ -59,7 +59,7 @@ class MaterialItemService extends AbstractEntityService {
                     'activityContentId' => ['campMismatch' => 'Provided materiallist is not part of the same camp as provided activityContent'],
                 ]);
             }
-            $activityContent->addMaterialItem($materialItem);
+            $materialItem->setActivityContent($activityContent);
         }
 
         return $materialItem;
@@ -100,7 +100,7 @@ class MaterialItemService extends AbstractEntityService {
                     'activityContentId' => ['campMismatch' => 'Provided activityContent is not part of the same camp'],
                 ]);
             }
-            $activityContent->addMaterialItem($materialItem);
+            $materialItem->setActivityContent($activityContent);
         }
     }
 
