@@ -2,7 +2,6 @@
 
 namespace eCamp\Core\Hydrator;
 
-use eCamp\Core\Entity\MaterialList;
 use eCamp\Lib\Entity\EntityLink;
 use Laminas\Hydrator\HydratorInterface;
 
@@ -26,8 +25,10 @@ class MaterialItemHydrator implements HydratorInterface {
             'article' => $materialItem->getArticle(),
             'amount' => $materialItem->getAmount(),
             'unit' => $materialItem->getUnit(),
-            
+
             'materialList' => EntityLink::Create($materialItem->getMaterialList()),
+            'period' => EntityLink::Create($materialItem->getPeriod()),
+            'activityContent' => EntityLink::Create($materialItem->getActivityContent()),
         ];
     }
 
@@ -40,9 +41,15 @@ class MaterialItemHydrator implements HydratorInterface {
         /** @var MaterialItem $materialItem */
         $materialItem = $object;
 
-        // if (isset($data['name'])) {
-        //     $materialItem->setName($data['name']);
-        // }
+        if (isset($data['article'])) {
+            $materialItem->setArticle($data['article']);
+        }
+        if (isset($data['amount'])) {
+            $materialItem->setAmount($data['amount']);
+        }
+        if (isset($data['unit'])) {
+            $materialItem->setUnit($data['unit']);
+        }
 
         return $materialItem;
     }

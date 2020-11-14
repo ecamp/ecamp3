@@ -19,7 +19,72 @@ $config['api-tools-content-validation'] = [
 
 $config['input_filter_specs'] = [
     'eCampApi\\V1\\Rest\\MaterialItem\\Validator' => [
-        // empty = no values chan be changed so far
+        0 => [
+            'name' => 'article',
+            'required' => true,
+            'filters' => [
+                0 => [
+                    'name' => 'Laminas\\Filter\\StringTrim',
+                ],
+                1 => [
+                    'name' => 'Laminas\\Filter\\StripTags',
+                ],
+            ],
+            'validators' => [
+                0 => [
+                    'name' => 'Laminas\\Validator\\StringLength',
+                    'options' => [
+                        'min' => 1,
+                        'max' => 32,
+                    ],
+                ],
+            ],
+        ],
+        1 => [
+            'name' => 'amount',
+            'required' => false,
+            'validators' => [
+            ],
+        ],
+        2 => [
+            'name' => 'unit',
+            'required' => false,
+            'filters' => [
+                0 => [
+                    'name' => 'Laminas\\Filter\\StringTrim',
+                ],
+                1 => [
+                    'name' => 'Laminas\\Filter\\StripTags',
+                ],
+            ],
+            'validators' => [
+                0 => [
+                    'name' => 'Laminas\\Validator\\StringLength',
+                    'options' => [
+                        'min' => 1,
+                        'max' => 32,
+                    ],
+                ],
+            ],
+        ],
+        3 => [
+            'name' => 'materialListId',
+            'required' => false,
+            'validators' => [
+            ],
+        ],
+        4 => [
+            'name' => 'periodId',
+            'required' => false,
+            'validators' => [
+            ],
+        ],
+        5 => [
+            'name' => 'activityContentId',
+            'required' => false,
+            'validators' => [
+            ],
+        ],
     ],
 ];
 

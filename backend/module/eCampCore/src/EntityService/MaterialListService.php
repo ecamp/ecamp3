@@ -2,9 +2,10 @@
 
 namespace eCamp\Core\EntityService;
 
+use eCamp\Core\Entity\Camp;
 use eCamp\Core\Entity\MaterialList;
-use eCamp\Lib\Service\ServiceUtils;
 use eCamp\Core\Hydrator\MaterialListHydrator;
+use eCamp\Lib\Service\ServiceUtils;
 use Laminas\Authentication\AuthenticationService;
 
 class MaterialListService extends AbstractEntityService {
@@ -16,7 +17,23 @@ class MaterialListService extends AbstractEntityService {
             $authenticationService
         );
     }
-    
+
+    /**
+     * @param $data
+     *
+     * @return MaterialList
+     */
+    protected function createEntity($data) {
+        /** @var MaterialList $materialList */
+        $materialList = parent::createEntity($data);
+
+        /** @var Camp $camp */
+        $camp = $this->findRelatedEntity(Camp::class, $data, 'campId');
+        $camp->addMaterialList($materialList);
+
+        return $materialList;
+    }
+
     protected function fetchAllQueryBuilder($params = []) {
         $q = parent::fetchAllQueryBuilder($params);
         $q->andWhere($this->createFilter($q, Camp::class, 'row', 'camp'));
@@ -35,5 +52,4 @@ class MaterialListService extends AbstractEntityService {
 
         return $q;
     }
-    
 }

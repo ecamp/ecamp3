@@ -10,7 +10,6 @@ use Laminas\Hydrator\HydratorInterface;
 class MaterialListHydrator implements HydratorInterface {
     public static function HydrateInfo() {
         return [
-
         ];
     }
 
@@ -27,14 +26,14 @@ class MaterialListHydrator implements HydratorInterface {
             'id' => $materialList->getId(),
             'name' => $materialList->getName(),
             'camp' => EntityLink::Create($materialList->getCamp()),
-            
+
             'materialItems' => Link::factory([
                 'rel' => 'materialItems',
                 'route' => [
                     'name' => 'e-camp-api.rest.doctrine.material-item',
                     'options' => ['query' => ['materialListId' => $materialList->getId()]],
-                ]
-            ])
+                ],
+            ]),
         ];
     }
 

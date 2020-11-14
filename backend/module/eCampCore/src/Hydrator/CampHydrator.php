@@ -91,8 +91,8 @@ class CampHydrator implements HydratorInterface {
                 'route' => [
                     'name' => 'e-camp-api.rest.doctrine.material-list',
                     'options' => ['query' => ['campId' => $camp->getId()]],
-                ]
-            ])
+                ],
+            ]),
         ];
     }
 

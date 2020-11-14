@@ -3,9 +3,14 @@
 namespace eCamp\Core\EntityService;
 
 use Doctrine\ORM\QueryBuilder;
+use eCamp\Core\Entity\ActivityContent;
 use eCamp\Core\Entity\Camp;
 use eCamp\Core\Entity\MaterialItem;
+use eCamp\Core\Entity\MaterialList;
+use eCamp\Core\Entity\Period;
 use eCamp\Core\Hydrator\MaterialItemHydrator;
+use eCamp\Lib\Entity\BaseEntity;
+use eCamp\Lib\Service\EntityValidationException;
 use eCamp\Lib\Service\ServiceUtils;
 use Laminas\Authentication\AuthenticationService;
 
@@ -18,7 +23,87 @@ class MaterialItemService extends AbstractEntityService {
             $authenticationService
         );
     }
-    
+
+    /**
+     * @param $data
+     *
+     * @return MaterialItem
+     */
+    protected function createEntity($data) {
+        /** @var MaterialItem $materialItem */
+        $materialItem = parent::createEntity($data);
+
+        /** @var MaterialList $materialList */
+        $materialList = $this->findRelatedEntity(MaterialList::class, $data, 'materialListId');
+        $materialList->addMaterialItem($materialItem);
+        $camp = $materialList->getCamp();
+
+        if (isset($data->periodId)) {
+            /** @var Period $period */
+            $period = $this->findRelatedEntity(Period::class, $data, 'periodId');
+            if ($period->getCamp()->getId() !== $camp->getId()) {
+                throw (new EntityValidationException())->setMessages([
+                    'materialListId' => ['campMismatch' => 'Provided materiallist is not part of the same camp as provided period'],
+                    'periodId' => ['campMismatch' => 'Provided materiallist is not part of the same camp as provided period'],
+                ]);
+            }
+            $period->addMaterialItem($materialItem);
+        }
+
+        if (isset($data->activityContentId)) {
+            /** @var ActivityContent $activityContent */
+            $activityContent = $this->findRelatedEntity(ActivityContent::class, $data, 'activityContentId');
+            if ($activityContent->getCamp()->getId() !== $camp->getId()) {
+                throw (new EntityValidationException())->setMessages([
+                    'materialListId' => ['campMismatch' => 'Provided materiallist is not part of the same camp as provided activityContent'],
+                    'activityContentId' => ['campMismatch' => 'Provided materiallist is not part of the same camp as provided activityContent'],
+                ]);
+            }
+            $activityContent->addMaterialItem($materialItem);
+        }
+
+        return $materialItem;
+    }
+
+    protected function patchEntity(BaseEntity $entity, $data) {
+        /** @var MaterialItem $materialItem */
+        $materialItem = parent::patchEntity($entity, $data);
+        $camp = $materialItem->getCamp();
+
+        if (isset($data->materialListId)) {
+            /** @var MaterialList $materialList */
+            $materialList = $this->findRelatedEntity(MaterialList::class, $data, 'materialListId');
+            if ($camp->getId() !== $materialList->getCamp()->getId()) {
+                throw (new EntityValidationException())->setMessages([
+                    'materialListId' => ['campMismatch' => 'Provided materiallist is not part of the same camp'],
+                ]);
+            }
+            $materialList->addMaterialItem($materialItem);
+        }
+
+        if (isset($data->periodId)) {
+            /** @var Period $period */
+            $period = $this->findRelatedEntity(Period::class, $data, 'periodId');
+            if ($camp->getId() !== $period->getCamp()->getId()) {
+                throw (new EntityValidationException())->setMessages([
+                    'periodId' => ['campMismatch' => 'Provided period is not part of the same camp'],
+                ]);
+            }
+            $period->addMaterialItem($materialItem);
+        }
+
+        if (isset($data->activityContentId)) {
+            /** @var ActivityContent $activityContent */
+            $activityContent = $this->findRelatedEntity(ActivityContent::class, $data, 'activityContentId');
+            if ($camp->getId() !== $activityContent->getCamp()->getId()) {
+                throw (new EntityValidationException())->setMessages([
+                    'activityContentId' => ['campMismatch' => 'Provided activityContent is not part of the same camp'],
+                ]);
+            }
+            $activityContent->addMaterialItem($materialItem);
+        }
+    }
+
     protected function fetchAllQueryBuilder($params = []) {
         /** @var QueryBuilder $q */
         $q = parent::fetchAllQueryBuilder($params);
@@ -44,5 +129,4 @@ class MaterialItemService extends AbstractEntityService {
 
         return $q;
     }
-
 }

@@ -30,16 +30,16 @@ class ActivityContent extends BaseEntity implements ContentTypeStrategyProviderA
     protected $contentType;
 
     /**
-     * @var string
-     * @ORM\Column(type="string", length=64, nullable=true)
-     */
-    private $instanceName;
-    
-    /**
      * @var ArrayCollection
      * @ORM\OneToMany(targetEntity="MaterialItem", mappedBy="period")
      */
     protected $materialItems;
+
+    /**
+     * @var string
+     * @ORM\Column(type="string", length=64, nullable=true)
+     */
+    private $instanceName;
 
     public function __construct() {
         parent::__construct();

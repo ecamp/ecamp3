@@ -4,13 +4,17 @@ namespace eCamp\Core\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-use eCamp\Core\Entity\BelongsToCampInterface;
 use eCamp\Lib\Entity\BaseEntity;
 
 /**
  * @ORM\Entity
  */
 class MaterialList extends BaseEntity implements BelongsToCampInterface {
+    /**
+     * @var ArrayCollection
+     * @ORM\OneToMany(targetEntity="MaterialItem", mappedBy="materialList")
+     */
+    protected $materialItems;
 
     /**
      * @var Camp
@@ -25,18 +29,12 @@ class MaterialList extends BaseEntity implements BelongsToCampInterface {
      */
     private $name;
 
-    /**
-     * @var ArrayCollection
-     * @ORM\OneToMany(targetEntity="MaterialItem", mappedBy="materialList")
-     */
-    protected $materialItems;
-
     public function __construct() {
         parent::__construct();
-        
+
         $this->materialItems = new ArrayCollection();
     }
-    
+
     /**
      * @return Camp
      */
@@ -69,13 +67,12 @@ class MaterialList extends BaseEntity implements BelongsToCampInterface {
     }
 
     public function addMaterialItem(MaterialItem $materialItem) {
-        $materialItem->setPeriod($this);
+        $materialItem->setMaterialList($this);
         $this->materialItems->add($materialItem);
     }
 
     public function removeMaterialItem(MaterialItem $materialItem) {
-        $materialItem->setPeriod(null);
+        $materialItem->setMaterialList(null);
         $this->materialItems->removeElement($materialItem);
     }
-
 }

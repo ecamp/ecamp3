@@ -2,16 +2,13 @@
 
 namespace eCamp\Core\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-use eCamp\Core\Entity\BelongsToCampInterface;
 use eCamp\Lib\Entity\BaseEntity;
 
 /**
  * @ORM\Entity
  */
 class MaterialItem extends BaseEntity implements BelongsToCampInterface {
-
     /**
      * @var MaterialList
      * @ORM\ManyToOne(targetEntity="MaterialList")
@@ -44,17 +41,15 @@ class MaterialItem extends BaseEntity implements BelongsToCampInterface {
      * @ORM\Column(type="integer", nullable=true)
      */
     private $amount;
-    
+
     /**
      * @var string
      * @ORM\Column(type="string", length=64, nullable=true)
      */
     private $unit;
 
-
     public function __construct() {
         parent::__construct();
-
     }
 
     /**
@@ -98,7 +93,7 @@ class MaterialItem extends BaseEntity implements BelongsToCampInterface {
         $this->period = null;
         $this->activityContent = $activityContent;
     }
-    
+
     public function getArticle() {
         return $this->article;
     }
@@ -122,5 +117,4 @@ class MaterialItem extends BaseEntity implements BelongsToCampInterface {
     public function setUnit($unit) {
         $this->unit = $unit;
     }
-    
 }
