@@ -209,6 +209,17 @@ JSON;
     }
 
     public function testDelete() {
+        $collaborationToDelete = $this->campCollaborationInvited->getId();
+        $this->dispatch("{$this->apiEndpoint}/{$collaborationToDelete}", 'DELETE');
+
+        $this->assertResponseStatusCode(204);
+
+        /** @var CampCollaboration $cc */
+        $cc = $this->getEntityManager()->find(CampCollaboration::class, $collaborationToDelete);
+        self::assertThat($cc, self::isNull());
+    }
+
+    public function testUpdateToLeftWhenDeleteAndStatusIsEstablished() {
         $this->dispatch("{$this->apiEndpoint}/{$this->campCollaboration1->getId()}", 'DELETE');
 
         $this->assertResponseStatusCode(204);

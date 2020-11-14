@@ -151,14 +151,11 @@ class CampCollaborationService extends AbstractEntityService {
     protected function deleteEntity(BaseEntity $entity) {
         /** @var CampCollaboration $campCollaboration */
         $campCollaboration = $entity;
-        $data = (object) ['status' => CampCollaboration::STATUS_LEFT];
-
-        if ($campCollaboration->isEstablished()) {
-            $campCollaboration = $this->updateCollaboration($campCollaboration, $data);
-        } elseif ($campCollaboration->isInvitation()) {
-            $campCollaboration = $this->updateInvitation($campCollaboration, $data);
-        } elseif ($campCollaboration->isRequest()) {
-            $campCollaboration = $this->updateRequest($campCollaboration, $data);
+        if (in_array($campCollaboration->getStatus(),
+            [CampCollaboration::STATUS_INVITED, CampCollaboration::STATUS_REQUESTED], true)) {
+            parent::deleteEntity($entity);
+        } else {
+            $this->updateEntity($campCollaboration, (object)['status' => CampCollaboration::STATUS_LEFT]);
         }
     }
 
