@@ -36,7 +36,7 @@ async function html2pdf(url, filename, sessionId) {
     // page.setCacheEnabled(false)
     await page.goto(url);
 
-    await page.waitFor(5000);
+    await page.waitFor(15000);
     //await page.waitForSelector(".pagedjs_pages", {timeout:15000}); // TODO: easy to fail, if response takes longer than expected
 
     await page.pdf({path: `data/${filename}-puppeteer.pdf`});
