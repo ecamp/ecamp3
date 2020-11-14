@@ -100,7 +100,7 @@
       "authContainer":{
         "photoCredits": "Foto von Markus Rohner / Lotos"
       }
-      },
+    },
     "navigationCamp": {
       "camp":{
         "admin": "Admin",
@@ -120,8 +120,8 @@
       "navigationDefault":{
         "myCamps": "Mein Lager | Meine Lager",
         "home": "Startseite",
-        "profile": "Profil",
-    },
+        "profile": "Profil"
+    }
     }
   },
   "entity": {
@@ -163,6 +163,14 @@
         "title": "Titel"
       },
       "name": "Lager",
+<<<<<<< HEAD
+=======
+      "print": {
+        "openPrintPreview": "Druckvorschau öffnen",
+        "printNow": "Jetzt drucken",
+        "title": "Drucken"
+      }
+>>>>>>> c13179bd... replaced static text with dynamic in frontend/
     },
     "campCollaboration": {
       "campLeft": "Lager verlassen"
@@ -237,15 +245,26 @@
       },
     },
     "auth": {
+<<<<<<< HEAD
        "login": {
+=======
+      "container":{
+        "photoCredits": "Photo von Markus Rohner / Lotos"
+      },
+      "login": {
+>>>>>>> c13179bd... replaced static text with dynamic in frontend/
         "accountless": "Hast du noch keinen Account?",
         "beta": {
           "notice": "Hier entsteht das neue eCamp.<br>WICHTIG: Diese Webseite befindet sich im Aufbau. Das heisst, dass alle Daten öffentlich sind und periodisch gelöscht werden!"
         },
+<<<<<<< HEAD
         "loginCallback":{
           "loginInProgress": "Du wirst eingeloggt",
           "CampIsLoading":"Lager wird geladen…"
         },
+=======
+        "loginInProgress": "Du wirst eingeloggt",
+>>>>>>> c13179bd... replaced static text with dynamic in frontend/
         "or": "oder",
         "password": "Passwort",
         "provider": {
@@ -264,10 +283,14 @@
         "passwordConfirmation": "Passwort erneut eingeben",
         "register": "Registrieren",
         "title": "Ein Konto erstellen",
+<<<<<<< HEAD
       },
       "registerDone":{
         "success": "Erfolgreich registriert",
         "login": "Anmelden",
+=======
+        "success": "Erfolgreich registriert"
+>>>>>>> c13179bd... replaced static text with dynamic in frontend/
       }
     },
     "camp": {
