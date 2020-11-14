@@ -1,10 +1,10 @@
 <template>
-  <div>
-    <h2>{{ period.description }}</h2>
+  <v-expansion-panel v-model="expanded">
+    <v-expansion-panel-header>{{ period.description }}</v-expansion-panel-header>
     <story-day v-for="day in period.days().items" :key="day._meta.self"
                :day="day"
                :editing="editing" />
-  </div>
+  </v-expansion-panel>
 </template>
 <script>
 import StoryDay from '@/components/camp/StoryDay'
@@ -15,6 +15,12 @@ export default {
   props: {
     period: { type: Object, required: true },
     editing: { type: Boolean, default: false }
+  },
+  data () {
+    return {
+      // Collapse if the period is in the past
+      expanded: Date.parse(this.period.end) >= new Date()
+    }
   }
 }
 </script>

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <v-expansion-panel-content>
     <h3>{{ dayName }}</h3>
     <template v-if="entriesWithStory.length">
       <div v-for="{ scheduleEntry, storyChapters } in entriesWithStory" :key="scheduleEntry._meta.uri">
@@ -22,7 +22,7 @@
     <div v-else class="grey--text">
       {{ $tc('components.camp.storyDay.noStory') }}
     </div>
-  </div>
+  </v-expansion-panel-content>
 </template>
 <script>
 import { sortBy } from 'lodash'
