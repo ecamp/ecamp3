@@ -2,7 +2,8 @@
   <div>
     <h2>{{ period.description }}</h2>
     <story-day v-for="day in period.days().items" :key="day._meta.self"
-               :day="day" />
+               :day="day"
+               :editing="editing" />
   </div>
 </template>
 <script>
@@ -12,7 +13,8 @@ export default {
   name: 'StoryPeriod',
   components: { StoryDay },
   props: {
-    period: { type: Object, required: true }
+    period: { type: Object, required: true },
+    editing: { type: Boolean, default: false }
   }
 }
 </script>

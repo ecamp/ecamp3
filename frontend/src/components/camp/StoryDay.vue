@@ -34,12 +34,8 @@ export default {
   name: 'StoryDay',
   components: { TiptapEditor, ApiForm, ApiTextarea },
   props: {
-    day: { type: Object, required: true }
-  },
-  data () {
-    return {
-      editing: false
-    }
+    day: { type: Object, required: true },
+    editing: { type: Boolean, default: false }
   },
   computed: {
     dayName () {
