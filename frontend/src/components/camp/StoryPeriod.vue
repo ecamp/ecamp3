@@ -5,7 +5,8 @@
       <h3>{{ dayName(entries[0].scheduleEntry.day()) }}</h3>
       <div v-for="{ scheduleEntry, storyChapters } in entries" :key="scheduleEntry._meta.uri">
         <h4>{{ scheduleEntry.activity().title }}</h4>
-        <p v-for="chapter in storyChapters" :key="chapter" v-html="chapter"></p>
+        <!-- eslint-disable-next-line vue/no-v-html TODO in the future we should probably use tiptap to render html -->
+        <p v-for="chapter in storyChapters" :key="chapter" v-html="chapter" />
       </div>
     </div>
   </div>
