@@ -2,7 +2,7 @@
   <div>
     <v-skeleton-loader v-if="camp()._meta.loading" type="article" />
     <div v-else>
-      <h3>S{{ $tc('components.camp.campPrint.selectPrintPreview')}}</h3>
+      <h3>S{{ $tc('components.camp.campPrint.selectPrintPreview') }}</h3>
       <e-checkbox v-model="config.showFrontpage" :name="$tc('components.camp.CampPrint.frontpage')" />
       <e-checkbox v-model="config.showToc" :name="$tc('components.camp.CampPrint.toc')" />
       <e-checkbox v-model="config.showPicasso" :name="$tc('components.camp.CampPrint.picasso')" />
