@@ -71,7 +71,7 @@
             "title": "Drucken"
          },
          "collaboratorListItem": {
-            "remove": "entfernen"
+            "remove": "Entfernen"
          }
       },
       "campPeriodsListItem": {
@@ -207,7 +207,7 @@
    "global": {
       "button": {
          "add": "Hinzufügen",
-         "AddContentDesktop": "Inhalt hinzufügen",
+         "addContentDesktop": "Inhalt hinzufügen",
          "back": "Zurück",
          "cancel": "Abbrechen",
          "create": "Erstellen",

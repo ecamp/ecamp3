@@ -78,16 +78,24 @@
           "date": "dd. D.MM | D. MMM | DD. MMM YYYY"
         }
       },
+<<<<<<< HEAD
       "storyDay": {
         "noStory": "No story content found on this day..."
       },
       "CampPrint": {
+=======
+      "campPrint": {
+>>>>>>> Danke
         "toc": "Table of content",
         "picasso": "Picasso",
         "storyline": "Storyline",
         "dailySummary": "Daily summary",
         "activities": "Activities",
-        "frontpage": "Front page"
+        "frontpage": "Front page",
+        "openPrintPreview": "Open print preview",
+        "printNow": "Print now",
+        "title": "Print",
+        "selectPrintPreview": "Select print sections:"
       }
     },
     "dialog": {

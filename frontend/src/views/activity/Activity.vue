@@ -22,8 +22,8 @@ Displays a single activity
                    outlined
                    v-bind="attrs"
                    v-on="on">
-              <v-icon left>mdi-plus-circle-outline</v-icon> {{ $tc('global.button.AddContentDesktop') }}
-              <div v-if="$vuetify.breakpoint.smAndUp">&nbsp;{{ $tc('global.button.add') }}</div>
+              <template v-if="$vuetify.breakpoint.smAndUp"><v-icon left>mdi-plus-circle-outline</v-icon> {{ $tc('global.button.addContentDesktop') }}</template>
+              <template v-else>{{ $tc('global.button.add') }}</template>
             </v-btn>
           </template>
           <v-list>
