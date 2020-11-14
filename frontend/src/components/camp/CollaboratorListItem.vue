@@ -4,7 +4,7 @@
       <v-img src="https://i.pravatar.cc/300" />
     </v-list-item-avatar>
     <v-list-item-content>
-      <v-list-item-title>{{ collaborator.user().username }}</v-list-item-title>
+      <v-list-item-title>{{ collaborator.user().displayName }}</v-list-item-title>
       <v-list-item-subtitle>{{ collaborator.user().mail }}</v-list-item-subtitle>
     </v-list-item-content>
     <api-select
