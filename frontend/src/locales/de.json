@@ -31,6 +31,45 @@
       }
    },
    "components": {
+      "dialog": {
+         "dialogActivityCategoryCreate": {
+            "title": "Block-Kategorie erstellen"
+         },
+         "dialogEntityDelete": {
+            "title": "Wirklich löschen?",
+            "warningText": "Möchtest du das wirklich löschen?"
+         },
+         "dialogPeriodCreate": {
+            "title": "Lagerabschnitt erstellen"
+         }
+      },
+      "layout": {
+         "authContainer": {
+            "photoCredits": "Foto von Markus Rohner / Lotos"
+         }
+      },
+      "navigationCamp": {
+         "search": "Suchen",
+         "searchActivitiesAndCamps": "Aktivitäten und Camps suchen",
+         "userMeta": {
+            "logOut": "Ausloggen",
+            "myCamps": "Mein Lager | Meine Lager",
+            "profile": "Profil"
+         },
+         "camp": {
+            "admin": "Admin",
+            "camp": "Lager",
+            "material": "Mat.",
+            "print": "Drucken",
+            "tasks": "Aufgaben",
+            "team": "Team"
+         },
+         "navigationDefault": {
+            "myCamps": "Mein Lager | Meine Lager",
+            "home": "Startseite",
+            "profile": "Profil"
+         }
+      },
       "activity": {
          "createScheduleEntries": {
             "name": "Geplante Termine",
@@ -85,48 +124,12 @@
          },
          "title": "Einstellungen"
       },
+      "collaboratorListItem": {
+         "remove": "entfernen"
+      },
       "picasso": {
          "moment": {
             "date": "dd. D.MM | D. MMM | DD. MMM YYYY"
-         }
-      },
-      "dialog": {
-         "dialogActivityCategoryCreate": {
-            "title": "Block-Kategorie erstellen"
-         },
-         "dialogEntityDelete": {
-            "title": "Wirklich löschen?",
-            "warningText": "Möchtest du das wirklich löschen?"
-         },
-         "dialogPeriodCreate": {
-            "title": "Lagerabschnitt erstellen"
-         }
-      },
-      "layout": {
-         "authContainer": {
-            "photoCredits": "Foto von Markus Rohner / Lotos"
-         }
-      },
-      "navigationCamp": {
-         "search": "Suchen",
-         "searchActivitiesAndCamps": "Aktivitäten und Camps suchen",
-         "userMeta": {
-            "logOut": "Ausloggen",
-            "myCamps": "Mein Lager | Meine Lager",
-            "profile": "Profil"
-         },
-         "camp": {
-            "admin": "Admin",
-            "camp": "Lager",
-            "material": "Mat.",
-            "print": "Drucken",
-            "tasks": "Aufgaben",
-            "team": "Team"
-         },
-         "navigationDefault": {
-            "myCamps": "Mein Lager | Meine Lager",
-            "home": "Startseite",
-            "profile": "Profil"
          }
       }
    },

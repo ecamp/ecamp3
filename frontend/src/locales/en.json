@@ -78,14 +78,10 @@
           "date": "dd. D.MM | D. MMM | DD. MMM YYYY"
         }
       },
-<<<<<<< HEAD
       "storyDay": {
         "noStory": "No story content found on this day..."
       },
-      "CampPrint": {
-=======
       "campPrint": {
->>>>>>> Danke
         "toc": "Table of content",
         "picasso": "Picasso",
         "storyline": "Storyline",
