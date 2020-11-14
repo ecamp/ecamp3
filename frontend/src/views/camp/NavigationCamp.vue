@@ -8,7 +8,6 @@
              width="216">
         <v-toolbar-title>
           {{ camp().title |   loading($tc('auth.loginCallback.CampIsLoading')) }}
-         
         </v-toolbar-title>
       </v-btn>
     </logo>
