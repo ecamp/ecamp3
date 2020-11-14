@@ -43,7 +43,7 @@ export const formComponentPropsMixin = {
 
     // rules for vee-validation
     veeRules: {
-      type: String,
+      type: [String, Object],
       required: false,
       default: ''
     },
