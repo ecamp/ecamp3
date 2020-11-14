@@ -3,7 +3,7 @@
 namespace eCamp\Core\Hydrator;
 
 use eCamp\Core\Entity\User;
-use eCamp\Core\Types\DateUTC;
+use eCamp\Core\Types\DateUtc;
 use Laminas\Authentication\AuthenticationService;
 use Laminas\Hydrator\HydratorInterface;
 
@@ -57,7 +57,7 @@ class UserHydrator implements HydratorInterface {
             $user->setSurname($data['surname']);
         }
         if (isset($data['birthday'])) {
-            $user->setBirthday(new DateUTC($data['birthday']));
+            $user->setBirthday(new DateUtc($data['birthday']));
         }
         if (isset($data['language'])) {
             $user->setLanguage($data['language']);

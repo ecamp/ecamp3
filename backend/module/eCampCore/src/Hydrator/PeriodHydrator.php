@@ -3,7 +3,7 @@
 namespace eCamp\Core\Hydrator;
 
 use eCamp\Core\Entity\Period;
-use eCamp\Core\Types\DateUTC;
+use eCamp\Core\Types\DateUtc;
 use eCamp\Lib\Entity\EntityLink;
 use eCamp\Lib\Entity\EntityLinkCollection;
 use eCamp\Lib\Hydrator\Util;
@@ -56,11 +56,11 @@ class PeriodHydrator implements HydratorInterface {
         $period = $object;
 
         if (isset($data['start'])) {
-            $period->setStart(new DateUTC($data['start']));
+            $period->setStart(new DateUtc($data['start']));
         }
 
         if (isset($data['end'])) {
-            $period->setEnd(new DateUTC($data['end']));
+            $period->setEnd(new DateUtc($data['end']));
         }
 
         if (isset($data['description'])) {

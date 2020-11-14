@@ -6,7 +6,7 @@ use eCamp\Core\Entity\Camp;
 use eCamp\Core\Entity\Day;
 use eCamp\Core\Entity\Period;
 use eCamp\Core\Entity\ScheduleEntry;
-use eCamp\Core\Types\DateUTC;
+use eCamp\Core\Types\DateUtc;
 use eCamp\LibTest\PHPUnit\AbstractTestCase;
 
 /**
@@ -16,7 +16,7 @@ class PeriodTest extends AbstractTestCase {
     public function testCamp() {
         $camp = new Camp();
 
-        $start = new DateUTC();
+        $start = new DateUtc();
         $end = clone $start;
         $end->add(new \DateInterval('P7D'));
 
@@ -33,7 +33,7 @@ class PeriodTest extends AbstractTestCase {
     }
 
     public function testStartEnd() {
-        $start = new DateUTC();
+        $start = new DateUtc();
         $end = clone $start;
         $end->add(new \DateInterval('P7D'));
 
@@ -49,7 +49,7 @@ class PeriodTest extends AbstractTestCase {
     }
 
     public function testDuration() {
-        $start = new DateUTC();
+        $start = new DateUtc();
         $end = clone $start;
         $end->add(new \DateInterval('P7D'));
 

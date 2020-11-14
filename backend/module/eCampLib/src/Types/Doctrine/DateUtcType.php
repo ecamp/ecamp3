@@ -2,34 +2,36 @@
 
 namespace eCamp\Core\Types;
 
+use DateTime;
+use DateTimeInterface;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\ConversionException;
-use Doctrine\DBAL\Types\DateTimeType;
+use Doctrine\DBAL\Types\DateType;
+use Exception;
 
-class DateTimeUtcType extends DateTimeType {
+class DateUtcType extends DateType {
     /**
      * @param mixed $value
      *
      * @throws ConversionException
-     * @throws \Exception
+     * @throws Exception
      *
-     * @return null|\DateTime|\DateTimeInterface|mixed
+     * @return null|DateTime|DateTimeInterface|mixed
      */
     public function convertToPHPValue($value, AbstractPlatform $platform) {
-        if (null === $value || $value instanceof DateTimeUTC) {
+        if (null === $value || $value instanceof DateUtc) {
             return $value;
         }
 
-        $converted = new DateTimeUTC($value);
-
-        if (!$converted) {
+        $val = new DateUtc($value);
+        if (!$val) {
             throw ConversionException::conversionFailedFormat(
                 $value,
                 $this->getName(),
-                $platform->getDateTimeFormatString()
+                $platform->getDateFormatString()
             );
         }
 
-        return $converted;
+        return $val;
     }
 }

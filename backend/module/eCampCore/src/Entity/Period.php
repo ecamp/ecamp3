@@ -4,7 +4,7 @@ namespace eCamp\Core\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-use eCamp\Core\Types\DateUTC;
+use eCamp\Core\Types\DateUtc;
 use eCamp\Lib\Entity\BaseEntity;
 
 /**
@@ -39,13 +39,13 @@ class Period extends BaseEntity implements BelongsToCampInterface {
     private $camp;
 
     /**
-     * @var DateUTC
+     * @var DateUtc
      * @ORM\Column(type="date", nullable=false)
      */
     private $start;
 
     /**
-     * @var DateUTC
+     * @var DateUtc
      * @ORM\Column(type="date", nullable=false)
      */
     private $end;
@@ -76,13 +76,13 @@ class Period extends BaseEntity implements BelongsToCampInterface {
     }
 
     /**
-     * @return DateUTC
+     * @return DateUtc
      */
     public function getStart() {
         return (null !== $this->start) ? (clone $this->start) : null;
     }
 
-    public function setStart(DateUTC $start): void {
+    public function setStart(DateUtc $start): void {
         $this->start = $start;
 
         if (null != $this->end && $this->end < $start) {
@@ -91,13 +91,13 @@ class Period extends BaseEntity implements BelongsToCampInterface {
     }
 
     /**
-     * @return DateUTC
+     * @return DateUtc
      */
     public function getEnd() {
         return (null !== $this->end) ? (clone $this->end) : null;
     }
 
-    public function setEnd(DateUTC $end): void {
+    public function setEnd(DateUtc $end): void {
         $this->end = clone $end;
 
         if (null != $this->start && $this->start > $end) {

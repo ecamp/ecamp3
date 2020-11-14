@@ -8,7 +8,7 @@ use Doctrine\Common\Persistence\ObjectManager;
 use eCamp\Core\Entity\Camp;
 use eCamp\Core\Entity\Day;
 use eCamp\Core\Entity\Period;
-use eCamp\Core\Types\DateUTC;
+use eCamp\Core\Types\DateUtc;
 
 class PeriodData extends AbstractFixture implements DependentFixtureInterface {
     public static $PERIOD_1 = Period::class.':PERIOD_1';
@@ -22,7 +22,7 @@ class PeriodData extends AbstractFixture implements DependentFixtureInterface {
 
         $period = $repository->findOneBy(['camp' => $camp, 'description' => 'Period of Camp1']);
         if (null == $period) {
-            $start = new DateUTC();
+            $start = new DateUtc();
             $end = clone $start;
             $end->add(new \DateInterval('P7D'));
             $period = new Period();
@@ -49,7 +49,7 @@ class PeriodData extends AbstractFixture implements DependentFixtureInterface {
 
         $period = $repository->findOneBy(['camp' => $camp, 'description' => 'Period of Camp2']);
         if (null == $period) {
-            $start = new DateUTC();
+            $start = new DateUtc();
             $end = clone $start;
             $end->add(new \DateInterval('P5D'));
 

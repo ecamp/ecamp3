@@ -4,7 +4,7 @@ namespace eCampApi\V1\Rpc\Profile;
 
 use eCamp\Core\Entity\User;
 use eCamp\Core\EntityService\UserService;
-use eCamp\Core\Types\DateUTC;
+use eCamp\Core\Types\DateUtc;
 use Laminas\ApiTools\ApiProblem\ApiProblem;
 use Laminas\ApiTools\ApiProblem\View\ApiProblemModel;
 use Laminas\ApiTools\Hal\Entity;
@@ -96,7 +96,7 @@ class ProfileController extends AbstractActionController {
             $user->setLanguage($data->language);
         }
         if (isset($data->birthday)) {
-            $user->setBirthday(new DateUTC($data->birthday));
+            $user->setBirthday(new DateUtc($data->birthday));
         }
 
         return $this->getAction($user);

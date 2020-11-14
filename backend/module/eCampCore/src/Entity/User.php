@@ -4,7 +4,7 @@ namespace eCamp\Core\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-use eCamp\Core\Types\DateUTC;
+use eCamp\Core\Types\DateUtc;
 use Laminas\Permissions\Acl\Role\RoleInterface;
 
 /**
@@ -113,7 +113,7 @@ class User extends AbstractCampOwner implements RoleInterface {
     private $language;
 
     /**
-     * @var DateUTC
+     * @var DateUtc
      * @orm\Column(type="date", nullable=true)
      */
     private $birthday;
@@ -322,7 +322,7 @@ class User extends AbstractCampOwner implements RoleInterface {
         return (null !== $this->birthday) ? (clone $this->birthday) : null;
     }
 
-    public function setBirthday(?DateUTC $birthday) {
+    public function setBirthday(?DateUtc $birthday) {
         $this->birthday = null !== $birthday ? clone $birthday : $birthday;
     }
 

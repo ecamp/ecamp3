@@ -5,8 +5,8 @@ namespace eCamp\Core\Types;
 use DateTime;
 use DateTimeZone;
 
-class DateUTC extends DateTime {
-    protected string $FORMAT = 'Y-m-d';
+class DateTimeUtc extends DateTime {
+    protected string $FORMAT = 'Y-m-dTH:iP';
 
     /**
      * DateTimeUTC constructor.
@@ -15,11 +15,11 @@ class DateUTC extends DateTime {
      *
      * @throws \Exception
      */
-    public function __construct($time = 'today', DateTimeZone $timezone = null) {
+    public function __construct($time = 'now', DateTimeZone $timezone = null) {
         if (null === $timezone) {
             $timezone = new DateTimeZone('UTC');
         }
-        if ('today' !== $time) {
+        if ('now' !== $time) {
             $parsedDate = (object) date_parse_from_format($this->FORMAT, $time);
             if ($parsedDate->error_count > 0) {
                 throw new \Exception('Invalid date format: '.$time.'. Should be '.$this->FORMAT);

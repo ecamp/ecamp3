@@ -4,7 +4,7 @@ namespace eCamp\Lib\Entity;
 
 use Doctrine\Common\Util\ClassUtils;
 use Doctrine\ORM\Mapping as ORM;
-use eCamp\Core\Types\DateTimeUTC;
+use eCamp\Core\Types\DateTimeUtc;
 use Laminas\Permissions\Acl\Resource\ResourceInterface;
 
 /**
@@ -20,13 +20,13 @@ abstract class BaseEntity implements ResourceInterface {
     protected $id;
 
     /**
-     * @var DateTimeUTC
+     * @var DateTimeUtc
      * @ORM\Column(type="datetime")
      */
     protected $createTime;
 
     /**
-     * @var DateTimeUTC
+     * @var DateTimeUtc
      * @ORM\Column(type="datetime")
      */
     protected $updateTime;
@@ -34,8 +34,8 @@ abstract class BaseEntity implements ResourceInterface {
     public function __construct() {
         $this->id = base_convert(crc32(uniqid()), 10, 16);
 
-        $this->createTime = new DateTimeUTC();
-        $this->updateTime = new DateTimeUTC();
+        $this->createTime = new DateTimeUtc();
+        $this->updateTime = new DateTimeUtc();
     }
 
     public function __toString() {
@@ -57,15 +57,15 @@ abstract class BaseEntity implements ResourceInterface {
      * @ORM\PrePersist
      */
     public function PrePersist() {
-        $this->createTime = new DateTimeUTC();
-        $this->updateTime = new DateTimeUTC();
+        $this->createTime = new DateTimeUtc();
+        $this->updateTime = new DateTimeUtc();
     }
 
     /**
      * @ORM\PreUpdate
      */
     public function PreUpdate() {
-        $this->updateTime = new DateTimeUTC();
+        $this->updateTime = new DateTimeUtc();
     }
 
     private function getClassname() {

@@ -5,7 +5,7 @@ namespace eCamp\CoreTest\Hydrator;
 use eCamp\Core\Entity\Camp;
 use eCamp\Core\Entity\Period;
 use eCamp\Core\Hydrator\PeriodHydrator;
-use eCamp\Core\Types\DateUTC;
+use eCamp\Core\Types\DateUtc;
 use eCamp\LibTest\PHPUnit\AbstractTestCase;
 
 /**
@@ -21,8 +21,8 @@ class PeriodHydratorTest extends AbstractTestCase {
         $period = new Period();
         $period->setCamp($camp);
         $period->setDescription('desc');
-        $period->setStart(new DateUTC('2000-01-01'));
-        $period->setEnd(new DateUTC('2000-01-03'));
+        $period->setStart(new DateUtc('2000-01-01'));
+        $period->setEnd(new DateUtc('2000-01-03'));
 
         $hydrator = new PeriodHydrator();
         $data = $hydrator->extract($period);
