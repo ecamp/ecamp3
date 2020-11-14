@@ -400,7 +400,7 @@ export default {
     colorValue: '#FFFFFF',
     selectValue: null,
     dateValue: '2020-01-01',
-    timeValue: '14:45'
+    timeValue: '2020-01-01T14:45Z'
   }),
   computed: {
     profileUri () {
