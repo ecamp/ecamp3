@@ -93,17 +93,19 @@ export default {
   },
   computed: {
     fieldValue () {
-      if (this.format != null) {
+      if (this.format !== null) {
         return this.format(this.localValue)
       } else {
         return this.localValue
       }
     },
     pickerValue () {
-      if (this.formatPicker != null) {
+      if (this.formatPicker !== null) {
         return this.formatPicker(this.localValue)
+      } else if (this.format !== null) {
+        return this.format(this.localValue)
       } else {
-        return ''
+        return this.localValue
       }
     },
     combinedErrorMessages () {
@@ -168,6 +170,8 @@ export default {
     inputPicker (val) {
       if (this.parsePicker) {
         this.parsePicker(val).then(this.setValueOfPicker, this.setParseError)
+      } else if (this.parse) {
+        this.parse(val).then(this.setValueOfPicker, this.setParseError)
       } else {
         this.setValueOfPicker(val)
       }
