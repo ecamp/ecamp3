@@ -2,6 +2,7 @@
 
 namespace eCamp\Core\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use eCamp\Core\ContentType\ContentTypeStrategyInterface;
 use eCamp\Core\ContentType\ContentTypeStrategyProviderAware;
