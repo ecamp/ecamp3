@@ -3,7 +3,12 @@ Admin screen of a camp: Displays details & periods of a single camp and allows t
 -->
 
 <template>
-  <content-card :title="$tc('views.camp.story.title')">
+  <content-card>
+    <v-toolbar>
+      <v-card-title>{{ $tc('views.camp.story.title') }}</v-card-title>
+      <v-spacer></v-spacer>
+      <e-switch v-model="editing" :label="editing ? $tc('views.camp.story.editModeOn') : $tc('views.camp.story.editModeOff')" />
+    </v-toolbar>
     <v-card-text>
       <v-expansion-panels v-model="openPeriods" multiple>
         <story-period v-for="period in camp().periods().items"
@@ -18,12 +23,12 @@ Admin screen of a camp: Displays details & periods of a single camp and allows t
 <script>
 import ContentCard from '@/components/layout/ContentCard'
 import StoryPeriod from '@/components/camp/StoryPeriod'
-import ECheckbox from '@/components/form/base/ECheckbox'
+import ESwitch from '@/components/form/base/ESwitch'
 
 export default {
   name: 'Story',
   components: {
-    ECheckbox,
+    ESwitch,
     StoryPeriod,
     ContentCard
   },
