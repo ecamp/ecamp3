@@ -14,8 +14,6 @@ class DateUtc extends DateTime {
      *
      * @param null|string $time
      *
-     * @param DateTimeZone|null $timezone
-     *
      * @throws InvalidFormatException
      */
     public function __construct($time = 'today', DateTimeZone $timezone = null) {
