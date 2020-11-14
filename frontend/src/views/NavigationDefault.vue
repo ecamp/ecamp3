@@ -22,7 +22,7 @@
       <v-icon>mdi-format-list-bulleted-triangle</v-icon>
     </v-btn>
     <v-btn :to="{name: 'profile'}">
-      <span>{{ $tc('components.navigationDefault.profile') }}</span>
+      <span>{{ $tc('views.navigationDefault.profile') }}</span>
       <v-icon>mdi-account</v-icon>
     </v-btn>
   </v-bottom-navigation>
