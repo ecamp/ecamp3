@@ -58,6 +58,12 @@
         "createPeriod": "Lagerabschnitt erstellen",
         "title": "Lagerabschnitt | Lagerabschnitte"
       },
+      "campPrint":{
+        "openPrintPreview":"Druckvorschau öffnen",
+          "printNow": "Jetzt drucken",
+          "title": "Drucken"
+        }
+      },
       "campPeriodsListItem": {
         "deleteWarning": "Möchtest du diese Periode wirklich löschen?"
       },
@@ -69,7 +75,7 @@
         },
         "title": "Einstellungen"
       },
-      "collaborators":{
+      "collaboratorListItem":{
         "remove": "entfernen"
       }, 
       "picasso": {
@@ -90,7 +96,12 @@
         "title": "Lagerabschnitt erstellen"
       }
     },
-    "navigation": {
+    "layout":{
+      "authContainer":{
+        "photoCredits": "Foto von Markus Rohner / Lotos"
+      }
+      },
+    "navigationCamp": {
       "camp":{
         "admin": "Admin",
         "camp": "Lager",
@@ -99,16 +110,18 @@
         "tasks": "Aufgaben",
         "team": "Team"
       },
-      "myCamps": "Mein Lager | Meine Lager",
-      "home": "Startseite",
-      "profile": "Profil",
       "search": "Suchen",
       "searchActivitiesAndCamps": "Aktivitäten und Camps suchen",      
       "userMeta": {
         "logOut": "Ausloggen",
         "myCamps": "Mein Lager | Meine Lager",
         "profile": "Profil"
-      }
+      },
+      "navigationDefault":{
+        "myCamps": "Mein Lager | Meine Lager",
+        "home": "Startseite",
+        "profile": "Profil",
+    },
     }
   },
   "entity": {
@@ -150,11 +163,6 @@
         "title": "Titel"
       },
       "name": "Lager",
-      "print": {
-        "openPrintPreview": "Druckvorschau öffnen",
-        "printNow": "Jetzt drucken",
-        "title": "Drucken"
-      }
     },
     "campCollaboration": {
       "campLeft": "Lager verlassen"
@@ -226,18 +234,18 @@
     "activity": {
       "sideBarProgram": {
         "title": "Tagesübersicht"
-      }
+      },
     },
     "auth": {
-      "container":{
-        "photoCredits": "Photo von Markus Rohner / Lotos"
-      },
-      "login": {
+       "login": {
         "accountless": "Hast du noch keinen Account?",
         "beta": {
           "notice": "Hier entsteht das neue eCamp.<br>WICHTIG: Diese Webseite befindet sich im Aufbau. Das heisst, dass alle Daten öffentlich sind und periodisch gelöscht werden!"
         },
-        "loginInProgress": "Du wirst eingeloggt",
+        "loginCallback":{
+          "loginInProgress": "Du wirst eingeloggt",
+          "CampIsLoading":"Lager wird geladen…"
+        },
         "or": "oder",
         "password": "Passwort",
         "provider": {
@@ -252,12 +260,14 @@
       "register": {
         "acceptTermsOfUse": "Akzeptieren Sie die Nutzungsbedingungen",
         "alreadyHaveAnAccount": "Haben Sie bereits ein Konto?",
-        "login": "Anmelden",
         "openTermsOfUse": "Öffnen",
         "passwordConfirmation": "Passwort erneut eingeben",
         "register": "Registrieren",
         "title": "Ein Konto erstellen",
-        "success": "Erfolgreich registriert"
+      },
+      "registerDone":{
+        "success": "Erfolgreich registriert",
+        "login": "Anmelden",
       }
     },
     "camp": {

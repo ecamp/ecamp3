@@ -13,7 +13,7 @@
       <v-btn color="primary" class="mt-5"
              :href="previewUrl"
              target="_blank">
-        {{ $tc('entity.camp.print.openPrintPreview') }}
+        {{ $tc('components.camp.campPrint.openPrintPreview') }}
       </v-btn>
       <v-btn
         color="primary"

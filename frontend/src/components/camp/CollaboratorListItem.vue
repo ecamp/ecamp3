@@ -26,7 +26,7 @@
       vee-rules="required" />
     <v-list-item-action class="ml-2">
       <button-delete @click="api.del(collaborator)">
-        {{ $tc("components.camp.collaborators.remove") }}
+        {{ $tc("components.camp.collaboratorListItem.remove") }}
       </button-delete>
     </v-list-item-action>
   </v-list-item>

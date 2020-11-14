@@ -12,17 +12,17 @@
     v-else app
     fixed grow>
     <v-btn :to="{name: 'home'}">
-      <span>{{ $tc('components.navigation.home') }}</span>
+      <span>{{ $tc('views.navigationDefault.home') }}</span>
       <span>
         <v-icon>$vuetify.icons.ecamp</v-icon>️
       </span>
     </v-btn>
     <v-btn :to="{name: 'camps'}">
-      <span>{{ $tc('components.navigation.myCamps') }}</span>
+      <span>{{ $tc('views.navigationDefault.myCamps') }}</span>
       <v-icon>mdi-format-list-bulleted-triangle</v-icon>
     </v-btn>
     <v-btn :to="{name: 'profile'}">
-      <span>{{ $tc('components.navigation.profile') }}</span>
+      <span>{{ $tc('components.navigationDefault.profile') }}</span>
       <v-icon>mdi-account</v-icon>
     </v-btn>
   </v-bottom-navigation>
