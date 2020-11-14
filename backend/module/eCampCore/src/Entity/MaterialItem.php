@@ -37,7 +37,7 @@ class MaterialItem extends BaseEntity implements BelongsToCampInterface {
     private $article;
 
     /**
-     * @var string
+     * @var float
      * @ORM\Column(type="float", nullable=true)
      */
     private $quantity;
