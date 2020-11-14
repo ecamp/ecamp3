@@ -187,7 +187,8 @@
       "saving": "Saving",
       "submit": "Submit",
       "tryagain": "Try again",
-      "update": "Update"
+      "update": "Update",
+      "ok" : "OK"
     },
     "changeLanguage": "Change language",
     "language": "English",
