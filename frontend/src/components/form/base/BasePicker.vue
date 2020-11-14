@@ -43,6 +43,7 @@ Displays a field as a date picker (can be used with v-model)
 </template>
 
 <script>
+import { debounce } from 'lodash'
 
 export default {
   name: 'BasePicker',
@@ -98,13 +99,13 @@ export default {
     }
   },
   watch: {
-    stringValue (val) {
+    stringValue: debounce(function (val) {
       if (this.parse != null) {
         this.parse(val).then(this.setValue, this.setParseError)
       } else {
         this.setValue(val)
       }
-    },
+    }, 500),
     value (val) {
       if (this.showPicker === false) {
         this.localValue = val
@@ -155,7 +156,8 @@ export default {
       } else {
         this.setValueOfPicker(val)
       }
-    }
+    },
+    debounce
   }
 }
 </script>
