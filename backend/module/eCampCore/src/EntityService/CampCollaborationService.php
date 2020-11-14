@@ -3,6 +3,7 @@
 namespace eCamp\Core\EntityService;
 
 use Doctrine\ORM\ORMException;
+use Doctrine\ORM\Query\Expr;
 use eCamp\Core\Entity\Camp;
 use eCamp\Core\Entity\CampCollaboration;
 use eCamp\Core\Entity\User;
@@ -36,6 +37,9 @@ class CampCollaborationService extends AbstractEntityService {
 
         $authUser = $this->getAuthUser();
         if (!isset($data->userId)) {
+            $data->userId = null;
+        }
+        if (null == $data->userId && !$data->inviteEmail) {
             $data->userId = $authUser->getId();
         }
 
@@ -43,29 +47,34 @@ class CampCollaborationService extends AbstractEntityService {
         $camp = $this->findRelatedEntity(Camp::class, $data, 'campId');
 
         /** @var User $user */
-        $user = $this->findRelatedEntity(User::class, $data, 'userId');
-
-        if (!isset($data->role)) {
-            $data->role = CampCollaboration::ROLE_MEMBER;
-        }
+        $user = null != $data->userId ? $this->findRelatedEntity(User::class, $data, 'userId') : null;
 
         $q = $this->fetchAllQueryBuilder();
-        $q->andWhere('row.camp = :campId');
-        $q->andWhere('row.user = :userId');
-        $q->andWhere('row.status = :status');
+        $expr = new Expr();
+        $q->andWhere($expr->andX(
+            $q->expr()->eq('row.camp', ':campId'),
+            $expr->orX(
+                $expr->eq('row.user', ':userId'),
+                $expr->eq('row.inviteEmail', ':inviteEmail')
+            )
+        ));
         $q->setParameter('campId', $camp->getId());
-        $q->setParameter('userId', $user->getId());
-        $q->setParameter('status', CampCollaboration::STATUS_LEFT);
+        $q->setParameter('userId', null != $user ? $user->getId() : null);
+        $q->setParameter('inviteEmail', $data->inviteEmail);
         $result = $q->getQuery()->getResult();
 
         if (count($result) > 0) {
-            /** @var CampCollaboration $campCollaboration */
-            $campCollaboration = $result[0];
-        } else {
-            /** @var CampCollaboration $campCollaboration */
-            $campCollaboration = parent::createEntity($data);
-            $camp->addCampCollaboration($campCollaboration);
+            throw new \Error("Cannot create CampCollaboration with same inviteEmail {$data->inviteEmail} or userId {$data->userId}, already exists");
+        }
+        /** @var CampCollaboration $campCollaboration */
+        $campCollaboration = parent::createEntity($data);
+        $camp->addCampCollaboration($campCollaboration);
+        if (null != $user) {
             $user->addCampCollaboration($campCollaboration);
+        }
+
+        if (!isset($data->role)) {
+            $data->role = CampCollaboration::ROLE_MEMBER;
         }
         $campCollaboration->setRole($data->role);
 
@@ -84,6 +93,7 @@ class CampCollaborationService extends AbstractEntityService {
             // Create CampCollaboration for other User
             $campCollaboration->setStatus(CampCollaboration::STATUS_INVITED);
             $campCollaboration->setCollaborationAcceptedBy($authUser->getUsername());
+            $campCollaboration->setInviteEmail($data->inviteEmail);
         }
 
         return $campCollaboration;

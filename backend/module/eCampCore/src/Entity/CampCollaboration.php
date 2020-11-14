@@ -9,9 +9,6 @@ use eCamp\Lib\Entity\BaseEntity;
 /**
  * @ORM\Entity
  * @ORM\HasLifecycleCallbacks
- * @ORM\Table(uniqueConstraints={
- *     @ORM\UniqueConstraint(name="user_camp_unique", columns={"userId", "campId"})
- * })
  */
 class CampCollaboration extends BaseEntity implements BelongsToCampInterface {
     const ROLE_GUEST = 'guest';
@@ -38,9 +35,15 @@ class CampCollaboration extends BaseEntity implements BelongsToCampInterface {
     protected $activityResponsibles;
 
     /**
+     * @var string
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $inviteEmail;
+
+    /**
      * @var User
      * @ORM\ManyToOne(targetEntity="User")
-     * @ORM\JoinColumn(nullable=false, onDelete="cascade")
+     * @ORM\JoinColumn(nullable=true, onDelete="cascade")
      */
     private $user;
 
@@ -77,11 +80,11 @@ class CampCollaboration extends BaseEntity implements BelongsToCampInterface {
         $this->role = self::ROLE_GUEST;
     }
 
-    public function getUser(): User {
+    public function getUser(): ?User {
         return $this->user;
     }
 
-    public function setUser(User $user): void {
+    public function setUser(?User $user): void {
         $this->user = $user;
     }
 
@@ -94,6 +97,17 @@ class CampCollaboration extends BaseEntity implements BelongsToCampInterface {
 
     public function setCamp($camp) {
         $this->camp = $camp;
+    }
+
+    /**
+     * @return string
+     */
+    public function getInviteEmail() {
+        return $this->inviteEmail;
+    }
+
+    public function setInviteEmail(?string $inviteEmail): void {
+        $this->inviteEmail = $inviteEmail;
     }
 
     public function getStatus(): string {

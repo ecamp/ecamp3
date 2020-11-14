@@ -32,6 +32,7 @@ class CampCollaborationHydrator implements HydratorInterface {
             'id' => $campCollaboration->getId(),
             'role' => $campCollaboration->getRole(),
             'status' => $campCollaboration->getStatus(),
+            'inviteEmail' => $campCollaboration->getInviteEmail(),
 
             'camp' => EntityLink::Create($campCollaboration->getCamp()),
             'user' => EntityLink::Create($campCollaboration->getUser()),

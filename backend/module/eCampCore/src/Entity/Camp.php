@@ -219,7 +219,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
         }
 
         $campCollaborations = $this->collaborations->filter(function (CampCollaboration $cc) use ($userId) {
-            return $cc->getUser()->getId() == $userId;
+            return null != $cc->getUser() && $cc->getUser()->getId() == $userId;
         });
 
         if (1 == $campCollaborations->count()) {
@@ -247,7 +247,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
         }
 
         return $this->getCampCollaborations()->exists(function ($idx, CampCollaboration $cc) use ($userId) {
-            return $cc->isEstablished() && ($cc->getUser()->getId() == $userId);
+            return $cc->isEstablished() && null != $cc->getUser() && ($cc->getUser()->getId() == $userId);
         });
     }
 
