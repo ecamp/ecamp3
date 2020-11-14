@@ -148,7 +148,7 @@ export default {
         return (cc.status === 'established') || (currentCampCollaborationIds.includes(cc.id))
       }).map(value => {
         const left = value.status === 'left'
-        const text = value.user().username + (left ? (' (' + this.$tc('entity.campCollaboration.campLeft')) + ')' : '')
+        const text = value.user().displayName + (left ? (' (' + this.$tc('entity.campCollaboration.campLeft')) + ')' : '')
         return {
           value,
           text

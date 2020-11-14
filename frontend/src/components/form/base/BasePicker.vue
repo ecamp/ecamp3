@@ -55,11 +55,27 @@ export default {
     readonly: { type: Boolean, required: false, default: false },
     disabled: { type: Boolean, required: false, default: false },
     filled: { type: Boolean, required: false, default: true },
+    errorMessages: { type: Array, required: false, default: () => [] },
+
+    /**
+     * Format internal value for display in the UI
+     */
     format: { type: Function, required: false, default: null },
+
+    /**
+     * Format internal value for the popup component. If omitted, uses format instead.
+     */
     formatPicker: { type: Function, required: false, default: null },
+
+    /**
+     * Parse a user-supplied value into the internal format
+     */
     parse: { type: Function, required: false, default: null },
-    parsePicker: { type: Function, required: false, default: null },
-    errorMessages: { type: Array, required: false, default: () => [] }
+
+    /**
+     * Parse the value from the popup component into the internal format. If omitted, uses parse instead.
+     */
+    parsePicker: { type: Function, required: false, default: null }
   },
   data () {
     return {
@@ -78,17 +94,19 @@ export default {
   },
   computed: {
     fieldValue () {
-      if (this.format != null) {
+      if (this.format !== null) {
         return this.format(this.localValue)
       } else {
         return this.localValue
       }
     },
     pickerValue () {
-      if (this.formatPicker != null) {
+      if (this.formatPicker !== null) {
         return this.formatPicker(this.localValue)
+      } else if (this.format !== null) {
+        return this.format(this.localValue)
       } else {
-        return ''
+        return this.localValue
       }
     },
     combinedErrorMessages () {
@@ -151,8 +169,10 @@ export default {
       this.setValue(this.localPickerValue)
     },
     inputPicker (val) {
-      if (this.parsePicker) {
+      if (this.parsePicker !== null) {
         this.parsePicker(val).then(this.setValueOfPicker, this.setParseError)
+      } else if (this.parse !== null) {
+        this.parse(val).then(this.setValueOfPicker, this.setParseError)
       } else {
         this.setValueOfPicker(val)
       }

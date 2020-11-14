@@ -77,6 +77,17 @@
         "moment": {
           "date": "dd. D.MM | D. MMM | DD. MMM YYYY"
         }
+      },
+      "storyDay": {
+        "noStory": "No story content found on this day..."
+      },
+      "CampPrint": {
+        "toc": "Table of content",
+        "picasso": "Picasso",
+        "storyline": "Storyline",
+        "dailySummary": "Daily summary",
+        "activities": "Activities",
+        "frontpage": "Front page"
       }
     },
     "dialog": {
@@ -187,14 +198,15 @@
       "saving": "Saving",
       "submit": "Submit",
       "tryagain": "Try again",
-      "update": "Update"
+      "update": "Update",
+      "ok" : "OK"
     },
     "changeLanguage": "Change language",
     "language": "English",
     "lokaliseMessage": "Language switching powered by lokalise.com",
     "moment": {
       "dateLong": "dd L",
-      "dateShort": "dd M\/D",
+      "dateShort": "dd M/D",
       "hourLong": "HH:mm",
       "hourShort": "h:mm A"
     },
@@ -250,8 +262,15 @@
         "search": "Search...",
         "title": "Team"
       },
+      "navigationCamp": {
+        "story": "Story"
+      },
       "sideBarPeriods": {
         "title": "Periods"
+      },
+      "story": {
+        "edit": "Edit Story",
+        "title": "Story"
       }
     },
     "campCreate": {

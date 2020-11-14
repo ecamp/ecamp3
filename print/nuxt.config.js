@@ -41,7 +41,10 @@ export default {
    ** Plugins to load before mounting the App
    ** https://nuxtjs.org/guide/plugins
    */
-  plugins: [{ src: '~/plugins/hal-json-vuex.js' }],
+  plugins: [
+    { src: '~/plugins/hal-json-vuex.js' },
+    { src: '~/plugins/i18n.js' },
+  ],
   /*
    ** Auto import components
    ** See https://nuxtjs.org/api/configuration-components
@@ -69,8 +72,21 @@ export default {
    ** See https://axios.nuxtjs.org/options
    */
   axios: {
-    baseURL: process.env.API_ROOT_URL || 'http://backend/api',
+    baseURL: process.env.INTERNAL_API_ROOT_URL || 'http://backend/api',
   },
+
+  publicRuntimeConfig: {
+    axios: {
+      browserBaseURL: process.env.API_ROOT_URL || 'http://localhost:3001/api',
+    },
+  },
+
+  privateRuntimeConfig: {
+    axios: {
+      baseURL: process.env.INTERNAL_API_ROOT_URL || 'http://backend/api',
+    },
+  },
+
   /*
    ** vuetify module configuration
    ** https://github.com/nuxt-community/vuetify-module
@@ -87,15 +103,12 @@ export default {
    */
   build: {},
 
-  publicRuntimeConfig: {
-    axios: {
-      browserBaseURL: process.env.API_ROOT_URL || 'http://localhost:3001/api',
-    },
-  },
-
-  privateRuntimeConfig: {
-    axios: {
-      baseURL: process.env.INTERNAL_API_ROOT_URL || 'http://backend/api',
-    },
+  /*
+   ** Render configuration
+   ** See https://nuxtjs.org/api/configuration-render/
+   */
+  render: {
+    // deactivates injecting any Javascript on client side ==> pure HTML/CSS output only (except explicit head-scripts)
+    injectScripts: false,
   },
 }

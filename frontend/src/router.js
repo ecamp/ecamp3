@@ -129,6 +129,11 @@ export default new Router({
           component: () => import(/* webpackChunkName: "campPrint" */ './views/camp/Print')
         },
         {
+          path: 'story',
+          name: 'camp/story',
+          component: () => import(/* webpackChunkName: "campPrint" */ './views/camp/Story')
+        },
+        {
           path: '',
           name: 'camp/program',
           async beforeEnter (to, from, next) {
@@ -154,6 +159,7 @@ export default new Router({
       },
       beforeEnter: requireAuth,
       props: {
+        navigation: route => ({ camp: campFromRoute(route) }),
         default: route => ({ scheduleEntry: scheduleEntryFromRoute(route) }),
         aside: route => ({ day: dayFromScheduleEntryInRoute(route) })
       }

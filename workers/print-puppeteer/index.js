@@ -19,8 +19,16 @@ async function html2pdf(url, filename, sessionId) {
     const cookies = [
         {
             "domain": SESSION_COOKIE_DOMAIN,
+            "hostOnly": true,
+            "httpOnly": false,
             "name": "PHPSESSID",
+            "path": "/",
+            "sameSite": "unspecified",
+            "secure": false,
+            "session": true,
+            "storeId": "1",
             "value": sessionId,
+            "id": 1
         }
     ]
 
@@ -28,8 +36,8 @@ async function html2pdf(url, filename, sessionId) {
     // page.setCacheEnabled(false)
     await page.goto(url);
 
-    await page.waitFor(500);
-    await page.waitForSelector(".pagedjs_pages", {timeout:10000});
+    await page.waitFor(15000);
+    //await page.waitForSelector(".pagedjs_pages", {timeout:15000}); // TODO: easy to fail, if response takes longer than expected
 
     await page.pdf({path: `data/${filename}-puppeteer.pdf`});
 }
@@ -54,11 +62,13 @@ function start() {
             console.log(" [*] Waiting for messages in %s. To exit press CTRL+C", queue);
 
             channel.consume(queue, async function(msg) {
-                console.log(" [x] Received %s", msg.content.toString());
-                const message= JSON.parse(msg.content.toString());
+                try {
+                    console.log(" [x] Received %s", msg.content.toString())
+                    const message= JSON.parse(msg.content.toString())
 
-                try{
-                    await html2pdf(`${PRINT_SERVER}?camp=${message.campId}&pagedjs=true`, message.filename, message.PHPSESSID);
+                    const configGetParams = Object.entries(message.config).map(([key, val]) => `${key}=${val}`).join('&')
+
+                    await html2pdf(`${PRINT_SERVER}?camp=${message.campId}&pagedjs=true&${configGetParams}`, message.filename, message.PHPSESSID)
                 } catch(e){
                     console.log("Error while processing", e)
                 }

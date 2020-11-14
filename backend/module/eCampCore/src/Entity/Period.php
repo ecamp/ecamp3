@@ -26,6 +26,12 @@ class Period extends BaseEntity implements BelongsToCampInterface {
     protected $scheduleEntries;
 
     /**
+     * @var ArrayCollection
+     * @ORM\OneToMany(targetEntity="MaterialItem", mappedBy="period")
+     */
+    protected $materialItems;
+
+    /**
      * @var Camp
      * @ORM\ManyToOne(targetEntity="Camp")
      * @ORM\JoinColumn(nullable=false, onDelete="cascade")
@@ -55,6 +61,7 @@ class Period extends BaseEntity implements BelongsToCampInterface {
 
         $this->days = new ArrayCollection();
         $this->scheduleEntries = new ArrayCollection();
+        $this->materialItems = new ArrayCollection();
     }
 
     /**
@@ -152,6 +159,23 @@ class Period extends BaseEntity implements BelongsToCampInterface {
     public function removeScheduleEntry(ScheduleEntry $scheduleEntry) {
         $scheduleEntry->setPeriod(null);
         $this->scheduleEntries->removeElement($scheduleEntry);
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getMaterialItems() {
+        return $this->materialItems;
+    }
+
+    public function addMaterialItem(MaterialItem $materialItem) {
+        $materialItem->setPeriod($this);
+        $this->materialItems->add($materialItem);
+    }
+
+    public function removeMaterialItem(MaterialItem $materialItem) {
+        $materialItem->setPeriod(null);
+        $this->materialItems->removeElement($materialItem);
     }
 
     /** @ORM\PrePersist */

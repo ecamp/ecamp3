@@ -39,6 +39,10 @@ export default {
     withExtensions: {
       type: Boolean,
       default: false
+    },
+    editable: {
+      type: Boolean,
+      default: true
     }
   },
   data () {
@@ -73,7 +77,8 @@ export default {
         content: this.value,
         onUpdate: this.onUpdate,
         onFocus: this.onFocus,
-        onBlur: this.onBlur
+        onBlur: this.onBlur,
+        editable: this.editable
       }),
       regex: {
         emptyParagraph: new RegExp('<p></p>'),
@@ -97,6 +102,11 @@ export default {
       handler (val) {
         this.editor.extensions.options.placeholder.emptyNodeText = val
       }
+    },
+    editable () {
+      this.editor.setOptions({
+        editable: this.editable
+      })
     }
   },
   methods: {

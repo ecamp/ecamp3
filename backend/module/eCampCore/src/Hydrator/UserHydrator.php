@@ -29,6 +29,7 @@ class UserHydrator implements HydratorInterface {
         return [
             'id' => $user->getId(),
             'username' => $user->getUsername(),
+            'displayName' => $user->getDisplayName(),
             'mail' => $showDetails ? $user->getTrustedMailAddress() : '***',
             'relation' => $relation,
             'role' => $user->getRole(),
