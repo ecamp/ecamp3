@@ -154,6 +154,7 @@ export default new Router({
       },
       beforeEnter: requireAuth,
       props: {
+        navigation: route => ({ camp: campFromRoute(route) }),
         default: route => ({ scheduleEntry: scheduleEntryFromRoute(route) }),
         aside: route => ({ day: dayFromScheduleEntryInRoute(route) })
       }
