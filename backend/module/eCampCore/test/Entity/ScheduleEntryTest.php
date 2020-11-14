@@ -8,6 +8,7 @@ use eCamp\Core\Entity\ActivityType;
 use eCamp\Core\Entity\Camp;
 use eCamp\Core\Entity\Period;
 use eCamp\Core\Entity\ScheduleEntry;
+use eCamp\Core\Types\DateUTC;
 use eCamp\LibTest\PHPUnit\AbstractTestCase;
 
 /**
@@ -21,7 +22,7 @@ class ScheduleEntryTest extends AbstractTestCase {
 
         $camp = new Camp();
 
-        $start = new \DateTime();
+        $start = new DateUTC();
         $end = clone $start;
         $end->add(new \DateInterval('P7D'));
 

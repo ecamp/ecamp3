@@ -4,6 +4,7 @@ namespace eCamp\Core\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use eCamp\Core\Types\DateUTC;
 use eCamp\Lib\Entity\BaseEntity;
 
 /**
@@ -32,13 +33,13 @@ class Period extends BaseEntity implements BelongsToCampInterface {
     private $camp;
 
     /**
-     * @var \DateTime
+     * @var DateUTC
      * @ORM\Column(type="date", nullable=false)
      */
     private $start;
 
     /**
-     * @var \DateTime
+     * @var DateUTC
      * @ORM\Column(type="date", nullable=false)
      */
     private $end;
@@ -68,16 +69,13 @@ class Period extends BaseEntity implements BelongsToCampInterface {
     }
 
     /**
-     * @return \DateTime
+     * @return DateUTC
      */
     public function getStart() {
         return (null !== $this->start) ? (clone $this->start) : null;
     }
 
-    public function setStart(\DateTime $start): void {
-        $start = clone $start;
-        $start->setTime(0, 0, 0);
-
+    public function setStart(DateUTC $start): void {
         $this->start = $start;
 
         if (null != $this->end && $this->end < $start) {
@@ -86,17 +84,14 @@ class Period extends BaseEntity implements BelongsToCampInterface {
     }
 
     /**
-     * @return \DateTime
+     * @return DateUTC
      */
     public function getEnd() {
         return (null !== $this->end) ? (clone $this->end) : null;
     }
 
-    public function setEnd(\DateTime $end): void {
-        $end = clone $end;
-        $end->setTime(23, 59, 59);
-
-        $this->end = $end;
+    public function setEnd(DateUTC $end): void {
+        $this->end = clone $end;
 
         if (null != $this->start && $this->start > $end) {
             $this->setStart($end);
@@ -108,9 +103,7 @@ class Period extends BaseEntity implements BelongsToCampInterface {
         $end = $this->getEnd();
 
         if (null !== $start && null !== $end) {
-            $diff = $end->getTimestamp() - $start->getTimestamp();
-
-            return ceil($diff / 86400);
+            return $start->diff($end)->days + 1;
         }
 
         return 0;

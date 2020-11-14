@@ -6,6 +6,7 @@ use eCamp\Core\Entity\Camp;
 use eCamp\Core\Entity\Day;
 use eCamp\Core\Entity\Period;
 use eCamp\Core\Hydrator\DayHydrator;
+use eCamp\Core\Types\DateUTC;
 use eCamp\LibTest\PHPUnit\AbstractTestCase;
 
 /**
@@ -21,8 +22,8 @@ class DayHydratorTest extends AbstractTestCase {
         $period = new Period();
         $period->setCamp($camp);
         $period->setDescription('desc');
-        $period->setStart(new \DateTime('2000-01-01'));
-        $period->setEnd(new \DateTime('2000-01-03'));
+        $period->setStart(new DateUTC('2000-01-01'));
+        $period->setEnd(new DateUTC('2000-01-03'));
 
         $day = new Day();
         $day->setPeriod($period);

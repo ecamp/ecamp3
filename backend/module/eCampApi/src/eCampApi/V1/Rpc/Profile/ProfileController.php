@@ -4,7 +4,7 @@ namespace eCampApi\V1\Rpc\Profile;
 
 use eCamp\Core\Entity\User;
 use eCamp\Core\EntityService\UserService;
-use eCamp\Lib\Hydrator\Util;
+use eCamp\Core\Types\DateUTC;
 use Laminas\ApiTools\ApiProblem\ApiProblem;
 use Laminas\ApiTools\ApiProblem\View\ApiProblemModel;
 use Laminas\ApiTools\Hal\Entity;
@@ -67,10 +67,15 @@ class ProfileController extends AbstractActionController {
             'mail' => $user->getTrustedMailAddress(),
             'role' => $user->getRole(),
             'language' => $user->getLanguage(),
-            'birthday' => Util::extractDate($user->getBirthday()),
+            'birthday' => $user->getBirthday() ? $user->getBirthday()->__toString() : '',
         ];
     }
 
+    /**
+     * @throws \Exception
+     *
+     * @return array
+     */
     private function patchAction(User $user) {
         /** @var Request $request */
         $request = $this->getRequest();
@@ -91,7 +96,7 @@ class ProfileController extends AbstractActionController {
             $user->setLanguage($data->language);
         }
         if (isset($data->birthday)) {
-            $user->setBirthday(Util::parseDate($data->birthday));
+            $user->setBirthday(new DateUTC($data->birthday));
         }
 
         return $this->getAction($user);
