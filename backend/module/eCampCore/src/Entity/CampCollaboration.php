@@ -41,6 +41,12 @@ class CampCollaboration extends BaseEntity implements BelongsToCampInterface {
     private $inviteEmail;
 
     /**
+     * @var string
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $inviteKey;
+
+    /**
      * @var User
      * @ORM\ManyToOne(targetEntity="User")
      * @ORM\JoinColumn(nullable=true, onDelete="cascade")
@@ -108,6 +114,14 @@ class CampCollaboration extends BaseEntity implements BelongsToCampInterface {
 
     public function setInviteEmail(?string $inviteEmail): void {
         $this->inviteEmail = $inviteEmail;
+    }
+
+    public function getInviteKey(): ?string {
+        return $this->inviteKey;
+    }
+
+    public function setInviteKey(?string $inviteKey): void {
+        $this->inviteKey = $inviteKey;
     }
 
     public function getStatus(): string {

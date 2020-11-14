@@ -140,7 +140,7 @@ JSON;
         $this->dispatch("{$this->apiEndpoint}", 'POST');
 
         // user already part of the camp
-        $this->assertResponseStatusCode(500);
+        $this->assertResponseStatusCode(422);
     }
 
     public function testCreateDuplicateEntryOnlyWithEmail() {
@@ -154,7 +154,7 @@ JSON;
         $this->dispatch("{$this->apiEndpoint}", 'POST');
 
         // user already part of the camp
-        $this->assertResponseStatusCode(500);
+        $this->assertResponseStatusCode(422);
     }
 
     public function testCreateSuccess() {

@@ -25,7 +25,8 @@ class SendmailServiceFactory implements FactoryInterface {
 
         $config = $container->get('config');
         $from = $config['ecamp']['mail']['from'];
+        $frontendUrl = $config['ecamp']['frontend']['url'];
 
-        return new SendmailService($serviceUtil, $authService, $mailProvider, $from);
+        return new SendmailService($serviceUtil, $authService, $mailProvider, $from, $frontendUrl);
     }
 }
