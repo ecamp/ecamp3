@@ -38,9 +38,9 @@ class MaterialItem extends BaseEntity implements BelongsToCampInterface {
 
     /**
      * @var string
-     * @ORM\Column(type="integer", nullable=true)
+     * @ORM\Column(type="float", nullable=true)
      */
-    private $amount;
+    private $quantity;
 
     /**
      * @var string
@@ -102,12 +102,12 @@ class MaterialItem extends BaseEntity implements BelongsToCampInterface {
         $this->article = $article;
     }
 
-    public function getAmount() {
-        return $this->amount;
+    public function getQuantity() {
+        return $this->quantity;
     }
 
-    public function setAmount($amount) {
-        $this->amount = $amount;
+    public function setQuantity($quantity) {
+        $this->quantity = $quantity;
     }
 
     public function getUnit() {

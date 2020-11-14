@@ -23,7 +23,7 @@ class MaterialItemHydrator implements HydratorInterface {
         return [
             'id' => $materialItem->getId(),
             'article' => $materialItem->getArticle(),
-            'amount' => $materialItem->getAmount(),
+            'quantity' => $materialItem->getQuantity(),
             'unit' => $materialItem->getUnit(),
 
             'materialList' => EntityLink::Create($materialItem->getMaterialList()),
@@ -44,8 +44,8 @@ class MaterialItemHydrator implements HydratorInterface {
         if (isset($data['article'])) {
             $materialItem->setArticle($data['article']);
         }
-        if (isset($data['amount'])) {
-            $materialItem->setAmount($data['amount']);
+        if (isset($data['quantity'])) {
+            $materialItem->setQuantity($data['quantity']);
         }
         if (isset($data['unit'])) {
             $materialItem->setUnit($data['unit']);
