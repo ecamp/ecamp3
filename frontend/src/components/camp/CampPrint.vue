@@ -2,6 +2,14 @@
   <div>
     <v-skeleton-loader v-if="camp()._meta.loading" type="article" />
     <div v-else>
+      <h3>Select print sections:</h3>
+      <e-checkbox v-model="config.showFrontpage" :name="$tc('components.camp.CampPrint.frontpage')" />
+      <e-checkbox v-model="config.showToc" :name="$tc('components.camp.CampPrint.toc')" />
+      <e-checkbox v-model="config.showPicasso" :name="$tc('components.camp.CampPrint.picasso')" />
+      <e-checkbox v-model="config.showStoryline" :name="$tc('components.camp.CampPrint.storyline')" />
+      <e-checkbox v-model="config.showDailySummary" :name="$tc('components.camp.CampPrint.dailySummary')" />
+      <e-checkbox v-model="config.showActivities" :name="$tc('components.camp.CampPrint.activities')" />
+
       <v-btn color="primary" class="mt-5"
              :href="previewUrl"
              target="_blank">
@@ -43,19 +51,29 @@ export default {
   data () {
     return {
       printing: false,
-      results: []
+      results: [],
+      config: {
+        showFrontpage: true,
+        showToc: true,
+        showPicasso: true,
+        showDailySummary: true,
+        showStoryline: true,
+        showActivities: true
+      }
     }
   },
   computed: {
     previewUrl () {
-      return `${PRINT_SERVER}/?camp=${this.camp().id}&pagedjs=true`
+      const configGetParams = Object.entries(this.config).map(([key, val]) => `${key}=${val}`).join('&')
+      return `${PRINT_SERVER}/?camp=${this.camp().id}&pagedjs=true&${configGetParams}`
     }
   },
   methods: {
     async print () {
       this.printing = true
       const result = await this.api.post('/printer', {
-        campId: this.camp().id
+        campId: this.camp().id,
+        config: this.config
       })
       this.printing = false
       this.results.push({

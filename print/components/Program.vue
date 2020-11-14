@@ -2,16 +2,16 @@
   <v-row no-gutters>
     <v-col cols="12">
       <div class="page_break">
-        <h1>Title page</h1>
-
-        <p>Name: {{ camp.name }}</p>
-        <p>Title: {{ camp.title }}</p>
-        <p>Motto: {{ camp.motto }}</p>
-
-        <div v-for="period in periods" :key="'period_' + period.id">
-          {{ period.id }} // {{ period.description }}
-        </div>
+        <h1>Detail program</h1>
       </div>
+
+      <program-period
+        v-for="period in periods"
+        :key="'period_' + period.id"
+        :show-daily-summary="showDailySummary"
+        :show-activities="showActivities"
+        :period="period"
+      />
     </v-col>
   </v-row>
 </template>
@@ -20,6 +20,8 @@
 export default {
   props: {
     camp: { type: Object, required: true },
+    showDailySummary: { type: Boolean, required: true },
+    showActivities: { type: Boolean, required: true },
   },
   async fetch() {
     this.periods = (await this.camp.periods()._meta.load).items

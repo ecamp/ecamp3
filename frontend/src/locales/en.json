@@ -77,6 +77,14 @@
         "moment": {
           "date": "dd. D.MM | D. MMM | DD. MMM YYYY"
         }
+      },
+      "CampPrint": {
+        "toc": "Table of content",
+        "picasso": "Picasso",
+        "storyline": "Storyline",
+        "dailySummary": "Daily summary",
+        "activities": "Activities",
+        "frontpage": "Front page"
       }
     },
     "dialog": {
@@ -195,7 +203,7 @@
     "lokaliseMessage": "Language switching powered by lokalise.com",
     "moment": {
       "dateLong": "dd L",
-      "dateShort": "dd M\/D",
+      "dateShort": "dd M/D",
       "hourLong": "HH:mm",
       "hourShort": "h:mm A"
     },

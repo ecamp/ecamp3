@@ -100,6 +100,7 @@ services:
 
   print-file-server:
     image: halverneus/static-file-server
+    container_name: 'ecamp3-print-file-server'
     volumes:
       - print-output:/web
     ports:

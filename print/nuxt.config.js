@@ -69,7 +69,7 @@ export default {
    ** See https://axios.nuxtjs.org/options
    */
   axios: {
-    baseURL: process.env.API_ROOT_URL || 'http://backend/api',
+    baseURL: process.env.INTERNAL_API_ROOT_URL || 'http://backend/api',
   },
   /*
    ** vuetify module configuration
@@ -86,6 +86,15 @@ export default {
    ** See https://nuxtjs.org/api/configuration-build/
    */
   build: {},
+
+  /*
+   ** Render configuration
+   ** See https://nuxtjs.org/api/configuration-render/
+   */
+  render: {
+    // deactivates injecting any Javascript on client side ==> pure HTML/CSS output only (except explicit head-scripts)
+    injectScripts: false,
+  },
 
   publicRuntimeConfig: {
     axios: {

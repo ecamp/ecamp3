@@ -1,16 +1,21 @@
 <template>
   <v-row no-gutters>
     <v-col cols="12">
-      <front-page :camp="camp" />
+      <div v-if="true">
+        <front-page v-if="config.showFrontpage" :camp="camp" />
+      </div>
 
-      <toc :activities="activities" />
+      <toc v-if="config.showToc" :activities="activities" />
 
-      <picasso />
+      <picasso v-if="config.showPicasso" :camp="camp" />
 
-      <activity
-        v-for="activity in activities"
-        :key="'activity_' + activity.id"
-        :activity="activity"
+      <storyline v-if="config.showStoryline" :camp="camp" />
+
+      <program
+        v-if="config.showDailySummary || config.showActivities"
+        :camp="camp"
+        :show-daily-summary="config.showDailySummary"
+        :show-activities="config.showActivities"
       />
     </v-col>
   </v-row>
@@ -18,20 +23,33 @@
 
 <script>
 export default {
-  async asyncData({ query, $api }) {
-    const [campData, activityData] = await Promise.all([
-      $api.get().camps({ campId: query.camp })._meta.load,
-      $api.get().activities({ campId: query.camp })._meta.load,
-    ])
+  async fetch() {
+    const query = this.$nuxt.context.query
 
+    this.pagedjs = query.pagedjs
+
+    this.config = {
+      showFrontpage: query.showFrontpage.toLowerCase() === 'true',
+      showToc: query.showToc.toLowerCase() === 'true',
+      showPicasso: query.showPicasso.toLowerCase() === 'true',
+      showStoryline: query.showStoryline.toLowerCase() === 'true',
+      showDailySummary: query.showDailySummary.toLowerCase() === 'true',
+      showActivities: query.showActivities.toLowerCase() === 'true',
+    }
+
+    this.camp = await this.$api.get().camps({ campId: query.camp })._meta.load
+    this.activities = (await this.camp.activities()._meta.load).items
+  },
+  data() {
     return {
-      query,
-      camp: campData,
-      activities: activityData.items,
+      config: {},
+      pagedjs: '',
+      camp: null,
+      activities: null,
     }
   },
   head() {
-    if (this.query.pagedjs === 'true') {
+    if (this.pagedjs === 'true') {
       return {
         script: [
           {
