@@ -69,6 +69,9 @@
             "printNow": "Jetzt drucken",
             "selectPrintPreview": "Druckvorschau zeigen",
             "title": "Drucken"
+         },
+         "collaboratorListItem": {
+            "remove": "entfernen"
          }
       },
       "campPeriodsListItem": {
@@ -81,9 +84,6 @@
             "title": "Titel"
          },
          "title": "Einstellungen"
-      },
-      "collaboratorListItem": {
-         "remove": "entfernen"
       },
       "picasso": {
          "moment": {

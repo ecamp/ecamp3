@@ -3,12 +3,12 @@
     <v-skeleton-loader v-if="camp()._meta.loading" type="article" />
     <div v-else>
       <h3>S{{ $tc('components.camp.campPrint.selectPrintPreview') }}</h3>
-      <e-checkbox v-model="config.showFrontpage" :name="$tc('components.camp.CampPrint.frontpage')" />
-      <e-checkbox v-model="config.showToc" :name="$tc('components.camp.CampPrint.toc')" />
-      <e-checkbox v-model="config.showPicasso" :name="$tc('components.camp.CampPrint.picasso')" />
-      <e-checkbox v-model="config.showStoryline" :name="$tc('components.camp.CampPrint.storyline')" />
-      <e-checkbox v-model="config.showDailySummary" :name="$tc('components.camp.CampPrint.dailySummary')" />
-      <e-checkbox v-model="config.showActivities" :name="$tc('components.camp.CampPrint.activities')" />
+      <e-checkbox v-model="config.showFrontpage" :name="$tc('components.camp.campPrint.frontpage')" />
+      <e-checkbox v-model="config.showToc" :name="$tc('components.camp.campPrint.toc')" />
+      <e-checkbox v-model="config.showPicasso" :name="$tc('components.camp.campPrint.picasso')" />
+      <e-checkbox v-model="config.showStoryline" :name="$tc('components.camp.campPrint.storyline')" />
+      <e-checkbox v-model="config.showDailySummary" :name="$tc('components.camp.campPrint.dailySummary')" />
+      <e-checkbox v-model="config.showActivities" :name="$tc('components.camp.campPrint.activities')" />
 
       <v-btn color="primary" class="mt-5"
              :href="previewUrl"
