@@ -3,9 +3,9 @@
 namespace eCamp\CoreTest\Entity;
 
 use eCamp\Core\Entity\ActivityContent;
-use eCamp\Core\Entity\Period;
 use eCamp\Core\Entity\MaterialItem;
 use eCamp\Core\Entity\MaterialList;
+use eCamp\Core\Entity\Period;
 use eCamp\LibTest\PHPUnit\AbstractTestCase;
 
 /**
@@ -24,7 +24,7 @@ class MaterialItemTest extends AbstractTestCase {
         $this->assertEquals('article', $materialItem->getArticle());
         $this->assertEquals(2, $materialItem->getAmount());
         $this->assertEquals('unit', $materialItem->getUnit());
-        
+
         $materialItem->setAmount(null);
         $materialItem->setUnit(null);
         $this->assertEquals(null, $materialItem->getAmount());
@@ -43,7 +43,7 @@ class MaterialItemTest extends AbstractTestCase {
         $materialItem->setActivityContent($activityContent);
         $this->assertEquals($activityContent, $materialItem->getActivityContent());
         $this->isNull($materialItem->getPeriod());
-        
+
         $materialItem->setPeriod($period);
         $this->assertEquals($period, $materialItem->getPeriod());
         $this->isNull($materialItem->getActivityContent());
