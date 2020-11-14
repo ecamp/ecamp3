@@ -17,12 +17,6 @@
         :show-daily-summary="config.showDailySummary"
         :show-activities="config.showActivities"
       />
-
-      <activity
-        v-for="activity in activities"
-        :key="'activity_' + activity.id"
-        :activity="activity"
-      />
     </v-col>
   </v-row>
 </template>

@@ -87,6 +87,15 @@ export default {
    */
   build: {},
 
+  /*
+   ** Render configuration
+   ** See https://nuxtjs.org/api/configuration-render/
+   */
+  render: {
+    // deactivates injecting any Javascript on client side ==> pure HTML/CSS output only (except explicit head-scripts)
+    injectScripts: false,
+  },
+
   publicRuntimeConfig: {
     axios: {
       browserBaseURL: process.env.API_ROOT_URL || 'http://localhost:3001/api',
