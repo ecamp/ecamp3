@@ -14,12 +14,6 @@ Displays a single period as a list item including controls to edit and delete it
 
     <v-list-item-action style="display: inline">
       <v-item-group>
-        <dialog-period-edit :period="period">
-          <template v-slot:activator="{ on }">
-            <button-edit class="mr-1" v-on="on" />
-          </template>
-        </dialog-period-edit>
-
         <dialog-entity-delete :entity="period">
           <template v-slot:activator="{ on }">
             <button-delete v-on="on" />
@@ -31,6 +25,11 @@ Displays a single period as a list item including controls to edit and delete it
             </li>
           </ul>
         </dialog-entity-delete>
+        <dialog-period-edit :period="period">
+          <template v-slot:activator="{ on }">
+            <button-edit class="mr-1" v-on="on" />
+          </template>
+        </dialog-period-edit>
       </v-item-group>
     </v-list-item-action>
   </v-list-item>
