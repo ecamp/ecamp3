@@ -1,14 +1,14 @@
 <template>
   <auth-container>
-    <h1 class="display-1">Konto erstellen…</h1>
+    <h1 class="display-1">{{ $tc('auth.register.title') }}</h1>
     <v-alert type="success" class="my-4 text--green text--darken-2">
-      Successfully registered.
+     {{ $tc('auth.register.success') }}
     </v-alert>
     <v-spacer />
     <v-btn color="primary" :to="{name: 'login'}"
            x-large
            class="my-4" block>
-      Login
+       {{ $tc('auth.register.login') }}
     </v-btn>
   </auth-container>
 </template>

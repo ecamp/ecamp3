@@ -36,7 +36,7 @@ export default {
   name: 'EColorPicker',
   components: { BasePicker },
   props: {
-    value: { type: String, required: true }
+    value: { type: Object, required: true }
   },
   methods: {
     parsePicker (val) {

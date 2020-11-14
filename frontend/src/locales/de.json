@@ -69,6 +69,9 @@
         },
         "title": "Einstellungen"
       },
+      "collaborators":{
+        "remove": "entfernen"
+      }, 
       "picasso": {
         "moment": {
           "date": "dd. D.MM | D. MMM | DD. MMM YYYY"
@@ -88,10 +91,19 @@
       }
     },
     "navigation": {
+      "camp":{
+        "admin": "Admin",
+        "camp": "Lager",
+        "material": "Mat.",
+        "print": "Drucken",
+        "tasks": "Aufgaben",
+        "team": "Team"
+      },
       "myCamps": "Mein Lager | Meine Lager",
+      "home": "Startseite",
       "profile": "Profil",
       "search": "Suchen",
-      "searchActivitiesAndCamps": "Aktivitäten und Camps suchen",
+      "searchActivitiesAndCamps": "Aktivitäten und Camps suchen",      
       "userMeta": {
         "logOut": "Ausloggen",
         "myCamps": "Mein Lager | Meine Lager",
@@ -127,13 +139,22 @@
       }
     },
     "camp": {
+      "collaborators":{
+      "member": "Mitglied",
+      "manager": "Verwalter"
+      },
       "fields": {
         "campType": "Lager-Typ",
         "motto": "Motto",
         "name": "Name",
         "title": "Titel"
       },
-      "name": "Lager"
+      "name": "Lager",
+      "print": {
+        "openPrintPreview": "Druckvorschau öffnen",
+        "printNow": "Jetzt drucken",
+        "title": "Drucken"
+      }
     },
     "campCollaboration": {
       "campLeft": "Lager verlassen"
@@ -208,11 +229,15 @@
       }
     },
     "auth": {
+      "container":{
+        "photoCredits": "Photo von Markus Rohner / Lotos"
+      },
       "login": {
         "accountless": "Hast du noch keinen Account?",
         "beta": {
           "notice": "Hier entsteht das neue eCamp.<br>WICHTIG: Diese Webseite befindet sich im Aufbau. Das heisst, dass alle Daten öffentlich sind und periodisch gelöscht werden!"
         },
+        "loginInProgress": "Du wirst eingeloggt",
         "or": "oder",
         "password": "Passwort",
         "provider": {
@@ -231,7 +256,8 @@
         "openTermsOfUse": "Öffnen",
         "passwordConfirmation": "Passwort erneut eingeben",
         "register": "Registrieren",
-        "title": "Ein Konto erstellen"
+        "title": "Ein Konto erstellen",
+        "success": "Erfolgreich registriert"
       }
     },
     "camp": {
