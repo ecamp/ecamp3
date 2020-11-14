@@ -168,9 +168,9 @@ export default {
       this.setValue(this.localPickerValue)
     },
     inputPicker (val) {
-      if (this.parsePicker) {
+      if (this.parsePicker !== null) {
         this.parsePicker(val).then(this.setValueOfPicker, this.setParseError)
-      } else if (this.parse) {
+      } else if (this.parse !== null) {
         this.parse(val).then(this.setValueOfPicker, this.setParseError)
       } else {
         this.setValueOfPicker(val)
