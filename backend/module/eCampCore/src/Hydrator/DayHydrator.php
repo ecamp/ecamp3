@@ -4,6 +4,7 @@ namespace eCamp\Core\Hydrator;
 
 use eCamp\Core\Entity\Day;
 use eCamp\Lib\Entity\EntityLink;
+use eCamp\Lib\Entity\EntityLinkCollection;
 use Laminas\Hydrator\HydratorInterface;
 
 class DayHydrator implements HydratorInterface {
@@ -27,6 +28,8 @@ class DayHydrator implements HydratorInterface {
             'number' => $day->getDayNumber(),
 
             'period' => EntityLink::Create($day->getPeriod()),
+
+            'scheduleEntries' => new EntityLinkCollection($day->getScheduleEntries()),
         ];
     }
 
