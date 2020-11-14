@@ -36,16 +36,22 @@ class MaterialItemTest extends AbstractTestCase {
         $period = new Period();
         $activityContent = new ActivityContent();
 
-        $materialItem->setPeriod($period);
+        $period->addMaterialItem($materialItem);
+        $this->assertCount(1, $period->getMaterialItems());
         $this->assertEquals($period, $materialItem->getPeriod());
         $this->isNull($materialItem->getActivityContent());
+        $period->removeMaterialItem($materialItem);
 
-        $materialItem->setActivityContent($activityContent);
+        $activityContent->addMaterialItem($materialItem);
+        $this->assertCount(1, $activityContent->getMaterialItems());
         $this->assertEquals($activityContent, $materialItem->getActivityContent());
         $this->isNull($materialItem->getPeriod());
+        $activityContent->removeMaterialItem($materialItem);
 
-        $materialItem->setPeriod($period);
+        $period->addMaterialItem($materialItem);
+        $this->assertCount(1, $period->getMaterialItems());
         $this->assertEquals($period, $materialItem->getPeriod());
         $this->isNull($materialItem->getActivityContent());
+        $period->removeMaterialItem($materialItem);
     }
 }
