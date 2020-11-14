@@ -134,7 +134,8 @@
       "activity": {
          "fields": {
             "activityCategory": "Block Kategorie",
-            "title": "Titel"
+            "title": "Titel",
+            "location": "Ort"
          },
          "name": "Aktivität",
          "new": "Neue Aktivität"
