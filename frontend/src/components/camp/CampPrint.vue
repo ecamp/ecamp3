@@ -13,16 +13,15 @@
       <v-btn color="primary" class="mt-5"
              :href="previewUrl"
              target="_blank">
-        Open print preview
+        {{ $tc('entity.camp.print.openPrintPreview') }}
       </v-btn>
       <v-btn
         color="primary"
         class="mt-5 ml-5"
         :loading="printing"
         @click="print">
-        Print now
+        {{ $tc('entity.camp.print.printNow') }}
       </v-btn>
-
       <print-downloader
         v-for="result in results"
         :key="result.filename"

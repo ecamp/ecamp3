@@ -3,7 +3,7 @@
     <v-container class="fill-height" fluid>
       <v-row align="center" justify="center">
         <v-card>
-          <v-card-text><h3>Logging you in</h3></v-card-text>
+          <v-card-text><h3>{{$tc('auth.login.loginInProgress')</h3></v-card-text>
         </v-card>
       </v-row>
     </v-container>

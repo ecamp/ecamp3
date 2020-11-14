@@ -5,19 +5,28 @@
     </v-list-item-avatar>
     <v-list-item-content>
       <v-list-item-title>{{ collaborator.user().username }}</v-list-item-title>
-      <v-list-item-subtitle>{{ collaborator.user().mail }}</v-list-item-subtitle>
+      <v-list-item-subtitle>
+        {{
+          collaborator.user().mail
+        }}
+      </v-list-item-subtitle>
     </v-list-item-content>
     <api-select
       :value="collaborator.role"
       :uri="collaborator._meta.self"
       fieldname="role"
-      :items="['member', 'manager']"
+      :items="[
+        { key: 'member', translation: $tc('entity.camp.collaborators.member') },
+        { key: 'manager', translation: $tc('entity.camp.collaborators.manager') },
+      ]"
+      item-value="key"
+      item-text="translation"
       :my="0"
       dense
       vee-rules="required" />
     <v-list-item-action class="ml-2">
       <button-delete @click="api.del(collaborator)">
-        Remove
+        {{ $tc("components.camp.collaborators.remove") }}
       </button-delete>
     </v-list-item-action>
   </v-list-item>
@@ -25,6 +34,7 @@
 
 <script>
 import ApiSelect from '@/components/form/api/ApiSelect'
+
 import ButtonDelete from '@/components/buttons/ButtonDelete'
 
 export default {
@@ -37,5 +47,4 @@ export default {
 </script>
 
 <style scoped>
-
 </style>
