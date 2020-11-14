@@ -1,11 +1,11 @@
 <template>
-  <v-row no-gutters>
+  <v-row v-if="!$fetchState.pending" no-gutters>
     <v-col cols="12">
       <div class="event">
         <h2 :id="'activity_' + activity.id">
           {{ activity.id }} / {{ activity.title }}
         </h2>
-        Category: {{ activity.activityCategory().name }}
+        Category: {{ activityCategory.name }}
       </div>
     </v-col>
   </v-row>
@@ -15,6 +15,14 @@
 export default {
   props: {
     activity: { type: Object, required: true },
+  },
+  async fetch() {
+    this.activityCategory = await this.activity.activityCategory()._meta.load
+  },
+  data() {
+    return {
+      activityCategory: null,
+    }
   },
 }
 </script>
