@@ -10,7 +10,7 @@
       </v-btn>
       <v-text-field
         hide-details
-        :label="searchOpen ? $tc('components.navigation.search') : $tc('components.navigation.searchActivitiesAndCamps')"
+        :label="searchOpen ? $tc('components.Campnavigation.search') : $tc('components.Campnavigation.searchActivitiesAndCamps')"
         single-line
         @click="searchOpen = !searchOpen" />
       <router-link :to="{name: 'profile'}">
