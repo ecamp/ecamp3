@@ -22,7 +22,7 @@ Displays a single activity
                    outlined
                    v-bind="attrs"
                    v-on="on">
-              <v-icon left>mdi-plus-circle-outline</v-icon> {{$tc('global.button.content')}}
+              <v-icon left>mdi-plus-circle-outline</v-icon> {{$tc('global.button.AddContentDesktop')}}
               <div v-if="$vuetify.breakpoint.smAndUp">&nbsp;{{$tc('global.button.add')}}</div>
             </v-btn>
           </template>

@@ -40,13 +40,13 @@
               "startTime":"Start"
            }
         }
-     },
+      },
      "activityContent":{
      "editName":"Namen umbenennen",
       "moveUp":"Nach oben bewegen",
       "moveDown":"Nach unten bewegen",
       "delete":"Löschen"
-   },
+     },
      "camp":{
         "campActivityCategories":{
            "create":"Block-Kategorie erstellen",
@@ -67,6 +67,7 @@
         "campPrint":{
            "openPrintPreview":"Druckvorschau öffnen",
            "printNow":"Jetzt drucken",
+           "selectPrintPreview": "Druckvorschau zeigen",
            "title":"Drucken"
         }
      },
@@ -205,7 +206,8 @@
   },
   "global":{
      "button":{
-        "add":"hinzufügen",
+        "add":"Hinzufügen",
+        "AddContentDesktop": "Inhalt hinzufügen",
         "back":"Zurück",
         "cancel":"Abbrechen",
         "create":"Erstellen",

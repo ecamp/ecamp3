@@ -45,7 +45,7 @@
       <v-icon large>mdi-tent</v-icon>
     </v-btn>
     <v-btn :to="{name: 'camp/collaborators'}" exact>
-      <span>{{ $tc('components.navigationCamp.camp.team') }}</span>
+      <span>{{ $tc('views.navigationCamp.camp.team') }}</span>
       <v-icon>mdi-account-group</v-icon>
     </v-btn>
     <v-btn :to="{name: 'camp/admin'}">
