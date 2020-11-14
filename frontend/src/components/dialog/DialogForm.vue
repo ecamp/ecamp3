@@ -2,7 +2,8 @@
   <v-dialog
     v-bind="$attrs"
     :value="value"
-    v-on="$listeners">
+    v-on="$listeners"
+    eager>
     <template v-slot:activator="scope">
       <slot name="activator" v-bind="scope" />
     </template>
