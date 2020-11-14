@@ -4,22 +4,42 @@
     <template v-if="entriesWithStory.length">
       <div v-for="{ scheduleEntry, storyChapters } in entriesWithStory" :key="scheduleEntry._meta.uri">
         <h4>{{ scheduleEntry.activity().title }}</h4>
-        <!-- eslint-disable-next-line vue/no-v-html TODO in the future we should probably use tiptap to render html -->
-        <p v-for="chapter in storyChapters" :key="chapter._meta.uri" v-html="chapter.text" />
+        <template v-if="editing">
+          <api-form v-for="chapter in storyChapters" :key="chapter._meta.uri" :entity="chapter">
+            <api-textarea
+              fieldname="text"
+              label=""
+              auto-grow
+              :outlined="false"
+              :solo="false" />
+          </api-form>
+        </template>
+        <template v-else>
+          <tiptap-editor v-for="chapter in storyChapters" :key="chapter._meta.uri" :value="chapter.text" />
+        </template>
       </div>
     </template>
     <div v-else class="grey--text">
-      {{ $tc('components.camp.storyDay.noStory')}}
+      {{ $tc('components.camp.storyDay.noStory') }}
     </div>
   </div>
 </template>
 <script>
 import { sortBy } from 'lodash'
+import ApiForm from '@/components/form/api/ApiForm'
+import ApiTextarea from '@/components/form/api/ApiTextarea'
+import TiptapEditor from '@/components/form/tiptap/TiptapEditor'
 
 export default {
   name: 'StoryDay',
+  components: { TiptapEditor, ApiForm, ApiTextarea },
   props: {
     day: { type: Object, required: true }
+  },
+  data () {
+    return {
+      editing: false
+    }
   },
   computed: {
     dayName () {
