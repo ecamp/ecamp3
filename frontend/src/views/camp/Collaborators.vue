@@ -30,38 +30,18 @@ Displays collaborators of a single camp.
       </content-group>
 
       <content-group :title="$tc('views.camp.collaborators.invite')">
-        <v-text-field
-          v-model="search"
-          hide-details
-          prepend-icon="mdi-account-search"
+        <e-text-field
+          v-model="inviteEmail"
+          :error-messages="inviteEmailMessages"
           single-line
-          :placeholder="$tc('global.button.search')"
-          @focus="loadingResults = true"
-          @blur="loadingResults = false" />
-
-        <v-list>
-          <v-skeleton-loader v-if="loadingResults && searchResults.length < 1" type="list-item-avatar-two-line@3" class="px-0" />
-          <v-list-item v-for="result in searchResults" :key="result.id"
-                       class="px-0" two-line>
-            <v-list-item-avatar>
-              <v-img src="https://i.pravatar.cc/300" />
-            </v-list-item-avatar>
-            <v-list-item-content>
-              <v-list-item-title>{{ result.displayName }}</v-list-item-title>
-              <v-list-item-subtitle>{{ result.mail }}</v-list-item-subtitle>
-            </v-list-item-content>
-            <v-list-item-action>
-              <button-add icon="mdi-account-plus" @click="invite(result, 'member')">
-                Member
-              </button-add>
-            </v-list-item-action>
-            <v-list-item-action class="ml-1">
-              <button-add icon="mdi-account-star" @click="invite(result, 'manager')">
-                Manager
-              </button-add>
-            </v-list-item-action>
-          </v-list-item>
-        </v-list>
+          aria-autocomplete="none"
+          :placeholder="$tc('views.camp.collaborators.email')" />
+        <button-add type="submit" icon="mdi-account-plus" @click="invite('member')">
+          Member
+        </button-add>
+        <button-add icon="mdi-account-plus" @click="invite('manager')">
+          Manager
+        </button-add>
       </content-group>
     </v-card-text>
   </content-card>
@@ -71,6 +51,7 @@ import ContentCard from '@/components/layout/ContentCard'
 import ContentGroup from '@/components/layout/ContentGroup'
 import CollaboratorListItem from '@/components/camp/CollaboratorListItem'
 import ButtonAdd from '@/components/buttons/ButtonAdd'
+import ETextField from '@/components/form/base/ETextField'
 
 export default {
   name: 'Collaborators',
@@ -78,7 +59,8 @@ export default {
     ButtonAdd,
     CollaboratorListItem,
     ContentGroup,
-    ContentCard
+    ContentCard,
+    ETextField
   },
   props: {
     camp: { type: Function, required: true }
@@ -86,9 +68,8 @@ export default {
   data () {
     return {
       editing: false,
-      loadingResults: false,
       messages: [],
-      search: ''
+      inviteEmail: ''
     }
   },
   computed: {
@@ -104,32 +85,34 @@ export default {
     invitedCollaborators () {
       return this.collaborators.filter(c => c.status === 'invited')
     },
-    searchResults () {
-      if (this.search.length >= 3) {
-        const filterUserIds = [
-          ...this.establishedCollaborators,
-          ...this.requestedCollaborators,
-          ...this.invitedCollaborators
-        ].map(c => c.user().id)
-        return this.api.get().users({ search: this.search }).items.filter(
-          u => !filterUserIds.includes(u.id)
-        )
-      }
-      return []
+    inviteEmailMessages () {
+      return this.messages.inviteEmail ? Object.values({ ...this.messages.inviteEmail }) : []
     }
   },
   created () {
     return this.camp().campCollaborations()
   },
   methods: {
-    invite (user, role) {
+    invite (role) {
       this.api.post('/camp-collaborations', {
         campId: this.camp().id,
-        userId: user.id,
+        inviteEmail: this.inviteEmail,
         role: role
-      }).then(this.refreshCamp)
+      }).then(this.refreshCamp,
+        this.handleError)
+    },
+    handleError (e) {
+      if (e.response) {
+        if (e.response.status === 409 /* Conflict */) {
+          this.messages = [this.$tc('global.serverError.409')]
+        }
+        if (e.response.status === 422 /* Validation Error */) {
+          this.messages = e.response.data.validation_messages
+        }
+      }
     },
     refreshCamp () {
+      this.messages = []
       this.api.reload(this.camp()._meta.self)
     }
   }

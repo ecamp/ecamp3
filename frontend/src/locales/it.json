@@ -273,11 +273,11 @@
         "title": "Admin"
       },
       "collaborators": {
+        "email": "Indirizzo e-mail",
         "invite": "Invitare",
         "members": "Membri",
         "openInvitations": "Inviti aperti",
         "openRequests": "Richieste aperte",
-        "search": "Cerca",
         "title": "Team"
       },
       "navigationCamp": {

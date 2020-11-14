@@ -291,11 +291,11 @@
         "title": "Admin"
       },
       "collaborators": {
+        "email": "Email address",
         "invite": "Invite",
         "members": "Members",
         "openInvitations": "Open invitations",
         "openRequests": "Open requests",
-        "search": "Search...",
         "title": "Team"
       },
       "navigationCamp": {
