@@ -25,6 +25,10 @@
         <v-icon :left="$vuetify.breakpoint.mdAndUp">mdi-printer</v-icon>
         <span class="sr-only-sm-and-down">Print</span>
       </v-btn>
+      <v-btn :to="campRoute(camp(), 'story')" text>
+        <v-icon :left="$vuetify.breakpoint.mdAndUp">mdi-book-open-page-variant</v-icon>
+        <span class="sr-only-sm-and-down">{{ $tc('views.camp.navigationCamp.story') }}</span>
+      </v-btn>
     </v-toolbar-items>
     <v-spacer />
     <search-desktop />

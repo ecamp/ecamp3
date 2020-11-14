@@ -259,8 +259,14 @@
         "search": "Search...",
         "title": "Team"
       },
+      "navigationCamp": {
+        "story": "Story"
+      },
       "sideBarPeriods": {
         "title": "Periods"
+      },
+      "story": {
+        "title": "Story"
       }
     },
     "campCreate": {
