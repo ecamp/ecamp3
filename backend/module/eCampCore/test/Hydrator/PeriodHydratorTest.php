@@ -29,7 +29,6 @@ class PeriodHydratorTest extends AbstractTestCase {
 
         $this->assertEquals('desc', $data['description']);
 
-        // TODO: Top my opinion this should return a date and not a datetime
         $this->assertEquals('2000-01-01', $data['start']);
         $this->assertEquals('2000-01-03', $data['end']);
     }

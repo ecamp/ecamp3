@@ -83,7 +83,7 @@ class Period extends BaseEntity implements BelongsToCampInterface {
     }
 
     public function setStart(DateUtc $start): void {
-        $this->start = $start;
+        $this->start = clone $start;
 
         if (null != $this->end && $this->end < $start) {
             $this->setEnd($start);
