@@ -58,7 +58,7 @@ JSON;
                 }
             }
 JSON;
-        $expectedEmbeddedObjects = ['period'];
+        $expectedEmbeddedObjects = ['period', 'scheduleEntries'];
 
         $this->verifyHalResourceResponse($expectedBody, $expectedLinks, $expectedEmbeddedObjects);
     }
