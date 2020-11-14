@@ -48,9 +48,6 @@ export default {
   computed: {
     isLoggedIn () {
       return this.$auth.isLoggedIn()
-    },
-    username () {
-      return this.api.get().profile().username
     }
   },
   methods: {
