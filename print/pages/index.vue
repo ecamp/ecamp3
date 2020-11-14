@@ -29,12 +29,18 @@ export default {
     this.pagedjs = query.pagedjs
 
     this.config = {
-      showFrontpage: query.showFrontpage.toLowerCase() === 'true',
-      showToc: query.showToc.toLowerCase() === 'true',
-      showPicasso: query.showPicasso.toLowerCase() === 'true',
-      showStoryline: query.showStoryline.toLowerCase() === 'true',
-      showDailySummary: query.showDailySummary.toLowerCase() === 'true',
-      showActivities: query.showActivities.toLowerCase() === 'true',
+      showFrontpage:
+        query.showFrontpage && query.showFrontpage.toLowerCase() === 'true',
+      showToc: query.showToc && query.showToc.toLowerCase() === 'true',
+      showPicasso:
+        query.showPicasso && query.showPicasso.toLowerCase() === 'true',
+      showStoryline:
+        query.showStoryline && query.showStoryline.toLowerCase() === 'true',
+      showDailySummary:
+        query.showDailySummary &&
+        query.showDailySummary.toLowerCase() === 'true',
+      showActivities:
+        query.showActivities && query.showActivities.toLowerCase() === 'true',
     }
 
     this.camp = await this.$api.get().camps({ campId: query.camp })._meta.load

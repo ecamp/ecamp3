@@ -2,6 +2,10 @@
   <v-row no-gutters>
     <v-col cols="12">
       <div class="page_break">
+        <p>{{ $tc('welcome.print') }}</p>
+
+        <p>{{ $tc('welcome.common') }}</p>
+
         <h1>Title page</h1>
 
         <p>Name: {{ camp.name }}</p>

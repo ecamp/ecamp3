@@ -11,6 +11,7 @@ services:
     tty: true
     volumes:
       - ./frontend:/app:delegated
+      - ./common:/common:delegated
       - npm-cache:/root/.npm
       - cypress-cache:/root/.cache/Cypress
       - node-modules-cache:/app/node_modules/.cache
@@ -35,6 +36,7 @@ services:
       - '3003:80'
     volumes:
       - ./print:/app:delegated
+      - ./common:/common:delegated
       - npm-cache:/root/.npm
       - print-node-modules-cache:/app/node_modules/.cache
     working_dir: /app
