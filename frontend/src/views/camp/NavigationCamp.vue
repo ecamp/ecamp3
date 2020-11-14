@@ -29,6 +29,10 @@
         <v-icon :left="$vuetify.breakpoint.mdAndUp">mdi-book-open-page-variant</v-icon>
         <span class="sr-only-sm-and-down">{{ $tc('views.camp.navigationCamp.story') }}</span>
       </v-btn>
+      <v-btn :to="campRoute(camp(), 'material')" text>
+        <v-icon :left="$vuetify.breakpoint.mdAndUp">mdi-cart</v-icon>
+        <span class="sr-only-sm-and-down">Material</span>
+      </v-btn>
     </v-toolbar-items>
     <v-spacer />
     <search-desktop />
