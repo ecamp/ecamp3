@@ -106,6 +106,9 @@
         "title": "Really delete?",
         "warningText": "Do you really want to delete this?"
       },
+      "dialogMaterialListCreate": {
+        "title": "Create material list"
+      },
       "dialogPeriodCreate": {
         "title": "Create period"
       }
@@ -149,6 +152,11 @@
     },
     "campCollaboration": {
       "campLeft": "left camp"
+    },
+    "materialList": {
+      "fields": {
+        "name": "Name"
+      }
     },
     "period": {
       "defaultDescription": "Main",
@@ -258,6 +266,9 @@
         "openRequests": "Open requests",
         "search": "Search...",
         "title": "Team"
+      },
+      "material": {
+        "title": "Material"
       },
       "navigationCamp": {
         "story": "Story"
