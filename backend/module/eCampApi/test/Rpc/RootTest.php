@@ -83,6 +83,10 @@ JSON;
                 "activities": {
                     "href": "http://{$host}/api/activities{/activityId}{?page_size,campId}",
                     "templated": true
+                },
+                "materialItems": {
+                    "href": "http://{$host}/api/material-items{/materialItemId}{?page_size,campId,materialListId,activityContentId}",
+                    "templated": true
                 }
             }
         }
