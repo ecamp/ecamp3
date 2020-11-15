@@ -1,14 +1,14 @@
 <template>
   <auth-container>
-    <h1 class="display-1">{{ $tc('auth.register.title') }}</h1>
+    <h1 class="display-1">{{ $tc('views.auth.registerDone.title') }}</h1>
     <v-alert type="success" class="my-4 text--green text--darken-2">
-      {{ $tc('auth.registerDone.success') }}
+      {{ $tc('views.auth.registerDone.success') }}
     </v-alert>
     <v-spacer />
     <v-btn color="primary" :to="{name: 'login'}"
            x-large
            class="my-4" block>
-      {{ $tc('auth.registerDone.login') }}
+      {{ $tc('views.auth.registerDone.login') }}
     </v-btn>
   </auth-container>
 </template>
