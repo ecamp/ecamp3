@@ -3,7 +3,7 @@ Admin screen of a camp: Displays details & periods of a single camp and allows t
 -->
 
 <template>
-  <content-card :title="$tc('components.camp.campPrint.title')">
+  <content-card :title="$tc('views.camp.print.title')">
     <v-card-text>
       <camp-print :camp="camp" />
     </v-card-text>

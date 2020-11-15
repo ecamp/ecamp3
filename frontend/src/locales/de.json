@@ -312,6 +312,9 @@
             "tasks": "Aufgaben",
             "team": "Team",
             "material": "Mat."
+         },
+         "print": {
+            "title": "Drucken"
          }
       },
       "campCreate": {
