@@ -262,8 +262,7 @@
                "notice": "Hier entsteht das neue eCamp.<br>WICHTIG: Diese Webseite befindet sich im Aufbau. Das heisst, dass alle Daten öffentlich sind und periodisch gelöscht werden!"
             },
             "loginCallback": {
-               "loginInProgress": "Du wirst eingeloggt",
-               "CampIsLoading": "Lager wird geladen…"
+               "loginInProgress": "Du wirst eingeloggt"
             },
             "or": "oder",
             "password": "Passwort",
@@ -304,6 +303,15 @@
          },
          "sideBarPeriods": {
             "title": "Lagerabschnitt"
+         },
+         "navigationCamp": {
+            "admin": "Admin",
+            "campIsLoading": "Lager wird geladen",
+            "print": "Drucken",
+            "story": "Handlung",
+            "tasks": "Aufgaben",
+            "team": "Team",
+            "material": "Mat."
          }
       },
       "campCreate": {
