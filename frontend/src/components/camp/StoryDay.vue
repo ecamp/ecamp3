@@ -36,9 +36,7 @@
               :solo="false"
               dense />
           </api-form>
-          <tiptap-editor v-for="chapter in storyChapters"
-                         :key="chapter._meta.uri"
-                         v-show="!editing"
+          <tiptap-editor v-show="!editing"
                          :value="chapter.text"
                          :editable="false"
                          class="mt-1 v-input" />
