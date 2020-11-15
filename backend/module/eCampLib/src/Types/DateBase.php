@@ -2,7 +2,9 @@
 
 namespace eCamp\Lib\Types;
 
-abstract class DateBase extends \DateTime {
+use JsonSerializable;
+
+abstract class DateBase extends \DateTime implements JsonSerializable {
     protected string $FORMAT;
 
     public function __toString() {

@@ -2,11 +2,9 @@
 
 namespace eCamp\Lib\Types;
 
-use DateTime;
 use DateTimeZone;
-use JsonSerializable;
 
-class DateTimeUtc extends DateBase implements JsonSerializable {
+class DateTimeUtc extends DateBase {
     protected string $FORMAT = 'Y-m-d\TH:iP';
 
     /**
@@ -29,16 +27,5 @@ class DateTimeUtc extends DateBase implements JsonSerializable {
             $this->checkFormat($time, $format);
         }
         parent::__construct($time, $timezone);
-    }
-
-    public function __toString() {
-        return $this->format($this->FORMAT);
-    }
-
-    /**
-     * formatter used with json_encode.
-     */
-    public function jsonSerialize() {
-        return $this->__toString();
     }
 }

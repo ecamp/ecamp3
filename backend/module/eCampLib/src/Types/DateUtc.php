@@ -3,9 +3,8 @@
 namespace eCamp\Lib\Types;
 
 use DateTimeZone;
-use JsonSerializable;
 
-class DateUtc extends DateBase implements JsonSerializable {
+class DateUtc extends DateBase {
     protected string $FORMAT = 'Y-m-d';
 
     /**
