@@ -78,13 +78,13 @@
                "endTime": "Ende",
                "startTime": "Start"
             }
+         },
+         "activityContent": {
+            "editName": "Namen umbenennen",
+            "moveUp": "Nach oben bewegen",
+            "moveDown": "Nach unten bewegen",
+            "delete": "Löschen"
          }
-      },
-      "activityContent": {
-         "editName": "Namen umbenennen",
-         "moveUp": "Nach oben bewegen",
-         "moveDown": "Nach unten bewegen",
-         "delete": "Löschen"
       },
       "camp": {
          "campActivityCategories": {
