@@ -12,9 +12,8 @@ class DateUtc extends DateTime {
      * DateTimeUTC constructor.
      *
      * @param null|string $time
-     * @param bool        $isDB
      *
-     * @throws \eCamp\Lib\Types\InvalidFormatException
+     * @throws InvalidFormatException
      */
     public function __construct($time = 'today', DateTimeZone $timezone = null, string $format = null) {
         if (null === $timezone) {

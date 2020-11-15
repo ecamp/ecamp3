@@ -13,7 +13,7 @@ class DateTimeUtc extends DateTime {
      *
      * @param null|string $time
      *
-     * @throws \eCamp\Lib\Types\InvalidFormatException
+     * @throws InvalidFormatException
      */
     public function __construct($time = 'now', DateTimeZone $timezone = null, string $format = null) {
         if (null === $timezone) {
