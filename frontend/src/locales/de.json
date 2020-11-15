@@ -49,13 +49,6 @@
          }
       },
       "navigationCamp": {
-         "search": "Suchen",
-         "searchActivitiesAndCamps": "Aktivitäten und Camps suchen",
-         "userMeta": {
-            "logOut": "Ausloggen",
-            "myCamps": "Mein Lager | Meine Lager",
-            "profile": "Profil"
-         },
          "camp": {
             "admin": "Admin",
             "camp": "Lager",
@@ -67,6 +60,20 @@
          "navigationDefault": {
             "myCamps": "Mein Lager | Meine Lager",
             "home": "Startseite",
+            "profile": "Profil"
+         }
+      },
+      "navigation": {
+         "searchDesktop": {
+            "search": "Suchen"
+         },
+         "searchMobile": {
+            "search": "Suchen",
+            "searchActivitiesAndCamps": "Aktivitäten und Camps suchen"
+         },
+         "userMeta": {
+            "logOut": "Ausloggen",
+            "myCamps": "Mein Lager | Meine Lager",
             "profile": "Profil"
          }
       },
@@ -138,7 +145,8 @@
          "fields": {
             "activityCategory": "Block Kategorie",
             "title": "Titel",
-            "location": "Ort"
+            "location": "Ort",
+            "responsible": "verantwortlich"
          },
          "name": "Aktivität",
          "new": "Neue Aktivität"
@@ -245,10 +253,6 @@
       "activity": {
          "sideBarProgram": {
             "title": "Tagesübersicht"
-         },
-         "fields": {
-            "responsible": "verantwortlich",
-            "location": "Ort"
          }
       },
       "auth": {
@@ -281,6 +285,7 @@
             "title": "Ein Konto erstellen"
          },
          "registerDone": {
+            "title": "Konto erstellen",
             "success": "Erfolgreich registriert",
             "login": "Anmelden"
          }
