@@ -1,5 +1,5 @@
 <template>
-  <v-expansion-panel v-model="expanded">
+  <v-expansion-panel>
     <v-expansion-panel-header><h3 class="grey--text text--darken-1">
       {{ period.description }}
     </h3></v-expansion-panel-header>
@@ -17,12 +17,6 @@ export default {
   props: {
     period: { type: Object, required: true },
     editing: { type: Boolean, default: false }
-  },
-  data () {
-    return {
-      // Collapse if the period is in the past
-      expanded: Date.parse(this.period.end) >= new Date()
-    }
   }
 }
 </script>
