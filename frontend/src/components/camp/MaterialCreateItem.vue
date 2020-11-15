@@ -68,6 +68,7 @@ export default {
 
         this.api.post(uri, data).then(mi => {
           this.$emit('item-add', mi)
+          this.materialItem = {}
         })
       })
     }
