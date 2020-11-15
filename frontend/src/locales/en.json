@@ -32,6 +32,10 @@
       "icon": "mdi-book-open-page-variant",
       "name": "Story concept",
       "sort": "1"
+    },
+    "material": {
+      "icon": "mdi-cart",
+      "name": "Materiallists"
     }
   },
   "components": {
@@ -199,7 +203,7 @@
       "submit": "Submit",
       "tryagain": "Try again",
       "update": "Update",
-      "ok" : "OK"
+      "ok": "OK"
     },
     "changeLanguage": "Change language",
     "language": "English",

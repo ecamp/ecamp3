@@ -4,6 +4,7 @@ namespace eCamp\CoreData;
 
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Persistence\ObjectManager;
+use eCamp\ContentType\Material\Strategy as MaterialStrategy;
 use eCamp\ContentType\SingleText\Strategy as SingleTextStrategy;
 use eCamp\ContentType\Storyboard\Strategy as StoryboardStrategy;
 use eCamp\Core\Entity\ContentType;
@@ -13,6 +14,7 @@ class ContentTypeData extends AbstractFixture {
     public static $STORYCONTEXT = ContentType::class.':STORYCONTEXT';
     public static $SAFETYCONCEPT = ContentType::class.':SAFETYCONCEPT';
     public static $NOTES = ContentType::class.':NOTES';
+    public static $MATERIAL = ContentType::class.':MATERIAL';
 
     public function load(ObjectManager $manager) {
         $repository = $manager->getRepository(ContentType::class);
@@ -58,6 +60,17 @@ class ContentTypeData extends AbstractFixture {
             $manager->persist($contentType);
         }
         $this->addReference(self::$NOTES, $contentType);
+
+        // Material
+        $contentType = $repository->findOneBy(['name' => 'Material']);
+        if (null == $contentType) {
+            $contentType = new ContentType();
+            $contentType->setName('Material');
+            $contentType->setAllowMultiple(true);
+            $contentType->setStrategyClass(MaterialStrategy::class);
+            $manager->persist($contentType);
+        }
+        $this->addReference(self::$MATERIAL, $contentType);
 
         $manager->flush();
     }

@@ -110,6 +110,7 @@ import SafetyConcept from '@/components/activity/content/SafetyConcept'
 import Storycontext from '@/components/activity/content/Storycontext'
 import Storyboard from '@/components/activity/content/Storyboard'
 import Notes from '@/components/activity/content/Notes'
+import Material from '@/components/activity/content/Material'
 import DialogEntityDelete from '@/components/dialog/DialogEntityDelete'
 import ButtonDelete from '@/components/buttons/ButtonDelete'
 import camelCase from 'lodash/camelCase'
@@ -123,6 +124,7 @@ export default {
     Storycontext,
     Storyboard,
     Notes,
+    Material,
     DialogEntityDelete,
     ButtonDelete
   },

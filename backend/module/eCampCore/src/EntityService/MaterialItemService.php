@@ -122,6 +122,10 @@ class MaterialItemService extends AbstractEntityService {
             $q->andWhere('row.materialList = :materialListId');
             $q->setParameter('materialListId', $params['materialListId']);
         }
+        if (isset($params['activityContentId'])) {
+            $q->andWhere('row.activityContent = :activityContentId');
+            $q->setParameter('activityContentId', $params['activityContentId']);
+        }
 
         return $q;
     }
