@@ -1,9 +1,19 @@
 <template>
   <v-expansion-panel-content>
-    <h3>{{ dayName }}</h3>
+    <h3 class="grey--text">
+      {{ dayName }}
+    </h3>
     <template v-if="entriesWithStory.length">
       <div v-for="{ scheduleEntry, storyChapters } in entriesWithStory" :key="scheduleEntry._meta.uri">
-        <h4>{{ scheduleEntry.activity().title }}</h4>
+        <h4 class="mt-3">
+          <div class="d-flex">
+            {{ scheduleEntry.activity().title }}
+            <v-spacer />
+            <v-btn icon :to="{ name: 'activity', params: { campId: day.period().camp().id, scheduleEntryId: scheduleEntry.id } }">
+              <v-icon small>mdi-open-in-new</v-icon>
+            </v-btn>
+          </div>
+        </h4>
         <template v-if="editing">
           <api-form v-for="chapter in storyChapters" :key="chapter._meta.uri" :entity="chapter">
             <api-textarea
@@ -15,7 +25,9 @@
           </api-form>
         </template>
         <template v-else>
-          <tiptap-editor v-for="chapter in storyChapters" :key="chapter._meta.uri" :value="chapter.text" />
+          <tiptap-editor v-for="chapter in storyChapters" :key="chapter._meta.uri"
+                         :value="chapter.text"
+                         :editable="false" />
         </template>
       </div>
     </template>
@@ -53,7 +65,6 @@ export default {
             .items
             .filter(activityContent => activityContent.contentTypeName === 'Storycontext')
             .map(activityContent => activityContent.singleText())
-            .filter(text => text.text)
         }
       })
     },
