@@ -1,341 +1,328 @@
 {
-   "activityContent": {
-      "notes": {
-         "add": "Notizen hinzufügen",
-         "name": "Notizen"
+  "activityContent": {
+    "notes": {
+      "add": "Notizen hinzufügen",
+      "name": "Notizen"
+    },
+    "safetyConcept": {
+      "add": "Sicherheits-Konzept hinzufügen",
+      "name": "Sicherheits-Konzept",
+      "sort": "3"
+    },
+    "storyboard": {
+      "add": "Programmabschnitt hinzufügen",
+      "entity": {
+        "section": {
+          "fields": {
+            "column1": "Zeit",
+            "column2": "Programm",
+            "column3": "Verantwortlich"
+          },
+          "name": "Programmpunkt | Programmpunkte"
+        }
       },
-      "safetyConcept": {
-         "add": "Sicherheits-Konzept hinzufügen",
-         "name": "Sicherheits-Konzept",
-         "sort": "3"
+      "name": "Programmabschnitt",
+      "sort": "2"
+    },
+    "storycontext": {
+      "add": "Roten Faden hinzufügen",
+      "name": "Roter Faden",
+      "sort": "1"
+    }
+  },
+  "components": {
+    "activity": {
+      "activityContent": {
+        "delete": "Löschen",
+        "editName": "Namen umbenennen",
+        "moveDown": "Nach unten bewegen",
+        "moveUp": "Nach oben bewegen"
       },
-      "storyboard": {
-         "add": "Programmabschnitt hinzufügen",
-         "entity": {
-            "section": {
-               "fields": {
-                  "column1": "Zeit",
-                  "column2": "Programm",
-                  "column3": "Verantwortlich"
-               },
-               "name": "Programmpunkt | Programmpunkte"
-            }
-         },
-         "name": "Programmabschnitt",
-         "sort": "2"
-      },
-      "storycontext": {
-         "add": "Roten Faden hinzufügen",
-         "name": "Roter Faden",
-         "sort": "1"
+      "createScheduleEntries": {
+        "fields": {
+          "duration": "Länge",
+          "endTime": "Ende",
+          "startTime": "Start"
+        },
+        "name": "Geplante Termine"
       }
-   },
-   "components": {
-      "dialog": {
-         "dialogActivityCategoryCreate": {
-            "title": "Block-Kategorie erstellen"
-         },
-         "dialogEntityDelete": {
-            "title": "Wirklich löschen?",
-            "warningText": "Möchtest du das wirklich löschen?"
-         },
-         "dialogPeriodCreate": {
-            "title": "Lagerabschnitt erstellen"
-         }
+    },
+    "camp": {
+      "campActivityCategories": {
+        "create": "Block-Kategorie erstellen",
+        "deleteActivityCategoryNotPossibleInUse": "Block-Kategorie kann nicht gelöscht werden. Sie wird noch verwendet:",
+        "deleteActivityCategoryQuestion": "Möchtest du diese Block-Kategorie wirklich löschen?",
+        "title": "Block-Kategorien"
       },
-      "layout": {
-         "authContainer": {
-            "photoCredits": "Foto von Markus Rohner / Lotos"
-         }
+      "campInvitations": {
+        "title": "Einladen"
       },
-      "navigationCamp": {
-         "camp": {
-            "admin": "Admin",
-            "camp": "Lager",
-            "material": "Mat.",
-            "print": "Drucken",
-            "tasks": "Aufgaben",
-            "team": "Team"
-         },
-         "navigationDefault": {
-            "myCamps": "Mein Lager | Meine Lager",
-            "home": "Startseite",
-            "profile": "Profil"
-         }
+      "campMembers": {
+        "title": "Mitglieder"
       },
-      "navigation": {
-         "searchDesktop": {
-            "search": "Suchen"
-         },
-         "searchMobile": {
-            "search": "Suchen",
-            "searchActivitiesAndCamps": "Aktivitäten und Camps suchen"
-         },
-         "userMeta": {
-            "logOut": "Ausloggen",
-            "myCamps": "Mein Lager | Meine Lager",
-            "profile": "Profil"
-         }
-      },
-      "activity": {
-         "createScheduleEntries": {
-            "name": "Geplante Termine",
-            "fields": {
-               "duration": "Länge",
-               "endTime": "Ende",
-               "startTime": "Start"
-            }
-         },
-         "activityContent": {
-            "editName": "Namen umbenennen",
-            "moveUp": "Nach oben bewegen",
-            "moveDown": "Nach unten bewegen",
-            "delete": "Löschen"
-         }
-      },
-      "camp": {
-         "campActivityCategories": {
-            "create": "Block-Kategorie erstellen",
-            "deleteActivityCategoryNotPossibleInUse": "Block-Kategorie kann nicht gelöscht werden. Sie wird noch verwendet:",
-            "deleteActivityCategoryQuestion": "Möchtest du diese Block-Kategorie wirklich löschen?",
-            "title": "Block-Kategorien"
-         },
-         "campInvitations": {
-            "title": "Einladen"
-         },
-         "campMembers": {
-            "title": "Mitglieder"
-         },
-         "campPeriods": {
-            "createPeriod": "Lagerabschnitt erstellen",
-            "title": "Lagerabschnitt | Lagerabschnitte"
-         },
-         "campPrint": {
-            "openPrintPreview": "Druckvorschau öffnen",
-            "printNow": "Jetzt drucken",
-            "selectPrintPreview": "Druckvorschau zeigen",
-            "title": "Drucken"
-         },
-         "collaboratorListItem": {
-            "remove": "Entfernen"
-         }
+      "campPeriods": {
+        "createPeriod": "Lagerabschnitt erstellen",
+        "title": "Lagerabschnitt | Lagerabschnitte"
       },
       "campPeriodsListItem": {
-         "deleteWarning": "Möchtest du diese Periode wirklich löschen?"
+        "deleteWarning": "Möchtest du diese Periode wirklich löschen?"
+      },
+      "campPrint": {
+        "openPrintPreview": "Druckvorschau öffnen",
+        "printNow": "Jetzt drucken",
+        "selectPrintPreview": "Druckvorschau zeigen",
+        "title": "Drucken"
       },
       "campSettings": {
-         "fields": {
-            "motto": "Motto",
-            "name": "Name",
-            "title": "Titel"
-         },
-         "title": "Einstellungen"
+        "fields": {
+          "motto": "Motto",
+          "name": "Name",
+          "title": "Titel"
+        },
+        "title": "Einstellungen"
       },
       "collaboratorListItem": {
-         "remove": "entfernen"
+        "remove": "Entfernen"
       },
       "picasso": {
-         "moment": {
-            "date": "dd. D.MM | D. MMM | DD. MMM YYYY"
-         }
+        "moment": {
+          "date": "dd. D.MM | D. MMM | DD. MMM YYYY"
+        }
       }
-   },
-   "entity": {
-      "activity": {
-         "fields": {
-            "activityCategory": "Block Kategorie",
-            "title": "Titel",
-            "location": "Ort",
-            "responsible": "verantwortlich"
-         },
-         "name": "Aktivität",
-         "new": "Neue Aktivität"
+    },
+    "dialog": {
+      "dialogActivityCategoryCreate": {
+        "title": "Block-Kategorie erstellen"
       },
-      "activityCategory": {
-         "fields": {
-            "activityType": "Typ",
-            "color": "Farbe",
-            "name": "Name",
-            "numberingStyle": "Nummerierung",
-            "short": "Kürzel"
-         },
-         "name": "Block Kategorien",
-         "numberingStyles": {
-            "1": "1, 2, 3 - Zahlen",
-            "a": "a, b, c - kleine Buchstaben",
-            "A": "A, B, C - grosse Buchstaben",
-            "i": "i, ii, iii - kleine römische Zahlen",
-            "I": "I, II, III - grosse römische Zahlen"
-         }
+      "dialogEntityDelete": {
+        "title": "Wirklich löschen?",
+        "warningText": "Möchtest du das wirklich löschen?"
       },
-      "camp": {
-         "collaborators": {
-            "member": "Mitglied",
-            "manager": "Verwalter"
-         },
-         "fields": {
-            "campType": "Lager-Typ",
-            "motto": "Motto",
-            "name": "Name",
-            "title": "Titel"
-         },
-         "name": "Lager"
+      "dialogPeriodCreate": {
+        "title": "Lagerabschnitt erstellen"
+      }
+    },
+    "layout": {
+      "authContainer": {
+        "photoCredits": "Foto von Markus Rohner / Lotos"
+      }
+    },
+    "navigation": {
+      "searchDesktop": {
+        "search": "Suchen"
       },
-      "campCollaboration": {
-         "campLeft": "Lager verlassen"
+      "searchMobile": {
+        "search": "Suchen",
+        "searchActivitiesAndCamps": "Aktivitäten und Camps suchen"
       },
+      "userMeta": {
+        "logOut": "Ausloggen",
+        "myCamps": "Mein Lager | Meine Lager",
+        "profile": "Profil"
+      }
+    }
+  },
+  "entity": {
+    "activity": {
+      "fields": {
+        "activityCategory": "Block Kategorie",
+        "location": "Ort",
+        "responsible": "verantwortlich",
+        "title": "Titel"
+      },
+      "name": "Aktivität",
+      "new": "Neue Aktivität"
+    },
+    "activityCategory": {
+      "fields": {
+        "activityType": "Typ",
+        "color": "Farbe",
+        "name": "Name",
+        "numberingStyle": "Nummerierung",
+        "short": "Kürzel"
+      },
+      "name": "Block Kategorien",
+      "numberingStyles": {
+        "1": "1, 2, 3 - Zahlen",
+        "A": "A, B, C - grosse Buchstaben",
+        "I": "I, II, III - grosse römische Zahlen",
+        "a": "a, b, c - kleine Buchstaben",
+        "i": "i, ii, iii - kleine römische Zahlen"
+      }
+    },
+    "camp": {
+      "collaborators": {
+        "manager": "Verwalter",
+        "member": "Mitglied"
+      },
+      "fields": {
+        "campType": "Lager-Typ",
+        "motto": "Motto",
+        "name": "Name",
+        "title": "Titel"
+      },
+      "name": "Lager"
+    },
+    "campCollaboration": {
+      "campLeft": "Lager verlassen"
+    },
+    "period": {
+      "defaultDescription": "Hauptlager",
+      "fields": {
+        "description": "Beschreibung",
+        "end": "Bis",
+        "start": "Von"
+      },
+      "name": "Lagerabschnitt | Lagerabschnitte"
+    },
+    "scheduleEntry": {
+      "fields": {
+        "length": "Dauer in Minuten",
+        "nr": "Nr",
+        "periodOffset": "Minuten seit Lagerabschnittbeginn",
+        "time": "Zeitpunkt"
+      },
+      "name": "Zeitplaneintrag"
+    },
+    "user": {
+      "fields": {
+        "birthday": "Geburtstag",
+        "email": "E-Mail-Adresse",
+        "firstname": "Vorname",
+        "language": "Sprache",
+        "nickname": "Spitzname",
+        "password": "Kennwort",
+        "surname": "Nachname",
+        "username": "Benutzername"
+      },
+      "name": "User"
+    }
+  },
+  "global": {
+    "button": {
+      "add": "Hinzufügen",
+      "addContentDesktop": "Inhalt hinzufügen",
+      "back": "Zurück",
+      "cancel": "Abbrechen",
+      "content": "Inhalt",
+      "create": "Erstellen",
+      "delete": "Löschen",
+      "edit": "Bearbeiten",
+      "open": "Öffnen",
+      "save": "Speichern",
+      "saving": "Speichert",
+      "submit": "Abschicken",
+      "tryagain": "Erneut versuchen",
+      "update": "Aktualisieren"
+    },
+    "changeLanguage": "Sprache ändern",
+    "language": "Deutsch",
+    "lokaliseMessage": "Übersetzungen unterstützt durch lokalise.com",
+    "moment": {
+      "dateLong": "dd L",
+      "dateShort": "dd D.M.",
+      "hourLong": "HH:mm",
+      "hourShort": "H:mm"
+    },
+    "serverError": {
+      "409": "Uuuups... Diese Aktion hat zu einem Fehler auf dem Server geführt."
+    },
+    "validation": {
+      "minDate": "{_field_} darf nicht vor {min} liegen"
+    }
+  },
+  "views": {
+    "activity": {
+      "sideBarProgram": {
+        "title": "Tagesübersicht"
+      }
+    },
+    "auth": {
+      "login": {
+        "accountless": "Hast du noch keinen Account?",
+        "beta": {
+          "notice": "Hier entsteht das neue eCamp.<br>WICHTIG: Diese Webseite befindet sich im Aufbau. Das heisst, dass alle Daten öffentlich sind und periodisch gelöscht werden!"
+        },
+        "loginCallback": {
+          "loginInProgress": "Du wirst eingeloggt"
+        },
+        "or": "oder",
+        "password": "Passwort",
+        "provider": {
+          "ecamp": "Anmelden mit eCamp",
+          "google": "Anmelden mit Google",
+          "midata": "Anmelden mit MiData"
+        },
+        "registernow": "Jetzt registrieren",
+        "title": "Anmelden",
+        "username": "Username oder E-Mail"
+      },
+      "register": {
+        "acceptTermsOfUse": "Akzeptieren Sie die Nutzungsbedingungen",
+        "alreadyHaveAnAccount": "Haben Sie bereits ein Konto?",
+        "openTermsOfUse": "Öffnen",
+        "passwordConfirmation": "Passwort erneut eingeben",
+        "register": "Registrieren",
+        "title": "Ein Konto erstellen"
+      },
+      "registerDone": {
+        "login": "Anmelden",
+        "success": "Erfolgreich registriert",
+        "title": "Konto erstellen"
+      }
+    },
+    "camp": {
+      "admin": {
+        "title": "Admin"
+      },
+      "collaborators": {
+        "invite": "Einladen",
+        "members": "Mitarbeitende",
+        "openInvitations": "Offene Einladungen",
+        "openRequests": "Offene Anfragen",
+        "search": "Suchen...",
+        "title": "Team"
+      },
+      "navigationCamp": {
+        "admin": "Admin",
+        "campIsLoading": "Lager wird geladen",
+        "material": "Mat.",
+        "print": "Drucken",
+        "story": "Handlung",
+        "tasks": "Aufgaben",
+        "team": "Team"
+      },
+      "print": {
+        "title": "Drucken"
+      },
+      "sideBarPeriods": {
+        "title": "Lagerabschnitt"
+      }
+    },
+    "campCreate": {
+      "create": "Lager erstellen",
       "period": {
-         "defaultDescription": "Hauptlager",
-         "fields": {
-            "description": "Beschreibung",
-            "end": "Bis",
-            "start": "Von"
-         },
-         "name": "Lagerabschnitt | Lagerabschnitte"
+        "add": "Weiteren Lagerabschnitt hinzufügen",
+        "remove": "Diesen Lagerabschnitt entfernen"
       },
-      "scheduleEntry": {
-         "fields": {
-            "length": "Dauer in Minuten",
-            "nr": "Nr",
-            "periodOffset": "Minuten seit Lagerabschnittbeginn",
-            "time": "Zeitpunkt"
-         },
-         "name": "Zeitplaneintrag"
-      },
-      "user": {
-         "fields": {
-            "birthday": "Geburtstag",
-            "email": "E-Mail-Adresse",
-            "firstname": "Vorname",
-            "language": "Sprache",
-            "nickname": "Spitzname",
-            "password": "Kennwort",
-            "surname": "Nachname",
-            "username": "Benutzername"
-         },
-         "name": "User"
-      }
-   },
-   "global": {
-      "button": {
-         "add": "Hinzufügen",
-         "addContentDesktop": "Inhalt hinzufügen",
-         "back": "Zurück",
-         "cancel": "Abbrechen",
-         "create": "Erstellen",
-         "delete": "Löschen",
-         "edit": "Bearbeiten",
-         "content": "Inhalt",
-         "open": "Öffnen",
-         "save": "Speichern",
-         "saving": "Speichert",
-         "submit": "Abschicken",
-         "tryagain": "Erneut versuchen",
-         "update": "Aktualisieren"
-      },
-      "changeLanguage": "Sprache ändern",
-      "language": "Deutsch",
-      "lokaliseMessage": "Übersetzungen unterstützt durch lokalise.com",
-      "moment": {
-         "dateLong": "dd L",
-         "dateShort": "dd D.M.",
-         "hourLong": "HH:mm",
-         "hourShort": "H:mm"
-      },
-      "serverError": {
-         "409": "Uuuups... Diese Aktion hat zu einem Fehler auf dem Server geführt."
-      },
-      "validation": {
-         "minDate": "{_field_} darf nicht vor {min} liegen"
-      }
-   },
-   "views": {
-      "activity": {
-         "sideBarProgram": {
-            "title": "Tagesübersicht"
-         }
-      },
-      "auth": {
-         "login": {
-            "accountless": "Hast du noch keinen Account?",
-            "beta": {
-               "notice": "Hier entsteht das neue eCamp.<br>WICHTIG: Diese Webseite befindet sich im Aufbau. Das heisst, dass alle Daten öffentlich sind und periodisch gelöscht werden!"
-            },
-            "loginCallback": {
-               "loginInProgress": "Du wirst eingeloggt"
-            },
-            "or": "oder",
-            "password": "Passwort",
-            "provider": {
-               "ecamp": "Anmelden mit eCamp",
-               "google": "Anmelden mit Google",
-               "midata": "Anmelden mit MiData"
-            },
-            "registernow": "Jetzt registrieren",
-            "title": "Anmelden",
-            "username": "Username oder E-Mail"
-         },
-         "register": {
-            "acceptTermsOfUse": "Akzeptieren Sie die Nutzungsbedingungen",
-            "alreadyHaveAnAccount": "Haben Sie bereits ein Konto?",
-            "openTermsOfUse": "Öffnen",
-            "passwordConfirmation": "Passwort erneut eingeben",
-            "register": "Registrieren",
-            "title": "Ein Konto erstellen"
-         },
-         "registerDone": {
-            "title": "Konto erstellen",
-            "success": "Erfolgreich registriert",
-            "login": "Anmelden"
-         }
-      },
-      "camp": {
-         "admin": {
-            "title": "Admin"
-         },
-         "collaborators": {
-            "invite": "Einladen",
-            "members": "Mitarbeitende",
-            "openInvitations": "Offene Einladungen",
-            "openRequests": "Offene Anfragen",
-            "search": "Suchen...",
-            "title": "Team"
-         },
-         "sideBarPeriods": {
-            "title": "Lagerabschnitt"
-         },
-         "navigationCamp": {
-            "admin": "Admin",
-            "campIsLoading": "Lager wird geladen",
-            "print": "Drucken",
-            "story": "Handlung",
-            "tasks": "Aufgaben",
-            "team": "Team",
-            "material": "Mat."
-         },
-         "print": {
-            "title": "Drucken"
-         }
-      },
-      "campCreate": {
-         "create": "Lager erstellen",
-         "period": {
-            "add": "Weiteren Lagerabschnitt hinzufügen",
-            "remove": "Diesen Lagerabschnitt entfernen"
-         },
-         "title": "Lager erstellen"
-      },
-      "camps": {
-         "create": "Lager erstellen",
-         "title": "Mein Lager | Meine Lager"
-      },
-      "home": {
-         "home": "Home",
-         "myCamps": "Mein Lager | Meine Lager",
-         "welcome": "Hallo {user}. Herzlich willkommen auf eCamp"
-      },
-      "profile": {
-         "profile": "Profil"
-      }
-   }
+      "title": "Lager erstellen"
+    },
+    "camps": {
+      "create": "Lager erstellen",
+      "title": "Mein Lager | Meine Lager"
+    },
+    "home": {
+      "home": "Home",
+      "myCamps": "Mein Lager | Meine Lager",
+      "welcome": "Hallo {user}. Herzlich willkommen auf eCamp"
+    },
+    "navigationDefault": {
+      "home": "Startseite",
+      "myCamps": "Mein Lager | Meine Lager",
+      "profile": "Profil"
+    },
+    "profile": {
+      "profile": "Profil"
+    }
+  }
 }
