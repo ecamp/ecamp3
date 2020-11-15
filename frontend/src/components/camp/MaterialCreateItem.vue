@@ -66,7 +66,9 @@ export default {
           data.activityContentId = this.activityContent.id
         }
 
-        this.api.post(uri, data)
+        this.api.post(uri, data).then(mi => {
+          this.$emit('item-add', mi)
+        })
       })
     }
   }

@@ -1,9 +1,6 @@
 <template>
   <div class="mb-3">
-    <div v-for="materialList in materialLists.items" :key="materialList.id">
-      <h2>{{ materialList.name }}</h2>
-    </div>
-    <v-row v-for="materialItem in materialItems" :key="materialItem.id"
+    <v-row v-for="materialItem in materialItemsSorted" :key="materialItem.id"
            dense
            no-glutters justify="space-around">
       <v-col>
@@ -38,7 +35,7 @@
         </a>
       </v-col>
     </v-row>
-    <material-create-item :camp="camp" :activity-content="activityContent" />
+    <material-create-item :camp="camp" :activity-content="activityContent" @item-add="onItemAdd" />
   </div>
 </template>
 
@@ -72,8 +69,11 @@ export default {
       }))
     },
     materialItems () {
-      return this.api.get().materialItems({ activityContentId: this.activityContent.id }).items
-        .sort((a, b) => a.article.localeCompare(b.article))
+      return this.api.get().materialItems({ activityContentId: this.activityContent.id })
+    },
+    materialItemsSorted () {
+      const items = this.materialItems.items
+      return items.sort((a, b) => a.article.localeCompare(b.article))
     }
   },
   methods: {
@@ -82,6 +82,9 @@ export default {
     },
     deleteMaterialItem (materialItem) {
       this.api.del(materialItem)
+    },
+    onItemAdd (mi) {
+      this.api.reload(this.materialItems)
     }
   }
 }

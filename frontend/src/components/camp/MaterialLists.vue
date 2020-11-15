@@ -2,11 +2,9 @@
   <div>
     <div v-for="period in periods.items" :key="period.id">
       <h1>{{ period.description }}</h1>
-      <p>{{ period.id }}</p>
 
       <div v-for="materialList in materialLists.items" :key="materialList.id">
         <h2>{{ materialList.name }}</h2>
-        <p>{{ materialList.id }}</p>
 
         <ul>
           <li v-for="item in getMaterialItems(period, materialList)"
@@ -20,10 +18,14 @@
               {{ item.scheduleEntry.number }}:
               {{ item.scheduleEntry.activity().title }}
             </router-link>
+
+            <a v-else href="#" @click="deleteMaterialItem(item.materialItem)">
+              delete
+            </a>
           </li>
         </ul>
       </div>
-      <material-create-item :camp="camp()" :period="period" />
+      <material-create-item :camp="camp()" :period="period" @item-add="onItemAdd" />
     </div>
   </div>
 </template>
@@ -90,6 +92,12 @@ export default {
           return a.materialItem.article.localeCompare(b.materialItem.article)
         }
       })
+    },
+    deleteMaterialItem (materialItem) {
+      this.api.del(materialItem)
+    },
+    onItemAdd (mi) {
+      this.api.reload(mi.materialList().materialItems())
     }
   }
 }
