@@ -40,7 +40,7 @@ class DateTimeUtcTest extends AbstractTestCase {
         $initial_timezone = date_default_timezone_get();
         date_default_timezone_set('UTC');
         $dateUTC = new DateTimeUtc();
-        date_default_timezone_set('Europe/Zurich');
+        date_default_timezone_set('CET');
         $dateZurich = new DateTimeUtc();
         $this->assertThat($dateZurich->format('G'), self::equalTo($dateUTC->format('G')));
         date_default_timezone_set($initial_timezone);
