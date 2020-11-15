@@ -11,6 +11,7 @@ use eCamp\Core\Entity\Camp;
 
 class ActivityCategoryTestData extends AbstractFixture implements DependentFixtureInterface {
     public static $CATEGORY1 = ActivityCategory::class.':CATEGORY1';
+    public static $CATEGORY2 = ActivityCategory::class.':CATEGORY2';
 
     public function load(ObjectManager $manager) {
         /** @var Camp $camp */
@@ -19,17 +20,26 @@ class ActivityCategoryTestData extends AbstractFixture implements DependentFixtu
         /** @var ActivityType $activityType */
         $activityType = $this->getReference(ActivityTypeTestData::$TYPE1);
 
-        $activityCategory = new ActivityCategory();
-        $activityCategory->setCamp($camp);
-        $activityCategory->setActivityType($activityType);
-        $activityCategory->setName('ActivityCategory1');
-        $activityCategory->setShort('AC');
-        $activityCategory->setColor('#4CAF50');
+        $activityCategoryLS = new ActivityCategory();
+        $activityCategoryLS->setCamp($camp);
+        $activityCategoryLS->setActivityType($activityType);
+        $activityCategoryLS->setName('ActivityCategory1');
+        $activityCategoryLS->setShort('LS');
+        $activityCategoryLS->setColor('#FF9800');
 
-        $manager->persist($activityCategory);
+        $activityCategoryLA = new ActivityCategory();
+        $activityCategoryLA->setCamp($camp);
+        $activityCategoryLA->setActivityType($activityType);
+        $activityCategoryLA->setName('ActivityCategory2');
+        $activityCategoryLA->setShort('LA');
+        $activityCategoryLA->setColor('#4CAF50');
+
+        $manager->persist($activityCategoryLS);
+        $manager->persist($activityCategoryLA);
         $manager->flush();
 
-        $this->addReference(self::$CATEGORY1, $activityCategory);
+        $this->addReference(self::$CATEGORY1, $activityCategoryLS);
+        $this->addReference(self::$CATEGORY2, $activityCategoryLA);
     }
 
     public function getDependencies() {
