@@ -14,13 +14,22 @@ use Laminas\ApiTools\ApiProblem\ApiProblem;
 use Laminas\Authentication\AuthenticationService;
 
 class CampCollaborationService extends AbstractEntityService {
-    public function __construct(ServiceUtils $serviceUtils, AuthenticationService $authenticationService) {
+    /** @var MaterialListService */
+    private $materialListService;
+
+    public function __construct(
+        MaterialListService $materialListService,
+        ServiceUtils $serviceUtils,
+        AuthenticationService $authenticationService
+    ) {
         parent::__construct(
             $serviceUtils,
             CampCollaboration::class,
             CampCollaborationHydrator::class,
             $authenticationService
         );
+
+        $this->materialListService = $materialListService;
     }
 
     /**
@@ -214,6 +223,7 @@ class CampCollaborationService extends AbstractEntityService {
                     break;
                     case CampCollaboration::STATUS_ESTABLISHED:
                         $campCollaboration->setStatus(CampCollaboration::STATUS_ESTABLISHED);
+                        $this->createMaterialList($campCollaboration);
 
                     break;
                 }
@@ -276,6 +286,7 @@ class CampCollaborationService extends AbstractEntityService {
                         }
                         $campCollaboration->setCollaborationAcceptedBy($authUser->getUsername());
                         $campCollaboration->setStatus(CampCollaboration::STATUS_ESTABLISHED);
+                        $this->createMaterialList($campCollaboration);
 
                     break;
                 }
@@ -283,5 +294,12 @@ class CampCollaborationService extends AbstractEntityService {
         }
 
         return $campCollaboration;
+    }
+
+    private function createMaterialList(CampCollaboration $campCollaboration) {
+        $this->materialListService->create((object) [
+            'campId' => $campCollaboration->getCamp()->getId(),
+            'name' => $campCollaboration->getUser()->getDisplayName(),
+        ]);
     }
 }
