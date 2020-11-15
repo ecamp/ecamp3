@@ -6,8 +6,8 @@ use Doctrine\Common\DataFixtures\Loader;
 use eCamp\Core\Entity\Activity;
 use eCamp\Core\Entity\ActivityCategory;
 use eCamp\Core\Entity\User;
-use eCamp\CoreTest\Data\ActivityTestData;
 use eCamp\CoreTest\Data\ActivityCategoryTestData;
+use eCamp\CoreTest\Data\ActivityTestData;
 use eCamp\CoreTest\Data\UserTestData;
 use eCamp\LibTest\PHPUnit\AbstractApiControllerTestCase;
 
