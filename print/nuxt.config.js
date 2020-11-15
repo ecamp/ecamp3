@@ -67,6 +67,15 @@ export default {
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
   ],
+
+  /**
+   * Router config
+   * See https://nuxtjs.org/api/configuration-router/
+   */
+  router: {
+    middleware: 'i18n',
+  },
+
   /*
    ** Axios module configuration
    ** See https://axios.nuxtjs.org/options

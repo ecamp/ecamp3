@@ -1,28 +1,52 @@
 <template>
-  <div>
-    <h3>{{ dayName }}</h3>
+  <v-expansion-panel-content>
+    <h3 class="grey--text">
+      {{ dayName }}
+    </h3>
     <template v-if="entriesWithStory.length">
-      <div v-for="{ scheduleEntry, storyChapters } in entriesWithStory" :key="scheduleEntry._meta.uri">
-        <h4>{{ scheduleEntry.activity().title }}</h4>
-        <template v-if="editing">
-          <api-form v-for="chapter in storyChapters" :key="chapter._meta.uri" :entity="chapter">
+      <template v-for="{ scheduleEntry, storyChapters } in entriesWithStory">
+        <div v-for="chapter in storyChapters" :key="chapter._meta.uri">
+          <h4 class="mt-5">
+            <div class="d-flex">
+              {{ scheduleEntry.number }}
+              <v-chip v-if="!scheduleEntry.activity().activityCategory()._meta.loading"
+                      small
+                      dark
+                      class="mx-1"
+                      :color="scheduleEntry.activity().activityCategory().color">
+                {{ scheduleEntry.activity().activityCategory().short }}
+              </v-chip>
+              {{ scheduleEntry.activity().title }}
+              <template v-if="chapter.activityContent().instanceName">
+                - {{ chapter.activityContent().instanceName }}
+              </template>
+              <v-spacer />
+              <router-link :to="{ name: 'activity', params: { campId: day.period().camp().id, scheduleEntryId: scheduleEntry.id } }">
+                <v-icon small>mdi-open-in-new</v-icon>
+              </router-link>
+            </div>
+          </h4>
+          <api-form v-show="editing"
+                    :entity="chapter">
             <api-textarea
               fieldname="text"
               label=""
               auto-grow
               :outlined="false"
-              :solo="false" />
+              :solo="false"
+              dense />
           </api-form>
-        </template>
-        <template v-else>
-          <tiptap-editor v-for="chapter in storyChapters" :key="chapter._meta.uri" :value="chapter.text" />
-        </template>
-      </div>
+          <tiptap-editor v-show="!editing"
+                         :value="chapter.text"
+                         :editable="false"
+                         class="mt-1 v-input" />
+        </div>
+      </template>
     </template>
     <div v-else class="grey--text">
       {{ $tc('components.camp.storyDay.noStory') }}
     </div>
-  </div>
+  </v-expansion-panel-content>
 </template>
 <script>
 import { sortBy } from 'lodash'
@@ -53,7 +77,6 @@ export default {
             .items
             .filter(activityContent => activityContent.contentTypeName === 'Storycontext')
             .map(activityContent => activityContent.singleText())
-            .filter(text => text.text)
         }
       })
     },

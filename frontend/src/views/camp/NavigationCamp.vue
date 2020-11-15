@@ -7,7 +7,7 @@
              text
              width="216">
         <v-toolbar-title>
-          {{ camp().title | loading('Camp wird geladen…') }}
+          {{ camp().title | loading($tc('views.camp.navigationCamp.campIsLoading')) }}
         </v-toolbar-title>
       </v-btn>
     </logo>
@@ -15,15 +15,15 @@
     <v-toolbar-items>
       <v-btn :to="campRoute(camp(), 'collaborators')" text>
         <v-icon :left="$vuetify.breakpoint.mdAndUp">mdi-account-group</v-icon>
-        <span class="sr-only-sm-and-down">Team</span>
+        <span class="sr-only-sm-and-down">{{ $tc('views.camp.navigationCamp.team') }}</span>
       </v-btn>
       <v-btn :to="campRoute(camp(), 'admin')" text>
         <v-icon :left="$vuetify.breakpoint.mdAndUp">mdi-cogs</v-icon>
-        <span class="sr-only-sm-and-down">Admin</span>
+        <span class="sr-only-sm-and-down">{{ $tc('views.camp.navigationCamp.admin') }}</span>
       </v-btn>
       <v-btn :to="campRoute(camp(), 'print')" text>
         <v-icon :left="$vuetify.breakpoint.mdAndUp">mdi-printer</v-icon>
-        <span class="sr-only-sm-and-down">Print</span>
+        <span class="sr-only-sm-and-down">{{ $tc('views.camp.navigationCamp.print') }}</span>
       </v-btn>
       <v-btn :to="campRoute(camp(), 'story')" text>
         <v-icon :left="$vuetify.breakpoint.mdAndUp">mdi-book-open-page-variant</v-icon>
@@ -41,23 +41,23 @@
   <v-bottom-navigation v-else app
                        fixed grow>
     <v-btn>
-      <span>Material</span>
+      <span>{{ $tc('views.camp.navigationCamp.material') }}</span>
       <v-icon>mdi-package-variant</v-icon>
     </v-btn>
     <v-btn>
-      <span>Tasks</span>
+      <span>{{ $tc('views.camp.navigationCamp.tasks') }}</span>
       <v-icon>mdi-format-list-checks</v-icon>
     </v-btn>
     <v-btn :to="{name: 'camp/program'}">
-      <span>Camp</span>
+      <span>{{ $tc('views.camp.navigationCamp.camp') }}</span>
       <v-icon large>mdi-tent</v-icon>
     </v-btn>
     <v-btn :to="{name: 'camp/collaborators'}" exact>
-      <span>Team</span>
+      <span>{{ $tc('views.camp.navigationCamp.team') }}</span>
       <v-icon>mdi-account-group</v-icon>
     </v-btn>
     <v-btn :to="{name: 'camp/admin'}">
-      <span>Admin</span>
+      <span>{{ $tc('views.camp.navigationCamp.admin') }}</span>
       <v-icon>mdi-cogs</v-icon>
     </v-btn>
   </v-bottom-navigation>
