@@ -1,12 +1,18 @@
 <?php
 
-namespace eCamp\Core\Types;
+namespace eCamp\Lib\Types\Doctrine;
 
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\ConversionException;
 use Doctrine\DBAL\Types\DateTimeType;
+use eCamp\Lib\Types\DateTimeUtc;
 
 class DateTimeUtcType extends DateTimeType {
+    /**
+     * @var \DateTimeZone
+     */
+    private static $utc;
+
     /**
      * @param mixed $value
      *
@@ -20,7 +26,7 @@ class DateTimeUtcType extends DateTimeType {
             return $value;
         }
 
-        $converted = new DateTimeUtc($value);
+        $converted = new DateTimeUtc($value, self::getUtc(), $platform->getDateTimeFormatString());
 
         if (!$converted) {
             throw ConversionException::conversionFailedFormat(
@@ -31,5 +37,9 @@ class DateTimeUtcType extends DateTimeType {
         }
 
         return $converted;
+    }
+
+    private static function getUtc(): \DateTimeZone {
+        return self::$utc ?: self::$utc = new \DateTimeZone('UTC');
     }
 }

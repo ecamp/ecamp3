@@ -5,7 +5,7 @@ namespace eCamp\CoreTest\Hydrator;
 use eCamp\Core\Entity\Camp;
 use eCamp\Core\Entity\Period;
 use eCamp\Core\Hydrator\PeriodHydrator;
-use eCamp\Core\Types\DateUtc;
+use eCamp\Lib\Types\DateUtc;
 use eCamp\LibTest\PHPUnit\AbstractTestCase;
 
 /**

@@ -8,7 +8,7 @@ use Doctrine\Persistence\ObjectManager;
 use eCamp\Core\Entity\Camp;
 use eCamp\Core\Entity\Day;
 use eCamp\Core\Entity\Period;
-use eCamp\Core\Types\DateUtc;
+use eCamp\Lib\Types\DateUtc;
 
 class PeriodTestData extends AbstractFixture implements DependentFixtureInterface {
     public static $PERIOD1 = Period::class.':PERIOD1';

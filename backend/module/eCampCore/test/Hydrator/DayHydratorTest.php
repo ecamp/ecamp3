@@ -8,8 +8,8 @@ use eCamp\Core\Entity\Day;
 use eCamp\Core\Entity\Period;
 use eCamp\Core\Entity\ScheduleEntry;
 use eCamp\Core\Hydrator\DayHydrator;
-use eCamp\Core\Types\DateUtc;
 use eCamp\Lib\Entity\EntityLinkCollection;
+use eCamp\Lib\Types\DateUtc;
 use eCamp\LibTest\PHPUnit\AbstractTestCase;
 
 /**

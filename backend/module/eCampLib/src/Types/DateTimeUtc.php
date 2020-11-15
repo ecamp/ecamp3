@@ -1,10 +1,9 @@
 <?php
 
-namespace eCamp\Core\Types;
+namespace eCamp\Lib\Types;
 
 use DateTime;
 use DateTimeZone;
-use eCamp\Lib\Types\InvalidFormatException;
 
 class DateTimeUtc extends DateTime {
     protected string $FORMAT = 'Y-m-dTH:iP';
@@ -14,16 +13,16 @@ class DateTimeUtc extends DateTime {
      *
      * @param null|string $time
      *
-     * @throws InvalidFormatException
+     * @throws \eCamp\Lib\Types\InvalidFormatException
      */
-    public function __construct($time = 'now', DateTimeZone $timezone = null) {
+    public function __construct($time = 'now', DateTimeZone $timezone = null, string $format = null) {
         if (null === $timezone) {
             $timezone = new DateTimeZone('UTC');
         }
         if ('now' !== $time) {
-            $parsedDate = (object) date_parse_from_format($this->FORMAT, $time);
+            $parsedDate = (object) date_parse_from_format($format ? $format : $this->FORMAT, $time);
             if ($parsedDate->error_count > 0) {
-                throw new InvalidFormatException('Invalid date format: '.$time.'. Should be '.$this->FORMAT);
+                throw new InvalidFormatException('Invalid date format: '.$time.'. Should be '.$format ? $format : $this->FORMAT);
             }
         }
         parent::__construct($time, $timezone);

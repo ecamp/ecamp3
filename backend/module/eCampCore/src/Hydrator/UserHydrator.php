@@ -3,7 +3,7 @@
 namespace eCamp\Core\Hydrator;
 
 use eCamp\Core\Entity\User;
-use eCamp\Core\Types\DateUtc;
+use eCamp\Lib\Types\DateUtc;
 use Laminas\Authentication\AuthenticationService;
 use Laminas\Hydrator\HydratorInterface;
 

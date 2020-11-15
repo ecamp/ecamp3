@@ -3,10 +3,10 @@
 namespace eCamp\Core\Hydrator;
 
 use eCamp\Core\Entity\Period;
-use eCamp\Core\Types\DateUtc;
 use eCamp\Lib\Entity\EntityLink;
 use eCamp\Lib\Entity\EntityLinkCollection;
 use eCamp\Lib\Hydrator\Util;
+use eCamp\Lib\Types\DateUtc;
 use eCampApi\V1\Rest\Day\DayCollection;
 use eCampApi\V1\Rest\ScheduleEntry\ScheduleEntryCollection;
 use Laminas\Hydrator\HydratorInterface;

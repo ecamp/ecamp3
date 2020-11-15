@@ -6,8 +6,8 @@ use Doctrine\DBAL\Logging\EchoSQLLogger;
 use Doctrine\DBAL\Types\Type;
 use Doctrine\ORM\EntityManager;
 use eCamp\Core\ContentType\ContentTypeStrategyProviderInjector;
-use eCamp\Core\Types\DateTimeUtcType;
-use eCamp\Core\Types\DateUtcType;
+use eCamp\Lib\Types\Doctrine\DateTimeUtcType;
+use eCamp\Lib\Types\Doctrine\DateUtcType;
 use Laminas\ApiTools\ApiProblem\ApiProblemResponse;
 use Laminas\Mvc\Application;
 use Laminas\Mvc\MvcEvent;
@@ -34,8 +34,7 @@ class Module {
         // $em->getConfiguration()->setSQLLogger(new EchoSQLLogger());
 
         Type::overrideType('date', DateUtcType::class);
-        //TODO: Doesn't work yet
-        //Type::overrideType('datetime', DateTimeUtcType::class);
+        Type::overrideType('datetime', DateTimeUtcType::class);
 
         $events->attach(MvcEvent::EVENT_DISPATCH, function (MvcEvent $e) use ($em) {
             $em->beginTransaction();

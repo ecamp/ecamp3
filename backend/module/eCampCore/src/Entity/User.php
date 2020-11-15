@@ -4,7 +4,7 @@ namespace eCamp\Core\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-use eCamp\Core\Types\DateUtc;
+use eCamp\Lib\Types\DateUtc;
 use Laminas\Permissions\Acl\Role\RoleInterface;
 
 /**

@@ -4,7 +4,7 @@ namespace eCamp\Lib\Entity;
 
 use Doctrine\Common\Util\ClassUtils;
 use Doctrine\ORM\Mapping as ORM;
-use eCamp\Core\Types\DateTimeUtc;
+use eCamp\Lib\Types\DateTimeUtc;
 use Laminas\Permissions\Acl\Resource\ResourceInterface;
 
 /**
