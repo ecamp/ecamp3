@@ -6,7 +6,13 @@ Admin screen of a camp: Displays details & periods of a single camp and allows t
   <content-card>
     <v-toolbar>
       <v-card-title>{{ $tc('views.camp.story.title') }}</v-card-title>
-      <v-spacer></v-spacer>
+      <v-spacer />
+      <v-btn icon
+             :href="previewUrl"
+             class="mr-4"
+             target="_blank">
+        <v-icon>mdi-printer</v-icon>
+      </v-btn>
       <e-switch v-model="editing" :label="editing ? $tc('views.camp.story.editModeOn') : $tc('views.camp.story.editModeOff')" />
     </v-toolbar>
     <v-card-text>
@@ -25,6 +31,8 @@ import ContentCard from '@/components/layout/ContentCard'
 import StoryPeriod from '@/components/camp/StoryPeriod'
 import ESwitch from '@/components/form/base/ESwitch'
 
+const PRINT_SERVER = window.environment.PRINT_SERVER
+
 export default {
   name: 'Story',
   components: {
@@ -39,6 +47,15 @@ export default {
     return {
       editing: false,
       openPeriods: []
+    }
+  },
+  computed: {
+    previewUrl () {
+      const config = {
+        showStoryline: true
+      }
+      const configGetParams = Object.entries(config).map(([key, val]) => `${key}=${val}`).join('&')
+      return `${PRINT_SERVER}/?camp=${this.camp().id}&pagedjs=true&${configGetParams}`
     }
   },
   mounted () {
