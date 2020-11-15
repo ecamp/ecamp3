@@ -262,7 +262,8 @@
         "title": "Periods"
       },
       "story": {
-        "edit": "Edit Story",
+        "editModeOff": "Editing off",
+        "editModeOn": "Editing on",
         "title": "Story"
       }
     },

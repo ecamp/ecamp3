@@ -1,5 +1,7 @@
 <!--
-Displays a field as a e-textarea + write access via API wrapper
+Displays a field as a e-checkbox + write access via API wrapper
+
+:loading doesn't work yet: https://github.com/vuetifyjs/vuetify/issues/7843
 -->
 
 <template>
@@ -8,21 +10,18 @@ Displays a field as a e-textarea + write access via API wrapper
     v-bind="$props"
     separate-buttons
     v-on="$listeners">
-    <e-textarea
-      :value="wrapper.localValue"
+    <e-switch
+      :input-value="wrapper.localValue"
       v-bind="$attrs"
       :readonly="wrapper.readonly"
       :disabled="disabled"
       :error-messages="wrapper.errorMessages"
-      :loading="wrapper.isSaving || wrapper.isLoading ? 'secondary' : false"
-      :outlined="outlined"
-      :filled="filled"
-      :dense="dense"
-      @input="wrapper.on.input">
+      :loading="wrapper.isSaving"
+      @change="wrapper.on.input">
       <template #append>
         <api-wrapper-append :wrapper="wrapper" />
       </template>
-    </e-textarea>
+    </e-switch>
   </api-wrapper>
 </template>
 
@@ -32,10 +31,13 @@ import ApiWrapper from './ApiWrapper'
 import ApiWrapperAppend from './ApiWrapperAppend'
 
 export default {
-  name: 'ApiTextarea',
+  name: 'ApiSwitch',
   components: { ApiWrapper, ApiWrapperAppend },
   mixins: [apiPropsMixin],
-
+  props: {
+    // disable delay per default
+    autoSaveDelay: { type: Number, default: 0, required: false }
+  },
   data () {
     return {}
   }

@@ -1,10 +1,14 @@
 <template>
-  <div>
-    <h2>{{ period.description }}</h2>
+  <v-expansion-panel>
+    <v-expansion-panel-header>
+      <h3 class="grey--text text--darken-1">
+        {{ period.description }}
+      </h3>
+    </v-expansion-panel-header>
     <story-day v-for="day in period.days().items" :key="day._meta.self"
                :day="day"
                :editing="editing" />
-  </div>
+  </v-expansion-panel>
 </template>
 <script>
 import StoryDay from '@/components/camp/StoryDay'
