@@ -5,30 +5,33 @@
     </h3>
     <template v-if="entriesWithStory.length">
       <div v-for="{ scheduleEntry, storyChapters } in entriesWithStory" :key="scheduleEntry._meta.uri">
-        <h4 class="mt-3">
+        <h4 class="mt-5">
           <div class="d-flex">
             {{ scheduleEntry.activity().title }}
             <v-spacer />
-            <v-btn icon :to="{ name: 'activity', params: { campId: day.period().camp().id, scheduleEntryId: scheduleEntry.id } }">
+            <router-link :to="{ name: 'activity', params: { campId: day.period().camp().id, scheduleEntryId: scheduleEntry.id } }">
               <v-icon small>mdi-open-in-new</v-icon>
-            </v-btn>
+            </router-link>
           </div>
         </h4>
-        <template v-if="editing">
-          <api-form v-for="chapter in storyChapters" :key="chapter._meta.uri" :entity="chapter">
-            <api-textarea
-              fieldname="text"
-              label=""
-              auto-grow
-              :outlined="false"
-              :solo="false" />
-          </api-form>
-        </template>
-        <template v-else>
-          <tiptap-editor v-for="chapter in storyChapters" :key="chapter._meta.uri"
-                         :value="chapter.text"
-                         :editable="false" />
-        </template>
+        <api-form v-for="chapter in storyChapters"
+                  :key="chapter._meta.uri"
+                  v-show="editing"
+                  :entity="chapter">
+          <api-textarea
+            fieldname="text"
+            label=""
+            auto-grow
+            :outlined="false"
+            :solo="false"
+            dense />
+        </api-form>
+        <tiptap-editor v-for="chapter in storyChapters"
+                       :key="chapter._meta.uri"
+                       v-show="!editing"
+                       :value="chapter.text"
+                       :editable="false"
+                       class="mt-1 v-input" />
       </div>
     </template>
     <div v-else class="grey--text">
