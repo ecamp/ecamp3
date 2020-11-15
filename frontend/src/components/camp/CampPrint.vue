@@ -64,7 +64,10 @@ export default {
   computed: {
     previewUrl () {
       const configGetParams = Object.entries(this.config).map(([key, val]) => `${key}=${val}`).join('&')
-      return `${PRINT_SERVER}/?camp=${this.camp().id}&pagedjs=true&${configGetParams}`
+      return `${PRINT_SERVER}/?camp=${this.camp().id}&pagedjs=true&${configGetParams}&lang=${this.lang}`
+    },
+    lang () {
+      return this.$store.state.lang.language
     }
   },
   methods: {
@@ -72,7 +75,7 @@ export default {
       this.printing = true
       const result = await this.api.post('/printer', {
         campId: this.camp().id,
-        config: this.config
+        config: { ...this.config, lang: this.lang }
       })
       this.printing = false
       this.results.push({
