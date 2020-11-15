@@ -53,7 +53,7 @@
       <v-icon>mdi-account-group</v-icon>
     </v-btn>
     <v-btn :to="{name: 'camp/admin'}">
-      <span>{{ $tc('components.camp.navigationCamp.admin') }}</span>
+      <span>{{ $tc('views.camp.navigationCamp.admin') }}</span>
       <v-icon>mdi-cogs</v-icon>
     </v-btn>
   </v-bottom-navigation>
