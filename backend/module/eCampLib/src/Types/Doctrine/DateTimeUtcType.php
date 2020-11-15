@@ -17,6 +17,21 @@ class DateTimeUtcType extends DateTimeType {
      * @param mixed $value
      *
      * @throws ConversionException
+     *
+     * @return null|mixed|string
+     */
+    public function convertToDatabaseValue($value, AbstractPlatform $platform) {
+        if ($value instanceof \DateTime) {
+            $value->setTimezone(self::getUtc());
+        }
+
+        return parent::convertToDatabaseValue($value, $platform);
+    }
+
+    /**
+     * @param mixed $value
+     *
+     * @throws ConversionException
      * @throws \Exception
      *
      * @return null|\DateTime|\DateTimeInterface|mixed
