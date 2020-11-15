@@ -23,20 +23,24 @@
           </li>
         </ul>
       </div>
+      <material-create-item :camp="camp()" :period="period" />
     </div>
   </div>
 </template>
 
 <script>
 import { scheduleEntryRoute } from '@/router'
+import MaterialCreateItem from './MaterialCreateItem.vue'
 
 export default {
   name: 'MaterialLists',
+  components: { MaterialCreateItem },
   props: {
     camp: { type: Function, required: true }
   },
   data () {
-    return {}
+    return {
+    }
   },
   computed: {
     periods () {

@@ -38,61 +38,27 @@
         </a>
       </v-col>
     </v-row>
-    <v-row dense no-glutters justify="space-around">
-      <v-col>
-        <e-text-field
-          v-model="newMaterialItem.article"
-          name="Artikel"
-          fieldname="article" />
-      </v-col>
-      <v-col>
-        <e-text-field
-          v-model="newMaterialItem.quantity"
-          name="Quantity"
-          fieldname="quantity" />
-      </v-col>
-      <v-col>
-        <e-text-field
-          v-model="newMaterialItem.unit"
-          name="Unit"
-          fieldname="unit" />
-      </v-col>
-      <v-col>
-        <e-select
-          v-model="newMaterialItem.materialListId"
-          name="List"
-          fieldname="materialListId"
-          :items="materialLists" />
-      </v-col>
-      <v-col>
-        <a href="#" @click="createMaterialItem">
-          SAVE
-        </a>
-      </v-col>
-    </v-row>
+    <material-create-item :camp="camp" :activity-content="activityContent" />
   </div>
 </template>
 
 <script>
 import ApiTextField from '../../form/api/ApiTextField.vue'
 import ApiSelect from '../../form/api/ApiSelect.vue'
-import ETextField from '../../form/base/ETextField.vue'
-import ESelect from '../../form/base/ESelect.vue'
+import MaterialCreateItem from '../../camp/MaterialCreateItem.vue'
 
 export default {
   name: 'Material',
   components: {
     ApiTextField,
     ApiSelect,
-    ETextField,
-    ESelect
+    MaterialCreateItem
   },
   props: {
     activityContent: { type: Object, required: true }
   },
   data () {
     return {
-      newMaterialItem: {}
     }
   },
   computed: {
@@ -110,29 +76,12 @@ export default {
         .sort((a, b) => a.article.localeCompare(b.article))
     }
   },
-  mounted () {
-    this.resetMaterialItem()
-  },
   methods: {
     materialListItems (materialList) {
       return this.materialItems.filter(mi => mi.materialList().id === materialList.id)
     },
-    createMaterialItem () {
-      this.api.href(this.api.get(), 'materialItems').then(uri => {
-        this.api.post(uri, this.newMaterialItem)
-      })
-    },
     deleteMaterialItem (materialItem) {
       this.api.del(materialItem)
-    },
-    resetMaterialItem () {
-      this.newMaterialItem = {
-        article: '',
-        quantity: null,
-        unit: '',
-        materialListId: null,
-        activityContentId: this.activityContent.id
-      }
     }
   }
 }
