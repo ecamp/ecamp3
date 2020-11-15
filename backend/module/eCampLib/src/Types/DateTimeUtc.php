@@ -4,8 +4,9 @@ namespace eCamp\Lib\Types;
 
 use DateTime;
 use DateTimeZone;
+use JsonSerializable;
 
-class DateTimeUtc extends DateTime {
+class DateTimeUtc extends DateTime implements JsonSerializable {
     protected string $FORMAT = 'Y-m-dTH:iP';
 
     /**
@@ -30,5 +31,12 @@ class DateTimeUtc extends DateTime {
 
     public function __toString() {
         return $this->format($this->FORMAT);
+    }
+
+    /**
+     * formatter used with json_encode.
+     */
+    public function jsonSerialize() {
+        return $this->__toString();
     }
 }
