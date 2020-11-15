@@ -4,7 +4,7 @@ Lists all activity instances in a list view.
 
 <template>
   <v-list dense>
-    <template v-for="scheduleEntry in scheduleEntries">
+    <template v-for="scheduleEntry in events">
       <v-skeleton-loader
         v-if="scheduleEntry.activity()._meta.loading"
         :key="scheduleEntry._meta.self"
@@ -29,7 +29,6 @@ Lists all activity instances in a list view.
 </template>
 <script>
 import { scheduleEntryRoute } from '@/router'
-import { defineHelpers } from '@/components/scheduleEntry/dateHelperUTC'
 
 export default {
   name: 'ActivityList',
@@ -37,14 +36,15 @@ export default {
     period: {
       type: Function,
       required: true
+    },
+    events: {
+      type: Array,
+      required: true
     }
   },
   computed: {
     camp () {
       return this.period().camp()
-    },
-    scheduleEntries () {
-      return this.period().scheduleEntries().items.map((entry) => defineHelpers(entry, false))
     }
   },
   methods: {

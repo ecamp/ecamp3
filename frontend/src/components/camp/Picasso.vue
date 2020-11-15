@@ -9,7 +9,7 @@ Listing all given activity schedule entries in a calendar view.
       v-model="value"
       v-resize="resize"
       class="ec-picasso"
-      :events="events"
+      :events="eventsWithTemporary"
       :event-name="getActivityName | loading('Lädt…', ({ input }) => isActivityLoading(input))"
       :event-color="getActivityColor | loading('grey lighten-2', (entry) => isActivityLoading(entry))"
       event-start="startTime"
@@ -52,7 +52,7 @@ Listing all given activity schedule entries in a calendar view.
                right x-small
                dark text
                class="ec-event--btn rounded-sm"
-               @click.stop="showEntryInfoPopup(event)">
+               @click.stop="showScheduleEntry(event)">
           <v-icon x-small>mdi-pencil</v-icon>
         </v-btn>
         <h4>{{ getActivityName(event) }}</h4>
@@ -73,30 +73,15 @@ Listing all given activity schedule entries in a calendar view.
         {{ $tc('global.button.saving') }}
       </template>
     </v-snackbar>
-
-    <dialog-activity-create
-      ref="dialogActivityCreate"
-      :schedule-entry="popupEntry"
-      @activityCreated="afterCreateActivity($event)"
-      @creationCanceled="cancelNewActivity" />
-    <dialog-activity-edit
-      ref="dialogActivityEdit"
-      :schedule-entry="popupEntry" />
   </div>
 </template>
 <script>
 import { scheduleEntryRoute } from '@/router'
 import { isCssColor } from 'vuetify/lib/util/colorUtils'
-import DialogActivityCreate from '@/components/dialog/DialogActivityCreate'
-import DialogActivityEdit from '@/components/dialog/DialogActivityEdit'
 import { defineHelpers } from '@/components/scheduleEntry/dateHelperLocal'
 
 export default {
   name: 'Picasso',
-  components: {
-    DialogActivityCreate,
-    DialogActivityEdit
-  },
   props: {
     period: {
       type: Function,
@@ -119,13 +104,23 @@ export default {
       type: Number,
       required: false,
       default: 42
+    },
+    dialogActivityCreate: {
+      type: Function,
+      required: true
+    },
+    dialogActivityEdit: {
+      type: Function,
+      required: true
+    },
+    events: {
+      type: Array,
+      required: true
     }
   },
   data () {
     return {
-      scheduleEntries: [],
       tempScheduleEntry: {},
-      popupEntry: {},
       maxDays: 100,
       entryWidth: 80,
       value: '',
@@ -141,11 +136,11 @@ export default {
     }
   },
   computed: {
-    events () {
+    eventsWithTemporary () {
       if (this.tempScheduleEntry && this.tempScheduleEntry.tmpEvent) {
-        return this.scheduleEntries.concat(this.tempScheduleEntry)
+        return this.events.concat(this.tempScheduleEntry)
       } else {
-        return this.scheduleEntries
+        return this.events
       }
     },
     activityCategories () {
@@ -169,20 +164,9 @@ export default {
     nowY () {
       return this.$refs.calendar ? this.$refs.calendar.timeToY(this.now) + 'px' : '-10px'
     },
-    apiScheduleEntries () {
-      return this.period().scheduleEntries()
-    },
     camp () {
       return this.period().camp()
     }
-  },
-  watch: {
-    apiScheduleEntries (value) {
-      this.scheduleEntries = value.items.map(entry => defineHelpers(entry, true))
-    }
-  },
-  beforeMount () {
-    this.scheduleEntries = this.apiScheduleEntries.items.map(entry => defineHelpers(entry, true))
   },
   methods: {
     resize () {
@@ -384,22 +368,11 @@ export default {
       this.clearDraggedEntry()
     },
     showEntryInfoPopup (entry) {
-      this.popupEntry = entry
-      this.$nextTick().then(() => {
-        if (entry._meta) {
-          this.$refs.dialogActivityEdit.showDialog = true
-        } else {
-          this.$refs.dialogActivityCreate.showDialog = true
-        }
-      })
-    },
-    afterCreateActivity (data) {
-      this.api.reload(this.period().scheduleEntries())
-      this.scheduleEntries.push(...data.scheduleEntries().items.map(entry => defineHelpers(entry, true)))
-      this.tempScheduleEntry = null
-    },
-    cancelNewActivity () {
-      this.tempScheduleEntry = null
+      if (entry._meta) {
+        this.dialogActivityEdit(entry)
+      } else {
+        this.dialogActivityCreate(entry, () => { this.tempScheduleEntry = null })
+      }
     },
     roundTimeDown (time) {
       const roundTo = 15 // minutes
@@ -477,7 +450,6 @@ export default {
   min-width: 20px !important;
   top: 0 !important;
   right: 0 !important;
-  opacity: 0;
 }
 
 .ec-daily_head-day-label {
