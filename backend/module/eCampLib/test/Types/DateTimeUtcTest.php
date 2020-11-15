@@ -35,4 +35,24 @@ class DateTimeUtcTest extends AbstractTestCase {
         $date = new DateTimeUtc(self::TEST_DATETIME_CUSTOMFORMAT, null, 'Y-m-d H:i:s');
         $this->assertThat($date->__toString(), self::equalTo(self::TEST_DATETIME));
     }
+
+    public function testTimezoneDifferent() {
+        $initial_timezone = date_default_timezone_get();
+        date_default_timezone_set('UTC');
+        $dateUTC = new DateTimeUtc();
+        date_default_timezone_set('Europe/Zurich');
+        $dateZurich = new DateTimeUtc();
+        $this->assertThat($dateZurich->format('G'), self::equalTo($dateUTC->format('G')));
+        date_default_timezone_set($initial_timezone);
+    }
+
+    public function testTimezoneDifferentNative() {
+        $initial_timezone = date_default_timezone_get();
+        date_default_timezone_set('UTC');
+        $dateUTC = new \DateTime();
+        date_default_timezone_set('Europe/Zurich');
+        $dateZurich = new \DateTime();
+        $this->assertThat($dateZurich->format('G'), self::equalTo(intval($dateUTC->format('G')) + 1 % 23));
+        date_default_timezone_set($initial_timezone);
+    }
 }
