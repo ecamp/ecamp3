@@ -22,8 +22,8 @@ Displays a single activity
                    outlined
                    v-bind="attrs"
                    v-on="on">
-              <v-icon left>mdi-plus-circle-outline</v-icon> Add
-              <div v-if="$vuetify.breakpoint.smAndUp">Content</div>
+              <template v-if="$vuetify.breakpoint.smAndUp"><v-icon left>mdi-plus-circle-outline</v-icon> {{ $tc('global.button.addContentDesktop') }}</template>
+              <template v-else>{{ $tc('global.button.add') }}</template>
             </v-btn>
           </template>
           <v-list>
@@ -94,7 +94,7 @@ Displays a single activity
                     <v-row dense>
                       <v-col>
                         <api-select
-                          :name="'Responsible'"
+                          :name="$tc('entity.activity.fields.responsible')"
                           dense
                           multiple
                           chips

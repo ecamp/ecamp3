@@ -11,7 +11,7 @@
       </v-card>
     </v-col>
     <span v-if="$vuetify.breakpoint.smAndUp" class="photo_credits ma-3 pa-1">
-      Photo by Markus Rohner / Lotos
+      {{ $tc('components.layout.authContainer.photoCredits') }}
     </span>
   </v-container>
 </template>

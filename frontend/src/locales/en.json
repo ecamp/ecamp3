@@ -65,6 +65,18 @@
       "campPeriodsListItem": {
         "deleteWarning": "Do you really want to delete this period?"
       },
+      "campPrint": {
+        "activities": "Activities",
+        "dailySummary": "Daily summary",
+        "frontpage": "Front page",
+        "openPrintPreview": "Open print preview",
+        "picasso": "Picasso",
+        "printNow": "Print now",
+        "selectPrintPreview": "Select print sections:",
+        "storyline": "Storyline",
+        "title": "Print",
+        "toc": "Table of content"
+      },
       "campSettings": {
         "fields": {
           "motto": "motto",
@@ -80,14 +92,6 @@
       },
       "storyDay": {
         "noStory": "No story content found on this day..."
-      },
-      "CampPrint": {
-        "toc": "Table of content",
-        "picasso": "Picasso",
-        "storyline": "Storyline",
-        "dailySummary": "Daily summary",
-        "activities": "Activities",
-        "frontpage": "Front page"
       }
     },
     "dialog": {
@@ -101,17 +105,6 @@
       "dialogPeriodCreate": {
         "title": "Create period"
       }
-    },
-    "navigation": {
-      "myCamps": "My camp | My camps",
-      "profile": "Profile",
-      "search": "Search",
-      "searchActivitiesAndCamps": "Search activities and camps",
-      "userMeta": {
-        "logOut": "Log out",
-        "myCamps": "My camp | My camps",
-        "profile": "Profile"
-      }
     }
   },
   "entity": {
@@ -122,7 +115,7 @@
         "title": "Title"
       },
       "name": "Activity",
-      "new": "New Activity"
+      "new": "New activity"
     },
     "activityCategory": {
       "fields": {
@@ -135,10 +128,10 @@
       "name": "Activity categories",
       "numberingStyles": {
         "1": "1, 2, 3 - numbers",
-        "a": "a, b, c - lowercase letters",
         "A": "A, B, C - uppercase letters",
-        "i": "i, ii, iii - lowercase roman numerals",
-        "I": "I, II, III - uppercase roman numerals"
+        "I": "I, II, III - uppercase roman numerals",
+        "a": "a, b, c - lowercase letters",
+        "i": "i, ii, iii - lowercase roman numerals"
       }
     },
     "camp": {
@@ -193,13 +186,13 @@
       "create": "Create",
       "delete": "Delete",
       "edit": "Edit",
+      "ok": "OK",
       "open": "Open",
       "save": "Save",
       "saving": "Saving",
       "submit": "Submit",
       "tryagain": "Try again",
-      "update": "Update",
-      "ok" : "OK"
+      "update": "Update"
     },
     "changeLanguage": "Change language",
     "language": "English",
