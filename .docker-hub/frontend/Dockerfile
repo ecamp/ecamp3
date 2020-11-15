@@ -1,8 +1,7 @@
 # build stage
 FROM node:lts-alpine AS build-stage
 
-WORKDIR /common
-COPY common .
+COPY common /common
 
 WORKDIR /app
 COPY frontend/package*.json ./
