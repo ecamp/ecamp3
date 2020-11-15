@@ -85,7 +85,7 @@ Displays a single activity
                     <v-row dense>
                       <v-col>
                         <api-text-field
-                          :name="$tc('views.activity.fields.location')"
+                          :name="$tc('entity.activity.fields.location')"
                           :uri="activity._meta.self"
                           fieldname="location"
                           dense />
@@ -94,7 +94,7 @@ Displays a single activity
                     <v-row dense>
                       <v-col>
                         <api-select
-                          :name="$tc('views.activity.fields.responsible')"
+                          :name="$tc('entity.activity.fields.responsible')"
                           dense
                           multiple
                           chips
