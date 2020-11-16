@@ -5,6 +5,8 @@ Eine lokale Installation ist primär für das Entwicklen sinnvoll.
 
 Wenn du eCamp einfach nur nutzen willst, dann empfehlen wir dir dringend die bereits installierte Version auf [http://ecamp.pfadiluzern.ch](http://ecamp.pfadiluzern.ch) zu verwenden.
 
+Falls du bei der Installation auf Probleme stösst, etwas nicht funktioniert oder du weitere Unterstützung oder Erklärungen benötigst, eröffne eine [Discussion](https://github.com/ecamp/ecamp3/discussions) auf GitHub.
+
 Docker ist ein Tool, das dabei hilft, die gleiche Software auf ganz verschiedenen Computern laufen zu lassen. In sogenannten Docker containers kann man genau definieren, welche Software und Systemeinstellungen verfügbar sind und die containers so überall mit den gleichen Voraussetzungen laufen lassen. So müssen wir uns z.B. nicht darum kümmern, ob PHP auf unseren Computern installiert ist und in welcher Version, denn die korrekte PHP-Version ist im container installiert.
 
 Um den öffentlich verfügbaren Programmcode von eCamp v3 auf deinen Computer herunterzuladen, brauchen wir das Tool Git. Git hilft uns dabei, wenn wir den Code ändern und verbessern, den Überblick nicht zu verlieren und behält immer Backups von allen Versionen.
