@@ -54,3 +54,6 @@ docker exec -it ecamp3-frontend npm update
 ```
 
 Die Tools funktionieren also grundsätzlich genau gleich wie wenn man sie ausserhalb des Containers installiert hat, nur dass man den Befehl in einen Container hinein absetzen muss (mit `docker exec -it <container-name>`).
+
+## VS Code
+Falls du VS Code als deinen Editor einsetzen möchtest, haben wir ein paar Informationen dazu im [wiki](https://github.com/ecamp/ecamp3/wiki/Getting-started-on-Windows#setting-up-the-ide) zusammengetragen (nur englisch).
