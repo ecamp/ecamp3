@@ -2,8 +2,8 @@
 
 Hier wird erklärt, wie eCamp auf einem Webserver deployt werden kann, auf dem Docker installiert ist. Eine solche Instanz läuft auf DigitalOcean unter https://dev.ecamp3.ch.
 
-Wenn du eCamp einfach nur nutzen willst, dann empfehlen wir dir dringend die bereits installierte Version auf [http://ecamp.pfadiluzern.ch](http://ecamp.pfadiluzern.ch) zu verwenden.
-Wenn du an eCamp mitentwickeln willst, kannst du der Anleitung für die lokale Installation auf deinem Computer folgen ([mit Docker](./install-docker.md) / [auf Ubuntu](./install-ubuntu.md)).
+Wenn du eCamp einfach nur nutzen willst, dann empfehlen wir dir dringend die bereits installierte Version auf [https://ecamp.pfadiluzern.ch](https://ecamp.pfadiluzern.ch) zu verwenden.
+Wenn du an eCamp mitentwickeln willst, kannst du der Anleitung für die lokale Installation auf deinem Computer folgen ([mit Docker auf Linux](./install-docker.md) / [mit Docker auf Windows + WSL 2](https://github.com/ecamp/ecamp3/wiki/Getting-started-on-Windows)).
 
 ## Übersicht
 Auf [Docker Hub](https://hub.docker.com/u/ecamp) sind jeweils offizielle Docker images für Backend, Frontend und weitere Komponenten der aktuellsten Version von eCamp veröffentlicht.
