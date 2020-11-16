@@ -9,7 +9,7 @@ Listing all given activity schedule entries in a calendar view.
       v-model="value"
       v-resize="resize"
       class="ec-picasso"
-      :events="eventsWithTemporary"
+      :events="scheduleEntriesWithTemporary"
       :event-name="getActivityName | loading('Lädt…', ({ input }) => isActivityLoading(input))"
       :event-color="getActivityColor | loading('grey lighten-2', (entry) => isActivityLoading(entry))"
       event-start="startTime"
@@ -47,12 +47,14 @@ Listing all given activity schedule entries in a calendar view.
              class="v-current-time" :style="{ top: nowY }" />
       </template>
       <template #event="{event, eventParsed, timed}">
-        <v-btn v-if="!event.tmpEvent" absolute
+        <v-btn v-if="!event.tmpEvent && dialogActivityEdit" absolute
                top
                right x-small
                dark text
                class="ec-event--btn rounded-sm"
-               @click.stop="showScheduleEntry(event)">
+               @click.stop="showEntryInfoPopup(event)"
+               @mousedown.stop=""
+               @mouseup.stop="" >
           <v-icon x-small>mdi-pencil</v-icon>
         </v-btn>
         <h4>{{ getActivityName(event) }}</h4>
@@ -107,13 +109,13 @@ export default {
     },
     dialogActivityCreate: {
       type: Function,
-      required: true
+      required: false
     },
     dialogActivityEdit: {
       type: Function,
-      required: true
+      required: false
     },
-    events: {
+    scheduleEntries: {
       type: Array,
       required: true
     }
@@ -132,15 +134,16 @@ export default {
       draggedStartTime: null,
       currentStartTime: null,
       extendOriginal: null,
-      nativeTarget: null
+      nativeTarget: null,
+      openedInNewTab: false
     }
   },
   computed: {
-    eventsWithTemporary () {
+    scheduleEntriesWithTemporary () {
       if (this.tempScheduleEntry && this.tempScheduleEntry.tmpEvent) {
-        return this.events.concat(this.tempScheduleEntry)
+        return this.scheduleEntries.concat(this.tempScheduleEntry)
       } else {
-        return this.events
+        return this.scheduleEntries
       }
     },
     activityCategories () {
@@ -200,7 +203,7 @@ export default {
     },
     scheduleEntryRoute,
     showScheduleEntry (entry) {
-      this.$router.push(scheduleEntryRoute(this.camp, entry))
+      this.$router.push(scheduleEntryRoute(this.camp, entry)).catch(() => {})
     },
     showScheduleEntryInNewTab (entry) {
       const routeData = this.$router.resolve(scheduleEntryRoute(this.camp, entry))
@@ -210,15 +213,10 @@ export default {
       return ''
     },
     entryMouseDown ({ event: entry, timed, nativeEvent }) {
-      if (!entry.tmpEvent && nativeEvent.detail === 2) {
-        // Doubleclick opens activity
-        this.showScheduleEntry(entry)
-      } else if (!entry.tmpEvent && (nativeEvent.button === 1 || nativeEvent.metaKey || nativeEvent.ctrlKey)) {
+      if (!entry.tmpEvent && (nativeEvent.button === 1 || nativeEvent.metaKey || nativeEvent.ctrlKey)) {
         // Click with middle mouse button, or click while holding cmd/ctrl opens new tab
         this.showScheduleEntryInNewTab(entry)
-        this.openEntry = true
-      } else if (this.openEntry) {
-
+        this.openedInNewTab = true
       } else {
         if (entry && timed) {
           this.draggedEntry = entry
@@ -229,6 +227,10 @@ export default {
     },
     timeMouseDown (tms) {
       const mouse = this.toTime(tms)
+      if (this.openedInNewTab) {
+        this.openedInNewTab = false
+        return
+      }
 
       if (this.mouseStartTime === null) {
         this.mouseStartTime = mouse
@@ -303,7 +305,7 @@ export default {
         const threshold = minuteThreshold * 60 * 1000
         const now = this.toTime(tms)
         if (Math.abs(now - this.mouseStartTime) < threshold) {
-          this.showEntryInfoPopup(this.draggedEntry)
+          this.showScheduleEntry(this.draggedEntry)
         } else if (!this.draggedEntry.tmpEvent) {
           const patchedScheduleEntry = {
             periodOffset: this.draggedEntry.periodOffset,

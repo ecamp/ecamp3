@@ -4,9 +4,10 @@
       <v-subheader class="text-uppercase subtitle-2">
         {{ $tc('views.activity.sideBarProgram.title') }}
       </v-subheader>
-      <v-skeleton-loader v-if="scheduleEntries.loading" class="ma-3"
+      <v-skeleton-loader v-if="apiScheduleEntries.loading" class="ma-3"
                          type="list-item@6" />
       <picasso v-else
+               :scheduleEntries="scheduleEntries"
                :period="period"
                :start="startOfDay"
                :interval-height="36"
@@ -20,6 +21,7 @@
 import Picasso from '@/components/camp/Picasso'
 import SideBar from '@/components/navigation/SideBar'
 import ContentCard from '@/components/layout/ContentCard'
+import { defineHelpers } from '@/components/scheduleEntry/dateHelperLocal'
 
 export default {
   name: 'SideBarProgram',
@@ -27,11 +29,16 @@ export default {
   props: {
     day: { type: Function, required: true }
   },
+  data () {
+    return {
+      scheduleEntries: []
+    }
+  },
   computed: {
     period () {
       return this.day().period
     },
-    scheduleEntries () {
+    apiScheduleEntries () {
       // TODO add filtering for the current day when backend supports it
       return this.period().scheduleEntries()
     },
@@ -41,6 +48,14 @@ export default {
     endOfDay () {
       return this.addDays(this.startOfDay, 1)
     }
+  },
+  watch: {
+    apiScheduleEntries (value) {
+      this.scheduleEntries = value.items.map(entry => defineHelpers(entry, true))
+    }
+  },
+  beforeMount () {
+    this.scheduleEntries = this.apiScheduleEntries.items.map(entry => defineHelpers(entry, true))
   },
   methods: {
     addDays (date, days) {

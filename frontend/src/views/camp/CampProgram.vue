@@ -27,7 +27,7 @@ Show all activity schedule entries of a single period.
         <picasso
           v-show="!listFormat"
           class="mx-2 ma-sm-0 pa-sm-2"
-          :events="scheduleEntries"
+          :scheduleEntries="scheduleEntries"
           :period="period"
           :start="Date.parse(period().start)"
           :end="Date.parse(period().end)"
@@ -35,7 +35,7 @@ Show all activity schedule entries of a single period.
           :dialog-activity-edit="showActivityEditDialog" />
         <activity-list
           v-show="listFormat"
-          :events="scheduleEntries"
+          :scheduleEntries="scheduleEntries"
           :period="period" />
       </template>
       <dialog-activity-create
@@ -118,8 +118,8 @@ export default {
       const entry = defineHelpers({
         number: null,
         period: () => (this.period)(),
-        periodOffset: 0,
-        length: 0,
+        periodOffset: 420,
+        length: 60,
         activity: () => ({
           title: this.$tc('entity.activity.new'),
           location: '',

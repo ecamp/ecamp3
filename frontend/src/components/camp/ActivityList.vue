@@ -4,7 +4,7 @@ Lists all activity instances in a list view.
 
 <template>
   <v-list dense>
-    <template v-for="scheduleEntry in events">
+    <template v-for="scheduleEntry in scheduleEntries">
       <v-skeleton-loader
         v-if="scheduleEntry.activity()._meta.loading"
         :key="scheduleEntry._meta.self"
@@ -37,7 +37,7 @@ export default {
       type: Function,
       required: true
     },
-    events: {
+    scheduleEntries: {
       type: Array,
       required: true
     }
