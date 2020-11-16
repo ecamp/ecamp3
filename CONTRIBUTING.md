@@ -4,7 +4,7 @@ Thanks again for wanting to help out! *Danke nochmals dass du mithelfen möchtes
 
 *(deutsche Übersetzung weiter unten)*
 
-### Contribution process
+### Git setup
 We use a triangular git workflow. This means that all changes are first pushed to a contributor's fork of the repository, and then the changes are merged into the main fork via a pull request. In practice, setting up this workflow looks as follows:
 
 1. Fork the main repository onto your GitHub account. Let's say your GitHub account is called `your-username`.
@@ -68,7 +68,7 @@ Alternatively you can
 
 ## Mitarbeit (deutsche Übersetzung)
 
-### Mitarbeits-Prozess
+### Git einrichten
 Wir wenden einen triangulären Git-Workflow an. Das bedeutet, dass alle Code-Änderungen zuerst auf dem Fork des Entwicklers veröffentlicht werden, und erst dann werden die Änderungen via Pull Request in das offizielle eCamp3-Repository eingefügt. Um dies einzurichten, befolgen wir folgende Schritte:
 
 1. Erstelle einen persönlichen Fork des zentralen Repositories auf GitHub. Nehmen wir an dein GitHub-Account heisst `your-username`.
