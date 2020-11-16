@@ -3,6 +3,7 @@
 namespace eCamp\CoreTest\Entity;
 
 use eCamp\Core\Entity\ActivityContent;
+use eCamp\Core\Entity\Camp;
 use eCamp\Core\Entity\MaterialItem;
 use eCamp\Core\Entity\MaterialList;
 use eCamp\Core\Entity\Period;
@@ -15,11 +16,14 @@ class MaterialItemTest extends AbstractTestCase {
     public function testMaterialItem() {
         $materialItem = new MaterialItem();
         $materialList = new MaterialList();
+        $camp = new Camp();
 
-        $materialItem->setMaterialList($materialList);
+        $camp->addMaterialList($materialList);
+        $materialList->addMaterialItem($materialItem);
         $materialItem->setArticle('article');
         $materialItem->setQuantity(2);
         $materialItem->setUnit('unit');
+        $this->assertEquals($camp, $materialItem->getCamp());
         $this->assertEquals($materialList, $materialItem->getMaterialList());
         $this->assertEquals('article', $materialItem->getArticle());
         $this->assertEquals(2, $materialItem->getQuantity());
