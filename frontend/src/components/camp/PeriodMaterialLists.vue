@@ -5,49 +5,54 @@
     </v-expansion-panel-header>
     <v-expansion-panel-content>
       <div v-for="materialList in materialLists.items"
-           :key="materialList.id">
-        <h2>{{ materialList.name }}</h2>
-        <v-simple-table dense>
-          <thead>
-            <tr>
-              <th class="text-left">
-                Anzahl
-              </th>
-              <th class="text-left">
-                Artikel
-              </th>
-              <th class="text-left">
-                Block
-              </th>
-              <th class="text-left">
-                Option
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="item in getMaterialItems(period, materialList)"
-                :key="item.key">
-              <td>
-                {{ item.materialItem.quantity }}
-                {{ item.materialItem.unit }}
-              </td>
-              <td>{{ item.materialItem.article }}</td>
-              <td>
-                <router-link v-if="item.scheduleEntry !== null"
-                             :to="scheduleEntryRoute(camp, item.scheduleEntry)">
-                  {{ item.scheduleEntry.number }}:
-                  {{ item.scheduleEntry.activity().title }}
-                </router-link>
-              </td>
-              <td>
-                <a v-if="item.scheduleEntry == null"
-                   href="#" @click="deleteMaterialItem(item.materialItem)">
-                  delete
-                </a>
-              </td>
-            </tr>
-          </tbody>
-        </v-simple-table>
+           :key="materialList.id"
+           :set="materialItems = getMaterialItems(period, materialList)">
+        <div v-if="materialItems.length > 0">
+          <h2>{{ materialList.name }}</h2>
+          <v-simple-table dense>
+            <thead>
+              <tr>
+                <th class="text-left" style="width: 10%;">
+                  {{ $tc('entity.materialItem.fields.quantity') }}
+                </th>
+                <th class="text-left">
+                  {{ $tc('entity.materialItem.fields.article') }}
+                </th>
+                <th class="text-left" style="width: 20%;">
+                  {{ $tc('entity.activity.name') }}
+                </th>
+                <th class="text-left" style="width: 15%;">
+                  Option
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="item in materialItems" :key="item.key">
+                <td>
+                  {{ item.materialItem.quantity }}
+                  {{ item.materialItem.unit }}
+                </td>
+                <td>{{ item.materialItem.article }}</td>
+                <td>
+                  <router-link
+                    v-if="item.scheduleEntry !== null"
+                    :to="scheduleEntryRoute(camp, item.scheduleEntry)">
+                    {{ item.scheduleEntry.number }}:
+                    {{ item.scheduleEntry.activity().title }}
+                  </router-link>
+                </td>
+                <td>
+                  <v-btn
+                    v-if="item.scheduleEntry == null"
+                    small
+                    @click="deleteMaterialItem(item.materialItem)">
+                    {{ $tc('global.button.delete') }}
+                  </v-btn>
+                </td>
+              </tr>
+            </tbody>
+          </v-simple-table>
+        </div>
       </div>
 
       <material-create-item :camp="camp" :period="period" @item-add="onItemAdd" />
@@ -60,8 +65,10 @@ import { scheduleEntryRoute } from '@/router'
 import MaterialCreateItem from './MaterialCreateItem.vue'
 
 export default {
-  name: 'MaterialLists',
-  components: { MaterialCreateItem },
+  name: 'PeriodMaterialLists',
+  components: {
+    MaterialCreateItem
+  },
   props: {
     period: { type: Object, required: true },
     showActivityMaterial: { type: Boolean, required: true }
@@ -76,6 +83,12 @@ export default {
     },
     materialLists () {
       return this.camp.materialLists()
+    },
+    materialListOptions () {
+      return this.camp.materialLists().items.map(l => ({
+        value: l.id,
+        text: l.name
+      }))
     }
   },
   methods: {

@@ -59,6 +59,10 @@
       "campInvitations": {
         "title": "Invite"
       },
+      "campMaterialLists": {
+        "createMaterialList": "Create material list",
+        "title": "Material lists"
+      },
       "campMembers": {
         "title": "Members"
       },
@@ -153,10 +157,18 @@
     "campCollaboration": {
       "campLeft": "left camp"
     },
+    "materialItem": {
+      "fields": {
+        "article": "Article",
+        "quantity": "Quantity",
+        "unit": "Unit"
+      }
+    },
     "materialList": {
       "fields": {
         "name": "Name"
-      }
+      },
+      "name": "Materiallist"
     },
     "period": {
       "defaultDescription": "Main",
@@ -268,6 +280,7 @@
         "title": "Team"
       },
       "material": {
+        "showActivityMaterial": "Show activity material",
         "title": "Material"
       },
       "navigationCamp": {

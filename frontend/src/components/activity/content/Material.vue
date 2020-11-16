@@ -1,40 +1,64 @@
 <template>
   <div class="mb-3">
-    <v-row v-for="materialItem in materialItemsSorted" :key="materialItem.id"
-           dense
-           no-glutters justify="space-around">
-      <v-col>
-        <api-text-field
-          name="Artikel"
-          :uri="materialItem._meta.self"
-          fieldname="article" />
-      </v-col>
-      <v-col>
-        <api-text-field
-          name="Quantity"
-          :uri="materialItem._meta.self"
-          fieldname="quantity" />
-      </v-col>
-      <v-col>
-        <api-text-field
-          name="Unit"
-          :uri="materialItem._meta.self"
-          fieldname="unit" />
-      </v-col>
-      <v-col>
-        <api-select
-          name="List"
-          :uri="materialItem._meta.self"
-          relation="materialList"
-          fieldname="materialListId"
-          :items="materialLists" />
-      </v-col>
-      <v-col>
-        <a href="#" @click="deleteMaterialItem(materialItem)">
-          Delete
-        </a>
-      </v-col>
-    </v-row>
+    <v-simple-table dense>
+      <thead>
+        <tr>
+          <th class="text-left" style="width: 10%;">
+            {{ $tc("entity.materialItem.fields.quantity") }}
+          </th>
+          <th style="width: 15%" />
+          <th class="text-left">
+            {{ $tc("entity.materialItem.fields.article") }}
+          </th>
+          <th class="text-left" style="width: 20%;">
+            {{ $tc('entity.materialList.name') }}
+          </th>
+          <th class="text-left" style="width: 15%;">
+            Option
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="materialItem in materialItemsSorted"
+            :key="materialItem.id">
+          <td>
+            <api-text-field
+              dense
+              :outlined="false"
+              :uri="materialItem._meta.self"
+              fieldname="quantity" />
+          </td>
+          <td>
+            <api-text-field
+              dense
+              :outlined="false"
+              :uri="materialItem._meta.self"
+              fieldname="unit" />
+          </td>
+          <td>
+            <api-text-field
+              dense
+              :outlined="false"
+              :uri="materialItem._meta.self"
+              fieldname="article" />
+          </td>
+          <td>
+            <api-select
+              dense
+              :outlined="false"
+              :uri="materialItem._meta.self"
+              relation="materialList"
+              fieldname="materialListId"
+              :items="materialLists" />
+          </td>
+          <td>
+            <a href="#" @click="deleteMaterialItem(materialItem)">
+              {{ $tc('global.button.delete') }}
+            </a>
+          </td>
+        </tr>
+      </tbody>
+    </v-simple-table>
     <material-create-item :camp="camp" :activity-content="activityContent" @item-add="onItemAdd" />
   </div>
 </template>

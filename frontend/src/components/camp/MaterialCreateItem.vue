@@ -2,33 +2,37 @@
   <v-row dense no-glutters justify="space-around">
     <v-col>
       <e-text-field
-        v-model="materialItem.article"
-        name="Artikel"
-        fieldname="article" />
-    </v-col>
-    <v-col>
-      <e-text-field
         v-model="materialItem.quantity"
-        name="Quantity"
+        dense
+        :name="$tc('entity.materialItem.fields.quantity')"
         fieldname="quantity" />
     </v-col>
     <v-col>
       <e-text-field
         v-model="materialItem.unit"
-        name="Unit"
+        dense
+        :name="$tc('entity.materialItem.fields.unit')"
         fieldname="unit" />
+    </v-col>
+    <v-col>
+      <e-text-field
+        v-model="materialItem.article"
+        dense
+        :name="$tc('entity.materialItem.fields.article')"
+        fieldname="article" />
     </v-col>
     <v-col>
       <e-select
         v-model="materialItem.materialListId"
-        name="List"
+        dense
+        :name="$tc('entity.materialList.name')"
         fieldname="materialListId"
         :items="materialLists" />
     </v-col>
     <v-col>
-      <a href="#" @click="createMaterialItem">
-        SAVE
-      </a>
+      <v-btn @click="createMaterialItem">
+        {{ $tc('global.button.add') }}
+      </v-btn>
     </v-col>
   </v-row>
 </template>
