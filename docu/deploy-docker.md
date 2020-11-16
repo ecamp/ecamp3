@@ -41,11 +41,11 @@ Natürlich können auch weitere Konfigurationsdateien oder beliebige Dateien im 
 ## Automatisches Deployment (continuous integration)
 
 Es ist für jeden möglich, automatisch custom CI-Builds zu triggern wenn sich etwas im Haupt-Repo von eCamp ändert. Dafür muss ein Fork erstellt werden, der dann via GitHub Actions mit dem origin synchron gehalten wird.
-Der deployment-Branch des Forks sollte also durch den automatischen Sync immer den aktuellsten Stand des origin devels enthalten, plus ein paar wenige Commits (je weniger desto einfacher) die beliebige CI-Konfiguration enthalten. Die GitHub Actions Konfiguration muss im Haupt-Branch des Repositories liegen (bei uns `devel`).
+Der deployment-Branch des Forks sollte also durch den automatischen Sync immer den aktuellsten Stand des origin devels enthalten, plus ein paar wenige Commits (je weniger desto einfacher), die den Code im Repository um die Deployment-Konfiguration ergänzen. Die GitHub Actions Konfiguration muss im Haupt-Branch des Repositories liegen (bei uns `devel`).
 
-Ein Beispiel für die GitHub Actions Konfiguration findest du unter https://github.com/ecamp/ecamp3/tree/devel/.github/workflows
+Ein Beispiel für die GitHub Actions Konfiguration findest du unter https://github.com/ecamp/ecamp3/tree/devel/.github/workflows/sync.yml
 
-Ein Beispiel für die CI-Konfiguration findest du unter https://github.com/ecamp/ecamp3/tree/deploy-dev.ecamp3.ch/.deployment und https://github.com/ecamp/ecamp3/tree/deploy-dev.ecamp3.ch/.travis.yml
+Ein Beispiel für die CI-Konfiguration findest du unter https://github.com/ecamp/ecamp3/tree/deploy-dev.ecamp3.ch/.travis.yml und https://github.com/ecamp/ecamp3/tree/deploy-dev.ecamp3.ch/.deployment
 
 ### Warum nicht entweder Travis CI oder GitHub Actions? Warum beides?
 GitHub Actions kann sehr viel einfacher als Travis CI das Git-Repository abändern (rebasen und pushen). Wollte man dasselbe auf Travis machen, so müsste man ein service account token erstellen, mit dem Travis das Git-Repository verändern kann.
