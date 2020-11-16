@@ -15,6 +15,7 @@
                 <th class="text-left" style="width: 10%;">
                   {{ $tc('entity.materialItem.fields.quantity') }}
                 </th>
+                <th style="width: 15%" />
                 <th class="text-left">
                   {{ $tc('entity.materialItem.fields.article') }}
                 </th>
@@ -28,11 +29,36 @@
             </thead>
             <tbody>
               <tr v-for="item in materialItems" :key="item.key">
-                <td>
+                <td v-if="item.scheduleEntry == null">
+                  <api-text-field
+                    dense
+                    :outlined="false"
+                    :uri="item.materialItem._meta.self"
+                    fieldname="quantity" />
+                </td>
+                <td v-else>
                   {{ item.materialItem.quantity }}
+                </td>
+                <td v-if="item.scheduleEntry == null">
+                  <api-text-field
+                    dense
+                    :outlined="false"
+                    :uri="item.materialItem._meta.self"
+                    fieldname="unit" />
+                </td>
+                <td v-else>
                   {{ item.materialItem.unit }}
                 </td>
-                <td>{{ item.materialItem.article }}</td>
+                <td v-if="item.scheduleEntry == null">
+                  <api-text-field
+                    dense
+                    :outlined="false"
+                    :uri="item.materialItem._meta.self"
+                    fieldname="article" />
+                </td>
+                <td v-else>
+                  {{ item.materialItem.article }}
+                </td>
                 <td>
                   <router-link
                     v-if="item.scheduleEntry !== null"
@@ -62,11 +88,13 @@
 
 <script>
 import { scheduleEntryRoute } from '@/router'
+import ApiTextField from '../form/api/ApiTextField.vue'
 import MaterialCreateItem from './MaterialCreateItem.vue'
 
 export default {
   name: 'PeriodMaterialLists',
   components: {
+    ApiTextField,
     MaterialCreateItem
   },
   props: {
