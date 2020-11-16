@@ -27,7 +27,7 @@ Show all activity schedule entries of a single period.
         <picasso
           v-show="!listFormat"
           class="mx-2 ma-sm-0 pa-sm-2"
-          :scheduleEntries="scheduleEntries"
+          :schedule-entries="scheduleEntries"
           :period="period"
           :start="Date.parse(period().start)"
           :end="Date.parse(period().end)"
@@ -35,7 +35,7 @@ Show all activity schedule entries of a single period.
           :dialog-activity-edit="showActivityEditDialog" />
         <activity-list
           v-show="listFormat"
-          :scheduleEntries="scheduleEntries"
+          :schedule-entries="scheduleEntries"
           :period="period" />
       </template>
       <dialog-activity-create

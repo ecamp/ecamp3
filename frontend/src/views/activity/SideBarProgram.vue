@@ -7,7 +7,7 @@
       <v-skeleton-loader v-if="apiScheduleEntries.loading" class="ma-3"
                          type="list-item@6" />
       <picasso v-else
-               :scheduleEntries="scheduleEntries"
+               :schedule-entries="scheduleEntries"
                :period="period"
                :start="startOfDay"
                :interval-height="36"

@@ -54,7 +54,7 @@ Listing all given activity schedule entries in a calendar view.
                class="ec-event--btn rounded-sm"
                @click.stop="showEntryInfoPopup(event)"
                @mousedown.stop=""
-               @mouseup.stop="" >
+               @mouseup.stop="">
           <v-icon x-small>mdi-pencil</v-icon>
         </v-btn>
         <h4>{{ getActivityName(event) }}</h4>
@@ -109,11 +109,13 @@ export default {
     },
     dialogActivityCreate: {
       type: Function,
-      required: false
+      required: false,
+      default: () => {}
     },
     dialogActivityEdit: {
       type: Function,
-      required: false
+      required: false,
+      default: () => {}
     },
     scheduleEntries: {
       type: Array,
