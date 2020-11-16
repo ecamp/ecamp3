@@ -19,7 +19,7 @@ The following commonly requested improvements over eCamp v2 are already implemen
 
 - Improved saving features - where possible, data are auto-saved on the fly.
 - Usability on mobile phones - the design is mobile-first.
-- Login via MiData account of the swiss scouts association is possible
+- Login via MiData account of the Swiss Guide and Scouts Movement is possible
 - Switching the user interface language, powered by [Lokalise](https://lokalise.com)
 - Formatting texts (bold, italic, etc.) - is prepared, will be activated after the initial release.
 
