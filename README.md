@@ -23,7 +23,7 @@ The following commonly requested improvements over eCamp v2 are already implemen
 - Switching the user interface language, powered by [Lokalise](https://lokalise.com)
 - Formatting texts (bold, italic, etc.) - is prepared, will be activated after the initial release.
 
-eCamp v3 is made up of a backend based on the PHP framework Laminas, which offers a HAL JSON API, as well as a Vue.js frontend and some other smaller services.
+eCamp v3 is made up of a backend based on the PHP framework Laminas (which offers a HAL JSON API) as well as a Vue.js frontend and some other smaller services.
 
 #### Want to help?
 
@@ -36,7 +36,7 @@ Thanks for helping! There are a few ways to get started.
 - If you run into problems during setup or need help, open a [discussion](https://github.com/ecamp/ecamp3/discussions)
 - Before you can start coding, read our [contributing guidelines](CONTRIBUTING.md)
 - Study the [documentation in the wiki](https://github.com/ecamp/ecamp3/wiki)
-- Choose an [Issue labeled "good first issue"](https://github.com/ecamp/ecamp3/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22) and try to solve it
+- Choose an [issue labeled "good first issue"](https://github.com/ecamp/ecamp3/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22) and try to solve it
 
 
 ## eCamp3 (deutsche Übersetzung)
@@ -55,7 +55,7 @@ Folgende Verbesserungen, die bei eCamp v2 oft gewünscht werden, sind bereits im
 - Mehrsprachigkeit mit [Lokalise](https://lokalise.com)
 - Formatierung in Texten (fett, kursiv, etc.) - ist vorbereitet, wird aber erst nach dem ersten Release freigeschaltet.
 
-eCamp v3 besteht aus einem Backend basierend auf dem PHP-Framework Laminas welches eine HAL JSON API anbietet, einem Vue.js-Frontend sowie einigen weiteren kleineren Services.
+eCamp v3 besteht aus einem Backend basierend auf dem PHP-Framework Laminas (welches eine HAL JSON API anbietet), einem Vue.js-Frontend sowie einigen weiteren kleineren Services.
 
 #### Mithelfen
 
