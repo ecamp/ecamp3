@@ -7,39 +7,7 @@
 
 ## eCamp3
 
-(For english translation see below)
-
-eCamp ist eine Webapplikation, mit welcher J+S-Lager, J+S-Kurse und andere Lager geplant werden können. Dabei verfügen alle Benutzer stets über den aktuellsten Stand der Planung.
-
-Die ältere Version eCamp v2 ist produktiv im Einsatz und kann unter folgender Adresse genutzt werden: [https://ecamp.pfadiluzern.ch](https://ecamp.pfadiluzern.ch/)
-
-eCamp3 ist eine Neu-Entwicklung von eCamp. Das Ziel ist es, die Funktionalität von eCamp v2 mit moderneren Technologien und einer erweiterbaren Architektur neu zu implementieren. Aktuell fokussieren wir uns auf den Neubau der Lagerplanungs-Features, welche in einem MVP (minimum viable product, minimale nützliche Version) released werden. Später werden dann Erweiterungen für die Kursplanung und weiteres folgen.
-
-Folgende Verbesserungen, die bei eCamp v2 oft gewünscht werden, sind bereits implementiert:
-
-- Bessere Speicher-Funktion - wo immer möglich werden die Daten laufend automatisch gespeichert.
-- Benutzbarkeit auf dem Mobiltelefon - das Design ist mobile-first.
-- Login via MiData-Account der Pfadibewegung Schweiz ist möglich
-- Mehrsprachigkeit mit [Lokalise](https://lokalise.com)
-- Formatierung in Texten (fett, kursiv, etc.) - ist vorbereitet, wird aber erst nach dem ersten Release freigeschaltet.
-
-eCamp v3 besteht aus einem Backend basierend auf dem PHP-Framework Laminas welches eine HAL JSON API anbietet, einem Vue.js-Frontend sowie einigen weiteren kleineren Services.
-
-#### Mithelfen
-
-Danke dass du mithelfen möchtest! Es gibt ein paar verschiedene Arten wie du beginnen kannst.
-- Besuche unsere Testumgebung auf https://dev.ecamp3.ch. Wenn du einen Fehler entdeckst, [eröffne ein Issue dafür](https://github.com/ecamp/ecamp3/issues/new).
-- Um das Projekt bei dir auf dem Computer laufen zu lassen, folge einer der Installationsanleitungen:
-  - [Installation mit Docker auf Linux](docu/install-docker.md)
-  - [Installation mit Docker auf Windows + WSL2](https://github.com/ecamp/ecamp3/wiki/Getting-started-on-Windows) (nur englisch)
-  - [VS Code als Code-Editor einrichten](https://github.com/ecamp/ecamp3/wiki/Getting-started-on-Windows#setting-up-the-ide) (nur englisch)
-- Falls du Probleme beim Einrichten oder Verständnisfragen hast, eröffne eine [Discussion](https://github.com/ecamp/ecamp3/discussions)
-- Bevor du mit programmieren loslegen kannst, lies unsere [contributing guidelines](CONTRIBUTING.md)
-- Studier die [Dokumentation im wiki](https://github.com/ecamp/ecamp3/wiki)
-- Such dir ein [einsteigertaugliches Issue](https://github.com/ecamp/ecamp3/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22) aus und probiere es zu lösen
-
-
-## eCamp3 (english translation)
+(deutsche Übersetzung weiter unten)
 
 eCamp is a web application for planning J+S camps, J+S courses and other camps. It helps to exchange all planned programme among the camp organizers.
 
@@ -69,3 +37,35 @@ Thanks for helping! There are a few ways to get started.
 - Before you can start coding, read our [contributing guidelines](CONTRIBUTING.md)
 - Study the [documentation in the wiki](https://github.com/ecamp/ecamp3/wiki)
 - Choose an [Issue labeled "good first issue"](https://github.com/ecamp/ecamp3/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22) and try to solve it
+
+
+## eCamp3 (deutsche Übersetzung)
+
+eCamp ist eine Webapplikation, mit welcher J+S-Lager, J+S-Kurse und andere Lager geplant werden können. Dabei verfügen alle Benutzer stets über den aktuellsten Stand der Planung.
+
+Die ältere Version eCamp v2 ist produktiv im Einsatz und kann unter folgender Adresse genutzt werden: [https://ecamp.pfadiluzern.ch](https://ecamp.pfadiluzern.ch/)
+
+eCamp3 ist eine Neu-Entwicklung von eCamp. Das Ziel ist es, die Funktionalität von eCamp v2 mit moderneren Technologien und einer erweiterbaren Architektur neu zu implementieren. Aktuell fokussieren wir uns auf den Neubau der Lagerplanungs-Features, welche in einem MVP (minimum viable product, minimale nützliche Version) released werden. Später werden dann Erweiterungen für die Kursplanung und weiteres folgen.
+
+Folgende Verbesserungen, die bei eCamp v2 oft gewünscht werden, sind bereits implementiert:
+
+- Bessere Speicher-Funktion - wo immer möglich werden die Daten laufend automatisch gespeichert.
+- Benutzbarkeit auf dem Mobiltelefon - das Design ist mobile-first.
+- Login via MiData-Account der Pfadibewegung Schweiz ist möglich
+- Mehrsprachigkeit mit [Lokalise](https://lokalise.com)
+- Formatierung in Texten (fett, kursiv, etc.) - ist vorbereitet, wird aber erst nach dem ersten Release freigeschaltet.
+
+eCamp v3 besteht aus einem Backend basierend auf dem PHP-Framework Laminas welches eine HAL JSON API anbietet, einem Vue.js-Frontend sowie einigen weiteren kleineren Services.
+
+#### Mithelfen
+
+Danke dass du mithelfen möchtest! Es gibt ein paar verschiedene Arten wie du beginnen kannst.
+- Besuche unsere Testumgebung auf https://dev.ecamp3.ch. Wenn du einen Fehler entdeckst, [eröffne ein Issue dafür](https://github.com/ecamp/ecamp3/issues/new).
+- Um das Projekt bei dir auf dem Computer laufen zu lassen, folge einer der Installationsanleitungen:
+  - [Installation mit Docker auf Linux](docu/install-docker.md)
+  - [Installation mit Docker auf Windows + WSL2](https://github.com/ecamp/ecamp3/wiki/Getting-started-on-Windows) (nur englisch)
+  - [VS Code als Code-Editor einrichten](https://github.com/ecamp/ecamp3/wiki/Getting-started-on-Windows#setting-up-the-ide) (nur englisch)
+- Falls du Probleme beim Einrichten oder Verständnisfragen hast, eröffne eine [Discussion](https://github.com/ecamp/ecamp3/discussions)
+- Bevor du mit programmieren loslegen kannst, lies unsere [contributing guidelines](CONTRIBUTING.md)
+- Studier die [Dokumentation im wiki](https://github.com/ecamp/ecamp3/wiki)
+- Such dir ein [einsteigertaugliches Issue](https://github.com/ecamp/ecamp3/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22) aus und probiere es zu lösen
