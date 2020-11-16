@@ -7,7 +7,7 @@
 
 ## eCamp3
 
-(deutsche Übersetzung weiter unten)
+*(deutsche Übersetzung weiter unten)*
 
 eCamp is a web application for planning J+S camps, J+S courses and other camps. It helps to exchange all planned programme among the camp organizers.
 
