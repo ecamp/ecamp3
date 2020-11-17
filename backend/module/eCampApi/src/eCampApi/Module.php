@@ -6,6 +6,7 @@ use Laminas\ApiTools\Provider\ApiToolsProviderInterface;
 use Laminas\Config\Factory as ConfigFactory;
 use Laminas\Mvc\Application;
 use Laminas\Mvc\MvcEvent;
+use Laminas\Paginator\Paginator;
 
 class Module implements ApiToolsProviderInterface {
     public function getConfig() {
@@ -28,6 +29,8 @@ class Module implements ApiToolsProviderInterface {
     }
 
     public function onBootstrap(MvcEvent $e) {
+        Paginator::setDefaultItemCountPerPage(PHP_INT_MAX);
+
         /** @var Application $app */
         $app = $e->getApplication();
 
