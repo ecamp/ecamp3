@@ -1,4 +1,11 @@
 {
+  "components": {
+    "camp": {
+      "campPrint": {
+        "picasso": "Grobprogramm"
+      }
+    }
+  },
   "entity": {
     "user": {
       "fields": {
@@ -8,5 +15,12 @@
   },
   "global": {
     "language": "Deutsch (Pfadi)"
+  },
+  "views": {
+    "camp": {
+      "navigationCamp": {
+        "material": "Mat"
+      }
+    }
   }
 }

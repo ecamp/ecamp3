@@ -1,2 +1,330 @@
 {
+  "activityContent": {
+    "notes": {
+      "add": "Ajouter des remarques",
+      "name": "Notes"
+    },
+    "safetyConcept": {
+      "add": "Ajouter un concept de sécurité",
+      "name": "Concept de sécurité"
+    },
+    "storyboard": {
+      "add": "Ajouter un programme | Ajouter un autre programme",
+      "entity": {
+        "section": {
+          "fields": {
+            "column1": "Heure",
+            "column2": "Programme",
+            "column3": "Responsable"
+          },
+          "name": "Section du programme | Sections du programme"
+        }
+      },
+      "name": "Programme"
+    },
+    "storycontext": {
+      "add": "Ajouter du fil rouge",
+      "name": "Fil rouge"
+    }
+  },
+  "components": {
+    "activity": {
+      "activityContent": {
+        "delete": "Effacer",
+        "editName": "Renommer",
+        "moveDown": "Descendre",
+        "moveUp": "Déplacer vers le haut"
+      },
+      "createScheduleEntries": {
+        "fields": {
+          "duration": "Durée",
+          "endTime": "Fin",
+          "startTime": "Début"
+        },
+        "name": "Prévu"
+      }
+    },
+    "camp": {
+      "campActivityCategories": {
+        "create": "Créer une catégorie d'activité",
+        "deleteActivityCategoryNotPossibleInUse": "La catégorie d'activité ne peut pas être supprimée. Elle est utilisée par :",
+        "deleteActivityCategoryQuestion": "Voulez-vous vraiment supprimer la catégorie d'activité?",
+        "title": "Catégories d'activités"
+      },
+      "campInvitations": {
+        "title": "Inviter"
+      },
+      "campMembers": {
+        "title": "Membres"
+      },
+      "campPeriods": {
+        "createPeriod": "Créer une période",
+        "title": "Période | Périodes"
+      },
+      "campPeriodsListItem": {
+        "deleteWarning": "Voulez-vous vraiment le supprimer ?"
+      },
+      "campPrint": {
+        "activities": "Activités",
+        "dailySummary": "Résumé quotidien",
+        "frontpage": "Page de garde",
+        "openPrintPreview": "Ouvrir l'aperçu avant impression",
+        "picasso": "Picasso",
+        "printNow": "Imprimer maintenant",
+        "selectPrintPreview": "Sélectionnez les sections à imprimer :",
+        "storyline": "Aperçu de l'histoire",
+        "title": "Imprimer",
+        "toc": "Table des matières"
+      },
+      "campSettings": {
+        "fields": {
+          "motto": "Devise",
+          "name": "nom",
+          "title": "titre"
+        },
+        "title": "Paramètres"
+      },
+      "collaboratorListItem": {
+        "remove": "Supprimer"
+      },
+      "storyDay": {
+        "noStory": "Aucun contenu d'histoire trouvé ce jour-là..."
+      }
+    },
+    "dialog": {
+      "dialogActivityCategoryCreate": {
+        "title": "Créer une catégorie d'activité"
+      },
+      "dialogEntityDelete": {
+        "title": "Vraiment effacer?",
+        "warningText": "Voulez-vous vraiment le supprimer ?"
+      },
+      "dialogPeriodCreate": {
+        "title": "Créer une période"
+      }
+    },
+    "layout": {
+      "authContainer": {
+        "photoCredits": "Photo par Markus Rohner / Lotos"
+      }
+    },
+    "navigation": {
+      "searchDesktop": {
+        "search": "Chercher"
+      },
+      "searchMobile": {
+        "search": "Chercher",
+        "searchActivitiesAndCamps": "Recherche d'activités et de camps"
+      },
+      "userMeta": {
+        "logOut": "Se déconnecter",
+        "myCamps": "Mon camp | Mes camps",
+        "profile": "Profil"
+      }
+    }
+  },
+  "entity": {
+    "activity": {
+      "fields": {
+        "activityCategory": "Catégorie d'activité",
+        "location": "Lieu",
+        "responsible": "responsable",
+        "title": "Titre"
+      },
+      "name": "Activité",
+      "new": "Nouvelle activité"
+    },
+    "activityCategory": {
+      "fields": {
+        "activityType": "Type",
+        "color": "Couleur",
+        "name": "Nom",
+        "numberingStyle": "Style de numérotation",
+        "short": "Court"
+      },
+      "name": "Catégories d'activités",
+      "numberingStyles": {
+        "1": "1, 2, 3 - numéros",
+        "A": "A, B, C - lettres majuscules",
+        "a": "a, b, c - lettres minuscules",
+        "I": "I, II, III - chiffres romains majuscules",
+        "i": "i, ii, iii - chiffres romains minuscules"
+      }
+    },
+    "camp": {
+      "collaborators": {
+        "manager": "Directeur",
+        "member": "Membre"
+      },
+      "fields": {
+        "campType": "Type de camp",
+        "motto": "Devise",
+        "name": "Nom",
+        "title": "Titre"
+      },
+      "name": "Camp"
+    },
+    "campCollaboration": {
+      "campLeft": "quitter le camp"
+    },
+    "period": {
+      "defaultDescription": "Camp principal",
+      "fields": {
+        "description": "Description",
+        "end": "Fin",
+        "start": "Début"
+      },
+      "name": "Période | Périodes"
+    },
+    "scheduleEntry": {
+      "fields": {
+        "length": "Durée en minutes",
+        "nr": "Numéro",
+        "periodOffset": "Décalage de période",
+        "time": "Heure"
+      },
+      "name": "Inscription au calendrier"
+    },
+    "user": {
+      "fields": {
+        "birthday": "Anniversaire",
+        "email": "Adresse de courriel",
+        "firstname": "Prénom",
+        "language": "Langue",
+        "nickname": "Surnom",
+        "password": "Mot de passe",
+        "surname": "Nom de famille",
+        "username": "Nom d'utilisateur"
+      },
+      "name": "Utilisateur"
+    }
+  },
+  "global": {
+    "button": {
+      "add": "Ajouter",
+      "addContentDesktop": "Ajouter du contenu",
+      "back": "Retour",
+      "cancel": "Annuler",
+      "content": "Contenu",
+      "create": "Créer",
+      "delete": "Effacer",
+      "edit": "Éditer",
+      "ok": "D'accord",
+      "open": "Ouvrir",
+      "save": "Sauvegarder",
+      "saving": "En train de sauvegarder",
+      "submit": "Soumettre",
+      "tryagain": "Réessayer",
+      "update": "Mise à jour"
+    },
+    "changeLanguage": "Changer la langue",
+    "language": "Français",
+    "lokaliseMessage": "Changement de langue grâce à lokalise.com",
+    "serverError": {
+      "409": "Oooops... Cette action a provoqué une erreur côté serveur."
+    },
+    "validation": {
+      "minDate": "{_field_} ne peut pas être antérieure à {min}"
+    }
+  },
+  "views": {
+    "activity": {
+      "sideBarProgram": {
+        "title": "Activités en ce jour"
+      }
+    },
+    "auth": {
+      "login": {
+        "accountless": "Vous n'avez pas encore de compte?",
+        "beta": {
+          "notice": "Voici le site du nouveau eCamp.<br>IMPORTANT : Ce site est en construction. Cela signifie que toutes les données sont publiques et seront supprimées périodiquement !"
+        },
+        "loginCallback": {
+          "loginInProgress": "Vous serez connecté"
+        },
+        "or": "ou",
+        "password": "Mot de passe",
+        "provider": {
+          "ecamp": "Connectez-vous avec eCamp",
+          "google": "Connectez-vous avec Google",
+          "midata": "Connectez-vous avec MiData"
+        },
+        "registernow": "Inscrivez-vous maintenant",
+        "title": "Se connecter",
+        "username": "Nom d'utilisateur ou courriel"
+      },
+      "register": {
+        "acceptTermsOfUse": "Accepter les conditions d'utilisation",
+        "alreadyHaveAnAccount": "Vous avez déjà un compte ?",
+        "login": "Se connecter",
+        "openTermsOfUse": "Ouvrir",
+        "passwordConfirmation": "Entrez à nouveau votre mot de passe",
+        "register": "S'inscrire",
+        "title": "Créer un compte"
+      },
+      "registerDone": {
+        "login": "Se connecter",
+        "success": "Enregistré avec succès",
+        "title": "Créer un compte"
+      }
+    },
+    "camp": {
+      "admin": {
+        "title": "Admin"
+      },
+      "collaborators": {
+        "invite": "Inviter",
+        "members": "Membres",
+        "openInvitations": "Invitations ouvertes",
+        "openRequests": "Demandes ouvertes",
+        "search": "Chercher...",
+        "title": "Team"
+      },
+      "navigationCamp": {
+        "admin": "Admin",
+        "campIsLoading": "Le camp est en train de charger",
+        "material": "Matériel",
+        "print": "Imprimer",
+        "story": "Fil rouge",
+        "tasks": "Tâches",
+        "team": "Team"
+      },
+      "print": {
+        "title": "Imprimer"
+      },
+      "sideBarPeriods": {
+        "title": "Périodes"
+      },
+      "story": {
+        "editModeOff": "Modification désactivée",
+        "editModeOn": "Modification activée",
+        "title": "Action"
+      }
+    },
+    "campCreate": {
+      "create": "Créer le camp",
+      "period": {
+        "add": "Ajouter une période",
+        "remove": "Effacer la période"
+      },
+      "title": "Créer un camp"
+    },
+    "camps": {
+      "create": "Créer un camp",
+      "title": "Mon camp | Mes camps"
+    },
+    "home": {
+      "home": "Accueil",
+      "myCamps": "Mon camp | Mes camps",
+      "welcome": "Bonjour {user}. Bienvenue sur eCamp"
+    },
+    "navigationDefault": {
+      "home": "Page d'accueil",
+      "myCamps": "Mon camp | Mes camps",
+      "profile": "Profil"
+    },
+    "profile": {
+      "profile": "Profil"
+    }
+  }
 }
