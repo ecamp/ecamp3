@@ -33,7 +33,7 @@ Thanks for helping! There are a few ways to get started.
   - [Installation with Docker on Linux](docu/install-docker.md) (German only)
   - [Installation with Docker on Windows + WSL 2](https://github.com/ecamp/ecamp3/wiki/Getting-started-on-Windows)
   - [Set up VS Code as your code editor](https://github.com/ecamp/ecamp3/wiki/Getting-started-on-Windows#setting-up-the-ide)
-- If you run into problems during setup or need help, open a [discussion](https://github.com/ecamp/ecamp3/discussions)
+- If you run into problems during setup or need help, don't worry. Check the [discussions](https://github.com/ecamp/ecamp3/discussions) whether someone already had and solved your problem, and add a [new discussion](https://github.com/ecamp/ecamp3/discussions/new) otherwise.
 - Before you can start coding, read our [contributing guidelines](CONTRIBUTING.md)
 - Study the [documentation in the wiki](https://github.com/ecamp/ecamp3/wiki)
 - Choose an [issue labeled "good first issue"](https://github.com/ecamp/ecamp3/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22) and try to solve it
@@ -65,7 +65,7 @@ Danke dass du mithelfen möchtest! Es gibt ein paar verschiedene Arten wie du be
   - [Installation mit Docker auf Linux](docu/install-docker.md)
   - [Installation mit Docker auf Windows + WSL2](https://github.com/ecamp/ecamp3/wiki/Getting-started-on-Windows) (nur englisch)
   - [VS Code als Code-Editor einrichten](https://github.com/ecamp/ecamp3/wiki/Getting-started-on-Windows#setting-up-the-ide) (nur englisch)
-- Falls du Probleme beim Einrichten oder Verständnisfragen hast, eröffne eine [Discussion](https://github.com/ecamp/ecamp3/discussions)
+- Falls du Probleme beim Einrichten oder Verständnisfragen hast - keine Sorge, du bist nicht allein. Schau bei den [Discussions](https://github.com/ecamp/ecamp3/discussions) nach ob das Problem bekannt und gelöst ist. Falls nein, eröffne eine [neue Discussion](https://github.com/ecamp/ecamp3/discussions/new).
 - Bevor du mit programmieren loslegen kannst, lies unsere [contributing guidelines](CONTRIBUTING.md)
 - Studier die [Dokumentation im wiki](https://github.com/ecamp/ecamp3/wiki)
 - Such dir ein [einsteigertaugliches Issue](https://github.com/ecamp/ecamp3/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22) aus und probiere es zu lösen
