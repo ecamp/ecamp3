@@ -24,4 +24,8 @@ ENV XDEBUG_CONFIG="remote_enable=1 remote_autostart=1 remote_connect_back=1 remo
 # Install composer for PHP dependencies
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
+ARG DEBIAN_FRONTEND=noninteractive
+ENV TZ=Europe/Moscow
+RUN apt-get install -y tzdata
+
 ENTRYPOINT bash docker-run.sh
