@@ -1,10 +1,10 @@
 <template>
   <div>
     <slot
-      v-bind:scheduleEntries="scheduleEntries"
-      v-bind:loading="apiScheduleEntries._meta.loading"
-      v-bind:showActivityCreateDialog="showActivityCreateDialog"
-      v-bind:showActivityEditDialog="showActivityEditDialog" />
+      :scheduleEntries="scheduleEntries"
+      :loading="apiScheduleEntries._meta.loading"
+      :showActivityCreateDialog="showActivityCreateDialog"
+      :showActivityEditDialog="showActivityEditDialog" />
     <dialog-activity-create
       ref="dialogActivityCreate"
       :schedule-entry="popupEntry"

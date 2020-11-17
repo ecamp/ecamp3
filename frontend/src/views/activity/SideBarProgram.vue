@@ -4,7 +4,7 @@
       <v-subheader class="text-uppercase subtitle-2">
         {{ $tc('views.activity.sideBarProgram.title') }}
       </v-subheader>
-      <schedule-entries :period="period" :showButton="false">
+      <schedule-entries :period="period" :show-button="false">
         <template v-slot:default="slotProps">
           <v-skeleton-loader
             v-if="slotProps.loading"

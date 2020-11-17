@@ -19,7 +19,7 @@ Show all activity schedule entries of a single period.
         <v-icon v-if="listFormat">mdi-calendar-month</v-icon>
         <v-icon v-else>mdi-menu</v-icon>
       </v-btn>
-      <schedule-entries :period="period" :showButton="true">
+      <schedule-entries :period="period" :show-button="true">
         <template v-slot:default="slotProps">
           <template v-if="slotProps.loading">
             <v-skeleton-loader v-if="listFormat" type="list-item-avatar-two-line@2" class="py-2" />
