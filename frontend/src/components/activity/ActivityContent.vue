@@ -99,7 +99,15 @@
       <dialog-entity-delete ref="deleteActivityContentDialog" :entity="activityContent" />
     </v-expansion-panel-header>
     <v-expansion-panel-content>
-      <component :is="activityContent.contentTypeName" :activity-content="activityContent" />
+      <v-row>
+        <v-col cols="6">
+          <component :is="activityContent.contentTypeName" :activity-content="activityContent" />
+        </v-col>
+
+        <v-col cols="6">
+          <component :is="activityContent.contentTypeName" :activity-content="activityContent" />
+        </v-col>
+      </v-row>
     </v-expansion-panel-content>
   </v-expansion-panel>
 </template>

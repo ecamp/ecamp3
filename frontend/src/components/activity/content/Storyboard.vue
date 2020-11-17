@@ -14,7 +14,7 @@
         <v-col cols="1" />
       </v-row>
       <transition-group name="flip-list" tag="div">
-        <div v-for="section in sections" :key="section._meta.self">
+        <div v-for="section in localSections" :key="section._meta.self">
           <!-- add before -->
           <v-row no-gutters class="row-inter" justify="center">
             <v-col cols="1">
@@ -109,10 +109,24 @@ export default {
   props: {
     activityContent: { type: Object, required: true }
   },
+  data () {
+    return {
+      localSections: []
+    }
+  },
   computed: {
     sections () {
       return this.activityContent.sections().items // .sort((a, b) => a.pos - b.pos)
     }
+  },
+  watch: {
+    sections (value) {
+      this.localSections = value.map(entry => entry)
+    }
+  },
+  beforeMount () {
+    // copy list sorting
+    this.localSections = this.sections.map(entry => entry)
   },
   methods: {
     async addSection () {
@@ -128,7 +142,8 @@ export default {
       await this.api.reload(this.activityContent)
     },
     async sectionUp (section) {
-      const list = this.$store.state.api[`/activity-contents/${this.activityContent.id}`].sections
+      // const list = this.$store.state.api[`/activity-contents/${this.activityContent.id}`].sections
+      const list = this.localSections
       const index = list.findIndex((item) => section._meta.self.includes(item.href))
 
       // cannot move first entry up
