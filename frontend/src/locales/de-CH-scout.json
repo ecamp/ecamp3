@@ -15,12 +15,5 @@
   },
   "global": {
     "language": "Deutsch (Pfadi)"
-  },
-  "views": {
-    "camp": {
-      "navigationCamp": {
-        "material": "Mat"
-      }
-    }
   }
 }
