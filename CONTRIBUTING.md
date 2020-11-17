@@ -105,9 +105,9 @@ git checkout -b my-new-feature-branch
 ```
 
 ### Quellcode Formatierung
-Wir verwenden php-cs-fixer für PHP und ESLint für JS um einen gemeinsamen Code Style zu etablieren. Bitte stelle sicher, dass dein Code automatisch richtig formattiert wird, bevor du diesen ins Git repo committest.
+Wir verwenden php-cs-fixer für PHP und ESLint für JS um einen gemeinsamen Code Style zu etablieren. Bitte stelle sicher, dass dein Code automatisch richtig formatiert wird, bevor du diesen ins Git repo committest.
 
-Wir empfehlen deine IDE so zu konfigurieren, dass dein Code beim Speichern automatisch richtig formattiert wird.
+Wir empfehlen deine IDE so zu konfigurieren, dass dein Code beim Speichern automatisch richtig formatiert wird.
 
 Alternativ kannst du 
 * php-cs-fixer und ESLint vor jedem commit manuell laufen lassen:
