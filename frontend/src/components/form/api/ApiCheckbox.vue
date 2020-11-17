@@ -11,13 +11,13 @@ Displays a field as a e-checkbox + write access via API wrapper
     separate-buttons
     v-on="$listeners">
     <e-checkbox
-      :input-value="wrapper.localValue"
+      :value="wrapper.localValue"
       v-bind="$attrs"
       :readonly="wrapper.readonly"
       :disabled="disabled"
       :error-messages="wrapper.errorMessages"
       :loading="wrapper.isSaving"
-      @change="wrapper.on.input">
+      @input="wrapper.on.input">
       <template #append>
         <api-wrapper-append :wrapper="wrapper" />
       </template>
