@@ -19,33 +19,29 @@ Show all activity schedule entries of a single period.
         <v-icon v-if="listFormat">mdi-calendar-month</v-icon>
         <v-icon v-else>mdi-menu</v-icon>
       </v-btn>
-      <template v-if="!(period() && !period()._meta.loading)">
-        <v-skeleton-loader v-if="listFormat" type="list-item-avatar-two-line@2" class="py-2" />
-        <v-skeleton-loader v-else type="table" />
-      </template>
-      <template v-if="firstPeriodLoaded">
-        <picasso
-          v-show="!listFormat"
-          class="mx-2 ma-sm-0 pa-sm-2"
-          :period="period"
-          :start="Date.parse(period().start)"
-          :end="Date.parse(period().end)" />
-        <activity-list
-          v-show="listFormat"
-          :period="period" />
-      </template>
-      <v-btn
-        :fixed="$vuetify.breakpoint.xs"
-        :absolute="!$vuetify.breakpoint.xs"
-        dark
-        fab
-        style="z-index: 3"
-        bottom
-        right
-        class="fab--bottom_nav float-right"
-        color="red">
-        <v-icon>mdi-plus</v-icon>
-      </v-btn>
+      <schedule-entries :period="period" :show-button="true">
+        <template v-slot:default="slotProps">
+          <template v-if="slotProps.loading">
+            <v-skeleton-loader v-if="listFormat" type="list-item-avatar-two-line@2" class="py-2" />
+            <v-skeleton-loader v-else type="table" />
+          </template>
+          <template v-else>
+            <picasso
+              v-show="!listFormat"
+              class="mx-2 ma-sm-0 pa-sm-2"
+              :schedule-entries="slotProps.scheduleEntries"
+              :period="period"
+              :start="Date.parse(period().start)"
+              :end="Date.parse(period().end)"
+              :dialog-activity-create="slotProps.showActivityCreateDialog"
+              :dialog-activity-edit="slotProps.showActivityEditDialog" />
+            <activity-list
+              v-show="listFormat"
+              :schedule-entries="slotProps.scheduleEntries"
+              :period="period" />
+          </template>
+        </template>
+      </schedule-entries>
     </v-sheet>
   </content-card>
 </template>
@@ -54,6 +50,7 @@ import ContentCard from '@/components/layout/ContentCard'
 import SearchMobile from '@/components/navigation/SearchMobile'
 import Picasso from '@/components/camp/Picasso'
 import ActivityList from '@/components/camp/ActivityList'
+import ScheduleEntries from '@/components/scheduleEntry/ScheduleEntries'
 
 export default {
   name: 'CampProgram',
@@ -61,47 +58,19 @@ export default {
     ContentCard,
     SearchMobile,
     Picasso,
-    ActivityList
+    ActivityList,
+    ScheduleEntries
   },
   props: {
     period: { type: Function, required: true }
   },
-  data () {
-    return {
-      tab: null
-    }
-  },
   computed: {
     listFormat () {
       return this.$route.query.list
-    },
-    camp () {
-      return this.period().camp()
-    },
-    firstPeriodLoaded () {
-      return this.period() && !this.period()._meta.loading
     }
   }
 }
 </script>
-
-<style lang="scss">
-  .fab--bottom_nav {
-    position: fixed;
-    bottom: 16px + 56px !important;
-    @media #{map-get($display-breakpoints, 'sm-and-up')}{
-      bottom: 16px + 36px !important;
-    }
-  }
-
-  .fab--top_nav {
-    position: fixed;
-    top: 16px + 105px !important;
-    @media #{map-get($display-breakpoints, 'sm-and-up')}{
-      top: 16px + 65px !important;
-    }
-  }
-</style>
 
 <style lang="scss" scoped>
   ::v-deep .v-skeleton-loader__list-item-avatar-two-line {

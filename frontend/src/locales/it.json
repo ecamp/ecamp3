@@ -1,16 +1,15 @@
 {
   "activityContent": {
     "notes": {
-      "add": "Aggiungi gli noti",
+      "add": "Aggiungi i noti",
       "name": "Noti"
     },
     "safetyConcept": {
       "add": "Aggiungere un concetto di sicurezza",
-      "name": "concetto di sicurezza",
-      "sort": "3"
+      "name": "Concetto di sicurezza"
     },
     "storyboard": {
-      "add": "Aggiungere uno storyboard | aggiungere un altro storyboard",
+      "add": "Aggiungere un programma | Aggiungere un altro programma",
       "entity": {
         "section": {
           "fields": {
@@ -18,20 +17,24 @@
             "column2": "Programma",
             "column3": "Responsabile"
           },
-          "name": "Sezione | Sezioni"
+          "name": "Sezione del programma | Sezioni del programma"
         }
       },
-      "name": "Storyboard",
-      "sort": "2"
+      "name": "Programma"
     },
     "storycontext": {
-      "add": "Aggiungi contenuto della storia",
-      "name": "Contesto della storia",
-      "sort": "1"
+      "add": "Aggiungi filo conduttore",
+      "name": "Filo conduttore"
     }
   },
   "components": {
     "activity": {
+      "activityContent": {
+        "delete": "Cancellare",
+        "editName": "Rinominare",
+        "moveDown": "Abbassati",
+        "moveUp": "Spostare in alto"
+      },
       "createScheduleEntries": {
         "fields": {
           "duration": "Durata",
@@ -46,7 +49,7 @@
         "create": "Creare categoria di attività",
         "deleteActivityCategoryNotPossibleInUse": "La categoria di attività non può essere cancellata. è utilizzata da:",
         "deleteActivityCategoryQuestion": "Vuoi davvero cancellare la categoria Attività?",
-        "title": "Categori di attività"
+        "title": "Categorie di attività"
       },
       "campInvitations": {
         "title": "Invitare"
@@ -59,20 +62,33 @@
         "title": "Periodo | Periodi"
       },
       "campPeriodsListItem": {
-        "deleteWarning": "Volete davvero cancellare questo periodo?"
+        "deleteWarning": "Volete davvero cancellarlo?"
+      },
+      "campPrint": {
+        "activities": "Attività",
+        "dailySummary": "Panoramica giornaliera",
+        "frontpage": "Pagina della copertina",
+        "openPrintPreview": "Aprire l'anteprima di stampa",
+        "picasso": "Picasso",
+        "printNow": "Stampa ora",
+        "selectPrintPreview": "Selezionare le sezioni di stampa:",
+        "storyline": "Panoramica giornaliera",
+        "title": "Stampare",
+        "toc": "Tabella dei contenuti"
       },
       "campSettings": {
         "fields": {
-          "motto": "motto",
+          "motto": "Motto",
           "name": "nome",
           "title": "titolo"
         },
         "title": "Impostazioni"
       },
-      "picasso": {
-        "moment": {
-          "date": "dd. D.MM | D. MMM | DD. MMM YYYY"
-        }
+      "collaboratorListItem": {
+        "remove": "Rimuovere"
+      },
+      "storyDay": {
+        "noStory": "Nessun contenuto di storia trovato in questo giorno..."
       }
     },
     "dialog": {
@@ -81,21 +97,29 @@
       },
       "dialogEntityDelete": {
         "title": "Davvero cancellare?",
-        "warningText": "Vuoi davvero cancellare questo?"
+        "warningText": "Volete davvero cancellarlo?"
       },
       "dialogPeriodCreate": {
         "title": "Creare il periodo"
       }
     },
+    "layout": {
+      "authContainer": {
+        "photoCredits": "Foto di Markus Rohner / Lotos"
+      }
+    },
     "navigation": {
-      "myCamps": "Il mio campo | I miei campi",
-      "profile": "Profilo",
-      "search": "Cerca",
-      "searchActivitiesAndCamps": "Recherche d'activités et de camps",
+      "searchDesktop": {
+        "search": "Cerca"
+      },
+      "searchMobile": {
+        "search": "Cerca",
+        "searchActivitiesAndCamps": "Ricerca di attività e campi"
+      },
       "userMeta": {
         "logOut": "Disconnettiti",
         "myCamps": "Il mio campo | I miei campi",
-        "profile": "Profil"
+        "profile": "Profilo"
       }
     }
   },
@@ -104,6 +128,7 @@
       "fields": {
         "activityCategory": "Categoria di attività",
         "location": "Posto",
+        "responsible": "responsabile",
         "title": "Titolo"
       },
       "name": "Attività",
@@ -120,13 +145,17 @@
       "name": "Categorie di attività",
       "numberingStyles": {
         "1": "1, 2, 3 - numeri",
-        "a": "a, b, c - lettres minuscole",
         "A": "A, B, C - maiuscole di blocco",
-        "i": "i, ii, iii - numeri romani minuscoli",
-        "I": "I, II, III - numeri romani maiuscoli"
+        "a": "a, b, c - lettere minuscole",
+        "I": "I, II, III - numeri romani maiuscoli",
+        "i": "i, ii, iii - numeri romani minuscoli"
       }
     },
     "camp": {
+      "collaborators": {
+        "manager": "Manager",
+        "member": "Membro"
+      },
       "fields": {
         "campType": "Tipo di campo",
         "motto": "Motto",
@@ -143,28 +172,28 @@
       "fields": {
         "description": "Descrizione",
         "end": "Fine",
-        "start": "Inizia"
+        "start": "Inizio"
       },
-      "name": "Périodo | Périodi"
+      "name": "Periodo | Periodi"
     },
     "scheduleEntry": {
       "fields": {
         "length": "Lunghezza in minuti",
-        "nr": "No",
+        "nr": "Numero",
         "periodOffset": "Periodo Offset",
-        "time": "Tempi"
+        "time": "Tempo"
       },
-      "name": "Implementazione delle attività"
+      "name": "Inserimento nel programma"
     },
     "user": {
       "fields": {
         "birthday": "Compleanno",
-        "email": "Indirizzo e-mail",
+        "email": "Indirizzo email",
         "firstname": "Nome",
         "language": "Lingua",
         "nickname": "Soprannome",
         "password": "Parola d'ordine",
-        "surname": "Nome di famiglia",
+        "surname": "Cognome",
         "username": "Nome utente"
       },
       "name": "Utente"
@@ -173,29 +202,26 @@
   "global": {
     "button": {
       "add": "Aggiungere",
+      "addContentDesktop": "Aggiungi contenuto della storia",
       "back": "Indietro",
       "cancel": "Annullare",
+      "content": "Contenuto",
       "create": "Creare",
       "delete": "Cancellare",
       "edit": "Modificare",
+      "ok": "OK",
       "open": "Aprire",
       "save": "Salvare",
       "saving": "Salvataggio",
       "submit": "Inviare",
       "tryagain": "Riprovare",
-      "update": "Aggiorna"
+      "update": "Aggiornare"
     },
-    "changeLanguage": "Cambia la lingua",
+    "changeLanguage": "Cambia lingua",
     "language": "Italiano",
-    "lokaliseMessage": "Commutazione della lingua con lokalise.com",
-    "moment": {
-      "dateLong": "dd L",
-      "dateShort": "dd M\/D",
-      "hourLong": "HH:mm",
-      "hourShort": "h:mm A"
-    },
+    "lokaliseMessage": "Cambio di lingua alimentato da lokalise.com",
     "serverError": {
-      "409": "Uuuuups... Questa azione ha causato un errore sul lato server."
+      "409": "Oooops... Questa azione ha causato un errore sul lato server."
     },
     "validation": {
       "minDate": "{_field_} non può essere prima che {min}"
@@ -211,7 +237,10 @@
       "login": {
         "accountless": "Non hanno ancora un conto?",
         "beta": {
-          "notice": "questo è il sito del nuovo eCamp.<br>IMPORTANTE: Questo sito web è in costruzione. Ciò significa che tutti i dati sono pubblici e saranno periodicamente cancellati!"
+          "notice": "Questo è il sito del nuovo eCamp.<br>IMPORTANTE: Questo sito è in costruzione. Ciò significa che tutti i dati sono pubblici e verranno periodicamente cancellati!"
+        },
+        "loginCallback": {
+          "loginInProgress": "Sarai loggato"
         },
         "or": "oppure",
         "password": "Parola d'ordine",
@@ -232,6 +261,11 @@
         "passwordConfirmation": "Inserisci di nuovo la password",
         "register": "Registrati",
         "title": "Crea un conto"
+      },
+      "registerDone": {
+        "login": "Accedi",
+        "success": "Registrato con successo",
+        "title": "Crea un conto"
       }
     },
     "camp": {
@@ -243,11 +277,28 @@
         "members": "Membri",
         "openInvitations": "Inviti aperti",
         "openRequests": "Richieste aperte",
-        "search": "Cerca...",
+        "search": "Cerca",
         "title": "Team"
+      },
+      "navigationCamp": {
+        "admin": "Admin",
+        "campIsLoading": "Il campo sta caricando",
+        "material": "Materiale",
+        "print": "Stampa",
+        "story": "filo conduttore",
+        "tasks": "Compiti",
+        "team": "Team"
+      },
+      "print": {
+        "title": "Stampa"
       },
       "sideBarPeriods": {
         "title": "Periodi"
+      },
+      "story": {
+        "editModeOff": "Modifica disattivata",
+        "editModeOn": "Modifica in corso",
+        "title": "Azione"
       }
     },
     "campCreate": {
@@ -265,7 +316,12 @@
     "home": {
       "home": "Home",
       "myCamps": "Il mio campo | I miei campi",
-      "welcome": "Ehi {user}. Bienvenuti al eCamp"
+      "welcome": "Salve {user}. Benvenuto su eCamp"
+    },
+    "navigationDefault": {
+      "home": "Homepage",
+      "myCamps": "Il mio campo | I miei campi",
+      "profile": "Profilo"
     },
     "profile": {
       "profile": "Profilo"

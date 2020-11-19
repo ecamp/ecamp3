@@ -4,14 +4,22 @@
       <v-subheader class="text-uppercase subtitle-2">
         {{ $tc('views.activity.sideBarProgram.title') }}
       </v-subheader>
-      <v-skeleton-loader v-if="scheduleEntries.loading" class="ma-3"
-                         type="list-item@6" />
-      <picasso v-else
-               :period="period"
-               :start="startOfDay"
-               :interval-height="36"
-               :end="endOfDay"
-               type="day" />
+      <schedule-entries :period="period" :show-button="false">
+        <template v-slot:default="slotProps">
+          <v-skeleton-loader
+            v-if="slotProps.loading"
+            class="ma-3"
+            type="list-item@6" />
+          <picasso
+            v-else
+            :schedule-entries="slotProps.scheduleEntries"
+            :period="period"
+            :start="startOfDay"
+            :interval-height="36"
+            :end="endOfDay"
+            type="day" />
+        </template>
+      </schedule-entries>
     </content-card>
   </side-bar>
 </template>
@@ -20,20 +28,17 @@
 import Picasso from '@/components/camp/Picasso'
 import SideBar from '@/components/navigation/SideBar'
 import ContentCard from '@/components/layout/ContentCard'
+import ScheduleEntries from '@/components/scheduleEntry/ScheduleEntries'
 
 export default {
   name: 'SideBarProgram',
-  components: { ContentCard, SideBar, Picasso },
+  components: { ContentCard, SideBar, Picasso, ScheduleEntries },
   props: {
     day: { type: Function, required: true }
   },
   computed: {
     period () {
       return this.day().period
-    },
-    scheduleEntries () {
-      // TODO add filtering for the current day when backend supports it
-      return this.period().scheduleEntries()
     },
     startOfDay () {
       return this.addDays(this.period().start, this.day().dayOffset)

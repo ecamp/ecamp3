@@ -1,7 +1,11 @@
 # build stage
 FROM node:12.18 AS build-stage
+
+COPY common /common
+
 WORKDIR /app
 COPY print .
+
 RUN npm install
 RUN npm run build
 
