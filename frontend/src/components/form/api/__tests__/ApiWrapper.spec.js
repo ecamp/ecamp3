@@ -2,8 +2,8 @@
 import Vue from 'vue'
 import Vuetify from 'vuetify'
 import flushPromises from 'flush-promises'
-import { shallowMount } from '@vue/test-utils'
-import { ServerException } from '@/plugins/store/apiPlugin'
+import { createLocalVue, shallowMount } from '@vue/test-utils'
+import { ServerException } from 'hal-json-vuex'
 import veeValidatePlugin from '@/plugins/veeValidate'
 import ApiWrapper from '../ApiWrapper.vue'
 import { VForm, VBtn } from 'vuetify/lib'
@@ -65,7 +65,7 @@ function createConfig (overrides) {
   const propsData = {
     value: 'Test Value',
     fieldname: 'testField',
-    uri: 'testEntity/123',
+    uri: '/testEntity/123',
     label: 'Test Field'
   }
 
@@ -79,7 +79,9 @@ function createConfig (overrides) {
     default: '<input type="text" name="dummyField" id="dummyField" :value="props.localValue" />'
   }
 
-  return cloneDeep(Object.assign({ mocks, propsData, vuetify, stubs, scopedSlots }, overrides))
+  const localVue = createLocalVue()
+
+  return cloneDeep(Object.assign({ mocks, propsData, vuetify, stubs, scopedSlots, localVue }, overrides))
 }
 
 /**
@@ -105,6 +107,10 @@ describe('Testing ApiWrapper [autoSave=true;  manual external value]', () => {
     // mock validation Promise
     validate = jest.spyOn(vm.$refs.validationObserver, 'validate')
     validate.mockImplementation(() => mockPromiseResolving(true))
+  })
+
+  afterEach(() => {
+    jest.restoreAllMocks()
   })
 
   test('init correctly with default values', () => {

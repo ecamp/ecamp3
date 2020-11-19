@@ -6,7 +6,8 @@
     },
     "safetyConcept": {
       "add": "Sicherheits-Konzept hinzufügen",
-      "name": "Sicherheits-Konzept"
+      "name": "Sicherheits-Konzept",
+      "sort": "3"
     },
     "storyboard": {
       "add": "Programmabschnitt hinzufügen",
@@ -20,15 +21,23 @@
           "name": "Programmpunkt | Programmpunkte"
         }
       },
-      "name": "Programmabschnitt"
+      "name": "Programmabschnitt",
+      "sort": "2"
     },
     "storycontext": {
       "add": "Roten Faden hinzufügen",
-      "name": "Roter Faden"
+      "name": "Roter Faden",
+      "sort": "1"
     }
   },
   "components": {
     "activity": {
+      "activityContent": {
+        "delete": "Löschen",
+        "editName": "Namen umbenennen",
+        "moveDown": "Nach unten bewegen",
+        "moveUp": "Nach oben bewegen"
+      },
       "createScheduleEntries": {
         "fields": {
           "duration": "Länge",
@@ -45,9 +54,30 @@
         "deleteActivityCategoryQuestion": "Möchtest du diese Block-Kategorie wirklich löschen?",
         "title": "Block-Kategorien"
       },
+      "campInvitations": {
+        "title": "Einladen"
+      },
+      "campMembers": {
+        "title": "Mitglieder"
+      },
       "campPeriods": {
         "createPeriod": "Lagerabschnitt erstellen",
         "title": "Lagerabschnitt | Lagerabschnitte"
+      },
+      "campPeriodsListItem": {
+        "deleteWarning": "Möchtest du diese Periode wirklich löschen?"
+      },
+      "campPrint": {
+        "activities": "Aktivitäten",
+        "dailySummary": "Tagesübersicht",
+        "frontpage": "Deckblatt",
+        "openPrintPreview": "Druckvorschau öffnen",
+        "picasso": "Picasso",
+        "printNow": "Jetzt drucken",
+        "selectPrintPreview": "Druckvorschau zeigen",
+        "storyline": "Roter Faden",
+        "title": "Drucken",
+        "toc": "Inhaltsverzeichnis"
       },
       "campSettings": {
         "fields": {
@@ -57,10 +87,16 @@
         },
         "title": "Einstellungen"
       },
+      "collaboratorListItem": {
+        "remove": "Entfernen"
+      },
       "picasso": {
         "moment": {
           "date": "dd. D.MM | D. MMM | DD. MMM YYYY"
         }
+      },
+      "storyDay": {
+        "noStory": "Kein roter Faden an diesem Tag gefunden …"
       }
     },
     "dialog": {
@@ -75,11 +111,19 @@
         "title": "Lagerabschnitt erstellen"
       }
     },
+    "layout": {
+      "authContainer": {
+        "photoCredits": "Foto von Markus Rohner / Lotos"
+      }
+    },
     "navigation": {
-      "myCamps": "Mein Lager | Meine Lager",
-      "profile": "Profil",
-      "search": "Suchen",
-      "searchActivitiesAndCamps": "Aktivitäten und Camps suchen",
+      "searchDesktop": {
+        "search": "Suchen"
+      },
+      "searchMobile": {
+        "search": "Suchen",
+        "searchActivitiesAndCamps": "Aktivitäten und Camps suchen"
+      },
       "userMeta": {
         "logOut": "Ausloggen",
         "myCamps": "Mein Lager | Meine Lager",
@@ -92,6 +136,7 @@
       "fields": {
         "activityCategory": "Block Kategorie",
         "location": "Ort",
+        "responsible": "verantwortlich",
         "title": "Titel"
       },
       "name": "Aktivität",
@@ -108,13 +153,17 @@
       "name": "Block Kategorien",
       "numberingStyles": {
         "1": "1, 2, 3 - Zahlen",
-        "a": "a, b, c - kleine Buchstaben",
         "A": "A, B, C - grosse Buchstaben",
-        "i": "i, ii, iii - kleine römische Zahlen",
-        "I": "I, II, III - grosse römische Zahlen"
+        "a": "a, b, c - kleine Buchstaben",
+        "I": "I, II, III - grosse römische Zahlen",
+        "i": "i, ii, iii - kleine römische Zahlen"
       }
     },
     "camp": {
+      "collaborators": {
+        "manager": "Verwalter",
+        "member": "Mitglied"
+      },
       "fields": {
         "campType": "Lager-Typ",
         "motto": "Motto",
@@ -151,7 +200,9 @@
         "firstname": "Vorname",
         "language": "Sprache",
         "nickname": "Spitzname",
-        "surname": "Nachname"
+        "password": "Kennwort",
+        "surname": "Nachname",
+        "username": "Benutzername"
       },
       "name": "User"
     }
@@ -159,11 +210,14 @@
   "global": {
     "button": {
       "add": "Hinzufügen",
+      "addContentDesktop": "Inhalt hinzufügen",
       "back": "Zurück",
       "cancel": "Abbrechen",
+      "content": "Inhalt",
       "create": "Erstellen",
       "delete": "Löschen",
       "edit": "Bearbeiten",
+      "ok": "OK",
       "open": "Öffnen",
       "save": "Speichern",
       "saving": "Speichert",
@@ -199,6 +253,9 @@
         "beta": {
           "notice": "Hier entsteht das neue eCamp.<br>WICHTIG: Diese Webseite befindet sich im Aufbau. Das heisst, dass alle Daten öffentlich sind und periodisch gelöscht werden!"
         },
+        "loginCallback": {
+          "loginInProgress": "Du wirst eingeloggt"
+        },
         "or": "oder",
         "password": "Passwort",
         "provider": {
@@ -209,6 +266,20 @@
         "registernow": "Jetzt registrieren",
         "title": "Anmelden",
         "username": "Username oder E-Mail"
+      },
+      "register": {
+        "acceptTermsOfUse": "Akzeptieren Sie die Nutzungsbedingungen",
+        "alreadyHaveAnAccount": "Haben Sie bereits ein Konto?",
+        "login": "Anmelden",
+        "openTermsOfUse": "Öffnen",
+        "passwordConfirmation": "Passwort erneut eingeben",
+        "register": "Registrieren",
+        "title": "Ein Konto erstellen"
+      },
+      "registerDone": {
+        "login": "Anmelden",
+        "success": "Erfolgreich registriert",
+        "title": "Konto erstellen"
       }
     },
     "camp": {
@@ -223,8 +294,25 @@
         "search": "Suchen...",
         "title": "Team"
       },
+      "navigationCamp": {
+        "admin": "Admin",
+        "campIsLoading": "Lager wird geladen",
+        "material": "Material",
+        "print": "Drucken",
+        "story": "Handlung",
+        "tasks": "Aufgaben",
+        "team": "Team"
+      },
+      "print": {
+        "title": "Drucken"
+      },
       "sideBarPeriods": {
         "title": "Lagerabschnitt"
+      },
+      "story": {
+        "editModeOff": "Bearbeiten aus",
+        "editModeOn": "Bearbeiten an",
+        "title": "Roter Faden"
       }
     },
     "campCreate": {
@@ -243,6 +331,11 @@
       "home": "Home",
       "myCamps": "Mein Lager | Meine Lager",
       "welcome": "Hallo {user}. Herzlich willkommen auf eCamp"
+    },
+    "navigationDefault": {
+      "home": "Startseite",
+      "myCamps": "Mein Lager | Meine Lager",
+      "profile": "Profil"
     },
     "profile": {
       "profile": "Profil"

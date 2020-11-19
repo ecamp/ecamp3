@@ -177,13 +177,14 @@ class ScheduleEntry extends BaseEntity implements BelongsToCampInterface {
                     return true;
                 }
 
-                $eiLeft = $scheduleEntry->left ?: 0;
-                $thisLeft = $this->left ?: 0;
+                // left ScheduleEntry gets lower number
+                $seLeft = $scheduleEntry->getLeft();
+                $thisLeft = $this->getLeft();
 
-                if ($eiLeft < $thisLeft) {
+                if ($seLeft < $thisLeft) {
                     return true;
                 }
-                if ($eiLeft === $thisLeft) {
+                if ($seLeft === $thisLeft) {
                     if ($scheduleEntry->createTime < $this->createTime) {
                         return true;
                     }
@@ -199,12 +200,9 @@ class ScheduleEntry extends BaseEntity implements BelongsToCampInterface {
     public function getNumber(): string {
         $dayNumber = $this->getDayNumber();
         $scheduleEntryNumber = $this->getScheduleEntryNumber();
-        $scheduleEntryStyledNumber = $scheduleEntryNumber;
 
         $category = $this->getActivityCategory();
-        if (null != $category) {
-            $scheduleEntryStyledNumber = $category->getStyledNumber($scheduleEntryNumber);
-        }
+        $scheduleEntryStyledNumber = (null !== $category) ? $category->getStyledNumber($scheduleEntryNumber) : $scheduleEntryNumber;
 
         return $dayNumber.'.'.$scheduleEntryStyledNumber;
     }

@@ -60,8 +60,8 @@ class PrinterController extends ApiController {
         $user = $this->userService->fetch($userId);
 
         $printTopic = $this->amqpService->createTopic('print');
-        $weasyQueue = $this->amqpService->createQueue('printer-weasy', $printTopic);
-        $puppeteerQueue = $this->amqpService->createQueue('printer-puppeteer', $printTopic);
+        $this->amqpService->createQueue('printer-weasy', $printTopic);
+        $this->amqpService->createQueue('printer-puppeteer', $printTopic);
 
         $filename = bin2hex(random_bytes(16));
 
@@ -69,6 +69,7 @@ class PrinterController extends ApiController {
             'campId' => $data->campId,
             'filename' => $filename,
             'PHPSESSID' => session_id(),
+            'config' => $data->config,
         ];
 
         $this->amqpService->sendAsJson($printTopic, $messageArray);

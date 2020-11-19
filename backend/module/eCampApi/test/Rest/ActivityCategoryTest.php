@@ -46,9 +46,9 @@ class ActivityCategoryTest extends AbstractApiControllerTestCase {
         $expectedBody = <<<JSON
             {
                 "id": "{$this->activityCategory->getId()}",
-                "short": "AC",
+                "short": "LS",
                 "name": "ActivityCategory1",
-                "color": "#4CAF50",
+                "color": "#FF9800",
                 "numberingStyle": "i"
             }
 JSON;
@@ -71,7 +71,7 @@ JSON;
 
         $this->assertResponseStatusCode(200);
 
-        $this->assertEquals(1, $this->getResponseContent()->total_items);
+        $this->assertEquals(2, $this->getResponseContent()->total_items);
         $this->assertEquals(10, $this->getResponseContent()->page_size);
         $this->assertEquals("http://{$this->host}{$this->apiEndpoint}?page_size=10&campId={$campId}&page=1", $this->getResponseContent()->_links->self->href);
         $this->assertEquals($this->activityCategory->getId(), $this->getResponseContent()->_embedded->items[0]->id);

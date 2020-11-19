@@ -64,7 +64,7 @@
                 <v-icon>mdi-pencil</v-icon>
               </v-list-item-icon>
               <v-list-item-title>
-                Edit Name
+                {{ $tc('components.activity.activityContent.editName') }}
               </v-list-item-title>
             </v-list-item>
             <v-divider />
@@ -73,7 +73,7 @@
                 <v-icon>mdi-arrow-up-drop-circle-outline</v-icon>
               </v-list-item-icon>
               <v-list-item-title>
-                Move up
+                {{ $tc('components.activity.activityContent.moveUp') }}
               </v-list-item-title>
             </v-list-item>
             <v-list-item @click="() => $emit('move-down')">
@@ -81,7 +81,7 @@
                 <v-icon>mdi-arrow-down-drop-circle-outline</v-icon>
               </v-list-item-icon>
               <v-list-item-title>
-                Move down
+                {{ $tc('components.activity.activityContent.moveDown') }}
               </v-list-item-title>
             </v-list-item>
             <v-divider />
@@ -90,7 +90,7 @@
                 <v-icon>mdi-delete</v-icon>
               </v-list-item-icon>
               <v-list-item-title>
-                Delete
+                {{ $tc('components.activity.activityContent.delete') }}
               </v-list-item-title>
             </v-list-item>
           </v-list>

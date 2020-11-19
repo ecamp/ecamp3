@@ -6,10 +6,12 @@ services:
     container_name: 'ecamp3-frontend'
     ports:
       - '3000:3000'
+      - '9229:9229' # jest debug 
     stdin_open: true
     tty: true
     volumes:
       - ./frontend:/app:delegated
+      - ./common:/common:delegated
       - npm-cache:/root/.npm
       - cypress-cache:/root/.cache/Cypress
       - node-modules-cache:/app/node_modules/.cache
@@ -31,15 +33,18 @@ services:
     image: node:12.18
     container_name: 'ecamp3-print'
     ports:
-      - '3003:3000'
+      - '3003:80'
     volumes:
       - ./print:/app:delegated
+      - ./common:/common:delegated
       - npm-cache:/root/.npm
       - print-node-modules-cache:/app/node_modules/.cache
     working_dir: /app
     command: ./docker-setup.sh
     environment:
       - HOST=0.0.0.0
+    env_file:
+      - ./print/print.env
 
   composer:
     image: composer:2
@@ -77,7 +82,7 @@ services:
       - '3004:15672'
 
   worker-print-puppeteer:
-    image: buildkite/puppeteer
+    build: ./workers/print-puppeteer
     container_name: 'ecamp3-worker-print-puppeteer'
     volumes:
       - ./workers/print-puppeteer:/app:delegated
@@ -97,6 +102,7 @@ services:
 
   print-file-server:
     image: halverneus/static-file-server
+    container_name: 'ecamp3-print-file-server'
     volumes:
       - print-output:/web
     ports:

@@ -39,7 +39,7 @@
             <v-icon>mdi-refresh</v-icon>
           </v-btn>
         </template>
-        <span>Retry</span>
+        <span>{{ $tc('global.button.tryagain') }}</span>
       </v-tooltip>
       <v-tooltip bottom class="ml-auto">
         <template v-slot:activator="{ on }">
@@ -54,7 +54,7 @@
             <v-icon>mdi-close</v-icon>
           </v-btn>
         </template>
-        <span>Cancel</span>
+        <span>{{ $tc('global.button.cancel') }}</span>
       </v-tooltip>
     </template>
 
@@ -74,7 +74,7 @@
             <v-icon>mdi-check</v-icon>
           </v-btn>
         </template>
-        <span>Save</span>
+        <span>{{ $tc('global.button.save') }}</span>
       </v-tooltip>
       <v-tooltip bottom class="ml-auto">
         <template v-slot:activator="{ on }">
@@ -89,7 +89,7 @@
             <v-icon>mdi-close</v-icon>
           </v-btn>
         </template>
-        <span>Cancel</span>
+        <span>{{ $tc('global.button.cancel') }}</span>
       </v-tooltip>
     </template>
 

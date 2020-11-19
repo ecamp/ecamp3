@@ -29,7 +29,6 @@ Lists all activity instances in a list view.
 </template>
 <script>
 import { scheduleEntryRoute } from '@/router'
-import { defineHelpers } from '@/components/scheduleEntry/dateHelperUTC'
 
 export default {
   name: 'ActivityList',
@@ -37,14 +36,15 @@ export default {
     period: {
       type: Function,
       required: true
+    },
+    scheduleEntries: {
+      type: Array,
+      required: true
     }
   },
   computed: {
     camp () {
       return this.period().camp()
-    },
-    scheduleEntries () {
-      return this.period().scheduleEntries().items.map((entry) => defineHelpers(entry, false))
     }
   },
   methods: {

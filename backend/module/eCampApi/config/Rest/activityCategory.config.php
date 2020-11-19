@@ -78,6 +78,12 @@ $config['input_filter_specs'] = [
                         'max' => 8,
                     ],
                 ],
+                1 => [
+                    'name' => 'Laminas\\Validator\\Regex',
+                    'options' => [
+                        'pattern' => '/#([a-f0-9]{3}){1,2}\b/i',
+                    ],
+                ],
             ],
         ],
         3 => [

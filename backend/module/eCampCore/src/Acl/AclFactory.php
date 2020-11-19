@@ -16,6 +16,8 @@ use eCamp\Core\Entity\ContentType;
 use eCamp\Core\Entity\Day;
 use eCamp\Core\Entity\Group;
 use eCamp\Core\Entity\GroupMembership;
+use eCamp\Core\Entity\MaterialItem;
+use eCamp\Core\Entity\MaterialList;
 use eCamp\Core\Entity\Organization;
 use eCamp\Core\Entity\Period;
 use eCamp\Core\Entity\ScheduleEntry;
@@ -62,6 +64,9 @@ class AclFactory implements FactoryInterface {
         $acl->addResource(ActivityResponsible::class, BaseEntity::class);
 
         $acl->addResource(ScheduleEntry::class, BaseEntity::class);
+
+        $acl->addResource(MaterialList::class, BaseEntity::class);
+        $acl->addResource(MaterialItem::class, BaseEntity::class);
 
         $acl->addResource(User::class, BaseEntity::class);
         $acl->addResource(UserIdentity::class, BaseEntity::class);
@@ -141,6 +146,8 @@ class AclFactory implements FactoryInterface {
                 ActivityResponsible::class,
                 ScheduleEntry::class,
                 ActivityContent::class,
+                MaterialList::class,
+                MaterialItem::class,
             ],
             [
                 Acl::REST_PRIVILEGE_FETCH_ALL,
@@ -157,6 +164,8 @@ class AclFactory implements FactoryInterface {
                 ActivityResponsible::class,
                 ScheduleEntry::class,
                 ActivityContent::class,
+                MaterialList::class,
+                MaterialItem::class,
             ],
             [
                 Acl::REST_PRIVILEGE_CREATE,

@@ -59,6 +59,9 @@ JSON;
                 },
                 "activities": {
                     "href": "http://{$this->host}/api/activities?campId={$this->camp->getId()}"
+                },
+                "materialLists": {
+                    "href": "http://{$this->host}/api/material-lists?campId={$this->camp->getId()}"
                 }
             }
 JSON;

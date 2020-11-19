@@ -19,20 +19,33 @@ Displays a single period as a list item including controls to edit and delete it
             <button-edit class="mr-1" v-on="on" />
           </template>
         </dialog-period-edit>
-
-        <dialog-entity-delete :entity="period">
-          <template v-slot:activator="{ on }">
-            <button-delete v-on="on" />
-          </template>
-          {{ $tc('components.camp.campPeriodsListItem.deleteWarning') }} <br>
-          <ul>
-            <li>
-              {{ period.description }}
-            </li>
-          </ul>
-        </dialog-entity-delete>
       </v-item-group>
     </v-list-item-action>
+
+    <v-menu offset-y>
+      <template v-slot:activator="{ on, attrs }">
+        <v-btn icon v-bind="attrs" v-on="on">
+          <v-icon>mdi-dots-vertical</v-icon>
+        </v-btn>
+      </template>
+      <v-card>
+        <v-item-group>
+          <v-list-item-action>
+            <dialog-entity-delete :entity="period">
+              <template v-slot:activator="{ on }">
+                <button-delete v-on="on" />
+              </template>
+              {{ $tc('components.camp.campPeriodsListItem.deleteWarning') }} <br>
+              <ul>
+                <li>
+                  {{ period.description }}
+                </li>
+              </ul>
+            </dialog-entity-delete>
+          </v-list-item-action>
+        </v-item-group>
+      </v-card>
+    </v-menu>
   </v-list-item>
 </template>
 

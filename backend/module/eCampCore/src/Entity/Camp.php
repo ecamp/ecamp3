@@ -48,6 +48,12 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
     protected $activities;
 
     /**
+     * @var ArrayCollection
+     * @ORM\OneToMany(targetEntity="MaterialList", mappedBy="camp", orphanRemoval=true)
+     */
+    protected $materialLists;
+
+    /**
      * @var CampType
      * @ORM\ManyToOne(targetEntity="CampType")
      * @ORM\JoinColumn(nullable=false)
@@ -94,6 +100,7 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
         $this->periods = new ArrayCollection();
         $this->activityCategories = new ArrayCollection();
         $this->activities = new ArrayCollection();
+        $this->materialLists = new ArrayCollection();
     }
 
     /**
@@ -310,6 +317,23 @@ class Camp extends BaseEntity implements BelongsToCampInterface {
     public function removeActivity(Activity $activity): void {
         $activity->setCamp(null);
         $this->activities->removeElement($activity);
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getMaterialLists() {
+        return $this->materialLists;
+    }
+
+    public function addMaterialList(MaterialList $materialList) {
+        $materialList->setCamp($this);
+        $this->materialLists->add($materialList);
+    }
+
+    public function removeMaterialList(MaterialList $materialList) {
+        $materialList->setCamp(null);
+        $this->materialLists->removeElement($materialList);
     }
 
     /**

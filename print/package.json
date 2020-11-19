@@ -14,9 +14,12 @@
     "test": "jest"
   },
   "dependencies": {
-    "@nuxtjs/axios": "^5.11.0",
+    "@nuxtjs/axios": "^5.12.2",
+    "deepmerge": "^4.2.2",
+    "hal-json-vuex": "^1.1.0",
     "nuxt": "^2.13.0",
-    "pagedjs": "^0.1.42"
+    "pagedjs": "^0.1.42",
+    "vue-i18n": "^8.22.1"
   },
   "devDependencies": {
     "@nuxtjs/eslint-config": "^3.0.0",
@@ -31,6 +34,7 @@
     "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-nuxt": "^1.0.0",
     "eslint-plugin-prettier": "^3.1.4",
+    "eslint-plugin-vue": "^7.1.0",
     "jest": "^26.0.1",
     "prettier": "^2.0.5",
     "stylelint": "^13.6.1",

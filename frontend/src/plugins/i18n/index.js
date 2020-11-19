@@ -2,7 +2,14 @@ import Vue from 'vue'
 import VueI18n from 'vue-i18n'
 import deepmerge from 'deepmerge'
 
-import availableLocales from './availableLocales'
+import itCommon from '@/../../common/locales/it.json'
+import itCHScoutCommon from '@/../../common/locales/it-CH-scout.json'
+import frCommon from '@/../../common/locales/fr.json'
+import frCHScoutCommon from '@/../../common/locales/fr-CH-scout.json'
+import enCommon from '@/../../common/locales/en.json'
+import enCHScoutCommon from '@/../../common/locales/en-CH-scout.json'
+import deCommon from '@/../../common/locales/de.json'
+import deCHScoutCommon from '@/../../common/locales/de-CH-scout.json'
 
 import it from '@/locales/it.json'
 import itCHScout from '@/locales/it-CH-scout.json'
@@ -20,31 +27,57 @@ import validationDe from 'vee-validate/dist/locale/de.json'
 
 Vue.use(VueI18n)
 
-export default new VueI18n({
+const i18n = new VueI18n({
   locale: 'de',
   fallbackLocale: 'en',
-  messages: deepmerge({
-    it: {
-      global: {
-        validation: validationIt.messages
+  messages: deepmerge.all([
+    {
+      it: {
+        global: {
+          validation: validationIt.messages
+        }
+      },
+      fr: {
+        global: {
+          validation: validationFr.messages
+        }
+      },
+      en: {
+        global: {
+          validation: validationEn.messages
+        }
+      },
+      de: {
+        global: {
+          validation: validationDe.messages
+        }
       }
     },
-    fr: {
-      global: {
-        validation: validationFr.messages
-      }
+    {
+      it: itCommon,
+      'it-CH-scout': itCHScoutCommon,
+      fr: frCommon,
+      'fr-CH-scout': frCHScoutCommon,
+      en: enCommon,
+      'en-CH-scout': enCHScoutCommon,
+      de: deCommon,
+      'de-CH-scout': deCHScoutCommon
     },
-    en: {
-      global: {
-        validation: validationEn.messages
-      }
-    },
-    de: {
-      global: {
-        validation: validationDe.messages
+    { it, 'it-CH-scout': itCHScout, fr, 'fr-CH-scout': frCHScout, en, 'en-CH-scout': enCHScout, de, 'de-CH-scout': deCHScout }
+  ]),
+  silentTranslationWarn: true
+})
+
+Object.defineProperty(i18n, 'browserPreferredLocale', {
+  get: function () {
+    const languages = navigator.languages || [navigator.language]
+    for (const language of languages) {
+      if (this.availableLocales.includes(language)) {
+        return language
       }
     }
-  }, { it, 'it-CH-scout': itCHScout, fr, 'fr-CH-scout': frCHScout, en, 'en-CH-scout': enCHScout, de, 'de-CH-scout': deCHScout }),
-  silentTranslationWarn: true,
-  availableLocales
+    return undefined
+  }
 })
+
+export default i18n

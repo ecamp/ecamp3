@@ -2,7 +2,7 @@
 import Vue from 'vue'
 import Vuetify from 'vuetify'
 
-import { formBaseComponents } from '@/plugins'
+import formBaseComponents from '@/plugins/formBaseComponents'
 
 import { mount } from '@vue/test-utils'
 import ApiSelect from '../ApiSelect.vue'
