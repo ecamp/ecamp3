@@ -98,6 +98,17 @@ class CampCollaborationService extends AbstractEntityService {
         return $campCollaboration;
     }
 
+    protected function createEntityPost(BaseEntity $entity, $data) {
+        /** @var CampCollaboration $campCollaboration */
+        $campCollaboration = $entity;
+
+        if (CampCollaboration::STATUS_ESTABLISHED === $campCollaboration->getStatus()) {
+            $this->createMaterialList($campCollaboration);
+        }
+
+        return $campCollaboration;
+    }
+
     /**
      * @param $data
      *
