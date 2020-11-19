@@ -4,7 +4,7 @@ namespace eCamp\Lib\Types;
 
 use JsonSerializable;
 
-abstract class DateBase extends \DateTime implements JsonSerializable {
+abstract class UtcBase extends \DateTime implements JsonSerializable {
     protected string $FORMAT;
 
     public function __toString() {

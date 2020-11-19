@@ -4,7 +4,7 @@ namespace eCamp\Lib\Types;
 
 use DateTimeZone;
 
-class DateUtc extends DateBase {
+class DateUtc extends UtcBase {
     protected string $FORMAT = 'Y-m-d';
 
     /**
