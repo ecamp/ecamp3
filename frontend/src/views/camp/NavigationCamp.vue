@@ -31,7 +31,7 @@
       </v-btn>
       <v-btn :to="campRoute(camp(), 'material')" text>
         <v-icon :left="$vuetify.breakpoint.mdAndUp">mdi-package-variant</v-icon>
-        <span class="sr-only-sm-and-down">Material</span>
+        <span class="sr-only-sm-and-down">{{ $tc('views.camp.navigationCamp.material') }}</span>
       </v-btn>
     </v-toolbar-items>
     <v-spacer />

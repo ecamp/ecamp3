@@ -3,6 +3,7 @@
     <e-text-field
       v-model="materialList.name"
       :name="$tc('entity.materialList.fields.name')"
+      autofocus
       vee-rules="required" />
   </div>
 </template>

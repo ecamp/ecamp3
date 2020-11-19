@@ -1,7 +1,3 @@
-<!--
-Displays a single period as a list item including controls to edit and delete it.
--->
-
 <template>
   <v-list-item>
     <v-list-item-content class="pt-0 pb-2">
