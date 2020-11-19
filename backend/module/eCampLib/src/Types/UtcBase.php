@@ -19,11 +19,6 @@ abstract class UtcBase extends \DateTime implements JsonSerializable {
      * @throws InvalidZoneOffsetException
      */
     public function __construct($time = null, DateTimeZone $timezone = null, string $format = null) {
-        if (null === $timezone) {
-            $timezone = new DateTimeZone('UTC');
-        } elseif ('UTC' !== $timezone->getName()) {
-            throw new InvalidZoneOffsetException('Invalid zone offset: '.$timezone->getName().'. Should be 0');
-        }
         if (null === $time) {
             $time = $this->getDefaultTimeString();
         } else {
@@ -36,6 +31,11 @@ abstract class UtcBase extends \DateTime implements JsonSerializable {
             if (isset($parsedDate->zone) && 0 !== $parsedDate->zone) {
                 throw new InvalidZoneOffsetException('Invalid zone offset: '.$parsedDate->zone.'. Should be 0');
             }
+        }
+        if (null === $timezone) {
+            $timezone = new DateTimeZone('UTC');
+        } elseif ('UTC' !== $timezone->getName()) {
+            throw new InvalidZoneOffsetException('Invalid zone offset: '.$timezone->getName().'. Should be 0');
         }
         parent::__construct($time, $timezone);
     }
