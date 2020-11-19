@@ -68,10 +68,16 @@
         "deleteWarning": "Möchtest du diese Periode wirklich löschen?"
       },
       "campPrint": {
+        "activities": "Aktivitäten",
+        "dailySummary": "Tagesübersicht",
+        "frontpage": "Deckblatt",
         "openPrintPreview": "Druckvorschau öffnen",
+        "picasso": "Picasso",
         "printNow": "Jetzt drucken",
         "selectPrintPreview": "Druckvorschau zeigen",
-        "title": "Drucken"
+        "storyline": "Roter Faden",
+        "title": "Drucken",
+        "toc": "Inhaltsverzeichnis"
       },
       "campSettings": {
         "fields": {
@@ -88,6 +94,9 @@
         "moment": {
           "date": "dd. D.MM | D. MMM | DD. MMM YYYY"
         }
+      },
+      "storyDay": {
+        "noStory": "Kein roter Faden an diesem Tag gefunden …"
       }
     },
     "dialog": {
@@ -145,8 +154,8 @@
       "numberingStyles": {
         "1": "1, 2, 3 - Zahlen",
         "A": "A, B, C - grosse Buchstaben",
-        "I": "I, II, III - grosse römische Zahlen",
         "a": "a, b, c - kleine Buchstaben",
+        "I": "I, II, III - grosse römische Zahlen",
         "i": "i, ii, iii - kleine römische Zahlen"
       }
     },
@@ -208,6 +217,7 @@
       "create": "Erstellen",
       "delete": "Löschen",
       "edit": "Bearbeiten",
+      "ok": "OK",
       "open": "Öffnen",
       "save": "Speichern",
       "saving": "Speichert",
@@ -260,6 +270,7 @@
       "register": {
         "acceptTermsOfUse": "Akzeptieren Sie die Nutzungsbedingungen",
         "alreadyHaveAnAccount": "Haben Sie bereits ein Konto?",
+        "login": "Anmelden",
         "openTermsOfUse": "Öffnen",
         "passwordConfirmation": "Passwort erneut eingeben",
         "register": "Registrieren",
@@ -286,7 +297,7 @@
       "navigationCamp": {
         "admin": "Admin",
         "campIsLoading": "Lager wird geladen",
-        "material": "Mat.",
+        "material": "Material",
         "print": "Drucken",
         "story": "Handlung",
         "tasks": "Aufgaben",
@@ -297,6 +308,11 @@
       },
       "sideBarPeriods": {
         "title": "Lagerabschnitt"
+      },
+      "story": {
+        "editModeOff": "Bearbeiten aus",
+        "editModeOn": "Bearbeiten an",
+        "title": "Roter Faden"
       }
     },
     "campCreate": {
