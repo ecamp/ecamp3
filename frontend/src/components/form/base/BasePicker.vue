@@ -176,8 +176,7 @@ export default {
       } else {
         this.setValueOfPicker(val)
       }
-    },
-    debounce
+    }
   }
 }
 </script>
