@@ -73,7 +73,7 @@ JSON;
             'surname' => 'surname',
             'nickname' => 'nickname',
             'language' => 'EN',
-            'birthday' => '01.07.1990',
+            'birthday' => '1990-07-01',
         ]);
 
         $this->dispatch("{$this->apiEndpoint}", 'PATCH');

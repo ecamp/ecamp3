@@ -8,6 +8,7 @@ use Doctrine\Persistence\ObjectManager;
 use eCamp\Core\Entity\Camp;
 use eCamp\Core\Entity\Day;
 use eCamp\Core\Entity\Period;
+use eCamp\Lib\Types\DateUtc;
 
 class PeriodTestData extends AbstractFixture implements DependentFixtureInterface {
     public static $PERIOD1 = Period::class.':PERIOD1';
@@ -20,8 +21,8 @@ class PeriodTestData extends AbstractFixture implements DependentFixtureInterfac
         $period = new Period();
         $period->setCamp($camp);
         $period->setDescription('Period1');
-        $period->setStart(new \DateTime('2000-01-01'));
-        $period->setEnd(new \DateTime('2000-01-03'));
+        $period->setStart(new DateUtc('2000-01-01'));
+        $period->setEnd(new DateUtc('2000-01-03'));
 
         $days = $period->getDurationInDays();
         for ($idx = 0; $idx < $days; ++$idx) {
