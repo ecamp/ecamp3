@@ -80,7 +80,6 @@ export default {
         }
       })
     },
-    Houston calling linter
     entriesWithStory () {
       return this.entries.filter(({ storyChapters }) => storyChapters.length)
     }
