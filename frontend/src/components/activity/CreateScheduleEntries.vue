@@ -16,6 +16,7 @@
           <e-time-picker
             v-model="scheduleEntry.startTime"
             :name="$tc('components.activity.createScheduleEntries.fields.startTime')"
+            value-format="x"
             vee-rules="required"
             :filled="false"
             required />
@@ -26,6 +27,7 @@
             input-class="ml-2"
             :name="$tc('components.activity.createScheduleEntries.fields.endTime')"
             vee-rules="required"
+            value-format="x"
             :filled="false"
             icon=""
             required />

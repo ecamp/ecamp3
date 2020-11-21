@@ -42,7 +42,7 @@ export default {
   props: {
     value: { type: [String, Number], required: true },
     icon: { type: String, required: false, default: 'mdi-calendar' },
-    valueFormat: { type: [String, Array], default: 'YYYY-MM-DDTHH:mm:ssZ' }
+    valueFormat: { type: [String, Array], default: 'YYYY-MM-DD' }
   },
   methods: {
     format (val) {
