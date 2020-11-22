@@ -66,12 +66,27 @@ JSON;
     public function testFetchAll() {
         $periodId = $this->day->getPeriod()->getId();
         $campId = $this->day->getCamp()->getId();
+        $this->dispatch("{$this->apiEndpoint}?periodId={$periodId}&campId={$campId}", 'GET');
+
+        $this->assertResponseStatusCode(200);
+
+        $this->assertEquals(13, $this->getResponseContent()->total_items);
+        $this->assertEquals(-1, $this->getResponseContent()->page_size);
+        $this->assertEquals(1, $this->getResponseContent()->page_count);
+        $this->assertEquals("http://{$this->host}{$this->apiEndpoint}?periodId={$periodId}&campId={$campId}&page=1", $this->getResponseContent()->_links->self->href);
+        $this->assertEquals($this->day->getId(), $this->getResponseContent()->_embedded->items[0]->id);
+    }
+
+    public function testFetchAllPaged() {
+        $periodId = $this->day->getPeriod()->getId();
+        $campId = $this->day->getCamp()->getId();
         $this->dispatch("{$this->apiEndpoint}?page_size=10&periodId={$periodId}&campId={$campId}", 'GET');
 
         $this->assertResponseStatusCode(200);
 
-        $this->assertEquals(3, $this->getResponseContent()->total_items);
+        $this->assertEquals(13, $this->getResponseContent()->total_items);
         $this->assertEquals(10, $this->getResponseContent()->page_size);
+        $this->assertEquals(2, $this->getResponseContent()->page_count);
         $this->assertEquals("http://{$this->host}{$this->apiEndpoint}?page_size=10&periodId={$periodId}&campId={$campId}&page=1", $this->getResponseContent()->_links->self->href);
         $this->assertEquals($this->day->getId(), $this->getResponseContent()->_embedded->items[0]->id);
     }

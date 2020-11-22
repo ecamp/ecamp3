@@ -21,7 +21,7 @@ class PeriodTestData extends AbstractFixture implements DependentFixtureInterfac
         $period->setCamp($camp);
         $period->setDescription('Period1');
         $period->setStart(new \DateTime('2000-01-01'));
-        $period->setEnd(new \DateTime('2000-01-03'));
+        $period->setEnd(new \DateTime('2000-01-13'));
 
         $days = $period->getDurationInDays();
         for ($idx = 0; $idx < $days; ++$idx) {
