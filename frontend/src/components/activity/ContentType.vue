@@ -35,7 +35,7 @@ export default {
   },
   data () {
     return {
-      openPanels: [0],
+      openPanels: [],
       sortedActivityContentHrefs: []
     }
   },
@@ -52,7 +52,6 @@ export default {
       if (this.activity !== null) {
         this.activity._meta.load.then(() => {
           this.refreshSortedActivityContentHrefs()
-          this.openPanels = [0]
         })
       }
     },
@@ -62,6 +61,9 @@ export default {
   },
   mounted () {
     this.refreshSortedActivityContentHrefs()
+
+    // expand all panels
+    this.openPanels = this.activityContents.map((k, i) => i)
   },
   methods: {
     moveUp (ac) {

@@ -14,7 +14,7 @@
         <v-col cols="2" />
       </v-row>
       <draggable
-        v-model="localSections"
+        v-model="sorting.hrefList"
         ghost-class="ghost"
         handle=".drag-and-drop-handle"
         :animation="200"
@@ -24,7 +24,7 @@
         @end="dragging = false">
         <!-- disable transition for drag&drop as draggable already comes with its own anmations -->
         <transition-group :name="!dragging ? 'flip-list' : null" tag="div">
-          <div v-for="section in localSections" :key="section._meta.self">
+          <div v-for="section in sortedSections" :key="section._meta.self">
             <!-- add before -->
             <v-row no-gutters class="row-inter" justify="center">
               <v-col cols="1">
@@ -118,6 +118,7 @@ import ApiTextarea from '@/components/form/api/ApiTextarea'
 import ApiForm from '@/components/form/api/ApiForm'
 import DialogEntityDelete from '@/components/dialog/DialogEntityDelete'
 import draggable from 'vuedraggable'
+import { isEqual } from 'lodash'
 
 export default {
   name: 'Storyboard',
@@ -132,19 +133,37 @@ export default {
   },
   data () {
     return {
-      localSections: [],
-      dragging: false
+      dragging: false,
+      sorting: {
+        dirty: false,
+        hrefList: []
+      }
     }
   },
   computed: {
+    // retrieve all relevant entitieys from external (incl. filtering and sorting)
     sections () {
       return this.activityContent.sections().items.sort((a, b) => a.pos - b.pos)
+    },
+
+    // locally sorted entities (sorted as per loal hrefList)
+    sortedSections () {
+      return this.sorting.hrefList.map(href => this.api.get(href))
     }
   },
   watch: {
     sections: {
       handler: function (sections) {
-        this.localSections = sections.map(entry => entry)
+        const hrefList = sections.map(entry => entry._meta.self)
+
+        // update local sorting with external sorting if not dirty
+        if (!this.sorting.dirty) {
+          this.sorting.hrefList = hrefList
+
+        // remove dirty flag if external sorting is equal to local sorting (e.g. saving to API was successful)
+        } else if (isEqual(this.sorting.hrefList, hrefList)) {
+          this.sorting.dirty = false
+        }
       },
       immediate: true
     }
@@ -163,8 +182,8 @@ export default {
       await this.api.reload(this.activityContent)
     },
     async sectionUp (section) {
-      const list = this.localSections
-      const index = list.findIndex((item) => section.id === item.id)
+      const list = this.sorting.hrefList
+      const index = list.indexOf(section._meta.self)
 
       // cannot move first entry up
       if (index > 0) {
@@ -176,8 +195,8 @@ export default {
       this.saveLocalSorting()
     },
     async sectionDown (section) {
-      const list = this.localSections
-      const index = list.findIndex((item) => section.id === item.id)
+      const list = this.sorting.hrefList
+      const index = list.indexOf(section._meta.self)
 
       // cannot move last entry down
       if (index >= 0 && index < (list.length - 1)) {
@@ -200,10 +219,20 @@ export default {
      * Saves local list sorting to API
      */
     saveLocalSorting () {
-      const patchData = this.localSections.map((section, index) => [section.id, { pos: index }])
+      this.sorting.dirty = true
+
+      /**
+      Compiles proper patchList object in the form of
+      {
+        'id1': { pos: 0 },
+        'id2': { pos: 1 },
+        ...
+      }
+      */
+      const patchData = this.sortedSections.map((section, index) => [section.id, { pos: index }])
       const patchDataObj = Object.fromEntries(patchData)
 
-      this.api.patch(`http://localhost:3001/api/content-type/storyboards?activityContentId=${this.activityContent.id}`, patchDataObj)
+      this.api.patch('/content-type/storyboards', patchDataObj)
     }
   }
 }

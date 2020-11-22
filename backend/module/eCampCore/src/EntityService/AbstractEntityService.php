@@ -186,15 +186,21 @@ abstract class AbstractEntityService extends AbstractResourceListener {
      * @return ApiProblem|mixed
      */
     final public function patchList($data) {
+        $result = [];
+
         foreach ($data as $key => $value) {
-            $this->patch($key, $value);
+            $entity = $this->patch($key, $value);
+            array_push($result, $entity);
         }
 
-        /** @var Request $request */
-        $request = $this->getEvent()->getRequest();
-        $queryParams = $request->getQuery();
+        return $result;
+        // Alternative: return all entities of the current request
+        //
+        // /** @var Request $request */
+        // $request = $this->getEvent()->getRequest();
+        // $queryParams = $request->getQuery();
 
-        return $this->fetchAll($queryParams);
+        // return $this->fetchAll($queryParams);
     }
 
     /**
