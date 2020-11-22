@@ -64,6 +64,10 @@ JSON;
                     "href": "http://{$host}/api/users{/userId}{?page_size,search}",
                     "templated": true
                 },
+                "organizations": {
+                    "href": "http://{$host}/api/organizations{/organizationId}{?page_size}",
+                    "templated": true
+                },
                 "campTypes": {
                     "href": "http://{$host}/api/camp-types{/campTypeId}{?page_size}",
                     "templated": true

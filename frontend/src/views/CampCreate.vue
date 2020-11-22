@@ -31,7 +31,7 @@
               v-model="camp.campTypeId"
               :name="$tc('entity.camp.fields.campType')"
               vee-rules="required"
-              :items="campTypes">
+              :items="campTypeOptions">
               <template v-slot:item="data">
                 <v-list-item v-bind="data.attrs" v-on="data.on">
                   <v-list-item-content>
@@ -104,12 +104,33 @@ export default {
     }
   },
   computed: {
+    organizations () {
+      return this.api.get().organizations().items
+    },
     campTypes () {
-      return this.api.get().campTypes().items.map(ct => ({
-        value: ct.id,
-        text: this.$tc(ct.name),
-        object: ct
-      }))
+      return this.api.get().campTypes().items
+    },
+    campTypeOptions () {
+      const options = []
+
+      this.organizations.forEach(org => {
+        if (options.length > 0) {
+          options.push({ divider: true })
+        }
+        options.push({ header: this.$tc(org.name) })
+
+        this.campTypes.forEach(ct => {
+          if (ct.organization().id === org.id) {
+            options.push({
+              value: ct.id,
+              text: this.$tc(ct.name),
+              object: ct
+            })
+          }
+        })
+      })
+
+      return options
     },
     periodDeletable () {
       return this.camp.periods.length > 1

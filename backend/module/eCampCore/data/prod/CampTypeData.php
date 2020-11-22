@@ -8,6 +8,7 @@ use Doctrine\Persistence\ObjectManager;
 use eCamp\Core\Entity\CampType;
 
 class CampTypeData extends AbstractFixture implements DependentFixtureInterface {
+    public static $JS_KIDS = CampType::class.':JS_KIDS';
     public static $PBS_JS_KIDS = CampType::class.':PBS_JS_KIDS';
     public static $PBS_JS_TEEN = CampType::class.':PBS_JS_TEEN';
 
@@ -17,7 +18,27 @@ class CampTypeData extends AbstractFixture implements DependentFixtureInterface 
         $lagersport = $this->getReference(ActivityTypeData::$LAGERSPORT);
         $lageraktivitaet = $this->getReference(ActivityTypeData::$LAGERAKTIVITAET);
 
+        $js = $this->getReference(OrganizationData::$JS);
         $pbs = $this->getReference(OrganizationData::$PBS);
+
+        $campType = $repository->findOneBy(['name' => 'J+S Kids', 'organization' => $js]);
+        if (null == $campType) {
+            $campType = new CampType();
+            $campType->setName('J+S Kids');
+            $campType->setOrganization($js);
+            $campType->setIsJS(true);
+            $campType->setIsCourse(false);
+            $campType->setJsonConfig($this->getJsonConfig());
+
+            $manager->persist($campType);
+        }
+        if (!$campType->getActivityTypes()->contains($lagersport)) {
+            $campType->addActivityType($lagersport);
+        }
+        if (!$campType->getActivityTypes()->contains($lageraktivitaet)) {
+            $campType->addActivityType($lageraktivitaet);
+        }
+        $this->addReference(self::$JS_KIDS, $campType);
 
         $campType = $repository->findOneBy(['name' => 'J+S Kids', 'organization' => $pbs]);
         if (null == $campType) {

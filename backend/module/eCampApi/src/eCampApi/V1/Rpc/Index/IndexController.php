@@ -115,6 +115,11 @@ class IndexController extends AbstractActionController {
             'route' => 'e-camp-api.rest.doctrine.user',
         ]);
 
+        $data['organizations'] = TemplatedLink::factory([
+            'rel' => 'organizations',
+            'route' => 'e-camp-api.rest.doctrine.organization',
+        ]);
+
         $data['campTypes'] = TemplatedLink::factory([
             'rel' => 'campTypes',
             'route' => 'e-camp-api.rest.doctrine.camp-type',
