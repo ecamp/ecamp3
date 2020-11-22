@@ -1,7 +1,9 @@
 <template>
   <v-expansion-panel>
     <v-expansion-panel-header>
-      {{ period.description }}
+      <h3 class="grey--text text--darken-1">
+        {{ period.description }}
+      </h3>
     </v-expansion-panel-header>
     <v-expansion-panel-content>
       <div v-for="materialList in materialLists.items"

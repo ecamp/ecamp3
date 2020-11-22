@@ -12,7 +12,7 @@ Admin screen of a camp: Displays MaterialLists and MaterialItems
         :label="$tc('views.camp.material.showActivityMaterial')" />
     </v-toolbar>
     <v-card-text>
-      <v-expansion-panels multiple>
+      <v-expansion-panels v-model="openPeriods" multiple>
         <period-material-lists v-for="period in camp().periods().items"
                                :key="period._meta.self"
                                :period="period"
@@ -37,8 +37,24 @@ export default {
   },
   data () {
     return {
-      showActivityMaterial: false
+      openPeriods: []
     }
+  },
+  computed: {
+    showActivityMaterial: {
+      get () { return localStorage.viewCampMaterialShowActivityMaterial === 'true' },
+      set (val) { localStorage.viewCampMaterialShowActivityMaterial = val ? 'true' : 'false' }
+    }
+  },
+  mounted () {
+    if (localStorage.viewCampMaterialShowActivityMaterial === undefined) {
+      localStorage.viewCampMaterialShowActivityMaterial = false
+    }
+    this.camp().periods()._meta.load.then(periods => {
+      this.openPeriods = periods.items
+        .map((period, idx) => Date.parse(period.end) >= new Date() ? idx : null)
+        .filter(idx => idx !== null)
+    })
   }
 }
 </script>
