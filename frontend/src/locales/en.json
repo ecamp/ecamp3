@@ -221,7 +221,7 @@
       "create": "Create",
       "delete": "Delete",
       "edit": "Edit",
-      "ok": "OK",
+      "ok": "Okay",
       "open": "Open",
       "save": "Save",
       "saving": "Saving",
@@ -314,8 +314,6 @@
         "title": "Periods"
       },
       "story": {
-        "editModeOff": "Editing off",
-        "editModeOn": "Editing on",
         "title": "Story"
       }
     },
