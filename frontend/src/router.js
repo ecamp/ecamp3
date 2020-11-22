@@ -94,6 +94,21 @@ export default new Router({
       beforeEnter: requireAuth
     },
     {
+      path: '/camps/invitation/:inviteKey',
+      name: 'campInvitation',
+      components: {
+        navigation: NavigationAuth,
+        default: () => import(/* webpackChunkName: "login" */ './views/camp/Invitation')
+      },
+      props: {
+        default: route => {
+          return {
+            campCollaborations: campCollaborationsFromInviteKey(route.params.inviteKey)
+          }
+        }
+      }
+    },
+    {
       path: '/camps/:campId/:campTitle?',
       components: {
         navigation: NavigationCamp,
@@ -221,6 +236,12 @@ export function campFromRoute (route) {
   }
 }
 
+export function campCollaborationsFromInviteKey (inviteKey) {
+  return function () {
+    return this.api.get('/camp-collaborations?inviteKey=' + inviteKey)
+  }
+}
+
 export function periodFromRoute (route) {
   return function () {
     return this.api.get().periods({ periodId: route.params.periodId })
@@ -243,6 +264,10 @@ export function campRoute (camp, subroute) {
   if (camp._meta.loading) return {}
   const routeName = subroute ? 'camp/' + subroute : 'camp/program'
   return { name: routeName, params: { campId: camp.id, campTitle: slugify(camp.title) } }
+}
+
+export function loginRoute (redirectTo) {
+  return { path: '/login', query: { redirect: redirectTo } }
 }
 
 export function periodRoute (period) {

@@ -115,6 +115,15 @@
         "title": "Create period"
       }
     },
+    "invitation" : {
+      "acceptCurrentAuth" : "Accept invitation with current account",
+      "login": "Login",
+      "notFound" : "This invitation is already accepted or was deleted",
+      "register" : "Register",
+      "reject" : "Deny invitation",
+      "title" : "Invitation to Camp",
+      "useOtherAuth" : "Use another account"
+    },
     "layout": {
       "authContainer": {
         "photoCredits": "Photo by Markus Rohner / Lotos"
