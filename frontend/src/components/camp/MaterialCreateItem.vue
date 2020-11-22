@@ -34,7 +34,7 @@
             :items="materialLists" />
         </v-col>
         <v-col>
-          <v-btn type="submit">
+          <v-btn type="submit" :loading="isSaving">
             {{ $tc('global.button.add') }}
           </v-btn>
         </v-col>
@@ -56,7 +56,8 @@ export default {
   },
   data () {
     return {
-      materialItem: {}
+      materialItem: {},
+      isSaving: false
     }
   },
   computed: {
@@ -69,6 +70,8 @@ export default {
   },
   methods: {
     createMaterialItem () {
+      this.isSaving = true
+
       this.api.href(this.api.get(), 'materialItems').then(uri => {
         const data = this.materialItem
 
@@ -82,6 +85,7 @@ export default {
         this.api.post(uri, data).then(mi => {
           this.$emit('item-add', mi)
           this.materialItem = {}
+          this.isSaving = false
         })
       })
     }
