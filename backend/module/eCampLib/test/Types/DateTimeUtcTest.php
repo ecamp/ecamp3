@@ -2,6 +2,7 @@
 
 namespace eCamp\LibTest\Hydrator;
 
+use DateInterval;
 use eCamp\Lib\Types\DateTimeUtc;
 use eCamp\Lib\Types\InvalidDateFormatException;
 use eCamp\Lib\Types\InvalidZoneOffsetException;
@@ -25,7 +26,6 @@ class DateTimeUtcTest extends AbstractTestCase {
     protected function tearDown() {
         date_default_timezone_set($this->initialTimeZone);
     }
-
 
     public function testParsing() {
         $date = new DateTimeUtc(self::TEST_DATETIME);
@@ -60,6 +60,13 @@ class DateTimeUtcTest extends AbstractTestCase {
         $dateUTC = new \DateTime();
         date_default_timezone_set('CET');
         $dateZurich = new \DateTime();
-        $this->assertThat($dateZurich->format('G'), self::equalTo(intval($dateUTC->format('G')) + 1 % 23));
+        $this->assertThat(
+            $dateZurich->diff($dateUTC)->format('h'),
+            self::equalTo(oneHour()->format('h'))
+        );
     }
+}
+
+function oneHour(): DateInterval {
+    return new DateInterval('PT1H');
 }
