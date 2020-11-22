@@ -44,7 +44,8 @@ class ProfileTest extends AbstractApiControllerTestCase {
                 "mail": "test@ecamp3.dev",
                 "role": "user",
                 "language": null,
-                "birthday": null
+                "birthday": null,
+                "isAdmin": false
             }
 JSON;
 

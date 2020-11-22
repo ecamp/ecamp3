@@ -205,13 +205,13 @@
               <api-checkbox
                 v-if="profileUri !== null"
                 :uri="profileUri"
-                fieldname="nickname" />
+                fieldname="isAdmin" />
             </v-col>
             <v-col>
               <api-checkbox
                 v-if="profileUri !== null"
                 :uri="profileUri"
-                fieldname="nickname"
+                fieldname="isAdmin"
                 :auto-save="false" />
             </v-col>
           </v-row>
@@ -242,13 +242,13 @@
               <api-switch
                 v-if="profileUri !== null"
                 :uri="profileUri"
-                fieldname="nickname" />
+                fieldname="isAdmin" />
             </v-col>
             <v-col>
               <api-switch
                 v-if="profileUri !== null"
                 :uri="profileUri"
-                fieldname="nickname"
+                fieldname="isAdmin"
                 :auto-save="false" />
             </v-col>
           </v-row>
@@ -473,6 +473,5 @@ export default {
 </script>
 
 <style scoped>
-div.col {
-}
+
 </style>

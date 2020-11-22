@@ -68,6 +68,7 @@ class ProfileController extends AbstractActionController {
             'role' => $user->getRole(),
             'language' => $user->getLanguage(),
             'birthday' => $user->getBirthday(),
+            'isAdmin' => (User::ROLE_ADMIN == $user->getRole()),
         ];
     }
 
@@ -97,6 +98,12 @@ class ProfileController extends AbstractActionController {
         }
         if (isset($data->birthday)) {
             $user->setBirthday(new DateUtc($data->birthday));
+        }
+
+        // DEBUG-CODE
+        // Used in ApiCheckbox on http://frontend/controls
+        if (isset($data->isAdmin)) {
+            $user->setRole($data->isAdmin ? User::ROLE_ADMIN : User::ROLE_USER);
         }
 
         return $this->getAction($user);
