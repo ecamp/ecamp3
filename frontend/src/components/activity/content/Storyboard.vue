@@ -17,8 +17,12 @@
         v-model="localSections"
         ghost-class="ghost"
         handle=".drag-and-drop-handle"
-        @sort="onSort">
-        <transition-group name="flip-list" tag="div">
+        :animation="200"
+        @sort="onSort"
+        @start="dragging = true"
+        @end="dragging = false">
+        <!-- disable transition for drag&drop as draggable already comes with its own anmations -->
+        <transition-group :name="!dragging ? 'flip-list' : null" tag="div">
           <div v-for="section in localSections" :key="section._meta.self">
             <!-- add before -->
             <v-row no-gutters class="row-inter" justify="center">
@@ -127,7 +131,8 @@ export default {
   },
   data () {
     return {
-      localSections: []
+      localSections: [],
+      dragging: false
     }
   },
   computed: {
