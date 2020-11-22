@@ -1,45 +1,54 @@
 <template>
-  <v-row dense no-glutters justify="space-around">
-    <v-col>
-      <e-text-field
-        v-model="materialItem.quantity"
-        dense
-        :name="$tc('entity.materialItem.fields.quantity')"
-        fieldname="quantity" />
-    </v-col>
-    <v-col>
-      <e-text-field
-        v-model="materialItem.unit"
-        dense
-        :name="$tc('entity.materialItem.fields.unit')"
-        fieldname="unit" />
-    </v-col>
-    <v-col>
-      <e-text-field
-        v-model="materialItem.article"
-        dense
-        :name="$tc('entity.materialItem.fields.article')"
-        fieldname="article" />
-    </v-col>
-    <v-col>
-      <e-select
-        v-model="materialItem.materialListId"
-        dense
-        :name="$tc('entity.materialList.name')"
-        fieldname="materialListId"
-        :items="materialLists" />
-    </v-col>
-    <v-col>
-      <v-btn @click="createMaterialItem">
-        {{ $tc('global.button.add') }}
-      </v-btn>
-    </v-col>
-  </v-row>
+  <ValidationObserver v-slot="{ handleSubmit }">
+    <v-form @submit.prevent="handleSubmit(createMaterialItem)">
+      <v-row dense no-glutters justify="space-around">
+        <v-col>
+          <e-text-field
+            v-model="materialItem.quantity"
+            dense
+            :name="$tc('entity.materialItem.fields.quantity')"
+            fieldname="quantity" />
+        </v-col>
+        <v-col>
+          <e-text-field
+            v-model="materialItem.unit"
+            dense
+            :name="$tc('entity.materialItem.fields.unit')"
+            fieldname="unit" />
+        </v-col>
+        <v-col>
+          <e-text-field
+            v-model="materialItem.article"
+            dense
+            vee-rules="required"
+            :name="$tc('entity.materialItem.fields.article')"
+            fieldname="article" />
+        </v-col>
+        <v-col>
+          <e-select
+            v-model="materialItem.materialListId"
+            dense
+            vee-rules="required"
+            :name="$tc('entity.materialList.name')"
+            fieldname="materialListId"
+            :items="materialLists" />
+        </v-col>
+        <v-col>
+          <v-btn type="submit">
+            {{ $tc('global.button.add') }}
+          </v-btn>
+        </v-col>
+      </v-row>
+    </v-form>
+  </validationobserver>
 </template>
 
 <script>
+import { ValidationObserver } from 'vee-validate'
+
 export default {
   name: 'MaterialCreateItem',
+  components: { ValidationObserver },
   props: {
     camp: { type: Object, required: true },
     period: { type: Object, default: null },
