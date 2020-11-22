@@ -16,6 +16,17 @@ class DateTimeUtcTest extends AbstractTestCase {
     const TEST_DATETIME_TIMEZONE = '2020-07-01T00:00+01:00';
     const TEST_DATETIME_CUSTOMFORMAT = '2020-07-01 00:00:00';
 
+    private $initialTimeZone;
+
+    protected function setUp() {
+        $this->initialTimeZone = date_default_timezone_get();
+    }
+
+    protected function tearDown() {
+        date_default_timezone_set($this->initialTimeZone);
+    }
+
+
     public function testParsing() {
         $date = new DateTimeUtc(self::TEST_DATETIME);
         $this->assertThat($date->__toString(), self::equalTo(self::TEST_DATETIME));
@@ -37,22 +48,18 @@ class DateTimeUtcTest extends AbstractTestCase {
     }
 
     public function testTimezoneDifferent() {
-        $initial_timezone = date_default_timezone_get();
         date_default_timezone_set('UTC');
         $dateUTC = new DateTimeUtc();
         date_default_timezone_set('CET');
         $dateZurich = new DateTimeUtc();
         $this->assertThat($dateZurich->format('G'), self::equalTo($dateUTC->format('G')));
-        date_default_timezone_set($initial_timezone);
     }
 
     public function testTimezoneDifferentNative() {
-        $initial_timezone = date_default_timezone_get();
         date_default_timezone_set('UTC');
         $dateUTC = new \DateTime();
         date_default_timezone_set('CET');
         $dateZurich = new \DateTime();
         $this->assertThat($dateZurich->format('G'), self::equalTo(intval($dateUTC->format('G')) + 1 % 23));
-        date_default_timezone_set($initial_timezone);
     }
 }
