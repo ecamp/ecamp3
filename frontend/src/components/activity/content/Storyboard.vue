@@ -5,79 +5,93 @@
         <v-col cols="2">
           {{ $tc('activityContent.storyboard.entity.section.fields.column1') }}
         </v-col>
-        <v-col cols="7">
+        <v-col cols="6">
           {{ $tc('activityContent.storyboard.entity.section.fields.column2') }}
         </v-col>
         <v-col cols="2">
           {{ $tc('activityContent.storyboard.entity.section.fields.column3') }}
         </v-col>
-        <v-col cols="1" />
+        <v-col cols="2" />
       </v-row>
-      <transition-group name="flip-list" tag="div">
-        <div v-for="section in localSections" :key="section._meta.self">
-          <!-- add before -->
-          <v-row no-gutters class="row-inter" justify="center">
-            <v-col cols="1">
-              <v-btn icon
-                     small
-                     class="button-add"
-                     color="success"
-                     @click="addSection">
-                <v-icon>mdi-plus</v-icon>
-              </v-btn>
-            </v-col>
-          </v-row>
-
-          <api-form :entity="section">
-            <v-row dense>
-              <v-col cols="2">
-                <api-textarea
-                  fieldname="column1"
-                  auto-grow
-                  rows="2" />
-              </v-col>
-              <v-col cols="7">
-                <api-textarea
-                  fieldname="column2"
-                  auto-grow
-                  rows="4" />
-              </v-col>
-              <v-col cols="2">
-                <api-textarea
-                  fieldname="column3"
-                  auto-grow
-                  rows="2" />
-              </v-col>
+      <draggable
+        v-model="localSections"
+        ghost-class="ghost"
+        handle=".drag-and-drop-handle"
+        @sort="onSort">
+        <transition-group name="flip-list" tag="div">
+          <div v-for="section in localSections" :key="section._meta.self">
+            <!-- add before -->
+            <v-row no-gutters class="row-inter" justify="center">
               <v-col cols="1">
-                <div class="float-right section-buttons">
-                  <v-btn icon small
-                         class="float-right"
-                         @click="sectionUp(section)">
-                    <v-icon>mdi-arrow-up-bold</v-icon>
-                  </v-btn>
-                  <dialog-entity-delete :entity="section">
-                    <template v-slot:activator="{ on }">
-                      <v-btn icon
-                             small
-                             color="error"
-                             class="float-right"
-                             v-on="on">
-                        <v-icon>mdi-delete</v-icon>
-                      </v-btn>
-                    </template>
-                  </dialog-entity-delete>
-                  <v-btn icon small
-                         class="float-right"
-                         @click="sectionDown(section)">
-                    <v-icon>mdi-arrow-down-bold</v-icon>
-                  </v-btn>
-                </div>
+                <v-btn icon
+                       small
+                       class="button-add"
+                       color="success"
+                       @click="addSection">
+                  <v-icon>mdi-plus</v-icon>
+                </v-btn>
               </v-col>
             </v-row>
-          </api-form>
-        </div>
-      </transition-group>
 
+            <api-form :entity="section">
+              <v-row dense>
+                <v-col cols="2">
+                  <api-textarea
+                    fieldname="column1"
+                    auto-grow
+                    rows="2" />
+                </v-col>
+                <v-col cols="6">
+                  <api-textarea
+                    fieldname="column2"
+                    auto-grow
+                    rows="4" />
+                </v-col>
+                <v-col cols="2">
+                  <api-textarea
+                    fieldname="column3"
+                    auto-grow
+                    rows="2" />
+                </v-col>
+                <v-col cols="1">
+                  <div class="float-right section-buttons">
+                    <v-btn icon small
+                           class="float-right"
+                           @click="sectionUp(section)">
+                      <v-icon>mdi-arrow-up-bold</v-icon>
+                    </v-btn>
+                    <v-btn icon small
+                           class="float-right drag-and-drop-handle">
+                      <v-icon>mdi-drag-horizontal-variant</v-icon>
+                    </v-btn>
+                    <v-btn icon small
+                           class="float-right"
+                           @click="sectionDown(section)">
+                      <v-icon>mdi-arrow-down-bold</v-icon>
+                    </v-btn>
+                  </div>
+                </v-col>
+
+                <v-col cols="1">
+                  <div class="float-right section-buttons">
+                    <dialog-entity-delete :entity="section">
+                      <template v-slot:activator="{ on }">
+                        <v-btn icon
+                               small
+                               color="error"
+                               class="float-right"
+                               v-on="on">
+                          <v-icon>mdi-delete</v-icon>
+                        </v-btn>
+                      </template>
+                    </dialog-entity-delete>
+                  </div>
+                </v-col>
+              </v-row>
+            </api-form>
+          </div>
+        </transition-group>
+      </draggable>
       <!-- add at end position -->
       <v-row no-gutters justify="center">
         <v-col cols="1">
@@ -98,13 +112,15 @@
 import ApiTextarea from '@/components/form/api/ApiTextarea'
 import ApiForm from '@/components/form/api/ApiForm'
 import DialogEntityDelete from '@/components/dialog/DialogEntityDelete'
+import draggable from 'vuedraggable'
 
 export default {
   name: 'Storyboard',
   components: {
     ApiForm,
     ApiTextarea,
-    DialogEntityDelete
+    DialogEntityDelete,
+    draggable
   },
   props: {
     activityContent: { type: Object, required: true }
@@ -159,6 +175,7 @@ export default {
       /* await this.api.patch(section, {
         pos: 90
       }) */
+      this.saveLocalSorting()
     },
     async sectionDown (section) {
       const list = this.localSections
@@ -180,6 +197,23 @@ export default {
       await this.api.patch(section, {
         pos: 110
       }) */
+
+      this.saveLocalSorting()
+    },
+
+    /**
+     * Triggeres on every sorting change
+     */
+    onSort (event) {
+      console.log(event)
+      this.saveLocalSorting()
+    },
+
+    /**
+     * Saves local list sorting to API
+     */
+    saveLocalSorting () {
+      console.log('saving to API now')
     }
   }
 }
@@ -217,6 +251,15 @@ export default {
 
 .flip-list-move {
   transition: transform 0.5s;
+}
+
+.ghost {
+  opacity: 0.5;
+  background: #c8ebfb;
+}
+
+.drag-and-drop-handle {
+  cursor: grab;
 }
 
 </style>
