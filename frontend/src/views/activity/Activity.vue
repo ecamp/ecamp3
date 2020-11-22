@@ -122,7 +122,6 @@ import ButtonBack from '@/components/buttons/ButtonBack'
 import ContentCard from '@/components/layout/ContentCard'
 import ApiTextField from '@/components/form/api/ApiTextField'
 import ApiSelect from '@/components/form/api/ApiSelect'
-
 import ActivityLayoutGeneral from '@/components/activity/layouts/General'
 import camelCase from 'lodash/camelCase'
 
