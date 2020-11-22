@@ -46,7 +46,7 @@ class PeriodTest extends AbstractApiControllerTestCase {
                 "id": "{$this->period->getId()}",
                 "description": "Period1",
                 "start": "2000-01-01",
-                "end": "2000-01-03"
+                "end": "2000-01-13"
             }
 JSON;
 
@@ -60,6 +60,8 @@ JSON;
         $expectedEmbeddedObjects = ['camp', 'days', 'scheduleEntries'];
 
         $this->verifyHalResourceResponse($expectedBody, $expectedLinks, $expectedEmbeddedObjects);
+
+        $this->assertCount(13, $this->getResponseContent()->_embedded->days);
     }
 
     public function testFetchAll() {
@@ -120,7 +122,7 @@ JSON;
         $this->assertResponseStatusCode(200);
 
         $this->assertEquals('1999-12-15', $this->getResponseContent()->start);
-        $this->assertEquals('2000-01-03', $this->getResponseContent()->end);
+        $this->assertEquals('2000-01-13', $this->getResponseContent()->end);
     }
 
     public function testDelete() {
