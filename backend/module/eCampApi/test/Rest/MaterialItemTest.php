@@ -97,8 +97,6 @@ JSON;
 
         $this->dispatch($this->apiEndpoint, 'POST');
 
-        var_dump($this->getResponseContent());
-
         $this->assertResponseStatusCode(201);
         $this->assertEquals(2, $this->getResponseContent()->quantity);
         $this->assertEquals('kg', $this->getResponseContent()->unit);
@@ -115,8 +113,6 @@ JSON;
         ]);
 
         $this->dispatch($this->apiEndpoint, 'POST');
-
-        var_dump($this->getResponseContent());
 
         $this->assertResponseStatusCode(201);
         $this->assertEquals(2, $this->getResponseContent()->quantity);
