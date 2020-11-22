@@ -13,7 +13,14 @@ use Laminas\Permissions\Acl\AclInterface;
 
 class Module {
     public function getConfig() {
-        return ConfigFactory::createConfig('Storyboard', true, 'Section');
+        $config = ConfigFactory::createConfig('Storyboard', true, 'Section');
+
+        array_push(
+            $config['api-tools-rest']['eCamp\\ContentType\\Storyboard\\Controller\\SectionController']['collection_http_methods'],
+            'PATCH'
+        );
+
+        return $config;
     }
 
     public function onBootstrap(MvcEvent $e) {

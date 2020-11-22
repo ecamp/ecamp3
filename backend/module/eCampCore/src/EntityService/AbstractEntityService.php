@@ -20,6 +20,7 @@ use eCamp\Lib\Service\EntityNotFoundException;
 use eCamp\Lib\Service\EntityValidationException;
 use eCamp\Lib\Service\ServiceUtils;
 use Laminas\ApiTools\ApiProblem\ApiProblem;
+use Laminas\ApiTools\ContentNegotiation\Request;
 use Laminas\ApiTools\Rest\AbstractResourceListener;
 use Laminas\ApiTools\Rest\ResourceEvent;
 use Laminas\Authentication\AuthenticationService;
@@ -171,6 +172,29 @@ abstract class AbstractEntityService extends AbstractResourceListener {
         $this->serviceUtils->emFlush();
 
         return $entity;
+    }
+
+    /**
+     * Patches a list of data.
+     *
+     * @param mixed $data Expected in the form of
+     *                    {
+     *                    id: { ***patch paylod*** },
+     *                    id2: { *** }
+     *                    }
+     *
+     * @return ApiProblem|mixed
+     */
+    final public function patchList($data) {
+        foreach ($data as $key => $value) {
+            $this->patch($key, $value);
+        }
+
+        /** @var Request $request */
+        $request = $this->getEvent()->getRequest();
+        $queryParams = $request->getQuery();
+
+        return $this->fetchAll($queryParams);
     }
 
     /**

@@ -138,7 +138,7 @@ export default {
   },
   computed: {
     sections () {
-      return this.activityContent.sections().items // .sort((a, b) => a.pos - b.pos)
+      return this.activityContent.sections().items.sort((a, b) => a.pos - b.pos)
     }
   },
   watch: {
@@ -173,14 +173,6 @@ export default {
         this.$set(list, index, previousItem)
       }
 
-      // Alternative: patch position property
-      // this.$store.commit('patch', { [`/content-type/storyboards/${section.id}`]: { pos: 90 } })
-      // this.$set(this.$store.state.api[`/content-type/storyboards/${section.id}`], 'pos', 90)
-
-      // Save back to API
-      /* await this.api.patch(section, {
-        pos: 90
-      }) */
       this.saveLocalSorting()
     },
     async sectionDown (section) {
@@ -194,16 +186,6 @@ export default {
         this.$set(list, index, nextItem)
       }
 
-      // Alternative: patch position property
-      // this.$store.commit('patch', { [`/content-type/storyboards/${section.id}`]: { pos: 110 } })
-      // this.$set(this.$store.state.api[`/content-type/storyboards/${section.id}`], 'pos', 110)
-
-      // Save back to API
-      /*
-      await this.api.patch(section, {
-        pos: 110
-      }) */
-
       this.saveLocalSorting()
     },
 
@@ -211,7 +193,6 @@ export default {
      * Triggeres on every sorting change
      */
     onSort (event) {
-      console.log(event)
       this.saveLocalSorting()
     },
 
@@ -219,7 +200,10 @@ export default {
      * Saves local list sorting to API
      */
     saveLocalSorting () {
-      console.log('saving to API now')
+      const patchData = this.localSections.map((section, index) => [section.id, { pos: index }])
+      const patchDataObj = Object.fromEntries(patchData)
+
+      this.api.patch(`http://localhost:3001/api/content-type/storyboards?activityContentId=${this.activityContent.id}`, patchDataObj)
     }
   }
 }

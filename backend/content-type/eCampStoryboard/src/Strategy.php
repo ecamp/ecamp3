@@ -3,6 +3,7 @@
 namespace eCamp\ContentType\Storyboard;
 
 use Doctrine\ORM\ORMException;
+use eCamp\ContentType\Storyboard\Entity\Section;
 use eCamp\ContentType\Storyboard\Entity\SectionCollection;
 use eCamp\ContentType\Storyboard\Service\SectionService;
 use eCamp\Core\ContentType\ContentTypeStrategyBase;
@@ -22,7 +23,9 @@ class Strategy extends ContentTypeStrategyBase {
     }
 
     public function activityContentExtract(ActivityContent $activityContent): array {
+        $this->sectionService->setEntityClass(Section::class);
         $this->sectionService->setCollectionClass(SectionCollection::class);
+
         $sections = $this->sectionService->fetchAllByActivityContent($activityContent->getId());
 
         return [
