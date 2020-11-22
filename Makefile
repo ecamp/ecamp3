@@ -25,7 +25,7 @@ run-printer:
 
 test:
 	docker exec -it backend composer test
-	docker exec -it forntend npm run test:unit
+	docker exec -it frontend npm run test:unit
 
 lint:
 	docker exec -it backend ./vendor/bin/php-cs-fixer fix
