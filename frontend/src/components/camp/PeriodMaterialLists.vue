@@ -30,54 +30,17 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="item in materialItems" :key="item.key">
-                <td v-if="item.scheduleEntry == null">
-                  <api-text-field
-                    dense
-                    :outlined="false"
-                    :uri="item.materialItem._meta.self"
-                    fieldname="quantity" />
-                </td>
-                <td v-else>
-                  {{ item.materialItem.quantity }}
-                </td>
-                <td v-if="item.scheduleEntry == null">
-                  <api-text-field
-                    dense
-                    :outlined="false"
-                    :uri="item.materialItem._meta.self"
-                    fieldname="unit" />
-                </td>
-                <td v-else>
-                  {{ item.materialItem.unit }}
-                </td>
-                <td v-if="item.scheduleEntry == null">
-                  <api-text-field
-                    dense
-                    :outlined="false"
-                    :uri="item.materialItem._meta.self"
-                    fieldname="article" />
-                </td>
-                <td v-else>
-                  {{ item.materialItem.article }}
-                </td>
-                <td>
-                  <router-link
-                    v-if="item.scheduleEntry !== null"
-                    :to="scheduleEntryRoute(camp, item.scheduleEntry)">
-                    {{ item.scheduleEntry.number }}:
-                    {{ item.scheduleEntry.activity().title }}
-                  </router-link>
-                </td>
-                <td>
-                  <v-btn
-                    v-if="item.scheduleEntry == null"
-                    small
-                    @click="deleteMaterialItem(item.materialItem)">
-                    {{ $tc('global.button.delete') }}
-                  </v-btn>
-                </td>
-              </tr>
+              <template v-for="item in materialItems">
+                <material-list-item-period
+                  v-if="item.scheduleEntry == null"
+                  :key="item.key"
+                  :item="item" />
+                <material-list-item-activity
+                  v-else
+                  :key="item.key"
+                  :camp="camp"
+                  :item="item" />
+              </template>
             </tbody>
           </v-simple-table>
         </div>
@@ -89,15 +52,16 @@
 </template>
 
 <script>
-import { scheduleEntryRoute } from '@/router'
-import ApiTextField from '../form/api/ApiTextField.vue'
 import MaterialCreateItem from './MaterialCreateItem.vue'
+import MaterialListItemActivity from './MaterialListItemActivity'
+import MaterialListItemPeriod from './MaterialListItemPeriod'
 
 export default {
   name: 'PeriodMaterialLists',
   components: {
-    ApiTextField,
-    MaterialCreateItem
+    MaterialCreateItem,
+    MaterialListItemActivity,
+    MaterialListItemPeriod
   },
   props: {
     period: { type: Object, required: true },
@@ -122,7 +86,6 @@ export default {
     }
   },
   methods: {
-    scheduleEntryRoute,
     getMaterialItems (period, materialList) {
       const items = []
 
@@ -165,9 +128,6 @@ export default {
           return a.materialItem.article.localeCompare(b.materialItem.article)
         }
       })
-    },
-    deleteMaterialItem (materialItem) {
-      this.api.del(materialItem)
     },
     onItemAdd (mi) {
       this.api.reload(mi.materialList().materialItems())
