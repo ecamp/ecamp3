@@ -37,19 +37,21 @@ export default {
   },
   data () {
     return {
-      openPeriods: []
+      openPeriods: [],
+      showActivityMaterial: null
     }
   },
-  computed: {
-    showActivityMaterial: {
-      get () { return localStorage.viewCampMaterialShowActivityMaterial === 'true' },
-      set (val) { localStorage.viewCampMaterialShowActivityMaterial = val ? 'true' : 'false' }
+  watch: {
+    showActivityMaterial (val) {
+      localStorage.viewCampMaterialShowActivityMaterial = (val ? 'true' : 'false')
     }
   },
   mounted () {
     if (localStorage.viewCampMaterialShowActivityMaterial === undefined) {
-      localStorage.viewCampMaterialShowActivityMaterial = false
+      localStorage.viewCampMaterialShowActivityMaterial = 'false'
     }
+    this.showActivityMaterial = (localStorage.viewCampMaterialShowActivityMaterial === 'true')
+
     this.camp().periods()._meta.load.then(periods => {
       this.openPeriods = periods.items
         .map((period, idx) => Date.parse(period.end) >= new Date() ? idx : null)

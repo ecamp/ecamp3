@@ -6,11 +6,10 @@
       </h3>
     </v-expansion-panel-header>
     <v-expansion-panel-content>
-      <div v-for="materialList in materialLists.items"
-           :key="materialList.id"
-           :set="materialItems = getMaterialItems(period, materialList)">
-        <div v-if="materialItems.length > 0">
-          <h2>{{ materialList.name }}</h2>
+      <div v-for="materialListDetail in materialListsDetails"
+           :key="materialListDetail.id">
+        <div v-if="materialListDetail.items.length > 0">
+          <h2>{{ materialListDetail.list.name }}</h2>
           <v-simple-table dense>
             <thead>
               <tr>
@@ -30,7 +29,7 @@
               </tr>
             </thead>
             <tbody>
-              <template v-for="item in materialItems">
+              <template v-for="item in materialListDetail.items">
                 <material-list-item-period
                   v-if="item.scheduleEntry == null"
                   :key="item.key"
@@ -78,6 +77,13 @@ export default {
     materialLists () {
       return this.camp.materialLists()
     },
+    materialListsDetails () {
+      return this.camp.materialLists().items.map(l => ({
+        id: l.id,
+        list: l,
+        items: this.getMaterialItems(l)
+      }))
+    },
     materialListOptions () {
       return this.camp.materialLists().items.map(l => ({
         value: l.id,
@@ -86,13 +92,13 @@ export default {
     }
   },
   methods: {
-    getMaterialItems (period, materialList) {
+    getMaterialItems (materialList) {
       const items = []
 
       // Period-Material
       materialList.materialItems().items
         .filter(mi => mi.period !== null)
-        .filter(mi => mi.period().id === period.id)
+        .filter(mi => mi.period().id === this.period.id)
         .forEach(mi => items.push({
           key: mi.id,
           materialItem: mi,
@@ -105,7 +111,7 @@ export default {
         materialList.materialItems().items
           .filter(mi => mi.activityContent !== null)
           .forEach(mi => mi.activityContent().activity().scheduleEntries().items
-            .filter(se => se.period().id === period.id)
+            .filter(se => se.period().id === this.period.id)
             .forEach(se => items.push({
               key: mi.id + '/' + se.id,
               materialItem: mi,
