@@ -5,13 +5,13 @@
         <v-col cols="2">
           {{ $tc('activityContent.storyboard.entity.section.fields.column1') }}
         </v-col>
-        <v-col cols="6">
+        <v-col cols="7">
           {{ $tc('activityContent.storyboard.entity.section.fields.column2') }}
         </v-col>
         <v-col cols="2">
           {{ $tc('activityContent.storyboard.entity.section.fields.column3') }}
         </v-col>
-        <v-col cols="2" />
+        <v-col cols="1" />
       </v-row>
       <draggable
         v-model="sorting.hrefList"
@@ -46,7 +46,7 @@
                     auto-grow
                     rows="2" />
                 </v-col>
-                <v-col cols="6">
+                <v-col cols="7">
                   <api-textarea
                     fieldname="column2"
                     auto-grow
@@ -59,38 +59,43 @@
                     rows="2" />
                 </v-col>
                 <v-col cols="1">
-                  <div class="float-right section-buttons">
-                    <v-btn icon small
-                           class="float-right"
-                           @click="sectionUp(section)">
-                      <v-icon>mdi-arrow-up-bold</v-icon>
-                    </v-btn>
-                    <v-btn icon small
-                           class="float-right drag-and-drop-handle">
-                      <v-icon>mdi-drag-horizontal-variant</v-icon>
-                    </v-btn>
-                    <v-btn icon small
-                           class="float-right"
-                           @click="sectionDown(section)">
-                      <v-icon>mdi-arrow-down-bold</v-icon>
-                    </v-btn>
-                  </div>
-                </v-col>
-
-                <v-col cols="1">
-                  <div class="float-right section-buttons">
-                    <dialog-entity-delete :entity="section">
-                      <template v-slot:activator="{ on }">
-                        <v-btn icon
-                               small
-                               color="error"
-                               class="float-right"
-                               v-on="on">
-                          <v-icon>mdi-delete</v-icon>
-                        </v-btn>
-                      </template>
-                    </dialog-entity-delete>
-                  </div>
+                  <v-container>
+                    <v-row no-gutters>
+                      <v-col>
+                        <div class="float-right section-buttons">
+                          <dialog-entity-delete :entity="section">
+                            <template v-slot:activator="{ on }">
+                              <v-btn icon
+                                     small
+                                     color="error"
+                                     class="float-right"
+                                     v-on="on">
+                                <v-icon>mdi-delete</v-icon>
+                              </v-btn>
+                            </template>
+                          </dialog-entity-delete>
+                        </div>
+                      </v-col>
+                      <v-col>
+                        <div class="float-right section-buttons">
+                          <v-btn icon small
+                                 class="float-right"
+                                 @click="sectionUp(section)">
+                            <v-icon>mdi-arrow-up-bold</v-icon>
+                          </v-btn>
+                          <v-btn icon small
+                                 class="float-right drag-and-drop-handle">
+                            <v-icon>mdi-drag-horizontal-variant</v-icon>
+                          </v-btn>
+                          <v-btn icon small
+                                 class="float-right"
+                                 @click="sectionDown(section)">
+                            <v-icon>mdi-arrow-down-bold</v-icon>
+                          </v-btn>
+                        </div>
+                      </v-col>
+                    </v-row>
+                  </v-container>
                 </v-col>
               </v-row>
             </api-form>
@@ -241,7 +246,6 @@ export default {
 <style scoped>
 .section-buttons{
   width:40px;
-  margin-top:10px;
 }
 
 .row-inter {
