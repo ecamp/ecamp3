@@ -179,6 +179,12 @@
     "campCollaboration": {
       "campLeft": "left camp"
     },
+    "campType": {
+      "name": "Camp type"
+    },
+    "organization": {
+      "name": "Organization"
+    },
     "period": {
       "defaultDescription": "Main",
       "fields": {

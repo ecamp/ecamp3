@@ -7,6 +7,14 @@ Displays details on a single camp and allows to edit them.
     <v-skeleton-loader v-if="camp()._meta.loading" type="article" />
     <div v-else>
       <e-text-field
+        :label="this.$tc('entity.organization.name')"
+        readonly
+        :value="camp().campType().organization().name" />
+      <e-text-field
+        :label="this.$tc('entity.campType.name')"
+        readonly
+        :value="camp().campType().name" />
+      <e-text-field
         :label="this.$tc('entity.camp.fields.name')"
         readonly
         :value="camp().name" />
