@@ -16,7 +16,7 @@
           "fields": {
             "column1": "Zeit",
             "column2": "Programm",
-            "column3": "Verantwortlich"
+            "column3": "verantwortlich"
           },
           "name": "Programmpunkt | Programmpunkte"
         }
@@ -208,7 +208,7 @@
       "content": "Inhalt",
       "create": "Erstellen",
       "delete": "Löschen",
-      "edit": "Bearbiten",
+      "edit": "Bearbeiten",
       "editModeOn": "Bearbeiten an",
       "editModeOff": "Bearbeiten aus",
       "ok": "In Ordnung",
@@ -266,7 +266,6 @@
         "acceptTermsOfUse": "Akzeptieren Sie die Nutzungsbedingungen",
         "alreadyHaveAnAccount": "Haben Sie bereits ein Konto?",
         "login": "Anmelden",
-        "openTermsOfUse": "Öffnen",
         "passwordConfirmation": "Passwort erneut eingeben",
         "register": "Registrieren",
         "title": "Ein Konto erstellen"
