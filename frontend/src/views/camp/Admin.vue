@@ -5,11 +5,16 @@ Admin screen of a camp: Displays details & periods of a single camp and allows t
 <template>
   <content-card :title="$tc('views.camp.admin.title')">
     <v-card-text>
-      <camp-settings :camp="camp" />
+      <v-row>
+        <v-col cols="12" lg="6">
+          <camp-settings :camp="camp" />
+        </v-col>
+        <v-col cols="12" lg="6">
+          <camp-periods :camp="camp" />
 
-      <camp-periods :camp="camp" />
-
-      <camp-activity-categories :camp="camp" />
+          <camp-activity-categories :camp="camp" />
+        </v-col>
+      </v-row>
     </v-card-text>
   </content-card>
 </template>

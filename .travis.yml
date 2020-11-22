@@ -63,7 +63,8 @@ jobs:
         provider: script
         script: bash .docker-hub/push.sh
         on:
-          branch: devel
+          all_branches: true
+          condition: $TRAVIS_BRANCH =~ ^(devel)$
 
 stages:
   - name: test

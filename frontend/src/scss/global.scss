@@ -6,6 +6,7 @@
 @include inter-ui.weight-500;
 @include inter-ui.weight-600;
 body {font-feature-settings: "ss03", "calt", "rlig", "kern", "cv05", "cv07", "cv08"}
+.text-uppercase {font-feature-settings: "ss03", "calt", "rlig", "kern", "cv05", "cv07"}
 .v-toolbar__title {font-weight: 500;}
 .theme--light.v-application {
 	background: #546E7A!important;

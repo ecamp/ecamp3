@@ -11,7 +11,7 @@
                v-bind="attrs"
                :class="{ 'v-btn--open': value }" v-on="on">
           <span class="sr-only-sm-and-down">
-            {{ username }}
+            {{ displayName }}
           </span>
           <v-icon class="ma-2">mdi-account</v-icon>
         </v-btn>
@@ -54,8 +54,8 @@ export default {
     }
   },
   computed: {
-    username () {
-      return this.api.get().profile().username
+    displayName () {
+      return this.api.get().profile().displayName
     }
   },
   methods: {

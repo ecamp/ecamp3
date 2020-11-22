@@ -205,13 +205,50 @@
               <api-checkbox
                 v-if="profileUri !== null"
                 :uri="profileUri"
-                fieldname="nickname" />
+                fieldname="isAdmin" />
             </v-col>
             <v-col>
               <api-checkbox
                 v-if="profileUri !== null"
                 :uri="profileUri"
-                fieldname="nickname"
+                fieldname="isAdmin"
+                :auto-save="false" />
+            </v-col>
+          </v-row>
+          <v-row dense no-glutters justify="space-around">
+            <v-col>
+              V-Switch
+            </v-col>
+            <v-col>
+              E-Switch
+            </v-col>
+            <v-col>
+              Api-Switch, autosave
+            </v-col>
+            <v-col>
+              Api-Switch
+            </v-col>
+          </v-row>
+          <v-row dense no-glutters justify="space-around">
+            <v-col>
+              <v-switch
+                v-model="checkboxValue" />
+            </v-col>
+            <v-col>
+              <e-switch
+                v-model="checkboxValue" />
+            </v-col>
+            <v-col>
+              <api-switch
+                v-if="profileUri !== null"
+                :uri="profileUri"
+                fieldname="isAdmin" />
+            </v-col>
+            <v-col>
+              <api-switch
+                v-if="profileUri !== null"
+                :uri="profileUri"
+                fieldname="isAdmin"
                 :auto-save="false" />
             </v-col>
           </v-row>
@@ -352,6 +389,7 @@ import ETextField from '@/components/form/base/ETextField'
 import ETextarea from '@/components/form/base/ETextarea'
 import ERichtext from '@/components/form/base/ERichtext'
 import ECheckbox from '@/components/form/base/ECheckbox'
+import ESwitch from '@/components/form/base/ESwitch'
 import ESelect from '@/components/form/base/ESelect'
 import EDatePicker from '@/components/form/base/EDatePicker'
 import ETimePicker from '@/components/form/base/ETimePicker'
@@ -359,6 +397,7 @@ import ApiTextField from '@/components/form/api/ApiTextField'
 import ApiTextarea from '@/components/form/api/ApiTextarea'
 import ApiRichtext from '@/components/form/api/ApiRichtext'
 import ApiCheckbox from '@/components/form/api/ApiCheckbox'
+import ApiSwitch from '@/components/form/api/ApiSwitch'
 import ApiSelect from '@/components/form/api/ApiSelect'
 import ApiDatePicker from '@/components/form/api/ApiDatePicker'
 import ApiTimePicker from '@/components/form/api/ApiTimePicker'
@@ -373,6 +412,7 @@ export default {
     ETextarea,
     ERichtext,
     ECheckbox,
+    ESwitch,
     ESelect,
     EDatePicker,
     ETimePicker,
@@ -380,6 +420,7 @@ export default {
     ApiTextarea,
     ApiRichtext,
     ApiCheckbox,
+    ApiSwitch,
     ApiSelect,
     ApiDatePicker,
     ApiTimePicker
@@ -400,7 +441,7 @@ export default {
     colorValue: '#FFFFFF',
     selectValue: null,
     dateValue: '2020-01-01',
-    timeValue: '14:45'
+    timeValue: '2020-01-01T14:45Z'
   }),
   computed: {
     profileUri () {
@@ -432,6 +473,5 @@ export default {
 </script>
 
 <style scoped>
-div.col {
-}
+
 </style>

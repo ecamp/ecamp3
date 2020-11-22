@@ -117,6 +117,9 @@ export default {
       }
     })
   },
+  mounted () {
+    this.$store.commit('setLanguage', this.$i18n.browserPreferredLocale)
+  },
   methods: {
     async login () {
       this.normalLoggingIn = true

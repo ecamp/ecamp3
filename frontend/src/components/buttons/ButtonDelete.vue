@@ -1,8 +1,9 @@
 <template>
   <v-btn
+    text
     class="px-3 px-sm-4"
     min-width="0"
-    color="error"
+    :color="color"
     :icon="iconOnly"
     v-bind="$attrs"
     v-on="$listeners">
@@ -20,6 +21,7 @@ export default {
   name: 'ButtonDelete',
   props: {
     icon: { type: String, default: 'mdi-delete' },
+    color: { type: String, default: 'blue-grey' },
     iconOnly: { type: Boolean, default: false }
   }
 }

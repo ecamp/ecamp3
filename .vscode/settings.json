@@ -4,4 +4,5 @@
     "eslint.format.enable": true,
     "phpunit.files": "backend/{module,content-type}/**/test/**/*Test.php",
     "phpunit.args": [ "-cbackend/phpunit.xml" ],
+    "eslint.workingDirectories": [ "./frontend", "./print" ]
 }

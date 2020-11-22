@@ -6,6 +6,7 @@ return [
     // Retrieve the list of modules for this application.
     'modules' => [
         'Laminas\\Router',
+        'Laminas\\Session',
         'Laminas\\Di',
         'DoctrineModule',
         'DoctrineORMModule',
