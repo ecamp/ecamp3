@@ -18,6 +18,7 @@
         ghost-class="ghost"
         handle=".drag-and-drop-handle"
         :animation="200"
+        :force-fallback="true"
         @sort="onSort"
         @start="dragging = true"
         @end="dragging = false">
@@ -256,6 +257,8 @@ export default {
 
 .flip-list-move {
   transition: transform 0.5s;
+  opacity: 0.5;
+  background: #c8ebfb;
 }
 
 .ghost {
