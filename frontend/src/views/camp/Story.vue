@@ -13,7 +13,7 @@ Admin screen of a camp: Displays details & periods of a single camp and allows t
              target="_blank">
         <v-icon>mdi-printer</v-icon>
       </v-btn>
-      <e-switch v-model="editing" :label="editing ? $tc('views.camp.story.editModeOn') : $tc('views.camp.story.editModeOff')" />
+      <e-switch v-model="editing" :label="editing ? $tc('global.button.editModeOn') : $tc('global.button.editModeOff')" />
     </v-toolbar>
     <v-card-text>
       <v-expansion-panels v-model="openPeriods" multiple>
