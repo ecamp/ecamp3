@@ -192,6 +192,13 @@ class CampCollaborationService extends AbstractEntityService {
 
     protected function fetchAllQueryBuilder($params = []) {
         $q = parent::fetchAllQueryBuilder($params);
+
+        if (isset($params['inviteKey'])) {
+            $q->orWhere('row.inviteKey = :inviteKey');
+            $q->setParameter('inviteKey', $params['inviteKey']);
+
+            return $q;
+        }
         $q->andWhere($this->createFilter($q, Camp::class, 'row', 'camp'));
 
         if (isset($params['campId'])) {
@@ -259,6 +266,19 @@ class CampCollaborationService extends AbstractEntityService {
         } else {
             if (isset($data->role)) {
                 $campCollaboration->setRole($data->role);
+            }
+            if (isset($data->inviteKey)
+                && CampCollaboration::STATUS_ESTABLISHED == $data->status
+                && CampCollaboration::STATUS_INVITED == $campCollaboration->getStatus()) {
+                if ($data->inviteKey !== $campCollaboration->getInviteKey()) {
+                    $messages['inviteKey'] = ['inviteKeyDoesNotMatch' => 'The sent inviteKey does not match'];
+
+                    throw (new EntityValidationException())->setMessages($messages);
+                }
+                $campCollaboration->setInviteKey(null);
+                $campCollaboration->setInviteEmail(null);
+                $campCollaboration->setUser($authUser);
+                $campCollaboration->setStatus(CampCollaboration::STATUS_ESTABLISHED);
             }
             if (isset($data->status)) {
                 switch ($data->status) {

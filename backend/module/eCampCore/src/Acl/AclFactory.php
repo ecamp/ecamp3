@@ -82,6 +82,7 @@ class AclFactory implements FactoryInterface {
         $acl->allow(
             Guest::class,
             [
+                CampCollaboration::class,
                 Organization::class,
                 Group::class,
                 CampType::class,
@@ -175,6 +176,16 @@ class AclFactory implements FactoryInterface {
                 Acl::REST_PRIVILEGE_UPDATE,
             ],
             new UserIsCollaborator([CampCollaboration::ROLE_MEMBER, CampCollaboration::ROLE_MANAGER])
+        );
+        $acl->allow(
+            User::ROLE_USER,
+            [
+                CampCollaboration::class,
+            ],
+            [
+                Acl::REST_PRIVILEGE_FETCH,
+                Acl::REST_PRIVILEGE_PATCH,
+            ]
         );
 
         return $acl;

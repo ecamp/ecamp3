@@ -36,6 +36,7 @@ class CampCollaborationTestData extends AbstractFixture implements DependentFixt
         $campCollaborationInvited->setInviteEmail('e.mail@test.com');
         $campCollaborationInvited->setRole(CampCollaboration::ROLE_GUEST);
         $campCollaborationInvited->setStatus(CampCollaboration::STATUS_INVITED);
+        $campCollaborationInvited->setInviteKey('myInviteKey');
 
         $manager->persist($campCollaborationInvited);
         $manager->flush();

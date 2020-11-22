@@ -110,6 +110,39 @@ JSON;
         $this->assertEquals($this->campCollaboration1->getId(), $this->getResponseContent()->_embedded->items[0]->id);
     }
 
+    public function testFetchByInviteKey() {
+        $inviteKey = $this->campCollaborationInvited->getInviteKey();
+        $this->dispatch("{$this->apiEndpoint}?inviteKey={$inviteKey}", 'GET');
+
+        $this->assertResponseStatusCode(200);
+
+        $this->assertEquals(1, $this->getResponseContent()->total_items);
+        self::assertThat($this->getResponseContent()->_embedded->items[0]->id, self::equalTo($this->campCollaborationInvited->getId()));
+    }
+
+    public function testFetchByInviteKeyAndNotAuthenticated() {
+        $this->logout();
+        $inviteKey = $this->campCollaborationInvited->getInviteKey();
+        $this->dispatch("{$this->apiEndpoint}?inviteKey={$inviteKey}", 'GET');
+
+        $this->assertResponseStatusCode(200);
+
+        $this->assertEquals(1, $this->getResponseContent()->total_items);
+        self::assertThat($this->getResponseContent()->_embedded->items[0]->id, self::equalTo($this->campCollaborationInvited->getId()));
+    }
+
+    public function testFetchByInviteKeyAndAuthenticatedWithOtherUser() {
+        $this->logout();
+        $this->createAndAuthenticateUser();
+        $inviteKey = $this->campCollaborationInvited->getInviteKey();
+        $this->dispatch("{$this->apiEndpoint}?inviteKey={$inviteKey}", 'GET');
+
+        $this->assertResponseStatusCode(200);
+
+        $this->assertEquals(1, $this->getResponseContent()->total_items);
+        self::assertThat($this->getResponseContent()->_embedded->items[0]->id, self::equalTo($this->campCollaborationInvited->getId()));
+    }
+
     public function testCreateWithoutRole() {
         $this->setRequestContent([
             'role' => '', ]); // TODO: Validierung wär nicht zwingend notwendig. Der Service nimmt einfach 'member' als Default

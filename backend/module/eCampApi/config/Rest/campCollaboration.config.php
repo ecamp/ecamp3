@@ -7,7 +7,8 @@ $config = ConfigFactory::createConfig('CampCollaboration');
 array_push(
     $config['api-tools-rest']['eCampApi\\V1\\Rest\\CampCollaboration\\Controller']['collection_query_whitelist'],
     'campId',
-    'userId'
+    'userId',
+    'inviteKey'
 );
 
 $config['api-tools-content-validation'] = [
@@ -46,6 +47,19 @@ $config['input_filter_specs'] = [
         ],
         2 => [
             'name' => 'collaborationAcceptedBy',
+            'required' => false,
+            'filters' => [
+                0 => [
+                    'name' => 'Laminas\\Filter\\StringTrim',
+                ],
+                1 => [
+                    'name' => 'Laminas\\Filter\\StripTags',
+                ],
+            ],
+            'validators' => [],
+        ],
+        3 => [
+            'name' => 'inviteKey',
             'required' => false,
             'filters' => [
                 0 => [
