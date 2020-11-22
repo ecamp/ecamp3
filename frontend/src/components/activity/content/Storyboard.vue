@@ -120,13 +120,12 @@ export default {
     }
   },
   watch: {
-    sections (value) {
-      this.localSections = value.map(entry => entry)
+    sections: {
+      handler: function (sections) {
+        this.localSections = sections.map(entry => entry)
+      },
+      immediate: true
     }
-  },
-  beforeMount () {
-    // copy list sorting
-    this.localSections = this.sections.map(entry => entry)
   },
   methods: {
     async addSection () {
@@ -142,9 +141,8 @@ export default {
       await this.api.reload(this.activityContent)
     },
     async sectionUp (section) {
-      // const list = this.$store.state.api[`/activity-contents/${this.activityContent.id}`].sections
       const list = this.localSections
-      const index = list.findIndex((item) => section._meta.self.includes(item.href))
+      const index = list.findIndex((item) => section.id === item.id)
 
       // cannot move first entry up
       if (index > 0) {
@@ -163,8 +161,8 @@ export default {
       }) */
     },
     async sectionDown (section) {
-      const list = this.$store.state.api[`/activity-contents/${this.activityContent.id}`].sections
-      const index = list.findIndex((item) => section._meta.self.includes(item.href))
+      const list = this.localSections
+      const index = list.findIndex((item) => section.id === item.id)
 
       // cannot move last entry down
       if (index >= 0 && index < (list.length - 1)) {
