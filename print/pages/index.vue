@@ -23,6 +23,14 @@
 
 <script>
 export default {
+  data() {
+    return {
+      config: {},
+      pagedjs: '',
+      camp: null,
+      activities: null,
+    }
+  },
   async fetch() {
     const query = this.$nuxt.context.query
 
@@ -45,14 +53,6 @@ export default {
 
     this.camp = await this.$api.get().camps({ campId: query.camp })._meta.load
     this.activities = (await this.camp.activities()._meta.load).items
-  },
-  data() {
-    return {
-      config: {},
-      pagedjs: '',
-      camp: null,
-      activities: null,
-    }
   },
   head() {
     if (this.pagedjs === 'true') {
