@@ -38,7 +38,7 @@ export default {
   data () {
     return {
       openPeriods: [],
-      showActivityMaterial: null
+      showActivityMaterial: false
     }
   },
   watch: {
