@@ -1,7 +1,3 @@
-<!--
-Displays all periods of a single camp and allows to edit them & create new ones
--->
-
 <template>
   <content-group>
     <slot name="title">
