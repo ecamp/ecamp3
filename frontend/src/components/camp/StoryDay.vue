@@ -3,6 +3,26 @@
     <h3 class="grey--text">
       {{ dayName }}
     </h3>
+    <div class="d-flex">
+      <!--Add Content Button Start-->
+      <v-menu right offset-y>
+        <template v-slot:activator="{ on, attrs }">
+          <v-btn v-bind="attrs" v-on="on">
+            <v-icon>mdi-dots-vertical</v-icon>
+          </v-btn>
+        </template>
+        <v-card>
+          <v-item-group>
+            <v-list-item-action>
+              <dialog-activity-category-edit :entity="activityCategory">
+                hello world
+              </dialog-activity-category-edit>
+            </v-list-item-action>
+          </v-item-group>
+        </v-card>
+      </v-menu>
+      <!--Add Content Button End-->
+    </div>
     <template v-if="entriesWithStory.length">
       <template v-for="{ scheduleEntry, storyChapters } in entriesWithStory">
         <div v-for="chapter in storyChapters" :key="chapter._meta.uri">
@@ -60,6 +80,7 @@
     </template>
     <div v-else class="grey--text">
       {{ $tc('components.camp.storyDay.noStory') }}
+    </div>
     </div>
   </v-expansion-panel-content>
 </template>
