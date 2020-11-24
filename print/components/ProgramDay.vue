@@ -23,13 +23,13 @@ export default {
     showDailySummary: { type: Boolean, required: true },
     showActivities: { type: Boolean, required: true },
   },
-  async fetch() {
-    this.scheduleEntries = (await this.day.scheduleEntries()._meta.load).items
-  },
   data() {
     return {
       scheduleEntries: null,
     }
+  },
+  async fetch() {
+    this.scheduleEntries = (await this.day.scheduleEntries()._meta.load).items
   },
   computed: {
     dayAsDate() {

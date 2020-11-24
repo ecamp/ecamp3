@@ -23,13 +23,13 @@ export default {
     showDailySummary: { type: Boolean, required: true },
     showActivities: { type: Boolean, required: true },
   },
-  async fetch() {
-    this.days = (await this.period.days()._meta.load).items
-  },
   data() {
     return {
       days: null,
     }
+  },
+  async fetch() {
+    this.days = (await this.period.days()._meta.load).items
   },
 }
 </script>

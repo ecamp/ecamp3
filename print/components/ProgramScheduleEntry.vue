@@ -16,15 +16,15 @@ export default {
   props: {
     scheduleEntry: { type: Object, required: true },
   },
-  async fetch() {
-    this.activity = await this.scheduleEntry.activity()._meta.load
-    this.activityCategory = await this.activity.activityCategory()._meta.load
-  },
   data() {
     return {
       activity: null,
       activityCategory: null,
     }
+  },
+  async fetch() {
+    this.activity = await this.scheduleEntry.activity()._meta.load
+    this.activityCategory = await this.activity.activityCategory()._meta.load
   },
 }
 </script>
