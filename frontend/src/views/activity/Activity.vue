@@ -193,8 +193,8 @@ export default {
     activityTypeContentTypes () {
       return this.activityType.activityTypeContentTypes()
     },
-    ableContentTypes () {
-    avail  return this.activityTypeContentTypes.items.map(atct => ({
+    availableContentTypes () {
+      return this.activityTypeContentTypes.items.map(atct => ({
         id: atct.id,
         contentType: atct.contentType(),
         contentTypeNameKey: 'activityContent.' + camelCase(atct.contentType().name) + '.name',

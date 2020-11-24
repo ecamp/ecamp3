@@ -21,9 +21,24 @@
                 - {{ chapter.activityContent().instanceName }}
               </template>
               <v-spacer />
-              <router-link :to="{ name: 'activity', params: { campId: day.period().camp().id, scheduleEntryId: scheduleEntry.id } }">
-                <v-icon small>mdi-open-in-new</v-icon>
-              </router-link>
+              <!--Add Content Button Start-->
+              <v-menu offset-y>
+                <template v-slot:activator="{ on, attrs }">
+                  <v-btn v-bind="attrs" v-on="on">
+                    <v-icon>mdi-dots-vertical</v-icon>
+                  </v-btn>
+                </template>
+                <v-card>
+                  <v-item-group>
+                    <v-list-item-action>
+                      <dialog-activity-category-edit :entity="activityCategory">
+                        hello world
+                      </dialog-activity-category-edit>
+                    </v-list-item-action>
+                  </v-item-group>
+                </v-card>
+              </v-menu>
+              <!--Add Content Button End-->
             </div>
           </h4>
           <api-form v-show="editing"
