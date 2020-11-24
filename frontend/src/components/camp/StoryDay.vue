@@ -40,25 +40,6 @@
               <template v-if="chapter.activityContent().instanceName">
                 - {{ chapter.activityContent().instanceName }}
               </template>
-              <v-spacer />
-              <!--Add Content Button Start-->
-              <v-menu offset-y>
-                <template v-slot:activator="{ on, attrs }">
-                  <v-btn v-bind="attrs" v-on="on">
-                    <v-icon>mdi-dots-vertical</v-icon>
-                  </v-btn>
-                </template>
-                <v-card>
-                  <v-item-group>
-                    <v-list-item-action>
-                      <dialog-activity-category-edit :entity="activityCategory">
-                        hello world
-                      </dialog-activity-category-edit>
-                    </v-list-item-action>
-                  </v-item-group>
-                </v-card>
-              </v-menu>
-              <!--Add Content Button End-->
             </div>
           </h4>
           <api-form v-show="editing"
@@ -80,7 +61,6 @@
     </template>
     <div v-else class="grey--text">
       {{ $tc('components.camp.storyDay.noStory') }}
-    </div>
     </div>
   </v-expansion-panel-content>
 </template>
