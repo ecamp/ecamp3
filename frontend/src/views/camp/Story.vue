@@ -17,6 +17,32 @@ Admin screen of a camp: Displays details & periods of a single camp and allows t
     </v-toolbar>
     <v-card-text>
       <v-expansion-panels v-model="openPeriods" multiple>
+        <!--Add Content Button Start-->
+        <v-menu bottom left offset-y>
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn color="success"
+                   outlined
+                   v-bind="attrs"
+                   v-on="on">
+              <template v-if="$vuetify.breakpoint.smAndUp"><v-icon left>mdi-plus-circle-outline</v-icon> {{ $tc('global.button.addContentDesktop') }}</template>
+              <template v-else>{{ $tc('global.button.add') }}</template>
+            </v-btn>
+          </template>
+          <v-list>
+            <v-list-item v-for="act in availableContentTypes"
+                         :key="act.contentType.id"
+                         :disabled="!act.enabled"
+                         @click="addActivityContent(act.id)">
+              <v-list-item-icon>
+                <v-icon>{{ $tc(act.contentTypeIconKey) }}</v-icon>
+              </v-list-item-icon>
+              <v-list-item-title>
+                {{ $tc(act.contentTypeNameKey) }}
+              </v-list-item-title>
+            </v-list-item>
+          </v-list>
+        </v-menu>
+        <!--Add Content Button End-->
         <story-period v-for="period in camp().periods().items"
                       :key="period._meta.self"
                       :period="period"
@@ -30,6 +56,10 @@ Admin screen of a camp: Displays details & periods of a single camp and allows t
 import ContentCard from '@/components/layout/ContentCard'
 import StoryPeriod from '@/components/camp/StoryPeriod'
 import ESwitch from '@/components/form/base/ESwitch'
+import ApiTextField from '@/components/form/api/ApiTextField'
+import ApiSelect from '@/components/form/api/ApiSelect'
+import ActivityLayoutGeneral from '@/components/activity/layouts/General'
+import camelCase from 'lodash/camelCase'
 
 const PRINT_SERVER = window.environment.PRINT_SERVER
 
@@ -41,7 +71,8 @@ export default {
     ContentCard
   },
   props: {
-    camp: { type: Function, required: true }
+    camp: { type: Function, required: true },
+    scheduleEntry: { type: Function, required: true }
   },
   data () {
     return {
@@ -64,6 +95,52 @@ export default {
         .map((period, idx) => Date.parse(period.end) >= new Date() ? idx : null)
         .filter(idx => idx !== null)
     })
+  },
+  activityType () {
+      return this.category.activityType()
+    },
+    activityContents () {
+      return this.activity.activityContents()
+    },
+    activityTypeContentTypes () {
+      return this.activityType.activityTypeContentTypes()
+    },
+    ableContentTypes () {
+    avail  return this.activityTypeContentTypes.items.map(atct => ({
+        id: atct.id,
+        contentType: atct.contentType(),
+        contentTypeNameKey: 'activityContent.' + camelCase(atct.contentType().name) + '.name',
+        contentTypeIconKey: 'activityContent.' + camelCase(atct.contentType().name) + '.icon',
+        contentTypeSort: parseInt(this.$tc('activityContent.' + camelCase(atct.contentType().name) + '.sort')),
+        enabled: atct.contentType().allowMultiple || this.countActivityContents(atct.contentType()) === 0
+      })).sort((a, b) => a.contentTypeSort - b.contentTypeSort)
+    }
+},
+  methods: {
+    countActivityContents (contentType) {
+      return this.activityContents.items.filter(ac => {
+        return ac.contentType().id === contentType.id
+      }).length
+    },
+    async addActivityContent (atctId) {
+      await this.api.post('/activity-contents', {
+        activityId: this.activity.id,
+        activityTypeContentTypeId: atctId
+      })
+      await this.refreshActivity()
+    },
+    async refreshActivity () {
+      await this.api.reload(this.activity._meta.self)
+    }
   }
 }
 </script>
+<style scoped>
+.v-card .v-list-item {
+  padding-left: 0;
+}
+
+.activity_title input {
+  font-size: 28px;
+}
+</style>

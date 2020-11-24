@@ -40,6 +40,7 @@ Displays a single activity
             </v-list-item>
           </v-list>
         </v-menu>
+        <!-- AddContent-Menu End-->
       </v-toolbar>
       <v-card-text>
         <v-skeleton-loader v-if="activity._meta.loading" type="article" />
@@ -192,8 +193,8 @@ export default {
     activityTypeContentTypes () {
       return this.activityType.activityTypeContentTypes()
     },
-    availableContentTypes () {
-      return this.activityTypeContentTypes.items.map(atct => ({
+    ableContentTypes () {
+    avail  return this.activityTypeContentTypes.items.map(atct => ({
         id: atct.id,
         contentType: atct.contentType(),
         contentTypeNameKey: 'activityContent.' + camelCase(atct.contentType().name) + '.name',
