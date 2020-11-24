@@ -105,7 +105,7 @@ export default {
     activityTypeContentTypes () {
       return this.activityType.activityTypeContentTypes()
     },
-    ableContentTypes () {
+    availableContentTypes () {
     avail  return this.activityTypeContentTypes.items.map(atct => ({
         id: atct.id,
         contentType: atct.contentType(),
@@ -115,7 +115,7 @@ export default {
         enabled: atct.contentType().allowMultiple || this.countActivityContents(atct.contentType()) === 0
       })).sort((a, b) => a.contentTypeSort - b.contentTypeSort)
     }
-},
+}
   methods: {
     countActivityContents (contentType) {
       return this.activityContents.items.filter(ac => {
