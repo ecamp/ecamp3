@@ -14,7 +14,7 @@ Listing all given activity schedule entries in a calendar view.
       :event-color="getActivityColor | loading('grey lighten-2', (entry) => isActivityLoading(entry))"
       event-start="startTime"
       event-end="endTime"
-      :interval-height="intervalHeight"
+      :interval-height="computedIntervalHeight"
       interval-width="46"
       :interval-format="intervalFormat"
       first-interval="5"
@@ -103,9 +103,7 @@ export default {
       default: 'custom-daily'
     },
     intervalHeight: {
-      type: Number,
-      required: false,
-      default: 42
+      type: Number
     },
     dialogActivityCreate: {
       type: Function,
@@ -171,6 +169,9 @@ export default {
     },
     camp () {
       return this.period().camp()
+    },
+    computedIntervalHeight () {
+      return this.intervalHeight ? this.intervalHeight : (window.innerHeight - 100) / 19
     }
   },
   methods: {
