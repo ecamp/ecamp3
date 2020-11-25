@@ -13,4 +13,4 @@ php bin/wait-for-db.php
 # load schema, prod date & dev data
 php cli-setup.php dev
 
-./docker-run.sh
+apache2-foreground

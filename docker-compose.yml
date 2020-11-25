@@ -9,6 +9,7 @@ services:
       - '9229:9229' # jest debug 
     stdin_open: true
     tty: true
+    user: ${USER_ID:-1000}
     volumes:
       - ./frontend:/app:delegated
       - ./common:/common:delegated
@@ -23,8 +24,12 @@ services:
   backend:
     build: ./backend
     container_name: 'ecamp3-backend'
+    depends_on:
+      - db
+      - docker-host
     ports:
-      - '3001:80'
+      - '3001:3001'
+    user: ${USER_ID:-1000}
     volumes:
       - ./backend:/app:delegated
     entrypoint: ./docker-setup.sh
@@ -33,7 +38,8 @@ services:
     image: node:12.20
     container_name: 'ecamp3-print'
     ports:
-      - '3003:80'
+      - '3003:3003'
+    user: ${USER_ID:-1000}
     volumes:
       - ./print:/app:delegated
       - ./common:/common:delegated
@@ -42,7 +48,8 @@ services:
     working_dir: /app
     command: ./docker-setup.sh
     environment:
-      - HOST=0.0.0.0
+      - NUXT_HOST=0.0.0.0
+      - NUXT_PORT=3003
     env_file:
       - ./print/print.env
 
@@ -51,6 +58,7 @@ services:
     container_name: 'ecamp3-composer'
     restart: 'no'
     command: bash -c "composer install --no-interaction --no-plugins --no-scripts --prefer-dist --no-suggest"
+    user: ${USER_ID:-1000}
     volumes:
       - ./backend:/app:delegated
       - composer-cache:/tmp/cache
@@ -84,21 +92,19 @@ services:
   worker-print-puppeteer:
     build: ./workers/print-puppeteer
     container_name: 'ecamp3-worker-print-puppeteer'
+    user: ${USER_ID:-1000}
     volumes:
       - ./workers/print-puppeteer:/app:delegated
       - npm-cache:/root/.npm
       - print-output:/app/data
-    working_dir: /app
-    command: npm run print
 
   worker-print-weasy:
     build: ./workers/print-weasy
     container_name: 'ecamp3-worker-print-weasy'
+    user: ${USER_ID:-1000}
     volumes:
       - ./workers/print-weasy:/app:delegated
       - print-output:/app/data
-    working_dir: /app
-    command: python -u print.py
 
   print-file-server:
     image: halverneus/static-file-server
@@ -109,6 +115,12 @@ services:
       - '3005:8080'
     environment:
       - CORS=true
+
+  docker-host:
+    image: qoomon/docker-host
+    container_name: 'ecamp3-docker-host-forwarder'
+    cap_add: [ 'NET_ADMIN', 'NET_RAW' ]
+    restart: on-failure
 
 volumes:
   npm-cache:
