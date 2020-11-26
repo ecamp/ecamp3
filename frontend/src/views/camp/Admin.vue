@@ -8,6 +8,9 @@ Admin screen of a camp: Displays details & periods of a single camp and allows t
       <v-row>
         <v-col cols="12" lg="6">
           <camp-settings :camp="camp" />
+          <v-btn v-if="$vuetify.breakpoint.mobile" :to="{name: 'camp/collaborators'}">
+            {{ $tc('views.camp.admin.collaborators') }}
+          </v-btn>
         </v-col>
         <v-col cols="12" lg="6">
           <camp-periods :camp="camp" />
