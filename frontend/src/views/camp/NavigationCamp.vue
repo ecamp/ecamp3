@@ -26,7 +26,7 @@
         <span class="sr-only-sm-and-down">{{ $tc('views.camp.navigationCamp.print') }}</span>
       </v-btn>
       <v-btn :to="campRoute(camp(), 'story')" text>
-        <v-icon :left="$vuetify.breakpoint.mdAndUp">mdi-book-open-page-variant</v-icon>
+        <v-icon :left="$vuetify.breakpoint.mdAndUp">mdi-book</v-icon>
         <span class="sr-only-sm-and-down">{{ $tc('views.camp.navigationCamp.story') }}</span>
       </v-btn>
     </v-toolbar-items>
@@ -34,23 +34,24 @@
     <search-desktop />
     <user-meta />
   </v-app-bar>
-  <v-bottom-navigation v-else app
-                       fixed grow>
-    <v-btn>
-      <span>{{ $tc('views.camp.navigationCamp.material') }}</span>
-      <v-icon>mdi-package-variant</v-icon>
+  <v-bottom-navigation v-else grow
+                       app background-color="blue-grey darken-4"
+                       dark>
+    <v-btn :to="{name: 'home'}" exact>
+      <span>{{ $tc('views.navigationDefault.home') }}</span>
+      <v-icon>mdi-home</v-icon>
     </v-btn>
-    <v-btn>
-      <span>{{ $tc('views.camp.navigationCamp.tasks') }}</span>
-      <v-icon>mdi-format-list-checks</v-icon>
+    <v-btn :to="{name: 'camp/story'}">
+      <span>{{ $tc('views.camp.navigationCamp.story') }}</span>
+      <v-icon>mdi-book</v-icon>
     </v-btn>
     <v-btn :to="{name: 'camp/program'}">
-      <span>{{ $tc('views.camp.navigationCamp.camp') }}</span>
+      <span>{{ camp().name }}</span>
       <v-icon large>mdi-tent</v-icon>
     </v-btn>
-    <v-btn :to="{name: 'camp/collaborators'}" exact>
-      <span>{{ $tc('views.camp.navigationCamp.team') }}</span>
-      <v-icon>mdi-account-group</v-icon>
+    <v-btn :to="{name: 'camp/material'}" exact>
+      <span>{{ $tc('views.camp.navigationCamp.material') }}</span>
+      <v-icon>mdi-package-variant</v-icon>
     </v-btn>
     <v-btn :to="{name: 'camp/admin'}">
       <span>{{ $tc('views.camp.navigationCamp.admin') }}</span>
