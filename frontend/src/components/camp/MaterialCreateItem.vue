@@ -4,6 +4,7 @@
       <v-row dense no-glutters justify="space-around">
         <v-col>
           <e-text-field
+            ref="quantity"
             v-model="materialItem.quantity"
             dense
             :name="$tc('entity.materialItem.fields.quantity')"
@@ -34,7 +35,7 @@
             :items="materialLists" />
         </v-col>
         <v-col>
-          <v-btn type="submit" :loading="isSaving">
+          <v-btn type="submit">
             {{ $tc('global.button.add') }}
           </v-btn>
         </v-col>
@@ -56,8 +57,7 @@ export default {
   },
   data () {
     return {
-      materialItem: {},
-      isSaving: false
+      materialItem: {}
     }
   },
   computed: {
@@ -70,9 +70,8 @@ export default {
   },
   methods: {
     createMaterialItem () {
-      this.isSaving = true
-
       this.api.href(this.api.get(), 'materialItems').then(uri => {
+        const key = Date.now()
         const data = this.materialItem
 
         if (this.period !== null) {
@@ -82,11 +81,11 @@ export default {
           data.activityContentId = this.activityContent.id
         }
 
-        this.api.post(uri, data).then(mi => {
-          this.$emit('item-add', mi)
-          this.materialItem = {}
-          this.isSaving = false
-        })
+        this.materialItem = {}
+        this.$refs.quantity.focus()
+
+        const res = this.api.post(uri, data)
+        this.$emit('item-adding', key, data, res)
       })
     }
   }

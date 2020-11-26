@@ -19,47 +19,59 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="materialItem in materialItemsSorted"
-            :key="materialItem.id">
-          <td>
-            <api-text-field
-              dense
-              :outlined="false"
-              :uri="materialItem._meta.self"
-              fieldname="quantity" />
-          </td>
-          <td>
-            <api-text-field
-              dense
-              :outlined="false"
-              :uri="materialItem._meta.self"
-              fieldname="unit" />
-          </td>
-          <td>
-            <api-text-field
-              dense
-              :outlined="false"
-              :uri="materialItem._meta.self"
-              fieldname="article" />
-          </td>
-          <td>
-            <api-select
-              dense
-              :outlined="false"
-              :uri="materialItem._meta.self"
-              relation="materialList"
-              fieldname="materialListId"
-              :items="materialLists" />
-          </td>
-          <td>
-            <a href="#" @click="deleteMaterialItem(materialItem)">
-              {{ $tc('global.button.delete') }}
-            </a>
-          </td>
-        </tr>
+        <template v-for="materialItem in materialItemsSorted">
+          <tr v-if="materialItem._meta != undefined" :key="materialItem.id">
+            <td>
+              <api-text-field
+                dense
+                :outlined="false"
+                :uri="materialItem._meta.self"
+                fieldname="quantity" />
+            </td>
+            <td>
+              <api-text-field
+                dense
+                :outlined="false"
+                :uri="materialItem._meta.self"
+                fieldname="unit" />
+            </td>
+            <td>
+              <api-text-field
+                dense
+                :outlined="false"
+                :uri="materialItem._meta.self"
+                fieldname="article" />
+            </td>
+            <td>
+              <api-select
+                dense
+                :outlined="false"
+                :uri="materialItem._meta.self"
+                relation="materialList"
+                fieldname="materialListId"
+                :items="materialLists" />
+            </td>
+            <td>
+              <a href="#" @click="deleteMaterialItem(materialItem)">
+                {{ $tc('global.button.delete') }}
+              </a>
+            </td>
+          </tr>
+          <tr v-else :key="materialItem.id">
+            <td>{{ materialItem.quantity }}</td>
+            <td>{{ materialItem.unit }}</td>
+            <td>{{ materialItem.article }}</td>
+            <td />
+            <td />
+          </tr>
+        </template>
       </tbody>
     </v-simple-table>
-    <material-create-item :camp="camp" :activity-content="activityContent" @item-add="onItemAdd" />
+
+    <material-create-item
+      :camp="camp"
+      :activity-content="activityContent"
+      @item-adding="onItemAdding" />
   </div>
 </template>
 
@@ -80,6 +92,7 @@ export default {
   },
   data () {
     return {
+      newMaterialItems: {}
     }
   },
   computed: {
@@ -97,6 +110,18 @@ export default {
     },
     materialItemsSorted () {
       const items = this.materialItems.items
+
+      // eager add new Items
+      for (var key in this.newMaterialItems) {
+        var mi = this.newMaterialItems[key]
+        items.push({
+          id: key,
+          quantity: mi.quantity,
+          unit: mi.unit,
+          article: mi.article
+        })
+      }
+
       return items.sort((a, b) => a.article.localeCompare(b.article))
     }
   },
@@ -107,8 +132,14 @@ export default {
     deleteMaterialItem (materialItem) {
       this.api.del(materialItem)
     },
-    onItemAdd (mi) {
-      this.api.reload(this.materialItems)
+    onItemAdding (key, data, res) {
+      this.$set(this.newMaterialItems, key, data)
+
+      res.then(mi => {
+        this.api.reload(this.materialItems).then(() => {
+          this.$delete(this.newMaterialItems, key)
+        })
+      })
     }
   }
 }

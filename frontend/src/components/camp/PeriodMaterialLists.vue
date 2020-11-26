@@ -30,22 +30,35 @@
             </thead>
             <tbody>
               <template v-for="item in materialListDetail.items">
-                <material-list-item-period
-                  v-if="item.scheduleEntry == null"
-                  :key="item.key"
-                  :item="item" />
                 <material-list-item-activity
-                  v-else
+                  v-if="item.scheduleEntry != null"
                   :key="item.key"
                   :camp="camp"
                   :item="item" />
+                <material-list-item-period
+                  v-else-if="item.period != null"
+                  :key="item.key"
+                  :item="item" />
+                <tr v-else :key="item.key">
+                  <td>{{ item.materialItem.quantity }}</td>
+                  <td>{{ item.materialItem.unit }}</td>
+                  <td>{{ item.materialItem.article }}</td>
+                  <td />
+                  <td>
+                    <v-progress-circular
+                      indeterminate
+                      color="primary" />
+                  </td>
+                </tr>
               </template>
             </tbody>
           </v-simple-table>
         </div>
       </div>
-
-      <material-create-item :camp="camp" :period="period" @item-add="onItemAdd" />
+      <material-create-item
+        :camp="camp"
+        :period="period"
+        @item-adding="onItemAdding" />
     </v-expansion-panel-content>
   </v-expansion-panel>
 </template>
@@ -68,6 +81,7 @@ export default {
   },
   data () {
     return {
+      newMaterialItems: {}
     }
   },
   computed: {
@@ -106,6 +120,19 @@ export default {
           scheduleEntry: null
         }))
 
+      // eager add new Items
+      for (var key in this.newMaterialItems) {
+        var mi = this.newMaterialItems[key]
+        if (mi.materialListId === materialList.id) {
+          items.push({
+            key: key,
+            materialItem: mi,
+            period: null,
+            scheduleEntry: null
+          })
+        }
+      }
+
       // Activity-Material
       if (this.showActivityMaterial) {
         materialList.materialItems().items
@@ -135,8 +162,14 @@ export default {
         }
       })
     },
-    onItemAdd (mi) {
-      this.api.reload(mi.materialList().materialItems())
+    onItemAdding (key, data, res) {
+      this.$set(this.newMaterialItems, key, data)
+
+      res.then(mi => {
+        this.api.reload(mi.materialList().materialItems()).then(() => {
+          this.$delete(this.newMaterialItems, key)
+        })
+      })
     }
   }
 }
