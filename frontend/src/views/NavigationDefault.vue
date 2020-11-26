@@ -9,16 +9,15 @@
     <user-meta />
   </v-app-bar>
   <v-bottom-navigation
-    v-else app
-    fixed grow>
-    <v-btn :to="{name: 'home'}">
+    v-else grow
+    app
+    background-color="blue-grey darken-4" dark>
+    <v-btn :to="{name: 'home'}" exact>
       <span>{{ $tc('views.navigationDefault.home') }}</span>
-      <span>
-        <v-icon>$vuetify.icons.ecamp</v-icon>️
-      </span>
+      <v-icon>mdi-home</v-icon>
     </v-btn>
     <v-btn :to="{name: 'camps'}">
-      <span>{{ $tc('views.navigationDefault.myCamps') }}</span>
+      <span>{{ $tc('views.navigationDefault.myCamps', 2) }}</span>
       <v-icon>mdi-format-list-bulleted-triangle</v-icon>
     </v-btn>
     <v-btn :to="{name: 'profile'}">
