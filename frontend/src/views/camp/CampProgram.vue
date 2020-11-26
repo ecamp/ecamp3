@@ -5,20 +5,15 @@ Show all activity schedule entries of a single period.
 <template>
   <content-card>
     <v-sheet>
-      <search-mobile v-if="$vuetify.breakpoint.xs" />
-      <v-btn
-        :fixed="$vuetify.breakpoint.xs"
-        :absolute="!$vuetify.breakpoint.xs"
-        light class="fab--top_nav"
-        fab small
-        style="z-index: 3"
-        top right
-        :class="{'float-right':!$vuetify.breakpoint.xs}"
-        color="white"
-        :to="{ query: { ...$route.query, list: !listFormat || undefined } }">
-        <v-icon v-if="listFormat">mdi-calendar-month</v-icon>
-        <v-icon v-else>mdi-menu</v-icon>
-      </v-btn>
+      <period-switcher v-if="$vuetify.breakpoint.xsOnly" :period="period()" :period-route="periodRoute(item)" />
+      <v-btn-toggle class="view_mode--switcher ma-3" dense rounded>
+        <v-btn :to="{ query: { ...$route.query, list: true } }" exact>
+          <v-icon>mdi-format-list-numbered</v-icon>
+        </v-btn>
+        <v-btn :to="{ query: { ...Array.from($route.query).map(({list, ...rest }) => rest ) } }" exact>
+          <v-icon>mdi-calendar-month</v-icon>
+        </v-btn>
+      </v-btn-toggle>
       <schedule-entries :period="period" :show-button="true">
         <template v-slot:default="slotProps">
           <template v-if="slotProps.loading">
@@ -47,16 +42,16 @@ Show all activity schedule entries of a single period.
 </template>
 <script>
 import ContentCard from '@/components/layout/ContentCard'
-import SearchMobile from '@/components/navigation/SearchMobile'
 import Picasso from '@/components/camp/Picasso'
 import ActivityList from '@/components/camp/ActivityList'
 import ScheduleEntries from '@/components/scheduleEntry/ScheduleEntries'
+import PeriodSwitcher from '@/components/camp/PeriodSwitcher'
 
 export default {
   name: 'CampProgram',
   components: {
+    PeriodSwitcher,
     ContentCard,
-    SearchMobile,
     Picasso,
     ActivityList,
     ScheduleEntries
@@ -66,14 +61,44 @@ export default {
   },
   computed: {
     listFormat () {
-      return this.$route.query.list
+      return !!this.$route.query.list
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-  ::v-deep .v-skeleton-loader__list-item-avatar-two-line {
-    height: 60px;
+::v-deep .v-skeleton-loader__list-item-avatar-two-line {
+  height: 60px;
+}
+
+.view_mode--switcher {
+  opacity: .6;
+
+  ::v-deep .v-btn {
+    min-width: initial;
   }
+}
+
+.view_mode--switcher:hover {
+  opacity: 1;
+}
+
+@media #{map-get($display-breakpoints, 'xs-only')}{
+  .view_mode--switcher {
+    position: fixed;
+    z-index: 10;
+    right: 0;
+    top: 0;
+  }
+}
+
+@media #{map-get($display-breakpoints, 'sm-and-up')}{
+  .view_mode--switcher {
+    position: fixed;
+    z-index: 10;
+    right: 8px;
+    top: 73px !important;
+  }
+}
 </style>
