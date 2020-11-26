@@ -9,7 +9,9 @@
         <v-icon>mdi-chevron-left</v-icon>
       </v-btn>
       <v-text-field
+        v-model="filter"
         hide-details
+        autocomplete="off"
         :label="searchOpen ? $tc('global.button.search') : $tc('components.navigation.searchMobile.searchActivitiesAndCamps')"
         single-line
         @click="searchOpen = !searchOpen" />
@@ -23,30 +25,96 @@
     </v-app-bar>
     <v-dialog
       v-model="searchOpen"
-      style="z-index: 4"
+      class="ec-search-overlay"
+      style="z-index: 4!important;"
       overlay-color="white" hide-overlay
       fullscreen transition="dialog-top-transition">
       <v-card>
         <v-sheet height="70" />
-        <v-card-text>
-          <v-skeleton-loader class="mx-4" boilerplate type="list-item-two-line@3" />
-        </v-card-text>
+        <v-subheader>{{ $tc('entity.activity.name', 2) }}</v-subheader>
+        <v-alert v-if="filter.length > 0 && filteredScheduleEntries.length < 1">
+          {{ $tc('global.noResults') }}
+        </v-alert>
+        <activity-list :schedule-entries="filteredScheduleEntries" :period="period"
+                       class="py-0" />
+        <v-subheader>{{ $tc('entity.camp.name', 2) }}</v-subheader>
+        <v-alert v-if="filter.length > 0 && filteredCamps.length < 1">
+          {{ $tc('global.noResults') }}
+        </v-alert>
+        <v-container class="py-0">
+          <v-row align-content="space-between">
+            <v-col v-for="camp in filteredCamps" :key="camp.id"
+                   :to="campRoute(camp)"
+                   :ripple="false"
+                   cols="4"
+                   class="text-center flex flex-column"
+                   @click="searchOpen = false">
+              <v-avatar size="64" color="blue-grey lighten-3" class="mb-2">
+                <v-icon dark size="32">$vuetify.icons.ecamp</v-icon>
+              </v-avatar>
+              <div class="caption">
+                {{ camp.title }}
+              </div>
+            </v-col>
+          </v-row>
+        </v-container>
+        <v-list-item :to="{name: 'camps'}" class="text-center">
+          {{ $tc('components.navigation.searchMobile.allCamps') }}
+        </v-list-item>
       </v-card>
     </v-dialog>
   </v-sheet>
 </template>
 
 <script>
+import { campRoute } from '@/router'
+import ActivityList from '@/components/camp/ActivityList'
+
 export default {
   name: 'SearchMobile',
+  components: { ActivityList },
+  props: {
+    period: {
+      type: Function,
+      required: true
+    }
+  },
   data () {
     return {
-      searchOpen: false
+      searchOpen: false,
+      filter: ''
     }
+  },
+  computed: {
+    camps () {
+      return this.api.get().camps()
+    },
+    filteredCamps () {
+      return this.filter ? this.camps.items.filter((camp) => {
+        return camp.title.toLowerCase().includes(this.filter.toLowerCase()) || camp.name.toLowerCase().includes(this.filter.toLowerCase()) || camp.motto.toLowerCase().includes(this.filter.toLowerCase())
+      }).slice(0, 3) : this.camps.items.slice(0, 3)
+    },
+    scheduleEntries () {
+      return this.period().scheduleEntries()
+    },
+    filteredScheduleEntries () {
+      return this.filter ? this.scheduleEntries.items.filter((scheduleEntry) => {
+        return scheduleEntry.number.toLowerCase().includes(this.filter.toLowerCase()) ||
+          scheduleEntry.activity().title.toLowerCase().includes(this.filter.toLowerCase()) ||
+          scheduleEntry.activity().activityCategory().name.toLowerCase().includes(this.filter.toLowerCase()) ||
+          scheduleEntry.activity().activityCategory().short.toLowerCase().includes(this.filter.toLowerCase()) ||
+          scheduleEntry.activity().activityCategory().short.toLowerCase().includes(this.filter.toLowerCase())
+      }).slice(0, 3) : this.scheduleEntries.items.slice(0, 3)
+    }
+  },
+  methods: {
+    campRoute
   }
 }
 </script>
 
 <style scoped>
-
+.ec-search-overlay {
+  z-index: 120;
+}
 </style>
