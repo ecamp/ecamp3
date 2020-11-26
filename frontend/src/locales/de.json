@@ -114,7 +114,8 @@
     },
     "navigation": {
       "searchMobile": {
-        "searchActivitiesAndCamps": "Aktivitäten und Camps suchen"
+        "allCamps": "Alle Lager",
+        "searchActivitiesAndCamps": "Aktivitäten und Lager suchen"
       },
       "userMeta": {
         "logOut": "Ausloggen",
@@ -131,7 +132,7 @@
         "responsible": "verantwortlich",
         "title": "Titel"
       },
-      "name": "Aktivität",
+      "name": "Aktivität | Aktivitäten",
       "new": "Neue Aktivität"
     },
     "activityCategory": {
@@ -211,6 +212,7 @@
       "edit": "Bearbeiten",
       "editModeOn": "Bearbeiten an",
       "editModeOff": "Bearbeiten aus",
+      "noResults": "Keine Resultate",
       "ok": "In Ordnung",
       "open": "Öffnen",
       "save": "Speichern",
@@ -278,6 +280,7 @@
     },
     "camp": {
       "admin": {
+        "collaborators": "Team verwalten",
         "title": "Admin"
       },
       "collaborators": {
@@ -292,7 +295,8 @@
         "campIsLoading": "Lager wird geladen",
         "material": "Material",
         "print": "Drucken",
-        "story": "Roter Faden",
+        "program": "Programm",
+        "story": "Geschichte",
         "tasks": "Aufgaben",
         "team": "Team"
       },
@@ -324,7 +328,7 @@
       "welcome": "Hallo {user}. Herzlich willkommen auf eCamp"
     },
     "navigationDefault": {
-      "home": "Startseite",
+      "home": "Home",
       "myCamps": "Mein Lager | Meine Lager",
       "profile": "Profil"
     },

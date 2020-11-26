@@ -125,6 +125,7 @@
         "search": "Search"
       },
       "searchMobile": {
+        "allCamps": "All camps",
         "search": "Search",
         "searchActivitiesAndCamps": "Search for activities and camps"
       },
@@ -143,7 +144,7 @@
         "responsible": "responsible",
         "title": "Title"
       },
-      "name": "Activity",
+      "name": "Activity | Activities",
       "new": "New activity"
     },
     "activityCategory": {
@@ -174,7 +175,7 @@
         "name": "Name",
         "title": "Title"
       },
-      "name": "Camp"
+      "name": "Camp | Camps"
     },
     "campCollaboration": {
       "campLeft": "left camp"
@@ -221,6 +222,7 @@
       "create": "Create",
       "delete": "Delete",
       "edit": "Edit",
+      "noResults": "No Results",
       "ok": "Okay",
       "open": "Open",
       "save": "Save",
@@ -288,6 +290,7 @@
     },
     "camp": {
       "admin": {
+        "collaborators": "Manage Team",
         "title": "Admin"
       },
       "collaborators": {
@@ -303,6 +306,7 @@
         "campIsLoading": "Camp is loading",
         "material": "Materials",
         "print": "Print",
+        "program": "Program",
         "story": "Story",
         "tasks": "Tasks",
         "team": "Team"
@@ -335,7 +339,7 @@
       "welcome": "Hello {user}. Welcome on eCamp"
     },
     "navigationDefault": {
-      "home": "Homepage",
+      "home": "Home",
       "myCamps": "My camp | My camps",
       "profile": "Profile"
     },
