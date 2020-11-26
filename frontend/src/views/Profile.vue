@@ -39,6 +39,15 @@
           fieldname="language"
           :items="availableLocales" />
       </v-col>
+      <v-col>
+        <v-btn v-if="$vuetify.breakpoint.mobile" color="red"
+               block
+               large
+               dark
+               @click="$auth.logout()">
+          {{ $tc('global.button.logout') }}
+        </v-btn>
+      </v-col>
     </content-card>
   </v-container>
 </template>
