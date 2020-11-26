@@ -103,7 +103,9 @@ export default {
       default: 'custom-daily'
     },
     intervalHeight: {
-      type: Number
+      type: Number,
+      required: false,
+      default: null
     },
     dialogActivityCreate: {
       type: Function,

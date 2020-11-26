@@ -2,11 +2,11 @@
   <v-menu v-if="period.camp().periods().items.length > 1" offset-y>
     <template v-slot:activator="{ on, attrs, value }">
       <v-btn
-          text large
-          class="justify-start pa-4"
-          height="auto" block
-          v-bind="attrs"
-          v-on="on">
+        text large
+        class="justify-start pa-4"
+        height="auto" block
+        v-bind="attrs"
+        v-on="on">
         <h1 class="text-h6">
           {{ period.description }}
         </h1>
