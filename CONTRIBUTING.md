@@ -1,7 +1,8 @@
-## Contributing
+<h1><span lang="en">Contributing</span> / <span lang="de">Mitarbeit</span></h1>
 
-Thanks again for wanting to help out! *Danke nochmals dass du mithelfen möchtest!*
+Thank you for wanting to help out! *Danke dass du mithelfen möchtest!*
 
+## English
 *(deutsche Übersetzung weiter unten)*
 
 ### Git setup
@@ -65,8 +66,9 @@ Alternatively you can
 * [x] Is the fork up-to-date with the central repository and can your changes be merged automatically?
 * [x] Did the travis CI build run through without test failures?
 
-
-## Mitarbeit (deutsche Übersetzung)
+<section lang="de">
+    
+## Deutsch
 
 ### Git einrichten
 Wir wenden einen triangulären Git-Workflow an. Das bedeutet, dass alle Code-Änderungen zuerst auf dem Fork des Entwicklers veröffentlicht werden, und erst dann werden die Änderungen via Pull Request in das offizielle eCamp3-Repository eingefügt. Um dies einzurichten, befolgen wir folgende Schritte:
@@ -129,3 +131,5 @@ Alternativ kannst du
 * [x] Enthalten alle geänderten Dateien auch wirklich eine sinnvolle Änderung (im Gegensatz zu z.B. nur Whitespace-Änderungen)?
 * [x] Ist der Fork auf dem aktuellen Stand des zentralen Repositories und können die Änderungen automatisch gemerged werden?
 * [x] Ist der Travis CI-Build erfolgreich und ohne Test Failures durchgelaufen?
+
+</section>
