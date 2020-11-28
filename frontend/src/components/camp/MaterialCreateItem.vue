@@ -1,45 +1,49 @@
 <template>
-  <ValidationObserver v-slot="{ handleSubmit }">
+  <ValidationObserver ref="validation" v-slot="{ handleSubmit }">
     <v-form @submit.prevent="handleSubmit(createMaterialItem)">
-      <v-row dense no-glutters justify="space-around">
-        <v-col>
-          <e-text-field
-            ref="quantity"
-            v-model="materialItem.quantity"
-            dense
-            :name="$tc('entity.materialItem.fields.quantity')"
-            fieldname="quantity" />
-        </v-col>
-        <v-col>
-          <e-text-field
-            v-model="materialItem.unit"
-            dense
-            :name="$tc('entity.materialItem.fields.unit')"
-            fieldname="unit" />
-        </v-col>
-        <v-col>
-          <e-text-field
-            v-model="materialItem.article"
-            dense
-            vee-rules="required"
-            :name="$tc('entity.materialItem.fields.article')"
-            fieldname="article" />
-        </v-col>
-        <v-col>
-          <e-select
-            v-model="materialItem.materialListId"
-            dense
-            vee-rules="required"
-            :name="$tc('entity.materialList.name')"
-            fieldname="materialListId"
-            :items="materialLists" />
-        </v-col>
-        <v-col>
-          <v-btn type="submit">
-            {{ $tc('global.button.add') }}
-          </v-btn>
-        </v-col>
-      </v-row>
+      <v-simple-table style="margin-top: 10px">
+        <tbody>
+          <tr>
+            <td style="vertical-align: top; width: 10%;">
+              <e-text-field
+                ref="quantity"
+                v-model="materialItem.quantity"
+                dense
+                :name="$tc('entity.materialItem.fields.quantity')"
+                fieldname="quantity" />
+            </td>
+            <td style="vertical-align: top; width: 15%">
+              <e-text-field
+                v-model="materialItem.unit"
+                dense
+                :name="$tc('entity.materialItem.fields.unit')"
+                fieldname="unit" />
+            </td>
+            <td style="vertical-align: top;">
+              <e-text-field
+                v-model="materialItem.article"
+                dense
+                vee-rules="required"
+                :name="$tc('entity.materialItem.fields.article')"
+                fieldname="article" />
+            </td>
+            <td style="vertical-align: top; width: 20%;">
+              <e-select
+                v-model="materialItem.materialListId"
+                dense
+                vee-rules="required"
+                :name="$tc('entity.materialList.name')"
+                fieldname="materialListId"
+                :items="materialLists" />
+            </td>
+            <td style="vertical-align: middle; width: 15%;">
+              <v-btn type="submit">
+                {{ $tc('global.button.add') }}
+              </v-btn>
+            </td>
+          </tr>
+        </tbody>
+      </v-simple-table>
     </v-form>
   </validationobserver>
 </template>
@@ -83,6 +87,7 @@ export default {
 
         this.materialItem = {}
         this.$refs.quantity.focus()
+        this.$refs.validation.reset()
 
         const res = this.api.post(uri, data)
         this.$emit('item-adding', key, data, res)
