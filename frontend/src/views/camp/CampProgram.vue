@@ -5,7 +5,7 @@ Show all activity schedule entries of a single period.
 <template>
   <content-card>
     <v-sheet>
-      <period-switcher v-if="$vuetify.breakpoint.xsOnly" :period="period()" :period-route="periodRoute(item)" />
+      <period-switcher v-if="$vuetify.breakpoint.xsOnly" :period="period" />
       <v-btn-toggle class="view_mode--switcher ma-3" dense rounded>
         <v-btn :to="{ query: { ...$route.query, list: true } }" exact>
           <v-icon>mdi-format-list-numbered</v-icon>

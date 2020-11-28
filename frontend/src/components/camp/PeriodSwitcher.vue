@@ -1,5 +1,5 @@
 <template>
-  <v-menu v-if="period.camp().periods().items.length > 1" offset-y>
+  <v-menu v-if="period().camp().periods().items.length > 1" offset-y>
     <template v-slot:activator="{ on, attrs, value }">
       <v-btn
         text large
@@ -15,7 +15,7 @@
       </v-btn>
     </template>
     <v-list>
-      <v-list-item v-for="item in period.camp().periods().items" :key="item.id" :to="periodRoute(item)">
+      <v-list-item v-for="item in period().camp().periods().items" :key="item.id" :to="periodRoute(item)">
         {{ item.description }}
       </v-list-item>
     </v-list>
