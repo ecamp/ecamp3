@@ -6,14 +6,7 @@ Show all activity schedule entries of a single period.
   <content-card>
     <v-sheet>
       <period-switcher v-if="$vuetify.breakpoint.xsOnly" :period="period" />
-      <v-btn-toggle class="view_mode--switcher ma-3" dense rounded>
-        <v-btn :to="{ query: { ...$route.query, list: true } }" exact>
-          <v-icon>mdi-format-list-numbered</v-icon>
-        </v-btn>
-        <v-btn :to="{ query: { ...Array.from($route.query).map(({list, ...rest }) => rest ) } }" exact>
-          <v-icon>mdi-calendar-month</v-icon>
-        </v-btn>
-      </v-btn-toggle>
+      <camp-program-view-mode-switcher />
       <schedule-entries :period="period" :show-button="true">
         <template v-slot:default="slotProps">
           <template v-if="slotProps.loading">
@@ -46,10 +39,12 @@ import Picasso from '@/components/camp/Picasso'
 import ActivityList from '@/components/camp/ActivityList'
 import ScheduleEntries from '@/components/scheduleEntry/ScheduleEntries'
 import PeriodSwitcher from '@/components/camp/PeriodSwitcher'
+import CampProgramViewModeSwitcher from '@/components/camp/CampProgramViewModeSwitcher'
 
 export default {
   name: 'CampProgram',
   components: {
+    CampProgramViewModeSwitcher,
     PeriodSwitcher,
     ContentCard,
     Picasso,
@@ -70,35 +65,5 @@ export default {
 <style lang="scss" scoped>
 ::v-deep .v-skeleton-loader__list-item-avatar-two-line {
   height: 60px;
-}
-
-.view_mode--switcher {
-  opacity: .6;
-
-  ::v-deep .v-btn {
-    min-width: initial;
-  }
-}
-
-.view_mode--switcher:hover {
-  opacity: 1;
-}
-
-@media #{map-get($display-breakpoints, 'xs-only')}{
-  .view_mode--switcher {
-    position: fixed;
-    z-index: 10;
-    right: 0;
-    top: 0;
-  }
-}
-
-@media #{map-get($display-breakpoints, 'sm-and-up')}{
-  .view_mode--switcher {
-    position: fixed;
-    z-index: 10;
-    right: 8px;
-    top: 73px !important;
-  }
 }
 </style>
