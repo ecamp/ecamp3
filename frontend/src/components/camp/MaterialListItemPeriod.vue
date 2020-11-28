@@ -1,6 +1,6 @@
 <template>
   <tr>
-    <td>
+    <td class="text-align-right">
       <api-text-field
         dense
         :outlined="false"
@@ -50,3 +50,10 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+  .text-align-right >>> .v-text-field .v-input__slot input {
+    text-align: right;
+    margin-right: 5px;
+  }
+</style>

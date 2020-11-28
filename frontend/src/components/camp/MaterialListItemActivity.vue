@@ -1,15 +1,17 @@
 <template>
   <tr>
     <td>
-      {{ item.materialItem.quantity }}
+      <div class="font-size-16 text-align-right">
+        {{ item.materialItem.quantity }}
+      </div>
     </td>
-    <td>
+    <td class="font-size-16">
       {{ item.materialItem.unit }}
     </td>
-    <td>
+    <td class="font-size-16">
       {{ item.materialItem.article }}
     </td>
-    <td>
+    <td class="font-size-16">
       <router-link
         :to="scheduleEntryRoute(camp, item.scheduleEntry)">
         {{ item.scheduleEntry.number }}:
@@ -36,3 +38,13 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+  .text-align-right {
+    text-align: right;
+    margin-right: 9px;
+  }
+  .font-size-16 {
+    font-size: 16px !important;
+  }
+</style>
