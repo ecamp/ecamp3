@@ -222,7 +222,7 @@
       "create": "Create",
       "delete": "Delete",
       "edit": "Edit",
-      "noResults": "No Results",
+      "editable": "Editable",
       "ok": "Okay",
       "open": "Open",
       "save": "Save",
@@ -232,6 +232,10 @@
       "update": "Update"
     },
     "changeLanguage": "Change language",
+    "empty": {
+      "list": "Empty | No {entities} yet",
+      "result": "No result | No results | No results for {search} | No {search} found"
+    },
     "language": "English",
     "lokaliseMessage": "Language switching powered by lokalise.com",
     "moment": {

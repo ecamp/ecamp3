@@ -210,9 +210,7 @@
       "create": "Erstellen",
       "delete": "Löschen",
       "edit": "Bearbeiten",
-      "editModeOn": "Bearbeiten an",
-      "editModeOff": "Bearbeiten aus",
-      "noResults": "Keine Resultate",
+      "editable": "Bearbeitbar",
       "ok": "In Ordnung",
       "open": "Öffnen",
       "save": "Speichern",
@@ -223,6 +221,10 @@
       "update": "Aktualisieren"
     },
     "changeLanguage": "Sprache ändern",
+    "empty": {
+      "list": "Leer | Noch keine {entities}",
+      "result": "Kein Resultat | Keine Resultate | Keine Resultate für {search} | Keine {search} gefunden"
+    },
     "language": "Deutsch",
     "lokaliseMessage": "Übersetzungen unterstützt durch lokalise.com",
     "moment": {
