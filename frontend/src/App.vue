@@ -63,6 +63,16 @@ export default {
     right: 0;
   }
 
+  @media #{map-get($display-breakpoints, 'xs-only')}{
+    html,body,.v-application {
+      height: 100%;
+    }
+
+    .v-application--wrap {
+      min-height: 100%!important;
+    }
+  }
+
   .v-app-bar .v-toolbar__content {
     padding-left: 0;
     padding-right: 0;
