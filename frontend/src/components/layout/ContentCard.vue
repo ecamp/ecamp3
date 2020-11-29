@@ -11,14 +11,13 @@ Displays the content wrapped inside a card.
         <button-back v-if="back || $vuetify.breakpoint.xsOnly && !!$route.query.isDetail" class="ml-n4" />
       </v-toolbar-items>
       <slot name="title">
-        <v-toolbar-title>
+        <v-toolbar-title class="font-weight-bold">
           {{ title }}
         </v-toolbar-title>
       </slot>
       <v-spacer />
       <slot name="title-actions" />
     </v-toolbar>
-    <v-divider v-if="$vuetify.breakpoint.xsOnly || toolbar" />
     <v-sheet class="ec-content-card__content fill-height">
       <v-skeleton-loader v-if="!loaded" type="article" />
       <slot v-else />
@@ -45,10 +44,12 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import '~vuetify/src/styles/settings/variables';
-@import '~vuetify/src/styles/settings/colors';
-
-.v-toolbar__title {
-  font-weight: 600;
+.ec-content-card__toolbar {
+  @media #{map-get($display-breakpoints, 'xs-only')}{
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
 }
 </style>
