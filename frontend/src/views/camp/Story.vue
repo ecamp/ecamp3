@@ -74,15 +74,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-::v-deep .v-expansion-panels {
-  border-top: 1px solid #eee;
-  border-bottom: 1px solid #eee;
-}
-
-::v-deep .v-expansion-panel + .v-expansion-panel {
-  border-top: 1px solid #eee;
-}
-
 .ec-story-editable ::v-deep .v-input--selection-controls {
   margin-top: 0;
 }
