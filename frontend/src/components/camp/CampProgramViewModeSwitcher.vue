@@ -1,5 +1,5 @@
 <template>
-  <v-btn-toggle class="view_mode--switcher ma-3" dense rounded>
+  <v-btn-toggle class="ec-viewmode-switcher ma-1 ma-sm-3" dense rounded>
     <v-btn :to="{ query: { ...$route.query, list: true } }" exact>
       <v-icon>mdi-format-list-numbered</v-icon>
     </v-btn>
@@ -17,25 +17,29 @@ export default {
 
 <style lang="scss" scoped>
 
-.view_mode--switcher {
+.ec-viewmode-switcher {
   opacity: .6;
 }
 
-.view_mode--switcher:hover {
+.ec-viewmode-switcher:hover {
   opacity: 1;
 }
 
+.ec-viewmode-switcher ::v-deep .v-btn {
+  min-width: 48px;
+}
+
 @media #{map-get($display-breakpoints, 'xs-only')}{
-  .view_mode--switcher {
+  .ec-viewmode-switcher {
     position: fixed;
     z-index: 10;
     right: 0;
-    top: 0;
+    top: 2px;
   }
 }
 
 @media #{map-get($display-breakpoints, 'sm-and-up')}{
-  .view_mode--switcher {
+  .ec-viewmode-switcher {
     position: fixed;
     z-index: 10;
     right: 8px;
