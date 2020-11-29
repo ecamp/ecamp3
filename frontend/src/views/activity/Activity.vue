@@ -4,7 +4,7 @@ Displays a single activity
 
 <template>
   <v-container fluid>
-    <content-card>
+    <content-card toolbar>
       <template v-slot:title>
         <v-toolbar-title class="font-weight-bold">
           {{ scheduleEntry().number }}
@@ -12,7 +12,7 @@ Displays a single activity
           {{ activity.title }}
         </v-toolbar-title>
       </template>
-      <template v-slot:actions>
+      <template v-slot:title-actions>
         <v-menu bottom left offset-y>
           <template v-slot:activator="{ on, attrs }">
             <v-btn color="success"
