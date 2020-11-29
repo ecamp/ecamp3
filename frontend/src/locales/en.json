@@ -295,7 +295,7 @@
     "camp": {
       "admin": {
         "collaborators": "Manage Team",
-        "title": "Admin"
+        "title": "Camp Admin"
       },
       "collaborators": {
         "invite": "Invite",
