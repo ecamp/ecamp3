@@ -33,13 +33,13 @@
         <v-sheet height="70" />
         <v-subheader>{{ $tc('entity.activity.name', 2) }}</v-subheader>
         <v-alert v-if="filter.length > 0 && filteredScheduleEntries.length < 1">
-          {{ $tc('global.noResults') }}
+          {{ $tc('global.empty.result', 3, { search: $tc('entity.activity.name', 1) }) }}
         </v-alert>
         <activity-list :schedule-entries="filteredScheduleEntries" :period="period"
                        class="py-0" />
         <v-subheader>{{ $tc('entity.camp.name', 2) }}</v-subheader>
         <v-alert v-if="filter.length > 0 && filteredCamps.length < 1">
-          {{ $tc('global.noResults') }}
+          {{ $tc('global.empty.result', 3, { search: $tc('entity.camp.name', 1) }) }}
         </v-alert>
         <v-container class="py-0">
           <v-row align-content="space-between">
