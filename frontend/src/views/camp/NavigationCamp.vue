@@ -40,19 +40,19 @@
       <span>{{ $tc('views.navigationDefault.home') }}</span>
       <v-icon>mdi-home</v-icon>
     </v-btn>
-    <v-btn :to="{name: 'camp/story'}">
+    <v-btn :to="campRoute(camp(), 'story')">
       <span>{{ $tc('views.camp.navigationCamp.story') }}</span>
       <v-icon>mdi-book</v-icon>
     </v-btn>
-    <v-btn :to="{name: 'camp/program'}">
+    <v-btn :to="campRoute(camp())" exact>
       <span>{{ camp().name }}</span>
       <v-icon large>mdi-tent</v-icon>
     </v-btn>
-    <v-btn :to="{name: 'camp/material'}" exact>
+    <v-btn :to="campRoute(camp(), 'material')" exact>
       <span>{{ $tc('views.camp.navigationCamp.material') }}</span>
       <v-icon>mdi-package-variant</v-icon>
     </v-btn>
-    <v-btn :to="{name: 'camp/admin'}">
+    <v-btn :to="campRoute(camp(), 'admin')">
       <span>{{ $tc('views.camp.navigationCamp.admin') }}</span>
       <v-icon>mdi-cogs</v-icon>
     </v-btn>
