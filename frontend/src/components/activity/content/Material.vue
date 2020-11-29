@@ -16,7 +16,7 @@
           <th class="text-left">
             {{ $tc("entity.materialItem.fields.article") }}
           </th>
-          <th class="text-left">
+          <th v-if="$vuetify.breakpoint.smAndUp" class="text-left">
             {{ $tc('entity.materialList.name') }}
           </th>
           <th class="text-left">
@@ -48,7 +48,7 @@
                 :uri="materialItem._meta.self"
                 fieldname="article" />
             </td>
-            <td>
+            <td v-if="$vuetify.breakpoint.smAndUp">
               <api-select
                 dense
                 :outlined="false"
@@ -57,10 +57,16 @@
                 fieldname="materialListId"
                 :items="materialLists" />
             </td>
-            <td>
-              <a href="#" @click="deleteMaterialItem(materialItem)">
-                {{ $tc('global.button.delete') }}
-              </a>
+            <td style="text-align: center;">
+              <v-btn
+                small
+                class="short-button"
+                @click="deleteMaterialItem(materialItem)">
+                <template v-if="$vuetify.breakpoint.smAndUp">
+                  {{ $tc('global.button.delete') }}
+                </template>
+                <v-icon v-else>mdi-trash-can-outline</v-icon>
+              </v-btn>
             </td>
           </tr>
           <tr v-else :key="materialItem.id">
@@ -75,15 +81,27 @@
     </v-simple-table>
 
     <material-create-item
+      v-if="$vuetify.breakpoint.smAndUp"
       :camp="camp"
       :activity-content="activityContent"
       @item-adding="onItemAdding" />
+
+    <div v-else style="margin-top: 20px; text-align: right">
+      <dialog-material-item-create :camp="camp" :activity-content="activityContent">
+        <template v-slot:activator="{ on }">
+          <v-btn color="success" v-on="on">
+            {{ $tc('components.camp.periodMaterialLists.addNewItem') }}
+          </v-btn>
+        </template>
+      </dialog-material-item-create>
+    </div>
   </div>
 </template>
 
 <script>
 import ApiTextField from '../../form/api/ApiTextField.vue'
 import ApiSelect from '../../form/api/ApiSelect.vue'
+import DialogMaterialItemCreate from '../../dialog/DialogMaterialItemCreate.vue'
 import MaterialCreateItem from '../../camp/MaterialCreateItem.vue'
 
 export default {
@@ -91,6 +109,7 @@ export default {
   components: {
     ApiTextField,
     ApiSelect,
+    DialogMaterialItemCreate,
     MaterialCreateItem
   },
   props: {
@@ -152,6 +171,10 @@ export default {
 </script>
 
 <style scoped>
+  .short-button {
+    min-width: 40px !important;
+    padding: 0 7px !important;
+  }
   .v-data-table >>> .v-data-table__wrapper > table > thead > tr > th {
     padding: 0 2px;
   }

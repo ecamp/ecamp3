@@ -2,7 +2,7 @@
   <dialog-form
     v-model="showDialog"
     icon="mdi-package-variant"
-    :title="this.$tc('components.dialog.dialogMaterialListCreate.title')"
+    :title="this.$tc('components.dialog.dialogMaterialItemCreate.title')"
     max-width="600px"
     :submit-action="createMaterialItem"
     submit-color="success"
@@ -27,11 +27,13 @@ export default {
   extends: DialogBase,
   props: {
     camp: { type: Object, required: true },
-    period: { type: Object, required: false, default: null }
+    period: { type: Object, required: false, default: null },
+    activityContent: { type: Object, required: false, default: null }
   },
   data () {
     return {
       entityProperties: [
+        'activityContentId',
         'periodId',
         'quantity',
         'unit',
@@ -43,13 +45,19 @@ export default {
   watch: {
     showDialog: function (showDialog) {
       if (showDialog) {
-        this.setEntityData({
-          periodId: this.period.id,
+        const entityData = {
           quantity: '',
           unit: '',
           article: '',
           materialListId: null
-        })
+        }
+        if (this.period != null) {
+          entityData.periodId = this.period.id
+        }
+        if (this.activityContent != null) {
+          entityData.activityContentId = this.activityContent.id
+        }
+        this.setEntityData(entityData)
       } else {
         // clear form on exit
         this.clearEntityData()

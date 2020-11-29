@@ -1,18 +1,21 @@
 <template>
   <tr>
-    <td>
-      <div class="font-size-16 text-align-right">
+    <td class="font-size-16 text-align-bottom">
+      <div class="text-align-right">
         {{ item.materialItem.quantity }}
       </div>
     </td>
-    <td class="font-size-16">
+    <td class="font-size-16 text-align-bottom">
       {{ item.materialItem.unit }}
     </td>
-    <td class="font-size-16">
+    <td class="font-size-16 text-align-bottom">
       {{ item.materialItem.article }}
     </td>
-    <td>
-      <v-btn small :to="scheduleEntryRoute(camp, item.scheduleEntry)">
+    <td style="text-align: center;">
+      <v-btn
+        small
+        class="short-button"
+        :to="scheduleEntryRoute(camp, item.scheduleEntry)">
         <template v-if="$vuetify.breakpoint.smAndUp">
           {{ item.scheduleEntry.number }}:
           <template v-if="item.scheduleEntry.activity().title.length > 15">
@@ -48,9 +51,16 @@ export default {
 </script>
 
 <style scoped>
+  .short-button {
+    min-width: 40px !important;
+    padding: 0 7px !important;
+  }
   .text-align-right {
     text-align: right;
     padding-right: 9px !important;
+  }
+  .text-align-bottom {
+    vertical-align: bottom;
   }
   .font-size-16 {
     font-size: 16px !important;
