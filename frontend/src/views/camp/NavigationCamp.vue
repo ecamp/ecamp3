@@ -40,7 +40,7 @@
   </v-app-bar>
   <v-bottom-navigation v-else app
                        fixed grow>
-    <v-btn>
+    <v-btn :to="{name: 'camp/material'}">
       <span>{{ $tc('views.camp.navigationCamp.material') }}</span>
       <v-icon>mdi-package-variant</v-icon>
     </v-btn>

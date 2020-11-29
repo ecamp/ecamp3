@@ -21,12 +21,14 @@
         :uri="item.materialItem._meta.self"
         fieldname="article" />
     </td>
-    <td />
     <td>
       <v-btn
         small
         @click="deleteMaterialItem(item.materialItem)">
-        {{ $tc('global.button.delete') }}
+        <template v-if="$vuetify.breakpoint.smAndUp">
+          {{ $tc('global.button.delete') }}
+        </template>
+        <v-icon v-else>mdi-delete</v-icon>
       </v-btn>
     </td>
   </tr>
@@ -54,6 +56,6 @@ export default {
 <style scoped>
   .text-align-right >>> .v-text-field .v-input__slot input {
     text-align: right;
-    margin-right: 5px;
+    padding-right: 5px;
   }
 </style>

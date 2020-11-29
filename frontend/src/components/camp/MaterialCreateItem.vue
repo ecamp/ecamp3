@@ -2,9 +2,16 @@
   <ValidationObserver ref="validation" v-slot="{ handleSubmit }">
     <v-form @submit.prevent="handleSubmit(createMaterialItem)">
       <v-simple-table style="margin-top: 10px">
+        <colgroup>
+          <col style="width: 55px;">
+          <col style="width: 15%;">
+          <col>
+          <col style="width: 20%;">
+          <col style="width: 20%;">
+        </colgroup>
         <tbody>
           <tr>
-            <td style="vertical-align: top; width: 10%;">
+            <td style="vertical-align: top;">
               <e-text-field
                 ref="quantity"
                 v-model="materialItem.quantity"
@@ -12,7 +19,7 @@
                 :name="$tc('entity.materialItem.fields.quantity')"
                 fieldname="quantity" />
             </td>
-            <td style="vertical-align: top; width: 15%">
+            <td style="vertical-align: top;">
               <e-text-field
                 v-model="materialItem.unit"
                 dense
@@ -27,7 +34,7 @@
                 :name="$tc('entity.materialItem.fields.article')"
                 fieldname="article" />
             </td>
-            <td style="vertical-align: top; width: 20%;">
+            <td style="vertical-align: top;">
               <e-select
                 v-model="materialItem.materialListId"
                 dense
@@ -36,7 +43,7 @@
                 fieldname="materialListId"
                 :items="materialLists" />
             </td>
-            <td style="vertical-align: middle; width: 15%;">
+            <td style="vertical-align: top; padding-top: 7px;">
               <v-btn type="submit">
                 {{ $tc('global.button.add') }}
               </v-btn>
@@ -98,4 +105,7 @@ export default {
 </script>
 
 <style scoped>
+  .v-data-table >>> .v-data-table__wrapper > table > tbody > tr > td {
+    padding: 0 2px;
+  }
 </style>

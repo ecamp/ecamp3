@@ -1,19 +1,25 @@
 <template>
   <div class="mb-3">
     <v-simple-table dense>
+      <colgroup>
+        <col style="width: 55px;">
+        <col style="width: 15%;">
+        <col>
+        <col style="width: 20%;">
+        <col style="width: 20%;">
+      </colgroup>
       <thead>
         <tr>
-          <th class="text-left" style="width: 10%;">
+          <th class="text-left" colspan="2">
             {{ $tc("entity.materialItem.fields.quantity") }}
           </th>
-          <th style="width: 15%" />
           <th class="text-left">
             {{ $tc("entity.materialItem.fields.article") }}
           </th>
-          <th class="text-left" style="width: 20%;">
+          <th class="text-left">
             {{ $tc('entity.materialList.name') }}
           </th>
-          <th class="text-left" style="width: 15%;">
+          <th class="text-left">
             Option
           </th>
         </tr>
@@ -146,6 +152,12 @@ export default {
 </script>
 
 <style scoped>
+  .v-data-table >>> .v-data-table__wrapper > table > thead > tr > th {
+    padding: 0 2px;
+  }
+  .v-data-table >>> .v-data-table__wrapper > table > tbody > tr > td {
+    padding: 0 2px;
+  }
   .text-align-right >>> .v-text-field .v-input__slot input {
     text-align: right;
     margin-right: 5px;

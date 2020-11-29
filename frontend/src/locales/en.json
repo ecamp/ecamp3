@@ -105,6 +105,9 @@
       "collaboratorListItem": {
         "remove": "Remove"
       },
+      "periodMaterialLists": {
+        "addNewItem": "Add new item"
+      },
       "picasso": {
         "moment": {
           "date": "dd. D.MM | D. MMM | DD. MMM YYYY"
@@ -327,10 +330,12 @@
       },
       "material": {
         "showActivityMaterial": "Show activity material",
+        "showActivityMaterialShort": "incl. Activity",
         "title": "Material"
       },
       "navigationCamp": {
         "admin": "Admin",
+        "camp": "Camp",
         "campIsLoading": "Camp is loading",
         "material": "Materials",
         "print": "Print",

@@ -9,7 +9,9 @@ Admin screen of a camp: Displays MaterialLists and MaterialItems
       <v-spacer />
       <e-switch
         v-model="showActivityMaterial"
-        :label="$tc('views.camp.material.showActivityMaterial')" />
+        :label="$vuetify.breakpoint.smAndUp ?
+          $tc('views.camp.material.showActivityMaterial') :
+          $tc('views.camp.material.showActivityMaterialShort')" />
     </v-toolbar>
     <v-card-text>
       <v-expansion-panels v-model="openPeriods" multiple>

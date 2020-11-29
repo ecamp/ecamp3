@@ -11,14 +11,22 @@
     <td class="font-size-16">
       {{ item.materialItem.article }}
     </td>
-    <td class="font-size-16">
-      <router-link
-        :to="scheduleEntryRoute(camp, item.scheduleEntry)">
-        {{ item.scheduleEntry.number }}:
-        {{ item.scheduleEntry.activity().title }}
-      </router-link>
+    <td>
+      <v-btn small :to="scheduleEntryRoute(camp, item.scheduleEntry)">
+        <template v-if="$vuetify.breakpoint.smAndUp">
+          {{ item.scheduleEntry.number }}:
+          <template v-if="item.scheduleEntry.activity().title.length > 15">
+            {{ item.scheduleEntry.activity().title.substr(0, 13) }}...
+          </template>
+          <template v-else>
+            {{ item.scheduleEntry.activity().title }}
+          </template>
+        </template>
+        <template v-else>
+          {{ item.scheduleEntry.number }}
+        </template>
+      </v-btn>
     </td>
-    <td />
   </tr>
 </template>
 
@@ -42,7 +50,7 @@ export default {
 <style scoped>
   .text-align-right {
     text-align: right;
-    margin-right: 9px;
+    padding-right: 9px !important;
   }
   .font-size-16 {
     font-size: 16px !important;

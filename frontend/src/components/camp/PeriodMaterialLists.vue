@@ -9,21 +9,25 @@
       <div v-for="materialListDetail in materialListsDetails"
            :key="materialListDetail.id">
         <div v-if="materialListDetail.items.length > 0">
-          <h2>{{ materialListDetail.list.name }}</h2>
-          <v-simple-table dense>
+          <h2 style="padding: 0 0 6px 0">
+            {{ materialListDetail.list.name }}
+          </h2>
+          <v-simple-table dense style="padding-bottom: 24px">
+            <colgroup>
+              <col style="width: 55px;">
+              <col style="width: 15%;">
+              <col>
+              <col style="width: 20%;">
+            </colgroup>
             <thead>
               <tr>
-                <th class="text-left" style="width: 10%;">
+                <th colspan="2">
                   {{ $tc('entity.materialItem.fields.quantity') }}
                 </th>
-                <th style="width: 15%" />
-                <th class="text-left">
+                <th>
                   {{ $tc('entity.materialItem.fields.article') }}
                 </th>
-                <th class="text-left" style="width: 20%;">
-                  {{ $tc('entity.activity.name') }}
-                </th>
-                <th class="text-left" style="width: 15%;">
+                <th>
                   Option
                 </th>
               </tr>
@@ -40,10 +44,15 @@
                   :key="item.key"
                   :item="item" />
                 <tr v-else :key="item.key">
-                  <td>{{ item.materialItem.quantity }}</td>
-                  <td>{{ item.materialItem.unit }}</td>
-                  <td>{{ item.materialItem.article }}</td>
-                  <td />
+                  <td class="font-size-16 text-align-right">
+                    {{ item.materialItem.quantity }}
+                  </td>
+                  <td class="font-size-16">
+                    {{ item.materialItem.unit }}
+                  </td>
+                  <td class="font-size-16">
+                    {{ item.materialItem.article }}
+                  </td>
                   <td>
                     <v-progress-circular
                       indeterminate
@@ -55,15 +64,28 @@
           </v-simple-table>
         </div>
       </div>
+
       <material-create-item
+        v-if="$vuetify.breakpoint.smAndUp"
         :camp="camp"
         :period="period"
         @item-adding="onItemAdding" />
+
+      <div v-else style="margin-top: 20px; text-align: right">
+        <dialog-material-item-create :camp="camp" :period="period">
+          <template v-slot:activator="{ on }">
+            <v-btn color="success" v-on="on">
+              {{ $tc('components.camp.periodMaterialLists.addNewItem') }}
+            </v-btn>
+          </template>
+        </dialog-material-item-create>
+      </div>
     </v-expansion-panel-content>
   </v-expansion-panel>
 </template>
 
 <script>
+import DialogMaterialItemCreate from '../dialog/DialogMaterialItemCreate'
 import MaterialCreateItem from './MaterialCreateItem.vue'
 import MaterialListItemActivity from './MaterialListItemActivity'
 import MaterialListItemPeriod from './MaterialListItemPeriod'
@@ -71,6 +93,7 @@ import MaterialListItemPeriod from './MaterialListItemPeriod'
 export default {
   name: 'PeriodMaterialLists',
   components: {
+    DialogMaterialItemCreate,
     MaterialCreateItem,
     MaterialListItemActivity,
     MaterialListItemPeriod
@@ -177,4 +200,17 @@ export default {
 </script>
 
 <style scoped>
+  .text-align-right {
+    text-align: right;
+    padding-right: 9px !important;
+  }
+  .font-size-16 {
+    font-size: 16px !important;
+  }
+  .v-data-table >>> .v-data-table__wrapper > table > thead > tr > th {
+    padding: 0 2px;
+  }
+  .v-data-table >>> .v-data-table__wrapper > table > tbody > tr > td {
+    padding: 0 2px;
+  }
 </style>
