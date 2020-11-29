@@ -5,7 +5,6 @@
     color="blue-grey darken-4" dark>
     <logo text />
     <v-spacer />
-    <search-desktop />
     <user-meta />
   </v-app-bar>
   <v-bottom-navigation
@@ -28,7 +27,6 @@
 </template>
 
 <script>
-import SearchDesktop from '@/components/navigation/SearchDesktop'
 import UserMeta from '@/components/navigation/UserMeta'
 import Logo from '@/components/navigation/Logo'
 
@@ -36,7 +34,6 @@ export default {
   name: 'NavigationDefault',
   components: {
     UserMeta,
-    SearchDesktop,
     Logo
   },
   data () {

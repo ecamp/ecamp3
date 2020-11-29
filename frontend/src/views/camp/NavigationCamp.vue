@@ -3,8 +3,8 @@
              clipped-left
              color="blue-grey darken-4" dark>
     <logo>
-      <v-btn :to="campRoute(camp(), 'program')" class="justify-start px-2 camp--name"
-             text
+      <v-btn :to="campRoute(camp())" class="justify-start px-2 camp--name"
+             text exact
              width="216">
         <v-toolbar-title>
           {{ camp().title | loading($tc('views.camp.navigationCamp.campIsLoading')) }}
@@ -31,7 +31,6 @@
       </v-btn>
     </v-toolbar-items>
     <v-spacer />
-    <search-desktop />
     <user-meta />
   </v-app-bar>
   <v-bottom-navigation v-else grow
@@ -62,7 +61,6 @@
 
 <script>
 import { campRoute } from '@/router'
-import SearchDesktop from '@/components/navigation/SearchDesktop'
 import UserMeta from '@/components/navigation/UserMeta'
 import Logo from '@/components/navigation/Logo'
 
@@ -70,7 +68,6 @@ export default {
   name: 'NavigationCamp',
   components: {
     UserMeta,
-    SearchDesktop,
     Logo
   },
   props: {
