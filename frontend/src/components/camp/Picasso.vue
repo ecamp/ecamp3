@@ -173,7 +173,7 @@ export default {
       return this.period().camp()
     },
     computedIntervalHeight () {
-      return this.intervalHeight !== 0 ? this.intervalHeight : this.$vuetify.breakpoint.xsOnly ? (window.innerHeight - 130) / 19 : (window.innerHeight - 174) / 19
+      return this.intervalHeight !== 0 ? this.intervalHeight : this.$vuetify.breakpoint.xsOnly ? (window.innerHeight - 140) / 19 : (window.innerHeight - 174) / 19
     }
   },
   methods: {
