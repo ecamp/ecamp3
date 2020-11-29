@@ -3,7 +3,7 @@ Lists all activity instances in a list view.
 -->
 
 <template>
-  <v-list dense>
+  <v-list v-if="scheduleEntries.length > 0" dense>
     <template v-for="scheduleEntry in scheduleEntries">
       <v-skeleton-loader
         v-if="scheduleEntry.activity()._meta.loading"
@@ -49,7 +49,7 @@ export default {
   },
   methods: {
     scheduleEntryLink (scheduleEntry) {
-      return scheduleEntryRoute(this.camp, scheduleEntry)
+      return scheduleEntryRoute(this.camp, scheduleEntry, { isDetail: true })
     }
   }
 }

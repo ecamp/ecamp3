@@ -5,24 +5,24 @@ Displays a single activity
 <template>
   <v-container fluid>
     <content-card>
-      <v-toolbar dense>
-        <button-back />
-        <!-- Activity-Titel -->
-        <v-toolbar-title class="pl-2">
+      <template v-slot:title>
+        <v-toolbar-title class="font-weight-bold">
           {{ scheduleEntry().number }}
           <v-chip v-if="!category._meta.loading" dark :color="category.color">{{ category.short }}</v-chip>
           {{ activity.title }}
         </v-toolbar-title>
-        <v-spacer />
-
-        <!-- AddContent-Menu -->
+      </template>
+      <template v-slot:actions>
         <v-menu bottom left offset-y>
           <template v-slot:activator="{ on, attrs }">
             <v-btn color="success"
                    outlined
                    v-bind="attrs"
                    v-on="on">
-              <template v-if="$vuetify.breakpoint.smAndUp"><v-icon left>mdi-plus-circle-outline</v-icon> {{ $tc('global.button.addContentDesktop') }}</template>
+              <template v-if="$vuetify.breakpoint.smAndUp">
+                <v-icon left>mdi-plus-circle-outline</v-icon>
+                {{ $tc('global.button.addContentDesktop') }}
+              </template>
               <template v-else>{{ $tc('global.button.add') }}</template>
             </v-btn>
           </template>
@@ -40,7 +40,7 @@ Displays a single activity
             </v-list-item>
           </v-list>
         </v-menu>
-      </v-toolbar>
+      </template>
       <v-card-text>
         <v-skeleton-loader v-if="activity._meta.loading" type="article" />
         <template v-else>
@@ -65,19 +65,12 @@ Displays a single activity
                         ({{ scheduleEntryItem.number }})
                       </v-col>
                       <v-col cols="10">
-                        {{ $moment.utc(scheduleEntryItem.startTime).format($tc('global.moment.dateShort')) }}
-                        <b>
-                          {{ $moment.utc(scheduleEntryItem.startTime).format($tc('global.moment.hourShort')) }}
-                        </b>
-                        -
-                        {{
+                        {{ $moment.utc(scheduleEntryItem.startTime).format($tc('global.moment.dateShort')) }} <b>
+                          {{ $moment.utc(scheduleEntryItem.startTime).format($tc('global.moment.hourShort')) }} </b> - {{
                           $moment.utc(scheduleEntryItem.startTime).format($tc('global.moment.dateShort')) == $moment.utc(scheduleEntryItem.endTime).format($tc('global.moment.dateShort'))
                             ? ''
                             : $moment.utc(scheduleEntryItem.endTime).format($tc('global.moment.dateShort'))
-                        }}
-                        <b>
-                          {{ $moment.utc(scheduleEntryItem.endTime).format($tc('global.moment.hourShort')) }}
-                        </b>
+                        }} <b> {{ $moment.utc(scheduleEntryItem.endTime).format($tc('global.moment.hourShort')) }} </b>
                       </v-col>
                     </v-row>
                   </v-col>

@@ -4,11 +4,11 @@ Admin screen of a camp: Displays details & periods of a single camp and allows t
 
 <template>
   <content-card :title="$tc('views.camp.admin.title')">
-    <v-card-text>
+    <v-card-text class="py-0">
       <v-row>
         <v-col cols="12" lg="6">
           <camp-settings :camp="camp" />
-          <v-btn v-if="$vuetify.breakpoint.mobile" :to="{name: 'camp/collaborators'}">
+          <v-btn v-if="$vuetify.breakpoint.xsOnly" :to="{name: 'camp/collaborators', query: {isDetail: true}}">
             {{ $tc('views.camp.admin.collaborators') }}
           </v-btn>
         </v-col>

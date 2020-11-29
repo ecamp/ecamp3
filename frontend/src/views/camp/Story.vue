@@ -3,40 +3,45 @@ Admin screen of a camp: Displays details & periods of a single camp and allows t
 -->
 
 <template>
-  <content-card>
-    <v-toolbar>
-      <v-card-title>{{ $tc('views.camp.story.title') }}</v-card-title>
+  <content-card :title="$tc('views.camp.story.title')">
+    <template v-slot:title-actions>
+      <e-switch v-model="editing" :label="$tc('global.button.editable')"
+                class="ec-story-editable"
+                @click="$event.preventDefault()" />
+    </template>
+    <v-card-actions v-if="$vuetify.breakpoint.smAndUp">
       <v-spacer />
-      <v-btn icon
-             :href="previewUrl"
-             class="mr-4"
-             target="_blank">
-        <v-icon>mdi-printer</v-icon>
+      <e-switch v-model="editing" :label="$tc('global.button.editable')"
+                class="ec-story-editable"
+                @click="$event.preventDefault()" />
+    </v-card-actions>
+    <v-expansion-panels v-model="openPeriods" multiple flat>
+      <story-period v-for="period in camp().periods().items"
+                    :key="period._meta.self"
+                    :period="period"
+                    :editing="editing" />
+    </v-expansion-panels>
+    <v-card-actions>
+      <v-btn
+        color="primary"
+        :href="previewUrl"
+        target="_blank">
+        <v-icon left>mdi-printer</v-icon>
+        {{ $tc('views.camp.print.title') }}
       </v-btn>
-      <e-switch v-model="editing" :label="editing ? $tc('global.button.editModeOn') : $tc('global.button.editModeOff')" />
-    </v-toolbar>
-    <v-card-text>
-      <v-expansion-panels v-model="openPeriods" multiple>
-        <story-period v-for="period in camp().periods().items"
-                      :key="period._meta.self"
-                      :period="period"
-                      :editing="editing" />
-      </v-expansion-panels>
-    </v-card-text>
+    </v-card-actions>
   </content-card>
 </template>
 
 <script>
 import ContentCard from '@/components/layout/ContentCard'
 import StoryPeriod from '@/components/camp/StoryPeriod'
-import ESwitch from '@/components/form/base/ESwitch'
 
 const PRINT_SERVER = window.environment.PRINT_SERVER
 
 export default {
   name: 'Story',
   components: {
-    ESwitch,
     StoryPeriod,
     ContentCard
   },
@@ -67,3 +72,18 @@ export default {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+::v-deep .v-expansion-panels {
+  border-top: 1px solid #eee;
+  border-bottom: 1px solid #eee;
+}
+
+::v-deep .v-expansion-panel + .v-expansion-panel {
+  border-top: 1px solid #eee;
+}
+
+.ec-story-editable ::v-deep .v-input--selection-controls {
+  margin-top: 0;
+}
+</style>
