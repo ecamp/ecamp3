@@ -30,18 +30,41 @@ Displays collaborators of a single camp.
       </content-group>
 
       <content-group :title="$tc('views.camp.collaborators.invite')">
-        <e-text-field
-          v-model="inviteEmail"
-          :error-messages="inviteEmailMessages"
-          single-line
-          aria-autocomplete="none"
-          :placeholder="$tc('views.camp.collaborators.email')" />
-        <button-add type="submit" icon="mdi-account-plus" @click="invite('member')">
-          Member
-        </button-add>
-        <button-add icon="mdi-account-plus" @click="invite('manager')">
-          Manager
-        </button-add>
+        <v-form @submit.prevent="invite">
+          <v-container>
+            <v-row
+              align="center">
+              <v-col>
+                <e-text-field
+                  v-model="inviteEmail"
+                  :error-messages="inviteEmailMessages"
+                  single-line
+                  aria-autocomplete="none"
+                  :placeholder="$tc('views.camp.collaborators.email')" />
+              </v-col>
+              <v-col
+                sm="12"
+                md="3">
+                <e-select
+                  :value="inviteRole"
+                  :items="[
+                    { key: 'member', translation: $tc('entity.camp.collaborators.member') },
+                    { key: 'manager', translation: $tc('entity.camp.collaborators.manager') },
+                  ]"
+                  item-value="key"
+                  item-text="translation"
+                  :my="0"
+                  dense
+                  vee-rules="required" />
+              </v-col>
+              <v-col>
+                <button-add type="submit" icon="mdi-account-plus">
+                  {{ $tc('views.camp.collaborators.invite') }}
+                </button-add>
+              </v-col>
+            </v-row>
+          </v-container>
+        </v-form>
       </content-group>
     </v-card-text>
   </content-card>
@@ -52,6 +75,7 @@ import ContentGroup from '@/components/layout/ContentGroup'
 import CollaboratorListItem from '@/components/camp/CollaboratorListItem'
 import ButtonAdd from '@/components/buttons/ButtonAdd'
 import ETextField from '@/components/form/base/ETextField'
+import ESelect from '@/components/form/base/ESelect'
 
 export default {
   name: 'Collaborators',
@@ -60,7 +84,8 @@ export default {
     CollaboratorListItem,
     ContentGroup,
     ContentCard,
-    ETextField
+    ETextField,
+    ESelect
   },
   props: {
     camp: { type: Function, required: true }
@@ -69,7 +94,8 @@ export default {
     return {
       editing: false,
       messages: [],
-      inviteEmail: ''
+      inviteEmail: '',
+      inviteRole: 'member'
     }
   },
   computed: {
@@ -93,11 +119,11 @@ export default {
     return this.camp().campCollaborations()
   },
   methods: {
-    invite (role) {
+    invite () {
       this.api.post('/camp-collaborations', {
         campId: this.camp().id,
         inviteEmail: this.inviteEmail,
-        role: role
+        role: this.inviteRole
       }).then(this.refreshCamp,
         this.handleError)
     },

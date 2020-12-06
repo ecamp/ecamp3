@@ -174,6 +174,7 @@
     },
     "camp": {
       "collaborators": {
+        "invite" : "Invite",
         "manager": "Manager",
         "member": "Member"
       },
