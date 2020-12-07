@@ -1,0 +1,359 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`An ECheckbox looks like a textarea: mountAsInControls 1`] = `
+<div
+  data-app=""
+>
+  <div
+    auto-grow=""
+    class="e-form-container"
+    rows="3"
+    value="
+    Here comes a text
+    with new lines
+    and new lines with 
+ in them
+    and tags <i>a</i>
+    "
+  >
+    <div
+      class="v-input v-input--hide-details v-input--is-label-active v-input--is-dirty theme--light v-text-field v-text-field--single-line v-text-field--filled v-text-field--enclosed"
+    >
+      <div
+        class="v-input__control"
+      >
+        <div
+          class="v-input__slot"
+        >
+          <div
+            class="v-text-field__slot"
+          >
+            <div
+              auto-grow=""
+              class="editor"
+              id="input-19"
+              rows="3"
+            >
+              <div
+                class="editor__content"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`An ECheckbox looks like a textarea: multiline 1`] = `
+<div
+  data-app=""
+>
+  <div
+    class="e-form-container"
+    multi-line=""
+    value="
+    Here comes a text
+    with new lines
+    and new lines with 
+ in them
+    and tags <i>a</i>
+    "
+  >
+    <div
+      class="v-input v-input--hide-details v-input--is-label-active v-input--is-dirty theme--light v-text-field v-text-field--single-line v-text-field--filled v-text-field--enclosed"
+    >
+      <div
+        class="v-input__control"
+      >
+        <div
+          class="v-input__slot"
+        >
+          <div
+            class="v-text-field__slot"
+          >
+            <div
+              class="editor"
+              id="input-12"
+              multi-line=""
+            >
+              <div
+                class="editor__content"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`An ECheckbox looks like a textarea: notext 1`] = `
+<div
+  data-app=""
+>
+  <div
+    class="e-form-container"
+  >
+    <div
+      class="v-input v-input--hide-details theme--light v-text-field v-text-field--single-line v-text-field--filled v-text-field--enclosed"
+    >
+      <div
+        class="v-input__control"
+      >
+        <div
+          class="v-input__slot"
+        >
+          <div
+            class="v-text-field__slot"
+          >
+            <div
+              class="editor"
+              id="input-5"
+            >
+              <div
+                class="editor__content"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`An ECheckbox looks like a textarea: withtext 1`] = `
+<div
+  data-app=""
+>
+  <div
+    class="e-form-container"
+    value="
+    Here comes a text
+    with new lines
+    and new lines with 
+ in them
+    and tags <i>a</i>
+    "
+  >
+    <div
+      class="v-input v-input--hide-details v-input--is-label-active v-input--is-dirty theme--light v-text-field v-text-field--single-line v-text-field--filled v-text-field--enclosed"
+    >
+      <div
+        class="v-input__control"
+      >
+        <div
+          class="v-input__slot"
+        >
+          <div
+            class="v-text-field__slot"
+          >
+            <div
+              class="editor"
+              id="input-5"
+            >
+              <div
+                class="editor__content"
+              >
+                <div
+                  class="ProseMirror"
+                  contenteditable="true"
+                  tabindex="0"
+                >
+                  <p
+                    class=""
+                  >
+                    Here comes a text with new lines and new lines with in them and tags a
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`An ETextArea looks like a textarea: mountAsInControls 1`] = `
+<div
+  data-app=""
+>
+  <div
+    auto-grow=""
+    class="e-form-container"
+    rows="3"
+    value="
+    Here comes a text
+    with new lines
+    and new lines with 
+ in them
+    and tags <i>a</i>
+    "
+  >
+    <div
+      class="v-input v-input--hide-details v-input--is-label-active v-input--is-dirty theme--light v-text-field v-text-field--single-line v-text-field--filled v-text-field--enclosed"
+    >
+      <div
+        class="v-input__control"
+      >
+        <div
+          class="v-input__slot"
+        >
+          <div
+            class="v-text-field__slot"
+          >
+            <div
+              auto-grow=""
+              class="editor"
+              id="input-19"
+              rows="3"
+            >
+              <div
+                class="editor__content"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`An ETextArea looks like a textarea: multiline 1`] = `
+<div
+  data-app=""
+>
+  <div
+    class="e-form-container"
+    multi-line=""
+    value="
+    Here comes a text
+    with new lines
+    and new lines with 
+ in them
+    and tags <i>a</i>
+    "
+  >
+    <div
+      class="v-input v-input--hide-details v-input--is-label-active v-input--is-dirty theme--light v-text-field v-text-field--single-line v-text-field--filled v-text-field--enclosed"
+    >
+      <div
+        class="v-input__control"
+      >
+        <div
+          class="v-input__slot"
+        >
+          <div
+            class="v-text-field__slot"
+          >
+            <div
+              class="editor"
+              id="input-12"
+              multi-line=""
+            >
+              <div
+                class="editor__content"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`An ETextArea looks like a textarea: notext 1`] = `
+<div
+  data-app=""
+>
+  <div
+    class="e-form-container"
+  >
+    <div
+      class="v-input v-input--hide-details theme--light v-text-field v-text-field--single-line v-text-field--filled v-text-field--enclosed"
+    >
+      <div
+        class="v-input__control"
+      >
+        <div
+          class="v-input__slot"
+        >
+          <div
+            class="v-text-field__slot"
+          >
+            <div
+              class="editor"
+              id="input-5"
+            >
+              <div
+                class="editor__content"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`An ETextArea looks like a textarea: withtext 1`] = `
+<div
+  data-app=""
+>
+  <div
+    class="e-form-container"
+    value="
+    Here comes a text
+    with new lines
+    and new lines with 
+ in them
+    and tags <i>a</i>
+    "
+  >
+    <div
+      class="v-input v-input--hide-details v-input--is-label-active v-input--is-dirty theme--light v-text-field v-text-field--single-line v-text-field--filled v-text-field--enclosed"
+    >
+      <div
+        class="v-input__control"
+      >
+        <div
+          class="v-input__slot"
+        >
+          <div
+            class="v-text-field__slot"
+          >
+            <div
+              class="editor"
+              id="input-5"
+            >
+              <div
+                class="editor__content"
+              >
+                <div
+                  class="ProseMirror"
+                  contenteditable="true"
+                  tabindex="0"
+                >
+                  <p
+                    class=""
+                  >
+                    Here comes a text with new lines and new lines with in them and tags a
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
