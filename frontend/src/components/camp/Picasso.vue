@@ -10,8 +10,8 @@ Listing all given activity schedule entries in a calendar view.
       v-resize="resize"
       class="ec-picasso"
       :events="scheduleEntriesWithTemporary"
-      :event-name="getActivityName | loading('Lädt…', ({ input }) => isActivityLoading(input))"
-      :event-color="getActivityColor | loading('grey lighten-2', (entry) => isActivityLoading(entry))"
+      :event-name="getActivityName"
+      :event-color="getActivityColor"
       event-start="startTime"
       event-end="endTime"
       :interval-height="computedIntervalHeight"
@@ -137,7 +137,8 @@ export default {
       draggedStartTime: null,
       currentStartTime: null,
       extendOriginal: null,
-      openedInNewTab: false
+      openedInNewTab: false,
+      activitiesLoading: true
     }
   },
   computed: {
@@ -176,25 +177,27 @@ export default {
       return this.intervalHeight !== 0 ? this.intervalHeight : this.$vuetify.breakpoint.xsOnly ? (window.innerHeight - 140) / 19 : (window.innerHeight - 174) / 19
     }
   },
+  mounted () {
+    this.api.get().activities({ periodId: this.period().id })._meta.load.then(() => { this.activitiesLoading = false })
+  },
   methods: {
     resize () {
       const widthIntervals = 46
       this.entryWidth = Math.max((this.$refs.calendar.$el.offsetWidth - widthIntervals) / this.$refs.calendar.days.length, 80)
     },
-    getActivityCategory (scheduleEntry, _) {
-      return scheduleEntry.activity().activityCategory()
-    },
     getActivityName (scheduleEntry, _) {
+      if (this.isActivityLoading(scheduleEntry)) return this.$tc('global.loading')
       return (scheduleEntry.number ? scheduleEntry.number + ' ' : '') +
         (scheduleEntry.activity().activityCategory().short ? scheduleEntry.activity().activityCategory().short + ': ' : '') +
         scheduleEntry.activity().title
     },
     getActivityColor (scheduleEntry, _) {
+      if (this.isActivityLoading(scheduleEntry)) return 'grey lighten-2'
       const color = scheduleEntry.activity().activityCategory().color
       return isCssColor(color) ? color : color + ' elevation-4 v-event--temporary'
     },
     isActivityLoading (scheduleEntry) {
-      return scheduleEntry.activity()._meta ? scheduleEntry.activity()._meta.loading : false
+      return this.activitiesLoading || (scheduleEntry.activity()._meta ? scheduleEntry.activity()._meta.loading : false)
     },
     intervalFormat (time) {
       return this.$moment.utc(time.date + ' ' + time.time).format(this.$tc('global.moment.hourLong'))

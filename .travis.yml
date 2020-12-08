@@ -5,6 +5,51 @@ notifications:
 
 jobs:
   include:
+    - name: "Backend cs-check"
+      stage: lint
+      language: php
+      php:
+        - 7.4.2
+      cache:
+        directories:
+          - vendor
+      before_script:
+          - cd backend
+          - composer install --no-interaction
+          - cd ..
+      script:
+          - cd backend
+          - composer cs-check
+          - cd ..
+
+    - name: "Frontend lint"
+      stage: lint
+      language: node_js
+      node_js: '10'
+      env:
+        - NODE_ENV=development
+      cache: npm
+      before_install:
+        - cd frontend/
+      install:
+        - npm install
+      script:
+        - npm run lint
+
+    - name: "Print lint"
+      stage: lint
+      language: node_js
+      node_js: '10'
+      env:
+        - NODE_ENV=development
+      cache: npm
+      before_install:
+        - cd print/
+      install:
+        - npm install
+      script:
+        - npm run lint
+
     - name: "Backend tests"
       stage: test
       language: php
@@ -24,7 +69,6 @@ jobs:
           - cd backend
           - mkdir -p build/logs
           - composer test
-          - composer cs-check
           - cd ..
       after_script:
           - backend/vendor/bin/php-coveralls -v --coverage_clover ./backend/build/logs/clover.xml --json_path ./backend/build/logs/coveralls-upload.json
@@ -67,6 +111,7 @@ jobs:
           condition: $TRAVIS_BRANCH =~ ^(devel)$
 
 stages:
+  - name: lint
   - name: test
   - name: "push-images"
     if: branch = devel AND type = push

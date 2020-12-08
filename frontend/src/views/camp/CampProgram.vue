@@ -16,7 +16,7 @@ Show all activity schedule entries of a single period.
         </template>
         <template v-else>
           <picasso
-            v-show="!listFormat"
+            v-if="!listFormat"
             class="mx-2 ma-sm-0 pa-sm-2"
             :schedule-entries="slotProps.scheduleEntries"
             :period="period"
@@ -25,7 +25,7 @@ Show all activity schedule entries of a single period.
             :dialog-activity-create="slotProps.showActivityCreateDialog"
             :dialog-activity-edit="slotProps.showActivityEditDialog" />
           <activity-list
-            v-show="listFormat"
+            v-else
             :schedule-entries="slotProps.scheduleEntries"
             :period="period" />
           <v-alert v-if="listFormat && slotProps.scheduleEntries.length === 0">
@@ -59,7 +59,7 @@ export default {
   },
   computed: {
     listFormat () {
-      return !!this.$route.query.list
+      return this.$route.query.list
     }
   }
 }

@@ -98,6 +98,12 @@ class ActivityService extends AbstractEntityService {
             $q->setParameter('campId', $params['campId']);
         }
 
+        if (isset($params['periodId'])) {
+            $q->innerJoin('row.scheduleEntries', 'scheduleEntry');
+            $q->andWhere('scheduleEntry.period = :periodId');
+            $q->setParameter('periodId', $params['periodId']);
+        }
+
         return $q;
     }
 

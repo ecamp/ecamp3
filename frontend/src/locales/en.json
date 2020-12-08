@@ -238,6 +238,7 @@
       "result": "No result | No results | No results for {search} | No {search} found"
     },
     "language": "English",
+    "loading": "Loading …",
     "lokaliseMessage": "Language switching powered by lokalise.com",
     "moment": {
       "dateLong": "dd L",

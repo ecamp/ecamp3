@@ -66,6 +66,7 @@
 
     /* uncomment this part for recto/verso book : ------------------------------------ */
 
+    /* stylelint-disable no-duplicate-selectors, no-descending-specificity */
     
     .pagedjs_pages {
         flex-direction: column;
@@ -82,11 +83,13 @@
     } 
     
 
-    /*--------------------------------------------------------------------------------------*/
+    /* stylelint-enable no-duplicate-selectors, no-descending-specificity */
+
+    /* -------------------------------------------------------------------------------------- */
 
 
 
-    /* uncomment this par to see the baseline : -------------------------------------------*/
+    /* uncomment this par to see the baseline : ------------------------------------------- */
 
     /* 
     .pagedjs_pagebox {
@@ -100,5 +103,5 @@
     } 
     */
 
-    /*--------------------------------------------------------------------------------------*/
+    /* -------------------------------------------------------------------------------------- */
 }
