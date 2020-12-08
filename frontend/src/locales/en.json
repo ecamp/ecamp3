@@ -231,6 +231,7 @@
     },
     "changeLanguage": "Change language",
     "language": "English",
+    "loading": "Loading …",
     "lokaliseMessage": "Language switching powered by lokalise.com",
     "moment": {
       "dateLong": "dd L",
