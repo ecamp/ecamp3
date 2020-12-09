@@ -57,12 +57,42 @@ jobs:
       - run: npm run lint
         working-directory: print
 
+  backend-tests:
+    name: "Backend: Tests"
+    runs-on: ubuntu-latest
+    steps:
+
+      - uses: actions/checkout@v2
+
+      - name: Get Composer Cache Directory
+        id: composer-cache
+        run: 'echo "::set-output name=dir::$(composer config cache-files-dir)"'
+        working-directory: backend
+
+      - uses: actions/cache@v2
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-
+
+      - uses: php-actions/composer@v4
+        with:
+          working_dir: backend
+
+      - uses: php-actions/phpunit@v1
+        with:
+          configuration: backend/phpunit.xml
+          memory_limit: -1
+          bootstrap: backend/vendor/autoload.php
+
   ci-passed-event:
     name: "Send out CI success event"
     needs:
       - backend-cs-check
       - frontend-eslint
       - print-eslint
+      - backend-tests
     runs-on: ubuntu-latest
     steps:
 

@@ -38,7 +38,7 @@
         "slm/mail": "^3.3"
     },
     "require-dev": {
-        "phpunit/phpunit": "^6.5",
+        "phpunit/phpunit": "^9",
         "php-coveralls/php-coveralls": "2.4",
         "laminas/laminas-component-installer": "^2.1",
         "laminas/laminas-developer-tools": "^1.2",
@@ -67,7 +67,7 @@
             "eCamp\\LibTest\\": "module/eCampLib/test/",
             "eCamp\\CoreTest\\": "module/eCampCore/test/",
             "eCampApiTest\\": "module/eCampApi/test",
-            "eCamp\\ContentType\\TextareaTest\\": "content-type/eCampTextarea/test/",
+            "eCamp\\ContentType\\SingleTextTest\\": "content-type/eCampSingleText/test/",
             "eCamp\\ContentType\\StoryboardTest\\": "content-type/eCampStoryboard/test/"
         }
     },
