@@ -106,6 +106,20 @@ jobs:
       - run: npm run test:unit
         working-directory: frontend
 
+  e2e-tests:
+    name: "End-to-end tests"
+    runs-on: ubuntu-latest
+    steps:
+
+      - uses: actions/checkout@v2
+
+      - run: docker-compose up -d --build composer backend frontend db
+
+      - run: bash wait-for-container-startup.sh
+
+      - run: docker run -v $PWD:/e2e -w /e2e --network host -e CYPRESS_BASE_URL=http://localhost:3000 cypress/included:3.4.0
+        working-directory: frontend
+
   ci-passed-event:
     name: "Send out CI success event"
     needs:
@@ -114,6 +128,7 @@ jobs:
       - print-eslint
       - backend-tests
       - frontend-tests
+      - e2e-tests
     runs-on: ubuntu-latest
     steps:
 
