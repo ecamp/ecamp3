@@ -76,15 +76,17 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-composer-
 
-      - uses: php-actions/composer@v4
-        with:
-          working_dir: backend
+      - run: composer install --no-interaction
+        working-directory: backend
 
-      - uses: php-actions/phpunit@v1
-        with:
-          configuration: backend/phpunit.xml
-          memory_limit: -1
-          bootstrap: backend/vendor/autoload.php
+      - run: composer test
+        working-directory: backend
+
+      - run: backend/vendor/bin/php-coveralls -v --coverage_clover backend/build/logs/clover.xml --json_path backend/build/logs/coveralls-upload.json
+        env:
+          COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          COVERALLS_PARALLEL: true
+          COVERALLS_FLAG_NAME: backend
 
   frontend-tests:
     name: "Frontend: Tests"
@@ -106,6 +108,14 @@ jobs:
       - run: npm run test:unit
         working-directory: frontend
 
+      - run: cat frontend/data/coverage/lcov.info | npx coveralls .
+        env:
+          COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          COVERALLS_SERVICE_NAME: github
+          COVERALLS_SERVICE_NUMBER: ${{ github.run_id }}
+          COVERALLS_PARALLEL: true
+          COVERALLS_FLAG_NAME: frontend
+
   e2e-tests:
     name: "End-to-end tests"
     runs-on: ubuntu-latest
@@ -119,6 +129,19 @@ jobs:
 
       - run: docker run -v $PWD:/e2e -w /e2e --network host -e CYPRESS_BASE_URL=http://localhost:3000 cypress/included:3.4.0
         working-directory: frontend
+
+  coveralls-finished:
+    name: "Finish coveralls report"
+    needs:
+      - backend-tests
+      - frontend-tests
+    runs-on: ubuntu-latest
+    steps:
+
+      - uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          parallel-finished: true
 
   ci-passed-event:
     name: "Send out CI success event"
