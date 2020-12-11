@@ -146,6 +146,7 @@ jobs:
 
   ci-passed-event:
     name: "Send out CI success event"
+    if: ${{ github.event_name == 'push' }}
     needs:
       - backend-cs-check
       - frontend-eslint
