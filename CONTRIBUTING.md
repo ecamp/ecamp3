@@ -63,7 +63,7 @@ Alternatively you can
 * [x] Are all passwords, credentials and local configuration removed from the code changes?
 * [x] Do all changed files contain some important changes (as opposed to e.g. only whitespace changes)?
 * [x] Is the fork up-to-date with the central repository and can your changes be merged automatically?
-* [x] Did the travis CI build run through without test failures?
+* [x] Did the GitHub Actions CI build run through without test failures?
 
 
 ## Mitarbeit (deutsche Übersetzung)
@@ -128,4 +128,4 @@ Alternativ kannst du
 * [x] Wurden alle Passwörter, Zugangsdaten und lokale Konfiguration aus den Code-Änderungen entfernt?
 * [x] Enthalten alle geänderten Dateien auch wirklich eine sinnvolle Änderung (im Gegensatz zu z.B. nur Whitespace-Änderungen)?
 * [x] Ist der Fork auf dem aktuellen Stand des zentralen Repositories und können die Änderungen automatisch gemerged werden?
-* [x] Ist der Travis CI-Build erfolgreich und ohne Test Failures durchgelaufen?
+* [x] Ist der GitHub Actions CI-Build erfolgreich und ohne Test Failures durchgelaufen?
