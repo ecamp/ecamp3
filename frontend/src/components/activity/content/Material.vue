@@ -26,7 +26,7 @@
       </thead>
       <tbody>
         <template v-for="materialItem in materialItemsSorted">
-          <tr v-if="materialItem._meta != undefined" :key="materialItem.id">
+          <tr v-if="materialItem._meta != undefined && $vuetify.breakpoint.smAndUp" :key="materialItem.id">
             <td class="text-align-right">
               <api-text-field
                 dense
@@ -48,7 +48,7 @@
                 :uri="materialItem._meta.self"
                 fieldname="article" />
             </td>
-            <td v-if="$vuetify.breakpoint.smAndUp">
+            <td>
               <api-select
                 dense
                 :outlined="false"
@@ -67,6 +67,31 @@
                 </template>
                 <v-icon v-else>mdi-trash-can-outline</v-icon>
               </v-btn>
+            </td>
+          </tr>
+          <tr v-else-if="materialItem._meta != undefined" :key="materialItem.id">
+            <td class="font-size-16 text-align-bottom">
+              <div class="text-align-right">
+                {{ materialItem.quantity }}
+              </div>
+            </td>
+            <td class="font-size-16 text-align-bottom">
+              {{ materialItem.unit }}
+            </td>
+            <td class="font-size-16 text-align-bottom">
+              {{ materialItem.article }}
+            </td>
+            <td style="text-align: center;">
+              <dialog-material-item-edit :material-item="materialItem">
+                <template v-slot:activator="{ on }">
+                  <v-btn
+                    small
+                    class="short-button"
+                    v-on="on">
+                    <v-icon small>mdi-pen</v-icon>
+                  </v-btn>
+                </template>
+              </dialog-material-item-edit>
             </td>
           </tr>
           <tr v-else :key="materialItem.id">
@@ -102,6 +127,7 @@
 import ApiTextField from '../../form/api/ApiTextField.vue'
 import ApiSelect from '../../form/api/ApiSelect.vue'
 import DialogMaterialItemCreate from '../../dialog/DialogMaterialItemCreate.vue'
+import DialogMaterialItemEdit from '../../dialog/DialogMaterialItemEdit.vue'
 import MaterialCreateItem from '../../camp/MaterialCreateItem.vue'
 
 export default {
@@ -110,6 +136,7 @@ export default {
     ApiTextField,
     ApiSelect,
     DialogMaterialItemCreate,
+    DialogMaterialItemEdit,
     MaterialCreateItem
   },
   props: {
@@ -181,8 +208,18 @@ export default {
   .v-data-table >>> .v-data-table__wrapper > table > tbody > tr > td {
     padding: 0 2px;
   }
+  .text-align-right {
+    text-align: right;
+    padding-right: 9px !important;
+  }
   .text-align-right >>> .v-text-field .v-input__slot input {
     text-align: right;
     margin-right: 5px;
+  }
+  .text-align-bottom {
+    vertical-align: bottom;
+  }
+  .font-size-16 {
+    font-size: 16px !important;
   }
 </style>
