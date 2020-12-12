@@ -16,18 +16,7 @@
         small
         class="short-button"
         :to="scheduleEntryRoute(camp, item.scheduleEntry)">
-        <template v-if="$vuetify.breakpoint.smAndUp">
-          {{ item.scheduleEntry.number }}:
-          <template v-if="item.scheduleEntry.activity().title.length > 15">
-            {{ item.scheduleEntry.activity().title.substr(0, 13) }}...
-          </template>
-          <template v-else>
-            {{ item.scheduleEntry.activity().title }}
-          </template>
-        </template>
-        <template v-else>
-          {{ item.scheduleEntry.number }}
-        </template>
+        {{ scheduleEntryCaption }}
       </v-btn>
     </td>
   </tr>
@@ -43,6 +32,25 @@ export default {
   props: {
     camp: { type: Object, required: true },
     item: { type: Object, required: true }
+  },
+  computed: {
+    scheduleEntry () {
+      return this.item.scheduleEntry
+    },
+    activity () {
+      return this.scheduleEntry.activity()
+    },
+    scheduleEntryCaption () {
+      if (this.$vuetify.breakpoint.smAndUp) {
+        if (this.activity.title.length > 13) {
+          return this.scheduleEntry.number + ': ' + this.activity.title.substr(0, 13) + '...'
+        } else {
+          return this.scheduleEntry.number + ': ' + this.activity.title
+        }
+      } else {
+        return this.scheduleEntry.number
+      }
+    }
   },
   methods: {
     scheduleEntryRoute

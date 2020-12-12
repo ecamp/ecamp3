@@ -40,7 +40,7 @@
   </v-app-bar>
   <v-bottom-navigation v-else app
                        fixed grow>
-    <v-btn :to="{name: 'camp/material'}">
+    <v-btn :to="campRoute(camp(), 'material')">
       <span>{{ $tc('views.camp.navigationCamp.material') }}</span>
       <v-icon>mdi-package-variant</v-icon>
     </v-btn>
@@ -52,11 +52,11 @@
       <span>{{ $tc('views.camp.navigationCamp.camp') }}</span>
       <v-icon large>mdi-tent</v-icon>
     </v-btn>
-    <v-btn :to="{name: 'camp/collaborators'}" exact>
+    <v-btn :to="campRoute(camp(), 'collaborators')" exact>
       <span>{{ $tc('views.camp.navigationCamp.team') }}</span>
       <v-icon>mdi-account-group</v-icon>
     </v-btn>
-    <v-btn :to="{name: 'camp/admin'}">
+    <v-btn :to="campRoute(camp(), 'admin')">
       <span>{{ $tc('views.camp.navigationCamp.admin') }}</span>
       <v-icon>mdi-cogs</v-icon>
     </v-btn>
