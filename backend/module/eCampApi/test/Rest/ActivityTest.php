@@ -8,6 +8,8 @@ use eCamp\Core\Entity\ActivityCategory;
 use eCamp\Core\Entity\User;
 use eCamp\CoreTest\Data\ActivityCategoryTestData;
 use eCamp\CoreTest\Data\ActivityTestData;
+use eCamp\CoreTest\Data\PeriodTestData;
+use eCamp\CoreTest\Data\ScheduleEntryTestData;
 use eCamp\CoreTest\Data\UserTestData;
 use eCamp\LibTest\PHPUnit\AbstractApiControllerTestCase;
 
@@ -31,10 +33,14 @@ class ActivityTest extends AbstractApiControllerTestCase {
 
         $userLoader = new UserTestData();
         $activityLoader = new ActivityTestData();
+        $periodLoader = new PeriodTestData();
+        $scheduleEntryLoader = new ScheduleEntryTestData();
 
         $loader = new Loader();
         $loader->addFixture($userLoader);
         $loader->addFixture($activityLoader);
+        $loader->addFixture($periodLoader);
+        $loader->addFixture($scheduleEntryLoader);
         $this->loadFixtures($loader);
 
         $this->user = $userLoader->getReference(UserTestData::$USER1);
@@ -78,6 +84,18 @@ JSON;
         $this->assertEquals(1, $this->getResponseContent()->total_items);
         $this->assertEquals(10, $this->getResponseContent()->page_size);
         $this->assertEquals("http://{$this->host}{$this->apiEndpoint}?page_size=10&campId={$campId}&page=1", $this->getResponseContent()->_links->self->href);
+        $this->assertEquals($this->activity->getId(), $this->getResponseContent()->_embedded->items[0]->id);
+    }
+
+    public function testFetchAllByPeriod() {
+        $periodId = $this->activity->getCamp()->getPeriods()->get(0)->getId();
+        $this->dispatch("{$this->apiEndpoint}?page_size=10&periodId={$periodId}", 'GET');
+
+        $this->assertResponseStatusCode(200);
+
+        $this->assertEquals(1, $this->getResponseContent()->total_items);
+        $this->assertEquals(10, $this->getResponseContent()->page_size);
+        $this->assertEquals("http://{$this->host}{$this->apiEndpoint}?page_size=10&periodId={$periodId}&page=1", $this->getResponseContent()->_links->self->href);
         $this->assertEquals($this->activity->getId(), $this->getResponseContent()->_embedded->items[0]->id);
     }
 

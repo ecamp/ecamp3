@@ -40,7 +40,7 @@ export default {
   props: {
     icon: { type: String, required: false, default: 'mdi-clock-outline' },
     value: { type: [Number, String], required: true },
-    valueFormat: { type: [String, Array], default: 'x' }
+    valueFormat: { type: [String, Array], default: 'YYYY-MM-DDTHH:mmZ' }
   },
   data () {
     return {
@@ -51,20 +51,20 @@ export default {
     allowedStep: m => m % 15 === 0,
     format (val) {
       if (val !== '') {
-        this.dateTime = this.$moment(val, this.valueFormat)
+        this.dateTime = this.$moment.utc(val, this.valueFormat)
         return this.dateTime.format('LT')
       }
       return ''
     },
     formatPicker (val) {
       if (val !== '') {
-        return this.$moment(val, this.valueFormat).toDate()
+        return this.$moment.utc(val, this.valueFormat).format(this.$moment.HTML5_FMT.TIME)
       }
       return ''
     },
     parse (val) {
       if (val) {
-        const m = this.$moment(val, 'LT')
+        const m = this.$moment.utc(val, 'LT')
         this.dateTime.hours(m.hours()).minutes(m.minutes()).seconds(m.seconds()).milliseconds(m.milliseconds())
         if (m.isValid()) {
           return Promise.resolve(this.dateTime.format(this.valueFormat))
@@ -77,7 +77,7 @@ export default {
     },
     parsePicker (val) {
       if (val) {
-        const m = this.$moment(val, ['LT', 'LTS'])
+        const m = this.$moment.utc(val, this.$moment.HTML5_FMT.TIME)
         this.dateTime.hours(m.hours()).minutes(m.minutes()).seconds(m.seconds()).milliseconds(m.milliseconds())
         if (m.isValid()) {
           return Promise.resolve(this.dateTime.format(this.valueFormat))

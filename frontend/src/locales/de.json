@@ -5,8 +5,8 @@
       "name": "Notizen"
     },
     "safetyConcept": {
-      "add": "Sicherheits-Konzept hinzufügen",
-      "name": "Sicherheits-Konzept",
+      "add": "Sicherheitskonzept hinzufügen",
+      "name": "Sicherheitskonzept",
       "sort": "3"
     },
     "storyboard": {
@@ -16,7 +16,7 @@
           "fields": {
             "column1": "Zeit",
             "column2": "Programm",
-            "column3": "Verantwortlich"
+            "column3": "verantwortlich"
           },
           "name": "Programmpunkt | Programmpunkte"
         }
@@ -33,7 +33,6 @@
   "components": {
     "activity": {
       "activityContent": {
-        "delete": "Löschen",
         "editName": "Namen umbenennen",
         "moveDown": "Nach unten bewegen",
         "moveUp": "Nach oben bewegen"
@@ -87,9 +86,6 @@
         },
         "title": "Einstellungen"
       },
-      "collaboratorListItem": {
-        "remove": "Entfernen"
-      },
       "picasso": {
         "moment": {
           "date": "dd. D.MM | D. MMM | DD. MMM YYYY"
@@ -117,11 +113,7 @@
       }
     },
     "navigation": {
-      "searchDesktop": {
-        "search": "Suchen"
-      },
       "searchMobile": {
-        "search": "Suchen",
         "searchActivitiesAndCamps": "Aktivitäten und Camps suchen"
       },
       "userMeta": {
@@ -217,10 +209,13 @@
       "create": "Erstellen",
       "delete": "Löschen",
       "edit": "Bearbeiten",
-      "ok": "OK",
+      "editModeOn": "Bearbeiten an",
+      "editModeOff": "Bearbeiten aus",
+      "ok": "In Ordnung",
       "open": "Öffnen",
       "save": "Speichern",
       "saving": "Speichert",
+      "search": "Suchen",
       "submit": "Abschicken",
       "tryagain": "Erneut versuchen",
       "update": "Aktualisieren"
@@ -271,7 +266,6 @@
         "acceptTermsOfUse": "Akzeptieren Sie die Nutzungsbedingungen",
         "alreadyHaveAnAccount": "Haben Sie bereits ein Konto?",
         "login": "Anmelden",
-        "openTermsOfUse": "Öffnen",
         "passwordConfirmation": "Passwort erneut eingeben",
         "register": "Registrieren",
         "title": "Ein Konto erstellen"
@@ -291,7 +285,6 @@
         "members": "Mitarbeitende",
         "openInvitations": "Offene Einladungen",
         "openRequests": "Offene Anfragen",
-        "search": "Suchen...",
         "title": "Team"
       },
       "navigationCamp": {
@@ -299,7 +292,7 @@
         "campIsLoading": "Lager wird geladen",
         "material": "Material",
         "print": "Drucken",
-        "story": "Handlung",
+        "story": "Roter Faden",
         "tasks": "Aufgaben",
         "team": "Team"
       },
@@ -310,8 +303,6 @@
         "title": "Lagerabschnitt"
       },
       "story": {
-        "editModeOff": "Bearbeiten aus",
-        "editModeOn": "Bearbeiten an",
         "title": "Roter Faden"
       }
     },

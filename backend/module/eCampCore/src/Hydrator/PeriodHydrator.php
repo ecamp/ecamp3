@@ -6,6 +6,7 @@ use eCamp\Core\Entity\Period;
 use eCamp\Lib\Entity\EntityLink;
 use eCamp\Lib\Entity\EntityLinkCollection;
 use eCamp\Lib\Hydrator\Util;
+use eCamp\Lib\Types\DateUtc;
 use eCampApi\V1\Rest\Day\DayCollection;
 use eCampApi\V1\Rest\ScheduleEntry\ScheduleEntryCollection;
 use Laminas\Hydrator\HydratorInterface;
@@ -34,8 +35,8 @@ class PeriodHydrator implements HydratorInterface {
         return [
             'id' => $period->getId(),
             'description' => $period->getDescription(),
-            'start' => Util::extractDateTime($period->getStart()),
-            'end' => Util::extractDateTime($period->getEnd()),
+            'start' => $period->getStart(),
+            'end' => $period->getEnd(),
 
             'camp' => EntityLink::Create($period->getCamp()),
             'days' => new EntityLinkCollection($period->getDays()),
@@ -46,6 +47,8 @@ class PeriodHydrator implements HydratorInterface {
     /**
      * @param object $object
      *
+     * @throws \Exception
+     *
      * @return object
      */
     public function hydrate(array $data, $object) {
@@ -53,13 +56,11 @@ class PeriodHydrator implements HydratorInterface {
         $period = $object;
 
         if (isset($data['start'])) {
-            $start = Util::parseDateTime($data['start']);
-            $period->setStart($start);
+            $period->setStart(new DateUtc($data['start']));
         }
 
         if (isset($data['end'])) {
-            $end = Util::parseDateTime($data['end']);
-            $period->setEnd($end);
+            $period->setEnd(new DateUtc($data['end']));
         }
 
         if (isset($data['description'])) {

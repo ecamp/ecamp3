@@ -35,7 +35,7 @@ Displays collaborators of a single camp.
           hide-details
           prepend-icon="mdi-account-search"
           single-line
-          :placeholder="$tc('views.camp.collaborators.search')"
+          :placeholder="$tc('global.button.search')"
           @focus="loadingResults = true"
           @blur="loadingResults = false" />
 

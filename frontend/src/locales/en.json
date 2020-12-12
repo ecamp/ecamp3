@@ -254,7 +254,7 @@
       "create": "Create",
       "delete": "Delete",
       "edit": "Edit",
-      "ok": "OK",
+      "ok": "Okay",
       "open": "Open",
       "save": "Save",
       "saving": "Saving",
@@ -264,6 +264,7 @@
     },
     "changeLanguage": "Change language",
     "language": "English",
+    "loading": "Loading …",
     "lokaliseMessage": "Language switching powered by lokalise.com",
     "moment": {
       "dateLong": "dd L",
@@ -353,8 +354,6 @@
         "title": "Periods"
       },
       "story": {
-        "editModeOff": "Editing off",
-        "editModeOn": "Editing on",
         "title": "Story"
       }
     },

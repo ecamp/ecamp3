@@ -81,7 +81,7 @@ JSON;
                     "templated": true
                 },
                 "activities": {
-                    "href": "http://{$host}/api/activities{/activityId}{?page_size,campId}",
+                    "href": "http://{$host}/api/activities{/activityId}{?page_size,campId,periodId}",
                     "templated": true
                 },
                 "materialItems": {

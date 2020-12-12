@@ -90,7 +90,7 @@
                 <v-icon>mdi-delete</v-icon>
               </v-list-item-icon>
               <v-list-item-title>
-                {{ $tc('components.activity.activityContent.delete') }}
+                {{ $tc('global.button.delete') }}
               </v-list-item-title>
             </v-list-item>
           </v-list>
