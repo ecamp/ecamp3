@@ -235,7 +235,8 @@
     "changeLanguage": "Change language",
     "empty": {
       "list": "Empty | No {entities} yet",
-      "result": "No result | No results | No results for {search} | No {search} found"
+      "result": "No result | No results",
+      "resultFor": "No result for {search} | No results for {search}"
     },
     "language": "English",
     "loading": "Loading …",

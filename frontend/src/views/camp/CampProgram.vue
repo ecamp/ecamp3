@@ -29,7 +29,7 @@ Show all activity schedule entries of a single period.
             :schedule-entries="slotProps.scheduleEntries"
             :period="period" />
           <v-alert v-if="listFormat && slotProps.scheduleEntries.length === 0">
-            {{ $tc('global.empty.list', 1, { entities: $tc('entity.activity.name', 1) }) }}
+            {{ $tc('global.empty.list', 10, { entities: $tc('entity.activity.name', 1) }) }}
           </v-alert>
         </template>
       </template>

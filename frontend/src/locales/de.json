@@ -224,7 +224,8 @@
     "changeLanguage": "Sprache ändern",
     "empty": {
       "list": "Leer | Noch keine {entities}",
-      "result": "Kein Resultat | Keine Resultate | Keine Resultate für {search} | Keine {search} gefunden"
+      "result": "Kein Resultat | Keine Resultate",
+      "resultFor": "Kein Resultat für {search} | Keine Resultate für {search}"
     },
     "language": "Deutsch",
     "lokaliseMessage": "Übersetzungen unterstützt durch lokalise.com",
