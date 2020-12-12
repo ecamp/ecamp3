@@ -40,8 +40,11 @@ export default {
   },
   methods: {
     parsePicker (val) {
-      if (typeof val === 'object') return Promise.resolve(val.hex)
-      return Promise.resolve(val)
+      if (typeof val === 'object') return Promise.resolve(this.removeAlpha(val.hex))
+      return Promise.resolve(this.removeAlpha(val))
+    },
+    removeAlpha (hex) {
+      return hex.length === 9 ? hex.substring(0, 7) : hex
     }
   }
 }

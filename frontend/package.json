@@ -56,6 +56,7 @@
     "eslint-plugin-standard": "^4.0.1",
     "eslint-plugin-vue": "^6.2.2",
     "flush-promises": "^1.0.2",
+    "jest-canvas-mock": "^2.3.0",
     "lint-staged": "^10.2.11",
     "sass": "^1.26.10",
     "sass-loader": "^8.0.2",
@@ -137,7 +138,8 @@
   "jest": {
     "setupFiles": [
       "<rootDir>/.jest/register-context.js",
-      "<rootDir>/.jest/environment.js"
+      "<rootDir>/.jest/environment.js",
+      "jest-canvas-mock"
     ],
     "moduleFileExtensions": [
       "js",
