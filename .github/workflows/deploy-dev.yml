@@ -20,7 +20,7 @@ jobs:
 
       - uses: ./.github/actions/deploy
         with:
-          commit-sha: ${{ github.event.inputs.image-tag || github.event.client_payload.sha }}
+          commit-sha: ${{ github.event.client_payload.sha }}
           ssh-host: ${{ secrets.DEVEL_SSH_HOST }}
           db-host: ${{ secrets.DEVEL_DB_HOST }}
           db-port: ${{ secrets.DEVEL_DB_PORT }}
