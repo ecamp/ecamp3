@@ -13,7 +13,7 @@ use Laminas\Permissions\Acl\AclInterface;
 
 class Module {
     public function getConfig() {
-        $config = ConfigFactory::createConfig('TextList', true, 'ListItem');
+        $config = ConfigFactory::createConfig('TextList', true, 'TextListItem');
 
         array_push(
             $config['api-tools-rest']['eCamp\\ContentType\\TextList\\Controller\\TextListItemController']['collection_http_methods'],
