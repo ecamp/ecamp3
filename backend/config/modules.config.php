@@ -31,6 +31,7 @@ return [
     'eCampApi',
     'eCamp\\ContentType\\SingleText',
     'eCamp\\ContentType\\Storyboard',
+    'eCamp\\ContentType\\TextList',
     'AssetManager',
     'Laminas\DeveloperTools',
     'Laminas\\ApiTools\\Versioning',
