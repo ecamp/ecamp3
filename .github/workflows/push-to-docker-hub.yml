@@ -3,11 +3,19 @@ name: Push devel to Docker Hub
 on:
   repository_dispatch:
     types: [ ci-passed ]
-    branches: devel
 
 jobs:
+  only-on-main-branch:
+    name: Only on the main branch
+    if: ${{ 'refs/heads/devel' == github.event.client_payload.ref }}
+    runs-on: ubuntu-latest
+    steps:
+
+      - run: 'echo ${{ github.event.client_payload.ref }}'
+
   push-frontend-to-docker-hub:
     name: "Push frontend to Docker Hub"
+    needs: only-on-main-branch
     runs-on: ubuntu-latest
     steps:
 
@@ -25,6 +33,7 @@ jobs:
 
   push-backend-to-docker-hub:
     name: "Push backend to Docker Hub"
+    needs: only-on-main-branch
     runs-on: ubuntu-latest
     steps:
 
@@ -42,6 +51,7 @@ jobs:
 
   push-print-to-docker-hub:
     name: "Push print to Docker Hub"
+    needs: only-on-main-branch
     runs-on: ubuntu-latest
     steps:
 
@@ -59,6 +69,7 @@ jobs:
 
   push-worker-print-puppeteer-to-docker-hub:
     name: "Push worker-print-puppeteer to Docker Hub"
+    needs: only-on-main-branch
     runs-on: ubuntu-latest
     steps:
 
@@ -76,6 +87,7 @@ jobs:
 
   push-worker-print-weasy-to-docker-hub:
     name: "Push worker-print-weasy to Docker Hub"
+    needs: only-on-main-branch
     runs-on: ubuntu-latest
     steps:
 

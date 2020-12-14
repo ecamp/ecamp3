@@ -3,11 +3,19 @@ name: Deploy to dev.ecamp3.ch
 on:
   repository_dispatch:
     types: [ images-pushed ]
-    branches: devel
 
 jobs:
+  only-on-main-branch:
+    name: Only on the main branch
+    if: ${{ 'refs/heads/devel' == github.event.client_payload.ref }}
+    runs-on: ubuntu-latest
+    steps:
+
+      - run: 'echo ${{ github.event.client_payload.ref }}'
+
   deploy-to-dev-ecamp3-ch:
     name: "Deploy to dev.ecamp3.ch"
+    needs: only-on-main-branch
     runs-on: ubuntu-latest
     steps:
 
