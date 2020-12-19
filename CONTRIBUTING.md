@@ -1,9 +1,10 @@
 <h1><span lang="en">Contributing</span> / <span lang="de">Mitarbeit</span></h1>
 
-Thank you for wanting to help out! *Danke dass du mithelfen möchtest!*
+<span lang="en">Thank you for wanting to help out!</span> <em lang="de">Danke dass du mithelfen möchtest!</em>
+
+<em lang="de">Die <a link="#deutsch">deutsche Übersetzung</a> findest du weiter unten.</em>
 
 ## English
-*(deutsche Übersetzung weiter unten)*
 
 ### Git setup
 We use a triangular git workflow. This means that all changes are first pushed to a contributor's fork of the repository, and then the changes are merged into the main fork via a pull request. In practice, setting up this workflow looks as follows:
@@ -66,8 +67,6 @@ Alternatively you can
 * [x] Is the fork up-to-date with the central repository and can your changes be merged automatically?
 * [x] Did the GitHub Actions CI build run through without test failures?
 
-<section lang="de">
-    
 ## Deutsch
 
 ### Git einrichten
@@ -131,5 +130,3 @@ Alternativ kannst du
 * [x] Enthalten alle geänderten Dateien auch wirklich eine sinnvolle Änderung (im Gegensatz zu z.B. nur Whitespace-Änderungen)?
 * [x] Ist der Fork auf dem aktuellen Stand des zentralen Repositories und können die Änderungen automatisch gemerged werden?
 * [x] Ist der GitHub Actions CI-Build erfolgreich und ohne Test Failures durchgelaufen?
-
-</section>
