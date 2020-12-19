@@ -15,7 +15,8 @@ Admin screen of a camp: Displays details & periods of a single camp and allows t
                 class="ec-story-editable"
                 @click="$event.preventDefault()" />
     </v-card-actions>
-    <v-expansion-panels v-model="openPeriods" multiple flat>
+    <v-expansion-panels v-model="openPeriods" multiple
+                        flat accordion>
       <story-period v-for="period in camp().periods().items"
                     :key="period._meta.self"
                     :period="period"
