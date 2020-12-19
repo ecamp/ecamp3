@@ -43,11 +43,11 @@ Natürlich können auch weitere Konfigurationsdateien oder beliebige Dateien im 
 Es ist für jeden möglich, automatisch custom CI-Builds zu triggern wenn sich etwas im Haupt-Repo von eCamp ändert. Dafür muss ein Fork erstellt werden, der dann via GitHub Actions mit dem origin synchron gehalten wird.
 Der deployment-Branch des Forks sollte also durch den automatischen Sync immer den aktuellsten Stand des origin devels enthalten, plus ein paar wenige Commits (je weniger desto einfacher), die den Code im Repository um die Deployment-Konfiguration ergänzen. Die GitHub Actions Konfiguration muss im Haupt-Branch des Repositories liegen (bei uns `devel`).
 
-Ein Beispiel für die GitHub Actions Konfiguration findest du unter https://github.com/ecamp/ecamp3/tree/devel/.github/workflows/sync.yml
+Ein Beispiel für die GitHub Actions Sync-Konfiguration findest du unter https://github.com/ecamp/ecamp3/tree/devel/.github/workflows/sync.yml.example
 
-Ein Beispiel für die CI-Konfiguration findest du unter https://github.com/ecamp/ecamp3/tree/deploy-dev.ecamp3.ch/.travis.yml und https://github.com/ecamp/ecamp3/tree/deploy-dev.ecamp3.ch/.deployment
+Ein Beispiel für die CI-Konfiguration für automatisierte Deployments findest du unter https://github.com/ecamp/ecamp3/tree/devel/.github/workflows/deploy-dev.yml und https://github.com/ecamp/ecamp3/tree/devel/.github/actions/deploy
 
-### Warum nicht entweder Travis CI oder GitHub Actions? Warum beides?
-GitHub Actions kann sehr viel einfacher als Travis CI das Git-Repository abändern (rebasen und pushen). Wollte man dasselbe auf Travis machen, so müsste man ein service account token erstellen, mit dem Travis das Git-Repository verändern kann.
+### Drawbacks mit GitHub Actions
+Die GitHub Actions Konfiguration muss im Haupt-Branch des Repositories liegen. Ein Deploy-Branch der alle Deployment-Informationen gekapselt enthält ist somit leider nicht wirklich möglich.
 
-Travis CI hat hingegen unter anderem den Vorteil gegenüber GitHub Actions, dass branch-spezifische Build Secrets möglich sind. Bei GitHub Actions sind alle Secrets allen Branches zugänglich. Besonders wenn man vom gleichen Fork aus an mehrere Orte deployen möchte (z.B. Testumgebung und Produktionsumgebung) ist das ein Nachteil. Du kannst natürlich für dich auch GitHub Actions fürs CI verwenden, dabei können wir dich aber nicht unterstützen.
+In GitHub Actions können zudem keine Secrets pro Branch hinterlegt werden. Theoretisch sind alle Secrets allen Branches zugänglich. Daher prefixen wir die Secrets mit dem jeweiligen Branch-Namen, z.B. `DEVEL_SSH_PRIVATE_KEY`, `DEVEL_DB_HOST`, etc. und achten darauf, dass in jedem zu deployenden Branch in der Workflow-Konfiguration nur Secrets mit passendem Prefix verwendet werden.

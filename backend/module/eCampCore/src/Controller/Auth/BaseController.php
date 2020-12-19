@@ -132,7 +132,7 @@ abstract class BaseController extends AbstractActionController {
 
         // TODO: Redirect
 
-        die('logout');
+        exit('logout');
     }
 
     protected function getRedirect() {

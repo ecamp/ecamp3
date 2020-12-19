@@ -1,6 +1,6 @@
 <p align="center"><img width="320px" align="center" style="width:320px" src="https://raw.githubusercontent.com/ecamp/ecamp3/devel/logo.svg"/></p><br/>
 <p align="center">
-  <a href="https://travis-ci.com/ecamp/ecamp3"><img src="https://travis-ci.com/ecamp/ecamp3.svg?branch=devel" alt="Build Status"></a>
+  <a href="https://github.com/ecamp/ecamp3/actions?query=workflow%3ACI"><img src="https://github.com/ecamp/ecamp3/workflows/CI/badge.svg?branch=devel" alt="CI"></a>
   <a href="https://coveralls.io/github/ecamp/ecamp3?branch=devel"><img src="https://coveralls.io/repos/github/ecamp/ecamp3/badge.svg?branch=devel" alt="Coverage Status"></a>
   <a href="https://github.com/ecamp/ecamp3/blob/devel/LICENSE"><img src="https://badgen.net/github/license/ecamp/ecamp3" alt="License"></a>
 </p>
