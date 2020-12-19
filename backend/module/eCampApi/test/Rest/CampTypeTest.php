@@ -21,7 +21,7 @@ class CampTypeTest extends AbstractApiControllerTestCase {
 
     private $apiEndpoint = '/api/camp-types';
 
-    public function setUp() {
+    public function setUp(): void {
         parent::setUp();
 
         $userLoader = new UserTestData();

@@ -6,7 +6,8 @@ $config = ConfigFactory::createConfig('Activity', 'Activities');
 
 array_push(
     $config['api-tools-rest']['eCampApi\\V1\\Rest\\Activity\\Controller']['collection_query_whitelist'],
-    'campId'
+    'campId',
+    'periodId'
 );
 
 $config['api-tools-content-validation'] = [

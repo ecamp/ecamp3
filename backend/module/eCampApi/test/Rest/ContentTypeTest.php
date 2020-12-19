@@ -21,7 +21,7 @@ class ContentTypeTest extends AbstractApiControllerTestCase {
 
     private $apiEndpoint = '/api/content-types';
 
-    public function setUp() {
+    public function setUp(): void {
         parent::setUp();
 
         $userLoader = new UserTestData();

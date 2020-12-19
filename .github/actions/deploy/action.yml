@@ -1,0 +1,137 @@
+name: Deploy
+description: Deploy eCamp3
+inputs:
+
+  commit-sha:
+    description: 'The SHA commit id that will be deployed'
+    required: true
+
+  ssh-username:
+    description: 'The SSH username that will be used to log in to the server'
+    required: false
+    default: root
+
+  ssh-host:
+    description: 'The SSH server where to deploy'
+    required: true
+
+  ssh-directory:
+    description: 'The directory on the SSH server where to deploy'
+    required: false
+    default: ecamp3
+
+  db-host:
+    description: 'The URL of the database server'
+    required: false
+    default: db
+
+  db-port:
+    description: 'The port on which the database server listens'
+    required: false
+    default: '3306'
+
+  db-user:
+    description: 'The username that will be used to log in to the database'
+    required: false
+    default: ecamp3
+
+  db-pass:
+    description: 'The password that will be used to log in to the database'
+    required: false
+    default: ecamp3
+
+  db-name:
+    description: 'The database name in the database server'
+    required: false
+    default: ecamp3dev
+
+  session-cookie-domain:
+    description: 'The domain that will be used for the session cookie. All services should be on subdomains of this domain.'
+    required: true
+
+  backend-url:
+    description: 'The location of the API server'
+    required: true
+
+  internal-backend-url:
+    description: 'The internal address via which the API server can be reached'
+    required: false
+    default: 'http://backend/api'
+
+  frontend-url:
+    description: 'The location of the application'
+    required: true
+
+  print-server-url:
+    description: 'The location of the print service'
+    required: true
+
+  print-file-server-url:
+    description: 'The location of the file server'
+    required: true
+
+  sentry-dsn:
+    description: 'DSN for reporting backend errors to sentry'
+    required: false
+    default: ''
+
+  rabbitmq-host:
+    description: 'The URL of the RabbitMQ server'
+    required: false
+    default: rabbitmq
+
+  rabbitmq-port:
+    description: 'The port on which the RabbitMQ server listens'
+    required: false
+    default: '5672'
+
+  rabbitmq-vhost:
+    description: 'The vhost used on the RabbitMQ server for this application'
+    required: false
+    default: '/'
+
+  rabbitmq-user:
+    description: 'The username that will be used to log in to the RabbitMQ server'
+    required: false
+    default: guest
+
+  rabbitmq-pass:
+    description: 'The password that will be used to log in to the RabbitMQ server'
+    required: false
+    default: guest
+
+  version-link-template:
+    description: 'An URL template that is used to render the version link in the application'
+    required: false
+    default: 'https://github.com/ecamp/ecamp3/commits/{version}'
+
+runs:
+  using: "composite"
+  steps:
+
+    - run: .github/actions/deploy/deploy.sh
+      shell: bash
+      env:
+        COMMIT_SHA: ${{ inputs.commit-sha }}
+        SSH_PRIVATE_KEY: ${{ inputs.ssh-private-key }}
+        SSH_USERNAME: ${{ inputs.ssh-username }}
+        SSH_HOST: ${{ inputs.ssh-host }}
+        SSH_DIRECTORY: ${{ inputs.ssh-directory }}
+        DB_HOST: ${{ inputs.db-host }}
+        DB_PORT: ${{ inputs.db-port }}
+        DB_USER: ${{ inputs.db-user }}
+        DB_PASS: ${{ inputs.db-pass }}
+        DB_NAME: ${{ inputs.db-name }}
+        SESSION_COOKIE_DOMAIN: ${{ inputs.session-cookie-domain }}
+        BACKEND_URL: ${{ inputs.backend-url }}
+        INTERNAL_BACKEND_URL: ${{ inputs.internal-backend-url }}
+        FRONTEND_URL: ${{ inputs.frontend-url }}
+        PRINT_SERVER_URL: ${{ inputs.print-server-url }}
+        PRINT_FILE_SERVER_URL: ${{ inputs.print-file-server-url }}
+        SENTRY_DSN: ${{ inputs.sentry-dsn }}
+        RABBITMQ_HOST: ${{ inputs.rabbitmq-host }}
+        RABBITMQ_PORT: ${{ inputs.rabbitmq-port }}
+        RABBITMQ_VHOST: ${{ inputs.rabbitmq-vhost }}
+        RABBITMQ_USER: ${{ inputs.rabbitmq-user }}
+        RABBITMQ_PASS: ${{ inputs.rabbitmq-pass }}
+        VERSION_LINK_TEMPLATE: ${{ inputs.version-link-template }}

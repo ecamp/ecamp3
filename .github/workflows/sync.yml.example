@@ -2,11 +2,11 @@ name: sync
 
 on:
   schedule:
-  - cron: '20 * * * *' # Sync at 20 minutes past every full hour, to avoid peak load of GitHub actions
+  - cron: '0 * * * *' # Sync at every full hour
 
 jobs:
   sync-deploy:
-    name: Sync the deploy branch with devel
+    name: Sync the deploy branch with the upstream devel
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -14,5 +14,5 @@ jobs:
         with:
           upstream_url: "https://github.com/ecamp/ecamp3.git"
           upstream_branch: "devel"
-          branch: "deploy-dev.ecamp3.ch"
+          branch: "deploy"
           method: "rebase"
