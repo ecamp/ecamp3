@@ -7,7 +7,7 @@ on:
 
 jobs:
   backend-cs-check:
-    name: "Backend php-cs-fixer"
+    name: "Lint: Backend (php-cs-fixer)"
     runs-on: ubuntu-latest
     steps:
 
@@ -18,7 +18,7 @@ jobs:
           args: --dry-run --diff --config=backend/.php_cs
 
   frontend-eslint:
-    name: "Frontend ESLint"
+    name: "Lint: Frontend (ESLint)"
     runs-on: ubuntu-latest
     steps:
 
@@ -38,7 +38,7 @@ jobs:
         working-directory: frontend
 
   print-eslint:
-    name: "Print ESLint"
+    name: "Lint: Print (ESLint)"
     runs-on: ubuntu-latest
     steps:
 
@@ -58,7 +58,7 @@ jobs:
         working-directory: print
 
   backend-tests:
-    name: "Backend tests"
+    name: "Tests: Backend"
     runs-on: ubuntu-latest
     steps:
 
@@ -93,7 +93,7 @@ jobs:
           COVERALLS_FLAG_NAME: backend
 
   frontend-tests:
-    name: "Frontend tests"
+    name: "Tests: Frontend"
     runs-on: ubuntu-latest
     steps:
 
@@ -122,7 +122,7 @@ jobs:
           COVERALLS_FLAG_NAME: frontend
 
   e2e-tests:
-    name: "End-to-end tests"
+    name: "Tests: End-to-end"
     runs-on: ubuntu-latest
     steps:
 
