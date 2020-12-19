@@ -34,7 +34,7 @@ class MaterialItemTest extends AbstractApiControllerTestCase {
 
     private $apiEndpoint = '/api/material-items';
 
-    public function setUp() {
+    public function setUp(): void {
         parent::setUp();
 
         $userLoader = new UserTestData();
