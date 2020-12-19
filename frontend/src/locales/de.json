@@ -87,7 +87,7 @@
         "title": "Einstellungen"
       },
       "materialCreateItem": {
-        "noMaterialListAwailable": "Für dieses Lager sind noch keine Materiallisten erfasst. Du kannst diese unter 'Admin' erfassen."
+        "noMaterialListAvailable": "Für dieses Lager sind noch keine Materiallisten erfasst. Du kannst diese unter 'Admin' erfassen."
       },
       "picasso": {
         "moment": {

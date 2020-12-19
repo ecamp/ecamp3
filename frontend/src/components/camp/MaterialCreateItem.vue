@@ -57,7 +57,7 @@
   </div>
   <div v-else>
     <p>
-      {{ $t('components.camp.materialCreateItem.noMaterialListAwailable') }}
+      {{ $tc('components.camp.materialCreateItem.noMaterialListAvailable') }}
     </p>
     <v-btn :to="campRoute(camp, 'admin')">
       <v-icon :left="$vuetify.breakpoint.mdAndUp">mdi-cogs</v-icon>
