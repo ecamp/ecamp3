@@ -17,6 +17,7 @@ Displays a field as a e-textarea + write access via API wrapper
       :loading="wrapper.isSaving || wrapper.isLoading ? 'secondary' : false"
       :outlined="outlined"
       :filled="filled"
+      :dense="dense"
       @input="wrapper.on.input">
       <template #append>
         <api-wrapper-append :wrapper="wrapper" />

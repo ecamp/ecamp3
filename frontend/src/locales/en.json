@@ -36,6 +36,12 @@
   },
   "components": {
     "activity": {
+      "activityContent": {
+        "delete": "Delete",
+        "editName": "Rename",
+        "moveDown": "Move down",
+        "moveUp": "Move up"
+      },
       "createScheduleEntries": {
         "fields": {
           "duration": "Duration",
@@ -52,9 +58,30 @@
         "deleteActivityCategoryQuestion": "Do you really want do delete the Activity category?",
         "title": "Activity categories"
       },
+      "campInvitations": {
+        "title": "Invite"
+      },
+      "campMembers": {
+        "title": "Members"
+      },
       "campPeriods": {
         "createPeriod": "Create period",
         "title": "Period | Periods"
+      },
+      "campPeriodsListItem": {
+        "deleteWarning": "Do you really want to delete this period?"
+      },
+      "campPrint": {
+        "activities": "Activities",
+        "dailySummary": "Daily summary",
+        "frontpage": "Front page",
+        "openPrintPreview": "Open print preview",
+        "picasso": "Picasso",
+        "printNow": "Print now",
+        "selectPrintPreview": "Select print sections:",
+        "storyline": "Storyline",
+        "title": "Print",
+        "toc": "Table of content"
       },
       "campSettings": {
         "fields": {
@@ -64,10 +91,16 @@
         },
         "title": "Settings"
       },
+      "collaboratorListItem": {
+        "remove": "Remove"
+      },
       "picasso": {
         "moment": {
           "date": "dd. D.MM | D. MMM | DD. MMM YYYY"
         }
+      },
+      "storyDay": {
+        "noStory": "No story content found on this day..."
       }
     },
     "dialog": {
@@ -82,11 +115,19 @@
         "title": "Create period"
       }
     },
+    "layout": {
+      "authContainer": {
+        "photoCredits": "Photo by Markus Rohner / Lotos"
+      }
+    },
     "navigation": {
-      "myCamps": "My camp | My camps",
-      "profile": "Profile",
-      "search": "Search",
-      "searchActivitiesAndCamps": "Search activities and camps",
+      "searchDesktop": {
+        "search": "Search"
+      },
+      "searchMobile": {
+        "search": "Search",
+        "searchActivitiesAndCamps": "Search for activities and camps"
+      },
       "userMeta": {
         "logOut": "Log out",
         "myCamps": "My camp | My camps",
@@ -99,10 +140,11 @@
       "fields": {
         "activityCategory": "Activity category",
         "location": "Location",
+        "responsible": "responsible",
         "title": "Title"
       },
       "name": "Activity",
-      "new": "New Activity"
+      "new": "New activity"
     },
     "activityCategory": {
       "fields": {
@@ -115,13 +157,17 @@
       "name": "Activity categories",
       "numberingStyles": {
         "1": "1, 2, 3 - numbers",
-        "a": "a, b, c - lowercase letters",
         "A": "A, B, C - uppercase letters",
-        "i": "i, ii, iii - lowercase roman numerals",
-        "I": "I, II, III - uppercase roman numerals"
+        "a": "a, b, c - lowercase letters",
+        "I": "I, II, III - uppercase roman numerals",
+        "i": "i, ii, iii - lowercase roman numerals"
       }
     },
     "camp": {
+      "collaborators": {
+        "manager": "Manager",
+        "member": "Member"
+      },
       "fields": {
         "campType": "Camp type",
         "motto": "Motto",
@@ -168,11 +214,14 @@
   "global": {
     "button": {
       "add": "Add",
+      "addContentDesktop": "Add content",
       "back": "Back",
       "cancel": "Cancel",
+      "content": "Content",
       "create": "Create",
       "delete": "Delete",
       "edit": "Edit",
+      "ok": "Okay",
       "open": "Open",
       "save": "Save",
       "saving": "Saving",
@@ -182,10 +231,11 @@
     },
     "changeLanguage": "Change language",
     "language": "English",
+    "loading": "Loading …",
     "lokaliseMessage": "Language switching powered by lokalise.com",
     "moment": {
       "dateLong": "dd L",
-      "dateShort": "dd M\/D",
+      "dateShort": "dd M/D",
       "hourLong": "HH:mm",
       "hourShort": "h:mm A"
     },
@@ -198,8 +248,8 @@
   },
   "views": {
     "activity": {
-      "sidebarProgram": {
-        "name": "Daily overview"
+      "sideBarProgram": {
+        "title": "Activities on this day"
       }
     },
     "auth": {
@@ -207,6 +257,9 @@
         "accountless": "Don't have an account yet?",
         "beta": {
           "notice": "This is the site of the new eCamp.<br>IMPORTANT: This website is under construction. This means that all data is public and will be deleted periodically!"
+        },
+        "loginCallback": {
+          "loginInProgress": "You will be logged in"
         },
         "or": "or",
         "password": "Password",
@@ -227,6 +280,11 @@
         "passwordConfirmation": "Enter Password again",
         "register": "Register",
         "title": "Create an account"
+      },
+      "registerDone": {
+        "login": "Login",
+        "success": "Successfully registered",
+        "title": "Create account"
       }
     },
     "camp": {
@@ -241,8 +299,23 @@
         "search": "Search...",
         "title": "Team"
       },
+      "navigationCamp": {
+        "admin": "Admin",
+        "campIsLoading": "Camp is loading",
+        "material": "Materials",
+        "print": "Print",
+        "story": "Story",
+        "tasks": "Tasks",
+        "team": "Team"
+      },
+      "print": {
+        "title": "Print"
+      },
       "sideBarPeriods": {
         "title": "Periods"
+      },
+      "story": {
+        "title": "Story"
       }
     },
     "campCreate": {
@@ -261,6 +334,11 @@
       "home": "Home",
       "myCamps": "My Camp | My Camps",
       "welcome": "Hello {user}. Welcome on eCamp"
+    },
+    "navigationDefault": {
+      "home": "Homepage",
+      "myCamps": "My camp | My camps",
+      "profile": "Profile"
     },
     "profile": {
       "profile": "Profile"

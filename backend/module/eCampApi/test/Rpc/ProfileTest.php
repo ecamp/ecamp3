@@ -16,7 +16,7 @@ class ProfileTest extends AbstractApiControllerTestCase {
 
     private $apiEndpoint = '/api/profile';
 
-    public function setUp() {
+    public function setUp(): void {
         parent::setUp();
 
         $userLoader = new UserTestData();
@@ -44,7 +44,8 @@ class ProfileTest extends AbstractApiControllerTestCase {
                 "mail": "test@ecamp3.dev",
                 "role": "user",
                 "language": null,
-                "birthday": null
+                "birthday": null,
+                "isAdmin": false
             }
 JSON;
 
@@ -73,7 +74,7 @@ JSON;
             'surname' => 'surname',
             'nickname' => 'nickname',
             'language' => 'EN',
-            'birthday' => '01.07.1990',
+            'birthday' => '1990-07-01',
         ]);
 
         $this->dispatch("{$this->apiEndpoint}", 'PATCH');

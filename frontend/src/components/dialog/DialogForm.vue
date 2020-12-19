@@ -1,8 +1,10 @@
 <template>
   <v-dialog
+    eager
     v-bind="$attrs"
     :value="value"
-    v-on="$listeners">
+    v-on="$listeners"
+    @input="onInput">
     <template v-slot:activator="scope">
       <slot name="activator" v-bind="scope" />
     </template>
@@ -107,6 +109,12 @@ export default {
     doCancel () {
       this.isSaving = false
       this.cancelAction()
+    },
+    onInput (event) {
+      // perform cancel action if dialog is dismissed without using the Cancel button
+      if (event === false) {
+        this.doCancel()
+      }
     }
   }
 }

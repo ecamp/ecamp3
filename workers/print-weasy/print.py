@@ -5,15 +5,11 @@ from weasyprint import HTML
 import pika
 import json
 import requests
-import os
+import sys
 
-PRINT_SERVER = os.getenv('PRINT_SERVER', 'http://print:3000/') 
+from urllib.parse import urlencode
 
-AMQP_HOST = os.getenv('AMQP_HOST', 'rabbitmq') 
-AMQP_PORT = os.getenv('AMQP_PORT', '5672') 
-AMQP_VHOST = os.getenv('AMQP_VHOST', '/') 
-AMQP_USER = os.getenv('AMQP_USER', 'guest') 
-AMQP_PASS = os.getenv('AMQP_PASS', 'guest') 
+from environment import *
 
 # create custom URL fetcher to include cookie
 def url_fetcher_factory(sessionId):
@@ -47,10 +43,12 @@ def worker_callback(ch, method, properties, body):
         filename = message['filename']
         PHPSESSID = message['PHPSESSID']
 
-        HTML(f'{PRINT_SERVER}?camp={campId}', url_fetcher=url_fetcher_factory(PHPSESSID)).write_pdf(f'./data/{filename}-weasy.pdf')
+        queryString = urlencode(message['config'])
+
+        HTML(f'{PRINT_SERVER}?camp={campId}&{queryString}', url_fetcher=url_fetcher_factory(PHPSESSID)).write_pdf(f'./data/{filename}-weasy.pdf')
 
     except:
-        print(" Unexpected error while processing message")
+        print(" Unexpected error while processing message", sys.exc_info())
 
     channel.basic_ack(delivery_tag=method.delivery_tag)
 

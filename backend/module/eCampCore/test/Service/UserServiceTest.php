@@ -89,16 +89,14 @@ class UserServiceTest extends AbstractDatabaseTestCase {
             /**
              * @param User $other
              */
-            protected function matches($other) {
+            protected function matches($other): bool {
                 return $other instanceof User && $other->getId() == $this->user->getId();
             }
 
             /**
              * @param User $other
-             *
-             * @return string
              */
-            protected function failureDescription($other) {
+            protected function failureDescription($other): string {
                 return sprintf(
                     ' the id of the %s [id=%s, username=%s, email= %s] should be %s, was %s',
                     User::class,
@@ -110,7 +108,7 @@ class UserServiceTest extends AbstractDatabaseTestCase {
                 );
             }
 
-            public function toString() {
+            public function toString(): string {
                 return sprintf(
                     ' has the same id as %s [id=%s, username=%s, email= %s]',
                     User::class,

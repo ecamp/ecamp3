@@ -20,7 +20,7 @@ class CampTest extends AbstractApiControllerTestCase {
     /** @var User */
     protected $user;
 
-    public function setUp() {
+    public function setUp(): void {
         parent::setUp();
 
         $userLoader = new UserTestData();
@@ -59,6 +59,9 @@ JSON;
                 },
                 "activities": {
                     "href": "http://{$this->host}/api/activities?campId={$this->camp->getId()}"
+                },
+                "materialLists": {
+                    "href": "http://{$this->host}/api/material-lists?campId={$this->camp->getId()}"
                 }
             }
 JSON;

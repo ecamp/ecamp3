@@ -17,7 +17,7 @@ use Laminas\View\Helper\Url;
 class LinkExtractorTest extends AbstractTestCase {
     private $linkExtractor;
 
-    public function setUp() {
+    public function setUp(): void {
         parent::setUp();
 
         $router = TreeRouteStack::factory([

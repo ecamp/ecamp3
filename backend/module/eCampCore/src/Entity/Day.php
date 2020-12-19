@@ -62,4 +62,21 @@ class Day extends BaseEntity implements BelongsToCampInterface {
     public function getDayNumber() {
         return $this->dayOffset + 1;
     }
+
+    /**
+     * Returns all scheduleEntries which start on the current day (using midnight as cut-time).
+     *
+     * @return ArrayCollection
+     */
+    public function getScheduleEntries() {
+        $dayOffset = $this->getDayOffset();
+
+        return $this->period->getScheduleEntries()->filter(
+            // filters all scheduleEntries which start on the current day
+            function (ScheduleEntry $scheduleEntry) use ($dayOffset) {
+                return $scheduleEntry->getPeriodOffset() >= $dayOffset * 24 * 60              // after midnight of current day
+                        && $scheduleEntry->getPeriodOffset() < ($dayOffset + 1) * 24 * 60;    // before midnight of next day
+            }
+        );
+    }
 }

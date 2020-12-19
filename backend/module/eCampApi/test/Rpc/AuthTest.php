@@ -16,7 +16,7 @@ class AuthTest extends AbstractApiControllerTestCase {
 
     private $apiEndpoint = '/api/auth';
 
-    public function setUp() {
+    public function setUp(): void {
         parent::setUp();
 
         $userLoader = new UserTestData();

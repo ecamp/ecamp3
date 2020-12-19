@@ -2,19 +2,26 @@
   <div>
     <v-skeleton-loader v-if="camp()._meta.loading" type="article" />
     <div v-else>
+      <h3>{{ $tc('components.camp.campPrint.selectPrintPreview') }}</h3>
+      <e-checkbox v-model="config.showFrontpage" :name="$tc('components.camp.campPrint.frontpage')" />
+      <e-checkbox v-model="config.showToc" :name="$tc('components.camp.campPrint.toc')" />
+      <e-checkbox v-model="config.showPicasso" :name="$tc('components.camp.campPrint.picasso')" />
+      <e-checkbox v-model="config.showStoryline" :name="$tc('components.camp.campPrint.storyline')" />
+      <e-checkbox v-model="config.showDailySummary" :name="$tc('components.camp.campPrint.dailySummary')" />
+      <e-checkbox v-model="config.showActivities" :name="$tc('components.camp.campPrint.activities')" />
+
       <v-btn color="primary" class="mt-5"
              :href="previewUrl"
              target="_blank">
-        Open print preview
+        {{ $tc('components.camp.campPrint.openPrintPreview') }}
       </v-btn>
       <v-btn
         color="primary"
         class="mt-5 ml-5"
         :loading="printing"
         @click="print">
-        Print now
+        {{ $tc('components.camp.campPrint.printNow') }}
       </v-btn>
-
       <print-downloader
         v-for="result in results"
         :key="result.filename"
@@ -43,19 +50,32 @@ export default {
   data () {
     return {
       printing: false,
-      results: []
+      results: [],
+      config: {
+        showFrontpage: true,
+        showToc: true,
+        showPicasso: true,
+        showDailySummary: true,
+        showStoryline: true,
+        showActivities: true
+      }
     }
   },
   computed: {
     previewUrl () {
-      return `${PRINT_SERVER}/?camp=${this.camp().id}&pagedjs=true`
+      const configGetParams = Object.entries(this.config).map(([key, val]) => `${key}=${val}`).join('&')
+      return `${PRINT_SERVER}/?camp=${this.camp().id}&pagedjs=true&${configGetParams}&lang=${this.lang}`
+    },
+    lang () {
+      return this.$store.state.lang.language
     }
   },
   methods: {
     async print () {
       this.printing = true
       const result = await this.api.post('/printer', {
-        campId: this.camp().id
+        campId: this.camp().id,
+        config: { ...this.config, lang: this.lang }
       })
       this.printing = false
       this.results.push({

@@ -26,7 +26,7 @@ class ActivityTypeTest extends AbstractApiControllerTestCase {
 
     private $apiEndpoint = '/api/activity-types';
 
-    public function setUp() {
+    public function setUp(): void {
         parent::setUp();
 
         $userLoader = new UserTestData();

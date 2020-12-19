@@ -9,9 +9,9 @@ Listing all given activity schedule entries in a calendar view.
       v-model="value"
       v-resize="resize"
       class="ec-picasso"
-      :events="events"
-      :event-name="getActivityName | loading('Lädt…', ({ input }) => isActivityLoading(input))"
-      :event-color="getActivityColor | loading('grey lighten-2', (entry) => isActivityLoading(entry))"
+      :events="scheduleEntriesWithTemporary"
+      :event-name="getActivityName"
+      :event-color="getActivityColor"
       event-start="startTime"
       event-end="endTime"
       :interval-height="intervalHeight"
@@ -47,12 +47,14 @@ Listing all given activity schedule entries in a calendar view.
              class="v-current-time" :style="{ top: nowY }" />
       </template>
       <template #event="{event, eventParsed, timed}">
-        <v-btn v-if="!event.tmpEvent" absolute
+        <v-btn v-if="!event.tmpEvent && dialogActivityEdit" absolute
                top
                right x-small
                dark text
                class="ec-event--btn rounded-sm"
-               @click.stop="showEntryInfoPopup(event)">
+               @click.stop="showEntryInfoPopup(event)"
+               @mousedown.stop=""
+               @mouseup.stop="">
           <v-icon x-small>mdi-pencil</v-icon>
         </v-btn>
         <h4>{{ getActivityName(event) }}</h4>
@@ -73,30 +75,15 @@ Listing all given activity schedule entries in a calendar view.
         {{ $tc('global.button.saving') }}
       </template>
     </v-snackbar>
-
-    <dialog-activity-create
-      ref="dialogActivityCreate"
-      :schedule-entry="popupEntry"
-      @activityCreated="afterCreateActivity($event)"
-      @creationCanceled="cancelNewActivity" />
-    <dialog-activity-edit
-      ref="dialogActivityEdit"
-      :schedule-entry="popupEntry" />
   </div>
 </template>
 <script>
 import { scheduleEntryRoute } from '@/router'
 import { isCssColor } from 'vuetify/lib/util/colorUtils'
-import DialogActivityCreate from '@/components/dialog/DialogActivityCreate'
-import DialogActivityEdit from '@/components/dialog/DialogActivityEdit'
 import { defineHelpers } from '@/components/scheduleEntry/dateHelperLocal'
 
 export default {
   name: 'Picasso',
-  components: {
-    DialogActivityCreate,
-    DialogActivityEdit
-  },
   props: {
     period: {
       type: Function,
@@ -119,13 +106,25 @@ export default {
       type: Number,
       required: false,
       default: 42
+    },
+    dialogActivityCreate: {
+      type: Function,
+      required: false,
+      default: () => {}
+    },
+    dialogActivityEdit: {
+      type: Function,
+      required: false,
+      default: () => {}
+    },
+    scheduleEntries: {
+      type: Array,
+      required: true
     }
   },
   data () {
     return {
-      scheduleEntries: [],
       tempScheduleEntry: {},
-      popupEntry: {},
       maxDays: 100,
       entryWidth: 80,
       value: '',
@@ -137,11 +136,13 @@ export default {
       draggedStartTime: null,
       currentStartTime: null,
       extendOriginal: null,
-      nativeTarget: null
+      nativeTarget: null,
+      openedInNewTab: false,
+      activitiesLoading: true
     }
   },
   computed: {
-    events () {
+    scheduleEntriesWithTemporary () {
       if (this.tempScheduleEntry && this.tempScheduleEntry.tmpEvent) {
         return this.scheduleEntries.concat(this.tempScheduleEntry)
       } else {
@@ -169,40 +170,31 @@ export default {
     nowY () {
       return this.$refs.calendar ? this.$refs.calendar.timeToY(this.now) + 'px' : '-10px'
     },
-    apiScheduleEntries () {
-      return this.period().scheduleEntries()
-    },
     camp () {
       return this.period().camp()
     }
   },
-  watch: {
-    apiScheduleEntries (value) {
-      this.scheduleEntries = value.items.map(entry => defineHelpers(entry, true))
-    }
-  },
-  beforeMount () {
-    this.scheduleEntries = this.apiScheduleEntries.items.map(entry => defineHelpers(entry, true))
+  mounted () {
+    this.api.get().activities({ periodId: this.period().id })._meta.load.then(() => { this.activitiesLoading = false })
   },
   methods: {
     resize () {
       const widthIntervals = 46
       this.entryWidth = Math.max((this.$refs.calendar.$el.offsetWidth - widthIntervals) / this.$refs.calendar.days.length, 80)
     },
-    getActivityCategory (scheduleEntry, _) {
-      return scheduleEntry.activity().activityCategory()
-    },
     getActivityName (scheduleEntry, _) {
+      if (this.isActivityLoading(scheduleEntry)) return this.$tc('global.loading')
       return (scheduleEntry.number ? '(' + scheduleEntry.number + ') ' : '') +
         (scheduleEntry.activity().activityCategory().short ? scheduleEntry.activity().activityCategory().short + ': ' : '') +
         scheduleEntry.activity().title
     },
     getActivityColor (scheduleEntry, _) {
+      if (this.isActivityLoading(scheduleEntry)) return 'grey lighten-2'
       const color = scheduleEntry.activity().activityCategory().color
       return isCssColor(color) ? color : color + ' elevation-4 v-event--temporary'
     },
     isActivityLoading (scheduleEntry) {
-      return scheduleEntry.activity()._meta ? scheduleEntry.activity()._meta.loading : false
+      return this.activitiesLoading || (scheduleEntry.activity()._meta ? scheduleEntry.activity()._meta.loading : false)
     },
     intervalFormat (time) {
       return this.$moment.utc(time.date + ' ' + time.time).format(this.$tc('global.moment.hourLong'))
@@ -216,7 +208,7 @@ export default {
     },
     scheduleEntryRoute,
     showScheduleEntry (entry) {
-      this.$router.push(scheduleEntryRoute(this.camp, entry))
+      this.$router.push(scheduleEntryRoute(this.camp, entry)).catch(() => {})
     },
     showScheduleEntryInNewTab (entry) {
       const routeData = this.$router.resolve(scheduleEntryRoute(this.camp, entry))
@@ -226,15 +218,10 @@ export default {
       return ''
     },
     entryMouseDown ({ event: entry, timed, nativeEvent }) {
-      if (!entry.tmpEvent && nativeEvent.detail === 2) {
-        // Doubleclick opens activity
-        this.showScheduleEntry(entry)
-      } else if (!entry.tmpEvent && (nativeEvent.button === 1 || nativeEvent.metaKey || nativeEvent.ctrlKey)) {
+      if (!entry.tmpEvent && (nativeEvent.button === 1 || nativeEvent.metaKey || nativeEvent.ctrlKey)) {
         // Click with middle mouse button, or click while holding cmd/ctrl opens new tab
         this.showScheduleEntryInNewTab(entry)
-        this.openEntry = true
-      } else if (this.openEntry) {
-
+        this.openedInNewTab = true
       } else {
         if (entry && timed) {
           this.draggedEntry = entry
@@ -245,6 +232,10 @@ export default {
     },
     timeMouseDown (tms) {
       const mouse = this.toTime(tms)
+      if (this.openedInNewTab) {
+        this.openedInNewTab = false
+        return
+      }
 
       if (this.mouseStartTime === null) {
         this.mouseStartTime = mouse
@@ -319,7 +310,7 @@ export default {
         const threshold = minuteThreshold * 60 * 1000
         const now = this.toTime(tms)
         if (Math.abs(now - this.mouseStartTime) < threshold) {
-          this.showEntryInfoPopup(this.draggedEntry)
+          this.showScheduleEntry(this.draggedEntry)
         } else if (!this.draggedEntry.tmpEvent) {
           const patchedScheduleEntry = {
             periodOffset: this.draggedEntry.periodOffset,
@@ -384,22 +375,11 @@ export default {
       this.clearDraggedEntry()
     },
     showEntryInfoPopup (entry) {
-      this.popupEntry = entry
-      this.$nextTick().then(() => {
-        if (entry._meta) {
-          this.$refs.dialogActivityEdit.showDialog = true
-        } else {
-          this.$refs.dialogActivityCreate.showDialog = true
-        }
-      })
-    },
-    afterCreateActivity (data) {
-      this.api.reload(this.period().scheduleEntries())
-      this.scheduleEntries.push(...data.scheduleEntries().items.map(entry => defineHelpers(entry, true)))
-      this.tempScheduleEntry = null
-    },
-    cancelNewActivity () {
-      this.tempScheduleEntry = null
+      if (entry._meta) {
+        this.dialogActivityEdit(entry)
+      } else {
+        this.dialogActivityCreate(entry, () => { this.tempScheduleEntry = null })
+      }
     },
     roundTimeDown (time) {
       const roundTo = 15 // minutes
@@ -477,7 +457,6 @@ export default {
   min-width: 20px !important;
   top: 0 !important;
   right: 0 !important;
-  opacity: 0;
 }
 
 .ec-daily_head-day-label {

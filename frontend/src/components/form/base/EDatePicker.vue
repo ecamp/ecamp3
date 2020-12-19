@@ -21,8 +21,8 @@ Displays a field as a date picker (can be used with v-model)
         scrollable
         @input="picker.on.input">
         <v-spacer />
-        <v-btn text color="primary" @click="picker.on.close">Cancel</v-btn>
-        <v-btn text color="primary" @click="picker.on.save">OK</v-btn>
+        <v-btn text color="primary" @click="picker.on.close">{{ $tc('global.button.cancel') }}</v-btn>
+        <v-btn text color="primary" @click="picker.on.save">{{ $tc('global.button.ok') }}</v-btn>
       </v-date-picker>
     </template>
 
@@ -42,7 +42,7 @@ export default {
   props: {
     value: { type: [String, Number], required: true },
     icon: { type: String, required: false, default: 'mdi-calendar' },
-    valueFormat: { type: [String, Array], default: 'YYYY-MM-DDTHH:mm:ssZ' }
+    valueFormat: { type: [String, Array], default: 'YYYY-MM-DD' }
   },
   methods: {
     format (val) {

@@ -2,8 +2,11 @@
 
 namespace eCamp\Lib;
 
+use Doctrine\DBAL\Types\Type;
 use eCamp\Lib\Hal\CollectionRenderer;
 use eCamp\Lib\ServiceManager\EntityFilterManagerFactory;
+use eCamp\Lib\Types\Doctrine\DateTimeUtcType;
+use eCamp\Lib\Types\Doctrine\DateUtcType;
 use Laminas\EventManager\EventManager;
 use Laminas\ModuleManager\Feature\InitProviderInterface;
 use Laminas\ModuleManager\ModuleManagerInterface;
@@ -24,6 +27,9 @@ class Module implements InitProviderInterface {
         $app = $e->getApplication();
         /** @var EventManager $events */
         $events = $app->getEventManager();
+
+        Type::overrideType('date', DateUtcType::class);
+        Type::overrideType('datetime', DateTimeUtcType::class);
 
         (new CollectionRenderer())->attach($events);
     }

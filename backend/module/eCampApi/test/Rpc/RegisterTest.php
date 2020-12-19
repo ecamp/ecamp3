@@ -13,7 +13,7 @@ class RegisterTest extends AbstractApiControllerTestCase {
         $this->dispatch('/api/register', 'POST');
 
         $this->assertResponseStatusCode(400);
-        $this->assertContains('No username', $this->getResponseContent()->detail);
+        $this->assertStringContainsString('No username', $this->getResponseContent()->detail);
     }
 
     public function testRegisterWithoutEmail() {
@@ -24,7 +24,7 @@ class RegisterTest extends AbstractApiControllerTestCase {
         $this->dispatch('/api/register', 'POST');
 
         $this->assertResponseStatusCode(400);
-        $this->assertContains('No eMail', $this->getResponseContent()->detail);
+        $this->assertStringContainsString('No eMail', $this->getResponseContent()->detail);
     }
 
     public function testRegisterWithoutPassword() {
@@ -35,7 +35,7 @@ class RegisterTest extends AbstractApiControllerTestCase {
         $this->dispatch('/api/register', 'POST');
 
         $this->assertResponseStatusCode(400);
-        $this->assertContains('No password', $this->getResponseContent()->detail);
+        $this->assertStringContainsString('No password', $this->getResponseContent()->detail);
     }
 
     public function testRegisterSuccess() {

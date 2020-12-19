@@ -16,7 +16,7 @@ class UserTest extends AbstractApiControllerTestCase {
 
     private $apiEndpoint = '/api/users';
 
-    public function setUp() {
+    public function setUp(): void {
         parent::setUp();
 
         $userLoader = new UserTestData();
@@ -38,6 +38,7 @@ class UserTest extends AbstractApiControllerTestCase {
             {
                 "id": "{$this->user->getId()}",
                 "username": "test-user",
+                "displayName": "test-user",
                 "mail": "test@ecamp3.dev",
                 "relation": "me",
                 "role": "user"

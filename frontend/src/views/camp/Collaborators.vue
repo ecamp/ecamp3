@@ -35,7 +35,7 @@ Displays collaborators of a single camp.
           hide-details
           prepend-icon="mdi-account-search"
           single-line
-          :placeholder="$tc('views.camp.collaborators.search')"
+          :placeholder="$tc('global.button.search')"
           @focus="loadingResults = true"
           @blur="loadingResults = false" />
 
@@ -47,7 +47,7 @@ Displays collaborators of a single camp.
               <v-img src="https://i.pravatar.cc/300" />
             </v-list-item-avatar>
             <v-list-item-content>
-              <v-list-item-title>{{ result.username }}</v-list-item-title>
+              <v-list-item-title>{{ result.displayName }}</v-list-item-title>
               <v-list-item-subtitle>{{ result.mail }}</v-list-item-subtitle>
             </v-list-item-content>
             <v-list-item-action>

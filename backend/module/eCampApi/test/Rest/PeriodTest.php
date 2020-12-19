@@ -19,7 +19,7 @@ class PeriodTest extends AbstractApiControllerTestCase {
     /** @var User */
     protected $user;
 
-    public function setUp() {
+    public function setUp(): void {
         parent::setUp();
 
         $userLoader = new UserTestData();
@@ -45,8 +45,8 @@ class PeriodTest extends AbstractApiControllerTestCase {
             {
                 "id": "{$this->period->getId()}",
                 "description": "Period1",
-                "start": "2000-01-01T00:00:00+00:00",
-                "end": "2000-01-03T00:00:00+00:00"
+                "start": "2000-01-01",
+                "end": "2000-01-13"
             }
 JSON;
 
@@ -60,6 +60,8 @@ JSON;
         $expectedEmbeddedObjects = ['camp', 'days', 'scheduleEntries'];
 
         $this->verifyHalResourceResponse($expectedBody, $expectedLinks, $expectedEmbeddedObjects);
+
+        $this->assertCount(13, $this->getResponseContent()->_embedded->days);
     }
 
     public function testFetchAll() {
@@ -88,8 +90,8 @@ JSON;
     public function testCreateWithoutCamp() {
         $this->setRequestContent([
             'description' => '',
-            'start' => '2000-07-05T00:00:00+00:00',
-            'end' => '2000-07-08T00:00:00+00:00',
+            'start' => '2000-07-05',
+            'end' => '2000-07-08',
             'campId' => 'xxx', ]);
 
         $this->dispatch('/api/periods', 'POST');
@@ -101,26 +103,26 @@ JSON;
     public function testCreateSuccess() {
         $this->setRequestContent([
             'description' => '',
-            'start' => '2000-07-05T00:00:00+00:00',
-            'end' => '2000-07-08T00:00:00+00:00',
+            'start' => '2000-07-05',
+            'end' => '2000-07-08',
             'campId' => $this->period->getCamp()->getId(), ]);
 
         $this->dispatch('/api/periods', 'POST');
 
         $this->assertResponseStatusCode(201);
-        $this->assertEquals('2000-07-05T00:00:00+00:00', $this->getResponseContent()->start);
+        $this->assertEquals('2000-07-05', $this->getResponseContent()->start);
     }
 
     public function testUpdateSuccess() {
         $this->setRequestContent([
-            'start' => '1999-12-15T00:00:00+00:00', ]);
+            'start' => '1999-12-15', ]);
 
         $this->dispatch("/api/periods/{$this->period->getId()}", 'PATCH');
 
         $this->assertResponseStatusCode(200);
 
-        $this->assertEquals('1999-12-15T00:00:00+00:00', $this->getResponseContent()->start);
-        $this->assertEquals('2000-01-03T23:59:59+00:00', $this->getResponseContent()->end);
+        $this->assertEquals('1999-12-15', $this->getResponseContent()->start);
+        $this->assertEquals('2000-01-13', $this->getResponseContent()->end);
     }
 
     public function testDelete() {

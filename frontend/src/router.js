@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import slugify from 'slugify'
 import { refreshLoginStatus } from '@/plugins/auth'
-import { get } from '@/plugins/store/apiPlugin'
+import { apiStore } from '@/plugins/store'
 
 Vue.use(Router)
 
@@ -100,8 +100,9 @@ export default new Router({
         default: () => import(/* webpackChunkName: "camp" */ './views/camp/Camp'),
         aside: () => import(/* webpackChunkName: "periods" */ './views/camp/SideBarPeriods')
       },
-      beforeEnter: requireAuth,
+      beforeEnter: all([requireAuth, requireCamp]),
       props: {
+        navigation: route => ({ camp: campFromRoute(route) }),
         default: route => ({ camp: campFromRoute(route), period: periodFromRoute(route) }),
         aside: route => ({ camp: campFromRoute(route), period: periodFromRoute(route) })
       },
@@ -119,7 +120,8 @@ export default new Router({
         {
           path: 'period/:periodId/:periodTitle?',
           name: 'camp/period',
-          component: () => import(/* webpackChunkName: "campProgram" */ './views/camp/CampProgram')
+          component: () => import(/* webpackChunkName: "campProgram" */ './views/camp/CampProgram'),
+          beforeEnter: requirePeriod
         },
         {
           path: 'print',
@@ -127,12 +129,22 @@ export default new Router({
           component: () => import(/* webpackChunkName: "campPrint" */ './views/camp/Print')
         },
         {
+          path: 'story',
+          name: 'camp/story',
+          component: () => import(/* webpackChunkName: "campPrint" */ './views/camp/Story')
+        },
+        {
           path: '',
           name: 'camp/program',
           async beforeEnter (to, from, next) {
             const period = await firstFuturePeriod(to)
-            await period.camp()._meta.load
-            next(periodRoute(period))
+            if (period) {
+              await period.camp()._meta.load
+              next(periodRoute(period))
+            } else {
+              const camp = await apiStore.get().camps({ campId: to.params.campId })
+              next(campRoute(camp, 'admin'))
+            }
           }
         }
       ]
@@ -147,12 +159,35 @@ export default new Router({
       },
       beforeEnter: requireAuth,
       props: {
+        navigation: route => ({ camp: campFromRoute(route) }),
         default: route => ({ scheduleEntry: scheduleEntryFromRoute(route) }),
         aside: route => ({ day: dayFromScheduleEntryInRoute(route) })
       }
     }
   ]
 })
+
+function evaluateGuards (guards, to, from, next) {
+  const guardsLeft = guards.slice(0)
+  const nextGuard = guardsLeft.shift()
+
+  if (nextGuard === undefined) {
+    next()
+    return
+  }
+
+  nextGuard(to, from, nextArg => {
+    if (nextArg === undefined) {
+      evaluateGuards(guardsLeft, to, from, next)
+      return
+    }
+    next(nextArg)
+  })
+}
+
+function all (guards) {
+  return (to, from, next) => evaluateGuards(guards, to, from, next)
+}
 
 function requireAuth (to, from, next) {
   refreshLoginStatus(false).then(loggedIn => {
@@ -161,6 +196,22 @@ function requireAuth (to, from, next) {
     } else {
       next({ name: 'login', query: to.path === '/' ? {} : { redirect: to.fullPath } })
     }
+  })
+}
+
+async function requireCamp (to, from, next) {
+  await campFromRoute(to).call({ api: { get: apiStore.get } })._meta.load.then(() => {
+    next()
+  }).catch(() => {
+    next({ name: 'home' })
+  })
+}
+
+async function requirePeriod (to, from, next) {
+  await periodFromRoute(to).call({ api: { get: apiStore.get } })._meta.load.then(() => {
+    next()
+  }).catch(() => {
+    next(campRoute(campFromRoute(to).call({ api: { get: apiStore.get } })))
   })
 }
 
@@ -222,7 +273,7 @@ export function scheduleEntryRoute (camp, scheduleEntry) {
 }
 
 async function firstFuturePeriod (route) {
-  const periods = await get().camps({ campId: route.params.campId }).periods()._meta.load
+  const periods = await apiStore.get().camps({ campId: route.params.campId }).periods()._meta.load
   // Return the first period that hasn't ended, or if no such period exists, return the first period
   return periods.items.find(period => new Date(period.end) >= new Date()) || periods.items.find(_ => true)
 }

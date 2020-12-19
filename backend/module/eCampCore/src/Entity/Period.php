@@ -5,6 +5,7 @@ namespace eCamp\Core\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use eCamp\Lib\Entity\BaseEntity;
+use eCamp\Lib\Types\DateUtc;
 
 /**
  * @ORM\Entity
@@ -25,6 +26,12 @@ class Period extends BaseEntity implements BelongsToCampInterface {
     protected $scheduleEntries;
 
     /**
+     * @var ArrayCollection
+     * @ORM\OneToMany(targetEntity="MaterialItem", mappedBy="period")
+     */
+    protected $materialItems;
+
+    /**
      * @var Camp
      * @ORM\ManyToOne(targetEntity="Camp")
      * @ORM\JoinColumn(nullable=false, onDelete="cascade")
@@ -32,13 +39,13 @@ class Period extends BaseEntity implements BelongsToCampInterface {
     private $camp;
 
     /**
-     * @var \DateTime
+     * @var DateUtc
      * @ORM\Column(type="date", nullable=false)
      */
     private $start;
 
     /**
-     * @var \DateTime
+     * @var DateUtc
      * @ORM\Column(type="date", nullable=false)
      */
     private $end;
@@ -54,6 +61,7 @@ class Period extends BaseEntity implements BelongsToCampInterface {
 
         $this->days = new ArrayCollection();
         $this->scheduleEntries = new ArrayCollection();
+        $this->materialItems = new ArrayCollection();
     }
 
     /**
@@ -68,17 +76,14 @@ class Period extends BaseEntity implements BelongsToCampInterface {
     }
 
     /**
-     * @return \DateTime
+     * @return DateUtc
      */
     public function getStart() {
         return (null !== $this->start) ? (clone $this->start) : null;
     }
 
-    public function setStart(\DateTime $start): void {
-        $start = clone $start;
-        $start->setTime(0, 0, 0);
-
-        $this->start = $start;
+    public function setStart(DateUtc $start): void {
+        $this->start = clone $start;
 
         if (null != $this->end && $this->end < $start) {
             $this->setEnd($start);
@@ -86,17 +91,14 @@ class Period extends BaseEntity implements BelongsToCampInterface {
     }
 
     /**
-     * @return \DateTime
+     * @return DateUtc
      */
     public function getEnd() {
         return (null !== $this->end) ? (clone $this->end) : null;
     }
 
-    public function setEnd(\DateTime $end): void {
-        $end = clone $end;
-        $end->setTime(23, 59, 59);
-
-        $this->end = $end;
+    public function setEnd(DateUtc $end): void {
+        $this->end = clone $end;
 
         if (null != $this->start && $this->start > $end) {
             $this->setStart($end);
@@ -108,9 +110,7 @@ class Period extends BaseEntity implements BelongsToCampInterface {
         $end = $this->getEnd();
 
         if (null !== $start && null !== $end) {
-            $diff = $end->getTimestamp() - $start->getTimestamp();
-
-            return ceil($diff / 86400);
+            return $start->diff($end)->days + 1;
         }
 
         return 0;
@@ -159,6 +159,23 @@ class Period extends BaseEntity implements BelongsToCampInterface {
     public function removeScheduleEntry(ScheduleEntry $scheduleEntry) {
         $scheduleEntry->setPeriod(null);
         $this->scheduleEntries->removeElement($scheduleEntry);
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getMaterialItems() {
+        return $this->materialItems;
+    }
+
+    public function addMaterialItem(MaterialItem $materialItem) {
+        $materialItem->setPeriod($this);
+        $this->materialItems->add($materialItem);
+    }
+
+    public function removeMaterialItem(MaterialItem $materialItem) {
+        $materialItem->setPeriod(null);
+        $this->materialItems->removeElement($materialItem);
     }
 
     /** @ORM\PrePersist */

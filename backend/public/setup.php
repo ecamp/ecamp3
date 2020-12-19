@@ -10,7 +10,8 @@ if (PHP_SAPI == 'cli') {
     echo '  Run Setup in a Browser!';
     echo PHP_EOL;
     echo PHP_EOL;
-    die();
+
+    exit();
 }
 
 //  ENV:
@@ -20,7 +21,8 @@ $env = getenv('env') ?: 'dev';
 if ('dev' !== $env) {
     echo "The environment must be 'dev' to run setup. ";
     echo 'Current environment: '.$env;
-    die();
+
+    exit();
 }
 
 //  COMPOSER:
@@ -39,7 +41,8 @@ if (!file_exists(__DIR__.'/../vendor/autoload.php')) {
     echo 'If you have not installed composer:';
     echo '<br />';
     echo "<a href='https://getcomposer.org/'>https://getcomposer.org/</a>";
-    die();
+
+    exit();
 }
 
 include_once __DIR__.'/../vendor/autoload.php';
@@ -97,7 +100,7 @@ try {
         echo 'You might use phpmyadmin for this';
     }
 
-    die();
+    exit();
 }
 
 $schemaTool = new \Doctrine\ORM\Tools\SchemaTool($em);
@@ -121,7 +124,8 @@ if (array_key_exists('drop-data', $_GET)) {
         echo '<br />';
         echo '<br />';
         echo $e->getMessage();
-        die();
+
+        exit();
     }
 }
 
@@ -200,7 +204,8 @@ if (array_key_exists('prod-data', $_GET)) {
         echo '<br />';
         echo '<br />';
         echo $e->getMessage();
-        die();
+
+        exit();
     }
 }
 
@@ -238,7 +243,8 @@ if (array_key_exists('dev-data', $_GET)) {
         echo '<br />';
         echo '<br />';
         echo $e->getMessage();
-        die();
+
+        exit();
     }
 }
 

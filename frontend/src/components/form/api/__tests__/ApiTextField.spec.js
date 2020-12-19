@@ -3,9 +3,9 @@ import Vue from 'vue'
 import Vuetify from 'vuetify'
 import flushPromises from 'flush-promises'
 
-import { formBaseComponents } from '@/plugins'
+import formBaseComponents from '@/plugins/formBaseComponents'
 
-import { shallowMount, mount } from '@vue/test-utils'
+import { shallowMount, mount, createLocalVue } from '@vue/test-utils'
 import ApiTextField from '../ApiTextField.vue'
 import ApiWrapper from '../ApiWrapper'
 import { ValidationObserver } from 'vee-validate'
@@ -29,19 +29,25 @@ function createConfig (overrides) {
   const propsData = {
     value: 'Test Value',
     fieldname: 'test-field',
-    uri: 'test-field/123',
+    uri: '/test-field/123',
     label: 'Test Field'
   }
   const stubs = {
     ApiWrapper,
     ValidationObserver
   }
-  return cloneDeep(Object.assign({ mocks, propsData, stubs, vuetify }, overrides))
+  const localVue = createLocalVue()
+
+  return cloneDeep(Object.assign({ mocks, propsData, stubs, vuetify, localVue }, overrides))
 }
 
 describe('ApiTextField.vue', () => {
   beforeEach(() => {
     vuetify = new Vuetify()
+  })
+
+  afterEach(() => {
+    jest.restoreAllMocks()
   })
 
   // keep this the first test --> otherwise element IDs change constantly

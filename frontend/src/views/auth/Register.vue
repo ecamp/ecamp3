@@ -73,7 +73,7 @@
         </template>
         <template v-slot:append>
           <v-btn text min-width="0"
-                 :title="$tc('views.auth.register.openTermsOfUse')"
+                 :title="$tc('global.button.open')"
                  target="_blank"
                  class="px-1"
                  to="#"
@@ -162,13 +162,7 @@ export default {
     }
   },
   mounted () {
-    const languages = navigator.languages || [navigator.language]
-    for (const language of languages) {
-      if (VueI18n.availableLocales.includes(language)) {
-        this.language = language
-        break
-      }
-    }
+    this.language = this.$i18n.browserPreferredLocale
   },
   methods: {
     async register () {

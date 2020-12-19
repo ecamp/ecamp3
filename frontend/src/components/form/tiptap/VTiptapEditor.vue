@@ -25,7 +25,8 @@ export default {
         props: {
           value: this.value,
           placeholder: this.placeholder,
-          withExtensions: this.withExtensions
+          withExtensions: this.withExtensions,
+          editable: !this.readonly
         },
         on: Object.assign(listeners, {
           blur: this.onBlur,

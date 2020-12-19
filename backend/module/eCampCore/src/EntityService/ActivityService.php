@@ -73,7 +73,7 @@ class ActivityService extends AbstractEntityService {
         $this->updateActivityResponsibles($activity, $data);
         $this->updateScheduleEntries($activity, $data);
 
-        if (!empty($data->activityCategorId)) {
+        if (!empty($data->activityCategoryId)) {
             $category = $this->findRelatedEntity(ActivityCategory::class, $data, 'activityCategoryId');
             $activity->setActivityCategory($category);
         }
@@ -96,6 +96,12 @@ class ActivityService extends AbstractEntityService {
         if (isset($params['campId'])) {
             $q->andWhere('row.camp = :campId');
             $q->setParameter('campId', $params['campId']);
+        }
+
+        if (isset($params['periodId'])) {
+            $q->innerJoin('row.scheduleEntries', 'scheduleEntry');
+            $q->andWhere('scheduleEntry.period = :periodId');
+            $q->setParameter('periodId', $params['periodId']);
         }
 
         return $q;

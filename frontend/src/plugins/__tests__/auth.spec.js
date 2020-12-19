@@ -1,7 +1,8 @@
+import Vue from 'vue'
 import { auth } from '@/plugins/auth'
+import storeLoader, { store, apiStore } from '@/plugins/store'
 
-import store from '@/plugins/store'
-import * as apiStore from '@/plugins/store/apiPlugin'
+Vue.use(storeLoader)
 
 expect.extend({
   haveUri (actual, expectedUri) {
@@ -13,7 +14,7 @@ expect.extend({
 })
 
 describe('authentication logic', () => {
-  beforeEach(() => {
+  afterEach(() => {
     jest.restoreAllMocks()
   })
 
@@ -171,9 +172,9 @@ describe('authentication logic', () => {
   })
 
   describe('loginGoogle()', () => {
-    const { location } = window;
+    const { location } = window
     beforeEach(() => {
-      delete window.location;
+      delete window.location
       window.location = {
         origin: 'http://localhost',
         href: 'http://localhost/login'
@@ -194,9 +195,9 @@ describe('authentication logic', () => {
   })
 
   describe('loginPbsMiData()', () => {
-    const { location } = window;
+    const { location } = window
     beforeEach(() => {
-      delete window.location;
+      delete window.location
       window.location = {
         origin: 'http://localhost',
         href: 'http://localhost/login'
@@ -205,7 +206,7 @@ describe('authentication logic', () => {
     afterEach(() => {
       window.location = location
     })
-    
+
     it('forwards to pbsmidata authentication endpoint', async done => {
       // when
       await auth.loginPbsMiData()

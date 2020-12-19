@@ -3,7 +3,7 @@
 namespace eCamp\Core\Hydrator;
 
 use eCamp\Core\Entity\User;
-use eCamp\Lib\Hydrator\Util;
+use eCamp\Lib\Types\DateUtc;
 use Laminas\Authentication\AuthenticationService;
 use Laminas\Hydrator\HydratorInterface;
 
@@ -29,6 +29,7 @@ class UserHydrator implements HydratorInterface {
         return [
             'id' => $user->getId(),
             'username' => $user->getUsername(),
+            'displayName' => $user->getDisplayName(),
             'mail' => $showDetails ? $user->getTrustedMailAddress() : '***',
             'relation' => $relation,
             'role' => $user->getRole(),
@@ -37,6 +38,8 @@ class UserHydrator implements HydratorInterface {
 
     /**
      * @param object $object
+     *
+     * @throws \Exception
      *
      * @return object
      */
@@ -54,7 +57,7 @@ class UserHydrator implements HydratorInterface {
             $user->setSurname($data['surname']);
         }
         if (isset($data['birthday'])) {
-            $user->setBirthday(Util::parseDate($data['birthday']));
+            $user->setBirthday(new DateUtc($data['birthday']));
         }
         if (isset($data['language'])) {
             $user->setLanguage($data['language']);
