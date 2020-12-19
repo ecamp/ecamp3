@@ -174,7 +174,7 @@ export default {
       return this.period().camp()
     },
     computedIntervalHeight () {
-      return this.intervalHeight !== 0 ? this.intervalHeight : this.$vuetify.breakpoint.xsOnly ? (window.innerHeight - 140) / 19 : (window.innerHeight - 174) / 19
+      return this.intervalHeight !== 0 ? this.intervalHeight : this.$vuetify.breakpoint.xsOnly ? (this.$vuetify.breakpoint.height - 140) / 19 : Math.max((this.$vuetify.breakpoint.height - 174) / 19, 32)
     }
   },
   mounted () {
