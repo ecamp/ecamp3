@@ -29,7 +29,7 @@
     },
     "storycontext": {
       "add": "Add story context",
-      "icon": "mdi-book-open-page-variant",
+      "icon": "mdi-book-open-variant",
       "name": "Story concept",
       "sort": "1"
     }
