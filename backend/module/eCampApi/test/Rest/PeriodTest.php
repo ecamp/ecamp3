@@ -19,7 +19,7 @@ class PeriodTest extends AbstractApiControllerTestCase {
     /** @var User */
     protected $user;
 
-    public function setUp() {
+    public function setUp(): void {
         parent::setUp();
 
         $userLoader = new UserTestData();
