@@ -14,12 +14,12 @@
       "sizes": "64x64"
     },
     {
-      "src": "/logo@192px.png",
+      "src": "/browserassets/logo@192px.png",
       "type": "image/png",
       "sizes": "192x192"
     },
     {
-      "src": "/logo@512px.png",
+      "src": "/browserassets/logo@512px.png",
       "type": "image/png",
       "sizes": "512x512"
     }
