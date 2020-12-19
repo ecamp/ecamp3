@@ -21,7 +21,7 @@ class ScheduleEntryTest extends AbstractApiControllerTestCase {
 
     private $apiEndpoint = '/api/schedule-entries';
 
-    public function setUp() {
+    public function setUp(): void {
         parent::setUp();
 
         $userLoader = new UserTestData();

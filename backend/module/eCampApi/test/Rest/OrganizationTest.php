@@ -21,7 +21,7 @@ class OrganizationTest extends AbstractApiControllerTestCase {
 
     private $apiEndpoint = '/api/organizations';
 
-    public function setUp() {
+    public function setUp(): void {
         parent::setUp();
 
         $userLoader = new UserTestData();

@@ -1,11 +1,12 @@
-name: Label "Meeting Discuss" should not be present
+name: PR
 
 on:
   pull_request:
     types: [opened, labeled, unlabeled, synchronize]
 
 jobs:
-  check:
+  no-meeting-discuss-label:
+    name: No "Meeting Discuss" label
     runs-on: ubuntu-latest
     steps:
       - uses: mheap/github-action-required-labels@v1
