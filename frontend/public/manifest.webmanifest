@@ -1,7 +1,6 @@
 {
   "short_name": "eCamp",
   "name": "eCamp v3",
-  "description": "Lagerplanung",
   "icons": [
     {
       "src": "/favicon.svg",
