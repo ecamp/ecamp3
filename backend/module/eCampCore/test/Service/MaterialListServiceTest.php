@@ -24,7 +24,7 @@ class MaterialListServiceTest extends AbstractApiControllerTestCase {
     /** @var MaterialList */
     protected $materialList;
 
-    public function setUp() {
+    public function setUp(): void {
         parent::setUp();
 
         $userLoader = new UserTestData();
