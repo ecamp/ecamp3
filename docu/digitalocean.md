@@ -3,7 +3,7 @@
 Notizen, wie die Infrastruktur auf DigitalOcean eingerichtet werden kann, um via Docker zu deployen.
 
 * DigitalOcean Droplet erstellen mit Marketplace -> Docker 5:19.03.1~3 on Ubuntu 18.04, zweitniedrigste Leistung (50GB SSD, 2GB RAM)
-* SSH-Key von lokalem Computer (bzw. Travis) eintragen
+* SSH-Key von lokalem Computer (bzw. CI-Server) eintragen
 
 * Für zusätzliche SSH-Keys die beim Aufsetzen noch nicht eingetragen wurden:
 
