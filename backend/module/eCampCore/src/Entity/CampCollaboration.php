@@ -9,6 +9,9 @@ use eCamp\Lib\Entity\BaseEntity;
 /**
  * @ORM\Entity
  * @ORM\HasLifecycleCallbacks
+ * @ORM\Table(uniqueConstraints={
+ *     @ORM\UniqueConstraint(name="inviteKey_unique", columns={"inviteKey"})
+ * })
  */
 class CampCollaboration extends BaseEntity implements BelongsToCampInterface {
     const ROLE_GUEST = 'guest';
