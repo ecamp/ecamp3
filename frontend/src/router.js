@@ -103,7 +103,7 @@ export default new Router({
       props: {
         default: route => {
           return {
-            campCollaborations: campCollaborationsFromInviteKey(route.params.inviteKey)
+            campCollaboration: campCollaborationsFromInviteKey(route.params.inviteKey)
           }
         }
       }
@@ -238,7 +238,7 @@ export function campFromRoute (route) {
 
 export function campCollaborationsFromInviteKey (inviteKey) {
   return function () {
-    return this.api.get('/camp-collaborations?inviteKey=' + inviteKey)
+    return this.api.get().invitation({ action: 'find', inviteKey: inviteKey })
   }
 }
 

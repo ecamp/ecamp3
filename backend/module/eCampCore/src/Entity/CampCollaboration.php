@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 use eCamp\Lib\Entity\BaseEntity;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="eCamp\Core\Repository\CampCollaborationRepository")
  * @ORM\HasLifecycleCallbacks
  * @ORM\Table(uniqueConstraints={
  *     @ORM\UniqueConstraint(name="inviteKey_unique", columns={"inviteKey"})

@@ -60,6 +60,10 @@ JSON;
                 "admin": {
                     "href": "http://{$host}/api-tools/ui"
                 },
+                "invitation": {
+                  "href": "http://{$host}/api/invitation{/action}{/inviteKey}",
+                  "templated": true
+                },
                 "users": {
                     "href": "http://{$host}/api/users{/userId}{?page_size,search}",
                     "templated": true
@@ -71,6 +75,10 @@ JSON;
                 "camps": {
                     "href": "http://{$host}/api/camps{/campId}{?page_size}",
                     "templated": true
+                },
+                "campCollaborations": {
+                  "href": "http://{$host}/api/camp-collaborations{/campCollaborationId}{?page_size,campId,userId}",
+                  "templated": true
                 },
                 "scheduleEntries": {
                     "href": "http://{$host}/api/schedule-entries{/scheduleEntryId}{?page_size,activityId}",

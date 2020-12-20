@@ -1,6 +1,6 @@
 <template>
   <auth-container>
-    <div v-if="campCollaborationFound !== false && campCollaborationOpen !== false">
+    <div v-if="invitationFound !== false && campCollaborationOpen !== false">
       <h1 class="display-1">{{ this.$tc('components.invitation.title') }} {{ camp ? camp.title : '' }}</h1>
 
       <v-spacer />
@@ -56,59 +56,47 @@ export default {
   name: 'Invitation',
   components: { AuthContainer },
   props: {
-    campCollaborations: { type: Function, required: true }
+    campCollaboration: { type: Function, required: true }
   },
+  data: () => ({ invitationFound: undefined }),
   computed: {
     camp () {
-      if (this.campCollaboration === undefined) {
+      if (this.invitationFound === undefined) {
         return undefined
       }
-      return this.campCollaboration.camp()
-    },
-    campCollaboration () {
-      const campCollaborations = this.campCollaborations()
-      if (campCollaborations._meta.loading) {
-        return undefined
-      }
-      if (campCollaborations.items.length === 1) {
-        return campCollaborations.items[0]
-      } else {
-        return null
-      }
-    },
-    campCollaborationFound () {
-      if (this.campCollaboration === undefined) {
-        return undefined
-      }
-      return this.campCollaboration != null
+      return this.campCollaboration().camp()
     },
     campCollaborationOpen () {
-      if (!this.campCollaboration) {
+      if (this.invitationFound === undefined) {
         return undefined
       }
-      return this.campCollaboration.status === 'invited'
+      return this.campCollaboration().status === 'invited'
     },
     isLoggedIn () {
       return this.$auth.isLoggedIn()
     },
     loginLink
   },
+  mounted: function () {
+    this.campCollaboration()._meta.load.then(
+      // eslint-disable-next-line no-return-assign
+      () => this.invitationFound = true,
+      // eslint-disable-next-line no-return-assign
+      () => this.invitationFound = false)
+  },
   methods: {
     useAnotherAccount () {
       this.$auth.logout().then(__ => this.$router.push(loginLink()))
     },
     acceptInvitation () {
-      if (this.campCollaboration._meta.loading) return
-      const patchedCampCollaboration = {
-        status: 'established',
-        inviteKey: this.$route.params.inviteKey
-      }
+      if (!this.invitationFound) return
       const me = this
-      this.api.patch(this.campCollaboration._meta.self, patchedCampCollaboration)
-        .then(_ => {
-          me.$router.push(campRoute(me.camp))
-        },
-        e => console.log(e))
+      this.api.href(this.api.get()._meta.self, 'invitation', {
+        action: 'accept',
+        inviteKey: this.$route.params.inviteKey
+      }).then(postUrl => me.api.post(postUrl, {}))
+        .then(_ => { me.$router.push(campRoute(me.camp)) },
+          e => console.log(e))
     }
   }
 }
