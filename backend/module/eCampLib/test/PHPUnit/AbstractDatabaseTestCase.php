@@ -11,14 +11,14 @@ abstract class AbstractDatabaseTestCase extends TestCase {
     /**
      * @throws ToolsException
      */
-    public function setUp() {
+    public function setUp(): void {
         parent::setUp();
 
         $em = $this->getEntityManager();
         $this->createDatabaseSchema($em);
     }
 
-    public function tearDown() {
+    public function tearDown(): void {
         parent::tearDown();
 
         \eCampApp::Reset();

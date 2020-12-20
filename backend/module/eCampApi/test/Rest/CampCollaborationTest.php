@@ -23,7 +23,7 @@ class CampCollaborationTest extends AbstractApiControllerTestCase {
 
     private $apiEndpoint = '/api/camp-collaborations';
 
-    public function setUp() {
+    public function setUp(): void {
         parent::setUp();
 
         $userLoader = new UserTestData();

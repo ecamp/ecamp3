@@ -25,7 +25,7 @@ abstract class AbstractApiControllerTestCase extends ZendAbstractHttpControllerT
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    public function setUp() {
+    public function setUp(): void {
         parent::setUp();
 
         $data = include __DIR__.'/../../../../config/application.config.php';

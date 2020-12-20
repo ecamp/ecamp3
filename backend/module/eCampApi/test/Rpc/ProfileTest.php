@@ -16,7 +16,7 @@ class ProfileTest extends AbstractApiControllerTestCase {
 
     private $apiEndpoint = '/api/profile';
 
-    public function setUp() {
+    public function setUp(): void {
         parent::setUp();
 
         $userLoader = new UserTestData();

@@ -1,0 +1,68 @@
+version: "3"
+
+services:
+  nginx:
+    image: nginx
+    container_name: 'ecamp3-nginx'
+    ports:
+      - '80:80'
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+      - print-output:/static-files
+    depends_on:
+      - backend
+      - frontend
+      - print
+      - worker-print-puppeteer
+      - worker-print-weasy
+
+  frontend:
+    image: ecamp/ecamp3-frontend:${DOCKER_IMAGE_TAG}
+    container_name: 'ecamp3-frontend'
+    volumes:
+      - ./frontend-environment.js:/app/environment.js
+
+  backend:
+    image: ecamp/ecamp3-backend:${DOCKER_IMAGE_TAG}
+    container_name: 'ecamp3-backend'
+    volumes:
+      - ./doctrine.local.prod.php:/app/config/autoload/doctrine.local.prod.php
+      - ./mail.local.prod.php:/app/config/autoload/mail.local.prod.php
+      - ./sessions.local.prod.php:/app/config/autoload/sessions.local.prod.php
+      - ./zfr_cors.global.php:/app/config/autoload/zfr_cors.global.php
+      - ./sentry.config.php:/app/config/sentry.config.php
+    depends_on:
+      - rabbitmq
+
+  print:
+    image: ecamp/ecamp3-print:${DOCKER_IMAGE_TAG}
+    container_name: 'ecamp3-print'
+    env_file:
+      - print.env
+
+  rabbitmq:
+    image: rabbitmq:3.8-management
+    container_name: 'ecamp3-rabbitmq'
+    env_file:
+      - rabbitmq.env
+
+  worker-print-puppeteer:
+    image: ecamp/ecamp3-worker-print-puppeteer:${DOCKER_IMAGE_TAG}
+    container_name: 'ecamp3-worker-print-puppeteer'
+    volumes:
+      - ./worker-print-puppeteer-environment.js:/app/environment.js
+      - print-output:/app/data
+    depends_on:
+      - rabbitmq
+
+  worker-print-weasy:
+    image: ecamp/ecamp3-worker-print-weasy:${DOCKER_IMAGE_TAG}
+    container_name: 'ecamp3-worker-print-weasy'
+    volumes:
+      - ./worker-print-weasy-environment.py:/app/environment.py
+      - print-output:/app/data
+    depends_on:
+      - rabbitmq
+
+volumes:
+  print-output:

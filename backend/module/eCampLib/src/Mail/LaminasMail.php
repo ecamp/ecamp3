@@ -65,9 +65,11 @@ class LaminasMail implements ProviderInterface {
         switch ($type) {
             case Mime::MULTIPART_ALTERNATIVE:
                 return $this->createMultipart($data, $config);
+
             case Mime::TYPE_TEXT:
             case Mime::TYPE_HTML:
                 return $this->createPart($data, $config);
+
             default:
                 throw new Exception('Type not implemented: '.$type);
         }

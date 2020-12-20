@@ -9,7 +9,7 @@ class ConfigFactory {
      * params String $entityName   Specify entity name if it deviates from main name
      * params String $namePlural   Specify non-standard plural names.
      */
-    public static function createConfig(string $name, bool $multiple = false, ?String $entityName = null, ?String $namePlural = null) {
+    public static function createConfig(string $name, bool $multiple = false, ?string $entityName = null, ?string $namePlural = null) {
         // used in class namespace (PascalCase)
         $namespace = $name;
 
