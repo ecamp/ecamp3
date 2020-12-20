@@ -2,7 +2,7 @@
 
 <span lang="en">Thank you for wanting to help out!</span> <em lang="de">Danke dass du mithelfen möchtest!</em>
 
-<em lang="de">Die <a link="#deutsch">deutsche Übersetzung</a> findest du weiter unten.</em>
+<em lang="de">Die <a href="#deutsch">deutsche Übersetzung</a> findest du weiter unten.</em>
 
 ## English
 
