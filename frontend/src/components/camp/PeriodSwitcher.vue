@@ -4,7 +4,7 @@
       <template v-slot:activator="{ on, attrs, value }">
         <v-btn
           text large
-          class="justify-start"
+          class="justify-start pl-0"
           height="auto" block
           v-bind="attrs"
           v-on="on">
