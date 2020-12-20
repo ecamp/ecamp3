@@ -7,7 +7,7 @@
         </v-skeleton-loader>
       </v-card-text>
       <v-list class="pt-0">
-        <v-list-item :to="{ name: 'camps', query: { isDetail: true }}">
+        <v-list-item :to="{ name: 'camps' }">
           <v-list-item-icon>
             <v-icon>mdi-format-list-bulleted-triangle</v-icon>
           </v-list-item-icon>

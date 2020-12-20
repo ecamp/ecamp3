@@ -1,8 +1,6 @@
 <template>
   <v-container fluid>
-    <content-card max-width="800" :title="$tc('views.campCreate.title')"
-                  toolbar
-                  back>
+    <content-card max-width="800" :title="$tc('views.campCreate.title')" toolbar>
       <ValidationObserver v-slot="{ handleSubmit }">
         <v-form ref="form" @submit.prevent="handleSubmit(createCamp)">
           <v-card-text>
@@ -46,9 +44,10 @@
           </v-card-text>
           <v-divider />
           <v-card-text class="text-right">
-            <ButtonAdd type="submit">
+            <button-cancel />
+            <button-add type="submit">
               {{ $tc('views.campCreate.create') }}
-            </ButtonAdd>
+            </button-add>
           </v-card-text>
         </v-form>
       </ValidationObserver>
@@ -58,6 +57,7 @@
 
 <script>
 import ButtonAdd from '@/components/buttons/ButtonAdd'
+import ButtonCancel from '@/components/buttons/ButtonCancel'
 import ContentCard from '@/components/layout/ContentCard'
 import ETextField from '@/components/form/base/ETextField'
 import ESelect from '@/components/form/base/ESelect'
@@ -71,6 +71,7 @@ export default {
   components: {
     CreateCampPeriods,
     ButtonAdd,
+    ButtonCancel,
     ContentCard,
     ETextField,
     ESelect,

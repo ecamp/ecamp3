@@ -10,7 +10,7 @@
           v-for="camp in camps.items"
           :key="camp.id"
           two-line
-          :to="campRoute(camp, 'program', {isDetail: true})">
+          :to="campRoute(camp, 'program')">
           <v-list-item-content>
             <v-list-item-title>{{ camp.title }}</v-list-item-title>
             <v-list-item-subtitle>
@@ -35,7 +35,7 @@
           <v-list-item-action>
             <button-add
               icon="mdi-plus"
-              :to="{ name: 'camps/create', query: {isDetail: true} }">
+              :to="{ name: 'camps/create' }">
               {{ $tc('views.camps.create') }}
             </button-add>
           </v-list-item-action>

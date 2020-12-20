@@ -57,7 +57,7 @@ export default {
   },
   methods: {
     scheduleEntryLink (scheduleEntry) {
-      return scheduleEntryRoute(this.camp, scheduleEntry, { isDetail: true })
+      return scheduleEntryRoute(this.camp, scheduleEntry)
     }
   }
 }
