@@ -26,6 +26,10 @@ class LoginTest extends AbstractTestCase {
         $key = $login->createPwResetKey();
         $this->assertTrue($login->checkPwResetKey($key));
 
+        $login->clearPwResetKey();
+        $this->assertFalse($login->checkPwResetKey($key));
+
+        $key = $login->createPwResetKey();
         $login->resetPassword($key, 'new-password');
         $this->assertTrue($login->checkPassword('new-password'));
         $this->assertFalse($login->checkPassword('test-password'));
@@ -35,6 +39,19 @@ class LoginTest extends AbstractTestCase {
 
         $this->expectException(\Exception::class);
         $login->resetPassword('wrong-key', 'newer-password');
+    }
+
+    public function testChangePassword() {
+        $user = new User();
+        $login = new Login($user, 'test-password');
+        $this->assertTrue($login->checkPassword('test-password'));
+
+        $login->changePassword('test-password', 'new-password');
+        $this->assertTrue($login->checkPassword('new-password'));
+        $this->assertFalse($login->checkPassword('test-password'));
+
+        $this->expectException(\Exception::class);
+        $login->changePassword('test-password', 'new-password');
     }
 
     public function testUpdateHashVersion() {
