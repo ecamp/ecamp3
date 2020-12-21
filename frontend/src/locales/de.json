@@ -114,7 +114,8 @@
     },
     "navigation": {
       "searchMobile": {
-        "searchActivitiesAndCamps": "Aktivitäten und Camps suchen"
+        "allCamps": "Alle Lager",
+        "searchActivitiesAndCamps": "Aktivitäten und Lager suchen"
       },
       "userMeta": {
         "logOut": "Ausloggen",
@@ -131,7 +132,7 @@
         "responsible": "verantwortlich",
         "title": "Titel"
       },
-      "name": "Aktivität",
+      "name": "Aktivität | Aktivitäten",
       "new": "Neue Aktivität"
     },
     "activityCategory": {
@@ -209,8 +210,8 @@
       "create": "Erstellen",
       "delete": "Löschen",
       "edit": "Bearbeiten",
-      "editModeOn": "Bearbeiten an",
-      "editModeOff": "Bearbeiten aus",
+      "editable": "Bearbeitbar",
+      "logout": "Ausloggen",
       "ok": "In Ordnung",
       "open": "Öffnen",
       "save": "Speichern",
@@ -221,6 +222,11 @@
       "update": "Aktualisieren"
     },
     "changeLanguage": "Sprache ändern",
+    "empty": {
+      "list": "Leer | Noch keine {entities}",
+      "result": "Kein Resultat | Keine Resultate",
+      "resultFor": "Kein Resultat für {search} | Keine Resultate für {search}"
+    },
     "language": "Deutsch",
     "lokaliseMessage": "Übersetzungen unterstützt durch lokalise.com",
     "moment": {
@@ -278,7 +284,8 @@
     },
     "camp": {
       "admin": {
-        "title": "Admin"
+        "collaborators": "Team verwalten",
+        "title": "Lager Admin"
       },
       "collaborators": {
         "invite": "Einladen",
@@ -292,7 +299,8 @@
         "campIsLoading": "Lager wird geladen",
         "material": "Material",
         "print": "Drucken",
-        "story": "Roter Faden",
+        "program": "Programm",
+        "story": "Geschichte",
         "tasks": "Aufgaben",
         "team": "Team"
       },
@@ -324,7 +332,7 @@
       "welcome": "Hallo {user}. Herzlich willkommen auf eCamp"
     },
     "navigationDefault": {
-      "home": "Startseite",
+      "home": "Home",
       "myCamps": "Mein Lager | Meine Lager",
       "profile": "Profil"
     },
