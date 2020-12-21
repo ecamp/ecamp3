@@ -48,7 +48,8 @@ class CampCollaborationService extends AbstractEntityService {
         if (!isset($data->userId)) {
             $data->userId = null;
         }
-        if (null == $data->userId && !$data->inviteEmail) {
+        $inviteEmail = isset($data->inviteEmail) ? $data->inviteEmail : null;
+        if (null == $data->userId && !$inviteEmail) {
             $data->userId = $authUser->getId();
         }
 
@@ -69,15 +70,16 @@ class CampCollaborationService extends AbstractEntityService {
         ));
         $q->setParameter('campId', $camp->getId());
         $q->setParameter('userId', null != $user ? $user->getId() : null);
-        $q->setParameter('inviteEmail', $data->inviteEmail);
+        $q->setParameter('inviteEmail', $inviteEmail);
         $result = $q->getQuery()->getResult();
 
         if (count($result) > 0) {
             $messages = [];
-            if ($data->userId) {
-                $messages['userId'] = ['duplicateCampCollaboration' => "CampCollaboration for the camp {$data->campId} and user {$data->userId} already exists."];
+            $userId = isset($data->userId) ? $data->userId : null;
+            if ($userId) {
+                $messages['userId'] = ['duplicateCampCollaboration' => "CampCollaboration for the camp {$data->campId} and user {$userId} already exists."];
             }
-            if ($data->inviteEmail) {
+            if ($inviteEmail) {
                 $messages['inviteEmail'] = ['duplicateCampCollaboration' => "CampCollaboration for the camp {$data->campId} and inviteEmail {$data->inviteEmail} already exists."];
             }
 
@@ -110,7 +112,7 @@ class CampCollaborationService extends AbstractEntityService {
             // Create CampCollaboration for other User
             $campCollaboration->setStatus(CampCollaboration::STATUS_INVITED);
             $campCollaboration->setCollaborationAcceptedBy($authUser->getUsername());
-            $campCollaboration->setInviteEmail($data->inviteEmail);
+            $campCollaboration->setInviteEmail($inviteEmail);
         }
 
         if (CampCollaboration::STATUS_INVITED == $campCollaboration->getStatus() && $campCollaboration->getInviteEmail()) {
