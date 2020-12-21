@@ -116,4 +116,23 @@ describe('An EColorPicker', () => {
     await waitForDebounce()
     expect(wrapper.find('input[type=text]').element.value).toBe('#E6CFE6')
   })
+
+  test('accepts 3-digit hex color codes', async () => {
+    // prevent "[Vuetify] Unable to locate target [data-app]" warnings
+    document.body.setAttribute('data-app', 'true')
+    const wrapper = mount({
+      propsData: {
+        value: '#abc'
+      }
+    })
+    await waitForDebounce()
+    // open the color picker
+    const openPicker = wrapper.find('button')
+    await openPicker.trigger('click')
+    // click the save button
+    const closeButton = wrapper.find('[data-testid="action-ok"]')
+    await closeButton.trigger('click')
+    await waitForDebounce()
+    expect(wrapper.find('input[type=text]').element.value).toBe('#AABBCC')
+  })
 })
