@@ -62,10 +62,12 @@ class LoginTest extends AbstractTestCase {
         $login = new Login($user, 'test-password');
 
         $key = $login->createPwResetKey();
+        // Reset password with $hashVerison = 0; cleartext
         $login->resetPassword($key, 'new-password', 0);
         $this->assertTrue($login->checkPassword('new-password'));
         $this->assertEquals('new-password', $password->getValue($login));
 
+        // Check and rehash password with CURRENT_HASH_VERSION; salted and hashed
         $login->checkPassword('new-password', true);
         $this->assertTrue($login->checkPassword('new-password'));
         $this->assertNotEquals('new-password', $password->getValue($login));
