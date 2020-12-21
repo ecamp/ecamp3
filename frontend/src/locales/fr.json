@@ -319,7 +319,7 @@
       "welcome": "Bonjour {user}. Bienvenue sur eCamp"
     },
     "navigationDefault": {
-      "home": "Page d'accueil",
+      "home": "Accueil",
       "myCamps": "Mon camp | Mes camps",
       "profile": "Profil"
     },

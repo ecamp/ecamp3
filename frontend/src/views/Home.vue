@@ -1,11 +1,11 @@
 <template>
   <v-container fluid>
-    <content-card :title="$tc('views.home.home')" max-width="800">
-      <p class="mx-4">
+    <content-card :title="$tc('views.home.home')" max-width="800" toolbar>
+      <v-card-text>
         <v-skeleton-loader type="text" :loading="api.get().profile()._meta.loading">
-          {{ $tc('views.home.welcome', 1, { user: api.get().profile().displayName }) }}
+          {{ $tc('views.home.welcome', 1, { user: api.get().profile().displayName }) }} <v-icon>$vuetify.icons.ecamp</v-icon>
         </v-skeleton-loader>
-      </p>
+      </v-card-text>
       <v-list class="pt-0">
         <v-list-item :to="{ name: 'camps' }">
           <v-list-item-icon>
