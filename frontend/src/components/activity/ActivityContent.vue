@@ -138,7 +138,7 @@ export default {
       editInstanceName: false,
       allowedIcons: [
         [
-          'mdi-book-open-page-variant'
+          'mdi-book-open-variant'
         ],
         [
           'mdi-script-text-outline',

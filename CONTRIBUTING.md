@@ -1,8 +1,10 @@
-## Contributing
+<h1><span lang="en">Contributing</span> / <span lang="de">Mitarbeit</span></h1>
 
-Thanks again for wanting to help out! *Danke nochmals dass du mithelfen möchtest!*
+<span lang="en">Thank you for wanting to help out!</span> <em lang="de">Danke dass du mithelfen möchtest!</em>
 
-*(deutsche Übersetzung weiter unten)*
+<em lang="de">Die <a href="#deutsch">deutsche Übersetzung</a> findest du weiter unten.</em>
+
+## English
 
 ### Git setup
 We use a triangular git workflow. This means that all changes are first pushed to a contributor's fork of the repository, and then the changes are merged into the main fork via a pull request. In practice, setting up this workflow looks as follows:
@@ -65,8 +67,7 @@ Alternatively you can
 * [x] Is the fork up-to-date with the central repository and can your changes be merged automatically?
 * [x] Did the GitHub Actions CI build run through without test failures?
 
-
-## Mitarbeit (deutsche Übersetzung)
+## Deutsch
 
 ### Git einrichten
 Wir wenden einen triangulären Git-Workflow an. Das bedeutet, dass alle Code-Änderungen zuerst auf dem Fork des Entwicklers veröffentlicht werden, und erst dann werden die Änderungen via Pull Request in das offizielle eCamp3-Repository eingefügt. Um dies einzurichten, befolgen wir folgende Schritte:

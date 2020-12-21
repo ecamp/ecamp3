@@ -29,7 +29,7 @@
     },
     "storycontext": {
       "add": "Add story context",
-      "icon": "mdi-book-open-page-variant",
+      "icon": "mdi-book-open-variant",
       "name": "Story concept",
       "sort": "1"
     },
@@ -145,6 +145,7 @@
         "search": "Search"
       },
       "searchMobile": {
+        "allCamps": "All camps",
         "search": "Search",
         "searchActivitiesAndCamps": "Search for activities and camps"
       },
@@ -163,7 +164,7 @@
         "responsible": "responsible",
         "title": "Title"
       },
-      "name": "Activity",
+      "name": "Activity | Activities",
       "new": "New activity"
     },
     "activityCategory": {
@@ -194,7 +195,7 @@
         "name": "Name",
         "title": "Title"
       },
-      "name": "Camp"
+      "name": "Camp | Camps"
     },
     "campCollaboration": {
       "campLeft": "left camp"
@@ -254,6 +255,8 @@
       "create": "Create",
       "delete": "Delete",
       "edit": "Edit",
+      "editable": "Editable",
+      "logout": "Logout",
       "ok": "Okay",
       "open": "Open",
       "save": "Save",
@@ -263,6 +266,11 @@
       "update": "Update"
     },
     "changeLanguage": "Change language",
+    "empty": {
+      "list": "Empty | No {entities} yet",
+      "result": "No result | No results",
+      "resultFor": "No result for {search} | No results for {search}"
+    },
     "language": "English",
     "loading": "Loading …",
     "lokaliseMessage": "Language switching powered by lokalise.com",
@@ -322,7 +330,8 @@
     },
     "camp": {
       "admin": {
-        "title": "Admin"
+        "collaborators": "Manage Team",
+        "title": "Camp Admin"
       },
       "collaborators": {
         "invite": "Invite",
@@ -343,6 +352,7 @@
         "campIsLoading": "Camp is loading",
         "material": "Materials",
         "print": "Print",
+        "program": "Program",
         "story": "Story",
         "tasks": "Tasks",
         "team": "Team"
@@ -375,7 +385,7 @@
       "welcome": "Hello {user}. Welcome on eCamp"
     },
     "navigationDefault": {
-      "home": "Homepage",
+      "home": "Home",
       "myCamps": "My camp | My camps",
       "profile": "Profile"
     },

@@ -6,7 +6,7 @@
     <template v-if="entriesWithStory.length">
       <template v-for="{ scheduleEntry, storyChapters } in entriesWithStory">
         <div v-for="chapter in storyChapters" :key="chapter._meta.uri">
-          <h4 class="mt-5">
+          <h4 class="mt-1 mb-2">
             <div class="d-flex">
               {{ scheduleEntry.number }}
               <v-chip v-if="!scheduleEntry.activity().activityCategory()._meta.loading"

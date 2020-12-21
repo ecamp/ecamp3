@@ -1,5 +1,7 @@
 <template>
   <v-dialog
+    content-class="ec-dialog-form"
+    :fullscreen="$vuetify.breakpoint.xsOnly"
     eager
     v-bind="$attrs"
     :value="value"
@@ -126,3 +128,13 @@ export default {
   }
 }
 </script>
+
+<style lang="scss">
+@media #{map-get($display-breakpoints, 'xs-only')}{
+  .ec-dialog-form {
+    .v-form, .v-form > .v-sheet {
+      height: 100%;
+    }
+  }
+}
+</style>

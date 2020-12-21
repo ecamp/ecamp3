@@ -15,7 +15,7 @@
     "test:unit:watch": "vue-cli-service test:unit --watch"
   },
   "dependencies": {
-    "@mdi/font": "^4.9.95",
+    "@mdi/font": "^5.8.55",
     "axios": "^0.19.2",
     "deepmerge": "^4.2.2",
     "hal-json-vuex": "^1.2.1",
