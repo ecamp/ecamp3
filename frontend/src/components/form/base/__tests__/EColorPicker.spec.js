@@ -111,7 +111,7 @@ describe('An EColorPicker', () => {
     canvas.vm.handleClick(createMouseEvent(10, 10))
     await flushPromises()
     // click the save button
-    const closeButton = wrapper.findAll('button').filter(node => node.text() === 'In Ordnung').at(0)
+    const closeButton = wrapper.find('[data-testid="action-ok"]')
     await closeButton.trigger('click')
     await waitForDebounce()
     expect(wrapper.find('input[type=text]').element.value).toBe('#E6CFE6')
