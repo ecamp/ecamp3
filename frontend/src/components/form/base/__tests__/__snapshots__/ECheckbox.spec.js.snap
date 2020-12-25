@@ -1,72 +1,79 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`An ECheckbox looks like a checkbox: checked 1`] = `
-<span>
-  <div
-    class="v-input v-input--hide-details theme--light v-input--selection-controls v-input--checkbox"
-  >
+<div
+  data-app=""
+>
+  <span>
     <div
-      class="v-input__control"
+      class="v-input v-input--hide-details v-input--is-label-active v-input--is-dirty theme--light v-input--selection-controls v-input--checkbox primary--text"
     >
       <div
-        class="v-input__slot"
+        class="v-input__control"
       >
         <div
-          class="v-input--selection-controls__input"
+          class="v-input__slot"
         >
-          <i
-            aria-hidden="true"
-            class="v-icon notranslate mdi mdi-checkbox-blank-outline theme--light"
-          />
-          <input
-            aria-checked="false"
-            id="input-4"
-            role="checkbox"
-            type="checkbox"
-            value=""
-            vmodel="true"
-          />
           <div
-            class="v-input--selection-controls__ripple"
-          />
+            class="v-input--selection-controls__input"
+          >
+            <i
+              aria-hidden="true"
+              class="v-icon notranslate mdi mdi-checkbox-marked theme--light primary--text"
+            />
+            <input
+              aria-checked="true"
+              id="input-5"
+              role="checkbox"
+              type="checkbox"
+              value=""
+            />
+            <div
+              class="v-input--selection-controls__ripple primary--text"
+            />
+          </div>
         </div>
       </div>
     </div>
-  </div>
-</span>
+  </span>
+</div>
 `;
 
 exports[`An ECheckbox looks like a checkbox: unchecked 1`] = `
-<span>
-  <div
-    class="v-input v-input--hide-details theme--light v-input--selection-controls v-input--checkbox"
-  >
+<div
+  data-app=""
+>
+  <span>
     <div
-      class="v-input__control"
+      class="v-input v-input--hide-details theme--light v-input--selection-controls v-input--checkbox"
     >
       <div
-        class="v-input__slot"
+        class="v-input__control"
       >
         <div
-          class="v-input--selection-controls__input"
+          class="v-input__slot"
         >
-          <i
-            aria-hidden="true"
-            class="v-icon notranslate mdi mdi-checkbox-blank-outline theme--light"
-          />
-          <input
-            aria-checked="false"
-            id="input-4"
-            role="checkbox"
-            type="checkbox"
-            value=""
-          />
           <div
-            class="v-input--selection-controls__ripple"
-          />
+            class="v-input--selection-controls__input"
+          >
+            <i
+              aria-hidden="true"
+              class="v-icon notranslate mdi mdi-checkbox-blank-outline theme--light"
+            />
+            <input
+              aria-checked="false"
+              id="input-5"
+              role="checkbox"
+              type="checkbox"
+              value=""
+            />
+            <div
+              class="v-input--selection-controls__ripple"
+            />
+          </div>
         </div>
       </div>
     </div>
-  </div>
-</span>
+  </span>
+</div>
 `;
