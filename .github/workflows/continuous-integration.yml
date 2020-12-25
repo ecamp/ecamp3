@@ -121,6 +121,35 @@ jobs:
           COVERALLS_PARALLEL: true
           COVERALLS_FLAG_NAME: frontend
 
+  print-tests:
+    name: "Tests: Print"
+    runs-on: ubuntu-latest
+    steps:
+
+      - uses: actions/checkout@v2
+
+      - uses: actions/cache@v2
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - run: npm install
+        working-directory: print
+
+      - run: npm run test
+        working-directory: print
+
+      - run: cat frontend/data/coverage/lcov.info | npx coveralls .
+        env:
+          COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          COVERALLS_SERVICE_NAME: github
+          COVERALLS_SERVICE_NUMBER: ${{ github.run_id }}
+          CI_PULL_REQUEST: ${{ github.event.number }}
+          COVERALLS_PARALLEL: true
+          COVERALLS_FLAG_NAME: frontend
+
   e2e-tests:
     name: "Tests: End-to-end"
     runs-on: ubuntu-latest
