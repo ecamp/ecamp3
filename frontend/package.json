@@ -163,7 +163,8 @@
     ],
     "testMatch": [
       "**/tests/unit/**/*.spec.(js|jsx|ts|tsx)",
-      "**/__tests__/*.spec.(js|jsx|ts|tsx)"
+      "**/__tests__/*.spec.(js|jsx|ts|tsx)",
+      "**/tests/infrastructure/**/*.spec.(js|jsx|ts|tsx)"
     ],
     "testURL": "http://localhost/",
     "coverageDirectory": "data/coverage",
