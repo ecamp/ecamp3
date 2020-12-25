@@ -10,11 +10,11 @@ Listing all given activity schedule entries in a calendar view.
       v-resize="resize"
       class="ec-picasso"
       :events="scheduleEntriesWithTemporary"
-      :event-name="getActivityName | loading('Lädt…', ({ input }) => isActivityLoading(input))"
-      :event-color="getActivityColor | loading('grey lighten-2', (entry) => isActivityLoading(entry))"
+      :event-name="getActivityName"
+      :event-color="getActivityColor"
       event-start="startTime"
       event-end="endTime"
-      :interval-height="intervalHeight"
+      :interval-height="computedIntervalHeight"
       interval-width="46"
       :interval-format="intervalFormat"
       first-interval="5"
@@ -30,7 +30,6 @@ Listing all given activity schedule entries in a calendar view.
       color="primary"
       :event-ripple="false"
       @mousedown:event="entryMouseDown"
-      @mouseup:event="entryMouseUp"
       @mousedown:time="timeMouseDown"
       @mousemove:time="timeMouseMove"
       @mouseup:time="timeMouseUp"
@@ -57,7 +56,9 @@ Listing all given activity schedule entries in a calendar view.
                @mouseup.stop="">
           <v-icon x-small>mdi-pencil</v-icon>
         </v-btn>
-        <h4>{{ getActivityName(event) }}</h4>
+        <h4 class="v-event-title">
+          {{ getActivityName(event) }}
+        </h4>
         <div
           v-if="timed"
           class="v-event-drag-bottom"
@@ -105,7 +106,7 @@ export default {
     intervalHeight: {
       type: Number,
       required: false,
-      default: 42
+      default: 0
     },
     dialogActivityCreate: {
       type: Function,
@@ -136,8 +137,8 @@ export default {
       draggedStartTime: null,
       currentStartTime: null,
       extendOriginal: null,
-      nativeTarget: null,
-      openedInNewTab: false
+      openedInNewTab: false,
+      activitiesLoading: true
     }
   },
   computed: {
@@ -171,27 +172,32 @@ export default {
     },
     camp () {
       return this.period().camp()
+    },
+    computedIntervalHeight () {
+      return this.intervalHeight !== 0 ? this.intervalHeight : this.$vuetify.breakpoint.xsOnly ? (this.$vuetify.breakpoint.height - 140) / 19 : Math.max((this.$vuetify.breakpoint.height - 174) / 19, 32)
     }
+  },
+  mounted () {
+    this.api.get().activities({ periodId: this.period().id })._meta.load.then(() => { this.activitiesLoading = false })
   },
   methods: {
     resize () {
       const widthIntervals = 46
       this.entryWidth = Math.max((this.$refs.calendar.$el.offsetWidth - widthIntervals) / this.$refs.calendar.days.length, 80)
     },
-    getActivityCategory (scheduleEntry, _) {
-      return scheduleEntry.activity().activityCategory()
-    },
     getActivityName (scheduleEntry, _) {
-      return (scheduleEntry.number ? '(' + scheduleEntry.number + ') ' : '') +
+      if (this.isActivityLoading(scheduleEntry)) return this.$tc('global.loading')
+      return (scheduleEntry.number ? scheduleEntry.number + ' ' : '') +
         (scheduleEntry.activity().activityCategory().short ? scheduleEntry.activity().activityCategory().short + ': ' : '') +
         scheduleEntry.activity().title
     },
     getActivityColor (scheduleEntry, _) {
+      if (this.isActivityLoading(scheduleEntry)) return 'grey lighten-2'
       const color = scheduleEntry.activity().activityCategory().color
       return isCssColor(color) ? color : color + ' elevation-4 v-event--temporary'
     },
     isActivityLoading (scheduleEntry) {
-      return scheduleEntry.activity()._meta ? scheduleEntry.activity()._meta.loading : false
+      return this.activitiesLoading || (scheduleEntry.activity()._meta ? scheduleEntry.activity()._meta.loading : false)
     },
     intervalFormat (time) {
       return this.$moment.utc(time.date + ' ' + time.time).format(this.$tc('global.moment.hourLong'))
@@ -219,6 +225,7 @@ export default {
         // Click with middle mouse button, or click while holding cmd/ctrl opens new tab
         this.showScheduleEntryInNewTab(entry)
         this.openedInNewTab = true
+      } else if (nativeEvent.button === 2) {
       } else {
         if (entry && timed) {
           this.draggedEntry = entry
@@ -295,11 +302,6 @@ export default {
 
       this.draggedEntry.startTime = newStart
       this.draggedEntry.endTime = newEnd
-    },
-    entryMouseUp ({ nativeEvent }) {
-      if ((this.draggedEntry && this.draggedStartTime !== null) || (this.currentEntry && this.currentStartTime !== null)) {
-        this.nativeTarget = nativeEvent.target
-      }
     },
     timeMouseUp (tms) {
       if (this.draggedEntry && this.draggedStartTime !== null) {
@@ -449,11 +451,26 @@ export default {
   margin-right: 5px;
 }
 
+@media #{map-get($display-breakpoints, 'sm-and-up')}{
+  .ec-event--btn {
+    display: block !important;
+  }
+}
+
 .ec-event--btn {
   padding: 0 !important;
   min-width: 20px !important;
   top: 0 !important;
   right: 0 !important;
+  display: none;
+}
+
+.v-event-title {
+  hyphens: auto;
+  hyphenate-limit-chars: 6 3 3;
+  hyphenate-limit-lines: 2;
+  hyphenate-limit-last: always;
+  hyphenate-limit-zone: 8%;
 }
 
 .ec-daily_head-day-label {
@@ -498,9 +515,11 @@ export default {
   opacity: .8;
 }
 
-.v-event-timed {
-  &:hover .v-event-drag-bottom::after {
-    display: block;
+@media #{map-get($display-breakpoints, 'sm-and-up')}{
+  .v-event-timed {
+    &:hover .v-event-drag-bottom::after {
+      display: block;
+    }
   }
 }
 

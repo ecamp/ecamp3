@@ -3,10 +3,10 @@ Lists all activity instances in a list view.
 -->
 
 <template>
-  <v-list dense>
+  <v-list v-if="scheduleEntries.length > 0" dense>
     <template v-for="scheduleEntry in scheduleEntries">
       <v-skeleton-loader
-        v-if="scheduleEntry.activity()._meta.loading"
+        v-if="activitiesLoading || scheduleEntry.activity()._meta.loading"
         :key="scheduleEntry._meta.self"
         type="list-item-avatar-two-line" height="60" />
       <v-list-item
@@ -20,7 +20,7 @@ Lists all activity instances in a list view.
           }}
         </v-chip>
         <v-list-item-content>
-          <v-list-item-title>{{ scheduleEntry.activity().title }}</v-list-item-title>
+          <v-list-item-title>{{ scheduleEntry.number }}: {{ scheduleEntry.activity().title }}</v-list-item-title>
           <v-list-item-subtitle>{{ $moment.utc(scheduleEntry.startTime) }} - {{ $moment.utc(scheduleEntry.endTime) }}</v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
@@ -42,10 +42,18 @@ export default {
       required: true
     }
   },
+  data () {
+    return {
+      activitiesLoading: true
+    }
+  },
   computed: {
     camp () {
       return this.period().camp()
     }
+  },
+  mounted () {
+    this.api.get().activities({ periodId: this.period().id })._meta.load.then(() => { this.activitiesLoading = false })
   },
   methods: {
     scheduleEntryLink (scheduleEntry) {

@@ -301,6 +301,7 @@ class LinkExtractor extends HalLinkExtractor {
                     $uri .= $part[1];
 
                     break;
+
                 case 'parameter':
                     $skippable = true;
                     $skip = false;
@@ -309,6 +310,7 @@ class LinkExtractor extends HalLinkExtractor {
                     $uri .= sprintf('{/%s}', $part[1]);
 
                     break;
+
                 case 'optional':
                     $skippable = true;
                     $optionalPart = $this->buildPathSegment($part[1], $defaults, $params, true, $hasChild, $options);
@@ -319,6 +321,7 @@ class LinkExtractor extends HalLinkExtractor {
                     }
 
                     break;
+
                 default:
                     throw new \InvalidArgumentException('Unsupported SegmentRoute-Part');
             }

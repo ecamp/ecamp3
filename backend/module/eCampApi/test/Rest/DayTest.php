@@ -21,7 +21,7 @@ class DayTest extends AbstractApiControllerTestCase {
 
     private $apiEndpoint = '/api/days';
 
-    public function setUp() {
+    public function setUp(): void {
         parent::setUp();
 
         $userLoader = new UserTestData();

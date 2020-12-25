@@ -1,5 +1,5 @@
 <!--
-Displays a field as a date picker (can be used with v-model)
+Displays a field as a picker (can be used with v-model)
 -->
 
 <template>

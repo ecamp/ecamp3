@@ -1,0 +1,48 @@
+name: Deploy to dev.ecamp3.ch
+
+on:
+  repository_dispatch:
+    types: [ images-pushed ]
+
+jobs:
+  only-on-main-branch:
+    name: Only on the main branch
+    if: ${{ 'refs/heads/devel' == github.event.client_payload.ref }}
+    runs-on: ubuntu-latest
+    steps:
+
+      - run: 'echo ${{ github.event.client_payload.ref }}'
+
+  deploy-to-dev-ecamp3-ch:
+    name: "Deploy to dev.ecamp3.ch"
+    needs: only-on-main-branch
+    runs-on: ubuntu-latest
+    steps:
+
+      - uses: actions/checkout@v2
+
+      - uses: shimataro/ssh-key-action@v2
+        with:
+          key: ${{ secrets.DEVEL_SSH_PRIVATE_KEY }}
+          known_hosts: ${{ secrets.DEVEL_SSH_KNOWN_HOSTS }}
+
+      - uses: ./.github/actions/deploy
+        with:
+          commit-sha: ${{ github.event.client_payload.sha }}
+          ssh-host: ${{ secrets.DEVEL_SSH_HOST }}
+          db-host: ${{ secrets.DEVEL_DB_HOST }}
+          db-port: ${{ secrets.DEVEL_DB_PORT }}
+          db-user: ${{ secrets.DEVEL_DB_USER }}
+          db-pass: ${{ secrets.DEVEL_DB_PASS }}
+          db-name: ${{ secrets.DEVEL_DB_NAME }}
+          session-cookie-domain: ${{ secrets.DEVEL_SESSION_COOKIE_DOMAIN }}
+          backend-url: ${{ secrets.DEVEL_BACKEND_URL }}
+          frontend-url: ${{ secrets.DEVEL_FRONTEND_URL }}
+          print-server-url: ${{ secrets.DEVEL_PRINT_SERVER_URL }}
+          print-file-server-url: ${{ secrets.DEVEL_PRINT_FILE_SERVER_URL }}
+          sentry-dsn: ${{ secrets.DEVEL_SENTRY_DSN }}
+          rabbitmq-host: ${{ secrets.DEVEL_RABBITMQ_HOST }}
+          rabbitmq-port: ${{ secrets.DEVEL_RABBITMQ_PORT }}
+          rabbitmq-vhost: ${{ secrets.DEVEL_RABBITMQ_VHOST }}
+          rabbitmq-user: ${{ secrets.DEVEL_RABBITMQ_USER }}
+          rabbitmq-pass: ${{ secrets.DEVEL_RABBITMQ_PASS }}

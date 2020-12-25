@@ -8,7 +8,7 @@ class ConfigFactory {
      * params String $namePlural   Specify non-standard plural names.
      * params String $entityName   Specify entity name if it deviates from main name.
      */
-    public static function createConfig(string $name, ?String $namePlural = null) {
+    public static function createConfig(string $name, ?string $namePlural = null) {
         // route name
         $route = 'e-camp-api.rest.doctrine.'.self::pascalToKebabCase($name);
 
