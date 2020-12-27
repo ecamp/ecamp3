@@ -18,7 +18,7 @@
     "deepmerge": "4.2.2",
     "hal-json-vuex": "1.1.0",
     "nuxt": "2.13.2",
-    "pagedjs": "0.1.42",
+    "pagedjs": "0.1.43",
     "vue-i18n": "8.22.1"
   },
   "devDependencies": {
