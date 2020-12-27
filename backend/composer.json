@@ -45,7 +45,7 @@
         "laminas/laminas-code": "3.5.1",
         "laminas/laminas-test": "3.4.2",
         "laminas-api-tools/api-tools-admin": "1.8.2",
-        "friendsofphp/php-cs-fixer": "2.17.1",
+        "friendsofphp/php-cs-fixer": "2.17.3",
         "filp/whoops": "2.9.1"
     },
     "autoload": {
