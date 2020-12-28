@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c7d778526394353a2ee827cc11f49e91",
+    "content-hash": "46e7043f0df102d2b6bf4ead5d55ed4d",
     "packages": [
         {
             "name": "brick/varexporter",
@@ -8752,31 +8752,31 @@
         },
         {
             "name": "zfr/zfr-cors",
-            "version": "v1.5.0",
+            "version": "v2.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/zf-fr/zfr-cors.git",
-                "reference": "f68543c0543533a4f681b4c60d56bc27281e158e"
+                "reference": "cb7c2663a2f4873ba3d5f7887c2ad4b5c2b25edd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zf-fr/zfr-cors/zipball/f68543c0543533a4f681b4c60d56bc27281e158e",
-                "reference": "f68543c0543533a4f681b4c60d56bc27281e158e",
+                "url": "https://api.github.com/repos/zf-fr/zfr-cors/zipball/cb7c2663a2f4873ba3d5f7887c2ad4b5c2b25edd",
+                "reference": "cb7c2663a2f4873ba3d5f7887c2ad4b5c2b25edd",
                 "shasum": ""
             },
             "require": {
-                "php": "^5.6 || ^7.0",
-                "zendframework/zend-eventmanager": "^2.6.3 || ^3.0.1",
-                "zendframework/zend-http": "^2.5.5",
-                "zendframework/zend-mvc": "^2.7.9 || ^3.0.2",
-                "zendframework/zend-servicemanager": "^2.7.6 || ^3.1.1"
+                "php": "^7.1",
+                "zendframework/zend-eventmanager": "^2.6.4 || ^3.2.1",
+                "zendframework/zend-http": "^2.10",
+                "zendframework/zend-mvc": "^2.7.15 || ^3.1.1",
+                "zendframework/zend-servicemanager": "^2.7.9 || ^3.4.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "^4.8 || ^5.0",
-                "satooshi/php-coveralls": "^1.0.1",
-                "squizlabs/php_codesniffer": "^2.6.2",
-                "zendframework/zend-i18n": "^2.7.3",
-                "zendframework/zend-log": "^2.9.1",
+                "php-coveralls/php-coveralls": "^2.1",
+                "phpunit/phpunit": "^7.5.9 || ^8.2.2",
+                "squizlabs/php_codesniffer": "^3.4",
+                "zendframework/zend-i18n": "^2.9",
+                "zendframework/zend-log": "^2.10",
                 "zendframework/zend-modulemanager": "^2.7.2",
                 "zendframework/zend-serializer": "^2.8",
                 "zendframework/zend-view": "^2.8.1"
@@ -8807,7 +8807,7 @@
                     "homepage": "http://www.michaelgallego.fr/"
                 }
             ],
-            "description": "Zend Framework 2 module that let you deal with CORS requests",
+            "description": "Zend Framework module that let you deal with CORS requests",
             "homepage": "https://github.com/zf-fr/zfr-cors",
             "keywords": [
                 "Zend Framework",
@@ -8818,9 +8818,9 @@
             ],
             "support": {
                 "issues": "https://github.com/zf-fr/zfr-cors/issues",
-                "source": "https://github.com/zf-fr/zfr-cors/tree/master"
+                "source": "https://github.com/zf-fr/zfr-cors/tree/v2.0.0"
             },
-            "time": "2017-06-01T16:10:16+00:00"
+            "time": "2019-06-18T13:43:35+00:00"
         }
     ],
     "packages-dev": [
