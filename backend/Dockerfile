@@ -1,4 +1,4 @@
-FROM php:7.4.2-apache
+FROM php:7.4.13-apache
 
 WORKDIR /app
 

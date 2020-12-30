@@ -1,4 +1,4 @@
-FROM python:3.8
+FROM python:3.9
 
 # install all the dependencies except libcairo2 from jessie, then install libcairo2 from stretch
 RUN apt-get -y update \
