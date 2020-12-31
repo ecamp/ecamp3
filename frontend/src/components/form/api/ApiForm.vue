@@ -8,13 +8,13 @@
 
 export default {
   name: 'ApiForm',
-  props: {
-    entity: { required: true, type: Object }
-  },
   provide () {
     return {
       apiUri: this.entity._meta.self
     }
+  },
+  props: {
+    entity: { required: true, type: Object }
   }
 }
 </script>

@@ -27,7 +27,7 @@ Allows 15min steps only
     </template>
 
     <!-- passing the append slot through -->
-    <template v-slot:append>
+    <template #append>
       <slot name="append" />
     </template>
   </base-picker>

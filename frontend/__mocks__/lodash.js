@@ -1,6 +1,6 @@
 export const debounce = jest.fn().mockImplementation(
   function (callback, delay) {
-    var timer
+    let timer
     return function (...args) {
       clearTimeout(timer)
       var args = [].slice.call(arguments)

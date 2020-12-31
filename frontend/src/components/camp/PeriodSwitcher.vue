@@ -1,7 +1,7 @@
 <template>
   <v-toolbar-items v-if="period().camp().periods().items.length > 1">
     <v-menu offset-y>
-      <template v-slot:activator="{ on, attrs, value }">
+      <template #activator="{ on, attrs, value }">
         <v-btn
           text large
           class="justify-start pl-0"

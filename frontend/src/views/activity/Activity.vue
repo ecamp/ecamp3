@@ -5,16 +5,16 @@ Displays a single activity
 <template>
   <v-container fluid>
     <content-card toolbar>
-      <template v-slot:title>
+      <template #title>
         <v-toolbar-title class="font-weight-bold">
           {{ scheduleEntry().number }}
           <v-chip v-if="!category._meta.loading" dark :color="category.color">{{ category.short }}</v-chip>
           {{ activity.title }}
         </v-toolbar-title>
       </template>
-      <template v-slot:title-actions>
+      <template #title-actions>
         <v-menu bottom left offset-y>
-          <template v-slot:activator="{ on, attrs }">
+          <template #activator="{ on, attrs }">
             <v-btn color="success"
                    outlined
                    v-bind="attrs"

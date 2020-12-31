@@ -7,10 +7,10 @@
     submit-label="global.button.update"
     submit-color="success"
     :cancel-action="close">
-    <template v-slot:activator="scope">
+    <template #activator="scope">
       <slot name="activator" v-bind="scope" />
     </template>
-    <template v-slot:moreActions>
+    <template #moreActions>
       <v-btn v-if="!scheduleEntry.tmpEvent"
              color="primary" :to="scheduleEntryRoute(scheduleEntry.activity().camp(), scheduleEntry)">
         {{ $tc('global.button.open') }}

@@ -66,12 +66,12 @@
         v-model="tos"
         required
         class="align-center">
-        <template v-slot:label>
+        <template #label>
           <span style="hyphens: auto" :class="{'body-2':$vuetify.breakpoint.xsOnly}">
             {{ $tc('views.auth.register.acceptTermsOfUse') }}
           </span>
         </template>
-        <template v-slot:append>
+        <template #append>
           <v-btn text min-width="0"
                  :title="$tc('global.button.open')"
                  target="_blank"

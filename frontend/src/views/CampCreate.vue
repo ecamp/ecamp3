@@ -26,7 +26,7 @@
               :name="$tc('entity.camp.fields.campType')"
               vee-rules="required"
               :items="campTypes">
-              <template v-slot:item="data">
+              <template #item="data">
                 <v-list-item v-bind="data.attrs" v-on="data.on">
                   <v-list-item-content>
                     {{ data.item.text }}
