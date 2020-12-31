@@ -12,6 +12,7 @@ jobs:
     steps:
 
       - run: 'echo ${{ github.event.client_payload.ref }}'
+      - run: 'echo ${{ github.head_ref }}'
 
   deploy-to-dev-ecamp3-ch:
     name: "Deploy to dev.ecamp3.ch"
