@@ -87,7 +87,7 @@ rsync -avz -e ssh --delete .github/actions/deploy/dist/ "${SSH_USERNAME}@${SSH_H
 # shellcheck disable=SC2087
 ssh -T "${SSH_USERNAME}@${SSH_HOST}" <<EOF
   cd ${SSH_DIRECTORY}
-  docker system prune -f --volumes
+  docker system prune -f -a --volumes
   docker-compose pull && docker-compose down --volumes && docker-compose up -d
 EOF
 
