@@ -1,6 +1,7 @@
 // You still need to register Vuetify itself
 // src/plugins/vuetify.js
 
+import '@mdi/font/css/materialdesignicons.css'
 import Vuetify from 'vuetify/lib'
 import PbsLogo from '@/assets/PbsLogo.svg'
 import GoogleLogo from '@/assets/GoogleLogo.svg'
