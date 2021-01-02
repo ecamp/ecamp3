@@ -29,7 +29,7 @@
         "hybridauth/hybridauth": "^3.0-dev",
         "ocramius/proxy-manager": "^2.2",
         "ext-json": "*",
-        "zfr/zfr-cors": "^1.5",
+        "zfr/zfr-cors": "^2.0",
         "symfony/process": "^3.0",
         "rwoverdijk/assetmanager": "^1.8",
         "ezyang/htmlpurifier": "^4.12",
