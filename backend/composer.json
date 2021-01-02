@@ -31,7 +31,7 @@
         "ext-json": "*",
         "zfr/zfr-cors": "^2.0",
         "symfony/process": "^3.0",
-        "rwoverdijk/assetmanager": "^1.8",
+        "rwoverdijk/assetmanager": "^3.0",
         "ezyang/htmlpurifier": "^4.12",
         "sentry/sdk": "2.2.0",
         "enqueue/amqp-bunny": "^0.10.1",
