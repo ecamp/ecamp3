@@ -56,6 +56,7 @@ export default {
 </script>
 <style lang="scss">
   @import "src/scss/global";
+  @import "~@mdi/font/css/materialdesignicons.css";
 
   .v-btn.ec-drawer-collapse {
     right: 0;
