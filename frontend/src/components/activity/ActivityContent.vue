@@ -68,23 +68,25 @@
               </v-list-item-title>
             </v-list-item>
             <v-divider />
-            <v-list-item @click="() => $emit('move-up')">
-              <v-list-item-icon>
-                <v-icon>mdi-arrow-up-drop-circle-outline</v-icon>
-              </v-list-item-icon>
-              <v-list-item-title>
-                {{ $tc('components.activity.activityContent.moveUp') }}
-              </v-list-item-title>
-            </v-list-item>
-            <v-list-item @click="() => $emit('move-down')">
-              <v-list-item-icon>
-                <v-icon>mdi-arrow-down-drop-circle-outline</v-icon>
-              </v-list-item-icon>
-              <v-list-item-title>
-                {{ $tc('components.activity.activityContent.moveDown') }}
-              </v-list-item-title>
-            </v-list-item>
-            <v-divider />
+            <template v-if="dragDropEnabled">
+              <v-list-item @click="() => $emit('move-up')">
+                <v-list-item-icon>
+                  <v-icon>mdi-arrow-up-drop-circle-outline</v-icon>
+                </v-list-item-icon>
+                <v-list-item-title>
+                  {{ $tc('components.activity.activityContent.moveUp') }}
+                </v-list-item-title>
+              </v-list-item>
+              <v-list-item @click="() => $emit('move-down')">
+                <v-list-item-icon>
+                  <v-icon>mdi-arrow-down-drop-circle-outline</v-icon>
+                </v-list-item-icon>
+                <v-list-item-title>
+                  {{ $tc('components.activity.activityContent.moveDown') }}
+                </v-list-item-title>
+              </v-list-item>
+              <v-divider />
+            </template>
             <v-list-item @click="showDeleteActivityContentDialog">
               <v-list-item-icon>
                 <v-icon>mdi-delete</v-icon>
@@ -179,8 +181,4 @@ export default {
 </script>
 
 <style scoped>
-  .delete-button:hover,
-  .delete-button:focus {
-    color: red;
-  }
 </style>

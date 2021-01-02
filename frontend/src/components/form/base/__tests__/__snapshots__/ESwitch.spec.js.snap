@@ -1,0 +1,95 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`An ESwitch looks like a switch: checked 1`] = `
+<div
+  data-app=""
+>
+  <span>
+    <div
+      class="v-input v-input--hide-details v-input--is-label-active v-input--is-dirty theme--light v-input--selection-controls v-input--switch v-input--switch--inset primary--text"
+    >
+      <div
+        class="v-input__control"
+      >
+        <div
+          class="v-input__slot"
+        >
+          <div
+            class="v-input--selection-controls__input"
+          >
+            <input
+              aria-checked="true"
+              aria-disabled="false"
+              id="input-5"
+              role="switch"
+              type="checkbox"
+              value=""
+            />
+            <div
+              class="v-input--selection-controls__ripple primary--text"
+            />
+            <div
+              class="v-input--switch__track theme--light primary--text"
+            />
+            <div
+              class="v-input--switch__thumb theme--light primary--text"
+            >
+              <transition-stub
+                mode="out-in"
+                name="fab-transition"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </span>
+</div>
+`;
+
+exports[`An ESwitch looks like a switch: unchecked 1`] = `
+<div
+  data-app=""
+>
+  <span>
+    <div
+      class="v-input v-input--hide-details theme--light v-input--selection-controls v-input--switch v-input--switch--inset"
+    >
+      <div
+        class="v-input__control"
+      >
+        <div
+          class="v-input__slot"
+        >
+          <div
+            class="v-input--selection-controls__input"
+          >
+            <input
+              aria-checked="false"
+              aria-disabled="false"
+              id="input-5"
+              role="switch"
+              type="checkbox"
+              value=""
+            />
+            <div
+              class="v-input--selection-controls__ripple"
+            />
+            <div
+              class="v-input--switch__track theme--light"
+            />
+            <div
+              class="v-input--switch__thumb theme--light"
+            >
+              <transition-stub
+                mode="out-in"
+                name="fab-transition"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </span>
+</div>
+`;

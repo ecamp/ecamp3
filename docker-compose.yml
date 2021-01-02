@@ -2,7 +2,7 @@ version: "3"
 
 services:
   frontend:
-    image: node:12.18
+    image: node:12.20
     container_name: 'ecamp3-frontend'
     ports:
       - '3000:3000'
@@ -30,7 +30,7 @@ services:
     entrypoint: ./docker-setup.sh
 
   print:
-    image: node:12.18
+    image: node:12.20
     container_name: 'ecamp3-print'
     ports:
       - '3003:80'

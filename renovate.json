@@ -1,0 +1,16 @@
+{
+  "extends": [
+    "config:base"
+  ],
+  "force": {
+    "constraints": {
+      "node": "= 12.20"
+    }
+  },
+  "packageRules": [
+    {
+      "updateTypes": ["minor", "patch", "pin", "digest"],
+      "automerge": true
+    }
+  ]
+}
