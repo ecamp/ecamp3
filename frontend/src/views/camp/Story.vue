@@ -30,9 +30,9 @@ Admin screen of a camp: Displays details & periods of a single camp and allows t
             </v-list-item-content>
           </v-list-item>
           <v-list-item>
-              <e-switch v-model="editing" :label="$tc('global.button.editable')"
-                        class="ec-story-editable"
-                        @click.stop="$event.preventDefault()" />
+            <e-switch v-model="editing" :label="$tc('global.button.editable')"
+                      class="ec-story-editable"
+                      @click.stop="$event.preventDefault()" />
           </v-list-item>
         </v-list>
       </v-menu>
