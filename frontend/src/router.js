@@ -134,6 +134,11 @@ export default new Router({
           component: () => import(/* webpackChunkName: "campPrint" */ './views/camp/Story')
         },
         {
+          path: 'material',
+          name: 'camp/material',
+          component: () => import(/* webpackChunkName: "campMaterial" */ './views/camp/Material')
+        },
+        {
           path: '',
           name: 'camp/program',
           async beforeEnter (to, from, next) {

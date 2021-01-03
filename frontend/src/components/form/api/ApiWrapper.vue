@@ -39,6 +39,10 @@ export default {
     separateButtons: {
       type: Boolean,
       default: true
+    },
+    relation: {
+      type: String,
+      default: ''
     }
   },
   data () {
@@ -96,6 +100,10 @@ export default {
       // avoid infinite reloading if loading from API has failed
       } else if (this.hasLoadingError) {
         return null
+
+      // load relation, use id
+      } else if (this.relation) {
+        return this.api.get(this.uri)[this.relation]().id
 
       // return value from API unless `value` is set explicitly
       } else {

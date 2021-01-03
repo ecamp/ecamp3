@@ -13,7 +13,7 @@ use eCamp\Lib\Types\DateUtc;
  */
 class Period extends BaseEntity implements BelongsToCampInterface {
     /**
-     * @var Day[]
+     * @var ArrayCollection
      * @ORM\OneToMany(targetEntity="Day", mappedBy="period", orphanRemoval=true)
      * @ORM\OrderBy({"dayOffset": "ASC"})
      */

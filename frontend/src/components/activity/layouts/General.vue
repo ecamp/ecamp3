@@ -15,6 +15,9 @@ Displays a single activity
     <content-type
       content-type-name="Notes"
       :activity="activity" />
+    <content-type
+      content-type-name="Material"
+      :activity="activity" />
   </div>
 </template>
 
