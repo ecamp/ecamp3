@@ -57,9 +57,6 @@ JSON;
                 "docu": {
                     "href": "http://{$host}/api-tools/swagger"
                 },
-                "admin": {
-                    "href": "http://{$host}/api-tools/ui"
-                },
                 "users": {
                     "href": "http://{$host}/api/users{/userId}{?page_size,search}",
                     "templated": true
