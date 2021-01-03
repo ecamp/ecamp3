@@ -1,28 +1,28 @@
 <template>
   <div>
     <e-text-field
-      v-model="activityCategory.short"
+      v-model="localActivityCategory.short"
       :name="$tc('entity.activityCategory.fields.short')"
       vee-rules="required" />
 
     <e-text-field
-      v-model="activityCategory.name"
+      v-model="localActivityCategory.name"
       :name="$tc('entity.activityCategory.fields.name')"
       vee-rules="required" />
 
     <e-select
-      v-model="activityCategory.activityTypeId"
+      v-model="localActivityCategory.activityTypeId"
       :items="activityTypeOptions"
       :name="$tc('entity.activityCategory.fields.activityType')"
       vee-rules="required" />
 
     <e-color-picker
-      v-model="activityCategory.color"
+      v-model="localActivityCategory.color"
       :name="$tc('entity.activityCategory.fields.color')"
       vee-rules="required" />
 
     <e-select
-      v-model="activityCategory.numberingStyle"
+      v-model="localActivityCategory.numberingStyle"
       :items="numberingStyles"
       :name="$tc('entity.activityCategory.fields.numberingStyle')"
       vee-rules="required" />
@@ -37,9 +37,12 @@ export default {
     isNew: { type: Boolean, required: true },
     activityCategory: { type: Object, required: true }
   },
-  data: () => ({
-    updateColorAndNumberingStyle: true
-  }),
+  data () {
+    return {
+      updateColorAndNumberingStyle: true,
+      localActivityCategory: this.activityCategory
+    }
+  },
   computed: {
     activityTypes () {
       return this.camp.campType().activityTypes().items
@@ -63,8 +66,8 @@ export default {
       if (this.isNew && this.updateColorAndNumberingStyle) {
         this.updateColorAndNumberingStyle = false
         const activityType = this.activityTypes.filter(a => a.id === activityTypeId)[0]
-        this.activityCategory.color = activityType.defaultColor
-        this.activityCategory.numberingStyle = activityType.defaultNumberingStyle
+        this.localActivityCategory.color = activityType.defaultColor
+        this.localActivityCategory.numberingStyle = activityType.defaultNumberingStyle
       }
     }
   }

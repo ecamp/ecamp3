@@ -5,7 +5,7 @@
         <v-menu bottom
                 right
                 offset-y>
-          <template v-slot:activator="{ on, attrs }">
+          <template #activator="{ on, attrs }">
             <v-btn icon v-bind="attrs" v-on="on">
               <v-icon class="drag-handle">
                 {{ currentIcon }}
@@ -53,7 +53,7 @@
         <v-menu bottom
                 left
                 offset-y>
-          <template v-slot:activator="{ on, attrs }">
+          <template #activator="{ on, attrs }">
             <v-btn icon v-bind="attrs" v-on="on">
               <v-icon>mdi-dots-vertical</v-icon>
             </v-btn>

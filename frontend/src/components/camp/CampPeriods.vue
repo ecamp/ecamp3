@@ -8,7 +8,7 @@ Displays all periods of a single camp and allows to edit them & create new ones
       <div class="ec-content-group__title py-1 subtitle-1">
         {{ $tc('components.camp.campPeriods.title', api.get().camps().items.length) }}
         <dialog-period-create :camp="camp()">
-          <template v-slot:activator="{ on }">
+          <template #activator="{ on }">
             <button-add color="secondary" text
                         :hide-label="true"
                         v-on="on">

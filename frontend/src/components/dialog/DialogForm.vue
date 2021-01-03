@@ -7,7 +7,7 @@
     :value="value"
     v-on="$listeners"
     @input="onInput">
-    <template v-slot:activator="scope">
+    <template #activator="scope">
       <slot name="activator" v-bind="scope" />
     </template>
     <ValidationObserver v-if="value" ref="validation" v-slot="{ handleSubmit }">

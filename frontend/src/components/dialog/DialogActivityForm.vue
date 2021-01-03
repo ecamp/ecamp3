@@ -1,11 +1,11 @@
 <template>
   <div>
     <e-text-field
-      v-model="activity.title"
+      v-model="localActivity.title"
       :name="$tc('entity.activity.fields.title')"
       vee-rules="required" />
 
-    <e-select v-model="activity.activityCategoryId" :label="$tc('entity.activity.fields.activityCategory')"
+    <e-select v-model="localActivity.activityCategoryId" :label="$tc('entity.activity.fields.activityCategory')"
               :items="activityCategories.items"
               item-value="id"
               item-text="name"
@@ -31,7 +31,7 @@
     </e-select>
 
     <e-text-field
-      v-model="activity.location"
+      v-model="localActivity.location"
       :name="$tc('entity.activity.fields.location')" />
 
     <create-schedule-entries v-if="activity.scheduleEntries" :schedule-entries="activity.scheduleEntries" />
@@ -52,6 +52,11 @@ export default {
     camp: {
       type: Function,
       required: true
+    }
+  },
+  data () {
+    return {
+      localActivity: this.activity
     }
   },
   computed: {

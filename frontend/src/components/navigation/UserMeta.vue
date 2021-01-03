@@ -5,7 +5,7 @@
           transition="slide-y-transition"
           :close-on-content-click="false"
           z-index="5">
-    <template v-slot:activator="{ on,value,attrs }">
+    <template #activator="{ on,value,attrs }">
       <v-toolbar-items>
         <v-btn right text
                v-bind="attrs"

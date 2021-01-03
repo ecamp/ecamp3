@@ -25,7 +25,7 @@
     <!-- Retry/Cancel button if saving failed -->
     <template v-if="wrapper.hasServerError">
       <v-tooltip bottom class="ml-auto">
-        <template v-slot:activator="{ on }">
+        <template #activator="{ on }">
           <v-btn
             fab
             dark
@@ -42,7 +42,7 @@
         <span>{{ $tc('global.button.tryagain') }}</span>
       </v-tooltip>
       <v-tooltip bottom class="ml-auto">
-        <template v-slot:activator="{ on }">
+        <template #activator="{ on }">
           <v-btn
             fab
             dark
@@ -60,7 +60,7 @@
 
     <template v-else-if="!wrapper.autoSave && wrapper.dirty">
       <v-tooltip bottom class="ml-auto">
-        <template v-slot:activator="{ on }">
+        <template #activator="{ on }">
           <v-btn
             fab
             dark
@@ -77,7 +77,7 @@
         <span>{{ $tc('global.button.save') }}</span>
       </v-tooltip>
       <v-tooltip bottom class="ml-auto">
-        <template v-slot:activator="{ on }">
+        <template #activator="{ on }">
           <v-btn
             fab
             dark

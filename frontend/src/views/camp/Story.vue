@@ -4,14 +4,14 @@ Admin screen of a camp: Displays details & periods of a single camp and allows t
 
 <template>
   <content-card :title="$tc('views.camp.story.title')" toolbar>
-    <template v-slot:title-actions>
+    <template #title-actions>
       <template v-if="$vuetify.breakpoint.smAndUp">
         <e-switch v-model="editing" :label="$tc('global.button.editable')"
                   class="ec-story-editable ml-auto"
                   @click="$event.preventDefault()" />
       </template>
       <v-menu v-else offset-y>
-        <template v-slot:activator="{ on, attrs }">
+        <template #activator="{ on, attrs }">
           <v-btn
             text icon
             class="ml-auto"
@@ -30,9 +30,9 @@ Admin screen of a camp: Displays details & periods of a single camp and allows t
             </v-list-item-content>
           </v-list-item>
           <v-list-item>
-              <e-switch v-model="editing" :label="$tc('global.button.editable')"
-                        class="ec-story-editable"
-                        @click.stop="$event.preventDefault()" />
+            <e-switch v-model="editing" :label="$tc('global.button.editable')"
+                      class="ec-story-editable"
+                      @click.stop="$event.preventDefault()" />
           </v-list-item>
         </v-list>
       </v-menu>

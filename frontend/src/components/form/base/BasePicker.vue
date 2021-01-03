@@ -14,7 +14,7 @@ Displays a field as a picker (can be used with v-model)
       offset-overflow
       min-width="290px"
       max-width="290px">
-      <template v-slot:activator="{on}">
+      <template #activator="{on}">
         <e-text-field
           v-model="stringValue"
           v-bind="$attrs"
@@ -23,14 +23,14 @@ Displays a field as a picker (can be used with v-model)
           :disabled="disabled"
           @focus="textFieldIsActive = true"
           @blur="textFieldIsActive = false">
-          <template v-if="icon" v-slot:prepend>
+          <template v-if="icon" #prepend>
             <v-icon :color="iconColor" @click="on.click">
               {{ icon }}
             </v-icon>
           </template>
 
           <!-- passing the append slot through -->
-          <template v-slot:append>
+          <template #append>
             <slot name="append" />
           </template>
         </e-text-field>

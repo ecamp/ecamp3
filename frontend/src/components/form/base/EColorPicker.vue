@@ -31,7 +31,7 @@ Displays a field as a color picker (can be used with v-model)
     </template>
 
     <!-- passing the append slot through -->
-    <template v-slot:append>
+    <template #append>
       <slot name="append" />
     </template>
   </base-picker>
