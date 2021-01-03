@@ -3,11 +3,10 @@
 namespace eCamp\ApiTest\Rest;
 
 use Doctrine\Common\DataFixtures\Loader;
-use eCamp\Core\Entity\Activity;
+use eCamp\Core\Entity\ActivityContent;
 use eCamp\Core\Entity\MaterialItem;
 use eCamp\Core\Entity\MaterialList;
 use eCamp\Core\Entity\Period;
-use eCamp\CoreTest\Data\ActivityTestData;
 use eCamp\CoreTest\Data\MaterialItemTestData;
 use eCamp\CoreTest\Data\PeriodTestData;
 use eCamp\CoreTest\Data\UserTestData;
@@ -20,8 +19,8 @@ class MaterialItemTest extends AbstractApiControllerTestCase {
     /** @var Period */
     protected $period;
 
-    /** @var Activity */
-    protected $activity;
+    /** @var ActivityContent */
+    protected $activityContent;
 
     /** @var MaterialList */
     protected $materialList;
@@ -39,19 +38,17 @@ class MaterialItemTest extends AbstractApiControllerTestCase {
 
         $userLoader = new UserTestData();
         $periodLoader = new PeriodTestData();
-        $activityLoader = new ActivityTestData();
-        $materialItemLoader = new MaterialItemTestData();
+        $materialItemLoader = new MaterialItemTestData($this->getApplication()->getServiceManager());
 
         $loader = new Loader();
         $loader->addFixture($userLoader);
         $loader->addFixture($periodLoader);
-        $loader->addFixture($activityLoader);
         $loader->addFixture($materialItemLoader);
         $this->loadFixtures($loader);
 
         $this->user = $userLoader->getReference(UserTestData::$USER1);
         $this->period = $periodLoader->getReference(PeriodTestData::$PERIOD1);
-        $this->activity = $activityLoader->getReference(ActivityTestData::$ACTIVITY1);
+        $this->activityContent = $materialItemLoader->getReference(MaterialItemTestData::$ACTIVITYCONTENT1);
         $this->materialItem = $materialItemLoader->getReference(MaterialItemTestData::$MATERIALITEM1);
         $this->materialList = $this->materialItem->getMaterialList();
 
@@ -69,8 +66,7 @@ class MaterialItemTest extends AbstractApiControllerTestCase {
                 "quantity": 2,
                 "unit": "kg",
                 "article": "art",
-                "period": null,
-                "activityContent": null
+                "period": null
             }
 JSON;
 
@@ -81,7 +77,7 @@ JSON;
                 }
             }
 JSON;
-        $expectedEmbeddedObjects = ['materialList'];
+        $expectedEmbeddedObjects = ['materialList', 'activityContent'];
 
         $this->verifyHalResourceResponse($expectedBody, $expectedLinks, $expectedEmbeddedObjects);
     }
@@ -109,7 +105,7 @@ JSON;
             'unit' => 'kg',
             'article' => 'water',
             'materialListId' => $this->materialList->getId(),
-            'activityId' => $this->activity->getId(),
+            'activityContentId' => $this->activityContent->getId(),
         ]);
 
         $this->dispatch($this->apiEndpoint, 'POST');
