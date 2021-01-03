@@ -30,7 +30,7 @@
         "ocramius/proxy-manager": "^2.2",
         "ext-json": "*",
         "zfr/zfr-cors": "^2.0",
-        "symfony/process": "^3.0",
+        "symfony/process": "^5.0",
         "rwoverdijk/assetmanager": "^3.0",
         "ezyang/htmlpurifier": "^4.12",
         "sentry/sdk": "3.1.0",
