@@ -73,7 +73,7 @@
 
       <div v-else style="margin-top: 20px; text-align: right">
         <dialog-material-item-create :camp="camp" :period="period">
-          <template v-slot:activator="{ on }">
+          <template #activator="{ on }">
             <v-btn color="success" v-on="on">
               {{ $tc('components.camp.periodMaterialLists.addNewItem') }}
             </v-btn>
@@ -144,8 +144,8 @@ export default {
         }))
 
       // eager add new Items
-      for (var key in this.newMaterialItems) {
-        var mi = this.newMaterialItems[key]
+      for (const key in this.newMaterialItems) {
+        const mi = this.newMaterialItems[key]
         if (mi.materialListId === materialList.id) {
           items.push({
             key: key,

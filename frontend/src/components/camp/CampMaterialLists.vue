@@ -4,7 +4,7 @@
       <div class="ec-content-group__title py-1 subtitle-1">
         {{ $tc('components.camp.campMaterialLists.title') }}
         <dialog-material-list-create :camp="camp()">
-          <template v-slot:activator="{ on }">
+          <template #activator="{ on }">
             <button-add color="secondary" text v-on="on">
               {{ $tc('components.camp.campMaterialLists.createMaterialList') }}
             </button-add>

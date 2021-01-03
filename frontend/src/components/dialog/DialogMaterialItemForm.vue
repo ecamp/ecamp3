@@ -1,18 +1,18 @@
 <template>
   <div>
     <e-text-field
-      v-model="materialItem.quantity"
+      v-model="localMaterialItem.quantity"
       :name="$tc('entity.materialItem.fields.quantity')"
       autofocus />
     <e-text-field
-      v-model="materialItem.unit"
+      v-model="localMaterialItem.unit"
       :name="$tc('entity.materialItem.fields.unit')" />
     <e-text-field
-      v-model="materialItem.article"
+      v-model="localMaterialItem.article"
       :name="$tc('entity.materialItem.fields.article')"
       vee-rules="required" />
     <e-select
-      v-model="materialItem.materialListId"
+      v-model="localMaterialItem.materialListId"
       dense
       vee-rules="required"
       :name="$tc('entity.materialList.name')"
@@ -29,6 +29,9 @@ export default {
     materialItem: { type: Object, required: true }
   },
   computed: {
+    localMaterialItem () {
+      return this.materialItem
+    },
     materialLists () {
       return this.camp.materialLists().items.map(l => ({
         value: l.id,

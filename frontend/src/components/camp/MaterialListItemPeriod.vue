@@ -44,7 +44,7 @@
     </td>
     <td style="text-align: center;">
       <dialog-material-item-edit :material-item="item.materialItem">
-        <template v-slot:activator="{ on }">
+        <template #activator="{ on }">
           <v-btn
             small
             class="short-button"
