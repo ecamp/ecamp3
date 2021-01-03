@@ -3,24 +3,22 @@ Admin screen of a camp: Displays MaterialLists and MaterialItems
 -->
 
 <template>
-  <content-card>
-    <v-toolbar>
-      <v-card-title>{{ $tc('views.camp.material.title') }}</v-card-title>
-      <v-spacer />
+  <content-card :title="$tc('views.camp.material.title')" toolbar>
+    <template #title-actions>
       <e-switch
         v-model="showActivityMaterial"
+        class="ml-auto"
         :label="$vuetify.breakpoint.smAndUp ?
           $tc('views.camp.material.showActivityMaterial') :
           $tc('views.camp.material.showActivityMaterialShort')" />
-    </v-toolbar>
-    <v-card-text>
-      <v-expansion-panels v-model="openPeriods" multiple>
-        <period-material-lists v-for="period in camp().periods().items"
-                               :key="period._meta.self"
-                               :period="period"
-                               :show-activity-material="showActivityMaterial" />
-      </v-expansion-panels>
-    </v-card-text>
+    </template>
+    <v-expansion-panels v-model="openPeriods" multiple
+                        flat accordion>
+      <period-material-lists v-for="period in camp().periods().items"
+                             :key="period._meta.self"
+                             :period="period"
+                             :show-activity-material="showActivityMaterial" />
+    </v-expansion-panels>
   </content-card>
 </template>
 
