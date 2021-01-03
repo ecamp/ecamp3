@@ -2,6 +2,9 @@
 
 namespace eCamp\LibTest\PHPUnit;
 
+use Doctrine\Common\DataFixtures\Executor\ORMExecutor;
+use Doctrine\Common\DataFixtures\Loader;
+use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Tools\SchemaTool;
 use Doctrine\ORM\Tools\ToolsException;
@@ -42,5 +45,14 @@ abstract class AbstractDatabaseTestCase extends TestCase {
         $schemaTool = new SchemaTool($em);
         $schemaTool->dropDatabase();
         $schemaTool->createSchema($metadatas);
+    }
+
+    /**
+     * loads data from Fixtures into ORM.
+     */
+    protected function loadFixtures(Loader $loader) {
+        $purger = new ORMPurger();
+        $executor = new ORMExecutor($this->getEntityManager(), $purger);
+        $executor->execute($loader->getFixtures());
     }
 }

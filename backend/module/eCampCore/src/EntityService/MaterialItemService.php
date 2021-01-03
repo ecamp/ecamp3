@@ -133,4 +133,19 @@ class MaterialItemService extends AbstractEntityService {
 
         return $q;
     }
+
+    protected function validateEntity(BaseEntity $entity) {
+        /** @var MaterialItem $materialItem */
+        $materialItem = $entity;
+
+        if (null == $materialItem->getActivityContent() && null == $materialItem->getPeriod()) {
+            $ex = new EntityValidationException();
+            $ex->setMessages([
+                'periodId' => ['required' => 'periodId or activityContentId is required'],
+                'activityContentId' => ['required' => 'periodId or activityContentId is required'],
+            ]);
+
+            throw $ex;
+        }
+    }
 }
