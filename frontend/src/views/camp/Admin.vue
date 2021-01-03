@@ -16,6 +16,8 @@ Admin screen of a camp: Displays details & periods of a single camp and allows t
           <camp-periods :camp="camp" />
 
           <camp-activity-categories :camp="camp" />
+
+          <camp-material-lists :camp="camp" />
         </v-col>
       </v-row>
     </v-card-text>
@@ -25,6 +27,7 @@ Admin screen of a camp: Displays details & periods of a single camp and allows t
 <script>
 import CampSettings from '@/components/camp/CampSettings'
 import CampPeriods from '@/components/camp/CampPeriods'
+import CampMaterialLists from '@/components/camp/CampMaterialLists'
 import CampActivityCategories from '@/components/camp/CampActivityCategories'
 import ContentCard from '@/components/layout/ContentCard'
 
@@ -34,6 +37,7 @@ export default {
     ContentCard,
     CampSettings,
     CampPeriods,
+    CampMaterialLists,
     CampActivityCategories
   },
   props: {

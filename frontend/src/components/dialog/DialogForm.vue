@@ -10,7 +10,7 @@
     <template v-slot:activator="scope">
       <slot name="activator" v-bind="scope" />
     </template>
-    <ValidationObserver v-if="value" v-slot="{ handleSubmit }">
+    <ValidationObserver v-if="value" ref="validation" v-slot="{ handleSubmit }">
       <!-- ValidationObserver/handleSubmit ensures that doSubmit is only called if there are no validation errors -->
       <v-form @submit.prevent="handleSubmit(doSubmit)">
         <v-card>
@@ -100,6 +100,13 @@ export default {
   data () {
     return {
       isSaving: false
+    }
+  },
+  watch: {
+    value (visible) {
+      if (visible) {
+        this.$nextTick(() => this.$refs.validation.reset())
+      }
     }
   },
   methods: {

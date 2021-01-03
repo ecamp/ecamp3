@@ -56,7 +56,8 @@
             "eCamp\\AoT\\Generated\\": "module/eCampAoT/gen/",
             "eCampApi\\": "module/eCampApi/src/eCampApi/",
             "eCamp\\ContentType\\SingleText\\": "content-type/eCampSingleText/src/",
-            "eCamp\\ContentType\\Storyboard\\": "content-type/eCampStoryboard/src/"
+            "eCamp\\ContentType\\Storyboard\\": "content-type/eCampStoryboard/src/",
+            "eCamp\\ContentType\\Material\\": "content-type/eCampMaterial/src/"
         },
         "files": [
             "module/eCampApp.php"

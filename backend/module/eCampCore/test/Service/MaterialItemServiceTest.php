@@ -3,80 +3,97 @@
 namespace eCamp\CoreTest\Service;
 
 use Doctrine\Common\DataFixtures\Loader;
+use eCamp\Core\Entity\Camp;
 use eCamp\Core\Entity\MaterialItem;
 use eCamp\Core\Entity\MaterialList;
 use eCamp\Core\Entity\Period;
 use eCamp\Core\Entity\User;
 use eCamp\Core\EntityService\MaterialItemService;
+use eCamp\CoreTest\Data\CampTestData;
 use eCamp\CoreTest\Data\MaterialListTestData;
 use eCamp\CoreTest\Data\PeriodTestData;
 use eCamp\CoreTest\Data\UserTestData;
 use eCamp\Lib\Service\EntityValidationException;
-use eCamp\LibTest\PHPUnit\AbstractDatabaseTestCase;
-use Laminas\Authentication\AuthenticationService;
+use eCamp\LibTest\PHPUnit\AbstractApiControllerTestCase;
 
 /**
  * @internal
  */
-class MaterialItemServiceTest extends AbstractDatabaseTestCase {
+class MaterialItemServiceTest extends AbstractApiControllerTestCase {
     /** @var User */
     protected $user;
-
-    /** @var MaterialList */
-    protected $list;
-
+    /** @var Camp */
+    protected $camp;
     /** @var Period */
     protected $period;
+    /** @var MaterialList */
+    protected $materialList;
 
     public function setUp(): void {
         parent::setUp();
 
         $userLoader = new UserTestData();
-        $materialListLoader = new MaterialListTestData();
+        $campLoader = new CampTestData();
         $periodLoader = new PeriodTestData();
+        $materialListLoader = new MaterialListTestData();
 
         $loader = new Loader();
         $loader->addFixture($userLoader);
-        $loader->addFixture($materialListLoader);
+        $loader->addFixture($campLoader);
         $loader->addFixture($periodLoader);
+        $loader->addFixture($materialListLoader);
         $this->loadFixtures($loader);
 
         $this->user = $userLoader->getReference(UserTestData::$USER1);
-        $this->list = $materialListLoader->getReference(MaterialListTestData::$MATERIALLIST1);
+        $this->camp = $campLoader->getReference(CampTestData::$CAMP1);
         $this->period = $periodLoader->getReference(PeriodTestData::$PERIOD1);
+        $this->materialList = $materialListLoader->getReference(MaterialListTestData::$MATERIALLIST1);
 
-        $authenticationService = new AuthenticationService();
-        $authenticationService->getStorage()->write($this->user->getId());
+        $this->authenticateUser($this->user);
     }
 
-    public function testAddPeriodItem() {
+    public function testCreateMaterialItem() {
         /** @var MaterialItemService $materialItemService */
-        $materialItemService = \eCampApp::GetService(MaterialItemService::class);
+        $materialItemService = $this->getApplicationServiceLocator()->get(MaterialItemService::class);
 
-        /** @var MaterialItem $item */
-        $item = $materialItemService->create((object) [
-            'materialListId' => $this->list->getId(),
+        // Create new MaterialItem
+        /** @var MaterialItem $materialItem */
+        $materialItem = $materialItemService->create((object) [
             'periodId' => $this->period->getId(),
-            'quantity' => 5,
-            'unit' => 'Stk',
-            'article' => 'Article',
+            'materialListId' => $this->materialList->getId(),
+            'article' => 'art',
+            'quantity' => 3,
+            'unit' => 'kg',
         ]);
 
-        $this->assertEquals(5, $item->getQuantity());
-        $this->assertEquals('Stk', $item->getUnit());
-        $this->assertEquals('Article', $item->getArticle());
-        $this->assertEquals($this->list, $item->getMaterialList());
+        // MaterialItem is returned with correct data
+        $this->assertNotNull($materialItem);
+        $this->assertEquals('art', $materialItem->getArticle());
+        $this->assertEquals(3, $materialItem->getQuantity());
+        $this->assertEquals('kg', $materialItem->getUnit());
+
+        $materialItemId = $materialItem->getId();
+
+        // Load MaterialItem from DB
+        /** @var MaterialItem $materialItem */
+        $materialItem = $materialItemService->fetch($materialItemId);
+
+        // MaterialItem is returned with correct data
+        $this->assertNotNull($materialItem);
+        $this->assertEquals('art', $materialItem->getArticle());
+        $this->assertEquals(3, $materialItem->getQuantity());
+        $this->assertEquals('kg', $materialItem->getUnit());
     }
 
     public function testAddInvalidItem() {
         /** @var MaterialItemService $materialItemService */
-        $materialItemService = \eCampApp::GetService(MaterialItemService::class);
+        $materialItemService = $this->getApplicationServiceLocator()->get(MaterialItemService::class);
 
         // Period or ActivityContent is required
         $this->expectException(EntityValidationException::class);
 
         $materialItemService->create((object) [
-            'materialListId' => $this->list->getId(),
+            'materialListId' => $this->materialList->getId(),
             'quantity' => 5,
             'unit' => 'Stk',
             'article' => 'Article',
